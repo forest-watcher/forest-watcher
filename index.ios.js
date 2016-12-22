@@ -11,14 +11,22 @@ import {
   Text,
   View
 } from 'react-native';
+import Map from 'react-native-maps';
 
 export default class ForestWatcher extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to Forest Watcher
-        </Text>
+        <Map
+          style={styles.map}
+          provider={Map.PROVIDER_GOOGLE}
+          region={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.0121,
+          }}
+        />
       </View>
     );
   }
@@ -31,16 +39,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  map: {
+    ...StyleSheet.absoluteFillObject
+  }
 });
 
 AppRegistry.registerComponent('ForestWatcher', () => ForestWatcher);
