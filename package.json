@@ -9,6 +9,7 @@
   "dependencies": {
     "react": "15.4.1",
     "react-native": "0.38.0",
+    "react-native-config": "^0.2.1",
     "react-native-maps": "^0.12.2"
   },
   "devDependencies": {
