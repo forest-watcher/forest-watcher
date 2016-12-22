@@ -1,3 +1,6 @@
+# Env
+.env
+
 # OSX
 #
 .DS_Store
@@ -44,3 +47,4 @@ android/app/libs
 # Cocoapods
 #
 Pods/
+ios/Podfile.lock
