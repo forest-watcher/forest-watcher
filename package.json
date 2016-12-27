@@ -10,13 +10,18 @@
     "react": "15.4.1",
     "react-native": "0.38.0",
     "react-native-config": "^0.2.1",
-    "react-native-maps": "^0.12.2"
+    "react-native-maps": "^0.12.2",
+    "react-redux": "^5.0.1",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.1.0"
   },
   "devDependencies": {
     "babel-jest": "17.0.2",
+    "babel-plugin-module-resolver": "^2.4.0",
     "babel-preset-react-native": "1.9.0",
     "eslint": "^3.12.2",
     "eslint-config-airbnb": "^13.0.0",
+    "eslint-import-resolver-babel-module": "^2.2.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.8.0",
@@ -25,5 +30,24 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "babel": {
+    "presets": [
+      "react-native"
+    ],
+    "plugins": [
+      [
+        "module-resolver",
+        {
+          "alias": {
+            "app": "./app",
+            "routes": "./app/routes",
+            "components": "./app/components",
+            "containers": "./app/containers",
+            "redux-modules": "./app/redux-modules"
+          }
+        }
+      ]
+    ]
   }
 }
