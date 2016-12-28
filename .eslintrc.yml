@@ -17,8 +17,11 @@ rules:
   max-len: [1, 140, 2, {"ignoreUrls":true}]
   comma-dangle: [error, never]
   no-console: [error, allow: [warn, error, info]]
+  react/jsx-filename-extension: [1, { "extensions": [".js", ".jsx"] }]
+  react/forbid-prop-types: 0
 settings:
   import/resolver:
+    babel-module: {}
     node:
       extensions:
         - .js
