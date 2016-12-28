@@ -42,7 +42,7 @@ export function navigatePush(state) {
     : state;
   return {
     type: NAV_PUSH,
-    currentState
+    state: currentState
   };
 }
 
