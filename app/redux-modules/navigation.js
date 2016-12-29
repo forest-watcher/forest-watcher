@@ -13,17 +13,20 @@ const NAV_POP = 'navigation/NAV_POP';
 // Reducer
 const initialNavState = {
   index: 0,
-  key: 'Home',
-  section: '',
-  routes: [{ key: 'home', section: 'home' }]
+  routes: [
+    {
+      key: 'dashboard',
+      section: 'dashboard'
+    }
+  ]
 };
 
 export default function reducer(state = initialNavState, action) {
   switch (action.type) {
     case NAV_PUSH:
       return NavigationStateUtils.push(state, {
-        key: action.state.key,
         data: action.state.data ? action.state.data : [],
+        key: action.state.key,
         section: action.state.section
       });
     case NAV_POP:
@@ -38,7 +41,7 @@ export default function reducer(state = initialNavState, action) {
 // Action Creators
 export function navigatePush(state) {
   const currentState = typeof state === 'string'
-    ? { key: state, title: state }
+    ? { key: state }
     : state;
   return {
     type: NAV_PUSH,

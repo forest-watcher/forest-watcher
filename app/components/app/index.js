@@ -19,6 +19,7 @@ function App(props) {
         direction={'horizontal'}
         navigationState={props.navigationRoute}
         onNavigate={props.onNavigate}
+        onNavigateBack={props.onNavigateBack}
         renderScene={renderScene}
         style={styles.main}
       />
@@ -28,7 +29,8 @@ function App(props) {
 
 App.propTypes = {
   navigationRoute: React.PropTypes.object.isRequired,
-  onNavigate: React.PropTypes.func.isRequired
+  onNavigate: React.PropTypes.func.isRequired,
+  onNavigateBack: React.PropTypes.func.isRequired
 };
 
 export default App;
