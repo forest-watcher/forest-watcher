@@ -1,11 +1,9 @@
 import { connect } from 'react-redux';
 import { navigatePush, navigatePop } from 'redux-modules/navigation';
-import App from 'components/app';
+import Dashboard from 'components/dashboard';
 
-function mapStateToProps(state) {
-  return {
-    navigationRoute: state.navigation
-  };
+function mapStateToProps() {
+  return {};
 }
 
 function mapDispatchToProps(dispatch) {
@@ -13,8 +11,8 @@ function mapDispatchToProps(dispatch) {
     onNavigate: (action) => {
       dispatch(navigatePush(action));
     },
-    onNavigateBack: () => {
-      dispatch(navigatePop());
+    onBack: (action) => {
+      dispatch(navigatePop(action));
     }
   };
 }
@@ -22,4 +20,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App);
+)(Dashboard);
