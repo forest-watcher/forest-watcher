@@ -3,11 +3,13 @@ import {
   View
 } from 'react-native';
 import MapView from 'react-native-maps';
+import Header from 'containers/common/header';
 import styles from './styles';
 
 function Map() {
   return (
     <View style={styles.container}>
+      <Header />
       <MapView
         style={styles.map}
         provider={MapView.PROVIDER_GOOGLE}

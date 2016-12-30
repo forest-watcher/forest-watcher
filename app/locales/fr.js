@@ -2,8 +2,10 @@ export default {
   fr: {
     dashboard: {
       title: 'Dashboard',
-      map: 'Carte',
-      mapAccesibility: 'Section carte'
+      alerts: 'See my alerts',
+      reports: 'Make a report',
+      uploadData: 'Saved and uploaded data',
+      map: 'Map'
     }
   }
 };

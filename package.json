@@ -44,6 +44,7 @@
             "app": "./app",
             "routes": "./app/routes",
             "locales": "./app/locales",
+            "config": "./app/config",
             "components": "./app/components",
             "containers": "./app/containers",
             "redux-modules": "./app/redux-modules"

@@ -2,8 +2,10 @@ export default {
   en: {
     dashboard: {
       title: 'Dashboard',
-      map: 'Map',
-      mapAccesibility: 'Map section'
+      alerts: 'See my alerts',
+      reports: 'Make a report',
+      uploadData: 'Saved and uploaded data',
+      map: 'Map'
     }
   }
 };
