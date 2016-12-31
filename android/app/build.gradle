@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 import com.android.build.OutputFile
 
@@ -95,6 +96,15 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+        resValue "string", "build_config_package", "com.forestwatcher"
+    }
+    signingConfigs {
+        release {
+            storeFile file(project.env.get("RELEASE_STORE_FILE"))
+            storePassword project.env.get("RELEASE_STORE_PASSWORD")
+            keyAlias project.env.get("RELEASE_KEY_ALIAS")
+            keyPassword project.env.get("RELEASE_KEY_PASSWORD")
+        }
     }
     splits {
         abi {
@@ -108,6 +118,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
@@ -126,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-maps')
     compile project(':react-native-i18n')
     compile project(':react-native-config')
     compile fileTree(dir: "libs", include: ["*.jar"])
