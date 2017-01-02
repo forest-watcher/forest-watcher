@@ -1,0 +1,139 @@
+{
+  "data": [
+    {
+      "area": "Melako community",
+      "alerts": [
+        {
+          "name": "Alert 1",
+          "area": 300,
+          "coordinates": {
+            "lat": 123456,
+            "lng": -123456
+          }
+        },
+        {
+          "name": "Alert 2",
+          "area": 300,
+          "coordinates": {
+            "lat": 123456,
+            "lng": -123456
+          }
+        },
+        {
+          "name": "Alert 3",
+          "area": 300,
+          "coordinates": {
+            "lat": 123456,
+            "lng": -123456
+          }
+        },
+        {
+          "name": "Alert 4",
+          "area": 300,
+          "coordinates": {
+            "lat": 123456,
+            "lng": -123456
+          }
+        },
+        {
+          "name": "Alert 5",
+          "area": 300,
+          "coordinates": {
+            "lat": 123456,
+            "lng": -123456
+          }
+        }
+      ]
+    },
+    {
+      "area": "Kora",
+      "alerts": [
+        {
+          "name": "Alert 1",
+          "area": 300,
+          "coordinates": {
+            "lat": 123456,
+            "lng": -123456
+          }
+        },
+        {
+          "name": "Alert 2",
+          "area": 300,
+          "coordinates": {
+            "lat": 123456,
+            "lng": -123456
+          }
+        },
+        {
+          "name": "Alert 3",
+          "area": 300,
+          "coordinates": {
+            "lat": 123456,
+            "lng": -123456
+          }
+        },
+        {
+          "name": "Alert 4",
+          "area": 300,
+          "coordinates": {
+            "lat": 123456,
+            "lng": -123456
+          }
+        },
+        {
+          "name": "Alert 5",
+          "area": 300,
+          "coordinates": {
+            "lat": 123456,
+            "lng": -123456
+          }
+        }
+      ]
+    },
+    {
+      "area": "Area 01",
+      "alerts": [
+        {
+          "name": "Alert 1",
+          "area": 300,
+          "coordinates": {
+            "lat": 123456,
+            "lng": -123456
+          }
+        },
+        {
+          "name": "Alert 2",
+          "area": 300,
+          "coordinates": {
+            "lat": 123456,
+            "lng": -123456
+          }
+        },
+        {
+          "name": "Alert 3",
+          "area": 300,
+          "coordinates": {
+            "lat": 123456,
+            "lng": -123456
+          }
+        },
+        {
+          "name": "Alert 4",
+          "area": 300,
+          "coordinates": {
+            "lat": 123456,
+            "lng": -123456
+          }
+        },
+        {
+          "name": "Alert 5",
+          "area": 300,
+          "coordinates": {
+            "lat": 123456,
+            "lng": -123456
+          }
+        }
+      ]
+    }
+  ]
+}

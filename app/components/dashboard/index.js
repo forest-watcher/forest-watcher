@@ -11,7 +11,7 @@ import styles from './styles';
 const sections = [
   {
     title: I18n.t('dashboard.alerts'),
-    section: '',
+    section: 'alerts',
     image: ''
   },
   {
