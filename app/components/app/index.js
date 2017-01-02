@@ -6,11 +6,16 @@ import {
 } from 'react-native';
 
 import renderScene from 'routes';
+import Header from 'containers/common/header';
 import styles from './styles';
 
 const {
   CardStack: NavigationCardStack
 } = NavigationExperimental;
+
+function renderHeader() {
+  return <Header />;
+}
 
 class App extends Component {
   componentDidMount() {
@@ -21,10 +26,10 @@ class App extends Component {
     return (
       <View style={styles.mainContainer}>
         <NavigationCardStack
-          direction={'horizontal'}
           navigationState={this.props.navigationRoute}
           onNavigate={this.props.onNavigate}
           onNavigateBack={this.props.onNavigateBack}
+          renderHeader={renderHeader}
           renderScene={renderScene}
           style={styles.main}
         />

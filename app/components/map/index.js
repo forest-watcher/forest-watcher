@@ -1,27 +1,72 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
-  View
+  View,
+  InteractionManager,
+  ActivityIndicator,
+  Dimensions
 } from 'react-native';
 import MapView from 'react-native-maps';
-import Header from 'containers/common/header';
 import styles from './styles';
 
-function Map() {
+const { width, height } = Dimensions.get('window');
+const ASPECT_RATIO = width / height;
+const LATITUDE = 4.931654;
+const LONGITUDE = -64.958867;
+const LATITUDE_DELTA = 40;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
+function renderLoading() {
   return (
-    <View style={styles.container}>
-      <Header />
-      <MapView
-        style={styles.map}
-        provider={MapView.PROVIDER_GOOGLE}
-        region={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121
-        }}
+    <View style={[styles.container, styles.loader]}>
+      <ActivityIndicator
+        style={{ height: 80 }}
+        size="large"
       />
     </View>
   );
+}
+
+class Map extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      renderMap: false
+    };
+  }
+
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
+      if (!this.state.renderMap) {
+        this.setState({
+          renderMap: true
+        });
+      }
+    });
+  }
+
+  render() {
+    return (
+      this.state.renderMap
+      ?
+        <View style={styles.container}>
+          <MapView
+            style={styles.map}
+            provider={MapView.PROVIDER_GOOGLE}
+            initialRegion={{
+              latitude: LATITUDE,
+              longitude: LONGITUDE,
+              latitudeDelta: LATITUDE_DELTA,
+              longitudeDelta: LONGITUDE_DELTA
+            }}
+          />
+        </View>
+      :
+        renderLoading()
+    );
+  }
+
+
 }
 
 export default Map;

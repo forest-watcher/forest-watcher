@@ -1,24 +1,45 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import Theme from 'config/theme';
 
 export default StyleSheet.create({
   container: {
-    height: 64,
     backgroundColor: '#333333',
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    ...Platform.select({
+      ios: {
+        height: 64
+      },
+      android: {
+        height: 44
+      }
+    })
   },
   title: {
     color: Theme.fontColors.main,
     fontSize: 16,
     fontWeight: '700',
-    paddingTop: 14
+    ...Platform.select({
+      ios: {
+        paddingTop: 14
+      },
+      android: {
+        paddingTop: 0
+      }
+    })
   },
   backButton: {
     left: 8,
-    top: 28,
-    position: 'absolute'
+    position: 'absolute',
+    ...Platform.select({
+      ios: {
+        top: 28
+      },
+      android: {
+        top: 10
+      }
+    })
   },
   backButtonText: {
     color: '#FFFFFF',

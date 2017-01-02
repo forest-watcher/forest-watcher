@@ -2,8 +2,10 @@ import { connect } from 'react-redux';
 import { navigatePush, navigatePop } from 'redux-modules/navigation';
 import Header from 'components/common/header';
 
-function mapStateToProps() {
-  return {};
+function mapStateToProps(state) {
+  return {
+    navigation: state.navigation
+  };
 }
 
 function mapDispatchToProps(dispatch) {

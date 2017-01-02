@@ -6,11 +6,12 @@ export default StyleSheet.create({
     backgroundColor: '#FFF'
   },
   content: {
-    paddingTop: 20,
-    paddingBottom: 20
+    paddingTop: 0,
+    paddingBottom: 30
   },
   item: {
-    marginBottom: 15,
+    marginTop: 20,
+    marginBottom: 0,
     marginLeft: 15,
     marginRight: 15,
     padding: 10,
