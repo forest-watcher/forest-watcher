@@ -45,7 +45,10 @@ class Dashboard extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.content} >
+        <ScrollView
+          style={styles.list}
+          contentContainerStyle={styles.content}
+        >
           {sections.map((item, key) =>
             (
               <TouchableHighlight

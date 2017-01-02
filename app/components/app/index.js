@@ -13,13 +13,13 @@ const {
   CardStack: NavigationCardStack
 } = NavigationExperimental;
 
+function renderHeader() {
+  return <Header />;
+}
+
 class App extends Component {
   componentDidMount() {
     StatusBar.setBarStyle('light-content');
-  }
-
-  renderHeader() {
-    return <Header />;
   }
 
   render() {
@@ -29,7 +29,7 @@ class App extends Component {
           navigationState={this.props.navigationRoute}
           onNavigate={this.props.onNavigate}
           onNavigateBack={this.props.onNavigateBack}
-          renderHeader={this.renderHeader}
+          renderHeader={renderHeader}
           renderScene={renderScene}
           style={styles.main}
         />

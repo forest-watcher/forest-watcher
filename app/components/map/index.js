@@ -15,6 +15,17 @@ const LONGITUDE = -64.958867;
 const LATITUDE_DELTA = 40;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
+function renderLoading() {
+  return (
+    <View style={[styles.container, styles.loader]}>
+      <ActivityIndicator
+        style={{ height: 80 }}
+        size="large"
+      />
+    </View>
+  );
+}
+
 class Map extends Component {
   constructor(props) {
     super(props);
@@ -34,17 +45,6 @@ class Map extends Component {
     });
   }
 
-  renderLoading() {
-    return (
-      <View style={[styles.container, styles.loader]}>
-        <ActivityIndicator
-          style={{ height: 80 }}
-          size="large"
-        />
-      </View>
-    );
-  }
-
   render() {
     return (
       this.state.renderMap
@@ -62,7 +62,7 @@ class Map extends Component {
           />
         </View>
       :
-        this.renderLoading()
+        renderLoading()
     );
   }
 
