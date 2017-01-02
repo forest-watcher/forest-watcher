@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
+  StatusBar,
   View,
   NavigationExperimental
 } from 'react-native';
@@ -11,20 +12,25 @@ const {
   CardStack: NavigationCardStack
 } = NavigationExperimental;
 
+class App extends Component {
+  componentDidMount() {
+    StatusBar.setBarStyle('light-content');
+  }
 
-function App(props) {
-  return (
-    <View style={styles.mainContainer}>
-      <NavigationCardStack
-        direction={'horizontal'}
-        navigationState={props.navigationRoute}
-        onNavigate={props.onNavigate}
-        onNavigateBack={props.onNavigateBack}
-        renderScene={renderScene}
-        style={styles.main}
-      />
-    </View>
-  );
+  render() {
+    return (
+      <View style={styles.mainContainer}>
+        <NavigationCardStack
+          direction={'horizontal'}
+          navigationState={this.props.navigationRoute}
+          onNavigate={this.props.onNavigate}
+          onNavigateBack={this.props.onNavigateBack}
+          renderScene={renderScene}
+          style={styles.main}
+        />
+      </View>
+    );
+  }
 }
 
 App.propTypes = {

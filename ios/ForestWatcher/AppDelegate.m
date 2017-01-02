@@ -21,7 +21,7 @@
   NSURL *jsCodeLocation;
   
   // Google Maps API Key
-  NSString *apiUrl = [ReactNativeConfig envFor:@"GOOGLE_MAPS_API_KEY"];
+  NSString *apiUrl = [ReactNativeConfig envFor:@"GOOGLE_MAPS_API_KEY_IOS"];
 
   [GMSServices provideAPIKey:apiUrl];
 
