@@ -6,7 +6,6 @@ import {
   TouchableHighlight
 } from 'react-native';
 import I18n from 'locales';
-import Header from 'containers/common/header';
 import styles from './styles';
 
 const sections = [
@@ -46,7 +45,6 @@ class Dashboard extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Header back={false} />
         <ScrollView style={styles.content} >
           {sections.map((item, key) =>
             (

@@ -9,10 +9,12 @@ const {
 // Actions
 const NAV_PUSH = 'navigation/NAV_PUSH';
 const NAV_POP = 'navigation/NAV_POP';
+const NAV_TOGGLE_HEADER = 'navigation/NAV_TOGGLE_HEADER';
 
 // Reducer
 const initialNavState = {
   index: 0,
+  header: true,
   routes: [
     {
       key: 'dashboard',
@@ -33,6 +35,8 @@ export default function reducer(state = initialNavState, action) {
       return state.index > 0
         ? NavigationStateUtils.pop(state)
         : state;
+    case NAV_TOGGLE_HEADER:
+      return Object.assign({}, state, { header: action.header });
     default:
       return state;
   }
@@ -52,5 +56,12 @@ export function navigatePush(state) {
 export function navigatePop() {
   return {
     type: NAV_POP
+  };
+}
+
+export function toggleHeader(state) {
+  return {
+    type: NAV_TOGGLE_HEADER,
+    ...state
   };
 }

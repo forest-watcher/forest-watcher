@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 
 import renderScene from 'routes';
+import Header from 'containers/common/header';
 import styles from './styles';
 
 const {
@@ -17,14 +18,18 @@ class App extends Component {
     StatusBar.setBarStyle('light-content');
   }
 
+  renderHeader() {
+    return <Header />;
+  }
+
   render() {
     return (
       <View style={styles.mainContainer}>
         <NavigationCardStack
-          direction={'horizontal'}
           navigationState={this.props.navigationRoute}
           onNavigate={this.props.onNavigate}
           onNavigateBack={this.props.onNavigateBack}
+          renderHeader={this.renderHeader}
           renderScene={renderScene}
           style={styles.main}
         />
