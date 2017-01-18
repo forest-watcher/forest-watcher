@@ -35,7 +35,7 @@ function AlertsList(props) {
             <ScrollView
               style={styles.list}
               contentContainerStyle={styles.alerts}
-              horizontal={true}
+              horizontal
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
               alwaysBounceVertical={false}
