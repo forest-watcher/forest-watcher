@@ -10,6 +10,11 @@ import styles from './styles';
 
 const sections = [
   {
+    title: I18n.t('login.title'),
+    section: 'login',
+    image: ''
+  },
+  {
     title: I18n.t('dashboard.alerts'),
     section: 'alerts',
     image: ''

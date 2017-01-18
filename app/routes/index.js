@@ -1,4 +1,6 @@
 import React from 'react';
+import Login from 'containers/login';
+import Setup from 'containers/setup';
 import Home from 'components/home';
 import Dashboard from 'containers/dashboard';
 import Alerts from 'containers/alerts';
@@ -8,6 +10,10 @@ function Routes(props) {
   const navigationRoute = props.scene.route;
 
   switch (navigationRoute.section) {
+    case 'login':
+      return <Login />;
+    case 'setup':
+      return <Setup />;
     case 'home':
       return <Home />;
     case 'dashboard':
@@ -17,7 +23,7 @@ function Routes(props) {
     case 'map':
       return <Map />;
     default:
-      return <Home />;
+      return <Login />;
   }
 }
 
