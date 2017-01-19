@@ -4,9 +4,11 @@ import {
   Text,
   Button,
   WebView,
-  Modal
+  Modal,
+  AsyncStorage
 } from 'react-native';
 
+import CONSTANTS from 'config/constants';
 import Config from 'react-native-config';
 import styles from './styles';
 
@@ -15,24 +17,34 @@ class Login extends Component {
     super();
 
     this.state = {
-      modalVisible: false,
+      webviewVisible: false,
       webViewUrl: '',
       webViewCurrenUrl: '',
       webViewStatus: null
     };
+    this.successTimer = null;
     this.onLoadEnd = this.onLoadEnd.bind(this);
     this.onNavigationStateChange = this.onNavigationStateChange.bind(this);
   }
 
-  onLoadEnd() {
+  componentWillUnmount() {
+    clearTimeout(this.successTimer);
+  }
+
+  async onLoadEnd() {
     if (this.state.webViewCurrenUrl.indexOf(Config.API_CALLBACK_URL) !== -1) {
-      this.props.onNavigate({
-        key: 'setup',
-        section: 'setup'
-      });
-      this.setState({
-        modalVisible: false
-      });
+      const loggedInStatus = await AsyncStorage.getItem(CONSTANTS.storage.app.setup);
+      this.props.setLoginStatus(true);
+
+      if (loggedInStatus !== null && loggedInStatus !== 'true') {
+        this.successTimer = this.getSuccessTimer();
+      } else {
+        this.props.navigate({
+          key: 'setup',
+          section: 'setup',
+          afterRender: () => this.getSuccessTimer()
+        });
+      }
     }
     // TO-DO Handle error response
   }
@@ -41,7 +53,7 @@ class Login extends Component {
     const url = `${Config.API_URL}/auth/${socialNetwork}?callbackUrl=${Config.API_CALLBACK_URL}`;
 
     this.setState({
-      modalVisible: true,
+      webviewVisible: true,
       webViewUrl: url
     });
   }
@@ -53,39 +65,22 @@ class Login extends Component {
     });
   }
 
-  setModalVisible(visible) {
-    this.setState({
-      modalVisible: visible
-    });
+  getSuccessTimer() {
+    return setTimeout(() => {
+      this.props.setLoginModal(false);
+    }, 1000);
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Login</Text>
-        <Button
-          onPress={() => this.onPress('facebook')}
-          title="Facebook"
-          color="#000000"
-        />
-        <Button
-          onPress={() => this.onPress('twitter')}
-          title="Twitter"
-          color="#000000"
-        />
-        <Button
-          onPress={() => this.onPress('google')}
-          title="Google+"
-          color="#000000"
-        />
-
-        <Modal
-          animationType={'slide'}
-          transparent={false}
-          visible={this.state.modalVisible}
-          onRequestClose={() => this.setModalVisible(false)}
-        >
-          <View style={styles.modal}>
+      <Modal
+        animationType={'slide'}
+        transparent={false}
+        visible={this.props.loginModal}
+        onRequestClose={() => this.props.setLoginModal(false)}
+      >
+        {this.state.webviewVisible
+          ? <View style={styles.modal}>
             <WebView
               ref={(webView) => { this.webView = webView; }}
               automaticallyAdjustContentInsets={false}
@@ -100,14 +95,35 @@ class Login extends Component {
               scalesPageToFit
             />
           </View>
-        </Modal>
-      </View>
+          : <View style={styles.container}>
+            <Text>Login</Text>
+            <Button
+              onPress={() => this.onPress('facebook')}
+              title="Facebook"
+              color="#000000"
+            />
+            <Button
+              onPress={() => this.onPress('twitter')}
+              title="Twitter"
+              color="#000000"
+            />
+            <Button
+              onPress={() => this.onPress('google')}
+              title="Google+"
+              color="#000000"
+            />
+          </View>
+        }
+      </Modal>
     );
   }
 }
 
 Login.propTypes = {
-  onNavigate: React.PropTypes.func.isRequired
+  loginModal: React.PropTypes.bool.isRequired,
+  setLoginModal: React.PropTypes.func.isRequired,
+  setLoginStatus: React.PropTypes.func.isRequired,
+  navigate: React.PropTypes.func.isRequired
 };
 
 export default Login;

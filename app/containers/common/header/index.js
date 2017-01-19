@@ -10,10 +10,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onNavigate: (action) => {
+    navigate: (action) => {
       dispatch(navigatePush(action));
     },
-    onBack: (action) => {
+    navigateBack: (action) => {
       dispatch(navigatePop(action));
     }
   };

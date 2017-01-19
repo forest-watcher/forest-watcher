@@ -31,6 +31,9 @@ function renderLoading() {
 class Setup extends Component {
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
+      if (this.props.afterRender) {
+        this.props.afterRender();
+      }
       if (!this.props.user) {
         this.props.getUser();
       }
@@ -38,7 +41,6 @@ class Setup extends Component {
   }
 
   render() {
-    console.log(this.props.user);
     return (
       this.props.user
       ?
@@ -68,7 +70,8 @@ class Setup extends Component {
 
 Setup.propTypes = {
   user: React.PropTypes.any,
-  getUser: React.PropTypes.func.isRequired
+  getUser: React.PropTypes.func.isRequired,
+  afterRender: React.PropTypes.func.isRequired
 };
 
 export default Setup;

@@ -7,6 +7,7 @@ import {
 
 import renderScene from 'routes';
 import Header from 'containers/common/header';
+import Login from 'containers/login';
 import styles from './styles';
 
 const {
@@ -27,12 +28,13 @@ class App extends Component {
       <View style={styles.mainContainer}>
         <NavigationCardStack
           navigationState={this.props.navigationRoute}
-          onNavigate={this.props.onNavigate}
-          onNavigateBack={this.props.onNavigateBack}
+          onNavigate={this.props.navigate}
+          onNavigateBack={this.props.navigateBack}
           renderHeader={renderHeader}
           renderScene={renderScene}
           style={styles.main}
         />
+        <Login />
       </View>
     );
   }
@@ -40,8 +42,8 @@ class App extends Component {
 
 App.propTypes = {
   navigationRoute: React.PropTypes.object.isRequired,
-  onNavigate: React.PropTypes.func.isRequired,
-  onNavigateBack: React.PropTypes.func.isRequired
+  navigate: React.PropTypes.func.isRequired,
+  navigateBack: React.PropTypes.func.isRequired
 };
 
 export default App;
