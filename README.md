@@ -1,6 +1,6 @@
 # Forest Watcher 2.0
 
-Forest Watcher
+Forest Watcher is a mobile application that helps people report or verify deforestation activity in the field using their smartphone.
 
 ## Set up
 Before installing the dependencies to run the app, you must install the following depending on the environment you'll work on:
