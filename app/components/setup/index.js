@@ -37,12 +37,16 @@ class Setup extends Component {
       if (!this.props.user) {
         this.props.getUser();
       }
+      if (!this.props.countries) {
+        this.props.getCountries();
+      }
     });
   }
 
   render() {
+    console.log(this.props.countries);
     return (
-      this.props.user
+      this.props.user && this.props.countries
       ?
         <View style={styles.container}>
           <View style={styles.content}>
@@ -70,7 +74,9 @@ class Setup extends Component {
 
 Setup.propTypes = {
   user: React.PropTypes.any,
+  countries: React.PropTypes.any,
   getUser: React.PropTypes.func.isRequired,
+  getCountries: React.PropTypes.func.isRequired,
   afterRender: React.PropTypes.func.isRequired
 };
 

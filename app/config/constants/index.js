@@ -6,7 +6,8 @@ export default {
       tutorialVersion: '@App:tutorialVersion'
     },
     user: {
-      loggedIn: '@User:loggedIn'
+      loggedIn: '@User:loggedIn',
+      token: '@User:token'
     }
   }
 };

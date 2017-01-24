@@ -5,7 +5,8 @@ import Login from 'components/login';
 
 function mapStateToProps(state) {
   return {
-    loginModal: state.user.loginModal
+    loginModal: state.user.loginModal,
+    userToken: state.user.token
   };
 }
 

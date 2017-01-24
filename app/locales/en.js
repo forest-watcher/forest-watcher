@@ -9,6 +9,9 @@ export default {
     },
     login: {
       title: 'Login'
+    },
+    countries: {
+      nameColumn: 'name_engli'
     }
   }
 };

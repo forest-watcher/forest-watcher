@@ -10,6 +10,8 @@ import {
 
 import CONSTANTS from 'config/constants';
 import Config from 'react-native-config';
+import { getToken, setToken } from 'helpers/user';
+
 import styles from './styles';
 
 class Login extends Component {
@@ -33,24 +35,24 @@ class Login extends Component {
 
   async onLoadEnd() {
     if (this.state.webViewCurrenUrl.indexOf(Config.API_CALLBACK_URL) !== -1) {
-      const loggedInStatus = await AsyncStorage.getItem(CONSTANTS.storage.app.setup);
-      this.props.setLoginStatus(true);
+      const token = this.state.webViewCurrenUrl.match(/token[=](.*)/);
 
-      if (loggedInStatus !== null && loggedInStatus !== 'true') {
-        this.successTimer = this.getSuccessTimer();
+      if (token && token[1]) {
+        const saved = await setToken(token[1]);
+        if (saved) {
+          const userToken = await getToken();
+          this.props.setLoginStatus(true);
+          this.successTimer = this.getSuccessTimer();
+        }
       } else {
-        this.props.navigate({
-          key: 'setup',
-          section: 'setup',
-          afterRender: () => this.getSuccessTimer()
-        });
+        console.warn('Login incorrect');
       }
     }
     // TO-DO Handle error response
   }
 
   onPress(socialNetwork) {
-    const url = `${Config.API_URL}/auth/${socialNetwork}?callbackUrl=${Config.API_CALLBACK_URL}`;
+    const url = `${Config.API_URL}/auth/${socialNetwork}?token=true&callbackUrl=${Config.API_CALLBACK_URL}`;
 
     this.setState({
       webviewVisible: true,
