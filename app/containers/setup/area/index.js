@@ -1,7 +1,9 @@
 import { connect } from 'react-redux';
 import { navigatePush, navigatePop, showNavHeader } from 'redux-modules/navigation';
+import { getUser } from 'redux-modules/user';
+import { getCountries } from 'redux-modules/countries';
 
-import Setup from 'components/setup';
+import SetupArea from 'components/setup/area';
 
 function mapStateToProps(state) {
   return {
@@ -18,6 +20,12 @@ function mapDispatchToProps(dispatch) {
     navigateBack: (action) => {
       dispatch(navigatePop(action));
     },
+    getUser: (action) => {
+      dispatch(getUser(action));
+    },
+    getCountries: (action) => {
+      dispatch(getCountries(action));
+    },
     showNavHeader: (action) => {
       dispatch(showNavHeader(action));
     }
@@ -27,4 +35,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Setup);
+)(SetupArea);

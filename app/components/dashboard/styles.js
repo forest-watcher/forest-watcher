@@ -28,10 +28,10 @@ export default StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: '300',
+    fontWeight: '400',
     marginTop: 15,
     marginBottom: 5,
     fontFamily: config.font,
-    color: config.fontColors.main
+    color: config.fontColors.secondary
   }
 });

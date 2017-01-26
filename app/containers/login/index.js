@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { navigatePush, navigatePop, toggleHeader } from 'redux-modules/navigation';
+import { navigatePush, navigatePop } from 'redux-modules/navigation';
 import { setLoginModal, setLoginStatus } from 'redux-modules/user';
 import Login from 'components/login';
 
@@ -17,9 +17,6 @@ function mapDispatchToProps(dispatch) {
     },
     navigateBack: (action) => {
       dispatch(navigatePop(action));
-    },
-    onToggleHeader: (action) => {
-      dispatch(toggleHeader(action));
     },
     setLoginModal: (action) => {
       dispatch(setLoginModal(action));

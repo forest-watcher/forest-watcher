@@ -9,7 +9,7 @@ function Routes(props) {
 
   switch (navigationRoute.section) {
     case 'setup':
-      return <Setup afterRender={navigationRoute.afterRender} />;
+      return <Setup />;
     case 'dashboard':
       return <Dashboard />;
     case 'alerts':

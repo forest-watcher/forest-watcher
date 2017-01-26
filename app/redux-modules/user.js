@@ -35,8 +35,12 @@ export default function reducer(state = initialState, action) {
 // Action Creators
 export function getUser() {
   const url = `${Config.API_URL}/user`;
-  return (dispatch) => {
-    fetch(url)
+  return (dispatch, state) => {
+    fetch(url, {
+      headers: {
+        Authorization: `Bearer ${state().user.token}`
+      }
+    })
       .then(response => response.json())
       .then((data) => {
         dispatch({

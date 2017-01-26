@@ -27,3 +27,18 @@ export async function getToken() {
     return false;
   }
 }
+
+export async function getSetupStatus() {
+  try {
+    const setup = await AsyncStorage.getItem(CONSTANTS.storage.app.setup);
+
+    if (setup !== null) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch(error) {
+    console.warn(error);
+    return false;
+  }
+}

@@ -3,7 +3,7 @@ import Theme from 'config/theme';
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: '#333333',
+    backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',

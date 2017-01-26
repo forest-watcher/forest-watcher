@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-  StatusBar,
   View,
   NavigationExperimental,
   ActivityIndicator
@@ -9,7 +8,8 @@ import {
 import renderScene from 'routes';
 import Header from 'containers/common/header';
 import Login from 'containers/login';
-import { getToken, setToken } from 'helpers/user';
+import { getToken, setToken, getSetupStatus } from 'helpers/user';
+import config from 'config/theme';
 import styles from './styles';
 
 const {
@@ -42,8 +42,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    StatusBar.setBarStyle('light-content');
-    this.checkSetup();
+    this.checkBeforeRender();
   }
 
   componentWillReceiveProps(newProps) {
@@ -52,17 +51,30 @@ class App extends Component {
     }
   }
 
-  async checkSetup() {
+  async checkBeforeRender() {
     const userToken = await getToken();
 
     if (!userToken) {
       this.props.setLoginModal(true);
     } else {
-      this.props.setLoginStatus({
-        loggedIn: true,
-        token: userToken
-      });
-      this.setState({ loading: false });
+      const setupStatus = await getSetupStatus();
+      if (!setupStatus) {
+        this.props.navigate({
+          key: 'setup',
+          section: 'setup'
+        });
+        this.props.setLoginStatus({
+          loggedIn: true,
+          token: userToken
+        });
+        this.setState({ loading: false });
+      } else {
+        this.props.setLoginStatus({
+          loggedIn: true,
+          token: userToken
+        });
+        this.setState({ loading: false });
+      }
     }
   }
 
