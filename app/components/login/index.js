@@ -41,7 +41,10 @@ class Login extends Component {
         const saved = await setToken(token[1]);
         if (saved) {
           const userToken = await getToken();
-          this.props.setLoginStatus(true);
+          this.props.setLoginStatus({
+            loggedIn: true,
+            token: userToken
+          });
           this.successTimer = this.getSuccessTimer();
         }
       } else {

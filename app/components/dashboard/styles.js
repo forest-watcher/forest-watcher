@@ -30,9 +30,5 @@ export default StyleSheet.create({
     fontWeight: '700',
     marginTop: 15,
     marginBottom: 5
-  },
-  center: {
-    alignItems: 'center',
-    justifyContent: 'center'
   }
 });

@@ -17,8 +17,8 @@ const initialNavState = {
   header: true,
   routes: [
     {
-      key: 'map',
-      section: 'map',
+      key: '',
+      section: '',
       data: null,
       afterRender: null
     }

@@ -6,5 +6,9 @@ export default StyleSheet.create({
   },
   main: {
     flex: 1
+  },
+  center: {
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });

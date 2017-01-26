@@ -1,6 +1,4 @@
-import { AsyncStorage } from 'react-native';
 import Config from 'react-native-config';
-import CONSTANTS from 'config/constants';
 
 // Actions
 const GET_USER = 'user/GET_USER';
@@ -11,7 +9,8 @@ const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
 const initialState = {
   data: null,
   loginModal: false,
-  loggedIn: false
+  loggedIn: false,
+  token: null
 };
 
 export default function reducer(state = initialState, action) {
@@ -24,7 +23,10 @@ export default function reducer(state = initialState, action) {
     case SET_LOGIN_MODAL:
       return Object.assign({}, state, { loginModal: action.payload });
     case SET_LOGIN_STATUS:
-      return Object.assign({}, state, { loggedIn: action.payload });
+      return Object.assign({}, state, {
+        loggedIn: action.payload.loggedIn,
+        token: action.payload.token
+      });
     default:
       return state;
   }
@@ -59,16 +61,12 @@ export function setLoginModal(status) {
 }
 
 export function setLoginStatus(status) {
-  return async (dispatch) => {
-    try {
-      await AsyncStorage.setItem(CONSTANTS.storage.user.loggedIn, status.toString());
+  return (dispatch) => {
+    console.log(status);
 
-      dispatch({
-        type: SET_LOGIN_STATUS,
-        payload: status
-      });
-    } catch (error) {
-      console.warn(error);
-    }
+    dispatch({
+      type: SET_LOGIN_STATUS,
+      payload: status
+    });
   };
 }
