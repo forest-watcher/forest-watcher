@@ -1,3 +1,4 @@
+import config from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
@@ -27,8 +28,10 @@ export default StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: '300',
     marginTop: 15,
-    marginBottom: 5
+    marginBottom: 5,
+    fontFamily: config.font,
+    color: config.fontColors.main
   }
 });
