@@ -30,7 +30,7 @@ class Header extends Component {
             ? <TouchableHighlight
               underlayColor="transparent"
               style={styles.backButton}
-              onPress={this.props.onBack}
+              onPress={this.props.navigateBack}
               hitSlop={{ top: 12, left: 12, bottom: 12, right: 12 }}
             >
               <Text style={styles.backButtonText}>Back</Text>
@@ -45,7 +45,7 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  onBack: React.PropTypes.func.isRequired,
+  navigateBack: React.PropTypes.func.isRequired,
   navigation: React.PropTypes.object.isRequired
 };
 

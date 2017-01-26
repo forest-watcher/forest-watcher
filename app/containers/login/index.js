@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
-import { navigatePush, navigatePop } from 'redux-modules/navigation';
+import { navigatePush, navigatePop, toggleHeader } from 'redux-modules/navigation';
 import { setLoginModal, setLoginStatus } from 'redux-modules/user';
-import App from 'components/app';
+import Login from 'components/login';
 
 function mapStateToProps(state) {
   return {
-    navigationRoute: state.navigation,
-    loggedIn: state.user.loggedIn
+    loginModal: state.user.loginModal,
+    userToken: state.user.token
   };
 }
 
@@ -15,8 +15,11 @@ function mapDispatchToProps(dispatch) {
     navigate: (action) => {
       dispatch(navigatePush(action));
     },
-    navigateBack: () => {
-      dispatch(navigatePop());
+    navigateBack: (action) => {
+      dispatch(navigatePop(action));
+    },
+    onToggleHeader: (action) => {
+      dispatch(toggleHeader(action));
     },
     setLoginModal: (action) => {
       dispatch(setLoginModal(action));
@@ -30,4 +33,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App);
+)(Login);

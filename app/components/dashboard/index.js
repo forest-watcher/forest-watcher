@@ -34,7 +34,7 @@ const sections = [
 class Dashboard extends Component {
   onItemTap(item) {
     if (item.section && item.section.length > 0) {
-      this.props.onNavigate({
+      this.props.navigate({
         type: 'push',
         key: item.section,
         section: item.section
@@ -71,7 +71,7 @@ class Dashboard extends Component {
 }
 
 Dashboard.propTypes = {
-  onNavigate: React.PropTypes.func.isRequired
+  navigate: React.PropTypes.func.isRequired
 };
 
 export default Dashboard;

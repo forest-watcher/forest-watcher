@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { navigatePush, navigatePop, toggleHeader } from 'redux-modules/navigation';
+import { navigatePush, navigatePop } from 'redux-modules/navigation';
 import Dashboard from 'components/dashboard';
 
 function mapStateToProps() {
@@ -8,14 +8,11 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onNavigate: (action) => {
+    navigate: (action) => {
       dispatch(navigatePush(action));
     },
-    onBack: (action) => {
+    navigateBack: (action) => {
       dispatch(navigatePop(action));
-    },
-    onToggleHeader: (action) => {
-      dispatch(toggleHeader(action));
     }
   };
 }

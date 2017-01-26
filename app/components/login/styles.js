@@ -6,5 +6,11 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FFF'
+  },
+  modal: {
+    flex: 1
+  },
+  webView: {
+    flex: 1
   }
 });

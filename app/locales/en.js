@@ -6,6 +6,12 @@ export default {
       reports: 'Make a report',
       uploadData: 'Saved and uploaded data',
       map: 'Map'
+    },
+    login: {
+      title: 'Login'
+    },
+    countries: {
+      nameColumn: 'name_engli'
     }
   }
 };

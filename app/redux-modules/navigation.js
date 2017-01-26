@@ -17,8 +17,10 @@ const initialNavState = {
   header: true,
   routes: [
     {
-      key: 'dashboard',
-      section: 'dashboard'
+      key: '',
+      section: '',
+      data: null,
+      afterRender: null
     }
   ]
 };
@@ -27,7 +29,8 @@ export default function reducer(state = initialNavState, action) {
   switch (action.type) {
     case NAV_PUSH:
       return NavigationStateUtils.push(state, {
-        data: action.state.data ? action.state.data : [],
+        data: action.state.data ? action.state.data : null,
+        afterRender: action.state.afterRender ? action.state.afterRender : null,
         key: action.state.key,
         section: action.state.section
       });
