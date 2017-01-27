@@ -33,10 +33,7 @@ class SetupArea extends Component {
 
   onNext() {
     this.props.showNavHeader(true);
-    this.props.navigate({
-      key: 'dashboard',
-      section: 'dashboard'
-    });
+    this.props.navigateBack();
   }
 
   render() {
@@ -80,7 +77,7 @@ SetupArea.propTypes = {
   getUser: React.PropTypes.func.isRequired,
   getCountries: React.PropTypes.func.isRequired,
   showNavHeader: React.PropTypes.func.isRequired,
-  navigate: React.PropTypes.func.isRequired
+  navigateBack: React.PropTypes.func.isRequired
 };
 
 export default SetupArea;

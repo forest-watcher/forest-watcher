@@ -22,7 +22,6 @@ class SearchSelector extends Component {
   }
 
   onOptionSelected() {
-
   }
 
   showList() {
