@@ -3,23 +3,25 @@ import Theme from 'config/theme';
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: '#ffffff',
+    backgroundColor: Theme.background.main,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
     ...Platform.select({
       ios: {
-        height: 64
+        height: 114
       },
       android: {
-        height: 44
+        height: 94
       }
     })
   },
   title: {
     color: Theme.fontColors.main,
-    fontSize: 16,
-    fontWeight: '700',
+    fontFamily: Theme.font,
+    fontSize: 15,
+    fontWeight: '500',
+    marginTop: 0,
     ...Platform.select({
       ios: {
         paddingTop: 14

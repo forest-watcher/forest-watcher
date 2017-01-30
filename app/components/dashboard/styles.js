@@ -1,24 +1,28 @@
-import config from 'config/theme';
+import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF'
+    backgroundColor: Theme.background.main
+  },
+  list: {
+    flex: 1
   },
   content: {
-    paddingTop: 0,
-    paddingBottom: 30
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    paddingTop: 8
   },
   item: {
-    marginTop: 20,
-    marginBottom: 0,
-    marginLeft: 15,
-    marginRight: 15,
-    padding: 10,
-    alignItems: 'center',
-    borderWidth: 0.5,
-    borderColor: '#333'
+    width: (Theme.screen.width / 2) - 12,
+    height: 184,
+    marginLeft: 8,
+    marginBottom: 8,
+    backgroundColor: Theme.background.white,
+    borderWidth: 1,
+    borderColor: Theme.colors.color6
   },
   icon: {
     width: 80,
@@ -31,7 +35,7 @@ export default StyleSheet.create({
     fontWeight: '400',
     marginTop: 15,
     marginBottom: 5,
-    fontFamily: config.font,
-    color: config.fontColors.secondary
+    fontFamily: Theme.font,
+    color: Theme.fontColors.secondary
   }
 });

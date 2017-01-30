@@ -5,11 +5,13 @@ import {
   Button,
   WebView,
   Modal,
-  AsyncStorage
+  AsyncStorage,
+  TouchableHighlight
 } from 'react-native';
 
 import CONSTANTS from 'config/constants';
 import Config from 'react-native-config';
+import Theme from 'config/theme';
 import { getToken, setToken } from 'helpers/user';
 
 import styles from './styles';
@@ -51,7 +53,6 @@ class Login extends Component {
         console.warn('Login incorrect');
       }
     }
-    // TO-DO Handle error response
   }
 
   onPress(socialNetwork) {
@@ -76,6 +77,12 @@ class Login extends Component {
     }, 1000);
   }
 
+  closeWebview() {
+    this.setState({
+      webviewVisible: false
+    });
+  }
+
   render() {
     return (
       <Modal
@@ -86,6 +93,24 @@ class Login extends Component {
       >
         {this.state.webviewVisible
           ? <View style={styles.modal}>
+            <View style={styles.webViewHeader}>
+              <TouchableHighlight
+                style={styles.webViewButtonClose}
+                onPress={() => this.closeWebview()}
+                activeOpacity={0.8}
+                underlayColor={'transparent'}
+              >
+                <Text style={styles.webViewButtonCloseText}>x</Text>
+              </TouchableHighlight>
+              <Text
+                style={styles.webViewUrl}
+                ellipsizeMode={'tail'}
+                numberOfLines={1}
+              >
+                {this.state.webViewCurrenUrl}
+              </Text>
+            </View>
+
             <WebView
               ref={(webView) => { this.webView = webView; }}
               automaticallyAdjustContentInsets={false}
@@ -101,22 +126,36 @@ class Login extends Component {
             />
           </View>
           : <View style={styles.container}>
-            <Text>Login</Text>
-            <Button
-              onPress={() => this.onPress('facebook')}
-              title="Facebook"
-              color="#000000"
-            />
-            <Button
-              onPress={() => this.onPress('twitter')}
-              title="Twitter"
-              color="#000000"
-            />
-            <Button
-              onPress={() => this.onPress('google')}
-              title="Google+"
-              color="#000000"
-            />
+            <View style={styles.intro}>
+              <Text style={styles.introLabel}>FOREST WATCHER 2.0</Text>
+            </View>
+            <View style={styles.buttons}>
+              <Text style={styles.buttonsLabel}>Sign in with a MyGFW account</Text>
+              <TouchableHighlight
+                style={[styles.button, styles.buttonFacebook]}
+                onPress={() => this.onPress('facebook')}
+                activeOpacity={0.8}
+                underlayColor={Theme.socialNetworks.facebook}
+              >
+                <Text style={styles.buttonText}>Facebook</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={[styles.button, styles.buttonTwitter]}
+                onPress={() => this.onPress('twitter')}
+                activeOpacity={0.8}
+                underlayColor={Theme.socialNetworks.twitter}
+              >
+                <Text style={styles.buttonText}>Twitter</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={[styles.button, styles.buttonGoogle]}
+                onPress={() => this.onPress('google')}
+                activeOpacity={0.8}
+                underlayColor={Theme.socialNetworks.google}
+              >
+                <Text style={styles.buttonText}>Google</Text>
+              </TouchableHighlight>
+            </View>
           </View>
         }
       </Modal>

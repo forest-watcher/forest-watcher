@@ -23,6 +23,7 @@ export function getCountries() {
   const url = `${Config.API_URL}/query/${Config.DATASET_COUNTRIES}?sql=
     SELECT ${I18n.t('countries.nameColumn')} as name, iso, centroid
     FROM gadm28_countries`;
+
   return (dispatch) => {
     fetch(url)
       .then(response => response.json())

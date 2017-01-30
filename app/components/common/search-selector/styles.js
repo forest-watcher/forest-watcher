@@ -1,39 +1,39 @@
-import config from 'config/theme';
+import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   searchBox: {
     height: 64,
-    backgroundColor: config.colors.color5,
-    borderColor: config.colors.color6,
+    backgroundColor: Theme.colors.color5,
+    borderColor: Theme.colors.color6,
     borderWidth: 1,
     justifyContent: 'center'
   },
   searchText: {
-    fontFamily: config.font,
-    color: config.fontColors.secondary,
+    fontFamily: Theme.font,
+    color: Theme.fontColors.secondary,
     fontSize: 17,
     fontWeight: '400',
     marginLeft: 24
   },
   modal: {
     flex: 1,
-    backgroundColor: config.background.main
+    backgroundColor: Theme.background.main
   },
   search: {
     paddingTop: 44,
     height: 88,
-    backgroundColor: config.colors.color5,
+    backgroundColor: Theme.colors.color5,
     borderBottomWidth: 1,
-    borderBottomColor: config.colors.color6
+    borderBottomColor: Theme.colors.color6
   },
   searchInput: {
     height: 24,
     paddingLeft: 24,
-    fontFamily: config.font,
+    fontFamily: Theme.font,
     fontSize: 17,
     fontWeight: '400',
-    color: config.fontColors.secondary
+    color: Theme.fontColors.secondary
   },
   list: {
     flex: 1
@@ -42,8 +42,8 @@ export default StyleSheet.create({
     padding: 24
   },
   listItem: {
-    fontFamily: config.font,
-    color: config.fontColors.light,
+    fontFamily: Theme.font,
+    color: Theme.fontColors.light,
     fontSize: 17,
     fontWeight: '400',
     marginBottom: 20

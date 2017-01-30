@@ -48,19 +48,18 @@ class Dashboard extends Component {
         <ScrollView
           style={styles.list}
           contentContainerStyle={styles.content}
+          scrollEnabled={false}
         >
           {sections.map((item, key) =>
             (
               <TouchableHighlight
+                style={styles.item}
                 key={key}
                 onPress={() => this.onItemTap(item)}
                 activeOpacity={0.5}
                 underlayColor="transparent"
               >
-                <View style={styles.item}>
-                  <View style={styles.icon} />
-                  <Text style={styles.title}>{item.title}</Text>
-                </View>
+                <Text>{item.name}</Text>
               </TouchableHighlight>
             )
           )}

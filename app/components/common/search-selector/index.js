@@ -8,7 +8,7 @@ import {
   TextInput
 } from 'react-native';
 
-import config from 'config/theme';
+import Theme from 'config/theme';
 import styles from './styles';
 
 class SearchSelector extends Component {
@@ -58,8 +58,8 @@ class SearchSelector extends Component {
                 placeholder={this.props.placeholder}
                 autoCorrect={false}
                 style={styles.searchInput}
-                placeholderTextColor={config.fontColors.light}
-                selectionColor={config.colors.color1}
+                placeholderTextColor={Theme.fontColors.light}
+                selectionColor={Theme.colors.color1}
                 autoFocus
               />
             </View>

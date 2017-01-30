@@ -3,7 +3,7 @@ import { navigatePush, navigatePop, showNavHeader } from 'redux-modules/navigati
 import { getUser } from 'redux-modules/user';
 import { getCountries } from 'redux-modules/countries';
 
-import SetupArea from 'components/setup/area';
+import SetupCountry from 'components/setup/country';
 
 function mapStateToProps(state) {
   return {
@@ -35,4 +35,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SetupArea);
+)(SetupCountry);

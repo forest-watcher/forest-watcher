@@ -49,7 +49,7 @@ export function getUser() {
         });
       })
       .catch((error) => {
-        console.log(error);
+        console.warn(error);
         // To-do
       });
   };
@@ -66,8 +66,6 @@ export function setLoginModal(status) {
 
 export function setLoginStatus(status) {
   return (dispatch) => {
-    console.log(status);
-
     dispatch({
       type: SET_LOGIN_STATUS,
       payload: status

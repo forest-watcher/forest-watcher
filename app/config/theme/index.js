@@ -1,3 +1,8 @@
+import {
+  Dimensions
+} from 'react-native';
+
+const screen = Dimensions.get('window');
 const colors = {
   color1: '#97be32',
   color2: '#555555',
@@ -8,6 +13,10 @@ const colors = {
 };
 
 const config = {
+  screen: {
+    width: screen.width,
+    height: screen.height
+  },
   colors: {
     color1: colors.color1,
     color2: colors.color2,
@@ -24,7 +33,17 @@ const config = {
     white: colors.color5
   },
   background: {
-    main: colors.color4
+    main: colors.color4,
+    secondary: colors.color1,
+    white: colors.color5
+  },
+  margin: {
+    left: 24
+  },
+  socialNetworks: {
+    facebook: '#3b5998',
+    twitter: '#00aced',
+    google: '#ea4335'
   }
 };
 

@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import SearchSelector from 'components/common/search-selector';
+import Theme from 'config/theme';
 import styles from './styles';
 
 function renderLoading() {
@@ -20,7 +21,7 @@ function renderLoading() {
   );
 }
 
-class SetupArea extends Component {
+class SetupCountry extends Component {
   componentDidMount() {
     this.props.showNavHeader(false);
     if (!this.props.user) {
@@ -55,15 +56,14 @@ class SetupArea extends Component {
             />
           </View>
 
-          <View style={styles.button}>
-            <TouchableHighlight
-              onPress={() => this.onNext()}
-              activeOpacity={0.5}
-              underlayColor="transparent"
-            >
-              <Text style={styles.buttonText}>NEXT</Text>
-            </TouchableHighlight>
-          </View>
+          <TouchableHighlight
+            style={styles.button}
+            onPress={() => this.onNext()}
+            activeOpacity={0.8}
+            underlayColor={Theme.background.secondary}
+          >
+            <Text style={styles.buttonText}>NEXT</Text>
+          </TouchableHighlight>
         </View>
       :
         renderLoading()
@@ -71,7 +71,7 @@ class SetupArea extends Component {
   }
 }
 
-SetupArea.propTypes = {
+SetupCountry.propTypes = {
   user: React.PropTypes.any,
   countries: React.PropTypes.any,
   getUser: React.PropTypes.func.isRequired,
@@ -80,4 +80,4 @@ SetupArea.propTypes = {
   navigateBack: React.PropTypes.func.isRequired
 };
 
-export default SetupArea;
+export default SetupCountry;

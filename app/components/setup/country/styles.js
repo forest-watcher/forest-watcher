@@ -1,4 +1,4 @@
-import config from 'config/theme';
+import Theme from 'config/theme';
 import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
@@ -11,20 +11,20 @@ export default StyleSheet.create({
     justifyContent: 'center'
   },
   title: {
-    fontFamily: config.font,
-    color: config.fontColors.main,
+    fontFamily: Theme.font,
+    color: Theme.fontColors.main,
     fontSize: 21,
     fontWeight: '400',
     marginTop: 45,
-    marginLeft: 24
+    marginLeft: Theme.margin.left
   },
   content: {
     marginTop: 26,
-    marginLeft: 24
+    marginLeft: Theme.margin.left
   },
   text: {
-    fontFamily: config.font,
-    color: config.fontColors.secondary,
+    fontFamily: Theme.font,
+    color: Theme.fontColors.secondary,
     fontSize: 17,
     lineHeight: 22,
     fontWeight: '400'
@@ -33,11 +33,11 @@ export default StyleSheet.create({
     marginTop: 19
   },
   selectorLabel: {
-    fontFamily: config.font,
-    color: config.fontColors.light,
+    fontFamily: Theme.font,
+    color: Theme.fontColors.light,
     fontSize: 17,
     fontWeight: '400',
-    marginLeft: 24,
+    marginLeft: Theme.margin.left,
     ...Platform.select({
       android: {
         marginBottom: 6
@@ -47,17 +47,17 @@ export default StyleSheet.create({
   button: {
     height: 64,
     position: 'absolute',
-    bottom: 40,
+    bottom: 50,
     left: 8,
     right: 8,
     borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: config.colors.color1
+    backgroundColor: Theme.colors.color1
   },
   buttonText: {
-    color: config.fontColors.white,
-    fontFamily: config.font,
+    color: Theme.fontColors.white,
+    fontFamily: Theme.font,
     fontSize: 15,
     fontWeight: '500'
   }
