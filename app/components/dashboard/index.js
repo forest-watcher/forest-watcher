@@ -3,7 +3,8 @@ import {
   View,
   Text,
   ScrollView,
-  TouchableHighlight
+  TouchableHighlight,
+  Image
 } from 'react-native';
 import I18n from 'locales';
 import styles from './styles';
@@ -43,24 +44,35 @@ class Dashboard extends Component {
   }
 
   render() {
+    // <TouchableHighlight
+    //   style={styles.iconSettings}
+    //   onPress={() => this.onItemTap(item)}
+    //   activeOpacity={0.5}
+    //   underlayColor="transparent"
+    // >
+    //   <Image
+    //     source={require('assets/settings/settings.png')}
+    //   />
+    // </TouchableHighlight>
+    
     return (
       <View style={styles.container}>
+
         <ScrollView
           style={styles.list}
           contentContainerStyle={styles.content}
+          scrollEnabled={false}
         >
           {sections.map((item, key) =>
             (
               <TouchableHighlight
+                style={styles.item}
                 key={key}
                 onPress={() => this.onItemTap(item)}
                 activeOpacity={0.5}
                 underlayColor="transparent"
               >
-                <View style={styles.item}>
-                  <View style={styles.icon} />
-                  <Text style={styles.title}>{item.title}</Text>
-                </View>
+                <Text>{item.name}</Text>
               </TouchableHighlight>
             )
           )}

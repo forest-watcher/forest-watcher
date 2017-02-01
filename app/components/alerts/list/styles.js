@@ -1,9 +1,10 @@
+import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
+    backgroundColor: Theme.background.main,
     paddingTop: 10
   },
   containerContent: {

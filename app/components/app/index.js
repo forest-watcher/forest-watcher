@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import {
-  StatusBar,
   View,
   NavigationExperimental,
-  ActivityIndicator
+  ActivityIndicator,
+  StatusBar
 } from 'react-native';
 
 import renderScene from 'routes';
 import Header from 'containers/common/header';
 import Login from 'containers/login';
-import { getToken, setToken } from 'helpers/user';
+import { getToken, setToken, getSetupStatus } from 'helpers/user';
 import styles from './styles';
 
 const {
@@ -17,7 +17,8 @@ const {
 } = NavigationExperimental;
 
 function renderHeader() {
-  return <Header />;
+  // return <Header />;
+  return null;
 }
 
 function renderLoading() {
@@ -39,30 +40,51 @@ class App extends Component {
     this.state = {
       loading: true
     };
+    this.setup = false;
   }
 
   componentDidMount() {
-    StatusBar.setBarStyle('light-content');
-    this.checkSetup();
+    StatusBar.setBarStyle('default', true);
+    this.checkBeforeRender();
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.loggedIn) {
-      this.setState({ loading: false });
+    if (newProps.loggedIn && !this.setup) {
+      this.checkSetup();
     }
   }
 
   async checkSetup() {
+    this.setup = true;
     const userToken = await getToken();
-
-    if (!userToken) {
-      this.props.setLoginModal(true);
+    const setupStatus = await getSetupStatus();
+    if (!setupStatus) {
+      this.props.navigate({
+        key: 'setup',
+        section: 'setup'
+      });
+      this.props.setLoginStatus({
+        loggedIn: true,
+        token: userToken
+      });
+      this.setState({ loading: false });
     } else {
       this.props.setLoginStatus({
         loggedIn: true,
         token: userToken
       });
       this.setState({ loading: false });
+    }
+  }
+
+  async checkBeforeRender() {
+    setToken('');
+    const userToken = await getToken();
+
+    if (!userToken) {
+      this.props.setLoginModal(true);
+    } else {
+      this.checkSetup();
     }
   }
 

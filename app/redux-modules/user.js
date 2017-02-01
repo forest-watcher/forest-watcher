@@ -35,8 +35,12 @@ export default function reducer(state = initialState, action) {
 // Action Creators
 export function getUser() {
   const url = `${Config.API_URL}/user`;
-  return (dispatch) => {
-    fetch(url)
+  return (dispatch, state) => {
+    fetch(url, {
+      headers: {
+        Authorization: `Bearer ${state().user.token}`
+      }
+    })
       .then(response => response.json())
       .then((data) => {
         dispatch({
@@ -45,7 +49,7 @@ export function getUser() {
         });
       })
       .catch((error) => {
-        console.log(error);
+        console.warn(error);
         // To-do
       });
   };
@@ -62,8 +66,6 @@ export function setLoginModal(status) {
 
 export function setLoginStatus(status) {
   return (dispatch) => {
-    console.log(status);
-
     dispatch({
       type: SET_LOGIN_STATUS,
       payload: status

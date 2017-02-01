@@ -1,73 +1,51 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
-  ActivityIndicator,
-  InteractionManager,
-  Dimensions
+  Text
 } from 'react-native';
 
-import MapView from 'react-native-maps';
+import Theme from 'config/theme';
+import AppIntro from 'react-native-app-intro';
+import SetupCountry from 'containers/setup/country';
+import SetupBoundaries from 'components/setup/boundaries';
 import styles from './styles';
 
-const { width, height } = Dimensions.get('window');
-const ASPECT_RATIO = width / height;
-const LATITUDE = 4.931654;
-const LONGITUDE = -64.958867;
-const LATITUDE_DELTA = 40;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-
-function renderLoading() {
-  return (
-    <View style={[styles.container, styles.loader]}>
-      <ActivityIndicator
-        style={{ height: 80 }}
-        size={'large'}
-      />
-    </View>
-  );
-}
-
 class Setup extends Component {
-  componentDidMount() {
-    InteractionManager.runAfterInteractions(() => {
-      if (this.props.afterRender) {
-        this.props.afterRender();
-      }
-      if (!this.props.user) {
-        this.props.getUser();
-      }
-      if (!this.props.countries) {
-        this.props.getCountries();
-      }
-    });
-  }
-
   render() {
-    console.log(this.props.countries);
     return (
-      this.props.user && this.props.countries
-      ?
+      <AppIntro
+        dotColor={Theme.background.white}
+        activeDotColor={Theme.background.secondary}
+        nextBtnLabel={''}
+        doneBtnLabel={''}
+        customStyles={{
+          activeDotStyle: {
+            width: 12,
+            height: 12,
+            borderWidth: 0
+          },
+          dotStyle: {
+            width: 11,
+            height: 11,
+            borderWidth: 2,
+            borderColor: Theme.colors.color6
+          },
+          paginationContainer: {
+            bottom: 0
+          }
+        }}
+        showSkipButton={false}
+      >
         <View style={styles.container}>
-          <View style={styles.content}>
-            <Text>Hi {this.props.user.fullName}!</Text>
-            <Text>First, select your area of interest</Text>
-          </View>
-          <View style={styles.mapContainer}>
-            <MapView
-              style={styles.map}
-              provider={MapView.PROVIDER_GOOGLE}
-              initialRegion={{
-                latitude: LATITUDE,
-                longitude: LONGITUDE,
-                latitudeDelta: LATITUDE_DELTA,
-                longitudeDelta: LONGITUDE_DELTA
-              }}
-            />
-          </View>
+          <SetupCountry />
         </View>
-      :
-        renderLoading()
+        <View style={styles.container}>
+          <SetupBoundaries />
+        </View>
+        <View style={[styles.slide, { backgroundColor: '#a4b602' }]}>
+          <View level={10}><Text style={styles.text}>Page 2</Text></View>
+        </View>
+      </AppIntro>
     );
   }
 }
@@ -75,9 +53,7 @@ class Setup extends Component {
 Setup.propTypes = {
   user: React.PropTypes.any,
   countries: React.PropTypes.any,
-  getUser: React.PropTypes.func.isRequired,
-  getCountries: React.PropTypes.func.isRequired,
-  afterRender: React.PropTypes.func.isRequired
+  showNavHeader: React.PropTypes.func.isRequired
 };
 
 export default Setup;

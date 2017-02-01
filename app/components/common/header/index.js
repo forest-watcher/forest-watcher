@@ -37,7 +37,7 @@ class Header extends Component {
             </TouchableHighlight>
             : null
           }
-          <Text style={styles.title}>Forest Watcher</Text>
+          <Text style={styles.title}>FOREST WATCHER 2.0</Text>
         </View>
       : null
     );
