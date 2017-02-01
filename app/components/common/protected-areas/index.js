@@ -57,7 +57,7 @@ class ProtectedAreas extends Component {
       : '';
     const url = `${Config.CARTO_URL}?q=
       SELECT the_geom, the_geom_webmercator, iucn_cat, iso3
-      FROM wdpa_protected_areas ${filter}&format=geojson`;
+      FROM wdpa_protected_areas ${filter} LIMIT 10&format=geojson`;
 
     console.log(url);
 
@@ -76,15 +76,18 @@ class ProtectedAreas extends Component {
 
   render() {
     InteractionManager.runAfterInteractions(() => {
-      if (!this.state.data.length > 0) {
-        // this.fetchData();
-      }
       if (this.props.visible) {
         StatusBar.setBarStyle('light-content', true);
+
+        if (!this.state.data.length > 0) {
+          console.log('get data');
+          this.fetchData();
+        }
       }
     });
 
     this.state.data.forEach((polygon) => {
+      console.log(polygon);
       getGoogleMapsCoordinates(polygon.geometry.coordinates[0][0]);
     });
 

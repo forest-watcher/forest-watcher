@@ -1,5 +1,5 @@
 import Theme from 'config/theme';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -7,7 +7,7 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.main
   },
   intro: {
-    flex: .5,
+    flex: 0.5,
     alignItems: 'center'
   },
   introLabel: {
@@ -18,7 +18,7 @@ export default StyleSheet.create({
     fontWeight: '500'
   },
   buttons: {
-    flex: .5
+    flex: 0.5
   },
   buttonsLabel: {
     fontFamily: Theme.font,
@@ -39,11 +39,32 @@ export default StyleSheet.create({
   buttonFacebook: {
     backgroundColor: Theme.socialNetworks.facebook
   },
+  iconFacebook: {
+    width: 12,
+    height: 21,
+    position: 'absolute',
+    left: 24,
+    top: 2
+  },
   buttonTwitter: {
     backgroundColor: Theme.socialNetworks.twitter
   },
+  iconTwitter: {
+    width: 23,
+    height: 20,
+    position: 'absolute',
+    left: 20,
+    top: 4
+  },
   buttonGoogle: {
     backgroundColor: Theme.socialNetworks.google
+  },
+  iconGoogle: {
+    width: 21,
+    height: 21,
+    position: 'absolute',
+    left: 20,
+    top: 3
   },
   buttonText: {
     fontFamily: Theme.font,
@@ -53,48 +74,74 @@ export default StyleSheet.create({
     marginLeft: 56
   },
   modal: {
-    flex: 1,
+    flex: 1
   },
   webViewHeader: {
-    height: 64,
     left: 0,
     right: 0,
     backgroundColor: Theme.background.white,
     borderBottomWidth: 1,
     borderBottomColor: Theme.colors.color6,
-    position: 'absolute',
-    zIndex: 1
+    ...Platform.select({
+      ios: {
+        height: 64,
+        zIndex: 1,
+        position: 'absolute'
+      },
+      android: {
+        height: 44
+      }
+    })
   },
   webViewButtonClose: {
-    width: 38,
-    top: 21,
+    width: 34,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    position: 'absolute',
+    ...Platform.select({
+      ios: {
+        top: 21
+      },
+      android: {
+        top: 4
+      }
+    })
   },
   webViewButtonCloseText: {
     fontFamily: Theme.font,
     color: Theme.fontColors.main,
     fontSize: 22,
-    fontWeight: '600',
+    fontWeight: '600'
   },
   webViewUrl: {
+    height: 32,
     fontFamily: Theme.font,
     color: Theme.fontColors.light,
     backgroundColor: Theme.colors.color4,
     fontSize: 15,
     fontWeight: '400',
-    top: 24,
-    height: 32,
     paddingTop: 4,
     paddingBottom: 4,
     paddingLeft: 10,
     paddingRight: 10,
-    position: 'absolute',
-    left: 40,
-    right: 40,
+    marginLeft: 32,
+    marginRight: 8,
+    overflow: 'hidden',
+    ...Platform.select({
+      ios: {
+        top: 24
+      },
+      android: {
+        top: 6
+      }
+    })
   },
   webView: {
     position: 'relative',
-    marginTop: 64
+    ...Platform.select({
+      ios: {
+        marginTop: 64
+      }
+    })
   }
 });

@@ -17,7 +17,8 @@ const {
 } = NavigationExperimental;
 
 function renderHeader() {
-  return <Header />;
+  // return <Header />;
+  return null;
 }
 
 function renderLoading() {

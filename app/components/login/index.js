@@ -6,7 +6,8 @@ import {
   WebView,
   Modal,
   AsyncStorage,
-  TouchableHighlight
+  TouchableHighlight,
+  Image
 } from 'react-native';
 
 import CONSTANTS from 'config/constants';
@@ -137,7 +138,13 @@ class Login extends Component {
                 activeOpacity={0.8}
                 underlayColor={Theme.socialNetworks.facebook}
               >
-                <Text style={styles.buttonText}>Facebook</Text>
+                <View>
+                  <Image
+                    style={styles.iconFacebook}
+                    source={require('assets/facebook_white.png')}
+                  />
+                  <Text style={styles.buttonText}>Facebook</Text>
+                </View>
               </TouchableHighlight>
               <TouchableHighlight
                 style={[styles.button, styles.buttonTwitter]}
@@ -145,7 +152,13 @@ class Login extends Component {
                 activeOpacity={0.8}
                 underlayColor={Theme.socialNetworks.twitter}
               >
-                <Text style={styles.buttonText}>Twitter</Text>
+                <View>
+                  <Image
+                    style={styles.iconTwitter}
+                    source={require('assets/twitter_white.png')}
+                  />
+                  <Text style={styles.buttonText}>Twitter</Text>
+                </View>
               </TouchableHighlight>
               <TouchableHighlight
                 style={[styles.button, styles.buttonGoogle]}
@@ -153,7 +166,13 @@ class Login extends Component {
                 activeOpacity={0.8}
                 underlayColor={Theme.socialNetworks.google}
               >
-                <Text style={styles.buttonText}>Google</Text>
+                <View>
+                  <Image
+                    style={styles.iconGoogle}
+                    source={require('assets/google_white.png')}
+                  />
+                  <Text style={styles.buttonText}>Google</Text>
+                </View>
               </TouchableHighlight>
             </View>
           </View>

@@ -49,7 +49,8 @@
             "helpers": "./app/helpers",
             "components": "./app/components",
             "containers": "./app/containers",
-            "redux-modules": "./app/redux-modules"
+            "redux-modules": "./app/redux-modules",
+            "assets": "./app/assets"
           }
         }
       ]

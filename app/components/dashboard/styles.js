@@ -37,5 +37,10 @@ export default StyleSheet.create({
     marginBottom: 5,
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary
+  },
+  iconSettings: {
+    position: 'absolute',
+    top: 0,
+    right: 0
   }
 });

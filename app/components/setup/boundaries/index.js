@@ -67,7 +67,7 @@ class SetupBoundaries extends Component {
           </View>
         </View>
         <ProtectedAreas
-          iso={'BRA'}
+          iso={'VEN'}
           visible={this.state.showProtectedAreas}
         />
       </View>
