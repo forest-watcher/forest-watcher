@@ -5,13 +5,14 @@ import App from 'components/app';
 
 function mapStateToProps(state) {
   return {
-    navigationRoute: state.navigation,
+    navigation: state.navigation,
     loggedIn: state.user.loggedIn
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    dispatch,
     navigate: (action) => {
       dispatch(navigatePush(action));
     },

@@ -6,6 +6,11 @@ import { Provider } from 'react-redux';
 import AppContainer from 'containers/app';
 import * as reducers from 'redux-modules';
 
+import { StackNavigator } from 'react-navigation';
+import { Routes, RoutesConfig } from 'routes';
+
+export const AppNavigator = StackNavigator(Routes, RoutesConfig);
+
 const reducer = combineReducers(reducers);
 const store = createStore(
   reducer,
