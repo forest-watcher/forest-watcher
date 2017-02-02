@@ -5,6 +5,7 @@ env:
   es6: true
   browser: true
 globals:
+  require: true
   config: true
   __DEV__: true
 parserOptions:
@@ -20,6 +21,7 @@ rules:
   comma-dangle: [error, never]
   no-console: [error, allow: [warn, error, info]]
   react/jsx-filename-extension: [1, { "extensions": [".js", ".jsx"] }]
+  no-plusplus: ["error", { "allowForLoopAfterthoughts": true }]
   react/forbid-prop-types: 0
 settings:
   import/resolver:
