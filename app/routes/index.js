@@ -1,15 +1,18 @@
 import React from 'react';
-import Home from 'components/home';
+import Setup from 'containers/setup';
 import Dashboard from 'containers/dashboard';
 import Alerts from 'containers/alerts';
 import Map from 'components/map';
+
+// WIP
+import SetupBoundaries from 'components/setup/boundaries';
 
 function Routes(props) {
   const navigationRoute = props.scene.route;
 
   switch (navigationRoute.section) {
-    case 'home':
-      return <Home />;
+    case 'setup':
+      return <Setup />;
     case 'dashboard':
       return <Dashboard />;
     case 'alerts':
@@ -17,7 +20,7 @@ function Routes(props) {
     case 'map':
       return <Map />;
     default:
-      return <Home />;
+      return <SetupBoundaries />;
   }
 }
 

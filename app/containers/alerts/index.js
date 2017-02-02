@@ -11,7 +11,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onNavigate: (action) => {
+    navigate: (action) => {
       dispatch(navigatePush(action));
     },
     fetchData: (action) => {

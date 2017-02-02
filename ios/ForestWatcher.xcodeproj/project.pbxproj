@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -25,6 +24,9 @@
 		14846EA233794B3FBB819E27 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 299F07320E3044EAB859667B /* libRNI18n.a */; };
 		562101E91E1AC177000A266F /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 562101E81E1AC177000A266F /* GameKit.framework */; };
 		562101EB1E1AC17D000A266F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 562101EA1E1AC17D000A266F /* StoreKit.framework */; };
+		564A88C81E3A415B008BA75C /* firasansot_light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 564A88C51E3A415B008BA75C /* firasansot_light.ttf */; };
+		564A88C91E3A415B008BA75C /* firasansot_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 564A88C61E3A415B008BA75C /* firasansot_medium.ttf */; };
+		564A88CA1E3A415B008BA75C /* firasansot_regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 564A88C71E3A415B008BA75C /* firasansot_regular.ttf */; };
 		56551C331E00A32E00A6AF87 /* AIRMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 56551C101E00A32E00A6AF87 /* AIRMap.m */; };
 		56551C341E00A32E00A6AF87 /* AIRMapCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = 56551C121E00A32E00A6AF87 /* AIRMapCallout.m */; };
 		56551C351E00A32E00A6AF87 /* AIRMapCalloutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 56551C141E00A32E00A6AF87 /* AIRMapCalloutManager.m */; };
@@ -59,6 +61,7 @@
 		56551C881E00A33500A6AF87 /* AIRGoogleMapURLTileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 56551C751E00A33500A6AF87 /* AIRGoogleMapURLTileManager.m */; };
 		56551C891E00A33500A6AF87 /* DummyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 56551C771E00A33500A6AF87 /* DummyView.m */; };
 		56551C8A1E00A33500A6AF87 /* RCTConvert+GMSMapViewType.m in Sources */ = {isa = PBXBuildFile; fileRef = 56551C791E00A33500A6AF87 /* RCTConvert+GMSMapViewType.m */; };
+		565651B61E36093300E7B06A /* AIRGoogleMapCanvasUrlTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 565651B41E36093300E7B06A /* AIRGoogleMapCanvasUrlTile.m */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		5F0FBE2789148D1ED61D86D1 /* Pods_ForestWatcher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B72854463D9EEF9C9E67B328 /* Pods_ForestWatcher.framework */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -178,13 +181,6 @@
 			remoteGlobalIDString = 2D2A28131D9B038B00D4039D;
 			remoteInfo = "React-tvOS";
 		};
-		563E52ED1E1689A3000164D9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 635C58E008814798BF2754C8 /* AirMaps.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 11FA5C511C4A1296003AC2EE;
-			remoteInfo = AirMaps;
-		};
 		5649F3891E0C32FC00DC1DC5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 39CFA9C5F75C4015B4438B69 /* ReactNativeConfig.xcodeproj */;
@@ -263,6 +259,9 @@
 		562101E31E1ABE00000A266F /* ForestWatcher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ForestWatcher.entitlements; path = ForestWatcher/ForestWatcher.entitlements; sourceTree = "<group>"; };
 		562101E81E1AC177000A266F /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		562101EA1E1AC17D000A266F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		564A88C51E3A415B008BA75C /* firasansot_light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = firasansot_light.ttf; path = Fonts/firasansot_light.ttf; sourceTree = "<group>"; };
+		564A88C61E3A415B008BA75C /* firasansot_medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = firasansot_medium.ttf; path = Fonts/firasansot_medium.ttf; sourceTree = "<group>"; };
+		564A88C71E3A415B008BA75C /* firasansot_regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = firasansot_regular.ttf; path = Fonts/firasansot_regular.ttf; sourceTree = "<group>"; };
 		56551C0F1E00A32E00A6AF87 /* AIRMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIRMap.h; sourceTree = "<group>"; };
 		56551C101E00A32E00A6AF87 /* AIRMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIRMap.m; sourceTree = "<group>"; };
 		56551C111E00A32E00A6AF87 /* AIRMapCallout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIRMapCallout.h; sourceTree = "<group>"; };
@@ -332,8 +331,9 @@
 		56551C771E00A33500A6AF87 /* DummyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DummyView.m; sourceTree = "<group>"; };
 		56551C781E00A33500A6AF87 /* RCTConvert+GMSMapViewType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTConvert+GMSMapViewType.h"; sourceTree = "<group>"; };
 		56551C791E00A33500A6AF87 /* RCTConvert+GMSMapViewType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTConvert+GMSMapViewType.m"; sourceTree = "<group>"; };
+		565651B41E36093300E7B06A /* AIRGoogleMapCanvasUrlTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIRGoogleMapCanvasUrlTile.m; sourceTree = "<group>"; };
+		565651B51E36093300E7B06A /* AIRGoogleMapCanvasUrlTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIRGoogleMapCanvasUrlTile.h; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
-		635C58E008814798BF2754C8 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		A28DC2A5220D42359951057B /* libReactNativeConfig.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeConfig.a; sourceTree = "<group>"; };
@@ -456,6 +456,7 @@
 		13B07FAE1A68108700A75B9A /* ForestWatcher */ = {
 			isa = PBXGroup;
 			children = (
+				564A88C41E3A414F008BA75C /* Fonts */,
 				562101E31E1ABE00000A266F /* ForestWatcher.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -487,20 +488,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		563E52EA1E1689A3000164D9 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				563E52EE1E1689A3000164D9 /* libAirMaps.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		5649F3731E0C32FC00DC1DC5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				5649F38A1E0C32FC00DC1DC5 /* libReactNativeConfig.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		564A88C41E3A414F008BA75C /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				564A88C51E3A415B008BA75C /* firasansot_light.ttf */,
+				564A88C61E3A415B008BA75C /* firasansot_medium.ttf */,
+				564A88C71E3A415B008BA75C /* firasansot_regular.ttf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 		56551C0E1E00A32E00A6AF87 /* AirMaps */ = {
@@ -586,6 +589,8 @@
 				56551C721E00A33500A6AF87 /* AIRGoogleMapUrlTile.h */,
 				56551C731E00A33500A6AF87 /* AIRGoogleMapUrlTile.m */,
 				56551C741E00A33500A6AF87 /* AIRGoogleMapUrlTileManager.h */,
+				565651B41E36093300E7B06A /* AIRGoogleMapCanvasUrlTile.m */,
+				565651B51E36093300E7B06A /* AIRGoogleMapCanvasUrlTile.h */,
 				56551C751E00A33500A6AF87 /* AIRGoogleMapURLTileManager.m */,
 				56551C761E00A33500A6AF87 /* DummyView.h */,
 				56551C771E00A33500A6AF87 /* DummyView.m */,
@@ -639,7 +644,6 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				39CFA9C5F75C4015B4438B69 /* ReactNativeConfig.xcodeproj */,
 				F1D7690309C0480CB588082B /* RNI18n.xcodeproj */,
-				635C58E008814798BF2754C8 /* AirMaps.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -775,10 +779,6 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
-				{
-					ProductGroup = 563E52EA1E1689A3000164D9 /* Products */;
-					ProjectRef = 635C58E008814798BF2754C8 /* AirMaps.xcodeproj */;
-				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
@@ -946,13 +946,6 @@
 			remoteRef = 563AC23B1E00611B00B6E8CD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		563E52EE1E1689A3000164D9 /* libAirMaps.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAirMaps.a;
-			remoteRef = 563E52ED1E1689A3000164D9 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		5649F38A1E0C32FC00DC1DC5 /* libReactNativeConfig.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1018,6 +1011,9 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				564A88CA1E3A415B008BA75C /* firasansot_regular.ttf in Resources */,
+				564A88C81E3A415B008BA75C /* firasansot_light.ttf in Resources */,
+				564A88C91E3A415B008BA75C /* firasansot_medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1118,6 +1114,7 @@
 				56551C3D1E00A32E00A6AF87 /* AIRMapPolygonManager.m in Sources */,
 				56551C351E00A32E00A6AF87 /* AIRMapCalloutManager.m in Sources */,
 				56551C7F1E00A33500A6AF87 /* AIRGoogleMapCircleManager.m in Sources */,
+				565651B61E36093300E7B06A /* AIRGoogleMapCanvasUrlTile.m in Sources */,
 				56551C811E00A33500A6AF87 /* AIRGoogleMapMarker.m in Sources */,
 				56551C3F1E00A32E00A6AF87 /* AIRMapPolylineManager.m in Sources */,
 				56551C801E00A33500A6AF87 /* AIRGoogleMapManager.m in Sources */,
@@ -1175,9 +1172,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ForestWatcher.app/ForestWatcher";
@@ -1196,9 +1190,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ForestWatcher.app/ForestWatcher";
@@ -1299,7 +1290,6 @@
 					"$(SRCROOT)/../node_modules/react-native/ReactCommon/**",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
 					"$(SRCROOT)/../node_modules/react-native-i18n/RNI18n",
-					"$(SRCROOT)/../node_modules/react-native-maps/ios/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1344,7 +1334,6 @@
 					"$(SRCROOT)/../node_modules/react-native/ReactCommon/**",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
 					"$(SRCROOT)/../node_modules/react-native-i18n/RNI18n",
-					"$(SRCROOT)/../node_modules/react-native-maps/ios/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;

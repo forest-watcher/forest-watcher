@@ -10,9 +10,9 @@ import styles from './styles';
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
-const LATITUDE = 4.931654;
-const LONGITUDE = -64.958867;
-const LATITUDE_DELTA = 40;
+const LATITUDE = -10.55449;
+const LONGITUDE = -54.242900;
+const LATITUDE_DELTA = 0.025;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 function renderLoading() {
@@ -53,6 +53,8 @@ class Map extends Component {
           <MapView
             style={styles.map}
             provider={MapView.PROVIDER_GOOGLE}
+            mapType="hybrid"
+            rotateEnabled={false}
             initialRegion={{
               latitude: LATITUDE,
               longitude: LONGITUDE,

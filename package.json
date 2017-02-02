@@ -9,6 +9,7 @@
   "dependencies": {
     "react": "15.4.1",
     "react-native": "0.38.0",
+    "react-native-app-intro": "^1.1.5",
     "react-native-config": "^0.2.1",
     "react-native-i18n": "^0.1.1",
     "react-native-maps": "^0.12.2",
@@ -47,9 +48,11 @@
             "routes": "./app/routes",
             "locales": "./app/locales",
             "config": "./app/config",
+            "helpers": "./app/helpers",
             "components": "./app/components",
             "containers": "./app/containers",
-            "redux-modules": "./app/redux-modules"
+            "redux-modules": "./app/redux-modules",
+            "assets": "./app/assets"
           }
         }
       ]
