@@ -13,11 +13,6 @@ import styles from './styles';
 import { AppNavigator } from 'app/main.js';
 import { addNavigationHelpers } from 'react-navigation';
 
-function renderHeader() {
-  // return <Header />;
-  return null;
-}
-
 function renderLoading() {
   return (
     <View style={[styles.mainContainer, styles.center]}>

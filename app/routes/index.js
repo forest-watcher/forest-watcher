@@ -17,4 +17,3 @@ export const Routes = {
 export const RoutesConfig = {
   headerMode: 'screen'
 };
-
