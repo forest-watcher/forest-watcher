@@ -18,17 +18,13 @@ const store = createStore(
   reducer,
   undefined,
   compose(
-    applyMiddleware(thunk),
-    autoRehydrate()
+    applyMiddleware(thunk)
   )
 );
 
+console.disableYellowBox = true;
 
 export default class App extends React.Component {
-  componentDidMount() {
-    persistStore(store, { storage: AsyncStorage });
-  }
-
   render() {
     return (
       <Provider store={store}>

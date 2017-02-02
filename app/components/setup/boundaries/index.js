@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  TouchableHighlight
+  TouchableHighlight,
+  Image
 } from 'react-native';
 
 import ProtectedAreas from 'components/common/protected-areas';
@@ -15,7 +16,7 @@ class SetupBoundaries extends Component {
       visible: false
     }
   }
-  
+
   constructor() {
     super();
     this.state = {
@@ -33,7 +34,13 @@ class SetupBoundaries extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Set up</Text>
+        <View style={styles.header}>
+          <Image
+            style={styles.iconBack}
+            source={require('assets/previous.png')}
+          />
+          <Text style={styles.title}>Set up</Text>
+        </View>
 
         <View style={styles.selector}>
           <Text style={styles.selectorLabel}>Now, choose the boundaries</Text>
@@ -45,7 +52,11 @@ class SetupBoundaries extends Component {
               activeOpacity={0.8}
               underlayColor={Theme.background.white}
             >
-              <View style={styles.buttonTextContainer}>
+              <View style={styles.buttonContainer}>
+                <Image
+                  style={styles.iconProtected}
+                  source={require('assets/select_pa.png')}
+                />
                 <Text
                   style={styles.buttonText}
                   numberOfLines={2}
@@ -62,6 +73,10 @@ class SetupBoundaries extends Component {
               underlayColor={Theme.background.white}
             >
               <View style={styles.buttonTextContainer}>
+                <Image
+                  style={styles.iconDraw}
+                  source={require('assets/draw_pa.png')}
+                />
                 <Text
                   style={styles.buttonText}
                   numberOfLines={2}

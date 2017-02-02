@@ -67,17 +67,12 @@ class ProtectedAreas extends Component {
     this.setState({
       data: areas
       // region: this.region
-    });
-    const coordinates = JSON.parse(areaSelected.properties.centroid).coordinates;
-
-    console.log(coordinates);
-
-    this.map.fitToCoordinates([{
-      latitude: coordinates[0],
-      longitude: coordinates[1]
-    }], {
-      edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
-      animated: true
+    }, () => {
+      const coordinates = JSON.parse(areaSelected.properties.centroid).coordinates;
+      this.map.animateToCoordinate({
+        latitude: coordinates[1],
+        longitude: coordinates[0]
+      }, 10);
     });
   }
 
@@ -111,7 +106,7 @@ class ProtectedAreas extends Component {
   render() {
     InteractionManager.runAfterInteractions(() => {
       if (this.props.visible) {
-        StatusBar.setBarStyle('light-content', true);
+        StatusBar.setBarStyle('dark-content', true);
 
         if (!this.state.data.length > 0 && !this.state.loaded) {
           this.fetchData();

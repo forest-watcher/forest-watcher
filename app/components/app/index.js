@@ -9,6 +9,7 @@ import Header from 'containers/common/header';
 import Login from 'containers/login';
 import { getToken, setToken, getSetupStatus } from 'helpers/user';
 import styles from './styles';
+import Theme from 'config/theme';
 
 import { AppNavigator } from 'app/main.js';
 import { addNavigationHelpers } from 'react-navigation';
@@ -42,7 +43,11 @@ class App extends Component {
   }
 
   componentDidMount() {
-    StatusBar.setBarStyle('default', true);
+    StatusBar.setBarStyle('dark-content', true);
+    // StatusBar.setTranslucent(true);
+    // StatusBar.setBarStyle('default', false);
+
+    // StatusBar.setBackgroundColor(Theme.background.main);
     this.checkBeforeRender();
   }
 
@@ -73,7 +78,7 @@ class App extends Component {
   }
 
   async checkBeforeRender() {
-    setToken('');
+    // setToken('');
     const userToken = await getToken();
 
     if (!userToken) {
