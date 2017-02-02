@@ -1,10 +1,4 @@
-import {
-  NavigationExperimental
-} from 'react-native';
-
-const {
-  StateUtils: NavigationStateUtils
-} = NavigationExperimental;
+import { AppNavigator } from 'app/main.js';
 
 // Actions
 const NAV_PUSH = 'navigation/NAV_PUSH';
@@ -14,43 +8,30 @@ const NAV_SHOW_HEADER = 'navigation/NAV_SHOW_HEADER';
 // Reducer
 const initialNavState = {
   index: 0,
-  header: true,
   routes: [
-    {
-      key: '',
-      section: '',
-      data: null
-    }
+    { routeName: 'Dashboard' }
   ]
 };
 
 export default function reducer(state = initialNavState, action) {
   switch (action.type) {
-    case NAV_PUSH:
-      return NavigationStateUtils.push(state, {
-        data: action.state.data ? action.state.data : null,
-        key: action.state.key,
-        section: action.state.section
-      });
-    case NAV_POP:
-      return state.index > 0
-        ? NavigationStateUtils.pop(state)
-        : state;
-    case NAV_SHOW_HEADER:
-      return Object.assign({}, state, { header: action.state });
-    default:
-      return state;
+    case NAV_PUSH: {
+      return AppNavigator.router.getStateForAction({ type: 'Navigate', routeName: action.routeName }, state);
+    }
+    case NAV_POP: {
+      return AppNavigator.router.getStateForAction({ type: 'Back' }, state);
+    }
+    default: {
+      return AppNavigator.router.getStateForAction(action, state);
+    }
   }
 }
 
 // Action Creators
-export function navigatePush(state) {
-  const currentState = typeof state === 'string'
-    ? { key: state }
-    : state;
+export function navigatePush(routeName) {
   return {
     type: NAV_PUSH,
-    state: currentState
+    routeName
   };
 }
 

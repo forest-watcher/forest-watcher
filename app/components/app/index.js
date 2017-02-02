@@ -1,25 +1,17 @@
 import React, { Component } from 'react';
 import {
   View,
-  NavigationExperimental,
   ActivityIndicator,
   StatusBar
 } from 'react-native';
 
-import renderScene from 'routes';
 import Header from 'containers/common/header';
 import Login from 'containers/login';
 import { getToken, setToken, getSetupStatus } from 'helpers/user';
 import styles from './styles';
 
-const {
-  CardStack: NavigationCardStack
-} = NavigationExperimental;
-
-function renderHeader() {
-  // return <Header />;
-  return null;
-}
+import { AppNavigator } from 'app/main.js';
+import { addNavigationHelpers } from 'react-navigation';
 
 function renderLoading() {
   return (
@@ -59,10 +51,7 @@ class App extends Component {
     const userToken = await getToken();
     const setupStatus = await getSetupStatus();
     if (!setupStatus) {
-      this.props.navigate({
-        key: 'setup',
-        section: 'setup'
-      });
+      this.props.navigate('Setup');
       this.props.setLoginStatus({
         loggedIn: true,
         token: userToken
@@ -89,18 +78,12 @@ class App extends Component {
   }
 
   render() {
+    const { dispatch, navigation } = this.props;
     return (
       this.state.loading
         ? renderLoading()
         : <View style={styles.mainContainer}>
-          <NavigationCardStack
-            navigationState={this.props.navigationRoute}
-            onNavigate={this.props.navigate}
-            onNavigateBack={this.props.navigateBack}
-            renderHeader={renderHeader}
-            renderScene={renderScene}
-            style={styles.main}
-          />
+          <AppNavigator navigation={addNavigationHelpers({ dispatch, state: navigation })}/>
           <Login />
         </View>
     );
@@ -108,7 +91,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-  navigationRoute: React.PropTypes.object.isRequired,
+  navigation: React.PropTypes.object.isRequired,
   navigate: React.PropTypes.func.isRequired,
   navigateBack: React.PropTypes.func.isRequired
 };

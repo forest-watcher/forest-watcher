@@ -12,7 +12,7 @@ import styles from './styles';
 const sections = [
   {
     title: I18n.t('dashboard.alerts'),
-    section: 'alerts',
+    section: 'Alerts',
     image: ''
   },
   {
@@ -35,11 +35,7 @@ const sections = [
 class Dashboard extends Component {
   onItemTap(item) {
     if (item.section && item.section.length > 0) {
-      this.props.navigate({
-        type: 'push',
-        key: item.section,
-        section: item.section
-      });
+      this.props.navigate(item.section);
     }
   }
 
@@ -54,7 +50,7 @@ class Dashboard extends Component {
     //     source={require('assets/settings/settings.png')}
     //   />
     // </TouchableHighlight>
-    
+
     return (
       <View style={styles.container}>
 
