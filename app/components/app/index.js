@@ -26,6 +26,12 @@ function renderLoading() {
 }
 
 class App extends Component {
+  static navigationOptions = {
+    header: {
+      visible: false
+    }
+  }
+
   constructor() {
     super();
 

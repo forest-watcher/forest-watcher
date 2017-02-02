@@ -26,7 +26,7 @@ function AlertsList(props) {
               <Text style={styles.areaTitle}>{data.area}</Text>
               <TouchableHighlight
                 onPress={() => onItemTap(alert)}
-                activeOpacity={0.5}
+                activeOpacity={1}
                 underlayColor="transparent"
               >
                 <Text style={styles.areaMore}>{'See all >'}</Text>
@@ -45,7 +45,7 @@ function AlertsList(props) {
                   <TouchableHighlight
                     key={`alert-${alertKey}`}
                     onPress={() => onItemTap(alert)}
-                    activeOpacity={0.5}
+                    activeOpacity={1}
                     underlayColor="transparent"
                   >
                     <View style={styles.alertItem}>

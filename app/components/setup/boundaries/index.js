@@ -10,6 +10,12 @@ import Theme from 'config/theme';
 import styles from './styles';
 
 class SetupBoundaries extends Component {
+  static navigationOptions = {
+    header: {
+      visible: false
+    }
+  }
+  
   constructor() {
     super();
     this.state = {

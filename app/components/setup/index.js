@@ -11,41 +11,15 @@ import SetupBoundaries from 'components/setup/boundaries';
 import styles from './styles';
 
 class Setup extends Component {
+  static navigationOptions = {
+    header: {
+      visible: false
+    }
+  }
+  
   render() {
     return (
-      <AppIntro
-        dotColor={Theme.background.white}
-        activeDotColor={Theme.background.secondary}
-        nextBtnLabel={''}
-        doneBtnLabel={''}
-        customStyles={{
-          activeDotStyle: {
-            width: 12,
-            height: 12,
-            borderWidth: 0
-          },
-          dotStyle: {
-            width: 11,
-            height: 11,
-            borderWidth: 2,
-            borderColor: Theme.colors.color6
-          },
-          paginationContainer: {
-            bottom: 0
-          }
-        }}
-        showSkipButton={false}
-      >
-        <View style={styles.container}>
-          <SetupCountry />
-        </View>
-        <View style={styles.container}>
-          <SetupBoundaries />
-        </View>
-        <View style={[styles.slide, { backgroundColor: '#a4b602' }]}>
-          <View level={10}><Text style={styles.text}>Page 2</Text></View>
-        </View>
-      </AppIntro>
+      <SetupBoundaries />
     );
   }
 }

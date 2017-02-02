@@ -36,8 +36,16 @@ function getGoogleMapsCoordinates(coordinates) {
 class ProtectedAreas extends Component {
   constructor(props, context) {
     super(props, context);
+    this.region = {};
     this.state = {
-      data: []
+      data: [],
+      loaded: false,
+      region: {
+        latitude: LATITUDE,
+        longitude: LONGITUDE,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA
+      }
     };
   }
 
@@ -47,8 +55,34 @@ class ProtectedAreas extends Component {
   onOptionSelected() {
   }
 
-  onProtectedArea(content, lala) {
-    console.warn(content, lala);
+  onProtectedArea(areaSelected) {
+    const areas = [];
+
+    this.state.data.forEach((area) => {
+      const newArea = Object.assign({}, area);
+      newArea.selected = area.properties.cartodb_id === areaSelected.properties.cartodb_id;
+      areas.push(newArea);
+    });
+
+    this.setState({
+      data: areas
+      // region: this.region
+    });
+    const coordinates = JSON.parse(areaSelected.properties.centroid).coordinates;
+
+    console.log(coordinates);
+
+    this.map.fitToCoordinates([{
+      latitude: coordinates[0],
+      longitude: coordinates[1]
+    }], {
+      edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
+      animated: true
+    });
+  }
+
+  onRegionChanged(region) {
+    this.region = region;
   }
 
   fetchData() {
@@ -56,16 +90,16 @@ class ProtectedAreas extends Component {
       ? `WHERE iso3 = '${this.props.iso}'`
       : '';
     const url = `${Config.CARTO_URL}?q=
-      SELECT the_geom, the_geom_webmercator, iucn_cat, iso3
+      SELECT the_geom, cartodb_id, iucn_cat, iso3,
+      ST_AsGeoJSON(ST_Centroid(the_geom)) as centroid
       FROM wdpa_protected_areas ${filter} LIMIT 10&format=geojson`;
-
-    console.log(url);
 
     fetch(url)
       .then(response => response.json())
       .then((responseData) => {
         this.setState({
-          data: responseData.features
+          data: responseData.features,
+          loaded: true
         });
       })
       .catch((error) => {
@@ -79,46 +113,40 @@ class ProtectedAreas extends Component {
       if (this.props.visible) {
         StatusBar.setBarStyle('light-content', true);
 
-        if (!this.state.data.length > 0) {
-          console.log('get data');
+        if (!this.state.data.length > 0 && !this.state.loaded) {
           this.fetchData();
         }
       }
     });
 
     this.state.data.forEach((polygon) => {
-      console.log(polygon);
       getGoogleMapsCoordinates(polygon.geometry.coordinates[0][0]);
     });
 
     return (
       <Modal
         animationType={'slide'}
-        transparent={false}
+        transparent
         visible={this.props.visible}
         onRequestClose={() => this.onOptionSelected()}
       >
-        <View><Text>Hi</Text></View>
         <MapView
+          ref={(ref) => { this.map = ref; }}
           style={styles.map}
           provider={MapView.PROVIDER_GOOGLE}
           mapType="hybrid"
           rotateEnabled={false}
-          region={{
-            latitude: LATITUDE,
-            longitude: LONGITUDE,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA
-          }}
+          onRegionChangeComplete={region => this.onRegionChanged(region)}
+          region={this.state.region}
         >
           {this.state.data.map((polygon, key) => (
             <MapView.Polygon
               key={`${polygon.properties.iso3}-${key}`}
               coordinates={getGoogleMapsCoordinates(polygon.geometry.coordinates[0][0])}
-              strokeColor={'#97be32'}
-              fillColor={'rgba(151, 190, 49, 0.5)'}
+              strokeColor={!polygon.selected ? '#97be32': '#FFFFFF'}
+              fillColor={!polygon.selected ? 'rgba(151, 190, 49, 0.5)' : 'rgba(255, 255, 255, 0.5)'}
               strokeWidth={2}
-              onPress={this.onProtectedArea}
+              onPress={() => this.onProtectedArea(polygon)}
             />
           ))}
         </MapView>
