@@ -21,9 +21,20 @@ function renderLoading() {
   );
 }
 
+function getCurrentCountry(countries, iso) {
+  for (let i = 0, length = countries.length; i < length; i++) {
+    if (countries[i].iso === iso) {
+      return {
+        label: countries[i].name,
+        id: iso
+      };
+    }
+  }
+  return { label: '', id: iso };
+}
+
 class SetupCountry extends Component {
   componentDidMount() {
-    this.props.showNavHeader(false);
     if (!this.props.user) {
       this.props.getUser();
     }
@@ -33,25 +44,28 @@ class SetupCountry extends Component {
   }
 
   onNext() {
-    this.props.showNavHeader(true);
     this.props.navigateBack();
   }
 
   render() {
-    return (
-      this.props.user && this.props.countries
-      ?
+    const { user, countries, setupCountry } = this.props;
+    if (user && countries && countries.length) {
+      console.log(setupCountry.iso || user.country);
+      const current = getCurrentCountry(countries, setupCountry.iso || user.country);
+      return (
         <View style={styles.container}>
           <Text style={styles.title}>Set up</Text>
           <View style={styles.content}>
-            <Text style={styles.text}>Hi {this.props.user.fullName},</Text>
+            <Text style={styles.text}>Hi {user.fullName},</Text>
             <Text style={styles.text}>please set up an area</Text>
           </View>
 
           <View style={styles.selector}>
             <Text style={styles.selectorLabel}>First, select your country of interest</Text>
             <SearchSelector
-              data={this.props.countries}
+              selected={current}
+              onOptionSelected={(country) => { this.props.setSetupCountry(country); }}
+              data={countries}
               placeholder={'Search for a country'}
             />
           </View>
@@ -65,18 +79,19 @@ class SetupCountry extends Component {
             <Text style={styles.buttonText}>NEXT</Text>
           </TouchableHighlight>
         </View>
-      :
-        renderLoading()
-    );
+      );
+    }
+    return renderLoading();
   }
 }
 
 SetupCountry.propTypes = {
   user: React.PropTypes.any,
+  setupCountry: React.PropTypes.any,
   countries: React.PropTypes.any,
   getUser: React.PropTypes.func.isRequired,
   getCountries: React.PropTypes.func.isRequired,
-  showNavHeader: React.PropTypes.func.isRequired,
+  setSetupCountry: React.PropTypes.func.isRequired,
   navigateBack: React.PropTypes.func.isRequired
 };
 

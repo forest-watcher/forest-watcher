@@ -18,7 +18,15 @@ export default StyleSheet.create({
   },
   modal: {
     flex: 1,
+    position: 'relative',
     backgroundColor: Theme.background.main
+  },
+  modalClose: {
+    width: 20,
+    height: 20,
+    position: 'absolute',
+    top: 150,
+    right: 8
   },
   search: {
     paddingTop: 44,
