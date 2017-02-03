@@ -1,9 +1,9 @@
 import React from 'react';
-import { AsyncStorage } from 'react-native';
+// import { AsyncStorage } from 'react-native';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { persistStore, autoRehydrate } from 'redux-persist';
+// import { persistStore, autoRehydrate } from 'redux-persist';
 
 import AppContainer from 'containers/app';
 import * as reducers from 'redux-modules';
@@ -18,16 +18,15 @@ const store = createStore(
   reducer,
   undefined,
   compose(
-    applyMiddleware(thunk),
-    autoRehydrate()
+    applyMiddleware(thunk)
   )
 );
 
 
 export default class App extends React.Component {
-  componentDidMount() {
-    persistStore(store, { storage: AsyncStorage });
-  }
+  // componentDidMount() {
+  //   persistStore(store, { storage: AsyncStorage });
+  // }
 
   render() {
     return (
