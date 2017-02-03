@@ -50,8 +50,8 @@ class SetupCountry extends Component {
   render() {
     const { user, countries, setupCountry } = this.props;
     if (user && countries && countries.length) {
-      console.log(setupCountry.iso || user.country);
-      const current = getCurrentCountry(countries, setupCountry.iso || user.country);
+      const iso = setupCountry.iso || user.country;
+      const current = getCurrentCountry(countries, iso);
       return (
         <View style={styles.container}>
           <Text style={styles.title}>Set up</Text>

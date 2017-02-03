@@ -12,10 +12,13 @@ import {
 import Theme from 'config/theme';
 import styles from './styles';
 
+const searchImage = require('assets/search.png');
+const closeImage = require('assets/close.png');
+
 function getFilteredData(data, filter) {
   if (!filter) return data;
   const filterUpper = filter.toUpperCase();
-  return data.filter((item) => item.name.toUpperCase().indexOf(filterUpper) > -1 );
+  return data.filter((item) => item.name.toUpperCase().indexOf(filterUpper) > -1);
 }
 
 class SearchSelector extends Component {
@@ -26,9 +29,10 @@ class SearchSelector extends Component {
       showList: false,
       searchValue: ''
     };
+    this.onFilterChange = this.onFilterChange.bind(this);
   }
 
-  onFilterChange = (text) => {
+  onFilterChange(text) {
     this.setState({ searchValue: text });
   }
 
@@ -54,15 +58,16 @@ class SearchSelector extends Component {
   render() {
     return (
       <View>
-        <View style={styles.searchBox}>
-          <TouchableHighlight
-            onPress={() => this.setListVisibility(true)}
-            activeOpacity={0.5}
-            underlayColor="transparent"
-          >
+        <TouchableHighlight
+          onPress={() => this.setListVisibility(true)}
+          activeOpacity={0.5}
+          underlayColor="transparent"
+        >
+          <View style={styles.searchContainer}>
             <Text style={styles.searchText}>{this.props.selected.label}</Text>
-          </TouchableHighlight>
-        </View>
+            <Image style={Theme.icon} source={searchImage} />
+          </View>
+        </TouchableHighlight>
         <Modal
           animationType={'slide'}
           transparent={false}
@@ -70,14 +75,6 @@ class SearchSelector extends Component {
           onRequestClose={() => this.close()}
         >
           <View style={styles.modal}>
-            <TouchableHighlight
-              style={styles.closeButton}
-              onPress={() => this.close()}
-              activeOpacity={0.5}
-              underlayColor="transparent"
-            >
-              <Image source={require('assets/close.png')} />
-            </TouchableHighlight>
             <View style={styles.search}>
               <TextInput
                 autoFocus
@@ -90,6 +87,14 @@ class SearchSelector extends Component {
                 selectionColor={Theme.colors.color1}
                 onChangeText={this.onFilterChange}
               />
+              <TouchableHighlight
+                style={styles.closeIcon}
+                onPress={() => this.close()}
+                activeOpacity={0.5}
+                underlayColor="transparent"
+              >
+                <Image style={Theme.icon} source={closeImage} />
+              </TouchableHighlight>
             </View>
             <ScrollView
               style={styles.list}
@@ -99,12 +104,12 @@ class SearchSelector extends Component {
             >
               {getFilteredData(this.props.data, this.state.searchValue).map((item, key) =>
                 (<Text
-                    key={key}
-                    style={styles.listItem}
-                    onPress={() => this.onOptionSelected(item)}
-                  >
-                    {item.name}
-                  </Text>)
+                  key={key}
+                  style={styles.listItem}
+                  onPress={() => this.onOptionSelected(item)}
+                >
+                  {item.name}
+                </Text>)
               )}
             </ScrollView>
           </View>
@@ -120,6 +125,7 @@ SearchSelector.propTypes = {
     id: React.PropTypes.string
   }).isRequired,
   placeholder: React.PropTypes.string.isRequired,
+  onOptionSelected: React.PropTypes.func.isRequired,
   data: React.PropTypes.array.isRequired
 };
 

@@ -38,12 +38,20 @@ const config = {
     white: colors.color5
   },
   margin: {
-    left: 24
+    left: 24,
+    right: 16
   },
   socialNetworks: {
     facebook: '#3b5998',
     twitter: '#00aced',
     google: '#ea4335'
+  },
+  icon: {
+    width: 48,
+    height: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+    resizeMode: 'center'
   }
 };
 
