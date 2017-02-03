@@ -65,14 +65,14 @@ class ProtectedAreas extends Component {
     });
 
     this.setState({
-      data: areas
-      // region: this.region
+      data: areas,
+      region: this.region
     }, () => {
-      const coordinates = JSON.parse(areaSelected.properties.centroid).coordinates;
-      this.map.animateToCoordinate({
-        latitude: coordinates[1],
-        longitude: coordinates[0]
-      }, 10);
+      const boundaries = JSON.parse(areaSelected.properties.boundaries).coordinates[0];
+      this.map.fitToCoordinates(getGoogleMapsCoordinates(boundaries), {
+        edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
+        animated: true
+      });
     });
   }
 
@@ -86,7 +86,8 @@ class ProtectedAreas extends Component {
       : '';
     const url = `${Config.CARTO_URL}?q=
       SELECT the_geom, cartodb_id, iucn_cat, iso3,
-      ST_AsGeoJSON(ST_Centroid(the_geom)) as centroid
+      ST_AsGeoJSON(ST_Centroid(the_geom)) as centroid,
+      ST_AsGeoJSON(ST_Envelope(the_geom)) as boundaries
       FROM wdpa_protected_areas ${filter} LIMIT 10&format=geojson`;
 
     fetch(url)
@@ -125,6 +126,11 @@ class ProtectedAreas extends Component {
         visible={this.props.visible}
         onRequestClose={() => this.onOptionSelected()}
       >
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>
+            Select a protected area
+          </Text>
+        </View>
         <MapView
           ref={(ref) => { this.map = ref; }}
           style={styles.map}
@@ -138,7 +144,7 @@ class ProtectedAreas extends Component {
             <MapView.Polygon
               key={`${polygon.properties.iso3}-${key}`}
               coordinates={getGoogleMapsCoordinates(polygon.geometry.coordinates[0][0])}
-              strokeColor={!polygon.selected ? '#97be32': '#FFFFFF'}
+              strokeColor={!polygon.selected ? '#97be32' : '#FFFFFF'}
               fillColor={!polygon.selected ? 'rgba(151, 190, 49, 0.5)' : 'rgba(255, 255, 255, 0.5)'}
               strokeWidth={2}
               onPress={() => this.onProtectedArea(polygon)}
