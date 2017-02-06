@@ -5,14 +5,13 @@ import {
   StatusBar
 } from 'react-native';
 
-import Header from 'containers/common/header';
+import { AppNavigator } from 'app/main';
+import { addNavigationHelpers } from 'react-navigation';
+
 import Login from 'containers/login';
 import { getToken, setToken, getSetupStatus } from 'helpers/user';
 import styles from './styles';
 import Theme from 'config/theme';
-
-import { AppNavigator } from 'app/main.js';
-import { addNavigationHelpers } from 'react-navigation';
 
 function renderLoading() {
   return (
@@ -94,7 +93,7 @@ class App extends Component {
       this.state.loading
         ? renderLoading()
         : <View style={styles.mainContainer}>
-          <AppNavigator navigation={addNavigationHelpers({ dispatch, state: navigation })}/>
+          <AppNavigator navigation={addNavigationHelpers({ dispatch, state: navigation })} />
           <Login />
         </View>
     );
@@ -103,8 +102,8 @@ class App extends Component {
 
 App.propTypes = {
   navigation: React.PropTypes.object.isRequired,
-  navigate: React.PropTypes.func.isRequired,
-  navigateBack: React.PropTypes.func.isRequired
+  setLoginModal: React.PropTypes.func.isRequired,
+  dispatch: React.PropTypes.func.isRequired
 };
 
 export default App;
