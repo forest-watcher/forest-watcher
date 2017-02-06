@@ -5,7 +5,7 @@ import {
   Text,
   Dimensions,
   InteractionManager,
-  StatusBar
+  Image
 } from 'react-native';
 
 import Config from 'react-native-config';
@@ -127,6 +127,10 @@ class ProtectedAreas extends Component {
         onRequestClose={() => this.onOptionSelected()}
       >
         <View style={styles.header}>
+          <Image
+            style={styles.headerBg}
+            source={require('assets/map_bg_gradient.png')}
+          />
           <Text style={styles.headerTitle}>
             Select a protected area
           </Text>
