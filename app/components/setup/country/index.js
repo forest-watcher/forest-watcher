@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  ActivityIndicator,
-  TouchableHighlight
+  ActivityIndicator
 } from 'react-native';
 
 import SearchSelector from 'components/common/search-selector';
-import Theme from 'config/theme';
 import styles from './styles';
+import NextButton from '../next-button';
 
 function renderLoading() {
   return (
@@ -43,10 +42,6 @@ class SetupCountry extends Component {
     }
   }
 
-  onNext() {
-    this.props.navigateBack();
-  }
-
   render() {
     const { user, countries, setupCountry } = this.props;
     if (user && countries && countries.length) {
@@ -54,7 +49,6 @@ class SetupCountry extends Component {
       const current = getCurrentCountry(countries, iso);
       return (
         <View style={styles.container}>
-          <Text style={styles.title}>Set up</Text>
           <View style={styles.content}>
             <Text style={styles.text}>Hi {user.fullName},</Text>
             <Text style={styles.text}>please set up an area</Text>
@@ -70,14 +64,7 @@ class SetupCountry extends Component {
             />
           </View>
 
-          <TouchableHighlight
-            style={styles.button}
-            onPress={() => this.onNext()}
-            activeOpacity={0.8}
-            underlayColor={Theme.background.secondary}
-          >
-            <Text style={styles.buttonText}>NEXT</Text>
-          </TouchableHighlight>
+          <NextButton onPress={this.props.onNextClick} text="NEXT" />
         </View>
       );
     }
@@ -92,7 +79,7 @@ SetupCountry.propTypes = {
   getUser: React.PropTypes.func.isRequired,
   getCountries: React.PropTypes.func.isRequired,
   setSetupCountry: React.PropTypes.func.isRequired,
-  navigateBack: React.PropTypes.func.isRequired
+  onNextClick: React.PropTypes.func.isRequired
 };
 
 export default SetupCountry;

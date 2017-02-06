@@ -8,6 +8,7 @@ import {
 import ProtectedAreas from 'components/common/protected-areas';
 import Theme from 'config/theme';
 import styles from './styles';
+import NextButton from '../next-button';
 
 class SetupBoundaries extends Component {
   constructor() {
@@ -20,28 +21,24 @@ class SetupBoundaries extends Component {
   onShowProtectedAreas() {
     this.setState({ showProtectedAreas: true });
   }
-  onNext() {
-
-  }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Set up</Text>
 
         <View style={styles.selector}>
           <Text style={styles.selectorLabel}>Now, choose the boundaries</Text>
 
           <View style={styles.actions}>
             <TouchableHighlight
-              style={styles.button}
+              style={styles.section}
               onPress={() => this.onShowProtectedAreas()}
               activeOpacity={0.8}
               underlayColor={Theme.background.white}
             >
-              <View style={styles.buttonTextContainer}>
+              <View style={styles.sectionTextContainer}>
                 <Text
-                  style={styles.buttonText}
+                  style={styles.sectionText}
                   numberOfLines={2}
                 >
                   Select a protected area
@@ -50,14 +47,14 @@ class SetupBoundaries extends Component {
             </TouchableHighlight>
 
             <TouchableHighlight
-              style={styles.button}
+              style={styles.section}
               onPress={() => this.onNext()}
               activeOpacity={0.8}
               underlayColor={Theme.background.white}
             >
-              <View style={styles.buttonTextContainer}>
+              <View style={styles.sectionTextContainer}>
                 <Text
-                  style={styles.buttonText}
+                  style={styles.sectionText}
                   numberOfLines={2}
                 >
                   Draw an area
@@ -70,12 +67,15 @@ class SetupBoundaries extends Component {
           iso={'VEN'}
           visible={this.state.showProtectedAreas}
         />
+
+        <NextButton onPress={this.props.onNextClick} text="NEXT" />
       </View>
     );
   }
 }
 
 SetupBoundaries.propTypes = {
+  onNextClick: React.PropTypes.func.isRequired
 };
 
 export default SetupBoundaries;
