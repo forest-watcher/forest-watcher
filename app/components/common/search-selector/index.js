@@ -4,6 +4,7 @@ import {
   Text,
   TouchableHighlight,
   Modal,
+  Image,
   ScrollView,
   TextInput
 } from 'react-native';
@@ -11,57 +12,89 @@ import {
 import Theme from 'config/theme';
 import styles from './styles';
 
+const searchImage = require('assets/search.png');
+const closeImage = require('assets/close.png');
+
+function getFilteredData(data, filter) {
+  if (!filter) return data;
+  const filterUpper = filter.toUpperCase();
+  return data.filter((item) => item.name.toUpperCase().indexOf(filterUpper) > -1);
+}
+
 class SearchSelector extends Component {
   constructor() {
     super();
 
     this.state = {
-      list: false,
+      showList: false,
       searchValue: ''
     };
+    this.onFilterChange = this.onFilterChange.bind(this);
   }
 
-  onOptionSelected() {
+  onFilterChange(text) {
+    this.setState({ searchValue: text });
   }
 
-  showList() {
-    this.setState({ list: true });
+  onOptionSelected(country) {
+    this.props.onOptionSelected({
+      name: country.name,
+      iso: country.iso
+    });
+    this.close();
   }
 
-  hideList() {
-    this.setState({ list: false });
+  setListVisibility(status) {
+    this.setState({ showList: status });
+  }
+
+  close() {
+    this.setState({
+      showList: false,
+      searchValue: ''
+    });
   }
 
   render() {
     return (
       <View>
-        <View style={styles.searchBox}>
-          <TouchableHighlight
-            onPress={() => this.showList()}
-            activeOpacity={0.5}
-            underlayColor="transparent"
-          >
-            <Text style={styles.searchText}>Brazil</Text>
-          </TouchableHighlight>
-        </View>
+        <TouchableHighlight
+          onPress={() => this.setListVisibility(true)}
+          activeOpacity={0.5}
+          underlayColor="transparent"
+        >
+          <View style={styles.searchContainer}>
+            <Text style={styles.searchText}>{this.props.selected.label}</Text>
+            <Image style={Theme.icon} source={searchImage} />
+          </View>
+        </TouchableHighlight>
         <Modal
           animationType={'slide'}
           transparent={false}
-          visible={this.state.list}
-          onRequestClose={() => this.onOptionSelected()}
+          visible={this.state.showList}
+          onRequestClose={() => this.close()}
         >
           <View style={styles.modal}>
             <View style={styles.search}>
               <TextInput
-                value={this.state.inputValue}
+                autoFocus
                 autoCapitalize="none"
-                placeholder={this.props.placeholder}
                 autoCorrect={false}
+                value={this.state.inputValue}
+                placeholder={this.props.placeholder}
                 style={styles.searchInput}
                 placeholderTextColor={Theme.fontColors.light}
                 selectionColor={Theme.colors.color1}
-                autoFocus
+                onChangeText={this.onFilterChange}
               />
+              <TouchableHighlight
+                style={styles.closeIcon}
+                onPress={() => this.close()}
+                activeOpacity={0.5}
+                underlayColor="transparent"
+              >
+                <Image style={Theme.icon} source={closeImage} />
+              </TouchableHighlight>
             </View>
             <ScrollView
               style={styles.list}
@@ -69,19 +102,16 @@ class SearchSelector extends Component {
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
             >
-              {this.props.data.map((item, key) =>
-                (
-                  <Text style={styles.listItem} key={key}>{item.name}</Text>
-                )
+              {getFilteredData(this.props.data, this.state.searchValue).map((item, key) =>
+                (<Text
+                  key={key}
+                  style={styles.listItem}
+                  onPress={() => this.onOptionSelected(item)}
+                >
+                  {item.name}
+                </Text>)
               )}
             </ScrollView>
-            <TouchableHighlight
-              onPress={() => this.hideList()}
-              activeOpacity={0.5}
-              underlayColor="transparent"
-            >
-              <Text style={styles.searchText}>Close</Text>
-            </TouchableHighlight>
           </View>
         </Modal>
       </View>
@@ -90,7 +120,12 @@ class SearchSelector extends Component {
 }
 
 SearchSelector.propTypes = {
+  selected: React.PropTypes.shape({
+    label: React.PropTypes.string,
+    id: React.PropTypes.string
+  }).isRequired,
   placeholder: React.PropTypes.string.isRequired,
+  onOptionSelected: React.PropTypes.func.isRequired,
   data: React.PropTypes.array.isRequired
 };
 

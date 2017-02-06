@@ -1,4 +1,4 @@
-import { AppNavigator } from 'app/main.js';
+import { AppNavigator } from 'app/main';
 
 // Actions
 const NAV_PUSH = 'navigation/NAV_PUSH';

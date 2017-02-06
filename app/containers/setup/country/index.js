@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
-import { navigatePush, navigatePop, showNavHeader } from 'redux-modules/navigation';
+import { navigatePush, navigatePop } from 'redux-modules/navigation';
 import { getUser } from 'redux-modules/user';
+import { setSetupCountry } from 'redux-modules/setup';
 import { getCountries } from 'redux-modules/countries';
 
 import SetupCountry from 'components/setup/country';
@@ -8,6 +9,7 @@ import SetupCountry from 'components/setup/country';
 function mapStateToProps(state) {
   return {
     user: state.user.data,
+    setupCountry: state.setup.country,
     countries: state.countries.data
   };
 }
@@ -26,8 +28,8 @@ function mapDispatchToProps(dispatch) {
     getCountries: (action) => {
       dispatch(getCountries(action));
     },
-    showNavHeader: (action) => {
-      dispatch(showNavHeader(action));
+    setSetupCountry: (country) => {
+      dispatch(setSetupCountry(country));
     }
   };
 }
