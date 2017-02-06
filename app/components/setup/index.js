@@ -1,57 +1,92 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text
 } from 'react-native';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import Theme from 'config/theme';
-import AppIntro from 'react-native-app-intro';
+import Header from './header';
 import SetupCountry from 'containers/setup/country';
 import SetupBoundaries from 'components/setup/boundaries';
+import SetupOverView from 'components/setup/overview';
 import styles from './styles';
 
-function Setup() {
-  return (
-    <AppIntro
-      dotColor={Theme.background.white}
-      activeDotColor={Theme.background.secondary}
-      nextBtnLabel={''}
-      doneBtnLabel={''}
-      customStyles={{
-        activeDotStyle: {
-          width: 12,
-          height: 12,
-          borderWidth: 0
-        },
-        dotStyle: {
-          width: 11,
-          height: 11,
-          borderWidth: 2,
-          borderColor: Theme.colors.color6
-        },
-        paginationContainer: {
-          bottom: 0
-        }
-      }}
-      showSkipButton={false}
-    >
-      <View style={styles.container}>
-        <SetupCountry />
-      </View>
-      <View style={styles.container}>
-        <SetupBoundaries />
-      </View>
-      <View style={[styles.slide, { backgroundColor: '#a4b602' }]}>
-        <View level={10}><Text style={styles.text}>Page 2</Text></View>
-      </View>
-    </AppIntro>
-  );
+function Dot(active) {
+  const dotStyle = active ? [styles.dot, styles.activeDot] : styles.dot;
+  return <View style={dotStyle} />;
 }
 
-Setup.propTypes = {
-  user: React.PropTypes.any,
-  countries: React.PropTypes.any,
-  showNavHeader: React.PropTypes.func.isRequired
+class Setup extends Component {
+  constructor() {
+    super();
+    this.state = {
+      page: 0,
+      locked: true
+    };
+  }
+
+  updatePage = (slide) => {
+    this.setState({
+      page: slide.i
+    });
+  }
+
+  handleScroll = (pos) => {
+    this.setState((prevState) => ({
+      locked: pos > prevState.page,
+      page: prevState.page
+    }));
+  }
+
+  goToPrevPage = () => {
+    this.setState((prevState) => ({
+      page: prevState.page - 1
+    }));
+  }
+
+  goToNextPage = () => {
+    this.setState((prevState) => {
+      const newPage = prevState.page + 1;
+      return {
+        page: newPage,
+        locked: newPage > 0
+      };
+    });
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Header
+          title="Set up"
+          showBack={this.state.page > 0}
+          onBackPress={this.goToPrevPage}
+          prerenderingSiblingsNumber={3}
+        />
+        <ScrollableTabView
+          page={this.state.page}
+          locked={this.state.locked}
+          onChangeTab={this.updatePage}
+          onScroll={this.handleScroll}
+          renderTabBar={() => <View />}
+          tabBarPosition="overlayBottom"
+        >
+          <SetupCountry onNextClick={this.goToNextPage} />
+          <SetupBoundaries onNextClick={this.goToNextPage} />
+          <SetupOverView onNextClick={this.goToNextPage} />
+        </ScrollableTabView>
+      </View>
+    );
+  }
+}
+
+Setup.propTypes = {};
+
+Setup.navigationOptions = {
+  header: {
+    visible: false
+  }
 };
 
 export default Setup;

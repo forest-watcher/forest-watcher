@@ -10,14 +10,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  title: {
-    fontFamily: Theme.font,
-    color: Theme.fontColors.main,
-    fontSize: 21,
-    fontWeight: '400',
-    marginTop: 45,
-    marginLeft: Theme.margin.left
-  },
   content: {
     marginTop: 26,
     marginLeft: Theme.margin.left
@@ -42,7 +34,7 @@ export default StyleSheet.create({
     alignItems: 'flex-start',
     flexDirection: 'row'
   },
-  button: {
+  section: {
     width: (Theme.screen.width / 2) - 12,
     height: 184,
     marginLeft: 8,
@@ -53,19 +45,36 @@ export default StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center'
   },
-  buttonTextContainer: {
+  sectionTextContainer: {
     width: 116,
     height: 48,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 10
   },
-  buttonText: {
+  sectionText: {
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
     fontSize: 17,
     fontWeight: '400',
     lineHeight: 21,
     textAlign: 'center'
+  },
+  button: {
+    height: 64,
+    position: 'absolute',
+    bottom: 50,
+    left: 8,
+    right: 8,
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Theme.colors.color1
+  },
+  buttonText: {
+    color: Theme.fontColors.white,
+    fontFamily: Theme.font,
+    fontSize: 15,
+    fontWeight: '500'
   }
 });

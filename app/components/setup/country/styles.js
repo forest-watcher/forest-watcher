@@ -10,14 +10,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  title: {
-    fontFamily: Theme.font,
-    color: Theme.fontColors.main,
-    fontSize: 21,
-    fontWeight: '400',
-    marginTop: 45,
-    marginLeft: Theme.margin.left
-  },
   content: {
     marginTop: 26,
     marginLeft: Theme.margin.left
