@@ -52,6 +52,12 @@ const config = {
     alignItems: 'center',
     justifyContent: 'center',
     resizeMode: 'center'
+  },
+  polygon: {
+    fill: 'rgba(151, 190, 49, 0.5)',
+    fillSelected: 'rgba(255, 255, 255, 0.5)',
+    stroke: '#97be32',
+    strokeSelected: '#FFFFFF'
   }
 };
 

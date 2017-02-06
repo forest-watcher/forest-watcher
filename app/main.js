@@ -25,6 +25,7 @@ const store = createStore(
 
 // Add `autoRehydrate()`  in the compose once redux-persist works on Android
 
+console.disableYellowBox = true;
 
 export default class App extends React.Component {
   // componentDidMount() {

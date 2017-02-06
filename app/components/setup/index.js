@@ -7,7 +7,7 @@ import {
 import Theme from 'config/theme';
 import AppIntro from 'react-native-app-intro';
 import SetupCountry from 'containers/setup/country';
-import SetupBoundaries from 'components/setup/boundaries';
+import SetupBoundaries from 'containers/setup/boundaries';
 import styles from './styles';
 
 class Setup extends Component {
@@ -16,7 +16,7 @@ class Setup extends Component {
       visible: false
     }
   }
-  
+
   render() {
     return (
       <SetupBoundaries />

@@ -27,6 +27,7 @@ class SetupBoundaries extends Component {
   onShowProtectedAreas() {
     this.setState({ showProtectedAreas: true });
   }
+  
   onNext() {
 
   }
@@ -90,6 +91,7 @@ class SetupBoundaries extends Component {
         <ProtectedAreas
           iso={'VEN'}
           visible={this.state.showProtectedAreas}
+          onAreaSelected={(area) => { this.props.setSetupWdpaid(area); }}
         />
       </View>
     );
@@ -97,6 +99,7 @@ class SetupBoundaries extends Component {
 }
 
 SetupBoundaries.propTypes = {
+  setSetupWdpaid: React.PropTypes.func.isRequired
 };
 
 export default SetupBoundaries;
