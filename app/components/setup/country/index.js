@@ -42,11 +42,19 @@ class SetupCountry extends Component {
     }
   }
 
+  onNextPress = () => {¡
+    const { setupCountry } = this.props;
+    if (!setupCountry.iso) {
+      this.props.setSetupCountry(this.currentCountry);
+    }
+    this.props.onNextPress();
+  }
+
   render() {
     const { user, countries, setupCountry } = this.props;
     if (user && countries && countries.length) {
       const iso = setupCountry.iso || user.country;
-      const current = getCurrentCountry(countries, iso);
+      this.currentCountry = getCurrentCountry(countries, iso);
       return (
         <View style={styles.container}>
           <View style={styles.content}>
@@ -57,14 +65,14 @@ class SetupCountry extends Component {
           <View style={styles.selector}>
             <Text style={styles.selectorLabel}>First, select your country of interest</Text>
             <SearchSelector
-              selected={current}
+              selected={this.currentCountry}
               onOptionSelected={(country) => { this.props.setSetupCountry(country); }}
               data={countries}
               placeholder={'Search for a country'}
             />
           </View>
 
-          <NextButton onPress={this.props.onNextClick} text="NEXT" />
+          <NextButton onPress={this.onNextPress} text="NEXT" />
         </View>
       );
     }
@@ -79,7 +87,7 @@ SetupCountry.propTypes = {
   getUser: React.PropTypes.func.isRequired,
   getCountries: React.PropTypes.func.isRequired,
   setSetupCountry: React.PropTypes.func.isRequired,
-  onNextClick: React.PropTypes.func.isRequired
+  onNextPress: React.PropTypes.func.isRequired
 };
 
 export default SetupCountry;

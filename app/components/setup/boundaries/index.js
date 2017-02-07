@@ -8,7 +8,6 @@ import {
 import ProtectedAreas from 'components/common/protected-areas';
 import Theme from 'config/theme';
 import styles from './styles';
-import NextButton from '../next-button';
 
 class SetupBoundaries extends Component {
   constructor() {
@@ -67,15 +66,12 @@ class SetupBoundaries extends Component {
           iso={'VEN'}
           visible={this.state.showProtectedAreas}
         />
-
-        <NextButton onPress={this.props.onNextClick} text="NEXT" />
       </View>
     );
   }
 }
 
 SetupBoundaries.propTypes = {
-  onNextClick: React.PropTypes.func.isRequired
 };
 
 export default SetupBoundaries;

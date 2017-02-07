@@ -15,13 +15,13 @@ function SetupOverview(props) {
         <Text style={styles.selectorLabel}>Name the area</Text>
       </View>
 
-      <NextButton onPress={props.onNextClick} text="FINISH" />
+      <NextButton onPress={props.onNextPress} text="FINISH" />
     </View>
   );
 }
 
 SetupOverview.propTypes = {
-  onNextClick: React.PropTypes.func.isRequired
+  onNextPress: React.PropTypes.func.isRequired
 };
 
 export default SetupOverview;

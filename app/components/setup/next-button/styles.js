@@ -16,6 +16,9 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  buttonDisabled: {
+    backgroundColor: Theme.colors.color6
+  },
   buttonText: {
     flex: 1,
     marginLeft: Theme.icon.width,
