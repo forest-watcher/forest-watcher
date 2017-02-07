@@ -20,5 +20,11 @@ export default StyleSheet.create({
         marginBottom: 6
       }
     })
+  },
+  button: {
+    position: 'absolute',
+    bottom: 50,
+    left: 8,
+    right: 8
   }
 });

@@ -31,6 +31,7 @@ export default class App extends React.Component {
   state = {
     rehydrated: false
   }
+
   componentWillMount() {
     persistStore(store, { storage: AsyncStorage }, () => {
       this.setState({ rehydrated: true });

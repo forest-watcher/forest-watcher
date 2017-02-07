@@ -3,21 +3,20 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    position: 'absolute',
-    bottom: 50,
-    left: 8,
-    right: 8,
     borderRadius: 100,
-    backgroundColor: Theme.colors.color1
+    backgroundColor: Theme.background.secondary
+  },
+  light: {
+    backgroundColor: Theme.background.white
+  },
+  disabled: {
+    backgroundColor: Theme.colors.color6
   },
   button: {
     height: 64,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center'
-  },
-  buttonDisabled: {
-    backgroundColor: Theme.colors.color6
   },
   buttonText: {
     flex: 1,
@@ -27,5 +26,8 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     fontSize: 15,
     fontWeight: '500'
+  },
+  buttonTextLight: {
+    color: Theme.fontColors.main
   }
 });

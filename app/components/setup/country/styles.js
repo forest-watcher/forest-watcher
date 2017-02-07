@@ -52,5 +52,11 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     fontSize: 15,
     fontWeight: '500'
+  },
+  buttonPos: {
+    position: 'absolute',
+    bottom: 50,
+    left: 8,
+    right: 8
   }
 });

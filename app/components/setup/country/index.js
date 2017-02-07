@@ -6,8 +6,8 @@ import {
 } from 'react-native';
 
 import SearchSelector from 'components/common/search-selector';
+import ActionButton from 'components/common/action-button';
 import styles from './styles';
-import NextButton from '../next-button';
 
 function renderLoading() {
   return (
@@ -72,7 +72,7 @@ class SetupCountry extends Component {
             />
           </View>
 
-          <NextButton disabled={!iso} onPress={this.onNextPress} text="NEXT" />
+          <ActionButton style={styles.buttonPos} disabled={!iso} onPress={this.onNextPress} text="NEXT" />
         </View>
       );
     }

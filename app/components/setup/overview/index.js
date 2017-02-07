@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import styles from './styles';
-import NextButton from '../next-button';
+import ActionButton from 'components/common/action-button';
 
 function SetupOverview(props) {
   return (
@@ -15,7 +15,7 @@ function SetupOverview(props) {
         <Text style={styles.selectorLabel}>Name the area</Text>
       </View>
 
-      <NextButton onPress={props.onNextPress} text="FINISH" />
+      <ActionButton style={styles.button} onPress={props.onNextPress} text="FINISH" />
     </View>
   );
 }
