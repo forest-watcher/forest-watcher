@@ -6,7 +6,8 @@ import {
   Image
 } from 'react-native';
 
-import ProtectedAreas from 'components/common/protected-areas';
+import MapModal from 'components/common/map-modal';
+import ProtectedAreas from 'components/setup/protected-areas';
 import Theme from 'config/theme';
 import styles from './styles';
 
@@ -27,7 +28,7 @@ class SetupBoundaries extends Component {
   onShowProtectedAreas() {
     this.setState({ showProtectedAreas: true });
   }
-  
+
   onNext() {
 
   }
@@ -88,18 +89,23 @@ class SetupBoundaries extends Component {
             </TouchableHighlight>
           </View>
         </View>
-        <ProtectedAreas
-          iso={'VEN'}
+        <MapModal
           visible={this.state.showProtectedAreas}
-          onAreaSelected={(area) => { this.props.setSetupWdpaid(area); }}
-        />
+          onClosePress={() => this.setState({ showProtectedAreas: false })}
+        >
+          <ProtectedAreas
+            country={this.props.setupCountry}
+            onAreaSelected={(area) => { this.props.setSetupWdpaid(area); }}
+          />
+        </MapModal>
       </View>
     );
   }
 }
 
 SetupBoundaries.propTypes = {
-  setSetupWdpaid: React.PropTypes.func.isRequired
+  setSetupWdpaid: React.PropTypes.func.isRequired,
+  setupCountry: React.PropTypes.func.isRequired
 };
 
 export default SetupBoundaries;

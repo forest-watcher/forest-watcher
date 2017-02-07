@@ -26,7 +26,9 @@ function getCurrentCountry(countries, iso) {
     if (countries[i].iso === iso) {
       return {
         label: countries[i].name,
-        id: iso
+        id: iso,
+        centroid: countries[i].centroid,
+        bbox: countries[i].bbox
       };
     }
   }
