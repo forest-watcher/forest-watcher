@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { setSetupWdpaid } from 'redux-modules/setup';
+import { setSetupWdpaid, setSetupDrawedArea } from 'redux-modules/setup';
 
 import SetupBoundaries from 'components/setup/boundaries';
 
@@ -15,6 +15,9 @@ function mapDispatchToProps(dispatch) {
   return {
     setSetupWdpaid: (area) => {
       dispatch(setSetupWdpaid(area));
+    },
+    setSetupDrawedArea: (area) => {
+      dispatch(setSetupDrawedArea(area));
     }
   };
 }

@@ -104,6 +104,7 @@ class ProtectedAreas extends Component {
       .then(response => response.json())
       .then((responseData) => {
         this.setBoundaries();
+        console.log(responseData.features);
         this.setState({
           data: responseData.features,
           loaded: true

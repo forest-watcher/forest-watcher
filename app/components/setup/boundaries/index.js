@@ -8,6 +8,7 @@ import {
 
 import MapModal from 'components/common/map-modal';
 import ProtectedAreas from 'components/setup/protected-areas';
+import DrawAreas from 'components/setup/draw-areas';
 import Theme from 'config/theme';
 import styles from './styles';
 
@@ -21,12 +22,26 @@ class SetupBoundaries extends Component {
   constructor() {
     super();
     this.state = {
-      showProtectedAreas: false
+      showProtectedAreas: false,
+      showDrawAreas: false
     };
   }
 
-  onShowProtectedAreas() {
-    this.setState({ showProtectedAreas: true });
+  onAreaSelected = (area) => {
+    this.props.setSetupWdpaid(area);
+    this.setDrawAreasStatus(false);
+  }
+
+  onAreaDrawed = (area) => {
+    this.props.setSetupDrawedArea(area);
+    this.setDrawAreasStatus(false);
+  }
+
+  setProtectedAreasStatus(status) {
+    this.setState({ showProtectedAreas: status });
+  }
+  setDrawAreasStatus(status) {
+    this.setState({ showDrawAreas: status });
   }
 
   render() {
@@ -38,7 +53,7 @@ class SetupBoundaries extends Component {
           <View style={styles.actions}>
             <TouchableHighlight
               style={styles.section}
-              onPress={() => this.onShowProtectedAreas()}
+              onPress={() => this.setProtectedAreasStatus(true)}
               activeOpacity={0.8}
               underlayColor={Theme.background.white}
             >
@@ -58,7 +73,7 @@ class SetupBoundaries extends Component {
 
             <TouchableHighlight
               style={styles.section}
-              onPress={this.props.onNextPress}
+              onPress={() => this.setDrawAreasStatus(true)}
               activeOpacity={0.8}
               underlayColor={Theme.background.white}
             >
@@ -77,15 +92,22 @@ class SetupBoundaries extends Component {
             </TouchableHighlight>
           </View>
         </View>
-        <MapModal
-          visible={this.state.showProtectedAreas}
-          onClosePress={() => this.setState({ showProtectedAreas: false })}
-        >
-          <ProtectedAreas
-            country={this.props.setupCountry}
-            onAreaSelected={(area) => { this.props.setSetupWdpaid(area); }}
-          />
-        </MapModal>
+        {this.state.showProtectedAreas &&
+          <MapModal visible onClosePress={() => this.setProtectedAreasStatus(false)}>
+            <ProtectedAreas
+              country={this.props.setupCountry}
+              onAreaSelected={this.onAreaSelected}
+            />
+          </MapModal>
+        }
+        {this.state.showDrawAreas &&
+          <MapModal visible onClosePress={() => this.setDrawAreasStatus(false)}>
+            <DrawAreas
+              country={this.props.setupCountry}
+              onAreaDrawed={this.onAreaDrawed}
+            />
+          </MapModal>
+        }
       </View>
     );
   }
@@ -93,6 +115,7 @@ class SetupBoundaries extends Component {
 
 SetupBoundaries.propTypes = {
   setSetupWdpaid: React.PropTypes.func.isRequired,
+  setSetupDrawedArea: React.PropTypes.func.isRequired,
   setupCountry: React.PropTypes.object.isRequired,
   onNextPress: React.PropTypes.func.isRequired
 };

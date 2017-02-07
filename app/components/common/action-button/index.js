@@ -12,7 +12,7 @@ import styles from './styles';
 const nextIcon = require('assets/next.png');
 const nextIconWhite = require('assets/next_white.png');
 
-function NextButton(props) {
+function ActionButton(props) {
   function onButtonPress() {
     if (!props.disabled) {
       props.onPress();
@@ -42,11 +42,11 @@ function NextButton(props) {
   );
 }
 
-NextButton.defaultProps = {
+ActionButton.defaultProps = {
   disabled: false
 };
 
-NextButton.propTypes = {
+ActionButton.propTypes = {
   light: React.PropTypes.bool,
   style: React.PropTypes.object,
   disabled: React.PropTypes.bool,
@@ -54,4 +54,4 @@ NextButton.propTypes = {
   onPress: React.PropTypes.func.isRequired
 };
 
-export default NextButton;
+export default ActionButton;
