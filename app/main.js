@@ -27,15 +27,20 @@ const store = createStore(
 // Disable ios warnings
 // console.disableYellowBox = true;
 
+const persistConfig = {
+  storage: AsyncStorage,
+  blacklist: ['navigation']
+};
+
 export default class App extends React.Component {
   state = {
     rehydrated: false
   }
 
   componentWillMount() {
-    persistStore(store, { storage: AsyncStorage }, () => {
+    persistStore(store, persistConfig, () => {
       this.setState({ rehydrated: true });
-    }).purge(['navigation']);
+    });
   }
 
   render() {
