@@ -9,9 +9,8 @@ import { AppNavigator } from 'app/main';
 import { addNavigationHelpers } from 'react-navigation';
 
 import Login from 'containers/login';
-import { getToken, setToken, getSetupStatus } from 'helpers/user';
+import { getToken, getSetupStatus } from 'helpers/user';
 import styles from './styles';
-import Theme from 'config/theme';
 
 function renderLoading() {
   return (
@@ -26,12 +25,6 @@ function renderLoading() {
 }
 
 class App extends Component {
-  static navigationOptions = {
-    header: {
-      visible: false
-    }
-  }
-
   constructor() {
     super();
 
@@ -42,11 +35,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    StatusBar.setBarStyle('dark-content', true);
-    // StatusBar.setTranslucent(true);
-    // StatusBar.setBarStyle('default', false);
-
-    // StatusBar.setBackgroundColor(Theme.background.main);
+    StatusBar.setBarStyle('default', true);
     this.checkBeforeRender();
   }
 
@@ -77,7 +66,6 @@ class App extends Component {
   }
 
   async checkBeforeRender() {
-    // setToken('');
     const userToken = await getToken();
 
     if (!userToken) {

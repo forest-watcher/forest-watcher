@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  ActivityIndicator,
-  TouchableHighlight
+  ActivityIndicator
 } from 'react-native';
 
 import SearchSelector from 'components/common/search-selector';
-import Theme from 'config/theme';
+import ActionButton from 'components/common/action-button';
 import styles from './styles';
 
 function renderLoading() {
@@ -45,18 +44,21 @@ class SetupCountry extends Component {
     }
   }
 
-  onNext() {
-    this.props.navigateBack();
+  onNextPress = () => {
+    const { setupCountry } = this.props;
+    if (!setupCountry.iso && this.currentCountry.iso) {
+      this.props.setSetupCountry(this.currentCountry);
+    }
+    this.props.onNextPress();
   }
 
   render() {
     const { user, countries, setupCountry } = this.props;
     if (user && countries && countries.length) {
       const iso = setupCountry.iso || user.country;
-      const current = getCurrentCountry(countries, iso);
+      this.currentCountry = getCurrentCountry(countries, iso);
       return (
         <View style={styles.container}>
-          <Text style={styles.title}>Set up</Text>
           <View style={styles.content}>
             <Text style={styles.text}>Hi {user.fullName},</Text>
             <Text style={styles.text}>please set up an area</Text>
@@ -65,21 +67,14 @@ class SetupCountry extends Component {
           <View style={styles.selector}>
             <Text style={styles.selectorLabel}>First, select your country of interest</Text>
             <SearchSelector
-              selected={current}
+              selected={this.currentCountry}
               onOptionSelected={(country) => { this.props.setSetupCountry(country); }}
               data={countries}
               placeholder={'Search for a country'}
             />
           </View>
 
-          <TouchableHighlight
-            style={styles.button}
-            onPress={() => this.onNext()}
-            activeOpacity={0.8}
-            underlayColor={Theme.background.secondary}
-          >
-            <Text style={styles.buttonText}>NEXT</Text>
-          </TouchableHighlight>
+          <ActionButton style={styles.buttonPos} disabled={!iso} onPress={this.onNextPress} text="NEXT" />
         </View>
       );
     }
@@ -94,7 +89,7 @@ SetupCountry.propTypes = {
   getUser: React.PropTypes.func.isRequired,
   getCountries: React.PropTypes.func.isRequired,
   setSetupCountry: React.PropTypes.func.isRequired,
-  navigateBack: React.PropTypes.func.isRequired
+  onNextPress: React.PropTypes.func.isRequired
 };
 
 export default SetupCountry;

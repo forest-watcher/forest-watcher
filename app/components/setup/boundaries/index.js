@@ -28,14 +28,18 @@ class SetupBoundaries extends Component {
   onShowProtectedAreas() {
     this.setState({ showProtectedAreas: true });
   }
+<<<<<<< HEAD
 
   onNext() {
 
   }
+=======
+>>>>>>> c7c8a423fbfd38bdf99e8b88155449fc79ff8c1f
 
   render() {
     return (
       <View style={styles.container}>
+<<<<<<< HEAD
         <View style={styles.header}>
           <Image
             style={styles.iconBack}
@@ -43,24 +47,30 @@ class SetupBoundaries extends Component {
           />
           <Text style={styles.title}>Set up</Text>
         </View>
+=======
+>>>>>>> c7c8a423fbfd38bdf99e8b88155449fc79ff8c1f
 
         <View style={styles.selector}>
           <Text style={styles.selectorLabel}>Now, choose the boundaries</Text>
 
           <View style={styles.actions}>
             <TouchableHighlight
-              style={styles.button}
+              style={styles.section}
               onPress={() => this.onShowProtectedAreas()}
               activeOpacity={0.8}
               underlayColor={Theme.background.white}
             >
+<<<<<<< HEAD
               <View style={styles.buttonContainer}>
                 <Image
                   style={styles.iconProtected}
                   source={require('assets/select_pa.png')}
                 />
+=======
+              <View style={styles.sectionTextContainer}>
+>>>>>>> c7c8a423fbfd38bdf99e8b88155449fc79ff8c1f
                 <Text
-                  style={styles.buttonText}
+                  style={styles.sectionText}
                   numberOfLines={2}
                 >
                   Select a protected area
@@ -69,18 +79,22 @@ class SetupBoundaries extends Component {
             </TouchableHighlight>
 
             <TouchableHighlight
-              style={styles.button}
-              onPress={() => this.onNext()}
+              style={styles.section}
+              onPress={this.props.onNextPress}
               activeOpacity={0.8}
               underlayColor={Theme.background.white}
             >
+<<<<<<< HEAD
               <View style={styles.buttonTextContainer}>
                 <Image
                   style={styles.iconDraw}
                   source={require('assets/draw_pa.png')}
                 />
+=======
+              <View style={styles.sectionTextContainer}>
+>>>>>>> c7c8a423fbfd38bdf99e8b88155449fc79ff8c1f
                 <Text
-                  style={styles.buttonText}
+                  style={styles.sectionText}
                   numberOfLines={2}
                 >
                   Draw an area
@@ -104,8 +118,12 @@ class SetupBoundaries extends Component {
 }
 
 SetupBoundaries.propTypes = {
+<<<<<<< HEAD
   setSetupWdpaid: React.PropTypes.func.isRequired,
   setupCountry: React.PropTypes.func.isRequired
+=======
+  onNextPress: React.PropTypes.func.isRequired
+>>>>>>> c7c8a423fbfd38bdf99e8b88155449fc79ff8c1f
 };
 
 export default SetupBoundaries;

@@ -10,23 +10,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  header: {
-    flexDirection: 'row',
-    marginTop: 35,
-    marginLeft: Theme.margin.left
-  },
-  title: {
-    fontFamily: Theme.font,
-    color: Theme.fontColors.main,
-    fontSize: 21,
-    fontWeight: '400',
-    marginLeft: 20
-  },
-  iconBack: {
-    width: 12,
-    height: 20,
-    marginTop: 5
-  },
   content: {
     marginTop: 26,
     marginLeft: Theme.margin.left
@@ -51,7 +34,7 @@ export default StyleSheet.create({
     alignItems: 'flex-start',
     flexDirection: 'row'
   },
-  button: {
+  section: {
     width: (Theme.screen.width / 2) - 12,
     height: 184,
     marginLeft: 8,
@@ -59,39 +42,39 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.white,
     borderWidth: 1,
     borderColor: Theme.colors.color6,
+    justifyContent: 'flex-end',
     alignItems: 'center'
   },
-  buttonContainer: {
+  sectionTextContainer: {
     width: 116,
+    height: 48,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 10
   },
-  buttonText: {
+  sectionText: {
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
     fontSize: 17,
     fontWeight: '400',
-    textAlign: 'center',
-    ...Platform.select({
-      ios: {
-        lineHeight: 21
-      },
-      android: {
-        lineHeight: 26
-      }
-    })
+    lineHeight: 21,
+    textAlign: 'center'
   },
-  iconProtected: {
-    width: 86,
-    height: 84,
-    marginTop: 25,
-    marginBottom: 8
+  button: {
+    height: 64,
+    position: 'absolute',
+    bottom: 50,
+    left: 8,
+    right: 8,
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Theme.colors.color1
   },
-  iconDraw: {
-    width: 98,
-    height: 80,
-    marginTop: 26,
-    marginBottom: 19
+  buttonText: {
+    color: Theme.fontColors.white,
+    fontFamily: Theme.font,
+    fontSize: 15,
+    fontWeight: '500'
   }
 });
