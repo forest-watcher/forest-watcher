@@ -1,5 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
+require 'dotenv'
+Dotenv.load('../../.env')
 require 'transifex'
 require 'json'
 
@@ -12,7 +14,7 @@ namespace :transifex do
   task :configure do
     Transifex.configure do |c|
       c.client_login = 'api'
-      c.client_secret = '1/4fef2a3e855cfbb544e86651b1d84d7b8b913925'
+      c.client_secret = ENV['TRANSIFEX_API_TOKEN']
     end
   end
 
