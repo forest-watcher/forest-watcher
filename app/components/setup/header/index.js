@@ -24,7 +24,9 @@ function SetupHeader(props) {
           <Image style={Theme.icon} source={backIcon} />
         </TouchableHighlight>
       }
-      <Text style={styles.title}> {props.title} </Text>
+      <Text style={[styles.title, props.showBack ? '' : styles.margin]}>
+        {props.title}
+      </Text>
     </View>
   );
 }

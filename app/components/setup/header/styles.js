@@ -12,10 +12,12 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   title: {
-    marginLeft: 16,
     fontFamily: Theme.font,
     color: Theme.fontColors.main,
     fontSize: 21,
     fontWeight: '400'
+  },
+  margin: {
+    marginLeft: 16
   }
 });

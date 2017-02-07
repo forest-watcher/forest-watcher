@@ -1,21 +1,14 @@
 import React, { Component } from 'react';
 import {
-  View,
-  Text
+  View
 } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import Theme from 'config/theme';
-import Header from './header';
 import SetupCountry from 'containers/setup/country';
 import SetupBoundaries from 'components/setup/boundaries';
 import SetupOverView from 'components/setup/overview';
+import Header from './header';
 import styles from './styles';
-
-function Dot(active) {
-  const dotStyle = active ? [styles.dot, styles.activeDot] : styles.dot;
-  return <View style={dotStyle} />;
-}
 
 class Setup extends Component {
   constructor() {
@@ -24,6 +17,16 @@ class Setup extends Component {
       page: 0,
       locked: true
     };
+    this.slides = 3;
+  }
+
+  getIndexBar = (props) => {
+    const dots = [];
+    for (let i = 0; i < this.slides; i++) {
+      const dotStyle = props.activeTab === i ? [styles.dot, styles.dotActive] : styles.dot;
+      dots.push(<View key={i} style={dotStyle} />);
+    }
+    return <View style={styles.indexBar}><View style={styles.indexBar}>{dots}</View></View>;
   }
 
   updatePage = (slide) => {
@@ -40,9 +43,13 @@ class Setup extends Component {
   }
 
   goToPrevPage = () => {
-    this.setState((prevState) => ({
-      page: prevState.page - 1
-    }));
+    this.setState((prevState) => {
+      const newPage = prevState.page - 1;
+      return {
+        page: newPage,
+        locked: newPage > 0
+      };
+    });
   }
 
   goToNextPage = () => {
@@ -62,26 +69,28 @@ class Setup extends Component {
           title="Set up"
           showBack={this.state.page > 0}
           onBackPress={this.goToPrevPage}
-          prerenderingSiblingsNumber={3}
+          prerenderingSiblingsNumber={this.slides}
         />
         <ScrollableTabView
           page={this.state.page}
           locked={this.state.locked}
           onChangeTab={this.updatePage}
           onScroll={this.handleScroll}
-          renderTabBar={() => <View />}
           tabBarPosition="overlayBottom"
+          renderTabBar={this.getIndexBar}
         >
           <SetupCountry onNextClick={this.goToNextPage} />
           <SetupBoundaries onNextClick={this.goToNextPage} />
-          <SetupOverView onNextClick={this.goToNextPage} />
+          <SetupOverView onNextClick={this.props.navigateBack} />
         </ScrollableTabView>
       </View>
     );
   }
 }
 
-Setup.propTypes = {};
+Setup.propTypes = {
+  navigateBack: React.PropTypes.func.isRequired
+};
 
 Setup.navigationOptions = {
   header: {

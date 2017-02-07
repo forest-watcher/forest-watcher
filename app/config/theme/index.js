@@ -37,6 +37,9 @@ const config = {
     secondary: colors.color1,
     white: colors.color5
   },
+  borderColors: {
+    main: colors.color6
+  },
   margin: {
     left: 24,
     right: 16
