@@ -1,0 +1,66 @@
+require 'rubygems'
+require 'bundler/setup'
+require 'transifex'
+require 'json'
+
+namespace :transifex do
+
+  PROJECT_SLUG = 'forest-watch'
+  RESOURCE_SLUG = 'interface'
+  PATH_TO_LOCALE_FILES = './../../app/locales/'
+
+  task :configure do
+    Transifex.configure do |c|
+      c.client_login = 'api'
+      c.client_secret = '1/4fef2a3e855cfbb544e86651b1d84d7b8b913925'
+    end
+  end
+
+  desc 'Push source files to transifex'
+  task push: :configure do
+    resource_file = PATH_TO_LOCALE_FILES + 'en.json'
+    project = Transifex::Project.new(PROJECT_SLUG)
+    resource = project.resource(RESOURCE_SLUG)
+    # checking if resource exists
+    begin
+      resource.fetch
+    rescue Transifex::TransifexError => e
+      not_found = (e.message == 'Not Found')
+    end
+
+    if not_found
+      puts "Creating new resource from #{resource_file}"
+      params = {
+        slug: RESOURCE_SLUG,
+        name: 'Forest Watcher Interface',
+        i18n_type: "KEYVALUEJSON",
+        content: resource_file
+      }
+      options = {trad_from_file: true}
+      project.resources.create(params, options)
+    else
+      puts "Updating resource from #{resource_file}"
+      # updating is destructive if keys missing
+      resource.content.update({
+        i18n_type: "KEYVALUEJSON",
+        content: resource_file
+      })
+    end
+  end
+
+  desc 'Pull translation files from transifex'
+  task pull: :configure do
+    project = Transifex::Project.new(PROJECT_SLUG)
+    resource = project.resource(RESOURCE_SLUG)
+    ['es', 'fr'].each do |language|
+      translation = resource.translation(language).fetch
+      translation_file = PATH_TO_LOCALE_FILES + language + '.json'
+      puts "Updating translations in #{translation_file}"
+      File.write(
+        translation_file,
+        translation['content']
+      )
+    end
+  end
+
+end
