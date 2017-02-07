@@ -24,15 +24,21 @@ const store = createStore(
   )
 );
 
-// Add `autoRehydrate()`  in the compose once redux-persist works on Android
-console.disableYellowBox = true;
+// Disable ios warnings
+// console.disableYellowBox = true;
 
 export default class App extends React.Component {
+  state = {
+    rehydrated: false
+  }
   componentWillMount() {
-    persistStore(store, { storage: AsyncStorage }).purge(['navigation']);
+    persistStore(store, { storage: AsyncStorage }, () => {
+      this.setState({ rehydrated: true });
+    }).purge(['navigation']);
   }
 
   render() {
+    if (!this.state.rehydrated) return null;
     return (
       <Provider store={store}>
         <AppContainer />
