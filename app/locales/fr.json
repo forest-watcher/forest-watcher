@@ -10,7 +10,6 @@
     "title": "Login"
   },
   "countries": {
-    "nameColumn": "name_engli",
-    "codeColumn": "code in English"
+    "nameColumn": "name_engli"
   }
 }
