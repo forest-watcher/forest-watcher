@@ -42,7 +42,7 @@ class SetupCountry extends Component {
     }
   }
 
-  onNextPress = () => {¡
+  onNextPress = () => {
     const { setupCountry } = this.props;
     if (!setupCountry.iso) {
       this.props.setSetupCountry(this.currentCountry);

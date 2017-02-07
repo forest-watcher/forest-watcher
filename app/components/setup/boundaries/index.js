@@ -47,7 +47,7 @@ class SetupBoundaries extends Component {
 
             <TouchableHighlight
               style={styles.section}
-              onPress={this.props.onNextClick}
+              onPress={this.props.onNextPress}
               activeOpacity={0.8}
               underlayColor={Theme.background.white}
             >
@@ -72,6 +72,7 @@ class SetupBoundaries extends Component {
 }
 
 SetupBoundaries.propTypes = {
+  onNextPress: React.PropTypes.func.isRequired
 };
 
 export default SetupBoundaries;
