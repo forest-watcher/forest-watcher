@@ -12,9 +12,7 @@ import styles from './styles';
 const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
-const LATITUDE = 4.931654;
-const LONGITUDE = -64.958867;
-const LATITUDE_DELTA = 10;
+const LATITUDE_DELTA = 30;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 function getGoogleMapsCoordinates(coordinates) {
@@ -33,14 +31,15 @@ function getGoogleMapsCoordinates(coordinates) {
 class ProtectedAreas extends Component {
   constructor(props) {
     super(props);
+    const intialCoords = JSON.parse(this.props.country.centroid).coordinates;
     this.region = {};
     this.state = {
       data: [],
       loaded: false,
       country: null,
       region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
+        latitude: intialCoords[1],
+        longitude: intialCoords[0],
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       }
@@ -71,17 +70,24 @@ class ProtectedAreas extends Component {
       const boundaries = JSON.parse(areaSelected.properties.boundaries).coordinates[0];
       this.map.fitToCoordinates(getGoogleMapsCoordinates(boundaries), {
         edgePadding: { top: 40, right: 40, bottom: 40, left: 40 },
-        animated: false
+        animated: true
       });
       this.props.onAreaSelected({
         wdpaid: areaSelected.properties.wdpa_pid
       });
-      this.setCloseTimer();
     });
   }
 
   onRegionChanged(region) {
     this.region = region;
+  }
+
+  setBoundaries() {
+    const boundaries = JSON.parse(this.props.country.bbox).coordinates[0];
+    this.map.fitToCoordinates(getGoogleMapsCoordinates(boundaries), {
+      edgePadding: { top: 0, right: 0, bottom: 0, left: 0 },
+      animated: true
+    });
   }
 
   fetchData() {
@@ -97,6 +103,7 @@ class ProtectedAreas extends Component {
     fetch(url)
       .then(response => response.json())
       .then((responseData) => {
+        this.setBoundaries();
         this.setState({
           data: responseData.features,
           loaded: true
@@ -139,7 +146,8 @@ class ProtectedAreas extends Component {
 ProtectedAreas.propTypes = {
   country: React.PropTypes.shape({
     iso: React.PropTypes.string.isRequired,
-    bbox: React.PropTypes.object.isRequired
+    bbox: React.PropTypes.object.isRequired,
+    centroid: React.PropTypes.object.isRequired
   }).isRequired,
   onAreaSelected: React.PropTypes.func.isRequired
 };

@@ -34,7 +34,12 @@ class MapModal extends Component {
           <Text style={styles.headerTitle}>
             Select a protected area
           </Text>
-          <TouchableHighlight style={styles.closeIcon}>
+          <TouchableHighlight
+            style={styles.closeIcon}
+            onPress={() => this.close()}
+            activeOpacity={0.8}
+            underlayColor={'transparent'}
+          >
             <Image style={Theme.icon} source={closeImage} />
           </TouchableHighlight>
         </View>

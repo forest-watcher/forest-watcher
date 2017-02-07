@@ -42,12 +42,10 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.white,
     borderWidth: 1,
     borderColor: Theme.colors.color6,
-    justifyContent: 'flex-end',
     alignItems: 'center'
   },
   sectionTextContainer: {
     width: 116,
-    height: 48,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 10
@@ -57,8 +55,27 @@ export default StyleSheet.create({
     color: Theme.fontColors.secondary,
     fontSize: 17,
     fontWeight: '400',
-    lineHeight: 21,
-    textAlign: 'center'
+    textAlign: 'center',
+    ...Platform.select({
+      ios: {
+        lineHeight: 21
+      },
+      android: {
+        lineHeight: 26
+      }
+    })
+  },
+  iconProtected: {
+    width: 86,
+    height: 84,
+    marginTop: 25,
+    marginBottom: 8
+  },
+  iconDraw: {
+    width: 98,
+    height: 80,
+    marginTop: 26,
+    marginBottom: 19
   },
   button: {
     height: 64,

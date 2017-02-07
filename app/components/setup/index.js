@@ -5,7 +5,7 @@ import {
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import SetupCountry from 'containers/setup/country';
-import SetupBoundaries from 'components/setup/boundaries';
+import SetupBoundaries from 'containers/setup/boundaries';
 import SetupOverView from 'components/setup/overview';
 import Header from './header';
 import styles from './styles';

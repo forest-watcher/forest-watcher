@@ -12,6 +12,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_COUNTRIES:
+    console.log(action.payload.data);
       return Object.assign({}, state, { data: action.payload.data });
     default:
       return state;
@@ -28,6 +29,7 @@ export function getCountries() {
     fetch(url)
       .then(response => response.json())
       .then((data) => {
+        console.log('country data', data);
         dispatch({
           type: GET_COUNTRIES,
           payload: data

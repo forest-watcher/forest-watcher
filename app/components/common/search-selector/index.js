@@ -37,10 +37,7 @@ class SearchSelector extends Component {
   }
 
   onOptionSelected(country) {
-    this.props.onOptionSelected({
-      name: country.name,
-      iso: country.iso
-    });
+    this.props.onOptionSelected(country);
     this.close();
   }
 

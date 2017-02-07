@@ -28,28 +28,10 @@ class SetupBoundaries extends Component {
   onShowProtectedAreas() {
     this.setState({ showProtectedAreas: true });
   }
-<<<<<<< HEAD
-
-  onNext() {
-
-  }
-=======
->>>>>>> c7c8a423fbfd38bdf99e8b88155449fc79ff8c1f
 
   render() {
     return (
       <View style={styles.container}>
-<<<<<<< HEAD
-        <View style={styles.header}>
-          <Image
-            style={styles.iconBack}
-            source={require('assets/previous.png')}
-          />
-          <Text style={styles.title}>Set up</Text>
-        </View>
-=======
->>>>>>> c7c8a423fbfd38bdf99e8b88155449fc79ff8c1f
-
         <View style={styles.selector}>
           <Text style={styles.selectorLabel}>Now, choose the boundaries</Text>
 
@@ -60,15 +42,11 @@ class SetupBoundaries extends Component {
               activeOpacity={0.8}
               underlayColor={Theme.background.white}
             >
-<<<<<<< HEAD
-              <View style={styles.buttonContainer}>
+              <View style={styles.sectionTextContainer}>
                 <Image
                   style={styles.iconProtected}
                   source={require('assets/select_pa.png')}
                 />
-=======
-              <View style={styles.sectionTextContainer}>
->>>>>>> c7c8a423fbfd38bdf99e8b88155449fc79ff8c1f
                 <Text
                   style={styles.sectionText}
                   numberOfLines={2}
@@ -84,15 +62,11 @@ class SetupBoundaries extends Component {
               activeOpacity={0.8}
               underlayColor={Theme.background.white}
             >
-<<<<<<< HEAD
-              <View style={styles.buttonTextContainer}>
+              <View style={styles.sectionTextContainer}>
                 <Image
                   style={styles.iconDraw}
                   source={require('assets/draw_pa.png')}
                 />
-=======
-              <View style={styles.sectionTextContainer}>
->>>>>>> c7c8a423fbfd38bdf99e8b88155449fc79ff8c1f
                 <Text
                   style={styles.sectionText}
                   numberOfLines={2}
@@ -118,12 +92,9 @@ class SetupBoundaries extends Component {
 }
 
 SetupBoundaries.propTypes = {
-<<<<<<< HEAD
   setSetupWdpaid: React.PropTypes.func.isRequired,
-  setupCountry: React.PropTypes.func.isRequired
-=======
+  setupCountry: React.PropTypes.object.isRequired,
   onNextPress: React.PropTypes.func.isRequired
->>>>>>> c7c8a423fbfd38bdf99e8b88155449fc79ff8c1f
 };
 
 export default SetupBoundaries;
