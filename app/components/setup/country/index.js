@@ -44,7 +44,7 @@ class SetupCountry extends Component {
 
   onNextPress = () => {
     const { setupCountry } = this.props;
-    if (!setupCountry.iso) {
+    if (!setupCountry.iso && this.currentCountry.iso) {
       this.props.setSetupCountry(this.currentCountry);
     }
     this.props.onNextPress();
@@ -72,7 +72,7 @@ class SetupCountry extends Component {
             />
           </View>
 
-          <NextButton onPress={this.onNextPress} text="NEXT" />
+          <NextButton disabled={!iso} onPress={this.onNextPress} text="NEXT" />
         </View>
       );
     }

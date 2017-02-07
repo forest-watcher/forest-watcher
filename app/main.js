@@ -1,9 +1,9 @@
 import React from 'react';
-// import { AsyncStorage } from 'react-native';
+import { AsyncStorage } from 'react-native';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-// import { persistStore, autoRehydrate } from 'redux-persist';
+import { persistStore, autoRehydrate } from 'redux-persist';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import AppContainer from 'containers/app';
@@ -19,17 +19,18 @@ const store = createStore(
   reducer,
   undefined,
   composeWithDevTools(
-    applyMiddleware(thunk)
+    applyMiddleware(thunk),
+    autoRehydrate()
   )
 );
 
 // Add `autoRehydrate()`  in the compose once redux-persist works on Android
-
+console.disableYellowBox = true;
 
 export default class App extends React.Component {
-  // componentDidMount() {
-  //   persistStore(store, { storage: AsyncStorage }).purge(['navigation']);
-  // }
+  componentWillMount() {
+    persistStore(store, { storage: AsyncStorage }).purge(['navigation']);
+  }
 
   render() {
     return (
