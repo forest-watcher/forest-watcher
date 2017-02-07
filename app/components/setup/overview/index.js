@@ -15,7 +15,7 @@ function SetupOverview(props) {
         <Text style={styles.selectorLabel}>Name the area</Text>
       </View>
 
-      <ActionButton style={styles.button} onPress={props.onNextPress} text="FINISH" />
+      <ActionButton style={styles.buttonPos} onPress={props.onNextPress} text="FINISH" />
     </View>
   );
 }
