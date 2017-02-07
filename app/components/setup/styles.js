@@ -24,6 +24,7 @@ export default StyleSheet.create({
     borderColor: Theme.borderColors.main
   },
   dotActive: {
-    backgroundColor: Theme.background.secondary
+    backgroundColor: Theme.background.secondary,
+    borderColor: Theme.background.secondary
   }
 });

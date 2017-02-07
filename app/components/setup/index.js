@@ -35,31 +35,16 @@ class Setup extends Component {
     });
   }
 
-  handleScroll = (pos) => {
+  goToPrevPage = () => {
     this.setState((prevState) => ({
-      locked: pos > prevState.page,
-      page: prevState.page
+      page: prevState.page - 1
     }));
   }
 
-  goToPrevPage = () => {
-    this.setState((prevState) => {
-      const newPage = prevState.page - 1;
-      return {
-        page: newPage,
-        locked: newPage > 0
-      };
-    });
-  }
-
   goToNextPage = () => {
-    this.setState((prevState) => {
-      const newPage = prevState.page + 1;
-      return {
-        page: newPage,
-        locked: newPage > 0
-      };
-    });
+    this.setState((prevState) => ({
+      page: prevState.page + 1
+    }));
   }
 
   render() {
@@ -75,13 +60,12 @@ class Setup extends Component {
           page={this.state.page}
           locked={this.state.locked}
           onChangeTab={this.updatePage}
-          onScroll={this.handleScroll}
           tabBarPosition="overlayBottom"
           renderTabBar={this.getIndexBar}
         >
-          <SetupCountry onNextClick={this.goToNextPage} />
-          <SetupBoundaries onNextClick={this.goToNextPage} />
-          <SetupOverView onNextClick={this.props.navigateBack} />
+          <SetupCountry onNextPress={this.goToNextPage} />
+          <SetupBoundaries onNextPress={this.goToNextPage} />
+          <SetupOverView onNextPress={this.props.navigateBack} />
         </ScrollableTabView>
       </View>
     );
