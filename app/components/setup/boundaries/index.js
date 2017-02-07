@@ -20,28 +20,24 @@ class SetupBoundaries extends Component {
   onShowProtectedAreas() {
     this.setState({ showProtectedAreas: true });
   }
-  onNext() {
-
-  }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Set up</Text>
 
         <View style={styles.selector}>
           <Text style={styles.selectorLabel}>Now, choose the boundaries</Text>
 
           <View style={styles.actions}>
             <TouchableHighlight
-              style={styles.button}
+              style={styles.section}
               onPress={() => this.onShowProtectedAreas()}
               activeOpacity={0.8}
               underlayColor={Theme.background.white}
             >
-              <View style={styles.buttonTextContainer}>
+              <View style={styles.sectionTextContainer}>
                 <Text
-                  style={styles.buttonText}
+                  style={styles.sectionText}
                   numberOfLines={2}
                 >
                   Select a protected area
@@ -50,14 +46,14 @@ class SetupBoundaries extends Component {
             </TouchableHighlight>
 
             <TouchableHighlight
-              style={styles.button}
-              onPress={() => this.onNext()}
+              style={styles.section}
+              onPress={this.props.onNextPress}
               activeOpacity={0.8}
               underlayColor={Theme.background.white}
             >
-              <View style={styles.buttonTextContainer}>
+              <View style={styles.sectionTextContainer}>
                 <Text
-                  style={styles.buttonText}
+                  style={styles.sectionText}
                   numberOfLines={2}
                 >
                   Draw an area
@@ -76,6 +72,7 @@ class SetupBoundaries extends Component {
 }
 
 SetupBoundaries.propTypes = {
+  onNextPress: React.PropTypes.func.isRequired
 };
 
 export default SetupBoundaries;

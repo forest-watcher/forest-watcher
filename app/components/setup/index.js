@@ -1,57 +1,85 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
-  View,
-  Text
+  View
 } from 'react-native';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-import Theme from 'config/theme';
-import AppIntro from 'react-native-app-intro';
 import SetupCountry from 'containers/setup/country';
 import SetupBoundaries from 'components/setup/boundaries';
+import SetupOverView from 'components/setup/overview';
+import Header from './header';
 import styles from './styles';
 
-function Setup() {
-  return (
-    <AppIntro
-      dotColor={Theme.background.white}
-      activeDotColor={Theme.background.secondary}
-      nextBtnLabel={''}
-      doneBtnLabel={''}
-      customStyles={{
-        activeDotStyle: {
-          width: 12,
-          height: 12,
-          borderWidth: 0
-        },
-        dotStyle: {
-          width: 11,
-          height: 11,
-          borderWidth: 2,
-          borderColor: Theme.colors.color6
-        },
-        paginationContainer: {
-          bottom: 0
-        }
-      }}
-      showSkipButton={false}
-    >
+class Setup extends Component {
+  constructor() {
+    super();
+    this.state = {
+      page: 0,
+      locked: true
+    };
+    this.slides = 3;
+  }
+
+  getIndexBar = (props) => {
+    const dots = [];
+    for (let i = 0; i < this.slides; i++) {
+      const dotStyle = props.activeTab === i ? [styles.dot, styles.dotActive] : styles.dot;
+      dots.push(<View key={i} style={dotStyle} />);
+    }
+    return <View style={styles.indexBar}><View style={styles.indexBar}>{dots}</View></View>;
+  }
+
+  updatePage = (slide) => {
+    this.setState({
+      page: slide.i
+    });
+  }
+
+  goToPrevPage = () => {
+    this.setState((prevState) => ({
+      page: prevState.page - 1
+    }));
+  }
+
+  goToNextPage = () => {
+    this.setState((prevState) => ({
+      page: prevState.page + 1
+    }));
+  }
+
+  render() {
+    return (
       <View style={styles.container}>
-        <SetupCountry />
+        <Header
+          title="Set up"
+          showBack={this.state.page > 0}
+          onBackPress={this.goToPrevPage}
+          prerenderingSiblingsNumber={this.slides}
+        />
+        <ScrollableTabView
+          page={this.state.page}
+          locked={this.state.locked}
+          onChangeTab={this.updatePage}
+          tabBarPosition="overlayBottom"
+          renderTabBar={this.getIndexBar}
+        >
+          <SetupCountry onNextPress={this.goToNextPage} />
+          <SetupBoundaries onNextPress={this.goToNextPage} />
+          <SetupOverView onNextPress={this.props.navigateBack} />
+        </ScrollableTabView>
       </View>
-      <View style={styles.container}>
-        <SetupBoundaries />
-      </View>
-      <View style={[styles.slide, { backgroundColor: '#a4b602' }]}>
-        <View level={10}><Text style={styles.text}>Page 2</Text></View>
-      </View>
-    </AppIntro>
-  );
+    );
+  }
 }
 
 Setup.propTypes = {
-  user: React.PropTypes.any,
-  countries: React.PropTypes.any,
-  showNavHeader: React.PropTypes.func.isRequired
+  navigateBack: React.PropTypes.func.isRequired
+};
+
+Setup.navigationOptions = {
+  header: {
+    visible: false
+  }
 };
 
 export default Setup;

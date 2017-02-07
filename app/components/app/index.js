@@ -9,7 +9,7 @@ import { AppNavigator } from 'app/main';
 import { addNavigationHelpers } from 'react-navigation';
 
 import Login from 'containers/login';
-import { getToken, setToken, getSetupStatus } from 'helpers/user';
+import { getToken, getSetupStatus } from 'helpers/user';
 import styles from './styles';
 
 function renderLoading() {
@@ -66,7 +66,6 @@ class App extends Component {
   }
 
   async checkBeforeRender() {
-    setToken('');
     const userToken = await getToken();
 
     if (!userToken) {

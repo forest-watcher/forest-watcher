@@ -10,14 +10,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  title: {
-    fontFamily: Theme.font,
-    color: Theme.fontColors.main,
-    fontSize: 21,
-    fontWeight: '400',
-    marginTop: 45,
-    marginLeft: Theme.margin.left
-  },
   content: {
     marginTop: 26,
     marginLeft: Theme.margin.left
@@ -60,5 +52,11 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     fontSize: 15,
     fontWeight: '500'
+  },
+  buttonPos: {
+    position: 'absolute',
+    bottom: 50,
+    left: 8,
+    right: 8
   }
 });
