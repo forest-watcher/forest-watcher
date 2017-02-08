@@ -6,6 +6,7 @@ import {
   Dimensions
 } from 'react-native';
 import MapView from 'react-native-maps';
+import Theme from 'config/theme';
 import styles from './styles';
 
 const { width, height } = Dimensions.get('window');
@@ -19,6 +20,7 @@ function renderLoading() {
   return (
     <View style={[styles.container, styles.loader]}>
       <ActivityIndicator
+        color={Theme.colors.color1}
         style={{ height: 80 }}
         size="large"
       />

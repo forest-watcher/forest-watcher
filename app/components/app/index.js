@@ -10,12 +10,14 @@ import { addNavigationHelpers } from 'react-navigation';
 
 import Login from 'containers/login';
 import { getToken, getSetupStatus } from 'helpers/user';
+import Theme from 'config/theme';
 import styles from './styles';
 
 function renderLoading() {
   return (
     <View style={[styles.mainContainer, styles.center]}>
       <ActivityIndicator
+        color={Theme.colors.color1}
         style={{ height: 80 }}
         size="large"
       />

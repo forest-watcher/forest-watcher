@@ -7,6 +7,7 @@ import {
 
 import SearchSelector from 'components/common/search-selector';
 import ActionButton from 'components/common/action-button';
+import Theme from 'config/theme';
 import I18n from 'locales';
 import styles from './styles';
 
@@ -14,6 +15,7 @@ function renderLoading() {
   return (
     <View style={[styles.container, styles.center]}>
       <ActivityIndicator
+        color={Theme.colors.color1}
         style={{ height: 80 }}
         size={'large'}
       />

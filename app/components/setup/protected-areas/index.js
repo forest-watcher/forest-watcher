@@ -43,6 +43,7 @@ function renderLoading() {
       pointerEvents={'none'}
     >
       <ActivityIndicator
+        color={Theme.colors.color1}
         style={{ height: 80 }}
         size={'large'}
       />
@@ -100,7 +101,7 @@ class ProtectedAreas extends Component {
         { toValue: 1 }
       ).start();
       this.map.fitToCoordinates(getGoogleMapsCoordinates(boundaries), {
-        edgePadding: { top: 40, right: 40, bottom: 40, left: 40 },
+        edgePadding: { top: 110, right: 110, bottom: 110, left: 110 },
         animated: true
       });
     });
@@ -111,11 +112,27 @@ class ProtectedAreas extends Component {
   }
 
   onAreaSelected = () => {
-    this.setState({ loaded: false }, async () => {
+    const areas = [];
+
+    this.state.data.forEach((area) => {
+      const newArea = Object.assign({}, area);
+      if (this.state.wdpa.cartodb_id === area.properties.cartodb_id) {
+        newArea.selected = false;
+      } else {
+        newArea.hidden = true;
+      }
+      areas.push(newArea);
+    });
+
+    this.setState({
+      loaded: false,
+      data: areas
+    }, async () => {
       const snapshot = await this.takeSnapshot();
+      const url = snapshot.uri ? snapshot.uri : snapshot;
       this.props.onAreaSelected({
         wdpaid: this.state.wdpa.wdpa_pid
-      }, snapshot);
+      }, url);
     });
   }
 
@@ -147,7 +164,7 @@ class ProtectedAreas extends Component {
       SELECT the_geom, cartodb_id, name, iso3, wdpa_pid,
       ST_AsGeoJSON(ST_Centroid(the_geom)) as centroid,
       ST_AsGeoJSON(ST_Envelope(the_geom)) as boundaries
-      FROM wdpa_protected_areas ${filter} LIMIT 15&format=geojson`;
+      FROM wdpa_protected_areas ${filter} LIMIT 30&format=geojson`;
 
     fetch(url)
       .then(response => response.json())
@@ -180,19 +197,30 @@ class ProtectedAreas extends Component {
           onRegionChangeComplete={region => this.onRegionChanged(region)}
           initialRegion={this.state.region}
         >
-          {this.state.data.map((polygon, key) => (
-            <MapView.Polygon
-              key={`${polygon.properties.iso3}-${key}`}
-              coordinates={getGoogleMapsCoordinates(polygon.geometry.coordinates[0][0])}
-              strokeColor={!polygon.selected
-                ? Theme.polygon.stroke : Theme.polygon.strokeSelected}
-              fillColor={!polygon.selected
-                ? Theme.polygon.fill : Theme.polygon.fillSelected}
-              strokeWidth={2}
-              tappable
-              onPress={() => this.onProtectedArea(polygon)}
-            />
-          ))}
+          {this.state.data.map((polygon, key) => {
+            let fillColor = !polygon.selected
+              ? Theme.polygon.fill : Theme.polygon.fillSelected;
+            let strokeColor = !polygon.selected
+              ? Theme.polygon.stroke : Theme.polygon.strokeSelected;
+
+            if (polygon.hidden) {
+              fillColor = 'transparent';
+              strokeColor = 'transparent';
+            }
+
+            return (
+              <MapView.Polygon
+                key={`${polygon.properties.iso3}-${key}`}
+                coordinates={getGoogleMapsCoordinates(polygon.geometry.coordinates[0][0])}
+                strokeColor={strokeColor}
+                fillColor={fillColor}
+                strokeWidth={Theme.polygon.strokeWidth}
+                tappable
+                onPress={() => this.onProtectedArea(polygon)}
+              />
+            );
+          })
+        }
         </MapView>
         <View style={styles.footer}>
           <Image

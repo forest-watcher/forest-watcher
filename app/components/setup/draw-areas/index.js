@@ -60,6 +60,7 @@ function renderLoading() {
       pointerEvents={'none'}
     >
       <ActivityIndicator
+        color={Theme.colors.color1}
         style={{ height: 80 }}
         size={'large'}
       />
@@ -112,7 +113,8 @@ class DrawAreas extends Component {
       .then(async (response) => {
         const geostore = response.data && response.data.id;
         const snapshot = await this.takeSnapshot();
-        this.props.onDrawAreaFinish({ geostore }, snapshot);
+        const url = snapshot.uri ? snapshot.uri : snapshot;
+        this.props.onDrawAreaFinish({ geostore }, url);
       })
       .catch((error) => console.warn(error));
   }
@@ -165,7 +167,7 @@ class DrawAreas extends Component {
               coordinates={coordinates}
               strokeColor={Theme.polygon.stroke}
               fillColor={Theme.polygon.fill}
-              strokeWidth={1}
+              strokeWidth={Theme.polygon.strokeWidth}
             />
           )}
         </MapView>
