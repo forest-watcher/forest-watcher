@@ -10,6 +10,7 @@ import MapModal from 'components/common/map-modal';
 import ProtectedAreas from 'components/setup/protected-areas';
 import DrawAreas from 'components/setup/draw-areas';
 import Theme from 'config/theme';
+import I18n from 'locales';
 import styles from './styles';
 
 class SetupBoundaries extends Component {
@@ -93,7 +94,11 @@ class SetupBoundaries extends Component {
           </View>
         </View>
         {this.state.showProtectedAreas &&
-          <MapModal visible onClosePress={() => this.setProtectedAreasStatus(false)}>
+          <MapModal
+            visible
+            onClosePress={() => this.setProtectedAreasStatus(false)}
+            title={I18n.t('boundaries.selectArea')}
+          >
             <ProtectedAreas
               country={this.props.setupCountry}
               onAreaSelected={this.onAreaSelected}
@@ -101,7 +106,11 @@ class SetupBoundaries extends Component {
           </MapModal>
         }
         {this.state.showDrawAreas &&
-          <MapModal visible onClosePress={() => this.setDrawAreasStatus(false)}>
+          <MapModal
+            visible
+            onClosePress={() => this.setDrawAreasStatus(false)}
+            title={I18n.t('boundaries.selectArea')}
+          >
             <DrawAreas
               country={this.props.setupCountry}
               onAreaDrawed={this.onAreaDrawed}

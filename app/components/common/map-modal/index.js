@@ -26,23 +26,28 @@ class MapModal extends Component {
         visible={this.props.visible}
         onRequestClose={() => this.close()}
       >
-        <View style={styles.header}>
+        <View
+          style={styles.header}
+          pointerEvents={'none'}
+        >
           <Image
             style={styles.headerBg}
             source={headerBackgroundImage}
           />
-          <Text style={styles.headerTitle}>
-            Select a protected area
-          </Text>
-          <TouchableHighlight
-            style={styles.closeIcon}
-            onPress={() => this.close()}
-            activeOpacity={0.8}
-            underlayColor={'transparent'}
+          <Text
+            style={styles.headerTitle}
           >
-            <Image style={Theme.icon} source={closeImage} />
-          </TouchableHighlight>
+            {this.props.title}
+          </Text>
         </View>
+        <TouchableHighlight
+          style={styles.closeIcon}
+          onPress={() => this.close()}
+          activeOpacity={0.8}
+          underlayColor={'transparent'}
+        >
+          <Image style={Theme.icon} source={closeImage} />
+        </TouchableHighlight>
         {this.props.visible
           ? this.props.children
           : null
@@ -55,7 +60,8 @@ class MapModal extends Component {
 MapModal.propTypes = {
   visible: React.PropTypes.bool,
   children: React.PropTypes.node,
-  onClosePress: React.PropTypes.func.isRequired
+  onClosePress: React.PropTypes.func.isRequired,
+  title: React.PropTypes.string
 };
 
 export default MapModal;

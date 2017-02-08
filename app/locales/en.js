@@ -12,6 +12,9 @@ export default {
     },
     countries: {
       nameColumn: 'name_engli'
+    },
+    boundaries: {
+      selectArea: 'Select a protected area'
     }
   }
 };
