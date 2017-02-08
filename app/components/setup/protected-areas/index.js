@@ -59,6 +59,7 @@ class ProtectedAreas extends Component {
       data: [],
       loaded: false,
       country: null,
+      wdpaid: null,
       region: {
         latitude: intialCoords[1],
         longitude: intialCoords[0],
@@ -87,7 +88,8 @@ class ProtectedAreas extends Component {
 
     this.setState({
       data: areas,
-      region: this.region
+      region: this.region,
+      wdpaid: areaSelected.properties.wdpa_pid
     }, () => {
       const boundaries = JSON.parse(areaSelected.properties.boundaries).coordinates[0];
       this.map.fitToCoordinates(getGoogleMapsCoordinates(boundaries), {
@@ -165,6 +167,7 @@ class ProtectedAreas extends Component {
               fillColor={!polygon.selected
                 ? Theme.polygon.fill : Theme.polygon.fillSelected}
               strokeWidth={2}
+              tappable
               onPress={() => this.onProtectedArea(polygon)}
             />
           ))}

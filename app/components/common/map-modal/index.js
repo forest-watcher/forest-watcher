@@ -4,6 +4,7 @@ import {
   View,
   Text,
   Image,
+  StatusBar,
   TouchableHighlight
 } from 'react-native';
 
@@ -14,8 +15,13 @@ const headerBackgroundImage = require('assets/map_bg_gradient.png');
 const closeImage = require('assets/close_white.png');
 
 class MapModal extends Component {
+  componentDidMount() {
+    StatusBar.setBarStyle('light-content');
+  }
+
   close() {
     this.props.onClosePress();
+    StatusBar.setBarStyle('default');
   }
 
   render() {

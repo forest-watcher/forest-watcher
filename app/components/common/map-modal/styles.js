@@ -1,5 +1,5 @@
 import Theme from 'config/theme';
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   header: {
@@ -25,12 +25,7 @@ export default StyleSheet.create({
     position: 'absolute',
     zIndex: 2,
     marginLeft: Theme.margin.left,
-    marginTop: 45,
-    ...Platform.select({
-      android: {
-        marginTop: 30
-      }
-    })
+    marginTop: 30
   },
   closeIcon: {
     position: 'absolute',
