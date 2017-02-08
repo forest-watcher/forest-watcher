@@ -1,0 +1,22 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    dotenv (2.2.0)
+    multi_json (1.12.1)
+    rake (12.0.0)
+    transifex-interface-ruby (0.0.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  dotenv!
+  multi_json!
+  rake!
+  transifex-interface-ruby!
+
+RUBY VERSION
+   ruby 2.4.0p0
+
+BUNDLED WITH
+   1.14.3
