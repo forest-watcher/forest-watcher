@@ -29,7 +29,6 @@ export default StyleSheet.create({
     height: 104,
     resizeMode: 'stretch',
     position: 'absolute',
-    zIndex: 1,
     bottom: 0,
     transform: [{ rotate: '180deg' }]
   },
