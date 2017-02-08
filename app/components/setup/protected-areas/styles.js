@@ -46,7 +46,9 @@ export default StyleSheet.create({
   footerButtonContainer: {
     left: 0,
     right: 0,
-    position: 'absolute'
+    position: 'absolute',
+    zIndex: 3,
+    height: 104
   },
   footerButton: {
     left: 8,

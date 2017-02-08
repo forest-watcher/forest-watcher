@@ -32,8 +32,8 @@ class SetupBoundaries extends Component {
     };
   }
 
-  onAreaSelected = (area) => {
-    this.props.setSetupArea(area);
+  onAreaSelected = (area, snapshot) => {
+    this.props.setSetupArea(area, snapshot);
     this.setProtectedAreasStatus(false);
     this.props.onNextPress();
   }

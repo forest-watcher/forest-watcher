@@ -132,13 +132,11 @@ class DrawAreas extends Component {
   }
 
   takeSnapshot() {
-    // 'takeSnapshot' takes a config object with the
-    // following options
     return this.map.takeSnapshot({
-      height: 224,     // optional, when omitted the view-height is used
-      format: 'png',   // image formats: 'png', 'jpg' (default: 'png')
-      quality: 0.8,    // image quality: 0..1 (only relevant for jpg, default: 1)
-      result: 'file'   // result types: 'file', 'base64' (default: 'file')
+      height: 224,
+      format: 'png',
+      quality: 0.8,
+      result: 'file'
     });
   }
 

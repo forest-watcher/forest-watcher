@@ -111,8 +111,11 @@ class ProtectedAreas extends Component {
   }
 
   onAreaSelected = () => {
-    this.props.onAreaSelected({
-      wdpaid: this.state.wdpa.wdpa_pid
+    this.setState({ loaded: false }, async () => {
+      const snapshot = await this.takeSnapshot();
+      this.props.onAreaSelected({
+        wdpaid: this.state.wdpa.wdpa_pid
+      }, snapshot);
     });
   }
 
@@ -124,6 +127,15 @@ class ProtectedAreas extends Component {
     this.map.fitToCoordinates(getGoogleMapsCoordinates(boundaries), {
       edgePadding: { top: 0, right: 0, bottom: 0, left: 0 },
       animated: true
+    });
+  }
+
+  takeSnapshot() {
+    return this.map.takeSnapshot({
+      height: 500,
+      format: 'png',
+      quality: 0.8,
+      result: 'file'
     });
   }
 
