@@ -38,7 +38,7 @@ export function setSetupCountry(country) {
   };
 }
 
-export function setSetupWdpaid(aoi) {
+export function setSetupAOI(aoi) {
   return {
     type: SET_AOI,
     payload: aoi

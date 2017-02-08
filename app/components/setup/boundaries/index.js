@@ -29,13 +29,15 @@ class SetupBoundaries extends Component {
   }
 
   onAreaSelected = (area) => {
-    this.props.setSetupWdpaid(area);
+    this.props.setSetupArea(area);
     this.setDrawAreasStatus(false);
+    this.props.onNextPress();
   }
 
-  onAreaDrawed = (area) => {
-    this.props.setSetupDrawedArea(area);
+  onDrawAreaFinish = (area) => {
+    this.props.setSetupArea(area);
     this.setDrawAreasStatus(false);
+    this.props.onNextPress();
   }
 
   setProtectedAreasStatus(status) {
@@ -109,11 +111,11 @@ class SetupBoundaries extends Component {
           <MapModal
             visible
             onClosePress={() => this.setDrawAreasStatus(false)}
-            title={I18n.t('boundaries.selectArea')}
+            title={I18n.t('boundaries.drawArea')}
           >
             <DrawAreas
               country={this.props.setupCountry}
-              onAreaDrawed={this.onAreaDrawed}
+              onDrawAreaFinish={this.onDrawAreaFinish}
             />
           </MapModal>
         }
@@ -123,8 +125,7 @@ class SetupBoundaries extends Component {
 }
 
 SetupBoundaries.propTypes = {
-  setSetupWdpaid: React.PropTypes.func.isRequired,
-  setSetupDrawedArea: React.PropTypes.func.isRequired,
+  setSetupArea: React.PropTypes.func.isRequired,
   setupCountry: React.PropTypes.object.isRequired,
   onNextPress: React.PropTypes.func.isRequired
 };

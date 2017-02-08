@@ -8,6 +8,14 @@ export default StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject
   },
+  loader: {
+    ...StyleSheet.absoluteFillObject,
+    position: 'absolute',
+    zIndex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Theme.background.modal
+  },
   footer: {
     left: 0,
     right: 0,
@@ -21,9 +29,12 @@ export default StyleSheet.create({
     height: 104,
     resizeMode: 'stretch',
     position: 'absolute',
-    zIndex: 1,
     bottom: 0,
     transform: [{ rotate: '180deg' }]
+  },
+  footerButton: {
+    marginLeft: 8,
+    marginRight: 8
   },
   footerTitle: {
     fontFamily: Theme.font,

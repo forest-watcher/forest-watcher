@@ -14,7 +14,8 @@ export default {
       nameColumn: 'name_engli'
     },
     boundaries: {
-      selectArea: 'Select a protected area'
+      selectArea: 'Select a protected area',
+      drawArea: 'Draw an area'
     }
   }
 };

@@ -3,11 +3,13 @@ import {
   View,
   Image,
   Text,
-  Dimensions
+  Dimensions,
+  ActivityIndicator
 } from 'react-native';
 
 import Config from 'react-native-config';
 import MapView from 'react-native-maps';
+import ActionButton from 'components/common/action-button';
 import Theme from 'config/theme';
 import styles from './styles';
 
@@ -26,6 +28,45 @@ function getGoogleMapsCoordinates(coordinates) {
   }));
 }
 
+function getGeoJson(coordinates) {
+  const firstGeo = [coordinates[0].latitude, coordinates[0].longitude];
+  const geoCordinates = coordinates.map((item) => [item.latitude, item.longitude]);
+  geoCordinates.push(firstGeo);
+  return {
+    type: 'Polygon',
+    coordinates: [geoCordinates]
+  };
+}
+
+function saveGeoJson(geojson) {
+  const fetchConfig = {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      lock: true,
+      geojson
+    })
+  };
+  const url = `${Config.API_URL}/geostore`;
+  return fetch(url, fetchConfig);
+}
+
+function renderLoading() {
+  return (
+    <View
+      style={styles.loader}
+      pointerEvents={'none'}
+    >
+      <ActivityIndicator
+        style={{ height: 80 }}
+        size={'large'}
+      />
+    </View>
+  );
+}
+
 class DrawAreas extends Component {
   constructor(props) {
     super(props);
@@ -35,6 +76,7 @@ class DrawAreas extends Component {
 
     this.bboxed = false;
     this.state = {
+      loading: false,
       shape: {
         coordinates: []
       },
@@ -47,7 +89,7 @@ class DrawAreas extends Component {
     };
   }
 
-  onPress(e) {
+  onMapPress(e) {
     const { shape } = this.state;
     this.setState({
       shape: {
@@ -58,6 +100,20 @@ class DrawAreas extends Component {
         ]
       }
     });
+  }
+
+  onNextPress = () => {
+    this.setState({ loading: true });
+    saveGeoJson(getGeoJson(this.state.shape.coordinates))
+      .then(res => {
+        if (res.ok) return res.json();
+        throw res;
+      })
+      .then((response) => {
+        const data = response.data && response.data.attributes;
+        this.props.onDrawAreaFinish(data);
+      })
+      .catch((error) => console.warn(error));
   }
 
   setBoundaries = () => {
@@ -76,8 +132,13 @@ class DrawAreas extends Component {
 
   render() {
     const { coordinates } = this.state.shape;
+    const finished = coordinates.length >= 3;
     return (
       <View style={styles.container}>
+        {this.state.loading
+          ? renderLoading()
+          : null
+        }
         <MapView
           ref={(ref) => { this.map = ref; }}
           style={styles.map}
@@ -85,7 +146,7 @@ class DrawAreas extends Component {
           mapType="hybrid"
           rotateEnabled={false}
           initialRegion={this.state.region}
-          onPress={e => this.onPress(e)}
+          onPress={e => this.onMapPress(e)}
           onRegionChangeComplete={this.setBoundaries}
         >
           {coordinates.length > 0 && (
@@ -103,9 +164,12 @@ class DrawAreas extends Component {
             style={styles.footerBg}
             source={footerBackgroundImage}
           />
-          <Text style={styles.footerTitle}>
-            Select an area to continue
-          </Text>
+          {finished
+            ? <ActionButton style={styles.footerButton} onPress={this.onNextPress} text="NEXT" />
+            : <Text style={styles.footerTitle}>
+              Tap on map to draw
+            </Text>
+          }
         </View>
       </View>
     );
@@ -118,7 +182,7 @@ DrawAreas.propTypes = {
     bbox: React.PropTypes.object.isRequired,
     centroid: React.PropTypes.object.isRequired
   }).isRequired,
-  onAreaDrawed: React.PropTypes.func.isRequired
+  onDrawAreaFinish: React.PropTypes.func.isRequired
 };
 
 export default DrawAreas;
