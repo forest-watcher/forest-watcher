@@ -80,11 +80,12 @@ class SearchSelector extends Component {
           <View style={styles.modal}>
             <View style={styles.search}>
               <TextInput
-                autoFocus
+                autoFocus={false}
                 autoCapitalize="none"
                 autoCorrect={false}
                 value={this.state.inputValue}
                 placeholder={this.props.placeholder}
+                underlineColorAndroid="transparent"
                 style={styles.searchInput}
                 placeholderTextColor={Theme.fontColors.light}
                 selectionColor={Theme.colors.color1}

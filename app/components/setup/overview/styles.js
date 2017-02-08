@@ -25,6 +25,23 @@ export default StyleSheet.create({
     width: Theme.screen.width,
     height: 224
   },
+  searchContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Theme.background.white
+  },
+  searchInput: {
+    flex: 1,
+    height: 64,
+    paddingBottom: 0,
+    marginLeft: Theme.margin.left,
+    marginRight: Theme.icon.width,
+    fontFamily: Theme.font,
+    fontSize: 17,
+    fontWeight: '400',
+    color: Theme.fontColors.secondary
+  },
   buttonPos: {
     position: 'absolute',
     bottom: 50,
