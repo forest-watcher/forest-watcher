@@ -15,23 +15,20 @@ const LATITUDE_DELTA = 30;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 function getGoogleMapsCoordinates(coordinates) {
-  const cords = [];
-
-  coordinates.forEach((cordinate) => {
-    cords.push({
-      latitude: cordinate[1],
-      longitude: cordinate[0]
-    });
-  });
-
-  return cords;
+  return coordinates.map((cordinate) => ({
+    latitude: cordinate[1],
+    longitude: cordinate[0]
+  }));
 }
 
 class DrawAreas extends Component {
   constructor(props) {
     super(props);
-    const intialCoords = JSON.parse(this.props.country.centroid).coordinates;
+    const intialCoords = this.props.country && this.props.country.centroid
+      ? this.props.country.centroid.coordinates
+      : [Config.maps.lng, Config.maps.lat];
 
+    this.bboxed = false;
     this.state = {
       shape: {
         coordinates: []
@@ -43,10 +40,6 @@ class DrawAreas extends Component {
         longitudeDelta: LONGITUDE_DELTA
       }
     };
-  }
-
-  componentDidMount() {
-    this.setBoundaries();
   }
 
   onPress(e) {
@@ -62,12 +55,18 @@ class DrawAreas extends Component {
     });
   }
 
-  setBoundaries() {
-    const boundaries = JSON.parse(this.props.country.bbox).coordinates[0];
-    this.map.fitToCoordinates(getGoogleMapsCoordinates(boundaries), {
-      edgePadding: { top: 0, right: 0, bottom: 0, left: 0 },
-      animated: true
-    });
+  setBoundaries = () => {
+    if (!this.bboxed) {
+      this.bboxed = true;
+      let boundaries = Config.bbox;
+      if (this.props.country && this.props.country.bbox) {
+        boundaries = this.props.country.bbox.coordinates[0];
+      }
+      this.map.fitToCoordinates(getGoogleMapsCoordinates(boundaries), {
+        edgePadding: { top: 0, right: 0, bottom: 0, left: 0 },
+        animated: true
+      });
+    }
   }
 
   render() {
@@ -81,6 +80,7 @@ class DrawAreas extends Component {
         rotateEnabled={false}
         initialRegion={this.state.region}
         onPress={e => this.onPress(e)}
+        onRegionChangeComplete={this.setBoundaries}
       >
         {coordinates.length > 0 && (
           <MapView.Polygon
