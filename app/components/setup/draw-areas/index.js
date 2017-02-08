@@ -109,9 +109,10 @@ class DrawAreas extends Component {
         if (res.ok) return res.json();
         throw res;
       })
-      .then((response) => {
-        const data = response.data && response.data.attributes;
-        this.props.onDrawAreaFinish(data);
+      .then(async (response) => {
+        const geostore = response.data && response.data.id;
+        const snapshot = await this.takeSnapshot();
+        this.props.onDrawAreaFinish({ geostore }, snapshot);
       })
       .catch((error) => console.warn(error));
   }
@@ -128,6 +129,17 @@ class DrawAreas extends Component {
         animated: true
       });
     }
+  }
+
+  takeSnapshot() {
+    // 'takeSnapshot' takes a config object with the
+    // following options
+    return this.map.takeSnapshot({
+      height: 224,     // optional, when omitted the view-height is used
+      format: 'png',   // image formats: 'png', 'jpg' (default: 'png')
+      quality: 0.8,    // image quality: 0..1 (only relevant for jpg, default: 1)
+      result: 'file'   // result types: 'file', 'base64' (default: 'file')
+    });
   }
 
   render() {

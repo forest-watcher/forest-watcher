@@ -21,6 +21,10 @@ export default StyleSheet.create({
       }
     })
   },
+  image: {
+    width: Theme.screen.width,
+    height: 224
+  },
   buttonPos: {
     position: 'absolute',
     bottom: 50,
