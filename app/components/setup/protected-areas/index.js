@@ -10,6 +10,7 @@ import {
 
 import Config from 'react-native-config';
 import MapView from 'react-native-maps';
+import ActionButton from 'components/common/action-button';
 import Theme from 'config/theme';
 import styles from './styles';
 
@@ -59,7 +60,7 @@ class ProtectedAreas extends Component {
       data: [],
       loaded: false,
       country: null,
-      wdpaid: null,
+      wdpa: null,
       region: {
         latitude: intialCoords[1],
         longitude: intialCoords[0],
@@ -89,7 +90,7 @@ class ProtectedAreas extends Component {
     this.setState({
       data: areas,
       region: this.region,
-      wdpaid: areaSelected.properties.wdpa_pid
+      wdpa: areaSelected.properties
     }, () => {
       const boundaries = JSON.parse(areaSelected.properties.boundaries).coordinates[0];
       this.map.fitToCoordinates(getGoogleMapsCoordinates(boundaries), {
@@ -104,6 +105,10 @@ class ProtectedAreas extends Component {
 
   onRegionChanged(region) {
     this.region = region;
+  }
+
+  onNextPress = () => {
+
   }
 
   setBoundaries() {
@@ -122,7 +127,7 @@ class ProtectedAreas extends Component {
       ? `WHERE iso3 = '${this.props.country.iso}'`
       : '';
     const url = `${Config.CARTO_URL}?q=
-      SELECT the_geom, cartodb_id, iucn_cat, iso3, wdpa_pid,
+      SELECT the_geom, cartodb_id, name, iso3, wdpa_pid,
       ST_AsGeoJSON(ST_Centroid(the_geom)) as centroid,
       ST_AsGeoJSON(ST_Envelope(the_geom)) as boundaries
       FROM wdpa_protected_areas ${filter} LIMIT 15&format=geojson`;
@@ -177,9 +182,17 @@ class ProtectedAreas extends Component {
             style={styles.footerBg}
             source={footerBackgroundImage}
           />
-          <Text style={styles.footerTitle}>
-            Select an area to continue
-          </Text>
+          {this.state.wdpa
+            ? <ActionButton
+              light
+              style={styles.footerButton}
+              onPress={this.onNextPress}
+              text={this.state.wdpa.name}
+            />
+            : <Text style={styles.footerTitle}>
+              Select an area to continue
+            </Text>
+          }
         </View>
       </View>
     );
