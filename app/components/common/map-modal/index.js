@@ -64,7 +64,7 @@ class MapModal extends Component {
 MapModal.propTypes = {
   visible: React.PropTypes.bool,
   children: React.PropTypes.node,
-  onClosePress: React.PropTypes.function
+  onClosePress: React.PropTypes.func.isRequired
 };
 
 export default MapModal;

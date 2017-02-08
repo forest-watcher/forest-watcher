@@ -31,7 +31,9 @@ function getGoogleMapsCoordinates(coordinates) {
 class ProtectedAreas extends Component {
   constructor(props) {
     super(props);
-    const intialCoords = JSON.parse(this.props.country.centroid).coordinates;
+    const intialCoords = this.props.country && this.props.country.centroid
+      ? this.props.country.centroid.coordinates
+      : [Config.maps.lng, Config.maps.lat];
     this.region = {};
     this.state = {
       data: [],
@@ -83,7 +85,10 @@ class ProtectedAreas extends Component {
   }
 
   setBoundaries() {
-    const boundaries = JSON.parse(this.props.country.bbox).coordinates[0];
+    let boundaries = Config.bbox;
+    if (this.props.country && this.props.country.bbox) {
+      boundaries = this.props.country.bbox.coordinates[0];
+    }
     this.map.fitToCoordinates(getGoogleMapsCoordinates(boundaries), {
       edgePadding: { top: 0, right: 0, bottom: 0, left: 0 },
       animated: true
@@ -104,7 +109,6 @@ class ProtectedAreas extends Component {
       .then(response => response.json())
       .then((responseData) => {
         this.setBoundaries();
-        console.log(responseData.features);
         this.setState({
           data: responseData.features,
           loaded: true
