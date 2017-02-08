@@ -21,10 +21,11 @@ class MapModal extends Component {
   render() {
     return (
       <Modal
-        animationType={'slide'}
+        animationType={'fade'}
         transparent
         visible={this.props.visible}
         onRequestClose={() => this.close()}
+        hardwareAccelerated
       >
         <View
           style={styles.header}

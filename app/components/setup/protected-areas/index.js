@@ -3,6 +3,7 @@ import {
   View,
   Image,
   Text,
+  ActivityIndicator,
   Dimensions,
   InteractionManager
 } from 'react-native';
@@ -31,6 +32,20 @@ function getGoogleMapsCoordinates(coordinates) {
   });
 
   return cords;
+}
+
+function renderLoading() {
+  return (
+    <View
+      style={styles.loader}
+      pointerEvents={'none'}
+    >
+      <ActivityIndicator
+        style={{ height: 80 }}
+        size={'large'}
+      />
+    </View>
+  );
 }
 
 class ProtectedAreas extends Component {
@@ -108,12 +123,12 @@ class ProtectedAreas extends Component {
       SELECT the_geom, cartodb_id, iucn_cat, iso3, wdpa_pid,
       ST_AsGeoJSON(ST_Centroid(the_geom)) as centroid,
       ST_AsGeoJSON(ST_Envelope(the_geom)) as boundaries
-      FROM wdpa_protected_areas ${filter} LIMIT 10&format=geojson`;
+      FROM wdpa_protected_areas ${filter} LIMIT 15&format=geojson`;
 
     fetch(url)
       .then(response => response.json())
       .then((responseData) => {
-        this.setBoundaries();
+        // this.setBoundaries(); Disabled by now
         this.setState({
           data: responseData.features,
           loaded: true
@@ -128,6 +143,10 @@ class ProtectedAreas extends Component {
   render() {
     return (
       <View style={styles.container}>
+        {!this.state.loaded
+          ? renderLoading()
+          : null
+        }
         <MapView
           ref={(ref) => { this.map = ref; }}
           style={styles.map}

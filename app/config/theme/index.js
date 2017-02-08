@@ -35,7 +35,8 @@ const config = {
   background: {
     main: colors.color4,
     secondary: colors.color1,
-    white: colors.color5
+    white: colors.color5,
+    modal: 'rgba(0, 0, 0, 0.4)'
   },
   borderColors: {
     main: colors.color6
