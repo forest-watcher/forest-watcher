@@ -11,7 +11,8 @@ export default {
       title: 'Login'
     },
     countries: {
-      nameColumn: 'name_engli'
+      nameColumn: 'name_engli',
+      searchPlaceholder: 'Search for a country'
     },
     boundaries: {
       selectArea: 'Select a protected area',

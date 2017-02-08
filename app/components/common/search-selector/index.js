@@ -53,6 +53,10 @@ class SearchSelector extends Component {
   }
 
   render() {
+    const placeholder = this.props.selected && this.props.selected.label
+      ? this.props.selected.label
+      : this.props.placeholder;
+
     return (
       <View>
         <TouchableHighlight
@@ -61,7 +65,9 @@ class SearchSelector extends Component {
           underlayColor="transparent"
         >
           <View style={styles.searchContainer}>
-            <Text style={styles.searchText}>{this.props.selected.label}</Text>
+            <Text style={styles.searchText}>
+              {placeholder}
+            </Text>
             <Image style={Theme.icon} source={searchImage} />
           </View>
         </TouchableHighlight>

@@ -34,7 +34,7 @@ function ActionButton(props) {
       activeOpacity={0.8}
       underlayColor={underlayColor}
     >
-      <View style={styles.button}>
+      <View style={[styles.button, props.light ? styles.buttonLight : '']}>
         <Text style={[styles.buttonText, props.light ? styles.buttonTextLight : '']}>{props.text}</Text>
         <Image style={Theme.icon} source={props.light ? nextIcon : nextIconWhite} />
       </View>

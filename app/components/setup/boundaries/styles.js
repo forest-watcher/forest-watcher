@@ -77,21 +77,10 @@ export default StyleSheet.create({
     marginTop: 26,
     marginBottom: 19
   },
-  button: {
-    height: 64,
+  buttonPos: {
     position: 'absolute',
     bottom: 50,
     left: 8,
-    right: 8,
-    borderRadius: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Theme.colors.color1
-  },
-  buttonText: {
-    color: Theme.fontColors.white,
-    fontFamily: Theme.font,
-    fontSize: 15,
-    fontWeight: '500'
+    right: 8
   }
 });

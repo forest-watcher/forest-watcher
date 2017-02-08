@@ -65,7 +65,7 @@ class Setup extends Component {
         >
           <SetupCountry onNextPress={this.goToNextPage} />
           <SetupBoundaries onNextPress={this.goToNextPage} />
-          <SetupOverView onNextPress={this.props.navigateBack} />
+          <SetupOverView onNextPress={this.props.onFinishSetup} />
         </ScrollableTabView>
       </View>
     );
@@ -73,7 +73,7 @@ class Setup extends Component {
 }
 
 Setup.propTypes = {
-  navigateBack: React.PropTypes.func.isRequired
+  onFinishSetup: React.PropTypes.func.isRequired
 };
 
 Setup.navigationOptions = {

@@ -5,6 +5,7 @@ import {
   Text,
   ActivityIndicator,
   Dimensions,
+  Animated,
   InteractionManager
 } from 'react-native';
 
@@ -59,6 +60,7 @@ class ProtectedAreas extends Component {
     this.state = {
       data: [],
       loaded: false,
+      animationButtonBottom: new Animated.Value(-80),
       country: null,
       wdpa: null,
       region: {
@@ -93,12 +95,13 @@ class ProtectedAreas extends Component {
       wdpa: areaSelected.properties
     }, () => {
       const boundaries = JSON.parse(areaSelected.properties.boundaries).coordinates[0];
+      Animated.timing(
+        this.state.animationButtonBottom,
+        { toValue: 1 }
+      ).start();
       this.map.fitToCoordinates(getGoogleMapsCoordinates(boundaries), {
         edgePadding: { top: 40, right: 40, bottom: 40, left: 40 },
         animated: true
-      });
-      this.props.onAreaSelected({
-        wdpaid: areaSelected.properties.wdpa_pid
       });
     });
   }
@@ -107,8 +110,10 @@ class ProtectedAreas extends Component {
     this.region = region;
   }
 
-  onNextPress = () => {
-
+  onAreaSelected = () => {
+    this.props.onAreaSelected({
+      wdpaid: this.state.wdpa.wdpa_pid
+    });
   }
 
   setBoundaries() {
@@ -182,17 +187,22 @@ class ProtectedAreas extends Component {
             style={styles.footerBg}
             source={footerBackgroundImage}
           />
-          {this.state.wdpa
-            ? <ActionButton
-              light
-              style={styles.footerButton}
-              onPress={this.onNextPress}
-              text={this.state.wdpa.name}
-            />
-            : <Text style={styles.footerTitle}>
+          {!this.state.wdpa
+            ? <Text style={styles.footerTitle}>
               Select an area to continue
             </Text>
+            : null
           }
+          <Animated.View
+            style={[styles.footerButtonContainer, { bottom: this.state.animationButtonBottom }]}
+          >
+            <ActionButton
+              light
+              style={styles.footerButton}
+              onPress={this.onAreaSelected}
+              text={this.state.wdpa ? this.state.wdpa.name : ''}
+            />
+          </Animated.View>
         </View>
       </View>
     );

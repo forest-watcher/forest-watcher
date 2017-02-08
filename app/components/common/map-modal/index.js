@@ -19,6 +19,10 @@ class MapModal extends Component {
     StatusBar.setBarStyle('light-content');
   }
 
+  componentWillUnmount() {
+    StatusBar.setBarStyle('default');
+  }
+
   close() {
     this.props.onClosePress();
     StatusBar.setBarStyle('default');

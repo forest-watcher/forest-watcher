@@ -7,6 +7,7 @@ import {
 
 import SearchSelector from 'components/common/search-selector';
 import ActionButton from 'components/common/action-button';
+import I18n from 'locales';
 import styles from './styles';
 
 function renderLoading() {
@@ -20,15 +21,22 @@ function renderLoading() {
   );
 }
 
-function getCurrentCountry(countries, iso) {
+function getCountrySelected(countries, iso) {
   for (let i = 0, length = countries.length; i < length; i++) {
     if (countries[i].iso === iso) {
       return {
         label: countries[i].name,
-        id: iso,
-        centroid: countries[i].centroid,
-        bbox: countries[i].bbox
+        id: iso
       };
+    }
+  }
+  return { label: '', id: iso };
+}
+
+function getCurrentCountry(countries, iso) {
+  for (let i = 0, length = countries.length; i < length; i++) {
+    if (countries[i].iso === iso) {
+      return countries[i];
     }
   }
   return { label: '', id: iso };
@@ -45,9 +53,10 @@ class SetupCountry extends Component {
   }
 
   onNextPress = () => {
-    const { setupCountry } = this.props;
-    if (!setupCountry.iso && this.currentCountry.iso) {
-      this.props.setSetupCountry(this.currentCountry);
+    const { setupCountry, countries, user } = this.props;
+    if (!setupCountry.iso && user.country) {
+      const currentCountry = getCurrentCountry(countries, user.country);
+      this.props.setSetupCountry(currentCountry);
     }
     this.props.onNextPress();
   }
@@ -56,7 +65,7 @@ class SetupCountry extends Component {
     const { user, countries, setupCountry } = this.props;
     if (user && countries && countries.length) {
       const iso = setupCountry.iso || user.country;
-      this.currentCountry = getCurrentCountry(countries, iso);
+
       return (
         <View style={styles.container}>
           <View style={styles.content}>
@@ -67,10 +76,10 @@ class SetupCountry extends Component {
           <View style={styles.selector}>
             <Text style={styles.selectorLabel}>First, select your country of interest</Text>
             <SearchSelector
-              selected={this.currentCountry}
+              selected={getCountrySelected(countries, iso)}
               onOptionSelected={(country) => { this.props.setSetupCountry(country); }}
               data={countries}
-              placeholder={'Search for a country'}
+              placeholder={I18n.t('countries.searchPlaceholder')}
             />
           </View>
 

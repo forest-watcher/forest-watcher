@@ -42,5 +42,16 @@ export default StyleSheet.create({
     bottom: 30,
     marginLeft: Theme.margin.left,
     opacity: 0.7
+  },
+  footerButtonContainer: {
+    left: 0,
+    right: 0,
+    position: 'absolute'
+  },
+  footerButton: {
+    left: 8,
+    right: 8,
+    bottom: 10,
+    position: 'absolute'
   }
 });

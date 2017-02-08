@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import MapModal from 'components/common/map-modal';
+import ActionButton from 'components/common/action-button';
 import ProtectedAreas from 'components/setup/protected-areas';
 import DrawAreas from 'components/setup/draw-areas';
 import Theme from 'config/theme';
@@ -30,7 +31,7 @@ class SetupBoundaries extends Component {
 
   onAreaSelected = (area) => {
     this.props.setSetupArea(area);
-    this.setDrawAreasStatus(false);
+    this.setProtectedAreasStatus(false);
     this.props.onNextPress();
   }
 
@@ -119,6 +120,10 @@ class SetupBoundaries extends Component {
             />
           </MapModal>
         }
+        {this.props.area && (this.props.area.wdpaid || this.props.area.geostore)
+          ? <ActionButton style={styles.buttonPos} onPress={this.props.onNextPress} text="NEXT" />
+          : null
+        }
       </View>
     );
   }
@@ -127,7 +132,11 @@ class SetupBoundaries extends Component {
 SetupBoundaries.propTypes = {
   setSetupArea: React.PropTypes.func.isRequired,
   setupCountry: React.PropTypes.object.isRequired,
-  onNextPress: React.PropTypes.func.isRequired
+  onNextPress: React.PropTypes.func.isRequired,
+  area: React.PropTypes.shape({
+    wdpaid: React.PropTypes.number,
+    geostore: React.PropTypes.string
+  })
 };
 
 export default SetupBoundaries;
