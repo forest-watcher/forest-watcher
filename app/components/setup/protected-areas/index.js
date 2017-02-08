@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import {
+  View,
+  Image,
+  Text,
   Dimensions,
   InteractionManager
 } from 'react-native';
@@ -14,6 +17,8 @@ const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 30;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
+const footerBackgroundImage = require('assets/map_bg_gradient.png');
 
 function getGoogleMapsCoordinates(coordinates) {
   const cords = [];
@@ -122,28 +127,39 @@ class ProtectedAreas extends Component {
 
   render() {
     return (
-      <MapView
-        ref={(ref) => { this.map = ref; }}
-        style={styles.map}
-        provider={MapView.PROVIDER_GOOGLE}
-        mapType="hybrid"
-        rotateEnabled={false}
-        onRegionChangeComplete={region => this.onRegionChanged(region)}
-        initialRegion={this.state.region}
-      >
-        {this.state.data.map((polygon, key) => (
-          <MapView.Polygon
-            key={`${polygon.properties.iso3}-${key}`}
-            coordinates={getGoogleMapsCoordinates(polygon.geometry.coordinates[0][0])}
-            strokeColor={!polygon.selected
-              ? Theme.polygon.stroke : Theme.polygon.strokeSelected}
-            fillColor={!polygon.selected
-              ? Theme.polygon.fill : Theme.polygon.fillSelected}
-            strokeWidth={2}
-            onPress={() => this.onProtectedArea(polygon)}
+      <View style={styles.container}>
+        <MapView
+          ref={(ref) => { this.map = ref; }}
+          style={styles.map}
+          provider={MapView.PROVIDER_GOOGLE}
+          mapType="hybrid"
+          rotateEnabled={false}
+          onRegionChangeComplete={region => this.onRegionChanged(region)}
+          initialRegion={this.state.region}
+        >
+          {this.state.data.map((polygon, key) => (
+            <MapView.Polygon
+              key={`${polygon.properties.iso3}-${key}`}
+              coordinates={getGoogleMapsCoordinates(polygon.geometry.coordinates[0][0])}
+              strokeColor={!polygon.selected
+                ? Theme.polygon.stroke : Theme.polygon.strokeSelected}
+              fillColor={!polygon.selected
+                ? Theme.polygon.fill : Theme.polygon.fillSelected}
+              strokeWidth={2}
+              onPress={() => this.onProtectedArea(polygon)}
+            />
+          ))}
+        </MapView>
+        <View style={styles.footer}>
+          <Image
+            style={styles.footerBg}
+            source={footerBackgroundImage}
           />
-        ))}
-      </MapView>
+          <Text style={styles.footerTitle}>
+            Select an area to continue
+          </Text>
+        </View>
+      </View>
     );
   }
 }

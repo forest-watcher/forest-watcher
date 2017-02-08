@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import {
+  View,
+  Image,
+  Text,
   Dimensions
 } from 'react-native';
 
@@ -13,6 +16,8 @@ const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 30;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
+const footerBackgroundImage = require('assets/map_bg_gradient.png');
 
 function getGoogleMapsCoordinates(coordinates) {
   return coordinates.map((cordinate) => ({
@@ -72,26 +77,37 @@ class DrawAreas extends Component {
   render() {
     const { coordinates } = this.state.shape;
     return (
-      <MapView
-        ref={(ref) => { this.map = ref; }}
-        style={styles.map}
-        provider={MapView.PROVIDER_GOOGLE}
-        mapType="hybrid"
-        rotateEnabled={false}
-        initialRegion={this.state.region}
-        onPress={e => this.onPress(e)}
-        onRegionChangeComplete={this.setBoundaries}
-      >
-        {coordinates.length > 0 && (
-          <MapView.Polygon
-            key={0}
-            coordinates={coordinates}
-            strokeColor={Theme.polygon.stroke}
-            fillColor={Theme.polygon.fill}
-            strokeWidth={1}
+      <View style={styles.container}>
+        <MapView
+          ref={(ref) => { this.map = ref; }}
+          style={styles.map}
+          provider={MapView.PROVIDER_GOOGLE}
+          mapType="hybrid"
+          rotateEnabled={false}
+          initialRegion={this.state.region}
+          onPress={e => this.onPress(e)}
+          onRegionChangeComplete={this.setBoundaries}
+        >
+          {coordinates.length > 0 && (
+            <MapView.Polygon
+              key={0}
+              coordinates={coordinates}
+              strokeColor={Theme.polygon.stroke}
+              fillColor={Theme.polygon.fill}
+              strokeWidth={1}
+            />
+          )}
+        </MapView>
+        <View style={styles.footer}>
+          <Image
+            style={styles.footerBg}
+            source={footerBackgroundImage}
           />
-        )}
-      </MapView>
+          <Text style={styles.footerTitle}>
+            Select an area to continue
+          </Text>
+        </View>
+      </View>
     );
   }
 }

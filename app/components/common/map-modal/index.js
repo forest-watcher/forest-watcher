@@ -47,15 +47,6 @@ class MapModal extends Component {
           ? this.props.children
           : null
         }
-        <View style={styles.footer}>
-          <Image
-            style={styles.footerBg}
-            source={headerBackgroundImage}
-          />
-          <Text style={styles.footerTitle}>
-            Select an area to continue
-          </Text>
-        </View>
       </Modal>
     );
   }
