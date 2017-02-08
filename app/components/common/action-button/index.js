@@ -48,7 +48,7 @@ ActionButton.defaultProps = {
 
 ActionButton.propTypes = {
   light: React.PropTypes.bool,
-  style: React.PropTypes.object,
+  style: React.PropTypes.node,
   disabled: React.PropTypes.bool,
   text: React.PropTypes.string.isRequired,
   onPress: React.PropTypes.func.isRequired
