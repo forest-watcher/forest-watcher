@@ -6,15 +6,48 @@ import {
   TextInput
 } from 'react-native';
 
+import Config from 'react-native-config';
 import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
 import styles from './styles';
 
 const editImage = require('assets/edit.png');
 
+function saveArea(params, token) {
+  const url = `${Config.API_URL}/area`;
+  const fetchConfig = {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(params)
+  };
+  return fetch(url, fetchConfig)
+    .then(res => {
+      if (res.ok) return res.json();
+      throw res;
+    });
+}
+
 class SetupOverview extends Component {
   state = {
     name: ''
+  }
+
+  onNextPress = async () => {
+    try {
+      const params = {
+        name: this.state.name,
+        area: this.props.area,
+        userid: this.props.user.id
+      };
+      const area = await saveArea(params, this.props.user.token);
+      // TODO: save area: image in reducer
+      this.props.onNextPress();
+    } catch (err) {
+      console.warn(err, 'TODO: handle error');
+    }
   }
 
   textChange = (name) => {
@@ -49,13 +82,17 @@ class SetupOverview extends Component {
           </View>
         </View>
 
-        <ActionButton style={styles.buttonPos} onPress={this.props.onNextPress} text="FINISH" />
+        <ActionButton style={styles.buttonPos} disabled={!this.state.name} onPress={this.onNextPress} text="FINISH" />
       </View>
     );
   }
 }
 
 SetupOverview.propTypes = {
+  user: React.PropTypes.shape({
+    id: React.PropTypes.string.isRequired,
+    token: React.PropTypes.string.isRequired
+  }).isRequired,
   snapshot: React.PropTypes.string.isRequired,
   onNextPress: React.PropTypes.func.isRequired
 };
