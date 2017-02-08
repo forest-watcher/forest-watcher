@@ -13,6 +13,9 @@ import Theme from 'config/theme';
 import I18n from 'locales';
 import styles from './styles';
 
+const protectedAreaImage = require('assets/select_pa.png');
+const drawAreaImage = require('assets/draw_pa.png');
+
 class SetupBoundaries extends Component {
   static navigationOptions = {
     header: {
@@ -34,8 +37,8 @@ class SetupBoundaries extends Component {
     this.props.onNextPress();
   }
 
-  onDrawAreaFinish = (area) => {
-    this.props.setSetupArea(area);
+  onDrawAreaFinish = (area, snapshot) => {
+    this.props.setSetupArea(area, snapshot);
     this.setDrawAreasStatus(false);
     this.props.onNextPress();
   }
@@ -63,7 +66,7 @@ class SetupBoundaries extends Component {
               <View style={styles.sectionTextContainer}>
                 <Image
                   style={styles.iconProtected}
-                  source={require('assets/select_pa.png')}
+                  source={protectedAreaImage}
                 />
                 <Text
                   style={styles.sectionText}
@@ -83,7 +86,7 @@ class SetupBoundaries extends Component {
               <View style={styles.sectionTextContainer}>
                 <Image
                   style={styles.iconDraw}
-                  source={require('assets/draw_pa.png')}
+                  source={drawAreaImage}
                 />
                 <Text
                   style={styles.sectionText}

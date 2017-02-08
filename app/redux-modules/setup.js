@@ -10,7 +10,8 @@ const initialState = {
     geostore: '',
     wdpaid: 0,
     userId: ''
-  }
+  },
+  snapshot: ''
 };
 
 export default function reducer(state = initialState, action) {
@@ -25,7 +26,10 @@ export default function reducer(state = initialState, action) {
       return Object.assign({}, state, { country });
     }
     case SET_AOI:
-      return Object.assign({}, state, { area: action.payload });
+      return Object.assign({}, state, {
+        area: action.payload.area,
+        snapshot: action.payload.snapshot
+      });
     default:
       return state;
   }
@@ -38,9 +42,12 @@ export function setSetupCountry(country) {
   };
 }
 
-export function setSetupAOI(aoi) {
+export function setSetupAOI(area, snapshot) {
   return {
     type: SET_AOI,
-    payload: aoi
+    payload: {
+      area,
+      snapshot
+    }
   };
 }

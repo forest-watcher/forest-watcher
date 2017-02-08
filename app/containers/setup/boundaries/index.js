@@ -13,8 +13,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setSetupArea: (area) => {
-      dispatch(setSetupAOI(area));
+    setSetupArea: (area, snapshot) => {
+      dispatch(setSetupAOI(area, snapshot));
     }
   };
 }
