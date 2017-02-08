@@ -9,7 +9,7 @@ const NAV_SHOW_HEADER = 'navigation/NAV_SHOW_HEADER';
 const initialNavState = {
   index: 0,
   routes: [
-    { routeName: 'Dashboard' }
+    { routeName: 'Dashboard', key: 'dashboard' }
   ]
 };
 
