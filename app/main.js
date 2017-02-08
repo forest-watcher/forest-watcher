@@ -27,6 +27,9 @@ const store = createStore(
 // Disable ios warnings
 // console.disableYellowBox = true;
 
+// Show request in chrome network tool
+GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
+
 const persistConfig = {
   storage: AsyncStorage,
   blacklist: ['navigation']
