@@ -51,13 +51,18 @@ export default StyleSheet.create({
     flex: 1
   },
   listContent: {
-    padding: 24
+    paddingTop: 10,
+    paddingBottom: 10
   },
   listItem: {
+    paddingLeft: 24,
+    paddingTop: 10,
+    paddingBottom: 10
+  },
+  listItemText: {
     fontFamily: Theme.font,
     color: Theme.fontColors.light,
     fontSize: 17,
-    fontWeight: '400',
-    marginBottom: 20
+    fontWeight: '400'
   }
 });
