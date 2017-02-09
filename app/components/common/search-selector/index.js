@@ -37,10 +37,7 @@ class SearchSelector extends Component {
   }
 
   onOptionSelected(country) {
-    this.props.onOptionSelected({
-      name: country.name,
-      iso: country.iso
-    });
+    this.props.onOptionSelected(country);
     this.close();
   }
 
@@ -56,6 +53,10 @@ class SearchSelector extends Component {
   }
 
   render() {
+    const placeholder = this.props.selected && this.props.selected.label
+      ? this.props.selected.label
+      : this.props.placeholder;
+
     return (
       <View>
         <TouchableHighlight
@@ -64,7 +65,9 @@ class SearchSelector extends Component {
           underlayColor="transparent"
         >
           <View style={styles.searchContainer}>
-            <Text style={styles.searchText}>{this.props.selected.label}</Text>
+            <Text style={styles.searchText}>
+              {placeholder}
+            </Text>
             <Image style={Theme.icon} source={searchImage} />
           </View>
         </TouchableHighlight>
@@ -77,11 +80,12 @@ class SearchSelector extends Component {
           <View style={styles.modal}>
             <View style={styles.search}>
               <TextInput
-                autoFocus
+                autoFocus={false}
                 autoCapitalize="none"
                 autoCorrect={false}
                 value={this.state.inputValue}
                 placeholder={this.props.placeholder}
+                underlineColorAndroid="transparent"
                 style={styles.searchInput}
                 placeholderTextColor={Theme.fontColors.light}
                 selectionColor={Theme.colors.color1}

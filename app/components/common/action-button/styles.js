@@ -18,6 +18,9 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  buttonLight: {
+    justifyContent: 'flex-start'
+  },
   buttonText: {
     flex: 1,
     marginLeft: Theme.icon.width,
@@ -28,6 +31,10 @@ export default StyleSheet.create({
     fontWeight: '500'
   },
   buttonTextLight: {
-    color: Theme.fontColors.main
+    color: Theme.fontColors.secondary,
+    fontSize: 17,
+    fontWeight: '400',
+    textAlign: 'left',
+    marginLeft: Theme.margin.left
   }
 });

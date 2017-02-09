@@ -68,7 +68,7 @@ class Dashboard extends Component {
                 activeOpacity={0.5}
                 underlayColor="transparent"
               >
-                <Text>{item.name}</Text>
+                <Text>{item.title}</Text>
               </TouchableHighlight>
             )
           )}

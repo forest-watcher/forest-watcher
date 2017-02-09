@@ -12,7 +12,7 @@ import styles from './styles';
 const nextIcon = require('assets/next.png');
 const nextIconWhite = require('assets/next_white.png');
 
-function NextButton(props) {
+function ActionButton(props) {
   function onButtonPress() {
     if (!props.disabled) {
       props.onPress();
@@ -34,7 +34,7 @@ function NextButton(props) {
       activeOpacity={0.8}
       underlayColor={underlayColor}
     >
-      <View style={styles.button}>
+      <View style={[styles.button, props.light ? styles.buttonLight : '']}>
         <Text style={[styles.buttonText, props.light ? styles.buttonTextLight : '']}>{props.text}</Text>
         <Image style={Theme.icon} source={props.light ? nextIcon : nextIconWhite} />
       </View>
@@ -42,16 +42,16 @@ function NextButton(props) {
   );
 }
 
-NextButton.defaultProps = {
+ActionButton.defaultProps = {
   disabled: false
 };
 
-NextButton.propTypes = {
+ActionButton.propTypes = {
   light: React.PropTypes.bool,
-  style: React.PropTypes.object,
+  style: React.PropTypes.node,
   disabled: React.PropTypes.bool,
   text: React.PropTypes.string.isRequired,
   onPress: React.PropTypes.func.isRequired
 };
 
-export default NextButton;
+export default ActionButton;

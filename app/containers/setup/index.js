@@ -12,14 +12,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    navigate: (action) => {
-      dispatch(navigatePush(action));
-    },
-    navigateBack: (action) => {
+    onFinishSetup: (action) => {
       dispatch(navigatePop(action));
-    },
-    showNavHeader: (action) => {
-      dispatch(showNavHeader(action));
     }
   };
 }

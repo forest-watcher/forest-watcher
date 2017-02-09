@@ -39,6 +39,7 @@ export default StyleSheet.create({
   },
   searchInput: {
     height: 24,
+    paddingBottom: 0,
     marginLeft: 24,
     marginRight: 48,
     fontFamily: Theme.font,

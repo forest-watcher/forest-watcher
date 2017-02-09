@@ -22,11 +22,11 @@ function mapDispatchToProps(dispatch) {
     navigateBack: (action) => {
       dispatch(navigatePop(action));
     },
-    getUser: (action) => {
-      dispatch(getUser(action));
+    getUser: () => {
+      dispatch(getUser());
     },
-    getCountries: (action) => {
-      dispatch(getCountries(action));
+    getCountries: () => {
+      dispatch(getCountries());
     },
     setSetupCountry: (country) => {
       dispatch(setSetupCountry(country));

@@ -5,8 +5,8 @@ import {
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import SetupCountry from 'containers/setup/country';
-import SetupBoundaries from 'components/setup/boundaries';
-import SetupOverView from 'components/setup/overview';
+import SetupBoundaries from 'containers/setup/boundaries';
+import SetupOverView from 'containers/setup/overview';
 import Header from './header';
 import styles from './styles';
 
@@ -65,7 +65,7 @@ class Setup extends Component {
         >
           <SetupCountry onNextPress={this.goToNextPage} />
           <SetupBoundaries onNextPress={this.goToNextPage} />
-          <SetupOverView onNextPress={this.props.navigateBack} />
+          <SetupOverView onNextPress={this.props.onFinishSetup} />
         </ScrollableTabView>
       </View>
     );
@@ -73,7 +73,7 @@ class Setup extends Component {
 }
 
 Setup.propTypes = {
-  navigateBack: React.PropTypes.func.isRequired
+  onFinishSetup: React.PropTypes.func.isRequired
 };
 
 Setup.navigationOptions = {

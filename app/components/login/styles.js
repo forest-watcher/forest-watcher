@@ -7,25 +7,36 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.main
   },
   intro: {
-    flex: 0.5,
+    flex: 0.4,
     alignItems: 'center'
   },
+  logo: {
+    width: 108,
+    height: 112,
+    marginTop: 60
+  },
   introLabel: {
-    marginTop: 230,
     fontFamily: Theme.font,
     color: Theme.fontColors.main,
     fontSize: 15,
-    fontWeight: '500'
+    fontWeight: '500',
+    marginTop: 20
   },
   buttons: {
-    flex: 0.5
+    flex: 0.6,
+    marginTop: 70
   },
   buttonsLabel: {
     fontFamily: Theme.font,
     color: Theme.fontColors.light,
     fontSize: 17,
     fontWeight: '400',
-    marginLeft: Theme.margin.left
+    marginLeft: Theme.margin.left,
+    ...Platform.select({
+      android: {
+        marginBottom: 8
+      }
+    })
   },
   button: {
     height: 64,
@@ -35,6 +46,13 @@ export default StyleSheet.create({
     borderRadius: 100,
     justifyContent: 'center',
     overflow: 'hidden'
+  },
+  iconArrow: {
+    width: 10,
+    height: 18,
+    position: 'absolute',
+    right: 24,
+    top: 2
   },
   buttonFacebook: {
     backgroundColor: Theme.socialNetworks.facebook

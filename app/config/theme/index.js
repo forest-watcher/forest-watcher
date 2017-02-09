@@ -35,7 +35,8 @@ const config = {
   background: {
     main: colors.color4,
     secondary: colors.color1,
-    white: colors.color5
+    white: colors.color5,
+    modal: 'rgba(0, 0, 0, 0.4)'
   },
   borderColors: {
     main: colors.color6
@@ -55,6 +56,13 @@ const config = {
     alignItems: 'center',
     justifyContent: 'center',
     resizeMode: 'center'
+  },
+  polygon: {
+    fill: 'rgba(151, 190, 49, 0.5)',
+    fillSelected: 'rgba(255, 255, 255, 0.5)',
+    stroke: '#97be32',
+    strokeWidth: 2,
+    strokeSelected: '#FFFFFF'
   }
 };
 

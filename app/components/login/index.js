@@ -128,6 +128,10 @@ class Login extends Component {
           </View>
           : <View style={styles.container}>
             <View style={styles.intro}>
+              <Image
+                style={styles.logo}
+                source={require('assets/logo.png')}
+              />
               <Text style={styles.introLabel}>FOREST WATCHER 2.0</Text>
             </View>
             <View style={styles.buttons}>
@@ -144,6 +148,10 @@ class Login extends Component {
                     source={require('assets/facebook_white.png')}
                   />
                   <Text style={styles.buttonText}>Facebook</Text>
+                  <Image
+                    style={styles.iconArrow}
+                    source={require('assets/next_white.png')}
+                  />
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
@@ -158,6 +166,10 @@ class Login extends Component {
                     source={require('assets/twitter_white.png')}
                   />
                   <Text style={styles.buttonText}>Twitter</Text>
+                  <Image
+                    style={styles.iconArrow}
+                    source={require('assets/next_white.png')}
+                  />
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
@@ -172,6 +184,10 @@ class Login extends Component {
                     source={require('assets/google_white.png')}
                   />
                   <Text style={styles.buttonText}>Google</Text>
+                  <Image
+                    style={styles.iconArrow}
+                    source={require('assets/next_white.png')}
+                  />
                 </View>
               </TouchableHighlight>
             </View>
