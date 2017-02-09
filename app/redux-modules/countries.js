@@ -1,5 +1,6 @@
 import Config from 'react-native-config';
-import I18n from 'locales';
+import { getLanguage } from 'helpers/language';
+import CONSTANTS from 'config/constants';
 
 // Actions
 const GET_COUNTRIES = 'countries/GET_COUNTRIES';
@@ -20,8 +21,11 @@ export default function reducer(state = initialState, action) {
 
 // Action Creators
 export function getCountries() {
+  const currentLang = getLanguage();
+  const nameColumnId = CONSTANTS.countries.nameColumn[currentLang];
+
   const url = `${Config.API_PRODUCTION_URL}/query/${Config.DATASET_COUNTRIES}?sql=
-    SELECT ${I18n.t('countries.nameColumn')} as name, iso, centroid, bbox
+    SELECT ${nameColumnId} as name, iso, centroid, bbox
     FROM gadm28_countries ORDER BY name ASC`;
 
   return (dispatch) => {

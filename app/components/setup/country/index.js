@@ -49,7 +49,7 @@ class SetupCountry extends Component {
     if (!this.props.user) {
       this.props.getUser();
     }
-    if (!this.props.countries) {
+    if (!this.props.countries || !this.props.countries.length > 0) {
       this.props.getCountries();
     }
   }

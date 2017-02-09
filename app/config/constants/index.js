@@ -25,5 +25,12 @@ export default {
         ]
       ]
     }
+  },
+  countries: {
+    nameColumn: {
+      en: 'name_engli',
+      es: 'name_spani',
+      fr: 'name_frenc'
+    }
   }
 };
