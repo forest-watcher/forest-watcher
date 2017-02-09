@@ -17,8 +17,11 @@
       "drawArea": "Draw an area"
     },
     "settings": {
-      "user": {
-        "label": "You're logged in as"
-      }
+      "loggedIn": "You're logged in as",
+      "yourAreas": "Your areas",
+      "addArea": "Add area",
+      "aboutApp": "About this app",
+      "aboutPartners": "Partners",
+      "aboutTerms": "Terms and Conditions"
     }
   }

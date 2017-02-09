@@ -28,8 +28,8 @@ export default StyleSheet.create({
     paddingTop: 44,
     height: 88,
     backgroundColor: Theme.colors.color5,
-    borderBottomWidth: 1,
-    borderBottomColor: Theme.colors.color6,
+    borderBottomColor: Theme.borderColors.main,
+    borderBottomWidth: 2,
     position: 'relative'
   },
   closeIcon: {

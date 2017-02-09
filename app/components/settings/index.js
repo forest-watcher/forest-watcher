@@ -3,12 +3,17 @@ import {
   View,
   Text,
   TouchableHighlight,
-  ActivityIndicator
+  ActivityIndicator,
+  ScrollView,
+  Image
 } from 'react-native';
 
 import Theme from 'config/theme';
 import I18n from 'locales';
 import styles from './styles';
+
+const nextIcon = require('assets/next.png');
+const plusIcon = require('assets/plus.png');
 
 function renderLoading() {
   return (
@@ -21,6 +26,17 @@ function renderLoading() {
     </View>
   );
 }
+
+const aboutSections = [
+  {
+    title: I18n.t('settings.aboutPartners'),
+    section: 'Partners'
+  },
+  {
+    title: I18n.t('settings.aboutTerms'),
+    section: 'Terms'
+  }
+];
 
 class Settings extends Component {
   constructor() {
@@ -40,46 +56,110 @@ class Settings extends Component {
     if (areas && areas.length) {
       return (
         <View style={styles.container}>
-          <Text style={styles.label}>
-            {I18n.t('settings.user.label')}
-          </Text>
+          <ScrollView
+            style={styles.list}
+            contentContainerStyle={styles.listContent}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+          >
+            <Text style={styles.label}>
+              {I18n.t('settings.loggedIn')}
+            </Text>
 
-          <View style={styles.user}>
-            <View style={styles.info}>
-              <Text style={styles.name}>
-                {this.props.user.fullName}
+            <View style={styles.user}>
+              <View style={styles.info}>
+                <Text style={styles.name}>
+                  {this.props.user.fullName}
+                </Text>
+                <Text style={styles.email}>
+                  {this.props.user.email}
+                </Text>
+              </View>
+              <TouchableHighlight
+                activeOpacity={0.5}
+                underlayColor="transparent"
+              >
+                <Text style={styles.logout}>LOG OUT</Text>
+              </TouchableHighlight>
+            </View>
+
+            <View style={styles.areas}>
+              <Text style={styles.label}>
+                {I18n.t('settings.yourAreas')}
               </Text>
-              <Text style={styles.email}>
-                {this.props.user.email}
+
+              {areas.map((item, key) => {
+                const area = item.attributes;
+                area.id = item.id;
+
+                return (
+                  <TouchableHighlight
+                    key={key}
+                    activeOpacity={0.5}
+                    underlayColor="transparent"
+                  >
+                    <View style={styles.item}>
+                      <View style={styles.image} />
+                      <Text style={styles.title} numberOfLines={2}>
+                        {area.name}
+                      </Text>
+                      <TouchableHighlight
+                        style={Theme.icon}
+                        activeOpacity={0.5}
+                        underlayColor="transparent"
+                      >
+                        <Image source={nextIcon} />
+                      </TouchableHighlight>
+                    </View>
+                  </TouchableHighlight>
+                );
+              }
+              )}
+            </View>
+
+            <View style={styles.addButton}>
+              <TouchableHighlight
+                style={Theme.icon}
+                activeOpacity={0.5}
+                underlayColor="transparent"
+              >
+                <Image source={plusIcon} />
+              </TouchableHighlight>
+              <Text style={styles.addButtonText}>
+                {I18n.t('settings.addArea').toUpperCase()}
               </Text>
             </View>
-            <TouchableHighlight
-              activeOpacity={0.5}
-              underlayColor="transparent"
-            >
-              <Text style={styles.logout}>LOG OUT</Text>
-            </TouchableHighlight>
-          </View>
 
-          <View style={styles.areas}>
-            {areas.map((item, key) => {
-              const area = item.attributes;
-              area.id = item.id;
+            <View style={styles.aboutSection}>
+              <Text style={styles.label}>
+                {I18n.t('settings.aboutApp')}
+              </Text>
 
-              return (
-                <TouchableHighlight
-                  style={styles.item}
-                  key={key}
-                  activeOpacity={0.5}
-                  underlayColor="transparent"
-                >
-                  <Text>{area.name}</Text>
-                </TouchableHighlight>
-              );
-            }
-          )}
-          </View>
+              <View style={styles.aboutList}>
+                {aboutSections.map((item, key) => {
+                  const borderStyle = key < aboutSections.length
+                    ? styles.aboutListItemBorder
+                    : '';
+                  return (
+                    <TouchableHighlight key={key}>
+                      <View style={[styles.aboutListItem, borderStyle]}>
+                        <Text style={styles.aboutListItemText}>
+                          {item.title}
+                        </Text>
+                        <Image style={Theme.icon} source={nextIcon} />
+                      </View>
+                    </TouchableHighlight>
+                  );
+                }
+                )}
+              </View>
 
+              <Text style={[styles.label, styles.footerText]}>
+                Forest Watcher 2.0
+              </Text>
+
+            </View>
+          </ScrollView>
         </View>
       );
     }
