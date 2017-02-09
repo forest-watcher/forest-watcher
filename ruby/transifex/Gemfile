@@ -1,0 +1,8 @@
+ruby '2.4.0'
+
+source 'https://rubygems.org' do
+  gem 'transifex-interface-ruby'
+  gem 'rake'
+  gem 'multi_json'
+  gem 'dotenv'
+end
