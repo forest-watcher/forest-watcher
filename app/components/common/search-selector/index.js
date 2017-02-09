@@ -106,15 +106,23 @@ class SearchSelector extends Component {
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
             >
-              {getFilteredData(this.props.data, this.state.searchValue).map((item, key) =>
-                (<Text
-                  key={key}
+            {getFilteredData(this.props.data, this.state.searchValue).map((item, key) =>
+              (
+                <TouchableHighlight
                   style={styles.listItem}
                   onPress={() => this.onOptionSelected(item)}
+                  activeOpacity={0.5}
+                  underlayColor="transparent"
                 >
-                  {item.name}
-                </Text>)
-              )}
+                  <Text
+                    key={key}
+                    style={styles.listItemText}
+                  >
+                    {item.name}
+                  </Text>
+                </TouchableHighlight>
+              )
+            )}
             </ScrollView>
           </View>
         </Modal>
