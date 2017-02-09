@@ -15,5 +15,10 @@
     "boundaries": {
       "selectArea": "Select a protected area",
       "drawArea": "Draw an area"
+    },
+    "settings": {
+      "user": {
+        "label": "You're logged in as"
+      }
     }
   }

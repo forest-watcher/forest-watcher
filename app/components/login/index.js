@@ -2,15 +2,12 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Button,
   WebView,
   Modal,
-  AsyncStorage,
   TouchableHighlight,
   Image
 } from 'react-native';
 
-import CONSTANTS from 'config/constants';
 import Config from 'react-native-config';
 import Theme from 'config/theme';
 import { getToken, setToken } from 'helpers/user';
@@ -201,8 +198,7 @@ class Login extends Component {
 Login.propTypes = {
   loginModal: React.PropTypes.bool.isRequired,
   setLoginModal: React.PropTypes.func.isRequired,
-  setLoginStatus: React.PropTypes.func.isRequired,
-  navigate: React.PropTypes.func.isRequired
+  setLoginStatus: React.PropTypes.func.isRequired
 };
 
 export default Login;

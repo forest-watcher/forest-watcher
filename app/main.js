@@ -32,7 +32,7 @@ console.disableYellowBox = true;
 
 const persistConfig = {
   storage: AsyncStorage,
-  blacklist: ['navigation', 'setup']
+  blacklist: ['navigation', 'setup', 'areas']
 };
 
 export default class App extends React.Component {
