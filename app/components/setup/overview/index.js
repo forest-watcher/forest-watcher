@@ -31,8 +31,11 @@ function saveArea(params, token) {
 }
 
 class SetupOverview extends Component {
-  state = {
-    name: ''
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: this.props.area.wdpaName || ''
+    };
   }
 
   onNextPress = async () => {
@@ -93,6 +96,7 @@ SetupOverview.propTypes = {
     id: React.PropTypes.string.isRequired,
     token: React.PropTypes.string.isRequired
   }).isRequired,
+  area: React.PropTypes.object.isRequired,
   snapshot: React.PropTypes.string.isRequired,
   onNextPress: React.PropTypes.func.isRequired
 };
