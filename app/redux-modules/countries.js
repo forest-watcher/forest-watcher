@@ -20,7 +20,7 @@ export default function reducer(state = initialState, action) {
 
 // Action Creators
 export function getCountries() {
-  const url = `${Config.API_URL}/query/${Config.DATASET_COUNTRIES}?sql=
+  const url = `${Config.API_PRODUCTION_URL}/query/${Config.DATASET_COUNTRIES}?sql=
     SELECT ${I18n.t('countries.nameColumn')} as name, iso, centroid, bbox
     FROM gadm28_countries ORDER BY name ASC`;
 
