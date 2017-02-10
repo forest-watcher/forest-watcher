@@ -40,6 +40,7 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     color: Theme.fontColors.white,
     fontSize: 16,
+    fontStyle: 'italic',
     fontWeight: '400',
     position: 'absolute',
     zIndex: 2,

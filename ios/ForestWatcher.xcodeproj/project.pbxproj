@@ -64,6 +64,7 @@
 		56551C891E00A33500A6AF87 /* DummyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 56551C771E00A33500A6AF87 /* DummyView.m */; };
 		56551C8A1E00A33500A6AF87 /* RCTConvert+GMSMapViewType.m in Sources */ = {isa = PBXBuildFile; fileRef = 56551C791E00A33500A6AF87 /* RCTConvert+GMSMapViewType.m */; };
 		565651B61E36093300E7B06A /* AIRGoogleMapCanvasUrlTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 565651B41E36093300E7B06A /* AIRGoogleMapCanvasUrlTile.m */; };
+		56ADFC011E4DC28800820294 /* firasansot_italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 56ADFC001E4DC28800820294 /* firasansot_italic.otf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		5F0FBE2789148D1ED61D86D1 /* Pods_ForestWatcher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B72854463D9EEF9C9E67B328 /* Pods_ForestWatcher.framework */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -337,6 +338,7 @@
 		56551C791E00A33500A6AF87 /* RCTConvert+GMSMapViewType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTConvert+GMSMapViewType.m"; sourceTree = "<group>"; };
 		565651B41E36093300E7B06A /* AIRGoogleMapCanvasUrlTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIRGoogleMapCanvasUrlTile.m; sourceTree = "<group>"; };
 		565651B51E36093300E7B06A /* AIRGoogleMapCanvasUrlTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIRGoogleMapCanvasUrlTile.h; sourceTree = "<group>"; };
+		56ADFC001E4DC28800820294 /* firasansot_italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = firasansot_italic.otf; path = Fonts/firasansot_italic.otf; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
@@ -503,6 +505,7 @@
 		564A88C41E3A414F008BA75C /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				56ADFC001E4DC28800820294 /* firasansot_italic.otf */,
 				564A88C51E3A415B008BA75C /* firasansot_light.ttf */,
 				564A88C61E3A415B008BA75C /* firasansot_medium.ttf */,
 				564A88C71E3A415B008BA75C /* firasansot_regular.ttf */,
@@ -1016,6 +1019,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				56ADFC011E4DC28800820294 /* firasansot_italic.otf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				564A88CA1E3A415B008BA75C /* firasansot_regular.ttf in Resources */,
 				564A88C81E3A415B008BA75C /* firasansot_light.ttf in Resources */,
