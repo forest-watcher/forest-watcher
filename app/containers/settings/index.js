@@ -7,7 +7,8 @@ import Settings from 'components/settings';
 function mapStateToProps(state) {
   return {
     user: state.user.data,
-    areas: state.areas.data
+    areas: state.areas.data,
+    areasImages: state.areas.images
   };
 }
 

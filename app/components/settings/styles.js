@@ -78,10 +78,15 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between'
   },
-  image: {
+  imageContainer: {
     width: 128,
     height: 126,
     backgroundColor: Theme.background.modal
+  },
+  image: {
+    width: 128,
+    height: 126,
+    resizeMode: 'cover'
   },
   title: {
     flex: 1,
@@ -96,6 +101,7 @@ export default StyleSheet.create({
     borderWidth: 2,
     borderColor: Theme.borderColors.secondary,
     borderStyle: 'dashed',
+    marginTop: 10,
     marginLeft: 8,
     marginRight: 8,
     padding: 8,
