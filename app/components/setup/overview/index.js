@@ -13,23 +13,6 @@ import styles from './styles';
 
 const editImage = require('assets/edit.png');
 
-function saveArea(params, token) {
-  const url = `${Config.API_URL}/area`;
-  const fetchConfig = {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      Authorization: `Bearer ${token}`
-    },
-    body: JSON.stringify(params)
-  };
-  return fetch(url, fetchConfig)
-    .then(res => {
-      if (res.ok) return res.json();
-      throw res;
-    });
-}
-
 class SetupOverview extends Component {
   constructor(props) {
     super(props);
