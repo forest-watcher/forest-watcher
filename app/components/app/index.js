@@ -5,8 +5,8 @@ import {
   StatusBar
 } from 'react-native';
 
-import { AppNavigator } from 'app/main';
-import { addNavigationHelpers } from 'react-navigation';
+import { withNavigation, StackNavigator } from 'react-navigation';
+import { Routes, RoutesConfig } from 'routes';
 
 import Login from 'containers/login';
 import { getToken, getSetupStatus } from 'helpers/user';
@@ -21,7 +21,6 @@ function renderLoading() {
         style={{ height: 80 }}
         size="large"
       />
-      <Login />
     </View>
   );
 }
@@ -52,19 +51,13 @@ class App extends Component {
     const userToken = await getToken();
     const setupStatus = await getSetupStatus();
     if (!setupStatus) {
-      this.props.navigate('Setup');
-      this.props.setLoginStatus({
-        loggedIn: true,
-        token: userToken
-      });
-      this.setState({ loading: false });
-    } else {
-      this.props.setLoginStatus({
-        loggedIn: true,
-        token: userToken
-      });
-      this.setState({ loading: false });
+      this.props.navigateReset('Dashboard');
     }
+    this.props.setLoginStatus({
+      loggedIn: true,
+      token: userToken
+    });
+    this.setState({ loading: false });
   }
 
   async checkBeforeRender() {
@@ -78,12 +71,12 @@ class App extends Component {
   }
 
   render() {
-    const { dispatch, navigation } = this.props;
+    const AppNavigator = StackNavigator(Routes, RoutesConfig);
     return (
       this.state.loading
         ? renderLoading()
         : <View style={styles.mainContainer}>
-          <AppNavigator navigation={addNavigationHelpers({ dispatch, state: navigation })} />
+          <AppNavigator />
           <Login />
         </View>
     );
@@ -91,9 +84,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-  navigation: React.PropTypes.object.isRequired,
-  setLoginModal: React.PropTypes.func.isRequired,
-  dispatch: React.PropTypes.func.isRequired
+  setLoginModal: React.PropTypes.func.isRequired
 };
 
-export default App;
+export default withNavigation(App);

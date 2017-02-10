@@ -109,6 +109,7 @@ class SearchSelector extends Component {
             {getFilteredData(this.props.data, this.state.searchValue).map((item, key) =>
               (
                 <TouchableHighlight
+                  key={key}
                   style={styles.listItem}
                   onPress={() => this.onOptionSelected(item)}
                   activeOpacity={0.5}

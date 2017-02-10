@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { navigatePush, navigatePop, showNavHeader } from 'redux-modules/navigation';
+import { withNavigation, NavigationActions } from 'react-navigation';
 
 import Setup from 'components/setup';
 
@@ -10,10 +10,14 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, { navigation }) {
   return {
-    onFinishSetup: (action) => {
-      dispatch(navigatePop(action));
+    onFinishSetup: () => {
+      const action = NavigationActions.reset({
+        index: 0,
+        actions: [{ type: 'Navigate', routeName: 'Dashboard' }]
+      });
+      navigation.dispatch(action);
     }
   };
 }
@@ -21,4 +25,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Setup);
+)(withNavigation(Setup));

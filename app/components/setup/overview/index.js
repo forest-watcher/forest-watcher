@@ -38,19 +38,20 @@ class SetupOverview extends Component {
     };
   }
 
-  onNextPress = async () => {
-    try {
-      const params = {
-        name: this.state.name,
-        area: this.props.area,
-        userid: this.props.user.id
-      };
-      const area = await saveArea(params, this.props.user.token);
-      // TODO: save area: image in reducer
-      this.props.onNextPress();
-    } catch (err) {
-      console.warn(err, 'TODO: handle error');
-    }
+  onNextPress = () => {
+    this.props.onNextPress();
+    // try {
+    //   const params = {
+    //     name: this.state.name,
+    //     area: this.props.area,
+    //     userid: this.props.user.id
+    //   };
+    //   // const area = await saveArea(params, this.props.user.token);
+    //   // TODO: save area: image in reducer
+    //   this.props.onNextPress();
+    // } catch (err) {
+    //   console.warn(err, 'TODO: handle error');
+    // }
   }
 
   textChange = (name) => {
