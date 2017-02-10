@@ -37,6 +37,7 @@ export default StyleSheet.create({
     color: Theme.fontColors.white,
     fontSize: 16,
     fontWeight: '400',
+    fontStyle: 'italic',
     position: 'absolute',
     zIndex: 2,
     bottom: 30,
