@@ -10,6 +10,12 @@ import I18n from 'locales';
 import styles from './styles';
 
 const sections = [
+  // TEMP
+  {
+    title: 'Settings',
+    section: 'Settings',
+    image: ''
+  },
   {
     title: I18n.t('dashboard.alerts'),
     section: 'Alerts',

@@ -50,7 +50,7 @@ class App extends Component {
   async checkSetup() {
     this.setup = true;
     const userToken = await getToken();
-    const setupStatus = true; //await getSetupStatus();
+    const setupStatus = await getSetupStatus();
     if (!setupStatus) {
       this.props.navigate('Setup');
       this.props.setLoginStatus({
