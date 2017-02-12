@@ -9,6 +9,8 @@ import {
 
 import Config from 'react-native-config';
 import MapView from 'react-native-maps';
+import { storeImage } from 'helpers/fileManagement';
+
 import ActionButton from 'components/common/action-button';
 import Theme from 'config/theme';
 import styles from './styles';
@@ -114,7 +116,8 @@ class DrawAreas extends Component {
         const geostore = response.data && response.data.id;
         const snapshot = await this.takeSnapshot();
         const url = snapshot.uri ? snapshot.uri : snapshot;
-        this.props.onDrawAreaFinish({ geostore }, url);
+        const storedUrl = await storeImage(url);
+        this.props.onDrawAreaFinish({ geostore }, storedUrl);
       })
       .catch((error) => console.warn(error));
   }
