@@ -1,9 +1,11 @@
+import Home from 'containers/home';
 import Setup from 'containers/setup';
 import Dashboard from 'containers/dashboard';
 import Alerts from 'containers/alerts';
 import Map from 'components/map';
 
 export const Routes = {
+  Home: { screen: Home },
   Dashboard: { screen: Dashboard },
   Setup: { screen: Setup },
   Alerts: { screen: Alerts },
@@ -11,6 +13,6 @@ export const Routes = {
 };
 
 export const RoutesConfig = {
-  initialRouteName: 'Setup',
+  initialRouteName: 'Home',
   headerMode: 'screen'
 };

@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { persistStore, autoRehydrate } from 'redux-persist';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import AppContainer from 'containers/app';
+import AppContainer from 'components/app';
 import * as reducers from 'redux-modules';
 
 const reducer = combineReducers(reducers);
@@ -20,7 +20,7 @@ const store = createStore(
 );
 
 // Disable ios warnings
-console.disableYellowBox = true;
+// console.disableYellowBox = true;
 
 // Show request in chrome network tool
 // GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;

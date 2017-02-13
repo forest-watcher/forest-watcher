@@ -5,5 +5,9 @@ export default StyleSheet.create({
   mainContainer: {
     flex: 1,
     backgroundColor: Theme.background.main
+  },
+  center: {
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
