@@ -116,7 +116,6 @@ class SearchSelector extends Component {
                   underlayColor="transparent"
                 >
                   <Text
-                    key={key}
                     style={styles.listItemText}
                   >
                     {item.name}

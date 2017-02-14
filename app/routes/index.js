@@ -3,13 +3,15 @@ import Setup from 'containers/setup';
 import Dashboard from 'containers/dashboard';
 import Alerts from 'containers/alerts';
 import Map from 'components/map';
+import Settings from 'containers/settings';
 
 export const Routes = {
   Home: { screen: Home },
-  Dashboard: { screen: Dashboard },
   Setup: { screen: Setup },
+  Dashboard: { screen: Dashboard },
   Alerts: { screen: Alerts },
-  Map: { screen: Map }
+  Map: { screen: Map },
+  Settings: { screen: Settings }
 };
 
 export const RoutesConfig = {

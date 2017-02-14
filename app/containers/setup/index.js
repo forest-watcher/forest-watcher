@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
-import { withNavigation, NavigationActions } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
+import { initSetup } from 'redux-modules/setup';
 
 import Setup from 'components/setup';
 
@@ -12,6 +13,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch, { navigation }) {
   return {
+    initSetup: () => {
+      dispatch(initSetup());
+    },
     onFinishSetup: () => {
       const action = NavigationActions.reset({
         index: 0,
@@ -25,4 +29,4 @@ function mapDispatchToProps(dispatch, { navigation }) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withNavigation(Setup));
+)(Setup);

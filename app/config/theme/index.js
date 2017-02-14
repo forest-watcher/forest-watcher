@@ -39,7 +39,8 @@ const config = {
     modal: 'rgba(0, 0, 0, 0.4)'
   },
   borderColors: {
-    main: colors.color6
+    main: colors.color6,
+    secondary: colors.color1
   },
   margin: {
     left: 24,
