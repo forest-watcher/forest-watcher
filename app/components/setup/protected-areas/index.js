@@ -11,6 +11,8 @@ import {
 
 import Config from 'react-native-config';
 import MapView from 'react-native-maps';
+
+import { storeImage } from 'helpers/fileManagement';
 import ActionButton from 'components/common/action-button';
 import Theme from 'config/theme';
 import styles from './styles';
@@ -130,10 +132,12 @@ class ProtectedAreas extends Component {
     }, async () => {
       const snapshot = await this.takeSnapshot();
       const url = snapshot.uri ? snapshot.uri : snapshot;
+      const storedUrl = await storeImage(url);
+
       this.props.onAreaSelected({
         wdpaid: this.state.wdpa.wdpa_pid,
         wdpaName: this.state.wdpa.name
-      }, url);
+      }, storedUrl);
     });
   }
 

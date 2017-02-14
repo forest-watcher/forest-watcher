@@ -20,6 +20,10 @@ class Setup extends Component {
     this.slides = 3;
   }
 
+  componentWillMount() {
+    this.props.initSetup();
+  }
+
   getIndexBar = (props) => {
     const dots = [];
     for (let i = 0; i < this.slides; i++) {
@@ -73,7 +77,8 @@ class Setup extends Component {
 }
 
 Setup.propTypes = {
-  onFinishSetup: React.PropTypes.func.isRequired
+  onFinishSetup: React.PropTypes.func.isRequired,
+  initSetup: React.PropTypes.func.isRequired
 };
 
 Setup.navigationOptions = {

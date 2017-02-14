@@ -23,6 +23,7 @@
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		14846EA233794B3FBB819E27 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 299F07320E3044EAB859667B /* libRNI18n.a */; };
+		3DE77697815C457A992800D6 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CD7FD0677E224FD4A6E49A04 /* libRNFetchBlob.a */; };
 		560493541E4BBED3002430A1 /* AIRGMSPolygon.m in Sources */ = {isa = PBXBuildFile; fileRef = 560493521E4BBED3002430A1 /* AIRGMSPolygon.m */; };
 		562101E91E1AC177000A266F /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 562101E81E1AC177000A266F /* GameKit.framework */; };
 		562101EB1E1AC17D000A266F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 562101EA1E1AC17D000A266F /* StoreKit.framework */; };
@@ -191,6 +192,13 @@
 			remoteGlobalIDString = EB2648DF1C7BE17A00B8F155;
 			remoteInfo = ReactNativeConfig;
 		};
+		565087A81E50B52A0095B236 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E75CDAC9335C4CFCAACEF5D2 /* RNFetchBlob.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A15C300E1CD25C330074CB35;
+			remoteInfo = RNFetchBlob;
+		};
 		56EC893B1E151E4F0016FE0F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F1D7690309C0480CB588082B /* RNI18n.xcodeproj */;
@@ -344,6 +352,8 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		A28DC2A5220D42359951057B /* libReactNativeConfig.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeConfig.a; sourceTree = "<group>"; };
 		B72854463D9EEF9C9E67B328 /* Pods_ForestWatcher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ForestWatcher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD7FD0677E224FD4A6E49A04 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
+		E75CDAC9335C4CFCAACEF5D2 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		F1D7690309C0480CB588082B /* RNI18n.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNI18n.xcodeproj; path = "../node_modules/react-native-i18n/RNI18n.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -376,6 +386,7 @@
 				5F0FBE2789148D1ED61D86D1 /* Pods_ForestWatcher.framework in Frameworks */,
 				BAC908163B0E4EA38B49EEF2 /* libReactNativeConfig.a in Frameworks */,
 				14846EA233794B3FBB819E27 /* libRNI18n.a in Frameworks */,
+				3DE77697815C457A992800D6 /* libRNFetchBlob.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,6 +522,14 @@
 				564A88C71E3A415B008BA75C /* firasansot_regular.ttf */,
 			);
 			name = Fonts;
+			sourceTree = "<group>";
+		};
+		565087911E50B52A0095B236 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				565087A91E50B52A0095B236 /* libRNFetchBlob.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		56551C0E1E00A32E00A6AF87 /* AirMaps */ = {
@@ -653,6 +672,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				39CFA9C5F75C4015B4438B69 /* ReactNativeConfig.xcodeproj */,
 				F1D7690309C0480CB588082B /* RNI18n.xcodeproj */,
+				E75CDAC9335C4CFCAACEF5D2 /* RNFetchBlob.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -837,6 +857,10 @@
 					ProjectRef = 39CFA9C5F75C4015B4438B69 /* ReactNativeConfig.xcodeproj */;
 				},
 				{
+					ProductGroup = 565087911E50B52A0095B236 /* Products */;
+					ProjectRef = E75CDAC9335C4CFCAACEF5D2 /* RNFetchBlob.xcodeproj */;
+				},
+				{
 					ProductGroup = 56EC89231E151E4F0016FE0F /* Products */;
 					ProjectRef = F1D7690309C0480CB588082B /* RNI18n.xcodeproj */;
 				},
@@ -960,6 +984,13 @@
 			fileType = archive.ar;
 			path = libReactNativeConfig.a;
 			remoteRef = 5649F3891E0C32FC00DC1DC5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		565087A91E50B52A0095B236 /* libRNFetchBlob.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFetchBlob.a;
+			remoteRef = 565087A81E50B52A0095B236 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		56EC893C1E151E4F0016FE0F /* libRNI18n.a */ = {
@@ -1181,7 +1212,10 @@
 				INFOPLIST_FILE = ForestWatcherTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ForestWatcher.app/ForestWatcher";
 			};
@@ -1197,7 +1231,10 @@
 				INFOPLIST_FILE = ForestWatcherTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ForestWatcher.app/ForestWatcher";
 			};
@@ -1297,6 +1334,7 @@
 					"$(SRCROOT)/../node_modules/react-native/ReactCommon/**",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
 					"$(SRCROOT)/../node_modules/react-native-i18n/RNI18n",
+					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1341,6 +1379,7 @@
 					"$(SRCROOT)/../node_modules/react-native/ReactCommon/**",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
 					"$(SRCROOT)/../node_modules/react-native-i18n/RNI18n",
+					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;

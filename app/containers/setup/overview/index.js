@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-
 import SetupOverview from 'components/setup/overview';
+import { saveArea } from 'redux-modules/areas';
 
 function mapStateToProps(state) {
   return {
@@ -9,12 +9,17 @@ function mapStateToProps(state) {
     user: {
       id: state.user.data.id,
       token: state.user.token
-    }
+    },
+    areaSaved: state.setup.areaSaved
   };
 }
 
-function mapDispatchToProps() {
-  return {};
+function mapDispatchToProps(dispatch) {
+  return {
+    saveArea: (action) => {
+      dispatch(saveArea(action));
+    }
+  };
 }
 
 export default connect(
