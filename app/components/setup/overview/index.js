@@ -11,19 +11,6 @@ import ActionButton from 'components/common/action-button';
 import I18n from 'locales';
 import styles from './styles';
 
-const sections = [
-  {
-    title: I18n.t('setupOverview.placeholder'),
-    section: '',
-    image: ''
-  },
-  {
-    title: I18n.t('commonText.finish'),
-    section: '',
-    image: ''
-  }
-];
-
 const editImage = require('assets/edit.png');
 
 class SetupOverview extends Component {
@@ -67,7 +54,7 @@ class SetupOverview extends Component {
               autoCorrect={false}
               autoCapitalize="none"
               value={this.state.name}
-              placeholder={sections[0].title}
+              placeholder={I18n.t('setupOverview.placeholder')}
               style={styles.searchInput}
               onChangeText={this.textChange}
               underlineColorAndroid="transparent"
@@ -82,7 +69,7 @@ class SetupOverview extends Component {
           </View>
         </View>
 
-        <ActionButton style={styles.buttonPos} disabled={!this.state.name} onPress={this.onNextPress} text={sections[1].title} />
+        <ActionButton style={styles.buttonPos} disabled={!this.state.name} onPress={this.onNextPress} text={I18n.t('commonText.finish')} />
       </View>
     );
   }

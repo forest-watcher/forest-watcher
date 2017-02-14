@@ -18,14 +18,6 @@ import Theme from 'config/theme';
 import I18n from 'locales';
 import styles from './styles';
 
-const sections = [
-  {
-    title: I18n.t('setupProtectedAreas.instruction'),
-    section: '',
-    image: ''
-  }
-];
-
 const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
@@ -243,7 +235,7 @@ class ProtectedAreas extends Component {
           />
           {!this.state.wdpa
             ? <Text style={styles.footerTitle}>
-              {sections[0].title}
+              {I18n.t('setupProtectedAreas.instruction')}
             </Text>
             : null
           }

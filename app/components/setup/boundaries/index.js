@@ -14,29 +14,6 @@ import Theme from 'config/theme';
 import I18n from 'locales';
 import styles from './styles';
 
-const sections = [
-  {
-    title: I18n.t('boundaries.chooseBoundaries'),
-    section: '',
-    image: ''
-  },
-  {
-    title: I18n.t('boundaries.selectProtectedArea'),
-    section: '',
-    image: ''
-  },
-  {
-    title: I18n.t('boundaries.drawArea'),
-    section: '',
-    image: ''
-  },
-  {
-    title: I18n.t('commonText.next'),
-    section: '',
-    image: ''
-  }
-];
-
 const protectedAreaImage = require('assets/select_pa.png');
 const drawAreaImage = require('assets/draw_pa.png');
 
@@ -78,7 +55,7 @@ class SetupBoundaries extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.selector}>
-          <Text style={styles.selectorLabel}>{sections[0].title}</Text>
+          <Text style={styles.selectorLabel}>{I18n.t('boundaries.chooseBoundaries')}</Text>
 
           <View style={styles.actions}>
             <TouchableHighlight
@@ -96,7 +73,7 @@ class SetupBoundaries extends Component {
                   style={styles.sectionText}
                   numberOfLines={2}
                 >
-                  {sections[1].title}
+                  {I18n.t('boundaries.selectProtectedArea')}
                 </Text>
               </View>
             </TouchableHighlight>
@@ -116,7 +93,7 @@ class SetupBoundaries extends Component {
                   style={styles.sectionText}
                   numberOfLines={2}
                 >
-                  {sections[2].title}
+                  {I18n.t('boundaries.drawArea')}
                 </Text>
               </View>
             </TouchableHighlight>
@@ -147,7 +124,7 @@ class SetupBoundaries extends Component {
           </MapModal>
         }
         {this.props.area && (this.props.area.wdpaid || this.props.area.geostore)
-          ? <ActionButton style={styles.buttonPos} onPress={this.props.onNextPress} text={sections[3].title} />
+          ? <ActionButton style={styles.buttonPos} onPress={this.props.onNextPress} text={I18n.t('commonText.next')} />
           : null
         }
       </View>

@@ -8,19 +8,6 @@ import {
 import I18n from 'locales';
 import styles from './styles';
 
-const sections = [
-  {
-    title: I18n.t('alertList.seeAll'),
-    section: 'appTitle',
-    image: ''
-  },
-  {
-    title: I18n.t('alertList.alert'),
-    section: 'appTitle',
-    image: ''
-  }
-];
-
 function onItemTap() {
   return null;
 }
@@ -43,7 +30,7 @@ function AlertsList(props) {
                 activeOpacity={1}
                 underlayColor="transparent"
               >
-                <Text style={styles.areaMore}>{`${sections[0].title} >`}</Text>
+                <Text style={styles.areaMore}>{`${I18n.t('alertList.seeAll')} >`}</Text>
               </TouchableHighlight>
             </View>
             <ScrollView
@@ -57,7 +44,7 @@ function AlertsList(props) {
               {data.alerts.map((alert, alertKey) =>
                 (
                   <TouchableHighlight
-                    key={`${sections[1].title}-${alertKey}`}
+                    key={`${I18n.t('alertList.alert')}-${alertKey}`}
                     onPress={() => onItemTap(alert)}
                     activeOpacity={1}
                     underlayColor="transparent"

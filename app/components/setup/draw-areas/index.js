@@ -16,19 +16,6 @@ import Theme from 'config/theme';
 import I18n from 'locales';
 import styles from './styles';
 
-const sections = [
-  {
-    title: I18n.t('commonText.next'),
-    section: '',
-    image: ''
-  },
-  {
-    title: I18n.t('setupDrawAreas.tapInstruction'),
-    section: '',
-    image: ''
-  }
-];
-
 const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
@@ -194,9 +181,9 @@ class DrawAreas extends Component {
             source={footerBackgroundImage}
           />
           {finished
-            ? <ActionButton style={styles.footerButton} onPress={this.onNextPress} text={sections[0].title} />
+            ? <ActionButton style={styles.footerButton} onPress={this.onNextPress} text={I18n.t('commonText.next')} />
             : <Text style={styles.footerTitle}>
-              {sections[1].title}
+              {I18n.t('setupDrawAreas.tapInstruction')}
             </Text>
           }
         </View>
