@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {
   View
 } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
 
+import StepsSlider from 'components/common/steps-slider';
 import SetupCountry from 'containers/setup/country';
 import SetupBoundaries from 'containers/setup/boundaries';
 import SetupOverView from 'containers/setup/overview';
@@ -14,23 +14,12 @@ class Setup extends Component {
   constructor() {
     super();
     this.state = {
-      page: 0,
-      locked: true
+      page: 0
     };
-    this.slides = 3;
   }
 
   componentWillMount() {
     this.props.initSetup();
-  }
-
-  getIndexBar = (props) => {
-    const dots = [];
-    for (let i = 0; i < this.slides; i++) {
-      const dotStyle = props.activeTab === i ? [styles.dot, styles.dotActive] : styles.dot;
-      dots.push(<View key={i} style={dotStyle} />);
-    }
-    return <View style={styles.indexBar}><View style={styles.indexBar}>{dots}</View></View>;
   }
 
   updatePage = (slide) => {
@@ -58,19 +47,15 @@ class Setup extends Component {
           title="Set up"
           showBack={this.state.page > 0}
           onBackPress={this.goToPrevPage}
-          prerenderingSiblingsNumber={this.slides}
         />
-        <ScrollableTabView
+        <StepsSlider
           page={this.state.page}
-          locked={this.state.locked}
           onChangeTab={this.updatePage}
-          tabBarPosition="overlayBottom"
-          renderTabBar={this.getIndexBar}
         >
           <SetupCountry onNextPress={this.goToNextPage} />
           <SetupBoundaries onNextPress={this.goToNextPage} />
           <SetupOverView onNextPress={this.props.onFinishSetup} />
-        </ScrollableTabView>
+        </StepsSlider>
       </View>
     );
   }
