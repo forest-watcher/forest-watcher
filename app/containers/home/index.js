@@ -1,29 +1,28 @@
 import { connect } from 'react-redux';
+import { setLoginModal, setLoginStatus } from 'redux-modules/user';
 import { NavigationActions } from 'react-navigation';
-import { initSetup } from 'redux-modules/setup';
-import { setSetupStatus } from 'helpers/user';
-
-import Setup from 'components/setup';
+import Home from 'components/home';
 
 function mapStateToProps(state) {
   return {
-    user: state.user.data,
-    countries: state.countries.data
+    loggedIn: state.user.loggedIn
   };
 }
 
 function mapDispatchToProps(dispatch, { navigation }) {
   return {
-    initSetup: () => {
-      dispatch(initSetup());
-    },
-    onFinishSetup: async () => {
-      await setSetupStatus(true);
+    navigateReset: (routeName) => {
       const action = NavigationActions.reset({
         index: 0,
-        actions: [{ type: 'Navigate', routeName: 'Dashboard' }]
+        actions: [{ type: 'Navigate', routeName }]
       });
       navigation.dispatch(action);
+    },
+    setLoginModal: (status) => {
+      dispatch(setLoginModal(status));
+    },
+    setLoginStatus: (status) => {
+      dispatch(setLoginStatus(status));
     }
   };
 }
@@ -31,4 +30,4 @@ function mapDispatchToProps(dispatch, { navigation }) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Setup);
+)(Home);

@@ -7,7 +7,7 @@ export async function setToken(token) {
   try {
     await AsyncStorage.setItem(CONSTANTS.storage.user.token, token);
     return true;
-  } catch(error) {
+  } catch (error) {
     console.warn(error);
     return false;
   }
@@ -16,13 +16,8 @@ export async function setToken(token) {
 export async function getToken() {
   try {
     const token = await AsyncStorage.getItem(CONSTANTS.storage.user.token);
-
-    if (token !== null) {
-      return token;
-    } else {
-      return false;
-    }
-  } catch(error) {
+    return token !== null ? token : false;
+  } catch (error) {
     console.warn(error);
     return false;
   }
@@ -31,13 +26,18 @@ export async function getToken() {
 export async function getSetupStatus() {
   try {
     const setup = await AsyncStorage.getItem(CONSTANTS.storage.app.setup);
+    return setup !== null;
+  } catch (error) {
+    console.warn(error);
+    return false;
+  }
+}
 
-    if (setup !== null) {
-      return true;
-    } else {
-      return false;
-    }
-  } catch(error) {
+export async function setSetupStatus(status) {
+  try {
+    await AsyncStorage.setItem(CONSTANTS.storage.app.setup, status.toString());
+    return true;
+  } catch (error) {
     console.warn(error);
     return false;
   }

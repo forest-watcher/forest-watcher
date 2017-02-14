@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { navigatePush } from 'redux-modules/navigation';
 import { getAlerts } from 'redux-modules/alerts';
 import Alerts from 'components/alerts';
 
@@ -9,10 +8,10 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, { navigation }) {
   return {
-    navigate: (action) => {
-      dispatch(navigatePush(action));
+    navigate: (routeName) => {
+      navigation.navigate(routeName);
     },
     fetchData: (action) => {
       dispatch(getAlerts(action));
