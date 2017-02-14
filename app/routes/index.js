@@ -3,15 +3,15 @@ import Dashboard from 'containers/dashboard';
 import Alerts from 'containers/alerts';
 import Map from 'components/map';
 import Settings from 'containers/settings';
-import SetupBoundaries from 'components/setup/boundaries';
+import Report from 'containers/report';
 
 export const Routes = {
-  Dashboard: { screen: Dashboard },
   Setup: { screen: Setup },
+  Dashboard: { screen: Dashboard },
   Alerts: { screen: Alerts },
   Map: { screen: Map },
   Settings: { screen: Settings },
-  SetupBoundaries: { screen: SetupBoundaries }
+  Report: { screen: Report }
 };
 
 export const RoutesConfig = {
