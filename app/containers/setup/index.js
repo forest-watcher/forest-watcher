@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import { initSetup } from 'redux-modules/setup';
+import { setSetupStatus } from 'helpers/user';
 
 import Setup from 'components/setup';
 
@@ -16,7 +17,8 @@ function mapDispatchToProps(dispatch, { navigation }) {
     initSetup: () => {
       dispatch(initSetup());
     },
-    onFinishSetup: () => {
+    onFinishSetup: async () => {
+      await setSetupStatus(true);
       const action = NavigationActions.reset({
         index: 0,
         actions: [{ type: 'Navigate', routeName: 'Dashboard' }]
