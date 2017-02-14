@@ -3,8 +3,7 @@ import {
   View,
   Text,
   ScrollView,
-  TouchableHighlight,
-  Image
+  TouchableHighlight
 } from 'react-native';
 import I18n from 'locales';
 import styles from './styles';
@@ -23,7 +22,7 @@ const sections = [
   },
   {
     title: I18n.t('dashboard.reports'),
-    section: '',
+    section: 'Report',
     image: ''
   },
   {
