@@ -13,7 +13,21 @@ import { storeImage } from 'helpers/fileManagement';
 
 import ActionButton from 'components/common/action-button';
 import Theme from 'config/theme';
+import I18n from 'locales';
 import styles from './styles';
+
+const sections = [
+  {
+    title: I18n.t('commonText.next'),
+    section: '',
+    image: ''
+  },
+  {
+    title: I18n.t('setupDrawAreas.tapInstruction'),
+    section: '',
+    image: ''
+  }
+];
 
 const { width, height } = Dimensions.get('window');
 
@@ -180,9 +194,9 @@ class DrawAreas extends Component {
             source={footerBackgroundImage}
           />
           {finished
-            ? <ActionButton style={styles.footerButton} onPress={this.onNextPress} text="NEXT" />
+            ? <ActionButton style={styles.footerButton} onPress={this.onNextPress} text={sections[0].title} />
             : <Text style={styles.footerTitle}>
-              Tap on map to draw
+              {sections[1].title}
             </Text>
           }
         </View>

@@ -11,6 +11,7 @@ import {
 import Config from 'react-native-config';
 import Theme from 'config/theme';
 import { getToken, setToken } from 'helpers/user';
+import I18n from 'locales';
 
 import styles from './styles';
 
@@ -129,10 +130,10 @@ class Login extends Component {
                 style={styles.logo}
                 source={require('assets/logo.png')}
               />
-              <Text style={styles.introLabel}>FOREST WATCHER 2.0</Text>
+              <Text style={styles.introLabel}>{I18n.t('commonText.appTitle')}</Text>
             </View>
             <View style={styles.buttons}>
-              <Text style={styles.buttonsLabel}>Sign in with a MyGFW account</Text>
+              <Text style={styles.buttonsLabel}>{I18n.t('login.introductionText')}</Text>
               <TouchableHighlight
                 style={[styles.button, styles.buttonFacebook]}
                 onPress={() => this.onPress('facebook')}
@@ -144,7 +145,7 @@ class Login extends Component {
                     style={styles.iconFacebook}
                     source={require('assets/facebook_white.png')}
                   />
-                  <Text style={styles.buttonText}>Facebook</Text>
+                  <Text style={styles.buttonText}>{I18n.t('login.facebookTitle')}</Text>
                   <Image
                     style={styles.iconArrow}
                     source={require('assets/next_white.png')}
@@ -162,7 +163,7 @@ class Login extends Component {
                     style={styles.iconTwitter}
                     source={require('assets/twitter_white.png')}
                   />
-                  <Text style={styles.buttonText}>Twitter</Text>
+                <Text style={styles.buttonText}>{I18n.t('login.twitterTitle')}</Text>
                   <Image
                     style={styles.iconArrow}
                     source={require('assets/next_white.png')}
@@ -180,7 +181,7 @@ class Login extends Component {
                     style={styles.iconGoogle}
                     source={require('assets/google_white.png')}
                   />
-                  <Text style={styles.buttonText}>Google</Text>
+                <Text style={styles.buttonText}>{I18n.t('login.googleTitle')}</Text>
                   <Image
                     style={styles.iconArrow}
                     source={require('assets/next_white.png')}

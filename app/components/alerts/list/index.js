@@ -5,7 +5,21 @@ import {
   ScrollView,
   TouchableHighlight
 } from 'react-native';
+import I18n from 'locales';
 import styles from './styles';
+
+const sections = [
+  {
+    title: I18n.t('alertList.seeAll'),
+    section: 'appTitle',
+    image: ''
+  },
+  {
+    title: I18n.t('alertList.alert'),
+    section: 'appTitle',
+    image: ''
+  }
+];
 
 function onItemTap() {
   return null;
@@ -29,7 +43,7 @@ function AlertsList(props) {
                 activeOpacity={1}
                 underlayColor="transparent"
               >
-                <Text style={styles.areaMore}>{'See all >'}</Text>
+                <Text style={styles.areaMore}>{`${sections[0].title} >`}</Text>
               </TouchableHighlight>
             </View>
             <ScrollView
@@ -43,7 +57,7 @@ function AlertsList(props) {
               {data.alerts.map((alert, alertKey) =>
                 (
                   <TouchableHighlight
-                    key={`alert-${alertKey}`}
+                    key={`${sections[1].title}-${alertKey}`}
                     onPress={() => onItemTap(alert)}
                     activeOpacity={1}
                     underlayColor="transparent"

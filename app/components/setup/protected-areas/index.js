@@ -15,7 +15,16 @@ import MapView from 'react-native-maps';
 import { storeImage } from 'helpers/fileManagement';
 import ActionButton from 'components/common/action-button';
 import Theme from 'config/theme';
+import I18n from 'locales';
 import styles from './styles';
+
+const sections = [
+  {
+    title: I18n.t('setupProtectedAreas.instruction'),
+    section: '',
+    image: ''
+  }
+];
 
 const { width, height } = Dimensions.get('window');
 
@@ -234,7 +243,7 @@ class ProtectedAreas extends Component {
           />
           {!this.state.wdpa
             ? <Text style={styles.footerTitle}>
-              Select an area to continue
+              {sections[0].title}
             </Text>
             : null
           }

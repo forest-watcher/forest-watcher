@@ -4,6 +4,7 @@ import {
   TouchableHighlight,
   Text
 } from 'react-native';
+import I18n from 'locales';
 import styles from './styles';
 
 function Header(props) {
@@ -15,9 +16,9 @@ function Header(props) {
         onPress={props.navigateBack}
         hitSlop={{ top: 12, left: 12, bottom: 12, right: 12 }}
       >
-        <Text style={styles.backButtonText}>Back</Text>
+        <Text style={styles.backButtonText}>{I18n.t('commonText.back')}</Text>
       </TouchableHighlight>
-      <Text style={styles.title}>FOREST WATCHER 2.0</Text>
+      <Text style={styles.title}>{I18n.t('commonText.appTitle')}</Text>
     </View>
   );
 }
