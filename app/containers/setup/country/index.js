@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { navigatePush, navigatePop } from 'redux-modules/navigation';
 import { getUser } from 'redux-modules/user';
 import { setSetupCountry } from 'redux-modules/setup';
 import { getCountries } from 'redux-modules/countries';
@@ -16,12 +15,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    navigate: (action) => {
-      dispatch(navigatePush(action));
-    },
-    navigateBack: (action) => {
-      dispatch(navigatePop(action));
-    },
     getUser: () => {
       dispatch(getUser());
     },

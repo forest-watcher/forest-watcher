@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TouchableHighlight,
-  ActivityIndicator,
   ScrollView,
   Image
 } from 'react-native';
@@ -14,18 +13,6 @@ import styles from './styles';
 
 const nextIcon = require('assets/next.png');
 const plusIcon = require('assets/plus.png');
-
-function renderLoading() {
-  return (
-    <View style={[styles.container, styles.center]}>
-      <ActivityIndicator
-        color={Theme.colors.color1}
-        style={{ height: 80 }}
-        size={'large'}
-      />
-    </View>
-  );
-}
 
 const aboutSections = [
   {

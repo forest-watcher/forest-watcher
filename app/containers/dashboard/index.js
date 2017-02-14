@@ -1,18 +1,14 @@
 import { connect } from 'react-redux';
-import { navigatePush, navigatePop } from 'redux-modules/navigation';
 import Dashboard from 'components/dashboard';
 
 function mapStateToProps() {
   return {};
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, { navigation }) {
   return {
-    navigate: (action) => {
-      dispatch(navigatePush(action));
-    },
-    navigateBack: (action) => {
-      dispatch(navigatePop(action));
+    navigate: (routeName) => {
+      navigation.navigate(routeName);
     }
   };
 }

@@ -1,20 +1,19 @@
 import { connect } from 'react-redux';
-import { navigatePush, navigatePop } from 'redux-modules/navigation';
+import { withNavigation } from 'react-navigation';
+
 import Header from 'components/common/header';
 
-function mapStateToProps(state) {
-  return {
-    navigation: state.navigation
-  };
+function mapStateToProps() {
+  return {};
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, { navigation }) {
   return {
-    navigate: (action) => {
-      dispatch(navigatePush(action));
+    navigate: (routeName) => {
+      navigation.navigate(routeName);
     },
-    navigateBack: (action) => {
-      dispatch(navigatePop(action));
+    navigateBack: () => {
+      navigation.goBack();
     }
   };
 }
@@ -22,4 +21,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Header);
+)(withNavigation(Header));

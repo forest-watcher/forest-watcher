@@ -1,3 +1,4 @@
+import Home from 'containers/home';
 import Setup from 'containers/setup';
 import Dashboard from 'containers/dashboard';
 import Alerts from 'containers/alerts';
@@ -6,6 +7,7 @@ import Settings from 'containers/settings';
 import Report from 'containers/report';
 
 export const Routes = {
+  Home: { screen: Home },
   Setup: { screen: Setup },
   Dashboard: { screen: Dashboard },
   Alerts: { screen: Alerts },
@@ -15,5 +17,6 @@ export const Routes = {
 };
 
 export const RoutesConfig = {
+  initialRouteName: 'Home',
   headerMode: 'screen'
 };
