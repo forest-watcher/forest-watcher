@@ -2,7 +2,7 @@ import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  container: {
+  containerBig: {
     flex: 1,
     backgroundColor: 'white',
     height: 112,
@@ -10,6 +10,15 @@ export default StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     marginBottom: 8
+  },
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    height: 112,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginBottom: 2
   },
   containerImageText: {
     flex: 1,
