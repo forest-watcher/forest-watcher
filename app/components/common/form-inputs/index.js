@@ -2,14 +2,16 @@ import React from 'react';
 import Text from './text';
 import Radio from './radio';
 
-export default function getInputForm(question, onChange) {
-  switch (question.type) {
+// REDUX-FORM custom inputs
+// https://github.com/erikras/redux-form/blob/master/examples/react-widgets/src/ReactWidgetsForm.js#L25
+export default function getInputForm(props) {
+  switch (props.question.type) {
     case 'text':
-      return <Text {...question} onChange={onChange} />;
+      return <Text {...props} />;
     case 'radio':
-      return <Radio {...question} onChange={onChange} />;
+      return <Radio {...props} />;
 
     default:
-      return null;
+      return <Text {...props} />;
   }
 }

@@ -4,7 +4,8 @@ import Dashboard from 'containers/dashboard';
 import Alerts from 'containers/alerts';
 import Map from 'components/map';
 import Settings from 'containers/settings';
-import Report from 'containers/report';
+import Reports from 'containers/reports';
+import NewReport from 'containers/reports/new';
 
 export const Routes = {
   Home: { screen: Home },
@@ -13,7 +14,8 @@ export const Routes = {
   Alerts: { screen: Alerts },
   Map: { screen: Map },
   Settings: { screen: Settings },
-  Report: { screen: Report }
+  Reports: { screen: Reports },
+  NewReport: { screen: NewReport }
 };
 
 export const RoutesConfig = {

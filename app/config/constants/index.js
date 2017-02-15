@@ -32,5 +32,8 @@ export default {
       es: 'name_spani',
       fr: 'name_frenc'
     }
+  },
+  reports: {
+    default: 'defaultReport'
   }
 };
