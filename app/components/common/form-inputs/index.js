@@ -15,3 +15,11 @@ export default function getInputForm(props) {
       return <Text {...props} />;
   }
 }
+
+getInputForm.propTypes = {
+  question: React.PropTypes.shape({
+    value: React.PropTypes.string,
+    type: React.PropTypes.string.isRequired,
+    defaultValue: React.PropTypes.string
+  }).isRequired
+};

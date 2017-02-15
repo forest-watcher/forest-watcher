@@ -1,36 +1,33 @@
 import Theme from 'config/theme';
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-  },
-  label: {
-    fontFamily: Theme.font,
-    color: Theme.fontColors.light,
-    fontSize: 17,
-    fontWeight: '400',
-    marginLeft: Theme.margin.left,
-    ...Platform.select({
-      android: {
-        marginBottom: 6
-      }
-    })
+    flex: 1
   },
   inputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Theme.background.white
-  },
-  input: {
-    flex: 1,
     height: 64,
-    paddingBottom: 0,
-    marginLeft: Theme.margin.left,
-    marginRight: Theme.icon.width,
+    paddingLeft: Theme.margin.left,
+    paddingRight: Theme.margin.right,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowRadius: 3,
+    shadowColor: '#000000',
+    shadowOpacity: 0.25,
+    shadowOffset: {
+      width: 0,
+      height: 0
+    },
+    backgroundColor: Theme.background.white,
+    elevation: 6,
+    marginBottom: 8
+  },
+  inputLabel: {
+    flex: 1,
+    color: Theme.fontColors.light,
     fontFamily: Theme.font,
     fontSize: 17,
-    fontWeight: '400',
-    color: Theme.fontColors.secondary
+    fontWeight: '400'
   }
 });
