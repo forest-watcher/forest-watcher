@@ -103,7 +103,7 @@ class SetupBoundaries extends Component {
           <MapModal
             visible
             onClosePress={() => this.setProtectedAreasStatus(false)}
-            title={I18n.t('boundaries.selectArea')}
+            title={I18n.t('boundaries.selectProtectedArea')}
           >
             <ProtectedAreas
               country={this.props.setupCountry}
