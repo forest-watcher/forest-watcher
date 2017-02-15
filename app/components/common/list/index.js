@@ -15,12 +15,12 @@ function List(props) {
     <View>
       {props.content.map((data, key) =>
       (
-        <View key={key}  style={styles.container}>
-          <View style={[data.text ? styles.containerImageText : styles.containerOnlyImage]}>
+        <View key={key} style={styles.container}>
+          <View style={data.text ? styles.containerImageText : styles.containerOnlyImage}>
             {data.image &&
               <Image
                 source={imageExample}
-                style={styles.imageList}
+                style={[data.text ? styles.imageList : styles.imageListMargin]}
               />
             }
             {data.text &&

@@ -9,7 +9,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    marginBottom: 4
+    marginBottom: 8
   },
   containerImageText: {
     flex: 1,
@@ -32,6 +32,11 @@ export default StyleSheet.create({
   imageList: {
     width: 112,
     height: 112
+  },
+  imageListMargin: {
+    width: 112,
+    height: 112,
+    marginLeft: 16
   },
   nextImage: {
     marginRight: 24
