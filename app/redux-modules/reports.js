@@ -6,7 +6,9 @@ const GET_QUESTIONS = 'report/GET_QUESTIONS';
 // Reducer
 const initialNavState = {
   forms: {},
-  answers: {}
+  answers: {
+    idForm: 'idAlert'
+  }
 };
 
 export default function reducer(state = initialNavState, action) {

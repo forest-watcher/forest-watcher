@@ -22,7 +22,7 @@ const sections = [
   },
   {
     title: I18n.t('dashboard.reports'),
-    section: 'Report',
+    section: 'NewReport',
     image: ''
   },
   {
