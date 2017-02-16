@@ -16,7 +16,7 @@ function List(props) {
       (
         <View
           key={key}
-          style={data.bigSeparation ? [styles.container, styles.containerBigSeparation] : [styles.container]}
+          style={props.bigSeparation ? [styles.container, styles.containerBigSeparation] : [styles.container]}
           onPress={data.functionOnPress}
         >
           <View style={data.text ? styles.containerImageText : styles.containerOnlyImage}>
@@ -42,7 +42,8 @@ function List(props) {
 }
 
 List.propTypes = {
-  content: React.PropTypes.array
+  content: React.PropTypes.array,
+  bigSeparation: React.PropTypes.bool
 };
 
 export default List;
