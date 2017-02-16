@@ -4,10 +4,11 @@ import Config from 'react-native-config';
 const GET_USER = 'user/GET_USER';
 const SET_LOGIN_MODAL = 'user/SET_LOGIN_MODAL';
 const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
+const CHECK_USER_LOGGED = 'user/CHECK_USER_LOGGED';
 
 // Reducer
 const initialState = {
-  data: null,
+  data: {},
   loginModal: false,
   loggedIn: false,
   token: null
@@ -15,10 +16,16 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case CHECK_USER_LOGGED:
+      return Object.assign({}, state, { data: action.payload });
     case GET_USER: {
-      const user = action.payload.data.attributes;
-      user.id = action.payload.data.id;
-      return Object.assign({}, state, { data: user });
+      if (action.payload.data) {
+        const user = action.payload.data.attributes;
+        user.id = action.payload.data.id;
+        return Object.assign({}, state, { data: user });
+      }
+      console.log(state);
+      return state;
     }
     case SET_LOGIN_MODAL:
       return Object.assign({}, state, { loginModal: action.payload });
@@ -33,6 +40,28 @@ export default function reducer(state = initialState, action) {
 }
 
 // Action Creators
+export function checkLogged() {
+  const url = `${Config.API_URL}/auth/check-logged`;
+  return (dispatch, state) => {
+    fetch(url, {
+      headers: {
+        Authorization: `Bearer ${state().user.token}`
+      }
+    })
+      .then(response => response.json())
+      .then((data) => {
+        dispatch({
+          type: CHECK_USER_LOGGED,
+          payload: data
+        });
+      })
+      .catch((error) => {
+        console.warn(error);
+        // To-do
+      });
+  };
+}
+
 export function getUser() {
   const url = `${Config.API_URL}/user`;
   return (dispatch, state) => {

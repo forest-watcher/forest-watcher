@@ -37,8 +37,8 @@ class Home extends Component {
   }
 
   async checkBeforeRender() {
+    await this.props.checkLogged();
     const userToken = await getToken();
-
     if (!userToken) {
       this.props.setLoginModal(true);
     } else {
