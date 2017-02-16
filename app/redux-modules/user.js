@@ -24,7 +24,6 @@ export default function reducer(state = initialState, action) {
         user.id = action.payload.data.id;
         return Object.assign({}, state, { data: user });
       }
-      console.log(state);
       return state;
     }
     case SET_LOGIN_MODAL:
