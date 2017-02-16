@@ -70,7 +70,7 @@ class SetupCountry extends Component {
       return (
         <View style={styles.container}>
           <View style={styles.content}>
-            <Text style={styles.text}>{I18n.t('setupCountry.welcomeText')}{user === ' ' ? '!' : ` ${user.fullName}`}</Text>
+            <Text style={styles.text}>{I18n.t('setupCountry.welcomeText')}{user ? '!' : ` ${user.fullName}`}</Text>
             <Text style={styles.text}>{I18n.t('setupCountry.secondWelcomeText')}</Text>
           </View>
 
