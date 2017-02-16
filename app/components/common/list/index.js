@@ -7,8 +7,7 @@ import {
 } from 'react-native';
 import styles from './styles';
 
-const imageExample = require('assets/appicon/app-icon@120x120.png');
-const nextImage = require('assets/next@2x.png');
+const nextImage = require('assets/next.png');
 
 function List(props) {
   return (
@@ -23,8 +22,8 @@ function List(props) {
           <View style={data.text ? styles.containerImageText : styles.containerOnlyImage}>
             {data.image &&
               <Image
-                source={imageExample}
                 style={styles.imageList}
+                source={data.image}
               />
             }
             {data.text &&
