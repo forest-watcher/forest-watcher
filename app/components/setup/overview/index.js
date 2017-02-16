@@ -8,6 +8,7 @@ import {
 
 import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
+import I18n from 'locales';
 import styles from './styles';
 
 const editImage = require('assets/edit.png');
@@ -53,7 +54,7 @@ class SetupOverview extends Component {
               autoCorrect={false}
               autoCapitalize="none"
               value={this.state.name}
-              placeholder="Enter a name"
+              placeholder={I18n.t('setupOverview.placeholder')}
               style={styles.searchInput}
               onChangeText={this.textChange}
               underlineColorAndroid="transparent"
@@ -68,7 +69,7 @@ class SetupOverview extends Component {
           </View>
         </View>
 
-        <ActionButton style={styles.buttonPos} disabled={!this.state.name} onPress={this.onNextPress} text="FINISH" />
+        <ActionButton style={styles.buttonPos} disabled={!this.state.name} onPress={this.onNextPress} text={I18n.t('commonText.finish')} />
       </View>
     );
   }

@@ -66,7 +66,7 @@ class Settings extends Component {
               activeOpacity={0.5}
               underlayColor="transparent"
             >
-              <Text style={styles.logout}>LOG OUT</Text>
+              <Text style={styles.logout}>{I18n.t('settings.logOut')}</Text>
             </TouchableHighlight>
           </View>
 

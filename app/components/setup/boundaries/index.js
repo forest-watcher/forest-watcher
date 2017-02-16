@@ -55,7 +55,7 @@ class SetupBoundaries extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.selector}>
-          <Text style={styles.selectorLabel}>Now, choose the boundaries</Text>
+          <Text style={styles.selectorLabel}>{I18n.t('boundaries.chooseBoundaries')}</Text>
 
           <View style={styles.actions}>
             <TouchableHighlight
@@ -73,7 +73,7 @@ class SetupBoundaries extends Component {
                   style={styles.sectionText}
                   numberOfLines={2}
                 >
-                  Select a protected area
+                  {I18n.t('boundaries.selectProtectedArea')}
                 </Text>
               </View>
             </TouchableHighlight>
@@ -93,7 +93,7 @@ class SetupBoundaries extends Component {
                   style={styles.sectionText}
                   numberOfLines={2}
                 >
-                  Draw an area
+                  {I18n.t('boundaries.drawArea')}
                 </Text>
               </View>
             </TouchableHighlight>
@@ -103,7 +103,7 @@ class SetupBoundaries extends Component {
           <MapModal
             visible
             onClosePress={() => this.setProtectedAreasStatus(false)}
-            title={I18n.t('boundaries.selectArea')}
+            title={I18n.t('boundaries.selectProtectedArea')}
           >
             <ProtectedAreas
               country={this.props.setupCountry}
@@ -124,7 +124,7 @@ class SetupBoundaries extends Component {
           </MapModal>
         }
         {this.props.area && (this.props.area.wdpaid || this.props.area.geostore)
-          ? <ActionButton style={styles.buttonPos} onPress={this.props.onNextPress} text="NEXT" />
+          ? <ActionButton style={styles.buttonPos} onPress={this.props.onNextPress} text={I18n.t('commonText.next')} />
           : null
         }
       </View>

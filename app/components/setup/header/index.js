@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import Theme from 'config/theme';
+import I18n from 'locales';
 import styles from './styles';
 
 const backIcon = require('assets/previous.png');
@@ -36,7 +37,7 @@ SetupHeader.propTypes = {
   showBack: React.PropTypes.bool,
   onBackPress: (props, propName, componentName) => {
     if (props.showBack && !props[propName]) {
-      return new Error(`Invalid prop ${propName} supplied to  ${componentName}. It ss required if you show back button`);
+      return new Error(`${I18n.t('setupHeader.errorFirst')} ${propName} ${I18n.t('setupHeader.errorSecond')}  ${componentName}. ${I18n.t('setupHeader.errorThird')}`);
     }
     return null;
   }
