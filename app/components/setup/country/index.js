@@ -46,9 +46,9 @@ function getCurrentCountry(countries, iso) {
 
 class SetupCountry extends Component {
   componentDidMount() {
-    if (!this.props.user) {
+    // if (!this.props.user) {
       this.props.getUser();
-    }
+    // }
     if (!this.props.countries || !this.props.countries.length > 0) {
       this.props.getCountries();
     }
@@ -67,11 +67,10 @@ class SetupCountry extends Component {
     const { user, countries, setupCountry } = this.props;
     if (user && countries && countries.length) {
       const iso = setupCountry.iso || user.country;
-
       return (
         <View style={styles.container}>
           <View style={styles.content}>
-            <Text style={styles.text}>Hi {user.fullName},</Text>
+            <Text style={styles.text}>Hi{user === ' ' ? '!' : ` ${user.fullName}`}</Text>
             <Text style={styles.text}>please set up an area</Text>
           </View>
 
