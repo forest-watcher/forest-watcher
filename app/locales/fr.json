@@ -51,5 +51,10 @@
 	},
 	"setupProtectedAreas": {
 		"instruction": "Select an area to continue"
+	},
+	"settings": {
+		"loggedIn": "You’re are logged in as",
+		"yourAreas": "Your areas",
+		"logOut": "LOG OUT"
 	}
 }
