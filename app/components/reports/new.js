@@ -9,6 +9,20 @@ import getInputForm from 'components/common/form-inputs';
 import ActionButton from 'components/common/action-button';
 import styles from './styles';
 
+function checkEmptyAnswer(answer) {
+  if (!answer) return true;
+  switch (answer.constructor) {
+    case Array:
+      return answer.length <= 0;
+    case String:
+      return answer === '';
+    case Object:
+      return Object.keys(answer) <= 0;
+    default:
+      return true;
+  }
+}
+
 function getBtnTextByType(type) {
   switch (type) {
     case 'text':
@@ -18,7 +32,7 @@ function getBtnTextByType(type) {
     case 'select':
       return 'Choose at least one option to continue';
     default:
-      return 'Please, fill the answer please';
+      return 'Please, answer the question';
   }
 }
 
@@ -36,17 +50,25 @@ class Reports extends Component {
   }
 
   goToNextPage = () => {
-    this.setState((prevState) => ({
-      page: prevState.page + 1
-    }));
+    if (this.state.page < (this.props.questions.length - 1)) {
+      this.setState((prevState) => ({
+        page: prevState.page + 1
+      }));
+    } else {
+      // TODO: save report
+      console.log('TODO: save report', this.props.answers);
+      // this.props.saveReport();
+      this.props.goBack();
+    }
   }
 
   render() {
     const { questions, answers } = this.props;
     if (!questions || !questions.length) return null;
     const question = questions[this.state.page];
-    const enabled = answers && answers[question._id];  // eslint-disable-line
-    const btnText = enabled ? 'Next' : getBtnTextByType(question.type);
+    const answer = answers && answers[question._id];  // eslint-disable-line
+    const disabled = checkEmptyAnswer(answer);
+    const btnText = disabled ? getBtnTextByType(question.type) : 'Next';
     return (
       <View style={styles.container}>
         <StepsSlider
@@ -54,7 +76,7 @@ class Reports extends Component {
           onChangeTab={this.updatePage}
         >
           {questions.map((item, index) => (
-            <View key={index}>
+            <View style={styles.container} key={index}>
               <Field
                 name={item._id} // eslint-disable-line
                 component={getInputForm}
@@ -63,13 +85,14 @@ class Reports extends Component {
             </View>
           ))}
         </StepsSlider>
-        <ActionButton style={styles.buttonPos} disabled={!enabled} onPress={this.goToNextPage} text={btnText} />
+        <ActionButton style={styles.buttonPos} disabled={disabled} onPress={this.goToNextPage} text={btnText} />
       </View>
     );
   }
 }
 
 Reports.propTypes = {
+  goBack: React.PropTypes.func.isRequired,
   getQuestions: React.PropTypes.func.isRequired,
   questions: React.PropTypes.array.isRequired,
   answers: React.PropTypes.object.isRequired

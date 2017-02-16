@@ -26,10 +26,13 @@ function mapStateToProps(state, { navigation }) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, { navigation }) {
   return {
     getQuestions: () => {
       dispatch(getQuestions());
+    },
+    goBack: () => {
+      navigation.goBack();
     }
   };
 }
