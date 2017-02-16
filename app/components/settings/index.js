@@ -149,7 +149,7 @@ class Settings extends Component {
             </View>
 
             <Text style={[styles.label, styles.footerText]}>
-              Forest Watcher 2.0
+              {I18n.t('settings.appName')}
             </Text>
 
           </View>
