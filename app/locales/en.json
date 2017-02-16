@@ -23,5 +23,12 @@
       "aboutApp": "About this app",
       "aboutPartners": "Partners",
       "aboutTerms": "Terms and Conditions"
+    },
+    "report": {
+      "datePlaceholder": "Select date"
+    },
+    "common": {
+      "cancel": "Cancel",
+      "confirm": "Confirm"
     }
   }

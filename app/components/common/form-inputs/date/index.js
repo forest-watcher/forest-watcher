@@ -1,40 +1,48 @@
 import React from 'react';
 import {
   View,
-  Text,
-  TextInput
+  Text
 } from 'react-native';
+import DatePicker from 'react-native-datepicker';
+import I18n from 'locales';
 
-import Theme from 'config/theme';
 import styles from '../styles';
+import dateStyles from './styles';
 
+function DateInput(props) {
+  function handlePress(date) {
+    props.input.onChange(date);
+  }
 
-function InputTextCustom(props) {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{props.question.label}</Text>
       <View style={styles.inputContainer}>
-        <TextInput
-          autoFocus
-          autoCorrect={false}
-          style={styles.input}
-          autoCapitalize="none"
-          value={props.input.value}
-          onChangeText={props.input.onChange}
-          placeholder={props.question.defaultValue}
-          underlineColorAndroid="transparent"
-          selectionColor={Theme.colors.color1}
-          placeholderTextColor={Theme.fontColors.light}
+        <DatePicker
+          style={dateStyles.datePicker}
+          showIcon={false}
+          date={props.input.value}
+          mode="datetime"
+          format="MMMM Do YYYY, h:mm"
+          placeholder={I18n.t('report.datePlaceholder')}
+          cancelBtnText={I18n.t('common.cancel')}
+          confirmBtnText={I18n.t('common.confirm')}
+          onDateChange={handlePress}
+          customStyles={{
+            dateInput: dateStyles.dateInput,
+            dateText: dateStyles.dateText
+          }}
         />
       </View>
     </View>
   );
 }
 
-InputTextCustom.propTypes = {
+DateInput.propTypes = {
   question: React.PropTypes.shape({
     label: React.PropTypes.string,
-    defaultValue: React.PropTypes.string
+    defaultValue: React.PropTypes.string,
+    values: React.PropTypes.array
   }).isRequired,
   input: React.PropTypes.shape({
     onBlur: React.PropTypes.func.isRequired,
@@ -51,4 +59,4 @@ InputTextCustom.propTypes = {
   }).isRequired
 };
 
-export default InputTextCustom;
+export default DateInput;

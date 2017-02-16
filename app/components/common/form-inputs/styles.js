@@ -5,6 +5,19 @@ export default StyleSheet.create({
   container: {
     flex: 1
   },
+  containerContent: {
+    paddingBottom: 120
+  },
+  label: {
+    color: Theme.fontColors.secondary,
+    fontFamily: Theme.font,
+    fontSize: 21,
+    fontWeight: '400',
+    marginTop: 18,
+    marginRight: 72,
+    marginBottom: 18,
+    marginLeft: Theme.margin.left
+  },
   inputContainer: {
     height: 64,
     paddingLeft: Theme.margin.left,

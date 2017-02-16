@@ -40,6 +40,7 @@ export function getQuestions() {
       .then((data) => {
         let form = [];
         if (data && data.data && data.data[0]) form = data.data[0].attributes;
+        form.questions = form.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
         dispatch({
           type: GET_QUESTIONS,
           payload: form

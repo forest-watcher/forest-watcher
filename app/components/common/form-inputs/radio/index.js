@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import Theme from 'config/theme';
-import styles from './styles';
+import styles from '../styles';
 
 const checkOnIcon = require('assets/checkbox_on.png');
 const checkOffIcon = require('assets/checkbox_off.png');
@@ -18,9 +18,9 @@ function RadioInput(props) {
       props.input.onChange(value);
     }
   }
-
   return (
     <View style={styles.container}>
+      <Text style={styles.label}>{props.question.label}</Text>
       {props.question.values.map((value, index) => (
         <TouchableHighlight
           key={index}

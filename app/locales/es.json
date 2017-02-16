@@ -15,5 +15,12 @@
     "boundaries": {
       "selectArea": "Select a protected area",
       "drawArea": "Draw an area"
+    },
+    "report": {
+      "datePlaceholder": "Select date"
+    },
+    "common": {
+      "cancel": "Cancel",
+      "confirm": "Confirm"
     }
   }

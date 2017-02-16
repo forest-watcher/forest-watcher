@@ -43,6 +43,8 @@ class Reports extends Component {
     this.state = {
       page: 0
     };
+    // First 4 questions in the form should be auto filled
+    this.questionsToSkip = 4;
   }
 
   componentWillMount() {
@@ -65,7 +67,8 @@ class Reports extends Component {
   render() {
     const { questions, answers } = this.props;
     if (!questions || !questions.length) return null;
-    const question = questions[this.state.page];
+
+    const question = questions[this.state.page + this.questionsToSkip];
     const answer = answers && answers[question._id];  // eslint-disable-line
     const disabled = checkEmptyAnswer(answer);
     const btnText = disabled ? getBtnTextByType(question.type) : 'Next';
@@ -75,15 +78,18 @@ class Reports extends Component {
           page={this.state.page}
           onChangeTab={this.updatePage}
         >
-          {questions.map((item, index) => (
-            <View style={styles.container} key={index}>
-              <Field
-                name={item._id} // eslint-disable-line
-                component={getInputForm}
-                question={item}
-              />
-            </View>
-          ))}
+          {questions.map((item, index) => {
+            if (index < this.questionsToSkip) return null;
+            return (
+              <View style={styles.container} key={index}>
+                <Field
+                  name={item._id} // eslint-disable-line
+                  component={getInputForm}
+                  question={item}
+                />
+              </View>
+            );
+          })}
         </StepsSlider>
         <ActionButton style={styles.buttonPos} disabled={disabled} onPress={this.goToNextPage} text={btnText} />
       </View>

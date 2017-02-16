@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import Theme from 'config/theme';
-import styles from './styles';
+import styles from '../styles';
 
 const checkOnIcon = require('assets/checkbox_on.png');
 const checkOffIcon = require('assets/checkbox_off.png');
@@ -25,29 +25,32 @@ function SelectInput(props) {
     props.input.onChange(newVal);
   }
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.containerContent}
-      showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}
-    >
-      {props.question.values.map((value, index) => (
-        <TouchableHighlight
-          key={index}
-          style={styles.inputContainer}
-          underlayColor={Theme.background.white}
-          onPress={() => handlePress(value)}
-        >
-          <View style={styles.input}>
-            <Text style={styles.inputLabel}>{value}</Text>
-            <Image
-              style={Theme.icon}
-              source={props.input.value.indexOf(value) >= 0 ? checkOnIcon : checkOffIcon}
-            />
-          </View>
-        </TouchableHighlight>
-      ))}
-    </ScrollView>
+    <View>
+      <Text style={styles.label}>{props.question.label}</Text>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.containerContent}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
+        {props.question.values.map((value, index) => (
+          <TouchableHighlight
+            key={index}
+            style={styles.inputContainer}
+            underlayColor={Theme.background.white}
+            onPress={() => handlePress(value)}
+          >
+            <View style={styles.input}>
+              <Text style={styles.inputLabel}>{value}</Text>
+              <Image
+                style={Theme.icon}
+                source={props.input.value.indexOf(value) >= 0 ? checkOnIcon : checkOffIcon}
+              />
+            </View>
+          </TouchableHighlight>
+        ))}
+      </ScrollView>
+    </View>
   );
 }
 
