@@ -2,23 +2,17 @@ import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  containerBig: {
-    flex: 1,
-    backgroundColor: 'white',
-    height: 112,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    marginBottom: 8
-  },
   container: {
     flex: 1,
     backgroundColor: 'white',
-    height: 112,
+    height: 120,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
     marginBottom: 2
+  },
+  containerBigSeparation: {
+    marginBottom: 8
   },
   containerImageText: {
     flex: 1,
@@ -29,25 +23,17 @@ export default StyleSheet.create({
   containerOnlyImage: {
     flex: 1
   },
-  containerImage: {
-    flex: 1
-  },
   text: {
     flex: 1,
     fontSize: 16,
-    color: '#555555',
+    color: Theme.color2,
     marginLeft: 16
   },
   imageList: {
-    width: 112,
-    height: 112
+    width: 120,
+    height: 120
   },
-  imageListMargin: {
-    width: 112,
-    height: 112,
-    marginLeft: 16
-  },
-  nextImage: {
+  nextIcon: {
     marginRight: 24
   }
 });

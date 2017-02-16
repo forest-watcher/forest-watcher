@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   View,
-
+  ScrollView,
   Image,
   Text
 } from 'react-native';
@@ -12,10 +12,14 @@ const nextImage = require('assets/next@2x.png');
 
 function List(props) {
   return (
-    <View>
+    <ScrollView>
       {props.content.map((data, key) =>
       (
-        <View key={key} style={data.spaceBig ? styles.containerBig : styles.container}>
+        <View
+          key={key}
+          style={data.bigSeparation ? [styles.container, styles.containerBigSeparation] : [styles.container]}
+          onPress={data.functionOnPress}
+        >
           <View style={data.text ? styles.containerImageText : styles.containerOnlyImage}>
             {data.image &&
               <Image
@@ -28,18 +32,18 @@ function List(props) {
             }
           </View>
           <Image
-            style={styles.nextImage}
+            style={styles.nextIcon}
             source={nextImage}
           />
         </View>
       )
     )}
-    </View>
+    </ScrollView>
   );
 }
 
 List.propTypes = {
-
+  content: React.PropTypes.array
 };
 
 export default List;
