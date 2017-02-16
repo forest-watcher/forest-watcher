@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   View,
+  ScrollView,
   Text,
   Image,
   TouchableHighlight
@@ -12,15 +13,24 @@ import styles from './styles';
 const checkOnIcon = require('assets/checkbox_on.png');
 const checkOffIcon = require('assets/checkbox_off.png');
 
-function RadioInput(props) {
+function SelectInput(props) {
   function handlePress(value) {
-    if (value !== props.input.value) {
-      props.input.onChange(value);
+    const newVal = [...props.input.value];
+    const index = newVal.indexOf(value);
+    if (index >= 0) {
+      newVal.splice(index, 1);
+    } else {
+      newVal.push(value);
     }
+    props.input.onChange(newVal);
   }
-
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.containerContent}
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+    >
       {props.question.values.map((value, index) => (
         <TouchableHighlight
           key={index}
@@ -32,16 +42,16 @@ function RadioInput(props) {
             <Text style={styles.inputLabel}>{value}</Text>
             <Image
               style={Theme.icon}
-              source={props.input.value === value ? checkOnIcon : checkOffIcon}
+              source={props.input.value.indexOf(value) >= 0 ? checkOnIcon : checkOffIcon}
             />
           </View>
         </TouchableHighlight>
       ))}
-    </View>
+    </ScrollView>
   );
 }
 
-RadioInput.propTypes = {
+SelectInput.propTypes = {
   question: React.PropTypes.shape({
     label: React.PropTypes.string,
     defaultValue: React.PropTypes.string,
@@ -62,4 +72,4 @@ RadioInput.propTypes = {
   }).isRequired
 };
 
-export default RadioInput;
+export default SelectInput;

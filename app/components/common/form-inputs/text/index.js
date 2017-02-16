@@ -9,7 +9,7 @@ import Theme from 'config/theme';
 import styles from './styles';
 
 
-function InputText(props) {
+function InputTextCustom(props) {
   return (
     <View style={styles.container}>
       <Text style={styles.inputLabel}>{props.question.label}</Text>
@@ -31,7 +31,7 @@ function InputText(props) {
   );
 }
 
-InputText.propTypes = {
+InputTextCustom.propTypes = {
   question: React.PropTypes.shape({
     label: React.PropTypes.string,
     defaultValue: React.PropTypes.string
@@ -51,4 +51,4 @@ InputText.propTypes = {
   }).isRequired
 };
 
-export default InputText;
+export default InputTextCustom;

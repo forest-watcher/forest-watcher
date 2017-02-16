@@ -5,6 +5,9 @@ export default StyleSheet.create({
   container: {
     flex: 1
   },
+  containerContent: {
+    paddingBottom: 80
+  },
   inputContainer: {
     height: 64,
     paddingLeft: Theme.margin.left,
