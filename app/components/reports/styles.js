@@ -5,6 +5,12 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.background.main,
-    paddingTop: 88
+    position: 'relative'
+  },
+  buttonPos: {
+    position: 'absolute',
+    bottom: 50,
+    left: 8,
+    right: 8
   }
 });

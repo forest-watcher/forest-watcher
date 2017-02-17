@@ -8,6 +8,7 @@ import {
   Image
 } from 'react-native';
 
+import LeftBtn from 'components/common/header/left-btn';
 import Theme from 'config/theme';
 import I18n from 'locales';
 import styles from './styles';
@@ -136,7 +137,7 @@ class Settings extends Component {
             <List content={aboutSections} bigSeparation={false}>{}</List>
 
             <Text style={[styles.label, styles.footerText]}>
-              {I18n.t('settings.appName')}
+              {I18n.t('commonText.appName')}
             </Text>
 
           </View>
@@ -153,5 +154,26 @@ Settings.propTypes = {
   navigate: React.PropTypes.func.isRequired,
   getAreas: React.PropTypes.func.isRequired
 };
+
+Settings.navigationOptions = {
+  header: ({ goBack }) => ({
+    left: <LeftBtn goBack={goBack} />,
+    tintColor: Theme.colors.color1,
+    style: {
+      paddingLeft: 8,
+      paddingRight: 8,
+      backgroundColor: Theme.background.main
+    },
+    titleStyle: {
+      textAlign: 'left',
+      fontFamily: Theme.font,
+      fontSize: 21,
+      fontWeight: '400',
+      height: 28
+    },
+    title: I18n.t('settings.title')
+  })
+};
+
 
 export default Settings;

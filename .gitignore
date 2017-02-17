@@ -41,6 +41,12 @@ local.properties
 node_modules/
 npm-debug.log
 
+# ruby
+#
+ruby/transifex/.gems
+ruby/transifex/.rbenv-gemsets
+ruby/transifex/.ruby-version
+
 # BUCK
 buck-out/
 \.buckd/

@@ -37,5 +37,8 @@ export default {
     images: {
       alerts: 'images/alerts'
     }
+  },
+  reports: {
+    default: 'defaultReport'
   }
 };
