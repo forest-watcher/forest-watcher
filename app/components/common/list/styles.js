@@ -5,7 +5,8 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    height: 120,
+    minHeight: 64,
+    maxHeight: 120,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
@@ -31,7 +32,7 @@ export default StyleSheet.create({
     flex: 1,
     fontSize: 16,
     color: Theme.color2,
-    marginLeft: 16
+    marginLeft: Theme.margin.left
   },
 
   imageList: {
