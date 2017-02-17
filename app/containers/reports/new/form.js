@@ -1,16 +1,12 @@
 import { connect } from 'react-redux';
 import { getQuestions } from 'redux-modules/reports';
 
-import NewReport from 'components/reports/new';
+import ReportsForm from 'components/reports/new/form';
 import CONSTANTS from 'config/constants';
 
 const defaultReport = CONSTANTS.reports.default;
 
  // TODO: handle form identifier
-function getFormId(params) {
-  if (!params) return defaultReport;
-  return params.alert;
-}
 
 function getAnswers(form) {
   if (!form) return null;
@@ -18,10 +14,10 @@ function getAnswers(form) {
   return {};
 }
 
-function mapStateToProps(state, { navigation }) {
+function mapStateToProps(state) {
   return {
     questions: state.reports.forms.questions || [],
-    form: getFormId(navigation.state.params),
+    form: defaultReport,
     answers: getAnswers(state.form)
   };
 }
@@ -40,4 +36,4 @@ function mapDispatchToProps(dispatch, { navigation }) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(NewReport);
+)(ReportsForm);

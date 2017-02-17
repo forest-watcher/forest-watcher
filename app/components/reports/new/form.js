@@ -7,7 +7,7 @@ import { Field, reduxForm } from 'redux-form';
 import StepsSlider from 'components/common/steps-slider';
 import getInputForm from 'components/common/form-inputs';
 import ActionButton from 'components/common/action-button';
-import styles from './styles';
+import styles from '../styles';
 
 function checkEmptyAnswer(answer) {
   if (!answer) return true;
@@ -36,7 +36,7 @@ function getBtnTextByType(type) {
   }
 }
 
-class Reports extends Component {
+class ReportsForm extends Component {
   constructor() {
     super();
 
@@ -97,7 +97,7 @@ class Reports extends Component {
   }
 }
 
-Reports.propTypes = {
+ReportsForm.propTypes = {
   goBack: React.PropTypes.func.isRequired,
   getQuestions: React.PropTypes.func.isRequired,
   questions: React.PropTypes.array.isRequired,
@@ -106,4 +106,4 @@ Reports.propTypes = {
 
 export default reduxForm({
   destroyOnUnmount: false
-})(Reports);
+})(ReportsForm);

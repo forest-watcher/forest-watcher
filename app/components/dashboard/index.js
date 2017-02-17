@@ -5,6 +5,7 @@ import {
   ScrollView,
   TouchableHighlight
 } from 'react-native';
+import Theme from 'config/theme';
 import I18n from 'locales';
 import styles from './styles';
 
@@ -85,6 +86,13 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   navigate: React.PropTypes.func.isRequired
+};
+
+Dashboard.navigationOptions = {
+  header: {
+    title: I18n.t('settings.appName'),
+    tintColor: Theme.colors.color1
+  }
 };
 
 export default Dashboard;

@@ -17,7 +17,9 @@
       "drawArea": "Draw an area"
     },
     "report": {
-      "datePlaceholder": "Select date"
+      "datePlaceholder": "Select date",
+      "saveLaterTitle": "Save for later",
+      "saveLaterDescription": "It will appear as a draft in the reports section"
     },
     "common": {
       "cancel": "Cancel",
