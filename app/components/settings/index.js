@@ -8,13 +8,13 @@ import {
   Image
 } from 'react-native';
 
+import LeftBtn from 'components/common/header/left-btn';
 import Theme from 'config/theme';
 import I18n from 'locales';
 import styles from './styles';
 
 const nextIcon = require('assets/next.png');
 const plusIcon = require('assets/plus.png');
-const backIcon = require('assets/previous.png');
 
 const aboutSections = [
   {
@@ -154,34 +154,23 @@ Settings.propTypes = {
 };
 
 Settings.navigationOptions = {
-  header: (navigation) => {
-    const LeftBtn = (
-      <TouchableHighlight
-        onPress={() => navigation.goBack()}
-        underlayColor="transparent"
-        activeOpacity={0.8}
-      >
-        <Image style={Theme.icon} source={backIcon} />
-      </TouchableHighlight>
-    );
-    return {
-      left: LeftBtn,
-      tintColor: Theme.colors.color1,
-      style: {
-        paddingLeft: 8,
-        paddingRight: 8,
-        backgroundColor: Theme.background.main
-      },
-      titleStyle: {
-        textAlign: 'left',
-        fontFamily: Theme.font,
-        fontSize: 21,
-        fontWeight: '400',
-        height: 28
-      },
-      title: I18n.t('settings.title')
-    };
-  }
+  header: ({ goBack }) => ({
+    left: <LeftBtn goBack={goBack} />,
+    tintColor: Theme.colors.color1,
+    style: {
+      paddingLeft: 8,
+      paddingRight: 8,
+      backgroundColor: Theme.background.main
+    },
+    titleStyle: {
+      textAlign: 'left',
+      fontFamily: Theme.font,
+      fontSize: 21,
+      fontWeight: '400',
+      height: 28
+    },
+    title: I18n.t('settings.title')
+  })
 };
 
 
