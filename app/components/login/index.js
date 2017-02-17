@@ -15,6 +15,12 @@ import I18n from 'locales';
 
 import styles from './styles';
 
+const logoIcon = require('assets/logo.png');
+const facebookIcon = require('assets/facebook_white.png');
+const twitterIcon = require('assets/twitter_white.png');
+const googleIcon = require('assets/google_white.png');
+const nextIcon = require('assets/next_white.png');
+
 class Login extends Component {
   constructor() {
     super();
@@ -128,9 +134,9 @@ class Login extends Component {
             <View style={styles.intro}>
               <Image
                 style={styles.logo}
-                source={require('assets/logo.png')}
+                source={logoIcon}
               />
-              <Text style={styles.introLabel}>{I18n.t('commonText.appTitle')}</Text>
+              <Text style={styles.introLabel}>{I18n.t('commonText.appName').toUpperCase()}</Text>
             </View>
             <View style={styles.buttons}>
               <Text style={styles.buttonsLabel}>{I18n.t('login.introductionText')}</Text>
@@ -143,12 +149,12 @@ class Login extends Component {
                 <View>
                   <Image
                     style={styles.iconFacebook}
-                    source={require('assets/facebook_white.png')}
+                    source={facebookIcon}
                   />
                   <Text style={styles.buttonText}>{I18n.t('login.facebookTitle')}</Text>
                   <Image
                     style={styles.iconArrow}
-                    source={require('assets/next_white.png')}
+                    source={nextIcon}
                   />
                 </View>
               </TouchableHighlight>
@@ -161,12 +167,12 @@ class Login extends Component {
                 <View>
                   <Image
                     style={styles.iconTwitter}
-                    source={require('assets/twitter_white.png')}
+                    source={twitterIcon}
                   />
-                <Text style={styles.buttonText}>{I18n.t('login.twitterTitle')}</Text>
+                  <Text style={styles.buttonText}>{I18n.t('login.twitterTitle')}</Text>
                   <Image
                     style={styles.iconArrow}
-                    source={require('assets/next_white.png')}
+                    source={nextIcon}
                   />
                 </View>
               </TouchableHighlight>
@@ -179,12 +185,12 @@ class Login extends Component {
                 <View>
                   <Image
                     style={styles.iconGoogle}
-                    source={require('assets/google_white.png')}
+                    source={googleIcon}
                   />
-                <Text style={styles.buttonText}>{I18n.t('login.googleTitle')}</Text>
+                  <Text style={styles.buttonText}>{I18n.t('login.googleTitle')}</Text>
                   <Image
                     style={styles.iconArrow}
-                    source={require('assets/next_white.png')}
+                    source={nextIcon}
                   />
                 </View>
               </TouchableHighlight>

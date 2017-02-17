@@ -3,9 +3,9 @@ import {
   View,
   Text,
   ScrollView,
-  TouchableHighlight,
-  Image
+  TouchableHighlight
 } from 'react-native';
+import Theme from 'config/theme';
 import I18n from 'locales';
 import styles from './styles';
 
@@ -23,7 +23,7 @@ const sections = [
   },
   {
     title: I18n.t('dashboard.reports'),
-    section: '',
+    section: 'NewReport',
     image: ''
   },
   {
@@ -86,6 +86,13 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   navigate: React.PropTypes.func.isRequired
+};
+
+Dashboard.navigationOptions = {
+  header: {
+    title: I18n.t('commonText.appName').toUpperCase(),
+    tintColor: Theme.colors.color1
+  }
 };
 
 export default Dashboard;
