@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import {
-  KeyboardAvoidingView,
   View,
   Text,
   Image,
