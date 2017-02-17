@@ -23,17 +23,20 @@ class ImageCache extends Component {
     };
   }
 
-  animateOpacity() {
-    Animated.timing(
-      this.state.opacity,
-      {
-        toValue: 1,
-        easing: Easing.linear,
-        duration: 500
+  componentDidMount() {
+    this.getUrl();
+  }
+
+  async getUrl() {
+    const { source } = this.props;
+
+    if (source.uri) {
+      const url = await getCachedImageByUrl(source.uri, CONSTANTS.files.images.alerts);
+
+      if (url) {
+        this.setState({ url });
       }
-    ).start(() => {
-      this.setState({ loading: false });
-    });
+    }
   }
 
   hideLoader() {
@@ -54,19 +57,17 @@ class ImageCache extends Component {
     });
   }
 
-  componentDidMount() {
-    this.getUrl();
-  }
-
-  async getUrl() {
-    const { source } = this.props;
-    const url = await getCachedImageByUrl(source.uri, CONSTANTS.files.images.alerts);
-
-    console.log(url);
-
-    if (url) {
-      this.setState({ url });
-    }
+  animateOpacity() {
+    Animated.timing(
+      this.state.opacity,
+      {
+        toValue: 1,
+        easing: Easing.linear,
+        duration: 500
+      }
+    ).start(() => {
+      this.setState({ loading: false });
+    });
   }
 
   render() {

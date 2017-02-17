@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -23,7 +22,6 @@
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		14846EA233794B3FBB819E27 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 299F07320E3044EAB859667B /* libRNI18n.a */; };
-		3DE77697815C457A992800D6 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CD7FD0677E224FD4A6E49A04 /* libRNFetchBlob.a */; };
 		560493541E4BBED3002430A1 /* AIRGMSPolygon.m in Sources */ = {isa = PBXBuildFile; fileRef = 560493521E4BBED3002430A1 /* AIRGMSPolygon.m */; };
 		562101E91E1AC177000A266F /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 562101E81E1AC177000A266F /* GameKit.framework */; };
 		562101EB1E1AC17D000A266F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 562101EA1E1AC17D000A266F /* StoreKit.framework */; };
@@ -66,6 +64,7 @@
 		56551C8A1E00A33500A6AF87 /* RCTConvert+GMSMapViewType.m in Sources */ = {isa = PBXBuildFile; fileRef = 56551C791E00A33500A6AF87 /* RCTConvert+GMSMapViewType.m */; };
 		565651B61E36093300E7B06A /* AIRGoogleMapCanvasUrlTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 565651B41E36093300E7B06A /* AIRGoogleMapCanvasUrlTile.m */; };
 		56ADFC011E4DC28800820294 /* firasansot_italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 56ADFC001E4DC28800820294 /* firasansot_italic.otf */; };
+		5728E0BA95ED4530B75240CA /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D4F624D14DF49A4BF4873B3 /* libRNFetchBlob.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		5F0FBE2789148D1ED61D86D1 /* Pods_ForestWatcher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B72854463D9EEF9C9E67B328 /* Pods_ForestWatcher.framework */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -192,9 +191,9 @@
 			remoteGlobalIDString = EB2648DF1C7BE17A00B8F155;
 			remoteInfo = ReactNativeConfig;
 		};
-		565087A81E50B52A0095B236 /* PBXContainerItemProxy */ = {
+		567927B11E57608D00134CB1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E75CDAC9335C4CFCAACEF5D2 /* RNFetchBlob.xcodeproj */;
+			containerPortal = 7EF6A30059A74EEC8745DC44 /* RNFetchBlob.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = A15C300E1CD25C330074CB35;
 			remoteInfo = RNFetchBlob;
@@ -347,13 +346,13 @@
 		565651B41E36093300E7B06A /* AIRGoogleMapCanvasUrlTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIRGoogleMapCanvasUrlTile.m; sourceTree = "<group>"; };
 		565651B51E36093300E7B06A /* AIRGoogleMapCanvasUrlTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIRGoogleMapCanvasUrlTile.h; sourceTree = "<group>"; };
 		56ADFC001E4DC28800820294 /* firasansot_italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = firasansot_italic.otf; path = Fonts/firasansot_italic.otf; sourceTree = "<group>"; };
+		5D4F624D14DF49A4BF4873B3 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
+		7EF6A30059A74EEC8745DC44 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		A28DC2A5220D42359951057B /* libReactNativeConfig.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeConfig.a; sourceTree = "<group>"; };
 		B72854463D9EEF9C9E67B328 /* Pods_ForestWatcher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ForestWatcher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CD7FD0677E224FD4A6E49A04 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
-		E75CDAC9335C4CFCAACEF5D2 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		F1D7690309C0480CB588082B /* RNI18n.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNI18n.xcodeproj; path = "../node_modules/react-native-i18n/RNI18n.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -386,7 +385,7 @@
 				5F0FBE2789148D1ED61D86D1 /* Pods_ForestWatcher.framework in Frameworks */,
 				BAC908163B0E4EA38B49EEF2 /* libReactNativeConfig.a in Frameworks */,
 				14846EA233794B3FBB819E27 /* libRNI18n.a in Frameworks */,
-				3DE77697815C457A992800D6 /* libRNFetchBlob.a in Frameworks */,
+				5728E0BA95ED4530B75240CA /* libRNFetchBlob.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,14 +523,6 @@
 			name = Fonts;
 			sourceTree = "<group>";
 		};
-		565087911E50B52A0095B236 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				565087A91E50B52A0095B236 /* libRNFetchBlob.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		56551C0E1E00A32E00A6AF87 /* AirMaps */ = {
 			isa = PBXGroup;
 			children = (
@@ -629,6 +620,14 @@
 			path = "../node_modules/react-native-maps/ios/AirGoogleMaps";
 			sourceTree = "<group>";
 		};
+		5679279A1E57608D00134CB1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				567927B21E57608D00134CB1 /* libRNFetchBlob.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		56EC89231E151E4F0016FE0F /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -672,7 +671,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				39CFA9C5F75C4015B4438B69 /* ReactNativeConfig.xcodeproj */,
 				F1D7690309C0480CB588082B /* RNI18n.xcodeproj */,
-				E75CDAC9335C4CFCAACEF5D2 /* RNFetchBlob.xcodeproj */,
+				7EF6A30059A74EEC8745DC44 /* RNFetchBlob.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -857,8 +856,8 @@
 					ProjectRef = 39CFA9C5F75C4015B4438B69 /* ReactNativeConfig.xcodeproj */;
 				},
 				{
-					ProductGroup = 565087911E50B52A0095B236 /* Products */;
-					ProjectRef = E75CDAC9335C4CFCAACEF5D2 /* RNFetchBlob.xcodeproj */;
+					ProductGroup = 5679279A1E57608D00134CB1 /* Products */;
+					ProjectRef = 7EF6A30059A74EEC8745DC44 /* RNFetchBlob.xcodeproj */;
 				},
 				{
 					ProductGroup = 56EC89231E151E4F0016FE0F /* Products */;
@@ -986,11 +985,11 @@
 			remoteRef = 5649F3891E0C32FC00DC1DC5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		565087A91E50B52A0095B236 /* libRNFetchBlob.a */ = {
+		567927B21E57608D00134CB1 /* libRNFetchBlob.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRNFetchBlob.a;
-			remoteRef = 565087A81E50B52A0095B236 /* PBXContainerItemProxy */;
+			remoteRef = 567927B11E57608D00134CB1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		56EC893C1E151E4F0016FE0F /* libRNI18n.a */ = {
@@ -1214,7 +1213,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ForestWatcher.app/ForestWatcher";
@@ -1233,7 +1231,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ForestWatcher.app/ForestWatcher";
