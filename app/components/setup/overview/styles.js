@@ -7,7 +7,7 @@ export default StyleSheet.create({
     flexDirection: 'column'
   },
   selector: {
-    marginTop: 19
+    marginTop: 16
   },
   selectorLabel: {
     fontFamily: Theme.font,
@@ -21,6 +21,10 @@ export default StyleSheet.create({
       }
     })
   },
+  scrollContainImage: {
+    height: 224,
+    maxHeight: 224
+  },
   image: {
     width: Theme.screen.width,
     height: 224
@@ -29,12 +33,15 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Theme.background.white
+    backgroundColor: Theme.background.white,
+    marginBottom: 40
   },
   searchInput: {
     flex: 1,
     height: 64,
+    maxHeight: 64,
     paddingBottom: 0,
+    paddingLeft: 24,
     marginLeft: Theme.margin.left,
     marginRight: Theme.icon.width,
     fontFamily: Theme.font,
@@ -42,10 +49,23 @@ export default StyleSheet.create({
     fontWeight: '400',
     color: Theme.fontColors.secondary
   },
+  scrollContainButton: {
+    flex: 1,
+    minHeight: 64,
+    height: 64,
+    paddingLeft: 8,
+    paddingRight: 8,
+    ...Platform.select({
+      ios: {
+        left: 0,
+        right: 0,
+        bottom: 40,
+        position: 'absolute'
+      }
+    })
+  },
   buttonPos: {
-    position: 'absolute',
-    bottom: 50,
-    left: 8,
-    right: 8
+    flex: 1,
+    height: 64
   }
 });

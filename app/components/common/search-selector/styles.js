@@ -25,7 +25,7 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.main
   },
   search: {
-    paddingTop: 44,
+    paddingTop: 8,
     height: 88,
     backgroundColor: Theme.colors.color5,
     borderBottomColor: Theme.borderColors.main,
@@ -38,9 +38,10 @@ export default StyleSheet.create({
     right: 8
   },
   searchInput: {
-    height: 24,
-    paddingBottom: 0,
-    marginLeft: 24,
+    height: 88,
+    paddingBottom: 32,
+    paddingTop: 32,
+    paddingLeft: 24,
     marginRight: 48,
     fontFamily: Theme.font,
     fontSize: 17,

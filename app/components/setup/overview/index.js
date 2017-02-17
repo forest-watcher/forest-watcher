@@ -3,11 +3,13 @@ import {
   View,
   Text,
   Image,
+  ScrollView,
   TextInput
 } from 'react-native';
 
 import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
+import I18n from 'locales';
 import styles from './styles';
 
 const editImage = require('assets/edit.png');
@@ -47,7 +49,9 @@ class SetupOverview extends Component {
       <View style={styles.container}>
         <View style={styles.selector}>
           <Text style={styles.selectorLabel}>Name the area</Text>
-          <Image style={styles.image} source={{ uri: this.props.snapshot }} />
+          <ScrollView style={styles.scrollContainImage} >
+            <Image style={styles.image} source={{ uri: this.props.snapshot }} />
+          </ScrollView>
           <View style={styles.searchContainer}>
             <TextInput
               ref={(ref) => { this.input = ref; }}
@@ -55,7 +59,8 @@ class SetupOverview extends Component {
               autoCorrect={false}
               autoCapitalize="none"
               value={this.state.name}
-              placeholder="Enter a name"
+              keyboardType="default"
+              placeholder={I18n.t('setupOverview.placeholder')}
               style={styles.searchInput}
               onChangeText={this.textChange}
               underlineColorAndroid="transparent"
@@ -69,8 +74,14 @@ class SetupOverview extends Component {
             />
           </View>
         </View>
-
-        <ActionButton style={styles.buttonPos} disabled={!this.state.name} onPress={this.onNextPress} text="FINISH" />
+        <ScrollView style={styles.scrollContainButton}>
+          <ActionButton
+            style={styles.buttonPos}
+            disabled={!this.state.name}
+            onPress={this.onNextPress}
+            text={I18n.t('commonText.finish')}
+          />
+        </ScrollView>
       </View>
     );
   }

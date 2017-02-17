@@ -46,9 +46,9 @@ function getCurrentCountry(countries, iso) {
 
 class SetupCountry extends Component {
   componentDidMount() {
-    if (!this.props.user) {
+    // if (!this.props.user) {
       this.props.getUser();
-    }
+    // }
     if (!this.props.countries || !this.props.countries.length > 0) {
       this.props.getCountries();
     }
@@ -67,16 +67,15 @@ class SetupCountry extends Component {
     const { user, countries, setupCountry } = this.props;
     if (user && countries && countries.length) {
       const iso = setupCountry.iso || user.country;
-
       return (
         <View style={styles.container}>
           <View style={styles.content}>
-            <Text style={styles.text}>Hi {user.fullName},</Text>
-            <Text style={styles.text}>please set up an area</Text>
+            <Text style={styles.text}>{I18n.t('setupCountry.welcomeText')}{user ? '!' : ` ${user.fullName}`}</Text>
+            <Text style={styles.text}>{I18n.t('setupCountry.secondWelcomeText')}</Text>
           </View>
 
           <View style={styles.selector}>
-            <Text style={styles.selectorLabel}>First, select your country of interest</Text>
+            <Text style={styles.selectorLabel}>{I18n.t('setupCountry.firstInstruction')}</Text>
             <SearchSelector
               selected={getCountrySelected(countries, iso)}
               onOptionSelected={(country) => { this.props.setSetupCountry(country); }}
@@ -85,7 +84,7 @@ class SetupCountry extends Component {
             />
           </View>
 
-          <ActionButton style={styles.buttonPos} disabled={!iso} onPress={this.onNextPress} text="NEXT" />
+          <ActionButton style={styles.buttonPos} disabled={!iso} onPress={this.onNextPress} text={I18n.t('commonText.next')} />
         </View>
       );
     }
