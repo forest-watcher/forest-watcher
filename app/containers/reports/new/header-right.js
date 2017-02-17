@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import { saveReport, getQuestions } from 'redux-modules/reports';
+import { saveReport } from 'redux-modules/reports';
 
-import ReportsForm from 'components/reports/new/form';
+import HeaderRight from 'components/reports/new/header-right';
 import CONSTANTS from 'config/constants';
 
 const defaultReport = CONSTANTS.reports.default;
@@ -16,19 +16,17 @@ function getAnswers(form) {
 
 function mapStateToProps(state) {
   return {
-    questions: state.reports.forms.questions || [],
-    form: defaultReport,
     answers: getAnswers(state.form)
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, { navigation }) {
   return {
     saveReport: (report) => {
       dispatch(saveReport(report));
     },
-    getQuestions: () => {
-      dispatch(getQuestions());
+    goBack: () => {
+      navigation.goBack();
     }
   };
 }
@@ -36,4 +34,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ReportsForm);
+)(HeaderRight);

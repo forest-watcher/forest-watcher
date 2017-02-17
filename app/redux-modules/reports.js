@@ -2,6 +2,7 @@ import Config from 'react-native-config';
 
 // Actions
 const GET_QUESTIONS = 'report/GET_QUESTIONS';
+const SAVE_REPORT = 'report/SAVE_REPORT';
 
 // Reducer
 const initialNavState = {
@@ -50,5 +51,13 @@ export function getQuestions() {
         // TODO: handle error
         console.warn(err);
       });
+  };
+}
+
+export function saveReport(report) {
+  console.warn('TODO: save report', report);
+  return {
+    type: SAVE_REPORT,
+    payload: report
   };
 }

@@ -5,7 +5,7 @@ import Alerts from 'containers/alerts';
 import Map from 'components/map';
 import Settings from 'containers/settings';
 import Reports from 'containers/reports';
-import NewReport from 'components/reports/new';
+import NewReport from 'containers/reports/new';
 
 export const Routes = {
   Home: { screen: Home },

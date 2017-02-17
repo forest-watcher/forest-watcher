@@ -3,6 +3,7 @@ import {
   View
 } from 'react-native';
 import { Field, reduxForm } from 'redux-form';
+import { withNavigation } from 'react-navigation';
 
 import StepsSlider from 'components/common/steps-slider';
 import getInputForm from 'components/common/form-inputs';
@@ -52,15 +53,14 @@ class ReportsForm extends Component {
   }
 
   goToNextPage = () => {
-    if (this.state.page < (this.props.questions.length - 1)) {
+    if (this.state.page + this.questionsToSkip < this.props.questions.length - 1) {
       this.setState((prevState) => ({
         page: prevState.page + 1
       }));
     } else {
-      // TODO: save report
-      console.log('TODO: save report', this.props.answers);
+      this.props.saveReport(this.props.answers);
       // this.props.saveReport();
-      this.props.goBack();
+      this.props.navigation.goBack();
     }
   }
 
@@ -98,12 +98,13 @@ class ReportsForm extends Component {
 }
 
 ReportsForm.propTypes = {
-  goBack: React.PropTypes.func.isRequired,
+  saveReport: React.PropTypes.func.isRequired,
   getQuestions: React.PropTypes.func.isRequired,
   questions: React.PropTypes.array.isRequired,
-  answers: React.PropTypes.object.isRequired
+  answers: React.PropTypes.object.isRequired,
+  navigation: React.PropTypes.object.isRequired
 };
 
 export default reduxForm({
   destroyOnUnmount: false
-})(ReportsForm);
+})(withNavigation(ReportsForm));
