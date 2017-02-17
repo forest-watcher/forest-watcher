@@ -48,7 +48,9 @@ class SetupOverview extends Component {
         <View style={styles.selector}>
           <Text style={styles.selectorLabel}>Name the area</Text>
           <ScrollView style={styles.scrollContainImage} >
-            <Image style={styles.image} source={{ uri: this.props.snapshot }} />
+            {this.props.snapshot !== '' &&
+              <Image style={styles.image} source={{ uri: this.props.snapshot }} />
+            }
           </ScrollView>
           <View style={styles.searchContainer}>
             <TextInput

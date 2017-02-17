@@ -18,7 +18,7 @@ function Header(props) {
       >
         <Text style={styles.backButtonText}>{I18n.t('commonText.back')}</Text>
       </TouchableHighlight>
-      <Text style={styles.title}>{I18n.t('commonText.appTitle')}</Text>
+      <Text style={styles.title}>{I18n.t('commonText.appName')}</Text>
     </View>
   );
 }
