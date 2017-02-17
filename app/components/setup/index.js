@@ -52,12 +52,22 @@ class Setup extends Component {
   }
 
   render() {
+    const { params } = this.props.navigation.state;
+    let showBack = true;
+    if (params && params.goBackDisabled) {
+      showBack = false;
+    }
+
+    const onBackPress = this.state.page === 0
+      ? this.props.goBack
+      : this.goToPrevPage;
+
     return (
       <View style={styles.container}>
         <Header
           title="Set up"
-          showBack={this.state.page > 0}
-          onBackPress={this.goToPrevPage}
+          showBack={showBack || this.state.page > 0}
+          onBackPress={onBackPress}
           prerenderingSiblingsNumber={this.slides}
         />
         <ScrollableTabView
@@ -78,7 +88,9 @@ class Setup extends Component {
 
 Setup.propTypes = {
   onFinishSetup: React.PropTypes.func.isRequired,
-  initSetup: React.PropTypes.func.isRequired
+  initSetup: React.PropTypes.func.isRequired,
+  navigation: React.PropTypes.object.isRequired,
+  goBack: React.PropTypes.func.isRequired
 };
 
 Setup.navigationOptions = {

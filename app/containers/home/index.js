@@ -14,7 +14,13 @@ function mapDispatchToProps(dispatch, { navigation }) {
     navigateReset: (routeName) => {
       const action = NavigationActions.reset({
         index: 0,
-        actions: [{ type: 'Navigate', routeName }]
+        actions: [{
+          type: 'Navigate',
+          routeName,
+          params: {
+            goBackDisabled: true
+          }
+        }]
       });
       navigation.dispatch(action);
     },

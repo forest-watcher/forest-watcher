@@ -1,11 +1,10 @@
 import { connect } from 'react-redux';
-import { getAreas } from 'redux-modules/areas';
-import Alerts from 'components/alerts';
+import { getAlerts } from 'redux-modules/alerts';
+import AlertsList from 'components/alerts/list';
 
-function mapStateToProps(state) {
+function mapStateToProps(state, newProps) {
   return {
-    areas: state.areas.data,
-    areasImages: state.areas.images
+    alerts: state.alerts.data[newProps.areaId] || []
   };
 }
 
@@ -14,8 +13,8 @@ function mapDispatchToProps(dispatch, { navigation }) {
     navigate: (routeName) => {
       navigation.navigate(routeName);
     },
-    fetchData: (action) => {
-      dispatch(getAreas(action));
+    getAlerts: (areaId) => {
+      dispatch(getAlerts(areaId));
     }
   };
 }
@@ -23,4 +22,4 @@ function mapDispatchToProps(dispatch, { navigation }) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Alerts);
+)(AlertsList);

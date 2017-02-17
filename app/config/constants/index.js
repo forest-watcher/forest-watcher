@@ -32,5 +32,10 @@ export default {
       es: 'name_spani',
       fr: 'name_frenc'
     }
+  },
+  files: {
+    images: {
+      alerts: 'images/alerts'
+    }
   }
 };

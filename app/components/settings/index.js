@@ -112,17 +112,18 @@ class Settings extends Component {
             </View>
           : null
           }
-          <View style={styles.addButton}>
-            <TouchableHighlight
-              activeOpacity={0.5}
-              underlayColor="transparent"
-            >
+          <TouchableHighlight
+            activeOpacity={0.5}
+            underlayColor="transparent"
+            onPress={() => this.props.navigate('Setup')}
+          >
+            <View style={styles.addButton}>
               <Image style={Theme.icon} source={plusIcon} />
-            </TouchableHighlight>
-            <Text style={styles.addButtonText}>
-              {I18n.t('settings.addArea').toUpperCase()}
-            </Text>
-          </View>
+              <Text style={styles.addButtonText}>
+                {I18n.t('settings.addArea').toUpperCase()}
+              </Text>
+            </View>
+          </TouchableHighlight>
 
           <View style={styles.aboutSection}>
             <Text style={styles.label}>
@@ -163,6 +164,7 @@ Settings.propTypes = {
   user: React.PropTypes.any,
   areas: React.PropTypes.any,
   areasImages: React.PropTypes.any,
+  navigate: React.PropTypes.func.isRequired,
   getAreas: React.PropTypes.func.isRequired
 };
 

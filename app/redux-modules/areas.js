@@ -67,7 +67,7 @@ export function saveArea(params) {
         'content-type': 'application/json',
         Authorization: `Bearer ${state().user.token}`
       },
-      body: JSON.stringify(params)
+      body: JSON.stringify(params.area)
     };
     fetch(url, fetchConfig)
       .then(response => response.json())
