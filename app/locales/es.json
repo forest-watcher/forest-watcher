@@ -55,6 +55,7 @@
 		"instruction": "Select an area to continue"
 	},
 	"settings": {
+    "title": "Settings",
 		"loggedIn": "You’re are logged in as",
 		"yourAreas": "Your areas",
 		"logOut": "LOG OUT",
@@ -64,6 +65,7 @@
 		"aboutTerms": "Terms and Conditions"
 	},
   "report": {
+    "title": "Report",
     "datePlaceholder": "Select date",
     "saveLaterTitle": "Save for later",
     "saveLaterDescription": "It will appear as a draft in the reports section"

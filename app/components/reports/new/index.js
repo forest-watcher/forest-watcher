@@ -40,11 +40,8 @@ function onSavePress(navigation) {
   );
 }
 
-
-
 Reports.navigationOptions = {
   header: (navigation) => {
-    console.log(navigation, '');
     const LeftBtn = (
       <TouchableHighlight
         onPress={() => navigation.goBack()}
@@ -78,7 +75,7 @@ Reports.navigationOptions = {
         fontWeight: '400',
         height: 28
       },
-      title: 'Report',
+      title: I18n.t('report.title'),
       right: RightBtn
     };
   }
