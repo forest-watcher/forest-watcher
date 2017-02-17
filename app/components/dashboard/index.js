@@ -90,7 +90,7 @@ Dashboard.propTypes = {
 
 Dashboard.navigationOptions = {
   header: {
-    title: I18n.t('settings.appName'),
+    title: I18n.t('commonText.appName').toUpperCase(),
     tintColor: Theme.colors.color1
   }
 };

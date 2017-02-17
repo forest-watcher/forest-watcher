@@ -135,7 +135,7 @@ class Settings extends Component {
             <List content={aboutSections} bigSeparation={false}>{}</List>
 
             <Text style={[styles.label, styles.footerText]}>
-              {I18n.t('settings.appName')}
+              {I18n.t('commonText.appName')}
             </Text>
 
           </View>

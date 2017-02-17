@@ -1,10 +1,12 @@
 {
 	"commonText": {
-		"appTitle": "FOREST WATCHER 2.0",
+		"appName": "Forest Watcher 2.0",
 		"next": "Next",
 		"back": "Back",
 		"finish": "Finish",
-		"setUp": "Set up"
+		"setUp": "Set up",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
 	},
 	"dashboard": {
 		"title": "Dashboard",
@@ -59,7 +61,11 @@
 		"addArea": "ADD AREA",
 		"aboutApp": "About this app",
 		"aboutPartners": "Partners",
-		"aboutTerms": "Terms and Conditions",
-		"appName": "Forest Watcher 2.0"
-	}
+		"aboutTerms": "Terms and Conditions"
+	},
+  "report": {
+    "datePlaceholder": "Select date",
+    "saveLaterTitle": "Save for later",
+    "saveLaterDescription": "It will appear as a draft in the reports section"
+  }
 }
