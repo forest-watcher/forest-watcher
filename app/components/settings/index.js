@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import List from 'components/common/list';
 import {
   View,
   Text,
@@ -16,12 +17,14 @@ const plusIcon = require('assets/plus.png');
 
 const aboutSections = [
   {
-    title: I18n.t('settings.aboutPartners'),
-    section: 'Partners'
+    text: I18n.t('settings.aboutPartners'),
+    image: null,
+    functionOnPress: null
   },
   {
-    title: I18n.t('settings.aboutTerms'),
-    section: 'Terms'
+    text: I18n.t('settings.aboutTerms'),
+    image: null,
+    functionOnPress: null
   }
 ];
 
@@ -66,7 +69,7 @@ class Settings extends Component {
               activeOpacity={0.5}
               underlayColor="transparent"
             >
-              <Text style={styles.logout}>LOG OUT</Text>
+              <Text style={styles.logout}>{I18n.t('settings.logOut')}</Text>
             </TouchableHighlight>
           </View>
 
@@ -129,27 +132,10 @@ class Settings extends Component {
               {I18n.t('settings.aboutApp')}
             </Text>
 
-            <View style={styles.aboutList}>
-              {aboutSections.map((item, key) => {
-                const borderStyle = key < aboutSections.length
-                  ? styles.aboutListItemBorder
-                  : '';
-                return (
-                  <TouchableHighlight key={key}>
-                    <View style={[styles.aboutListItem, borderStyle]}>
-                      <Text style={styles.aboutListItemText}>
-                        {item.title}
-                      </Text>
-                      <Image style={Theme.icon} source={nextIcon} />
-                    </View>
-                  </TouchableHighlight>
-                );
-              }
-              )}
-            </View>
+            <List content={aboutSections} bigSeparation={false}>{}</List>
 
             <Text style={[styles.label, styles.footerText]}>
-              Forest Watcher 2.0
+              {I18n.t('settings.appName')}
             </Text>
 
           </View>

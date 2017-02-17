@@ -7,6 +7,7 @@ import StepsSlider from 'components/common/steps-slider';
 import SetupCountry from 'containers/setup/country';
 import SetupBoundaries from 'containers/setup/boundaries';
 import SetupOverView from 'containers/setup/overview';
+import I18n from 'locales';
 import Header from './header';
 import styles from './styles';
 
@@ -44,7 +45,7 @@ class Setup extends Component {
     return (
       <View style={styles.container}>
         <Header
-          title="Set up"
+          title={I18n.t('commonText.setUp')}
           showBack={this.state.page > 0}
           onBackPress={this.goToPrevPage}
         />

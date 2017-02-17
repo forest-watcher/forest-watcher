@@ -1,28 +1,65 @@
 {
-    "dashboard": {
-      "title": "Dashboard",
-      "alerts": "Ver mis alertas",
-      "reports": "Make a report",
-      "uploadData": "Saved and uploaded data",
-      "map": "Map"
-    },
-    "login": {
-      "title": "Login"
-    },
-    "countries": {
-      "searchPlaceholder": "Search for a country"
-    },
-    "boundaries": {
-      "selectArea": "Select a protected area",
-      "drawArea": "Draw an area"
-    },
-    "report": {
-      "datePlaceholder": "Select date",
-      "saveLaterTitle": "Save for later",
-      "saveLaterDescription": "It will appear as a draft in the reports section"
-    },
-    "common": {
-      "cancel": "Cancel",
-      "confirm": "Confirm"
-    }
-  }
+	"commonText": {
+		"appTitle": "FOREST WATCHER 2.0",
+		"next": "Next",
+		"back": "Back",
+		"finish": "Finish",
+		"setUp": "Set up"
+	},
+	"dashboard": {
+		"title": "Dashboard",
+		"alerts": "Ver mis alertas",
+		"reports": "Make a report",
+		"uploadData": "Saved and uploaded data",
+		"map": "Map"
+	},
+	"login": {
+		"title": "Login",
+		"appTitle": "FOREST WATCHER 2.0",
+		"introductionText": "Sign in with a MyGFW account",
+		"facebookTitle": "Facebook",
+		"twitterTitle": "Twitter",
+		"googleTitle": "Google"
+	},
+	"countries": {
+		"searchPlaceholder": "Search for a country"
+	},
+	"alertList": {
+		"seeAll": "See all",
+		"alert": "alert"
+	},
+	"boundaries": {
+		"chooseBoundaries": "Now, choose the boundaries",
+		"selectProtectedArea": "Select a protected area",
+		"drawArea": "Draw an area"
+	},
+	"setupCountry": {
+		"welcomeText": "Hi",
+		"secondWelcomeText": "please set up an area",
+		"firstInstruction": "First, select your country of interest"
+	},
+	"setupDrawAreas": {
+		"tapInstruction": "Tap on map to draw"
+	},
+	"setupHeader": {
+		"errorFirst": "Invalid prop",
+		"errorSecond": "supplied to",
+		"errorThird": "It is required if you show back button"
+	},
+	"setupOverview": {
+		"placeholder": "Enter a name"
+	},
+	"setupProtectedAreas": {
+		"instruction": "Select an area to continue"
+	},
+	"settings": {
+		"loggedIn": "You’re are logged in as",
+		"yourAreas": "Your areas",
+		"logOut": "LOG OUT",
+		"addArea": "ADD AREA",
+		"aboutApp": "About this app",
+		"aboutPartners": "Partners",
+		"aboutTerms": "Terms and Conditions",
+		"appName": "Forest Watcher 2.0"
+	}
+}
