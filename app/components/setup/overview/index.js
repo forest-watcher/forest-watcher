@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import {
+  KeyboardAvoidingView,
   View,
   Text,
   Image,
+  ScrollView,
   TextInput
 } from 'react-native';
 
@@ -46,7 +49,9 @@ class SetupOverview extends Component {
       <View style={styles.container}>
         <View style={styles.selector}>
           <Text style={styles.selectorLabel}>Name the area</Text>
-          <Image style={styles.image} source={{ uri: this.props.snapshot }} />
+          <ScrollView style={styles.scrollContainImage} >
+            <Image style={styles.image} source={{ uri: this.props.snapshot }} />
+          </ScrollView>
           <View style={styles.searchContainer}>
             <TextInput
               ref={(ref) => { this.input = ref; }}
@@ -54,6 +59,7 @@ class SetupOverview extends Component {
               autoCorrect={false}
               autoCapitalize="none"
               value={this.state.name}
+              keyboardType="default"
               placeholder={I18n.t('setupOverview.placeholder')}
               style={styles.searchInput}
               onChangeText={this.textChange}
@@ -68,8 +74,14 @@ class SetupOverview extends Component {
             />
           </View>
         </View>
-
-        <ActionButton style={styles.buttonPos} disabled={!this.state.name} onPress={this.onNextPress} text={I18n.t('commonText.finish')} />
+        <ScrollView style={styles.scrollContainButton}>
+          <ActionButton
+            style={styles.buttonPos}
+            disabled={!this.state.name}
+            onPress={this.onNextPress}
+            text={I18n.t('commonText.finish')}
+          />
+        </ScrollView>
       </View>
     );
   }
