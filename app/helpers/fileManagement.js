@@ -1,22 +1,20 @@
+import { Platform } from 'react-native';
 import RNFetchBlob from 'react-native-fetch-blob';
 
 export async function storeImage(url) {
-  const dirs = RNFetchBlob.fs.dirs;
-  const imagesDir = `${dirs.DocumentDir}/images/`;
-  const newPath = `${dirs.DocumentDir}/images/${url.split('/').pop()}`;
+  const cleanedUrl = url.replace('file://', '');
+  const parentDirectory = RNFetchBlob.fs.dirs;
+  const imagesDirectory = `${parentDirectory.DocumentDir}/images`;
+  const newPath = `${imagesDirectory}/${cleanedUrl.split('/').pop()}`;
 
   try {
-    await RNFetchBlob.fs.isDir(imagesDir)
-    .then(async (isDir) => {
-      if (!isDir) {
-        RNFetchBlob.fs.mkdir(imagesDir)
-        .catch(() => {
-          // To-do error
-        });
-      }
-    });
+    const isDir = await RNFetchBlob.fs.isDir(imagesDirectory);
 
-    await RNFetchBlob.fs.mv(url, newPath)
+    if (!isDir) {
+      await RNFetchBlob.fs.mkdir(imagesDirectory);
+    }
+
+    await RNFetchBlob.fs.mv(cleanedUrl, newPath)
       .catch((error) => {
         // To-do error
       });
@@ -25,4 +23,14 @@ export async function storeImage(url) {
   } catch (error) {
     // To-do error
   }
+}
+
+export function parseImagePath(url) {
+  let parsedUrl = url;
+
+  if (Platform.OS === 'android') {
+    parsedUrl = `file://${parsedUrl}`;
+  }
+
+  return parsedUrl;
 }
