@@ -5,6 +5,7 @@ import {
 import { Field, reduxForm } from 'redux-form';
 import { withNavigation } from 'react-navigation';
 
+import I18n from 'locales';
 import StepsSlider from 'components/common/steps-slider';
 import getInputForm from 'components/common/form-inputs';
 import ActionButton from 'components/common/action-button';
@@ -27,13 +28,13 @@ function checkEmptyAnswer(answer) {
 function getBtnTextByType(type) {
   switch (type) {
     case 'text':
-      return 'Please write something';
+      return I18n.t('report.inputText');
     case 'radio':
-      return 'Choose one option to continue';
+      return I18n.t('report.inputRadio');
     case 'select':
-      return 'Choose at least one option to continue';
+      return I18n.t('report.inputSelect');
     default:
-      return 'Please, answer the question';
+      return I18n.t('report.input');
   }
 }
 

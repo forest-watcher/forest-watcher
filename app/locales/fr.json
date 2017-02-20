@@ -67,6 +67,10 @@
     "title": "Report",
     "datePlaceholder": "Select date",
     "saveLaterTitle": "Save for later",
-    "saveLaterDescription": "It will appear as a draft in the reports section"
+    "saveLaterDescription": "It will appear as a draft in the reports section",
+    "inputText": "Please write something",
+    "inputRadio": "Choose one option to continue",
+    "inputSelect": "Choose at least one option to continue",
+    "input": "Please, answer the question"
   }
 }
