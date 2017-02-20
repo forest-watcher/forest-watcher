@@ -2,16 +2,14 @@ import React from 'react';
 import {
   View,
   ScrollView,
-  Text,
-  Image,
-  TouchableHighlight
+  Text
 } from 'react-native';
+import { Field } from 'redux-form';
 
-import Theme from 'config/theme';
+import CheckBtn from 'components/common/form-inputs/check-btn';
+import TextInput from '../text-detail';
 import styles from '../styles';
 
-const checkOnIcon = require('assets/checkbox_on.png');
-const checkOffIcon = require('assets/checkbox_off.png');
 
 function SelectInput(props) {
   function handlePress(value) {
@@ -24,31 +22,39 @@ function SelectInput(props) {
     }
     props.input.onChange(newVal);
   }
+  const { childQuestions } = props.question;
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.label}>{props.question.label}</Text>
       <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.containerContent}
+        style={styles.containerContent}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        {props.question.values.map((value, index) => (
-          <TouchableHighlight
-            key={index}
-            style={styles.inputContainer}
-            underlayColor={Theme.background.white}
-            onPress={() => handlePress(value)}
-          >
-            <View style={styles.input}>
-              <Text style={styles.inputLabel}>{value}</Text>
-              <Image
-                style={Theme.icon}
-                source={props.input.value.indexOf(value) >= 0 ? checkOnIcon : checkOffIcon}
-              />
-            </View>
-          </TouchableHighlight>
-        ))}
+        {props.question.values.map((value, index) => {
+          const checked = props.input.value.indexOf(value) >= 0;
+          let conditionalField = null;
+          if (childQuestions && childQuestions.length) {
+            if (checked && childQuestions[0] && childQuestions[0].conditionalValue === value) {
+              conditionalField = (
+                <Field
+                  name={childQuestions[0].name}
+                  component={TextInput}
+                  question={childQuestions[0]}
+                />
+              );
+            }
+          }
+          return [
+            <CheckBtn
+              key={index}
+              value={value}
+              checked={checked}
+              onPress={() => handlePress(value)}
+            />,
+            conditionalField
+          ];
+        })}
       </ScrollView>
     </View>
   );
