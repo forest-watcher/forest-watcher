@@ -4,7 +4,7 @@ import {
   Image,
   TouchableHighlight
 } from 'react-native';
-
+import { withNavigation } from 'react-navigation';
 import I18n from 'locales';
 import Theme from 'config/theme';
 
@@ -24,7 +24,7 @@ function RightBtn(props) {
           text: 'OK',
           onPress: () => {
             props.saveReport(props.answers);
-            props.goBack();
+            props.navigation.goBack();
           }
         }
       ],
@@ -44,9 +44,7 @@ function RightBtn(props) {
 
 RightBtn.propTypes = {
   answers: React.PropTypes.object.isRequired,
-  saveReport: React.PropTypes.func.isRequired,
-  goBack: React.PropTypes.func.isRequired
+  saveReport: React.PropTypes.func.isRequired
 };
 
-
-export default RightBtn;
+export default withNavigation(RightBtn);

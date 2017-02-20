@@ -1,12 +1,10 @@
 import { connect } from 'react-redux';
 import { saveReport } from 'redux-modules/reports';
 
-import HeaderRight from 'components/reports/new/header-right';
+import HeaderRight from 'components/reports/new/header/right';
 import CONSTANTS from 'config/constants';
 
 const defaultReport = CONSTANTS.reports.default;
-
- // TODO: handle form identifier
 
 function getAnswers(form) {
   if (!form) return null;
@@ -20,13 +18,10 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch, { navigation }) {
+function mapDispatchToProps(dispatch) {
   return {
     saveReport: (report) => {
       dispatch(saveReport(report));
-    },
-    goBack: () => {
-      navigation.goBack();
     }
   };
 }

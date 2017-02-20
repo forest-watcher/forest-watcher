@@ -9,6 +9,7 @@ import I18n from 'locales';
 import StepsSlider from 'components/common/steps-slider';
 import getInputForm from 'components/common/form-inputs';
 import ActionButton from 'components/common/action-button';
+import Header from './header';
 import styles from '../styles';
 
 function isEmptyAnswer(answer) {
@@ -59,6 +60,16 @@ class ReportsForm extends Component {
     this.props.getQuestions();
   }
 
+  handleBack = () => {
+    if (this.state.page > 0) {
+      this.setState((prevState) => ({
+        page: prevState.page - 1
+      }));
+    } else {
+      this.props.navigation.goBack();
+    }
+  }
+
   goToNextPage = () => {
     const { questions, answers } = this.props;
     const currentQuestion = this.state.page + this.questionsToSkip;
@@ -97,6 +108,10 @@ class ReportsForm extends Component {
     const btnText = disabled ? getBtnTextByType(question.type) : getBtnTextByPosition(questionNumber, questions.length - 1);
     return (
       <View style={styles.container}>
+        <Header
+          title={I18n.t('commonText.setUp')}
+          onBackPress={this.handleBack}
+        />
         <StepsSlider
           page={this.state.page}
           onChangeTab={this.updatePage}

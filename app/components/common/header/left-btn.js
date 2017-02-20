@@ -8,7 +8,7 @@ import Theme from 'config/theme';
 
 const backIcon = require('assets/previous.png');
 
-function Header(props) {
+function LeftHeaderBtn(props) {
   return (
     <TouchableHighlight
       onPress={() => props.goBack()}
@@ -20,8 +20,8 @@ function Header(props) {
   );
 }
 
-Header.propTypes = {
+LeftHeaderBtn.propTypes = {
   goBack: React.PropTypes.func.isRequired
 };
 
-export default Header;
+export default LeftHeaderBtn;
