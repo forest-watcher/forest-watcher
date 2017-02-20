@@ -12,7 +12,7 @@ import {
 import Config from 'react-native-config';
 import MapView from 'react-native-maps';
 
-import { storeImage } from 'helpers/fileManagement';
+import { storeImage, parseImagePath } from 'helpers/fileManagement';
 import ActionButton from 'components/common/action-button';
 import Theme from 'config/theme';
 import I18n from 'locales';
@@ -138,7 +138,7 @@ class ProtectedAreas extends Component {
       this.props.onAreaSelected({
         wdpaid: this.state.wdpa.wdpa_pid,
         wdpaName: this.state.wdpa.name
-      }, storedUrl);
+      }, parseImagePath(storedUrl));
     });
   }
 
