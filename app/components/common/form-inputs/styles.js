@@ -25,10 +25,7 @@ export default StyleSheet.create({
     borderBottomColor: Theme.borderColors.main,
     borderBottomWidth: 2,
     backgroundColor: Theme.background.white,
-    marginBottom: 8
-  },
-  inputContainerTransparent: {
-    backgroundColor: 'transparent'
+    marginTop: 8
   },
   input: {
     flex: 1,

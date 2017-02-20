@@ -1,30 +1,56 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   View,
-  TextInput
+  TextInput,
+  Animated
 } from 'react-native';
 
 import Theme from 'config/theme';
+
 import styles from '../styles';
+import detailStyles from './styles';
+
+class InputTextDetail extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      inputHeight: new Animated.Value(0)
+    };
+  }
+
+  componentDidMount() {
+    Animated.spring(
+      this.state.inputHeight,
+      { toValue: 64 }
+    ).start();
+  }
 
 
-function InputTextDetail(props) {
-  return (
-    <View style={[styles.inputContainer, styles.inputContainerTransparent]}>
-      <TextInput
-        autoFocus
-        autoCorrect={false}
-        style={styles.input}
-        autoCapitalize="none"
-        value={props.input.value}
-        onChangeText={props.input.onChange}
-        placeholder={props.question.defaultValue}
-        underlineColorAndroid="transparent"
-        selectionColor={Theme.colors.color1}
-        placeholderTextColor={Theme.fontColors.light}
-      />
-    </View>
-  );
+  render() {
+    return (
+      <View style={detailStyles.inputContainer}>
+        <View style={detailStyles.marker} >
+          <View style={[detailStyles.marker, detailStyles.markerInner]} />
+        </View>
+        <Animated.View
+          style={{ height: this.state.inputHeight }}
+        >
+          <TextInput
+            autoFocus
+            autoCorrect={false}
+            style={[styles.inputLabel, detailStyles.inputLabel]}
+            autoCapitalize="none"
+            value={this.props.input.value}
+            onChangeText={this.props.input.onChange}
+            placeholder={this.props.question.defaultValue}
+            underlineColorAndroid="transparent"
+            selectionColor={Theme.colors.color1}
+            placeholderTextColor={Theme.fontColors.light}
+          />
+        </Animated.View>
+      </View>
+    );
+  }
 }
 
 InputTextDetail.propTypes = {
