@@ -2,6 +2,9 @@ import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+  hide: {
+    opacity: 0
+  },
   inputContainer: {
     paddingLeft: Theme.margin.left,
     paddingRight: Theme.margin.right,

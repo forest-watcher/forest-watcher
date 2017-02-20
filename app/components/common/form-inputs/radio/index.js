@@ -21,16 +21,16 @@ function RadioInput(props) {
       <Text style={styles.label}>{props.question.label}</Text>
       {props.question.values.map((value, index) => {
         let conditionalField = null;
-        if (childQuestions && childQuestions.length) {
-          if (props.input.value === value && childQuestions[0] && childQuestions[0].conditionalValue === props.input.value) {
-            conditionalField = (
-              <Field
-                name={childQuestions[0].name}
-                component={TextInput}
-                question={childQuestions[0]}
-              />
-            );
-          }
+        if (childQuestions && childQuestions.length && childQuestions[0].conditionalValue === value) {
+          const visible = props.input.value === value;
+          conditionalField = (
+            <Field
+              visible={visible}
+              name={childQuestions[0].name}
+              component={TextInput}
+              question={childQuestions[0]}
+            />
+          );
         }
         return [
           <CheckBtn
