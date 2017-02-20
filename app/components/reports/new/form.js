@@ -5,12 +5,13 @@ import {
 import { Field, reduxForm } from 'redux-form';
 import { withNavigation } from 'react-navigation';
 
+import I18n from 'locales';
 import StepsSlider from 'components/common/steps-slider';
 import getInputForm from 'components/common/form-inputs';
 import ActionButton from 'components/common/action-button';
 import styles from '../styles';
 
-function checkEmptyAnswer(answer) {
+function isEmptyAnswer(answer) {
   if (!answer) return true;
   switch (answer.constructor) {
     case Array:
@@ -27,14 +28,20 @@ function checkEmptyAnswer(answer) {
 function getBtnTextByType(type) {
   switch (type) {
     case 'text':
-      return 'Please write something';
+      return I18n.t('report.inputText');
     case 'radio':
-      return 'Choose one option to continue';
+      return I18n.t('report.inputRadio');
     case 'select':
-      return 'Choose at least one option to continue';
+      return I18n.t('report.inputSelect');
     default:
-      return 'Please, answer the question';
+      return I18n.t('report.input');
   }
+}
+
+function getBtnTextByPosition(position, total) {
+  return position < total
+    ? 'Next'
+    : 'Save';
 }
 
 class ReportsForm extends Component {
@@ -53,25 +60,41 @@ class ReportsForm extends Component {
   }
 
   goToNextPage = () => {
-    if (this.state.page + this.questionsToSkip < this.props.questions.length - 1) {
-      this.setState((prevState) => ({
-        page: prevState.page + 1
-      }));
+    const { questions, answers } = this.props;
+    const currentQuestion = this.state.page + this.questionsToSkip;
+    let next = 1;
+    if (currentQuestion < questions.length - 1) {
+      for (let i = currentQuestion + 1, qLength = questions.length; i < qLength; i++) {
+        const nextConditions = questions[i].conditions;
+        const nexthasConditions = nextConditions && nextConditions.length > 0;
+        if (!nexthasConditions || (answers[nextConditions[0].name] === nextConditions[0].value)) {
+          this.jumptToPage(next);
+          break;
+        } else {
+          next += 1;
+        }
+      }
     } else {
       this.props.saveReport(this.props.answers);
-      // this.props.saveReport();
       this.props.navigation.goBack();
     }
+  }
+
+  jumptToPage(jump) {
+    this.setState((prevState) => ({
+      page: prevState.page + jump
+    }));
   }
 
   render() {
     const { questions, answers } = this.props;
     if (!questions || !questions.length) return null;
 
-    const question = questions[this.state.page + this.questionsToSkip];
-    const answer = answers && answers[question._id];  // eslint-disable-line
-    const disabled = checkEmptyAnswer(answer);
-    const btnText = disabled ? getBtnTextByType(question.type) : 'Next';
+    const questionNumber = this.state.page + this.questionsToSkip;
+    const question = questions[questionNumber];
+    const answer = answers && answers[question.name];
+    const disabled = isEmptyAnswer(answer) && question.required;
+    const btnText = disabled ? getBtnTextByType(question.type) : getBtnTextByPosition(questionNumber, questions.length - 1);
     return (
       <View style={styles.container}>
         <StepsSlider
@@ -83,7 +106,7 @@ class ReportsForm extends Component {
             return (
               <View style={styles.container} key={index}>
                 <Field
-                  name={item._id} // eslint-disable-line
+                  name={item.name} // eslint-disable-line
                   component={getInputForm}
                   question={item}
                 />

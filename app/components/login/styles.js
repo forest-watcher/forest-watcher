@@ -43,7 +43,7 @@ export default StyleSheet.create({
     marginLeft: 8,
     marginRight: 8,
     marginBottom: 8,
-    borderRadius: 100,
+    borderRadius: 32,
     justifyContent: 'center',
     overflow: 'hidden'
   },

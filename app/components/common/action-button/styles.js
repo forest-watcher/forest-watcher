@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    borderRadius: 100,
+    borderRadius: 32,
     backgroundColor: Theme.background.secondary
   },
   light: {
