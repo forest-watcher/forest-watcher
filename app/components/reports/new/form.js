@@ -11,7 +11,7 @@ import getInputForm from 'components/common/form-inputs';
 import ActionButton from 'components/common/action-button';
 import styles from '../styles';
 
-function checkEmptyAnswer(answer) {
+function isEmptyAnswer(answer) {
   if (!answer) return true;
   switch (answer.constructor) {
     case Array:
@@ -36,6 +36,12 @@ function getBtnTextByType(type) {
     default:
       return I18n.t('report.input');
   }
+}
+
+function getBtnTextByPosition(position, total) {
+  return position < total
+    ? 'Next'
+    : 'Save';
 }
 
 class ReportsForm extends Component {
@@ -84,10 +90,11 @@ class ReportsForm extends Component {
     const { questions, answers } = this.props;
     if (!questions || !questions.length) return null;
 
-    const question = questions[this.state.page + this.questionsToSkip];
+    const questionNumber = this.state.page + this.questionsToSkip;
+    const question = questions[questionNumber];
     const answer = answers && answers[question.name];
-    const disabled = checkEmptyAnswer(answer);
-    const btnText = disabled ? getBtnTextByType(question.type) : 'Next';
+    const disabled = isEmptyAnswer(answer) && question.required;
+    const btnText = disabled ? getBtnTextByType(question.type) : getBtnTextByPosition(questionNumber, questions.length - 1);
     return (
       <View style={styles.container}>
         <StepsSlider
