@@ -33,7 +33,7 @@ const sections = [
   },
   {
     title: I18n.t('dashboard.map'),
-    section: 'map',
+    section: 'Map',
     image: ''
   }
 ];

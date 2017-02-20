@@ -1,3 +1,17 @@
+global.Buffer = global.Buffer || require('buffer').Buffer;
+
+if (typeof btoa === 'undefined') {
+  global.btoa = function (str) {
+    return new Buffer(str).toString('base64');
+  };
+}
+
+if (typeof atob === 'undefined') {
+  global.atob = function (b64Encoded) {
+    return new Buffer(b64Encoded, 'base64').toString();
+  };
+}
+
 import RNFetchBlob from 'react-native-fetch-blob';
 
 export async function storeImage(url) {
@@ -40,14 +54,17 @@ export async function getCachedImageByUrl(url, imageDir) {
       await RNFetchBlob.fs.mkdir(imagesDirectory);
     }
 
-    // Check if it exists
-    const res = await RNFetchBlob
-      .config({
-        path: filePath
-      })
-      .fetch('GET', parsedUrl);
+    const exists = await RNFetchBlob.fs.exists(filePath);
 
-    return res.path();
+    if (!exists) {
+      await RNFetchBlob
+        .config({
+          path: filePath
+        })
+        .fetch('GET', parsedUrl);
+    }
+
+    return filePath;
   } catch (error) {
     // To-do
   }
