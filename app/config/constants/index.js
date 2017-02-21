@@ -35,5 +35,10 @@ export default {
   },
   reports: {
     default: 'defaultReport'
+  },
+  status: {
+    draft: 'draft',
+    complete: 'complete',
+    uploaded: 'uploaded'
   }
 };

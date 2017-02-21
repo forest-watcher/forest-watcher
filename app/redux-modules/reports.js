@@ -1,9 +1,14 @@
 import Config from 'react-native-config';
 import RNFetchBlob from 'react-native-fetch-blob';
 
+import CONSTANTS from 'config/constants';
+
+const defaultReport = CONSTANTS.reports.default;
+
 // Actions
 const GET_QUESTIONS = 'report/GET_QUESTIONS';
-const SAVE_REPORT = 'report/SAVE_REPORT';
+const SET_REPORT_STATUS = 'report/SET_REPORT_STATUS';
+
 
 // Reducer
 const initialNavState = {
@@ -17,6 +22,9 @@ export default function reducer(state = initialNavState, action) {
   switch (action.type) {
     case GET_QUESTIONS: {
       return Object.assign({}, state, { forms: action.payload });
+    }
+    case SET_REPORT_STATUS: {
+      return Object.assign({}, state, { answers: action.payload });
     }
     default: {
       return state;
@@ -56,8 +64,26 @@ export function getQuestions() {
 }
 
 export function saveReport(report) {
+  const reportStatus = {};
+  reportStatus[report] = {
+    status: CONSTANTS.status.draft
+  };
+  return {
+    type: SET_REPORT_STATUS,
+    payload: reportStatus
+  };
+}
+
+export function finishReport(report) {
   return (dispatch, state) => {
-    console.warn('TODO: save report', report);
+    const reportStatus = {};
+    reportStatus[defaultReport] = { // GET THE REPORT FROM PARAMS
+      status: CONSTANTS.status.complete
+    };
+    dispatch({
+      type: SET_REPORT_STATUS,
+      payload: reportStatus
+    });
     const form = new FormData();
     const promises = [];
     const keys = [];
@@ -92,10 +118,11 @@ export function saveReport(report) {
       })
       .then((data) => {
         console.log(data, 'form data response');
-        return {
-          type: SAVE_REPORT,
-          payload: data
-        };
+        reportStatus[defaultReport].status = CONSTANTS.status.uploaded;
+        dispatch({
+          type: SET_REPORT_STATUS,
+          payload: reportStatus
+        });
       })
       .catch((err) => {
         console.log('TODO: handle error', err);

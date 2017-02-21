@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { saveReport, getQuestions } from 'redux-modules/reports';
+import { finishReport, getQuestions } from 'redux-modules/reports';
 
 import ReportsForm from 'components/reports/new/form';
 import CONSTANTS from 'config/constants';
@@ -24,8 +24,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    saveReport: (report) => {
-      dispatch(saveReport(report));
+    finishReport: (report) => {
+      dispatch(finishReport(report));
     },
     getQuestions: () => {
       dispatch(getQuestions());

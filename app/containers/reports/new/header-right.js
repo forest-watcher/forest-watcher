@@ -6,15 +6,9 @@ import CONSTANTS from 'config/constants';
 
 const defaultReport = CONSTANTS.reports.default;
 
-function getAnswers(form) {
-  if (!form) return null;
-  if (form[defaultReport] && form[defaultReport].values) return form[defaultReport].values;
-  return {};
-}
-
-function mapStateToProps(state) {
+function mapStateToProps() {
   return {
-    answers: getAnswers(state.form)
+    report: defaultReport
   };
 }
 

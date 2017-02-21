@@ -24,7 +24,7 @@ function RightBtn(props) {
         {
           text: 'OK',
           onPress: () => {
-            props.saveReport(props.answers);
+            props.saveReport(props.report);
             props.navigation.goBack();
           }
         }
@@ -45,7 +45,7 @@ function RightBtn(props) {
 
 RightBtn.propTypes = {
   light: React.PropTypes.bool,
-  answers: React.PropTypes.object.isRequired,
+  report: React.PropTypes.string.isRequired,
   saveReport: React.PropTypes.func.isRequired
 };
 

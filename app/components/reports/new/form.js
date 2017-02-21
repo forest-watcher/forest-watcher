@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View,
-  StatusBar
+  View
 } from 'react-native';
 import { Field, reduxForm } from 'redux-form';
 import { withNavigation } from 'react-navigation';
@@ -88,7 +87,7 @@ class ReportsForm extends Component {
         }
       }
     } else {
-      this.props.saveReport(this.props.answers);
+      this.props.finishReport(this.props.answers);
       this.props.navigation.goBack();
     }
   }
@@ -147,7 +146,7 @@ class ReportsForm extends Component {
 }
 
 ReportsForm.propTypes = {
-  saveReport: React.PropTypes.func.isRequired,
+  finishReport: React.PropTypes.func.isRequired,
   getQuestions: React.PropTypes.func.isRequired,
   questions: React.PropTypes.array.isRequired,
   answers: React.PropTypes.object.isRequired,
