@@ -35,5 +35,10 @@ export default {
   },
   reports: {
     default: 'defaultReport'
+  },
+  countryLoginTokens: {
+    brazilToken: '0',
+    indonesiaToken: '1',
+    colombiaToken: '2'
   }
 };

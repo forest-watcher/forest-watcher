@@ -5,9 +5,11 @@ import {
   WebView,
   Modal,
   TouchableHighlight,
+  ScrollView,
   Image
 } from 'react-native';
 
+import Constant from 'config/constants';
 import Config from 'react-native-config';
 import Theme from 'config/theme';
 import { getToken, setToken } from 'helpers/user';
@@ -67,6 +69,20 @@ class Login extends Component {
       webviewVisible: true,
       webViewUrl: url
     });
+  }
+
+  onPressCountry(country) {
+    switch (country) {
+      case 'brazil':
+        console.log('Brazil');
+        break;
+      case 'colombia':
+        console.log('Colombia');
+        break;
+      case 'indonesia':
+        console.log('Indonesia');
+        break;
+    }
   }
 
   onNavigationStateChange(navState) {
@@ -130,7 +146,7 @@ class Login extends Component {
               scalesPageToFit
             />
           </View>
-          : <View style={styles.container}>
+          : <ScrollView style={styles.container}>
             <View style={styles.intro}>
               <Image
                 style={styles.logo}
@@ -194,8 +210,53 @@ class Login extends Component {
                   />
                 </View>
               </TouchableHighlight>
+              <TouchableHighlight
+                style={[styles.button, styles.buttonCountry]}
+                onPress={() => this.onPressCountry('brazil')}
+                activeOpacity={0.8}
+                underlayColor={Theme.colors.color3}
+              >
+                <View>
+                  <Text style={[styles.buttonText, styles.buttonTextCountry]}>{I18n.t('login.brazilTitle')}</Text>
+
+                  <Image
+                    style={styles.iconArrow}
+                    source={nextIcon}
+                  />
+                </View>
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={[styles.button, styles.buttonCountry]}
+                onPress={() => this.onPressCountry('colombia')}
+                activeOpacity={0.8}
+                underlayColor={Theme.colors.color3}
+              >
+                <View>
+                  <Text style={[styles.buttonText, styles.buttonTextCountry]}>{I18n.t('login.colombiaTitle')}</Text>
+
+                  <Image
+                    style={styles.iconArrow}
+                    source={nextIcon}
+                  />
+                </View>
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={[styles.button, styles.buttonCountry]}
+                onPress={() => this.onPressCountry('indonesia')}
+                activeOpacity={0.8}
+                underlayColor={Theme.colors.color3}
+              >
+                <View>
+                  <Text style={[styles.buttonText, styles.buttonTextCountry]}>{I18n.t('login.indonesiaTitle')}</Text>
+
+                  <Image
+                    style={styles.iconArrow}
+                    source={nextIcon}
+                  />
+                </View>
+              </TouchableHighlight>
             </View>
-          </View>
+          </ScrollView>
         }
       </Modal>
     );

@@ -20,7 +20,10 @@
 		"introductionText": "Sign in with a MyGFW account",
 		"facebookTitle": "Facebook",
 		"twitterTitle": "Twitter",
-		"googleTitle": "Google"
+		"googleTitle": "Google",
+		"brazilTitle": "Brazil",
+		"colombiaTitle": "Colombia",
+		"indonesiaTitle": "Indonesia"
 	},
 	"countries": {
 		"searchPlaceholder": "Search for a country"
