@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
-  View
+  View,
+  StatusBar
 } from 'react-native';
 import { Field, reduxForm } from 'redux-form';
 import { withNavigation } from 'react-navigation';
@@ -10,6 +11,7 @@ import StepsSlider from 'components/common/steps-slider';
 import getInputForm from 'components/common/form-inputs';
 import ActionButton from 'components/common/action-button';
 import Header from './header';
+import NextButton from './next-button';
 import styles from '../styles';
 
 function isEmptyAnswer(answer) {
@@ -45,6 +47,10 @@ function getBtnTextByPosition(position, total) {
     : 'Save';
 }
 
+function updateStatusBar(isFullScreen) {
+  StatusBar.setBarStyle(isFullScreen ? 'light-content' : 'default');
+}
+
 class ReportsForm extends Component {
   constructor() {
     super();
@@ -53,7 +59,7 @@ class ReportsForm extends Component {
       page: 0
     };
     // First 4 questions in the form should be auto filled
-    this.questionsToSkip = 4;
+    this.questionsToSkip = 8;
   }
 
   componentWillMount() {
@@ -104,18 +110,22 @@ class ReportsForm extends Component {
 
     const questionNumber = this.state.page + this.questionsToSkip;
     const question = questions[questionNumber];
+    const isFullScreen = question.type === 'blob';
     const answer = answers && answers[question.name];
     const disabled = isEmptyAnswer(answer) && question.required;
     const btnText = disabled ? getBtnTextByType(question.type) : getBtnTextByPosition(questionNumber, questions.length - 1);
+    updateStatusBar(isFullScreen);
     return (
       <View style={styles.container}>
         <Header
-          title={I18n.t('commonText.setUp')}
+          light={isFullScreen}
+          title={I18n.t('report.title')}
           onBackPress={this.handleBack}
         />
         <StepsSlider
-          style={styles.containerFloat}
+          style={isFullScreen ? styles.containerFull : styles.containerFloat}
           page={this.state.page}
+          hideIndex={isFullScreen}
           onChangeTab={this.updatePage}
         >
           {questions.map((item, index) => {
@@ -131,7 +141,10 @@ class ReportsForm extends Component {
             );
           })}
         </StepsSlider>
-        <ActionButton style={styles.buttonPos} disabled={disabled} onPress={this.goToNextPage} text={btnText} />
+        {isFullScreen
+          ? <NextButton style={styles.buttonNextPos} disabled={disabled} onPress={this.goToNextPage} />
+          : <ActionButton style={styles.buttonPos} disabled={disabled} onPress={this.goToNextPage} text={btnText} />
+        }
       </View>
     );
   }

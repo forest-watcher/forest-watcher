@@ -8,6 +8,7 @@ import { withNavigation } from 'react-navigation';
 import I18n from 'locales';
 import Theme from 'config/theme';
 
+const saveReportIconWhite = require('assets/save_for_later_white.png');
 const saveReportIcon = require('assets/save_for_later.png');
 
 function RightBtn(props) {
@@ -37,12 +38,13 @@ function RightBtn(props) {
       underlayColor="transparent"
       activeOpacity={0.8}
     >
-      <Image style={Theme.icon} source={saveReportIcon} />
+      <Image style={Theme.icon} source={props.light ? saveReportIconWhite : saveReportIcon} />
     </TouchableHighlight>
   );
 }
 
 RightBtn.propTypes = {
+  light: React.PropTypes.bool,
   answers: React.PropTypes.object.isRequired,
   saveReport: React.PropTypes.func.isRequired
 };

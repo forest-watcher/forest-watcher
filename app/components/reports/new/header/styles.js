@@ -18,7 +18,11 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     color: Theme.fontColors.main,
     fontSize: 21,
-    fontWeight: '400'
+    fontWeight: '400',
+    backgroundColor: 'transparent'
+  },
+  light: {
+    color: Theme.fontColors.white
   },
   margin: {
     marginLeft: 16
