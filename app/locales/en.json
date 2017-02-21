@@ -65,6 +65,7 @@
 	},
   "report": {
     "title": "Report",
+    "takePicture": "Take a picture",
     "datePlaceholder": "Select date",
     "saveLaterTitle": "Save for later",
     "saveLaterDescription": "It will appear as a draft in the reports section",

@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   View,
-  Text,
   Image,
   TouchableHighlight
 } from 'react-native';
@@ -19,10 +18,10 @@ function NextButton(props) {
   }
   return (
     <TouchableHighlight
-      style={[styles.container, props.style]}
+      style={[styles.container, props.transparent ? styles.transparent : '', props.style]}
       onPress={onButtonPress}
       activeOpacity={0.8}
-      underlayColor="transparent"
+      underlayColor={props.transparent ? 'transparent' : Theme.background.secondary}
     >
       <View style={styles.button}>
         <Image style={Theme.icon} source={nextIconWhite} />
@@ -37,6 +36,7 @@ NextButton.defaultProps = {
 
 NextButton.propTypes = {
   style: React.PropTypes.node,
+  transparent: React.PropTypes.bool,
   disabled: React.PropTypes.bool,
   onPress: React.PropTypes.func.isRequired
 };

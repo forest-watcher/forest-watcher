@@ -47,10 +47,6 @@ function getBtnTextByPosition(position, total) {
     : 'Save';
 }
 
-function updateStatusBar(isFullScreen) {
-  StatusBar.setBarStyle(isFullScreen ? 'light-content' : 'default');
-}
-
 class ReportsForm extends Component {
   constructor() {
     super();
@@ -59,7 +55,7 @@ class ReportsForm extends Component {
       page: 0
     };
     // First 4 questions in the form should be auto filled
-    this.questionsToSkip = 8;
+    this.questionsToSkip = 4;
   }
 
   componentWillMount() {
@@ -110,22 +106,22 @@ class ReportsForm extends Component {
 
     const questionNumber = this.state.page + this.questionsToSkip;
     const question = questions[questionNumber];
-    const isFullScreen = question.type === 'blob';
+    const isImageInput = question.type === 'blob';
     const answer = answers && answers[question.name];
-    const disabled = isEmptyAnswer(answer) && question.required;
+    const emptyAnswer = isEmptyAnswer(answer);
+    const disabled = emptyAnswer && question.required;
     const btnText = disabled ? getBtnTextByType(question.type) : getBtnTextByPosition(questionNumber, questions.length - 1);
-    updateStatusBar(isFullScreen);
     return (
       <View style={styles.container}>
         <Header
-          light={isFullScreen}
-          title={I18n.t('report.title')}
+          light={isImageInput && emptyAnswer}
+          title={isImageInput && emptyAnswer ? I18n.t('report.takePicture') : I18n.t('report.title')}
           onBackPress={this.handleBack}
         />
         <StepsSlider
-          style={isFullScreen ? styles.containerFull : styles.containerFloat}
+          style={isImageInput && emptyAnswer ? styles.containerFull : styles.containerFloat}
           page={this.state.page}
-          hideIndex={isFullScreen}
+          hideIndex={isImageInput && emptyAnswer}
           onChangeTab={this.updatePage}
         >
           {questions.map((item, index) => {
@@ -141,8 +137,8 @@ class ReportsForm extends Component {
             );
           })}
         </StepsSlider>
-        {isFullScreen
-          ? <NextButton style={styles.buttonNextPos} disabled={disabled} onPress={this.goToNextPage} />
+        {isImageInput
+          ? <NextButton transparent={emptyAnswer} style={styles.buttonNextPos} disabled={disabled} onPress={this.goToNextPage} />
           : <ActionButton style={styles.buttonPos} disabled={disabled} onPress={this.goToNextPage} text={btnText} />
         }
       </View>

@@ -21,7 +21,7 @@ export default StyleSheet.create({
   },
   buttonNextPos: {
     position: 'absolute',
-    bottom: 24,
-    right: 24
+    bottom: 52,
+    right: 8
   }
 });

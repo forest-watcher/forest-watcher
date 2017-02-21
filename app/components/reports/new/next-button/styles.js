@@ -6,6 +6,9 @@ export default StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 32,
+    backgroundColor: Theme.background.secondary
+  },
+  transparent: {
     backgroundColor: 'rgba(255,255,255, 0.3)'
   },
   button: {
