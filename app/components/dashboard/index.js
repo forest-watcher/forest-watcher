@@ -30,11 +30,6 @@ const sections = [
     title: I18n.t('dashboard.uploadData'),
     section: '',
     image: ''
-  },
-  {
-    title: I18n.t('dashboard.map'),
-    section: 'Map',
-    image: ''
   }
 ];
 

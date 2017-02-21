@@ -34,14 +34,5 @@ export default StyleSheet.create({
     fontWeight: '500',
     color: Theme.fontColors.main,
     marginRight: 6
-  },
-  list: {
-    padding: 15,
-    paddingTop: 0,
-    flexDirection: 'row'
-  },
-  alerts: {
-    flexDirection: 'row',
-    paddingRight: 15
   }
 });

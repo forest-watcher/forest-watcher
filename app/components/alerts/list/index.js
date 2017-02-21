@@ -13,6 +13,17 @@ import styles from './styles';
 
 const placeholderImage = require('assets/alert_list_preloader_row.png');
 
+function getPlaceholder() {
+  return (
+    <View style={styles.placeholder}>
+      <View style={styles.loading}>
+        <Text style={styles.loadingText}>Please wait while the data is downloaded...</Text>
+      </View>
+      <Image style={styles.placeholderImage} source={placeholderImage} />
+    </View>
+  );
+}
+
 class AlertsList extends Component {
   constructor() {
     super();
@@ -28,7 +39,7 @@ class AlertsList extends Component {
     setTimeout(() => {
       this.getLocation();
       this.checkData();
-    }, 3000);
+    }, 200);
   }
 
   componentWillReceiveProps(newProps) {
@@ -43,16 +54,8 @@ class AlertsList extends Component {
         this.setState({ curentPosition: position });
       },
       (error) => console.log(JSON.stringify(error)),
-      { enableHighAccuracy: true, timeout: 1000, maximumAge: 100 }
+      { enableHighAccuracy: true, timeout: 1000, maximumAge: 50 }
     );
-  }
-
-  checkData() {
-    if (!Object.keys(this.props.alerts).length > 0) {
-      this.props.getAlerts(this.props.areaId);
-    } else {
-      this.setState({ alerts: this.props.alerts });
-    }
   }
 
   getAlertsView() {
@@ -96,7 +99,7 @@ class AlertsList extends Component {
                     />
                   </View>
                   <View style={styles.distance}>
-                    <Text>{distance}</Text>
+                    <Text style={styles.distanceText}>{distance}</Text>
                   </View>
                 </View>
               </TouchableHighlight>
@@ -107,19 +110,19 @@ class AlertsList extends Component {
     );
   }
 
-  getPlaceholder() {
-    return (
-      <View style={styles.placeholder}>
-        <Image style={styles.placeholderImage} source={placeholderImage} />
-      </View>
-    );
+  checkData() {
+    if (!Object.keys(this.props.alerts).length > 0) {
+      this.props.getAlerts(this.props.areaId);
+    } else {
+      this.setState({ alerts: this.props.alerts });
+    }
   }
 
   render() {
     const { alerts } = this.state;
-    return alerts
+    return alerts && alerts.length > 0
       ? this.getAlertsView()
-      : this.getPlaceholder();
+      : getPlaceholder();
   }
 }
 

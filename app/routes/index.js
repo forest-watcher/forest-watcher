@@ -19,6 +19,6 @@ export const Routes = {
 };
 
 export const RoutesConfig = {
-  initialRouteName: 'Alerts',
+  initialRouteName: 'Home',
   headerMode: 'screen'
 };

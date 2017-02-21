@@ -16,6 +16,7 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 30;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
+const markerImage = require('assets/marker.png');
 const alertGladImage = require('assets/alert-glad.png');
 
 function renderLoading() {
@@ -60,19 +61,57 @@ class Map extends Component {
         longitudeDelta: LONGITUDE_DELTA
       }
     };
+    this.watchID = null;
   }
 
   componentDidMount() {
     this.renderMap();
+    this.startNavigation();
   }
 
   onLayout = () => {
-    // const { params } = this.props.navigation.state;
-    // const boundaries = params.geojson.geometry.coordinates[0];
-    // this.map.fitToCoordinates(getGoogleMapsCoordinates(boundaries), {
-    //   edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
-    //   animated: true
-    // });
+    const { params } = this.props.navigation.state;
+    const boundaries = params.geojson.geometry.coordinates[0];
+    this.map.fitToCoordinates(getGoogleMapsCoordinates(boundaries), {
+      edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
+      animated: true
+    });
+  }
+
+  startNavigation() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.setState({
+          lastPosition: {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          }
+        });
+      },
+      (error) => console.log(JSON.stringify(error)),
+      { enableHighAccuracy: true, timeout: 500, maximumAge: 60 }
+    );
+    this.watchID = navigator.geolocation.watchPosition((position) => {
+      // const lat1 = 40.420106;
+      // const lon1 = 3.698136;
+      // const lat2 = 40.419542;
+      // const lon2 = -3.698130;
+      // const distance = Math.atan2(
+      //   Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1),
+      //   Math.sin(lon2 - lon1)* Math.cos(lat2));
+      // const degrees = distance * (180 / Math.PI);
+      // const heading = (degrees + 360) % 360;
+      // console.log(distance);
+      // console.log(distance, degrees);
+
+      this.setState({
+        lastPosition: {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+          // rotation: heading
+        }
+      });
+    });
   }
 
   renderMap() {
@@ -99,6 +138,12 @@ class Map extends Component {
             initialRegion={this.state.region}
             onLayout={this.onLayout}
           >
+            {this.state.lastPosition &&
+              <MapView.Marker.Animated
+                image={markerImage}
+                coordinate={this.state.lastPosition}
+              />
+            }
             {params.features.map((point, key) =>
               (
                 <MapView.Marker.Animated
