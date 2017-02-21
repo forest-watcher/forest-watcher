@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -587,11 +588,11 @@
 				56551C5D1E00A33500A6AF87 /* AIRGoogleMapCallout.m */,
 				56551C5E1E00A33500A6AF87 /* AIRGoogleMapCalloutManager.h */,
 				56551C5F1E00A33500A6AF87 /* AIRGoogleMapCalloutManager.m */,
+				56551C641E00A33500A6AF87 /* AIRGoogleMapManager.h */,
 				56551C601E00A33500A6AF87 /* AIRGoogleMapCircle.h */,
 				56551C611E00A33500A6AF87 /* AIRGoogleMapCircle.m */,
 				56551C621E00A33500A6AF87 /* AIRGoogleMapCircleManager.h */,
 				56551C631E00A33500A6AF87 /* AIRGoogleMapCircleManager.m */,
-				56551C641E00A33500A6AF87 /* AIRGoogleMapManager.h */,
 				56551C651E00A33500A6AF87 /* AIRGoogleMapManager.m */,
 				56551C661E00A33500A6AF87 /* AIRGoogleMapMarker.h */,
 				56551C671E00A33500A6AF87 /* AIRGoogleMapMarker.m */,
@@ -1211,9 +1212,7 @@
 				INFOPLIST_FILE = ForestWatcherTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ForestWatcher.app/ForestWatcher";
 			};
@@ -1229,9 +1228,7 @@
 				INFOPLIST_FILE = ForestWatcherTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ForestWatcher.app/ForestWatcher";
 			};

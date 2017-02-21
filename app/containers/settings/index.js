@@ -3,7 +3,7 @@ import { getAreas } from 'redux-modules/areas';
 
 import Settings from 'components/settings';
 
-function mapStateToProps(state, ownprops) {
+function mapStateToProps(state) {
   return {
     user: state.user.data,
     areas: state.areas.data,

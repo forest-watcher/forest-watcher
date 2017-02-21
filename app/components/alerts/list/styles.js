@@ -3,7 +3,8 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   content: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    flex: 1
   },
   item: {
     width: 128,
@@ -22,5 +23,14 @@ export default StyleSheet.create({
     fontSize: 17,
     fontWeight: '400',
     color: Theme.fontColors.main
+  },
+  placeholder: {
+    flex: 1,
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end'
+  },
+  placeholderImage: {
+    width: Theme.screen.width - 20,
+    resizeMode: 'stretch'
   }
 });

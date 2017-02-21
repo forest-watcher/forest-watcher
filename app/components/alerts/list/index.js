@@ -1,27 +1,17 @@
 import React, { Component } from 'react';
 import {
   View,
-  Animated,
-  TouchableHighlight
+  Text,
+  TouchableHighlight,
+  Image,
+  ScrollView
 } from 'react-native';
 
+import GeoPoint from 'geopoint';
 import ImageCache from 'components/common/image-cache';
-import LoadingPlaceholder from 'components/alerts/list/loading';
 import styles from './styles';
 
-function renderPlaceholder() {
-  const placeholders = [];
-
-  for (let x = 0; x < 3; x++) {
-    placeholders.push(
-      <LoadingPlaceholder key={x} index={x} />
-    );
-  }
-
-  return (
-    <View style={styles.content}>{placeholders}</View>
-  );
-}
+const placeholderImage = require('assets/alert_list_preloader_row.png');
 
 class AlertsList extends Component {
   constructor() {
@@ -29,13 +19,14 @@ class AlertsList extends Component {
 
     this.state = {
       alerts: null,
-      bounceValue: new Animated.Value(1)
+      curentPosition: null
     };
   }
 
   componentDidMount() {
     // Temp
     setTimeout(() => {
+      this.getLocation();
       this.checkData();
     }, 3000);
   }
@@ -46,6 +37,16 @@ class AlertsList extends Component {
     }
   }
 
+  getLocation() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.setState({ curentPosition: position });
+      },
+      (error) => console.log(JSON.stringify(error)),
+      { enableHighAccuracy: true, timeout: 1000, maximumAge: 100 }
+    );
+  }
+
   checkData() {
     if (!Object.keys(this.props.alerts).length > 0) {
       this.props.getAlerts(this.props.areaId);
@@ -54,45 +55,76 @@ class AlertsList extends Component {
     }
   }
 
-  render() {
+  getAlertsView() {
     const { alerts } = this.state;
 
     return (
-      <View style={styles.content}>
-        {alerts
-          ?
-            Object.keys(alerts).map((key, index) => {
-              const alert = alerts[key];
+      <ScrollView
+        style={styles.list}
+        contentContainerStyle={styles.alerts}
+        horizontal
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        alwaysBounceVertical={false}
+      >
+        <View style={styles.content}>
+          {Object.keys(alerts).map((key, index) => {
+            const alert = alerts[key];
+            let distance = 'Not Available';
 
-              return (
-                <TouchableHighlight
-                  key={`alert-${index}`}
-                  onPress={() => null}
-                  activeOpacity={1}
-                  underlayColor="transparent"
-                >
-                  <View style={styles.item}>
-                    <View style={styles.image}>
-                      <ImageCache
-                        style={{ width: 150, height: 150 }}
-                        source={{
-                          uri: alert.url
-                        }}
-                      />
-                    </View>
+            if (this.state.curentPosition) {
+              const geoPoint = new GeoPoint(alert.center.lat, alert.center.lon);
+              const currentPoint = new GeoPoint(this.state.curentPosition.coords.latitude, this.state.curentPosition.coords.longitude);
+              distance = `${Math.round(currentPoint.distanceTo(geoPoint, true))}km away`; // in Kilometers
+            }
+            // console.log(this.state.curentPosition.coords, currentPoint.distanceTo(geoPoint, true));
+
+            return (
+              <TouchableHighlight
+                key={`alert-${index}`}
+                onPress={() => this.props.onPress(alert)}
+                activeOpacity={1}
+                underlayColor="transparent"
+              >
+                <View style={styles.item}>
+                  <View style={styles.image}>
+                    <ImageCache
+                      style={{ width: 150, height: 150 }}
+                      source={{
+                        uri: alert.url
+                      }}
+                    />
                   </View>
-                </TouchableHighlight>
-              );
-            })
-          :
-            renderPlaceholder()
-        }
+                  <View style={styles.distance}>
+                    <Text>{distance}</Text>
+                  </View>
+                </View>
+              </TouchableHighlight>
+            );
+          })}
+        </View>
+      </ScrollView>
+    );
+  }
+
+  getPlaceholder() {
+    return (
+      <View style={styles.placeholder}>
+        <Image style={styles.placeholderImage} source={placeholderImage} />
       </View>
     );
+  }
+
+  render() {
+    const { alerts } = this.state;
+    return alerts
+      ? this.getAlertsView()
+      : this.getPlaceholder();
   }
 }
 
 AlertsList.propTypes = {
+  onPress: React.PropTypes.func.isRequired,
   getAlerts: React.PropTypes.func.isRequired,
   alerts: React.PropTypes.array,
   areaId: React.PropTypes.string.isRequired

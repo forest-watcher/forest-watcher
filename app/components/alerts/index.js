@@ -8,7 +8,6 @@ import {
 
 import LeftBtn from 'components/common/header/left-btn';
 import AlertsList from 'containers/alerts/list';
-import I18n from 'locales';
 import Theme from 'config/theme';
 import styles from './styles';
 
@@ -16,6 +15,14 @@ import styles from './styles';
 class Alerts extends Component {
   componentDidMount() {
     this.props.fetchData();
+  }
+
+  onPress = (params) => {
+    this.props.navigate('Map', {
+      features: params.coordinates,
+      center: params.center,
+      geojson: params.geojson
+    });
   }
 
   render() {
@@ -35,23 +42,8 @@ class Alerts extends Component {
             <View key={`area-${areaKey}`}>
               <View style={styles.area}>
                 <Text style={styles.areaTitle}>{area.name}</Text>
-                <TouchableHighlight
-                  activeOpacity={1}
-                  underlayColor="transparent"
-                >
-                  <Text style={styles.areaMore}>SEE ALL</Text>
-                </TouchableHighlight>
               </View>
-              <ScrollView
-                style={styles.list}
-                contentContainerStyle={styles.alerts}
-                horizontal
-                showsVerticalScrollIndicator={false}
-                showsHorizontalScrollIndicator={false}
-                alwaysBounceVertical={false}
-              >
-                <AlertsList areaId={area.id} />
-              </ScrollView>
+              <AlertsList onPress={this.onPress} areaId={area.id} />
             </View>
           );
         }
@@ -64,6 +56,7 @@ class Alerts extends Component {
 }
 
 Alerts.propTypes = {
+  navigate: React.PropTypes.func.isRequired,
   fetchData: React.PropTypes.func.isRequired,
   areas: React.PropTypes.array
 };

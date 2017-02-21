@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { getAreas } from 'redux-modules/areas';
+
 import Alerts from 'components/alerts';
 
 function mapStateToProps(state) {
@@ -11,8 +12,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch, { navigation }) {
   return {
-    navigate: (routeName) => {
-      navigation.navigate(routeName);
+    navigate: (routeName, params) => {
+      navigation.navigate(routeName, {
+        features: params.features,
+        center: params.center,
+        geojson: params.geojson
+      });
     },
     fetchData: (action) => {
       dispatch(getAreas(action));

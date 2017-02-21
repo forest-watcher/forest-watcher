@@ -8,11 +8,8 @@ function mapStateToProps(state, newProps) {
   };
 }
 
-function mapDispatchToProps(dispatch, { navigation }) {
+function mapDispatchToProps(dispatch) {
   return {
-    navigate: (routeName) => {
-      navigation.navigate(routeName);
-    },
     getAlerts: (areaId) => {
       dispatch(getAlerts(areaId));
     }
