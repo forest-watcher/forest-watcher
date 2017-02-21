@@ -1,4 +1,5 @@
 import Config from 'react-native-config';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 // Actions
 const GET_QUESTIONS = 'report/GET_QUESTIONS';
@@ -55,9 +56,49 @@ export function getQuestions() {
 }
 
 export function saveReport(report) {
-  console.warn('TODO: save report', report);
-  return {
-    type: SAVE_REPORT,
-    payload: report
+  return (dispatch, state) => {
+    console.warn('TODO: save report', report);
+    const form = new FormData();
+    const promises = [];
+    const keys = [];
+    Object.keys(report).forEach((key) => {
+      if (report[key].indexOf('jpg') >= 0) { // TODO: improve this
+        promises.push(RNFetchBlob.fs.readFile(report[key], 'base64'));
+        keys.push(key);
+      } else {
+        form.append(key, report[key]);
+      }
+    });
+    if (promises.length > 0) {
+      Promise.all(promises).then((data) => {
+        for (let i = 0, pLenght = promises.length; i < pLenght; i++) {
+          form.append(keys[i], data[i]);
+        }
+      });
+    }
+    const url = `${Config.API_URL}/questionnaire/${Config.QUESTIONNARIE_ID}`;
+    const fetchConfig = {
+      headers: {
+        Authorization: `Bearer ${state().user.token}`,
+        'Content-Type': 'multipart/form-data'
+      },
+      method: 'POST',
+      body: form
+    };
+    fetch(url, fetchConfig)
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw Error(response);
+      })
+      .then((data) => {
+        console.log(data, 'form data response');
+        return {
+          type: SAVE_REPORT,
+          payload: data
+        };
+      })
+      .catch((err) => {
+        console.log('TODO: handle error', err);
+      });
   };
 }
