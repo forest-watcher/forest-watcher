@@ -7,6 +7,12 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.main,
     position: 'relative'
   },
+  containerFloat: {
+    paddingTop: 80
+  },
+  containerFull: {
+    paddingTop: 0
+  },
   buttonPos: {
     position: 'absolute',
     bottom: 50,

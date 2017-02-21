@@ -62,9 +62,9 @@ class ReportsForm extends Component {
 
   handleBack = () => {
     if (this.state.page > 0) {
-      this.setState((prevState) => ({
-        page: prevState.page - 1
-      }));
+      this.setState({
+        page: this.prevPage
+      });
     } else {
       this.props.navigation.goBack();
     }
@@ -92,6 +92,7 @@ class ReportsForm extends Component {
   }
 
   jumptToPage(jump) {
+    this.prevPage = this.state.page;
     this.setState((prevState) => ({
       page: prevState.page + jump
     }));
@@ -113,6 +114,7 @@ class ReportsForm extends Component {
           onBackPress={this.handleBack}
         />
         <StepsSlider
+          style={styles.containerFloat}
           page={this.state.page}
           onChangeTab={this.updatePage}
         >
