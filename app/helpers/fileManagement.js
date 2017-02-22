@@ -38,6 +38,16 @@ export async function storeImage(url) {
   }
 }
 
+export function parseImagePath(url) {
+  let parsedUrl = url;
+
+  if (Platform.OS === 'android') {
+    parsedUrl = `file://${parsedUrl}`;
+  }
+
+  return parsedUrl;
+}
+
 export async function getCachedImageByUrl(url, imageDir) {
   const parsedUrl = url.replace(/ /g, '%20');
   const parentDirectory = RNFetchBlob.fs.dirs;
@@ -61,18 +71,8 @@ export async function getCachedImageByUrl(url, imageDir) {
         .fetch('GET', parsedUrl);
     }
 
-    return filePath;
+    return parseImagePath(filePath);
   } catch (error) {
     return error;
   }
-}
-
-export function parseImagePath(url) {
-  let parsedUrl = url;
-
-  if (Platform.OS === 'android') {
-    parsedUrl = `file://${parsedUrl}`;
-  }
-
-  return parsedUrl;
 }
