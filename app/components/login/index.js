@@ -42,10 +42,11 @@ class Login extends Component {
 
   async onLoadEnd() {
     if (this.state.webViewCurrenUrl.indexOf(Config.API_CALLBACK_URL) !== -1) {
-      const token = this.state.webViewCurrenUrl.match(/token[=](.*)/);
+      let token = this.state.webViewCurrenUrl.match(/token[=](.*)/);
 
       if (token && token[1]) {
-        const saved = await setToken(token[1]);
+        token = token[1].replace('#', '');
+        const saved = await setToken(token);
         if (saved) {
           const userToken = await getToken();
           this.props.setLoginStatus({

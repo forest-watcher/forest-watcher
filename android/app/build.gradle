@@ -89,7 +89,7 @@ android {
 
     defaultConfig {
         applicationId "com.forestwatcher"
-        minSdkVersion 16
+        minSdkVersion 18
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -140,6 +140,7 @@ dependencies {
     compile project(':react-native-fetch-blob')
     compile project(':react-native-i18n')
     compile project(':react-native-config')
+    compile project(':react-native-heading')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules

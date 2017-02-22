@@ -3,7 +3,8 @@ import {
   View,
   Text,
   ScrollView,
-  TouchableHighlight
+  TouchableHighlight,
+  Platform
 } from 'react-native';
 import Theme from 'config/theme';
 import I18n from 'locales';
@@ -37,7 +38,9 @@ const sections = [
 
 class Dashboard extends Component {
   componentDidMount() {
-    Location.requestAlwaysAuthorization();
+    if (Platform.os === 'ios') {
+      Location.requestAlwaysAuthorization();
+    }
   }
 
   onItemTap(item) {

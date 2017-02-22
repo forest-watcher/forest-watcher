@@ -13,6 +13,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.i18n.reactnativei18n.ReactNativeI18n;
+import com.joshblour.reactnativeheading.ReactNativeHeadingPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,10 +30,11 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNFetchBlobPackage(),
+          new RNFetchBlobPackage(),
           new ReactNativeConfigPackage(),
           new MapsPackage(),
-          new ReactNativeI18n()
+          new ReactNativeI18n(),
+          new ReactNativeHeadingPackage()
       );
     }
   };
