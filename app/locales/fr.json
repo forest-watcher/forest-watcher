@@ -12,6 +12,7 @@
 		"title": "Dashboard",
 		"alerts": "See my alerts",
 		"reports": "Make a report",
+		"myReports": "My reports",
 		"uploadData": "Saved and uploaded data",
 		"map": "Map"
 	},
@@ -65,6 +66,7 @@
 	},
   "report": {
     "title": "Report",
+    "plural": "Reports",
     "takePicture": "Take a picture",
     "datePlaceholder": "Select date",
     "saveLaterTitle": "Save for later",
@@ -72,6 +74,10 @@
     "inputText": "Please write something",
     "inputRadio": "Choose one option to continue",
     "inputSelect": "Choose at least one option to continue",
-    "input": "Please, answer the question"
+    "input": "Please, answer the question",
+    "completed": "Completed",
+    "uploadAll": "Upload All",
+    "drafts": "Drafts",
+    "uploaded": "Uploaded"
   }
 }

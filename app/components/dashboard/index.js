@@ -27,8 +27,8 @@ const sections = [
     image: ''
   },
   {
-    title: I18n.t('dashboard.uploadData'),
-    section: '',
+    title: I18n.t('dashboard.myReports'),
+    section: 'Reports',
     image: ''
   },
   {
