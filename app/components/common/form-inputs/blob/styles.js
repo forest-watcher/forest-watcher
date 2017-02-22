@@ -36,7 +36,7 @@ export default StyleSheet.create({
     width: 64,
     height: 64,
     position: 'absolute',
-    left: 24,
+    left: 8,
     bottom: 52,
     backgroundColor: Theme.background.gray,
     borderRadius: 32

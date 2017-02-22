@@ -55,6 +55,7 @@ class ReportsForm extends Component {
     };
     // First 4 questions in the form should be auto filled
     this.questionsToSkip = 4;
+    this.pageHistory = [];
   }
 
   componentWillMount() {
@@ -63,9 +64,14 @@ class ReportsForm extends Component {
 
   handleBack = () => {
     if (this.state.page > 0) {
-      this.setState({
-        page: this.prevPage
-      });
+      const prevPage = this.pageHistory[this.pageHistory.length - 1];
+      if (prevPage >= 0) {
+        this.setState({
+          page: this.pageHistory[this.pageHistory.length - 1]
+        });
+        this.pageHistory.pop();
+      }
+      this.prevPag = this.prevPage - 1;
     } else {
       this.props.navigation.goBack();
     }
@@ -93,7 +99,7 @@ class ReportsForm extends Component {
   }
 
   jumptToPage(jump) {
-    this.prevPage = this.state.page;
+    this.pageHistory.push(this.state.page);
     this.setState((prevState) => ({
       page: prevState.page + jump
     }));
