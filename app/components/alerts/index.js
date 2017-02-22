@@ -21,7 +21,8 @@ class Alerts extends Component {
     this.props.navigate('Map', {
       features: params.coordinates,
       center: params.center,
-      geojson: params.geojson
+      geojson: params.geojson,
+      title: params.areaName
     });
   }
 
@@ -43,7 +44,7 @@ class Alerts extends Component {
               <View style={styles.area}>
                 <Text style={styles.areaTitle}>{area.name}</Text>
               </View>
-              <AlertsList onPress={this.onPress} areaId={area.id} />
+              <AlertsList onPress={this.onPress} areaId={area.id} areaName={area.name} />
             </View>
           );
         }

@@ -70,6 +70,7 @@
 		5F0FBE2789148D1ED61D86D1 /* Pods_ForestWatcher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B72854463D9EEF9C9E67B328 /* Pods_ForestWatcher.framework */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		BAC908163B0E4EA38B49EEF2 /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A28DC2A5220D42359951057B /* libReactNativeConfig.a */; };
+		F3AA3D3AC9344484BAEB11FA /* libRNLocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0473E0D9F54448C69987B430 /* libRNLocation.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -199,6 +200,13 @@
 			remoteGlobalIDString = A15C300E1CD25C330074CB35;
 			remoteInfo = RNFetchBlob;
 		};
+		56A82CFE1E5DACE500BDF9AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 779CE7ABBBA2404F9CA9D7E7 /* RNLocation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNLocation;
+		};
 		56EC893B1E151E4F0016FE0F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F1D7690309C0480CB588082B /* RNI18n.xcodeproj */;
@@ -253,6 +261,7 @@
 		00E356EE1AD99517003FC87E /* ForestWatcherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ForestWatcherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* ForestWatcherTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ForestWatcherTests.m; sourceTree = "<group>"; };
+		0473E0D9F54448C69987B430 /* libRNLocation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNLocation.a; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* ForestWatcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ForestWatcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -349,6 +358,7 @@
 		56ADFC001E4DC28800820294 /* firasansot_italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = firasansot_italic.otf; path = Fonts/firasansot_italic.otf; sourceTree = "<group>"; };
 		5D4F624D14DF49A4BF4873B3 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
+		779CE7ABBBA2404F9CA9D7E7 /* RNLocation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNLocation.xcodeproj; path = "../node_modules/react-native-location/RNLocation.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7EF6A30059A74EEC8745DC44 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
@@ -387,6 +397,7 @@
 				BAC908163B0E4EA38B49EEF2 /* libReactNativeConfig.a in Frameworks */,
 				14846EA233794B3FBB819E27 /* libRNI18n.a in Frameworks */,
 				5728E0BA95ED4530B75240CA /* libRNFetchBlob.a in Frameworks */,
+				F3AA3D3AC9344484BAEB11FA /* libRNLocation.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -629,6 +640,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		56A82CE41E5DACE500BDF9AE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				56A82CFF1E5DACE500BDF9AE /* libRNLocation.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		56EC89231E151E4F0016FE0F /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -673,6 +692,7 @@
 				39CFA9C5F75C4015B4438B69 /* ReactNativeConfig.xcodeproj */,
 				F1D7690309C0480CB588082B /* RNI18n.xcodeproj */,
 				7EF6A30059A74EEC8745DC44 /* RNFetchBlob.xcodeproj */,
+				779CE7ABBBA2404F9CA9D7E7 /* RNLocation.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -864,6 +884,10 @@
 					ProductGroup = 56EC89231E151E4F0016FE0F /* Products */;
 					ProjectRef = F1D7690309C0480CB588082B /* RNI18n.xcodeproj */;
 				},
+				{
+					ProductGroup = 56A82CE41E5DACE500BDF9AE /* Products */;
+					ProjectRef = 779CE7ABBBA2404F9CA9D7E7 /* RNLocation.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -991,6 +1015,13 @@
 			fileType = archive.ar;
 			path = libRNFetchBlob.a;
 			remoteRef = 567927B11E57608D00134CB1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		56A82CFF1E5DACE500BDF9AE /* libRNLocation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNLocation.a;
+			remoteRef = 56A82CFE1E5DACE500BDF9AE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		56EC893C1E151E4F0016FE0F /* libRNI18n.a */ = {
@@ -1212,7 +1243,10 @@
 				INFOPLIST_FILE = ForestWatcherTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ForestWatcher.app/ForestWatcher";
 			};
@@ -1228,7 +1262,10 @@
 				INFOPLIST_FILE = ForestWatcherTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ForestWatcher.app/ForestWatcher";
 			};
@@ -1329,6 +1366,7 @@
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
 					"$(SRCROOT)/../node_modules/react-native-i18n/RNI18n",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-location",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1374,6 +1412,7 @@
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
 					"$(SRCROOT)/../node_modules/react-native-i18n/RNI18n",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-location",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;

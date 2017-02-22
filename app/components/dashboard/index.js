@@ -9,6 +9,8 @@ import Theme from 'config/theme';
 import I18n from 'locales';
 import styles from './styles';
 
+const { RNLocation: Location } = require('NativeModules');
+
 const sections = [
   // TEMP
   {
@@ -34,6 +36,10 @@ const sections = [
 ];
 
 class Dashboard extends Component {
+  componentDidMount() {
+    Location.requestAlwaysAuthorization();
+  }
+
   onItemTap(item) {
     if (item.section && item.section.length > 0) {
       this.props.navigate(item.section);

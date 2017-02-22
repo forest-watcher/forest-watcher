@@ -73,6 +73,7 @@ class AlertsList extends Component {
         <View style={styles.content}>
           {Object.keys(alerts).map((key, index) => {
             const alert = alerts[key];
+            alert.areaName = this.props.areaName;
             let distance = 'Not Available';
 
             if (this.state.curentPosition) {
@@ -130,7 +131,8 @@ AlertsList.propTypes = {
   onPress: React.PropTypes.func.isRequired,
   getAlerts: React.PropTypes.func.isRequired,
   alerts: React.PropTypes.array,
-  areaId: React.PropTypes.string.isRequired
+  areaId: React.PropTypes.string.isRequired,
+  areaName: React.PropTypes.string.isRequired
 };
 
 export default AlertsList;
