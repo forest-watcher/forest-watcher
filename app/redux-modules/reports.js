@@ -63,9 +63,9 @@ export function getQuestions() {
   };
 }
 
-export function saveReport(report) {
+export function saveReport(reportName) {
   const reportStatus = {};
-  reportStatus[report] = {
+  reportStatus[reportName] = {
     status: CONSTANTS.status.draft
   };
   return {
@@ -102,11 +102,45 @@ export function finishReport(report) {
         }
       });
     }
-    const url = `${Config.API_URL}/questionnaire/${Config.QUESTIONNARIE_ID}`;
+    const user = state().user;
+    const userName = (user && user.data && user.data.attributes && user.data.attributes.fullName) || 'Guest user';
+    const oganization = (user && user.data && user.data.attributes && user.data.attributes.organization) || 'Vizzuality';
+    const date = new Date().toISOString();
+    // TODO GET REAL DATA
+    const position = 'lat/lng';
+
+    form.append('name', userName);
+    form.append('organization', oganization);
+    form.append('date', date);
+    form.append('position', position);
+
+    const url = `${Config.API_URL}/questionnaire/${Config.QUESTIONNARIE_ID}/answer`;
+
+    // const xhr = new XMLHttpRequest();
+    // xhr.withCredentials = true;
+    // xhr.open('POST', url);
+    // xhr.setRequestHeader('authorization', `Bearer ${state().user.token}`);
+
+    // xhr.addEventListener('readystatechange', () => {
+    //   if (xhr.readyState === 4) {
+    //     if (xhr.status === 200) {
+    //       reportStatus[defaultReport].status = CONSTANTS.status.uploaded;
+    //       console.log('iuuuuhuuuuuu', xhr.responseText);
+    //       dispatch({
+    //         type: SET_REPORT_STATUS,
+    //         payload: reportStatus
+    //       });
+    //     } else {
+    //       console.log('TODO: handle error', xhr.responseText);
+    //     }
+    //   }
+    // });
+    // xhr.send(form);
+
+    // FETCH not working
     const fetchConfig = {
       headers: {
-        Authorization: `Bearer ${state().user.token}`,
-        'Content-Type': 'multipart/form-data'
+        Authorization: `Bearer ${state().user.token}`
       },
       method: 'POST',
       body: form

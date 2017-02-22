@@ -27,7 +27,7 @@ const store = createStore(
 
 const persistConfig = {
   storage: AsyncStorage,
-  blacklist: ['navigation', 'setup']
+  blacklist: ['setup']
 };
 
 export default class App extends React.Component {
