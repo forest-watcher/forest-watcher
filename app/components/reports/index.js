@@ -15,10 +15,9 @@ import styles from './styles';
 
 const editIcon = require('assets/edit.png');
 const checkIcon = require('assets/next.png');
-const uploadIcon = require('assets/upload.png');
+// const uploadIcon = require('assets/upload.png');
 
-
-function getItems(data, image) {
+function getItems(data, image, onPress) {
   return data.map((item, index) => (
     <View
       key={index}
@@ -26,65 +25,65 @@ function getItems(data, image) {
     >
       <View style={styles.listItemContent}>
         <Text style={styles.itemTitle}>{item.title}</Text>
-        <Text style={styles.itemText}>{item.position}</Text>
+        <Text style={styles.itemText}>{`${item.position[0]},${item.position[1]}`}</Text>
         <Text style={styles.itemText}>{item.date}</Text>
       </View>
       <View style={styles.listBtn}>
+        {image &&
         <TouchableHighlight
-          onPress={() => console.log('TODO')}
+          onPress={() => onPress(item.title)}
           underlayColor="transparent"
           activeOpacity={0.8}
         >
           <Image style={Theme.icon} source={image} />
         </TouchableHighlight>
+        }
       </View>
     </View>
   ));
 }
 
 class Reports extends Component {
-  constructor() {
-    super();
 
-    this.state = {};
-  }
-
-  getCompleted() {
+  getCompleted(completed) { // eslint-disable-line
     return (
       <View style={styles.listContainer}>
         <View style={styles.listHeader}>
           <Text style={styles.listTitle}>{I18n.t('report.completed')}</Text>
           <Text style={[styles.listTitle, styles.listAction]}>{I18n.t('report.uploadAll').toUpperCase()}</Text>
         </View>
-        {getItems(this.props.completed, uploadIcon)}
+        {getItems(completed)}
       </View>
     );
   }
 
-  getDrafts() {
+  getDrafts(drafts) { // eslint-disable-line
+    const onActionPress = (reportName) => {
+      this.props.navigation.navigate('NewReport', { form: reportName });
+    };
     return (
       <View style={styles.listContainer}>
         <View style={styles.listHeader}>
           <Text style={styles.listTitle}>{I18n.t('report.drafts')}</Text>
         </View>
-        {getItems(this.props.completed, editIcon)}
+        {getItems(drafts, editIcon, onActionPress)}
       </View>
     );
   }
 
-  getUploaded() {
+  getUploaded(uploaded) { // eslint-disable-line
     return (
       <View style={styles.listContainer}>
         <View style={styles.listHeader}>
           <Text style={styles.listTitle}>{I18n.t('report.uploaded')}</Text>
         </View>
-        {getItems(this.props.completed, checkIcon)}
+        {getItems(uploaded, checkIcon)}
       </View>
     );
   }
 
   render() {
-    const { completed, drafts, uploaded } = this.props;
+    const { complete, draft, uploaded } = this.props.reports;
     return (
       <ScrollView
         style={styles.container}
@@ -92,14 +91,14 @@ class Reports extends Component {
         showsHorizontalScrollIndicator={false}
       >
         <View style={styles.container}>
-          {completed && completed.length > 0 &&
-            this.getCompleted()
+          {complete && complete.length > 0 &&
+            this.getCompleted(complete)
           }
-          {drafts && drafts.length > 0 &&
-            this.getDrafts()
+          {draft && draft.length > 0 &&
+            this.getDrafts(draft)
           }
           {uploaded && uploaded.length > 0 &&
-            this.getUploaded()
+            this.getUploaded(uploaded)
           }
         </View>
       </ScrollView>
@@ -108,9 +107,12 @@ class Reports extends Component {
 }
 
 Reports.propTypes = {
-  drafts: React.PropTypes.array,
-  uploaded: React.PropTypes.array,
-  completed: React.PropTypes.array
+  navigation: React.PropTypes.object.isRequired,
+  reports: React.PropTypes.shape({
+    draft: React.PropTypes.array,
+    uploaded: React.PropTypes.array,
+    complete: React.PropTypes.array
+  }).isRequired
 };
 
 Reports.navigationOptions = {

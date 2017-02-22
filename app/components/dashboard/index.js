@@ -42,7 +42,7 @@ class Dashboard extends Component {
   onItemTap(item) {
     if (item.section && item.section.length > 0) {
       if (item.section === 'NewReport') {
-        const form = `newReport-${Math.floor(Math.random() * 1000)}`;
+        const form = `New-report-${Math.floor(Math.random() * 1000)}`;
         this.props.createReport(form);
         this.props.navigate(item.section, { form });
       } else {
