@@ -71,17 +71,31 @@ class Login extends Component {
     });
   }
 
-  onPressCountry(country) {
+  async onPressCountry(country) {
+    let tokenCountry = null;
     switch (country) {
       case 'brazil':
-        console.log('Brazil');
+        tokenCountry = Constant.countryLoginTokens.brazilToken;
         break;
       case 'colombia':
-        console.log('Colombia');
+        tokenCountry = Constant.countryLoginTokens.colombiaToken;
         break;
       case 'indonesia':
-        console.log('Indonesia');
+        tokenCountry = Constant.countryLoginTokens.indonesiaToken;
         break;
+      default:
+        tokenCountry = null;
+    }
+
+    if (tokenCountry) {
+      const saved = await setToken(tokenCountry);
+      if (saved) {
+        this.props.setLoginStatus({
+          loggedIn: true,
+          token: tokenCountry
+        });
+      }
+      this.props.setLoginModal(false);
     }
   }
 
