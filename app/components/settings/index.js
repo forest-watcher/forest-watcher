@@ -11,6 +11,7 @@ import {
 import LeftBtn from 'components/common/header/left-btn';
 import Theme from 'config/theme';
 import I18n from 'locales';
+import headerStyles from 'components/common/header/styles';
 import styles from './styles';
 
 const nextIcon = require('assets/next.png');
@@ -159,18 +160,8 @@ Settings.navigationOptions = {
   header: ({ goBack }) => ({
     left: <LeftBtn goBack={goBack} />,
     tintColor: Theme.colors.color1,
-    style: {
-      paddingLeft: 8,
-      paddingRight: 8,
-      backgroundColor: Theme.background.main
-    },
-    titleStyle: {
-      textAlign: 'left',
-      fontFamily: Theme.font,
-      fontSize: 21,
-      fontWeight: '400',
-      height: 28
-    },
+    style: headerStyles.style,
+    titleStyle: headerStyles.titleStyle,
     title: I18n.t('settings.title')
   })
 };

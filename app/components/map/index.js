@@ -118,7 +118,7 @@ class Map extends Component {
   componentWillUnmount() {
     StatusBar.setBarStyle('default');
 
-    if (Platform.os === 'ios') {
+    if (Platform.OS === 'ios') {
       Location.stopUpdatingLocation();
       Location.stopUpdatingHeading();
     } else {
@@ -151,7 +151,7 @@ class Map extends Component {
   }
 
   startHeading() {
-    if (Platform.os === 'ios') {
+    if (Platform.OS === 'ios') {
       Location.startUpdatingLocation();
       Location.startUpdatingHeading();
       Location.setDesiredAccuracy(1);
@@ -169,7 +169,7 @@ class Map extends Component {
   }
 
   startNavigation() {
-    if (Platform.os === 'ios') {
+    if (Platform.OS === 'ios') {
       DeviceEventEmitter.addListener(
         'locationUpdated',
         (position) => {

@@ -1,3 +1,6 @@
+import { Platform } from 'react-native';
+import RNFetchBlob from 'react-native-fetch-blob';
+
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
 if (typeof btoa === 'undefined') {
@@ -12,32 +15,26 @@ if (typeof atob === 'undefined') {
   };
 }
 
-import RNFetchBlob from 'react-native-fetch-blob';
-
 export async function storeImage(url) {
+  const cleanedUrl = url.replace('file://', '');
   const parentDirectory = RNFetchBlob.fs.dirs;
-  const imagesDir = `${parentDirectory.DocumentDir}/images/`;
-  const newPath = `${parentDirectory.DocumentDir}/images/${url.split('/').pop()}`;
+  const imagesDirectory = `${parentDirectory.DocumentDir}/images`;
+  const newPath = `${imagesDirectory}/${cleanedUrl.split('/').pop()}`;
 
   try {
-    await RNFetchBlob.fs.isDir(imagesDir)
-    .then(async (isDir) => {
-      if (!isDir) {
-        RNFetchBlob.fs.mkdir(imagesDir)
-        .catch(() => {
-          // To-do error
-        });
-      }
-    });
+    const isDir = await RNFetchBlob.fs.isDir(imagesDirectory);
 
-    await RNFetchBlob.fs.mv(url, newPath)
-      .catch((error) => {
-        // To-do error
-      });
+    if (!isDir) {
+      await RNFetchBlob.fs.mkdir(imagesDirectory);
+    }
+
+    await RNFetchBlob.fs.mv(cleanedUrl, newPath)
+      .catch((error) => error);
 
     return newPath;
   } catch (error) {
     // To-do error
+    return error;
   }
 }
 
@@ -66,6 +63,16 @@ export async function getCachedImageByUrl(url, imageDir) {
 
     return filePath;
   } catch (error) {
-    // To-do
+    return error;
   }
+}
+
+export function parseImagePath(url) {
+  let parsedUrl = url;
+
+  if (Platform.OS === 'android') {
+    parsedUrl = `file://${parsedUrl}`;
+  }
+
+  return parsedUrl;
 }

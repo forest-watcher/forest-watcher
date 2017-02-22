@@ -42,7 +42,7 @@ export default StyleSheet.create({
     bottom: 50,
     left: 8,
     right: 8,
-    borderRadius: 100,
+    borderRadius: 32,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Theme.colors.color1

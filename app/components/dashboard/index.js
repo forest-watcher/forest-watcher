@@ -30,15 +30,15 @@ const sections = [
     image: ''
   },
   {
-    title: I18n.t('dashboard.uploadData'),
-    section: '',
+    title: I18n.t('dashboard.myReports'),
+    section: 'Reports',
     image: ''
   }
 ];
 
 class Dashboard extends Component {
   componentDidMount() {
-    if (Platform.os === 'ios') {
+    if (Platform.OS === 'ios') {
       Location.requestAlwaysAuthorization();
     }
   }
