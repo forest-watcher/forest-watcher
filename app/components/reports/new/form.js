@@ -59,7 +59,9 @@ class ReportsForm extends Component {
   }
 
   componentWillMount() {
-    this.props.getQuestions();
+    if (this.props.questions && !this.props.questions.length) {
+      this.props.getQuestions();
+    }
   }
 
   handleBack = () => {
@@ -93,7 +95,9 @@ class ReportsForm extends Component {
         }
       }
     } else {
-      this.props.finishReport(this.props.answers);
+      const { state } = this.props.navigation;
+      const form = state && state.params && state.params.form;
+      this.props.finishReport(form);
       this.props.navigation.goBack();
     }
   }

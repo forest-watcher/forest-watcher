@@ -8,6 +8,8 @@ import { withNavigation } from 'react-navigation';
 import I18n from 'locales';
 import Theme from 'config/theme';
 
+import CONSTANTS from 'config/constants';
+
 const saveReportIconWhite = require('assets/save_for_later_white.png');
 const saveReportIcon = require('assets/save_for_later.png');
 
@@ -24,7 +26,11 @@ function RightBtn(props) {
         {
           text: 'OK',
           onPress: () => {
-            props.saveReport(props.report);
+            const { state } = props.navigation;
+            const form = state && state.params && state.params.form;
+            props.saveReport(form, {
+              status: CONSTANTS.status.draft
+            });
             props.navigation.goBack();
           }
         }
@@ -45,7 +51,6 @@ function RightBtn(props) {
 
 RightBtn.propTypes = {
   light: React.PropTypes.bool,
-  report: React.PropTypes.string.isRequired,
   saveReport: React.PropTypes.func.isRequired
 };
 

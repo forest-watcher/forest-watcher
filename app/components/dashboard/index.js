@@ -41,7 +41,13 @@ const sections = [
 class Dashboard extends Component {
   onItemTap(item) {
     if (item.section && item.section.length > 0) {
-      this.props.navigate(item.section);
+      if (item.section === 'NewReport') {
+        const form = `newReport-${Math.floor(Math.random() * 1000)}`;
+        this.props.createReport(form);
+        this.props.navigate(item.section, { form });
+      } else {
+        this.props.navigate(item.section);
+      }
     }
   }
 
@@ -85,7 +91,8 @@ class Dashboard extends Component {
 }
 
 Dashboard.propTypes = {
-  navigate: React.PropTypes.func.isRequired
+  navigate: React.PropTypes.func.isRequired,
+  createReport: React.PropTypes.func.isRequired
 };
 
 Dashboard.navigationOptions = {

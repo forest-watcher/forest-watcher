@@ -3,19 +3,16 @@ import RNFetchBlob from 'react-native-fetch-blob';
 
 import CONSTANTS from 'config/constants';
 
-const defaultReport = CONSTANTS.reports.default;
-
 // Actions
 const GET_QUESTIONS = 'report/GET_QUESTIONS';
-const SET_REPORT_STATUS = 'report/SET_REPORT_STATUS';
+const CREATE_REPORT = 'report/CREATE_REPORT';
+const UPDATE_REPORT = 'report/UPDATE_REPORT';
 
 
 // Reducer
 const initialNavState = {
   forms: {},
-  answers: {
-    idForm: 'idAlert'
-  }
+  list: {}
 };
 
 export default function reducer(state = initialNavState, action) {
@@ -23,8 +20,14 @@ export default function reducer(state = initialNavState, action) {
     case GET_QUESTIONS: {
       return Object.assign({}, state, { forms: action.payload });
     }
-    case SET_REPORT_STATUS: {
-      return Object.assign({}, state, { answers: action.payload });
+    case CREATE_REPORT: {
+      const reports = { ...state.list, ...action.payload };
+      return Object.assign({}, state, { list: reports });
+    }
+    case UPDATE_REPORT: {
+      const list = Object.assign({}, state.list);
+      list[action.payload.name] = Object.assign({}, state.list[action.payload.name], action.payload.data);
+      return Object.assign({}, state, { list });
     }
     default: {
       return state;
@@ -63,27 +66,37 @@ export function getQuestions() {
   };
 }
 
-export function saveReport(reportName) {
-  const reportStatus = {};
-  reportStatus[reportName] = {
-    status: CONSTANTS.status.draft
-  };
+export function createReport(name, position) {
   return {
-    type: SET_REPORT_STATUS,
-    payload: reportStatus
+    type: CREATE_REPORT,
+    payload: {
+      [name]: {
+        index: 0,
+        position: position || [0, 0],
+        status: CONSTANTS.status.draft,
+        date: new Date().toISOString()
+      }
+    }
   };
 }
 
-export function finishReport(report) {
+export function saveReport(name, data) {
+  return {
+    type: UPDATE_REPORT,
+    payload: { name, data }
+  };
+}
+
+export function finishReport(reportName) {
   return (dispatch, state) => {
-    const reportStatus = {};
-    reportStatus[defaultReport] = { // GET THE REPORT FROM PARAMS
-      status: CONSTANTS.status.complete
-    };
     dispatch({
-      type: SET_REPORT_STATUS,
-      payload: reportStatus
+      type: UPDATE_REPORT,
+      payload: {
+        name: reportName,
+        data: { status: CONSTANTS.status.complete }
+      }
     });
+    const report = state().form[reportName].values;
     const form = new FormData();
     const promises = [];
     const keys = [];
@@ -105,39 +118,14 @@ export function finishReport(report) {
     const user = state().user;
     const userName = (user && user.data && user.data.attributes && user.data.attributes.fullName) || 'Guest user';
     const oganization = (user && user.data && user.data.attributes && user.data.attributes.organization) || 'Vizzuality';
-    const date = new Date().toISOString();
-    // TODO GET REAL DATA
-    const position = 'lat/lng';
+    const reportStatus = state().reports.list[reportName];
 
     form.append('name', userName);
     form.append('organization', oganization);
-    form.append('date', date);
-    form.append('position', position);
+    form.append('date', reportStatus && reportStatus.date);
+    form.append('position', reportStatus && reportStatus.position);
 
     const url = `${Config.API_URL}/questionnaire/${Config.QUESTIONNARIE_ID}/answer`;
-
-    // const xhr = new XMLHttpRequest();
-    // xhr.withCredentials = true;
-    // xhr.open('POST', url);
-    // xhr.setRequestHeader('authorization', `Bearer ${state().user.token}`);
-
-    // xhr.addEventListener('readystatechange', () => {
-    //   if (xhr.readyState === 4) {
-    //     if (xhr.status === 200) {
-    //       reportStatus[defaultReport].status = CONSTANTS.status.uploaded;
-    //       console.log('iuuuuhuuuuuu', xhr.responseText);
-    //       dispatch({
-    //         type: SET_REPORT_STATUS,
-    //         payload: reportStatus
-    //       });
-    //     } else {
-    //       console.log('TODO: handle error', xhr.responseText);
-    //     }
-    //   }
-    // });
-    // xhr.send(form);
-
-    // FETCH not working
     const fetchConfig = {
       headers: {
         Authorization: `Bearer ${state().user.token}`
@@ -152,10 +140,12 @@ export function finishReport(report) {
       })
       .then((data) => {
         console.log(data, 'form data response');
-        reportStatus[defaultReport].status = CONSTANTS.status.uploaded;
         dispatch({
-          type: SET_REPORT_STATUS,
-          payload: reportStatus
+          type: UPDATE_REPORT,
+          payload: {
+            name: reportName,
+            data: { status: CONSTANTS.status.uploaded }
+          }
         });
       })
       .catch((err) => {

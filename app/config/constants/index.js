@@ -33,9 +33,6 @@ export default {
       fr: 'name_frenc'
     }
   },
-  reports: {
-    default: 'defaultReport'
-  },
   status: {
     draft: 'draft',
     complete: 'complete',

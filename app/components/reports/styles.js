@@ -7,6 +7,10 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.main,
     position: 'relative'
   },
+  containerCenter: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   containerFloat: {
     paddingTop: 80
   },
