@@ -31,20 +31,16 @@ export default StyleSheet.create({
       }
     })
   },
-  backButton: {
-    left: 8,
-    position: 'absolute',
-    ...Platform.select({
-      ios: {
-        top: 28
-      },
-      android: {
-        top: 10
-      }
-    })
+  style: {
+    paddingLeft: 8,
+    paddingRight: 8,
+    backgroundColor: Theme.background.main
   },
-  backButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16
+  titleStyle: {
+    textAlign: 'left',
+    fontFamily: Theme.font,
+    fontSize: 21,
+    fontWeight: '400',
+    height: 28
   }
 });
