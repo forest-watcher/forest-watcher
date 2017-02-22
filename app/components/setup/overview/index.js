@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import {
   View,
   Text,
@@ -73,6 +74,7 @@ class SetupOverview extends Component {
               onPress={() => this.input.focus()}
             />
           </View>
+          <KeyboardSpacer />
         </View>
         <ScrollView style={styles.scrollContainButton}>
           <ActionButton
