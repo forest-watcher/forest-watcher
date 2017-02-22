@@ -29,7 +29,8 @@ export default StyleSheet.create({
   listAction: {
     fontSize: 15,
     fontWeight: '500',
-    color: Theme.fontColors.main
+    color: Theme.fontColors.main,
+    opacity: 0 // TODO: show it once the features are ready
   },
   listItem: {
     flex: 1,
