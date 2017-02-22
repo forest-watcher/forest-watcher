@@ -126,30 +126,53 @@ export function finishReport(reportName) {
     form.append('position', reportStatus && reportStatus.position);
 
     const url = `${Config.API_URL}/questionnaire/${Config.QUESTIONNARIE_ID}/answer`;
-    const fetchConfig = {
-      headers: {
-        Authorization: `Bearer ${state().user.token}`
-      },
-      method: 'POST',
-      body: form
-    };
-    fetch(url, fetchConfig)
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw Error(response);
-      })
-      .then((data) => {
-        console.log(data, 'form data response');
-        dispatch({
-          type: UPDATE_REPORT,
-          payload: {
-            name: reportName,
-            data: { status: CONSTANTS.status.uploaded }
-          }
-        });
-      })
-      .catch((err) => {
-        console.log('TODO: handle error', err);
-      });
+    const xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    xhr.open('POST', url);
+    xhr.setRequestHeader('authorization', `Bearer ${state().user.token}`);
+
+    xhr.addEventListener('readystatechange', () => {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          dispatch({
+            type: UPDATE_REPORT,
+            payload: {
+              name: reportName,
+              data: { status: CONSTANTS.status.uploaded }
+            }
+          });
+        } else {
+          console.log('TODO: handle error', xhr.responseText);
+        }
+      }
+    });
+
+    xhr.send(form);
+
+    // const fetchConfig = {
+    //   headers: {
+    //     Authorization: `Bearer ${state().user.token}`
+    //   },
+    //   method: 'POST',
+    //   body: form
+    // };
+    // fetch(url, fetchConfig)
+    //   .then((response) => {
+    //     if (response.ok) return response.json();
+    //     throw Error(response);
+    //   })
+    //   .then((data) => {
+    //     console.log(data, 'form data response');
+    //     dispatch({
+    //       type: UPDATE_REPORT,
+    //       payload: {
+    //         name: reportName,
+    //         data: { status: CONSTANTS.status.uploaded }
+    //       }
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     console.log('TODO: handle error', err);
+    //   });
   };
 }
