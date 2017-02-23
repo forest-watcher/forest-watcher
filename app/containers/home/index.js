@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { setLoginModal, setLoginStatus, checkLogged } from 'redux-modules/user';
+import { getUser, setLoginModal, setLoginStatus, checkLogged } from 'redux-modules/user';
 import { NavigationActions } from 'react-navigation';
 import Home from 'components/home';
 
@@ -11,6 +11,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch, { navigation }) {
   return {
+    getUser: () => {
+      dispatch(getUser());
+    },
     navigateReset: (routeName) => {
       const action = NavigationActions.reset({
         index: 0,

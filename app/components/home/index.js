@@ -33,6 +33,10 @@ class Home extends Component {
       token: userToken
     });
 
+    if (userToken && !this.props.user) {
+      this.props.getUser();
+    }
+
     this.props.navigateReset(setupStatus ? 'Dashboard' : 'Setup');
   }
 
@@ -60,6 +64,7 @@ class Home extends Component {
 }
 
 Home.propTypes = {
+  getUser: React.PropTypes.func.isRequired,
   setLoginModal: React.PropTypes.func.isRequired,
   setLoginStatus: React.PropTypes.func.isRequired
 };
