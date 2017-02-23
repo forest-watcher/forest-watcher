@@ -25,7 +25,7 @@ function getItems(data, image, onPress) {
     >
       <View style={styles.listItemContent}>
         <Text style={styles.itemTitle}>{item.title}</Text>
-        <Text style={styles.itemText}>{`${item.position[0]},${item.position[1]}`}</Text>
+        <Text style={styles.itemText}>{item.position}</Text>
         <Text style={styles.itemText}>{item.date}</Text>
       </View>
       <View style={styles.listBtn}>

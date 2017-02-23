@@ -24,6 +24,13 @@ function ActionButton(props) {
     props.disabled ? styles.disabled : '',
     props.style
   ];
+
+  const textStyles = [
+    styles.buttonText,
+    props.light ? styles.buttonTextLight : '',
+    props.disabled ? styles.buttonTextDisabled : ''
+  ];
+
   let underlayColor = Theme.background.secondary;
   if (props.light) underlayColor = Theme.background.white;
   if (props.disabled) underlayColor = Theme.colors.color6;
@@ -35,8 +42,10 @@ function ActionButton(props) {
       underlayColor={underlayColor}
     >
       <View style={[styles.button, props.light ? styles.buttonLight : '']}>
-        <Text style={[styles.buttonText, props.light ? styles.buttonTextLight : '']}>{props.text}</Text>
-        <Image style={Theme.icon} source={props.light ? nextIcon : nextIconWhite} />
+        <Text style={textStyles}>{props.text}</Text>
+        {!props.disabled &&
+          <Image style={Theme.icon} source={props.light ? nextIcon : nextIconWhite} />
+        }
       </View>
     </TouchableHighlight>
   );

@@ -8,6 +8,7 @@ import {
 import LeftBtn from 'components/common/header/left-btn';
 import AlertsList from 'containers/alerts/list';
 import Theme from 'config/theme';
+import headerStyles from 'components/common/header/styles';
 import styles from './styles';
 
 
@@ -65,18 +66,8 @@ Alerts.navigationOptions = {
   header: ({ goBack }) => ({
     left: <LeftBtn goBack={goBack} />,
     tintColor: Theme.colors.color1,
-    style: {
-      paddingLeft: 8,
-      paddingRight: 8,
-      backgroundColor: Theme.background.main
-    },
-    titleStyle: {
-      textAlign: 'left',
-      fontFamily: Theme.font,
-      fontSize: 21,
-      fontWeight: '400',
-      height: 28
-    },
+    style: headerStyles.style,
+    titleStyle: headerStyles.titleStyle,
     title: 'Alerts'
   })
 };

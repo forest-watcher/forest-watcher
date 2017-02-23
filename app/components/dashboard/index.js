@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import Theme from 'config/theme';
 import I18n from 'locales';
+import headerStyles from 'components/common/header/styles';
 import styles from './styles';
 
 const { RNLocation: Location } = require('NativeModules');
@@ -101,8 +102,10 @@ Dashboard.propTypes = {
 
 Dashboard.navigationOptions = {
   header: {
-    title: I18n.t('commonText.appName').toUpperCase(),
-    tintColor: Theme.colors.color1
+    tintColor: Theme.colors.color1,
+    style: headerStyles.style,
+    titleStyle: [headerStyles.titleStyle, headerStyles.center, headerStyles.large],
+    title: I18n.t('commonText.appName').toUpperCase()
   }
 };
 

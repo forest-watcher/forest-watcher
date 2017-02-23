@@ -34,13 +34,21 @@ export default StyleSheet.create({
   style: {
     paddingLeft: 8,
     paddingRight: 8,
-    backgroundColor: Theme.background.main
+    backgroundColor: Theme.background.main,
+    shadowRadius: 0,
+    shadowColor: 'transparent',
+    elevation: 0,
+    shadowOpacity: 0
   },
   titleStyle: {
     textAlign: 'left',
     fontFamily: Theme.font,
     fontSize: 21,
     fontWeight: '400',
-    height: 28
+    height: 28,
+    backgroundColor: 'transparent'
+  },
+  center: {
+    textAlign: 'center'
   }
 });

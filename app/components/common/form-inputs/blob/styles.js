@@ -12,6 +12,17 @@ export default StyleSheet.create({
     height: Theme.screen.height,
     width: Theme.screen.width
   },
+  captureLabel: {
+    position: 'absolute',
+    top: 45,
+    left: 8,
+    right: 8,
+    fontSize: 21,
+    fontWeight: '400',
+    fontFamily: Theme.font,
+    textAlign: 'center',
+    color: Theme.fontColors.white
+  },
   captureBtn: {
     width: 64,
     height: 64,
@@ -22,11 +33,9 @@ export default StyleSheet.create({
     marginBottom: 52
   },
   preview: {
-    marginTop: 16,
+    marginTop: 8,
     marginLeft: 56,
-    marginRight: 56,
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end'
+    marginRight: 56
   },
   previewImage: {
     height: 416,

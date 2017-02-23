@@ -3,15 +3,14 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    marginTop: 32,
+    marginTop: 8,
     height: 48,
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     flexDirection: 'row',
-    alignItems: 'center',
-    zIndex: 1
+    alignItems: 'center'
   },
   title: {
     flex: 1,

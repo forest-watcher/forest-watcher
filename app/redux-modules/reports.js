@@ -1,6 +1,6 @@
 import Config from 'react-native-config';
-
 import CONSTANTS from 'config/constants';
+import { getLanguage } from 'helpers/language';
 
 // Actions
 const GET_QUESTIONS = 'report/GET_QUESTIONS';
@@ -37,7 +37,9 @@ export default function reducer(state = initialNavState, action) {
 // Action Creators
 export function getQuestions() {
   return (dispatch, state) => {
-    const url = `${Config.API_URL}/questionnaire/${Config.QUESTIONNARIE_ID}`;
+    const language = getLanguage().toUpperCase();
+    const qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
+    const url = `${Config.API_URL}/questionnaire/${qIdByLanguage}`;
     const fetchConfig = {
       headers: {
         'content-type': 'application/json',
@@ -71,7 +73,7 @@ export function createReport(name, position) {
     payload: {
       [name]: {
         index: 0,
-        position: position || [0, 0],
+        position: position || '0, 0',
         status: CONSTANTS.status.draft,
         date: new Date().toISOString()
       }

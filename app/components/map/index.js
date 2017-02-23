@@ -8,11 +8,14 @@ import {
   StatusBar,
   Image,
   Text,
-  Platform
+  Platform,
+  TouchableHighlight
 } from 'react-native';
 import MapView from 'react-native-maps';
 import GeoPoint from 'geopoint';
+import i18n from 'locales';
 
+import ActionBtn from 'components/common/action-button';
 import Config from 'react-native-config';
 import Theme from 'config/theme';
 import styles from './styles';
@@ -32,6 +35,7 @@ const alertGladImage = require('assets/alert-glad.png');
 const alertGladWhiteImage = require('assets/alert-glad-white.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
+const backIconWhite = require('assets/previous_white.png');
 
 const fakeAlerts = [
   {
@@ -231,15 +235,34 @@ class Map extends Component {
   // )
   // }
 
-  renderDistance() {
-    let distance = 'Not Available';
+  renderFooter() {
+    let distanceText = 'Not Available';
+    let distance = 999999;
+    const latLng = [this.state.lastPosition.latitude, this.state.lastPosition.longitude];
 
     if (this.state.lastPosition) {
       const geoPoint = new GeoPoint(this.state.alertSelected.latitude, this.state.alertSelected.longitude);
-      const currentPoint = new GeoPoint(this.state.lastPosition.latitude, this.state.lastPosition.longitude);
-      distance = `${parseFloat(currentPoint.distanceTo(geoPoint, true)).toFixed(4)}km away`; // in Kilometers
+      const currentPoint = new GeoPoint(latLng[0], latLng[1]);
+      distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);
+      distanceText = `${distance} km away`; // in Kilometers
     }
 
+    const createReport = () => {
+      const form = `New-report-${Math.floor(Math.random() * 1000)}`;
+      this.props.createReport(form, `${latLng[0]},${latLng[1]}`);
+      this.props.navigation.navigate('NewReport', { form });
+    };
+
+    let reportBtn = null;
+    if (distance <= 1) {
+      reportBtn = (
+        <ActionBtn
+          style={styles.footerButton}
+          text={i18n.t('report.title')}
+          onPress={() => createReport()}
+        />
+      );
+    }
     return (
       <View style={styles.footer}>
         <Image
@@ -247,8 +270,9 @@ class Map extends Component {
           source={backgroundImage}
         />
         <Text style={styles.footerTitle}>
-          {distance}
+          {distanceText}
         </Text>
+        {reportBtn}
       </View>
     );
   }
@@ -262,17 +286,23 @@ class Map extends Component {
         <View style={styles.container}>
           <View
             style={styles.header}
-            pointerEvents={'none'}
+            pointerEvents={'box-none'}
           >
             <Image
               style={styles.headerBg}
               source={backgroundImage}
             />
-            <Text
-              style={styles.headerTitle}
-            >
+            <Text style={styles.headerTitle}>
               {params.title}
             </Text>
+            <TouchableHighlight
+              style={styles.headerBtn}
+              onPress={() => this.props.navigation.goBack()}
+              underlayColor="transparent"
+              activeOpacity={0.8}
+            >
+              <Image style={Theme.icon} source={backIconWhite} />
+            </TouchableHighlight>
           </View>
           <MapView
             ref={(ref) => { this.map = ref; }}
@@ -331,7 +361,7 @@ class Map extends Component {
             }
           </MapView>
           {this.state.alertSelected
-            ? this.renderDistance()
+            ? this.renderFooter()
             : null
           }
         </View>
@@ -342,7 +372,8 @@ class Map extends Component {
 }
 
 Map.propTypes = {
-  navigation: React.PropTypes.object.isRequired
+  navigation: React.PropTypes.object.isRequired,
+  createReport: React.PropTypes.func.isRequired
 };
 
 Map.navigationOptions = {
