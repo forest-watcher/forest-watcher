@@ -52,7 +52,7 @@ class AlertsList extends Component {
         this.setState({ curentPosition: position });
       },
       (error) => console.log(JSON.stringify(error)),
-      { enableHighAccuracy: true, timeout: 1000, maximumAge: 50 }
+      { enableHighAccuracy: true, timeout: 60000, maximumAge: 50 }
     );
   }
 
