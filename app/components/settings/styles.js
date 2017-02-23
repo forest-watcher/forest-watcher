@@ -41,7 +41,7 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   name: {
-    height: 19,
+    height: 22,
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
     fontSize: 17,
@@ -56,6 +56,7 @@ export default StyleSheet.create({
     fontStyle: 'italic'
   },
   logout: {
+    opacity: 0, // TODO: show on feature ready
     height: 24,
     fontFamily: Theme.font,
     color: Theme.fontColors.main,
