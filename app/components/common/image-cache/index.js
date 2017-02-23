@@ -32,7 +32,6 @@ class ImageCache extends Component {
 
     if (source.uri) {
       const url = await getCachedImageByUrl(source.uri, CONSTANTS.files.images.alerts);
-
       if (url) {
         this.setState({ url });
       }
@@ -85,7 +84,6 @@ class ImageCache extends Component {
           <Animated.Image
             source={{ uri: this.state.url }}
             style={[styles.image, this.props.style, { opacity: this.state.opacity }]}
-            onLoadStart={() => this.setState({ loading: true })}
             onError={(e) => this.setState({ error: e.nativeEvent.error, loading: false })}
             onLoad={() => this.showImage()}
           />

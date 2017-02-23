@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   View,
-  TouchableHighlight,
   ScrollView,
   Text
 } from 'react-native';

@@ -64,14 +64,17 @@ export async function getCachedImageByUrl(url, imageDir) {
     const exists = await RNFetchBlob.fs.exists(filePath);
 
     if (!exists) {
-      await RNFetchBlob
-        .config({
-          path: filePath
-        })
-        .fetch('GET', parsedUrl);
+      try {
+        const image = await RNFetchBlob
+          .config({ path: filePath })
+          .fetch('GET', parsedUrl);
+        return parseImagePath(image.path());
+      } catch (error) {
+        return error;
+      }
+    } else {
+      return parseImagePath(filePath);
     }
-
-    return parseImagePath(filePath);
   } catch (error) {
     return error;
   }
