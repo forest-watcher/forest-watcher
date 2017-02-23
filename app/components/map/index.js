@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import MapView from 'react-native-maps';
 import Theme from 'config/theme';
+import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 const { width, height } = Dimensions.get('window');
@@ -38,6 +39,7 @@ class Map extends Component {
   }
 
   componentDidMount() {
+    tracker.trackScreenView('Map');
     InteractionManager.runAfterInteractions(() => {
       if (!this.state.renderMap) {
         this.setState({

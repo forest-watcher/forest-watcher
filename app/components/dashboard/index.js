@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import Theme from 'config/theme';
 import I18n from 'locales';
+import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 const sections = [
@@ -49,6 +50,10 @@ class Dashboard extends Component {
         this.props.navigate(item.section);
       }
     }
+  }
+
+  componentDidMount() {
+    tracker.trackScreenView('DashBoard');
   }
 
   render() {

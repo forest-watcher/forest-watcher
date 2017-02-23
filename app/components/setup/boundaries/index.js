@@ -12,6 +12,7 @@ import ProtectedAreas from 'components/setup/protected-areas';
 import DrawAreas from 'components/setup/draw-areas';
 import Theme from 'config/theme';
 import I18n from 'locales';
+import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 const protectedAreaImage = require('assets/select_pa.png');
@@ -32,6 +33,10 @@ class SetupBoundaries extends Component {
     };
   }
 
+  componentDidMount() {
+    tracker.trackScreenView('Boundaries');
+  }
+
   onAreaSelected = (area, snapshot) => {
     this.props.setSetupArea(area, snapshot);
     this.setProtectedAreasStatus(false);
@@ -45,9 +50,11 @@ class SetupBoundaries extends Component {
   }
 
   setProtectedAreasStatus(status) {
+    tracker.trackEvent('Set-up', 'Choose area type', { label: 'Protected Area', value: '' });
     this.setState({ showProtectedAreas: status });
   }
   setDrawAreasStatus(status) {
+    tracker.trackEvent('Set-up', 'Choose area type', { label: 'Custom Area', value: '' });
     this.setState({ showDrawAreas: status });
   }
 

@@ -11,6 +11,7 @@ import {
 import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
 import I18n from 'locales';
+import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 const editImage = require('assets/edit.png');
@@ -21,6 +22,10 @@ class SetupOverview extends Component {
     this.state = {
       name: this.props.area.wdpaName || ''
     };
+  }
+
+  componentDidMount() {
+    tracker.trackScreenView('Overview Set Up');
   }
 
   componentWillReceiveProps(newProps) {

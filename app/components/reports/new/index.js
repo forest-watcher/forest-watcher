@@ -15,6 +15,10 @@ class Reports extends Component {
     }
   };
 
+  componentDidMount() {
+    tracker.trackScreenView('Reports');
+  }
+
   render() {
     const { state } = this.props.navigation;
     const form = state && state.params && state.params.form;

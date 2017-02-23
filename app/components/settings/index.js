@@ -12,6 +12,8 @@ import LeftBtn from 'components/common/header/left-btn';
 import Theme from 'config/theme';
 import I18n from 'locales';
 import headerStyles from 'components/common/header/styles';
+import tracker from 'helpers/googleAnalytics';
+
 import styles from './styles';
 
 const nextIcon = require('assets/next.png');
@@ -39,6 +41,7 @@ class Settings extends Component {
   componentDidMount() {
     // cache disabled for now
     // if (!this.props.areas || !this.props.areas.length > 0) {
+    tracker.trackScreenView('Set Up');
     this.props.getAreas();
     // }
   }

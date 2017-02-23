@@ -6,6 +6,7 @@ import {
 
 import { getToken, getSetupStatus } from 'helpers/user';
 import Theme from 'config/theme';
+import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 class Home extends Component {
@@ -16,6 +17,7 @@ class Home extends Component {
 
   componentDidMount() {
     this.checkBeforeRender();
+    tracker.trackScreenView('Home');
   }
 
   componentWillReceiveProps(newProps) {

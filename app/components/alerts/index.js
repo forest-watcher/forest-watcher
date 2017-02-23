@@ -3,11 +3,13 @@ import {
   View
 } from 'react-native';
 import AlertsList from 'components/alerts/list';
+import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 class Alerts extends Component {
   componentDidMount() {
     this.props.fetchData();
+    tracker.trackScreenView('Alerts');
   }
   render() {
     return (

@@ -8,6 +8,7 @@ import SetupCountry from 'containers/setup/country';
 import SetupBoundaries from 'containers/setup/boundaries';
 import SetupOverView from 'containers/setup/overview';
 import I18n from 'locales';
+import tracker from 'helpers/googleAnalytics';
 import Header from './header';
 import styles from './styles';
 
@@ -21,6 +22,10 @@ class Setup extends Component {
 
   componentWillMount() {
     this.props.initSetup();
+  }
+
+  componentDidMount() {
+    tracker.trackScreenView('Set Up');
   }
 
   updatePage = (slide) => {
