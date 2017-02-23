@@ -18,6 +18,7 @@ import Theme from 'config/theme';
 import styles from './styles';
 
 const { RNLocation: Location } = require('NativeModules');
+import { SensorManager } from 'NativeModules';
 const ReactNativeHeading = require('react-native-heading');
 
 const { width, height } = Dimensions.get('window');
@@ -102,6 +103,10 @@ class Map extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
+      lastPosition: {
+        latitude: 40.434558,
+        longitude: -3.700439
+      },
       alerts: fakeAlerts,
       geo: ''
     };
@@ -158,8 +163,23 @@ class Map extends Component {
       Location.setDesiredAccuracy(1);
       Location.setDistanceFilter(1);
     } else {
-      const heading = await ReactNativeHeading.start(1);
-      this.setState({ geo: this.state.geo + ' HEADING ENABLED: ' + JSON.stringify(heading) });
+      // const heading = await ReactNativeHeading.start(1);
+      // this.setState({ geo: this.state.geo + ' HEADING ENABLED: ' + JSON.stringify(heading) });
+      SensorManager.startOrientation(100);
+      DeviceEventEmitter.addListener(
+        'Orientation',
+        (data) => {
+        /**
+        * data.azimuth
+        * data.pitch
+        * data.roll
+        **/
+          this.setState({
+            heading: Math.round(data.azimuth)
+          });
+        }
+      );
+      // SensorManager.stopOrientation();
     }
 
     DeviceEventEmitter.addListener(
@@ -269,9 +289,9 @@ class Map extends Component {
       this.state.renderMap
       ?
         <View style={styles.container}>
-          {this.state.geo.length > 0 &&
+          {this.state.heading &&
             <View style={{ zIndex: 100, width: 300, height: 300, backgroundColor: 'rgba(255, 255, 255, 0.6)' }}>
-              <Text>{this.state.geo}</Text>
+              <Text>{this.state.heading}</Text>
             </View>
           }
           <View
