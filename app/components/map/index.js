@@ -175,7 +175,7 @@ class Map extends Component {
         * data.roll
         **/
           this.setState({
-            heading: Math.round(data.azimuth)
+            heading: data.azimuth
           });
         }
       );
@@ -337,7 +337,7 @@ class Map extends Component {
                       width: 94,
                       height: 94,
                       transform: [
-                        { rotate: `${this.state.heading ? this.state.heading : '0'}deg` }
+                        { rotate: `${this.state.headingTest ? this.state.headingTest : '0'}deg` }
                       ]
                     }}
                     source={compassImage}
