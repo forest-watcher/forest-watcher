@@ -71,7 +71,7 @@ export function createReport(name, position) {
     payload: {
       [name]: {
         index: 0,
-        position: position || [0, 0],
+        position: position || '0, 0',
         status: CONSTANTS.status.draft,
         date: new Date().toISOString()
       }

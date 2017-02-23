@@ -262,21 +262,34 @@ class Map extends Component {
   // )
   // }
 
-  renderDistance() {
-    let distance = 'Not Available';
+  renderFooter() {
+    let distanceText = 'Not Available';
+    let distance = 999999;
+    const latLng = [this.state.lastPosition.latitude, this.state.lastPosition.longitude];
 
     if (this.state.lastPosition) {
       const geoPoint = new GeoPoint(this.state.alertSelected.latitude, this.state.alertSelected.longitude);
-      const currentPoint = new GeoPoint(this.state.lastPosition.latitude, this.state.lastPosition.longitude);
-      distance = `${parseFloat(currentPoint.distanceTo(geoPoint, true)).toFixed(4)}km away`; // in Kilometers
+      const currentPoint = new GeoPoint(latLng[0], latLng[1]);
+      distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);
+      distanceText = `${distance} km away`; // in Kilometers
     }
 
     const createReport = () => {
       const form = `New-report-${Math.floor(Math.random() * 1000)}`;
-      this.props.createReport(form);
+      this.props.createReport(form, `${latLng[0]},${latLng[1]}`);
       this.props.navigation.navigate('NewReport', { form });
     };
 
+    let reportBtn = null;
+    if (distance <= 1) {
+      reportBtn = (
+        <ActionBtn
+          style={styles.footerButton}
+          text={i18n.t('report.title')}
+          onPress={() => createReport()}
+        />
+      );
+    }
     return (
       <View style={styles.footer}>
         <Image
@@ -284,13 +297,9 @@ class Map extends Component {
           source={backgroundImage}
         />
         <Text style={styles.footerTitle}>
-          {distance}
+          {distanceText}
         </Text>
-        <ActionBtn
-          style={styles.footerButton}
-          text={i18n.t('report.title')}
-          onPress={() => createReport()}
-        />
+        {reportBtn}
       </View>
     );
   }
@@ -377,7 +386,7 @@ class Map extends Component {
             }
           </MapView>
           {this.state.alertSelected
-            ? this.renderDistance()
+            ? this.renderFooter()
             : null
           }
         </View>
