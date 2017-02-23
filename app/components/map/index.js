@@ -165,7 +165,7 @@ class Map extends Component {
     } else {
       // const heading = await ReactNativeHeading.start(1);
       // this.setState({ geo: this.state.geo + ' HEADING ENABLED: ' + JSON.stringify(heading) });
-      SensorManager.startOrientation(100);
+      SensorManager.startOrientation(1000);
       DeviceEventEmitter.addListener(
         'Orientation',
         (data) => {
@@ -175,7 +175,7 @@ class Map extends Component {
         * data.roll
         **/
           this.setState({
-            heading: data.azimuth
+            heading: parseInt(data.azimuth, 10)
           });
         }
       );
@@ -218,7 +218,7 @@ class Map extends Component {
           });
         },
         (error) => this.setState({ geo: this.state.geo + ' ERROR ' + JSON.stringify(error) }),
-        { enableHighAccuracy: true, timeout: 60000, maximumAge: 0 },
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 },
       );
 
       this.watchID = navigator.geolocation.watchPosition(
@@ -232,7 +232,7 @@ class Map extends Component {
           });
         },
         (error) => this.setState({ geo: this.state.geo + ' ERROR ' + JSON.stringify(error) }),
-        { enableHighAccuracy: true, timeout: 60000, maximumAge: 0, distanceFilter: 1 }
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 0, distanceFilter: 1 }
       );
     }
   }
@@ -337,7 +337,7 @@ class Map extends Component {
                       width: 94,
                       height: 94,
                       transform: [
-                        { rotate: `${this.state.headingTest ? this.state.headingTest : '0'}deg` }
+                        { rotate: `${this.state.heading ? this.state.heading : '0'}deg` }
                       ]
                     }}
                     source={compassImage}
