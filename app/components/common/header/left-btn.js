@@ -6,22 +6,24 @@ import {
 
 import Theme from 'config/theme';
 
+const backIconWhite = require('assets/previous_white.png');
 const backIcon = require('assets/previous.png');
 
-function Header(props) {
+function LeftHeaderBtn(props) {
   return (
     <TouchableHighlight
       onPress={() => props.goBack()}
       underlayColor="transparent"
       activeOpacity={0.8}
     >
-      <Image style={Theme.icon} source={backIcon} />
+      <Image style={Theme.icon} source={props.light ? backIconWhite : backIcon} />
     </TouchableHighlight>
   );
 }
 
-Header.propTypes = {
+LeftHeaderBtn.propTypes = {
+  light: React.PropTypes.bool,
   goBack: React.PropTypes.func.isRequired
 };
 
-export default Header;
+export default LeftHeaderBtn;

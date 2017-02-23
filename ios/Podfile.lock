@@ -40,7 +40,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   React:
-    :path: ../node_modules/react-native
+    :path: "../node_modules/react-native"
 
 SPEC CHECKSUMS:
   GoogleMaps: 104c418d61ab8a05dff06ed0784c25ea9d37da45

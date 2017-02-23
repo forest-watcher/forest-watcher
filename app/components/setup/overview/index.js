@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import {
   View,
   Text,
@@ -49,7 +50,7 @@ class SetupOverview extends Component {
       <View style={styles.container}>
         <View style={styles.selector}>
           <Text style={styles.selectorLabel}>Name the area</Text>
-          <ScrollView style={styles.scrollContainImage} >
+          <ScrollView scrollEnabled={false} style={styles.scrollContainImage} >
             {this.props.snapshot !== '' &&
               <Image style={styles.image} source={{ uri: this.props.snapshot }} />
             }
@@ -75,6 +76,7 @@ class SetupOverview extends Component {
               onPress={() => this.input.focus()}
             />
           </View>
+          <KeyboardSpacer />
         </View>
         <ScrollView style={styles.scrollContainButton}>
           <ActionButton

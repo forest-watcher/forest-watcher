@@ -1,35 +1,39 @@
 import { connect } from 'react-redux';
+import { uploadReport } from 'redux-modules/reports';
 
 import Reports from 'components/reports';
 
-const list = [
-  {
-    title: 'Melako Community #1',
-    position: '40.442529, -3.696101',
-    date: '26DEC 14:38'
-  },
-  {
-    title: 'Melako Community #2',
-    position: '40.442529, -3.696101',
-    date: '26DEC 14:38'
-  },
-  {
-    title: 'Melako Community #3',
-    position: '40.442529, -3.696101',
-    date: '26DEC 14:38'
-  }
-];
+function getReports(reports) {
+  const data = {
+    draft: [],
+    complete: [],
+    uploaded: []
+  };
+  Object.keys(reports).forEach((key) => {
+    const report = reports[key];
+    if (data[report.status]) {
+      data[report.status].push({
+        title: key,
+        position: report.position,
+        date: report.date
+      });
+    }
+  });
+  return data;
+}
 
-function mapStateToProps() {
+function mapStateToProps(state) {
   return {
-    drafts: list,
-    uploaded: list,
-    completed: list
+    reports: getReports(state.reports.list)
   };
 }
 
-function mapDispatchToProps() {
-  return {};
+function mapDispatchToProps(dispatch) {
+  return {
+    uploadReport: (reportName) => {
+      dispatch(uploadReport(reportName));
+    }
+  };
 }
 
 export default connect(

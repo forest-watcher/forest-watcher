@@ -48,6 +48,10 @@
 		<string>armv7</string>
 		<string>gamekit</string>
 	</array>
+  <key>NSCameraUsageDescription</key>
+  <string>We need access to the camera.</string>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>We need access to the media library.</string>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleLightContent</string>
 	<key>UIAppFonts</key>

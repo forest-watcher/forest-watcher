@@ -22,12 +22,12 @@ export default StyleSheet.create({
     })
   },
   scrollContainImage: {
-    height: 224,
     maxHeight: 224
   },
   image: {
     width: Theme.screen.width,
-    height: 224
+    height: 224,
+    maxHeight: 224
   },
   searchContainer: {
     flexDirection: 'row',
