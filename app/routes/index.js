@@ -2,7 +2,7 @@ import Home from 'containers/home';
 import Setup from 'containers/setup';
 import Dashboard from 'containers/dashboard';
 import Alerts from 'containers/alerts';
-import Map from 'components/map';
+import Map from 'containers/map';
 import Settings from 'containers/settings';
 import Reports from 'containers/reports';
 import NewReport from 'components/reports/new';

@@ -44,7 +44,7 @@ export default StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    height: 104,
+    height: 124,
     zIndex: 3,
     position: 'absolute'
   },
@@ -68,18 +68,11 @@ export default StyleSheet.create({
     opacity: 1,
     backgroundColor: 'transparent'
   },
-  footerButtonContainer: {
-    left: 0,
-    right: 0,
-    position: 'absolute',
-    zIndex: 3,
-    height: 104,
-    backgroundColor: 'transparent'
-  },
   footerButton: {
     left: 8,
     right: 8,
-    bottom: 10,
-    position: 'absolute'
+    bottom: 55,
+    position: 'absolute',
+    zIndex: 2
   }
 });

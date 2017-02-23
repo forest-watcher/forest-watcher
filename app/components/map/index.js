@@ -12,7 +12,9 @@ import {
 } from 'react-native';
 import MapView from 'react-native-maps';
 import GeoPoint from 'geopoint';
+import i18n from 'locales';
 
+import ActionBtn from 'components/common/action-button';
 import Config from 'react-native-config';
 import Theme from 'config/theme';
 import styles from './styles';
@@ -229,6 +231,12 @@ class Map extends Component {
       distance = `${parseFloat(currentPoint.distanceTo(geoPoint, true)).toFixed(4)}km away`; // in Kilometers
     }
 
+    const createReport = () => {
+      const form = `New-report-${Math.floor(Math.random() * 1000)}`;
+      this.props.createReport(form);
+      this.props.navigation.navigate('NewReport', { form });
+    };
+
     return (
       <View style={styles.footer}>
         <Image
@@ -238,6 +246,11 @@ class Map extends Component {
         <Text style={styles.footerTitle}>
           {distance}
         </Text>
+        <ActionBtn
+          style={styles.footerButton}
+          text={i18n.t('report.title')}
+          onPress={() => createReport()}
+        />
       </View>
     );
   }
@@ -330,7 +343,8 @@ class Map extends Component {
 }
 
 Map.propTypes = {
-  navigation: React.PropTypes.object.isRequired
+  navigation: React.PropTypes.object.isRequired,
+  createReport: React.PropTypes.func.isRequired
 };
 
 Map.navigationOptions = {
