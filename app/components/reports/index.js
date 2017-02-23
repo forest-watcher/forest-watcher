@@ -14,8 +14,8 @@ import headerStyles from 'components/common/header/styles';
 import styles from './styles';
 
 const editIcon = require('assets/edit.png');
-const checkIcon = require('assets/next.png');
-// const uploadIcon = require('assets/upload.png');
+const checkIcon = require('assets/check.png');
+const uploadIcon = require('assets/upload.png');
 
 function getItems(data, image, onPress) {
   return data.map((item, index) => (
@@ -45,14 +45,17 @@ function getItems(data, image, onPress) {
 
 class Reports extends Component {
 
-  getCompleted(completed) { // eslint-disable-line
+  getCompleted(completed) {
+    const onActionPress = (reportName) => {
+      this.props.uploadReport(reportName);
+    };
     return (
       <View style={styles.listContainer}>
         <View style={styles.listHeader}>
           <Text style={styles.listTitle}>{I18n.t('report.completed')}</Text>
           <Text style={[styles.listTitle, styles.listAction]}>{I18n.t('report.uploadAll').toUpperCase()}</Text>
         </View>
-        {getItems(completed)}
+        {getItems(completed, uploadIcon, onActionPress)}
       </View>
     );
   }
@@ -107,6 +110,7 @@ class Reports extends Component {
 }
 
 Reports.propTypes = {
+  uploadReport: React.PropTypes.func.isRequired,
   navigation: React.PropTypes.object.isRequired,
   reports: React.PropTypes.shape({
     draft: React.PropTypes.array,

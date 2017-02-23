@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { uploadReport } from 'redux-modules/reports';
 
 import Reports from 'components/reports';
 
@@ -27,8 +28,12 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps() {
-  return {};
+function mapDispatchToProps(dispatch) {
+  return {
+    uploadReport: (reportName) => {
+      dispatch(uploadReport(reportName));
+    }
+  };
 }
 
 export default connect(
