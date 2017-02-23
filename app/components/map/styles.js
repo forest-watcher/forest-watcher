@@ -37,8 +37,14 @@ export default StyleSheet.create({
     fontWeight: '400',
     position: 'absolute',
     zIndex: 2,
-    marginLeft: Theme.margin.left,
-    marginTop: 30
+    top: 16,
+    left: 56
+  },
+  headerBtn: {
+    position: 'absolute',
+    top: 8,
+    left: 8,
+    zIndex: 2
   },
   footer: {
     left: 0,

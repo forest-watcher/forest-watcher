@@ -8,7 +8,8 @@ import {
   StatusBar,
   Image,
   Text,
-  Platform
+  Platform,
+  TouchableHighlight
 } from 'react-native';
 import MapView from 'react-native-maps';
 import GeoPoint from 'geopoint';
@@ -34,6 +35,7 @@ const alertGladImage = require('assets/alert-glad.png');
 const alertGladWhiteImage = require('assets/alert-glad-white.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
+const backIconWhite = require('assets/previous_white.png');
 
 const fakeAlerts = [
   {
@@ -318,17 +320,23 @@ class Map extends Component {
           }
           <View
             style={styles.header}
-            pointerEvents={'none'}
+            pointerEvents={'box-none'}
           >
             <Image
               style={styles.headerBg}
               source={backgroundImage}
             />
-            <Text
-              style={styles.headerTitle}
-            >
+            <Text style={styles.headerTitle}>
               {params.title}
             </Text>
+            <TouchableHighlight
+              style={styles.headerBtn}
+              onPress={() => this.props.navigation.goBack()}
+              underlayColor="transparent"
+              activeOpacity={0.8}
+            >
+              <Image style={Theme.icon} source={backIconWhite} />
+            </TouchableHighlight>
           </View>
           <MapView
             ref={(ref) => { this.map = ref; }}
