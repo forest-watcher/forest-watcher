@@ -20,7 +20,7 @@ function StepsSlider(props) {
     <ScrollableTabView
       locked
       tabBarPosition="overlayBottom"
-      renderTabBar={getIndexBar}
+      renderTabBar={props.hideIndex ? () => <View /> : getIndexBar}
       prerenderingSiblingsNumber={1}
       {...props}
     >
@@ -30,6 +30,7 @@ function StepsSlider(props) {
 }
 
 StepsSlider.propTypes = {
+  hideIndex: React.PropTypes.bool,
   children: React.PropTypes.node.isRequired
 };
 

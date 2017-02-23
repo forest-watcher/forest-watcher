@@ -84,12 +84,19 @@ export default StyleSheet.create({
     left: 20,
     top: 3
   },
+  buttonCountry: {
+    backgroundColor: Theme.colors.color3,
+    height: 48
+  },
   buttonText: {
     fontFamily: Theme.font,
     color: Theme.fontColors.white,
     fontSize: 17,
     fontWeight: '400',
     marginLeft: 56
+  },
+  buttonTextCountry: {
+    marginLeft: 24
   },
   modal: {
     flex: 1

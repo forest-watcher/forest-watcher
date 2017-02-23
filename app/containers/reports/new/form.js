@@ -1,31 +1,26 @@
 import { connect } from 'react-redux';
-import { saveReport, getQuestions } from 'redux-modules/reports';
+import { finishReport, getQuestions } from 'redux-modules/reports';
 
 import ReportsForm from 'components/reports/new/form';
-import CONSTANTS from 'config/constants';
 
-const defaultReport = CONSTANTS.reports.default;
-
- // TODO: handle form identifier
-
-function getAnswers(form) {
-  if (!form) return null;
-  if (form[defaultReport] && form[defaultReport].values) return form[defaultReport].values;
+function getAnswers(forms, formName) {
+  if (!forms) return null;
+  if (forms[formName] && forms[formName].values) return forms[formName].values;
   return {};
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, { form }) {
   return {
+    form,
     questions: state.reports.forms.questions || [],
-    form: defaultReport,
-    answers: getAnswers(state.form)
+    answers: getAnswers(state.form, form)
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    saveReport: (report) => {
-      dispatch(saveReport(report));
+    finishReport: (reportName) => {
+      dispatch(finishReport(reportName));
     },
     getQuestions: () => {
       dispatch(getQuestions());

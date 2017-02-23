@@ -50,7 +50,7 @@ class InputTextDetail extends Component {
         >
           {this.props.visible &&
             <TextInput
-              autoFocus
+              autoFocus={false}
               autoCorrect={false}
               style={[styles.inputLabel, detailStyles.inputLabel]}
               autoCapitalize="none"

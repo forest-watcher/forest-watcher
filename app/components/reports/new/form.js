@@ -9,6 +9,8 @@ import I18n from 'locales';
 import StepsSlider from 'components/common/steps-slider';
 import getInputForm from 'components/common/form-inputs';
 import ActionButton from 'components/common/action-button';
+import Header from './header';
+import NextButton from './next-button';
 import styles from '../styles';
 
 function isEmptyAnswer(answer) {
@@ -53,10 +55,28 @@ class ReportsForm extends Component {
     };
     // First 4 questions in the form should be auto filled
     this.questionsToSkip = 4;
+    this.pageHistory = [];
   }
 
   componentWillMount() {
-    this.props.getQuestions();
+    if (this.props.questions && !this.props.questions.length) {
+      this.props.getQuestions();
+    }
+  }
+
+  handleBack = () => {
+    if (this.state.page > 0) {
+      const prevPage = this.pageHistory[this.pageHistory.length - 1];
+      if (prevPage >= 0) {
+        this.setState({
+          page: this.pageHistory[this.pageHistory.length - 1]
+        });
+        this.pageHistory.pop();
+      }
+      this.prevPag = this.prevPage - 1;
+    } else {
+      this.props.navigation.goBack();
+    }
   }
 
   goToNextPage = () => {
@@ -75,12 +95,15 @@ class ReportsForm extends Component {
         }
       }
     } else {
-      this.props.saveReport(this.props.answers);
+      const { state } = this.props.navigation;
+      const form = state && state.params && state.params.form;
+      this.props.finishReport(form);
       this.props.navigation.goBack();
     }
   }
 
   jumptToPage(jump) {
+    this.pageHistory.push(this.state.page);
     this.setState((prevState) => ({
       page: prevState.page + jump
     }));
@@ -92,13 +115,22 @@ class ReportsForm extends Component {
 
     const questionNumber = this.state.page + this.questionsToSkip;
     const question = questions[questionNumber];
+    const isImageInput = question.type === 'blob';
     const answer = answers && answers[question.name];
-    const disabled = isEmptyAnswer(answer) && question.required;
+    const emptyAnswer = isEmptyAnswer(answer);
+    const disabled = emptyAnswer && question.required;
     const btnText = disabled ? getBtnTextByType(question.type) : getBtnTextByPosition(questionNumber, questions.length - 1);
     return (
       <View style={styles.container}>
+        <Header
+          light={isImageInput && emptyAnswer}
+          title={isImageInput && emptyAnswer ? I18n.t('report.takePicture') : I18n.t('report.title')}
+          onBackPress={this.handleBack}
+        />
         <StepsSlider
+          style={isImageInput && emptyAnswer ? styles.containerFull : styles.containerFloat}
           page={this.state.page}
+          hideIndex={isImageInput && emptyAnswer}
           onChangeTab={this.updatePage}
         >
           {questions.map((item, index) => {
@@ -114,14 +146,17 @@ class ReportsForm extends Component {
             );
           })}
         </StepsSlider>
-        <ActionButton style={styles.buttonPos} disabled={disabled} onPress={this.goToNextPage} text={btnText} />
+        {isImageInput
+          ? <NextButton transparent={emptyAnswer} style={styles.buttonNextPos} disabled={disabled} onPress={this.goToNextPage} />
+          : <ActionButton style={styles.buttonPos} disabled={disabled} onPress={this.goToNextPage} text={btnText} />
+        }
       </View>
     );
   }
 }
 
 ReportsForm.propTypes = {
-  saveReport: React.PropTypes.func.isRequired,
+  finishReport: React.PropTypes.func.isRequired,
   getQuestions: React.PropTypes.func.isRequired,
   questions: React.PropTypes.array.isRequired,
   answers: React.PropTypes.object.isRequired,

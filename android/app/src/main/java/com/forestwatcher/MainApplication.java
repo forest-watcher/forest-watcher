@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.facebook.react.ReactApplication;
 import com.sensormanager.SensorManagerPackage;
+import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.facebook.react.ReactInstanceManager;
@@ -33,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new SensorManagerPackage(),
           new RNFetchBlobPackage(),
+          new RCTCameraPackage(),
           new ReactNativeConfigPackage(),
           new MapsPackage(),
           new ReactNativeI18n(),
