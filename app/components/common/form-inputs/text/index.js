@@ -15,7 +15,7 @@ function InputTextCustom(props) {
       <Text style={styles.label}>{props.question.label}</Text>
       <View style={styles.inputContainer}>
         <TextInput
-          autoFocus
+          autoFocus={false}
           autoCorrect={false}
           style={styles.input}
           autoCapitalize="none"

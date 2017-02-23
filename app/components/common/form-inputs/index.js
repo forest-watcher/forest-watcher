@@ -3,6 +3,7 @@ import Text from './text';
 import Radio from './radio';
 import Select from './select';
 import Date from './date';
+import Blob from './blob';
 
 // REDUX-FORM custom inputs
 // http://redux-form.com/6.5.0/docs/api/Field.md/
@@ -18,6 +19,8 @@ export default function getInputForm(props) {
       return <Date {...props} />;
     case 'point':
       return <Text {...props} />;
+    case 'blob':
+      return <Blob {...props} />;
     default:
       return null;
   }

@@ -4,8 +4,29 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 8,
-    backgroundColor: Theme.background.main
+    backgroundColor: Theme.background.main,
+    position: 'relative'
+  },
+  containerCenter: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  containerFloat: {
+    paddingTop: 80
+  },
+  containerFull: {
+    paddingTop: 0
+  },
+  buttonPos: {
+    position: 'absolute',
+    bottom: 50,
+    left: 8,
+    right: 8
+  },
+  buttonNextPos: {
+    position: 'absolute',
+    bottom: 52,
+    right: 8
   },
   listContainer: {
     flex: 1,

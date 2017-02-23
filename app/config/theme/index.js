@@ -36,6 +36,7 @@ const config = {
     main: colors.color4,
     secondary: colors.color1,
     white: colors.color5,
+    gray: colors.color6,
     modal: 'rgba(0, 0, 0, 0.4)'
   },
   borderColors: {
