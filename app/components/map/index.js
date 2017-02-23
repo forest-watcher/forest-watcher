@@ -102,7 +102,8 @@ class Map extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
-      alerts: fakeAlerts
+      alerts: fakeAlerts,
+      geo: ''
     };
     this.watchID = null;
   }
@@ -150,20 +151,24 @@ class Map extends Component {
     });
   }
 
-  startHeading() {
+  async startHeading() {
     if (Platform.OS === 'ios') {
       Location.startUpdatingLocation();
       Location.startUpdatingHeading();
       Location.setDesiredAccuracy(1);
       Location.setDistanceFilter(1);
     } else {
-      ReactNativeHeading.start(1);
+      const heading = await ReactNativeHeading.start(1);
+      this.setState({ geo: this.state.geo + ' HEADING ENABLED: ' + JSON.stringify(heading) });
     }
 
     DeviceEventEmitter.addListener(
       'headingUpdated',
       (data) => {
-        this.setState({ heading: Math.round(data.heading) });
+        this.setState({
+          heading: Math.round(data.heading),
+          geo: this.state.geo + ' HEADING ' + JSON.stringify(Math.round(data.heading))
+        });
       }
     );
   }
@@ -182,17 +187,32 @@ class Map extends Component {
         }
       );
     } else {
-      this.watchID = navigator.geolocation.watchPosition(
+      navigator.geolocation.getCurrentPosition(
         (position) => {
           this.setState({
+            geo: this.state.geo + JSON.stringify(position),
             lastPosition: {
               latitude: position.coords.latitude,
               longitude: position.coords.longitude
             }
           });
         },
-        (error) => console.log(JSON.stringify(error)),
-        { enableHighAccuracy: true, timeout: 1000, maximumAge: 10, distanceFilter: 1 }
+        (error) => this.setState({ geo: this.state.geo + ' ERROR ' + JSON.stringify(error) }),
+        { enableHighAccuracy: true, timeout: 60000, maximumAge: 0 },
+      );
+
+      this.watchID = navigator.geolocation.watchPosition(
+        (position) => {
+          this.setState({
+            geo: this.state.geo + JSON.stringify(position),
+            lastPosition: {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
+            }
+          });
+        },
+        (error) => this.setState({ geo: this.state.geo + ' ERROR ' + JSON.stringify(error) }),
+        { enableHighAccuracy: true, timeout: 60000, maximumAge: 0, distanceFilter: 1 }
       );
     }
   }
@@ -249,6 +269,11 @@ class Map extends Component {
       this.state.renderMap
       ?
         <View style={styles.container}>
+          {this.state.geo.length > 0 &&
+            <View style={{ zIndex: 100, width: 300, height: 300, backgroundColor: 'rgba(255, 255, 255, 0.6)' }}>
+              <Text>{this.state.geo}</Text>
+            </View>
+          }
           <View
             style={styles.header}
             pointerEvents={'none'}
