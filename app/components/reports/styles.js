@@ -12,10 +12,10 @@ export default StyleSheet.create({
     justifyContent: 'center'
   },
   containerFloat: {
-    paddingTop: 80
+    marginTop: 80
   },
   containerFull: {
-    paddingTop: 0
+    marginTop: 0
   },
   buttonPos: {
     position: 'absolute',

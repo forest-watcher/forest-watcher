@@ -10,8 +10,7 @@ export default StyleSheet.create({
     left: 0,
     right: 0,
     flexDirection: 'row',
-    alignItems: 'center',
-    zIndex: 1
+    alignItems: 'center'
   },
   title: {
     flex: 1,
