@@ -12,7 +12,7 @@ export default StyleSheet.create({
     justifyContent: 'center'
   },
   containerFloat: {
-    marginTop: 80
+    marginTop: 56
   },
   containerFull: {
     marginTop: 0

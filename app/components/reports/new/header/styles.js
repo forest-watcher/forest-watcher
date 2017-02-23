@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    marginTop: 32,
+    marginTop: 8,
     height: 48,
     position: 'absolute',
     top: 0,

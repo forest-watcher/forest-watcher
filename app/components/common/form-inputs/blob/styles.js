@@ -33,11 +33,9 @@ export default StyleSheet.create({
     marginBottom: 52
   },
   preview: {
-    marginTop: 16,
+    marginTop: 8,
     marginLeft: 56,
-    marginRight: 56,
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end'
+    marginRight: 56
   },
   previewImage: {
     height: 416,
