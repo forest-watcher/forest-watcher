@@ -122,7 +122,7 @@ export function uploadReport(reportName) {
       // const xhr = new XMLHttpRequest();
       // xhr.withCredentials = true;
       // xhr.open('POST', url);
-      // xhr.setRequestHeader('authorization', `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFhMTBkN2M2ZTBhMzcxMjY2MTFmZDdhNyIsInJvbGUiOiJBRE1JTiIsInByb3ZpZGVyIjoibG9jYWwiLCJlbWFpbCI6ImFkbWluQGNvbnRyb2wtdG93ZXIub3JnIiwiZXh0cmFVc2VyRGF0YSI6eyJhcHBzIjpbInJ3IiwiZ2Z3IiwiZ2Z3LWNsaW1hdGUiLCJwcmVwIiwiYXF1ZWR1Y3QiLCJmb3Jlc3QtYXRsYXMiLCJkYXRhNHNkZ3MiXX19.FglwGCDjeh5c3bdmV0GA6QiMd-I1AdbdHCLQQGUPRxw`);
+      // xhr.setRequestHeader('authorization', `Bearer ${state().user.token}`);
       // xhr.addEventListener('readystatechange', () => {
       //   if (xhr.readyState === 4) {
       //     if (xhr.status === 200) {
