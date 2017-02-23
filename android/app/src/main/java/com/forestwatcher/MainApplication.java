@@ -16,6 +16,7 @@ import com.facebook.soloader.SoLoader;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.i18n.reactnativei18n.ReactNativeI18n;
 import com.joshblour.reactnativeheading.ReactNativeHeadingPackage;
+import com.syarul.rnlocation.RNLocation;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +39,8 @@ public class MainApplication extends Application implements ReactApplication {
           new ReactNativeConfigPackage(),
           new MapsPackage(),
           new ReactNativeI18n(),
-          new ReactNativeHeadingPackage()
+          new ReactNativeHeadingPackage(),
+          new RNLocation()
       );
     }
   };

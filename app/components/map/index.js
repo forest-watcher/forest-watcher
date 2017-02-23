@@ -17,9 +17,9 @@ import Config from 'react-native-config';
 import Theme from 'config/theme';
 import styles from './styles';
 
-const { RNLocation: Location } = require('NativeModules');
 import { SensorManager } from 'NativeModules';
-const ReactNativeHeading = require('react-native-heading');
+// const ReactNativeHeading = require('react-native-heading');
+const { RNLocation: Location } = require('NativeModules');
 
 const { width, height } = Dimensions.get('window');
 
@@ -103,32 +103,52 @@ class Map extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
-      lastPosition: {
-        latitude: 40.434558,
-        longitude: -3.700439
-      },
-      alerts: fakeAlerts,
-      geo: ''
+      alerts: fakeAlerts
     };
-    this.watchID = null;
   }
 
   componentDidMount() {
     StatusBar.setBarStyle('light-content');
 
     this.renderMap();
-    this.startNavigation();
-    this.startHeading();
+    this.geoLocate();
+  }
+
+  geoLocate() {
+    Location.requestWhenInUseAuthorization();
+    Location.startUpdatingLocation();
+
+    DeviceEventEmitter.addListener(
+      'locationUpdated',
+      (location) => {
+        this.setState({
+          lastPosition: {
+            latitude: location.latitude,
+            longitude: location.longitude
+          }
+        });
+      }
+    );
+
+    SensorManager.startOrientation(500);
+    DeviceEventEmitter.addListener(
+      'Orientation',
+      (data) => {
+        this.setState({
+          heading: parseInt(data.azimuth, 10)
+        });
+      }
+    );
   }
 
   componentWillUnmount() {
     StatusBar.setBarStyle('default');
+    Location.stopUpdatingLocation();
 
     if (Platform.OS === 'ios') {
-      Location.stopUpdatingLocation();
       Location.stopUpdatingHeading();
     } else {
-      navigator.geolocation.clearWatch(this.watchID);
+      SensorManager.stopOrientation();
     }
   }
 
@@ -156,44 +176,10 @@ class Map extends Component {
     });
   }
 
-  async startHeading() {
-    if (Platform.OS === 'ios') {
-      Location.startUpdatingLocation();
-      Location.startUpdatingHeading();
-      Location.setDesiredAccuracy(1);
-      Location.setDistanceFilter(1);
-    } else {
-      // const heading = await ReactNativeHeading.start(1);
-      // this.setState({ geo: this.state.geo + ' HEADING ENABLED: ' + JSON.stringify(heading) });
-      SensorManager.startOrientation(1000);
-      DeviceEventEmitter.addListener(
-        'Orientation',
-        (data) => {
-        /**
-        * data.azimuth
-        * data.pitch
-        * data.roll
-        **/
-          this.setState({
-            heading: parseInt(data.azimuth, 10)
-          });
-        }
-      );
-      // SensorManager.stopOrientation();
-    }
-
-    DeviceEventEmitter.addListener(
-      'headingUpdated',
-      (data) => {
-        this.setState({
-          heading: Math.round(data.heading),
-          geo: this.state.geo + ' HEADING ' + JSON.stringify(Math.round(data.heading))
-        });
-      }
-    );
-  }
-
   startNavigation() {
+    Location.requestWhenInUseAuthorization();
+    Location.startUpdatingLocation();
+
     if (Platform.OS === 'ios') {
       DeviceEventEmitter.addListener(
         'locationUpdated',
@@ -207,32 +193,17 @@ class Map extends Component {
         }
       );
     } else {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
+      DeviceEventEmitter.addListener(
+        'locationUpdated',
+        (location) => {
+          console.log(location);
           this.setState({
-            geo: this.state.geo + JSON.stringify(position),
             lastPosition: {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude
+              latitude: location.latitude,
+              longitude: location.longitude
             }
           });
-        },
-        (error) => this.setState({ geo: this.state.geo + ' ERROR ' + JSON.stringify(error) }),
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 },
-      );
-
-      this.watchID = navigator.geolocation.watchPosition(
-        (position) => {
-          this.setState({
-            geo: this.state.geo + JSON.stringify(position),
-            lastPosition: {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude
-            }
-          });
-        },
-        (error) => this.setState({ geo: this.state.geo + ' ERROR ' + JSON.stringify(error) }),
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 0, distanceFilter: 1 }
+        }
       );
     }
   }
@@ -289,11 +260,6 @@ class Map extends Component {
       this.state.renderMap
       ?
         <View style={styles.container}>
-          {this.state.heading &&
-            <View style={{ zIndex: 100, width: 300, height: 300, backgroundColor: 'rgba(255, 255, 255, 0.6)' }}>
-              <Text>{this.state.heading}</Text>
-            </View>
-          }
           <View
             style={styles.header}
             pointerEvents={'none'}
@@ -316,6 +282,7 @@ class Map extends Component {
             rotateEnabled={false}
             initialRegion={this.state.region}
             onLayout={this.onLayout}
+            moveOnMarkerPress={false}
           >
             {this.state.lastPosition &&
               <MapView.Marker.Animated
