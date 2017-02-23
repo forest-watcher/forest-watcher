@@ -1,5 +1,4 @@
 import Config from 'react-native-config';
-import RNFetchBlob from 'react-native-fetch-blob';
 
 import CONSTANTS from 'config/constants';
 
@@ -156,6 +155,7 @@ export function uploadReport(reportName) {
           throw Error(response);
         })
         .then((response) => {
+          console.log('TODO: save response', response);
           dispatch({
             type: UPDATE_REPORT,
             payload: {
