@@ -9,7 +9,6 @@ import {
   Image
 } from 'react-native';
 
-import Constant from 'config/constants';
 import Config from 'react-native-config';
 import Theme from 'config/theme';
 import { getToken, setToken } from 'helpers/user';
@@ -75,13 +74,13 @@ class Login extends Component {
     let tokenCountry = null;
     switch (country) {
       case 'brazil':
-        tokenCountry = Constant.countryLoginTokens.brazilToken;
+        tokenCountry = Config.BRAZIL_TOKEN;
         break;
       case 'colombia':
-        tokenCountry = Constant.countryLoginTokens.colombiaToken;
+        tokenCountry = Config.COLOMBIA_TOKEN;
         break;
       case 'indonesia':
-        tokenCountry = Constant.countryLoginTokens.indonesiaToken;
+        tokenCountry = Config.INDONESIA_TOKEN;
         break;
       default:
         tokenCountry = null;
