@@ -16,10 +16,8 @@ const placeholderImage = require('assets/alert_list_preloader_row.png');
 function getPlaceholder() {
   return (
     <View style={styles.placeholder}>
-      <View style={styles.loading}>
-        <Text style={styles.loadingText}>Please wait while the data is downloaded...</Text>
-      </View>
       <Image style={styles.placeholderImage} source={placeholderImage} />
+      <Text style={styles.loadingText}>Please wait while the data is downloaded...</Text>
     </View>
   );
 }
@@ -93,7 +91,7 @@ class AlertsList extends Component {
                 <View style={styles.item}>
                   <View style={styles.image}>
                     <ImageCache
-                      style={{ width: 150, height: 150 }}
+                      style={{ width: 128, height: 128 }}
                       source={{
                         uri: alert.url
                       }}

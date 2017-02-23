@@ -35,6 +35,9 @@ export default StyleSheet.create({
     color: Theme.fontColors.main
   },
   distance: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   distanceText: {
     fontSize: 17,
@@ -42,32 +45,21 @@ export default StyleSheet.create({
     fontStyle: 'italic',
     fontFamily: Theme.font,
     color: Theme.fontColors.light,
+    backgroundColor: 'transparent',
     padding: 8
   },
   placeholder: {
     flex: 1,
     alignItems: 'flex-end',
-    justifyContent: 'flex-end',
-    position: 'relative'
+    justifyContent: 'flex-end'
   },
   placeholderImage: {
     width: Theme.screen.width - 20,
     resizeMode: 'stretch'
   },
-  loading: {
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    position: 'absolute',
-    zIndex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'transparent'
-  },
   loadingText: {
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
     padding: 6,
+    textAlign: 'left',
     fontStyle: 'italic',
     fontWeight: '400',
     fontFamily: Theme.font,
