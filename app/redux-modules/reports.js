@@ -40,7 +40,8 @@ export default function reducer(state = initialNavState, action) {
 export function getQuestions() {
   return (dispatch, state) => {
     const language = getLanguage().toUpperCase();
-    const qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
+    let qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
+    if (!qIdByLanguage) qIdByLanguage = Config.QUESTIONNARIE_ID_EN; // language fallback
     const url = `${Config.API_URL}/questionnaire/${qIdByLanguage}`;
     const fetchConfig = {
       headers: {
@@ -126,7 +127,8 @@ export function uploadReport(reportName) {
       });
 
       const language = getLanguage().toUpperCase();
-      const qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
+      let qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
+      if (!qIdByLanguage) qIdByLanguage = Config.QUESTIONNARIE_ID_EN; // language fallback
       const url = `${Config.API_URL}/questionnaire/${qIdByLanguage}/answer`;
 
       // const xhr = new XMLHttpRequest();

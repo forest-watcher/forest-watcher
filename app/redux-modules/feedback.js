@@ -1,5 +1,6 @@
 import Config from 'react-native-config';
 import CONSTANTS from 'config/constants';
+import { getLanguage } from 'helpers/language';
 
 import { actionTypes } from 'redux-form';
 
@@ -42,7 +43,9 @@ export default function reducer(state = initialNavState, action) {
 // Action Creators
 export function getQuestions(type) {
   return (dispatch, state) => {
-    const feedbackId = Config[`FEEDBACK_${type.toUpperCase()}`];
+    const language = getLanguage().toUpperCase();
+    let feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_${language}`];
+    if (!feedbackId) feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_EN`]; // language fallback
     const url = `${Config.API_URL}/questionnaire/${feedbackId}`;
     const fetchConfig = {
       headers: {
@@ -130,7 +133,9 @@ export function uploadFeedback(type) {
         }
       });
 
-      const feedbackId = Config[`FEEDBACK_${type.toUpperCase()}`];
+      const language = getLanguage().toUpperCase();
+      let feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_${language}`];
+      if (!feedbackId) feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_EN`]; // language fallback
       const url = `${Config.API_URL}/questionnaire/${feedbackId}/answer`;
 
       // const xhr = new XMLHttpRequest();
@@ -202,6 +207,6 @@ export function finishFeedback(type) {
         form: [type]
       }
     });
-    // dispatch(uploadFeedback(type));
+    dispatch(uploadFeedback(type));
   };
 }
