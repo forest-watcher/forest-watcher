@@ -1,5 +1,5 @@
 // Actions
-const CHANGE_CONNECTION_STATUS = 'alerts/CHANGE_CONNECTION_STATUS';
+const CHANGE_CONNECTION_STATUS = 'app/CHANGE_CONNECTION_STATUS';
 
 // Reducer
 const initialState = {
