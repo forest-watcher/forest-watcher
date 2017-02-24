@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { setIsConnected } from 'redux-modules/app';
 import { getUser, setLoginModal, setLoginStatus, checkLogged } from 'redux-modules/user';
 import { NavigationActions } from 'react-navigation';
 import Home from 'components/home';
@@ -35,6 +36,9 @@ function mapDispatchToProps(dispatch, { navigation }) {
     },
     checkLogged: () => {
       dispatch(checkLogged());
+    },
+    setIsConnected: (isConnected) => {
+      dispatch(setIsConnected(isConnected));
     }
   };
 }

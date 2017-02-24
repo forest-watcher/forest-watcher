@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   View,
+  NetInfo,
   ActivityIndicator
 } from 'react-native';
 
@@ -15,6 +16,10 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    NetInfo.isConnected.addEventListener('change', this.handleConnectionChange);
+    NetInfo.isConnected.fetch()
+      .done((isConnected) => this.props.setIsConnected(isConnected));
+
     this.checkBeforeRender();
   }
 
@@ -23,6 +28,14 @@ class Home extends Component {
       this.checkSetup();
     }
   }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener('change', this.handleConnectionChange);
+  }
+
+  handleConnectionChange = (isConnected) => {
+    this.props.setIsConnected(isConnected);
+  };
 
   async checkSetup() {
     this.setup = true;
@@ -65,6 +78,7 @@ class Home extends Component {
 
 Home.propTypes = {
   getUser: React.PropTypes.func.isRequired,
+  setIsConnected: React.PropTypes.func.isRequired,
   setLoginModal: React.PropTypes.func.isRequired,
   setLoginStatus: React.PropTypes.func.isRequired
 };
