@@ -105,6 +105,7 @@ class Map extends Component {
 
     this.state = {
       renderMap: false,
+      lastPosition: null,
       region: {
         // latitude: intialCoords.lat,
         // longitude: intialCoords.lon,
@@ -244,23 +245,23 @@ class Map extends Component {
   renderFooter() {
     let distanceText = 'Not Available';
     let distance = 999999;
-    const latLng = [this.state.lastPosition.latitude, this.state.lastPosition.longitude];
+    const { lastPosition } = this.state;
 
-    if (this.state.lastPosition) {
+    if (lastPosition) {
       const geoPoint = new GeoPoint(this.state.alertSelected.latitude, this.state.alertSelected.longitude);
-      const currentPoint = new GeoPoint(latLng[0], latLng[1]);
+      const currentPoint = new GeoPoint(lastPosition.latitude, lastPosition.longitude);
       distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);
       distanceText = `${distance} km away`; // in Kilometers
     }
 
+    let reportBtn = null;
     const createReport = () => {
       const form = `New-report-${Math.floor(Math.random() * 1000)}`;
-      this.props.createReport(form, `${latLng[0]},${latLng[1]}`);
+      this.props.createReport(form, `${lastPosition.latitude},${lastPosition.longitude}`);
       this.props.navigation.navigate('NewReport', { form });
     };
 
-    let reportBtn = null;
-    if (distance <= 1) {
+    if (lastPosition) { // TODO: add distance validation
       reportBtn = (
         <ActionBtn
           style={styles.footerButton}
