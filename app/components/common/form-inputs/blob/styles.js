@@ -1,5 +1,8 @@
 import Theme from 'config/theme';
-import { StyleSheet } from 'react-native';
+import {
+  Platform,
+  StyleSheet
+} from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -21,7 +24,8 @@ export default StyleSheet.create({
     fontWeight: '400',
     fontFamily: Theme.font,
     textAlign: 'center',
-    color: Theme.fontColors.white
+    color: Theme.fontColors.white,
+    backgroundColor: 'transparent'
   },
   captureBtn: {
     width: 64,
@@ -35,7 +39,12 @@ export default StyleSheet.create({
   preview: {
     marginTop: 8,
     marginLeft: 56,
-    marginRight: 56
+    marginRight: 56,
+    ...Platform.select({
+      ios: {
+        marginTop: 24
+      }
+    })
   },
   previewImage: {
     height: 416,

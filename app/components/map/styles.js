@@ -1,5 +1,8 @@
 import Theme from 'config/theme';
-import { StyleSheet } from 'react-native';
+import {
+  Platform,
+  StyleSheet
+} from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -38,13 +41,23 @@ export default StyleSheet.create({
     position: 'absolute',
     zIndex: 2,
     top: 16,
-    left: 56
+    left: 56,
+    ...Platform.select({
+      ios: {
+        marginTop: 24
+      }
+    })
   },
   headerBtn: {
     position: 'absolute',
     top: 8,
     left: 8,
-    zIndex: 2
+    zIndex: 2,
+    ...Platform.select({
+      ios: {
+        marginTop: 24
+      }
+    })
   },
   footer: {
     left: 0,
