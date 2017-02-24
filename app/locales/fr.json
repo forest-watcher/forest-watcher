@@ -2,18 +2,18 @@
 	"commonText": {
 		"appName": "Forest Watcher 2.0",
 		"next": "Suivant",
-		"back": "Retourner",
+		"back": "Précédent",
 		"finish": "Terminer",
-		"setUp": "Installer",
+		"setUp": "Configurer",
     "cancel": "Annuler",
     "confirm": "Confirmer"
 	},
 	"dashboard": {
-		"title": "Panel",
+		"title": "Tableau de bord",
 		"alerts": "Voir mes alertes",
 		"reports": "Faire un rapport",
 		"myReports": "Mes rapports",
-		"uploadData": "Données sauvegardées et téléchargées",
+		"uploadData": "Données sauvegardées",
 		"map": "Carte"
 	},
 	"login": {
@@ -40,17 +40,17 @@
 		"drawArea": "Dessinez une zone"
 	},
 	"setupCountry": {
-		"welcomeText": "Salut",
+		"welcomeText": "Bonjour",
 		"secondWelcomeText": "veuillez créer une zone",
 		"firstInstruction": "Tout d'abord, sélectionnez votre pays d'intérêt"
 	},
 	"setupDrawAreas": {
-		"tapInstruction": "Appuyez sur la carte pour dessiner"
+		"tapInstruction": "Touchez la carte pour dessiner"
 	},
 	"setupHeader": {
-		"errorFirst": "Prop non valide",
+		"errorFirst": "Propriété invalide",
 		"errorSecond": "fourni à",
-		"errorThird": "Il est nécessaire si vous affichez le bouton"
+		"errorThird": "Requis pour afficher le button de retour"
 	},
 	"setupOverview": {
 		"placeholder": "Entrez un nom"
@@ -61,12 +61,12 @@
 	"settings": {
     "title": "Paramètres",
 		"loggedIn": "Vous êtes connecté en tant que",
-		"yourAreas": "Vos domaines",
+		"yourAreas": "Vos zones",
 		"logOut": "SE DÉCONNECTER",
 		"addArea": "AJOUTER ZONE",
 		"aboutApp": "À propos de cette application",
 		"aboutPartners": "Les partenaires",
-		"aboutTerms": "Termes et conditions"
+		"aboutTerms": "Conditions d'utilisation"
 	},
   "report": {
     "title": "Rapport",
@@ -80,8 +80,8 @@
     "inputSelect": "Choisissez au moins une option pour continuer",
     "input": "S'il vous plaît, répondez à la question",
     "completed": "Terminé",
-    "uploadAll": "Télécharger tout",
+    "uploadAll": "Tout sauvegardé",
     "drafts": "Brouillons",
-    "uploaded": "Envoyé"
+    "uploaded": "Sauvegardé"
   }
 }

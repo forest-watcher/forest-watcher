@@ -9,16 +9,16 @@
     "confirm": "Confirmar"
 	},
 	"dashboard": {
-		"title": "Cuadro de mandos",
+		"title": "Panel de control",
 		"alerts": "Ver mis alertas",
 		"reports": "Hacer un informe",
 		"myReports": "Mis informes",
-		"uploadData": "Datos guardados y cargados",
+		"uploadData": "Datos guardados y subidos",
 		"map": "Mapa"
 	},
 	"login": {
 		"title": "Iniciar sesión",
-		"introductionText": "Iniciar sesión con una cuenta MyGFW",
+		"introductionText": "Iniciar sesión con una cuenta de MyGFW",
 		"facebookTitle": "Facebook",
 		"twitterTitle": "Twitter",
 		"googleTitle": "Google",
@@ -35,7 +35,7 @@
 		"alert": "alerta"
 	},
 	"boundaries": {
-		"chooseBoundaries": "Ahora, elige los límites",
+		"chooseBoundaries": "Ahora, elija los límites",
 		"selectProtectedArea": "Seleccione un área protegida",
 		"drawArea": "Dibujar un área"
 	},
@@ -48,12 +48,12 @@
 		"tapInstruction": "Toque en el mapa para dibujar"
 	},
 	"setupHeader": {
-		"errorFirst": "no válido",
+		"errorFirst": "Propiedad no válida",
 		"errorSecond": "suministrada a",
 		"errorThird": "Es necesario si se muestra el botón Atrás"
 	},
 	"setupOverview": {
-		"placeholder": "Ingresa un nombre"
+		"placeholder": "Introduzca un nombre"
 	},
 	"setupProtectedAreas": {
 		"instruction": "Seleccione un área para continuar"
@@ -65,7 +65,7 @@
 		"logOut": "Cerrar sesión",
 		"addArea": "AÑADIR ÁREA",
 		"aboutApp": "Acerca de esta aplicación",
-		"aboutPartners": "Socios",
+		"aboutPartners": "Colaboradores",
 		"aboutTerms": "Términos y Condiciones"
 	},
   "report": {
