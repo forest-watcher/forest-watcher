@@ -1,9 +1,12 @@
+import {
+  Platform,
+  StyleSheet
+} from 'react-native';
 import Theme from 'config/theme';
-import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    marginTop: 32,
+    marginTop: 8,
     height: 48,
     position: 'absolute',
     top: 0,
@@ -11,7 +14,11 @@ export default StyleSheet.create({
     right: 0,
     flexDirection: 'row',
     alignItems: 'center',
-    zIndex: 1
+    ...Platform.select({
+      ios: {
+        marginTop: 24
+      }
+    })
   },
   title: {
     flex: 1,

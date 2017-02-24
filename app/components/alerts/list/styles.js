@@ -2,60 +2,67 @@ import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Theme.background.main,
-    paddingTop: 10
-  },
-  containerContent: {
-    paddingBottom: 20
-  },
   content: {
-    paddingTop: 0,
-    paddingBottom: 30
-  },
-  area: {
-    padding: 10,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between'
-  },
-  areaTitle: {
-    fontSize: 18,
-    fontWeight: '500',
-    marginLeft: 15
-  },
-  areaMore: {
-    fontSize: 18,
-    color: '#CCCCCC'
+    flex: 1
   },
   list: {
-    padding: 10,
+    padding: 15,
+    paddingTop: 0,
     flexDirection: 'row'
   },
   alerts: {
     flexDirection: 'row',
-    paddingRight: 20
+    paddingRight: 15
   },
-  alertItem: {
-    width: 150,
-    height: 180,
+  item: {
+    width: 128,
     backgroundColor: '#FFFFFF',
-    shadowRadius: 3,
-    shadowColor: '#000000',
-    shadowOpacity: 0.25,
-    shadowOffset: {
-      width: 0,
-      height: 0
-    },
+    borderBottomColor: Theme.borderColors.main,
+    borderBottomWidth: 2,
     margin: 7,
-    elevation: 6,
+    marginBottom: 0,
+    overflow: 'hidden',
+    flexWrap: 'wrap'
+  },
+  image: {
+    width: 128,
+    height: 128
+  },
+  name: {
+    fontSize: 17,
+    fontWeight: '400',
+    color: Theme.fontColors.main
+  },
+  distance: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
   },
-  alertName: {
-    fontSize: 22,
-    fontWeight: '600',
-    color: '#434343'
+  distanceText: {
+    fontSize: 17,
+    fontWeight: '400',
+    fontStyle: 'italic',
+    fontFamily: Theme.font,
+    color: Theme.fontColors.light,
+    backgroundColor: 'transparent',
+    padding: 8
+  },
+  placeholder: {
+    flex: 1,
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end'
+  },
+  placeholderImage: {
+    width: Theme.screen.width - 20,
+    resizeMode: 'stretch'
+  },
+  loadingText: {
+    padding: 6,
+    textAlign: 'left',
+    fontStyle: 'italic',
+    fontWeight: '400',
+    fontFamily: Theme.font,
+    color: Theme.fontColors.light
   }
 });

@@ -36,5 +36,11 @@ export default StyleSheet.create({
     fontWeight: '400',
     textAlign: 'left',
     marginLeft: Theme.margin.left
+  },
+  buttonTextDisabled: {
+    color: Theme.fontColors.light,
+    fontWeight: '400',
+    marginLeft: 0,
+    fontStyle: 'italic'
   }
 });

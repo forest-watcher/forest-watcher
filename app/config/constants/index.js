@@ -33,6 +33,14 @@ export default {
       fr: 'name_frenc'
     }
   },
+  files: {
+    images: {
+      alerts: 'images/alerts'
+    }
+  },
+  reports: {
+    default: 'defaultReport'
+  },
   status: {
     draft: 'draft',
     complete: 'complete',

@@ -3,11 +3,15 @@ import {
   View,
   Text,
   ScrollView,
-  TouchableHighlight
+  TouchableHighlight,
+  Platform
 } from 'react-native';
 import Theme from 'config/theme';
 import I18n from 'locales';
+import headerStyles from 'components/common/header/styles';
 import styles from './styles';
+
+const { RNLocation: Location } = require('NativeModules');
 
 const sections = [
   // TEMP
@@ -30,15 +34,16 @@ const sections = [
     title: I18n.t('dashboard.myReports'),
     section: 'Reports',
     image: ''
-  },
-  {
-    title: I18n.t('dashboard.map'),
-    section: 'map',
-    image: ''
   }
 ];
 
 class Dashboard extends Component {
+  componentDidMount() {
+    if (Platform.OS === 'ios') {
+      Location.requestAlwaysAuthorization();
+    }
+  }
+
   onItemTap(item) {
     if (item.section && item.section.length > 0) {
       if (item.section === 'NewReport') {
@@ -97,8 +102,10 @@ Dashboard.propTypes = {
 
 Dashboard.navigationOptions = {
   header: {
-    title: I18n.t('commonText.appName').toUpperCase(),
-    tintColor: Theme.colors.color1
+    tintColor: Theme.colors.color1,
+    style: headerStyles.style,
+    titleStyle: [headerStyles.titleStyle, headerStyles.center, headerStyles.large],
+    title: I18n.t('commonText.appName').toUpperCase()
   }
 };
 

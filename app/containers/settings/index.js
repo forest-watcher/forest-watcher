@@ -11,8 +11,11 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, { navigation }) {
   return {
+    navigate: (routeName) => {
+      navigation.navigate(routeName);
+    },
     getAreas: () => {
       dispatch(getAreas());
     }

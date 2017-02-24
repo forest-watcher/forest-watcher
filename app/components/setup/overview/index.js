@@ -31,8 +31,10 @@ class SetupOverview extends Component {
 
   onNextPress = () => {
     const params = {
-      name: this.state.name,
-      area: this.props.area,
+      area: {
+        name: this.state.name,
+        ...this.props.area
+      },
       userid: this.props.user.id,
       snapshot: this.props.snapshot
     };

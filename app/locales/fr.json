@@ -29,7 +29,8 @@
 	"countries": {
 		"searchPlaceholder": "Search for a country"
 	},
-	"alertList": {
+	"alerts": {
+		"title:": "Alerts",
 		"seeAll": "See all",
 		"alert": "alert"
 	},

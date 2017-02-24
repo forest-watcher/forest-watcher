@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { getUser } from 'redux-modules/user';
 import { setSetupCountry } from 'redux-modules/setup';
 import { getCountries } from 'redux-modules/countries';
 
@@ -15,9 +14,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getUser: () => {
-      dispatch(getUser());
-    },
     getCountries: () => {
       dispatch(getCountries());
     },

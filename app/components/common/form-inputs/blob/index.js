@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Text,
   View,
   Image,
   StatusBar,
@@ -7,6 +8,7 @@ import {
 } from 'react-native';
 import Camera from 'react-native-camera';
 
+import i18n from 'locales';
 import Theme from 'config/theme';
 import styles from './styles';
 
@@ -20,6 +22,9 @@ class ImageBlobInput extends Component {
     this.removePicture = this.removePicture.bind(this);
   }
 
+  componentWillUnmount() {
+    StatusBar.setBarStyle('default');
+  }
 
   getCameraView() {
     return (
@@ -30,6 +35,7 @@ class ImageBlobInput extends Component {
           aspect={Camera.constants.Aspect.fill}
           captureTarget={Camera.constants.CaptureTarget.disk}
         >
+          <Text style={styles.captureLabel} >{i18n.t('report.takePicture')}</Text>
           <TouchableHighlight
             style={styles.captureBtn}
             onPress={this.takePicture}
