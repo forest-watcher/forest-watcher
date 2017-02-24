@@ -182,6 +182,12 @@ export function uploadFeedback(type) {
               data: { status: CONSTANTS.status.uploaded }
             }
           });
+          dispatch({
+            type: actionTypes.DESTROY,
+            meta: {
+              form: [type]
+            }
+          });
         })
         .catch((err) => {
           console.log('TODO: handle error', err);
@@ -199,12 +205,6 @@ export function finishFeedback(type) {
       payload: {
         name: type,
         data: { status: CONSTANTS.status.complete }
-      }
-    });
-    dispatch({
-      type: actionTypes.DESTROY,
-      meta: {
-        form: [type]
       }
     });
     dispatch(uploadFeedback(type));
