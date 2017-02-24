@@ -1,0 +1,126 @@
+{
+  "name": "WeeklyFeedback-PT",
+  "questions": [
+    {
+      "type": "number",
+      "name": "weekly-experience",
+      "label": "Por favor, descreva sua experiência com o aplicativo?(mal 1; bom 10)",
+      "defaultValue": "",
+      "required": true,
+      "order": 1
+    },
+    {
+      "type": "radio",
+      "name": "favourite-feature",
+      "label": "Qual foi a sua caracteristica favorita?",
+      "defaultValue": "",
+      "order": 2,
+      "required": true,
+      "values": [
+        "Criar area de interesse",
+        "Ver alertas no mapa",
+        "Ver rota até a alerta no mapa",
+        "Lista de alertas",
+        "Criar um relatório"
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "alert-found",
+      "label": "Você encontrou uma alerta no mapa?",
+      "values": [
+        "Sim",
+        "Não"
+      ],
+      "required": true,
+      "order": 3
+    },
+    {
+      "type": "radio",
+      "name": "alert-visited",
+      "label": "Você visitou uma alerta no campo?",
+      "values": [
+        "Sim",
+        "Não"
+      ],
+      "required": true,
+      "order": 4
+    },
+    {
+      "type": "radio",
+      "name": "work-better",
+      "label": "Usar o aplicativo ajudou no seu trabalho?",
+      "values": [
+        "Sim",
+        "Não"
+      ],
+      "required": true,
+      "order": 5
+    },
+    {
+      "type": "radio",
+      "name": "use-frequency",
+      "label": "Você usaria esse aplicativo com frequência?",
+      "values": [
+        "Diariamente",
+        "Semanal",
+        "Por mês",
+        "Raramente",
+        "Nunca"
+      ],
+      "required": true,
+      "order": 6
+    },
+    {
+      "type": "radio",
+      "name": "could-teach",
+      "label": "Você poderia ensinar alguem a usar o aplicativo?",
+      "values": [
+        "Sim",
+        "Não"
+      ],
+      "required": true,
+      "order": 7
+    },
+    {
+      "type": "text",
+      "name": "describe-to-friend",
+      "label": "Como você descreveria Forest Watcher para um amigo?",
+      "defaultValue": "",
+      "required": false,
+      "order": 8
+    },
+    {
+      "type": "text",
+      "name": "easy-to-use",
+      "label": "Você achou fácil de usar?",
+      "defaultValue": "",
+      "required": false,
+      "order": 9
+    },
+    {
+      "type": "text",
+      "name": "compare-to-first",
+      "label": "Se você já utilizou Forest Watcher 1.0, como compararia com a nova versão?",
+      "defaultValue": "",
+      "required": false,
+      "order": 10
+    },
+    {
+      "type": "text",
+      "name": "help-at-start",
+      "label": "Você acha que precisa de ajuda para usar o aplicativo? Porquê e qual?",
+      "defaultValue": "",
+      "required": false,
+      "order": 11
+    },
+    {
+      "type": "text",
+      "name": "whats-missing",
+      "label": "Tem algo faltando? O que deveríamos adicionar para que você possa fazer um melhor trabalho?",
+      "defaultValue": "",
+      "required": false,
+      "order": 12
+    }
+  ]
+}

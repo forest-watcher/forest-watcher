@@ -1,0 +1,68 @@
+{
+  "name": "DailyFeedback-EN",
+  "questions": [
+    {
+      "type": "number",
+      "name": "today-experience",
+      "label": "Please rate your experience with the tool today [scale 1 (bad); 10 (good)]",
+      "defaultValue": "",
+      "required": true,
+      "order": 1
+    },
+    {
+      "type": "select",
+      "name": "tool-used-today",
+      "label": "What did you do on the tool today?",
+      "defaultValue": "",
+      "order": 2,
+      "required": true,
+      "values": [
+        "Creating area of interest",
+        "Subscribe to alerts",
+        "View alerts on a map",
+        "Navigate to alerts on a map",
+        "Alert list",
+        "Complete a report"
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "real-life-alert",
+      "label": "Did you visit an alert in real life?",
+      "values": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "order": 3
+    },
+    {
+      "type": "select",
+      "name": "tool-used-problems",
+      "label": "Did you have any problems using the app today?",
+      "defaultValue": "",
+      "order": 4,
+      "required": true,
+      "values": [
+        "I had no problems",
+        "Creating area of interest",
+        "Subscribe to alerts",
+        "View alerts on a map",
+        "Navigate to alerts on a map",
+        "Alert list",
+        "Complete a report"
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "use-tomorrow",
+      "label": "Will you use the app tomorrow?",
+      "values": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "order": 5
+    }
+  ]
+}
