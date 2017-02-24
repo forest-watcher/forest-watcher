@@ -58,6 +58,26 @@ class SetupBoundaries extends Component {
     tracker.trackEvent('Set-up', 'Choose area type', { label: 'Custom Area', value: 0 });
   }
 
+  // <TouchableHighlight
+  //   style={styles.section}
+  //   onPress={() => this.setProtectedAreasStatus(true)}
+  //   activeOpacity={0.8}
+  //   underlayColor={Theme.background.white}
+  // >
+  //   <View style={styles.sectionTextContainer}>
+  //     <Image
+  //       style={styles.iconProtected}
+  //       source={protectedAreaImage}
+  //     />
+  //     <Text
+  //       style={styles.sectionText}
+  //       numberOfLines={2}
+  //     >
+  //       {I18n.t('boundaries.selectProtectedArea')}
+  //     </Text>
+  //   </View>
+  // </TouchableHighlight>
+
   render() {
     return (
       <View style={styles.container}>
@@ -65,26 +85,6 @@ class SetupBoundaries extends Component {
           <Text style={styles.selectorLabel}>{I18n.t('boundaries.chooseBoundaries')}</Text>
 
           <View style={styles.actions}>
-            <TouchableHighlight
-              style={styles.section}
-              onPress={() => this.setProtectedAreasStatus(true)}
-              activeOpacity={0.8}
-              underlayColor={Theme.background.white}
-            >
-              <View style={styles.sectionTextContainer}>
-                <Image
-                  style={styles.iconProtected}
-                  source={protectedAreaImage}
-                />
-                <Text
-                  style={styles.sectionText}
-                  numberOfLines={2}
-                >
-                  {I18n.t('boundaries.selectProtectedArea')}
-                </Text>
-              </View>
-            </TouchableHighlight>
-
             <TouchableHighlight
               style={styles.section}
               onPress={() => this.setDrawAreasStatus(true)}
