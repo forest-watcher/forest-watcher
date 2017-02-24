@@ -1,0 +1,126 @@
+{
+  "name": "WeeklyFeedback-ID",
+  "questions": [
+    {
+      "type": "number",
+      "name": "weekly-experience",
+      "label": "Mohon berikan penilaian anda dalam menggunakan Forest Watcher dalam minggu ini[skala 1 (baruk); 10 (buruk)]",
+      "defaultValue": "",
+      "required": true,
+      "order": 1
+    },
+    {
+      "type": "radio",
+      "name": "favourite-feature",
+      "label": "Fitur apakah yang paling anda sukai?",
+      "defaultValue": "",
+      "order": 2,
+      "required": true,
+      "values": [
+        "Membuat kawasan pilihan",
+        "Lihat alert pada peta",
+        "Arahkan ke alert pada peta",
+        "Daftar peringatan deforestasi",
+        "Membuat laporan"
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "alert-found",
+      "label": "Apakah anda mendapatkan peringatan deforestasi di peta?",
+      "values": [
+        "iya",
+        "tidak"
+      ],
+      "required": true,
+      "order": 3
+    },
+    {
+      "type": "radio",
+      "name": "alert-visited",
+      "label": "Apakah anda menemukan peringatan deforestasi di lapangan?",
+      "values": [
+        "iya",
+        "tidak"
+      ],
+      "required": true,
+      "order": 4
+    },
+    {
+      "type": "radio",
+      "name": "work-better",
+      "label": "Apakah aplikasi forest watcher membantu pekerjaan anda menjadi lebih baik?",
+      "values": [
+        "iya",
+        "tidak"
+      ],
+      "required": true,
+      "order": 5
+    },
+    {
+      "type": "radio",
+      "name": "use-frequency",
+      "label": "Menurut anda seberapa sering anda akan menggunakan aplikasi forest watcher?",
+      "values": [
+        "harian",
+        "mingguan",
+        "bulanan",
+        "sesekali",
+        "tidak sama sekali"
+      ],
+      "required": true,
+      "order": 6
+    },
+    {
+      "type": "radio",
+      "name": "could-teach",
+      "label": "Dapatkah anda mengajarkan aplikasi forest watcher kepada orang lain?",
+      "values": [
+        "iya",
+        "tidak"
+      ],
+      "required": true,
+      "order": 7
+    },
+    {
+      "type": "text",
+      "name": "describe-to-friend",
+      "label": "Bagaimanakan anda akan menjelaskan aplikasi forest watcher kepada teman anda?",
+      "defaultValue": "",
+      "required": false,
+      "order": 8
+    },
+    {
+      "type": "text",
+      "name": "easy-to-use",
+      "label": "Seberapa mudah aplikasi forest watcher digunakan?",
+      "defaultValue": "",
+      "required": false,
+      "order": 9
+    },
+    {
+      "type": "text",
+      "name": "compare-to-first",
+      "label": "Jika anda menggunakan aplikasi forest watcher versi 1.0, bagaimanakah menurut anda aplikasi forest watcher ini dibandingkan dengan versi 1.0?",
+      "defaultValue": "",
+      "required": false,
+      "order": 10
+    },
+    {
+      "type": "text",
+      "name": "help-at-start",
+      "label": "Apakah anda masih membutuhkan bantuan untuk menggunakan aplikasi forest watcher? Jika iya mohon sebutkan?",
+      "defaultValue": "",
+      "required": false,
+      "order": 11
+    },
+    {
+      "type": "text",
+      "name": "whats-missing",
+      "label": "Fitur apakah yang masih kurang pada aplikasi forest watcher ini? Fitur tambahan apa yang anda butuhkan untuk membantu pekerjaan anda?",
+      "defaultValue": "",
+      "required": false,
+      "order": 12
+    }
+  ]
+}
