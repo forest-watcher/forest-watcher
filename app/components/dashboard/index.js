@@ -34,6 +34,16 @@ const sections = [
     title: I18n.t('dashboard.myReports'),
     section: 'Reports',
     image: ''
+  },
+  {
+    title: I18n.t('dashboard.dailyFeedback'),
+    section: 'DailyFeedback',
+    image: ''
+  },
+  {
+    title: I18n.t('dashboard.weeklyFeedback'),
+    section: 'WeeklyFeedback',
+    image: ''
   }
 ];
 
@@ -46,12 +56,24 @@ class Dashboard extends Component {
 
   onItemTap(item) {
     if (item.section && item.section.length > 0) {
-      if (item.section === 'NewReport') {
-        const form = `New-report-${Math.floor(Math.random() * 1000)}`;
-        this.props.createReport(form);
-        this.props.navigate(item.section, { form });
-      } else {
-        this.props.navigate(item.section);
+      switch (item.section) {
+        case 'NewReport': {
+          const form = `New-report-${Math.floor(Math.random() * 1000)}`;
+          this.props.createReport(form);
+          this.props.navigate(item.section, { form });
+          break;
+        }
+        case 'DailyFeedback': {
+          this.props.navigate('Feedback', { feedback: 'daily' });
+          break;
+        }
+        case 'WeeklyFeedback': {
+          this.props.navigate('Feedback', { feedback: 'weekly' });
+          break;
+        }
+        default:
+          this.props.navigate(item.section);
+          break;
       }
     }
   }

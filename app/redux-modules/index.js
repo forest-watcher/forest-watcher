@@ -5,3 +5,4 @@ export { default as countries } from './countries';
 export { default as setup } from './setup';
 export { default as areas } from './areas';
 export { default as reports } from './reports';
+export { default as feedback } from './feedback';

@@ -4,6 +4,7 @@ import Radio from './radio';
 import Select from './select';
 import Date from './date';
 import Blob from './blob';
+import Number from './number';
 
 // REDUX-FORM custom inputs
 // http://redux-form.com/6.5.0/docs/api/Field.md/
@@ -11,6 +12,8 @@ export default function getInputForm(props) {
   switch (props.question.type) {
     case 'text':
       return <Text {...props} />;
+    case 'number':
+      return <Number {...props} />;
     case 'radio':
       return <Radio {...props} />;
     case 'select':
