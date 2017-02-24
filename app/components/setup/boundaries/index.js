@@ -66,9 +66,9 @@ class SetupBoundaries extends Component {
 
           <View style={styles.actions}>
             <TouchableHighlight
-              style={styles.section}
-              onPress={() => this.setProtectedAreasStatus(true)}
-              activeOpacity={0.8}
+              style={[styles.section, styles.sectionDisabled]}
+              onPress={() => console.log('TODO: this.setProtectedAreasStatus(true)')}
+              activeOpacity={1}
               underlayColor={Theme.background.white}
             >
               <View style={styles.sectionTextContainer}>
