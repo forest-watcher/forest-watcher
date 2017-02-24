@@ -20,6 +20,8 @@
 	},
 	"login": {
 		"title": "Login",
+		"unable": "Unable to login",
+		"connectionRequired": "You need an internet connection",
 		"introductionText": "Sign in with a MyGFW account",
 		"facebookTitle": "Facebook",
 		"twitterTitle": "Twitter",
