@@ -4,9 +4,10 @@ import {
   ScrollView,
   Text
 } from 'react-native';
+import tracker from 'helpers/googleAnalytics';
 
-import LeftBtn from 'components/common/header/left-btn';
 import AlertsList from 'containers/alerts/list';
+import LeftBtn from 'components/common/header/left-btn';
 import Theme from 'config/theme';
 import headerStyles from 'components/common/header/styles';
 import styles from './styles';
@@ -15,6 +16,7 @@ import styles from './styles';
 class Alerts extends Component {
   componentDidMount() {
     this.props.fetchData();
+    tracker.trackScreenView('Alerts');
   }
 
   onPress = (params) => {

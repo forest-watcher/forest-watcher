@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import Theme from 'config/theme';
 import I18n from 'locales';
+import tracker from 'helpers/googleAnalytics';
 import headerStyles from 'components/common/header/styles';
 import styles from './styles';
 import SettingsBtn from './settings-btn';
@@ -50,6 +51,9 @@ class Dashboard extends Component {
   }
 
   onItemTap(item) {
+    if (item.section === 'Alerts') {
+      tracker.trackEvent('Alerts', 'Open Alerts', { label: '', value: 0 });
+    }
     if (item.section && item.section.length > 0) {
       switch (item.section) {
         // case 'NewReport': {
@@ -71,6 +75,10 @@ class Dashboard extends Component {
           break;
       }
     }
+  }
+
+  componentDidMount() {
+    tracker.trackScreenView('DashBoard');
   }
 
   render() {

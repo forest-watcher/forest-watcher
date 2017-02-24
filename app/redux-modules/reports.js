@@ -1,8 +1,7 @@
 import Config from 'react-native-config';
+import tracker from 'helpers/googleAnalytics';
 import CONSTANTS from 'config/constants';
 import { getLanguage } from 'helpers/language';
-
-// import { actionTypes } from 'redux-form';
 
 // Actions
 const GET_QUESTIONS = 'report/GET_QUESTIONS';
@@ -194,7 +193,7 @@ export function finishReport(reportName) {
         data: { status: CONSTANTS.status.complete }
       }
     });
-    // dispatch(actionTypes.DESTROY({ form: reportName }));
+    tracker.trackEvent('Report', 'Complete Report', { label: 'Click Done', value: 0 });
     dispatch(uploadReport(reportName));
   };
 }

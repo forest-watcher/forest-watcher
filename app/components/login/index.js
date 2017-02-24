@@ -13,6 +13,7 @@ import Config from 'react-native-config';
 import Theme from 'config/theme';
 import { getToken, setToken } from 'helpers/user';
 import I18n from 'locales';
+import tracker from 'helpers/googleAnalytics';
 
 import styles from './styles';
 
@@ -35,6 +36,10 @@ class Login extends Component {
     this.successTimer = null;
     this.onLoadEnd = this.onLoadEnd.bind(this);
     this.onNavigationStateChange = this.onNavigationStateChange.bind(this);
+  }
+
+  componentDidMount() {
+    tracker.trackScreenView('Login');
   }
 
   componentWillUnmount() {

@@ -18,6 +18,7 @@ import i18n from 'locales';
 import ActionBtn from 'components/common/action-button';
 import Config from 'react-native-config';
 import Theme from 'config/theme';
+import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 import { SensorManager } from 'NativeModules';
@@ -85,6 +86,7 @@ class Map extends Component {
   }
 
   componentDidMount() {
+    tracker.trackScreenView('Map');
     StatusBar.setBarStyle('light-content');
 
     this.renderMap();
