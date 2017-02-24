@@ -1,7 +1,11 @@
+import myAlertIcon from 'assets/section_my_alerts.png';
+import myReportsIcon from 'assets/section_my_reports.png';
+
 import React, { Component } from 'react';
 import {
   View,
   Text,
+  Image,
   ScrollView,
   TouchableHighlight,
   Platform
@@ -19,27 +23,22 @@ const sections = [
   {
     title: I18n.t('dashboard.alerts'),
     section: 'Alerts',
-    image: ''
-  },
-  {
-    title: I18n.t('dashboard.reports'),
-    section: 'NewReport',
-    image: ''
+    image: myAlertIcon
   },
   {
     title: I18n.t('dashboard.myReports'),
     section: 'Reports',
-    image: ''
+    image: myReportsIcon
   },
   {
     title: I18n.t('dashboard.dailyFeedback'),
     section: 'DailyFeedback',
-    image: ''
+    image: null
   },
   {
     title: I18n.t('dashboard.weeklyFeedback'),
     section: 'WeeklyFeedback',
-    image: ''
+    image: null
   }
 ];
 
@@ -53,12 +52,12 @@ class Dashboard extends Component {
   onItemTap(item) {
     if (item.section && item.section.length > 0) {
       switch (item.section) {
-        case 'NewReport': {
-          const form = `New-report-${Math.floor(Math.random() * 1000)}`;
-          this.props.createReport(form);
-          this.props.navigate(item.section, { form });
-          break;
-        }
+        // case 'NewReport': {
+        //   const form = `New-report-${Math.floor(Math.random() * 1000)}`;
+        //   this.props.createReport(form);
+        //   this.props.navigate(item.section, { form });
+        //   break;
+        // }
         case 'DailyFeedback': {
           this.props.navigate('Feedback', { feedback: 'daily' });
           break;
@@ -103,9 +102,18 @@ class Dashboard extends Component {
                 activeOpacity={0.5}
                 underlayColor="transparent"
               >
-                <Text style={item.section === 'DailyFeedback' || item.section === 'WeeklyFeedback' ? [styles.buttonTextRound] : null}>
-                  {item.title}
-                </Text>
+                <View style={item.section === 'DailyFeedback' || item.section === 'WeeklyFeedback' ? null : [styles.imageIcon]}>
+
+                  {item.image &&
+                    <Image
+                      style={styles.logo}
+                      source={item.image}
+                    />
+                  }
+                  <Text style={item.section === 'DailyFeedback' || item.section === 'WeeklyFeedback' ? [styles.buttonTextRound] : null}>
+                    {item.title}
+                  </Text>
+                </View>
               </TouchableHighlight>
             )
           )}

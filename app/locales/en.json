@@ -10,7 +10,7 @@
 	},
 	"dashboard": {
 		"title": "Dashboard",
-		"alerts": "See my alerts",
+		"alerts": "My alerts",
 		"reports": "Make a report",
 		"myReports": "My reports",
 		"uploadData": "Saved and uploaded data",

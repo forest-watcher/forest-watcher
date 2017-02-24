@@ -24,6 +24,12 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: Theme.colors.color6
   },
+  imageIcon: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16
+  },
   buttonRound: {
     width: Theme.screen.width - 24,
     backgroundColor: Theme.colors.color3,

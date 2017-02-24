@@ -10,11 +10,13 @@
 	},
 	"dashboard": {
 		"title": "Dashboard",
-		"alerts": "Ver mis alertas",
+		"alerts": "My alerts",
 		"reports": "Make a report",
 		"myReports": "My reports",
 		"uploadData": "Saved and uploaded data",
-		"map": "Map"
+		"map": "Map",
+    "dailyFeedback": "Daily feedback",
+    "weeklyFeedback": "Weekly feedback"
 	},
 	"login": {
 		"title": "Login",
@@ -83,5 +85,10 @@
     "uploadAll": "Upload All",
     "drafts": "Drafts",
     "uploaded": "Uploaded"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "saveLaterTitle": "Finish it later",
+    "saveLaterDescription": "You can complete this form from the dashboard menu"
   }
 }
