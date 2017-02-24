@@ -108,7 +108,7 @@ class Dashboard extends Component {
                 key={key}
                 onPress={() => this.onItemTap(item)}
                 activeOpacity={0.5}
-                underlayColor="transparent"
+                underlayColor="#FFFFFF"
               >
                 <View style={item.section === 'DailyFeedback' || item.section === 'WeeklyFeedback' ? null : [styles.imageIcon]}>
 
