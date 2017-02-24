@@ -10,16 +10,12 @@ import Theme from 'config/theme';
 import I18n from 'locales';
 import headerStyles from 'components/common/header/styles';
 import styles from './styles';
+import SettingsBtn from './settings-btn';
 
 const { RNLocation: Location } = require('NativeModules');
 
 const sections = [
   // TEMP
-  {
-    title: 'Settings',
-    section: 'Settings',
-    image: ''
-  },
   {
     title: I18n.t('dashboard.alerts'),
     section: 'Alerts',
@@ -123,12 +119,13 @@ Dashboard.propTypes = {
 };
 
 Dashboard.navigationOptions = {
-  header: {
+  header: ({ navigate }) => ({
     tintColor: Theme.colors.color1,
     style: headerStyles.style,
-    titleStyle: [headerStyles.titleStyle, headerStyles.center, headerStyles.large],
-    title: I18n.t('commonText.appName').toUpperCase()
-  }
+    titleStyle: [headerStyles.titleStyle, headerStyles.center, headerStyles.home],
+    title: I18n.t('commonText.appName').toUpperCase(),
+    right: <SettingsBtn onPress={() => navigate('Settings')} />
+  })
 };
 
 export default Dashboard;
