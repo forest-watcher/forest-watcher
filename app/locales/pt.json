@@ -10,14 +10,18 @@
 	},
 	"dashboard": {
 		"title": "Painel",
-		"alerts": "Ver seus alertas",
+		"alerts": "Meus alertas",
 		"reports": "Criar relatório",
 		"myReports": "Meus relatórios",
 		"uploadData": "Guardar e enviar dados",
-		"map": "Mapa"
+		"map": "Mapa",
+    "dailyFeedback": "Feedback diário",
+    "weeklyFeedback": "Feedback semanal"
 	},
 	"login": {
 		"title": "Entrar",
+		"unable": "Impossível autenticar",
+		"connectionRequired": "Necessita ligação à Internet",
 		"introductionText": "Entrar com uma conta MyGFW",
 		"facebookTitle": "Facebook",
 		"twitterTitle": "Twitter",
@@ -83,5 +87,10 @@
     "uploadAll": "Carregar todos",
     "drafts": "Rascunhos",
     "uploaded": "Carregado"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "saveLaterTitle": "Guardar para mais tarde",
+    "saveLaterDescription": "Pode completar este formulário a partir do menú principal"
   }
 }

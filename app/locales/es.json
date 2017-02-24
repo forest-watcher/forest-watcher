@@ -10,14 +10,18 @@
 	},
 	"dashboard": {
 		"title": "Panel de control",
-		"alerts": "Ver mis alertas",
+		"alerts": "Mis alertas",
 		"reports": "Hacer un informe",
 		"myReports": "Mis informes",
 		"uploadData": "Datos guardados y subidos",
-		"map": "Mapa"
+		"map": "Mapa",
+    "dailyFeedback": "Feedback diario",
+    "weeklyFeedback": "Feedback semanal"
 	},
 	"login": {
 		"title": "Iniciar sesión",
+		"unable": "No se pudo iniciar sesión",
+		"connectionRequired": "Necesita una conexión a internet",
 		"introductionText": "Iniciar sesión con una cuenta de MyGFW",
 		"facebookTitle": "Facebook",
 		"twitterTitle": "Twitter",
@@ -83,5 +87,10 @@
     "uploadAll": "Subir todo",
     "drafts": "Borradores",
     "uploaded": "Subido"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "saveLaterTitle": "Terminar después",
+    "saveLaterDescription": "Puedes terminar el formulario desde el menu dashboard"
   }
 }

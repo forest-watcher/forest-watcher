@@ -10,14 +10,18 @@
 	},
 	"dashboard": {
 		"title": "Tableau de bord",
-		"alerts": "Voir mes alertes",
+		"alerts": "My alerts",
 		"reports": "Faire un rapport",
 		"myReports": "Mes rapports",
 		"uploadData": "Données sauvegardées",
-		"map": "Carte"
+		"map": "Carte",
+    "dailyFeedback": "Donner un avis quotidien",
+    "weeklyFeedback": "Donner un avis hebdomadaire"
 	},
 	"login": {
 		"title": "S'identifier",
+		"unable": "L'authentification a échouée",
+		"connectionRequired": "Une connexion a Internet est requise",
 		"introductionText": "Connectez-vous avec un compte MyGFW",
 		"facebookTitle": "Facebook",
 		"twitterTitle": "Twitter",
@@ -83,5 +87,10 @@
     "uploadAll": "Tout sauvegardé",
     "drafts": "Brouillons",
     "uploaded": "Sauvegardé"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "saveLaterTitle": "Terminer plus tard",
+    "saveLaterDescription": "Vous pouvez remplir ce formulaire depuis le menu du tableau de bord"
   }
 }
