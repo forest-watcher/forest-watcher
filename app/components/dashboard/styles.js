@@ -24,6 +24,27 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: Theme.colors.color6
   },
+  imageIcon: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16
+  },
+  buttonRound: {
+    width: Theme.screen.width - 24,
+    backgroundColor: Theme.colors.color3,
+    height: 48,
+    marginBottom: 8,
+    borderRadius: 32,
+    justifyContent: 'center',
+    overflow: 'hidden',
+    marginLeft: 12,
+    marginTop: 8
+  },
+  buttonTextRound: {
+    color: Theme.background.white,
+    marginLeft: 24
+  },
   icon: {
     width: 80,
     height: 60,

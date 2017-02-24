@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import {
-  View
+  View,
+  ActivityIndicator
 } from 'react-native';
 import { Field, reduxForm } from 'redux-form';
 import { withNavigation } from 'react-navigation';
 
 import I18n from 'locales';
+import Theme from 'config/theme';
 import StepsSlider from 'components/common/steps-slider';
 import getInputForm from 'components/common/form-inputs';
 import ActionButton from 'components/common/action-button';
@@ -44,6 +46,18 @@ function getBtnTextByPosition(position, total) {
   return position < total
     ? 'Next'
     : 'Save';
+}
+
+function renderLoading() {
+  return (
+    <View style={[styles.container, styles.containerCenter]}>
+      <ActivityIndicator
+        color={Theme.colors.color1}
+        style={{ height: 80 }}
+        size={'large'}
+      />
+    </View>
+  );
 }
 
 class ReportsForm extends Component {
@@ -112,7 +126,7 @@ class ReportsForm extends Component {
 
   render() {
     const { questions, answers } = this.props;
-    if (!questions || !questions.length) return null;
+    if (!questions || !questions.length) return renderLoading();
 
     const questionNumber = this.state.page + this.questionsToSkip;
     const question = questions[questionNumber];

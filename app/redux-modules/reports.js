@@ -1,6 +1,7 @@
 import Config from 'react-native-config';
 import tracker from 'helpers/googleAnalytics';
 import CONSTANTS from 'config/constants';
+import { getLanguage } from 'helpers/language';
 
 // Actions
 const GET_QUESTIONS = 'report/GET_QUESTIONS';
@@ -37,7 +38,10 @@ export default function reducer(state = initialNavState, action) {
 // Action Creators
 export function getQuestions() {
   return (dispatch, state) => {
-    const url = `${Config.API_URL}/questionnaire/${Config.QUESTIONNARIE_ID}`;
+    const language = getLanguage().toUpperCase();
+    let qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
+    if (!qIdByLanguage) qIdByLanguage = Config.QUESTIONNARIE_ID_EN; // language fallback
+    const url = `${Config.API_URL}/questionnaire/${qIdByLanguage}`;
     const fetchConfig = {
       headers: {
         'content-type': 'application/json',
@@ -50,9 +54,13 @@ export function getQuestions() {
         throw Error(response);
       })
       .then((data) => {
-        let form = [];
-        if (data && data.data && data.data[0]) form = data.data[0].attributes;
-        form.questions = form.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
+        let form = null;
+        if (data && data.data && data.data[0]) {
+          form = data.data[0].attributes;
+        }
+        if (form && form.questions && form.questions.length) {
+          form.questions = form.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
+        }
         dispatch({
           type: GET_QUESTIONS,
           payload: form
@@ -71,7 +79,7 @@ export function createReport(name, position) {
     payload: {
       [name]: {
         index: 0,
-        position: position || [0, 0],
+        position: position || '0, 0',
         status: CONSTANTS.status.draft,
         date: new Date().toISOString()
       }
@@ -113,11 +121,14 @@ export function uploadReport(reportName) {
           };
           form.append(key, image);
         } else {
-          form.append(key, report[key]);
+          form.append(key, report[key].toString());
         }
       });
 
-      const url = `${Config.API_URL}/questionnaire/${Config.QUESTIONNARIE_ID}/answer`;
+      const language = getLanguage().toUpperCase();
+      let qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
+      if (!qIdByLanguage) qIdByLanguage = Config.QUESTIONNARIE_ID_EN; // language fallback
+      const url = `${Config.API_URL}/questionnaire/${qIdByLanguage}/answer`;
 
       // const xhr = new XMLHttpRequest();
       // xhr.withCredentials = true;

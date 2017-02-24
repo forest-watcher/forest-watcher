@@ -33,8 +33,8 @@ function getGoogleMapsCoordinates(coordinates) {
 }
 
 function getGeoJson(coordinates) {
-  const firstGeo = [coordinates[0].latitude, coordinates[0].longitude];
-  const geoCordinates = coordinates.map((item) => [item.latitude, item.longitude]);
+  const firstGeo = [coordinates[0].longitude, coordinates[0].latitude];
+  const geoCordinates = coordinates.map((item) => [item.longitude, item.latitude]);
   geoCordinates.push(firstGeo);
   return {
     type: 'Polygon',

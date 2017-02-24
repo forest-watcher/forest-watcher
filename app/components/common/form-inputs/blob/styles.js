@@ -1,5 +1,8 @@
 import Theme from 'config/theme';
-import { StyleSheet } from 'react-native';
+import {
+  Platform,
+  StyleSheet
+} from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -12,6 +15,18 @@ export default StyleSheet.create({
     height: Theme.screen.height,
     width: Theme.screen.width
   },
+  captureLabel: {
+    position: 'absolute',
+    top: 45,
+    left: 8,
+    right: 8,
+    fontSize: 21,
+    fontWeight: '400',
+    fontFamily: Theme.font,
+    textAlign: 'center',
+    color: Theme.fontColors.white,
+    backgroundColor: 'transparent'
+  },
   captureBtn: {
     width: 64,
     height: 64,
@@ -22,11 +37,14 @@ export default StyleSheet.create({
     marginBottom: 52
   },
   preview: {
-    marginTop: 16,
+    marginTop: 8,
     marginLeft: 56,
     marginRight: 56,
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end'
+    ...Platform.select({
+      ios: {
+        marginTop: 24
+      }
+    })
   },
   previewImage: {
     height: 416,

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.facebook.react.ReactApplication;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
+import com.sensormanager.SensorManagerPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
@@ -15,6 +16,8 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.i18n.reactnativei18n.ReactNativeI18n;
+import com.joshblour.reactnativeheading.ReactNativeHeadingPackage;
+import com.syarul.rnlocation.RNLocation;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,12 +34,15 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new GoogleAnalyticsBridgePackage(),
-            new RCTCameraPackage(),
-            new RNFetchBlobPackage(),
+          new GoogleAnalyticsBridgePackage(),
+          new SensorManagerPackage(),
+          new RNFetchBlobPackage(),
+          new RCTCameraPackage(),
           new ReactNativeConfigPackage(),
           new MapsPackage(),
-          new ReactNativeI18n()
+          new ReactNativeI18n(),
+          new ReactNativeHeadingPackage(),
+          new RNLocation()
       );
     }
   };

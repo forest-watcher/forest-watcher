@@ -1,20 +1,27 @@
 import { connect } from 'react-redux';
-import { getAlerts } from 'redux-modules/alerts';
+import { getAreas } from 'redux-modules/areas';
+
 import Alerts from 'components/alerts';
 
 function mapStateToProps(state) {
   return {
-    data: state.alerts.data
+    areas: state.areas.data,
+    areasImages: state.areas.images
   };
 }
 
 function mapDispatchToProps(dispatch, { navigation }) {
   return {
-    navigate: (routeName) => {
-      navigation.navigate(routeName);
+    navigate: (routeName, params) => {
+      navigation.navigate(routeName, {
+        title: params.title,
+        features: params.features,
+        center: params.center,
+        geojson: params.geojson
+      });
     },
     fetchData: (action) => {
-      dispatch(getAlerts(action));
+      dispatch(getAreas(action));
     }
   };
 }

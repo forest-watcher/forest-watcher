@@ -17,6 +17,9 @@ function mapDispatchToProps(dispatch, { navigation }) {
     initSetup: () => {
       dispatch(initSetup());
     },
+    goBack: () => {
+      navigation.goBack();
+    },
     onFinishSetup: async () => {
       await setSetupStatus(true);
       const action = NavigationActions.reset({
