@@ -59,6 +59,7 @@ class ReportsForm extends Component {
   }
 
   componentWillMount() {
+    console.log(this.props, 'willmount');
     if (this.props.questions && !this.props.questions.length) {
       this.props.getQuestions();
     }

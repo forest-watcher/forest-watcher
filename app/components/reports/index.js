@@ -52,7 +52,7 @@ class Reports extends Component {
 
   getCompleted(completed) {
     const onActionPress = (reportName) => {
-      tracker.trackEvent('Report', 'Complete Report', { label: 'Click Done', value: '' });
+      tracker.trackEvent('Report', 'Complete Report', { label: 'Click Done', value: 0 });
       this.props.uploadReport(reportName);
     };
     return (

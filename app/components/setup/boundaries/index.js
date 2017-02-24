@@ -50,12 +50,12 @@ class SetupBoundaries extends Component {
   }
 
   setProtectedAreasStatus(status) {
-    tracker.trackEvent('Set-up', 'Choose area type', { label: 'Protected Area', value: '' });
     this.setState({ showProtectedAreas: status });
+    tracker.trackEvent('Set-up', 'Choose area type', { label: 'Protected Area', value: 0 });
   }
   setDrawAreasStatus(status) {
-    tracker.trackEvent('Set-up', 'Choose area type', { label: 'Custom Area', value: '' });
     this.setState({ showDrawAreas: status });
+    tracker.trackEvent('Set-up', 'Choose area type', { label: 'Custom Area', value: 0 });
   }
 
   render() {

@@ -1,5 +1,5 @@
 import Config from 'react-native-config';
-
+import tracker from 'helpers/googleAnalytics';
 import CONSTANTS from 'config/constants';
 
 // Actions
@@ -182,6 +182,7 @@ export function finishReport(reportName) {
         data: { status: CONSTANTS.status.complete }
       }
     });
+    tracker.trackEvent('Report', 'Complete Report', { label: 'Click Done', value: 0 });
     dispatch(uploadReport(reportName));
   };
 }

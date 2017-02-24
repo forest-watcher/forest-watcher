@@ -41,6 +41,9 @@ const sections = [
 
 class Dashboard extends Component {
   onItemTap(item) {
+    if (item.section === 'Alerts') {
+      tracker.trackEvent('Alerts', 'Open Alerts', { label: '', value: 0 });
+    }
     if (item.section && item.section.length > 0) {
       if (item.section === 'NewReport') {
         const form = `New-report-${Math.floor(Math.random() * 1000)}`;

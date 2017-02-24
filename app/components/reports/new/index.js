@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 
 import ReportsForm from 'containers/reports/new/form';
+import tracker from 'helpers/googleAnalytics';
 import styles from '../styles';
 
 // Component necessary to set the navigationOptions

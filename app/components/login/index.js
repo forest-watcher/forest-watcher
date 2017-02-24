@@ -38,12 +38,12 @@ class Login extends Component {
     this.onNavigationStateChange = this.onNavigationStateChange.bind(this);
   }
 
-  componentWillUnmount() {
-    clearTimeout(this.successTimer);
-  }
-
   componentDidMount() {
     tracker.trackScreenView('Login');
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.successTimer);
   }
 
   async onLoadEnd() {
