@@ -1,87 +1,87 @@
 {
 	"commonText": {
 		"appName": "Forest Watcher 2.0",
-		"next": "Next",
-		"back": "Back",
-		"finish": "Finish",
-		"setUp": "Set up",
-    "cancel": "Cancel",
-    "confirm": "Confirm"
+		"next": "Suivant",
+		"back": "Retourner",
+		"finish": "Terminer",
+		"setUp": "Installer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer"
 	},
 	"dashboard": {
-		"title": "Dashboard",
-		"alerts": "See my alerts",
-		"reports": "Make a report",
-		"myReports": "My reports",
-		"uploadData": "Saved and uploaded data",
-		"map": "Map"
+		"title": "Panel",
+		"alerts": "Voir mes alertes",
+		"reports": "Faire un rapport",
+		"myReports": "Mes rapports",
+		"uploadData": "Données sauvegardées et téléchargées",
+		"map": "Carte"
 	},
 	"login": {
-		"title": "Login",
-		"introductionText": "Sign in with a MyGFW account",
+		"title": "S'identifier",
+		"introductionText": "Connectez-vous avec un compte MyGFW",
 		"facebookTitle": "Facebook",
 		"twitterTitle": "Twitter",
 		"googleTitle": "Google",
-		"brazilTitle": "Brazil",
-		"colombiaTitle": "Colombia",
-		"indonesiaTitle": "Indonesia"
+		"brazilTitle": "Brésil",
+		"colombiaTitle": "Colombie",
+		"indonesiaTitle": "Indonésie"
 	},
 	"countries": {
-		"searchPlaceholder": "Search for a country"
+		"searchPlaceholder": "Rechercher un pays"
 	},
 	"alerts": {
-		"title:": "Alerts",
-		"seeAll": "See all",
-		"alert": "alert"
+		"title:": "Alertes",
+		"seeAll": "Voir tout",
+		"alert": "alerte"
 	},
 	"boundaries": {
-		"chooseBoundaries": "Now, choose the boundaries",
-		"selectProtectedArea": "Select a protected area",
-		"drawArea": "Draw an area"
+		"chooseBoundaries": "Maintenant, choisissez les limites",
+		"selectProtectedArea": "Sélectionnez une zone protégée",
+		"drawArea": "Dessinez une zone"
 	},
 	"setupCountry": {
-		"welcomeText": "Hi",
-		"secondWelcomeText": "please set up an area",
-		"firstInstruction": "First, select your country of interest"
+		"welcomeText": "Salut",
+		"secondWelcomeText": "veuillez créer une zone",
+		"firstInstruction": "Tout d'abord, sélectionnez votre pays d'intérêt"
 	},
 	"setupDrawAreas": {
-		"tapInstruction": "Tap on map to draw"
+		"tapInstruction": "Appuyez sur la carte pour dessiner"
 	},
 	"setupHeader": {
-		"errorFirst": "Invalid prop",
-		"errorSecond": "supplied to",
-		"errorThird": "It is required if you show back button"
+		"errorFirst": "Prop non valide",
+		"errorSecond": "fourni à",
+		"errorThird": "Il est nécessaire si vous affichez le bouton"
 	},
 	"setupOverview": {
-		"placeholder": "Enter a name"
+		"placeholder": "Entrez un nom"
 	},
 	"setupProtectedAreas": {
-		"instruction": "Select an area to continue"
+		"instruction": "Sélectionnez une zone pour continuer"
 	},
 	"settings": {
-    "title": "Settings",
-		"loggedIn": "You’re are logged in as",
-		"yourAreas": "Your areas",
-		"logOut": "LOG OUT",
-		"addArea": "ADD AREA",
-		"aboutApp": "About this app",
-		"aboutPartners": "Partners",
-		"aboutTerms": "Terms and Conditions"
+    "title": "Paramètres",
+		"loggedIn": "Vous êtes connecté en tant que",
+		"yourAreas": "Vos domaines",
+		"logOut": "SE DÉCONNECTER",
+		"addArea": "AJOUTER ZONE",
+		"aboutApp": "À propos de cette application",
+		"aboutPartners": "Les partenaires",
+		"aboutTerms": "Termes et conditions"
 	},
   "report": {
-    "title": "Report",
-    "plural": "Reports",
-    "takePicture": "Take a picture",
-    "datePlaceholder": "Select date",
-    "saveLaterTitle": "Save for later",
-    "saveLaterDescription": "It will appear as a draft in the reports section",
-    "inputText": "Please write something",
-    "inputRadio": "Choose one option to continue",
-    "inputSelect": "Choose at least one option to continue",
-    "input": "Please, answer the question",
-    "completed": "Completed",
-    "uploadAll": "Upload All",
-    "drafts": "Drafts",
-    "uploaded": "Uploaded"
+    "title": "Rapport",
+    "plural": "Rapports",
+    "takePicture": "Prendre une photo",
+    "datePlaceholder": "Sélectionner une date",
+    "saveLaterTitle": "Garder pour plus tard",
+    "saveLaterDescription": "Il apparaîtra comme un brouillon dans la section Rapports",
+    "inputText": "Veuillez écrire quelque chose",
+    "inputRadio": "Choisissez une option pour continuer",
+    "inputSelect": "Choisissez au moins une option pour continuer",
+    "input": "S'il vous plaît, répondez à la question",
+    "completed": "Terminé",
+    "uploadAll": "Télécharger tout",
+    "drafts": "Brouillons",
+    "uploaded": "Envoyé"
   }
 }

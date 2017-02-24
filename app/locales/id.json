@@ -1,0 +1,87 @@
+{
+	"commonText": {
+		"appName": "Forest Watcher 2.0",
+		"next": "Next",
+		"back": "Back",
+		"finish": "Finish",
+		"setUp": "Set up",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+	},
+	"dashboard": {
+		"title": "Dashboard",
+		"alerts": "See my alerts",
+		"reports": "Make a report",
+		"myReports": "My reports",
+		"uploadData": "Saved and uploaded data",
+		"map": "Map"
+	},
+	"login": {
+		"title": "Login",
+		"introductionText": "Sign in with a MyGFW account",
+		"facebookTitle": "Facebook",
+		"twitterTitle": "Twitter",
+		"googleTitle": "Google",
+		"brazilTitle": "Brazil",
+		"colombiaTitle": "Colombia",
+		"indonesiaTitle": "Indonesia"
+	},
+	"countries": {
+		"searchPlaceholder": "Search for a country"
+	},
+	"alerts": {
+		"title:": "Alerts",
+		"seeAll": "See all",
+		"alert": "alert"
+	},
+	"boundaries": {
+		"chooseBoundaries": "Now, choose the boundaries",
+		"selectProtectedArea": "Select a protected area",
+		"drawArea": "Draw an area"
+	},
+	"setupCountry": {
+		"welcomeText": "Hi",
+		"secondWelcomeText": "please set up an area",
+		"firstInstruction": "First, select your country of interest"
+	},
+	"setupDrawAreas": {
+		"tapInstruction": "Tap on map to draw"
+	},
+	"setupHeader": {
+		"errorFirst": "Invalid prop",
+		"errorSecond": "supplied to",
+		"errorThird": "It is required if you show back button"
+	},
+	"setupOverview": {
+		"placeholder": "Enter a name"
+	},
+	"setupProtectedAreas": {
+		"instruction": "Select an area to continue"
+	},
+	"settings": {
+    "title": "Settings",
+		"loggedIn": "You’re are logged in as",
+		"yourAreas": "Your areas",
+		"logOut": "LOG OUT",
+		"addArea": "ADD AREA",
+		"aboutApp": "About this app",
+		"aboutPartners": "Partners",
+		"aboutTerms": "Terms and Conditions"
+	},
+  "report": {
+    "title": "Report",
+    "plural": "Reports",
+    "takePicture": "Take a picture",
+    "datePlaceholder": "Select date",
+    "saveLaterTitle": "Save for later",
+    "saveLaterDescription": "It will appear as a draft in the reports section",
+    "inputText": "Please write something",
+    "inputRadio": "Choose one option to continue",
+    "inputSelect": "Choose at least one option to continue",
+    "input": "Please, answer the question",
+    "completed": "Completed",
+    "uploadAll": "Upload All",
+    "drafts": "Drafts",
+    "uploaded": "Uploaded"
+  }
+}

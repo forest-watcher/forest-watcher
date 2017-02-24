@@ -54,7 +54,7 @@ namespace :transifex do
   task pull: :configure do
     project = Transifex::Project.new(PROJECT_SLUG)
     resource = project.resource(RESOURCE_SLUG)
-    ['es', 'fr'].each do |language|
+    ['es', 'fr', 'es', 'pt', 'id'].each do |language|
       translation = resource.translation(language).fetch
       translation_file = PATH_TO_LOCALE_FILES + language + '.json'
       puts "Updating translations in #{translation_file}"

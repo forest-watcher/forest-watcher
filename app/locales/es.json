@@ -1,87 +1,87 @@
 {
 	"commonText": {
 		"appName": "Forest Watcher 2.0",
-		"next": "Next",
-		"back": "Back",
-		"finish": "Finish",
-		"setUp": "Set up",
-    "cancel": "Cancel",
-    "confirm": "Confirm"
+		"next": "Siguiente",
+		"back": "Atrás",
+		"finish": "Terminar",
+		"setUp": "Configuración",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
 	},
 	"dashboard": {
-		"title": "Dashboard",
+		"title": "Cuadro de mandos",
 		"alerts": "Ver mis alertas",
-		"reports": "Make a report",
-		"myReports": "My reports",
-		"uploadData": "Saved and uploaded data",
-		"map": "Map"
+		"reports": "Hacer un informe",
+		"myReports": "Mis informes",
+		"uploadData": "Datos guardados y cargados",
+		"map": "Mapa"
 	},
 	"login": {
-		"title": "Login",
-		"introductionText": "Sign in with a MyGFW account",
+		"title": "Iniciar sesión",
+		"introductionText": "Iniciar sesión con una cuenta MyGFW",
 		"facebookTitle": "Facebook",
 		"twitterTitle": "Twitter",
 		"googleTitle": "Google",
-		"brazilTitle": "Brazil",
+		"brazilTitle": "Brasil",
 		"colombiaTitle": "Colombia",
 		"indonesiaTitle": "Indonesia"
 	},
 	"countries": {
-		"searchPlaceholder": "Search for a country"
+		"searchPlaceholder": "Buscar un país"
 	},
 	"alerts": {
-		"title:": "Alerts",
-		"seeAll": "See all",
-		"alert": "alert"
+		"title:": "Alertas",
+		"seeAll": "Ver todo",
+		"alert": "alerta"
 	},
 	"boundaries": {
-		"chooseBoundaries": "Now, choose the boundaries",
-		"selectProtectedArea": "Select a protected area",
-		"drawArea": "Draw an area"
+		"chooseBoundaries": "Ahora, elige los límites",
+		"selectProtectedArea": "Seleccione un área protegida",
+		"drawArea": "Dibujar un área"
 	},
 	"setupCountry": {
-		"welcomeText": "Hi",
-		"secondWelcomeText": "please set up an area",
-		"firstInstruction": "First, select your country of interest"
+		"welcomeText": "Hola",
+		"secondWelcomeText": "Por favor, configure un área",
+		"firstInstruction": "Primero, seleccione su país de interés"
 	},
 	"setupDrawAreas": {
-		"tapInstruction": "Tap on map to draw"
+		"tapInstruction": "Toque en el mapa para dibujar"
 	},
 	"setupHeader": {
-		"errorFirst": "Invalid prop",
-		"errorSecond": "supplied to",
-		"errorThird": "It is required if you show back button"
+		"errorFirst": "no válido",
+		"errorSecond": "suministrada a",
+		"errorThird": "Es necesario si se muestra el botón Atrás"
 	},
 	"setupOverview": {
-		"placeholder": "Enter a name"
+		"placeholder": "Ingresa un nombre"
 	},
 	"setupProtectedAreas": {
-		"instruction": "Select an area to continue"
+		"instruction": "Seleccione un área para continuar"
 	},
 	"settings": {
-    "title": "Settings",
-		"loggedIn": "You’re are logged in as",
-		"yourAreas": "Your areas",
-		"logOut": "LOG OUT",
-		"addArea": "ADD AREA",
-		"aboutApp": "About this app",
-		"aboutPartners": "Partners",
-		"aboutTerms": "Terms and Conditions"
+    "title": "Ajustes",
+		"loggedIn": "Has iniciado sesión como",
+		"yourAreas": "Tus áreas",
+		"logOut": "Cerrar sesión",
+		"addArea": "AÑADIR ÁREA",
+		"aboutApp": "Acerca de esta aplicación",
+		"aboutPartners": "Socios",
+		"aboutTerms": "Términos y Condiciones"
 	},
   "report": {
-    "title": "Report",
-    "plural": "Reports",
-    "takePicture": "Take a picture",
-    "datePlaceholder": "Select date",
-    "saveLaterTitle": "Save for later",
-    "saveLaterDescription": "It will appear as a draft in the reports section",
-    "inputText": "Please write something",
-    "inputRadio": "Choose one option to continue",
-    "inputSelect": "Choose at least one option to continue",
-    "input": "Please, answer the question",
-    "completed": "Completed",
-    "uploadAll": "Upload All",
-    "drafts": "Drafts",
-    "uploaded": "Uploaded"
+    "title": "Informe",
+    "plural": "Informes",
+    "takePicture": "Toma una foto",
+    "datePlaceholder": "Seleccione una fecha",
+    "saveLaterTitle": "Guardar para más adelante",
+    "saveLaterDescription": "Aparecerá como borrador en la sección de informes",
+    "inputText": "Por favor escriba algo",
+    "inputRadio": "Elija una opción para continuar",
+    "inputSelect": "Seleccione al menos una opción para continuar",
+    "input": "Por favor conteste la pregunta",
+    "completed": "Terminado",
+    "uploadAll": "Subir todo",
+    "drafts": "Borradores",
+    "uploaded": "Subido"
   }
 }
