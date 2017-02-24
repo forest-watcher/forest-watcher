@@ -101,13 +101,15 @@ class Dashboard extends Component {
           {sections.map((item, key) =>
             (
               <TouchableHighlight
-                style={styles.item}
+                style={item.section === 'DailyFeedback' || item.section === 'WeeklyFeedback' ? [styles.buttonRound] : [styles.item]}
                 key={key}
                 onPress={() => this.onItemTap(item)}
                 activeOpacity={0.5}
                 underlayColor="transparent"
               >
-                <Text>{item.title}</Text>
+                <Text style={item.section === 'DailyFeedback' || item.section === 'WeeklyFeedback' ? [styles.buttonTextRound] : null}>
+                  {item.title}
+                </Text>
               </TouchableHighlight>
             )
           )}
