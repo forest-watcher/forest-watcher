@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Alert,
   View,
   Text,
   WebView,
@@ -68,12 +69,20 @@ class Login extends Component {
   }
 
   onPress(socialNetwork) {
-    const url = `${Config.API_URL}/auth/${socialNetwork}?token=true&callbackUrl=${Config.API_CALLBACK_URL}`;
+    if (this.props.isConnected) {
+      const url = `${Config.API_URL}/auth/${socialNetwork}?token=true&callbackUrl=${Config.API_CALLBACK_URL}`;
 
-    this.setState({
-      webviewVisible: true,
-      webViewUrl: url
-    });
+      this.setState({
+        webviewVisible: true,
+        webViewUrl: url
+      });
+    } else {
+      Alert.alert(
+        I18n.t('login.unable'),
+        I18n.t('login.connectionRequired'),
+        [{ text: 'OK' }]
+      );
+    }
   }
 
   async onPressCountry(country) {
@@ -284,6 +293,7 @@ class Login extends Component {
 
 Login.propTypes = {
   loginModal: React.PropTypes.bool.isRequired,
+  isConnected: React.PropTypes.bool.isRequired,
   setLoginModal: React.PropTypes.func.isRequired,
   setLoginStatus: React.PropTypes.func.isRequired
 };
