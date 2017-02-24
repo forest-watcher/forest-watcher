@@ -13,16 +13,16 @@ export default StyleSheet.create({
     flexWrap: 'wrap',
     alignItems: 'flex-start',
     flexDirection: 'row',
-    paddingTop: 8
+    paddingTop: 18
   },
   item: {
     width: (Theme.screen.width / 2) - 12,
     height: 184,
     marginLeft: 8,
-    marginBottom: 8,
+    marginBottom: 22,
     backgroundColor: Theme.background.white,
-    borderWidth: 1,
-    borderColor: Theme.colors.color6
+    borderBottomColor: Theme.borderColors.main,
+    borderBottomWidth: 2
   },
   imageIcon: {
     flex: 1,
