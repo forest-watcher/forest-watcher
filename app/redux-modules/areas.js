@@ -44,7 +44,10 @@ export function getAreas() {
         Authorization: `Bearer ${state().user.token}`
       }
     })
-      .then(response => response.json())
+      .then(response => {
+        if (response.ok) return response.json();
+        throw Error(response);
+      })
       .then((data) => {
         dispatch({
           type: GET_AREAS,
@@ -70,7 +73,10 @@ export function saveArea(params) {
       body: JSON.stringify(params.area)
     };
     fetch(url, fetchConfig)
-      .then(response => response.json())
+      .then(response => {
+        if (response.ok) return response.json();
+        throw Error(response);
+      })
       .then((res) => {
         dispatch({
           type: SAVE_AREA,

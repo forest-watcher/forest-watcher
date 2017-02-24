@@ -34,7 +34,10 @@ export function getAlerts(areaId) {
           Authorization: `Bearer ${state().user.token}`
         }
       })
-    .then(response => response.json())
+    .then(response => {
+      if (response.ok) return response.json();
+      throw Error(response);
+    })
     .catch((error) => {
       console.warn(error);
       // To-do
@@ -61,7 +64,10 @@ export function getAlerts(areaId) {
           AND st_intersects(st_setsrid(st_geomfromgeojson('${geom}'), 4326), the_geom)`;
 
           const points = await fetch(urlPoints)
-            .then(response => response.json())
+            .then(response => {
+              if (response.ok) return response.json();
+              throw Error(response);
+            })
             .then(res => res.data)
             .catch((error) => {
               console.warn(error);
@@ -88,7 +94,10 @@ export function getAlerts(areaId) {
 
 
           const points = await fetch(urlPoints)
-            .then(response => response.json())
+            .then(response => {
+              if (response.ok) return response.json();
+              throw Error(response);
+            })
             .then(res => res.data)
             .catch((error) => {
               console.warn(error);

@@ -47,7 +47,10 @@ export function checkLogged() {
         Authorization: `Bearer ${state().user.token}`
       }
     })
-      .then(response => response.json())
+      .then(response => {
+        if (response.ok) return response.json();
+        throw Error(response);
+      })
       .then((data) => {
         dispatch({
           type: CHECK_USER_LOGGED,
@@ -69,7 +72,10 @@ export function getUser() {
         Authorization: `Bearer ${state().user.token}`
       }
     })
-      .then(response => response.json())
+      .then(response => {
+        if (response.ok) return response.json();
+        throw Error(response);
+      })
       .then((data) => {
         dispatch({
           type: GET_USER,
