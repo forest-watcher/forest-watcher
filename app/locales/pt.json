@@ -1,0 +1,87 @@
+{
+	"commonText": {
+		"appName": "Forest Watcher 2.0",
+		"next": "Próximo",
+		"back": "Voltar",
+		"finish": "Terminar",
+		"setUp": "Configuração",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
+	},
+	"dashboard": {
+		"title": "Painel",
+		"alerts": "Ver seus alertas",
+		"reports": "Criar relatório",
+		"myReports": "Meus relatórios",
+		"uploadData": "Guardar e enviar dados",
+		"map": "Mapa"
+	},
+	"login": {
+		"title": "Entrar",
+		"introductionText": "Entrar com uma conta MyGFW",
+		"facebookTitle": "Facebook",
+		"twitterTitle": "Twitter",
+		"googleTitle": "Google",
+		"brazilTitle": "Brasil",
+		"colombiaTitle": "Colômbia",
+		"indonesiaTitle": "Indonésia"
+	},
+	"countries": {
+		"searchPlaceholder": "Procurar um país"
+	},
+	"alerts": {
+		"title:": "Alertas",
+		"seeAll": "Ver todos",
+		"alert": "alerta"
+	},
+	"boundaries": {
+		"chooseBoundaries": "Agora, escolha os limites",
+		"selectProtectedArea": "Escolha uma área protegida",
+		"drawArea": "Desenhe uma área"
+	},
+	"setupCountry": {
+		"welcomeText": "Olá",
+		"secondWelcomeText": "por favor configure uma área",
+		"firstInstruction": "Primeiro, escolha o seu país de interesse"
+	},
+	"setupDrawAreas": {
+		"tapInstruction": "Toque no mapa para desenhar"
+	},
+	"setupHeader": {
+		"errorFirst": "Propriedade inválida",
+		"errorSecond": "fornecido para",
+		"errorThird": "É obrigatório se você mostrar o botão de voltar"
+	},
+	"setupOverview": {
+		"placeholder": "Introduza um nome"
+	},
+	"setupProtectedAreas": {
+		"instruction": "Escolha uma área para continuar"
+	},
+	"settings": {
+    "title": "Definições",
+		"loggedIn": "Você está identificado como",
+		"yourAreas": "Suas áreas",
+		"logOut": "SAIR",
+		"addArea": "ADICIONAR ÁREA",
+		"aboutApp": "Acerca desta app",
+		"aboutPartners": "Parceiros",
+		"aboutTerms": "Termos e Condições"
+	},
+  "report": {
+    "title": "Relatório",
+    "plural": "Relatórios",
+    "takePicture": "Tire uma fotografia",
+    "datePlaceholder": "Escolha uma data",
+    "saveLaterTitle": "Guardar para mais tarde",
+    "saveLaterDescription": "Aparecerá como um rascunho na secção de relatórios",
+    "inputText": "Por favor introduza algum texto",
+    "inputRadio": "Escolha uma opção para continuar",
+    "inputSelect": "Escolha pelo menos uma opção para continuar",
+    "input": "Por favor, responda à questão",
+    "completed": "Terminado",
+    "uploadAll": "Carregar todos",
+    "drafts": "Rascunhos",
+    "uploaded": "Carregado"
+  }
+}

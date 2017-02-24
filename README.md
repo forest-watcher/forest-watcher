@@ -68,4 +68,4 @@ pod install
 
 1. `cd ruby/transifex`
 2. To push the source file (EN): `bundle exec rake transifex:push`
-3. To pull translation files (ES, FR): `bundle exec rake transifex:pull`
+3. To pull translation files (ES, FR, ID, PT): `bundle exec rake transifex:pull`
