@@ -50,5 +50,10 @@ export default StyleSheet.create({
   },
   center: {
     textAlign: 'center'
+  },
+  home: {
+    fontSize: 15,
+    fontWeight: '500',
+    paddingTop: 4
   }
 });
