@@ -173,7 +173,10 @@ class ProtectedAreas extends Component {
       FROM wdpa_protected_areas ${filter}&format=geojson`;
 
     fetch(url)
-      .then(response => response.json())
+      .then(response => {
+        if (response.ok) return response.json();
+        throw Error(response);
+      })
       .then((responseData) => {
         // this.setBoundaries(); Disabled by now
         this.setState({

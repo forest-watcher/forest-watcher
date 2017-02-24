@@ -30,7 +30,10 @@ export function getCountries() {
 
   return (dispatch) => {
     fetch(url)
-      .then(response => response.json())
+      .then(response => {
+        if (response.ok) return response.json();
+        throw Error(response);
+      })
       .then((data) => {
         dispatch({
           type: GET_COUNTRIES,
