@@ -1,0 +1,188 @@
+{
+  "name": "ForestWatcherReport-PT",
+  "questions": [
+    {
+      "type": "text",
+      "name": "name",
+      "label": "Seu nome",
+      "defaultValue": "",
+      "required": true,
+      "order": 1
+    },
+    {
+      "type": "text",
+      "name": "organization",
+      "label": "Organização",
+      "defaultValue": "",
+      "required": true,
+      "order": 2
+    },
+    {
+      "type": "date",
+      "name": "date",
+      "label": "Data e hora",
+      "defaultValue": "",
+      "required": true,
+      "order": 3
+    },
+    {
+      "type": "point",
+      "name": "position",
+      "label": "Coordenadas GPS",
+      "defaultValue": "",
+      "required": true,
+      "order": 4
+    },
+    {
+      "type": "radio",
+      "name": "responsible",
+      "label": "Você sabe de quem é ou quem gere esta terra?",
+      "values": [
+        "Sim",
+        "Não"
+      ],
+      "required": true,
+      "order": 5,
+      "childQuestions": [{
+        "name": "resposible-detail",
+        "type": "text",
+        "label": "",
+        "defaultValue": "Por favor, introduza essa informação",
+        "conditionalValue": "Sim",
+        "required": false,
+        "order": 0
+      }]
+    },
+    {
+      "type": "radio",
+      "name": "deforestation",
+      "label": "Você vê desmatamento ou degradação?",
+      "values": [
+        "Sim",
+        "Não",
+        "Sem certeza"
+      ],
+      "required": true,
+      "order": 6
+    },
+    {
+      "type": "radio",
+      "name": "deforestation-recent",
+      "label": "A desmatamento é recente?",
+      "defaultValue": "",
+      "conditions": [{
+        "name": "deforestation",
+        "value": "Sim"
+      }],
+      "order": 7,
+      "required": false,
+      "values": [
+        "Sim - queimada recentemente, sem crescimento de vegetação",
+        "Não - quinta estabelecida ou floresta crescida"
+      ]
+    },
+    {
+      "type": "select",
+      "name": "deforestation-driver",
+      "label": "Escolha o motivo do desmatamento",
+      "defaultValue": "",
+      "conditions": [{
+        "name": "deforestation",
+        "value": "Sim"
+      }],
+      "order": 8,
+      "required": false,
+      "values": [
+        "Desmatamento selectivo (uso comercial)",
+        "Desmatamento selectivo (uso doméstico de pequenea escala)",
+        "Desmatamento completo",
+        "Produção de carvão",
+        "Queimada",
+        "Desmatamento para agricultura",
+        "Estrada",
+        "Barragem",
+        "Minas",
+        "Extração de petróleo/gás",
+        "Outro (por favor descreva)"
+      ],
+      "childQuestions": [
+        {
+          "type": "text",
+          "name": "deforestation-driver-agricultural",
+          "label": "que tipo?/cultura?",
+          "defaultValue": "",
+          "conditionalValue": "Desmatamento para agricultura",
+          "order": 0,
+          "required": false,
+          "values": []
+        }
+      ]
+    },
+    {
+      "type": "blob",
+      "name": "deforestation-image",
+      "label": "Tire uma fotografia",
+      "required": false,
+      "order": 9
+    },
+    {
+      "type": "radio",
+      "name": "deforestation-illegal",
+      "label": "Você acha que essa actividade é ilegal?",
+      "defaultValue": "",
+      "conditions": [{
+        "name": "deforestation",
+        "value": "Sim"
+      }],
+      "order": 10,
+      "required": false,
+      "values": [
+        "Sim",
+        "Não"
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "deforestation-responsible",
+      "label": "Vocês sabe quem é responsável por este desmatamento?",
+      "defaultValue": "",
+      "conditions": [{
+        "name": "deforestation",
+        "value": "Sim"
+      }],
+      "order": 11,
+      "required": false,
+      "values": [
+        "Sim",
+        "Não"
+      ],
+      "childQuestions": [{
+        "type": "text",
+        "name": "deforestation-responsible-description",
+        "label": "",
+        "defaultValue": "Por favor descreva",
+        "conditionalValue": false,
+        "order": 0,
+        "required": false
+      }]
+    },
+    {
+      "type": "radio",
+      "name": "further-action",
+      "label": "Alguma outra acção deverá ser tomada nesta área?/Deverá haver algum seguimento?",
+      "values": [
+        "Sim",
+        "Não"
+      ],
+      "required": true,
+      "order": 12
+    },
+    {
+      "type": "text",
+      "name": "notes",
+      "label": "Outras informações? / Notas?",
+      "required": false,
+      "order": 13
+    }
+  ]
+}

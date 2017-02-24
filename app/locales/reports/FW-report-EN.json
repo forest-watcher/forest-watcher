@@ -1,0 +1,188 @@
+{
+  "name": "ForestWatcherReport-EN",
+  "questions": [
+    {
+      "type": "text",
+      "name": "name",
+      "label": "Your name",
+      "defaultValue": "",
+      "required": true,
+      "order": 1
+    },
+    {
+      "type": "text",
+      "name": "organization",
+      "label": "Organization",
+      "defaultValue": "",
+      "required": true,
+      "order": 2
+    },
+    {
+      "type": "date",
+      "name": "date",
+      "label": "Date and time",
+      "defaultValue": "",
+      "required": true,
+      "order": 3
+    },
+    {
+      "type": "point",
+      "name": "position",
+      "label": "GPS points",
+      "defaultValue": "",
+      "required": true,
+      "order": 4
+    },
+    {
+      "type": "radio",
+      "name": "responsible",
+      "label": "Do you know who owns or is responsible for managing this land?",
+      "values": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "order": 5,
+      "childQuestions": [{
+        "name": "resposible-detail",
+        "type": "text",
+        "label": "",
+        "defaultValue": "Please describe",
+        "conditionalValue": "Yes",
+        "required": false,
+        "order": 0
+      }]
+    },
+    {
+      "type": "radio",
+      "name": "deforestation",
+      "label": "Do you see deforestation or degradation?",
+      "values": [
+        "Yes",
+        "No",
+        "Unsure"
+      ],
+      "required": true,
+      "order": 6
+    },
+    {
+      "type": "radio",
+      "name": "deforestation-recent",
+      "label": "Is the deforestation recent?",
+      "defaultValue": "",
+      "conditions": [{
+        "name": "deforestation",
+        "value": "Yes"
+      }],
+      "order": 7,
+      "required": false,
+      "values": [
+        "Yes - burning fresh, no regrowth",
+        "No – farm established or forest regrowth"
+      ]
+    },
+    {
+      "type": "select",
+      "name": "deforestation-driver",
+      "label": "Describe the driver of deforestation",
+      "defaultValue": "",
+      "conditions": [{
+        "name": "deforestation",
+        "value": "Yes"
+      }],
+      "order": 8,
+      "required": false,
+      "values": [
+        "Selective cutting (commercial use)",
+        "Selective cutting (small-scale domestic use)",
+        "Clear cutting",
+        "Charcoal production",
+        "Burning",
+        "Agricultural clearing",
+        "Road",
+        "Dam",
+        "Mining",
+        "Oil/gas extraction",
+        "Other (please describe"
+      ],
+      "childQuestions": [
+        {
+          "type": "text",
+          "name": "deforestation-driver-agricultural",
+          "label": "what type?/crop?",
+          "defaultValue": "",
+          "conditionalValue": "Agricultural clearing",
+          "order": 0,
+          "required": false,
+          "values": []
+        }
+      ]
+    },
+    {
+      "type": "blob",
+      "name": "deforestation-image",
+      "label": "Take a picture",
+      "required": false,
+      "order": 9
+    },
+    {
+      "type": "radio",
+      "name": "deforestation-illegal",
+      "label": "Do you believe this activity is illegal?",
+      "defaultValue": "",
+      "conditions": [{
+        "name": "deforestation",
+        "value": "Yes"
+      }],
+      "order": 10,
+      "required": false,
+      "values": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "deforestation-responsible",
+      "label": "Do you know who is responsible for this deforestation?",
+      "defaultValue": "",
+      "conditions": [{
+        "name": "deforestation",
+        "value": "Yes"
+      }],
+      "order": 11,
+      "required": false,
+      "values": [
+        "Yes",
+        "No"
+      ],
+      "childQuestions": [{
+        "type": "text",
+        "name": "deforestation-responsible-description",
+        "label": "",
+        "defaultValue": "Please describe",
+        "conditionalValue": false,
+        "order": 0,
+        "required": false
+      }]
+    },
+    {
+      "type": "radio",
+      "name": "further-action",
+      "label": "Should further action be taken in this area?/Should there be follow up?",
+      "values": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "order": 12
+    },
+    {
+      "type": "text",
+      "name": "notes",
+      "label": "Other information? / Notes?",
+      "required": false,
+      "order": 13
+    }
+  ]
+}
