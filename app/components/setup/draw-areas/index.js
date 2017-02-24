@@ -14,6 +14,7 @@ import { storeImage, parseImagePath } from 'helpers/fileManagement';
 import ActionButton from 'components/common/action-button';
 import Theme from 'config/theme';
 import I18n from 'locales';
+import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 const { width, height } = Dimensions.get('window');
@@ -91,6 +92,10 @@ class DrawAreas extends Component {
         longitudeDelta: LONGITUDE_DELTA
       }
     };
+  }
+
+  componentDidMount() {
+    tracker.trackScreenView('Draw Areas');
   }
 
   onMapPress(e) {

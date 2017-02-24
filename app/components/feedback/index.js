@@ -4,9 +4,8 @@ import {
   View
 } from 'react-native';
 
-import ReportsForm from 'containers/reports/new/form';
-import tracker from 'helpers/googleAnalytics';
-import styles from '../styles';
+import FeedBackForm from 'containers/feedback/form';
+import styles from './styles';
 
 // Component necessary to set the navigationOptions
 class Reports extends Component {
@@ -16,17 +15,13 @@ class Reports extends Component {
     }
   };
 
-  componentDidMount() {
-    tracker.trackScreenView('Reports');
-  }
-
   render() {
     const { state } = this.props.navigation;
-    const form = state && state.params && state.params.form;
-    if (form) return <ReportsForm form={form} />;
+    const feedback = state && state.params && state.params.feedback;
+    if (feedback) return <FeedBackForm feedback={feedback} />;
     return (
       <View style={[styles.container, styles.containerCenter]}>
-        <Text>Report id is neccesary</Text>
+        <Text>Feedback type is neccesary</Text>
       </View>
     );
   }

@@ -9,6 +9,7 @@ import SearchSelector from 'components/common/search-selector';
 import ActionButton from 'components/common/action-button';
 import Theme from 'config/theme';
 import I18n from 'locales';
+import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 function renderLoading() {
@@ -46,6 +47,7 @@ function getCurrentCountry(countries, iso) {
 
 class SetupCountry extends Component {
   componentDidMount() {
+    tracker.trackScreenView('Country Set Up');
     if (!this.props.countries || !this.props.countries.length > 0) {
       this.props.getCountries();
     }

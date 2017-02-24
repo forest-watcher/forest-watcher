@@ -1,30 +1,35 @@
 import Config from 'react-native-config';
-import tracker from 'helpers/googleAnalytics';
 import CONSTANTS from 'config/constants';
 import { getLanguage } from 'helpers/language';
 
+import { actionTypes } from 'redux-form';
+
 // Actions
-const GET_QUESTIONS = 'report/GET_QUESTIONS';
-const CREATE_REPORT = 'report/CREATE_REPORT';
-const UPDATE_REPORT = 'report/UPDATE_REPORT';
+const GET_QUESTIONS = 'feedback/GET_QUESTIONS';
+const CREATE_FEEDBACK = 'feedback/CREATE_FEEDBACK';
+const UPDATE_FEEDBACK = 'feedback/UPDATE_FEEDBACK';
 
 
 // Reducer
 const initialNavState = {
-  forms: {},
+  daily: {},
+  weekly: {},
   list: {}
 };
 
 export default function reducer(state = initialNavState, action) {
   switch (action.type) {
     case GET_QUESTIONS: {
-      return Object.assign({}, state, { forms: action.payload });
+      const feedback = {
+        [action.payload.type]: action.payload.data
+      };
+      return Object.assign({}, state, feedback);
     }
-    case CREATE_REPORT: {
+    case CREATE_FEEDBACK: {
       const reports = { ...state.list, ...action.payload };
       return Object.assign({}, state, { list: reports });
     }
-    case UPDATE_REPORT: {
+    case UPDATE_FEEDBACK: {
       const list = Object.assign({}, state.list);
       list[action.payload.name] = Object.assign({}, state.list[action.payload.name], action.payload.data);
       return Object.assign({}, state, { list });
@@ -36,12 +41,12 @@ export default function reducer(state = initialNavState, action) {
 }
 
 // Action Creators
-export function getQuestions() {
+export function getQuestions(type) {
   return (dispatch, state) => {
     const language = getLanguage().toUpperCase();
-    let qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
-    if (!qIdByLanguage) qIdByLanguage = Config.QUESTIONNARIE_ID_EN; // language fallback
-    const url = `${Config.API_URL}/questionnaire/${qIdByLanguage}`;
+    let feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_${language}`];
+    if (!feedbackId) feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_EN`]; // language fallback
+    const url = `${Config.API_URL}/questionnaire/${feedbackId}`;
     const fetchConfig = {
       headers: {
         'content-type': 'application/json',
@@ -63,7 +68,10 @@ export function getQuestions() {
         }
         dispatch({
           type: GET_QUESTIONS,
-          payload: form
+          payload: {
+            type,
+            data: form
+          }
         });
       })
       .catch((err) => {
@@ -73,9 +81,9 @@ export function getQuestions() {
   };
 }
 
-export function createReport(name, position) {
+export function createFeedback(name, position) {
   return {
-    type: CREATE_REPORT,
+    type: CREATE_FEEDBACK,
     payload: {
       [name]: {
         index: 0,
@@ -87,24 +95,24 @@ export function createReport(name, position) {
   };
 }
 
-export function saveReport(name, data) {
+export function saveFeedback(name, data) {
   return {
-    type: UPDATE_REPORT,
+    type: UPDATE_FEEDBACK,
     payload: { name, data }
   };
 }
 
-export function uploadReport(reportName) {
+export function uploadFeedback(type) {
   return (dispatch, state) => {
     // const isConnected = state().app.isConnected;
     const isConnected = true;
 
     if (isConnected) {
-      const report = state().form[reportName].values;
+      const report = state().form[type].values;
       const user = state().user;
       const userName = (user && user.data && user.data.attributes && user.data.attributes.fullName) || 'Guest user';
       const oganization = (user && user.data && user.data.attributes && user.data.attributes.organization) || 'Vizzuality';
-      const reportStatus = state().reports.list[reportName];
+      const reportStatus = state().reports.list[type];
 
       const form = new FormData();
       form.append('name', userName);
@@ -117,7 +125,7 @@ export function uploadReport(reportName) {
           const image = {
             uri: report[key],
             type: 'image/jpg',
-            name: `${reportName}-image-${key}.jpg`
+            name: `${type}-image-${key}.jpg`
           };
           form.append(key, image);
         } else {
@@ -126,9 +134,9 @@ export function uploadReport(reportName) {
       });
 
       const language = getLanguage().toUpperCase();
-      let qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
-      if (!qIdByLanguage) qIdByLanguage = Config.QUESTIONNARIE_ID_EN; // language fallback
-      const url = `${Config.API_URL}/questionnaire/${qIdByLanguage}/answer`;
+      let feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_${language}`];
+      if (!feedbackId) feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_EN`]; // language fallback
+      const url = `${Config.API_URL}/questionnaire/${feedbackId}/answer`;
 
       // const xhr = new XMLHttpRequest();
       // xhr.withCredentials = true;
@@ -139,9 +147,9 @@ export function uploadReport(reportName) {
       //     if (xhr.status === 200) {
       //       console.log('iuhuuuu', xhr.responseText);
       //       dispatch({
-      //         type: UPDATE_REPORT,
+      //         type: UPDATE_FEEDBACK,
       //         payload: {
-      //           name: reportName,
+      //           name: type,
       //           data: { status: CONSTANTS.status.uploaded }
       //         }
       //       });
@@ -168,10 +176,16 @@ export function uploadReport(reportName) {
         .then((response) => {
           console.log('TODO: save response', response);
           dispatch({
-            type: UPDATE_REPORT,
+            type: UPDATE_FEEDBACK,
             payload: {
-              name: reportName,
+              name: type,
               data: { status: CONSTANTS.status.uploaded }
+            }
+          });
+          dispatch({
+            type: actionTypes.DESTROY,
+            meta: {
+              form: [type]
             }
           });
         })
@@ -184,16 +198,15 @@ export function uploadReport(reportName) {
   };
 }
 
-export function finishReport(reportName) {
+export function finishFeedback(type) {
   return (dispatch) => {
     dispatch({
-      type: UPDATE_REPORT,
+      type: UPDATE_FEEDBACK,
       payload: {
-        name: reportName,
+        name: type,
         data: { status: CONSTANTS.status.complete }
       }
     });
-    tracker.trackEvent('Report', 'Complete Report', { label: 'Click Done', value: 0 });
-    dispatch(uploadReport(reportName));
+    dispatch(uploadFeedback(type));
   };
 }

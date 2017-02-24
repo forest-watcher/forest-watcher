@@ -44,6 +44,9 @@ export default StyleSheet.create({
     borderColor: Theme.colors.color6,
     alignItems: 'center'
   },
+  sectionDisabled: {
+    opacity: 0.5
+  },
   sectionTextContainer: {
     width: 116,
     justifyContent: 'center',

@@ -11,6 +11,7 @@ import I18n from 'locales';
 import Theme from 'config/theme';
 import LeftBtn from 'components/common/header/left-btn';
 import headerStyles from 'components/common/header/styles';
+import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 const editIcon = require('assets/edit.png');
@@ -45,8 +46,13 @@ function getItems(data, image, onPress) {
 
 class Reports extends Component {
 
+  componentDidMount() {
+    tracker.trackScreenView('Reports');
+  }
+
   getCompleted(completed) {
     const onActionPress = (reportName) => {
+      tracker.trackEvent('Report', 'Complete Report', { label: 'Click Done', value: 0 });
       this.props.uploadReport(reportName);
     };
     return (

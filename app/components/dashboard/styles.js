@@ -13,16 +13,37 @@ export default StyleSheet.create({
     flexWrap: 'wrap',
     alignItems: 'flex-start',
     flexDirection: 'row',
-    paddingTop: 8
+    paddingTop: 18
   },
   item: {
     width: (Theme.screen.width / 2) - 12,
     height: 184,
     marginLeft: 8,
-    marginBottom: 8,
+    marginBottom: 22,
     backgroundColor: Theme.background.white,
-    borderWidth: 1,
-    borderColor: Theme.colors.color6
+    borderBottomColor: Theme.borderColors.main,
+    borderBottomWidth: 2
+  },
+  imageIcon: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16
+  },
+  buttonRound: {
+    width: Theme.screen.width - 24,
+    backgroundColor: Theme.colors.color3,
+    height: 48,
+    marginBottom: 8,
+    borderRadius: 32,
+    justifyContent: 'center',
+    overflow: 'hidden',
+    marginLeft: 12,
+    marginTop: 8
+  },
+  buttonTextRound: {
+    color: Theme.background.white,
+    marginLeft: 24
   },
   icon: {
     width: 80,

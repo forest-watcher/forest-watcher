@@ -16,6 +16,7 @@ import { storeImage, parseImagePath } from 'helpers/fileManagement';
 import ActionButton from 'components/common/action-button';
 import Theme from 'config/theme';
 import I18n from 'locales';
+import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 const { width, height } = Dimensions.get('window');
@@ -77,6 +78,7 @@ class ProtectedAreas extends Component {
   }
 
   componentDidMount() {
+    tracker.trackScreenView('Protected Area');
     if (this.state.data && !this.state.data.length > 0) {
       InteractionManager.runAfterInteractions(() => {
         this.fetchData();
@@ -170,10 +172,13 @@ class ProtectedAreas extends Component {
       SELECT the_geom, cartodb_id, name, iso3, wdpa_pid,
       ST_AsGeoJSON(ST_Centroid(the_geom)) as centroid,
       ST_AsGeoJSON(ST_Envelope(the_geom)) as boundaries
-      FROM wdpa_protected_areas ${filter} LIMIT 15&format=geojson`;
+      FROM wdpa_protected_areas ${filter}&format=geojson`;
 
     fetch(url)
-      .then(response => response.json())
+      .then(response => {
+        if (response.ok) return response.json();
+        throw Error(response);
+      })
       .then((responseData) => {
         // this.setBoundaries(); Disabled by now
         this.setState({

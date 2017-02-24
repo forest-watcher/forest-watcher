@@ -13,7 +13,7 @@ import getInputForm from 'components/common/form-inputs';
 import ActionButton from 'components/common/action-button';
 import Header from './header';
 import NextButton from './next-button';
-import styles from '../styles';
+import styles from './styles';
 
 function isEmptyAnswer(answer) {
   if (!answer) return true;
@@ -60,22 +60,20 @@ function renderLoading() {
   );
 }
 
-class ReportsForm extends Component {
+class FeedBackForm extends Component {
   constructor() {
     super();
 
     this.state = {
       page: 0
     };
-    // First 4 questions in the form should be auto filled
-    this.questionsToSkip = 4;
+    this.questionsToSkip = 0;
     this.pageHistory = [];
   }
 
   componentWillMount() {
-    console.log(this.props, 'willmount');
     if (this.props.questions && !this.props.questions.length) {
-      this.props.getQuestions();
+      this.props.getQuestions(this.props.feedback);
     }
   }
 
@@ -111,8 +109,8 @@ class ReportsForm extends Component {
       }
     } else {
       const { state } = this.props.navigation;
-      const form = state && state.params && state.params.form;
-      this.props.finishReport(form);
+      const feedback = state && state.params && state.params.feedback;
+      this.props.finishFeedback(feedback);
       this.props.navigation.goBack();
     }
   }
@@ -170,9 +168,10 @@ class ReportsForm extends Component {
   }
 }
 
-ReportsForm.propTypes = {
-  finishReport: React.PropTypes.func.isRequired,
+FeedBackForm.propTypes = {
+  finishFeedback: React.PropTypes.func.isRequired,
   getQuestions: React.PropTypes.func.isRequired,
+  feedback: React.PropTypes.string.isRequired,
   questions: React.PropTypes.array.isRequired,
   answers: React.PropTypes.object.isRequired,
   navigation: React.PropTypes.object.isRequired
@@ -180,4 +179,4 @@ ReportsForm.propTypes = {
 
 export default reduxForm({
   destroyOnUnmount: false
-})(withNavigation(ReportsForm));
+})(withNavigation(FeedBackForm));

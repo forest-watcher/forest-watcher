@@ -12,6 +12,7 @@ import ProtectedAreas from 'components/setup/protected-areas';
 import DrawAreas from 'components/setup/draw-areas';
 import Theme from 'config/theme';
 import I18n from 'locales';
+import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 const protectedAreaImage = require('assets/select_pa.png');
@@ -32,6 +33,10 @@ class SetupBoundaries extends Component {
     };
   }
 
+  componentDidMount() {
+    tracker.trackScreenView('Boundaries');
+  }
+
   onAreaSelected = (area, snapshot) => {
     this.props.setSetupArea(area, snapshot);
     this.setProtectedAreasStatus(false);
@@ -46,9 +51,11 @@ class SetupBoundaries extends Component {
 
   setProtectedAreasStatus(status) {
     this.setState({ showProtectedAreas: status });
+    tracker.trackEvent('Set-up', 'Choose area type', { label: 'Protected Area', value: 0 });
   }
   setDrawAreasStatus(status) {
     this.setState({ showDrawAreas: status });
+    tracker.trackEvent('Set-up', 'Choose area type', { label: 'Custom Area', value: 0 });
   }
 
   render() {
@@ -59,9 +66,9 @@ class SetupBoundaries extends Component {
 
           <View style={styles.actions}>
             <TouchableHighlight
-              style={styles.section}
-              onPress={() => this.setProtectedAreasStatus(true)}
-              activeOpacity={0.8}
+              style={[styles.section, styles.sectionDisabled]}
+              onPress={() => console.log('TODO: this.setProtectedAreasStatus(true)')}
+              activeOpacity={1}
               underlayColor={Theme.background.white}
             >
               <View style={styles.sectionTextContainer}>

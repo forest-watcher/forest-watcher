@@ -18,6 +18,7 @@ import i18n from 'locales';
 import ActionBtn from 'components/common/action-button';
 import Config from 'react-native-config';
 import Theme from 'config/theme';
+import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 import { SensorManager } from 'NativeModules';
@@ -27,48 +28,16 @@ const { RNLocation: Location } = require('NativeModules');
 const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 0.005;
+const LATITUDE_DELTA = 10;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const markerImage = require('assets/marker.png');
 const alertGladImage = require('assets/alert-glad.png');
-const alertGladWhiteImage = require('assets/alert-glad-white.png');
+const alertViirsmage = require('assets/alert-viirs.png');
+const alertWhiteImage = require('assets/alert-white.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
 const backIconWhite = require('assets/previous_white.png');
-
-const fakeAlerts = [
-  {
-    id: 0,
-    latitude: 40.435853,
-    longitude: -3.700819,
-    pressed: false
-  },
-  {
-    id: 1,
-    latitude: 40.435923,
-    longitude: -3.702375,
-    pressed: false
-  },
-  {
-    id: 2,
-    latitude: 40.435102,
-    longitude: -3.702058,
-    pressed: false
-  },
-  {
-    id: 3,
-    latitude: 40.434383,
-    longitude: -3.701061,
-    pressed: false
-  },
-  {
-    id: 3,
-    latitude: 40.432820,
-    longitude: -3.701044,
-    pressed: false
-  }
-];
 
 function renderLoading() {
   return (
@@ -87,8 +56,8 @@ function getGoogleMapsCoordinates(coordinates) {
 
   coordinates.forEach((cordinate) => {
     cords.push({
-      latitude: cordinate[1],
-      longitude: cordinate[0]
+      latitude: cordinate.lat,
+      longitude: cordinate.long
     });
   });
 
@@ -107,18 +76,17 @@ class Map extends Component {
       renderMap: false,
       lastPosition: null,
       region: {
-        // latitude: intialCoords.lat,
-        // longitude: intialCoords.lon,
-        latitude: 40.434617,
-        longitude: -3.700523,
+        latitude: intialCoords.lat,
+        longitude: intialCoords.lon,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
-      alerts: fakeAlerts
+      alerts: params.features
     };
   }
 
   componentDidMount() {
+    tracker.trackScreenView('Map');
     StatusBar.setBarStyle('light-content');
 
     this.renderMap();
@@ -141,7 +109,7 @@ class Map extends Component {
       }
     );
 
-    SensorManager.startOrientation(500);
+    SensorManager.startOrientation(200);
     DeviceEventEmitter.addListener(
       'Orientation',
       (data) => {
@@ -164,12 +132,13 @@ class Map extends Component {
   }
 
   onLayout = () => {
-    // const { params } = this.props.navigation.state;
-    // const boundaries = params.geojson.geometry.coordinates[0];
-    // this.map.fitToCoordinates(getGoogleMapsCoordinates(boundaries), {
-    //   edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
-    //   animated: true
-    // });
+    setTimeout(() => {
+      const { params } = this.props.navigation.state;
+      this.map.fitToCoordinates(getGoogleMapsCoordinates(params.features), {
+        edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
+        animated: true
+      });
+    }, 1000);
   }
 
   onAlertPress(alertSelected) {
@@ -207,7 +176,6 @@ class Map extends Component {
       DeviceEventEmitter.addListener(
         'locationUpdated',
         (location) => {
-          console.log(location);
           this.setState({
             lastPosition: {
               latitude: location.latitude,
@@ -227,28 +195,13 @@ class Map extends Component {
     }
   }
 
-  // {params.features.map((point, key) =>
-  //   (
-  //     <MapView.Marker.Animated
-  //       key={key}
-  //       image={alertGladImage}
-  //       style={{ opacity: 0.8 }}
-  //       coordinate={{
-  //         latitude: point.lat,
-  //         longitude: point.long
-  //       }}
-  //     />
-  //   )
-  // )
-  // }
-
   renderFooter() {
     let distanceText = 'Not Available';
     let distance = 999999;
     const { lastPosition } = this.state;
 
     if (lastPosition) {
-      const geoPoint = new GeoPoint(this.state.alertSelected.latitude, this.state.alertSelected.longitude);
+      const geoPoint = new GeoPoint(this.state.alertSelected.lat, this.state.alertSelected.long);
       const currentPoint = new GeoPoint(lastPosition.latitude, lastPosition.longitude);
       distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);
       distanceText = `${distance} km away`; // in Kilometers
@@ -351,17 +304,25 @@ class Map extends Component {
                 </MapView.Marker>
               : null
             }
-
             {this.state.alerts.map((point, key) => {
-              const image = point.selected ? alertGladWhiteImage : alertGladImage;
+              let image = alertGladImage;
+
+              if (point.type === 'viirs') {
+                image = alertViirsmage;
+              }
+
+              if (point.selected) {
+                image = alertWhiteImage;
+              }
+
               return (
                 <MapView.Marker.Animated
                   key={key}
                   image={image}
                   style={{ opacity: 0.8 }}
                   coordinate={{
-                    latitude: point.latitude,
-                    longitude: point.longitude
+                    latitude: point.lat,
+                    longitude: point.long
                   }}
                   onPress={() => this.onAlertPress(point)}
                 />
