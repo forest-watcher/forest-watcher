@@ -170,7 +170,7 @@ class ProtectedAreas extends Component {
       SELECT the_geom, cartodb_id, name, iso3, wdpa_pid,
       ST_AsGeoJSON(ST_Centroid(the_geom)) as centroid,
       ST_AsGeoJSON(ST_Envelope(the_geom)) as boundaries
-      FROM wdpa_protected_areas ${filter} LIMIT 15&format=geojson`;
+      FROM wdpa_protected_areas ${filter}&format=geojson`;
 
     fetch(url)
       .then(response => response.json())
