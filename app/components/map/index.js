@@ -61,6 +61,12 @@ const fakeAlerts = [
     latitude: 40.434383,
     longitude: -3.701061,
     pressed: false
+  },
+  {
+    id: 3,
+    latitude: 40.432820,
+    longitude: -3.701044,
+    pressed: false
   }
 ];
 
@@ -319,6 +325,7 @@ class Map extends Component {
                 image={markerImage}
                 coordinate={this.state.lastPosition}
                 style={{ zIndex: 2 }}
+                pointerEvents={'none'}
               />
             }
             {this.state.lastPosition
@@ -328,6 +335,7 @@ class Map extends Component {
                   coordinate={this.state.lastPosition}
                   zIndex={1}
                   anchor={{ x: 0.5, y: 0.6 }}
+                  pointerEvents={'none'}
                 >
                   <Animated.Image
                     style={{
