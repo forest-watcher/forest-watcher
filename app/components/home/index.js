@@ -61,6 +61,7 @@ class Home extends Component {
     if (!userToken) {
       this.props.setLoginModal(true);
     } else {
+      tracker.setUser(userToken);
       this.checkSetup();
     }
   }
