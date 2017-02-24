@@ -119,7 +119,9 @@ export function uploadReport(reportName) {
         }
       });
 
-      const url = `${Config.API_URL}/questionnaire/${Config.QUESTIONNARIE_ID}/answer`;
+      const language = getLanguage().toUpperCase();
+      const qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
+      const url = `${Config.API_URL}/questionnaire/${qIdByLanguage}/answer`;
 
       // const xhr = new XMLHttpRequest();
       // xhr.withCredentials = true;
