@@ -10,7 +10,7 @@
 	},
 	"dashboard": {
 		"title": "Tableau de bord",
-		"alerts": "My alerts",
+		"alerts": "Mes alertes",
 		"reports": "Faire un rapport",
 		"myReports": "Mes rapports",
 		"uploadData": "Données sauvegardées",
