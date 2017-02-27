@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { Field, reduxForm } from 'redux-form';
 import { withNavigation } from 'react-navigation';
+import { getLanguage } from 'helpers/language';
 
 import I18n from 'locales';
 import Theme from 'config/theme';
@@ -72,9 +73,13 @@ class FeedBackForm extends Component {
   }
 
   componentWillMount() {
-    if (this.props.questions && !this.props.questions.length) {
+    if ((this.props.questions && !this.props.questions.length) || this.isDifferentLanguage()) {
       this.props.getQuestions(this.props.feedback);
     }
+  }
+
+  isDifferentLanguage() {
+    return this.props.reportLanguage !== getLanguage().toUpperCase();
   }
 
   handleBack = () => {
@@ -171,6 +176,7 @@ class FeedBackForm extends Component {
 FeedBackForm.propTypes = {
   finishFeedback: React.PropTypes.func.isRequired,
   getQuestions: React.PropTypes.func.isRequired,
+  reportLanguage: React.PropTypes.string.isRequired,
   feedback: React.PropTypes.string.isRequired,
   questions: React.PropTypes.array.isRequired,
   answers: React.PropTypes.object.isRequired,
