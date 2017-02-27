@@ -49,7 +49,7 @@ export function checkLogged() {
     })
       .then(response => {
         if (response.ok) return response.json();
-        throw Error(response);
+        throw Error(response.statusText);
       })
       .then((data) => {
         dispatch({
@@ -58,7 +58,7 @@ export function checkLogged() {
         });
       })
       .catch((error) => {
-        console.warn(error);
+        console.log(error);
         // To-do
       });
   };
@@ -74,7 +74,7 @@ export function getUser() {
     })
       .then(response => {
         if (response.ok) return response.json();
-        throw Error(response);
+        throw Error(response.statusText);
       })
       .then((data) => {
         dispatch({

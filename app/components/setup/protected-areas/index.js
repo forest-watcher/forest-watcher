@@ -177,7 +177,7 @@ class ProtectedAreas extends Component {
     fetch(url)
       .then(response => {
         if (response.ok) return response.json();
-        throw Error(response);
+        throw Error(response.statusText);
       })
       .then((responseData) => {
         // this.setBoundaries(); Disabled by now

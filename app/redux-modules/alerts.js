@@ -36,7 +36,7 @@ export function getAlerts(areaId) {
       })
     .then(response => {
       if (response.ok) return response.json();
-      throw Error(response);
+      throw Error(response.statusText);
     })
     .catch((error) => {
       console.warn(error);
@@ -66,7 +66,7 @@ export function getAlerts(areaId) {
           const points = await fetch(urlPoints)
             .then(response => {
               if (response.ok) return response.json();
-              throw Error(response);
+              throw Error(response.statusText);
             })
             .then(res => res.data)
             .catch((error) => {
@@ -96,7 +96,7 @@ export function getAlerts(areaId) {
           const points = await fetch(urlPoints)
             .then(response => {
               if (response.ok) return response.json();
-              throw Error(response);
+              throw Error(response.statusText);
             })
             .then(res => res.data)
             .catch((error) => {
