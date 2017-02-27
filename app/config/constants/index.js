@@ -30,7 +30,9 @@ export default {
     nameColumn: {
       en: 'name_engli',
       es: 'name_spani',
-      fr: 'name_frenc'
+      fr: 'name_frenc',
+      pt: 'name_engli',
+      id: 'name_engli'
     }
   },
   files: {
