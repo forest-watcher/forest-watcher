@@ -32,7 +32,7 @@ function getItems(data, image, onPress) {
       <View style={styles.listBtn}>
         {image &&
         <TouchableHighlight
-          onPress={() => onPress(item.title)}
+          onPress={() => typeof onPress === 'function' && onPress(item.title)}
           underlayColor="transparent"
           activeOpacity={0.8}
         >
@@ -66,7 +66,7 @@ class Reports extends Component {
     );
   }
 
-  getDrafts(drafts) { // eslint-disable-line
+  getDrafts(drafts) {
     const onActionPress = (reportName) => {
       this.props.navigation.navigate('NewReport', { form: reportName });
     };
