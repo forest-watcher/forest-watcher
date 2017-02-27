@@ -41,7 +41,8 @@
     "title": "Alerts",
 		"seeAll": "See all",
 		"alert": "alert",
-    "downloadingAlerts": "Please wait while the data is downloaded..."
+    "downloadingAlerts": "Please wait while the data is downloaded...",
+    "noAlerts": "There are no alerts available"
 	},
 	"boundaries": {
 		"chooseBoundaries": "Now, choose the boundaries",

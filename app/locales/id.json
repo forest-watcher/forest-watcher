@@ -41,7 +41,8 @@
     "title": "Peringatan",
 		"seeAll": "Lihat semua",
 		"alert": "Peringatan",
-    "downloadingAlerts": "Harap tunggu sementara data yang di-download ..."
+    "downloadingAlerts": "Harap tunggu sementara data yang di-download ...",
+    "noAlerts": "Tidak ada lansiran tersedia"
 	},
 	"boundaries": {
 		"chooseBoundaries": "Sakarang, pilih batas",

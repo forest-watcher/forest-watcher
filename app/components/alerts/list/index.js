@@ -23,6 +23,14 @@ function getPlaceholder() {
   );
 }
 
+function getNoDataView() {
+  return (
+    <View style={[styles.placeholder, styles.center]}>
+      <Text style={styles.loadingText}>{I18n.t('alerts.noAlerts')}</Text>
+    </View>
+  );
+}
+
 class AlertsList extends Component {
   constructor() {
     super();
