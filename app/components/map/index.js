@@ -80,7 +80,7 @@ class Map extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
-      alerts: params.features
+      alerts: params.features.slice(0, 500) // Provisional
     };
   }
 
