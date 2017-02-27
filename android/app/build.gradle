@@ -89,7 +89,7 @@ android {
 
     defaultConfig {
         applicationId "com.forestwatcher"
-        minSdkVersion 18
+        minSdkVersion 17
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -143,7 +143,6 @@ dependencies {
     compile project(':react-native-fetch-blob')
     compile project(':react-native-i18n')
     compile project(':react-native-config')
-    compile project(':react-native-heading')
     compile project(':RNLocation')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"

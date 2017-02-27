@@ -22,7 +22,6 @@ import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 import { SensorManager } from 'NativeModules';
-// const ReactNativeHeading = require('react-native-heading');
 const { RNLocation: Location } = require('NativeModules');
 
 const { width, height } = Dimensions.get('window');
