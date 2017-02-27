@@ -38,7 +38,7 @@
 		"searchPlaceholder": "Procurar um país"
 	},
 	"alerts": {
-		"title:": "Alertas",
+    "title": "Alertas",
 		"seeAll": "Ver todos",
 		"alert": "alerta",
     "downloadingAlerts": "Aguarde enquanto os dados são baixados ..."

@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
 
+import I18n from 'locales';
 import AlertsList from 'containers/alerts/list';
 import LeftBtn from 'components/common/header/left-btn';
 import Theme from 'config/theme';
@@ -70,7 +71,7 @@ Alerts.navigationOptions = {
     tintColor: Theme.colors.color1,
     style: headerStyles.style,
     titleStyle: headerStyles.titleStyle,
-    title: 'Alerts'
+    title: I18n.t('alerts.title')
   })
 };
 
