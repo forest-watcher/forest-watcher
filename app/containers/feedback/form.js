@@ -9,11 +9,18 @@ function getAnswers(forms, formName) {
   return {};
 }
 
+function getReportLang(report) {
+  if (!report || !report.name) return 'EN';
+  const lang = report.name.split('-')[1];
+  return lang ? lang.toUpperCase() : 'EN';
+}
+
 function mapStateToProps(state, { feedback }) {
   return {
     form: feedback,
     questions: state.feedback[feedback].questions || [],
-    answers: getAnswers(state.form, feedback)
+    answers: getAnswers(state.form, feedback),
+    reportLanguage: getReportLang(state.feedback.forms)
   };
 }
 
