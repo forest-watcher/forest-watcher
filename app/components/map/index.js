@@ -206,22 +206,23 @@ class Map extends Component {
       distanceText = `${distance} ${I18n.t('commonText.kmAway')}`; // in Kilometers
     }
 
-    let reportBtn = null;
     const createReport = () => {
       const form = `New-report-${Math.floor(Math.random() * 1000)}`;
-      this.props.createReport(form, `${lastPosition.latitude},${lastPosition.longitude}`);
-      this.props.navigation.navigate('NewReport', { form });
+      let latLng = '0,0';
+      if (lastPosition) {
+        latLng = `${lastPosition.latitude},${lastPosition.longitude}`;
+      }
+      this.props.createReport(form, latLng);
+      this.props.navigateReset('NewReport', { form });
     };
 
-    if (lastPosition) { // TODO: add distance validation
-      reportBtn = (
-        <ActionBtn
-          style={styles.footerButton}
-          text={I18n.t('report.title')}
-          onPress={() => createReport()}
-        />
-      );
-    }
+    const reportBtn = (
+      <ActionBtn
+        style={styles.footerButton}
+        text={I18n.t('report.title')}
+        onPress={() => createReport()}
+      />
+    );
     return (
       <View style={styles.footer}>
         <Image
@@ -342,6 +343,7 @@ class Map extends Component {
 
 Map.propTypes = {
   navigation: React.PropTypes.object.isRequired,
+  navigateReset: React.PropTypes.func.isRequired,
   createReport: React.PropTypes.func.isRequired
 };
 
