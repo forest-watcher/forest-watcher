@@ -22,7 +22,8 @@ export default function reducer(state = initialState, action) {
 // Action Creators
 export function getCountries() {
   const currentLang = getLanguage();
-  const nameColumnId = CONSTANTS.countries.nameColumn[currentLang];
+  const nameColumnId = CONSTANTS.countries.nameColumn[currentLang] ||
+    CONSTANTS.countries.nameColumn.en;
 
   const url = `${Config.API_PRODUCTION_URL}/query/${Config.DATASET_COUNTRIES}?sql=
     SELECT ${nameColumnId} as name, iso, centroid, bbox
