@@ -73,12 +73,12 @@ class AlertsList extends Component {
           {Object.keys(alerts).map((key, index) => {
             const alert = alerts[key];
             alert.areaName = this.props.areaName;
-            let distance = I18n.t('common.notAvailable');
+            let distance = I18n.t('commonText.notAvailable');
 
             if (this.state.curentPosition) {
               const geoPoint = new GeoPoint(alert.center.lat, alert.center.lon);
               const currentPoint = new GeoPoint(this.state.curentPosition.coords.latitude, this.state.curentPosition.coords.longitude);
-              distance = `${Math.round(currentPoint.distanceTo(geoPoint, true))}${I18n.t('common.kmAway')}`; // in Kilometers
+              distance = `${Math.round(currentPoint.distanceTo(geoPoint, true))}${I18n.t('commonText.kmAway')}`; // in Kilometers
             }
             // console.log(this.state.curentPosition.coords, currentPoint.distanceTo(geoPoint, true));
 
