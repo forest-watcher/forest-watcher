@@ -24,6 +24,14 @@ const LATITUDE_DELTA = 30;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const footerBackgroundImage = require('assets/map_bg_gradient.png');
+const markerImage = require('assets/marker.png');
+
+function parseCoordinates(coordinates) {
+  return coordinates.map((cordinate) => ({
+    latitude: cordinate.latitude,
+    longitude: cordinate.longitude
+  }));
+}
 
 function getGoogleMapsCoordinates(coordinates) {
   return coordinates.map((cordinate) => ({
@@ -142,6 +150,20 @@ class DrawAreas extends Component {
     }
   }
 
+  getLegend() {
+    const finished = this.state.shape.coordinates.length >= 3;
+    if (!finished) return <Text style={styles.footerTitle}>{I18n.t('setupDrawAreas.tapInstruction')}</Text>;
+
+    const valid = false; // TODO: check valid geojson
+    return (valid)
+      ? <ActionButton style={styles.footerButton} onPress={this.onNextPress} text={I18n.t('commonText.next')} />
+      : <ActionButton style={styles.footerButton} onPress={this.clearShape} text={I18n.t('setupDrawAreas.resetShape')} />;
+  }
+
+  clearShape = () => {
+    this.setState({ shape: { coordinates: [] } });
+  }
+
   takeSnapshot() {
     return this.map.takeSnapshot({
       height: 224,
@@ -153,7 +175,8 @@ class DrawAreas extends Component {
 
   render() {
     const { coordinates } = this.state.shape;
-    const finished = coordinates.length >= 3;
+    const markers = parseCoordinates(coordinates);
+
     return (
       <View style={styles.container}>
         {this.state.loading
@@ -179,18 +202,23 @@ class DrawAreas extends Component {
               strokeWidth={Theme.polygon.strokeWidth}
             />
           )}
+          {markers.length >= 0 &&
+            markers.map((marker, index) => (
+              <MapView.Marker key={index} coordinate={marker} anchor={{ x: 0.5, y: 0.5 }}>
+                <Image
+                  style={{ width: 8, height: 8 }}
+                  source={markerImage}
+                />
+              </MapView.Marker>
+            ))
+          }
         </MapView>
         <View style={styles.footer}>
           <Image
             style={styles.footerBg}
             source={footerBackgroundImage}
           />
-          {finished
-            ? <ActionButton style={styles.footerButton} onPress={this.onNextPress} text={I18n.t('commonText.next')} />
-            : <Text style={styles.footerTitle}>
-              {I18n.t('setupDrawAreas.tapInstruction')}
-            </Text>
-          }
+          {this.getLegend()}
         </View>
       </View>
     );

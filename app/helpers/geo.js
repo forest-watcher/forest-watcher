@@ -1,3 +1,0 @@
-export function getCentroIdFromBbox(bbox) {
-
-}
