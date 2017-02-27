@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import MapView from 'react-native-maps';
 import GeoPoint from 'geopoint';
-import i18n from 'locales';
+import I18n from 'locales';
 
 import ActionBtn from 'components/common/action-button';
 import Config from 'react-native-config';
@@ -196,7 +196,7 @@ class Map extends Component {
   }
 
   renderFooter() {
-    let distanceText = 'Not Available';
+    let distanceText = I18n.t('common.notAvailable');
     let distance = 999999;
     const { lastPosition } = this.state;
 
@@ -204,7 +204,7 @@ class Map extends Component {
       const geoPoint = new GeoPoint(this.state.alertSelected.lat, this.state.alertSelected.long);
       const currentPoint = new GeoPoint(lastPosition.latitude, lastPosition.longitude);
       distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);
-      distanceText = `${distance} km away`; // in Kilometers
+      distanceText = `${distance} ${I18n.t('common.kmAway')}`; // in Kilometers
     }
 
     let reportBtn = null;
@@ -218,7 +218,7 @@ class Map extends Component {
       reportBtn = (
         <ActionBtn
           style={styles.footerButton}
-          text={i18n.t('report.title')}
+          text={I18n.t('report.title')}
           onPress={() => createReport()}
         />
       );

@@ -9,6 +9,10 @@ import id from 'locales/id.json';
 
 I18n.fallbacks = true;
 
+if (I18n.locale.indexOf('in') >= 0) {
+  I18n.locale = 'id';
+}
+
 I18n.translations = {
   en: { ...en },
   es: { ...es },

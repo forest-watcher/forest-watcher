@@ -6,7 +6,10 @@
 		"finish": "Terminar",
 		"setUp": "Configuração",
     "cancel": "Cancelar",
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "loading": "Carregando",
+    "notAvailable": "Não disponível",
+    "kmAway": "Km de distância"
 	},
 	"dashboard": {
 		"title": "Painel",
@@ -36,7 +39,8 @@
 	"alerts": {
 		"title:": "Alertas",
 		"seeAll": "Ver todos",
-		"alert": "alerta"
+		"alert": "alerta",
+    "downloadingAlerts": "Aguarde enquanto os dados são baixados ..."
 	},
 	"boundaries": {
 		"chooseBoundaries": "Agora, escolha os limites",
@@ -57,7 +61,8 @@
 		"errorThird": "É obrigatório se você mostrar o botão de voltar"
 	},
 	"setupOverview": {
-		"placeholder": "Introduza um nome"
+		"placeholder": "Introduza um nome",
+    "areaName": "Nomeie a área"
 	},
 	"setupProtectedAreas": {
 		"instruction": "Escolha uma área para continuar"
@@ -86,11 +91,13 @@
     "completed": "Terminado",
     "uploadAll": "Carregar todos",
     "drafts": "Rascunhos",
-    "uploaded": "Carregado"
+    "uploaded": "Carregado",
+    "reportIdRequired": "O ID do relatório é necessário"
   },
   "feedback": {
     "title": "Feedback",
     "saveLaterTitle": "Guardar para mais tarde",
-    "saveLaterDescription": "Pode completar este formulário a partir do menú principal"
+    "saveLaterDescription": "Pode completar este formulário a partir do menú principal",
+    "feedBackTypeRequired": "Tipo de feedback é necessário"
   }
 }

@@ -4,6 +4,7 @@ import {
   View
 } from 'react-native';
 
+import I18n from 'locales';
 import FeedBackForm from 'containers/feedback/form';
 import styles from './styles';
 
@@ -21,7 +22,7 @@ class Reports extends Component {
     if (feedback) return <FeedBackForm feedback={feedback} />;
     return (
       <View style={[styles.container, styles.containerCenter]}>
-        <Text>Feedback type is neccesary</Text>
+        <Text>{I18n.t('feedback.feedBackTypeRequired')}</Text>
       </View>
     );
   }
