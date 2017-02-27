@@ -15,7 +15,16 @@ import styles from './styles';
 
 
 class Alerts extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      currentPosition: null
+    };
+  }
+
   componentDidMount() {
+    this.getLocation();
     this.props.fetchData();
     tracker.trackScreenView('Alerts');
   }
@@ -29,6 +38,16 @@ class Alerts extends Component {
     });
   }
 
+  getLocation() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.setState({ currentPosition: position });
+      },
+      (error) => console.log(error),
+      { enableHighAccuracy: true, timeout: 60000, maximumAge: 50 }
+    );
+  }
+
   render() {
     const { areas } = this.props;
     return (
@@ -38,7 +57,7 @@ class Alerts extends Component {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        {areas.map((data, areaKey) => {
+        {areas && areas.length > 0 && areas.map((data, areaKey) => {
           const area = data.attributes;
           area.id = data.id;
 
@@ -47,7 +66,11 @@ class Alerts extends Component {
               <View style={styles.area}>
                 <Text style={styles.areaTitle}>{area.name}</Text>
               </View>
-              <AlertsList onPress={this.onPress} areaId={area.id} areaName={area.name} />
+              <AlertsList
+                areaName={area.name}
+                onPress={this.onPress} areaId={area.id}
+                currentPosition={this.state.currentPosition}
+              />
             </View>
           );
         }

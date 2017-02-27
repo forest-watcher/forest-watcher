@@ -23,42 +23,24 @@ function getPlaceholder() {
   );
 }
 
+function getNoDataView() {
+  return (
+    <View style={[styles.placeholder, styles.center]}>
+      <Text style={styles.loadingText}>{I18n.t('alerts.noAlerts')}</Text>
+    </View>
+  );
+}
+
 class AlertsList extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      alerts: null,
-      curentPosition: null
-    };
-  }
-
   componentDidMount() {
     // Temp
     setTimeout(() => {
-      this.getLocation();
       this.checkData();
     }, 200);
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.alerts) {
-      this.setState({ alerts: newProps.alerts });
-    }
-  }
-
-  getLocation() {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.setState({ curentPosition: position });
-      },
-      (error) => console.log('error'),
-      { enableHighAccuracy: true, timeout: 60000, maximumAge: 50 }
-    );
-  }
-
   getAlertsView() {
-    const { alerts } = this.state;
+    const { alerts } = this.props;
 
     return (
       <ScrollView
@@ -75,12 +57,11 @@ class AlertsList extends Component {
             alert.areaName = this.props.areaName;
             let distance = I18n.t('commonText.notAvailable');
 
-            if (this.state.curentPosition) {
+            if (this.props.currentPosition) {
               const geoPoint = new GeoPoint(alert.center.lat, alert.center.lon);
-              const currentPoint = new GeoPoint(this.state.curentPosition.coords.latitude, this.state.curentPosition.coords.longitude);
+              const currentPoint = new GeoPoint(this.props.currentPosition.coords.latitude, this.props.currentPosition.coords.longitude);
               distance = `${Math.round(currentPoint.distanceTo(geoPoint, true))}${I18n.t('commonText.kmAway')}`; // in Kilometers
             }
-            // console.log(this.state.curentPosition.coords, currentPoint.distanceTo(geoPoint, true));
 
             return (
               <TouchableHighlight
@@ -111,25 +92,27 @@ class AlertsList extends Component {
   }
 
   checkData() {
-    if (!Object.keys(this.props.alerts).length > 0) {
+    if (!this.props.alerts) {
       this.props.getAlerts(this.props.areaId);
-    } else {
-      this.setState({ alerts: this.props.alerts });
     }
   }
 
   render() {
-    const { alerts } = this.state;
+    const { alerts } = this.props;
+
+    if (!alerts) return getPlaceholder();
+
     return alerts && alerts.length > 0
       ? this.getAlertsView()
-      : getPlaceholder();
+      : getNoDataView();
   }
 }
 
 AlertsList.propTypes = {
   onPress: React.PropTypes.func.isRequired,
   getAlerts: React.PropTypes.func.isRequired,
-  alerts: React.PropTypes.array,
+  alerts: React.PropTypes.any, // Bool = not request [] = no data
+  currentPosition: React.PropTypes.object,
   areaId: React.PropTypes.string.isRequired,
   areaName: React.PropTypes.string.isRequired
 };

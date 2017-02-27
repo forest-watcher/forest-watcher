@@ -15,6 +15,10 @@ export default StyleSheet.create({
     flexDirection: 'row',
     paddingRight: 15
   },
+  center: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   item: {
     width: 128,
     backgroundColor: '#FFFFFF',
@@ -51,7 +55,8 @@ export default StyleSheet.create({
   placeholder: {
     flex: 1,
     alignItems: 'flex-end',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    minHeight: 80
   },
   placeholderImage: {
     width: Theme.screen.width - 20,

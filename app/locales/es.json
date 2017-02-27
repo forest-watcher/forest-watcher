@@ -41,7 +41,8 @@
     "title": "Alertas",
 		"seeAll": "Ver todo",
 		"alert": "alerta",
-    "downloadingAlerts": "Espera mientras se descargan los datos..."
+    "downloadingAlerts": "Espera mientras se descargan los datos...",
+    "noAlerts": "No hay alertas disponibles"
 	},
 	"boundaries": {
 		"chooseBoundaries": "Ahora, elija los límites",
