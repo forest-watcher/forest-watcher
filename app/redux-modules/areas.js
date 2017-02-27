@@ -9,13 +9,14 @@ const SAVE_AREA = 'areas/SAVE_AREA';
 // Reducer
 const initialState = {
   data: [],
-  images: {}
+  images: {},
+  synced: false
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_AREAS:
-      return Object.assign({}, state, { ...action.payload });
+      return Object.assign({}, state, { ...action.payload, synced: true });
     case SAVE_AREA: {
       const areas = state.data.length > 0 ? state.data : [];
       const image = {};
@@ -46,7 +47,7 @@ export function getAreas() {
     })
       .then(response => {
         if (response.ok) return response.json();
-        throw Error(response);
+        throw Error(response.statusText);
       })
       .then((data) => {
         dispatch({
@@ -75,7 +76,7 @@ export function saveArea(params) {
     fetch(url, fetchConfig)
       .then(response => {
         if (response.ok) return response.json();
-        throw Error(response);
+        throw Error(response.statusText);
       })
       .then((res) => {
         dispatch({

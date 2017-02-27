@@ -1,11 +1,14 @@
 import { connect } from 'react-redux';
 import { setIsConnected } from 'redux-modules/app';
+import { getAreas } from 'redux-modules/areas';
 import { getUser, setLoginModal, setLoginStatus, checkLogged } from 'redux-modules/user';
 import { NavigationActions } from 'react-navigation';
 import Home from 'components/home';
 
 function mapStateToProps(state) {
   return {
+    hasAreas: state.areas.data && state.areas.data.length > 0,
+    areasSynced: state.areas.synced,
     loggedIn: state.user.loggedIn
   };
 }
@@ -39,6 +42,9 @@ function mapDispatchToProps(dispatch, { navigation }) {
     },
     setIsConnected: (isConnected) => {
       dispatch(setIsConnected(isConnected));
+    },
+    getAreas: () => {
+      dispatch(getAreas());
     }
   };
 }

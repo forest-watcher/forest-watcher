@@ -56,7 +56,7 @@ export function getQuestions(type) {
     fetch(url, fetchConfig)
       .then(response => {
         if (response.ok) return response.json();
-        throw Error(response);
+        throw Error(response.statusText);
       })
       .then((data) => {
         let form = null;
@@ -171,7 +171,7 @@ export function uploadFeedback(type) {
       fetch(url, fetchConfig)
         .then((response) => {
           if (response.ok) return response.json();
-          throw Error(response);
+          throw Error(response.statusText);
         })
         .then((response) => {
           console.log('TODO: save response', response);

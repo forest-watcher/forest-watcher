@@ -2,6 +2,7 @@
 	"commonText": {
 		"appName": "Forest Watcher 2.0",
 		"next": "Próximo",
+    "save": "Salve",
 		"back": "Voltar",
 		"finish": "Terminar",
 		"setUp": "Configuração",

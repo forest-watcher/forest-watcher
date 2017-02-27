@@ -33,7 +33,7 @@ export function getCountries() {
     fetch(url)
       .then(response => {
         if (response.ok) return response.json();
-        throw Error(response);
+        throw Error(response.statusText);
       })
       .then((data) => {
         dispatch({
