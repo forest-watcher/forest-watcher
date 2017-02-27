@@ -38,7 +38,7 @@
 		"searchPlaceholder": "Cari negara"
 	},
 	"alerts": {
-		"title:": "Peringatan",
+    "title": "Peringatan",
 		"seeAll": "Lihat semua",
 		"alert": "Peringatan",
     "downloadingAlerts": "Harap tunggu sementara data yang di-download ..."
