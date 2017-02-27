@@ -2,6 +2,7 @@
 	"commonText": {
 		"appName": "Forest Watcher 2.0",
 		"next": "Next",
+    "save": "Save",
 		"back": "Back",
 		"finish": "Finish",
 		"setUp": "Set up",
@@ -92,9 +93,7 @@
     "uploadAll": "Upload All",
     "drafts": "Drafts",
     "uploaded": "Uploaded",
-    "reportIdRequired": "Report id is neccesary",
-    "next": "Next",
-    "save": "Save"
+    "reportIdRequired": "Report id is neccesary"
   },
   "feedback": {
     "title": "Feedback",

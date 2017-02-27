@@ -2,6 +2,7 @@
 	"commonText": {
 		"appName": "Forest Watcher 2.0",
 		"next": "Lanjut",
+    "save": "Menyimpan",
 		"back": "Kembali",
 		"finish": "Selesai",
 		"setUp": "Pengaturan",

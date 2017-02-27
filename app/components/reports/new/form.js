@@ -45,8 +45,8 @@ function getBtnTextByType(type) {
 
 function getBtnTextByPosition(position, total) {
   return position < total
-    ? I18n.t('report.next')
-    : I18n.t('report.save');
+    ? I18n.t('commonText.next')
+    : I18n.t('commonText.save');
 }
 
 function renderLoading() {
