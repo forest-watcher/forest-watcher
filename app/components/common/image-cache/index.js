@@ -76,7 +76,7 @@ class ImageCache extends Component {
         {this.state.loading
         ? (
           <Animated.View style={[styles.loader, { opacity: this.state.opacityLoader }]}>
-            <Text style={styles.loaderText}>{I18n.t('common.loading')}</Text>
+            <Text style={styles.loaderText}>{I18n.t('commonText.loading')}</Text>
           </Animated.View>
           )
         : null

@@ -196,7 +196,7 @@ class Map extends Component {
   }
 
   renderFooter() {
-    let distanceText = I18n.t('common.notAvailable');
+    let distanceText = I18n.t('commonText.notAvailable');
     let distance = 999999;
     const { lastPosition } = this.state;
 
@@ -204,7 +204,7 @@ class Map extends Component {
       const geoPoint = new GeoPoint(this.state.alertSelected.lat, this.state.alertSelected.long);
       const currentPoint = new GeoPoint(lastPosition.latitude, lastPosition.longitude);
       distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);
-      distanceText = `${distance} ${I18n.t('common.kmAway')}`; // in Kilometers
+      distanceText = `${distance} ${I18n.t('commonText.kmAway')}`; // in Kilometers
     }
 
     let reportBtn = null;

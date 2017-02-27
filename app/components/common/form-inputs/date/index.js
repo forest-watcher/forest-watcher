@@ -25,8 +25,8 @@ function DateInput(props) {
           mode="datetime"
           format="MMMM Do YYYY, h:mm"
           placeholder={I18n.t('report.datePlaceholder')}
-          cancelBtnText={I18n.t('common.cancel')}
-          confirmBtnText={I18n.t('common.confirm')}
+          cancelBtnText={I18n.t('commonText.cancel')}
+          confirmBtnText={I18n.t('commonText.confirm')}
           onDateChange={handlePress}
           customStyles={{
             dateInput: dateStyles.dateInput,
