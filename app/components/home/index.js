@@ -26,7 +26,7 @@ class Home extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.loggedIn && !this.setup) {
+    if ((newProps.loggedIn && !this.setup) || (this.props.areasSynced !== newProps.areasSynced)) {
       this.checkSetup();
     }
   }
@@ -52,7 +52,17 @@ class Home extends Component {
       this.props.getUser();
     }
 
-    this.props.navigateReset(setupStatus ? 'Dashboard' : 'Setup');
+    if (userToken && !this.props.areasSynced) {
+      this.props.getAreas();
+    }
+
+    if (this.props.areasSynced) {
+      if (this.props.hasAreas) {
+        this.props.navigateReset('Dashboard');
+      } else {
+        this.props.navigateReset(setupStatus ? 'Dashboard' : 'Setup');
+      }
+    }
   }
 
   async checkBeforeRender() {
@@ -61,6 +71,9 @@ class Home extends Component {
     if (!userToken) {
       this.props.setLoginModal(true);
     } else {
+      if (!this.props.areasSynced && !this.props.hasAreas) {
+        this.props.getAreas();
+      }
       tracker.setUser(userToken);
       this.checkSetup();
     }
@@ -80,6 +93,9 @@ class Home extends Component {
 }
 
 Home.propTypes = {
+  getAreas: React.PropTypes.func.isRequired,
+  hasAreas: React.PropTypes.bool.isRequired,
+  areasSynced: React.PropTypes.bool.isRequired,
   getUser: React.PropTypes.func.isRequired,
   setIsConnected: React.PropTypes.func.isRequired,
   setLoginModal: React.PropTypes.func.isRequired,
