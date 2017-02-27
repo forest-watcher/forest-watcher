@@ -6,7 +6,10 @@
 		"finish": "Terminar",
 		"setUp": "Configuración",
     "cancel": "Cancelar",
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "loading": "Cargando",
+    "notAvailable": "No disponible",
+    "kmAway": "Km de distancia"
 	},
 	"dashboard": {
 		"title": "Panel de control",
@@ -36,7 +39,8 @@
 	"alerts": {
 		"title:": "Alertas",
 		"seeAll": "Ver todo",
-		"alert": "alerta"
+		"alert": "alerta",
+    "downloadingAlerts": "Espera mientras se descargan los datos..."
 	},
 	"boundaries": {
 		"chooseBoundaries": "Ahora, elija los límites",
@@ -57,7 +61,8 @@
 		"errorThird": "Es necesario si se muestra el botón Atrás"
 	},
 	"setupOverview": {
-		"placeholder": "Introduzca un nombre"
+		"placeholder": "Introduzca un nombre",
+    "areaName": "Nombre del área"
 	},
 	"setupProtectedAreas": {
 		"instruction": "Seleccione un área para continuar"
@@ -86,11 +91,13 @@
     "completed": "Terminado",
     "uploadAll": "Subir todo",
     "drafts": "Borradores",
-    "uploaded": "Subido"
+    "uploaded": "Subido",
+    "reportIdRequired": "El ID del reporte es requerido"
   },
   "feedback": {
     "title": "Feedback",
     "saveLaterTitle": "Terminar después",
-    "saveLaterDescription": "Puedes terminar el formulario desde el menu dashboard"
+    "saveLaterDescription": "Puedes terminar el formulario desde el menu dashboard",
+    "feedBackTypeRequired": "El tipo del Feedback es requerido"
   }
 }

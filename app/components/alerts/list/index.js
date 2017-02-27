@@ -7,6 +7,7 @@ import {
   ScrollView
 } from 'react-native';
 
+import I18n from 'locales';
 import GeoPoint from 'geopoint';
 import ImageCache from 'components/common/image-cache';
 import styles from './styles';
@@ -17,7 +18,7 @@ function getPlaceholder() {
   return (
     <View style={styles.placeholder}>
       <Image style={styles.placeholderImage} source={placeholderImage} />
-      <Text style={styles.loadingText}>Please wait while the data is downloaded...</Text>
+      <Text style={styles.loadingText}>{I18n.t('alerts.downloadingAlerts')}</Text>
     </View>
   );
 }
@@ -51,7 +52,7 @@ class AlertsList extends Component {
       (position) => {
         this.setState({ curentPosition: position });
       },
-      (error) => console.log(JSON.stringify(error)),
+      (error) => console.log('error'),
       { enableHighAccuracy: true, timeout: 60000, maximumAge: 50 }
     );
   }
@@ -72,12 +73,12 @@ class AlertsList extends Component {
           {Object.keys(alerts).map((key, index) => {
             const alert = alerts[key];
             alert.areaName = this.props.areaName;
-            let distance = 'Not Available';
+            let distance = I18n.t('common.notAvailable');
 
             if (this.state.curentPosition) {
               const geoPoint = new GeoPoint(alert.center.lat, alert.center.lon);
               const currentPoint = new GeoPoint(this.state.curentPosition.coords.latitude, this.state.curentPosition.coords.longitude);
-              distance = `${Math.round(currentPoint.distanceTo(geoPoint, true))}km away`; // in Kilometers
+              distance = `${Math.round(currentPoint.distanceTo(geoPoint, true))}${I18n.t('common.kmAway')}`; // in Kilometers
             }
             // console.log(this.state.curentPosition.coords, currentPoint.distanceTo(geoPoint, true));
 

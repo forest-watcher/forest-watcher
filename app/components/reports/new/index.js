@@ -4,6 +4,7 @@ import {
   View
 } from 'react-native';
 
+import I18n from 'locales';
 import ReportsForm from 'containers/reports/new/form';
 import tracker from 'helpers/googleAnalytics';
 import styles from '../styles';
@@ -26,7 +27,7 @@ class Reports extends Component {
     if (form) return <ReportsForm form={form} />;
     return (
       <View style={[styles.container, styles.containerCenter]}>
-        <Text>Report id is neccesary</Text>
+        <Text>{I18n.t('report.reportIdRequired')}</Text>
       </View>
     );
   }

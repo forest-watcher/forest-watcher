@@ -1,96 +1,103 @@
 {
 	"commonText": {
 		"appName": "Forest Watcher 2.0",
-		"next": "Next",
-		"back": "Back",
-		"finish": "Finish",
-		"setUp": "Set up",
-    "cancel": "Cancel",
-    "confirm": "Confirm"
+		"next": "Lanjut",
+		"back": "Kembali",
+		"finish": "Selesai",
+		"setUp": "Pengaturan",
+    "cancel": "Batalkan",
+    "confirm": "Konfirmasi",
+    "loading": "Pemuatan",
+    "notAvailable": "Tidak tersedia",
+    "kmAway": "km jauhnya"
 	},
 	"dashboard": {
-		"title": "Dashboard",
-		"alerts": "My alerts",
-		"reports": "Make a report",
-		"myReports": "My reports",
-		"uploadData": "Saved and uploaded data",
-		"map": "Map",
-    "dailyFeedback": "Daily feedback",
-    "weeklyFeedback": "Weekly feedback"
+		"title": "Dasbor",
+		"alerts": "Peringatan",
+		"reports": "Membuat Laporan",
+		"myReports": "Laporan Saya",
+		"uploadData": "Data tersimpan dan terunggah",
+		"map": "Peta",
+    "dailyFeedback": "Umpan balilk harian",
+    "weeklyFeedback": "Umpan balik mingguan"
 	},
 	"login": {
-		"title": "Login",
-		"unable": "Unable to login",
-		"connectionRequired": "You need an internet connection",
-		"introductionText": "Sign in with a MyGFW account",
+		"title": "Masuk",
+		"unable": "Tidak dapat masuk",
+		"connectionRequired": "Anda memerlukan koneksi internet",
+		"introductionText": "Masuk menggunakan akun MyGFW",
 		"facebookTitle": "Facebook",
 		"twitterTitle": "Twitter",
 		"googleTitle": "Google",
-		"brazilTitle": "Brazil",
-		"colombiaTitle": "Colombia",
+		"brazilTitle": "Brasil",
+		"colombiaTitle": "Kolombia",
 		"indonesiaTitle": "Indonesia"
 	},
 	"countries": {
-		"searchPlaceholder": "Search for a country"
+		"searchPlaceholder": "Cari negara"
 	},
 	"alerts": {
-		"title:": "Alerts",
-		"seeAll": "See all",
-		"alert": "alert"
+		"title:": "Peringatan",
+		"seeAll": "Lihat semua",
+		"alert": "Peringatan",
+    "downloadingAlerts": "Harap tunggu sementara data yang di-download ..."
 	},
 	"boundaries": {
-		"chooseBoundaries": "Now, choose the boundaries",
-		"selectProtectedArea": "Select a protected area",
-		"drawArea": "Draw an area"
+		"chooseBoundaries": "Sakarang, pilih batas",
+		"selectProtectedArea": "Pilih kawasan lindung",
+		"drawArea": "Gambar area"
 	},
 	"setupCountry": {
-		"welcomeText": "Hi",
-		"secondWelcomeText": "please set up an area",
-		"firstInstruction": "First, select your country of interest"
+		"welcomeText": "Halo",
+		"secondWelcomeText": "Silakan pilih area",
+		"firstInstruction": "Pertama, pilih negara yang diinginkan"
 	},
 	"setupDrawAreas": {
-		"tapInstruction": "Tap on map to draw"
+		"tapInstruction": "Ketuk peta untuk menggambar area"
 	},
 	"setupHeader": {
-		"errorFirst": "Invalid prop",
-		"errorSecond": "supplied to",
-		"errorThird": "It is required if you show back button"
+		"errorFirst": "Properti tidak valid",
+		"errorSecond": "Dimasukkan ke",
+		"errorThird": "Diperlukan jika anda menunjukkan tombol kembali"
 	},
 	"setupOverview": {
-		"placeholder": "Enter a name"
+		"placeholder": "Masukkan nama",
+    "areaName": "Nama daerah"
 	},
 	"setupProtectedAreas": {
-		"instruction": "Select an area to continue"
+		"instruction": "Pilih area untuk melanjutkan"
 	},
 	"settings": {
-    "title": "Settings",
-		"loggedIn": "You’re are logged in as",
-		"yourAreas": "Your areas",
-		"logOut": "LOG OUT",
-		"addArea": "ADD AREA",
-		"aboutApp": "About this app",
-		"aboutPartners": "Partners",
-		"aboutTerms": "Terms and Conditions"
+    "title": "Pengaturan",
+		"loggedIn": "Anda masuk sebagai",
+		"yourAreas": "Area anga",
+		"logOut": "KELUAR",
+		"addArea": "TAMBAH AREA",
+		"aboutApp": "Tentang aplikasi ini",
+		"aboutPartners": "Mitra",
+		"aboutTerms": "Syarat dan Ketentuan"
 	},
   "report": {
-    "title": "Report",
-    "plural": "Reports",
-    "takePicture": "Take a picture",
-    "datePlaceholder": "Select date",
-    "saveLaterTitle": "Save for later",
-    "saveLaterDescription": "It will appear as a draft in the reports section",
-    "inputText": "Please write something",
-    "inputRadio": "Choose one option to continue",
-    "inputSelect": "Choose at least one option to continue",
-    "input": "Please, answer the question",
-    "completed": "Completed",
-    "uploadAll": "Upload All",
-    "drafts": "Drafts",
-    "uploaded": "Uploaded"
+    "title": "Lapor",
+    "plural": "Laporan",
+    "takePicture": "Ambil gambar",
+    "datePlaceholder": "Pilih tanggal",
+    "saveLaterTitle": "Simpan untuk nanti",
+    "saveLaterDescription": "Ini akan muncul sebagai draf di bagian Laporan",
+    "inputText": "Silakan tulis sesuatu",
+    "inputRadio": "Pilih satu opsi untuk melanjutkan",
+    "inputSelect": "Pilih setidaknya satu opsi untuk melanjutkan",
+    "input": "Silakan jawab pertanyaannya",
+    "completed": "Lengkap",
+    "uploadAll": "Unggah semua",
+    "drafts": "Draf",
+    "uploaded": "Terunggah",
+    "reportIdRequired": "Laporan id diperlukan"
   },
   "feedback": {
-    "title": "Feedback",
-    "saveLaterTitle": "Finish it later",
-    "saveLaterDescription": "You can complete this form from the dashboard menu"
+    "title": "Umpan balik",
+    "saveLaterTitle": "Selesaikan nanti",
+    "saveLaterDescription": "Anda dapat melengkapi form ini dari menu utama",
+    "feedBackTypeRequired": "Jenis umpan balik diperlukan"
   }
 }

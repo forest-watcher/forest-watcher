@@ -6,6 +6,7 @@ import {
   Easing
 } from 'react-native';
 
+import I18n from 'locales';
 import CONSTANTS from 'config/constants';
 import { getCachedImageByUrl } from 'helpers/fileManagement';
 import styles from './styles';
@@ -75,7 +76,7 @@ class ImageCache extends Component {
         {this.state.loading
         ? (
           <Animated.View style={[styles.loader, { opacity: this.state.opacityLoader }]}>
-            <Text style={styles.loaderText}>Loading</Text>
+            <Text style={styles.loaderText}>{I18n.t('common.loading')}</Text>
           </Animated.View>
           )
         : null

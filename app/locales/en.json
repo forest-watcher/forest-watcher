@@ -6,7 +6,10 @@
 		"finish": "Finish",
 		"setUp": "Set up",
     "cancel": "Cancel",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "loading": "Loading",
+    "notAvailable": "Not available",
+    "kmAway": "km away"
 	},
 	"dashboard": {
 		"title": "Dashboard",
@@ -36,7 +39,8 @@
 	"alerts": {
 		"title:": "Alerts",
 		"seeAll": "See all",
-		"alert": "alert"
+		"alert": "alert",
+    "downloadingAlerts": "Please wait while the data is downloaded..."
 	},
 	"boundaries": {
 		"chooseBoundaries": "Now, choose the boundaries",
@@ -57,7 +61,8 @@
 		"errorThird": "It is required if you show back button"
 	},
 	"setupOverview": {
-		"placeholder": "Enter a name"
+		"placeholder": "Enter a name",
+    "areaName": "Name the area"
 	},
 	"setupProtectedAreas": {
 		"instruction": "Select an area to continue"
@@ -86,11 +91,13 @@
     "completed": "Completed",
     "uploadAll": "Upload All",
     "drafts": "Drafts",
-    "uploaded": "Uploaded"
+    "uploaded": "Uploaded",
+    "reportIdRequired": "Report id is neccesary"
   },
   "feedback": {
     "title": "Feedback",
     "saveLaterTitle": "Finish it later",
-    "saveLaterDescription": "You can complete this form from the dashboard menu"
+    "saveLaterDescription": "You can complete this form from the dashboard menu",
+    "feedBackTypeRequired": "Feedback type is neccesary"
   }
 }
