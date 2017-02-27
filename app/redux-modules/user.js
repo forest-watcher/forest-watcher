@@ -83,7 +83,7 @@ export function getUser() {
         });
       })
       .catch((error) => {
-        console.warn(error);
+        console.log(error);
         // To-do
       });
   };

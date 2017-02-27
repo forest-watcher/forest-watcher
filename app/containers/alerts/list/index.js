@@ -4,7 +4,7 @@ import AlertsList from 'components/alerts/list';
 
 function mapStateToProps(state, newProps) {
   return {
-    alerts: state.alerts.data[newProps.areaId] || []
+    alerts: state.alerts.data[newProps.areaId] || false
   };
 }
 

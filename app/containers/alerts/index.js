@@ -5,8 +5,7 @@ import Alerts from 'components/alerts';
 
 function mapStateToProps(state) {
   return {
-    areas: state.areas.data,
-    areasImages: state.areas.images
+    areas: state.areas.data
   };
 }
 
