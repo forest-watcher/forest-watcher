@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { setSetupAOI } from 'redux-modules/setup';
+import { storeGeostore } from 'redux-modules/geostore';
 
 import SetupBoundaries from 'components/setup/boundaries';
 
@@ -16,6 +17,9 @@ function mapDispatchToProps(dispatch) {
   return {
     setSetupArea: (area, snapshot) => {
       dispatch(setSetupAOI(area, snapshot));
+    },
+    storeGeostore: (id, data) => {
+      dispatch(storeGeostore(id, data));
     }
   };
 }

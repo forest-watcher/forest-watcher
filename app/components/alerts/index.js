@@ -13,7 +13,6 @@ import Theme from 'config/theme';
 import headerStyles from 'components/common/header/styles';
 import styles from './styles';
 
-
 class Alerts extends Component {
   constructor() {
     super();
@@ -49,7 +48,7 @@ class Alerts extends Component {
   }
 
   render() {
-    const { areas } = this.props;
+    const { areas, geostore } = this.props;
     return (
       <ScrollView
         style={styles.container}
@@ -68,6 +67,7 @@ class Alerts extends Component {
               </View>
               <AlertsList
                 areaName={area.name}
+                areaGeojson={geostore[area.geostore]}
                 onPress={this.onPress} areaId={area.id}
                 currentPosition={this.state.currentPosition}
               />
@@ -76,8 +76,6 @@ class Alerts extends Component {
         }
         )}
       </ScrollView>
-
-
     );
   }
 }
@@ -85,7 +83,8 @@ class Alerts extends Component {
 Alerts.propTypes = {
   navigate: React.PropTypes.func.isRequired,
   fetchData: React.PropTypes.func.isRequired,
-  areas: React.PropTypes.array
+  areas: React.PropTypes.array,
+  geostore: React.PropTypes.object
 };
 
 Alerts.navigationOptions = {

@@ -1,5 +1,6 @@
 import Config from 'react-native-config';
 import BoundingBox from 'boundingbox';
+import intersect from 'turf-intersect';
 
 // Actions
 const GET_ALERTS = 'alerts/GET_ALERTS';
@@ -25,7 +26,7 @@ export default function reducer(state = initialState, action) {
 }
 
 // Action Creators
-export function getAlerts(areaId) {
+export function getAlerts(areaId, geojson) {
   const url = `${Config.API_URL}/area/${areaId}/alerts?precissionPoints=6&precissionBBOX=4`;
   return async (dispatch, state) => {
     const alerts = await fetch(url,
@@ -43,6 +44,8 @@ export function getAlerts(areaId) {
       // To-do
     });
 
+    const areaGeojson = geojson.features[0];
+
     if (alerts) {
       await Promise.all(alerts.map(async (alert) => {
         const currentAlert = alert;
@@ -54,14 +57,15 @@ export function getAlerts(areaId) {
           maxlon: currentAlert.bbox[2]
         });
         const geojson = bbox.toGeoJSON();
-        const geom = JSON.stringify(geojson.geometry);
+        const intersection = intersect(geojson, areaGeojson);
+        const geom = JSON.stringify(intersection.geometry);
 
         if (alert.countGlad > 0) {
           const dataset = Config.DATASET_GLAD;
           const urlPoints = `${Config.API_URL}/query/${dataset}/?sql=
           select lat, long from data
           where year >= '2017'
-          AND st_intersects(st_setsrid(st_geomfromgeojson('${geom}'), 4326), the_geom)`;
+          AND st_intersects(st_setsrid(st_geomfromgeojson('${geom}'), 4326), the_geom) LIMIT 60`;
 
           const points = await fetch(urlPoints)
             .then(response => {
@@ -90,7 +94,7 @@ export function getAlerts(areaId) {
           const urlPoints = `${Config.API_URL}/query/${dataset}/?sql=
           select ST_X(the_geom) as long, ST_Y(the_geom) as lat from ${Config.TABLE_VIIRS}
           where acq_date >= '2017-01-01'
-          AND st_intersects(st_setsrid(st_geomfromgeojson('${geom}'), 4326), the_geom)`;
+          AND st_intersects(st_setsrid(st_geomfromgeojson('${geom}'), 4326), the_geom) LIMIT 60`;
 
 
           const points = await fetch(urlPoints)

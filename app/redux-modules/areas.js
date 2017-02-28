@@ -1,4 +1,5 @@
 import Config from 'react-native-config';
+import { getGeostore } from 'redux-modules/geostore';
 
 // Actions
 import { SET_AREA_SAVED } from 'redux-modules/setup';
@@ -49,10 +50,19 @@ export function getAreas() {
         if (response.ok) return response.json();
         throw Error(response.statusText);
       })
-      .then((data) => {
+      .then(async (response) => {
+        await Promise.all(response.data.map(async (area) => {
+          if (area.attributes && area.attributes.geostore) {
+            if (!state().geostore.data[area.attributes.geostore]) {
+              await dispatch(getGeostore(area.attributes.geostore));
+            }
+          }
+          return area;
+        }));
+
         dispatch({
           type: GET_AREAS,
-          payload: data
+          payload: response
         });
       })
       .catch((error) => {
