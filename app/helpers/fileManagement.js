@@ -58,7 +58,11 @@ export async function getCachedImageByUrl(url, imageDir) {
     const isDir = await RNFetchBlob.fs.isDir(imagesDirectory);
 
     if (!isDir) {
-      await RNFetchBlob.fs.mkdir(imagesDirectory);
+      try {
+        await RNFetchBlob.fs.mkdir(imagesDirectory);
+      } catch (error) {
+        return parseImagePath(filePath);
+      }
     }
 
     const exists = await RNFetchBlob.fs.exists(filePath);
