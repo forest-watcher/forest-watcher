@@ -1,13 +1,20 @@
 import { connect } from 'react-redux';
 import { setIsConnected } from 'redux-modules/app';
 import { getAreas } from 'redux-modules/areas';
+import { getQuestions as getFeedbackQuestions } from 'redux-modules/feedback';
+import { getQuestions as getReportQuestions } from 'redux-modules/reports';
 import { getUser, setLoginModal, setLoginStatus, checkLogged } from 'redux-modules/user';
 import { NavigationActions } from 'react-navigation';
 import Home from 'components/home';
 
 function mapStateToProps(state) {
   return {
-    hasAreas: state.areas.data && state.areas.data.length > 0,
+    data: {
+      areas: state.areas.data && state.areas.data.length > 0,
+      report: Object.keys(state.reports.forms).length > 0,
+      dailyFeedback: Object.keys(state.feedback.daily).length > 0,
+      weeklyFeedback: Object.keys(state.feedback.weekly).length > 0
+    },
     areasSynced: state.areas.synced,
     loggedIn: state.user.loggedIn
   };
@@ -45,6 +52,12 @@ function mapDispatchToProps(dispatch, { navigation }) {
     },
     getAreas: () => {
       dispatch(getAreas());
+    },
+    getReportQuestions: () => {
+      dispatch(getReportQuestions());
+    },
+    getFeedbackQuestions: (type) => {
+      dispatch(getFeedbackQuestions(type));
     }
   };
 }
