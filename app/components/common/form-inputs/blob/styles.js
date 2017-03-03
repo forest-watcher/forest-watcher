@@ -40,6 +40,8 @@ export default StyleSheet.create({
     marginLeft: 8
   },
   preview: {
+    height: 416,
+    width: Theme.screen.width - (56 * 2),
     marginTop: 48,
     marginLeft: 56,
     marginRight: 56,
