@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 import Camera from 'react-native-camera';
 
+import ImageCache from 'components/common/image-cache';
+import { storeImage } from 'helpers/fileManagement';
 import i18n from 'locales';
 import Theme from 'config/theme';
 import styles from './styles';
@@ -20,10 +22,18 @@ class ImageBlobInput extends Component {
     super(props);
     this.takePicture = this.takePicture.bind(this);
     this.removePicture = this.removePicture.bind(this);
+    this.timerLoadPicture = null;
+    this.state = {
+      cameraVisible: true
+    };
   }
 
   componentWillUnmount() {
     StatusBar.setBarStyle('default');
+
+    if (this.timerLoadPicture) {
+      clearTimeout(this.timerLoadPicture);
+    }
   }
 
   getCameraView() {
@@ -33,7 +43,7 @@ class ImageBlobInput extends Component {
           ref={(cam) => { this.camera = cam; }}
           style={styles.camera}
           aspect={Camera.constants.Aspect.fit}
-          captureTarget={Camera.constants.CaptureTarget.disk}
+          captureTarget={Camera.constants.CaptureTarget.cameraRoll}
           captureQuality={Camera.constants.CaptureQuality.medium}
         />
         <Text style={styles.captureLabel} >{i18n.t('report.takePicture')}</Text>
@@ -52,13 +62,22 @@ class ImageBlobInput extends Component {
   }
 
   getConfirmView() {
+    let image = <Text>{i18n.t('commonText.loading')}</Text>;
+
+    if (this.props.input.value && this.props.input.value.length > 0) {
+      image = (<ImageCache
+        resizeMode="contain"
+        style={{ height: 416, width: Theme.screen.width - (56 * 2) }}
+        localSource
+        source={{
+          uri: this.props.input.value
+        }}
+      />);
+    }
+
     return (
       <View style={styles.container}>
-        <View style={styles.preview}>
-          {this.props.input.value &&
-            <Image resizeMode="contain" style={styles.previewImage} source={{ uri: this.props.input.value }} />
-          }
-        </View>
+        <View style={styles.preview}>{image}</View>
         <TouchableHighlight
           style={styles.leftBtn}
           onPress={this.removePicture}
@@ -73,21 +92,31 @@ class ImageBlobInput extends Component {
 
   removePicture() {
     this.props.input.onChange('');
+    this.setState({
+      cameraVisible: true
+    });
   }
 
   async takePicture() {
     try {
       const image = await this.camera.capture();
-      this.props.input.onChange(image.path);
+      const storedUrl = await storeImage(image.path, true);
+      this.setState({
+        cameraVisible: false
+      }, () => {
+        this.timerLoadPicture = setTimeout(() => {
+          this.props.input.onChange(storedUrl);
+        }, 1000);
+      });
     } catch (err) {
       console.warn('TODO: handle error', err);
     }
   }
 
   render() {
-    const hasImage = this.props.input.value;
-    StatusBar.setBarStyle(hasImage ? 'default' : 'light-content');
-    return hasImage ? this.getConfirmView() : this.getCameraView();
+    const cameraVisible = this.state.cameraVisible;
+    StatusBar.setBarStyle(cameraVisible ? 'light-content' : 'default');
+    return cameraVisible ? this.getCameraView() : this.getConfirmView();
   }
 }
 

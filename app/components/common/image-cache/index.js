@@ -25,7 +25,15 @@ class ImageCache extends Component {
   }
 
   componentDidMount() {
-    this.getUrl();
+    if (!this.props.localSource) {
+      this.getUrl();
+    } else {
+      this.getLocalSource();
+    }
+  }
+
+  getLocalSource() {
+    this.setState({ url: this.props.source.uri });
   }
 
   async getUrl() {
@@ -96,6 +104,7 @@ class ImageCache extends Component {
 
 ImageCache.propTypes = {
   source: React.PropTypes.object.isRequired,
+  localSource: React.PropTypes.bool,
   style: React.PropTypes.object
 };
 

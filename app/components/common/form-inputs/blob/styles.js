@@ -42,12 +42,14 @@ export default StyleSheet.create({
     marginBottom: 52
   },
   preview: {
-    marginTop: 8,
+    marginTop: 48,
     marginLeft: 56,
     marginRight: 56,
+    alignItems: 'center',
+    justifyContent: 'center',
     ...Platform.select({
       ios: {
-        marginTop: 24
+        marginTop: 64
       }
     })
   },
