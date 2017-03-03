@@ -32,19 +32,21 @@ class ImageBlobInput extends Component {
         <Camera
           ref={(cam) => { this.camera = cam; }}
           style={styles.camera}
-          aspect={Camera.constants.Aspect.fill}
+          aspect={Camera.constants.Aspect.fit}
           captureTarget={Camera.constants.CaptureTarget.disk}
+          captureQuality={Camera.constants.CaptureQuality.medium}
+        />
+        <Text style={styles.captureLabel} >{i18n.t('report.takePicture')}</Text>
+        <TouchableHighlight
+          style={styles.captureBtnContainter}
+          onPress={this.takePicture}
+          activeOpacity={0.8}
+          underlayColor={Theme.background.secondary}
         >
-          <Text style={styles.captureLabel} >{i18n.t('report.takePicture')}</Text>
-          <TouchableHighlight
-            style={styles.captureBtn}
-            onPress={this.takePicture}
-            activeOpacity={0.8}
-            underlayColor={Theme.background.secondary}
-          >
+          <View style={styles.captureBtn} >
             <Image style={Theme.icon} source={cameraIcon} />
-          </TouchableHighlight>
-        </Camera>
+          </View>
+        </TouchableHighlight>
       </View>
     );
   }

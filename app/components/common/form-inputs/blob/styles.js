@@ -12,8 +12,8 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    height: Theme.screen.height,
-    width: Theme.screen.width
+    height: 300,
+    width: 300
   },
   captureLabel: {
     position: 'absolute',
@@ -26,6 +26,11 @@ export default StyleSheet.create({
     textAlign: 'center',
     color: Theme.fontColors.white,
     backgroundColor: 'transparent'
+  },
+  captureContainer: {
+    flex: 1,
+    textAlign: 'center',
+    width: Theme.screen.witdth
   },
   captureBtn: {
     width: 64,
