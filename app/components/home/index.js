@@ -37,12 +37,6 @@ class Home extends Component {
 
   handleConnectionChange = (isConnected) => {
     this.props.setIsConnected(isConnected);
-    if (isConnected) {
-      const { data } = this.props;
-      if (!data.report) this.props.getReportQuestions();
-      if (!data.dailyFeedback) this.props.getFeedbackQuestions('daily');
-      if (!data.weeklyFeedback) this.props.getFeedbackQuestions('weekly');
-    }
   };
 
   async checkSetup() {
@@ -62,8 +56,14 @@ class Home extends Component {
       this.props.getAreas();
     }
 
+    if (userToken) {
+      if (!this.props.report) this.props.getReportQuestions();
+      if (!this.props.dailyFeedback) this.props.getFeedbackQuestions('daily');
+      if (!this.props.weeklyFeedback) this.props.getFeedbackQuestions('weekly');
+    }
+
     if (this.props.areasSynced) {
-      if (this.props.data.areas) {
+      if (this.props.areas) {
         this.props.navigateReset('Dashboard');
       } else {
         this.props.navigateReset(setupStatus ? 'Dashboard' : 'Setup');
@@ -77,7 +77,7 @@ class Home extends Component {
     if (!userToken) {
       this.props.setLoginModal(true);
     } else {
-      if (!this.props.areasSynced && !this.props.data.areas) {
+      if (!this.props.areasSynced && !this.props.areas) {
         this.props.getAreas();
       }
       tracker.setUser(userToken);
@@ -99,12 +99,10 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-  data: React.PropTypes.shape({
-    areas: React.PropTypes.bool.isRequired,
-    report: React.PropTypes.bool.isRequired,
-    dailyFeedback: React.PropTypes.bool.isRequired,
-    weeklyFeedback: React.PropTypes.bool.isRequired
-  }).isRequired,
+  areas: React.PropTypes.bool.isRequired,
+  report: React.PropTypes.bool.isRequired,
+  dailyFeedback: React.PropTypes.bool.isRequired,
+  weeklyFeedback: React.PropTypes.bool.isRequired,
   getAreas: React.PropTypes.func.isRequired,
   areasSynced: React.PropTypes.bool.isRequired,
   getUser: React.PropTypes.func.isRequired,

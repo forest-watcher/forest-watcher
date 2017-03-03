@@ -9,12 +9,10 @@ import Home from 'components/home';
 
 function mapStateToProps(state) {
   return {
-    data: {
-      areas: state.areas.data && state.areas.data.length > 0,
-      report: Object.keys(state.reports.forms).length > 0,
-      dailyFeedback: Object.keys(state.feedback.daily).length > 0,
-      weeklyFeedback: Object.keys(state.feedback.weekly).length > 0
-    },
+    areas: state.areas.data && state.areas.data.length > 0,
+    report: Object.keys(state.reports.forms).length > 0,
+    dailyFeedback: Object.keys(state.feedback.daily).length > 0,
+    weeklyFeedback: Object.keys(state.feedback.weekly).length > 0,
     areasSynced: state.areas.synced,
     loggedIn: state.user.loggedIn
   };
