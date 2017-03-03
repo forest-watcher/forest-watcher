@@ -24,7 +24,7 @@ class ImageBlobInput extends Component {
     this.removePicture = this.removePicture.bind(this);
     this.timerLoadPicture = null;
     this.state = {
-      cameraVisible: true
+      cameraVisible: !this.props.input.value || this.props.input.value.length === 0
     };
   }
 
@@ -39,23 +39,23 @@ class ImageBlobInput extends Component {
   getCameraView() {
     return (
       <View style={styles.container}>
-        <Camera
-          ref={(cam) => { this.camera = cam; }}
-          style={styles.camera}
-          aspect={Camera.constants.Aspect.fit}
-          captureTarget={Camera.constants.CaptureTarget.cameraRoll}
-          captureQuality={Camera.constants.CaptureQuality.medium}
-        />
         <Text style={styles.captureLabel} >{i18n.t('report.takePicture')}</Text>
+        <View pointerEvents="none" style={styles.cameraContainer}>
+          <Camera
+            ref={(cam) => { this.camera = cam; }}
+            style={styles.camera}
+            aspect={Camera.constants.Aspect.fit}
+            captureTarget={Camera.constants.CaptureTarget.disk}
+            captureQuality={Camera.constants.CaptureQuality.medium}
+          />
+        </View>
         <TouchableHighlight
-          style={styles.captureBtnContainter}
+          style={styles.captureBtn}
           onPress={this.takePicture}
           activeOpacity={0.8}
           underlayColor={Theme.background.secondary}
         >
-          <View style={styles.captureBtn} >
-            <Image style={Theme.icon} source={cameraIcon} />
-          </View>
+          <Image style={Theme.icon} source={cameraIcon} />
         </TouchableHighlight>
       </View>
     );
