@@ -91,6 +91,7 @@ class ImageCache extends Component {
         }
         {this.state.url &&
           <Animated.Image
+            resizeMode={this.props.resizeMode || 'contain'}
             source={{ uri: this.state.url }}
             style={[styles.image, this.props.style, { opacity: this.state.opacity }]}
             onError={(e) => this.setState({ error: e.nativeEvent.error, loading: false })}
@@ -104,6 +105,7 @@ class ImageCache extends Component {
 
 ImageCache.propTypes = {
   source: React.PropTypes.object.isRequired,
+  resizeMode: React.PropTypes.string,
   localSource: React.PropTypes.bool,
   style: React.PropTypes.object
 };
