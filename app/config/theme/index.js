@@ -9,7 +9,8 @@ const colors = {
   color3: '#8a8a8a',
   color4: '#f2f2f2',
   color5: '#ffffff',
-  color6: '#dcdcdc'
+  color6: '#dcdcdc',
+  color7: '#f15656'
 };
 
 const config = {
@@ -23,7 +24,8 @@ const config = {
     color3: colors.color3,
     color4: colors.color4,
     color5: colors.color5,
-    color6: colors.color6
+    color6: colors.color6,
+    color7: colors.color7
   },
   font: 'firasansot',
   fontColors: {
@@ -37,6 +39,7 @@ const config = {
     secondary: colors.color1,
     white: colors.color5,
     gray: colors.color6,
+    red: colors.color7,
     modal: 'rgba(0, 0, 0, 0.4)'
   },
   borderColors: {
@@ -62,6 +65,7 @@ const config = {
   polygon: {
     fill: 'rgba(151, 190, 49, 0.5)',
     fillSelected: 'rgba(255, 255, 255, 0.5)',
+    fillInvalid: 'rgba(241, 86, 86, 0.5)',
     stroke: '#97be32',
     strokeWidth: 2,
     strokeSelected: '#FFFFFF'

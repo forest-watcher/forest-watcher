@@ -165,7 +165,6 @@ class Map extends Component {
     this.afterRenderTimer = setTimeout(() => {
       const { params } = this.props.navigation.state;
       if (params && params.features && params.features.length > 0) {
-        console.log(params, '');
         this.map.fitToCoordinates(getGoogleMapsCoordinates(params.features), {
           edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
           animated: true

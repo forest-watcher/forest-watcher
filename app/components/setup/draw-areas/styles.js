@@ -33,8 +33,9 @@ export default StyleSheet.create({
     transform: [{ rotate: '180deg' }]
   },
   footerButton: {
-    marginLeft: 8,
-    marginRight: 8
+    flexWrap: 'wrap',
+    marginRight: 8,
+    marginLeft: 8
   },
   footerTitle: {
     fontFamily: Theme.font,
@@ -47,5 +48,20 @@ export default StyleSheet.create({
     bottom: 30,
     marginLeft: Theme.margin.left,
     opacity: 0.7
+  },
+  undoButton: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: Theme.background.white,
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  invalidButton: {
+    position: 'absolute',
+    left: 72,
+    right: 0,
+    top: 0
   }
 });

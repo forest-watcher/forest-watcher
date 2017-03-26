@@ -4,11 +4,13 @@ import {
   Image,
   Text,
   Dimensions,
-  ActivityIndicator
+  ActivityIndicator,
+  TouchableHighlight
 } from 'react-native';
 
 import Config from 'react-native-config';
 import MapView from 'react-native-maps';
+import gpsi from 'geojson-polygon-self-intersections';
 import { storeImage } from 'helpers/fileManagement';
 
 import ActionButton from 'components/common/action-button';
@@ -90,6 +92,7 @@ class DrawAreas extends Component {
     this.bboxed = false;
     this.state = {
       loading: false,
+      valid: true,
       shape: {
         coordinates: []
       },
@@ -98,7 +101,8 @@ class DrawAreas extends Component {
         longitude: intialCoords[0],
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
-      }
+      },
+      snapshot: false
     };
   }
 
@@ -107,20 +111,38 @@ class DrawAreas extends Component {
   }
 
   onMapPress(e) {
-    const { shape } = this.state;
-    this.setState({
-      shape: {
-        ...shape,
-        coordinates: [
-          ...shape.coordinates,
-          e.nativeEvent.coordinate
-        ]
+    if (e.nativeEvent.coordinate) {
+      const { shape, valid } = this.state;
+      const coords = [
+        ...shape.coordinates,
+        e.nativeEvent.coordinate
+      ];
+      let isValid = valid;
+
+      if (coords.length >= 3) {
+        const intersects = gpsi({
+          type: 'Feature',
+          geometry: getGeoJson(coords)
+        });
+
+        if ((intersects && intersects.geometry) &&
+        intersects.geometry.coordinates.length > 0) {
+          isValid = false;
+        }
       }
-    });
+
+      this.setState({
+        shape: {
+          ...shape,
+          coordinates: coords
+        },
+        valid: isValid
+      });
+    }
   }
 
   onNextPress = () => {
-    this.setState({ loading: true });
+    this.setState({ loading: true, snapshot: true });
     saveGeoJson(getGeoJson(this.state.shape.coordinates))
       .then(res => {
         if (res.ok) return res.json();
@@ -155,14 +177,66 @@ class DrawAreas extends Component {
     const finished = this.state.shape.coordinates.length >= 3;
     if (!finished) return <Text style={styles.footerTitle}>{I18n.t('setupDrawAreas.tapInstruction')}</Text>;
 
-    const valid = false; // TODO: check valid geojson
-    return (valid)
+    return (this.state.valid)
       ? <ActionButton style={styles.footerButton} onPress={this.onNextPress} text={I18n.t('commonText.next')} />
-      : <ActionButton style={styles.footerButton} onPress={this.clearShape} text={I18n.t('setupDrawAreas.resetShape')} />;
+      : (
+        <View style={styles.footerButton}>
+          <TouchableHighlight
+            style={styles.undoButton}
+            activeOpacity={0.8}
+            underlayColor={'transparent'}
+            onPress={this.undoShape}
+          >
+            <View><Text></Text></View>
+          </TouchableHighlight>
+          <ActionButton
+            style={styles.invalidButton}
+            disabled
+            error
+            onPress={this.clearShape}
+            text={I18n.t('setupDrawAreas.invalidShape').toUpperCase()}
+          />
+        </View>
+      );
   }
 
   clearShape = () => {
-    this.setState({ shape: { coordinates: [] } });
+    this.setState({
+      valid: true,
+      shape: {
+        coordinates: []
+      }
+    });
+  }
+
+  undoShape = () => {
+    const { shape, valid } = this.state;
+    let isValid = valid;
+    shape.coordinates = shape.coordinates.filter((cord, index) => (
+      index < shape.coordinates.length - 1
+    ));
+
+    if (shape.coordinates.length >= 3) {
+      const intersects = gpsi({
+        type: 'Feature',
+        geometry: getGeoJson(shape.coordinates)
+      });
+
+      if ((intersects && intersects.geometry) &&
+      intersects.geometry.coordinates.length > 0) {
+        isValid = false;
+      } else {
+        isValid = true;
+      }
+    }
+
+    this.setState({
+      shape: {
+        ...shape,
+        coordinates: shape.coordinates
+      },
+      valid: isValid
+    });
   }
 
   takeSnapshot() {
@@ -175,7 +249,8 @@ class DrawAreas extends Component {
   }
 
   render() {
-    const { coordinates } = this.state.shape;
+    const { valid, shape } = this.state;
+    const { coordinates } = shape;
     const markers = parseCoordinates(coordinates);
 
     return (
@@ -198,19 +273,29 @@ class DrawAreas extends Component {
             <MapView.Polygon
               key={0}
               coordinates={coordinates}
-              strokeColor={Theme.polygon.stroke}
-              fillColor={Theme.polygon.fill}
-              strokeWidth={Theme.polygon.strokeWidth}
+              fillColor={valid ? Theme.polygon.fill : Theme.polygon.fillInvalid}
+              strokeColor={Theme.polygon.strokeSelected}
+              strokeWidth={coordinates.length >= 3 ? 2 : 0}
+              zIndex={0}
             />
           )}
-          {markers.length >= 0 &&
+          {markers.length > 0 && !this.state.snapshot && (
+            <MapView.Polyline
+              key="line"
+              coordinates={markers}
+              strokeColor={Theme.polygon.strokeSelected}
+              strokeWidth={2}
+              zIndex={2}
+            />
+          )}
+          {markers.length >= 0 && !this.state.snapshot &&
             markers.map((marker, index) => (
-              <MapView.Marker key={index} coordinate={marker} anchor={{ x: 0.5, y: 0.5 }}>
+              <MapView.Marker.Animated key={index} coordinate={marker} anchor={{ x: 0.5, y: 0.5 }}>
                 <Image
-                  style={{ width: 8, height: 8 }}
+                  style={{ width: 10, height: 10 }}
                   source={markerImage}
                 />
-              </MapView.Marker>
+              </MapView.Marker.Animated>
             ))
           }
         </MapView>
