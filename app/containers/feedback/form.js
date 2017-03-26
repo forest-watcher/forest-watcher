@@ -20,7 +20,7 @@ function mapStateToProps(state, { feedback }) {
     form: feedback,
     questions: state.feedback[feedback].questions || [],
     answers: getAnswers(state.form, feedback),
-    reportLanguage: getReportLang(state.feedback.forms)
+    reportLanguage: getReportLang(state.feedback[feedback])
   };
 }
 

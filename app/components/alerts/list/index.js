@@ -93,7 +93,7 @@ class AlertsList extends Component {
 
   checkData() {
     if (!this.props.alerts) {
-      this.props.getAlerts(this.props.areaId);
+      this.props.getAlerts(this.props.areaId, this.props.areaGeojson);
     }
   }
 
@@ -114,7 +114,8 @@ AlertsList.propTypes = {
   alerts: React.PropTypes.any, // Bool = not request [] = no data
   currentPosition: React.PropTypes.object,
   areaId: React.PropTypes.string.isRequired,
-  areaName: React.PropTypes.string.isRequired
+  areaName: React.PropTypes.string.isRequired,
+  areaGeojson: React.PropTypes.object.isRequired
 };
 
 export default AlertsList;

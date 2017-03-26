@@ -5,7 +5,8 @@ import Alerts from 'components/alerts';
 
 function mapStateToProps(state) {
   return {
-    areas: state.areas.data
+    areas: state.areas.data,
+    geostore: state.geostore.data
   };
 }
 

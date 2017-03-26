@@ -142,12 +142,11 @@ class ReportsForm extends Component {
     return (
       <View style={styles.container}>
         <Header
-          light={isImageInput && emptyAnswer}
-          title={isImageInput && emptyAnswer ? I18n.t('report.takePicture') : I18n.t('report.title')}
+          title={I18n.t('report.title')}
           onBackPress={this.handleBack}
         />
         <StepsSlider
-          style={isImageInput && emptyAnswer ? styles.containerFull : styles.containerFloat}
+          style={styles.containerFloat}
           page={this.state.page}
           hideIndex={isImageInput && emptyAnswer}
           onChangeTab={this.updatePage}

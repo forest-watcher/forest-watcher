@@ -58,6 +58,10 @@ class SetupBoundaries extends Component {
     tracker.trackEvent('Set-up', 'Choose area type', { label: 'Custom Area', value: 0 });
   }
 
+  storeGeostore = (id, data) => {
+    this.props.storeGeostore(id, data);
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -126,6 +130,7 @@ class SetupBoundaries extends Component {
           >
             <DrawAreas
               country={this.props.setupCountry}
+              storeGeostore={this.storeGeostore}
               onDrawAreaFinish={this.onDrawAreaFinish}
             />
           </MapModal>
@@ -143,6 +148,7 @@ SetupBoundaries.propTypes = {
   setSetupArea: React.PropTypes.func.isRequired,
   setupCountry: React.PropTypes.object.isRequired,
   onNextPress: React.PropTypes.func.isRequired,
+  storeGeostore: React.PropTypes.func.isRequired,
   area: React.PropTypes.shape({
     wdpaid: React.PropTypes.number,
     geostore: React.PropTypes.string
