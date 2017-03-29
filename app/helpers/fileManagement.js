@@ -15,29 +15,6 @@ if (typeof atob === 'undefined') {
   };
 }
 
-export async function storeImage(url) {
-  const cleanedUrl = url.replace('file://', '');
-  const parentDirectory = RNFetchBlob.fs.dirs;
-  const imagesDirectory = `${parentDirectory.DocumentDir}/images`;
-  const newPath = `${imagesDirectory}/${cleanedUrl.split('/').pop()}`;
-
-  try {
-    const isDir = await RNFetchBlob.fs.isDir(imagesDirectory);
-
-    if (!isDir) {
-      await RNFetchBlob.fs.mkdir(imagesDirectory);
-    }
-
-    await RNFetchBlob.fs.mv(cleanedUrl, newPath)
-      .catch((error) => error);
-
-    return newPath;
-  } catch (error) {
-    // To-do error
-    return error;
-  }
-}
-
 export function parseImagePath(url) {
   let parsedUrl = url;
 
@@ -46,6 +23,42 @@ export function parseImagePath(url) {
   }
 
   return parsedUrl;
+}
+
+export async function storeImage(url, imageDir = false) {
+  const cleanedUrl = url.replace('file://', '');
+  const parentDirectory = RNFetchBlob.fs.dirs;
+  let imagesDirectory = `${parentDirectory.DocumentDir}/images`;
+
+  if (imageDir) {
+    imagesDirectory = `${parentDirectory.PictureDir}/ForestWatcher`;
+  }
+
+  const newPath = `${imagesDirectory}/${cleanedUrl.split('/').pop()}`;
+
+  try {
+    const isDir = await RNFetchBlob.fs.isDir(imagesDirectory);
+
+    if (!isDir) {
+      try {
+        await RNFetchBlob.fs.mkdir(imagesDirectory);
+      } catch (error) {
+        return parseImagePath(newPath);
+      }
+    }
+
+    await RNFetchBlob.fs.mv(cleanedUrl, newPath)
+      .catch((error) => error);
+
+    if (Platform.OS === 'android') {
+      await RNFetchBlob.fs.scanFile([{ path: newPath }]);
+    }
+
+    return parseImagePath(newPath);
+  } catch (error) {
+    // To-do error
+    return error;
+  }
 }
 
 export async function getCachedImageByUrl(url, imageDir) {

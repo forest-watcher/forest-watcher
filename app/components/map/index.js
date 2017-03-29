@@ -71,6 +71,9 @@ class Map extends Component {
       ? params.center
       : [Config.maps.lng, Config.maps.lat];
 
+    this.afterRenderTimer = null;
+    this.eventLocation = null;
+    this.eventOrientation = null;
     this.state = {
       renderMap: false,
       lastPosition: null,
@@ -85,18 +88,21 @@ class Map extends Component {
   }
 
   componentDidMount() {
+    Location.requestWhenInUseAuthorization();
     tracker.trackScreenView('Map');
-    StatusBar.setBarStyle('light-content');
+
+    if (Platform.OS === 'ios') {
+      StatusBar.setBarStyle('light-content');
+    }
 
     this.renderMap();
     this.geoLocate();
   }
 
   geoLocate() {
-    Location.requestWhenInUseAuthorization();
     Location.startUpdatingLocation();
 
-    DeviceEventEmitter.addListener(
+    this.eventLocation = DeviceEventEmitter.addListener(
       'locationUpdated',
       (location) => {
         this.setState({
@@ -108,8 +114,8 @@ class Map extends Component {
       }
     );
 
-    SensorManager.startOrientation(200);
-    DeviceEventEmitter.addListener(
+    SensorManager.startOrientation(1000);
+    this.eventOrientation = DeviceEventEmitter.addListener(
       'Orientation',
       (data) => {
         this.setState({
@@ -120,24 +126,24 @@ class Map extends Component {
   }
 
   componentWillUnmount() {
-    StatusBar.setBarStyle('default');
     Location.stopUpdatingLocation();
+
+    clearTimeout(this.afterRenderTimer);
+
+    if (this.eventLocation) {
+      this.eventLocation.remove();
+    }
+
+    if (this.eventOrientation) {
+      this.eventOrientation.remove();
+    }
 
     if (Platform.OS === 'ios') {
       Location.stopUpdatingHeading();
+      StatusBar.setBarStyle('default');
     } else {
       SensorManager.stopOrientation();
     }
-  }
-
-  onLayout = () => {
-    setTimeout(() => {
-      const { params } = this.props.navigation.state;
-      this.map.fitToCoordinates(getGoogleMapsCoordinates(params.features), {
-        edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
-        animated: true
-      });
-    }, 1000);
   }
 
   onAlertPress(alertSelected) {
@@ -155,35 +161,17 @@ class Map extends Component {
     });
   }
 
-  startNavigation() {
-    Location.requestWhenInUseAuthorization();
-    Location.startUpdatingLocation();
-
-    if (Platform.OS === 'ios') {
-      DeviceEventEmitter.addListener(
-        'locationUpdated',
-        (position) => {
-          this.setState({
-            lastPosition: {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude
-            }
-          });
-        }
-      );
-    } else {
-      DeviceEventEmitter.addListener(
-        'locationUpdated',
-        (location) => {
-          this.setState({
-            lastPosition: {
-              latitude: location.latitude,
-              longitude: location.longitude
-            }
-          });
-        }
-      );
-    }
+  onLayout = () => {
+    this.afterRenderTimer = setTimeout(() => {
+      const { params } = this.props.navigation.state;
+      if (params && params.features && params.features.length > 0) {
+        console.log(params, '');
+        this.map.fitToCoordinates(getGoogleMapsCoordinates(params.features), {
+          edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
+          animated: true
+        });
+      }
+    }, 1000);
   }
 
   renderMap() {

@@ -8,23 +8,25 @@ export default StyleSheet.create({
   container: {
     flex: 1
   },
+  cameraContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   camera: {
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    height: Theme.screen.height,
-    width: Theme.screen.width
+    height: 416,
+    width: Theme.screen.width - (56 * 2)
   },
   captureLabel: {
-    position: 'absolute',
-    top: 45,
-    left: 8,
     right: 8,
     fontSize: 21,
     fontWeight: '400',
     fontFamily: Theme.font,
     textAlign: 'center',
-    color: Theme.fontColors.white,
+    color: Theme.fontColors.light,
     backgroundColor: 'transparent'
   },
   captureBtn: {
@@ -34,15 +36,20 @@ export default StyleSheet.create({
     borderRadius: 32,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 52
+    marginBottom: 52,
+    marginLeft: 8
   },
   preview: {
-    marginTop: 8,
+    height: 416,
+    width: Theme.screen.width - (56 * 2),
+    marginTop: 16,
     marginLeft: 56,
     marginRight: 56,
+    alignItems: 'center',
+    justifyContent: 'center',
     ...Platform.select({
       ios: {
-        marginTop: 24
+        marginTop: 32
       }
     })
   },

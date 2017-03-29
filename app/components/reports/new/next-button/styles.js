@@ -9,7 +9,7 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.secondary
   },
   transparent: {
-    backgroundColor: 'rgba(255,255,255, 0.3)'
+    backgroundColor: 'rgba(0,0,0, 0.3)'
   },
   button: {
     height: 64,
