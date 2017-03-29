@@ -33,7 +33,7 @@
     "redux-form": "^6.5.0",
     "redux-persist": "^4.3.0",
     "redux-thunk": "^2.1.0",
-    "turf-intersect": "^3.0.12"
+    "turf-intersect": "Vizzuality/turf-intersect"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
