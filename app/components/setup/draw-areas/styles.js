@@ -20,32 +20,47 @@ export default StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    height: 104,
+    height: 94,
     zIndex: 1,
     position: 'absolute'
   },
   footerBg: {
     width: Theme.screen.width,
-    height: 104,
+    height: 94,
     resizeMode: 'stretch',
     position: 'absolute',
     bottom: 0,
     transform: [{ rotate: '180deg' }]
   },
   footerButton: {
-    marginLeft: 8,
-    marginRight: 8
+    flexWrap: 'wrap'
   },
   footerTitle: {
     fontFamily: Theme.font,
     color: Theme.fontColors.white,
-    fontSize: 16,
+    fontSize: 17,
     fontStyle: 'italic',
-    fontWeight: '400',
+    fontWeight: '400'
+  },
+  undoButton: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: Theme.background.white,
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 8
+  },
+  actionButton: {
+    height: 64,
     position: 'absolute',
-    zIndex: 2,
-    bottom: 30,
-    marginLeft: Theme.margin.left,
-    opacity: 0.7
+    left: Theme.margin.left,
+    right: 8,
+    top: 0,
+    justifyContent: 'center'
+  },
+  actionButtonWithPadding: {
+    left: 80
   }
 });

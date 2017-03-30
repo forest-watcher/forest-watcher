@@ -55,6 +55,7 @@
 		"firstInstruction": "Tout d'abord, sélectionnez votre pays d'intérêt"
 	},
 	"setupDrawAreas": {
+		"invalidShape": "Forme non valide",
 		"tapInstruction": "Touchez la carte pour dessiner"
 	},
 	"setupHeader": {

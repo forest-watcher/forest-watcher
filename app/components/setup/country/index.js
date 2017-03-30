@@ -83,7 +83,7 @@ class SetupCountry extends Component {
             />
           </View>
 
-          <ActionButton style={styles.buttonPos} disabled={!iso} onPress={this.onNextPress} text={I18n.t('commonText.next')} />
+          <ActionButton style={styles.buttonPos} disabled={!iso} onPress={this.onNextPress} text={I18n.t('commonText.next').toUpperCase()} />
         </View>
       );
     }

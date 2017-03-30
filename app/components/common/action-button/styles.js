@@ -4,13 +4,17 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     borderRadius: 32,
-    backgroundColor: Theme.background.secondary
+    backgroundColor: Theme.background.secondary,
+    overflow: 'hidden'
   },
   light: {
     backgroundColor: Theme.background.white
   },
   disabled: {
     backgroundColor: Theme.colors.color6
+  },
+  error: {
+    backgroundColor: Theme.colors.color7
   },
   button: {
     height: 64,
@@ -42,5 +46,12 @@ export default StyleSheet.create({
     fontWeight: '400',
     marginLeft: 0,
     fontStyle: 'italic'
+  },
+  buttonTextError: {
+    color: Theme.fontColors.white,
+    fontWeight: '400',
+    marginLeft: 0,
+    fontStyle: 'normal',
+    fontSize: 16
   }
 });

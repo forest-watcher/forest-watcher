@@ -9,6 +9,7 @@
   "dependencies": {
     "boundingbox": "^0.1.0",
     "buffer": "^5.0.5",
+    "geojson-polygon-self-intersections": "^1.1.1",
     "geopoint": "^1.0.1",
     "react": "15.4.1",
     "react-native": "0.38.0",
