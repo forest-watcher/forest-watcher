@@ -88,7 +88,7 @@ class SetupOverview extends Component {
             style={styles.buttonPos}
             disabled={!this.state.name}
             onPress={this.onNextPress}
-            text={I18n.t('commonText.finish')}
+            text={I18n.t('commonText.finish').toUpperCase()}
           />
         </ScrollView>
       </View>
