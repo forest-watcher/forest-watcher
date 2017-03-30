@@ -48,7 +48,7 @@ class Login extends Component {
   }
 
   async onLoadEnd() {
-    if (this.state.webViewCurrenUrl.indexOf(Config.API_CALLBACK_URL) !== -1) {
+    if (this.state.webViewCurrenUrl.indexOf(Config.API_AUTH_CALLBACK_URL) !== -1) {
       let token = this.state.webViewCurrenUrl.match(/token[=](.*)/);
 
       if (token && token[1]) {
@@ -70,7 +70,7 @@ class Login extends Component {
 
   onPress(socialNetwork) {
     if (this.props.isConnected) {
-      const url = `${Config.API_URL}/auth/${socialNetwork}?token=true&callbackUrl=${Config.API_CALLBACK_URL}`;
+      const url = `${Config.API_AUTH}/auth/${socialNetwork}?token=true&callbackUrl=${Config.API_AUTH_CALLBACK_URL}`;
 
       this.setState({
         webviewVisible: true,
