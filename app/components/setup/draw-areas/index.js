@@ -299,7 +299,7 @@ class DrawAreas extends Component {
               return (
                 <MapView.Marker.Animated key={index} coordinate={marker} anchor={{ x: 0.5, y: 0.5 }}>
                   <Image
-                    style={{ width: 12, height: 12 }}
+                    style={{ width: 10, height: 10 }}
                     source={image}
                   />
                 </MapView.Marker.Animated>
