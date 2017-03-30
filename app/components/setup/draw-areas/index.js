@@ -26,7 +26,9 @@ const LATITUDE_DELTA = 30;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const footerBackgroundImage = require('assets/map_bg_gradient.png');
-const markerImage = require('assets/marker.png');
+const markerImage = require('assets/circle.png');
+const markerRedImage = require('assets/circle_red.png');
+const undoImage = require('assets/undo.png');
 
 function parseCoordinates(coordinates) {
   return coordinates.map((cordinate) => ({
@@ -175,29 +177,30 @@ class DrawAreas extends Component {
 
   getLegend() {
     const finished = this.state.shape.coordinates.length >= 3;
-    if (!finished) return <Text style={styles.footerTitle}>{I18n.t('setupDrawAreas.tapInstruction')}</Text>;
+    if (!finished) {
+      const withPadding = this.state.shape.coordinates.length >= 1 ?
+       styles.actionButtonWithPadding : null;
 
-    return (this.state.valid)
-      ? <ActionButton style={styles.footerButton} onPress={this.onNextPress} text={I18n.t('commonText.next')} />
-      : (
-        <View style={styles.footerButton}>
-          <TouchableHighlight
-            style={styles.undoButton}
-            activeOpacity={0.8}
-            underlayColor={'transparent'}
-            onPress={this.undoShape}
-          >
-            <View><Text></Text></View>
-          </TouchableHighlight>
-          <ActionButton
-            style={styles.invalidButton}
-            disabled
-            error
-            onPress={this.clearShape}
-            text={I18n.t('setupDrawAreas.invalidShape').toUpperCase()}
-          />
+      return (
+        <View style={[styles.actionButton, withPadding]}>
+          <Text style={styles.footerTitle}>{I18n.t('setupDrawAreas.tapInstruction')}</Text>
         </View>
       );
+    }
+
+    return (this.state.valid)
+      ? <ActionButton
+        style={[styles.actionButton, styles.actionButtonWithPadding]}
+        onPress={this.onNextPress}
+        text={I18n.t('commonText.next').toUpperCase()}
+      />
+      : <ActionButton
+        style={[styles.actionButton, styles.actionButtonWithPadding]}
+        disabled
+        error
+        onPress={this.clearShape}
+        text={I18n.t('setupDrawAreas.invalidShape').toUpperCase()}
+      />;
   }
 
   clearShape = () => {
@@ -289,14 +292,19 @@ class DrawAreas extends Component {
             />
           )}
           {markers.length >= 0 && !this.state.snapshot &&
-            markers.map((marker, index) => (
-              <MapView.Marker.Animated key={index} coordinate={marker} anchor={{ x: 0.5, y: 0.5 }}>
-                <Image
-                  style={{ width: 10, height: 10 }}
-                  source={markerImage}
-                />
-              </MapView.Marker.Animated>
-            ))
+            markers.map((marker, index) => {
+              // const image = this.state.valid ? markerImage : markerRedImage;
+              const image = markerImage;
+
+              return (
+                <MapView.Marker.Animated key={index} coordinate={marker} anchor={{ x: 0.5, y: 0.5 }}>
+                  <Image
+                    style={{ width: 12, height: 12 }}
+                    source={image}
+                  />
+                </MapView.Marker.Animated>
+              );
+            })
           }
         </MapView>
         <View style={styles.footer}>
@@ -304,7 +312,22 @@ class DrawAreas extends Component {
             style={styles.footerBg}
             source={footerBackgroundImage}
           />
-          {this.getLegend()}
+          <View style={styles.footerButton}>
+            {this.state.shape.coordinates.length >= 1 &&
+              <TouchableHighlight
+                style={styles.undoButton}
+                activeOpacity={0.8}
+                underlayColor={Theme.background.white}
+                onPress={this.undoShape}
+              >
+                <Image
+                  style={{ width: 21, height: 9 }}
+                  source={undoImage}
+                />
+              </TouchableHighlight>
+            }
+            {this.getLegend()}
+          </View>
         </View>
       </View>
     );
