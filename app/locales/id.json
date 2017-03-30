@@ -55,6 +55,7 @@
 		"firstInstruction": "Pertama, pilih negara yang diinginkan"
 	},
 	"setupDrawAreas": {
+		"invalidShape": "Bentuk valid",
 		"tapInstruction": "Ketuk peta untuk menggambar area"
 	},
 	"setupHeader": {

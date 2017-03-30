@@ -55,7 +55,6 @@
 		"firstInstruction": "First, select your country of interest"
 	},
 	"setupDrawAreas": {
-		"resetShape": "Invalid shape, reset and draw again",
 		"invalidShape": "Invalid shape",
 		"tapInstruction": "Tap on map to draw"
 	},
