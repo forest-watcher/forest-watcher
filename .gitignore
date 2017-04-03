@@ -57,3 +57,4 @@ android/app/libs
 #
 Pods/
 ios/Podfile.lock
+ios/.gems
