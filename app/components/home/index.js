@@ -59,7 +59,9 @@ class Home extends Component {
       }
 
       this.updateForms();
-      this.props.setLanguage(getLanguage());
+      if (this.isDifferentLanguage()) {
+        this.props.setLanguage(getLanguage());
+      }
     }
 
     if (this.props.areasSynced) {
