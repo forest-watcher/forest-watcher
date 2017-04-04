@@ -386,6 +386,7 @@ class Map extends Component {
                     latitude: point.lat,
                     longitude: point.long
                   }}
+                  daggable={false}
                   onPress={() => this.onAlertPress(point)}
                 />
               );

@@ -103,7 +103,7 @@ Home.propTypes = {
     token: React.PropTypes.string,
     hasData: React.PropTypes.bool.isRequired
   }).isRequired,
-  language: React.PropTypes.string.isRequired,
+  language: React.PropTypes.string,
   areas: React.PropTypes.bool.isRequired,
   setupComplete: React.PropTypes.bool.isRequired,
   report: React.PropTypes.bool.isRequired,
