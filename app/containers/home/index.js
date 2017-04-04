@@ -3,6 +3,7 @@ import { setIsConnected } from 'redux-modules/app';
 import { getAreas } from 'redux-modules/areas';
 import { getQuestions as getFeedbackQuestions } from 'redux-modules/feedback';
 import { getQuestions as getReportQuestions } from 'redux-modules/reports';
+import { getCountries } from 'redux-modules/countries';
 import { getUser, setLoginModal, setLoginStatus, checkLogged } from 'redux-modules/user';
 import { setLanguage } from 'redux-modules/app';
 import { NavigationActions } from 'react-navigation';
@@ -58,6 +59,9 @@ function mapDispatchToProps(dispatch, { navigation }) {
     },
     getFeedbackQuestions: (type) => {
       dispatch(getFeedbackQuestions(type));
+    },
+    getCountries: () => {
+      dispatch(getCountries());
     },
     setLanguage: (language) => {
       dispatch(setLanguage(language));
