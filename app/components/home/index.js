@@ -9,6 +9,7 @@ import { getToken, getSetupStatus } from 'helpers/user';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
+import { getLanguage } from 'helpers/language';
 
 class Home extends Component {
   constructor() {
@@ -26,7 +27,7 @@ class Home extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if ((newProps.loggedIn && !this.setup) || (this.props.areasSynced !== newProps.areasSynced)) {
+    if ((newProps.loggedIn && !this.setup) || (this.props.areasSynced !== newProps.areasSynced) || this.isDifferentLanguage()) {
       this.checkSetup();
     }
   }
@@ -48,18 +49,19 @@ class Home extends Component {
       token: userToken
     });
 
-    if (userToken && !this.props.user) {
-      this.props.getUser();
-    }
-
-    if (userToken && !this.props.areasSynced) {
-      this.props.getAreas();
-    }
-
     if (userToken) {
-      if (!this.props.report) this.props.getReportQuestions();
-      if (!this.props.dailyFeedback) this.props.getFeedbackQuestions('daily');
-      if (!this.props.weeklyFeedback) this.props.getFeedbackQuestions('weekly');
+      if (!this.props.user) {
+        this.props.getUser();
+      }
+
+      if (!this.props.areasSynced) {
+        this.props.getAreas();
+      }
+
+      this.updateForms();
+      if (this.isDifferentLanguage()) {
+        this.props.setLanguage(getLanguage());
+      }
     }
 
     if (this.props.areasSynced) {
@@ -69,6 +71,16 @@ class Home extends Component {
         this.props.navigateReset(setupStatus ? 'Dashboard' : 'Setup');
       }
     }
+  }
+
+  isDifferentLanguage() {
+    return this.props.language !== getLanguage();
+  }
+
+  updateForms(){
+    if (!this.props.report || this.isDifferentLanguage()) this.props.getReportQuestions();
+    if (!this.props.dailyFeedback || this.isDifferentLanguage()) this.props.getFeedbackQuestions('daily');
+    if (!this.props.weeklyFeedback || this.isDifferentLanguage()) this.props.getFeedbackQuestions('weekly');
   }
 
   async checkBeforeRender() {
