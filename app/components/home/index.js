@@ -5,29 +5,27 @@ import {
   ActivityIndicator
 } from 'react-native';
 
-import { getToken, getSetupStatus } from 'helpers/user';
+import { getLanguage } from 'helpers/language';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 class Home extends Component {
-  constructor() {
-    super();
-    this.setup = false;
-  }
-
   componentDidMount() {
     NetInfo.isConnected.addEventListener('change', this.handleConnectionChange);
     NetInfo.isConnected.fetch()
       .done((isConnected) => this.props.setIsConnected(isConnected));
 
-    this.checkBeforeRender();
+    this.handleStatus();
     tracker.trackScreenView('Home');
   }
 
   componentWillReceiveProps(newProps) {
-    if ((newProps.loggedIn && !this.setup) || (this.props.areasSynced !== newProps.areasSynced)) {
-      this.checkSetup();
+    if ((this.props.user.loggedIn !== newProps.user.loggedIn)
+        || (this.props.areasSynced !== newProps.areasSynced)
+        || (this.props.language && this.isDifferentLanguage())) {
+      this.props = newProps;
+      this.handleStatus();
     }
   }
 
@@ -39,49 +37,50 @@ class Home extends Component {
     this.props.setIsConnected(isConnected);
   };
 
-  async checkSetup() {
-    this.setup = true;
-    const userToken = await getToken();
-    const setupStatus = await getSetupStatus();
-    this.props.setLoginStatus({
-      loggedIn: true,
-      token: userToken
-    });
-
-    if (userToken && !this.props.user) {
-      this.props.getUser();
-    }
-
-    if (userToken && !this.props.areasSynced) {
-      this.props.getAreas();
-    }
-
-    if (userToken) {
-      if (!this.props.report) this.props.getReportQuestions();
-      if (!this.props.dailyFeedback) this.props.getFeedbackQuestions('daily');
-      if (!this.props.weeklyFeedback) this.props.getFeedbackQuestions('weekly');
-    }
-
-    if (this.props.areasSynced) {
-      if (this.props.areas) {
-        this.props.navigateReset('Dashboard');
-      } else {
-        this.props.navigateReset(setupStatus ? 'Dashboard' : 'Setup');
-      }
-    }
+  isDifferentLanguage() {
+    return this.props.language !== getLanguage();
   }
 
-  async checkBeforeRender() {
-    await this.props.checkLogged();
-    const userToken = await getToken();
-    if (!userToken) {
-      this.props.setLoginModal(true);
-    } else {
-      if (!this.props.areasSynced && !this.props.areas) {
+  cacheForms() {
+    if (!this.props.report || this.isDifferentLanguage()) this.props.getReportQuestions();
+    if (!this.props.dailyFeedback || this.isDifferentLanguage()) this.props.getFeedbackQuestions('daily');
+    if (!this.props.weeklyFeedback || this.isDifferentLanguage()) this.props.getFeedbackQuestions('weekly');
+  }
+
+  handleStatus() {
+    const { token, loggedIn } = this.props.user;
+    if (token) {
+      tracker.setUser(token);
+      this.cacheForms();
+
+      if (!loggedIn) {
+        this.props.setLoginStatus({
+          loggedIn: true,
+          token
+        });
+      }
+
+      if (!this.props.user.hasData) {
+        this.props.getUser();
+      }
+
+      if (this.isDifferentLanguage()) {
+        this.props.setLanguage(getLanguage());
+        this.props.getCountries();
+      }
+
+      if (this.props.areasSynced) {
+        if (this.props.areas) {
+          this.props.navigateReset('Dashboard');
+        } else {
+          const { setupComplete } = this.props;
+          this.props.navigateReset(setupComplete ? 'Dashboard' : 'Setup');
+        }
+      } else {
         this.props.getAreas();
       }
-      tracker.setUser(userToken);
-      this.checkSetup();
+    } else {
+      this.props.setLoginModal(true);
     }
   }
 
@@ -99,18 +98,28 @@ class Home extends Component {
 }
 
 Home.propTypes = {
+  user: React.PropTypes.shape({
+    loggedIn: React.PropTypes.bool.isRequired,
+    token: React.PropTypes.string,
+    hasData: React.PropTypes.bool.isRequired
+  }).isRequired,
+  language: React.PropTypes.string.isRequired,
   areas: React.PropTypes.bool.isRequired,
+  setupComplete: React.PropTypes.bool.isRequired,
   report: React.PropTypes.bool.isRequired,
   dailyFeedback: React.PropTypes.bool.isRequired,
   weeklyFeedback: React.PropTypes.bool.isRequired,
   getAreas: React.PropTypes.func.isRequired,
   areasSynced: React.PropTypes.bool.isRequired,
   getUser: React.PropTypes.func.isRequired,
+  getCountries: React.PropTypes.func.isRequired,
   setIsConnected: React.PropTypes.func.isRequired,
   setLoginModal: React.PropTypes.func.isRequired,
   getReportQuestions: React.PropTypes.func.isRequired,
   getFeedbackQuestions: React.PropTypes.func.isRequired,
-  setLoginStatus: React.PropTypes.func.isRequired
+  navigateReset: React.PropTypes.func.isRequired,
+  setLoginStatus: React.PropTypes.func.isRequired,
+  setLanguage: React.PropTypes.func.isRequired
 };
 
 Home.navigationOptions = {

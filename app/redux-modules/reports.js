@@ -166,7 +166,7 @@ export function uploadReport(reportName) {
           throw Error(response.statusText);
         })
         .then((response) => {
-          console.log('TODO: save response', response);
+          console.info('TODO: save response', response);
           dispatch({
             type: UPDATE_REPORT,
             payload: {
@@ -176,10 +176,10 @@ export function uploadReport(reportName) {
           });
         })
         .catch((err) => {
-          console.log('TODO: handle error', err);
+          console.info('TODO: handle error', err);
         });
     } else {
-      console.log('TODO: handle submit form on no connection');
+      console.info('TODO: handle submit form on no connection');
     }
   };
 }
