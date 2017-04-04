@@ -4,16 +4,20 @@ import CONSTANTS from 'config/constants';
 
 // Actions
 const GET_COUNTRIES = 'countries/GET_COUNTRIES';
+const SET_LANGUAGE = 'countries/SET_LANGUAGE';
 
 // Reducer
 const initialState = {
-  data: null
+  data: null,
+  language: null
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_COUNTRIES:
       return Object.assign({}, state, { data: action.payload.data });
+    case SET_LANGUAGE:
+      return Object.assign({}, state, { language: action.payload.language });
     default:
       return state;
   }
@@ -46,4 +50,13 @@ export function getCountries() {
         // To-do
       });
   };
+}
+
+export function setLanguage(language) {
+  return (dispatch) => {
+    dispatch({
+      type: SET_LANGUAGE,
+      payload: language
+    });
+  }
 }

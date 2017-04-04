@@ -11,6 +11,7 @@ import Theme from 'config/theme';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
+import { getLanguage } from 'helpers/language';
 
 function renderLoading() {
   return (
@@ -48,9 +49,14 @@ function getCurrentCountry(countries, iso) {
 class SetupCountry extends Component {
   componentDidMount() {
     tracker.trackScreenView('Country Set Up');
-    if (!this.props.countries || !this.props.countries.length > 0) {
+    if (!this.props.countries || !this.props.countries.length > 0 || this.isDifferentLanguage()) {
       this.props.getCountries();
+      this.props.setLanguage(getLanguage());
     }
+  }
+
+  isDifferentLanguage() {
+    return this.props.language !== getLanguage();
   }
 
   onNextPress = () => {
