@@ -12,7 +12,6 @@ import {
 
 import Config from 'react-native-config';
 import Theme from 'config/theme';
-import { getToken, setToken } from 'helpers/user';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 
@@ -47,21 +46,17 @@ class Login extends Component {
     clearTimeout(this.successTimer);
   }
 
-  async onLoadEnd() {
+  onLoadEnd() {
     if (this.state.webViewCurrenUrl.indexOf(Config.API_AUTH_CALLBACK_URL) !== -1) {
       let token = this.state.webViewCurrenUrl.match(/token[=](.*)/);
 
       if (token && token[1]) {
         token = token[1].replace('#', '');
-        const saved = await setToken(token);
-        if (saved) {
-          const userToken = await getToken();
-          this.props.setLoginStatus({
-            loggedIn: true,
-            token: userToken
-          });
-          this.successTimer = this.getSuccessTimer();
-        }
+        this.props.setLoginStatus({
+          loggedIn: true,
+          token
+        });
+        this.successTimer = this.getSuccessTimer();
       } else {
         console.warn('Login incorrect');
       }
@@ -102,13 +97,10 @@ class Login extends Component {
     }
 
     if (tokenCountry) {
-      const saved = await setToken(tokenCountry);
-      if (saved) {
-        this.props.setLoginStatus({
-          loggedIn: true,
-          token: tokenCountry
-        });
-      }
+      this.props.setLoginStatus({
+        loggedIn: true,
+        token: tokenCountry
+      });
       this.props.setLoginModal(false);
     }
   }
@@ -122,6 +114,10 @@ class Login extends Component {
 
   getSuccessTimer() {
     return setTimeout(() => {
+      this.setState({
+        webviewVisible: false,
+        webViewUrl: ''
+      });
       this.props.setLoginModal(false);
     }, 1000);
   }

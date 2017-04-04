@@ -46,6 +46,11 @@ class Settings extends Component {
     // }
   }
 
+  onLogoutPress = () => {
+    this.props.logout();
+    this.props.navigate('Home');
+  }
+
   render() {
     const { areas, areasImages } = this.props;
 
@@ -66,13 +71,14 @@ class Settings extends Component {
               <Text style={styles.name}>
                 {this.props.user.fullName}
               </Text>
-              <Text style={styles.email}>
+              <Text style={styles.email} numberOfLines={1} ellipsizeMode="tail" >
                 {this.props.user.email}
               </Text>
             </View>
             <TouchableHighlight
               activeOpacity={0.5}
               underlayColor="transparent"
+              onPress={this.onLogoutPress}
             >
               <Text style={styles.logout}>{I18n.t('settings.logOut')}</Text>
             </TouchableHighlight>
@@ -156,7 +162,8 @@ Settings.propTypes = {
   areas: React.PropTypes.any,
   areasImages: React.PropTypes.any,
   navigate: React.PropTypes.func.isRequired,
-  getAreas: React.PropTypes.func.isRequired
+  getAreas: React.PropTypes.func.isRequired,
+  logout: React.PropTypes.func.isRequired
 };
 
 Settings.navigationOptions = {

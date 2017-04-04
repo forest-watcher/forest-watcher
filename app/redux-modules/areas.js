@@ -3,6 +3,7 @@ import { getGeostore } from 'redux-modules/geostore';
 
 // Actions
 import { SET_AREA_SAVED } from 'redux-modules/setup';
+import { LOGOUT } from 'redux-modules/user';
 
 const GET_AREAS = 'areas/GET_AREAS';
 const SAVE_AREA = 'areas/SAVE_AREA';
@@ -31,6 +32,9 @@ export default function reducer(state = initialState, action) {
       };
 
       return Object.assign({}, state, area);
+    }
+    case LOGOUT: {
+      return initialState;
     }
     default:
       return state;

@@ -5,6 +5,7 @@ const GET_USER = 'user/GET_USER';
 const SET_LOGIN_MODAL = 'user/SET_LOGIN_MODAL';
 const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
 const CHECK_USER_LOGGED = 'user/CHECK_USER_LOGGED';
+export const LOGOUT = 'user/LOGOUT';
 
 // Reducer
 const initialState = {
@@ -33,6 +34,8 @@ export default function reducer(state = initialState, action) {
         loggedIn: action.payload.loggedIn,
         token: action.payload.token
       });
+    case LOGOUT:
+      return initialState;
     default:
       return state;
   }
@@ -58,7 +61,7 @@ export function checkLogged() {
         });
       })
       .catch((error) => {
-        console.log(error);
+        console.info(error);
         // To-do
       });
   };
@@ -83,7 +86,7 @@ export function getUser() {
         });
       })
       .catch((error) => {
-        console.log(error);
+        console.info(error);
         // To-do
       });
   };
@@ -103,6 +106,14 @@ export function setLoginStatus(status) {
     dispatch({
       type: SET_LOGIN_STATUS,
       payload: status
+    });
+  };
+}
+
+export function logout() {
+  return (dispatch) => {
+    dispatch({
+      type: LOGOUT
     });
   };
 }
