@@ -3,6 +3,7 @@ import BoundingBox from 'boundingbox';
 import intersect from 'turf-intersect';
 
 // Actions
+import { LOGOUT } from 'redux-modules/user';
 const GET_ALERTS = 'alerts/GET_ALERTS';
 
 // Reducer
@@ -19,6 +20,9 @@ export default function reducer(state = initialState, action) {
       }
 
       return Object.assign({}, state, { data: alertsList });
+    }
+    case LOGOUT: {
+      return initialState;
     }
     default:
       return state;
