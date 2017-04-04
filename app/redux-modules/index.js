@@ -8,4 +8,3 @@ export { default as areas } from './areas';
 export { default as reports } from './reports';
 export { default as feedback } from './feedback';
 export { default as geostore } from './geostore';
-export { default as language } from './language';

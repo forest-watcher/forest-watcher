@@ -74,7 +74,7 @@ class Home extends Component {
   }
 
   isDifferentLanguage() {
-    return this.props.language.language !== getLanguage();
+    return this.props.language !== getLanguage();
   }
 
   updateForms(){
