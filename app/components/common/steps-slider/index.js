@@ -21,7 +21,7 @@ function StepsSlider(props) {
       locked
       tabBarPosition="overlayBottom"
       renderTabBar={props.hideIndex ? () => <View /> : getIndexBar}
-      prerenderingSiblingsNumber={1}
+      prerenderingSiblingsNumber={0}
       {...props}
     >
       {props.children}
