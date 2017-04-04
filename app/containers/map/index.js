@@ -12,6 +12,9 @@ function mapDispatchToProps(dispatch, { navigation }) {
     createReport: (name, position) => {
       dispatch(createReport(name, position));
     },
+    navigate: (routeName, params) => {
+      navigation.navigate(routeName, params);
+    },
     navigateReset: (routeName, params) => {
       const action = NavigationActions.reset({
         index: 2,

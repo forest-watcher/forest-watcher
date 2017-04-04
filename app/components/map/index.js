@@ -200,7 +200,7 @@ class Map extends Component {
         latLng = `${lastPosition.latitude},${lastPosition.longitude}`;
       }
       this.props.createReport(form, latLng);
-      this.props.navigateReset('NewReport', { form });
+      this.props.navigate('NewReport', { form });
     };
 
     const reportBtn = (
@@ -330,7 +330,7 @@ class Map extends Component {
 
 Map.propTypes = {
   navigation: React.PropTypes.object.isRequired,
-  navigateReset: React.PropTypes.func.isRequired,
+  navigate: React.PropTypes.func.isRequired,
   createReport: React.PropTypes.func.isRequired
 };
 
