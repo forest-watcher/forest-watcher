@@ -1,10 +1,9 @@
 import { connect } from 'react-redux';
-import { setIsConnected } from 'redux-modules/app';
+import { setIsConnected, setLanguage } from 'redux-modules/app';
 import { getAreas } from 'redux-modules/areas';
 import { getQuestions as getFeedbackQuestions } from 'redux-modules/feedback';
 import { getQuestions as getReportQuestions } from 'redux-modules/reports';
 import { getUser, setLoginModal, setLoginStatus, checkLogged } from 'redux-modules/user';
-import { setLanguage } from 'redux-modules/app';
 import { NavigationActions } from 'react-navigation';
 import Home from 'components/home';
 
@@ -15,8 +14,13 @@ function mapStateToProps(state) {
     dailyFeedback: Object.keys(state.feedback.daily).length > 0,
     weeklyFeedback: Object.keys(state.feedback.weekly).length > 0,
     areasSynced: state.areas.synced,
-    loggedIn: state.user.loggedIn,
-    language: state.app.language
+    language: state.app.language,
+    setupComplete: state.app.setupComplete,
+    user: {
+      loggedIn: state.user.loggedIn,
+      token: state.user.token,
+      hasData: state.user.data && Object.keys(state.user.data).length > 0
+    }
   };
 }
 
