@@ -209,15 +209,20 @@ class Map extends Component {
   }
 
   onLayout = () => {
-    this.afterRenderTimer = setTimeout(() => {
-      const { params } = this.props.navigation.state;
-      if (params && params.features && params.features.length > 0) {
-        this.map.fitToCoordinates(getGoogleMapsCoordinates(params.features), {
-          edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
-          animated: true
-        });
+    if (!this.state.alertSelected) {
+      if (this.afterRenderTimer) {
+        clearTimeout(this.afterRenderTimer);
       }
-    }, 1000);
+      this.afterRenderTimer = setTimeout(() => {
+        const { params } = this.props.navigation.state;
+        if (params && params.features && params.features.length > 0) {
+          this.map.fitToCoordinates(getGoogleMapsCoordinates(params.features), {
+            edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
+            animated: true
+          });
+        }
+      }, 1000);
+    }
   }
 
   renderMap() {
