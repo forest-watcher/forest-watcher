@@ -66,6 +66,7 @@ class Home extends Component {
 
       if (this.isDifferentLanguage()) {
         this.props.setLanguage(getLanguage());
+        this.props.getCountries();
       }
 
       if (this.props.areasSynced) {
@@ -102,7 +103,7 @@ Home.propTypes = {
     token: React.PropTypes.string,
     hasData: React.PropTypes.bool.isRequired
   }).isRequired,
-  language: React.PropTypes.string,
+  language: React.PropTypes.string.isRequired,
   areas: React.PropTypes.bool.isRequired,
   setupComplete: React.PropTypes.bool.isRequired,
   report: React.PropTypes.bool.isRequired,
@@ -111,6 +112,7 @@ Home.propTypes = {
   getAreas: React.PropTypes.func.isRequired,
   areasSynced: React.PropTypes.bool.isRequired,
   getUser: React.PropTypes.func.isRequired,
+  getCountries: React.PropTypes.func.isRequired,
   setIsConnected: React.PropTypes.func.isRequired,
   setLoginModal: React.PropTypes.func.isRequired,
   getReportQuestions: React.PropTypes.func.isRequired,
