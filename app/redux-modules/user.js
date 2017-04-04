@@ -40,7 +40,7 @@ export default function reducer(state = initialState, action) {
 
 // Action Creators
 export function checkLogged() {
-  const url = `${Config.API_URL}/auth/check-logged`;
+  const url = `${Config.API_AUTH}/auth/check-logged`;
   return (dispatch, state) => {
     fetch(url, {
       headers: {
@@ -65,7 +65,7 @@ export function checkLogged() {
 }
 
 export function getUser() {
-  const url = `${Config.API_URL}/user`;
+  const url = `${Config.API_AUTH}/user`;
   return (dispatch, state) => {
     fetch(url, {
       headers: {

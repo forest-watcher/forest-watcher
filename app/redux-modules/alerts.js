@@ -27,7 +27,8 @@ export default function reducer(state = initialState, action) {
 
 // Action Creators
 export function getAlerts(areaId, geojson) {
-  const url = `${Config.API_URL}/area/${areaId}/alerts?precissionPoints=6&precissionBBOX=4`;
+  const url = `${Config.API_STAGING_URL}/area/${areaId}/alerts?precissionPoints=6&precissionBBOX=4`;
+
   return async (dispatch, state) => {
     const alerts = await fetch(url,
       {
@@ -62,9 +63,9 @@ export function getAlerts(areaId, geojson) {
 
         if (alert.countGlad > 0) {
           const dataset = Config.DATASET_GLAD;
-          const urlPoints = `${Config.API_URL}/query/${dataset}/?sql=
+          const urlPoints = `${Config.API_STAGING_URL}/query/${dataset}/?sql=
           select lat, long from data
-          where year >= '2017'
+          where year >= 2017
           AND st_intersects(st_setsrid(st_geomfromgeojson('${geom}'), 4326), the_geom) LIMIT 60`;
 
           const points = await fetch(urlPoints)
