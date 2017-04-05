@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { getAreas } from 'redux-modules/areas';
+import { logout } from 'redux-modules/user';
 
 import Settings from 'components/settings';
 
@@ -18,6 +19,9 @@ function mapDispatchToProps(dispatch, { navigation }) {
     },
     getAreas: () => {
       dispatch(getAreas());
+    },
+    logout: () => {
+      dispatch(logout());
     }
   };
 }
