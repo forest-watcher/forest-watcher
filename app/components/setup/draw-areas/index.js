@@ -351,8 +351,8 @@ class DrawAreas extends Component {
 DrawAreas.propTypes = {
   country: React.PropTypes.shape({
     iso: React.PropTypes.string.isRequired,
-    bbox: React.PropTypes.object.isRequired,
-    centroid: React.PropTypes.object.isRequired
+    bbox: React.PropTypes.object,
+    centroid: React.PropTypes.object
   }).isRequired,
   onDrawAreaFinish: React.PropTypes.func.isRequired
 };
