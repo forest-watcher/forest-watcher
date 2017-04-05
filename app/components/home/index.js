@@ -16,7 +16,6 @@ class Home extends Component {
     NetInfo.isConnected.fetch()
       .done((isConnected) => this.props.setIsConnected(isConnected));
 
-    this.handleStatus();
     tracker.trackScreenView('Home');
   }
 
