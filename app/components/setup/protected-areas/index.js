@@ -9,6 +9,7 @@ import {
   InteractionManager
 } from 'react-native';
 
+import CONSTANTS from 'config/constants';
 import Config from 'react-native-config';
 import MapView from 'react-native-maps';
 
@@ -60,7 +61,7 @@ class ProtectedAreas extends Component {
     super(props);
     const intialCoords = this.props.country && this.props.country.centroid
       ? this.props.country.centroid.coordinates
-      : [Config.maps.lng, Config.maps.lat];
+      : [CONSTANTS.maps.lng, CONSTANTS.maps.lat];
     this.region = {};
     this.state = {
       data: [],
