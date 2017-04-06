@@ -63,6 +63,22 @@ pod install
 1. Open Android Studio
 2. Open an existing Android Studio Project > /android
 3. Run
+4. Install SDK platform, Build Tools and sync projects as asked
+5. Create and fill .env
+3. Run again
+
+#### With Genymotion
+
+1. Sign-up in Genymotion and download
+2. Configure Android Studio plugin: Go to Preferences / Plugins and click “Browse Repositories”, then search for Genymotion. Download and install
+3. Click the new icon at the top right in the toolbar and select the path to the Genymotion Application
+4. Create a new virtual device in GenyMotion
+5. Open Genymotion config and in ADB tab Use custom Android SDK tools with the path to Android sdk: /Users/[USER]/Library/Android/sdk
+
+#### React Debugger
+
+1. Install react debugger: https://github.com/jhen0409/react-native-debugger
+2. Launch it from Genymotion - Open Menu (Command + M) and select Debug JS Remotely
 
 #### Ruby (transifex API scripts)
 
