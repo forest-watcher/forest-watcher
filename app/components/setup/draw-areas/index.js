@@ -112,6 +112,12 @@ class DrawAreas extends Component {
     tracker.trackScreenView('Draw Areas');
   }
 
+  componentWillUnmount() {
+    if (this.afterRenderTimer) {
+      clearTimeout(this.afterRenderTimer);
+    }
+  }
+
   onMapPress(e) {
     if (e.nativeEvent.coordinate) {
       const { shape, valid } = this.state;
@@ -163,15 +169,20 @@ class DrawAreas extends Component {
 
   setBoundaries = () => {
     if (!this.bboxed) {
-      this.bboxed = true;
-      let boundaries = Config.bbox;
-      if (this.props.country && this.props.country.bbox) {
-        boundaries = this.props.country.bbox.coordinates[0];
+      if (this.afterRenderTimer) {
+        clearTimeout(this.afterRenderTimer);
       }
-      this.map.fitToCoordinates(getGoogleMapsCoordinates(boundaries), {
-        edgePadding: { top: 0, right: 0, bottom: 0, left: 0 },
-        animated: true
-      });
+      this.afterRenderTimer = setTimeout(() => {
+        this.bboxed = true;
+        let boundaries = Config.bbox;
+        if (this.props.country && this.props.country.bbox) {
+          boundaries = this.props.country.bbox.coordinates[0];
+        }
+        this.map.fitToCoordinates(getGoogleMapsCoordinates(boundaries), {
+          edgePadding: { top: 0, right: 0, bottom: 0, left: 0 },
+          animated: true
+        });
+      }, 1000);
     }
   }
 
@@ -268,9 +279,9 @@ class DrawAreas extends Component {
           provider={MapView.PROVIDER_GOOGLE}
           mapType="hybrid"
           rotateEnabled={false}
-          initialRegion={this.state.region}
           onPress={e => this.onMapPress(e)}
-          onRegionChangeComplete={this.setBoundaries}
+          moveOnMarkerPress={false}
+          onLayout={this.setBoundaries}
         >
           {coordinates.length > 0 && (
             <MapView.Polygon

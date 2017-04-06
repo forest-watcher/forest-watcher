@@ -233,6 +233,17 @@ class Map extends Component {
     }
   }
 
+  createReport = () => {
+    const { lastPosition } = this.state;
+    const form = `New-report-${Math.floor(Math.random() * 1000)}`;
+    let latLng = '0,0';
+    if (lastPosition) {
+      latLng = `${lastPosition.latitude},${lastPosition.longitude}`;
+    }
+    this.props.createReport(form, latLng);
+    this.props.navigate('NewReport', { form });
+  };
+
   renderFooter() {
     let distanceText = I18n.t('commonText.notAvailable');
     let distance = 999999;
@@ -245,21 +256,11 @@ class Map extends Component {
       distanceText = `${distance} ${I18n.t('commonText.kmAway')}`; // in Kilometers
     }
 
-    const createReport = () => {
-      const form = `New-report-${Math.floor(Math.random() * 1000)}`;
-      let latLng = '0,0';
-      if (lastPosition) {
-        latLng = `${lastPosition.latitude},${lastPosition.longitude}`;
-      }
-      this.props.createReport(form, latLng);
-      this.props.navigate('NewReport', { form });
-    };
-
     const reportBtn = (
       <ActionBtn
         style={styles.footerButton}
         text={I18n.t('report.title')}
-        onPress={() => createReport()}
+        onPress={this.createReport}
       />
     );
     return (
@@ -301,6 +302,10 @@ class Map extends Component {
 
   render() {
     const { params } = this.props.navigation.state;
+    const stopPropagation = thunk => e => {
+      e.stopPropagation();
+      thunk();
+    };
 
     return (
       this.state.renderMap
@@ -391,8 +396,7 @@ class Map extends Component {
                     latitude: point.lat,
                     longitude: point.long
                   }}
-                  draggable={false}
-                  onPress={() => this.onAlertPress(point)}
+                  onPress={stopPropagation(() => this.onAlertPress(point))}
                 />
               );
             })

@@ -71,10 +71,14 @@ class Home extends Component {
 
       if (this.props.areasSynced) {
         if (this.props.areas) {
-          this.props.navigateReset('Dashboard');
+          setTimeout(() => {
+            this.props.navigateReset('Dashboard');
+          }, 100);
         } else {
           const { setupComplete } = this.props;
-          this.props.navigateReset(setupComplete ? 'Dashboard' : 'Setup');
+          setTimeout(() => {
+            this.props.navigateReset(setupComplete ? 'Dashboard' : 'Setup');
+          }, 100);
         }
       } else {
         this.props.getAreas();
