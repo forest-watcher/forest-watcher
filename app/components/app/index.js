@@ -1,23 +1,26 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   View,
-  StatusBar
+  StatusBar,
 } from 'react-native';
 
 import { StackNavigator } from 'react-navigation';
 import { Routes, RoutesConfig } from 'routes';
 
 import Login from 'containers/login';
+import ConnectionStatus from 'containers/connectionstatus';
 import styles from './styles';
 
-function App() {
   StatusBar.setBarStyle('default', true);
 
-  const AppNavigator = StackNavigator(Routes, RoutesConfig);
+const AppNavigator = StackNavigator(Routes, RoutesConfig);
+
+const App = {
   return (
     <View style={styles.mainContainer}>
       <AppNavigator />
       <Login />
+      <ConnectionStatus />
     </View>
   );
 }
