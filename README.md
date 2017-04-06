@@ -65,7 +65,7 @@ pod install
 3. Run
 4. Install SDK platform, Build Tools and sync projects as asked
 5. Create and fill .env
-3. Run again
+6. Run again
 
 #### With Genymotion
 
@@ -73,7 +73,9 @@ pod install
 2. Configure Android Studio plugin: Go to Preferences / Plugins and click “Browse Repositories”, then search for Genymotion. Download and install
 3. Click the new icon at the top right in the toolbar and select the path to the Genymotion Application
 4. Create a new virtual device in GenyMotion
-5. Open Genymotion config and in ADB tab Use custom Android SDK tools with the path to Android sdk: /Users/[USER]/Library/Android/sdk
+5. Download Open Gapps from: http://opengapps.org/ Variant: nano
+6. Drag to the emulator
+7. Open Genymotion config and in ADB tab Use custom Android SDK tools with the path to Android sdk: /Users/[USER]/Library/Android/sdk
 
 #### React Debugger
 
