@@ -15,7 +15,7 @@ import styles from './styles';
 
 const AppNavigator = StackNavigator(Routes, RoutesConfig);
 
-const App = {
+const App = function(){
   return (
     <View style={styles.mainContainer}>
       <AppNavigator />
