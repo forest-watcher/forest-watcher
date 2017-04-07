@@ -3,6 +3,7 @@ import {
   View,
   ScrollView,
   Image,
+  TouchableHighlight,
   Text
 } from 'react-native';
 import styles from './styles';
@@ -14,27 +15,33 @@ function List(props) {
     <ScrollView>
       {props.content.map((data, key) =>
       (
-        <View
-          key={key}
-          style={props.bigSeparation ? [styles.container, styles.containerBigSeparation] : [styles.container]}
+        <TouchableHighlight
+          key={`link-${key}`}
           onPress={data.functionOnPress}
+          activeOpacity={1}
+          underlayColor="transparent"
         >
-          <View style={data.text ? styles.containerImageText : styles.containerOnlyImage}>
-            {data.image &&
-              <Image
-                style={styles.imageList}
-                source={data.image}
-              />
-            }
-            {data.text &&
-              <Text style={styles.text}>{data.text}</Text>
-            }
+          <View
+            key={key}
+            style={props.bigSeparation ? [styles.container, styles.containerBigSeparation] : [styles.container]}
+          >
+            <View style={data.text ? styles.containerImageText : styles.containerOnlyImage}>
+              {data.image &&
+                <Image
+                  style={styles.imageList}
+                  source={data.image}
+                />
+              }
+              {data.text &&
+                <Text style={styles.text}>{data.text}</Text>
+              }
+            </View>
+            <Image
+              style={styles.nextIcon}
+              source={nextImage}
+            />
           </View>
-          <Image
-            style={styles.nextIcon}
-            source={nextImage}
-          />
-        </View>
+        </TouchableHighlight>
       )
     )}
     </ScrollView>
