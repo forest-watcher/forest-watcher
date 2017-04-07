@@ -17,7 +17,7 @@ function List(props) {
       (
         <TouchableHighlight
           key={`link-${key}`}
-          onPress={data.functionOnPress}
+          onPress={() => data.functionOnPress()}
           activeOpacity={1}
           underlayColor="transparent"
         >
