@@ -55,6 +55,11 @@
 		"secondWelcomeText": "please set up an area",
 		"firstInstruction": "First, select your country of interest"
 	},
+	"partners": {
+	 	"title": "Partners", 
+		"description": "Forest Watcher 2.0 is supported by a partnership of organizations contributing data, technology, funding and expertise.", 
+		"listOfPartners": "See a full list of partners below."
+	},
 	"setupDrawAreas": {
     "invalidShape": "Invalid shape",
 		"tapInstruction": "Tap on map to draw"
