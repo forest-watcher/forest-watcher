@@ -11,9 +11,14 @@ import styles from './styles';
 const nextImage = require('assets/next.png');
 
 function List(props) {
+  const images = props.content.map((data, key) => {
+    if (data.image !== null){
+      return require(data.image)   
+    }
+  })
   return (
     <ScrollView>
-      {props.content.map((data, key) =>
+      {props.content.map((data, key) => 
       (
         <TouchableHighlight
           key={`link-${key}`}
@@ -29,7 +34,7 @@ function List(props) {
               {data.image &&
                 <Image
                   style={styles.imageList}
-                  source={data.image}
+                  source={image[key]}
                 />
               }
               {data.text &&
