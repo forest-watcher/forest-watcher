@@ -36,25 +36,25 @@ class Partners extends Component {
       {
         text: 'World Resources Institute',
         image: 'assets/wri_logo.png',
-        url: 'http://www.wri.org/'
+        url: 'http://www.wri.org/',
         functionOnPress: this.handleLink
       },
       {
         text: 'The Jane Goodall Institute',
         image: 'assets/jgi_logo.png',
-        url: 'http://www.janegoodall.org/'
+        url: 'http://www.janegoodall.org/',
         functionOnPress: this.handleLink
       },
       {
         text: 'Global Forest Watch',
         image: 'assets/gfw_logo.png',
-        url: 'http://www.globalforestwatch.org/'
+        url: 'http://www.globalforestwatch.org/',
         functionOnPress: this.handleLink
       },
       {
         text: 'Vizzuality',
         image: 'assets/vizzuality_logo.png',
-        url: 'http://www.vizzuality.com/'
+        url: 'http://www.vizzuality.com/',
         functionOnPress: this.handleLink
       }
     ];
