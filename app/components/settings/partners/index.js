@@ -66,8 +66,8 @@ class Partners extends Component {
         showsHorizontalScrollIndicator={false}
       >
         <View style={styles.partner}>
-          <Text style={styles.partnerTitle}>{I18n.t('partners.description')}</Text>
-          <Text style={styles.partnerTitle}>{I18n.t('partners.listOfPartners')}</Text>
+          <Text style={styles.partnerText}>{I18n.t('partners.description')}</Text>
+          <Text style={styles.partnerText}>{I18n.t('partners.listOfPartners')}</Text>
         </View>
         <List content={partners} bigSeparation={false}>{}</List>
       </ScrollView>

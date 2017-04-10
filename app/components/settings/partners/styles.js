@@ -15,24 +15,17 @@ export default StyleSheet.create({
     paddingBottom: 30
   },
   partner: {
-    padding: 10,
-    paddingBottom: 0,
-    flexDirection: 'row',
-    alignItems: 'center',
+    padding: 16,
+    paddingTop: 0,
+    paddingBottom: 10,
+    flexDirection: 'column',
     justifyContent: 'space-between'
   },
-  partnerTitle: {
+  partnerText: {
     fontFamily: Theme.font,
     fontSize: 17,
-    fontWeight: '400',
-    color: Theme.fontColors.secondary,
-    marginLeft: 13
+    fontWeight: '100',
+    color: Theme.fontColors.light,
+    marginTop: 10
   },
-  partnerMore: {
-    fontFamily: Theme.font,
-    fontSize: 15,
-    fontWeight: '500',
-    color: Theme.fontColors.main,
-    marginRight: 6
-  }
 });
