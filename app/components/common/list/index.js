@@ -11,11 +11,6 @@ import styles from './styles';
 const nextImage = require('assets/next.png');
 
 function List(props) {
-  const images = props.content.map((data, key) => {
-    if (data.image !== null){
-      return require(data.image)   
-    }
-  })
   return (
     <ScrollView>
       {props.content.map((data, key) => 
@@ -34,7 +29,7 @@ function List(props) {
               {data.image &&
                 <Image
                   style={styles.imageList}
-                  source={image[key]}
+                  source={{ uri: data.image }}
                 />
               }
               {data.text &&

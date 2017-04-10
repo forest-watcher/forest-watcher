@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   View,
   ScrollView,
-  Text
+  Text, 
+  Linking
 } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
 
@@ -27,35 +28,34 @@ class Partners extends Component {
     tracker.trackScreenView('Partners');
   }
 
-  handleLink(link) {
-    console.log(link)
+  handleLink = (url) => {
+    Linking.openURL(url)
   }
 
   render() {
     const partners = [
       {
-        text: 'World Resources Institute',
+        description: 'World Resources Institute',
         image: 'assets/wri_logo.png',
         url: 'http://www.wri.org/',
-        functionOnPress: this.handleLink
+        functionOnPress: this.handleLink.bind(this, 'http://www.wri.org/')
       },
       {
-        text: 'The Jane Goodall Institute',
+        description: 'The Jane Goodall Institute',
         image: 'assets/jgi_logo.png',
-        url: 'http://www.janegoodall.org/',
-        functionOnPress: this.handleLink
+        url: 'http://www.janegoodall.org/', 
+        functionOnPress: this.handleLink.bind(this, 'http://www.janegoodall.org/')
       },
       {
-        text: 'Global Forest Watch',
+        description: 'Global Forest Watch',
         image: 'assets/gfw_logo.png',
         url: 'http://www.globalforestwatch.org/',
-        functionOnPress: this.handleLink
+        functionOnPress: this.handleLink.bind(this, 'http://www.globalforestwatch.org/')
       },
       {
-        text: 'Vizzuality',
-        image: 'assets/vizzuality_logo.png',
+        description: 'Vizzuality',
         url: 'http://www.vizzuality.com/',
-        functionOnPress: this.handleLink
+        functionOnPress: this.handleLink.bind(this, 'http://www.vizzuality.com/')
       }
     ];
     return (
