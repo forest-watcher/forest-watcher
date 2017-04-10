@@ -36,24 +36,25 @@ class Partners extends Component {
     const partners = [
       {
         description: 'World Resources Institute',
-        image: 'assets/wri_logo.png',
+        image: require('assets/wri_logo.png'),
         url: 'http://www.wri.org/',
         functionOnPress: this.handleLink.bind(this, 'http://www.wri.org/')
       },
       {
         description: 'The Jane Goodall Institute',
-        image: 'assets/jgi_logo.png',
+        image: require('assets/jgi_logo.png'),
         url: 'http://www.janegoodall.org/', 
         functionOnPress: this.handleLink.bind(this, 'http://www.janegoodall.org/')
       },
       {
         description: 'Global Forest Watch',
-        image: 'assets/gfw_logo.png',
+        image: require('assets/gfw_logo.png'),
         url: 'http://www.globalforestwatch.org/',
         functionOnPress: this.handleLink.bind(this, 'http://www.globalforestwatch.org/')
       },
       {
         description: 'Vizzuality',
+        image: require('assets/vizzuality_logo.png'),
         url: 'http://www.vizzuality.com/',
         functionOnPress: this.handleLink.bind(this, 'http://www.vizzuality.com/')
       }
