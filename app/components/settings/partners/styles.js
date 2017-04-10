@@ -27,5 +27,5 @@ export default StyleSheet.create({
     fontWeight: '100',
     color: Theme.fontColors.light,
     marginTop: 10
-  },
+  }
 });

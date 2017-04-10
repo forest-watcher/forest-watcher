@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   ScrollView,
-  Text, 
+  Text,
   Linking
 } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
@@ -13,6 +13,11 @@ import Theme from 'config/theme';
 import headerStyles from 'components/common/header/styles';
 import List from 'components/common/list';
 import styles from './styles';
+
+const wriLogo = require('assets/wri_logo.png');
+const jgiLogo = require('assets/jgi_logo.png');
+const gfwLogo = require('assets/gfw_logo.png');
+const vizzualityLogo = require('assets/vizzuality_logo.png');
 
 class Partners extends Component {
 
@@ -29,34 +34,34 @@ class Partners extends Component {
   }
 
   handleLink = (url) => {
-    Linking.openURL(url)
+    Linking.openURL(url);
   }
 
   render() {
     const partners = [
       {
         description: 'World Resources Institute',
-        image: require('assets/wri_logo.png'),
+        image: wriLogo,
         url: 'http://www.wri.org/',
-        functionOnPress: this.handleLink.bind(this, 'http://www.wri.org/')
+        functionOnPress: this.handleLink
       },
       {
         description: 'The Jane Goodall Institute',
-        image: require('assets/jgi_logo.png'),
-        url: 'http://www.janegoodall.org/', 
-        functionOnPress: this.handleLink.bind(this, 'http://www.janegoodall.org/')
+        image: jgiLogo,
+        url: 'http://www.janegoodall.org/',
+        functionOnPress: this.handleLink
       },
       {
         description: 'Global Forest Watch',
-        image: require('assets/gfw_logo.png'),
+        image: gfwLogo,
         url: 'http://www.globalforestwatch.org/',
-        functionOnPress: this.handleLink.bind(this, 'http://www.globalforestwatch.org/')
+        functionOnPress: this.handleLink
       },
       {
         description: 'Vizzuality',
-        image: require('assets/vizzuality_logo.png'),
+        image: vizzualityLogo.png,
         url: 'http://www.vizzuality.com/',
-        functionOnPress: this.handleLink.bind(this, 'http://www.vizzuality.com/')
+        functionOnPress: this.handleLink
       }
     ];
     return (
@@ -77,7 +82,7 @@ class Partners extends Component {
 }
 
 Partners.propTypes = {
-  partners: React.PropTypes.array,
+  partners: React.PropTypes.array
 };
 
 Partners.navigationOptions = {

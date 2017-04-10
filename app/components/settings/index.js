@@ -33,13 +33,13 @@ class Settings extends Component {
     // }
   }
 
-  handlePartnersLink = () => {
-    this.props.navigate('Partners');
-  }
-
   onLogoutPress = () => {
     this.props.logout();
     this.props.navigate('Home');
+  }
+
+  handlePartnersLink = () => {
+    this.props.navigate('Partners');
   }
 
   render() {
