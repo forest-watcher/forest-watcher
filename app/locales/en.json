@@ -3,6 +3,7 @@
 		"appName": "Forest Watcher 2.0",
 		"next": "Next",
     "save": "Save",
+    "delete": "Delete",
 		"back": "Back",
 		"finish": "Finish",
 		"setUp": "Set up",
@@ -44,6 +45,9 @@
     "downloadingAlerts": "Please wait while the data is downloaded...",
     "noAlerts": "There are no alerts available",
     "satelliteSignal": "Waiting for the satellite signal..."
+	},
+	"areaDetail": {
+    "title": "Area detail"
 	},
 	"boundaries": {
 		"chooseBoundaries": "Now, choose the boundaries",

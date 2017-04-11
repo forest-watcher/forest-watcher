@@ -51,6 +51,10 @@ class Settings extends Component {
     this.props.navigate('Home');
   }
 
+  linkToArea(areaId) {
+    this.props.navigate('AreaDetail', { id: areaId });
+  }
+
   render() {
     const { areas, areasImages } = this.props;
 
@@ -101,6 +105,7 @@ class Settings extends Component {
                     key={key}
                     activeOpacity={0.5}
                     underlayColor="transparent"
+                    onPress={() => this.linkToArea(area.id)}
                   >
                     <View style={styles.item}>
                       <View style={styles.imageContainer}>
@@ -115,6 +120,7 @@ class Settings extends Component {
                       <TouchableHighlight
                         activeOpacity={0.5}
                         underlayColor="transparent"
+                        onPress={(areaId) => this.linkToArea(area.id, areaId)}
                       >
                         <Image style={Theme.icon} source={nextIcon} />
                       </TouchableHighlight>

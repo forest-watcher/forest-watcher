@@ -14,8 +14,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch, { navigation }) {
   return {
-    navigate: (routeName) => {
-      navigation.navigate(routeName);
+    navigate: (routeName, params) => {
+      navigation.navigate(routeName, params);
     },
     getAreas: () => {
       dispatch(getAreas());
