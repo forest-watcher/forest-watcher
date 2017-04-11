@@ -26,6 +26,12 @@ class AreaDetail extends Component {
 
   handleDeleteArea = () => {
     console.log( this.props);
+    if (this.props.isConnected) {
+      this.props.deleteArea(this.props.area.id);
+      this.props.navigate('Settings');
+    } else {
+      // TODO: Alert no connection in modal
+    }
   }
 
   render() {
@@ -45,6 +51,9 @@ class AreaDetail extends Component {
 
 AreaDetail.propTypes = {
   imageUrl: React.PropTypes.string,
+  deleteArea: React.PropTypes.func,
+  isConnected: React.PropTypes.func,
+  navigate: React.PropTypes.func,
   area: React.PropTypes.object
 };
 

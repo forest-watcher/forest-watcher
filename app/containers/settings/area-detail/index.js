@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 
+import { deleteArea } from 'redux-modules/areas';
+import { isConnected } from 'redux-modules/app';
 import AreaDetail from 'components/settings/area-detail';
-import { removeArea } from 'redux-modules/areas';
 
 function mapStateToProps(state, { navigation }) {
   const area = state.areas.data.find((areaData) => (areaData.id === navigation.state.params.id));
@@ -13,10 +14,15 @@ function mapStateToProps(state, { navigation }) {
 
 function mapDispatchToProps(dispatch, { navigation }) {
   return {
-    navigate: (routeName, params) => {
-      navigation.navigate(routeName, params);
+    navigate: (routeName) => {
+      navigation.navigate(routeName);
     },
-    onRemovePress: (id) => dispatch(removeArea(id))
+    deleteArea: (id) => {
+      dispatch(deleteArea(id));
+    },
+    isConnected: () => {
+      dispatch(isConnected());
+    }
   };
 }
 

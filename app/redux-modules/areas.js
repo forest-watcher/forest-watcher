@@ -7,6 +7,7 @@ import { LOGOUT } from 'redux-modules/user';
 
 const GET_AREAS = 'areas/GET_AREAS';
 const SAVE_AREA = 'areas/SAVE_AREA';
+const DELETE_AREA = 'areas/DELETE_AREA';
 
 // Reducer
 const initialState = {
@@ -32,6 +33,15 @@ export default function reducer(state = initialState, action) {
       };
 
       return Object.assign({}, state, area);
+    }
+    case DELETE_AREA: {
+      const areas = state.data.length > 0 ? state.data : [];
+      const images = state.images.length > 0 ? state.images : [];
+      const id = action.payload.id;
+      const deletedArea = areas.find((a) => (a.id === id));
+      areas.splice(areas.indexOf(deletedArea), 1);
+      images.splice(images.indexOf(images[id]), 1);
+      return Object.assign({}, state, { data: areas, images, synced: true });
     }
     case LOGOUT: {
       return initialState;
@@ -110,6 +120,36 @@ export function saveArea(params) {
           type: SET_AREA_SAVED,
           payload: false
         });
+        console.warn(error);
+        // To-do
+      });
+  };
+}
+
+export function deleteArea(id) {
+  const url = `${Config.API_URL}/area/${id}`;
+  return (dispatch, state) => {
+    const fetchConfig = {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${state().user.token}`
+      }
+    };
+    fetch(url, fetchConfig)
+      .then(response => {
+        if (response.ok && response.status === 204) return response.ok;
+        throw Error(response.statusText);
+      })
+      .then(() => {
+        dispatch({
+          type: DELETE_AREA,
+          payload: {
+            id
+          }
+        });
+      })
+      .catch((error) => {
         console.warn(error);
         // To-do
       });
