@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-
 import { deleteArea } from 'redux-modules/areas';
 import { isConnected } from 'redux-modules/app';
 import AreaDetail from 'components/settings/area-detail';
