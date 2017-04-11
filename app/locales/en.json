@@ -11,7 +11,9 @@
     "confirm": "Confirm",
     "loading": "Loading",
     "notAvailable": "Not available",
-    "kmAway": "km away"
+    "kmAway": "km away",
+		"connectionRequiredTitle": "No connection",
+		"connectionRequired": "You need an internet connection to complete this action",
 	},
 	"dashboard": {
 		"title": "Dashboard",

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Alert,
   View,
   Image
 } from 'react-native';
@@ -22,7 +23,12 @@ class AreaDetail extends Component {
       this.props.deleteArea(this.props.area.id);
       this.props.navigate('Settings');
     } else {
-      // TODO: Alert no connection in modal
+      Alert.alert(
+        I18n.t('commonText.connectionRequiredTitle'),
+        I18n.t('commonText.connectionRequired'),
+        [{ text: 'OK' }],
+        { cancelable: false }
+      );
     }
   }
 
