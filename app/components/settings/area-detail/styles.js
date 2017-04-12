@@ -14,12 +14,15 @@ export default StyleSheet.create({
     paddingTop: 0,
     paddingBottom: 30
   },
+  buttonContainer: {
+    padding: 10
+  },
   imageContainer: {
-    backgroundColor: Theme.background.modal,
+    backgroundColor: Theme.background.modal
   },
   image: {
-    width: 360, 
+    width: 360,
     height: 200,
-    resizeMode: 'cover',
+    resizeMode: 'cover'
   }
 });
