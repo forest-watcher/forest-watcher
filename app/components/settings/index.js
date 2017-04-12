@@ -6,8 +6,7 @@ import {
   Text,
   TouchableHighlight,
   ScrollView,
-  Image,
-  ActivityIndicator
+  Image
 } from 'react-native';
 
 import LeftBtn from 'components/common/header/left-btn';

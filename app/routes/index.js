@@ -19,7 +19,7 @@ export const Routes = {
   Reports: { screen: Reports },
   NewReport: { screen: NewReport },
   Feedback: { screen: Feedback },
-  AreaDetail: { screen: AreaDetail, path: 'areas/:id'}
+  AreaDetail: { screen: AreaDetail, path: 'areas/:id' }
 };
 
 export const RoutesConfig = {
