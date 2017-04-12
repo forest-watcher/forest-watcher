@@ -39,12 +39,12 @@ export default function reducer(state = initialState, action) {
       return Object.assign({}, state, area);
     }
     case DELETE_AREA: {
-      const areas = state.data.length > 0 ? state.data : [];
-      const images = state.images.length > 0 ? state.images : [];
+      const areas = state.data;
+      const images = state.images;
       const id = action.payload.id;
       const deletedArea = areas.find((a) => (a.id === id));
       areas.splice(areas.indexOf(deletedArea), 1);
-      images.splice(images.indexOf(images[id]), 1);
+      if (images[id] !== undefined) { delete images[id]; }
       return Object.assign({}, state, { data: areas, images, synced: true });
     }
     case LOGOUT: {
@@ -93,6 +93,10 @@ export function getAreas() {
 export function saveArea(params) {
   const url = `${Config.API_URL}/area`;
   return (dispatch, state) => {
+    dispatch({
+      type: SYNCING_AREAS,
+      payload: true
+    });
     const fetchConfig = {
       method: 'POST',
       headers: {
