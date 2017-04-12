@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import List from 'components/common/list';
+import AreaList from 'components/settings/area-list';
 import {
   View,
   Text,
   TouchableHighlight,
   ScrollView,
-  Image
+  Image,
+  ActivityIndicator
 } from 'react-native';
 
 import LeftBtn from 'components/common/header/left-btn';
@@ -16,7 +18,6 @@ import tracker from 'helpers/googleAnalytics';
 
 import styles from './styles';
 
-const nextIcon = require('assets/next.png');
 const plusIcon = require('assets/plus.png');
 
 const aboutSections = [
@@ -51,12 +52,8 @@ class Settings extends Component {
     this.props.navigate('Home');
   }
 
-  linkToArea(areaId) {
-    this.props.navigate('AreaDetail', { id: areaId });
-  }
-
   render() {
-    const { areas, areasImages } = this.props;
+    const { areas, areasImages, navigate, syncing } = this.props;
 
     return (
       <View style={styles.container}>
@@ -93,49 +90,14 @@ class Settings extends Component {
               <Text style={styles.label}>
                 {I18n.t('settings.yourAreas')}
               </Text>
-
-              {areas.map((item, key) => {
-                const area = item.attributes;
-                area.id = item.id;
-                const image = areasImages[area.id];
-
-                return (
-
-                  <TouchableHighlight
-                    key={key}
-                    activeOpacity={0.5}
-                    underlayColor="transparent"
-                    onPress={() => this.linkToArea(area.id)}
-                  >
-                    <View style={styles.item}>
-                      <View style={styles.imageContainer}>
-                        {image
-                          ? <Image style={styles.image} source={{ uri: image }} />
-                          : null
-                        }
-                      </View>
-                      <Text style={styles.title} numberOfLines={2}>
-                        {area.name}
-                      </Text>
-                      <TouchableHighlight
-                        activeOpacity={0.5}
-                        underlayColor="transparent"
-                        onPress={(areaId) => this.linkToArea(area.id, areaId)}
-                      >
-                        <Image style={Theme.icon} source={nextIcon} />
-                      </TouchableHighlight>
-                    </View>
-                  </TouchableHighlight>
-                );
-              })
-              }
+              <AreaList areas={areas} areasImages={areasImages} navigate={navigate} syncing={syncing} />
             </View>
           : null
           }
           <TouchableHighlight
             activeOpacity={0.5}
             underlayColor="transparent"
-            onPress={() => this.props.navigate('Setup')}
+            onPress={() => navigate('Setup')}
           >
             <View style={styles.addButton}>
               <Image style={Theme.icon} source={plusIcon} />
@@ -169,6 +131,7 @@ Settings.propTypes = {
   areasImages: React.PropTypes.any,
   navigate: React.PropTypes.func.isRequired,
   getAreas: React.PropTypes.func.isRequired,
+  syncing: React.PropTypes.bool.isRequired,
   logout: React.PropTypes.func.isRequired
 };
 

@@ -8,18 +8,22 @@ import { LOGOUT } from 'redux-modules/user';
 const GET_AREAS = 'areas/GET_AREAS';
 const SAVE_AREA = 'areas/SAVE_AREA';
 const DELETE_AREA = 'areas/DELETE_AREA';
+const SYNCING_AREAS = 'areas/SYNCING_AREA';
 
 // Reducer
 const initialState = {
   data: [],
   images: {},
-  synced: false
+  synced: false,
+  syncing: false
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_AREAS:
       return Object.assign({}, state, { ...action.payload, synced: true });
+    case SYNCING_AREAS:
+      return Object.assign({}, state, { syncing: action.payload });
     case SAVE_AREA: {
       const areas = state.data.length > 0 ? state.data : [];
       const image = {};
@@ -114,6 +118,10 @@ export function saveArea(params) {
           type: SET_AREA_SAVED,
           payload: true
         });
+        dispatch({
+          type: SYNCING_AREAS,
+          payload: false
+        });
       })
       .catch((error) => {
         dispatch({
@@ -143,10 +151,18 @@ export function deleteArea(id) {
       })
       .then(() => {
         dispatch({
+          type: SYNCING_AREAS,
+          payload: true
+        });
+        dispatch({
           type: DELETE_AREA,
           payload: {
             id
           }
+        });
+        dispatch({
+          type: SYNCING_AREAS,
+          payload: false
         });
       })
       .catch((error) => {

@@ -8,7 +8,8 @@ function mapStateToProps(state) {
   return {
     user: state.user.data,
     areas: state.areas.data,
-    areasImages: state.areas.images
+    areasImages: state.areas.images,
+    syncing: state.areas.syncing
   };
 }
 
