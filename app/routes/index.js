@@ -8,6 +8,7 @@ import Reports from 'containers/reports';
 import NewReport from 'components/reports/new';
 import Feedback from 'components/feedback';
 import AreaDetail from 'containers/settings/area-detail';
+import Partners from 'components/settings/partners';
 
 export const Routes = {
   Home: { screen: Home },
@@ -19,7 +20,8 @@ export const Routes = {
   Reports: { screen: Reports },
   NewReport: { screen: NewReport },
   Feedback: { screen: Feedback },
-  AreaDetail: { screen: AreaDetail, path: 'areas/:id' }
+  AreaDetail: { screen: AreaDetail, path: 'areas/:id' },
+  Partners: { screen: Partners }
 };
 
 export const RoutesConfig = {

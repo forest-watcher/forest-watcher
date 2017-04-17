@@ -19,19 +19,6 @@ import styles from './styles';
 
 const plusIcon = require('assets/plus.png');
 
-const aboutSections = [
-  {
-    text: I18n.t('settings.aboutPartners'),
-    image: null,
-    functionOnPress: null
-  },
-  {
-    text: I18n.t('settings.aboutTerms'),
-    image: null,
-    functionOnPress: null
-  }
-];
-
 class Settings extends Component {
   constructor() {
     super();
@@ -55,8 +42,24 @@ class Settings extends Component {
     this.props.navigate('Home');
   }
 
+  handlePartnersLink = () => {
+    this.props.navigate('Partners');
+  }
+
   render() {
-    const { areas, navigate } = this.props;
+    const aboutSections = [
+      {
+        text: I18n.t('settings.aboutPartners'),
+        image: null,
+        functionOnPress: this.handlePartnersLink
+      },
+      {
+        text: I18n.t('settings.aboutTerms'),
+        image: null,
+        functionOnPress: null
+      }
+    ];
+    const { areas, areasImages } = this.props;
 
     return (
       <View style={styles.container}>
