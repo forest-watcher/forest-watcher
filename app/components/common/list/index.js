@@ -10,13 +10,19 @@ import styles from './styles';
 
 const nextImage = require('assets/next.png');
 
+function onPress(data) {
+  if (data && data.functionOnPress) {
+    data.functionOnPress(data.url);
+  }
+}
+
 function List(props) {
   return (
     <ScrollView>
       { props.content.map((data, key) => (
         <TouchableHighlight
           key={`link-${key}`}
-          onPress={() => data.functionOnPress.bind(this, data.url)()}
+          onPress={() => onPress(data)}
           activeOpacity={1}
           underlayColor="transparent"
         >
