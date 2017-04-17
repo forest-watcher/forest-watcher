@@ -37,7 +37,7 @@ class AreaDetail extends Component {
     return (
       <View style={styles.area}>
         <View style={styles.imageContainer}>
-          <Image style={styles.image} source={{ uri: imageUrl }} />
+          {imageUrl ? <Image style={styles.image} source={{ uri: imageUrl }} /> : <Image style={styles.image} source={{ uri: 'placeholder.png'}} />}
         </View>
         <View style={styles.buttonContainer}>
           <ActionButton onPress={this.handleDeleteArea} delete text={I18n.t('areaDetail.delete')} />
