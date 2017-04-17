@@ -3,6 +3,7 @@
 		"appName": "Forest Watcher 2.0",
 		"next": "Next",
     "save": "Save",
+    "delete": "Delete",
 		"back": "Back",
 		"finish": "Finish",
 		"setUp": "Set up",
@@ -10,7 +11,9 @@
     "confirm": "Confirm",
     "loading": "Loading",
     "notAvailable": "Not available",
-    "kmAway": "km away"
+    "kmAway": "km away",
+		"connectionRequiredTitle": "No connection",
+		"connectionRequired": "You need an internet connection to complete this action",
 	},
 	"dashboard": {
 		"title": "Dashboard",
@@ -44,6 +47,10 @@
     "downloadingAlerts": "Please wait while the data is downloaded...",
     "noAlerts": "There are no alerts available",
     "satelliteSignal": "Waiting for the satellite signal..."
+	},
+	"areaDetail": {
+    "title": "Area detail",
+		"delete": "Delete this area"
 	},
 	"boundaries": {
 		"chooseBoundaries": "Now, choose the boundaries",

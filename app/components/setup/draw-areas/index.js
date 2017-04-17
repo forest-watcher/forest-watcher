@@ -170,12 +170,12 @@ class DrawAreas extends Component {
 
   setBoundaries = () => {
     if (!this.bboxed) {
-      this.bboxed = true;
-      let boundaries = CONSTANTS.maps.bbox.coordinates[0];
       if (this.afterRenderTimer) {
         clearTimeout(this.afterRenderTimer);
       }
       this.afterRenderTimer = setTimeout(() => {
+        this.bboxed = true;
+        let boundaries = CONSTANTS.maps.bbox.coordinates[0];
         if (this.props.country && this.props.country.bbox) {
           boundaries = this.props.country.bbox.coordinates[0];
         }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   View,
-  NetInfo,
   ActivityIndicator
 } from 'react-native';
 
@@ -12,10 +11,6 @@ import styles from './styles';
 
 class Home extends Component {
   componentDidMount() {
-    NetInfo.isConnected.addEventListener('change', this.handleConnectionChange);
-    NetInfo.isConnected.fetch()
-      .done((isConnected) => this.props.setIsConnected(isConnected));
-
     this.handleStatus();
     tracker.trackScreenView('Home');
   }
@@ -28,14 +23,6 @@ class Home extends Component {
       this.handleStatus();
     }
   }
-
-  componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener('change', this.handleConnectionChange);
-  }
-
-  handleConnectionChange = (isConnected) => {
-    this.props.setIsConnected(isConnected);
-  };
 
   isDifferentLanguage() {
     return this.props.language !== getLanguage();
@@ -117,7 +104,6 @@ Home.propTypes = {
   areasSynced: React.PropTypes.bool.isRequired,
   getUser: React.PropTypes.func.isRequired,
   getCountries: React.PropTypes.func.isRequired,
-  setIsConnected: React.PropTypes.func.isRequired,
   setLoginModal: React.PropTypes.func.isRequired,
   getReportQuestions: React.PropTypes.func.isRequired,
   getFeedbackQuestions: React.PropTypes.func.isRequired,
