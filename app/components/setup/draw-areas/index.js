@@ -8,6 +8,7 @@ import {
   TouchableHighlight
 } from 'react-native';
 
+import CONSTANTS from 'config/constants';
 import Config from 'react-native-config';
 import MapView from 'react-native-maps';
 import gpsi from 'geojson-polygon-self-intersections';
@@ -89,7 +90,8 @@ class DrawAreas extends Component {
     super(props);
     const intialCoords = this.props.country && this.props.country.centroid
       ? this.props.country.centroid.coordinates
-      : [Config.maps.lng, Config.maps.lat];
+      : [CONSTANTS.maps.lng, CONSTANTS.maps.lat];
+    console.log('initialcoords',intialCoords )
 
     this.bboxed = false;
     this.state = {
@@ -169,12 +171,13 @@ class DrawAreas extends Component {
 
   setBoundaries = () => {
     if (!this.bboxed) {
+
       if (this.afterRenderTimer) {
         clearTimeout(this.afterRenderTimer);
       }
       this.afterRenderTimer = setTimeout(() => {
         this.bboxed = true;
-        let boundaries = Config.bbox;
+        let boundaries = CONSTANTS.maps.bbox.coordinates[0];
         if (this.props.country && this.props.country.bbox) {
           boundaries = this.props.country.bbox.coordinates[0];
         }
@@ -348,8 +351,8 @@ class DrawAreas extends Component {
 DrawAreas.propTypes = {
   country: React.PropTypes.shape({
     iso: React.PropTypes.string.isRequired,
-    bbox: React.PropTypes.object.isRequired,
-    centroid: React.PropTypes.object.isRequired
+    bbox: React.PropTypes.object,
+    centroid: React.PropTypes.object
   }).isRequired,
   onDrawAreaFinish: React.PropTypes.func.isRequired
 };

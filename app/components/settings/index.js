@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import List from 'components/common/list';
+import AreaList from 'containers/settings/area-list';
 import {
   View,
   Text,
@@ -16,7 +17,6 @@ import tracker from 'helpers/googleAnalytics';
 
 import styles from './styles';
 
-const nextIcon = require('assets/next.png');
 const plusIcon = require('assets/plus.png');
 
 class Settings extends Component {
@@ -31,6 +31,10 @@ class Settings extends Component {
     tracker.trackScreenView('Set Up');
     this.props.getAreas();
     // }
+  }
+
+  onAreaPress = (areaId) => {
+    this.props.navigate('AreaDetail', { id: areaId });
   }
 
   onLogoutPress = () => {
@@ -92,47 +96,14 @@ class Settings extends Component {
               <Text style={styles.label}>
                 {I18n.t('settings.yourAreas')}
               </Text>
-
-              {areas.map((item, key) => {
-                const area = item.attributes;
-                area.id = item.id;
-                const image = areasImages[area.id];
-
-                return (
-
-                  <TouchableHighlight
-                    key={key}
-                    activeOpacity={0.5}
-                    underlayColor="transparent"
-                  >
-                    <View style={styles.item}>
-                      <View style={styles.imageContainer}>
-                        {image
-                          ? <Image style={styles.image} source={{ uri: image }} />
-                          : null
-                        }
-                      </View>
-                      <Text style={styles.title} numberOfLines={2}>
-                        {area.name}
-                      </Text>
-                      <TouchableHighlight
-                        activeOpacity={0.5}
-                        underlayColor="transparent"
-                      >
-                        <Image style={Theme.icon} source={nextIcon} />
-                      </TouchableHighlight>
-                    </View>
-                  </TouchableHighlight>
-                );
-              })
-              }
+              <AreaList onAreaPress={(areaId) => this.onAreaPress(areaId)} />
             </View>
           : null
           }
           <TouchableHighlight
             activeOpacity={0.5}
             underlayColor="transparent"
-            onPress={() => this.props.navigate('Setup')}
+            onPress={() => navigate('Setup')}
           >
             <View style={styles.addButton}>
               <Image style={Theme.icon} source={plusIcon} />
@@ -163,7 +134,6 @@ class Settings extends Component {
 Settings.propTypes = {
   user: React.PropTypes.any,
   areas: React.PropTypes.any,
-  areasImages: React.PropTypes.any,
   navigate: React.PropTypes.func.isRequired,
   getAreas: React.PropTypes.func.isRequired,
   logout: React.PropTypes.func.isRequired

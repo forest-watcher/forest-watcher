@@ -23,6 +23,7 @@ function ActionButton(props) {
     props.light ? styles.light : '',
     props.disabled ? styles.disabled : '',
     props.error ? styles.error : '',
+    props.delete ? styles.error : '',
     props.style
   ];
 
@@ -30,13 +31,14 @@ function ActionButton(props) {
     styles.buttonText,
     props.light ? styles.buttonTextLight : '',
     props.disabled ? styles.buttonTextDisabled : '',
-    props.error ? styles.buttonTextError : ''
+    props.error ? styles.buttonTextError : '',
+    props.delete ? styles.buttonTextError : ''
   ];
 
   let underlayColor = Theme.background.secondary;
   if (props.light) underlayColor = Theme.background.white;
   if (props.disabled) underlayColor = Theme.colors.color6;
-  if (props.error) underlayColor = Theme.colors.color7;
+  if (props.error || props.delete) underlayColor = Theme.colors.color7;
 
   return (
     <TouchableHighlight
@@ -47,7 +49,7 @@ function ActionButton(props) {
     >
       <View style={[styles.button, props.light ? styles.buttonLight : '']}>
         <Text style={textStyles}>{props.text}</Text>
-        {!props.disabled &&
+        {!(props.disabled || props.delete) &&
           <Image style={Theme.icon} source={props.light ? nextIcon : nextIconWhite} />
         }
       </View>
@@ -63,6 +65,7 @@ ActionButton.propTypes = {
   light: React.PropTypes.bool,
   style: React.PropTypes.node,
   disabled: React.PropTypes.bool,
+  delete: React.PropTypes.bool,
   error: React.PropTypes.bool,
   text: React.PropTypes.string.isRequired,
   onPress: React.PropTypes.func.isRequired

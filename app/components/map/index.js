@@ -12,12 +12,13 @@ import {
   Platform,
   TouchableHighlight
 } from 'react-native';
+import CONSTANTS from 'config/constants';
+
 import MapView from 'react-native-maps';
 import GeoPoint from 'geopoint';
 import I18n from 'locales';
 
 import ActionBtn from 'components/common/action-button';
-import Config from 'react-native-config';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
@@ -71,7 +72,7 @@ class Map extends Component {
     const { params } = this.props.navigation.state;
     const intialCoords = params.center
       ? params.center
-      : [Config.maps.lng, Config.maps.lat];
+      : [CONSTANTS.maps.lng, CONSTANTS.maps.lat];
 
     this.afterRenderTimer = null;
     this.eventLocation = null;
