@@ -51,7 +51,7 @@ AreaDetail.propTypes = {
   imageUrl: React.PropTypes.string,
   deleteArea: React.PropTypes.func,
   isConnected: React.PropTypes.func,
-  navigate: React.PropTypes.func,
+  navigation: React.PropTypes.object,
   area: React.PropTypes.object
 };
 

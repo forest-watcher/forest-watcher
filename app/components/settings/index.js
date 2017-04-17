@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import List from 'components/common/list';
-import AreaList from 'components/settings/area-list';
+import AreaList from 'containers/settings/area-list';
 import {
   View,
   Text,
@@ -46,6 +46,10 @@ class Settings extends Component {
     // }
   }
 
+  onAreaPress = (areaId) => {
+    this.props.navigate('AreaDetail', { id: areaId });
+  }
+
   onLogoutPress = () => {
     this.props.logout();
     this.props.navigate('Home');
@@ -89,7 +93,7 @@ class Settings extends Component {
               <Text style={styles.label}>
                 {I18n.t('settings.yourAreas')}
               </Text>
-              <AreaList areas={areas} areasImages={areasImages} navigate={navigate} syncing={syncing} />
+              <AreaList onAreaPress={(areaId) => this.onAreaPress(areaId)}/>
             </View>
           : null
           }
