@@ -59,7 +59,7 @@ class Settings extends Component {
         functionOnPress: null
       }
     ];
-    const { areas, areasImages } = this.props;
+    const { areas, navigate } = this.props;
 
     return (
       <View style={styles.container}>
