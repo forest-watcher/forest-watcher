@@ -18,7 +18,9 @@ export default StyleSheet.create({
     padding: 10
   },
   imageContainer: {
-    backgroundColor: Theme.background.modal
+    backgroundColor: Theme.background.modal,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   image: {
     width: 360,
