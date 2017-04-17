@@ -21,7 +21,7 @@ class AreaDetail extends Component {
   handleDeleteArea = () => {
     if (this.props.isConnected) {
       this.props.deleteArea(this.props.area.id);
-      this.props.navigate('Settings');
+      this.props.navigation.goBack();
     } else {
       Alert.alert(
         I18n.t('commonText.connectionRequiredTitle'),
