@@ -36,8 +36,7 @@ export default StyleSheet.create({
   },
 
   imageList: {
-    width: 120,
-    height: 120
+    margin: 30
   },
 
   nextIcon: {

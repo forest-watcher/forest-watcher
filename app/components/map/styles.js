@@ -48,6 +48,21 @@ export default StyleSheet.create({
       }
     })
   },
+  headerSubtitle: {
+    fontFamily: Theme.font,
+    color: Theme.fontColors.white,
+    fontSize: 16,
+    fontWeight: '400',
+    position: 'absolute',
+    zIndex: 2,
+    top: 46,
+    left: 56,
+    ...Platform.select({
+      ios: {
+        marginTop: 54
+      }
+    })
+  },
   headerBtn: {
     position: 'absolute',
     top: 8,
@@ -58,6 +73,43 @@ export default StyleSheet.create({
         marginTop: 24
       }
     })
+  },
+  signalNotice: {
+    marginTop: 40,
+    marginLeft: 16,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  signalNoticeText: {
+    fontWeight: '400',
+    fontStyle: 'italic',
+    fontFamily: Theme.font,
+    fontSize: 17,
+    color: Theme.fontColors.white,
+    marginLeft: 16
+  },
+  geoLocationContainer: {
+    width: 48,
+    height: 48,
+    position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  geoLocation: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: Theme.colors.color7,
+    opacity: 0.5,
+    position: 'absolute',
+    zIndex: 1,
+    top: 0
+  },
+  marker: {
+    width: 18,
+    height: 19,
+    zIndex: 2,
+    resizeMode: 'contain'
   },
   footer: {
     left: 0,

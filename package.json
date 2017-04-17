@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "lint-staged": "lint-staged",
+    "precommit": "npm run lint-staged"
   },
   "dependencies": {
     "boundingbox": "^0.1.0",
@@ -45,7 +47,9 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.8.0",
+    "husky": "^0.13.3",
     "jest": "17.0.3",
+    "lint-staged": "^3.4.0",
     "react-test-renderer": "15.4.1"
   },
   "jest": {
@@ -73,5 +77,6 @@
         }
       ]
     ]
-  }
+  },
+  "lint-staged": { "app/**/*.js": "eslint" }
 }

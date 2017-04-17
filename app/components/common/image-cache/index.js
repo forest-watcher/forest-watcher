@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import {
   Text,
   View,
-  Animated,
-  Easing
+  Image
 } from 'react-native';
 
 import I18n from 'locales';
@@ -18,9 +17,7 @@ class ImageCache extends Component {
     this.state = {
       url: null,
       error: false,
-      loading: true,
-      opacity: new Animated.Value(0),
-      opacityLoader: new Animated.Value(1)
+      loading: true
     };
   }
 
@@ -47,35 +44,8 @@ class ImageCache extends Component {
     }
   }
 
-  hideLoader() {
-    Animated.timing(
-      this.state.opacityLoader,
-      {
-        toValue: 0,
-        easing: Easing.linear,
-        duration: 200
-      }
-    ).start();
-  }
-
   showImage() {
-    this.setState({ error: false }, () => {
-      this.animateOpacity();
-      this.hideLoader();
-    });
-  }
-
-  animateOpacity() {
-    Animated.timing(
-      this.state.opacity,
-      {
-        toValue: 1,
-        easing: Easing.linear,
-        duration: 500
-      }
-    ).start(() => {
-      this.setState({ loading: false });
-    });
+    this.setState({ error: false, loading: false });
   }
 
   render() {
@@ -83,17 +53,17 @@ class ImageCache extends Component {
       <View style={styles.container}>
         {this.state.loading
         ? (
-          <Animated.View style={[styles.loader, { opacity: this.state.opacityLoader }]}>
+          <View style={styles.loader}>
             <Text style={styles.loaderText}>{I18n.t('commonText.loading')}</Text>
-          </Animated.View>
+          </View>
           )
         : null
         }
         {this.state.url &&
-          <Animated.Image
+          <Image
             resizeMode={this.props.resizeMode || 'contain'}
             source={{ uri: this.state.url }}
-            style={[styles.image, this.props.style, { opacity: this.state.opacity }]}
+            style={[styles.image, this.props.style]}
             onError={(e) => this.setState({ error: e.nativeEvent.error, loading: false })}
             onLoad={() => this.showImage()}
           />

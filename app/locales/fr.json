@@ -42,7 +42,8 @@
 		"seeAll": "Voir tout",
 		"alert": "alerte",
     "downloadingAlerts": "Veuillez patienter pendant le téléchargement des données...",
-    "noAlerts": "Il n'y a pas d'alertes disponibles"
+    "noAlerts": "Il n'y a pas d'alertes disponibles",
+    "satelliteSignal": "En attente du signal satellite ..."
 	},
 	"boundaries": {
 		"chooseBoundaries": "Maintenant, choisissez les limites",
@@ -55,7 +56,7 @@
 		"firstInstruction": "Tout d'abord, sélectionnez votre pays d'intérêt"
 	},
 	"setupDrawAreas": {
-		"invalidShape": "Forme non valide",
+    "invalidShape": "Forme non valide",
 		"tapInstruction": "Touchez la carte pour dessiner"
 	},
 	"setupHeader": {

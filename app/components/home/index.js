@@ -71,10 +71,14 @@ class Home extends Component {
 
       if (this.props.areasSynced) {
         if (this.props.areas) {
-          this.props.navigateReset('Dashboard');
+          setTimeout(() => {
+            this.props.navigateReset('Dashboard');
+          }, 100);
         } else {
           const { setupComplete } = this.props;
-          this.props.navigateReset(setupComplete ? 'Dashboard' : 'Setup');
+          setTimeout(() => {
+            this.props.navigateReset(setupComplete ? 'Dashboard' : 'Setup');
+          }, 100);
         }
       } else {
         this.props.getAreas();
@@ -103,7 +107,7 @@ Home.propTypes = {
     token: React.PropTypes.string,
     hasData: React.PropTypes.bool.isRequired
   }).isRequired,
-  language: React.PropTypes.string.isRequired,
+  language: React.PropTypes.string,
   areas: React.PropTypes.bool.isRequired,
   setupComplete: React.PropTypes.bool.isRequired,
   report: React.PropTypes.bool.isRequired,
