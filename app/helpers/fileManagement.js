@@ -31,7 +31,9 @@ export async function storeImage(url, imageDir = false) {
   let imagesDirectory = `${parentDirectory.DocumentDir}/images`;
 
   if (imageDir) {
-    imagesDirectory = `${parentDirectory.PictureDir}/ForestWatcher`;
+    if (Platform.OS === 'android') {
+      imagesDirectory = `${parentDirectory.PictureDir}/ForestWatcher`;
+    }
   }
 
   const newPath = `${imagesDirectory}/${cleanedUrl.split('/').pop()}`;

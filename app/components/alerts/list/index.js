@@ -32,11 +32,18 @@ function getNoDataView() {
 }
 
 class AlertsList extends Component {
+  constructor() {
+    super();
+    this.state = {
+      loading: true
+    };
+  }
+
   componentDidMount() {
     // Temp
     setTimeout(() => {
       this.checkData();
-    }, 200);
+    }, 1000);
   }
 
   getAlertsView() {
@@ -91,16 +98,28 @@ class AlertsList extends Component {
     );
   }
 
+  componentWillReceiveProps(newProps) {
+    if (this.state.loading && newProps.alerts) {
+      this.setState({
+        loading: false
+      });
+    }
+  }
+
   checkData() {
     if (!this.props.alerts) {
       this.props.getAlerts(this.props.areaId, this.props.areaGeojson);
+    } else {
+      this.setState({
+        loading: false
+      });
     }
   }
 
   render() {
     const { alerts } = this.props;
 
-    if (!alerts) return getPlaceholder();
+    if (this.state.loading) return getPlaceholder();
 
     return alerts && alerts.length > 0
       ? this.getAlertsView()

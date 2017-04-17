@@ -7,6 +7,7 @@ import Settings from 'containers/settings';
 import Reports from 'containers/reports';
 import NewReport from 'components/reports/new';
 import Feedback from 'components/feedback';
+import Partners from 'components/settings/partners';
 
 export const Routes = {
   Home: { screen: Home },
@@ -17,7 +18,8 @@ export const Routes = {
   Settings: { screen: Settings },
   Reports: { screen: Reports },
   NewReport: { screen: NewReport },
-  Feedback: { screen: Feedback }
+  Feedback: { screen: Feedback },
+  Partners: { screen: Partners }
 };
 
 export const RoutesConfig = {

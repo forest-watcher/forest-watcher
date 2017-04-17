@@ -5,6 +5,7 @@ import {
   Dimensions,
   DeviceEventEmitter,
   Animated,
+  Easing,
   StatusBar,
   Image,
   Text,
@@ -31,6 +32,7 @@ const LATITUDE_DELTA = 10;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const markerImage = require('assets/marker.png');
+const markerCompassRedImage = require('assets/compass_circle_red.png');
 const alertGladImage = require('assets/alert-glad.png');
 const alertViirsmage = require('assets/alert-viirs.png');
 const alertWhiteImage = require('assets/alert-white.png');
@@ -77,21 +79,24 @@ class Map extends Component {
     this.state = {
       renderMap: false,
       lastPosition: null,
+      heading: null,
+      geoMarkerOpacity: new Animated.Value(0.3),
       region: {
         latitude: intialCoords.lat,
         longitude: intialCoords.lon,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
+      alertSelected: null,
       alerts: params.features && params.features.length > 0 ? params.features.slice(0, 50) : [] // Provisional
     };
   }
 
   componentDidMount() {
-    Location.requestWhenInUseAuthorization();
     tracker.trackScreenView('Map');
 
     if (Platform.OS === 'ios') {
+      Location.requestWhenInUseAuthorization();
       StatusBar.setBarStyle('light-content');
     }
 
@@ -100,29 +105,71 @@ class Map extends Component {
   }
 
   geoLocate() {
+    this.animateGeo();
+
+    navigator.geolocation.getCurrentPosition(
+      (location) => {
+        this.setState({
+          lastPosition: {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude
+          }
+        });
+      },
+      (error) => console.log(error),
+      { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
+    );
+
     Location.startUpdatingLocation();
 
     this.eventLocation = DeviceEventEmitter.addListener(
       'locationUpdated',
       (location) => {
+        const coords = Platform.OS === 'ios' ? location.coords : location;
         this.setState({
-          lastPosition: {
-            latitude: location.latitude,
-            longitude: location.longitude
-          }
+          lastPosition: coords
         });
       }
     );
 
-    SensorManager.startOrientation(1000);
-    this.eventOrientation = DeviceEventEmitter.addListener(
-      'Orientation',
-      (data) => {
-        this.setState({
-          heading: parseInt(data.azimuth, 10)
-        });
+    if (Platform.OS === 'ios') {
+      Location.startUpdatingHeading();
+      this.eventOrientation = DeviceEventEmitter.addListener(
+        'headingUpdated',
+        (data) => {
+          this.setState({ heading: parseInt(data.heading, 10) });
+        }
+      );
+    } else {
+      SensorManager.startOrientation(1000);
+      this.eventOrientation = DeviceEventEmitter.addListener(
+        'Orientation',
+        (data) => {
+          this.setState({
+            heading: parseInt(data.azimuth, 10)
+          });
+        }
+      );
+    }
+  }
+
+  animateGeo() {
+    Animated.sequence([
+      Animated.timing(this.state.geoMarkerOpacity, {
+        toValue: 0.4,
+        easing: Easing.in(Easing.quad),
+        duration: 800
+      }),
+      Animated.timing(this.state.geoMarkerOpacity, {
+        toValue: 0.15,
+        easing: Easing.out(Easing.quad),
+        duration: 1000
+      })
+    ]).start(event => {
+      if (event.finished) {
+        this.animateGeo();
       }
-    );
+    });
   }
 
   componentWillUnmount() {
@@ -139,8 +186,8 @@ class Map extends Component {
     }
 
     if (Platform.OS === 'ios') {
-      Location.stopUpdatingHeading();
       StatusBar.setBarStyle('default');
+      Location.stopUpdatingHeading();
     } else {
       SensorManager.stopOrientation();
     }
@@ -162,15 +209,20 @@ class Map extends Component {
   }
 
   onLayout = () => {
-    this.afterRenderTimer = setTimeout(() => {
-      const { params } = this.props.navigation.state;
-      if (params && params.features && params.features.length > 0) {
-        this.map.fitToCoordinates(getGoogleMapsCoordinates(params.features), {
-          edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
-          animated: true
-        });
+    if (!this.state.alertSelected) {
+      if (this.afterRenderTimer) {
+        clearTimeout(this.afterRenderTimer);
       }
-    }, 1000);
+      this.afterRenderTimer = setTimeout(() => {
+        const { params } = this.props.navigation.state;
+        if (params && params.features && params.features.length > 0) {
+          this.map.fitToCoordinates(getGoogleMapsCoordinates(params.features), {
+            edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
+            animated: true
+          });
+        }
+      }, 1000);
+    }
   }
 
   renderMap() {
@@ -180,6 +232,17 @@ class Map extends Component {
       });
     }
   }
+
+  createReport = () => {
+    const { lastPosition } = this.state;
+    const form = `New-report-${Math.floor(Math.random() * 1000)}`;
+    let latLng = '0,0';
+    if (lastPosition) {
+      latLng = `${lastPosition.latitude},${lastPosition.longitude}`;
+    }
+    this.props.createReport(form, latLng);
+    this.props.navigate('NewReport', { form });
+  };
 
   renderFooter() {
     let distanceText = I18n.t('commonText.notAvailable');
@@ -193,21 +256,11 @@ class Map extends Component {
       distanceText = `${distance} ${I18n.t('commonText.kmAway')}`; // in Kilometers
     }
 
-    const createReport = () => {
-      const form = `New-report-${Math.floor(Math.random() * 1000)}`;
-      let latLng = '0,0';
-      if (lastPosition) {
-        latLng = `${lastPosition.latitude},${lastPosition.longitude}`;
-      }
-      this.props.createReport(form, latLng);
-      this.props.navigateReset('NewReport', { form });
-    };
-
     const reportBtn = (
       <ActionBtn
         style={styles.footerButton}
         text={I18n.t('report.title')}
-        onPress={() => createReport()}
+        onPress={this.createReport}
       />
     );
     return (
@@ -224,8 +277,35 @@ class Map extends Component {
     );
   }
 
+  renderFooterLoading() {
+    return (!this.state.lastPosition &&
+      <View style={styles.footer}>
+        <Image
+          style={styles.footerBg}
+          source={backgroundImage}
+        />
+        <View style={styles.signalNotice}>
+          <View style={styles.geoLocationContainer}>
+            <Image
+              style={styles.marker}
+              source={markerCompassRedImage}
+            />
+            <Animated.View
+              style={[styles.geoLocation, { opacity: this.state.geoMarkerOpacity }]}
+            />
+          </View>
+          <Text style={styles.signalNoticeText}>{I18n.t('alerts.satelliteSignal')}</Text>
+        </View>
+      </View>
+    );
+  }
+
   render() {
     const { params } = this.props.navigation.state;
+    const stopPropagation = thunk => e => {
+      e.stopPropagation();
+      thunk();
+    };
 
     return (
       this.state.renderMap
@@ -242,6 +322,11 @@ class Map extends Component {
             <Text style={styles.headerTitle}>
               {params.title}
             </Text>
+            {this.state.alertSelected &&
+              <Text style={styles.headerSubtitle}>
+                {this.state.alertSelected.lat}, {this.state.alertSelected.long}
+              </Text>
+            }
             <TouchableHighlight
               style={styles.headerBtn}
               onPress={() => this.props.navigation.goBack()}
@@ -269,7 +354,7 @@ class Map extends Component {
                 pointerEvents={'none'}
               />
             }
-            {this.state.lastPosition
+            {this.state.lastPosition && this.state.heading
               ?
                 <MapView.Marker
                   key={'compass'}
@@ -311,7 +396,7 @@ class Map extends Component {
                     latitude: point.lat,
                     longitude: point.long
                   }}
-                  onPress={() => this.onAlertPress(point)}
+                  onPress={stopPropagation(() => this.onAlertPress(point))}
                 />
               );
             })
@@ -319,7 +404,7 @@ class Map extends Component {
           </MapView>
           {this.state.alertSelected
             ? this.renderFooter()
-            : null
+            : this.renderFooterLoading()
           }
         </View>
       :
@@ -330,7 +415,7 @@ class Map extends Component {
 
 Map.propTypes = {
   navigation: React.PropTypes.object.isRequired,
-  navigateReset: React.PropTypes.func.isRequired,
+  navigate: React.PropTypes.func.isRequired,
   createReport: React.PropTypes.func.isRequired
 };
 

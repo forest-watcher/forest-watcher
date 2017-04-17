@@ -42,7 +42,8 @@
 		"seeAll": "Lihat semua",
 		"alert": "Peringatan",
     "downloadingAlerts": "Harap tunggu sementara data yang di-download ...",
-    "noAlerts": "Tidak ada lansiran tersedia"
+    "noAlerts": "Tidak ada lansiran tersedia",
+    "satelliteSignal": "Menunggu sinyal satelit ..."
 	},
 	"boundaries": {
 		"chooseBoundaries": "Sakarang, pilih batas",
@@ -55,7 +56,7 @@
 		"firstInstruction": "Pertama, pilih negara yang diinginkan"
 	},
 	"setupDrawAreas": {
-		"invalidShape": "Bentuk valid",
+    "invalidShape": "Bentuk valid",
 		"tapInstruction": "Ketuk peta untuk menggambar area"
 	},
 	"setupHeader": {

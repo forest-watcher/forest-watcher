@@ -42,7 +42,8 @@
 		"seeAll": "See all",
 		"alert": "alert",
     "downloadingAlerts": "Please wait while the data is downloaded...",
-    "noAlerts": "There are no alerts available"
+    "noAlerts": "There are no alerts available",
+    "satelliteSignal": "Waiting for the satellite signal..."
 	},
 	"boundaries": {
 		"chooseBoundaries": "Now, choose the boundaries",
@@ -54,8 +55,13 @@
 		"secondWelcomeText": "please set up an area",
 		"firstInstruction": "First, select your country of interest"
 	},
+	"partners": {
+	 	"title": "Partners", 
+		"description": "Forest Watcher 2.0 is supported by a partnership of organizations contributing data, technology, funding and expertise.", 
+		"listOfPartners": "See a full list of partners below."
+	},
 	"setupDrawAreas": {
-		"invalidShape": "Invalid shape",
+    "invalidShape": "Invalid shape",
 		"tapInstruction": "Tap on map to draw"
 	},
 	"setupHeader": {

@@ -14,6 +14,9 @@ function mapDispatchToProps(dispatch, { navigation }) {
       dispatch(createReport(name, position));
       tracker.trackEvent('Report', 'Create Report', { label: 'Click Done', value: 0 });
     },
+    navigate: (routeName, params) => {
+      navigation.navigate(routeName, params);
+    },
     navigateReset: (routeName, params) => {
       const action = NavigationActions.reset({
         index: 2,
