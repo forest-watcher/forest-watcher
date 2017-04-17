@@ -56,7 +56,7 @@ class Settings extends Component {
   }
 
   render() {
-    const { areas, areasImages, navigate, syncing } = this.props;
+    const { areas, navigate } = this.props;
 
     return (
       <View style={styles.container}>
@@ -93,7 +93,7 @@ class Settings extends Component {
               <Text style={styles.label}>
                 {I18n.t('settings.yourAreas')}
               </Text>
-              <AreaList onAreaPress={(areaId) => this.onAreaPress(areaId)}/>
+              <AreaList onAreaPress={(areaId) => this.onAreaPress(areaId)} />
             </View>
           : null
           }
@@ -131,10 +131,8 @@ class Settings extends Component {
 Settings.propTypes = {
   user: React.PropTypes.any,
   areas: React.PropTypes.any,
-  areasImages: React.PropTypes.any,
   navigate: React.PropTypes.func.isRequired,
   getAreas: React.PropTypes.func.isRequired,
-  syncing: React.PropTypes.bool.isRequired,
   logout: React.PropTypes.func.isRequired
 };
 
