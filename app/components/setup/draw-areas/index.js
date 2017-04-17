@@ -91,7 +91,6 @@ class DrawAreas extends Component {
     const intialCoords = this.props.country && this.props.country.centroid
       ? this.props.country.centroid.coordinates
       : [CONSTANTS.maps.lng, CONSTANTS.maps.lat];
-    console.log('initialcoords',intialCoords )
 
     this.bboxed = false;
     this.state = {
