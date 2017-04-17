@@ -59,7 +59,7 @@ class Partners extends Component {
       },
       {
         description: 'Vizzuality',
-        image: vizzualityLogo.png,
+        image: vizzualityLogo,
         url: 'http://www.vizzuality.com/',
         functionOnPress: this.handleLink
       }
