@@ -91,7 +91,6 @@ class DrawAreas extends Component {
     const intialCoords = this.props.country && this.props.country.centroid
       ? this.props.country.centroid.coordinates
       : [CONSTANTS.maps.lng, CONSTANTS.maps.lat];
-    console.log('initialcoords',intialCoords )
 
     this.bboxed = false;
     this.state = {
@@ -171,7 +170,6 @@ class DrawAreas extends Component {
 
   setBoundaries = () => {
     if (!this.bboxed) {
-
       if (this.afterRenderTimer) {
         clearTimeout(this.afterRenderTimer);
       }
