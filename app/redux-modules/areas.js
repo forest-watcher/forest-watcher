@@ -99,7 +99,7 @@ export function saveArea(params) {
     });
     const form = new FormData();
     form.append('name', params.area.name);
-    form.append('geolocation', params.area.geolocation);
+    form.append('geostore', params.area.geostore);
     const image = {
       uri: params.snapshot,
       type: 'image/png',
