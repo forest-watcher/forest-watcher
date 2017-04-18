@@ -97,7 +97,6 @@ export function saveArea(params) {
       type: SYNCING_AREAS,
       payload: true
     });
-    console.log(params)
     const form = new FormData();
     form.append('name', params.area.name);
     form.append('geolocation', params.area.geolocation);
