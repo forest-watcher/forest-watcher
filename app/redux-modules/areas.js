@@ -97,14 +97,25 @@ export function saveArea(params) {
       type: SYNCING_AREAS,
       payload: true
     });
+    console.log(params)
+    const form = new FormData();
+    form.append('name', params.area.name);
+    form.append('geolocation', params.area.geolocation);
+    const image = {
+      uri: params.snapshot,
+      type: 'image/png',
+      name: `${params.area.name}.png`
+    };
+    form.append('image', image);
+
     const fetchConfig = {
       method: 'POST',
       headers: {
-        'content-type': 'application/json',
         Authorization: `Bearer ${state().user.token}`
       },
-      body: JSON.stringify(params.area)
+      body: form
     };
+
     fetch(url, fetchConfig)
       .then(response => {
         if (response.ok) return response.json();
