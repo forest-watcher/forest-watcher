@@ -32,7 +32,7 @@ export default function reducer(state = initialState, action) {
 
 // Action Creators
 export function getAlerts(areaId, geojson) {
-  const url = `${Config.API_STAGING_URL}/area/${areaId}/alerts?precissionPoints=6&precissionBBOX=4&nogenerate=true`;
+  const url = `${Config.API_URL}/area/${areaId}/alerts?precissionPoints=6&precissionBBOX=4`;
 
   return async (dispatch, state) => {
     const alerts = await fetch(url,
@@ -43,7 +43,7 @@ export function getAlerts(areaId, geojson) {
       })
     .then(response => {
       if (response.ok) return response.json();
-      throw Error(response.statusText);
+      throw new Error(response.statusText);
     })
     .catch((error) => {
       console.warn(error);
@@ -76,7 +76,7 @@ export function getAlerts(areaId, geojson) {
           const points = await fetch(urlPoints)
             .then(response => {
               if (response.ok) return response.json();
-              throw Error(response.statusText);
+              throw new Error(response.statusText);
             })
             .then(res => res.data)
             .catch((error) => {
@@ -106,7 +106,7 @@ export function getAlerts(areaId, geojson) {
           const points = await fetch(urlPoints)
             .then(response => {
               if (response.ok) return response.json();
-              throw Error(response.statusText);
+              throw new Error(response.statusText);
             })
             .then(res => res.data)
             .catch((error) => {

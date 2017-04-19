@@ -123,7 +123,11 @@
       "name": "deforestation-image",
       "label": "Ambil gambar",
       "required": false,
-      "order": 9
+      "order": 9,
+      "conditions": [{
+        "name": "deforestation",
+        "value": "Ya"
+      }]
     },
     {
       "type": "radio",

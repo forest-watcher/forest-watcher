@@ -123,7 +123,11 @@
       "name": "deforestation-image",
       "label": "Take a picture",
       "required": false,
-      "order": 9
+      "order": 9,
+      "conditions": [{
+        "name": "deforestation",
+        "value": "Yes"
+      }]
     },
     {
       "type": "radio",
