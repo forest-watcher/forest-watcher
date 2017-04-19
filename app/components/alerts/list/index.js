@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   View,
+  Image,
   Text,
   TouchableHighlight,
   ScrollView
@@ -10,9 +11,12 @@ import I18n from 'locales';
 import GeoPoint from 'geopoint';
 import styles from './styles';
 
+const placeholderImage = require('assets/alert_list_preloader_row.png');
+
 function getPlaceholder() {
   return (
     <View style={styles.placeholder}>
+      <Image style={styles.placeholderImage} source={placeholderImage} />
       <Text style={styles.loadingText}>{I18n.t('alerts.downloadingAlerts')}</Text>
     </View>
   );
