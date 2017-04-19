@@ -126,7 +126,7 @@
       "order": 9,
       "conditions": [{
         "name": "deforestation",
-        "value": "Si"
+        "value": "Sí"
       }]
     },
     {
