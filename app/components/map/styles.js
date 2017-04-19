@@ -59,7 +59,7 @@ export default StyleSheet.create({
     left: 56,
     ...Platform.select({
       ios: {
-        marginTop: 54
+        marginTop: 24
       }
     })
   },
@@ -86,7 +86,8 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     fontSize: 17,
     color: Theme.fontColors.white,
-    marginLeft: 16
+    marginLeft: 16,
+    backgroundColor: 'transparent'
   },
   geoLocationContainer: {
     width: 48,

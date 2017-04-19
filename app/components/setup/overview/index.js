@@ -20,7 +20,8 @@ class SetupOverview extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: this.props.area.wdpaName || ''
+      name: this.props.area.wdpaName || '',
+      saving: false
     };
   }
 
@@ -43,6 +44,7 @@ class SetupOverview extends Component {
       userid: this.props.user.id,
       snapshot: this.props.snapshot
     };
+    this.setState({ saving: true });
     this.props.saveArea(params);
   }
 
@@ -84,12 +86,20 @@ class SetupOverview extends Component {
           <KeyboardSpacer />
         </View>
         <ScrollView style={styles.scrollContainButton}>
-          <ActionButton
-            style={styles.buttonPos}
-            disabled={!this.state.name}
-            onPress={this.onNextPress}
-            text={I18n.t('commonText.finish').toUpperCase()}
-          />
+          {!this.state.saving
+            ? <ActionButton
+              style={styles.buttonPos}
+              disabled={!this.state.name}
+              onPress={this.onNextPress}
+              text={I18n.t('commonText.finish').toUpperCase()}
+            />
+            : <ActionButton
+              style={styles.buttonPos}
+              disabled
+              onPress={this.onNextPress}
+              text={I18n.t('commonText.saving').toUpperCase()}
+            />
+          }
         </ScrollView>
       </View>
     );

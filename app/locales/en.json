@@ -6,6 +6,7 @@
     "delete": "Delete",
 		"back": "Back",
 		"finish": "Finish",
+		"saving": "Saving",
 		"setUp": "Set up",
     "cancel": "Cancel",
     "confirm": "Confirm",
@@ -65,8 +66,8 @@
 		"firstInstruction": "First, select your country of interest"
 	},
 	"partners": {
-	 	"title": "Partners", 
-		"description": "Forest Watcher 2.0 is supported by a partnership of organizations contributing data, technology, funding and expertise.", 
+	 	"title": "Partners",
+		"description": "Forest Watcher 2.0 is supported by a partnership of organizations contributing data, technology, funding and expertise.",
 		"listOfPartners": "See a full list of partners below."
 	},
 	"setupDrawAreas": {
