@@ -46,6 +46,14 @@ class AlertsList extends Component {
     }, 1000);
   }
 
+  componentWillReceiveProps(newProps) {
+    if (this.state.loading && newProps.alerts) {
+      this.setState({
+        loading: false
+      });
+    }
+  }
+
   getAlertsView() {
     const { alerts } = this.props;
 
@@ -96,14 +104,6 @@ class AlertsList extends Component {
         </View>
       </ScrollView>
     );
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (this.state.loading && newProps.alerts) {
-      this.setState({
-        loading: false
-      });
-    }
   }
 
   checkData() {
