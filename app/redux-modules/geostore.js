@@ -2,6 +2,7 @@ import Config from 'react-native-config';
 
 // Actions
 import { LOGOUT } from 'redux-modules/user';
+
 const STORE_GEOSTORE = 'geostore/STORE_GEOSTORE';
 
 // Reducer

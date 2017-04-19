@@ -42,7 +42,7 @@ class Alerts extends Component {
       (position) => {
         this.setState({ currentPosition: position });
       },
-      (error) => console.log(error),
+      (error) => console.warn(error),
       { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
     );
   }

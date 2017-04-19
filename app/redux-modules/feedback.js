@@ -56,7 +56,7 @@ export function getQuestions(type) {
     fetch(url, fetchConfig)
       .then(response => {
         if (response.ok) return response.json();
-        throw Error(response.statusText);
+        throw new Error(response.statusText);
       })
       .then((data) => {
         let form = null;
@@ -171,10 +171,10 @@ export function uploadFeedback(type) {
       fetch(url, fetchConfig)
         .then((response) => {
           if (response.ok) return response.json();
-          throw Error(response.statusText);
+          throw new Error(response.statusText);
         })
         .then((response) => {
-          console.log('TODO: save response', response);
+          console.info('TODO: save response', response);
           dispatch({
             type: UPDATE_FEEDBACK,
             payload: {
@@ -190,10 +190,10 @@ export function uploadFeedback(type) {
           });
         })
         .catch((err) => {
-          console.log('TODO: handle error', err);
+          console.info('TODO: handle error', err);
         });
     } else {
-      console.log('TODO: handle submit form on no connection');
+      console.info('TODO: handle submit form on no connection');
     }
   };
 }

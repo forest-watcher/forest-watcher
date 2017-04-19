@@ -51,7 +51,7 @@ export function getQuestions() {
     fetch(url, fetchConfig)
       .then(response => {
         if (response.ok) return response.json();
-        throw Error(response.statusText);
+        throw new Error(response.statusText);
       })
       .then((data) => {
         let form = null;
@@ -163,7 +163,7 @@ export function uploadReport(reportName) {
       fetch(url, fetchConfig)
         .then((response) => {
           if (response.ok) return response.json();
-          throw Error(response.statusText);
+          throw new Error(response.statusText);
         })
         .then((response) => {
           console.info('TODO: save response', response);
