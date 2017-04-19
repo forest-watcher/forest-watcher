@@ -76,7 +76,7 @@ class AlertsList extends Component {
               distance = `${Math.round(currentPoint.distanceTo(geoPoint, true))}${I18n.t('commonText.kmAway')}`; // in Kilometers
             }
             const countGlad = alert.countGlad !== undefined ? alert.countGlad : 0;
-            const countcountViirs = alert.countcountViirs !== undefined ? alert.countcountViirs : 0;
+            const countViirs = alert.countViirs !== undefined ? alert.countViirs : 0;
             return (
               <TouchableHighlight
                 key={`alert-${index}`}
@@ -87,7 +87,7 @@ class AlertsList extends Component {
                 <View style={styles.item}>
                   <View style={styles.image}>
                     <Text style={styles.distanceText}>{`${I18n.t('commonText.glad')}: ${countGlad}`}</Text>
-                    <Text style={styles.distanceText}>{`${I18n.t('commonText.viirs')}: ${countcountViirs}`}</Text>
+                    <Text style={styles.distanceText}>{`${I18n.t('commonText.viirs')}: ${countViirs}`}</Text>
                   </View>
                   <View style={styles.distance}>
                     <Text style={styles.distanceText}>{distance}</Text>
