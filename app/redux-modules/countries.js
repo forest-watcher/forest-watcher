@@ -25,7 +25,7 @@ export function getCountries() {
   const nameColumnId = CONSTANTS.countries.nameColumn[currentLang] ||
     CONSTANTS.countries.nameColumn.en;
 
-  const url = `${Config.API_PRODUCTION_URL}/query/${Config.DATASET_COUNTRIES}?sql=
+  const url = `${Config.API_URL}/query/${Config.DATASET_COUNTRIES}?sql=
     SELECT ${nameColumnId} as name, iso, centroid, bbox
     FROM gadm28_countries WHERE ${nameColumnId} != '' ORDER BY ${nameColumnId} ASC`;
 
