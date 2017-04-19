@@ -1,5 +1,6 @@
 import Config from 'react-native-config';
 import { getGeostore } from 'redux-modules/geostore';
+import { getCachedImageByUrl } from 'helpers/fileManagement';
 
 // Actions
 import { SET_AREA_SAVED } from 'redux-modules/setup';
@@ -66,13 +67,17 @@ export function getAreas() {
     })
       .then(response => {
         if (response.ok) return response.json();
-        throw Error(response.statusText);
+        throw new Error(response.statusText);
       })
       .then(async (response) => {
+        const images = {};
         await Promise.all(response.data.map(async (area) => {
           if (area.attributes && area.attributes.geostore) {
             if (!state().geostore.data[area.attributes.geostore]) {
               await dispatch(getGeostore(area.attributes.geostore));
+            }
+            if (!state().areas.images[area.id]) {
+              images[area.id] = await getCachedImageByUrl(area.attributes.image, 'areas');
             }
           }
           return area;
@@ -80,7 +85,10 @@ export function getAreas() {
 
         dispatch({
           type: GET_AREAS,
-          payload: response
+          payload: {
+            images,
+            data: response.data
+          }
         });
       })
       .catch((error) => {
@@ -118,7 +126,7 @@ export function saveArea(params) {
     fetch(url, fetchConfig)
       .then(response => {
         if (response.ok) return response.json();
-        throw Error(response.statusText);
+        throw new Error(response._bodyText); // eslint-disable-line
       })
       .then((res) => {
         dispatch({
@@ -161,7 +169,7 @@ export function deleteArea(id) {
     fetch(url, fetchConfig)
       .then(response => {
         if (response.ok && response.status === 204) return response.ok;
-        throw Error(response.statusText);
+        throw new Error(response.statusText);
       })
       .then(() => {
         dispatch({
