@@ -70,13 +70,13 @@ export function getAreas() {
         throw new Error(response.statusText);
       })
       .then(async (response) => {
-        const images = {};
+        const images = Object.assign({}, state().areas.images);
         await Promise.all(response.data.map(async (area) => {
           if (area.attributes && area.attributes.geostore) {
             if (!state().geostore.data[area.attributes.geostore]) {
               await dispatch(getGeostore(area.attributes.geostore));
             }
-            if (!state().areas.images[area.id]) {
+            if (!images[area.id]) {
               images[area.id] = await getCachedImageByUrl(area.attributes.image, 'areas');
             }
           }
