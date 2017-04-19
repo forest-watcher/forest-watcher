@@ -10,8 +10,8 @@ function mapStateToProps(state, newProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getAlerts: (areaId, geojson) => {
-      dispatch(getAlerts(areaId, geojson));
+    getAlerts: (areaId) => {
+      dispatch(getAlerts(areaId));
     }
   };
 }
