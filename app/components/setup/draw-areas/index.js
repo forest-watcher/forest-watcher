@@ -28,7 +28,7 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const footerBackgroundImage = require('assets/map_bg_gradient.png');
 const markerImage = require('assets/circle.png');
-const markerRedImage = require('assets/circle_red.png');
+// const markerRedImage = require('assets/circle_red.png');
 const undoImage = require('assets/undo.png');
 
 function parseCoordinates(coordinates) {
@@ -155,7 +155,7 @@ class DrawAreas extends Component {
     saveGeoJson(getGeoJson(this.state.shape.coordinates))
       .then(res => {
         if (res.ok) return res.json();
-        throw res;
+        throw new Error(res.statusText);
       })
       .then(async (response) => {
         const geostore = response.data && response.data.id;
