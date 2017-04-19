@@ -32,7 +32,7 @@ export default function reducer(state = initialState, action) {
 
 // Action Creators
 export function getAlerts(areaId, geojson) {
-  const url = `${Config.API_STAGING_URL}/area/${areaId}/alerts?precissionPoints=6&precissionBBOX=4`;
+  const url = `${Config.API_STAGING_URL}/area/${areaId}/alerts?precissionPoints=6&precissionBBOX=4&nogenerate=true`;
 
   return async (dispatch, state) => {
     const alerts = await fetch(url,

@@ -3,21 +3,16 @@ import {
   View,
   Text,
   TouchableHighlight,
-  Image,
   ScrollView
 } from 'react-native';
 
 import I18n from 'locales';
 import GeoPoint from 'geopoint';
-import ImageCache from 'components/common/image-cache';
 import styles from './styles';
-
-const placeholderImage = require('assets/alert_list_preloader_row.png');
 
 function getPlaceholder() {
   return (
     <View style={styles.placeholder}>
-      <Image style={styles.placeholderImage} source={placeholderImage} />
       <Text style={styles.loadingText}>{I18n.t('alerts.downloadingAlerts')}</Text>
     </View>
   );
@@ -77,7 +72,8 @@ class AlertsList extends Component {
               const currentPoint = new GeoPoint(this.props.currentPosition.coords.latitude, this.props.currentPosition.coords.longitude);
               distance = `${Math.round(currentPoint.distanceTo(geoPoint, true))}${I18n.t('commonText.kmAway')}`; // in Kilometers
             }
-
+            const countGlad = alert.countGlad !== undefined ? alert.countGlad : 0;
+            const countcountViirs = alert.countcountViirs !== undefined ? alert.countcountViirs : 0;
             return (
               <TouchableHighlight
                 key={`alert-${index}`}
@@ -87,12 +83,8 @@ class AlertsList extends Component {
               >
                 <View style={styles.item}>
                   <View style={styles.image}>
-                    <ImageCache
-                      style={{ width: 128, height: 128 }}
-                      source={{
-                        uri: alert.url
-                      }}
-                    />
+                    <Text style={styles.distanceText}>{`${I18n.t('commonText.glad')}: ${countGlad}`}</Text>
+                    <Text style={styles.distanceText}>{`${I18n.t('commonText.viirs')}: ${countcountViirs}`}</Text>
                   </View>
                   <View style={styles.distance}>
                     <Text style={styles.distanceText}>{distance}</Text>
