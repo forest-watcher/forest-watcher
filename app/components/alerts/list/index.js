@@ -66,8 +66,7 @@ class AlertsList extends Component {
             const alert = alerts[key];
             alert.areaName = this.props.areaName;
             let distance = I18n.t('commonText.notAvailable');
-
-            if (this.props.currentPosition) {
+            if (this.props.currentPosition && alert.center) {
               const geoPoint = new GeoPoint(alert.center.lat, alert.center.lon);
               const currentPoint = new GeoPoint(this.props.currentPosition.coords.latitude, this.props.currentPosition.coords.longitude);
               distance = `${Math.round(currentPoint.distanceTo(geoPoint, true))}${I18n.t('commonText.kmAway')}`; // in Kilometers
