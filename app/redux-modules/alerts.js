@@ -68,7 +68,7 @@ export function getAlerts(areaId, geojson) {
 
         if (alert.countGlad > 0) {
           const dataset = Config.DATASET_GLAD;
-          const urlPoints = `${Config.API_STAGING_URL}/query/${dataset}/?sql=
+          const urlPoints = `${Config.API_URL}/query/${dataset}/?sql=
           select lat, long from data
           where year >= 2017
           AND st_intersects(st_setsrid(st_geomfromgeojson('${geom}'), 4326), the_geom) LIMIT 60`;
