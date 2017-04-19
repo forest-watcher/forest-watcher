@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import {
   View,
+  Image,
   Text,
   TouchableHighlight,
-  Image,
   ScrollView
 } from 'react-native';
 
 import I18n from 'locales';
 import GeoPoint from 'geopoint';
-import ImageCache from 'components/common/image-cache';
 import styles from './styles';
 
 const placeholderImage = require('assets/alert_list_preloader_row.png');
@@ -46,6 +45,14 @@ class AlertsList extends Component {
     }, 1000);
   }
 
+  componentWillReceiveProps(newProps) {
+    if (this.state.loading && newProps.alerts) {
+      this.setState({
+        loading: false
+      });
+    }
+  }
+
   getAlertsView() {
     const { alerts } = this.props;
 
@@ -63,13 +70,13 @@ class AlertsList extends Component {
             const alert = alerts[key];
             alert.areaName = this.props.areaName;
             let distance = I18n.t('commonText.notAvailable');
-
-            if (this.props.currentPosition) {
+            if (this.props.currentPosition && alert.center) {
               const geoPoint = new GeoPoint(alert.center.lat, alert.center.lon);
               const currentPoint = new GeoPoint(this.props.currentPosition.coords.latitude, this.props.currentPosition.coords.longitude);
               distance = `${Math.round(currentPoint.distanceTo(geoPoint, true))}${I18n.t('commonText.kmAway')}`; // in Kilometers
             }
-
+            const countGlad = alert.countGlad !== undefined ? alert.countGlad : 0;
+            const countcountViirs = alert.countcountViirs !== undefined ? alert.countcountViirs : 0;
             return (
               <TouchableHighlight
                 key={`alert-${index}`}
@@ -79,12 +86,8 @@ class AlertsList extends Component {
               >
                 <View style={styles.item}>
                   <View style={styles.image}>
-                    <ImageCache
-                      style={{ width: 128, height: 128 }}
-                      source={{
-                        uri: alert.url
-                      }}
-                    />
+                    <Text style={styles.distanceText}>{`${I18n.t('commonText.glad')}: ${countGlad}`}</Text>
+                    <Text style={styles.distanceText}>{`${I18n.t('commonText.viirs')}: ${countcountViirs}`}</Text>
                   </View>
                   <View style={styles.distance}>
                     <Text style={styles.distanceText}>{distance}</Text>
@@ -96,14 +99,6 @@ class AlertsList extends Component {
         </View>
       </ScrollView>
     );
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (this.state.loading && newProps.alerts) {
-      this.setState({
-        loading: false
-      });
-    }
   }
 
   checkData() {
