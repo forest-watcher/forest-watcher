@@ -4,6 +4,7 @@ import intersect from 'turf-intersect';
 
 // Actions
 import { LOGOUT } from 'redux-modules/user';
+
 const GET_ALERTS = 'alerts/GET_ALERTS';
 
 // Reducer
@@ -61,8 +62,8 @@ export function getAlerts(areaId, geojson) {
           maxlat: currentAlert.bbox[3],
           maxlon: currentAlert.bbox[2]
         });
-        const geojson = bbox.toGeoJSON();
-        const intersection = intersect(geojson, areaGeojson);
+        const geoJson = bbox.toGeoJSON();
+        const intersection = intersect(geoJson, areaGeojson);
         const geom = JSON.stringify(intersection.geometry);
 
         if (alert.countGlad > 0) {

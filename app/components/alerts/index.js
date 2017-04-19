@@ -42,7 +42,7 @@ class Alerts extends Component {
       (position) => {
         this.setState({ currentPosition: position });
       },
-      (error) => console.log(error),
+      (error) => console.warn(error),
       { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
     );
   }
@@ -59,7 +59,6 @@ class Alerts extends Component {
         {areas && areas.length > 0 && areas.map((data, areaKey) => {
           const area = data.attributes;
           area.id = data.id;
-
           return (
             <View key={`area-${areaKey}`}>
               <View style={styles.area}>
