@@ -22,9 +22,9 @@ import ActionBtn from 'components/common/action-button';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
+import { SensorManager } from 'NativeModules'; // eslint-disable-line
 
-import { SensorManager } from 'NativeModules';
-const { RNLocation: Location } = require('NativeModules');
+const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
 
 const { width, height } = Dimensions.get('window');
 
@@ -105,6 +105,59 @@ class Map extends Component {
     this.geoLocate();
   }
 
+  componentWillUnmount() {
+    Location.stopUpdatingLocation();
+
+    clearTimeout(this.afterRenderTimer);
+
+    if (this.eventLocation) {
+      this.eventLocation.remove();
+    }
+
+    if (this.eventOrientation) {
+      this.eventOrientation.remove();
+    }
+
+    if (Platform.OS === 'ios') {
+      StatusBar.setBarStyle('default');
+      Location.stopUpdatingHeading();
+    } else {
+      SensorManager.stopOrientation();
+    }
+  }
+
+  onAlertPress(alertSelected) {
+    const alerts = [];
+
+    this.state.alerts.forEach((alert) => {
+      const newArea = Object.assign({}, alert);
+      newArea.selected = alert.id === alertSelected.id;
+      alerts.push(newArea);
+    });
+
+    this.setState({
+      alerts,
+      alertSelected
+    });
+  }
+
+  onLayout = () => {
+    if (!this.state.alertSelected) {
+      if (this.afterRenderTimer) {
+        clearTimeout(this.afterRenderTimer);
+      }
+      this.afterRenderTimer = setTimeout(() => {
+        const { params } = this.props.navigation.state;
+        if (params && params.features && params.features.length > 0) {
+          this.map.fitToCoordinates(getGoogleMapsCoordinates(params.features), {
+            edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
+            animated: true
+          });
+        }
+      }, 1000);
+    }
+  }
+
   geoLocate() {
     this.animateGeo();
 
@@ -117,7 +170,7 @@ class Map extends Component {
           }
         });
       },
-      (error) => console.log(error),
+      (error) => console.info(error),
       { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
     );
 
@@ -173,67 +226,6 @@ class Map extends Component {
     });
   }
 
-  componentWillUnmount() {
-    Location.stopUpdatingLocation();
-
-    clearTimeout(this.afterRenderTimer);
-
-    if (this.eventLocation) {
-      this.eventLocation.remove();
-    }
-
-    if (this.eventOrientation) {
-      this.eventOrientation.remove();
-    }
-
-    if (Platform.OS === 'ios') {
-      StatusBar.setBarStyle('default');
-      Location.stopUpdatingHeading();
-    } else {
-      SensorManager.stopOrientation();
-    }
-  }
-
-  onAlertPress(alertSelected) {
-    const alerts = [];
-
-    this.state.alerts.forEach((alert) => {
-      const newArea = Object.assign({}, alert);
-      newArea.selected = alert.id === alertSelected.id;
-      alerts.push(newArea);
-    });
-
-    this.setState({
-      alerts,
-      alertSelected
-    });
-  }
-
-  onLayout = () => {
-    if (!this.state.alertSelected) {
-      if (this.afterRenderTimer) {
-        clearTimeout(this.afterRenderTimer);
-      }
-      this.afterRenderTimer = setTimeout(() => {
-        const { params } = this.props.navigation.state;
-        if (params && params.features && params.features.length > 0) {
-          this.map.fitToCoordinates(getGoogleMapsCoordinates(params.features), {
-            edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
-            animated: true
-          });
-        }
-      }, 1000);
-    }
-  }
-
-  renderMap() {
-    if (!this.state.renderMap) {
-      this.setState({
-        renderMap: true
-      });
-    }
-  }
-
   createReport = () => {
     const { lastPosition } = this.state;
     const form = `New-report-${Math.floor(Math.random() * 1000)}`;
@@ -244,6 +236,14 @@ class Map extends Component {
     this.props.createReport(form, latLng);
     this.props.navigate('NewReport', { form });
   };
+
+  renderMap() {
+    if (!this.state.renderMap) {
+      this.setState({
+        renderMap: true
+      });
+    }
+  }
 
   renderFooter() {
     let distanceText = I18n.t('commonText.notAvailable');
