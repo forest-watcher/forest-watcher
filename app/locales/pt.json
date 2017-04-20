@@ -3,14 +3,19 @@
 		"appName": "Forest Watcher 2.0",
 		"next": "Próximo",
     "save": "Salve",
+    "delete": "Delete",
 		"back": "Voltar",
 		"finish": "Terminar",
+		"saving": "Saving",
 		"setUp": "Configuração",
     "cancel": "Cancelar",
     "confirm": "Confirmar",
     "loading": "Carregando",
     "notAvailable": "Não disponível",
-    "kmAway": "Km de distância"
+    "kmAway": "Km de distância",
+    "yourPosition": "Your position",
+		"connectionRequiredTitle": "No connection",
+		"connectionRequired": "You need an internet connection to complete this action"
 	},
 	"dashboard": {
 		"title": "Painel",
@@ -45,6 +50,10 @@
     "noAlerts": "Não há alertas disponíveis",
     "satelliteSignal": "Esperando o sinal de satélite..."
 	},
+	"areaDetail": {
+    "title": "Area detail",
+		"delete": "Delete this area"
+	},
 	"boundaries": {
 		"chooseBoundaries": "Agora, escolha os limites",
 		"selectProtectedArea": "Escolha uma área protegida",
@@ -54,6 +63,11 @@
 		"welcomeText": "Olá",
 		"secondWelcomeText": "por favor configure uma área",
 		"firstInstruction": "Primeiro, escolha o seu país de interesse"
+	},
+	"partners": {
+	 	"title": "Partners",
+		"description": "Forest Watcher 2.0 is supported by a partnership of organizations contributing data, technology, funding and expertise.",
+		"listOfPartners": "See a full list of partners below."
 	},
 	"setupDrawAreas": {
     "invalidShape": "Forma inválida",
