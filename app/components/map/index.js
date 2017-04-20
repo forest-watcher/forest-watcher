@@ -247,12 +247,14 @@ class Map extends Component {
 
   renderFooter() {
     let distanceText = I18n.t('commonText.notAvailable');
+    let positionText = '';
     let distance = 999999;
     const { lastPosition } = this.state;
 
     if (lastPosition) {
       const geoPoint = new GeoPoint(this.state.alertSelected.lat, this.state.alertSelected.long);
       const currentPoint = new GeoPoint(lastPosition.latitude, lastPosition.longitude);
+      positionText = `${I18n.t('commonText.yourPosition')}: ${lastPosition.latitude}, ${lastPosition.longitude}`;
       distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);
       distanceText = `${distance} ${I18n.t('commonText.kmAway')}`; // in Kilometers
     }
@@ -274,7 +276,7 @@ class Map extends Component {
           {distanceText}
         </Text>
         <Text style={[styles.footerTitle, styles.footerSubtitle]}>
-          {I18n.t('commonText.yourPosition')}: {`${lastPosition.latitude}, ${lastPosition.longitude}`}
+          {positionText}
         </Text>
         {reportBtn}
       </View>
