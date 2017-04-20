@@ -109,7 +109,7 @@ class ImageBlobInput extends Component {
 
   async takePicture() {
     try {
-      const image = await this.camera.capture();
+      const image = await this.camera.capture({ jpegQuality: 70 });
       const storedUrl = await storeImage(image.path, true);
       this.setState({
         cameraVisible: false
