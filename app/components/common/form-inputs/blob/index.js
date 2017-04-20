@@ -24,8 +24,12 @@ class ImageBlobInput extends Component {
     this.removePicture = this.removePicture.bind(this);
     this.timerLoadPicture = null;
     this.state = {
-      cameraVisible: !this.props.input.value || this.props.input.value.length === 0
+      cameraVisible: false
     };
+  }
+
+  componentDidMount() {
+    setInterval(() => { this.enableCamera(); }, 200);
   }
 
   componentWillUnmount() {
@@ -88,6 +92,12 @@ class ImageBlobInput extends Component {
         </TouchableHighlight>
       </View>
     );
+  }
+
+  enableCamera() {
+    this.setState = {
+      cameraVisible: !this.props.input.value || this.props.input.value.length === 0
+    };
   }
 
   removePicture() {
