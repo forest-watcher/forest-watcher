@@ -29,14 +29,16 @@ class ImageBlobInput extends Component {
   }
 
   componentDidMount() {
-    setInterval(() => { this.enableCamera(); }, 200);
+    this.timerEnableCamera = setTimeout(() => { this.enableCamera(); }, 200);
   }
 
   componentWillUnmount() {
     StatusBar.setBarStyle('default');
-
     if (this.timerLoadPicture) {
       clearTimeout(this.timerLoadPicture);
+    }
+    if (this.timerEnableCamera) {
+      clearTimeout(this.timerEnableCamera);
     }
   }
 
