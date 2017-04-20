@@ -273,8 +273,8 @@ class Map extends Component {
         <Text style={styles.footerTitle}>
           {distanceText}
         </Text>
-        <Text style={styles.userCoordinates}>
-          {`${lastPosition.latitude}, ${lastPosition.longitude}`}
+        <Text style={[styles.footerTitle, styles.footerSubtitle]}>
+          {I18n.t('commonText.yourPosition')}: {`${lastPosition.latitude}, ${lastPosition.longitude}`}
         </Text>
         {reportBtn}
       </View>

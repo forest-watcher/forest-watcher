@@ -135,27 +135,18 @@ export default StyleSheet.create({
     fontWeight: '500',
     position: 'absolute',
     zIndex: 2,
-    bottom: 30,
+    bottom: 40,
     marginLeft: Theme.margin.left,
     opacity: 1,
     backgroundColor: 'transparent'
   },
-  userCoordinates: {
-    fontFamily: Theme.font,
-    color: Theme.fontColors.white,
-    fontSize: 17,
-    fontWeight: '500',
-    position: 'absolute',
-    zIndex: 2,
-    bottom: 28,
-    right: 24,
-    opacity: 1,
-    backgroundColor: 'transparent'
+  footerSubtitle: {
+    bottom: 20
   },
   footerButton: {
     left: 8,
     right: 8,
-    bottom: 55,
+    bottom: 65,
     position: 'absolute',
     zIndex: 2
   }
