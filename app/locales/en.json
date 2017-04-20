@@ -13,6 +13,7 @@
     "loading": "Loading",
     "notAvailable": "Not available",
     "kmAway": "km away",
+    "yourPosition": "Your position",
 		"connectionRequiredTitle": "No connection",
 		"connectionRequired": "You need an internet connection to complete this action"
 	},
