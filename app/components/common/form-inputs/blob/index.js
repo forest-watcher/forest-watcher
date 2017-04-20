@@ -24,15 +24,21 @@ class ImageBlobInput extends Component {
     this.removePicture = this.removePicture.bind(this);
     this.timerLoadPicture = null;
     this.state = {
-      cameraVisible: !this.props.input.value || this.props.input.value.length === 0
+      cameraVisible: false
     };
+  }
+
+  componentDidMount() {
+    this.timerEnableCamera = setTimeout(() => { this.enableCamera(); }, 200);
   }
 
   componentWillUnmount() {
     StatusBar.setBarStyle('default');
-
     if (this.timerLoadPicture) {
       clearTimeout(this.timerLoadPicture);
+    }
+    if (this.timerEnableCamera) {
+      clearTimeout(this.timerEnableCamera);
     }
   }
 
@@ -90,6 +96,12 @@ class ImageBlobInput extends Component {
     );
   }
 
+  enableCamera() {
+    this.setState = {
+      cameraVisible: !this.props.input.value || this.props.input.value.length === 0
+    };
+  }
+
   removePicture() {
     this.props.input.onChange('');
     this.setState({
@@ -99,7 +111,7 @@ class ImageBlobInput extends Component {
 
   async takePicture() {
     try {
-      const image = await this.camera.capture();
+      const image = await this.camera.capture({ jpegQuality: 70 });
       const storedUrl = await storeImage(image.path, true);
       this.setState({
         cameraVisible: false
