@@ -3,20 +3,14 @@
 		"appName": "Forest Watcher 2.0",
 		"next": "Lanjut",
     "save": "Menyimpan",
-    "delete": "Delete",
 		"back": "Kembali",
 		"finish": "Selesai",
-		"saving": "Saving",
 		"setUp": "Pengaturan",
     "cancel": "Batalkan",
     "confirm": "Konfirmasi",
     "loading": "Pemuatan",
     "notAvailable": "Tidak tersedia",
-    "kmAway": "km jauhnya",
-		"connectionRequiredTitle": "No connection",
-		"connectionRequired": "You need an internet connection to complete this action",
-		"glad": "Glad", 
-		"viirs": "Viirs"
+    "kmAway": "km jauhnya"
 	},
 	"dashboard": {
 		"title": "Dasbor",
@@ -51,10 +45,6 @@
     "noAlerts": "Tidak ada lansiran tersedia",
     "satelliteSignal": "Menunggu sinyal satelit ..."
 	},
-	"areaDetail": {
-    "title": "Area detail",
-		"delete": "Delete this area"
-	},
 	"boundaries": {
 		"chooseBoundaries": "Sakarang, pilih batas",
 		"selectProtectedArea": "Pilih kawasan lindung",
@@ -64,11 +54,6 @@
 		"welcomeText": "Halo",
 		"secondWelcomeText": "Silakan pilih area",
 		"firstInstruction": "Pertama, pilih negara yang diinginkan"
-	},
-	"partners": {
-	 	"title": "Partners",
-		"description": "Forest Watcher 2.0 is supported by a partnership of organizations contributing data, technology, funding and expertise.",
-		"listOfPartners": "See a full list of partners below."
 	},
 	"setupDrawAreas": {
     "invalidShape": "Bentuk valid",
