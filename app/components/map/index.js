@@ -273,6 +273,9 @@ class Map extends Component {
         <Text style={styles.footerTitle}>
           {distanceText}
         </Text>
+        <Text style={styles.userCoordinates}>
+          {`${lastPosition.latitude}, ${lastPosition.longitude}`}
+        </Text>
         {reportBtn}
       </View>
     );

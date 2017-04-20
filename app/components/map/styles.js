@@ -140,6 +140,18 @@ export default StyleSheet.create({
     opacity: 1,
     backgroundColor: 'transparent'
   },
+  userCoordinates: {
+    fontFamily: Theme.font,
+    color: Theme.fontColors.white,
+    fontSize: 17,
+    fontWeight: '500',
+    position: 'absolute',
+    zIndex: 2,
+    bottom: 28,
+    right: 24,
+    opacity: 1,
+    backgroundColor: 'transparent'
+  },
   footerButton: {
     left: 8,
     right: 8,
