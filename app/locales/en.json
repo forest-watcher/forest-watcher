@@ -14,9 +14,7 @@
     "notAvailable": "Not available",
     "kmAway": "km away",
 		"connectionRequiredTitle": "No connection",
-		"connectionRequired": "You need an internet connection to complete this action",
-		"glad": "Glad", 
-		"viirs": "Viirs"
+		"connectionRequired": "You need an internet connection to complete this action"
 	},
 	"dashboard": {
 		"title": "Dashboard",

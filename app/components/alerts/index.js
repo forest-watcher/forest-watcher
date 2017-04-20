@@ -59,6 +59,7 @@ class Alerts extends Component {
         {areas && areas.length > 0 && areas.map((data, areaKey) => {
           const area = data.attributes;
           area.id = data.id;
+
           return (
             <View key={`area-${areaKey}`}>
               <View style={styles.area}>
