@@ -116,7 +116,7 @@ export default StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    height: 124,
+    height: 134,
     zIndex: 3,
     position: 'absolute'
   },

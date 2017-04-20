@@ -70,5 +70,15 @@ export default StyleSheet.create({
     position: 'absolute',
     top: 6,
     left: 12
+  },
+  savingContainer: {
+    width: Theme.screen.width,
+    height: 160,
+    position: 'absolute',
+    right: 0,
+    left: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
