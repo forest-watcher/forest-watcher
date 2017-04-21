@@ -89,7 +89,7 @@ class Map extends Component {
         longitudeDelta: LONGITUDE_DELTA
       },
       alertSelected: null,
-      alerts: params.features && params.features.length > 0 ? params.features.slice(0, 50) : [] // Provisional
+      alerts: params.features && params.features.length > 0 ? params.features.slice(0, 120) : [] // Provisional
     };
   }
 
