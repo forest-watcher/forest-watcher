@@ -4,7 +4,8 @@ import {
   View,
   Image,
   StatusBar,
-  TouchableHighlight
+  TouchableHighlight,
+  ActivityIndicator
 } from 'react-native';
 import Camera from 'react-native-camera';
 
@@ -24,7 +25,8 @@ class ImageBlobInput extends Component {
     this.removePicture = this.removePicture.bind(this);
     this.timerLoadPicture = null;
     this.state = {
-      cameraVisible: false
+      cameraVisible: false,
+      saving: false
     };
   }
 
@@ -45,6 +47,15 @@ class ImageBlobInput extends Component {
   getCameraView() {
     return (
       <View style={styles.container}>
+        {this.state.saving &&
+          <View style={styles.savingContainer}>
+            <ActivityIndicator
+              color={Theme.colors.color1}
+              style={{ height: 80 }}
+              size="large"
+            />
+          </View>
+        }
         <Text style={styles.captureLabel} >{i18n.t('report.takePicture')}</Text>
         <View pointerEvents="none" style={styles.cameraContainer}>
           <Camera
@@ -97,9 +108,9 @@ class ImageBlobInput extends Component {
   }
 
   enableCamera() {
-    this.setState = {
+    this.setState({
       cameraVisible: !this.props.input.value || this.props.input.value.length === 0
-    };
+    });
   }
 
   removePicture() {
@@ -110,23 +121,31 @@ class ImageBlobInput extends Component {
   }
 
   async takePicture() {
-    try {
-      const image = await this.camera.capture({ jpegQuality: 70 });
-      const storedUrl = await storeImage(image.path, true);
+    if (!this.state.saving) {
       this.setState({
-        cameraVisible: false
-      }, () => {
-        this.timerLoadPicture = setTimeout(() => {
-          this.props.input.onChange(storedUrl);
-        }, 1000);
+        saving: true
+      }, async () => {
+        try {
+          const image = await this.camera.capture({ jpegQuality: 70 });
+          const storedUrl = await storeImage(image.path, true);
+          this.setState({
+            cameraVisible: false,
+            saving: false
+          }, () => {
+            this.timerLoadPicture = setTimeout(() => {
+              this.props.input.onChange(storedUrl);
+            }, 1000);
+          });
+        } catch (err) {
+          console.warn('TODO: handle error', err);
+        }
       });
-    } catch (err) {
-      console.warn('TODO: handle error', err);
     }
   }
 
   render() {
     const cameraVisible = this.state.cameraVisible;
+
     StatusBar.setBarStyle(cameraVisible ? 'light-content' : 'default');
     return cameraVisible ? this.getCameraView() : this.getConfirmView();
   }
