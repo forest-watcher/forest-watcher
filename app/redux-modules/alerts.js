@@ -51,7 +51,8 @@ export function getAlerts(areaId, geojson) {
     });
 
     const areaGeojson = geojson.features[0];
-    const country = state().user.data.country || null;
+    const user = state().user;
+    const country = (user && user.data && user.data.country) || null;
 
     if (alerts) {
       await Promise.all(alerts.map(async (alert) => {
