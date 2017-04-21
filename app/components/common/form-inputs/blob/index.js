@@ -126,7 +126,7 @@ class ImageBlobInput extends Component {
         saving: true
       }, async () => {
         try {
-          const image = await this.camera.capture({ jpegQuality: 70 });
+          const image = await this.camera.capture();
           const storedUrl = await storeImage(image.path, true);
           this.setState({
             cameraVisible: false,
