@@ -321,10 +321,11 @@ class Map extends Component {
             style={styles.header}
             pointerEvents={'box-none'}
           >
-            <Image
-              style={styles.headerBg}
-              source={backgroundImage}
-            />
+            {this.props.isConnected ? 
+              <Image
+                style={styles.headerBg}
+                source={backgroundImage}
+              /> : null}
             <Text style={styles.headerTitle}>
               {params.title}
             </Text>
@@ -422,7 +423,8 @@ class Map extends Component {
 Map.propTypes = {
   navigation: React.PropTypes.object.isRequired,
   navigate: React.PropTypes.func.isRequired,
-  createReport: React.PropTypes.func.isRequired
+  createReport: React.PropTypes.func.isRequired,
+  isConnected: React.PropTypes.bool
 };
 
 Map.navigationOptions = {

@@ -59,7 +59,7 @@ class ImageCache extends Component {
           )
         : null
         }
-        {this.state.url && this.props.isConnected &&
+        {this.state.url &&
           <Image
             resizeMode={this.props.resizeMode || 'contain'}
             source={{ uri: this.state.url }}
@@ -77,7 +77,6 @@ ImageCache.propTypes = {
   source: React.PropTypes.object.isRequired,
   resizeMode: React.PropTypes.string,
   localSource: React.PropTypes.bool,
-  isConnected: React.PropTypes.bool,
   style: React.PropTypes.object
 };
 

@@ -4,8 +4,10 @@ import { NavigationActions } from 'react-navigation';
 import tracker from 'helpers/googleAnalytics';
 import Map from 'components/map';
 
-function mapStateToProps() {
-  return {};
+function mapStateToProps(state) {
+  return {
+    isConnected: state.app.isConnected
+  };
 }
 
 function mapDispatchToProps(dispatch, { navigation }) {
