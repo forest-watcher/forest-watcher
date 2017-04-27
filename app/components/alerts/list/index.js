@@ -9,7 +9,7 @@ import {
 
 import I18n from 'locales';
 import GeoPoint from 'geopoint';
-import ImageCache from 'containers/common/image-cache';
+import ImageCache from 'components/common/image-cache';
 import styles from './styles';
 
 const placeholderImage = require('assets/alert_list_preloader_row.png');
