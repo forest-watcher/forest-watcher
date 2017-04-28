@@ -15,7 +15,8 @@
     "kmAway": "km away",
     "yourPosition": "Your position",
 		"connectionRequiredTitle": "No connection",
-		"connectionRequired": "You need an internet connection to complete this action"
+		"connectionRequired": "You need an internet connection to complete this action",
+    "noImage": "No image"
 	},
 	"dashboard": {
 		"title": "Dashboard",
