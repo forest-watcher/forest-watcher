@@ -17,7 +17,8 @@ class ImageCache extends Component {
     this.state = {
       url: null,
       error: false,
-      loading: true
+      loading: true,
+      noImage: false
     };
   }
 
@@ -37,9 +38,15 @@ class ImageCache extends Component {
     const { source } = this.props;
 
     if (source.uri) {
-      const url = await getCachedImageByUrl(source.uri, CONSTANTS.files.images.alerts);
+      const url = await getCachedImageByUrl(source.uri,
+        CONSTANTS.files.images.alerts, this.props.isConnected);
       if (url) {
         this.setState({ url });
+      } else {
+        this.setState({
+          loading: false,
+          noImage: true
+        });
       }
     }
   }
@@ -55,6 +62,14 @@ class ImageCache extends Component {
         ? (
           <View style={styles.loader}>
             <Text style={styles.loaderText}>{I18n.t('commonText.loading')}</Text>
+          </View>
+          )
+        : null
+        }
+        {!this.state.loading && this.state.noImage
+        ? (
+          <View style={styles.loader}>
+            <Text style={styles.loaderText}>{I18n.t('commonText.noImage')}</Text>
           </View>
           )
         : null
@@ -77,6 +92,7 @@ ImageCache.propTypes = {
   source: React.PropTypes.object.isRequired,
   resizeMode: React.PropTypes.string,
   localSource: React.PropTypes.bool,
+  isConnected: React.PropTypes.bool,
   style: React.PropTypes.object
 };
 
