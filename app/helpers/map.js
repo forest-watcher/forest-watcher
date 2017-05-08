@@ -24,8 +24,8 @@ export function getBboxTiles(bbox, zooms) {
   return tilesArray;
 }
 
-export async function cacheTiles(tiles, areaName) {
-  const folder = `tiles/${areaName}`;
+export async function cacheTiles(tiles, areaId) {
+  const folder = `tiles/${areaId}`;
   await checkImageFolder(folder);
   const mapper = tile => {
     const imageName = `${tile[2]}x${tile[0]}x${tile[1]}.png`;

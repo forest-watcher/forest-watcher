@@ -1,6 +1,9 @@
 import Config from 'react-native-config';
 import { getGeostore } from 'redux-modules/geostore';
 import { getCachedImageByUrl } from 'helpers/fileManagement';
+import { getBboxTiles, cacheTiles } from 'helpers/map';
+import BoundingBox from 'boundingbox';
+import CONSTANTS from 'config/constants';
 
 // Actions
 import { SET_AREA_SAVED } from 'redux-modules/setup';
@@ -98,6 +101,13 @@ export function getAreas() {
   };
 }
 
+
+async function downloadArea(bbox, areaId) {
+  const zooms = CONSTANTS.maps.cachedZoomLevels;
+  const tilesArray = getBboxTiles(bbox, zooms);
+  await cacheTiles(tilesArray, areaId);
+}
+
 export function saveArea(params) {
   const url = `${Config.API_URL}/area`;
   return (dispatch, state) => {
@@ -128,7 +138,16 @@ export function saveArea(params) {
         if (response.ok) return response.json();
         throw new Error(response._bodyText); // eslint-disable-line
       })
-      .then((res) => {
+      .then(async (res) => {
+        const geojson = state().geostore.data[res.data.attributes.geostore];
+        const bboxArea = new BoundingBox(geojson.features[0]);
+        if (bboxArea) {
+          const bbox = [
+            { lat: bboxArea.minlat, lng: bboxArea.maxlon },
+            { lat: bboxArea.maxlat, lng: bboxArea.minlon }
+          ];
+          await downloadArea(bbox, res.data.id);
+        }
         dispatch({
           type: SAVE_AREA,
           payload: {

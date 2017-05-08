@@ -51,8 +51,8 @@ export function getAlerts(areaId, geojson) {
     });
 
     const areaGeojson = geojson.features[0];
-    const user = state().user;
-    const country = (user && user.data && user.data.country) || null;
+    // const user = state().user;
+    // const country = (user && user.data && user.data.country) || null;
 
     if (alerts) {
       await Promise.all(alerts.map(async (alert) => {
@@ -69,14 +69,9 @@ export function getAlerts(areaId, geojson) {
         const geom = JSON.stringify(intersection.geometry);
 
         if (alert.countGlad > 0) {
-          let sql = `select lat, long from data
+          const sql = `select lat, long from data
             where year >= 2017
             AND st_intersects(st_setsrid(st_geomfromgeojson('${geom}'), 4326), the_geom) LIMIT 60`;
-          if (country && country === 'PER') {
-            sql = `select lat, long from data
-              WHERE ((year = 2016 and julian_day >= 244) OR year > 2016)
-              AND st_intersects(st_setsrid(st_geomfromgeojson('${geom}'), 4326), the_geom)`;
-          }
           const dataset = Config.DATASET_GLAD;
           const urlPoints = `${Config.API_URL}/query/${dataset}/?sql=${sql}`;
 

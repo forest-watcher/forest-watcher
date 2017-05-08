@@ -13,12 +13,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch, { navigation }) {
   return {
     navigate: (routeName, params) => {
-      navigation.navigate(routeName, {
-        title: params.title,
-        features: params.features,
-        center: params.center,
-        geojson: params.geojson
-      });
+      navigation.navigate(routeName, params);
     },
     fetchData: (action) => {
       dispatch(getAreas(action));

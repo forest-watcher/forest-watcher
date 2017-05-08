@@ -28,12 +28,13 @@ class Alerts extends Component {
     tracker.trackScreenView('Alerts');
   }
 
-  onPress = (params) => {
+  onPress = (areaId, params) => {
     this.props.navigate('Map', {
       features: params.coordinates,
       center: params.center,
       geojson: params.geojson,
-      title: params.areaName
+      title: params.areaName,
+      areaId
     });
   }
 
