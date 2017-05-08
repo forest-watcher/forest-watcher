@@ -1,6 +1,10 @@
-const tilebelt = require('@mapbox/tilebelt');
+import { checkImageFolder, cacheImageByUrl } from 'helpers/fileManagement';
 
-export function getBboxTiles(bbox, zooms) { // eslint-disable-line
+const tilebelt = require('@mapbox/tilebelt');
+const pMap = require('p-map');
+
+
+export function getBboxTiles(bbox, zooms) {
   const tilesArray = [];
   const zoomsArray = typeof zooms === 'number'
     ? [zooms]
@@ -20,13 +24,13 @@ export function getBboxTiles(bbox, zooms) { // eslint-disable-line
   return tilesArray;
 }
 
-// TODO: move this to the areas component to save the
-// tiles of the area
-// Example of use
-// const zooms = [10, 11, 12];
-// const bbox = [
-//   { lat: -74.52644348144531, lng: -8.397658311120537 },
-//   { lat: -74.30465698242188, lng: -8.606820784079316 }
-// ];
-// const tilesArray = getBboxTiles(bbox, zooms);
-// console.log(tilesArray);
+export async function cacheTiles(tiles, areaName) {
+  const folder = `tiles/${areaName}`;
+  await checkImageFolder(folder);
+  const mapper = tile => {
+    const imageName = `${tile[2]}x${tile[0]}x${tile[1]}.png`;
+    const url = `http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/${tile[2]}/${tile[0]}/${tile[1]}.png`;
+    return cacheImageByUrl(url, folder, imageName);
+  };
+  await pMap(tiles, mapper, { concurrency: 10 });
+}

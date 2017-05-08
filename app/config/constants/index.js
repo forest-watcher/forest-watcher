@@ -20,7 +20,8 @@ export default {
           [-147.65625, -51.8357775204525]
         ]
       ]
-    }
+    },
+    cachedZoomLevels: [12]
   },
   countries: {
     nameColumn: {

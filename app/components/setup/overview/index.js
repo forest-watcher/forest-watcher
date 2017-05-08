@@ -39,6 +39,7 @@ class SetupOverview extends Component {
     const params = {
       area: {
         name: this.state.name,
+        geojson: this.props.geojson,
         ...this.props.area
       },
       userid: this.props.user.id,
@@ -112,6 +113,7 @@ SetupOverview.propTypes = {
     token: React.PropTypes.string.isRequired
   }).isRequired,
   area: React.PropTypes.object.isRequired,
+  geojson: React.PropTypes.object.isRequired,
   snapshot: React.PropTypes.string.isRequired,
   onNextPress: React.PropTypes.func.isRequired,
   saveArea: React.PropTypes.func.isRequired

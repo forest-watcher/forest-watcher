@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import RNFetchBlob from 'react-native-fetch-blob';
 
-global.Buffer = global.Buffer || require('buffer').Buffer;
+global.Buffer = global.Buffer || require('buffer').Buffer; // eslint-disable-line
 
 if (typeof btoa === 'undefined') {
   global.btoa = function (str) {
@@ -61,6 +61,46 @@ export async function storeImage(url, imageDir = false) {
     // To-do error
     return error;
   }
+}
+
+export async function checkImageFolder(imageDir) {
+  const parentDirectory = RNFetchBlob.fs.dirs;
+  const imagesDirectory = `${parentDirectory.DocumentDir}/${imageDir}`;
+  const isDir = await RNFetchBlob.fs.isDir(imagesDirectory);
+
+  if (!isDir) {
+    try {
+      await RNFetchBlob.fs.mkdir(imagesDirectory);
+      return imagesDirectory;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+  return imagesDirectory;
+}
+
+
+export async function cacheImageByUrl(url, imageDir, imageFile) {
+  const parsedUrl = url.replace(/ /g, '%20');
+  const parentDirectory = RNFetchBlob.fs.dirs;
+  const imagesDirectory = `${parentDirectory.DocumentDir}/${imageDir}`;
+  const isDir = await RNFetchBlob.fs.isDir(imagesDirectory);
+
+  if (!isDir) {
+    try {
+      await RNFetchBlob.fs.mkdir(imagesDirectory);
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  const filePath = `${imagesDirectory}/${imageFile}`;
+
+  const image = await RNFetchBlob
+    .config({ path: filePath })
+    .fetch('GET', parsedUrl);
+
+  return parseImagePath(image.path());
 }
 
 export async function getCachedImageByUrl(url, imageDir, isConnected = true) {
