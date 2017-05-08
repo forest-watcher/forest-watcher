@@ -1,4 +1,7 @@
 export default {
+  areas: {
+    maxSize: 1000000000 // square meters
+  },
   storage: {
     app: {
       setup: '@App:setup',

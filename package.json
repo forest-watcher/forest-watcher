@@ -9,6 +9,7 @@
     "precommit": "npm run lint-staged"
   },
   "dependencies": {
+    "@mapbox/geojson-area": "^0.2.2",
     "@mapbox/tilebelt": "^1.0.1",
     "boundingbox": "^0.1.0",
     "buffer": "^5.0.5",

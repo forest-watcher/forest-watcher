@@ -20,6 +20,8 @@ import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
+const geojsonArea = require('@mapbox/geojson-area');
+
 const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
@@ -136,6 +138,10 @@ class DrawAreas extends Component {
 
         if ((intersects && intersects.geometry) &&
         intersects.geometry.coordinates.length > 0) {
+          isValid = false;
+        }
+        const area = geojsonArea.geometry(getGeoJson(coords));
+        if (area > CONSTANTS.areas.maxSize) {
           isValid = false;
         }
       }
