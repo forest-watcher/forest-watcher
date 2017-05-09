@@ -371,7 +371,7 @@ class Map extends Component {
               zIndex={-1}
               maxZoom={12}
               areaId={params.areaId}
-              isConnected={false}
+              isConnected={this.props.isConnected}
               minDate="2017/01/01"
               maxDate="2017/03/01"
             />
