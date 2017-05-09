@@ -25,8 +25,23 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case GET_AREAS:
-      return Object.assign({}, state, { ...action.payload, synced: true });
+    case GET_AREAS: {
+      const areas = [...state.data];
+      const newAreas = action.payload.data;
+      let mergedAreas = [];
+      if (areas.length > 0) {
+        for (let i = 0, aLength = areas.length; i < aLength; i++) {
+          for (let j = 0, naLength = newAreas.length; j < naLength; j++) {
+            if (areas[i].id === areas[j].id) {
+              mergedAreas.push({ ...areas[i], ...newAreas[j] });
+            }
+          }
+        }
+      } else {
+        mergedAreas = newAreas;
+      }
+      return Object.assign({}, state, { data: mergedAreas, synced: true });
+    }
     case SYNCING_AREAS:
       return Object.assign({}, state, { syncing: action.payload });
     case SAVE_AREA: {
