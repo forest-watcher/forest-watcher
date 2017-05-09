@@ -139,6 +139,17 @@ export function saveArea(params) {
         throw new Error(response._bodyText); // eslint-disable-line
       })
       .then(async (res) => {
+        dispatch({
+          type: SYNCING_AREAS,
+          payload: false
+        });
+        dispatch({
+          type: SAVE_AREA,
+          payload: {
+            area: res.data,
+            snapshot: params.snapshot
+          }
+        });
         const geojson = state().geostore.data[res.data.attributes.geostore];
         const bboxArea = new BoundingBox(geojson.features[0]);
         if (bboxArea) {
@@ -149,19 +160,8 @@ export function saveArea(params) {
           await downloadArea(bbox, res.data.id);
         }
         dispatch({
-          type: SAVE_AREA,
-          payload: {
-            area: res.data,
-            snapshot: params.snapshot
-          }
-        });
-        dispatch({
           type: SET_AREA_SAVED,
           payload: true
-        });
-        dispatch({
-          type: SYNCING_AREAS,
-          payload: false
         });
       })
       .catch((error) => {

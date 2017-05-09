@@ -16,7 +16,6 @@
     "geojson-polygon-self-intersections": "^1.1.1",
     "geopoint": "^1.0.1",
     "moment": "^2.18.1",
-    "p-map": "^1.1.1",
     "react": "15.4.2",
     "react-native": "0.42.3",
     "react-native-camera": "0.6.0",

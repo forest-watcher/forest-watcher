@@ -70,7 +70,7 @@ class Map extends Component {
     const { params } = this.props.navigation.state;
     const intialCoords = params.center
       ? params.center
-      : [CONSTANTS.maps.lng, CONSTANTS.maps.lat];
+      : { lat: CONSTANTS.maps.lat, lon: CONSTANTS.maps.lng };
 
     this.afterRenderTimer = null;
     this.eventLocation = null;

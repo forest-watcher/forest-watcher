@@ -1,7 +1,7 @@
 import { checkImageFolder, cacheImageByUrl } from 'helpers/fileManagement';
+import CONSTANTS from 'config/constants';
 
 const tilebelt = require('@mapbox/tilebelt');
-const pMap = require('p-map');
 
 
 export function getBboxTiles(bbox, zooms) {
@@ -27,10 +27,18 @@ export function getBboxTiles(bbox, zooms) {
 export async function cacheTiles(tiles, areaId) {
   const folder = `tiles/${areaId}`;
   await checkImageFolder(folder);
-  const mapper = tile => {
-    const imageName = `${tile[2]}x${tile[0]}x${tile[1]}.png`;
-    const url = `http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/${tile[2]}/${tile[0]}/${tile[1]}.png`;
-    return cacheImageByUrl(url, folder, imageName);
-  };
-  await pMap(tiles, mapper, { concurrency: 10 });
+  const CONCURRENCY = 10;
+  let arrayPromises = [];
+  for (let i = 0, tLength = tiles.length; i < tLength; i++) {
+    const imageName = `${tiles[i][2]}x${tiles[i][0]}x${tiles[i][1]}.png`;
+    const url = `${CONSTANTS.tileServers.glad}/${tiles[i][2]}/${tiles[i][0]}/${tiles[i][1]}.png`;
+    arrayPromises.push(cacheImageByUrl(url, folder, imageName));
+    if (i % CONCURRENCY === 0 && i > 0) {
+      await Promise.all(arrayPromises);
+      arrayPromises = [];
+    }
+  }
+  if (arrayPromises.length > 0) {
+    await Promise.all(arrayPromises);
+  }
 }
