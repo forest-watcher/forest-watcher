@@ -20,6 +20,7 @@ import I18n from 'locales';
 
 import ActionBtn from 'components/common/action-button';
 import Theme from 'config/theme';
+import daysSince from 'helpers/date';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
@@ -372,8 +373,8 @@ class Map extends Component {
               maxZoom={12}
               areaId={params.areaId}
               isConnected={false}
-              minDate="2017/01/01"
-              maxDate="2017/03/01"
+              minDate={daysSince('20170101')}
+              maxDate={daysSince('20170301')}
             />
           </MapView>
           {this.state.alertSelected
