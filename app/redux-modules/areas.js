@@ -10,6 +10,7 @@ import { SET_AREA_SAVED } from 'redux-modules/setup';
 import { LOGOUT } from 'redux-modules/user';
 
 const GET_AREAS = 'areas/GET_AREAS';
+const UPDATE_AREA = 'areas/UPDATE_AREA';
 const SAVE_AREA = 'areas/SAVE_AREA';
 const DELETE_AREA = 'areas/DELETE_AREA';
 const SYNCING_AREAS = 'areas/SYNCING_AREA';
@@ -41,6 +42,16 @@ export default function reducer(state = initialState, action) {
       };
 
       return Object.assign({}, state, area);
+    }
+    case UPDATE_AREA: {
+      const areas = [...state.data];
+      for (let i = 0, aLength = areas.length; i < aLength; i++) {
+        if (areas[i].id === action.payload.id) {
+          areas[i] = action.payload;
+        }
+      }
+
+      return Object.assign({}, state, { data: areas });
     }
     case DELETE_AREA: {
       const areas = state.data;
@@ -150,28 +161,48 @@ export function saveArea(params) {
             snapshot: params.snapshot
           }
         });
-        const geojson = state().geostore.data[res.data.attributes.geostore];
+        dispatch({
+          type: SET_AREA_SAVED,
+          payload: {
+            status: true,
+            areaId: res.data.id
+          }
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: SET_AREA_SAVED,
+          payload: {
+            status: false
+          }
+        });
+        console.warn(error);
+        // To-do
+      });
+  };
+}
+
+export function cacheArea(areaId) {
+  return async (dispatch, state) => {
+    const area = state().areas.data.find((areaData) => (areaData.id === areaId));
+    if (area) {
+      const geojson = state().geostore.data[area.attributes.geostore];
+      if (geojson) {
         const bboxArea = new BoundingBox(geojson.features[0]);
         if (bboxArea) {
           const bbox = [
             { lat: bboxArea.minlat, lng: bboxArea.maxlon },
             { lat: bboxArea.maxlat, lng: bboxArea.minlon }
           ];
-          await downloadArea(bbox, res.data.id);
+          await downloadArea(bbox, areaId);
         }
+        area.cached = true;
         dispatch({
-          type: SET_AREA_SAVED,
-          payload: true
+          type: UPDATE_AREA,
+          payload: area
         });
-      })
-      .catch((error) => {
-        dispatch({
-          type: SET_AREA_SAVED,
-          payload: false
-        });
-        console.warn(error);
-        // To-do
-      });
+      }
+    }
   };
 }
 
