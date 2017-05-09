@@ -98,6 +98,7 @@ class DrawAreas extends Component {
     this.state = {
       loading: false,
       valid: true,
+      huge: false,
       shape: {
         coordinates: []
       },
@@ -129,6 +130,7 @@ class DrawAreas extends Component {
         e.nativeEvent.coordinate
       ];
       let isValid = valid;
+      let isHuge = false;
 
       if (coords.length >= 3) {
         const intersects = gpsi({
@@ -142,7 +144,7 @@ class DrawAreas extends Component {
         }
         const area = geojsonArea.geometry(getGeoJson(coords));
         if (area > CONSTANTS.areas.maxSize) {
-          isValid = false;
+          isHuge = true;
         }
       }
 
@@ -151,7 +153,8 @@ class DrawAreas extends Component {
           ...shape,
           coordinates: coords
         },
-        valid: isValid
+        valid: isValid,
+        huge: isHuge
       });
     }
   }
@@ -206,7 +209,17 @@ class DrawAreas extends Component {
       );
     }
 
-    return (this.state.valid)
+    let validArea = true;
+    let btnText = null;
+    if (!this.state.valid) {
+      btnText = I18n.t('setupDrawAreas.invalidShape');
+      validArea = false;
+    } else if (this.state.huge) {
+      btnText = I18n.t('setupDrawAreas.invalidSize');
+      validArea = false;
+    }
+
+    return (validArea)
       ? <ActionButton
         style={[styles.actionButton, styles.actionButtonWithPadding]}
         onPress={this.onNextPress}
@@ -217,7 +230,7 @@ class DrawAreas extends Component {
         disabled
         error
         onPress={this.clearShape}
-        text={I18n.t('setupDrawAreas.invalidShape').toUpperCase()}
+        text={btnText.toUpperCase()}
       />;
   }
 

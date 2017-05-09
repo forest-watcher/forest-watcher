@@ -15,7 +15,8 @@
     "kmAway": "Km de distance",
     "yourPosition": "Your position",
 		"connectionRequiredTitle": "No connection",
-		"connectionRequired": "You need an internet connection to complete this action"
+		"connectionRequired": "You need an internet connection to complete this action",
+    "noImage": "No image"
 	},
 	"dashboard": {
 		"title": "Tableau de bord",
@@ -71,6 +72,7 @@
 	},
 	"setupDrawAreas": {
     "invalidShape": "Forme non valide",
+    "invalidSize": "Max allowed size",
 		"tapInstruction": "Touchez la carte pour dessiner"
 	},
 	"setupHeader": {
