@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import {
   View,
   ScrollView,
-  Text
+  Text,
+  TouchableHighlight
 } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
 
 import I18n from 'locales';
-import AlertsList from 'containers/alerts/list';
 import LeftBtn from 'components/common/header/left-btn';
 import Theme from 'config/theme';
 import headerStyles from 'components/common/header/styles';
@@ -28,12 +28,12 @@ class Alerts extends Component {
     tracker.trackScreenView('Alerts');
   }
 
-  onPress = (areaId, params) => {
+  onPress = (areaId) => {
     this.props.navigate('Map', {
-      features: params.coordinates,
-      center: params.center,
-      geojson: params.geojson,
-      title: params.areaName,
+      features: null,
+      center: null,
+      geojson: null,
+      title: null,
       areaId
     });
   }
@@ -49,7 +49,7 @@ class Alerts extends Component {
   }
 
   render() {
-    const { areas, geostore } = this.props;
+    const { areas } = this.props;
     return (
       <ScrollView
         style={styles.container}
@@ -66,12 +66,13 @@ class Alerts extends Component {
               <View style={styles.area}>
                 <Text style={styles.areaTitle}>{area.name}</Text>
               </View>
-              <AlertsList
-                areaName={area.name}
-                areaGeojson={geostore[area.geostore]}
-                onPress={this.onPress} areaId={area.id}
-                currentPosition={this.state.currentPosition}
-              />
+              <TouchableHighlight
+                onPress={() => this.onPress(area.id)}
+                activeOpacity={1}
+                underlayColor="transparent"
+              >
+                <Text style={styles.distanceText}>Go to area</Text>
+              </TouchableHighlight>
             </View>
           );
         }
