@@ -16,7 +16,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    saveArea: async (action) => {
+    saveArea: (action) => {
       dispatch(saveArea(action));
     }
   };
