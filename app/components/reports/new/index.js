@@ -23,8 +23,9 @@ class Reports extends Component {
 
   render() {
     const { state } = this.props.navigation;
-    const form = state && state.params && state.params.form;
-    if (form) return <ReportsForm form={form} />;
+    const form = 'sorodrigoform';
+    const index = (state && state.params && state.params.step) || 0 + 4; // TODO import from constants
+    if (form) return <ReportsForm form={form} index={index} navigation={this.props.navigation} />;
     return (
       <View style={[styles.container, styles.containerCenter]}>
         <Text>{I18n.t('report.reportIdRequired')}</Text>

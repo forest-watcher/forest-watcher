@@ -18,13 +18,13 @@ export const Routes = {
   Map: { screen: Map },
   Settings: { screen: Settings },
   Reports: { screen: Reports },
-  NewReport: { screen: NewReport },
+  NewReport: { screen: NewReport, path: 'new-report/:step' },
   Feedback: { screen: Feedback },
   AreaDetail: { screen: AreaDetail, path: 'areas/:id' },
   Partners: { screen: Partners }
 };
 
 export const RoutesConfig = {
-  initialRouteName: 'Home',
+  initialRouteName: 'NewReport',
   headerMode: 'screen'
 };
