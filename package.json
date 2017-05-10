@@ -22,6 +22,7 @@
     "react-native-datepicker": "1.4.5",
     "react-native-fetch-blob": "0.10.4",
     "react-native-google-analytics-bridge": "5.0.0",
+    "react-native-google-signin": "^0.10.0",
     "react-native-gps": "Vizzuality/react-native-gps",
     "react-native-i18n": "1.0.0",
     "react-native-keyboard-spacer": "0.3.1",
