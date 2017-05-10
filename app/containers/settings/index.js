@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getAreas } from 'redux-modules/areas';
+import { getAreas, updateDate } from 'redux-modules/areas';
 import { logout } from 'redux-modules/user';
 
 import Settings from 'components/settings';
@@ -7,7 +7,9 @@ import Settings from 'components/settings';
 function mapStateToProps(state) {
   return {
     user: state.user.data,
-    areas: state.areas.data
+    areas: state.areas.data,
+    fromDate: state.areas.fromDate,
+    toDate: state.areas.toDate
   };
 }
 
@@ -19,6 +21,7 @@ function mapDispatchToProps(dispatch, { navigation }) {
     getAreas: () => {
       dispatch(getAreas());
     },
+    updateDate: date => dispatch(updateDate(date)),
     logout: () => {
       dispatch(logout());
     }

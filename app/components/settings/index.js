@@ -9,6 +9,7 @@ import {
   Image
 } from 'react-native';
 
+import DatePicker from 'react-native-datepicker';
 import LeftBtn from 'components/common/header/left-btn';
 import Theme from 'config/theme';
 import I18n from 'locales';
@@ -41,6 +42,8 @@ class Settings extends Component {
     this.props.logout();
     this.props.navigate('Home');
   }
+
+  onDateChange = date => this.props.updateDate(date)
 
   handlePartnersLink = () => {
     this.props.navigate('Partners');
@@ -113,6 +116,55 @@ class Settings extends Component {
             </View>
           </TouchableHighlight>
 
+          <View style={styles.datesSection}>
+            <Text style={styles.dateContainerLabel}>
+              Time Frame
+            </Text>
+            <View style={styles.dateContainer}>
+              <Text style={styles.dateLabel}>
+                From
+              </Text>
+              <DatePicker
+                showIcon={false}
+                date={this.props.fromDate}
+                mode="date"
+                format="MMM Do YYYY"
+                minDate="2010-01-01"
+                // if set to null DatePicker will try to parse it as a date and crash, undefined prevents this
+                maxDate={this.state.toDate || undefined}
+                placeholder={I18n.t('report.datePlaceholder')}
+                cancelBtnText={I18n.t('commonText.cancel')}
+                confirmBtnText={I18n.t('commonText.confirm')}
+                onDateChange={date => this.onDateChange({ fromDate: date })}
+                customStyles={{
+                  dateInput: styles.dateInput,
+                  dateText: styles.dateText
+                }}
+              />
+            </View>
+            <View style={styles.dateContainer}>
+              <Text style={styles.dateLabel}>
+                To
+              </Text>
+              <DatePicker
+                style={styles.datePicker}
+                showIcon={false}
+                date={this.props.toDate}
+                mode="date"
+                format="MMM Do YYYY"
+                minDate={this.state.fromDate || '2010-01-01'}
+                placeholder={I18n.t('report.datePlaceholder')}
+                cancelBtnText={I18n.t('commonText.cancel')}
+                confirmBtnText={I18n.t('commonText.confirm')}
+                onDateChange={date => this.onDateChange({ toDate: date })}
+                customStyles={{
+                  dateInput: styles.dateInput,
+                  dateText: styles.dateText
+                }}
+              />
+            </View>
+          </View>
+
           <View style={styles.aboutSection}>
             <Text style={styles.label}>
               {I18n.t('settings.aboutApp')}
@@ -134,9 +186,12 @@ class Settings extends Component {
 Settings.propTypes = {
   user: React.PropTypes.any,
   areas: React.PropTypes.any,
+  fromDate: React.PropTypes.string,
+  toDate: React.PropTypes.string,
   navigate: React.PropTypes.func.isRequired,
   getAreas: React.PropTypes.func.isRequired,
-  logout: React.PropTypes.func.isRequired
+  logout: React.PropTypes.func.isRequired,
+  updateDate: React.PropTypes.func.isRequired
 };
 
 Settings.navigationOptions = {
