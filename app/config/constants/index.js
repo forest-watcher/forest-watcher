@@ -1,4 +1,7 @@
 export default {
+  areas: {
+    maxSize: 1000000000 // square meters
+  },
   storage: {
     app: {
       setup: '@App:setup',
@@ -20,7 +23,11 @@ export default {
           [-147.65625, -51.8357775204525]
         ]
       ]
-    }
+    },
+    cachedZoomLevels: [12]
+  },
+  tileServers: {
+    glad: 'http://wri-tiles.s3.amazonaws.com/glad_prod/tiles'
   },
   countries: {
     nameColumn: {

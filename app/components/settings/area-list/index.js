@@ -33,7 +33,7 @@ function AreaList(props) {
             }
           </View>
           <Text style={styles.title} numberOfLines={2}>
-            {area.name}
+            {area.name} - {item.cached ? 'cached' : 'no-cached'}
           </Text>
           <TouchableHighlight
             activeOpacity={0.5}

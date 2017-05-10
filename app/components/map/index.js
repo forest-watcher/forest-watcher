@@ -34,9 +34,6 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const markerImage = require('assets/marker.png');
 const markerCompassRedImage = require('assets/compass_circle_red.png');
-const alertGladImage = require('assets/alert-glad.png');
-const alertViirsmage = require('assets/alert-viirs.png');
-const alertWhiteImage = require('assets/alert-white.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
 const backIconWhite = require('assets/previous_white.png');
@@ -53,18 +50,18 @@ function renderLoading() {
   );
 }
 
-function getGoogleMapsCoordinates(coordinates) {
-  const cords = [];
+// function getGoogleMapsCoordinates(coordinates) {
+//   const cords = [];
 
-  coordinates.forEach((cordinate) => {
-    cords.push({
-      latitude: cordinate.lat,
-      longitude: cordinate.long
-    });
-  });
+//   coordinates.forEach((cordinate) => {
+//     cords.push({
+//       latitude: cordinate.lat,
+//       longitude: cordinate.long
+//     });
+//   });
 
-  return cords;
-}
+//   return cords;
+// }
 
 class Map extends Component {
   constructor(props) {
@@ -72,7 +69,7 @@ class Map extends Component {
     const { params } = this.props.navigation.state;
     const intialCoords = params.center
       ? params.center
-      : [CONSTANTS.maps.lng, CONSTANTS.maps.lat];
+      : { lat: CONSTANTS.maps.lat, lon: CONSTANTS.maps.lng };
 
     this.afterRenderTimer = null;
     this.eventLocation = null;
@@ -88,8 +85,8 @@ class Map extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
-      alertSelected: null,
-      alerts: params.features && params.features.length > 0 ? params.features.slice(0, 120) : [] // Provisional
+      alertSelected: null
+      // alerts: params.features && params.features.length > 0 ? params.features.slice(0, 120) : [] // Provisional
     };
   }
 
@@ -126,36 +123,21 @@ class Map extends Component {
     }
   }
 
-  onAlertPress(alertSelected) {
-    const alerts = [];
-
-    this.state.alerts.forEach((alert) => {
-      const newArea = Object.assign({}, alert);
-      newArea.selected = alert.id === alertSelected.id;
-      alerts.push(newArea);
-    });
-
-    this.setState({
-      alerts,
-      alertSelected
-    });
-  }
-
   onLayout = () => {
-    if (!this.state.alertSelected) {
-      if (this.afterRenderTimer) {
-        clearTimeout(this.afterRenderTimer);
-      }
-      this.afterRenderTimer = setTimeout(() => {
-        const { params } = this.props.navigation.state;
-        if (params && params.features && params.features.length > 0) {
-          this.map.fitToCoordinates(getGoogleMapsCoordinates(params.features), {
-            edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
-            animated: true
-          });
-        }
-      }, 1000);
-    }
+    // if (!this.state.alertSelected) {
+    //   if (this.afterRenderTimer) {
+    //     clearTimeout(this.afterRenderTimer);
+    //   }
+    //   this.afterRenderTimer = setTimeout(() => {
+    //     const { params } = this.props.navigation.state;
+    //     if (params && params.features && params.features.length > 0) {
+    //       this.map.fitToCoordinates(getGoogleMapsCoordinates(params.features), {
+    //         edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
+    //         animated: true
+    //       });
+    //     }
+    //   }, 1000);
+    // }
   }
 
   geoLocate() {
@@ -308,10 +290,11 @@ class Map extends Component {
 
   render() {
     const { params } = this.props.navigation.state;
-    const stopPropagation = thunk => e => {
-      e.stopPropagation();
-      thunk();
-    };
+
+    // const stopPropagation = thunk => e => {
+    //   e.stopPropagation();
+    //   thunk();
+    // };
 
     return (
       this.state.renderMap
@@ -321,7 +304,7 @@ class Map extends Component {
             style={styles.header}
             pointerEvents={'box-none'}
           >
-            {this.props.isConnected ? 
+            {this.props.isConnected ?
               <Image
                 style={styles.headerBg}
                 source={backgroundImage}
@@ -383,31 +366,15 @@ class Map extends Component {
                 </MapView.Marker>
               : null
             }
-            {this.state.alerts.map((point, key) => {
-              let image = alertGladImage;
-
-              if (point.type === 'viirs') {
-                image = alertViirsmage;
-              }
-
-              if (point.selected) {
-                image = alertWhiteImage;
-              }
-
-              return (
-                <MapView.Marker.Animated
-                  key={key}
-                  image={image}
-                  style={{ opacity: 0.8 }}
-                  coordinate={{
-                    latitude: point.lat,
-                    longitude: point.long
-                  }}
-                  onPress={stopPropagation(() => this.onAlertPress(point))}
-                />
-              );
-            })
-            }
+            <MapView.CanvasUrlTile
+              urlTemplate="http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/{z}/{x}/{y}.png"
+              zIndex={-1}
+              maxZoom={12}
+              areaId={params.areaId}
+              isConnected={this.props.isConnected}
+              minDate="2017/01/01"
+              maxDate="2017/03/01"
+            />
           </MapView>
           {this.state.alertSelected
             ? this.renderFooter()

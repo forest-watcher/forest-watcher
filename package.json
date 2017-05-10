@@ -9,6 +9,8 @@
     "precommit": "npm run lint-staged"
   },
   "dependencies": {
+    "@mapbox/geojson-area": "^0.2.2",
+    "@mapbox/tilebelt": "^1.0.1",
     "boundingbox": "^0.1.0",
     "buffer": "^5.0.5",
     "geojson-polygon-self-intersections": "^1.1.1",
@@ -24,7 +26,7 @@
     "react-native-i18n": "1.0.0",
     "react-native-keyboard-spacer": "0.3.1",
     "react-native-location": "timfpark/react-native-location",
-    "react-native-maps": "Vizzuality/react-native-maps",
+    "react-native-maps": "Vizzuality/react-native-maps#feature/canvas-android",
     "react-native-scrollable-tab-view": "0.7.3",
     "react-native-sensor-manager": "0.1.10",
     "react-navigation": "1.0.0-beta.7",
@@ -78,5 +80,7 @@
       ]
     ]
   },
-  "lint-staged": { "app/**/*.js": "eslint" }
+  "lint-staged": {
+    "app/**/*.js": "eslint"
+  }
 }

@@ -81,7 +81,7 @@ class AlertsList extends Component {
             return (
               <TouchableHighlight
                 key={`alert-${index}`}
-                onPress={() => this.props.onPress(alert)}
+                onPress={() => this.props.onPress(this.props.areaId, alert)}
                 activeOpacity={1}
                 underlayColor="transparent"
               >

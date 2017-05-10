@@ -7,6 +7,7 @@
 		"back": "Back",
 		"finish": "Finish",
 		"saving": "Saving",
+		"caching": "Caching",
 		"setUp": "Set up",
     "cancel": "Cancel",
     "confirm": "Confirm",
@@ -72,6 +73,7 @@
 	},
 	"setupDrawAreas": {
     "invalidShape": "Invalid shape",
+    "invalidSize": "Max allowed size",
 		"tapInstruction": "Tap on map to draw"
 	},
 	"setupHeader": {

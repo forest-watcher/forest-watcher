@@ -1,12 +1,16 @@
 import Config from 'react-native-config';
 import { getGeostore } from 'redux-modules/geostore';
 import { getCachedImageByUrl } from 'helpers/fileManagement';
+import { getBboxTiles, cacheTiles } from 'helpers/map';
+import BoundingBox from 'boundingbox';
+import CONSTANTS from 'config/constants';
 
 // Actions
 import { SET_AREA_SAVED } from 'redux-modules/setup';
 import { LOGOUT } from 'redux-modules/user';
 
 const GET_AREAS = 'areas/GET_AREAS';
+const UPDATE_AREA = 'areas/UPDATE_AREA';
 const SAVE_AREA = 'areas/SAVE_AREA';
 const DELETE_AREA = 'areas/DELETE_AREA';
 const SYNCING_AREAS = 'areas/SYNCING_AREA';
@@ -21,8 +25,23 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case GET_AREAS:
-      return Object.assign({}, state, { ...action.payload, synced: true });
+    case GET_AREAS: {
+      const areas = [...state.data];
+      const newAreas = action.payload.data;
+      let mergedAreas = [];
+      if (areas.length > 0) {
+        for (let i = 0, aLength = areas.length; i < aLength; i++) {
+          for (let j = 0, naLength = newAreas.length; j < naLength; j++) {
+            if (areas[i].id === areas[j].id) {
+              mergedAreas.push({ ...areas[i], ...newAreas[j] });
+            }
+          }
+        }
+      } else {
+        mergedAreas = newAreas;
+      }
+      return Object.assign({}, state, { data: mergedAreas, synced: true });
+    }
     case SYNCING_AREAS:
       return Object.assign({}, state, { syncing: action.payload });
     case SAVE_AREA: {
@@ -38,6 +57,16 @@ export default function reducer(state = initialState, action) {
       };
 
       return Object.assign({}, state, area);
+    }
+    case UPDATE_AREA: {
+      const areas = [...state.data];
+      for (let i = 0, aLength = areas.length; i < aLength; i++) {
+        if (areas[i].id === action.payload.id) {
+          areas[i] = action.payload;
+        }
+      }
+
+      return Object.assign({}, state, { data: areas });
     }
     case DELETE_AREA: {
       const areas = state.data;
@@ -98,6 +127,13 @@ export function getAreas() {
   };
 }
 
+
+async function downloadArea(bbox, areaId) {
+  const zooms = CONSTANTS.maps.cachedZoomLevels;
+  const tilesArray = getBboxTiles(bbox, zooms);
+  await cacheTiles(tilesArray, areaId);
+}
+
 export function saveArea(params) {
   const url = `${Config.API_URL}/area`;
   return (dispatch, state) => {
@@ -128,7 +164,11 @@ export function saveArea(params) {
         if (response.ok) return response.json();
         throw new Error(response._bodyText); // eslint-disable-line
       })
-      .then((res) => {
+      .then(async (res) => {
+        dispatch({
+          type: SYNCING_AREAS,
+          payload: false
+        });
         dispatch({
           type: SAVE_AREA,
           payload: {
@@ -138,21 +178,46 @@ export function saveArea(params) {
         });
         dispatch({
           type: SET_AREA_SAVED,
-          payload: true
-        });
-        dispatch({
-          type: SYNCING_AREAS,
-          payload: false
+          payload: {
+            status: true,
+            areaId: res.data.id
+          }
         });
       })
       .catch((error) => {
         dispatch({
           type: SET_AREA_SAVED,
-          payload: false
+          payload: {
+            status: false
+          }
         });
         console.warn(error);
         // To-do
       });
+  };
+}
+
+export function cacheArea(areaId) {
+  return async (dispatch, state) => {
+    const area = state().areas.data.find((areaData) => (areaData.id === areaId));
+    if (area) {
+      const geojson = state().geostore.data[area.attributes.geostore];
+      if (geojson) {
+        const bboxArea = new BoundingBox(geojson.features[0]);
+        if (bboxArea) {
+          const bbox = [
+            { lat: bboxArea.minlat, lng: bboxArea.maxlon },
+            { lat: bboxArea.maxlat, lng: bboxArea.minlon }
+          ];
+          await downloadArea(bbox, areaId);
+        }
+        area.cached = true;
+        dispatch({
+          type: UPDATE_AREA,
+          payload: area
+        });
+      }
+    }
   };
 }
 

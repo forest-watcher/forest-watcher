@@ -20,6 +20,8 @@ import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
+const geojsonArea = require('@mapbox/geojson-area');
+
 const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
@@ -96,6 +98,7 @@ class DrawAreas extends Component {
     this.state = {
       loading: false,
       valid: true,
+      huge: false,
       shape: {
         coordinates: []
       },
@@ -127,6 +130,7 @@ class DrawAreas extends Component {
         e.nativeEvent.coordinate
       ];
       let isValid = valid;
+      let isHuge = false;
 
       if (coords.length >= 3) {
         const intersects = gpsi({
@@ -138,6 +142,10 @@ class DrawAreas extends Component {
         intersects.geometry.coordinates.length > 0) {
           isValid = false;
         }
+        const area = geojsonArea.geometry(getGeoJson(coords));
+        if (area > CONSTANTS.areas.maxSize) {
+          isHuge = true;
+        }
       }
 
       this.setState({
@@ -145,7 +153,8 @@ class DrawAreas extends Component {
           ...shape,
           coordinates: coords
         },
-        valid: isValid
+        valid: isValid,
+        huge: isHuge
       });
     }
   }
@@ -200,7 +209,17 @@ class DrawAreas extends Component {
       );
     }
 
-    return (this.state.valid)
+    let validArea = true;
+    let btnText = null;
+    if (!this.state.valid) {
+      btnText = I18n.t('setupDrawAreas.invalidShape');
+      validArea = false;
+    } else if (this.state.huge) {
+      btnText = I18n.t('setupDrawAreas.invalidSize');
+      validArea = false;
+    }
+
+    return (validArea)
       ? <ActionButton
         style={[styles.actionButton, styles.actionButtonWithPadding]}
         onPress={this.onNextPress}
@@ -211,7 +230,7 @@ class DrawAreas extends Component {
         disabled
         error
         onPress={this.clearShape}
-        text={I18n.t('setupDrawAreas.invalidShape').toUpperCase()}
+        text={btnText.toUpperCase()}
       />;
   }
 

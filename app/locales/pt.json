@@ -7,6 +7,7 @@
 		"back": "Voltar",
 		"finish": "Terminar",
 		"saving": "Saving",
+		"caching": "Caching",
 		"setUp": "Configuração",
     "cancel": "Cancelar",
     "confirm": "Confirmar",
@@ -15,7 +16,8 @@
     "kmAway": "Km de distância",
     "yourPosition": "Your position",
 		"connectionRequiredTitle": "No connection",
-		"connectionRequired": "You need an internet connection to complete this action"
+		"connectionRequired": "You need an internet connection to complete this action",
+    "noImage": "No image"
 	},
 	"dashboard": {
 		"title": "Painel",
@@ -71,6 +73,7 @@
 	},
 	"setupDrawAreas": {
     "invalidShape": "Forma inválida",
+    "invalidSize": "Max allowed size",
 		"tapInstruction": "Toque no mapa para desenhar"
 	},
 	"setupHeader": {

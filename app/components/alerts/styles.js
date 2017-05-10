@@ -34,5 +34,14 @@ export default StyleSheet.create({
     fontWeight: '500',
     color: Theme.fontColors.main,
     marginRight: 6
+  },
+  distanceText: {
+    fontSize: 17,
+    fontWeight: '400',
+    fontStyle: 'italic',
+    fontFamily: Theme.font,
+    color: Theme.fontColors.light,
+    backgroundColor: 'transparent',
+    padding: 8
   }
 });

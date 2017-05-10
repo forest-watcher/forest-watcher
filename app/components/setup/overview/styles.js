@@ -34,14 +34,13 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Theme.background.white,
-    marginBottom: 40
+    marginBottom: 0
   },
   searchInput: {
     flex: 1,
     height: 64,
     maxHeight: 64,
     paddingBottom: 0,
-    paddingLeft: 24,
     marginLeft: Theme.margin.left,
     marginRight: Theme.icon.width,
     fontFamily: Theme.font,
