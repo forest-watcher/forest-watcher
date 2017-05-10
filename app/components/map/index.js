@@ -69,8 +69,8 @@ class Map extends Component {
     super(props);
     const { geostores, areas } = this.props;
 
-    const areaIds = areas.map((area) => (area.geostoreId));
-    const filteredGeostores = areaIds.map((areaId) => (geostores[areaId]));
+    const areaGeostoreIds = areas.map((area) => (area.geostoreId));
+    const filteredGeostores = areaGeostoreIds.map((areaId) => (geostores[areaId]));
     const areaFeature = filteredGeostores[0].features[0];
     const center = new BoundingBox(areaFeature).getCenter();
     const initialCoords = center || { lat: CONSTANTS.maps.lat, lon: CONSTANTS.maps.lng };
@@ -90,6 +90,7 @@ class Map extends Component {
         longitudeDelta: LONGITUDE_DELTA
       },
       areaCoordinates: this.getAreaCoordinates(areaFeature),
+      areaId: areas[0].id,
       alertSelected: null
       // alerts: params.features && params.features.length > 0 ? params.features.slice(0, 120) : [] // Provisional
     };
@@ -303,8 +304,6 @@ class Map extends Component {
   }
 
   render() {
-    const { params } = this.props.navigation.state;
-
     // const stopPropagation = thunk => e => {
     //   e.stopPropagation();
     //   thunk();
@@ -324,7 +323,7 @@ class Map extends Component {
                 source={backgroundImage}
               /> : null}
             <Text style={styles.headerTitle}>
-              {params.title}
+              {I18n.t('alerts.title')}
             </Text>
             {this.state.alertSelected &&
               <Text style={styles.headerSubtitle}>
@@ -388,7 +387,7 @@ class Map extends Component {
               urlTemplate="http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/{z}/{x}/{y}.png"
               zIndex={-1}
               maxZoom={12}
-              areaId={params.areaId}
+              areaId={this.state.areaId}
               isConnected={this.props.isConnected}
               minDate="2017/01/01"
               maxDate="2017/03/01"
