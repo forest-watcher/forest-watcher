@@ -29,6 +29,7 @@
     "react-native-maps": "Vizzuality/react-native-maps#feature/canvas-android",
     "react-native-scrollable-tab-view": "0.7.3",
     "react-native-sensor-manager": "0.1.10",
+    "react-native-snap-carousel": "^2.1.2",
     "react-navigation": "1.0.0-beta.7",
     "react-redux": "5.0.2",
     "redux": "^3.6.0",

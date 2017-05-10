@@ -1,10 +1,26 @@
 import Theme from 'config/theme';
 import {
   Platform,
-  StyleSheet
+  StyleSheet,
+  Dimensions
 } from 'react-native';
 
-export default StyleSheet.create({
+const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
+function wp(percentage) {
+  const value = (percentage * viewportWidth) / 100;
+  return Math.round(value);
+}
+const slideHeight = viewportHeight * 0.4;
+const slideWidth = wp(75);
+const itemHorizontalMargin = wp(2);
+
+export const sliderWidth = viewportWidth;
+const horizontalMargin = itemHorizontalMargin * 2;
+export const itemWidth = slideWidth + horizontalMargin;
+
+const entryBorderRadius = 8;
+
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#EDEAE2'
@@ -149,5 +165,31 @@ export default StyleSheet.create({
     bottom: 65,
     position: 'absolute',
     zIndex: 2
+  },
+  slider: {
+    flex: 0,
+    backgroundColor: 'transparent',
+    height: 134
+  },
+  slideInnerContainer: {
+    backgroundColor: 'transparent',
+    width: itemWidth,
+    height: slideHeight,
+    paddingHorizontal: itemHorizontalMargin,
+    paddingBottom: 18
+  },
+  textContainer: {
+    justifyContent: 'center',
+    paddingTop: 20 - entryBorderRadius,
+    paddingBottom: 20,
+    paddingHorizontal: 16,
+    backgroundColor: 'white',
+    borderBottomLeftRadius: entryBorderRadius,
+    borderBottomRightRadius: entryBorderRadius
+  },
+  carousel: {
+    flex: 0,
+    backgroundColor: 'transparent',
+    height: 134
   }
 });
