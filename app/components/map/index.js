@@ -25,6 +25,7 @@ import styles from './styles';
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
 
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
+const BoundingBox = require('boundingbox');
 
 const { width, height } = Dimensions.get('window');
 
@@ -66,25 +67,29 @@ function renderLoading() {
 class Map extends Component {
   constructor(props) {
     super(props);
-    const { params } = this.props.navigation.state;
-    const intialCoords = params.center
-      ? params.center
-      : { lat: CONSTANTS.maps.lat, lon: CONSTANTS.maps.lng };
+    const { geostores, areas } = this.props;
 
+    const areaIds = areas.map((area) => (area.geostoreId));
+    const filteredGeostores = areaIds.map((areaId) => (geostores[areaId]));
+    const areaFeature = filteredGeostores[0].features[0];
+    const center = new BoundingBox(areaFeature).getCenter();
+    const initialCoords = center || { lat: CONSTANTS.maps.lat, lon: CONSTANTS.maps.lng };
     this.afterRenderTimer = null;
     this.eventLocation = null;
     this.eventOrientation = null;
+    // Google maps lon and lat are inverted
     this.state = {
       renderMap: false,
       lastPosition: null,
       heading: null,
       geoMarkerOpacity: new Animated.Value(0.3),
       region: {
-        latitude: intialCoords.lat,
-        longitude: intialCoords.lon,
+        latitude: initialCoords.lon,
+        longitude: initialCoords.lat,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
+      areaCoordinates: this.getAreaCoordinates(areaFeature),
       alertSelected: null
       // alerts: params.features && params.features.length > 0 ? params.features.slice(0, 120) : [] // Provisional
     };
@@ -139,6 +144,15 @@ class Map extends Component {
     //   }, 1000);
     // }
   }
+
+  getAreaCoordinates = (areaFeature) => (
+    areaFeature.geometry.coordinates[0].map((coordinate) => (
+      {
+        longitude: coordinate[0],
+        latitude: coordinate[1]
+      }
+    ))
+  )
 
   geoLocate() {
     this.animateGeo();
@@ -336,6 +350,10 @@ class Map extends Component {
             onLayout={this.onLayout}
             moveOnMarkerPress={false}
           >
+            <MapView.Polygon
+              coordinates={this.state.areaCoordinates}
+              strokeColor={Theme.colors.color1}
+            />
             {this.state.lastPosition &&
               <MapView.Marker.Animated
                 image={markerImage}
@@ -391,7 +409,9 @@ Map.propTypes = {
   navigation: React.PropTypes.object.isRequired,
   navigate: React.PropTypes.func.isRequired,
   createReport: React.PropTypes.func.isRequired,
-  isConnected: React.PropTypes.bool
+  isConnected: React.PropTypes.bool,
+  geostores: React.PropTypes.object,
+  areas: React.PropTypes.array
 };
 
 Map.navigationOptions = {
