@@ -13,6 +13,7 @@ import {
   TouchableHighlight
 } from 'react-native';
 import CONSTANTS from 'config/constants';
+import Carousel from 'react-native-snap-carousel';
 
 import Theme from 'config/theme';
 import ActionBtn from 'components/common/action-button';
@@ -24,7 +25,6 @@ import { sliderWidth, itemWidth, styles } from './styles';
 
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
 
-const Carousel = require('react-native-snap-carousel');
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
 const BoundingBox = require('boundingbox');
 
@@ -51,19 +51,6 @@ function renderLoading() {
     </View>
   );
 }
-
-// function getGoogleMapsCoordinates(coordinates) {
-//   const cords = [];
-
-//   coordinates.forEach((cordinate) => {
-//     cords.push({
-//       latitude: cordinate.lat,
-//       longitude: cordinate.long
-//     });
-//   });
-
-//   return cords;
-// }
 
 class Map extends Component {
   constructor(props) {
@@ -131,21 +118,8 @@ class Map extends Component {
   }
 
   onLayout = () => {
-    // if (!this.state.alertSelected) {
-    //   if (this.afterRenderTimer) {
-    //     clearTimeout(this.afterRenderTimer);
-    //   }
-    //   this.afterRenderTimer = setTimeout(() => {
-    //     const { params } = this.props.navigation.state;
-    //     if (params && params.features && params.features.length > 0) {
-    //       this.map.fitToCoordinates(getGoogleMapsCoordinates(params.features), {
-    //         edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
-    //         animated: true
-    //       });
-    //     }
-    //   }, 1000);
-    // }
   }
+
   getAreaCoordinates = (areaFeature) => (
     areaFeature.geometry.coordinates[0].map((coordinate) => (
       {
@@ -168,6 +142,8 @@ class Map extends Component {
       areaCoordinates: this.getAreaCoordinates(this.areaFeatures[aId]),
       areaId: area.id
     });
+    // this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[aId]),
+    //    { edgePadding: { top: 0, right: 0, bottom: 0, left: 0 }, animated: false });
   }
 
   geoLocate() {
@@ -326,63 +302,9 @@ class Map extends Component {
 
     const sliderItems = this.props.areas.map((area, index) => (
       <View key={`entry-${index}`} style={styles.slideInnerContainer}>
-        <Text style={styles.textContainer}>{ area.id }</Text>
+        <Text style={styles.textContainer}>{ area.name }</Text>
       </View>
     ));
-    this.map = (<MapView
-      ref={(ref) => { this.map = ref; }}
-      style={styles.map}
-      provider={MapView.PROVIDER_GOOGLE}
-      mapType="hybrid"
-      rotateEnabled={false}
-      region={this.state.region}
-      onLayout={this.onLayout}
-      moveOnMarkerPress={false}
-    >
-      <MapView.Polygon
-        coordinates={this.state.areaCoordinates}
-        strokeColor={Theme.colors.color1}
-      />
-      {this.state.lastPosition &&
-        <MapView.Marker.Animated
-          image={markerImage}
-          coordinate={this.state.lastPosition}
-          style={{ zIndex: 2 }}
-          pointerEvents={'none'}
-        />
-      }
-      {this.state.lastPosition && this.state.heading
-        ?
-          <MapView.Marker
-            key={'compass'}
-            coordinate={this.state.lastPosition}
-            zIndex={1}
-            anchor={{ x: 0.5, y: 0.6 }}
-            pointerEvents={'none'}
-          >
-            <Animated.Image
-              style={{
-                width: 94,
-                height: 94,
-                transform: [
-                  { rotate: `${this.state.heading ? this.state.heading : '0'}deg` }
-                ]
-              }}
-              source={compassImage}
-            />
-          </MapView.Marker>
-        : null
-      }
-      <MapView.CanvasUrlTile
-        urlTemplate="http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/{z}/{x}/{y}.png"
-        zIndex={-1}
-        maxZoom={12}
-        areaId={this.state.areaId}
-        isConnected={this.props.isConnected}
-        minDate="2017/01/01"
-        maxDate="2017/03/01"
-      />
-    </MapView>);
 
     return (
       this.state.renderMap
@@ -414,29 +336,74 @@ class Map extends Component {
               <Image style={Theme.icon} source={backIconWhite} />
             </TouchableHighlight>
           </View>
-          { this.map }
+          <MapView
+            ref={(ref) => { this.map = ref; }}
+            style={styles.map}
+            provider={MapView.PROVIDER_GOOGLE}
+            mapType="hybrid"
+            rotateEnabled={false}
+            region={this.state.region}
+            onLayout={this.onLayout}
+            moveOnMarkerPress={false}
+          >
+            <MapView.Polygon
+              coordinates={this.state.areaCoordinates}
+              strokeColor={Theme.colors.color1}
+            />
+            {this.state.lastPosition &&
+              <MapView.Marker.Animated
+                image={markerImage}
+                coordinate={this.state.lastPosition}
+                style={{ zIndex: 2 }}
+                pointerEvents={'none'}
+              />
+            }
+            {this.state.lastPosition && this.state.heading
+              ?
+                <MapView.Marker
+                  key={'compass'}
+                  coordinate={this.state.lastPosition}
+                  zIndex={1}
+                  anchor={{ x: 0.5, y: 0.6 }}
+                  pointerEvents={'none'}
+                >
+                  <Animated.Image
+                    style={{
+                      width: 94,
+                      height: 94,
+                      transform: [
+                        { rotate: `${this.state.heading ? this.state.heading : '0'}deg` }
+                      ]
+                    }}
+                    source={compassImage}
+                  />
+                </MapView.Marker>
+              : null
+            }
+            <MapView.CanvasUrlTile
+              urlTemplate="http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/{z}/{x}/{y}.png"
+              zIndex={-1}
+              maxZoom={12}
+              areaId={this.state.areaId}
+              isConnected={this.props.isConnected}
+              minDate="2017/01/01"
+              maxDate="2017/03/01"
+            />
+          </MapView>
           {this.state.alertSelected
             ? this.renderFooter()
             : this.renderFooterLoading()
           }
-          <Carousel
-            ref={(carousel) => { this.carousel = carousel; }}
-            items={sliderItems}
-            showsHorizontalScrollIndicator={false}
-            removeClippedSubviews
-            sliderWidth={sliderWidth}
-            itemWidth={itemWidth}
-            containerCustomStyle={styles.slider}
-            contentContainerCustomStyle={styles.sliderContainer}
-            inactiveSlideOpacity={0.8}
-            snapOnAndroid
-            animate={false}
-            loop={false}
-            autoplay={false}
-            onPageChange={(index) => this.updateSelectedArea(index)}
-          >
-            { sliderItems }
-          </Carousel>
+          <View style={{ position: 'absolute', bottom: 0, zIndex: 10 }}>
+            <Carousel
+              ref={(carousel) => { this.carousel = carousel; }}
+              sliderWidth={sliderWidth}
+              itemWidth={itemWidth}
+              onSnapToItem={(index) => this.updateSelectedArea(index)}
+            >
+              { sliderItems }
+            </Carousel>
+          </View>
         </View>
       :
         renderLoading()
