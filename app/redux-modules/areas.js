@@ -10,13 +10,16 @@ const GET_AREAS = 'areas/GET_AREAS';
 const SAVE_AREA = 'areas/SAVE_AREA';
 const DELETE_AREA = 'areas/DELETE_AREA';
 const SYNCING_AREAS = 'areas/SYNCING_AREA';
+const UPDATE_DATE = 'areas/UPDATE_DATE';
 
 // Reducer
 const initialState = {
   data: [],
   images: {},
   synced: false,
-  syncing: false
+  syncing: false,
+  fromDate: null,
+  toDate: null
 };
 
 export default function reducer(state = initialState, action) {
@@ -48,6 +51,8 @@ export default function reducer(state = initialState, action) {
       if (images[id] !== undefined) { delete images[id]; }
       return Object.assign({}, state, { data: areas, images, synced: true });
     }
+    case UPDATE_DATE:
+      return Object.assign({}, state, { ...action.payload });
     case LOGOUT: {
       return initialState;
     }
@@ -191,5 +196,12 @@ export function deleteArea(id) {
         console.warn(error);
         // To-do
       });
+  };
+}
+
+export function updateDate(date) {
+  return {
+    type: UPDATE_DATE,
+    payload: date
   };
 }
