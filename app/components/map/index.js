@@ -16,6 +16,7 @@ import CONSTANTS from 'config/constants';
 import Carousel from 'react-native-snap-carousel';
 
 import Theme from 'config/theme';
+import daysSince from 'helpers/date';
 import ActionBtn from 'components/common/action-button';
 import tracker from 'helpers/googleAnalytics';
 import I18n from 'locales';
@@ -386,8 +387,8 @@ class Map extends Component {
               maxZoom={12}
               areaId={this.state.areaId}
               isConnected={this.props.isConnected}
-              minDate="2017/01/01"
-              maxDate="2017/03/01"
+              minDate={daysSince('20170101')}
+              maxDate={daysSince('20170301')}
             />
           </MapView>
           {this.state.alertSelected
