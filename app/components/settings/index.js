@@ -98,28 +98,6 @@ class Settings extends Component {
             </TouchableHighlight>
           </View>
 
-          {areas && areas.length
-            ? <View style={styles.areas}>
-              <Text style={styles.label}>
-                {I18n.t('settings.yourAreas')}
-              </Text>
-              <AreaList onAreaPress={(areaId) => this.onAreaPress(areaId)} />
-            </View>
-          : null
-          }
-          <TouchableHighlight
-            activeOpacity={0.5}
-            underlayColor="transparent"
-            onPress={() => navigate('Setup')}
-          >
-            <View style={styles.addButton}>
-              <Image style={Theme.icon} source={plusIcon} />
-              <Text style={styles.addButtonText}>
-                {I18n.t('settings.addArea').toUpperCase()}
-              </Text>
-            </View>
-          </TouchableHighlight>
-
           <View style={styles.datesSection}>
             <Text style={styles.dateContainerLabel}>
               Time Frame
@@ -168,6 +146,28 @@ class Settings extends Component {
               />
             </View>
           </View>
+
+          {areas && areas.length
+            ? <View style={styles.areas}>
+              <Text style={styles.label}>
+                {I18n.t('settings.yourAreas')}
+              </Text>
+              <AreaList onAreaPress={(areaId) => this.onAreaPress(areaId)} />
+            </View>
+          : null
+          }
+          <TouchableHighlight
+            activeOpacity={0.5}
+            underlayColor="transparent"
+            onPress={() => navigate('Setup')}
+          >
+            <View style={styles.addButton}>
+              <Image style={Theme.icon} source={plusIcon} />
+              <Text style={styles.addButtonText}>
+                {I18n.t('settings.addArea').toUpperCase()}
+              </Text>
+            </View>
+          </TouchableHighlight>
 
           <View style={styles.aboutSection}>
             <Text style={styles.label}>
