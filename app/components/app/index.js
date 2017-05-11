@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   View,
-  StatusBar,
+  StatusBar
 } from 'react-native';
 
 import { StackNavigator } from 'react-navigation';
@@ -11,11 +11,11 @@ import Login from 'containers/login';
 import ConnectionStatus from 'containers/connectionstatus';
 import styles from './styles';
 
-  StatusBar.setBarStyle('default', true);
+StatusBar.setBarStyle('default', true);
 
 const AppNavigator = StackNavigator(Routes, RoutesConfig);
 
-const App = function(){
+const App = function () {
   return (
     <View style={styles.mainContainer}>
       <AppNavigator />
@@ -23,7 +23,7 @@ const App = function(){
       <ConnectionStatus />
     </View>
   );
-}
+};
 
 App.propTypes = {};
 
