@@ -399,7 +399,6 @@ class Map extends Component {
               sliderWidth={sliderWidth}
               itemWidth={itemWidth}
               onSnapToItem={(index) => this.updateSelectedArea(index)}
-              inactiveSlideOpacity={0}
               showsHorizontalScrollIndicator={false}
               slideStyle={styles.slideStyle}
             >
