@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.sensormanager.SensorManagerPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
@@ -33,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+          new RNGoogleSigninPackage(),
           new GoogleAnalyticsBridgePackage(),
           new SensorManagerPackage(),
           new RNFetchBlobPackage(),
