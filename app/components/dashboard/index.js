@@ -17,13 +17,13 @@ import headerStyles from 'components/common/header/styles';
 import styles from './styles';
 import SettingsBtn from './settings-btn';
 
-const { RNLocation: Location } = require('NativeModules');
+const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
 
 const sections = [
   // TEMP
   {
     title: I18n.t('dashboard.alerts'),
-    section: 'Alerts',
+    section: 'Map',
     image: myAlertIcon
   },
   {
@@ -48,6 +48,7 @@ class Dashboard extends Component {
     if (Platform.OS === 'ios') {
       Location.requestAlwaysAuthorization();
     }
+    tracker.trackScreenView('DashBoard');
   }
 
   onItemTap(item) {
@@ -75,10 +76,6 @@ class Dashboard extends Component {
           break;
       }
     }
-  }
-
-  componentDidMount() {
-    tracker.trackScreenView('DashBoard');
   }
 
   render() {
@@ -132,8 +129,7 @@ class Dashboard extends Component {
 }
 
 Dashboard.propTypes = {
-  navigate: React.PropTypes.func.isRequired,
-  createReport: React.PropTypes.func.isRequired
+  navigate: React.PropTypes.func.isRequired
 };
 
 Dashboard.navigationOptions = {

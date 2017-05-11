@@ -12,7 +12,7 @@ import styles from '../styles';
 const checkOnIcon = require('assets/checkbox_on.png');
 const checkOffIcon = require('assets/checkbox_off.png');
 
-function SelectInput(props) {
+function CheckboxInput(props) {
   return (
     <TouchableHighlight
       style={styles.inputContainer}
@@ -30,10 +30,10 @@ function SelectInput(props) {
   );
 }
 
-SelectInput.propTypes = {
+CheckboxInput.propTypes = {
   checked: React.PropTypes.bool.isRequired,
   value: React.PropTypes.string.isRequired,
   onPress: React.PropTypes.func.isRequired
 };
 
-export default SelectInput;
+export default CheckboxInput;

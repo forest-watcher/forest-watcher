@@ -7,6 +7,7 @@
 		"back": "Back",
 		"finish": "Finish",
 		"saving": "Saving",
+		"caching": "Caching",
 		"setUp": "Set up",
     "cancel": "Cancel",
     "confirm": "Confirm",
@@ -44,7 +45,7 @@
 		"searchPlaceholder": "Search for a country"
 	},
 	"alerts": {
-    "title": "Alerts",
+    "title": "My Alerts",
 		"seeAll": "See all",
 		"alert": "alert",
     "downloadingAlerts": "Please wait while the data is downloaded...",

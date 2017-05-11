@@ -11,7 +11,8 @@ const initialState = {
     name: '',
     geostore: '',
     wdpaid: 0,
-    userId: ''
+    userId: '',
+    id: null
   },
   snapshot: '',
   areaSaved: false
@@ -36,8 +37,11 @@ export default function reducer(state = initialState, action) {
         area: action.payload.area,
         snapshot: action.payload.snapshot
       });
-    case SET_AREA_SAVED:
-      return Object.assign({}, state, { areaSaved: action.payload });
+    case SET_AREA_SAVED: {
+      const area = { ...state.area };
+      area.id = action.payload.areaId;
+      return Object.assign({}, state, { areaSaved: action.payload.status, area });
+    }
     default:
       return state;
   }

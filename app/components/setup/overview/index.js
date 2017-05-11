@@ -10,6 +10,7 @@ import {
 
 import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
+import CheckBox from 'components/common/form-inputs/check-btn';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
@@ -21,7 +22,9 @@ class SetupOverview extends Component {
     super(props);
     this.state = {
       name: this.props.area.wdpaName || '',
-      saving: false
+      saving: false,
+      caching: false,
+      cacheArea: false
     };
   }
 
@@ -29,10 +32,19 @@ class SetupOverview extends Component {
     tracker.trackScreenView('Overview Set Up');
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.areaSaved) {
-      this.props.onNextPress();
+  componentWillReceiveProps(nextProps) {
+    this.props = nextProps;
+    if (this.props.areaSaved && !this.state.caching) {
+      this.onAreaSaved();
     }
+  }
+
+  async onAreaSaved() {
+    if (this.state.cacheArea && this.props.areaId) {
+      this.setState({ caching: true, saving: false });
+      await this.props.cacheArea(this.props.areaId);
+    }
+    this.props.onNextPress();
   }
 
   onNextPress = () => {
@@ -48,11 +60,28 @@ class SetupOverview extends Component {
     this.props.saveArea(params);
   }
 
+  onCachePress = () => {
+    this.setState((prevState) => ({
+      cacheArea: !prevState.cacheArea
+    }));
+  }
+
   textChange = (name) => {
     this.setState({ name });
   }
 
   render() {
+    let btnEnabled = true;
+    let btnText = I18n.t('commonText.finish');
+    if (!this.state.name) {
+      btnEnabled = false;
+    } else if (this.state.saving) {
+      btnEnabled = false;
+      btnText = I18n.t('commonText.saving');
+    } else if (this.state.caching) {
+      btnEnabled = false;
+      btnText = I18n.t('commonText.caching');
+    }
     return (
       <View style={styles.container}>
         <View style={styles.selector}>
@@ -83,23 +112,20 @@ class SetupOverview extends Component {
               onPress={() => this.input.focus()}
             />
           </View>
+          <CheckBox
+            value="Cache area"
+            checked={this.state.cacheArea}
+            onPress={this.onCachePress}
+          />
           <KeyboardSpacer />
         </View>
         <ScrollView style={styles.scrollContainButton}>
-          {!this.state.saving
-            ? <ActionButton
-              style={styles.buttonPos}
-              disabled={!this.state.name}
-              onPress={this.onNextPress}
-              text={I18n.t('commonText.finish').toUpperCase()}
-            />
-            : <ActionButton
-              style={styles.buttonPos}
-              disabled
-              onPress={this.onNextPress}
-              text={I18n.t('commonText.saving').toUpperCase()}
-            />
-          }
+          <ActionButton
+            style={styles.buttonPos}
+            disabled={!btnEnabled}
+            onPress={this.onNextPress}
+            text={btnText.toUpperCase()}
+          />
         </ScrollView>
       </View>
     );
@@ -112,7 +138,9 @@ SetupOverview.propTypes = {
     token: React.PropTypes.string.isRequired
   }).isRequired,
   area: React.PropTypes.object.isRequired,
+  areaSaved: React.PropTypes.bool.isRequired,
   snapshot: React.PropTypes.string.isRequired,
+  cacheArea: React.PropTypes.func.isRequired,
   onNextPress: React.PropTypes.func.isRequired,
   saveArea: React.PropTypes.func.isRequired
 };
