@@ -15,11 +15,14 @@ import Theme from 'config/theme';
 import I18n from 'locales';
 import headerStyles from 'components/common/header/styles';
 import tracker from 'helpers/googleAnalytics';
+import moment from 'moment';
 
 import styles from './styles';
 
 const plusIcon = require('assets/plus.png');
 
+const dateFormat = 'YYYYMMDD';
+const dateFormatDisplay = 'MMM Do YYYY';
 class Settings extends Component {
   constructor() {
     super();
@@ -126,16 +129,16 @@ class Settings extends Component {
               </Text>
               <DatePicker
                 showIcon={false}
-                date={this.props.fromDate}
+                date={moment(this.props.fromDate, dateFormat).format(dateFormatDisplay)}
                 mode="date"
-                format="MMM Do YYYY"
+                format={dateFormatDisplay}
                 minDate="2010-01-01"
                 // if set to null DatePicker will try to parse it as a date and crash, undefined prevents this
-                maxDate={this.state.toDate || undefined}
+                maxDate={this.state.fromDate || undefined}
                 placeholder={I18n.t('report.datePlaceholder')}
                 cancelBtnText={I18n.t('commonText.cancel')}
                 confirmBtnText={I18n.t('commonText.confirm')}
-                onDateChange={date => this.onDateChange({ fromDate: date })}
+                onDateChange={date => this.onDateChange({ fromDate: moment(date, dateFormatDisplay).format(dateFormat) })}
                 customStyles={{
                   dateInput: styles.dateInput,
                   dateText: styles.dateText
@@ -149,14 +152,14 @@ class Settings extends Component {
               <DatePicker
                 style={styles.datePicker}
                 showIcon={false}
-                date={this.props.toDate}
+                date={moment(this.props.toDate, dateFormat).format(dateFormatDisplay)}
                 mode="date"
-                format="MMM Do YYYY"
+                format={dateFormatDisplay}
                 minDate={this.state.fromDate || '2010-01-01'}
                 placeholder={I18n.t('report.datePlaceholder')}
                 cancelBtnText={I18n.t('commonText.cancel')}
                 confirmBtnText={I18n.t('commonText.confirm')}
-                onDateChange={date => this.onDateChange({ toDate: date })}
+                onDateChange={date => this.onDateChange({ toDate: moment(date, dateFormatDisplay).format(dateFormat) })}
                 customStyles={{
                   dateInput: styles.dateInput,
                   dateText: styles.dateText
