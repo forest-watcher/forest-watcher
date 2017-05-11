@@ -347,7 +347,6 @@ class Map extends Component {
   }
 
   render() {
-    const { params } = this.props.navigation.state;
     const { coordinates } = this.state;
     const hasCoordinates = (coordinates.tile && coordinates.tile.length > 0) || false;
     // const stopPropagation = thunk => e => {
@@ -453,10 +452,10 @@ class Map extends Component {
                 urlTemplate="http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/{z}/{x}/{y}.png"
                 zIndex={-1}
                 maxZoom={12}
-                areaId={params.areaId}
+                areaId={this.state.areaId}
                 isConnected={this.props.isConnected}
-                minDate="2017/01/01"
-                maxDate="2017/03/01"
+                minDate={daysSince('20170101')}
+                maxDate={daysSince('20170301')}
               />
             }
           </MapView>
