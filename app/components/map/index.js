@@ -117,15 +117,6 @@ class Map extends Component {
     }
   }
 
-  getAreaCoordinates = (areaFeature) => (
-    areaFeature.geometry.coordinates[0].map((coordinate) => (
-      {
-        longitude: coordinate[0],
-        latitude: coordinate[1]
-      }
-    ))
-  )
-
   onLayout = () => {
     if (this.afterRenderTimer) {
       clearTimeout(this.afterRenderTimer);
@@ -137,6 +128,15 @@ class Map extends Component {
       }
     }, 1000);
   }
+
+  getAreaCoordinates = (areaFeature) => (
+    areaFeature.geometry.coordinates[0].map((coordinate) => (
+      {
+        longitude: coordinate[0],
+        latitude: coordinate[1]
+      }
+    ))
+  )
 
   updateSelectedArea(aId) {
     const area = this.props.areas[aId];
