@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   Text,
-  View
+  View,
+  Alert
 } from 'react-native';
 
 import CONSTANTS from 'config/constants';
@@ -39,14 +40,33 @@ class Reports extends Component {
     tracker.trackScreenView('Reports');
   }
 
+  onPressDraft = () => {
+    Alert.alert(
+      I18n.t('report.saveLaterTitle'),
+      I18n.t('report.saveLaterDescription'),
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel'
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            const { form } = this.props;
+            this.props.saveReport(form, {
+              status: CONSTANTS.status.draft
+            });
+            this.props.navigator.pop();
+          }
+        }
+      ],
+      { cancelable: false }
+    );
+  }
+
   onNavigatorEvent = (event) => {
     if (event.type === 'NavBarButtonPress') {
-      if (event.id === 'draft') {
-        this.props.navigator.push({
-          screen: 'ForestWatcher.Settings',
-          title: 'Settings'
-        });
-      }
+      if (event.id === 'draft') this.onPressDraft();
     }
   }
 
@@ -65,7 +85,8 @@ class Reports extends Component {
 Reports.propTypes = {
   navigator: React.PropTypes.object.isRequired,
   form: React.PropTypes.string.isRequired,
-  step: React.PropTypes.number.isRequired
+  step: React.PropTypes.number,
+  saveReport: React.PropTypes.func.isRequired
 };
 
 export default Reports;

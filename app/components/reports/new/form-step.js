@@ -39,4 +39,4 @@ ReportsStep.propTypes = {
 
 export default reduxForm({
   destroyOnUnmount: false
-})();
+})(ReportsStep);
