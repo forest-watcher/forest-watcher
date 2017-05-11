@@ -21,9 +21,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch, { navigation }) {
   return {
     createReport: (name, position) => {
-      console.log(name, position);
-      // dispatch(createReport(name, position));
-      // tracker.trackEvent('Report', 'Create Report', { label: 'Click Done', value: 0 });
+      dispatch(createReport(name, position));
+      tracker.trackEvent('Report', 'Create Report', { label: 'Click Done', value: 0 });
     },
     navigate: (routeName, params) => {
       navigation.navigate(routeName, params);

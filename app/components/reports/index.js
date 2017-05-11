@@ -131,15 +131,5 @@ Reports.propTypes = {
   }).isRequired
 };
 
-Reports.navigationOptions = {
-  header: ({ goBack }) => ({
-    left: <LeftBtn goBack={goBack} />,
-    tintColor: Theme.colors.color1,
-    style: headerStyles.style,
-    titleStyle: headerStyles.titleStyle,
-    title: I18n.t('report.plural')
-  })
-};
-
 
 export default Reports;

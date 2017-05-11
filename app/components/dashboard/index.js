@@ -182,7 +182,8 @@ class Dashboard extends Component {
 }
 
 Dashboard.propTypes = {
-  navigator: React.PropTypes.object.isRequired
+  navigator: React.PropTypes.object.isRequired,
+  createReport: React.PropTypes.func.isRequired
 };
 
 export default Dashboard;
