@@ -42,11 +42,6 @@ const sections = [
     title: I18n.t('dashboard.weeklyFeedback'),
     section: 'WeeklyFeedback',
     image: null
-  },
-  {
-    title: 'test',
-    section: 'NewReport',
-    image: myAlertIcon
   }
 ];
 
@@ -96,28 +91,6 @@ class Dashboard extends Component {
     }
     if (item.section && item.section.length > 0) {
       switch (item.section) {
-        case 'NewReport': {
-          const screen = 'ForestWatcher.NewReport';
-          const title = 'Report';
-          const form = `New-report-${Math.floor(Math.random() * 1000)}`;
-          this.props.createReport(form);
-          this.props.navigator.push({
-            screen,
-            title,
-            passProps: {
-              screen,
-              title,
-              form,
-              questionsToSkip: 4,
-              texts: {
-                saveLaterTitle: 'report.saveLaterTitle',
-                saveLaterDescription: 'report.saveLaterDescription',
-                requiredId: 'report.reportIdRequired'
-              }
-            }
-          });
-          break;
-        }
         case 'DailyFeedback': {
           const screen = 'ForestWatcher.Feedback';
           const title = 'Feedback';
@@ -209,8 +182,7 @@ class Dashboard extends Component {
 }
 
 Dashboard.propTypes = {
-  navigator: React.PropTypes.object.isRequired,
-  createReport: React.PropTypes.func.isRequired
+  navigator: React.PropTypes.object.isRequired
 };
 
 export default Dashboard;

@@ -38,6 +38,7 @@ const LATITUDE_DELTA = 10;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const markerImage = require('assets/marker.png');
+const markerImageSelected = require('assets/alert-white.png');
 const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
@@ -136,15 +137,17 @@ class Map extends Component {
   }
 
   onLayout = () => {
-    if (this.afterRenderTimer) {
-      clearTimeout(this.afterRenderTimer);
-    }
-    this.afterRenderTimer = setTimeout(() => {
-      if (this.areaFeatures && this.areaFeatures.length > 0) {
-        this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[0]),
-          { edgePadding: { top: 200, right: 200, bottom: 200, left: 200 }, animated: true });
+    if (!this.state.alertSelected) {
+      if (this.afterRenderTimer) {
+        clearTimeout(this.afterRenderTimer);
       }
-    }, 1000);
+      this.afterRenderTimer = setTimeout(() => {
+        if (this.areaFeatures && this.areaFeatures.length > 0) {
+          this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[0]),
+            { edgePadding: { top: 200, right: 200, bottom: 200, left: 200 }, animated: true });
+        }
+      }, 1000);
+    }
   }
 
   onRegionChangeComplete = (region) => {
@@ -286,18 +289,27 @@ class Map extends Component {
 
   createReport = () => {
     const { lastPosition } = this.state;
-    const form = `New-report-${Math.floor(Math.random() * 1000)}`;
     let latLng = '0,0';
     if (lastPosition) {
       latLng = `${lastPosition.latitude},${lastPosition.longitude}`;
     }
+    const screen = 'ForestWatcher.NewReport';
+    const title = 'Report';
+    const form = `New-report-${Math.floor(Math.random() * 1000)}`;
     this.props.createReport(form, latLng);
     this.props.navigator.push({
-      screen: 'ForestWatcher.NewReport',
-      title: 'Report',
-      backButtonTitle: 'Back',
+      screen,
+      title,
       passProps: {
-        form
+        screen,
+        title,
+        form,
+        questionsToSkip: 4,
+        texts: {
+          saveLaterTitle: 'report.saveLaterTitle',
+          saveLaterDescription: 'report.saveLaterDescription',
+          requiredId: 'report.reportIdRequired'
+        }
       }
     });
   };
@@ -405,10 +417,8 @@ class Map extends Component {
             region={this.state.region}
             onLayout={this.onLayout}
             moveOnMarkerPress={false}
-            onRegionChange={this.onRegionChange}
-            onRegionChangeComplete={this.onRegionChangeComplete}
           >
-            <MapView.Polygon
+            <MapView.Polyline
               coordinates={this.state.areaCoordinates}
               strokeColor={Theme.colors.color1}
               strokeWidth={2}
@@ -466,9 +476,8 @@ class Map extends Component {
             }
             {alertSelected &&
               <MapView.Marker
-                image={markerCompassRedImage}
+                image={markerImageSelected}
                 coordinate={alertSelected}
-                title={I18n.t('report.title')}
               />
             }
           </MapView>
