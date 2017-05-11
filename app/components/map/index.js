@@ -459,8 +459,8 @@ class Map extends Component {
               maxZoom={12}
               areaId={this.props.areaId}
               isConnected={this.props.isConnected}
-              minDate={daysSince('20170101')}
-              maxDate={daysSince('20170301')}
+              minDate={daysSince(this.props.fromDate)}
+              maxDate={daysSince(this.props.toDate)}
             />
             {hasCoordinates &&
               <MapView.CanvasInteractionUrlTile
@@ -511,6 +511,8 @@ Map.propTypes = {
   center: React.PropTypes.any,
   areaId: React.PropTypes.any,
   geostores: React.PropTypes.object,
+  fromDate: React.PropTypes.string,
+  toDate: React.PropTypes.string,
   areas: React.PropTypes.array
 };
 

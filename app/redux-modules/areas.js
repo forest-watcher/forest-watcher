@@ -4,6 +4,7 @@ import { getCachedImageByUrl } from 'helpers/fileManagement';
 import { getBboxTiles, cacheTiles } from 'helpers/map';
 import BoundingBox from 'boundingbox';
 import CONSTANTS from 'config/constants';
+import moment from 'moment';
 
 // Actions
 import { SET_AREA_SAVED } from 'redux-modules/setup';
@@ -22,8 +23,8 @@ const initialState = {
   images: {},
   synced: false,
   syncing: false,
-  fromDate: null,
-  toDate: null
+  fromDate: '20150101',
+  toDate: moment().format('YYYYMMDD')
 };
 
 export default function reducer(state = initialState, action) {
