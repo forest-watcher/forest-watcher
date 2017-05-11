@@ -1,7 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Field, reduxForm } from 'redux-form';
-import { withNavigation } from 'react-navigation';
 
 import I18n from 'locales';
 import ActionButton from 'components/common/action-button';
@@ -40,4 +39,4 @@ ReportsStep.propTypes = {
 
 export default reduxForm({
   destroyOnUnmount: false
-})(withNavigation(ReportsStep));
+})();

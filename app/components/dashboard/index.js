@@ -16,6 +16,7 @@ import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import ConnectionStatus from 'containers/connectionstatus';
 import styles from './styles';
+
 const settingsIcon = require('assets/settings.png');
 
 const { RNLocation: Location } = require('NativeModules');

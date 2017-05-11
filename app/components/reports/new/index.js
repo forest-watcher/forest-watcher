@@ -4,6 +4,7 @@ import {
   View
 } from 'react-native';
 
+import CONSTANTS from 'config/constants';
 import Theme from 'config/theme';
 import I18n from 'locales';
 import ReportsForm from 'containers/reports/new/form';
@@ -51,7 +52,7 @@ class Reports extends Component {
 
   render() {
     const form = this.props && this.props.form;
-    const index = (this.props && this.props.step) || 0 + 4; // TODO import from constants
+    const index = (this.props && this.props.step) || CONSTANTS.report.questionsToSkip;
     if (form) return <ReportsForm form={form} index={index} navigator={this.props.navigator} />;
     return (
       <View style={[styles.container, styles.containerCenter]}>
