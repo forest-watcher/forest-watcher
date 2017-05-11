@@ -117,9 +117,6 @@ class Map extends Component {
     }
   }
 
-  onLayout = () => {
-  }
-
   getAreaCoordinates = (areaFeature) => (
     areaFeature.geometry.coordinates[0].map((coordinate) => (
       {
@@ -129,21 +126,27 @@ class Map extends Component {
     ))
   )
 
+  onLayout = () => {
+    if (this.afterRenderTimer) {
+      clearTimeout(this.afterRenderTimer);
+    }
+    this.afterRenderTimer = setTimeout(() => {
+      if (this.areaFeatures && this.areaFeatures.length > 0) {
+        this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[0]),
+          { edgePadding: { top: 200, right: 200, bottom: 200, left: 200 }, animated: true });
+      }
+    }, 1000);
+  }
+
   updateSelectedArea(aId) {
     const area = this.props.areas[aId];
-    const newCenter = new BoundingBox(this.areaFeatures[aId]).getCenter();
     this.setState({
-      region: {
-        latitude: newCenter.lon,
-        longitude: newCenter.lat,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA
-      },
       areaCoordinates: this.getAreaCoordinates(this.areaFeatures[aId]),
       areaId: area.id
+    }, () => {
+      this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[aId]),
+        { edgePadding: { top: 200, right: 200, bottom: 200, left: 200 }, animated: false });
     });
-    // this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[aId]),
-    //    { edgePadding: { top: 0, right: 0, bottom: 0, left: 0 }, animated: false });
   }
 
   geoLocate() {
@@ -295,11 +298,6 @@ class Map extends Component {
   }
 
   render() {
-    // const stopPropagation = thunk => e => {
-    //   e.stopPropagation();
-    //   thunk();
-    // };
-
     const sliderItems = this.props.areas.map((area, index) => (
       <View key={`entry-${index}`} style={styles.slideInnerContainer}>
         <Text style={styles.textContainer}>{ area.name }</Text>
@@ -349,6 +347,7 @@ class Map extends Component {
             <MapView.Polygon
               coordinates={this.state.areaCoordinates}
               strokeColor={Theme.colors.color1}
+              strokeWidth={2}
             />
             {this.state.lastPosition &&
               <MapView.Marker.Animated
@@ -400,6 +399,9 @@ class Map extends Component {
               sliderWidth={sliderWidth}
               itemWidth={itemWidth}
               onSnapToItem={(index) => this.updateSelectedArea(index)}
+              inactiveSlideOpacity={0}
+              showsHorizontalScrollIndicator={false}
+              slideStyle={styles.slideStyle}
             >
               { sliderItems }
             </Carousel>
