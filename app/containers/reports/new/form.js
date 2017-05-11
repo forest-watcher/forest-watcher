@@ -32,7 +32,7 @@ function getBtnTextByPosition(position, total) {
   return position < total ? 'commonText.next' : 'commonText.save';
 }
 
-function getNextCallback(currentQuestion, questions, answers, dispatch, navigation) {
+function getNextCallback(currentQuestion, questions, answers, dispatch, navigator, form) {
   let next = 1;
   if (currentQuestion < questions.length - 1) {
     for (let i = currentQuestion + 1, qLength = questions.length; i < qLength; i++) {
@@ -43,13 +43,18 @@ function getNextCallback(currentQuestion, questions, answers, dispatch, navigati
       }
       next += 1;
     }
-    return () => navigation.navigate('NewReport', { step: currentQuestion + next });
+    return () => navigator.push({
+      screen: 'ForestWatcher.NewReport',
+      title: 'Report',
+      passProps: {
+        form,
+        step: currentQuestion + next
+      }
+    });
   }
-  const { state } = navigation;
-  const form = state && state.params && state.params.form;
   return () => {
     dispatch(finishReport(form));
-    navigation.goBack();
+    navigator.popToRoot({ animate: true });
   };
 }
 
@@ -69,13 +74,15 @@ function mapStateToProps(state, { form, index }) {
   };
 }
 
-function mergeProps(stateProps, { dispatch }, { index, form, navigation }) {
+function mergeProps(stateProps, { dispatch }, { index, form, navigator }) {
   return {
     form,
-    navigation,
     question: stateProps.question,
     answer: stateProps.answer,
-    next: { text: stateProps.nextText, callback: getNextCallback(index, stateProps.questions, stateProps.answers, dispatch, navigation) }
+    next: {
+      text: stateProps.nextText,
+      callback: getNextCallback(index, stateProps.questions, stateProps.answers, dispatch, navigator, form)
+    }
   };
 }
 

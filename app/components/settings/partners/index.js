@@ -8,9 +8,7 @@ import {
 import tracker from 'helpers/googleAnalytics';
 
 import I18n from 'locales';
-import LeftBtn from 'components/common/header/left-btn';
 import Theme from 'config/theme';
-import headerStyles from 'components/common/header/styles';
 import List from 'components/common/list';
 import styles from './styles';
 
@@ -20,6 +18,12 @@ const gfwLogo = require('assets/gfw_logo.png');
 const vizzualityLogo = require('assets/vizzuality_logo.png');
 
 class Partners extends Component {
+  static navigatorStyle = {
+    navBarTextColor: Theme.colors.color1,
+    navBarButtonColor: Theme.colors.color1,
+    topBarElevationShadowEnabled: false,
+    navBarBackgroundColor: Theme.background.main
+  };
 
   constructor() {
     super();
@@ -83,16 +87,6 @@ class Partners extends Component {
 
 Partners.propTypes = {
   partners: React.PropTypes.array
-};
-
-Partners.navigationOptions = {
-  header: ({ goBack }) => ({
-    left: <LeftBtn goBack={goBack} />,
-    tintColor: Theme.colors.color1,
-    style: headerStyles.style,
-    titleStyle: headerStyles.titleStyle,
-    title: I18n.t('partners.title')
-  })
 };
 
 export default Partners;

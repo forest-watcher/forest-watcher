@@ -92,6 +92,44 @@ export default StyleSheet.create({
     marginRight: Theme.icon.width,
     marginTop: 2
   },
+  datesSection: {
+    marginTop: 30,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Theme.background.white,
+    paddingLeft: Theme.margin.left
+  },
+  dateContainerLabel: {
+    width: 120,
+    height: 22,
+    fontFamily: Theme.font,
+    color: Theme.fontColors.secondary,
+    fontSize: 17,
+    fontWeight: '400'
+  },
+  dateContainer: {
+    flex: 1,
+    flexDirection: 'column'
+  },
+  dateLabel: {
+    paddingTop: 10,
+    alignItems: 'flex-end'
+  },
+  dateInput: {
+    flex: 1,
+    borderWidth: 0,
+    alignItems: 'flex-start',
+    justifyContent: 'center'
+  },
+  dateText: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: Theme.fontColors.main,
+    fontFamily: Theme.font,
+    fontSize: 13,
+    paddingLeft: 2,
+    fontWeight: '800'
+  },
   aboutSection: {
     marginTop: 30
   },

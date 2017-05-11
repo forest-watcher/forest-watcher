@@ -19,7 +19,7 @@
     "react-native": "0.42.3",
     "react-native-camera": "0.6.0",
     "react-native-config": "0.3.1",
-    "react-native-datepicker": "1.4.5",
+    "react-native-datepicker": "^1.4.5",
     "react-native-fetch-blob": "0.10.4",
     "react-native-google-analytics-bridge": "5.0.0",
     "react-native-gps": "Vizzuality/react-native-gps",
@@ -27,9 +27,9 @@
     "react-native-keyboard-spacer": "0.3.1",
     "react-native-location": "timfpark/react-native-location",
     "react-native-maps": "Vizzuality/react-native-maps#feature/canvas-android",
+    "react-native-navigation": "^1.1.65",
     "react-native-scrollable-tab-view": "0.7.3",
     "react-native-sensor-manager": "0.1.10",
-    "react-navigation": "1.0.0-beta.7",
     "react-redux": "5.0.2",
     "redux": "^3.6.0",
     "redux-devtools-extension": "2.13.0",
@@ -67,7 +67,7 @@
         {
           "alias": {
             "app": "./app",
-            "routes": "./app/routes",
+            "screens": "./app/screens",
             "locales": "./app/locales",
             "config": "./app/config",
             "helpers": "./app/helpers",

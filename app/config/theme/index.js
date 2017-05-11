@@ -69,6 +69,15 @@ const config = {
     stroke: '#97be32',
     strokeWidth: 2,
     strokeSelected: '#FFFFFF'
+  },
+  navigator: {
+    styles: {
+      navBarBackgroundColor: '#426F9A',
+      navBarTextColor: '#ffffff',
+      navBarSubtitleTextColor: '#ffffff',
+      navBarButtonColor: '#ffffff',
+      statusBarTextColorScheme: 'light'
+    }
   }
 };
 

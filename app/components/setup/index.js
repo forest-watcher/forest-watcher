@@ -13,6 +13,10 @@ import Header from './header';
 import styles from './styles';
 
 class Setup extends Component {
+  static navigatorStyle = {
+    navBarHidden: true
+  };
+
   constructor() {
     super();
     this.state = {
@@ -46,15 +50,27 @@ class Setup extends Component {
     }));
   }
 
+  onFinishSetup = () => {
+    this.props.navigator.resetTo({
+      screen: 'ForestWatcher.Dashboard',
+      title: 'FOREST WATCHER'
+    });
+  }
+
+  goBack = () => {
+    this.props.navigator.pop({
+      animated: true
+    });
+  }
+
   render() {
-    const { params } = this.props.navigation.state;
     let showBack = true;
-    if (params && params.goBackDisabled) {
+    if (this.props && this.props.goBackDisabled) {
       showBack = false;
     }
 
     const onBackPress = this.state.page === 0
-      ? this.props.goBack
+      ? this.goBack
       : this.goToPrevPage;
 
     return (
@@ -71,7 +87,7 @@ class Setup extends Component {
         >
           <SetupCountry onNextPress={this.goToNextPage} />
           <SetupBoundaries onNextPress={this.goToNextPage} />
-          <SetupOverView onNextPress={this.props.onFinishSetup} />
+          <SetupOverView onNextPress={this.onFinishSetup} />
         </StepsSlider>
       </View>
     );
@@ -79,10 +95,9 @@ class Setup extends Component {
 }
 
 Setup.propTypes = {
-  onFinishSetup: React.PropTypes.func.isRequired,
+  navigator: React.PropTypes.object.isRequired,
   initSetup: React.PropTypes.func.isRequired,
-  navigation: React.PropTypes.object.isRequired,
-  goBack: React.PropTypes.func.isRequired
+  goBackDisabled: React.PropTypes.bool
 };
 
 Setup.navigationOptions = {

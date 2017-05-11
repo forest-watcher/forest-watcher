@@ -3,19 +3,16 @@ import { deleteArea } from 'redux-modules/areas';
 import { isConnected } from 'redux-modules/app';
 import AreaDetail from 'components/settings/area-detail';
 
-function mapStateToProps(state, { navigation }) {
-  const area = state.areas.data.find((areaData) => (areaData.id === navigation.state.params.id));
+function mapStateToProps(state, props) {
+  const area = state.areas.data.find((areaData) => (areaData.id === props.id));
   return {
-    imageUrl: state.areas.images[navigation.state.params.id],
+    imageUrl: state.areas.images[props.id],
     area
   };
 }
 
-function mapDispatchToProps(dispatch, { navigation }) {
+function mapDispatchToProps(dispatch) {
   return {
-    navigate: (routeName) => {
-      navigation.navigate(routeName);
-    },
     deleteArea: (id) => {
       dispatch(deleteArea(id));
     },

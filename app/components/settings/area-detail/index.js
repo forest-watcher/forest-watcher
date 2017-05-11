@@ -14,6 +14,13 @@ import ActionButton from 'components/common/action-button';
 import styles from './styles';
 
 class AreaDetail extends Component {
+  static navigatorStyle = {
+    navBarTextColor: Theme.colors.color1,
+    navBarButtonColor: Theme.colors.color1,
+    topBarElevationShadowEnabled: false,
+    navBarBackgroundColor: Theme.background.main
+  };
+
   componentDidMount() {
     tracker.trackScreenView('AreaDetail');
   }
@@ -21,7 +28,9 @@ class AreaDetail extends Component {
   handleDeleteArea = () => {
     if (this.props.isConnected) {
       this.props.deleteArea(this.props.area.id);
-      this.props.navigation.goBack();
+      this.props.navigator.pop({
+        animated: true
+      });
     } else {
       Alert.alert(
         I18n.t('commonText.connectionRequiredTitle'),

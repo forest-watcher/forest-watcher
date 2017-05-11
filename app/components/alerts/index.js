@@ -14,6 +14,13 @@ import headerStyles from 'components/common/header/styles';
 import styles from './styles';
 
 class Alerts extends Component {
+  static navigatorStyle = {
+    navBarTextColor: Theme.colors.color1,
+    navBarButtonColor: Theme.colors.color1,
+    topBarElevationShadowEnabled: false,
+    navBarBackgroundColor: Theme.background.main
+  };
+
   constructor() {
     super();
 
@@ -29,12 +36,17 @@ class Alerts extends Component {
   }
 
   onPress = (areaId) => {
-    this.props.navigate('Map', {
-      features: null,
-      center: null,
-      geojson: null,
-      title: null,
-      areaId
+    this.props.navigator.push({
+      screen: 'ForestWatcher.Map',
+      title: 'Area name',
+      backButtonTitle: 'Back',
+      passProps: {
+        features: null,
+        center: null,
+        geojson: null,
+        title: null,
+        areaId
+      }
     });
   }
 
@@ -83,20 +95,10 @@ class Alerts extends Component {
 }
 
 Alerts.propTypes = {
-  navigate: React.PropTypes.func.isRequired,
+  navigator: React.PropTypes.object.isRequired,
   fetchData: React.PropTypes.func.isRequired,
   areas: React.PropTypes.array,
   geostore: React.PropTypes.object
-};
-
-Alerts.navigationOptions = {
-  header: ({ goBack }) => ({
-    left: <LeftBtn goBack={goBack} />,
-    tintColor: Theme.colors.color1,
-    style: headerStyles.style,
-    titleStyle: headerStyles.titleStyle,
-    title: I18n.t('alerts.title')
-  })
 };
 
 export default Alerts;

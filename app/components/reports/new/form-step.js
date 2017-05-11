@@ -6,7 +6,6 @@ import { withNavigation } from 'react-navigation';
 import I18n from 'locales';
 import ActionButton from 'components/common/action-button';
 import getInputForm from 'components/common/form-inputs';
-import Header from './header';
 import NextButton from './next-button';
 import styles from '../styles';
 
@@ -20,12 +19,8 @@ const getNext = (question, answer, next) => {
   return (<ActionButton style={styles.buttonPos} disabled={disabled} onPress={next.callback} text={I18n.t(next.text)} />);
 };
 
-const ReportsStep = ({ question, answer, next, navigation }) => (
+const ReportsStep = ({ question, answer, next }) => (
   <View style={styles.container}>
-    <Header
-      title={I18n.t('report.title')}
-      onBackPress={navigation.goBack}
-    />
     <View style={styles.container}>
       <Field
         name={question.name}
@@ -40,8 +35,7 @@ const ReportsStep = ({ question, answer, next, navigation }) => (
 ReportsStep.propTypes = {
   question: React.PropTypes.object.isRequired,
   answer: React.PropTypes.any,
-  next: React.PropTypes.object.isRequired,
-  navigation: React.PropTypes.object.isRequired
+  next: React.PropTypes.object.isRequired
 };
 
 export default reduxForm({

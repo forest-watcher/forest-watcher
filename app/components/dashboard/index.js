@@ -10,12 +10,13 @@ import {
   TouchableHighlight,
   Platform
 } from 'react-native';
+
 import Theme from 'config/theme';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
-import headerStyles from 'components/common/header/styles';
+import ConnectionStatus from 'containers/connectionstatus';
 import styles from './styles';
-import SettingsBtn from './settings-btn';
+const settingsIcon = require('assets/settings.png');
 
 const { RNLocation: Location } = require('NativeModules');
 
@@ -40,13 +41,51 @@ const sections = [
     title: I18n.t('dashboard.weeklyFeedback'),
     section: 'WeeklyFeedback',
     image: null
+  },
+  {
+    title: 'test',
+    section: 'NewReport',
+    image: myAlertIcon
   }
 ];
 
 class Dashboard extends Component {
+  static navigatorStyle = {
+    navBarTextColor: Theme.colors.color1,
+    topBarElevationShadowEnabled: false,
+    navBarBackgroundColor: Theme.background.main,
+    navBarTitleTextCentered: true
+  };
+
+  static navigatorButtons = {
+    rightButtons: [
+      {
+        icon: settingsIcon,
+        id: 'settings'
+      }
+    ]
+  };
+
+  constructor(props) {
+    super(props);
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
   componentDidMount() {
     if (Platform.OS === 'ios') {
       Location.requestAlwaysAuthorization();
+    }
+    tracker.trackScreenView('DashBoard');
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress') {
+      if (event.id === 'settings') {
+        this.props.navigator.push({
+          screen: 'ForestWatcher.Settings',
+          title: 'Settings'
+        });
+      }
     }
   }
 
@@ -56,43 +95,49 @@ class Dashboard extends Component {
     }
     if (item.section && item.section.length > 0) {
       switch (item.section) {
-        // case 'NewReport': {
-        //   const form = `New-report-${Math.floor(Math.random() * 1000)}`;
-        //   this.props.createReport(form);
-        //   this.props.navigate(item.section, { form });
-        //   break;
-        // }
+        case 'NewReport': {
+          const form = `New-report-${Math.floor(Math.random() * 1000)}`;
+          this.props.createReport(form);
+          this.props.navigator.push({
+            screen: 'ForestWatcher.NewReport',
+            title: 'Report',
+            passProps: {
+              form
+            }
+          });
+          break;
+        }
         case 'DailyFeedback': {
-          this.props.navigate('Feedback', { feedback: 'daily' });
+          this.props.navigator.push({
+            screen: 'ForestWatcher.Feedback',
+            title: 'Feedback',
+            passProps: {
+              feedback: 'daily'
+            }
+          });
           break;
         }
         case 'WeeklyFeedback': {
-          this.props.navigate('Feedback', { feedback: 'weekly' });
+          this.props.navigator.push({
+            screen: 'ForestWatcher.Feedback',
+            title: 'Feedback',
+            passProps: {
+              feedback: 'weekly'
+            }
+          });
           break;
         }
         default:
-          this.props.navigate(item.section);
+          this.props.navigator.push({
+            screen: `ForestWatcher.${item.section}`,
+            title: item.title
+          });
           break;
       }
     }
   }
 
-  componentDidMount() {
-    tracker.trackScreenView('DashBoard');
-  }
-
   render() {
-    // <TouchableHighlight
-    //   style={styles.iconSettings}
-    //   onPress={() => this.onItemTap(item)}
-    //   activeOpacity={0.5}
-    //   underlayColor="transparent"
-    // >
-    //   <Image
-    //     source={require('assets/settings/settings.png')}
-    //   />
-    // </TouchableHighlight>
-
     return (
       <View style={styles.container}>
 
@@ -126,24 +171,15 @@ class Dashboard extends Component {
             )
           )}
         </ScrollView>
+        <ConnectionStatus />
       </View>
     );
   }
 }
 
 Dashboard.propTypes = {
-  navigate: React.PropTypes.func.isRequired,
+  navigator: React.PropTypes.object.isRequired,
   createReport: React.PropTypes.func.isRequired
-};
-
-Dashboard.navigationOptions = {
-  header: ({ navigate }) => ({
-    tintColor: Theme.colors.color1,
-    style: headerStyles.style,
-    titleStyle: [headerStyles.titleStyle, headerStyles.center, headerStyles.home],
-    title: I18n.t('commonText.appName').toUpperCase(),
-    right: <SettingsBtn onPress={() => navigate('Settings')} />
-  })
 };
 
 export default Dashboard;

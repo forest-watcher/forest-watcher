@@ -9,10 +9,9 @@ import {
   Image
 } from 'react-native';
 
-import LeftBtn from 'components/common/header/left-btn';
+import DatePicker from 'react-native-datepicker';
 import Theme from 'config/theme';
 import I18n from 'locales';
-import headerStyles from 'components/common/header/styles';
 import tracker from 'helpers/googleAnalytics';
 
 import styles from './styles';
@@ -20,6 +19,13 @@ import styles from './styles';
 const plusIcon = require('assets/plus.png');
 
 class Settings extends Component {
+  static navigatorStyle = {
+    navBarTextColor: Theme.colors.color1,
+    navBarButtonColor: Theme.colors.color1,
+    topBarElevationShadowEnabled: false,
+    navBarBackgroundColor: Theme.background.main
+  };
+
   constructor() {
     super();
     this.state = {};
@@ -33,17 +39,36 @@ class Settings extends Component {
     // }
   }
 
-  onAreaPress = (areaId) => {
-    this.props.navigate('AreaDetail', { id: areaId });
+  onAreaPress = (areaId, name) => {
+    this.props.navigator.push({
+      screen: 'ForestWatcher.AreaDetail',
+      title: name,
+      passProps: {
+        id: areaId
+      }
+    });
   }
 
   onLogoutPress = () => {
     this.props.logout();
-    this.props.navigate('Home');
+    this.props.navigator.resetTo({
+      screen: 'ForestWatcher.Home'
+    });
   }
 
+  onPressAddArea = () => {
+    this.props.navigator.push({
+      screen: 'ForestWatcher.Setup'
+    });
+  }
+
+  onDateChange = date => this.props.updateDate(date)
+
   handlePartnersLink = () => {
-    this.props.navigate('Partners');
+    this.props.navigator.push({
+      screen: 'ForestWatcher.Partners',
+      title: 'Partners'
+    });
   }
 
   render() {
@@ -96,14 +121,14 @@ class Settings extends Component {
               <Text style={styles.label}>
                 {I18n.t('settings.yourAreas')}
               </Text>
-              <AreaList onAreaPress={(areaId) => this.onAreaPress(areaId)} />
+              <AreaList onAreaPress={(areaId, name) => this.onAreaPress(areaId, name)} />
             </View>
           : null
           }
           <TouchableHighlight
             activeOpacity={0.5}
             underlayColor="transparent"
-            onPress={() => navigate('Setup')}
+            onPress={this.onPressAddArea}
           >
             <View style={styles.addButton}>
               <Image style={Theme.icon} source={plusIcon} />
@@ -112,6 +137,55 @@ class Settings extends Component {
               </Text>
             </View>
           </TouchableHighlight>
+
+          <View style={styles.datesSection}>
+            <Text style={styles.dateContainerLabel}>
+              Time Frame
+            </Text>
+            <View style={styles.dateContainer}>
+              <Text style={styles.dateLabel}>
+                From
+              </Text>
+              <DatePicker
+                showIcon={false}
+                date={this.props.fromDate}
+                mode="date"
+                format="MMM Do YYYY"
+                minDate="2010-01-01"
+                // if set to null DatePicker will try to parse it as a date and crash, undefined prevents this
+                maxDate={this.state.toDate || undefined}
+                placeholder={I18n.t('report.datePlaceholder')}
+                cancelBtnText={I18n.t('commonText.cancel')}
+                confirmBtnText={I18n.t('commonText.confirm')}
+                onDateChange={date => this.onDateChange({ fromDate: date })}
+                customStyles={{
+                  dateInput: styles.dateInput,
+                  dateText: styles.dateText
+                }}
+              />
+            </View>
+            <View style={styles.dateContainer}>
+              <Text style={styles.dateLabel}>
+                To
+              </Text>
+              <DatePicker
+                style={styles.datePicker}
+                showIcon={false}
+                date={this.props.toDate}
+                mode="date"
+                format="MMM Do YYYY"
+                minDate={this.state.fromDate || '2010-01-01'}
+                placeholder={I18n.t('report.datePlaceholder')}
+                cancelBtnText={I18n.t('commonText.cancel')}
+                confirmBtnText={I18n.t('commonText.confirm')}
+                onDateChange={date => this.onDateChange({ toDate: date })}
+                customStyles={{
+                  dateInput: styles.dateInput,
+                  dateText: styles.dateText
+                }}
+              />
+            </View>
+          </View>
 
           <View style={styles.aboutSection}>
             <Text style={styles.label}>
@@ -134,20 +208,12 @@ class Settings extends Component {
 Settings.propTypes = {
   user: React.PropTypes.any,
   areas: React.PropTypes.any,
-  navigate: React.PropTypes.func.isRequired,
+  fromDate: React.PropTypes.string,
+  toDate: React.PropTypes.string,
+  navigator: React.PropTypes.object.isRequired,
   getAreas: React.PropTypes.func.isRequired,
-  logout: React.PropTypes.func.isRequired
+  logout: React.PropTypes.func.isRequired,
+  updateDate: React.PropTypes.func.isRequired
 };
-
-Settings.navigationOptions = {
-  header: ({ goBack }) => ({
-    left: <LeftBtn goBack={goBack} />,
-    tintColor: Theme.colors.color1,
-    style: headerStyles.style,
-    titleStyle: headerStyles.titleStyle,
-    title: I18n.t('settings.title')
-  })
-};
-
 
 export default Settings;
