@@ -24,6 +24,9 @@ import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
 
+const geoViewport = require('@mapbox/geo-viewport');
+const tilebelt = require('@mapbox/tilebelt');
+
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
 
 const { width, height } = Dimensions.get('window');
@@ -85,6 +88,10 @@ class Map extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
+      coordinates: {
+        tile: [], // tile coordinates x, y, z + precision x, y
+        precision: [] // tile precision x, y
+      },
       alertSelected: null
       // alerts: params.features && params.features.length > 0 ? params.features.slice(0, 120) : [] // Provisional
     };
@@ -138,6 +145,50 @@ class Map extends Component {
     //     }
     //   }, 1000);
     // }
+  }
+
+  onRegionChangeComplete = (region) => {
+    this.updateRegion(region);
+  }
+
+  onRegionChange = (region) => {
+    if (this.onRegionChangeTimer) {
+      clearTimeout(this.onRegionChangeTimer);
+    }
+    this.onRegionChangeTimer = setTimeout(() => {
+      this.updateRegion(region);
+    }, 200);
+  }
+
+  onMapPress = (e) => {
+    const coordinates = e.nativeEvent.coordinate;
+    const zoom = this.getMapZoom();
+    if (zoom) {
+      const tile = tilebelt.pointToTile(coordinates.longitude, coordinates.latitude, zoom, true);
+      this.setState({
+        coordinates: {
+          tile: [tile[0], tile[1], tile[2]],
+          precision: [tile[3], tile[4]]
+        }
+      });
+    }
+  }
+
+  getMapZoom() {
+    const position = this.state.region;
+
+    const bounds = [
+      position.longitude - (position.longitudeDelta / 2),
+      position.latitude - (position.latitudeDelta / 2),
+      position.longitude + (position.longitudeDelta / 2),
+      position.latitude + (position.latitudeDelta / 2)
+    ];
+
+    return geoViewport.viewport(bounds, [width, height], 0, 21, 256).zoom || 0;
+  }
+
+  updateRegion = (region) => {
+    this.setState({ region });
   }
 
   geoLocate() {
@@ -290,6 +341,8 @@ class Map extends Component {
 
   render() {
     const { params } = this.props.navigation.state;
+    const { coordinates } = this.state;
+    const hasCoordinates = (coordinates.tile && coordinates.tile.length > 0) || false;
 
     // const stopPropagation = thunk => e => {
     //   e.stopPropagation();
@@ -332,9 +385,12 @@ class Map extends Component {
             provider={MapView.PROVIDER_GOOGLE}
             mapType="hybrid"
             rotateEnabled={false}
+            onPress={this.onMapPress}
             initialRegion={this.state.region}
             onLayout={this.onLayout}
             moveOnMarkerPress={false}
+            onRegionChange={this.onRegionChange}
+            onRegionChangeComplete={this.onRegionChangeComplete}
           >
             {this.state.lastPosition &&
               <MapView.Marker.Animated
@@ -375,6 +431,18 @@ class Map extends Component {
               minDate="2017/01/01"
               maxDate="2017/03/01"
             />
+            {hasCoordinates &&
+              <MapView.CanvasInteractionUrlTile
+                coordinates={coordinates}
+                urlTemplate="http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/{z}/{x}/{y}.png"
+                zIndex={-1}
+                maxZoom={12}
+                areaId={params.areaId}
+                isConnected={this.props.isConnected}
+                minDate="2017/01/01"
+                maxDate="2017/03/01"
+              />
+            }
           </MapView>
           {this.state.alertSelected
             ? this.renderFooter()
