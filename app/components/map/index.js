@@ -9,8 +9,7 @@ import {
   StatusBar,
   Image,
   Text,
-  Platform,
-  TouchableHighlight
+  Platform
 } from 'react-native';
 import CONSTANTS from 'config/constants';
 import Carousel from 'react-native-snap-carousel';
@@ -26,6 +25,9 @@ import { sliderWidth, itemWidth, styles } from './styles';
 
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
 
+const geoViewport = require('@mapbox/geo-viewport');
+// const tilebelt = require('@mapbox/tilebelt');
+
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
 const BoundingBox = require('boundingbox');
 
@@ -36,10 +38,10 @@ const LATITUDE_DELTA = 10;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const markerImage = require('assets/marker.png');
+const markerImageSelected = require('assets/alert-white.png');
 const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
-const backIconWhite = require('assets/previous_white.png');
 
 function renderLoading() {
   return (
@@ -54,10 +56,22 @@ function renderLoading() {
 }
 
 class Map extends Component {
+  static navigatorStyle = {
+    navBarTextColor: Theme.colors.color5,
+    navBarButtonColor: Theme.colors.color5,
+    topBarElevationShadowEnabled: false,
+    navBarBackgroundColor: Theme.background.main,
+    navBarTransparent: true,
+    navBarTranslucent: true
+  };
+
   constructor(props) {
     super(props);
-    const { geostores, areas } = this.props;
+    const intialCoords = props.center
+      ? props.center
+      : { lat: CONSTANTS.maps.lat, lon: CONSTANTS.maps.lng };
 
+    const { geostores, areas } = props;
     const areaGeostoreIds = areas.map((area) => (area.geostoreId));
     const filteredGeostores = areaGeostoreIds.map((areaId) => (geostores[areaId]));
     this.areaFeatures = filteredGeostores.map((geostore) => geostore.features[0]);
@@ -77,6 +91,10 @@ class Map extends Component {
         longitude: initialCoords.lat,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
+      },
+      coordinates: {
+        tile: [], // tile coordinates x, y, z + precision x, y
+        precision: [] // tile precision x, y
       },
       areaCoordinates: this.getAreaCoordinates(this.areaFeatures[0]),
       areaId: areas[0].id,
@@ -119,15 +137,49 @@ class Map extends Component {
   }
 
   onLayout = () => {
-    if (this.afterRenderTimer) {
-      clearTimeout(this.afterRenderTimer);
-    }
-    this.afterRenderTimer = setTimeout(() => {
-      if (this.areaFeatures && this.areaFeatures.length > 0) {
-        this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[0]),
-          { edgePadding: { top: 200, right: 200, bottom: 200, left: 200 }, animated: true });
+    if (!this.state.alertSelected) {
+      if (this.afterRenderTimer) {
+        clearTimeout(this.afterRenderTimer);
       }
-    }, 1000);
+      this.afterRenderTimer = setTimeout(() => {
+        if (this.areaFeatures && this.areaFeatures.length > 0) {
+          this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[0]),
+            { edgePadding: { top: 200, right: 200, bottom: 200, left: 200 }, animated: true });
+        }
+      }, 1000);
+    }
+  }
+
+  onRegionChangeComplete = (region) => {
+    this.updateRegion(region);
+  }
+
+  onRegionChange = (region) => {
+    if (this.onRegionChangeTimer) {
+      clearTimeout(this.onRegionChangeTimer);
+    }
+    this.onRegionChangeTimer = setTimeout(() => {
+      this.updateRegion(region);
+    }, 200);
+  }
+
+  onMapPress = (e) => {
+    const coordinates = e.nativeEvent.coordinate;
+    // TEMPORARY
+    this.setState({
+      alertSelected: coordinates
+    });
+    // RESTORE IT TO GET NATIVE INTERACTION
+    // const zoom = this.getMapZoom();
+    // if (zoom) {
+    //   const tile = tilebelt.pointToTile(coordinates.longitude, coordinates.latitude, zoom, true);
+    //   this.setState({
+    //     coordinates: {
+    //       tile: [tile[0], tile[1], tile[2]],
+    //       precision: [tile[3], tile[4]]
+    //     }
+    //   });
+    // }
   }
 
   getAreaCoordinates = (areaFeature) => (
@@ -139,6 +191,19 @@ class Map extends Component {
     ))
   )
 
+  getMapZoom() {
+    const position = this.state.region;
+
+    const bounds = [
+      position.longitude - (position.longitudeDelta / 2),
+      position.latitude - (position.latitudeDelta / 2),
+      position.longitude + (position.longitudeDelta / 2),
+      position.latitude + (position.latitudeDelta / 2)
+    ];
+
+    return geoViewport.viewport(bounds, [width, height], 0, 21, 256).zoom || 0;
+  }
+
   updateSelectedArea(aId) {
     const area = this.props.areas[aId];
     this.setState({
@@ -148,6 +213,10 @@ class Map extends Component {
       this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[aId]),
         { edgePadding: { top: 200, right: 200, bottom: 200, left: 200 }, animated: false });
     });
+  }
+
+  updateRegion = (region) => {
+    this.setState({ region });
   }
 
   geoLocate() {
@@ -220,13 +289,29 @@ class Map extends Component {
 
   createReport = () => {
     const { lastPosition } = this.state;
-    const form = `New-report-${Math.floor(Math.random() * 1000)}`;
     let latLng = '0,0';
     if (lastPosition) {
       latLng = `${lastPosition.latitude},${lastPosition.longitude}`;
     }
+    const screen = 'ForestWatcher.NewReport';
+    const title = 'Report';
+    const form = `New-report-${Math.floor(Math.random() * 1000)}`;
     this.props.createReport(form, latLng);
-    this.props.navigate('NewReport', { form });
+    this.props.navigator.push({
+      screen,
+      title,
+      passProps: {
+        screen,
+        title,
+        form,
+        questionsToSkip: 4,
+        texts: {
+          saveLaterTitle: 'report.saveLaterTitle',
+          saveLaterDescription: 'report.saveLaterDescription',
+          requiredId: 'report.reportIdRequired'
+        }
+      }
+    });
   };
 
   renderMap() {
@@ -244,7 +329,7 @@ class Map extends Component {
     const { lastPosition } = this.state;
 
     if (lastPosition) {
-      const geoPoint = new GeoPoint(this.state.alertSelected.lat, this.state.alertSelected.long);
+      const geoPoint = new GeoPoint(this.state.alertSelected.latitude, this.state.alertSelected.longitude);
       const currentPoint = new GeoPoint(lastPosition.latitude, lastPosition.longitude);
       positionText = `${I18n.t('commonText.yourPosition')}: ${lastPosition.latitude}, ${lastPosition.longitude}`;
       distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);
@@ -299,6 +384,9 @@ class Map extends Component {
   }
 
   render() {
+    const { coordinates, alertSelected } = this.state;
+    const hasCoordinates = (coordinates.tile && coordinates.tile.length > 0) || false;
+
     const sliderItems = this.props.areas.map((area, index) => (
       <View key={`entry-${index}`} style={styles.slideInnerContainer}>
         <Text style={styles.textContainer}>{ area.name }</Text>
@@ -313,27 +401,11 @@ class Map extends Component {
             style={styles.header}
             pointerEvents={'box-none'}
           >
-            {this.props.isConnected ?
-              <Image
-                style={styles.headerBg}
-                source={backgroundImage}
-              /> : null}
-            <Text style={styles.headerTitle}>
-              {I18n.t('alerts.title')}
-            </Text>
             {this.state.alertSelected &&
               <Text style={styles.headerSubtitle}>
                 {this.state.alertSelected.lat}, {this.state.alertSelected.long}
               </Text>
             }
-            <TouchableHighlight
-              style={styles.headerBtn}
-              onPress={() => this.props.navigation.goBack()}
-              underlayColor="transparent"
-              activeOpacity={0.8}
-            >
-              <Image style={Theme.icon} source={backIconWhite} />
-            </TouchableHighlight>
           </View>
           <MapView
             ref={(ref) => { this.map = ref; }}
@@ -341,11 +413,12 @@ class Map extends Component {
             provider={MapView.PROVIDER_GOOGLE}
             mapType="hybrid"
             rotateEnabled={false}
+            onPress={this.onMapPress}
             region={this.state.region}
             onLayout={this.onLayout}
             moveOnMarkerPress={false}
           >
-            <MapView.Polygon
+            <MapView.Polyline
               coordinates={this.state.areaCoordinates}
               strokeColor={Theme.colors.color1}
               strokeWidth={2}
@@ -384,11 +457,29 @@ class Map extends Component {
               urlTemplate="http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/{z}/{x}/{y}.png"
               zIndex={-1}
               maxZoom={12}
-              areaId={this.state.areaId}
+              areaId={this.props.areaId}
               isConnected={this.props.isConnected}
               minDate={daysSince(this.props.fromDate)}
               maxDate={daysSince(this.props.toDate)}
             />
+            {hasCoordinates &&
+              <MapView.CanvasInteractionUrlTile
+                coordinates={coordinates}
+                urlTemplate="http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/{z}/{x}/{y}.png"
+                zIndex={-1}
+                maxZoom={12}
+                areaId={this.state.areaId}
+                isConnected={this.props.isConnected}
+                minDate={daysSince('20170101')}
+                maxDate={daysSince('20170301')}
+              />
+            }
+            {alertSelected &&
+              <MapView.Marker
+                image={markerImageSelected}
+                coordinate={alertSelected}
+              />
+            }
           </MapView>
           {this.state.alertSelected
             ? this.renderFooter()
@@ -414,20 +505,15 @@ class Map extends Component {
 }
 
 Map.propTypes = {
-  navigation: React.PropTypes.object.isRequired,
-  navigate: React.PropTypes.func.isRequired,
+  navigator: React.PropTypes.object.isRequired,
   createReport: React.PropTypes.func.isRequired,
   isConnected: React.PropTypes.bool,
+  center: React.PropTypes.any,
+  areaId: React.PropTypes.any,
   geostores: React.PropTypes.object,
   fromDate: React.PropTypes.string,
   toDate: React.PropTypes.string,
   areas: React.PropTypes.array
-};
-
-Map.navigationOptions = {
-  header: {
-    visible: false
-  }
 };
 
 export default Map;

@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
 import { initSetup } from 'redux-modules/setup';
 
 import Setup from 'components/setup';
@@ -18,13 +17,6 @@ function mapDispatchToProps(dispatch, { navigation }) {
     },
     goBack: () => {
       navigation.goBack();
-    },
-    onFinishSetup: async () => {
-      const action = NavigationActions.reset({
-        index: 0,
-        actions: [{ type: 'Navigate', routeName: 'Dashboard' }]
-      });
-      navigation.dispatch(action);
     }
   };
 }

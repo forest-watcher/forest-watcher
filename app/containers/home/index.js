@@ -5,7 +5,6 @@ import { getQuestions as getFeedbackQuestions } from 'redux-modules/feedback';
 import { getQuestions as getReportQuestions } from 'redux-modules/reports';
 import { getCountries } from 'redux-modules/countries';
 import { getUser, setLoginModal, setLoginStatus, checkLogged } from 'redux-modules/user';
-import { NavigationActions } from 'react-navigation';
 import Home from 'components/home';
 
 function mapStateToProps(state) {
@@ -31,20 +30,17 @@ function mapDispatchToProps(dispatch, { navigation }) {
       dispatch(getUser());
     },
     navigateReset: (routeName) => {
-      const action = NavigationActions.reset({
-        index: 0,
-        actions: [{
-          type: 'Navigate',
-          routeName,
-          params: {
-            goBackDisabled: true
-          }
-        }]
-      });
-      navigation.dispatch(action);
-    },
-    setLoginModal: (status) => {
-      dispatch(setLoginModal(status));
+      // const action = NavigationActions.reset({
+      //   index: 0,
+      //   actions: [{
+      //     type: 'Navigate',
+      //     routeName,
+      //     params: {
+      //       goBackDisabled: true
+      //     }
+      //   }]
+      // });
+      // navigation.dispatch(action);
     },
     setLoginStatus: (status) => {
       dispatch(setLoginStatus(status));

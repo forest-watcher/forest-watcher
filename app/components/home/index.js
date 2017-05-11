@@ -7,9 +7,14 @@ import {
 import { getLanguage } from 'helpers/language';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
+import ConnectionStatus from 'containers/connectionstatus';
 import styles from './styles';
 
 class Home extends Component {
+  static navigatorStyle = {
+    navBarHidden: true
+  };
+
   componentDidMount() {
     this.handleStatus();
     tracker.trackScreenView('Home');
@@ -59,19 +64,37 @@ class Home extends Component {
       if (this.props.areasSynced) {
         if (this.props.areas) {
           setTimeout(() => {
-            this.props.navigateReset('Dashboard');
+            this.props.navigator.resetTo({
+              screen: 'ForestWatcher.Dashboard',
+              title: 'FOREST WATCHER'
+            });
           }, 100);
         } else {
           const { setupComplete } = this.props;
           setTimeout(() => {
-            this.props.navigateReset(setupComplete ? 'Dashboard' : 'Setup');
+            if (setupComplete === 'Dashboard') {
+              this.props.navigator.resetTo({
+                screen: 'ForestWatcher.Dashboard',
+                title: 'FOREST WATCHER'
+              });
+            } else {
+              this.props.navigator.resetTo({
+                screen: 'ForestWatcher.Setup',
+                title: 'Set up',
+                passProps: {
+                  goBackDisabled: true
+                }
+              });
+            }
           }, 100);
         }
       } else {
         this.props.getAreas();
       }
     } else {
-      this.props.setLoginModal(true);
+      this.props.navigator.resetTo({
+        screen: 'ForestWatcher.Login'
+      });
     }
   }
 
@@ -83,6 +106,7 @@ class Home extends Component {
           style={{ height: 80 }}
           size="large"
         />
+        <ConnectionStatus />
       </View>
     );
   }
@@ -104,12 +128,12 @@ Home.propTypes = {
   areasSynced: React.PropTypes.bool.isRequired,
   getUser: React.PropTypes.func.isRequired,
   getCountries: React.PropTypes.func.isRequired,
-  setLoginModal: React.PropTypes.func.isRequired,
   getReportQuestions: React.PropTypes.func.isRequired,
   getFeedbackQuestions: React.PropTypes.func.isRequired,
   navigateReset: React.PropTypes.func.isRequired,
   setLoginStatus: React.PropTypes.func.isRequired,
-  setLanguage: React.PropTypes.func.isRequired
+  setLanguage: React.PropTypes.func.isRequired,
+  navigator: React.PropTypes.object.isRequired
 };
 
 Home.navigationOptions = {
