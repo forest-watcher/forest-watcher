@@ -27,7 +27,7 @@ import { sliderWidth, itemWidth, styles } from './styles';
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
 
 const geoViewport = require('@mapbox/geo-viewport');
-const tilebelt = require('@mapbox/tilebelt');
+// const tilebelt = require('@mapbox/tilebelt');
 
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
 const BoundingBox = require('boundingbox');
@@ -152,16 +152,21 @@ class Map extends Component {
 
   onMapPress = (e) => {
     const coordinates = e.nativeEvent.coordinate;
-    const zoom = this.getMapZoom();
-    if (zoom) {
-      const tile = tilebelt.pointToTile(coordinates.longitude, coordinates.latitude, zoom, true);
-      this.setState({
-        coordinates: {
-          tile: [tile[0], tile[1], tile[2]],
-          precision: [tile[3], tile[4]]
-        }
-      });
-    }
+    // TEMPORARY
+    this.setState({
+      alertSelected: coordinates
+    });
+    // RESTORE IT TO GET NATIVE INTERACTION
+    // const zoom = this.getMapZoom();
+    // if (zoom) {
+    //   const tile = tilebelt.pointToTile(coordinates.longitude, coordinates.latitude, zoom, true);
+    //   this.setState({
+    //     coordinates: {
+    //       tile: [tile[0], tile[1], tile[2]],
+    //       precision: [tile[3], tile[4]]
+    //     }
+    //   });
+    // }
   }
 
   getAreaCoordinates = (areaFeature) => (
@@ -295,7 +300,7 @@ class Map extends Component {
     const { lastPosition } = this.state;
 
     if (lastPosition) {
-      const geoPoint = new GeoPoint(this.state.alertSelected.lat, this.state.alertSelected.long);
+      const geoPoint = new GeoPoint(this.state.alertSelected.latitude, this.state.alertSelected.longitude);
       const currentPoint = new GeoPoint(lastPosition.latitude, lastPosition.longitude);
       positionText = `${I18n.t('commonText.yourPosition')}: ${lastPosition.latitude}, ${lastPosition.longitude}`;
       distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);
@@ -350,7 +355,7 @@ class Map extends Component {
   }
 
   render() {
-    const { coordinates } = this.state;
+    const { coordinates, alertSelected } = this.state;
     const hasCoordinates = (coordinates.tile && coordinates.tile.length > 0) || false;
 
     const sliderItems = this.props.areas.map((area, index) => (
@@ -456,6 +461,12 @@ class Map extends Component {
                 isConnected={this.props.isConnected}
                 minDate={daysSince('20170101')}
                 maxDate={daysSince('20170301')}
+              />
+            }
+            {alertSelected &&
+              <MapView.Marker
+                coordinate={alertSelected}
+                title={I18n.t('report.title')}
               />
             }
           </MapView>
