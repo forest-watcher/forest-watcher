@@ -465,6 +465,7 @@ class Map extends Component {
             }
             {alertSelected &&
               <MapView.Marker
+                image={markerCompassRedImage}
                 coordinate={alertSelected}
                 title={I18n.t('report.title')}
               />
