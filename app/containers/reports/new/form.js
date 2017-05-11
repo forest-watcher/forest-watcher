@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
-import { finishReport } from 'redux-modules/reports';
-
+import { getBtnTextByType, getBtnTextByPosition } from 'helpers/forms';
 import ReportsForm from 'components/reports/new/form-step';
 
 function getAnswers(forms, formName) {
@@ -9,30 +8,24 @@ function getAnswers(forms, formName) {
   return {};
 }
 
+function getQuestions(state, formName) {
+  switch (formName) {
+    case 'daily':
+      return state.feedback.daily && state.feedback.daily.questions;
+    case 'weekly':
+      return state.feedback.weekly && state.feedback.weekly.questions;
+    default:
+      return state.reports.forms && state.reports.forms.questions;
+  }
+}
+
 /* function getReportLang(report) {
   if (!report || !report.name) return 'EN';
   const lang = report.name.split('-')[1];
   return lang ? lang.toUpperCase() : 'EN';
 } */
 
-function getBtnTextByType(type) {
-  switch (type) {
-    case 'text':
-      return 'report.inputText';
-    case 'radio':
-      return 'report.inputRadio';
-    case 'select':
-      return 'report.inputSelect';
-    default:
-      return 'report.input';
-  }
-}
-
-function getBtnTextByPosition(position, total) {
-  return position < total ? 'commonText.next' : 'commonText.save';
-}
-
-function getNextCallback(currentQuestion, questions, answers, dispatch, navigator, form) {
+function getNextCallback({ currentQuestion, questions, answers, navigator, form, screen, title, texts, finish }) {
   let next = 1;
   if (currentQuestion < questions.length - 1) {
     for (let i = currentQuestion + 1, qLength = questions.length; i < qLength; i++) {
@@ -44,50 +37,55 @@ function getNextCallback(currentQuestion, questions, answers, dispatch, navigato
       next += 1;
     }
     return () => navigator.push({
-      screen: 'ForestWatcher.NewReport',
-      title: 'Report',
+      title,
+      screen,
       passProps: {
         form,
+        texts,
+        title,
+        screen,
         step: currentQuestion + next
       }
     });
   }
   return () => {
-    dispatch(finishReport(form));
+    finish(form);
     navigator.popToRoot({ animate: true });
   };
 }
 
-function mapStateToProps(state, { form, index }) {
-  const questions = state.reports.forms && state.reports.forms.questions;
-  const question = questions && state.reports.forms.questions[index];
+function mapStateToProps(state, { form, index, texts, questionsToSkip, finish, title, screen, navigator }) {
+  const questions = getQuestions(state, form);
+  const question = questions && questions[index];
   const answers = getAnswers(state.form, form);
   const answer = answers[question.name] || null;
   const nextText = !answer && question.required ? getBtnTextByType(question.type) : getBtnTextByPosition(index, questions.length - 1);
 
   return {
-    question,
-    questions,
-    answer,
-    answers,
-    nextText
-  };
-}
-
-function mergeProps(stateProps, { dispatch }, { index, form, navigator }) {
-  return {
     form,
-    question: stateProps.question,
-    answer: stateProps.answer,
+    texts,
+    questionsToSkip,
+    question,
+    answer,
     next: {
-      text: stateProps.nextText,
-      callback: getNextCallback(index, stateProps.questions, stateProps.answers, dispatch, navigator, form)
+      text: nextText,
+      callback: getNextCallback({
+        finish,
+        navigator,
+        form,
+        screen,
+        title,
+        texts,
+        currentQuestion: index,
+        questions,
+        answers
+      })
     }
   };
 }
 
+
 export default connect(
   mapStateToProps,
-  null,
-  mergeProps
+  null
 )(ReportsForm);

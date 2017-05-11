@@ -97,33 +97,63 @@ class Dashboard extends Component {
     if (item.section && item.section.length > 0) {
       switch (item.section) {
         case 'NewReport': {
+          const screen = 'ForestWatcher.NewReport';
+          const title = 'Report';
           const form = `New-report-${Math.floor(Math.random() * 1000)}`;
           this.props.createReport(form);
           this.props.navigator.push({
-            screen: 'ForestWatcher.NewReport',
-            title: 'Report',
+            screen,
+            title,
             passProps: {
-              form
+              screen,
+              title,
+              form,
+              questionsToSkip: 4,
+              texts: {
+                saveLaterTitle: 'report.saveLaterTitle',
+                saveLaterDescription: 'report.saveLaterDescription',
+                requiredId: 'report.reportIdRequired'
+              }
             }
           });
           break;
         }
         case 'DailyFeedback': {
+          const screen = 'ForestWatcher.Feedback';
+          const title = 'Feedback';
           this.props.navigator.push({
-            screen: 'ForestWatcher.Feedback',
-            title: 'Feedback',
+            screen,
+            title,
             passProps: {
-              feedback: 'daily'
+              title,
+              screen,
+              form: 'daily',
+              questionsToSkip: 0,
+              texts: {
+                saveLaterTitle: 'feedback.saveLaterTitle',
+                saveLaterDescription: 'feedback.saveLaterDescription',
+                requiredId: 'feedback.reportIdRequired'
+              }
             }
           });
           break;
         }
         case 'WeeklyFeedback': {
+          const screen = 'ForestWatcher.Feedback';
+          const title = 'Feedback';
           this.props.navigator.push({
-            screen: 'ForestWatcher.Feedback',
-            title: 'Feedback',
+            screen,
+            title,
             passProps: {
-              feedback: 'weekly'
+              title,
+              screen,
+              form: 'weekly',
+              questionsToSkip: 0,
+              texts: {
+                saveLaterTitle: 'feedback.saveLaterTitle',
+                saveLaterDescription: 'feedback.saveLaterDescription',
+                requiredId: 'feedback.reportIdRequired'
+              }
             }
           });
           break;

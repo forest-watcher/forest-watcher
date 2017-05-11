@@ -41,9 +41,10 @@ class Reports extends Component {
   }
 
   onPressDraft = () => {
+    const { form, texts } = this.props;
     Alert.alert(
-      I18n.t('report.saveLaterTitle'),
-      I18n.t('report.saveLaterDescription'),
+      I18n.t(texts.saveLaterTitle),
+      I18n.t(texts.saveLaterDescription),
       [
         {
           text: 'Cancel',
@@ -52,10 +53,11 @@ class Reports extends Component {
         {
           text: 'OK',
           onPress: () => {
-            const { form } = this.props;
-            this.props.saveReport(form, {
-              status: CONSTANTS.status.draft
-            });
+            if (this.props.saveReport) {
+              this.props.saveReport(form, {
+                status: CONSTANTS.status.draft
+              });
+            }
             this.props.navigator.pop();
           }
         }
@@ -71,12 +73,23 @@ class Reports extends Component {
   }
 
   render() {
-    const form = this.props && this.props.form;
-    const index = (this.props && this.props.step) || CONSTANTS.report.questionsToSkip;
-    if (form) return <ReportsForm form={form} index={index} navigator={this.props.navigator} />;
+    const { form, step, texts, title, questionsToSkip, finish, screen } = this.props;
+    const index = step || questionsToSkip;
+    if (form) {
+      return <ReportsForm
+        form={form}
+        index={index}
+        navigator={this.props.navigator}
+        texts={texts}
+        title={title}
+        screen={screen}
+        questionsToSkip={questionsToSkip}
+        finish={finish}
+      />;
+    }
     return (
       <View style={[styles.container, styles.containerCenter]}>
-        <Text>{I18n.t('report.reportIdRequired')}</Text>
+        <Text>{I18n.t(texts.requiredId)}</Text>
       </View>
     );
   }
@@ -86,7 +99,10 @@ Reports.propTypes = {
   navigator: React.PropTypes.object.isRequired,
   form: React.PropTypes.string.isRequired,
   step: React.PropTypes.number,
-  saveReport: React.PropTypes.func.isRequired
+  saveReport: React.PropTypes.func,
+  questionsToSkip: React.PropTypes.number,
+  texts: React.PropTypes.object.isRequired,
+  title: React.PropTypes.string
 };
 
 export default Reports;

@@ -8,8 +8,8 @@ import Alerts from 'containers/alerts';
 import Map from 'containers/map';
 import Settings from 'containers/settings';
 import Reports from 'containers/reports';
+import Feedback from 'containers/feedback/form';
 import NewReport from 'containers/reports/new';
-import Feedback from 'components/feedback';
 import AreaDetail from 'containers/settings/area-detail';
 import Partners from 'components/settings/partners';
 
