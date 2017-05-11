@@ -9,6 +9,7 @@ import {
   Image
 } from 'react-native';
 
+import { GoogleSignin } from 'react-native-google-signin';
 import Config from 'react-native-config';
 import Theme from 'config/theme';
 import I18n from 'locales';
@@ -81,6 +82,38 @@ class Login extends Component {
         [{ text: 'OK' }]
       );
     }
+  }
+
+  onPressGoogle = () => {
+    GoogleSignin.configure({
+      iosClientId: Config.LOGIN_GOOGLE_CLIENT_ID_IOS,
+      webClientId: Config.LOGIN_GOOGLE_CLIENT_ID_ANDROID,
+      offlineAccess: false,
+      hostedDomain: '',
+      forceConsentPrompt: true,
+      accountName: ''
+    })
+    .then(() => {
+      GoogleSignin.signIn()
+      .then((user) => {
+        fetch(`${Config.API_AUTH}/auth/google/token?access_token=${user.accessToken}`)
+        .then(response => {
+          if (response.ok) return response.json();
+          throw new Error(response.statusText);
+        })
+        .then(data => {
+          this.props.setLoginStatus({
+            loggedIn: true,
+            token: data.token
+          });
+          this.props.setLoginModal(false);
+        })
+        .catch((error) => {
+          console.warn(error);
+          // To-do
+        });
+      });
+    });
   }
 
   onNavigationStateChange(navState) {
@@ -192,7 +225,7 @@ class Login extends Component {
             </TouchableHighlight>
             <TouchableHighlight
               style={[styles.button, styles.buttonGoogle]}
-              onPress={() => this.onPress('google')}
+              onPress={this.onPressGoogle}
               activeOpacity={0.8}
               underlayColor={Theme.socialNetworks.google}
             >

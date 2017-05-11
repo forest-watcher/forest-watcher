@@ -1,0 +1,29 @@
+import Home from 'containers/home';
+import Setup from 'containers/setup';
+import Dashboard from 'containers/dashboard';
+import Map from 'containers/map';
+import Settings from 'containers/settings';
+import Reports from 'containers/reports';
+import NewReport from 'components/reports/new';
+import Feedback from 'components/feedback';
+import AreaDetail from 'containers/settings/area-detail';
+import Partners from 'components/settings/partners';
+
+export const Routes = {
+  Home: { screen: Home },
+  Setup: { screen: Setup },
+  Dashboard: { screen: Dashboard },
+  Alerts: { screen: Map },
+  Map: { screen: Map },
+  Settings: { screen: Settings },
+  Reports: { screen: Reports },
+  NewReport: { screen: NewReport },
+  Feedback: { screen: Feedback },
+  AreaDetail: { screen: AreaDetail, path: 'areas/:id' },
+  Partners: { screen: Partners }
+};
+
+export const RoutesConfig = {
+  initialRouteName: 'Home',
+  headerMode: 'screen'
+};

@@ -12,18 +12,21 @@ import {
   Platform
 } from 'react-native';
 import CONSTANTS from 'config/constants';
+import Carousel from 'react-native-snap-carousel';
 
-import MapView from 'react-native-maps';
-import GeoPoint from 'geopoint';
-import I18n from 'locales';
-
-import ActionBtn from 'components/common/action-button';
 import Theme from 'config/theme';
+import daysSince from 'helpers/date';
+import ActionBtn from 'components/common/action-button';
 import tracker from 'helpers/googleAnalytics';
-import styles from './styles';
+import I18n from 'locales';
+import GeoPoint from 'geopoint';
+import MapView from 'react-native-maps';
+import { sliderWidth, itemWidth, styles } from './styles';
+
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
 
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
+const BoundingBox = require('boundingbox');
 
 const { width, height } = Dimensions.get('window');
 
@@ -48,19 +51,6 @@ function renderLoading() {
   );
 }
 
-// function getGoogleMapsCoordinates(coordinates) {
-//   const cords = [];
-
-//   coordinates.forEach((cordinate) => {
-//     cords.push({
-//       latitude: cordinate.lat,
-//       longitude: cordinate.long
-//     });
-//   });
-
-//   return cords;
-// }
-
 class Map extends Component {
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color5,
@@ -77,20 +67,29 @@ class Map extends Component {
       ? props.center
       : { lat: CONSTANTS.maps.lat, lon: CONSTANTS.maps.lng };
 
+    const { geostores, areas } = props;
+    const areaGeostoreIds = areas.map((area) => (area.geostoreId));
+    const filteredGeostores = areaGeostoreIds.map((areaId) => (geostores[areaId]));
+    this.areaFeatures = filteredGeostores.map((geostore) => geostore.features[0]);
+    const center = new BoundingBox(this.areaFeatures[0]).getCenter();
+    const initialCoords = center || { lat: CONSTANTS.maps.lat, lon: CONSTANTS.maps.lng };
     this.afterRenderTimer = null;
     this.eventLocation = null;
     this.eventOrientation = null;
+    // Google maps lon and lat are inverted
     this.state = {
       renderMap: false,
       lastPosition: null,
       heading: null,
       geoMarkerOpacity: new Animated.Value(0.3),
       region: {
-        latitude: intialCoords.lat,
-        longitude: intialCoords.lon,
+        latitude: initialCoords.lon,
+        longitude: initialCoords.lat,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
+      areaCoordinates: this.getAreaCoordinates(this.areaFeatures[0]),
+      areaId: areas[0].id,
       alertSelected: null
       // alerts: params.features && params.features.length > 0 ? params.features.slice(0, 120) : [] // Provisional
     };
@@ -130,20 +129,35 @@ class Map extends Component {
   }
 
   onLayout = () => {
-    // if (!this.state.alertSelected) {
-    //   if (this.afterRenderTimer) {
-    //     clearTimeout(this.afterRenderTimer);
-    //   }
-    //   this.afterRenderTimer = setTimeout(() => {
-    //     const { params } = this.props.navigation.state;
-    //     if (params && params.features && params.features.length > 0) {
-    //       this.map.fitToCoordinates(getGoogleMapsCoordinates(params.features), {
-    //         edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
-    //         animated: true
-    //       });
-    //     }
-    //   }, 1000);
-    // }
+    if (this.afterRenderTimer) {
+      clearTimeout(this.afterRenderTimer);
+    }
+    this.afterRenderTimer = setTimeout(() => {
+      if (this.areaFeatures && this.areaFeatures.length > 0) {
+        this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[0]),
+          { edgePadding: { top: 200, right: 200, bottom: 200, left: 200 }, animated: true });
+      }
+    }, 1000);
+  }
+
+  getAreaCoordinates = (areaFeature) => (
+    areaFeature.geometry.coordinates[0].map((coordinate) => (
+      {
+        longitude: coordinate[0],
+        latitude: coordinate[1]
+      }
+    ))
+  )
+
+  updateSelectedArea(aId) {
+    const area = this.props.areas[aId];
+    this.setState({
+      areaCoordinates: this.getAreaCoordinates(this.areaFeatures[aId]),
+      areaId: area.id
+    }, () => {
+      this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[aId]),
+        { edgePadding: { top: 200, right: 200, bottom: 200, left: 200 }, animated: false });
+    });
   }
 
   geoLocate() {
@@ -302,10 +316,11 @@ class Map extends Component {
   }
 
   render() {
-    // const stopPropagation = thunk => e => {
-    //   e.stopPropagation();
-    //   thunk();
-    // };
+    const sliderItems = this.props.areas.map((area, index) => (
+      <View key={`entry-${index}`} style={styles.slideInnerContainer}>
+        <Text style={styles.textContainer}>{ area.name }</Text>
+      </View>
+    ));
 
     return (
       this.state.renderMap
@@ -327,10 +342,15 @@ class Map extends Component {
             provider={MapView.PROVIDER_GOOGLE}
             mapType="hybrid"
             rotateEnabled={false}
-            initialRegion={this.state.region}
+            region={this.state.region}
             onLayout={this.onLayout}
             moveOnMarkerPress={false}
           >
+            <MapView.Polygon
+              coordinates={this.state.areaCoordinates}
+              strokeColor={Theme.colors.color1}
+              strokeWidth={2}
+            />
             {this.state.lastPosition &&
               <MapView.Marker.Animated
                 image={markerImage}
@@ -367,14 +387,26 @@ class Map extends Component {
               maxZoom={12}
               areaId={this.props.areaId}
               isConnected={this.props.isConnected}
-              minDate="2017/01/01"
-              maxDate="2017/03/01"
+              minDate={daysSince('20170101')}
+              maxDate={daysSince('20170301')}
             />
           </MapView>
           {this.state.alertSelected
             ? this.renderFooter()
             : this.renderFooterLoading()
           }
+          <View style={{ position: 'absolute', bottom: 0, zIndex: 10 }}>
+            <Carousel
+              ref={(carousel) => { this.carousel = carousel; }}
+              sliderWidth={sliderWidth}
+              itemWidth={itemWidth}
+              onSnapToItem={(index) => this.updateSelectedArea(index)}
+              showsHorizontalScrollIndicator={false}
+              slideStyle={styles.slideStyle}
+            >
+              { sliderItems }
+            </Carousel>
+          </View>
         </View>
       :
         renderLoading()
@@ -387,7 +419,9 @@ Map.propTypes = {
   createReport: React.PropTypes.func.isRequired,
   isConnected: React.PropTypes.bool,
   center: React.PropTypes.any,
-  areaId: React.PropTypes.any
+  areaId: React.PropTypes.any,
+  geostores: React.PropTypes.object,
+  areas: React.PropTypes.array
 };
 
 export default Map;

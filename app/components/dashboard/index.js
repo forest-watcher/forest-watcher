@@ -19,13 +19,13 @@ import styles from './styles';
 
 const settingsIcon = require('assets/settings.png');
 
-const { RNLocation: Location } = require('NativeModules');
+const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
 
 const sections = [
   // TEMP
   {
     title: I18n.t('dashboard.alerts'),
-    section: 'Alerts',
+    section: 'Map',
     image: myAlertIcon
   },
   {

@@ -5,6 +5,7 @@ import android.util.Log;
 import android.support.annotation.NonNull;
 
 import com.facebook.react.ReactApplication;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.sensormanager.SensorManagerPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
@@ -34,6 +35,7 @@ public class MainApplication extends NavigationApplication {
   public List<ReactPackage> createAdditionalReactPackages() {
     // Add additional packages you require here
     return Arrays.<ReactPackage>asList(
+      new RNGoogleSigninPackage(),
       new GoogleAnalyticsBridgePackage(),
       new SensorManagerPackage(),
       new RNFetchBlobPackage(),

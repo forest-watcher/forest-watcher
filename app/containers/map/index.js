@@ -5,8 +5,17 @@ import tracker from 'helpers/googleAnalytics';
 import Map from 'components/map';
 
 function mapStateToProps(state) {
+  const areas = state.areas.data.map((area) => (
+    {
+      id: area.id,
+      name: area.attributes.name,
+      geostoreId: area.attributes.geostore
+    }
+    ));
   return {
-    isConnected: state.app.isConnected
+    areas,
+    isConnected: state.app.isConnected,
+    geostores: state.geostore.data
   };
 }
 
