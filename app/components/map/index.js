@@ -386,8 +386,8 @@ class Map extends Component {
               maxZoom={12}
               areaId={this.state.areaId}
               isConnected={this.props.isConnected}
-              minDate={daysSince('20170101')}
-              maxDate={daysSince('20170301')}
+              minDate={daysSince(this.props.fromDate)}
+              maxDate={daysSince(this.props.toDate)}
             />
           </MapView>
           {this.state.alertSelected
@@ -419,6 +419,8 @@ Map.propTypes = {
   createReport: React.PropTypes.func.isRequired,
   isConnected: React.PropTypes.bool,
   geostores: React.PropTypes.object,
+  fromDate: React.PropTypes.string,
+  toDate: React.PropTypes.string,
   areas: React.PropTypes.array
 };
 
