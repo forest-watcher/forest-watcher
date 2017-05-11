@@ -24,7 +24,7 @@ const { RNLocation: Location } = require('NativeModules'); // eslint-disable-lin
 const sections = [
   // TEMP
   {
-    title: I18n.t('dashboard.alerts'),
+    title: I18n.t('dashboard.map'),
     section: 'Map',
     image: myAlertIcon
   },

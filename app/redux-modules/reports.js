@@ -107,7 +107,6 @@ export function uploadReport(reportName) {
       const reportStatus = state().reports.list[reportName];
 
       const form = new FormData();
-      console.log(reportStatus);
       form.append('name', userName);
       form.append('organization', oganization);
       form.append('date', reportStatus && reportStatus.date);

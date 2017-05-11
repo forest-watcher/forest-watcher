@@ -162,7 +162,7 @@ export const styles = StyleSheet.create({
   footerButton: {
     left: 8,
     right: 8,
-    bottom: 65,
+    bottom: 75,
     position: 'absolute',
     zIndex: 2
   },
@@ -181,7 +181,6 @@ export const styles = StyleSheet.create({
   textContainer: {
     justifyContent: 'center',
     paddingTop: 20 - entryBorderRadius,
-    paddingBottom: 20,
     paddingHorizontal: 16,
     backgroundColor: 'white',
     borderBottomLeftRadius: entryBorderRadius,
@@ -190,6 +189,9 @@ export const styles = StyleSheet.create({
     color: Theme.fontColors.secondary,
     fontFamily: Theme.font,
     fontWeight: '400'
+  },
+  textContainerSmall: {
+    paddingTop: 14 - entryBorderRadius
   },
   carousel: {
     flex: 0,
@@ -200,5 +202,14 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5
+  },
+  coordinateDistanceText: {
+    fontFamily: Theme.font,
+    color: Theme.fontColors.secondary,
+    fontSize: 14,
+    fontWeight: '400',
+    marginLeft: 14,
+    backgroundColor: 'transparent',
+    lineHeight: 13
   }
 });

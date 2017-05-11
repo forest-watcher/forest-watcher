@@ -144,7 +144,7 @@ class Map extends Component {
       this.afterRenderTimer = setTimeout(() => {
         if (this.areaFeatures && this.areaFeatures.length > 0) {
           this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[0]),
-            { edgePadding: { top: 200, right: 200, bottom: 200, left: 200 }, animated: true });
+            { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: true });
         }
       }, 1000);
     }
@@ -211,7 +211,7 @@ class Map extends Component {
       areaId: area.id
     }, () => {
       this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[aId]),
-        { edgePadding: { top: 200, right: 200, bottom: 200, left: 200 }, animated: false });
+        { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false });
     });
   }
 
@@ -323,19 +323,6 @@ class Map extends Component {
   }
 
   renderFooter() {
-    let distanceText = I18n.t('commonText.notAvailable');
-    let positionText = '';
-    let distance = 999999;
-    const { lastPosition } = this.state;
-
-    if (lastPosition) {
-      const geoPoint = new GeoPoint(this.state.alertSelected.latitude, this.state.alertSelected.longitude);
-      const currentPoint = new GeoPoint(lastPosition.latitude, lastPosition.longitude);
-      positionText = `${I18n.t('commonText.yourPosition')}: ${lastPosition.latitude}, ${lastPosition.longitude}`;
-      distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);
-      distanceText = `${distance} ${I18n.t('commonText.kmAway')}`; // in Kilometers
-    }
-
     const reportBtn = (
       <ActionBtn
         style={styles.footerButton}
@@ -349,12 +336,6 @@ class Map extends Component {
           style={styles.footerBg}
           source={backgroundImage}
         />
-        <Text style={styles.footerTitle}>
-          {distanceText}
-        </Text>
-        <Text style={[styles.footerTitle, styles.footerSubtitle]}>
-          {positionText}
-        </Text>
         {reportBtn}
       </View>
     );
@@ -385,11 +366,37 @@ class Map extends Component {
 
   render() {
     const { coordinates, alertSelected } = this.state;
-    const hasCoordinates = (coordinates.tile && coordinates.tile.length > 0) || false;
+
+    let distanceText = I18n.t('commonText.notAvailable');
+    let positionText = '';
+    let distance = 999999;
+    const { lastPosition } = this.state;
+    const containerTextSyle = this.state.alertSelected
+      ? [styles.textContainer, styles.textContainerSmall]
+      : styles.textContainer;
+
+
+    if (this.state.alertSelected) {
+      const geoPoint = new GeoPoint(this.state.alertSelected.latitude, this.state.alertSelected.longitude);
+      const currentPoint = new GeoPoint(lastPosition.latitude, lastPosition.longitude);
+      positionText = `${lastPosition.latitude}, ${lastPosition.longitude}`;
+      distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);
+      distanceText = `${distance} ${I18n.t('commonText.kmAway')}`; // in Kilometers
+    }
 
     const sliderItems = this.props.areas.map((area, index) => (
       <View key={`entry-${index}`} style={styles.slideInnerContainer}>
-        <Text style={styles.textContainer}>{ area.name }</Text>
+        <Text style={containerTextSyle}>{ area.name }</Text>
+        {this.state.alertSelected &&
+          <View>
+            <Text style={styles.coordinateDistanceText}>
+              {distanceText}
+            </Text>
+            <Text style={styles.coordinateDistanceText}>
+              {positionText}
+            </Text>
+          </View>
+        }
       </View>
     ));
 
@@ -414,7 +421,7 @@ class Map extends Component {
             mapType="hybrid"
             rotateEnabled={false}
             onPress={this.onMapPress}
-            region={this.state.region}
+            initialRegion={this.state.region}
             onLayout={this.onLayout}
             moveOnMarkerPress={false}
           >
@@ -462,18 +469,6 @@ class Map extends Component {
               minDate={daysSince(this.props.fromDate)}
               maxDate={daysSince(this.props.toDate)}
             />
-            {hasCoordinates &&
-              <MapView.CanvasInteractionUrlTile
-                coordinates={coordinates}
-                urlTemplate="http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/{z}/{x}/{y}.png"
-                zIndex={-1}
-                maxZoom={12}
-                areaId={this.state.areaId}
-                isConnected={this.props.isConnected}
-                minDate={daysSince('20170101')}
-                maxDate={daysSince('20170301')}
-              />
-            }
             {alertSelected &&
               <MapView.Marker
                 image={markerImageSelected}
