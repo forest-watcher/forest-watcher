@@ -19,12 +19,6 @@ function getQuestions(state, formName) {
   }
 }
 
-/* function getReportLang(report) {
-  if (!report || !report.name) return 'EN';
-  const lang = report.name.split('-')[1];
-  return lang ? lang.toUpperCase() : 'EN';
-} */
-
 function getNextCallback({ currentQuestion, questions, answers, navigator, form, screen, title, texts, finish }) {
   let next = 1;
   if (currentQuestion < questions.length - 1) {

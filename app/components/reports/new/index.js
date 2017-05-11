@@ -76,7 +76,7 @@ class Reports extends Component {
     const { form, step, texts, title, questionsToSkip, finish, screen } = this.props;
     const index = step || questionsToSkip;
     if (form) {
-      return <ReportsForm
+      return (<ReportsForm
         form={form}
         index={index}
         navigator={this.props.navigator}
@@ -85,7 +85,7 @@ class Reports extends Component {
         screen={screen}
         questionsToSkip={questionsToSkip}
         finish={finish}
-      />;
+      />);
     }
     return (
       <View style={[styles.container, styles.containerCenter]}>
@@ -102,7 +102,9 @@ Reports.propTypes = {
   saveReport: React.PropTypes.func,
   questionsToSkip: React.PropTypes.number,
   texts: React.PropTypes.object.isRequired,
-  title: React.PropTypes.string
+  title: React.PropTypes.string.isRequired,
+  screen: React.PropTypes.string.isRequired,
+  finish: React.PropTypes.func.isRequired
 };
 
 export default Reports;
