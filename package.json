@@ -9,8 +9,9 @@
     "precommit": "npm run lint-staged"
   },
   "dependencies": {
+    "@mapbox/geo-viewport": "^0.2.2",
     "@mapbox/geojson-area": "^0.2.2",
-    "@mapbox/tilebelt": "^1.0.1",
+    "@mapbox/tilebelt": "Vizzuality/tilebelt",
     "boundingbox": "^0.1.0",
     "buffer": "^5.0.5",
     "geojson-polygon-self-intersections": "^1.1.1",

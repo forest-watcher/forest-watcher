@@ -25,6 +25,9 @@ import { sliderWidth, itemWidth, styles } from './styles';
 
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
 
+const geoViewport = require('@mapbox/geo-viewport');
+// const tilebelt = require('@mapbox/tilebelt');
+
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
 const BoundingBox = require('boundingbox');
 
@@ -88,6 +91,10 @@ class Map extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
+      coordinates: {
+        tile: [], // tile coordinates x, y, z + precision x, y
+        precision: [] // tile precision x, y
+      },
       areaCoordinates: this.getAreaCoordinates(this.areaFeatures[0]),
       areaId: areas[0].id,
       alertSelected: null
@@ -140,6 +147,38 @@ class Map extends Component {
     }, 1000);
   }
 
+  onRegionChangeComplete = (region) => {
+    this.updateRegion(region);
+  }
+
+  onRegionChange = (region) => {
+    if (this.onRegionChangeTimer) {
+      clearTimeout(this.onRegionChangeTimer);
+    }
+    this.onRegionChangeTimer = setTimeout(() => {
+      this.updateRegion(region);
+    }, 200);
+  }
+
+  onMapPress = (e) => {
+    const coordinates = e.nativeEvent.coordinate;
+    // TEMPORARY
+    this.setState({
+      alertSelected: coordinates
+    });
+    // RESTORE IT TO GET NATIVE INTERACTION
+    // const zoom = this.getMapZoom();
+    // if (zoom) {
+    //   const tile = tilebelt.pointToTile(coordinates.longitude, coordinates.latitude, zoom, true);
+    //   this.setState({
+    //     coordinates: {
+    //       tile: [tile[0], tile[1], tile[2]],
+    //       precision: [tile[3], tile[4]]
+    //     }
+    //   });
+    // }
+  }
+
   getAreaCoordinates = (areaFeature) => (
     areaFeature.geometry.coordinates[0].map((coordinate) => (
       {
@@ -148,6 +187,19 @@ class Map extends Component {
       }
     ))
   )
+
+  getMapZoom() {
+    const position = this.state.region;
+
+    const bounds = [
+      position.longitude - (position.longitudeDelta / 2),
+      position.latitude - (position.latitudeDelta / 2),
+      position.longitude + (position.longitudeDelta / 2),
+      position.latitude + (position.latitudeDelta / 2)
+    ];
+
+    return geoViewport.viewport(bounds, [width, height], 0, 21, 256).zoom || 0;
+  }
 
   updateSelectedArea(aId) {
     const area = this.props.areas[aId];
@@ -158,6 +210,10 @@ class Map extends Component {
       this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[aId]),
         { edgePadding: { top: 200, right: 200, bottom: 200, left: 200 }, animated: false });
     });
+  }
+
+  updateRegion = (region) => {
+    this.setState({ region });
   }
 
   geoLocate() {
@@ -261,7 +317,7 @@ class Map extends Component {
     const { lastPosition } = this.state;
 
     if (lastPosition) {
-      const geoPoint = new GeoPoint(this.state.alertSelected.lat, this.state.alertSelected.long);
+      const geoPoint = new GeoPoint(this.state.alertSelected.latitude, this.state.alertSelected.longitude);
       const currentPoint = new GeoPoint(lastPosition.latitude, lastPosition.longitude);
       positionText = `${I18n.t('commonText.yourPosition')}: ${lastPosition.latitude}, ${lastPosition.longitude}`;
       distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);
@@ -316,6 +372,9 @@ class Map extends Component {
   }
 
   render() {
+    const { coordinates, alertSelected } = this.state;
+    const hasCoordinates = (coordinates.tile && coordinates.tile.length > 0) || false;
+
     const sliderItems = this.props.areas.map((area, index) => (
       <View key={`entry-${index}`} style={styles.slideInnerContainer}>
         <Text style={styles.textContainer}>{ area.name }</Text>
@@ -342,9 +401,12 @@ class Map extends Component {
             provider={MapView.PROVIDER_GOOGLE}
             mapType="hybrid"
             rotateEnabled={false}
+            onPress={this.onMapPress}
             region={this.state.region}
             onLayout={this.onLayout}
             moveOnMarkerPress={false}
+            onRegionChange={this.onRegionChange}
+            onRegionChangeComplete={this.onRegionChangeComplete}
           >
             <MapView.Polygon
               coordinates={this.state.areaCoordinates}
@@ -390,6 +452,25 @@ class Map extends Component {
               minDate={daysSince('20170101')}
               maxDate={daysSince('20170301')}
             />
+            {hasCoordinates &&
+              <MapView.CanvasInteractionUrlTile
+                coordinates={coordinates}
+                urlTemplate="http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/{z}/{x}/{y}.png"
+                zIndex={-1}
+                maxZoom={12}
+                areaId={this.state.areaId}
+                isConnected={this.props.isConnected}
+                minDate={daysSince('20170101')}
+                maxDate={daysSince('20170301')}
+              />
+            }
+            {alertSelected &&
+              <MapView.Marker
+                image={markerCompassRedImage}
+                coordinate={alertSelected}
+                title={I18n.t('report.title')}
+              />
+            }
           </MapView>
           {this.state.alertSelected
             ? this.renderFooter()
