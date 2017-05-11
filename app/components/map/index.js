@@ -9,8 +9,7 @@ import {
   StatusBar,
   Image,
   Text,
-  Platform,
-  TouchableHighlight
+  Platform
 } from 'react-native';
 import CONSTANTS from 'config/constants';
 import Carousel from 'react-native-snap-carousel';
@@ -39,7 +38,6 @@ const markerImage = require('assets/marker.png');
 const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
-const backIconWhite = require('assets/previous_white.png');
 
 function renderLoading() {
   return (
@@ -54,10 +52,22 @@ function renderLoading() {
 }
 
 class Map extends Component {
+  static navigatorStyle = {
+    navBarTextColor: Theme.colors.color5,
+    navBarButtonColor: Theme.colors.color5,
+    topBarElevationShadowEnabled: false,
+    navBarBackgroundColor: Theme.background.main,
+    navBarTransparent: true,
+    navBarTranslucent: true
+  };
+
   constructor(props) {
     super(props);
-    const { geostores, areas } = this.props;
+    const intialCoords = props.center
+      ? props.center
+      : { lat: CONSTANTS.maps.lat, lon: CONSTANTS.maps.lng };
 
+    const { geostores, areas } = props;
     const areaGeostoreIds = areas.map((area) => (area.geostoreId));
     const filteredGeostores = areaGeostoreIds.map((areaId) => (geostores[areaId]));
     this.areaFeatures = filteredGeostores.map((geostore) => geostore.features[0]);
@@ -226,7 +236,14 @@ class Map extends Component {
       latLng = `${lastPosition.latitude},${lastPosition.longitude}`;
     }
     this.props.createReport(form, latLng);
-    this.props.navigate('NewReport', { form });
+    this.props.navigator.push({
+      screen: 'ForestWatcher.NewReport',
+      title: 'Report',
+      backButtonTitle: 'Back',
+      passProps: {
+        form
+      }
+    });
   };
 
   renderMap() {
@@ -313,27 +330,11 @@ class Map extends Component {
             style={styles.header}
             pointerEvents={'box-none'}
           >
-            {this.props.isConnected ?
-              <Image
-                style={styles.headerBg}
-                source={backgroundImage}
-              /> : null}
-            <Text style={styles.headerTitle}>
-              {I18n.t('alerts.title')}
-            </Text>
             {this.state.alertSelected &&
               <Text style={styles.headerSubtitle}>
                 {this.state.alertSelected.lat}, {this.state.alertSelected.long}
               </Text>
             }
-            <TouchableHighlight
-              style={styles.headerBtn}
-              onPress={() => this.props.navigation.goBack()}
-              underlayColor="transparent"
-              activeOpacity={0.8}
-            >
-              <Image style={Theme.icon} source={backIconWhite} />
-            </TouchableHighlight>
           </View>
           <MapView
             ref={(ref) => { this.map = ref; }}
@@ -384,7 +385,7 @@ class Map extends Component {
               urlTemplate="http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/{z}/{x}/{y}.png"
               zIndex={-1}
               maxZoom={12}
-              areaId={this.state.areaId}
+              areaId={this.props.areaId}
               isConnected={this.props.isConnected}
               minDate={daysSince('20170101')}
               maxDate={daysSince('20170301')}
@@ -414,18 +415,13 @@ class Map extends Component {
 }
 
 Map.propTypes = {
-  navigation: React.PropTypes.object.isRequired,
-  navigate: React.PropTypes.func.isRequired,
+  navigator: React.PropTypes.object.isRequired,
   createReport: React.PropTypes.func.isRequired,
   isConnected: React.PropTypes.bool,
+  center: React.PropTypes.any,
+  areaId: React.PropTypes.any,
   geostores: React.PropTypes.object,
   areas: React.PropTypes.array
-};
-
-Map.navigationOptions = {
-  header: {
-    visible: false
-  }
 };
 
 export default Map;

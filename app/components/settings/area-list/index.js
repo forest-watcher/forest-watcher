@@ -23,7 +23,7 @@ function AreaList(props) {
         key={key}
         activeOpacity={0.5}
         underlayColor="transparent"
-        onPress={() => props.onAreaPress(area.id)}
+        onPress={() => props.onAreaPress(area.id, area.name)}
       >
         <View style={styles.item}>
           <View style={styles.imageContainer}>
@@ -38,7 +38,7 @@ function AreaList(props) {
           <TouchableHighlight
             activeOpacity={0.5}
             underlayColor="transparent"
-            onPress={() => props.onAreaPress(area.id)}
+            onPress={() => props.onAreaPress(area.id, area.name)}
           >
             <Image style={Theme.icon} source={nextIcon} />
           </TouchableHighlight>

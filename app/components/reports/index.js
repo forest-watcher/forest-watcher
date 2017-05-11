@@ -45,6 +45,12 @@ function getItems(data, image, onPress) {
 }
 
 class Reports extends Component {
+  static navigatorStyle = {
+    navBarTextColor: Theme.colors.color1,
+    navBarButtonColor: Theme.colors.color1,
+    topBarElevationShadowEnabled: false,
+    navBarBackgroundColor: Theme.background.main
+  };
 
   componentDidMount() {
     tracker.trackScreenView('Reports');

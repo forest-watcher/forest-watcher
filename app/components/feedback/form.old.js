@@ -149,7 +149,6 @@ class FeedBackForm extends Component {
           style={isImageInput && emptyAnswer ? styles.containerFull : styles.containerFloat}
           page={this.state.page}
           hideIndex={isImageInput && emptyAnswer}
-          onChangeTab={this.updatePage}
         >
           {questions.map((item, index) => {
             if (index < this.questionsToSkip) return null;

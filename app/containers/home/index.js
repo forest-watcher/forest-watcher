@@ -43,9 +43,6 @@ function mapDispatchToProps(dispatch, { navigation }) {
       });
       navigation.dispatch(action);
     },
-    setLoginModal: (status) => {
-      dispatch(setLoginModal(status));
-    },
     setLoginStatus: (status) => {
       dispatch(setLoginStatus(status));
     },

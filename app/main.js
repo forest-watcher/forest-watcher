@@ -1,4 +1,5 @@
-import React from 'react';
+import { Component } from 'react';
+import { Navigation } from 'react-native-navigation';
 import { AsyncStorage } from 'react-native';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
@@ -6,7 +7,9 @@ import { Provider } from 'react-redux';
 import { persistStore, autoRehydrate } from 'redux-persist';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import AppContainer from 'components/app';
+import Theme from 'config/theme';
+import { registerScreens } from 'screens';
+
 import * as reducers from 'redux-modules';
 
 const reducer = combineReducers(reducers);
@@ -30,23 +33,24 @@ const persistConfig = {
   blacklist: ['setup']
 };
 
-export default class App extends React.Component {
-  state = {
-    rehydrated: false
-  }
+registerScreens(store, Provider);
 
-  componentWillMount() {
+function startApp() {
+  Navigation.startSingleScreenApp({
+    screen: {
+      screen: 'ForestWatcher.Home',
+      navigatorStyle: Theme.navigator.styles
+    }
+  });
+}
+
+class App extends Component {
+  constructor() {
+    super();
     persistStore(store, persistConfig, () => {
-      this.setState({ rehydrated: true });
+      startApp();
     });
   }
-
-  render() {
-    if (!this.state.rehydrated) return null;
-    return (
-      <Provider store={store}>
-        <AppContainer />
-      </Provider>
-    );
-  }
 }
+
+export default App;

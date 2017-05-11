@@ -9,22 +9,24 @@ class ConnectionStatus extends Component {
     NetInfo.isConnected.fetch()
       .done((isConnected) => {
         this.props.setIsConnected(isConnected);
-      })
+      });
+  }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener('change', this.handleConnectionChange);
   }
 
   handleConnectionChange = (isConnected) => {
     this.props.setIsConnected(isConnected);
   };
 
-  componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener('change', this.handleConnectionChange);
-  }
-
   render() {
     return (null);
   }
 }
 
-ConnectionStatus.propTypes = {};
+ConnectionStatus.propTypes = {
+  setIsConnected: React.PropTypes.func.isRequired
+};
 
 export default ConnectionStatus;

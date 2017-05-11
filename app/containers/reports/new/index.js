@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import { saveReport } from 'redux-modules/reports';
+import { saveReport, finishReport } from 'redux-modules/reports';
 
-import HeaderRight from 'components/reports/new/header/right';
+import NewReport from 'components/reports/new';
 
 function mapStateToProps() {
   return {};
@@ -11,6 +11,9 @@ function mapDispatchToProps(dispatch) {
   return {
     saveReport: (reportName, params) => {
       dispatch(saveReport(reportName, params));
+    },
+    finish: (form) => {
+      dispatch(finishReport(form));
     }
   };
 }
@@ -18,4 +21,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(HeaderRight);
+)(NewReport);
