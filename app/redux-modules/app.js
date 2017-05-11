@@ -4,7 +4,7 @@ const SET_LANGUAGE = 'app/SET_LANGUAGE';
 
 // Reducer
 const initialState = {
-  isConnected: false,
+  isConnected: true,
   language: null,
   setupComplete: false
 };

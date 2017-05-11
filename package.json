@@ -5,8 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "lint-staged": "lint-staged",
-    "precommit": "npm run lint-staged"
+    "lint-staged": "lint-staged"
   },
   "dependencies": {
     "@mapbox/geojson-area": "^0.2.2",
@@ -27,9 +26,9 @@
     "react-native-keyboard-spacer": "0.3.1",
     "react-native-location": "timfpark/react-native-location",
     "react-native-maps": "Vizzuality/react-native-maps#feature/canvas-android",
+    "react-native-navigation": "^1.1.65",
     "react-native-scrollable-tab-view": "0.7.3",
     "react-native-sensor-manager": "0.1.10",
-    "react-navigation": "1.0.0-beta.7",
     "react-redux": "5.0.2",
     "redux": "^3.6.0",
     "redux-devtools-extension": "2.13.0",
@@ -67,7 +66,7 @@
         {
           "alias": {
             "app": "./app",
-            "routes": "./app/routes",
+            "screens": "./app/screens",
             "locales": "./app/locales",
             "config": "./app/config",
             "helpers": "./app/helpers",
