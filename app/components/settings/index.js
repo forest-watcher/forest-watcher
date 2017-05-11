@@ -23,6 +23,7 @@ const plusIcon = require('assets/plus.png');
 
 const dateFormat = 'YYYYMMDD';
 const dateFormatDisplay = 'MMM Do YYYY';
+const START_DATE = 'Jan 1st 2015';
 class Settings extends Component {
   constructor() {
     super();
@@ -132,9 +133,9 @@ class Settings extends Component {
                 date={moment(this.props.fromDate, dateFormat).format(dateFormatDisplay)}
                 mode="date"
                 format={dateFormatDisplay}
-                minDate="2010-01-01"
+                minDate={START_DATE}
                 // if set to null DatePicker will try to parse it as a date and crash, undefined prevents this
-                maxDate={this.state.fromDate || undefined}
+                maxDate={moment(this.props.fromDate, dateFormat).format(dateFormatDisplay) || undefined}
                 placeholder={I18n.t('report.datePlaceholder')}
                 cancelBtnText={I18n.t('commonText.cancel')}
                 confirmBtnText={I18n.t('commonText.confirm')}
@@ -155,7 +156,7 @@ class Settings extends Component {
                 date={moment(this.props.toDate, dateFormat).format(dateFormatDisplay)}
                 mode="date"
                 format={dateFormatDisplay}
-                minDate={this.state.fromDate || '2010-01-01'}
+                minDate={moment(this.props.fromDate, dateFormat).format(dateFormatDisplay) || START_DATE}
                 placeholder={I18n.t('report.datePlaceholder')}
                 cancelBtnText={I18n.t('commonText.cancel')}
                 confirmBtnText={I18n.t('commonText.confirm')}
