@@ -135,7 +135,7 @@ class Settings extends Component {
                 format={dateFormatDisplay}
                 minDate={START_DATE}
                 // if set to null DatePicker will try to parse it as a date and crash, undefined prevents this
-                maxDate={moment(this.props.fromDate, dateFormat).format(dateFormatDisplay) || undefined}
+                maxDate={moment(this.props.toDate, dateFormat).format(dateFormatDisplay) || undefined}
                 placeholder={I18n.t('report.datePlaceholder')}
                 cancelBtnText={I18n.t('commonText.cancel')}
                 confirmBtnText={I18n.t('commonText.confirm')}
