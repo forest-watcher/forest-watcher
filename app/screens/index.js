@@ -4,7 +4,6 @@ import Home from 'containers/home';
 import Login from 'containers/login';
 import Setup from 'containers/setup';
 import Dashboard from 'containers/dashboard';
-import Alerts from 'containers/alerts';
 import Map from 'containers/map';
 import Settings from 'containers/settings';
 import Reports from 'containers/reports';
@@ -18,7 +17,6 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent('ForestWatcher.Login', () => Login, store, Provider);
   Navigation.registerComponent('ForestWatcher.Setup', () => Setup, store, Provider);
   Navigation.registerComponent('ForestWatcher.Dashboard', () => Dashboard, store, Provider);
-  Navigation.registerComponent('ForestWatcher.Alerts', () => Alerts, store, Provider);
   Navigation.registerComponent('ForestWatcher.Map', () => Map, store, Provider);
   Navigation.registerComponent('ForestWatcher.Settings', () => Settings, store, Provider);
   Navigation.registerComponent('ForestWatcher.Reports', () => Reports, store, Provider);
