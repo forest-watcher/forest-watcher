@@ -132,7 +132,7 @@ export const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    height: 134,
+    height: 164,
     zIndex: 3,
     position: 'absolute'
   },
@@ -185,11 +185,20 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: 'white',
     borderBottomLeftRadius: entryBorderRadius,
-    borderBottomRightRadius: entryBorderRadius
+    borderBottomRightRadius: entryBorderRadius,
+    fontSize: 17,
+    color: Theme.fontColors.secondary,
+    fontFamily: Theme.font,
+    fontWeight: '400'
   },
   carousel: {
     flex: 0,
     backgroundColor: 'transparent',
     height: 134
+  },
+  slideStyle: {
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5
   }
 });
