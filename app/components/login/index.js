@@ -103,7 +103,9 @@ class Login extends Component {
             loggedIn: true,
             token: data.token
           });
-          this.props.setLoginModal(false);
+          this.props.navigator.resetTo({
+            screen: 'ForestWatcher.Home'
+          });
         })
         .catch((error) => {
           console.warn(error);

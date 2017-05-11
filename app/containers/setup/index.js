@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
 import { initSetup } from 'redux-modules/setup';
 
 import Setup from 'components/setup';

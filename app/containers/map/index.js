@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { createReport } from 'redux-modules/reports';
-import { NavigationActions } from 'react-navigation';
 import tracker from 'helpers/googleAnalytics';
 import Map from 'components/map';
 
@@ -29,15 +28,15 @@ function mapDispatchToProps(dispatch, { navigation }) {
       navigation.navigate(routeName, params);
     },
     navigateReset: (routeName, params) => {
-      const action = NavigationActions.reset({
-        index: 2,
-        actions: [
-          { type: 'Navigate', routeName: 'Dashboard' },
-          { type: 'Navigate', routeName: 'Alerts' },
-          { type: 'Navigate', routeName, params }
-        ]
-      });
-      navigation.dispatch(action);
+      // const action = NavigationActions.reset({
+      //   index: 2,
+      //   actions: [
+      //     { type: 'Navigate', routeName: 'Dashboard' },
+      //     { type: 'Navigate', routeName: 'Alerts' },
+      //     { type: 'Navigate', routeName, params }
+      //   ]
+      // });
+      // navigation.dispatch(action);
     }
   };
 }
