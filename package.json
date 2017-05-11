@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "precommit": "npm run lint-staged"
   },
   "dependencies": {
     "@mapbox/geojson-area": "^0.2.2",
