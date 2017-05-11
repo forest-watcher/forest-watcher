@@ -17,13 +17,6 @@ function mapDispatchToProps(dispatch, { navigation }) {
     },
     goBack: () => {
       navigation.goBack();
-    },
-    onFinishSetup: async () => {
-      const action = NavigationActions.reset({
-        index: 0,
-        actions: [{ type: 'Navigate', routeName: 'Dashboard' }]
-      });
-      navigation.dispatch(action);
     }
   };
 }

@@ -17,8 +17,7 @@ class Reports extends Component {
   };
 
   render() {
-    const { state } = this.props.navigation;
-    const feedback = state && state.params && state.params.feedback;
+    const feedback = this.props && this.props.feedback;
     if (feedback) return <FeedBackForm feedback={feedback} />;
     return (
       <View style={[styles.container, styles.containerCenter]}>
@@ -29,7 +28,7 @@ class Reports extends Component {
 }
 
 Reports.propTypes = {
-  navigation: React.PropTypes.object.isRequired
+  feedback: React.PropTypes.string.isRequired
 };
 
 export default Reports;

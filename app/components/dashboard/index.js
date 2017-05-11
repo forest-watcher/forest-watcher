@@ -10,12 +10,14 @@ import {
   TouchableHighlight,
   Platform
 } from 'react-native';
+
 import Theme from 'config/theme';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
-import headerStyles from 'components/common/header/styles';
+import ConnectionStatus from 'containers/connectionstatus';
 import styles from './styles';
-import SettingsBtn from './settings-btn';
+
+const settingsIcon = require('assets/settings.png');
 
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
 
@@ -40,15 +42,52 @@ const sections = [
     title: I18n.t('dashboard.weeklyFeedback'),
     section: 'WeeklyFeedback',
     image: null
+  },
+  {
+    title: 'test',
+    section: 'NewReport',
+    image: myAlertIcon
   }
 ];
 
 class Dashboard extends Component {
+  static navigatorStyle = {
+    navBarTextColor: Theme.colors.color1,
+    topBarElevationShadowEnabled: false,
+    navBarBackgroundColor: Theme.background.main,
+    navBarTitleTextCentered: true
+  };
+
+  static navigatorButtons = {
+    rightButtons: [
+      {
+        icon: settingsIcon,
+        id: 'settings'
+      }
+    ]
+  };
+
+  constructor(props) {
+    super(props);
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
   componentDidMount() {
     if (Platform.OS === 'ios') {
       Location.requestAlwaysAuthorization();
     }
     tracker.trackScreenView('DashBoard');
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress') {
+      if (event.id === 'settings') {
+        this.props.navigator.push({
+          screen: 'ForestWatcher.Settings',
+          title: 'Settings'
+        });
+      }
+    }
   }
 
   onItemTap(item) {
@@ -57,39 +96,79 @@ class Dashboard extends Component {
     }
     if (item.section && item.section.length > 0) {
       switch (item.section) {
-        // case 'NewReport': {
-        //   const form = `New-report-${Math.floor(Math.random() * 1000)}`;
-        //   this.props.createReport(form);
-        //   this.props.navigate(item.section, { form });
-        //   break;
-        // }
+        case 'NewReport': {
+          const screen = 'ForestWatcher.NewReport';
+          const title = 'Report';
+          const form = `New-report-${Math.floor(Math.random() * 1000)}`;
+          this.props.createReport(form);
+          this.props.navigator.push({
+            screen,
+            title,
+            passProps: {
+              screen,
+              title,
+              form,
+              questionsToSkip: 4,
+              texts: {
+                saveLaterTitle: 'report.saveLaterTitle',
+                saveLaterDescription: 'report.saveLaterDescription',
+                requiredId: 'report.reportIdRequired'
+              }
+            }
+          });
+          break;
+        }
         case 'DailyFeedback': {
-          this.props.navigate('Feedback', { feedback: 'daily' });
+          const screen = 'ForestWatcher.Feedback';
+          const title = 'Feedback';
+          this.props.navigator.push({
+            screen,
+            title,
+            passProps: {
+              title,
+              screen,
+              form: 'daily',
+              questionsToSkip: 0,
+              texts: {
+                saveLaterTitle: 'feedback.saveLaterTitle',
+                saveLaterDescription: 'feedback.saveLaterDescription',
+                requiredId: 'feedback.reportIdRequired'
+              }
+            }
+          });
           break;
         }
         case 'WeeklyFeedback': {
-          this.props.navigate('Feedback', { feedback: 'weekly' });
+          const screen = 'ForestWatcher.Feedback';
+          const title = 'Feedback';
+          this.props.navigator.push({
+            screen,
+            title,
+            passProps: {
+              title,
+              screen,
+              form: 'weekly',
+              questionsToSkip: 0,
+              texts: {
+                saveLaterTitle: 'feedback.saveLaterTitle',
+                saveLaterDescription: 'feedback.saveLaterDescription',
+                requiredId: 'feedback.reportIdRequired'
+              }
+            }
+          });
           break;
         }
         default:
-          this.props.navigate(item.section);
+          this.props.navigator.push({
+            screen: `ForestWatcher.${item.section}`,
+            title: item.title
+          });
           break;
       }
     }
   }
 
   render() {
-    // <TouchableHighlight
-    //   style={styles.iconSettings}
-    //   onPress={() => this.onItemTap(item)}
-    //   activeOpacity={0.5}
-    //   underlayColor="transparent"
-    // >
-    //   <Image
-    //     source={require('assets/settings/settings.png')}
-    //   />
-    // </TouchableHighlight>
-
     return (
       <View style={styles.container}>
 
@@ -123,23 +202,15 @@ class Dashboard extends Component {
             )
           )}
         </ScrollView>
+        <ConnectionStatus />
       </View>
     );
   }
 }
 
 Dashboard.propTypes = {
-  navigate: React.PropTypes.func.isRequired
-};
-
-Dashboard.navigationOptions = {
-  header: ({ navigate }) => ({
-    tintColor: Theme.colors.color1,
-    style: headerStyles.style,
-    titleStyle: [headerStyles.titleStyle, headerStyles.center, headerStyles.home],
-    title: I18n.t('commonText.appName').toUpperCase(),
-    right: <SettingsBtn onPress={() => navigate('Settings')} />
-  })
+  navigator: React.PropTypes.object.isRequired,
+  createReport: React.PropTypes.func.isRequired
 };
 
 export default Dashboard;

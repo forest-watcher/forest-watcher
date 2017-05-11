@@ -10,10 +10,8 @@ import {
 } from 'react-native';
 
 import DatePicker from 'react-native-datepicker';
-import LeftBtn from 'components/common/header/left-btn';
 import Theme from 'config/theme';
 import I18n from 'locales';
-import headerStyles from 'components/common/header/styles';
 import tracker from 'helpers/googleAnalytics';
 
 import styles from './styles';
@@ -21,6 +19,13 @@ import styles from './styles';
 const plusIcon = require('assets/plus.png');
 
 class Settings extends Component {
+  static navigatorStyle = {
+    navBarTextColor: Theme.colors.color1,
+    navBarButtonColor: Theme.colors.color1,
+    topBarElevationShadowEnabled: false,
+    navBarBackgroundColor: Theme.background.main
+  };
+
   constructor() {
     super();
     this.state = {};
@@ -34,19 +39,36 @@ class Settings extends Component {
     // }
   }
 
-  onAreaPress = (areaId) => {
-    this.props.navigate('AreaDetail', { id: areaId });
+  onAreaPress = (areaId, name) => {
+    this.props.navigator.push({
+      screen: 'ForestWatcher.AreaDetail',
+      title: name,
+      passProps: {
+        id: areaId
+      }
+    });
   }
 
   onLogoutPress = () => {
     this.props.logout();
-    this.props.navigate('Home');
+    this.props.navigator.resetTo({
+      screen: 'ForestWatcher.Home'
+    });
+  }
+
+  onPressAddArea = () => {
+    this.props.navigator.push({
+      screen: 'ForestWatcher.Setup'
+    });
   }
 
   onDateChange = date => this.props.updateDate(date)
 
   handlePartnersLink = () => {
-    this.props.navigate('Partners');
+    this.props.navigator.push({
+      screen: 'ForestWatcher.Partners',
+      title: 'Partners'
+    });
   }
 
   render() {
@@ -99,14 +121,14 @@ class Settings extends Component {
               <Text style={styles.label}>
                 {I18n.t('settings.yourAreas')}
               </Text>
-              <AreaList onAreaPress={(areaId) => this.onAreaPress(areaId)} />
+              <AreaList onAreaPress={(areaId, name) => this.onAreaPress(areaId, name)} />
             </View>
           : null
           }
           <TouchableHighlight
             activeOpacity={0.5}
             underlayColor="transparent"
-            onPress={() => navigate('Setup')}
+            onPress={this.onPressAddArea}
           >
             <View style={styles.addButton}>
               <Image style={Theme.icon} source={plusIcon} />
@@ -188,21 +210,10 @@ Settings.propTypes = {
   areas: React.PropTypes.any,
   fromDate: React.PropTypes.string,
   toDate: React.PropTypes.string,
-  navigate: React.PropTypes.func.isRequired,
+  navigator: React.PropTypes.object.isRequired,
   getAreas: React.PropTypes.func.isRequired,
   logout: React.PropTypes.func.isRequired,
   updateDate: React.PropTypes.func.isRequired
 };
-
-Settings.navigationOptions = {
-  header: ({ goBack }) => ({
-    left: <LeftBtn goBack={goBack} />,
-    tintColor: Theme.colors.color1,
-    style: headerStyles.style,
-    titleStyle: headerStyles.titleStyle,
-    title: I18n.t('settings.title')
-  })
-};
-
 
 export default Settings;
