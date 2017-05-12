@@ -113,7 +113,8 @@
     "uploadAll": "Upload All",
     "drafts": "Drafts",
     "uploaded": "Uploaded",
-    "reportIdRequired": "Report id is neccesary"
+	"unable": "Unable to send report",
+	"connectionRequired": "You need an internet connection"
   },
   "feedback": {
     "title": "Feedback",

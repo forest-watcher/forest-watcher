@@ -96,91 +96,57 @@ export function saveReport(name, data) {
 
 export function uploadReport(reportName) {
   return (dispatch, state) => {
-    // const isConnected = state().app.isConnected;
-    const isConnected = true;
+    const report = state().form[reportName].values;
+    const user = state().user;
+    const userName = (user && user.data && user.data.attributes && user.data.attributes.fullName) || 'Guest user';
+    const oganization = (user && user.data && user.data.attributes && user.data.attributes.organization) || 'Vizzuality';
+    const reportStatus = state().reports.list[reportName];
 
-    if (isConnected) {
-      const report = state().form[reportName].values;
-      const user = state().user;
-      const userName = (user && user.data && user.data.attributes && user.data.attributes.fullName) || 'Guest user';
-      const oganization = (user && user.data && user.data.attributes && user.data.attributes.organization) || 'Vizzuality';
-      const reportStatus = state().reports.list[reportName];
+    const form = new FormData();
+    form.append('name', userName);
+    form.append('organization', oganization);
+    form.append('date', reportStatus && reportStatus.date);
+    form.append('position', reportStatus && reportStatus.position.toString());
 
-      const form = new FormData();
-      form.append('name', userName);
-      form.append('organization', oganization);
-      form.append('date', reportStatus && reportStatus.date);
-      form.append('position', reportStatus && reportStatus.position.toString());
+    Object.keys(report).forEach((key) => {
+      if (report[key].indexOf('jpg') >= 0) { // TODO: improve this
+        const image = {
+          uri: report[key],
+          type: 'image/jpg',
+          name: `${reportName}-image-${key}.jpg`
+        };
+        form.append(key, image);
+      } else {
+        form.append(key, report[key].toString());
+      }
+    });
 
-      Object.keys(report).forEach((key) => {
-        if (report[key].indexOf('jpg') >= 0) { // TODO: improve this
-          const image = {
-            uri: report[key],
-            type: 'image/jpg',
-            name: `${reportName}-image-${key}.jpg`
-          };
-          form.append(key, image);
-        } else {
-          form.append(key, report[key].toString());
-        }
-      });
+    const language = getLanguage().toUpperCase();
+    let qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
+    if (!qIdByLanguage) qIdByLanguage = Config.QUESTIONNARIE_ID_EN; // language fallback
+    const url = `${Config.API_URL}/questionnaire/${qIdByLanguage}/answer`;
 
-      const language = getLanguage().toUpperCase();
-      let qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
-      if (!qIdByLanguage) qIdByLanguage = Config.QUESTIONNARIE_ID_EN; // language fallback
-      const url = `${Config.API_URL}/questionnaire/${qIdByLanguage}/answer`;
-
-      // const xhr = new XMLHttpRequest();
-      // xhr.withCredentials = true;
-      // xhr.open('POST', url);
-      // xhr.setRequestHeader('authorization', `Bearer ${state().user.token}`);
-      // xhr.addEventListener('readystatechange', () => {
-      //   if (xhr.readyState === 4) {
-      //     if (xhr.status === 200) {
-      //       console.log('iuhuuuu', xhr.responseText);
-      //       dispatch({
-      //         type: UPDATE_REPORT,
-      //         payload: {
-      //           name: reportName,
-      //           data: { status: CONSTANTS.status.uploaded }
-      //         }
-      //       });
-      //     } else {
-      //       console.log('TODO: handle error', xhr.responseText);
-      //     }
-      //   }
-      // });
-
-      // xhr.send(form);
-
-      const fetchConfig = {
-        headers: {
-          Authorization: `Bearer ${state().user.token}`
-        },
-        method: 'POST',
-        body: form
-      };
-      fetch(url, fetchConfig)
-        .then((response) => {
-          if (response.ok) return response.json();
-          throw new Error(response.statusText);
-        })
-        .then((response) => {
-          console.info('TODO: save response', response);
-          dispatch({
-            type: UPDATE_REPORT,
-            payload: {
-              name: reportName,
-              data: { status: CONSTANTS.status.uploaded }
-            }
-          });
-        })
-        .catch((err) => {
-          console.info('TODO: handle error', err);
-        });
-    } else {
-      console.info('TODO: handle submit form on no connection');
-    }
+    const fetchConfig = {
+      headers: {
+        Authorization: `Bearer ${state().user.token}`
+      },
+      method: 'POST',
+      body: form
+    };
+    fetch(url, fetchConfig)
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      })
+      .then(() =>
+        dispatch({
+          type: UPDATE_REPORT,
+          payload: {
+            name: reportName,
+            data: { status: CONSTANTS.status.uploaded }
+          }
+        }))
+      .catch((err) => console.info('TODO: handle error', err));
   };
 }
 

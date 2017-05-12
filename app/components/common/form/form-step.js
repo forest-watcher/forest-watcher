@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 import { Field, reduxForm } from 'redux-form';
 
 import I18n from 'locales';
@@ -8,6 +8,15 @@ import getInputForm from 'components/common/form-inputs';
 import NextButton from './next-button';
 import styles from './styles';
 
+const onPressNext = (isConnected, cb) => {
+  if (cb) return cb();
+  return Alert.alert(
+    I18n.t('report.unable'),
+    I18n.t('report.ConnectionRequired'),
+    [{ text: 'OK' }]
+  );
+};
+
 const getNext = (question, answer, next) => {
   const disabled = !answer && question.required;
   const isBlob = question.type === 'blob';
@@ -15,7 +24,7 @@ const getNext = (question, answer, next) => {
   if (isBlob) {
     return (<NextButton transparent={!answer} style={styles.buttonNextPos} disabled={disabled} onPress={next.callback} />);
   }
-  return (<ActionButton style={styles.buttonPos} disabled={disabled} onPress={next.callback} text={I18n.t(next.text)} />);
+  return (<ActionButton style={styles.buttonPos} disabled={disabled} onPress={() => onPressNext(next.callback)} text={I18n.t(next.text)} />);
 };
 
 const FormStep = ({ question, answer, next }) => (
