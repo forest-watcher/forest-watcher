@@ -39,6 +39,9 @@ export default StyleSheet.create({
     marginBottom: 52,
     marginLeft: 8
   },
+  captureBtnDisabled: {
+    backgroundColor: Theme.background.gray
+  },
   preview: {
     height: 416,
     width: Theme.screen.width - (56 * 2),
