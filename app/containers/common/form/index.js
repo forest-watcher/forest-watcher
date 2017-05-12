@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { getBtnTextByType, getBtnTextByPosition } from 'helpers/forms';
-import ReportsForm from 'components/reports/new/form-step';
+import ReportsForm from 'components/common/form/form-step';
 
 function getAnswers(forms, formName) {
   if (!forms) return null;
@@ -19,7 +19,7 @@ function getQuestions(state, formName) {
   }
 }
 
-function getNextCallback({ currentQuestion, questions, answers, navigator, form, screen, title, texts, finish }) {
+function getNextCallback({ currentQuestion, questions, answers, navigator, form, screen, title, texts, finish, isConnected }) {
   let next = 1;
   if (currentQuestion < questions.length - 1) {
     for (let i = currentQuestion + 1, qLength = questions.length; i < qLength; i++) {
@@ -30,21 +30,26 @@ function getNextCallback({ currentQuestion, questions, answers, navigator, form,
       }
       next += 1;
     }
-    return () => navigator.push({
-      title,
-      screen,
-      passProps: {
-        form,
-        texts,
+    return () => {
+      navigator.push({
         title,
         screen,
-        step: currentQuestion + next
-      }
-    });
+        passProps: {
+          form,
+          texts,
+          title,
+          screen,
+          step: currentQuestion + next
+        }
+      });
+      return true;
+    };
   }
   return () => {
+    if (!isConnected) return false;
     finish(form);
     navigator.popToRoot({ animate: true });
+    return true;
   };
 }
 
@@ -72,7 +77,8 @@ function mapStateToProps(state, { form, index, texts, questionsToSkip, finish, t
         texts,
         currentQuestion: index,
         questions,
-        answers
+        answers,
+        isConnected: state.app.isConnected
       })
     }
   };

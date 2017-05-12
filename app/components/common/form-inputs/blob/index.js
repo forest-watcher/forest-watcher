@@ -67,7 +67,7 @@ class ImageBlobInput extends Component {
           />
         </View>
         <TouchableHighlight
-          style={styles.captureBtn}
+          style={[styles.captureBtn, this.state.saving ? styles.captureBtnDisabled : '']}
           onPress={this.takePicture}
           activeOpacity={0.8}
           underlayColor={Theme.background.secondary}

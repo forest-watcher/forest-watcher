@@ -118,7 +118,8 @@
     "uploadAll": "Carregar todos",
     "drafts": "Rascunhos",
     "uploaded": "Carregado",
-    "reportIdRequired": "O ID do relatório é necessário"
+	"unable": "Unable to send report",
+	"connectionRequired": "You need an internet connection"
   },
   "feedback": {
     "title": "Feedback",

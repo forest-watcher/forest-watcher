@@ -118,7 +118,8 @@
     "uploadAll": "Subir todo",
     "drafts": "Borradores",
     "uploaded": "Subido",
-    "reportIdRequired": "El ID del reporte es requerido"
+	"unable": "Unable to send report",
+	"connectionRequired": "You need an internet connection"
   },
   "feedback": {
     "title": "Feedback",

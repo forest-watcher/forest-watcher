@@ -9,8 +9,6 @@ import {
 
 import I18n from 'locales';
 import Theme from 'config/theme';
-import LeftBtn from 'components/common/header/left-btn';
-import headerStyles from 'components/common/header/styles';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
@@ -59,7 +57,7 @@ class Reports extends Component {
   getCompleted(completed) {
     const onActionPress = (reportName) => {
       tracker.trackEvent('Report', 'Complete Report', { label: 'Click Done', value: 0 });
-      // this.props.uploadReport(reportName);
+      this.props.uploadReport(reportName);
     };
     return (
       <View style={styles.listContainer}>
@@ -74,22 +72,23 @@ class Reports extends Component {
 
   getDrafts(drafts) {
     const onActionPress = (reportName) => {
-      // const screen = 'ForestWatcher.NewReport';
-      // const title = 'Report';
-      // this.props.navigator.push({
-      //   screen,
-      //   title,
-      //   passProps: {
-      //     screen,
-      //     title,
-      //     form: reportName,
-      //     texts: {
-      //       saveLaterTitle: 'report.saveLaterTitle',
-      //       saveLaterDescription: 'report.saveLaterDescription',
-      //       requiredId: 'report.reportIdRequired'
-      //     }
-      //   }
-      // });
+      const screen = 'ForestWatcher.NewReport';
+      const title = 'Report';
+      this.props.navigator.push({
+        screen,
+        title,
+        passProps: {
+          screen,
+          title,
+          form: reportName,
+          questionsToSkip: 4,
+          texts: {
+            saveLaterTitle: 'report.saveLaterTitle',
+            saveLaterDescription: 'report.saveLaterDescription',
+            requiredId: 'report.reportIdRequired'
+          }
+        }
+      });
     };
     return (
       <View style={styles.listContainer}>

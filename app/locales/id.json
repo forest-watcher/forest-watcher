@@ -118,7 +118,8 @@
     "uploadAll": "Unggah semua",
     "drafts": "Draf",
     "uploaded": "Terunggah",
-    "reportIdRequired": "Laporan id diperlukan"
+	"unable": "Unable to send report",
+	"connectionRequired": "You need an internet connection"
   },
   "feedback": {
     "title": "Umpan balik",
