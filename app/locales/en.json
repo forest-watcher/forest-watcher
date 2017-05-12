@@ -17,7 +17,9 @@
     "yourPosition": "Your position",
 		"connectionRequiredTitle": "No connection",
 		"connectionRequired": "You need an internet connection to complete this action",
-    "noImage": "No image"
+    "noImage": "No image",
+    "cached": "cached",
+    "noCached": "no-cached"
 	},
 	"dashboard": {
 		"title": "Dashboard",
@@ -96,7 +98,10 @@
 		"addArea": "ADD AREA",
 		"aboutApp": "About this app",
 		"aboutPartners": "Partners",
-		"aboutTerms": "Terms and Conditions"
+		"aboutTerms": "Terms and Conditions",
+    "timeFrame": "Time Frame",
+    "from": "From",
+    "to": "To"
 	},
   "report": {
     "title": "Report",

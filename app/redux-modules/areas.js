@@ -31,6 +31,7 @@ export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_AREAS: {
       const areas = [...state.data];
+      const images = action.payload.images;
       const newAreas = action.payload.data;
       let mergedAreas = [];
       if (areas.length > 0) {
@@ -44,7 +45,7 @@ export default function reducer(state = initialState, action) {
       } else {
         mergedAreas = newAreas;
       }
-      return Object.assign({}, state, { data: mergedAreas, synced: true });
+      return Object.assign({}, state, { data: mergedAreas, images, synced: true });
     }
     case SYNCING_AREAS:
       return Object.assign({}, state, { syncing: action.payload });
