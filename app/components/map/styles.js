@@ -213,8 +213,6 @@ export const styles = StyleSheet.create({
     lineHeight: 13
   },
   currentPosition: {
-    borderTopWidth: 1,
-    borderTopColor: '#CCCCCC',
     paddingTop: 3,
     position: 'relative'
   },

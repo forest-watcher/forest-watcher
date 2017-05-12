@@ -17,7 +17,9 @@
     "yourPosition": "Your position",
 		"connectionRequiredTitle": "No connection",
 		"connectionRequired": "You need an internet connection to complete this action",
-    "noImage": "No image"
+    "noImage": "No image",
+    "cached": "cached",
+    "noCached": "no-cached"
 	},
 	"dashboard": {
 		"title": "Tableau de bord",
@@ -45,7 +47,7 @@
 		"searchPlaceholder": "Rechercher un pays"
 	},
 	"alerts": {
-    "title": "Alertes",
+    "title": "My Alerts",
 		"seeAll": "Voir tout",
 		"alert": "alerte",
     "downloadingAlerts": "Veuillez patienter pendant le téléchargement des données...",
@@ -96,7 +98,10 @@
 		"addArea": "AJOUTER ZONE",
 		"aboutApp": "À propos de cette application",
 		"aboutPartners": "Les partenaires",
-		"aboutTerms": "Conditions d'utilisation"
+		"aboutTerms": "Conditions d'utilisation",
+    "timeFrame": "Time Frame",
+    "from": "From",
+    "to": "To"
 	},
   "report": {
     "title": "Rapport",

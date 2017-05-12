@@ -6,6 +6,7 @@ import {
   TouchableHighlight,
   View
 } from 'react-native';
+import I18n from 'locales';
 import Theme from 'config/theme';
 import styles from './styles';
 
@@ -33,7 +34,7 @@ function AreaList(props) {
             }
           </View>
           <Text style={styles.title} numberOfLines={2}>
-            {area.name} - {item.cached ? 'cached' : 'no-cached'}
+            {area.name} - {item.cached ? I18n.t('commonText.cached') : I18n.t('commonText.noCached')}
           </Text>
           <TouchableHighlight
             activeOpacity={0.5}
