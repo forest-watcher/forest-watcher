@@ -30,22 +30,26 @@ function getNextCallback({ currentQuestion, questions, answers, navigator, form,
       }
       next += 1;
     }
-    return () => navigator.push({
-      title,
-      screen,
-      passProps: {
-        form,
-        texts,
+    return () => {
+      navigator.push({
         title,
         screen,
-        step: currentQuestion + next
-      }
-    });
+        passProps: {
+          form,
+          texts,
+          title,
+          screen,
+          step: currentQuestion + next
+        }
+      });
+      return true;
+    };
   }
   return () => {
     if (!isConnected) return false;
     finish(form);
-    return navigator.popToRoot({ animate: true });
+    navigator.popToRoot({ animate: true });
+    return true;
   };
 }
 
