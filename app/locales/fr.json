@@ -118,7 +118,8 @@
     "uploadAll": "Tout sauvegardé",
     "drafts": "Brouillons",
     "uploaded": "Sauvegardé",
-    "reportIdRequired": "L'identifiant du rapport est nécessaire"
+	"unable": "Unable to send report",
+	"connectionRequired": "You need an internet connection"
   },
   "feedback": {
     "title": "Feedback",
