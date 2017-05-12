@@ -104,9 +104,7 @@ export function saveFeedback(name, data) {
 
 export function uploadFeedback(type) {
   return (dispatch, state) => {
-    // const isConnected = state().app.isConnected;
-    const isConnected = true;
-
+    const isConnected = state().app.isConnected;
     if (isConnected) {
       const report = state().form[type].values;
       const user = state().user;
