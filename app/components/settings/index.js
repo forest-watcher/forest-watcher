@@ -88,7 +88,7 @@ class Settings extends Component {
         functionOnPress: null
       }
     ];
-    const { areas, navigate } = this.props;
+    const { areas } = this.props;
 
     return (
       <View style={styles.container}>
@@ -219,8 +219,7 @@ Settings.propTypes = {
   navigator: React.PropTypes.object.isRequired,
   getAreas: React.PropTypes.func.isRequired,
   logout: React.PropTypes.func.isRequired,
-  updateDate: React.PropTypes.func.isRequired,
-  navigate: React.PropTypes.func
+  updateDate: React.PropTypes.func.isRequired
 };
 
 export default Settings;
