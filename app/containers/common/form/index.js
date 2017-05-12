@@ -19,7 +19,7 @@ function getQuestions(state, formName) {
   }
 }
 
-function getNextCallback({ currentQuestion, questions, answers, navigator, form, screen, title, texts, finish, isConnected }) {
+function getNextCallback({ currentQuestion, questions, answers, navigator, form, screen, title, texts, finish }) {
   let next = 1;
   if (currentQuestion < questions.length - 1) {
     for (let i = currentQuestion + 1, qLength = questions.length; i < qLength; i++) {
@@ -30,26 +30,21 @@ function getNextCallback({ currentQuestion, questions, answers, navigator, form,
       }
       next += 1;
     }
-    return () => {
-      navigator.push({
+    return () => navigator.push({
+      title,
+      screen,
+      passProps: {
+        form,
+        texts,
         title,
         screen,
-        passProps: {
-          form,
-          texts,
-          title,
-          screen,
-          step: currentQuestion + next
-        }
-      });
-      return true;
-    };
+        step: currentQuestion + next
+      }
+    });
   }
   return () => {
-    if (!isConnected) return false;
     finish(form);
     navigator.popToRoot({ animate: true });
-    return true;
   };
 }
 

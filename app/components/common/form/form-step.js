@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, View } from 'react-native';
+import { View } from 'react-native';
 import { Field, reduxForm } from 'redux-form';
 
 import I18n from 'locales';
@@ -7,16 +7,6 @@ import ActionButton from 'components/common/action-button';
 import getInputForm from 'components/common/form-inputs';
 import NextButton from './next-button';
 import styles from './styles';
-
-const onPressNext = (cb) => {
-  if (!cb()) {
-    Alert.alert(
-      I18n.t('report.unable'),
-      I18n.t('report.connectionRequired'),
-      [{ text: 'OK' }]
-    );
-  }
-};
 
 const getNext = (question, answer, next) => {
   const disabled = !answer && question.required;
@@ -28,7 +18,7 @@ const getNext = (question, answer, next) => {
   return (<ActionButton
     style={styles.buttonPos}
     disabled={disabled}
-    onPress={() => onPressNext(next.callback)}
+    onPress={next.callback}
     text={I18n.t(next.text)}
   />);
 };

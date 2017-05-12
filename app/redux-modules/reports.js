@@ -96,57 +96,61 @@ export function saveReport(name, data) {
 
 export function uploadReport(reportName) {
   return (dispatch, state) => {
-    const report = state().form[reportName].values;
-    const user = state().user;
-    const userName = (user && user.data && user.data.attributes && user.data.attributes.fullName) || 'Guest user';
-    const oganization = (user && user.data && user.data.attributes && user.data.attributes.organization) || 'Vizzuality';
-    const reportStatus = state().reports.list[reportName];
+    const isConnected = state().app.isConnected;
 
-    const form = new FormData();
-    form.append('name', userName);
-    form.append('organization', oganization);
-    form.append('date', reportStatus && reportStatus.date);
-    form.append('position', reportStatus && reportStatus.position.toString());
+    if (isConnected) {
+      const report = state().form[reportName].values;
+      const user = state().user;
+      const userName = (user && user.data && user.data.attributes && user.data.attributes.fullName) || 'Guest user';
+      const oganization = (user && user.data && user.data.attributes && user.data.attributes.organization) || 'Vizzuality';
+      const reportStatus = state().reports.list[reportName];
 
-    Object.keys(report).forEach((key) => {
-      if (report[key].indexOf('jpg') >= 0) { // TODO: improve this
-        const image = {
-          uri: report[key],
-          type: 'image/jpg',
-          name: `${reportName}-image-${key}.jpg`
-        };
-        form.append(key, image);
-      } else {
-        form.append(key, report[key].toString());
-      }
-    });
+      const form = new FormData();
+      form.append('name', userName);
+      form.append('organization', oganization);
+      form.append('date', reportStatus && reportStatus.date);
+      form.append('position', reportStatus && reportStatus.position.toString());
 
-    const language = getLanguage().toUpperCase();
-    let qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
-    if (!qIdByLanguage) qIdByLanguage = Config.QUESTIONNARIE_ID_EN; // language fallback
-    const url = `${Config.API_URL}/questionnaire/${qIdByLanguage}/answer`;
+      Object.keys(report).forEach((key) => {
+        if (report[key].indexOf('jpg') >= 0) { // TODO: improve this
+          const image = {
+            uri: report[key],
+            type: 'image/jpg',
+            name: `${reportName}-image-${key}.jpg`
+          };
+          form.append(key, image);
+        } else {
+          form.append(key, report[key].toString());
+        }
+      });
 
-    const fetchConfig = {
-      headers: {
-        Authorization: `Bearer ${state().user.token}`
-      },
-      method: 'POST',
-      body: form
-    };
-    fetch(url, fetchConfig)
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then(() =>
-        dispatch({
-          type: UPDATE_REPORT,
-          payload: {
-            name: reportName,
-            data: { status: CONSTANTS.status.uploaded }
-          }
-        }))
-      .catch((err) => console.info('TODO: handle error', err));
+      const language = getLanguage().toUpperCase();
+      let qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
+      if (!qIdByLanguage) qIdByLanguage = Config.QUESTIONNARIE_ID_EN; // language fallback
+      const url = `${Config.API_URL}/questionnaire/${qIdByLanguage}/answer`;
+
+      const fetchConfig = {
+        headers: {
+          Authorization: `Bearer ${state().user.token}`
+        },
+        method: 'POST',
+        body: form
+      };
+      fetch(url, fetchConfig)
+        .then((response) => {
+          if (response.ok) return response.json();
+          throw new Error(response.statusText);
+        })
+        .then(() =>
+          dispatch({
+            type: UPDATE_REPORT,
+            payload: {
+              name: reportName,
+              data: { status: CONSTANTS.status.uploaded }
+            }
+          }))
+        .catch((err) => console.info('TODO: handle error', err));
+    }
   };
 }
 
