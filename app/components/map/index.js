@@ -192,6 +192,7 @@ class Map extends Component {
     this.setState({
       areaCoordinates: this.getAreaCoordinates(this.areaFeatures[aId]),
       areaId: area.id,
+      alertSelected: null,
       coordinates: {
         tile: [], // tile coordinates x, y, z + precision x, y
         precision: [] // tile precision x, y
@@ -492,8 +493,8 @@ class Map extends Component {
               urlTemplate="http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/{z}/{x}/{y}.png"
               zIndex={-1}
               maxZoom={12}
-              areaId={this.props.areaId}
-              isConnected={this.props.isConnected}
+              areaId={this.state.areaId}
+              isConnected={false}
               minDate={daysSince(this.props.fromDate)}
               maxDate={daysSince(this.props.toDate)}
             />
@@ -537,7 +538,6 @@ Map.propTypes = {
   navigator: React.PropTypes.object.isRequired,
   createReport: React.PropTypes.func.isRequired,
   isConnected: React.PropTypes.bool,
-  areaId: React.PropTypes.any,
   geostores: React.PropTypes.object,
   fromDate: React.PropTypes.string,
   toDate: React.PropTypes.string,
