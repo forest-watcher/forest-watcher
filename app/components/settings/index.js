@@ -181,7 +181,9 @@ class Settings extends Component {
           <TouchableHighlight
             activeOpacity={0.5}
             underlayColor="transparent"
-            onPress={() => navigate('Setup')}
+            onPress={() => this.props.navigator.push({
+              screen: 'ForestWatcher.Setup' }
+            )}
           >
             <View style={styles.addButton}>
               <Image style={Theme.icon} source={plusIcon} />

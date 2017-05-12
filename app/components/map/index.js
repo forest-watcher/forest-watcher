@@ -9,7 +9,8 @@ import {
   StatusBar,
   Image,
   Text,
-  Platform
+  Platform,
+  TouchableHighlight
 } from 'react-native';
 import CONSTANTS from 'config/constants';
 import Carousel from 'react-native-snap-carousel';
@@ -287,6 +288,12 @@ class Map extends Component {
     });
   }
 
+  removeAlertSelected = () => {
+    this.setState({
+      alertSelected: null
+    });
+  }
+
   createReport = () => {
     const { lastPosition } = this.state;
     let latLng = '0,0';
@@ -376,10 +383,11 @@ class Map extends Component {
       : styles.textContainer;
 
 
-    if (this.state.alertSelected) {
+    if (lastPosition && (this.state.alertSelected && this.state.alertSelected.latitude
+     && this.state.alertSelected.longitude)) {
       const geoPoint = new GeoPoint(this.state.alertSelected.latitude, this.state.alertSelected.longitude);
       const currentPoint = new GeoPoint(lastPosition.latitude, lastPosition.longitude);
-      positionText = `${lastPosition.latitude}, ${lastPosition.longitude}`;
+      positionText = `${I18n.t('commonText.yourPosition')}: ${lastPosition.latitude.toFixed(4)}, ${lastPosition.longitude.toFixed(4)}`;
       distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);
       distanceText = `${distance} ${I18n.t('commonText.kmAway')}`; // in Kilometers
     }
@@ -388,7 +396,7 @@ class Map extends Component {
       <View key={`entry-${index}`} style={styles.slideInnerContainer}>
         <Text style={containerTextSyle}>{ area.name }</Text>
         {this.state.alertSelected &&
-          <View>
+          <View style={styles.currentPosition}>
             <Text style={styles.coordinateDistanceText}>
               {distanceText}
             </Text>
@@ -410,7 +418,7 @@ class Map extends Component {
           >
             {this.state.alertSelected &&
               <Text style={styles.headerSubtitle}>
-                {this.state.alertSelected.lat}, {this.state.alertSelected.long}
+                {this.state.alertSelected.latitude.toFixed(4)}, {this.state.alertSelected.longitude.toFixed(4)}
               </Text>
             }
           </View>

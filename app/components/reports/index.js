@@ -59,7 +59,7 @@ class Reports extends Component {
   getCompleted(completed) {
     const onActionPress = (reportName) => {
       tracker.trackEvent('Report', 'Complete Report', { label: 'Click Done', value: 0 });
-      this.props.uploadReport(reportName);
+      // this.props.uploadReport(reportName);
     };
     return (
       <View style={styles.listContainer}>
@@ -74,7 +74,22 @@ class Reports extends Component {
 
   getDrafts(drafts) {
     const onActionPress = (reportName) => {
-      this.props.navigation.navigate('NewReport', { form: reportName });
+      // const screen = 'ForestWatcher.NewReport';
+      // const title = 'Report';
+      // this.props.navigator.push({
+      //   screen,
+      //   title,
+      //   passProps: {
+      //     screen,
+      //     title,
+      //     form: reportName,
+      //     texts: {
+      //       saveLaterTitle: 'report.saveLaterTitle',
+      //       saveLaterDescription: 'report.saveLaterDescription',
+      //       requiredId: 'report.reportIdRequired'
+      //     }
+      //   }
+      // });
     };
     return (
       <View style={styles.listContainer}>
@@ -123,7 +138,7 @@ class Reports extends Component {
 
 Reports.propTypes = {
   uploadReport: React.PropTypes.func.isRequired,
-  navigation: React.PropTypes.object.isRequired,
+  navigator: React.PropTypes.object.isRequired,
   reports: React.PropTypes.shape({
     draft: React.PropTypes.array,
     uploaded: React.PropTypes.array,

@@ -211,5 +211,23 @@ export const styles = StyleSheet.create({
     marginLeft: 14,
     backgroundColor: 'transparent',
     lineHeight: 13
+  },
+  currentPosition: {
+    borderTopWidth: 1,
+    borderTopColor: '#CCCCCC',
+    paddingTop: 3,
+    position: 'relative'
+  },
+  btnRemoveCurrent: {
+    width: 20,
+    height: 20,
+    position: 'absolute',
+    right: 0,
+    bottom: 0
+  },
+  btnRemoveCurrentText: {
+    fontSize: 18,
+    borderTopColor: '#CCCCCC',
+    padding: 0
   }
 });
