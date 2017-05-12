@@ -118,8 +118,8 @@
     "uploadAll": "Unggah semua",
     "drafts": "Draf",
     "uploaded": "Terunggah",
-	"unable": "Unable to send report",
-	"connectionRequired": "You need an internet connection"
+	"unable": "Tidak dapat mengirim laporan",
+	"connectionRequired": "Anda membutuhkan koneksi internet"
   },
   "feedback": {
     "title": "Umpan balik",

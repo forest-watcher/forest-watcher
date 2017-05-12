@@ -78,6 +78,7 @@ class Map extends Component {
     this.eventOrientation = null;
     // Google maps lon and lat are inverted
     this.state = {
+      index: 0,
       renderMap: false,
       lastPosition: null,
       heading: null,
@@ -139,7 +140,7 @@ class Map extends Component {
       }
       this.afterRenderTimer = setTimeout(() => {
         if (this.areaFeatures && this.areaFeatures.length > 0) {
-          const area = this.getAreaCoordinates(this.areaFeatures[0]);
+          const area = this.getAreaCoordinates(this.areaFeatures[this.state.index]);
 
           this.map.fitToCoordinates(area,
             { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: true });
@@ -190,6 +191,7 @@ class Map extends Component {
   updateSelectedArea(aId) {
     const area = this.props.areas[aId];
     this.setState({
+      index: aId,
       areaCoordinates: this.getAreaCoordinates(this.areaFeatures[aId]),
       areaId: area.id,
       alertSelected: null,
