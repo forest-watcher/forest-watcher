@@ -7,9 +7,7 @@ import {
 import tracker from 'helpers/googleAnalytics';
 
 import I18n from 'locales';
-import LeftBtn from 'components/common/header/left-btn';
 import Theme from 'config/theme';
-import headerStyles from 'components/common/header/styles';
 import ActionButton from 'components/common/action-button';
 import styles from './styles';
 
@@ -60,18 +58,8 @@ AreaDetail.propTypes = {
   imageUrl: React.PropTypes.string,
   deleteArea: React.PropTypes.func,
   isConnected: React.PropTypes.func,
-  navigation: React.PropTypes.object,
+  navigator: React.PropTypes.object,
   area: React.PropTypes.object
-};
-
-AreaDetail.navigationOptions = {
-  header: ({ goBack }) => ({
-    left: <LeftBtn goBack={goBack} />,
-    tintColor: Theme.colors.color1,
-    style: headerStyles.style,
-    titleStyle: headerStyles.titleStyle,
-    title: I18n.t('areaDetail.title')
-  })
 };
 
 export default AreaDetail;

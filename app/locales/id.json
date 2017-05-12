@@ -3,21 +3,23 @@
 		"appName": "Forest Watcher 2.0",
 		"next": "Lanjut",
     "save": "Menyimpan",
-    "delete": "Delete",
+    "delete": "Menghapus",
 		"back": "Kembali",
 		"finish": "Selesai",
-		"saving": "Saving",
-		"caching": "Caching",
+		"saving": "Penghematan",
+		"caching": "\n7/5000\nCaching",
 		"setUp": "Pengaturan",
     "cancel": "Batalkan",
     "confirm": "Konfirmasi",
     "loading": "Pemuatan",
     "notAvailable": "Tidak tersedia",
     "kmAway": "km jauhnya",
-    "yourPosition": "Your position",
-		"connectionRequiredTitle": "No connection",
-		"connectionRequired": "You need an internet connection to complete this action",
-    "noImage": "No image"
+    "yourPosition": "Posisi kamu",
+		"connectionRequiredTitle": "Tidak ada koneksi",
+		"connectionRequired": "Anda memerlukan koneksi internet",
+    "noImage": "Tidak ada gambar",
+    "cached": "Di-cache",
+    "noCached": "Tidak di-cache"
 	},
 	"dashboard": {
 		"title": "Dasbor",
@@ -53,8 +55,8 @@
     "satelliteSignal": "Menunggu sinyal satelit ..."
 	},
 	"areaDetail": {
-    "title": "Area detail",
-		"delete": "Delete this area"
+    "title": "Detail area",
+		"delete": "Hapus area ini"
 	},
 	"boundaries": {
 		"chooseBoundaries": "Sakarang, pilih batas",
@@ -67,13 +69,13 @@
 		"firstInstruction": "Pertama, pilih negara yang diinginkan"
 	},
 	"partners": {
-	 	"title": "Partners",
-		"description": "Forest Watcher 2.0 is supported by a partnership of organizations contributing data, technology, funding and expertise.",
-		"listOfPartners": "See a full list of partners below."
+	 	"title": "Mitra",
+		"description": "Forest Watcher 2.0 didukung oleh kemitraan organisasi yang memberikan kontribusi data, teknologi, pendanaan dan keahlian.",
+		"listOfPartners": "Lihat daftar lengkap mitra di bawah ini."
 	},
 	"setupDrawAreas": {
     "invalidShape": "Bentuk valid",
-    "invalidSize": "Max allowed size",
+    "invalidSize": "Terlalu besar",
 		"tapInstruction": "Ketuk peta untuk menggambar area"
 	},
 	"setupHeader": {
@@ -96,7 +98,10 @@
 		"addArea": "TAMBAH AREA",
 		"aboutApp": "Tentang aplikasi ini",
 		"aboutPartners": "Mitra",
-		"aboutTerms": "Syarat dan Ketentuan"
+		"aboutTerms": "Syarat dan Ketentuan",
+    "timeFrame": "Jangka waktu",
+    "from": "Dari",
+    "to": "untuk"
 	},
   "report": {
     "title": "Lapor",

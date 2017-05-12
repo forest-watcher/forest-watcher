@@ -88,7 +88,7 @@ class Settings extends Component {
         functionOnPress: null
       }
     ];
-    const { areas, navigate } = this.props;
+    const { areas } = this.props;
 
     return (
       <View style={styles.container}>
@@ -122,11 +122,11 @@ class Settings extends Component {
 
           <View style={styles.datesSection}>
             <Text style={styles.dateContainerLabel}>
-              Time Frame
+              {I18n.t('settings.timeFrame')}
             </Text>
             <View style={styles.dateContainer}>
               <Text style={styles.dateLabel}>
-                From
+                {I18n.t('settings.from')}
               </Text>
               <DatePicker
                 showIcon={false}
@@ -148,7 +148,7 @@ class Settings extends Component {
             </View>
             <View style={styles.dateContainer}>
               <Text style={styles.dateLabel}>
-                To
+                {I18n.t('settings.to')}
               </Text>
               <DatePicker
                 style={styles.datePicker}
@@ -219,8 +219,7 @@ Settings.propTypes = {
   navigator: React.PropTypes.object.isRequired,
   getAreas: React.PropTypes.func.isRequired,
   logout: React.PropTypes.func.isRequired,
-  updateDate: React.PropTypes.func.isRequired,
-  navigate: React.PropTypes.func
+  updateDate: React.PropTypes.func.isRequired
 };
 
 export default Settings;
