@@ -1,11 +1,7 @@
 import { connect } from 'react-redux';
 import { finishFeedback } from 'redux-modules/feedback';
 
-import NewReport from 'components/reports/new';
-
-function mapStateToProps() {
-  return {};
-}
+import Form from 'components/common/form';
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -16,6 +12,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
-)(NewReport);
+)(Form);

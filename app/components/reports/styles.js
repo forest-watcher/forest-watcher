@@ -17,17 +17,6 @@ export default StyleSheet.create({
   containerFull: {
     marginTop: 0
   },
-  buttonPos: {
-    position: 'absolute',
-    bottom: 52,
-    left: 8,
-    right: 8
-  },
-  buttonNextPos: {
-    position: 'absolute',
-    bottom: 52,
-    right: 8
-  },
   listContainer: {
     flex: 1,
     marginBottom: 24

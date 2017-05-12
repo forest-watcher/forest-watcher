@@ -7,7 +7,7 @@ import Dashboard from 'containers/dashboard';
 import Map from 'containers/map';
 import Settings from 'containers/settings';
 import Reports from 'containers/reports';
-import Feedback from 'containers/feedback/form';
+import Feedback from 'containers/feedback';
 import NewReport from 'containers/reports/new';
 import AreaDetail from 'containers/settings/area-detail';
 import Partners from 'components/settings/partners';
@@ -25,3 +25,5 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent('ForestWatcher.AreaDetail', () => AreaDetail, store, Provider);
   Navigation.registerComponent('ForestWatcher.Partners', () => Partners, store, Provider);
 }
+
+export default registerScreens;

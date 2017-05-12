@@ -8,9 +8,9 @@ import {
 import CONSTANTS from 'config/constants';
 import Theme from 'config/theme';
 import I18n from 'locales';
-import ReportsForm from 'containers/reports/new/form';
+import Form from 'containers/common/form';
 import tracker from 'helpers/googleAnalytics';
-import styles from '../styles';
+import styles from './styles';
 
 const saveReportIcon = require('assets/save_for_later.png');
 
@@ -76,7 +76,7 @@ class Reports extends Component {
     const { form, step, texts, title, questionsToSkip, finish, screen } = this.props;
     const index = step || questionsToSkip;
     if (form) {
-      return (<ReportsForm
+      return (<Form
         form={form}
         index={index}
         navigator={this.props.navigator}
