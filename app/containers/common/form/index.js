@@ -30,25 +30,21 @@ function getNextCallback({ currentQuestion, questions, answers, navigator, form,
       }
       next += 1;
     }
-    return () => {
-      navigator.push({
+    return () => navigator.push({
+      title,
+      screen,
+      passProps: {
+        form,
+        texts,
         title,
         screen,
-        passProps: {
-          form,
-          texts,
-          title,
-          screen,
-          step: currentQuestion + next
-        }
-      });
-      return true;
-    };
+        step: currentQuestion + next
+      }
+    });
   }
   return () => {
     finish(form);
     navigator.popToRoot({ animate: true });
-    return true;
   };
 }
 
