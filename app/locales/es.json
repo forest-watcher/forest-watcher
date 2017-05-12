@@ -3,23 +3,23 @@
 		"appName": "Forest Watcher 2.0",
 		"next": "Siguiente",
     "save": "Guardar",
-    "delete": "Delete",
+    "delete": "Borrar",
 		"back": "Atrás",
 		"finish": "Terminar",
-		"saving": "Saving",
-		"caching": "Caching",
+		"saving": "Guardando",
+		"caching": "Cacheando",
 		"setUp": "Configuración",
     "cancel": "Cancelar",
     "confirm": "Confirmar",
     "loading": "Cargando",
     "notAvailable": "No disponible",
     "kmAway": "Km de distancia",
-    "yourPosition": "Your position",
-		"connectionRequiredTitle": "No connection",
-		"connectionRequired": "You need an internet connection to complete this action",
-    "noImage": "No image",
-    "cached": "cached",
-    "noCached": "no-cached"
+    "yourPosition": "Tu posición",
+		"connectionRequiredTitle": "Sin conexión",
+		"connectionRequired": "Necesita una conexión a internet para completar esta acción.",
+    "noImage": "Sin imagen",
+    "cached": "cacheada",
+    "noCached": "no cacheada"
 	},
 	"dashboard": {
 		"title": "Panel de control",
@@ -47,7 +47,7 @@
 		"searchPlaceholder": "Buscar un país"
 	},
 	"alerts": {
-    "title": "My Alerts",
+    "title": "Mis alertas",
 		"seeAll": "Ver todo",
 		"alert": "alerta",
     "downloadingAlerts": "Espera mientras se descargan los datos...",
@@ -55,8 +55,8 @@
     "satelliteSignal": "Esperando la señal del satélite..."
 	},
 	"areaDetail": {
-    "title": "Area detail",
-		"delete": "Delete this area"
+    "title": "Detalle de area",
+		"delete": "Elimina esta area"
 	},
 	"boundaries": {
 		"chooseBoundaries": "Ahora, elija los límites",
@@ -69,13 +69,13 @@
 		"firstInstruction": "Primero, seleccione su país de interés"
 	},
 	"partners": {
-	 	"title": "Partners",
-		"description": "Forest Watcher 2.0 is supported by a partnership of organizations contributing data, technology, funding and expertise.",
-		"listOfPartners": "See a full list of partners below."
+	 	"title": "Parnerts",
+		"description": "Forest Watcher 2.0 cuenta con el apoyo de una asociación de organizaciones que aportan datos, tecnología, financiación y experiencia.",
+		"listOfPartners": "Vea una lista de todos los partners abajo"
 	},
 	"setupDrawAreas": {
     "invalidShape": "Forma no válida",
-    "invalidSize": "Max allowed size",
+    "invalidSize": "Tamaño máximo permitido",
 		"tapInstruction": "Toque en el mapa para dibujar"
 	},
 	"setupHeader": {
@@ -99,9 +99,9 @@
 		"aboutApp": "Acerca de esta aplicación",
 		"aboutPartners": "Colaboradores",
 		"aboutTerms": "Términos y Condiciones",
-    "timeFrame": "Time Frame",
-    "from": "From",
-    "to": "To"
+    "timeFrame": "Periodo de tiempo",
+    "from": "Desde",
+    "to": "Hasta"
 	},
   "report": {
     "title": "Informe",
@@ -118,8 +118,8 @@
     "uploadAll": "Subir todo",
     "drafts": "Borradores",
     "uploaded": "Subido",
-	"unable": "Unable to send report",
-	"connectionRequired": "You need an internet connection"
+	"unable": "Imposible enviar el reporte",
+	"connectionRequired": "Necesita una conexión a internet"
   },
   "feedback": {
     "title": "Feedback",
