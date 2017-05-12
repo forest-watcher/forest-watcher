@@ -9,8 +9,7 @@ import {
   StatusBar,
   Image,
   Text,
-  Platform,
-  TouchableHighlight
+  Platform
 } from 'react-native';
 import CONSTANTS from 'config/constants';
 import Carousel from 'react-native-snap-carousel';
@@ -27,7 +26,7 @@ import { sliderWidth, itemWidth, styles } from './styles';
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
 
 const geoViewport = require('@mapbox/geo-viewport');
-// const tilebelt = require('@mapbox/tilebelt');
+const tilebelt = require('@mapbox/tilebelt');
 
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
 const BoundingBox = require('boundingbox');
@@ -39,7 +38,6 @@ const LATITUDE_DELTA = 10;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const markerImage = require('assets/marker.png');
-const markerImageSelected = require('assets/alert-white.png');
 const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
@@ -68,9 +66,6 @@ class Map extends Component {
 
   constructor(props) {
     super(props);
-    const intialCoords = props.center
-      ? props.center
-      : { lat: CONSTANTS.maps.lat, lon: CONSTANTS.maps.lng };
 
     const { geostores, areas } = props;
     const areaGeostoreIds = areas.map((area) => (area.geostoreId));
@@ -144,10 +139,12 @@ class Map extends Component {
       }
       this.afterRenderTimer = setTimeout(() => {
         if (this.areaFeatures && this.areaFeatures.length > 0) {
-          this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[0]),
+          const area = this.getAreaCoordinates(this.areaFeatures[0]);
+
+          this.map.fitToCoordinates(area,
             { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: true });
         }
-      }, 1000);
+      }, 300);
     }
   }
 
@@ -161,26 +158,11 @@ class Map extends Component {
     }
     this.onRegionChangeTimer = setTimeout(() => {
       this.updateRegion(region);
-    }, 200);
+    }, 100);
   }
 
   onMapPress = (e) => {
-    const coordinates = e.nativeEvent.coordinate;
-    // TEMPORARY
-    this.setState({
-      alertSelected: coordinates
-    });
-    // RESTORE IT TO GET NATIVE INTERACTION
-    // const zoom = this.getMapZoom();
-    // if (zoom) {
-    //   const tile = tilebelt.pointToTile(coordinates.longitude, coordinates.latitude, zoom, true);
-    //   this.setState({
-    //     coordinates: {
-    //       tile: [tile[0], tile[1], tile[2]],
-    //       precision: [tile[3], tile[4]]
-    //     }
-    //   });
-    // }
+    this.selectAlert(e.nativeEvent.coordinate);
   }
 
   getAreaCoordinates = (areaFeature) => (
@@ -209,15 +191,51 @@ class Map extends Component {
     const area = this.props.areas[aId];
     this.setState({
       areaCoordinates: this.getAreaCoordinates(this.areaFeatures[aId]),
-      areaId: area.id
+      areaId: area.id,
+      alertSelected: null,
+      coordinates: {
+        tile: [], // tile coordinates x, y, z + precision x, y
+        precision: [] // tile precision x, y
+      }
     }, () => {
       this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[aId]),
         { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false });
     });
   }
 
+  selectAlert = (coordinates) => {
+    const zoom = this.getMapZoom();
+    if (zoom) {
+      const tile = tilebelt.pointToTile(coordinates.longitude, coordinates.latitude, zoom, true);
+      this.setState({
+        alertSelected: coordinates,
+        coordinates: {
+          tile: [tile[0], tile[1], tile[2]],
+          precision: [tile[3], tile[4]]
+        }
+      });
+    }
+  }
+
+  updateSelectedAlertZoom = () => {
+    const zoom = this.getMapZoom();
+    const { latitude, longitude } = this.state.alertSelected;
+    if (zoom) {
+      const tile = tilebelt.pointToTile(longitude, latitude, zoom, true);
+      this.setState({
+        coordinates: {
+          tile: [tile[0], tile[1], tile[2]],
+          precision: [tile[3], tile[4]]
+        }
+      });
+    }
+  }
+
   updateRegion = (region) => {
     this.setState({ region });
+    if (this.state.alertSelected) {
+      this.updateSelectedAlertZoom();
+    }
   }
 
   geoLocate() {
@@ -373,19 +391,20 @@ class Map extends Component {
 
   render() {
     const { coordinates, alertSelected } = this.state;
+    const hasCoordinates = (coordinates.tile && coordinates.tile.length > 0) || false;
 
     let distanceText = I18n.t('commonText.notAvailable');
     let positionText = '';
     let distance = 999999;
     const { lastPosition } = this.state;
-    const containerTextSyle = this.state.alertSelected
+    const containerTextSyle = alertSelected
       ? [styles.textContainer, styles.textContainerSmall]
       : styles.textContainer;
 
 
-    if (lastPosition && (this.state.alertSelected && this.state.alertSelected.latitude
-     && this.state.alertSelected.longitude)) {
-      const geoPoint = new GeoPoint(this.state.alertSelected.latitude, this.state.alertSelected.longitude);
+    if (lastPosition && (alertSelected && alertSelected.latitude
+     && alertSelected.longitude)) {
+      const geoPoint = new GeoPoint(alertSelected.latitude, alertSelected.longitude);
       const currentPoint = new GeoPoint(lastPosition.latitude, lastPosition.longitude);
       positionText = `${I18n.t('commonText.yourPosition')}: ${lastPosition.latitude.toFixed(4)}, ${lastPosition.longitude.toFixed(4)}`;
       distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);
@@ -395,7 +414,7 @@ class Map extends Component {
     const sliderItems = this.props.areas.map((area, index) => (
       <View key={`entry-${index}`} style={styles.slideInnerContainer}>
         <Text style={containerTextSyle}>{ area.name }</Text>
-        {this.state.alertSelected &&
+        {alertSelected &&
           <View style={styles.currentPosition}>
             <Text style={styles.coordinateDistanceText}>
               {distanceText}
@@ -416,9 +435,9 @@ class Map extends Component {
             style={styles.header}
             pointerEvents={'box-none'}
           >
-            {this.state.alertSelected &&
+            {alertSelected &&
               <Text style={styles.headerSubtitle}>
-                {this.state.alertSelected.latitude.toFixed(4)}, {this.state.alertSelected.longitude.toFixed(4)}
+                {alertSelected.latitude.toFixed(4)}, {alertSelected.longitude.toFixed(4)}
               </Text>
             }
           </View>
@@ -430,6 +449,8 @@ class Map extends Component {
             rotateEnabled={false}
             onPress={this.onMapPress}
             initialRegion={this.state.region}
+            onRegionChange={this.onRegionChange}
+            onRegionChangeComplete={this.onRegionChangeComplete}
             onLayout={this.onLayout}
             moveOnMarkerPress={false}
           >
@@ -472,15 +493,21 @@ class Map extends Component {
               urlTemplate="http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/{z}/{x}/{y}.png"
               zIndex={-1}
               maxZoom={12}
-              areaId={this.props.areaId}
+              areaId={this.state.areaId}
               isConnected={this.props.isConnected}
               minDate={daysSince(this.props.fromDate)}
               maxDate={daysSince(this.props.toDate)}
             />
-            {alertSelected &&
-              <MapView.Marker
-                image={markerImageSelected}
-                coordinate={alertSelected}
+            {hasCoordinates &&
+              <MapView.CanvasInteractionUrlTile
+                coordinates={coordinates}
+                urlTemplate="http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/{z}/{x}/{y}.png"
+                zIndex={1}
+                maxZoom={12}
+                areaId={this.state.areaId}
+                isConnected={this.props.isConnected}
+                minDate={daysSince(this.props.fromDate)}
+                maxDate={daysSince(this.props.toDate)}
               />
             }
           </MapView>
@@ -511,8 +538,6 @@ Map.propTypes = {
   navigator: React.PropTypes.object.isRequired,
   createReport: React.PropTypes.func.isRequired,
   isConnected: React.PropTypes.bool,
-  center: React.PropTypes.any,
-  areaId: React.PropTypes.any,
   geostores: React.PropTypes.object,
   fromDate: React.PropTypes.string,
   toDate: React.PropTypes.string,
