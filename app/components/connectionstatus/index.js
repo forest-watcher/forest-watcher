@@ -12,10 +12,6 @@ class ConnectionStatus extends Component {
       });
   }
 
-  componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener('change', this.handleConnectionChange);
-  }
-
   handleConnectionChange = (isConnected) => {
     this.props.setIsConnected(isConnected);
   };
