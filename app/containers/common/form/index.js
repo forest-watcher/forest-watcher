@@ -42,13 +42,11 @@ function getNextCallback({ currentQuestion, questions, answers, navigator, form,
       }
     });
   }
-  if (isConnected) {
-    return () => {
-      finish(form);
-      navigator.popToRoot({ animate: true });
-    };
-  }
-  return false;
+  return () => {
+    if (!isConnected) return false;
+    finish(form);
+    return navigator.popToRoot({ animate: true });
+  };
 }
 
 function mapStateToProps(state, { form, index, texts, questionsToSkip, finish, title, screen, navigator }) {

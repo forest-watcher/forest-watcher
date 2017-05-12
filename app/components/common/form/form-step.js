@@ -8,11 +8,11 @@ import getInputForm from 'components/common/form-inputs';
 import NextButton from './next-button';
 import styles from './styles';
 
-const onPressNext = (isConnected, cb) => {
+const onPressNext = (cb) => {
   if (cb) return cb();
   return Alert.alert(
     I18n.t('report.unable'),
-    I18n.t('report.ConnectionRequired'),
+    I18n.t('report.connectionRequired'),
     [{ text: 'OK' }]
   );
 };
@@ -24,7 +24,12 @@ const getNext = (question, answer, next) => {
   if (isBlob) {
     return (<NextButton transparent={!answer} style={styles.buttonNextPos} disabled={disabled} onPress={next.callback} />);
   }
-  return (<ActionButton style={styles.buttonPos} disabled={disabled} onPress={() => onPressNext(next.callback)} text={I18n.t(next.text)} />);
+  return (<ActionButton
+    style={styles.buttonPos}
+    disabled={disabled}
+    onPress={() => onPressNext(next.callback)}
+    text={I18n.t(next.text)}
+  />);
 };
 
 const FormStep = ({ question, answer, next }) => (
