@@ -34,15 +34,19 @@ function SelectInput(props) {
         {props.question.values.map((value, index) => {
           const checked = props.input.value.indexOf(value) >= 0;
           let conditionalField = null;
-          if (childQuestions && childQuestions.length && childQuestions[0].conditionalValue === value) {
-            conditionalField = (
-              <Field
-                visible={checked}
-                name={childQuestions[0].name}
-                component={TextInput}
-                question={childQuestions[0]}
-              />
-            );
+          if (childQuestions && childQuestions.length > 0) {
+            childQuestions.forEach(childConditional => {
+              if (value === childConditional.conditionalValue) {
+                conditionalField = (
+                  <Field
+                    visible={checked}
+                    name={childConditional.name}
+                    component={TextInput}
+                    question={childConditional}
+                  />
+                );
+              }
+            });
           }
           return [
             <CheckBtn
@@ -70,13 +74,6 @@ SelectInput.propTypes = {
     onChange: React.PropTypes.func.isRequired,
     onFocus: React.PropTypes.func.isRequired,
     value: React.PropTypes.any.isRequired
-  }).isRequired,
-  meta: React.PropTypes.shape({
-    active: React.PropTypes.bool.isRequired,
-    error: React.PropTypes.string,
-    invalid: React.PropTypes.bool.isRequired,
-    pristine: React.PropTypes.bool.isRequired,
-    visited: React.PropTypes.bool.isRequired
   }).isRequired
 };
 

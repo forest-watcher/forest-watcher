@@ -1,6 +1,6 @@
 export default {
   areas: {
-    maxSize: 1000000000 // square meters
+    maxSize: 1500000000 // square meters
   },
   storage: {
     app: {

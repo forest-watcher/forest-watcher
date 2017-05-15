@@ -115,6 +115,16 @@
           "order": 0,
           "required": false,
           "values": []
+        },
+        {
+          "type": "text",
+          "name": "deforestation-driver-other",
+          "label": "veuillez détailler",
+          "defaultValue": "veuillez détailler",
+          "conditionalValue": "Autre (veuillez détailler)",
+          "order": 0,
+          "required": false,
+          "values": []
         }
       ]
     },

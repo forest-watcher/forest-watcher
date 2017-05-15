@@ -246,6 +246,7 @@ class DrawAreas extends Component {
   undoShape = () => {
     const { shape, valid } = this.state;
     let isValid = valid;
+    let isHuge = false;
     shape.coordinates = shape.coordinates.filter((cord, index) => (
       index < shape.coordinates.length - 1
     ));
@@ -262,6 +263,10 @@ class DrawAreas extends Component {
       } else {
         isValid = true;
       }
+      const area = geojsonArea.geometry(getGeoJson(shape.coordinates));
+      if (area > CONSTANTS.areas.maxSize) {
+        isHuge = true;
+      }
     }
 
     this.setState({
@@ -269,7 +274,8 @@ class DrawAreas extends Component {
         ...shape,
         coordinates: shape.coordinates
       },
-      valid: isValid
+      valid: isValid,
+      huge: isHuge
     });
   }
 
