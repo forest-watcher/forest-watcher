@@ -3,6 +3,7 @@
 		"appName": "Forest Watcher 2.0",
 		"next": "Next",
     "save": "Save",
+    "boundaries": "Boundaries",
     "delete": "Delete",
 		"back": "Back",
 		"finish": "Finish",
@@ -14,6 +15,7 @@
     "loading": "Loading",
     "notAvailable": "Not available",
     "kmAway": "km away",
+    "name": "Name",
     "yourPosition": "Your position",
 		"connectionRequiredTitle": "No connection",
 		"connectionRequired": "You need an internet connection to complete this action",
@@ -50,6 +52,7 @@
     "title": "My Alerts",
 		"seeAll": "See all",
 		"alert": "alert",
+    "alertSystems": "Alert systems",
     "downloadingAlerts": "Please wait while the data is downloaded...",
     "noAlerts": "There are no alerts available",
     "satelliteSignal": "Waiting for the satellite signal..."

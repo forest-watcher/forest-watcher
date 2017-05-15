@@ -4,15 +4,13 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Theme.background.main,
-    paddingTop: 10
+    backgroundColor: Theme.background.main
   },
   containerContent: {
-    paddingBottom: 20
+    paddingTop: 10
   },
-  content: {
-    paddingTop: 0,
-    paddingBottom: 30
+  inputContainer: {
+    flex: 1
   },
   buttonContainer: {
     padding: 10
@@ -26,5 +24,23 @@ export default StyleSheet.create({
     width: 360,
     height: 200,
     resizeMode: 'cover'
+  },
+  title: {
+    marginLeft: Theme.margin.left,
+    marginRight: Theme.margin.right,
+    color: Theme.fontColors.light,
+    fontFamily: Theme.font,
+    fontSize: 17
+  },
+  section: {
+    marginTop: 16
+  },
+  name: {
+    width: 200,
+    height: 22,
+    fontFamily: Theme.font,
+    color: Theme.fontColors.secondary,
+    fontSize: 17,
+    fontWeight: '400'
   }
 });
