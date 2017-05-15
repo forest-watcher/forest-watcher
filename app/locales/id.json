@@ -18,8 +18,8 @@
 		"connectionRequiredTitle": "Tidak ada koneksi",
 		"connectionRequired": "Anda memerlukan koneksi internet",
     "noImage": "Tidak ada gambar",
-    "cached": "Di-cache",
-    "noCached": "Tidak di-cache"
+    "cached": "Tersimpan",
+    "noCached": "Tidak tersimpan"
 	},
 	"dashboard": {
 		"title": "Dasbor",
