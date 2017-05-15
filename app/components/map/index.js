@@ -315,10 +315,10 @@ class Map extends Component {
   }
 
   createReport = () => {
-    const { lastPosition } = this.state;
+    const { alertSelected } = this.state;
     let latLng = '0,0';
-    if (lastPosition) {
-      latLng = `${lastPosition.latitude},${lastPosition.longitude}`;
+    if (alertSelected) {
+      latLng = `${alertSelected.latitude},${alertSelected.longitude}`;
     }
     const screen = 'ForestWatcher.NewReport';
     const title = 'Report';
