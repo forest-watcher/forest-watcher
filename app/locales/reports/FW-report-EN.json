@@ -103,15 +103,25 @@
         "Dam",
         "Mining",
         "Oil/gas extraction",
-        "Other (please describe"
+        "Other"
       ],
       "childQuestions": [
         {
           "type": "text",
           "name": "deforestation-driver-agricultural",
           "label": "what type?/crop?",
-          "defaultValue": "",
+          "defaultValue": "what type?/crop",
           "conditionalValue": "Agricultural clearing",
+          "order": 0,
+          "required": false,
+          "values": []
+        },
+        {
+          "type": "text",
+          "name": "deforestation-driver-other",
+          "label": "please describe",
+          "defaultValue": "please describe",
+          "conditionalValue": "Other",
           "order": 0,
           "required": false,
           "values": []

@@ -110,8 +110,18 @@
           "type": "text",
           "name": "deforestation-driver-agricultural",
           "label": "¿Qué tipo de cultivo?",
-          "defaultValue": "",
+          "defaultValue": "¿Qué tipo de cultivo?",
           "conditionalValue": "Deforestación agrícola",
+          "order": 0,
+          "required": false,
+          "values": []
+        },
+        {
+          "type": "text",
+          "name": "deforestation-driver-other",
+          "label": "¿Qué tipo de cultivo?",
+          "defaultValue": "por favor describa",
+          "conditionalValue": "Otro (por favor describa)",
           "order": 0,
           "required": false,
           "values": []

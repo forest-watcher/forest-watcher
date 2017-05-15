@@ -110,8 +110,18 @@
           "type": "text",
           "name": "deforestation-driver-agricultural",
           "label": "que tipo?/cultura?",
-          "defaultValue": "",
+          "defaultValue": "que tipo?/cultura?",
           "conditionalValue": "Desmatamento para agricultura",
+          "order": 0,
+          "required": false,
+          "values": []
+        },
+        {
+          "type": "text",
+          "name": "deforestation-driver-other",
+          "label": "por favor descreva",
+          "defaultValue": "por favor descreva",
+          "conditionalValue": "Outro (por favor descreva)",
           "order": 0,
           "required": false,
           "values": []

@@ -110,8 +110,18 @@
           "type": "text",
           "name": "deforestation-driver-agricultural",
           "label": "Jenis tanaman/komoditas?",
-          "defaultValue": "",
+          "defaultValue": "Jenis tanaman/komoditas?",
           "conditionalValue": "Pembukaan hutan untuk pertanian",
+          "order": 0,
+          "required": false,
+          "values": []
+        },
+        {
+          "type": "text",
+          "name": "deforestation-driver-other",
+          "label": "jelaskan",
+          "defaultValue": "jelaskan",
+          "conditionalValue": "Lainnya (jelaskan)",
           "order": 0,
           "required": false,
           "values": []
