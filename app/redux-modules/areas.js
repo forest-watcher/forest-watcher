@@ -96,35 +96,69 @@ export default function reducer(state = initialState, action) {
 export function getAreas() {
   const url = `${Config.API_URL}/area`;
   return (dispatch, state) => {
-    fetch(url, {
+    if (state().app.isConnected) {
+      fetch(url, {
+        headers: {
+          Authorization: `Bearer ${state().user.token}`
+        }
+      })
+        .then(response => {
+          if (response.ok) return response.json();
+          throw new Error(response.statusText);
+        })
+        .then(async (response) => {
+          const images = Object.assign({}, state().areas.images);
+          await Promise.all(response.data.map(async (area) => {
+            if (area.attributes && area.attributes.geostore) {
+              if (!state().geostore.data[area.attributes.geostore]) {
+                await dispatch(getGeostore(area.attributes.geostore));
+              }
+              if (!images[area.id]) {
+                images[area.id] = await getCachedImageByUrl(area.attributes.image, 'areas');
+              }
+            }
+            return area;
+          }));
+
+          dispatch({
+            type: GET_AREAS,
+            payload: {
+              images,
+              data: response.data
+            }
+          });
+        })
+        .catch((error) => {
+          console.warn(error);
+          // To-do
+        });
+    }
+  };
+}
+
+export function updateArea(area) {
+  const url = `${Config.API_URL}/area/${area.id}`;
+  return (dispatch, state) => {
+    const form = new FormData();
+    form.append('name', area.attributes.name);
+
+    const fetchConfig = {
+      method: 'PATCH',
       headers: {
         Authorization: `Bearer ${state().user.token}`
-      }
-    })
+      },
+      body: form
+    };
+
+    fetch(url, fetchConfig)
       .then(response => {
         if (response.ok) return response.json();
-        throw new Error(response.statusText);
+        throw new Error(response._bodyText); // eslint-disable-line
       })
-      .then(async (response) => {
-        const images = Object.assign({}, state().areas.images);
-        await Promise.all(response.data.map(async (area) => {
-          if (area.attributes && area.attributes.geostore) {
-            if (!state().geostore.data[area.attributes.geostore]) {
-              await dispatch(getGeostore(area.attributes.geostore));
-            }
-            if (!images[area.id]) {
-              images[area.id] = await getCachedImageByUrl(area.attributes.image, 'areas');
-            }
-          }
-          return area;
-        }));
-
+      .then(() => {
         dispatch({
-          type: GET_AREAS,
-          payload: {
-            images,
-            data: response.data
-          }
+          type: UPDATE_AREA,
+          payload: area
         });
       })
       .catch((error) => {
@@ -144,63 +178,65 @@ async function downloadArea(bbox, areaId) {
 export function saveArea(params) {
   const url = `${Config.API_URL}/area`;
   return (dispatch, state) => {
-    dispatch({
-      type: SYNCING_AREAS,
-      payload: true
-    });
-    const form = new FormData();
-    form.append('name', params.area.name);
-    form.append('geostore', params.area.geostore);
-    const image = {
-      uri: params.snapshot,
-      type: 'image/png',
-      name: `${params.area.name}.png`
-    };
-    form.append('image', image);
-
-    const fetchConfig = {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${state().user.token}`
-      },
-      body: form
-    };
-
-    fetch(url, fetchConfig)
-      .then(response => {
-        if (response.ok) return response.json();
-        throw new Error(response._bodyText); // eslint-disable-line
-      })
-      .then(async (res) => {
-        dispatch({
-          type: SYNCING_AREAS,
-          payload: false
-        });
-        dispatch({
-          type: SAVE_AREA,
-          payload: {
-            area: res.data,
-            snapshot: params.snapshot
-          }
-        });
-        dispatch({
-          type: SET_AREA_SAVED,
-          payload: {
-            status: true,
-            areaId: res.data.id
-          }
-        });
-      })
-      .catch((error) => {
-        dispatch({
-          type: SET_AREA_SAVED,
-          payload: {
-            status: false
-          }
-        });
-        console.warn(error);
-        // To-do
+    if (state().app.isConnected) {
+      dispatch({
+        type: SYNCING_AREAS,
+        payload: true
       });
+      const form = new FormData();
+      form.append('name', params.area.name);
+      form.append('geostore', params.area.geostore);
+      const image = {
+        uri: params.snapshot,
+        type: 'image/png',
+        name: `${params.area.name}.png`
+      };
+      form.append('image', image);
+
+      const fetchConfig = {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${state().user.token}`
+        },
+        body: form
+      };
+
+      fetch(url, fetchConfig)
+        .then(response => {
+          if (response.ok) return response.json();
+          throw new Error(response._bodyText); // eslint-disable-line
+        })
+        .then(async (res) => {
+          dispatch({
+            type: SYNCING_AREAS,
+            payload: false
+          });
+          dispatch({
+            type: SAVE_AREA,
+            payload: {
+              area: res.data,
+              snapshot: params.snapshot
+            }
+          });
+          dispatch({
+            type: SET_AREA_SAVED,
+            payload: {
+              status: true,
+              areaId: res.data.id
+            }
+          });
+        })
+        .catch((error) => {
+          dispatch({
+            type: SET_AREA_SAVED,
+            payload: {
+              status: false
+            }
+          });
+          console.warn(error);
+          // To-do
+        });
+    }
   };
 }
 
@@ -231,38 +267,40 @@ export function cacheArea(areaId) {
 export function deleteArea(id) {
   const url = `${Config.API_URL}/area/${id}`;
   return (dispatch, state) => {
-    const fetchConfig = {
-      method: 'DELETE',
-      headers: {
-        'content-type': 'application/json',
-        Authorization: `Bearer ${state().user.token}`
-      }
-    };
-    fetch(url, fetchConfig)
-      .then(response => {
-        if (response.ok && response.status === 204) return response.ok;
-        throw new Error(response.statusText);
-      })
-      .then(() => {
-        dispatch({
-          type: SYNCING_AREAS,
-          payload: true
+    if (state().app.isConnected) {
+      const fetchConfig = {
+        method: 'DELETE',
+        headers: {
+          'content-type': 'application/json',
+          Authorization: `Bearer ${state().user.token}`
+        }
+      };
+      fetch(url, fetchConfig)
+        .then(response => {
+          if (response.ok && response.status === 204) return response.ok;
+          throw new Error(response.statusText);
+        })
+        .then(() => {
+          dispatch({
+            type: SYNCING_AREAS,
+            payload: true
+          });
+          dispatch({
+            type: DELETE_AREA,
+            payload: {
+              id
+            }
+          });
+          dispatch({
+            type: SYNCING_AREAS,
+            payload: false
+          });
+        })
+        .catch((error) => {
+          console.warn(error);
+          // To-do
         });
-        dispatch({
-          type: DELETE_AREA,
-          payload: {
-            id
-          }
-        });
-        dispatch({
-          type: SYNCING_AREAS,
-          payload: false
-        });
-      })
-      .catch((error) => {
-        console.warn(error);
-        // To-do
-      });
+    }
   };
 }
 

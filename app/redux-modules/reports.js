@@ -38,38 +38,40 @@ export default function reducer(state = initialNavState, action) {
 // Action Creators
 export function getQuestions() {
   return (dispatch, state) => {
-    const language = getLanguage().toUpperCase();
-    let qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
-    if (!qIdByLanguage) qIdByLanguage = Config.QUESTIONNARIE_ID_EN; // language fallback
-    const url = `${Config.API_URL}/questionnaire/${qIdByLanguage}`;
-    const fetchConfig = {
-      headers: {
-        'content-type': 'application/json',
-        Authorization: `Bearer ${state().user.token}`
-      }
-    };
-    fetch(url, fetchConfig)
-      .then(response => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then((data) => {
-        let form = null;
-        if (data && data.data && data.data[0]) {
-          form = data.data[0].attributes;
+    if (state().app.isConnected) {
+      const language = getLanguage().toUpperCase();
+      let qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
+      if (!qIdByLanguage) qIdByLanguage = Config.QUESTIONNARIE_ID_EN; // language fallback
+      const url = `${Config.API_URL}/questionnaire/${qIdByLanguage}`;
+      const fetchConfig = {
+        headers: {
+          'content-type': 'application/json',
+          Authorization: `Bearer ${state().user.token}`
         }
-        if (form && form.questions && form.questions.length) {
-          form.questions = form.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
-        }
-        dispatch({
-          type: GET_QUESTIONS,
-          payload: form
+      };
+      fetch(url, fetchConfig)
+        .then(response => {
+          if (response.ok) return response.json();
+          throw new Error(response.statusText);
+        })
+        .then((data) => {
+          let form = null;
+          if (data && data.data && data.data[0]) {
+            form = data.data[0].attributes;
+          }
+          if (form && form.questions && form.questions.length) {
+            form.questions = form.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
+          }
+          dispatch({
+            type: GET_QUESTIONS,
+            payload: form
+          });
+        })
+        .catch((err) => {
+          // TODO: handle error
+          console.warn(err);
         });
-      })
-      .catch((err) => {
-        // TODO: handle error
-        console.warn(err);
-      });
+    }
   };
 }
 

@@ -43,41 +43,43 @@ export default function reducer(state = initialNavState, action) {
 // Action Creators
 export function getQuestions(type) {
   return (dispatch, state) => {
-    const language = getLanguage().toUpperCase();
-    let feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_${language}`];
-    if (!feedbackId) feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_EN`]; // language fallback
-    const url = `${Config.API_URL}/questionnaire/${feedbackId}`;
-    const fetchConfig = {
-      headers: {
-        'content-type': 'application/json',
-        Authorization: `Bearer ${state().user.token}`
-      }
-    };
-    fetch(url, fetchConfig)
-      .then(response => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then((data) => {
-        let form = null;
-        if (data && data.data && data.data[0]) {
-          form = data.data[0].attributes;
+    if (state().app.isConnected) {
+      const language = getLanguage().toUpperCase();
+      let feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_${language}`];
+      if (!feedbackId) feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_EN`]; // language fallback
+      const url = `${Config.API_URL}/questionnaire/${feedbackId}`;
+      const fetchConfig = {
+        headers: {
+          'content-type': 'application/json',
+          Authorization: `Bearer ${state().user.token}`
         }
-        if (form && form.questions && form.questions.length) {
-          form.questions = form.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
-        }
-        dispatch({
-          type: GET_QUESTIONS,
-          payload: {
-            type,
-            data: form
+      };
+      fetch(url, fetchConfig)
+        .then(response => {
+          if (response.ok) return response.json();
+          throw new Error(response.statusText);
+        })
+        .then((data) => {
+          let form = null;
+          if (data && data.data && data.data[0]) {
+            form = data.data[0].attributes;
           }
+          if (form && form.questions && form.questions.length) {
+            form.questions = form.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
+          }
+          dispatch({
+            type: GET_QUESTIONS,
+            payload: {
+              type,
+              data: form
+            }
+          });
+        })
+        .catch((err) => {
+          // TODO: handle error
+          console.warn(err);
         });
-      })
-      .catch((err) => {
-        // TODO: handle error
-        console.warn(err);
-      });
+    }
   };
 }
 
