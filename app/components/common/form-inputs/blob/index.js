@@ -5,7 +5,7 @@ import {
   Image,
   StatusBar,
   TouchableHighlight,
-  ActivityIndicator
+  PermissionsAndroid
 } from 'react-native';
 import Camera from 'react-native-camera';
 
@@ -26,12 +26,15 @@ class ImageBlobInput extends Component {
     this.timerLoadPicture = null;
     this.state = {
       cameraVisible: false,
+      cameraType: Camera.constants.Type.back,
       saving: false
     };
   }
 
   componentDidMount() {
-    this.timerEnableCamera = setTimeout(() => { this.enableCamera(); }, 200);
+    this.timerEnableCamera = setTimeout(() => {
+      this.getPermisions();
+    }, 200);
   }
 
   componentWillUnmount() {
@@ -44,26 +47,41 @@ class ImageBlobInput extends Component {
     }
   }
 
+  async getPermisions() {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'Camera Permission',
+          message: ''
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        this.enableCamera();
+      } else {
+        this.enableCamera();
+      }
+    } catch (err) {
+      // Todo camera error
+    }
+  }
+
   getCameraView() {
     return (
       <View style={styles.container}>
-        {this.state.saving &&
-          <View style={styles.savingContainer}>
-            <ActivityIndicator
-              color={Theme.colors.color1}
-              style={{ height: 80 }}
-              size="large"
-            />
-          </View>
-        }
         <Text style={styles.captureLabel} >{i18n.t('report.takePicture')}</Text>
         <View pointerEvents="none" style={styles.cameraContainer}>
           <Camera
             ref={(cam) => { this.camera = cam; }}
+            type={this.state.cameraType}
             style={styles.camera}
             aspect={Camera.constants.Aspect.fit}
             captureTarget={Camera.constants.CaptureTarget.disk}
             captureQuality={Camera.constants.CaptureQuality.medium}
+            onFocusChanged={() => {}}
+            onZoomChanged={() => {}}
+            defaultTouchToFocus
+            mirrorImage={false}
           />
         </View>
         <TouchableHighlight
@@ -110,6 +128,18 @@ class ImageBlobInput extends Component {
   enableCamera() {
     this.setState({
       cameraVisible: !this.props.input.value || this.props.input.value.length === 0
+    }, () => {
+      setTimeout(() => {
+        this.camera.hasFlash()
+          .then((flash) => {
+            if (!flash) {
+              this.setState({
+                cameraType: Camera.constants.Type.front
+              });
+            }
+          })
+          .catch({});
+      }, 200);
     });
   }
 
@@ -127,14 +157,14 @@ class ImageBlobInput extends Component {
       }, async () => {
         try {
           const image = await this.camera.capture();
-          const storedUrl = await storeImage(image.path, true);
           this.setState({
             cameraVisible: false,
             saving: false
           }, () => {
-            this.timerLoadPicture = setTimeout(() => {
+            this.timerLoadPicture = setTimeout(async () => {
+              const storedUrl = await storeImage(image.path, true);
               this.props.input.onChange(storedUrl);
-            }, 1000);
+            }, 500);
           });
         } catch (err) {
           console.warn('TODO: handle error', err);
