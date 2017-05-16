@@ -39,20 +39,22 @@ class ImageBlobInput extends Component {
     StatusBar.setBarStyle('default');
   }
 
-  async getPermisions() {
+  async getPermissions() {
     try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-        {
-          title: 'Camera Permission',
-          message: ''
+      const isCameraPermitted = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.CAMERA);
+      if (!isCameraPermitted) {
+        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA,
+          {
+            title: 'Camera Permission',
+            message: ''
+          }
+        );
+        if (granted === false) {
+          // TODO: Continue form without picture?
+          console.warn('Please allow Camera');
         }
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        this.enableCamera();
-      } else {
-        this.enableCamera();
       }
+      this.enableCamera();
     } catch (err) {
       // Todo camera error
     }
