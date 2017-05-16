@@ -145,31 +145,35 @@ class ImageBlobInput extends Component {
   }
 
   async takePicture() {
+    const image = await this.camera.capture();
+    this.savePicture(image);
+  }
+
+  async savePicture(image) {
     if (!this.state.saving) {
       this.setState({
         saving: true
       }, async () => {
         try {
-          const image = await this.camera.capture();
+          const storedUrl = await storeImage(image.path, true);
           this.setState({
             cameraVisible: false,
             saving: false
           }, () => {
-            this.timerLoadPicture = setTimeout(async () => {
-              const storedUrl = await storeImage(image.path, true);
-              this.props.input.onChange(storedUrl);
-            }, 500);
+            this.props.input.onChange(storedUrl);
           });
+          return true;
         } catch (err) {
           console.warn('TODO: handle error', err);
+          return false;
         }
       });
     }
   }
 
+
   render() {
     const cameraVisible = this.state.cameraVisible;
-
     StatusBar.setBarStyle(cameraVisible ? 'light-content' : 'default');
     return cameraVisible ? this.getCameraView() : this.getConfirmView();
   }
