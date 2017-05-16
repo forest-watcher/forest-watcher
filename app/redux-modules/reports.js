@@ -101,8 +101,8 @@ export function uploadReport(reportName) {
     if (isConnected) {
       const report = state().form[reportName].values;
       const user = state().user;
-      const userName = (user && user.data && user.data && user.data.fullName) || 'Guest user';
-      const oganization = (user && user.data && user.data && user.data.organization) || 'None';
+      const userName = (user && user.data && user.data.fullName) || 'Guest user';
+      const oganization = (user && user.data && user.data.organization) || 'None';
       const reportStatus = state().reports.list[reportName];
 
       const form = new FormData();
