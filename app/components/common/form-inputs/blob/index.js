@@ -123,18 +123,22 @@ class ImageBlobInput extends Component {
     this.setState({
       cameraVisible: !this.props.input.value || this.props.input.value.length === 0
     }, () => {
-      setTimeout(() => {
-        this.camera.hasFlash()
-          .then((flash) => {
-            if (!flash) {
-              this.setState({
-                cameraType: Camera.constants.Type.front
-              });
-            }
-          })
-          .catch({});
-      }, 200);
+      this.selectCameraType();
     });
+  }
+
+  selectCameraType() {
+    setTimeout(() => {
+      this.camera.hasFlash()
+        .then((flash) => {
+          if (!flash) {
+            this.setState({
+              cameraType: Camera.constants.Type.front
+            });
+          }
+        })
+        .catch((error) => { console.warn(error); });
+    }, 200);
   }
 
   removePicture() {
