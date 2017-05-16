@@ -58,7 +58,7 @@ class Reports extends Component {
                 status: CONSTANTS.status.draft
               });
             }
-            this.props.navigator.pop();
+            this.props.navigator.popToRoot({ animate: true });
           }
         }
       ],
