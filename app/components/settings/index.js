@@ -174,7 +174,7 @@ class Settings extends Component {
               <Text style={styles.label}>
                 {I18n.t('settings.yourAreas')}
               </Text>
-              <AreaList onAreaPress={(areaId) => this.onAreaPress(areaId)} />
+              <AreaList onAreaPress={(areaId, name) => this.onAreaPress(areaId, name)} />
             </View>
           : null
           }
