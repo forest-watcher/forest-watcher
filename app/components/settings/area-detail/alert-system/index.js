@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text
@@ -7,36 +7,50 @@ import CustomSwitch from 'components/common/switch';
 
 import styles from './styles';
 
-function AlertSystem(props) {
-  return (
-    <View style={styles.container}>
-      {props.alerts.map((alert, i) => (
-        <View key={i} style={styles.section}>
-          <View key={i} style={styles.row}>
-            <Text style={styles.title}>{alert.name}</Text>
-            <CustomSwitch value={alert.value} onValueChange={(value) => console.log(value)} />
+class AlertSystem extends Component {
+
+  componentWillMount() {
+    if (!this.props.area.datasets) {
+      this.props.getDatasets(this.props.areaId);
+    }
+  }
+
+  render() {
+    const { datasets } = this.props.area;
+    if (!datasets) return null;
+
+    return (
+      <View style={styles.container}>
+        {datasets.map((alert, i) => (
+          <View key={i} style={styles.section}>
+            <View key={i} style={styles.row}>
+              <Text style={styles.title}>{alert.name}</Text>
+            </View>
+            {alert.options && alert.options.length > 0 &&
+              alert.options.map((option, j) => (
+                <View key={j} style={styles.row}>
+                  <Text style={styles.title}>{option.name}</Text>
+                </View>
+              ))
+            }
           </View>
-          {alert.options && alert.options.length > 0 &&
-            alert.options.map((option, j) => (
-              <View key={j} style={styles.row}>
-                <Text style={styles.title}>{option.name}</Text>
-                <CustomSwitch value={option.value} onValueChange={(value) => console.log(value)} />
-              </View>
-            ))
-          }
-        </View>
-      ))}
-    </View>
-  );
+        ))}
+      </View>
+    );
+  }
 }
 
 AlertSystem.propTypes = {
-  alerts: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-      value: React.PropTypes.bool.isRequired
-    }).isRequired,
-  ).isRequired
+  area: React.PropTypes.shape({
+    datasets: React.PropTypes.arrayOf(
+      React.PropTypes.shape({
+        name: React.PropTypes.string.isRequired,
+        value: React.PropTypes.bool.isRequired
+      }).isRequired,
+    ).isRequired
+  }).isRequired,
+  getDatasets: React.PropTypes.func.isRequired,
+  areaId: React.PropTypes.string.isRequired
 };
 
 export default AlertSystem;

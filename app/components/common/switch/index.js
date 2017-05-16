@@ -10,6 +10,8 @@ function CustomSwitch(props) {
     <Switch
       value={props.value}
       onValueChange={props.onValueChange}
+      tintColor={Theme.colors.color6}
+      onTintColor={Theme.colors.color5}
       thumbTintColor={Theme.colors.color1}
     />
   );

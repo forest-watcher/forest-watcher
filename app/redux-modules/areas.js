@@ -310,3 +310,48 @@ export function updateDate(date) {
     payload: date
   };
 }
+
+
+const alerts = [
+  { slug: 'terrailoss', name: 'GLAD', value: true, options: [{ name: 'cache', type: 'radio', value: false }, { name: 'timeframe', type: 'timeframe', value: ['01/01/2016', '01/01/2017'] }] },
+  { slug: 'viirs', name: 'VIIRS', value: false, options: [{ name: 'cache', type: 'radio', value: false }, { name: 'timeframe', type: 'timeframe', value: ['01/01/2016', '01/01/2017'] }] },
+  { slug: 'forma', name: 'FORMA', value: false, options: [{ name: 'cache', type: 'radio', value: false }, { name: 'timeframe', type: 'timeframe', value: ['01/01/2016', '01/01/2017'] }] }
+];
+
+export function getDatasets(areaId) {
+  return (dispatch, state) => {
+    const area = state().areas.data.find((areaData) => (areaData.id === areaId));
+    const url = `${Config.API_URL}/coverage/intersect?geostore=${area.attributes.geostore}`;
+    return fetch(url, {
+      headers: {
+        Authorization: `Bearer ${state().user.token}`
+      }
+    })
+      .then(response => {
+        if (response.ok) return response.json();
+        throw Error(response.statusText);
+      })
+      .then((response) => {
+        const datasets = [];
+        if (response.data && response.data.attributes) {
+          const { layers } = response.data.attributes;
+          for (let i = 0, aLength = alerts.length; i < aLength; i++) {
+            for (let j = 0, lLength = layers.length; j < lLength; j++) {
+              if (alerts[i].slug === layers[j]) {
+                datasets.push(alerts[i]);
+              }
+            }
+          }
+        }
+        area.datasets = datasets;
+        dispatch({
+          type: UPDATE_AREA,
+          payload: area
+        });
+      })
+      .catch((error) => {
+        console.warn(error);
+        // To-do
+      });
+  };
+}
