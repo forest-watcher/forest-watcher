@@ -25,6 +25,7 @@ class AlertSystem extends Component {
           <View key={i} style={styles.section}>
             <View key={i} style={styles.row}>
               <Text style={styles.title}>{alert.name}</Text>
+              <CustomSwitch value={alert.value} onValueChange={(value) => console.log(value)} />
             </View>
             {alert.value && alert.options && alert.options.length > 0 &&
               alert.options.map((option, j) => (

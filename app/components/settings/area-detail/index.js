@@ -23,8 +23,19 @@ class AreaDetail extends Component {
     navBarBackgroundColor: Theme.background.main
   };
 
+  constructor(props) {
+    super();
+    this.state = {
+      name: props.area.attributes.name
+    };
+  }
+
   componentDidMount() {
     tracker.trackScreenView('AreaDetail');
+  }
+
+  onNameChange = (name) => {
+    this.setState({ name });
   }
 
   handleDeleteArea = () => {
@@ -55,7 +66,7 @@ class AreaDetail extends Component {
       >
         <View style={styles.section}>
           <Text style={styles.title}>{I18n.t('commonText.name')}</Text>
-          <TextInput value={area.attributes.name} />
+          <TextInput value={this.state.name} onChangeText={this.onNameChange} />
         </View>
         <View style={styles.section}>
           <Text style={styles.title}>{I18n.t('commonText.boundaries')}</Text>

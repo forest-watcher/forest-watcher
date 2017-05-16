@@ -14,7 +14,7 @@ function InputText(props) {
         style={styles.input}
         autoCapitalize="none"
         value={props.value}
-        onChangeText={props.onChange}
+        onChangeText={props.onChangeText}
         placeholder={props.placeholder}
         underlineColorAndroid="transparent"
         selectionColor={Theme.colors.color1}
@@ -26,7 +26,7 @@ function InputText(props) {
 
 InputText.propTypes = {
   value: React.PropTypes.string,
-  onChange: React.PropTypes.func,
+  onChangeText: React.PropTypes.func,
   placeholder: React.PropTypes.string
 };
 
