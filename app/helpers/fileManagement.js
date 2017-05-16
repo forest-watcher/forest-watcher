@@ -79,6 +79,10 @@ export async function checkImageFolder(imageDir) {
   return imagesDirectory;
 }
 
+export async function removeFolder(folder) {
+  await RNFetchBlob.fs.unlink(folder);
+}
+
 
 export async function cacheImageByUrl(url, imageDir, imageFile) {
   const parsedUrl = url.replace(/ /g, '%20');

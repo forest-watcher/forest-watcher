@@ -1,6 +1,6 @@
 import Config from 'react-native-config';
 import { getGeostore } from 'redux-modules/geostore';
-import { getCachedImageByUrl } from 'helpers/fileManagement';
+import { getCachedImageByUrl, removeFolder } from 'helpers/fileManagement';
 import { getBboxTiles, cacheTiles } from 'helpers/map';
 import BoundingBox from 'boundingbox';
 import CONSTANTS from 'config/constants';
@@ -169,10 +169,10 @@ export function updateArea(area) {
 }
 
 
-async function downloadArea(bbox, areaId) {
+async function downloadArea(bbox, areaId, dataset) {
   const zooms = CONSTANTS.maps.cachedZoomLevels;
   const tilesArray = getBboxTiles(bbox, zooms);
-  await cacheTiles(tilesArray, areaId);
+  await cacheTiles(tilesArray, areaId, dataset);
 }
 
 export function saveArea(params) {
@@ -240,7 +240,7 @@ export function saveArea(params) {
   };
 }
 
-export function cacheArea(areaId) {
+export function cacheArea(areaId, dataset) {
   return async (dispatch, state) => {
     const area = state().areas.data.find((areaData) => (areaData.id === areaId));
     if (area) {
@@ -252,14 +252,35 @@ export function cacheArea(areaId) {
             { lat: bboxArea.minlat, lng: bboxArea.maxlon },
             { lat: bboxArea.maxlat, lng: bboxArea.minlon }
           ];
-          await downloadArea(bbox, areaId);
+          await downloadArea(bbox, areaId, dataset);
         }
-        area.cached = true;
+        area.datasets = area.datasets.map((item) => ({
+          ...item,
+          cached: item.slug === dataset
+        }));
         dispatch({
           type: UPDATE_AREA,
           payload: area
         });
       }
+    }
+  };
+}
+
+export function removeCachedArea(areaId, dataset) {
+  return async (dispatch, state) => {
+    const area = state().areas.data.find((areaData) => (areaData.id === areaId));
+    if (area) {
+      const folder = `${CONSTANTS.maps.tilesFolder}/${areaId}/${dataset}`;
+      await removeFolder(folder);
+      area.datasets = area.datasets.map((item) => ({
+        ...item,
+        cached: item.slug === dataset
+      }));
+      dispatch({
+        type: UPDATE_AREA,
+        payload: area
+      });
     }
   };
 }

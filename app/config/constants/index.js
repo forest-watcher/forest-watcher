@@ -24,6 +24,7 @@ export default {
         ]
       ]
     },
+    tilesFolder: 'tiles',
     cachedZoomLevels: [12]
   },
   tileServers: {

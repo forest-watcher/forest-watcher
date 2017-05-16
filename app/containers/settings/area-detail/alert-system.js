@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { updateArea, getDatasets } from 'redux-modules/areas';
+import { updateArea, getDatasets, cacheArea, removeCachedArea } from 'redux-modules/areas';
 import AlertSystem from 'components/settings/area-detail/alert-system';
 
 function mapStateToProps(state, { areaId }) {
@@ -16,6 +16,12 @@ function mapDispatchToProps(dispatch) {
     },
     updateArea: (area) => {
       dispatch(updateArea(area));
+    },
+    cacheArea: (areaId, dataset) => {
+      dispatch(cacheArea(areaId, dataset));
+    },
+    removeCachedArea: (areaId, dataset) => {
+      dispatch(removeCachedArea(areaId, dataset));
     }
   };
 }

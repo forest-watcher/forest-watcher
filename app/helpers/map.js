@@ -24,8 +24,8 @@ export function getBboxTiles(bbox, zooms) {
   return tilesArray;
 }
 
-export async function cacheTiles(tiles, areaId) {
-  const folder = `tiles/${areaId}`;
+export async function cacheTiles(tiles, areaId, dataset) {
+  const folder = `${CONSTANTS.maps.tilesFolder}/${areaId}/${dataset}`;
   await checkImageFolder(folder);
   const CONCURRENCY = 10;
   let arrayPromises = [];
