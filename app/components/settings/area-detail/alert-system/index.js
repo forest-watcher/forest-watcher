@@ -26,7 +26,7 @@ class AlertSystem extends Component {
             <View key={i} style={styles.row}>
               <Text style={styles.title}>{alert.name}</Text>
             </View>
-            {alert.options && alert.options.length > 0 &&
+            {alert.value && alert.options && alert.options.length > 0 &&
               alert.options.map((option, j) => (
                 <View key={j} style={styles.row}>
                   <Text style={styles.title}>{option.name}</Text>
