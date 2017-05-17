@@ -81,6 +81,8 @@ class Map extends Component {
       index: 0,
       renderMap: false,
       lastPosition: null,
+      hasCompass: false,
+      compassFallback: null,
       heading: null,
       geoMarkerOpacity: new Animated.Value(0.3),
       region: {
@@ -110,6 +112,12 @@ class Map extends Component {
 
     this.renderMap();
     this.geoLocate();
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (this.state.alertSelected !== nextState.alertSelected && this.state.lastPosition !== null) {
+      this.setCompassLine();
+    }
   }
 
   componentWillUnmount() {
@@ -186,6 +194,22 @@ class Map extends Component {
     ];
 
     return geoViewport.viewport(bounds, [width, height], 0, 21, 256).zoom || 0;
+  }
+
+  setCompassLine = () => {
+    this.setState((prevState) => {
+      const state = {};
+      if (prevState.alertSelected !== null) {
+        // extract not needed props
+        // eslint-disable-next-line no-unused-vars
+        const { accuracy, altitude, speed, course, ...rest } = this.state.lastPosition;
+        state.compassFallback = [{ ...rest }, { ...this.state.alertSelected }];
+      }
+      if (prevState.compassFallback !== null && prevState.alertSelected === null) {
+        state.compassFallback = null;
+      }
+      return state;
+    });
   }
 
   updateSelectedArea(aId) {
@@ -268,12 +292,20 @@ class Map extends Component {
       }
     );
 
+    const updateHeading = heading => (prevState) => {
+      const state = {
+        heading: parseInt(heading, 10)
+      };
+      if (!prevState.hasCompass) state.hasCompass = true;
+      return state;
+    };
+
     if (Platform.OS === 'ios') {
       Location.startUpdatingHeading();
       this.eventOrientation = DeviceEventEmitter.addListener(
         'headingUpdated',
         (data) => {
-          this.setState({ heading: parseInt(data.heading, 10) });
+          this.setState(updateHeading(data.heading));
         }
       );
     } else {
@@ -281,9 +313,7 @@ class Map extends Component {
       this.eventOrientation = DeviceEventEmitter.addListener(
         'Orientation',
         (data) => {
-          this.setState({
-            heading: parseInt(data.azimuth, 10)
-          });
+          this.setState(updateHeading(data.azimuth));
         }
       );
     }
@@ -392,13 +422,13 @@ class Map extends Component {
   }
 
   render() {
-    const { coordinates, alertSelected } = this.state;
+    const { coordinates, alertSelected, hasCompass, lastPosition, compassFallback } = this.state;
     const hasCoordinates = (coordinates.tile && coordinates.tile.length > 0) || false;
+    const showCompassFallback = !hasCompass && lastPosition && alertSelected && compassFallback;
 
     let distanceText = I18n.t('commonText.notAvailable');
     let positionText = '';
     let distance = 999999;
-    const { lastPosition } = this.state;
     const containerTextSyle = alertSelected
       ? [styles.textContainer, styles.textContainerSmall]
       : styles.textContainer;
@@ -456,6 +486,13 @@ class Map extends Component {
             onLayout={this.onLayout}
             moveOnMarkerPress={false}
           >
+            {showCompassFallback &&
+            <MapView.Polyline
+              coordinates={this.state.compassFallback}
+              strokeColor={Theme.colors.color5}
+              strokeWidth={2}
+            />
+            }
             <MapView.Polyline
               coordinates={this.state.areaCoordinates}
               strokeColor={Theme.colors.color1}
@@ -466,6 +503,7 @@ class Map extends Component {
                 image={markerImage}
                 coordinate={this.state.lastPosition}
                 style={{ zIndex: 2 }}
+                anchor={{ x: 0.5, y: 0.5 }}
                 pointerEvents={'none'}
               />
             }
