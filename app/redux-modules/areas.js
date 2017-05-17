@@ -92,6 +92,27 @@ export default function reducer(state = initialState, action) {
   }
 }
 
+// Helpers
+function getAreaById(areas, areaId) {
+  // Using deconstructor to generate a new object
+  return { ...areas.find((areaData) => (areaData.id === areaId)) };
+}
+function updateDatasetCache(datasets, dataset, status) {
+  return datasets.map((item) => {
+    if (item.slug !== dataset) {
+      return item;
+    }
+    return {
+      ...item,
+      options: item.options.map(option => (
+        option.name === 'cache'
+          ? { ...option, value: status }
+          : option
+      ))
+    };
+  });
+}
+
 // Action Creators
 export function getAreas() {
   const url = `${Config.API_URL}/area`;
@@ -242,45 +263,79 @@ export function saveArea(params) {
 
 export function cacheArea(areaId, dataset) {
   return async (dispatch, state) => {
-    const area = state().areas.data.find((areaData) => (areaData.id === areaId));
+    const area = getAreaById(state().areas.data, areaId);
     if (area) {
       const geojson = state().geostore.data[area.attributes.geostore];
       if (geojson) {
-        const bboxArea = new BoundingBox(geojson.features[0]);
-        if (bboxArea) {
-          const bbox = [
-            { lat: bboxArea.minlat, lng: bboxArea.maxlon },
-            { lat: bboxArea.maxlat, lng: bboxArea.minlon }
-          ];
-          await downloadArea(bbox, areaId, dataset);
-        }
-        area.datasets = area.datasets.map((item) => ({
-          ...item,
-          cached: item.slug === dataset
-        }));
+        area.datasets = updateDatasetCache(area.datasets, dataset, true);
         dispatch({
           type: UPDATE_AREA,
           payload: area
         });
+        try {
+          const bboxArea = new BoundingBox(geojson.features[0]);
+          if (bboxArea) {
+            const bbox = [
+              { lat: bboxArea.minlat, lng: bboxArea.maxlon },
+              { lat: bboxArea.maxlat, lng: bboxArea.minlon }
+            ];
+            await downloadArea(bbox, areaId, dataset);
+          }
+          console.info(`cache of ${dataset} is on`, area);
+        } catch (e) {
+          area.datasets = updateDatasetCache(area.datasets, dataset, false);
+          dispatch({
+            type: UPDATE_AREA,
+            payload: area
+          });
+        }
       }
+    }
+  };
+}
+
+export function setAreaDatasetStatus(areaId, dataset, status) {
+  return async (dispatch, state) => {
+    const area = getAreaById(state().areas.data, areaId);
+    if (area) {
+      area.datasets = area.datasets.map((item) => {
+        if (item.slug !== dataset) {
+          return item;
+        }
+        return {
+          ...item,
+          value: status
+        };
+      });
+      console.info(`status of ${dataset} is off`, area);
+      dispatch({
+        type: UPDATE_AREA,
+        payload: area
+      });
     }
   };
 }
 
 export function removeCachedArea(areaId, dataset) {
   return async (dispatch, state) => {
-    const area = state().areas.data.find((areaData) => (areaData.id === areaId));
+    const area = getAreaById(state().areas.data, areaId);
     if (area) {
-      const folder = `${CONSTANTS.maps.tilesFolder}/${areaId}/${dataset}`;
-      await removeFolder(folder);
-      area.datasets = area.datasets.map((item) => ({
-        ...item,
-        cached: item.slug === dataset
-      }));
+      area.datasets = updateDatasetCache(area.datasets, dataset, false);
       dispatch({
         type: UPDATE_AREA,
         payload: area
       });
+      try {
+        const folder = `${CONSTANTS.maps.tilesFolder}/${areaId}/${dataset}`;
+        await removeFolder(folder);
+        console.info(`cache of ${dataset} is off`, area);
+      } catch (e) {
+        area.datasets = updateDatasetCache(area.datasets, dataset, true);
+        dispatch({
+          type: UPDATE_AREA,
+          payload: area
+        });
+      }
     }
   };
 }
@@ -334,14 +389,14 @@ export function updateDate(date) {
 
 
 const alerts = [
-  { slug: 'terrailoss', name: 'GLAD', value: true, options: [{ name: 'cache', type: 'radio', value: false }, { name: 'timeframe', type: 'timeframe', value: ['01/01/2016', '01/01/2017'] }] },
-  { slug: 'viirs', name: 'VIIRS', value: false, options: [{ name: 'cache', type: 'radio', value: false }, { name: 'timeframe', type: 'timeframe', value: ['01/01/2016', '01/01/2017'] }] },
-  { slug: 'forma', name: 'FORMA', value: false, options: [{ name: 'cache', type: 'radio', value: false }, { name: 'timeframe', type: 'timeframe', value: ['01/01/2016', '01/01/2017'] }] }
+  { slug: 'terrailoss', name: 'GLAD', value: true, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: ['01/01/2016', '01/01/2017'] }] },
+  { slug: 'viirs', name: 'VIIRS', value: false, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: ['01/01/2016', '01/01/2017'] }] },
+  { slug: 'forma', name: 'FORMA', value: false, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: ['01/01/2016', '01/01/2017'] }] }
 ];
 
 export function getDatasets(areaId) {
   return (dispatch, state) => {
-    const area = state().areas.data.find((areaData) => (areaData.id === areaId));
+    const area = getAreaById(state().areas.data, areaId);
     const url = `${Config.API_URL}/coverage/intersect?geostore=${area.attributes.geostore}`;
     return fetch(url, {
       headers: {

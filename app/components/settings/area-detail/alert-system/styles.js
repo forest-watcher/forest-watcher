@@ -5,6 +5,11 @@ export default StyleSheet.create({
   container: {
     flex: 1
   },
+  loader: {
+    height: 200,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   row: {
     height: 72,
     paddingLeft: Theme.margin.left,
@@ -15,6 +20,9 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  nested: {
+    backgroundColor: Theme.colors.color4
   },
   name: {
     width: 200,
