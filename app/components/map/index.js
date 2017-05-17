@@ -12,6 +12,7 @@ import {
   Platform
 } from 'react-native';
 import CONSTANTS from 'config/constants';
+import throttle from 'lodash/throttle';
 import Carousel from 'react-native-snap-carousel';
 
 import Theme from 'config/theme';
@@ -73,7 +74,6 @@ class Map extends Component {
     this.areaFeatures = filteredGeostores.map((geostore) => geostore.features[0]);
     const center = new BoundingBox(this.areaFeatures[0]).getCenter();
     const initialCoords = center || { lat: CONSTANTS.maps.lat, lon: CONSTANTS.maps.lng };
-    this.afterRenderTimer = null;
     this.eventLocation = null;
     this.eventOrientation = null;
     // Google maps lon and lat are inverted
@@ -123,8 +123,6 @@ class Map extends Component {
   componentWillUnmount() {
     Location.stopUpdatingLocation();
 
-    clearTimeout(this.afterRenderTimer);
-
     if (this.eventLocation) {
       this.eventLocation.remove();
     }
@@ -143,31 +141,21 @@ class Map extends Component {
 
   onLayout = () => {
     if (!this.state.alertSelected) {
-      if (this.afterRenderTimer) {
-        clearTimeout(this.afterRenderTimer);
+      if (this.areaFeatures && this.areaFeatures.length > 0) {
+        const area = this.getAreaCoordinates(this.areaFeatures[this.state.index]);
+        this.map.fitToCoordinates(area,
+          { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: true });
       }
-      this.afterRenderTimer = setTimeout(() => {
-        if (this.areaFeatures && this.areaFeatures.length > 0) {
-          const area = this.getAreaCoordinates(this.areaFeatures[this.state.index]);
-
-          this.map.fitToCoordinates(area,
-            { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: true });
-        }
-      }, 300);
     }
   }
 
+  // TODO: check if we really need to map events
   onRegionChangeComplete = (region) => {
     this.updateRegion(region);
   }
 
   onRegionChange = (region) => {
-    if (this.onRegionChangeTimer) {
-      clearTimeout(this.onRegionChangeTimer);
-    }
-    this.onRegionChangeTimer = setTimeout(() => {
-      this.updateRegion(region);
-    }, 100);
+    this.updateRegion(region);
   }
 
   onMapPress = (e) => {
@@ -284,12 +272,12 @@ class Map extends Component {
 
     this.eventLocation = DeviceEventEmitter.addListener(
       'locationUpdated',
-      (location) => {
+      throttle((location) => {
         const coords = Platform.OS === 'ios' ? location.coords : location;
         this.setState({
           lastPosition: coords
         });
-      }
+      }, 300)
     );
 
     const updateHeading = heading => (prevState) => {
@@ -309,12 +297,12 @@ class Map extends Component {
         }
       );
     } else {
-      SensorManager.startOrientation(1000);
+      SensorManager.startOrientation(300);
       this.eventOrientation = DeviceEventEmitter.addListener(
         'Orientation',
-        (data) => {
+        throttle((data) => {
           this.setState(updateHeading(data.azimuth));
-        }
+        }, 16)
       );
     }
   }
@@ -481,9 +469,9 @@ class Map extends Component {
             rotateEnabled={false}
             onPress={this.onMapPress}
             initialRegion={this.state.region}
-            onRegionChange={this.onRegionChange}
+            onRegionChange={throttle(this.onRegionChange, 100)}
             onRegionChangeComplete={this.onRegionChangeComplete}
-            onLayout={this.onLayout}
+            onLayout={throttle(this.onLayout, 300)}
             moveOnMarkerPress={false}
           >
             {showCompassFallback &&
@@ -513,7 +501,7 @@ class Map extends Component {
                   key={'compass'}
                   coordinate={this.state.lastPosition}
                   zIndex={1}
-                  anchor={{ x: 0.5, y: 0.6 }}
+                  anchor={{ x: 0.5, y: 0.5 }}
                   pointerEvents={'none'}
                 >
                   <Animated.Image
@@ -560,7 +548,7 @@ class Map extends Component {
               ref={(carousel) => { this.carousel = carousel; }}
               sliderWidth={sliderWidth}
               itemWidth={itemWidth}
-              onSnapToItem={(index) => this.updateSelectedArea(index)}
+              onSnapToItem={throttle((index) => this.updateSelectedArea(index), 700)}
               showsHorizontalScrollIndicator={false}
               slideStyle={styles.slideStyle}
             >
