@@ -21,10 +21,12 @@ const cameraAddIcon = require('assets/camera_add.png');
 class ImageBlobInput extends Component {
   constructor(props) {
     super(props);
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.takePicture = this.takePicture.bind(this);
     this.removePicture = this.removePicture.bind(this);
     this.timerLoadPicture = null;
     this.state = {
+      viewPrepared: false,
       cameraVisible: false,
       cameraType: Camera.constants.Type.back,
       saving: false
@@ -33,15 +35,29 @@ class ImageBlobInput extends Component {
 
   componentDidMount() {
     this.getPermissions();
+    if (this.camera !== undefined) {
+      this.selectCameraType();
+    }
   }
 
   componentWillUnmount() {
     StatusBar.setBarStyle('default');
   }
 
+  onNavigatorEvent(event) {
+    if (event.type === 'ScreenChangedEvent' && event.id === 'didAppear') {
+      this.setState({ viewPrepared: true });
+    }
+  }
+
   async getPermissions() {
     try {
-      const isCameraPermitted = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.CAMERA);
+      let isCameraPermitted = false;
+      try {
+        isCameraPermitted = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.CAMERA);
+      } catch (err) {
+        console.warn(err);
+      }
       if (!isCameraPermitted) {
         const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA,
           {
@@ -54,13 +70,88 @@ class ImageBlobInput extends Component {
           console.warn('Please allow Camera');
         }
       }
-      this.enableCamera();
+      this.setState({
+        cameraVisible: !this.props.input.value || this.props.input.value.length === 0
+      });
     } catch (err) {
-      // Todo camera error
+      console.warn(err);
     }
   }
 
-  getCameraView() {
+  selectCameraType() {
+    this.camera.hasFlash()
+      .then((flash) => {
+        if (!flash) {
+          this.setState({
+            cameraType: Camera.constants.Type.front
+          });
+        }
+      })
+      .catch((error) => { console.warn(error); });
+  }
+
+  removePicture() {
+    this.props.input.onChange('');
+    this.setState({
+      cameraVisible: true
+    });
+  }
+
+  async takePicture() {
+    const image = await this.camera.capture();
+    this.savePicture(image);
+  }
+
+  async savePicture(image) {
+    if (!this.state.saving) {
+      this.setState({
+        saving: true
+      }, async () => {
+        try {
+          const storedUrl = await storeImage(image.path, true);
+          this.setState({
+            cameraVisible: false,
+            saving: false
+          }, () => {
+            this.props.input.onChange(storedUrl);
+          });
+        } catch (err) {
+          console.warn('TODO: handle error', err);
+        }
+      });
+    }
+  }
+
+  renderConfirmView() {
+    let image = <Text>{i18n.t('commonText.loading')}</Text>;
+
+    if (this.props.input.value && this.props.input.value.length > 0) {
+      image = (<ImageCache
+        resizeMode="contain"
+        style={{ height: 416, width: Theme.screen.width - (56 * 2) }}
+        localSource
+        source={{
+          uri: this.props.input.value
+        }}
+      />);
+    }
+
+    return (
+      <View style={styles.container}>
+        <View style={styles.preview}>{image}</View>
+        <TouchableHighlight
+          style={styles.leftBtn}
+          onPress={this.removePicture}
+          activeOpacity={0.8}
+          underlayColor={Theme.background.white}
+        >
+          <Image style={[Theme.icon, styles.leftBtnIcon]} source={cameraAddIcon} />
+        </TouchableHighlight>
+      </View>
+    );
+  }
+
+  renderCameraView() {
     return (
       <View style={styles.container}>
         <Text style={styles.captureLabel} >{i18n.t('report.takePicture')}</Text>
@@ -90,96 +181,13 @@ class ImageBlobInput extends Component {
     );
   }
 
-  getConfirmView() {
-    let image = <Text>{i18n.t('commonText.loading')}</Text>;
-
-    if (this.props.input.value && this.props.input.value.length > 0) {
-      image = (<ImageCache
-        resizeMode="contain"
-        style={{ height: 416, width: Theme.screen.width - (56 * 2) }}
-        localSource
-        source={{
-          uri: this.props.input.value
-        }}
-      />);
-    }
-
-    return (
-      <View style={styles.container}>
-        <View style={styles.preview}>{image}</View>
-        <TouchableHighlight
-          style={styles.leftBtn}
-          onPress={this.removePicture}
-          activeOpacity={0.8}
-          underlayColor={Theme.background.white}
-        >
-          <Image style={[Theme.icon, styles.leftBtnIcon]} source={cameraAddIcon} />
-        </TouchableHighlight>
-      </View>
-    );
-  }
-
-  enableCamera() {
-    this.setState({
-      cameraVisible: !this.props.input.value || this.props.input.value.length === 0
-    }, () => {
-      this.selectCameraType();
-    });
-  }
-
-  selectCameraType() {
-    setTimeout(() => {
-      this.camera.hasFlash()
-        .then((flash) => {
-          if (!flash) {
-            this.setState({
-              cameraType: Camera.constants.Type.front
-            });
-          }
-        })
-        .catch((error) => { console.warn(error); });
-    }, 200);
-  }
-
-  removePicture() {
-    this.props.input.onChange('');
-    this.setState({
-      cameraVisible: true
-    });
-  }
-
-  async takePicture() {
-    const image = await this.camera.capture();
-    this.savePicture(image);
-  }
-
-  async savePicture(image) {
-    if (!this.state.saving) {
-      this.setState({
-        saving: true
-      }, async () => {
-        try {
-          const storedUrl = await storeImage(image.path, true);
-          this.setState({
-            cameraVisible: false,
-            saving: false
-          }, () => {
-            this.props.input.onChange(storedUrl);
-          });
-          return true;
-        } catch (err) {
-          console.warn('TODO: handle error', err);
-          return false;
-        }
-      });
-    }
-  }
-
-
   render() {
-    const cameraVisible = this.state.cameraVisible;
-    StatusBar.setBarStyle(cameraVisible ? 'light-content' : 'default');
-    return cameraVisible ? this.getCameraView() : this.getConfirmView();
+    if (this.state.viewPrepared) {
+      const cameraVisible = this.state.cameraVisible;
+      StatusBar.setBarStyle(cameraVisible ? 'light-content' : 'default');
+      return cameraVisible ? this.renderCameraView() : this.renderConfirmView();
+    }
+    return this.renderConfirmView();
   }
 }
 
@@ -189,7 +197,8 @@ ImageBlobInput.propTypes = {
     onChange: React.PropTypes.func.isRequired,
     onFocus: React.PropTypes.func.isRequired,
     value: React.PropTypes.any.isRequired
-  }).isRequired
+  }).isRequired,
+  navigator: React.PropTypes.object
 };
 
 export default ImageBlobInput;

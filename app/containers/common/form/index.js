@@ -61,6 +61,7 @@ function mapStateToProps(state, { form, index, texts, questionsToSkip, finish, t
     questionsToSkip,
     question,
     answer,
+    navigator,
     next: {
       text: nextText,
       callback: getNextCallback({
