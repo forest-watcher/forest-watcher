@@ -267,7 +267,9 @@ export function cacheArea(areaId, dataset) {
     if (area) {
       const geojson = state().geostore.data[area.attributes.geostore];
       if (geojson) {
-        area.datasets = updateDatasetCache(area.datasets, dataset, true);
+        if (dataset && area.datasets && area.datasets.length > 0) {
+          area.datasets = updateDatasetCache(area.datasets, dataset, true);
+        }
         dispatch({
           type: UPDATE_AREA,
           payload: area
@@ -300,12 +302,11 @@ export function setAreaDatasetStatus(areaId, dataset, status) {
     if (area) {
       area.datasets = area.datasets.map((item) => {
         if (item.slug !== dataset) {
-          return item;
+          return status === true
+            ? { ...item, value: false }
+            : item;
         }
-        return {
-          ...item,
-          value: status
-        };
+        return { ...item, value: status };
       });
       console.info(`status of ${dataset} is off`, area);
       dispatch({
@@ -387,47 +388,43 @@ export function updateDate(date) {
   };
 }
 
-
+// TODO START OF YEAR
 const alerts = [
-  { slug: 'terrailoss', name: 'GLAD', value: true, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: ['01/01/2016', '01/01/2017'] }] },
-  { slug: 'viirs', name: 'VIIRS', value: false, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: ['01/01/2016', '01/01/2017'] }] },
-  { slug: 'forma', name: 'FORMA', value: false, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: ['01/01/2016', '01/01/2017'] }] }
+  { slug: 'umd_as_it_happens', name: 'GLAD', value: true, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: ['01/01/2017', moment().format('DD/MM/YYYY')] }] },
+  { slug: 'viirs', name: 'VIIRS', value: false, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: ['01/01/2017', moment().format('DD/MM/YYYY')] }] }
 ];
 
 export function getDatasets(areaId) {
-  return (dispatch, state) => {
+  return async (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
     const url = `${Config.API_URL}/coverage/intersect?geostore=${area.attributes.geostore}`;
-    return fetch(url, {
-      headers: {
-        Authorization: `Bearer ${state().user.token}`
-      }
-    })
-      .then(response => {
-        if (response.ok) return response.json();
-        throw Error(response.statusText);
-      })
-      .then((response) => {
-        const datasets = [];
-        if (response.data && response.data.attributes) {
-          const { layers } = response.data.attributes;
-          for (let i = 0, aLength = alerts.length; i < aLength; i++) {
-            for (let j = 0, lLength = layers.length; j < lLength; j++) {
-              if (alerts[i].slug === layers[j]) {
-                datasets.push(alerts[i]);
-              }
+    try {
+      const response = await fetch(url,
+        { headers: { Authorization: `Bearer ${state().user.token}` } })
+        .then(res => {
+          if (res.ok) return res.json();
+          throw Error(res.statusText);
+        });
+
+      const datasets = [];
+      if (response.data && response.data.attributes) {
+        const { layers } = response.data.attributes;
+        for (let i = 0, aLength = alerts.length; i < aLength; i++) {
+          for (let j = 0, lLength = layers.length; j < lLength; j++) {
+            if (alerts[i].slug === layers[j]) {
+              datasets.push(alerts[i]);
             }
           }
         }
-        area.datasets = datasets;
-        dispatch({
-          type: UPDATE_AREA,
-          payload: area
-        });
-      })
-      .catch((error) => {
-        console.warn(error);
-        // To-do
+      }
+      area.datasets = datasets;
+      dispatch({
+        type: UPDATE_AREA,
+        payload: area
       });
+    } catch (err) {
+      console.warn(err);
+      // To-do
+    }
   };
 }

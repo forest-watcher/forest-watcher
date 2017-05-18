@@ -88,7 +88,8 @@
 	},
 	"setupOverview": {
 		"placeholder": "Enter a name",
-    "areaName": "Name the area"
+    "areaName": "Name the area",
+    "gettingDatasets": "Getting datasets"
 	},
 	"setupProtectedAreas": {
 		"instruction": "Select an area to continue"

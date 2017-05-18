@@ -10,7 +10,6 @@ import {
 
 import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
-import CheckBox from 'components/common/form-inputs/check-btn';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
@@ -23,8 +22,7 @@ class SetupOverview extends Component {
     this.state = {
       name: this.props.area.wdpaName || '',
       saving: false,
-      caching: false,
-      cacheArea: false
+      gettingDatasets: false
     };
   }
 
@@ -34,15 +32,15 @@ class SetupOverview extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.props = nextProps;
-    if (this.props.areaSaved && !this.state.caching) {
+    if (this.props.areaSaved && !this.state.gettingDatasets) {
       this.onAreaSaved();
     }
   }
 
   async onAreaSaved() {
-    if (this.state.cacheArea && this.props.areaId) {
-      this.setState({ caching: true, saving: false });
-      await this.props.cacheArea(this.props.areaId);
+    if (this.props.areaId) {
+      this.setState({ gettingDatasets: true, saving: false });
+      await this.props.getDatasets(this.props.areaId);
     }
     this.props.onNextPress();
   }
@@ -60,12 +58,6 @@ class SetupOverview extends Component {
     this.props.saveArea(params);
   }
 
-  onCachePress = () => {
-    this.setState((prevState) => ({
-      cacheArea: !prevState.cacheArea
-    }));
-  }
-
   textChange = (name) => {
     this.setState({ name });
   }
@@ -78,9 +70,9 @@ class SetupOverview extends Component {
     } else if (this.state.saving) {
       btnEnabled = false;
       btnText = I18n.t('commonText.saving');
-    } else if (this.state.caching) {
+    } else if (this.state.gettingDatasets) {
       btnEnabled = false;
-      btnText = I18n.t('commonText.caching');
+      btnText = I18n.t('commonText.gettingDatasets');
     }
     return (
       <View style={styles.container}>
@@ -112,11 +104,6 @@ class SetupOverview extends Component {
               onPress={() => this.input.focus()}
             />
           </View>
-          <CheckBox
-            value="Cache area"
-            checked={this.state.cacheArea}
-            onPress={this.onCachePress}
-          />
           <KeyboardSpacer />
         </View>
         <ScrollView style={styles.scrollContainButton}>
@@ -140,7 +127,7 @@ SetupOverview.propTypes = {
   area: React.PropTypes.object.isRequired,
   areaSaved: React.PropTypes.bool.isRequired,
   snapshot: React.PropTypes.string.isRequired,
-  cacheArea: React.PropTypes.func.isRequired,
+  getDatasets: React.PropTypes.func.isRequired,
   onNextPress: React.PropTypes.func.isRequired,
   saveArea: React.PropTypes.func.isRequired
 };

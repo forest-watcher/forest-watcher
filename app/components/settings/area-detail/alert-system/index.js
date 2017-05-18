@@ -35,7 +35,7 @@ class AlertSystem extends Component {
     if (!datasets) return loadingState();
     return (
       <View style={styles.container}>
-        {datasets.map((dataset, i) => {
+        {datasets.length && datasets.length > 0 && datasets.map((dataset, i) => {
           const onDatasetValueChange = (value) => {
             this.props.setAreaDatasetStatus(id, dataset.slug, value);
           };
