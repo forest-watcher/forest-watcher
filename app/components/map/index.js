@@ -12,16 +12,16 @@ import {
   Platform
 } from 'react-native';
 import CONSTANTS from 'config/constants';
-import Carousel from 'react-native-snap-carousel';
 
 import Theme from 'config/theme';
 import daysSince from 'helpers/date';
 import ActionBtn from 'components/common/action-button';
+import AreaCarousel from 'components/map/area-carousel/';
 import tracker from 'helpers/googleAnalytics';
+import enabledDatasetSlug from 'helpers/area';
 import I18n from 'locales';
-import GeoPoint from 'geopoint';
 import MapView from 'react-native-maps';
-import { sliderWidth, itemWidth, styles } from './styles';
+import { styles } from './styles';
 
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
 
@@ -36,11 +36,13 @@ const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 10;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+const DEFAULT_DATASET_SLUG = 'umd_as_it_happens';
 
 const markerImage = require('assets/marker.png');
 const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
+
 
 function renderLoading() {
   return (
@@ -95,7 +97,8 @@ class Map extends Component {
       },
       areaCoordinates: this.getAreaCoordinates(this.areaFeatures[0]),
       areaId: areas[0].id,
-      alertSelected: null
+      alertSelected: null,
+      datasetSlug: DEFAULT_DATASET_SLUG
       // alerts: params.features && params.features.length > 0 ? params.features.slice(0, 120) : [] // Provisional
     };
   }
@@ -139,10 +142,11 @@ class Map extends Component {
         clearTimeout(this.afterRenderTimer);
       }
       this.afterRenderTimer = setTimeout(() => {
+        const datasetSlugName = enabledDatasetSlug(this.props.areas[this.state.index]) || DEFAULT_DATASET_SLUG;
+        this.setState({ datasetSlug: datasetSlugName });
         if (this.areaFeatures && this.areaFeatures.length > 0) {
-          const area = this.getAreaCoordinates(this.areaFeatures[this.state.index]);
-
-          this.map.fitToCoordinates(area,
+          const areaCoordinates = this.getAreaCoordinates(this.areaFeatures[this.state.index]);
+          this.map.fitToCoordinates(areaCoordinates,
             { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: true });
         }
       }, 300);
@@ -198,7 +202,8 @@ class Map extends Component {
       coordinates: {
         tile: [], // tile coordinates x, y, z + precision x, y
         precision: [] // tile precision x, y
-      }
+      },
+      datasetSlug: enabledDatasetSlug(area) || DEFAULT_DATASET_SLUG
     }, () => {
       this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[aId]),
         { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false });
@@ -394,41 +399,6 @@ class Map extends Component {
   render() {
     const { coordinates, alertSelected } = this.state;
     const hasCoordinates = (coordinates.tile && coordinates.tile.length > 0) || false;
-
-    let distanceText = I18n.t('commonText.notAvailable');
-    let positionText = '';
-    let distance = 999999;
-    const { lastPosition } = this.state;
-    const containerTextSyle = alertSelected
-      ? [styles.textContainer, styles.textContainerSmall]
-      : styles.textContainer;
-
-
-    if (lastPosition && (alertSelected && alertSelected.latitude
-     && alertSelected.longitude)) {
-      const geoPoint = new GeoPoint(alertSelected.latitude, alertSelected.longitude);
-      const currentPoint = new GeoPoint(lastPosition.latitude, lastPosition.longitude);
-      positionText = `${I18n.t('commonText.yourPosition')}: ${lastPosition.latitude.toFixed(4)}, ${lastPosition.longitude.toFixed(4)}`;
-      distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);
-      distanceText = `${distance} ${I18n.t('commonText.kmAway')}`; // in Kilometers
-    }
-
-    const sliderItems = this.props.areas.map((area, index) => (
-      <View key={`entry-${index}`} style={styles.slideInnerContainer}>
-        <Text style={containerTextSyle}>{ area.name }</Text>
-        {alertSelected &&
-          <View style={styles.currentPosition}>
-            <Text style={styles.coordinateDistanceText}>
-              {distanceText}
-            </Text>
-            <Text style={styles.coordinateDistanceText}>
-              {positionText}
-            </Text>
-          </View>
-        }
-      </View>
-    ));
-
     return (
       this.state.renderMap
       ?
@@ -517,18 +487,12 @@ class Map extends Component {
             ? this.renderFooter()
             : this.renderFooterLoading()
           }
-          <View style={{ position: 'absolute', bottom: 0, zIndex: 10 }}>
-            <Carousel
-              ref={(carousel) => { this.carousel = carousel; }}
-              sliderWidth={sliderWidth}
-              itemWidth={itemWidth}
-              onSnapToItem={(index) => this.updateSelectedArea(index)}
-              showsHorizontalScrollIndicator={false}
-              slideStyle={styles.slideStyle}
-            >
-              { sliderItems }
-            </Carousel>
-          </View>
+          <AreaCarousel
+            areas={this.props.areas}
+            alertSelected={this.state.alertSelected}
+            lastPosition={this.state.lastPosition}
+            updateSelectedArea={(areaId) => this.updateSelectedArea(areaId)}
+          />
         </View>
       :
         renderLoading()
