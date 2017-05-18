@@ -15,6 +15,7 @@ import CONSTANTS from 'config/constants';
 
 import Theme from 'config/theme';
 import daysSince from 'helpers/date';
+import { getUrlTile } from 'helpers/map';
 import ActionBtn from 'components/common/action-button';
 import AreaCarousel from 'components/map/area-carousel/';
 import tracker from 'helpers/googleAnalytics';
@@ -97,7 +98,8 @@ class Map extends Component {
       areaCoordinates: this.getAreaCoordinates(this.areaFeatures[0]),
       areaId: areas[0].id,
       alertSelected: null,
-      datasetSlug: null
+      datasetSlug: null,
+      urlTile: null
       // alerts: params.features && params.features.length > 0 ? params.features.slice(0, 120) : [] // Provisional
     };
   }
@@ -110,6 +112,7 @@ class Map extends Component {
       StatusBar.setBarStyle('light-content');
     }
 
+    this.setUrlTile('viirs'); // TODO: do it dinamyc
     this.renderMap();
     this.geoLocate();
   }
@@ -167,6 +170,11 @@ class Map extends Component {
 
   onMapPress = (e) => {
     this.selectAlert(e.nativeEvent.coordinate);
+  }
+
+  async setUrlTile(dataset) {
+    const url = await getUrlTile(dataset);
+    this.setState({ urlTile: url });
   }
 
   getAreaCoordinates = (areaFeature) => (
@@ -396,7 +404,7 @@ class Map extends Component {
   }
 
   render() {
-    const { coordinates, alertSelected } = this.state;
+    const { coordinates, alertSelected, urlTile } = this.state;
     const hasCoordinates = (coordinates.tile && coordinates.tile.length > 0) || false;
     return (
       this.state.renderMap
@@ -460,20 +468,22 @@ class Map extends Component {
                 </MapView.Marker>
               : null
             }
-            <MapView.CanvasUrlTile
-              urlTemplate="http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/{z}/{x}/{y}.png"
-              zIndex={-1}
-              maxZoom={12}
-              areaId={this.state.areaId}
-              alertType={this.state.datasetSlug}
-              isConnected={this.props.isConnected}
-              minDate={daysSince(this.props.fromDate)}
-              maxDate={daysSince(this.props.toDate)}
-            />
-            {hasCoordinates &&
+            {urlTile &&
+              <MapView.UrlTile
+                urlTemplate={urlTile}
+                zIndex={-1}
+                maxZoom={12}
+                areaId={this.state.areaId}
+                alertType={this.state.datasetSlug}
+                isConnected={this.props.isConnected}
+                minDate={daysSince(this.props.fromDate)}
+                maxDate={daysSince(this.props.toDate)}
+              />
+            }
+            {false && hasCoordinates &&
               <MapView.CanvasInteractionUrlTile
                 coordinates={coordinates}
-                urlTemplate="http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/{z}/{x}/{y}.png"
+                urlTemplate={urlTile}
                 zIndex={1}
                 maxZoom={12}
                 areaId={this.state.areaId}

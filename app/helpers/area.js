@@ -5,11 +5,13 @@ export function activeDataset(area) {
 }
 
 export function enabledDatasetName(area) {
+  if (!area.datasets) return false;
   const enabledDataset = activeDataset(area);
   return enabledDataset !== false ? enabledDataset.name : false;
 }
 
 export default function enabledDatasetSlug(area) {
+  if (!area.datasets) return false;
   const enabledDataset = activeDataset(area);
   return enabledDataset !== false ? enabledDataset.slug : false;
 }
