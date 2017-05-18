@@ -3,6 +3,7 @@
 		"appName": "Forest Watcher 2.0",
 		"next": "Suivant",
     "save": "Enregistrer",
+    "boundaries": "Boundaries",
     "delete": "Delete",
 		"back": "Précédent",
 		"finish": "Terminer",
@@ -14,6 +15,7 @@
     "loading": "Chargement",
     "notAvailable": "Indisponible",
     "kmAway": "Km de distance",
+    "name": "Name",
     "yourPosition": "Your position",
 		"connectionRequiredTitle": "No connection",
 		"connectionRequired": "You need an internet connection to complete this action",
@@ -50,6 +52,7 @@
     "title": "My Alerts",
 		"seeAll": "Voir tout",
 		"alert": "alerte",
+    "alertSystems": "Alert systems",
     "downloadingAlerts": "Veuillez patienter pendant le téléchargement des données...",
     "noAlerts": "Il n'y a pas d'alertes disponibles",
     "satelliteSignal": "En attente du signal satellite ..."
@@ -85,7 +88,8 @@
 	},
 	"setupOverview": {
 		"placeholder": "Entrez un nom",
-    "areaName": "Nommez la zone"
+    "areaName": "Nommez la zone",
+    "gettingDatasets": "Getting datasets"
 	},
 	"setupProtectedAreas": {
 		"instruction": "Sélectionnez une zone pour continuer"

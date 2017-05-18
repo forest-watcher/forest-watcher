@@ -72,7 +72,7 @@ class SetupOverview extends Component {
       btnText = I18n.t('commonText.saving');
     } else if (this.state.gettingDatasets) {
       btnEnabled = false;
-      btnText = I18n.t('commonText.gettingDatasets');
+      btnText = I18n.t('setupOverview.gettingDatasets');
     }
     return (
       <View style={styles.container}>

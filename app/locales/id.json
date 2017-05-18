@@ -3,6 +3,7 @@
 		"appName": "Forest Watcher 2.0",
 		"next": "Lanjut",
     "save": "Menyimpan",
+    "boundaries": "Boundaries",
     "delete": "Menghapus",
 		"back": "Kembali",
 		"finish": "Selesai",
@@ -14,6 +15,7 @@
     "loading": "Pemuatan",
     "notAvailable": "Tidak tersedia",
     "kmAway": "km jauhnya",
+    "name": "Name",
     "yourPosition": "Posisi kamu",
 		"connectionRequiredTitle": "Tidak ada koneksi",
 		"connectionRequired": "Anda memerlukan koneksi internet",
@@ -50,6 +52,7 @@
     "title": "Peringatan",
 		"seeAll": "Lihat semua",
 		"alert": "Peringatan",
+    "alertSystems": "Alert systems",
     "downloadingAlerts": "Harap tunggu sementara data yang di-download ...",
     "noAlerts": "Tidak ada lansiran tersedia",
     "satelliteSignal": "Menunggu sinyal satelit ..."
@@ -85,7 +88,8 @@
 	},
 	"setupOverview": {
 		"placeholder": "Masukkan nama",
-    "areaName": "Nama daerah"
+    "areaName": "Nama daerah",
+    "gettingDatasets": "Getting datasets"
 	},
 	"setupProtectedAreas": {
 		"instruction": "Pilih area untuk melanjutkan"
