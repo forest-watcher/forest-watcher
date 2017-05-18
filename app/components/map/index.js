@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import CONSTANTS from 'config/constants';
 import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 import Carousel from 'react-native-snap-carousel';
 
 import Theme from 'config/theme';
@@ -460,9 +461,9 @@ class Map extends Component {
             rotateEnabled={false}
             onPress={this.onMapPress}
             initialRegion={this.state.region}
-            onRegionChange={throttle(region => this.updateRegion(region), 100)}
+            onRegionChange={debounce(region => this.updateRegion(region), 100)}
             onRegionChangeComplete={this.updateRegion}
-            onLayout={throttle(this.onLayout, 300)}
+            onLayout={debounce(this.onLayout, 300)}
             moveOnMarkerPress={false}
           >
             {showCompassFallback &&
