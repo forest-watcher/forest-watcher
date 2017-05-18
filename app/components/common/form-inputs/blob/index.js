@@ -24,7 +24,6 @@ class ImageBlobInput extends Component {
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.takePicture = this.takePicture.bind(this);
     this.removePicture = this.removePicture.bind(this);
-    this.timerLoadPicture = null;
     this.state = {
       viewPrepared: false,
       cameraVisible: false,
