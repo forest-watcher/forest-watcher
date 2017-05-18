@@ -1,26 +1,7 @@
 import Theme from 'config/theme';
-import {
-  Platform,
-  StyleSheet,
-  Dimensions
-} from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
-const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
-function wp(percentage) {
-  const value = (percentage * viewportWidth) / 100;
-  return Math.round(value);
-}
-const slideHeight = viewportHeight * 0.1;
-const slideWidth = wp(75);
-const itemHorizontalMargin = wp(2);
-
-export const sliderWidth = viewportWidth;
-const horizontalMargin = itemHorizontalMargin * 2;
-export const itemWidth = slideWidth + horizontalMargin;
-
-const entryBorderRadius = 8;
-
-export const styles = StyleSheet.create({
+export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#EDEAE2'
@@ -165,43 +146,6 @@ export const styles = StyleSheet.create({
     bottom: 75,
     position: 'absolute',
     zIndex: 2
-  },
-  slider: {
-    flex: 0,
-    backgroundColor: 'transparent',
-    height: 134
-  },
-  slideInnerContainer: {
-    backgroundColor: 'transparent',
-    width: itemWidth,
-    height: slideHeight,
-    paddingHorizontal: itemHorizontalMargin,
-    paddingBottom: 18
-  },
-  textContainer: {
-    justifyContent: 'center',
-    paddingTop: 20 - entryBorderRadius,
-    paddingHorizontal: 16,
-    backgroundColor: 'white',
-    borderBottomLeftRadius: entryBorderRadius,
-    borderBottomRightRadius: entryBorderRadius,
-    fontSize: 17,
-    color: Theme.fontColors.secondary,
-    fontFamily: Theme.font,
-    fontWeight: '400'
-  },
-  textContainerSmall: {
-    paddingTop: 14 - entryBorderRadius
-  },
-  carousel: {
-    flex: 0,
-    backgroundColor: 'transparent',
-    height: 134
-  },
-  slideStyle: {
-    backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5
   },
   coordinateDistanceText: {
     fontFamily: Theme.font,

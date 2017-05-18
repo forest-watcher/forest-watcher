@@ -42,7 +42,6 @@ export const styles = StyleSheet.create({
   textContainer: {
     justifyContent: 'center',
     paddingTop: 20 - entryBorderRadius,
-    paddingHorizontal: 16,
     backgroundColor: 'white',
     borderBottomLeftRadius: entryBorderRadius,
     borderBottomRightRadius: entryBorderRadius,
@@ -76,17 +75,5 @@ export const styles = StyleSheet.create({
   currentPosition: {
     paddingTop: 3,
     position: 'relative'
-  },
-  btnRemoveCurrent: {
-    width: 20,
-    height: 20,
-    position: 'absolute',
-    right: 0,
-    bottom: 0
-  },
-  btnRemoveCurrentText: {
-    fontSize: 18,
-    borderTopColor: '#CCCCCC',
-    padding: 0
   }
 });

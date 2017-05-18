@@ -21,7 +21,7 @@ import tracker from 'helpers/googleAnalytics';
 import enabledDatasetSlug from 'helpers/area';
 import I18n from 'locales';
 import MapView from 'react-native-maps';
-import { styles } from './styles';
+import styles from './styles';
 
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
 
