@@ -388,7 +388,7 @@ export function updateDate(date) {
   };
 }
 
-// TODO START OF YEAR
+// TODO START OF YEAR IN GLAD AND 1 WEEK AGO IN VIIRS
 const alerts = [
   { slug: 'umd_as_it_happens', name: 'GLAD', value: true, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: ['01/01/2017', moment().format('DD/MM/YYYY')] }] },
   { slug: 'viirs', name: 'VIIRS', value: false, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: ['01/01/2017', moment().format('DD/MM/YYYY')] }] }
@@ -406,6 +406,7 @@ export function getDatasets(areaId) {
           throw Error(res.statusText);
         });
 
+      // TODO: MARK FIRST AS ACTIVE IF THERE ISN'T A GLAD LAYER
       const datasets = [];
       if (response.data && response.data.attributes) {
         const { layers } = response.data.attributes;
