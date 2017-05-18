@@ -21,7 +21,6 @@ const cameraAddIcon = require('assets/camera_add.png');
 class ImageBlobInput extends Component {
   constructor(props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.takePicture = this.takePicture.bind(this);
     this.removePicture = this.removePicture.bind(this);
     this.state = {
@@ -41,12 +40,6 @@ class ImageBlobInput extends Component {
 
   componentWillUnmount() {
     StatusBar.setBarStyle('default');
-  }
-
-  onNavigatorEvent(event) {
-    if (event.type === 'ScreenChangedEvent' && event.id === 'didAppear') {
-      this.setState({ viewPrepared: true });
-    }
   }
 
   async getPermissions() {
@@ -196,8 +189,7 @@ ImageBlobInput.propTypes = {
     onChange: React.PropTypes.func.isRequired,
     onFocus: React.PropTypes.func.isRequired,
     value: React.PropTypes.any.isRequired
-  }).isRequired,
-  navigator: React.PropTypes.object
+  }).isRequired
 };
 
 export default ImageBlobInput;

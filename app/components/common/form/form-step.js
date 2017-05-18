@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Field, reduxForm } from 'redux-form';
 
@@ -23,19 +23,36 @@ const getNext = (question, answer, next) => {
   />);
 };
 
-const FormStep = ({ question, answer, next, navigator }) => (
-  <View style={styles.container}>
-    <View style={styles.container}>
-      <Field
-        name={question.name}
-        component={getInputForm}
-        question={question}
-        navigator={navigator}
-      />
-    </View>
-    {getNext(question, answer, next)}
-  </View>
-);
+class FormStep extends Component {
+  constructor(props) {
+    super();
+    this.state = { viewPrepared: true };
+    props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+  onNavigatorEvent(event) {
+    if (event.type === 'ScreenChangedEvent') {
+      if (event.id === 'willDisappear') {
+        this.setState({ viewPrepared: false });
+      }
+      if (event.id === 'didAppear') {
+        this.setState({ viewPrepared: true });
+      }
+    }
+  }
+  render() {
+    return this.state.viewPrepared ?
+      (<View style={styles.container}>
+        <View style={styles.container}>
+          <Field
+            name={this.props.question.name}
+            component={getInputForm}
+            question={this.props.question}
+          />
+        </View>
+        {getNext(this.props.question, this.props.answer, this.props.next)}
+      </View>) : null;
+  }
+}
 
 FormStep.propTypes = {
   question: React.PropTypes.object.isRequired,
