@@ -492,6 +492,7 @@ class Map extends Component {
             areas={this.props.areas}
             alertSelected={this.state.alertSelected}
             lastPosition={this.state.lastPosition}
+            navigator={this.props.navigator}
             updateSelectedArea={(areaId) => this.updateSelectedArea(areaId)}
           />
         </View>

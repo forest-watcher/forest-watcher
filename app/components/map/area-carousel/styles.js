@@ -75,5 +75,10 @@ export const styles = StyleSheet.create({
   currentPosition: {
     paddingTop: 3,
     position: 'relative'
+  },
+  settingsButton: {
+    bottom: 10,
+    right: 10,
+    position: 'absolute'
   }
 });
