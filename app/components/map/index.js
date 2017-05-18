@@ -36,7 +36,6 @@ const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 10;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-const DEFAULT_DATASET_SLUG = 'umd_as_it_happens';
 
 const markerImage = require('assets/marker.png');
 const markerCompassRedImage = require('assets/compass_circle_red.png');
@@ -98,7 +97,7 @@ class Map extends Component {
       areaCoordinates: this.getAreaCoordinates(this.areaFeatures[0]),
       areaId: areas[0].id,
       alertSelected: null,
-      datasetSlug: DEFAULT_DATASET_SLUG
+      datasetSlug: null
       // alerts: params.features && params.features.length > 0 ? params.features.slice(0, 120) : [] // Provisional
     };
   }
@@ -142,7 +141,7 @@ class Map extends Component {
         clearTimeout(this.afterRenderTimer);
       }
       this.afterRenderTimer = setTimeout(() => {
-        const datasetSlugName = enabledDatasetSlug(this.props.areas[this.state.index]) || DEFAULT_DATASET_SLUG;
+        const datasetSlugName = enabledDatasetSlug(this.props.areas[this.state.index]);
         this.setState({ datasetSlug: datasetSlugName });
         if (this.areaFeatures && this.areaFeatures.length > 0) {
           const areaCoordinates = this.getAreaCoordinates(this.areaFeatures[this.state.index]);
@@ -203,7 +202,7 @@ class Map extends Component {
         tile: [], // tile coordinates x, y, z + precision x, y
         precision: [] // tile precision x, y
       },
-      datasetSlug: enabledDatasetSlug(area) || DEFAULT_DATASET_SLUG
+      datasetSlug: enabledDatasetSlug(area)
     }, () => {
       this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[aId]),
         { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false });

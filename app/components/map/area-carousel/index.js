@@ -9,7 +9,7 @@ import { enabledDatasetName } from 'helpers/area';
 import GeoPoint from 'geopoint';
 import { sliderWidth, itemWidth, styles } from './styles';
 
-const DEFAULT_DATASET_NAME = 'GLAD';
+const DEFAULT_DATASET_NAME = I18n.t('commonText.noAlertSystem');
 
 class AreaCarousel extends Component {
   handleUpdateSelectedArea(aId) {
