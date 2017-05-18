@@ -149,15 +149,6 @@ class Map extends Component {
     }
   }
 
-  // TODO: check if we really need to map events
-  onRegionChangeComplete = (region) => {
-    this.updateRegion(region);
-  }
-
-  onRegionChange = (region) => {
-    this.updateRegion(region);
-  }
-
   onMapPress = (e) => {
     this.selectAlert(e.nativeEvent.coordinate);
   }
@@ -469,8 +460,8 @@ class Map extends Component {
             rotateEnabled={false}
             onPress={this.onMapPress}
             initialRegion={this.state.region}
-            onRegionChange={throttle(this.onRegionChange, 100)}
-            onRegionChangeComplete={this.onRegionChangeComplete}
+            onRegionChange={throttle(region => this.updateRegion(region), 100)}
+            onRegionChangeComplete={this.updateRegion}
             onLayout={throttle(this.onLayout, 300)}
             moveOnMarkerPress={false}
           >
@@ -548,7 +539,7 @@ class Map extends Component {
               ref={(carousel) => { this.carousel = carousel; }}
               sliderWidth={sliderWidth}
               itemWidth={itemWidth}
-              onSnapToItem={throttle((index) => this.updateSelectedArea(index), 700)}
+              onSnapToItem={throttle(aId => this.updateSelectedArea(aId), 700)}
               showsHorizontalScrollIndicator={false}
               slideStyle={styles.slideStyle}
             >
