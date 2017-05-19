@@ -97,7 +97,7 @@ function getAreaById(areas, areaId) {
   // Using deconstructor to generate a new object
   return { ...areas.find((areaData) => (areaData.id === areaId)) };
 }
-function updateDatasetCache(datasets, dataset, status) {
+function updateDataset(datasets, dataset, field, status) {
   return datasets.map((item) => {
     if (item.slug !== dataset) {
       return item;
@@ -105,7 +105,7 @@ function updateDatasetCache(datasets, dataset, status) {
     return {
       ...item,
       options: item.options.map(option => (
-        option.name === 'cache'
+        option.name === field
           ? { ...option, value: status }
           : option
       ))
@@ -117,8 +117,8 @@ function updateDatasetCache(datasets, dataset, status) {
 
 // TODO START OF YEAR IN GLAD AND 1 WEEK AGO IN VIIRS
 const alerts = [
-  { slug: 'umd_as_it_happens', name: 'GLAD', value: true, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: ['01/01/2017', moment().format('DD/MM/YYYY')] }] },
-  { slug: 'viirs', name: 'VIIRS', value: false, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: ['01/01/2017', moment().format('DD/MM/YYYY')] }] }
+  { slug: 'umd_as_it_happens', name: 'GLAD', value: true, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: { fromDate: '20150101', toDate: moment().format('YYYYMMDD') } }] },
+  { slug: 'viirs', name: 'VIIRS', value: false, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: { fromDate: '20150101', toDate: moment().format('YYYYMMDD') } }] }
 ];
 
 export function getDatasets(areaId) {
@@ -237,7 +237,6 @@ export function updateArea(area) {
   };
 }
 
-
 async function downloadArea(bbox, areaId, dataset) {
   const zooms = CONSTANTS.maps.cachedZoomLevels;
   const tilesArray = getBboxTiles(bbox, zooms);
@@ -316,7 +315,7 @@ export function cacheArea(areaId, dataset) {
       const geojson = state().geostore.data[area.attributes.geostore];
       if (geojson) {
         if (dataset && area.datasets && area.datasets.length > 0) {
-          area.datasets = updateDatasetCache(area.datasets, dataset, true);
+          area.datasets = updateDataset(area.datasets, dataset, 'cache', true);
         }
         dispatch({
           type: UPDATE_AREA,
@@ -333,7 +332,7 @@ export function cacheArea(areaId, dataset) {
           }
           console.info(`cache of ${dataset} is on`, area);
         } catch (e) {
-          area.datasets = updateDatasetCache(area.datasets, dataset, false);
+          area.datasets = updateDataset(area.datasets, dataset, 'cache', true);
           dispatch({
             type: UPDATE_AREA,
             payload: area
@@ -365,11 +364,26 @@ export function setAreaDatasetStatus(areaId, dataset, status) {
   };
 }
 
+export function updateDate(areaId, dataset, date) {
+  return async (dispatch, state) => {
+    const area = getAreaById(state().areas.data, areaId);
+    if (area) {
+      const timeframeOption = dataset.options.find((option) => (option.name === 'timeframe'));
+      const updatedDate = Object.assign(timeframeOption.value, date);
+      area.datasets = updateDataset(area.datasets, dataset, 'timeframe', updatedDate);
+      dispatch({
+        type: UPDATE_AREA,
+        payload: area
+      });
+    }
+  };
+}
+
 export function removeCachedArea(areaId, dataset) {
   return async (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
     if (area) {
-      area.datasets = updateDatasetCache(area.datasets, dataset, false);
+      area.datasets = updateDataset(area.datasets, dataset, 'cache', false);
       dispatch({
         type: UPDATE_AREA,
         payload: area
@@ -379,7 +393,7 @@ export function removeCachedArea(areaId, dataset) {
         await removeFolder(folder);
         console.info(`cache of ${dataset} is off`, area);
       } catch (e) {
-        area.datasets = updateDatasetCache(area.datasets, dataset, true);
+        area.datasets = updateDataset(area.datasets, dataset, 'cache', true);
         dispatch({
           type: UPDATE_AREA,
           payload: area
@@ -426,12 +440,5 @@ export function deleteArea(id) {
           // To-do
         });
     }
-  };
-}
-
-export function updateDate(date) {
-  return {
-    type: UPDATE_DATE,
-    payload: date
   };
 }
