@@ -60,7 +60,7 @@ export function getCartoURlTile(layerConfig) {
 }
 
 export async function getUrlTile(dataset) {
-  if (dataset === 'glad') {
+  if (dataset === 'umd_as_it_happens') {
     return 'http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/{z}/{x}/{y}.png';
   } else if (dataset === 'viirs') {
     const layer = LAYERS.viirs;

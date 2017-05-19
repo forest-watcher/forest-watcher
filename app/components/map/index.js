@@ -112,7 +112,8 @@ class Map extends Component {
       StatusBar.setBarStyle('light-content');
     }
 
-    this.setUrlTile('viirs'); // TODO: do it dinamyc
+    const enabledDataset = enabledDatasetSlug(this.props.areas[this.state.index]);
+    if (enabledDataset) this.setUrlTile(enabledDataset);
     this.renderMap();
     this.geoLocate();
   }
@@ -201,6 +202,7 @@ class Map extends Component {
 
   updateSelectedArea(aId) {
     const area = this.props.areas[aId];
+    const enabledDataset = enabledDatasetSlug(area);
     this.setState({
       index: aId,
       areaCoordinates: this.getAreaCoordinates(this.areaFeatures[aId]),
@@ -210,10 +212,12 @@ class Map extends Component {
         tile: [], // tile coordinates x, y, z + precision x, y
         precision: [] // tile precision x, y
       },
-      datasetSlug: enabledDatasetSlug(area)
+      urlTile: null,
+      datasetSlug: enabledDataset
     }, () => {
-      this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[aId]),
-        { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false });
+      const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
+      this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[aId]), options);
+      this.setUrlTile(enabledDataset);
     });
   }
 
