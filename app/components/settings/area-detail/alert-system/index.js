@@ -5,6 +5,7 @@ import {
   Text
 } from 'react-native';
 import CustomSwitch from 'components/common/switch';
+import DatasetOptions from 'components/settings/area-detail/alert-system/dataset-options';
 
 import I18n from 'locales';
 import Theme from 'config/theme';
@@ -35,7 +36,6 @@ function noDatasets() {
 }
 
 class AlertSystem extends Component {
-
   componentWillMount() {
     if (!this.props.area.datasets) {
       this.props.getDatasets(this.props.areaId);
@@ -59,36 +59,13 @@ class AlertSystem extends Component {
                 <Text style={styles.title}>{dataset.name}</Text>
                 <CustomSwitch value={dataset.value} onValueChange={onDatasetValueChange} />
               </View>
-              {dataset.value && dataset.options && dataset.options.length > 0 &&
-                dataset.options.map((option, j) => {
-                  switch (option.name) {
-                    case 'cache': {
-                      const onChange = (value) => {
-                        if (value) {
-                          this.props.cacheArea(id, dataset.slug);
-                        } else {
-                          this.props.removeCachedArea(id, dataset.slug);
-                        }
-                      };
-                      return (
-                        <View key={j} style={[styles.row, styles.nested]}>
-                          <Text style={styles.title}>{option.name}</Text>
-                          <CustomSwitch value={option.value} onValueChange={onChange} />
-                        </View>
-                      );
-                    }
-                    case 'timeframe': {
-                      return (
-                        <View key={j} style={[styles.row, styles.nested]}>
-                          <Text style={styles.title}>TODO: dates timeframe</Text>
-                        </View>
-                      );
-                    }
-                    default:
-                      return null;
-                  }
-                })
-              }
+              <DatasetOptions
+                id={id}
+                dataset={dataset}
+                updateDate={this.props.updateDate}
+                cacheArea={this.props.cacheArea}
+                removeCachedArea={this.props.removeCachedArea}
+              />
             </View>
           );
         })}
@@ -111,6 +88,7 @@ AlertSystem.propTypes = {
   cacheArea: React.PropTypes.func.isRequired,
   removeCachedArea: React.PropTypes.func.isRequired,
   setAreaDatasetStatus: React.PropTypes.func.isRequired,
+  updateDate: React.PropTypes.func.isRequired,
   areaId: React.PropTypes.string.isRequired
 };
 
