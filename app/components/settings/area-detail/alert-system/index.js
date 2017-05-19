@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import CustomSwitch from 'components/common/switch';
 
+import I18n from 'locales';
 import Theme from 'config/theme';
 import styles from './styles';
 
@@ -17,6 +18,18 @@ function loadingState() {
         style={{ height: 80 }}
         size="large"
       />
+    </View>
+  );
+}
+
+function noDatasets() {
+  return (
+    <View style={styles.container}>
+      <View style={styles.section}>
+        <View style={styles.row}>
+          <Text style={styles.title}>{I18n.t('areaDetail.noDatasets')}</Text>
+        </View>
+      </View>
     </View>
   );
 }
@@ -33,9 +46,10 @@ class AlertSystem extends Component {
     const { datasets, id } = this.props.area;
 
     if (!datasets) return loadingState();
+    if (datasets === undefined || datasets.length === 0) return noDatasets();
     return (
       <View style={styles.container}>
-        {datasets.length && datasets.length > 0 && datasets.map((dataset, i) => {
+        {datasets.map((dataset, i) => {
           const onDatasetValueChange = (value) => {
             this.props.setAreaDatasetStatus(id, dataset.slug, value);
           };
