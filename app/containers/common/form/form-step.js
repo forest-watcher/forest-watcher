@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { getBtnTextByType, getBtnTextByPosition } from 'helpers/forms';
-import ReportsForm from 'components/common/form/form-step';
+import FormStep from 'components/common/form/form-step';
 
 function getAnswers(forms, formName) {
   if (!forms) return null;
@@ -84,4 +84,4 @@ function mapStateToProps(state, { form, index, texts, questionsToSkip, finish, t
 export default connect(
   mapStateToProps,
   null
-)(ReportsForm);
+)(FormStep);
