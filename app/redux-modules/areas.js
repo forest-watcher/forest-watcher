@@ -114,6 +114,51 @@ function updateDatasetCache(datasets, dataset, status) {
 }
 
 // Action Creators
+
+// TODO START OF YEAR IN GLAD AND 1 WEEK AGO IN VIIRS
+const alerts = [
+  { slug: 'umd_as_it_happens', name: 'GLAD', value: true, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: ['01/01/2017', moment().format('DD/MM/YYYY')] }] },
+  { slug: 'viirs', name: 'VIIRS', value: false, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: ['01/01/2017', moment().format('DD/MM/YYYY')] }] }
+];
+
+export function getDatasets(areaId) {
+  return async (dispatch, state) => {
+    const area = getAreaById(state().areas.data, areaId);
+    if (area) {
+      const url = `${Config.API_URL}/coverage/intersect?geostore=${area.attributes.geostore}`;
+      try {
+        const response = await fetch(url,
+          { headers: { Authorization: `Bearer ${state().user.token}` } })
+          .then(res => {
+            if (res.ok) return res.json();
+            throw Error(res.statusText);
+          });
+
+        // TODO: MARK FIRST AS ACTIVE IF THERE ISN'T A GLAD LAYER
+        const datasets = [];
+        if (response.data && response.data.attributes) {
+          const { layers } = response.data.attributes;
+          for (let i = 0, aLength = alerts.length; i < aLength; i++) {
+            for (let j = 0, lLength = layers.length; j < lLength; j++) {
+              if (alerts[i].slug === layers[j]) {
+                datasets.push(alerts[i]);
+              }
+            }
+          }
+        }
+        area.datasets = datasets;
+        dispatch({
+          type: UPDATE_AREA,
+          payload: area
+        });
+      } catch (err) {
+        console.warn(err);
+        // To-do
+      }
+    }
+  };
+}
+
 export function getAreas() {
   const url = `${Config.API_URL}/area`;
   return (dispatch, state) => {
@@ -148,6 +193,9 @@ export function getAreas() {
               data: response.data
             }
           });
+
+          // TODO: split the request of the gesotres, images and datasets
+          response.data.map((area) => dispatch(getDatasets(area.id)));
         })
         .catch((error) => {
           console.warn(error);
@@ -385,47 +433,5 @@ export function updateDate(date) {
   return {
     type: UPDATE_DATE,
     payload: date
-  };
-}
-
-// TODO START OF YEAR IN GLAD AND 1 WEEK AGO IN VIIRS
-const alerts = [
-  { slug: 'umd_as_it_happens', name: 'GLAD', value: true, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: ['01/01/2017', moment().format('DD/MM/YYYY')] }] },
-  { slug: 'viirs', name: 'VIIRS', value: false, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: ['01/01/2017', moment().format('DD/MM/YYYY')] }] }
-];
-
-export function getDatasets(areaId) {
-  return async (dispatch, state) => {
-    const area = getAreaById(state().areas.data, areaId);
-    const url = `${Config.API_URL}/coverage/intersect?geostore=${area.attributes.geostore}`;
-    try {
-      const response = await fetch(url,
-        { headers: { Authorization: `Bearer ${state().user.token}` } })
-        .then(res => {
-          if (res.ok) return res.json();
-          throw Error(res.statusText);
-        });
-
-      // TODO: MARK FIRST AS ACTIVE IF THERE ISN'T A GLAD LAYER
-      const datasets = [];
-      if (response.data && response.data.attributes) {
-        const { layers } = response.data.attributes;
-        for (let i = 0, aLength = alerts.length; i < aLength; i++) {
-          for (let j = 0, lLength = layers.length; j < lLength; j++) {
-            if (alerts[i].slug === layers[j]) {
-              datasets.push(alerts[i]);
-            }
-          }
-        }
-      }
-      area.datasets = datasets;
-      dispatch({
-        type: UPDATE_AREA,
-        payload: area
-      });
-    } catch (err) {
-      console.warn(err);
-      // To-do
-    }
   };
 }
