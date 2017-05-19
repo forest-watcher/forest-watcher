@@ -2,18 +2,32 @@ import React, { Component } from 'react';
 import I18n from 'locales';
 import {
   View,
-  Text
+  Text,
+  Image,
+  TouchableHighlight
 } from 'react-native';
+import Theme from 'config/theme';
 import Carousel from 'react-native-snap-carousel';
 import { enabledDatasetName } from 'helpers/area';
 import GeoPoint from 'geopoint';
 import { sliderWidth, itemWidth, styles } from './styles';
 
 const DEFAULT_DATASET_NAME = I18n.t('commonText.noAlertSystem');
+const settingsIcon = require('assets/settings.png');
 
 class AreaCarousel extends Component {
   handleUpdateSelectedArea(aId) {
     this.props.updateSelectedArea(aId);
+  }
+
+  handleLink(area) {
+    this.props.navigator.push({
+      screen: 'ForestWatcher.AreaDetail',
+      title: area.name,
+      passProps: {
+        id: area.id
+      }
+    });
   }
 
   render() {
@@ -49,6 +63,15 @@ class AreaCarousel extends Component {
               </Text>
             </View>
           }
+          <View style={styles.settingsButton}>
+            <TouchableHighlight
+              onPress={() => this.handleLink(area)}
+              underlayColor="transparent"
+              activeOpacity={0.8}
+            >
+              <Image style={Theme.icon} source={settingsIcon} />
+            </TouchableHighlight>
+          </View>
         </View>
       );
     });
@@ -74,6 +97,7 @@ AreaCarousel.propTypes = {
   alertSelected: React.PropTypes.object,
   lastPosition: React.PropTypes.object,
   areas: React.PropTypes.array,
+  navigator: React.PropTypes.object,
   updateSelectedArea: React.PropTypes.func
 };
 
