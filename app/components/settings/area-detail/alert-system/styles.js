@@ -21,15 +21,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center'
   },
-  nested: {
-    backgroundColor: Theme.colors.color4
-  },
-  name: {
-    width: 200,
-    height: 22,
-    fontFamily: Theme.font,
-    color: Theme.fontColors.secondary,
-    fontSize: 17,
-    fontWeight: '400'
+  section: {
+    marginTop: 16
   }
 });

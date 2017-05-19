@@ -7,9 +7,7 @@ import Settings from 'components/settings';
 function mapStateToProps(state) {
   return {
     user: state.user.data,
-    areas: state.areas.data,
-    fromDate: state.areas.fromDate,
-    toDate: state.areas.toDate
+    areas: state.areas.data
   };
 }
 

@@ -2,9 +2,8 @@ import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  datesSection: {
-    flexDirection: 'row',
-    alignItems: 'center'
+  datasetSection: {
+    flex: 1
   },
   dateContainerLabel: {
     width: 120,
@@ -43,5 +42,8 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  nested: {
+    backgroundColor: Theme.colors.color4
   }
 });
