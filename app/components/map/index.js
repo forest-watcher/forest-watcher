@@ -101,7 +101,7 @@ class Map extends Component {
       areaCoordinates: this.getAreaCoordinates(this.areaFeatures[0]),
       areaId: areas[0].id,
       alertSelected: null,
-      datasetSlug: null,
+      datasetSlug: '',
       urlTile: null
       // alerts: params.features && params.features.length > 0 ? params.features.slice(0, 120) : [] // Provisional
     };
@@ -149,7 +149,7 @@ class Map extends Component {
   onLayout = () => {
     const datasetSlugName = enabledDatasetSlug(this.props.areas[this.state.index]);
     const fitOptions = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: true };
-    this.setState({ datasetSlug: datasetSlugName });
+    this.setState({ datasetSlug: datasetSlugName || '' });
     if (!this.state.alertSelected) {
       if (this.areaFeatures && this.areaFeatures.length > 0) {
         const areaCoordinates = this.getAreaCoordinates(this.areaFeatures[this.state.index]);
@@ -164,6 +164,7 @@ class Map extends Component {
 
   async setUrlTile(dataset) {
     const url = await getUrlTile(dataset);
+    debugger;
     this.setState({ urlTile: url });
   }
 
@@ -218,7 +219,7 @@ class Map extends Component {
         precision: [] // tile precision x, y
       },
       urlTile: null,
-      datasetSlug: enabledDataset
+      datasetSlug: enabledDataset || ''
     }, () => {
       const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
       this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[index]), options);
@@ -419,9 +420,13 @@ class Map extends Component {
   }
 
   render() {
-    const { coordinates, alertSelected, urlTile, hasCompass, lastPosition, compassFallback } = this.state;
+    const { coordinates, alertSelected, urlTile, hasCompass, lastPosition, compassFallback, datasetSlug } = this.state;
     const hasCoordinates = (coordinates.tile && coordinates.tile.length > 0) || false;
     const showCompassFallback = !hasCompass && lastPosition && alertSelected && compassFallback;
+    const dates = {
+      min: datasetSlug === 'viirs' ? '0' : daysSince(this.props.fromDate),
+      max: datasetSlug === 'viirs' ? '7' : daysSince(this.props.toDate)
+    };
 
     return (
       this.state.renderMap
@@ -499,23 +504,23 @@ class Map extends Component {
                 zIndex={-1}
                 maxZoom={12}
                 areaId={this.state.areaId}
-                alertType={this.state.datasetSlug}
+                alertType={datasetSlug}
                 isConnected={this.props.isConnected}
-                minDate={daysSince(this.props.fromDate)}
-                maxDate={daysSince(this.props.toDate)}
+                minDate={dates.min}
+                maxDate={dates.max}
               />
             }
-            {false && hasCoordinates &&
+            {false && hasCoordinates && // TODO: include the interaction and remove the false
               <MapView.CanvasInteractionUrlTile
                 coordinates={coordinates}
                 urlTemplate={urlTile}
                 zIndex={1}
                 maxZoom={12}
                 areaId={this.state.areaId}
-                alertType={this.state.datasetSlug}
+                alertType={datasetSlug}
                 isConnected={this.props.isConnected}
-                minDate={daysSince(this.props.fromDate)}
-                maxDate={daysSince(this.props.toDate)}
+                minDate={dates.min}
+                maxDate={dates.max}
               />
             }
           </MapView>

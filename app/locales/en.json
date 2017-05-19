@@ -61,7 +61,7 @@
 	"areaDetail": {
     "title": "Area detail",
 		"delete": "Delete this area",
-		"noDatasets": "No datasets for this area"
+		"noAlerts": "No alerts for this area"
 	},
 	"boundaries": {
 		"chooseBoundaries": "Now, choose the boundaries",
