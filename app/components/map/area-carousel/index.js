@@ -6,6 +6,8 @@ import {
   Image,
   TouchableHighlight
 } from 'react-native';
+import throttle from 'lodash/throttle';
+
 import Theme from 'config/theme';
 import Carousel from 'react-native-snap-carousel';
 import { enabledDatasetName } from 'helpers/area';
@@ -82,7 +84,7 @@ class AreaCarousel extends Component {
           ref={(carousel) => { this.carousel = carousel; }}
           sliderWidth={sliderWidth}
           itemWidth={itemWidth}
-          onSnapToItem={(index) => this.handleUpdateSelectedArea(index)}
+          onSnapToItem={throttle((index) => this.handleUpdateSelectedArea(index), 300)}
           showsHorizontalScrollIndicator={false}
           slideStyle={styles.slideStyle}
         >

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { saveReport, finishReport } from 'redux-modules/reports';
 
-import Form from 'components/common/form';
+import ReportForm from 'components/reports/form';
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -17,4 +17,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   null,
   mapDispatchToProps
-)(Form);
+)(ReportForm);
