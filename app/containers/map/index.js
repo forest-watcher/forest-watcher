@@ -15,9 +15,7 @@ function mapStateToProps(state) {
   return {
     areas,
     isConnected: state.app.isConnected,
-    geostores: state.geostore.data,
-    fromDate: state.areas.fromDate,
-    toDate: state.areas.toDate
+    geostores: state.geostore.data
   };
 }
 
