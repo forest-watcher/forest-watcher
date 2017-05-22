@@ -23,12 +23,12 @@ function loadingState() {
   );
 }
 
-function noDatasets() {
+function noAlerts() {
   return (
     <View style={styles.container}>
       <View style={styles.section}>
         <View style={styles.row}>
-          <Text style={styles.title}>{I18n.t('areaDetail.noDatasets')}</Text>
+          <Text style={styles.title}>{I18n.t('areaDetail.noAlerts')}</Text>
         </View>
       </View>
     </View>
@@ -46,7 +46,7 @@ class AlertSystem extends Component {
     const { datasets, id } = this.props.area;
 
     if (!datasets) return loadingState();
-    if (datasets === undefined || datasets.length === 0) return noDatasets();
+    if (datasets === undefined || datasets.length === 0) return noAlerts();
     return (
       <View style={styles.container}>
         {datasets.map((dataset, i) => {

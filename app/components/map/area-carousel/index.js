@@ -2,20 +2,16 @@ import React, { Component } from 'react';
 import I18n from 'locales';
 import {
   View,
-  Text,
-  Image,
-  TouchableHighlight
+  Text
 } from 'react-native';
 import throttle from 'lodash/throttle';
 
-import Theme from 'config/theme';
 import Carousel from 'react-native-snap-carousel';
 import { enabledDatasetName } from 'helpers/area';
 import GeoPoint from 'geopoint';
 import { sliderWidth, itemWidth, styles } from './styles';
 
 const DEFAULT_DATASET_NAME = I18n.t('commonText.noAlertSystem');
-const settingsIcon = require('assets/settings.png');
 
 class AreaCarousel extends Component {
   handleUpdateSelectedArea(aId) {
@@ -32,6 +28,19 @@ class AreaCarousel extends Component {
     });
   }
 
+  // TODO: add the settings icon when the go back after dataset changed
+  // and going back to the map bug is solved
+  /*
+  <View style={styles.settingsButton}>
+    <TouchableHighlight
+      onPress={() => this.handleLink(area)}
+      underlayColor="transparent"
+      activeOpacity={0.8}
+    >
+      <Image style={Theme.icon} source={settingsIcon} />
+    </TouchableHighlight>
+  </View>
+  */
   render() {
     const { alertSelected, lastPosition } = this.props;
     let distanceText = I18n.t('commonText.notAvailable');
@@ -53,8 +62,7 @@ class AreaCarousel extends Component {
       datasetName = enabledDatasetName(area) || DEFAULT_DATASET_NAME;
       return (
         <View key={`entry-${index}`} style={styles.slideInnerContainer}>
-          <Text style={containerTextSyle}>{ area.name }</Text>
-          <Text style={styles.textContainerSmall}>{ datasetName }</Text>
+          <Text style={containerTextSyle}>{ area.name } - { datasetName }</Text>
           {alertSelected &&
             <View style={styles.currentPosition}>
               <Text style={styles.coordinateDistanceText}>
@@ -65,15 +73,6 @@ class AreaCarousel extends Component {
               </Text>
             </View>
           }
-          <View style={styles.settingsButton}>
-            <TouchableHighlight
-              onPress={() => this.handleLink(area)}
-              underlayColor="transparent"
-              activeOpacity={0.8}
-            >
-              <Image style={Theme.icon} source={settingsIcon} />
-            </TouchableHighlight>
-          </View>
         </View>
       );
     });

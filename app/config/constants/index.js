@@ -54,5 +54,6 @@ export default {
     draft: 'draft',
     complete: 'complete',
     uploaded: 'uploaded'
-  }
+  },
+  startDate: '20150101'
 };

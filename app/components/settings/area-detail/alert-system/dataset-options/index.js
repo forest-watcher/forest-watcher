@@ -18,7 +18,7 @@ class DatasetOptions extends Component {
   render() {
     const { id, dataset, cacheArea, removeCachedArea } = this.props;
     return (
-      <View >
+      <View style={styles.datasetSection}>
         {dataset.value && dataset.options !== undefined && dataset.options.length > 0 &&
           dataset.options.map((option, j) => {
             switch (option.name) {

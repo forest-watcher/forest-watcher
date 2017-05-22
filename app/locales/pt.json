@@ -21,7 +21,8 @@
 		"connectionRequired": "You need an internet connection to complete this action",
     "noImage": "No image",
     "cached": "cached",
-    "noCached": "no-cached"
+    "noCached": "no-cached",
+    "noAlertSystem": "No alert system selected"
 	},
 	"dashboard": {
 		"title": "Painel",
@@ -59,7 +60,8 @@
 	},
 	"areaDetail": {
     "title": "Area detail",
-		"delete": "Delete this area"
+		"delete": "Delete this area",
+		"noAlerts": "No alerts for this area"
 	},
 	"boundaries": {
 		"chooseBoundaries": "Agora, escolha os limites",

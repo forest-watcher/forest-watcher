@@ -117,8 +117,28 @@ function updateDataset(datasets, dataset, field, status) {
 
 // TODO START OF YEAR IN GLAD AND 1 WEEK AGO IN VIIRS
 const alerts = [
-  { slug: 'umd_as_it_happens', name: 'GLAD', value: true, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: { fromDate: '20150101', toDate: moment().format('YYYYMMDD') } }] },
-  { slug: 'viirs', name: 'VIIRS', value: false, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: { fromDate: '20150101', toDate: moment().format('YYYYMMDD') } }] }
+  {
+    slug: 'umd_as_it_happens',
+    name: 'GLAD',
+    value: true,
+    options: [
+      { name: 'cache', value: false },
+      { name: 'timeframe',
+        value: { fromDate: CONSTANTS.startDate, toDate: moment().format('YYYYMMDD') }
+      }
+    ]
+  }
+];
+const globalAlerts = [
+  {
+    slug: 'viirs',
+    name: 'VIIRS',
+    value: false,
+    options: [
+      { name: 'cache', value: false },
+      { name: 'timeframe', value: { fromDate: CONSTANTS.startDate, toDate: moment().format('YYYYMMDD') } }
+    ]
+  }
 ];
 
 export function getDatasets(areaId) {
@@ -135,7 +155,7 @@ export function getDatasets(areaId) {
           });
 
         // TODO: MARK FIRST AS ACTIVE IF THERE ISN'T A GLAD LAYER
-        const datasets = [];
+        let datasets = [];
         if (response.data && response.data.attributes) {
           const { layers } = response.data.attributes;
           for (let i = 0, aLength = alerts.length; i < aLength; i++) {
@@ -146,6 +166,8 @@ export function getDatasets(areaId) {
             }
           }
         }
+
+        datasets = datasets.concat(globalAlerts);
         area.datasets = datasets;
         dispatch({
           type: UPDATE_AREA,

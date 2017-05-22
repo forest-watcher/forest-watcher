@@ -52,6 +52,7 @@ export default StyleSheet.create({
     flex: 1,
     minHeight: 64,
     height: 64,
+    marginTop: 16,
     paddingLeft: 8,
     paddingRight: 8,
     ...Platform.select({

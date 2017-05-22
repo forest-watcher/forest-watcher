@@ -21,7 +21,8 @@
 		"connectionRequired": "Anda memerlukan koneksi internet",
     "noImage": "Tidak ada gambar",
     "cached": "Tersimpan",
-    "noCached": "Tidak tersimpan"
+    "noCached": "Tidak tersimpan",
+    "noAlertSystem": "No alert system selected"
 	},
 	"dashboard": {
 		"title": "Dasbor",
@@ -59,7 +60,8 @@
 	},
 	"areaDetail": {
     "title": "Detail area",
-		"delete": "Hapus area ini"
+		"delete": "Hapus area ini",
+		"noAlerts": "No alerts for this area"
 	},
 	"boundaries": {
 		"chooseBoundaries": "Sakarang, pilih batas",
