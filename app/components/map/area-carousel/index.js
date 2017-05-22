@@ -2,20 +2,16 @@ import React, { Component } from 'react';
 import I18n from 'locales';
 import {
   View,
-  Text,
-  Image,
-  TouchableHighlight
+  Text
 } from 'react-native';
 import throttle from 'lodash/throttle';
 
-import Theme from 'config/theme';
 import Carousel from 'react-native-snap-carousel';
 import { enabledDatasetName } from 'helpers/area';
 import GeoPoint from 'geopoint';
 import { sliderWidth, itemWidth, styles } from './styles';
 
 const DEFAULT_DATASET_NAME = I18n.t('commonText.noAlertSystem');
-const settingsIcon = require('assets/settings.png');
 
 class AreaCarousel extends Component {
   handleUpdateSelectedArea(aId) {

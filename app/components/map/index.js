@@ -16,12 +16,12 @@ import throttle from 'lodash/throttle';
 import debounce from 'lodash/debounce';
 
 import Theme from 'config/theme';
-import daysSince from 'helpers/date';
+import { daysSince, todayDate } from 'helpers/date';
 import { getUrlTile } from 'helpers/map';
+import { activeDataset } from 'helpers/area';
 import ActionBtn from 'components/common/action-button';
 import AreaCarousel from 'components/map/area-carousel/';
 import tracker from 'helpers/googleAnalytics';
-import enabledDatasetSlug from 'helpers/area';
 import I18n from 'locales';
 import MapView from 'react-native-maps';
 import styles from './styles';
@@ -101,6 +101,8 @@ class Map extends Component {
       areaCoordinates: this.getAreaCoordinates(this.areaFeatures[0]),
       areaId: areas[0].id,
       alertSelected: null,
+      fromDate: CONSTANTS.startDate,
+      toDate: todayDate(),
       datasetSlug: '',
       urlTile: null
       // alerts: params.features && params.features.length > 0 ? params.features.slice(0, 120) : [] // Provisional
@@ -115,8 +117,9 @@ class Map extends Component {
       StatusBar.setBarStyle('light-content');
     }
 
-    const enabledDataset = enabledDatasetSlug(this.props.areas[this.state.index]);
-    if (enabledDataset) this.setUrlTile(enabledDataset);
+    const enabledDataset = activeDataset(this.props.areas[this.state.index]);
+    const enabledDatasetSlug = enabledDataset && enabledDataset.slug;
+    this.setUrlTile(enabledDatasetSlug);
     this.renderMap();
     this.geoLocate();
   }
@@ -147,9 +150,15 @@ class Map extends Component {
   }
 
   onLayout = () => {
-    const datasetSlugName = enabledDatasetSlug(this.props.areas[this.state.index]);
+    const area = this.props.areas[this.state.index];
+    const enabledDataset = activeDataset(area);
+    const dates = enabledDataset && this.getDates(enabledDataset);
     const fitOptions = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: true };
-    this.setState({ datasetSlug: datasetSlugName || '' });
+    this.setState({
+      datasetSlug: (enabledDataset && enabledDataset.slug) || '',
+      fromDate: dates && dates.fromDate,
+      toDate: dates && dates.toDate
+    });
     if (!this.state.alertSelected) {
       if (this.areaFeatures && this.areaFeatures.length > 0) {
         const areaCoordinates = this.getAreaCoordinates(this.areaFeatures[this.state.index]);
@@ -162,9 +171,10 @@ class Map extends Component {
     this.selectAlert(e.nativeEvent.coordinate);
   }
 
-  async setUrlTile(dataset) {
-    const url = await getUrlTile(dataset);
-    debugger;
+  getDates = (dataset) => dataset && dataset.options.find((option) => option.name === 'timeframe').value
+
+  async setUrlTile(datasetSlug) {
+    const url = await getUrlTile(datasetSlug);
     this.setState({ urlTile: url });
   }
 
@@ -208,7 +218,8 @@ class Map extends Component {
 
   updateSelectedArea = (index) => {
     const area = this.props.areas[index];
-    const enabledDataset = enabledDatasetSlug(area);
+    const enabledDataset = activeDataset(area);
+    const dates = enabledDataset && this.getDates(enabledDataset);
     this.setState({
       index,
       areaCoordinates: this.getAreaCoordinates(this.areaFeatures[index]),
@@ -219,11 +230,13 @@ class Map extends Component {
         precision: [] // tile precision x, y
       },
       urlTile: null,
-      datasetSlug: enabledDataset || ''
+      datasetSlug: (enabledDataset && enabledDataset.slug) || '',
+      fromDate: dates && dates.fromDate,
+      toDate: dates && dates.toDate
     }, () => {
       const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
       this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[index]), options);
-      this.setUrlTile(enabledDataset);
+      this.setUrlTile(enabledDataset.slug);
     });
   }
 
@@ -424,8 +437,9 @@ class Map extends Component {
     const hasCoordinates = (coordinates.tile && coordinates.tile.length > 0) || false;
     const showCompassFallback = !hasCompass && lastPosition && alertSelected && compassFallback;
     const dates = {
-      min: datasetSlug === 'viirs' ? '0' : daysSince(this.props.fromDate),
-      max: datasetSlug === 'viirs' ? '7' : daysSince(this.props.toDate)
+      min: datasetSlug === 'viirs' ? '0' : daysSince(this.state.fromDate),
+      // max: datasetSlug === 'viirs' ? '7' : daysSince(this.state.toDate)
+      max: daysSince(this.state.toDate)
     };
 
     return (
@@ -452,7 +466,7 @@ class Map extends Component {
             initialRegion={this.state.region}
             onRegionChange={debounce(region => this.updateRegion(region), 100)}
             onRegionChangeComplete={this.updateRegion}
-            onLayout={debounce(this.onLayout, 300)}
+            onLayout={this.onLayout}
             moveOnMarkerPress={false}
           >
             {showCompassFallback &&
@@ -547,8 +561,6 @@ Map.propTypes = {
   createReport: React.PropTypes.func.isRequired,
   isConnected: React.PropTypes.bool,
   geostores: React.PropTypes.object,
-  fromDate: React.PropTypes.string,
-  toDate: React.PropTypes.string,
   areas: React.PropTypes.array
 };
 

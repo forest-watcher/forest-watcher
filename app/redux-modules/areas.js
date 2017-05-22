@@ -117,10 +117,28 @@ function updateDataset(datasets, dataset, field, status) {
 
 // TODO START OF YEAR IN GLAD AND 1 WEEK AGO IN VIIRS
 const alerts = [
-  { slug: 'umd_as_it_happens', name: 'GLAD', value: true, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: { fromDate: CONSTANTS.startDate, toDate: moment().format('YYYYMMDD') } }] }
+  {
+    slug: 'umd_as_it_happens',
+    name: 'GLAD',
+    value: true,
+    options: [
+      { name: 'cache', value: false },
+      { name: 'timeframe',
+        value: { fromDate: CONSTANTS.startDate, toDate: moment().format('YYYYMMDD') }
+      }
+    ]
+  }
 ];
 const globalAlerts = [
-  { slug: 'viirs', name: 'VIIRS', value: false, options: [{ name: 'cache', value: false }, { name: 'timeframe', value: { fromDate: CONSTANTS.startDate, toDate: moment().format('YYYYMMDD') } }] }
+  {
+    slug: 'viirs',
+    name: 'VIIRS',
+    value: false,
+    options: [
+      { name: 'cache', value: false },
+      { name: 'timeframe', value: { fromDate: CONSTANTS.startDate, toDate: moment().format('YYYYMMDD') } }
+    ]
+  }
 ];
 
 export function getDatasets(areaId) {

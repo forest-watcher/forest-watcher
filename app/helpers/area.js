@@ -10,7 +10,7 @@ export function enabledDatasetName(area) {
   return enabledDataset !== false ? enabledDataset.name : false;
 }
 
-export default function enabledDatasetSlug(area) {
+export function enabledDatasetSlug(area) {
   if (!area.datasets) return false;
   const enabledDataset = activeDataset(area);
   return enabledDataset !== false ? enabledDataset.slug : false;
