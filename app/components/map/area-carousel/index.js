@@ -2,14 +2,19 @@ import React, { Component } from 'react';
 import I18n from 'locales';
 import {
   View,
-  Text
+  Text,
+  TouchableHighlight,
+  Image
 } from 'react-native';
 import throttle from 'lodash/throttle';
+import Theme from 'config/theme';
 
 import Carousel from 'react-native-snap-carousel';
 import { enabledDatasetName } from 'helpers/area';
 import GeoPoint from 'geopoint';
 import { sliderWidth, itemWidth, styles } from './styles';
+
+const settingsIcon = require('assets/settings.png');
 
 const DEFAULT_DATASET_NAME = I18n.t('commonText.noAlertSystem');
 
@@ -28,19 +33,6 @@ class AreaCarousel extends Component {
     });
   }
 
-  // TODO: add the settings icon when the go back after dataset changed
-  // and going back to the map bug is solved
-  /*
-  <View style={styles.settingsButton}>
-    <TouchableHighlight
-      onPress={() => this.handleLink(area)}
-      underlayColor="transparent"
-      activeOpacity={0.8}
-    >
-      <Image style={Theme.icon} source={settingsIcon} />
-    </TouchableHighlight>
-  </View>
-  */
   render() {
     const { alertSelected, lastPosition } = this.props;
     let distanceText = I18n.t('commonText.notAvailable');
@@ -58,6 +50,18 @@ class AreaCarousel extends Component {
       distanceText = `${distance} ${I18n.t('commonText.kmAway')}`; // in Kilometers
     }
 
+    const settingsButton = (area) => (
+      <View style={styles.settingsButton}>
+        <TouchableHighlight
+          onPress={() => this.handleLink(area)}
+          underlayColor="transparent"
+          activeOpacity={0.8}
+        >
+          <Image style={Theme.icon} source={settingsIcon} />
+        </TouchableHighlight>
+      </View>
+    );
+
     const sliderItems = this.props.areas.map((area, index) => {
       datasetName = enabledDatasetName(area) || DEFAULT_DATASET_NAME;
       return (
@@ -73,6 +77,7 @@ class AreaCarousel extends Component {
               </Text>
             </View>
           }
+          {settingsButton(area)}
         </View>
       );
     });

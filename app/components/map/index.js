@@ -128,6 +128,9 @@ class Map extends Component {
     if (this.state.alertSelected !== nextState.alertSelected && this.state.lastPosition !== null) {
       this.setCompassLine();
     }
+    if (this.state.datasetSlug !== nextState.datasetSlug) {
+      this.updateSelectedArea(this.state.index);
+    }
   }
 
   componentWillUnmount() {
