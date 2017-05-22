@@ -24,7 +24,6 @@ class ImageBlobInput extends Component {
     this.takePicture = this.takePicture.bind(this);
     this.removePicture = this.removePicture.bind(this);
     this.state = {
-      viewPrepared: false,
       cameraVisible: false,
       cameraType: Camera.constants.Type.back,
       saving: false
@@ -174,12 +173,9 @@ class ImageBlobInput extends Component {
   }
 
   render() {
-    if (this.state.viewPrepared) {
-      const cameraVisible = this.state.cameraVisible;
-      StatusBar.setBarStyle(cameraVisible ? 'light-content' : 'default');
-      return cameraVisible ? this.renderCameraView() : this.renderConfirmView();
-    }
-    return this.renderConfirmView();
+    const cameraVisible = this.state.cameraVisible;
+    StatusBar.setBarStyle(cameraVisible ? 'light-content' : 'default');
+    return cameraVisible ? this.renderCameraView() : this.renderConfirmView();
   }
 }
 
