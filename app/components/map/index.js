@@ -16,7 +16,7 @@ import throttle from 'lodash/throttle';
 import debounce from 'lodash/debounce';
 
 import Theme from 'config/theme';
-import { daysSince, daysToToday } from 'helpers/date';
+import { daysSince, todayDate } from 'helpers/date';
 import { getUrlTile } from 'helpers/map';
 import { activeDataset } from 'helpers/area';
 import ActionBtn from 'components/common/action-button';
@@ -101,8 +101,8 @@ class Map extends Component {
       areaCoordinates: this.getAreaCoordinates(this.areaFeatures[0]),
       areaId: areas[0].id,
       alertSelected: null,
-      fromDate: 0,
-      toDate: daysToToday(),
+      fromDate: CONSTANTS.startDate,
+      toDate: todayDate(),
       datasetSlug: '',
       urlTile: null
       // alerts: params.features && params.features.length > 0 ? params.features.slice(0, 120) : [] // Provisional
