@@ -1,5 +1,6 @@
 import { checkImageFolder, cacheImageByUrl } from 'helpers/fileManagement';
 import CONSTANTS from 'config/constants';
+import LAYERS from 'config/layers';
 
 const tilebelt = require('@mapbox/tilebelt');
 
@@ -24,8 +25,8 @@ export function getBboxTiles(bbox, zooms) {
   return tilesArray;
 }
 
-export async function cacheTiles(tiles, areaId) {
-  const folder = `tiles/${areaId}`;
+export async function cacheTiles(tiles, areaId, dataset) {
+  const folder = `${CONSTANTS.maps.tilesFolder}/${areaId}/${dataset}`;
   await checkImageFolder(folder);
   const CONCURRENCY = 10;
   let arrayPromises = [];
@@ -41,4 +42,29 @@ export async function cacheTiles(tiles, areaId) {
   if (arrayPromises.length > 0) {
     await Promise.all(arrayPromises);
   }
+}
+
+export function getCartoURlTile(layerConfig) {
+  const fetchConfig = {
+    method: 'POST',
+    body: JSON.stringify({ layers: layerConfig.layers }),
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    }
+  };
+  return fetch(layerConfig.endpoint, fetchConfig)
+    .then(response => response.json())
+    .then(res => `${layerConfig.endpoint}${res.layergroupid}/{z}/{x}/{y}.png32`)
+    .catch((e) => console.warn(e));
+}
+
+export async function getUrlTile(dataset) {
+  if (dataset === 'umd_as_it_happens') {
+    return 'http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/{z}/{x}/{y}.png';
+  } else if (dataset === 'viirs') {
+    const layer = LAYERS.viirs;
+    return getCartoURlTile(layer);
+  }
+  return null;
 }

@@ -1,7 +1,22 @@
 import moment from 'moment';
-// Receives a date in format: yyyMMdd and returns the number of days since the start date
-export default function daysSince(date) {
-  const START_DATE = moment('20150101');
-  const parsedDate = moment(date);
-  return String(parsedDate.diff(START_DATE, 'days'));
+import CONSTANTS from 'config/constants';
+
+// Receives a date in format: YYYYMMDD and returns the number of days since the start date
+export function daysToDate(date, start = CONSTANTS.startDate) {
+  const startDate = moment(start);
+  const parsedDate = moment(date, 'YYYYMMDD');
+  return String(parsedDate.diff(startDate, 'days'));
+}
+
+export function todayDate() {
+  return moment().format('YYYYMMDD');
+}
+
+export function daysToToday(start = CONSTANTS.startDate) {
+  const startDate = moment(start);
+  return String(moment().diff(startDate, 'days'));
+}
+
+export function daysToDaysAgo(daysAgo) {
+  return String(parseInt(daysToToday(), 10) - daysAgo);
 }

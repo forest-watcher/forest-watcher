@@ -9,19 +9,14 @@ import {
   Image
 } from 'react-native';
 
-import DatePicker from 'react-native-datepicker';
 import Theme from 'config/theme';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
-import moment from 'moment';
 
 import styles from './styles';
 
 const plusIcon = require('assets/plus.png');
 
-const dateFormat = 'YYYYMMDD';
-const dateFormatDisplay = 'MMM Do YYYY';
-const START_DATE = 'Jan 1st 2015';
 class Settings extends Component {
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color1,
@@ -120,61 +115,12 @@ class Settings extends Component {
             </TouchableHighlight>
           </View>
 
-          <View style={styles.datesSection}>
-            <Text style={styles.dateContainerLabel}>
-              {I18n.t('settings.timeFrame')}
-            </Text>
-            <View style={styles.dateContainer}>
-              <Text style={styles.dateLabel}>
-                {I18n.t('settings.from')}
-              </Text>
-              <DatePicker
-                showIcon={false}
-                date={moment(this.props.fromDate, dateFormat).format(dateFormatDisplay)}
-                mode="date"
-                format={dateFormatDisplay}
-                minDate={START_DATE}
-                // if set to null DatePicker will try to parse it as a date and crash, undefined prevents this
-                maxDate={moment(this.props.toDate, dateFormat).format(dateFormatDisplay) || undefined}
-                placeholder={I18n.t('report.datePlaceholder')}
-                cancelBtnText={I18n.t('commonText.cancel')}
-                confirmBtnText={I18n.t('commonText.confirm')}
-                onDateChange={date => this.onDateChange({ fromDate: moment(date, dateFormatDisplay).format(dateFormat) })}
-                customStyles={{
-                  dateInput: styles.dateInput,
-                  dateText: styles.dateText
-                }}
-              />
-            </View>
-            <View style={styles.dateContainer}>
-              <Text style={styles.dateLabel}>
-                {I18n.t('settings.to')}
-              </Text>
-              <DatePicker
-                style={styles.datePicker}
-                showIcon={false}
-                date={moment(this.props.toDate, dateFormat).format(dateFormatDisplay)}
-                mode="date"
-                format={dateFormatDisplay}
-                minDate={moment(this.props.fromDate, dateFormat).format(dateFormatDisplay) || START_DATE}
-                placeholder={I18n.t('report.datePlaceholder')}
-                cancelBtnText={I18n.t('commonText.cancel')}
-                confirmBtnText={I18n.t('commonText.confirm')}
-                onDateChange={date => this.onDateChange({ toDate: moment(date, dateFormatDisplay).format(dateFormat) })}
-                customStyles={{
-                  dateInput: styles.dateInput,
-                  dateText: styles.dateText
-                }}
-              />
-            </View>
-          </View>
-
           {areas && areas.length
             ? <View style={styles.areas}>
               <Text style={styles.label}>
                 {I18n.t('settings.yourAreas')}
               </Text>
-              <AreaList onAreaPress={(areaId) => this.onAreaPress(areaId)} />
+              <AreaList onAreaPress={(areaId, name) => this.onAreaPress(areaId, name)} />
             </View>
           : null
           }
@@ -214,8 +160,6 @@ class Settings extends Component {
 Settings.propTypes = {
   user: React.PropTypes.any,
   areas: React.PropTypes.any,
-  fromDate: React.PropTypes.string,
-  toDate: React.PropTypes.string,
   navigator: React.PropTypes.object.isRequired,
   getAreas: React.PropTypes.func.isRequired,
   logout: React.PropTypes.func.isRequired,
