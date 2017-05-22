@@ -1,4 +1,5 @@
 export function activeDataset(area) {
+  if (area.datasets === undefined) return false;
   const enabledDataset = area.datasets.find((d) => (d.value === true));
   if (enabledDataset !== undefined) { return enabledDataset; }
   return false;
