@@ -173,8 +173,8 @@ class Map extends Component {
 
   getDates = (dataset) => dataset && dataset.options.find((option) => option.name === 'timeframe').value
 
-  async setUrlTile(dataset) {
-    const url = await getUrlTile(dataset);
+  async setUrlTile(datasetSlug) {
+    const url = await getUrlTile(datasetSlug);
     this.setState({ urlTile: url });
   }
 
@@ -236,7 +236,7 @@ class Map extends Component {
     }, () => {
       const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
       this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[index]), options);
-      this.setUrlTile(enabledDataset);
+      this.setUrlTile(enabledDataset.slug);
     });
   }
 
