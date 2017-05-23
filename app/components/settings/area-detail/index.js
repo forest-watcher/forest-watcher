@@ -90,35 +90,39 @@ class AreaDetail extends Component {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        {!this.state.editingName ?
-          <View style={styles.section}>
-            <Text style={styles.name}>
-              {this.props.area.attributes.name}
-            </Text>
-            <TouchableHighlight
-              activeOpacity={0.5}
-              underlayColor="transparent"
-              onPress={this.onEditPress}
-            >
-              <Image style={Theme.icon} source={editIcon} />
-            </TouchableHighlight>
-          </View>
-          : <View style={styles.section}>
-            <TextInput
-              autoFocus
-              autoCorrect={false}
-              multiline={false}
-              style={styles.input}
-              autoCapitalize="none"
-              value={this.state.name !== null ? this.state.name : this.props.area.attributes.name}
-              onChangeText={this.onNameChange}
-              onSubmitEditing={this.onNameSubmit}
-              underlineColorAndroid="transparent"
-              selectionColor={Theme.colors.color1}
-              placeholderTextColor={Theme.fontColors.light}
-            />
-          </View>
-        }
+        <View>
+          <Text style={styles.title}>{I18n.t('commonText.name')}</Text>
+          {!this.state.editingName ?
+            <View style={styles.section}>
+              <Text style={styles.name}>
+                {this.props.area.attributes.name}
+              </Text>
+              <TouchableHighlight
+                activeOpacity={0.5}
+                underlayColor="transparent"
+                onPress={this.onEditPress}
+              >
+                <Image style={Theme.icon} source={editIcon} />
+              </TouchableHighlight>
+            </View>
+            : <View style={styles.section}>
+              <TextInput
+                autoFocus
+                autoCorrect={false}
+                multiline={false}
+                style={styles.input}
+                autoCapitalize="none"
+                value={this.state.name !== null ? this.state.name : this.props.area.attributes.name}
+                onChangeText={this.onNameChange}
+                onSubmitEditing={this.onNameSubmit}
+                onBlur={this.onNameSubmit}
+                underlineColorAndroid="transparent"
+                selectionColor={Theme.colors.color1}
+                placeholderTextColor={Theme.fontColors.light}
+              />
+            </View>
+          }
+        </View>
         <View style={styles.row}>
           <Text style={styles.title}>{I18n.t('commonText.boundaries')}</Text>
           <View style={styles.imageContainer}>

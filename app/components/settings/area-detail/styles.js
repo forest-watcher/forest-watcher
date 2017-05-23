@@ -32,6 +32,7 @@ export default StyleSheet.create({
   title: {
     marginLeft: Theme.margin.left,
     marginRight: Theme.margin.right,
+    marginBottom: 6,
     color: Theme.fontColors.light,
     fontFamily: Theme.font,
     fontSize: 17
