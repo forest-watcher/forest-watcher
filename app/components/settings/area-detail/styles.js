@@ -9,7 +9,7 @@ export default StyleSheet.create({
   containerContent: {
     paddingTop: 10
   },
-  inputContainer: {
+  input: {
     flex: 1
   },
   buttonContainer: {
@@ -32,8 +32,20 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     fontSize: 17
   },
-  section: {
+  row: {
     marginTop: 16
+  },
+  section: {
+    flex: 1,
+    height: 64,
+    paddingLeft: Theme.margin.left,
+    paddingRight: Theme.margin.right,
+    backgroundColor: Theme.colors.color5,
+    borderBottomColor: Theme.borderColors.main,
+    borderBottomWidth: 2,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   name: {
     width: 200,

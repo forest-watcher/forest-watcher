@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { deleteArea } from 'redux-modules/areas';
+import { updateArea, deleteArea } from 'redux-modules/areas';
 import { isConnected } from 'redux-modules/app';
 import AreaDetail from 'components/settings/area-detail';
 
@@ -13,6 +13,9 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    updateArea: (area) => {
+      dispatch(updateArea(area));
+    },
     deleteArea: (id) => {
       dispatch(deleteArea(id));
     },

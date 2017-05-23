@@ -4,16 +4,19 @@ import {
   View,
   Image,
   ScrollView,
-  Text
+  Text,
+  TextInput,
+  TouchableHighlight
 } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
 
 import I18n from 'locales';
 import Theme from 'config/theme';
-import TextInput from 'components/common/text-input';
 import ActionButton from 'components/common/action-button';
 import AlertSystem from 'containers/settings/area-detail/alert-system';
 import styles from './styles';
+
+const editIcon = require('assets/edit.png');
 
 class AreaDetail extends Component {
   static navigatorStyle = {
@@ -26,7 +29,8 @@ class AreaDetail extends Component {
   constructor(props) {
     super();
     this.state = {
-      name: props.area.attributes.name
+      name: props.area.attributes.name,
+      editingName: false
     };
   }
 
@@ -34,8 +38,23 @@ class AreaDetail extends Component {
     tracker.trackScreenView('AreaDetail');
   }
 
+  onEditPress = () => {
+    this.setState({ editingName: true });
+  }
+
   onNameChange = (name) => {
     this.setState({ name });
+  }
+
+  onNameSubmit = () => {
+    this.setState({ editingName: false });
+    if (this.state.name.length > 0) {
+      const updatedArea = { ...this.props.area };
+      updatedArea.attributes.name = this.state.name;
+      this.props.updateArea(updatedArea);
+    } else {
+      // TODO: warn user empty area name
+    }
   }
 
   handleDeleteArea = () => {
@@ -64,17 +83,42 @@ class AreaDetail extends Component {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        <View style={styles.section}>
-          <Text style={styles.title}>{I18n.t('commonText.name')}</Text>
-          <TextInput value={this.state.name} onChangeText={this.onNameChange} />
-        </View>
-        <View style={styles.section}>
+        {!this.state.editingName ?
+          <View style={styles.section}>
+            <Text style={styles.name}>
+              {this.props.area.attributes.name}
+            </Text>
+            <TouchableHighlight
+              activeOpacity={0.5}
+              underlayColor="transparent"
+              onPress={this.onEditPress}
+            >
+              <Image style={Theme.icon} source={editIcon} />
+            </TouchableHighlight>
+          </View>
+          : <View style={styles.section}>
+            <TextInput
+              autoFocus
+              autoCorrect={false}
+              multiline={false}
+              style={styles.input}
+              autoCapitalize="none"
+              value={this.state.name !== null ? this.state.name : this.props.area.attributes.name}
+              onChangeText={this.onNameChange}
+              onSubmitEditing={this.onNameSubmit}
+              underlineColorAndroid="transparent"
+              selectionColor={Theme.colors.color1}
+              placeholderTextColor={Theme.fontColors.light}
+            />
+          </View>
+        }
+        <View style={styles.row}>
           <Text style={styles.title}>{I18n.t('commonText.boundaries')}</Text>
           <View style={styles.imageContainer}>
             <Image style={styles.image} source={{ uri: imageUrl || 'placeholder.png' }} />
           </View>
         </View>
-        <View style={styles.section}>
+        <View style={styles.row}>
           <Text style={styles.title}>{I18n.t('alerts.alertSystems')}</Text>
           <AlertSystem areaId={area.id} />
         </View>
@@ -88,6 +132,7 @@ class AreaDetail extends Component {
 
 AreaDetail.propTypes = {
   imageUrl: React.PropTypes.string,
+  updateArea: React.PropTypes.func,
   deleteArea: React.PropTypes.func,
   isConnected: React.PropTypes.func,
   navigator: React.PropTypes.object,

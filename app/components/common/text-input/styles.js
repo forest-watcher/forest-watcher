@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   inputContainer: {
+    flex: 1,
     height: 64,
     paddingLeft: Theme.margin.left,
     paddingRight: Theme.margin.right,
