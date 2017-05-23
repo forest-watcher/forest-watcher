@@ -8,15 +8,14 @@ function mapStateToProps(state) {
     {
       id: area.id,
       name: area.attributes.name,
-      geostoreId: area.attributes.geostore
+      geostoreId: area.attributes.geostore,
+      datasets: area.datasets
     }
     ));
   return {
     areas,
     isConnected: state.app.isConnected,
-    geostores: state.geostore.data,
-    fromDate: state.areas.fromDate,
-    toDate: state.areas.toDate
+    geostores: state.geostore.data
   };
 }
 
@@ -28,17 +27,6 @@ function mapDispatchToProps(dispatch, { navigation }) {
     },
     navigate: (routeName, params) => {
       navigation.navigate(routeName, params);
-    },
-    navigateReset: (routeName, params) => {
-      // const action = NavigationActions.reset({
-      //   index: 2,
-      //   actions: [
-      //     { type: 'Navigate', routeName: 'Dashboard' },
-      //     { type: 'Navigate', routeName: 'Alerts' },
-      //     { type: 'Navigate', routeName, params }
-      //   ]
-      // });
-      // navigation.dispatch(action);
     }
   };
 }

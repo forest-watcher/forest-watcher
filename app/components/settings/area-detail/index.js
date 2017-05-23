@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import {
   Alert,
   View,
-  Image
+  Image,
+  ScrollView,
+  Text
 } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
 
 import I18n from 'locales';
 import Theme from 'config/theme';
+import TextInput from 'components/common/text-input';
 import ActionButton from 'components/common/action-button';
+import AlertSystem from 'containers/settings/area-detail/alert-system';
 import styles from './styles';
 
 class AreaDetail extends Component {
@@ -19,8 +23,19 @@ class AreaDetail extends Component {
     navBarBackgroundColor: Theme.background.main
   };
 
+  constructor(props) {
+    super();
+    this.state = {
+      name: props.area.attributes.name
+    };
+  }
+
   componentDidMount() {
     tracker.trackScreenView('AreaDetail');
+  }
+
+  onNameChange = (name) => {
+    this.setState({ name });
   }
 
   handleDeleteArea = () => {
@@ -41,15 +56,32 @@ class AreaDetail extends Component {
 
   render() {
     const imageUrl = this.props.imageUrl !== undefined ? this.props.imageUrl : null;
+    const { area } = this.props;
     return (
-      <View style={styles.area}>
-        <View style={styles.imageContainer}>
-          <Image style={styles.image} source={{ uri: imageUrl || 'placeholder.png' }} />
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.containerContent}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
+        <View style={styles.section}>
+          <Text style={styles.title}>{I18n.t('commonText.name')}</Text>
+          <TextInput value={this.state.name} onChangeText={this.onNameChange} />
+        </View>
+        <View style={styles.section}>
+          <Text style={styles.title}>{I18n.t('commonText.boundaries')}</Text>
+          <View style={styles.imageContainer}>
+            <Image style={styles.image} source={{ uri: imageUrl || 'placeholder.png' }} />
+          </View>
+        </View>
+        <View style={styles.section}>
+          <Text style={styles.title}>{I18n.t('alerts.alertSystems')}</Text>
+          <AlertSystem areaId={area.id} />
         </View>
         <View style={styles.buttonContainer}>
           <ActionButton onPress={this.handleDeleteArea} delete text={I18n.t('areaDetail.delete')} />
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

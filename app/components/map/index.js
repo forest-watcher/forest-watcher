@@ -14,16 +14,17 @@ import {
 import CONSTANTS from 'config/constants';
 import throttle from 'lodash/throttle';
 import debounce from 'lodash/debounce';
-import Carousel from 'react-native-snap-carousel';
 
 import Theme from 'config/theme';
-import daysSince from 'helpers/date';
+import { daysToDate, todayDate, daysToDaysAgo } from 'helpers/date';
+import { getUrlTile } from 'helpers/map';
+import { activeDataset } from 'helpers/area';
 import ActionBtn from 'components/common/action-button';
+import AreaCarousel from 'components/map/area-carousel/';
 import tracker from 'helpers/googleAnalytics';
 import I18n from 'locales';
-import GeoPoint from 'geopoint';
 import MapView from 'react-native-maps';
-import { sliderWidth, itemWidth, styles } from './styles';
+import styles from './styles';
 
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
 
@@ -43,6 +44,7 @@ const markerImage = require('assets/marker.png');
 const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
+
 
 function renderLoading() {
   return (
@@ -98,7 +100,11 @@ class Map extends Component {
       },
       areaCoordinates: this.getAreaCoordinates(this.areaFeatures[0]),
       areaId: areas[0].id,
-      alertSelected: null
+      alertSelected: null,
+      fromDate: CONSTANTS.startDate,
+      toDate: todayDate(),
+      datasetSlug: '',
+      urlTile: null
       // alerts: params.features && params.features.length > 0 ? params.features.slice(0, 120) : [] // Provisional
     };
   }
@@ -111,6 +117,9 @@ class Map extends Component {
       StatusBar.setBarStyle('light-content');
     }
 
+    const enabledDataset = activeDataset(this.props.areas[this.state.index]);
+    const enabledDatasetSlug = enabledDataset && enabledDataset.slug;
+    this.setUrlTile(enabledDatasetSlug);
     this.renderMap();
     this.geoLocate();
   }
@@ -118,6 +127,9 @@ class Map extends Component {
   componentWillUpdate(nextProps, nextState) {
     if (this.state.alertSelected !== nextState.alertSelected && this.state.lastPosition !== null) {
       this.setCompassLine();
+    }
+    if (this.state.datasetSlug !== nextState.datasetSlug) {
+      this.updateSelectedArea(this.state.index);
     }
   }
 
@@ -141,17 +153,32 @@ class Map extends Component {
   }
 
   onLayout = () => {
+    const area = this.props.areas[this.state.index];
+    const enabledDataset = activeDataset(area);
+    const dates = enabledDataset && this.getDates(enabledDataset);
+    const fitOptions = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: true };
+    this.setState({
+      datasetSlug: (enabledDataset && enabledDataset.slug) || '',
+      fromDate: dates && dates.fromDate,
+      toDate: dates && dates.toDate
+    });
     if (!this.state.alertSelected) {
       if (this.areaFeatures && this.areaFeatures.length > 0) {
-        const area = this.getAreaCoordinates(this.areaFeatures[this.state.index]);
-        this.map.fitToCoordinates(area,
-          { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: true });
+        const areaCoordinates = this.getAreaCoordinates(this.areaFeatures[this.state.index]);
+        this.map.fitToCoordinates(areaCoordinates, fitOptions);
       }
     }
   }
 
   onMapPress = (e) => {
     this.selectAlert(e.nativeEvent.coordinate);
+  }
+
+  getDates = (dataset) => dataset && dataset.options.find((option) => option.name === 'timeframe').value
+
+  async setUrlTile(datasetSlug) {
+    const url = await getUrlTile(datasetSlug);
+    this.setState({ urlTile: url });
   }
 
   getAreaCoordinates = (areaFeature) => (
@@ -192,20 +219,27 @@ class Map extends Component {
     });
   }
 
-  updateSelectedArea(aId) {
-    const area = this.props.areas[aId];
+  updateSelectedArea = (index) => {
+    const area = this.props.areas[index];
+    const enabledDataset = activeDataset(area);
+    const dates = enabledDataset && this.getDates(enabledDataset);
     this.setState({
-      index: aId,
-      areaCoordinates: this.getAreaCoordinates(this.areaFeatures[aId]),
+      index,
+      areaCoordinates: this.getAreaCoordinates(this.areaFeatures[index]),
       areaId: area.id,
       alertSelected: null,
       coordinates: {
         tile: [], // tile coordinates x, y, z + precision x, y
         precision: [] // tile precision x, y
-      }
+      },
+      urlTile: null,
+      datasetSlug: (enabledDataset && enabledDataset.slug) || '',
+      fromDate: dates && dates.fromDate,
+      toDate: dates && dates.toDate
     }, () => {
-      this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[aId]),
-        { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false });
+      const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
+      this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[index]), options);
+      this.setUrlTile(enabledDataset.slug);
     });
   }
 
@@ -402,42 +436,13 @@ class Map extends Component {
   }
 
   render() {
-    const { coordinates, alertSelected, hasCompass, lastPosition, compassFallback } = this.state;
+    const { coordinates, alertSelected, urlTile, hasCompass, lastPosition, compassFallback, datasetSlug } = this.state;
     const hasCoordinates = (coordinates.tile && coordinates.tile.length > 0) || false;
     const showCompassFallback = !hasCompass && lastPosition && alertSelected && compassFallback;
-
-    let distanceText = I18n.t('commonText.notAvailable');
-    let positionText = '';
-    let distance = 999999;
-    const containerTextSyle = alertSelected
-      ? [styles.textContainer, styles.textContainerSmall]
-      : styles.textContainer;
-
-
-    if (lastPosition && (alertSelected && alertSelected.latitude
-     && alertSelected.longitude)) {
-      const geoPoint = new GeoPoint(alertSelected.latitude, alertSelected.longitude);
-      const currentPoint = new GeoPoint(lastPosition.latitude, lastPosition.longitude);
-      positionText = `${I18n.t('commonText.yourPosition')}: ${lastPosition.latitude.toFixed(4)}, ${lastPosition.longitude.toFixed(4)}`;
-      distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);
-      distanceText = `${distance} ${I18n.t('commonText.kmAway')}`; // in Kilometers
-    }
-
-    const sliderItems = this.props.areas.map((area, index) => (
-      <View key={`entry-${index}`} style={styles.slideInnerContainer}>
-        <Text style={containerTextSyle}>{ area.name }</Text>
-        {alertSelected &&
-          <View style={styles.currentPosition}>
-            <Text style={styles.coordinateDistanceText}>
-              {distanceText}
-            </Text>
-            <Text style={styles.coordinateDistanceText}>
-              {positionText}
-            </Text>
-          </View>
-        }
-      </View>
-    ));
+    const dates = {
+      min: datasetSlug === 'viirs' ? '0' : daysToDate(this.state.fromDate),
+      max: datasetSlug === 'viirs' ? daysToDaysAgo(7) : daysToDate(this.state.toDate)
+    };
 
     return (
       this.state.renderMap
@@ -463,15 +468,15 @@ class Map extends Component {
             initialRegion={this.state.region}
             onRegionChange={debounce(region => this.updateRegion(region), 100)}
             onRegionChangeComplete={this.updateRegion}
-            onLayout={debounce(this.onLayout, 300)}
+            onLayout={this.onLayout}
             moveOnMarkerPress={false}
           >
             {showCompassFallback &&
-            <MapView.Polyline
-              coordinates={this.state.compassFallback}
-              strokeColor={Theme.colors.color5}
-              strokeWidth={2}
-            />
+              <MapView.Polyline
+                coordinates={this.state.compassFallback}
+                strokeColor={Theme.colors.color5}
+                strokeWidth={2}
+              />
             }
             <MapView.Polyline
               coordinates={this.state.areaCoordinates}
@@ -509,25 +514,29 @@ class Map extends Component {
                 </MapView.Marker>
               : null
             }
-            <MapView.CanvasUrlTile
-              urlTemplate="http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/{z}/{x}/{y}.png"
-              zIndex={-1}
-              maxZoom={12}
-              areaId={this.state.areaId}
-              isConnected={this.props.isConnected}
-              minDate={daysSince(this.props.fromDate)}
-              maxDate={daysSince(this.props.toDate)}
-            />
-            {hasCoordinates &&
+            {urlTile &&
+              <MapView.CanvasUrlTile
+                urlTemplate={urlTile}
+                zIndex={-1}
+                maxZoom={12}
+                areaId={this.state.areaId}
+                alertType={datasetSlug}
+                isConnected={this.props.isConnected}
+                minDate={dates.min}
+                maxDate={dates.max}
+              />
+            }
+            {false && hasCoordinates && // TODO: include the interaction and remove the false
               <MapView.CanvasInteractionUrlTile
                 coordinates={coordinates}
-                urlTemplate="http://wri-tiles.s3.amazonaws.com/glad_prod/tiles/{z}/{x}/{y}.png"
+                urlTemplate={urlTile}
                 zIndex={1}
                 maxZoom={12}
                 areaId={this.state.areaId}
+                alertType={datasetSlug}
                 isConnected={this.props.isConnected}
-                minDate={daysSince(this.props.fromDate)}
-                maxDate={daysSince(this.props.toDate)}
+                minDate={dates.min}
+                maxDate={dates.max}
               />
             }
           </MapView>
@@ -535,18 +544,13 @@ class Map extends Component {
             ? this.renderFooter()
             : this.renderFooterLoading()
           }
-          <View style={{ position: 'absolute', bottom: 0, zIndex: 10 }}>
-            <Carousel
-              ref={(carousel) => { this.carousel = carousel; }}
-              sliderWidth={sliderWidth}
-              itemWidth={itemWidth}
-              onSnapToItem={throttle(aId => this.updateSelectedArea(aId), 700)}
-              showsHorizontalScrollIndicator={false}
-              slideStyle={styles.slideStyle}
-            >
-              { sliderItems }
-            </Carousel>
-          </View>
+          <AreaCarousel
+            areas={this.props.areas}
+            alertSelected={this.state.alertSelected}
+            lastPosition={this.state.lastPosition}
+            navigator={this.props.navigator}
+            updateSelectedArea={this.updateSelectedArea}
+          />
         </View>
       :
         renderLoading()
@@ -559,8 +563,6 @@ Map.propTypes = {
   createReport: React.PropTypes.func.isRequired,
   isConnected: React.PropTypes.bool,
   geostores: React.PropTypes.object,
-  fromDate: React.PropTypes.string,
-  toDate: React.PropTypes.string,
   areas: React.PropTypes.array
 };
 

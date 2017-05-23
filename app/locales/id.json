@@ -3,6 +3,7 @@
 		"appName": "Forest Watcher 2.0",
 		"next": "Lanjut",
     "save": "Menyimpan",
+    "boundaries": "Boundaries",
     "delete": "Menghapus",
 		"back": "Kembali",
 		"finish": "Selesai",
@@ -14,12 +15,14 @@
     "loading": "Pemuatan",
     "notAvailable": "Tidak tersedia",
     "kmAway": "km jauhnya",
+    "name": "Name",
     "yourPosition": "Posisi kamu",
 		"connectionRequiredTitle": "Tidak ada koneksi",
 		"connectionRequired": "Anda memerlukan koneksi internet",
     "noImage": "Tidak ada gambar",
     "cached": "Tersimpan",
-    "noCached": "Tidak tersimpan"
+    "noCached": "Tidak tersimpan",
+    "noAlertSystem": "No alert system selected"
 	},
 	"dashboard": {
 		"title": "Dasbor",
@@ -50,13 +53,15 @@
     "title": "Peringatan",
 		"seeAll": "Lihat semua",
 		"alert": "Peringatan",
+    "alertSystems": "Alert systems",
     "downloadingAlerts": "Harap tunggu sementara data yang di-download ...",
     "noAlerts": "Tidak ada lansiran tersedia",
     "satelliteSignal": "Menunggu sinyal satelit ..."
 	},
 	"areaDetail": {
     "title": "Detail area",
-		"delete": "Hapus area ini"
+		"delete": "Hapus area ini",
+		"noAlerts": "No alerts for this area"
 	},
 	"boundaries": {
 		"chooseBoundaries": "Sakarang, pilih batas",
@@ -85,7 +90,8 @@
 	},
 	"setupOverview": {
 		"placeholder": "Masukkan nama",
-    "areaName": "Nama daerah"
+    "areaName": "Nama daerah",
+    "gettingDatasets": "Getting datasets"
 	},
 	"setupProtectedAreas": {
 		"instruction": "Pilih area untuk melanjutkan"

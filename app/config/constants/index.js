@@ -24,6 +24,7 @@ export default {
         ]
       ]
     },
+    tilesFolder: 'tiles',
     cachedZoomLevels: [12]
   },
   tileServers: {
@@ -53,5 +54,6 @@ export default {
     draft: 'draft',
     complete: 'complete',
     uploaded: 'uploaded'
-  }
+  },
+  startDate: '20150101'
 };

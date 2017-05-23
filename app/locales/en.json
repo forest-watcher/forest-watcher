@@ -3,6 +3,7 @@
 		"appName": "Forest Watcher 2.0",
 		"next": "Next",
     "save": "Save",
+    "boundaries": "Boundaries",
     "delete": "Delete",
 		"back": "Back",
 		"finish": "Finish",
@@ -14,12 +15,14 @@
     "loading": "Loading",
     "notAvailable": "Not available",
     "kmAway": "km away",
+    "name": "Name",
     "yourPosition": "Your position",
 		"connectionRequiredTitle": "No connection",
 		"connectionRequired": "You need an internet connection to complete this action",
     "noImage": "No image",
     "cached": "cached",
-    "noCached": "no-cached"
+    "noCached": "no-cached",
+    "noAlertSystem": "No alert system selected"
 	},
 	"dashboard": {
 		"title": "Dashboard",
@@ -50,13 +53,15 @@
     "title": "My Alerts",
 		"seeAll": "See all",
 		"alert": "alert",
+    "alertSystems": "Alert systems",
     "downloadingAlerts": "Please wait while the data is downloaded...",
     "noAlerts": "There are no alerts available",
     "satelliteSignal": "Waiting for the satellite signal..."
 	},
 	"areaDetail": {
     "title": "Area detail",
-		"delete": "Delete this area"
+		"delete": "Delete this area",
+		"noAlerts": "No alerts for this area"
 	},
 	"boundaries": {
 		"chooseBoundaries": "Now, choose the boundaries",
@@ -85,7 +90,8 @@
 	},
 	"setupOverview": {
 		"placeholder": "Enter a name",
-    "areaName": "Name the area"
+    "areaName": "Name the area",
+    "gettingDatasets": "Getting datasets"
 	},
 	"setupProtectedAreas": {
 		"instruction": "Select an area to continue"

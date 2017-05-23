@@ -1,6 +1,6 @@
 import Config from 'react-native-config';
 import { getGeostore } from 'redux-modules/geostore';
-import { getCachedImageByUrl } from 'helpers/fileManagement';
+import { getCachedImageByUrl, removeFolder } from 'helpers/fileManagement';
 import { getBboxTiles, cacheTiles } from 'helpers/map';
 import BoundingBox from 'boundingbox';
 import CONSTANTS from 'config/constants';
@@ -92,74 +92,149 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-// Action Creators
-export function getAreas() {
-  const url = `${Config.API_URL}/area`;
-  return (dispatch, state) => {
-    fetch(url, {
-      headers: {
-        Authorization: `Bearer ${state().user.token}`
-      }
-    })
-      .then(response => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then(async (response) => {
-        const images = Object.assign({}, state().areas.images);
-        await Promise.all(response.data.map(async (area) => {
-          if (area.attributes && area.attributes.geostore) {
-            if (!state().geostore.data[area.attributes.geostore]) {
-              await dispatch(getGeostore(area.attributes.geostore));
-            }
-            if (!images[area.id]) {
-              images[area.id] = await getCachedImageByUrl(area.attributes.image, 'areas');
-            }
-          }
-          return area;
-        }));
+// Helpers
+function getAreaById(areas, areaId) {
+  // Using deconstructor to generate a new object
+  return { ...areas.find((areaData) => (areaData.id === areaId)) };
+}
+function updateDataset(datasets, dataset, field, status) {
+  return datasets.map((item) => {
+    if (item.slug !== dataset) {
+      return item;
+    }
+    return {
+      ...item,
+      options: item.options.map(option => (
+        option.name === field
+          ? { ...option, value: status }
+          : option
+      ))
+    };
+  });
+}
 
-        dispatch({
-          type: GET_AREAS,
-          payload: {
-            images,
-            data: response.data
+// Action Creators
+
+// TODO START OF YEAR IN GLAD AND 1 WEEK AGO IN VIIRS
+const alerts = [
+  {
+    slug: 'umd_as_it_happens',
+    name: 'GLAD',
+    value: true,
+    options: [
+      { name: 'cache', value: false },
+      { name: 'timeframe',
+        value: { fromDate: CONSTANTS.startDate, toDate: moment().format('YYYYMMDD') }
+      }
+    ]
+  }
+];
+const globalAlerts = [
+  {
+    slug: 'viirs',
+    name: 'VIIRS',
+    value: false,
+    options: [
+      { name: 'cache', value: false },
+      { name: 'timeframe', value: { fromDate: CONSTANTS.startDate, toDate: moment().format('YYYYMMDD') } }
+    ]
+  }
+];
+
+export function getDatasets(areaId) {
+  return async (dispatch, state) => {
+    const area = getAreaById(state().areas.data, areaId);
+    if (area) {
+      const url = `${Config.API_URL}/coverage/intersect?geostore=${area.attributes.geostore}`;
+      try {
+        const response = await fetch(url,
+          { headers: { Authorization: `Bearer ${state().user.token}` } })
+          .then(res => {
+            if (res.ok) return res.json();
+            throw Error(res.statusText);
+          });
+
+        // TODO: MARK FIRST AS ACTIVE IF THERE ISN'T A GLAD LAYER
+        let datasets = [];
+        if (response.data && response.data.attributes) {
+          const { layers } = response.data.attributes;
+          for (let i = 0, aLength = alerts.length; i < aLength; i++) {
+            for (let j = 0, lLength = layers.length; j < lLength; j++) {
+              if (alerts[i].slug === layers[j]) {
+                datasets.push(alerts[i]);
+              }
+            }
           }
+        }
+
+        datasets = datasets.concat(globalAlerts);
+        area.datasets = datasets;
+        dispatch({
+          type: UPDATE_AREA,
+          payload: area
         });
-      })
-      .catch((error) => {
-        console.warn(error);
+      } catch (err) {
+        console.warn(err);
         // To-do
-      });
+      }
+    }
   };
 }
 
-
-async function downloadArea(bbox, areaId) {
-  const zooms = CONSTANTS.maps.cachedZoomLevels;
-  const tilesArray = getBboxTiles(bbox, zooms);
-  await cacheTiles(tilesArray, areaId);
-}
-
-export function saveArea(params) {
+export function getAreas() {
   const url = `${Config.API_URL}/area`;
   return (dispatch, state) => {
-    dispatch({
-      type: SYNCING_AREAS,
-      payload: true
-    });
+    if (state().app.isConnected) {
+      fetch(url, {
+        headers: {
+          Authorization: `Bearer ${state().user.token}`
+        }
+      })
+        .then(response => {
+          if (response.ok) return response.json();
+          throw new Error(response.statusText);
+        })
+        .then(async (response) => {
+          const images = Object.assign({}, state().areas.images);
+          await Promise.all(response.data.map(async (area) => {
+            if (area.attributes && area.attributes.geostore) {
+              if (!state().geostore.data[area.attributes.geostore]) {
+                await dispatch(getGeostore(area.attributes.geostore));
+              }
+              if (!images[area.id]) {
+                images[area.id] = await getCachedImageByUrl(area.attributes.image, 'areas');
+              }
+            }
+            return area;
+          }));
+
+          dispatch({
+            type: GET_AREAS,
+            payload: {
+              images,
+              data: response.data
+            }
+          });
+
+          // TODO: split the request of the gesotres, images and datasets
+          response.data.map((area) => dispatch(getDatasets(area.id)));
+        })
+        .catch((error) => {
+          console.warn(error);
+          // To-do
+        });
+    }
+  };
+}
+
+export function updateArea(area) {
+  const url = `${Config.API_URL}/area/${area.id}`;
+  return (dispatch, state) => {
     const form = new FormData();
-    form.append('name', params.area.name);
-    form.append('geostore', params.area.geostore);
-    const image = {
-      uri: params.snapshot,
-      type: 'image/png',
-      name: `${params.area.name}.png`
-    };
-    form.append('image', image);
+    form.append('name', area.attributes.name);
 
     const fetchConfig = {
-      method: 'POST',
+      method: 'PATCH',
       headers: {
         Authorization: `Bearer ${state().user.token}`
       },
@@ -171,54 +246,176 @@ export function saveArea(params) {
         if (response.ok) return response.json();
         throw new Error(response._bodyText); // eslint-disable-line
       })
-      .then(async (res) => {
+      .then(() => {
         dispatch({
-          type: SYNCING_AREAS,
-          payload: false
-        });
-        dispatch({
-          type: SAVE_AREA,
-          payload: {
-            area: res.data,
-            snapshot: params.snapshot
-          }
-        });
-        dispatch({
-          type: SET_AREA_SAVED,
-          payload: {
-            status: true,
-            areaId: res.data.id
-          }
+          type: UPDATE_AREA,
+          payload: area
         });
       })
       .catch((error) => {
-        dispatch({
-          type: SET_AREA_SAVED,
-          payload: {
-            status: false
-          }
-        });
         console.warn(error);
         // To-do
       });
   };
 }
 
-export function cacheArea(areaId) {
+async function downloadArea(bbox, areaId, dataset) {
+  const zooms = CONSTANTS.maps.cachedZoomLevels;
+  const tilesArray = getBboxTiles(bbox, zooms);
+  await cacheTiles(tilesArray, areaId, dataset);
+}
+
+export function saveArea(params) {
+  const url = `${Config.API_URL}/area`;
+  return (dispatch, state) => {
+    if (state().app.isConnected) {
+      dispatch({
+        type: SYNCING_AREAS,
+        payload: true
+      });
+      const form = new FormData();
+      form.append('name', params.area.name);
+      form.append('geostore', params.area.geostore);
+      const image = {
+        uri: params.snapshot,
+        type: 'image/png',
+        name: `${params.area.name}.png`
+      };
+      form.append('image', image);
+
+      const fetchConfig = {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${state().user.token}`
+        },
+        body: form
+      };
+
+      fetch(url, fetchConfig)
+        .then(response => {
+          if (response.ok) return response.json();
+          throw new Error(response._bodyText); // eslint-disable-line
+        })
+        .then(async (res) => {
+          dispatch({
+            type: SYNCING_AREAS,
+            payload: false
+          });
+          dispatch({
+            type: SAVE_AREA,
+            payload: {
+              area: res.data,
+              snapshot: params.snapshot
+            }
+          });
+          dispatch({
+            type: SET_AREA_SAVED,
+            payload: {
+              status: true,
+              areaId: res.data.id
+            }
+          });
+        })
+        .catch((error) => {
+          dispatch({
+            type: SET_AREA_SAVED,
+            payload: {
+              status: false
+            }
+          });
+          console.warn(error);
+          // To-do
+        });
+    }
+  };
+}
+
+export function cacheArea(areaId, dataset) {
   return async (dispatch, state) => {
-    const area = state().areas.data.find((areaData) => (areaData.id === areaId));
+    const area = getAreaById(state().areas.data, areaId);
     if (area) {
       const geojson = state().geostore.data[area.attributes.geostore];
       if (geojson) {
-        const bboxArea = new BoundingBox(geojson.features[0]);
-        if (bboxArea) {
-          const bbox = [
-            { lat: bboxArea.minlat, lng: bboxArea.maxlon },
-            { lat: bboxArea.maxlat, lng: bboxArea.minlon }
-          ];
-          await downloadArea(bbox, areaId);
+        if (dataset && area.datasets && area.datasets.length > 0) {
+          area.datasets = updateDataset(area.datasets, dataset, 'cache', true);
         }
-        area.cached = true;
+        dispatch({
+          type: UPDATE_AREA,
+          payload: area
+        });
+        try {
+          const bboxArea = new BoundingBox(geojson.features[0]);
+          if (bboxArea) {
+            const bbox = [
+              { lat: bboxArea.minlat, lng: bboxArea.maxlon },
+              { lat: bboxArea.maxlat, lng: bboxArea.minlon }
+            ];
+            await downloadArea(bbox, areaId, dataset);
+          }
+          console.info(`cache of ${dataset} is on`, area);
+        } catch (e) {
+          area.datasets = updateDataset(area.datasets, dataset, 'cache', true);
+          dispatch({
+            type: UPDATE_AREA,
+            payload: area
+          });
+        }
+      }
+    }
+  };
+}
+
+export function setAreaDatasetStatus(areaId, dataset, status) {
+  return async (dispatch, state) => {
+    const area = getAreaById(state().areas.data, areaId);
+    if (area) {
+      area.datasets = area.datasets.map((item) => {
+        if (item.slug !== dataset) {
+          return status === true
+            ? { ...item, value: false }
+            : item;
+        }
+        return { ...item, value: status };
+      });
+      console.info(`status of ${dataset} is off`, area);
+      dispatch({
+        type: UPDATE_AREA,
+        payload: area
+      });
+    }
+  };
+}
+
+export function updateDate(areaId, dataset, date) {
+  return async (dispatch, state) => {
+    const area = getAreaById(state().areas.data, areaId);
+    if (area) {
+      const timeframeOption = dataset.options.find((option) => (option.name === 'timeframe'));
+      const updatedDate = Object.assign(timeframeOption.value, date);
+      area.datasets = updateDataset(area.datasets, dataset, 'timeframe', updatedDate);
+      dispatch({
+        type: UPDATE_AREA,
+        payload: area
+      });
+    }
+  };
+}
+
+export function removeCachedArea(areaId, dataset) {
+  return async (dispatch, state) => {
+    const area = getAreaById(state().areas.data, areaId);
+    if (area) {
+      area.datasets = updateDataset(area.datasets, dataset, 'cache', false);
+      dispatch({
+        type: UPDATE_AREA,
+        payload: area
+      });
+      try {
+        const folder = `${CONSTANTS.maps.tilesFolder}/${areaId}/${dataset}`;
+        await removeFolder(folder);
+        console.info(`cache of ${dataset} is off`, area);
+      } catch (e) {
+        area.datasets = updateDataset(area.datasets, dataset, 'cache', true);
         dispatch({
           type: UPDATE_AREA,
           payload: area
@@ -231,44 +428,39 @@ export function cacheArea(areaId) {
 export function deleteArea(id) {
   const url = `${Config.API_URL}/area/${id}`;
   return (dispatch, state) => {
-    const fetchConfig = {
-      method: 'DELETE',
-      headers: {
-        'content-type': 'application/json',
-        Authorization: `Bearer ${state().user.token}`
-      }
-    };
-    fetch(url, fetchConfig)
-      .then(response => {
-        if (response.ok && response.status === 204) return response.ok;
-        throw new Error(response.statusText);
-      })
-      .then(() => {
-        dispatch({
-          type: SYNCING_AREAS,
-          payload: true
+    if (state().app.isConnected) {
+      const fetchConfig = {
+        method: 'DELETE',
+        headers: {
+          'content-type': 'application/json',
+          Authorization: `Bearer ${state().user.token}`
+        }
+      };
+      fetch(url, fetchConfig)
+        .then(response => {
+          if (response.ok && response.status === 204) return response.ok;
+          throw new Error(response.statusText);
+        })
+        .then(() => {
+          dispatch({
+            type: SYNCING_AREAS,
+            payload: true
+          });
+          dispatch({
+            type: DELETE_AREA,
+            payload: {
+              id
+            }
+          });
+          dispatch({
+            type: SYNCING_AREAS,
+            payload: false
+          });
+        })
+        .catch((error) => {
+          console.warn(error);
+          // To-do
         });
-        dispatch({
-          type: DELETE_AREA,
-          payload: {
-            id
-          }
-        });
-        dispatch({
-          type: SYNCING_AREAS,
-          payload: false
-        });
-      })
-      .catch((error) => {
-        console.warn(error);
-        // To-do
-      });
-  };
-}
-
-export function updateDate(date) {
-  return {
-    type: UPDATE_DATE,
-    payload: date
+    }
   };
 }
