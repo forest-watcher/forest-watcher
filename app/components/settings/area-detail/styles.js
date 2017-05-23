@@ -10,7 +10,11 @@ export default StyleSheet.create({
     paddingTop: 10
   },
   input: {
-    flex: 1
+    flex: 1,
+    fontSize: 17,
+    color: Theme.fontColors.secondary,
+    paddingTop: 14,
+    marginLeft: -4
   },
   buttonContainer: {
     padding: 10
