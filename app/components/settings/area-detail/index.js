@@ -52,9 +52,16 @@ class AreaDetail extends Component {
       const updatedArea = { ...this.props.area };
       updatedArea.attributes.name = this.state.name;
       this.props.updateArea(updatedArea);
+      this.replaceRouteTitle(updatedArea.attributes.name);
     } else {
       // TODO: warn user empty area name
     }
+  }
+
+  replaceRouteTitle = (name) => {
+    this.props.navigator.setTitle({
+      title: name
+    });
   }
 
   handleDeleteArea = () => {
