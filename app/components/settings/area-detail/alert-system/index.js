@@ -54,7 +54,7 @@ class AlertSystem extends Component {
             this.props.setAreaDatasetStatus(id, dataset.slug, value);
           };
           return (
-            <View key={i} style={styles.section}>
+            <View key={i}>
               <View key={i} style={styles.row}>
                 <Text style={styles.title}>{dataset.name}</Text>
                 <CustomSwitch value={dataset.value} onValueChange={onDatasetValueChange} />

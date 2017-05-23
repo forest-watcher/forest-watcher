@@ -20,8 +20,5 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
-  },
-  section: {
-    marginTop: 16
   }
 });
