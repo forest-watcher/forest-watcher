@@ -129,7 +129,7 @@ class Map extends Component {
       this.setCompassLine();
     }
     if (this.state.datasetSlug !== nextState.datasetSlug) {
-      this.updateSelectedArea(this.state.index);
+      this.updateSelectedArea(nextState.index);
     }
   }
 
