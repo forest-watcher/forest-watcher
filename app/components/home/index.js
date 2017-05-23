@@ -130,7 +130,6 @@ Home.propTypes = {
   getCountries: React.PropTypes.func.isRequired,
   getReportQuestions: React.PropTypes.func.isRequired,
   getFeedbackQuestions: React.PropTypes.func.isRequired,
-  navigateReset: React.PropTypes.func.isRequired,
   setLoginStatus: React.PropTypes.func.isRequired,
   setLanguage: React.PropTypes.func.isRequired,
   navigator: React.PropTypes.object.isRequired

@@ -23,13 +23,14 @@ const getNext = (question, answer, next) => {
   />);
 };
 
-const FormStep = ({ question, answer, next }) => (
+const FormStep = ({ question, answer, next, navigator }) => (
   <View style={styles.container}>
     <View style={styles.container}>
       <Field
         name={question.name}
         component={getInputForm}
         question={question}
+        navigator={navigator}
       />
     </View>
     {getNext(question, answer, next)}
@@ -39,7 +40,8 @@ const FormStep = ({ question, answer, next }) => (
 FormStep.propTypes = {
   question: React.PropTypes.object.isRequired,
   answer: React.PropTypes.any,
-  next: React.PropTypes.object.isRequired
+  next: React.PropTypes.object.isRequired,
+  navigator: React.PropTypes.object.isRequired
 };
 
 export default reduxForm({
