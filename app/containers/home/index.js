@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
-import { setIsConnected, setLanguage } from 'redux-modules/app';
+import { setLanguage } from 'redux-modules/app';
 import { getAreas } from 'redux-modules/areas';
 import { getQuestions as getFeedbackQuestions } from 'redux-modules/feedback';
 import { getQuestions as getReportQuestions } from 'redux-modules/reports';
 import { getCountries } from 'redux-modules/countries';
-import { getUser, setLoginModal, setLoginStatus, checkLogged } from 'redux-modules/user';
+import { getUser, setLoginStatus, checkLogged } from 'redux-modules/user';
 import Home from 'components/home';
 
 function mapStateToProps(state) {
@@ -24,12 +24,12 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch, { navigation }) {
+function mapDispatchToProps(dispatch) {
   return {
     getUser: () => {
       dispatch(getUser());
     },
-    navigateReset: (routeName) => {
+    navigateReset: () => {
       // const action = NavigationActions.reset({
       //   index: 0,
       //   actions: [{
@@ -47,9 +47,6 @@ function mapDispatchToProps(dispatch, { navigation }) {
     },
     checkLogged: () => {
       dispatch(checkLogged());
-    },
-    setIsConnected: (isConnected) => {
-      dispatch(setIsConnected(isConnected));
     },
     getAreas: () => {
       dispatch(getAreas());
