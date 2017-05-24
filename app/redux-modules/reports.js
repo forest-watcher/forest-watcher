@@ -38,7 +38,7 @@ export default function reducer(state = initialNavState, action) {
 // Action Creators
 export function getQuestions() {
   return (dispatch, state) => {
-    if (state().app.isConnected) {
+    if (state().offline.online) {
       const language = getLanguage().toUpperCase();
       let qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
       if (!qIdByLanguage) qIdByLanguage = Config.QUESTIONNARIE_ID_EN; // language fallback
@@ -98,7 +98,7 @@ export function saveReport(name, data) {
 
 export function uploadReport(reportName) {
   return (dispatch, state) => {
-    const isConnected = state().app.isConnected;
+    const isConnected = state().offline.online;
 
     if (isConnected) {
       const report = state().form[reportName].values;

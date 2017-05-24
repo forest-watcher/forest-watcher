@@ -107,7 +107,7 @@ export async function cacheImageByUrl(url, imageDir, imageFile) {
   return parseImagePath(image.path());
 }
 
-export async function getCachedImageByUrl(url, imageDir, isConnected = true) {
+export async function getCachedImageByUrl(url, imageDir) {
   const parsedUrl = url.replace(/ /g, '%20');
   const parentDirectory = RNFetchBlob.fs.dirs;
   const imagesDirectory = `${parentDirectory.DocumentDir}/${imageDir}`;
@@ -128,9 +128,6 @@ export async function getCachedImageByUrl(url, imageDir, isConnected = true) {
 
     if (!exists) {
       try {
-        if (!isConnected) {
-          return null;
-        }
         const image = await RNFetchBlob
           .config({ path: filePath })
           .fetch('GET', parsedUrl);

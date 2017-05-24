@@ -3,7 +3,7 @@ import ImageCache from 'components/common/image-cache';
 
 function mapStateToProps(state) {
   return {
-    isConnected: state.app.isConnected
+    isConnected: state.offline.online
   };
 }
 
