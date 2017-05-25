@@ -4,8 +4,9 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { offline } from 'redux-offline';
 import offlineConfig from 'redux-offline/lib/defaults';
-import persistNative from 'redux-offline/lib/defaults/persist.native';
 import detectNetworkNative from 'redux-offline/lib/defaults/detectNetwork.native';
+import { AsyncStorage } from 'react-native'; // eslint-disable-line import/no-unresolved
+import { persistStore } from 'redux-persist';
 
 import Theme from 'config/theme';
 import { registerScreens } from 'screens';
@@ -30,6 +31,10 @@ export default () => {
       }
     });
   }
+
+  const persistNative = (store, options, callback) => (
+    persistStore(store, { storage: AsyncStorage, ...options }, callback) // .purge to clean the offline data
+  );
 
   const offlineCustomConfig = {
     ...offlineConfig,
