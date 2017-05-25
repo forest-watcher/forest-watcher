@@ -113,8 +113,8 @@ export function setLoginStatus(status) {
 }
 
 export function logout() {
-  return (dispatch) => {
-    GoogleSignin.signOut();
+  return async (dispatch) => {
+    await GoogleSignin.revokeAccess();
     dispatch({
       type: LOGOUT
     });
