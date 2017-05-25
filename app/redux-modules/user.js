@@ -1,4 +1,5 @@
 import Config from 'react-native-config';
+import { GoogleSignin } from 'react-native-google-signin';
 
 // Actions
 const GET_USER = 'user/GET_USER';
@@ -6,6 +7,7 @@ const SET_LOGIN_MODAL = 'user/SET_LOGIN_MODAL';
 const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
 const CHECK_USER_LOGGED = 'user/CHECK_USER_LOGGED';
 export const LOGOUT = 'user/LOGOUT';
+
 
 // Reducer
 const initialState = {
@@ -112,6 +114,7 @@ export function setLoginStatus(status) {
 
 export function logout() {
   return (dispatch) => {
+    GoogleSignin.signOut();
     dispatch({
       type: LOGOUT
     });
