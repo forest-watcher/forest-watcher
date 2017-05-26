@@ -25,25 +25,6 @@ export function getBboxTiles(bbox, zooms) {
   return tilesArray;
 }
 
-export async function cacheTiles(tiles, areaId, dataset) {
-  const folder = `${CONSTANTS.maps.tilesFolder}/${areaId}/${dataset}`;
-  await checkImageFolder(folder);
-  const CONCURRENCY = 10;
-  let arrayPromises = [];
-  for (let i = 0, tLength = tiles.length; i < tLength; i++) {
-    const imageName = `${tiles[i][2]}x${tiles[i][0]}x${tiles[i][1]}.png`;
-    const url = `${CONSTANTS.tileServers.glad}/${tiles[i][2]}/${tiles[i][0]}/${tiles[i][1]}.png`;
-    arrayPromises.push(cacheImageByUrl(url, folder, imageName));
-    if (i % CONCURRENCY === 0 && i > 0) {
-      await Promise.all(arrayPromises);
-      arrayPromises = [];
-    }
-  }
-  if (arrayPromises.length > 0) {
-    await Promise.all(arrayPromises);
-  }
-}
-
 export function getCartoURlTile(layerConfig) {
   const fetchConfig = {
     method: 'POST',
@@ -67,4 +48,28 @@ export async function getUrlTile(dataset) {
     return getCartoURlTile(layer);
   }
   return null;
+}
+
+export async function cacheTiles(tiles, areaId, dataset) {
+  const folder = `${CONSTANTS.maps.tilesFolder}/${areaId}/${dataset}`;
+  const endpointUrl = await getUrlTile(dataset);
+  await checkImageFolder(folder);
+  const CONCURRENCY = 10;
+  let arrayPromises = [];
+  for (let i = 0, tLength = tiles.length; i < tLength; i++) {
+    const imageName = `${tiles[i][2]}x${tiles[i][0]}x${tiles[i][1]}.png`;
+    const url = endpointUrl
+      .replace('{z}', tiles[i][2])
+      .replace('{x}', tiles[i][0])
+      .replace('{y}', tiles[i][1]);
+
+    arrayPromises.push(cacheImageByUrl(url, folder, imageName));
+    if (i % CONCURRENCY === 0 && i > 0) {
+      await Promise.all(arrayPromises);
+      arrayPromises = [];
+    }
+  }
+  if (arrayPromises.length > 0) {
+    await Promise.all(arrayPromises);
+  }
 }
