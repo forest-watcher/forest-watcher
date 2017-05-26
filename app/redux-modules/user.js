@@ -1,4 +1,6 @@
 import Config from 'react-native-config';
+import { GoogleSignin } from 'react-native-google-signin';
+
 
 // Actions
 const GET_USER = 'user/GET_USER';
@@ -111,7 +113,8 @@ export function setLoginStatus(status) {
 }
 
 export function logout() {
-  return (dispatch) => {
+  return async (dispatch) => {
+    await GoogleSignin.revokeAccess();
     dispatch({
       type: LOGOUT
     });

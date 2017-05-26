@@ -12,11 +12,3 @@ export function todayDate() {
   return moment().format('YYYYMMDD');
 }
 
-export function daysToToday(start = CONSTANTS.startDate) {
-  const startDate = moment(start);
-  return String(moment().diff(startDate, 'days'));
-}
-
-export function daysToDaysAgo(daysAgo) {
-  return String(parseInt(daysToToday(), 10) - daysAgo);
-}
