@@ -16,7 +16,7 @@ import throttle from 'lodash/throttle';
 import debounce from 'lodash/debounce';
 
 import Theme from 'config/theme';
-import { daysToDate, todayDate, daysToDaysAgo } from 'helpers/date';
+import { daysToDate, todayDate } from 'helpers/date';
 import { getUrlTile } from 'helpers/map';
 import { activeDataset } from 'helpers/area';
 import ActionBtn from 'components/common/action-button';
@@ -440,8 +440,8 @@ class Map extends Component {
     const hasCoordinates = (coordinates.tile && coordinates.tile.length > 0) || false;
     const showCompassFallback = !hasCompass && lastPosition && alertSelected && compassFallback;
     const dates = {
-      min: datasetSlug === 'viirs' ? '0' : daysToDate(this.state.fromDate),
-      max: datasetSlug === 'viirs' ? daysToDaysAgo(7) : daysToDate(this.state.toDate)
+      min: datasetSlug === 'viirs' ? '1' : daysToDate(this.state.fromDate), // TODO make viirs dynamic
+      max: datasetSlug === 'viirs' ? '8' : daysToDate(this.state.toDate)
     };
 
     return (
@@ -526,7 +526,7 @@ class Map extends Component {
                 maxDate={dates.max}
               />
             }
-            {false && hasCoordinates && // TODO: include the interaction and remove the false
+            {urlTile && hasCoordinates && // TODO: include the interaction and remove the false
               <MapView.CanvasInteractionUrlTile
                 coordinates={coordinates}
                 urlTemplate={urlTile}

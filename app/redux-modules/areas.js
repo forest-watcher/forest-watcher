@@ -333,7 +333,7 @@ export function saveArea(params) {
 export function cacheArea(areaId, dataset) {
   return async (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
-    if (area) {
+    if (area && state().app.isConnected) {
       const geojson = state().geostore.data[area.attributes.geostore];
       if (geojson) {
         if (dataset && area.datasets && area.datasets.length > 0) {

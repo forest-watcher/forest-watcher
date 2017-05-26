@@ -16,14 +16,14 @@ export default {
           marker-placement: point;
           marker-allow-overlap: true;
         }
-        #vnp14imgtdl_nrt_global_7d[date=0]{marker-fill: rgba(0,0,0,1);}
-        #vnp14imgtdl_nrt_global_7d[date=1]{marker-fill: rgba(0,0,1,1);}
-        #vnp14imgtdl_nrt_global_7d[date=2]{marker-fill: rgba(0,0,2,1);}
-        #vnp14imgtdl_nrt_global_7d[date=3]{marker-fill: rgba(0,0,3,1);}
-        #vnp14imgtdl_nrt_global_7d[date=4]{marker-fill: rgba(0,0,4,1);}
-        #vnp14imgtdl_nrt_global_7d[date=5]{marker-fill: rgba(0,0,5,1);}
-        #vnp14imgtdl_nrt_global_7d[date=6]{marker-fill: rgba(0,0,6,1);}
-        #vnp14imgtdl_nrt_global_7d[date=7]{marker-fill: rgba(0,0,7,1);}`
+        #vnp14imgtdl_nrt_global_7d[date=0]{marker-fill: rgba(0,0,1,1);}
+        #vnp14imgtdl_nrt_global_7d[date=1]{marker-fill: rgba(0,0,2,1);}
+        #vnp14imgtdl_nrt_global_7d[date=2]{marker-fill: rgba(0,0,3,1);}
+        #vnp14imgtdl_nrt_global_7d[date=3]{marker-fill: rgba(0,0,4,1);}
+        #vnp14imgtdl_nrt_global_7d[date=4]{marker-fill: rgba(0,0,5,1);}
+        #vnp14imgtdl_nrt_global_7d[date=5]{marker-fill: rgba(0,0,6,1);}
+        #vnp14imgtdl_nrt_global_7d[date=6]{marker-fill: rgba(0,0,7,1);}
+        #vnp14imgtdl_nrt_global_7d[date=7]{marker-fill: rgba(0,0,8,1);}`
       }
     }]
   }
