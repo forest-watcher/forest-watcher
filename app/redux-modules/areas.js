@@ -184,7 +184,7 @@ export function getDatasets(areaId) {
 export function getAreas() {
   const url = `${Config.API_URL}/area`;
   return (dispatch, state) => {
-    if (state().app.isConnected) {
+    if (state().offline.online) {
       fetch(url, {
         headers: {
           Authorization: `Bearer ${state().user.token}`
@@ -268,7 +268,7 @@ async function downloadArea(bbox, areaId, dataset) {
 export function saveArea(params) {
   const url = `${Config.API_URL}/area`;
   return (dispatch, state) => {
-    if (state().app.isConnected) {
+    if (state().offline.online) {
       dispatch({
         type: SYNCING_AREAS,
         payload: true
@@ -428,7 +428,7 @@ export function removeCachedArea(areaId, dataset) {
 export function deleteArea(id) {
   const url = `${Config.API_URL}/area/${id}`;
   return (dispatch, state) => {
-    if (state().app.isConnected) {
+    if (state().offline.online) {
       const fetchConfig = {
         method: 'DELETE',
         headers: {

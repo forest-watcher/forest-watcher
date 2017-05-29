@@ -6,7 +6,7 @@ function mapStateToProps(state) {
   return {
     loginModal: state.user.loginModal,
     userToken: state.user.token,
-    isConnected: state.app.isConnected
+    isConnected: state.offline.online
   };
 }
 

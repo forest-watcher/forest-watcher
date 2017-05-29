@@ -1,5 +1,4 @@
 // Actions
-const CHANGE_CONNECTION_STATUS = 'app/CHANGE_CONNECTION_STATUS';
 const SET_LANGUAGE = 'app/SET_LANGUAGE';
 
 // Reducer
@@ -11,10 +10,6 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case CHANGE_CONNECTION_STATUS:
-      return Object.assign({}, state, {
-        isConnected: action.payload
-      });
     case SET_LANGUAGE:
       return Object.assign({}, state, { language: action.payload });
     default:
@@ -23,13 +18,6 @@ export default function reducer(state = initialState, action) {
 }
 
 // Action Creators
-export function setIsConnected(isConnected) {
-  return {
-    type: CHANGE_CONNECTION_STATUS,
-    payload: isConnected
-  };
-}
-
 export function setLanguage(language) {
   return (dispatch) => {
     dispatch({

@@ -38,8 +38,10 @@ class ImageCache extends Component {
     const { source } = this.props;
 
     if (source.uri) {
-      const url = await getCachedImageByUrl(source.uri,
-        CONSTANTS.files.images.alerts, this.props.isConnected);
+      let url = null;
+      if (this.props.isConnected) {
+        url = await getCachedImageByUrl(source.uri, CONSTANTS.files.images.alerts);
+      }
       if (url) {
         this.setState({ url });
       } else {

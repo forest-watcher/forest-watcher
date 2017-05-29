@@ -7,7 +7,6 @@ import {
 import { getLanguage } from 'helpers/language';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
-import ConnectionStatus from 'containers/connectionstatus';
 import styles from './styles';
 
 class Home extends Component {
@@ -106,7 +105,6 @@ class Home extends Component {
           style={{ height: 80 }}
           size="large"
         />
-        <ConnectionStatus />
       </View>
     );
   }

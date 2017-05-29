@@ -14,7 +14,6 @@ import {
 import Theme from 'config/theme';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
-import ConnectionStatus from 'containers/connectionstatus';
 import styles from './styles';
 
 const settingsIcon = require('assets/settings.png');
@@ -175,15 +174,13 @@ class Dashboard extends Component {
             )
           )}
         </ScrollView>
-        <ConnectionStatus />
       </View>
     );
   }
 }
 
 Dashboard.propTypes = {
-  navigator: React.PropTypes.object.isRequired,
-  createReport: React.PropTypes.func.isRequired
+  navigator: React.PropTypes.object.isRequired
 };
 
 export default Dashboard;

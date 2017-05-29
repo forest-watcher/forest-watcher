@@ -74,7 +74,7 @@ function mapStateToProps(state, { form, index, texts, questionsToSkip, finish, t
         currentQuestion: index,
         questions,
         answers,
-        isConnected: state.app.isConnected
+        isConnected: state.offline.online
       })
     }
   };
