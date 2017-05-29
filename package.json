@@ -30,7 +30,7 @@
     "react-native-i18n": "1.0.0",
     "react-native-keyboard-spacer": "0.3.1",
     "react-native-location": "timfpark/react-native-location",
-    "react-native-maps": "Vizzuality/react-native-maps#feature/canvas-android",
+    "react-native-maps": "Vizzuality/react-native-maps",
     "react-native-navigation": "^1.1.65",
     "react-native-scrollable-tab-view": "0.7.3",
     "react-native-sensor-manager": "0.1.10",
