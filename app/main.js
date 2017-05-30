@@ -7,7 +7,7 @@ import Theme from 'config/theme';
 import { registerScreens } from 'screens';
 
 import * as reducers from 'redux-modules';
-import offline from './offline';
+import offline from 'offline';
 
 import Reactotron, { trackGlobalErrors, networking, openInEditor, asyncStorage } from 'reactotron-react-native'; // eslint-disable-line
 import { reactotronRedux } from 'reactotron-redux'; // eslint-disable-line

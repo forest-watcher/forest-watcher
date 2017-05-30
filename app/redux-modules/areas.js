@@ -8,7 +8,7 @@ import moment from 'moment';
 
 // Actions
 import { SET_AREA_SAVED } from 'redux-modules/setup';
-import { LOGOUT } from 'redux-modules/user';
+import { LOGOUT_COMMIT } from 'redux-modules/user';
 
 const GET_AREAS = 'areas/GET_AREAS';
 const UPDATE_AREA = 'areas/UPDATE_AREA';
@@ -84,7 +84,7 @@ export default function reducer(state = initialState, action) {
     }
     case UPDATE_DATE:
       return Object.assign({}, state, { ...action.payload });
-    case LOGOUT: {
+    case LOGOUT_COMMIT: {
       return initialState;
     }
     default:

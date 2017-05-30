@@ -1,13 +1,13 @@
 import Config from 'react-native-config';
-import GoogleOAuth from '../config/oAuth/GoogleOAuth';
+import GoogleOAuth from 'config/oAuth/GoogleOAuth';
 
 // Actions
 const GET_USER = 'user/GET_USER';
 const SET_LOGIN_MODAL = 'user/SET_LOGIN_MODAL';
 const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
 const CHECK_USER_LOGGED = 'user/CHECK_USER_LOGGED';
-const LOGOUT_ATTEMPT = 'user/LOGOUT_ATTEMPT';
-export const LOGOUT = 'user/LOGOUT';
+const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
+export const LOGOUT_COMMIT = 'user/LOGOUT_COMMIT';
 
 
 // Reducer
@@ -37,7 +37,7 @@ export default function reducer(state = initialState, action) {
         loggedIn: action.payload.loggedIn,
         token: action.payload.token
       });
-    case LOGOUT:
+    case LOGOUT_COMMIT:
       return initialState;
     default:
       return state;
@@ -116,11 +116,11 @@ export function setLoginStatus(status) {
 export function logout() {
   return async (dispatch) => {
     dispatch({
-      type: LOGOUT_ATTEMPT,
+      type: LOGOUT_REQUEST,
       meta: {
         offline: {
           effect: { promise: GoogleOAuth.logout() },
-          commit: { type: LOGOUT }
+          commit: { type: LOGOUT_COMMIT }
         }
       }
     });
