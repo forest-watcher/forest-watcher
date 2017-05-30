@@ -10,7 +10,10 @@ export default function effect({ url, promise }, { auth, ...action }) {
   } else if (typeof promise !== 'undefined') {
     return promise
       .then(data => data)
-      .catch(err => Promise.reject(err));
+      .catch(err => {
+        console.warn(err);
+        return Promise.reject(err);
+      });
   }
   throw new TypeError();
 }
