@@ -18,10 +18,31 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>The app uses the localization services, please activate them</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string></string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.904166352461-h7nutpto3o0s8e5gi000shub8231s4eu</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>org.wri.ForestWatcherBetaVizz</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>org.wri.ForestWatcherBetaVizz</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -39,21 +60,14 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to the camera.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>The app uses the localization services, please activate them</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>The app uses the localization services, please activate them</string>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>armv7</string>
-		<string>gamekit</string>
-	</array>
-  <key>NSCameraUsageDescription</key>
-  <string>We need access to the camera.</string>
-  <key>NSPhotoLibraryUsageDescription</key>
-  <string>We need access to the media library.</string>
-	<key>UIStatusBarStyle</key>
-	<string>UIStatusBarStyleLightContent</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to the media library.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>firasansot_light.ttf</string>
@@ -61,6 +75,15 @@
 		<string>firasansot_medium.ttf</string>
 		<string>firasansot_italic.otf</string>
 	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+		<string>gamekit</string>
+	</array>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleLightContent</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
