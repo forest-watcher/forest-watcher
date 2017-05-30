@@ -128,8 +128,15 @@ class Map extends Component {
     if (this.state.alertSelected !== nextState.alertSelected && this.state.lastPosition !== null) {
       this.setCompassLine();
     }
+    const enabledDataset = activeDataset(nextProps.areas[nextState.index]);
+    const newDates = this.getDates(enabledDataset);
+
     if (this.state.datasetSlug !== nextState.datasetSlug) {
       this.updateSelectedArea(nextState.index);
+    }
+
+    if ((this.state.fromDate !== newDates.fromDate) || (this.state.toDate !== newDates.toDate)) {
+      this.updateDates(enabledDataset);
     }
   }
 
@@ -155,12 +162,9 @@ class Map extends Component {
   onLayout = () => {
     const area = this.props.areas[this.state.index];
     const enabledDataset = activeDataset(area);
-    const dates = enabledDataset && this.getDates(enabledDataset);
     const fitOptions = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: true };
     this.setState({
-      datasetSlug: (enabledDataset && enabledDataset.slug) || '',
-      fromDate: dates && dates.fromDate,
-      toDate: dates && dates.toDate
+      datasetSlug: (enabledDataset && enabledDataset.slug) || ''
     });
     if (!this.state.alertSelected) {
       if (this.areaFeatures && this.areaFeatures.length > 0) {
@@ -219,10 +223,21 @@ class Map extends Component {
     });
   }
 
+  updateDates(enabledDataset) {
+    if (enabledDataset) {
+      const dates = enabledDataset && this.getDates(enabledDataset);
+      if (dates) {
+        this.setState({
+          fromDate: dates.fromDate,
+          toDate: dates.toDate
+        });
+      }
+    }
+  }
+
   updateSelectedArea = (index) => {
     const area = this.props.areas[index];
     const enabledDataset = activeDataset(area);
-    const dates = enabledDataset && this.getDates(enabledDataset);
     this.setState({
       index,
       areaCoordinates: this.getAreaCoordinates(this.areaFeatures[index]),
@@ -233,9 +248,7 @@ class Map extends Component {
         precision: [] // tile precision x, y
       },
       urlTile: null,
-      datasetSlug: (enabledDataset && enabledDataset.slug) || '',
-      fromDate: dates && dates.fromDate,
-      toDate: dates && dates.toDate
+      datasetSlug: (enabledDataset && enabledDataset.slug) || ''
     }, () => {
       const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
       this.map.fitToCoordinates(this.getAreaCoordinates(this.areaFeatures[index]), options);
