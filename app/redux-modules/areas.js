@@ -136,7 +136,7 @@ const globalAlerts = [
     value: false,
     options: [
       { name: 'cache', value: false },
-      { name: 'timeframe', value: { fromDate: CONSTANTS.startDate, toDate: moment().format('YYYYMMDD') } }
+      { name: 'timeframe', value: { fromDate: '8', toDate: '1' } }
     ]
   }
 ];
