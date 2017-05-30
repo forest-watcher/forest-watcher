@@ -30,18 +30,18 @@ class GoogleOAuth {
    * Login and return the user
    * @returns {Promise} - GoogleSignin signIn promise
    */
-  login() {
-    return this._start()
-      .then(() => GoogleSignin.signIn());
+  async login() {
+    await this._start();
+    return GoogleSignin.signIn();
   }
 
   /**
    * Logout and return response
    * @returns {Promise} - GoogleSignin revokeAccess promise
    */
-  logout() {
-    return this._start()
-      .then(() => GoogleSignin.revokeAccess());
+  async logout() {
+    await this._start();
+    return GoogleSignin.revokeAccess();
   }
 }
 

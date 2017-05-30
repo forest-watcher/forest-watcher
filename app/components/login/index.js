@@ -14,7 +14,7 @@ import Theme from 'config/theme';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 
-import GoogleOAuth from '../../GoogleOAuth';
+import GoogleOAuth from '../../config/oAuth/GoogleOAuth';
 import styles from './styles';
 
 const logoIcon = require('assets/logo.png');
