@@ -107,7 +107,11 @@
 		"aboutTerms": "Syarat dan Ketentuan",
     "timeFrame": "Jangka waktu",
     "from": "Dari",
-    "to": "untuk"
+    "to": "untuk",
+		"oneWeekAgo": "One week ago",
+		"72hAgo": "72 hours ago",
+		"48hAgo": "48 hours ago",
+		"24hAgo": "24 hours ago"
 	},
   "report": {
     "title": "Lapor",
