@@ -453,8 +453,8 @@ class Map extends Component {
     const hasCoordinates = (coordinates.tile && coordinates.tile.length > 0) || false;
     const showCompassFallback = !hasCompass && lastPosition && alertSelected && compassFallback;
     const dates = {
-      min: datasetSlug === 'viirs' ? '1' : daysToDate(this.state.fromDate), // TODO make viirs dynamic
-      max: datasetSlug === 'viirs' ? '8' : daysToDate(this.state.toDate)
+      min: datasetSlug === 'viirs' ? String(this.state.fromDate) : daysToDate(this.state.fromDate),
+      max: datasetSlug === 'viirs' ? String(this.state.toDate) : daysToDate(this.state.toDate)
     };
 
     return (
