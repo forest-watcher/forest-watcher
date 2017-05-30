@@ -107,7 +107,10 @@
 		"aboutTerms": "Terms and Conditions",
     "timeFrame": "Time Frame",
     "from": "From",
-    "to": "To"
+    "to": "To",
+		"oneWeekAgo": "One week ago",
+		"48hAgo": "48 hours ago",
+		"24hAgo": "24 hours ago"
 	},
   "report": {
     "title": "Report",

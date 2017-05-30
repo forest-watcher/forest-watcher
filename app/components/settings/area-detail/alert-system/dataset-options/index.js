@@ -4,6 +4,7 @@ import {
   Text
 } from 'react-native';
 import TimeFramePicker from 'components/settings/area-detail/alert-system/time-frame-picker';
+import DropdownPicker from 'components/settings/area-detail/alert-system/dropdown-picker';
 import CustomSwitch from 'components/common/switch';
 
 import styles from './styles';
@@ -40,11 +41,17 @@ class DatasetOptions extends Component {
               case 'timeframe': {
                 return (
                   <View key={j} style={[styles.row, styles.nested]}>
-                    <TimeFramePicker
-                      fromDate={option.value.fromDate}
-                      toDate={option.value.toDate}
-                      updateDate={this.handleUpdateDate}
-                    />
+                    {(dataset.slug !== 'viirs') ?
+                      <TimeFramePicker
+                        fromDate={option.value.fromDate}
+                        toDate={option.value.toDate}
+                        updateDate={this.handleUpdateDate}
+                      /> :
+                      <DropdownPicker
+                        updateViirsRange={this.handleUpdateDate}
+                        fromDate={option.value.fromDate}
+                      />
+                    }
                   </View>
                 );
               }
