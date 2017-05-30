@@ -227,10 +227,10 @@ class Map extends Component {
     if (enabledDataset) {
       const dates = enabledDataset && this.getDates(enabledDataset);
       if (dates) {
-        this.setState({
+        this.setState(() => ({
           fromDate: dates.fromDate,
           toDate: dates.toDate
-        });
+        }));
       }
     }
   }
