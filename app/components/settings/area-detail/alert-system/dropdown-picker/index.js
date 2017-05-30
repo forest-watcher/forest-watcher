@@ -10,7 +10,7 @@ import styles from './styles';
 
 class DropdownPicker extends Component {
   handleRangeChange(days) {
-    this.props.updateViirsRange({ fromDate: days, toDate: '0' });
+    this.props.updateViirsRange({ fromDate: days, toDate: '1' });
   }
   render() {
     return (<View style={styles.datesSection}>
@@ -22,9 +22,10 @@ class DropdownPicker extends Component {
           selectedValue={this.props.fromDate}
           onValueChange={(days) => this.handleRangeChange(days)}
         >
-          <Picker.Item label={I18n.t('settings.oneWeekAgo')} value={'7'} />
-          <Picker.Item label={I18n.t('settings.48hAgo')} value={'2'} />
           <Picker.Item label={I18n.t('settings.24hAgo')} value={'1'} />
+          <Picker.Item label={I18n.t('settings.48hAgo')} value={'2'} />
+          <Picker.Item label={I18n.t('settings.72hAgo')} value={'3'} />
+          <Picker.Item label={I18n.t('settings.oneWeekAgo')} value={'7'} />
         </Picker>
       </View>
     </View>);
