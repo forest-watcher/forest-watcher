@@ -2,16 +2,12 @@ import { Navigation } from 'react-native-navigation';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { offline } from 'redux-offline';
-import offlineConfig from 'redux-offline/lib/defaults';
-import detectNetworkNative from 'redux-offline/lib/defaults/detectNetwork.native';
-import { AsyncStorage } from 'react-native'; // eslint-disable-line import/no-unresolved
-import { persistStore } from 'redux-persist';
 
 import Theme from 'config/theme';
 import { registerScreens } from 'screens';
 
 import * as reducers from 'redux-modules';
+import offline from './offline';
 
 import Reactotron, { trackGlobalErrors, networking, openInEditor, asyncStorage } from 'reactotron-react-native'; // eslint-disable-line
 import { reactotronRedux } from 'reactotron-redux'; // eslint-disable-line
@@ -32,25 +28,12 @@ export default () => {
     });
   }
 
-  const persistNative = (store, options, callback) => (
-    persistStore(store, { storage: AsyncStorage, ...options }, callback) // .purge to clean the offline data
-  );
-
-  const offlineCustomConfig = {
-    ...offlineConfig,
-    rehydrate: true,
-    persist: persistNative,
-    detectNetwork: detectNetworkNative,
-    persistOptions: {
-      blacklist: ['setup']
-    },
-    persistCallback: () => { startApp(); }
-  };
+  const authMiddleware = ({ getState }) => next => action => next({ ...action, auth: getState().user.token });
 
   const reducer = combineReducers(reducers);
   const enhancers = compose(
-    applyMiddleware(thunk),
-    offline(offlineCustomConfig)
+    applyMiddleware(thunk, authMiddleware),
+    offline({ persistCallback: startApp })
   );
   let store = null;
   if (__DEV__) {
