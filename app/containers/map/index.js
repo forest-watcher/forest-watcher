@@ -20,28 +20,26 @@ function mapStateToProps(state) {
   const area = state.areas.data[index] || null;
   let parsedArea = {};
   let areaFeatures = null;
-  let enabledDataset = null;
+  let dataset = null;
   let center = null;
   let areaCoordinates = null;
   if (area) {
+    dataset = activeDataset(area);
+    areaFeatures = state.geostore.data[area.attributes.geostore].features[0];
+    if (areaFeatures) {
+      center = new BoundingBox(areaFeatures).getCenter();
+      areaCoordinates = getAreaCoordinates(areaFeatures);
+    }
     parsedArea = {
       id: area.id,
-      name: area.attributes.name,
-      geostoreId: area.attributes.geostore,
-      datasets: area.datasets
+      coordinates: areaCoordinates
     };
-    areaFeatures = state.geostore.data[parsedArea.geostoreId].features[0];
-    enabledDataset = activeDataset(area);
   }
 
-  if (areaFeatures) {
-    center = new BoundingBox(areaFeatures).getCenter();
-    areaCoordinates = getAreaCoordinates(areaFeatures);
-  }
 
   return {
     area: parsedArea,
-    enabledDataset,
+    dataset,
     center,
     areaCoordinates,
     isConnected: state.offline.online

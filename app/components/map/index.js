@@ -104,9 +104,9 @@ class Map extends Component {
       StatusBar.setBarStyle('light-content');
     }
 
-    const { enabledDataset } = this.props;
-    const enabledDatasetSlug = enabledDataset && enabledDataset.slug;
-    this.setUrlTile(enabledDatasetSlug);
+    const { dataset } = this.props;
+    const datasetSlug = dataset && dataset.slug;
+    this.setUrlTile(datasetSlug);
     this.renderMap();
     this.geoLocate();
   }
@@ -116,14 +116,9 @@ class Map extends Component {
       this.setCompassLine();
     }
 
-    if (this.props.enabledDataset.slug !== nextProps.enabledDataset.slug) {
+    if (this.props.dataset.slug !== nextProps.dataset.slug) {
       this.updateSelectedArea();
     }
-
-    // const newDates = this.getDates(this.props.enabledDataset);
-    // if ((this.state.fromDate !== newDates.fromDate) || (this.state.toDate !== newDates.toDate)) {
-    //   this.updateDates(this.props.enabledDataset);
-    // }
   }
 
   componentWillUnmount() {
@@ -148,8 +143,8 @@ class Map extends Component {
   onLayout = () => {
     if (!this.state.alertSelected) {
       const fitOptions = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: true };
-      if (this.props.areaCoordinates) {
-        this.map.fitToCoordinates(this.props.areaCoordinates, fitOptions);
+      if (this.props.area.coordinates) {
+        this.map.fitToCoordinates(this.props.area.coordinates, fitOptions);
       }
     }
   }
@@ -157,8 +152,6 @@ class Map extends Component {
   onMapPress = (e) => {
     this.selectAlert(e.nativeEvent.coordinate);
   }
-
-  getDates = (dataset) => dataset && dataset.options.find((option) => option.name === 'timeframe').value
 
   async setUrlTile(datasetSlug) {
     const url = await getUrlTile(datasetSlug);
@@ -204,9 +197,9 @@ class Map extends Component {
       urlTile: null
     }, () => {
       const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
-      this.map.fitToCoordinates(this.props.areaCoordinates, options);
-      if (this.props.enabledDataset) {
-        this.setUrlTile(this.props.enabledDataset.slug);
+      this.map.fitToCoordinates(this.props.area.coordinates, options);
+      if (this.props.dataset) {
+        this.setUrlTile(this.props.dataset.slug);
       }
     });
   }
@@ -399,14 +392,14 @@ class Map extends Component {
 
   render() {
     const { coordinates, alertSelected, urlTile, hasCompass, lastPosition, compassFallback } = this.state;
-    const { enabledDataset } = this.props;
+    const { dataset } = this.props;
     const hasCoordinates = (coordinates.tile && coordinates.tile.length > 0) || false;
     const showCompassFallback = !hasCompass && lastPosition && alertSelected && compassFallback;
 
-    const datasetDates = this.getDates(enabledDataset);
+    const datasetDates = this.getDates(dataset);
     const dates = {
-      min: enabledDataset.slug === 'viirs' ? String(datasetDates.fromDate) : daysToDate(datasetDates.fromDate),
-      max: enabledDataset.slug === 'viirs' ? String(datasetDates.toDate) : daysToDate(datasetDates.toDate)
+      min: dataset.slug === 'viirs' ? String(datasetDates.fromDate) : daysToDate(datasetDates.fromDate),
+      max: dataset.slug === 'viirs' ? String(datasetDates.toDate) : daysToDate(datasetDates.toDate)
     };
 
     return (
@@ -444,7 +437,7 @@ class Map extends Component {
               />
             }
             <MapView.Polyline
-              coordinates={this.props.areaCoordinates}
+              coordinates={this.props.area.coordinates}
               strokeColor={Theme.colors.color1}
               strokeWidth={2}
             />
@@ -485,7 +478,7 @@ class Map extends Component {
                 zIndex={-1}
                 maxZoom={12}
                 areaId={this.props.area.id}
-                alertType={enabledDataset.slug}
+                alertType={dataset.slug}
                 isConnected={this.props.isConnected}
                 minDate={dates.min}
                 maxDate={dates.max}
@@ -498,7 +491,7 @@ class Map extends Component {
                 zIndex={1}
                 maxZoom={12}
                 areaId={this.props.area.id}
-                alertType={enabledDataset.slug}
+                alertType={dataset.slug}
                 isConnected={this.props.isConnected}
                 minDate={dates.min}
                 maxDate={dates.max}
@@ -526,16 +519,13 @@ Map.propTypes = {
   isConnected: React.PropTypes.bool,
   area: React.PropTypes.shape({
     id: React.PropTypes.string.isRequired,
-    name: React.PropTypes.string.isRequired,
-    geostoreId: React.PropTypes.string.isRequired,
-    datasets: React.PropTypes.array.isRequired
-  }),
+    coordinates: React.PropTypes.array.isRequired
+  }).isRequired,
   center: React.PropTypes.shape({
     lat: React.PropTypes.number.isRequired,
     lng: React.PropTypes.number.isRequired
   }),
-  areaCoordinates: React.PropTypes.array.isRequired,
-  enabledDataset: React.PropTypes.shape({
+  dataset: React.PropTypes.shape({
     slug: React.PropTypes.string.isRequired,
     fromDate: React.PropTypes.string.isRequired,
     toDate: React.PropTypes.string.isRequired
