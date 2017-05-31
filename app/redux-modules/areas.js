@@ -8,7 +8,7 @@ import moment from 'moment';
 
 // Actions
 import { SET_AREA_SAVED } from 'redux-modules/setup';
-import { LOGOUT } from 'redux-modules/user';
+import { LOGOUT_COMMIT } from 'redux-modules/user';
 
 const GET_AREAS = 'areas/GET_AREAS';
 const UPDATE_AREA = 'areas/UPDATE_AREA';
@@ -84,7 +84,7 @@ export default function reducer(state = initialState, action) {
     }
     case UPDATE_DATE:
       return Object.assign({}, state, { ...action.payload });
-    case LOGOUT: {
+    case LOGOUT_COMMIT: {
       return initialState;
     }
     default:
@@ -184,7 +184,7 @@ export function getDatasets(areaId) {
 export function getAreas() {
   const url = `${Config.API_URL}/area`;
   return (dispatch, state) => {
-    if (state().app.isConnected) {
+    if (state().offline.online) {
       fetch(url, {
         headers: {
           Authorization: `Bearer ${state().user.token}`
@@ -268,7 +268,7 @@ async function downloadArea(bbox, areaId, dataset) {
 export function saveArea(params) {
   const url = `${Config.API_URL}/area`;
   return (dispatch, state) => {
-    if (state().app.isConnected) {
+    if (state().offline.online) {
       dispatch({
         type: SYNCING_AREAS,
         payload: true
@@ -428,7 +428,7 @@ export function removeCachedArea(areaId, dataset) {
 export function deleteArea(id) {
   const url = `${Config.API_URL}/area/${id}`;
   return (dispatch, state) => {
-    if (state().app.isConnected) {
+    if (state().offline.online) {
       const fetchConfig = {
         method: 'DELETE',
         headers: {

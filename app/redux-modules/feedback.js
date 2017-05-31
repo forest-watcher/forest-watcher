@@ -43,7 +43,7 @@ export default function reducer(state = initialNavState, action) {
 // Action Creators
 export function getQuestions(type) {
   return (dispatch, state) => {
-    if (state().app.isConnected) {
+    if (state().offline.online) {
       const language = getLanguage().toUpperCase();
       let feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_${language}`];
       if (!feedbackId) feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_EN`]; // language fallback
@@ -106,7 +106,7 @@ export function saveFeedback(name, data) {
 
 export function uploadFeedback(type) {
   return (dispatch, state) => {
-    const isConnected = state().app.isConnected;
+    const isConnected = state().offline.online;
     if (isConnected) {
       const report = state().form[type].values;
       const user = state().user;

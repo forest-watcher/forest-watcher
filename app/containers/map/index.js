@@ -14,7 +14,7 @@ function mapStateToProps(state) {
     ));
   return {
     areas,
-    isConnected: state.app.isConnected,
+    isConnected: state.offline.online,
     geostores: state.geostore.data
   };
 }

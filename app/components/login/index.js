@@ -9,12 +9,12 @@ import {
   Image
 } from 'react-native';
 
-import { GoogleSignin } from 'react-native-google-signin';
 import Config from 'react-native-config';
 import Theme from 'config/theme';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 
+import GoogleOAuth from 'config/oAuth/GoogleOAuth';
 import styles from './styles';
 
 const logoIcon = require('assets/logo.png');
@@ -85,35 +85,25 @@ class Login extends Component {
   }
 
   onPressGoogle = () => {
-    GoogleSignin.configure({
-      iosClientId: Config.LOGIN_GOOGLE_CLIENT_ID_IOS,
-      webClientId: Config.LOGIN_GOOGLE_CLIENT_ID_ANDROID,
-      offlineAccess: false,
-      hostedDomain: '',
-      forceConsentPrompt: true,
-      accountName: ''
-    })
-    .then(() => {
-      GoogleSignin.signIn()
-      .then((user) => {
-        fetch(`${Config.API_AUTH}/auth/google/token?access_token=${user.accessToken}`)
-        .then(response => {
-          if (response.ok) return response.json();
-          throw new Error(response.statusText);
-        })
-        .then(data => {
-          this.props.setLoginStatus({
-            loggedIn: true,
-            token: data.token
-          });
-          this.props.navigator.resetTo({
-            screen: 'ForestWatcher.Home'
-          });
-        })
-        .catch((error) => {
-          console.warn(error);
-          // To-do
+    GoogleOAuth.login()
+    .then((user) => {
+      fetch(`${Config.API_AUTH}/auth/google/token?access_token=${user.accessToken}`)
+      .then(response => {
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      })
+      .then(data => {
+        this.props.setLoginStatus({
+          loggedIn: true,
+          token: data.token
         });
+        this.props.navigator.resetTo({
+          screen: 'ForestWatcher.Home'
+        });
+      })
+      .catch((error) => {
+        console.warn(error);
+        // To-do
       });
     });
   }
@@ -251,7 +241,6 @@ class Login extends Component {
 
 Login.propTypes = {
   isConnected: React.PropTypes.bool.isRequired,
-  setLoginModal: React.PropTypes.func.isRequired,
   setLoginStatus: React.PropTypes.func.isRequired,
   navigator: React.PropTypes.object.isRequired
 };

@@ -39,6 +39,7 @@
     "redux": "^3.6.0",
     "redux-devtools-extension": "2.13.0",
     "redux-form": "6.6.1",
+    "redux-offline": "^2.0.0",
     "redux-persist": "4.6.0",
     "redux-thunk": "2.2.0",
     "turf-intersect": "Vizzuality/turf-intersect"
@@ -57,7 +58,9 @@
     "husky": "^0.13.3",
     "jest": "17.0.3",
     "lint-staged": "^3.4.0",
-    "react-test-renderer": "15.4.1"
+    "react-test-renderer": "15.4.1",
+    "reactotron-react-native": "^1.11.0",
+    "reactotron-redux": "^1.11.0"
   },
   "jest": {
     "preset": "react-native"
@@ -79,7 +82,8 @@
             "components": "./app/components",
             "containers": "./app/containers",
             "redux-modules": "./app/redux-modules",
-            "assets": "./app/assets"
+            "assets": "./app/assets",
+            "offline": "./app/offline"
           }
         }
       ]

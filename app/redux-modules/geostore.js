@@ -1,7 +1,7 @@
 import Config from 'react-native-config';
 
 // Actions
-import { LOGOUT } from 'redux-modules/user';
+import { LOGOUT_COMMIT } from 'redux-modules/user';
 
 const STORE_GEOSTORE = 'geostore/STORE_GEOSTORE';
 
@@ -20,7 +20,7 @@ export default function reducer(state = initialState, action) {
 
       return Object.assign({}, state, { data: geostoreList });
     }
-    case LOGOUT: {
+    case LOGOUT_COMMIT: {
       return initialState;
     }
     default:
