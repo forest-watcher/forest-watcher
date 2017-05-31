@@ -396,10 +396,9 @@ class Map extends Component {
     const hasCoordinates = (coordinates.tile && coordinates.tile.length > 0) || false;
     const showCompassFallback = !hasCompass && lastPosition && alertSelected && compassFallback;
 
-    const datasetDates = this.getDates(dataset);
     const dates = {
-      min: dataset.slug === 'viirs' ? String(datasetDates.fromDate) : daysToDate(datasetDates.fromDate),
-      max: dataset.slug === 'viirs' ? String(datasetDates.toDate) : daysToDate(datasetDates.toDate)
+      min: dataset.slug === 'viirs' ? String(dataset.startDate) : daysToDate(dataset.startDate),
+      max: dataset.slug === 'viirs' ? String(dataset.endDate) : daysToDate(dataset.endDate)
     };
 
     return (
@@ -527,8 +526,8 @@ Map.propTypes = {
   }),
   dataset: React.PropTypes.shape({
     slug: React.PropTypes.string.isRequired,
-    fromDate: React.PropTypes.string.isRequired,
-    toDate: React.PropTypes.string.isRequired
+    startDate: React.PropTypes.string.isRequired,
+    endDate: React.PropTypes.string.isRequired
   })
 };
 

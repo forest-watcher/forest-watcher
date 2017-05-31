@@ -22,9 +22,9 @@ class AreaCarousel extends Component {
   handleLink(area) {
     this.props.navigator.push({
       screen: 'ForestWatcher.AreaDetail',
-      title: area.name,
+      title: area.attributes.name,
       passProps: {
-        id: area.id
+        id: area.attributes.id
       }
     });
   }
@@ -62,7 +62,7 @@ class AreaCarousel extends Component {
       datasetName = enabledDatasetName(area) || NO_ALERT_SELECTED;
       return (
         <View key={`entry-${index}`} style={styles.slideInnerContainer}>
-          <Text style={containerTextSyle}>{ area.name } - { datasetName }</Text>
+          <Text style={containerTextSyle}>{ area.attributes.name } - { datasetName }</Text>
           {alertSelected &&
             <View style={styles.currentPosition}>
               <Text style={styles.coordinateDistanceText}>

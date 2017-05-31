@@ -61,8 +61,6 @@ class Settings extends Component {
     });
   }
 
-  onDateChange = date => this.props.updateDate(date)
-
   handlePartnersLink = () => {
     this.props.navigator.push({
       screen: 'ForestWatcher.Partners',
@@ -162,8 +160,7 @@ Settings.propTypes = {
   areas: React.PropTypes.any,
   navigator: React.PropTypes.object.isRequired,
   getAreas: React.PropTypes.func.isRequired,
-  logout: React.PropTypes.func.isRequired,
-  updateDate: React.PropTypes.func.isRequired
+  logout: React.PropTypes.func.isRequired
 };
 
 export default Settings;
