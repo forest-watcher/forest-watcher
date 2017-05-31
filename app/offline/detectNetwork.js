@@ -13,33 +13,30 @@ class DetectNetwork {
   }
   _setReach = (reach) => {
     this._reach = reach;
+    this._setIsConnected(reach.toUpperCase());
   }
 
-  _setIsConnected = (isConnected) => {
-    this._isConnected = isConnected;
+  _setIsConnected = (reach) => {
+    this._isConnected = (reach !== 'NONE' && reach !== 'UNKNOWN');
   }
 
   _setIsConnectionExpensive = async () => {
     try {
       this._isConnectionExpensive = await NetInfo.isConnectionExpensive();
     } catch (err) {
-      throw new Error(err);
+      // err means that isConnectionExpensive is not supported
+      this._isConnectionExpensive = null;
     }
   }
 
   _init = async () => {
     this._setReach(await NetInfo.fetch());
-    this._setIsConnected(await NetInfo.fetch);
     this._updateState();
   }
 
   _addListeners() {
     NetInfo.addEventListener('change', (reach) => {
       this._setReach(reach);
-      this._updateState();
-    });
-    NetInfo.isConnected.addEventListener('change', (isConnected) => {
-      this._setIsConnected(isConnected);
       this._updateState();
     });
     AppState.addEventListener('change', this._init);
