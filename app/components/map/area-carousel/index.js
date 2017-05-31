@@ -16,13 +16,9 @@ import { sliderWidth, itemWidth, styles } from './styles';
 
 const settingsIcon = require('assets/settings.png');
 
-const DEFAULT_DATASET_NAME = I18n.t('commonText.noAlertSystem');
+const NO_ALERT_SELECTED = I18n.t('commonText.noAlertSystem');
 
 class AreaCarousel extends Component {
-  handleUpdateSelectedArea(aId) {
-    this.props.updateSelectedArea(aId);
-  }
-
   handleLink(area) {
     this.props.navigator.push({
       screen: 'ForestWatcher.AreaDetail',
@@ -63,7 +59,7 @@ class AreaCarousel extends Component {
     );
 
     const sliderItems = this.props.areas.map((area, index) => {
-      datasetName = enabledDatasetName(area) || DEFAULT_DATASET_NAME;
+      datasetName = enabledDatasetName(area) || NO_ALERT_SELECTED;
       return (
         <View key={`entry-${index}`} style={styles.slideInnerContainer}>
           <Text style={containerTextSyle}>{ area.name } - { datasetName }</Text>
@@ -88,7 +84,7 @@ class AreaCarousel extends Component {
           ref={(carousel) => { this.carousel = carousel; }}
           sliderWidth={sliderWidth}
           itemWidth={itemWidth}
-          onSnapToItem={throttle((index) => this.handleUpdateSelectedArea(index), 300)}
+          onSnapToItem={throttle((index) => this.props.updateSelectedArea(index), 300)}
           showsHorizontalScrollIndicator={false}
           slideStyle={styles.slideStyle}
         >
@@ -103,7 +99,7 @@ AreaCarousel.propTypes = {
   alertSelected: React.PropTypes.object,
   lastPosition: React.PropTypes.object,
   areas: React.PropTypes.array,
-  navigator: React.PropTypes.object,
+  navigator: React.PropTypes.object.isRequired,
   updateSelectedArea: React.PropTypes.func
 };
 

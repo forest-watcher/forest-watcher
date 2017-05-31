@@ -10,19 +10,16 @@ function mapStateToProps(state) {
       geostoreId: area.attributes.geostore,
       datasets: area.datasets
     }
-    ));
+  ));
   return {
     areas
   };
 }
 
-function mapDispatchToProps(dispatch, { navigation }) {
+function mapDispatchToProps(dispatch) {
   return {
     updateSelectedArea: (index) => {
       dispatch(updateSelectedIndex(index));
-    },
-    navigate: (routeName, params) => {
-      navigation.navigate(routeName, params);
     }
   };
 }

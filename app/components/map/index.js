@@ -558,6 +558,7 @@ class Map extends Component {
             : this.renderFooterLoading()
           }
           <AreaCarousel
+            navigator={this.props.navigator}
             alertSelected={this.state.alertSelected}
             lastPosition={this.state.lastPosition}
           />
