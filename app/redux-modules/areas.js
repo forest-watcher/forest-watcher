@@ -16,15 +16,15 @@ const SAVE_AREA = 'areas/SAVE_AREA';
 const DELETE_AREA = 'areas/DELETE_AREA';
 const SYNCING_AREAS = 'areas/SYNCING_AREA';
 const UPDATE_DATE = 'areas/UPDATE_DATE';
+const UPDATE_INDEX = 'areas/UPDATE_INDEX';
 
 // Reducer
 const initialState = {
   data: [],
+  selectedIndex: 0,
   images: {},
   synced: false,
-  syncing: false,
-  fromDate: '20150101',
-  toDate: moment().format('YYYYMMDD')
+  syncing: false
 };
 
 export default function reducer(state = initialState, action) {
@@ -72,6 +72,9 @@ export default function reducer(state = initialState, action) {
       }
 
       return Object.assign({}, state, { data: areas });
+    }
+    case UPDATE_INDEX: {
+      return Object.assign({}, state, { selectedIndex: action.payload });
     }
     case DELETE_AREA: {
       const areas = state.data;
@@ -258,6 +261,16 @@ export function updateArea(area) {
       });
   };
 }
+
+export function updateSelectedIndex(index) {
+  return (dispatch) => {
+    dispatch({
+      type: UPDATE_INDEX,
+      payload: index
+    });
+  };
+}
+
 
 async function downloadArea(bbox, areaId, dataset) {
   const zooms = CONSTANTS.maps.cachedZoomLevels;

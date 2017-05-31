@@ -20,7 +20,7 @@ import { daysToDate, todayDate } from 'helpers/date';
 import { getUrlTile } from 'helpers/map';
 import { activeDataset } from 'helpers/area';
 import ActionBtn from 'components/common/action-button';
-import AreaCarousel from 'components/map/area-carousel/';
+import AreaCarousel from 'containers/map/area-carousel/';
 import tracker from 'helpers/googleAnalytics';
 import I18n from 'locales';
 import MapView from 'react-native-maps';
@@ -558,11 +558,8 @@ class Map extends Component {
             : this.renderFooterLoading()
           }
           <AreaCarousel
-            areas={this.props.areas}
             alertSelected={this.state.alertSelected}
             lastPosition={this.state.lastPosition}
-            navigator={this.props.navigator}
-            updateSelectedArea={this.updateSelectedArea}
           />
         </View>
       :
