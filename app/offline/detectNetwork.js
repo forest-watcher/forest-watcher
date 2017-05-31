@@ -11,40 +11,66 @@ class DetectNetwork {
     this._init();
     this._addListeners();
   }
+
+  /**
+   * Sets the connection reachability prop
+   * @param reach - connection reachability.
+   *     - iOS: [none, wifi, cell, unknown]
+   *     - Android: [NONE, BLUETOOTH, DUMMY, ETHERNET, MOBILE, MOBILE_DUN, MOBILE_HIPRI, MOBILE_MMS, MOBILE_SUPL, VPN, WIFI, WIMAX, UNKNOWN]
+   * @private
+   */
   _setReach = (reach) => {
     this._reach = reach;
+    this._setIsConnected(reach.toUpperCase());
   }
-
-  _setIsConnected = (isConnected) => {
-    this._isConnected = isConnected;
+  /**
+   * Sets the isConnected prop depending on the connection reachability's value
+   * @param reach
+   * @private
+   */
+  _setIsConnected = (reach) => {
+    this._isConnected = (reach !== 'NONE' && reach !== 'UNKNOWN');
   }
-
+  /**
+   * Sets the isConnectionExpensive prop
+   * @returns {Promise.<void>}
+   * @private
+   */
   _setIsConnectionExpensive = async () => {
     try {
       this._isConnectionExpensive = await NetInfo.isConnectionExpensive();
     } catch (err) {
-      throw new Error(err);
+      // err means that isConnectionExpensive is not supported
+      this._isConnectionExpensive = null;
     }
   }
-
+  /**
+   * Fetches and sets the connection reachability and the isConnected props
+   * @returns {Promise.<void>}
+   * @private
+   */
   _init = async () => {
     this._setReach(await NetInfo.fetch());
-    this._setIsConnected(await NetInfo.fetch);
     this._updateState();
   }
 
+  /**
+   * Adds listeners for when connection reachability and app state changes to update props
+   * @private
+   */
   _addListeners() {
     NetInfo.addEventListener('change', (reach) => {
       this._setReach(reach);
       this._updateState();
     });
-    NetInfo.isConnected.addEventListener('change', (isConnected) => {
-      this._setIsConnected(isConnected);
-      this._updateState();
-    });
     AppState.addEventListener('change', this._init);
   }
 
+  /**
+   * Executes the given callback to update redux's store with the new internal props
+   * @returns {Promise.<void>}
+   * @private
+   */
   _updateState = async () => {
     await this._setIsConnectionExpensive();
     this._callback({
