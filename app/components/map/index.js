@@ -104,8 +104,7 @@ class Map extends Component {
       StatusBar.setBarStyle('light-content');
     }
 
-    const { dataset } = this.props;
-    const datasetSlug = dataset && dataset.slug;
+    const { datasetSlug } = this.props;
     this.setUrlTile(datasetSlug);
     this.renderMap();
     this.geoLocate();
@@ -116,7 +115,12 @@ class Map extends Component {
       this.setCompassLine();
     }
 
-    if (this.props.dataset.slug !== nextProps.dataset.slug) {
+    if (this.props.datasetSlug !== nextProps.datasetSlug) {
+      this.updateSelectedArea();
+    }
+
+    if (this.props.startDate !== nextProps.startDate ||
+        this.props.endDate !== nextProps.endDate) {
       this.updateSelectedArea();
     }
   }
@@ -198,8 +202,8 @@ class Map extends Component {
     }, () => {
       const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
       this.map.fitToCoordinates(this.props.area.coordinates, options);
-      if (this.props.dataset) {
-        this.setUrlTile(this.props.dataset.slug);
+      if (this.props.datasetSlug) {
+        this.setUrlTile(this.props.datasetSlug);
       }
     });
   }
@@ -392,13 +396,13 @@ class Map extends Component {
 
   render() {
     const { coordinates, alertSelected, urlTile, hasCompass, lastPosition, compassFallback } = this.state;
-    const { dataset } = this.props;
+    const { datasetSlug, startDate, endDate } = this.props;
     const hasCoordinates = (coordinates.tile && coordinates.tile.length > 0) || false;
     const showCompassFallback = !hasCompass && lastPosition && alertSelected && compassFallback;
 
     const dates = {
-      min: dataset.slug === 'viirs' ? String(dataset.startDate) : daysToDate(dataset.startDate),
-      max: dataset.slug === 'viirs' ? String(dataset.endDate) : daysToDate(dataset.endDate)
+      min: datasetSlug === 'viirs' ? String(startDate) : daysToDate(startDate),
+      max: datasetSlug === 'viirs' ? String(endDate) : daysToDate(endDate)
     };
 
     return (
@@ -477,7 +481,7 @@ class Map extends Component {
                 zIndex={-1}
                 maxZoom={12}
                 areaId={this.props.area.id}
-                alertType={dataset.slug}
+                alertType={datasetSlug}
                 isConnected={this.props.isConnected}
                 minDate={dates.min}
                 maxDate={dates.max}
@@ -490,7 +494,7 @@ class Map extends Component {
                 zIndex={1}
                 maxZoom={12}
                 areaId={this.props.area.id}
-                alertType={dataset.slug}
+                alertType={datasetSlug}
                 isConnected={this.props.isConnected}
                 minDate={dates.min}
                 maxDate={dates.max}
@@ -524,11 +528,9 @@ Map.propTypes = {
     lat: React.PropTypes.number.isRequired,
     lng: React.PropTypes.number.isRequired
   }),
-  dataset: React.PropTypes.shape({
-    slug: React.PropTypes.string.isRequired,
-    startDate: React.PropTypes.string.isRequired,
-    endDate: React.PropTypes.string.isRequired
-  })
+  startDate: React.PropTypes.string.isRequired,
+  endDate: React.PropTypes.string.isRequired,
+  datasetSlug: React.PropTypes.string.isRequired
 };
 
 export default Map;
