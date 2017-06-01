@@ -525,8 +525,8 @@ Map.propTypes = {
     coordinates: React.PropTypes.array.isRequired
   }).isRequired,
   center: React.PropTypes.shape({
-    lat: React.PropTypes.number.isRequired,
-    lng: React.PropTypes.number.isRequired
+    lat: React.PropTypes.number,
+    lng: React.PropTypes.number
   }),
   startDate: React.PropTypes.string.isRequired,
   endDate: React.PropTypes.string.isRequired,
