@@ -1,6 +1,6 @@
 import defaultEffect from 'redux-offline/lib/defaults/effect';
 
-export default function effect({ url, promise }, { auth, ...action }) {
+export default function effect({ url, promise, errorCode }, { auth, ...action }) {
   if (url && typeof url === 'string') {
     const req = {
       url,
@@ -12,7 +12,7 @@ export default function effect({ url, promise }, { auth, ...action }) {
       .then(data => data)
       .catch(err => {
         console.warn(err);
-        return Promise.reject(err);
+        return Promise.reject(errorCode);
       });
   }
   throw new TypeError();

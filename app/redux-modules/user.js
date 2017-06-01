@@ -118,9 +118,11 @@ export function logout() {
     dispatch({
       type: LOGOUT_REQUEST,
       meta: {
-        offline: {
-          effect: { promise: GoogleOAuth.logout() },
-          commit: { type: LOGOUT_COMMIT }
+        offline: { // TODO: save the user login method and logout from it
+          // returning 400 code it won't attemp again (https://github.com/jevakallio/redux-offline#giving-up-is-hard-to-do)
+          effect: { promise: GoogleOAuth.logout(), errorCode: 400 },
+          commit: { type: LOGOUT_COMMIT },
+          rollback: { type: LOGOUT_COMMIT }
         }
       }
     });
