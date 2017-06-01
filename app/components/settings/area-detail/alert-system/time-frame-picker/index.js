@@ -26,16 +26,16 @@ class TimeFramePicker extends Component {
         </Text>
         <DatePicker
           showIcon={false}
-          date={moment(this.props.fromDate, dateFormat).format(dateFormatDisplay)}
+          date={moment(this.props.startDate, dateFormat).format(dateFormatDisplay)}
           mode="date"
           format={dateFormatDisplay}
           minDate={START_DATE}
           // if set to null DatePicker will try to parse it as a date and crash, undefined prevents this
-          maxDate={moment(this.props.toDate, dateFormat).format(dateFormatDisplay) || undefined}
+          maxDate={moment(this.props.endDate, dateFormat).format(dateFormatDisplay) || undefined}
           placeholder={I18n.t('report.datePlaceholder')}
           cancelBtnText={I18n.t('commonText.cancel')}
           confirmBtnText={I18n.t('commonText.confirm')}
-          onDateChange={date => this.onDateChange({ fromDate: moment(date, dateFormatDisplay).format(dateFormat) })}
+          onDateChange={date => this.onDateChange({ startDate: moment(date, dateFormatDisplay).format(dateFormat) })}
           customStyles={{
             dateInput: styles.dateInput,
             dateText: styles.dateText
@@ -49,14 +49,14 @@ class TimeFramePicker extends Component {
         <DatePicker
           style={styles.datePicker}
           showIcon={false}
-          date={moment(this.props.toDate, dateFormat).format(dateFormatDisplay)}
+          date={moment(this.props.endDate, dateFormat).format(dateFormatDisplay)}
           mode="date"
           format={dateFormatDisplay}
-          minDate={moment(this.props.fromDate, dateFormat).format(dateFormatDisplay) || START_DATE}
+          minDate={moment(this.props.startDate, dateFormat).format(dateFormatDisplay) || START_DATE}
           placeholder={I18n.t('report.datePlaceholder')}
           cancelBtnText={I18n.t('commonText.cancel')}
           confirmBtnText={I18n.t('commonText.confirm')}
-          onDateChange={date => this.onDateChange({ toDate: moment(date, dateFormatDisplay).format(dateFormat) })}
+          onDateChange={date => this.onDateChange({ endDate: moment(date, dateFormatDisplay).format(dateFormat) })}
           customStyles={{
             dateInput: styles.dateInput,
             dateText: styles.dateText
@@ -68,8 +68,8 @@ class TimeFramePicker extends Component {
 }
 
 TimeFramePicker.propTypes = {
-  fromDate: React.PropTypes.string,
-  toDate: React.PropTypes.string,
+  startDate: React.PropTypes.string,
+  endDate: React.PropTypes.string,
   updateDate: React.PropTypes.func
 };
 

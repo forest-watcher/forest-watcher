@@ -12,6 +12,7 @@ import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
+import { getCoverageDataByGeostore, getInitialDatasets } from 'helpers/area';
 import styles from './styles';
 
 const editImage = require('assets/edit.png');
@@ -37,24 +38,31 @@ class SetupOverview extends Component {
     }
   }
 
-  async onAreaSaved() {
-    if (this.props.areaId) {
-      this.setState({ gettingDatasets: true, saving: false });
-      await this.props.getDatasets(this.props.areaId);
-    }
+  onAreaSaved() {
     this.props.onNextPress();
   }
 
-  onNextPress = () => {
+  onNextPress = async () => {
+    this.setState({ gettingDatasets: true });
+    const { area, user } = this.props;
+    let coverage = [];
+
+    try {
+      coverage = await getCoverageDataByGeostore(area.geostore, user.token);
+    } catch (e) {
+      console.warn('Coverage request error', e);
+    }
+    const datasets = getInitialDatasets(coverage);
     const params = {
       area: {
         name: this.state.name,
         ...this.props.area
       },
       userid: this.props.user.id,
-      snapshot: this.props.snapshot
+      snapshot: this.props.snapshot,
+      datasets
     };
-    this.setState({ saving: true });
+    this.setState({ saving: true, gettingDatasets: false });
     this.props.saveArea(params);
   }
 
@@ -127,9 +135,8 @@ SetupOverview.propTypes = {
   area: React.PropTypes.object.isRequired,
   areaSaved: React.PropTypes.bool.isRequired,
   snapshot: React.PropTypes.string.isRequired,
-  getDatasets: React.PropTypes.func.isRequired,
-  onNextPress: React.PropTypes.func.isRequired,
-  saveArea: React.PropTypes.func.isRequired
+  saveArea: React.PropTypes.func.isRequired,
+  onNextPress: React.PropTypes.func.isRequired
 };
 
 export default SetupOverview;

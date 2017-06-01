@@ -2,20 +2,47 @@ import { connect } from 'react-redux';
 import { createReport } from 'redux-modules/reports';
 import tracker from 'helpers/googleAnalytics';
 import Map from 'components/map';
+import { activeDataset } from 'helpers/area';
+
+const BoundingBox = require('boundingbox');
+
+function getAreaCoordinates(areaFeature) {
+  return areaFeature.geometry.coordinates[0].map((coordinate) => (
+    {
+      longitude: coordinate[0],
+      latitude: coordinate[1]
+    }
+  ));
+}
 
 function mapStateToProps(state) {
-  const areas = state.areas.data.map((area) => (
-    {
-      id: area.id,
-      name: area.attributes.name,
-      geostoreId: area.attributes.geostore,
-      datasets: area.datasets
+  const index = state.areas.selectedIndex;
+  const area = state.areas.data[index] || null;
+  let parsedArea = {};
+  let areaFeatures = null;
+  let dataset = null;
+  let center = null;
+  let areaCoordinates = null;
+  if (area) {
+    dataset = activeDataset(area);
+    areaFeatures = state.geostore.data[area.attributes.geostore].features[0];
+    if (areaFeatures) {
+      center = new BoundingBox(areaFeatures).getCenter();
+      areaCoordinates = getAreaCoordinates(areaFeatures);
     }
-    ));
+    parsedArea = {
+      id: area.id,
+      coordinates: areaCoordinates
+    };
+  }
+
+
   return {
-    areas,
-    isConnected: state.offline.online,
-    geostores: state.geostore.data
+    area: parsedArea,
+    dataset,
+    center,
+    areaCoordinates,
+    isConnected: state.offline.online
   };
 }
 

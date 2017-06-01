@@ -37,13 +37,14 @@ function noAlerts() {
 
 class AlertSystem extends Component {
   componentWillMount() {
-    if (!this.props.area.datasets) {
+    if (!this.props.area.attributes.datasets) {
       this.props.getDatasets(this.props.areaId);
     }
   }
 
   render() {
-    const { datasets, id } = this.props.area;
+    const { attributes, id } = this.props.area;
+    const datasets = attributes && attributes.datasets;
 
     if (!datasets) return loadingState();
     if (datasets === undefined || datasets.length === 0) return noAlerts();
@@ -57,15 +58,18 @@ class AlertSystem extends Component {
             <View key={i}>
               <View key={i} style={styles.row}>
                 <Text style={styles.title}>{dataset.name}</Text>
-                <CustomSwitch value={dataset.value} onValueChange={onDatasetValueChange} />
+                <CustomSwitch value={dataset.active} onValueChange={onDatasetValueChange} />
               </View>
-              <DatasetOptions
-                id={id}
-                dataset={dataset}
-                updateDate={this.props.updateDate}
-                cacheArea={this.props.cacheArea}
-                removeCachedArea={this.props.removeCachedArea}
-              />
+              {dataset.active
+                ? <DatasetOptions
+                  id={id}
+                  dataset={dataset}
+                  updateDate={this.props.updateDate}
+                  cacheArea={this.props.cacheArea}
+                  removeCachedArea={this.props.removeCachedArea}
+                />
+                : null
+              }
             </View>
           );
         })}
@@ -77,12 +81,14 @@ class AlertSystem extends Component {
 AlertSystem.propTypes = {
   area: React.PropTypes.shape({
     id: React.PropTypes.string.isRequired,
-    datasets: React.PropTypes.arrayOf(
-      React.PropTypes.shape({
-        name: React.PropTypes.string.isRequired,
-        value: React.PropTypes.bool.isRequired
-      }).isRequired,
-    )
+    attributes: React.PropTypes.shape({
+      datasets: React.PropTypes.arrayOf(
+        React.PropTypes.shape({
+          name: React.PropTypes.string.isRequired,
+          active: React.PropTypes.bool.isRequired
+        }).isRequired,
+      )
+    }).isRequired
   }).isRequired,
   getDatasets: React.PropTypes.func.isRequired,
   cacheArea: React.PropTypes.func.isRequired,
