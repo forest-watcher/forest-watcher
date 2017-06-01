@@ -21,10 +21,16 @@ function mapStateToProps(state) {
   let parsedArea = {};
   let areaFeatures = null;
   let dataset = null;
+  let datasetSlug = null;
   let center = null;
   let areaCoordinates = null;
+  let startDate = null;
+  let endDate = null;
   if (area) {
     dataset = activeDataset(area);
+    datasetSlug = dataset.slug;
+    startDate = dataset.startDate;
+    endDate = dataset.endDate;
     areaFeatures = state.geostore.data[area.attributes.geostore].features[0];
     if (areaFeatures) {
       center = new BoundingBox(areaFeatures).getCenter();
@@ -39,7 +45,9 @@ function mapStateToProps(state) {
 
   return {
     area: parsedArea,
-    dataset,
+    datasetSlug,
+    startDate,
+    endDate,
     center,
     areaCoordinates,
     isConnected: state.offline.online
