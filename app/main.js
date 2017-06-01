@@ -1,8 +1,8 @@
 import { Navigation } from 'react-native-navigation';
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-
+import { netInfoMiddleware } from 'offline/middleware';
 import Theme from 'config/theme';
 import { registerScreens } from 'screens';
 
@@ -31,10 +31,8 @@ export default () => {
   const authMiddleware = ({ getState }) => next => action => next({ ...action, auth: getState().user.token });
 
   const reducer = combineReducers(reducers);
-  const enhancers = compose(
-    applyMiddleware(thunk, authMiddleware),
-    offline({ persistCallback: startApp })
-  );
+  const middleware = applyMiddleware(thunk, authMiddleware, netInfoMiddleware);
+
   let store = null;
   if (__DEV__) {
     Reactotron
@@ -46,9 +44,9 @@ export default () => {
       .use(asyncStorage())
       .connect()
       .clear();
-    store = Reactotron.createStore(reducer, undefined, enhancers);
+    store = offline({ persistCallback: startApp })(Reactotron.createStore)(reducer, undefined, middleware);
   } else {
-    store = createStore(reducer, undefined, enhancers);
+    store = offline({ persistCallback: startApp })(createStore)(reducer, undefined, middleware);
   }
 
   registerScreens(store, Provider);
