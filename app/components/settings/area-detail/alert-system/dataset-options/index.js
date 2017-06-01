@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import {
-  View,
-  Text
+  View
 } from 'react-native';
+
+import I18n from 'locales';
 import TimeFramePicker from 'components/settings/area-detail/alert-system/time-frame-picker';
 import DropdownPicker from 'components/settings/area-detail/alert-system/dropdown-picker';
-import CustomSwitch from 'components/common/switch';
+import CheckBtn from 'components/common/form-inputs/check-btn';
 
 import styles from './styles';
 
@@ -13,9 +14,9 @@ class DatasetOptions extends Component {
   onChange = (value) => {
     const { id, dataset, cacheArea, removeCachedArea } = this.props;
     if (value) {
-      cacheArea(id, dataset.slug);
-    } else {
       removeCachedArea(id, dataset.slug);
+    } else {
+      cacheArea(id, dataset.slug);
     }
   }
 
@@ -30,8 +31,11 @@ class DatasetOptions extends Component {
       <View style={styles.datasetSection}>
         <View style={styles.datasetSection}>
           <View style={[styles.row, styles.nested]}>
-            <Text style={styles.title}>{'cache'}</Text>
-            <CustomSwitch value={cache} onValueChange={this.onChange} />
+            <CheckBtn
+              value={I18n.t('settings.availableOffline')}
+              checked={cache}
+              onPress={() => this.onChange(cache)}
+            />
           </View>
         </View>
         <View style={[styles.row, styles.nested]}>

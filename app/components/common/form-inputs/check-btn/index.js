@@ -15,12 +15,14 @@ const checkOffIcon = require('assets/checkbox_off.png');
 function CheckboxInput(props) {
   return (
     <TouchableHighlight
-      style={styles.inputContainer}
-      underlayColor={Theme.background.white}
+      style={styles.container}
+      underlayColor="transparent"
       onPress={props.onPress}
     >
       <View style={styles.input}>
-        <Text style={styles.inputLabel}>{props.value}</Text>
+        {props.value &&
+          <Text style={styles.inputLabel}>{props.value}</Text>
+        }
         <Image
           style={Theme.icon}
           source={props.checked ? checkOnIcon : checkOffIcon}
@@ -31,8 +33,11 @@ function CheckboxInput(props) {
 }
 
 CheckboxInput.propTypes = {
-  checked: React.PropTypes.bool.isRequired,
-  value: React.PropTypes.string.isRequired,
+  value: React.PropTypes.string,
+  checked: React.PropTypes.oneOfType([
+    React.PropTypes.bool,
+    React.PropTypes.string
+  ]),
   onPress: React.PropTypes.func.isRequired
 };
 

@@ -33,12 +33,14 @@ function RadioInput(props) {
           );
         }
         return [
-          <CheckBtn
-            key={index}
-            value={value}
-            checked={props.input.value === value}
-            onPress={() => handlePress(value)}
-          />,
+          <View style={styles.inputContainer}>
+            <CheckBtn
+              key={index}
+              value={value}
+              checked={props.input.value === value}
+              onPress={() => handlePress(value)}
+            />
+          </View>,
           conditionalField
         ];
       })}
@@ -57,13 +59,6 @@ RadioInput.propTypes = {
     onChange: React.PropTypes.func.isRequired,
     onFocus: React.PropTypes.func.isRequired,
     value: React.PropTypes.any.isRequired
-  }).isRequired,
-  meta: React.PropTypes.shape({
-    active: React.PropTypes.bool.isRequired,
-    error: React.PropTypes.string,
-    invalid: React.PropTypes.bool.isRequired,
-    pristine: React.PropTypes.bool.isRequired,
-    visited: React.PropTypes.bool.isRequired
   }).isRequired
 };
 
