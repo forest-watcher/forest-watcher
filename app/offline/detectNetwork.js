@@ -20,7 +20,7 @@ class DetectNetwork {
    * @private
    */
   _setReach = (reach) => {
-    this._reach = reach;
+    this._reach = reach.toUpperCase();
     this._setIsConnected(reach.toUpperCase());
   }
   /**
