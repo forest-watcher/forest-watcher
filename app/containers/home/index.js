@@ -44,4 +44,3 @@ export default connect(
   mapDispatchToProps,
   mergeProps
 )(Home);
-
