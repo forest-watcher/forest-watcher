@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View,
   ActivityIndicator
@@ -7,7 +7,7 @@ import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
-class Home extends Component {
+class Home extends PureComponent {
   static navigatorStyle = {
     navBarHidden: true
   };
@@ -17,36 +17,27 @@ class Home extends Component {
     tracker.trackScreenView('Home');
   }
 
-  componentWillReceiveProps(newProps) {
-    if ((this.props.user.loggedIn !== newProps.user.loggedIn)
+  componentDidUpdate(newProps) {
+    if ((this.props.loggedIn !== newProps.loggedIn)
       || (this.props.areasSynced !== newProps.areasSynced)) {
-      this.props = newProps;
       this.handleStatus();
     }
   }
 
   handleStatus() {
-    const { user, hasAreas, setupComplete, getUser, setLanguage, navigator, areasSynced } = this.props;
-    if (user.loggedIn) {
-      tracker.setUser(user.token);
-      // if (!loggedIn) {
-      //   this.props.setLoginStatus({
-      //     loggedIn: true,
-      //     token
-      //   });
-      // }
-
-      getUser();
+    const { loggedIn, token, hasAreas, setupComplete, setLanguage, navigator, areasSynced } = this.props;
+    if (loggedIn) {
+      tracker.setUser(token);
       setLanguage();
 
-      if (hasAreas || setupComplete) {
+      if (hasAreas) {
         if (areasSynced) {
           navigator.resetTo({
             screen: 'ForestWatcher.Dashboard',
             title: 'FOREST WATCHER'
           });
         }
-      } else {
+      } else if (!setupComplete) {
         navigator.resetTo({
           screen: 'ForestWatcher.Setup',
           title: 'Set up',
@@ -55,6 +46,10 @@ class Home extends Component {
           }
         });
       }
+      navigator.resetTo({
+        screen: 'ForestWatcher.Dashboard',
+        title: 'FOREST WATCHER'
+      });
     } else {
       navigator.resetTo({
         screen: 'ForestWatcher.Login'
@@ -75,14 +70,11 @@ class Home extends Component {
   }
 }
 Home.propTypes = {
-  user: React.PropTypes.shape({
-    loggedIn: React.PropTypes.bool.isRequired,
-    token: React.PropTypes.string
-  }).isRequired,
+  loggedIn: React.PropTypes.bool.isRequired,
+  token: React.PropTypes.string,
   areasSynced: React.PropTypes.bool.isRequired,
   hasAreas: React.PropTypes.bool.isRequired,
   setupComplete: React.PropTypes.bool.isRequired,
-  getUser: React.PropTypes.func.isRequired,
   setLanguage: React.PropTypes.func.isRequired,
   navigator: React.PropTypes.object.isRequired
 };

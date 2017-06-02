@@ -9,7 +9,8 @@ function mapStateToProps(state) {
     hasAreas: state.areas.data && state.areas.data.length > 0,
     areasSynced: state.areas.synced,
     setupComplete: state.app.setupComplete,
-    user: state.user,
+    loggedIn: state.user.loggedIn,
+    token: state.user.token,
     languageChanged: state.app.language !== getLanguage(),
     userData: state.user.data && Object.keys(state.user.data).length > 0
   };
