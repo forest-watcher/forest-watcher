@@ -26,52 +26,37 @@ class Home extends Component {
   }
 
   handleStatus() {
-    const { token, loggedIn } = this.props.user;
-    if (token) {
-      tracker.setUser(token);
-      this.cacheForms();
-      if (!loggedIn) {
-        this.props.setLoginStatus({
-          loggedIn: true,
-          token
+    const { user, hasAreas, setupComplete, getUser, setLanguage, navigator, areasSynced } = this.props;
+    if (user.loggedIn) {
+      tracker.setUser(user.token);
+      // if (!loggedIn) {
+      //   this.props.setLoginStatus({
+      //     loggedIn: true,
+      //     token
+      //   });
+      // }
+
+      getUser();
+      setLanguage();
+
+      if (hasAreas || setupComplete) {
+        if (areasSynced) {
+          navigator.resetTo({
+            screen: 'ForestWatcher.Dashboard',
+            title: 'FOREST WATCHER'
+          });
+        }
+      } else {
+        navigator.resetTo({
+          screen: 'ForestWatcher.Setup',
+          title: 'Set up',
+          passProps: {
+            goBackDisabled: true
+          }
         });
       }
-
-      this.props.getUser();
-      this.props.setLanguage();
-
-      if (this.props.areasSynced) {
-        /* if (this.props.areas) {
-         setTimeout(() => {
-         this.props.navigator.resetTo({
-         screen: 'ForestWatcher.Dashboard',
-         title: 'FOREST WATCHER'
-         });
-         }, 100);
-         } else {
-         const { setupComplete } = this.props;
-         setTimeout(() => {
-         if (setupComplete === 'Dashboard') {
-         this.props.navigator.resetTo({
-         screen: 'ForestWatcher.Dashboard',
-         title: 'FOREST WATCHER'
-         });
-         } else {
-         this.props.navigator.resetTo({
-         screen: 'ForestWatcher.Setup',
-         title: 'Set up',
-         passProps: {
-         goBackDisabled: true
-         }
-         });
-         }
-         }, 100);
-         }*/
-      } else {
-        // this.props.getAreas();
-      }
     } else {
-      this.props.navigator.resetTo({
+      navigator.resetTo({
         screen: 'ForestWatcher.Login'
       });
     }
@@ -92,12 +77,12 @@ class Home extends Component {
 Home.propTypes = {
   user: React.PropTypes.shape({
     loggedIn: React.PropTypes.bool.isRequired,
-    token: React.PropTypes.string,
-    hasData: React.PropTypes.bool.isRequired
+    token: React.PropTypes.string
   }).isRequired,
   areasSynced: React.PropTypes.bool.isRequired,
+  hasAreas: React.PropTypes.bool.isRequired,
+  setupComplete: React.PropTypes.bool.isRequired,
   getUser: React.PropTypes.func.isRequired,
-  setLoginStatus: React.PropTypes.func.isRequired,
   setLanguage: React.PropTypes.func.isRequired,
   navigator: React.PropTypes.object.isRequired
 };
