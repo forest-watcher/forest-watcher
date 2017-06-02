@@ -2,10 +2,8 @@ import Config from 'react-native-config';
 import GoogleOAuth from 'config/oAuth/GoogleOAuth';
 
 // Actions
-const GET_USER = 'user/GET_USER';
-const SET_LOGIN_MODAL = 'user/SET_LOGIN_MODAL';
+const SET_USER = 'user/SET_USER';
 const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
-const CHECK_USER_LOGGED = 'user/CHECK_USER_LOGGED';
 const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
 export const LOGOUT_COMMIT = 'user/LOGOUT_COMMIT';
 
@@ -13,16 +11,14 @@ export const LOGOUT_COMMIT = 'user/LOGOUT_COMMIT';
 // Reducer
 const initialState = {
   data: {},
-  loginModal: false,
   loggedIn: false,
-  token: null
+  token: null,
+  socialNetwork: null
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case CHECK_USER_LOGGED:
-      return Object.assign({}, state, { data: action.payload });
-    case GET_USER: {
+    case SET_USER: {
       if (action.payload.data) {
         const user = action.payload.data.attributes;
         user.id = action.payload.data.id;
@@ -30,13 +26,8 @@ export default function reducer(state = initialState, action) {
       }
       return state;
     }
-    case SET_LOGIN_MODAL:
-      return Object.assign({}, state, { loginModal: action.payload });
     case SET_LOGIN_STATUS:
-      return Object.assign({}, state, {
-        loggedIn: action.payload.loggedIn,
-        token: action.payload.token
-      });
+      return Object.assign({}, state, { ...action.payload });
     case LOGOUT_COMMIT:
       return initialState;
     default:
@@ -45,31 +36,6 @@ export default function reducer(state = initialState, action) {
 }
 
 // Action Creators
-export function checkLogged() {
-  const url = `${Config.API_AUTH}/auth/check-logged`;
-  return (dispatch, state) => {
-    fetch(url, {
-      headers: {
-        Authorization: `Bearer ${state().user.token}`
-      }
-    })
-      .then(response => {
-        if (response.ok) return response.json();
-        throw Error(response.statusText);
-      })
-      .then((data) => {
-        dispatch({
-          type: CHECK_USER_LOGGED,
-          payload: data
-        });
-      })
-      .catch((error) => {
-        console.info(error);
-        // To-do
-      });
-  };
-}
-
 export function getUser() {
   const url = `${Config.API_AUTH}/user`;
   return (dispatch, state) => {
@@ -84,7 +50,7 @@ export function getUser() {
       })
       .then((data) => {
         dispatch({
-          type: GET_USER,
+          type: SET_USER,
           payload: data
         });
       })
@@ -95,34 +61,52 @@ export function getUser() {
   };
 }
 
-export function setLoginModal(status) {
-  return (dispatch) => {
-    dispatch({
-      type: SET_LOGIN_MODAL,
-      payload: status
-    });
+export function setLoginStatus(status) {
+  return {
+    type: SET_LOGIN_STATUS,
+    payload: status
   };
 }
 
-export function setLoginStatus(status) {
+export function loginGoogle() {
   return (dispatch) => {
-    dispatch({
-      type: SET_LOGIN_STATUS,
-      payload: status
+    GoogleOAuth.login()
+    .then((user) => {
+      fetch(`${Config.API_AUTH}/auth/google/token?access_token=${user.accessToken}`)
+        .then(response => {
+          if (response.ok) return response.json();
+          throw new Error(response.statusText);
+        })
+        .then(data => dispatch({
+          type: SET_LOGIN_STATUS,
+          payload: {
+            socialNetwork: 'google',
+            loggedIn: true,
+            token: data.token
+          }
+        }))
+        .catch((error) => {
+          console.warn(error);
+        });
     });
   };
 }
 
 export function logout() {
-  return async (dispatch) => {
-    dispatch({
-      type: LOGOUT_REQUEST,
-      meta: {
-        offline: {
-          effect: { promise: GoogleOAuth.logout() },
-          commit: { type: LOGOUT_COMMIT }
+  return (dispatch, state) => {
+    if (state().user.socialNetwork === 'google') {
+      return {
+        type: LOGOUT_REQUEST,
+        meta: {
+          offline: {
+            effect: { promise: GoogleOAuth.logout() },
+            commit: { type: LOGOUT_COMMIT }
+          }
         }
-      }
-    });
+      };
+    }
+    return {
+      type: LOGOUT_COMMIT
+    };
   };
 }
