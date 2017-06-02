@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { View, ActivityIndicator, Text } from 'react-native';
 import Theme from 'config/theme';
 import I18n from 'locales';
 import ActionButton from 'components/common/action-button';
 import styles from './styles';
 
-class Sync {
+class Sync extends PureComponent {
+  static navigatorStyle = {
+    navBarHidden: true
+  };
+
+  componentWillMount() {
+    this.props.getAreas();
+    this.props.getForms();
+    this.props.getUser();
+  }
+
   getTexts = () => {
-    const { online, reach } = this.props;
+    const { isConnected, reach } = this.props;
     const texts = {};
-    if (online) {
+    if (isConnected) {
       texts.title = reach === 'WIFI' ? I18n.t('home.title.updating') : I18n.t('home.title.outOfDate');
       texts.subtitle = reach === 'WIFI' ? I18n.t('home.subtitle.takesTime') : I18n.t('home.subtitle.mobile');
     } else {
@@ -20,14 +30,14 @@ class Sync {
   }
 
   render() {
-    const { online, reach } = this.props;
+    const { isConnected, reach } = this.props;
     const { title, subtitle } = this.getTexts();
 
     return (
       <View style={[styles.mainContainer, styles.center]}>
         <View>
           <View style={styles.textContainer}>
-            {online && reach === 'wifi' &&
+            {isConnected && reach === 'wifi' &&
             <ActivityIndicator
               color={Theme.colors.color1}
               style={{ height: 80 }}
@@ -57,8 +67,7 @@ class Sync {
               <ActionButton
                 monochrome
                 noIcon
-                onPress={() => {
-                }}
+                onPress={() => {}}
                 text={I18n.t('home.skip').toUpperCase()}
               />
               <ActionButton
@@ -77,8 +86,11 @@ class Sync {
 }
 
 Sync.propTypes = {
-  online: React.PropTypes.bool.isRequired,
-  reach: React.PropTypes.string.isRequired
+  isConnected: React.PropTypes.bool.isRequired,
+  reach: React.PropTypes.string.isRequired,
+  getUser: React.PropTypes.func.isRequired,
+  getAreas: React.PropTypes.func.isRequired,
+  getForms: React.PropTypes.func.isRequired
 };
 
 export default Sync;

@@ -11,6 +11,7 @@ import Feedback from 'containers/feedback';
 import NewReport from 'containers/reports/form';
 import AreaDetail from 'containers/settings/area-detail';
 import Partners from 'components/settings/partners';
+import Sync from 'containers/sync';
 
 export function registerScreens(store, Provider) {
   Navigation.registerComponent('ForestWatcher.Home', () => Home, store, Provider);
@@ -24,6 +25,7 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent('ForestWatcher.Feedback', () => Feedback, store, Provider);
   Navigation.registerComponent('ForestWatcher.AreaDetail', () => AreaDetail, store, Provider);
   Navigation.registerComponent('ForestWatcher.Partners', () => Partners, store, Provider);
+  Navigation.registerComponent('ForestWatcher.Sync', () => Sync, store, Provider);
 }
 
 export default registerScreens;

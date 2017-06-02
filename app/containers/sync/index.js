@@ -4,6 +4,7 @@ import { getQuestions as getFeedbackQuestions } from 'redux-modules/feedback';
 import { getQuestions as getReportQuestions } from 'redux-modules/reports';
 import { getCountries } from 'redux-modules/countries';
 import { getLanguage } from 'helpers/language';
+import { getUser } from 'redux-modules/user';
 
 import Sync from 'components/sync';
 
@@ -15,9 +16,10 @@ const getForms = (hasForms, languageChanged) => {
 
 function mapStateToProps(state) {
   return {
-    online: state.offline.online,
-    reach: state.app.reach,
+    isConnected: state.offline.online,
+    reach: state.app.netInfo.reach,
     languageChanged: state.app.language !== getLanguage(),
+    hasUserData: state.user.data && Object.keys(state.user.data).length > 0,
     hasForms: {
       report: Object.keys(state.reports.forms).length > 0,
       daily: Object.keys(state.feedback.daily).length > 0,
@@ -28,8 +30,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getAreas: () => {
+    getAreasDispatch: () => {
       dispatch(getAreas());
+    },
+    getUserDispatch: () => {
+      dispatch(getUser());
     },
     getCountries: () => {
       dispatch(getCountries());
@@ -37,11 +42,13 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-function mergeProps({ hasForms, languageChanged, ...stateProps }, dispatchProps, ownProps) {
+function mergeProps({ hasUserData, hasAreas, hasForms, languageChanged, ...stateProps }, { getUserDispatch, getAreasDispatch, ...dispatchProps }, ownProps) {
   return {
     ...ownProps,
     ...dispatchProps,
     ...stateProps,
+    getUser: () => (hasUserData && getUserDispatch()),
+    getAreas: () => (hasAreas && getAreasDispatch()),
     getForms: () => getForms(hasForms, languageChanged)
   };
 }

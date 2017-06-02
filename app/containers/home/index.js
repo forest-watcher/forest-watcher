@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { setLanguage } from 'redux-modules/app';
-import { getUser, setLoginStatus } from 'redux-modules/user';
+import { setLoginStatus } from 'redux-modules/user';
 import { getLanguage } from 'helpers/language';
 import Home from 'components/home';
 
@@ -12,15 +12,12 @@ function mapStateToProps(state) {
     loggedIn: state.user.loggedIn,
     token: state.user.token,
     languageChanged: state.app.language !== getLanguage(),
-    userData: state.user.data && Object.keys(state.user.data).length > 0
+    hasUserData: state.user.data && Object.keys(state.user.data).length > 0
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getUserDispatch: () => {
-      dispatch(getUser());
-    },
     setLoginStatus: (status) => {
       dispatch(setLoginStatus(status));
     },
@@ -35,8 +32,7 @@ function mergeProps({ languageChanged, userData, ...stateProps }, { setLanguageD
     ...ownProps,
     ...dispatchProps,
     ...stateProps,
-    setLanguage: () => (languageChanged && setLanguageDispatch()),
-    getUser: () => (userData && getUserDispatch())
+    setLanguage: () => (languageChanged && setLanguageDispatch())
   };
 }
 

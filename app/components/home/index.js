@@ -25,20 +25,19 @@ class Home extends PureComponent {
   }
 
   handleStatus() {
-    const { loggedIn, token, hasAreas, setupComplete, setLanguage, navigator, areasSynced } = this.props;
+    const { loggedIn, token, hasUserData, hasAreas, setupComplete, setLanguage, navigator, areasSynced } = this.props;
     if (loggedIn) {
       tracker.setUser(token);
       setLanguage();
-
-      if (hasAreas) {
-        if (areasSynced) {
-          navigator.resetTo({
-            screen: 'ForestWatcher.Dashboard',
-            title: 'FOREST WATCHER'
-          });
-        }
+      if (!hasUserData || (hasAreas && !areasSynced)) {
+        return navigator.showModal({
+          screen: 'ForestWatcher.Sync',
+          passProps: {
+            goBackDisabled: true
+          }
+        });
       } else if (!setupComplete) {
-        navigator.resetTo({
+        return navigator.resetTo({
           screen: 'ForestWatcher.Setup',
           title: 'Set up',
           passProps: {
@@ -46,15 +45,14 @@ class Home extends PureComponent {
           }
         });
       }
-      navigator.resetTo({
+      return navigator.resetTo({
         screen: 'ForestWatcher.Dashboard',
         title: 'FOREST WATCHER'
       });
-    } else {
-      navigator.resetTo({
-        screen: 'ForestWatcher.Login'
-      });
     }
+    return navigator.resetTo({
+      screen: 'ForestWatcher.Login'
+    });
   }
 
   render() {
@@ -76,7 +74,8 @@ Home.propTypes = {
   hasAreas: React.PropTypes.bool.isRequired,
   setupComplete: React.PropTypes.bool.isRequired,
   setLanguage: React.PropTypes.func.isRequired,
-  navigator: React.PropTypes.object.isRequired
+  navigator: React.PropTypes.object.isRequired,
+  hasUserData: React.PropTypes.bool.isRequired
 };
 Home.navigationOptions = {
   header: {

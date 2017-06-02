@@ -6,7 +6,7 @@ export const NET_INFO_CHANGED = 'app/NET_INFO_CHANGED';
 const initialState = {
   netInfo: null,
   language: null,
-  setupComplete: false
+  setupComplete: true
 };
 
 export default function reducer(state = initialState, action) {
