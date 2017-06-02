@@ -1,23 +1,20 @@
 import { connect } from 'react-redux';
-import { setLoginModal, setLoginStatus } from 'redux-modules/user';
+import { setLoginStatus, loginGoogle } from 'redux-modules/user';
 import Login from 'components/login';
 
 function mapStateToProps(state) {
   return {
-    loginModal: state.user.loginModal,
-    userToken: state.user.token,
-    isConnected: state.offline.online
+    isConnected: state.offline.online,
+    loggedIn: state.user.loggedIn
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setLoginModal: (action) => {
-      dispatch(setLoginModal(action));
-    },
     setLoginStatus: (action) => {
       dispatch(setLoginStatus(action));
-    }
+    },
+    loginGoogle: () => dispatch(loginGoogle())
   };
 }
 

@@ -95,7 +95,7 @@ export function loginGoogle() {
 export function logout() {
   return (dispatch, state) => {
     if (state().user.socialNetwork === 'google') {
-      return {
+      return dispatch({
         type: LOGOUT_REQUEST,
         meta: {
           offline: {
@@ -103,10 +103,10 @@ export function logout() {
             commit: { type: LOGOUT_COMMIT }
           }
         }
-      };
+      });
     }
-    return {
+    return dispatch({
       type: LOGOUT_COMMIT
-    };
+    });
   };
 }
