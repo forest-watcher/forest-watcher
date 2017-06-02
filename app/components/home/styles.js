@@ -9,22 +9,5 @@ export default StyleSheet.create({
   },
   center: {
     justifyContent: 'space-around'
-  },
-  textContainer: {
-    alignItems: 'center'
-  },
-  title: {
-    color: Theme.colors.color1,
-    fontSize: 21
-  },
-  subtitle: {
-    color: Theme.colors.color3,
-    marginTop: 18,
-    marginBottom: 25
-  },
-  button: {
-    left: 8,
-    right: 8,
-    position: 'absolute'
   }
 });
