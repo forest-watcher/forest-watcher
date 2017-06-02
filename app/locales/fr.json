@@ -124,7 +124,8 @@
 		"oneWeekAgo": "One week ago",
 		"72hAgo": "72 hours ago",
 		"48hAgo": "48 hours ago",
-		"24hAgo": "24 hours ago"
+		"24hAgo": "24 hours ago",
+    "availableOffline": "Available offline"
 	},
   "report": {
     "title": "Rapport",

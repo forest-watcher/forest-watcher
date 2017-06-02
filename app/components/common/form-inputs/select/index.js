@@ -49,12 +49,14 @@ function SelectInput(props) {
             });
           }
           return [
-            <CheckBtn
-              key={index}
-              value={value}
-              checked={checked}
-              onPress={() => handlePress(value)}
-            />,
+            <View style={styles.inputContainer}>
+              <CheckBtn
+                key={index}
+                value={value}
+                checked={checked}
+                onPress={() => handlePress(value)}
+              />
+            </View>,
             conditionalField
           ];
         })}
