@@ -8,10 +8,10 @@ import { getUser } from 'redux-modules/user';
 
 import Sync from 'components/sync';
 
-const getForms = (hasForms, languageChanged) => {
-  if (!hasForms.report || languageChanged) getReportQuestions();
-  if (!hasForms.daily || languageChanged) getFeedbackQuestions('daily');
-  if (!hasForms.weekly || languageChanged) getFeedbackQuestions('weekly');
+const getForms = ({ hasForms, languageChanged, getFormsDispatch }) => {
+  if (!hasForms.report || languageChanged) getFormsDispatch.report();
+  if (!hasForms.daily || languageChanged) getFormsDispatch.daily();
+  if (!hasForms.weekly || languageChanged) getFormsDispatch.weekly();
 };
 
 const getReadyState = ({ hasForms, hasUserData, hasAreas }) => (
@@ -43,19 +43,24 @@ function mapDispatchToProps(dispatch) {
     },
     getCountries: () => {
       dispatch(getCountries());
+    },
+    getFormsDispatch: {
+      report: () => dispatch(getReportQuestions()),
+      daily: () => dispatch(getFeedbackQuestions('daily')),
+      weekly: () => dispatch(getFeedbackQuestions('weekly'))
     }
   };
 }
 
 function mergeProps({ hasUserData, hasAreas, hasForms, languageChanged, ...stateProps },
-  { getUserDispatch, getAreasDispatch, ...dispatchProps }, ownProps) {
+  { getUserDispatch, getAreasDispatch, getFormsDispatch, ...dispatchProps }, ownProps) {
   return {
     ...ownProps,
     ...dispatchProps,
     ...stateProps,
     getUser: () => (!hasUserData && getUserDispatch()),
     getAreas: () => (!hasAreas && getAreasDispatch()),
-    getForms: () => getForms(hasForms, languageChanged),
+    getForms: () => getForms({ hasForms, languageChanged, getFormsDispatch }),
     readyState: getReadyState({ hasForms, hasAreas, hasUserData })
   };
 }
