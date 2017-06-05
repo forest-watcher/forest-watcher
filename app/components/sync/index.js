@@ -10,10 +10,15 @@ class Sync extends PureComponent {
     navBarHidden: true
   };
 
-  componentWillMount() {
-    this.props.getAreas();
-    this.props.getForms();
-    this.props.getUser();
+  constructor(props) {
+    super(props);
+    this.state = {
+      canSyncData: false
+    };
+  }
+
+  componentDidMount() {
+    this.syncData();
   }
 
   getTexts = () => {
@@ -27,6 +32,19 @@ class Sync extends PureComponent {
       texts.subtitle = I18n.t('home.subtitle.noConnection');
     }
     return texts;
+  }
+
+  syncData = () => {
+    const { isConnected, reach } = this.props;
+    if (this.state.canSyncData || (isConnected && reach === 'WIFI')) {
+      this.props.getAreas();
+      this.props.getForms();
+      this.props.getUser();
+    }
+  }
+
+  skipUpload = () => {
+    this.props.navigator.dismissModal();
   }
 
   render() {
@@ -57,8 +75,7 @@ class Sync extends PureComponent {
                 monochrome
                 noIcon
                 style={styles.button}
-                onPress={() => {
-                }}
+                onPress={this.skipUpload}
                 text={I18n.t('home.skip').toUpperCase()}
               />
             </View>
@@ -67,14 +84,13 @@ class Sync extends PureComponent {
               <ActionButton
                 monochrome
                 noIcon
-                onPress={() => {}}
+                onPress={this.skipUpload}
                 text={I18n.t('home.skip').toUpperCase()}
               />
               <ActionButton
                 main
                 noIcon
-                onPress={() => {
-                }}
+                onPress={() => this.setState({ canSyncData: true })}
                 text={I18n.t('home.update').toUpperCase()}
               />
             </View>
@@ -90,7 +106,8 @@ Sync.propTypes = {
   reach: React.PropTypes.string.isRequired,
   getUser: React.PropTypes.func.isRequired,
   getAreas: React.PropTypes.func.isRequired,
-  getForms: React.PropTypes.func.isRequired
+  getForms: React.PropTypes.func.isRequired,
+  navigator: React.PropTypes.object.isRequired
 };
 
 export default Sync;

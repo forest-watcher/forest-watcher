@@ -47,9 +47,9 @@ function mergeProps({ hasUserData, hasAreas, hasForms, languageChanged, ...state
     ...ownProps,
     ...dispatchProps,
     ...stateProps,
-    getUser: () => (hasUserData && getUserDispatch()),
-    getAreas: () => (hasAreas && getAreasDispatch()),
-    getForms: () => getForms(hasForms, languageChanged)
+    getUser: () => (!hasUserData && getUserDispatch()),
+    getAreas: () => (!hasAreas && getAreasDispatch()),
+    getForms: () => getForms(!hasForms, languageChanged)
   };
 }
 
