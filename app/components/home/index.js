@@ -12,14 +12,22 @@ class Home extends PureComponent {
     navBarHidden: true
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalOpen: false
+    };
+  }
+
   componentDidMount() {
     this.handleStatus();
     tracker.trackScreenView('Home');
   }
 
-  componentDidUpdate(newProps) {
-    if ((this.props.loggedIn !== newProps.loggedIn)
-      || (this.props.areasSynced !== newProps.areasSynced)) {
+  componentDidUpdate(prevProps) {
+    if ((this.props.loggedIn !== prevProps.loggedIn)
+      || (this.props.areasSynced !== prevProps.areasSynced)
+      || (this.props.hasUserData !== prevProps.hasUserData)) {
       this.handleStatus();
     }
   }
@@ -29,30 +37,33 @@ class Home extends PureComponent {
     if (loggedIn) {
       tracker.setUser(token);
       setLanguage();
-      if (!hasUserData || (hasAreas && !areasSynced)) {
-        return navigator.showModal({
+      if ((!hasUserData || (hasAreas && !areasSynced)) && !this.state.modalOpen) {
+        this.setState({ modalOpen: true }, () => navigator.showModal({
           screen: 'ForestWatcher.Sync',
           passProps: {
+            navigator,
             goBackDisabled: true
           }
-        });
+        }));
       } else if (!setupComplete) {
-        return navigator.resetTo({
+        navigator.resetTo({
           screen: 'ForestWatcher.Setup',
           title: 'Set up',
           passProps: {
             goBackDisabled: true
           }
         });
+      } else {
+        navigator.resetTo({
+          screen: 'ForestWatcher.Dashboard',
+          title: 'FOREST WATCHER'
+        });
       }
-      return navigator.resetTo({
-        screen: 'ForestWatcher.Dashboard',
-        title: 'FOREST WATCHER'
+    } else {
+      navigator.resetTo({
+        screen: 'ForestWatcher.Login'
       });
     }
-    return navigator.resetTo({
-      screen: 'ForestWatcher.Login'
-    });
   }
 
   render() {
