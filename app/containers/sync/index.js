@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { getAreas } from 'redux-modules/areas';
-import { getQuestions as getFeedbackQuestions } from 'redux-modules/feedback';
-import { getQuestions as getReportQuestions } from 'redux-modules/reports';
+import { getFeedbackQuestions } from 'redux-modules/feedback';
+import { getReportQuestions } from 'redux-modules/reports';
 import { getCountries } from 'redux-modules/countries';
 import { getLanguage } from 'helpers/language';
 import { getUser } from 'redux-modules/user';
