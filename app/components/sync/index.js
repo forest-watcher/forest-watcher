@@ -21,7 +21,6 @@ class Sync extends Component {
 
   componentDidMount() {
     this.syncData();
-    this.completeTimeout = setTimeout(this.complete, 2000);
   }
 
   // Override shouldComponentUpdate because functions passed as props always change
@@ -68,6 +67,7 @@ class Sync extends Component {
   syncData = () => {
     const { isConnected, reach } = this.props;
     if (this.state.canSyncData || (isConnected && reach === 'WIFI')) {
+      this.completeTimeout = setTimeout(this.complete, 2000);
       this.props.getAreas();
       this.props.getForms();
       this.props.getUser();

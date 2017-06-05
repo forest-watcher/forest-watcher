@@ -38,14 +38,20 @@ class Home extends PureComponent {
       tracker.setUser(token);
       setLanguage();
       if ((!hasUserData || (hasAreas && !areasSynced)) && !this.state.modalOpen) {
-        return this.setState({ modalOpen: true }, () => navigator.showModal({
-          screen: 'ForestWatcher.Sync',
-          passProps: {
-            navigator,
-            goBackDisabled: true
-          }
-        }));
-      } else if (!setupComplete) {
+        return this.setState({ modalOpen: true }, () => {
+          navigator.showModal({
+            screen: 'ForestWatcher.Sync',
+            passProps: {
+              navigator,
+              goBackDisabled: true
+            }
+          });
+          navigator.resetTo({
+            screen: 'ForestWatcher.Dashboard',
+            title: 'FOREST WATCHER'
+          });
+        });
+      } else if (!setupComplete && !hasAreas) {
         return navigator.resetTo({
           screen: 'ForestWatcher.Setup',
           title: 'Set up',
