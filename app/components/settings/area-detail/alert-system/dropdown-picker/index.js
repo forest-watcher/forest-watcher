@@ -19,13 +19,13 @@ class DropdownPicker extends Component {
       </Text>
       <View style={styles.dateContainer}>
         <Picker
-          selectedValue={this.props.startDate}
+          selectedValue={this.props.endDate}
           onValueChange={(days) => this.handleRangeChange(days)}
         >
-          <Picker.Item label={I18n.t('settings.24hAgo')} value={'1'} />
-          <Picker.Item label={I18n.t('settings.48hAgo')} value={'2'} />
-          <Picker.Item label={I18n.t('settings.72hAgo')} value={'3'} />
-          <Picker.Item label={I18n.t('settings.oneWeekAgo')} value={'7'} />
+          <Picker.Item label={I18n.t('settings.24hAgo')} value={'2'} />
+          <Picker.Item label={I18n.t('settings.48hAgo')} value={'3'} />
+          <Picker.Item label={I18n.t('settings.72hAgo')} value={'4'} />
+          <Picker.Item label={I18n.t('settings.oneWeekAgo')} value={'8'} />
         </Picker>
       </View>
     </View>);
@@ -33,7 +33,7 @@ class DropdownPicker extends Component {
 }
 
 DropdownPicker.propTypes = {
-  startDate: React.PropTypes.string,
+  endDate: React.PropTypes.string,
   updateViirsRange: React.PropTypes.func
 };
 
