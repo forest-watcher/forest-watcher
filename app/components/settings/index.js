@@ -31,11 +31,16 @@ class Settings extends Component {
   }
 
   componentDidMount() {
-    // cache disabled for now
-    // if (!this.props.areas || !this.props.areas.length > 0) {
     tracker.trackScreenView('Set Up');
-    this.props.getAreas();
-    // }
+
+    if (!this.props.areas.length) {
+      this.props.getAreas();
+    } else {
+      // TODO: move this to the new sync page
+      // loop the areas and request new coverage
+      // const { areas } = this.props;
+      // this.props.getAreaCoverage(areas[0].id);
+    }
   }
 
   onAreaPress = (areaId, name) => {

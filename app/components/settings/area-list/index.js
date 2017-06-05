@@ -6,7 +6,6 @@ import {
   TouchableHighlight,
   View
 } from 'react-native';
-import I18n from 'locales';
 import Theme from 'config/theme';
 import styles from './styles';
 
@@ -14,9 +13,7 @@ const nextIcon = require('assets/next.png');
 
 function AreaList(props) {
   const { areas, areasImages } = props;
-  const areasCollection = areas.map((item, key) => {
-    const area = item.attributes;
-    area.id = item.id;
+  const areasCollection = areas.map((area, key) => {
     const image = areasImages[area.id];
 
     return (
@@ -33,9 +30,7 @@ function AreaList(props) {
               : null
             }
           </View>
-          <Text style={styles.title} numberOfLines={2}>
-            {area.name} - {item.cached ? I18n.t('commonText.cached') : I18n.t('commonText.noCached')}
-          </Text>
+          <Text style={styles.title} numberOfLines={2}> {area.name} </Text>
           <TouchableHighlight
             activeOpacity={0.5}
             underlayColor="transparent"

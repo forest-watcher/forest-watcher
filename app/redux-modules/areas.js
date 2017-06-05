@@ -11,6 +11,13 @@ import { SET_AREA_SAVED } from 'redux-modules/setup';
 import { LOGOUT_COMMIT } from 'redux-modules/user';
 
 const GET_AREAS = 'areas/GET_AREAS';
+const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
+const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
+const GET_AREAS_ROLLBACK = 'areas/GET_AREAS_ROLLBACK';
+const GET_AREA_COVERAGE_REQUEST = 'areas/GET_AREA_COVERAGE_REQUEST';
+const GET_AREA_COVERAGE_COMMIT = 'areas/GET_AREA_COVERAGE_COMMIT';
+const GET_AREA_COVERAGE_ROLLBACK = 'areas/GET_AREA_COVERAGE_ROLLBACK';
+const SET_AREA_IMAGE = 'areas/SET_AREA_IMAGE';
 const UPDATE_AREA = 'areas/UPDATE_AREA';
 const SAVE_AREA = 'areas/SAVE_AREA';
 const DELETE_AREA = 'areas/DELETE_AREA';
@@ -46,6 +53,30 @@ export default function reducer(state = initialState, action) {
         mergedAreas = newAreas;
       }
       return Object.assign({}, state, { data: mergedAreas, images, synced: true });
+    }
+    case GET_AREAS_COMMIT: {
+      return { ...state, data: action.payload, synced: true };
+    }
+    case GET_AREAS_ROLLBACK: {
+      return { ...state, synced: false };
+    }
+    case GET_AREA_COVERAGE_COMMIT: {
+      const areas = [...state.data];
+      for (let i = 0, aLength = areas.length; i < aLength; i++) {
+        if (areas[i].id === action.meta.id) {
+          if (!areas[i].datasets) {
+            areas[i].datasets = getInitialDatasets(action.payload);
+          } else {
+            // TODO: update the existing ones
+          }
+        }
+      }
+      return { ...state };
+      // return Object.assign({}, state, { data: areas });
+    }
+    case SET_AREA_IMAGE: {
+      const images = action.payload.images;
+      return Object.assign({}, state, { images });
     }
     case SYNCING_AREAS:
       return Object.assign({}, state, { syncing: action.payload });
@@ -135,50 +166,119 @@ export function getDatasets(areaId) {
 
 export function getAreas() {
   const url = `${Config.API_URL}/area`;
-  return (dispatch, state) => {
-    if (state().offline.online) {
-      fetch(url, {
-        headers: {
-          Authorization: `Bearer ${state().user.token}`
-        }
-      })
-        .then(response => {
-          if (response.ok) return response.json();
-          throw new Error(response.statusText);
-        })
-        .then(async (response) => {
-          // TODO: check datasets and if not create them;
-          const images = Object.assign({}, state().areas.images);
-          await Promise.all(response.data.map(async (area) => {
-            if (area.attributes && area.attributes.geostore) {
-              if (!state().geostore.data[area.attributes.geostore]) {
-                await dispatch(getGeostore(area.attributes.geostore));
-              }
-              if (!images[area.id]) {
-                images[area.id] = await getCachedImageByUrl(area.attributes.image, 'areas');
-              }
-            }
-            return area;
-          }));
-
-          dispatch({
-            type: GET_AREAS,
-            payload: {
-              images,
-              data: response.data
-            }
-          });
-
-          // TODO: split the request of the gesotres, images and datasets
-          response.data.map((area) => dispatch(getDatasets(area.id)));
-        })
-        .catch((error) => {
-          console.warn(error);
-          // To-do
-        });
+  return {
+    type: GET_AREAS_REQUEST,
+    meta: {
+      offline: {
+        effect: { url },
+        commit: { type: GET_AREAS_COMMIT },
+        rollback: { type: GET_AREAS_ROLLBACK }
+      }
     }
   };
 }
+
+export function getAreaGeostore(areaId) {
+  return async (dispatch, state) => {
+    const area = getAreaById(state().areas.data, areaId);
+    const geostores = state().geostore.data;
+    if (!geostores[area.geostore]) {
+      dispatch(getGeostore(area.geostore));
+    }
+  };
+}
+
+export function cacheAreaImage(areaId) {
+  return async (dispatch, state) => {
+    const area = getAreaById(state().areas.data, areaId);
+    const images = Object.assign({}, state().areas.images);
+    if (!images[area.id]) {
+      images[area.id] = await getCachedImageByUrl(area.attributes.image, 'areas');
+      dispatch({
+        type: SET_AREA_IMAGE,
+        payload: images
+      });
+    }
+  };
+}
+
+export function getAreaCoverage(areaId) {
+  return async (dispatch, state) => {
+    const area = getAreaById(state().areas.data, areaId);
+    const url = `${Config.API_URL}/coverage/intersect?geostore=${area.geostore}`;
+    //  let coverage = [];
+    //  if (area && (area.attributes.datasets && area.attributes.datasets.length === 0)) {
+    //    try {
+    //      coverage = await getCoverageDataByGeostore(area.attributes.geostore, state().user.token);
+    //    } catch (e) {
+    //      console.warn('Coverage request error', e);
+    //    }
+    //    area.attributes.datasets = getInitialDatasets(coverage);
+    //    dispatch({
+    //      type: UPDATE_AREA,
+    //      payload: area
+    //    });
+    //  }
+    dispatch({
+      type: GET_AREA_COVERAGE_REQUEST,
+      meta: {
+        offline: {
+          effect: { url, meta: area },
+          commit: { type: GET_AREA_COVERAGE_COMMIT, meta: area },
+          rollback: { type: GET_AREA_COVERAGE_ROLLBACK }
+        }
+      }
+    });
+  };
+}
+
+//   WIP: REMOVE WHEN THE 3 ACTIONS ABOVE ARE FINISHED
+
+//   return (dispatch, state) => {
+//     if (state().offline.online) {
+//       fetch(url, {
+//         headers: {
+//           Authorization: `Bearer ${state().user.token}`
+//         }
+//       })
+//         .then(response => {
+//           if (response.ok) return response.json();
+//           throw new Error(response.statusText);
+//         })
+//         .then(async (response) => {
+//           // TODO: check datasets and if not create them;
+//           const images = Object.assign({}, state().areas.images);
+//           const normalizedAreas = normalize(response);
+//           await Promise.all(response.data.map(async (area) => {
+//             if (area.attributes && area.attributes.geostore) {
+//               if (!state().geostore.data[area.attributes.geostore]) {
+//                 await dispatch(getGeostore(area.attributes.geostore));
+//               }
+//               if (!images[area.id]) {
+//                 images[area.id] = await getCachedImageByUrl(area.attributes.image, 'areas');
+//               }
+//             }
+//             return area;
+//           }));
+
+//           dispatch({
+//             type: GET_AREAS,
+//             payload: {
+//               images,
+//               data: response.data
+//             }
+//           });
+
+//           // TODO: split the request of the gesotres, images and datasets
+//           response.data.map((area) => dispatch(getDatasets(area.id)));
+//         })
+//         .catch((error) => {
+//           console.warn(error);
+//           // To-do
+//         });
+//     }
+//   };
+// }
 
 export function updateArea(area) {
   const url = `${Config.API_URL}/area/${area.id}`;
@@ -236,10 +336,6 @@ export function saveArea(params) {
   const url = `${Config.API_URL}/area`;
   return (dispatch, state) => {
     if (state().offline.online) {
-      dispatch({
-        type: SYNCING_AREAS,
-        payload: true
-      });
       const form = new FormData();
       form.append('name', params.area.name);
       form.append('geostore', params.area.geostore);
@@ -267,10 +363,6 @@ export function saveArea(params) {
           throw new Error(response._bodyText); // eslint-disable-line
         })
         .then(async (res) => {
-          dispatch({
-            type: SYNCING_AREAS,
-            payload: false
-          });
           dispatch({
             type: SAVE_AREA,
             payload: {
