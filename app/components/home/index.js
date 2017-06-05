@@ -38,7 +38,7 @@ class Home extends PureComponent {
       tracker.setUser(token);
       setLanguage();
       if ((!hasUserData || (hasAreas && !areasSynced)) && !this.state.modalOpen) {
-        this.setState({ modalOpen: true }, () => navigator.showModal({
+        return this.setState({ modalOpen: true }, () => navigator.showModal({
           screen: 'ForestWatcher.Sync',
           passProps: {
             navigator,
@@ -46,24 +46,22 @@ class Home extends PureComponent {
           }
         }));
       } else if (!setupComplete) {
-        navigator.resetTo({
+        return navigator.resetTo({
           screen: 'ForestWatcher.Setup',
           title: 'Set up',
           passProps: {
             goBackDisabled: true
           }
         });
-      } else {
-        navigator.resetTo({
-          screen: 'ForestWatcher.Dashboard',
-          title: 'FOREST WATCHER'
-        });
       }
-    } else {
-      navigator.resetTo({
-        screen: 'ForestWatcher.Login'
+      return navigator.resetTo({
+        screen: 'ForestWatcher.Dashboard',
+        title: 'FOREST WATCHER'
       });
     }
+    return navigator.resetTo({
+      screen: 'ForestWatcher.Login'
+    });
   }
 
   render() {

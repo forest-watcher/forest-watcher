@@ -13,12 +13,15 @@ class Sync extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      canSyncData: false
+      canSyncData: false,
+      completeTimeoutFlag: false,
+      dismissTimeoutFlag: false
     };
   }
 
   componentDidMount() {
     this.syncData();
+    this.completeTimeout = setTimeout(this.complete, 2000);
   }
 
   // Override shouldComponentUpdate because functions passed as props always change
@@ -27,22 +30,34 @@ class Sync extends Component {
       nextProps.isConnected !== this.props.isConnected,
       nextProps.reach !== this.props.reach,
       nextProps.readyState !== this.props.readyState,
-      nextState.canSyncData !== this.state.canSyncData
+      nextState.canSyncData !== this.state.canSyncData,
+      nextState.completeTimeoutFlag !== this.state.completeTimeoutFlag,
+      nextState.dismissTimeoutFlag !== this.state.dismissTimeoutFlag
     ];
     return conditions.includes(true);
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.canSyncData !== this.state.canSyncData) this.syncData();
-    if (this.props.readyState) this.dismissModal();
+    if (this.props.readyState && this.state.dismissTimeoutFlag) this.dismissModal();
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.completeTimeout);
+    clearTimeout(this.dismissTimeout);
   }
 
   getTexts = () => {
     const { isConnected, reach } = this.props;
     const texts = {};
     if (isConnected) {
-      texts.title = reach === 'WIFI' ? I18n.t('home.title.updating') : I18n.t('home.title.outOfDate');
-      texts.subtitle = reach === 'WIFI' ? I18n.t('home.subtitle.takesTime') : I18n.t('home.subtitle.mobile');
+      if (!this.state.completeTimeoutFlag) {
+        texts.title = reach === 'WIFI' ? I18n.t('home.title.updating') : I18n.t('home.title.outOfDate');
+        texts.subtitle = reach === 'WIFI' ? I18n.t('home.subtitle.takesTime') : I18n.t('home.subtitle.mobile');
+      } else {
+        texts.title = I18n.t('home.title.updated');
+        texts.subtitle = I18n.t('home.subtitle.updated');
+      }
     } else {
       texts.title = I18n.t('home.title.outOfDate');
       texts.subtitle = I18n.t('home.subtitle.noConnection');
@@ -59,12 +74,22 @@ class Sync extends Component {
     }
   }
 
+  complete = () => {
+    this.setState({ completeTimeoutFlag: true });
+    this.dismissTimeout = setTimeout(this.dismiss, 1000);
+  }
+
+  dismiss = () => {
+    this.setState({ dismissTimeoutFlag: true });
+  }
+
   dismissModal = () => {
     this.props.navigator.dismissModal();
   }
 
   render() {
-    const { isConnected, reach } = this.props;
+    const { isConnected, reach, readyState } = this.props;
+    const { completeTimeoutFlag } = this.state;
     const { title, subtitle } = this.getTexts();
 
     return (
@@ -85,7 +110,7 @@ class Sync extends Component {
               {subtitle}
             </Text>
           </View>
-          {reach !== 'mobile' ?
+          {reach !== 'mobile' && (!readyState || !completeTimeoutFlag) &&
             <View>
               <ActionButton
                 monochrome
@@ -95,7 +120,8 @@ class Sync extends Component {
                 text={I18n.t('home.skip').toUpperCase()}
               />
             </View>
-            :
+          }
+          {reach === 'mobile' &&
             <View>
               <ActionButton
                 monochrome
