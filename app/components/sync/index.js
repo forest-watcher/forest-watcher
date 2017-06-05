@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { View, ActivityIndicator, Text } from 'react-native';
 import Theme from 'config/theme';
 import I18n from 'locales';
 import ActionButton from 'components/common/action-button';
 import styles from './styles';
 
-class Sync extends PureComponent {
+class Sync extends Component {
   static navigatorStyle = {
     navBarHidden: true
   };
@@ -19,6 +19,22 @@ class Sync extends PureComponent {
 
   componentDidMount() {
     this.syncData();
+  }
+
+  // Override shouldComponentUpdate because functions passed as props always change
+  shouldComponentUpdate(nextProps, nextState) {
+    const conditions = [
+      nextProps.isConnected !== this.props.isConnected,
+      nextProps.reach !== this.props.reach,
+      nextProps.readyState !== this.props.readyState,
+      nextState.canSyncData !== this.state.canSyncData
+    ];
+    return conditions.includes(true);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.canSyncData !== this.state.canSyncData) this.syncData();
+    if (this.props.readyState) this.dismissModal();
   }
 
   getTexts = () => {
@@ -43,7 +59,7 @@ class Sync extends PureComponent {
     }
   }
 
-  skipUpload = () => {
+  dismissModal = () => {
     this.props.navigator.dismissModal();
   }
 
@@ -75,7 +91,7 @@ class Sync extends PureComponent {
                 monochrome
                 noIcon
                 style={styles.button}
-                onPress={this.skipUpload}
+                onPress={this.dismissModal}
                 text={I18n.t('home.skip').toUpperCase()}
               />
             </View>
@@ -84,7 +100,7 @@ class Sync extends PureComponent {
               <ActionButton
                 monochrome
                 noIcon
-                onPress={this.skipUpload}
+                onPress={this.dismissModal}
                 text={I18n.t('home.skip').toUpperCase()}
               />
               <ActionButton
@@ -107,7 +123,8 @@ Sync.propTypes = {
   getUser: React.PropTypes.func.isRequired,
   getAreas: React.PropTypes.func.isRequired,
   getForms: React.PropTypes.func.isRequired,
-  navigator: React.PropTypes.object.isRequired
+  navigator: React.PropTypes.object.isRequired,
+  readyState: React.PropTypes.bool.isRequired
 };
 
 export default Sync;
