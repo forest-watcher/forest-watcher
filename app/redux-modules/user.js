@@ -2,7 +2,8 @@ import Config from 'react-native-config';
 import GoogleOAuth from 'config/oAuth/GoogleOAuth';
 
 // Actions
-const SET_USER = 'user/SET_USER';
+const GET_USER_REQUEST = 'user/GET_USER_REQUEST';
+const GET_USER_COMMIT = 'user/GET_USER_COMMIT';
 const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
 const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
 export const LOGOUT_COMMIT = 'user/LOGOUT_COMMIT';
@@ -18,7 +19,7 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case SET_USER: {
+    case GET_USER_COMMIT: {
       if (action.payload.data) {
         const user = action.payload.data.attributes;
         user.id = action.payload.data.id;
@@ -37,27 +38,14 @@ export default function reducer(state = initialState, action) {
 
 // Action Creators
 export function getUser() {
-  const url = `${Config.API_AUTH}/user`;
-  return (dispatch, state) => {
-    fetch(url, {
-      headers: {
-        Authorization: `Bearer ${state().user.token}`
+  return {
+    type: GET_USER_REQUEST,
+    meta: {
+      offline: {
+        effect: { url: `${Config.API_AUTH}/user` },
+        commit: { type: GET_USER_COMMIT }
       }
-    })
-      .then(response => {
-        if (response.ok) return response.json();
-        throw Error(response.statusText);
-      })
-      .then((data) => {
-        dispatch({
-          type: SET_USER,
-          payload: data
-        });
-      })
-      .catch((error) => {
-        console.info(error);
-        // To-do
-      });
+    }
   };
 }
 
