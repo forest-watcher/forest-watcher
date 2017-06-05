@@ -64,10 +64,11 @@ class Home extends PureComponent {
         screen: 'ForestWatcher.Dashboard',
         title: 'FOREST WATCHER'
       });
+    } else { // eslint-disable-line
+      return navigator.resetTo({
+        screen: 'ForestWatcher.Login'
+      });
     }
-    return navigator.resetTo({
-      screen: 'ForestWatcher.Login'
-    });
   }
 
   render() {

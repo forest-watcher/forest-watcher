@@ -47,10 +47,10 @@ class Sync extends Component {
   }
 
   getTexts = () => {
-    const { isConnected, reach } = this.props;
+    const { isConnected, reach, readyState } = this.props;
     const texts = {};
     if (isConnected) {
-      if (!this.state.completeTimeoutFlag) {
+      if (!this.state.completeTimeoutFlag || !readyState) {
         texts.title = reach === 'WIFI' ? I18n.t('home.title.updating') : I18n.t('home.title.outOfDate');
         texts.subtitle = reach === 'WIFI' ? I18n.t('home.subtitle.takesTime') : I18n.t('home.subtitle.mobile');
       } else {

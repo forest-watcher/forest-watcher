@@ -8,7 +8,6 @@ const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
 const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
 export const LOGOUT_COMMIT = 'user/LOGOUT_COMMIT';
 
-
 // Reducer
 const initialState = {
   data: {},
