@@ -29,7 +29,7 @@ class AreaDetail extends Component {
   constructor(props) {
     super();
     this.state = {
-      name: props.area.attributes.name,
+      name: props.area.name,
       editingName: false
     };
   }
@@ -46,13 +46,14 @@ class AreaDetail extends Component {
     this.setState({ name });
   }
 
-  onNameSubmit = () => {
-    this.setState({ editingName: false });
-    if (this.state.name.length > 0) {
+  onNameSubmit = (ev) => {
+    const name = ev.nativeEvent.text;
+    this.setState({ name, editingName: false });
+    if (name.length > 0) {
       const updatedArea = { ...this.props.area };
-      updatedArea.attributes.name = this.state.name;
+      updatedArea.name = name;
       this.props.updateArea(updatedArea);
-      this.replaceRouteTitle(updatedArea.attributes.name);
+      this.replaceRouteTitle(updatedArea.name);
     } else {
       // TODO: warn user empty area name
     }
@@ -95,7 +96,7 @@ class AreaDetail extends Component {
           {!this.state.editingName ?
             <View style={styles.section}>
               <Text style={styles.name}>
-                {this.props.area.attributes.name}
+                {this.state.name}
               </Text>
               <TouchableHighlight
                 activeOpacity={0.5}
@@ -112,7 +113,7 @@ class AreaDetail extends Component {
                 multiline={false}
                 style={styles.input}
                 autoCapitalize="none"
-                value={this.state.name !== null ? this.state.name : this.props.area.attributes.name}
+                value={this.state.name !== null ? this.state.name : this.props.area.name}
                 onChangeText={this.onNameChange}
                 onSubmitEditing={this.onNameSubmit}
                 onBlur={this.onNameSubmit}

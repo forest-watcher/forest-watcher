@@ -6,11 +6,12 @@ const deserializeOptions = {
   keyForAttribute: 'camelCase'
 };
 
-export default function effect({ url, promise, errorCode }, { auth, ...action }) {
+export default function effect(params, { auth, ...action }) {
+  const { url, headers, promise, errorCode } = params;
   if (url && typeof url === 'string') {
     const req = {
-      url,
-      headers: { Authorization: `Bearer ${auth}` }
+      ...params,
+      headers: { ...headers, Authorization: `Bearer ${auth}` }
     };
     return defaultEffect(req, action)
       .then((data) => new JSONAPIDeserializer(deserializeOptions).deserialize(data));

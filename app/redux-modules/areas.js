@@ -2,7 +2,7 @@ import Config from 'react-native-config';
 import { getGeostore } from 'redux-modules/geostore';
 import { getCachedImageByUrl, removeFolder } from 'helpers/fileManagement';
 import { getBboxTiles, cacheTiles } from 'helpers/map';
-import { getCoverageDataByGeostore, getInitialDatasets } from 'helpers/area';
+import { getInitialDatasets } from 'helpers/area';
 import BoundingBox from 'boundingbox';
 import CONSTANTS from 'config/constants';
 
@@ -10,18 +10,19 @@ import CONSTANTS from 'config/constants';
 import { SET_AREA_SAVED } from 'redux-modules/setup';
 import { LOGOUT_COMMIT } from 'redux-modules/user';
 
-const GET_AREAS = 'areas/GET_AREAS';
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
 const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
 const GET_AREAS_ROLLBACK = 'areas/GET_AREAS_ROLLBACK';
 const GET_AREA_COVERAGE_REQUEST = 'areas/GET_AREA_COVERAGE_REQUEST';
 const GET_AREA_COVERAGE_COMMIT = 'areas/GET_AREA_COVERAGE_COMMIT';
 const GET_AREA_COVERAGE_ROLLBACK = 'areas/GET_AREA_COVERAGE_ROLLBACK';
+const UPDATE_AREA_REQUEST = 'areas/UPDATE_AREA_REQUEST';
+const UPDATE_AREA_COMMIT = 'areas/UPDATE_AREA_COMMIT';
+const UPDATE_AREA_ROLLBACK = 'areas/UPDATE_AREA_ROLLBACK';
 const SET_AREA_IMAGE = 'areas/SET_AREA_IMAGE';
 const UPDATE_AREA = 'areas/UPDATE_AREA';
 const SAVE_AREA = 'areas/SAVE_AREA';
 const DELETE_AREA = 'areas/DELETE_AREA';
-const SYNCING_AREAS = 'areas/SYNCING_AREA';
 const UPDATE_DATE = 'areas/UPDATE_DATE';
 const UPDATE_INDEX = 'areas/UPDATE_INDEX';
 
@@ -36,24 +37,6 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case GET_AREAS: {
-      const areas = [...state.data];
-      const images = action.payload.images;
-      const newAreas = action.payload.data;
-      let mergedAreas = [];
-      if (areas.length > 0) {
-        for (let i = 0, aLength = areas.length; i < aLength; i++) {
-          for (let j = 0, naLength = newAreas.length; j < naLength; j++) {
-            if (areas[i].id === areas[j].id) {
-              mergedAreas.push({ ...areas[i], ...newAreas[j] });
-            }
-          }
-        }
-      } else {
-        mergedAreas = newAreas;
-      }
-      return Object.assign({}, state, { data: mergedAreas, images, synced: true });
-    }
     case GET_AREAS_COMMIT: {
       return { ...state, data: action.payload, synced: true };
     }
@@ -78,8 +61,6 @@ export default function reducer(state = initialState, action) {
       const images = action.payload.images;
       return Object.assign({}, state, { images });
     }
-    case SYNCING_AREAS:
-      return Object.assign({}, state, { syncing: action.payload });
     case SAVE_AREA: {
       const areas = state.data.length > 0 ? state.data : [];
       const image = {};
@@ -94,15 +75,52 @@ export default function reducer(state = initialState, action) {
 
       return Object.assign({}, state, area);
     }
-    case UPDATE_AREA: {
-      const areas = [...state.data];
-      for (let i = 0, aLength = areas.length; i < aLength; i++) {
-        if (areas[i].id === action.payload.id) {
-          areas[i] = action.payload;
+    case UPDATE_AREA_REQUEST: {
+      const newArea = action.payload;
+      const areas = state.data.map((area) => {
+        if (area.id === newArea.id) {
+          return {
+            ...newArea,
+            synced: false
+          };
         }
-      }
-
-      return Object.assign({}, state, { data: areas });
+        return area;
+      });
+      return { ...state, data: areas, outdated: true };
+    }
+    case UPDATE_AREA_COMMIT: {
+      const newArea = action.payload;
+      let outdated = false;
+      const areas = state.data.map((area) => {
+        if (area.id === newArea.id) {
+          return {
+            ...newArea,
+            synced: true,
+            lastUpdate: Date.now()
+          };
+        } else if (!area.synced) {
+          outdated = true;
+        }
+        return area;
+      });
+      return { ...state, data: areas, outdated };
+    }
+    case UPDATE_AREA_ROLLBACK: {
+      const oldArea = action.meta;
+      let outdated = false;
+      const areas = state.data.map((area) => {
+        if (area.id === oldArea.id) {
+          return {
+            ...oldArea,
+            synced: true,
+            lastModify: Date.now()
+          };
+        } else if (!area.synced) {
+          outdated = true;
+        }
+        return area;
+      });
+      return { ...state, data: areas, outdated };
     }
     case UPDATE_INDEX: {
       return Object.assign({}, state, { selectedIndex: action.payload });
@@ -143,27 +161,6 @@ function updatedCacheDatasets(datasets, datasetSlug, status) {
   });
 }
 
-// Action Creators
-export function getDatasets(areaId) {
-  return async (dispatch, state) => {
-    const area = getAreaById(state().areas.data, areaId);
-    let coverage = [];
-    if (area && (area.attributes.datasets && area.attributes.datasets.length === 0)) {
-      try {
-        coverage = await getCoverageDataByGeostore(area.attributes.geostore, state().user.token);
-      } catch (e) {
-        console.warn('Coverage request error', e);
-      }
-      area.attributes.datasets = getInitialDatasets(coverage);
-      dispatch({
-        type: UPDATE_AREA,
-        payload: area
-      });
-    }
-  };
-}
-
-
 export function getAreas() {
   const url = `${Config.API_URL}/area`;
   return {
@@ -193,7 +190,7 @@ export function cacheAreaImage(areaId) {
     const area = getAreaById(state().areas.data, areaId);
     const images = Object.assign({}, state().areas.images);
     if (!images[area.id]) {
-      images[area.id] = await getCachedImageByUrl(area.attributes.image, 'areas');
+      images[area.id] = await getCachedImageByUrl(area.image, 'areas');
       dispatch({
         type: SET_AREA_IMAGE,
         payload: images
@@ -206,19 +203,6 @@ export function getAreaCoverage(areaId) {
   return async (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
     const url = `${Config.API_URL}/coverage/intersect?geostore=${area.geostore}`;
-    //  let coverage = [];
-    //  if (area && (area.attributes.datasets && area.attributes.datasets.length === 0)) {
-    //    try {
-    //      coverage = await getCoverageDataByGeostore(area.attributes.geostore, state().user.token);
-    //    } catch (e) {
-    //      console.warn('Coverage request error', e);
-    //    }
-    //    area.attributes.datasets = getInitialDatasets(coverage);
-    //    dispatch({
-    //      type: UPDATE_AREA,
-    //      payload: area
-    //    });
-    //  }
     dispatch({
       type: GET_AREA_COVERAGE_REQUEST,
       meta: {
@@ -250,7 +234,7 @@ export function getAreaCoverage(areaId) {
 //           const images = Object.assign({}, state().areas.images);
 //           const normalizedAreas = normalize(response);
 //           await Promise.all(response.data.map(async (area) => {
-//             if (area.attributes && area.attributes.geostore) {
+//             if (area.na && area.attributes.geostore) {
 //               if (!state().geostore.data[area.attributes.geostore]) {
 //                 await dispatch(getGeostore(area.attributes.geostore));
 //               }
@@ -281,48 +265,35 @@ export function getAreaCoverage(areaId) {
 // }
 
 export function updateArea(area) {
-  const url = `${Config.API_URL}/area/${area.id}`;
-  return (dispatch, state) => {
-    const form = new FormData();
-    if (area.attributes.name) {
-      form.append('name', area.attributes.name);
+  return async (dispatch, state) => {
+    const url = `${Config.API_URL}/area/${area.id}`;
+    const originalArea = getAreaById(state().areas.data, area.id);
+    const headers = { 'content-type': 'multipart/form-data' };
+    const body = new FormData();
+    if (area.name) {
+      body.append('name', area.name);
     }
-    if (area.attributes.datasets) {
-      form.append('datasets', JSON.stringify(area.attributes.datasets));
+    if (area.datasets) {
+      body.append('datasets', JSON.stringify(area.datasets));
     }
-
-    const fetchConfig = {
-      method: 'PATCH',
-      headers: {
-        Authorization: `Bearer ${state().user.token}`
-      },
-      body: form
-    };
-
-    fetch(url, fetchConfig)
-      .then(response => {
-        if (response.ok) return response.json();
-        throw new Error(response._bodyText); // eslint-disable-line
-      })
-      .then(() => {
-        dispatch({
-          type: UPDATE_AREA,
-          payload: area
-        });
-      })
-      .catch((error) => {
-        console.warn(error);
-        // To-do
-      });
+    dispatch({
+      type: UPDATE_AREA_REQUEST,
+      payload: area,
+      meta: {
+        offline: {
+          effect: { url, method: 'PATCH', headers, body },
+          commit: { type: UPDATE_AREA_COMMIT },
+          rollback: { type: UPDATE_AREA_ROLLBACK, meta: originalArea }
+        }
+      }
+    });
   };
 }
 
 export function updateSelectedIndex(index) {
-  return (dispatch) => {
-    dispatch({
-      type: UPDATE_INDEX,
-      payload: index
-    });
+  return {
+    type: UPDATE_INDEX,
+    payload: index
   };
 }
 
@@ -398,9 +369,9 @@ export function cacheArea(areaId, datasetSlug) {
     const area = getAreaById(state().areas.data, areaId);
 
     if (area && state().offline.online) {
-      const geojson = state().geostore.data[area.attributes.geostore];
+      const geojson = state().geostore.data[area.geostore];
       if (geojson) {
-        area.attributes.datasets = updatedCacheDatasets(area.attributes.datasets, datasetSlug, true);
+        area.datasets = updatedCacheDatasets(area.datasets, datasetSlug, true);
         dispatch({
           type: UPDATE_AREA,
           payload: area
@@ -414,9 +385,8 @@ export function cacheArea(areaId, datasetSlug) {
             ];
             await downloadArea(bbox, areaId, datasetSlug);
           }
-          console.info(`cache of ${datasetSlug} is on`, area);
         } catch (e) {
-          area.attributes.datasets = updatedCacheDatasets(area.attributes.datasets, datasetSlug, false);
+          area.datasets = updatedCacheDatasets(area.datasets, datasetSlug, false);
           dispatch({
             type: UPDATE_AREA,
             payload: area
@@ -431,7 +401,7 @@ export function setAreaDatasetStatus(areaId, datasetSlug, status) {
   return async (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
     if (area) {
-      area.attributes.datasets = area.attributes.datasets.map((item) => {
+      area.datasets = area.datasets.map((item) => {
         if (item.slug !== datasetSlug) {
           return status === true
             ? { ...item, active: false }
@@ -449,7 +419,7 @@ export function updateDate(areaId, datasetSlug, date) {
     const area = getAreaById(state().areas.data, areaId);
     const dateKeys = Object.keys(date) || [];
     if (area) {
-      area.attributes.datasets = area.attributes.datasets.map((d) => {
+      area.datasets = area.datasets.map((d) => {
         const newDataset = d;
         if (d.slug === datasetSlug) {
           dateKeys.forEach((dKey) => {
@@ -469,7 +439,7 @@ export function removeCachedArea(areaId, datasetSlug) {
   return async (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
     if (area) {
-      area.attributes.datasets = updatedCacheDatasets(area.attributes.datasets, datasetSlug, false);
+      area.datasets = updatedCacheDatasets(area.datasets, datasetSlug, false);
       dispatch({
         type: UPDATE_AREA,
         payload: area
@@ -478,7 +448,7 @@ export function removeCachedArea(areaId, datasetSlug) {
         const folder = `${CONSTANTS.maps.tilesFolder}/${areaId}/${datasetSlug}`;
         await removeFolder(folder);
       } catch (e) {
-        area.attributes.datasets = updatedCacheDatasets(area.attributes.datasets, datasetSlug, true);
+        area.datasets = updatedCacheDatasets(area.datasets, datasetSlug, true);
         dispatch({
           type: UPDATE_AREA,
           payload: area

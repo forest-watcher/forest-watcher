@@ -3,14 +3,14 @@ import CONSTANTS from 'config/constants';
 import moment from 'moment';
 
 export function activeDataset(area) {
-  if (area.attributes.datasets === undefined) return false;
-  const enabledDataset = area.attributes.datasets.find((d) => (d.active === true));
+  if (area.datasets === undefined) return false;
+  const enabledDataset = area.datasets.find((d) => (d.active === true));
   if (enabledDataset !== undefined) { return enabledDataset; }
   return false;
 }
 
 export function enabledDatasetName(area) {
-  if (!area.attributes.datasets) return false;
+  if (!area.datasets) return false;
   const enabledDataset = activeDataset(area);
   return enabledDataset !== false ? enabledDataset.name : false;
 }
@@ -24,7 +24,7 @@ export function getCoverageDataByGeostore(geostoreId, token) {
       throw Error(res.statusText);
     })
     .then(res => (
-      res.data.attributes.layers || []
+      res.data.layers || []
     ));
 }
 
