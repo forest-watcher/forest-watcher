@@ -14,7 +14,7 @@ const nextIcon = require('assets/next.png');
 function AreaList(props) {
   const { areas, areasImages } = props;
   const areasCollection = areas.map((area, key) => {
-    const image = areasImages[area.id];
+    const image = areasImages && areasImages[area.id];
 
     return (
       <TouchableHighlight

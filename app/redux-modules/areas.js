@@ -19,11 +19,15 @@ const GET_AREA_COVERAGE_ROLLBACK = 'areas/GET_AREA_COVERAGE_ROLLBACK';
 const UPDATE_AREA_REQUEST = 'areas/UPDATE_AREA_REQUEST';
 const UPDATE_AREA_COMMIT = 'areas/UPDATE_AREA_COMMIT';
 const UPDATE_AREA_ROLLBACK = 'areas/UPDATE_AREA_ROLLBACK';
+const SET_CACHE_AREA_REQUEST = 'areas/SET_CACHE_AREA_REQUEST';
+const SET_CACHE_AREA_COMMIT = 'areas/SET_CACHE_AREA_COMMIT';
+const SET_CACHE_AREA_ROLLBACK = 'areas/SET_CACHE_AREA_ROLLBACK';
+const REMOVE_CACHE_AREA_REQUEST = 'areas/REMOVE_CACHE_AREA_REQUEST';
+const REMOVE_CACHE_AREA_COMMIT = 'areas/REMOVE_CACHE_AREA_COMMIT';
+const REMOVE_CACHE_AREA_ROLLBACK = 'areas/REMOVE_CACHE_AREA_ROLLBACK';
 const SET_AREA_IMAGE = 'areas/SET_AREA_IMAGE';
-const UPDATE_AREA = 'areas/UPDATE_AREA';
 const SAVE_AREA = 'areas/SAVE_AREA';
 const DELETE_AREA = 'areas/DELETE_AREA';
-const UPDATE_DATE = 'areas/UPDATE_DATE';
 const UPDATE_INDEX = 'areas/UPDATE_INDEX';
 
 // Reducer
@@ -34,6 +38,15 @@ const initialState = {
   synced: false,
   syncing: false
 };
+
+function getUpdatedAreas(areas, newArea) {
+  return areas.map((area) => {
+    if (area.id === newArea.id) {
+      return newArea;
+    }
+    return area;
+  });
+}
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
@@ -58,7 +71,7 @@ export default function reducer(state = initialState, action) {
       // return Object.assign({}, state, { data: areas });
     }
     case SET_AREA_IMAGE: {
-      const images = action.payload.images;
+      const images = action.payload;
       return Object.assign({}, state, { images });
     }
     case SAVE_AREA: {
@@ -122,6 +135,19 @@ export default function reducer(state = initialState, action) {
       });
       return { ...state, data: areas, outdated };
     }
+    case SET_CACHE_AREA_REQUEST: {
+      const newArea = action.payload;
+      const areas = getUpdatedAreas(state.data, newArea);
+      return { ...state, data: areas };
+    }
+    case SET_CACHE_AREA_COMMIT: {
+      // TODO: save the stored flag in the dataset cache as true
+      return state;
+    }
+    case SET_CACHE_AREA_ROLLBACK: {
+      // TODO: save the stored flag in the dataset cache as false
+      return state;
+    }
     case UPDATE_INDEX: {
       return Object.assign({}, state, { selectedIndex: action.payload });
     }
@@ -134,8 +160,6 @@ export default function reducer(state = initialState, action) {
       if (images[id] !== undefined) { delete images[id]; }
       return Object.assign({}, state, { data: areas, images, synced: true });
     }
-    case UPDATE_DATE:
-      return Object.assign({}, state, { ...action.payload });
     case LOGOUT_COMMIT: {
       return initialState;
     }
@@ -367,33 +391,53 @@ export function saveArea(params) {
 export function cacheArea(areaId, datasetSlug) {
   return async (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
-
-    if (area && state().offline.online) {
-      const geojson = state().geostore.data[area.geostore];
-      if (geojson) {
-        area.datasets = updatedCacheDatasets(area.datasets, datasetSlug, true);
-        dispatch({
-          type: UPDATE_AREA,
-          payload: area
-        });
-        try {
-          const bboxArea = new BoundingBox(geojson.features[0]);
-          if (bboxArea) {
-            const bbox = [
-              { lat: bboxArea.minlat, lng: bboxArea.maxlon },
-              { lat: bboxArea.maxlat, lng: bboxArea.minlon }
-            ];
-            await downloadArea(bbox, areaId, datasetSlug);
-          }
-        } catch (e) {
-          area.datasets = updatedCacheDatasets(area.datasets, datasetSlug, false);
-          dispatch({
-            type: UPDATE_AREA,
-            payload: area
-          });
-        }
+    const geostore = state().geostore.data[area.geostore];
+    let bbox = null;
+    if (geostore) {
+      const bboxArea = new BoundingBox(geostore.geojson.features[0]);
+      if (bboxArea) {
+        bbox = [
+          { lat: bboxArea.minlat, lng: bboxArea.maxlon },
+          { lat: bboxArea.maxlat, lng: bboxArea.minlon }
+        ];
       }
     }
+    if (bbox) {
+      const newArea = { ...area };
+      newArea.datasets = updatedCacheDatasets(area.datasets, datasetSlug, true);
+      dispatch({
+        type: SET_CACHE_AREA_REQUEST,
+        payload: newArea,
+        meta: {
+          offline: {
+            effect: { promise: downloadArea(bbox, areaId, datasetSlug), errorCode: 400 },
+            commit: { type: SET_CACHE_AREA_COMMIT, meta: { newArea } },
+            rollback: { type: SET_CACHE_AREA_ROLLBACK, meta: { area } }
+          }
+        }
+      });
+    }
+  };
+}
+
+
+export function removeCachedArea(areaId, datasetSlug) {
+  return async (dispatch, state) => {
+    const area = getAreaById(state().areas.data, areaId);
+    const folder = `${CONSTANTS.maps.tilesFolder}/${areaId}/${datasetSlug}`;
+    const newArea = { ...area };
+    newArea.datasets = updatedCacheDatasets(area.datasets, datasetSlug, false);
+    dispatch({
+      type: REMOVE_CACHE_AREA_REQUEST,
+      payload: newArea,
+      meta: {
+        offline: {
+          effect: { promise: removeFolder(folder), errorCode: 400 },
+          commit: { type: REMOVE_CACHE_AREA_COMMIT },
+          rollback: { type: REMOVE_CACHE_AREA_ROLLBACK, meta: { area } }
+        }
+      }
+    });
   };
 }
 
@@ -435,28 +479,6 @@ export function updateDate(areaId, datasetSlug, date) {
   };
 }
 
-export function removeCachedArea(areaId, datasetSlug) {
-  return async (dispatch, state) => {
-    const area = getAreaById(state().areas.data, areaId);
-    if (area) {
-      area.datasets = updatedCacheDatasets(area.datasets, datasetSlug, false);
-      dispatch({
-        type: UPDATE_AREA,
-        payload: area
-      });
-      try {
-        const folder = `${CONSTANTS.maps.tilesFolder}/${areaId}/${datasetSlug}`;
-        await removeFolder(folder);
-      } catch (e) {
-        area.datasets = updatedCacheDatasets(area.datasets, datasetSlug, true);
-        dispatch({
-          type: UPDATE_AREA,
-          payload: area
-        });
-      }
-    }
-  };
-}
 
 export function deleteArea(id) {
   const url = `${Config.API_URL}/area/${id}`;

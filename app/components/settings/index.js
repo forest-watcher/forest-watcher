@@ -37,9 +37,13 @@ class Settings extends Component {
       this.props.getAreas();
     } else {
       // TODO: move this to the new sync page
-      // loop the areas and request new coverage
-      // const { areas } = this.props;
-      // this.props.getAreaCoverage(areas[0].id);
+      // loop the areas and request:
+      //  new coverage, cache images and geostores
+      const { areas } = this.props;
+      for (let i = 0, aLength = areas.length; i < aLength; i++) {
+        this.props.getAreaGeostore(areas[i].id);
+        this.props.cacheAreaImage(areas[i].id);
+      }
     }
   }
 
@@ -165,7 +169,9 @@ Settings.propTypes = {
   areas: React.PropTypes.any,
   navigator: React.PropTypes.object.isRequired,
   getAreas: React.PropTypes.func.isRequired,
-  logout: React.PropTypes.func.isRequired
+  logout: React.PropTypes.func.isRequired,
+  getAreaGeostore: React.PropTypes.func.isRequired,
+  cacheAreaImage: React.PropTypes.func.isRequired
 };
 
 export default Settings;
