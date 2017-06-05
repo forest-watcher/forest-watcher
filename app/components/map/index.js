@@ -115,12 +115,10 @@ class Map extends Component {
       this.setCompassLine();
     }
 
-    if (this.props.datasetSlug !== nextProps.datasetSlug) {
-      this.updateSelectedArea();
-    }
-
-    if (this.props.startDate !== nextProps.startDate ||
-        this.props.endDate !== nextProps.endDate) {
+    if (this.props.datasetSlug !== nextProps.datasetSlug ||
+        this.props.startDate !== nextProps.startDate ||
+        this.props.endDate !== nextProps.endDate ||
+        this.props.areaCoordinates !== nextProps.areaCoordinates) {
       this.updateSelectedArea();
     }
   }
@@ -147,8 +145,8 @@ class Map extends Component {
   onLayout = () => {
     if (!this.state.alertSelected) {
       const fitOptions = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: true };
-      if (this.props.area.coordinates) {
-        this.map.fitToCoordinates(this.props.area.coordinates, fitOptions);
+      if (this.props.areaCoordinates) {
+        this.map.fitToCoordinates(this.props.areaCoordinates, fitOptions);
       }
     }
   }
@@ -201,7 +199,7 @@ class Map extends Component {
       urlTile: null
     }, () => {
       const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
-      this.map.fitToCoordinates(this.props.area.coordinates, options);
+      this.map.fitToCoordinates(this.props.areaCoordinates, options);
       if (this.props.datasetSlug) {
         this.setUrlTile(this.props.datasetSlug);
       }
@@ -440,7 +438,7 @@ class Map extends Component {
               />
             }
             <MapView.Polyline
-              coordinates={this.props.area.coordinates}
+              coordinates={this.props.areaCoordinates}
               strokeColor={Theme.colors.color1}
               strokeWidth={2}
             />
@@ -480,7 +478,7 @@ class Map extends Component {
                 urlTemplate={urlTile}
                 zIndex={-1}
                 maxZoom={12}
-                areaId={this.props.area.id}
+                areaId={this.props.areaId}
                 alertType={datasetSlug}
                 isConnected={this.props.isConnected}
                 minDate={dates.min}
@@ -493,7 +491,7 @@ class Map extends Component {
                 urlTemplate={urlTile}
                 zIndex={1}
                 maxZoom={12}
-                areaId={this.props.area.id}
+                areaId={this.props.areaId}
                 alertType={datasetSlug}
                 isConnected={this.props.isConnected}
                 minDate={dates.min}
@@ -520,17 +518,15 @@ Map.propTypes = {
   navigator: React.PropTypes.object.isRequired,
   createReport: React.PropTypes.func.isRequired,
   isConnected: React.PropTypes.bool,
-  area: React.PropTypes.shape({
-    id: React.PropTypes.string.isRequired,
-    coordinates: React.PropTypes.array.isRequired
-  }).isRequired,
+  areaId: React.PropTypes.string.isRequired,
   center: React.PropTypes.shape({
     lat: React.PropTypes.number.isRequired,
     lon: React.PropTypes.number.isRequired
   }),
   startDate: React.PropTypes.string.isRequired,
   endDate: React.PropTypes.string.isRequired,
-  datasetSlug: React.PropTypes.string.isRequired
+  datasetSlug: React.PropTypes.string.isRequired,
+  areaCoordinates: React.PropTypes.array.isRequired
 };
 
 export default Map;
