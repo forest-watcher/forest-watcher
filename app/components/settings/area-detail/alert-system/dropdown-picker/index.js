@@ -10,7 +10,7 @@ import styles from './styles';
 
 class DropdownPicker extends Component {
   handleRangeChange(days) {
-    this.props.updateViirsRange({ startDate: days, endDate: '1' });
+    this.props.updateViirsRange({ startDate: '1', endDate: days });
   }
   render() {
     return (<View style={styles.datesSection}>
