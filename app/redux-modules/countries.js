@@ -3,17 +3,21 @@ import { getLanguage } from 'helpers/language';
 import CONSTANTS from 'config/constants';
 
 // Actions
-const GET_COUNTRIES = 'countries/GET_COUNTRIES';
+const GET_COUNTRIES_REQUEST = 'countries/GET_COUNTRIES_REQUEST';
+const GET_COUNTRIES_COMMIT = 'countries/GET_COUNTRIES_COMMIT';
 
 // Reducer
 const initialState = {
-  data: null
+  data: null,
+  synced: false
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case GET_COUNTRIES:
-      return Object.assign({}, state, { data: action.payload.data });
+    case GET_COUNTRIES_REQUEST:
+      return { ...state, synced: false };
+    case GET_COUNTRIES_COMMIT:
+      return { ...state, data: action.payload.data, synced: true };
     default:
       return state;
   }
@@ -29,21 +33,13 @@ export function getCountries() {
     SELECT ${nameColumnId} as name, iso, centroid, bbox
     FROM gadm28_countries WHERE ${nameColumnId} != '' ORDER BY ${nameColumnId} ASC`;
 
-  return (dispatch) => {
-    fetch(url)
-      .then(response => {
-        if (response.ok) return response.json();
-        throw Error(response.statusText);
-      })
-      .then((data) => {
-        dispatch({
-          type: GET_COUNTRIES,
-          payload: data
-        });
-      })
-      .catch((error) => {
-        console.warn(error);
-        // To-do
-      });
+  return {
+    type: GET_COUNTRIES_REQUEST,
+    meta: {
+      offline: {
+        effect: { url },
+        commit: { type: GET_COUNTRIES_COMMIT }
+      }
+    }
   };
 }

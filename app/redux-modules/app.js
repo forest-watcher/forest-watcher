@@ -44,6 +44,6 @@ export function syncApp() {
     if (!feedback.dailySynced) dispatch(getFeedbackQuestions('daily'));
     if (!feedback.weeklySynced) dispatch(getFeedbackQuestions('weekly'));
     if (!areas.synced) dispatch(getAreas());
-    // if (!countries.synced) dispatch(getCountries());
+    if (!countries.synced) dispatch(getCountries());
   };
 }
