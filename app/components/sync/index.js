@@ -100,7 +100,7 @@ class Sync extends Component {
       <View style={[styles.mainContainer, styles.center]}>
         <View>
           <View style={styles.textContainer}>
-            {isConnected && WIFI.includes(reach) &&
+            {isConnected && WIFI.includes(reach) && (!readyState || !completeTimeoutFlag) &&
             <ActivityIndicator
               color={Theme.colors.color1}
               style={{ height: 80 }}
@@ -126,20 +126,22 @@ class Sync extends Component {
             </View>
           }
           {isConnected && MOBILE.includes(reach) &&
-            <View>
-              <ActionButton
-                monochrome
-                noIcon
-                onPress={this.dismissModal}
-                text={I18n.t('home.skip').toUpperCase()}
-              />
-              <ActionButton
-                main
-                noIcon
-                onPress={() => this.setState({ canSyncData: true })}
-                text={I18n.t('home.update').toUpperCase()}
-              />
-            </View>
+          <View style={styles.buttonGroupContainer}>
+            <ActionButton
+              style={[styles.groupButton, styles.groupButtonLeft]}
+              monochrome
+              noIcon
+              onPress={this.dismissModal}
+              text={I18n.t('home.skip').toUpperCase()}
+            />
+            <ActionButton
+              style={[styles.groupButton, styles.groupButtonRight]}
+              main
+              noIcon
+              onPress={() => this.setState({ canSyncData: true })}
+              text={I18n.t('home.update').toUpperCase()}
+            />
+          </View>
           }
         </View>
       </View>
