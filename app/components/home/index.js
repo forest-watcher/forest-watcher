@@ -45,9 +45,9 @@ class Home extends Component {
 
   handleStatus() {
     const { loggedIn, token, hasUserData, hasAreas, hasFormsData, readyState, setupComplete, setLanguage, navigator } = this.props;
+    setLanguage();
     if (loggedIn) {
       tracker.setUser(token);
-      setLanguage();
       if ((!hasAreas || !hasUserData || !hasFormsData) && !readyState && !this.state.modalOpen) {
         return this.setState({ modalOpen: true }, this.openModal);
       } else if (!setupComplete && !hasAreas && readyState) {
