@@ -14,7 +14,8 @@ const initialState = {
   loggedIn: false,
   token: null,
   socialNetwork: null,
-  logoutSuccess: true
+  logoutSuccess: true,
+  synced: false
 };
 
 export default function reducer(state = initialState, action) {
@@ -23,7 +24,7 @@ export default function reducer(state = initialState, action) {
       if (action.payload.data) {
         const user = action.payload.data.attributes;
         user.id = action.payload.data.id;
-        return Object.assign({}, state, { data: user });
+        return Object.assign({}, state, { data: user, synced: true });
       }
       return state;
     }

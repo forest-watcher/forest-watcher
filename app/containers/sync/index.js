@@ -4,6 +4,7 @@ import { getFeedbackQuestions } from 'redux-modules/feedback';
 import { getReportQuestions } from 'redux-modules/reports';
 import { getCountries } from 'redux-modules/countries';
 import { getLanguage } from 'helpers/language';
+import { getReadyState } from 'helpers/sync';
 import { getUser } from 'redux-modules/user';
 
 import Sync from 'components/sync';
@@ -13,10 +14,6 @@ const getForms = ({ hasForms, languageChanged, getFormsDispatch }) => {
   if (!hasForms.daily || languageChanged) getFormsDispatch.daily();
   if (!hasForms.weekly || languageChanged) getFormsDispatch.weekly();
 };
-
-const getReadyState = ({ hasForms, hasUserData, hasAreas }) => (
-  hasUserData && hasAreas && Object.keys(hasForms).reduce((acc, key) => acc && hasForms[key], true)
-);
 
 function mapStateToProps(state) {
   return {
@@ -29,7 +26,8 @@ function mapStateToProps(state) {
       report: Object.keys(state.reports.forms).length > 0,
       daily: Object.keys(state.feedback.daily).length > 0,
       weekly: Object.keys(state.feedback.weekly).length > 0
-    }
+    },
+    readyState: getReadyState(state)
   };
 }
 
@@ -60,8 +58,7 @@ function mergeProps({ hasUserData, hasAreas, hasForms, languageChanged, ...state
     ...stateProps,
     getUser: () => (!hasUserData && getUserDispatch()),
     getAreas: () => (!hasAreas && getAreasDispatch()),
-    getForms: () => getForms({ hasForms, languageChanged, getFormsDispatch }),
-    readyState: getReadyState({ hasForms, hasAreas, hasUserData })
+    getForms: () => getForms({ hasForms, languageChanged, getFormsDispatch })
   };
 }
 

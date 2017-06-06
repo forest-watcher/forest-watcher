@@ -13,7 +13,8 @@ const UPDATE_REPORT = 'report/UPDATE_REPORT';
 // Reducer
 const initialNavState = {
   forms: {},
-  list: {}
+  list: {},
+  synced: false
 };
 
 export default function reducer(state = initialNavState, action) {
@@ -26,7 +27,7 @@ export default function reducer(state = initialNavState, action) {
       if (form && form.questions && form.questions.length) {
         form.questions = form.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
       }
-      return Object.assign({}, state, { forms: form });
+      return Object.assign({}, state, { forms: form, synced: true });
     }
     case CREATE_REPORT: {
       const reports = { ...state.list, ...action.payload };

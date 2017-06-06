@@ -15,7 +15,9 @@ const UPDATE_FEEDBACK = 'feedback/UPDATE_FEEDBACK';
 const initialNavState = {
   daily: {},
   weekly: {},
-  list: {}
+  list: {},
+  dailySynced: false,
+  weeklySynced: false
 };
 
 export default function reducer(state = initialNavState, action) {
@@ -28,8 +30,10 @@ export default function reducer(state = initialNavState, action) {
       if (form && form.questions && form.questions.length) {
         form.questions = form.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
       }
+      const synced = `${action.meta.type}Synced`;
       const feedback = {
-        [action.meta.type]: form
+        [action.meta.type]: form,
+        [synced]: true
       };
       return Object.assign({}, state, feedback);
     }
