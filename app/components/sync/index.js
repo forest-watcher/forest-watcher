@@ -41,8 +41,18 @@ class Sync extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.canSyncData !== this.state.canSyncData) this.syncData();
-    if (this.props.readyState && this.state.dismissTimeoutFlag) this.dismissModal();
+    const { canSyncData, completeTimeoutFlag, dismissTimeoutFlag } = this.state;
+    const { readyState } = this.props;
+    if (prevState.canSyncData !== canSyncData) {
+      this.syncData();
+    }
+    if (readyState && completeTimeoutFlag && (readyState !== prevState.readyState
+      || completeTimeoutFlag !== prevState.completeTimeoutFlag)) {
+      this.dismissTimeout = setTimeout(this.dismiss, 1000);
+    }
+    if (readyState && dismissTimeoutFlag && dismissTimeoutFlag !== prevState.dismissTimeoutFlag) {
+      this.dismissModal();
+    }
   }
 
   componentWillUnmount() {
@@ -80,7 +90,6 @@ class Sync extends Component {
 
   complete = () => {
     this.setState({ completeTimeoutFlag: true });
-    this.dismissTimeout = setTimeout(this.dismiss, 1000);
   }
 
   dismiss = () => {
