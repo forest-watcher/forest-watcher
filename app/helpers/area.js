@@ -44,8 +44,8 @@ export function getInitialDatasets(coverage) {
       slug: 'viirs',
       name: 'VIIRS',
       active: false,
-      startDate: '8',
-      endDate: '1'
+      startDate: '1',
+      endDate: '8'
     }
   ];
   let datasets = [];

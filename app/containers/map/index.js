@@ -18,7 +18,7 @@ function getAreaCoordinates(areaFeature) {
 function mapStateToProps(state) {
   const index = state.areas.selectedIndex;
   const area = state.areas.data[index] || null;
-  let parsedArea = {};
+  let areaId = null;
   let areaFeatures = null;
   let dataset = null;
   let datasetSlug = null;
@@ -36,15 +36,12 @@ function mapStateToProps(state) {
       center = new BoundingBox(areaFeatures).getCenter();
       areaCoordinates = getAreaCoordinates(areaFeatures);
     }
-    parsedArea = {
-      id: area.id,
-      coordinates: areaCoordinates
-    };
+    areaId = area.id;
   }
 
 
   return {
-    area: parsedArea,
+    areaId,
     datasetSlug,
     startDate,
     endDate,

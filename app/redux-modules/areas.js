@@ -305,7 +305,7 @@ export function cacheArea(areaId, datasetSlug) {
   return async (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
 
-    if (area && state().app.isConnected) {
+    if (area && state().offline.online) {
       const geojson = state().geostore.data[area.attributes.geostore];
       if (geojson) {
         area.attributes.datasets = updatedCacheDatasets(area.attributes.datasets, datasetSlug, true);
@@ -414,18 +414,10 @@ export function deleteArea(id) {
         })
         .then(() => {
           dispatch({
-            type: SYNCING_AREAS,
-            payload: true
-          });
-          dispatch({
             type: DELETE_AREA,
             payload: {
               id
             }
-          });
-          dispatch({
-            type: SYNCING_AREAS,
-            payload: false
           });
         })
         .catch((error) => {
