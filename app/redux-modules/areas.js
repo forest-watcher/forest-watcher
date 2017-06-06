@@ -7,12 +7,14 @@ import BoundingBox from 'boundingbox';
 import CONSTANTS from 'config/constants';
 
 // Actions
-import { SET_AREA_SAVED } from 'redux-modules/setup';
 import { LOGOUT_COMMIT } from 'redux-modules/user';
 
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
 const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
 const GET_AREAS_ROLLBACK = 'areas/GET_AREAS_ROLLBACK';
+const SAVE_AREA_REQUEST = 'areas/SAVE_AREA_REQUEST';
+export const SAVE_AREA_COMMIT = 'areas/SAVE_AREA_COMMIT';
+export const SAVE_AREA_ROLLBACK = 'areas/SAVE_AREA_ROLLBACK';
 const GET_AREA_COVERAGE_REQUEST = 'areas/GET_AREA_COVERAGE_REQUEST';
 const GET_AREA_COVERAGE_COMMIT = 'areas/GET_AREA_COVERAGE_COMMIT';
 const GET_AREA_COVERAGE_ROLLBACK = 'areas/GET_AREA_COVERAGE_ROLLBACK';
@@ -25,9 +27,10 @@ const SET_CACHE_AREA_ROLLBACK = 'areas/SET_CACHE_AREA_ROLLBACK';
 const REMOVE_CACHE_AREA_REQUEST = 'areas/REMOVE_CACHE_AREA_REQUEST';
 const REMOVE_CACHE_AREA_COMMIT = 'areas/REMOVE_CACHE_AREA_COMMIT';
 const REMOVE_CACHE_AREA_ROLLBACK = 'areas/REMOVE_CACHE_AREA_ROLLBACK';
+const DELETE_AREA_REQUEST = 'areas/DELETE_AREA_REQUEST';
+const DELETE_AREA_COMMIT = 'areas/DELETE_AREA_COMMIT';
+const DELETE_AREA_ROLLBACK = 'areas/DELETE_AREA_ROLLBACK';
 const SET_AREA_IMAGE = 'areas/SET_AREA_IMAGE';
-const SAVE_AREA = 'areas/SAVE_AREA';
-const DELETE_AREA = 'areas/DELETE_AREA';
 const UPDATE_INDEX = 'areas/UPDATE_INDEX';
 
 // Reducer
@@ -48,10 +51,20 @@ function getUpdatedAreas(areas, newArea) {
   });
 }
 
+function areAllAreasSynced(areas) {
+  for (let i = 0, aLength = areas.length; i < aLength; i++) {
+    if (!areas[i].synced) {
+      return false;
+    }
+  }
+  return true;
+}
+
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_AREAS_COMMIT: {
-      return { ...state, data: action.payload, synced: true };
+      // sync is false because we need to download the image and geostore
+      return { ...state, data: action.payload, synced: false };
     }
     case GET_AREAS_ROLLBACK: {
       return { ...state, synced: false };
@@ -74,19 +87,17 @@ export default function reducer(state = initialState, action) {
       const images = action.payload;
       return Object.assign({}, state, { images });
     }
-    case SAVE_AREA: {
-      const areas = state.data.length > 0 ? state.data : [];
-      const image = {};
-
-      image[action.payload.area.id] = action.payload.snapshot;
-      areas.push(action.payload.area);
-
-      const area = {
-        data: areas,
-        images: Object.assign({}, state.images, image)
-      };
-
-      return Object.assign({}, state, area);
+    case SAVE_AREA_REQUEST: {
+      return state;
+    }
+    case SAVE_AREA_ROLLBACK: {
+      return state;
+    }
+    case SAVE_AREA_COMMIT: {
+      const areas = state.data.length > 0 ? [...state.data] : [];
+      areas.push(action.payload);
+      // sync is false because we need to download the image and geostore
+      return { ...state, data: areas, synced: false };
     }
     case UPDATE_AREA_REQUEST: {
       const newArea = action.payload;
@@ -99,11 +110,11 @@ export default function reducer(state = initialState, action) {
         }
         return area;
       });
-      return { ...state, data: areas, outdated: true };
+      return { ...state, data: areas, synced: false };
     }
     case UPDATE_AREA_COMMIT: {
       const newArea = action.payload;
-      let outdated = false;
+      let synced = true;
       const areas = state.data.map((area) => {
         if (area.id === newArea.id) {
           return {
@@ -112,15 +123,15 @@ export default function reducer(state = initialState, action) {
             lastUpdate: Date.now()
           };
         } else if (!area.synced) {
-          outdated = true;
+          synced = false;
         }
         return area;
       });
-      return { ...state, data: areas, outdated };
+      return { ...state, data: areas, synced };
     }
     case UPDATE_AREA_ROLLBACK: {
       const oldArea = action.meta;
-      let outdated = false;
+      let synced = true;
       const areas = state.data.map((area) => {
         if (area.id === oldArea.id) {
           return {
@@ -129,11 +140,11 @@ export default function reducer(state = initialState, action) {
             lastModify: Date.now()
           };
         } else if (!area.synced) {
-          outdated = true;
+          synced = false;
         }
         return area;
       });
-      return { ...state, data: areas, outdated };
+      return { ...state, data: areas, synced };
     }
     case SET_CACHE_AREA_REQUEST: {
       const newArea = action.payload;
@@ -148,17 +159,30 @@ export default function reducer(state = initialState, action) {
       // TODO: save the stored flag in the dataset cache as false
       return state;
     }
+    case DELETE_AREA_REQUEST: {
+      const areas = [...state.data];
+      const areasFiltered = areas.filter((area) => (
+        area.id === action.payload.id
+      ));
+      return { ...state, data: areasFiltered, synced: false };
+    }
+    case DELETE_AREA_COMMIT: {
+      const synced = areAllAreasSynced(state.data);
+      const { id } = action.meta;
+      const images = state.images;
+      if (images[id] !== undefined) {
+        delete images[id];
+      }
+      return { ...state, images, synced };
+    }
+    case DELETE_AREA_ROLLBACK: {
+      const synced = areAllAreasSynced(state.data);
+      const areas = [...state.data];
+      areas.push(action.meta);
+      return { ...state, data: areas, synced };
+    }
     case UPDATE_INDEX: {
       return Object.assign({}, state, { selectedIndex: action.payload });
-    }
-    case DELETE_AREA: {
-      const areas = state.data;
-      const images = state.images;
-      const id = action.payload.id;
-      const deletedArea = areas.find((a) => (a.id === id));
-      areas.splice(areas.indexOf(deletedArea), 1);
-      if (images[id] !== undefined) { delete images[id]; }
-      return Object.assign({}, state, { data: areas, images, synced: true });
     }
     case LOGOUT_COMMIT: {
       return initialState;
@@ -329,62 +353,30 @@ async function downloadArea(bbox, areaId, datasetSlug) {
 
 export function saveArea(params) {
   const url = `${Config.API_URL}/area`;
-  return (dispatch, state) => {
-    if (state().offline.online) {
-      const form = new FormData();
-      form.append('name', params.area.name);
-      form.append('geostore', params.area.geostore);
-      const image = {
-        uri: params.snapshot,
-        type: 'image/png',
-        name: `${params.area.name}.png`
-      };
-      if (params.datasets) {
-        form.append('datasets', JSON.stringify(params.datasets));
-      }
-      form.append('image', image);
-
-      const fetchConfig = {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${state().user.token}`
-        },
-        body: form
-      };
-
-      fetch(url, fetchConfig)
-        .then(response => {
-          if (response.ok) return response.json();
-          throw new Error(response._bodyText); // eslint-disable-line
-        })
-        .then(async (res) => {
-          dispatch({
-            type: SAVE_AREA,
-            payload: {
-              area: res.data,
-              snapshot: params.snapshot
-            }
-          });
-          dispatch({
-            type: SET_AREA_SAVED,
-            payload: {
-              status: true,
-              areaId: res.data.id
-            }
-          });
-        })
-        .catch((error) => {
-          console.warn('Error saving data', error);
-          dispatch({
-            type: SET_AREA_SAVED,
-            payload: {
-              status: false
-            }
-          });
-          console.warn(error);
-          // To-do
-        });
+  return (dispatch) => {
+    const headers = { 'content-type': 'multipart/form-data' };
+    const body = new FormData();
+    body.append('name', params.area.name);
+    body.append('geostore', params.area.geostore);
+    const image = {
+      uri: params.snapshot,
+      type: 'image/png',
+      name: `${params.area.name}.png`
+    };
+    if (params.datasets) {
+      body.append('datasets', JSON.stringify(params.datasets));
     }
+    body.append('image', image);
+    dispatch({
+      type: SAVE_AREA_REQUEST,
+      meta: {
+        offline: {
+          effect: { url, method: 'POST', headers, body },
+          commit: { type: SAVE_AREA_COMMIT },
+          rollback: { type: SAVE_AREA_ROLLBACK }
+        }
+      }
+    });
   };
 }
 
@@ -480,34 +472,22 @@ export function updateDate(areaId, datasetSlug, date) {
 }
 
 
-export function deleteArea(id) {
-  const url = `${Config.API_URL}/area/${id}`;
-  return (dispatch, state) => {
-    if (state().offline.online) {
-      const fetchConfig = {
-        method: 'DELETE',
-        headers: {
-          'content-type': 'application/json',
-          Authorization: `Bearer ${state().user.token}`
+export function deleteArea(areaId) {
+  return async (dispatch, state) => {
+    const area = getAreaById(state().areas.data, areaId);
+    if (area) {
+      const url = `${Config.API_URL}/area/${area.id}`;
+      dispatch({
+        type: DELETE_AREA_REQUEST,
+        payload: area,
+        meta: {
+          offline: {
+            effect: { url, method: 'DELETE' },
+            commit: { type: DELETE_AREA_COMMIT, meta: area },
+            rollback: { type: DELETE_AREA_ROLLBACK, meta: area }
+          }
         }
-      };
-      fetch(url, fetchConfig)
-        .then(response => {
-          if (response.ok && response.status === 204) return response.ok;
-          throw new Error(response.statusText);
-        })
-        .then(() => {
-          dispatch({
-            type: DELETE_AREA,
-            payload: {
-              id
-            }
-          });
-        })
-        .catch((error) => {
-          console.warn(error);
-          // To-do
-        });
+      });
     }
   };
 }

@@ -1,8 +1,10 @@
 // Actions
+import { SAVE_AREA_COMMIT, SAVE_AREA_ROLLBACK } from 'redux-modules/areas';
+
 const INIT_SETUP = 'setup/INIT_SETUP';
 const SET_COUNTRY = 'setup/SET_COUNTRY';
 const SET_AOI = 'setup/SET_AOI'; // AOI = Area of interest
-export const SET_AREA_SAVED = 'setup/SET_AREA_SAVED';
+
 
 // Reducer
 const initialState = {
@@ -37,10 +39,13 @@ export default function reducer(state = initialState, action) {
         area: action.payload.area,
         snapshot: action.payload.snapshot
       });
-    case SET_AREA_SAVED: {
+    case SAVE_AREA_COMMIT: {
       const area = { ...state.area };
-      area.id = action.payload.areaId;
-      return Object.assign({}, state, { areaSaved: action.payload.status, area });
+      area.id = action.payload.id;
+      return Object.assign({}, state, { areaSaved: true, area });
+    }
+    case SAVE_AREA_ROLLBACK: {
+      return { ...state, areaSaved: false };
     }
     default:
       return state;

@@ -84,6 +84,8 @@ class AreaDetail extends Component {
   render() {
     const imageUrl = this.props.imageUrl !== undefined ? this.props.imageUrl : null;
     const { area } = this.props;
+
+    if (!area) return null;
     return (
       <ScrollView
         style={styles.container}
