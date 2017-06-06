@@ -82,9 +82,7 @@ class Sync extends Component {
     const { isConnected, reach } = this.props;
     if (this.state.canSyncData || (isConnected && WIFI.includes(reach))) {
       this.completeTimeout = setTimeout(this.complete, 2000);
-      this.props.getAreas();
-      this.props.getForms();
-      this.props.getUser();
+      this.props.syncApp();
     }
   }
 
@@ -161,11 +159,9 @@ class Sync extends Component {
 Sync.propTypes = {
   isConnected: React.PropTypes.bool.isRequired,
   reach: React.PropTypes.string.isRequired,
-  getUser: React.PropTypes.func.isRequired,
-  getAreas: React.PropTypes.func.isRequired,
-  getForms: React.PropTypes.func.isRequired,
   navigator: React.PropTypes.object.isRequired,
-  readyState: React.PropTypes.bool.isRequired
+  readyState: React.PropTypes.bool.isRequired,
+  syncApp: React.PropTypes.func.isRequired
 };
 
 export default Sync;
