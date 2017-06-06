@@ -22,6 +22,10 @@ const initialNavState = {
 
 export default function reducer(state = initialNavState, action) {
   switch (action.type) {
+    case GET_FEEDBACK_QUESTIONS_REQUEST: {
+      const synced = `${action.meta.type}Synced`;
+      return { ...state, [synced]: false };
+    }
     case GET_FEEDBACK_QUESTIONS_COMMIT: {
       let form = null;
       if (action.payload.data && action.payload.data[0]) {
@@ -61,6 +65,7 @@ export function getFeedbackQuestions(type) {
   return {
     type: GET_FEEDBACK_QUESTIONS_REQUEST,
     meta: {
+      type,
       offline: {
         effect: { url },
         commit: { type: GET_FEEDBACK_QUESTIONS_COMMIT, meta: { type } }

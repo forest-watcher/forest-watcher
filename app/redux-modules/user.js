@@ -20,6 +20,8 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case GET_USER_REQUEST:
+      return { ...state, synced: false };
     case GET_USER_COMMIT: {
       if (action.payload.data) {
         const user = action.payload.data.attributes;

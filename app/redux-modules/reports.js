@@ -19,6 +19,8 @@ const initialNavState = {
 
 export default function reducer(state = initialNavState, action) {
   switch (action.type) {
+    case GET_REPORT_QUESTIONS_REQUEST:
+      return { ...state, synced: false };
     case GET_REPORT_QUESTIONS_COMMIT: {
       let form = null;
       if (action.payload.data && action.payload.data[0]) {
