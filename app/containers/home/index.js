@@ -7,15 +7,14 @@ import Home from 'components/home';
 
 function mapStateToProps(state) {
   return {
-    hasAreas: state.areas.data && state.areas.data.length > 0,
+    hasAreas: state.areas.synced,
     readyState: getReadyState(state),
     setupComplete: state.app.setupComplete,
     loggedIn: state.user.loggedIn,
     token: state.user.token,
     languageChanged: state.app.language !== getLanguage(),
-    hasUserData: state.user.data && Object.keys(state.user.data).length > 0,
-    hasFormsData: (Object.keys(state.reports.forms).length > 0 && Object.keys(state.feedback.daily).length > 0
-    && Object.keys(state.feedback.weekly).length > 0)
+    hasUserData: state.user.synced,
+    hasFormsData: state.feedback.dailySynced && state.feedback.weeklySynced && state.reports.synced
   };
 }
 

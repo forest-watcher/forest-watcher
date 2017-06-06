@@ -20,12 +20,12 @@ function mapStateToProps(state) {
     isConnected: state.offline.online,
     reach: state.app.netInfo.reach,
     languageChanged: state.app.language !== getLanguage(),
-    hasAreas: state.areas.data && state.areas.data.length > 0 && state.areas.synced,
-    hasUserData: state.user.data && Object.keys(state.user.data).length > 0 && state.user.synced,
+    hasAreas: state.areas.synced,
+    hasUserData: state.user.synced,
     hasForms: {
-      report: Object.keys(state.reports.forms).length > 0 && state.reports.synced,
-      daily: Object.keys(state.feedback.daily).length > 0 && state.feedback.dailySynced,
-      weekly: Object.keys(state.feedback.weekly).length > 0 && state.feedback.weeklySynced
+      report: state.reports.synced,
+      daily: state.feedback.dailySynced,
+      weekly: state.feedback.weeklySynced
     },
     readyState: getReadyState(state)
   };
