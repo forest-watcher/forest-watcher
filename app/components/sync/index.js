@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { View, ActivityIndicator, Text } from 'react-native';
 import Theme from 'config/theme';
+import Constants from 'config/constants';
 import I18n from 'locales';
 import ActionButton from 'components/common/action-button';
 import styles from './styles';
+
+const WIFI = Constants.reach.WIFI;
+const MOBILE = Constants.reach.MOBILE;
 
 class Sync extends Component {
   static navigatorStyle = {
@@ -51,8 +55,8 @@ class Sync extends Component {
     const texts = {};
     if (isConnected) {
       if (!this.state.completeTimeoutFlag || !readyState) {
-        texts.title = reach === 'WIFI' ? I18n.t('home.title.updating') : I18n.t('home.title.outOfDate');
-        texts.subtitle = reach === 'WIFI' ? I18n.t('home.subtitle.takesTime') : I18n.t('home.subtitle.mobile');
+        texts.title = WIFI.includes(reach) ? I18n.t('home.title.updating') : I18n.t('home.title.outOfDate');
+        texts.subtitle = WIFI.includes(reach) ? I18n.t('home.subtitle.takesTime') : I18n.t('home.subtitle.mobile');
       } else {
         texts.title = I18n.t('home.title.updated');
         texts.subtitle = I18n.t('home.subtitle.updated');
@@ -66,7 +70,7 @@ class Sync extends Component {
 
   syncData = () => {
     const { isConnected, reach } = this.props;
-    if (this.state.canSyncData || (isConnected && reach === 'WIFI')) {
+    if (this.state.canSyncData || (isConnected && WIFI.includes(reach))) {
       this.completeTimeout = setTimeout(this.complete, 2000);
       this.props.getAreas();
       this.props.getForms();
@@ -96,7 +100,7 @@ class Sync extends Component {
       <View style={[styles.mainContainer, styles.center]}>
         <View>
           <View style={styles.textContainer}>
-            {isConnected && reach === 'wifi' &&
+            {isConnected && WIFI.includes(reach) &&
             <ActivityIndicator
               color={Theme.colors.color1}
               style={{ height: 80 }}
@@ -110,7 +114,7 @@ class Sync extends Component {
               {subtitle}
             </Text>
           </View>
-          {reach !== 'mobile' && (!readyState || !completeTimeoutFlag) &&
+          {!MOBILE.includes(reach) && (!readyState || !completeTimeoutFlag) &&
             <View>
               <ActionButton
                 monochrome
@@ -121,7 +125,7 @@ class Sync extends Component {
               />
             </View>
           }
-          {reach === 'mobile' &&
+          {isConnected && MOBILE.includes(reach) &&
             <View>
               <ActionButton
                 monochrome
