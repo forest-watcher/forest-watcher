@@ -5,15 +5,16 @@ import GoogleOAuth from 'config/oAuth/GoogleOAuth';
 const GET_USER_REQUEST = 'user/GET_USER_REQUEST';
 const GET_USER_COMMIT = 'user/GET_USER_COMMIT';
 const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
-const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
-export const LOGOUT_COMMIT = 'user/LOGOUT_COMMIT';
+export const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
+const LOGOUT_COMMIT = 'user/LOGOUT_COMMIT';
 
 // Reducer
 const initialState = {
   data: {},
   loggedIn: false,
   token: null,
-  socialNetwork: null
+  socialNetwork: null,
+  logoutSuccess: true
 };
 
 export default function reducer(state = initialState, action) {
@@ -28,8 +29,10 @@ export default function reducer(state = initialState, action) {
     }
     case SET_LOGIN_STATUS:
       return Object.assign({}, state, { ...action.payload });
+    case LOGOUT_REQUEST:
+      return { ...initialState, logoutSuccess: false };
     case LOGOUT_COMMIT:
-      return initialState;
+      return { ...initialState, logoutSuccess: true };
     default:
       return state;
   }
@@ -72,8 +75,8 @@ export function loginGoogle() {
             token: data.token
           }
         }))
-        .catch((error) => {
-          console.warn(error);
+        .catch(() => {
+          GoogleOAuth.reset();
         });
     });
   };

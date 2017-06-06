@@ -85,8 +85,13 @@ class Login extends PureComponent {
   }
 
   onPressGoogle = () => {
-    if (this.props.isConnected) {
-      this.props.loginGoogle();
+    const { logoutSuccess, logout, isConnected, loginGoogle } = this.props;
+    if (isConnected) {
+      if (!logoutSuccess) {
+        logout();
+      } else {
+        loginGoogle();
+      }
     } else {
       Alert.alert(
         I18n.t('login.unable'),
@@ -227,6 +232,8 @@ class Login extends PureComponent {
 
 Login.propTypes = {
   loggedIn: React.PropTypes.bool.isRequired,
+  logoutSuccess: React.PropTypes.bool.isRequired,
+  logout: React.PropTypes.func.isRequired,
   isConnected: React.PropTypes.bool.isRequired,
   loginGoogle: React.PropTypes.func.isRequired,
   setLoginStatus: React.PropTypes.func.isRequired,

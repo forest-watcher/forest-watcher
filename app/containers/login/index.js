@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
-import { setLoginStatus, loginGoogle } from 'redux-modules/user';
+import { setLoginStatus, loginGoogle, logout } from 'redux-modules/user';
 import Login from 'components/login';
 
 function mapStateToProps(state) {
   return {
     isConnected: state.offline.online,
-    loggedIn: state.user.loggedIn
+    loggedIn: state.user.loggedIn,
+    logoutSuccess: state.user.logoutSuccess
   };
 }
 
@@ -14,7 +15,8 @@ function mapDispatchToProps(dispatch) {
     setLoginStatus: (action) => {
       dispatch(setLoginStatus(action));
     },
-    loginGoogle: () => dispatch(loginGoogle())
+    loginGoogle: () => dispatch(loginGoogle()),
+    logout: () => dispatch(logout())
   };
 }
 
