@@ -8,7 +8,7 @@ import Sync from 'components/sync';
 function mapStateToProps(state) {
   return {
     isConnected: state.offline.online,
-    reach: state.app.netInfo.reach,
+    reach: state.offline.netInfo && state.offline.netInfo.reach,
     languageChanged: state.app.language !== getLanguage(),
     readyState: getReadyState(state)
   };
