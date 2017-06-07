@@ -1,3 +1,9 @@
+import { getFeedbackQuestions } from 'redux-modules/feedback';
+import { getReportQuestions } from 'redux-modules/reports';
+import { getAreas } from 'redux-modules/areas';
+import { getCountries } from 'redux-modules/countries';
+import { getUser } from 'redux-modules/user';
+
 // Actions
 const SET_LANGUAGE = 'app/SET_LANGUAGE';
 export const NET_INFO_CHANGED = 'app/NET_INFO_CHANGED';
@@ -27,5 +33,17 @@ export function setLanguage(language) {
       type: SET_LANGUAGE,
       payload: language
     });
+  };
+}
+
+export function syncApp() {
+  return (dispatch, state) => {
+    const { reports, feedback, areas, user, countries } = state();
+    if (!user.synced) dispatch(getUser());
+    if (!reports.synced) dispatch(getReportQuestions());
+    if (!feedback.dailySynced) dispatch(getFeedbackQuestions('daily'));
+    if (!feedback.weeklySynced) dispatch(getFeedbackQuestions('weekly'));
+    if (!areas.synced) dispatch(getAreas());
+    if (!countries.synced) dispatch(getCountries());
   };
 }

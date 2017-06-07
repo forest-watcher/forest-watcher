@@ -7,7 +7,7 @@ import BoundingBox from 'boundingbox';
 import CONSTANTS from 'config/constants';
 
 // Actions
-import { LOGOUT_COMMIT } from 'redux-modules/user';
+import { LOGOUT_REQUEST } from 'redux-modules/user';
 
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
 const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
@@ -184,7 +184,7 @@ export default function reducer(state = initialState, action) {
     case UPDATE_INDEX: {
       return Object.assign({}, state, { selectedIndex: action.payload });
     }
-    case LOGOUT_COMMIT: {
+    case LOGOUT_REQUEST: {
       return initialState;
     }
     default:

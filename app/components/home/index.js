@@ -3,8 +3,6 @@ import {
   View,
   ActivityIndicator
 } from 'react-native';
-
-import { getLanguage } from 'helpers/language';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
@@ -14,87 +12,77 @@ class Home extends Component {
     navBarHidden: true
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalOpen: false
+    };
+  }
+
   componentDidMount() {
     this.handleStatus();
     tracker.trackScreenView('Home');
   }
 
-  componentWillReceiveProps(newProps) {
-    if ((this.props.user.loggedIn !== newProps.user.loggedIn)
-        || (this.props.areasSynced !== newProps.areasSynced)
-        || (this.props.language && this.isDifferentLanguage())) {
-      this.props = newProps;
-      this.handleStatus();
-    }
+  // Override shouldComponentUpdate because setLanguage passed as prop always changes
+  shouldComponentUpdate(nextProps, nextState) {
+    const conditions = [
+      this.props.loggedIn !== nextProps.loggedIn,
+      this.props.readyState !== nextProps.readyState,
+      this.props.hasUserData !== nextProps.hasUserData,
+      this.props.hasAreas !== nextProps.hasAreas,
+      this.props.setupComplete !== nextProps.setupComplete,
+      this.props.hasFormsData !== nextProps.hasFormsData,
+      this.props.token !== nextProps.token,
+      this.state.modalOpen !== nextState.modalOpen
+    ];
+    return conditions.includes(true);
   }
 
-  isDifferentLanguage() {
-    return this.props.language !== getLanguage();
-  }
-
-  cacheForms() {
-    if (!this.props.report || this.isDifferentLanguage()) this.props.getReportQuestions();
-    if (!this.props.dailyFeedback || this.isDifferentLanguage()) this.props.getFeedbackQuestions('daily');
-    if (!this.props.weeklyFeedback || this.isDifferentLanguage()) this.props.getFeedbackQuestions('weekly');
+  componentDidUpdate() {
+    this.handleStatus();
   }
 
   handleStatus() {
-    const { token, loggedIn } = this.props.user;
-    if (token) {
+    const { loggedIn, token, hasUserData, hasAreas, hasFormsData, readyState, setupComplete, setLanguage, navigator } = this.props;
+    setLanguage();
+    if (loggedIn) {
       tracker.setUser(token);
-      this.cacheForms();
-
-      if (!loggedIn) {
-        this.props.setLoginStatus({
-          loggedIn: true,
-          token
+      if ((!hasAreas || !hasUserData || !hasFormsData) && !readyState && !this.state.modalOpen) {
+        return this.setState({ modalOpen: true }, this.openModal);
+      } else if (!setupComplete && !hasAreas && readyState) {
+        return navigator.resetTo({
+          screen: 'ForestWatcher.Setup',
+          title: 'Set up',
+          passProps: {
+            goBackDisabled: true
+          }
         });
       }
-
-      if (!this.props.user.hasData) {
-        this.props.getUser();
-      }
-
-      if (this.isDifferentLanguage()) {
-        this.props.setLanguage(getLanguage());
-        this.props.getCountries();
-      }
-
-      if (this.props.areasSynced) {
-        if (this.props.areas) {
-          setTimeout(() => {
-            this.props.navigator.resetTo({
-              screen: 'ForestWatcher.Dashboard',
-              title: 'FOREST WATCHER'
-            });
-          }, 100);
-        } else {
-          const { setupComplete } = this.props;
-          setTimeout(() => {
-            if (setupComplete === 'Dashboard') {
-              this.props.navigator.resetTo({
-                screen: 'ForestWatcher.Dashboard',
-                title: 'FOREST WATCHER'
-              });
-            } else {
-              this.props.navigator.resetTo({
-                screen: 'ForestWatcher.Setup',
-                title: 'Set up',
-                passProps: {
-                  goBackDisabled: true
-                }
-              });
-            }
-          }, 100);
-        }
-      } else {
-        this.props.getAreas();
-      }
-    } else {
-      this.props.navigator.resetTo({
+      return navigator.resetTo({
+        screen: 'ForestWatcher.Dashboard',
+        title: 'FOREST WATCHER'
+      });
+    } else { // eslint-disable-line
+      return navigator.resetTo({
         screen: 'ForestWatcher.Login'
       });
     }
+  }
+
+  openModal = () => {
+    const { navigator } = this.props;
+    navigator.showModal({
+      screen: 'ForestWatcher.Sync',
+      passProps: {
+        navigator,
+        goBackDisabled: true
+      }
+    });
+    navigator.resetTo({
+      screen: 'ForestWatcher.Dashboard',
+      title: 'FOREST WATCHER'
+    });
   }
 
   render() {
@@ -109,34 +97,20 @@ class Home extends Component {
     );
   }
 }
-
 Home.propTypes = {
-  user: React.PropTypes.shape({
-    loggedIn: React.PropTypes.bool.isRequired,
-    token: React.PropTypes.string,
-    hasData: React.PropTypes.bool.isRequired
-  }).isRequired,
-  language: React.PropTypes.string,
-  areas: React.PropTypes.bool.isRequired,
+  loggedIn: React.PropTypes.bool.isRequired,
+  token: React.PropTypes.string,
+  readyState: React.PropTypes.bool.isRequired,
   setupComplete: React.PropTypes.bool.isRequired,
-  report: React.PropTypes.bool.isRequired,
-  dailyFeedback: React.PropTypes.bool.isRequired,
-  weeklyFeedback: React.PropTypes.bool.isRequired,
-  getAreas: React.PropTypes.func.isRequired,
-  areasSynced: React.PropTypes.bool.isRequired,
-  getUser: React.PropTypes.func.isRequired,
-  getCountries: React.PropTypes.func.isRequired,
-  getReportQuestions: React.PropTypes.func.isRequired,
-  getFeedbackQuestions: React.PropTypes.func.isRequired,
-  setLoginStatus: React.PropTypes.func.isRequired,
   setLanguage: React.PropTypes.func.isRequired,
-  navigator: React.PropTypes.object.isRequired
+  navigator: React.PropTypes.object.isRequired,
+  hasUserData: React.PropTypes.bool.isRequired,
+  hasAreas: React.PropTypes.bool.isRequired,
+  hasFormsData: React.PropTypes.bool.isRequired
 };
-
 Home.navigationOptions = {
   header: {
     visible: false
   }
 };
-
 export default Home;

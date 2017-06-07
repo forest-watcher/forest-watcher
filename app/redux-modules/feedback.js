@@ -5,7 +5,8 @@ import { getLanguage } from 'helpers/language';
 import { actionTypes } from 'redux-form';
 
 // Actions
-const GET_QUESTIONS = 'feedback/GET_QUESTIONS';
+const GET_FEEDBACK_QUESTIONS_REQUEST = 'feedback/GET_FEEDBACK_QUESTIONS_REQUEST';
+const GET_FEEDBACK_QUESTIONS_COMMIT = 'feedback/GET_FEEDBACK_QUESTIONS_COMMIT';
 const CREATE_FEEDBACK = 'feedback/CREATE_FEEDBACK';
 const UPDATE_FEEDBACK = 'feedback/UPDATE_FEEDBACK';
 
@@ -14,14 +15,29 @@ const UPDATE_FEEDBACK = 'feedback/UPDATE_FEEDBACK';
 const initialNavState = {
   daily: {},
   weekly: {},
-  list: {}
+  list: {},
+  dailySynced: false,
+  weeklySynced: false
 };
 
 export default function reducer(state = initialNavState, action) {
   switch (action.type) {
-    case GET_QUESTIONS: {
+    case GET_FEEDBACK_QUESTIONS_REQUEST: {
+      const synced = `${action.meta.type}Synced`;
+      return { ...state, [synced]: false };
+    }
+    case GET_FEEDBACK_QUESTIONS_COMMIT: {
+      let form = null;
+      if (action.payload.data && action.payload.data[0]) {
+        form = action.payload.data[0].attributes;
+      }
+      if (form && form.questions && form.questions.length) {
+        form.questions = form.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
+      }
+      const synced = `${action.meta.type}Synced`;
       const feedback = {
-        [action.payload.type]: action.payload.data
+        [action.meta.type]: form,
+        [synced]: true
       };
       return Object.assign({}, state, feedback);
     }
@@ -41,44 +57,19 @@ export default function reducer(state = initialNavState, action) {
 }
 
 // Action Creators
-export function getQuestions(type) {
-  return (dispatch, state) => {
-    if (state().offline.online) {
-      const language = getLanguage().toUpperCase();
-      let feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_${language}`];
-      if (!feedbackId) feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_EN`]; // language fallback
-      const url = `${Config.API_URL}/questionnaire/${feedbackId}`;
-      const fetchConfig = {
-        headers: {
-          'content-type': 'application/json',
-          Authorization: `Bearer ${state().user.token}`
-        }
-      };
-      fetch(url, fetchConfig)
-        .then(response => {
-          if (response.ok) return response.json();
-          throw new Error(response.statusText);
-        })
-        .then((data) => {
-          let form = null;
-          if (data && data.data && data.data[0]) {
-            form = data.data[0].attributes;
-          }
-          if (form && form.questions && form.questions.length) {
-            form.questions = form.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
-          }
-          dispatch({
-            type: GET_QUESTIONS,
-            payload: {
-              type,
-              data: form
-            }
-          });
-        })
-        .catch((err) => {
-          // TODO: handle error
-          console.warn(err);
-        });
+export function getFeedbackQuestions(type) {
+  const language = getLanguage().toUpperCase();
+  let feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_${language}`];
+  if (!feedbackId) feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_EN`]; // language fallback
+  const url = `${Config.API_URL}/questionnaire/${feedbackId}`;
+  return {
+    type: GET_FEEDBACK_QUESTIONS_REQUEST,
+    meta: {
+      type,
+      offline: {
+        effect: { url },
+        commit: { type: GET_FEEDBACK_QUESTIONS_COMMIT, meta: { type } }
+      }
     }
   };
 }

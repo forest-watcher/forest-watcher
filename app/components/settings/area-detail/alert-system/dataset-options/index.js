@@ -47,7 +47,7 @@ class DatasetOptions extends Component {
             /> :
             <DropdownPicker
               updateViirsRange={this.handleUpdateDate}
-              startDate={startDate}
+              endDate={endDate}
             />
           }
         </View>

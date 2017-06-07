@@ -24,6 +24,21 @@
     "noCached": "no cacheada",
     "noAlertSystem": "No alert system selected"
 	},
+	"home": {
+		"title": {
+			"updating": "Updating data...",
+			"outOfDate": "Your alerts are out of date",
+			"updated": "Update Completed!"
+		},
+		"subtitle": {
+			"takesTime": "This process can take several minutes",
+			"mobile": "Do you want to update them over 3G?",
+			"noConnection": "You need an internet connection to update your data",
+			"updated": "Data was successfully updated!"
+		},
+		"skip": "skip",
+		"update": "update"
+	},
 	"dashboard": {
 		"title": "Panel de control",
 		"alerts": "Mis alertas",

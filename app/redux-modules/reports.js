@@ -4,7 +4,8 @@ import CONSTANTS from 'config/constants';
 import { getLanguage } from 'helpers/language';
 
 // Actions
-const GET_QUESTIONS = 'report/GET_QUESTIONS';
+const GET_REPORT_QUESTIONS_REQUEST = 'report/GET_REPORT_QUESTIONS_REQUEST';
+const GET_REPORT_QUESTIONS_COMMIT = 'report/GET_REPORT_QUESTIONS_COMMIT';
 const CREATE_REPORT = 'report/CREATE_REPORT';
 const UPDATE_REPORT = 'report/UPDATE_REPORT';
 
@@ -12,13 +13,23 @@ const UPDATE_REPORT = 'report/UPDATE_REPORT';
 // Reducer
 const initialNavState = {
   forms: {},
-  list: {}
+  list: {},
+  synced: false
 };
 
 export default function reducer(state = initialNavState, action) {
   switch (action.type) {
-    case GET_QUESTIONS: {
-      return Object.assign({}, state, { forms: action.payload });
+    case GET_REPORT_QUESTIONS_REQUEST:
+      return { ...state, synced: false };
+    case GET_REPORT_QUESTIONS_COMMIT: {
+      let form = null;
+      if (action.payload.data && action.payload.data[0]) {
+        form = action.payload.data[0].attributes;
+      }
+      if (form && form.questions && form.questions.length) {
+        form.questions = form.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
+      }
+      return Object.assign({}, state, { forms: form, synced: true });
     }
     case CREATE_REPORT: {
       const reports = { ...state.list, ...action.payload };
@@ -36,41 +47,19 @@ export default function reducer(state = initialNavState, action) {
 }
 
 // Action Creators
-export function getQuestions() {
-  return (dispatch, state) => {
-    if (state().offline.online) {
-      const language = getLanguage().toUpperCase();
-      let qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
-      if (!qIdByLanguage) qIdByLanguage = Config.QUESTIONNARIE_ID_EN; // language fallback
-      const url = `${Config.API_URL}/questionnaire/${qIdByLanguage}`;
-      const fetchConfig = {
-        headers: {
-          'content-type': 'application/json',
-          Authorization: `Bearer ${state().user.token}`
-        }
-      };
-      fetch(url, fetchConfig)
-        .then(response => {
-          if (response.ok) return response.json();
-          throw new Error(response.statusText);
-        })
-        .then((data) => {
-          let form = null;
-          if (data && data.data && data.data[0]) {
-            form = data.data[0].attributes;
-          }
-          if (form && form.questions && form.questions.length) {
-            form.questions = form.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
-          }
-          dispatch({
-            type: GET_QUESTIONS,
-            payload: form
-          });
-        })
-        .catch((err) => {
-          // TODO: handle error
-          console.warn(err);
-        });
+export function getReportQuestions() {
+  const language = getLanguage().toUpperCase();
+  let qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
+  if (!qIdByLanguage) qIdByLanguage = Config.QUESTIONNARIE_ID_EN; // language fallback
+  const url = `${Config.API_URL}/questionnaire/${qIdByLanguage}`;
+
+  return {
+    type: GET_REPORT_QUESTIONS_REQUEST,
+    meta: {
+      offline: {
+        effect: { url },
+        commit: { type: GET_REPORT_QUESTIONS_COMMIT }
+      }
     }
   };
 }

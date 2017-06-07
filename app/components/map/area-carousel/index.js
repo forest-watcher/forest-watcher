@@ -30,7 +30,7 @@ class AreaCarousel extends Component {
   }
 
   render() {
-    const { alertSelected, lastPosition } = this.props;
+    const { alertSelected, lastPosition, selectedArea } = this.props;
     let distanceText = I18n.t('commonText.notAvailable');
     let positionText = '';
     let datasetName = I18n.t('commonText.notAvailable');
@@ -82,6 +82,7 @@ class AreaCarousel extends Component {
       <View style={{ position: 'absolute', bottom: 0, zIndex: 10 }}>
         <Carousel
           ref={(carousel) => { this.carousel = carousel; }}
+          firstItem={selectedArea}
           sliderWidth={sliderWidth}
           itemWidth={itemWidth}
           onSnapToItem={throttle((index) => this.props.updateSelectedArea(index), 300)}
@@ -100,7 +101,8 @@ AreaCarousel.propTypes = {
   lastPosition: React.PropTypes.object,
   areas: React.PropTypes.array,
   navigator: React.PropTypes.object.isRequired,
-  updateSelectedArea: React.PropTypes.func
+  updateSelectedArea: React.PropTypes.func,
+  selectedArea: React.PropTypes.number
 };
 
 export default AreaCarousel;

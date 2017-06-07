@@ -55,5 +55,11 @@ export default {
     complete: 'complete',
     uploaded: 'uploaded'
   },
-  startDate: '20150101'
+  startDate: '20150101',
+  reach: {
+    WIFI: ['WIFI'],
+    MOBILE: ['MOBILE', 'MOBILE_DUN', 'MOBILE_HIPRI', 'MOBILE_MMS', 'MOBILE_SUPL', 'CELL'],
+    OTHER: ['BLUETOOTH', 'DUMMY', 'ETHERNET', 'VPN', 'WIMAX'],
+    NONE: ['NONE', 'UNKNOWN']
+  }
 };

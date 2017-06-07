@@ -4,8 +4,10 @@ import { updateSelectedIndex } from 'redux-modules/areas';
 
 function mapStateToProps(state) {
   const areas = state.areas.data;
+  const selectedArea = state.areas.selectedIndex;
   return {
-    areas
+    areas,
+    selectedArea
   };
 }
 
