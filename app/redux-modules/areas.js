@@ -5,11 +5,15 @@ import { getBboxTiles, cacheTiles } from 'helpers/map';
 import { getInitialDatasets } from 'helpers/area';
 import BoundingBox from 'boundingbox';
 import CONSTANTS from 'config/constants';
+import { initDb } from 'helpers/database';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
+const GET_ALERTS_REQUEST = 'areas/GET_ALERTS_REQUEST';
+const GET_ALERTS_COMMIT = 'areas/GET_ALERTS_COMMIT';
+const GET_ALERTS_ROLLBACK = 'areas/GET_ALERTS_ROLLBACK';
 const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
 const GET_AREAS_ROLLBACK = 'areas/GET_AREAS_ROLLBACK';
 const SAVE_AREA_REQUEST = 'areas/SAVE_AREA_REQUEST';
@@ -60,6 +64,23 @@ function areAllAreasSynced(areas) {
   return true;
 }
 
+export function saveAlertsToDb(areaId, slug, alerts) {
+  const realm = initDb();
+  if (alerts.length > 0) {
+    const parsedAlerts = alerts.map((alert) => ({
+      areaId,
+      slug,
+      long: alert.long,
+      lat: alert.lat
+    }));
+    realm.write(() => {
+      parsedAlerts.forEach((alert) => {
+        realm.create('Alert', alert);
+      });
+    });
+  }
+}
+
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_AREAS_REQUEST:
@@ -69,6 +90,13 @@ export default function reducer(state = initialState, action) {
       return { ...state, data: action.payload };
     }
     case GET_AREAS_ROLLBACK: {
+      return { ...state, synced: false };
+    }
+    case GET_ALERTS_COMMIT: {
+      saveAlertsToDb(action.meta.areaId, action.meta.slug, action.payload.data);
+      return { ...state, synced: true };
+    }
+    case GET_ALERTS_ROLLBACK: {
       return { ...state, synced: false };
     }
     case GET_AREA_COVERAGE_COMMIT: {
@@ -491,5 +519,29 @@ export function deleteArea(areaId) {
         }
       });
     }
+  };
+}
+
+export function getAlertsJson(areaId) {
+  return (dispatch, state) => {
+    const area = getAreaById(state().areas.data, areaId);
+    const geojson = state().geostore.data[area.attributes.geostore];
+    const areaGeometry = geojson.features[0].geometry;
+    const sql = `select lat, long from data
+              where year >= 2017
+              AND st_intersects(st_setsrid(st_geomfromgeojson('${JSON.stringify(areaGeometry)}'), 4326), the_geom)`;
+    const dataset = Config.DATASET_GLAD;
+    const url = `${Config.API_URL}/query/${dataset}/?sql=${sql}`;
+
+    dispatch({
+      type: GET_ALERTS_REQUEST,
+      meta: {
+        offline: {
+          effect: { url, deserialize: false },
+          commit: { type: GET_ALERTS_COMMIT, meta: { areaId, slug: 'umd_as_it_happens' } },
+          rollback: { type: GET_ALERTS_ROLLBACK }
+        }
+      }
+    });
   };
 }
