@@ -162,14 +162,14 @@ export default function reducer(state = initialState, action) {
     case DELETE_AREA_REQUEST: {
       const areas = [...state.data];
       const areasFiltered = areas.filter((area) => (
-        area.id === action.payload.id
+        area.id !== action.payload.id
       ));
       return { ...state, data: areasFiltered, synced: false };
     }
     case DELETE_AREA_COMMIT: {
       const synced = areAllAreasSynced(state.data);
       const { id } = action.meta;
-      const images = state.images;
+      const images = { ...state.images };
       if (images[id] !== undefined) {
         delete images[id];
       }
