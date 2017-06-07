@@ -28,7 +28,7 @@ export default function reducer(state = initialState, action) {
         user.id = action.payload.data.id;
         return Object.assign({}, state, { data: user, synced: true });
       }
-      return state;
+      return { ...state, synced: true };
     }
     case SET_LOGIN_STATUS:
       return Object.assign({}, state, { ...action.payload });
