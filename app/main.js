@@ -2,7 +2,6 @@ import { Navigation } from 'react-native-navigation';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { netInfoMiddleware } from 'offline/middleware';
 import Theme from 'config/theme';
 import { registerScreens } from 'screens';
 
@@ -31,7 +30,7 @@ export default () => {
   const authMiddleware = ({ getState }) => next => action => next({ ...action, auth: getState().user.token });
 
   const reducer = combineReducers(reducers);
-  const middleware = applyMiddleware(thunk, authMiddleware, netInfoMiddleware);
+  const middleware = applyMiddleware(thunk, authMiddleware);
 
   let store = null;
   if (__DEV__) {

@@ -14,22 +14,23 @@ const UPDATE_REPORT = 'report/UPDATE_REPORT';
 const initialNavState = {
   forms: {},
   list: {},
-  synced: false
+  synced: false,
+  syncing: false
 };
 
 export default function reducer(state = initialNavState, action) {
   switch (action.type) {
     case GET_REPORT_QUESTIONS_REQUEST:
-      return { ...state, synced: false };
+      return { ...state, synced: false, syncing: true };
     case GET_REPORT_QUESTIONS_COMMIT: {
       let form = null;
-      if (action.payload.data && action.payload.data[0]) {
-        form = action.payload.data[0].attributes;
+      if (action.payload && action.payload[0]) {
+        form = action.payload[0];
       }
       if (form && form.questions && form.questions.length) {
         form.questions = form.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
       }
-      return Object.assign({}, state, { forms: form, synced: true });
+      return Object.assign({}, state, { forms: form, synced: true, syncing: false });
     }
     case CREATE_REPORT: {
       const reports = { ...state.list, ...action.payload };

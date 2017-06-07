@@ -3,6 +3,9 @@ import Config from 'react-native-config';
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 
+const GET_GEOSTORE_REQUEST = 'gesotore/GET_GEOSTORE_REQUEST';
+const GET_GEOSTORE_COMMIT = 'gesotore/GET_GEOSTORE_COMMIT';
+const GET_GEOSTORE_ROLLBACK = 'gesotore/GET_GEOSTORE_ROLLBACK';
 const STORE_GEOSTORE = 'geostore/STORE_GEOSTORE';
 
 // Reducer
@@ -13,12 +16,17 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case STORE_GEOSTORE: {
-      const geostoreList = Object.assign({}, state.data, {});
-      if (!geostoreList[action.payload.id]) {
-        geostoreList[action.payload.id] = action.payload.data;
+      const data = Object.assign({}, state.data, {});
+      if (!data[action.payload.id]) {
+        data[action.payload.id] = action.payload;
       }
 
-      return Object.assign({}, state, { data: geostoreList });
+      return Object.assign({}, state, { data });
+    }
+    case GET_GEOSTORE_COMMIT: {
+      const data = Object.assign({}, state.data, {});
+      data[action.payload.id] = action.payload.data;
+      return { ...state, data };
     }
     case LOGOUT_REQUEST: {
       return initialState;
@@ -31,6 +39,7 @@ export default function reducer(state = initialState, action) {
 // Action Creators
 export function storeGeostore(id, data) {
   return dispatch => {
+    // TODO: CHECK TO UNIFY ACTIONS
     dispatch({
       type: STORE_GEOSTORE,
       payload: {
@@ -43,28 +52,14 @@ export function storeGeostore(id, data) {
 
 export function getGeostore(id) {
   const url = `${Config.API_URL}/geostore/${id}`;
-  return (dispatch, state) => {
-    fetch(url, {
-      headers: {
-        Authorization: `Bearer ${state().user.token}`
+  return {
+    type: GET_GEOSTORE_REQUEST,
+    meta: {
+      offline: {
+        effect: { url },
+        commit: { type: GET_GEOSTORE_COMMIT },
+        rollback: { type: GET_GEOSTORE_ROLLBACK }
       }
-    })
-      .then(response => {
-        if (response.ok) return response.json();
-        throw Error(response.statusText);
-      })
-      .then((response) => {
-        dispatch({
-          type: STORE_GEOSTORE,
-          payload: {
-            id: response.data.id,
-            data: response.data.attributes.geojson
-          }
-        });
-      })
-      .catch((error) => {
-        console.warn(error);
-        // To-do
-      });
+    }
   };
 }

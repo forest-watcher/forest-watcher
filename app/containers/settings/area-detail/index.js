@@ -6,7 +6,8 @@ function mapStateToProps(state, props) {
   const area = state.areas.data.find((areaData) => (areaData.id === props.id));
   return {
     imageUrl: state.areas.images[props.id],
-    area
+    area,
+    isConnected: state.offline.online
   };
 }
 

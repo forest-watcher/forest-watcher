@@ -25,7 +25,7 @@ export default {
       ]
     },
     tilesFolder: 'tiles',
-    cachedZoomLevels: [12]
+    cachedZoomLevels: [9, 10, 11, 12]
   },
   tileServers: {
     glad: 'http://wri-tiles.s3.amazonaws.com/glad_prod/tiles'

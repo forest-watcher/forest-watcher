@@ -7,14 +7,11 @@ import Home from 'components/home';
 
 function mapStateToProps(state) {
   return {
-    hasAreas: state.areas.synced,
+    hasAreas: !!state.areas.data.length,
     readyState: getReadyState(state),
-    setupComplete: state.app.setupComplete,
     loggedIn: state.user.loggedIn,
     token: state.user.token,
-    languageChanged: state.app.language !== getLanguage(),
-    hasUserData: state.user.synced,
-    hasFormsData: state.feedback.dailySynced && state.feedback.weeklySynced && state.reports.synced
+    languageChanged: state.app.language !== getLanguage()
   };
 }
 

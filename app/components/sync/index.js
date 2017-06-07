@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, ActivityIndicator, Text } from 'react-native';
 import Theme from 'config/theme';
 import Constants from 'config/constants';
@@ -9,7 +9,7 @@ import styles from './styles';
 const WIFI = Constants.reach.WIFI;
 const MOBILE = Constants.reach.MOBILE;
 
-class Sync extends Component {
+class Sync extends PureComponent {
   static navigatorStyle = {
     navBarHidden: true
   };
@@ -17,7 +17,7 @@ class Sync extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      canSyncData: false,
+      canSyncDataOnMobile: false,
       completeTimeoutFlag: false,
       dismissTimeoutFlag: false
     };
@@ -27,23 +27,13 @@ class Sync extends Component {
     this.syncData();
   }
 
-  // Override shouldComponentUpdate because functions passed as props always change
-  shouldComponentUpdate(nextProps, nextState) {
-    const conditions = [
-      nextProps.isConnected !== this.props.isConnected,
-      nextProps.reach !== this.props.reach,
-      nextProps.readyState !== this.props.readyState,
-      nextState.canSyncData !== this.state.canSyncData,
-      nextState.completeTimeoutFlag !== this.state.completeTimeoutFlag,
-      nextState.dismissTimeoutFlag !== this.state.dismissTimeoutFlag
-    ];
-    return conditions.includes(true);
-  }
-
   componentDidUpdate(prevProps, prevState) {
-    const { canSyncData, completeTimeoutFlag, dismissTimeoutFlag } = this.state;
-    const { readyState } = this.props;
-    if (prevState.canSyncData !== canSyncData) {
+    const { canSyncDataOnMobile, completeTimeoutFlag, dismissTimeoutFlag } = this.state;
+    const { readyState, actionsPending } = this.props;
+    const hasToSync = () => (
+      (canSyncDataOnMobile && prevState.canSyncDataOnMobile !== canSyncDataOnMobile) || actionsPending > 0
+    );
+    if (hasToSync()) {
       this.syncData();
     }
     if (readyState && completeTimeoutFlag && (readyState !== prevState.readyState
@@ -80,7 +70,7 @@ class Sync extends Component {
 
   syncData = () => {
     const { isConnected, reach } = this.props;
-    if (this.state.canSyncData || (isConnected && WIFI.includes(reach))) {
+    if (this.state.canSyncDataOnMobile || (isConnected && WIFI.includes(reach))) {
       this.completeTimeout = setTimeout(this.complete, 2000);
       this.props.syncApp();
     }
@@ -145,7 +135,7 @@ class Sync extends Component {
               style={[styles.groupButton, styles.groupButtonRight]}
               main
               noIcon
-              onPress={() => this.setState({ canSyncData: true })}
+              onPress={() => this.setState({ canSyncDataOnMobile: true })}
               text={I18n.t('home.update').toUpperCase()}
             />
           </View>
@@ -161,6 +151,7 @@ Sync.propTypes = {
   reach: React.PropTypes.string.isRequired,
   navigator: React.PropTypes.object.isRequired,
   readyState: React.PropTypes.bool.isRequired,
+  actionsPending: React.PropTypes.number.isRequired,
   syncApp: React.PropTypes.func.isRequired
 };
 

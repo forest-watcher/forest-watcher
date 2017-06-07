@@ -16,28 +16,37 @@ const initialNavState = {
   daily: {},
   weekly: {},
   list: {},
-  dailySynced: false,
-  weeklySynced: false
+  synced: {
+    daily: false,
+    weekly: false
+  },
+  syncing: {
+    daily: false,
+    weekly: false
+  }
 };
 
 export default function reducer(state = initialNavState, action) {
   switch (action.type) {
     case GET_FEEDBACK_QUESTIONS_REQUEST: {
-      const synced = `${action.meta.type}Synced`;
-      return { ...state, [synced]: false };
+      const { type } = action.meta;
+      const synced = { ...state.synced, [type]: false };
+      const syncing = { ...state.syncing, [type]: true };
+      return { ...state, synced, syncing };
     }
     case GET_FEEDBACK_QUESTIONS_COMMIT: {
       let form = null;
-      if (action.payload.data && action.payload.data[0]) {
-        form = action.payload.data[0].attributes;
+      if (action.payload && action.payload[0]) {
+        form = action.payload[0];
       }
       if (form && form.questions && form.questions.length) {
         form.questions = form.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
       }
-      const synced = `${action.meta.type}Synced`;
+      const { type } = action.meta;
       const feedback = {
-        [action.meta.type]: form,
-        [synced]: true
+        [type]: form,
+        synced: { ...state.synced, [type]: true },
+        syncing: { ...state.syncing, [type]: false }
       };
       return Object.assign({}, state, feedback);
     }

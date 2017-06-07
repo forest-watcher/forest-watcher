@@ -37,14 +37,13 @@ function noAlerts() {
 
 class AlertSystem extends Component {
   componentWillMount() {
-    if (!this.props.area.attributes.datasets) {
-      this.props.getDatasets(this.props.areaId);
+    if (!this.props.area.datasets) {
+      this.props.getAreaCoverage(this.props.areaId);
     }
   }
 
   render() {
-    const { attributes, id } = this.props.area;
-    const datasets = attributes && attributes.datasets;
+    const { datasets, id } = this.props.area;
 
     if (!datasets) return loadingState();
     if (datasets === undefined || datasets.length === 0) return noAlerts();
@@ -81,16 +80,14 @@ class AlertSystem extends Component {
 AlertSystem.propTypes = {
   area: React.PropTypes.shape({
     id: React.PropTypes.string.isRequired,
-    attributes: React.PropTypes.shape({
-      datasets: React.PropTypes.arrayOf(
-        React.PropTypes.shape({
-          name: React.PropTypes.string.isRequired,
-          active: React.PropTypes.bool.isRequired
-        }).isRequired,
-      )
-    }).isRequired
+    datasets: React.PropTypes.arrayOf(
+      React.PropTypes.shape({
+        name: React.PropTypes.string.isRequired,
+        active: React.PropTypes.bool.isRequired
+      }).isRequired,
+    )
   }).isRequired,
-  getDatasets: React.PropTypes.func.isRequired,
+  getAreaCoverage: React.PropTypes.func.isRequired,
   cacheArea: React.PropTypes.func.isRequired,
   removeCachedArea: React.PropTypes.func.isRequired,
   setAreaDatasetStatus: React.PropTypes.func.isRequired,

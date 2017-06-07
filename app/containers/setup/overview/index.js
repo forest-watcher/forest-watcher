@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import SetupOverview from 'components/setup/overview';
-import { saveArea, getDatasets } from 'redux-modules/areas';
+import { saveArea } from 'redux-modules/areas';
 
 function mapStateToProps(state) {
   return {
@@ -19,9 +19,6 @@ function mapDispatchToProps(dispatch) {
   return {
     saveArea: (action) => {
       dispatch(saveArea(action));
-    },
-    getDatasets: async (areaId) => {
-      await dispatch(getDatasets(areaId));
     }
   };
 }

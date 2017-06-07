@@ -394,7 +394,7 @@ class Map extends Component {
 
   render() {
     const { coordinates, alertSelected, urlTile, hasCompass, lastPosition, compassFallback } = this.state;
-    const { datasetSlug, startDate, endDate } = this.props;
+    const { datasetSlug, areaCoordinates, startDate, endDate } = this.props;
     const hasCoordinates = (coordinates.tile && coordinates.tile.length > 0) || false;
     const showCompassFallback = !hasCompass && lastPosition && alertSelected && compassFallback;
 
@@ -437,11 +437,13 @@ class Map extends Component {
                 strokeWidth={2}
               />
             }
-            <MapView.Polyline
-              coordinates={this.props.areaCoordinates}
-              strokeColor={Theme.colors.color1}
-              strokeWidth={2}
-            />
+            {areaCoordinates &&
+              <MapView.Polyline
+                coordinates={areaCoordinates}
+                strokeColor={Theme.colors.color1}
+                strokeWidth={2}
+              />
+            }
             {this.state.lastPosition &&
               <MapView.Marker.Animated
                 image={markerImage}
@@ -526,7 +528,7 @@ Map.propTypes = {
   startDate: React.PropTypes.string.isRequired,
   endDate: React.PropTypes.string.isRequired,
   datasetSlug: React.PropTypes.string.isRequired,
-  areaCoordinates: React.PropTypes.array.isRequired
+  areaCoordinates: React.PropTypes.array
 };
 
 export default Map;
