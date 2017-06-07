@@ -29,10 +29,7 @@ class Home extends Component {
     const conditions = [
       this.props.loggedIn !== nextProps.loggedIn,
       this.props.readyState !== nextProps.readyState,
-      this.props.hasUserData !== nextProps.hasUserData,
       this.props.hasAreas !== nextProps.hasAreas,
-      this.props.setupComplete !== nextProps.setupComplete,
-      this.props.hasFormsData !== nextProps.hasFormsData,
       this.props.token !== nextProps.token,
       this.state.modalOpen !== nextState.modalOpen
     ];
@@ -44,27 +41,30 @@ class Home extends Component {
   }
 
   handleStatus() {
-    const { loggedIn, token, hasUserData, hasAreas, hasFormsData, readyState, setupComplete, setLanguage, navigator } = this.props;
+    const { loggedIn, token, hasAreas, readyState, setLanguage, navigator } = this.props;
     setLanguage();
     if (loggedIn) {
       tracker.setUser(token);
-      if ((!hasAreas || !hasUserData || !hasFormsData) && !readyState && !this.state.modalOpen) {
-        return this.setState({ modalOpen: true }, this.openModal);
-      } else if (!setupComplete && !hasAreas && readyState) {
-        return navigator.resetTo({
-          screen: 'ForestWatcher.Setup',
-          title: 'Set up',
-          passProps: {
-            goBackDisabled: true
-          }
-        });
+      if (!readyState && !this.state.modalOpen) {
+        this.setState({ modalOpen: true }, this.openModal);
+      } else if (readyState) {
+        if (!hasAreas) {
+          navigator.resetTo({
+            screen: 'ForestWatcher.Setup',
+            title: 'Set up',
+            passProps: {
+              goBackDisabled: true
+            }
+          });
+        } else {
+          navigator.resetTo({
+            screen: 'ForestWatcher.Dashboard',
+            title: 'FOREST WATCHER'
+          });
+        }
       }
-      return navigator.resetTo({
-        screen: 'ForestWatcher.Dashboard',
-        title: 'FOREST WATCHER'
-      });
     } else { // eslint-disable-line
-      return navigator.resetTo({
+      navigator.resetTo({
         screen: 'ForestWatcher.Login'
       });
     }
@@ -78,10 +78,6 @@ class Home extends Component {
         navigator,
         goBackDisabled: true
       }
-    });
-    navigator.resetTo({
-      screen: 'ForestWatcher.Dashboard',
-      title: 'FOREST WATCHER'
     });
   }
 
@@ -101,12 +97,9 @@ Home.propTypes = {
   loggedIn: React.PropTypes.bool.isRequired,
   token: React.PropTypes.string,
   readyState: React.PropTypes.bool.isRequired,
-  setupComplete: React.PropTypes.bool.isRequired,
   setLanguage: React.PropTypes.func.isRequired,
   navigator: React.PropTypes.object.isRequired,
-  hasUserData: React.PropTypes.bool.isRequired,
-  hasAreas: React.PropTypes.bool.isRequired,
-  hasFormsData: React.PropTypes.bool.isRequired
+  hasAreas: React.PropTypes.bool.isRequired
 };
 Home.navigationOptions = {
   header: {

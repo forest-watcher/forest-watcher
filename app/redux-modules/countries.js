@@ -9,15 +9,16 @@ const GET_COUNTRIES_COMMIT = 'countries/GET_COUNTRIES_COMMIT';
 // Reducer
 const initialState = {
   data: null,
-  synced: false
+  synced: false,
+  syncing: true
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_COUNTRIES_REQUEST:
-      return { ...state, synced: false };
+      return { ...state, synced: false, syncing: true };
     case GET_COUNTRIES_COMMIT:
-      return { ...state, data: action.payload.data, synced: true };
+      return { ...state, data: action.payload.data, synced: true, syncing: false };
     default:
       return state;
   }

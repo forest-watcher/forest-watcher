@@ -25,7 +25,7 @@ export default function reducer(state = initialState, action) {
     }
     case GET_GEOSTORE_COMMIT: {
       const data = Object.assign({}, state.data, {});
-      data[action.payload.id] = action.payload;
+      data[action.payload.id] = action.payload.data;
       return { ...state, data };
     }
     case LOGOUT_REQUEST: {
