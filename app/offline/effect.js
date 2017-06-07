@@ -6,15 +6,15 @@ const deserializeOptions = {
   keyForAttribute: 'camelCase'
 };
 
-export default function effect(params, { auth, ...action }) {
-  const { url, headers, promise, errorCode } = params;
+export default function effect({ url, headers, promise, errorCode, deserialize = true, ...params }, { auth, ...action }) {
   if (url && typeof url === 'string') {
     const req = {
       ...params,
+      url,
       headers: { ...headers, Authorization: `Bearer ${auth}` }
     };
     return defaultEffect(req, action)
-      .then((data) => new JSONAPIDeserializer(deserializeOptions).deserialize(data));
+      .then((data) => (deserialize ? new JSONAPIDeserializer(deserializeOptions).deserialize(data) : data));
   } else if (typeof promise !== 'undefined') {
     return promise
       .then(data => data)
@@ -25,3 +25,4 @@ export default function effect(params, { auth, ...action }) {
   }
   throw new TypeError();
 }
+
