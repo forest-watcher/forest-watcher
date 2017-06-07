@@ -15,19 +15,17 @@ const initialState = {
   token: null,
   socialNetwork: null,
   logoutSuccess: true,
-  synced: false
+  synced: false,
+  syncing: false
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_USER_REQUEST:
-      return { ...state, synced: false };
+      return { ...state, synced: false, syncing: true };
     case GET_USER_COMMIT: {
-      if (action.payload) {
-        const user = action.payload;
-        return Object.assign({}, state, { data: user, synced: true });
-      }
-      return { ...state, synced: true };
+      const user = action.payload;
+      return { ...state, data: user, synced: true, syncing: false };
     }
     case SET_LOGIN_STATUS:
       return Object.assign({}, state, { ...action.payload });

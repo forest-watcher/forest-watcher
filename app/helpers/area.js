@@ -5,7 +5,7 @@ import moment from 'moment';
 export function activeDataset(area) {
   if (area.datasets === undefined) return false;
   const enabledDataset = area.datasets.find((d) => (d.active === true));
-  if (enabledDataset !== undefined) { return enabledDataset; }
+  if (typeof enabledDataset !== 'undefined') { return enabledDataset; }
   return false;
 }
 
