@@ -13,8 +13,9 @@ export default function effect({ url, headers, promise, errorCode, deserialize =
       url,
       headers: { ...headers, Authorization: `Bearer ${auth}` }
     };
+    const canDeserialize = data => (typeof data === 'object' && deserialize);
     return defaultEffect(req, action)
-      .then((data) => (deserialize ? new JSONAPIDeserializer(deserializeOptions).deserialize(data) : data));
+      .then((data) => (canDeserialize(data) ? new JSONAPIDeserializer(deserializeOptions).deserialize(data) : data));
   } else if (typeof promise !== 'undefined') {
     return promise
       .then(data => data)
