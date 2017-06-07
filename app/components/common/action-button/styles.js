@@ -34,6 +34,19 @@ export default StyleSheet.create({
     fontSize: 15,
     fontWeight: '500'
   },
+  buttonTextMain: {
+    textAlign: 'center',
+    fontStyle: 'normal',
+    fontSize: 16,
+    marginLeft: 0
+  },
+  buttonTextMonochrome: {
+    textAlign: 'center',
+    fontStyle: 'normal',
+    fontSize: 16,
+    marginLeft: 0,
+    color: Theme.fontColors.main
+  },
   buttonTextLight: {
     color: Theme.fontColors.secondary,
     fontSize: 17,

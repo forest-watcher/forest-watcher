@@ -20,6 +20,7 @@ function ActionButton(props) {
   }
   const btnStyles = [
     styles.container,
+    props.monochrome ? styles.light : '',
     props.light ? styles.light : '',
     props.disabled ? styles.disabled : '',
     props.error ? styles.error : '',
@@ -29,6 +30,8 @@ function ActionButton(props) {
 
   const textStyles = [
     styles.buttonText,
+    props.main ? styles.buttonTextMain : '',
+    props.monochrome ? styles.buttonTextMonochrome : '',
     props.light ? styles.buttonTextLight : '',
     props.disabled ? styles.buttonTextDisabled : '',
     props.error ? styles.buttonTextError : '',
@@ -49,7 +52,7 @@ function ActionButton(props) {
     >
       <View style={[styles.button, props.light ? styles.buttonLight : '']}>
         <Text style={textStyles}>{props.text}</Text>
-        {!(props.disabled || props.delete) &&
+        {!(props.disabled || props.delete || props.noIcon) &&
           <Image style={Theme.icon} source={props.light ? nextIcon : nextIconWhite} />
         }
       </View>
@@ -68,7 +71,10 @@ ActionButton.propTypes = {
   delete: React.PropTypes.bool,
   error: React.PropTypes.bool,
   text: React.PropTypes.string.isRequired,
-  onPress: React.PropTypes.func.isRequired
+  onPress: React.PropTypes.func.isRequired,
+  noIcon: React.PropTypes.bool,
+  main: React.PropTypes.bool,
+  monochrome: React.PropTypes.bool
 };
 
 export default ActionButton;

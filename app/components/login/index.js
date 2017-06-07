@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   Alert,
   View,
@@ -14,7 +14,6 @@ import Theme from 'config/theme';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 
-import GoogleOAuth from 'config/oAuth/GoogleOAuth';
 import styles from './styles';
 
 const logoIcon = require('assets/logo.png');
@@ -23,7 +22,7 @@ const twitterIcon = require('assets/twitter_white.png');
 const googleIcon = require('assets/google_white.png');
 const nextIcon = require('assets/next_white.png');
 
-class Login extends Component {
+class Login extends PureComponent {
   static navigatorStyle = {
     navBarHidden: true
   };
@@ -35,9 +34,9 @@ class Login extends Component {
       webviewVisible: false,
       webViewUrl: '',
       webViewCurrenUrl: '',
-      webViewStatus: null
+      webViewStatus: null,
+      socialNetwork: null
     };
-    this.successTimer = null;
     this.onLoadEnd = this.onLoadEnd.bind(this);
     this.onNavigationStateChange = this.onNavigationStateChange.bind(this);
   }
@@ -46,8 +45,8 @@ class Login extends Component {
     tracker.trackScreenView('Login');
   }
 
-  componentWillUnmount() {
-    clearTimeout(this.successTimer);
+  componentDidUpdate() {
+    if (this.props.loggedIn) this.onLoggedIn();
   }
 
   onLoadEnd() {
@@ -57,10 +56,10 @@ class Login extends Component {
       if (token && token[1]) {
         token = token[1].replace('#', '');
         this.props.setLoginStatus({
-          loggedIn: true,
-          token
+          token,
+          socialNetwork: this.state.socialNetwork,
+          loggedIn: true
         });
-        this.successTimer = this.getSuccessTimer();
       } else {
         console.warn('Login incorrect');
       }
@@ -72,6 +71,7 @@ class Login extends Component {
       const url = `${Config.API_AUTH}/auth/${socialNetwork}?token=true&callbackUrl=${Config.API_AUTH_CALLBACK_URL}`;
 
       this.setState({
+        socialNetwork,
         webviewVisible: true,
         webViewUrl: url
       });
@@ -85,27 +85,20 @@ class Login extends Component {
   }
 
   onPressGoogle = () => {
-    GoogleOAuth.login()
-    .then((user) => {
-      fetch(`${Config.API_AUTH}/auth/google/token?access_token=${user.accessToken}`)
-      .then(response => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then(data => {
-        this.props.setLoginStatus({
-          loggedIn: true,
-          token: data.token
-        });
-        this.props.navigator.resetTo({
-          screen: 'ForestWatcher.Home'
-        });
-      })
-      .catch((error) => {
-        console.warn(error);
-        // To-do
-      });
-    });
+    const { logoutSuccess, logout, isConnected, loginGoogle } = this.props;
+    if (isConnected) {
+      if (!logoutSuccess) {
+        logout();
+      } else {
+        loginGoogle();
+      }
+    } else {
+      Alert.alert(
+        I18n.t('login.unable'),
+        I18n.t('login.connectionRequired'),
+        [{ text: 'OK' }]
+      );
+    }
   }
 
   onNavigationStateChange(navState) {
@@ -115,16 +108,14 @@ class Login extends Component {
     });
   }
 
-  getSuccessTimer() {
-    return setTimeout(() => {
-      this.setState({
-        webviewVisible: false,
-        webViewUrl: ''
-      });
-      this.props.navigator.resetTo({
-        screen: 'ForestWatcher.Home'
-      });
-    }, 1000);
+  onLoggedIn() {
+    this.setState({
+      webviewVisible: false,
+      webViewUrl: ''
+    });
+    this.props.navigator.resetTo({
+      screen: 'ForestWatcher.Home'
+    });
   }
 
   closeWebview() {
@@ -240,7 +231,11 @@ class Login extends Component {
 }
 
 Login.propTypes = {
+  loggedIn: React.PropTypes.bool.isRequired,
+  logoutSuccess: React.PropTypes.bool.isRequired,
+  logout: React.PropTypes.func.isRequired,
   isConnected: React.PropTypes.bool.isRequired,
+  loginGoogle: React.PropTypes.func.isRequired,
   setLoginStatus: React.PropTypes.func.isRequired,
   navigator: React.PropTypes.object.isRequired
 };
