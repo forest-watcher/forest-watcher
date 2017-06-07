@@ -62,9 +62,11 @@ function areAllAreasSynced(areas) {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case GET_AREAS_REQUEST:
+      return { ...state, synced: false };
     case GET_AREAS_COMMIT: {
       // sync is false because we need to download the image and geostore
-      return { ...state, data: action.payload, synced: false };
+      return { ...state, data: action.payload };
     }
     case GET_AREAS_ROLLBACK: {
       return { ...state, synced: false };
@@ -161,16 +163,16 @@ export default function reducer(state = initialState, action) {
     }
     case DELETE_AREA_REQUEST: {
       const areas = [...state.data];
-      const areasFiltered = areas.filter((area) => (
+      const filteredAreas = areas.filter((area) => (
         area.id !== action.payload.id
       ));
-      return { ...state, data: areasFiltered, synced: false };
+      return { ...state, data: filteredAreas, synced: false };
     }
     case DELETE_AREA_COMMIT: {
       const synced = areAllAreasSynced(state.data);
-      const { id } = action.meta;
+      const { id } = action.meta.area || {};
       const images = { ...state.images };
-      if (images[id] !== undefined) {
+      if (typeof images[id] !== 'undefined') {
         delete images[id];
       }
       return { ...state, images, synced };
@@ -178,7 +180,7 @@ export default function reducer(state = initialState, action) {
     case DELETE_AREA_ROLLBACK: {
       const synced = areAllAreasSynced(state.data);
       const areas = [...state.data];
-      areas.push(action.meta);
+      areas.push(action.meta.area);
       return { ...state, data: areas, synced };
     }
     case UPDATE_INDEX: {
@@ -483,8 +485,8 @@ export function deleteArea(areaId) {
         meta: {
           offline: {
             effect: { url, method: 'DELETE' },
-            commit: { type: DELETE_AREA_COMMIT, meta: area },
-            rollback: { type: DELETE_AREA_ROLLBACK, meta: area }
+            commit: { type: DELETE_AREA_COMMIT, meta: { area } },
+            rollback: { type: DELETE_AREA_ROLLBACK, meta: { area } }
           }
         }
       });

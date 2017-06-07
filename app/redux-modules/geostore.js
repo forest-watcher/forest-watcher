@@ -18,7 +18,7 @@ export default function reducer(state = initialState, action) {
     case STORE_GEOSTORE: {
       const data = Object.assign({}, state.data, {});
       if (!data[action.payload.id]) {
-        data[action.payload.id] = action.payload.data;
+        data[action.payload.id] = action.payload;
       }
 
       return Object.assign({}, state, { data });

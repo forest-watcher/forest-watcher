@@ -23,8 +23,8 @@ export default function reducer(state = initialNavState, action) {
       return { ...state, synced: false };
     case GET_REPORT_QUESTIONS_COMMIT: {
       let form = null;
-      if (action.payload.data && action.payload.data[0]) {
-        form = action.payload.data[0].attributes;
+      if (action.payload && action.payload[0]) {
+        form = action.payload[0];
       }
       if (form && form.questions && form.questions.length) {
         form.questions = form.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));

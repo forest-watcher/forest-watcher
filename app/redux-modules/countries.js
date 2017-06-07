@@ -37,7 +37,7 @@ export function getCountries() {
     type: GET_COUNTRIES_REQUEST,
     meta: {
       offline: {
-        effect: { url },
+        effect: { url, deserialize: false },
         commit: { type: GET_COUNTRIES_COMMIT }
       }
     }

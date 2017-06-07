@@ -23,9 +23,8 @@ export default function reducer(state = initialState, action) {
     case GET_USER_REQUEST:
       return { ...state, synced: false };
     case GET_USER_COMMIT: {
-      if (action.payload.data) {
-        const user = action.payload.data.attributes;
-        user.id = action.payload.data.id;
+      if (action.payload) {
+        const user = action.payload;
         return Object.assign({}, state, { data: user, synced: true });
       }
       return { ...state, synced: true };
