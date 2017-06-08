@@ -70,8 +70,8 @@ function areAllAreasSynced(areas) {
 }
 
 export function saveAlertsToDb(areaId, slug, alerts) {
-  const realm = initDb();
   if (alerts.length > 0) {
+    const realm = initDb();
     const parsedAlerts = alerts.map((alert) => ({
       areaId,
       slug,
