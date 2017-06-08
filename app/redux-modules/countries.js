@@ -10,7 +10,7 @@ const GET_COUNTRIES_COMMIT = 'countries/GET_COUNTRIES_COMMIT';
 const initialState = {
   data: null,
   synced: false,
-  syncing: true
+  syncing: false
 };
 
 export default function reducer(state = initialState, action) {

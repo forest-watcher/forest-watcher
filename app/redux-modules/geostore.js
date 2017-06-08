@@ -3,7 +3,7 @@ import Config from 'react-native-config';
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 
-const GET_GEOSTORE_REQUEST = 'gesotore/GET_GEOSTORE_REQUEST';
+export const GET_GEOSTORE_REQUEST = 'gesotore/GET_GEOSTORE_REQUEST';
 export const GET_GEOSTORE_COMMIT = 'gesotore/GET_GEOSTORE_COMMIT';
 const GET_GEOSTORE_ROLLBACK = 'gesotore/GET_GEOSTORE_ROLLBACK';
 const STORE_GEOSTORE = 'geostore/STORE_GEOSTORE';
@@ -25,7 +25,7 @@ export default function reducer(state = initialState, action) {
     }
     case GET_GEOSTORE_COMMIT: {
       const data = Object.assign({}, state.data, {});
-      data[action.payload.id] = action.payload.data;
+      data[action.payload.id] = action.payload;
       return { ...state, data };
     }
     case LOGOUT_REQUEST: {
