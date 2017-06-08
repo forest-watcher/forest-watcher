@@ -1,4 +1,3 @@
-import Config from 'react-native-config';
 import moment from 'moment';
 
 export function activeDataset(area) {
@@ -14,25 +13,13 @@ export function enabledDatasetName(area) {
   return enabledDataset !== false ? enabledDataset.name : false;
 }
 
-export function getCoverageDataByGeostore(geostoreId, token) {
-  const url = `${Config.API_URL}/coverage/intersect?geostore=${geostoreId}`;
-  const config = { headers: { Authorization: `Bearer ${token}` } };
-  return fetch(url, config)
-    .then(res => {
-      if (res.ok) return res.json();
-      throw Error(res.statusText);
-    })
-    .then(res => (
-      res.data.layers || []
-    ));
-}
-
 export function getInitialDatasets(coverage) {
   const alerts = [
     {
       slug: 'umd_as_it_happens',
       name: 'GLAD',
       active: false,
+      cache: true,
       startDate: moment().subtract(6, 'months'),
       endDate: moment().format('YYYYMMDD')
     }
@@ -43,6 +30,7 @@ export function getInitialDatasets(coverage) {
       slug: 'viirs',
       name: 'VIIRS',
       active: false,
+      cache: true,
       startDate: '1',
       endDate: '8'
     }
