@@ -28,12 +28,9 @@ class Sync extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { canSyncDataOnMobile, completeTimeoutFlag, dismissTimeoutFlag } = this.state;
+    const { completeTimeoutFlag, dismissTimeoutFlag } = this.state;
     const { readyState, actionsPending } = this.props;
-    const hasToSync = () => (
-      (canSyncDataOnMobile && prevState.canSyncDataOnMobile !== canSyncDataOnMobile) || actionsPending > 0
-    );
-    if (hasToSync()) {
+    if (actionsPending > 0) {
       this.syncData();
     }
     if (readyState && completeTimeoutFlag && (readyState !== prevState.readyState

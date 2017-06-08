@@ -4,6 +4,14 @@ export function getReadyState(state) {
     state.reports.synced && state.feedback.synced.daily && state.feedback.synced.weekly;
 }
 
+
+export function getActionsPendingCount(pendingData) {
+  if (!pendingData || typeof pendingData !== 'object') return null;
+  return Object.keys(pendingData).reduce((acc, next) => (
+    acc + Object.keys(pendingData[next]).length
+  ), 0);
+}
+
 export function getActionsPending(state) {
   const actionsPending = [
     !state.areas.synced && !state.areas.syncing, // TODO CHECK AREA DATA TOO
@@ -15,10 +23,8 @@ export function getActionsPending(state) {
   const actionsPendingCount = actionsPending.reduce((ac, next) => (next ? ac + 1 : ac), 0);
 
   const { pendingData } = state.areas;
-  const areasDataPendingCount = Object.keys(pendingData).reduce((acc, next) => (
-    acc + Object.keys(pendingData[next]).length
-  ), 0);
-  // yes... I know
+  const areasDataPendingCount = getActionsPendingCount(pendingData);
+
   return actionsPendingCount + areasDataPendingCount;
 }
 
