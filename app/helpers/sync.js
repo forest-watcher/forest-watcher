@@ -21,7 +21,7 @@ export function hasActionsPending(pendingData) {
   return getActionsPendingCount(pendingData) > 0;
 }
 
-export function getActionsPending(state) {
+export function getTotalActionsPending(state) {
   const actionsPending = [
     !state.areas.synced && !state.areas.syncing, // TODO CHECK AREA DATA TOO
     !state.user.synced && !state.user.syncing,
@@ -37,4 +37,4 @@ export function getActionsPending(state) {
   return actionsPendingCount + areasDataPendingCount;
 }
 
-export default { getReadyState, getActionsPending };
+export default { getReadyState, getTotalActionsPending };

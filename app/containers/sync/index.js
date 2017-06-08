@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import { syncApp } from 'redux-modules/app';
 import { getLanguage } from 'helpers/language';
-import { getReadyState, getActionsPending } from 'helpers/sync';
+import { getReadyState, getTotalActionsPending } from 'helpers/sync';
 
 import Sync from 'components/sync';
 
 function mapStateToProps(state) {
-  const actionsPending = getActionsPending(state);
+  const actionsPending = getTotalActionsPending(state);
   return {
     isConnected: state.offline.online,
     reach: state.offline.netInfo && state.offline.netInfo.reach,

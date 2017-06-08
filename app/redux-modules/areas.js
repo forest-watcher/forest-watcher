@@ -114,7 +114,7 @@ export default function reducer(state = initialState, action) {
       const images = { ...state.images, [area.id]: action.payload };
       const pendingData = {
         ...state.pendingData,
-        images: omit(state.pendingData.images, [area.id])
+        images: omit(state.pendingData.image, [area.id])
       };
       return { ...state, images, pendingData };
     }
