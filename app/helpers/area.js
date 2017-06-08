@@ -1,5 +1,4 @@
 import Config from 'react-native-config';
-import CONSTANTS from 'config/constants';
 import moment from 'moment';
 
 export function activeDataset(area) {
@@ -34,7 +33,7 @@ export function getInitialDatasets(coverage) {
       slug: 'umd_as_it_happens',
       name: 'GLAD',
       active: false,
-      startDate: CONSTANTS.startDate,
+      startDate: moment().subtract(6, 'months'),
       endDate: moment().format('YYYYMMDD')
     }
   ];
