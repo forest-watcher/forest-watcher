@@ -12,7 +12,6 @@ import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
-import { getCoverageDataByGeostore, getInitialDatasets } from 'helpers/area';
 import styles from './styles';
 
 const editImage = require('assets/edit.png');
@@ -22,8 +21,7 @@ class SetupOverview extends Component {
     super(props);
     this.state = {
       name: this.props.area.wdpaName || '',
-      saving: false,
-      gettingDatasets: false
+      saving: false
     };
   }
 
@@ -33,7 +31,7 @@ class SetupOverview extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.props = nextProps;
-    if (this.props.areaSaved && !this.state.gettingDatasets) {
+    if (this.props.areaSaved) {
       this.onAreaSaved();
     }
   }
@@ -43,26 +41,16 @@ class SetupOverview extends Component {
   }
 
   onNextPress = async () => {
-    this.setState({ gettingDatasets: true });
-    const { area, user } = this.props;
-    let coverage = [];
+    this.setState({ saving: true });
 
-    try {
-      coverage = await getCoverageDataByGeostore(area.geostore, user.token);
-    } catch (e) {
-      console.warn('Coverage request error', e);
-    }
-    const datasets = getInitialDatasets(coverage);
     const params = {
       area: {
         name: this.state.name,
         ...this.props.area
       },
       userid: this.props.user.id,
-      snapshot: this.props.snapshot,
-      datasets
+      snapshot: this.props.snapshot
     };
-    this.setState({ saving: true, gettingDatasets: false });
     this.props.saveArea(params);
   }
 
@@ -78,9 +66,6 @@ class SetupOverview extends Component {
     } else if (this.state.saving) {
       btnEnabled = false;
       btnText = I18n.t('commonText.saving');
-    } else if (this.state.gettingDatasets) {
-      btnEnabled = false;
-      btnText = I18n.t('setupOverview.gettingDatasets');
     }
     return (
       <View style={styles.container}>
