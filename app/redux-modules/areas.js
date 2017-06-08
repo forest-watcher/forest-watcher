@@ -490,8 +490,8 @@ export function deleteArea(areaId) {
 export function getAlertsJson(areaId) {
   return (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
-    const geojson = state().geostore.data[area.attributes.geostore];
-    const areaGeometry = geojson.features[0].geometry;
+    const geojson = state().geostore.data[area.geostore];
+    const areaGeometry = geojson.data.features[0].geometry;
     const sql = `select lat, long from data
               where year >= 2017
               AND st_intersects(st_setsrid(st_geomfromgeojson('${JSON.stringify(areaGeometry)}'), 4326), the_geom)`;

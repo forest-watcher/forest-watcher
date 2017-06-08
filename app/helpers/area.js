@@ -24,7 +24,7 @@ export function getCoverageDataByGeostore(geostoreId, token) {
       throw Error(res.statusText);
     })
     .then(res => (
-      res.data.layers || []
+      res.data.attributes.layers || []
     ));
 }
 
