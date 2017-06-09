@@ -21,6 +21,8 @@ class Sync extends PureComponent {
       completeTimeoutFlag: false,
       dismissTimeoutFlag: false
     };
+    this.completeTimeout = null;
+    this.dismissTimeout = null;
   }
 
   componentDidMount() {
@@ -33,8 +35,7 @@ class Sync extends PureComponent {
     if (actionsPending > 0) {
       this.syncData();
     }
-    if (readyState && completeTimeoutFlag && (readyState !== prevState.readyState
-      || completeTimeoutFlag !== prevState.completeTimeoutFlag)) {
+    if (readyState && completeTimeoutFlag && this.dismissTimeout === null) {
       this.dismissTimeout = setTimeout(this.dismiss, 1000);
     }
     if (readyState && dismissTimeoutFlag && dismissTimeoutFlag !== prevState.dismissTimeoutFlag) {
