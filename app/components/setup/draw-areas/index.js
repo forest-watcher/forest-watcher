@@ -168,7 +168,7 @@ class DrawAreas extends Component {
       })
       .then(async (response) => {
         const geostore = response.data && response.data.id;
-        this.props.storeGeostore(geostore, response.data.attributes.geojson);
+        this.props.storeGeostore(geostore, response.data.attributes);
         const snapshot = await this.takeSnapshot();
         const url = snapshot.uri ? snapshot.uri : snapshot;
         const storedUrl = await storeImage(url);

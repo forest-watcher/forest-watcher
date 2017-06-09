@@ -272,6 +272,12 @@ export function getAreaGeostore(areaId) {
     const geostores = geostore.data;
     if (!geostores[area.geostore]) {
       dispatch(getGeostore(area));
+    } else {
+      dispatch({
+        type: GET_GEOSTORE_COMMIT,
+        payload: { ...geostores[area.geostore].data, id: area.geostore },
+        meta: { area }
+      });
     }
   };
 }
@@ -355,30 +361,28 @@ async function downloadArea(bbox, areaId, datasetSlug) {
 
 export function saveArea(params) {
   const url = `${Config.API_URL}/area`;
-  return (dispatch) => {
-    const headers = { 'content-type': 'multipart/form-data' };
-    const body = new FormData();
-    body.append('name', params.area.name);
-    body.append('geostore', params.area.geostore);
-    const image = {
-      uri: params.snapshot,
-      type: 'image/png',
-      name: `${params.area.name}.png`
-    };
-    if (params.datasets) {
-      body.append('datasets', JSON.stringify(params.datasets));
-    }
-    body.append('image', image);
-    dispatch({
-      type: SAVE_AREA_REQUEST,
-      meta: {
-        offline: {
-          effect: { url, method: 'POST', headers, body },
-          commit: { type: SAVE_AREA_COMMIT },
-          rollback: { type: SAVE_AREA_ROLLBACK }
-        }
+  const headers = { 'content-type': 'multipart/form-data' };
+  const body = new FormData();
+  body.append('name', params.area.name);
+  body.append('geostore', params.area.geostore);
+  const image = {
+    uri: params.snapshot,
+    type: 'image/png',
+    name: `${params.area.name}.png`
+  };
+  if (params.datasets) {
+    body.append('datasets', JSON.stringify(params.datasets));
+  }
+  body.append('image', image);
+  return {
+    type: SAVE_AREA_REQUEST,
+    meta: {
+      offline: {
+        effect: { url, method: 'POST', headers, body },
+        commit: { type: SAVE_AREA_COMMIT },
+        rollback: { type: SAVE_AREA_ROLLBACK }
       }
-    });
+    }
   };
 }
 
