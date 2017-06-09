@@ -75,7 +75,6 @@ class Home extends Component {
     navigator.showModal({
       screen: 'ForestWatcher.Sync',
       passProps: {
-        navigator,
         goBackDisabled: true
       }
     });

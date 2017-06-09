@@ -82,18 +82,14 @@ class Dashboard extends PureComponent {
         });
       }
     } else if (event.id === 'willAppear') {
-      // TODO: show sync modal
-      // const { navigator } = this.props;
-      // if (this.props.actionsPending > 0) {
-
-        // navigator.showModal({
-        //   screen: 'ForestWatcher.Sync',
-        //   passProps: {
-        //     navigator,
-        //     goBackDisabled: true
-        //   }
-        // });
-      // }
+      if (this.props.actionsPending > 0) {
+        this.props.navigator.showModal({
+          screen: 'ForestWatcher.Sync',
+          passProps: {
+            goBackDisabled: true
+          }
+        });
+      }
     }
   }
 
