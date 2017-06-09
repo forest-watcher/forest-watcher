@@ -21,6 +21,7 @@ import { getUrlTile } from 'helpers/map';
 import { initDb, read } from 'helpers/database';
 import ActionBtn from 'components/common/action-button';
 import AreaCarousel from 'containers/map/area-carousel/';
+import Clusters from 'components/map/clusters/';
 import tracker from 'helpers/googleAnalytics';
 import I18n from 'locales';
 import MapView from 'react-native-maps';
@@ -182,12 +183,6 @@ class Map extends Component {
   }
 
   onLayout = () => {
-    if (!this.state.selectedAlertCoordinates) {
-      const fitOptions = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: true };
-      if (this.props.areaCoordinates) {
-        this.map.fitToCoordinates(this.props.areaCoordinates, fitOptions);
-      }
-    }
   }
 
   onMapPress = (e) => {
@@ -346,7 +341,7 @@ class Map extends Component {
 
   updateRegion = (region) => {
     this.setState({ region });
-    if (this.state.alertSelected) {
+    if (this.state.selectedAlertCoordinates) {
       this.updateSelectedAlertZoom();
     }
   }
@@ -411,9 +406,8 @@ class Map extends Component {
       alertSelected: null,
       urlTile: null
     }, () => {
-      // TODO: FIX fitToCoordinates
-      // const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
-      // this.map.fitToCoordinates(this.props.areaCoordinates, options);
+      const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
+      this.map.fitToCoordinates(this.props.areaCoordinates, options);
       if (this.props.datasetSlug) {
         this.setUrlTile(this.props.datasetSlug);
       }
@@ -506,18 +500,7 @@ class Map extends Component {
             onLayout={this.onLayout}
             moveOnMarkerPress={false}
           >
-            {this.markers.map((marker, index) => (
-              <MapView.Marker
-                key={index}
-                coordinate={{
-                  latitude: marker.geometry.coordinates[1],
-                  longitude: marker.geometry.coordinates[0]
-                }}
-                zIndex={1}
-                anchor={{ x: 0.5, y: 0.5 }}
-                pointerEvents={'none'}
-              />
-            ))}
+            <Clusters markers={this.markers} />
             {showCompassFallback &&
               <MapView.Polyline
                 coordinates={this.state.compassFallback}
