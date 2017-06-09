@@ -63,6 +63,7 @@ class Dashboard extends PureComponent {
 
   constructor(props) {
     super(props);
+    this.state = { modalOpen: false };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
@@ -71,6 +72,12 @@ class Dashboard extends PureComponent {
       Location.requestAlwaysAuthorization();
     }
     tracker.trackScreenView('DashBoard');
+  }
+
+  componentWillReceiveProps() {
+    if (this.state.modalOpen && this.props.actionsPending === 0) {
+      this.setState({ modalOpen: false });
+    }
   }
 
   onNavigatorEvent(event) {
@@ -82,13 +89,13 @@ class Dashboard extends PureComponent {
         });
       }
     } else if (event.id === 'willAppear') {
-      if (this.props.actionsPending > 0) {
-        this.props.navigator.showModal({
+      if (this.props.actionsPending > 0 && !this.state.modalOpen) {
+        this.setState({ modalOpen: true }, this.props.navigator.showModal({
           screen: 'ForestWatcher.Sync',
           passProps: {
             goBackDisabled: true
           }
-        });
+        }));
       }
     }
   }
