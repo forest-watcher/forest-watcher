@@ -18,6 +18,7 @@ import debounce from 'lodash/debounce';
 import Theme from 'config/theme';
 import { daysToDate } from 'helpers/date';
 import { getUrlTile } from 'helpers/map';
+import { initDb, read } from 'helpers/database';
 import ActionBtn from 'components/common/action-button';
 import AreaCarousel from 'containers/map/area-carousel/';
 import tracker from 'helpers/googleAnalytics';
@@ -27,6 +28,7 @@ import styles from './styles';
 
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
 
+const sphereKnn = require('sphere-knn');
 const geoViewport = require('@mapbox/geo-viewport');
 const tilebelt = require('@mapbox/tilebelt');
 
@@ -108,6 +110,8 @@ class Map extends Component {
     this.setUrlTile(datasetSlug);
     this.renderMap();
     this.geoLocate();
+    const realm = initDb();
+    this.alerts = read(realm, 'Alert').map((alert) => ({ latitude: alert.lat, longitude: alert.long }));
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -207,15 +211,38 @@ class Map extends Component {
   }
 
   selectAlert = (coordinates) => {
+    const threshold = 0.003;
+    console.warn('coordinates', coordinates);
+    const realm = initDb();
+    let selectedAlertCoordinates = null;
+    const alerts = read(realm, 'Alert');
+    const filter = `areaId = '${this.props.areaId}' AND long < ${coordinates.longitude + threshold} AND long > ${coordinates.longitude - threshold} AND lat < ${coordinates.latitude + threshold} AND lat > ${coordinates.latitude - threshold} AND slug = '${this.props.datasetSlug}'`;
+    const filteredAlerts = alerts.filtered(filter);
+    console.warn('filtered count', Array.from(filteredAlerts).length);
+
+    if (Array.from(filteredAlerts).length > 0) {
+      const parsedAlerts = filteredAlerts.map((alert) => ({ latitude: alert.lat, longitude: alert.long }));
+      console.warn('parsedAlerts', parsedAlerts);
+      const lookup = sphereKnn(parsedAlerts);
+      const closestAlerts = lookup(coordinates.latitude, coordinates.longitude, 1);
+      if (parsedAlerts.length > 0) {
+        const selectedAlert = closestAlerts[0];
+        selectedAlertCoordinates = { longitude: selectedAlert.longitude, latitude: selectedAlert.latitude };
+        console.warn('selectedAlertCoordinates', selectedAlertCoordinates);
+      }
+    }
+
     const zoom = this.getMapZoom();
     if (zoom) {
+      console.warn('zoom', zoom);
       const tile = tilebelt.pointToTile(coordinates.longitude, coordinates.latitude, zoom, true);
       this.setState({
         alertSelected: coordinates,
         coordinates: {
           tile: [tile[0], tile[1], tile[2]],
           precision: [tile[3], tile[4]]
-        }
+        },
+        selectedAlertCoordinates
       });
     }
   }
@@ -393,16 +420,14 @@ class Map extends Component {
   }
 
   render() {
-    const { coordinates, alertSelected, urlTile, hasCompass, lastPosition, compassFallback } = this.state;
-    const { datasetSlug, areaCoordinates, startDate, endDate } = this.props;
-    const hasCoordinates = (coordinates.tile && coordinates.tile.length > 0) || false;
+    const { alertSelected, urlTile, hasCompass, lastPosition, compassFallback, selectedAlertCoordinates } = this.state;
+    const { datasetSlug, startDate, endDate, areaCoordinates } = this.props;
     const showCompassFallback = !hasCompass && lastPosition && alertSelected && compassFallback;
 
     const dates = {
       min: datasetSlug === 'viirs' ? String(startDate) : daysToDate(startDate),
       max: datasetSlug === 'viirs' ? String(endDate) : daysToDate(endDate)
     };
-
     return (
       this.state.renderMap
       ?
@@ -411,9 +436,9 @@ class Map extends Component {
             style={styles.header}
             pointerEvents={'box-none'}
           >
-            {alertSelected &&
+            {selectedAlertCoordinates &&
               <Text style={styles.headerSubtitle}>
-                {alertSelected.latitude.toFixed(4)}, {alertSelected.longitude.toFixed(4)}
+                {selectedAlertCoordinates.latitude}, {selectedAlertCoordinates.longitude}
               </Text>
             }
           </View>
@@ -475,6 +500,25 @@ class Map extends Component {
                 </MapView.Marker>
               : null
             }
+
+            {this.alerts &&
+              this.alerts.map((alertCoord, index) =>
+                <MapView.Marker
+                  key={index}
+                  coordinate={alertCoord}
+                  zIndex={1}
+                  pinColor={'blue'}
+                />
+              )
+            }
+
+            {selectedAlertCoordinates &&
+              <MapView.Marker
+                key={'selectedAlert'}
+                coordinate={selectedAlertCoordinates}
+                zIndex={1}
+              />
+            }
             {urlTile &&
               <MapView.CanvasUrlTile
                 urlTemplate={urlTile}
@@ -487,27 +531,14 @@ class Map extends Component {
                 maxDate={dates.max}
               />
             }
-            {urlTile && hasCoordinates && // TODO: include the interaction and remove the false
-              <MapView.CanvasInteractionUrlTile
-                coordinates={coordinates}
-                urlTemplate={urlTile}
-                zIndex={1}
-                maxZoom={12}
-                areaId={this.props.areaId}
-                alertType={datasetSlug}
-                isConnected={this.props.isConnected}
-                minDate={dates.min}
-                maxDate={dates.max}
-              />
-            }
           </MapView>
-          {this.state.alertSelected
+          {selectedAlertCoordinates
             ? this.renderFooter()
             : this.renderFooterLoading()
           }
           <AreaCarousel
             navigator={this.props.navigator}
-            alertSelected={this.state.alertSelected}
+            alertSelected={this.state.selectedAlertCoordinates}
             lastPosition={this.state.lastPosition}
           />
         </View>
