@@ -42,7 +42,7 @@ function mapStateToProps(state) {
   const realm = initDb();
   const alerts = read(realm, 'Alert')
                   .filtered(`areaId = '${areaId}'`)
-                  .map((alert) => ({ latitude: alert.lat, longitude: alert.long }));
+                  .map((alert) => ({ lat: alert.lat, long: alert.long }));
 
   return {
     areaId,

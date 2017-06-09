@@ -68,8 +68,8 @@ function convertPoints(data) {
 
 function createCluster(data) {
   const cluster = supercluster({
-    radius: 120,
-    maxZoom: 16, // Default: 16,
+    radius: 60,
+    maxZoom: 15, // Default: 16,
     extent: 256,
     nodeSize: 64
   });
@@ -127,8 +127,9 @@ class Map extends Component {
       urlTile: null,
       markers: []
     };
-    this.geoPoints = props.alerts.length > 0 ? convertPoints(props.alerts) : null;
-    this.cluster = this.geopoints && createCluster(this.geoPoints);
+    console.warn('alerts number', props.alerts.length);
+    const geoPoints = convertPoints(props.alerts);
+    this.cluster = geoPoints && createCluster(geoPoints);
   }
 
   componentDidMount() {
@@ -181,12 +182,11 @@ class Map extends Component {
   }
 
   onLayout = () => {
-    if (!this.state.alertSelected) {
-      // TODO: fix fitToCoordinates
-      // const fitOptions = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: true };
-      // if (this.props.areaCoordinates) {
-      //   this.map.fitToCoordinates(this.props.areaCoordinates, fitOptions);
-      // }
+    if (!this.state.selectedAlertCoordinates) {
+      const fitOptions = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: true };
+      if (this.props.areaCoordinates) {
+        this.map.fitToCoordinates(this.props.areaCoordinates, fitOptions);
+      }
     }
   }
 
@@ -563,18 +563,6 @@ class Map extends Component {
                 </MapView.Marker>
               : null
             }
-
-            {this.alerts &&
-              this.alerts.map((alertCoord, index) =>
-                <MapView.Marker
-                  key={index}
-                  coordinate={alertCoord}
-                  zIndex={1}
-                  pinColor={'blue'}
-                />
-              )
-            }
-
             {selectedAlertCoordinates &&
               <MapView.Marker
                 key={'selectedAlert'}
