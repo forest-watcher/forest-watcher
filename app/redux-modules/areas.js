@@ -92,14 +92,14 @@ export default function reducer(state = initialState, action) {
         if (area.id === action.meta.id) {
           if ((area.datasets && area.datasets.length === 0) || !area.datasets) {
             updated = { ...area, datasets: getInitialDatasets(action.payload) };
-            pendingData = {
-              ...pendingData,
-              coverage: omit(pendingData.coverage, [area.id])
-            };
           } else {
             // TODO: update the existing ones
           }
         }
+        pendingData = {
+          ...pendingData,
+          coverage: omit(pendingData.coverage, [area.id])
+        };
         return updated;
       });
       return { ...state, data, pendingData };
@@ -114,7 +114,7 @@ export default function reducer(state = initialState, action) {
       const images = { ...state.images, [area.id]: action.payload };
       const pendingData = {
         ...state.pendingData,
-        images: omit(state.pendingData.image, [area.id])
+        image: omit(state.pendingData.image, [area.id])
       };
       return { ...state, images, pendingData };
     }
