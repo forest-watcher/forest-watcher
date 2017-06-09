@@ -3,6 +3,7 @@ import { createReport } from 'redux-modules/reports';
 import tracker from 'helpers/googleAnalytics';
 import Map from 'components/map';
 import { activeDataset } from 'helpers/area';
+import { initDb, read } from 'helpers/database';
 
 const BoundingBox = require('boundingbox');
 
@@ -38,7 +39,10 @@ function mapStateToProps(state) {
     }
     areaId = area.id;
   }
-
+  const realm = initDb();
+  const alerts = read(realm, 'Alert')
+                  .filtered(`areaId = '${areaId}'`)
+                  .map((alert) => ({ latitude: alert.lat, longitude: alert.long }));
 
   return {
     areaId,
@@ -47,7 +51,8 @@ function mapStateToProps(state) {
     endDate,
     center,
     areaCoordinates,
-    isConnected: state.offline.online
+    isConnected: state.offline.online,
+    alerts
   };
 }
 

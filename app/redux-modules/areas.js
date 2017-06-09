@@ -490,24 +490,26 @@ export function deleteArea(areaId) {
 export function getAlertsJson(areaId) {
   return (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
-    const geojson = state().geostore.data[area.geostore];
-    const areaGeometry = geojson.data.features[0].geometry;
-    const sql = `select lat, long from data
-              where year >= 2017
-              AND st_intersects(st_setsrid(st_geomfromgeojson('${JSON.stringify(areaGeometry)}'), 4326), the_geom)`;
-    const dataset = Config.DATASET_GLAD;
-    const url = `${Config.API_URL}/query/${dataset}/?sql=${sql}`;
+    const geostore = state().geostore.data[area.geostore];
+    if (geostore) {
+      const areaGeometry = geostore.data.features[0].geometry;
+      const sql = `select lat, long from data
+                where year >= 2017
+                AND st_intersects(st_setsrid(st_geomfromgeojson('${JSON.stringify(areaGeometry)}'), 4326), the_geom)`;
+      const dataset = Config.DATASET_GLAD;
+      const url = `${Config.API_URL}/query/${dataset}/?sql=${sql}`;
 
-    dispatch({
-      type: GET_ALERTS_REQUEST,
-      meta: {
-        offline: {
-          effect: { url, deserialize: false },
-          commit: { type: GET_ALERTS_COMMIT, meta: { areaId, slug: 'umd_as_it_happens' } },
-          rollback: { type: GET_ALERTS_ROLLBACK }
+      dispatch({
+        type: GET_ALERTS_REQUEST,
+        meta: {
+          offline: {
+            effect: { url, deserialize: false },
+            commit: { type: GET_ALERTS_COMMIT, meta: { areaId, slug: 'umd_as_it_happens' } },
+            rollback: { type: GET_ALERTS_ROLLBACK }
+          }
         }
-      }
-    });
+      });
+    }
   };
 }
 

@@ -32,18 +32,10 @@ class Settings extends Component {
 
   componentDidMount() {
     tracker.trackScreenView('Set Up');
-
-    if (!this.props.areas.length) {
-      this.props.getAreas();
-    } else {
-      // TODO: move this to the new sync page
-      // loop the areas and request:
-      //  new coverage, cache images and geostores
-      const { areas } = this.props;
-      for (let i = 0, aLength = areas.length; i < aLength; i++) {
-        this.props.getAreaGeostore(areas[i].id);
-        this.props.cacheAreaImage(areas[i].id);
-      }
+    // TODO: move this to the new sync page
+    const { areas } = this.props;
+    for (let i = 0, aLength = areas.length; i < aLength; i++) {
+      this.props.getAlertsJson(areas[i].id);
     }
   }
 
@@ -168,10 +160,8 @@ Settings.propTypes = {
   user: React.PropTypes.any,
   areas: React.PropTypes.any,
   navigator: React.PropTypes.object.isRequired,
-  getAreas: React.PropTypes.func.isRequired,
   logout: React.PropTypes.func.isRequired,
-  getAreaGeostore: React.PropTypes.func.isRequired,
-  cacheAreaImage: React.PropTypes.func.isRequired
+  getAlertsJson: React.PropTypes.func.isRequired
 };
 
 export default Settings;
