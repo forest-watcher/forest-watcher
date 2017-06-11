@@ -138,11 +138,11 @@ export default function reducer(state = initialState, action) {
       return { ...state, syncing: false };
     }
     case SAVE_AREA_COMMIT: {
-      const data = state.data.length > 0 ? [...state.data] : [];
+      let data = state.data;
       const area = action.payload;
       let pendingData = state.pendingData;
       if (area) {
-        data.push(area);
+        data = [...data, area];
         const { coverage, geostore, image } = state.pendingData;
         pendingData = {
           coverage: { ...coverage, [area.id]: false },
@@ -270,7 +270,7 @@ export function getAreaGeostore(areaId) {
     const { areas, geostore } = state();
     const area = getAreaById(areas.data, areaId);
     const geostores = geostore.data;
-    if (!geostores[area.geostore]) {
+    if (!geostores[area.geostore] || (geostores[area.geostore] && !geostores[area.geostore].data)) {
       dispatch(getGeostore(area));
     } else {
       dispatch({
