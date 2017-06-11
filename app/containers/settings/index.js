@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { getAreas, getAreaGeostore, cacheAreaImage } from 'redux-modules/areas';
 import { logout } from 'redux-modules/user';
 
 import Settings from 'components/settings';
@@ -15,15 +14,6 @@ function mapDispatchToProps(dispatch, { navigation }) {
   return {
     navigate: (routeName, params) => {
       navigation.navigate(routeName, params);
-    },
-    getAreas: () => {
-      dispatch(getAreas());
-    },
-    getAreaGeostore: (areaId) => {
-      dispatch(getAreaGeostore(areaId));
-    },
-    cacheAreaImage: (areaId) => {
-      dispatch(cacheAreaImage(areaId));
     },
     logout: () => {
       dispatch(logout());
