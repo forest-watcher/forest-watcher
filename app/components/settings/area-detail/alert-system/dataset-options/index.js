@@ -11,13 +11,10 @@ import CheckBtn from 'components/common/form-inputs/check-btn';
 import styles from './styles';
 
 class DatasetOptions extends Component {
-  onChange = (value) => {
-    const { id, dataset, cacheArea, removeCachedArea } = this.props;
-    if (value) {
-      removeCachedArea(id, dataset.slug);
-    } else {
-      cacheArea(id, dataset.slug);
-    }
+  onChange = (currentValue) => {
+    const { id, dataset, setAreaDatasetCache } = this.props;
+    const updatedValue = !currentValue;
+    setAreaDatasetCache(id, dataset.slug, updatedValue);
   }
 
   handleUpdateDate = (date) => {
@@ -64,9 +61,8 @@ DatasetOptions.propTypes = {
     startDate: React.PropTypes.string,
     endDate: React.PropTypes.string
   }),
-  cacheArea: React.PropTypes.func,
-  removeCachedArea: React.PropTypes.func,
-  updateDate: React.PropTypes.func
+  updateDate: React.PropTypes.func.isRequired,
+  setAreaDatasetCache: React.PropTypes.func.isRequired
 };
 
 export default DatasetOptions;
