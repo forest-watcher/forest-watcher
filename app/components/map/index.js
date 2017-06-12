@@ -13,12 +13,10 @@ import {
 } from 'react-native';
 import CONSTANTS from 'config/constants';
 import throttle from 'lodash/throttle';
-import debounce from 'lodash/debounce';
 
 import Theme from 'config/theme';
-import { daysToDate } from 'helpers/date';
+// import { daysToDate } from 'helpers/date';
 import { getUrlTile } from 'helpers/map';
-import { initDb, read } from 'helpers/database';
 import ActionBtn from 'components/common/action-button';
 import AreaCarousel from 'containers/map/area-carousel/';
 import Clusters from 'components/map/clusters/';
@@ -29,10 +27,8 @@ import styles from './styles';
 
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
 
-const sphereKnn = require('sphere-knn'); // eslint-disable-line
 const supercluster = require('supercluster'); // eslint-disable-line
 const geoViewport = require('@mapbox/geo-viewport');
-const tilebelt = require('@mapbox/tilebelt');
 
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
 
@@ -43,40 +39,10 @@ const LATITUDE_DELTA = 10;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const markerImage = require('assets/marker.png');
+const alertWhite = require('assets/alert-white.png');
 const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
-
-function convertPoints(data) {
-  return {
-    type: 'MapCollection',
-    features: data.map((value) => ({
-      type: 'Map',
-      properties: {
-        lat: value.lat,
-        long: value.long
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [
-          value.long,
-          value.lat
-        ]
-      }
-    }))
-  };
-}
-
-function createCluster(data) {
-  const cluster = supercluster({
-    radius: 60,
-    maxZoom: 15, // Default: 16,
-    extent: 256,
-    nodeSize: 64
-  });
-  cluster.load(data.features);
-  return cluster;
-}
 
 function renderLoading() {
   return (
@@ -106,6 +72,7 @@ class Map extends Component {
     const initialCoords = center || { lat: CONSTANTS.maps.lat, lon: CONSTANTS.maps.lng };
     this.eventLocation = null;
     this.eventOrientation = null;
+    this.hasSetCoordinates = false;
     // Google maps lon and lat are inverted
     this.state = {
       renderMap: false,
@@ -120,17 +87,9 @@ class Map extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
-      coordinates: {
-        tile: [], // tile coordinates x, y, z + precision x, y
-        precision: [] // tile precision x, y
-      },
-      alertSelected: null,
       urlTile: null,
       markers: []
     };
-    console.warn('alerts number', props.alerts.length);
-    const geoPoints = convertPoints(props.alerts);
-    this.cluster = geoPoints && createCluster(geoPoints);
   }
 
   componentDidMount() {
@@ -149,17 +108,18 @@ class Map extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (this.state.alertSelected !== nextState.alertSelected && this.state.lastPosition !== null) {
+    if (this.state.selectedAlertCoordinates !== nextState.selectedAlertCoordinates && this.state.lastPosition !== null) {
       this.setCompassLine();
     }
+  }
 
-    if (this.props.datasetSlug !== nextProps.datasetSlug ||
-        this.props.startDate !== nextProps.startDate ||
-        this.props.endDate !== nextProps.endDate ||
-        this.props.areaCoordinates !== nextProps.areaCoordinates) {
+  componentDidUpdate(prevProps) {
+    if (this.props.datasetSlug !== prevProps.datasetSlug ||
+        this.props.startDate !== prevProps.startDate ||
+        this.props.endDate !== prevProps.endDate ||
+        this.props.areaCoordinates !== prevProps.areaCoordinates) {
       this.updateSelectedArea();
     }
-    this.updateMarkers();
   }
 
 
@@ -183,10 +143,11 @@ class Map extends Component {
   }
 
   onLayout = () => {
-  }
-
-  onMapPress = (e) => {
-    this.selectAlert(e.nativeEvent.coordinate);
+    if (this.hasSetCoordinates === false) {
+      const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
+      this.map.fitToCoordinates(this.props.areaCoordinates, options);
+      this.hasSetCoordinates = true;
+    }
   }
 
   async setUrlTile(datasetSlug) {
@@ -210,39 +171,37 @@ class Map extends Component {
   setCompassLine = () => {
     this.setState((prevState) => {
       const state = {};
-      if (prevState.alertSelected !== null) {
+      if (prevState.selectedAlertCoordinates !== null) {
         // extract not needed props
         // eslint-disable-next-line no-unused-vars
         const { accuracy, altitude, speed, course, ...rest } = this.state.lastPosition;
-        state.compassFallback = [{ ...rest }, { ...this.state.alertSelected }];
+        state.compassFallback = [{ ...rest }, { ...this.state.selectedAlertCoordinates }];
       }
-      if (prevState.compassFallback !== null && prevState.alertSelected === null) {
+      if (prevState.compassFallback !== null && prevState.selectedAlertCoordinates === null) {
         state.compassFallback = null;
       }
       return state;
     });
   }
 
-  getMarkersClusters() {
-    const padding = 0;
-    const markers = this.cluster && this.cluster.getClusters([
-      this.state.region.longitude - (this.state.region.longitudeDelta * (0.5 + padding)),
-      this.state.region.latitude - (this.state.region.latitudeDelta * (0.5 + padding)),
-      this.state.region.longitude + (this.state.region.longitudeDelta * (0.5 + padding)),
-      this.state.region.latitude + (this.state.region.latitudeDelta * (0.5 + padding))
-    ], this.getMapZoom());
-    return markers || [];
-  }
-
   updateMarkers() {
-    this.markers = this.getMarkersClusters();
+    const markers = this.props.cluster && this.props.cluster.getClusters([
+      this.state.region.longitude - (this.state.region.longitudeDelta / 2),
+      this.state.region.latitude - (this.state.region.latitudeDelta / 2),
+      this.state.region.longitude + (this.state.region.longitudeDelta / 2),
+      this.state.region.latitude + (this.state.region.latitudeDelta / 2)
+    ], this.getMapZoom());
+
+    this.setState({
+      markers: markers || []
+    });
   }
 
   createReport = () => {
-    const { alertSelected } = this.state;
+    const { selectedAlertCoordinates } = this.state;
     let latLng = '0,0';
-    if (alertSelected) {
-      latLng = `${alertSelected.latitude},${alertSelected.longitude}`;
+    if (selectedAlertCoordinates) {
+      latLng = `${selectedAlertCoordinates.latitude},${selectedAlertCoordinates.longitude}`;
     }
     const screen = 'ForestWatcher.NewReport';
     const title = 'Report';
@@ -340,72 +299,36 @@ class Map extends Component {
   }
 
   updateRegion = (region) => {
-    this.setState({ region });
-    if (this.state.selectedAlertCoordinates) {
-      this.updateSelectedAlertZoom();
-    }
+    this.setState({ region }, () => {
+      this.updateMarkers();
+    });
   }
 
-  updateSelectedAlertZoom = () => {
-    const zoom = this.getMapZoom();
-    const { latitude, longitude } = this.state.alertSelected;
-    if (zoom) {
-      const tile = tilebelt.pointToTile(longitude, latitude, zoom, true);
-      this.setState({
-        coordinates: {
-          tile: [tile[0], tile[1], tile[2]],
-          precision: [tile[3], tile[4]]
-        }
-      });
-    }
+  zoomTo = (coordinates) => {
+    const zoomCoordinates = {
+      latitude: coordinates.latitude,
+      longitude: coordinates.longitude,
+      latitudeDelta: this.state.region.latitudeDelta / 2,
+      longitudeDelta: this.state.region.longitudeDelta / 2
+    };
+    this.map.animateToRegion(zoomCoordinates);
   }
 
   selectAlert = (coordinates) => {
-    const threshold = 0.003;
-    console.warn('coordinates', coordinates);
-    const realm = initDb();
-    let selectedAlertCoordinates = null;
-    const alerts = read(realm, 'Alert');
-    const filter = `areaId = '${this.props.areaId}' AND long < ${coordinates.longitude + threshold} AND long > ${coordinates.longitude - threshold} AND lat < ${coordinates.latitude + threshold} AND lat > ${coordinates.latitude - threshold} AND slug = '${this.props.datasetSlug}'`;
-    const filteredAlerts = alerts.filtered(filter);
-    console.warn('filtered count', Array.from(filteredAlerts).length);
-
-    if (Array.from(filteredAlerts).length > 0) {
-      const parsedAlerts = filteredAlerts.map((alert) => ({ latitude: alert.lat, longitude: alert.long }));
-      console.warn('parsedAlerts', parsedAlerts);
-      const lookup = sphereKnn(parsedAlerts);
-      const closestAlerts = lookup(coordinates.latitude, coordinates.longitude, 1);
-      if (parsedAlerts.length > 0) {
-        const selectedAlert = closestAlerts[0];
-        selectedAlertCoordinates = { longitude: selectedAlert.longitude, latitude: selectedAlert.latitude };
-        console.warn('selectedAlertCoordinates', selectedAlertCoordinates);
-      }
-    }
-
     const zoom = this.getMapZoom();
     if (zoom) {
-      console.warn('zoom', zoom);
-      const tile = tilebelt.pointToTile(coordinates.longitude, coordinates.latitude, zoom, true);
       this.setState({
-        alertSelected: coordinates,
-        coordinates: {
-          tile: [tile[0], tile[1], tile[2]],
-          precision: [tile[3], tile[4]]
-        },
-        selectedAlertCoordinates
+        selectedAlertCoordinates: coordinates
       });
     }
   }
 
   updateSelectedArea = () => {
     this.setState({
-      coordinates: {
-        tile: [], // tile coordinates x, y, z + precision x, y
-        precision: [] // tile precision x, y
-      },
-      alertSelected: null,
+      selectedAlertCoordinates: null,
       urlTile: null
     }, () => {
+      this.updateMarkers();
       const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
       this.map.fitToCoordinates(this.props.areaCoordinates, options);
       if (this.props.datasetSlug) {
@@ -465,14 +388,14 @@ class Map extends Component {
   }
 
   render() {
-    const { alertSelected, urlTile, hasCompass, lastPosition, compassFallback, selectedAlertCoordinates } = this.state;
-    const { datasetSlug, startDate, endDate, areaCoordinates } = this.props;
-    const showCompassFallback = !hasCompass && lastPosition && alertSelected && compassFallback;
+    const { hasCompass, lastPosition, compassFallback, selectedAlertCoordinates } = this.state;
+    const { areaCoordinates } = this.props;
+    const showCompassFallback = !hasCompass && lastPosition && selectedAlertCoordinates && compassFallback;
 
-    const dates = {
-      min: datasetSlug === 'viirs' ? String(startDate) : daysToDate(startDate),
-      max: datasetSlug === 'viirs' ? String(endDate) : daysToDate(endDate)
-    };
+    // const dates = {
+    //   min: datasetSlug === 'viirs' ? String(startDate) : daysToDate(startDate),
+    //   max: datasetSlug === 'viirs' ? String(endDate) : daysToDate(endDate)
+    // };
     return (
       this.state.renderMap
       ?
@@ -483,7 +406,7 @@ class Map extends Component {
           >
             {selectedAlertCoordinates &&
               <Text style={styles.headerSubtitle}>
-                {selectedAlertCoordinates.latitude}, {selectedAlertCoordinates.longitude}
+                {selectedAlertCoordinates.latitude.toFixed(4)}, {selectedAlertCoordinates.longitude.toFixed(4)}
               </Text>
             }
           </View>
@@ -493,14 +416,12 @@ class Map extends Component {
             provider={MapView.PROVIDER_GOOGLE}
             mapType="hybrid"
             rotateEnabled={false}
-            onPress={this.onMapPress}
             initialRegion={this.state.region}
-            onRegionChange={debounce(region => this.updateRegion(region), 100)}
-            onRegionChangeComplete={this.updateRegion}
+            onRegionChangeComplete={region => this.updateRegion(region)}
             onLayout={this.onLayout}
             moveOnMarkerPress={false}
           >
-            <Clusters markers={this.markers} />
+            <Clusters markers={this.state.markers} selectAlert={this.selectAlert} zoomTo={this.zoomTo} />
             {showCompassFallback &&
               <MapView.Polyline
                 coordinates={this.state.compassFallback}
@@ -550,19 +471,9 @@ class Map extends Component {
               <MapView.Marker
                 key={'selectedAlert'}
                 coordinate={selectedAlertCoordinates}
-                zIndex={1}
-              />
-            }
-            {urlTile &&
-              <MapView.CanvasUrlTile
-                urlTemplate={urlTile}
-                zIndex={-1}
-                maxZoom={12}
-                areaId={this.props.areaId}
-                alertType={datasetSlug}
-                isConnected={this.props.isConnected}
-                minDate={dates.min}
-                maxDate={dates.max}
+                image={alertWhite}
+                anchor={{ x: 0.5, y: 0.5 }}
+                zIndex={10}
               />
             }
           </MapView>
@@ -572,7 +483,7 @@ class Map extends Component {
           }
           <AreaCarousel
             navigator={this.props.navigator}
-            alertSelected={this.state.selectedAlertCoordinates}
+            alertSelected={selectedAlertCoordinates}
             lastPosition={this.state.lastPosition}
           />
         </View>
@@ -584,9 +495,7 @@ class Map extends Component {
 Map.propTypes = {
   navigator: React.PropTypes.object.isRequired,
   createReport: React.PropTypes.func.isRequired,
-  isConnected: React.PropTypes.bool,
-  areaId: React.PropTypes.string.isRequired,
-  alerts: React.PropTypes.array.isRequired,
+  cluster: React.PropTypes.object.isRequired,
   center: React.PropTypes.shape({
     lat: React.PropTypes.number.isRequired,
     lon: React.PropTypes.number.isRequired

@@ -12,7 +12,7 @@ function Clusters(props) {
     <View>
       {props.markers.map((marker, index) => (
         marker.properties.point_count !== undefined ? (
-          <ClusterMarker index={index} marker={marker} />
+          <ClusterMarker key={index} marker={marker} zoomTo={props.zoomTo} />
         ) : (
           <MapView.Marker
             key={index}
@@ -21,6 +21,7 @@ function Clusters(props) {
               longitude: marker.geometry.coordinates[0]
             }}
             image={alertGlad}
+            onPress={(e) => props.selectAlert(e.nativeEvent.coordinate)}
             zIndex={1}
             anchor={{ x: 0.5, y: 0.5 }}
             pointerEvents={'none'}
@@ -32,7 +33,8 @@ function Clusters(props) {
 }
 
 Clusters.propTypes = {
-  markers: React.PropTypes.array
+  markers: React.PropTypes.array,
+  zoomTo: React.PropTypes.func
 };
 
 export default Clusters;

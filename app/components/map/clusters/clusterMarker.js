@@ -9,7 +9,6 @@ import styles from './styles';
 function ClusterMarker(props) {
   return (
     <MapView.Marker
-      key={props.index}
       coordinate={{
         latitude: props.marker.geometry.coordinates[1],
         longitude: props.marker.geometry.coordinates[0]
@@ -17,6 +16,7 @@ function ClusterMarker(props) {
       zIndex={1}
       anchor={{ x: 0.5, y: 0.5 }}
       pointerEvents={'none'}
+      onPress={(event) => props.zoomTo(event.nativeEvent.coordinate)}
     >
       <View style={styles.container}>
         <View style={styles.bubble}>
@@ -30,7 +30,7 @@ function ClusterMarker(props) {
 
 ClusterMarker.propTypes = {
   marker: React.PropTypes.object.isRequired,
-  index: React.PropTypes.number.isRequired
+  zoomTo: React.PropTypes.func.isRequired
 };
 
 export default ClusterMarker;

@@ -5,6 +5,7 @@ import Map from 'components/map';
 import { activeDataset } from 'helpers/area';
 import { initDb, read } from 'helpers/database';
 
+const supercluster = require('supercluster'); // eslint-disable-line
 const BoundingBox = require('boundingbox');
 
 function getAreaCoordinates(areaFeature) {
@@ -14,6 +15,36 @@ function getAreaCoordinates(areaFeature) {
       latitude: coordinate[1]
     }
   ));
+}
+
+function convertPoints(data) {
+  return {
+    type: 'MapCollection',
+    features: data.map((value) => ({
+      type: 'Map',
+      properties: {
+        lat: value.lat,
+        long: value.long
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [
+          value.long,
+          value.lat
+        ]
+      }
+    }))
+  };
+}
+
+function createCluster(data) {
+  const cluster = supercluster({
+    radius: 60,
+    maxZoom: 15, // Default: 16,
+    nodeSize: 128
+  });
+  cluster.load(data.features);
+  return cluster;
 }
 
 function mapStateToProps(state) {
@@ -43,9 +74,12 @@ function mapStateToProps(state) {
   const alerts = read(realm, 'Alert')
                   .filtered(`areaId = '${areaId}'`)
                   .map((alert) => ({ lat: alert.lat, long: alert.long }));
+  const geoPoints = convertPoints(alerts);
+  const cluster = geoPoints && createCluster(geoPoints);
 
   return {
     areaId,
+    cluster,
     datasetSlug,
     startDate,
     endDate,
