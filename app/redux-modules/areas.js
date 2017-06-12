@@ -156,8 +156,6 @@ export default function reducer(state = initialState, action) {
       const newArea = action.payload;
       const areas = state.data.map((area) => {
         if (area.id === newArea.id) {
-          // TODO if there is changes in any of the props
-          // push them to the actionsPending
           return { ...newArea };
         }
         return area;
@@ -169,7 +167,7 @@ export default function reducer(state = initialState, action) {
       const areas = state.data.map((area) => {
         if (area.id === newArea.id) {
           return {
-            ...newArea,
+            ...area,
             lastUpdate: Date.now()
           };
         }
@@ -201,7 +199,8 @@ export default function reducer(state = initialState, action) {
     }
     case SET_CACHE_AREA_ROLLBACK: {
       // TODO: save the stored flag in the dataset cache as false
-      return state;
+      const data = [...state.data, action.meta.area];
+      return { ...state, data };
     }
     case REMOVE_CACHE_AREA_REQUEST: {
       const newArea = action.payload;
@@ -364,6 +363,7 @@ async function downloadArea(bbox, areaId, datasetSlug) {
   const zooms = CONSTANTS.maps.cachedZoomLevels;
   const tilesArray = getBboxTiles(bbox, zooms);
   await cacheTiles(tilesArray, areaId, datasetSlug);
+  return { tiles: tilesArray, area: areaId, dataset: datasetSlug };
 }
 
 export function saveArea(params) {
@@ -408,8 +408,11 @@ export function cacheArea(areaId, datasetSlug) {
       }
     }
     if (bbox) {
-      const newArea = { ...area };
-      newArea.datasets = updatedCacheDatasets(area.datasets, datasetSlug, true);
+      const newArea = {
+        ...area,
+        datasets: updatedCacheDatasets(area.datasets, datasetSlug, true)
+      };
+
       dispatch({
         type: SET_CACHE_AREA_REQUEST,
         payload: newArea,
