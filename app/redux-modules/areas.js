@@ -44,12 +44,11 @@ function getAreaById(areas, areaId) {
 
 function updatedCacheDatasets(datasets, datasetSlug, status) {
   if (!datasets) return [];
-  return datasets.map((d) => {
-    const newDataset = d;
-    if (d.slug === datasetSlug) {
-      newDataset.cache = status;
+  return datasets.map((dataset) => {
+    if (dataset.slug === datasetSlug) {
+      return { ...dataset, cache: status };
     }
-    return newDataset;
+    return dataset;
   });
 }
 
@@ -169,18 +168,25 @@ export default function reducer(state = initialState, action) {
       return { ...state, data, pendingData, synced: true, syncing: false };
     }
     case UPDATE_AREA_REQUEST: {
-      const newArea = action.payload;
+      let pendingData = state.pendingData;
+      const { area: newArea, updateCache } = action.payload;
       const areas = state.data.map((area) => {
         if (area.id === newArea.id) {
+          if (updateCache) {
+            const { alert } = state.pendingData;
+            pendingData = {
+              alert: { ...alert, [area.id]: false }
+            };
+          }
           return { ...newArea };
         }
         return area;
       });
-      return { ...state, data: areas, synced: false, syncing: true };
+      return { ...state, data: areas, pendingData, synced: false, syncing: true };
     }
     case UPDATE_AREA_COMMIT: {
       const newArea = action.payload;
-      const areas = state.data.map((area) => {
+      const data = state.data.map((area) => {
         if (area.id === newArea.id) {
           return {
             ...newArea,
@@ -189,7 +195,7 @@ export default function reducer(state = initialState, action) {
         }
         return area;
       });
-      return { ...state, data: areas, synced: true, syncing: false };
+      return { ...state, data, synced: true, syncing: false };
     }
     case UPDATE_AREA_ROLLBACK: {
       const oldArea = action.meta;
@@ -205,12 +211,13 @@ export default function reducer(state = initialState, action) {
       return { ...state, data: areas };
     }
     case SET_CACHE_AREA_REQUEST: {
-      const newArea = action.payload;
-      const areas = getUpdatedAreas(state.data, newArea);
-      return { ...state, data: areas };
+      const area = action.payload;
+      const data = getUpdatedAreas(state.data, area);
+      const pendingData = { ...state.pendingData, alert: { ...state.pendingData.alert, [area.id]: true } };
+      return { ...state, data, pendingData };
     }
     case SET_CACHE_AREA_COMMIT: {
-      const area = action.meta.newArea;
+      const area = action.meta.area;
       const pendingData = {
         ...state.pendingData,
         alert: omit(state.pendingData.alert, [area.id])
@@ -227,13 +234,27 @@ export default function reducer(state = initialState, action) {
       return { ...state, data, pendingData };
     }
     case REMOVE_CACHE_AREA_REQUEST: {
-      const newArea = action.payload;
-      const data = getUpdatedAreas(state.data, newArea);
-      return { ...state, data };
+      const area = action.payload;
+      const data = getUpdatedAreas(state.data, area);
+      const pendingData = { ...state.pendingData, alert: { ...state.pendingData.alert, [area.id]: true } };
+      return { ...state, data, pendingData };
+    }
+    case REMOVE_CACHE_AREA_COMMIT: {
+      const area = action.meta.area;
+      const pendingData = {
+        ...state.pendingData,
+        alert: omit(state.pendingData.alert, [area.id])
+      };
+      return { ...state, pendingData };
     }
     case REMOVE_CACHE_AREA_ROLLBACK: {
-      const data = [...state.data, action.meta.area];
-      return { ...state, data };
+      const area = action.meta.area;
+      const data = [...state.data, area];
+      const pendingData = {
+        ...state.pendingData,
+        alert: { ...state.pendingData.alert, [area.id]: false }
+      };
+      return { ...state, data, pendingData };
     }
     case DELETE_AREA_REQUEST: {
       const data = state.data.filter((area) => (
@@ -333,7 +354,7 @@ export function getAreaCoverage(areaId) {
   };
 }
 
-export function updateArea(area) {
+export function updateArea(area, { updateCache = false }) {
   return async (dispatch, state) => {
     const url = `${Config.API_URL}/area/${area.id}`;
     const originalArea = getAreaById(state().areas.data, area.id);
@@ -347,7 +368,7 @@ export function updateArea(area) {
     }
     dispatch({
       type: UPDATE_AREA_REQUEST,
-      payload: area,
+      payload: { area, updateCache },
       meta: {
         offline: {
           effect: { url, method: 'PATCH', headers, body },
@@ -403,6 +424,7 @@ export function saveArea(params) {
 export function cacheArea(areaId, datasetSlug) {
   return async (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
+    const oldArea = { ...area, datasets: updatedCacheDatasets(area.datasets, datasetSlug, false) };
     const geostore = state().geostore.data[area.geostore];
     let bbox = null;
     if (geostore) {
@@ -415,19 +437,14 @@ export function cacheArea(areaId, datasetSlug) {
       }
     }
     if (bbox) {
-      const newArea = {
-        ...area,
-        datasets: updatedCacheDatasets(area.datasets, datasetSlug, true)
-      };
-
       dispatch({
         type: SET_CACHE_AREA_REQUEST,
-        payload: newArea,
+        payload: area,
         meta: {
           offline: {
             effect: { promise: downloadArea(bbox, areaId, datasetSlug), errorCode: 400 },
-            commit: { type: SET_CACHE_AREA_COMMIT, meta: { newArea } },
-            rollback: { type: SET_CACHE_AREA_ROLLBACK, meta: { area } }
+            commit: { type: SET_CACHE_AREA_COMMIT, meta: { area } },
+            rollback: { type: SET_CACHE_AREA_ROLLBACK, meta: { area: oldArea } }
           }
         }
       });
@@ -439,23 +456,36 @@ export function cacheArea(areaId, datasetSlug) {
 export function removeCachedArea(areaId, datasetSlug) {
   return async (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
+    const oldArea = { ...area, datasets: updatedCacheDatasets(area.datasets, datasetSlug, true) };
     const folder = `${CONSTANTS.maps.tilesFolder}/${areaId}/${datasetSlug}`;
-    const newArea = {
-      ...area,
-      datasets: updatedCacheDatasets(area.datasets, datasetSlug, false)
-    };
 
     dispatch({
       type: REMOVE_CACHE_AREA_REQUEST,
-      payload: newArea,
+      payload: area,
       meta: {
         offline: {
           effect: { promise: removeFolder(folder), errorCode: 400 },
-          commit: { type: REMOVE_CACHE_AREA_COMMIT },
-          rollback: { type: REMOVE_CACHE_AREA_ROLLBACK, meta: { area } }
+          commit: { type: REMOVE_CACHE_AREA_COMMIT, meta: { area } },
+          rollback: { type: REMOVE_CACHE_AREA_ROLLBACK, meta: { area: oldArea } }
         }
       }
     });
+  };
+}
+
+export function setAreaDatasetCache(areaId, datasetSlug, cache) {
+  return async (dispatch, state) => {
+    const area = getAreaById(state().areas.data, areaId);
+    if (area) {
+      const datasets = area.datasets.map((dataset) => {
+        if (dataset.slug === datasetSlug) {
+          return { ...dataset, cache };
+        }
+        return dataset;
+      });
+      const newArea = { ...area, datasets };
+      dispatch(updateArea(newArea, { updateCache: true }));
+    }
   };
 }
 
@@ -463,7 +493,7 @@ export function setAreaDatasetStatus(areaId, datasetSlug, status) {
   return async (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
     if (area) {
-      area.datasets = area.datasets.map((item) => {
+      const datasets = area.datasets.map((item) => {
         if (item.slug !== datasetSlug) {
           return status === true
             ? { ...item, active: false }
@@ -471,7 +501,7 @@ export function setAreaDatasetStatus(areaId, datasetSlug, status) {
         }
         return { ...item, active: status };
       });
-      dispatch(updateArea(area));
+      dispatch(updateArea({ ...area, datasets }));
     }
   };
 }
@@ -526,9 +556,9 @@ export function syncAreas() {
       Object.keys(pendingData).forEach((type) => {
         const syncingAreasData = pendingData[type];
         const canDispatch = id => (typeof syncingAreasData[id] !== 'undefined' && syncingAreasData[id] === false);
-        const syncAreasData = (action, ...args) => {
+        const syncAreasData = (action) => {
           Object.keys(syncingAreasData).forEach(id => {
-            if (canDispatch(id)) action(id, ...args);
+            if (canDispatch(id)) action(id);
           });
         };
         switch (type) {
@@ -546,7 +576,7 @@ export function syncAreas() {
               const area = getAreaById(state().areas.data, id);
               const { datasets } = area;
               datasets.forEach((dataset) => {
-                if (!dataset.cache) {
+                if (dataset.cache) {
                   dispatch(cacheArea(id, dataset.slug));
                 } else {
                   dispatch(removeCachedArea(id, dataset.slug));
