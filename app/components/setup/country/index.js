@@ -48,9 +48,6 @@ function getCurrentCountry(countries, iso) {
 class SetupCountry extends Component {
   componentDidMount() {
     tracker.trackScreenView('Country Set Up');
-    if (!this.props.countries || !this.props.countries.length > 0) {
-      this.props.getCountries();
-    }
   }
 
   onNextPress = () => {
@@ -95,7 +92,6 @@ SetupCountry.propTypes = {
   user: React.PropTypes.any,
   setupCountry: React.PropTypes.any,
   countries: React.PropTypes.any,
-  getCountries: React.PropTypes.func.isRequired,
   setSetupCountry: React.PropTypes.func.isRequired,
   onNextPress: React.PropTypes.func.isRequired
 };

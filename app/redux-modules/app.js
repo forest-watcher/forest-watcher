@@ -34,12 +34,12 @@ export function setLanguage(language) {
 
 export function syncApp() {
   return (dispatch, state) => {
-    const { reports, feedback, areas, user, countries } = state();
+    const { reports, feedback, user, countries } = state();
+    dispatch(syncAreas()); // syncAreas internally checks if it synced or not
     if (!user.synced && !user.syncing) dispatch(getUser());
     if (!reports.synced && !reports.syncing) dispatch(getReportQuestions());
     if (!feedback.synced.daily && !feedback.syncing.daily) dispatch(getFeedbackQuestions('daily'));
     if (!feedback.synced.weekly && !feedback.syncing.weekly) dispatch(getFeedbackQuestions('weekly'));
     if (!countries.synced && !countries.syncing) dispatch(getCountries());
-    if (!areas.synced && !areas.syncing) dispatch(syncAreas());
   };
 }

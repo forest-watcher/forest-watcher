@@ -3,8 +3,8 @@ import Config from 'react-native-config';
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 
-const GET_GEOSTORE_REQUEST = 'gesotore/GET_GEOSTORE_REQUEST';
-const GET_GEOSTORE_COMMIT = 'gesotore/GET_GEOSTORE_COMMIT';
+export const GET_GEOSTORE_REQUEST = 'gesotore/GET_GEOSTORE_REQUEST';
+export const GET_GEOSTORE_COMMIT = 'gesotore/GET_GEOSTORE_COMMIT';
 const GET_GEOSTORE_ROLLBACK = 'gesotore/GET_GEOSTORE_ROLLBACK';
 const STORE_GEOSTORE = 'geostore/STORE_GEOSTORE';
 
@@ -25,7 +25,7 @@ export default function reducer(state = initialState, action) {
     }
     case GET_GEOSTORE_COMMIT: {
       const data = Object.assign({}, state.data, {});
-      data[action.payload.id] = action.payload.data;
+      data[action.payload.id] = action.payload;
       return { ...state, data };
     }
     case LOGOUT_REQUEST: {
@@ -50,14 +50,15 @@ export function storeGeostore(id, data) {
   };
 }
 
-export function getGeostore(id) {
-  const url = `${Config.API_URL}/geostore/${id}`;
+export function getGeostore(area) {
+  const url = `${Config.API_URL}/geostore/${area.geostore}`;
   return {
     type: GET_GEOSTORE_REQUEST,
+    payload: area,
     meta: {
       offline: {
         effect: { url },
-        commit: { type: GET_GEOSTORE_COMMIT },
+        commit: { type: GET_GEOSTORE_COMMIT, meta: { area } },
         rollback: { type: GET_GEOSTORE_ROLLBACK }
       }
     }
