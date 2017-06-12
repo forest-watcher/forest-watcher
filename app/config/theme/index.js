@@ -10,7 +10,8 @@ const colors = {
   color4: '#f2f2f2',
   color5: '#ffffff',
   color6: '#dcdcdc',
-  color7: '#f15656'
+  color7: '#f15656',
+  color8: '#ff6699'
 };
 
 const config = {
@@ -25,7 +26,8 @@ const config = {
     color4: colors.color4,
     color5: colors.color5,
     color6: colors.color6,
-    color7: colors.color7
+    color7: colors.color7,
+    color8: colors.color8
   },
   font: 'firasansot',
   fontColors: {

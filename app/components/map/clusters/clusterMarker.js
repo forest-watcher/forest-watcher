@@ -22,8 +22,6 @@ function ClusterMarker(props) {
         <View style={styles.bubble}>
           <Text style={styles.number}>{props.marker.properties.point_count}</Text>
         </View>
-        <View style={styles.arrowBorder} />
-        <View style={styles.arrow} />
       </View>
     </MapView.Marker>
 
