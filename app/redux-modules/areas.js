@@ -203,12 +203,20 @@ export default function reducer(state = initialState, action) {
       // TODO: save the stored flag in the dataset cache as false
       return state;
     }
+    case REMOVE_CACHE_AREA_REQUEST: {
+      const newArea = action.payload;
+      const data = getUpdatedAreas(state.data, newArea);
+      return { ...state, data };
+    }
+    case REMOVE_CACHE_AREA_ROLLBACK: {
+      const data = [...state.data, action.meta.area];
+      return { ...state, data };
+    }
     case DELETE_AREA_REQUEST: {
-      const areas = [...state.data];
-      const filteredAreas = areas.filter((area) => (
+      const data = state.data.filter((area) => (
         area.id !== action.payload.id
       ));
-      return { ...state, data: filteredAreas, synced: false, syncing: true };
+      return { ...state, data, synced: false, syncing: true };
     }
     case DELETE_AREA_COMMIT: {
       const { id } = action.meta.area || {};
@@ -219,9 +227,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, images, synced: true, syncing: false };
     }
     case DELETE_AREA_ROLLBACK: {
-      const areas = [...state.data];
-      areas.push(action.meta.area);
-      return { ...state, data: areas, syncing: false };
+      const data = [...state.data, action.meta.area];
+      return { ...state, data, syncing: false };
     }
     case UPDATE_INDEX: {
       return Object.assign({}, state, { selectedIndex: action.payload });
@@ -423,8 +430,11 @@ export function removeCachedArea(areaId, datasetSlug) {
   return async (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
     const folder = `${CONSTANTS.maps.tilesFolder}/${areaId}/${datasetSlug}`;
-    const newArea = { ...area };
-    newArea.datasets = updatedCacheDatasets(area.datasets, datasetSlug, false);
+    const newArea = {
+      ...area,
+      datasets: updatedCacheDatasets(area.datasets, datasetSlug, false)
+    };
+
     dispatch({
       type: REMOVE_CACHE_AREA_REQUEST,
       payload: newArea,
