@@ -1,7 +1,7 @@
 import myAlertIcon from 'assets/section_my_alerts.png';
 import myReportsIcon from 'assets/section_my_reports.png';
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View,
   Text,
@@ -44,7 +44,7 @@ const sections = [
   }
 ];
 
-class Dashboard extends Component {
+class Dashboard extends PureComponent {
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color1,
     topBarElevationShadowEnabled: false,
@@ -81,6 +81,19 @@ class Dashboard extends Component {
           title: 'Settings'
         });
       }
+    } else if (event.id === 'willAppear') {
+      // TODO: show sync modal
+      // const { navigator } = this.props;
+      // if (this.props.actionsPending > 0) {
+
+        // navigator.showModal({
+        //   screen: 'ForestWatcher.Sync',
+        //   passProps: {
+        //     navigator,
+        //     goBackDisabled: true
+        //   }
+        // });
+      // }
     }
   }
 

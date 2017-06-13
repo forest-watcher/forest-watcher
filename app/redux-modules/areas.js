@@ -1,6 +1,8 @@
 import Config from 'react-native-config';
-import { getGeostore } from 'redux-modules/geostore';
+import omit from 'lodash/omit';
+import { getGeostore, GET_GEOSTORE_REQUEST, GET_GEOSTORE_COMMIT } from 'redux-modules/geostore';
 import { getCachedImageByUrl, removeFolder } from 'helpers/fileManagement';
+import { hasActionsPending } from 'helpers/sync';
 import { getInitialDatasets } from 'helpers/area';
 import BoundingBox from 'boundingbox';
 import CONSTANTS from 'config/constants';
@@ -33,7 +35,8 @@ const REMOVE_CACHE_AREA_ROLLBACK = 'areas/REMOVE_CACHE_AREA_ROLLBACK';
 const DELETE_AREA_REQUEST = 'areas/DELETE_AREA_REQUEST';
 const DELETE_AREA_COMMIT = 'areas/DELETE_AREA_COMMIT';
 const DELETE_AREA_ROLLBACK = 'areas/DELETE_AREA_ROLLBACK';
-const SET_AREA_IMAGE = 'areas/SET_AREA_IMAGE';
+const SET_AREA_IMAGE_REQUEST = 'areas/SET_AREA_IMAGE_REQUEST';
+const SET_AREA_IMAGE_COMMIT = 'areas/SET_AREA_IMAGE_COMMIT';
 const UPDATE_INDEX = 'areas/UPDATE_INDEX';
 
 // Reducer
@@ -44,9 +47,9 @@ const initialState = {
   synced: false,
   syncing: false,
   pendingData: {
-    coverage: [],
-    geostore: [],
-    image: []
+    coverage: {},
+    geostore: {},
+    image: {}
   }
 };
 
@@ -57,15 +60,6 @@ function getUpdatedAreas(areas, newArea) {
     }
     return area;
   });
-}
-
-function areAllAreasSynced(areas) {
-  for (let i = 0, aLength = areas.length; i < aLength; i++) {
-    if (!areas[i].synced) {
-      return false;
-    }
-  }
-  return true;
 }
 
 export function saveAlertsToDb(areaId, slug, alerts) {
@@ -91,15 +85,18 @@ export default function reducer(state = initialState, action) {
     case GET_AREAS_REQUEST:
       return { ...state, synced: false, syncing: true };
     case GET_AREAS_COMMIT: {
+      let pendingData = state.pendingData;
       if (action.payload.length) {
-        const pendingData = { ...state.pendingData };
+        const { coverage, geostore, image } = state.pendingData;
         action.payload.forEach(area => {
-          pendingData.coverage.push(area.id);
-          pendingData.geostore.push(area.id);
-          pendingData.image.push(area.id);
+          pendingData = {
+            coverage: { ...coverage, [area.id]: false },
+            geostore: { ...geostore, [area.id]: false },
+            image: { ...image, [area.id]: false }
+          };
         });
       }
-      return { ...state, data: action.payload, synced: true, syncing: false };
+      return { ...state, data: action.payload, pendingData, synced: true, syncing: false };
     }
     case GET_AREAS_ROLLBACK: {
       return { ...state, syncing: false };
@@ -112,82 +109,115 @@ export default function reducer(state = initialState, action) {
       console.warn('error in getting Json');
       return { ...state, synced: false };
     }
+    case GET_AREA_COVERAGE_REQUEST: {
+      const area = action.payload;
+      const pendingData = { ...state.pendingData, coverage: { ...state.pendingData.coverage, [area.id]: true } };
+      return { ...state, pendingData };
+    }
     case GET_AREA_COVERAGE_COMMIT: {
-      const areas = [...state.data];
-      for (let i = 0, aLength = areas.length; i < aLength; i++) {
-        if (areas[i].id === action.meta.id) {
-          if (!areas[i].datasets) {
-            areas[i].datasets = getInitialDatasets(action.payload);
+      let pendingData = state.pendingData;
+      const data = state.data.map((area) => {
+        let updated = area;
+        if (area.id === action.meta.id) {
+          if ((area.datasets && area.datasets.length === 0) || !area.datasets) {
+            updated = { ...area, datasets: getInitialDatasets(action.payload) };
           } else {
             // TODO: update the existing ones
           }
         }
-      }
-      return { ...state };
-      // return Object.assign({}, state, { data: areas });
+        pendingData = {
+          ...pendingData,
+          coverage: omit(pendingData.coverage, [area.id])
+        };
+        return updated;
+      });
+      return { ...state, data, pendingData };
     }
-    case SET_AREA_IMAGE: {
-      const images = action.payload;
-      return Object.assign({}, state, { images });
+    case SET_AREA_IMAGE_REQUEST: {
+      const area = action.payload;
+      const pendingData = { ...state.pendingData, image: { ...state.pendingData.images, [area.id]: true } };
+      return { ...state, pendingData };
+    }
+    case SET_AREA_IMAGE_COMMIT: {
+      const area = action.meta.area;
+      const images = { ...state.images, [area.id]: action.payload };
+      const pendingData = {
+        ...state.pendingData,
+        image: omit(state.pendingData.image, [area.id])
+      };
+      return { ...state, images, pendingData };
+    }
+    case GET_GEOSTORE_REQUEST: {
+      const area = action.payload;
+      const pendingData = { ...state.pendingData, geostore: { ...state.pendingData.geostore, [area.id]: true } };
+      return { ...state, pendingData };
+    }
+    case GET_GEOSTORE_COMMIT: {
+      const area = action.meta.area;
+      const pendingData = {
+        ...state.pendingData,
+        geostore: omit(state.pendingData.geostore, [area.id])
+      };
+      return { ...state, pendingData };
     }
     case SAVE_AREA_REQUEST: {
-      return state;
+      return { ...state, synced: false, syncing: true };
     }
     case SAVE_AREA_ROLLBACK: {
-      return state;
+      return { ...state, syncing: false };
     }
     case SAVE_AREA_COMMIT: {
-      const areas = state.data.length > 0 ? [...state.data] : [];
-      areas.push(action.payload);
-      // sync is false because we need to download the image and geostore
-      return { ...state, data: areas, synced: false };
+      const data = state.data.length > 0 ? [...state.data] : [];
+      const area = action.payload;
+      let pendingData = state.pendingData;
+      if (area) {
+        data.push(area);
+        const { coverage, geostore, image } = state.pendingData;
+        pendingData = {
+          coverage: { ...coverage, [area.id]: false },
+          geostore: { ...geostore, [area.id]: false },
+          image: { ...image, [area.id]: false }
+        };
+      }
+      return { ...state, data, pendingData, synced: true, syncing: false };
     }
     case UPDATE_AREA_REQUEST: {
       const newArea = action.payload;
       const areas = state.data.map((area) => {
         if (area.id === newArea.id) {
-          return {
-            ...newArea,
-            synced: false
-          };
+          // TODO if there is changes in any of the props
+          // push them to the actionsPending
+          return { ...newArea };
         }
         return area;
       });
-      return { ...state, data: areas, synced: false };
+      return { ...state, data: areas, synced: false, syncing: true };
     }
     case UPDATE_AREA_COMMIT: {
       const newArea = action.payload;
-      let synced = true;
       const areas = state.data.map((area) => {
         if (area.id === newArea.id) {
           return {
             ...newArea,
-            synced: true,
             lastUpdate: Date.now()
           };
-        } else if (!area.synced) {
-          synced = false;
         }
         return area;
       });
-      return { ...state, data: areas, synced };
+      return { ...state, data: areas, synced: true, syncing: false };
     }
     case UPDATE_AREA_ROLLBACK: {
       const oldArea = action.meta;
-      let synced = true;
       const areas = state.data.map((area) => {
         if (area.id === oldArea.id) {
           return {
             ...oldArea,
-            synced: true,
             lastModify: Date.now()
           };
-        } else if (!area.synced) {
-          synced = false;
         }
         return area;
       });
-      return { ...state, data: areas, synced };
+      return { ...state, data: areas };
     }
     case SET_CACHE_AREA_REQUEST: {
       const newArea = action.payload;
@@ -207,22 +237,20 @@ export default function reducer(state = initialState, action) {
       const filteredAreas = areas.filter((area) => (
         area.id !== action.payload.id
       ));
-      return { ...state, data: filteredAreas, synced: false };
+      return { ...state, data: filteredAreas, synced: false, syncing: true };
     }
     case DELETE_AREA_COMMIT: {
-      const synced = areAllAreasSynced(state.data);
       const { id } = action.meta.area || {};
-      const images = { ...state.images };
+      let images = state.images;
       if (typeof images[id] !== 'undefined') {
-        delete images[id];
+        images = omit(images, [id]);
       }
-      return { ...state, images, synced };
+      return { ...state, images, synced: true, syncing: false };
     }
     case DELETE_AREA_ROLLBACK: {
-      const synced = areAllAreasSynced(state.data);
       const areas = [...state.data];
       areas.push(action.meta.area);
-      return { ...state, data: areas, synced };
+      return { ...state, data: areas, syncing: false };
     }
     case UPDATE_INDEX: {
       return Object.assign({}, state, { selectedIndex: action.payload });
@@ -268,23 +296,30 @@ export function getAreas() {
 
 export function getAreaGeostore(areaId) {
   return async (dispatch, state) => {
-    const area = getAreaById(state().areas.data, areaId);
-    const geostores = state().geostore.data;
+    const { areas, geostore } = state();
+    const area = getAreaById(areas.data, areaId);
+    const geostores = geostore.data;
     if (!geostores[area.geostore]) {
-      dispatch(getGeostore(area.geostore));
+      dispatch(getGeostore(area));
     }
   };
 }
 
 export function cacheAreaImage(areaId) {
-  return async (dispatch, state) => {
-    const area = getAreaById(state().areas.data, areaId);
-    const images = Object.assign({}, state().areas.images);
+  return (dispatch, state) => {
+    const areas = state().areas;
+    const area = getAreaById(areas.data, areaId);
+    const images = { ...areas.images };
     if (!images[area.id]) {
-      images[area.id] = await getCachedImageByUrl(area.image, 'areas');
       dispatch({
-        type: SET_AREA_IMAGE,
-        payload: images
+        type: SET_AREA_IMAGE_REQUEST,
+        payload: area,
+        meta: {
+          offline: {
+            effect: { promise: getCachedImageByUrl(area.image, 'areas') },
+            commit: { type: SET_AREA_IMAGE_COMMIT, meta: { area } }
+          }
+        }
       });
     }
   };
@@ -503,15 +538,29 @@ export function getAreaAlerts(areaId, datasetSlug) {
 
 export function syncAreas() {
   return async (dispatch, state) => {
-    const areas = state().areas;
-    const hasAreas = areas.data && areas.data.length;
-    if (hasAreas && areas.synced) {
-      // TODO: loop trough the pendingData
-      // dispatch(getAreaGeostore(area.id));
-      // dispatch(getAreaCoverage(area.id));
-      // dispatch(cacheAreaImage(area.id));
-      // dispatch(getAreaAlerts(area.id));
-    } else if (!areas.synced && !areas.syncing) {
+    const { data, synced, syncing, pendingData } = state().areas;
+    const hasAreas = data && data.length;
+    if (hasAreas && synced && hasActionsPending(pendingData)) {
+      Object.keys(pendingData).forEach((type) => {
+        const syncingAreasData = pendingData[type];
+        const canDispatch = id => (typeof syncingAreasData[id] !== 'undefined' && syncingAreasData[id] === false);
+        if (type === 'geostore') {
+          Object.keys(syncingAreasData).forEach(id => {
+            if (canDispatch(id)) dispatch(getAreaGeostore(id));
+          });
+        }
+        if (type === 'coverage') {
+          Object.keys(syncingAreasData).forEach(id => {
+            if (canDispatch(id)) dispatch(getAreaCoverage(id));
+          });
+        }
+        if (type === 'image') {
+          Object.keys(syncingAreasData).forEach(id => {
+            if (canDispatch(id)) dispatch(cacheAreaImage(id));
+          });
+        }
+      });
+    } else if (!hasAreas && !synced && !syncing) {
       dispatch(getAreas());
     }
   };

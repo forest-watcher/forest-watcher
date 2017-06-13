@@ -1,16 +1,16 @@
 import { connect } from 'react-redux';
 import Dashboard from 'components/dashboard';
 import { createReport } from 'redux-modules/reports';
+import { getTotalActionsPending } from 'helpers/sync';
 
-function mapStateToProps() {
-  return {};
+function mapStateToProps(state) {
+  return {
+    actionsPending: getTotalActionsPending(state)
+  };
 }
 
-function mapDispatchToProps(dispatch, { navigation }) {
+function mapDispatchToProps(dispatch) {
   return {
-    navigate: (routeName, params) => {
-      navigation.navigate(routeName, params);
-    },
     createReport: (name, position) => {
       dispatch(createReport(name, position));
     }

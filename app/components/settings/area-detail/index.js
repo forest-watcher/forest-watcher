@@ -48,14 +48,12 @@ class AreaDetail extends Component {
 
   onNameSubmit = (ev) => {
     const name = ev.nativeEvent.text;
-    this.setState({ name, editingName: false });
-    if (name.length > 0) {
+    this.setState((state) => ({ name: (name || state.name || this.props.area.name), editingName: false }));
+    if (name) {
       const updatedArea = { ...this.props.area };
       updatedArea.name = name;
       this.props.updateArea(updatedArea);
       this.replaceRouteTitle(updatedArea.name);
-    } else {
-      // TODO: warn user empty area name
     }
   }
 
