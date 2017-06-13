@@ -356,7 +356,7 @@ export function getAreaCoverage(areaId) {
   };
 }
 
-export function updateArea(area, { updateCache = false }) {
+export function updateArea(area, updateCache) {
   return async (dispatch, state) => {
     const url = `${Config.API_URL}/area/${area.id}`;
     const originalArea = getAreaById(state().areas.data, area.id);
@@ -486,7 +486,7 @@ export function setAreaDatasetCache(areaId, datasetSlug, cache) {
         return dataset;
       });
       const newArea = { ...area, datasets };
-      dispatch(updateArea(newArea, { updateCache: true }));
+      dispatch(updateArea(newArea, true));
     }
   };
 }
@@ -524,7 +524,7 @@ export function updateDate(areaId, datasetSlug, date) {
         }
         return newDataset;
       });
-      dispatch(updateArea(area));
+      dispatch(updateArea(area, true));
     }
   };
 }
