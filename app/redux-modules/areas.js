@@ -82,14 +82,13 @@ export default function reducer(state = initialState, action) {
       return { ...state, synced: false, syncing: true };
     case GET_AREAS_COMMIT: {
       let pendingData = state.pendingData;
-      const { coverage, geostore, image, alert } = state.pendingData;
       const data = [...action.payload];
       data.forEach((newArea) => {
         pendingData = {
-          coverage: { ...coverage, [newArea.id]: false },
-          geostore: { ...geostore, [newArea.id]: false },
-          image: { ...image, [newArea.id]: false },
-          alert: { ...alert, [newArea.id]: false }
+          coverage: { ...pendingData.coverage, [newArea.id]: false },
+          geostore: { ...pendingData.geostore, [newArea.id]: false },
+          image: { ...pendingData.image, [newArea.id]: false },
+          alert: { ...pendingData.alert, [newArea.id]: false }
         };
       });
       return { ...state, data, pendingData, synced: true, syncing: false };
@@ -161,12 +160,12 @@ export default function reducer(state = initialState, action) {
       let pendingData = state.pendingData;
       if (area) {
         data = [...data, area];
-        const { coverage, geostore, image } = state.pendingData;
+        const { coverage, geostore, image, alert } = state.pendingData;
         pendingData = {
-          ...pendingData,
           coverage: { ...coverage, [area.id]: false },
           geostore: { ...geostore, [area.id]: false },
-          image: { ...image, [area.id]: false }
+          image: { ...image, [area.id]: false },
+          alert: { ...alert }
         };
       }
       return { ...state, data, pendingData, synced: true, syncing: false };
@@ -177,9 +176,8 @@ export default function reducer(state = initialState, action) {
       const areas = state.data.map((area) => {
         if (area.id === newArea.id) {
           if (updateCache) {
-            const { alert } = state.pendingData;
             pendingData = {
-              alert: { ...alert, [area.id]: false }
+              alert: { ...pendingData.alert, [area.id]: false }
             };
           }
           return { ...newArea };
@@ -583,6 +581,7 @@ export function syncAreas() {
                 if (dataset.cache) {
                   dispatch(cacheArea(id, dataset.slug));
                 } else {
+                  // TODO: remove this, cache will be mandatory
                   dispatch(removeCachedArea(id, dataset.slug));
                 }
               });
