@@ -106,14 +106,17 @@ export default function reducer(state = initialState, action) {
       let pendingData = state.pendingData;
       const data = state.data.map((area) => {
         let updated = area;
+        let pendingAlert = { ...pendingData.alert };
         if (area.id === action.meta.area.id) {
           if ((area.datasets && area.datasets.length === 0) || !area.datasets) {
             updated = { ...area, datasets: getInitialDatasets(action.payload) };
+            pendingAlert = { ...pendingData.alert, [area.id]: false };
           }
         }
         pendingData = {
           ...pendingData,
-          coverage: omit(pendingData.coverage, [area.id])
+          coverage: omit(pendingData.coverage, [area.id]),
+          alert: pendingAlert
         };
         return updated;
       });
@@ -158,12 +161,12 @@ export default function reducer(state = initialState, action) {
       let pendingData = state.pendingData;
       if (area) {
         data = [...data, area];
-        const { coverage, geostore, image, alert } = state.pendingData;
+        const { coverage, geostore, image } = state.pendingData;
         pendingData = {
+          ...pendingData,
           coverage: { ...coverage, [area.id]: false },
           geostore: { ...geostore, [area.id]: false },
-          image: { ...image, [area.id]: false },
-          alert: { ...alert, [area.id]: false }
+          image: { ...image, [area.id]: false }
         };
       }
       return { ...state, data, pendingData, synced: true, syncing: false };

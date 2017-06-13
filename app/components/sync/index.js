@@ -84,7 +84,8 @@ class Sync extends PureComponent {
 
   dismissModal = () => {
     this.props.setSyncModal(false);
-    this.props.navigator.dismissModal();
+    // FIXME: this should only dismiss one modal
+    this.props.navigator.dismissAllModals();
   }
 
   render() {
