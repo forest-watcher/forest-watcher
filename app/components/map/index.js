@@ -396,7 +396,7 @@ class Map extends Component {
             mapType="hybrid"
             rotateEnabled={false}
             initialRegion={this.state.region}
-            onRegionChangeComplete={region => this.updateRegion(region)}
+            onRegionChangeComplete={this.updateRegion}
             onLayout={this.onLayout}
             moveOnMarkerPress={false}
           >

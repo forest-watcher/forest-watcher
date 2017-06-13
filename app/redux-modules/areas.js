@@ -103,10 +103,12 @@ export default function reducer(state = initialState, action) {
     }
     case GET_ALERTS_COMMIT: {
       saveAlertsToDb(action.meta.areaId, action.meta.slug, action.payload);
+      // TODO: synced = true?
       return { ...state, synced: true };
     }
     case GET_ALERTS_ROLLBACK: {
-      console.warn('error in getting Json');
+      console.warn('Error in getting Json');
+      // TODO: synced = false?
       return { ...state, synced: false };
     }
     case GET_AREA_COVERAGE_REQUEST: {
