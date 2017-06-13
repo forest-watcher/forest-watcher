@@ -24,7 +24,7 @@
     "noCached": "Tidak tersimpan",
     "noAlertSystem": "No alert system selected"
 	},
-    "home": {
+	"home": {
 		"title": {
 			"updating": "Updating data...",
 			"outOfDate": "Your alerts are out of date",
@@ -36,9 +36,9 @@
 			"noConnection": "You need an internet connection to update your data",
 			"updated": "Data was successfully updated!"
 		},
-      "skip": "skip",
-      "update": "update"
-  },
+		"skip": "skip",
+		"update": "update"
+	},
 	"dashboard": {
 		"title": "Dasbor",
 		"alerts": "Peringatan",
@@ -127,7 +127,10 @@
 		"72hAgo": "72 hours ago",
 		"48hAgo": "48 hours ago",
 		"24hAgo": "24 hours ago",
-    "availableOffline": "Available offline"
+		"1MonthAgo": "1 month ago",
+		"3MonthsAgo": "3 months ago",
+		"6MonthsAgo": "6 months ago",
+		"availableOffline": "Available offline"
 	},
   "report": {
     "title": "Lapor",

@@ -10,7 +10,7 @@ import styles from './styles';
 
 class DropdownPicker extends Component {
   handleRangeChange(days) {
-    this.props.updateViirsRange({ startDate: '1', endDate: days });
+    this.props.updateRange({ startDate: days });
   }
   render() {
     return (<View style={styles.datesSection}>
@@ -18,23 +18,37 @@ class DropdownPicker extends Component {
         {I18n.t('settings.timeFrame')}
       </Text>
       <View style={styles.dateContainer}>
-        <Picker
-          selectedValue={this.props.endDate}
-          onValueChange={(days) => this.handleRangeChange(days)}
-        >
-          <Picker.Item label={I18n.t('settings.24hAgo')} value={'2'} />
-          <Picker.Item label={I18n.t('settings.48hAgo')} value={'3'} />
-          <Picker.Item label={I18n.t('settings.72hAgo')} value={'4'} />
-          <Picker.Item label={I18n.t('settings.oneWeekAgo')} value={'8'} />
-        </Picker>
+        { this.props.slug === 'viirs' ?
+          <Picker
+            selectedValue={this.props.startDate}
+            onValueChange={(days) => this.handleRangeChange(days)}
+          >
+            <Picker.Item label={I18n.t('settings.24hAgo')} value={1} />
+            <Picker.Item label={I18n.t('settings.48hAgo')} value={2} />
+            <Picker.Item label={I18n.t('settings.72hAgo')} value={3} />
+            <Picker.Item label={I18n.t('settings.oneWeekAgo')} value={7} />
+
+          </Picker>
+          :
+          <Picker
+            selectedValue={this.props.startDate}
+            onValueChange={(days) => this.handleRangeChange(days)}
+          >
+            <Picker.Item label={I18n.t('settings.1MonthAgo')} value={1} />
+            <Picker.Item label={I18n.t('settings.3MonthsAgo')} value={3} />
+            <Picker.Item label={I18n.t('settings.6MonthsAgo')} value={6} />
+
+          </Picker>
+        }
       </View>
     </View>);
   }
 }
 
 DropdownPicker.propTypes = {
-  endDate: React.PropTypes.string,
-  updateViirsRange: React.PropTypes.func
+  startDate: React.PropTypes.number.isRequired,
+  updateRange: React.PropTypes.func.isRequired,
+  slug: React.PropTypes.string.isRequired
 };
 
 export default DropdownPicker;

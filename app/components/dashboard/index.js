@@ -193,8 +193,7 @@ class Dashboard extends PureComponent {
 }
 
 Dashboard.propTypes = {
-  navigator: React.PropTypes.object.isRequired,
-  actionsPending: React.PropTypes.number.isRequired
+  navigator: React.PropTypes.object.isRequired
 };
 
 export default Dashboard;

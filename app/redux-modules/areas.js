@@ -2,16 +2,18 @@ import Config from 'react-native-config';
 import omit from 'lodash/omit';
 import { getGeostore, GET_GEOSTORE_REQUEST, GET_GEOSTORE_COMMIT } from 'redux-modules/geostore';
 import { getCachedImageByUrl, removeFolder } from 'helpers/fileManagement';
-import { getBboxTiles, cacheTiles } from 'helpers/map';
 import { hasActionsPending } from 'helpers/sync';
 import { getInitialDatasets } from 'helpers/area';
-import BoundingBox from 'boundingbox';
 import CONSTANTS from 'config/constants';
+import { initDb } from 'helpers/database';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
+const GET_ALERTS_REQUEST = 'areas/GET_ALERTS_REQUEST';
+const GET_ALERTS_COMMIT = 'areas/GET_ALERTS_COMMIT';
+const GET_ALERTS_ROLLBACK = 'areas/GET_ALERTS_ROLLBACK';
 const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
 const GET_AREAS_ROLLBACK = 'areas/GET_AREAS_ROLLBACK';
 const SAVE_AREA_REQUEST = 'areas/SAVE_AREA_REQUEST';
@@ -59,6 +61,24 @@ function getUpdatedAreas(areas, newArea) {
   });
 }
 
+export function saveAlertsToDb(areaId, slug, alerts) {
+  if (alerts.length > 0) {
+    const realm = initDb();
+    const existingAlerts = realm.objects('Alert').filtered(`areaId = '${areaId}' AND slug = '${slug}'`);
+    realm.delete(existingAlerts);
+
+    realm.write(() => {
+      alerts.forEach((alert) => {
+        const parsedAlert = alert;
+        parsedAlert.long = alert.lon;
+        parsedAlert.slug = slug;
+        parsedAlert.areaId = areaId;
+        realm.create('Alert', parsedAlert);
+      });
+    });
+  }
+}
+
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_AREAS_REQUEST:
@@ -79,6 +99,16 @@ export default function reducer(state = initialState, action) {
     }
     case GET_AREAS_ROLLBACK: {
       return { ...state, syncing: false };
+    }
+    case GET_ALERTS_COMMIT: {
+      saveAlertsToDb(action.meta.areaId, action.meta.slug, action.payload);
+      // TODO: synced = true?
+      return { ...state, synced: true };
+    }
+    case GET_ALERTS_ROLLBACK: {
+      console.warn('Error in getting Json');
+      // TODO: synced = false?
+      return { ...state, synced: false };
     }
     case GET_AREA_COVERAGE_REQUEST: {
       const area = action.payload;
@@ -347,12 +377,6 @@ export function updateSelectedIndex(index) {
   };
 }
 
-async function downloadArea(bbox, areaId, datasetSlug) {
-  const zooms = CONSTANTS.maps.cachedZoomLevels;
-  const tilesArray = getBboxTiles(bbox, zooms);
-  await cacheTiles(tilesArray, areaId, datasetSlug);
-}
-
 export function saveArea(params) {
   const url = `${Config.API_URL}/area`;
   return (dispatch) => {
@@ -381,39 +405,6 @@ export function saveArea(params) {
     });
   };
 }
-
-export function cacheArea(areaId, datasetSlug) {
-  return async (dispatch, state) => {
-    const area = getAreaById(state().areas.data, areaId);
-    const geostore = state().geostore.data[area.geostore];
-    let bbox = null;
-    if (geostore) {
-      const bboxArea = new BoundingBox(geostore.geojson.features[0]);
-      if (bboxArea) {
-        bbox = [
-          { lat: bboxArea.minlat, lng: bboxArea.maxlon },
-          { lat: bboxArea.maxlat, lng: bboxArea.minlon }
-        ];
-      }
-    }
-    if (bbox) {
-      const newArea = { ...area };
-      newArea.datasets = updatedCacheDatasets(area.datasets, datasetSlug, true);
-      dispatch({
-        type: SET_CACHE_AREA_REQUEST,
-        payload: newArea,
-        meta: {
-          offline: {
-            effect: { promise: downloadArea(bbox, areaId, datasetSlug), errorCode: 400 },
-            commit: { type: SET_CACHE_AREA_COMMIT, meta: { newArea } },
-            rollback: { type: SET_CACHE_AREA_ROLLBACK, meta: { area } }
-          }
-        }
-      });
-    }
-  };
-}
-
 
 export function removeCachedArea(areaId, datasetSlug) {
   return async (dispatch, state) => {
@@ -491,6 +482,24 @@ export function deleteArea(areaId) {
         }
       });
     }
+  };
+}
+
+export function getAreaAlerts(areaId, datasetSlug) {
+  return (dispatch, state) => {
+    const area = getAreaById(state().areas.data, areaId);
+    const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore}`;
+
+    dispatch({
+      type: GET_ALERTS_REQUEST,
+      meta: {
+        offline: {
+          effect: { url, deserialize: false },
+          commit: { type: GET_ALERTS_COMMIT, meta: { areaId, slug: datasetSlug } },
+          rollback: { type: GET_ALERTS_ROLLBACK }
+        }
+      }
+    });
   };
 }
 
