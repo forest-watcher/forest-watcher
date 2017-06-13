@@ -64,8 +64,6 @@ class AlertSystem extends Component {
                   id={id}
                   dataset={dataset}
                   updateDate={this.props.updateDate}
-                  cacheArea={this.props.cacheArea}
-                  removeCachedArea={this.props.removeCachedArea}
                 />
                 : null
               }
@@ -88,8 +86,6 @@ AlertSystem.propTypes = {
     )
   }).isRequired,
   getAreaCoverage: React.PropTypes.func.isRequired,
-  cacheArea: React.PropTypes.func.isRequired,
-  removeCachedArea: React.PropTypes.func.isRequired,
   setAreaDatasetStatus: React.PropTypes.func.isRequired,
   updateDate: React.PropTypes.func.isRequired,
   areaId: React.PropTypes.string.isRequired

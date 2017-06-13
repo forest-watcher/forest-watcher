@@ -4,7 +4,6 @@ import { getGeostore, GET_GEOSTORE_REQUEST, GET_GEOSTORE_COMMIT } from 'redux-mo
 import { getCachedImageByUrl, removeFolder } from 'helpers/fileManagement';
 import { hasActionsPending } from 'helpers/sync';
 import { getInitialDatasets } from 'helpers/area';
-import BoundingBox from 'boundingbox';
 import CONSTANTS from 'config/constants';
 import { initDb } from 'helpers/database';
 
@@ -406,40 +405,6 @@ export function saveArea(params) {
     });
   };
 }
-
-export function cacheArea(areaId, datasetSlug) {
-  return async (dispatch, state) => {
-    const area = getAreaById(state().areas.data, areaId);
-    const geostore = state().geostore.data[area.geostore];
-    let bbox = null;
-    if (geostore) {
-      const bboxArea = new BoundingBox(geostore.geojson.features[0]);
-      if (bboxArea) {
-        bbox = [
-          { lat: bboxArea.minlat, lng: bboxArea.maxlon },
-          { lat: bboxArea.maxlat, lng: bboxArea.minlon }
-        ];
-      }
-    }
-    if (bbox) {
-      const newArea = { ...area };
-      newArea.datasets = updatedCacheDatasets(area.datasets, datasetSlug, true);
-      const url = `/fw-alerts/${datasetSlug}/${area.geostore}`;
-      dispatch({
-        type: SET_CACHE_AREA_REQUEST,
-        payload: newArea,
-        meta: {
-          offline: {
-            effect: { url, deserialize: false },
-            commit: { type: SET_CACHE_AREA_COMMIT, meta: { newArea } },
-            rollback: { type: SET_CACHE_AREA_ROLLBACK, meta: { area } }
-          }
-        }
-      });
-    }
-  };
-}
-
 
 export function removeCachedArea(areaId, datasetSlug) {
   return async (dispatch, state) => {
