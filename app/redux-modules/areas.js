@@ -158,11 +158,12 @@ export default function reducer(state = initialState, action) {
       let pendingData = state.pendingData;
       if (area) {
         data = [...data, area];
-        const { coverage, geostore, image } = state.pendingData;
+        const { coverage, geostore, image, alert } = state.pendingData;
         pendingData = {
           coverage: { ...coverage, [area.id]: false },
           geostore: { ...geostore, [area.id]: false },
-          image: { ...image, [area.id]: false }
+          image: { ...image, [area.id]: false },
+          alert: { ...alert, [area.id]: false }
         };
       }
       return { ...state, data, pendingData, synced: true, syncing: false };
