@@ -11,7 +11,8 @@ const colors = {
   color5: '#ffffff',
   color6: '#dcdcdc',
   color7: '#f15656',
-  color8: '#ff6699'
+  colorGlad: '#ff6699',
+  colorViirs: '#ED4602'
 };
 
 const config = {
@@ -26,8 +27,8 @@ const config = {
     color4: colors.color4,
     color5: colors.color5,
     color6: colors.color6,
-    color7: colors.color7,
-    color8: colors.color8
+    colorGlad: colors.colorGlad,
+    colorViirs: colors.colorViirs
   },
   font: 'firasansot',
   fontColors: {

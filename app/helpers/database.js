@@ -9,7 +9,8 @@ const schema = {
         areaId: { type: 'string', indexed: true },
         slug: { type: 'string', indexed: true },
         long: 'float',
-        lat: 'float'
+        lat: 'float',
+        date: 'int'
       }
     }
   ]

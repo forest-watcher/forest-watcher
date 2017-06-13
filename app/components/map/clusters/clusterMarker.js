@@ -19,7 +19,7 @@ function ClusterMarker(props) {
       onPress={(event) => props.zoomTo(event.nativeEvent.coordinate)}
     >
       <View style={styles.container}>
-        <View style={styles.bubble}>
+        <View style={props.datasetSlug === 'viirs' ? styles.bubbleViirs : styles.bubbleGlad}>
           <Text style={styles.number}>{props.marker.properties.point_count}</Text>
         </View>
       </View>
@@ -30,7 +30,8 @@ function ClusterMarker(props) {
 
 ClusterMarker.propTypes = {
   marker: React.PropTypes.object.isRequired,
-  zoomTo: React.PropTypes.func.isRequired
+  zoomTo: React.PropTypes.func.isRequired,
+  datasetSlug: React.PropTypes.string.isRequired
 };
 
 export default ClusterMarker;

@@ -373,13 +373,8 @@ class Map extends Component {
 
   render() {
     const { hasCompass, lastPosition, compassFallback, selectedAlertCoordinates } = this.state;
-    const { areaCoordinates } = this.props;
+    const { areaCoordinates, datasetSlug } = this.props;
     const showCompassFallback = !hasCompass && lastPosition && selectedAlertCoordinates && compassFallback;
-
-    // const dates = {
-    //   min: datasetSlug === 'viirs' ? String(startDate) : daysToDate(startDate),
-    //   max: datasetSlug === 'viirs' ? String(endDate) : daysToDate(endDate)
-    // };
     return (
       this.state.renderMap
       ?
@@ -405,7 +400,7 @@ class Map extends Component {
             onLayout={this.onLayout}
             moveOnMarkerPress={false}
           >
-            <Clusters markers={this.state.markers} selectAlert={this.selectAlert} zoomTo={this.zoomTo} />
+            <Clusters markers={this.state.markers} selectAlert={this.selectAlert} zoomTo={this.zoomTo} datasetSlug={datasetSlug} />
             {showCompassFallback &&
               <MapView.Polyline
                 coordinates={this.state.compassFallback}
@@ -484,7 +479,8 @@ Map.propTypes = {
     lat: React.PropTypes.number.isRequired,
     lon: React.PropTypes.number.isRequired
   }),
-  areaCoordinates: React.PropTypes.array
+  areaCoordinates: React.PropTypes.array.isRequired,
+  datasetSlug: React.PropTypes.string.isRequired
 };
 
 export default Map;
