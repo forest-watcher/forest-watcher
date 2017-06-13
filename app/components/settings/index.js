@@ -35,7 +35,8 @@ class Settings extends Component {
     // TODO: move this to the new sync page
     const { areas } = this.props;
     for (let i = 0, aLength = areas.length; i < aLength; i++) {
-      this.props.getAlertsJson(areas[i].id);
+      this.props.getAreaAlerts(areas[i].id, 'umd_as_it_happens');
+      this.props.getAreaAlerts(areas[i].id, 'viirs');
     }
   }
 
@@ -161,7 +162,7 @@ Settings.propTypes = {
   areas: React.PropTypes.any,
   navigator: React.PropTypes.object.isRequired,
   logout: React.PropTypes.func.isRequired,
-  getAlertsJson: React.PropTypes.func.isRequired
+  getAreaAlerts: React.PropTypes.func.isRequired
 };
 
 export default Settings;

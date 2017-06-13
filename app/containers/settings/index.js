@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getAlertsJson } from 'redux-modules/areas';
+import { getAreaAlerts } from 'redux-modules/areas';
 import { logout } from 'redux-modules/user';
 
 import Settings from 'components/settings';
@@ -16,8 +16,8 @@ function mapDispatchToProps(dispatch, { navigation }) {
     navigate: (routeName, params) => {
       navigation.navigate(routeName, params);
     },
-    getAlertsJson: (areaId) => { // TODO: move to sync page
-      dispatch(getAlertsJson(areaId));
+    getAreaAlerts: (areaId, datasetSlug) => { // TODO: move to sync page
+      dispatch(getAreaAlerts(areaId, datasetSlug));
     },
     logout: () => {
       dispatch(logout());
