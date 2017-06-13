@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { createReport } from 'redux-modules/reports';
 import tracker from 'helpers/googleAnalytics';
 import Map from 'components/map';
+import moment from 'moment';
 import { activeDataset } from 'helpers/area';
 import { initDb, read } from 'helpers/database';
 
@@ -56,18 +57,21 @@ function mapStateToProps(state) {
   let center = null;
   let areaCoordinates = null;
   let alerts = [];
+  let datasetSlug = null;
   if (area) {
     areaId = area.id;
     const dataset = activeDataset(area);
+    datasetSlug = dataset.slug;
     const areaFeatures = (state.geostore.data[area.geostore] && state.geostore.data[area.geostore].data.features[0]) || false;
     if (areaFeatures) {
       center = new BoundingBox(areaFeatures).getCenter();
       areaCoordinates = getAreaCoordinates(areaFeatures);
     }
     const realm = initDb();
-    const limitRange = parseInt(dataset.startDate, 10) || 7;
+    const timeFrame = datasetSlug === 'viirs' ? 'day' : 'month';
+    const limitRange = moment().subtract(dataset.startDate, timeFrame).valueOf();
     alerts = read(realm, 'Alert')
-                    .filtered(`areaId = '${areaId}' AND slug = '${dataset.slug}' AND date < '${limitRange}'`) // startDate is a int => days in Viirs and months in Glad
+                    .filtered(`areaId = '${areaId}' AND slug = '${datasetSlug}' AND date > '${limitRange}'`)
                     .map((alert) => ({ lat: alert.lat, long: alert.long }));
     const geoPoints = convertPoints(alerts);
     cluster = geoPoints && createCluster(geoPoints);
@@ -79,7 +83,8 @@ function mapStateToProps(state) {
     center,
     areaCoordinates,
     isConnected: state.offline.online,
-    alerts
+    alerts,
+    datasetSlug
   };
 }
 

@@ -1,7 +1,6 @@
 import Config from 'react-native-config';
 import { getGeostore } from 'redux-modules/geostore';
 import { getCachedImageByUrl, removeFolder } from 'helpers/fileManagement';
-import { getBboxTiles, cacheTiles } from 'helpers/map';
 import { getInitialDatasets } from 'helpers/area';
 import BoundingBox from 'boundingbox';
 import CONSTANTS from 'config/constants';
@@ -72,16 +71,16 @@ function areAllAreasSynced(areas) {
 export function saveAlertsToDb(areaId, slug, alerts) {
   if (alerts.length > 0) {
     const realm = initDb();
-    const parsedAlerts = alerts.map((alert) => ({
-      areaId,
-      slug,
-      long: alert.long,
-      lat: alert.lat,
-      date: alert.date
-    }));
+    const existingAlerts = realm.objects('Alert').filtered(`areaId = '${areaId}' AND slug = '${slug}'`);
+    realm.delete(existingAlerts);
+
     realm.write(() => {
-      parsedAlerts.forEach((alert) => {
-        realm.create('Alert', alert);
+      alerts.forEach((alert) => {
+        const parsedAlert = alert;
+        parsedAlert.long = alert.lon;
+        parsedAlert.slug = slug;
+        parsedAlert.areaId = areaId;
+        realm.create('Alert', parsedAlert);
       });
     });
   }
@@ -106,7 +105,7 @@ export default function reducer(state = initialState, action) {
       return { ...state, syncing: false };
     }
     case GET_ALERTS_COMMIT: {
-      saveAlertsToDb(action.meta.areaId, action.meta.slug, action.payload.data);
+      saveAlertsToDb(action.meta.areaId, action.meta.slug, action.payload);
       return { ...state, synced: true };
     }
     case GET_ALERTS_ROLLBACK: {
@@ -342,12 +341,6 @@ export function updateSelectedIndex(index) {
   };
 }
 
-async function downloadArea(bbox, areaId, datasetSlug) {
-  const zooms = CONSTANTS.maps.cachedZoomLevels;
-  const tilesArray = getBboxTiles(bbox, zooms);
-  await cacheTiles(tilesArray, areaId, datasetSlug);
-}
-
 export function saveArea(params) {
   const url = `${Config.API_URL}/area`;
   return (dispatch) => {
@@ -394,12 +387,13 @@ export function cacheArea(areaId, datasetSlug) {
     if (bbox) {
       const newArea = { ...area };
       newArea.datasets = updatedCacheDatasets(area.datasets, datasetSlug, true);
+      const url = `/fw-alerts/${datasetSlug}/${area.geostore}`;
       dispatch({
         type: SET_CACHE_AREA_REQUEST,
         payload: newArea,
         meta: {
           offline: {
-            effect: { promise: downloadArea(bbox, areaId, datasetSlug), errorCode: 400 },
+            effect: { url, deserialize: false },
             commit: { type: SET_CACHE_AREA_COMMIT, meta: { newArea } },
             rollback: { type: SET_CACHE_AREA_ROLLBACK, meta: { area } }
           }
@@ -457,7 +451,7 @@ export function updateDate(areaId, datasetSlug, date) {
         if (d.slug === datasetSlug) {
           dateKeys.forEach((dKey) => {
             if (d[dKey]) {
-              newDataset[dKey] = parseInt(date[dKey], 10);
+              newDataset[dKey] = date[dKey];
             }
           });
         }
@@ -489,29 +483,21 @@ export function deleteArea(areaId) {
   };
 }
 
-export function getAlertsJson(areaId) {
+export function getAreaAlerts(areaId, datasetSlug) {
   return (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
-    const geostore = state().geostore.data[area.geostore];
-    if (geostore) {
-      const areaGeometry = geostore.data.features[0].geometry;
-      const sql = `select lat, long from data
-                where year >= 2017
-                AND st_intersects(st_setsrid(st_geomfromgeojson('${JSON.stringify(areaGeometry)}'), 4326), the_geom)`;
-      const dataset = Config.DATASET_GLAD;
-      const url = `${Config.API_URL}/query/${dataset}/?sql=${sql}`;
+    const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore}`;
 
-      dispatch({
-        type: GET_ALERTS_REQUEST,
-        meta: {
-          offline: {
-            effect: { url, deserialize: false },
-            commit: { type: GET_ALERTS_COMMIT, meta: { areaId, slug: 'umd_as_it_happens' } },
-            rollback: { type: GET_ALERTS_ROLLBACK }
-          }
+    dispatch({
+      type: GET_ALERTS_REQUEST,
+      meta: {
+        offline: {
+          effect: { url, deserialize: false },
+          commit: { type: GET_ALERTS_COMMIT, meta: { areaId, slug: datasetSlug } },
+          rollback: { type: GET_ALERTS_ROLLBACK }
         }
-      });
-    }
+      }
+    });
   };
 }
 
@@ -524,7 +510,7 @@ export function syncAreas() {
       // dispatch(getAreaGeostore(area.id));
       // dispatch(getAreaCoverage(area.id));
       // dispatch(cacheAreaImage(area.id));
-      // dispatch(getAlertsJson(area.id));
+      // dispatch(getAreaAlerts(area.id));
     } else if (!areas.synced && !areas.syncing) {
       dispatch(getAreas());
     }
