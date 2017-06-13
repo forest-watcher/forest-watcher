@@ -73,12 +73,6 @@ class Dashboard extends PureComponent {
     tracker.trackScreenView('DashBoard');
   }
 
-  componentWillReceiveProps() {
-    if (this.state.modalOpen && this.props.actionsPending === 0) {
-      this.setState({ modalOpen: false });
-    }
-  }
-
   onNavigatorEvent(event) {
     if (event.type === 'NavBarButtonPress') {
       if (event.id === 'settings') {
