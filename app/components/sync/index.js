@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { View, ActivityIndicator, Text } from 'react-native';
 import Theme from 'config/theme';
 import Constants from 'config/constants';
@@ -9,7 +9,7 @@ import styles from './styles';
 const WIFI = Constants.reach.WIFI;
 const MOBILE = Constants.reach.MOBILE;
 
-class Sync extends PureComponent {
+class Sync extends Component {
   static navigatorStyle = {
     navBarHidden: true
   };

@@ -45,7 +45,7 @@ function withSync(Component) {
     }
 
     onNavigatorEvent = (event) => {
-      if (event.id === 'willAppear') {
+      if (event.id === 'didAppear') {
         this.shouldModalOpen();
       }
     }

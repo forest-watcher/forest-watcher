@@ -144,7 +144,7 @@ class Map extends Component {
   }
 
   onNavigatorEvent(event) {
-    if (event.id === 'willAppear') {
+    if (event.id === 'didAppear') {
       if (this.props.actionsPending > 0 && !this.props.syncModalOpen) {
         this.props.setSyncModal(true);
         this.props.navigator.showModal({

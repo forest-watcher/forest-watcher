@@ -81,7 +81,7 @@ class Dashboard extends PureComponent {
           title: 'Settings'
         });
       }
-    } else if (event.id === 'willAppear') {
+    } else if (event.id === 'didAppear') {
       if (this.props.actionsPending > 0 && !this.props.syncModalOpen) {
         this.props.setSyncModal(true);
         this.props.navigator.showModal({
