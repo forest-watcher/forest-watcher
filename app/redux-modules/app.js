@@ -6,17 +6,21 @@ import { getUser } from 'redux-modules/user';
 
 // Actions
 const SET_LANGUAGE = 'app/SET_LANGUAGE';
+const SET_SYNC_MODAL = 'app/SET_SYNC_MODAL';
 
 // Reducer
 const initialState = {
   netInfo: null,
-  language: null
+  language: null,
+  syncModalOpen: false
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case SET_LANGUAGE:
       return Object.assign({}, state, { language: action.payload });
+    case SET_SYNC_MODAL:
+      return { ...state, syncModal: action.payload };
     default:
       return state;
   }
@@ -31,7 +35,14 @@ export function setLanguage(language) {
     });
   };
 }
-
+export function setSyncModal(open) {
+  return (dispatch) => {
+    dispatch({
+      type: SET_SYNC_MODAL,
+      payload: open
+    });
+  };
+}
 export function syncApp() {
   return (dispatch, state) => {
     const { reports, feedback, user, countries } = state();

@@ -83,6 +83,7 @@ class Sync extends PureComponent {
   }
 
   dismissModal = () => {
+    this.props.setSyncModal(false);
     this.props.navigator.dismissModal();
   }
 
@@ -150,7 +151,8 @@ Sync.propTypes = {
   navigator: React.PropTypes.object.isRequired,
   readyState: React.PropTypes.bool.isRequired,
   actionsPending: React.PropTypes.number.isRequired,
-  syncApp: React.PropTypes.func.isRequired
+  syncApp: React.PropTypes.func.isRequired,
+  setSyncModal: React.PropTypes.func.isRequired
 };
 
 export default Sync;

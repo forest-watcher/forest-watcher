@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { syncApp } from 'redux-modules/app';
+import { syncApp, setSyncModal } from 'redux-modules/app';
 import { getLanguage } from 'helpers/language';
 import { getReadyState, getTotalActionsPending } from 'helpers/sync';
 
@@ -18,7 +18,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    syncApp: () => dispatch(syncApp())
+    syncApp: () => dispatch(syncApp()),
+    setSyncModal: open => dispatch(setSyncModal(open))
   };
 }
 

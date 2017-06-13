@@ -94,6 +94,7 @@ class Map extends Component {
       alertSelected: null,
       urlTile: null
     };
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
   componentDidMount() {
@@ -139,6 +140,20 @@ class Map extends Component {
       Location.stopUpdatingHeading();
     } else {
       SensorManager.stopOrientation();
+    }
+  }
+
+  onNavigatorEvent(event) {
+    if (event.id === 'willAppear') {
+      if (this.props.actionsPending > 0 && !this.props.syncModalOpen) {
+        this.props.setSyncModal(true);
+        this.props.navigator.showModal({
+          screen: 'ForestWatcher.Sync',
+          passProps: {
+            goBackDisabled: true
+          }
+        });
+      }
     }
   }
 
@@ -528,7 +543,10 @@ Map.propTypes = {
   startDate: React.PropTypes.string.isRequired,
   endDate: React.PropTypes.string.isRequired,
   datasetSlug: React.PropTypes.string.isRequired,
-  areaCoordinates: React.PropTypes.array
+  areaCoordinates: React.PropTypes.array,
+  actionsPending: React.PropTypes.number.isRequired,
+  syncModalOpen: React.PropTypes.bool.isRequired,
+  setSyncModal: React.PropTypes.func.isRequired
 };
 
 export default Map;

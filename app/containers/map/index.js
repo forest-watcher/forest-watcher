@@ -1,8 +1,10 @@
 import { connect } from 'react-redux';
 import { createReport } from 'redux-modules/reports';
+import { setSyncModal } from 'redux-modules/app';
 import tracker from 'helpers/googleAnalytics';
 import Map from 'components/map';
 import { activeDataset } from 'helpers/area';
+import { getTotalActionsPending } from 'helpers/sync';
 
 const BoundingBox = require('boundingbox');
 
@@ -47,9 +49,12 @@ function mapStateToProps(state) {
     endDate,
     center,
     areaCoordinates,
-    isConnected: state.offline.online
+    isConnected: state.offline.online,
+    actionsPending: getTotalActionsPending(state),
+    syncModalOpen: state.app.syncModalOpen
   };
 }
+
 
 function mapDispatchToProps(dispatch, { navigation }) {
   return {
@@ -59,7 +64,8 @@ function mapDispatchToProps(dispatch, { navigation }) {
     },
     navigate: (routeName, params) => {
       navigation.navigate(routeName, params);
-    }
+    },
+    setSyncModal: open => dispatch(setSyncModal(open))
   };
 }
 
