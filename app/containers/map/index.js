@@ -24,7 +24,8 @@ function convertPoints(data) {
       type: 'Map',
       properties: {
         lat: value.lat,
-        long: value.long
+        long: value.long,
+        date: value.date
       },
       geometry: {
         type: 'Point',
@@ -51,38 +52,30 @@ function mapStateToProps(state) {
   const index = state.areas.selectedIndex;
   const area = state.areas.data[index] || null;
   let areaId = null;
-  let areaFeatures = null;
-  let dataset = null;
-  let datasetSlug = null;
+  let cluster = null;
   let center = null;
   let areaCoordinates = null;
-  let startDate = null;
-  let endDate = null;
+  let alerts = [];
   if (area) {
-    dataset = activeDataset(area);
-    datasetSlug = dataset.slug;
-    startDate = dataset.startDate;
-    endDate = dataset.endDate;
-    areaFeatures = (state.geostore.data[area.geostore] && state.geostore.data[area.geostore].data.features[0]) || false;
+    areaId = area.id;
+    const dataset = activeDataset(area);
+    const areaFeatures = (state.geostore.data[area.geostore] && state.geostore.data[area.geostore].data.features[0]) || false;
     if (areaFeatures) {
       center = new BoundingBox(areaFeatures).getCenter();
       areaCoordinates = getAreaCoordinates(areaFeatures);
     }
-    areaId = area.id;
+    const realm = initDb();
+    const limitRange = parseInt(dataset.startDate, 10) || 7;
+    alerts = read(realm, 'Alert')
+                    .filtered(`areaId = '${areaId}' AND slug = '${dataset.slug}' AND date < '${limitRange}'`) // startDate is a int => days in Viirs and months in Glad
+                    .map((alert) => ({ lat: alert.lat, long: alert.long }));
+    const geoPoints = convertPoints(alerts);
+    cluster = geoPoints && createCluster(geoPoints);
   }
-  const realm = initDb();
-  const alerts = read(realm, 'Alert')
-                  .filtered(`areaId = '${areaId}'`)
-                  .map((alert) => ({ lat: alert.lat, long: alert.long }));
-  const geoPoints = convertPoints(alerts);
-  const cluster = geoPoints && createCluster(geoPoints);
 
   return {
     areaId,
     cluster,
-    datasetSlug,
-    startDate,
-    endDate,
     center,
     areaCoordinates,
     isConnected: state.offline.online,

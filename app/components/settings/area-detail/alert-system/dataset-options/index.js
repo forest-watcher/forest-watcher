@@ -4,7 +4,6 @@ import {
 } from 'react-native';
 
 import I18n from 'locales';
-import TimeFramePicker from 'components/settings/area-detail/alert-system/time-frame-picker';
 import DropdownPicker from 'components/settings/area-detail/alert-system/dropdown-picker';
 import CheckBtn from 'components/common/form-inputs/check-btn';
 
@@ -26,7 +25,7 @@ class DatasetOptions extends Component {
   }
 
   render() {
-    const { slug, cache, startDate, endDate } = this.props.dataset;
+    const { slug, cache, startDate } = this.props.dataset;
     return (
       <View style={styles.datasetSection}>
         <View style={styles.datasetSection}>
@@ -39,17 +38,11 @@ class DatasetOptions extends Component {
           </View>
         </View>
         <View style={[styles.row, styles.nested]}>
-          {(slug !== 'viirs') ?
-            <TimeFramePicker
-              startDate={startDate}
-              endDate={endDate}
-              updateDate={this.handleUpdateDate}
-            /> :
-            <DropdownPicker
-              updateViirsRange={this.handleUpdateDate}
-              endDate={endDate}
-            />
-          }
+          <DropdownPicker
+            updateRange={this.handleUpdateDate}
+            startDate={parseInt(startDate, 10)}
+            slug={slug}
+          />
         </View>
       </View>
     );
@@ -61,8 +54,7 @@ DatasetOptions.propTypes = {
   dataset: React.PropTypes.shape({
     slug: React.PropTypes.string,
     cache: React.PropTypes.bool,
-    startDate: React.PropTypes.string,
-    endDate: React.PropTypes.string
+    startDate: React.PropTypes.string
   }),
   cacheArea: React.PropTypes.func,
   removeCachedArea: React.PropTypes.func,

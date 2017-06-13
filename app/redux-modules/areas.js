@@ -76,7 +76,8 @@ export function saveAlertsToDb(areaId, slug, alerts) {
       areaId,
       slug,
       long: alert.long,
-      lat: alert.lat
+      lat: alert.lat,
+      date: alert.date
     }));
     realm.write(() => {
       parsedAlerts.forEach((alert) => {
@@ -109,6 +110,7 @@ export default function reducer(state = initialState, action) {
       return { ...state, synced: true };
     }
     case GET_ALERTS_ROLLBACK: {
+      console.warn('error in getting Json');
       return { ...state, synced: false };
     }
     case GET_AREA_COVERAGE_COMMIT: {
@@ -455,7 +457,7 @@ export function updateDate(areaId, datasetSlug, date) {
         if (d.slug === datasetSlug) {
           dateKeys.forEach((dKey) => {
             if (d[dKey]) {
-              newDataset[dKey] = date[dKey];
+              newDataset[dKey] = parseInt(date[dKey], 10);
             }
           });
         }

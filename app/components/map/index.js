@@ -16,7 +16,6 @@ import throttle from 'lodash/throttle';
 
 import Theme from 'config/theme';
 // import { daysToDate } from 'helpers/date';
-import { getUrlTile } from 'helpers/map';
 import ActionBtn from 'components/common/action-button';
 import AreaCarousel from 'containers/map/area-carousel/';
 import Clusters from 'components/map/clusters/';
@@ -100,8 +99,6 @@ class Map extends Component {
       StatusBar.setBarStyle('light-content');
     }
 
-    const { datasetSlug } = this.props;
-    this.setUrlTile(datasetSlug);
     this.renderMap();
     this.geoLocate();
     this.updateMarkers();
@@ -114,10 +111,7 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.datasetSlug !== prevProps.datasetSlug ||
-        this.props.startDate !== prevProps.startDate ||
-        this.props.endDate !== prevProps.endDate ||
-        this.props.areaCoordinates !== prevProps.areaCoordinates) {
+    if (this.props.areaCoordinates !== prevProps.areaCoordinates) {
       this.updateSelectedArea();
     }
   }
@@ -148,11 +142,6 @@ class Map extends Component {
       this.map.fitToCoordinates(this.props.areaCoordinates, options);
       this.hasSetCoordinates = true;
     }
-  }
-
-  async setUrlTile(datasetSlug) {
-    const url = await getUrlTile(datasetSlug);
-    this.setState({ urlTile: url });
   }
 
   getMapZoom() {
@@ -191,7 +180,6 @@ class Map extends Component {
       this.state.region.longitude + (this.state.region.longitudeDelta / 2),
       this.state.region.latitude + (this.state.region.latitudeDelta / 2)
     ], this.getMapZoom());
-
     this.setState({
       markers: markers || []
     });
@@ -325,15 +313,11 @@ class Map extends Component {
 
   updateSelectedArea = () => {
     this.setState({
-      selectedAlertCoordinates: null,
-      urlTile: null
+      selectedAlertCoordinates: null
     }, () => {
       this.updateMarkers();
       const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
       this.map.fitToCoordinates(this.props.areaCoordinates, options);
-      if (this.props.datasetSlug) {
-        this.setUrlTile(this.props.datasetSlug);
-      }
     });
   }
 
@@ -500,9 +484,6 @@ Map.propTypes = {
     lat: React.PropTypes.number.isRequired,
     lon: React.PropTypes.number.isRequired
   }),
-  startDate: React.PropTypes.string.isRequired,
-  endDate: React.PropTypes.string.isRequired,
-  datasetSlug: React.PropTypes.string.isRequired,
   areaCoordinates: React.PropTypes.array
 };
 
