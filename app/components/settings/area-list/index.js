@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  ActivityIndicator,
   Image,
   Text,
   TouchableHighlight,
@@ -12,53 +11,42 @@ import styles from './styles';
 const nextIcon = require('assets/next.png');
 
 function AreaList(props) {
-  const { areas, areasImages } = props;
-  const areasCollection = areas.map((area, key) => {
-    const image = areasImages && areasImages[area.id];
+  const { areas } = props;
+  if (!areas) return null;
 
-    return (
-      <TouchableHighlight
-        key={key}
-        activeOpacity={0.5}
-        underlayColor="transparent"
-        onPress={() => props.onAreaPress(area.id, area.name)}
-      >
-        <View style={styles.item}>
-          <View style={styles.imageContainer}>
-            {image
-              ? <Image style={styles.image} source={{ uri: image }} />
-              : null
-            }
-          </View>
-          <Text style={styles.title} numberOfLines={2}> {area.name} </Text>
-          <TouchableHighlight
-            activeOpacity={0.5}
-            underlayColor="transparent"
-            onPress={() => props.onAreaPress(area.id, area.name)}
-          >
-            <Image style={Theme.icon} source={nextIcon} />
-          </TouchableHighlight>
-        </View>
-      </TouchableHighlight>
-    );
-  });
   return (
     <View>
-      { props.syncing ?
-        <ActivityIndicator
-          color={Theme.colors.color1}
-          style={{ height: 80 }}
-          size={'large'}
-        /> : areasCollection
-      }
+      {areas.map((area, key) => (
+        <TouchableHighlight
+          key={key}
+          activeOpacity={0.5}
+          underlayColor="transparent"
+          onPress={() => props.onAreaPress(area.id, area.name)}
+        >
+          <View style={styles.item}>
+            <View style={styles.imageContainer}>
+              {area.image
+                ? <Image style={styles.image} source={{ uri: area.image }} />
+                : null
+              }
+            </View>
+            <Text style={styles.title} numberOfLines={2}> {area.name} </Text>
+            <TouchableHighlight
+              activeOpacity={0.5}
+              underlayColor="transparent"
+              onPress={() => props.onAreaPress(area.id, area.name)}
+            >
+              <Image style={Theme.icon} source={nextIcon} />
+            </TouchableHighlight>
+          </View>
+        </TouchableHighlight>
+      ))}
     </View>
   );
 }
 
 AreaList.propTypes = {
-  syncing: React.PropTypes.bool,
-  areas: React.PropTypes.array,
-  areasImages: React.PropTypes.object
+  areas: React.PropTypes.array
 };
 
 export default AreaList;

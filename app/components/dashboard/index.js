@@ -81,19 +81,16 @@ class Dashboard extends PureComponent {
           title: 'Settings'
         });
       }
-    } else if (event.id === 'willAppear') {
-      // TODO: show sync modal
-      // const { navigator } = this.props;
-      // if (this.props.actionsPending > 0) {
-
-        // navigator.showModal({
-        //   screen: 'ForestWatcher.Sync',
-        //   passProps: {
-        //     navigator,
-        //     goBackDisabled: true
-        //   }
-        // });
-      // }
+    } else if (event.id === 'didAppear') {
+      if (this.props.actionsPending > 0 && !this.props.syncModalOpen) {
+        this.props.setSyncModal(true);
+        this.props.navigator.showModal({
+          screen: 'ForestWatcher.Sync',
+          passProps: {
+            goBackDisabled: true
+          }
+        });
+      }
     }
   }
 
@@ -193,7 +190,10 @@ class Dashboard extends PureComponent {
 }
 
 Dashboard.propTypes = {
-  navigator: React.PropTypes.object.isRequired
+  navigator: React.PropTypes.object.isRequired,
+  actionsPending: React.PropTypes.number.isRequired,
+  syncModalOpen: React.PropTypes.bool.isRequired,
+  setSyncModal: React.PropTypes.func.isRequired
 };
 
 export default Dashboard;

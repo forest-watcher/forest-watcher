@@ -25,19 +25,13 @@ class Settings extends Component {
     navBarBackgroundColor: Theme.background.main
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {};
   }
 
   componentDidMount() {
     tracker.trackScreenView('Set Up');
-    // TODO: move this to the new sync page
-    const { areas } = this.props;
-    for (let i = 0, aLength = areas.length; i < aLength; i++) {
-      this.props.getAreaAlerts(areas[i].id, 'umd_as_it_happens');
-      this.props.getAreaAlerts(areas[i].id, 'viirs');
-    }
   }
 
   onAreaPress = (areaId, name) => {
@@ -161,8 +155,7 @@ Settings.propTypes = {
   user: React.PropTypes.any,
   areas: React.PropTypes.any,
   navigator: React.PropTypes.object.isRequired,
-  logout: React.PropTypes.func.isRequired,
-  getAreaAlerts: React.PropTypes.func.isRequired
+  logout: React.PropTypes.func.isRequired
 };
 
 export default Settings;

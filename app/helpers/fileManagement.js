@@ -81,6 +81,7 @@ export async function checkImageFolder(imageDir) {
 
 export async function removeFolder(folder) {
   await RNFetchBlob.fs.unlink(folder);
+  return { folder };
 }
 
 

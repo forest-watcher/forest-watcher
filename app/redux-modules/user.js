@@ -76,7 +76,8 @@ export function loginGoogle() {
           }
         }))
         .catch(() => {
-          GoogleOAuth.reset();
+          GoogleOAuth.logout()
+            .then(GoogleOAuth.reset);
         });
     });
   };

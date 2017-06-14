@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { View, ActivityIndicator, Text } from 'react-native';
 import Theme from 'config/theme';
 import Constants from 'config/constants';
@@ -9,7 +9,7 @@ import styles from './styles';
 const WIFI = Constants.reach.WIFI;
 const MOBILE = Constants.reach.MOBILE;
 
-class Sync extends PureComponent {
+class Sync extends Component {
   static navigatorStyle = {
     navBarHidden: true
   };
@@ -31,14 +31,14 @@ class Sync extends PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     const { completeTimeoutFlag, dismissTimeoutFlag } = this.state;
-    const { readyState, actionsPending } = this.props;
+    const { actionsPending } = this.props;
     if (actionsPending > 0) {
       this.syncData();
     }
-    if (readyState && completeTimeoutFlag && this.dismissTimeout === null) {
+    if (actionsPending === 0 && completeTimeoutFlag && this.dismissTimeout === null) {
       this.dismissTimeout = setTimeout(this.dismiss, 1000);
     }
-    if (readyState && dismissTimeoutFlag && dismissTimeoutFlag !== prevState.dismissTimeoutFlag) {
+    if (actionsPending === 0 && dismissTimeoutFlag && dismissTimeoutFlag !== prevState.dismissTimeoutFlag) {
       this.dismissModal();
     }
   }
@@ -49,10 +49,10 @@ class Sync extends PureComponent {
   }
 
   getTexts = () => {
-    const { isConnected, reach, readyState } = this.props;
+    const { isConnected, reach, actionsPending } = this.props;
     const texts = {};
     if (isConnected) {
-      if (!this.state.completeTimeoutFlag || !readyState) {
+      if (!this.state.completeTimeoutFlag || actionsPending > 0) {
         texts.title = WIFI.includes(reach) ? I18n.t('home.title.updating') : I18n.t('home.title.outOfDate');
         texts.subtitle = WIFI.includes(reach) ? I18n.t('home.subtitle.takesTime') : I18n.t('home.subtitle.mobile');
       } else {
@@ -83,11 +83,13 @@ class Sync extends PureComponent {
   }
 
   dismissModal = () => {
-    this.props.navigator.dismissModal();
+    this.props.setSyncModal(false);
+    // FIXME: this should only dismiss one modal
+    this.props.navigator.dismissAllModals();
   }
 
   render() {
-    const { isConnected, reach, readyState } = this.props;
+    const { isConnected, reach, actionsPending } = this.props;
     const { completeTimeoutFlag } = this.state;
     const { title, subtitle } = this.getTexts();
 
@@ -95,7 +97,7 @@ class Sync extends PureComponent {
       <View style={[styles.mainContainer, styles.center]}>
         <View>
           <View style={styles.textContainer}>
-            {isConnected && WIFI.includes(reach) && (!readyState || !completeTimeoutFlag) &&
+            {isConnected && WIFI.includes(reach) && (actionsPending > 0 || !completeTimeoutFlag) &&
             <ActivityIndicator
               color={Theme.colors.color1}
               style={{ height: 80 }}
@@ -109,7 +111,7 @@ class Sync extends PureComponent {
               {subtitle}
             </Text>
           </View>
-          {!MOBILE.includes(reach) && (!readyState || !completeTimeoutFlag) &&
+          {!MOBILE.includes(reach) && (actionsPending > 0 || !completeTimeoutFlag) &&
             <View>
               <ActionButton
                 monochrome
@@ -148,9 +150,9 @@ Sync.propTypes = {
   isConnected: React.PropTypes.bool.isRequired,
   reach: React.PropTypes.string.isRequired,
   navigator: React.PropTypes.object.isRequired,
-  readyState: React.PropTypes.bool.isRequired,
   actionsPending: React.PropTypes.number.isRequired,
-  syncApp: React.PropTypes.func.isRequired
+  syncApp: React.PropTypes.func.isRequired,
+  setSyncModal: React.PropTypes.func.isRequired
 };
 
 export default Sync;

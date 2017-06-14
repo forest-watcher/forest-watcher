@@ -12,26 +12,18 @@ class Home extends Component {
     navBarHidden: true
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      modalOpen: false
-    };
-  }
-
   componentDidMount() {
     this.handleStatus();
     tracker.trackScreenView('Home');
   }
 
   // Override shouldComponentUpdate because setLanguage passed as prop always changes
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     const conditions = [
       this.props.loggedIn !== nextProps.loggedIn,
       this.props.readyState !== nextProps.readyState,
       this.props.hasAreas !== nextProps.hasAreas,
-      this.props.token !== nextProps.token,
-      this.state.modalOpen !== nextState.modalOpen
+      this.props.token !== nextProps.token
     ];
     return conditions.includes(true);
   }
@@ -41,12 +33,12 @@ class Home extends Component {
   }
 
   handleStatus() {
-    const { loggedIn, token, hasAreas, readyState, setLanguage, navigator } = this.props;
+    const { loggedIn, token, hasAreas, readyState, setLanguage, navigator, syncModalOpen } = this.props;
     setLanguage();
     if (loggedIn) {
       tracker.setUser(token);
-      if (!readyState && !this.state.modalOpen) {
-        this.setState({ modalOpen: true }, this.openModal);
+      if (!readyState && !syncModalOpen) {
+        this.openModal();
       } else if (readyState) {
         if (!hasAreas) {
           navigator.resetTo({
@@ -71,11 +63,11 @@ class Home extends Component {
   }
 
   openModal = () => {
-    const { navigator } = this.props;
+    const { navigator, setSyncModal } = this.props;
+    setSyncModal(true);
     navigator.showModal({
       screen: 'ForestWatcher.Sync',
       passProps: {
-        navigator,
         goBackDisabled: true
       }
     });
@@ -99,7 +91,9 @@ Home.propTypes = {
   readyState: React.PropTypes.bool.isRequired,
   setLanguage: React.PropTypes.func.isRequired,
   navigator: React.PropTypes.object.isRequired,
-  hasAreas: React.PropTypes.bool.isRequired
+  hasAreas: React.PropTypes.bool.isRequired,
+  syncModalOpen: React.PropTypes.bool.isRequired,
+  setSyncModal: React.PropTypes.func.isRequired
 };
 Home.navigationOptions = {
   header: {

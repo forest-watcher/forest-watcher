@@ -36,12 +36,6 @@ function noAlerts() {
 }
 
 class AlertSystem extends Component {
-  componentWillMount() {
-    if (!this.props.area.datasets) {
-      this.props.getAreaCoverage(this.props.areaId);
-    }
-  }
-
   render() {
     const { datasets, id } = this.props.area;
 
@@ -64,6 +58,7 @@ class AlertSystem extends Component {
                   id={id}
                   dataset={dataset}
                   updateDate={this.props.updateDate}
+                  setAreaDatasetCache={this.props.setAreaDatasetCache}
                 />
                 : null
               }
@@ -85,10 +80,9 @@ AlertSystem.propTypes = {
       }).isRequired,
     )
   }).isRequired,
-  getAreaCoverage: React.PropTypes.func.isRequired,
   setAreaDatasetStatus: React.PropTypes.func.isRequired,
   updateDate: React.PropTypes.func.isRequired,
-  areaId: React.PropTypes.string.isRequired
+  setAreaDatasetCache: React.PropTypes.func.isRequired
 };
 
 export default AlertSystem;

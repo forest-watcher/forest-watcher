@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
 import { createReport } from 'redux-modules/reports';
+import { setSyncModal } from 'redux-modules/app';
 import tracker from 'helpers/googleAnalytics';
 import Map from 'components/map';
 import moment from 'moment';
 import { activeDataset } from 'helpers/area';
+import { getTotalActionsPending } from 'helpers/sync';
 import { initDb, read } from 'helpers/database';
 
 const supercluster = require('supercluster'); // eslint-disable-line
@@ -62,7 +64,8 @@ function mapStateToProps(state) {
     areaId = area.id;
     const dataset = activeDataset(area);
     datasetSlug = dataset.slug;
-    const areaFeatures = (state.geostore.data[area.geostore] && state.geostore.data[area.geostore].data.features[0]) || false;
+    const geostore = state.geostore.data[area.geostore];
+    const areaFeatures = (geostore && geostore.geojson.features[0]) || false;
     if (areaFeatures) {
       center = new BoundingBox(areaFeatures).getCenter();
       areaCoordinates = getAreaCoordinates(areaFeatures);
@@ -83,10 +86,13 @@ function mapStateToProps(state) {
     center,
     areaCoordinates,
     isConnected: state.offline.online,
+    actionsPending: getTotalActionsPending(state),
+    syncModalOpen: state.app.syncModalOpen,
     alerts,
     datasetSlug
   };
 }
+
 
 function mapDispatchToProps(dispatch, { navigation }) {
   return {
@@ -96,7 +102,8 @@ function mapDispatchToProps(dispatch, { navigation }) {
     },
     navigate: (routeName, params) => {
       navigation.navigate(routeName, params);
-    }
+    },
+    setSyncModal: open => dispatch(setSyncModal(open))
   };
 }
 
