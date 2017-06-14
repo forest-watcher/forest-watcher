@@ -6,6 +6,8 @@ import I18n from 'locales';
 import ActionButton from 'components/common/action-button';
 import styles from './styles';
 
+const Timer = require('react-native-timer');
+
 const WIFI = Constants.reach.WIFI;
 const MOBILE = Constants.reach.MOBILE;
 
@@ -21,8 +23,6 @@ class Sync extends Component {
       completeTimeoutFlag: false,
       dismissTimeoutFlag: false
     };
-    this.completeTimeout = null;
-    this.dismissTimeout = null;
   }
 
   componentDidMount() {
@@ -35,8 +35,8 @@ class Sync extends Component {
     if (actionsPending > 0) {
       this.syncData();
     }
-    if (actionsPending === 0 && completeTimeoutFlag && this.dismissTimeout === null) {
-      this.dismissTimeout = setTimeout(this.dismiss, 1000);
+    if (actionsPending === 0 && completeTimeoutFlag && !Timer.timeoutExists(this, 'dismissModal')) {
+      Timer.setTimeout(this, 'dismissModal', this.dismiss, 1000);
     }
     if (actionsPending === 0 && dismissTimeoutFlag && dismissTimeoutFlag !== prevState.dismissTimeoutFlag) {
       this.dismissModal();
@@ -44,8 +44,8 @@ class Sync extends Component {
   }
 
   componentWillUnmount() {
-    clearTimeout(this.completeTimeout);
-    clearTimeout(this.dismissTimeout);
+    Timer.clearTimeout(this, 'completeModal');
+    Timer.clearTimeout(this, 'dismissModal');
   }
 
   getTexts = () => {
@@ -69,7 +69,7 @@ class Sync extends Component {
   syncData = () => {
     const { isConnected, reach } = this.props;
     if (this.state.canSyncDataOnMobile || (isConnected && WIFI.includes(reach))) {
-      this.completeTimeout = setTimeout(this.complete, 2000);
+      Timer.setTimeout(this, 'completeModal', this.complete, 2000);
       this.props.syncApp();
     }
   }
