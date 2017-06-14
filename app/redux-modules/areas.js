@@ -79,7 +79,13 @@ export function saveAlertsToDb(areaId, slug, alerts) {
   if (alerts.length > 0) {
     const realm = initDb();
     const existingAlerts = realm.objects('Alert').filtered(`areaId = '${areaId}' AND slug = '${slug}'`);
-    realm.delete(existingAlerts);
+    try {
+      realm.write(() => {
+        realm.delete(existingAlerts);
+      });
+    } catch (e) {
+      console.warn('Error cleaning db', e);
+    }
 
     realm.write(() => {
       alerts.forEach((alert) => {
