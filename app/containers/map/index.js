@@ -64,7 +64,8 @@ function mapStateToProps(state) {
     areaId = area.id;
     const dataset = activeDataset(area);
     datasetSlug = dataset.slug;
-    const areaFeatures = (state.geostore.data[area.geostore] && state.geostore.data[area.geostore].data.features[0]) || false;
+    const geostore = state.geostore.data[area.geostore];
+    const areaFeatures = (geostore && geostore.geojson.features[0]) || false;
     if (areaFeatures) {
       center = new BoundingBox(areaFeatures).getCenter();
       areaCoordinates = getAreaCoordinates(areaFeatures);
