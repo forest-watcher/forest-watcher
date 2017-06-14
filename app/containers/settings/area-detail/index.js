@@ -7,7 +7,8 @@ function mapStateToProps(state, props) {
   return {
     imageUrl: state.areas.images[props.id],
     area,
-    isConnected: state.offline.online
+    isConnected: state.offline.online,
+    disableDelete: props.disableDelete || false
   };
 }
 

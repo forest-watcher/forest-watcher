@@ -24,7 +24,8 @@ class AreaCarousel extends Component {
       screen: 'ForestWatcher.AreaDetail',
       title: area.name,
       passProps: {
-        id: area.id
+        id: area.id,
+        disableDelete: true
       }
     });
   }
