@@ -5,6 +5,7 @@ import CONSTANTS from 'config/constants';
 // Actions
 const GET_COUNTRIES_REQUEST = 'countries/GET_COUNTRIES_REQUEST';
 const GET_COUNTRIES_COMMIT = 'countries/GET_COUNTRIES_COMMIT';
+const GET_COUNTRIES_ROLLBACK = 'countries/GET_COUNTRIES_ROLLBACK';
 
 // Reducer
 const initialState = {
@@ -19,6 +20,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, synced: false, syncing: true };
     case GET_COUNTRIES_COMMIT:
       return { ...state, data: action.payload.data, synced: true, syncing: false };
+    case GET_COUNTRIES_ROLLBACK:
+      return { ...state, syncing: false };
     default:
       return state;
   }

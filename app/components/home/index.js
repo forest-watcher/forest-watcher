@@ -21,7 +21,7 @@ class Home extends Component {
   shouldComponentUpdate(nextProps) {
     const conditions = [
       this.props.loggedIn !== nextProps.loggedIn,
-      this.props.readyState !== nextProps.readyState,
+      this.props.syncFinished !== nextProps.syncFinished,
       this.props.hasAreas !== nextProps.hasAreas,
       this.props.token !== nextProps.token
     ];
@@ -33,13 +33,13 @@ class Home extends Component {
   }
 
   handleStatus() {
-    const { loggedIn, token, hasAreas, readyState, setLanguage, navigator, syncModalOpen } = this.props;
+    const { loggedIn, token, hasAreas, syncFinished, setLanguage, navigator, syncModalOpen } = this.props;
     setLanguage();
     if (loggedIn) {
       tracker.setUser(token);
-      if (!readyState && !syncModalOpen) {
+      if (!syncFinished && !syncModalOpen && !this.modalOpen) {
         this.openModal();
-      } else if (readyState) {
+      } else if (syncFinished) {
         if (!hasAreas) {
           navigator.resetTo({
             screen: 'ForestWatcher.Setup',
@@ -65,6 +65,9 @@ class Home extends Component {
   openModal = () => {
     const { navigator, setSyncModal } = this.props;
     setSyncModal(true);
+    // we need this just in case the component check it again
+    // before the flag is stored in redux;
+    this.modalOpen = true;
     navigator.showModal({
       screen: 'ForestWatcher.Sync',
       passProps: {
@@ -88,7 +91,7 @@ class Home extends Component {
 Home.propTypes = {
   loggedIn: React.PropTypes.bool.isRequired,
   token: React.PropTypes.string,
-  readyState: React.PropTypes.bool.isRequired,
+  syncFinished: React.PropTypes.bool.isRequired,
   setLanguage: React.PropTypes.func.isRequired,
   navigator: React.PropTypes.object.isRequired,
   hasAreas: React.PropTypes.bool.isRequired,

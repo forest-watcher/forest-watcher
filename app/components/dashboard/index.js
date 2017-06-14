@@ -1,6 +1,3 @@
-import myAlertIcon from 'assets/section_my_alerts.png';
-import myReportsIcon from 'assets/section_my_reports.png';
-
 import React, { PureComponent } from 'react';
 import {
   View,
@@ -11,6 +8,8 @@ import {
   Platform
 } from 'react-native';
 
+import myAlertIcon from 'assets/section_my_alerts.png';
+import myReportsIcon from 'assets/section_my_reports.png';
 import Theme from 'config/theme';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
