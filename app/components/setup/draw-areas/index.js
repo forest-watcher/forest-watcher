@@ -28,6 +28,7 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 30;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
+const Timer = require('react-native-timer');
 const footerBackgroundImage = require('assets/map_bg_gradient.png');
 const markerImage = require('assets/circle.png');
 // const markerRedImage = require('assets/circle_red.png');
@@ -117,9 +118,7 @@ class DrawAreas extends Component {
   }
 
   componentWillUnmount() {
-    if (this.afterRenderTimer) {
-      clearTimeout(this.afterRenderTimer);
-    }
+    Timer.clearTimeout(this, 'afterRenderTimer');
   }
 
   onMapPress(e) {
@@ -179,10 +178,10 @@ class DrawAreas extends Component {
 
   setBoundaries = () => {
     if (!this.bboxed) {
-      if (this.afterRenderTimer) {
-        clearTimeout(this.afterRenderTimer);
+      if (Timer.timeoutExists(this, 'afterRenderTimer')) {
+        Timer.clearTimeout(this, 'afterRenderTimer');
       }
-      this.afterRenderTimer = setTimeout(() => {
+      Timer.setTimeout(this, 'afterRenderTimer', () => {
         this.bboxed = true;
         let boundaries = CONSTANTS.maps.bbox.coordinates[0];
         if (this.props.country && this.props.country.bbox) {
