@@ -294,7 +294,21 @@ export default function reducer(state = initialState, action) {
       if (typeof images[id] !== 'undefined') {
         images = omit(images, [id]);
       }
-      return { ...state, images, synced: true, syncing: false, selectedIndex: 0 };
+      // Update the selectedIndex of the map
+      let selectedIndex = state.selectedIndex || 0;
+      if (selectedIndex > 0) {
+        let deletedIndex = 0;
+        for (let i = 0; i < state.data.length; i++) {
+          if (state.data[i].id === id) {
+            deletedIndex = i;
+            break;
+          }
+        }
+        if (deletedIndex <= selectedIndex) {
+          selectedIndex -= 1;
+        }
+      }
+      return { ...state, images, synced: true, syncing: false, selectedIndex };
     }
     case DELETE_AREA_ROLLBACK: {
       const data = [...state.data, action.meta.area];
