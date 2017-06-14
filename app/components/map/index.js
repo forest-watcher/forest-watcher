@@ -209,7 +209,11 @@ class Map extends Component {
     const screen = 'ForestWatcher.NewReport';
     const title = 'Report';
     const form = `New-report-${Math.floor(Math.random() * 1000)}`;
-    this.props.createReport(form, latLng);
+    this.props.createReport({
+      report: form,
+      userPosition: this.lastPosition,
+      clickedPosition: latLng
+    });
     this.props.navigator.push({
       screen,
       title,
@@ -475,6 +479,7 @@ class Map extends Component {
             ? this.renderFooter()
             : this.renderFooterLoading()
           }
+          {this.renderFooter()}
           <AreaCarousel
             navigator={this.props.navigator}
             alertSelected={selectedAlertCoordinates}

@@ -2,6 +2,8 @@ import Config from 'react-native-config';
 import tracker from 'helpers/googleAnalytics';
 import CONSTANTS from 'config/constants';
 import { getLanguage } from 'helpers/language';
+import { LOGOUT_REQUEST } from 'redux-modules/user';
+
 
 // Actions
 const GET_REPORT_QUESTIONS_REQUEST = 'report/GET_REPORT_QUESTIONS_REQUEST';
@@ -11,96 +13,6 @@ const UPDATE_REPORT = 'report/UPDATE_REPORT';
 const UPLOAD_REPORT_REQUEST = 'report/UPLOAD_REPORT_REQUEST';
 const UPLOAD_REPORT_COMMIT = 'report/UPLOAD_REPORT_COMMIT';
 const UPLOAD_REPORT_ROLLBACK = 'report/UPLOAD_REPORT_ROLLBACK';
-
-const reportExample = {
-  "data": [
-    {
-      "type": "reports",
-      "id": "591f2513d3a6c4003f4960b4",
-      "attributes": {
-        "name": {
-          "en": "My first report",
-          "es": "Mi primer informe"
-        },
-        "languages": [
-          "en",
-          "es"
-        ],
-        "defaultLanguage": "en",
-        "user": "1a10d7c6e0a37126611fd7a7",
-        "questions": [
-          {
-            "type": "text",
-            "name": "name",
-            "defaultValue": {
-              "en": "Insert your name",
-              "es": "Inserta tu nombre"
-            },
-            "_id": "591f2513d3a6c4003f4960b7",
-            "conditions": [],
-            "childQuestions": [],
-            "order": 1,
-            "required": false,
-            "label": {
-              "en": "Name",
-              "es": "Nombre"
-            }
-          },
-          {
-            "type": "checkbox",
-            "name": "age",
-            "defaultValue": 0,
-            "_id": "591f2513d3a6c4003f4960b5",
-            "conditions": [],
-            "childQuestions": [
-              {
-                "type": "text",
-                "name": "specific-age",
-                "defaultValue": {
-                  "en": "Specific age",
-                  "es": "Specifica tu edad"
-                },
-                "conditionalValue": 0,
-                "_id": "591f2513d3a6c4003f4960b6",
-                "order": 0,
-                "required": false
-              }
-            ],
-            "order": 2,
-            "required": false,
-            "values": {
-              "en": [
-                {
-                  "value": 0,
-                  "label": "18-30"
-                },
-                {
-                  "value": 1,
-                  "label": "31-65"
-                }
-              ],
-              "es": [
-                {
-                  "value": 0,
-                  "label": "18-30"
-                },
-                {
-                  "value": 1,
-                  "label": "31-65"
-                }
-              ]
-            },
-            "label": {
-              "en": "Range age",
-              "es": "Rango de edad"
-            }
-          }
-        ],
-        "createdAt": "2017-05-19T17:02:11.415Z"
-      }
-    }
-  ]
-};
 
 // Reducer
 const initialNavState = {
@@ -117,7 +29,7 @@ export default function reducer(state = initialNavState, action) {
     case GET_REPORT_QUESTIONS_COMMIT: {
       let form = null;
       if (action.payload && action.payload[0]) {
-        form = reportExample;
+        form = action.payload[0];
       }
       if (form && form.questions && form.questions.length) {
         form.questions = form.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
@@ -133,6 +45,9 @@ export default function reducer(state = initialNavState, action) {
       list[action.payload.name] = Object.assign({}, state.list[action.payload.name], action.payload.data);
       return Object.assign({}, state, { list });
     }
+    case LOGOUT_REQUEST: {
+      return initialNavState;
+    }
     default: {
       return state;
     }
@@ -144,7 +59,8 @@ export function getReportQuestions() {
   const language = getLanguage().toUpperCase();
   let qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
   if (!qIdByLanguage) qIdByLanguage = Config.QUESTIONNARIE_ID_EN; // language fallback
-  const url = `${Config.API_URL}/questionnaire/${qIdByLanguage}`;
+  const url = 'https://staging-api.globalforestwatch.org/v1/reports/5941256c4c3f54001c29d32b';
+  // `${Config.API_URL}/questionnaire/${qIdByLanguage}`;
 
   return {
     type: GET_REPORT_QUESTIONS_REQUEST,
@@ -157,13 +73,15 @@ export function getReportQuestions() {
   };
 }
 
-export function createReport(name, position) {
+export function createReport({ name, userPosition, clickedPosition, area }) {
   return {
     type: CREATE_REPORT,
     payload: {
       [name]: {
+        area,
+        userPosition,
+        clickedPosition,
         index: 0,
-        position: position || '0, 0',
         status: CONSTANTS.status.draft,
         date: new Date().toISOString()
       }
@@ -186,16 +104,23 @@ export function uploadReport(reportName) {
     const userName = (user && user.data && user.data.fullName) || 'Guest user';
     const oganization = (user && user.data && user.data.organization) || 'None';
     const reportStatus = state().reports.list[reportName];
-
+    const language = state().app.language;
     // TODO: save type, lat and long position of the alert in the report
     const form = new FormData();
+    areaOfInterest
+    startDate
+    endDate
+    layer
+    form.append('language', language);
+    form.append('report', reportName);
     form.append('name', userName);
     form.append('organization', oganization);
     form.append('date', reportStatus && reportStatus.date);
-    form.append('position', reportStatus && reportStatus.position.toString());
+    form.append('clickedPosition', reportStatus && reportStatus.clickedPosition.toString());
+    form.append('userPosition', reportStatus && reportStatus.userPosition.toString());
 
     Object.keys(report).forEach((key) => {
-      if (report[key].indexOf('jpg') >= 0) { // TODO: improve this
+      if (typeof report[key] === 'string' && report[key].indexOf('jpg') >= 0) { // TODO: improve this
         const image = {
           uri: report[key],
           type: 'image/jpg',
@@ -214,13 +139,15 @@ export function uploadReport(reportName) {
       name: reportName,
       status: CONSTANTS.status.uploaded
     };
-    const url = `${Config.API_URL}/reports/${report.id}/answers`;
+    const url = 'https://staging-api.globalforestwatch.org/v1/reports/5941256c4c3f54001c29d32b/answers';
+    // `${Config.API_URL}/reports/${report.id}/answers`;
+    const headers = { 'content-type': 'multipart/form-data' };
     dispatch({
       type: UPLOAD_REPORT_REQUEST,
       payload: requestPayload,
       meta: {
         offline: {
-          effect: { url, body: form, method: 'POST' },
+          effect: { url, body: form, method: 'POST', headers },
           commit: { type: UPLOAD_REPORT_COMMIT, meta: commitPayload },
           rollback: { type: UPLOAD_REPORT_ROLLBACK } // TODO: MARK AS UNSYNC TO TRY AGAIN
         }

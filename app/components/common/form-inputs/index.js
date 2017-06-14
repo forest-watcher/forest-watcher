@@ -31,7 +31,7 @@ export default function getInputForm(props) {
 
 getInputForm.propTypes = {
   question: React.PropTypes.shape({
-    value: React.PropTypes.string,
+    value: React.PropTypes.number,
     type: React.PropTypes.string.isRequired,
     defaultValue: React.PropTypes.string
   }).isRequired

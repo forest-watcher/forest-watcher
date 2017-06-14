@@ -31,12 +31,12 @@ function SelectInput(props) {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        {props.question.values.map((value, index) => {
-          const checked = props.input.value.indexOf(value) >= 0;
+        {props.question.values.map((item, index) => {
+          const checked = props.input.value.indexOf(item.value) >= 0;
           let conditionalField = null;
           if (childQuestions && childQuestions.length > 0) {
             childQuestions.forEach(childConditional => {
-              if (value === childConditional.conditionalValue) {
+              if (item.value === childConditional.conditionalValue) {
                 conditionalField = (
                   <Field
                     visible={checked}
@@ -52,9 +52,9 @@ function SelectInput(props) {
             <View style={styles.inputContainer}>
               <CheckBtn
                 key={index}
-                value={value}
+                label={item.label}
                 checked={checked}
-                onPress={() => handlePress(value)}
+                onPress={() => handlePress(item.value)}
               />
             </View>,
             conditionalField
@@ -69,7 +69,12 @@ SelectInput.propTypes = {
   question: React.PropTypes.shape({
     label: React.PropTypes.string,
     defaultValue: React.PropTypes.string,
-    values: React.PropTypes.array
+    values: React.PropTypes.arrayOf(
+      React.PropTypes.shape({
+        value: React.PropTypes.number.isRequired,
+        label: React.PropTypes.string.isRequired
+      })
+    )
   }).isRequired,
   input: React.PropTypes.shape({
     onBlur: React.PropTypes.func.isRequired,
