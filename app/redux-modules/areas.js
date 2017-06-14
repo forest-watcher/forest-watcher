@@ -2,16 +2,18 @@ import Config from 'react-native-config';
 import omit from 'lodash/omit';
 import { getGeostore, GET_GEOSTORE_REQUEST, GET_GEOSTORE_COMMIT } from 'redux-modules/geostore';
 import { getCachedImageByUrl, removeFolder } from 'helpers/fileManagement';
-import { getBboxTiles, cacheTiles } from 'helpers/map';
 import { hasActionsPending } from 'helpers/sync';
 import { getInitialDatasets } from 'helpers/area';
-import BoundingBox from 'boundingbox';
 import CONSTANTS from 'config/constants';
+import { initDb } from 'helpers/database';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
+const GET_ALERTS_REQUEST = 'areas/GET_ALERTS_REQUEST';
+const GET_ALERTS_COMMIT = 'areas/GET_ALERTS_COMMIT';
+const GET_ALERTS_ROLLBACK = 'areas/GET_ALERTS_ROLLBACK';
 const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
 const GET_AREAS_ROLLBACK = 'areas/GET_AREAS_ROLLBACK';
 const SAVE_AREA_REQUEST = 'areas/SAVE_AREA_REQUEST';
@@ -23,9 +25,6 @@ const GET_AREA_COVERAGE_ROLLBACK = 'areas/GET_AREA_COVERAGE_ROLLBACK';
 const UPDATE_AREA_REQUEST = 'areas/UPDATE_AREA_REQUEST';
 const UPDATE_AREA_COMMIT = 'areas/UPDATE_AREA_COMMIT';
 const UPDATE_AREA_ROLLBACK = 'areas/UPDATE_AREA_ROLLBACK';
-const SET_CACHE_AREA_REQUEST = 'areas/SET_CACHE_AREA_REQUEST';
-const SET_CACHE_AREA_COMMIT = 'areas/SET_CACHE_AREA_COMMIT';
-const SET_CACHE_AREA_ROLLBACK = 'areas/SET_CACHE_AREA_ROLLBACK';
 const REMOVE_CACHE_AREA_REQUEST = 'areas/REMOVE_CACHE_AREA_REQUEST';
 const REMOVE_CACHE_AREA_COMMIT = 'areas/REMOVE_CACHE_AREA_COMMIT';
 const REMOVE_CACHE_AREA_ROLLBACK = 'areas/REMOVE_CACHE_AREA_ROLLBACK';
@@ -75,6 +74,24 @@ const initialState = {
     alert: {}
   }
 };
+
+export function saveAlertsToDb(areaId, slug, alerts) {
+  if (alerts.length > 0) {
+    const realm = initDb();
+    const existingAlerts = realm.objects('Alert').filtered(`areaId = '${areaId}' AND slug = '${slug}'`);
+    realm.delete(existingAlerts);
+
+    realm.write(() => {
+      alerts.forEach((alert) => {
+        const parsedAlert = alert;
+        parsedAlert.long = alert.lon;
+        parsedAlert.slug = slug;
+        parsedAlert.areaId = areaId;
+        realm.create('Alert', parsedAlert);
+      });
+    });
+  }
+}
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
@@ -212,21 +229,22 @@ export default function reducer(state = initialState, action) {
       });
       return { ...state, data: areas };
     }
-    case SET_CACHE_AREA_REQUEST: {
+    case GET_ALERTS_REQUEST: {
       const area = action.payload;
       const data = getUpdatedAreas(state.data, area);
       const pendingData = { ...state.pendingData, alert: { ...state.pendingData.alert, [area.id]: true } };
       return { ...state, data, pendingData };
     }
-    case SET_CACHE_AREA_COMMIT: {
+    case GET_ALERTS_COMMIT: {
       const area = action.meta.area;
       const pendingData = {
         ...state.pendingData,
         alert: omit(state.pendingData.alert, [area.id])
       };
+      saveAlertsToDb(action.meta.area.id, action.meta.datasetSlug, action.payload.data);
       return { ...state, pendingData };
     }
-    case SET_CACHE_AREA_ROLLBACK: {
+    case GET_ALERTS_ROLLBACK: {
       const area = action.meta.area;
       const data = [...state.data, area];
       const pendingData = {
@@ -389,13 +407,6 @@ export function updateSelectedIndex(index) {
   };
 }
 
-async function downloadArea(bbox, areaId, datasetSlug) {
-  const zooms = CONSTANTS.maps.cachedZoomLevels;
-  const tilesArray = getBboxTiles(bbox, zooms);
-  await cacheTiles(tilesArray, areaId, datasetSlug);
-  return { tiles: tilesArray, area: areaId, dataset: datasetSlug };
-}
-
 export function saveArea(params) {
   const url = `${Config.API_URL}/area`;
   const headers = { 'content-type': 'multipart/form-data' };
@@ -422,38 +433,6 @@ export function saveArea(params) {
     }
   };
 }
-
-export function cacheArea(areaId, datasetSlug) {
-  return async (dispatch, state) => {
-    const area = getAreaById(state().areas.data, areaId);
-    const oldArea = { ...area, datasets: updatedCacheDatasets(area.datasets, datasetSlug, false) };
-    const geostore = state().geostore.data[area.geostore];
-    let bbox = null;
-    if (geostore) {
-      const bboxArea = new BoundingBox(geostore.geojson.features[0]);
-      if (bboxArea) {
-        bbox = [
-          { lat: bboxArea.minlat, lng: bboxArea.maxlon },
-          { lat: bboxArea.maxlat, lng: bboxArea.minlon }
-        ];
-      }
-    }
-    if (bbox) {
-      dispatch({
-        type: SET_CACHE_AREA_REQUEST,
-        payload: area,
-        meta: {
-          offline: {
-            effect: { promise: downloadArea(bbox, areaId, datasetSlug), errorCode: 400 },
-            commit: { type: SET_CACHE_AREA_COMMIT, meta: { area } },
-            rollback: { type: SET_CACHE_AREA_ROLLBACK, meta: { area: oldArea } }
-          }
-        }
-      });
-    }
-  };
-}
-
 
 export function removeCachedArea(areaId, datasetSlug) {
   return async (dispatch, state) => {
@@ -550,6 +529,26 @@ export function deleteArea(areaId) {
   };
 }
 
+export function getAreaAlerts(areaId, datasetSlug) {
+  return (dispatch, state) => {
+    const area = getAreaById(state().areas.data, areaId);
+    const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore}`;
+    const oldArea = { ...area, datasets: updatedCacheDatasets(area.datasets, datasetSlug, false) };
+
+    dispatch({
+      type: GET_ALERTS_REQUEST,
+      payload: area,
+      meta: {
+        offline: {
+          effect: { url, deserialize: false },
+          commit: { type: GET_ALERTS_COMMIT, meta: { area, datasetSlug } },
+          rollback: { type: GET_ALERTS_ROLLBACK, meta: { area: oldArea } }
+        }
+      }
+    });
+  };
+}
+
 export function syncAreas() {
   return async (dispatch, state) => {
     const { data, synced, syncing, pendingData } = state().areas;
@@ -579,10 +578,10 @@ export function syncAreas() {
               const { datasets } = area;
               datasets.forEach((dataset) => {
                 if (dataset.cache) {
-                  dispatch(cacheArea(id, dataset.slug));
+                  dispatch(getAreaAlerts(id, dataset.slug));
                 } else {
                   // TODO: remove this, cache will be mandatory
-                  dispatch(removeCachedArea(id, dataset.slug));
+                  // dispatch(removeCachedArea(id, dataset.slug));
                 }
               });
             });

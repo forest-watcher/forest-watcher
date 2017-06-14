@@ -73,11 +73,17 @@ android {
 }
 
 dependencies {
-    compile(project(':react-native-google-signin')){
-      exclude group: "com.google.android.gms"
+    compile "com.android.support:appcompat-v7:23.0.1"
+    compile "com.facebook.react:react-native:+"  // From node_modules
+
+    compile(project(':realm')){
+      exclude group: 'com.google.android.gms'
     }
-    compile(project(':react-native-google-analytics-bridge')){
-      exclude group: "com.google.android.gms"
+    compile(project(':react-native-google-signin')){
+      exclude group: 'com.google.android.gms'
+    }
+    compile (project(':react-native-google-analytics-bridge')){
+      exclude group: 'com.google.android.gms'
     }
     compile project(':react-native-sensor-manager')
     compile project(':react-native-camera')
@@ -86,8 +92,6 @@ dependencies {
     compile project(':react-native-config')
     compile project(':RNLocation')
     compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:23.0.1"
-    compile "com.facebook.react:react-native:+"  // From node_modules
     compile project(':react-native-navigation')
     compile(project(':react-native-maps')){
       exclude group: 'com.google.android.gms'

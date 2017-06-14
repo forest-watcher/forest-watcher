@@ -5,6 +5,7 @@ import android.util.Log;
 import android.support.annotation.NonNull;
 
 import com.facebook.react.ReactApplication;
+import io.realm.react.RealmReactPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.sensormanager.SensorManagerPackage;
@@ -20,6 +21,7 @@ import com.facebook.soloader.SoLoader;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.i18n.reactnativei18n.ReactNativeI18n;
 import com.syarul.rnlocation.RNLocation;
+import io.realm.react.RealmReactPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,7 +45,8 @@ public class MainApplication extends NavigationApplication {
       new ReactNativeConfigPackage(),
       new MapsPackage(),
       new ReactNativeI18n(),
-      new RNLocation()
+      new RNLocation(),
+      new RealmReactPackage()
     );
   }
 }
