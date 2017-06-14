@@ -34,6 +34,14 @@ class Settings extends Component {
     tracker.trackScreenView('Set Up');
   }
 
+  componentWillReceiveProps(props) {
+    if (props.areas.length === 0) {
+      props.navigator.push({
+        screen: 'ForestWatcher.Setup'
+      });
+    }
+  }
+
   onAreaPress = (areaId, name) => {
     this.props.navigator.push({
       screen: 'ForestWatcher.AreaDetail',
