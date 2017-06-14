@@ -27,6 +27,7 @@ const config = {
     color4: colors.color4,
     color5: colors.color5,
     color6: colors.color6,
+    color7: colors.color7,
     colorGlad: colors.colorGlad,
     colorViirs: colors.colorViirs
   },
