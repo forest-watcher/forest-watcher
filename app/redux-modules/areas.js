@@ -288,7 +288,7 @@ export default function reducer(state = initialState, action) {
       if (typeof images[id] !== 'undefined') {
         images = omit(images, [id]);
       }
-      return { ...state, images, synced: true, syncing: false };
+      return { ...state, images, synced: true, syncing: false, selectedIndex: 0 };
     }
     case DELETE_AREA_ROLLBACK: {
       const data = [...state.data, action.meta.area];
