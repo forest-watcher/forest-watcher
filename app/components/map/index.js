@@ -152,7 +152,7 @@ class Map extends Component {
   }
 
   onLayout = () => {
-    if (this.hasSetCoordinates === false) {
+    if (this.hasSetCoordinates === false && this.props.areaCoordinates) {
       const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
       this.map.fitToCoordinates(this.props.areaCoordinates, options);
       this.hasSetCoordinates = true;
