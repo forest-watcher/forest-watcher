@@ -2,7 +2,7 @@ import Config from 'react-native-config';
 import omit from 'lodash/omit';
 import { getGeostore, GET_GEOSTORE_REQUEST, GET_GEOSTORE_COMMIT } from 'redux-modules/geostore';
 import { getCachedImageByUrl, removeFolder } from 'helpers/fileManagement';
-import { hasActionsPending } from 'helpers/sync';
+import { getActionsTodoCount } from 'helpers/sync';
 import { getInitialDatasets } from 'helpers/area';
 import CONSTANTS from 'config/constants';
 import { initDb } from 'helpers/database';
@@ -573,7 +573,7 @@ export function syncAreas() {
   return async (dispatch, state) => {
     const { data, synced, syncing, pendingData } = state().areas;
     const hasAreas = data && data.length;
-    if (hasAreas && synced && hasActionsPending(pendingData)) {
+    if (hasAreas && synced && getActionsTodoCount(pendingData) > 0) {
       Object.keys(pendingData).forEach((type) => {
         const syncingAreasData = pendingData[type];
         const canDispatch = id => (typeof syncingAreasData[id] !== 'undefined' && syncingAreasData[id] === false);
