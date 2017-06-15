@@ -1,10 +1,11 @@
 {
-  "languages": ["en", "es"],
+  "languages": ["en", "es", "fr", "id"],
   "defaultLanguage": "en",
   "name": {
     "en": "Forest Watcher default report",
     "es": "Forest Watcher reporte defacto",
-    "fr": "Rapport par défaut Forest Watcher"
+    "fr": "Rapport par défaut Forest Watcher",
+    "id": ""
   },
   "public": true,
   "questions": [
@@ -13,7 +14,8 @@
       "label": {
         "en": "GPS points",
         "es": "Coordenadas GPS",
-        "fr": "Coordonnées GPS"
+        "fr": "Coordonnées GPS",
+        "id": "Posisi (GPS)"
       },
       "name": "position",
       "order": 1,
@@ -26,7 +28,8 @@
       "label": {
         "en": "Do you know who owns or is responsible for managing this land?",
         "es": "¿Sabe quién es el dueño o administrador de esta zona?",
-        "fr": "Connaissez-vous le propriétaire ou le responsable de ces terres ?"
+        "fr": "Connaissez-vous le propriétaire ou le responsable de ces terres ?",
+        "id": "Apakah anda tahu siapa yang bertanggungjawab mengelola lahan ini?"
       },
       "order": 2,
       "required": true,
@@ -42,6 +45,10 @@
         "fr": [
           { "value": 0, "label": "Oui"},
           { "value": 1, "label": "Non"}
+        ],
+        "id": [
+          { "value": 0, "label": "Ya"},
+          { "value": 1, "label": "Tidak"}
         ]
       },
       "defaultValue": 1,
@@ -52,12 +59,14 @@
           "label": {
             "en": "Please describe",
             "es": "Escriba el nombre aquí",
-            "fr": "Veuillez détailler"
+            "fr": "Veuillez détailler",
+            "id": "Jelaskan"
           },
           "defaultValue": {
             "en": "Please describe",
             "es": "Escriba el nombre aquí",
-            "fr": "Veuillez détailler"
+            "fr": "Veuillez détailler",
+            "id": "Jelaskan"
           },
           "conditionalValue": 0,
           "order": 0,
@@ -72,7 +81,8 @@
       "label": {
         "en": "Do you see deforestation or degradation?",
         "es": "¿Usted ve deforestación o degradación?",
-        "fr": "Etes-vous témoin de déforestation ou de dégradations ?"
+        "fr": "Etes-vous témoin de déforestation ou de dégradations ?",
+        "id": "Apakah anda melihat adanya deforestasi atau degradasi?"
       },
       "order": 3,
       "required": true,
@@ -91,6 +101,11 @@
           { "value": 0, "label": "Oui"},
           { "value": 1, "label": "Non"},
           { "value": 2, "label": "Incertain"}
+        ],
+        "id": [
+          { "value": 0, "label": "Ya"},
+          { "value": 1, "label": "Tidak"},
+          { "value": 2, "label": "Tidak yakin"}
         ]
       },
       "defaultValue": 1
@@ -101,7 +116,8 @@
       "label": {
         "en": "Is the deforestation recent?",
         "es": "¿La deforestación es nueva?",
-        "fr": "A-t-elle eu lieu récemment ?"
+        "fr": "A-t-elle eu lieu récemment ?",
+        "id": "Apakah deforestasi terjadi baru-baru ini?"
       },
       "conditions": [{
         "name": "deforestation",
@@ -121,6 +137,10 @@
         "fr": [
           { "value": 0, "label": "Oui, très récent et pas de repousse"},
           { "value": 1, "label": "Non, exploitation agricole ou repousses constatées"}
+        ],
+        "id": [
+          { "value": 0, "label": "Ya - baru terbakar, tidak tumbuh kembali"},
+          { "value": 1, "label": "Tidak - kebun sudah muncul atau hutan kembali merintis"}
         ]
       },
       "defaultValue": 0
@@ -131,7 +151,8 @@
       "label": {
         "en": "Describe the driver of deforestation",
         "es": "¿Cuál es el motivo de la deforestación?",
-        "fr": "Détaillez les raisons de la déforestation"
+        "fr": "Détaillez les raisons de la déforestation",
+        "id": "Jelaskan pemicu dari deforestasi yang anda lihat"
       },
       "conditions": [{
         "name": "deforestation",
@@ -178,6 +199,19 @@
           { "value": 8, "label": "Minage"},
           { "value": 9, "label": "Extraction de pétrole ou de gaz"},
           { "value": 10, "label": "Autre (veuillez détailler)"}
+        ],
+        "id": [
+          { "value": 0, "label": "Tebang pilih (komersil)"},
+          { "value": 1, "label": "Tebang pilih (kebutuhan rumah tangga skala kecil)"},
+          { "value": 2, "label": "Tebang habis"},
+          { "value": 3, "label": "Produksi batu bara"},
+          { "value": 4, "label": "Pembakaran"},
+          { "value": 5, "label": "Pembukaan hutan untuk pertanian"},
+          { "value": 6, "label": "Jalan"},
+          { "value": 7, "label": "Bendungan"},
+          { "value": 8, "label": "Tambang"},
+          { "value": 9, "label": "Eksplorasi migas"},
+          { "value": 10, "label": "Lainnya (jelaskan)"}
         ]
       },
       "defaultValue": 0,
@@ -188,12 +222,14 @@
           "label": {
             "en": "What type?/crop?",
             "es": "¿Qué tipo de cultivo?",
-            "fr": "de quel type, de quelle culture ?"
+            "fr": "de quel type, de quelle culture ?",
+            "id": "Jenis tanaman/komoditas?"
           },
           "defaultValue": {
             "en": "What type?/crop?",
             "es": "¿Qué tipo de cultivo?",
-            "fr": "Défrichement"
+            "fr": "Défrichement",
+            "id": "Jenis tanaman/komoditas?"
           },
           "conditionalValue": 5,
           "order": 0,
@@ -206,12 +242,14 @@
           "label": {
             "en": "Please describe",
             "es": "¿Qué tipo de cultivo?",
-            "fr": "veuillez détailler"
+            "fr": "veuillez détailler",
+            "id": "jelaskan"
           },
           "defaultValue": {
             "en": "Please describe",
             "es": "por favor describa",
-            "fr": "veuillez détailler"
+            "fr": "veuillez détailler",
+            "id": "jelaskan"
           },
           "conditionalValue": 10,
           "order": 0,
@@ -226,7 +264,8 @@
       "label": {
         "en": "Take a picture",
         "es": "Tome una fotografía",
-        "fr": "Prenez une photo"
+        "fr": "Prenez une photo",
+        "id": "Ambil gambar"
       },
       "conditions": [{
         "name": "deforestation",
@@ -242,7 +281,8 @@
       "label": {
         "en": "Do you believe this activity is illegal?",
         "es": "¿Cree usted que esta actividad es ilegal?",
-        "fr": "Pensez-vous que cette activité est illégale ?"
+        "fr": "Pensez-vous que cette activité est illégale ?",
+        "id": "Apakah menurut anda tindakan tersebut ilegal?"
       },
       "conditions": [{
         "name": "deforestation",
@@ -262,6 +302,10 @@
         "fr": [
           { "value": 0, "label": "Oui"},
           { "value": 1, "label": "Non"}
+        ],
+        "id": [
+          { "value": 0, "label": "Ya"},
+          { "value": 1, "label": "Tidak"}
         ]
       },
       "defaultValue": 0
@@ -272,7 +316,8 @@
       "label": {
         "en": "Do you know who is responsible for this deforestation?",
         "es": "¿Sabe usted quién es el responsable de la deforestación?",
-        "fr": "Connaissez-vous le(s) responsable(s) de cette déforestation ?"
+        "fr": "Connaissez-vous le(s) responsable(s) de cette déforestation ?",
+        "id": "Apakan anda tahu siapa yang bertanggungjawab terhadap deforestasi ini?"
       },
       "conditions": [{
         "name": "deforestation",
@@ -292,6 +337,10 @@
         "fr": [
           { "value": 0, "label": "Oui"},
           { "value": 1, "label": "Non"}
+        ],
+        "id": [
+          { "value": 0, "label": "Ya"},
+          { "value": 1, "label": "Tidak"}
         ]
       },
       "defaultValue": 1,
@@ -302,12 +351,14 @@
           "label": {
             "en": "Please describe",
             "es": "Escriba el nombre aquí",
-            "fr": "Veuillez détailler"
+            "fr": "Veuillez détailler",
+            "id": "Jelaskan"
           },
           "defaultValue": {
             "en": "Please describe",
             "es": "Escriba el nombre aquí",
-            "fr": "Veuillez détailler"
+            "fr": "Veuillez détailler",
+            "id": "Jelaskan"
           },
           "conditionalValue": 0,
           "order": 0,
@@ -322,7 +373,8 @@
       "label": {
         "en": "Should further action be taken in this area?/Should there be follow up?",
         "es": "¿Considera necesaria alguna otra medida en este área?",
-        "fr": "Pensez-vous qu’une action supplémentaire soit indispensable ?"
+        "fr": "Pensez-vous qu’une action supplémentaire soit indispensable ?",
+        "id": "Apakah perlu tindak lanjut di area deforestasi ini?"
       },
       "order": 9,
       "required": true,
@@ -338,6 +390,10 @@
         "fr": [
           { "value": 0, "label": "Oui"},
           { "value": 1, "label": "Non"}
+        ],
+        "id": [
+          { "value": 0, "label": "Ya"},
+          { "value": 1, "label": "Tidak"}
         ]
       },
       "defaultValue": 1
@@ -347,7 +403,8 @@
       "label": {
         "en": "Other information? / Notes?",
         "es": "Añada otra información / notas",
-        "fr": "Avez-vous d’autres informations à communiquer ou des remarques"
+        "fr": "Avez-vous d’autres informations à communiquer ou des remarques",
+        "id": "Catatan / informasi tambahan"
       },
       "name": "notes",
       "order": 10,
