@@ -90,8 +90,8 @@
 	},
 	"partners": {
 	 	"title": "Mitra",
-		"description": "Forest Watcher 2.0 didukung oleh kemitraan organisasi yang memberikan kontribusi data, teknologi, pendanaan dan keahlian.",
-		"listOfPartners": "Lihat daftar lengkap mitra di bawah ini."
+		"description": "Forest Watcher is created in collaboration between World Resources Institute, Vizzuality, and the Jane Goodall Institute.",
+		"listOfPartners": "See all Global Forest Watch partners."
 	},
 	"setupDrawAreas": {
     "invalidShape": "Bentuk valid",
@@ -130,6 +130,7 @@
 		"1MonthAgo": "1 month ago",
 		"3MonthsAgo": "3 months ago",
 		"6MonthsAgo": "6 months ago",
+		"1yearAgo": "1 year ago",
 		"availableOffline": "Available offline"
 	},
   "report": {
