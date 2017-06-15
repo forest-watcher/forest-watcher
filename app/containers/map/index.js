@@ -69,14 +69,16 @@ function mapStateToProps(state) {
       center = new BoundingBox(areaFeatures).getCenter();
       areaCoordinates = getAreaCoordinates(areaFeatures);
     }
-    const realm = initDb();
     const timeFrame = datasetSlug === 'viirs' ? 'day' : 'month';
     const limitRange = moment().subtract(dataset.startDate, timeFrame).valueOf();
-    alerts = read(realm, 'Alert')
-                    .filtered(`areaId = '${area.id}' AND slug = '${datasetSlug}' AND date > '${limitRange}'`)
-                    .map((alert) => ({ lat: alert.lat, long: alert.long }));
-    const geoPoints = convertPoints(alerts);
-    cluster = geoPoints && createCluster(geoPoints);
+    const realm = initDb();
+    if (datasetSlug) {
+      alerts = read(realm, 'Alert')
+                      .filtered(`areaId = '${area.id}' AND slug = '${datasetSlug}' AND date > '${limitRange}'`)
+                      .map((alert) => ({ lat: alert.lat, long: alert.long }));
+      const geoPoints = convertPoints(alerts);
+      cluster = geoPoints && createCluster(geoPoints);
+    }
   }
 
   return {

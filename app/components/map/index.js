@@ -153,7 +153,7 @@ class Map extends Component {
   }
 
   onLayout = () => {
-    if (this.hasSetCoordinates === false) {
+    if (this.hasSetCoordinates === false && this.props.areaCoordinates) {
       const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
       this.map.fitToCoordinates(this.props.areaCoordinates, options);
       this.hasSetCoordinates = true;
@@ -422,7 +422,14 @@ class Map extends Component {
             onLayout={this.onLayout}
             moveOnMarkerPress={false}
           >
-            <Clusters markers={this.state.markers} selectAlert={this.selectAlert} zoomTo={this.zoomTo} datasetSlug={datasetSlug} />
+            {datasetSlug &&
+              <Clusters
+                markers={this.state.markers}
+                selectAlert={this.selectAlert}
+                zoomTo={this.zoomTo}
+                datasetSlug={datasetSlug}
+              />
+            }
             {showCompassFallback &&
               <MapView.Polyline
                 coordinates={this.state.compassFallback}
@@ -497,12 +504,12 @@ class Map extends Component {
 Map.propTypes = {
   navigator: React.PropTypes.object.isRequired,
   createReport: React.PropTypes.func.isRequired,
-  cluster: React.PropTypes.object.isRequired,
+  cluster: React.PropTypes.object,
   center: React.PropTypes.shape({
     lat: React.PropTypes.number.isRequired,
     lon: React.PropTypes.number.isRequired
   }),
-  datasetSlug: React.PropTypes.string.isRequired,
+  datasetSlug: React.PropTypes.string,
   areaCoordinates: React.PropTypes.array,
   actionsPending: React.PropTypes.number.isRequired,
   syncModalOpen: React.PropTypes.bool.isRequired,

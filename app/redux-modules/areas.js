@@ -2,7 +2,7 @@ import Config from 'react-native-config';
 import omit from 'lodash/omit';
 import { getGeostore, GET_GEOSTORE_REQUEST, GET_GEOSTORE_COMMIT } from 'redux-modules/geostore';
 import { getCachedImageByUrl, removeFolder } from 'helpers/fileManagement';
-import { hasActionsPending } from 'helpers/sync';
+import { getActionsTodoCount } from 'helpers/sync';
 import { getInitialDatasets } from 'helpers/area';
 import CONSTANTS from 'config/constants';
 import { initDb } from 'helpers/database';
@@ -79,7 +79,13 @@ export function saveAlertsToDb(areaId, slug, alerts) {
   if (alerts.length > 0) {
     const realm = initDb();
     const existingAlerts = realm.objects('Alert').filtered(`areaId = '${areaId}' AND slug = '${slug}'`);
-    realm.delete(existingAlerts);
+    try {
+      realm.write(() => {
+        realm.delete(existingAlerts);
+      });
+    } catch (e) {
+      console.warn('Error cleaning db', e);
+    }
 
     realm.write(() => {
       alerts.forEach((alert) => {
@@ -290,7 +296,21 @@ export default function reducer(state = initialState, action) {
       if (typeof images[id] !== 'undefined') {
         images = omit(images, [id]);
       }
-      return { ...state, images, synced: true, syncing: false };
+      // Update the selectedIndex of the map
+      let selectedIndex = state.selectedIndex || 0;
+      if (selectedIndex > 0) {
+        let deletedIndex = 0;
+        for (let i = 0; i < state.data.length; i++) {
+          if (state.data[i].id === id) {
+            deletedIndex = i;
+            break;
+          }
+        }
+        if (deletedIndex <= selectedIndex) {
+          selectedIndex -= 1;
+        }
+      }
+      return { ...state, images, synced: true, syncing: false, selectedIndex };
     }
     case DELETE_AREA_ROLLBACK: {
       const data = [...state.data, action.meta.area];
@@ -555,7 +575,7 @@ export function syncAreas() {
   return async (dispatch, state) => {
     const { data, synced, syncing, pendingData } = state().areas;
     const hasAreas = data && data.length;
-    if (hasAreas && synced && hasActionsPending(pendingData)) {
+    if (hasAreas && synced && getActionsTodoCount(pendingData) > 0) {
       Object.keys(pendingData).forEach((type) => {
         const syncingAreasData = pendingData[type];
         const canDispatch = id => (typeof syncingAreasData[id] !== 'undefined' && syncingAreasData[id] === false);
