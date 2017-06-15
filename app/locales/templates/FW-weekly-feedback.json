@@ -4,7 +4,7 @@
   "defaultLanguage": "en",
   "name": {
     "en": "Weekly Feedback",
-    "es": "Retroalimentación semenal",
+    "es": "Retroalimentación semenal"
   },
   "public": true,
   "questions": [
@@ -17,11 +17,7 @@
       },
       "order": 1,
       "required": true,
-      "values": {},
-      "defaultValue": {
-        "en": "",
-        "es": "",
-      }
+      "values": {}
     },
     {
       "type": "radio",
@@ -98,8 +94,8 @@
       "type": "radio",
       "name": "work-better",
       "label": {
-        "en": "¿Te ha ayudado a trabajar mejor?",
-        "es": ""
+        "en": "Did this help you work better?",
+        "es": "¿Te ha ayudado a trabajar mejor?"
       },
       "order": 5,
       "required": true,
@@ -172,11 +168,7 @@
       },
       "order": 8,
       "required": false,
-      "values": {},
-      "defaultValue": {
-        "en": "",
-        "es": "",
-      }
+      "values": {}
     },
     {
       "type": "text",
@@ -187,11 +179,7 @@
       },
       "order": 9,
       "required": false,
-      "values": {},
-      "defaultValue": {
-        "en": "",
-        "es": "",
-      }
+      "values": {}
     },
     {
       "type": "text",
@@ -202,11 +190,7 @@
       },
       "order": 10,
       "required": false,
-      "values": {},
-      "defaultValue": {
-        "en": "",
-        "es": "",
-      }
+      "values": {}
     },
     {
       "type": "text",
@@ -217,11 +201,7 @@
       },
       "order": 11,
       "required": false,
-      "values": {},
-      "defaultValue": {
-        "en": "",
-        "es": "",
-      }
+      "values": {}
     },
     {
       "type": "text",
@@ -232,11 +212,7 @@
       },
       "order": 12,
       "required": false,
-      "values": {},
-      "defaultValue": {
-        "en": "",
-        "es": "",
-      }
+      "values": {}
     }
   ]
 }

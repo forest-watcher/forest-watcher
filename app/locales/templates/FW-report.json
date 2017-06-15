@@ -4,7 +4,7 @@
   "defaultLanguage": "en",
   "name": {
     "en": "Forest Watcher default report",
-    "es": "Forest Watcher reporte defacto",
+    "es": "Forest Watcher reporte defacto"
   },
   "public": true,
   "questions": [
@@ -20,7 +20,7 @@
       "values": {},
       "defaultValue": {
         "en": "Insert your name",
-        "es": "Inserta tu nombre",
+        "es": "Inserta tu nombre"
       }
     },
     {
@@ -47,11 +47,7 @@
       "name": "date",
       "order": 3,
       "required": true,
-      "values": {},
-      "defaultValue": {
-        "en": "",
-        "es": ""
-      }
+      "values": {}
     },
     {
       "type": "point",
@@ -62,11 +58,7 @@
       "name": "position",
       "order": 4,
       "required": true,
-      "values": {},
-      "defaultValue": {
-        "en": "",
-        "es": ""
-      }
+      "values": {}
     },
     {
       "type": "radio",
@@ -245,10 +237,7 @@
       }],
       "order": 9,
       "required": false,
-      "values": {},
-      "defaultValue": {
-        "en": ""
-      }
+      "values": {}
     },
     {
       "type": "radio",
@@ -291,6 +280,10 @@
       "values": {
         "en": [
           { "value": 0, "label": "Yes"},
+          { "value": 1, "label": "No"}
+        ],
+        "es": [
+          { "value": 0, "label": "Sí"},
           { "value": 1, "label": "No"}
         ]
       },
@@ -346,8 +339,8 @@
       "required": false,
       "values": {},
       "defaultValue": {
-        "en": "",
-        "es": ""
+        "en": "Other information?",
+        "es": "Añada otra información"
       }
     }
   ]

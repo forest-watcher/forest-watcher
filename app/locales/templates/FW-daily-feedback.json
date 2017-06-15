@@ -4,7 +4,7 @@
   "defaultLanguage": "en",
   "name": {
     "en": "Daily Feedback",
-    "es": "Retroalimentación diaria",
+    "es": "Retroalimentación diaria"
   },
   "public": true,
   "questions": [
@@ -17,11 +17,7 @@
       },
       "order": 1,
       "required": true,
-      "values": {},
-      "defaultValue": {
-        "en": "",
-        "es": "",
-      }
+      "values": {}
     },
     {
       "type": "select",
@@ -123,7 +119,7 @@
           { "value": 1, "label": "No"}
         ]
       },
-      "defaultValue": 0,
+      "defaultValue": 0
     }
   ]
 }
