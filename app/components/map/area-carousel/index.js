@@ -32,7 +32,7 @@ class AreaCarousel extends Component {
 
   render() {
     const { alertSelected, lastPosition, selectedArea } = this.props;
-    let distanceText = I18n.t('commonText.notAvailable');
+    let distanceText = '';
     let positionText = '';
     let datasetName = I18n.t('commonText.notAvailable');
     let distance = 999999;
