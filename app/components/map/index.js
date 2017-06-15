@@ -224,7 +224,7 @@ class Map extends Component {
         screen,
         title,
         form,
-        questionsToSkip: 4,
+        questionsToSkip: 0,
         texts: {
           saveLaterTitle: 'report.saveLaterTitle',
           saveLaterDescription: 'report.saveLaterDescription',

@@ -81,7 +81,7 @@ class Reports extends Component {
           screen,
           title,
           form: reportName,
-          questionsToSkip: 4,
+          questionsToSkip: 0,
           texts: {
             saveLaterTitle: 'report.saveLaterTitle',
             saveLaterDescription: 'report.saveLaterDescription',
