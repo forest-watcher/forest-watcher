@@ -318,13 +318,19 @@ class Map extends Component {
     this.map.animateToRegion(zoomCoordinates);
   }
 
-  selectAlert = (coordinates) => {
-    const zoom = this.getMapZoom();
-    if (zoom) {
+  selectAlert = (e) => {
+    const { coordinate } = e.nativeEvent;
+    if (coordinate) {
       this.setState({
-        selectedAlertCoordinates: coordinates
+        selectedAlertCoordinates: coordinate
       });
     }
+  }
+
+  removeSelectedAlert = () => {
+    this.setState({
+      selectedAlertCoordinates: null
+    });
   }
 
   updateSelectedArea = () => {
@@ -475,6 +481,7 @@ class Map extends Component {
                 coordinate={selectedAlertCoordinates}
                 image={alertWhite}
                 anchor={{ x: 0.5, y: 0.5 }}
+                onPress={this.removeSelectedAlert}
                 zIndex={10}
               />
             }
