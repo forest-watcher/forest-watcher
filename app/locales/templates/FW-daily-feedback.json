@@ -4,7 +4,7 @@
   "defaultLanguage": "en",
   "name": {
     "en": "Daily Feedback",
-    "es": "",
+    "es": "Retroalimentación diaria",
   },
   "public": true,
   "questions": [
