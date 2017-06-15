@@ -102,7 +102,7 @@ export function uploadReport(reportName) {
     const report = state().form[reportName].values;
     const user = state().user;
     const userName = (user && user.data && user.data.fullName) || 'Guest user';
-    const oganization = (user && user.data && user.data.organization) || 'None';
+    const organization = (user && user.data && user.data.organization) || 'None';
     const reportStatus = state().reports.list[reportName];
     const language = state().app.language;
     const area = reportStatus.area;
@@ -116,7 +116,7 @@ export function uploadReport(reportName) {
     form.append('language', language);
     form.append('report', reportName);
     form.append('name', userName);
-    form.append('organization', oganization);
+    form.append('organization', organization);
     form.append('date', reportStatus && reportStatus.date);
     form.append('clickedPosition', reportStatus && reportStatus.clickedPosition.toString());
     form.append('userPosition', reportStatus && reportStatus.userPosition.toString());

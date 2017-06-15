@@ -210,7 +210,7 @@ class Map extends Component {
     }
     const screen = 'ForestWatcher.NewReport';
     const title = 'Report';
-    const form = `${area.name.toUpperCase()}-${area.dataset.name}-REPORT--${moment().format('YYYY-MM-DD')}`;
+    const form = `${area.name.toUpperCase()}-${area.dataset.name}-REPORT--${moment().format('YYYY-MM-DDTHH:mm:ss')}`;
     this.props.createReport({
       area,
       name: form,
