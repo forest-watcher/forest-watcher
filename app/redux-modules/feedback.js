@@ -1,4 +1,5 @@
 import Config from 'react-native-config';
+import { destroy } from 'redux-form';
 import CONSTANTS from 'config/constants';
 import { getLanguage } from 'helpers/language';
 
@@ -86,7 +87,7 @@ export function getFeedbackQuestions(type) {
   const language = getLanguage().toUpperCase();
   let feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_${language}`];
   if (!feedbackId) feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_EN`]; // language fallback
-  const url = 'https://staging-api.globalforestwatch.org/v1/reports/594270690be981000bfc7718'; // `${Config.API_URL}/questionnaire/${feedbackId}`;
+  const url = `${Config.API_URL}/questionnaire/${feedbackId}`;
   return {
     type: GET_FEEDBACK_QUESTIONS_REQUEST,
     payload: type,
@@ -125,13 +126,16 @@ export function uploadFeedback(type) {
     const report = state().form[type].values;
     const user = state().user;
     const userName = (user && user.data && user.data.attributes && user.data.attributes.fullName) || 'Guest user';
-    const organization = (user && user.data && user.data.attributes && user.data.attributes.organization) || 'Vizzuality';
-    const reportStatus = state().feedback.list[type];
+    const organization = (user && user.data && user.data.attributes && user.data.attributes.organization) || 'None';
+    const language = getLanguage().toUpperCase();
 
     const form = new FormData();
     form.append('username', userName);
     form.append('organization', organization);
-    form.append('date', reportStatus && reportStatus.date);
+    form.append('clickedPosition', '0,0');
+    form.append('userPosition', '0,0');
+    form.append('date', new Date().toISOString());
+    form.append('language', language);
 
     Object.keys(report).forEach((key) => {
       if (typeof report[key] === 'string' && report[key].indexOf('jpg') >= 0) { // TODO: improve this
@@ -146,11 +150,9 @@ export function uploadFeedback(type) {
       }
     });
 
-    const language = getLanguage().toUpperCase();
     let feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_${language}`];
     if (!feedbackId) feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_EN`]; // language fallback
-    const url = 'https://staging-api.globalforestwatch.org/v1/reports/594270690be981000bfc7718/answer';
-    // `${Config.API_URL}/questionnaire/${feedbackId}/answer`;
+    const url = `${Config.API_URL}/questionnaire/${feedbackId}/answer`;
     const headers = { 'content-type': 'multipart/form-data' };
 
     const requestPayload = {
@@ -173,5 +175,6 @@ export function uploadFeedback(type) {
         }
       }
     });
+    dispatch(destroy(type));
   };
 }
