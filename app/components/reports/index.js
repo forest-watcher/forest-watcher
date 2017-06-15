@@ -7,6 +7,7 @@ import {
   TouchableHighlight
 } from 'react-native';
 
+import moment from 'moment';
 import I18n from 'locales';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
@@ -14,21 +15,20 @@ import styles from './styles';
 
 const editIcon = require('assets/edit.png');
 const checkIcon = require('assets/check.png');
-const uploadIcon = require('assets/upload.png');
 
 function getItems(data, image, onPress) {
-  return data.map((item, index) => (
-    <View
-      key={index}
-      style={styles.listItem}
-    >
-      <View style={styles.listItemContent}>
-        <Text style={styles.itemTitle}>{item.title}</Text>
-        <Text style={styles.itemText}>{item.position}</Text>
-        <Text style={styles.itemText}>{item.date}</Text>
-      </View>
-      <View style={styles.listBtn}>
-        {image &&
+  return data.map((item, index) => {
+    let positionParsed = '';
+    if (item.position) {
+      const latLng = item.position.split(',');
+      if (latLng && latLng.length > 1) {
+        positionParsed = `${parseFloat(latLng[0]).toFixed(4)}, ${parseFloat(latLng[1]).toFixed(4)}`;
+      }
+    }
+    const dateParsed = moment(item.date).fromNow();
+    let icon = null;
+    if (image && onPress) {
+      icon = (
         <TouchableHighlight
           onPress={() => typeof onPress === 'function' && onPress(item.title)}
           underlayColor="transparent"
@@ -36,10 +36,24 @@ function getItems(data, image, onPress) {
         >
           <Image style={Theme.icon} source={image} />
         </TouchableHighlight>
-        }
+      );
+    } else if (image) {
+      icon = <Image style={Theme.icon} source={image} />;
+    }
+    return (
+      <View
+        key={index}
+        style={styles.listItem}
+      >
+        <View style={styles.listItemContent}>
+          <Text style={styles.itemTitle}>{item.title}</Text>
+          <Text style={styles.itemText}>{positionParsed}</Text>
+          <Text style={styles.itemText}>{dateParsed}</Text>
+        </View>
+        <View style={styles.listBtn}>{icon}</View>
       </View>
-    </View>
-  ));
+    );
+  });
 }
 
 class Reports extends Component {
@@ -54,18 +68,14 @@ class Reports extends Component {
     tracker.trackScreenView('Reports');
   }
 
-  getCompleted(completed) {
-    const onActionPress = (reportName) => {
-      tracker.trackEvent('Report', 'Complete Report', { label: 'Click Done', value: 0 });
-      this.props.uploadReport(reportName);
-    };
+  getCompleted(completed) { // eslint-disable-line
     return (
       <View style={styles.listContainer}>
         <View style={styles.listHeader}>
           <Text style={styles.listTitle}>{I18n.t('report.completed')}</Text>
           <Text style={[styles.listTitle, styles.listAction]}>{I18n.t('report.uploadAll').toUpperCase()}</Text>
         </View>
-        {getItems(completed, uploadIcon, onActionPress)}
+        {getItems(completed)}
       </View>
     );
   }
@@ -136,7 +146,6 @@ class Reports extends Component {
 }
 
 Reports.propTypes = {
-  uploadReport: React.PropTypes.func.isRequired,
   navigator: React.PropTypes.object.isRequired,
   reports: React.PropTypes.shape({
     draft: React.PropTypes.array,
