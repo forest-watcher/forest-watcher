@@ -33,6 +33,9 @@ getInputForm.propTypes = {
   question: React.PropTypes.shape({
     value: React.PropTypes.number,
     type: React.PropTypes.string.isRequired,
-    defaultValue: React.PropTypes.string
+    defaultValue: React.PropTypes.oneOfType([
+      React.PropTypes.number.isRequired,
+      React.PropTypes.string.isRequired
+    ])
   }).isRequired
 };

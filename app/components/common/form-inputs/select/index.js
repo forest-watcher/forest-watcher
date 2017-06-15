@@ -68,7 +68,7 @@ function SelectInput(props) {
 SelectInput.propTypes = {
   question: React.PropTypes.shape({
     label: React.PropTypes.string,
-    defaultValue: React.PropTypes.string,
+    defaultValue: React.PropTypes.number,
     values: React.PropTypes.arrayOf(
       React.PropTypes.shape({
         value: React.PropTypes.number.isRequired,

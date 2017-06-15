@@ -33,7 +33,7 @@ function CheckboxInput(props) {
 }
 
 CheckboxInput.propTypes = {
-  label: React.PropTypes.label,
+  label: React.PropTypes.string,
   checked: React.PropTypes.oneOfType([
     React.PropTypes.bool,
     React.PropTypes.string
