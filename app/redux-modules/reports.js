@@ -105,12 +105,14 @@ export function uploadReport(reportName) {
     const oganization = (user && user.data && user.data.organization) || 'None';
     const reportStatus = state().reports.list[reportName];
     const language = state().app.language;
-    // TODO: save type, lat and long position of the alert in the report
+    const area = reportStatus.area;
+    const dataset = area.dataset || {};
     const form = new FormData();
-    areaOfInterest
-    startDate
-    endDate
-    layer
+
+    form.append('areaOfInterest', area.id);
+    form.append('startDate', dataset.startDate);
+    form.append('endDate', dataset.endDate);
+    form.append('layer', dataset.slug);
     form.append('language', language);
     form.append('report', reportName);
     form.append('name', userName);

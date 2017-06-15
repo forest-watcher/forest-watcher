@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import CONSTANTS from 'config/constants';
 import throttle from 'lodash/throttle';
+import moment from 'moment';
 
 import Theme from 'config/theme';
 // import { daysToDate } from 'helpers/date';
@@ -202,16 +203,18 @@ class Map extends Component {
 
   createReport = () => {
     const { selectedAlertCoordinates } = this.state;
+    const { area } = this.props;
     let latLng = '0,0';
     if (selectedAlertCoordinates) {
       latLng = `${selectedAlertCoordinates.latitude},${selectedAlertCoordinates.longitude}`;
     }
     const screen = 'ForestWatcher.NewReport';
     const title = 'Report';
-    const form = `New-report-${Math.floor(Math.random() * 1000)}`;
+    const form = `${area.name.toUpperCase()}-${area.dataset.name}-REPORT--${moment().format('YYYY-MM-DD')}`;
     this.props.createReport({
-      report: form,
-      userPosition: this.lastPosition,
+      area,
+      name: form,
+      userPosition: this.lastPosition || '0,0',
       clickedPosition: latLng
     });
     this.props.navigator.push({
@@ -503,7 +506,8 @@ Map.propTypes = {
   areaCoordinates: React.PropTypes.array,
   actionsPending: React.PropTypes.number.isRequired,
   syncModalOpen: React.PropTypes.bool.isRequired,
-  setSyncModal: React.PropTypes.func.isRequired
+  setSyncModal: React.PropTypes.func.isRequired,
+  area: React.PropTypes.object.isRequired
 };
 
 export default Map;

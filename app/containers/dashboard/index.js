@@ -13,8 +13,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    createReport: (name, position) => {
-      dispatch(createReport(name, position));
+    createReport: (report) => {
+      dispatch(createReport(report));
     },
     setSyncModal: open => dispatch(setSyncModal(open))
   };

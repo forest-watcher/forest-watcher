@@ -54,15 +54,14 @@ function createCluster(data) {
 function mapStateToProps(state) {
   const index = state.areas.selectedIndex;
   const area = state.areas.data[index] || null;
-  let areaId = null;
   let cluster = null;
   let center = null;
   let areaCoordinates = null;
   let alerts = [];
   let datasetSlug = null;
+  let dataset = null;
   if (area) {
-    areaId = area.id;
-    const dataset = activeDataset(area);
+    dataset = activeDataset(area);
     datasetSlug = dataset.slug;
     const geostore = state.geostore.data[area.geostore];
     const areaFeatures = (geostore && geostore.geojson.features[0]) || false;
@@ -74,14 +73,18 @@ function mapStateToProps(state) {
     const timeFrame = datasetSlug === 'viirs' ? 'day' : 'month';
     const limitRange = moment().subtract(dataset.startDate, timeFrame).valueOf();
     alerts = read(realm, 'Alert')
-                    .filtered(`areaId = '${areaId}' AND slug = '${datasetSlug}' AND date > '${limitRange}'`)
+                    .filtered(`areaId = '${area.id}' AND slug = '${datasetSlug}' AND date > '${limitRange}'`)
                     .map((alert) => ({ lat: alert.lat, long: alert.long }));
     const geoPoints = convertPoints(alerts);
     cluster = geoPoints && createCluster(geoPoints);
   }
 
   return {
-    areaId,
+    area: {
+      dataset,
+      id: area.id,
+      name: area.name
+    },
     cluster,
     center,
     areaCoordinates,
@@ -96,8 +99,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch, { navigation }) {
   return {
-    createReport: (name, position) => {
-      dispatch(createReport(name, position));
+    createReport: (report) => {
+      dispatch(createReport(report));
       tracker.trackEvent('Report', 'Create Report', { label: 'Click Done', value: 0 });
     },
     navigate: (routeName, params) => {
