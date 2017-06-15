@@ -81,7 +81,7 @@ class AreaDetail extends Component {
 
   render() {
     const imageUrl = this.props.imageUrl !== undefined ? this.props.imageUrl : null;
-    const { area } = this.props;
+    const { area, disableDelete } = this.props;
 
     if (!area) return null;
     return (
@@ -134,13 +134,19 @@ class AreaDetail extends Component {
           <Text style={styles.title}>{I18n.t('alerts.alertSystems')}</Text>
           <AlertSystem areaId={area.id} />
         </View>
-        <View style={styles.buttonContainer}>
-          <ActionButton onPress={this.handleDeleteArea} delete text={I18n.t('areaDetail.delete')} />
-        </View>
+        {!disableDelete &&
+          <View style={styles.buttonContainer}>
+            <ActionButton onPress={this.handleDeleteArea} delete text={I18n.t('areaDetail.delete')} />
+          </View>
+        }
       </ScrollView>
     );
   }
 }
+
+AreaDetail.defaultProps = {
+  disableDelete: false
+};
 
 AreaDetail.propTypes = {
   imageUrl: React.PropTypes.string,
@@ -148,7 +154,8 @@ AreaDetail.propTypes = {
   deleteArea: React.PropTypes.func,
   isConnected: React.PropTypes.bool.isRequired,
   navigator: React.PropTypes.object,
-  area: React.PropTypes.object
+  area: React.PropTypes.object,
+  disableDelete: React.PropTypes.bool.isRequired
 };
 
 export default AreaDetail;
