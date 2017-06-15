@@ -1,5 +1,5 @@
 {
-  "languages": ["en", "es", "fr", "id"],
+  "languages": ["en", "es", "fr", "id", "pt"],
   "defaultLanguage": "en",
   "name": {
     "en": "Forest Watcher default report",
