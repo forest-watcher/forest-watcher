@@ -2,6 +2,8 @@ import Config from 'react-native-config';
 import { getLanguage } from 'helpers/language';
 import CONSTANTS from 'config/constants';
 
+import { LOGOUT_REQUEST } from 'redux-modules/user';
+
 // Actions
 const GET_COUNTRIES_REQUEST = 'countries/GET_COUNTRIES_REQUEST';
 const GET_COUNTRIES_COMMIT = 'countries/GET_COUNTRIES_COMMIT';
@@ -22,6 +24,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, data: action.payload.data, synced: true, syncing: false };
     case GET_COUNTRIES_ROLLBACK:
       return { ...state, syncing: false };
+    case LOGOUT_REQUEST:
+      return initialState;
     default:
       return state;
   }

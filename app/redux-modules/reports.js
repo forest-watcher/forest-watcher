@@ -126,8 +126,7 @@ export function uploadReport(reportName) {
     form.append('endDate', dataset.endDate);
     form.append('layer', dataset.slug);
     form.append('language', language);
-    form.append('report', reportName);
-    form.append('name', userName);
+    form.append('username', userName);
     form.append('organization', organization);
     form.append('date', reportStatus && reportStatus.date);
     form.append('clickedPosition', reportStatus && reportStatus.clickedPosition.toString());
