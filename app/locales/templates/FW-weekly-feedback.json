@@ -1,5 +1,4 @@
 {
-  "areaOfInterest": "WeeklyFeedback",
   "languages": ["en", "es"],
   "defaultLanguage": "en",
   "name": {
@@ -31,19 +30,15 @@
       "values": {
         "en": [
           { "value": 0, "label": "Creating area of interest"},
-          { "value": 1, "label": "Subscribe to alerts"},
-          { "value": 2, "label": "View alerts on a map"},
-          { "value": 3, "label": "Navigate to alerts on a map"},
-          { "value": 4, "label": "Alert list"},
-          { "value": 5, "label": "Complete a report"}
+          { "value": 1, "label": "View alerts on a map"},
+          { "value": 2, "label": "Navigate to alerts on a map"},
+          { "value": 3, "label": "Complete a report"}
         ],
         "es": [
           { "value": 0, "label": "Crear una área de interés"},
-          { "value": 1, "label": "Subscribete a alertas"},
-          { "value": 2, "label": "Ver alertas en el mapa"},
-          { "value": 3, "label": "Navegar a las alertas del mapa"},
-          { "value": 4, "label": "Lista de alertas"},
-          { "value": 5, "label": "Hacer un reporte"}
+          { "value": 1, "label": "Ver alertas en el mapa"},
+          { "value": 2, "label": "Navegar a las alertas del mapa"},
+          { "value": 3, "label": "Hacer un reporte"}
         ]
       },
       "defaultValue": 0
