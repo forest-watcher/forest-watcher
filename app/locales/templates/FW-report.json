@@ -3,7 +3,8 @@
   "defaultLanguage": "en",
   "name": {
     "en": "Forest Watcher default report",
-    "es": "Forest Watcher reporte defacto"
+    "es": "Forest Watcher reporte defacto",
+    "fr": "Rapport par défaut Forest Watcher"
   },
   "public": true,
   "questions": [
@@ -11,7 +12,8 @@
       "type": "point",
       "label": {
         "en": "GPS points",
-        "es": "Coordenadas GPS"
+        "es": "Coordenadas GPS",
+        "fr": "Coordonnées GPS"
       },
       "name": "position",
       "order": 1,
@@ -23,7 +25,8 @@
       "name": "responsible",
       "label": {
         "en": "Do you know who owns or is responsible for managing this land?",
-        "es": "¿Sabe quién es el dueño o administrador de esta zona?"
+        "es": "¿Sabe quién es el dueño o administrador de esta zona?",
+        "fr": "Connaissez-vous le propriétaire ou le responsable de ces terres ?"
       },
       "order": 2,
       "required": true,
@@ -35,6 +38,10 @@
         "es": [
           { "value": 0, "label": "Sí"},
           { "value": 1, "label": "No"}
+        ],
+        "fr": [
+          { "value": 0, "label": "Oui"},
+          { "value": 1, "label": "Non"}
         ]
       },
       "defaultValue": 1,
@@ -44,11 +51,13 @@
           "name": "resposible-detail",
           "label": {
             "en": "Please describe",
-            "es": "Escriba el nombre aquí"
+            "es": "Escriba el nombre aquí",
+            "fr": "Veuillez détailler"
           },
           "defaultValue": {
             "en": "Please describe",
-            "es": "Escriba el nombre aquí"
+            "es": "Escriba el nombre aquí",
+            "fr": "Veuillez détailler"
           },
           "conditionalValue": 0,
           "order": 0,
@@ -62,7 +71,8 @@
       "name": "deforestation",
       "label": {
         "en": "Do you see deforestation or degradation?",
-        "es": "¿Usted ve deforestación o degradación?"
+        "es": "¿Usted ve deforestación o degradación?",
+        "fr": "Etes-vous témoin de déforestation ou de dégradations ?"
       },
       "order": 3,
       "required": true,
@@ -76,6 +86,11 @@
           { "value": 0, "label": "Sí"},
           { "value": 1, "label": "No"},
           { "value": 2, "label": "No estoy seguro"}
+        ],
+        "fr": [
+          { "value": 0, "label": "Oui"},
+          { "value": 1, "label": "Non"},
+          { "value": 2, "label": "Incertain"}
         ]
       },
       "defaultValue": 1
@@ -85,7 +100,8 @@
       "name": "deforestation-recent",
       "label": {
         "en": "Is the deforestation recent?",
-        "es": "¿La deforestación es nueva?"
+        "es": "¿La deforestación es nueva?",
+        "fr": "A-t-elle eu lieu récemment ?"
       },
       "conditions": [{
         "name": "deforestation",
@@ -101,6 +117,10 @@
         "es": [
           { "value": 0, "label": "Sí - Se aprecian zonas quemadas recientes y falta de crecimiento de la vegetación"},
           { "value": 1, "label": "No - Es una granja establecida o un bosque cultivado"}
+        ],
+        "fr": [
+          { "value": 0, "label": "Oui, très récent et pas de repousse"},
+          { "value": 1, "label": "Non, exploitation agricole ou repousses constatées"}
         ]
       },
       "defaultValue": 0
@@ -110,7 +130,8 @@
       "name": "deforestation-driver",
       "label": {
         "en": "Describe the driver of deforestation",
-        "es": "¿Cuál es el motivo de la deforestación?"
+        "es": "¿Cuál es el motivo de la deforestación?",
+        "fr": "Détaillez les raisons de la déforestation"
       },
       "conditions": [{
         "name": "deforestation",
@@ -144,6 +165,19 @@
           { "value": 8, "label": "Minas"},
           { "value": 9, "label": "Extracción de gas/petróleo"},
           { "value": 10, "label": "Otro (por favor describa)"}
+        ],
+        "fr": [
+          { "value": 0, "label": "Abattage sélectif (usage commercial)"},
+          { "value": 1, "label": "Abattage sélectif (usage domestique à petite échelle)"},
+          { "value": 2, "label": "Coupe rase / coupe à blanc"},
+          { "value": 3, "label": "Production de charbon"},
+          { "value": 4, "label": "Incendie"},
+          { "value": 5, "label": "Défrichement"},
+          { "value": 6, "label": "Voie(s) de circulation"},
+          { "value": 7, "label": "Barrage"},
+          { "value": 8, "label": "Minage"},
+          { "value": 9, "label": "Extraction de pétrole ou de gaz"},
+          { "value": 10, "label": "Autre (veuillez détailler)"}
         ]
       },
       "defaultValue": 0,
@@ -153,11 +187,13 @@
           "name": "deforestation-driver-agricultural",
           "label": {
             "en": "What type?/crop?",
-            "es": "¿Qué tipo de cultivo?"
+            "es": "¿Qué tipo de cultivo?",
+            "fr": "de quel type, de quelle culture ?"
           },
           "defaultValue": {
             "en": "What type?/crop?",
-            "es": "¿Qué tipo de cultivo?"
+            "es": "¿Qué tipo de cultivo?",
+            "fr": "Défrichement"
           },
           "conditionalValue": 5,
           "order": 0,
@@ -169,11 +205,13 @@
           "name": "deforestation-driver-other",
           "label": {
             "en": "Please describe",
-            "es": "¿Qué tipo de cultivo?"
+            "es": "¿Qué tipo de cultivo?",
+            "fr": "veuillez détailler"
           },
           "defaultValue": {
             "en": "Please describe",
-            "es": "por favor describa"
+            "es": "por favor describa",
+            "fr": "veuillez détailler"
           },
           "conditionalValue": 10,
           "order": 0,
@@ -187,7 +225,8 @@
       "name": "deforestation-image",
       "label": {
         "en": "Take a picture",
-        "es": "Tome una fotografía"
+        "es": "Tome una fotografía",
+        "fr": "Prenez une photo"
       },
       "conditions": [{
         "name": "deforestation",
@@ -202,7 +241,8 @@
       "name": "deforestation-illegal",
       "label": {
         "en": "Do you believe this activity is illegal?",
-        "es": "¿Cree usted que esta actividad es ilegal?"
+        "es": "¿Cree usted que esta actividad es ilegal?",
+        "fr": "Pensez-vous que cette activité est illégale ?"
       },
       "conditions": [{
         "name": "deforestation",
@@ -218,6 +258,10 @@
         "es": [
           { "value": 0, "label": "Sí"},
           { "value": 1, "label": "No"}
+        ],
+        "fr": [
+          { "value": 0, "label": "Oui"},
+          { "value": 1, "label": "Non"}
         ]
       },
       "defaultValue": 0
@@ -227,7 +271,8 @@
       "name": "deforestation-responsible",
       "label": {
         "en": "Do you know who is responsible for this deforestation?",
-        "es": "¿Sabe usted quién es el responsable de la deforestación?"
+        "es": "¿Sabe usted quién es el responsable de la deforestación?",
+        "fr": "Connaissez-vous le(s) responsable(s) de cette déforestation ?"
       },
       "conditions": [{
         "name": "deforestation",
@@ -243,6 +288,10 @@
         "es": [
           { "value": 0, "label": "Sí"},
           { "value": 1, "label": "No"}
+        ],
+        "fr": [
+          { "value": 0, "label": "Oui"},
+          { "value": 1, "label": "Non"}
         ]
       },
       "defaultValue": 1,
@@ -252,11 +301,13 @@
           "name": "deforestation-responsible-description",
           "label": {
             "en": "Please describe",
-            "es": "Escriba el nombre aquí"
+            "es": "Escriba el nombre aquí",
+            "fr": "Veuillez détailler"
           },
           "defaultValue": {
             "en": "Please describe",
-            "es": "Escriba el nombre aquí"
+            "es": "Escriba el nombre aquí",
+            "fr": "Veuillez détailler"
           },
           "conditionalValue": 0,
           "order": 0,
@@ -270,7 +321,8 @@
       "name": "further-action",
       "label": {
         "en": "Should further action be taken in this area?/Should there be follow up?",
-        "es": "¿Considera necesaria alguna otra medida en este área?"
+        "es": "¿Considera necesaria alguna otra medida en este área?",
+        "fr": "Pensez-vous qu’une action supplémentaire soit indispensable ?"
       },
       "order": 9,
       "required": true,
@@ -282,6 +334,10 @@
         "es": [
           { "value": 0, "label": "Sí"},
           { "value": 1, "label": "No"}
+        ],
+        "fr": [
+          { "value": 0, "label": "Oui"},
+          { "value": 1, "label": "Non"}
         ]
       },
       "defaultValue": 1
@@ -290,16 +346,13 @@
       "type": "text",
       "label": {
         "en": "Other information? / Notes?",
-        "es":"Añada otra información / notas"
+        "es": "Añada otra información / notas",
+        "fr": "Avez-vous d’autres informations à communiquer ou des remarques"
       },
       "name": "notes",
       "order": 10,
       "required": false,
-      "values": {},
-      "defaultValue": {
-        "en": "Other information?",
-        "es": "Añada otra información"
-      }
+      "values": {}
     }
   ]
 }
