@@ -83,7 +83,7 @@
           { "value": 1, "label": "No"}
         ],
         "es": [
-          { "value": 0, "label": "Si"},
+          { "value": 0, "label": "Sí"},
           { "value": 1, "label": "No"}
         ]
       },
@@ -123,7 +123,7 @@
           { "value": 2, "label": "Unsure"}
         ],
         "es": [
-          { "value": 0, "label": "Si"},
+          { "value": 0, "label": "Sí"},
           { "value": 1, "label": "No"},
           { "value": 2, "label": "No estoy seguro"}
         ]
@@ -269,7 +269,7 @@
           { "value": 1, "label": "No"}
         ],
         "es": [
-          { "value": 0, "label": "Si"},
+          { "value": 0, "label": "Sí"},
           { "value": 1, "label": "No"}
         ]
       },
@@ -329,7 +329,7 @@
           { "value": 1, "label": "No"}
         ],
         "es": [
-          { "value": 0, "label": "Si"},
+          { "value": 0, "label": "Sí"},
           { "value": 1, "label": "No"}
         ]
       },

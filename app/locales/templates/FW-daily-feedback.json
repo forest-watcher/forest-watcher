@@ -1,0 +1,129 @@
+{
+  "areaOfInterest": "DailyFeedback",
+  "languages": ["en", "es"],
+  "defaultLanguage": "en",
+  "name": {
+    "en": "Daily Feedback",
+    "es": "",
+  },
+  "public": true,
+  "questions": [
+    {
+      "type": "number",
+      "name": "today-experience",
+      "label": {
+        "en": "Please rate your experience with the tool today [scale 1 (bad); 10 (good)]",
+        "es": "Por favor califica tu experiencia con Forest Watcher hoy [escala 1 (mala); 10 (buena)]"
+      },
+      "order": 1,
+      "required": true,
+      "values": {},
+      "defaultValue": {
+        "en": "",
+        "es": "",
+      }
+    },
+    {
+      "type": "select",
+      "name": "tool-used-today",
+      "label": {
+        "en": "What did you do on the tool today?",
+        "es": "¿Qué hiciste con Forest Watcher hoy?"
+      },
+      "order": 2,
+      "required": true,
+      "values": {
+        "en": [
+          { "value": 0, "label": "Creating area of interest"},
+          { "value": 1, "label": "Subscribe to alerts"},
+          { "value": 2, "label": "View alerts on a map"},
+          { "value": 3, "label": "Navigate to alerts on a map"},
+          { "value": 4, "label": "Alert list"},
+          { "value": 5, "label": "Complete a report"}
+        ],
+        "es": [
+          { "value": 0, "label": "Crear una área de interés"},
+          { "value": 1, "label": "Subscribete a alertas"},
+          { "value": 2, "label": "Ver alertas en el mapa"},
+          { "value": 3, "label": "Navegar a las alertas del mapa"},
+          { "value": 4, "label": "Lista de alertas"},
+          { "value": 5, "label": "Hacer un reporte"}
+        ]
+      },
+      "defaultValue": 0
+    },
+    {
+      "type": "radio",
+      "name": "real-life-alert",
+      "label": {
+        "en": "Did you visit an alert in real life?",
+        "es": "¿Visitaste una alerta de deforestación en el campo?"
+      },
+      "order": 3,
+      "required": true,
+      "values": {
+        "en": [
+          { "value": 0, "label": "Yes"},
+          { "value": 1, "label": "No"}
+        ],
+        "es": [
+          { "value": 0, "label": "Sí"},
+          { "value": 1, "label": "No"}
+        ]
+      },
+      "defaultValue": 0
+    },
+    {
+      "type": "select",
+      "name": "tool-used-problems",
+      "label": {
+        "en": "Did you have any problems using the app today?",
+        "es": "¿Has tenido algún problema usando Forest Watcher hoy?"
+      },
+      "order": 4,
+      "required": true,
+      "values": {
+        "en": [
+          { "value": 0, "label": "I had no problems"},
+          { "value": 1, "label": "Creating area of interest"},
+          { "value": 2, "label": "Subscribe to alerts"},
+          { "value": 3, "label": "View alerts on a map"},
+          { "value": 4, "label": "Navigate to alerts on a map"},
+          { "value": 5, "label": "Alert list"},
+          { "value": 5, "label": "Complete a report"}
+        ],
+        "es": [
+          { "value": 0, "label": "Ninguno"},
+          { "value": 1, "label": "Crear una área de interés"},
+          { "value": 2, "label": "Subscribete a alertas"},
+          { "value": 3, "label": "Ver alertas en el mapa"},
+          { "value": 4, "label": "Navegar a las alertas del mapa"},
+          { "value": 5, "label": "Lista de alertas"},
+          { "value": 5, "label": "Hacer un reporte"}
+        ]
+      },
+      "defaultValue": 0
+    },
+    {
+      "type": "radio",
+      "name": "use-tomorrow",
+      "label": {
+        "en": "Will you use the app tomorrow?",
+        "es": "¿Vas a usar Forest Watcher mañana?"
+      },
+      "order": 5,
+      "required": true,
+      "values": {
+        "en": [
+          { "value": 0, "label": "Yes"},
+          { "value": 1, "label": "No"}
+        ],
+        "es": [
+          { "value": 0, "label": "Sí"},
+          { "value": 1, "label": "No"}
+        ]
+      },
+      "defaultValue": 0,
+    }
+  ]
+}
