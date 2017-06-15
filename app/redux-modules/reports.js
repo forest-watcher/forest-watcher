@@ -45,6 +45,18 @@ export default function reducer(state = initialNavState, action) {
       list[action.payload.name] = Object.assign({}, state.list[action.payload.name], action.payload.data);
       return Object.assign({}, state, { list });
     }
+    case UPLOAD_REPORT_REQUEST: {
+      const { name, status } = action.payload;
+      const report = state.list[name];
+      const list = { ...state.list, [name]: { ...report, status } };
+      return { ...state, list };
+    }
+    case UPLOAD_REPORT_COMMIT: {
+      const { name, status } = action.meta.report;
+      const report = state.list[name];
+      const list = { ...state.list, [name]: { ...report, status } };
+      return { ...state, list };
+    }
     case LOGOUT_REQUEST: {
       return initialNavState;
     }
@@ -150,37 +162,10 @@ export function uploadReport(reportName) {
       meta: {
         offline: {
           effect: { url, body: form, method: 'POST', headers },
-          commit: { type: UPLOAD_REPORT_COMMIT, meta: commitPayload },
+          commit: { type: UPLOAD_REPORT_COMMIT, meta: { report: commitPayload } },
           rollback: { type: UPLOAD_REPORT_ROLLBACK } // TODO: MARK AS UNSYNC TO TRY AGAIN
         }
       }
     });
-
-    // const language = getLanguage().toUpperCase();
-    // let qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
-    // if (!qIdByLanguage) qIdByLanguage = Config.QUESTIONNARIE_ID_EN; // language fallback
-    // const url = `${Config.API_URL}/questionnaire/${qIdByLanguage}/answer`;
-
-    // const fetchConfig = {
-    //   headers: {
-    //     Authorization: `Bearer ${state().user.token}`
-    //   },
-    //   method: 'POST',
-    //   body: form
-    // };
-    // fetch(url, fetchConfig)
-    //   .then((response) => {
-    //     if (response.ok) return response.json();
-    //     throw new Error(response.statusText);
-    //   })
-    //   .then(() =>
-    //     dispatch({
-    //       type: UPDATE_REPORT,
-    //       payload: {
-    //         name: reportName,
-    //         data: { status: CONSTANTS.status.uploaded }
-    //       }
-    //     }))
-    //   .catch((err) => console.info('TODO: handle error', err));
   };
 }
