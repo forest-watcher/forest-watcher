@@ -8,54 +8,13 @@
   "public": true,
   "questions": [
     {
-      "type": "text",
-      "label": {
-        "en": "Name",
-        "es": "Nombre"
-      },
-      "name": "name",
-      "order": 1,
-      "required": false,
-      "values": {},
-      "defaultValue": {
-        "en": "Insert your name",
-        "es": "Inserta tu nombre"
-      }
-    },
-    {
-      "type": "text",
-      "label": {
-        "en": "Organization",
-        "es": "Organización"
-      },
-      "name": "organization",
-      "order": 2,
-      "required": true,
-      "values": {},
-      "defaultValue": {
-        "en": "Organization",
-        "es": "Organización"
-      }
-    },
-    {
-      "type": "date",
-      "label": {
-        "en": "Date and time",
-        "es": "Fecha y hora"
-      },
-      "name": "date",
-      "order": 3,
-      "required": true,
-      "values": {}
-    },
-    {
       "type": "point",
       "label": {
         "en": "GPS points",
         "es": "Coordenadas GPS"
       },
       "name": "position",
-      "order": 4,
+      "order": 1,
       "required": true,
       "values": {}
     },
@@ -66,7 +25,7 @@
         "en": "Do you know who owns or is responsible for managing this land?",
         "es": "¿Sabe quién es el dueño o administrador de esta zona?"
       },
-      "order": 5,
+      "order": 2,
       "required": true,
       "values": {
         "en": [
@@ -105,7 +64,7 @@
         "en": "Do you see deforestation or degradation?",
         "es": "¿Usted ve deforestación o degradación?"
       },
-      "order": 6,
+      "order": 3,
       "required": true,
       "values": {
         "en": [
@@ -132,7 +91,7 @@
         "name": "deforestation",
         "value": 0
       }],
-      "order": 7,
+      "order": 4,
       "required": false,
       "values": {
         "en": [
@@ -157,7 +116,7 @@
         "name": "deforestation",
         "value": 0
       }],
-      "order": 8,
+      "order": 5,
       "required": false,
       "values": {
         "en": [
@@ -234,7 +193,7 @@
         "name": "deforestation",
         "value": 0
       }],
-      "order": 9,
+      "order": 6,
       "required": false,
       "values": {}
     },
@@ -249,7 +208,7 @@
         "name": "deforestation",
         "value": 0
       }],
-      "order": 10,
+      "order": 7,
       "required": false,
       "values": {
         "en": [
@@ -274,7 +233,7 @@
         "name": "deforestation",
         "value": 0
       }],
-      "order": 11,
+      "order": 8,
       "required": false,
       "values": {
         "en": [
@@ -313,7 +272,7 @@
         "en": "Should further action be taken in this area?/Should there be follow up?",
         "es": "¿Considera necesaria alguna otra medida en este área?"
       },
-      "order": 12,
+      "order": 9,
       "required": true,
       "values": {
         "en": [
@@ -334,7 +293,7 @@
         "es":"Añada otra información / notas"
       },
       "name": "notes",
-      "order": 13,
+      "order": 10,
       "required": false,
       "values": {},
       "defaultValue": {
