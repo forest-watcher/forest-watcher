@@ -2,17 +2,19 @@ import Config from 'react-native-config';
 import CONSTANTS from 'config/constants';
 import { getLanguage } from 'helpers/language';
 
-import { actionTypes } from 'redux-form';
+import { LOGOUT_REQUEST } from 'redux-modules/user';
 
 // Actions
 const GET_FEEDBACK_QUESTIONS_REQUEST = 'feedback/GET_FEEDBACK_QUESTIONS_REQUEST';
 const GET_FEEDBACK_QUESTIONS_COMMIT = 'feedback/GET_FEEDBACK_QUESTIONS_COMMIT';
 const CREATE_FEEDBACK = 'feedback/CREATE_FEEDBACK';
 const UPDATE_FEEDBACK = 'feedback/UPDATE_FEEDBACK';
-
+const UPLOAD_FEEDBACK_REQUEST = 'feedback/UPLOAD_FEEDBACK_REQUEST';
+const UPLOAD_FEEDBACK_COMMIT = 'feedback/UPLOAD_FEEDBACK_COMMIT';
+const UPLOAD_FEEDBACK_ROLLBACK = 'feedback/UPLOAD_FEEDBACK_ROLLBACK';
 
 // Reducer
-const initialNavState = {
+const initialState = {
   daily: {},
   weekly: {},
   list: {},
@@ -26,10 +28,10 @@ const initialNavState = {
   }
 };
 
-export default function reducer(state = initialNavState, action) {
+export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_FEEDBACK_QUESTIONS_REQUEST: {
-      const { type } = action.meta;
+      const { type } = action.payload;
       const synced = { ...state.synced, [type]: false };
       const syncing = { ...state.syncing, [type]: true };
       return { ...state, synced, syncing };
@@ -51,14 +53,28 @@ export default function reducer(state = initialNavState, action) {
       return Object.assign({}, state, feedback);
     }
     case CREATE_FEEDBACK: {
-      const reports = { ...state.list, ...action.payload };
-      return Object.assign({}, state, { list: reports });
+      const feedback = { ...state.list, ...action.payload };
+      return Object.assign({}, state, { list: feedback });
     }
     case UPDATE_FEEDBACK: {
       const list = Object.assign({}, state.list);
       list[action.payload.name] = Object.assign({}, state.list[action.payload.name], action.payload.data);
       return Object.assign({}, state, { list });
     }
+    case UPLOAD_FEEDBACK_REQUEST: {
+      const { name, status } = action.payload;
+      const feedback = state.list[name];
+      const list = { ...state.list, [name]: { ...feedback, status } };
+      return { ...state, list };
+    }
+    case UPLOAD_FEEDBACK_COMMIT: {
+      const { name, status } = action.meta.feedback;
+      const feedback = state.list[name];
+      const list = { ...state.list, [name]: { ...feedback, status } };
+      return { ...state, list };
+    }
+    case LOGOUT_REQUEST:
+      return initialState;
     default: {
       return state;
     }
@@ -70,11 +86,11 @@ export function getFeedbackQuestions(type) {
   const language = getLanguage().toUpperCase();
   let feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_${language}`];
   if (!feedbackId) feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_EN`]; // language fallback
-  const url = `${Config.API_URL}/questionnaire/${feedbackId}`;
+  const url = 'https://staging-api.globalforestwatch.org/v1/reports/594270690be981000bfc7718'; // `${Config.API_URL}/questionnaire/${feedbackId}`;
   return {
     type: GET_FEEDBACK_QUESTIONS_REQUEST,
+    payload: type,
     meta: {
-      type,
       offline: {
         effect: { url },
         commit: { type: GET_FEEDBACK_QUESTIONS_COMMIT, meta: { type } }
@@ -106,107 +122,56 @@ export function saveFeedback(name, data) {
 
 export function uploadFeedback(type) {
   return (dispatch, state) => {
-    const isConnected = state().offline.online;
-    if (isConnected) {
-      const report = state().form[type].values;
-      const user = state().user;
-      const userName = (user && user.data && user.data.attributes && user.data.attributes.fullName) || 'Guest user';
-      const oganization = (user && user.data && user.data.attributes && user.data.attributes.organization) || 'Vizzuality';
-      const reportStatus = state().reports.list[type];
+    const report = state().form[type].values;
+    const user = state().user;
+    const userName = (user && user.data && user.data.attributes && user.data.attributes.fullName) || 'Guest user';
+    const organization = (user && user.data && user.data.attributes && user.data.attributes.organization) || 'Vizzuality';
+    const reportStatus = state().feedback.list[type];
 
-      const form = new FormData();
-      form.append('name', userName);
-      form.append('organization', oganization);
-      form.append('date', reportStatus && reportStatus.date);
-      form.append('position', reportStatus && reportStatus.position.toString());
+    const form = new FormData();
+    form.append('username', userName);
+    form.append('organization', organization);
+    form.append('date', reportStatus && reportStatus.date);
 
-      Object.keys(report).forEach((key) => {
-        if (report[key].indexOf('jpg') >= 0) { // TODO: improve this
-          const image = {
-            uri: report[key],
-            type: 'image/jpg',
-            name: `${type}-image-${key}.jpg`
-          };
-          form.append(key, image);
-        } else {
-          form.append(key, report[key].toString());
-        }
-      });
-
-      const language = getLanguage().toUpperCase();
-      let feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_${language}`];
-      if (!feedbackId) feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_EN`]; // language fallback
-      const url = `${Config.API_URL}/questionnaire/${feedbackId}/answer`;
-
-      // const xhr = new XMLHttpRequest();
-      // xhr.withCredentials = true;
-      // xhr.open('POST', url);
-      // xhr.setRequestHeader('authorization', `Bearer ${state().user.token}`);
-      // xhr.addEventListener('readystatechange', () => {
-      //   if (xhr.readyState === 4) {
-      //     if (xhr.status === 200) {
-      //       console.log('iuhuuuu', xhr.responseText);
-      //       dispatch({
-      //         type: UPDATE_FEEDBACK,
-      //         payload: {
-      //           name: type,
-      //           data: { status: CONSTANTS.status.uploaded }
-      //         }
-      //       });
-      //     } else {
-      //       console.log('TODO: handle error', xhr.responseText);
-      //     }
-      //   }
-      // });
-
-      // xhr.send(form);
-
-      const fetchConfig = {
-        headers: {
-          Authorization: `Bearer ${state().user.token}`
-        },
-        method: 'POST',
-        body: form
-      };
-      fetch(url, fetchConfig)
-        .then((response) => {
-          if (response.ok) return response.json();
-          throw new Error(response.statusText);
-        })
-        .then((response) => {
-          console.info('TODO: save response', response);
-          dispatch({
-            type: UPDATE_FEEDBACK,
-            payload: {
-              name: type,
-              data: { status: CONSTANTS.status.uploaded }
-            }
-          });
-          dispatch({
-            type: actionTypes.DESTROY,
-            meta: {
-              form: [type]
-            }
-          });
-        })
-        .catch((err) => {
-          console.info('TODO: handle error', err);
-        });
-    } else {
-      console.info('TODO: handle submit form on no connection');
-    }
-  };
-}
-
-export function finishFeedback(type) {
-  return (dispatch) => {
-    dispatch({
-      type: UPDATE_FEEDBACK,
-      payload: {
-        name: type,
-        data: { status: CONSTANTS.status.complete }
+    Object.keys(report).forEach((key) => {
+      if (typeof report[key] === 'string' && report[key].indexOf('jpg') >= 0) { // TODO: improve this
+        const image = {
+          uri: report[key],
+          type: 'image/jpg',
+          name: `${type}-image-${key}.jpg`
+        };
+        form.append(key, image);
+      } else {
+        form.append(key, report[key].toString());
       }
     });
-    dispatch(uploadFeedback(type));
+
+    const language = getLanguage().toUpperCase();
+    let feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_${language}`];
+    if (!feedbackId) feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_EN`]; // language fallback
+    const url = 'https://staging-api.globalforestwatch.org/v1/reports/594270690be981000bfc7718/answer';
+    // `${Config.API_URL}/questionnaire/${feedbackId}/answer`;
+    const headers = { 'content-type': 'multipart/form-data' };
+
+    const requestPayload = {
+      name: type,
+      status: CONSTANTS.status.complete
+    };
+    const commitPayload = {
+      name: type,
+      status: CONSTANTS.status.uploaded
+    };
+
+    dispatch({
+      type: UPLOAD_FEEDBACK_REQUEST,
+      payload: requestPayload,
+      meta: {
+        offline: {
+          effect: { url, body: form, method: 'POST', headers },
+          commit: { type: UPLOAD_FEEDBACK_COMMIT, meta: { feedback: commitPayload } },
+          rollback: { type: UPLOAD_FEEDBACK_ROLLBACK } // TODO: MARK AS UNSYNC TO TRY AGAIN
+        }
+      }
+    });
   };
 }
