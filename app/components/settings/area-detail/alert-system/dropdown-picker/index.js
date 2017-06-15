@@ -27,7 +27,6 @@ class DropdownPicker extends Component {
             <Picker.Item label={I18n.t('settings.48hAgo')} value={2} />
             <Picker.Item label={I18n.t('settings.72hAgo')} value={3} />
             <Picker.Item label={I18n.t('settings.oneWeekAgo')} value={7} />
-
           </Picker>
           :
           <Picker
@@ -37,7 +36,7 @@ class DropdownPicker extends Component {
             <Picker.Item label={I18n.t('settings.1MonthAgo')} value={1} />
             <Picker.Item label={I18n.t('settings.3MonthsAgo')} value={3} />
             <Picker.Item label={I18n.t('settings.6MonthsAgo')} value={6} />
-
+            <Picker.Item label={I18n.t('settings.1yearAgo')} value={12} />
           </Picker>
         }
       </View>

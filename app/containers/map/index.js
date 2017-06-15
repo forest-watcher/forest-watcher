@@ -43,8 +43,8 @@ function convertPoints(data) {
 
 function createCluster(data) {
   const cluster = supercluster({
-    radius: 60,
-    maxZoom: 15, // Default: 16,
+    radius: 120,
+    maxZoom: 16, // Default: 16,
     nodeSize: 128
   });
   cluster.load(data.features);

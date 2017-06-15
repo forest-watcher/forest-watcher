@@ -1,6 +1,7 @@
 import Config from 'react-native-config';
 import { getLanguage } from 'helpers/language';
 import CONSTANTS from 'config/constants';
+import countriesFallback from 'config/statics/countries.json';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 
@@ -23,7 +24,7 @@ export default function reducer(state = initialState, action) {
     case GET_COUNTRIES_COMMIT:
       return { ...state, data: action.payload.data, synced: true, syncing: false };
     case GET_COUNTRIES_ROLLBACK:
-      return { ...state, syncing: false };
+      return { ...state, data: countriesFallback, syncing: false };
     case LOGOUT_REQUEST:
       return initialState;
     default:
@@ -46,7 +47,8 @@ export function getCountries() {
     meta: {
       offline: {
         effect: { url, deserialize: false },
-        commit: { type: GET_COUNTRIES_COMMIT }
+        commit: { type: GET_COUNTRIES_COMMIT },
+        rollback: { type: GET_COUNTRIES_ROLLBACK }
       }
     }
   };

@@ -1,0 +1,213 @@
+{
+  "languages": ["en", "es"],
+  "defaultLanguage": "en",
+  "name": {
+    "en": "Weekly Feedback",
+    "es": "Retroalimentación semenal"
+  },
+  "public": true,
+  "questions": [
+    {
+      "type": "number",
+      "name": "weekly-experience",
+      "label": {
+        "en": "Please rate your experience with the tool this week [scale 1 (bad); 10 (good)]",
+        "es": "Por favor califica tu experiencia con Forest Watcher hoy [escala 1 (mala); 10 (buena)]"
+      },
+      "order": 1,
+      "required": true,
+      "values": {}
+    },
+    {
+      "type": "radio",
+      "name": "favourite-feature",
+      "label": {
+        "en": "What was your favourite feature?",
+        "es": "¿Cuál es tu característica favorita?"
+      },
+      "order": 2,
+      "required": true,
+      "values": {
+        "en": [
+          { "value": 0, "label": "Creating area of interest"},
+          { "value": 1, "label": "View alerts on a map"},
+          { "value": 2, "label": "Navigate to alerts on a map"},
+          { "value": 3, "label": "Complete a report"}
+        ],
+        "es": [
+          { "value": 0, "label": "Crear una área de interés"},
+          { "value": 1, "label": "Ver alertas en el mapa"},
+          { "value": 2, "label": "Navegar a las alertas del mapa"},
+          { "value": 3, "label": "Hacer un reporte"}
+        ]
+      },
+      "defaultValue": 0
+    },
+    {
+      "type": "radio",
+      "name": "alret-found",
+      "label": {
+        "en": "Did you find an alert on the map?",
+        "es": "¿Identificaste una alerta de deforestación en el mapa?"
+      },
+      "order": 3,
+      "required": true,
+      "values": {
+        "en": [
+          { "value": 0, "label": "Yes"},
+          { "value": 1, "label": "No"}
+        ],
+        "es": [
+          { "value": 0, "label": "Sí"},
+          { "value": 1, "label": "No"}
+        ]
+      },
+      "defaultValue": 0
+    },
+    {
+      "type": "radio",
+      "name": "alert-visited",
+      "label": {
+        "en": "Did you visit an alert in real life?",
+        "es": "¿Visitaste una alerta de deforestación en el campo?"
+      },
+      "order": 4,
+      "required": true,
+      "values": {
+        "en": [
+          { "value": 0, "label": "Yes"},
+          { "value": 1, "label": "No"}
+        ],
+        "es": [
+          { "value": 0, "label": "Sí"},
+          { "value": 1, "label": "No"}
+        ]
+      },
+      "defaultValue": 0
+    },
+    {
+      "type": "radio",
+      "name": "work-better",
+      "label": {
+        "en": "Did this help you work better?",
+        "es": "¿Te ha ayudado a trabajar mejor?"
+      },
+      "order": 5,
+      "required": true,
+      "values": {
+        "en": [
+          { "value": 0, "label": "Yes"},
+          { "value": 1, "label": "No"}
+        ],
+        "es": [
+          { "value": 0, "label": "Sí"},
+          { "value": 1, "label": "No"}
+        ]
+      },
+      "defaultValue": 0
+    },
+    {
+      "type": "radio",
+      "name": "use-frequency",
+      "label": {
+        "en": "How often do you think you would use this?",
+        "es": "¿Con qué frecuencia crees que usarías esto?"
+      },
+      "order": 6,
+      "required": true,
+      "values": {
+        "en": [
+          { "value": 0, "label": "Daily"},
+          { "value": 1, "label": "Weekly"},
+          { "value": 2, "label": "Monthyl"},
+          { "value": 3, "label": "Rarely"},
+          { "value": 4, "label": "Not at all"}
+        ],
+        "es": [
+          { "value": 0, "label": "Diaria"},
+          { "value": 1, "label": "Semanal"},
+          { "value": 2, "label": "Mensual"},
+          { "value": 3, "label": "Raramente"},
+          { "value": 4, "label": "Nunca"}
+        ]
+      },
+      "defaultValue": 0
+    },
+    {
+      "type": "radio",
+      "name": "could-teach",
+      "label": {
+        "en": "Could you teach someone else how to use this?",
+        "es": "Serías capaz de enseñarle a otra persona como esta aplicación?"
+      },
+      "order": 7,
+      "required": true,
+      "values": {
+        "en": [
+          { "value": 0, "label": "Yes"},
+          { "value": 1, "label": "No"}
+        ],
+        "es": [
+          { "value": 0, "label": "Sí"},
+          { "value": 1, "label": "No"}
+        ]
+      },
+      "defaultValue": 0
+    },
+    {
+      "type": "text",
+      "name": "describe-to-friend",
+      "label": {
+        "en": "How would you describe Forest Watcher to a friend?",
+        "es": "¿Cómo describirías Forest Watcher a un amigo/a?"
+      },
+      "order": 8,
+      "required": false,
+      "values": {}
+    },
+    {
+      "type": "text",
+      "name": "easy-to-use",
+      "label": {
+        "en": "How easy was it to use?",
+        "es": "¿Qué tan fácil de usar fue?"
+      },
+      "order": 9,
+      "required": false,
+      "values": {}
+    },
+    {
+      "type": "text",
+      "name": "compare-to-first",
+      "label": {
+        "en": "If you used the Forest Watcher 1.0; how does this version compare to version 1.0?",
+        "es": "Si has usado Forest Watcher 1.0. ¿Cómo es esta versión en comparación con la versión 1.0?"
+      },
+      "order": 10,
+      "required": false,
+      "values": {}
+    },
+    {
+      "type": "text",
+      "name": "help-at-start",
+      "label": {
+        "en": "Do you need any more help getting started with the app? If so what?",
+        "es": "¿Necesitas ayuda adicional para empezar a usar la app? ¿En qué?"
+      },
+      "order": 11,
+      "required": false,
+      "values": {}
+    },
+    {
+      "type": "text",
+      "name": "whats-missing",
+      "label": {
+        "en": "What is this app missing? What other features do you need to be able to complete your work?",
+        "es": "¿Qué le hace falta a esta aplicación? ¿Qué otras funcionalidades te hacen falta para poder llevar a cabo tu trabajo?"
+      },
+      "order": 12,
+      "required": false,
+      "values": {}
+    }
+  ]
+}

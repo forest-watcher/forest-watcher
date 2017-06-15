@@ -1,0 +1,346 @@
+{
+  "languages": ["en", "es"],
+  "defaultLanguage": "en",
+  "name": {
+    "en": "Forest Watcher default report",
+    "es": "Forest Watcher reporte defacto"
+  },
+  "public": true,
+  "questions": [
+    {
+      "type": "text",
+      "label": {
+        "en": "Name",
+        "es": "Nombre"
+      },
+      "name": "name",
+      "order": 1,
+      "required": false,
+      "values": {},
+      "defaultValue": {
+        "en": "Insert your name",
+        "es": "Inserta tu nombre"
+      }
+    },
+    {
+      "type": "text",
+      "label": {
+        "en": "Organization",
+        "es": "Organización"
+      },
+      "name": "organization",
+      "order": 2,
+      "required": true,
+      "values": {},
+      "defaultValue": {
+        "en": "Organization",
+        "es": "Organización"
+      }
+    },
+    {
+      "type": "date",
+      "label": {
+        "en": "Date and time",
+        "es": "Fecha y hora"
+      },
+      "name": "date",
+      "order": 3,
+      "required": true,
+      "values": {}
+    },
+    {
+      "type": "point",
+      "label": {
+        "en": "GPS points",
+        "es": "Coordenadas GPS"
+      },
+      "name": "position",
+      "order": 4,
+      "required": true,
+      "values": {}
+    },
+    {
+      "type": "radio",
+      "name": "responsible",
+      "label": {
+        "en": "Do you know who owns or is responsible for managing this land?",
+        "es": "¿Sabe quién es el dueño o administrador de esta zona?"
+      },
+      "order": 5,
+      "required": true,
+      "values": {
+        "en": [
+          { "value": 0, "label": "Yes"},
+          { "value": 1, "label": "No"}
+        ],
+        "es": [
+          { "value": 0, "label": "Sí"},
+          { "value": 1, "label": "No"}
+        ]
+      },
+      "defaultValue": 1,
+      "childQuestions": [
+        {
+          "type": "text",
+          "name": "resposible-detail",
+          "label": {
+            "en": "Please describe",
+            "es": "Escriba el nombre aquí"
+          },
+          "defaultValue": {
+            "en": "Please describe",
+            "es": "Escriba el nombre aquí"
+          },
+          "conditionalValue": 0,
+          "order": 0,
+          "required": false,
+          "values": {}
+        }
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "deforestation",
+      "label": {
+        "en": "Do you see deforestation or degradation?",
+        "es": "¿Usted ve deforestación o degradación?"
+      },
+      "order": 6,
+      "required": true,
+      "values": {
+        "en": [
+          { "value": 0, "label": "Yes"},
+          { "value": 1, "label": "No"},
+          { "value": 2, "label": "Unsure"}
+        ],
+        "es": [
+          { "value": 0, "label": "Sí"},
+          { "value": 1, "label": "No"},
+          { "value": 2, "label": "No estoy seguro"}
+        ]
+      },
+      "defaultValue": 1
+    },
+    {
+      "type": "radio",
+      "name": "deforestation-recent",
+      "label": {
+        "en": "Is the deforestation recent?",
+        "es": "¿La deforestación es nueva?"
+      },
+      "conditions": [{
+        "name": "deforestation",
+        "value": 0
+      }],
+      "order": 7,
+      "required": false,
+      "values": {
+        "en": [
+          { "value": 0, "label": "Yes - burning fresh, no regrowth"},
+          { "value": 1, "label": "No – farm established or forest regrowth"}
+        ],
+        "es": [
+          { "value": 0, "label": "Sí - Se aprecian zonas quemadas recientes y falta de crecimiento de la vegetación"},
+          { "value": 1, "label": "No - Es una granja establecida o un bosque cultivado"}
+        ]
+      },
+      "defaultValue": 0
+    },
+    {
+      "type": "select",
+      "name": "deforestation-driver",
+      "label": {
+        "en": "Describe the driver of deforestation",
+        "es": "¿Cuál es el motivo de la deforestación?"
+      },
+      "conditions": [{
+        "name": "deforestation",
+        "value": 0
+      }],
+      "order": 8,
+      "required": false,
+      "values": {
+        "en": [
+          { "value": 0, "label": "Selective cutting (commercial use)"},
+          { "value": 1, "label": "Selective cutting (small-scale domestic use)"},
+          { "value": 2, "label": "Clear cutting"},
+          { "value": 3, "label": "Charcoal production"},
+          { "value": 4, "label": "Burning"},
+          { "value": 5, "label": "Agricultural clearing"},
+          { "value": 6, "label": "Road"},
+          { "value": 7, "label": "Dam"},
+          { "value": 8, "label": "Mining"},
+          { "value": 9, "label": "Oil/gas extraction"},
+          { "value": 10, "label": "Other"}
+        ],
+        "es": [
+          { "value": 0, "label": "Deforestación selectiva (uso comercial)"},
+          { "value": 1, "label": "Deforestación selectiva (pequeña escala)"},
+          { "value": 2, "label": "Deforestación completa"},
+          { "value": 3, "label": "Producción de carbón"},
+          { "value": 4, "label": "Quemado"},
+          { "value": 5, "label": "Deforestación agrícola"},
+          { "value": 6, "label": "Carretera"},
+          { "value": 7, "label": "Presa"},
+          { "value": 8, "label": "Minas"},
+          { "value": 9, "label": "Extracción de gas/petróleo"},
+          { "value": 10, "label": "Otro (por favor describa)"}
+        ]
+      },
+      "defaultValue": 0,
+      "childQuestions": [
+        {
+          "type": "text",
+          "name": "deforestation-driver-agricultural",
+          "label": {
+            "en": "What type?/crop?",
+            "es": "¿Qué tipo de cultivo?"
+          },
+          "defaultValue": {
+            "en": "What type?/crop?",
+            "es": "¿Qué tipo de cultivo?"
+          },
+          "conditionalValue": 5,
+          "order": 0,
+          "required": false,
+          "values": {}
+        },
+        {
+          "type": "text",
+          "name": "deforestation-driver-other",
+          "label": {
+            "en": "Please describe",
+            "es": "¿Qué tipo de cultivo?"
+          },
+          "defaultValue": {
+            "en": "Please describe",
+            "es": "por favor describa"
+          },
+          "conditionalValue": 10,
+          "order": 0,
+          "required": false,
+          "values": {}
+        }
+      ]
+    },
+    {
+      "type": "blob",
+      "name": "deforestation-image",
+      "label": {
+        "en": "Take a picture",
+        "es": "Tome una fotografía"
+      },
+      "conditions": [{
+        "name": "deforestation",
+        "value": 0
+      }],
+      "order": 9,
+      "required": false,
+      "values": {}
+    },
+    {
+      "type": "radio",
+      "name": "deforestation-illegal",
+      "label": {
+        "en": "Do you believe this activity is illegal?",
+        "es": "¿Cree usted que esta actividad es ilegal?"
+      },
+      "conditions": [{
+        "name": "deforestation",
+        "value": 0
+      }],
+      "order": 10,
+      "required": false,
+      "values": {
+        "en": [
+          { "value": 0, "label": "Yes"},
+          { "value": 1, "label": "No"}
+        ],
+        "es": [
+          { "value": 0, "label": "Sí"},
+          { "value": 1, "label": "No"}
+        ]
+      },
+      "defaultValue": 0
+    },
+    {
+      "type": "radio",
+      "name": "deforestation-responsible",
+      "label": {
+        "en": "Do you know who is responsible for this deforestation?",
+        "es": "¿Sabe usted quién es el responsable de la deforestación?"
+      },
+      "conditions": [{
+        "name": "deforestation",
+        "value": 0
+      }],
+      "order": 11,
+      "required": false,
+      "values": {
+        "en": [
+          { "value": 0, "label": "Yes"},
+          { "value": 1, "label": "No"}
+        ],
+        "es": [
+          { "value": 0, "label": "Sí"},
+          { "value": 1, "label": "No"}
+        ]
+      },
+      "defaultValue": 1,
+      "childQuestions": [
+        {
+          "type": "text",
+          "name": "deforestation-responsible-description",
+          "label": {
+            "en": "Please describe",
+            "es": "Escriba el nombre aquí"
+          },
+          "defaultValue": {
+            "en": "Please describe",
+            "es": "Escriba el nombre aquí"
+          },
+          "conditionalValue": 0,
+          "order": 0,
+          "required": false,
+          "values": {}
+        }
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "further-action",
+      "label": {
+        "en": "Should further action be taken in this area?/Should there be follow up?",
+        "es": "¿Considera necesaria alguna otra medida en este área?"
+      },
+      "order": 12,
+      "required": true,
+      "values": {
+        "en": [
+          { "value": 0, "label": "Yes"},
+          { "value": 1, "label": "No"}
+        ],
+        "es": [
+          { "value": 0, "label": "Sí"},
+          { "value": 1, "label": "No"}
+        ]
+      },
+      "defaultValue": 1
+    },
+    {
+      "type": "text",
+      "label": {
+        "en": "Other information? / Notes?",
+        "es":"Añada otra información / notas"
+      },
+      "name": "notes",
+      "order": 13,
+      "required": false,
+      "values": {},
+      "defaultValue": {
+        "en": "Other information?",
+        "es": "Añada otra información"
+      }
+    }
+  ]
+}
