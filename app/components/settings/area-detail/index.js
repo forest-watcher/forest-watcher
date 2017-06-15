@@ -144,6 +144,10 @@ class AreaDetail extends Component {
   }
 }
 
+AreaDetail.defaultProps = {
+  disableDelete: false
+};
+
 AreaDetail.propTypes = {
   imageUrl: React.PropTypes.string,
   updateArea: React.PropTypes.func,
@@ -151,7 +155,7 @@ AreaDetail.propTypes = {
   isConnected: React.PropTypes.bool.isRequired,
   navigator: React.PropTypes.object,
   area: React.PropTypes.object,
-  disableDelete: React.PropTypes.object.isRequired
+  disableDelete: React.PropTypes.bool.isRequired
 };
 
 export default AreaDetail;
