@@ -15,14 +15,14 @@ const UPLOAD_REPORT_COMMIT = 'report/UPLOAD_REPORT_COMMIT';
 const UPLOAD_REPORT_ROLLBACK = 'report/UPLOAD_REPORT_ROLLBACK';
 
 // Reducer
-const initialNavState = {
+const initialState = {
   forms: {},
   list: {},
   synced: false,
   syncing: false
 };
 
-export default function reducer(state = initialNavState, action) {
+export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_REPORT_QUESTIONS_REQUEST:
       return { ...state, synced: false, syncing: true };
@@ -58,7 +58,7 @@ export default function reducer(state = initialNavState, action) {
       return { ...state, list };
     }
     case LOGOUT_REQUEST: {
-      return initialNavState;
+      return initialState;
     }
     default: {
       return state;
@@ -71,8 +71,7 @@ export function getReportQuestions() {
   const language = getLanguage().toUpperCase();
   let qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
   if (!qIdByLanguage) qIdByLanguage = Config.QUESTIONNARIE_ID_EN; // language fallback
-  const url = 'https://staging-api.globalforestwatch.org/v1/reports/5941256c4c3f54001c29d32b';
-  // `${Config.API_URL}/questionnaire/${qIdByLanguage}`;
+  const url = `${Config.API_URL}/questionnaire/${qIdByLanguage}`;
 
   return {
     type: GET_REPORT_QUESTIONS_REQUEST,
@@ -152,8 +151,7 @@ export function uploadReport(reportName) {
       name: reportName,
       status: CONSTANTS.status.uploaded
     };
-    const url = 'https://staging-api.globalforestwatch.org/v1/reports/5941256c4c3f54001c29d32b/answers';
-    // `${Config.API_URL}/reports/${report.id}/answers`;
+    const url = `${Config.API_URL}/reports/${report.id}/answers`;
     const headers = { 'content-type': 'multipart/form-data' };
     dispatch({
       type: UPLOAD_REPORT_REQUEST,
