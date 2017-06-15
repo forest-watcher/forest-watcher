@@ -26,7 +26,7 @@ import styles from './styles';
 
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
 
-const supercluster = require('supercluster'); // eslint-disable-line
+const Timer = require('react-native-timer');
 const geoViewport = require('@mapbox/geo-viewport');
 
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
@@ -100,9 +100,9 @@ class Map extends Component {
       StatusBar.setBarStyle('light-content');
     }
 
-    this.renderMap();
     this.geoLocate();
     this.updateMarkers();
+    Timer.setTimeout(this, 'renderMap', this.renderMap, 500);
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -121,6 +121,7 @@ class Map extends Component {
   componentWillUnmount() {
     Location.stopUpdatingLocation();
 
+    Timer.clearTimeout(this, 'renderMap');
     if (this.eventLocation) {
       this.eventLocation.remove();
     }
@@ -336,7 +337,7 @@ class Map extends Component {
     });
   }
 
-  renderMap() {
+  renderMap = () => {
     if (!this.state.renderMap) {
       this.setState({
         renderMap: true
