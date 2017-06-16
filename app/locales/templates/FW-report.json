@@ -160,7 +160,7 @@
         ],
         "pt": [
           { "value": 0, "label": "Sim - queimada recentemente, sem crescimento de vegetação"},
-          { "value": 1, "label": "Não - quinta estabelecida ou floresta crescida"},
+          { "value": 1, "label": "Não - quinta estabelecida ou floresta crescida"}
         ]
       },
       "defaultValue": 0

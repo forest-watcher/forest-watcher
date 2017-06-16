@@ -285,7 +285,8 @@
       "label": {
         "en": "How easy was it to use?",
         "es": "¿Qué tan fácil de usar fue?",
-        "fr": "Seberapa mudah aplikasi forest watcher digunakan?",
+        "fr": "Decrivez la facilité d’usage?",
+        "id": "Seberapa mudah aplikasi forest watcher digunakan?",
         "pt": "Você achou fácil de usar?"
       },
       "order": 9,
