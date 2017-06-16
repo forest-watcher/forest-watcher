@@ -6,10 +6,12 @@ import intersect from 'turf-intersect';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 
 const GET_ALERTS = 'alerts/GET_ALERTS';
+const SET_CAN_DISPLAY_ALERTS = 'alerts/SET_CAN_DISPLAY_ALERTS';
 
 // Reducer
 const initialState = {
-  data: {}
+  data: {},
+  canDisplayAlerts: true
 };
 
 export default function reducer(state = initialState, action) {
@@ -22,6 +24,8 @@ export default function reducer(state = initialState, action) {
 
       return Object.assign({}, state, { data: alertsList });
     }
+    case SET_CAN_DISPLAY_ALERTS:
+      return { ...state, canDisplayAlerts: action.payload };
     case LOGOUT_REQUEST: {
       return initialState;
     }
@@ -140,5 +144,12 @@ export function getAlerts(areaId, geojson) {
         }
       });
     }
+  };
+}
+
+export function setCanDisplayAlerts(canDisplay) {
+  return {
+    type: SET_CAN_DISPLAY_ALERTS,
+    payload: canDisplay
   };
 }
