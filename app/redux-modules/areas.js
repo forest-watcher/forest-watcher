@@ -436,7 +436,7 @@ export function saveArea(params) {
   const image = {
     uri: params.snapshot,
     type: 'image/png',
-    name: `${params.area.name}.png`
+    name: `${encodeURIComponent(params.area.name)}.png`
   };
   if (params.datasets) {
     body.append('datasets', JSON.stringify(params.datasets));
