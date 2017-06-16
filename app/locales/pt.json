@@ -15,6 +15,7 @@
     "loading": "Carregando",
     "notAvailable": "Não disponível",
     "kmAway": "Km de distância",
+	  "lastUpdated": "Ultima atualização",
     "name": "Nome",
     "yourPosition": "Sua posição",
 		"connectionRequiredTitle": "Sem conexão",
@@ -23,7 +24,6 @@
     "cached": "Em cache",
     "noCached": "sem-cache",
     "noAlertSystem": "Nenhum sistema de alerta selecionado"
-	  "lastUpdated": "Last Updated",
 	},
 	"home": {
 		"title": {
