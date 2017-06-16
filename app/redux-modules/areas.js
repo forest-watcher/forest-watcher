@@ -99,6 +99,14 @@ export function saveAlertsToDb(areaId, slug, alerts) {
   }
 }
 
+export function resetAlertsDb() {
+  const realm = initDb();
+  realm.write(() => {
+    const allAlerts = realm.objects('Alert');
+    realm.delete(allAlerts);
+  });
+}
+
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_AREAS_REQUEST:
@@ -329,6 +337,7 @@ export default function reducer(state = initialState, action) {
       return Object.assign({}, state, { selectedIndex: action.payload });
     }
     case LOGOUT_REQUEST: {
+      resetAlertsDb();
       return initialState;
     }
     default:
