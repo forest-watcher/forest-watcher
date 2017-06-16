@@ -15,6 +15,7 @@
     "loading": "Cargando",
     "notAvailable": "No disponible",
     "kmAway": "Km de distancia",
+	"lastUpdated": "Last Updated",
     "name": "Name",
     "yourPosition": "Tu posición",
 		"connectionRequiredTitle": "Sin conexión",
