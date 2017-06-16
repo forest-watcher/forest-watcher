@@ -44,7 +44,7 @@ class Home extends Component {
       tracker.setUser(token);
       if (!syncFinished && !syncModalOpen && !this.modalOpen) {
         this.openModal();
-      } else if (syncFinished) {
+      } else if (syncFinished || syncSkip) {
         if (!hasAreas) {
           navigator.resetTo({
             screen: 'ForestWatcher.Setup',
@@ -59,13 +59,8 @@ class Home extends Component {
             title: 'FOREST WATCHER'
           });
         }
-      } else if (syncSkip) {
-        navigator.resetTo({
-          screen: 'ForestWatcher.Dashboard',
-          title: 'FOREST WATCHER'
-        });
       }
-    } else { // eslint-disable-line
+    } else {
       navigator.resetTo({
         screen: 'ForestWatcher.Login'
       });
