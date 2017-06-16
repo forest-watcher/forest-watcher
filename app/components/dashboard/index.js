@@ -73,6 +73,7 @@ class Dashboard extends PureComponent {
   }
 
   onNavigatorEvent(event) {
+    const { actionsPending, syncModalOpen, syncSkip } = this.props;
     if (event.type === 'NavBarButtonPress') {
       if (event.id === 'settings') {
         this.props.navigator.push({
@@ -81,7 +82,8 @@ class Dashboard extends PureComponent {
         });
       }
     } else if (event.id === 'didAppear') {
-      if (this.props.actionsPending > 0 && !this.props.syncModalOpen) {
+      if (actionsPending > 0 && !syncModalOpen && !syncSkip && !this.syncModalOpen) {
+        this.syncModalOpen = true;
         this.props.setSyncModal(true);
         this.props.navigator.showModal({
           screen: 'ForestWatcher.Sync',
@@ -192,6 +194,7 @@ Dashboard.propTypes = {
   navigator: React.PropTypes.object.isRequired,
   actionsPending: React.PropTypes.number.isRequired,
   syncModalOpen: React.PropTypes.bool.isRequired,
+  syncSkip: React.PropTypes.bool.isRequired,
   setSyncModal: React.PropTypes.func.isRequired
 };
 

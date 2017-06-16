@@ -30,9 +30,12 @@ class Sync extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { completeTimeoutFlag, dismissTimeoutFlag } = this.state;
+    const { completeTimeoutFlag, dismissTimeoutFlag, canSyncDataOnMobile } = this.state;
     const { actionsPending } = this.props;
     if (actionsPending > 0) {
+      this.syncData();
+    }
+    if (canSyncDataOnMobile && canSyncDataOnMobile !== prevState.canSyncDataOnMobile) {
       this.syncData();
     }
     if (actionsPending === 0 && completeTimeoutFlag && !Timer.timeoutExists(this, 'dismissModal')) {
@@ -48,13 +51,19 @@ class Sync extends Component {
     Timer.clearTimeout(this, 'dismissModal');
   }
 
+  onSkipPress = () => {
+    this.props.setSyncSkip(true);
+    this.dismissModal();
+  }
+
   getTexts = () => {
     const { isConnected, reach, actionsPending } = this.props;
+    const { canSyncDataOnMobile } = this.state;
     const texts = {};
     if (isConnected) {
       if (!this.state.completeTimeoutFlag || actionsPending > 0) {
-        texts.title = WIFI.includes(reach) ? I18n.t('home.title.updating') : I18n.t('home.title.outOfDate');
-        texts.subtitle = WIFI.includes(reach) ? I18n.t('home.subtitle.takesTime') : I18n.t('home.subtitle.mobile');
+        texts.title = (WIFI.includes(reach) || canSyncDataOnMobile) ? I18n.t('home.title.updating') : I18n.t('home.title.outOfDate');
+        texts.subtitle = (WIFI.includes(reach) || canSyncDataOnMobile) ? I18n.t('home.subtitle.takesTime') : I18n.t('home.subtitle.mobile');
       } else {
         texts.title = I18n.t('home.title.updated');
         texts.subtitle = I18n.t('home.subtitle.updated');
@@ -68,7 +77,7 @@ class Sync extends Component {
 
   syncData = () => {
     const { isConnected, reach } = this.props;
-    if (this.state.canSyncDataOnMobile || (isConnected && WIFI.includes(reach))) {
+    if (isConnected && (this.state.canSyncDataOnMobile || WIFI.includes(reach))) {
       Timer.setTimeout(this, 'completeModal', this.complete, 2000);
       this.props.syncApp();
     }
@@ -89,15 +98,17 @@ class Sync extends Component {
   }
 
   render() {
-    const { isConnected, reach, actionsPending } = this.props;
-    const { completeTimeoutFlag } = this.state;
+    const { isConnected, reach, actionsPending, hasAreas } = this.props;
+    const { completeTimeoutFlag, canSyncDataOnMobile } = this.state;
     const { title, subtitle } = this.getTexts();
+
+    const showSkipSyncingBtn = (!MOBILE.includes(reach) || canSyncDataOnMobile) && (actionsPending > 0 || !completeTimeoutFlag) && hasAreas;
 
     return (
       <View style={[styles.mainContainer, styles.center]}>
         <View>
           <View style={styles.textContainer}>
-            {isConnected && WIFI.includes(reach) && (actionsPending > 0 || !completeTimeoutFlag) &&
+            {isConnected && (WIFI.includes(reach) || canSyncDataOnMobile) && (actionsPending > 0 || !completeTimeoutFlag) &&
             <ActivityIndicator
               color={Theme.colors.color1}
               style={{ height: 80 }}
@@ -111,26 +122,28 @@ class Sync extends Component {
               {subtitle}
             </Text>
           </View>
-          {!MOBILE.includes(reach) && (actionsPending > 0 || !completeTimeoutFlag) &&
+          {showSkipSyncingBtn &&
             <View>
               <ActionButton
                 monochrome
                 noIcon
                 style={styles.button}
-                onPress={this.dismissModal}
+                onPress={this.onSkipPress}
                 text={I18n.t('home.skip').toUpperCase()}
               />
             </View>
           }
-          {isConnected && MOBILE.includes(reach) &&
+          {isConnected && MOBILE.includes(reach) && !canSyncDataOnMobile &&
           <View style={styles.buttonGroupContainer}>
-            <ActionButton
-              style={[styles.groupButton, styles.groupButtonLeft]}
-              monochrome
-              noIcon
-              onPress={this.dismissModal}
-              text={I18n.t('home.skip').toUpperCase()}
-            />
+            {hasAreas &&
+              <ActionButton
+                style={[styles.groupButton, styles.groupButtonLeft]}
+                monochrome
+                noIcon
+                onPress={this.onSkipPress}
+                text={I18n.t('home.skip').toUpperCase()}
+              />
+            }
             <ActionButton
               style={[styles.groupButton, styles.groupButtonRight]}
               main
@@ -148,11 +161,13 @@ class Sync extends Component {
 
 Sync.propTypes = {
   isConnected: React.PropTypes.bool.isRequired,
+  hasAreas: React.PropTypes.bool.isRequired,
   reach: React.PropTypes.string.isRequired,
   navigator: React.PropTypes.object.isRequired,
   actionsPending: React.PropTypes.number.isRequired,
   syncApp: React.PropTypes.func.isRequired,
-  setSyncModal: React.PropTypes.func.isRequired
+  setSyncModal: React.PropTypes.func.isRequired,
+  setSyncSkip: React.PropTypes.func.isRequired
 };
 
 export default Sync;

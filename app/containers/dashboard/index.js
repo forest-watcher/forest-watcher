@@ -7,7 +7,8 @@ import { getTotalActionsPending } from 'helpers/sync';
 function mapStateToProps(state) {
   return {
     actionsPending: getTotalActionsPending(state),
-    syncModalOpen: state.app.syncModalOpen
+    syncModalOpen: state.app.syncModalOpen,
+    syncSkip: state.app.syncSkip
   };
 }
 

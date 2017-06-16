@@ -7,12 +7,14 @@ import { getUser } from 'redux-modules/user';
 // Actions
 const SET_LANGUAGE = 'app/SET_LANGUAGE';
 const SET_SYNC_MODAL = 'app/SET_SYNC_MODAL';
+const SET_SYNC_SKIP = 'app/SET_SYNC_SKIP';
 
 // Reducer
 const initialState = {
   netInfo: null,
   language: null,
-  syncModalOpen: false
+  syncModalOpen: false,
+  syncSkip: false
 };
 
 export default function reducer(state = initialState, action) {
@@ -21,6 +23,8 @@ export default function reducer(state = initialState, action) {
       return Object.assign({}, state, { language: action.payload });
     case SET_SYNC_MODAL:
       return { ...state, syncModal: action.payload };
+    case SET_SYNC_SKIP:
+      return { ...state, syncSkip: action.payload };
     default:
       return state;
   }
@@ -28,19 +32,21 @@ export default function reducer(state = initialState, action) {
 
 // Action Creators
 export function setLanguage(language) {
-  return (dispatch) => {
-    dispatch({
-      type: SET_LANGUAGE,
-      payload: language
-    });
+  return {
+    type: SET_LANGUAGE,
+    payload: language
   };
 }
 export function setSyncModal(open) {
-  return (dispatch) => {
-    dispatch({
-      type: SET_SYNC_MODAL,
-      payload: open
-    });
+  return {
+    type: SET_SYNC_MODAL,
+    payload: open
+  };
+}
+export function setSyncSkip(status) {
+  return {
+    type: SET_SYNC_SKIP,
+    payload: status
   };
 }
 export function syncApp() {
