@@ -76,7 +76,7 @@ const initialState = {
 };
 
 export function saveAlertsToDb(areaId, slug, alerts) {
-  if (alerts.length > 0) {
+  if (alerts && alerts.length > 0) {
     const realm = initDb();
     const existingAlerts = realm.objects('Alert').filtered(`areaId = '${areaId}' AND slug = '${slug}'`);
     try {
@@ -214,8 +214,7 @@ export default function reducer(state = initialState, action) {
       const data = state.data.map((area) => {
         if (area.id === newArea.id) {
           return {
-            ...newArea,
-            lastUpdate: Date.now()
+            ...newArea
           };
         }
         return area;
