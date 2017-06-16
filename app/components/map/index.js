@@ -139,7 +139,7 @@ class Map extends Component {
   }
 
   onNavigatorEvent(event) {
-    const { actionsPending, syncModalOpen, syncSkip } = this.props;
+    const { actionsPending, syncModalOpen, syncSkip, setCanDisplayAlerts, canDisplayAlerts } = this.props;
     if (event.id === 'didAppear') {
       if (actionsPending > 0 && !syncModalOpen && !syncSkip && !this.syncModalOpen) {
         this.syncModalOpen = true;
@@ -150,6 +150,9 @@ class Map extends Component {
             goBackDisabled: true
           }
         });
+      }
+      if (!canDisplayAlerts) {
+        setCanDisplayAlerts(true);
       }
     }
   }
@@ -205,6 +208,7 @@ class Map extends Component {
 
   createReport = () => {
     const { selectedAlertCoordinates } = this.state;
+    this.props.setCanDisplayAlerts(false);
     let latLng = '0,0';
     if (selectedAlertCoordinates) {
       latLng = `${selectedAlertCoordinates.latitude},${selectedAlertCoordinates.longitude}`;
@@ -516,7 +520,9 @@ Map.propTypes = {
   actionsPending: React.PropTypes.number.isRequired,
   syncModalOpen: React.PropTypes.bool.isRequired,
   syncSkip: React.PropTypes.bool.isRequired,
-  setSyncModal: React.PropTypes.func.isRequired
+  setSyncModal: React.PropTypes.func.isRequired,
+  setCanDisplayAlerts: React.PropTypes.func.isRequired,
+  canDisplayAlerts: React.PropTypes.bool.isRequired
 };
 
 export default Map;

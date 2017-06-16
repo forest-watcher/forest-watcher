@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { saveReport, finishReport } from 'redux-modules/reports';
+import { setCanDisplayAlerts } from 'redux-modules/alerts';
 
 import ReportForm from 'components/reports/form';
 
@@ -10,6 +11,7 @@ function mapDispatchToProps(dispatch) {
     },
     finish: (form) => {
       dispatch(finishReport(form));
+      dispatch(setCanDisplayAlerts(true));
     }
   };
 }

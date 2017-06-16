@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { createReport } from 'redux-modules/reports';
 import { setSyncModal } from 'redux-modules/app';
+import { setCanDisplayAlerts } from 'redux-modules/alerts';
 import tracker from 'helpers/googleAnalytics';
 import Map from 'components/map';
 import moment from 'moment';
@@ -73,7 +74,7 @@ function mapStateToProps(state) {
     const timeFrame = datasetSlug === 'viirs' ? 'day' : 'month';
     const limitRange = moment().subtract(dataset.startDate, timeFrame).valueOf();
     const realm = initDb();
-    if (datasetSlug) {
+    if (datasetSlug && state.alerts.canDisplayAlerts) {
       alerts = read(realm, 'Alert')
                       .filtered(`areaId = '${areaId}' AND slug = '${datasetSlug}' AND date > '${limitRange}'`)
                       .map((alert) => ({ lat: alert.lat, long: alert.long }));
@@ -92,7 +93,8 @@ function mapStateToProps(state) {
     syncModalOpen: state.app.syncModalOpen,
     syncSkip: state.app.syncSkip,
     alerts,
-    datasetSlug
+    datasetSlug,
+    canDisplayAlerts: state.alerts.canDisplayAlerts
   };
 }
 
@@ -106,7 +108,8 @@ function mapDispatchToProps(dispatch, { navigation }) {
     navigate: (routeName, params) => {
       navigation.navigate(routeName, params);
     },
-    setSyncModal: open => dispatch(setSyncModal(open))
+    setSyncModal: open => dispatch(setSyncModal(open)),
+    setCanDisplayAlerts: canDisplay => dispatch(setCanDisplayAlerts(canDisplay))
   };
 }
 
