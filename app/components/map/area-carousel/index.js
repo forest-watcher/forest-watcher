@@ -63,7 +63,7 @@ class AreaCarousel extends Component {
 
     const sliderItems = this.props.areas.map((area, index) => {
       const dataset = activeDataset(area);
-      const lastUpdatedText = dataset ? `Last Updated: ${moment(dataset.lastUpdate).fromNow()}` : '';
+      const lastUpdatedText = dataset ? `${I18n.t('commonText.lastUpdated')}: ${moment(dataset.lastUpdate).fromNow()}` : '';
       datasetName = enabledDatasetName(area) || NO_ALERT_SELECTED;
       return (
         <View key={`entry-${index}`} style={styles.slideInnerContainer}>
