@@ -7,10 +7,11 @@ import {
   Image
 } from 'react-native';
 import throttle from 'lodash/throttle';
+import moment from 'moment';
 import Theme from 'config/theme';
 
 import Carousel from 'react-native-snap-carousel';
-import { enabledDatasetName } from 'helpers/area';
+import { enabledDatasetName, activeDataset } from 'helpers/area';
 import GeoPoint from 'geopoint';
 import { sliderWidth, itemWidth, styles } from './styles';
 
@@ -32,6 +33,7 @@ class AreaCarousel extends Component {
 
   render() {
     const { alertSelected, lastPosition, selectedArea } = this.props;
+
     let distanceText = '';
     let positionText = '';
     let datasetName = I18n.t('commonText.notAvailable');
@@ -60,10 +62,19 @@ class AreaCarousel extends Component {
     );
 
     const sliderItems = this.props.areas.map((area, index) => {
+      const dataset = activeDataset(area);
+      const lastUpdatedText = dataset ? `${I18n.t('commonText.lastUpdated')}: ${moment(dataset.lastUpdate).fromNow()}` : '';
       datasetName = enabledDatasetName(area) || NO_ALERT_SELECTED;
       return (
         <View key={`entry-${index}`} style={styles.slideInnerContainer}>
           <Text style={containerTextSyle}>{ area.name } - { datasetName }</Text>
+          {!alertSelected &&
+          <View style={styles.currentPosition}>
+            <Text style={styles.coordinateDistanceText}>
+              {lastUpdatedText}
+            </Text>
+          </View>
+          }
           {alertSelected &&
             <View style={styles.currentPosition}>
               <Text style={styles.coordinateDistanceText}>

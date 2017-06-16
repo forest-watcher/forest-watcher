@@ -139,8 +139,10 @@ class Map extends Component {
   }
 
   onNavigatorEvent(event) {
+    const { actionsPending, syncModalOpen, syncSkip } = this.props;
     if (event.id === 'didAppear') {
-      if (this.props.actionsPending > 0 && !this.props.syncModalOpen) {
+      if (actionsPending > 0 && !syncModalOpen && !syncSkip && !this.syncModalOpen) {
+        this.syncModalOpen = true;
         this.props.setSyncModal(true);
         this.props.navigator.showModal({
           screen: 'ForestWatcher.Sync',
@@ -513,6 +515,7 @@ Map.propTypes = {
   areaCoordinates: React.PropTypes.array,
   actionsPending: React.PropTypes.number.isRequired,
   syncModalOpen: React.PropTypes.bool.isRequired,
+  syncSkip: React.PropTypes.bool.isRequired,
   setSyncModal: React.PropTypes.func.isRequired
 };
 

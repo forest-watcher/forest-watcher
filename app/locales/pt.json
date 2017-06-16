@@ -23,6 +23,7 @@
     "cached": "Em cache",
     "noCached": "sem-cache",
     "noAlertSystem": "Nenhum sistema de alerta selecionado"
+	  "lastUpdated": "Last Updated",
 	},
 	"home": {
 		"title": {

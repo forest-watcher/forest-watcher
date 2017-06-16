@@ -16,6 +16,7 @@
     "notAvailable": "No disponible",
     "kmAway": "Km de distancia",
     "name": "Nombre",
+	  "lastUpdated": "Last Updated",
     "yourPosition": "Tu posición",
 		"connectionRequiredTitle": "Sin conexión",
 		"connectionRequired": "Necesita una conexión a internet para completar esta acción.",

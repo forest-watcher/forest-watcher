@@ -16,13 +16,13 @@ const GET_AREAS_ROLLBACK = 'areas/GET_AREAS_ROLLBACK';
 const GET_ALERTS_REQUEST = 'areas/GET_ALERTS_REQUEST';
 const GET_ALERTS_COMMIT = 'areas/GET_ALERTS_COMMIT';
 const GET_ALERTS_ROLLBACK = 'areas/GET_ALERTS_ROLLBACK';
-const SAVE_AREA_REQUEST = 'areas/SAVE_AREA_REQUEST';
+export const SAVE_AREA_REQUEST = 'areas/SAVE_AREA_REQUEST';
 export const SAVE_AREA_COMMIT = 'areas/SAVE_AREA_COMMIT';
 export const SAVE_AREA_ROLLBACK = 'areas/SAVE_AREA_ROLLBACK';
 const GET_AREA_COVERAGE_REQUEST = 'areas/GET_AREA_COVERAGE_REQUEST';
 const GET_AREA_COVERAGE_COMMIT = 'areas/GET_AREA_COVERAGE_COMMIT';
 const GET_AREA_COVERAGE_ROLLBACK = 'areas/GET_AREA_COVERAGE_ROLLBACK';
-const UPDATE_AREA_REQUEST = 'areas/UPDATE_AREA_REQUEST';
+export const UPDATE_AREA_REQUEST = 'areas/UPDATE_AREA_REQUEST';
 const UPDATE_AREA_COMMIT = 'areas/UPDATE_AREA_COMMIT';
 const UPDATE_AREA_ROLLBACK = 'areas/UPDATE_AREA_ROLLBACK';
 const REMOVE_CACHE_AREA_REQUEST = 'areas/REMOVE_CACHE_AREA_REQUEST';
@@ -76,7 +76,7 @@ const initialState = {
 };
 
 export function saveAlertsToDb(areaId, slug, alerts) {
-  if (alerts.length > 0) {
+  if (alerts && alerts.length > 0) {
     const realm = initDb();
     const existingAlerts = realm.objects('Alert').filtered(`areaId = '${areaId}' AND slug = '${slug}'`);
     try {
@@ -97,6 +97,14 @@ export function saveAlertsToDb(areaId, slug, alerts) {
       });
     });
   }
+}
+
+export function resetAlertsDb() {
+  const realm = initDb();
+  realm.write(() => {
+    const allAlerts = realm.objects('Alert');
+    realm.delete(allAlerts);
+  });
 }
 
 export default function reducer(state = initialState, action) {
@@ -214,8 +222,7 @@ export default function reducer(state = initialState, action) {
       const data = state.data.map((area) => {
         if (area.id === newArea.id) {
           return {
-            ...newArea,
-            lastUpdate: Date.now()
+            ...newArea
           };
         }
         return area;
@@ -227,8 +234,7 @@ export default function reducer(state = initialState, action) {
       const areas = state.data.map((area) => {
         if (area.id === oldArea.id) {
           return {
-            ...oldArea,
-            lastModify: Date.now()
+            ...oldArea
           };
         }
         return area;
@@ -247,8 +253,21 @@ export default function reducer(state = initialState, action) {
         ...state.pendingData,
         alert: omit(state.pendingData.alert, [area.id])
       };
+
+      const data = state.data.map((a) => {
+        if (a.id === area.id) {
+          const datasets = a.datasets.map((dataset) => {
+            if (dataset.slug === action.meta.datasetSlug) {
+              return { ...dataset, lastUpdate: Date.now() };
+            }
+            return dataset;
+          });
+          return { ...a, datasets };
+        }
+        return a;
+      });
       saveAlertsToDb(action.meta.area.id, action.meta.datasetSlug, action.payload.data);
-      return { ...state, pendingData };
+      return { ...state, pendingData, data };
     }
     case GET_ALERTS_ROLLBACK: {
       const area = action.meta.area;
@@ -318,6 +337,7 @@ export default function reducer(state = initialState, action) {
       return Object.assign({}, state, { selectedIndex: action.payload });
     }
     case LOGOUT_REQUEST: {
+      resetAlertsDb();
       return initialState;
     }
     default:
@@ -436,7 +456,7 @@ export function saveArea(params) {
   const image = {
     uri: params.snapshot,
     type: 'image/png',
-    name: `${params.area.name}.png`
+    name: `${encodeURIComponent(params.area.name)}.png`
   };
   if (params.datasets) {
     body.append('datasets', JSON.stringify(params.datasets));
@@ -600,14 +620,16 @@ export function syncAreas() {
             syncAreasData((id) => {
               const area = getAreaById(state().areas.data, id);
               const { datasets } = area;
-              datasets.forEach((dataset) => {
-                if (dataset.cache) {
-                  dispatch(getAreaAlerts(id, dataset.slug));
-                } else {
-                  // TODO: remove this, cache will be mandatory
-                  // dispatch(removeCachedArea(id, dataset.slug));
-                }
-              });
+              if (datasets) {
+                datasets.forEach((dataset) => {
+                  if (dataset.cache) {
+                    dispatch(getAreaAlerts(id, dataset.slug));
+                  } else {
+                    // TODO: remove this, cache will be mandatory
+                    // dispatch(removeCachedArea(id, dataset.slug));
+                  }
+                });
+              }
             });
             break;
           default:

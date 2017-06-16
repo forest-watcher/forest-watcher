@@ -90,6 +90,7 @@ function mapStateToProps(state) {
     isConnected: state.offline.online,
     actionsPending: getTotalActionsPending(state),
     syncModalOpen: state.app.syncModalOpen,
+    syncSkip: state.app.syncSkip,
     alerts,
     datasetSlug
   };

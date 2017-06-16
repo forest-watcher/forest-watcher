@@ -16,6 +16,7 @@
     "notAvailable": "Tidak tersedia",
     "kmAway": "km jauhnya",
     "name": "Nama",
+	  "lastUpdated": "Last Updated",
     "yourPosition": "Posisi kamu",
 		"connectionRequiredTitle": "Tidak ada koneksi",
 		"connectionRequired": "Anda memerlukan koneksi internet",

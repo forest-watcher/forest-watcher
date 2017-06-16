@@ -32,9 +32,10 @@ class Setup extends Component {
     tracker.trackScreenView('Set Up');
   }
 
-  updatePage = (slide) => {
-    this.setState({
-      page: slide.i
+  onFinishSetup = () => {
+    this.props.navigator.resetTo({
+      screen: 'ForestWatcher.Dashboard',
+      title: 'FOREST WATCHER'
     });
   }
 
@@ -50,10 +51,9 @@ class Setup extends Component {
     }));
   }
 
-  onFinishSetup = () => {
-    this.props.navigator.resetTo({
-      screen: 'ForestWatcher.Dashboard',
-      title: 'FOREST WATCHER'
+  updatePage = (slide) => {
+    this.setState({
+      page: slide.i
     });
   }
 
