@@ -76,7 +76,7 @@ const initialState = {
 };
 
 export function saveAlertsToDb(areaId, slug, alerts) {
-  if (alerts.length > 0) {
+  if (alerts && alerts.length > 0) {
     const realm = initDb();
     const existingAlerts = realm.objects('Alert').filtered(`areaId = '${areaId}' AND slug = '${slug}'`);
     try {
@@ -214,8 +214,7 @@ export default function reducer(state = initialState, action) {
       const data = state.data.map((area) => {
         if (area.id === newArea.id) {
           return {
-            ...newArea,
-            lastUpdate: Date.now()
+            ...newArea
           };
         }
         return area;
@@ -227,8 +226,7 @@ export default function reducer(state = initialState, action) {
       const areas = state.data.map((area) => {
         if (area.id === oldArea.id) {
           return {
-            ...oldArea,
-            lastModify: Date.now()
+            ...oldArea
           };
         }
         return area;
@@ -247,8 +245,21 @@ export default function reducer(state = initialState, action) {
         ...state.pendingData,
         alert: omit(state.pendingData.alert, [area.id])
       };
+
+      const data = state.data.map((a) => {
+        if (a.id === area.id) {
+          const datasets = a.datasets.map((dataset) => {
+            if (dataset.slug === action.meta.datasetSlug) {
+              return { ...dataset, lastUpdate: Date.now() };
+            }
+            return dataset;
+          });
+          return { ...a, datasets };
+        }
+        return a;
+      });
       saveAlertsToDb(action.meta.area.id, action.meta.datasetSlug, action.payload.data);
-      return { ...state, pendingData };
+      return { ...state, pendingData, data };
     }
     case GET_ALERTS_ROLLBACK: {
       const area = action.meta.area;

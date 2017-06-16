@@ -15,6 +15,7 @@
     "loading": "Chargement",
     "notAvailable": "Indisponible",
     "kmAway": "Km de distance",
+	"lastUpdated": "Last Updated",
     "name": "Name",
     "yourPosition": "Your position",
 		"connectionRequiredTitle": "No connection",

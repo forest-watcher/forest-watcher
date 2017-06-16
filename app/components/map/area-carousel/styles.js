@@ -48,7 +48,8 @@ export const styles = StyleSheet.create({
     fontSize: 17,
     color: Theme.fontColors.secondary,
     fontFamily: Theme.font,
-    fontWeight: '400'
+    fontWeight: '400',
+    marginLeft: Theme.marginLeft * 2
   },
   textContainerSmall: {
     paddingTop: 14 - entryBorderRadius
@@ -68,7 +69,7 @@ export const styles = StyleSheet.create({
     color: Theme.fontColors.secondary,
     fontSize: 14,
     fontWeight: '400',
-    marginLeft: 14,
+    marginLeft: Theme.marginLeft * 2,
     backgroundColor: 'transparent',
     lineHeight: 13
   },
