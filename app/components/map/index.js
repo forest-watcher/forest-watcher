@@ -497,7 +497,6 @@ class Map extends Component {
             ? this.renderFooter()
             : this.renderFooterLoading()
           }
-          {this.renderFooter()}
           <AreaCarousel
             navigator={this.props.navigator}
             alertSelected={selectedAlertCoordinates}

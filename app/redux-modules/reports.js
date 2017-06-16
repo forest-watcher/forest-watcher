@@ -148,7 +148,7 @@ export function uploadReport(reportName) {
       name: reportName,
       status: CONSTANTS.status.uploaded
     };
-    const url = `${Config.API_URL}/reports/${report.id}/answers`;
+    const url = `${Config.API_URL}/reports/${Config.REPORT_ID}/answers`;
     const headers = { 'content-type': 'multipart/form-data' };
     dispatch({
       type: UPLOAD_REPORT_REQUEST,
