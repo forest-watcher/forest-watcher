@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import MapView from 'react-native-maps';
 import ClusterMarker from 'components/map/clusters/clusterMarker';
 import {
@@ -8,34 +8,40 @@ import {
 const alertGlad = require('assets/alert-glad.png');
 const alertViirs = require('assets/alert-viirs.png');
 
-function Clusters(props) {
-  return (
-    <View>
-      {props.markers.map((marker, index) => (
-        marker.properties.point_count !== undefined ? (
-          <ClusterMarker key={index} marker={marker} zoomTo={props.zoomTo} datasetSlug={props.datasetSlug} />
-        ) : (
-          <MapView.Marker
-            key={index}
-            coordinate={{
-              latitude: marker.geometry.coordinates[1],
-              longitude: marker.geometry.coordinates[0]
-            }}
-            image={props.datasetSlug === 'viirs' ? alertViirs : alertGlad}
-            onPress={(e) => props.selectAlert(e.nativeEvent.coordinate)}
-            zIndex={1}
-            anchor={{ x: 0.5, y: 0.5 }}
-            pointerEvents={'none'}
-          />
-        )
-      ))}
-    </View>
-  );
+class Clusters extends PureComponent {
+  render() {
+    if (!this.props.markers) return null;
+    return (
+      <View>
+        {this.props.markers.map((marker, index) => (
+          marker.properties.point_count !== undefined ? (
+            <ClusterMarker key={index} marker={marker} zoomTo={this.props.zoomTo} datasetSlug={this.props.datasetSlug} />
+          ) : (
+            <MapView.Marker
+              key={index}
+              coordinate={{
+                latitude: marker.geometry.coordinates[1],
+                longitude: marker.geometry.coordinates[0]
+              }}
+              image={this.props.datasetSlug === 'viirs' ? alertViirs : alertGlad}
+              onPress={this.props.selectAlert}
+              zIndex={1}
+              draggable={false}
+              anchor={{ x: 0.5, y: 0.5 }}
+              pointerEvents={'none'}
+            />
+          )
+        ))}
+      </View>
+    );
+  }
 }
 
 Clusters.propTypes = {
   markers: React.PropTypes.array.isRequired,
-  datasetSlug: React.PropTypes.string.isRequired
+  datasetSlug: React.PropTypes.string.isRequired,
+  selectAlert: React.PropTypes.func.isRequired,
+  zoomTo: React.PropTypes.func.isRequired
 };
 
 export default Clusters;

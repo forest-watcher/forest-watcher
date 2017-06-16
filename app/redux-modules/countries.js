@@ -1,10 +1,12 @@
 import Config from 'react-native-config';
 import { getLanguage } from 'helpers/language';
 import CONSTANTS from 'config/constants';
+import countriesFallback from 'config/statics/countries.json';
 
 // Actions
 const GET_COUNTRIES_REQUEST = 'countries/GET_COUNTRIES_REQUEST';
 const GET_COUNTRIES_COMMIT = 'countries/GET_COUNTRIES_COMMIT';
+const GET_COUNTRIES_ROLLBACK = 'countries/GET_COUNTRIES_ROLLBACK';
 
 // Reducer
 const initialState = {
@@ -19,6 +21,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, synced: false, syncing: true };
     case GET_COUNTRIES_COMMIT:
       return { ...state, data: action.payload.data, synced: true, syncing: false };
+    case GET_COUNTRIES_ROLLBACK:
+      return { ...state, data: countriesFallback, syncing: false };
     default:
       return state;
   }
@@ -39,7 +43,8 @@ export function getCountries() {
     meta: {
       offline: {
         effect: { url, deserialize: false },
-        commit: { type: GET_COUNTRIES_COMMIT }
+        commit: { type: GET_COUNTRIES_COMMIT },
+        rollback: { type: GET_COUNTRIES_ROLLBACK }
       }
     }
   };

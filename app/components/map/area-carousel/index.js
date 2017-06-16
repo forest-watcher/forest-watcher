@@ -24,14 +24,15 @@ class AreaCarousel extends Component {
       screen: 'ForestWatcher.AreaDetail',
       title: area.name,
       passProps: {
-        id: area.id
+        id: area.id,
+        disableDelete: true
       }
     });
   }
 
   render() {
     const { alertSelected, lastPosition, selectedArea } = this.props;
-    let distanceText = I18n.t('commonText.notAvailable');
+    let distanceText = '';
     let positionText = '';
     let datasetName = I18n.t('commonText.notAvailable');
     let distance = 999999;

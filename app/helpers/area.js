@@ -14,14 +14,15 @@ export function enabledDatasetName(area) {
 }
 
 export function getInitialDatasets(coverage) {
+  const layers = coverage.layers || [];
   const alerts = [
     {
       slug: 'umd_as_it_happens',
       name: 'GLAD',
       active: false,
       cache: true,
-      startDate: moment().subtract(6, 'months'),
-      endDate: moment().format('YYYYMMDD')
+      startDate: 6,
+      endDate: moment().format('YYYYMMDD') // TODO: think a way to standarize with viirs
     }
   ];
 
@@ -37,8 +38,8 @@ export function getInitialDatasets(coverage) {
   ];
   let datasets = [];
   for (let i = 0, aLength = alerts.length; i < aLength; i++) {
-    for (let j = 0, lLength = coverage.length; j < lLength; j++) {
-      if (alerts[i].slug === coverage[j]) {
+    for (let j = 0, lLength = layers.length; j < lLength; j++) {
+      if (alerts[i].slug === layers[j]) {
         datasets.push(alerts[i]);
       }
     }

@@ -26,7 +26,7 @@ import styles from './styles';
 
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
 
-const supercluster = require('supercluster'); // eslint-disable-line
+const Timer = require('react-native-timer');
 const geoViewport = require('@mapbox/geo-viewport');
 
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
@@ -100,9 +100,9 @@ class Map extends Component {
       StatusBar.setBarStyle('light-content');
     }
 
-    this.renderMap();
     this.geoLocate();
     this.updateMarkers();
+    Timer.setTimeout(this, 'renderMap', this.renderMap, 500);
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -121,6 +121,7 @@ class Map extends Component {
   componentWillUnmount() {
     Location.stopUpdatingLocation();
 
+    Timer.clearTimeout(this, 'renderMap');
     if (this.eventLocation) {
       this.eventLocation.remove();
     }
@@ -317,13 +318,19 @@ class Map extends Component {
     this.map.animateToRegion(zoomCoordinates);
   }
 
-  selectAlert = (coordinates) => {
-    const zoom = this.getMapZoom();
-    if (zoom) {
+  selectAlert = (e) => {
+    const { coordinate } = e.nativeEvent;
+    if (coordinate) {
       this.setState({
-        selectedAlertCoordinates: coordinates
+        selectedAlertCoordinates: coordinate
       });
     }
+  }
+
+  removeSelectedAlert = () => {
+    this.setState({
+      selectedAlertCoordinates: null
+    });
   }
 
   updateSelectedArea = () => {
@@ -336,7 +343,7 @@ class Map extends Component {
     });
   }
 
-  renderMap() {
+  renderMap = () => {
     if (!this.state.renderMap) {
       this.setState({
         renderMap: true
@@ -415,7 +422,14 @@ class Map extends Component {
             onLayout={this.onLayout}
             moveOnMarkerPress={false}
           >
-            <Clusters markers={this.state.markers} selectAlert={this.selectAlert} zoomTo={this.zoomTo} datasetSlug={datasetSlug} />
+            {datasetSlug &&
+              <Clusters
+                markers={this.state.markers}
+                selectAlert={this.selectAlert}
+                zoomTo={this.zoomTo}
+                datasetSlug={datasetSlug}
+              />
+            }
             {showCompassFallback &&
               <MapView.Polyline
                 coordinates={this.state.compassFallback}
@@ -467,6 +481,7 @@ class Map extends Component {
                 coordinate={selectedAlertCoordinates}
                 image={alertWhite}
                 anchor={{ x: 0.5, y: 0.5 }}
+                onPress={this.removeSelectedAlert}
                 zIndex={10}
               />
             }
@@ -489,12 +504,12 @@ class Map extends Component {
 Map.propTypes = {
   navigator: React.PropTypes.object.isRequired,
   createReport: React.PropTypes.func.isRequired,
-  cluster: React.PropTypes.object.isRequired,
+  cluster: React.PropTypes.object,
   center: React.PropTypes.shape({
     lat: React.PropTypes.number.isRequired,
     lon: React.PropTypes.number.isRequired
   }),
-  datasetSlug: React.PropTypes.string.isRequired,
+  datasetSlug: React.PropTypes.string,
   areaCoordinates: React.PropTypes.array,
   actionsPending: React.PropTypes.number.isRequired,
   syncModalOpen: React.PropTypes.bool.isRequired,

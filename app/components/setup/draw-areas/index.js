@@ -97,6 +97,7 @@ class DrawAreas extends Component {
 
     this.bboxed = false;
     this.state = {
+      renderMap: false,
       loading: false,
       valid: true,
       huge: false,
@@ -115,9 +116,11 @@ class DrawAreas extends Component {
 
   componentDidMount() {
     tracker.trackScreenView('Draw Areas');
+    Timer.setTimeout(this, 'renderMap', this.renderMap, 400);
   }
 
   componentWillUnmount() {
+    Timer.clearTimeout(this, 'renderMap');
     Timer.clearTimeout(this, 'afterRenderTimer');
   }
 
@@ -287,6 +290,15 @@ class DrawAreas extends Component {
     });
   }
 
+  renderMap = () => {
+    if (!this.state.renderMap) {
+      this.setState({
+        renderMap: true
+      });
+    }
+  }
+
+
   render() {
     const { valid, shape } = this.state;
     const { coordinates } = shape;
@@ -298,51 +310,53 @@ class DrawAreas extends Component {
           ? renderLoading()
           : null
         }
-        <MapView
-          ref={(ref) => { this.map = ref; }}
-          style={styles.map}
-          provider={MapView.PROVIDER_GOOGLE}
-          mapType="hybrid"
-          rotateEnabled={false}
-          onPress={e => this.onMapPress(e)}
-          moveOnMarkerPress={false}
-          onLayout={this.setBoundaries}
-        >
-          {coordinates.length > 0 && (
-            <MapView.Polygon
-              key={0}
-              coordinates={coordinates}
-              fillColor={valid ? Theme.polygon.fill : Theme.polygon.fillInvalid}
-              strokeColor={Theme.polygon.strokeSelected}
-              strokeWidth={coordinates.length >= 3 ? 2 : 0}
-              zIndex={0}
-            />
-          )}
-          {markers.length > 0 && !this.state.snapshot && (
-            <MapView.Polyline
-              key="line"
-              coordinates={markers}
-              strokeColor={Theme.polygon.strokeSelected}
-              strokeWidth={2}
-              zIndex={2}
-            />
-          )}
-          {markers.length >= 0 && !this.state.snapshot &&
-            markers.map((marker, index) => {
-              // const image = this.state.valid ? markerImage : markerRedImage;
-              const image = markerImage;
+        {this.state.renderMap &&
+          <MapView
+            ref={(ref) => { this.map = ref; }}
+            style={styles.map}
+            provider={MapView.PROVIDER_GOOGLE}
+            mapType="hybrid"
+            rotateEnabled={false}
+            onPress={e => this.onMapPress(e)}
+            moveOnMarkerPress={false}
+            onLayout={this.setBoundaries}
+          >
+            {coordinates.length > 0 && (
+              <MapView.Polygon
+                key={0}
+                coordinates={coordinates}
+                fillColor={valid ? Theme.polygon.fill : Theme.polygon.fillInvalid}
+                strokeColor={Theme.polygon.strokeSelected}
+                strokeWidth={coordinates.length >= 3 ? 2 : 0}
+                zIndex={0}
+              />
+            )}
+            {markers.length > 0 && !this.state.snapshot && (
+              <MapView.Polyline
+                key="line"
+                coordinates={markers}
+                strokeColor={Theme.polygon.strokeSelected}
+                strokeWidth={2}
+                zIndex={2}
+              />
+            )}
+            {markers.length >= 0 && !this.state.snapshot &&
+              markers.map((marker, index) => {
+                // const image = this.state.valid ? markerImage : markerRedImage;
+                const image = markerImage;
 
-              return (
-                <MapView.Marker.Animated key={index} coordinate={marker} anchor={{ x: 0.5, y: 0.5 }}>
-                  <Image
-                    style={{ width: 10, height: 10 }}
-                    source={image}
-                  />
-                </MapView.Marker.Animated>
-              );
-            })
-          }
-        </MapView>
+                return (
+                  <MapView.Marker.Animated key={index} coordinate={marker} anchor={{ x: 0.5, y: 0.5 }}>
+                    <Image
+                      style={{ width: 10, height: 10 }}
+                      source={image}
+                    />
+                  </MapView.Marker.Animated>
+                );
+              })
+            }
+          </MapView>
+        }
         <View style={styles.footer}>
           <Image
             style={styles.footerBg}

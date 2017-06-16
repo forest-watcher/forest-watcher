@@ -90,8 +90,8 @@
 	},
 	"partners": {
 	 	"title": "Partners",
-		"description": "Forest Watcher 2.0 is supported by a partnership of organizations contributing data, technology, funding and expertise.",
-		"listOfPartners": "See a full list of partners below."
+		"description": "Forest Watcher is created in collaboration between World Resources Institute, Vizzuality, and the Jane Goodall Institute.",
+		"listOfPartners": "See all Global Forest Watch partners."
 	},
 	"setupDrawAreas": {
     "invalidShape": "Invalid shape",
@@ -130,6 +130,7 @@
 		"1MonthAgo": "1 month ago",
 		"3MonthsAgo": "3 months ago",
 		"6MonthsAgo": "6 months ago",
+		"1yearAgo": "1 year ago",
 		"availableOffline": "Available offline"
 	},
   "report": {

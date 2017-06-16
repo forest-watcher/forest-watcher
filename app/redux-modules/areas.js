@@ -2,7 +2,7 @@ import Config from 'react-native-config';
 import omit from 'lodash/omit';
 import { getGeostore, GET_GEOSTORE_REQUEST, GET_GEOSTORE_COMMIT } from 'redux-modules/geostore';
 import { getCachedImageByUrl, removeFolder } from 'helpers/fileManagement';
-import { hasActionsPending } from 'helpers/sync';
+import { getActionsTodoCount } from 'helpers/sync';
 import { getInitialDatasets } from 'helpers/area';
 import CONSTANTS from 'config/constants';
 import { initDb } from 'helpers/database';
@@ -11,11 +11,11 @@ import { initDb } from 'helpers/database';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
+const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
+const GET_AREAS_ROLLBACK = 'areas/GET_AREAS_ROLLBACK';
 const GET_ALERTS_REQUEST = 'areas/GET_ALERTS_REQUEST';
 const GET_ALERTS_COMMIT = 'areas/GET_ALERTS_COMMIT';
 const GET_ALERTS_ROLLBACK = 'areas/GET_ALERTS_ROLLBACK';
-const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
-const GET_AREAS_ROLLBACK = 'areas/GET_AREAS_ROLLBACK';
 const SAVE_AREA_REQUEST = 'areas/SAVE_AREA_REQUEST';
 export const SAVE_AREA_COMMIT = 'areas/SAVE_AREA_COMMIT';
 export const SAVE_AREA_ROLLBACK = 'areas/SAVE_AREA_ROLLBACK';
@@ -523,7 +523,7 @@ export function updateDate(areaId, datasetSlug, date) {
         }
         return newDataset;
       });
-      dispatch(updateArea(area, true));
+      dispatch(updateArea(area));
     }
   };
 }
@@ -552,7 +552,11 @@ export function deleteArea(areaId) {
 export function getAreaAlerts(areaId, datasetSlug) {
   return (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
-    const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore}`;
+    // const activeDataset = activeDataset(area);
+    // we are always requesting all of the data so the filter is only for the map locally
+    // for viirs we have the last 7 days and 12 months for glad
+    const range = datasetSlug === 'viirs' ? 7 : 12;
+    const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore}?range=${range}`;
     const oldArea = { ...area, datasets: updatedCacheDatasets(area.datasets, datasetSlug, false) };
 
     dispatch({
@@ -573,7 +577,7 @@ export function syncAreas() {
   return async (dispatch, state) => {
     const { data, synced, syncing, pendingData } = state().areas;
     const hasAreas = data && data.length;
-    if (hasAreas && synced && hasActionsPending(pendingData)) {
+    if (hasAreas && synced && getActionsTodoCount(pendingData) > 0) {
       Object.keys(pendingData).forEach((type) => {
         const syncingAreasData = pendingData[type];
         const canDispatch = id => (typeof syncingAreasData[id] !== 'undefined' && syncingAreasData[id] === false);
