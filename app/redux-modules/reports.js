@@ -1,7 +1,6 @@
 import Config from 'react-native-config';
 import tracker from 'helpers/googleAnalytics';
 import CONSTANTS from 'config/constants';
-import { getLanguage } from 'helpers/language';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 
 
@@ -68,10 +67,8 @@ export default function reducer(state = initialState, action) {
 
 // Action Creators
 export function getReportQuestions() {
-  const language = getLanguage().toUpperCase();
-  let qIdByLanguage = Config[`QUESTIONNARIE_ID_${language}`];
-  if (!qIdByLanguage) qIdByLanguage = Config.QUESTIONNARIE_ID_EN; // language fallback
-  const url = `${Config.API_URL}/questionnaire/${qIdByLanguage}`;
+  const report = Config.REPORT_ID;
+  const url = `${Config.API_URL}/reports/${report}`;
 
   return {
     type: GET_REPORT_QUESTIONS_REQUEST,

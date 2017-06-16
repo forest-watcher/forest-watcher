@@ -84,10 +84,8 @@ export default function reducer(state = initialState, action) {
 
 // Action Creators
 export function getFeedbackQuestions(type) {
-  const language = getLanguage().toUpperCase();
-  let feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_${language}`];
-  if (!feedbackId) feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_EN`]; // language fallback
-  const url = `${Config.API_URL}/questionnaire/${feedbackId}`;
+  const feedbackId = type === 'daily' ? Config.DAILY_FEEDBACK : Config.WEEKLY_FEEDBACK;
+  const url = `${Config.API_URL}/reports/${feedbackId}`;
   return {
     type: GET_FEEDBACK_QUESTIONS_REQUEST,
     payload: type,
@@ -150,9 +148,8 @@ export function uploadFeedback(type) {
       }
     });
 
-    let feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_${language}`];
-    if (!feedbackId) feedbackId = Config[`FEEDBACK_${type.toUpperCase()}_EN`]; // language fallback
-    const url = `${Config.API_URL}/questionnaire/${feedbackId}/answer`;
+    const feedbackId = type === 'daily' ? Config.DAILY_FEEDBACK : Config.WEEKLY_FEEDBACK;
+    const url = `${Config.API_URL}/reports/${feedbackId}/answers`;
     const headers = { 'content-type': 'multipart/form-data' };
 
     const requestPayload = {
