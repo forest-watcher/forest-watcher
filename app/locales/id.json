@@ -3,7 +3,7 @@
 		"appName": "Forest Watcher 2.0",
 		"next": "Lanjut",
     "save": "Menyimpan",
-    "boundaries": "Boundaries",
+    "boundaries": "Batas",
     "delete": "Menghapus",
 		"back": "Kembali",
 		"finish": "Selesai",
@@ -15,30 +15,30 @@
     "loading": "Pemuatan",
     "notAvailable": "Tidak tersedia",
     "kmAway": "km jauhnya",
-	"lastUpdated": "Last Updated",
-    "name": "Name",
+	  "lastUpdated": "Terakhir diperbarui",
+    "name": "Nama",
     "yourPosition": "Posisi kamu",
 		"connectionRequiredTitle": "Tidak ada koneksi",
 		"connectionRequired": "Anda memerlukan koneksi internet",
     "noImage": "Tidak ada gambar",
     "cached": "Tersimpan",
     "noCached": "Tidak tersimpan",
-    "noAlertSystem": "No alert system selected"
+    "noAlertSystem": "Tidak ada sistem peringatan yang dipilih"
 	},
 	"home": {
 		"title": {
-			"updating": "Updating data...",
-			"outOfDate": "Your alerts are out of date",
-			"updated": "Update Completed!"
+			"updating": "Memperbarui data ...",
+			"outOfDate": "Lansiran Anda kedaluwarsa",
+			"updated": "Update selesai!"
 		},
 		"subtitle": {
-			"takesTime": "This process can take several minutes",
-			"mobile": "Do you want to update them over 3G?",
-			"noConnection": "You need an internet connection to update your data",
-			"updated": "Data was successfully updated!"
+			"takesTime": "Proses ini bisa memakan waktu beberapa menit",
+			"mobile": "Apakah Anda ingin memperbaruinya melalui 3G?",
+			"noConnection": "Anda memerlukan koneksi internet untuk mengupdate data Anda",
+			"updated": "Data berhasil diupdate!"
 		},
-		"skip": "skip",
-		"update": "update"
+		"skip": "melewatkan",
+		"update": "memperbarui"
 	},
 	"dashboard": {
 		"title": "Dasbor",
@@ -69,7 +69,7 @@
     "title": "Peringatan",
 		"seeAll": "Lihat semua",
 		"alert": "Peringatan",
-    "alertSystems": "Alert systems",
+    "alertSystems": "Sistem peringatan",
     "downloadingAlerts": "Harap tunggu sementara data yang di-download ...",
     "noAlerts": "Tidak ada lansiran tersedia",
     "satelliteSignal": "Menunggu sinyal satelit ..."
@@ -77,7 +77,7 @@
 	"areaDetail": {
     "title": "Detail area",
 		"delete": "Hapus area ini",
-		"noAlerts": "No alerts for this area"
+		"noAlerts": "Tidak ada peringatan untuk area ini"
 	},
 	"boundaries": {
 		"chooseBoundaries": "Sakarang, pilih batas",
@@ -91,12 +91,12 @@
 	},
 	"partners": {
 	 	"title": "Mitra",
-		"description": "Forest Watcher is created in collaboration between World Resources Institute, Vizzuality, and the Jane Goodall Institute.",
-		"listOfPartners": "See all Global Forest Watch partners."
+		"description": "Forest Watcher dibuat dalam kolaborasi antara World Resources Institute, Vizzuality, dan Jane Goodall Institute.",
+		"listOfPartners": "Lihat semua mitra Global Forest Watch."
 	},
 	"setupDrawAreas": {
     "invalidShape": "Bentuk valid",
-    "invalidSize": "Terlalu besar",
+    "invalidSize": "Gambarlah area yang lebih kecil",
 		"tapInstruction": "Ketuk peta untuk menggambar area"
 	},
 	"setupHeader": {
@@ -107,7 +107,7 @@
 	"setupOverview": {
 		"placeholder": "Masukkan nama",
     "areaName": "Nama daerah",
-    "gettingDatasets": "Getting datasets"
+    "gettingDatasets": "Mendapatkan dataset"
 	},
 	"setupProtectedAreas": {
 		"instruction": "Pilih area untuk melanjutkan"
@@ -124,15 +124,15 @@
     "timeFrame": "Jangka waktu",
     "from": "Dari",
     "to": "untuk",
-		"oneWeekAgo": "One week ago",
-		"72hAgo": "72 hours ago",
-		"48hAgo": "48 hours ago",
-		"24hAgo": "24 hours ago",
-		"1MonthAgo": "1 month ago",
-		"3MonthsAgo": "3 months ago",
-		"6MonthsAgo": "6 months ago",
-		"1yearAgo": "1 year ago",
-		"availableOffline": "Available offline"
+		"oneWeekAgo": "Satu minggu yang lalu",
+		"72hAgo": "72 jam yang lalu",
+		"48hAgo": "48 jam yang lalu",
+		"24hAgo": "24 jam yang lalu",
+		"1MonthAgo": "1 bulan yang lalu",
+		"3MonthsAgo": "3 bulan yang lalu",
+		"6MonthsAgo": "6 bulan yang lalu",
+		"1yearAgo": "1 tahun yang lalu",
+		"availableOffline": "Tersedia secara offline"
 	},
   "report": {
     "title": "Lapor",

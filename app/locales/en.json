@@ -15,7 +15,7 @@
     "loading": "Loading",
     "notAvailable": "Not available",
     "kmAway": "km away",
-	"lastUpdated": "Last Updated",
+	  "lastUpdated": "Last Updated",
     "name": "Name",
     "yourPosition": "Your position",
 		"connectionRequiredTitle": "No connection",
@@ -96,7 +96,7 @@
 	},
 	"setupDrawAreas": {
     "invalidShape": "Invalid shape",
-    "invalidSize": "Max allowed size",
+    "invalidSize": "Please draw a smaller area",
 		"tapInstruction": "Tap on map to draw"
 	},
 	"setupHeader": {
