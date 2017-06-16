@@ -12,6 +12,10 @@ class Home extends Component {
     navBarHidden: true
   };
 
+  componentWillMount() {
+    this.props.setSyncSkip(false);
+  }
+
   componentDidMount() {
     this.handleStatus();
     tracker.trackScreenView('Home');
@@ -23,7 +27,8 @@ class Home extends Component {
       this.props.loggedIn !== nextProps.loggedIn,
       this.props.syncFinished !== nextProps.syncFinished,
       this.props.hasAreas !== nextProps.hasAreas,
-      this.props.token !== nextProps.token
+      this.props.token !== nextProps.token,
+      this.props.syncSkip !== nextProps.syncSkip
     ];
     return conditions.includes(true);
   }
@@ -33,13 +38,13 @@ class Home extends Component {
   }
 
   handleStatus() {
-    const { loggedIn, token, hasAreas, syncFinished, setLanguage, navigator, syncModalOpen } = this.props;
+    const { loggedIn, token, hasAreas, syncFinished, syncSkip, setLanguage, navigator, syncModalOpen } = this.props;
     setLanguage();
     if (loggedIn) {
       tracker.setUser(token);
       if (!syncFinished && !syncModalOpen && !this.modalOpen) {
         this.openModal();
-      } else if (syncFinished) {
+      } else if (syncFinished || syncSkip) {
         if (!hasAreas) {
           navigator.resetTo({
             screen: 'ForestWatcher.Setup',
@@ -55,7 +60,7 @@ class Home extends Component {
           });
         }
       }
-    } else { // eslint-disable-line
+    } else {
       navigator.resetTo({
         screen: 'ForestWatcher.Login'
       });
@@ -91,12 +96,14 @@ class Home extends Component {
 Home.propTypes = {
   loggedIn: React.PropTypes.bool.isRequired,
   token: React.PropTypes.string,
+  syncSkip: React.PropTypes.bool.isRequired,
   syncFinished: React.PropTypes.bool.isRequired,
   setLanguage: React.PropTypes.func.isRequired,
   navigator: React.PropTypes.object.isRequired,
   hasAreas: React.PropTypes.bool.isRequired,
   syncModalOpen: React.PropTypes.bool.isRequired,
-  setSyncModal: React.PropTypes.func.isRequired
+  setSyncModal: React.PropTypes.func.isRequired,
+  setSyncSkip: React.PropTypes.func.isRequired
 };
 Home.navigationOptions = {
   header: {

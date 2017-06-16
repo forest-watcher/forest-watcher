@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
-import { syncApp, setSyncModal } from 'redux-modules/app';
-import { getLanguage } from 'helpers/language';
+import { syncApp, setSyncModal, setSyncSkip } from 'redux-modules/app';
 import { getTotalActionsPending } from 'helpers/sync';
 
 import Sync from 'components/sync';
@@ -8,8 +7,8 @@ import Sync from 'components/sync';
 function mapStateToProps(state) {
   return {
     isConnected: state.offline.online,
+    hasAreas: !!state.areas.data.length,
     reach: state.offline.netInfo && state.offline.netInfo.reach,
-    languageChanged: state.app.language !== getLanguage(),
     actionsPending: getTotalActionsPending(state)
   };
 }
@@ -17,7 +16,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     syncApp: () => dispatch(syncApp()),
-    setSyncModal: open => dispatch(setSyncModal(open))
+    setSyncModal: open => dispatch(setSyncModal(open)),
+    setSyncSkip: status => dispatch(setSyncSkip(status))
   };
 }
 
