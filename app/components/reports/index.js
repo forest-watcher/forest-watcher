@@ -7,6 +7,7 @@ import {
   TouchableHighlight
 } from 'react-native';
 
+import moment from 'moment';
 import I18n from 'locales';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
@@ -17,18 +18,18 @@ const checkIcon = require('assets/check.png');
 const uploadIcon = require('assets/upload.png');
 
 function getItems(data, image, onPress) {
-  return data.map((item, index) => (
-    <View
-      key={index}
-      style={styles.listItem}
-    >
-      <View style={styles.listItemContent}>
-        <Text style={styles.itemTitle}>{item.title}</Text>
-        <Text style={styles.itemText}>{item.position}</Text>
-        <Text style={styles.itemText}>{item.date}</Text>
-      </View>
-      <View style={styles.listBtn}>
-        {image &&
+  return data.map((item, index) => {
+    let positionParsed = '';
+    if (item.position) {
+      const latLng = item.position.split(',');
+      if (latLng && latLng.length > 1) {
+        positionParsed = `${parseFloat(latLng[0]).toFixed(4)}, ${parseFloat(latLng[1]).toFixed(4)}`;
+      }
+    }
+    const dateParsed = moment(item.date).fromNow();
+    let icon = null;
+    if (image && onPress) {
+      icon = (
         <TouchableHighlight
           onPress={() => typeof onPress === 'function' && onPress(item.title)}
           underlayColor="transparent"
@@ -36,10 +37,24 @@ function getItems(data, image, onPress) {
         >
           <Image style={Theme.icon} source={image} />
         </TouchableHighlight>
-        }
+      );
+    } else if (image) {
+      icon = <Image style={Theme.icon} source={image} />;
+    }
+    return (
+      <View
+        key={index}
+        style={styles.listItem}
+      >
+        <View style={styles.listItemContent}>
+          <Text style={styles.itemTitle}>{item.title}</Text>
+          <Text style={styles.itemText}>{positionParsed}</Text>
+          <Text style={styles.itemText}>{dateParsed}</Text>
+        </View>
+        <View style={styles.listBtn}>{icon}</View>
       </View>
-    </View>
-  ));
+    );
+  });
 }
 
 class Reports extends Component {

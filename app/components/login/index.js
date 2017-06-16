@@ -13,6 +13,12 @@ import Config from 'react-native-config';
 import Theme from 'config/theme';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
+import { getLanguage } from 'helpers/language';
+import moment from 'moment';
+import 'moment/locale/es';
+import 'moment/locale/fr';
+import 'moment/locale/pt';
+import 'moment/locale/id';
 
 import styles from './styles';
 
@@ -21,6 +27,9 @@ const facebookIcon = require('assets/facebook_white.png');
 const twitterIcon = require('assets/twitter_white.png');
 const googleIcon = require('assets/google_white.png');
 const nextIcon = require('assets/next_white.png');
+
+// Set global moment internationalization
+moment.locale(getLanguage());
 
 class Login extends PureComponent {
   static navigatorStyle = {
