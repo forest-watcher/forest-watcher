@@ -95,7 +95,7 @@
 	},
 	"setupDrawAreas": {
     "invalidShape": "Invalid shape",
-    "invalidSize": "Max allowed size",
+    "invalidSize": "Please draw a smaller area",
 		"tapInstruction": "Tap on map to draw"
 	},
 	"setupHeader": {
