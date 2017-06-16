@@ -34,7 +34,8 @@ class Setup extends Component {
 
   onFinishSetup = () => {
     this.props.navigator.resetTo({
-      screen: 'ForestWatcher.Home'
+      screen: 'ForestWatcher.Dashboard',
+      title: 'FOREST WATCHER'
     });
   }
 
