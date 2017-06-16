@@ -3,41 +3,41 @@
 		"appName": "Forest Watcher 2.0",
 		"next": "Próximo",
     "save": "Salve",
-    "boundaries": "Boundaries",
-    "delete": "Delete",
+    "boundaries": "Limites",
+    "delete": "Excluir",
 		"back": "Voltar",
 		"finish": "Terminar",
-		"saving": "Saving",
-		"caching": "Caching",
+		"saving": "Salvando",
+		"caching": "Cache",
 		"setUp": "Configuração",
     "cancel": "Cancelar",
     "confirm": "Confirmar",
     "loading": "Carregando",
     "notAvailable": "Não disponível",
     "kmAway": "Km de distância",
-    "name": "Name",
-    "yourPosition": "Your position",
-		"connectionRequiredTitle": "No connection",
-		"connectionRequired": "You need an internet connection to complete this action",
-    "noImage": "No image",
-    "cached": "cached",
-    "noCached": "no-cached",
-    "noAlertSystem": "No alert system selected"
+    "name": "Nome",
+    "yourPosition": "Sua posição",
+		"connectionRequiredTitle": "Sem conexão",
+		"connectionRequired": "Você precisa de uma conexão com a internet para completar esta ação",
+    "noImage": "Sem imagem",
+    "cached": "Em cache",
+    "noCached": "sem-cache",
+    "noAlertSystem": "Nenhum sistema de alerta selecionado"
 	},
 	"home": {
 		"title": {
-			"updating": "Updating data...",
-			"outOfDate": "Your alerts are out of date",
-			"updated": "Update Completed!"
+			"updating": "Atualizando dados ...",
+			"outOfDate": "Seus alertas estão desatualizados",
+			"updated": "Atualização concluída"
 		},
 		"subtitle": {
-			"takesTime": "This process can take several minutes",
-			"mobile": "Do you want to update them over 3G?",
-			"noConnection": "You need an internet connection to update your data",
-			"updated": "Data was successfully updated!"
+			"takesTime": "Esse processo pode levar vários minutos",
+			"mobile": "Deseja atualizá-los por 3G?",
+			"noConnection": "Você precisa de uma conexão com a internet para atualizar seus dados",
+			"updated": "Os dados foram atualizados com sucesso!"
 		},
-		"skip": "skip",
-		"update": "update"
+		"skip": "pular",
+		"update": "atualizar"
 	},
 	"dashboard": {
 		"title": "Painel",
@@ -65,18 +65,18 @@
 		"searchPlaceholder": "Procurar um país"
 	},
 	"alerts": {
-    "title": "My Alerts",
+    "title": "Meus alertas",
 		"seeAll": "Ver todos",
 		"alert": "alerta",
-    "alertSystems": "Alert systems",
+    "alertSystems": "Sistemas de alertas",
     "downloadingAlerts": "Aguarde enquanto os dados são baixados ...",
     "noAlerts": "Não há alertas disponíveis",
     "satelliteSignal": "Esperando o sinal de satélite..."
 	},
 	"areaDetail": {
-    "title": "Area detail",
-		"delete": "Delete this area",
-		"noAlerts": "No alerts for this area"
+    "title": "Detalhes das áreas",
+		"delete": "Exclua esta área",
+		"noAlerts": "Não há alertas para esta área"
 	},
 	"boundaries": {
 		"chooseBoundaries": "Agora, escolha os limites",
@@ -89,13 +89,13 @@
 		"firstInstruction": "Primeiro, escolha o seu país de interesse"
 	},
 	"partners": {
-	 	"title": "Partners",
-		"description": "Forest Watcher is created in collaboration between World Resources Institute, Vizzuality, and the Jane Goodall Institute.",
-		"listOfPartners": "See all Global Forest Watch partners."
+	 	"title": "Parceiros",
+		"description": "Forest Watcher é criado em colaboração entre World Resources Institute, Vizzuality e Jane Goodall Institute.",
+		"listOfPartners": "Veja todos os parceiros da Global Forest Watch."
 	},
 	"setupDrawAreas": {
     "invalidShape": "Forma inválida",
-    "invalidSize": "Max allowed size",
+    "invalidSize": "Desenhe uma área menor",
 		"tapInstruction": "Toque no mapa para desenhar"
 	},
 	"setupHeader": {
@@ -106,7 +106,7 @@
 	"setupOverview": {
 		"placeholder": "Introduza um nome",
     "areaName": "Nomeie a área",
-    "gettingDatasets": "Getting datasets"
+    "gettingDatasets": "Obtendo conjuntos de dados"
 	},
 	"setupProtectedAreas": {
 		"instruction": "Escolha uma área para continuar"
@@ -120,18 +120,18 @@
 		"aboutApp": "Acerca desta app",
 		"aboutPartners": "Parceiros",
 		"aboutTerms": "Termos e Condições",
-    "timeFrame": "Time Frame",
-    "from": "From",
-    "to": "To",
-		"oneWeekAgo": "One week ago",
-		"72hAgo": "72 hours ago",
-		"48hAgo": "48 hours ago",
-		"24hAgo": "24 hours ago",
-		"1MonthAgo": "1 month ago",
-		"3MonthsAgo": "3 months ago",
-		"6MonthsAgo": "6 months ago",
-		"1yearAgo": "1 year ago",
-		"availableOffline": "Available offline"
+    "timeFrame": "Prazo",
+    "from": "De",
+    "to": "a",
+		"oneWeekAgo": "Uma semana atrás",
+		"72hAgo": "Há 72 horas",
+		"48hAgo": "Há 48 horas",
+		"24hAgo": "Há 24 horas",
+		"1MonthAgo": "1 mês atrás",
+		"3MonthsAgo": "3 mês atrás",
+		"6MonthsAgo": "6 mês atrás",
+		"1yearAgo": "1 ano atrás",
+		"availableOffline": "Disponível offline"
 	},
   "report": {
     "title": "Relatório",
@@ -148,8 +148,8 @@
     "uploadAll": "Carregar todos",
     "drafts": "Rascunhos",
     "uploaded": "Carregado",
-	"unable": "Unable to send report",
-	"connectionRequired": "You need an internet connection"
+	"unable": "Não é possível enviar relatório",
+	"connectionRequired": "Você precisa de uma conexão com a internet"
   },
   "feedback": {
     "title": "Feedback",

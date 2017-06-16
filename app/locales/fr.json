@@ -3,41 +3,41 @@
 		"appName": "Forest Watcher 2.0",
 		"next": "Suivant",
     "save": "Enregistrer",
-    "boundaries": "Boundaries",
-    "delete": "Delete",
+    "boundaries": "Limites",
+    "delete": "Supprimer",
 		"back": "Précédent",
 		"finish": "Terminer",
-		"saving": "Saving",
-		"caching": "Caching",
+		"saving": "Sauvegarde",
+		"caching": "Mise en mémoire cache",
 		"setUp": "Configurer",
     "cancel": "Annuler",
     "confirm": "Confirmer",
     "loading": "Chargement",
     "notAvailable": "Indisponible",
     "kmAway": "Km de distance",
-    "name": "Name",
-    "yourPosition": "Your position",
-		"connectionRequiredTitle": "No connection",
-		"connectionRequired": "You need an internet connection to complete this action",
-    "noImage": "No image",
-    "cached": "cached",
-    "noCached": "no-cached",
-    "noAlertSystem": "No alert system selected"
+    "name": "Nom",
+    "yourPosition": "Votre position",
+		"connectionRequiredTitle": "Pas de connexion",
+		"connectionRequired": "Une connexion internet est requise pour effectuer cette action",
+    "noImage": "Aucune image",
+    "cached": "en cache",
+    "noCached": "pas en cache",
+    "noAlertSystem": "Aucun système d'alerte sélectionné"
 	},
 	"home": {
 		"title": {
-			"updating": "Updating data...",
-			"outOfDate": "Your alerts are out of date",
-			"updated": "Update Completed!"
+			"updating": "Mise à jour des données...",
+			"outOfDate": "Vos alertes ne sont plus à jour",
+			"updated": "Mise à jour effectuée !"
 		},
 		"subtitle": {
-			"takesTime": "This process can take several minutes",
-			"mobile": "Do you want to update them over 3G?",
-			"noConnection": "You need an internet connection to update your data",
-			"updated": "Data was successfully updated!"
+			"takesTime": "Cette opération peut durer plusieurs minutes",
+			"mobile": "Voulez-vous les mettre à jour via 3G ?",
+			"noConnection": "Une connexion internet est requise pour mettre à jour vos données",
+			"updated": "Les données ont été mises à jour !"
 		},
-		"skip": "skip",
-		"update": "update"
+		"skip": "passer",
+		"update": "mettre à jour"
 	},
 	"dashboard": {
 		"title": "Tableau de bord",
@@ -51,8 +51,8 @@
 	},
 	"login": {
 		"title": "S'identifier",
-		"unable": "L'authentification a échouée",
-		"connectionRequired": "Une connexion a Internet est requise",
+		"unable": "L'authentification a échoué",
+		"connectionRequired": "Une connexion à Internet est requise",
 		"introductionText": "Connectez-vous avec un compte MyGFW",
 		"facebookTitle": "Facebook",
 		"twitterTitle": "Twitter",
@@ -65,37 +65,37 @@
 		"searchPlaceholder": "Rechercher un pays"
 	},
 	"alerts": {
-    "title": "My Alerts",
-		"seeAll": "Voir tout",
+    "title": "Mes Alertes",
+		"seeAll": "Tout voir",
 		"alert": "alerte",
-    "alertSystems": "Alert systems",
+    "alertSystems": "Systèmes d'Alerte",
     "downloadingAlerts": "Veuillez patienter pendant le téléchargement des données...",
     "noAlerts": "Il n'y a pas d'alertes disponibles",
     "satelliteSignal": "En attente du signal satellite ..."
 	},
 	"areaDetail": {
-    "title": "Area detail",
-		"delete": "Delete this area",
-		"noAlerts": "No alerts for this area"
+    "title": "Détails de la zone",
+		"delete": "Supprimer cette zone",
+		"noAlerts": "Aucune alerte dans cette zone"
 	},
 	"boundaries": {
 		"chooseBoundaries": "Maintenant, choisissez les limites",
 		"selectProtectedArea": "Sélectionnez une zone protégée",
-		"drawArea": "Dessinez une zone"
+		"drawArea": "Dessiner une zone"
 	},
 	"setupCountry": {
 		"welcomeText": "Bonjour",
 		"secondWelcomeText": "veuillez créer une zone",
-		"firstInstruction": "Tout d'abord, sélectionnez votre pays d'intérêt"
+		"firstInstruction": "Tout d'abord, sélectionnez le pays qui vous intéresse"
 	},
 	"partners": {
-	 	"title": "Partners",
-		"description": "Forest Watcher is created in collaboration between World Resources Institute, Vizzuality, and the Jane Goodall Institute.",
-		"listOfPartners": "See all Global Forest Watch partners."
+	 	"title": "Partenaires",
+		"description": "Forest Watcher a été crée en collaboration avec World Resources Institutes, Vizzuality, et le Jane Goodall Institute",
+		"listOfPartners": "Voir tous les partenaires de Global Forest Watch"
 	},
 	"setupDrawAreas": {
-    "invalidShape": "Forme non valide",
-    "invalidSize": "Max allowed size",
+    "invalidShape": "Zone non valide",
+    "invalidSize": "Veuillez dessiner une zone plus petite",
 		"tapInstruction": "Touchez la carte pour dessiner"
 	},
 	"setupHeader": {
@@ -105,8 +105,8 @@
 	},
 	"setupOverview": {
 		"placeholder": "Entrez un nom",
-    "areaName": "Nommez la zone",
-    "gettingDatasets": "Getting datasets"
+    "areaName": "Nommer la zone",
+    "gettingDatasets": "Récupération des données"
 	},
 	"setupProtectedAreas": {
 		"instruction": "Sélectionnez une zone pour continuer"
@@ -120,18 +120,18 @@
 		"aboutApp": "À propos de cette application",
 		"aboutPartners": "Les partenaires",
 		"aboutTerms": "Conditions d'utilisation",
-    "timeFrame": "Time Frame",
-    "from": "From",
-    "to": "To",
-		"oneWeekAgo": "One week ago",
-		"72hAgo": "72 hours ago",
-		"48hAgo": "48 hours ago",
-		"24hAgo": "24 hours ago",
-		"1MonthAgo": "1 month ago",
-		"3MonthsAgo": "3 months ago",
-		"6MonthsAgo": "6 months ago",
-		"1yearAgo": "1 year ago",
-		"availableOffline": "Available offline"
+    "timeFrame": "Intervalle de temps",
+    "from": "De",
+    "to": "À",
+		"oneWeekAgo": "La semaine dernière",
+		"72hAgo": "Dernières 72 heures",
+		"48hAgo": "Dernières 48 heures",
+		"24hAgo": "Dernières 24 heures",
+		"1MonthAgo": "Le mois dernier",
+		"3MonthsAgo": "Les 3 derniers mois",
+		"6MonthsAgo": "Les 6 derniers mois",
+		"1yearAgo": "L'année dernière",
+		"availableOffline": "Disponible hors-ligne"
 	},
   "report": {
     "title": "Rapport",
@@ -145,11 +145,11 @@
     "inputSelect": "Choisissez au moins une option pour continuer",
     "input": "S'il vous plaît, répondez à la question",
     "completed": "Terminé",
-    "uploadAll": "Tout sauvegardé",
+    "uploadAll": "Tout sauvegarder",
     "drafts": "Brouillons",
     "uploaded": "Sauvegardé",
-	"unable": "Unable to send report",
-	"connectionRequired": "You need an internet connection"
+	"unable": "Impossible d'envoyer le rapport",
+	"connectionRequired": "Une connexion internet est requise"
   },
   "feedback": {
     "title": "Feedback",

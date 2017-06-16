@@ -3,7 +3,7 @@
 		"appName": "Forest Watcher 2.0",
 		"next": "Siguiente",
     "save": "Guardar",
-    "boundaries": "Boundaries",
+    "boundaries": "Límites",
     "delete": "Borrar",
 		"back": "Atrás",
 		"finish": "Terminar",
@@ -15,29 +15,29 @@
     "loading": "Cargando",
     "notAvailable": "No disponible",
     "kmAway": "Km de distancia",
-    "name": "Name",
+    "name": "Nombre",
     "yourPosition": "Tu posición",
 		"connectionRequiredTitle": "Sin conexión",
 		"connectionRequired": "Necesita una conexión a internet para completar esta acción.",
     "noImage": "Sin imagen",
     "cached": "cacheada",
     "noCached": "no cacheada",
-    "noAlertSystem": "No alert system selected"
+    "noAlertSystem": "No hay alertas seleccionadas"
 	},
 	"home": {
 		"title": {
-			"updating": "Updating data...",
-			"outOfDate": "Your alerts are out of date",
-			"updated": "Update Completed!"
+			"updating": "Actualizando datos...",
+			"outOfDate": "Tus alertas están desactualizadas",
+			"updated": "¡ Actualización completa !"
 		},
 		"subtitle": {
-			"takesTime": "This process can take several minutes",
-			"mobile": "Do you want to update them over 3G?",
-			"noConnection": "You need an internet connection to update your data",
-			"updated": "Data was successfully updated!"
+			"takesTime": "Este proceso podría llevar varios minutos.",
+			"mobile": "¿Quiere actualizar la app usando 3G?",
+			"noConnection": "Necesita una conexión a internet para actualizar los datos",
+			"updated": "¡Los datos fueron actualizados correctamente!"
 		},
-		"skip": "skip",
-		"update": "update"
+		"skip": "saltar",
+		"update": "actualizar"
 	},
 	"dashboard": {
 		"title": "Panel de control",
@@ -68,7 +68,7 @@
     "title": "Mis alertas",
 		"seeAll": "Ver todo",
 		"alert": "alerta",
-    "alertSystems": "Alert systems",
+    "alertSystems": "Sistema de alertas",
     "downloadingAlerts": "Espera mientras se descargan los datos...",
     "noAlerts": "No hay alertas disponibles",
     "satelliteSignal": "Esperando la señal del satélite..."
@@ -76,7 +76,7 @@
 	"areaDetail": {
     "title": "Detalle de area",
 		"delete": "Elimina esta area",
-		"noAlerts": "No alerts for this area"
+		"noAlerts": "No hay alertas para este area"
 	},
 	"boundaries": {
 		"chooseBoundaries": "Ahora, elija los límites",
@@ -90,12 +90,12 @@
 	},
 	"partners": {
 	 	"title": "Parnerts",
-		"description": "Forest Watcher is created in collaboration between World Resources Institute, Vizzuality, and the Jane Goodall Institute.",
-		"listOfPartners": "See all Global Forest Watch partners."
+		"description": "Forest Watcher está siendo desarrollado en colaboración entre World Resources Insitute, Vizzuality y el Jane Goodall Institute.",
+		"listOfPartners": "Conozca todos los partners de Global Forest Watch."
 	},
 	"setupDrawAreas": {
     "invalidShape": "Forma no válida",
-    "invalidSize": "Tamaño máximo permitido",
+    "invalidSize": "Dibuje un area mas pequeña.",
 		"tapInstruction": "Toque en el mapa para dibujar"
 	},
 	"setupHeader": {
@@ -106,7 +106,7 @@
 	"setupOverview": {
 		"placeholder": "Introduzca un nombre",
     "areaName": "Nombre del área",
-    "gettingDatasets": "Getting datasets"
+    "gettingDatasets": "Obteniendo datasets"
 	},
 	"setupProtectedAreas": {
 		"instruction": "Seleccione un área para continuar"
@@ -123,15 +123,15 @@
     "timeFrame": "Periodo de tiempo",
     "from": "Desde",
     "to": "Hasta",
-		"oneWeekAgo": "One week ago",
-		"72hAgo": "72 hours ago",
-		"48hAgo": "48 hours ago",
-		"24hAgo": "24 hours ago",
-		"1MonthAgo": "1 month ago",
-		"3MonthsAgo": "3 months ago",
-		"6MonthsAgo": "6 months ago",
-		"1yearAgo": "1 year ago",
-		"availableOffline": "Available offline"
+		"oneWeekAgo": "Hace una semana",
+		"72hAgo": "Hace 72 horas",
+		"48hAgo": "Hace 48 horas",
+		"24hAgo": "Hace 24 horas",
+		"1MonthAgo": "Hace 1 mes",
+		"3MonthsAgo": "Hace 3 meses",
+		"6MonthsAgo": "Hace 6 meses",
+		"1yearAgo": "Hace 1 año",
+		"availableOffline": "Disponible offline"
 	},
   "report": {
     "title": "Informe",
