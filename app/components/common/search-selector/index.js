@@ -9,6 +9,7 @@ import {
   TextInput
 } from 'react-native';
 
+import deburr from 'lodash/deburr';
 import Theme from 'config/theme';
 import styles from './styles';
 
@@ -17,8 +18,8 @@ const closeImage = require('assets/close.png');
 
 function getFilteredData(data, filter) {
   if (!filter) return data;
-  const filterUpper = filter.toUpperCase();
-  return data.filter((item) => item.name.toUpperCase().indexOf(filterUpper) > -1);
+  const filterUpper = deburr(filter.toUpperCase());
+  return data.filter((item) => deburr(item.name.toUpperCase()).indexOf(filterUpper) > -1);
 }
 
 class SearchSelector extends Component {
