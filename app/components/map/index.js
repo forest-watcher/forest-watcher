@@ -434,6 +434,7 @@ class Map extends Component {
             onRegionChangeComplete={this.updateRegion}
             onLayout={this.onLayout}
             moveOnMarkerPress={false}
+            onPress={this.selectAlert}
           >
             {datasetSlug &&
               <Clusters
