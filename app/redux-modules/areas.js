@@ -118,9 +118,12 @@ export default function reducer(state = initialState, action) {
         pendingData = {
           coverage: { ...pendingData.coverage, [newArea.id]: false },
           geostore: { ...pendingData.geostore, [newArea.id]: false },
-          image: { ...pendingData.image, [newArea.id]: false },
-          alert: { ...pendingData.alert, [newArea.id]: false }
+          alert: { ...pendingData.alert, [newArea.id]: false },
+          image: { ...pendingData.image, [newArea.id]: false }
         };
+        if (newArea.cache) {
+          pendingData.alert = { ...pendingData.alert, [newArea.id]: false };
+        }
       });
       return { ...state, data, pendingData, synced: true, syncing: false };
     }

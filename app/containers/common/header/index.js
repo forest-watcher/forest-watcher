@@ -1,6 +1,4 @@
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
-
 import Header from 'components/common/header';
 
 function mapStateToProps() {
@@ -21,4 +19,4 @@ function mapDispatchToProps(dispatch, { navigation }) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withNavigation(Header));
+)(Header);

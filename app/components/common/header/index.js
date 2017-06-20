@@ -3,7 +3,6 @@ import {
   View,
   Text
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
 
 import I18n from 'locales';
 import styles from './styles';
@@ -23,4 +22,4 @@ Header.propTypes = {
   navigation: React.PropTypes.object.isRequired
 };
 
-export default withNavigation(Header);
+export default Header;

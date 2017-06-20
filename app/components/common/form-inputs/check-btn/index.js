@@ -20,8 +20,8 @@ function CheckboxInput(props) {
       onPress={props.onPress}
     >
       <View style={styles.input}>
-        {props.value &&
-          <Text style={styles.inputLabel}>{props.value}</Text>
+        {props.label &&
+          <Text style={styles.inputLabel}>{props.label}</Text>
         }
         <Image
           style={Theme.icon}
@@ -33,7 +33,7 @@ function CheckboxInput(props) {
 }
 
 CheckboxInput.propTypes = {
-  value: React.PropTypes.string,
+  label: React.PropTypes.string,
   checked: React.PropTypes.oneOfType([
     React.PropTypes.bool,
     React.PropTypes.string
