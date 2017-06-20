@@ -352,7 +352,7 @@ class Map extends Component {
     }, () => {
       this.updateMarkers();
       const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
-      this.map.fitToCoordinates(this.props.areaCoordinates, options);
+      if (this.map) this.map.fitToCoordinates(this.props.areaCoordinates, options);
     });
   }
 
