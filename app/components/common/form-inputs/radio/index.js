@@ -19,10 +19,10 @@ function RadioInput(props) {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{props.question.label}</Text>
-      {props.question.values.map((value, index) => {
+      {props.question.values.map((item, index) => {
         let conditionalField = null;
-        if (childQuestions && childQuestions.length && childQuestions[0].conditionalValue === value) {
-          const visible = props.input.value === value;
+        if (childQuestions && childQuestions.length && childQuestions[0].conditionalValue === item.value) {
+          const visible = props.input.value === item.value;
           conditionalField = (
             <Field
               visible={visible}
@@ -36,9 +36,9 @@ function RadioInput(props) {
           <View style={styles.inputContainer}>
             <CheckBtn
               key={index}
-              value={value}
-              checked={props.input.value === value}
-              onPress={() => handlePress(value)}
+              label={item.label}
+              checked={props.input.value === item.value}
+              onPress={() => handlePress(item.value)}
             />
           </View>,
           conditionalField
@@ -51,8 +51,13 @@ function RadioInput(props) {
 RadioInput.propTypes = {
   question: React.PropTypes.shape({
     label: React.PropTypes.string,
-    defaultValue: React.PropTypes.string,
-    values: React.PropTypes.array
+    defaultValue: React.PropTypes.number,
+    values: React.PropTypes.arrayOf(
+      React.PropTypes.shape({
+        value: React.PropTypes.number.isRequired,
+        label: React.PropTypes.string.isRequired
+      })
+    )
   }).isRequired,
   input: React.PropTypes.shape({
     onBlur: React.PropTypes.func.isRequired,

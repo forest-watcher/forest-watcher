@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import CONSTANTS from 'config/constants';
 import throttle from 'lodash/throttle';
+import moment from 'moment';
 
 import Theme from 'config/theme';
 // import { daysToDate } from 'helpers/date';
@@ -209,14 +210,20 @@ class Map extends Component {
   createReport = () => {
     const { selectedAlertCoordinates } = this.state;
     this.props.setCanDisplayAlerts(false);
+    const { area } = this.props;
     let latLng = '0,0';
     if (selectedAlertCoordinates) {
       latLng = `${selectedAlertCoordinates.latitude},${selectedAlertCoordinates.longitude}`;
     }
     const screen = 'ForestWatcher.NewReport';
     const title = 'Report';
-    const form = `New-report-${Math.floor(Math.random() * 1000)}`;
-    this.props.createReport(form, latLng);
+    const form = `${area.name.toUpperCase()}-${area.dataset.name}-REPORT--${moment().format('YYYY-MM-DDTHH:mm:ss')}`;
+    this.props.createReport({
+      area,
+      name: form,
+      userPosition: this.lastPosition || '0,0',
+      clickedPosition: latLng
+    });
     this.props.navigator.push({
       screen,
       title,
@@ -224,7 +231,7 @@ class Map extends Component {
         screen,
         title,
         form,
-        questionsToSkip: 4,
+        questionsToSkip: 0,
         texts: {
           saveLaterTitle: 'report.saveLaterTitle',
           saveLaterDescription: 'report.saveLaterDescription',
@@ -345,7 +352,7 @@ class Map extends Component {
     }, () => {
       this.updateMarkers();
       const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
-      this.map.fitToCoordinates(this.props.areaCoordinates, options);
+      if (this.map) this.map.fitToCoordinates(this.props.areaCoordinates, options);
     });
   }
 
@@ -522,7 +529,8 @@ Map.propTypes = {
   syncSkip: React.PropTypes.bool.isRequired,
   setSyncModal: React.PropTypes.func.isRequired,
   setCanDisplayAlerts: React.PropTypes.func.isRequired,
-  canDisplayAlerts: React.PropTypes.bool.isRequired
+  canDisplayAlerts: React.PropTypes.bool.isRequired,
+  area: React.PropTypes.object.isRequired
 };
 
 export default Map;

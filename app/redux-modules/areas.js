@@ -118,9 +118,12 @@ export default function reducer(state = initialState, action) {
         pendingData = {
           coverage: { ...pendingData.coverage, [newArea.id]: false },
           geostore: { ...pendingData.geostore, [newArea.id]: false },
-          image: { ...pendingData.image, [newArea.id]: false },
-          alert: { ...pendingData.alert, [newArea.id]: false }
+          alert: { ...pendingData.alert, [newArea.id]: false },
+          image: { ...pendingData.image, [newArea.id]: false }
         };
+        if (newArea.cache) {
+          pendingData.alert = { ...pendingData.alert, [newArea.id]: false };
+        }
       });
       return { ...state, data, pendingData, synced: true, syncing: false };
     }
@@ -603,7 +606,9 @@ export function syncAreas() {
         const canDispatch = id => (typeof syncingAreasData[id] !== 'undefined' && syncingAreasData[id] === false);
         const syncAreasData = (action) => {
           Object.keys(syncingAreasData).forEach(id => {
-            if (canDispatch(id)) action(id);
+            if (canDispatch(id)) {
+              action(id);
+            }
           });
         };
         switch (type) {
@@ -624,9 +629,6 @@ export function syncAreas() {
                 datasets.forEach((dataset) => {
                   if (dataset.cache) {
                     dispatch(getAreaAlerts(id, dataset.slug));
-                  } else {
-                    // TODO: remove this, cache will be mandatory
-                    // dispatch(removeCachedArea(id, dataset.slug));
                   }
                 });
               }
