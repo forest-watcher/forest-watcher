@@ -606,7 +606,9 @@ export function syncAreas() {
         const canDispatch = id => (typeof syncingAreasData[id] !== 'undefined' && syncingAreasData[id] === false);
         const syncAreasData = (action) => {
           Object.keys(syncingAreasData).forEach(id => {
-            if (canDispatch(id)) action(id);
+            if (canDispatch(id)) {
+              action(id);
+            }
           });
         };
         switch (type) {
@@ -627,9 +629,6 @@ export function syncAreas() {
                 datasets.forEach((dataset) => {
                   if (dataset.cache) {
                     dispatch(getAreaAlerts(id, dataset.slug));
-                  } else {
-                    // TODO: remove this, cache will be mandatory
-                    // dispatch(removeCachedArea(id, dataset.slug));
                   }
                 });
               }
