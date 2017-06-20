@@ -48,13 +48,16 @@ export default function reducer(state = initialState, action) {
       const { name, status } = action.payload;
       const report = state.list[name];
       const list = { ...state.list, [name]: { ...report, status } };
-      return { ...state, list };
+      return { ...state, list, synced: false, syncing: true };
     }
     case UPLOAD_REPORT_COMMIT: {
       const { name, status } = action.meta.report;
       const report = state.list[name];
       const list = { ...state.list, [name]: { ...report, status } };
-      return { ...state, list };
+      return { ...state, list, synced: true, syncing: false };
+    }
+    case UPLOAD_REPORT_ROLLBACK: {
+      return { ...state, syncing: false };
     }
     case LOGOUT_REQUEST: {
       return initialState;
@@ -157,7 +160,7 @@ export function uploadReport(reportName) {
         offline: {
           effect: { url, body: form, method: 'POST', headers },
           commit: { type: UPLOAD_REPORT_COMMIT, meta: { report: commitPayload } },
-          rollback: { type: UPLOAD_REPORT_ROLLBACK } // TODO: MARK AS UNSYNC TO TRY AGAIN
+          rollback: { type: UPLOAD_REPORT_ROLLBACK }
         }
       }
     });
