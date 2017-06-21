@@ -32,7 +32,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_FEEDBACK_QUESTIONS_REQUEST: {
-      const { type } = action.payload;
+      const type = action.payload;
       const synced = { ...state.synced, [type]: false };
       const syncing = { ...state.syncing, [type]: true };
       return { ...state, synced, syncing };
