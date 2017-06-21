@@ -1,0 +1,66 @@
+{
+  "name": "DailyFeedback-PT",
+  "questions": [
+    {
+      "type": "number",
+      "name": "today-experience",
+      "label": "Por favor, califique sua experiencia com a ferramenta (mal 1; bom 10)",
+      "defaultValue": "",
+      "required": true,
+      "order": 1
+    },
+    {
+      "type": "select",
+      "name": "tool-used-today",
+      "label": "O que você fez com o aplicativohoje?",
+      "defaultValue": "",
+      "order": 2,
+      "required": true,
+      "values": [
+        "Criar area de interesse",
+        "Ver alertas no mapa",
+        "Ver rota até a alerta no mapa",
+        "Lista de alertas",
+        "Criar um relatório"
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "real-life-alert",
+      "label": "Você visitou  uma alerta de desmatamento no campo hoje?",
+      "values": [
+        "Sim",
+        "Não"
+      ],
+      "required": true,
+      "order": 3
+    },
+    {
+      "type": "select",
+      "name": "tool-used-problems",
+      "label": "Você teve alguma dificuldade com o aplicativo hoje?",
+      "defaultValue": "",
+      "order": 4,
+      "required": true,
+      "values": [
+        "Não tive nenhum problema",
+        "Criar area de interesse",
+        "Ver alertas no mapa",
+        "Ver rota até a alerta no mapa",
+        "Lista de alertas",
+        "Criar um relatório"
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "use-tomorrow",
+      "label": "Você vai utilizar de novo o aplicativo amanhã?",
+      "values": [
+        "Sim",
+        "Não"
+      ],
+      "required": true,
+      "order": 5
+    }
+  ]
+}

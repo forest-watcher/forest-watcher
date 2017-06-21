@@ -1,0 +1,68 @@
+{
+  "name": "DailyFeedback-FR",
+  "questions": [
+    {
+      "type": "number",
+      "name": "today-experience",
+      "label": "Veuillez évaluer votre expérience avec l’outil aujourd'hui  [scale 1 (Médiocre); 10 (Excellent)]",
+      "defaultValue": "",
+      "required": true,
+      "order": 1
+    },
+    {
+      "type": "select",
+      "name": "tool-used-today",
+      "label": "Avez-vous rencontré un quelconque problème avec l’application aujourd’hui ?",
+      "defaultValue": "",
+      "order": 2,
+      "required": true,
+      "values": [
+        "Non, aucun",
+        "Création d’une zone d’intérêt",
+        "Inscription à des alertes",
+        "Visualiser les alertes sur une carte",
+        "Naviguer vers les alertes à partir de la carte",
+        "Liste d’alertes",
+        "Compilation de rapports"
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "real-life-alert",
+      "label": "Avez effectué une visite de contrôle terrain pour une alerte?",
+      "values": [
+        "Oui",
+        "Non"
+      ],
+      "required": true,
+      "order": 3
+    },
+    {
+      "type": "select",
+      "name": "tool-used-problems",
+      "label": "Avez eu un problème avec l’application aujourd'hui?",
+      "defaultValue": "",
+      "order": 4,
+      "required": true,
+      "values": [
+        "Création d’une zone d’intérêt",
+        "Inscription à des alertes",
+        "Visualiser les alertes sur une carte",
+        "Naviguer vers les alertes à partir de la carte",
+        "Liste d’alertes",
+        "Compilation de rapports"
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "use-tomorrow",
+      "label": "Utiliserez vous l’application demain?",
+      "values": [
+        "Oui",
+        "Non"
+      ],
+      "required": true,
+      "order": 5
+    }
+  ]
+}

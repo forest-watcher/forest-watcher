@@ -1,0 +1,66 @@
+{
+  "name": "DailyFeedback-ID",
+  "questions": [
+    {
+      "type": "number",
+      "name": "today-experience",
+      "label": "Mohon berikan penilaian anda dalam menggunakan Forest Watcher di hari ini [ skala 1(buruk); 10 (baik)]",
+      "defaultValue": "",
+      "required": true,
+      "order": 1
+    },
+    {
+      "type": "select",
+      "name": "tool-used-today",
+      "label": "Apa yang anda lakukan dengan memanfaatkan Forest Watcher hai ini?",
+      "defaultValue": "",
+      "order": 2,
+      "required": true,
+      "values": [
+        "Membuat kawasan pilihan",
+        "Lihat alert pada peta",
+        "Arahkan ke alert pada peta",
+        "Daftar peringatan deforestasi",
+        "Membuat laporan"
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "real-life-alert",
+      "label": "Apakah anda menemukan peringatan deforestasi di lapangan?",
+      "values": [
+        "iya",
+        "tidak"
+      ],
+      "required": true,
+      "order": 3
+    },
+    {
+      "type": "select",
+      "name": "tool-used-problems",
+      "label": "Apakah anda memiliki kendala dalam menggunakan aplikasi forest watcher di hari ini?",
+      "defaultValue": "",
+      "order": 4,
+      "required": true,
+      "values": [
+        "Tidak",
+        "Membuat kawasan pilihan",
+        "Lihat alert pada peta",
+        "Arahkan ke alert pada peta",
+        "Daftar peringatan deforestasi",
+        "Membuat laporan"
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "use-tomorrow",
+      "label": "Apakah anda akan menggunakan aplikasi forest watcher besok?",
+      "values": [
+        "iya",
+        "tidak"
+      ],
+      "required": true,
+      "order": 5
+    }
+  ]
+}

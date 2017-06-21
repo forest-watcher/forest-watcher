@@ -1,0 +1,161 @@
+{
+	"commonText": {
+		"appName": "Forest Watcher 2.0",
+		"next": "Próximo",
+    "save": "Salve",
+    "boundaries": "Limites",
+    "delete": "Excluir",
+		"back": "Voltar",
+		"finish": "Terminar",
+		"saving": "Salvando",
+		"caching": "Cache",
+		"setUp": "Configuração",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "loading": "Carregando",
+    "notAvailable": "Não disponível",
+    "kmAway": "Km de distância",
+	  "lastUpdated": "Ultima atualização",
+    "name": "Nome",
+    "yourPosition": "Sua posição",
+		"connectionRequiredTitle": "Sem conexão",
+		"connectionRequired": "Você precisa de uma conexão com a internet para completar esta ação",
+    "noImage": "Sem imagem",
+    "cached": "Em cache",
+    "noCached": "sem-cache",
+    "noAlertSystem": "Nenhum sistema de alerta selecionado"
+	},
+	"home": {
+		"title": {
+			"updating": "Atualizando dados ...",
+			"outOfDate": "Seus alertas estão desatualizados",
+			"updated": "Atualização concluída"
+		},
+		"subtitle": {
+			"takesTime": "Esse processo pode levar vários minutos",
+			"mobile": "Deseja atualizá-los por 3G?",
+			"noConnection": "Você precisa de uma conexão com a internet para atualizar seus dados",
+			"updated": "Os dados foram atualizados com sucesso!"
+		},
+		"skip": "pular",
+		"update": "atualizar"
+	},
+	"dashboard": {
+		"title": "Painel",
+		"alerts": "Meus alertas",
+		"reports": "Criar relatório",
+		"myReports": "Meus relatórios",
+		"uploadData": "Guardar e enviar dados",
+		"map": "Mapa",
+    "dailyFeedback": "Feedback diário",
+    "weeklyFeedback": "Feedback semanal"
+	},
+	"login": {
+		"title": "Entrar",
+		"unable": "Impossível autenticar",
+		"connectionRequired": "Necessita ligação à Internet",
+		"introductionText": "Entrar com uma conta MyGFW",
+		"facebookTitle": "Facebook",
+		"twitterTitle": "Twitter",
+		"googleTitle": "Google",
+		"brazilTitle": "Brasil",
+		"colombiaTitle": "Colômbia",
+		"indonesiaTitle": "Indonésia"
+	},
+	"countries": {
+		"searchPlaceholder": "Procurar um país"
+	},
+	"alerts": {
+    "title": "Meus alertas",
+		"seeAll": "Ver todos",
+		"alert": "alerta",
+    "alertSystems": "Sistemas de alertas",
+    "downloadingAlerts": "Aguarde enquanto os dados são baixados ...",
+    "noAlerts": "Não há alertas disponíveis",
+    "satelliteSignal": "Esperando o sinal de satélite..."
+	},
+	"areaDetail": {
+    "title": "Detalhes das áreas",
+		"delete": "Exclua esta área",
+		"noAlerts": "Não há alertas para esta área"
+	},
+	"boundaries": {
+		"chooseBoundaries": "Agora, escolha os limites",
+		"selectProtectedArea": "Escolha uma área protegida",
+		"drawArea": "Desenhe uma área"
+	},
+	"setupCountry": {
+		"welcomeText": "Olá",
+		"secondWelcomeText": "por favor configure uma área",
+		"firstInstruction": "Primeiro, escolha o seu país de interesse"
+	},
+	"partners": {
+	 	"title": "Parceiros",
+		"description": "Forest Watcher é criado em colaboração entre World Resources Institute, Vizzuality e Jane Goodall Institute.",
+		"listOfPartners": "Veja todos os parceiros da Global Forest Watch."
+	},
+	"setupDrawAreas": {
+    "invalidShape": "Forma inválida",
+    "invalidSize": "Desenhe uma área menor",
+		"tapInstruction": "Toque no mapa para desenhar"
+	},
+	"setupHeader": {
+		"errorFirst": "Propriedade inválida",
+		"errorSecond": "fornecido para",
+		"errorThird": "É obrigatório se você mostrar o botão de voltar"
+	},
+	"setupOverview": {
+		"placeholder": "Introduza um nome",
+    "areaName": "Nomeie a área",
+    "gettingDatasets": "Obtendo conjuntos de dados"
+	},
+	"setupProtectedAreas": {
+		"instruction": "Escolha uma área para continuar"
+	},
+	"settings": {
+    "title": "Definições",
+		"loggedIn": "Você está identificado como",
+		"yourAreas": "Suas áreas",
+		"logOut": "SAIR",
+		"addArea": "ADICIONAR ÁREA",
+		"aboutApp": "Acerca desta app",
+		"aboutPartners": "Parceiros",
+		"aboutTerms": "Termos e Condições",
+    "timeFrame": "Prazo",
+    "from": "De",
+    "to": "a",
+		"oneWeekAgo": "Uma semana atrás",
+		"72hAgo": "Há 72 horas",
+		"48hAgo": "Há 48 horas",
+		"24hAgo": "Há 24 horas",
+		"1MonthAgo": "1 mês atrás",
+		"3MonthsAgo": "3 mês atrás",
+		"6MonthsAgo": "6 mês atrás",
+		"1yearAgo": "1 ano atrás",
+		"availableOffline": "Disponível offline"
+	},
+  "report": {
+    "title": "Relatório",
+    "plural": "Relatórios",
+    "takePicture": "Tire uma fotografia",
+    "datePlaceholder": "Escolha uma data",
+    "saveLaterTitle": "Guardar para mais tarde",
+    "saveLaterDescription": "Aparecerá como um rascunho na secção de relatórios",
+    "inputText": "Por favor introduza algum texto",
+    "inputRadio": "Escolha uma opção para continuar",
+    "inputSelect": "Escolha pelo menos uma opção para continuar",
+    "input": "Por favor, responda à questão",
+    "completed": "Terminado",
+    "uploadAll": "Carregar todos",
+    "drafts": "Rascunhos",
+    "uploaded": "Carregado",
+	"unable": "Não é possível enviar relatório",
+	"connectionRequired": "Você precisa de uma conexão com a internet"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "saveLaterTitle": "Guardar para mais tarde",
+    "saveLaterDescription": "Pode completar este formulário a partir do menú principal",
+    "feedBackTypeRequired": "Tipo de feedback é necessário"
+  }
+}

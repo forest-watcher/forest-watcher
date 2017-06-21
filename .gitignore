@@ -1,6 +1,12 @@
+# Env
+.env
+
 # OSX
 #
 .DS_Store
+
+# Editors
+/.vscode
 
 # Xcode
 #
@@ -35,8 +41,21 @@ local.properties
 node_modules/
 npm-debug.log
 
+# ruby
+#
+ios/.gems
+ruby/transifex/.gems
+ruby/transifex/.rbenv-gemsets
+ruby/transifex/.ruby-version
+
 # BUCK
 buck-out/
 \.buckd/
 android/app/libs
 *.keystore
+
+# Cocoapods
+#
+Pods/
+ios/Podfile.lock
+ios/.gems
