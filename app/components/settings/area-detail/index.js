@@ -90,6 +90,7 @@ class AreaDetail extends Component {
         contentContainerStyle={styles.containerContent}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
+        keyboardShouldPersistTaps={'always'}
       >
         <View>
           <Text style={styles.title}>{I18n.t('commonText.name')}</Text>
