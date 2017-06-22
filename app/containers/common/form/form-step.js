@@ -1,38 +1,6 @@
 import { connect } from 'react-redux';
-import { getBtnTextByType } from 'helpers/forms';
+import { getBtnTextByType, parseQuestion, getForm, getAnswers } from 'helpers/forms';
 import FormStep from 'components/common/form/form-step';
-
-function getAnswers(forms, formName) {
-  if (!forms) return null;
-  if (forms[formName] && forms[formName].values) return forms[formName].values;
-  return {};
-}
-
-function getQuestions(state, formName) {
-  switch (formName) {
-    case 'daily':
-      return state.feedback.daily && state.feedback.daily.questions;
-    case 'weekly':
-      return state.feedback.weekly && state.feedback.weekly.questions;
-    default:
-      return state.reports.forms && state.reports.forms.questions;
-  }
-}
-
-function parseQuestion({ question, form }, deviceLang) {
-  const lang = form.languages.includes(deviceLang) ? deviceLang : form.defaultLanguage;
-  let parsedQuestion = { ...question };
-  const whitelist = ['defaultValue', 'label', 'values', 'name'];
-  whitelist.forEach((key) => {
-    if (typeof parsedQuestion[key] === 'object' && typeof parsedQuestion[key][lang] !== 'undefined') {
-      parsedQuestion = { ...parsedQuestion, [key]: parsedQuestion[key][lang] };
-    }
-  });
-  if (parsedQuestion.childQuestions) {
-    parsedQuestion.childQuestions = parsedQuestion.childQuestions.map((child) => parseQuestion({ question: child, form }, deviceLang));
-  }
-  return parsedQuestion;
-}
 
 function getNextCallback({ currentQuestion, questions, answers, navigator, form, screen, title, finish }) {
   let next = 1;
@@ -58,19 +26,23 @@ function getNextCallback({ currentQuestion, questions, answers, navigator, form,
     });
   }
   return () => {
-    finish(form);
     navigator.push({
       title: 'Review report',
       screen: 'ForestWatcher.Answers',
-      backButtonHidden: true
+      backButtonHidden: true,
+      passProps: {
+        form,
+        finish
+      }
     });
   };
 }
 
 function mapStateToProps(state, { form, index, questionsToSkip, finish, title, screen, navigator }) {
-  const questions = getQuestions(state, form);
+  const storeForm = getForm(state, form);
+  const questions = storeForm.questions;
   const question = questions && questions[index];
-  const parsedQuestion = question && parseQuestion({ question, form: state.reports.forms }, state.app.language);
+  const parsedQuestion = question && parseQuestion({ question, form: storeForm }, state.app.language);
   const answers = getAnswers(state.form, form);
   const answer = typeof answers[question.name] !== 'undefined' || null;
   const nextText = !answer && question.required ? getBtnTextByType(question.type) : 'commonText.next';
@@ -99,7 +71,4 @@ function mapStateToProps(state, { form, index, questionsToSkip, finish, title, s
 }
 
 
-export default connect(
-  mapStateToProps,
-  null
-)(FormStep);
+export default connect(mapStateToProps)(FormStep);

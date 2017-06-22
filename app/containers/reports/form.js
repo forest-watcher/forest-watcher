@@ -17,7 +17,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(ReportForm);
+export default connect(null, mapDispatchToProps)(ReportForm);
