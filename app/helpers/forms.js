@@ -12,6 +12,4 @@ export const getBtnTextByType = (type) => {
   }
 };
 
-export const getBtnTextByPosition = (position, total) => (position < total ? 'commonText.next' : 'commonText.save');
-
-export default { getBtnTextByType, getBtnTextByPosition };
+export default { getBtnTextByType };

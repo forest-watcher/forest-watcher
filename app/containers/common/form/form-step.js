@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getBtnTextByType, getBtnTextByPosition } from 'helpers/forms';
+import { getBtnTextByType } from 'helpers/forms';
 import FormStep from 'components/common/form/form-step';
 
 function getAnswers(forms, formName) {
@@ -60,7 +60,11 @@ function getNextCallback({ currentQuestion, questions, answers, navigator, form,
   }
   return () => {
     finish(form);
-    navigator.popToRoot({ animate: true });
+    navigator.push({
+      title: 'Review report',
+      screen: 'ForestWatcher.Answers',
+      backButtonHidden: true
+    });
   };
 }
 
@@ -70,7 +74,7 @@ function mapStateToProps(state, { form, index, texts, questionsToSkip, finish, t
   const parsedQuestion = question && parseQuestion({ question, form: state.reports.forms }, state.app.language);
   const answers = getAnswers(state.form, form);
   const answer = typeof answers[question.name] !== 'undefined' || null;
-  const nextText = !answer && question.required ? getBtnTextByType(question.type) : getBtnTextByPosition(index, questions.length - 1);
+  const nextText = !answer && question.required ? getBtnTextByType(question.type) : 'commonText.next';
 
   return {
     form,
