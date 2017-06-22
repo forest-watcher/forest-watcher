@@ -30,10 +30,10 @@ class ReportForm extends Form {
   }
 
   onPressDraft = () => {
-    const { form, texts } = this.props;
+    const { form } = this.props;
     Alert.alert(
-      I18n.t(texts.saveLaterTitle),
-      I18n.t(texts.saveLaterDescription),
+      I18n.t('report.saveLaterTitle'),
+      I18n.t('report.saveLaterDescription'),
       [
         {
           text: 'Cancel',

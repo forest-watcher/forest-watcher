@@ -34,7 +34,7 @@ function parseQuestion({ question, form }, deviceLang) {
   return parsedQuestion;
 }
 
-function getNextCallback({ currentQuestion, questions, answers, navigator, form, screen, title, texts, finish }) {
+function getNextCallback({ currentQuestion, questions, answers, navigator, form, screen, title, finish }) {
   let next = 1;
   if (currentQuestion < questions.length - 1) {
     for (let i = currentQuestion + 1, qLength = questions.length; i < qLength; i++) {
@@ -51,7 +51,6 @@ function getNextCallback({ currentQuestion, questions, answers, navigator, form,
       screen,
       passProps: {
         form,
-        texts,
         title,
         screen,
         step: currentQuestion + next
@@ -68,7 +67,7 @@ function getNextCallback({ currentQuestion, questions, answers, navigator, form,
   };
 }
 
-function mapStateToProps(state, { form, index, texts, questionsToSkip, finish, title, screen, navigator }) {
+function mapStateToProps(state, { form, index, questionsToSkip, finish, title, screen, navigator }) {
   const questions = getQuestions(state, form);
   const question = questions && questions[index];
   const parsedQuestion = question && parseQuestion({ question, form: state.reports.forms }, state.app.language);
@@ -78,7 +77,6 @@ function mapStateToProps(state, { form, index, texts, questionsToSkip, finish, t
 
   return {
     form,
-    texts,
     questionsToSkip,
     question: parsedQuestion,
     answer,
@@ -91,7 +89,6 @@ function mapStateToProps(state, { form, index, texts, questionsToSkip, finish, t
         form,
         screen,
         title,
-        texts,
         currentQuestion: index,
         questions,
         answers,

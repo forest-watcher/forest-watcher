@@ -153,9 +153,6 @@
 	"connectionRequired": "Você precisa de uma conexão com a internet"
   },
   "feedback": {
-    "title": "Feedback",
-    "saveLaterTitle": "Guardar para mais tarde",
-    "saveLaterDescription": "Pode completar este formulário a partir do menú principal",
-    "feedBackTypeRequired": "Tipo de feedback é necessário"
+    "title": "Feedback"
   }
 }
