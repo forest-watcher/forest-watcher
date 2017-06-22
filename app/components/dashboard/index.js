@@ -113,8 +113,6 @@ class Dashboard extends PureComponent {
               form: 'daily',
               questionsToSkip: 0,
               texts: {
-                saveLaterTitle: 'feedback.saveLaterTitle',
-                saveLaterDescription: 'feedback.saveLaterDescription',
                 requiredId: 'feedback.reportIdRequired'
               }
             }
@@ -133,8 +131,6 @@ class Dashboard extends PureComponent {
               form: 'weekly',
               questionsToSkip: 0,
               texts: {
-                saveLaterTitle: 'feedback.saveLaterTitle',
-                saveLaterDescription: 'feedback.saveLaterDescription',
                 requiredId: 'feedback.reportIdRequired'
               }
             }

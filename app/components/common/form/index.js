@@ -23,19 +23,11 @@ class Form extends Component {
   }
 
   render() {
-    const { form, step, texts, title, questionsToSkip, finish, screen } = this.props;
-    const index = step || questionsToSkip;
-    if (form) {
-      return (<FormStep
-        form={form}
-        index={index}
-        navigator={this.props.navigator}
-        texts={texts}
-        title={title}
-        screen={screen}
-        questionsToSkip={questionsToSkip}
-        finish={finish}
-      />);
+    const { step, texts, ...props } = this.props;
+    const index = step || this.props.questionsToSkip;
+    const extendedProps = { index, ...props };
+    if (this.props.form) {
+      return (<FormStep {...extendedProps} />);
     }
     return (
       <View style={[styles.container, styles.containerCenter]}>

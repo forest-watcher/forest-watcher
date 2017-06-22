@@ -233,8 +233,6 @@ class Map extends Component {
         form,
         questionsToSkip: 0,
         texts: {
-          saveLaterTitle: 'report.saveLaterTitle',
-          saveLaterDescription: 'report.saveLaterDescription',
           requiredId: 'report.reportIdRequired'
         }
       }
