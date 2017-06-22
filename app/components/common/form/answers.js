@@ -23,6 +23,12 @@ class Answers extends Component {
 
   static propTypes = {
     navigator: React.PropTypes.object.isRequired,
+    results: React.PropTypes.arrayOf(
+      React.PropTypes.shape({
+        question: React.PropTypes.object,
+        answers: React.PropTypes.array
+      })
+    ),
     enableDraft: React.PropTypes.bool.isRequired,
     saveReport: React.PropTypes.func.isRequired,
     form: React.PropTypes.string.isRequired,
@@ -74,6 +80,12 @@ class Answers extends Component {
     );
   }
 
+  onPressSave = () => {
+    const { form, finish, navigator } = this.props;
+    finish(form);
+    navigator.popToRoot({ animate: true });
+  }
+
   onNavigatorEvent = (event) => {
     if (event.type === 'NavBarButtonPress') {
       if (event.id === 'draft') this.onPressDraft();
@@ -81,12 +93,17 @@ class Answers extends Component {
   }
 
   render() {
+    const { results } = this.props;
     return (
       <View>
-        <Text>Hello</Text>
+        {
+          results.map(result => (
+            <Text key={result.question.id}>{result.question.label} - {result.answers}</Text>
+          ))
+        }
         <ActionButton
           style={styles.buttonPos}
-          onPress={this.props.finish}
+          onPress={this.onPressSave}
           text={I18n.t('commonText.save')}
         />
       </View>
