@@ -12,7 +12,7 @@ import NewReport from 'containers/reports/form';
 import AreaDetail from 'containers/settings/area-detail';
 import Partners from 'components/settings/partners';
 import Sync from 'containers/sync';
-import Answers from 'components/common/form/answers';
+import Answers from 'containers/common/form/answers';
 
 export function registerScreens(store, Provider) {
   Navigation.registerComponent('ForestWatcher.Home', () => Home, store, Provider);

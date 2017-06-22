@@ -8,6 +8,9 @@ import Theme from 'config/theme';
 import CONSTANTS from 'config/constants';
 import I18n from 'locales';
 
+import ActionButton from 'components/common/action-button';
+import styles from './styles';
+
 const saveReportIcon = require('assets/save_for_later.png');
 
 class Answers extends Component {
@@ -22,12 +25,13 @@ class Answers extends Component {
     navigator: React.PropTypes.object.isRequired,
     enableDraft: React.PropTypes.bool.isRequired,
     saveReport: React.PropTypes.func.isRequired,
-    form: React.PropTypes.object.isRequired
+    form: React.PropTypes.string.isRequired,
+    finish: React.PropTypes.func.isRequired
   };
 
   static defaultProps = {
     enableDraft: true
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -80,6 +84,11 @@ class Answers extends Component {
     return (
       <View>
         <Text>Hello</Text>
+        <ActionButton
+          style={styles.buttonPos}
+          onPress={this.props.finish}
+          text={I18n.t('commonText.save')}
+        />
       </View>
     );
   }
