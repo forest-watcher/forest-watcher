@@ -24,7 +24,7 @@ class Form extends Component {
 
   render() {
     const { step, texts, ...props } = this.props;
-    const index = step || this.props.questionsToSkip;
+    const index = typeof step !== 'undefined' ? step : this.props.questionsToSkip;
     const extendedProps = { index, ...props };
     if (this.props.form) {
       return (<FormStep {...extendedProps} />);
