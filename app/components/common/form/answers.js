@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
-  Text,
   View,
+  ScrollView,
   Alert
 } from 'react-native';
 import Theme from 'config/theme';
@@ -9,6 +9,7 @@ import CONSTANTS from 'config/constants';
 import I18n from 'locales';
 
 import ActionButton from 'components/common/action-button';
+import Answer from 'components/common/form/answer/answer';
 import styles from './styles';
 
 const saveReportIcon = require('assets/save_for_later.png');
@@ -92,20 +93,47 @@ class Answers extends Component {
     }
   }
 
+  onEdit = (result, index) => {
+    const { navigator, form } = this.props;
+    const isFeedback = name => (name === 'daily' || name === 'weekly');
+    const screen = isFeedback(form) ? 'ForestWatcher.Feedback' : 'ForestWatcher.NewReport';
+    navigator.showModal({
+      screen,
+      passProps: {
+        form,
+        title: 'Report',
+        screen,
+        step: index,
+        texts: {
+          requiredId: 'nana'
+        }
+      }
+    });
+  }
+
   render() {
     const { results } = this.props;
     return (
-      <View>
-        {
-          results.map(result => (
-            <Text key={result.question.id}>{result.question.label} - {result.answers}</Text>
-          ))
-        }
-        <ActionButton
-          style={styles.buttonPos}
-          onPress={this.onPressSave}
-          text={I18n.t('commonText.save')}
-        />
+      <View style={styles.answersContainer}>
+        <ScrollView>
+          {
+            results.map((result, i) => (
+              <Answer
+                id={result.question.id}
+                key={result.question.id}
+                answers={result.answers}
+                question={result.question.label}
+                onEditPress={() => this.onEdit(result, i)}
+              />
+            ))
+          }
+          <View style={styles.buttonSaveContainer}>
+            <ActionButton
+              onPress={this.onPressSave}
+              text={I18n.t('commonText.save')}
+            />
+          </View>
+        </ScrollView>
       </View>
     );
   }
