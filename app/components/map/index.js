@@ -231,10 +231,7 @@ class Map extends Component {
         screen,
         title,
         form,
-        questionsToSkip: 0,
-        texts: {
-          requiredId: 'report.reportIdRequired'
-        }
+        questionsToSkip: 0
       }
     });
   }

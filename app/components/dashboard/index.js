@@ -111,10 +111,7 @@ class Dashboard extends PureComponent {
               title,
               screen,
               form: 'daily',
-              questionsToSkip: 0,
-              texts: {
-                requiredId: 'feedback.reportIdRequired'
-              }
+              questionsToSkip: 0
             }
           });
           break;
@@ -129,10 +126,7 @@ class Dashboard extends PureComponent {
               title,
               screen,
               form: 'weekly',
-              questionsToSkip: 0,
-              texts: {
-                requiredId: 'feedback.reportIdRequired'
-              }
+              questionsToSkip: 0
             }
           });
           break;
