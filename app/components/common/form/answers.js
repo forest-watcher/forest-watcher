@@ -103,7 +103,8 @@ class Answers extends Component {
         form,
         title: 'Report',
         screen,
-        step: index
+        step: index,
+        editMode: true
       }
     });
   }
