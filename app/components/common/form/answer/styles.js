@@ -29,6 +29,7 @@ export default StyleSheet.create({
     paddingRight: 8
   },
   answers: {
+    flexBasis: 242
   },
   answer: {
     fontFamily: Theme.font,
