@@ -14,7 +14,7 @@ function mapDispatchToProps(dispatch) {
   return {
     submitForm: (form, formName) => {
       const fields = getFormFields(form, formName);
-      dispatch(uploadFeedback(form, fields));
+      dispatch(uploadFeedback(formName, fields));
     }
   };
 }

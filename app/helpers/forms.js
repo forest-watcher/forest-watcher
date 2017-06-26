@@ -45,7 +45,7 @@ export const getForm = (state, formName) => {
 };
 
 export const getFormFields = (form, formName) => {
-  const currentForm = form[formName].registeredFields;
+  const currentForm = form[formName] ? form[formName].registeredFields : {};
   return Object.keys(currentForm).filter(field => currentForm[field].count > 0);
 };
 
