@@ -15,11 +15,11 @@ function getAnswerValues(question, answer) {
 
 function mapFormToAnsweredQuestions(fields, answers, form, deviceLang) {
   const questions = form.questions.filter(question => fields.includes(question.name))
-    .map((question) => {
+    .map((question, index) => {
       const parsedQuestion = parseQuestion({ form, question }, deviceLang);
       const answer = answers[question.name];
       return {
-        question: parsedQuestion,
+        question: { ...parsedQuestion, questionNumber: index },
         answers: getAnswerValues(parsedQuestion, answer)
       };
     });

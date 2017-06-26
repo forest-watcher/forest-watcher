@@ -115,24 +115,23 @@ class Answers extends Component {
   render() {
     const { results } = this.props;
     const regularAnswers = results.filter(({ question }) => question.type !== 'blob');
-    tron.log(results);
     const images = results.filter(({ question }) => question.type === 'blob')
       .map(image => ({ id: image.question.Id, uri: image.answers[0] }));
     const imageActions = [{
-      callback: (id) => tron.log(id),
+      callback: (id) => tron.log(id), // TODO: delete the image
       icon: deleteIcon
     }];
     return (
       <View style={styles.answersContainer}>
         <ScrollView>
           {
-            regularAnswers.map((result, i) => (
+            regularAnswers.map((result) => (
               <Answer
                 id={result.question.Id}
                 key={result.question.Id}
                 answers={result.answers}
                 question={result.question.label}
-                onEditPress={() => this.onEdit(result, i)}
+                onEditPress={() => this.onEdit(result, result.question.questionNumber)}
               />
             ))
           }
