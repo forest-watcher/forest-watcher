@@ -26,6 +26,17 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.main,
     paddingTop: 32
   },
+  answersText: {
+    fontFamily: Theme.font,
+    color: Theme.fontColors.secondary,
+    fontSize: 17
+  },
+  picturesContainer: {
+    paddingTop: 16,
+    paddingBottom: 16,
+    paddingLeft: Theme.margin.left,
+    paddingRight: Theme.margin.right
+  },
   buttonSaveContainer: {
     paddingLeft: 8,
     paddingRight: 8,

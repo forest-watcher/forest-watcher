@@ -135,8 +135,8 @@ class Answers extends Component {
               />
             ))
           }
-          <View>
-            <Text>Pictures</Text>
+          <View style={styles.picturesContainer}>
+            <Text style={styles.answersText}>Pictures</Text>
             <ImageCarousel images={images} actions={imageActions} />
           </View>
           <View style={styles.buttonSaveContainer}>
