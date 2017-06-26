@@ -47,8 +47,6 @@ function getNextCallback({ currentQuestion, questions, answers, navigator, form,
 
 function getEditNextCallback({ currentQuestion, questions, answers, navigator, form, screen, title }) {
   const nextStep = getNextStep({ currentQuestion, questions, answers });
-  tron.log(nextStep);
-  tron.log(currentQuestion);
   if (nextStep && currentQuestion < questions.length - 1) {
     const nextQuestionName = questions[nextStep].name;
     if (typeof answers[nextQuestionName] === 'undefined') {

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { saveReport } from 'redux-modules/reports';
-import { getForm, getAnswers, parseQuestion } from 'helpers/forms';
+import { getForm, getAnswers, parseQuestion, getFormFields } from 'helpers/forms';
 import Answers from 'components/common/form/answers';
 
 function getAnswerValues(question, answer) {
@@ -13,21 +13,26 @@ function getAnswerValues(question, answer) {
   return answerList;
 }
 
-function mapFormToAnsweredQuestions(answers, form, deviceLang) {
-  const questions = form.questions.map((question) => {
-    const parsedQuestion = parseQuestion({ form, question }, deviceLang);
-    const answer = answers[question.name];
-    return {
-      question: parsedQuestion,
-      answers: getAnswerValues(parsedQuestion, answer)
-    };
-  });
+function mapFormToAnsweredQuestions(fields, answers, form, deviceLang) {
+  const questions = form.questions.filter(question => fields.includes(question.name))
+    .map((question) => {
+      const parsedQuestion = parseQuestion({ form, question }, deviceLang);
+      const answer = answers[question.name];
+      return {
+        question: parsedQuestion,
+        answers: getAnswerValues(parsedQuestion, answer)
+      };
+    });
   return questions;
 }
 
 function mapStateToProps(state, { form }) {
   return {
-    results: mapFormToAnsweredQuestions(getAnswers(state.form, form), getForm(state, form), state.app.language)
+    results: mapFormToAnsweredQuestions(
+      getFormFields(state.form, form),
+      getAnswers(state.form, form),
+      getForm(state, form), state.app.language
+    )
   };
 }
 
