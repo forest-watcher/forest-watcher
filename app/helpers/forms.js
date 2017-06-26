@@ -44,4 +44,9 @@ export const getForm = (state, formName) => {
   }
 };
 
-export default { getBtnTextByType, parseQuestion, getForm, getAnswers };
+export const getFormFields = (form, formName) => {
+  const currentForm = form[formName].registeredFields;
+  return Object.keys(currentForm).filter(field => currentForm[field].count > 0);
+};
+
+export default { getBtnTextByType, parseQuestion, getForm, getAnswers, getFormFields };
