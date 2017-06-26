@@ -135,10 +135,12 @@ class Answers extends Component {
               />
             ))
           }
-          <View style={styles.picturesContainer}>
-            <Text style={styles.answersText}>Pictures</Text>
-            <ImageCarousel images={images} actions={imageActions} />
-          </View>
+          {images.length > 0 &&
+            <View style={styles.picturesContainer}>
+              <Text style={styles.answersText}>Pictures</Text>
+              <ImageCarousel images={images} actions={imageActions} />
+            </View>
+          }
           <View style={styles.buttonSaveContainer}>
             <ActionButton
               onPress={this.onPressSave}
