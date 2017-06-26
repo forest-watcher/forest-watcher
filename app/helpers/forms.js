@@ -44,9 +44,29 @@ export const getForm = (state, formName) => {
   }
 };
 
-export const getFormFields = (form, formName) => {
-  const currentForm = form[formName] ? form[formName].registeredFields : {};
-  return Object.keys(currentForm).filter(field => currentForm[field].count > 0);
+export const getNextStep = ({ currentQuestion, questions, answers }) => {
+  let next = 1;
+  if (currentQuestion < questions.length - 1) {
+    for (let i = currentQuestion + 1, qLength = questions.length; i < qLength; i++) {
+      const nextConditions = questions[i].conditions;
+      const nextHasConditions = nextConditions && nextConditions.length > 0;
+      if (!nextHasConditions || (answers[nextConditions[0].name] === nextConditions[0].value)) {
+        break;
+      }
+      next += 1;
+    }
+    return currentQuestion + next;
+  }
+  return null;
 };
 
-export default { getBtnTextByType, parseQuestion, getForm, getAnswers, getFormFields };
+export const getFormFields = (form, answers) => {
+  const fields = [0];
+  form.questions.forEach((question, index) => {
+    const nextStep = getNextStep({ currentQuestion: index, questions: form.questions, answers });
+    if (nextStep) fields.push(nextStep);
+  });
+  return fields.map(field => form.questions[field].name);
+};
+
+export default { getBtnTextByType, parseQuestion, getForm, getAnswers, getFormFields, getNextStep };

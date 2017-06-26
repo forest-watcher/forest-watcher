@@ -1,30 +1,34 @@
 import { connect } from 'react-redux';
 import { uploadFeedback } from 'redux-modules/feedback';
-import { getFormFields } from 'helpers/forms';
+import { getFormFields, getAnswers } from 'helpers/forms';
 
 import Form from 'components/common/form';
 
 function mapStateToProps(state) {
   return {
-    form: state.form
+    form: state.form,
+    feedback: state.feedback
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    submitForm: (form, formName) => {
-      const fields = getFormFields(form, formName);
+    submitForm: (form, formName, answers) => {
+      const fields = getFormFields(form, answers);
       dispatch(uploadFeedback(formName, fields));
     }
   };
 }
 
-function mergeProps({ form, ...state }, { submitForm, ...dispatch }, ownProps) {
+function mergeProps({ form, feedback, ...state }, { submitForm, ...dispatch }, ownProps) {
   return {
     ...ownProps,
     ...state,
     ...dispatch,
-    finish: formName => submitForm(form, formName)
+    finish: (formName) => {
+      const answers = getAnswers(form, formName);
+      submitForm(feedback[formName], formName, answers);
+    }
   };
 }
 

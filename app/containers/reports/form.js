@@ -1,13 +1,14 @@
 import { connect } from 'react-redux';
 import { saveReport, uploadReport } from 'redux-modules/reports';
 import { setCanDisplayAlerts } from 'redux-modules/alerts';
-import { getFormFields } from 'helpers/forms';
+import { getFormFields, getAnswers } from 'helpers/forms';
 
 import ReportForm from 'components/reports/form';
 
 function mapStateToProps(state) {
   return {
-    form: state.form
+    form: state.form,
+    reports: state.reports
   };
 }
 
@@ -16,20 +17,23 @@ function mapDispatchToProps(dispatch) {
     saveReport: (reportName, params) => {
       dispatch(saveReport(reportName, params));
     },
-    submitForm: (form, formName) => {
-      const fields = getFormFields(form, formName);
+    submitForm: (form, formName, answers) => {
+      const fields = getFormFields(form, answers);
       dispatch(uploadReport(formName, fields));
       dispatch(setCanDisplayAlerts(true));
     }
   };
 }
 
-function mergeProps({ form, ...state }, { submitForm, ...dispatch }, ownProps) {
+function mergeProps({ form, reports, ...state }, { submitForm, ...dispatch }, ownProps) {
   return {
     ...ownProps,
     ...state,
     ...dispatch,
-    finish: formName => submitForm(form, formName)
+    finish: (formName) => {
+      const answers = getAnswers(form, formName);
+      submitForm(reports.forms, formName, answers);
+    }
   };
 }
 

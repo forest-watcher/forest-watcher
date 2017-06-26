@@ -1,22 +1,6 @@
 import { connect } from 'react-redux';
-import { getBtnTextByType, parseQuestion, getForm, getAnswers } from 'helpers/forms';
+import { getBtnTextByType, parseQuestion, getForm, getAnswers, getNextStep } from 'helpers/forms';
 import FormStep from 'components/common/form/form-step';
-
-function getNextStep({ currentQuestion, questions, answers }) {
-  let next = 1;
-  if (currentQuestion < questions.length - 1) {
-    for (let i = currentQuestion + 1, qLength = questions.length; i < qLength; i++) {
-      const nextConditions = questions[i].conditions;
-      const nextHasConditions = nextConditions && nextConditions.length > 0;
-      if (!nextHasConditions || (answers[nextConditions[0].name] === nextConditions[0].value)) {
-        break;
-      }
-      next += 1;
-    }
-    return currentQuestion + next;
-  }
-  return null;
-}
 
 function getNextCallback({ currentQuestion, questions, answers, navigator, form, screen, title, finish }) {
   const nextStep = getNextStep({ currentQuestion, questions, answers });

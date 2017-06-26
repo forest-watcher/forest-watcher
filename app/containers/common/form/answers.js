@@ -27,11 +27,14 @@ function mapFormToAnsweredQuestions(fields, answers, form, deviceLang) {
 }
 
 function mapStateToProps(state, { form }) {
+  const template = getForm(state, form);
+  const answers = getAnswers(state.form, form);
   return {
     results: mapFormToAnsweredQuestions(
-      getFormFields(state.form, form),
+      getFormFields(template, answers),
       getAnswers(state.form, form),
-      getForm(state, form), state.app.language
+      template,
+      state.app.language
     )
   };
 }
