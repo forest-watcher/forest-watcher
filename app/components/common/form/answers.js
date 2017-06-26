@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   View,
+  Text,
   ScrollView,
   Alert
 } from 'react-native';
@@ -10,8 +11,10 @@ import I18n from 'locales';
 
 import ActionButton from 'components/common/action-button';
 import Answer from 'components/common/form/answer/answer';
+import ImageCarousel from 'components/common/image-carousel';
 import styles from './styles';
 
+const deleteIcon = require('assets/delete_red.png');
 const saveReportIcon = require('assets/save_for_later.png');
 
 class Answers extends Component {
@@ -111,11 +114,18 @@ class Answers extends Component {
 
   render() {
     const { results } = this.props;
+    const regularAnswers = results.filter(({ question }) => question.type !== 'blob');
+    const images = results.filter(({ question }) => question.type === 'blob')
+      .map(image => ({ id: image.question.id, uri: image.answers[0] }));
+    const imageActions = [{
+      callback: (id) => tron.log(id),
+      icon: deleteIcon
+    }];
     return (
       <View style={styles.answersContainer}>
         <ScrollView>
           {
-            results.map((result, i) => (
+            regularAnswers.map((result, i) => (
               <Answer
                 id={result.question.id}
                 key={result.question.id}
@@ -125,6 +135,10 @@ class Answers extends Component {
               />
             ))
           }
+          <View>
+            <Text>Pictures</Text>
+            <ImageCarousel images={images} actions={imageActions} />
+          </View>
           <View style={styles.buttonSaveContainer}>
             <ActionButton
               onPress={this.onPressSave}
