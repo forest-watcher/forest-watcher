@@ -115,8 +115,9 @@ class Answers extends Component {
   render() {
     const { results } = this.props;
     const regularAnswers = results.filter(({ question }) => question.type !== 'blob');
+    tron.log(results);
     const images = results.filter(({ question }) => question.type === 'blob')
-      .map(image => ({ id: image.question.id, uri: image.answers[0] }));
+      .map(image => ({ id: image.question.Id, uri: image.answers[0] }));
     const imageActions = [{
       callback: (id) => tron.log(id),
       icon: deleteIcon
@@ -127,8 +128,8 @@ class Answers extends Component {
           {
             regularAnswers.map((result, i) => (
               <Answer
-                id={result.question.id}
-                key={result.question.id}
+                id={result.question.Id}
+                key={result.question.Id}
                 answers={result.answers}
                 question={result.question.label}
                 onEditPress={() => this.onEdit(result, i)}

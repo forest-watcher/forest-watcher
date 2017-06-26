@@ -18,8 +18,9 @@ const ImageCard = ({ id, uri, actions, width, height }) => (
     />
     <View style={styles.actions}>
       {
-        actions.map(action => (
+        actions.map((action, i) => (
           <TouchableHighlight
+            key={i}
             activeOpacity={0.5}
             underlayColor="transparent"
             onPress={() => action.callback(id)}
