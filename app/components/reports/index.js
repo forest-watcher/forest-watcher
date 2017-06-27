@@ -110,7 +110,6 @@ class Reports extends Component {
         this.props.navigator.push({
           title: 'Review report',
           screen: 'ForestWatcher.Answers',
-          backButtonHidden: true,
           passProps: {
             form: reportName,
             finish: this.props.finish

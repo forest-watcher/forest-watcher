@@ -116,9 +116,10 @@ class Answers extends Component {
     const { results } = this.props;
     const regularAnswers = results.filter(({ question }) => question.type !== 'blob');
     const images = results.filter(({ question }) => question.type === 'blob')
-      .map(image => ({ id: image.question.Id, uri: image.answers[0] }));
+      .map(image => ({ id: image.question.Id, uri: image.answers[0] }))
+      .filter(image => !!image.uri);
     const imageActions = [{
-      callback: (id) => tron.log(id), // TODO: delete the image
+      callback: (id) => console.warn(id), // TODO: delete the image
       icon: deleteIcon
     }];
     return (
