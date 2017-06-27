@@ -334,9 +334,9 @@ class Map extends Component {
   selectAlert = (e) => {
     const { coordinate } = e.nativeEvent;
     if (coordinate) {
-      this.setState({
-        selectedAlertCoordinates: coordinate
-      });
+      this.setState((state) => ({
+        selectedAlertCoordinates: state.selectedAlertCoordinates ? null : coordinate
+      }));
     }
   }
 
