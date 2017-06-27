@@ -163,8 +163,8 @@ class DrawAreas extends Component {
 
   onNextPress = () => {
     this.map.fitToCoordinates(this.state.shape.coordinates, {
-      edgePadding: { top: 0, right: 0, bottom: 0, left: 0 },
-      animated: true
+      edgePadding: { top: 100, right: 50, bottom: 100, left: 50 },
+      animated: false
     });
     this.setState({ loading: true, snapshot: true });
     saveGeoJson(getGeoJson(this.state.shape.coordinates))
