@@ -88,7 +88,7 @@ class Reports extends Component {
   getDrafts(drafts) {
     const onActionPress = (reportName) => {
       const lastStep = this.props.getLastStep(reportName);
-      if (lastStep) {
+      if (lastStep !== null) {
         const screen = 'ForestWatcher.NewReport';
         const title = 'Report';
         this.props.navigator.push({
@@ -98,7 +98,7 @@ class Reports extends Component {
             screen,
             title,
             form: reportName,
-            questionsToSkip: 0,
+            questionsToSkip: lastStep,
             texts: {
               saveLaterTitle: 'report.saveLaterTitle',
               saveLaterDescription: 'report.saveLaterDescription',
