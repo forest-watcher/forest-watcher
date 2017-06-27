@@ -143,7 +143,7 @@ export default StyleSheet.create({
   footerButton: {
     left: 8,
     right: 8,
-    bottom: 75,
+    bottom: 28,
     position: 'absolute',
     zIndex: 2
   },

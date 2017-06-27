@@ -38,7 +38,7 @@ class AreaCarousel extends Component {
     let positionText = '';
     let datasetName = I18n.t('commonText.notAvailable');
     let distance = 999999;
-    const containerTextSyle = alertSelected
+    const containerTextStyle = alertSelected
       ? [styles.textContainer, styles.textContainerSmall]
       : styles.textContainer;
     if (lastPosition && (alertSelected && alertSelected.latitude && alertSelected.longitude)) {
@@ -67,42 +67,47 @@ class AreaCarousel extends Component {
       datasetName = enabledDatasetName(area) || NO_ALERT_SELECTED;
       return (
         <View key={`entry-${index}`} style={styles.slideInnerContainer}>
-          <Text style={containerTextSyle}>{ area.name } - { datasetName }</Text>
+          <Text style={containerTextStyle}>{ area.name } - { datasetName }</Text>
           {!alertSelected &&
-          <View style={styles.currentPosition}>
-            <Text style={styles.coordinateDistanceText}>
+          <View style={styles.lastUpdated}>
+            <Text style={styles.smallCarouselText}>
               {lastUpdatedText}
             </Text>
           </View>
-          }
-          {alertSelected &&
-            <View style={styles.currentPosition}>
-              <Text style={styles.coordinateDistanceText}>
-                {distanceText}
-              </Text>
-              <Text style={styles.coordinateDistanceText}>
-                {positionText}
-              </Text>
-            </View>
           }
           {settingsButton(area)}
         </View>
       );
     });
-
     return (
-      <View style={{ position: 'absolute', bottom: 0, zIndex: 10 }}>
-        <Carousel
-          ref={(carousel) => { this.carousel = carousel; }}
-          firstItem={selectedArea}
-          sliderWidth={sliderWidth}
-          itemWidth={itemWidth}
-          onSnapToItem={throttle((index) => this.props.updateSelectedArea(index), 300)}
-          showsHorizontalScrollIndicator={false}
-          slideStyle={styles.slideStyle}
-        >
-          { sliderItems }
-        </Carousel>
+      <View style={{ position: 'absolute', bottom: 0 }}>
+        {alertSelected &&
+          <View style={styles.currentPositionContainer}>
+            <View style={styles.currentPosition}>
+              <Text style={[styles.smallCarouselText, styles.coordinateDistanceText]}>
+                {distanceText}
+              </Text>
+              <Text style={[styles.smallCarouselText, styles.coordinateDistanceText]}>
+                {positionText}
+              </Text>
+            </View>
+          </View>
+        }
+        {!alertSelected &&
+          <Carousel
+            ref={(carousel) => {
+              this.carousel = carousel;
+            }}
+            firstItem={selectedArea}
+            sliderWidth={sliderWidth}
+            itemWidth={itemWidth}
+            onSnapToItem={throttle((index) => this.props.updateSelectedArea(index), 300)}
+            showsHorizontalScrollIndicator={false}
+            slideStyle={styles.slideStyle}
+          >
+            { sliderItems }
+          </Carousel>
+        }
       </View>
     );
   }

@@ -385,7 +385,7 @@ class Map extends Component {
 
   renderFooterLoading() {
     return (!this.state.lastPosition &&
-      <View style={styles.footer}>
+      <View pointerEvents="box-none" style={styles.footer}>
         <Image
           style={styles.footerBg}
           source={backgroundImage}
@@ -500,15 +500,15 @@ class Map extends Component {
               />
             }
           </MapView>
-          {selectedAlertCoordinates
-            ? this.renderFooter()
-            : this.renderFooterLoading()
-          }
           <AreaCarousel
             navigator={this.props.navigator}
             alertSelected={selectedAlertCoordinates}
             lastPosition={this.state.lastPosition}
           />
+          {selectedAlertCoordinates
+            ? this.renderFooter()
+            : this.renderFooterLoading()
+          }
         </View>
       : renderLoading()
     );
