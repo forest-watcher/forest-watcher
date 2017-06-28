@@ -45,21 +45,6 @@ export default StyleSheet.create({
       }
     })
   },
-  headerSubtitle: {
-    fontFamily: Theme.font,
-    color: Theme.fontColors.white,
-    fontSize: 16,
-    fontWeight: '400',
-    position: 'absolute',
-    zIndex: 2,
-    top: 46,
-    left: 56,
-    ...Platform.select({
-      ios: {
-        marginTop: 24
-      }
-    })
-  },
   headerBtn: {
     position: 'absolute',
     top: 8,
@@ -143,7 +128,7 @@ export default StyleSheet.create({
   footerButton: {
     left: 8,
     right: 8,
-    bottom: 75,
+    bottom: 28,
     position: 'absolute',
     zIndex: 2
   },

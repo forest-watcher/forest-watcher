@@ -112,12 +112,14 @@ class Map extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.props.areaCoordinates !== prevProps.areaCoordinates) {
       this.updateSelectedArea();
     }
+    if (this.state.selectedAlertCoordinates !== prevState.selectedAlertCoordinates) {
+      this.setHeaderTitle();
+    }
   }
-
 
   componentWillUnmount() {
     Location.stopUpdatingLocation();
@@ -192,6 +194,16 @@ class Map extends Component {
         state.compassFallback = null;
       }
       return state;
+    });
+  }
+
+  setHeaderTitle = () => {
+    const { selectedAlertCoordinates } = this.state;
+    const headerText = selectedAlertCoordinates
+      ? `${selectedAlertCoordinates.latitude.toFixed(4)}, ${selectedAlertCoordinates.longitude.toFixed(4)}`
+      : I18n.t('dashboard.map');
+    this.props.navigator.setTitle({
+      title: headerText
     });
   }
 
@@ -334,16 +346,10 @@ class Map extends Component {
   selectAlert = (e) => {
     const { coordinate } = e.nativeEvent;
     if (coordinate) {
-      this.setState({
-        selectedAlertCoordinates: coordinate
-      });
+      this.setState((state) => ({
+        selectedAlertCoordinates: state.selectedAlertCoordinates ? null : coordinate
+      }));
     }
-  }
-
-  removeSelectedAlert = () => {
-    this.setState({
-      selectedAlertCoordinates: null
-    });
   }
 
   updateSelectedArea = () => {
@@ -385,7 +391,7 @@ class Map extends Component {
 
   renderFooterLoading() {
     return (!this.state.lastPosition &&
-      <View style={styles.footer}>
+      <View pointerEvents="box-none" style={styles.footer}>
         <Image
           style={styles.footerBg}
           source={backgroundImage}
@@ -414,16 +420,6 @@ class Map extends Component {
       this.state.renderMap
       ?
         <View style={styles.container}>
-          <View
-            style={styles.header}
-            pointerEvents={'box-none'}
-          >
-            {selectedAlertCoordinates &&
-              <Text style={styles.headerSubtitle}>
-                {selectedAlertCoordinates.latitude.toFixed(4)}, {selectedAlertCoordinates.longitude.toFixed(4)}
-              </Text>
-            }
-          </View>
           <MapView
             ref={(ref) => { this.map = ref; }}
             style={styles.map}
@@ -495,20 +491,19 @@ class Map extends Component {
                 coordinate={selectedAlertCoordinates}
                 image={alertWhite}
                 anchor={{ x: 0.5, y: 0.5 }}
-                onPress={this.removeSelectedAlert}
                 zIndex={10}
               />
             }
           </MapView>
-          {selectedAlertCoordinates
-            ? this.renderFooter()
-            : this.renderFooterLoading()
-          }
           <AreaCarousel
             navigator={this.props.navigator}
             alertSelected={selectedAlertCoordinates}
             lastPosition={this.state.lastPosition}
           />
+          {selectedAlertCoordinates
+            ? this.renderFooter()
+            : this.renderFooterLoading()
+          }
         </View>
       : renderLoading()
     );

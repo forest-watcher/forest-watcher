@@ -10,11 +10,11 @@ function wp(percentage) {
   return Math.round(value);
 }
 const slideHeight = viewportHeight * 0.1;
-const slideWidth = wp(75);
-const itemHorizontalMargin = wp(2);
+const slideWidth = wp(85);
+const itemHorizontalMargin = wp(3);
 
 export const sliderWidth = viewportWidth;
-const horizontalMargin = itemHorizontalMargin * 2;
+const horizontalMargin = wp(2);
 export const itemWidth = slideWidth + horizontalMargin;
 
 const entryBorderRadius = 8;
@@ -36,8 +36,7 @@ export const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     width: itemWidth,
     height: slideHeight,
-    paddingHorizontal: itemHorizontalMargin,
-    paddingBottom: 18
+    paddingHorizontal: itemHorizontalMargin
   },
   textContainer: {
     justifyContent: 'center',
@@ -54,26 +53,36 @@ export const styles = StyleSheet.create({
   textContainerSmall: {
     paddingTop: 14 - entryBorderRadius
   },
-  carousel: {
-    flex: 0,
-    backgroundColor: 'transparent',
-    height: 134
-  },
   slideStyle: {
     backgroundColor: '#FFFFFF',
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5
   },
-  coordinateDistanceText: {
+  smallCarouselText: {
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
     fontSize: 14,
     fontWeight: '400',
     marginLeft: Theme.marginLeft * 2,
     backgroundColor: 'transparent',
-    lineHeight: 13
+    lineHeight: 22
+  },
+  coordinateDistanceText: {
+    color: Theme.fontColors.white
+  },
+  currentPositionContainer: {
+    bottom: 92,
+    paddingLeft: Theme.margin.left,
+    position: 'absolute',
+    width: Theme.screen.width,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start'
   },
   currentPosition: {
+    paddingBottom: 10
+  },
+  lastUpdated: {
     paddingTop: 3,
     position: 'relative'
   },

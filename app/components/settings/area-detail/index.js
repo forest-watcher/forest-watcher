@@ -128,7 +128,7 @@ class AreaDetail extends Component {
         <View style={styles.row}>
           <Text style={styles.title}>{I18n.t('commonText.boundaries')}</Text>
           <View style={styles.imageContainer}>
-            <Image style={styles.image} source={{ uri: imageUrl || 'placeholder.png' }} />
+            <Image resizeMode="cover" style={styles.image} source={{ uri: imageUrl || 'placeholder.png' }} />
           </View>
         </View>
         <View style={styles.row}>
