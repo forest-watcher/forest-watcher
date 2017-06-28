@@ -112,12 +112,14 @@ class Map extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.props.areaCoordinates !== prevProps.areaCoordinates) {
       this.updateSelectedArea();
     }
+    if (this.state.selectedAlertCoordinates !== prevState.selectedAlertCoordinates) {
+      this.setHeaderTitle();
+    }
   }
-
 
   componentWillUnmount() {
     Location.stopUpdatingLocation();
@@ -192,6 +194,16 @@ class Map extends Component {
         state.compassFallback = null;
       }
       return state;
+    });
+  }
+
+  setHeaderTitle = () => {
+    const { selectedAlertCoordinates } = this.state;
+    const headerText = selectedAlertCoordinates
+      ? `${selectedAlertCoordinates.latitude.toFixed(4)}, ${selectedAlertCoordinates.longitude.toFixed(4)}`
+      : I18n.t('dashboard.map');
+    this.props.navigator.setTitle({
+      title: headerText
     });
   }
 
@@ -340,12 +352,6 @@ class Map extends Component {
     }
   }
 
-  removeSelectedAlert = () => {
-    this.setState({
-      selectedAlertCoordinates: null
-    });
-  }
-
   updateSelectedArea = () => {
     this.setState({
       selectedAlertCoordinates: null
@@ -414,16 +420,6 @@ class Map extends Component {
       this.state.renderMap
       ?
         <View style={styles.container}>
-          <View
-            style={styles.header}
-            pointerEvents={'box-none'}
-          >
-            {selectedAlertCoordinates &&
-              <Text style={styles.headerSubtitle}>
-                {selectedAlertCoordinates.latitude.toFixed(4)}, {selectedAlertCoordinates.longitude.toFixed(4)}
-              </Text>
-            }
-          </View>
           <MapView
             ref={(ref) => { this.map = ref; }}
             style={styles.map}
@@ -495,7 +491,6 @@ class Map extends Component {
                 coordinate={selectedAlertCoordinates}
                 image={alertWhite}
                 anchor={{ x: 0.5, y: 0.5 }}
-                onPress={this.removeSelectedAlert}
                 zIndex={10}
               />
             }
