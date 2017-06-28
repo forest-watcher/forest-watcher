@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Field, reduxForm } from 'redux-form';
 
 import I18n from 'locales';
 import ActionButton from 'components/common/action-button';
 import getInputForm from 'components/common/form-inputs';
+import withDraft from './withDraft';
 import NextButton from './next-button';
 import styles from './styles';
 
@@ -23,27 +24,44 @@ const getNext = (question, answer, next) => {
   />);
 };
 
-const FormStep = ({ question, answer, next, navigator }) => (
-  <View style={styles.container}>
-    <View style={styles.container}>
-      <Field
-        name={question.name}
-        component={getInputForm}
-        question={question}
-        navigator={navigator}
-      />
-    </View>
-    {getNext(question, answer, next)}
-  </View>
-);
+class FormStep extends Component {
 
-FormStep.propTypes = {
-  question: React.PropTypes.object.isRequired,
-  answer: React.PropTypes.any,
-  next: React.PropTypes.object.isRequired,
-  navigator: React.PropTypes.object.isRequired
-};
+  static propTypes = {
+    question: React.PropTypes.object.isRequired,
+    answer: React.PropTypes.any,
+    next: React.PropTypes.object.isRequired,
+    navigator: React.PropTypes.object.isRequired
+  };
+
+  static navigatorButtons = {
+    leftButtons: [{
+      id: 'back'
+    }]
+  };
+
+  constructor(props) {
+    super(props);
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+  }
+
+  render() {
+    const { question, answer, next, navigator } = this.props;
+    return (
+      <View style={styles.container}>
+        <View style={styles.container}>
+          <Field
+            name={question.name}
+            component={getInputForm}
+            question={question}
+            navigator={navigator}
+          />
+        </View>
+        {getNext(question, answer, next)}
+      </View>
+    );
+  }
+}
 
 export default reduxForm({
   destroyOnUnmount: false
-})(FormStep);
+})(withDraft(FormStep));

@@ -3,7 +3,7 @@ import { saveReport, uploadReport } from 'redux-modules/reports';
 import { setCanDisplayAlerts } from 'redux-modules/alerts';
 import { getFormFields, getAnswers } from 'helpers/forms';
 
-import ReportForm from 'components/reports/form';
+import ReportForm from 'components/common/form';
 
 function mapStateToProps(state) {
   return {
