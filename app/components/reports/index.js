@@ -94,6 +94,7 @@ class Reports extends Component {
         this.props.navigator.push({
           screen,
           title,
+          backButtonHidden: true,
           passProps: {
             screen,
             title,

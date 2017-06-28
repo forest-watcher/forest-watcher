@@ -33,17 +33,6 @@ class FormStep extends Component {
     navigator: React.PropTypes.object.isRequired
   };
 
-  static navigatorButtons = {
-    leftButtons: [{
-      id: 'back'
-    }]
-  };
-
-  constructor(props) {
-    super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
-  }
-
   render() {
     const { question, answer, next, navigator } = this.props;
     return (
