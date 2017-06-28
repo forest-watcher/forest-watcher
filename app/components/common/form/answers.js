@@ -2,20 +2,18 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  ScrollView,
-  Alert
+  ScrollView
 } from 'react-native';
 import Theme from 'config/theme';
-import CONSTANTS from 'config/constants';
 import I18n from 'locales';
 
 import ActionButton from 'components/common/action-button';
 import Answer from 'components/common/form/answer/answer';
 import ImageCarousel from 'components/common/image-carousel';
+import withDraft from './withDraft';
 import styles from './styles';
 
 const deleteIcon = require('assets/delete_red.png');
-const saveReportIcon = require('assets/save_for_later.png');
 
 class Answers extends Component {
   static navigatorStyle = {
@@ -33,56 +31,9 @@ class Answers extends Component {
         answers: React.PropTypes.array
       })
     ),
-    enableDraft: React.PropTypes.bool.isRequired,
-    saveReport: React.PropTypes.func.isRequired,
     form: React.PropTypes.string.isRequired,
     finish: React.PropTypes.func.isRequired
   };
-
-  static defaultProps = {
-    enableDraft: true
-  };
-
-  constructor(props) {
-    super(props);
-    if (this.props.enableDraft) {
-      this.props.navigator.setButtons({
-        rightButtons: [
-          {
-            icon: saveReportIcon,
-            id: 'draft'
-          }
-        ]
-      });
-      this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
-    }
-  }
-
-  onPressDraft = () => {
-    const { form } = this.props;
-    Alert.alert(
-      I18n.t('report.saveLaterTitle'),
-      I18n.t('report.saveLaterDescription'),
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel'
-        },
-        {
-          text: 'OK',
-          onPress: () => {
-            if (this.props.saveReport) {
-              this.props.saveReport(form, {
-                status: CONSTANTS.status.draft
-              });
-            }
-            this.props.navigator.popToRoot({ animate: true });
-          }
-        }
-      ],
-      { cancelable: false }
-    );
-  }
 
   onPressSave = () => {
     const { form, finish, navigator } = this.props;
@@ -90,16 +41,11 @@ class Answers extends Component {
     navigator.popToRoot({ animate: true });
   }
 
-  onNavigatorEvent = (event) => {
-    if (event.type === 'NavBarButtonPress') {
-      if (event.id === 'draft') this.onPressDraft();
-    }
-  }
-
   onEdit = (result, index) => {
     const { navigator, form } = this.props;
     const isFeedback = name => (name === 'daily' || name === 'weekly');
     const screen = isFeedback(form) ? 'ForestWatcher.Feedback' : 'ForestWatcher.NewReport';
+    const disableDraft = isFeedback(form);
     navigator.showModal({
       screen,
       passProps: {
@@ -107,6 +53,7 @@ class Answers extends Component {
         title: 'Report',
         screen,
         step: index,
+        disableDraft,
         editMode: true
       }
     });
@@ -154,4 +101,4 @@ class Answers extends Component {
   }
 }
 
-export default Answers;
+export default withDraft(Answers);

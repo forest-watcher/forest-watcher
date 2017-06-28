@@ -16,21 +16,24 @@ function withDraft(WrappedComponent) {
   return class withDraftHOC extends WrappedComponent {
     static displayName = `HOC(${getDisplayName(WrappedComponent)})`;
     static navigatorStyle = WrappedComponent.navigatorStyle;
+    static navigatorButtons = WrappedComponent.navigatorButtons;
     static propTypes = { saveReport: React.PropTypes.func };
 
     constructor(props) {
       super(props);
-      const navButtons = WrappedComponent.navigatorButtons || {};
-      navButtons.rightButtons = navButtons.rightButtons || [];
-      navButtons.leftButtonst = navButtons.rightButtons || [];
-      this.props.navigator.setButtons({
-        rightButtons: [
-          ...navButtons.rightButtons,
-          { icon: saveReportIcon, id: 'draft' }
-        ],
-        leftButtons: navButtons.leftButtons
-      });
-      this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+      if (!this.props.disableDraft) {
+        const navButtons = WrappedComponent.navigatorButtons || {};
+        navButtons.rightButtons = navButtons.rightButtons || [];
+        navButtons.leftButtonst = navButtons.rightButtons || [];
+        this.props.navigator.setButtons({
+          rightButtons: [
+            ...navButtons.rightButtons,
+            { icon: saveReportIcon, id: 'draft' }
+          ],
+          leftButtons: navButtons.leftButtons
+        });
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+      }
     }
 
     onPressDraft = () => {
@@ -60,7 +63,7 @@ function withDraft(WrappedComponent) {
     };
 
     onNavigatorEvent = (event) => {
-      super.onNavigatorEvent(event);
+      if (super.onNavigatorEvent) super.onNavigatorEvent(event);
       if (event.type === 'NavBarButtonPress') {
         if (event.id === 'draft') this.onPressDraft();
       }
