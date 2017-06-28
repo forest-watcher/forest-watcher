@@ -111,7 +111,7 @@ class Dashboard extends PureComponent {
               title,
               screen,
               form: 'daily',
-              questionsToSkip: 0
+              disableDraft: true
             }
           });
           break;
@@ -126,7 +126,7 @@ class Dashboard extends PureComponent {
               title,
               screen,
               form: 'weekly',
-              questionsToSkip: 0
+              disableDraft: true
             }
           });
           break;

@@ -230,8 +230,7 @@ class Map extends Component {
       passProps: {
         screen,
         title,
-        form,
-        questionsToSkip: 0
+        form
       }
     });
   }

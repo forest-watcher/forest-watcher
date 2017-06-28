@@ -12,6 +12,20 @@ class Form extends Component {
     navBarBackgroundColor: Theme.background.main
   };
 
+  static propTypes = {
+    navigator: React.PropTypes.object.isRequired,
+    form: React.PropTypes.string.isRequired,
+    step: React.PropTypes.number,
+    questionsToSkip: React.PropTypes.number,
+    title: React.PropTypes.string.isRequired,
+    screen: React.PropTypes.string.isRequired,
+    finish: React.PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    questionsToSkip: 0
+  };
+
   componentDidMount() {
     tracker.trackScreenView('Reports');
   }
@@ -26,15 +40,5 @@ class Form extends Component {
     return null;
   }
 }
-
-Form.propTypes = {
-  navigator: React.PropTypes.object.isRequired,
-  form: React.PropTypes.string.isRequired,
-  step: React.PropTypes.number,
-  questionsToSkip: React.PropTypes.number,
-  title: React.PropTypes.string.isRequired,
-  screen: React.PropTypes.string.isRequired,
-  finish: React.PropTypes.func.isRequired
-};
 
 export default Form;
