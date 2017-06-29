@@ -1,4 +1,5 @@
 import Config from 'react-native-config';
+import { Platform } from 'react-native';
 import GoogleOAuth from 'config/oAuth/GoogleOAuth';
 
 // Actions
@@ -85,7 +86,7 @@ export function loginGoogle() {
 
 export function logout() {
   return (dispatch, state) => {
-    if (state().user.socialNetwork === 'google') {
+    if (state().user.socialNetwork === 'google' && Platform.OS === 'android') {
       return dispatch({
         type: LOGOUT_REQUEST,
         meta: {
