@@ -1,5 +1,5 @@
 import Theme from 'config/theme';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -12,49 +12,6 @@ export default StyleSheet.create({
   loader: {
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  header: {
-    left: 0,
-    right: 0,
-    top: 0,
-    height: 104,
-    zIndex: 1,
-    position: 'absolute',
-    backgroundColor: 'transparent'
-  },
-  headerBg: {
-    width: Theme.screen.width,
-    height: 104,
-    resizeMode: 'stretch',
-    position: 'absolute',
-    zIndex: 1,
-    top: 0
-  },
-  headerTitle: {
-    fontFamily: Theme.font,
-    color: Theme.fontColors.white,
-    fontSize: 21,
-    fontWeight: '400',
-    position: 'absolute',
-    zIndex: 2,
-    top: 16,
-    left: 56,
-    ...Platform.select({
-      ios: {
-        marginTop: 24
-      }
-    })
-  },
-  headerBtn: {
-    position: 'absolute',
-    top: 8,
-    left: 8,
-    zIndex: 2,
-    ...Platform.select({
-      ios: {
-        marginTop: 24
-      }
-    })
   },
   signalNotice: {
     marginTop: 40,

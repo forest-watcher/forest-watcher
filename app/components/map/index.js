@@ -60,6 +60,7 @@ class Map extends Component {
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color5,
     navBarButtonColor: Theme.colors.color5,
+    drawUnderNavBar: true,
     topBarElevationShadowEnabled: false,
     navBarBackgroundColor: Theme.background.main,
     navBarTransparent: true,
