@@ -24,7 +24,7 @@ const getNext = (question, answer, next) => {
   />);
 };
 
-class FormStep extends Component {
+class FormStep extends Component { // eslint-disable-line
 
   static propTypes = {
     question: React.PropTypes.object.isRequired,

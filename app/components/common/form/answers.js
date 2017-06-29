@@ -48,6 +48,7 @@ class Answers extends Component {
     const disableDraft = isFeedback(form);
     navigator.showModal({
       screen,
+      backButtonHidden: true,
       passProps: {
         form,
         title: 'Report',

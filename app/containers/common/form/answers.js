@@ -14,15 +14,16 @@ function getAnswerValues(question, answer) {
 }
 
 function mapFormToAnsweredQuestions(fields, answers, form, deviceLang) {
-  const questions = form.questions.filter(question => fields.includes(question.name))
-    .map((question, index) => {
+  const questions = form.questions.map((question, index) => ({ ...question, questionNumber: index }))
+    .filter(question => fields.includes(question.name))
+    .map((question) => {
       const parsedQuestion = parseQuestion({ form, question }, deviceLang);
       const answer = answers[question.name];
       if (question.type === 'blob' && typeof answer === 'undefined') {
         console.warn(`Image of question (${question.Id}) was not saved properly`);
       }
       return {
-        question: { ...parsedQuestion, questionNumber: index },
+        question: { ...parsedQuestion },
         answers: getAnswerValues(parsedQuestion, answer)
       };
     });

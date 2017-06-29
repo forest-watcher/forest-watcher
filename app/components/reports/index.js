@@ -94,12 +94,11 @@ class Reports extends Component {
         this.props.navigator.push({
           screen,
           title,
-          backButtonHidden: true,
           passProps: {
             screen,
             title,
             form: reportName,
-            questionsToSkip: lastStep,
+            step: lastStep,
             texts: {
               saveLaterTitle: 'report.saveLaterTitle',
               saveLaterDescription: 'report.saveLaterDescription',
