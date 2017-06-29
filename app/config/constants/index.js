@@ -57,5 +57,10 @@ export default {
     MOBILE: ['MOBILE', 'MOBILE_DUN', 'MOBILE_HIPRI', 'MOBILE_MMS', 'MOBILE_SUPL', 'CELL'],
     OTHER: ['BLUETOOTH', 'DUMMY', 'ETHERNET', 'VPN', 'WIMAX'],
     NONE: ['NONE', 'UNKNOWN']
+  },
+  datasets: {
+    VIIRS: 'viirs',
+    GLAD: 'glad'
   }
 };
+

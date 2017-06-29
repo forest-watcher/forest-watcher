@@ -6,9 +6,51 @@ import {
 } from 'react-native';
 
 import I18n from 'locales';
+import constants from 'config/constants';
 import styles from './styles';
 
+const VIIRS_OPTIONS = [
+  {
+    label: 'settings.24hAgo',
+    value: 1
+  },
+  {
+    label: 'settings.24hAgo',
+    value: 1
+  },
+  {
+    label: 'settings.24hAgo',
+    value: 1
+  },
+  {
+    label: 'settings.24hAgo',
+    value: 1
+  }
+];
+const GLAD_OPTIONS = [
+  {
+    label: 'settings.1MonthAgo',
+    value: 1
+  },
+  {
+    label: 'settings.3MonthsAgo',
+    value: 3
+  },
+  {
+    label: 'settings.6MonthsAgo',
+    value: 6
+  },
+  {
+    label: 'settings.1yearAgo',
+    value: 12
+  }
+];
+
 class DropdownPicker extends Component {
+  getPickerOptions() {
+    const options = this.props.slug === constants.datasets.VIIRS ? VIIRS_OPTIONS : GLAD_OPTIONS;
+    return options.map(option => (<Picker.Item label={I18n.t(option.label)} value={option.value} key={option.label} />));
+  }
   handleRangeChange(days) {
     this.props.updateRange({ startDate: days });
   }
@@ -18,27 +60,15 @@ class DropdownPicker extends Component {
         {I18n.t('settings.timeFrame')}
       </Text>
       <View style={styles.dateContainer}>
-        { this.props.slug === 'viirs' ?
+        <View style={styles.pickerContainer}>
           <Picker
             selectedValue={this.props.startDate}
             onValueChange={(days) => this.handleRangeChange(days)}
+            itemStyle={{ height: 72 }}
           >
-            <Picker.Item label={I18n.t('settings.24hAgo')} value={1} />
-            <Picker.Item label={I18n.t('settings.48hAgo')} value={2} />
-            <Picker.Item label={I18n.t('settings.72hAgo')} value={3} />
-            <Picker.Item label={I18n.t('settings.oneWeekAgo')} value={7} />
+            {this.getPickerOptions()}
           </Picker>
-          :
-          <Picker
-            selectedValue={this.props.startDate}
-            onValueChange={(days) => this.handleRangeChange(days)}
-          >
-            <Picker.Item label={I18n.t('settings.1MonthAgo')} value={1} />
-            <Picker.Item label={I18n.t('settings.3MonthsAgo')} value={3} />
-            <Picker.Item label={I18n.t('settings.6MonthsAgo')} value={6} />
-            <Picker.Item label={I18n.t('settings.1yearAgo')} value={12} />
-          </Picker>
-        }
+        </View>
       </View>
     </View>);
   }
