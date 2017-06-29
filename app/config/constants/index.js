@@ -47,9 +47,6 @@ export default {
   reports: {
     default: 'defaultReport'
   },
-  report: {
-    questionsToSkip: 4
-  },
   status: {
     draft: 'draft',
     complete: 'complete',

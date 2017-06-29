@@ -242,13 +242,7 @@ class Map extends Component {
       passProps: {
         screen,
         title,
-        form,
-        questionsToSkip: 0,
-        texts: {
-          saveLaterTitle: 'report.saveLaterTitle',
-          saveLaterDescription: 'report.saveLaterDescription',
-          requiredId: 'report.reportIdRequired'
-        }
+        form
       }
     });
   }

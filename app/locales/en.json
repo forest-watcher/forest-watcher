@@ -153,9 +153,6 @@
 	"connectionRequired": "You need an internet connection"
   },
   "feedback": {
-    "title": "Feedback",
-    "saveLaterTitle": "Finish it later",
-    "saveLaterDescription": "You can complete this form from the dashboard menu",
-    "feedBackTypeRequired": "Feedback type is neccesary"
+    "title": "Feedback"
   }
 }

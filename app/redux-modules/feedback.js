@@ -119,7 +119,7 @@ export function saveFeedback(name, data) {
   };
 }
 
-export function uploadFeedback(type) {
+export function uploadFeedback(type, fields) {
   return (dispatch, state) => {
     const report = state().form[type].values;
     const user = state().user;
@@ -136,15 +136,17 @@ export function uploadFeedback(type) {
     form.append('language', language);
 
     Object.keys(report).forEach((key) => {
-      if (typeof report[key] === 'string' && report[key].indexOf('jpg') >= 0) { // TODO: improve this
-        const image = {
-          uri: report[key],
-          type: 'image/jpg',
-          name: `${type}-image-${key}.jpg`
-        };
-        form.append(key, image);
-      } else {
-        form.append(key, report[key].toString());
+      if (fields.includes(key)) {
+        if (typeof report[key] === 'string' && report[key].indexOf('jpg') >= 0) { // TODO: improve this
+          const image = {
+            uri: report[key],
+            type: 'image/jpg',
+            name: `${type}-image-${key}.jpg`
+          };
+          form.append(key, image);
+        } else {
+          form.append(key, report[key].toString());
+        }
       }
     });
 

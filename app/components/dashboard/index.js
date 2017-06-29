@@ -111,12 +111,7 @@ class Dashboard extends PureComponent {
               title,
               screen,
               form: 'daily',
-              questionsToSkip: 0,
-              texts: {
-                saveLaterTitle: 'feedback.saveLaterTitle',
-                saveLaterDescription: 'feedback.saveLaterDescription',
-                requiredId: 'feedback.reportIdRequired'
-              }
+              disableDraft: true
             }
           });
           break;
@@ -131,12 +126,7 @@ class Dashboard extends PureComponent {
               title,
               screen,
               form: 'weekly',
-              questionsToSkip: 0,
-              texts: {
-                saveLaterTitle: 'feedback.saveLaterTitle',
-                saveLaterDescription: 'feedback.saveLaterDescription',
-                requiredId: 'feedback.reportIdRequired'
-              }
+              disableDraft: true
             }
           });
           break;

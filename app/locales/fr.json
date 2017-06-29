@@ -153,9 +153,6 @@
 	"connectionRequired": "Une connexion internet est requise"
   },
   "feedback": {
-    "title": "Feedback",
-    "saveLaterTitle": "Terminer plus tard",
-    "saveLaterDescription": "Vous pouvez remplir ce formulaire depuis le menu du tableau de bord",
-    "feedBackTypeRequired": "Type de rétroaction nécessaire"
+    "title": "Feedback"
   }
 }

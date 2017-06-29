@@ -107,7 +107,7 @@ export function saveReport(name, data) {
   };
 }
 
-export function uploadReport(reportName) {
+export function uploadReport(reportName, fields) {
   tracker.trackEvent('Report', 'Complete Report', { label: 'Click Done', value: 0 });
   return (dispatch, state) => {
     const report = state().form[reportName].values;
@@ -132,17 +132,20 @@ export function uploadReport(reportName) {
     form.append('userPosition', reportStatus && reportStatus.userPosition.toString());
 
     Object.keys(report).forEach((key) => {
-      if (typeof report[key] === 'string' && report[key].indexOf('jpg') >= 0) { // TODO: improve this
-        const image = {
-          uri: report[key],
-          type: 'image/jpg',
-          name: `${reportName}-image-${key}.jpg`
-        };
-        form.append(key, image);
-      } else {
-        form.append(key, report[key].toString());
+      if (fields.includes(key)) {
+        if (typeof report[key] === 'string' && report[key].indexOf('jpg') >= 0) { // TODO: improve this
+          const image = {
+            uri: report[key],
+            type: 'image/jpg',
+            name: `${reportName}-image-${key}.jpg`
+          };
+          form.append(key, image);
+        } else {
+          form.append(key, report[key].toString());
+        }
       }
     });
+
     const requestPayload = {
       name: reportName,
       status: CONSTANTS.status.complete

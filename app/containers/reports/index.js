@@ -1,5 +1,7 @@
 import { connect } from 'react-redux';
 import { uploadReport } from 'redux-modules/reports';
+import { setCanDisplayAlerts } from 'redux-modules/alerts';
+import { getAnswers, getFormFields } from 'helpers/forms';
 
 import Reports from 'components/reports';
 
@@ -24,7 +26,9 @@ function getReports(reports) {
 
 function mapStateToProps(state) {
   return {
-    reports: getReports(state.reports.list)
+    reports: getReports(state.reports.list),
+    stateReports: state.reports,
+    form: state.form
   };
 }
 
@@ -32,11 +36,39 @@ function mapDispatchToProps(dispatch) {
   return {
     uploadReport: (reportName) => {
       dispatch(uploadReport(reportName));
+    },
+    submitForm: (form, formName, answers) => {
+      const fields = getFormFields(form, answers);
+      dispatch(uploadReport(formName, fields));
+      dispatch(setCanDisplayAlerts(true));
+    }
+  };
+}
+
+function mergeProps({ form, stateReports, ...state }, { submitForm, ...dispatch }, ownProps) {
+  return {
+    ...ownProps,
+    ...state,
+    ...dispatch,
+    getLastStep: (formName) => {
+      const answers = Object.keys(getAnswers(form, formName));
+      if (answers.length) {
+        const questions = stateReports.forms.questions;
+        const last = Math.max(...answers.map(answer => questions.findIndex(question => answer === question.name)));
+        return last < (questions.length - 1) ? last : null;
+      }
+      // we need to return 0 in case that answers.length === 0, because that means that a form was created but no answer was submitted
+      return 0;
+    },
+    finish: (formName) => {
+      const answers = Object.keys(getAnswers(form, formName));
+      submitForm(stateReports.forms, formName, answers);
     }
   };
 }
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
+  mergeProps
 )(Reports);

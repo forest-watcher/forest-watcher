@@ -43,6 +43,7 @@ export default () => {
       .use(asyncStorage())
       .connect()
       .clear();
+    window.tron = Reactotron; // eslint-disable-line
     store = offline({ persistCallback: startApp })(Reactotron.createStore)(reducer, undefined, middleware);
   } else {
     store = offline({ persistCallback: startApp })(createStore)(reducer, undefined, middleware);

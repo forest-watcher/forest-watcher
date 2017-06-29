@@ -87,23 +87,35 @@ class Reports extends Component {
 
   getDrafts(drafts) {
     const onActionPress = (reportName) => {
-      const screen = 'ForestWatcher.NewReport';
-      const title = 'Report';
-      this.props.navigator.push({
-        screen,
-        title,
-        passProps: {
+      const lastStep = this.props.getLastStep(reportName);
+      if (lastStep !== null) {
+        const screen = 'ForestWatcher.NewReport';
+        const title = 'Report';
+        this.props.navigator.push({
           screen,
           title,
-          form: reportName,
-          questionsToSkip: 0,
-          texts: {
-            saveLaterTitle: 'report.saveLaterTitle',
-            saveLaterDescription: 'report.saveLaterDescription',
-            requiredId: 'report.reportIdRequired'
+          passProps: {
+            screen,
+            title,
+            form: reportName,
+            step: lastStep,
+            texts: {
+              saveLaterTitle: 'report.saveLaterTitle',
+              saveLaterDescription: 'report.saveLaterDescription',
+              requiredId: 'report.reportIdRequired'
+            }
           }
-        }
-      });
+        });
+      } else {
+        this.props.navigator.push({
+          title: 'Review report',
+          screen: 'ForestWatcher.Answers',
+          passProps: {
+            form: reportName,
+            finish: this.props.finish
+          }
+        });
+      }
     };
     return (
       <View style={styles.listContainer}>
@@ -157,7 +169,9 @@ Reports.propTypes = {
     draft: React.PropTypes.array,
     uploaded: React.PropTypes.array,
     complete: React.PropTypes.array
-  }).isRequired
+  }).isRequired,
+  getLastStep: React.PropTypes.func.isRequired,
+  finish: React.PropTypes.func.isRequired
 };
 
 

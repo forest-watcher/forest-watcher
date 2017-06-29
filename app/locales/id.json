@@ -153,9 +153,6 @@
 	"connectionRequired": "Anda membutuhkan koneksi internet"
   },
   "feedback": {
-    "title": "Umpan balik",
-    "saveLaterTitle": "Selesaikan nanti",
-    "saveLaterDescription": "Anda dapat melengkapi form ini dari menu utama",
-    "feedBackTypeRequired": "Jenis umpan balik diperlukan"
+    "title": "Umpan balik"
   }
 }

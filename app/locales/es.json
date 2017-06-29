@@ -153,9 +153,6 @@
 	"connectionRequired": "Necesita una conexión a internet"
   },
   "feedback": {
-    "title": "Feedback",
-    "saveLaterTitle": "Terminar después",
-    "saveLaterDescription": "Puedes terminar el formulario desde el menu dashboard",
-    "feedBackTypeRequired": "El tipo del Feedback es requerido"
+    "title": "Feedback"
   }
 }
