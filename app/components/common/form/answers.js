@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -24,15 +25,15 @@ class Answers extends Component {
   };
 
   static propTypes = {
-    navigator: React.PropTypes.object.isRequired,
-    results: React.PropTypes.arrayOf(
-      React.PropTypes.shape({
-        question: React.PropTypes.object,
-        answers: React.PropTypes.array
+    navigator: PropTypes.object.isRequired,
+    results: PropTypes.arrayOf(
+      PropTypes.shape({
+        question: PropTypes.object,
+        answers: PropTypes.array
       })
     ),
-    form: React.PropTypes.string.isRequired,
-    finish: React.PropTypes.func.isRequired
+    form: PropTypes.string.isRequired,
+    finish: PropTypes.func.isRequired
   };
 
   onPressSave = () => {

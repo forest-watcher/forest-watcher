@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   ScrollView,
@@ -53,8 +54,8 @@ function List(props) {
 }
 
 List.propTypes = {
-  content: React.PropTypes.array,
-  bigSeparation: React.PropTypes.bool
+  content: PropTypes.array,
+  bigSeparation: PropTypes.bool
 };
 
 export default List;
