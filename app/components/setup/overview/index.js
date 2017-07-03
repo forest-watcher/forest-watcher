@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import {
   View,
@@ -113,15 +114,15 @@ class SetupOverview extends Component {
 }
 
 SetupOverview.propTypes = {
-  user: React.PropTypes.shape({
-    id: React.PropTypes.string.isRequired,
-    token: React.PropTypes.string.isRequired
+  user: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired
   }).isRequired,
-  area: React.PropTypes.object.isRequired,
-  areaSaved: React.PropTypes.bool.isRequired,
-  snapshot: React.PropTypes.string.isRequired,
-  saveArea: React.PropTypes.func.isRequired,
-  onNextPress: React.PropTypes.func.isRequired
+  area: PropTypes.object.isRequired,
+  areaSaved: PropTypes.bool.isRequired,
+  snapshot: PropTypes.string.isRequired,
+  saveArea: PropTypes.func.isRequired,
+  onNextPress: PropTypes.func.isRequired
 };
 
 export default SetupOverview;

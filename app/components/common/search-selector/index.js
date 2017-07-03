@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -131,13 +132,13 @@ class SearchSelector extends Component {
 }
 
 SearchSelector.propTypes = {
-  selected: React.PropTypes.shape({
-    label: React.PropTypes.string,
-    id: React.PropTypes.string
+  selected: PropTypes.shape({
+    label: PropTypes.string,
+    id: PropTypes.string
   }).isRequired,
-  placeholder: React.PropTypes.string.isRequired,
-  onOptionSelected: React.PropTypes.func.isRequired,
-  data: React.PropTypes.array.isRequired
+  placeholder: PropTypes.string.isRequired,
+  onOptionSelected: PropTypes.func.isRequired,
+  data: PropTypes.array.isRequired
 };
 
 export default SearchSelector;

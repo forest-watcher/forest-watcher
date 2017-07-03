@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Text from './text';
 import Radio from './radio';
 import Select from './select';
@@ -30,12 +31,12 @@ export default function getInputForm(props) {
 }
 
 getInputForm.propTypes = {
-  question: React.PropTypes.shape({
-    value: React.PropTypes.number,
-    type: React.PropTypes.string.isRequired,
-    defaultValue: React.PropTypes.oneOfType([
-      React.PropTypes.number.isRequired,
-      React.PropTypes.string.isRequired
+  question: PropTypes.shape({
+    value: PropTypes.number,
+    type: PropTypes.string.isRequired,
+    defaultValue: PropTypes.oneOfType([
+      PropTypes.number.isRequired,
+      PropTypes.string.isRequired
     ])
   }).isRequired
 };

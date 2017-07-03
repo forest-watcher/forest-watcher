@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import MapView from 'react-native-maps';
 import ClusterMarker from 'components/map/clusters/clusterMarker';
 import {
@@ -38,10 +39,10 @@ class Clusters extends PureComponent {
 }
 
 Clusters.propTypes = {
-  markers: React.PropTypes.array.isRequired,
-  datasetSlug: React.PropTypes.string.isRequired,
-  selectAlert: React.PropTypes.func.isRequired,
-  zoomTo: React.PropTypes.func.isRequired
+  markers: PropTypes.array.isRequired,
+  datasetSlug: PropTypes.string.isRequired,
+  selectAlert: PropTypes.func.isRequired,
+  zoomTo: PropTypes.func.isRequired
 };
 
 export default Clusters;

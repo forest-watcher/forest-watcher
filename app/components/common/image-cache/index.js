@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Text,
   View,
@@ -91,11 +92,11 @@ class ImageCache extends Component {
 }
 
 ImageCache.propTypes = {
-  source: React.PropTypes.object.isRequired,
-  resizeMode: React.PropTypes.string,
-  localSource: React.PropTypes.bool,
-  isConnected: React.PropTypes.bool,
-  style: React.PropTypes.object
+  source: PropTypes.object.isRequired,
+  resizeMode: PropTypes.string,
+  localSource: PropTypes.bool,
+  isConnected: PropTypes.bool,
+  style: PropTypes.object
 };
 
 export default ImageCache;

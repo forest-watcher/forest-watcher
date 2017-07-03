@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View
 } from 'react-native';
@@ -36,14 +37,14 @@ class DatasetOptions extends Component {
 }
 
 DatasetOptions.propTypes = {
-  id: React.PropTypes.string,
-  dataset: React.PropTypes.shape({
-    slug: React.PropTypes.string,
-    cache: React.PropTypes.bool,
-    startDate: React.PropTypes.number
+  id: PropTypes.string,
+  dataset: PropTypes.shape({
+    slug: PropTypes.string,
+    cache: PropTypes.bool,
+    startDate: PropTypes.number
   }),
-  updateDate: React.PropTypes.func.isRequired,
-  setAreaDatasetCache: React.PropTypes.func.isRequired
+  updateDate: PropTypes.func.isRequired,
+  setAreaDatasetCache: PropTypes.func.isRequired
 };
 
 export default DatasetOptions;
