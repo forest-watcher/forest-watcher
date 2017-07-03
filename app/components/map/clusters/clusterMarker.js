@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text
@@ -29,9 +30,9 @@ function ClusterMarker(props) {
 }
 
 ClusterMarker.propTypes = {
-  marker: React.PropTypes.object.isRequired,
-  zoomTo: React.PropTypes.func.isRequired,
-  datasetSlug: React.PropTypes.string.isRequired
+  marker: PropTypes.object.isRequired,
+  zoomTo: PropTypes.func.isRequired,
+  datasetSlug: PropTypes.string.isRequired
 };
 
 export default ClusterMarker;

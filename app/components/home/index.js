@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   ActivityIndicator
@@ -94,16 +95,16 @@ class Home extends Component {
   }
 }
 Home.propTypes = {
-  loggedIn: React.PropTypes.bool.isRequired,
-  token: React.PropTypes.string,
-  syncSkip: React.PropTypes.bool.isRequired,
-  syncFinished: React.PropTypes.bool.isRequired,
-  setLanguage: React.PropTypes.func.isRequired,
-  navigator: React.PropTypes.object.isRequired,
-  hasAreas: React.PropTypes.bool.isRequired,
-  syncModalOpen: React.PropTypes.bool.isRequired,
-  setSyncModal: React.PropTypes.func.isRequired,
-  setSyncSkip: React.PropTypes.func.isRequired
+  loggedIn: PropTypes.bool.isRequired,
+  token: PropTypes.string,
+  syncSkip: PropTypes.bool.isRequired,
+  syncFinished: PropTypes.bool.isRequired,
+  setLanguage: PropTypes.func.isRequired,
+  navigator: PropTypes.object.isRequired,
+  hasAreas: PropTypes.bool.isRequired,
+  syncModalOpen: PropTypes.bool.isRequired,
+  setSyncModal: PropTypes.func.isRequired,
+  setSyncSkip: PropTypes.func.isRequired
 };
 Home.navigationOptions = {
   header: {

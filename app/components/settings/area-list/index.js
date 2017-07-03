@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Image,
   Text,
@@ -46,7 +47,7 @@ function AreaList(props) {
 }
 
 AreaList.propTypes = {
-  areas: React.PropTypes.array
+  areas: PropTypes.array
 };
 
 export default AreaList;

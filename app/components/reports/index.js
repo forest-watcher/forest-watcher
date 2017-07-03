@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -163,15 +164,15 @@ class Reports extends Component {
 }
 
 Reports.propTypes = {
-  uploadReport: React.PropTypes.func.isRequired,
-  navigator: React.PropTypes.object.isRequired,
-  reports: React.PropTypes.shape({
-    draft: React.PropTypes.array,
-    uploaded: React.PropTypes.array,
-    complete: React.PropTypes.array
+  uploadReport: PropTypes.func.isRequired,
+  navigator: PropTypes.object.isRequired,
+  reports: PropTypes.shape({
+    draft: PropTypes.array,
+    uploaded: PropTypes.array,
+    complete: PropTypes.array
   }).isRequired,
-  getLastStep: React.PropTypes.func.isRequired,
-  finish: React.PropTypes.func.isRequired
+  getLastStep: PropTypes.func.isRequired,
+  finish: PropTypes.func.isRequired
 };
 
 

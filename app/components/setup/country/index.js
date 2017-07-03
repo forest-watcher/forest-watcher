@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -80,7 +81,12 @@ class SetupCountry extends Component {
             />
           </View>
 
-          <ActionButton style={styles.buttonPos} disabled={!iso} onPress={this.onNextPress} text={I18n.t('commonText.next').toUpperCase()} />
+          <ActionButton
+            style={styles.buttonPos}
+            disabled={!iso}
+            onPress={this.onNextPress}
+            text={I18n.t('commonText.next').toUpperCase()}
+          />
         </View>
       );
     }
@@ -89,11 +95,11 @@ class SetupCountry extends Component {
 }
 
 SetupCountry.propTypes = {
-  user: React.PropTypes.any,
-  setupCountry: React.PropTypes.any,
-  countries: React.PropTypes.any,
-  setSetupCountry: React.PropTypes.func.isRequired,
-  onNextPress: React.PropTypes.func.isRequired
+  user: PropTypes.any,
+  setupCountry: PropTypes.any,
+  countries: PropTypes.any,
+  setSetupCountry: PropTypes.func.isRequired,
+  onNextPress: PropTypes.func.isRequired
 };
 
 export default SetupCountry;

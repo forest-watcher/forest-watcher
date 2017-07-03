@@ -1,4 +1,4 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Alert
 } from 'react-native';
@@ -17,7 +17,7 @@ function withDraft(WrappedComponent) {
     static displayName = `HOC(${getDisplayName(WrappedComponent)})`;
     static navigatorStyle = WrappedComponent.navigatorStyle;
     static navigatorButtons = WrappedComponent.navigatorButtons;
-    static propTypes = { saveReport: React.PropTypes.func };
+    static propTypes = { saveReport: PropTypes.func };
 
     constructor(props) {
       super(props);

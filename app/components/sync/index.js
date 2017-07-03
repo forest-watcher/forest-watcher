@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { View, ActivityIndicator, Text } from 'react-native';
 import Theme from 'config/theme';
 import Constants from 'config/constants';
@@ -160,14 +161,14 @@ class Sync extends Component {
 }
 
 Sync.propTypes = {
-  isConnected: React.PropTypes.bool.isRequired,
-  hasAreas: React.PropTypes.bool.isRequired,
-  reach: React.PropTypes.string.isRequired,
-  navigator: React.PropTypes.object.isRequired,
-  actionsPending: React.PropTypes.number.isRequired,
-  syncApp: React.PropTypes.func.isRequired,
-  setSyncModal: React.PropTypes.func.isRequired,
-  setSyncSkip: React.PropTypes.func.isRequired
+  isConnected: PropTypes.bool.isRequired,
+  hasAreas: PropTypes.bool.isRequired,
+  reach: PropTypes.string.isRequired,
+  navigator: PropTypes.object.isRequired,
+  actionsPending: PropTypes.number.isRequired,
+  syncApp: PropTypes.func.isRequired,
+  setSyncModal: PropTypes.func.isRequired,
+  setSyncSkip: PropTypes.func.isRequired
 };
 
 export default Sync;

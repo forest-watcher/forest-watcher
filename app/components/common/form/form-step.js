@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { Field, reduxForm } from 'redux-form';
 
@@ -27,10 +28,10 @@ const getNext = (question, answer, next) => {
 class FormStep extends Component { // eslint-disable-line
 
   static propTypes = {
-    question: React.PropTypes.object.isRequired,
-    answer: React.PropTypes.any,
-    next: React.PropTypes.object.isRequired,
-    navigator: React.PropTypes.object.isRequired
+    question: PropTypes.object.isRequired,
+    answer: PropTypes.any,
+    next: PropTypes.object.isRequired,
+    navigator: PropTypes.object.isRequired
   };
 
   render() {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Image,
@@ -389,12 +390,12 @@ class DrawAreas extends Component {
 }
 
 DrawAreas.propTypes = {
-  country: React.PropTypes.shape({
-    iso: React.PropTypes.string.isRequired,
-    bbox: React.PropTypes.object,
-    centroid: React.PropTypes.object
+  country: PropTypes.shape({
+    iso: PropTypes.string.isRequired,
+    bbox: PropTypes.object,
+    centroid: PropTypes.object
   }).isRequired,
-  onDrawAreaFinish: React.PropTypes.func.isRequired
+  onDrawAreaFinish: PropTypes.func.isRequired
 };
 
 export default DrawAreas;
