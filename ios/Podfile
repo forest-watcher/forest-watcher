@@ -16,7 +16,8 @@ target 'ForestWatcher' do
     'RCTSettings',
     'RCTText',
     'RCTVibration',
-    'RCTWebSocket'
+    'RCTWebSocket',
+    'BatchedBridge'
   ]
 
   pod 'GoogleMaps'
