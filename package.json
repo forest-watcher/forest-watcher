@@ -14,6 +14,7 @@
     "@mapbox/tilebelt": "Vizzuality/tilebelt",
     "boundingbox": "^0.1.0",
     "buffer": "^5.0.5",
+    "d3-dsv": "^1.0.5",
     "geojson-polygon-self-intersections": "^1.1.1",
     "geopoint": "^1.0.1",
     "jsonapi-serializer": "^3.5.3",

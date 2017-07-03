@@ -10,6 +10,8 @@ import { initDb } from 'helpers/database';
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 
+const d3Dsv = require('d3-dsv');
+
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
 const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
 const GET_AREAS_ROLLBACK = 'areas/GET_AREAS_ROLLBACK';
@@ -86,14 +88,16 @@ export function saveAlertsToDb(areaId, slug, alerts) {
     } catch (e) {
       console.warn('Error cleaning db', e);
     }
-
+    const alertsArray = d3Dsv.csvParse(alerts);
     realm.write(() => {
-      alerts.forEach((alert) => {
-        const parsedAlert = alert;
-        parsedAlert.long = alert.lon;
-        parsedAlert.slug = slug;
-        parsedAlert.areaId = areaId;
-        realm.create('Alert', parsedAlert);
+      alertsArray.forEach((alert) => {
+        realm.create('Alert', {
+          slug,
+          areaId,
+          date: parseInt(alert.date, 10),
+          lat: parseFloat(alert.lat, 10),
+          long: parseFloat(alert.lon, 10)
+        });
       });
     });
   }
@@ -269,7 +273,7 @@ export default function reducer(state = initialState, action) {
         }
         return a;
       });
-      saveAlertsToDb(action.meta.area.id, action.meta.datasetSlug, action.payload.data);
+      saveAlertsToDb(action.meta.area.id, action.meta.datasetSlug, action.payload);
       return { ...state, pendingData, data };
     }
     case GET_ALERTS_ROLLBACK: {
