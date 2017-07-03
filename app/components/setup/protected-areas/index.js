@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Image,
@@ -262,12 +263,12 @@ class ProtectedAreas extends Component {
 }
 
 ProtectedAreas.propTypes = {
-  country: React.PropTypes.shape({
-    iso: React.PropTypes.string.isRequired,
-    bbox: React.PropTypes.object.isRequired,
-    centroid: React.PropTypes.object.isRequired
+  country: PropTypes.shape({
+    iso: PropTypes.string.isRequired,
+    bbox: PropTypes.object.isRequired,
+    centroid: PropTypes.object.isRequired
   }).isRequired,
-  onAreaSelected: React.PropTypes.func.isRequired
+  onAreaSelected: PropTypes.func.isRequired
 };
 
 export default ProtectedAreas;

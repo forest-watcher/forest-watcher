@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -33,11 +34,12 @@ function SetupHeader(props) {
 }
 
 SetupHeader.propTypes = {
-  title: React.PropTypes.string,
-  showBack: React.PropTypes.bool,
+  title: PropTypes.string,
+  showBack: PropTypes.bool,
   onBackPress: (props, propName, componentName) => {
     if (props.showBack && !props[propName]) {
-      return new Error(`${I18n.t('setupHeader.errorFirst')} ${propName} ${I18n.t('setupHeader.errorSecond')}  ${componentName}. ${I18n.t('setupHeader.errorThird')}`);
+      return new Error(`${I18n.t('setupHeader.errorFirst')} ${propName} 
+      ${I18n.t('setupHeader.errorSecond')}  ${componentName}. ${I18n.t('setupHeader.errorThird')}`);
     }
     return null;
   }

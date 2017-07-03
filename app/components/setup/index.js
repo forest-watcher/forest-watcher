@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View
 } from 'react-native';
@@ -95,9 +96,9 @@ class Setup extends Component {
 }
 
 Setup.propTypes = {
-  navigator: React.PropTypes.object.isRequired,
-  initSetup: React.PropTypes.func.isRequired,
-  goBackDisabled: React.PropTypes.bool
+  navigator: PropTypes.object.isRequired,
+  initSetup: PropTypes.func.isRequired,
+  goBackDisabled: PropTypes.bool
 };
 
 Setup.navigationOptions = {

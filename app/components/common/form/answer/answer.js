@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Text,
   View,
@@ -31,10 +32,10 @@ const Answer = (props) => (
 );
 
 Answer.propTypes = {
-  questionId: React.PropTypes.string,
-  question: React.PropTypes.string.isRequired,
-  answers: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-  onEditPress: React.PropTypes.func.isRequired
+  questionId: PropTypes.string,
+  question: PropTypes.string.isRequired,
+  answers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onEditPress: PropTypes.func.isRequired
 };
 
 export default Answer;

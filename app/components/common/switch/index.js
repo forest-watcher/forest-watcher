@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Switch
 } from 'react-native';
@@ -18,8 +19,8 @@ function CustomSwitch(props) {
 }
 
 CustomSwitch.propTypes = {
-  value: React.PropTypes.bool,
-  onValueChange: React.PropTypes.func.isRequired
+  value: PropTypes.bool,
+  onValueChange: PropTypes.func.isRequired
 };
 
 export default CustomSwitch;

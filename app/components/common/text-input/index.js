@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View, TextInput } from 'react-native';
 
 import Theme from 'config/theme';
@@ -25,9 +26,9 @@ function InputText(props) {
 }
 
 InputText.propTypes = {
-  value: React.PropTypes.string,
-  onChangeText: React.PropTypes.func,
-  placeholder: React.PropTypes.string
+  value: PropTypes.string,
+  onChangeText: PropTypes.func,
+  placeholder: PropTypes.string
 };
 
 export default InputText;
