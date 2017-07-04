@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   TextInput,
@@ -69,23 +70,16 @@ class InputTextDetail extends Component {
 }
 
 InputTextDetail.propTypes = {
-  visible: React.PropTypes.bool.isRequired,
-  question: React.PropTypes.shape({
-    label: React.PropTypes.string,
-    defaultValue: React.PropTypes.string
+  visible: PropTypes.bool.isRequired,
+  question: PropTypes.shape({
+    label: PropTypes.string,
+    defaultValue: PropTypes.string
   }).isRequired,
-  input: React.PropTypes.shape({
-    onBlur: React.PropTypes.func.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    onFocus: React.PropTypes.func.isRequired,
-    value: React.PropTypes.any.isRequired
-  }).isRequired,
-  meta: React.PropTypes.shape({
-    active: React.PropTypes.bool.isRequired,
-    error: React.PropTypes.string,
-    invalid: React.PropTypes.bool.isRequired,
-    pristine: React.PropTypes.bool.isRequired,
-    visited: React.PropTypes.bool.isRequired
+  input: PropTypes.shape({
+    onBlur: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
+    value: PropTypes.any.isRequired
   }).isRequired
 };
 

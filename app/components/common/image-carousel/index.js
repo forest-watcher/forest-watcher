@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Theme from 'config/theme';
 import Carousel from 'react-native-snap-carousel';
 import ImageCard from 'components/common/image-card';
@@ -28,15 +29,15 @@ const ImageCarousel = (props) => {
 };
 
 ImageCarousel.propTypes = {
-  actions: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      callback: React.PropTypes.func,
-      icon: React.PropTypes.any
+  actions: PropTypes.arrayOf(
+    PropTypes.shape({
+      callback: PropTypes.func,
+      icon: PropTypes.any
     })
   ),
-  images: React.PropTypes.array,
-  itemHeight: React.PropTypes.number,
-  itemWidth: React.PropTypes.number
+  images: PropTypes.array,
+  itemHeight: PropTypes.number,
+  itemWidth: PropTypes.number
 };
 
 ImageCarousel.defaultProps = {

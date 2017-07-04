@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -65,16 +66,16 @@ ActionButton.defaultProps = {
 };
 
 ActionButton.propTypes = {
-  light: React.PropTypes.bool,
-  style: React.PropTypes.node,
-  disabled: React.PropTypes.bool,
-  delete: React.PropTypes.bool,
-  error: React.PropTypes.bool,
-  text: React.PropTypes.string.isRequired,
-  onPress: React.PropTypes.func.isRequired,
-  noIcon: React.PropTypes.bool,
-  main: React.PropTypes.bool,
-  monochrome: React.PropTypes.bool
+  light: PropTypes.bool,
+  style: PropTypes.node,
+  disabled: PropTypes.bool,
+  delete: PropTypes.bool,
+  error: PropTypes.bool,
+  text: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired,
+  noIcon: PropTypes.bool,
+  main: PropTypes.bool,
+  monochrome: PropTypes.bool
 };
 
 export default ActionButton;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -75,9 +76,9 @@ class DropdownPicker extends Component {
 }
 
 DropdownPicker.propTypes = {
-  startDate: React.PropTypes.number.isRequired,
-  updateRange: React.PropTypes.func.isRequired,
-  slug: React.PropTypes.string.isRequired
+  startDate: PropTypes.number.isRequired,
+  updateRange: PropTypes.func.isRequired,
+  slug: PropTypes.string.isRequired
 };
 
 export default DropdownPicker;

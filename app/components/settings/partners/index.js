@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   ScrollView,
@@ -86,7 +87,7 @@ class Partners extends Component {
 }
 
 Partners.propTypes = {
-  partners: React.PropTypes.array
+  partners: PropTypes.array
 };
 
 export default Partners;

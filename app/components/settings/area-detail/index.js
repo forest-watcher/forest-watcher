@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Alert,
   View,
@@ -150,13 +151,13 @@ AreaDetail.defaultProps = {
 };
 
 AreaDetail.propTypes = {
-  imageUrl: React.PropTypes.string,
-  updateArea: React.PropTypes.func,
-  deleteArea: React.PropTypes.func,
-  isConnected: React.PropTypes.bool.isRequired,
-  navigator: React.PropTypes.object,
-  area: React.PropTypes.object,
-  disableDelete: React.PropTypes.bool.isRequired
+  imageUrl: PropTypes.string,
+  updateArea: PropTypes.func,
+  deleteArea: PropTypes.func,
+  isConnected: PropTypes.bool.isRequired,
+  navigator: PropTypes.object,
+  area: PropTypes.object,
+  disableDelete: PropTypes.bool.isRequired
 };
 
 export default AreaDetail;

@@ -127,6 +127,27 @@
 			remoteGlobalIDString = 4107012F1ACB723B00C6AA39;
 			remoteInfo = RCTCamera;
 		};
+		32A2407B1F0A46B3008E6455 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 139D7ECE1E25DB7D00323FB7;
+			remoteInfo = "third-party";
+		};
+		32A2407D1F0A46B3008E6455 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 139D7E881E25C6D100323FB7;
+			remoteInfo = "double-conversion";
+		};
+		32A240821F0A46B3008E6455 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7B3F9961BFAB483781F05B72 /* RealmReact.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F60690131CA2766F0003FB26;
+			remoteInfo = RealmReact;
+		};
 		32AA0E021E92A1B600D2F08F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -543,6 +564,8 @@
 				32AA0E091E92A1B600D2F08F /* libcxxreact.a */,
 				32AA0E0B1E92A1B600D2F08F /* libjschelpers.a */,
 				32AA0E0D1E92A1B600D2F08F /* libjschelpers.a */,
+				32A2407C1F0A46B3008E6455 /* libthird-party.a */,
+				32A2407E1F0A46B3008E6455 /* libdouble-conversion.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -551,6 +574,14 @@
 			isa = PBXGroup;
 			children = (
 				324814D31E5BA4AD002E3240 /* libRCTCamera.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32A2405C1F0A46B3008E6455 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				32A240831F0A46B3008E6455 /* libRealmReact.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -634,7 +665,7 @@
 			isa = PBXGroup;
 			children = (
 				5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */,
-				5E9157351DD0AC6500FF2AA8 /* libRCTAnimation-tvOS.a */,
+				5E9157351DD0AC6500FF2AA8 /* libRCTAnimation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -899,7 +930,8 @@
 					ProjectRef = 8D81A3A41EDC3D4500232B09 /* ReactNativeNavigation.xcodeproj */;
 				},
 				{
-					ProductGroup = BE46AD321F04FF0600CFFAB3 /* Products */;
+
+					ProductGroup = 32A2405C1F0A46B3008E6455 /* Products */;
 					ProjectRef = 7B3F9961BFAB483781F05B72 /* RealmReact.xcodeproj */;
 				},
 				{
@@ -993,6 +1025,27 @@
 			fileType = archive.ar;
 			path = libRCTCamera.a;
 			remoteRef = 324814D21E5BA4AD002E3240 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		32A2407C1F0A46B3008E6455 /* libthird-party.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libthird-party.a";
+			remoteRef = 32A2407B1F0A46B3008E6455 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		32A2407E1F0A46B3008E6455 /* libdouble-conversion.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libdouble-conversion.a";
+			remoteRef = 32A2407D1F0A46B3008E6455 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		32A240831F0A46B3008E6455 /* libRealmReact.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRealmReact.a;
+			remoteRef = 32A240821F0A46B3008E6455 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		32AA0E031E92A1B600D2F08F /* libyoga.a */ = {
@@ -1135,10 +1188,10 @@
 			remoteRef = 5E9157321DD0AC6500FF2AA8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		5E9157351DD0AC6500FF2AA8 /* libRCTAnimation-tvOS.a */ = {
+		5E9157351DD0AC6500FF2AA8 /* libRCTAnimation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = "libRCTAnimation-tvOS.a";
+			path = libRCTAnimation.a;
 			remoteRef = 5E9157341DD0AC6500FF2AA8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};

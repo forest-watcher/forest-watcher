@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import {
   Alert,
   View,
@@ -240,13 +241,13 @@ class Login extends PureComponent {
 }
 
 Login.propTypes = {
-  loggedIn: React.PropTypes.bool.isRequired,
-  logoutSuccess: React.PropTypes.bool.isRequired,
-  logout: React.PropTypes.func.isRequired,
-  isConnected: React.PropTypes.bool.isRequired,
-  loginGoogle: React.PropTypes.func.isRequired,
-  setLoginStatus: React.PropTypes.func.isRequired,
-  navigator: React.PropTypes.object.isRequired
+  loggedIn: PropTypes.bool.isRequired,
+  logoutSuccess: PropTypes.bool.isRequired,
+  logout: PropTypes.func.isRequired,
+  isConnected: PropTypes.bool.isRequired,
+  loginGoogle: PropTypes.func.isRequired,
+  setLoginStatus: PropTypes.func.isRequired,
+  navigator: PropTypes.object.isRequired
 };
 
 export default Login;

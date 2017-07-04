@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   ActivityIndicator,
@@ -506,22 +507,22 @@ class Map extends Component {
 }
 
 Map.propTypes = {
-  navigator: React.PropTypes.object.isRequired,
-  createReport: React.PropTypes.func.isRequired,
-  cluster: React.PropTypes.object,
-  center: React.PropTypes.shape({
-    lat: React.PropTypes.number.isRequired,
-    lon: React.PropTypes.number.isRequired
+  navigator: PropTypes.object.isRequired,
+  createReport: PropTypes.func.isRequired,
+  cluster: PropTypes.object,
+  center: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired
   }),
-  datasetSlug: React.PropTypes.string,
-  areaCoordinates: React.PropTypes.array,
-  actionsPending: React.PropTypes.number.isRequired,
-  syncModalOpen: React.PropTypes.bool.isRequired,
-  syncSkip: React.PropTypes.bool.isRequired,
-  setSyncModal: React.PropTypes.func.isRequired,
-  setCanDisplayAlerts: React.PropTypes.func.isRequired,
-  canDisplayAlerts: React.PropTypes.bool.isRequired,
-  area: React.PropTypes.object.isRequired
+  datasetSlug: PropTypes.string,
+  areaCoordinates: PropTypes.array,
+  actionsPending: PropTypes.number.isRequired,
+  syncModalOpen: PropTypes.bool.isRequired,
+  syncSkip: PropTypes.bool.isRequired,
+  setSyncModal: PropTypes.func.isRequired,
+  setCanDisplayAlerts: PropTypes.func.isRequired,
+  canDisplayAlerts: PropTypes.bool.isRequired,
+  area: PropTypes.object.isRequired
 };
 
 export default Map;

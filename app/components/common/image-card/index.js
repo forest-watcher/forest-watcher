@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   TouchableHighlight,
@@ -34,11 +35,11 @@ const ImageCard = ({ id, uri, actions, width, height }) => (
 );
 
 ImageCard.propTypes = {
-  id: React.PropTypes.string,
-  uri: React.PropTypes.string,
-  actions: React.PropTypes.array,
-  width: React.PropTypes.number,
-  height: React.PropTypes.number
+  id: PropTypes.string,
+  uri: PropTypes.string,
+  actions: PropTypes.array,
+  width: PropTypes.number,
+  height: PropTypes.number
 };
 
 export default ImageCard;

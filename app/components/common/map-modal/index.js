@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Modal,
   View,
@@ -69,10 +70,10 @@ class MapModal extends Component {
 }
 
 MapModal.propTypes = {
-  visible: React.PropTypes.bool,
-  children: React.PropTypes.node,
-  onClosePress: React.PropTypes.func.isRequired,
-  title: React.PropTypes.string
+  visible: PropTypes.bool,
+  children: PropTypes.node,
+  onClosePress: PropTypes.func.isRequired,
+  title: PropTypes.string
 };
 
 export default MapModal;
