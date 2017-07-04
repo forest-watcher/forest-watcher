@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import I18n from 'locales';
 import {
   View,
@@ -114,12 +115,12 @@ class AreaCarousel extends Component {
 }
 
 AreaCarousel.propTypes = {
-  alertSelected: React.PropTypes.object,
-  lastPosition: React.PropTypes.object,
-  areas: React.PropTypes.array,
-  navigator: React.PropTypes.object.isRequired,
-  updateSelectedArea: React.PropTypes.func,
-  selectedArea: React.PropTypes.number
+  alertSelected: PropTypes.object,
+  lastPosition: PropTypes.object,
+  areas: PropTypes.array,
+  navigator: PropTypes.object.isRequired,
+  updateSelectedArea: PropTypes.func,
+  selectedArea: PropTypes.number
 };
 
 export default AreaCarousel;

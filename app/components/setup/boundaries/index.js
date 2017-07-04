@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -71,7 +72,7 @@ class SetupBoundaries extends Component {
           <View style={styles.actions}>
             <TouchableHighlight
               style={[styles.section, styles.sectionDisabled]}
-              onPress={() => console.log('TODO: this.setProtectedAreasStatus(true)')}
+              onPress={() => console.info('TODO: this.setProtectedAreasStatus(true)')}
               activeOpacity={1}
               underlayColor={Theme.background.white}
             >
@@ -145,13 +146,13 @@ class SetupBoundaries extends Component {
 }
 
 SetupBoundaries.propTypes = {
-  setSetupArea: React.PropTypes.func.isRequired,
-  setupCountry: React.PropTypes.object.isRequired,
-  onNextPress: React.PropTypes.func.isRequired,
-  storeGeostore: React.PropTypes.func.isRequired,
-  area: React.PropTypes.shape({
-    wdpaid: React.PropTypes.number,
-    geostore: React.PropTypes.string
+  setSetupArea: PropTypes.func.isRequired,
+  setupCountry: PropTypes.object.isRequired,
+  onNextPress: PropTypes.func.isRequired,
+  storeGeostore: PropTypes.func.isRequired,
+  area: PropTypes.shape({
+    wdpaid: PropTypes.number,
+    geostore: PropTypes.string
   })
 };
 

@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -181,11 +182,11 @@ class Dashboard extends PureComponent {
 }
 
 Dashboard.propTypes = {
-  navigator: React.PropTypes.object.isRequired,
-  actionsPending: React.PropTypes.number.isRequired,
-  syncModalOpen: React.PropTypes.bool.isRequired,
-  syncSkip: React.PropTypes.bool.isRequired,
-  setSyncModal: React.PropTypes.func.isRequired
+  navigator: PropTypes.object.isRequired,
+  actionsPending: PropTypes.number.isRequired,
+  syncModalOpen: PropTypes.bool.isRequired,
+  syncSkip: PropTypes.bool.isRequired,
+  setSyncModal: PropTypes.func.isRequired
 };
 
 export default Dashboard;

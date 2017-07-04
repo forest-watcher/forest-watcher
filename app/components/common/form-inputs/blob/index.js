@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Text,
   View,
@@ -180,11 +181,11 @@ class ImageBlobInput extends Component {
 }
 
 ImageBlobInput.propTypes = {
-  input: React.PropTypes.shape({
-    onBlur: React.PropTypes.func.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    onFocus: React.PropTypes.func.isRequired,
-    value: React.PropTypes.any.isRequired
+  input: PropTypes.shape({
+    onBlur: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
+    value: PropTypes.any.isRequired
   }).isRequired
 };
 

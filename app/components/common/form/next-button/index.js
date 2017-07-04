@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Image,
@@ -35,10 +36,10 @@ NextButton.defaultProps = {
 };
 
 NextButton.propTypes = {
-  style: React.PropTypes.node,
-  transparent: React.PropTypes.bool,
-  disabled: React.PropTypes.bool,
-  onPress: React.PropTypes.func.isRequired
+  style: PropTypes.node,
+  transparent: PropTypes.bool,
+  disabled: PropTypes.bool,
+  onPress: PropTypes.func.isRequired
 };
 
 export default NextButton;

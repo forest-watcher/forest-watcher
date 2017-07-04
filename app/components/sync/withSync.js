@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setSyncModal as setSyncModalDispatch } from 'redux-modules/app';
 import { getTotalActionsPending } from 'helpers/sync';
@@ -25,11 +26,11 @@ function withSync(Component) {
   class WithSyncHOC extends React.Component {
 
     static propTypes = {
-      syncModalOpen: React.PropTypes.bool.isRequired,
-      setSyncModal: React.PropTypes.func.isRequired,
-      actionsPending: React.PropTypes.number.isRequired,
-      loggedIn: React.PropTypes.bool.isRequired,
-      navigator: React.PropTypes.object.isRequired
+      syncModalOpen: PropTypes.bool.isRequired,
+      setSyncModal: PropTypes.func.isRequired,
+      actionsPending: PropTypes.number.isRequired,
+      loggedIn: PropTypes.bool.isRequired,
+      navigator: PropTypes.object.isRequired
     };
 
     static navigatorStyle = Component.navigatorStyle;

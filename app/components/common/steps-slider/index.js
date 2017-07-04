@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   View
 } from 'react-native';
@@ -30,8 +31,8 @@ function StepsSlider(props) {
 }
 
 StepsSlider.propTypes = {
-  hideIndex: React.PropTypes.bool,
-  children: React.PropTypes.node.isRequired
+  hideIndex: PropTypes.bool,
+  children: PropTypes.node.isRequired
 };
 
 export default StepsSlider;

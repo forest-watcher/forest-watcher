@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   ActivityIndicator,
   View,
@@ -71,18 +72,18 @@ class AlertSystem extends Component {
 }
 
 AlertSystem.propTypes = {
-  area: React.PropTypes.shape({
-    id: React.PropTypes.string.isRequired,
-    datasets: React.PropTypes.arrayOf(
-      React.PropTypes.shape({
-        name: React.PropTypes.string.isRequired,
-        active: React.PropTypes.bool.isRequired
+  area: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    datasets: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        active: PropTypes.bool.isRequired
       }).isRequired,
     )
   }).isRequired,
-  setAreaDatasetStatus: React.PropTypes.func.isRequired,
-  updateDate: React.PropTypes.func.isRequired,
-  setAreaDatasetCache: React.PropTypes.func.isRequired
+  setAreaDatasetStatus: PropTypes.func.isRequired,
+  updateDate: PropTypes.func.isRequired,
+  setAreaDatasetCache: PropTypes.func.isRequired
 };
 
 export default AlertSystem;

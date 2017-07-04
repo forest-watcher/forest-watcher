@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Theme from 'config/theme';
 import FormStep from 'containers/common/form/form-step';
@@ -13,13 +14,13 @@ class Form extends Component {
   };
 
   static propTypes = {
-    navigator: React.PropTypes.object.isRequired,
-    form: React.PropTypes.string.isRequired,
-    step: React.PropTypes.number,
-    questionsToSkip: React.PropTypes.number,
-    title: React.PropTypes.string.isRequired,
-    screen: React.PropTypes.string.isRequired,
-    finish: React.PropTypes.func.isRequired
+    navigator: PropTypes.object.isRequired,
+    form: PropTypes.string.isRequired,
+    step: PropTypes.number,
+    questionsToSkip: PropTypes.number,
+    title: PropTypes.string.isRequired,
+    screen: PropTypes.string.isRequired,
+    finish: PropTypes.func.isRequired
   };
 
   static defaultProps = {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import List from 'components/common/list';
 import AreaList from 'containers/settings/area-list';
 import {
@@ -160,10 +161,10 @@ class Settings extends Component {
 }
 
 Settings.propTypes = {
-  user: React.PropTypes.any,
-  areas: React.PropTypes.any,
-  navigator: React.PropTypes.object.isRequired,
-  logout: React.PropTypes.func.isRequired
+  user: PropTypes.any,
+  areas: PropTypes.any,
+  navigator: PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired
 };
 
 export default Settings;

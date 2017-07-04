@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Image,
   TouchableHighlight
@@ -21,7 +22,7 @@ function SettingsBtn(props) {
 }
 
 SettingsBtn.propTypes = {
-  onPress: React.PropTypes.func.isRequired
+  onPress: PropTypes.func.isRequired
 };
 
 export default SettingsBtn;
