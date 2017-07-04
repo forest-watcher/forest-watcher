@@ -46,9 +46,10 @@ export default () => {
       .clear();
     window.tron = Reactotron; // eslint-disable-line
     store = offline({ persistCallback: startApp })(Reactotron.createStore)(reducer, undefined, middleware);
-    global.ErrorUtils.setGlobalHandler((error, isFatal) => tron.display({ error, isFatal }));
   } else {
-    global.ErrorUtils.setGlobalHandler(tracker.trackException);
+    global.ErrorUtils.setGlobalHandler((error, isFatal) => tracker.trackException(
+      JSON.stringify({ type: error.name, message: error.message, stack: error.stack }), isFatal
+    ));
     store = offline({ persistCallback: startApp })(createStore)(reducer, undefined, middleware);
   }
 
