@@ -10,6 +10,8 @@ import { initDb } from 'helpers/database';
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 
+const d3Dsv = require('d3-dsv');
+
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
 const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
 const GET_AREAS_ROLLBACK = 'areas/GET_AREAS_ROLLBACK';
@@ -86,14 +88,16 @@ export function saveAlertsToDb(areaId, slug, alerts) {
     } catch (e) {
       console.warn('Error cleaning db', e);
     }
-
+    const alertsArray = d3Dsv.csvParse(alerts);
     realm.write(() => {
-      alerts.forEach((alert) => {
-        const parsedAlert = alert;
-        parsedAlert.long = alert.lon;
-        parsedAlert.slug = slug;
-        parsedAlert.areaId = areaId;
-        realm.create('Alert', parsedAlert);
+      alertsArray.forEach((alert) => {
+        realm.create('Alert', {
+          slug,
+          areaId,
+          date: parseInt(alert.date, 10),
+          lat: parseFloat(alert.lat, 10),
+          long: parseFloat(alert.lon, 10)
+        });
       });
     });
   }
@@ -269,7 +273,7 @@ export default function reducer(state = initialState, action) {
         }
         return a;
       });
-      saveAlertsToDb(action.meta.area.id, action.meta.datasetSlug, action.payload.data);
+      saveAlertsToDb(action.meta.area.id, action.meta.datasetSlug, action.payload);
       return { ...state, pendingData, data };
     }
     case GET_ALERTS_ROLLBACK: {
@@ -579,7 +583,7 @@ export function getAreaAlerts(areaId, datasetSlug) {
     // we are always requesting all of the data so the filter is only for the map locally
     // for viirs we have the last 7 days and 12 months for glad
     const range = datasetSlug === 'viirs' ? 7 : 12;
-    const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore}?range=${range}`;
+    const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore}?range=${range}&output=csv`;
     const oldArea = { ...area, datasets: updatedCacheDatasets(area.datasets, datasetSlug, false) };
 
     dispatch({
