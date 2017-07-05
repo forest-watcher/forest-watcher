@@ -15,7 +15,6 @@ function ClusterMarker(props) {
         longitude: props.marker.geometry.coordinates[0]
       }}
       zIndex={1}
-      anchor={{ x: 0.5, y: 0.5 }}
       pointerEvents={'none'}
       onPress={(event) => props.zoomTo(event.nativeEvent.coordinate)}
     >

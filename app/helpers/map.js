@@ -1,14 +1,16 @@
 const kdbush = require('kdbush');
 const geokdbush = require('geokdbush');
 
-// default distance 30m
-function getAllNeighbours(firstPoint, points, distance = 0.03) {
+// Use example
+// const firstPoint = { latitude: -3.097125, longitude: -45.600375 }
+// const points = [{ latitude: -2.337625, longitude: -46.940875 }]
+export function getAllNeighbours(firstPoint, points, distance = 0.03) { // default distance 30m
   const neighbours = [];
-  const index = kdbush(points, (p) => p.lon, (p) => p.lat);
+  const index = kdbush(points, (p) => p.longitude, (p) => p.latitude);
 
   function isIncluded(result) {
     for (let i = 0; i < neighbours.length; i++) {
-      if (result.lat === neighbours[i].lat && result.lon === neighbours[i].lon) {
+      if (result.latitude === neighbours[i].latitude && result.longitude === neighbours[i].longitude) {
         return true;
       }
     }
@@ -26,7 +28,7 @@ function getAllNeighbours(firstPoint, points, distance = 0.03) {
 
   function getNeighbours(point) {
     // 4 = max results when never should be bigger than 4
-    const data = geokdbush.around(index, point.lon, point.lat, 4, distance);
+    const data = geokdbush.around(index, point.longitude, point.latitude, 4, distance);
     checkSiblings(data);
   }
 
@@ -35,9 +37,31 @@ function getAllNeighbours(firstPoint, points, distance = 0.03) {
   return neighbours;
 }
 
-// Use example
-// const firstPoint = { lat: -3.097125, lon: -45.600375 }
-// const points = [{ "lat": -2.337625, "lon": -46.940875 }]
-// const total = getAllNeighbours(firstPoint, points);
+export function pointsToGeoJSON(points) {
+  return {
+    type: 'MapCollection',
+    features: points.map((value) => ({
+      type: 'Map',
+      properties: {
+        lat: value.lat,
+        long: value.long,
+        date: value.date
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [
+          value.long,
+          value.lat
+        ]
+      }
+    }))
+  };
+}
 
-export default getAllNeighbours;
+export function pointsFromGeojson(geojson) {
+  if (!geojson || !geojson.features) return [];
+  return geojson.features.map((feature) => ({
+    lon: feature.geometry.coordinates[0],
+    lat: feature.geometry.coordinates[1]
+  }));
+}

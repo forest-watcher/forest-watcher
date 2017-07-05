@@ -94,6 +94,16 @@ export default StyleSheet.create({
     zIndex: 2,
     resizeMode: 'contain'
   },
+  markerIcon: {
+    width: 18,
+    height: 18,
+    backgroundColor: 'rgba(255, 255, 255, 1)'
+  },
+  markerIconArea: {
+    width: 18,
+    height: 18,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)'
+  },
   footer: {
     left: 0,
     right: 0,
