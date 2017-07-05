@@ -10,6 +10,14 @@ const alertGlad = require('assets/alert-glad.png');
 const alertViirs = require('assets/alert-viirs.png');
 
 class Clusters extends PureComponent {
+  selectAlert = (index) => {
+    const marker = this.props.markers[index];
+    this.props.selectAlert({
+      latitude: marker.geometry.coordinates[1],
+      longitude: marker.geometry.coordinates[0]
+    });
+  }
+
   render() {
     if (!this.props.markers) return null;
     return (
@@ -25,11 +33,10 @@ class Clusters extends PureComponent {
                 longitude: marker.geometry.coordinates[0]
               }}
               image={this.props.datasetSlug === 'viirs' ? alertViirs : alertGlad}
-              onPress={this.props.selectAlert}
+              onPress={() => this.selectAlert(index)}
               zIndex={1}
               draggable={false}
               anchor={{ x: 0.5, y: 0.5 }}
-              pointerEvents={'none'}
             />
           )
         ))}

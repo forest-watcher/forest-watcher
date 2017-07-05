@@ -8,16 +8,17 @@ import MapView from 'react-native-maps';
 import styles from './styles';
 
 function ClusterMarker(props) {
+  const clusterCoordinates = {
+    latitude: props.marker.geometry.coordinates[1],
+    longitude: props.marker.geometry.coordinates[0]
+  };
   return (
     <MapView.Marker
-      coordinate={{
-        latitude: props.marker.geometry.coordinates[1],
-        longitude: props.marker.geometry.coordinates[0]
-      }}
+      coordinate={clusterCoordinates}
       zIndex={1}
       anchor={{ x: 0.5, y: 0.5 }}
       pointerEvents={'none'}
-      onPress={(event) => props.zoomTo(event.nativeEvent.coordinate)}
+      onPress={() => props.zoomTo(clusterCoordinates)}
     >
       <View style={styles.container}>
         <View style={props.datasetSlug === 'viirs' ? styles.bubbleViirs : styles.bubbleGlad}>

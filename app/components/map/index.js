@@ -164,7 +164,9 @@ class Map extends Component {
 
   onLayout = () => {
     if (this.hasSetCoordinates === false && this.props.areaCoordinates) {
-      const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
+      const androidOptions = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
+      const iosOptions = { edgePadding: { top: 150, right: 150, bottom: 150, left: 150 }, animated: false };
+      const options = Platform.OS === 'ios' ? iosOptions : androidOptions;
       this.map.fitToCoordinates(this.props.areaCoordinates, options);
       this.hasSetCoordinates = true;
     }
@@ -339,8 +341,7 @@ class Map extends Component {
     this.map.animateToRegion(zoomCoordinates);
   }
 
-  selectAlert = (e) => {
-    const { coordinate } = e.nativeEvent;
+  selectAlert = (coordinate) => {
     if (coordinate) {
       this.setState((state) => ({
         selectedAlertCoordinates: state.selectedAlertCoordinates ? null : coordinate
@@ -353,7 +354,9 @@ class Map extends Component {
       selectedAlertCoordinates: null
     }, () => {
       this.updateMarkers();
-      const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
+      const androidOptions = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
+      const iosOptions = { edgePadding: { top: 150, right: 150, bottom: 150, left: 150 }, animated: false };
+      const options = Platform.OS === 'ios' ? iosOptions : androidOptions;
       if (this.map) this.map.fitToCoordinates(this.props.areaCoordinates, options);
     });
   }
@@ -432,7 +435,7 @@ class Map extends Component {
             onRegionChangeComplete={this.updateRegion}
             onLayout={this.onLayout}
             moveOnMarkerPress={false}
-            onPress={this.selectAlert}
+            onPress={e => this.selectAlert(e.nativeEvent.coordinate)}
           >
             {datasetSlug &&
               <Clusters
@@ -494,6 +497,7 @@ class Map extends Component {
                 image={alertWhite}
                 anchor={{ x: 0.5, y: 0.5 }}
                 zIndex={10}
+                onPress={() => this.selectAlert(selectedAlertCoordinates)}
               />
             }
           </MapView>
