@@ -583,7 +583,7 @@ export function getAreaAlerts(areaId, datasetSlug) {
     // we are always requesting all of the data so the filter is only for the map locally
     // for viirs we have the last 7 days and 12 months for glad
     const range = datasetSlug === 'viirs' ? 7 : 12;
-    const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore}?range=${range}&aoutput=csv`;
+    const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore}?range=${range}&output=csv`;
     const oldArea = { ...area, datasets: updatedCacheDatasets(area.datasets, datasetSlug, false) };
 
     dispatch({
