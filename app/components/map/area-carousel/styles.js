@@ -90,5 +90,8 @@ export const styles = StyleSheet.create({
     bottom: 10,
     right: 10,
     position: 'absolute'
+  },
+  footerZIndex: {
+    zIndex: 4
   }
 });

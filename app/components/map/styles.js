@@ -61,7 +61,7 @@ export default StyleSheet.create({
   },
   headerBg: {
     width: Theme.screen.width,
-    height: 208,
+    height: 132,
     resizeMode: 'stretch',
     position: 'absolute',
     top: 0
@@ -76,7 +76,7 @@ export default StyleSheet.create({
   },
   footerBg: {
     width: Theme.screen.width,
-    height: 208,
+    height: 132,
     resizeMode: 'stretch',
     position: 'absolute',
     bottom: 0,
@@ -102,7 +102,7 @@ export default StyleSheet.create({
     right: 8,
     bottom: 28,
     position: 'absolute',
-    zIndex: 2
+    zIndex: 4
   },
   coordinateDistanceText: {
     fontFamily: Theme.font,

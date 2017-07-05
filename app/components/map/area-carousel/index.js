@@ -81,30 +81,32 @@ class AreaCarousel extends Component {
       );
     });
     return (
-      <View style={{ position: 'absolute', bottom: 0, zIndex: 4 }}>
+      <View style={{ position: 'absolute', bottom: 0 }}>
         {alertSelected &&
-          <View pointerEvents="none" style={styles.currentPositionContainer}>
+          <View pointerEvents="none" style={[styles.currentPositionContainer, styles.footerZIndex]}>
             <View style={styles.currentPosition}>
               <Text style={[styles.smallCarouselText, styles.coordinateDistanceText]}>
-                {distanceText}
+                {positionText}
               </Text>
               <Text style={[styles.smallCarouselText, styles.coordinateDistanceText]}>
-                {positionText}
+                {distanceText}
               </Text>
             </View>
           </View>
         }
         {!alertSelected &&
-          <Carousel
-            firstItem={selectedArea}
-            sliderWidth={sliderWidth}
-            itemWidth={itemWidth}
-            onSnapToItem={throttle((index) => this.props.updateSelectedArea(index), 300)}
-            showsHorizontalScrollIndicator={false}
-            slideStyle={styles.slideStyle}
-          >
-            { sliderItems }
-          </Carousel>
+          <View style={styles.footerZIndex}>
+            <Carousel
+              firstItem={selectedArea}
+              sliderWidth={sliderWidth}
+              itemWidth={itemWidth}
+              onSnapToItem={throttle((index) => this.props.updateSelectedArea(index), 300)}
+              showsHorizontalScrollIndicator={false}
+              slideStyle={styles.slideStyle}
+            >
+              { sliderItems }
+            </Carousel>
+          </View>
         }
       </View>
     );
