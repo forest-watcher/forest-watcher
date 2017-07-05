@@ -81,9 +81,9 @@ class AreaCarousel extends Component {
       );
     });
     return (
-      <View style={{ position: 'absolute', bottom: 0 }}>
+      <View style={{ position: 'absolute', bottom: 0, zIndex: 4 }}>
         {alertSelected &&
-          <View style={styles.currentPositionContainer}>
+          <View pointerEvents="none" style={styles.currentPositionContainer}>
             <View style={styles.currentPosition}>
               <Text style={[styles.smallCarouselText, styles.coordinateDistanceText]}>
                 {distanceText}
@@ -96,9 +96,6 @@ class AreaCarousel extends Component {
         }
         {!alertSelected &&
           <Carousel
-            ref={(carousel) => {
-              this.carousel = carousel;
-            }}
             firstItem={selectedArea}
             sliderWidth={sliderWidth}
             itemWidth={itemWidth}

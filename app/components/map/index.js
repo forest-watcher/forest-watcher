@@ -375,7 +375,7 @@ class Map extends Component {
       />
     );
     return (
-      <View style={styles.footer}>
+      <View pointerEvents="box-none" style={styles.footer}>
         <Image
           style={styles.footerBg}
           source={backgroundImage}
