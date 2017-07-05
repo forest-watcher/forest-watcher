@@ -416,6 +416,12 @@ class Map extends Component {
       this.state.renderMap
       ?
         <View style={styles.container}>
+          <View pointerEvents="none" style={styles.header}>
+            <Image
+              style={styles.headerBg}
+              source={backgroundImage}
+            />
+          </View>
           <MapView
             ref={(ref) => { this.map = ref; }}
             style={styles.map}

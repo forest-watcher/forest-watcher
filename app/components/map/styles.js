@@ -51,6 +51,21 @@ export default StyleSheet.create({
     zIndex: 2,
     resizeMode: 'contain'
   },
+  header: {
+    left: 0,
+    right: 0,
+    top: 0,
+    height: 164,
+    zIndex: 3,
+    position: 'absolute'
+  },
+  headerBg: {
+    width: Theme.screen.width,
+    height: 208,
+    resizeMode: 'stretch',
+    position: 'absolute',
+    top: 0
+  },
   footer: {
     left: 0,
     right: 0,
@@ -61,7 +76,7 @@ export default StyleSheet.create({
   },
   footerBg: {
     width: Theme.screen.width,
-    height: 104,
+    height: 208,
     resizeMode: 'stretch',
     position: 'absolute',
     bottom: 0,
