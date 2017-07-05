@@ -10,6 +10,7 @@ import offline from 'offline';
 
 import Reactotron, { trackGlobalErrors, networking, openInEditor, asyncStorage } from 'reactotron-react-native'; // eslint-disable-line
 import { reactotronRedux } from 'reactotron-redux'; // eslint-disable-line
+import tracker from 'helpers/googleAnalytics';
 
 // Disable ios warnings
 // console.disableYellowBox = true;
@@ -46,6 +47,9 @@ export default () => {
     window.tron = Reactotron; // eslint-disable-line
     store = offline({ persistCallback: startApp })(Reactotron.createStore)(reducer, undefined, middleware);
   } else {
+    global.ErrorUtils.setGlobalHandler((error, isFatal) => tracker.trackException(
+      JSON.stringify({ type: error.name, message: error.message, stack: error.stack }), isFatal
+    ));
     store = offline({ persistCallback: startApp })(createStore)(reducer, undefined, middleware);
   }
 
