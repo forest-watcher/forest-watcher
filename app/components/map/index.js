@@ -212,15 +212,14 @@ class Map extends Component {
   }
 
   updateMarkers() {
-    const markers = this.props.cluster && this.props.cluster.getClusters([
+    const clusters = this.props.cluster && this.props.cluster.getClusters([
       this.state.region.longitude - (this.state.region.longitudeDelta / 2),
       this.state.region.latitude - (this.state.region.latitudeDelta / 2),
       this.state.region.longitude + (this.state.region.longitudeDelta / 2),
       this.state.region.latitude + (this.state.region.latitudeDelta / 2)
     ], this.getMapZoom());
-    this.setState({
-      markers: markers || []
-    });
+    const markers = clusters || [];
+    this.setState({ markers });
   }
 
   createReport = () => {
@@ -275,11 +274,9 @@ class Map extends Component {
 
     navigator.geolocation.getCurrentPosition(
       (location) => {
+        const coords = Platform.OS === 'ios' ? location.coords : location;
         this.setState({
-          lastPosition: {
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude
-          }
+          lastPosition: coords
         });
       },
       (error) => console.info(error),
@@ -292,9 +289,11 @@ class Map extends Component {
       'locationUpdated',
       throttle((location) => {
         const coords = Platform.OS === 'ios' ? location.coords : location;
-        this.setState({
-          lastPosition: coords
-        });
+        const { lastPosition } = this.state;
+        if (lastPosition && lastPosition.latitude !== coords.latitude &&
+          lastPosition.longitude !== coords.longitude) {
+          this.setState({ lastPosition: coords });
+        }
       }, 300)
     );
 
@@ -430,6 +429,8 @@ class Map extends Component {
             style={styles.map}
             provider={MapView.PROVIDER_GOOGLE}
             mapType="hybrid"
+            minZoomLevel={2}
+            maxZoomLevel={16}
             rotateEnabled={false}
             initialRegion={this.state.region}
             onRegionChangeComplete={this.updateRegion}
@@ -439,6 +440,7 @@ class Map extends Component {
           >
             {datasetSlug &&
               <Clusters
+                key="clusters"
                 markers={this.state.markers}
                 selectAlert={this.selectAlert}
                 zoomTo={this.zoomTo}
@@ -461,6 +463,7 @@ class Map extends Component {
             }
             {this.state.lastPosition &&
               <MapView.Marker.Animated
+                key="lastPosition"
                 image={markerImage}
                 coordinate={this.state.lastPosition}
                 style={{ zIndex: 2 }}

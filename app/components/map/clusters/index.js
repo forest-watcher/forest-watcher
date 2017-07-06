@@ -10,6 +10,7 @@ const alertGlad = require('assets/alert-glad.png');
 const alertViirs = require('assets/alert-viirs.png');
 
 class Clusters extends PureComponent {
+
   selectAlert = (index) => {
     const marker = this.props.markers[index];
     this.props.selectAlert({
@@ -24,10 +25,10 @@ class Clusters extends PureComponent {
       <View>
         {this.props.markers.map((marker, index) => (
           marker.properties.point_count !== undefined ? (
-            <ClusterMarker key={index} marker={marker} zoomTo={this.props.zoomTo} datasetSlug={this.props.datasetSlug} />
+            <ClusterMarker id={`cluster-marker-${index}`} key={`cluster-marker-${index}`} marker={marker} zoomTo={this.props.zoomTo} datasetSlug={this.props.datasetSlug} />
           ) : (
             <MapView.Marker
-              key={index}
+              key={`Alert-marker-${index}`}
               coordinate={{
                 latitude: marker.geometry.coordinates[1],
                 longitude: marker.geometry.coordinates[0]

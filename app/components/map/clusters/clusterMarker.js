@@ -14,6 +14,7 @@ function ClusterMarker(props) {
   };
   return (
     <MapView.Marker
+      key={props.id}
       coordinate={clusterCoordinates}
       zIndex={1}
       anchor={{ x: 0.5, y: 0.5 }}
@@ -31,6 +32,7 @@ function ClusterMarker(props) {
 }
 
 ClusterMarker.propTypes = {
+  id: PropTypes.string.isRequired,
   marker: PropTypes.object.isRequired,
   zoomTo: PropTypes.func.isRequired,
   datasetSlug: PropTypes.string.isRequired
