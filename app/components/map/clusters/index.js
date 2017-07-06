@@ -23,6 +23,7 @@ class Clusters extends PureComponent {
                 latitude: marker.geometry.coordinates[1],
                 longitude: marker.geometry.coordinates[0]
               }}
+              anchor={{ x: 0.5, y: 0.5 }}
               onPress={this.props.selectAlert}
               zIndex={1}
               draggable={false}

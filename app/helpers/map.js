@@ -33,7 +33,12 @@ export function getAllNeighbours(firstPoint, points, distance = 0.03) { // defau
   }
 
   getNeighbours(firstPoint);
-  // return array of siblings including the point
+  // return array of siblings without the point
+  if (neighbours && neighbours.length &&
+      neighbours[0].latitude && neighbours[0].latitude === firstPoint.latitude &&
+      neighbours[0].longitude && neighbours[0].longitude === firstPoint.longitude) {
+    neighbours.shift();
+  }
   return neighbours;
 }
 

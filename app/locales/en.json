@@ -137,6 +137,7 @@
   "report": {
     "title": "Report",
     "plural": "Reports",
+    "area": "Report area",
     "takePicture": "Take a picture",
     "datePlaceholder": "Select date",
     "saveLaterTitle": "Save for later",

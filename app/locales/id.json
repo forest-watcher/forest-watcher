@@ -137,6 +137,7 @@
   "report": {
     "title": "Lapor",
     "plural": "Laporan",
+    "area": "Report area",
     "takePicture": "Ambil gambar",
     "datePlaceholder": "Pilih tanggal",
     "saveLaterTitle": "Simpan untuk nanti",
