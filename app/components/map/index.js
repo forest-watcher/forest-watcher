@@ -274,7 +274,10 @@ class Map extends Component {
 
     navigator.geolocation.getCurrentPosition(
       (location) => {
-        const coords = Platform.OS === 'ios' ? location.coords : location;
+        const coords = {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude
+        };
         this.setState({
           lastPosition: coords
         });
@@ -288,7 +291,10 @@ class Map extends Component {
     this.eventLocation = DeviceEventEmitter.addListener(
       'locationUpdated',
       throttle((location) => {
-        const coords = Platform.OS === 'ios' ? location.coords : location;
+        const coords = {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude
+        };
         const { lastPosition } = this.state;
         if (lastPosition && lastPosition.latitude !== coords.latitude &&
           lastPosition.longitude !== coords.longitude) {
