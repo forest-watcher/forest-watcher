@@ -411,6 +411,66 @@ class Map extends Component {
     const { hasCompass, lastPosition, compassFallback, selectedAlertCoordinates } = this.state;
     const { areaCoordinates, datasetSlug } = this.props;
     const showCompassFallback = !hasCompass && lastPosition && selectedAlertCoordinates && compassFallback;
+
+    // Map elements
+    const compassFallbackElement = showCompassFallback ? (<MapView.Polyline
+      coordinates={this.state.compassFallback}
+      strokeColor={Theme.colors.color5}
+      strokeWidth={2}
+    />) : null;
+    const areaPolygonElement = areaCoordinates ? (
+      <MapView.Polyline
+        coordinates={areaCoordinates}
+        strokeColor={Theme.colors.color1}
+        strokeWidth={2}
+      />
+    ) : null;
+    const userPositionElement = this.state.lastPosition ? (
+      <MapView.Marker.Animated
+        image={markerImage}
+        coordinate={this.state.lastPosition}
+        style={{ zIndex: 2 }}
+        anchor={{ x: 0.5, y: 0.5 }}
+        pointerEvents={'none'}
+      />
+    ) : null;
+    const compassElement = this.state.lastPosition && this.state.heading ? (
+      <MapView.Marker
+        key={'compass'}
+        coordinate={this.state.lastPosition}
+        zIndex={1}
+        anchor={{ x: 0.5, y: 0.5 }}
+        pointerEvents={'none'}
+      >
+        <Animated.Image
+          style={{
+            width: 94,
+            height: 94,
+            transform: [
+              { rotate: `${this.state.heading ? this.state.heading : '0'}deg` }
+            ]
+          }}
+          source={compassImage}
+        />
+      </MapView.Marker>
+    ) : null;
+    const newSelectedAlert = selectedAlertCoordinates ? (
+      <MapView.Marker
+        key={'selectedAlert'}
+        coordinate={selectedAlertCoordinates}
+        image={alertWhite}
+        anchor={{ x: 0.5, y: 0.5 }}
+        zIndex={10}
+      />
+    ) : null;
+    const clustersElement = datasetSlug ? (
+      <Clusters
+        markers={this.state.markers}
+        selectAlert={this.selectAlert}
+        zoomTo={this.zoomTo}
+        datasetSlug={datasetSlug}
+      />
+    ) : null;
     return (
       this.state.renderMap
       ?
@@ -427,68 +487,12 @@ class Map extends Component {
             moveOnMarkerPress={false}
             onPress={this.selectAlert}
           >
-            {datasetSlug &&
-              <Clusters
-                markers={this.state.markers}
-                selectAlert={this.selectAlert}
-                zoomTo={this.zoomTo}
-                datasetSlug={datasetSlug}
-              />
-            }
-            {showCompassFallback &&
-              <MapView.Polyline
-                coordinates={this.state.compassFallback}
-                strokeColor={Theme.colors.color5}
-                strokeWidth={2}
-              />
-            }
-            {areaCoordinates &&
-              <MapView.Polyline
-                coordinates={areaCoordinates}
-                strokeColor={Theme.colors.color1}
-                strokeWidth={2}
-              />
-            }
-            {this.state.lastPosition &&
-              <MapView.Marker.Animated
-                image={markerImage}
-                coordinate={this.state.lastPosition}
-                style={{ zIndex: 2 }}
-                anchor={{ x: 0.5, y: 0.5 }}
-                pointerEvents={'none'}
-              />
-            }
-            {this.state.lastPosition && this.state.heading
-              ?
-                <MapView.Marker
-                  key={'compass'}
-                  coordinate={this.state.lastPosition}
-                  zIndex={1}
-                  anchor={{ x: 0.5, y: 0.5 }}
-                  pointerEvents={'none'}
-                >
-                  <Animated.Image
-                    style={{
-                      width: 94,
-                      height: 94,
-                      transform: [
-                        { rotate: `${this.state.heading ? this.state.heading : '0'}deg` }
-                      ]
-                    }}
-                    source={compassImage}
-                  />
-                </MapView.Marker>
-              : null
-            }
-            {selectedAlertCoordinates &&
-              <MapView.Marker
-                key={'selectedAlert'}
-                coordinate={selectedAlertCoordinates}
-                image={alertWhite}
-                anchor={{ x: 0.5, y: 0.5 }}
-                zIndex={10}
-              />
-            }
+            {clustersElement}
+            {compassFallbackElement}
+            {areaPolygonElement}
+            {userPositionElement}
+            {compassElement}
+            {newSelectedAlert}
           </MapView>
           <AreaCarousel
             navigator={this.props.navigator}
