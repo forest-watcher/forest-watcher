@@ -10,8 +10,10 @@ import {
   StatusBar,
   Image,
   Text,
-  Platform
+  Platform,
+  PixelRatio
 } from 'react-native';
+import Config from 'react-native-config';
 import CONSTANTS from 'config/constants';
 import throttle from 'lodash/throttle';
 import moment from 'moment';
@@ -38,6 +40,8 @@ const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 10;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+const basemap = PixelRatio.get() >= 2 ? CONSTANTS.maps.basemapHD : CONSTANTS.maps.basemap;
+const URL_BASEMAP_TEMPLATE = `${basemap}?access_token=${Config.MAPBOX_TOKEN}`;
 
 const markerImage = require('assets/marker.png');
 const alertWhite = require('assets/alert-white.png');
@@ -419,7 +423,7 @@ class Map extends Component {
             ref={(ref) => { this.map = ref; }}
             style={styles.map}
             provider={MapView.PROVIDER_GOOGLE}
-            mapType="hybrid"
+            mapType="none"
             rotateEnabled={false}
             initialRegion={this.state.region}
             onRegionChangeComplete={this.updateRegion}
@@ -427,6 +431,10 @@ class Map extends Component {
             moveOnMarkerPress={false}
             onPress={this.selectAlert}
           >
+            <MapView.UrlTile
+              urlTemplate={URL_BASEMAP_TEMPLATE}
+              zIndex={-1}
+            />
             {datasetSlug &&
               <Clusters
                 markers={this.state.markers}
