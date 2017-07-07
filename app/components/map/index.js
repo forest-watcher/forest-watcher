@@ -272,10 +272,11 @@ class Map extends Component {
 
     navigator.geolocation.getCurrentPosition(
       (location) => {
+        const coords = typeof location.coords !== 'undefined' ? location.coords : location;
         this.setState({
           lastPosition: {
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude
+            latitude: coords.latitude,
+            longitude: coords.longitude
           }
         });
       },
@@ -288,9 +289,12 @@ class Map extends Component {
     this.eventLocation = DeviceEventEmitter.addListener(
       'locationUpdated',
       throttle((location) => {
-        const coords = Platform.OS === 'ios' ? location.coords : location;
+        const coords = typeof location.coords !== 'undefined' ? location.coords : location;
         this.setState({
-          lastPosition: coords
+          lastPosition: {
+            latitude: coords.latitude,
+            longitude: coords.longitude
+          }
         });
       }, 300)
     );
