@@ -13,6 +13,7 @@ export default {
     lat: 27.568640,
     lng: -33.461281,
     basemap: 'https://api.mapbox.com/styles/v1/forestwatcher/cj4772tx20vsv2rrza5q3v0d4/tiles/256/{z}/{x}/{y}@2x',
+    basemapHD: 'https://api.mapbox.com/styles/v1/forestwatcher/cj4772tx20vsv2rrza5q3v0d4/tiles/{z}/{x}/{y}@2x',
     bbox: {
       type: 'Polygon',
       coordinates: [

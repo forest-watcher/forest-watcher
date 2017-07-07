@@ -10,7 +10,8 @@ import {
   StatusBar,
   Image,
   Text,
-  Platform
+  Platform,
+  PixelRatio
 } from 'react-native';
 import Config from 'react-native-config';
 import CONSTANTS from 'config/constants';
@@ -39,7 +40,8 @@ const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 10;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-const URL_BASEMAP_TEMPLATE = `${CONSTANTS.maps.basemap}?access_token=${Config.MAPBOX_TOKEN}`;
+const basemap = PixelRatio.get() >= 2 ? CONSTANTS.maps.basemapHD : CONSTANTS.maps.basemap;
+const URL_BASEMAP_TEMPLATE = `${basemap}?access_token=${Config.MAPBOX_TOKEN}`;
 
 const markerImage = require('assets/marker.png');
 const alertWhite = require('assets/alert-white.png');
