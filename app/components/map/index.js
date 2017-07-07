@@ -436,7 +436,7 @@ class Map extends Component {
             provider={MapView.PROVIDER_GOOGLE}
             mapType="hybrid"
             minZoomLevel={2}
-            maxZoomLevel={16}
+            maxZoomLevel={18}
             rotateEnabled={false}
             initialRegion={this.state.region}
             onRegionChangeComplete={this.updateRegion}
