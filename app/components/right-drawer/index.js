@@ -2,10 +2,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
-  Text
+  Text,
+  TouchableHighlight,
+  Image
 } from 'react-native';
+import Theme from 'config/theme';
 import Row from 'components/common/row';
 import styles from './styles';
+
+const closeIcon = require('assets/close.png');
+
 
 class RightDrawer extends Component {
 
@@ -41,11 +47,25 @@ class RightDrawer extends Component {
     tron.log('Im out');
   }
 
+  onPressClose = () => {
+    this.props.navigator.toggleDrawer({
+      side: 'right',
+      animated: true
+    });
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.heading}>Map settings</Text>
+          <TouchableHighlight
+            activeOpacity={0.5}
+            underlayColor="transparent"
+            onPress={this.onPressClose}
+          >
+            <Image style={Theme.icon} source={closeIcon} />
+          </TouchableHighlight>
         </View>
         <View style={styles.body}>
           <View style={styles.contextualLayersContainer}>

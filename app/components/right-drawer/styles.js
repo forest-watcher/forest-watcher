@@ -10,6 +10,7 @@ export default StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     paddingLeft: Theme.margin.left,
     paddingRight: Theme.margin.right,
     marginTop: 45,
