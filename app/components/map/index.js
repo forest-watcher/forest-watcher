@@ -45,6 +45,8 @@ const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
 
+const saveReportIcon = require('assets/save_for_later.png');
+
 function renderLoading() {
   return (
     <View style={[styles.container, styles.loader]}>
@@ -65,6 +67,12 @@ class Map extends Component {
     navBarBackgroundColor: Theme.background.main,
     navBarTransparent: true,
     navBarTranslucent: true
+  };
+
+  static navigatorButtons = {
+    rightButtons: [
+      { icon: saveReportIcon, id: 'contextualLayers' }
+    ]
   };
 
   constructor(props) {
@@ -143,21 +151,38 @@ class Map extends Component {
   }
 
   onNavigatorEvent(event) {
+    switch (event.id) {
+      case 'didAppear':
+        this.onDidAppear();
+        break;
+      case 'contextualLayers':
+        this.onContextualLayersPress();
+        break;
+      default:
+    }
+  }
+
+  onContextualLayersPress = () => {
+    this.props.navigator.toggleDrawer({
+      side: 'right',
+      animated: true
+    });
+  }
+
+  onDidAppear = () => {
     const { actionsPending, syncModalOpen, syncSkip, setCanDisplayAlerts, canDisplayAlerts } = this.props;
-    if (event.id === 'didAppear') {
-      if (actionsPending > 0 && !syncModalOpen && !syncSkip && !this.syncModalOpen) {
-        this.syncModalOpen = true;
-        this.props.setSyncModal(true);
-        this.props.navigator.showModal({
-          screen: 'ForestWatcher.Sync',
-          passProps: {
-            goBackDisabled: true
-          }
-        });
-      }
-      if (!canDisplayAlerts) {
-        setCanDisplayAlerts(true);
-      }
+    if (actionsPending > 0 && !syncModalOpen && !syncSkip && !this.syncModalOpen) {
+      this.syncModalOpen = true;
+      this.props.setSyncModal(true);
+      this.props.navigator.showModal({
+        screen: 'ForestWatcher.Sync',
+        passProps: {
+          goBackDisabled: true
+        }
+      });
+    }
+    if (!canDisplayAlerts) {
+      setCanDisplayAlerts(true);
     }
   }
 

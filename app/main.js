@@ -24,6 +24,13 @@ export default () => {
       screen: {
         screen: 'ForestWatcher.Home',
         navigatorStyle: Theme.navigator.styles
+      },
+      drawer: {
+        right: {
+          screen: 'ForestWatcher.RightDrawer',
+          passProps: {}
+        },
+        disableOpenGesture: true
       }
     });
   }
