@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   ActivityIndicator,
-  View,
-  Text
+  View
 } from 'react-native';
-import CustomSwitch from 'components/common/switch';
+import Row from 'components/common/row';
 import DatasetOptions from 'components/settings/area-detail/alert-system/dataset-options';
 
 import I18n from 'locales';
@@ -28,9 +27,7 @@ function noAlerts() {
   return (
     <View style={styles.container}>
       <View style={styles.section}>
-        <View style={styles.row}>
-          <Text style={styles.title}>{I18n.t('areaDetail.noAlerts')}</Text>
-        </View>
+        <Row text={I18n.t('areaDetail.noAlerts')} />
       </View>
     </View>
   );
@@ -41,7 +38,7 @@ class AlertSystem extends Component {
     const { datasets, id } = this.props.area;
 
     if (!datasets) return loadingState();
-    if (datasets === undefined || datasets.length === 0) return noAlerts();
+    if (typeof datasets === 'undefined' || datasets.length === 0) return noAlerts();
     return (
       <View style={styles.container}>
         {datasets.map((dataset, i) => {
@@ -50,10 +47,7 @@ class AlertSystem extends Component {
           };
           return (
             <View key={i}>
-              <View key={i} style={styles.row}>
-                <Text style={styles.title}>{dataset.name}</Text>
-                <CustomSwitch value={dataset.active} onValueChange={onDatasetValueChange} />
-              </View>
+              <Row text={dataset.name} value={dataset.active} onValueChange={onDatasetValueChange} />
               {dataset.active
                 ? <DatasetOptions
                   id={id}
