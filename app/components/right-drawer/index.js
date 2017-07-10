@@ -1,17 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  Text,
-  TouchableHighlight,
-  Image
-} from 'react-native';
-import Theme from 'config/theme';
-import Row from 'components/common/row';
-import styles from './styles';
-
-const closeIcon = require('assets/close.png');
-
+import MapSidebar from 'components/map-sidebar';
 
 class RightDrawer extends Component {
 
@@ -22,7 +11,13 @@ class RightDrawer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dummyValue: false
+      dummyLayers: [
+        {
+          id: 1234,
+          name: 'Protected Areas',
+          value: false
+        }
+      ]
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
@@ -54,31 +49,23 @@ class RightDrawer extends Component {
     });
   }
 
+  onLayerToggle = (id, value) => {
+    const newLayer = this.state.dummyLayers.map((layer) => {
+      if (layer.id === id) {
+        return { ...layer, value };
+      }
+      return layer;
+    });
+    this.setState({ dummyLayers: newLayer });
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.heading}>Map settings</Text>
-          <TouchableHighlight
-            activeOpacity={0.5}
-            underlayColor="transparent"
-            onPress={this.onPressClose}
-          >
-            <Image style={Theme.icon} source={closeIcon} />
-          </TouchableHighlight>
-        </View>
-        <View style={styles.body}>
-          <View style={styles.contextualLayersContainer}>
-            <Text style={styles.contextualLayersTitle}>Contextual layers</Text>
-            <Row
-              value={this.state.dummyValue}
-              onValueChange={val => this.setState({ dummyValue: val })}
-            >
-              <Text>Protected Areas</Text>
-            </Row>
-          </View>
-        </View>
-      </View>
+      <MapSidebar
+        layers={this.state.dummyLayers}
+        onPressClose={this.onPressClose}
+        onLayerToggle={this.onLayerToggle}
+      />
     );
   }
 }
