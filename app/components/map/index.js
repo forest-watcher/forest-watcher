@@ -211,12 +211,13 @@ class Map extends Component {
     this.setState((prevState) => {
       const state = {};
       if (prevState.selectedAlerts && prevState.selectedAlerts.length > 0) {
+        const last = this.state.selectedAlerts.length - 1;
         // extract not needed props
         // eslint-disable-next-line no-unused-vars
         const { accuracy, altitude, speed, course, ...rest } = this.state.lastPosition;
-        state.compassFallback = [{ ...rest }, { ...this.state.selectedAlerts[0] }]; // TODO: review this with multiple selection
+        state.compassFallback = [{ ...rest }, { ...this.state.selectedAlerts[last] }];
       }
-      if (prevState.compassFallback !== null && prevState.selectedAlerts === null) {
+      if (prevState.compassFallback !== null && prevState.selectedAlerts.length === 0) {
         state.compassFallback = null;
       }
       return state;
@@ -225,8 +226,9 @@ class Map extends Component {
 
   setHeaderTitle = () => {
     const { selectedAlerts } = this.state;
+    const last = this.state.selectedAlerts.length - 1;
     const headerText = selectedAlerts && selectedAlerts.length > 0
-      ? `${selectedAlerts[0].latitude.toFixed(4)}, ${selectedAlerts[0].longitude.toFixed(4)}`
+      ? `${selectedAlerts[last].latitude.toFixed(4)}, ${selectedAlerts[last].longitude.toFixed(4)}`
       : I18n.t('dashboard.map');
     this.props.navigator.setTitle({
       title: headerText
@@ -531,6 +533,7 @@ class Map extends Component {
     const { hasCompass, lastPosition, compassFallback, selectedAlerts, neighbours } = this.state;
     const { areaCoordinates, datasetSlug } = this.props;
     const showCompassFallback = !hasCompass && lastPosition && selectedAlerts && compassFallback;
+    const lastAlertIndex = selectedAlerts.length - 1;
     return (
       this.state.renderMap
       ?
@@ -603,7 +606,7 @@ class Map extends Component {
             {neighbours && neighbours.length > 0 &&
               neighbours.map((neighbour, i) => (
                 <MapView.Marker
-                  key={i}
+                  key={`neighbour-marker-${i}`}
                   coordinate={neighbour}
                   anchor={{ x: 0.5, y: 0.5 }}
                   onPress={() => this.includeNeighbour(neighbour)}
@@ -616,7 +619,7 @@ class Map extends Component {
             {selectedAlerts && selectedAlerts.length > 0 &&
               selectedAlerts.map((alert, i) => (
                 <MapView.Marker
-                  key={i}
+                  key={`selected-alert-marker-${i}`}
                   coordinate={alert}
                   anchor={{ x: 0.5, y: 0.5 }}
                   pointerEvents="none"
@@ -630,7 +633,7 @@ class Map extends Component {
           </MapView>
           <AreaCarousel
             navigator={this.props.navigator}
-            alertSelected={selectedAlerts[0]}
+            alertSelected={selectedAlerts[lastAlertIndex]}
             lastPosition={this.state.lastPosition}
           />
           {selectedAlerts && selectedAlerts.length > 0
