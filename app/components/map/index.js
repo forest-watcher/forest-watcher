@@ -438,7 +438,7 @@ class Map extends Component {
 
   render() {
     const { hasCompass, lastPosition, compassFallback, selectedAlertCoordinates } = this.state;
-    const { areaCoordinates, datasetSlug } = this.props;
+    const { areaCoordinates, datasetSlug, contextualLayer } = this.props;
     const showCompassFallback = !hasCompass && lastPosition && selectedAlertCoordinates && compassFallback;
     return (
       this.state.renderMap
@@ -460,6 +460,12 @@ class Map extends Component {
               urlTemplate={URL_BASEMAP_TEMPLATE}
               zIndex={-1}
             />
+            {contextualLayer &&
+            <MapView.UrlTile
+              urlTemplate={contextualLayer.url}
+              zIndex={1}
+            />
+            }
             {datasetSlug &&
               <Clusters
                 markers={this.state.markers}
@@ -554,7 +560,12 @@ Map.propTypes = {
   setSyncModal: PropTypes.func.isRequired,
   setCanDisplayAlerts: PropTypes.func.isRequired,
   canDisplayAlerts: PropTypes.bool.isRequired,
-  area: PropTypes.object.isRequired
+  area: PropTypes.object.isRequired,
+  contextualLayer: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    url: PropTypes.string.isRequired
+  })
 };
 
 export default Map;

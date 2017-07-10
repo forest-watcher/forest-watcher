@@ -50,7 +50,7 @@ MapSidebar.propTypes = {
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired
     })
-  ),
+  ).isRequired,
   onLayerToggle: PropTypes.func.isRequired,
   activeLayer: PropTypes.string
 };

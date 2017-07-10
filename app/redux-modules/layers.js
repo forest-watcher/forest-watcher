@@ -9,16 +9,7 @@ const SET_ACTIVE_LAYER = 'layer/SET_ACTIVE_LAYER';
 
 // Reducer
 const initialState = {
-  data: [
-    {
-      id: '123tfyewudin4',
-      name: 'Protected Areas'
-    },
-    {
-      id: '134flhjkvcnsd2e',
-      name: 'Friend Zone'
-    }
-  ], // [],
+  data: [],
   synced: false,
   syncing: false,
   activeLayer: null
