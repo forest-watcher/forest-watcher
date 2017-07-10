@@ -13,7 +13,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingLeft: Theme.margin.left,
     paddingRight: Theme.margin.right,
-    marginTop: 45,
+    marginTop: 6,
     marginBottom: 0
   },
   heading: {
