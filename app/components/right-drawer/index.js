@@ -51,10 +51,11 @@ class RightDrawer extends Component {
           <View style={styles.contextualLayersContainer}>
             <Text>Contextual layers</Text>
             <Row
-              text="Protected Areas"
               value={this.state.dummyValue}
               onValueChange={val => this.setState({ dummyValue: val })}
-            />
+            >
+              <Text>Protected Areas</Text>
+            </Row>
           </View>
         </View>
       </View>

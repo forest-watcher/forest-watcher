@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   ActivityIndicator,
-  View
+  View,
+  Text
 } from 'react-native';
 import Row from 'components/common/row';
 import DatasetOptions from 'components/settings/area-detail/alert-system/dataset-options';
@@ -27,7 +28,9 @@ function noAlerts() {
   return (
     <View style={styles.container}>
       <View style={styles.section}>
-        <Row text={I18n.t('areaDetail.noAlerts')} />
+        <Row>
+          <Text>{I18n.t('areaDetail.noAlerts')}</Text>
+        </Row>
       </View>
     </View>
   );
@@ -47,7 +50,9 @@ class AlertSystem extends Component {
           };
           return (
             <View key={i}>
-              <Row text={dataset.name} value={dataset.active} onValueChange={onDatasetValueChange} />
+              <Row value={dataset.active} onValueChange={onDatasetValueChange}>
+                <Text>{dataset.name}</Text>
+              </Row>
               {dataset.active
                 ? <DatasetOptions
                   id={id}
