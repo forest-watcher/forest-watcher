@@ -45,11 +45,11 @@ class RightDrawer extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text>Map settings</Text>
+          <Text style={styles.heading}>Map settings</Text>
         </View>
         <View style={styles.body}>
           <View style={styles.contextualLayersContainer}>
-            <Text>Contextual layers</Text>
+            <Text style={styles.contextualLayersTitle}>Contextual layers</Text>
             <Row
               value={this.state.dummyValue}
               onValueChange={val => this.setState({ dummyValue: val })}
