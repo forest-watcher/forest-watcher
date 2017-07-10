@@ -30,7 +30,8 @@ const MapSidebar = (props) => (
         {
           props.layers.map((layer) => (
             <Row
-              value={layer.value}
+              key={layer.id}
+              value={layer.id === props.activeLayer}
               onValueChange={value => props.onLayerToggle(layer.id, value)}
             >
               <Text>{layer.name}</Text>
@@ -46,10 +47,12 @@ MapSidebar.propTypes = {
   onPressClose: PropTypes.func.isRequired,
   layers: PropTypes.arrayOf(
     PropTypes.shape({
-      active: PropTypes.bool.isRequired
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired
     })
   ),
-  onLayerToggle: PropTypes.func.isRequired
+  onLayerToggle: PropTypes.func.isRequired,
+  activeLayer: PropTypes.string
 };
 
 export default MapSidebar;

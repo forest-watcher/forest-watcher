@@ -9,7 +9,16 @@ const SET_ACTIVE_LAYER = 'layer/SET_ACTIVE_LAYER';
 
 // Reducer
 const initialState = {
-  data: [],
+  data: [
+    {
+      id: '123tfyewudin4',
+      name: 'Protected Areas'
+    },
+    {
+      id: '134flhjkvcnsd2e',
+      name: 'Friend Zone'
+    }
+  ], // [],
   synced: false,
   syncing: false,
   activeLayer: null
@@ -46,6 +55,10 @@ export function getUserLayers() {
   };
 }
 
-export function setActiveContextualLayer(layerId) {
-  return { type: SET_ACTIVE_LAYER, payload: layerId };
+export function setActiveContextualLayer(layerId, value) {
+  return (dispatch, state) => {
+    let activeLayer = null;
+    if (layerId !== state().layers.activeLayer && value) activeLayer = layerId;
+    return dispatch({ type: SET_ACTIVE_LAYER, payload: activeLayer });
+  };
 }

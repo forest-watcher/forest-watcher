@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import MapSidebar from 'components/map-sidebar';
+import MapSidebar from 'containers/map-sidebar';
 
 class RightDrawer extends Component {
 
@@ -10,15 +10,6 @@ class RightDrawer extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      dummyLayers: [
-        {
-          id: 1234,
-          name: 'Protected Areas',
-          value: false
-        }
-      ]
-    };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
@@ -49,24 +40,8 @@ class RightDrawer extends Component {
     });
   }
 
-  onLayerToggle = (id, value) => {
-    const newLayer = this.state.dummyLayers.map((layer) => {
-      if (layer.id === id) {
-        return { ...layer, value };
-      }
-      return layer;
-    });
-    this.setState({ dummyLayers: newLayer });
-  }
-
   render() {
-    return (
-      <MapSidebar
-        layers={this.state.dummyLayers}
-        onPressClose={this.onPressClose}
-        onLayerToggle={this.onLayerToggle}
-      />
-    );
+    return <MapSidebar onPressClose={this.onPressClose} />;
   }
 }
 
