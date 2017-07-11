@@ -79,7 +79,8 @@ export default StyleSheet.create({
   footer: {
     left: 0,
     right: 0,
-    bottom: 8,
+    bottom: 0,
+    paddingBottom: 8,
     zIndex: 3,
     position: 'absolute'
   },
