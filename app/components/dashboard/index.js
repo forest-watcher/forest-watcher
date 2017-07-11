@@ -47,6 +47,7 @@ const sections = [
 class Dashboard extends PureComponent {
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color1,
+    navBarButtonColor: Theme.colors.color1,
     topBarElevationShadowEnabled: false,
     navBarBackgroundColor: Theme.background.main,
     navBarTitleTextCentered: true

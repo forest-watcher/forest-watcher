@@ -6,7 +6,8 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "lint-staged": "lint-staged",
-    "precommit": "npm run lint-staged"
+    "precommit": "npm run lint-staged",
+    "preinstall": "source no-package-lock.sh"
   },
   "dependencies": {
     "@mapbox/geo-viewport": "^0.2.2",

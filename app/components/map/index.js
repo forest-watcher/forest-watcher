@@ -10,8 +10,10 @@ import {
   StatusBar,
   Image,
   Text,
-  Platform
+  Platform,
+  PixelRatio
 } from 'react-native';
+import Config from 'react-native-config';
 import CONSTANTS from 'config/constants';
 import throttle from 'lodash/throttle';
 import moment from 'moment';
@@ -38,6 +40,8 @@ const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 10;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+const basemap = PixelRatio.get() >= 2 ? CONSTANTS.maps.basemapHD : CONSTANTS.maps.basemap;
+const URL_BASEMAP_TEMPLATE = `${basemap}?access_token=${Config.MAPBOX_TOKEN}`;
 
 const markerImage = require('assets/marker.png');
 const markerCompassRedImage = require('assets/compass_circle_red.png');
@@ -84,6 +88,7 @@ class Map extends Component {
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color5,
     navBarButtonColor: Theme.colors.color5,
+    drawUnderNavBar: true,
     topBarElevationShadowEnabled: false,
     navBarBackgroundColor: Theme.background.main,
     navBarTransparent: true,
@@ -188,7 +193,8 @@ class Map extends Component {
 
   onLayout = () => {
     if (this.hasSetCoordinates === false && this.props.areaCoordinates) {
-      const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
+      const margin = Platform.OS === 'ios' ? 150 : 250;
+      const options = { edgePadding: { top: margin, right: margin, bottom: margin, left: margin }, animated: false };
       this.map.fitToCoordinates(this.props.areaCoordinates, options);
       this.hasSetCoordinates = true;
     }
@@ -236,15 +242,14 @@ class Map extends Component {
   }
 
   updateMarkers() {
-    const markers = this.props.cluster && this.props.cluster.getClusters([
+    const clusters = this.props.cluster && this.props.cluster.getClusters([
       this.state.region.longitude - (this.state.region.longitudeDelta / 2),
       this.state.region.latitude - (this.state.region.latitudeDelta / 2),
       this.state.region.longitude + (this.state.region.longitudeDelta / 2),
       this.state.region.latitude + (this.state.region.latitudeDelta / 2)
     ], this.getMapZoom());
-    this.setState({
-      markers: markers || []
-    });
+    const markers = clusters || [];
+    this.setState({ markers });
   }
 
   reportSelection = () => {
@@ -309,11 +314,12 @@ class Map extends Component {
 
     navigator.geolocation.getCurrentPosition(
       (location) => {
+        const coords = {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude
+        };
         this.setState({
-          lastPosition: {
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude
-          }
+          lastPosition: coords
         });
       },
       (error) => console.info(error),
@@ -325,10 +331,15 @@ class Map extends Component {
     this.eventLocation = DeviceEventEmitter.addListener(
       'locationUpdated',
       throttle((location) => {
-        const coords = Platform.OS === 'ios' ? location.coords : location;
-        this.setState({
-          lastPosition: coords
-        });
+        const coords = {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude
+        };
+        const { lastPosition } = this.state;
+        if (lastPosition && lastPosition.latitude !== coords.latitude &&
+          lastPosition.longitude !== coords.longitude) {
+          this.setState({ lastPosition: coords });
+        }
       }, 300)
     );
 
@@ -392,8 +403,7 @@ class Map extends Component {
     this.map.animateToRegion(zoomCoordinates);
   }
 
-  mapPress = (e) => {
-    const { coordinate } = e.nativeEvent;
+  mapPress = (coordinate) => {
     const { selectedAlerts } = this.state;
     this.setState({
       neighbours: [],
@@ -401,8 +411,7 @@ class Map extends Component {
     });
   }
 
-  selectAlert = (e) => {
-    const { coordinate } = e.nativeEvent;
+  selectAlert = (coordinate) => {
     const { markers } = this.state;
     let selectedAlerts = [...this.state.selectedAlerts];
     let neighbours = [];
@@ -454,7 +463,8 @@ class Map extends Component {
       selectedAlerts: []
     }, () => {
       this.updateMarkers();
-      const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
+      const margin = Platform.OS === 'ios' ? 150 : 250;
+      const options = { edgePadding: { top: margin, right: margin, bottom: margin, left: margin }, animated: false };
       if (this.map) this.map.fitToCoordinates(this.props.areaCoordinates, options);
     });
   }
@@ -494,7 +504,7 @@ class Map extends Component {
         );
     };
     return (
-      <View style={styles.footer}>
+      <View pointerEvents="box-none" style={styles.footer}>
         <Image
           style={styles.footerBg}
           source={backgroundImage}
@@ -538,20 +548,33 @@ class Map extends Component {
       this.state.renderMap
       ?
         <View style={styles.container}>
+          <View pointerEvents="none" style={styles.header}>
+            <Image
+              style={styles.headerBg}
+              source={backgroundImage}
+            />
+          </View>
           <MapView
             ref={(ref) => { this.map = ref; }}
             style={styles.map}
             provider={MapView.PROVIDER_GOOGLE}
-            mapType="hybrid"
+            mapType="none"
+            minZoomLevel={2}
+            maxZoomLevel={18}
             rotateEnabled={false}
             initialRegion={this.state.region}
             onRegionChangeComplete={this.updateRegion}
             onLayout={this.onLayout}
             moveOnMarkerPress={false}
-            onPress={this.mapPress}
+            onPress={e => this.mapPress(e.nativeEvent.coordinate)}
           >
+            <MapView.UrlTile
+              urlTemplate={URL_BASEMAP_TEMPLATE}
+              zIndex={-1}
+            />
             {datasetSlug &&
               <Clusters
+                key="clusters"
                 markers={this.state.markers}
                 selectAlert={this.selectAlert}
                 zoomTo={this.zoomTo}
@@ -574,6 +597,7 @@ class Map extends Component {
             }
             {this.state.lastPosition &&
               <MapView.Marker.Animated
+                key="lastPosition"
                 image={markerImage}
                 coordinate={this.state.lastPosition}
                 style={{ zIndex: 2 }}

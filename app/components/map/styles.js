@@ -1,5 +1,5 @@
 import Theme from 'config/theme';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -12,49 +12,6 @@ export default StyleSheet.create({
   loader: {
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  header: {
-    left: 0,
-    right: 0,
-    top: 0,
-    height: 104,
-    zIndex: 1,
-    position: 'absolute',
-    backgroundColor: 'transparent'
-  },
-  headerBg: {
-    width: Theme.screen.width,
-    height: 104,
-    resizeMode: 'stretch',
-    position: 'absolute',
-    zIndex: 1,
-    top: 0
-  },
-  headerTitle: {
-    fontFamily: Theme.font,
-    color: Theme.fontColors.white,
-    fontSize: 21,
-    fontWeight: '400',
-    position: 'absolute',
-    zIndex: 2,
-    top: 16,
-    left: 56,
-    ...Platform.select({
-      ios: {
-        marginTop: 24
-      }
-    })
-  },
-  headerBtn: {
-    position: 'absolute',
-    top: 8,
-    left: 8,
-    zIndex: 2,
-    ...Platform.select({
-      ios: {
-        marginTop: 24
-      }
-    })
   },
   signalNotice: {
     marginTop: 40,
@@ -104,6 +61,21 @@ export default StyleSheet.create({
     borderColor: 'rgba(255, 255, 255, 0.5)',
     backgroundColor: 'transparent'
   },
+  header: {
+    left: 0,
+    right: 0,
+    top: 0,
+    height: 164,
+    zIndex: 3,
+    position: 'absolute'
+  },
+  headerBg: {
+    width: Theme.screen.width,
+    height: 132,
+    resizeMode: 'stretch',
+    position: 'absolute',
+    top: 0
+  },
   footer: {
     left: 0,
     right: 0,
@@ -114,7 +86,7 @@ export default StyleSheet.create({
   },
   footerBg: {
     width: Theme.screen.width,
-    height: 104,
+    height: 132,
     resizeMode: 'stretch',
     position: 'absolute',
     bottom: 0,
@@ -144,7 +116,8 @@ export default StyleSheet.create({
   footerButton: {
     flex: 1,
     marginLeft: 4,
-    marginRight: 4
+    marginRight: 4,
+    zIndex: 4
   },
   footerButton1: {
     flex: 1,
