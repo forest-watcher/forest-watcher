@@ -1,160 +1,160 @@
 {
-	"commonText": {
-		"appName": "Forest Watcher 2.0",
-		"next": "Next",
-    "save": "Save",
-    "boundaries": "Boundaries",
-    "delete": "Delete",
-		"back": "Back",
-		"finish": "Finish",
-		"saving": "Saving",
-		"caching": "Caching",
-		"setUp": "Set up",
-    "cancel": "Cancel",
-    "confirm": "Confirm",
-    "loading": "Loading",
-    "notAvailable": "Not available",
-    "kmAway": "km away",
-	  "lastUpdated": "Last Updated",
-    "name": "Name",
-    "yourPosition": "Your position",
-		"connectionRequiredTitle": "No connection",
-		"connectionRequired": "You need an internet connection to complete this action",
-    "noImage": "No image",
-    "cached": "cached",
-    "noCached": "no-cached",
-    "noAlertSystem": "No alert system selected"
-	},
-	"home": {
-		"title": {
-			"updating": "Updating data...",
-			"outOfDate": "Your alerts are out of date",
-			"updated": "Update Completed!"
-		},
-		"subtitle": {
-			"takesTime": "This process can take several minutes",
-			"mobile": "Do you want to update them over 3G?",
-			"noConnection": "You need an internet connection to update your data",
-			"updated": "Data was successfully updated!"
-		},
-		"skip": "skip",
-		"update": "update"
-	},
-	"dashboard": {
-		"title": "Dashboard",
-		"alerts": "My alerts",
-		"reports": "Make a report",
-		"myReports": "My reports",
-		"uploadData": "Saved and uploaded data",
-		"map": "Map",
-    "dailyFeedback": "Daily feedback",
-    "weeklyFeedback": "Weekly feedback"
-	},
-	"login": {
-		"title": "Login",
-		"unable": "Unable to login",
-		"connectionRequired": "You need an internet connection",
-		"introductionText": "Sign in with a MyGFW account",
-		"facebookTitle": "Facebook",
-		"twitterTitle": "Twitter",
-		"googleTitle": "Google",
-		"brazilTitle": "Brazil",
-		"colombiaTitle": "Colombia",
-		"indonesiaTitle": "Indonesia"
-	},
-	"countries": {
-		"searchPlaceholder": "Search for a country"
-	},
-	"alerts": {
-    "title": "My Alerts",
-		"seeAll": "See all",
-		"alert": "alert",
-    "alertSystems": "Alert systems",
-    "downloadingAlerts": "Please wait while the data is downloaded...",
-    "noAlerts": "There are no alerts available",
-    "satelliteSignal": "Waiting for the satellite signal..."
-	},
-	"areaDetail": {
-    "title": "Area detail",
-		"delete": "Delete this area",
-		"noAlerts": "No alerts for this area"
-	},
-	"boundaries": {
-		"chooseBoundaries": "Now, choose the boundaries",
-		"selectProtectedArea": "Select a protected area",
-		"drawArea": "Draw an area"
-	},
-	"setupCountry": {
-		"welcomeText": "Hi",
-		"secondWelcomeText": "please set up an area",
-		"firstInstruction": "First, select your country of interest"
-	},
-	"partners": {
-	 	"title": "Partners",
-		"description": "Forest Watcher is created in collaboration between World Resources Institute, Vizzuality, and the Jane Goodall Institute.",
-		"listOfPartners": "See all Global Forest Watch partners."
-	},
-	"setupDrawAreas": {
-    "invalidShape": "Invalid shape",
-    "invalidSize": "Please draw a smaller area",
-		"tapInstruction": "Tap on map to draw"
-	},
-	"setupHeader": {
-		"errorFirst": "Invalid prop",
-		"errorSecond": "supplied to",
-		"errorThird": "It is required if you show back button"
-	},
-	"setupOverview": {
-		"placeholder": "Enter a name",
-    "areaName": "Name the area",
-    "gettingDatasets": "Getting datasets"
-	},
-	"setupProtectedAreas": {
-		"instruction": "Select an area to continue"
-	},
-	"settings": {
-    "title": "Settings",
-		"loggedIn": "You’re are logged in as",
-		"yourAreas": "Your areas",
-		"logOut": "LOG OUT",
-		"addArea": "ADD AREA",
-		"aboutApp": "About this app",
-		"aboutPartners": "Partners",
-		"aboutTerms": "Terms and Conditions",
-    "timeFrame": "Time Frame",
-    "from": "From",
-    "to": "To",
-		"oneWeekAgo": "One week ago",
-		"72hAgo": "72 hours ago",
-		"48hAgo": "48 hours ago",
-		"24hAgo": "24 hours ago",
-		"1MonthAgo": "1 month ago",
-		"3MonthsAgo": "3 months ago",
-		"6MonthsAgo": "6 months ago",
-		"1yearAgo": "1 year ago",
-		"availableOffline": "Available offline"
-	},
-  "report": {
-    "title": "Report",
-    "plural": "Reports",
-    "selected": "Report selected",
-    "area": "Report area",
-    "takePicture": "Take a picture",
-    "datePlaceholder": "Select date",
-    "saveLaterTitle": "Save for later",
-    "saveLaterDescription": "It will appear as a draft in the reports section",
-    "inputText": "Please write something",
-    "inputRadio": "Choose one option to continue",
-    "inputSelect": "Choose at least one option to continue",
-    "input": "Please, answer the question",
-    "completed": "Completed",
-    "uploadAll": "Upload All",
-    "drafts": "Drafts",
-    "uploaded": "Uploaded",
-	"unable": "Unable to send report",
-	"connectionRequired": "You need an internet connection"
-  },
-  "feedback": {
-    "title": "Feedback"
-  }
+    "commonText": {
+        "appName": "Forest Watcher 2.0",
+        "next": "Next",
+        "save": "Save",
+        "boundaries": "Boundaries",
+        "delete": "Delete",
+        "back": "Back",
+        "finish": "Finish",
+        "saving": "Saving",
+        "caching": "Caching",
+        "setUp": "Set up",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "loading": "Loading",
+        "notAvailable": "Not available",
+        "kmAway": "km away",
+        "lastUpdated": "Last Updated",
+        "name": "Name",
+        "yourPosition": "Your position",
+        "connectionRequiredTitle": "No connection",
+        "connectionRequired": "You need an internet connection to complete this action",
+        "noImage": "No image",
+        "cached": "cached",
+        "noCached": "no-cached",
+        "noAlertSystem": "No alert system selected"
+    },
+    "home": {
+        "title": {
+            "updating": "Updating data...",
+            "outOfDate": "Your alerts are out of date",
+            "updated": "Update Completed!"
+        },
+        "subtitle": {
+            "takesTime": "This process can take several minutes",
+            "mobile": "Do you want to update them over 3G?",
+            "noConnection": "You need an internet connection to update your data",
+            "updated": "Data was successfully updated!"
+        },
+        "skip": "skip",
+        "update": "update"
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "alerts": "My alerts",
+        "reports": "Make a report",
+        "myReports": "My reports",
+        "uploadData": "Saved and uploaded data",
+        "map": "Map",
+        "dailyFeedback": "Daily feedback",
+        "weeklyFeedback": "Weekly feedback"
+    },
+    "login": {
+        "title": "Login",
+        "unable": "Unable to login",
+        "connectionRequired": "You need an internet connection",
+        "introductionText": "Sign in with a MyGFW account",
+        "facebookTitle": "Facebook",
+        "twitterTitle": "Twitter",
+        "googleTitle": "Google",
+        "brazilTitle": "Brazil",
+        "colombiaTitle": "Colombia",
+        "indonesiaTitle": "Indonesia"
+    },
+    "countries": {
+        "searchPlaceholder": "Search for a country"
+    },
+    "alerts": {
+        "title": "My Alerts",
+        "seeAll": "See all",
+        "alert": "alert",
+        "alertSystems": "Alert systems",
+        "downloadingAlerts": "Please wait while the data is downloaded...",
+        "noAlerts": "There are no alerts available",
+        "satelliteSignal": "Waiting for the satellite signal..."
+    },
+    "areaDetail": {
+        "title": "Area detail",
+        "delete": "Delete this area",
+        "noAlerts": "No alerts for this area"
+    },
+    "boundaries": {
+        "chooseBoundaries": "Now, choose the boundaries",
+        "selectProtectedArea": "Select a protected area",
+        "drawArea": "Draw an area"
+    },
+    "setupCountry": {
+        "welcomeText": "Hi",
+        "secondWelcomeText": "please set up an area",
+        "firstInstruction": "First, select your country of interest"
+    },
+    "partners": {
+        "title": "Partners",
+        "description": "Forest Watcher is created in collaboration between World Resources Institute, Vizzuality, and the Jane Goodall Institute.",
+        "listOfPartners": "See all Global Forest Watch partners."
+    },
+    "setupDrawAreas": {
+        "invalidShape": "Invalid shape",
+        "invalidSize": "Please draw a smaller area",
+        "tapInstruction": "Tap on map to draw"
+    },
+    "setupHeader": {
+        "errorFirst": "Invalid prop",
+        "errorSecond": "supplied to",
+        "errorThird": "It is required if you show back button"
+    },
+    "setupOverview": {
+        "placeholder": "Enter a name",
+        "areaName": "Name the area",
+        "gettingDatasets": "Getting datasets"
+    },
+    "setupProtectedAreas": {
+        "instruction": "Select an area to continue"
+    },
+    "settings": {
+        "title": "Settings",
+        "loggedIn": "You’re are logged in as",
+        "yourAreas": "Your areas",
+        "logOut": "LOG OUT",
+        "addArea": "ADD AREA",
+        "aboutApp": "About this app",
+        "aboutPartners": "Partners",
+        "aboutTerms": "Terms and Conditions",
+        "timeFrame": "Time Frame",
+        "from": "From",
+        "to": "To",
+        "oneWeekAgo": "One week ago",
+        "72hAgo": "72 hours ago",
+        "48hAgo": "48 hours ago",
+        "24hAgo": "24 hours ago",
+        "1MonthAgo": "1 month ago",
+        "3MonthsAgo": "3 months ago",
+        "6MonthsAgo": "6 months ago",
+        "1yearAgo": "1 year ago",
+        "availableOffline": "Available offline"
+    },
+    "report": {
+        "title": "Report",
+        "plural": "Reports",
+        "selected": "Report selected",
+        "area": "Report area",
+        "takePicture": "Take a picture",
+        "datePlaceholder": "Select date",
+        "saveLaterTitle": "Save for later",
+        "saveLaterDescription": "It will appear as a draft in the reports section",
+        "inputText": "Please write something",
+        "inputRadio": "Choose one option to continue",
+        "inputSelect": "Choose at least one option to continue",
+        "input": "Please, answer the question",
+        "completed": "Completed",
+        "uploadAll": "Upload All",
+        "drafts": "Drafts",
+        "uploaded": "Uploaded",
+        "unable": "Unable to send report",
+        "connectionRequired": "You need an internet connection"
+    },
+    "feedback": {
+        "title": "Feedback"
+    }
 }
