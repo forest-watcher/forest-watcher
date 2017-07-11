@@ -14,25 +14,25 @@ class Clusters extends PureComponent {
     if (!this.props.markers) return null;
     return (
       <View>
-        {this.props.markers.map((marker, index) => (
-          marker.properties.point_count !== undefined ? (
-            <ClusterMarker key={index} marker={marker} zoomTo={this.props.zoomTo} datasetSlug={this.props.datasetSlug} />
+        {this.props.markers.map((marker, index) => {
+          const coordinates = {
+            latitude: marker.geometry.coordinates[1],
+            longitude: marker.geometry.coordinates[0]
+          };
+          return marker.properties.point_count !== undefined ? (
+            <ClusterMarker id={`cluster-marker-${index}`} key={`cluster-marker-${index}`} marker={marker} zoomTo={this.props.zoomTo} datasetSlug={this.props.datasetSlug} />
           ) : (
             <MapView.Marker
-              key={index}
-              coordinate={{
-                latitude: marker.geometry.coordinates[1],
-                longitude: marker.geometry.coordinates[0]
-              }}
+              key={`Alert-marker-${index}`}
+              coordinate={coordinates}
               image={this.props.datasetSlug === 'viirs' ? alertViirs : alertGlad}
-              onPress={this.props.selectAlert}
+              onPress={() => this.props.selectAlert(coordinates)}
               zIndex={1}
               draggable={false}
               anchor={{ x: 0.5, y: 0.5 }}
-              pointerEvents={'none'}
             />
-          )
-        ))}
+          );
+        })}
       </View>
     );
   }

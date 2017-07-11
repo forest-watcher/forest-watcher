@@ -84,20 +84,13 @@ export function loginGoogle() {
 }
 
 export function logout() {
-  return (dispatch, state) => {
-    if (state().user.socialNetwork === 'google') {
-      return dispatch({
-        type: LOGOUT_REQUEST,
-        meta: {
-          offline: {
-            effect: { promise: GoogleOAuth.logout() },
-            commit: { type: LOGOUT_COMMIT }
-          }
-        }
-      });
+  return (dispatch) => dispatch({
+    type: LOGOUT_REQUEST,
+    meta: {
+      offline: {
+        effect: { promise: GoogleOAuth.logout() },
+        commit: { type: LOGOUT_COMMIT }
+      }
     }
-    return dispatch({
-      type: LOGOUT_COMMIT
-    });
-  };
+  });
 }
