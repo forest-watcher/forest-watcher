@@ -314,12 +314,12 @@ class Map extends Component {
 
     navigator.geolocation.getCurrentPosition(
       (location) => {
-        const coords = {
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude
-        };
+        const coords = typeof location.coords !== 'undefined' ? location.coords : location;
         this.setState({
-          lastPosition: coords
+          lastPosition: {
+            latitude: coords.latitude,
+            longitude: coords.longitude
+          }
         });
       },
       (error) => console.info(error),
@@ -331,14 +331,14 @@ class Map extends Component {
     this.eventLocation = DeviceEventEmitter.addListener(
       'locationUpdated',
       throttle((location) => {
-        const coords = {
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude
-        };
+        const coords = typeof location.coords !== 'undefined' ? location.coords : location;
         const { lastPosition } = this.state;
         if (lastPosition && lastPosition.latitude !== coords.latitude &&
           lastPosition.longitude !== coords.longitude) {
-          this.setState({ lastPosition: coords });
+          this.setState({ lastPosition: {
+            latitude: coords.latitude,
+            longitude: coords.longitude
+          } });
         }
       }, 300)
     );
@@ -540,10 +540,95 @@ class Map extends Component {
   }
 
   render() {
-    const { hasCompass, lastPosition, compassFallback, selectedAlerts, neighbours } = this.state;
+    const { hasCompass, lastPosition, compassFallback,
+            selectedAlerts, neighbours, heading } = this.state;
     const { areaCoordinates, datasetSlug } = this.props;
     const showCompassFallback = !hasCompass && lastPosition && selectedAlerts && compassFallback;
     const lastAlertIndex = selectedAlerts.length - 1;
+
+    // Map elements
+    const basemapLayerElement = (<MapView.UrlTile
+      urlTemplate={URL_BASEMAP_TEMPLATE}
+      zIndex={-1}
+    />);
+    const compassFallbackElement = showCompassFallback ? (<MapView.Polyline
+      coordinates={compassFallback}
+      strokeColor={Theme.colors.color5}
+      strokeWidth={2}
+    />) : null;
+    const areaPolygonElement = areaCoordinates ? (
+      <MapView.Polyline
+        coordinates={areaCoordinates}
+        strokeColor={Theme.colors.color1}
+        strokeWidth={2}
+      />
+    ) : null;
+    const userPositionElement = lastPosition ? (
+      <MapView.Marker.Animated
+        key="lastPosition"
+        image={markerImage}
+        coordinate={lastPosition}
+        style={{ zIndex: 2 }}
+        anchor={{ x: 0.5, y: 0.5 }}
+        pointerEvents={'none'}
+      />
+    ) : null;
+    const compassElement = lastPosition && heading ? (
+      <MapView.Marker
+        key={'compass'}
+        coordinate={lastPosition}
+        zIndex={1}
+        anchor={{ x: 0.5, y: 0.5 }}
+        pointerEvents={'none'}
+      >
+        <Animated.Image
+          style={{
+            width: 94,
+            height: 94,
+            transform: [
+              { rotate: `${heading || '0'}deg` }
+            ]
+          }}
+          source={compassImage}
+        />
+      </MapView.Marker>
+    ) : null;
+    const neighboursAlertsElement = neighbours && neighbours.length > 0
+      ? (neighbours.map((neighbour, i) => (
+        <MapView.Marker
+          key={`neighbour-marker-${i}`}
+          coordinate={neighbour}
+          anchor={{ x: 0.5, y: 0.5 }}
+          onPress={() => this.includeNeighbour(neighbour)}
+          zIndex={10}
+        >
+          <View style={[styles.markerIcon, styles.markerIconArea]} />
+        </MapView.Marker>
+      )))
+      : null;
+    const selectedAlertsElement = selectedAlerts && selectedAlerts.length > 0
+      ? (selectedAlerts.map((alert, i) => (
+        <MapView.Marker
+          key={`selected-alert-marker-${i}`}
+          coordinate={alert}
+          anchor={{ x: 0.5, y: 0.5 }}
+          pointerEvents="none"
+          onPress={() => this.removeSelection(alert)}
+          zIndex={20}
+        >
+          <View style={styles.markerIcon} />
+        </MapView.Marker>
+      )))
+      : null;
+    const clustersElement = datasetSlug ? (
+      <Clusters
+        key="clusters"
+        markers={this.state.markers}
+        selectAlert={this.selectAlert}
+        zoomTo={this.zoomTo}
+        datasetSlug={datasetSlug}
+      />
+    ) : null;
     return (
       this.state.renderMap
       ?
@@ -568,92 +653,14 @@ class Map extends Component {
             moveOnMarkerPress={false}
             onPress={e => this.mapPress(e.nativeEvent.coordinate)}
           >
-            <MapView.UrlTile
-              urlTemplate={URL_BASEMAP_TEMPLATE}
-              zIndex={-1}
-            />
-            {datasetSlug &&
-              <Clusters
-                key="clusters"
-                markers={this.state.markers}
-                selectAlert={this.selectAlert}
-                zoomTo={this.zoomTo}
-                datasetSlug={datasetSlug}
-              />
-            }
-            {showCompassFallback &&
-              <MapView.Polyline
-                coordinates={this.state.compassFallback}
-                strokeColor={Theme.colors.color5}
-                strokeWidth={2}
-              />
-            }
-            {areaCoordinates &&
-              <MapView.Polyline
-                coordinates={areaCoordinates}
-                strokeColor={Theme.colors.color1}
-                strokeWidth={2}
-              />
-            }
-            {this.state.lastPosition &&
-              <MapView.Marker.Animated
-                key="lastPosition"
-                image={markerImage}
-                coordinate={this.state.lastPosition}
-                style={{ zIndex: 2 }}
-                anchor={{ x: 0.5, y: 0.5 }}
-                pointerEvents={'none'}
-              />
-            }
-            {this.state.lastPosition && this.state.heading
-              ?
-                <MapView.Marker
-                  key={'compass'}
-                  coordinate={this.state.lastPosition}
-                  zIndex={1}
-                  anchor={{ x: 0.5, y: 0.5 }}
-                  pointerEvents={'none'}
-                >
-                  <Animated.Image
-                    style={{
-                      width: 94,
-                      height: 94,
-                      transform: [
-                        { rotate: `${this.state.heading ? this.state.heading : '0'}deg` }
-                      ]
-                    }}
-                    source={compassImage}
-                  />
-                </MapView.Marker>
-              : null
-            }
-            {neighbours && neighbours.length > 0 &&
-              neighbours.map((neighbour, i) => (
-                <MapView.Marker
-                  key={`neighbour-marker-${i}`}
-                  coordinate={neighbour}
-                  anchor={{ x: 0.5, y: 0.5 }}
-                  onPress={() => this.includeNeighbour(neighbour)}
-                  zIndex={10}
-                >
-                  <View style={[styles.markerIcon, styles.markerIconArea]} />
-                </MapView.Marker>
-              ))
-            }
-            {selectedAlerts && selectedAlerts.length > 0 &&
-              selectedAlerts.map((alert, i) => (
-                <MapView.Marker
-                  key={`selected-alert-marker-${i}`}
-                  coordinate={alert}
-                  anchor={{ x: 0.5, y: 0.5 }}
-                  pointerEvents="none"
-                  onPress={() => this.removeSelection(alert)}
-                  zIndex={20}
-                >
-                  <View style={styles.markerIcon} />
-                </MapView.Marker>
-              ))
-            }
+            {basemapLayerElement}
+            {clustersElement}
+            {compassFallbackElement}
+            {areaPolygonElement}
+            {userPositionElement}
+            {compassElement}
+            {neighboursAlertsElement}
+            {selectedAlertsElement}
           </MapView>
           <AreaCarousel
             navigator={this.props.navigator}
