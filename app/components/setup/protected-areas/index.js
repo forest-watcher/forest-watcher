@@ -251,6 +251,7 @@ class ProtectedAreas extends Component {
           >
             <ActionButton
               light
+              left
               style={styles.footerButton}
               onPress={this.onAreaSelected}
               text={this.state.wdpa ? this.state.wdpa.name : ''}

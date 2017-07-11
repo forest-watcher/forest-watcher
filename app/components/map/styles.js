@@ -79,8 +79,7 @@ export default StyleSheet.create({
   footer: {
     left: 0,
     right: 0,
-    bottom: 0,
-    height: 164,
+    bottom: 8,
     zIndex: 3,
     position: 'absolute'
   },
@@ -109,25 +108,20 @@ export default StyleSheet.create({
   },
   btnContainer: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
+    marginTop: 8,
+    marginBottom: 8
   },
   footerButton: {
-    flex: 1,
-    marginLeft: 4,
-    marginRight: 4,
+    height: 64,
+    marginLeft: 8,
+    marginRight: 8,
     zIndex: 4
   },
   footerButton1: {
-    flex: 1,
-    marginRight: 4,
-    marginLeft: 8
+    marginBottom: 4
   },
   footerButton2: {
-    flex: 1,
-    marginLeft: 4,
-    marginRight: 8
+    marginTop: 4
   },
   coordinateDistanceText: {
     fontFamily: Theme.font,

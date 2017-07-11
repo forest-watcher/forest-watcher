@@ -484,14 +484,19 @@ class Map extends Component {
         ? [
           <ActionBtn
             key="1"
-            style={styles.footerButton1}
-            text={I18n.t('report.title')}
+            left
+            icon="reportSingle"
+            style={[styles.footerButton, styles.footerButton1]}
+            text={I18n.t('report.selected').toUpperCase()}
             onPress={this.reportSelection}
           />,
           <ActionBtn
             key="2"
-            style={styles.footerButton2}
-            text={I18n.t('report.area')}
+            left
+            monochrome
+            icon="reportArea"
+            style={[styles.footerButton, styles.footerButton2]}
+            text={I18n.t('report.area').toUpperCase()}
             onPress={this.reportArea}
           />
         ]
