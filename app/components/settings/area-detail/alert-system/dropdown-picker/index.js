@@ -16,16 +16,16 @@ const VIIRS_OPTIONS = [
     value: 1
   },
   {
-    label: 'settings.24hAgo',
-    value: 1
+    label: 'settings.48hAgo',
+    value: 2
   },
   {
-    label: 'settings.24hAgo',
-    value: 1
+    label: 'settings.72hAgo',
+    value: 3
   },
   {
-    label: 'settings.24hAgo',
-    value: 1
+    label: 'settings.oneWeekAgo',
+    value: 7
   }
 ];
 const GLAD_OPTIONS = [
@@ -65,7 +65,7 @@ class DropdownPicker extends Component {
           <Picker
             selectedValue={this.props.startDate}
             onValueChange={(days) => this.handleRangeChange(days)}
-            itemStyle={{ height: 72 }}
+            itemStyle={{ height: 72 }} // Only for iOS platform
           >
             {this.getPickerOptions()}
           </Picker>
