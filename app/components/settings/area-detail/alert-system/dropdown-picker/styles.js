@@ -15,7 +15,6 @@ export default StyleSheet.create({
     flexDirection: 'column'
   },
   pickerContainer: {
-    height: 72,
     overflow: 'hidden'
   }
 });

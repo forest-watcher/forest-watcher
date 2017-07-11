@@ -36,7 +36,7 @@ class Settings extends Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props.areas.length === 0) {
+    if (props.areas.length === 0 && props.loggedIn) {
       props.navigator.push({
         screen: 'ForestWatcher.Setup'
       });
@@ -162,6 +162,7 @@ class Settings extends Component {
 
 Settings.propTypes = {
   user: PropTypes.any,
+  loggedIn: PropTypes.bool, // eslint-disable-line
   areas: PropTypes.any,
   navigator: PropTypes.object.isRequired,
   logout: PropTypes.func.isRequired
