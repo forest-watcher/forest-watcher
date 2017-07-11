@@ -39,7 +39,7 @@ export default function reducer(state = initialState, action) {
 export function getUserLayers() {
   return (dispatch, state) => {
     const layers = state().layers.data;
-    const url = `${Config.API_URL}/contextual-layer`;
+    const url = `${Config.API_URL}/contextual-layer/?enabled=true`;
     return dispatch({
       type: GET_LAYERS_REQUEST,
       meta: {
