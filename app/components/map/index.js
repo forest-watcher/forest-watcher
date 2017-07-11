@@ -48,7 +48,7 @@ const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
 
-const saveReportIcon = require('assets/save_for_later.png');
+const layersIcon = require('assets/layers.png');
 
 function renderLoading() {
   return (
@@ -99,7 +99,7 @@ class Map extends Component {
 
   static navigatorButtons = {
     rightButtons: [
-      { icon: saveReportIcon, id: 'contextualLayers' }
+      { icon: layersIcon, id: 'contextualLayers' }
     ]
   };
 
