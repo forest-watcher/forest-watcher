@@ -6,8 +6,7 @@ import {
   View
 } from 'react-native';
 
-const alertGlad = require('assets/alert-glad.png');
-const alertViirs = require('assets/alert-viirs.png');
+import styles from './styles';
 
 class Clusters extends PureComponent {
   render() {
@@ -25,12 +24,18 @@ class Clusters extends PureComponent {
             <MapView.Marker
               key={`Alert-marker-${index}`}
               coordinate={coordinates}
-              image={this.props.datasetSlug === 'viirs' ? alertViirs : alertGlad}
+              anchor={{ x: 0.5, y: 0.5 }}
               onPress={() => this.props.selectAlert(coordinates)}
               zIndex={1}
               draggable={false}
-              anchor={{ x: 0.5, y: 0.5 }}
-            />
+            >
+              <View
+                style={[
+                  styles.markerIcon,
+                  this.props.datasetSlug === 'viirs' ? styles.viirsColor : styles.gladColor
+                ]}
+              />
+            </MapView.Marker>
           );
         })}
       </View>

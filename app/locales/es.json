@@ -137,6 +137,7 @@
   "report": {
     "title": "Informe",
     "plural": "Informes",
+    "area": "Report area",
     "takePicture": "Toma una foto",
     "datePlaceholder": "Seleccione una fecha",
     "saveLaterTitle": "Guardar para más adelante",

@@ -19,7 +19,7 @@ import throttle from 'lodash/throttle';
 import moment from 'moment';
 
 import Theme from 'config/theme';
-// import { daysToDate } from 'helpers/date';
+import { getAllNeighbours } from 'helpers/map';
 import ActionBtn from 'components/common/action-button';
 import AreaCarousel from 'containers/map/area-carousel/';
 import Clusters from 'components/map/clusters/';
@@ -44,7 +44,6 @@ const basemap = PixelRatio.get() >= 2 ? CONSTANTS.maps.basemapHD : CONSTANTS.map
 const URL_BASEMAP_TEMPLATE = `${basemap}?access_token=${Config.MAPBOX_TOKEN}`;
 
 const markerImage = require('assets/marker.png');
-const alertWhite = require('assets/alert-white.png');
 const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
@@ -59,6 +58,30 @@ function renderLoading() {
       />
     </View>
   );
+}
+
+function pointsFromCluster(cluster) {
+  if (!cluster || !cluster.length > 0) return [];
+  return cluster
+    .filter((marker) => marker.properties.point_count === undefined)
+    .map((feature) => ({
+      longitude: feature.geometry.coordinates[0],
+      latitude: feature.geometry.coordinates[1]
+    }));
+}
+
+function getNeighboursSelected(selectedAlerts, markers) {
+  let neighbours = [];
+  const screenPoints = pointsFromCluster(markers);
+
+  selectedAlerts.forEach((alert) => {
+    neighbours = [...neighbours, ...getAllNeighbours(alert, screenPoints)];
+  });
+  // Remove duplicates
+  neighbours = neighbours.filter((alert, index, self) => (
+    self.findIndex((t) => (t.latitude === alert.latitude && t.longitude === alert.longitude)) === index
+  ));
+  return neighbours;
 }
 
 class Map extends Component {
@@ -94,7 +117,9 @@ class Map extends Component {
         longitudeDelta: LONGITUDE_DELTA
       },
       urlTile: null,
-      markers: []
+      markers: [],
+      selectedAlerts: [],
+      neighbours: []
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
@@ -113,7 +138,7 @@ class Map extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (this.state.selectedAlertCoordinates !== nextState.selectedAlertCoordinates && this.state.lastPosition !== null) {
+    if (this.state.selectedAlerts !== nextState.selectedAlerts && this.state.lastPosition !== null) {
       this.setCompassLine();
     }
   }
@@ -122,7 +147,7 @@ class Map extends Component {
     if (this.props.areaCoordinates !== prevProps.areaCoordinates) {
       this.updateSelectedArea();
     }
-    if (this.state.selectedAlertCoordinates !== prevState.selectedAlertCoordinates) {
+    if (this.state.selectedAlerts !== prevState.selectedAlerts) {
       this.setHeaderTitle();
     }
   }
@@ -191,13 +216,14 @@ class Map extends Component {
   setCompassLine = () => {
     this.setState((prevState) => {
       const state = {};
-      if (prevState.selectedAlertCoordinates !== null) {
+      if (prevState.selectedAlerts && prevState.selectedAlerts.length > 0) {
+        const last = this.state.selectedAlerts.length - 1;
         // extract not needed props
         // eslint-disable-next-line no-unused-vars
         const { accuracy, altitude, speed, course, ...rest } = this.state.lastPosition;
-        state.compassFallback = [{ ...rest }, { ...this.state.selectedAlertCoordinates }];
+        state.compassFallback = [{ ...rest }, { ...this.state.selectedAlerts[last] }];
       }
-      if (prevState.compassFallback !== null && prevState.selectedAlertCoordinates === null) {
+      if (prevState.compassFallback !== null && prevState.selectedAlerts.length === 0) {
         state.compassFallback = null;
       }
       return state;
@@ -205,9 +231,10 @@ class Map extends Component {
   }
 
   setHeaderTitle = () => {
-    const { selectedAlertCoordinates } = this.state;
-    const headerText = selectedAlertCoordinates
-      ? `${selectedAlertCoordinates.latitude.toFixed(4)}, ${selectedAlertCoordinates.longitude.toFixed(4)}`
+    const { selectedAlerts } = this.state;
+    const last = this.state.selectedAlerts.length - 1;
+    const headerText = selectedAlerts && selectedAlerts.length > 0
+      ? `${selectedAlerts[last].latitude.toFixed(4)}, ${selectedAlerts[last].longitude.toFixed(4)}`
       : I18n.t('dashboard.map');
     this.props.navigator.setTitle({
       title: headerText
@@ -225,13 +252,23 @@ class Map extends Component {
     this.setState({ markers });
   }
 
-  createReport = () => {
-    const { selectedAlertCoordinates } = this.state;
+  reportSelection = () => {
+    this.createReport(this.state.selectedAlerts);
+  }
+
+  reportArea = () => {
+    this.createReport([...this.state.selectedAlerts, ...this.state.neighbours]);
+  }
+
+  createReport = (selectedAlerts) => {
     this.props.setCanDisplayAlerts(false);
     const { area } = this.props;
-    let latLng = '0,0';
-    if (selectedAlertCoordinates) {
-      latLng = `${selectedAlertCoordinates.latitude},${selectedAlertCoordinates.longitude}`;
+    let latLng = [];
+    if (selectedAlerts && selectedAlerts.length > 0) {
+      latLng = selectedAlerts.map((alert) => ({
+        lat: alert.latitude,
+        lon: alert.longitude
+      }));
     }
     const screen = 'ForestWatcher.NewReport';
     const title = 'Report';
@@ -240,7 +277,7 @@ class Map extends Component {
       area,
       name: form,
       userPosition: this.lastPosition || '0,0',
-      clickedPosition: latLng
+      clickedPosition: JSON.stringify(latLng)
     });
     this.props.navigator.push({
       screen,
@@ -339,27 +376,91 @@ class Map extends Component {
     });
   }
 
+  zoomScale = () => {
+    const zoomLevel = this.getMapZoom();
+    switch (true) {
+      case zoomLevel < 6:
+        return 16;
+      case zoomLevel < 8:
+        return 10;
+      case zoomLevel < 10:
+        return 8;
+      case zoomLevel < 14:
+        return 4;
+      default:
+        return 2;
+    }
+  }
+
   zoomTo = (coordinates) => {
+    const zoomScale = this.zoomScale();
     const zoomCoordinates = {
       latitude: coordinates.latitude,
       longitude: coordinates.longitude,
-      latitudeDelta: this.state.region.latitudeDelta / 2,
-      longitudeDelta: this.state.region.longitudeDelta / 2
+      latitudeDelta: this.state.region.latitudeDelta / zoomScale,
+      longitudeDelta: this.state.region.longitudeDelta / zoomScale
     };
     this.map.animateToRegion(zoomCoordinates);
   }
 
+  mapPress = (coordinate) => {
+    const { selectedAlerts } = this.state;
+    this.setState({
+      neighbours: [],
+      selectedAlerts: selectedAlerts && selectedAlerts.length > 0 ? [] : [coordinate]
+    });
+  }
+
   selectAlert = (coordinate) => {
+    const { markers } = this.state;
+    let selectedAlerts = [...this.state.selectedAlerts];
+    let neighbours = [];
     if (coordinate) {
-      this.setState((state) => ({
-        selectedAlertCoordinates: state.selectedAlertCoordinates ? null : coordinate
-      }));
+      if (selectedAlerts && selectedAlerts.length > 0) {
+        selectedAlerts.push(coordinate);
+      } else {
+        selectedAlerts = [coordinate];
+      }
+      neighbours = getNeighboursSelected(selectedAlerts, markers);
+      this.setState({
+        neighbours,
+        selectedAlerts
+      });
     }
+  }
+
+  removeSelection = (coordinate) => {
+    this.setState((state) => {
+      let neighbours = [];
+      if (state.selectedAlerts && state.selectedAlerts.length > 0) {
+        const selectedAlerts = state.selectedAlerts.filter((alert) => (
+          alert.latitude !== coordinate.latitude || alert.longitude !== coordinate.longitude
+        ));
+        neighbours = selectedAlerts.length > 0 ? getNeighboursSelected(selectedAlerts, state.markers) : [];
+        return {
+          neighbours,
+          selectedAlerts
+        };
+      }
+      return { selectedAlerts: [] };
+    });
+  }
+
+  includeNeighbour = (coordinate) => {
+    this.setState((state) => {
+      const selectedAlerts = [...state.selectedAlerts, coordinate];
+      const neighbours = getNeighboursSelected(selectedAlerts, state.markers);
+      return {
+        neighbours,
+        selectedAlerts
+      };
+    });
   }
 
   updateSelectedArea = () => {
     this.setState({
-      selectedAlertCoordinates: null
+      neighbours: [],
+      selectedAlerts: []
     }, () => {
       this.updateMarkers();
       const margin = Platform.OS === 'ios' ? 150 : 250;
@@ -377,20 +478,40 @@ class Map extends Component {
   }
 
   renderFooter() {
-    const reportBtn = (
-      <ActionBtn
-        style={styles.footerButton}
-        text={I18n.t('report.title')}
-        onPress={this.createReport}
-      />
-    );
+    const getButtons = () => {
+      const { neighbours } = this.state;
+      return neighbours && neighbours.length > 0
+        ? [
+          <ActionBtn
+            key="1"
+            style={styles.footerButton1}
+            text={I18n.t('report.title')}
+            onPress={this.reportSelection}
+          />,
+          <ActionBtn
+            key="2"
+            style={styles.footerButton2}
+            text={I18n.t('report.area')}
+            onPress={this.reportArea}
+          />
+        ]
+        : (
+          <ActionBtn
+            style={styles.footerButton}
+            text={I18n.t('report.title')}
+            onPress={this.reportSelection}
+          />
+        );
+    };
     return (
       <View pointerEvents="box-none" style={styles.footer}>
         <Image
           style={styles.footerBg}
           source={backgroundImage}
         />
-        {reportBtn}
+        <View style={styles.btnContainer}>
+          {getButtons()}
+        </View>
       </View>
     );
   }
@@ -419,9 +540,10 @@ class Map extends Component {
   }
 
   render() {
-    const { hasCompass, lastPosition, compassFallback, selectedAlertCoordinates } = this.state;
+    const { hasCompass, lastPosition, compassFallback, selectedAlerts, neighbours } = this.state;
     const { areaCoordinates, datasetSlug } = this.props;
-    const showCompassFallback = !hasCompass && lastPosition && selectedAlertCoordinates && compassFallback;
+    const showCompassFallback = !hasCompass && lastPosition && selectedAlerts && compassFallback;
+    const lastAlertIndex = selectedAlerts.length - 1;
     return (
       this.state.renderMap
       ?
@@ -444,7 +566,7 @@ class Map extends Component {
             onRegionChangeComplete={this.updateRegion}
             onLayout={this.onLayout}
             moveOnMarkerPress={false}
-            onPress={e => this.selectAlert(e.nativeEvent.coordinate)}
+            onPress={e => this.mapPress(e.nativeEvent.coordinate)}
           >
             <MapView.UrlTile
               urlTemplate={URL_BASEMAP_TEMPLATE}
@@ -505,23 +627,40 @@ class Map extends Component {
                 </MapView.Marker>
               : null
             }
-            {selectedAlertCoordinates &&
-              <MapView.Marker
-                key={'selectedAlert'}
-                coordinate={selectedAlertCoordinates}
-                image={alertWhite}
-                anchor={{ x: 0.5, y: 0.5 }}
-                zIndex={10}
-                onPress={() => this.selectAlert(selectedAlertCoordinates)}
-              />
+            {neighbours && neighbours.length > 0 &&
+              neighbours.map((neighbour, i) => (
+                <MapView.Marker
+                  key={`neighbour-marker-${i}`}
+                  coordinate={neighbour}
+                  anchor={{ x: 0.5, y: 0.5 }}
+                  onPress={() => this.includeNeighbour(neighbour)}
+                  zIndex={10}
+                >
+                  <View style={[styles.markerIcon, styles.markerIconArea]} />
+                </MapView.Marker>
+              ))
+            }
+            {selectedAlerts && selectedAlerts.length > 0 &&
+              selectedAlerts.map((alert, i) => (
+                <MapView.Marker
+                  key={`selected-alert-marker-${i}`}
+                  coordinate={alert}
+                  anchor={{ x: 0.5, y: 0.5 }}
+                  pointerEvents="none"
+                  onPress={() => this.removeSelection(alert)}
+                  zIndex={20}
+                >
+                  <View style={styles.markerIcon} />
+                </MapView.Marker>
+              ))
             }
           </MapView>
           <AreaCarousel
             navigator={this.props.navigator}
-            alertSelected={selectedAlertCoordinates}
+            alertSelected={selectedAlerts[lastAlertIndex]}
             lastPosition={this.state.lastPosition}
           />
-          {selectedAlertCoordinates
+          {selectedAlerts && selectedAlerts.length > 0
             ? this.renderFooter()
             : this.renderFooterLoading()
           }

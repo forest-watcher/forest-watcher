@@ -51,6 +51,16 @@ export default StyleSheet.create({
     zIndex: 2,
     resizeMode: 'contain'
   },
+  markerIcon: {
+    width: 18,
+    height: 18,
+    backgroundColor: 'rgba(255, 255, 255, 1)'
+  },
+  markerIconArea: {
+    borderWidth: 2,
+    borderColor: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: 'transparent'
+  },
   header: {
     left: 0,
     right: 0,
@@ -97,12 +107,27 @@ export default StyleSheet.create({
   footerSubtitle: {
     bottom: 20
   },
+  btnContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   footerButton: {
-    left: 8,
-    right: 8,
-    bottom: 28,
-    position: 'absolute',
+    flex: 1,
+    marginLeft: 4,
+    marginRight: 4,
     zIndex: 4
+  },
+  footerButton1: {
+    flex: 1,
+    marginRight: 4,
+    marginLeft: 8
+  },
+  footerButton2: {
+    flex: 1,
+    marginLeft: 4,
+    marginRight: 8
   },
   coordinateDistanceText: {
     fontFamily: Theme.font,
