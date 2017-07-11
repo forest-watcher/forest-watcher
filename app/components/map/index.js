@@ -589,6 +589,7 @@ class Map extends Component {
         coordinates={compassFallback}
         strokeColor={Theme.colors.color5}
         strokeWidth={2}
+        zIndex={2}
       />
     ) : null;
     const areaPolygonElement = areaCoordinates ? (
@@ -596,7 +597,7 @@ class Map extends Component {
         coordinates={areaCoordinates}
         strokeColor={Theme.colors.color1}
         strokeWidth={2}
-        zIndex={1}
+        zIndex={2}
       />
     ) : null;
     const userPositionElement = lastPosition ? (
@@ -604,7 +605,7 @@ class Map extends Component {
         key="lastPosition"
         image={markerImage}
         coordinate={lastPosition}
-        style={{ zIndex: 2 }}
+        style={{ zIndex: 3 }}
         anchor={{ x: 0.5, y: 0.5 }}
         pointerEvents={'none'}
       />
@@ -613,7 +614,7 @@ class Map extends Component {
       <MapView.Marker
         key={'compass'}
         coordinate={lastPosition}
-        zIndex={1}
+        zIndex={2}
         anchor={{ x: 0.5, y: 0.5 }}
         pointerEvents={'none'}
       >
