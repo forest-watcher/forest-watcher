@@ -1,5 +1,4 @@
 import Config from 'react-native-config';
-import { Platform } from 'react-native';
 import GoogleOAuth from 'config/oAuth/GoogleOAuth';
 
 // Actions
@@ -85,20 +84,13 @@ export function loginGoogle() {
 }
 
 export function logout() {
-  return (dispatch, state) => {
-    if (state().user.socialNetwork === 'google' && Platform.OS === 'android') {
-      return dispatch({
-        type: LOGOUT_REQUEST,
-        meta: {
-          offline: {
-            effect: { promise: GoogleOAuth.logout() },
-            commit: { type: LOGOUT_COMMIT }
-          }
-        }
-      });
+  return (dispatch) => dispatch({
+    type: LOGOUT_REQUEST,
+    meta: {
+      offline: {
+        effect: { promise: GoogleOAuth.logout() },
+        commit: { type: LOGOUT_COMMIT }
+      }
     }
-    return dispatch({
-      type: LOGOUT_COMMIT
-    });
-  };
+  });
 }

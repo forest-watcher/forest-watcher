@@ -6,6 +6,7 @@ import Settings from 'components/settings';
 function mapStateToProps(state) {
   return {
     user: state.user.data,
+    loggedIn: state.user.loggedIn,
     areas: state.areas.data
   };
 }
