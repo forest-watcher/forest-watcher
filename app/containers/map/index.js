@@ -3,6 +3,7 @@ import { createReport } from 'redux-modules/reports';
 import { setSyncModal } from 'redux-modules/app';
 import { setCanDisplayAlerts } from 'redux-modules/alerts';
 import tracker from 'helpers/googleAnalytics';
+import { pointsToGeoJSON } from 'helpers/map';
 import Map from 'components/map';
 import moment from 'moment';
 import { activeDataset } from 'helpers/area';
@@ -19,27 +20,6 @@ function getAreaCoordinates(areaFeature) {
       latitude: coordinate[1]
     }
   ));
-}
-
-function convertPoints(data) {
-  return {
-    type: 'MapCollection',
-    features: data.map((value) => ({
-      type: 'Map',
-      properties: {
-        lat: value.lat,
-        long: value.long,
-        date: value.date
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [
-          value.long,
-          value.lat
-        ]
-      }
-    }))
-  };
 }
 
 function createCluster(data) {
@@ -77,7 +57,7 @@ function mapStateToProps(state) {
       alerts = read(realm, 'Alert')
                       .filtered(`areaId = '${area.id}' AND slug = '${datasetSlug}' AND date > '${limitRange}'`)
                       .map((alert) => ({ lat: alert.lat, long: alert.long }));
-      const geoPoints = convertPoints(alerts);
+      const geoPoints = pointsToGeoJSON(alerts);
       cluster = geoPoints && createCluster(geoPoints);
     }
   }

@@ -12,6 +12,8 @@ export default {
   maps: {
     lat: 27.568640,
     lng: -33.461281,
+    basemap: 'https://api.mapbox.com/styles/v1/forestwatcher/cj4772tx20vsv2rrza5q3v0d4/tiles/256/{z}/{x}/{y}@2x',
+    basemapHD: 'https://api.mapbox.com/styles/v1/forestwatcher/cj4772tx20vsv2rrza5q3v0d4/tiles/{z}/{x}/{y}@2x',
     bbox: {
       type: 'Polygon',
       coordinates: [
@@ -57,5 +59,10 @@ export default {
     MOBILE: ['MOBILE', 'MOBILE_DUN', 'MOBILE_HIPRI', 'MOBILE_MMS', 'MOBILE_SUPL', 'CELL'],
     OTHER: ['BLUETOOTH', 'DUMMY', 'ETHERNET', 'VPN', 'WIMAX'],
     NONE: ['NONE', 'UNKNOWN']
+  },
+  datasets: {
+    VIIRS: 'viirs',
+    GLAD: 'glad'
   }
 };
+

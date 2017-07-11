@@ -41,7 +41,10 @@ DatasetOptions.propTypes = {
   dataset: PropTypes.shape({
     slug: PropTypes.string,
     cache: PropTypes.bool,
-    startDate: PropTypes.number
+    startDate: PropTypes.oneOf(
+      React.PropTypes.string,
+      React.PropTypes.number
+    )
   }),
   updateDate: PropTypes.func.isRequired,
   setAreaDatasetCache: PropTypes.func.isRequired

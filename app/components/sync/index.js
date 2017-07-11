@@ -94,8 +94,7 @@ class Sync extends Component {
 
   dismissModal = () => {
     this.props.setSyncModal(false);
-    // FIXME: this should only dismiss one modal
-    this.props.navigator.dismissAllModals();
+    this.props.navigator.dismissModal();
   }
 
   render() {

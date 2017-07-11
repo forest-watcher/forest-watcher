@@ -10,14 +10,16 @@ import {
   StatusBar,
   Image,
   Text,
-  Platform
+  Platform,
+  PixelRatio
 } from 'react-native';
+import Config from 'react-native-config';
 import CONSTANTS from 'config/constants';
 import throttle from 'lodash/throttle';
 import moment from 'moment';
 
 import Theme from 'config/theme';
-// import { daysToDate } from 'helpers/date';
+import { getAllNeighbours } from 'helpers/map';
 import ActionBtn from 'components/common/action-button';
 import AreaCarousel from 'containers/map/area-carousel/';
 import Clusters from 'components/map/clusters/';
@@ -38,9 +40,10 @@ const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 10;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+const basemap = PixelRatio.get() >= 2 ? CONSTANTS.maps.basemapHD : CONSTANTS.maps.basemap;
+const URL_BASEMAP_TEMPLATE = `${basemap}?access_token=${Config.MAPBOX_TOKEN}`;
 
 const markerImage = require('assets/marker.png');
-const alertWhite = require('assets/alert-white.png');
 const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
@@ -57,10 +60,35 @@ function renderLoading() {
   );
 }
 
+function pointsFromCluster(cluster) {
+  if (!cluster || !cluster.length > 0) return [];
+  return cluster
+    .filter((marker) => marker.properties.point_count === undefined)
+    .map((feature) => ({
+      longitude: feature.geometry.coordinates[0],
+      latitude: feature.geometry.coordinates[1]
+    }));
+}
+
+function getNeighboursSelected(selectedAlerts, markers) {
+  let neighbours = [];
+  const screenPoints = pointsFromCluster(markers);
+
+  selectedAlerts.forEach((alert) => {
+    neighbours = [...neighbours, ...getAllNeighbours(alert, screenPoints)];
+  });
+  // Remove duplicates
+  neighbours = neighbours.filter((alert, index, self) => (
+    self.findIndex((t) => (t.latitude === alert.latitude && t.longitude === alert.longitude)) === index
+  ));
+  return neighbours;
+}
+
 class Map extends Component {
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color5,
     navBarButtonColor: Theme.colors.color5,
+    drawUnderNavBar: true,
     topBarElevationShadowEnabled: false,
     navBarBackgroundColor: Theme.background.main,
     navBarTransparent: true,
@@ -89,7 +117,9 @@ class Map extends Component {
         longitudeDelta: LONGITUDE_DELTA
       },
       urlTile: null,
-      markers: []
+      markers: [],
+      selectedAlerts: [],
+      neighbours: []
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
@@ -108,7 +138,7 @@ class Map extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (this.state.selectedAlertCoordinates !== nextState.selectedAlertCoordinates && this.state.lastPosition !== null) {
+    if (this.state.selectedAlerts !== nextState.selectedAlerts && this.state.lastPosition !== null) {
       this.setCompassLine();
     }
   }
@@ -117,7 +147,7 @@ class Map extends Component {
     if (this.props.areaCoordinates !== prevProps.areaCoordinates) {
       this.updateSelectedArea();
     }
-    if (this.state.selectedAlertCoordinates !== prevState.selectedAlertCoordinates) {
+    if (this.state.selectedAlerts !== prevState.selectedAlerts) {
       this.setHeaderTitle();
     }
   }
@@ -163,7 +193,8 @@ class Map extends Component {
 
   onLayout = () => {
     if (this.hasSetCoordinates === false && this.props.areaCoordinates) {
-      const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
+      const margin = Platform.OS === 'ios' ? 150 : 250;
+      const options = { edgePadding: { top: margin, right: margin, bottom: margin, left: margin }, animated: false };
       this.map.fitToCoordinates(this.props.areaCoordinates, options);
       this.hasSetCoordinates = true;
     }
@@ -185,13 +216,14 @@ class Map extends Component {
   setCompassLine = () => {
     this.setState((prevState) => {
       const state = {};
-      if (prevState.selectedAlertCoordinates !== null) {
+      if (prevState.selectedAlerts && prevState.selectedAlerts.length > 0) {
+        const last = this.state.selectedAlerts.length - 1;
         // extract not needed props
         // eslint-disable-next-line no-unused-vars
         const { accuracy, altitude, speed, course, ...rest } = this.state.lastPosition;
-        state.compassFallback = [{ ...rest }, { ...this.state.selectedAlertCoordinates }];
+        state.compassFallback = [{ ...rest }, { ...this.state.selectedAlerts[last] }];
       }
-      if (prevState.compassFallback !== null && prevState.selectedAlertCoordinates === null) {
+      if (prevState.compassFallback !== null && prevState.selectedAlerts.length === 0) {
         state.compassFallback = null;
       }
       return state;
@@ -199,9 +231,10 @@ class Map extends Component {
   }
 
   setHeaderTitle = () => {
-    const { selectedAlertCoordinates } = this.state;
-    const headerText = selectedAlertCoordinates
-      ? `${selectedAlertCoordinates.latitude.toFixed(4)}, ${selectedAlertCoordinates.longitude.toFixed(4)}`
+    const { selectedAlerts } = this.state;
+    const last = this.state.selectedAlerts.length - 1;
+    const headerText = selectedAlerts && selectedAlerts.length > 0
+      ? `${selectedAlerts[last].latitude.toFixed(4)}, ${selectedAlerts[last].longitude.toFixed(4)}`
       : I18n.t('dashboard.map');
     this.props.navigator.setTitle({
       title: headerText
@@ -209,24 +242,33 @@ class Map extends Component {
   }
 
   updateMarkers() {
-    const markers = this.props.cluster && this.props.cluster.getClusters([
+    const clusters = this.props.cluster && this.props.cluster.getClusters([
       this.state.region.longitude - (this.state.region.longitudeDelta / 2),
       this.state.region.latitude - (this.state.region.latitudeDelta / 2),
       this.state.region.longitude + (this.state.region.longitudeDelta / 2),
       this.state.region.latitude + (this.state.region.latitudeDelta / 2)
     ], this.getMapZoom());
-    this.setState({
-      markers: markers || []
-    });
+    const markers = clusters || [];
+    this.setState({ markers });
   }
 
-  createReport = () => {
-    const { selectedAlertCoordinates } = this.state;
+  reportSelection = () => {
+    this.createReport(this.state.selectedAlerts);
+  }
+
+  reportArea = () => {
+    this.createReport([...this.state.selectedAlerts, ...this.state.neighbours]);
+  }
+
+  createReport = (selectedAlerts) => {
     this.props.setCanDisplayAlerts(false);
     const { area } = this.props;
-    let latLng = '0,0';
-    if (selectedAlertCoordinates) {
-      latLng = `${selectedAlertCoordinates.latitude},${selectedAlertCoordinates.longitude}`;
+    let latLng = [];
+    if (selectedAlerts && selectedAlerts.length > 0) {
+      latLng = selectedAlerts.map((alert) => ({
+        lat: alert.latitude,
+        lon: alert.longitude
+      }));
     }
     const screen = 'ForestWatcher.NewReport';
     const title = 'Report';
@@ -235,7 +277,7 @@ class Map extends Component {
       area,
       name: form,
       userPosition: this.lastPosition || '0,0',
-      clickedPosition: latLng
+      clickedPosition: JSON.stringify(latLng)
     });
     this.props.navigator.push({
       screen,
@@ -290,12 +332,14 @@ class Map extends Component {
       'locationUpdated',
       throttle((location) => {
         const coords = typeof location.coords !== 'undefined' ? location.coords : location;
-        this.setState({
-          lastPosition: {
+        const { lastPosition } = this.state;
+        if (lastPosition && lastPosition.latitude !== coords.latitude &&
+          lastPosition.longitude !== coords.longitude) {
+          this.setState({ lastPosition: {
             latitude: coords.latitude,
             longitude: coords.longitude
-          }
-        });
+          } });
+        }
       }, 300)
     );
 
@@ -332,31 +376,95 @@ class Map extends Component {
     });
   }
 
+  zoomScale = () => {
+    const zoomLevel = this.getMapZoom();
+    switch (true) {
+      case zoomLevel < 6:
+        return 16;
+      case zoomLevel < 8:
+        return 10;
+      case zoomLevel < 10:
+        return 8;
+      case zoomLevel < 14:
+        return 4;
+      default:
+        return 2;
+    }
+  }
+
   zoomTo = (coordinates) => {
+    const zoomScale = this.zoomScale();
     const zoomCoordinates = {
       latitude: coordinates.latitude,
       longitude: coordinates.longitude,
-      latitudeDelta: this.state.region.latitudeDelta / 2,
-      longitudeDelta: this.state.region.longitudeDelta / 2
+      latitudeDelta: this.state.region.latitudeDelta / zoomScale,
+      longitudeDelta: this.state.region.longitudeDelta / zoomScale
     };
     this.map.animateToRegion(zoomCoordinates);
   }
 
-  selectAlert = (e) => {
-    const { coordinate } = e.nativeEvent;
+  mapPress = (coordinate) => {
+    const { selectedAlerts } = this.state;
+    this.setState({
+      neighbours: [],
+      selectedAlerts: selectedAlerts && selectedAlerts.length > 0 ? [] : [coordinate]
+    });
+  }
+
+  selectAlert = (coordinate) => {
+    const { markers } = this.state;
+    let selectedAlerts = [...this.state.selectedAlerts];
+    let neighbours = [];
     if (coordinate) {
-      this.setState((state) => ({
-        selectedAlertCoordinates: state.selectedAlertCoordinates ? null : coordinate
-      }));
+      if (selectedAlerts && selectedAlerts.length > 0) {
+        selectedAlerts.push(coordinate);
+      } else {
+        selectedAlerts = [coordinate];
+      }
+      neighbours = getNeighboursSelected(selectedAlerts, markers);
+      this.setState({
+        neighbours,
+        selectedAlerts
+      });
     }
+  }
+
+  removeSelection = (coordinate) => {
+    this.setState((state) => {
+      let neighbours = [];
+      if (state.selectedAlerts && state.selectedAlerts.length > 0) {
+        const selectedAlerts = state.selectedAlerts.filter((alert) => (
+          alert.latitude !== coordinate.latitude || alert.longitude !== coordinate.longitude
+        ));
+        neighbours = selectedAlerts.length > 0 ? getNeighboursSelected(selectedAlerts, state.markers) : [];
+        return {
+          neighbours,
+          selectedAlerts
+        };
+      }
+      return { selectedAlerts: [] };
+    });
+  }
+
+  includeNeighbour = (coordinate) => {
+    this.setState((state) => {
+      const selectedAlerts = [...state.selectedAlerts, coordinate];
+      const neighbours = getNeighboursSelected(selectedAlerts, state.markers);
+      return {
+        neighbours,
+        selectedAlerts
+      };
+    });
   }
 
   updateSelectedArea = () => {
     this.setState({
-      selectedAlertCoordinates: null
+      neighbours: [],
+      selectedAlerts: []
     }, () => {
       this.updateMarkers();
-      const options = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
+      const margin = Platform.OS === 'ios' ? 150 : 250;
+      const options = { edgePadding: { top: margin, right: margin, bottom: margin, left: margin }, animated: false };
       if (this.map) this.map.fitToCoordinates(this.props.areaCoordinates, options);
     });
   }
@@ -370,20 +478,40 @@ class Map extends Component {
   }
 
   renderFooter() {
-    const reportBtn = (
-      <ActionBtn
-        style={styles.footerButton}
-        text={I18n.t('report.title')}
-        onPress={this.createReport}
-      />
-    );
+    const getButtons = () => {
+      const { neighbours } = this.state;
+      return neighbours && neighbours.length > 0
+        ? [
+          <ActionBtn
+            key="1"
+            style={styles.footerButton1}
+            text={I18n.t('report.title')}
+            onPress={this.reportSelection}
+          />,
+          <ActionBtn
+            key="2"
+            style={styles.footerButton2}
+            text={I18n.t('report.area')}
+            onPress={this.reportArea}
+          />
+        ]
+        : (
+          <ActionBtn
+            style={styles.footerButton}
+            text={I18n.t('report.title')}
+            onPress={this.reportSelection}
+          />
+        );
+    };
     return (
-      <View style={styles.footer}>
+      <View pointerEvents="box-none" style={styles.footer}>
         <Image
           style={styles.footerBg}
           source={backgroundImage}
         />
-        {reportBtn}
+        <View style={styles.btnContainer}>
+          {getButtons()}
+        </View>
       </View>
     );
   }
@@ -412,13 +540,19 @@ class Map extends Component {
   }
 
   render() {
-    const { hasCompass, lastPosition, compassFallback, selectedAlertCoordinates } = this.state;
+    const { hasCompass, lastPosition, compassFallback,
+            selectedAlerts, neighbours, heading } = this.state;
     const { areaCoordinates, datasetSlug } = this.props;
-    const showCompassFallback = !hasCompass && lastPosition && selectedAlertCoordinates && compassFallback;
+    const showCompassFallback = !hasCompass && lastPosition && selectedAlerts && compassFallback;
+    const lastAlertIndex = selectedAlerts.length - 1;
 
     // Map elements
+    const basemapLayerElement = (<MapView.UrlTile
+      urlTemplate={URL_BASEMAP_TEMPLATE}
+      zIndex={-1}
+    />);
     const compassFallbackElement = showCompassFallback ? (<MapView.Polyline
-      coordinates={this.state.compassFallback}
+      coordinates={compassFallback}
       strokeColor={Theme.colors.color5}
       strokeWidth={2}
     />) : null;
@@ -429,19 +563,20 @@ class Map extends Component {
         strokeWidth={2}
       />
     ) : null;
-    const userPositionElement = this.state.lastPosition ? (
+    const userPositionElement = lastPosition ? (
       <MapView.Marker.Animated
+        key="lastPosition"
         image={markerImage}
-        coordinate={this.state.lastPosition}
+        coordinate={lastPosition}
         style={{ zIndex: 2 }}
         anchor={{ x: 0.5, y: 0.5 }}
         pointerEvents={'none'}
       />
     ) : null;
-    const compassElement = this.state.lastPosition && this.state.heading ? (
+    const compassElement = lastPosition && heading ? (
       <MapView.Marker
         key={'compass'}
-        coordinate={this.state.lastPosition}
+        coordinate={lastPosition}
         zIndex={1}
         anchor={{ x: 0.5, y: 0.5 }}
         pointerEvents={'none'}
@@ -451,24 +586,43 @@ class Map extends Component {
             width: 94,
             height: 94,
             transform: [
-              { rotate: `${this.state.heading ? this.state.heading : '0'}deg` }
+              { rotate: `${heading || '0'}deg` }
             ]
           }}
           source={compassImage}
         />
       </MapView.Marker>
     ) : null;
-    const newSelectedAlert = selectedAlertCoordinates ? (
-      <MapView.Marker
-        key={'selectedAlert'}
-        coordinate={selectedAlertCoordinates}
-        image={alertWhite}
-        anchor={{ x: 0.5, y: 0.5 }}
-        zIndex={10}
-      />
-    ) : null;
+    const neighboursAlertsElement = neighbours && neighbours.length > 0
+      ? (neighbours.map((neighbour, i) => (
+        <MapView.Marker
+          key={`neighbour-marker-${i}`}
+          coordinate={neighbour}
+          anchor={{ x: 0.5, y: 0.5 }}
+          onPress={() => this.includeNeighbour(neighbour)}
+          zIndex={10}
+        >
+          <View style={[styles.markerIcon, styles.markerIconArea]} />
+        </MapView.Marker>
+      )))
+      : null;
+    const selectedAlertsElement = selectedAlerts && selectedAlerts.length > 0
+      ? (selectedAlerts.map((alert, i) => (
+        <MapView.Marker
+          key={`selected-alert-marker-${i}`}
+          coordinate={alert}
+          anchor={{ x: 0.5, y: 0.5 }}
+          pointerEvents="none"
+          onPress={() => this.removeSelection(alert)}
+          zIndex={20}
+        >
+          <View style={styles.markerIcon} />
+        </MapView.Marker>
+      )))
+      : null;
     const clustersElement = datasetSlug ? (
       <Clusters
+        key="clusters"
         markers={this.state.markers}
         selectAlert={this.selectAlert}
         zoomTo={this.zoomTo}
@@ -479,31 +633,41 @@ class Map extends Component {
       this.state.renderMap
       ?
         <View style={styles.container}>
+          <View pointerEvents="none" style={styles.header}>
+            <Image
+              style={styles.headerBg}
+              source={backgroundImage}
+            />
+          </View>
           <MapView
             ref={(ref) => { this.map = ref; }}
             style={styles.map}
             provider={MapView.PROVIDER_GOOGLE}
-            mapType="hybrid"
+            mapType="none"
+            minZoomLevel={2}
+            maxZoomLevel={18}
             rotateEnabled={false}
             initialRegion={this.state.region}
             onRegionChangeComplete={this.updateRegion}
             onLayout={this.onLayout}
             moveOnMarkerPress={false}
-            onPress={this.selectAlert}
+            onPress={e => this.mapPress(e.nativeEvent.coordinate)}
           >
+            {basemapLayerElement}
             {clustersElement}
             {compassFallbackElement}
             {areaPolygonElement}
             {userPositionElement}
             {compassElement}
-            {newSelectedAlert}
+            {neighboursAlertsElement}
+            {selectedAlertsElement}
           </MapView>
           <AreaCarousel
             navigator={this.props.navigator}
-            alertSelected={selectedAlertCoordinates}
+            alertSelected={selectedAlerts[lastAlertIndex]}
             lastPosition={this.state.lastPosition}
           />
-          {selectedAlertCoordinates
+          {selectedAlerts && selectedAlerts.length > 0
             ? this.renderFooter()
             : this.renderFooterLoading()
           }
