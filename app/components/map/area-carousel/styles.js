@@ -71,7 +71,7 @@ export const styles = StyleSheet.create({
     color: Theme.fontColors.white
   },
   currentPositionContainer: {
-    bottom: 92,
+    bottom: 125,
     paddingLeft: Theme.margin.left,
     position: 'absolute',
     width: Theme.screen.width,
@@ -90,5 +90,8 @@ export const styles = StyleSheet.create({
     bottom: 10,
     right: 10,
     position: 'absolute'
+  },
+  footerZIndex: {
+    zIndex: 4
   }
 });

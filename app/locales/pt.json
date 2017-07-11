@@ -137,6 +137,7 @@
   "report": {
     "title": "Relatório",
     "plural": "Relatórios",
+    "area": "Report area",
     "takePicture": "Tire uma fotografia",
     "datePlaceholder": "Escolha uma data",
     "saveLaterTitle": "Guardar para mais tarde",

@@ -7,10 +7,14 @@ export default StyleSheet.create({
   },
   dateContainerLabel: {
     width: 120,
-    height: 22
+    height: 22,
+    overflow: 'hidden'
   },
   dateContainer: {
     flex: 1,
     flexDirection: 'column'
+  },
+  pickerContainer: {
+    overflow: 'hidden'
   }
 });

@@ -6,7 +6,7 @@ import { persistStore } from 'redux-persist';
 import effect from './effect';
 
 const persistNative = (store, options, callback) => (
-  persistStore(store, { storage: AsyncStorage, ...options }, callback) // .purge to clean the offline data
+  persistStore(store, { storage: AsyncStorage, ...options }, callback).purge() // .purge to clean the offline data
 );
 
 const config = params => ({
