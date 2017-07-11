@@ -168,9 +168,8 @@ class Map extends Component {
 
   onLayout = () => {
     if (this.hasSetCoordinates === false && this.props.areaCoordinates) {
-      const androidOptions = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
-      const iosOptions = { edgePadding: { top: 150, right: 150, bottom: 150, left: 150 }, animated: false };
-      const options = Platform.OS === 'ios' ? iosOptions : androidOptions;
+      const margin = Platform.OS === 'ios' ? 150 : 250;
+      const options = { edgePadding: { top: margin, right: margin, bottom: margin, left: margin }, animated: false };
       this.map.fitToCoordinates(this.props.areaCoordinates, options);
       this.hasSetCoordinates = true;
     }
@@ -363,9 +362,8 @@ class Map extends Component {
       selectedAlertCoordinates: null
     }, () => {
       this.updateMarkers();
-      const androidOptions = { edgePadding: { top: 250, right: 250, bottom: 250, left: 250 }, animated: false };
-      const iosOptions = { edgePadding: { top: 150, right: 150, bottom: 150, left: 150 }, animated: false };
-      const options = Platform.OS === 'ios' ? iosOptions : androidOptions;
+      const margin = Platform.OS === 'ios' ? 150 : 250;
+      const options = { edgePadding: { top: margin, right: margin, bottom: margin, left: margin }, animated: false };
       if (this.map) this.map.fitToCoordinates(this.props.areaCoordinates, options);
     });
   }
