@@ -3,6 +3,7 @@ import { getReportQuestions } from 'redux-modules/reports';
 import { syncAreas, UPDATE_AREA_REQUEST, SAVE_AREA_REQUEST } from 'redux-modules/areas';
 import { getCountries } from 'redux-modules/countries';
 import { getUser, LOGOUT_REQUEST } from 'redux-modules/user';
+import { getUserLayers } from 'redux-modules/layers';
 
 // Actions
 const SET_LANGUAGE = 'app/SET_LANGUAGE';
@@ -56,12 +57,13 @@ export function setSyncSkip(status) {
 }
 export function syncApp() {
   return (dispatch, state) => {
-    const { reports, feedback, user, countries } = state();
+    const { reports, feedback, user, countries, layers } = state();
     dispatch(syncAreas()); // syncAreas internally checks if it synced or not
     if (!user.synced && !user.syncing) dispatch(getUser());
     if (!reports.synced && !reports.syncing) dispatch(getReportQuestions());
     if (!feedback.synced.daily && !feedback.syncing.daily) dispatch(getFeedbackQuestions('daily'));
     if (!feedback.synced.weekly && !feedback.syncing.weekly) dispatch(getFeedbackQuestions('weekly'));
     if (!countries.synced && !countries.syncing) dispatch(getCountries());
+    if (!layers.synced && !countries.syncing) dispatch(getUserLayers());
   };
 }

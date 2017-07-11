@@ -19,10 +19,14 @@ export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_LAYERS_REQUEST:
       return { ...state, synced: false, syncing: true };
-    case GET_LAYERS_COMMIT:
-      return { ...state, synced: true, syncing: false };
-    case GET_LAYERS_ROLLBACK:
-      return { ...state, syncing: false };
+    case GET_LAYERS_COMMIT: {
+      const data = [...action.payload];
+      return { ...state, data, synced: true, syncing: false };
+    }
+    case GET_LAYERS_ROLLBACK: {
+      const data = [...action.meta.layers];
+      return { ...state, data, syncing: false };
+    }
     case SET_ACTIVE_LAYER:
       return { ...state, activeLayer: action.payload };
     case LOGOUT_REQUEST:
@@ -33,16 +37,19 @@ export default function reducer(state = initialState, action) {
 }
 
 export function getUserLayers() {
-  const url = `${Config.API_URL}/contextual-layer`;
-  return {
-    type: GET_LAYERS_REQUEST,
-    meta: {
-      offline: {
-        effect: { url },
-        commit: { type: GET_LAYERS_COMMIT },
-        rollback: { type: GET_LAYERS_ROLLBACK }
+  return (dispatch, state) => {
+    const layers = state().layers.data;
+    const url = `${Config.API_URL}/contextual-layer`;
+    return dispatch({
+      type: GET_LAYERS_REQUEST,
+      meta: {
+        offline: {
+          effect: { url },
+          commit: { type: GET_LAYERS_COMMIT },
+          rollback: { type: GET_LAYERS_ROLLBACK, meta: { layers } }
+        }
       }
-    }
+    });
   };
 }
 
