@@ -24,6 +24,7 @@ export default StyleSheet.create({
   },
   answersContainer: {
     backgroundColor: Theme.background.main,
+    flex: 1,
     paddingTop: 32
   },
   answersText: {
