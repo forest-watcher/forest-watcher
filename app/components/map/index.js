@@ -233,7 +233,7 @@ class Map extends Component {
 
   setHeaderTitle = () => {
     const { selectedAlerts } = this.state;
-    const last = this.state.selectedAlerts.length - 1;
+    const last = selectedAlerts.length - 1;
     const headerText = selectedAlerts && selectedAlerts.length > 0
       ? `${selectedAlerts[last].latitude.toFixed(4)}, ${selectedAlerts[last].longitude.toFixed(4)}`
       : I18n.t('dashboard.map');
@@ -405,24 +405,20 @@ class Map extends Component {
   }
 
   mapPress = (coordinate) => {
-    const { selectedAlerts } = this.state;
-    this.setState({
-      neighbours: [],
-      selectedAlerts: selectedAlerts && selectedAlerts.length > 0 ? [] : [coordinate]
-    });
+    if (coordinate) {
+      const { selectedAlerts } = this.state;
+      this.setState({
+        neighbours: [],
+        selectedAlerts: selectedAlerts && selectedAlerts.length > 0 ? [] : [coordinate]
+      });
+    }
   }
 
   selectAlert = (coordinate) => {
-    const { markers } = this.state;
-    let selectedAlerts = [...this.state.selectedAlerts];
-    let neighbours = [];
     if (coordinate) {
-      if (selectedAlerts && selectedAlerts.length > 0) {
-        selectedAlerts.push(coordinate);
-      } else {
-        selectedAlerts = [coordinate];
-      }
-      neighbours = getNeighboursSelected(selectedAlerts, markers);
+      const { markers } = this.state;
+      const selectedAlerts = [...this.state.selectedAlerts, coordinate];
+      const neighbours = getNeighboursSelected(selectedAlerts, markers);
       this.setState({
         neighbours,
         selectedAlerts
