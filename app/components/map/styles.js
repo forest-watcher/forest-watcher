@@ -80,13 +80,20 @@ export default StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    paddingBottom: 8,
     zIndex: 3,
+    position: 'absolute'
+  },
+  footerBGContainer: {
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 3,
+    height: 100,
     position: 'absolute'
   },
   footerBg: {
     width: Theme.screen.width,
-    height: 132,
+    height: 100,
     resizeMode: 'stretch',
     position: 'absolute',
     bottom: 0,

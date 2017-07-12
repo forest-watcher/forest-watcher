@@ -21,8 +21,7 @@ const entryBorderRadius = 8;
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#EDEAE2'
+    flex: 1
   },
   map: {
     flex: 1
@@ -60,31 +59,11 @@ export const styles = StyleSheet.create({
   },
   smallCarouselText: {
     fontFamily: Theme.font,
-    color: Theme.fontColors.secondary,
-    fontSize: 14,
+    color: Theme.fontColors.light,
+    fontSize: 16,
     fontWeight: '400',
     marginLeft: Theme.marginLeft * 2,
-    backgroundColor: 'transparent',
-    lineHeight: 22
-  },
-  coordinateDistanceText: {
-    color: Theme.fontColors.white
-  },
-  currentPositionContainer: {
-    bottom: 125,
-    paddingLeft: Theme.margin.left,
-    position: 'absolute',
-    width: Theme.screen.width,
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start'
-  },
-  currentPosition: {
-    paddingBottom: 10
-  },
-  lastUpdated: {
-    paddingTop: 3,
-    position: 'relative'
+    backgroundColor: 'transparent'
   },
   settingsButton: {
     bottom: 10,

@@ -21,7 +21,8 @@ import moment from 'moment';
 import Theme from 'config/theme';
 import { getAllNeighbours } from 'helpers/map';
 import ActionBtn from 'components/common/action-button';
-import AreaCarousel from 'containers/map/area-carousel/';
+import AlertPosition from 'components/map/alert-position';
+import AreaCarousel from 'containers/map/area-carousel';
 import Clusters from 'components/map/clusters/';
 import tracker from 'helpers/googleAnalytics';
 import I18n from 'locales';
@@ -503,43 +504,31 @@ class Map extends Component {
         : (
           <ActionBtn
             style={styles.footerButton}
-            text={I18n.t('report.title')}
+            text={I18n.t('report.title').toUpperCase()}
             onPress={this.reportSelection}
           />
         );
     };
     return (
-      <View pointerEvents="box-none" style={styles.footer}>
-        <Image
-          style={styles.footerBg}
-          source={backgroundImage}
-        />
-        <View style={styles.btnContainer}>
-          {getButtons()}
-        </View>
+      <View style={styles.btnContainer}>
+        {getButtons()}
       </View>
     );
   }
 
   renderFooterLoading() {
     return (!this.state.lastPosition &&
-      <View pointerEvents="box-none" style={styles.footer}>
-        <Image
-          style={styles.footerBg}
-          source={backgroundImage}
-        />
-        <View style={styles.signalNotice}>
-          <View style={styles.geoLocationContainer}>
-            <Image
-              style={styles.marker}
-              source={markerCompassRedImage}
-            />
-            <Animated.View
-              style={[styles.geoLocation, { opacity: this.state.geoMarkerOpacity }]}
-            />
-          </View>
-          <Text style={styles.signalNoticeText}>{I18n.t('alerts.satelliteSignal')}</Text>
+      <View pointerEvents="box-none" style={styles.signalNotice}>
+        <View style={styles.geoLocationContainer}>
+          <Image
+            style={styles.marker}
+            source={markerCompassRedImage}
+          />
+          <Animated.View
+            style={[styles.geoLocation, { opacity: this.state.geoMarkerOpacity }]}
+          />
         </View>
+        <Text style={styles.signalNoticeText}>{I18n.t('alerts.satelliteSignal')}</Text>
       </View>
     );
   }
@@ -550,6 +539,10 @@ class Map extends Component {
     const { areaCoordinates, datasetSlug } = this.props;
     const showCompassFallback = !hasCompass && lastPosition && selectedAlerts && compassFallback;
     const lastAlertIndex = selectedAlerts.length - 1;
+    const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
+    const hasNeighbours = neighbours && neighbours.length > 0;
+    let veilHeight = 100;
+    if (hasAlertsSelected) veilHeight = hasNeighbours ? 240 : 160;
 
     // Map elements
     const basemapLayerElement = (<MapView.UrlTile
@@ -667,15 +660,31 @@ class Map extends Component {
             {neighboursAlertsElement}
             {selectedAlertsElement}
           </MapView>
-          <AreaCarousel
-            navigator={this.props.navigator}
-            alertSelected={selectedAlerts[lastAlertIndex]}
-            lastPosition={this.state.lastPosition}
-          />
-          {selectedAlerts && selectedAlerts.length > 0
-            ? this.renderFooter()
-            : this.renderFooterLoading()
-          }
+          <View pointerEvents="box-none" style={[styles.footerBGContainer, { height: veilHeight }]}>
+            <Image
+              style={[styles.footerBg, { height: veilHeight }]}
+              source={backgroundImage}
+            />
+          </View>
+          <View pointerEvents="box-none" style={styles.footer}>
+            {hasAlertsSelected &&
+              <AlertPosition
+                alertSelected={selectedAlerts[lastAlertIndex]}
+                lastPosition={this.state.lastPosition}
+              />
+            }
+            {hasAlertsSelected
+              ? this.renderFooter()
+              : this.renderFooterLoading()
+            }
+            {!hasAlertsSelected &&
+              <AreaCarousel
+                navigator={this.props.navigator}
+                alertSelected={selectedAlerts[lastAlertIndex]}
+                lastPosition={this.state.lastPosition}
+              />
+            }
+          </View>
         </View>
       : renderLoading()
     );
