@@ -80,13 +80,20 @@ export default StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    height: 164,
     zIndex: 3,
+    position: 'absolute'
+  },
+  footerBGContainer: {
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 3,
+    height: 100,
     position: 'absolute'
   },
   footerBg: {
     width: Theme.screen.width,
-    height: 132,
+    height: 100,
     resizeMode: 'stretch',
     position: 'absolute',
     bottom: 0,
@@ -109,25 +116,20 @@ export default StyleSheet.create({
   },
   btnContainer: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
+    marginTop: 8,
+    marginBottom: 8
   },
   footerButton: {
-    flex: 1,
-    marginLeft: 4,
-    marginRight: 4,
+    height: 64,
+    marginLeft: 8,
+    marginRight: 8,
     zIndex: 4
   },
   footerButton1: {
-    flex: 1,
-    marginRight: 4,
-    marginLeft: 8
+    marginBottom: 4
   },
   footerButton2: {
-    flex: 1,
-    marginLeft: 4,
-    marginRight: 8
+    marginTop: 4
   },
   coordinateDistanceText: {
     fontFamily: Theme.font,

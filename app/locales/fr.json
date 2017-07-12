@@ -1,159 +1,160 @@
 {
-	"commonText": {
-		"appName": "Forest Watcher 2.0",
-		"next": "Suivant",
-    "save": "Enregistrer",
-    "boundaries": "Limites",
-    "delete": "Supprimer",
-		"back": "Précédent",
-		"finish": "Terminer",
-		"saving": "Sauvegarde",
-		"caching": "Mise en mémoire cache",
-		"setUp": "Configurer",
-    "cancel": "Annuler",
-    "confirm": "Confirmer",
-    "loading": "Chargement",
-    "notAvailable": "Indisponible",
-    "kmAway": "Km de distance",
-	  "lastUpdated": "Dernière mise à jour",
-    "name": "Nom",
-    "yourPosition": "Votre position",
-		"connectionRequiredTitle": "Pas de connexion",
-		"connectionRequired": "Une connexion internet est requise pour effectuer cette action",
-    "noImage": "Aucune image",
-    "cached": "en cache",
-    "noCached": "pas en cache",
-    "noAlertSystem": "Aucun système d'alerte sélectionné"
-	},
-	"home": {
-		"title": {
-			"updating": "Mise à jour des données...",
-			"outOfDate": "Vos alertes ne sont plus à jour",
-			"updated": "Mise à jour effectuée !"
-		},
-		"subtitle": {
-			"takesTime": "Cette opération peut durer plusieurs minutes",
-			"mobile": "Voulez-vous les mettre à jour via 3G ?",
-			"noConnection": "Une connexion internet est requise pour mettre à jour vos données",
-			"updated": "Les données ont été mises à jour !"
-		},
-		"skip": "passer",
-		"update": "mettre à jour"
-	},
-	"dashboard": {
-		"title": "Tableau de bord",
-		"alerts": "Mes alertes",
-		"reports": "Faire un rapport",
-		"myReports": "Mes rapports",
-		"uploadData": "Données sauvegardées",
-		"map": "Carte",
-    "dailyFeedback": "Donner un avis quotidien",
-    "weeklyFeedback": "Donner un avis hebdomadaire"
-	},
-	"login": {
-		"title": "S'identifier",
-		"unable": "L'authentification a échoué",
-		"connectionRequired": "Une connexion à Internet est requise",
-		"introductionText": "Connectez-vous avec un compte MyGFW",
-		"facebookTitle": "Facebook",
-		"twitterTitle": "Twitter",
-		"googleTitle": "Google",
-		"brazilTitle": "Brésil",
-		"colombiaTitle": "Colombie",
-		"indonesiaTitle": "Indonésie"
-	},
-	"countries": {
-		"searchPlaceholder": "Rechercher un pays"
-	},
-	"alerts": {
-    "title": "Mes Alertes",
-		"seeAll": "Tout voir",
-		"alert": "alerte",
-    "alertSystems": "Systèmes d'Alerte",
-    "downloadingAlerts": "Veuillez patienter pendant le téléchargement des données...",
-    "noAlerts": "Il n'y a pas d'alertes disponibles",
-    "satelliteSignal": "En attente du signal satellite ..."
-	},
-	"areaDetail": {
-    "title": "Détails de la zone",
-		"delete": "Supprimer cette zone",
-		"noAlerts": "Aucune alerte dans cette zone"
-	},
-	"boundaries": {
-		"chooseBoundaries": "Maintenant, choisissez les limites",
-		"selectProtectedArea": "Sélectionnez une zone protégée",
-		"drawArea": "Dessiner une zone"
-	},
-	"setupCountry": {
-		"welcomeText": "Bonjour",
-		"secondWelcomeText": "veuillez créer une zone",
-		"firstInstruction": "Tout d'abord, sélectionnez le pays qui vous intéresse"
-	},
-	"partners": {
-	 	"title": "Partenaires",
-		"description": "Forest Watcher a été crée en collaboration avec World Resources Institutes, Vizzuality, et le Jane Goodall Institute",
-		"listOfPartners": "Voir tous les partenaires de Global Forest Watch"
-	},
-	"setupDrawAreas": {
-    "invalidShape": "Zone non valide",
-    "invalidSize": "Veuillez dessiner une zone plus petite",
-		"tapInstruction": "Touchez la carte pour dessiner"
-	},
-	"setupHeader": {
-		"errorFirst": "Propriété invalide",
-		"errorSecond": "fourni à",
-		"errorThird": "Requis pour afficher le button de retour"
-	},
-	"setupOverview": {
-		"placeholder": "Entrez un nom",
-    "areaName": "Nommer la zone",
-    "gettingDatasets": "Récupération des données"
-	},
-	"setupProtectedAreas": {
-		"instruction": "Sélectionnez une zone pour continuer"
-	},
-	"settings": {
-    "title": "Paramètres",
-		"loggedIn": "Vous êtes connecté en tant que",
-		"yourAreas": "Vos zones",
-		"logOut": "SE DÉCONNECTER",
-		"addArea": "AJOUTER ZONE",
-		"aboutApp": "À propos de cette application",
-		"aboutPartners": "Les partenaires",
-		"aboutTerms": "Conditions d'utilisation",
-    "timeFrame": "Intervalle de temps",
-    "from": "De",
-    "to": "À",
-		"oneWeekAgo": "La semaine dernière",
-		"72hAgo": "Dernières 72 heures",
-		"48hAgo": "Dernières 48 heures",
-		"24hAgo": "Dernières 24 heures",
-		"1MonthAgo": "Le mois dernier",
-		"3MonthsAgo": "Les 3 derniers mois",
-		"6MonthsAgo": "Les 6 derniers mois",
-		"1yearAgo": "L'année dernière",
-		"availableOffline": "Disponible hors-ligne"
-	},
-  "report": {
-    "title": "Rapport",
-    "plural": "Rapports",
-    "area": "Report area",
-    "takePicture": "Prendre une photo",
-    "datePlaceholder": "Sélectionner une date",
-    "saveLaterTitle": "Garder pour plus tard",
-    "saveLaterDescription": "Il apparaîtra comme un brouillon dans la section Rapports",
-    "inputText": "Veuillez écrire quelque chose",
-    "inputRadio": "Choisissez une option pour continuer",
-    "inputSelect": "Choisissez au moins une option pour continuer",
-    "input": "S'il vous plaît, répondez à la question",
-    "completed": "Terminé",
-    "uploadAll": "Tout sauvegarder",
-    "drafts": "Brouillons",
-    "uploaded": "Sauvegardé",
-	"unable": "Impossible d'envoyer le rapport",
-	"connectionRequired": "Une connexion internet est requise"
-  },
-  "feedback": {
-    "title": "Feedback"
-  }
+    "commonText": {
+        "appName": "Forest Watcher 2.0",
+        "next": "Suivant",
+        "save": "Enregistrer",
+        "boundaries": "Limites",
+        "delete": "Supprimer",
+        "back": "Précédent",
+        "finish": "Terminer",
+        "saving": "Sauvegarde",
+        "caching": "Mise en mémoire cache",
+        "setUp": "Configurer",
+        "cancel": "Annuler",
+        "confirm": "Confirmer",
+        "loading": "Chargement",
+        "notAvailable": "Indisponible",
+        "kmAway": "Km de distance",
+        "updated": "Updated",
+        "name": "Nom",
+        "yourPosition": "Votre position",
+        "connectionRequiredTitle": "Pas de connexion",
+        "connectionRequired": "Une connexion internet est requise pour effectuer cette action",
+        "noImage": "Aucune image",
+        "cached": "en cache",
+        "noCached": "pas en cache",
+        "noAlertSystem": "Aucun système d'alerte sélectionné"
+    },
+    "home": {
+        "title": {
+            "updating": "Mise à jour des données...",
+            "outOfDate": "Vos alertes ne sont plus à jour",
+            "updated": "Mise à jour effectuée !"
+        },
+        "subtitle": {
+            "takesTime": "Cette opération peut durer plusieurs minutes",
+            "mobile": "Voulez-vous les mettre à jour via 3G ?",
+            "noConnection": "Une connexion internet est requise pour mettre à jour vos données",
+            "updated": "Les données ont été mises à jour !"
+        },
+        "skip": "passer",
+        "update": "mettre à jour"
+    },
+    "dashboard": {
+        "title": "Tableau de bord",
+        "alerts": "Mes alertes",
+        "reports": "Faire un rapport",
+        "myReports": "Mes rapports",
+        "uploadData": "Données sauvegardées",
+        "map": "Carte",
+        "dailyFeedback": "Donner un avis quotidien",
+        "weeklyFeedback": "Donner un avis hebdomadaire"
+    },
+    "login": {
+        "title": "S'identifier",
+        "unable": "L'authentification a échoué",
+        "connectionRequired": "Une connexion à Internet est requise",
+        "introductionText": "Connectez-vous avec un compte MyGFW",
+        "facebookTitle": "Facebook",
+        "twitterTitle": "Twitter",
+        "googleTitle": "Google",
+        "brazilTitle": "Brésil",
+        "colombiaTitle": "Colombie",
+        "indonesiaTitle": "Indonésie"
+    },
+    "countries": {
+        "searchPlaceholder": "Rechercher un pays"
+    },
+    "alerts": {
+        "title": "Mes Alertes",
+        "seeAll": "Tout voir",
+        "alert": "alerte",
+        "alertSystems": "Systèmes d'Alerte",
+        "downloadingAlerts": "Veuillez patienter pendant le téléchargement des données...",
+        "noAlerts": "Il n'y a pas d'alertes disponibles",
+        "satelliteSignal": "En attente du signal satellite ..."
+    },
+    "areaDetail": {
+        "title": "Détails de la zone",
+        "delete": "Supprimer cette zone",
+        "noAlerts": "Aucune alerte dans cette zone"
+    },
+    "boundaries": {
+        "chooseBoundaries": "Maintenant, choisissez les limites",
+        "selectProtectedArea": "Sélectionnez une zone protégée",
+        "drawArea": "Dessiner une zone"
+    },
+    "setupCountry": {
+        "welcomeText": "Bonjour",
+        "secondWelcomeText": "veuillez créer une zone",
+        "firstInstruction": "Tout d'abord, sélectionnez le pays qui vous intéresse"
+    },
+    "partners": {
+        "title": "Partenaires",
+        "description": "Forest Watcher a été crée en collaboration avec World Resources Institutes, Vizzuality, et le Jane Goodall Institute",
+        "listOfPartners": "Voir tous les partenaires de Global Forest Watch"
+    },
+    "setupDrawAreas": {
+        "invalidShape": "Zone non valide",
+        "invalidSize": "Veuillez dessiner une zone plus petite",
+        "tapInstruction": "Touchez la carte pour dessiner"
+    },
+    "setupHeader": {
+        "errorFirst": "Propriété invalide",
+        "errorSecond": "fourni à",
+        "errorThird": "Requis pour afficher le button de retour"
+    },
+    "setupOverview": {
+        "placeholder": "Entrez un nom",
+        "areaName": "Nommer la zone",
+        "gettingDatasets": "Récupération des données"
+    },
+    "setupProtectedAreas": {
+        "instruction": "Sélectionnez une zone pour continuer"
+    },
+    "settings": {
+        "title": "Paramètres",
+        "loggedIn": "Vous êtes connecté en tant que",
+        "yourAreas": "Vos zones",
+        "logOut": "SE DÉCONNECTER",
+        "addArea": "AJOUTER ZONE",
+        "aboutApp": "À propos de cette application",
+        "aboutPartners": "Les partenaires",
+        "aboutTerms": "Conditions d'utilisation",
+        "timeFrame": "Intervalle de temps",
+        "from": "De",
+        "to": "À",
+        "oneWeekAgo": "La semaine dernière",
+        "72hAgo": "Dernières 72 heures",
+        "48hAgo": "Dernières 48 heures",
+        "24hAgo": "Dernières 24 heures",
+        "1MonthAgo": "Le mois dernier",
+        "3MonthsAgo": "Les 3 derniers mois",
+        "6MonthsAgo": "Les 6 derniers mois",
+        "1yearAgo": "L'année dernière",
+        "availableOffline": "Disponible hors-ligne"
+    },
+    "report": {
+        "title": "Rapport",
+        "plural": "Rapports",
+        "selected": "Report selected",
+        "area": "Report area",
+        "takePicture": "Prendre une photo",
+        "datePlaceholder": "Sélectionner une date",
+        "saveLaterTitle": "Garder pour plus tard",
+        "saveLaterDescription": "Il apparaîtra comme un brouillon dans la section Rapports",
+        "inputText": "Veuillez écrire quelque chose",
+        "inputRadio": "Choisissez une option pour continuer",
+        "inputSelect": "Choisissez au moins une option pour continuer",
+        "input": "S'il vous plaît, répondez à la question",
+        "completed": "Terminé",
+        "uploadAll": "Tout sauvegarder",
+        "drafts": "Brouillons",
+        "uploaded": "Sauvegardé",
+        "unable": "Impossible d'envoyer le rapport",
+        "connectionRequired": "Une connexion internet est requise"
+    },
+    "feedback": {
+        "title": "Feedback"
+    }
 }
