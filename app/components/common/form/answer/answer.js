@@ -20,13 +20,15 @@ const Answer = (props) => (
       <View style={styles.answers}>
         {props.answers.map((answer, i) => (<Text style={styles.answer} key={`${props.questionId}${i}`}>{answer}</Text>))}
       </View>
-      <TouchableHighlight
-        activeOpacity={0.5}
-        underlayColor="transparent"
-        onPress={props.onEditPress}
-      >
-        <Image style={Theme.icon} source={editIcon} />
-      </TouchableHighlight>
+      {!props.readOnly &&
+        <TouchableHighlight
+          activeOpacity={0.5}
+          underlayColor="transparent"
+          onPress={props.onEditPress}
+        >
+          <Image style={Theme.icon} source={editIcon} />
+        </TouchableHighlight>
+      }
     </View>
   </View>
 );
@@ -35,7 +37,8 @@ Answer.propTypes = {
   questionId: PropTypes.string,
   question: PropTypes.string.isRequired,
   answers: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onEditPress: PropTypes.func.isRequired
+  onEditPress: PropTypes.func.isRequired,
+  readOnly: PropTypes.bool
 };
 
 export default Answer;
