@@ -27,7 +27,7 @@ export default function reducer(state = initialState, action) {
       return { ...state, synced: false, syncing: true };
     case GET_REPORT_QUESTIONS_COMMIT: {
       const form = action.payload || {};
-      if (Object.keys(form).length && form.questions && form.questions.length) {
+      if (form.questions && form.questions.length) {
         form.questions = form.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
       }
       return Object.assign({}, state, { forms: form, synced: true, syncing: false });
