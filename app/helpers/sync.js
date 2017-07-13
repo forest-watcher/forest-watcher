@@ -34,7 +34,8 @@ export function getTotalActionsTodoCount(state) {
 
   const areasDataPendingCount = getActionsTodoCount(state.areas.pendingData);
   const geostoreDataPendingCount = getActionsTodoCount(state.geostore.pendingData);
-  return actionsPendingCount + areasDataPendingCount + geostoreDataPendingCount;
+  const layersCachePendingCount = getActionsTodoCount(state.layers.pendingData);
+  return actionsPendingCount + areasDataPendingCount + geostoreDataPendingCount + layersCachePendingCount;
 }
 
 export function getTotalActionsInProgessCount(state) {
@@ -49,7 +50,8 @@ export function getTotalActionsInProgessCount(state) {
 
   const areasDataPendingInProgress = getActionsInProgessCount(state.areas.pendingData);
   const geostoreDataPendingCount = getActionsTodoCount(state.geostore.pendingData);
-  return actionsInProgressCount + areasDataPendingInProgress + geostoreDataPendingCount;
+  const layersCachePendingInProgress = getActionsInProgessCount(state.layers.pendingData);
+  return actionsInProgressCount + areasDataPendingInProgress + geostoreDataPendingCount + layersCachePendingInProgress;
 }
 
 export function getTotalActionsPending(pendingData) {
