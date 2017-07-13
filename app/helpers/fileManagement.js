@@ -1,5 +1,6 @@
 import { Platform } from 'react-native';
 import RNFetchBlob from 'react-native-fetch-blob';
+import CONSTANTS from 'config/constants';
 
 global.Buffer = global.Buffer || require('buffer').Buffer; // eslint-disable-line
 
@@ -141,5 +142,37 @@ export async function getCachedImageByUrl(url, imageDir) {
     }
   } catch (error) {
     return error;
+  }
+}
+
+export async function cacheTiles(cacheConfig) {
+  const { tiles, areaId, layerName, layerUrl } = cacheConfig;
+  if (!tiles || !areaId || !layerName || !layerUrl) throw new Error('Cache tiles params missing', cacheConfig);
+  tron.log(cacheConfig);
+  const folder = `${CONSTANTS.maps.tilesFolder}/${areaId}/${layerName}`;
+  await checkImageFolder(folder);
+  const CONCURRENCY = 10;
+  let arrayPromises = [];
+  try {
+    for (let i = 0, tLength = tiles.length; i < tLength; i++) {
+      const imageName = `${tiles[i][2]}x${tiles[i][0]}x${tiles[i][1]}.png`;
+      const url = layerUrl
+        .replace('{z}', tiles[i][2])
+        .replace('{x}', tiles[i][0])
+        .replace('{y}', tiles[i][1]);
+
+      arrayPromises.push(cacheImageByUrl(url, folder, imageName));
+      if (i % CONCURRENCY === 0 && i > 0) {
+        await Promise.all(arrayPromises);
+        arrayPromises = [];
+      }
+    }
+    if (arrayPromises.length > 0) {
+      await Promise.all(arrayPromises);
+    }
+    return folder;
+  } catch (e) {
+    console.warn(e);
+    throw new Error(e);
   }
 }
