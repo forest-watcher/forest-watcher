@@ -1,5 +1,7 @@
 {
     "commonText": {
+        "error": "Error",
+        "unexpectedError": "Something unexpected happened",
         "appName": "Forest Watcher 2.0",
         "next": "Lanjut",
         "save": "Menyimpan",
