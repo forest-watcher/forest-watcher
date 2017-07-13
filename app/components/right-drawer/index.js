@@ -8,11 +8,6 @@ class RightDrawer extends Component {
     navigator: PropTypes.object.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
-  }
-
   onPressClose = () => {
     this.props.navigator.toggleDrawer({
       side: 'right',
