@@ -38,11 +38,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, synced, syncing };
     }
     case GET_FEEDBACK_QUESTIONS_COMMIT: {
-      let form = null;
-      if (action.payload && action.payload[0]) {
-        form = action.payload[0];
-      }
-      if (form && form.questions && form.questions.length) {
+      const form = action.payload || {};
+      if (form.questions && form.questions.length) {
         form.questions = form.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
       }
       const { type } = action.meta;

@@ -10,12 +10,12 @@ import withDraft from './withDraft';
 import NextButton from './next-button';
 import styles from './styles';
 
-const getNext = (question, answer, next) => {
-  const disabled = !answer && question.required;
+const getNext = (question, hasAnswer, next) => {
+  const disabled = !hasAnswer && question.required;
   const isBlob = question.type === 'blob';
 
   if (isBlob) {
-    return (<NextButton transparent={!answer} style={styles.buttonNextPos} disabled={disabled} onPress={next.callback} />);
+    return (<NextButton transparent={!hasAnswer} style={styles.buttonNextPos} disabled={disabled} onPress={next.callback} />);
   }
   return (<ActionButton
     style={styles.buttonPos}
@@ -29,13 +29,13 @@ class FormStep extends Component { // eslint-disable-line
 
   static propTypes = {
     question: PropTypes.object.isRequired,
-    answer: PropTypes.any,
+    hasAnswer: PropTypes.any,
     next: PropTypes.object.isRequired,
     navigator: PropTypes.object.isRequired
   };
 
   render() {
-    const { question, answer, next, navigator } = this.props;
+    const { question, hasAnswer, next, navigator } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.container}>
@@ -46,7 +46,7 @@ class FormStep extends Component { // eslint-disable-line
             navigator={navigator}
           />
         </View>
-        {getNext(question, answer, next)}
+        {getNext(question, hasAnswer, next)}
       </View>
     );
   }
