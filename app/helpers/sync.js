@@ -32,9 +32,9 @@ export function getTotalActionsTodoCount(state) {
   ];
   const actionsPendingCount = actionsPending.reduce((ac, next) => (next ? ac + 1 : ac), 0);
 
-  const { pendingData } = state.areas;
-  const areasDataPendingCount = getActionsTodoCount(pendingData);
-  return actionsPendingCount + areasDataPendingCount;
+  const areasDataPendingCount = getActionsTodoCount(state.areas.pendingData);
+  const geostoreDataPendingCount = getActionsTodoCount(state.geostore.pendingData);
+  return actionsPendingCount + areasDataPendingCount + geostoreDataPendingCount;
 }
 
 export function getTotalActionsInProgessCount(state) {
@@ -47,9 +47,9 @@ export function getTotalActionsInProgessCount(state) {
   ];
   const actionsInProgressCount = actionsPending.reduce((ac, next) => (next ? ac + 1 : ac), 0);
 
-  const { pendingData } = state.areas;
-  const areasDataPendingInProgress = getActionsInProgessCount(pendingData);
-  return actionsInProgressCount + areasDataPendingInProgress;
+  const areasDataPendingInProgress = getActionsInProgessCount(state.areas.pendingData);
+  const geostoreDataPendingCount = getActionsTodoCount(state.geostore.pendingData);
+  return actionsInProgressCount + areasDataPendingInProgress + geostoreDataPendingCount;
 }
 
 export function getTotalActionsPending(pendingData) {

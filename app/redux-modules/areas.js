@@ -1,6 +1,5 @@
 import Config from 'react-native-config';
 import omit from 'lodash/omit';
-import { getGeostore, GET_GEOSTORE_REQUEST, GET_GEOSTORE_COMMIT } from 'redux-modules/geostore';
 import { getCachedImageByUrl, removeFolder } from 'helpers/fileManagement';
 import { getActionsTodoCount } from 'helpers/sync';
 import { getInitialDatasets } from 'helpers/area';
@@ -13,7 +12,7 @@ import { LOGOUT_REQUEST } from 'redux-modules/user';
 const d3Dsv = require('d3-dsv');
 
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
-const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
+export const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
 const GET_AREAS_ROLLBACK = 'areas/GET_AREAS_ROLLBACK';
 const GET_ALERTS_REQUEST = 'areas/GET_ALERTS_REQUEST';
 const GET_ALERTS_COMMIT = 'areas/GET_ALERTS_COMMIT';
@@ -71,7 +70,6 @@ const initialState = {
   syncing: false,
   pendingData: {
     coverage: {},
-    geostore: {},
     image: {},
     alert: {}
   }
@@ -121,7 +119,6 @@ export default function reducer(state = initialState, action) {
       data.forEach((newArea) => {
         pendingData = {
           coverage: { ...pendingData.coverage, [newArea.id]: false },
-          geostore: { ...pendingData.geostore, [newArea.id]: false },
           alert: { ...pendingData.alert, [newArea.id]: false },
           image: { ...pendingData.image, [newArea.id]: false }
         };
@@ -173,19 +170,6 @@ export default function reducer(state = initialState, action) {
       };
       return { ...state, images, pendingData };
     }
-    case GET_GEOSTORE_REQUEST: {
-      const area = action.payload;
-      const pendingData = { ...state.pendingData, geostore: { ...state.pendingData.geostore, [area.id]: true } };
-      return { ...state, pendingData };
-    }
-    case GET_GEOSTORE_COMMIT: {
-      const area = action.meta.area;
-      const pendingData = {
-        ...state.pendingData,
-        geostore: omit(state.pendingData.geostore, [area.id])
-      };
-      return { ...state, pendingData };
-    }
     case SAVE_AREA_REQUEST: {
       return { ...state, synced: false, syncing: true };
     }
@@ -198,10 +182,9 @@ export default function reducer(state = initialState, action) {
       let pendingData = state.pendingData;
       if (area) {
         data = [...data, area];
-        const { coverage, geostore, image, alert } = state.pendingData;
+        const { coverage, image, alert } = state.pendingData;
         pendingData = {
           coverage: { ...coverage, [area.id]: false },
-          geostore: { ...geostore, [area.id]: false },
           image: { ...image, [area.id]: false },
           alert: { ...alert }
         };
@@ -362,23 +345,6 @@ export function getAreas() {
         commit: { type: GET_AREAS_COMMIT },
         rollback: { type: GET_AREAS_ROLLBACK }
       }
-    }
-  };
-}
-
-export function getAreaGeostore(areaId) {
-  return async (dispatch, state) => {
-    const { areas, geostore } = state();
-    const area = getAreaById(areas.data, areaId);
-    const geostores = geostore.data;
-    if (!geostores[area.geostore] || (geostores[area.geostore] && !geostores[area.geostore].data)) {
-      dispatch(getGeostore(area));
-    } else {
-      dispatch({
-        type: GET_GEOSTORE_COMMIT,
-        payload: { ...geostores[area.geostore].data, id: area.geostore },
-        meta: { area }
-      });
     }
   };
 }
@@ -616,9 +582,6 @@ export function syncAreas() {
           });
         };
         switch (type) {
-          case 'geostore':
-            syncAreasData(id => dispatch(getAreaGeostore(id)));
-            break;
           case 'coverage':
             syncAreasData(id => dispatch(getAreaCoverage(id)));
             break;
