@@ -1,16 +1,12 @@
 import { connect } from 'react-redux';
 import { createReport } from 'redux-modules/reports';
 import { setSyncModal } from 'redux-modules/app';
-import { setCanDisplayAlerts } from 'redux-modules/alerts';
+import { setCanDisplayAlerts, setActiveAlerts } from 'redux-modules/alerts';
 import tracker from 'helpers/googleAnalytics';
-import { pointsToGeoJSON } from 'helpers/map';
 import Map from 'components/map';
-import moment from 'moment';
 import { activeDataset } from 'helpers/area';
 import { getTotalActionsPending } from 'helpers/sync';
-import { initDb, read } from 'helpers/database';
 
-const supercluster = require('supercluster'); // eslint-disable-line
 const BoundingBox = require('boundingbox');
 
 function getAreaCoordinates(areaFeature) {
@@ -22,23 +18,11 @@ function getAreaCoordinates(areaFeature) {
   ));
 }
 
-function createCluster(data) {
-  const cluster = supercluster({
-    radius: 120,
-    maxZoom: 16, // Default: 16,
-    nodeSize: 128
-  });
-  cluster.load(data.features);
-  return cluster;
-}
-
 function mapStateToProps(state) {
   const index = state.areas.selectedIndex;
   const area = state.areas.data[index] || null;
-  let cluster = null;
   let center = null;
   let areaCoordinates = null;
-  let alerts = [];
   let datasetSlug = null;
   let dataset = null;
   if (area) {
@@ -50,15 +34,6 @@ function mapStateToProps(state) {
       center = new BoundingBox(areaFeatures).getCenter();
       areaCoordinates = getAreaCoordinates(areaFeatures);
     }
-    const timeFrame = datasetSlug === 'viirs' ? 'day' : 'month';
-    const limitRange = moment().subtract(dataset.startDate, timeFrame).valueOf();
-    const realm = initDb();
-    if (datasetSlug && state.alerts.canDisplayAlerts) {
-      alerts = read(realm, 'Alert')
-                .filtered(`areaId = '${area.id}' AND slug = '${datasetSlug}' AND date > '${limitRange}'`);
-      const geoPoints = pointsToGeoJSON(alerts);
-      cluster = geoPoints && createCluster(geoPoints);
-    }
   }
 
   return {
@@ -67,15 +42,14 @@ function mapStateToProps(state) {
       id: area.id,
       name: area.name
     },
-    cluster,
     center,
+    datasetSlug,
     areaCoordinates,
+    clusters: state.alerts.clusters,
     isConnected: state.offline.online,
     actionsPending: getTotalActionsPending(state),
     syncModalOpen: state.app.syncModalOpen,
     syncSkip: state.app.syncSkip,
-    alerts,
-    datasetSlug,
     canDisplayAlerts: state.alerts.canDisplayAlerts
   };
 }
@@ -83,6 +57,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch, { navigation }) {
   return {
+    setActiveAlerts: () => dispatch(setActiveAlerts()),
     createReport: (report) => {
       dispatch(createReport(report));
       tracker.trackEvent('Report', 'Create Report', { label: 'Click Done', value: 0 });

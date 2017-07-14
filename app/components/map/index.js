@@ -132,10 +132,8 @@ class Map extends Component {
       Location.requestWhenInUseAuthorization();
       StatusBar.setBarStyle('light-content');
     }
-
+    Timer.setTimeout(this, 'setAlerts', this.props.setActiveAlerts, 300);
     this.geoLocate();
-    this.updateMarkers();
-    Timer.setTimeout(this, 'renderMap', this.renderMap, 500);
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -145,7 +143,13 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.areaCoordinates !== prevProps.areaCoordinates) {
+    if (this.map && (this.props.clusters === null || this.props.area.id !== prevProps.area.id)) {
+      this.props.setActiveAlerts();
+    }
+    if (this.props.clusters !== null) {
+      this.renderMap();
+    }
+    if (this.state.renderMap && this.props.areaCoordinates !== prevProps.areaCoordinates) {
       this.updateSelectedArea();
     }
     if (this.state.selectedAlerts !== prevState.selectedAlerts) {
@@ -155,8 +159,7 @@ class Map extends Component {
 
   componentWillUnmount() {
     Location.stopUpdatingLocation();
-
-    Timer.clearTimeout(this, 'renderMap');
+    Timer.clearTimeout(this, 'setAlerts');
     if (this.eventLocation) {
       this.eventLocation.remove();
     }
@@ -243,7 +246,7 @@ class Map extends Component {
   }
 
   updateMarkers() {
-    const clusters = this.props.cluster && this.props.cluster.getClusters([
+    const clusters = this.props.clusters && this.props.clusters.getClusters([
       this.state.region.longitude - (this.state.region.longitudeDelta / 2),
       this.state.region.latitude - (this.state.region.latitudeDelta / 2),
       this.state.region.longitude + (this.state.region.longitudeDelta / 2),
@@ -690,7 +693,7 @@ class Map extends Component {
 Map.propTypes = {
   navigator: PropTypes.object.isRequired,
   createReport: PropTypes.func.isRequired,
-  cluster: PropTypes.object,
+  clusters: PropTypes.object,
   center: PropTypes.shape({
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired
@@ -703,7 +706,8 @@ Map.propTypes = {
   setSyncModal: PropTypes.func.isRequired,
   setCanDisplayAlerts: PropTypes.func.isRequired,
   canDisplayAlerts: PropTypes.bool.isRequired,
-  area: PropTypes.object.isRequired
+  area: PropTypes.object.isRequired,
+  setActiveAlerts: PropTypes.func.isRequired
 };
 
 export default Map;
