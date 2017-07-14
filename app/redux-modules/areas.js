@@ -122,7 +122,7 @@ export default function reducer(state = initialState, action) {
           alert: { ...pendingData.alert, [newArea.id]: false },
           image: { ...pendingData.image, [newArea.id]: false }
         };
-        if (newArea.cache) {
+        if (newArea.cache) { // TODO: check with @sorodrigo this
           pendingData.alert = { ...pendingData.alert, [newArea.id]: false };
         }
       });

@@ -66,6 +66,8 @@ function mapStateToProps(state) {
       cluster = geoPoints && createCluster(geoPoints);
     }
   }
+  const { cache } = state.layers;
+  const contextualLayer = getContextualLayer(state.layers);
 
   return {
     area: {
@@ -77,14 +79,14 @@ function mapStateToProps(state) {
     center,
     areaCoordinates,
     isConnected: state.offline.online,
-    localTilePath: state.layers.basemap[area.id],
+    basemapLocalTilePath: cache.basemap[area.id] || '',
     actionsPending: getTotalActionsPending(state),
     syncModalOpen: state.app.syncModalOpen,
     syncSkip: state.app.syncSkip,
     alerts,
     datasetSlug,
     canDisplayAlerts: state.alerts.canDisplayAlerts,
-    contextualLayer: getContextualLayer(state.layers)
+    contextualLayer
   };
 }
 

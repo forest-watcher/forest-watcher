@@ -6,9 +6,9 @@ import { getActionsTodoCount } from 'helpers/sync';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { GET_AREAS_COMMIT, SAVE_AREA_COMMIT } from 'redux-modules/areas';
 
-const GET_GEOSTORE_REQUEST = 'gesotore/GET_GEOSTORE_REQUEST';
-export const GET_GEOSTORE_COMMIT = 'gesotore/GET_GEOSTORE_COMMIT';
-const GET_GEOSTORE_ROLLBACK = 'gesotore/GET_GEOSTORE_ROLLBACK';
+const GET_GEOSTORE_REQUEST = 'geostore/GET_GEOSTORE_REQUEST';
+export const GET_GEOSTORE_COMMIT = 'geostore/GET_GEOSTORE_COMMIT';
+const GET_GEOSTORE_ROLLBACK = 'geostore/GET_GEOSTORE_ROLLBACK';
 const STORE_GEOSTORE = 'geostore/STORE_GEOSTORE';
 
 // Reducer
@@ -33,7 +33,7 @@ export default function reducer(state = initialState, action) {
       const data = [...action.payload];
       data.forEach((area) => {
         pendingData = {
-          areas: { ...pendingData.coverage, [area.id]: false }
+          areas: { ...pendingData.areas, [area.id]: false }
         };
       });
       return { ...state, pendingData };

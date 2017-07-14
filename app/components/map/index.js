@@ -568,7 +568,7 @@ class Map extends Component {
     const { hasCompass, lastPosition, compassFallback,
             selectedAlerts, neighbours, heading } = this.state;
     const { areaCoordinates, datasetSlug, contextualLayer,
-            localTilePath, isConnected } = this.props;
+            basemapLocalTilePath, isConnected } = this.props;
     const showCompassFallback = !hasCompass && lastPosition && selectedAlerts && compassFallback;
     const lastAlertIndex = selectedAlerts.length - 1;
 
@@ -582,7 +582,7 @@ class Map extends Component {
       )
       : (
         <MapView.LocalTile
-          localTemplate={localTilePath}
+          localTemplate={basemapLocalTilePath}
           zIndex={-1}
         />
       );
@@ -732,7 +732,7 @@ Map.propTypes = {
     lon: PropTypes.number.isRequired
   }),
   datasetSlug: PropTypes.string,
-  localTilePath: PropTypes.string,
+  basemapLocalTilePath: PropTypes.string,
   areaCoordinates: PropTypes.array,
   actionsPending: PropTypes.number.isRequired,
   isConnected: PropTypes.bool.isRequired,

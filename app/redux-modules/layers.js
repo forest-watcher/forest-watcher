@@ -16,7 +16,6 @@ const CACHE_BASEMAP_REQUEST = 'layer/CACHE_BASEMAP_REQUEST';
 const CACHE_BASEMAP_COMMIT = 'layer/CACHE_BASEMAP_COMMIT';
 const CACHE_BASEMAP_ROLLBACK = 'layer/CACHE_BASEMAP_ROLLBACK';
 // const CACHE_LAYER_REQUEST = 'layer/CACHE_LAYER_REQUEST';
-// const CACHE_LAYER_REQUEST = 'layer/CACHE_LAYER_REQUEST';
 // const CACHE_LAYER_COMMIT = 'layer/CACHE_LAYER_COMMIT';
 
 const BoundingBox = require('boundingbox');
@@ -27,14 +26,16 @@ const URL_BASEMAP_TEMPLATE = `${CONSTANTS.maps.basemap}?access_token=${Config.MA
 
 // Reducer
 const initialState = {
-  data: [], // TODO: normalize
+  data: [],
   synced: false,
   syncing: false,
   activeLayer: null,
-  basemap: {}, // save the basemap path for each area
+  cache: { // save the layers path for each area
+    basemap: {}
+  },
   pendingData: {
-    basemap: {},
-    areas: {} // TODO: multiple layers support
+    basemap: {}
+    // TODO: multiple layers support
   }
 };
 
@@ -83,11 +84,14 @@ export default function reducer(state = initialState, action) {
         ...state.pendingData,
         basemap: omit(state.pendingData.basemap, [area.id])
       };
-      const basemap = {
-        ...state.basemap,
-        [area.id]: path
+      const cache = {
+        ...state.cache,
+        basemap: {
+          ...state.cache.basemap,
+          [area.id]: path
+        }
       };
-      return { ...state, basemap, pendingData };
+      return { ...state, cache, pendingData };
     }
     // case CACHE_LAYER_REQUEST: {
     //   const areaId = action.payload.areaId;
@@ -159,6 +163,7 @@ export function cacheAreaBasemap(areaId) {
     const geostore = state().geostore.data[area.geostore];
     let bbox = null;
     if (geostore) {
+      // TODO: refactor this to get directly the bbox of the geostore
       const bboxArea = new BoundingBox(geostore.geojson.features[0]);
       if (bboxArea) {
         bbox = [
