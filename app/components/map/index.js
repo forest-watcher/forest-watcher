@@ -10,8 +10,7 @@ import {
   StatusBar,
   Image,
   Text,
-  Platform,
-  PixelRatio
+  Platform
 } from 'react-native';
 import Config from 'react-native-config';
 import CONSTANTS from 'config/constants';
@@ -40,8 +39,9 @@ const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 10;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-const basemap = PixelRatio.get() >= 2 ? CONSTANTS.maps.basemapHD : CONSTANTS.maps.basemap;
-const URL_BASEMAP_TEMPLATE = `${basemap}?access_token=${Config.MAPBOX_TOKEN}`;
+// TODO: use when support 512 custom tiles size
+// const basemap = PixelRatio.get() >= 2 ? CONSTANTS.maps.basemapHD : CONSTANTS.maps.basemap;
+const URL_BASEMAP_TEMPLATE = `${CONSTANTS.maps.basemap}?access_token=${Config.MAPBOX_TOKEN}`;
 
 const markerImage = require('assets/marker.png');
 const markerCompassRedImage = require('assets/compass_circle_red.png');
@@ -567,17 +567,25 @@ class Map extends Component {
   render() {
     const { hasCompass, lastPosition, compassFallback,
             selectedAlerts, neighbours, heading } = this.state;
-    const { areaCoordinates, datasetSlug, contextualLayer } = this.props;
+    const { areaCoordinates, datasetSlug, contextualLayer,
+            localTilePath, isConnected } = this.props;
     const showCompassFallback = !hasCompass && lastPosition && selectedAlerts && compassFallback;
     const lastAlertIndex = selectedAlerts.length - 1;
 
     // Map elements
-    const basemapLayerElement = (
-      <MapView.UrlTile
-        urlTemplate={URL_BASEMAP_TEMPLATE}
-        zIndex={-1}
-      />
-    );
+    const basemapLayerElement = isConnected
+      ? (
+        <MapView.UrlTile
+          urlTemplate={URL_BASEMAP_TEMPLATE}
+          zIndex={-1}
+        />
+      )
+      : (
+        <MapView.LocalTile
+          localTemplate={localTilePath}
+          zIndex={-1}
+        />
+      );
     const contextualLayerElement = contextualLayer ? (
       <MapView.UrlTile
         urlTemplate={contextualLayer.url}
@@ -724,8 +732,10 @@ Map.propTypes = {
     lon: PropTypes.number.isRequired
   }),
   datasetSlug: PropTypes.string,
+  localTilePath: PropTypes.string,
   areaCoordinates: PropTypes.array,
   actionsPending: PropTypes.number.isRequired,
+  isConnected: PropTypes.bool.isRequired,
   syncModalOpen: PropTypes.bool.isRequired,
   syncSkip: PropTypes.bool.isRequired,
   setSyncModal: PropTypes.func.isRequired,

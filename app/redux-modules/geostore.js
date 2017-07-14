@@ -40,7 +40,6 @@ export default function reducer(state = initialState, action) {
     }
     case SAVE_AREA_COMMIT: {
       const area = action.payload;
-      tron.log('geostore areas save');
       let pendingData = { ...state.pendingData };
       if (area) {
         pendingData = {

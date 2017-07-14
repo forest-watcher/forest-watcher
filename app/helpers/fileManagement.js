@@ -148,7 +148,6 @@ export async function getCachedImageByUrl(url, imageDir) {
 export async function cacheTiles(cacheConfig) {
   const { tiles, areaId, layerName, layerUrl } = cacheConfig;
   if (!tiles || !areaId || !layerName || !layerUrl) throw new Error('Cache tiles params missing', cacheConfig);
-  tron.log(cacheConfig);
   const folder = `${CONSTANTS.maps.tilesFolder}/${areaId}/${layerName}`;
   await checkImageFolder(folder);
   const CONCURRENCY = 10;
@@ -170,7 +169,7 @@ export async function cacheTiles(cacheConfig) {
     if (arrayPromises.length > 0) {
       await Promise.all(arrayPromises);
     }
-    return folder;
+    return `${folder}/{z}x{x}x{y}.png`;
   } catch (e) {
     console.warn(e);
     throw new Error(e);

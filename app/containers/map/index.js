@@ -77,6 +77,7 @@ function mapStateToProps(state) {
     center,
     areaCoordinates,
     isConnected: state.offline.online,
+    localTilePath: state.layers.basemap[area.id],
     actionsPending: getTotalActionsPending(state),
     syncModalOpen: state.app.syncModalOpen,
     syncSkip: state.app.syncSkip,

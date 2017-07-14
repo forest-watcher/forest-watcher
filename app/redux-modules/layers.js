@@ -1,7 +1,6 @@
 import Config from 'react-native-config';
 import omit from 'lodash/omit';
 import CONSTANTS from 'config/constants';
-import { PixelRatio } from 'react-native';
 import { getTilesInBbox } from 'helpers/map';
 import { cacheTiles } from 'helpers/fileManagement';
 import { getActionsTodoCount } from 'helpers/sync';
@@ -22,9 +21,9 @@ const CACHE_BASEMAP_ROLLBACK = 'layer/CACHE_BASEMAP_ROLLBACK';
 
 const BoundingBox = require('boundingbox');
 
-const BASEMAP_URL = PixelRatio.get() >= 2
-  ? CONSTANTS.maps.basemapHD
-  : CONSTANTS.maps.basemap;
+// TODO: use when support 512 custom tiles size
+// const BASEMAP_URL = PixelRatio.get() >= 2 ? CONSTANTS.maps.basemapHD : CONSTANTS.maps.basemap;
+const URL_BASEMAP_TEMPLATE = `${CONSTANTS.maps.basemap}?access_token=${Config.MAPBOX_TOKEN}`;
 
 // Reducer
 const initialState = {
@@ -32,6 +31,7 @@ const initialState = {
   synced: false,
   syncing: false,
   activeLayer: null,
+  basemap: {}, // save the basemap path for each area
   pendingData: {
     basemap: {},
     areas: {} // TODO: multiple layers support
@@ -78,12 +78,16 @@ export default function reducer(state = initialState, action) {
     }
     case CACHE_BASEMAP_COMMIT: {
       const area = action.meta.area;
-      const { basemap } = state.pendingData;
+      const path = action.payload;
       const pendingData = {
         ...state.pendingData,
-        basemap: omit(basemap, [area.id])
+        basemap: omit(state.pendingData.basemap, [area.id])
       };
-      return { ...state, pendingData };
+      const basemap = {
+        ...state.basemap,
+        [area.id]: path
+      };
+      return { ...state, basemap, pendingData };
     }
     // case CACHE_LAYER_REQUEST: {
     //   const areaId = action.payload.areaId;
@@ -168,7 +172,7 @@ export function cacheAreaBasemap(areaId) {
         bbox,
         areaId,
         layerName: 'basemap',
-        layerUrl: BASEMAP_URL
+        layerUrl: URL_BASEMAP_TEMPLATE
       };
       const promise = downloadLayer(downloadConfig);
       dispatch({

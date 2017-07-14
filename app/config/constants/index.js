@@ -12,7 +12,7 @@ export default {
   maps: {
     lat: 27.568640,
     lng: -33.461281,
-    basemap: 'https://api.mapbox.com/styles/v1/forestwatcher/cj4772tx20vsv2rrza5q3v0d4/tiles/256/{z}/{x}/{y}@2x',
+    basemap: 'https://api.mapbox.com/styles/v1/forestwatcher/cj4772tx20vsv2rrza5q3v0d4/tiles/256/{z}/{x}/{y}',
     basemapHD: 'https://api.mapbox.com/styles/v1/forestwatcher/cj4772tx20vsv2rrza5q3v0d4/tiles/{z}/{x}/{y}@2x',
     bbox: {
       type: 'Polygon',
@@ -27,7 +27,7 @@ export default {
       ]
     },
     tilesFolder: 'tiles',
-    cachedZoomLevels: [9, 10, 11, 12]
+    cachedZoomLevels: [8, 9, 10, 11, 12, 13, 14]
   },
   tileServers: {
     glad: 'http://wri-tiles.s3.amazonaws.com/glad_prod/tiles'
