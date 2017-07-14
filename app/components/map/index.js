@@ -589,7 +589,7 @@ class Map extends Component {
     const contextualLayerElement = contextualLayer ? (
       <MapView.UrlTile
         urlTemplate={contextualLayer.url}
-        zIndex={1}
+        zIndex={10}
       />
     ) : null;
     const compassFallbackElement = showCompassFallback ? (
