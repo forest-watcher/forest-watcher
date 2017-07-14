@@ -49,9 +49,9 @@ const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
 
-function renderLoading() {
+function renderLoading(global) {
   return (
-    <View style={[styles.container, styles.loader]}>
+    <View style={[global ? styles.container : '', styles.loader]}>
       <ActivityIndicator
         color={Theme.colors.color1}
         style={{ height: 80 }}
@@ -143,13 +143,15 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.map && (this.props.clusters === null || this.props.area.id !== prevProps.area.id)) {
-      this.props.setActiveAlerts();
+    const { clusters, area, setActiveAlerts, areaCoordinates } = this.props;
+    if (this.map && (clusters === null || area.id !== prevProps.area.id
+      || area.dataset.startDate !== prevProps.area.dataset.startDate)) {
+      setActiveAlerts();
     }
-    if (this.props.clusters !== null) {
+    if (clusters !== null) {
       this.renderMap();
     }
-    if (this.state.renderMap && this.props.areaCoordinates !== prevProps.areaCoordinates) {
+    if (this.state.renderMap && areaCoordinates !== prevProps.areaCoordinates) {
       this.updateSelectedArea();
     }
     if (this.state.selectedAlerts !== prevState.selectedAlerts) {
