@@ -36,11 +36,11 @@ export const getAnswers = (forms, formName) => {
 export const getForm = (state, formName) => {
   switch (formName) {
     case 'daily':
-      return state.feedback.daily && state.feedback.daily;
+      return Object.assign({}, state.feedback.daily);
     case 'weekly':
-      return state.feedback.weekly && state.feedback.weekly;
+      return Object.assign({}, state.feedback.weekly);
     default:
-      return state.reports.forms && state.reports.forms;
+      return Object.assign({}, state.reports.forms);
   }
 };
 
