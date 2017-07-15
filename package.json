@@ -74,7 +74,8 @@
     "node-fetch": "1.7.1",
     "react-test-renderer": "15.4.1",
     "reactotron-react-native": "^1.11.0",
-    "reactotron-redux": "^1.11.0"
+    "reactotron-redux": "^1.11.0",
+    "why-did-you-update": "0.0.8"
   },
   "jest": {
     "preset": "react-native"

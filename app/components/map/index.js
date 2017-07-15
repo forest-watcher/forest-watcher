@@ -49,9 +49,9 @@ const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
 
-function renderLoading(global) {
+function renderLoading() {
   return (
-    <View style={[global ? styles.container : '', styles.loader]}>
+    <View style={[styles.container, styles.loader]}>
       <ActivityIndicator
         color={Theme.colors.color1}
         style={{ height: 80 }}
