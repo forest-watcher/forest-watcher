@@ -10,8 +10,7 @@ import {
   StatusBar,
   Image,
   Text,
-  Platform,
-  PixelRatio
+  Platform
 } from 'react-native';
 import Config from 'react-native-config';
 import CONSTANTS from 'config/constants';
@@ -41,13 +40,16 @@ const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 10;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-const basemap = PixelRatio.get() >= 2 ? CONSTANTS.maps.basemapHD : CONSTANTS.maps.basemap;
-const URL_BASEMAP_TEMPLATE = `${basemap}?access_token=${Config.MAPBOX_TOKEN}`;
+// TODO: use when support 512 custom tiles size
+// const basemap = PixelRatio.get() >= 2 ? CONSTANTS.maps.basemapHD : CONSTANTS.maps.basemap;
+const URL_BASEMAP_TEMPLATE = `${CONSTANTS.maps.basemap}?access_token=${Config.MAPBOX_TOKEN}`;
 
 const markerImage = require('assets/marker.png');
 const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
+
+const layersIcon = require('assets/layers.png');
 
 function renderLoading() {
   return (
@@ -94,6 +96,12 @@ class Map extends Component {
     navBarBackgroundColor: Theme.background.main,
     navBarTransparent: true,
     navBarTranslucent: true
+  };
+
+  static navigatorButtons = {
+    rightButtons: [
+      { icon: layersIcon, id: 'contextualLayers' }
+    ]
   };
 
   constructor(props) {
@@ -174,21 +182,38 @@ class Map extends Component {
   }
 
   onNavigatorEvent(event) {
+    switch (event.id) {
+      case 'didAppear':
+        this.onDidAppear();
+        break;
+      case 'contextualLayers':
+        this.onContextualLayersPress();
+        break;
+      default:
+    }
+  }
+
+  onContextualLayersPress = () => {
+    this.props.navigator.toggleDrawer({
+      side: 'right',
+      animated: true
+    });
+  }
+
+  onDidAppear = () => {
     const { actionsPending, syncModalOpen, syncSkip, setCanDisplayAlerts, canDisplayAlerts } = this.props;
-    if (event.id === 'didAppear') {
-      if (actionsPending > 0 && !syncModalOpen && !syncSkip && !this.syncModalOpen) {
-        this.syncModalOpen = true;
-        this.props.setSyncModal(true);
-        this.props.navigator.showModal({
-          screen: 'ForestWatcher.Sync',
-          passProps: {
-            goBackDisabled: true
-          }
-        });
-      }
-      if (!canDisplayAlerts) {
-        setCanDisplayAlerts(true);
-      }
+    if (actionsPending > 0 && !syncModalOpen && !syncSkip && !this.syncModalOpen) {
+      this.syncModalOpen = true;
+      this.props.setSyncModal(true);
+      this.props.navigator.showModal({
+        screen: 'ForestWatcher.Sync',
+        passProps: {
+          goBackDisabled: true
+        }
+      });
+    }
+    if (!canDisplayAlerts) {
+      setCanDisplayAlerts(true);
     }
   }
 
@@ -532,7 +557,8 @@ class Map extends Component {
   render() {
     const { hasCompass, lastPosition, compassFallback,
             selectedAlerts, neighbours, heading } = this.state;
-    const { areaCoordinates, datasetSlug } = this.props;
+    const { areaCoordinates, datasetSlug, contextualLayer,
+            basemapLocalTilePath, isConnected } = this.props;
     const showCompassFallback = !hasCompass && lastPosition && selectedAlerts && compassFallback;
     const lastAlertIndex = selectedAlerts.length - 1;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
@@ -541,20 +567,39 @@ class Map extends Component {
     if (hasAlertsSelected) veilHeight = hasNeighbours ? 240 : 160;
 
     // Map elements
-    const basemapLayerElement = (<MapView.UrlTile
-      urlTemplate={URL_BASEMAP_TEMPLATE}
-      zIndex={-1}
-    />);
-    const compassFallbackElement = showCompassFallback ? (<MapView.Polyline
-      coordinates={compassFallback}
-      strokeColor={Theme.colors.color5}
-      strokeWidth={2}
-    />) : null;
+    const basemapLayerElement = isConnected
+      ? (
+        <MapView.UrlTile
+          urlTemplate={URL_BASEMAP_TEMPLATE}
+          zIndex={-1}
+        />
+      )
+      : (
+        <MapView.LocalTile
+          localTemplate={basemapLocalTilePath}
+          zIndex={-1}
+        />
+      );
+    const contextualLayerElement = contextualLayer ? (
+      <MapView.UrlTile
+        urlTemplate={contextualLayer.url}
+        zIndex={10}
+      />
+    ) : null;
+    const compassFallbackElement = showCompassFallback ? (
+      <MapView.Polyline
+        coordinates={compassFallback}
+        strokeColor={Theme.colors.color5}
+        strokeWidth={2}
+        zIndex={2}
+      />
+    ) : null;
     const areaPolygonElement = areaCoordinates ? (
       <MapView.Polyline
         coordinates={areaCoordinates}
         strokeColor={Theme.colors.color1}
         strokeWidth={2}
+        zIndex={2}
       />
     ) : null;
     const userPositionElement = lastPosition ? (
@@ -562,7 +607,7 @@ class Map extends Component {
         key="lastPosition"
         image={markerImage}
         coordinate={lastPosition}
-        style={{ zIndex: 2 }}
+        style={{ zIndex: 3 }}
         anchor={{ x: 0.5, y: 0.5 }}
         pointerEvents={'none'}
       />
@@ -571,7 +616,7 @@ class Map extends Component {
       <MapView.Marker
         key={'compass'}
         coordinate={lastPosition}
-        zIndex={1}
+        zIndex={2}
         anchor={{ x: 0.5, y: 0.5 }}
         pointerEvents={'none'}
       >
@@ -648,6 +693,7 @@ class Map extends Component {
             onPress={e => this.mapPress(e.nativeEvent.coordinate)}
           >
             {basemapLayerElement}
+            {contextualLayerElement}
             {clustersElement}
             {compassFallbackElement}
             {areaPolygonElement}
@@ -696,14 +742,21 @@ Map.propTypes = {
     lon: PropTypes.number.isRequired
   }),
   datasetSlug: PropTypes.string,
+  basemapLocalTilePath: PropTypes.string,
   areaCoordinates: PropTypes.array,
   actionsPending: PropTypes.number.isRequired,
+  isConnected: PropTypes.bool.isRequired,
   syncModalOpen: PropTypes.bool.isRequired,
   syncSkip: PropTypes.bool.isRequired,
   setSyncModal: PropTypes.func.isRequired,
   setCanDisplayAlerts: PropTypes.func.isRequired,
   canDisplayAlerts: PropTypes.bool.isRequired,
-  area: PropTypes.object.isRequired
+  area: PropTypes.object.isRequired,
+  contextualLayer: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    url: PropTypes.string.isRequired
+  })
 };
 
 export default Map;

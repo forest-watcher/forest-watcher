@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "lint": "eslint .",
     "test": "jest",
     "lint-staged": "lint-staged",
     "precommit": "npm run lint-staged",

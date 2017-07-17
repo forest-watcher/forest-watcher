@@ -22,6 +22,11 @@ function getAreaCoordinates(areaFeature) {
   ));
 }
 
+function getContextualLayer(layers) {
+  if (!layers.activeLayer) return null;
+  return layers.data.find(layer => layer.id === layers.activeLayer);
+}
+
 function createCluster(data) {
   const cluster = supercluster({
     radius: 120,
@@ -60,6 +65,8 @@ function mapStateToProps(state) {
       cluster = geoPoints && createCluster(geoPoints);
     }
   }
+  const { cache } = state.layers;
+  const contextualLayer = getContextualLayer(state.layers);
 
   return {
     area: {
@@ -71,12 +78,14 @@ function mapStateToProps(state) {
     center,
     areaCoordinates,
     isConnected: state.offline.online,
+    basemapLocalTilePath: cache.basemap[area.id] || '',
     actionsPending: getTotalActionsPending(state),
     syncModalOpen: state.app.syncModalOpen,
     syncSkip: state.app.syncSkip,
     alerts,
     datasetSlug,
-    canDisplayAlerts: state.alerts.canDisplayAlerts
+    canDisplayAlerts: state.alerts.canDisplayAlerts,
+    contextualLayer
   };
 }
 
