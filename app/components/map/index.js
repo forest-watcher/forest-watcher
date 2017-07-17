@@ -52,7 +52,7 @@ const backgroundImage = require('assets/map_bg_gradient.png');
 
 function renderLoading() {
   return (
-    <View style={[styles.container, styles.loader]}>
+    <View style={[styles.loaderContainer, styles.loader]}>
       <ActivityIndicator
         color={Theme.colors.color1}
         style={{ height: 80 }}
@@ -653,65 +653,63 @@ class Map extends Component {
       />
     ) : null;
     return (
-      this.state.renderMap
-      ?
-        <View style={styles.container}>
-          <View pointerEvents="none" style={styles.header}>
-            <Image
-              style={styles.headerBg}
-              source={backgroundImage}
-            />
-          </View>
-          <MapView
-            ref={(ref) => { this.map = ref; }}
-            style={styles.map}
-            provider={MapView.PROVIDER_GOOGLE}
-            mapType="none"
-            minZoomLevel={2}
-            maxZoomLevel={18}
-            rotateEnabled={false}
-            initialRegion={this.state.region}
-            onRegionChangeComplete={this.updateRegion}
-            onLayout={this.onLayout}
-            moveOnMarkerPress={false}
-            onPress={e => this.mapPress(e.nativeEvent.coordinate)}
-          >
-            {basemapLayerElement}
-            {clustersElement}
-            {compassFallbackElement}
-            {areaPolygonElement}
-            {userPositionElement}
-            {compassElement}
-            {neighboursAlertsElement}
-            {selectedAlertsElement}
-          </MapView>
-          <View pointerEvents="box-none" style={[styles.footerBGContainer, { height: veilHeight }]}>
-            <Image
-              style={[styles.footerBg, { height: veilHeight }]}
-              source={backgroundImage}
-            />
-          </View>
-          <View pointerEvents="box-none" style={styles.footer}>
-            {hasAlertsSelected &&
-              <AlertPosition
-                alertSelected={selectedAlerts[lastAlertIndex]}
-                lastPosition={this.state.lastPosition}
-              />
-            }
-            {hasAlertsSelected
-              ? this.renderFooter()
-              : this.renderFooterLoading()
-            }
-            {!hasAlertsSelected &&
-              <AreaCarousel
-                navigator={this.props.navigator}
-                alertSelected={selectedAlerts[lastAlertIndex]}
-                lastPosition={this.state.lastPosition}
-              />
-            }
-          </View>
+      <View style={styles.container}>
+        {!this.state.renderMap && renderLoading()}
+        <View pointerEvents="none" style={styles.header}>
+          <Image
+            style={styles.headerBg}
+            source={backgroundImage}
+          />
         </View>
-      : renderLoading()
+        <MapView
+          ref={(ref) => { this.map = ref; }}
+          style={styles.map}
+          provider={MapView.PROVIDER_GOOGLE}
+          mapType="none"
+          minZoomLevel={2}
+          maxZoomLevel={18}
+          rotateEnabled={false}
+          initialRegion={this.state.region}
+          onRegionChangeComplete={this.updateRegion}
+          onLayout={this.onLayout}
+          moveOnMarkerPress={false}
+          onPress={e => this.mapPress(e.nativeEvent.coordinate)}
+        >
+          {basemapLayerElement}
+          {clustersElement}
+          {compassFallbackElement}
+          {areaPolygonElement}
+          {userPositionElement}
+          {compassElement}
+          {neighboursAlertsElement}
+          {selectedAlertsElement}
+        </MapView>
+        <View pointerEvents="box-none" style={[styles.footerBGContainer, { height: veilHeight }]}>
+          <Image
+            style={[styles.footerBg, { height: veilHeight }]}
+            source={backgroundImage}
+          />
+        </View>
+        <View pointerEvents="box-none" style={styles.footer}>
+          {hasAlertsSelected &&
+            <AlertPosition
+              alertSelected={selectedAlerts[lastAlertIndex]}
+              lastPosition={this.state.lastPosition}
+            />
+          }
+          {hasAlertsSelected
+            ? this.renderFooter()
+            : this.renderFooterLoading()
+          }
+          {!hasAlertsSelected &&
+            <AreaCarousel
+              navigator={this.props.navigator}
+              alertSelected={selectedAlerts[lastAlertIndex]}
+              lastPosition={this.state.lastPosition}
+            />
+          }
+        </View>
+      </View>
     );
   }
 }
