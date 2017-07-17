@@ -16,6 +16,7 @@ import {
 import Config from 'react-native-config';
 import CONSTANTS from 'config/constants';
 import throttle from 'lodash/throttle';
+import isEqual from 'lodash/isEqual';
 import moment from 'moment';
 
 import Theme from 'config/theme';
@@ -117,7 +118,6 @@ class Map extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
-      urlTile: null,
       markers: [],
       selectedAlerts: [],
       neighbours: []
@@ -132,8 +132,32 @@ class Map extends Component {
       Location.requestWhenInUseAuthorization();
       StatusBar.setBarStyle('light-content');
     }
-    Timer.setTimeout(this, 'setAlerts', this.props.setActiveAlerts, 300);
+    if (this.props.clusters === null) {
+      Timer.setTimeout(this, 'setAlerts', this.props.setActiveAlerts, 300);
+    } else {
+      this.renderMap();
+    }
     this.geoLocate();
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const conditions = [
+      !isEqual(nextProps.areaCoordinates, this.props.areaCoordinates),
+      !isEqual(nextProps.area, this.props.area),
+      nextProps.canDisplayAlerts !== this.props.canDisplayAlerts,
+      nextProps.datasetSlug !== this.props.datasetSlug,
+      !isEqual(nextProps.center, this.props.center),
+      nextProps.clusters !== this.props.clusters,
+      nextState.renderMap !== this.state.renderMap,
+      !isEqual(nextState.lastPosition, this.state.lastPosition),
+      nextState.hasCompass !== this.state.hasCompass,
+      !isEqual(nextState.region, this.state.region),
+      !isEqual(nextState.markers, this.state.markers),
+      !isEqual(nextState.selectedAlerts, this.state.selectedAlerts),
+      !isEqual(nextState.neighbours, this.state.neighbours),
+      !isEqual(nextState.compassFallback, this.state.compassFallback)
+    ];
+    return conditions.includes(true);
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -151,7 +175,7 @@ class Map extends Component {
     if (clusters !== null) {
       this.renderMap();
     }
-    if (this.state.renderMap && areaCoordinates !== prevProps.areaCoordinates) {
+    if (this.state.renderMap && !isEqual(areaCoordinates, prevProps.areaCoordinates)) {
       this.updateSelectedArea();
     }
     if (this.state.selectedAlerts !== prevState.selectedAlerts) {
