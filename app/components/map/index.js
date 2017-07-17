@@ -15,6 +15,7 @@ import {
 import Config from 'react-native-config';
 import CONSTANTS from 'config/constants';
 import throttle from 'lodash/throttle';
+import isEqual from 'lodash/isEqual';
 import moment from 'moment';
 
 import Theme from 'config/theme';
@@ -53,7 +54,7 @@ const layersIcon = require('assets/layers.png');
 
 function renderLoading() {
   return (
-    <View style={[styles.container, styles.loader]}>
+    <View style={[styles.loaderContainer, styles.loader]}>
       <ActivityIndicator
         color={Theme.colors.color1}
         style={{ height: 80 }}
@@ -125,7 +126,6 @@ class Map extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
-      urlTile: null,
       markers: [],
       selectedAlerts: [],
       neighbours: []
@@ -140,10 +140,32 @@ class Map extends Component {
       Location.requestWhenInUseAuthorization();
       StatusBar.setBarStyle('light-content');
     }
-
+    if (this.props.clusters === null) {
+      Timer.setTimeout(this, 'setAlerts', this.props.setActiveAlerts, 300);
+    } else {
+      this.renderMap();
+    }
     this.geoLocate();
-    this.updateMarkers();
-    Timer.setTimeout(this, 'renderMap', this.renderMap, 500);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const conditions = [
+      !isEqual(nextProps.areaCoordinates, this.props.areaCoordinates),
+      !isEqual(nextProps.area, this.props.area),
+      nextProps.canDisplayAlerts !== this.props.canDisplayAlerts,
+      nextProps.datasetSlug !== this.props.datasetSlug,
+      !isEqual(nextProps.center, this.props.center),
+      !isEqual(nextProps.clusters, this.props.clusters),
+      nextState.renderMap !== this.state.renderMap,
+      !isEqual(nextState.lastPosition, this.state.lastPosition),
+      nextState.hasCompass !== this.state.hasCompass,
+      !isEqual(nextState.region, this.state.region),
+      !isEqual(nextState.markers, this.state.markers),
+      !isEqual(nextState.selectedAlerts, this.state.selectedAlerts),
+      !isEqual(nextState.neighbours, this.state.neighbours),
+      !isEqual(nextState.compassFallback, this.state.compassFallback)
+    ];
+    return conditions.includes(true);
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -153,8 +175,20 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.areaCoordinates !== prevProps.areaCoordinates) {
-      this.updateSelectedArea();
+    const { clusters, area, setActiveAlerts, areaCoordinates } = this.props;
+    if (this.map && (clusters === null || area.id !== prevProps.area.id
+      || area.dataset.startDate !== prevProps.area.dataset.startDate)) {
+      setActiveAlerts();
+    }
+    if (clusters !== null) {
+      this.renderMap();
+    }
+    if (this.state.renderMap) {
+      if (!isEqual(areaCoordinates, prevProps.areaCoordinates)) {
+        this.updateSelectedArea();
+      } else if (!isEqual(clusters, prevProps.clusters)) {
+        this.updateMarkers();
+      }
     }
     if (this.state.selectedAlerts !== prevState.selectedAlerts) {
       this.setHeaderTitle();
@@ -163,8 +197,7 @@ class Map extends Component {
 
   componentWillUnmount() {
     Location.stopUpdatingLocation();
-
-    Timer.clearTimeout(this, 'renderMap');
+    Timer.clearTimeout(this, 'setAlerts');
     if (this.eventLocation) {
       this.eventLocation.remove();
     }
@@ -268,7 +301,7 @@ class Map extends Component {
   }
 
   updateMarkers() {
-    const clusters = this.props.cluster && this.props.cluster.getClusters([
+    const clusters = this.props.clusters && this.props.clusters.points.length && this.props.clusters.getClusters([
       this.state.region.longitude - (this.state.region.longitudeDelta / 2),
       this.state.region.latitude - (this.state.region.latitudeDelta / 2),
       this.state.region.longitude + (this.state.region.longitudeDelta / 2),
@@ -669,66 +702,64 @@ class Map extends Component {
       />
     ) : null;
     return (
-      this.state.renderMap
-      ?
-        <View style={styles.container}>
-          <View pointerEvents="none" style={styles.header}>
-            <Image
-              style={styles.headerBg}
-              source={backgroundImage}
-            />
-          </View>
-          <MapView
-            ref={(ref) => { this.map = ref; }}
-            style={styles.map}
-            provider={MapView.PROVIDER_GOOGLE}
-            mapType="none"
-            minZoomLevel={2}
-            maxZoomLevel={18}
-            rotateEnabled={false}
-            initialRegion={this.state.region}
-            onRegionChangeComplete={this.updateRegion}
-            onLayout={this.onLayout}
-            moveOnMarkerPress={false}
-            onPress={e => this.mapPress(e.nativeEvent.coordinate)}
-          >
-            {basemapLayerElement}
-            {contextualLayerElement}
-            {clustersElement}
-            {compassFallbackElement}
-            {areaPolygonElement}
-            {userPositionElement}
-            {compassElement}
-            {neighboursAlertsElement}
-            {selectedAlertsElement}
-          </MapView>
-          <View pointerEvents="box-none" style={[styles.footerBGContainer, { height: veilHeight }]}>
-            <Image
-              style={[styles.footerBg, { height: veilHeight }]}
-              source={backgroundImage}
-            />
-          </View>
-          <View pointerEvents="box-none" style={styles.footer}>
-            {hasAlertsSelected &&
-              <AlertPosition
-                alertSelected={selectedAlerts[lastAlertIndex]}
-                lastPosition={this.state.lastPosition}
-              />
-            }
-            {hasAlertsSelected
-              ? this.renderFooter()
-              : this.renderFooterLoading()
-            }
-            {!hasAlertsSelected &&
-              <AreaCarousel
-                navigator={this.props.navigator}
-                alertSelected={selectedAlerts[lastAlertIndex]}
-                lastPosition={this.state.lastPosition}
-              />
-            }
-          </View>
+      <View style={styles.container}>
+        {!this.state.renderMap && renderLoading()}
+        <View pointerEvents="none" style={styles.header}>
+          <Image
+            style={styles.headerBg}
+            source={backgroundImage}
+          />
         </View>
-      : renderLoading()
+        <MapView
+          ref={(ref) => { this.map = ref; }}
+          style={styles.map}
+          provider={MapView.PROVIDER_GOOGLE}
+          mapType="none"
+          minZoomLevel={2}
+          maxZoomLevel={18}
+          rotateEnabled={false}
+          initialRegion={this.state.region}
+          onRegionChangeComplete={this.updateRegion}
+          onLayout={this.onLayout}
+          moveOnMarkerPress={false}
+          onPress={e => this.mapPress(e.nativeEvent.coordinate)}
+        >
+          {basemapLayerElement}
+          {contextualLayerElement}
+          {clustersElement}
+          {compassFallbackElement}
+          {areaPolygonElement}
+          {userPositionElement}
+          {compassElement}
+          {neighboursAlertsElement}
+          {selectedAlertsElement}
+        </MapView>
+        <View pointerEvents="box-none" style={[styles.footerBGContainer, { height: veilHeight }]}>
+          <Image
+            style={[styles.footerBg, { height: veilHeight }]}
+            source={backgroundImage}
+          />
+        </View>
+        <View pointerEvents="box-none" style={styles.footer}>
+          {hasAlertsSelected &&
+            <AlertPosition
+              alertSelected={selectedAlerts[lastAlertIndex]}
+              lastPosition={this.state.lastPosition}
+            />
+          }
+          {hasAlertsSelected
+            ? this.renderFooter()
+            : this.renderFooterLoading()
+          }
+          {!hasAlertsSelected &&
+            <AreaCarousel
+              navigator={this.props.navigator}
+              alertSelected={selectedAlerts[lastAlertIndex]}
+              lastPosition={this.state.lastPosition}
+            />
+          }
+        </View>
+      </View>
     );
   }
 }
@@ -736,7 +767,7 @@ class Map extends Component {
 Map.propTypes = {
   navigator: PropTypes.object.isRequired,
   createReport: PropTypes.func.isRequired,
-  cluster: PropTypes.object,
+  clusters: PropTypes.object,
   center: PropTypes.shape({
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired
@@ -752,6 +783,7 @@ Map.propTypes = {
   setCanDisplayAlerts: PropTypes.func.isRequired,
   canDisplayAlerts: PropTypes.bool.isRequired,
   area: PropTypes.object.isRequired,
+  setActiveAlerts: PropTypes.func.isRequired,
   contextualLayer: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
