@@ -18,6 +18,11 @@ function getAreaCoordinates(areaFeature) {
   ));
 }
 
+function getContextualLayer(layers) {
+  if (!layers.activeLayer) return null;
+  return layers.data.find(layer => layer.id === layers.activeLayer);
+}
+
 function mapStateToProps(state) {
   const index = state.areas.selectedIndex;
   const area = state.areas.data[index] || null;
@@ -35,6 +40,8 @@ function mapStateToProps(state) {
       areaCoordinates = getAreaCoordinates(areaFeatures);
     }
   }
+  const { cache } = state.layers;
+  const contextualLayer = getContextualLayer(state.layers);
 
   return {
     area: {
@@ -47,10 +54,12 @@ function mapStateToProps(state) {
     areaCoordinates,
     clusters: state.alerts.clusters,
     isConnected: state.offline.online,
+    basemapLocalTilePath: cache.basemap[area.id] || '',
     actionsPending: getTotalActionsPending(state),
     syncModalOpen: state.app.syncModalOpen,
     syncSkip: state.app.syncSkip,
-    canDisplayAlerts: state.alerts.canDisplayAlerts
+    canDisplayAlerts: state.alerts.canDisplayAlerts,
+    contextualLayer
   };
 }
 
