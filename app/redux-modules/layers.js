@@ -4,6 +4,7 @@ import CONSTANTS from 'config/constants';
 import { getTilesInBbox } from 'helpers/map';
 import { cacheTiles } from 'helpers/fileManagement';
 import { getActionsTodoCount } from 'helpers/sync';
+import { convertToSlug } from 'helpers/utils';
 
 import { GET_GEOSTORE_COMMIT } from 'redux-modules/geostore';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
@@ -15,8 +16,8 @@ const SET_ACTIVE_LAYER = 'layer/SET_ACTIVE_LAYER';
 const CACHE_BASEMAP_REQUEST = 'layer/CACHE_BASEMAP_REQUEST';
 const CACHE_BASEMAP_COMMIT = 'layer/CACHE_BASEMAP_COMMIT';
 const CACHE_BASEMAP_ROLLBACK = 'layer/CACHE_BASEMAP_ROLLBACK';
-// const CACHE_LAYER_REQUEST = 'layer/CACHE_LAYER_REQUEST';
-// const CACHE_LAYER_COMMIT = 'layer/CACHE_LAYER_COMMIT';
+const CACHE_LAYER_REQUEST = 'layer/CACHE_LAYER_REQUEST';
+const CACHE_LAYER_COMMIT = 'layer/CACHE_LAYER_COMMIT';
 
 const BoundingBox = require('boundingbox');
 
@@ -35,7 +36,6 @@ const initialState = {
   },
   pendingData: {
     basemap: {}
-    // TODO: multiple layers support
   }
 };
 
@@ -46,6 +46,7 @@ export default function reducer(state = initialState, action) {
     case GET_LAYERS_COMMIT: {
       const data = [...action.payload];
       return { ...state, data, synced: true, syncing: false };
+      // TODO: check if geostores was synced before and include in the pendingData
     }
     case GET_LAYERS_ROLLBACK: {
       const data = [...action.meta.layers];
@@ -56,13 +57,25 @@ export default function reducer(state = initialState, action) {
     case GET_GEOSTORE_COMMIT: {
       const { area } = action.meta;
       const { basemap } = state.pendingData;
-      const pendingData = {
+      let pendingData = {
         ...state.pendingData,
         basemap: {
           ...basemap,
           [area.id]: false
-        } // TODO: include layers too
+        }
       };
+      if (state.synced) {
+        const pendingLayers = {};
+        state.data.forEach((layer) => {
+          pendingLayers[layer.id] = {
+            [area.id]: false
+          };
+        }, this);
+        pendingData = {
+          ...pendingData,
+          ...pendingLayers
+        };
+      }
       return { ...state, pendingData };
     }
     case CACHE_BASEMAP_REQUEST: {
@@ -93,25 +106,33 @@ export default function reducer(state = initialState, action) {
       };
       return { ...state, cache, pendingData };
     }
-    // case CACHE_LAYER_REQUEST: {
-    //   const areaId = action.payload.areaId;
-    //   const pendingData = {
-    //     ...state.pendingData,
-    //     coverage: {
-    //       ...state.pendingData.coverage,
-    //       [areaId]: true
-    //     }
-    //   };
-    //   return { ...state, pendingData };
-    // }
-    // case CACHE_LAYER_COMMIT: {
-    //   const areaId = action.payload.areaId;
-    //   const pendingData = {
-    //     ...state.pendingData,
-    //     areas: omit(state.pendingData.areas, [areaId])
-    //   };
-    //   return { ...state, pendingData };
-    // }
+    case CACHE_LAYER_REQUEST: {
+      const { area, layer } = action.payload;
+      const pendingData = {
+        ...state.pendingData,
+        [layer.id]: {
+          ...state.pendingData[layer.id],
+          [area.id]: true
+        }
+      };
+      return { ...state, pendingData };
+    }
+    case CACHE_LAYER_COMMIT: {
+      const { area, layer } = action.meta;
+      const path = action.payload;
+      const pendingData = {
+        ...state.pendingData,
+        basemap: omit(state.pendingData[layer.id], [area.id])
+      };
+      const cache = {
+        ...state.cache,
+        [layer.id]: {
+          ...state.cache[layer.id],
+          [area.id]: path
+        }
+      };
+      return { ...state, cache, pendingData };
+    }
     case LOGOUT_REQUEST:
       return initialState;
     default:
@@ -157,6 +178,12 @@ function getAreaById(areas, areaId) {
   return { ...areas.find((areaData) => (areaData.id === areaId)) };
 }
 
+function getLayerById(layers, layerId) {
+  if (!layers) return null;
+  // Using deconstructor to generate a new object
+  return { ...layers.find((layer) => (layer.id === layerId)) };
+}
+
 export function cacheAreaBasemap(areaId) {
   return (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
@@ -195,14 +222,52 @@ export function cacheAreaBasemap(areaId) {
   };
 }
 
+export function cacheAreaLayer(areaId, layerId) {
+  return (dispatch, state) => {
+    const area = getAreaById(state().areas.data, areaId);
+    const geostore = state().geostore.data[area.geostore];
+    let bbox = null;
+    if (geostore) {
+      // TODO: refactor this to get directly the bbox of the geostore
+      const bboxArea = new BoundingBox(geostore.geojson.features[0]);
+      if (bboxArea) {
+        bbox = [
+          { lat: bboxArea.minlat, lng: bboxArea.maxlon },
+          { lat: bboxArea.maxlat, lng: bboxArea.minlon }
+        ];
+      }
+    }
+    const layer = getLayerById(state().layers.data, layerId);
+    if (bbox && layer) {
+      const downloadConfig = {
+        bbox,
+        areaId,
+        layerName: convertToSlug(layer.name),
+        layerUrl: layer.url
+      };
+      const promise = downloadLayer(downloadConfig);
+      dispatch({
+        type: CACHE_LAYER_REQUEST,
+        payload: { area, layer },
+        meta: {
+          offline: {
+            effect: { promise },
+            commit: { type: CACHE_LAYER_COMMIT, meta: { area, layer } }
+          }
+        }
+      });
+    }
+  };
+}
+
 export function syncLayers() {
   return (dispatch, state) => {
     const { layers } = state();
     if (!layers.synced && !layers.syncing) dispatch(getUserLayers());
     const { pendingData } = state().layers;
     if (getActionsTodoCount(pendingData) > 0) {
-      Object.keys(pendingData).forEach((type) => {
-        const syncingLayersData = pendingData[type];
+      Object.keys(pendingData).forEach((layer) => {
+        const syncingLayersData = pendingData[layer];
         const canDispatch = id => (typeof syncingLayersData[id] !== 'undefined' && syncingLayersData[id] === false);
         const syncLayersData = (action) => {
           Object.keys(syncingLayersData).forEach(id => {
@@ -211,11 +276,12 @@ export function syncLayers() {
             }
           });
         };
-        switch (type) {
+        switch (layer) {
           case 'basemap':
             syncLayersData(id => dispatch(cacheAreaBasemap(id)));
             break;
           default:
+            syncLayersData(id => dispatch(cacheAreaLayer(id, layer)));
         }
       });
     }

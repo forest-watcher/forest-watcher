@@ -80,6 +80,7 @@ function mapStateToProps(state) {
     areaCoordinates,
     isConnected: state.offline.online,
     basemapLocalTilePath: cache.basemap[area.id] || '',
+    ctxLayerLocalTilePath: cache[state.layers.activeLayer] ? cache[state.layers.activeLayer][area.id] : '',
     actionsPending: getTotalActionsPending(state),
     syncModalOpen: state.app.syncModalOpen,
     syncSkip: state.app.syncSkip,
