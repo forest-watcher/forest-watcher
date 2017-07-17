@@ -58,14 +58,14 @@ function mapStateToProps(state, { form, index, questionsToSkip, finish, title, s
   const question = questions && questions[index];
   const parsedQuestion = question && parseQuestion({ question, form: storeForm }, state.app.language);
   const answers = getAnswers(state.form, form);
-  const answer = typeof answers[question.name] !== 'undefined' || null;
-  const nextText = !answer && question.required ? getBtnTextByType(question.type) : 'commonText.next';
+  const hasAnswer = question ? typeof answers[question.name] !== 'undefined' : false;
+  const nextText = !hasAnswer && question.required ? getBtnTextByType(question.type) : 'commonText.next';
   const getCallback = editMode ? getEditNextCallback : getNextCallback;
   return {
     form,
     questionsToSkip,
     question: parsedQuestion,
-    answer,
+    hasAnswer,
     navigator,
     next: {
       text: nextText,

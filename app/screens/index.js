@@ -14,6 +14,7 @@ import Partners from 'components/settings/partners';
 import Sync from 'containers/sync';
 import Answers from 'containers/common/form/answers';
 import RightDrawer from 'components/right-drawer';
+import ErrorLightbox from 'components/error-lightbox';
 
 export function registerScreens(store, Provider) {
   Navigation.registerComponent('ForestWatcher.Home', () => Home, store, Provider);
@@ -30,6 +31,7 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent('ForestWatcher.Sync', () => Sync, store, Provider);
   Navigation.registerComponent('ForestWatcher.Answers', () => Answers, store, Provider);
   Navigation.registerComponent('ForestWatcher.RightDrawer', () => RightDrawer, store, Provider);
+  Navigation.registerComponent('ForestWatcher.ErrorLightbox', () => ErrorLightbox, store, Provider);
 }
 
 export default registerScreens;

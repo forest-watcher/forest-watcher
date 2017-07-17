@@ -60,8 +60,7 @@ function mapStateToProps(state) {
     const realm = initDb();
     if (datasetSlug && state.alerts.canDisplayAlerts) {
       alerts = read(realm, 'Alert')
-                      .filtered(`areaId = '${area.id}' AND slug = '${datasetSlug}' AND date > '${limitRange}'`)
-                      .map((alert) => ({ lat: alert.lat, long: alert.long }));
+                .filtered(`areaId = '${area.id}' AND slug = '${datasetSlug}' AND date > '${limitRange}'`);
       const geoPoints = pointsToGeoJSON(alerts);
       cluster = geoPoints && createCluster(geoPoints);
     }

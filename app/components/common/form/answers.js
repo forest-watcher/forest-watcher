@@ -33,7 +33,8 @@ class Answers extends Component {
       })
     ),
     form: PropTypes.string.isRequired,
-    finish: PropTypes.func.isRequired
+    finish: PropTypes.func,
+    readOnly: PropTypes.bool
   };
 
   onPressSave = () => {
@@ -62,7 +63,7 @@ class Answers extends Component {
   }
 
   render() {
-    const { results } = this.props;
+    const { results, readOnly } = this.props;
     const regularAnswers = results.filter(({ question }) => question.type !== 'blob');
     const images = results.filter(({ question }) => question.type === 'blob')
       .map(image => ({ id: image.question.Id, uri: image.answers[0] }))
@@ -82,6 +83,7 @@ class Answers extends Component {
                 answers={result.answers}
                 question={result.question.label}
                 onEditPress={() => this.onEdit(result, result.question.questionNumber)}
+                readOnly={readOnly}
               />
             ))
           }
@@ -91,12 +93,14 @@ class Answers extends Component {
               <ImageCarousel images={images} actions={imageActions} />
             </View>
           }
+          {!readOnly &&
           <View style={styles.buttonSaveContainer}>
             <ActionButton
               onPress={this.onPressSave}
               text={I18n.t('commonText.save')}
             />
           </View>
+          }
         </ScrollView>
       </View>
     );
