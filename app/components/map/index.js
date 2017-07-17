@@ -147,7 +147,7 @@ class Map extends Component {
       nextProps.canDisplayAlerts !== this.props.canDisplayAlerts,
       nextProps.datasetSlug !== this.props.datasetSlug,
       !isEqual(nextProps.center, this.props.center),
-      nextProps.clusters !== this.props.clusters,
+      !isEqual(nextProps.clusters, this.props.clusters),
       nextState.renderMap !== this.state.renderMap,
       !isEqual(nextState.lastPosition, this.state.lastPosition),
       nextState.hasCompass !== this.state.hasCompass,
@@ -175,8 +175,12 @@ class Map extends Component {
     if (clusters !== null) {
       this.renderMap();
     }
-    if (this.state.renderMap && !isEqual(areaCoordinates, prevProps.areaCoordinates)) {
-      this.updateSelectedArea();
+    if (this.state.renderMap) {
+      if (!isEqual(areaCoordinates, prevProps.areaCoordinates)) {
+        this.updateSelectedArea();
+      } else if (!isEqual(clusters, prevProps.clusters)) {
+        this.updateMarkers();
+      }
     }
     if (this.state.selectedAlerts !== prevState.selectedAlerts) {
       this.setHeaderTitle();
@@ -272,7 +276,7 @@ class Map extends Component {
   }
 
   updateMarkers() {
-    const clusters = this.props.clusters && this.props.clusters.getClusters([
+    const clusters = this.props.clusters && this.props.clusters.points.length && this.props.clusters.getClusters([
       this.state.region.longitude - (this.state.region.longitudeDelta / 2),
       this.state.region.latitude - (this.state.region.latitudeDelta / 2),
       this.state.region.longitude + (this.state.region.longitudeDelta / 2),
