@@ -301,7 +301,7 @@ class Map extends Component {
   }
 
   updateMarkers() {
-    const clusters = this.props.clusters && this.props.clusters.points.length && this.props.clusters.getClusters([
+    const clusters = this.props.clusters && this.props.clusters.getClusters([
       this.state.region.longitude - (this.state.region.longitudeDelta / 2),
       this.state.region.latitude - (this.state.region.latitudeDelta / 2),
       this.state.region.longitude + (this.state.region.longitudeDelta / 2),

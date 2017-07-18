@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { createReport } from 'redux-modules/reports';
 import { setSyncModal } from 'redux-modules/app';
-import { setCanDisplayAlerts, setActiveAlerts } from 'redux-modules/alerts';
+import { setCanDisplayAlerts, setActiveAlerts, activeCluster } from 'redux-modules/alerts';
 import tracker from 'helpers/googleAnalytics';
 import Map from 'components/map';
 import { activeDataset } from 'helpers/area';
@@ -42,7 +42,6 @@ function mapStateToProps(state) {
   }
   const { cache } = state.layers;
   const contextualLayer = getContextualLayer(state.layers);
-
   return {
     area: {
       dataset,
@@ -52,7 +51,7 @@ function mapStateToProps(state) {
     center,
     datasetSlug,
     areaCoordinates,
-    clusters: state.alerts.clusters,
+    clusters: activeCluster.supercluster,
     isConnected: state.offline.online,
     basemapLocalTilePath: cache.basemap[area.id] || '',
     actionsPending: getTotalActionsPending(state),
