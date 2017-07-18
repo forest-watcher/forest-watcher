@@ -15,8 +15,7 @@ import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 const editIcon = require('assets/edit.png');
-const checkIcon = require('assets/check.png');
-const uploadIcon = require('assets/upload.png');
+const nextIcon = require('assets/next.png');
 
 function getItems(data, image, onPress) {
   return data.map((item, index) => {
@@ -70,21 +69,26 @@ class Reports extends Component {
     tracker.trackScreenView('Reports');
   }
 
-  getCompleted(completed) {
-    const onActionPress = (reportName) => {
-      tracker.trackEvent('Report', 'Complete Report', { label: 'Click Done', value: 0 });
-      this.props.uploadReport(reportName);
-    };
-    return (
-      <View style={styles.listContainer}>
-        <View style={styles.listHeader}>
-          <Text style={styles.listTitle}>{I18n.t('report.completed')}</Text>
-          <Text style={[styles.listTitle, styles.listAction]}>{I18n.t('report.uploadAll').toUpperCase()}</Text>
-        </View>
-        {getItems(completed, uploadIcon, onActionPress)}
-      </View>
-    );
+  onClickNext = (reportName) => {
+    this.props.navigator.push({
+      title: 'Review report',
+      screen: 'ForestWatcher.Answers',
+      passProps: {
+        form: reportName,
+        readOnly: true
+      }
+    });
   }
+
+  getCompleted = (completed) => (
+    <View style={styles.listContainer}>
+      <View style={styles.listHeader}>
+        <Text style={styles.listTitle}>{I18n.t('report.completed')}</Text>
+        <Text style={[styles.listTitle, styles.listAction]}>{I18n.t('report.uploadAll').toUpperCase()}</Text>
+      </View>
+      {getItems(completed, nextIcon, this.onClickNext)}
+    </View>
+  );
 
   getDrafts(drafts) {
     const onActionPress = (reportName) => {
@@ -128,16 +132,14 @@ class Reports extends Component {
     );
   }
 
-  getUploaded(uploaded) { // eslint-disable-line
-    return (
-      <View style={styles.listContainer}>
-        <View style={styles.listHeader}>
-          <Text style={styles.listTitle}>{I18n.t('report.uploaded')}</Text>
-        </View>
-        {getItems(uploaded, checkIcon)}
+  getUploaded = (uploaded) => (
+    <View style={styles.listContainer}>
+      <View style={styles.listHeader}>
+        <Text style={styles.listTitle}>{I18n.t('report.uploaded')}</Text>
       </View>
-    );
-  }
+      {getItems(uploaded, nextIcon, this.onClickNext)}
+    </View>
+  );
 
   render() {
     const { complete, draft, uploaded } = this.props.reports;
@@ -148,11 +150,11 @@ class Reports extends Component {
         showsHorizontalScrollIndicator={false}
       >
         <View style={styles.container}>
-          {complete && complete.length > 0 &&
-            this.getCompleted(complete)
-          }
           {draft && draft.length > 0 &&
             this.getDrafts(draft)
+          }
+          {complete && complete.length > 0 &&
+            this.getCompleted(complete)
           }
           {uploaded && uploaded.length > 0 &&
             this.getUploaded(uploaded)
@@ -164,7 +166,6 @@ class Reports extends Component {
 }
 
 Reports.propTypes = {
-  uploadReport: PropTypes.func.isRequired,
   navigator: PropTypes.object.isRequired,
   reports: PropTypes.shape({
     draft: PropTypes.array,

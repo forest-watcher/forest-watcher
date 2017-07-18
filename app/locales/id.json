@@ -1,159 +1,162 @@
 {
-	"commonText": {
-		"appName": "Forest Watcher 2.0",
-		"next": "Lanjut",
-    "save": "Menyimpan",
-    "boundaries": "Batas",
-    "delete": "Menghapus",
-		"back": "Kembali",
-		"finish": "Selesai",
-		"saving": "Penghematan",
-		"caching": "\n7/5000\nCaching",
-		"setUp": "Pengaturan",
-    "cancel": "Batalkan",
-    "confirm": "Konfirmasi",
-    "loading": "Pemuatan",
-    "notAvailable": "Tidak tersedia",
-    "kmAway": "km jauhnya",
-	  "lastUpdated": "Terakhir diperbarui",
-    "name": "Nama",
-    "yourPosition": "Posisi kamu",
-		"connectionRequiredTitle": "Tidak ada koneksi",
-		"connectionRequired": "Anda memerlukan koneksi internet",
-    "noImage": "Tidak ada gambar",
-    "cached": "Tersimpan",
-    "noCached": "Tidak tersimpan",
-    "noAlertSystem": "Tidak ada sistem peringatan yang dipilih"
-	},
-	"home": {
-		"title": {
-			"updating": "Memperbarui data ...",
-			"outOfDate": "Lansiran Anda kedaluwarsa",
-			"updated": "Update selesai!"
-		},
-		"subtitle": {
-			"takesTime": "Proses ini bisa memakan waktu beberapa menit",
-			"mobile": "Apakah Anda ingin memperbaruinya melalui 3G?",
-			"noConnection": "Anda memerlukan koneksi internet untuk mengupdate data Anda",
-			"updated": "Data berhasil diupdate!"
-		},
-		"skip": "melewatkan",
-		"update": "memperbarui"
-	},
-	"dashboard": {
-		"title": "Dasbor",
-		"alerts": "Peringatan",
-		"reports": "Membuat Laporan",
-		"myReports": "Laporan Saya",
-		"uploadData": "Data tersimpan dan terunggah",
-		"map": "Peta",
-    "dailyFeedback": "Umpan balilk harian",
-    "weeklyFeedback": "Umpan balik mingguan"
-	},
-	"login": {
-		"title": "Masuk",
-		"unable": "Tidak dapat masuk",
-		"connectionRequired": "Anda memerlukan koneksi internet",
-		"introductionText": "Masuk menggunakan akun MyGFW",
-		"facebookTitle": "Facebook",
-		"twitterTitle": "Twitter",
-		"googleTitle": "Google",
-		"brazilTitle": "Brasil",
-		"colombiaTitle": "Kolombia",
-		"indonesiaTitle": "Indonesia"
-	},
-	"countries": {
-		"searchPlaceholder": "Cari negara"
-	},
-	"alerts": {
-    "title": "Peringatan",
-		"seeAll": "Lihat semua",
-		"alert": "Peringatan",
-    "alertSystems": "Sistem peringatan",
-    "downloadingAlerts": "Harap tunggu sementara data yang di-download ...",
-    "noAlerts": "Tidak ada lansiran tersedia",
-    "satelliteSignal": "Menunggu sinyal satelit ..."
-	},
-	"areaDetail": {
-    "title": "Detail area",
-		"delete": "Hapus area ini",
-		"noAlerts": "Tidak ada peringatan untuk area ini"
-	},
-	"boundaries": {
-		"chooseBoundaries": "Sakarang, pilih batas",
-		"selectProtectedArea": "Pilih kawasan lindung",
-		"drawArea": "Gambar area"
-	},
-	"setupCountry": {
-		"welcomeText": "Halo",
-		"secondWelcomeText": "Silakan pilih area",
-		"firstInstruction": "Pertama, pilih negara yang diinginkan"
-	},
-	"partners": {
-	 	"title": "Mitra",
-		"description": "Forest Watcher dibuat dalam kolaborasi antara World Resources Institute, Vizzuality, dan Jane Goodall Institute.",
-		"listOfPartners": "Lihat semua mitra Global Forest Watch."
-	},
-	"setupDrawAreas": {
-    "invalidShape": "Bentuk valid",
-    "invalidSize": "Gambarlah area yang lebih kecil",
-		"tapInstruction": "Ketuk peta untuk menggambar area"
-	},
-	"setupHeader": {
-		"errorFirst": "Properti tidak valid",
-		"errorSecond": "Dimasukkan ke",
-		"errorThird": "Diperlukan jika anda menunjukkan tombol kembali"
-	},
-	"setupOverview": {
-		"placeholder": "Masukkan nama",
-    "areaName": "Nama daerah",
-    "gettingDatasets": "Mendapatkan dataset"
-	},
-	"setupProtectedAreas": {
-		"instruction": "Pilih area untuk melanjutkan"
-	},
-	"settings": {
-    "title": "Pengaturan",
-		"loggedIn": "Anda masuk sebagai",
-		"yourAreas": "Area anga",
-		"logOut": "KELUAR",
-		"addArea": "TAMBAH AREA",
-		"aboutApp": "Tentang aplikasi ini",
-		"aboutPartners": "Mitra",
-		"aboutTerms": "Syarat dan Ketentuan",
-    "timeFrame": "Jangka waktu",
-    "from": "Dari",
-    "to": "untuk",
-		"oneWeekAgo": "Satu minggu yang lalu",
-		"72hAgo": "72 jam yang lalu",
-		"48hAgo": "48 jam yang lalu",
-		"24hAgo": "24 jam yang lalu",
-		"1MonthAgo": "1 bulan yang lalu",
-		"3MonthsAgo": "3 bulan yang lalu",
-		"6MonthsAgo": "6 bulan yang lalu",
-		"1yearAgo": "1 tahun yang lalu",
-		"availableOffline": "Tersedia secara offline"
-	},
-  "report": {
-    "title": "Lapor",
-    "plural": "Laporan",
-    "area": "Report area",
-    "takePicture": "Ambil gambar",
-    "datePlaceholder": "Pilih tanggal",
-    "saveLaterTitle": "Simpan untuk nanti",
-    "saveLaterDescription": "Ini akan muncul sebagai draf di bagian Laporan",
-    "inputText": "Silakan tulis sesuatu",
-    "inputRadio": "Pilih satu opsi untuk melanjutkan",
-    "inputSelect": "Pilih setidaknya satu opsi untuk melanjutkan",
-    "input": "Silakan jawab pertanyaannya",
-    "completed": "Lengkap",
-    "uploadAll": "Unggah semua",
-    "drafts": "Draf",
-    "uploaded": "Terunggah",
-	"unable": "Tidak dapat mengirim laporan",
-	"connectionRequired": "Anda membutuhkan koneksi internet"
-  },
-  "feedback": {
-    "title": "Umpan balik"
-  }
+    "commonText": {
+        "error": "Error",
+        "unexpectedError": "Something unexpected happened",
+        "appName": "Forest Watcher 2.0",
+        "next": "Lanjut",
+        "save": "Menyimpan",
+        "boundaries": "Batas",
+        "delete": "Menghapus",
+        "back": "Kembali",
+        "finish": "Selesai",
+        "saving": "Penghematan",
+        "caching": "\n7/5000\nCaching",
+        "setUp": "Pengaturan",
+        "cancel": "Batalkan",
+        "confirm": "Konfirmasi",
+        "loading": "Pemuatan",
+        "notAvailable": "Tidak tersedia",
+        "kmAway": "km jauhnya",
+        "updated": "Updated",
+        "name": "Nama",
+        "yourPosition": "Posisi kamu",
+        "connectionRequiredTitle": "Tidak ada koneksi",
+        "connectionRequired": "Anda memerlukan koneksi internet",
+        "noImage": "Tidak ada gambar",
+        "cached": "Tersimpan",
+        "noCached": "Tidak tersimpan",
+        "noAlertSystem": "Tidak ada sistem peringatan yang dipilih"
+    },
+    "home": {
+        "title": {
+            "updating": "Memperbarui data ...",
+            "outOfDate": "Lansiran Anda kedaluwarsa",
+            "updated": "Update selesai!"
+        },
+        "subtitle": {
+            "takesTime": "Proses ini bisa memakan waktu beberapa menit",
+            "mobile": "Apakah Anda ingin memperbaruinya melalui 3G?",
+            "noConnection": "Anda memerlukan koneksi internet untuk mengupdate data Anda",
+            "updated": "Data berhasil diupdate!"
+        },
+        "skip": "melewatkan",
+        "update": "memperbarui"
+    },
+    "dashboard": {
+        "title": "Dasbor",
+        "alerts": "Peringatan",
+        "reports": "Membuat Laporan",
+        "myReports": "Laporan Saya",
+        "uploadData": "Data tersimpan dan terunggah",
+        "map": "Peta",
+        "dailyFeedback": "Umpan balilk harian",
+        "weeklyFeedback": "Umpan balik mingguan"
+    },
+    "login": {
+        "title": "Masuk",
+        "unable": "Tidak dapat masuk",
+        "connectionRequired": "Anda memerlukan koneksi internet",
+        "introductionText": "Masuk menggunakan akun MyGFW",
+        "facebookTitle": "Facebook",
+        "twitterTitle": "Twitter",
+        "googleTitle": "Google",
+        "brazilTitle": "Brasil",
+        "colombiaTitle": "Kolombia",
+        "indonesiaTitle": "Indonesia"
+    },
+    "countries": {
+        "searchPlaceholder": "Cari negara"
+    },
+    "alerts": {
+        "title": "Peringatan",
+        "seeAll": "Lihat semua",
+        "alert": "Peringatan",
+        "alertSystems": "Sistem peringatan",
+        "downloadingAlerts": "Harap tunggu sementara data yang di-download ...",
+        "noAlerts": "Tidak ada lansiran tersedia",
+        "satelliteSignal": "Menunggu sinyal satelit ..."
+    },
+    "areaDetail": {
+        "title": "Detail area",
+        "delete": "Hapus area ini",
+        "noAlerts": "Tidak ada peringatan untuk area ini"
+    },
+    "boundaries": {
+        "chooseBoundaries": "Sakarang, pilih batas",
+        "selectProtectedArea": "Pilih kawasan lindung",
+        "drawArea": "Gambar area"
+    },
+    "setupCountry": {
+        "welcomeText": "Halo",
+        "secondWelcomeText": "Silakan pilih area",
+        "firstInstruction": "Pertama, pilih negara yang diinginkan"
+    },
+    "partners": {
+        "title": "Mitra",
+        "description": "Forest Watcher dibuat dalam kolaborasi antara World Resources Institute, Vizzuality, dan Jane Goodall Institute.",
+        "listOfPartners": "Lihat semua mitra Global Forest Watch."
+    },
+    "setupDrawAreas": {
+        "invalidShape": "Bentuk valid",
+        "invalidSize": "Gambarlah area yang lebih kecil",
+        "tapInstruction": "Ketuk peta untuk menggambar area"
+    },
+    "setupHeader": {
+        "errorFirst": "Properti tidak valid",
+        "errorSecond": "Dimasukkan ke",
+        "errorThird": "Diperlukan jika anda menunjukkan tombol kembali"
+    },
+    "setupOverview": {
+        "placeholder": "Masukkan nama",
+        "areaName": "Nama daerah",
+        "gettingDatasets": "Mendapatkan dataset"
+    },
+    "setupProtectedAreas": {
+        "instruction": "Pilih area untuk melanjutkan"
+    },
+    "settings": {
+        "title": "Pengaturan",
+        "loggedIn": "Anda masuk sebagai",
+        "yourAreas": "Area anga",
+        "logOut": "KELUAR",
+        "addArea": "TAMBAH AREA",
+        "aboutApp": "Tentang aplikasi ini",
+        "aboutPartners": "Mitra",
+        "aboutTerms": "Syarat dan Ketentuan",
+        "timeFrame": "Jangka waktu",
+        "from": "Dari",
+        "to": "untuk",
+        "oneWeekAgo": "Satu minggu yang lalu",
+        "72hAgo": "72 jam yang lalu",
+        "48hAgo": "48 jam yang lalu",
+        "24hAgo": "24 jam yang lalu",
+        "1MonthAgo": "1 bulan yang lalu",
+        "3MonthsAgo": "3 bulan yang lalu",
+        "6MonthsAgo": "6 bulan yang lalu",
+        "1yearAgo": "1 tahun yang lalu",
+        "availableOffline": "Tersedia secara offline"
+    },
+    "report": {
+        "title": "Lapor",
+        "plural": "Laporan",
+        "selected": "Report selected",
+        "area": "Report area",
+        "takePicture": "Ambil gambar",
+        "datePlaceholder": "Pilih tanggal",
+        "saveLaterTitle": "Simpan untuk nanti",
+        "saveLaterDescription": "Ini akan muncul sebagai draf di bagian Laporan",
+        "inputText": "Silakan tulis sesuatu",
+        "inputRadio": "Pilih satu opsi untuk melanjutkan",
+        "inputSelect": "Pilih setidaknya satu opsi untuk melanjutkan",
+        "input": "Silakan jawab pertanyaannya",
+        "completed": "Lengkap",
+        "uploadAll": "Unggah semua",
+        "drafts": "Draf",
+        "uploaded": "Terunggah",
+        "unable": "Tidak dapat mengirim laporan",
+        "connectionRequired": "Anda membutuhkan koneksi internet"
+    },
+    "feedback": {
+        "title": "Umpan balik"
+    }
 }

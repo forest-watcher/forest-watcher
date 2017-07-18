@@ -17,13 +17,6 @@ xcode-select --install
 * [Android Studio](https://developer.android.com/studio/index.html)
 * [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 
-#### Ruby (transifex API scripts)
-* install ruby 2.4.0, ideally via rvm: `rvm install 2.4.0'
-* install bundler: `gem install bundler`
-* `cd ruby/transifex`
-* install dependencies: `bundle install`
-* set `TRANSIFEX_API_TOKEN` in the `.env` file ([regenerate token here](https://www.transifex.com/user/settings/api/))
-
 ## Installing dependencies
 
 - Homebrew [How to install](http://brew.sh/)
@@ -72,8 +65,7 @@ pod install
 1. Install react debugger: https://github.com/jhen0409/react-native-debugger
 2. Launch it from Genymotion - Open Menu (Command + M) and select Debug JS Remotely
 
-#### Ruby (transifex API scripts)
+#### Transifex API scripts
 
-1. `cd ruby/transifex`
-2. To push the source file (EN): `bundle exec rake transifex:push`
-3. To pull translation files (ES, FR, ID, PT): `bundle exec rake transifex:pull`
+1. To push the source file (EN): `npm run transifex:push`
+2. To pull translation files (ES, FR, ID, PT): `npm run transifex:pull`

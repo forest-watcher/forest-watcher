@@ -26,6 +26,7 @@ export function getTotalActionsTodoCount(state) {
   const actionsPending = [
     !state.areas.synced && !state.areas.syncing,
     !state.user.synced && !state.user.syncing,
+    !state.layers.synced && !state.layers.syncing,
     !state.reports.synced && !state.reports.syncing,
     !state.feedback.synced.daily && !state.feedback.syncing.daily,
     !state.feedback.synced.weekly && !state.feedback.syncing.weekly
@@ -42,6 +43,7 @@ export function getTotalActionsInProgessCount(state) {
   const actionsPending = [
     !state.areas.synced && state.areas.syncing,
     !state.user.synced && state.user.syncing,
+    !state.layers.synced && state.layers.syncing,
     !state.reports.synced && state.reports.syncing,
     !state.feedback.synced.daily && state.feedback.syncing.daily,
     !state.feedback.synced.weekly && state.feedback.syncing.weekly
@@ -49,7 +51,7 @@ export function getTotalActionsInProgessCount(state) {
   const actionsInProgressCount = actionsPending.reduce((ac, next) => (next ? ac + 1 : ac), 0);
 
   const areasDataPendingInProgress = getActionsInProgessCount(state.areas.pendingData);
-  const geostoreDataPendingCount = getActionsTodoCount(state.geostore.pendingData);
+  const geostoreDataPendingCount = getActionsInProgessCount(state.geostore.pendingData);
   const layersCachePendingInProgress = getActionsInProgessCount(state.layers.pendingData);
   return actionsInProgressCount + areasDataPendingInProgress + geostoreDataPendingCount + layersCachePendingInProgress;
 }

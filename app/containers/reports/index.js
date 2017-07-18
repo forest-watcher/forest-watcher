@@ -34,9 +34,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    uploadReport: (reportName) => {
-      dispatch(uploadReport(reportName));
-    },
     submitForm: (form, formName, answers) => {
       const fields = getFormFields(form, answers);
       dispatch(uploadReport(formName, fields));

@@ -51,7 +51,7 @@ MapSidebar.propTypes = {
       name: PropTypes.string.isRequired
     })
   ).isRequired,
-  onLayerToggle: PropTypes.func.isRequired,
+  onLayerToggle: PropTypes.func.isRequired, // eslint-disable-line
   activeLayer: PropTypes.string
 };
 
