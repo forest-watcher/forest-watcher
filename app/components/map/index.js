@@ -198,6 +198,7 @@ class Map extends Component {
   componentWillUnmount() {
     Location.stopUpdatingLocation();
     Timer.clearTimeout(this, 'setAlerts');
+    Timer.cancelAnimationFrame(this, 'updateAreaFitBounds');
     if (this.eventLocation) {
       this.eventLocation.remove();
     }
@@ -254,6 +255,7 @@ class Map extends Component {
     if (this.hasSetCoordinates === false && this.props.areaCoordinates) {
       const margin = Platform.OS === 'ios' ? 150 : 250;
       const options = { edgePadding: { top: margin, right: margin, bottom: margin, left: margin }, animated: false };
+
       this.map.fitToCoordinates(this.props.areaCoordinates, options);
       this.hasSetCoordinates = true;
     }
@@ -520,7 +522,9 @@ class Map extends Component {
       this.updateMarkers();
       const margin = Platform.OS === 'ios' ? 150 : 250;
       const options = { edgePadding: { top: margin, right: margin, bottom: margin, left: margin }, animated: false };
-      if (this.map) this.map.fitToCoordinates(this.props.areaCoordinates, options);
+      if (this.map) {
+        Timer.requestAnimationFrame(this, 'updateAreaFitBounds', () => this.map.fitToCoordinates(this.props.areaCoordinates, options));
+      }
     });
   }
 
@@ -589,7 +593,7 @@ class Map extends Component {
 
   render() {
     const { hasCompass, lastPosition, compassFallback,
-            selectedAlerts, neighbours, heading } = this.state;
+            selectedAlerts, neighbours, heading, markers } = this.state;
     const { areaCoordinates, datasetSlug, contextualLayer,
             basemapLocalTilePath, isConnected } = this.props;
     const showCompassFallback = !hasCompass && lastPosition && selectedAlerts && compassFallback;
@@ -598,29 +602,33 @@ class Map extends Component {
     const hasNeighbours = neighbours && neighbours.length > 0;
     let veilHeight = 100;
     if (hasAlertsSelected) veilHeight = hasNeighbours ? 240 : 160;
-
+    const mapKey = Platform.OS === 'ios' ? markers.length : 'mapView';
     // Map elements
     const basemapLayerElement = isConnected
       ? (
         <MapView.UrlTile
+          key="basemapLayerElement"
           urlTemplate={URL_BASEMAP_TEMPLATE}
           zIndex={-1}
         />
       )
       : (
         <MapView.LocalTile
+          key="localBasemapLayerElementL"
           localTemplate={basemapLocalTilePath}
           zIndex={-1}
         />
       );
     const contextualLayerElement = contextualLayer ? (
       <MapView.UrlTile
+        key="contextualLayerElement"
         urlTemplate={contextualLayer.url}
         zIndex={10}
       />
     ) : null;
     const compassFallbackElement = showCompassFallback ? (
       <MapView.Polyline
+        key="compassFallbackElement"
         coordinates={compassFallback}
         strokeColor={Theme.colors.color5}
         strokeWidth={2}
@@ -629,6 +637,7 @@ class Map extends Component {
     ) : null;
     const areaPolygonElement = areaCoordinates ? (
       <MapView.Polyline
+        key="areaPolygonElement"
         coordinates={areaCoordinates}
         strokeColor={Theme.colors.color1}
         strokeWidth={2}
@@ -637,7 +646,7 @@ class Map extends Component {
     ) : null;
     const userPositionElement = lastPosition ? (
       <MapView.Marker.Animated
-        key="lastPosition"
+        key="userPositionElement"
         image={markerImage}
         coordinate={lastPosition}
         style={{ zIndex: 3 }}
@@ -647,7 +656,7 @@ class Map extends Component {
     ) : null;
     const compassElement = lastPosition && heading ? (
       <MapView.Marker
-        key={'compass'}
+        key="compassElement"
         coordinate={lastPosition}
         zIndex={2}
         anchor={{ x: 0.5, y: 0.5 }}
@@ -668,7 +677,7 @@ class Map extends Component {
     const neighboursAlertsElement = neighbours && neighbours.length > 0
       ? (neighbours.map((neighbour, i) => (
         <MapView.Marker
-          key={`neighbour-marker-${i}`}
+          key={`neighboursAlertsElement-${i}`}
           coordinate={neighbour}
           anchor={{ x: 0.5, y: 0.5 }}
           onPress={() => this.includeNeighbour(neighbour)}
@@ -681,7 +690,7 @@ class Map extends Component {
     const selectedAlertsElement = selectedAlerts && selectedAlerts.length > 0
       ? (selectedAlerts.map((alert, i) => (
         <MapView.Marker
-          key={`selected-alert-marker-${i}`}
+          key={`selectedAlertsElement-${i}`}
           coordinate={alert}
           anchor={{ x: 0.5, y: 0.5 }}
           pointerEvents="none"
@@ -694,8 +703,8 @@ class Map extends Component {
       : null;
     const clustersElement = datasetSlug ? (
       <Clusters
-        key="clusters"
-        markers={this.state.markers}
+        key="clustersElement"
+        markers={markers}
         selectAlert={this.selectAlert}
         zoomTo={this.zoomTo}
         datasetSlug={datasetSlug}
@@ -711,6 +720,7 @@ class Map extends Component {
           />
         </View>
         <MapView
+          key={mapKey}
           ref={(ref) => { this.map = ref; }}
           style={styles.map}
           provider={MapView.PROVIDER_GOOGLE}
