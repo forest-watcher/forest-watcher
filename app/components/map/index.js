@@ -22,6 +22,7 @@ import Theme from 'config/theme';
 import { getAllNeighbours } from 'helpers/map';
 import ActionBtn from 'components/common/action-button';
 import AlertPosition from 'components/map/alert-position';
+import MapAttribution from 'components/map/map-attribution';
 import AreaCarousel from 'containers/map/area-carousel';
 import Clusters from 'components/map/clusters/';
 import tracker from 'helpers/googleAnalytics';
@@ -742,12 +743,15 @@ class Map extends Component {
           />
         </View>
         <View pointerEvents="box-none" style={styles.footer}>
-          {hasAlertsSelected &&
-            <AlertPosition
-              alertSelected={selectedAlerts[lastAlertIndex]}
-              lastPosition={this.state.lastPosition}
-            />
-          }
+          <View style={[styles.footerRow, { justifyContent: hasAlertsSelected ? 'space-between' : 'flex-end' }]}>
+            {hasAlertsSelected &&
+              <AlertPosition
+                alertSelected={selectedAlerts[lastAlertIndex]}
+                lastPosition={this.state.lastPosition}
+              />
+            }
+            <MapAttribution />
+          </View>
           {hasAlertsSelected
             ? this.renderFooter()
             : this.renderFooterLoading()

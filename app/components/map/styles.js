@@ -99,6 +99,12 @@ export default StyleSheet.create({
     zIndex: 3,
     position: 'absolute'
   },
+  footerRow: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end'
+  },
   footerBGContainer: {
     left: 0,
     right: 0,
