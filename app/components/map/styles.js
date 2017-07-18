@@ -7,7 +7,13 @@ export default StyleSheet.create({
     backgroundColor: '#EDEAE2'
   },
   map: {
-    flex: 1
+    zIndex: 0,
+    flex: 1,
+    position: 'absolute',
+    right: 0,
+    left: 0,
+    bottom: -26,
+    top: 0
   },
   loaderContainer: {
     flex: 1,
