@@ -5,7 +5,8 @@ import {
 
 export default StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: 'transparent'
   },
   map: {
     flex: 1
