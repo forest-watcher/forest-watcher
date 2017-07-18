@@ -150,7 +150,7 @@ export async function cacheTiles(cacheConfig) {
   if (!tiles || !areaId || !layerName || !layerUrl) throw new Error('Cache tiles params missing', cacheConfig);
   const folder = `${CONSTANTS.maps.tilesFolder}/${areaId}/${layerName}`;
   await checkImageFolder(folder);
-  const CONCURRENCY = 10;
+  const CONCURRENCY = 3;
   let arrayPromises = [];
   try {
     for (let i = 0, tLength = tiles.length; i < tLength; i++) {
@@ -172,6 +172,7 @@ export async function cacheTiles(cacheConfig) {
     return `${folder}/{z}x{x}x{y}.png`;
   } catch (e) {
     console.warn(e);
-    throw new Error(e);
+    // We return the folder with the already downloaded files however will be incomplete.
+    return `${folder}/{z}x{x}x{y}.png`;
   }
 }

@@ -122,7 +122,7 @@ export default function reducer(state = initialState, action) {
       const path = action.payload;
       const pendingData = {
         ...state.pendingData,
-        basemap: omit(state.pendingData[layer.id], [area.id])
+        [layer.id]: omit(state.pendingData[layer.id], [area.id])
       };
       const cache = {
         ...state.cache,
