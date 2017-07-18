@@ -146,15 +146,16 @@ export async function getCachedImageByUrl(url, imageDir) {
 }
 
 export async function cacheTiles(cacheConfig) {
-  const { tiles, areaId, layerName, layerUrl } = cacheConfig;
-  if (!tiles || !areaId || !layerName || !layerUrl) throw new Error('Cache tiles params missing', cacheConfig);
-  const folder = `${CONSTANTS.maps.tilesFolder}/${areaId}/${layerName}`;
+  const { tiles, areaId, layerId, layerUrl, extension = 'png' } = cacheConfig;
+
+  if (!tiles || !areaId || !layerId || !layerUrl) throw new Error('Cache tiles params missing', cacheConfig);
+  const folder = `${CONSTANTS.maps.tilesFolder}/${areaId}/${layerId}`;
   await checkImageFolder(folder);
   const CONCURRENCY = 3;
   let arrayPromises = [];
   try {
     for (let i = 0, tLength = tiles.length; i < tLength; i++) {
-      const imageName = `${tiles[i][2]}x${tiles[i][0]}x${tiles[i][1]}.png`;
+      const imageName = `${tiles[i][2]}x${tiles[i][0]}x${tiles[i][1]}.${extension}`;
       const url = layerUrl
         .replace('{z}', tiles[i][2])
         .replace('{x}', tiles[i][0])

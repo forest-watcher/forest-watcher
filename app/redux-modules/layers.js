@@ -4,7 +4,6 @@ import CONSTANTS from 'config/constants';
 import { getTilesInBbox } from 'helpers/map';
 import { cacheTiles } from 'helpers/fileManagement';
 import { getActionsTodoCount } from 'helpers/sync';
-import { convertToSlug } from 'helpers/utils';
 
 import { GET_GEOSTORE_COMMIT } from 'redux-modules/geostore';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
@@ -166,10 +165,10 @@ export function setActiveContextualLayer(layerId, value) {
 }
 
 async function downloadLayer(config) {
-  const { bbox, areaId, layerName, layerUrl } = config;
+  const { bbox, areaId, layerId, layerUrl } = config;
   const zooms = CONSTANTS.maps.cachedZoomLevels;
   const tiles = getTilesInBbox(bbox, zooms);
-  const cacheConfig = { tiles, areaId, layerName, layerUrl };
+  const cacheConfig = { tiles, areaId, layerId, layerUrl };
   return await cacheTiles(cacheConfig);
 }
 
@@ -203,7 +202,8 @@ export function cacheAreaBasemap(areaId) {
       const downloadConfig = {
         bbox,
         areaId,
-        layerName: 'basemap',
+        extension: 'jpg',
+        layerId: 'basemap',
         layerUrl: URL_BASEMAP_TEMPLATE
       };
       const promise = downloadLayer(downloadConfig);
@@ -242,7 +242,7 @@ export function cacheAreaLayer(areaId, layerId) {
       const downloadConfig = {
         bbox,
         areaId,
-        layerName: convertToSlug(layer.name),
+        layerId: layer.id,
         layerUrl: layer.url
       };
       const promise = downloadLayer(downloadConfig);

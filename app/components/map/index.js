@@ -591,7 +591,7 @@ class Map extends Component {
     const { hasCompass, lastPosition, compassFallback,
             selectedAlerts, neighbours, heading } = this.state;
     const { areaCoordinates, datasetSlug, contextualLayer,
-            basemapLocalTilePath, isConnected } = this.props;
+            basemapLocalTilePath, isConnected, ctxLayerLocalTilePath } = this.props;
     const showCompassFallback = !hasCompass && lastPosition && selectedAlerts && compassFallback;
     const lastAlertIndex = selectedAlerts.length - 1;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
@@ -613,12 +613,21 @@ class Map extends Component {
           zIndex={-1}
         />
       );
-    const contextualLayerElement = contextualLayer ? (
-      <MapView.UrlTile
-        urlTemplate={contextualLayer.url}
-        zIndex={10}
-      />
-    ) : null;
+    const contextualLayerElement = contextualLayer // eslint-disable-line
+      ? isConnected
+        ? (
+          <MapView.UrlTile
+            urlTemplate={contextualLayer.url}
+            zIndex={1}
+          />
+        )
+        : (
+          <MapView.LocalTile
+            localTemplate={ctxLayerLocalTilePath}
+            zIndex={1}
+          />
+        )
+      : null;
     const compassFallbackElement = showCompassFallback ? (
       <MapView.Polyline
         coordinates={compassFallback}
@@ -774,6 +783,7 @@ Map.propTypes = {
   }),
   datasetSlug: PropTypes.string,
   basemapLocalTilePath: PropTypes.string,
+  ctxLayerLocalTilePath: PropTypes.string,
   areaCoordinates: PropTypes.array,
   actionsPending: PropTypes.number.isRequired,
   isConnected: PropTypes.bool.isRequired,
