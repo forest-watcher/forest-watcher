@@ -6,6 +6,7 @@ import {
 export default StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'transparent',
     marginBottom: 4
   },
   coordinateDistanceText: {
