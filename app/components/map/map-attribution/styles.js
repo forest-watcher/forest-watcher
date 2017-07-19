@@ -14,6 +14,7 @@ export default StyleSheet.create({
     zIndex: 4
   },
   attributionText: {
-    color: Theme.fontColors.white
+    color: Theme.fontColors.white,
+    backgroundColor: 'transparent'
   }
 });

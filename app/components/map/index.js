@@ -602,8 +602,8 @@ class Map extends Component {
     const lastAlertIndex = selectedAlerts.length - 1;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
     const hasNeighbours = neighbours && neighbours.length > 0;
-    let veilHeight = 100;
-    if (hasAlertsSelected) veilHeight = hasNeighbours ? 240 : 160;
+    let veilHeight = 120;
+    if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
     const mapKey = Platform.OS === 'ios' ? markers.length : 'mapView';
     // Map elements
     const basemapLayerElement = isConnected
