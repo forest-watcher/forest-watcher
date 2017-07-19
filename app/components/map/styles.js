@@ -7,7 +7,13 @@ export default StyleSheet.create({
     backgroundColor: '#EDEAE2'
   },
   map: {
-    flex: 1
+    zIndex: 0,
+    flex: 1,
+    position: 'absolute',
+    right: 0,
+    left: 0,
+    bottom: -26,
+    top: 0
   },
   loaderContainer: {
     flex: 1,
@@ -24,7 +30,7 @@ export default StyleSheet.create({
     justifyContent: 'center'
   },
   signalNotice: {
-    marginTop: 40,
+    marginBottom: 4,
     marginLeft: 16,
     flexDirection: 'row',
     alignItems: 'center'
@@ -92,6 +98,12 @@ export default StyleSheet.create({
     bottom: 0,
     zIndex: 3,
     position: 'absolute'
+  },
+  footerRow: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end'
   },
   footerBGContainer: {
     left: 0,
