@@ -7,8 +7,12 @@ import { version } from 'package.json';
 import effect from './effect';
 
 const persistNative = (store, options, callback) => {
-  AsyncStorage.getItem('reduxPersist:app', (app) => {
+  AsyncStorage.getItem('reduxPersist:app', (err, appData) => {
     const getPersistedStore = () => persistStore(store, { storage: AsyncStorage, ...options }, callback);
+    let app = null;
+    if (!err) {
+      app = JSON.parse(appData);
+    }
     if (app && app.version !== version) {
       getPersistedStore().purge();
     } else {
