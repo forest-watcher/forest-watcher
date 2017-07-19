@@ -7,7 +7,8 @@ export default StyleSheet.create({
   attributionContainer: {
     paddingRight: Theme.margin.right,
     flex: 1,
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
+    marginBottom: 4
   },
   footerZIndex: {
     zIndex: 4

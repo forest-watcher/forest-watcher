@@ -30,7 +30,7 @@ export default StyleSheet.create({
     justifyContent: 'center'
   },
   signalNotice: {
-    marginTop: 40,
+    marginBottom: 4,
     marginLeft: 16,
     flexDirection: 'row',
     alignItems: 'center'
