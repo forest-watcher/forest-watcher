@@ -18,7 +18,7 @@ function MapAttribution({ hasAlertsSelected }) {
       style={[
         styles.attributionContainer,
         styles.footerZIndex,
-        { width: hasAlertsSelected ? fullWidth / 2 : fullWidth }
+        { width: hasAlertsSelected ? fullWidth / 3 : fullWidth }
       ]}
     >
       <Image source={mapboxImage} />
@@ -29,7 +29,7 @@ function MapAttribution({ hasAlertsSelected }) {
 }
 
 MapAttribution.propTypes = {
-  hasAlertsSelected: PropTypes.bool.isRequired
+  hasAlertsSelected: PropTypes.bool
 };
 
 export default MapAttribution;

@@ -13,8 +13,9 @@ export default StyleSheet.create({
   },
   currentPositionContainer: {
     paddingLeft: Theme.margin.left,
-    width: Theme.screen.width / 2,
-    flex: 1
+    width: 2 * (Theme.screen.width / 3),
+    flex: 1,
+    justifyContent: 'flex-end'
   },
   footerZIndex: {
     zIndex: 4
