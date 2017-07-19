@@ -7,15 +7,14 @@ import { version } from 'package.json';
 import effect from './effect';
 
 const persistNative = (store, options, callback) => {
-  AsyncStorage.getItem('reduxPersist:app')
-    .then((app) => {
-      const getPersistedStore = () => persistStore(store, { storage: AsyncStorage, ...options }, callback); // .purge to clean the offline data
-      if (app.version !== version) {
-        getPersistedStore().purge();
-      } else {
-        getPersistedStore();
-      }
-    });
+  AsyncStorage.getItem('reduxPersist:app', (app) => {
+    const getPersistedStore = () => persistStore(store, { storage: AsyncStorage, ...options }, callback);
+    if (app && app.version !== version) {
+      getPersistedStore().purge();
+    } else {
+      getPersistedStore(); // .purge to clean the offline data
+    }
+  });
 };
 
 const config = params => ({
