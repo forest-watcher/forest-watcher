@@ -1,3 +1,4 @@
+import { version } from 'package.json';
 import { getFeedbackQuestions } from 'redux-modules/feedback';
 import { getReportQuestions } from 'redux-modules/reports';
 import { syncAreas, UPDATE_AREA_REQUEST, SAVE_AREA_REQUEST } from 'redux-modules/areas';
@@ -15,7 +16,8 @@ const SET_SYNC_SKIP = 'app/SET_SYNC_SKIP';
 const initialState = {
   language: null,
   syncModalOpen: false,
-  syncSkip: false
+  syncSkip: false,
+  version // app cache invalidation depends on this, if this changes make sure that redux-persist invalidation changes also.
 };
 
 export default function reducer(state = initialState, action) {

@@ -3,11 +3,19 @@ import offlineConfig from 'redux-offline/lib/defaults';
 import detectNetwork from 'redux-offline/lib/defaults/detectNetwork.native';
 import { AsyncStorage } from 'react-native'; // eslint-disable-line import/no-unresolved
 import { persistStore } from 'redux-persist';
+import { version } from 'package.json';
 import effect from './effect';
 
-const persistNative = (store, options, callback) => (
-  persistStore(store, { storage: AsyncStorage, ...options }, callback) // .purge to clean the offline data
-);
+const persistNative = (store, options, callback) => {
+  AsyncStorage.getItem('reduxPersist:app', (app) => {
+    const getPersistedStore = () => persistStore(store, { storage: AsyncStorage, ...options }, callback);
+    if (app && app.version !== version) {
+      getPersistedStore().purge();
+    } else {
+      getPersistedStore(); // .purge to clean the offline data
+    }
+  });
+};
 
 const config = params => ({
   ...offlineConfig,

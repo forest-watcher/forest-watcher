@@ -30,6 +30,9 @@ export default () => {
           passProps: {}
         },
         disableOpenGesture: true
+      },
+      appStyle: {
+        orientation: 'portrait'
       }
     });
   }
