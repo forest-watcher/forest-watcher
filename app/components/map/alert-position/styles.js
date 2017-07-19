@@ -6,18 +6,17 @@ import {
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'transparent'
-  },
-  map: {
-    flex: 1
+    backgroundColor: 'transparent',
+    marginBottom: 4
   },
   coordinateDistanceText: {
     color: Theme.fontColors.white
   },
   currentPositionContainer: {
     paddingLeft: Theme.margin.left,
-    width: Theme.screen.width,
-    flex: 1
+    width: 2 * (Theme.screen.width / 3),
+    flex: 1,
+    justifyContent: 'flex-end'
   },
   footerZIndex: {
     zIndex: 4
