@@ -11,10 +11,4 @@ export function hexToRgb(hex) {
     : '0,0,0'; // use as fallback for RN styles
 }
 
-export function convertToSlug(text) {
-  if (!text || typeof text !== 'string') throw new Error('Slugify needs and text string');
-  return text
-    .toLowerCase()
-    .replace(/[^\w ]+/g, '')
-    .replace(/ +/g, '');
-}
+export default hexToRgb;
