@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Image,
+  Platform,
   StatusBar,
   TouchableHighlight,
   PermissionsAndroid
@@ -43,30 +44,32 @@ class ImageBlobInput extends Component {
   }
 
   async getPermissions() {
-    try {
-      let isCameraPermitted = false;
+    if (Platform.OS === 'android') {
       try {
-        isCameraPermitted = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.CAMERA);
+        let isCameraPermitted = false;
+        try {
+          isCameraPermitted = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.CAMERA);
+        } catch (err) {
+          console.warn(err);
+        }
+        if (!isCameraPermitted) {
+          const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA,
+            {
+              title: 'Camera Permission',
+              message: ''
+            }
+          );
+          if (granted === false) {
+            // TODO: Continue form without picture?
+            console.warn('Please allow Camera');
+          }
+        }
+        this.setState({
+          cameraVisible: !this.props.input.value || this.props.input.value.length === 0
+        });
       } catch (err) {
         console.warn(err);
       }
-      if (!isCameraPermitted) {
-        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA,
-          {
-            title: 'Camera Permission',
-            message: ''
-          }
-        );
-        if (granted === false) {
-          // TODO: Continue form without picture?
-          console.warn('Please allow Camera');
-        }
-      }
-      this.setState({
-        cameraVisible: !this.props.input.value || this.props.input.value.length === 0
-      });
-    } catch (err) {
-      console.warn(err);
     }
   }
 
