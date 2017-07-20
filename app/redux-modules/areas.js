@@ -192,40 +192,30 @@ export default function reducer(state = initialState, action) {
       return { ...state, data, pendingData, synced: true, syncing: false };
     }
     case UPDATE_AREA_REQUEST: {
-      let pendingData = state.pendingData;
-      const { area: newArea, updateCache } = action.payload;
+      const { area: newArea } = action.payload;
       const areas = state.data.map((area) => {
         if (area.id === newArea.id) {
-          if (updateCache) {
-            pendingData = {
-              alert: { ...pendingData.alert, [area.id]: false }
-            };
-          }
           return { ...newArea };
         }
         return area;
       });
-      return { ...state, data: areas, pendingData, synced: false, syncing: true };
+      return { ...state, data: areas };
     }
     case UPDATE_AREA_COMMIT: {
       const newArea = action.payload;
       const data = state.data.map((area) => {
         if (area.id === newArea.id) {
-          return {
-            ...newArea
-          };
+          return { ...newArea };
         }
         return area;
       });
-      return { ...state, data, synced: true, syncing: false };
+      return { ...state, data };
     }
     case UPDATE_AREA_ROLLBACK: {
       const oldArea = action.meta;
       const areas = state.data.map((area) => {
         if (area.id === oldArea.id) {
-          return {
-            ...oldArea
-          };
+          return { ...oldArea };
         }
         return area;
       });
@@ -387,7 +377,7 @@ export function getAreaCoverage(areaId) {
   };
 }
 
-export function updateArea(area, updateCache) {
+export function updateArea(area) {
   return async (dispatch, state) => {
     const url = `${Config.API_URL}/area/${area.id}`;
     const originalArea = getAreaById(state().areas.data, area.id);
@@ -401,7 +391,7 @@ export function updateArea(area, updateCache) {
     }
     dispatch({
       type: UPDATE_AREA_REQUEST,
-      payload: { area, updateCache },
+      payload: { area },
       meta: {
         offline: {
           effect: { url, method: 'PATCH', headers, body },
@@ -464,22 +454,6 @@ export function removeCachedArea(areaId, datasetSlug) {
         }
       }
     });
-  };
-}
-
-export function setAreaDatasetCache(areaId, datasetSlug, cache) {
-  return async (dispatch, state) => {
-    const area = getAreaById(state().areas.data, areaId);
-    if (area) {
-      const datasets = area.datasets.map((dataset) => {
-        if (dataset.slug === datasetSlug) {
-          return { ...dataset, cache };
-        }
-        return dataset;
-      });
-      const newArea = { ...area, datasets };
-      dispatch(updateArea(newArea, true));
-    }
   };
 }
 

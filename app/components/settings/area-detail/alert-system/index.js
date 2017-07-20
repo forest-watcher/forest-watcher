@@ -58,7 +58,6 @@ class AlertSystem extends Component {
                   id={id}
                   dataset={dataset}
                   updateDate={this.props.updateDate}
-                  setAreaDatasetCache={this.props.setAreaDatasetCache}
                 />
                 : null
               }
@@ -81,8 +80,7 @@ AlertSystem.propTypes = {
     )
   }).isRequired,
   setAreaDatasetStatus: PropTypes.func.isRequired,
-  updateDate: PropTypes.func.isRequired,
-  setAreaDatasetCache: PropTypes.func.isRequired
+  updateDate: PropTypes.func.isRequired
 };
 
 export default AlertSystem;
