@@ -34,9 +34,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    submitForm: (form, formName, answers) => {
-      const fields = getFormFields(form, answers);
-      dispatch(uploadReport(formName, fields));
+    submitForm: (template, reportName, answers) => {
+      const fields = getFormFields(template, answers);
+      dispatch(uploadReport({ reportName, fields }));
       dispatch(setCanDisplayAlerts(true));
     }
   };
@@ -50,7 +50,8 @@ function mergeProps({ form, stateReports, ...state }, { submitForm, ...dispatch 
     getLastStep: (formName) => {
       const answers = Object.keys(getAnswers(form, formName));
       if (answers.length) {
-        const questions = stateReports.forms.questions;
+        const templateId = stateReports.list[formName].area.templateId || 'default';
+        const questions = stateReports.templates[templateId].questions;
         const last = Math.max(...answers.map(answer => questions.findIndex(question => answer === question.name)));
         return last < (questions.length - 1) ? last : null;
       }
@@ -58,8 +59,9 @@ function mergeProps({ form, stateReports, ...state }, { submitForm, ...dispatch 
       return 0;
     },
     finish: (formName) => {
+      const templateId = stateReports.list[formName].area.templateId || 'default';
       const answers = Object.keys(getAnswers(form, formName));
-      submitForm(stateReports.forms, formName, answers);
+      submitForm(stateReports.templates[templateId], formName, answers);
     }
   };
 }

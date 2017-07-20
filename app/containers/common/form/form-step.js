@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getBtnTextByType, parseQuestion, getForm, getAnswers, getNextStep } from 'helpers/forms';
+import { getBtnTextByType, parseQuestion, getTemplate, getAnswers, getNextStep } from 'helpers/forms';
 import FormStep from 'components/common/form/form-step';
 
 const isFeedback = formName => (formName === 'daily' || formName === 'weekly');
@@ -58,10 +58,10 @@ function getEditNextCallback({ currentQuestion, questions, answers, navigator, f
 }
 
 function mapStateToProps(state, { form, index, questionsToSkip, finish, title, screen, navigator, editMode }) {
-  const storeForm = getForm(state, form);
-  const questions = storeForm.questions;
+  const template = getTemplate(state, form);
+  const questions = template.questions;
   const question = questions && questions[index];
-  const parsedQuestion = question && parseQuestion({ question, form: storeForm }, state.app.language);
+  const parsedQuestion = question && parseQuestion({ question, form: template }, state.app.language);
   const answers = getAnswers(state.form, form);
   const hasAnswer = question ? typeof answers[question.name] !== 'undefined' : false;
   const nextText = !hasAnswer && question.required ? getBtnTextByType(question.type) : 'commonText.next';

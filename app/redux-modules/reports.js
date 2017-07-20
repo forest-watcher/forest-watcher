@@ -15,7 +15,7 @@ const UPLOAD_REPORT_ROLLBACK = 'report/UPLOAD_REPORT_ROLLBACK';
 
 // Reducer
 const initialState = {
-  forms: {},
+  templates: {},
   list: {},
   synced: false,
   syncing: false
@@ -26,11 +26,13 @@ export default function reducer(state = initialState, action) {
     case GET_REPORT_QUESTIONS_REQUEST:
       return { ...state, synced: false, syncing: true };
     case GET_REPORT_QUESTIONS_COMMIT: {
-      const form = action.payload || {};
-      if (form.questions && form.questions.length) {
-        form.questions = form.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
+      const template = action.payload || {};
+      if (template.questions && template.questions.length) {
+        template.questions = template.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
       }
-      return Object.assign({}, state, { forms: form, synced: true, syncing: false });
+      const templates = template.id === Config.REPORT_ID ?
+        { ...state.templates, default: template } : { ...state.templates, [template.id]: template };
+      return { ...state, templates, synced: true, syncing: false };
     }
     case CREATE_REPORT: {
       const reports = { ...state.list, ...action.payload };
@@ -67,8 +69,9 @@ export default function reducer(state = initialState, action) {
 
 // Action Creators
 export function getReportQuestions() {
-  const report = Config.REPORT_ID;
-  const url = `${Config.API_URL}/reports/${report}`;
+  // TODO: set the template as public in the database and fetch all templates associated to the areas
+  const template = Config.REPORT_ID;
+  const url = `${Config.API_URL}/reports/${template}`;
 
   return {
     type: GET_REPORT_QUESTIONS_REQUEST,
@@ -104,19 +107,22 @@ export function saveReport(name, data) {
   };
 }
 
-export function uploadReport(reportName, fields) {
+export function uploadReport({ reportName, fields }) {
   tracker.trackEvent('Report', 'Complete Report', { label: 'Click Done', value: 0 });
   return (dispatch, state) => {
-    const report = state().form[reportName].values;
+    const reportValues = state().form[reportName].values;
     const user = state().user;
     const userName = (user && user.data && user.data.fullName) || 'Guest user';
     const organization = (user && user.data && user.data.organization) || 'None';
-    const reportStatus = state().reports.list[reportName];
+    const report = state().reports.list[reportName];
     const language = state().app.language;
-    const area = reportStatus.area;
+    const area = report.area;
     const dataset = area.dataset || {};
     const form = new FormData();
+    const defaultTemplate = state().reports.templates.default;
+    const templateId = report.area.templateId || defaultTemplate.id;
 
+    form.append('report', templateId);
     form.append('areaOfInterest', area.id);
     form.append('startDate', dataset.startDate);
     form.append('endDate', dataset.endDate);
@@ -124,21 +130,21 @@ export function uploadReport(reportName, fields) {
     form.append('language', language);
     form.append('username', userName);
     form.append('organization', organization);
-    form.append('date', reportStatus && reportStatus.date);
-    form.append('clickedPosition', reportStatus && reportStatus.clickedPosition.toString());
-    form.append('userPosition', reportStatus && reportStatus.userPosition.toString());
+    form.append('date', report && report.date);
+    form.append('clickedPosition', report && report.clickedPosition.toString());
+    form.append('userPosition', report && report.userPosition.toString());
 
-    Object.keys(report).forEach((key) => {
+    Object.keys(reportValues).forEach((key) => {
       if (fields.includes(key)) {
-        if (typeof report[key] === 'string' && report[key].indexOf('jpg') >= 0) { // TODO: improve this
+        if (typeof reportValues[key] === 'string' && reportValues[key].indexOf('jpg') >= 0) { // TODO: improve this
           const image = {
-            uri: report[key],
+            uri: reportValues[key],
             type: 'image/jpg',
             name: `${reportName}-image-${key}.jpg`
           };
           form.append(key, image);
         } else {
-          form.append(key, report[key].toString());
+          form.append(key, reportValues[key].toString());
         }
       }
     });
