@@ -9,11 +9,6 @@ import DropdownPicker from 'components/settings/area-detail/alert-system/dropdow
 import styles from './styles';
 
 class DatasetOptions extends Component {
-  onChange = (currentValue) => {
-    const { id, dataset, setAreaDatasetCache } = this.props;
-    const updatedValue = !currentValue;
-    setAreaDatasetCache(id, dataset.slug, updatedValue);
-  }
 
   handleUpdateDate = (date) => {
     const { id, dataset, updateDate } = this.props;
@@ -46,8 +41,7 @@ DatasetOptions.propTypes = {
       React.PropTypes.number
     )
   }),
-  updateDate: PropTypes.func.isRequired,
-  setAreaDatasetCache: PropTypes.func.isRequired
+  updateDate: PropTypes.func.isRequired
 };
 
 export default DatasetOptions;
