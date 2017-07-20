@@ -50,7 +50,8 @@ class Dashboard extends PureComponent {
     navBarButtonColor: Theme.colors.color1,
     topBarElevationShadowEnabled: false,
     navBarBackgroundColor: Theme.background.main,
-    navBarTitleTextCentered: true
+    navBarTitleTextCentered: true,
+    navBarNoBorder: true
   };
 
   static navigatorButtons = {
@@ -146,6 +147,7 @@ class Dashboard extends PureComponent {
   render() {
     return (
       <View style={styles.container}>
+        <View style={styles.backgroundHack} />
 
         <ScrollView
           style={styles.list}
