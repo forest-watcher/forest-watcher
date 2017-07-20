@@ -1,4 +1,4 @@
-export default function hexToRgb(hex) {
+export function hexToRgb(hex) {
   let hexValue = hex;
   const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
   hexValue = hex.replace(shorthandRegex, (m, r, g, b) => (
@@ -10,3 +10,5 @@ export default function hexToRgb(hex) {
     ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`
     : '0,0,0'; // use as fallback for RN styles
 }
+
+export default hexToRgb;

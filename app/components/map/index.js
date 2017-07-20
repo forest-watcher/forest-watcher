@@ -597,13 +597,13 @@ class Map extends Component {
     const { hasCompass, lastPosition, compassFallback,
             selectedAlerts, neighbours, heading, markers } = this.state;
     const { areaCoordinates, datasetSlug, contextualLayer,
-            basemapLocalTilePath, isConnected } = this.props;
+            basemapLocalTilePath, isConnected, ctxLayerLocalTilePath } = this.props;
     const showCompassFallback = !hasCompass && lastPosition && selectedAlerts && compassFallback;
     const lastAlertIndex = selectedAlerts.length - 1;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
     const hasNeighbours = neighbours && neighbours.length > 0;
-    let veilHeight = 100;
-    if (hasAlertsSelected) veilHeight = hasNeighbours ? 240 : 160;
+    let veilHeight = 120;
+    if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
     const mapKey = Platform.OS === 'ios' ? markers.length : 'mapView';
     // Map elements
     const basemapLayerElement = isConnected
@@ -621,13 +621,23 @@ class Map extends Component {
           zIndex={-1}
         />
       );
-    const contextualLayerElement = contextualLayer ? (
-      <MapView.UrlTile
-        key="contextualLayerElement"
-        urlTemplate={contextualLayer.url}
-        zIndex={10}
-      />
-    ) : null;
+    const contextualLayerElement = contextualLayer // eslint-disable-line
+      ? isConnected
+        ? (
+          <MapView.UrlTile
+            key="contextualLayerElement"
+            urlTemplate={contextualLayer.url}
+            zIndex={1}
+          />
+        )
+        : (
+          <MapView.LocalTile
+            key="contextualLayerElementOffline"
+            localTemplate={ctxLayerLocalTilePath}
+            zIndex={1}
+          />
+        )
+      : null;
     const compassFallbackElement = showCompassFallback ? (
       <MapView.Polyline
         key="compassFallbackElement"
@@ -789,6 +799,7 @@ Map.propTypes = {
   }),
   datasetSlug: PropTypes.string,
   basemapLocalTilePath: PropTypes.string,
+  ctxLayerLocalTilePath: PropTypes.string,
   areaCoordinates: PropTypes.array,
   actionsPending: PropTypes.number.isRequired,
   isConnected: PropTypes.bool.isRequired,
