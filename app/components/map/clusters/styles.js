@@ -1,6 +1,6 @@
 import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
-import hexToRgb from 'helpers/utils';
+import { hexToRgb } from 'helpers/utils';
 
 export default StyleSheet.create({
   container: {
