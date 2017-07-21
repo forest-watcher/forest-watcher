@@ -28,6 +28,9 @@ export default StyleSheet.create({
     width: 18,
     height: 18
   },
+  reportedColor: {
+    backgroundColor: 'green' // TODO: get the correct color
+  },
   viirsColor: {
     backgroundColor: `rgba(${hexToRgb(Theme.colors.colorViirs)}, 0.5)`
   },

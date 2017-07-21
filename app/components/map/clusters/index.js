@@ -14,10 +14,18 @@ class Clusters extends PureComponent {
     return (
       <View>
         {this.props.markers.map((marker, index) => {
+          const { datasetSlug } = this.props;
           const coordinates = {
             latitude: marker.geometry.coordinates[1],
             longitude: marker.geometry.coordinates[0]
           };
+
+          let markerColor = styles.gladColor;
+          if (marker.attributes.reported) {
+            markerColor = styles.reportedColor;
+          } else if (datasetSlug === 'viirs') {
+            markerColor = styles.viirsColor;
+          }
           return marker.properties.point_count !== undefined ? (
             <ClusterMarker id={`cluster-marker-${index}`} key={`cluster-marker-${index}`} marker={marker} zoomTo={this.props.zoomTo} datasetSlug={this.props.datasetSlug} />
           ) : (
@@ -30,10 +38,7 @@ class Clusters extends PureComponent {
               draggable={false}
             >
               <View
-                style={[
-                  styles.markerIcon,
-                  this.props.datasetSlug === 'viirs' ? styles.viirsColor : styles.gladColor
-                ]}
+                style={[styles.markerIcon, markerColor]}
               />
             </MapView.Marker>
           );
