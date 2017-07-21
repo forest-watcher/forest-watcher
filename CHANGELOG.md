@@ -1,5 +1,26 @@
 # Forest Watcher Changelog
 
+## [beta 2] - 2017-07-21
+
+### Added
+
+- Download alerts speed improvements
+- Multiselection (still some styles bugs on buttons and texts)
+- Compass fixes
+- Production error tracking
+- Custom basemap
+- General styles polish
+- RN 0.45 update
+- Make the map performance much much better
+- Contextual layers sidebar
+- Cache basemap and contextual layers
+- Review uploaded report
+- Working on iOS!
+- Include map attribution
+- Clear cache on version upgrade
+- Fix offline map date filter
+
+
 ## [beta] - 2017-06-21
 
 ### Added
