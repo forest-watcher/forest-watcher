@@ -1,6 +1,8 @@
 import Config from 'react-native-config';
 import omit from 'lodash/omit';
 import CONSTANTS from 'config/constants';
+import RNFetchBlob from 'react-native-fetch-blob';
+import { unzip } from 'react-native-zip-archive';
 import { getTilesInBbox } from 'helpers/map';
 import { cacheTiles } from 'helpers/fileManagement';
 import { getActionsTodoCount } from 'helpers/sync';
@@ -165,11 +167,29 @@ export function setActiveContextualLayer(layerId, value) {
 }
 
 async function downloadLayer(config) {
-  const { bbox, areaId, layerId, layerUrl } = config;
-  const zooms = CONSTANTS.maps.cachedZoomLevels;
-  const tiles = getTilesInBbox(bbox, zooms);
-  const cacheConfig = { tiles, areaId, layerId, layerUrl };
-  return await cacheTiles(cacheConfig);
+  const { start, end } = CONSTANTS.maps.cacheZoom;
+  const { area, layerId, layerUrl } = config;
+  const url = `${Config.API_URL}/area/download-tiles/${area.geostore}/${start}/${end}?urlTile=${layerUrl}`;
+  try {
+    const res = await RNFetchBlob
+      // add this option that makes response data to be stored as a file,
+      // this is much more performant.
+      .config({ fileCache: true })
+      .fetch('GET', url);
+    const downloadPath = res.path();
+    if (downloadPath) {
+      const targetPath = `${RNFetchBlob.fs.dirs.DocumentDir}/${CONSTANTS.maps.tilesFolder}/1234/${layerId}` // TODO: fix 1234 as area ID
+
+      const path = await unzip(downloadPath, targetPath);
+      tron.log('unzipped folder is');
+      tron.log(path);
+      return path;
+    } else {
+      throw new Error('Download path error');
+    }
+  } catch(e) {
+    throw new Error(e);
+  }
 }
 
 function getAreaById(areas, areaId) {
@@ -200,12 +220,11 @@ export function cacheAreaBasemap(areaId) {
     }
     if (bbox) {
       const downloadConfig = {
-        bbox,
-        areaId,
-        extension: 'jpg',
+        area,
         layerId: 'basemap',
         layerUrl: URL_BASEMAP_TEMPLATE
       };
+
       const promise = downloadLayer(downloadConfig);
       dispatch({
         type: CACHE_BASEMAP_REQUEST,
@@ -213,7 +232,7 @@ export function cacheAreaBasemap(areaId) {
         meta: {
           offline: {
             effect: { promise },
-            commit: { type: CACHE_BASEMAP_COMMIT, meta: { area } },
+            commit: { type: CACHE_BASEMAP_COMMIT, meta: { area, layerId: 'basemap' } },
             rollback: { type: CACHE_BASEMAP_ROLLBACK }
           }
         }
