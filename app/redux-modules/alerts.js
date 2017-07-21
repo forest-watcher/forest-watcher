@@ -7,9 +7,28 @@ import CONSTANTS from 'config/constants';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
+import { UPLOAD_REPORT_COMMIT } from 'redux-modules/reports';
 
 const SET_CAN_DISPLAY_ALERTS = 'alerts/SET_CAN_DISPLAY_ALERTS';
 const SET_ACTIVE_ALERTS = 'alerts/SET_ACTIVE_ALERTS';
+
+
+// Helpers
+function setReportedAlerts(alerts) {
+  if (alerts && alerts.length > 0) {
+    const realm = initDb();
+    alerts.forEach((alert) => {
+      const dbAlert = read(realm, 'Alert')
+        .filtered(`lat = '${alert.lat}' AND lng = '${alert.lon}`);
+
+      if (dbAlert) {
+        realm.write(() => {
+          dbAlert.reported = true;
+        });
+      }
+    }, this);
+  }
+}
 
 const supercluster = require('supercluster');
 
@@ -54,6 +73,13 @@ export default function reducer(state = initialState, action) {
       return { ...state, canDisplayAlerts: action.payload };
     case SET_ACTIVE_ALERTS:
       return { ...state, clusters: action.payload };
+    case UPLOAD_REPORT_COMMIT: {
+      const reportedAlerts = action.payload.alerts;
+      if (reportedAlerts) {
+        setReportedAlerts(reportedAlerts);
+      }
+      return state;
+    }
     case LOGOUT_REQUEST:
       return initialState;
     default:
