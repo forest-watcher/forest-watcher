@@ -2,11 +2,17 @@ import Config from 'react-native-config';
 import tracker from 'helpers/googleAnalytics';
 import CONSTANTS from 'config/constants';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
+import { getActionsTodoCount } from 'helpers/sync';
+import { omit } from 'lodash/omit';
 
+import { SAVE_AREA_COMMIT, GET_AREAS_COMMIT } from 'redux-modules/areas';
 
 // Actions
-const GET_REPORT_QUESTIONS_REQUEST = 'report/GET_REPORT_QUESTIONS_REQUEST';
-const GET_REPORT_QUESTIONS_COMMIT = 'report/GET_REPORT_QUESTIONS_COMMIT';
+
+const GET_DEFAULT_TEMPLATE_REQUEST = 'report/GET_DEFAULT_TEMPLATE_REQUEST';
+const GET_DEFAULT_TEMPLATE_COMMIT = 'report/GET_DEFAULT_TEMPLATE_COMMIT';
+const GET_REPORT_TEMPLATE_REQUEST = 'report/GET_REPORT_TEMPLATE_REQUEST';
+const GET_REPORT_TEMPLATE_COMMIT = 'report/GET_REPORT_TEMPLATE_COMMIT';
 const CREATE_REPORT = 'report/CREATE_REPORT';
 const UPDATE_REPORT = 'report/UPDATE_REPORT';
 const UPLOAD_REPORT_REQUEST = 'report/UPLOAD_REPORT_REQUEST';
@@ -18,21 +24,76 @@ const initialState = {
   templates: {},
   list: {},
   synced: false,
-  syncing: false
+  syncing: false,
+  pendingData: {
+    templates: {}
+  }
 };
+
+function orderQuestions(questions) {
+  if (!questions || !questions.length) return [];
+  return questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
+}
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case GET_REPORT_QUESTIONS_REQUEST:
+    case GET_DEFAULT_TEMPLATE_REQUEST:
       return { ...state, synced: false, syncing: true };
-    case GET_REPORT_QUESTIONS_COMMIT: {
+    case GET_DEFAULT_TEMPLATE_COMMIT: {
       const template = action.payload || {};
-      if (template.questions && template.questions.length) {
-        template.questions = template.questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
-      }
-      const templates = template.id === Config.REPORT_ID ?
-        { ...state.templates, default: template } : { ...state.templates, [template.id]: template };
+      template.questions = orderQuestions(template.questions);
+      const templates = {
+        ...state.templates,
+        default: template
+      };
       return { ...state, templates, synced: true, syncing: false };
+    }
+    case GET_REPORT_TEMPLATE_REQUEST: {
+      const { templateId } = action.payload;
+
+      const pendingData = {
+        ...state.pendingData,
+        templates: {
+          ...state.pendingData.templates,
+          [templateId]: true
+        }
+      };
+      return { ...state, pendingData };
+    }
+    case GET_REPORT_TEMPLATE_COMMIT: {
+      const template = action.payload || {};
+      template.questions = orderQuestions(template.questions);
+      const templates = {
+        ...state.templates,
+        [template.id]: template
+      };
+      const pendingData = {
+        ...state.pendingData,
+        templates: omit(state.pendingData.templates, [template.id])
+      };
+      return { ...state, templates, pendingData };
+    }
+    case GET_AREAS_COMMIT: {
+      const data = [...action.payload];
+      let pendingData = state.pendingData;
+      data.forEach((area) => {
+        if (area.templateId) {
+          pendingData = {
+            templates: { ...pendingData.templates, [area.templateId]: false }
+          };
+        }
+      });
+      return { ...state, pendingData };
+    }
+    case SAVE_AREA_COMMIT: {
+      const area = action.payload;
+      let pendingData = { ...state.pendingData };
+      if (area && area.templateId) {
+        pendingData = {
+          templates: { ...pendingData.templates, [area.templateId]: false }
+        };
+      }
+      return { ...state, pendingData };
     }
     case CREATE_REPORT: {
       const reports = { ...state.list, ...action.payload };
@@ -68,17 +129,31 @@ export default function reducer(state = initialState, action) {
 }
 
 // Action Creators
-export function getReportQuestions() {
-  // TODO: set the template as public in the database and fetch all templates associated to the areas
+export function getDefaultReport() {
   const template = Config.REPORT_ID;
   const url = `${Config.API_URL}/reports/${template}`;
 
   return {
-    type: GET_REPORT_QUESTIONS_REQUEST,
+    type: GET_DEFAULT_TEMPLATE_REQUEST,
     meta: {
       offline: {
         effect: { url },
-        commit: { type: GET_REPORT_QUESTIONS_COMMIT }
+        commit: { type: GET_DEFAULT_TEMPLATE_COMMIT }
+      }
+    }
+  };
+}
+
+export function getReportTemplate(templateId) {
+  const url = `${Config.API_URL}/reports/${templateId}`;
+
+  return {
+    type: GET_REPORT_TEMPLATE_REQUEST,
+    payload: templateId,
+    meta: {
+      offline: {
+        effect: { url },
+        commit: { type: GET_REPORT_TEMPLATE_COMMIT }
       }
     }
   };
@@ -170,5 +245,24 @@ export function uploadReport({ reportName, fields }) {
         }
       }
     });
+  };
+}
+
+export function syncReports() {
+  return (dispatch, state) => {
+    const { reports } = state();
+    if (!reports.synced && !reports.syncing) dispatch(getDefaultReport());
+    const { pendingData } = state().reports;
+    if (getActionsTodoCount(pendingData) > 0) {
+      Object.keys(pendingData).forEach((template) => {
+        const syncingReportsData = pendingData[template];
+        const canDispatch = id => (typeof syncingReportsData[id] !== 'undefined' && syncingReportsData[id] === false);
+        Object.keys(syncingReportsData).forEach(id => {
+          if (canDispatch(id)) {
+            dispatch(getReportTemplate(id));
+          }
+        });
+      });
+    }
   };
 }
