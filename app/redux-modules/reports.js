@@ -3,7 +3,7 @@ import tracker from 'helpers/googleAnalytics';
 import CONSTANTS from 'config/constants';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { getActionsTodoCount } from 'helpers/sync';
-import { omit } from 'lodash/omit';
+import omit from 'lodash/omit';
 
 import { SAVE_AREA_COMMIT, GET_AREAS_COMMIT } from 'redux-modules/areas';
 
@@ -254,8 +254,8 @@ export function syncReports() {
     if (!reports.synced && !reports.syncing) dispatch(getDefaultReport());
     const { pendingData } = state().reports;
     if (getActionsTodoCount(pendingData) > 0) {
-      Object.keys(pendingData).forEach((template) => {
-        const syncingReportsData = pendingData[template];
+      Object.keys(pendingData).forEach((type) => {
+        const syncingReportsData = pendingData[type];
         const canDispatch = id => (typeof syncingReportsData[id] !== 'undefined' && syncingReportsData[id] === false);
         Object.keys(syncingReportsData).forEach(id => {
           if (canDispatch(id)) {
