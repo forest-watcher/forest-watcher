@@ -90,7 +90,7 @@ export function logout() {
         type: LOGOUT_REQUEST,
         meta: {
           offline: {
-            effect: { promise: GoogleOAuth.logout() },
+            effect: { promise: GoogleOAuth.logout(), errorCode: 500 },
             commit: { type: LOGOUT_COMMIT }
           }
         }
