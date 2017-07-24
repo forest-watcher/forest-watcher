@@ -33,14 +33,16 @@ export const getAnswers = (forms, formName) => {
   return {};
 };
 
-export const getForm = (state, formName) => {
+export const getTemplate = (state, formName) => {
+  const list = state.reports.list[formName];
+  const templateId = list && list.area.templateId ? list.area.templateId : 'default';
   switch (formName) {
     case 'daily':
       return Object.assign({}, state.feedback.daily);
     case 'weekly':
       return Object.assign({}, state.feedback.weekly);
     default:
-      return Object.assign({}, state.reports.forms);
+      return Object.assign({}, state.reports.templates[templateId]);
   }
 };
 
@@ -60,13 +62,13 @@ export const getNextStep = ({ currentQuestion, questions, answers }) => {
   return null;
 };
 
-export const getFormFields = (form, answers) => {
+export const getFormFields = (template, answers) => {
   const fields = [0];
-  form.questions.forEach((question, index) => {
-    const nextStep = getNextStep({ currentQuestion: index, questions: form.questions, answers });
+  template.questions.forEach((question, index) => {
+    const nextStep = getNextStep({ currentQuestion: index, questions: template.questions, answers });
     if (nextStep) fields.push(nextStep);
   });
-  return fields.map(field => form.questions[field].name);
+  return fields.map(field => template.questions[field].name);
 };
 
-export default { getBtnTextByType, parseQuestion, getForm, getAnswers, getFormFields, getNextStep };
+export default { getBtnTextByType, parseQuestion, getTemplate, getAnswers, getFormFields, getNextStep };

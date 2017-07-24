@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { saveReport } from 'redux-modules/reports';
-import { getForm, getAnswers, parseQuestion, getFormFields } from 'helpers/forms';
+import { getTemplate, getAnswers, parseQuestion, getFormFields } from 'helpers/forms';
 import Answers from 'components/common/form/answers';
 
 function getAnswerValues(question, answer) {
@@ -31,7 +31,7 @@ function mapFormToAnsweredQuestions(fields, answers, form, deviceLang) {
 }
 
 function mapStateToProps(state, { form, readOnly }) {
-  const template = getForm(state, form);
+  const template = getTemplate(state, form);
   const answers = getAnswers(state.form, form);
   // map readOnly to object because withDraft expects disableDraft and answers expects readOnly
   const readOnlyProps = readOnly ? { disableDraft: true, readOnly } : {};
