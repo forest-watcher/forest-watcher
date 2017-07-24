@@ -21,7 +21,7 @@ export default function effect({ url, headers, promise, errorCode, deserialize =
       .then(data => data)
       .catch(err => {
         console.warn(err);
-        return Promise.reject(errorCode);
+        return Promise.reject({ msg: 'Error in custom promise offline handler', status: errorCode });
       });
   }
   throw new TypeError();
