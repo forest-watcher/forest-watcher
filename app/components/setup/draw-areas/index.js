@@ -234,7 +234,6 @@ class DrawAreas extends Component {
       />
       : <ActionButton
         style={[styles.actionButton, styles.actionButtonWithPadding]}
-        disabled
         error
         onPress={this.clearShape}
         text={btnText.toUpperCase()}
