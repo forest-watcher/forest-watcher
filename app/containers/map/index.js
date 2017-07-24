@@ -46,7 +46,8 @@ function mapStateToProps(state) {
     area: {
       dataset,
       id: area.id,
-      name: area.name
+      name: area.name,
+      templateId: area.templateId
     },
     center,
     datasetSlug,
