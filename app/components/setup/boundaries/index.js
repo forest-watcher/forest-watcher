@@ -4,33 +4,17 @@ import {
   View
 } from 'react-native';
 
-import Theme from 'config/theme';
-import ActionButton from 'components/common/action-button';
 import DrawAreas from 'components/setup/draw-areas';
-import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 class SetupBoundaries extends Component {
-  static navigatorStyle = {
-    navBarTextColor: Theme.colors.color5,
-    navBarButtonColor: Theme.colors.color5,
-    drawUnderNavBar: true,
-    topBarElevationShadowEnabled: false,
-    navBarBackgroundColor: Theme.background.main,
-    navBarTransparent: true,
-    navBarTranslucent: true
-  };
 
   static propTypes = {
     setSetupArea: PropTypes.func.isRequired,
     setupCountry: PropTypes.object.isRequired,
     onNextPress: PropTypes.func.isRequired,
-    storeGeostore: PropTypes.func.isRequired,
-    area: PropTypes.shape({
-      wdpaid: PropTypes.number,
-      geostore: PropTypes.string
-    })
+    storeGeostore: PropTypes.func.isRequired
   };
 
   componentDidMount() {
@@ -39,7 +23,7 @@ class SetupBoundaries extends Component {
 
   onDrawAreaFinish = (area, snapshot) => {
     this.props.setSetupArea(area, snapshot);
-    this.props.onNextPress();
+    return this.props.onNextPress();
   }
   storeGeostore = (id, data) => {
     this.props.storeGeostore(id, data);
@@ -53,15 +37,6 @@ class SetupBoundaries extends Component {
           storeGeostore={this.storeGeostore}
           onDrawAreaFinish={this.onDrawAreaFinish}
         />
-        {this.props.area && (this.props.area.wdpaid || this.props.area.geostore)
-          ?
-            <ActionButton
-              style={styles.buttonPos}
-              onPress={this.props.onNextPress}
-              text={I18n.t('commonText.next')}
-            />
-          : null
-        }
       </View>
     );
   }

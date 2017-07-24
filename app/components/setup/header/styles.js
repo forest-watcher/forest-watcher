@@ -9,11 +9,11 @@ export default StyleSheet.create({
     left: 0,
     right: 0,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    zIndex: 1
   },
   title: {
     fontFamily: Theme.font,
-    color: Theme.fontColors.main,
     fontSize: 21,
     fontWeight: '400'
   },

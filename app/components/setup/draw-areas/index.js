@@ -179,7 +179,8 @@ class DrawAreas extends Component {
         const snapshot = await this.takeSnapshot();
         const url = snapshot.uri ? snapshot.uri : snapshot;
         const storedUrl = await storeImage(url);
-        this.props.onDrawAreaFinish({ geostore }, storedUrl);
+        await this.props.onDrawAreaFinish({ geostore }, storedUrl);
+        this.setState({ loading: false });
       })
       .catch((error) => console.warn(error));
   }
@@ -234,6 +235,7 @@ class DrawAreas extends Component {
       />
       : <ActionButton
         style={[styles.actionButton, styles.actionButtonWithPadding]}
+        disabled
         error
         onPress={this.clearShape}
         text={btnText.toUpperCase()}
