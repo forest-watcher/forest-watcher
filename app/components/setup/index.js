@@ -46,11 +46,9 @@ class Setup extends Component {
     }));
   }
 
-  goToNextPage = () => {
-    this.setState((prevState) => ({
-      page: prevState.page + 1
-    }));
-  }
+  goToNextPage = () => this.setState((prevState) => ({
+    page: prevState.page + 1
+  }));
 
   updatePage = (slide) => {
     this.setState({
@@ -74,13 +72,16 @@ class Setup extends Component {
       ? this.goBack
       : this.goToPrevPage;
 
+    const { page } = this.state;
+
     return (
-      <View style={styles.container}>
+      <View style={page !== 1 ? styles.defaultHeader : styles.mapHeader}>
         <Header
           title={I18n.t('commonText.setUp')}
-          showBack={showBack || this.state.page > 0}
+          showBack={showBack || page > 0}
           onBackPress={onBackPress}
           prerenderingSiblingsNumber={this.slides}
+          transparent={page === 1}
         />
         <StepsSlider
           page={this.state.page}
@@ -99,12 +100,6 @@ Setup.propTypes = {
   navigator: PropTypes.object.isRequired,
   initSetup: PropTypes.func.isRequired,
   goBackDisabled: PropTypes.bool
-};
-
-Setup.navigationOptions = {
-  header: {
-    visible: false
-  }
 };
 
 export default Setup;
