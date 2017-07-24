@@ -94,8 +94,7 @@ export function saveAlertsToDb(areaId, slug, alerts) {
           areaId,
           date: parseInt(alert.date, 10),
           lat: parseFloat(alert.lat, 10),
-          long: parseFloat(alert.lon, 10),
-          reported: true // REMOVE IT ! ONLY FOR TESTING
+          long: parseFloat(alert.lon, 10)
         });
       });
     });

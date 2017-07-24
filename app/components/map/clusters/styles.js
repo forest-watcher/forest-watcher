@@ -29,12 +29,12 @@ export default StyleSheet.create({
     height: 18
   },
   reportedColor: {
-    backgroundColor: 'green' // TODO: get the correct color
+    backgroundColor: `rgba(${hexToRgb(Theme.colors.color1)}, 0.8)`
   },
   viirsColor: {
-    backgroundColor: `rgba(${hexToRgb(Theme.colors.colorViirs)}, 0.5)`
+    backgroundColor: `rgba(${hexToRgb(Theme.colors.colorViirs)}, 0.7)`
   },
   gladColor: {
-    backgroundColor: `rgba(${hexToRgb(Theme.colors.colorGlad)}, 0.5)`
+    backgroundColor: `rgba(${hexToRgb(Theme.colors.colorGlad)}, 0.7)`
   }
 });
