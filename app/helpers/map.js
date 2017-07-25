@@ -49,8 +49,6 @@ export function pointsToGeoJSON(points) {
     features: points.map((value) => ({
       type: 'Map',
       properties: {
-        lat: value.lat,
-        long: value.long,
         date: value.date
       },
       geometry: {

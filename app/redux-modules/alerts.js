@@ -7,6 +7,7 @@ import CONSTANTS from 'config/constants';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
+import { UPLOAD_REPORT_COMMIT } from 'redux-modules/reports';
 
 const SET_CAN_DISPLAY_ALERTS = 'alerts/SET_CAN_DISPLAY_ALERTS';
 const SET_ACTIVE_ALERTS = 'alerts/SET_ACTIVE_ALERTS';
@@ -44,6 +45,7 @@ const memoizedAreaToClusters = memoize(mapAreaToClusters, (...rest) => rest.join
 // Reducer
 const initialState = {
   data: {},
+  reported: [],
   canDisplayAlerts: true,
   clusters: null
 };
@@ -54,6 +56,17 @@ export default function reducer(state = initialState, action) {
       return { ...state, canDisplayAlerts: action.payload };
     case SET_ACTIVE_ALERTS:
       return { ...state, clusters: action.payload };
+    case UPLOAD_REPORT_COMMIT: {
+      const { alerts } = action.payload;
+      let reported = { ...state.reported };
+
+      if (alerts && alerts.length) {
+        reported.forEach((alert) => {
+          reported = [...reported, `${alert.long}${alert.lat}`];
+        }, this);
+      }
+      return { ...state, reported };
+    }
     case LOGOUT_REQUEST:
       return initialState;
     default:
