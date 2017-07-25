@@ -24,7 +24,7 @@ import ActionBtn from 'components/common/action-button';
 import AlertPosition from 'components/map/alert-position';
 import MapAttribution from 'components/map/map-attribution';
 import AreaCarousel from 'containers/map/area-carousel';
-import Clusters from 'components/map/clusters/';
+import Clusters from 'containers/map/clusters/';
 import tracker from 'helpers/googleAnalytics';
 import I18n from 'locales';
 import MapView from 'react-native-maps';

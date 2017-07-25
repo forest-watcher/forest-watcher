@@ -2,9 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import MapView from 'react-native-maps';
 import ClusterMarker from 'components/map/clusters/clusterMarker';
-import {
-  View
-} from 'react-native';
+import { View } from 'react-native';
+import CONSTANTS from 'config/constants';
 
 import styles from './styles';
 
@@ -14,27 +13,38 @@ class Clusters extends PureComponent {
     return (
       <View>
         {this.props.markers.map((marker, index) => {
+          const { datasetSlug } = this.props;
           const coordinates = {
             latitude: marker.geometry.coordinates[1],
             longitude: marker.geometry.coordinates[0]
           };
-          return marker.properties.point_count !== undefined ? (
-            <ClusterMarker id={`cluster-marker-${index}`} key={`cluster-marker-${index}`} marker={marker} zoomTo={this.props.zoomTo} datasetSlug={this.props.datasetSlug} />
-          ) : (
+
+          if (marker.properties.point_count !== undefined) {
+            return (
+              <ClusterMarker
+                id={`cluster-marker-${index}`}
+                key={`cluster-marker-${index}`}
+                marker={marker}
+                zoomTo={this.props.zoomTo}
+                datasetSlug={this.props.datasetSlug}
+              />
+            );
+          }
+          let markerColor = datasetSlug === CONSTANTS.datasets.GLAD ? styles.gladColor : styles.viirsColor;
+          const id = `${marker.geometry.coordinates[0]}${marker.geometry.coordinates[1]}`;
+          if (this.props.reportedAlerts.includes(id)) {
+            markerColor = styles.reportedColor;
+          }
+          return (
             <MapView.Marker
-              key={`Alert-marker-${index}`}
+              key={index}
               coordinate={coordinates}
               anchor={{ x: 0.5, y: 0.5 }}
               onPress={() => this.props.selectAlert(coordinates)}
               zIndex={1}
               draggable={false}
             >
-              <View
-                style={[
-                  styles.markerIcon,
-                  this.props.datasetSlug === 'viirs' ? styles.viirsColor : styles.gladColor
-                ]}
-              />
+              <View style={[styles.markerIcon, markerColor]} />
             </MapView.Marker>
           );
         })}
@@ -45,6 +55,7 @@ class Clusters extends PureComponent {
 
 Clusters.propTypes = {
   markers: PropTypes.array.isRequired,
+  reportedAlerts: PropTypes.array.isRequired,
   datasetSlug: PropTypes.string.isRequired,
   selectAlert: PropTypes.func.isRequired,
   zoomTo: PropTypes.func.isRequired
