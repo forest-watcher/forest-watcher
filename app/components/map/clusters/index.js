@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import MapView from 'react-native-maps';
 import ClusterMarker from 'components/map/clusters/clusterMarker';
 import { View } from 'react-native';
+import CONSTANTS from 'config/constants';
 
 import styles from './styles';
 
@@ -29,12 +30,10 @@ class Clusters extends PureComponent {
               />
             );
           }
-          let markerColor = styles.gladColor;
+          let markerColor = datasetSlug === CONSTANTS.datasets.GLAD ? styles.gladColor : styles.viirsColor;
           const id = `${marker.geometry.coordinates[0]}${marker.geometry.coordinates[1]}`;
           if (this.props.reportedAlerts.includes(id)) {
             markerColor = styles.reportedColor;
-          } else if (datasetSlug === 'viirs') {
-            markerColor = styles.viirsColor;
           }
           return (
             <MapView.Marker
