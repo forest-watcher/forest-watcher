@@ -194,26 +194,22 @@ export function setActiveContextualLayer(layerId, value) {
 async function downloadLayer(config) {
   const { area, layerId, layerUrl, zoom } = config;
   const url = `${Config.API_URL}/download-tiles/${area.geostore}/${zoom.start}/${zoom.end}?layerUrl=${layerUrl}`;
-  try {
-    const res = await RNFetchBlob
-      // add this option that makes response data to be stored as a file,
-      // this is much more performant.
-      .config({ fileCache: true })
-      .fetch('GET', url);
-    if (res) {
-      const downloadPath = res.path();
-      if (downloadPath) {
-        const tilesPath = `${CONSTANTS.files.tiles}/${area.id}/${layerId}`;
-        const targetPath = `${RNFetchBlob.fs.dirs.DocumentDir}/${tilesPath}`;
-        await unzip(downloadPath, targetPath);
-        res.flush(); // remove from the cache
-        return `${tilesPath}/{z}x{x}x{y}`;
-      }
+  const res = await RNFetchBlob
+    // add this option that makes response data to be stored as a file,
+    // this is much more performant.
+    .config({ fileCache: true })
+    .fetch('GET', url);
+  if (res) {
+    const downloadPath = res.path();
+    if (downloadPath) {
+      const tilesPath = `${CONSTANTS.files.tiles}/${area.id}/${layerId}`;
+      const targetPath = `${RNFetchBlob.fs.dirs.DocumentDir}/${tilesPath}`;
+      await unzip(downloadPath, targetPath);
+      res.flush(); // remove from the cache
+      return `${tilesPath}/{z}x{x}x{y}`;
     }
-    throw new Error('Downloaded path not found');
-  } catch (e) {
-    throw new Error(e);
   }
+  throw new Error('Downloaded path not found');
 }
 
 function downloadAllLayers(config) {
