@@ -17,9 +17,9 @@ function mapDispatchToProps(dispatch) {
     saveReport: (reportName, params) => {
       dispatch(saveReport(reportName, params));
     },
-    submitForm: (form, formName, answers) => {
-      const fields = getFormFields(form, answers);
-      dispatch(uploadReport(formName, fields));
+    submitForm: (template, reportName, answers) => {
+      const fields = getFormFields(template, answers);
+      dispatch(uploadReport({ reportName, fields }));
       dispatch(setCanDisplayAlerts(true));
     }
   };
@@ -32,7 +32,8 @@ function mergeProps({ form, reports, ...state }, { submitForm, ...dispatch }, ow
     ...dispatch,
     finish: (formName) => {
       const answers = getAnswers(form, formName);
-      submitForm(reports.forms, formName, answers);
+      const templateId = reports.list[formName].area.templateId || 'default';
+      submitForm(reports.templates[templateId], formName, answers);
     }
   };
 }

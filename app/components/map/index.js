@@ -89,6 +89,18 @@ function getNeighboursSelected(selectedAlerts, markers) {
   return neighbours;
 }
 
+function getMapZoom(region) {
+  if (!region.longitude || !region.latitude) return 0;
+  const bounds = [
+    region.longitude - (region.longitudeDelta / 2),
+    region.latitude - (region.latitudeDelta / 2),
+    region.longitude + (region.longitudeDelta / 2),
+    region.latitude + (region.latitudeDelta / 2)
+  ];
+
+  return geoViewport.viewport(bounds, [width, height], 0, 21, 256).zoom || 0;
+}
+
 class Map extends Component {
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color5,
@@ -263,19 +275,6 @@ class Map extends Component {
     }
   }
 
-  getMapZoom() {
-    const position = this.state.region;
-
-    const bounds = [
-      position.longitude - (position.longitudeDelta / 2),
-      position.latitude - (position.latitudeDelta / 2),
-      position.longitude + (position.longitudeDelta / 2),
-      position.latitude + (position.latitudeDelta / 2)
-    ];
-
-    return geoViewport.viewport(bounds, [width, height], 0, 21, 256).zoom || 0;
-  }
-
   setCompassLine = () => {
     this.setState((prevState) => {
       const state = {};
@@ -304,15 +303,24 @@ class Map extends Component {
     });
   }
 
-  updateMarkers() {
+  updateMarkers(clean = false) {
+    const { region } = this.state;
     const clusters = this.props.clusters && this.props.clusters.getClusters([
-      this.state.region.longitude - (this.state.region.longitudeDelta / 2),
-      this.state.region.latitude - (this.state.region.latitudeDelta / 2),
-      this.state.region.longitude + (this.state.region.longitudeDelta / 2),
-      this.state.region.latitude + (this.state.region.latitudeDelta / 2)
-    ], this.getMapZoom());
+      region.longitude - (region.longitudeDelta / 2),
+      region.latitude - (region.latitudeDelta / 2),
+      region.longitude + (region.longitudeDelta / 2),
+      region.latitude + (region.latitudeDelta / 2)
+    ], getMapZoom(region));
     const markers = clusters || [];
-    this.setState({ markers });
+    if (clean) {
+      this.setState({
+        markers,
+        selectedAlerts: [],
+        neighbours: []
+      });
+    } else {
+      this.setState({ markers });
+    }
   }
 
   reportSelection = () => {
@@ -434,13 +442,14 @@ class Map extends Component {
   }
 
   updateRegion = (region) => {
+    const clean = getMapZoom(this.state.region) > getMapZoom(region);
     this.setState({ region }, () => {
-      this.updateMarkers();
+      this.updateMarkers(clean);
     });
   }
 
   zoomScale = () => {
-    const zoomLevel = this.getMapZoom();
+    const zoomLevel = getMapZoom(this.state.region);
     switch (true) {
       case zoomLevel < 6:
         return 16;
