@@ -1,6 +1,9 @@
 import Config from 'react-native-config';
 import GoogleOAuth from 'config/oAuth/GoogleOAuth';
 
+const CookieManager = require('react-native-cookies');
+
+
 // Actions
 const GET_USER_REQUEST = 'user/GET_USER_REQUEST';
 const GET_USER_COMMIT = 'user/GET_USER_COMMIT';
@@ -85,19 +88,21 @@ export function loginGoogle() {
 
 export function logout() {
   return (dispatch, state) => {
-    if (state().user.socialNetwork === 'google') {
-      return dispatch({
-        type: LOGOUT_REQUEST,
-        meta: {
-          offline: {
-            effect: { promise: GoogleOAuth.logout(), errorCode: 500 },
-            commit: { type: LOGOUT_COMMIT }
+    CookieManager.clearAll(() => {
+      if (state().user.socialNetwork === 'google') {
+        return dispatch({
+          type: LOGOUT_REQUEST,
+          meta: {
+            offline: {
+              effect: { promise: GoogleOAuth.logout(), errorCode: 500 },
+              commit: { type: LOGOUT_COMMIT }
+            }
           }
-        }
+        });
+      }
+      return dispatch({
+        type: LOGOUT_COMMIT
       });
-    }
-    return dispatch({
-      type: LOGOUT_COMMIT
     });
   };
 }
