@@ -179,7 +179,8 @@ class DrawAreas extends Component {
         const snapshot = await this.takeSnapshot();
         const url = snapshot.uri ? snapshot.uri : snapshot;
         const storedUrl = await storeImage(url);
-        this.props.onDrawAreaFinish({ geostore }, storedUrl);
+        await this.props.onDrawAreaFinish({ geostore }, storedUrl);
+        this.setState({ loading: false });
       })
       .catch((error) => console.warn(error));
   }
@@ -395,7 +396,8 @@ DrawAreas.propTypes = {
     bbox: PropTypes.object,
     centroid: PropTypes.object
   }).isRequired,
-  onDrawAreaFinish: PropTypes.func.isRequired
+  onDrawAreaFinish: PropTypes.func.isRequired,
+  storeGeostore: PropTypes.func.isRequired
 };
 
 export default DrawAreas;

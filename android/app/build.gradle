@@ -165,6 +165,7 @@ dependencies {
     compile (project(':react-native-google-analytics-bridge')){
       exclude group: 'com.google.android.gms'
     }
+    compile project(':react-native-cookies')
     compile project(':react-native-sensor-manager')
     compile project(':react-native-camera')
     compile project(':react-native-fetch-blob')

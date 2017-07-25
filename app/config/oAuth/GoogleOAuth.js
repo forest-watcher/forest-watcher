@@ -26,10 +26,6 @@ class GoogleOAuth {
     return this._googleSignIn;
   }
 
-  reset() {
-    this._googleSignIn = null;
-  }
-
   /**
    * Login and return the user
    * @returns {Promise} - GoogleSignin signIn promise

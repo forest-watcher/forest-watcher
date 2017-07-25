@@ -1,11 +1,11 @@
 import { version } from 'package.json';
 import { getFeedbackQuestions } from 'redux-modules/feedback';
-import { getReportQuestions } from 'redux-modules/reports';
 import { syncAreas, UPDATE_AREA_REQUEST, SAVE_AREA_REQUEST } from 'redux-modules/areas';
 import { getCountries } from 'redux-modules/countries';
 import { getUser, LOGOUT_REQUEST } from 'redux-modules/user';
 import { syncGeostore } from 'redux-modules/geostore';
 import { syncLayers, CACHE_LAYER_ROLLBACK, CACHE_BASEMAP_ROLLBACK } from 'redux-modules/layers';
+import { syncReports } from 'redux-modules/reports';
 
 // Actions
 const SET_LANGUAGE = 'app/SET_LANGUAGE';
@@ -64,12 +64,12 @@ export function setSyncSkip(status) {
 }
 export function syncApp() {
   return (dispatch, state) => {
-    const { reports, feedback, user, countries } = state();
+    const { feedback, user, countries } = state();
     dispatch(syncAreas());
     dispatch(syncGeostore());
     dispatch(syncLayers());
+    dispatch(syncReports());
     if (!user.synced && !user.syncing) dispatch(getUser());
-    if (!reports.synced && !reports.syncing) dispatch(getReportQuestions());
     if (!feedback.synced.daily && !feedback.syncing.daily) dispatch(getFeedbackQuestions('daily'));
     if (!feedback.synced.weekly && !feedback.syncing.weekly) dispatch(getFeedbackQuestions('weekly'));
     if (!countries.synced && !countries.syncing) dispatch(getCountries());

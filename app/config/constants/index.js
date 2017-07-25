@@ -75,7 +75,7 @@ export default {
   },
   datasets: {
     VIIRS: 'viirs',
-    GLAD: 'glad'
+    GLAD: 'umd_as_it_happens'
   }
 };
 

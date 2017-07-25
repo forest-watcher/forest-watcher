@@ -3,9 +3,8 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: Theme.background.main,
-    paddingTop: 88
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: Theme.background.main
   },
   indexBar: {
     height: 44,
