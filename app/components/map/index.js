@@ -153,11 +153,8 @@ class Map extends Component {
       Location.requestWhenInUseAuthorization();
       StatusBar.setBarStyle('light-content');
     }
-    if (this.props.clusters === null) {
-      Timer.setTimeout(this, 'setAlerts', this.props.setActiveAlerts, 300);
-    } else {
-      this.renderMap();
-    }
+
+    Timer.setTimeout(this, 'setAlerts', this.props.setActiveAlerts, 300);
     this.geoLocate();
   }
 

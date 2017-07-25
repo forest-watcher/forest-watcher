@@ -57,7 +57,7 @@ class Home extends Component {
         } else {
           navigator.resetTo({
             screen: 'ForestWatcher.Dashboard',
-            title: 'FOREST WATCHER'
+            title: 'Forest Watcher'
           });
         }
       }

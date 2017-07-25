@@ -16,6 +16,7 @@ export default StyleSheet.create({
   },
   label: {
     marginLeft: 16,
+    marginBottom: 8,
     fontSize: 17,
     color: Theme.fontColors.light,
     fontFamily: Theme.font,
