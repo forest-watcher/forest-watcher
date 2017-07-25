@@ -10,6 +10,7 @@ const GET_USER_COMMIT = 'user/GET_USER_COMMIT';
 const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
 export const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
 const LOGOUT_COMMIT = 'user/LOGOUT_COMMIT';
+const LOGOUT_ROLLBACK = 'user/LOGOUT_ROLLBACK';
 
 // Reducer
 const initialState = {
@@ -17,7 +18,7 @@ const initialState = {
   loggedIn: false,
   token: null,
   socialNetwork: null,
-  logoutSuccess: true,
+  logSuccess: true,
   synced: false,
   syncing: false
 };
@@ -33,9 +34,11 @@ export default function reducer(state = initialState, action) {
     case SET_LOGIN_STATUS:
       return Object.assign({}, state, { ...action.payload });
     case LOGOUT_REQUEST:
-      return { ...initialState, logoutSuccess: false };
+      return { ...state, loggedIn: false };
     case LOGOUT_COMMIT:
-      return { ...initialState, logoutSuccess: true };
+      return { ...initialState, logSuccess: true };
+    case LOGOUT_ROLLBACK:
+      return { ...state, logSuccess: false };
     default:
       return state;
   }
@@ -78,11 +81,14 @@ export function loginGoogle() {
             token: data.token
           }
         }))
-        .catch(() => {
-          GoogleOAuth.logout()
-            .then(GoogleOAuth.reset);
-        });
-    });
+        .catch(() => dispatch(logout()));
+    })
+      .catch(() => dispatch({
+        type: SET_LOGIN_STATUS,
+        payload: {
+          logSuccess: false
+        }
+      }));
   };
 }
 
@@ -94,8 +100,9 @@ export function logout() {
           type: LOGOUT_REQUEST,
           meta: {
             offline: {
-              effect: { promise: GoogleOAuth.logout(), errorCode: 500 },
-              commit: { type: LOGOUT_COMMIT }
+              effect: { promise: GoogleOAuth.logout(), errorCode: 400 },
+              commit: { type: LOGOUT_COMMIT },
+              rollback: { type: LOGOUT_ROLLBACK }
             }
           }
         });

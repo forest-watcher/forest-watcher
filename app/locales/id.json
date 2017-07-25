@@ -62,7 +62,8 @@
         "googleTitle": "Google",
         "brazilTitle": "Brasil",
         "colombiaTitle": "Kolombia",
-        "indonesiaTitle": "Indonesia"
+        "indonesiaTitle": "Indonesia",
+        "failed": "There was an error during login/logout"
     },
     "countries": {
         "searchPlaceholder": "Cari negara"
