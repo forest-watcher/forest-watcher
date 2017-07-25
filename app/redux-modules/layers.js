@@ -13,11 +13,12 @@ const GET_LAYERS_COMMIT = 'layers/GET_LAYERS_COMMIT';
 const GET_LAYERS_ROLLBACK = 'layers/GET_LAYERS_ROLLBACK';
 const SET_ACTIVE_LAYER = 'layer/SET_ACTIVE_LAYER';
 const CACHE_BASEMAP_REQUEST = 'layer/CACHE_BASEMAP_REQUEST';
-const CACHE_BASEMAP_COMMIT = 'layer/CACHE_BASEMAP_COMMIT';
-const CACHE_BASEMAP_ROLLBACK = 'layer/CACHE_BASEMAP_ROLLBACK';
-const CACHE_LAYER_REQUEST = 'layer/CACHE_LAYER_REQUEST';
-const CACHE_LAYER_COMMIT = 'layer/CACHE_LAYER_COMMIT';
-const CACHE_LAYER_ROLLBACK = 'layer/CACHE_LAYER_ROLLBACK';
+const CACHE_BASEMAP_COMMIT = 'layers/CACHE_BASEMAP_COMMIT';
+export const CACHE_BASEMAP_ROLLBACK = 'layers/CACHE_BASEMAP_ROLLBACK';
+const CACHE_LAYER_REQUEST = 'layers/CACHE_LAYER_REQUEST';
+const CACHE_LAYER_COMMIT = 'layers/CACHE_LAYER_COMMIT';
+export const CACHE_LAYER_ROLLBACK = 'layer/CACHE_LAYER_ROLLBACK';
+
 
 // TODO: use when support 512 custom tiles size
 // const BASEMAP_URL = PixelRatio.get() >= 2 ? CONSTANTS.maps.basemapHD : CONSTANTS.maps.basemap;
@@ -89,7 +90,7 @@ export default function reducer(state = initialState, action) {
       return { ...state, pendingData };
     }
     case CACHE_BASEMAP_COMMIT: {
-      const area = action.meta.area;
+      const { area } = action.meta;
       const path = action.payload;
       const pendingData = {
         ...state.pendingData,
@@ -103,6 +104,18 @@ export default function reducer(state = initialState, action) {
         }
       };
       return { ...state, cache, pendingData };
+    }
+    case CACHE_BASEMAP_ROLLBACK: {
+      const { area } = action.meta;
+      const { basemap } = state.pendingData;
+      const pendingData = {
+        ...state.pendingData,
+        basemap: {
+          ...basemap,
+          [area.id]: false
+        }
+      };
+      return { ...state, pendingData };
     }
     case CACHE_LAYER_REQUEST: {
       const { area, layer } = action.payload;
@@ -130,6 +143,17 @@ export default function reducer(state = initialState, action) {
         }
       };
       return { ...state, cache, pendingData };
+    }
+    case CACHE_LAYER_ROLLBACK: {
+      const { area, layer } = action.meta;
+      const pendingData = {
+        ...state.pendingData,
+        [layer.id]: {
+          ...state.pendingData[layer.id],
+          [area.id]: false
+        }
+      };
+      return { ...state, pendingData };
     }
     case LOGOUT_REQUEST:
       return initialState;
@@ -177,9 +201,10 @@ async function downloadLayer(config) {
     if (res) {
       const downloadPath = res.path();
       if (downloadPath) {
-        const targetPath = `${RNFetchBlob.fs.dirs.DocumentDir}/${CONSTANTS.maps.tilesFolder}/${area.id}/${layerId}`;
-        const path = await unzip(downloadPath, targetPath);
-        return path;
+        const tilesPath = `${CONSTANTS.maps.tilesFolder}/${area.id}/${layerId}`;
+        const targetPath = `${RNFetchBlob.fs.dirs.DocumentDir}/${tilesPath}`;
+        await unzip(downloadPath, targetPath);
+        return `${tilesPath}/{z}x{x}x{y}`;
       }
     }
     throw new Error('Downloaded path not found');
@@ -215,9 +240,9 @@ export function cacheAreaBasemap(areaId) {
         payload: area,
         meta: {
           offline: {
-            effect: { promise, errorCode: { status: 400 } },
-            commit: { type: CACHE_BASEMAP_COMMIT, meta: { area, layerId: 'basemap' } },
-            rollback: { type: CACHE_BASEMAP_ROLLBACK }
+            effect: { promise, errorCode: 400 },
+            commit: { type: CACHE_BASEMAP_COMMIT, meta: { area } },
+            rollback: { type: CACHE_BASEMAP_ROLLBACK, meta: { area } }
           }
         }
       });
@@ -225,6 +250,7 @@ export function cacheAreaBasemap(areaId) {
   };
 }
 
+// TODO: refactor to use the same download layer logic
 export function cacheAreaLayer(areaId, layerId) {
   return (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
@@ -241,7 +267,7 @@ export function cacheAreaLayer(areaId, layerId) {
         payload: { area, layer },
         meta: {
           offline: {
-            effect: { promise, errorCode: { status: 400 } },
+            effect: { promise, errorCode: 400 },
             commit: { type: CACHE_LAYER_COMMIT, meta: { area, layer } },
             rollback: { type: CACHE_LAYER_ROLLBACK, meta: { area, layer } }
           }
