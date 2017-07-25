@@ -4,6 +4,7 @@ import CONSTANTS from 'config/constants';
 import RNFetchBlob from 'react-native-fetch-blob';
 import { unzip } from 'react-native-zip-archive';
 import { getActionsTodoCount } from 'helpers/sync';
+import { removeFolder } from 'helpers/fileManagement';
 
 import { GET_GEOSTORE_COMMIT } from 'redux-modules/geostore';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
@@ -91,7 +92,8 @@ export default function reducer(state = initialState, action) {
     }
     case CACHE_BASEMAP_COMMIT: {
       const { area } = action.meta;
-      const path = action.payload;
+      let path = action.payload;
+      path = (path && path.length > 0) ? path[0] : path;
       const pendingData = {
         ...state.pendingData,
         basemap: omit(state.pendingData.basemap, [area.id])
@@ -130,7 +132,8 @@ export default function reducer(state = initialState, action) {
     }
     case CACHE_LAYER_COMMIT: {
       const { area, layer } = action.meta;
-      const path = action.payload;
+      let path = action.payload;
+      path = (path && path.length > 0) ? path[0] : path;
       const pendingData = {
         ...state.pendingData,
         [layer.id]: omit(state.pendingData[layer.id], [area.id])
@@ -156,6 +159,7 @@ export default function reducer(state = initialState, action) {
       return { ...state, pendingData };
     }
     case LOGOUT_REQUEST:
+      removeFolder(CONSTANTS.files.tiles);
       return initialState;
     default:
       return state;
@@ -188,10 +192,8 @@ export function setActiveContextualLayer(layerId, value) {
 }
 
 async function downloadLayer(config) {
-  const { start, end } = CONSTANTS.maps.cacheZoom;
-  const { area, layerId, layerUrl } = config;
-  const url = `${Config.API_URL}/download-tiles/${area.geostore}/${start}/${end}?layerUrl=${layerUrl}`;
-
+  const { area, layerId, layerUrl, zoom } = config;
+  const url = `${Config.API_URL}/download-tiles/${area.geostore}/${zoom.start}/${zoom.end}?layerUrl=${layerUrl}`;
   try {
     const res = await RNFetchBlob
       // add this option that makes response data to be stored as a file,
@@ -201,9 +203,10 @@ async function downloadLayer(config) {
     if (res) {
       const downloadPath = res.path();
       if (downloadPath) {
-        const tilesPath = `${CONSTANTS.maps.tilesFolder}/${area.id}/${layerId}`;
+        const tilesPath = `${CONSTANTS.files.tiles}/${area.id}/${layerId}`;
         const targetPath = `${RNFetchBlob.fs.dirs.DocumentDir}/${tilesPath}`;
         await unzip(downloadPath, targetPath);
+        res.flush(); // remove from the cache
         return `${tilesPath}/{z}x{x}x{y}`;
       }
     }
@@ -212,6 +215,15 @@ async function downloadLayer(config) {
     throw new Error(e);
   }
 }
+
+function downloadAllLayers(config) {
+  const { cacheZoom } = CONSTANTS.maps;
+  return Promise.all(cacheZoom.map((cacheLevel) => {
+    const layerConfig = { ...config, zoom: cacheLevel };
+    return downloadLayer(layerConfig);
+  }, this));
+}
+
 
 function getAreaById(areas, areaId) {
   // Using deconstructor to generate a new object
@@ -234,7 +246,7 @@ export function cacheAreaBasemap(areaId) {
         layerUrl: URL_BASEMAP_TEMPLATE
       };
 
-      const promise = downloadLayer(downloadConfig);
+      const promise = downloadAllLayers(downloadConfig);
       dispatch({
         type: CACHE_BASEMAP_REQUEST,
         payload: area,
@@ -261,7 +273,7 @@ export function cacheAreaLayer(areaId, layerId) {
         layerId: layer.id,
         layerUrl: layer.url
       };
-      const promise = downloadLayer(downloadConfig);
+      const promise = downloadAllLayers(downloadConfig);
       dispatch({
         type: CACHE_LAYER_REQUEST,
         payload: { area, layer },
