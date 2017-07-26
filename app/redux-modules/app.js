@@ -4,7 +4,7 @@ import { syncAreas, UPDATE_AREA_REQUEST, SAVE_AREA_REQUEST } from 'redux-modules
 import { getCountries } from 'redux-modules/countries';
 import { getUser, LOGOUT_REQUEST } from 'redux-modules/user';
 import { syncGeostore } from 'redux-modules/geostore';
-import { syncLayers, CACHE_LAYER_ROLLBACK, CACHE_BASEMAP_ROLLBACK } from 'redux-modules/layers';
+import { cacheLayers, getUserLayers, CACHE_LAYER_ROLLBACK, CACHE_BASEMAP_ROLLBACK } from 'redux-modules/layers';
 import { syncReports } from 'redux-modules/reports';
 
 // Actions
@@ -73,14 +73,15 @@ export function startApp() {
 
 export function syncApp() {
   return (dispatch, state) => {
-    const { feedback, user, countries } = state();
+    const { feedback, user, countries, layers } = state();
     if (!user.synced && !user.syncing) dispatch(getUser());
     if (!feedback.synced.daily && !feedback.syncing.daily) dispatch(getFeedbackQuestions('daily'));
     if (!feedback.synced.weekly && !feedback.syncing.weekly) dispatch(getFeedbackQuestions('weekly'));
     if (!countries.synced && !countries.syncing) dispatch(getCountries());
-    dispatch(syncLayers());
+    if (!layers.synced && !layers.syncing) dispatch(getUserLayers());
     dispatch(syncReports());
     dispatch(syncGeostore());
     dispatch(syncAreas());
+    dispatch(cacheLayers());
   };
 }

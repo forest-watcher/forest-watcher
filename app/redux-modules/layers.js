@@ -294,10 +294,8 @@ export function cacheAreaLayer(areaId, layerId) {
   };
 }
 
-export function syncLayers() {
+export function cacheLayers() {
   return (dispatch, state) => {
-    const { layers } = state();
-    if (!layers.synced && !layers.syncing) dispatch(getUserLayers());
     const { pendingData } = state().layers;
     if (getActionsTodoCount(pendingData) > 0) {
       Object.keys(pendingData).forEach((layer) => {
