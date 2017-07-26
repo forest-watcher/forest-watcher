@@ -6,6 +6,7 @@ import { getUser, LOGOUT_REQUEST } from 'redux-modules/user';
 import { syncGeostore } from 'redux-modules/geostore';
 import { syncLayers, CACHE_LAYER_ROLLBACK, CACHE_BASEMAP_ROLLBACK } from 'redux-modules/layers';
 import { syncReports } from 'redux-modules/reports';
+import { syncAlerts } from 'redux-modules/alerts';
 
 // Actions
 export const START_APP = 'app/START_APP';
@@ -82,5 +83,6 @@ export function syncApp() {
     dispatch(syncReports());
     dispatch(syncGeostore());
     dispatch(syncAreas());
+    dispatch(syncAlerts());
   };
 }

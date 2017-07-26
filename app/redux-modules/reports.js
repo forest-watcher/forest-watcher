@@ -231,7 +231,7 @@ export function uploadReport({ reportName, fields }) {
     const commitPayload = {
       name: reportName,
       status: CONSTANTS.status.uploaded,
-      alerts: report.clickedPosition
+      alerts: JSON.parse(report.clickedPosition)
     };
     const url = `${Config.API_URL}/reports/${Config.REPORT_ID}/answers`;
     const headers = { 'content-type': 'multipart/form-data' };

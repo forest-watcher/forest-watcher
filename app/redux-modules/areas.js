@@ -1,35 +1,26 @@
 import Config from 'react-native-config';
-import CONSTANTS from 'config/constants';
 import omit from 'lodash/omit';
 import { getCachedImageByUrl } from 'helpers/fileManagement';
 import { getActionsTodoCount } from 'helpers/sync';
-import { getInitialDatasets } from 'helpers/area';
-import { initDb } from 'helpers/database';
+import { getSupportedDatasets } from 'helpers/area';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { START_APP } from 'redux-modules/app';
-
-const d3Dsv = require('d3-dsv');
+import { GET_ALERTS_COMMIT } from 'redux-modules/alerts';
 
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
 export const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
 const GET_AREAS_ROLLBACK = 'areas/GET_AREAS_ROLLBACK';
-const GET_ALERTS_REQUEST = 'areas/GET_ALERTS_REQUEST';
-const GET_ALERTS_COMMIT = 'areas/GET_ALERTS_COMMIT';
-const GET_ALERTS_ROLLBACK = 'areas/GET_ALERTS_ROLLBACK';
 export const SAVE_AREA_REQUEST = 'areas/SAVE_AREA_REQUEST';
 export const SAVE_AREA_COMMIT = 'areas/SAVE_AREA_COMMIT';
 export const SAVE_AREA_ROLLBACK = 'areas/SAVE_AREA_ROLLBACK';
 const GET_AREA_COVERAGE_REQUEST = 'areas/GET_AREA_COVERAGE_REQUEST';
-const GET_AREA_COVERAGE_COMMIT = 'areas/GET_AREA_COVERAGE_COMMIT';
+export const GET_AREA_COVERAGE_COMMIT = 'areas/GET_AREA_COVERAGE_COMMIT';
 const GET_AREA_COVERAGE_ROLLBACK = 'areas/GET_AREA_COVERAGE_ROLLBACK';
 export const UPDATE_AREA_REQUEST = 'areas/UPDATE_AREA_REQUEST';
 const UPDATE_AREA_COMMIT = 'areas/UPDATE_AREA_COMMIT';
 const UPDATE_AREA_ROLLBACK = 'areas/UPDATE_AREA_ROLLBACK';
-const REMOVE_CACHE_AREA_REQUEST = 'areas/REMOVE_CACHE_AREA_REQUEST';
-const REMOVE_CACHE_AREA_COMMIT = 'areas/REMOVE_CACHE_AREA_COMMIT';
-const REMOVE_CACHE_AREA_ROLLBACK = 'areas/REMOVE_CACHE_AREA_ROLLBACK';
 const DELETE_AREA_REQUEST = 'areas/DELETE_AREA_REQUEST';
 const DELETE_AREA_COMMIT = 'areas/DELETE_AREA_COMMIT';
 const DELETE_AREA_ROLLBACK = 'areas/DELETE_AREA_ROLLBACK';
@@ -43,25 +34,6 @@ function getAreaById(areas, areaId) {
   return { ...areas.find((areaData) => (areaData.id === areaId)) };
 }
 
-function updatedCacheDatasets(datasets, datasetSlug, status) {
-  if (!datasets) return [];
-  return datasets.map((dataset) => {
-    if (dataset.slug === datasetSlug) {
-      return { ...dataset, cache: status };
-    }
-    return dataset;
-  });
-}
-
-function getUpdatedAreas(areas, newArea) {
-  return areas.map((area) => {
-    if (area.id === newArea.id) {
-      return newArea;
-    }
-    return area;
-  });
-}
-
 // Reducer
 const initialState = {
   data: [],
@@ -71,44 +43,9 @@ const initialState = {
   syncing: false,
   pendingData: {
     coverage: {},
-    image: {},
-    alert: {}
+    image: {}
   }
 };
-
-export function saveAlertsToDb(areaId, slug, alerts) {
-  if (alerts && alerts.length > 0) {
-    const realm = initDb();
-    const existingAlerts = realm.objects('Alert').filtered(`areaId = '${areaId}' AND slug = '${slug}'`);
-    try {
-      realm.write(() => {
-        realm.delete(existingAlerts);
-      });
-    } catch (e) {
-      console.warn('Error cleaning db', e);
-    }
-    const alertsArray = d3Dsv.csvParse(alerts);
-    realm.write(() => {
-      alertsArray.forEach((alert) => {
-        realm.create('Alert', {
-          slug,
-          areaId,
-          date: parseInt(alert.date, 10),
-          lat: parseFloat(alert.lat, 10),
-          long: parseFloat(alert.lon, 10)
-        });
-      });
-    });
-  }
-}
-
-export function resetAlertsDb() {
-  const realm = initDb();
-  realm.write(() => {
-    const allAlerts = realm.objects('Alert');
-    realm.delete(allAlerts);
-  });
-}
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
@@ -127,7 +64,6 @@ export default function reducer(state = initialState, action) {
         if (!existingAreasID.includes(newArea.id)) {
           pendingData = {
             coverage: { ...pendingData.coverage, [newArea.id]: false },
-            alert: { ...pendingData.alert, [newArea.id]: false },
             image: { ...pendingData.image, [newArea.id]: false }
           };
         } // TODO: remove cache of removed areas
@@ -136,6 +72,22 @@ export default function reducer(state = initialState, action) {
     }
     case GET_AREAS_ROLLBACK: {
       return { ...state, syncing: false };
+    }
+    case GET_ALERTS_COMMIT: {
+      const area = action.meta.area;
+      const data = state.data.map((a) => {
+        if (a.id === area.id) {
+          const datasets = a.datasets.map((dataset) => {
+            if (dataset.slug === action.meta.datasetSlug) {
+              return { ...dataset, lastUpdate: Date.now() };
+            }
+            return dataset;
+          });
+          return { ...a, datasets };
+        }
+        return a;
+      });
+      return { ...state, data };
     }
     case GET_AREA_COVERAGE_REQUEST: {
       const area = action.payload;
@@ -146,17 +98,14 @@ export default function reducer(state = initialState, action) {
       let pendingData = state.pendingData;
       const data = state.data.map((area) => {
         let updated = area;
-        let pendingAlert = { ...pendingData.alert };
         if (area.id === action.meta.area.id) {
           if ((area.datasets && area.datasets.length === 0) || !area.datasets) {
-            updated = { ...area, datasets: getInitialDatasets(action.payload) };
-            pendingAlert = { ...pendingData.alert, [area.id]: false };
+            updated = { ...area, datasets: getSupportedDatasets(action.payload) };
           }
         }
         pendingData = {
           ...pendingData,
-          coverage: omit(pendingData.coverage, [area.id]),
-          alert: pendingAlert
+          coverage: omit(pendingData.coverage, [area.id])
         };
         return updated;
       });
@@ -188,11 +137,10 @@ export default function reducer(state = initialState, action) {
       let pendingData = state.pendingData;
       if (area) {
         data = [...data, area];
-        const { coverage, image, alert } = state.pendingData;
+        const { coverage, image } = state.pendingData;
         pendingData = {
           coverage: { ...coverage, [area.id]: false },
-          image: { ...image, [area.id]: false },
-          alert: { ...alert }
+          image: { ...image, [area.id]: false }
         };
       }
       return { ...state, data, pendingData, synced: true, syncing: false };
@@ -226,66 +174,6 @@ export default function reducer(state = initialState, action) {
         return area;
       });
       return { ...state, data: areas };
-    }
-    case GET_ALERTS_REQUEST: {
-      const area = action.payload;
-      const data = getUpdatedAreas(state.data, area);
-      const pendingData = { ...state.pendingData, alert: { ...state.pendingData.alert, [area.id]: true } };
-      return { ...state, data, pendingData };
-    }
-    case GET_ALERTS_COMMIT: {
-      const area = action.meta.area;
-      const pendingData = {
-        ...state.pendingData,
-        alert: omit(state.pendingData.alert, [area.id])
-      };
-
-      const data = state.data.map((a) => {
-        if (a.id === area.id) {
-          const datasets = a.datasets.map((dataset) => {
-            if (dataset.slug === action.meta.datasetSlug) {
-              return { ...dataset, lastUpdate: Date.now() };
-            }
-            return dataset;
-          });
-          return { ...a, datasets };
-        }
-        return a;
-      });
-      saveAlertsToDb(action.meta.area.id, action.meta.datasetSlug, action.payload);
-      return { ...state, pendingData, data };
-    }
-    case GET_ALERTS_ROLLBACK: {
-      const area = action.meta.area;
-      const data = [...state.data, area];
-      const pendingData = {
-        ...state.pendingData,
-        alert: { ...state.pendingData.alert, [area.id]: false }
-      };
-      return { ...state, data, pendingData };
-    }
-    case REMOVE_CACHE_AREA_REQUEST: {
-      const area = action.payload;
-      const data = getUpdatedAreas(state.data, area);
-      const pendingData = { ...state.pendingData, alert: { ...state.pendingData.alert, [area.id]: true } };
-      return { ...state, data, pendingData };
-    }
-    case REMOVE_CACHE_AREA_COMMIT: {
-      const area = action.meta.area;
-      const pendingData = {
-        ...state.pendingData,
-        alert: omit(state.pendingData.alert, [area.id])
-      };
-      return { ...state, pendingData };
-    }
-    case REMOVE_CACHE_AREA_ROLLBACK: {
-      const area = action.meta.area;
-      const data = [...state.data, area];
-      const pendingData = {
-        ...state.pendingData,
-        alert: { ...state.pendingData.alert, [area.id]: false }
-      };
-      return { ...state, data, pendingData };
     }
     case DELETE_AREA_REQUEST: {
       const data = state.data.filter((area) => (
@@ -323,7 +211,6 @@ export default function reducer(state = initialState, action) {
       return Object.assign({}, state, { selectedIndex: action.payload });
     }
     case LOGOUT_REQUEST: {
-      resetAlertsDb();
       return initialState;
     }
     default:
@@ -502,31 +389,6 @@ export function deleteArea(areaId) {
   };
 }
 
-export function getAreaAlerts(areaId, datasetSlug) {
-  return (dispatch, state) => {
-    const area = getAreaById(state().areas.data, areaId);
-    const range = CONSTANTS.areas.alertRange[datasetSlug];
-    if (range) {
-      const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore}?range=${range}&output=csv`;
-      const oldArea = { ...area, datasets: updatedCacheDatasets(area.datasets, datasetSlug, false) };
-
-      dispatch({
-        type: GET_ALERTS_REQUEST,
-        payload: area,
-        meta: {
-          offline: {
-            effect: { url, deserialize: false },
-            commit: { type: GET_ALERTS_COMMIT, meta: { area, datasetSlug } },
-            rollback: { type: GET_ALERTS_ROLLBACK, meta: { area: oldArea } }
-          }
-        }
-      });
-    } else {
-      console.warn('Error getting the default range for alerts request');
-    }
-  };
-}
-
 export function syncAreas() {
   return async (dispatch, state) => {
     const { data, synced, syncing, pendingData } = state().areas;
@@ -548,17 +410,6 @@ export function syncAreas() {
             break;
           case 'image':
             syncAreasData(id => dispatch(cacheAreaImage(id)));
-            break;
-          case 'alert':
-            syncAreasData((id) => {
-              const area = getAreaById(state().areas.data, id);
-              const { datasets } = area;
-              if (datasets) {
-                datasets.forEach((dataset) => {
-                  dispatch(getAreaAlerts(id, dataset.slug));
-                });
-              }
-            });
             break;
           default:
         }
