@@ -8,31 +8,34 @@ import {
 import Theme from 'config/theme';
 import styles from './styles';
 
-const ImageCard = ({ id, name, uri, actions, width, height }) => (
-  <View style={styles.container}>
-    <Image
-      resizeMode="cover"
-      style={{ height: height - styles.actions.height, width }}
-      source={{ uri }}
-    />
-    {actions &&
-      <View style={styles.actions}>
-        {
-          actions.map((action, i) => (
-            <TouchableHighlight
-              key={i}
-              activeOpacity={0.5}
-              underlayColor="transparent"
-              onPress={() => action.callback(id, name)}
-            >
-              <Image style={Theme.icon} source={action.icon} />
-            </TouchableHighlight>
-          ))
-        }
-      </View>
-    }
-  </View>
-);
+const ImageCard = ({ id, name, uri, actions, width, height }) => {
+  const computedHeight = height - 48; // FIXME: 48 is the height of the actions bar
+  return (
+    <View style={styles.container}>
+      <Image
+        resizeMode="cover"
+        style={{ height: computedHeight, width }}
+        source={{ uri }}
+      />
+      {actions &&
+        <View style={styles.actions}>
+          {
+            actions.map((action, i) => (
+              <TouchableHighlight
+                key={i}
+                activeOpacity={0.5}
+                underlayColor="transparent"
+                onPress={() => action.callback(id, name)}
+              >
+                <Image style={Theme.icon} source={action.icon} />
+              </TouchableHighlight>
+            ))
+          }
+        </View>
+      }
+    </View>
+  );
+};
 
 ImageCard.propTypes = {
   id: PropTypes.string.isRequired,
