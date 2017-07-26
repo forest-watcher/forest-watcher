@@ -100,7 +100,7 @@ class Dashboard extends PureComponent {
         <ScrollView
           style={styles.list}
           contentContainerStyle={styles.listContent}
-          scrollEnabled={false}
+          scrollEnabled
         >
           <Text style={styles.label}>
             {I18n.t('settings.yourAreas')}

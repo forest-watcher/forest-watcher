@@ -1,6 +1,10 @@
 export default {
   areas: {
-    maxSize: 1500000000 // square meters
+    maxSize: 1500000000, // square meters
+    alertRange: { // days from to get data
+      viirs: 7,
+      umd_as_it_happens: 365
+    }
   },
   storage: {
     app: {

@@ -64,7 +64,7 @@ class ImageCache extends Component {
         {this.state.loading
         ? (
           <View style={styles.loader}>
-            <Text style={styles.loaderText}>{I18n.t('commonText.loading')}</Text>
+            <Text>{I18n.t('commonText.loading')}</Text>
           </View>
           )
         : null
@@ -79,9 +79,9 @@ class ImageCache extends Component {
         }
         {this.state.url &&
           <Image
-            resizeMode={this.props.resizeMode || 'contain'}
             source={{ uri: this.state.url }}
-            style={[styles.image, this.props.style]}
+            style={this.props.style}
+            resizeMode={this.props.resizeMode}
             onError={(e) => this.setState({ error: e.nativeEvent.error, loading: false })}
             onLoad={() => this.showImage()}
           />
@@ -97,6 +97,10 @@ ImageCache.propTypes = {
   localSource: PropTypes.bool,
   isConnected: PropTypes.bool,
   style: PropTypes.object
+};
+
+ImageCache.defaultProps = {
+  resizeMode: 'contain'
 };
 
 export default ImageCache;

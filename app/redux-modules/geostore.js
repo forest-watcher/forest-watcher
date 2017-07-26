@@ -32,9 +32,11 @@ export default function reducer(state = initialState, action) {
       let pendingData = state.pendingData;
       const data = [...action.payload];
       data.forEach((area) => {
-        pendingData = {
-          areas: { ...pendingData.areas, [area.id]: false }
-        };
+        if (!state.data[area.id]) {
+          pendingData = {
+            areas: { ...pendingData.areas, [area.id]: false }
+          };
+        }
       });
       return { ...state, pendingData };
     }
