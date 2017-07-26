@@ -119,7 +119,9 @@ export default function reducer(state = initialState, action) {
           [area.id]: Date.now()
         }
       };
-      saveAlertsToDb(area.id, datasetSlug, action.payload);
+      if (action.payload) {
+        saveAlertsToDb(area.id, datasetSlug, action.payload);
+      }
       return { ...state, pendingData, cache };
     }
     case GET_ALERTS_ROLLBACK: {
@@ -216,8 +218,20 @@ export function setActiveAlerts() {
 export function getAreaAlerts(areaId, datasetSlug) {
   return (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
-    // TODO GET THE RANGE FROM THE CACHE OR GET THE DEFAULT ONE
-    const range = CONSTANTS.areas.alertRange[datasetSlug];
+    const { cache } = state().alerts;
+    let range = null;
+    // Get the last cache date and request only that new data
+    if (cache[datasetSlug] && cache[datasetSlug][areaId]) {
+      const now = moment();
+      const lastCache = moment(cache[datasetSlug][areaId]);
+      const daysFromLastCache = now.diff(lastCache, 'days');
+      if (daysFromLastCache > 0) {
+        range = daysFromLastCache;
+      }
+    // or get the default in case we haven't cached it before
+    } else {
+      range = CONSTANTS.areas.alertRange[datasetSlug];
+    }
     if (range) {
       const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore}?range=${range}&output=csv`;
       dispatch({
@@ -232,7 +246,11 @@ export function getAreaAlerts(areaId, datasetSlug) {
         }
       });
     } else {
-      console.warn('Error getting the default range for alerts request');
+      dispatch({
+        type: GET_ALERTS_COMMIT,
+        meta: { area, datasetSlug },
+        payload: false
+      });
     }
   };
 }
