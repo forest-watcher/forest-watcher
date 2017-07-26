@@ -13,7 +13,7 @@ const ImageCard = ({ id, name, uri, actions, width, height }) => (
   <View style={styles.container}>
     <ImageCache
       resizeMode="cover"
-      style={{ height, width }}
+      style={{ height: height - styles.actions.height, width }}
       localSource
       source={{ uri }}
     />
