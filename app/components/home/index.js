@@ -39,7 +39,8 @@ class Home extends Component {
   }
 
   handleStatus() {
-    const { loggedIn, token, hasAreas, syncFinished, syncSkip, setLanguage, navigator, syncModalOpen } = this.props;
+    const { loggedIn, token, hasAreas, syncFinished, syncSkip, setLanguage,
+            navigator, syncModalOpen, setSyncModal } = this.props;
     setLanguage();
     if (loggedIn) {
       tracker.setUser(token);
@@ -59,6 +60,10 @@ class Home extends Component {
             screen: 'ForestWatcher.Dashboard',
             title: 'Forest Watcher'
           });
+        }
+        if (syncSkip) {
+          setSyncModal(false);
+          navigator.dismissModal();
         }
       }
     } else {

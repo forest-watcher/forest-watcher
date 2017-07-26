@@ -4,7 +4,7 @@ import { syncAreas, UPDATE_AREA_REQUEST, SAVE_AREA_REQUEST } from 'redux-modules
 import { getCountries } from 'redux-modules/countries';
 import { getUser, LOGOUT_REQUEST } from 'redux-modules/user';
 import { syncGeostore } from 'redux-modules/geostore';
-import { syncLayers } from 'redux-modules/layers';
+import { syncLayers, CACHE_LAYER_ROLLBACK, CACHE_BASEMAP_ROLLBACK } from 'redux-modules/layers';
 import { syncReports } from 'redux-modules/reports';
 
 // Actions
@@ -28,6 +28,10 @@ export default function reducer(state = initialState, action) {
       return { ...state, syncModalOpen: action.payload };
     case SET_SYNC_SKIP:
       return { ...state, syncSkip: action.payload };
+    case CACHE_LAYER_ROLLBACK:
+      return { ...state, syncSkip: true };
+    case CACHE_BASEMAP_ROLLBACK:
+      return { ...state, syncSkip: true };
     case UPDATE_AREA_REQUEST:
       return { ...state, syncSkip: false };
     case SAVE_AREA_REQUEST:

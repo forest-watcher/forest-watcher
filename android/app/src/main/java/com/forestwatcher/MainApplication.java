@@ -22,7 +22,7 @@ import com.facebook.soloader.SoLoader;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.i18n.reactnativei18n.ReactNativeI18n;
 import com.syarul.rnlocation.RNLocation;
-import io.realm.react.RealmReactPackage;
+import com.rnziparchive.RNZipArchivePackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -48,6 +48,7 @@ public class MainApplication extends NavigationApplication {
       new ReactNativeI18n(),
       new RNLocation(),
       new RealmReactPackage(),
+      new RNZipArchivePackage(),
       new CookieManagerPackage()
     );
   }
