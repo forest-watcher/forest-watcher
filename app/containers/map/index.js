@@ -30,6 +30,7 @@ function mapStateToProps(state) {
   let areaCoordinates = null;
   let datasetSlug = null;
   let dataset = null;
+  let areaProps = null;
   if (area) {
     dataset = activeDataset(area);
     datasetSlug = dataset.slug;
@@ -39,16 +40,17 @@ function mapStateToProps(state) {
       center = new BoundingBox(areaFeatures).getCenter();
       areaCoordinates = getAreaCoordinates(areaFeatures);
     }
-  }
-  const { cache } = state.layers;
-  const contextualLayer = getContextualLayer(state.layers);
-  return {
-    area: {
+    areaProps = {
       dataset,
       id: area.id,
       name: area.name,
       templateId: area.templateId
-    },
+    };
+  }
+  const { cache } = state.layers;
+  const contextualLayer = getContextualLayer(state.layers);
+  return {
+    area: areaProps,
     center,
     datasetSlug,
     areaCoordinates,

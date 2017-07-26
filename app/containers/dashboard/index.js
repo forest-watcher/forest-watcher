@@ -3,6 +3,7 @@ import Dashboard from 'components/dashboard';
 import { setSyncModal } from 'redux-modules/app';
 import { createReport } from 'redux-modules/reports';
 import { getTotalActionsPending } from 'helpers/sync';
+import { updateSelectedIndex } from 'redux-modules/areas';
 
 function mapStateToProps(state) {
   return {
@@ -17,7 +18,8 @@ function mapDispatchToProps(dispatch) {
     createReport: (report) => {
       dispatch(createReport(report));
     },
-    setSyncModal: open => dispatch(setSyncModal(open))
+    setSyncModal: open => dispatch(setSyncModal(open)),
+    updateSelectedIndex: index => dispatch(updateSelectedIndex(index))
   };
 }
 

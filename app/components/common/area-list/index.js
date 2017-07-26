@@ -17,12 +17,12 @@ function AreaList(props) {
 
   return (
     <View>
-      {areas.map((area, key) => (
+      {areas.map((area, index) => (
         <TouchableHighlight
-          key={key}
+          key={`${area.id}-area-list`}
           activeOpacity={0.5}
           underlayColor="transparent"
-          onPress={() => props.onAreaPress(area.id, area.name)}
+          onPress={() => props.onAreaPress(area.id, area.name, index)}
         >
           <View style={styles.item}>
             <View style={styles.imageContainer}>

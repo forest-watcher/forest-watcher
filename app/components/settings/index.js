@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import List from 'components/common/list';
-import AreaList from 'containers/settings/area-list';
+import AreaList from 'containers/common/area-list';
 import {
   View,
   Text,
@@ -130,9 +130,7 @@ class Settings extends Component {
           <TouchableHighlight
             activeOpacity={0.5}
             underlayColor="transparent"
-            onPress={() => this.props.navigator.push({
-              screen: 'ForestWatcher.Setup' }
-            )}
+            onPress={this.onPressAddArea}
           >
             <View style={styles.addButton}>
               <Image style={Theme.icon} source={plusIcon} />

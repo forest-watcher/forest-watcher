@@ -2,47 +2,22 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
-  Text,
-  Image,
   ScrollView,
-  TouchableHighlight,
-  Platform
+  Platform,
+  Text
 } from 'react-native';
 
-import myAlertIcon from 'assets/section_my_alerts.png';
-import myReportsIcon from 'assets/section_my_reports.png';
+import AreaList from 'containers/common/area-list';
+import Row from 'components/common/row';
 import Theme from 'config/theme';
-import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
+import I18n from 'locales';
 import styles from './styles';
 
 const settingsIcon = require('assets/settings.png');
+const nextIcon = require('assets/next.png');
 
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
-
-const sections = [
-  // TEMP
-  {
-    title: I18n.t('dashboard.map'),
-    section: 'Map',
-    image: myAlertIcon
-  },
-  {
-    title: I18n.t('dashboard.myReports'),
-    section: 'Reports',
-    image: myReportsIcon
-  },
-  {
-    title: I18n.t('dashboard.dailyFeedback'),
-    section: 'DailyFeedback',
-    image: null
-  },
-  {
-    title: I18n.t('dashboard.weeklyFeedback'),
-    section: 'WeeklyFeedback',
-    image: null
-  }
-];
 
 class Dashboard extends PureComponent {
   static navigatorStyle = {
@@ -50,7 +25,6 @@ class Dashboard extends PureComponent {
     navBarButtonColor: Theme.colors.color1,
     topBarElevationShadowEnabled: false,
     navBarBackgroundColor: Theme.background.main,
-    navBarTitleTextCentered: true,
     navBarNoBorder: true
   };
 
@@ -66,6 +40,10 @@ class Dashboard extends PureComponent {
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    this.reportsAction = {
+      callback: this.onPressReports,
+      icon: nextIcon
+    };
   }
 
   componentDidMount() {
@@ -73,6 +51,22 @@ class Dashboard extends PureComponent {
       Location.requestAlwaysAuthorization();
     }
     tracker.trackScreenView('DashBoard');
+  }
+
+  onAreaPress = (areaId, name, index) => {
+    if (typeof index === 'undefined') return;
+    this.props.updateSelectedIndex(index);
+    this.props.navigator.push({
+      screen: 'ForestWatcher.Map',
+      title: I18n.t('dashboard.map')
+    });
+  }
+
+  onPressReports = () => {
+    this.props.navigator.push({
+      screen: 'ForestWatcher.Reports',
+      title: I18n.t('dashboard.myReports')
+    });
   }
 
   onNavigatorEvent(event) {
@@ -98,52 +92,6 @@ class Dashboard extends PureComponent {
     }
   }
 
-  onItemTap(item) {
-    if (item.section === 'Alerts') {
-      tracker.trackEvent('Alerts', 'Open Alerts', { label: '', value: 0 });
-    }
-    if (item.section && item.section.length > 0) {
-      switch (item.section) {
-        case 'DailyFeedback': {
-          const screen = 'ForestWatcher.Feedback';
-          const title = 'Feedback';
-          this.props.navigator.push({
-            screen,
-            title,
-            passProps: {
-              title,
-              screen,
-              form: 'daily',
-              disableDraft: true
-            }
-          });
-          break;
-        }
-        case 'WeeklyFeedback': {
-          const screen = 'ForestWatcher.Feedback';
-          const title = 'Feedback';
-          this.props.navigator.push({
-            screen,
-            title,
-            passProps: {
-              title,
-              screen,
-              form: 'weekly',
-              disableDraft: true
-            }
-          });
-          break;
-        }
-        default:
-          this.props.navigator.push({
-            screen: `ForestWatcher.${item.section}`,
-            title: item.title
-          });
-          break;
-      }
-    }
-  }
-
   render() {
     return (
       <View style={styles.container}>
@@ -151,33 +99,16 @@ class Dashboard extends PureComponent {
 
         <ScrollView
           style={styles.list}
-          contentContainerStyle={styles.content}
+          contentContainerStyle={styles.listContent}
           scrollEnabled={false}
         >
-          {sections.map((item, key) =>
-            (
-              <TouchableHighlight
-                style={item.section === 'DailyFeedback' || item.section === 'WeeklyFeedback' ? [styles.buttonRound] : [styles.item]}
-                key={key}
-                onPress={() => this.onItemTap(item)}
-                activeOpacity={0.5}
-                underlayColor="#FFFFFF"
-              >
-                <View style={item.section === 'DailyFeedback' || item.section === 'WeeklyFeedback' ? null : [styles.imageIcon]}>
-
-                  {item.image &&
-                    <Image
-                      style={styles.logo}
-                      source={item.image}
-                    />
-                  }
-                  <Text style={item.section === 'DailyFeedback' || item.section === 'WeeklyFeedback' ? [styles.buttonTextRound] : null}>
-                    {item.title}
-                  </Text>
-                </View>
-              </TouchableHighlight>
-            )
-          )}
+          <Text style={styles.label}>
+            {I18n.t('settings.yourAreas')}
+          </Text>
+          <AreaList onAreaPress={this.onAreaPress} />
+          <Row style={styles.row} action={this.reportsAction}>
+            <Text>{I18n.t('dashboard.myReports')}</Text>
+          </Row>
         </ScrollView>
       </View>
     );
@@ -189,7 +120,8 @@ Dashboard.propTypes = {
   actionsPending: PropTypes.number.isRequired,
   syncModalOpen: PropTypes.bool.isRequired,
   syncSkip: PropTypes.bool.isRequired,
-  setSyncModal: PropTypes.func.isRequired
+  setSyncModal: PropTypes.func.isRequired,
+  updateSelectedIndex: PropTypes.func.isRequired
 };
 
 export default Dashboard;
