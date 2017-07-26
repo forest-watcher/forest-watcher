@@ -14,7 +14,7 @@ class Home extends Component {
   };
 
   componentWillMount() {
-    this.props.setSyncSkip(false);
+    this.props.startApp();
   }
 
   componentDidMount() {
@@ -104,7 +104,7 @@ Home.propTypes = {
   hasAreas: PropTypes.bool.isRequired,
   syncModalOpen: PropTypes.bool.isRequired,
   setSyncModal: PropTypes.func.isRequired,
-  setSyncSkip: PropTypes.func.isRequired
+  startApp: PropTypes.func.isRequired
 };
 Home.navigationOptions = {
   header: {

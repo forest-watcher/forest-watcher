@@ -5,7 +5,7 @@ import { getTilesInBbox } from 'helpers/map';
 import { cacheTiles } from 'helpers/fileManagement';
 import { getActionsTodoCount } from 'helpers/sync';
 
-import { GET_GEOSTORE_COMMIT } from 'redux-modules/geostore';
+import { GET_AREAS_COMMIT } from 'redux-modules/areas';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
@@ -53,28 +53,32 @@ export default function reducer(state = initialState, action) {
     }
     case SET_ACTIVE_LAYER:
       return { ...state, activeLayer: action.payload };
-    case GET_GEOSTORE_COMMIT: {
-      const { area } = action.meta;
-      const { basemap } = state.pendingData;
-      let pendingData = {
-        ...state.pendingData,
-        basemap: {
-          ...basemap,
-          [area.id]: false
-        }
-      };
-      if (state.synced) {
-        const pendingLayers = {};
-        state.data.forEach((layer) => {
-          pendingLayers[layer.id] = {
-            [area.id]: false
+    case GET_AREAS_COMMIT: {
+      const data = [...action.payload];
+      const cache = { ...state.cache };
+      let pendingData = { ...state.pendingData };
+      data.forEach((area) => {
+        if (!cache.basemap[area.id]) {
+          pendingData = {
+            ...pendingData,
+            basemap: {
+              ...pendingData.basemap,
+              [area.id]: false
+            }
           };
+        }
+        state.data.forEach((layer) => {
+          if (!cache[layer.id] || (cache[layer.id] && !cache[layer.id][area.id])) {
+            pendingData = {
+              ...pendingData,
+              [layer.id]: {
+                ...pendingData[layer.id],
+                [area.id]: false
+              }
+            };
+          }
         }, this);
-        pendingData = {
-          ...pendingData,
-          ...pendingLayers
-        };
-      }
+      });
       return { ...state, pendingData };
     }
     case CACHE_BASEMAP_REQUEST: {

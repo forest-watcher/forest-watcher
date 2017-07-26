@@ -8,6 +8,7 @@ import { initDb } from 'helpers/database';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
+import { START_APP } from 'redux-modules/app';
 
 const d3Dsv = require('d3-dsv');
 
@@ -111,17 +112,25 @@ export function resetAlertsDb() {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case START_APP: {
+      return { ...state, synced: false };
+    }
     case GET_AREAS_REQUEST:
       return { ...state, synced: false, syncing: true };
     case GET_AREAS_COMMIT: {
       let pendingData = state.pendingData;
       const data = [...action.payload];
+      const existingAreasID = state.data.length > 0
+        ? state.data.map((area) => area.id)
+        : [];
       data.forEach((newArea) => {
-        pendingData = {
-          coverage: { ...pendingData.coverage, [newArea.id]: false },
-          alert: { ...pendingData.alert, [newArea.id]: false },
-          image: { ...pendingData.image, [newArea.id]: false }
-        };
+        if (!existingAreasID.includes(newArea.id)) {
+          pendingData = {
+            coverage: { ...pendingData.coverage, [newArea.id]: false },
+            alert: { ...pendingData.alert, [newArea.id]: false },
+            image: { ...pendingData.image, [newArea.id]: false }
+          };
+        } // TODO: remove cache of removed areas
       });
       return { ...state, data, pendingData, synced: true, syncing: false };
     }
@@ -574,7 +583,7 @@ export function syncAreas() {
           default:
         }
       });
-    } else if (!hasAreas && !synced && !syncing) {
+    } else if (!synced && !syncing) {
       dispatch(getAreas());
     }
   };
