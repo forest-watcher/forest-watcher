@@ -27,6 +27,7 @@ const ImageCarousel = (props) => {
               height={itemHeight}
             /> :
             <ActionCard
+              key={image.id}
               label="Add Picture"
               width={itemWidth}
               height={itemHeight}
