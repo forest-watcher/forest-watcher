@@ -1,4 +1,5 @@
 import Config from 'react-native-config';
+import { Platform } from 'react-native';
 import omit from 'lodash/omit';
 import CONSTANTS from 'config/constants';
 import RNFetchBlob from 'react-native-fetch-blob';
@@ -57,26 +58,30 @@ export default function reducer(state = initialState, action) {
     case GET_GEOSTORE_COMMIT: {
       const { area } = action.meta;
       const { basemap } = state.pendingData;
-      let pendingData = {
-        ...state.pendingData,
-        basemap: {
-          ...basemap,
-          [area.id]: false
-        }
-      };
-      if (state.synced) {
-        const pendingLayers = {};
-        state.data.forEach((layer) => {
-          pendingLayers[layer.id] = {
+      const isAndroid = Platform.OS === 'android';
+      if (isAndroid) {
+        let pendingData = {
+          ...state.pendingData,
+          basemap: {
+            ...basemap,
             [area.id]: false
-          };
-        }, this);
-        pendingData = {
-          ...pendingData,
-          ...pendingLayers
+          }
         };
+        if (state.synced) {
+          const pendingLayers = {};
+          state.data.forEach((layer) => {
+            pendingLayers[layer.id] = {
+              [area.id]: false
+            };
+          }, this);
+          pendingData = {
+            ...pendingData,
+            ...pendingLayers
+          };
+        }
+        return { ...state, pendingData };
       }
-      return { ...state, pendingData };
+      return state;
     }
     case CACHE_BASEMAP_REQUEST: {
       const area = action.payload;
