@@ -55,8 +55,12 @@ class Login extends PureComponent {
     tracker.trackScreenView('Login');
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (this.props.loggedIn) this.onLoggedIn();
+
+    if (prevProps.logSuccess !== this.props.logSuccess || prevProps.isConnected !== this.props.isConnected) {
+      this.ensureLogout();
+    }
   }
 
   onLoadEnd() {
@@ -95,13 +99,9 @@ class Login extends PureComponent {
   }
 
   onPressGoogle = () => {
-    const { logoutSuccess, logout, isConnected, loginGoogle } = this.props;
+    const { isConnected, loginGoogle } = this.props;
     if (isConnected) {
-      if (!logoutSuccess) {
-        logout();
-      } else {
-        loginGoogle();
-      }
+      loginGoogle();
     } else {
       Alert.alert(
         I18n.t('login.unable'),
@@ -126,6 +126,17 @@ class Login extends PureComponent {
     this.props.navigator.resetTo({
       screen: 'ForestWatcher.Home'
     });
+  }
+
+  ensureLogout() {
+    const { logSuccess, logout, loggedIn, isConnected } = this.props;
+    if (!loggedIn && !logSuccess && isConnected) {
+      Alert.alert(
+        I18n.t('commonText.error'),
+        I18n.t('login.failed'),
+        [{ text: 'OK', onPress: logout }]
+      );
+    }
   }
 
   closeWebview() {
@@ -242,7 +253,7 @@ class Login extends PureComponent {
 
 Login.propTypes = {
   loggedIn: PropTypes.bool.isRequired,
-  logoutSuccess: PropTypes.bool.isRequired,
+  logSuccess: PropTypes.bool.isRequired,
   logout: PropTypes.func.isRequired,
   isConnected: PropTypes.bool.isRequired,
   loginGoogle: PropTypes.func.isRequired,

@@ -5,6 +5,7 @@ import android.util.Log;
 import android.support.annotation.NonNull;
 
 import com.facebook.react.ReactApplication;
+import com.psykar.cookiemanager.CookieManagerPackage;
 import io.realm.react.RealmReactPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
@@ -46,7 +47,8 @@ public class MainApplication extends NavigationApplication {
       new MapsPackage(),
       new ReactNativeI18n(),
       new RNLocation(),
-      new RealmReactPackage()
+      new RealmReactPackage(),
+      new CookieManagerPackage()
     );
   }
 }

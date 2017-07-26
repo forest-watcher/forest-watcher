@@ -6,7 +6,7 @@ function mapStateToProps(state) {
   return {
     isConnected: state.offline.online,
     loggedIn: state.user.loggedIn,
-    logoutSuccess: state.user.logoutSuccess
+    logSuccess: state.user.logSuccess
   };
 }
 
