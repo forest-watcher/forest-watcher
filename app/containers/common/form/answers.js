@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { arrayRemove, arrayRemoveAll } from 'redux-form';
 import { saveReport } from 'redux-modules/reports';
 import { getTemplate, getAnswers, parseQuestion, getFormFields } from 'helpers/forms';
 import Answers from 'components/common/form/answers';
@@ -50,6 +51,12 @@ function mapDispatchToProps(dispatch) {
   return {
     saveReport: (reportName, params) => {
       dispatch(saveReport(reportName, params));
+    },
+    removeAnswer: (form, name, index) => {
+      dispatch(arrayRemove(form, name, index));
+    },
+    removeAllAnswers: (form, name) => {
+      dispatch(arrayRemoveAll(form, name));
     }
   };
 }

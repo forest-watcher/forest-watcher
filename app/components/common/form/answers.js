@@ -34,7 +34,9 @@ class Answers extends Component {
     ),
     form: PropTypes.string.isRequired,
     finish: PropTypes.func,
-    readOnly: PropTypes.bool
+    readOnly: PropTypes.bool,
+    removeAnswer: PropTypes.func.isRequired,
+    removeAllAnswers: PropTypes.func.isRequired
   };
 
   onPressSave = () => {
@@ -62,14 +64,25 @@ class Answers extends Component {
     });
   }
 
+  /* eslint-disable no-unused-vars */
+  onDeleteImage = (id, name, images) => {
+    const { form, removeAnswer, removeAllAnswers } = this.props;
+    // TODO: when multiple pictures is implemented this will suffice to remove the selected image
+    // TODO: to implement multiple images, the input value needs to be an array of image uri.
+    // const index = images.findIndex(image => image.id === id);
+    // removeAnswer(form, name, index);
+    removeAllAnswers(form, name);
+  }
+  /* eslint-enable no-unused-vars */
+
   render() {
     const { results, readOnly } = this.props;
     const regularAnswers = results.filter(({ question }) => question.type !== 'blob');
     const images = results.filter(({ question }) => question.type === 'blob')
-      .map(image => ({ id: image.question.Id, uri: image.answers[0] }))
+      .map(image => ({ id: image.question.Id, uri: image.answers[0], name: image.question.name }))
       .filter(image => !!image.uri);
     const imageActions = [{
-      callback: (id) => console.warn(id), // TODO: delete the image
+      callback: (id, name) => this.onDeleteImage(id, name, images),
       icon: deleteIcon
     }];
     return (

@@ -9,7 +9,7 @@ import Theme from 'config/theme';
 import ImageCache from 'components/common/image-cache';
 import styles from './styles';
 
-const ImageCard = ({ id, uri, actions, width, height }) => (
+const ImageCard = ({ id, name, uri, actions, width, height }) => (
   <View style={styles.container}>
     <ImageCache
       resizeMode="contain"
@@ -24,7 +24,7 @@ const ImageCard = ({ id, uri, actions, width, height }) => (
             key={i}
             activeOpacity={0.5}
             underlayColor="transparent"
-            onPress={() => action.callback(id)}
+            onPress={() => action.callback(id, name)}
           >
             <Image style={Theme.icon} source={action.icon} />
           </TouchableHighlight>
@@ -35,11 +35,12 @@ const ImageCard = ({ id, uri, actions, width, height }) => (
 );
 
 ImageCard.propTypes = {
-  id: PropTypes.string,
-  uri: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  uri: PropTypes.string.isRequired,
   actions: PropTypes.array,
   width: PropTypes.number,
-  height: PropTypes.number
+  height: PropTypes.number,
+  name: PropTypes.string.isRequired
 };
 
 export default ImageCard;
