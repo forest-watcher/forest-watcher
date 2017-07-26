@@ -611,6 +611,7 @@ class Map extends Component {
     let veilHeight = 120;
     if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
     const mapKey = Platform.OS === 'ios' ? markers.length : 'mapView';
+    const isAndroid = Platform.OS === 'android';
     // Map elements
     const basemapLayerElement = isConnected
       ? (
@@ -742,7 +743,7 @@ class Map extends Component {
           ref={(ref) => { this.map = ref; }}
           style={styles.map}
           provider={MapView.PROVIDER_GOOGLE}
-          mapType="none"
+          mapType={isAndroid ? 'none' : 'hybrid'}
           minZoomLevel={2}
           maxZoomLevel={18}
           rotateEnabled={false}
@@ -752,7 +753,7 @@ class Map extends Component {
           moveOnMarkerPress={false}
           onPress={e => this.mapPress(e.nativeEvent.coordinate)}
         >
-          {basemapLayerElement}
+          {isAndroid && basemapLayerElement}
           {contextualLayerElement}
           {clustersElement}
           {compassFallbackElement}
@@ -776,7 +777,7 @@ class Map extends Component {
                 lastPosition={this.state.lastPosition}
               />
             }
-            <MapAttribution />
+            {isAndroid && <MapAttribution />}
           </View>
           {hasAlertsSelected
             ? this.renderFooter()
