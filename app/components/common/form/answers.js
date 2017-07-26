@@ -81,10 +81,10 @@ class Answers extends Component {
     const images = results.filter(({ question }) => question.type === 'blob')
       .map(image => ({ id: image.question.Id, uri: image.answers[0], name: image.question.name }))
       .filter(image => !!image.uri);
-    const imageActions = [{
+    const imageActions = !readOnly ? [{
       callback: (id, name) => this.onDeleteImage(id, name, images),
       icon: deleteIcon
-    }];
+    }] : null;
     return (
       <View style={styles.answersContainer}>
         <ScrollView>

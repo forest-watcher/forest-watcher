@@ -15,12 +15,6 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  loaderText: {
-
-  },
-  image: {
-    resizeMode: 'contain'
-  },
   spinner: {
     marginLeft: 0
   }
