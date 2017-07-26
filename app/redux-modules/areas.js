@@ -103,13 +103,13 @@ export default function reducer(state = initialState, action) {
     case GET_AREA_COVERAGE_COMMIT: {
       let pendingData = state.pendingData;
       const data = state.data.map((area) => {
-        let updated = area;
+        const updated = { ...area };
         const newDatasets = getSupportedDatasets(action.payload);
         if (area.id === action.meta.area.id) {
           if ((area.datasets && area.datasets.length === 0) || !area.datasets) {
-            updated = { ...area, datasets: newDatasets };
+            updated.datasets = newDatasets;
           } else {
-            union(area.datasets, newDatasets, 'slug');
+            updated.datasets = union(area.datasets, newDatasets, 'slug');
           }
         }
         pendingData = {

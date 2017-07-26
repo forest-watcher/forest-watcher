@@ -16,6 +16,7 @@ const ImageCarousel = (props) => {
         images.map(image => (
           <ImageCard
             id={image.id}
+            name={image.name}
             key={image.id}
             actions={actions}
             uri={image.uri}

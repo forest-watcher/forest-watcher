@@ -5,6 +5,6 @@ then
   rm $file
   echo "$file was successfully removed 🔫!"
 else
-  echo "No $file found 🙃️!"
+  echo "No $file found 🙃️ !"
 
 fi

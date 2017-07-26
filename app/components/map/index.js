@@ -780,7 +780,7 @@ class Map extends Component {
                 lastPosition={this.state.lastPosition}
               />
             }
-            {<MapAttribution />}
+            <MapAttribution />
           </View>
           {hasAlertsSelected
             ? this.renderFooter()
