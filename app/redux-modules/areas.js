@@ -1,5 +1,6 @@
 import Config from 'react-native-config';
 import omit from 'lodash/omit';
+import union from 'lodash/union';
 import { getCachedImageByUrl } from 'helpers/fileManagement';
 import { getActionsTodoCount } from 'helpers/sync';
 import { getSupportedDatasets } from 'helpers/area';
@@ -103,9 +104,12 @@ export default function reducer(state = initialState, action) {
       let pendingData = state.pendingData;
       const data = state.data.map((area) => {
         let updated = area;
+        const newDatasets = getSupportedDatasets(action.payload);
         if (area.id === action.meta.area.id) {
           if ((area.datasets && area.datasets.length === 0) || !area.datasets) {
-            updated = { ...area, datasets: getSupportedDatasets(action.payload) };
+            updated = { ...area, datasets: newDatasets };
+          } else {
+            union(area.datasets, newDatasets, 'slug');
           }
         }
         pendingData = {
