@@ -54,6 +54,7 @@
 		BAC908163B0E4EA38B49EEF2 /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A28DC2A5220D42359951057B /* libReactNativeConfig.a */; };
 		C578B8DA60224D248C23862F /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CC04DDC311C43C3B8F16657 /* SafariServices.framework */; };
 		F2A06E03282E46DB9CE8FA9A /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8111E20D7A84341B125D6AB /* libRealmReact.a */; };
+		F6CBCA883AE34955A4EFCA09 /* libRNZipArchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DAFAF673A54569B81DC361 /* libRNZipArchive.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +120,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
+		};
+		3221AAD91F28739900D71E90 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F87F1F834674C6A87F5820A /* RNZipArchive.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D061F22A1E4887C4000350B4;
+			remoteInfo = RNZipArchive;
 		};
 		324814D21E5BA4AD002E3240 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -364,9 +372,11 @@
 		153974B97ACA44929487A188 /* libRNCookieManagerIOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCookieManagerIOS.a; sourceTree = "<group>"; };
 		16DAC3B005AE4AE988FA73CD /* libRNGoogleSignin.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGoogleSignin.a; sourceTree = "<group>"; };
 		1FE960D00BEF3946D6ABDD73 /* libPods-ForestWatcher.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ForestWatcher.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		21DAFAF673A54569B81DC361 /* libRNZipArchive.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNZipArchive.a; sourceTree = "<group>"; };
 		299F07320E3044EAB859667B /* libRNI18n.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNI18n.a; sourceTree = "<group>"; };
 		39CFA9C5F75C4015B4438B69 /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeConfig.xcodeproj; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; };
 		3E8CB66C60824FF1A2264409 /* RCTGoogleAnalyticsBridge.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTGoogleAnalyticsBridge.xcodeproj; path = "../node_modules/react-native-google-analytics-bridge/ios/RCTGoogleAnalyticsBridge/RCTGoogleAnalyticsBridge.xcodeproj"; sourceTree = "<group>"; };
+		3F87F1F834674C6A87F5820A /* RNZipArchive.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNZipArchive.xcodeproj; path = "../node_modules/react-native-zip-archive/ios/RNZipArchive.xcodeproj"; sourceTree = "<group>"; };
 		42AC78171E5F368C00A6C0E4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		42AC78191E5F369700A6C0E4 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		42AC781B1E5F36A200A6C0E4 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
@@ -454,6 +464,7 @@
 				47A45322D5424D3DA6CCCDFA /* AddressBook.framework in Frameworks */,
 				F2A06E03282E46DB9CE8FA9A /* libRealmReact.a in Frameworks */,
 				2A57A6A2A7194B1FB107C502 /* libc++.tbd in Frameworks */,
+				F6CBCA883AE34955A4EFCA09 /* libRNZipArchive.a in Frameworks */,
 				B30C4C25B2E346DDA6E2E637 /* libRNCookieManagerIOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -567,6 +578,14 @@
 				32AA0E0D1E92A1B600D2F08F /* libjschelpers.a */,
 				32A2407C1F0A46B3008E6455 /* libthird-party.a */,
 				32A2407E1F0A46B3008E6455 /* libdouble-conversion.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3221AAAF1F28739900D71E90 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3221AADA1F28739900D71E90 /* libRNZipArchive.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -703,6 +722,7 @@
 				D6AC5FBC622541AFBCE094A6 /* RNLocation.xcodeproj */,
 				9444584FAF47442E9D6E6C81 /* RNGoogleSignin.xcodeproj */,
 				7B3F9961BFAB483781F05B72 /* RealmReact.xcodeproj */,
+				3F87F1F834674C6A87F5820A /* RNZipArchive.xcodeproj */,
 				737CF041560B4ED3B3F9A45F /* RNCookieManagerIOS.xcodeproj */,
 			);
 			name = Libraries;
@@ -961,6 +981,10 @@
 					ProductGroup = 32AA0E5B1E92A87600D2F08F /* Products */;
 					ProjectRef = D6AC5FBC622541AFBCE094A6 /* RNLocation.xcodeproj */;
 				},
+				{
+					ProductGroup = 3221AAAF1F28739900D71E90 /* Products */;
+					ProjectRef = 3F87F1F834674C6A87F5820A /* RNZipArchive.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1025,6 +1049,13 @@
 			fileType = archive.ar;
 			path = libReact.a;
 			remoteRef = 146834031AC3E56700842450 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3221AADA1F28739900D71E90 /* libRNZipArchive.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNZipArchive.a;
+			remoteRef = 3221AAD91F28739900D71E90 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		324814D31E5BA4AD002E3240 /* libRCTCamera.a */ = {
@@ -1436,6 +1467,7 @@
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/realm/src/**",
+					"$(SRCROOT)/../node_modules/react-native-zip-archive/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-cookies/RNCookieManagerIOS",
 				);
 				INFOPLIST_FILE = ForestWatcher/Info.plist;
@@ -1474,6 +1506,7 @@
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/realm/src/**",
+					"$(SRCROOT)/../node_modules/react-native-zip-archive/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-cookies/RNCookieManagerIOS",
 				);
 				INFOPLIST_FILE = ForestWatcher/Info.plist;

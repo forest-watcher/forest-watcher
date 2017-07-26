@@ -396,7 +396,8 @@ DrawAreas.propTypes = {
     bbox: PropTypes.object,
     centroid: PropTypes.object
   }).isRequired,
-  onDrawAreaFinish: PropTypes.func.isRequired
+  onDrawAreaFinish: PropTypes.func.isRequired,
+  storeGeostore: PropTypes.func.isRequired
 };
 
 export default DrawAreas;

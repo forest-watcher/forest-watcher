@@ -81,8 +81,10 @@ export async function checkImageFolder(imageDir) {
 }
 
 export async function removeFolder(folder) {
-  await RNFetchBlob.fs.unlink(folder);
-  return { folder };
+  if (!folder) return false;
+  const path = `${RNFetchBlob.fs.dirs.DocumentDir}/${folder}`;
+  await RNFetchBlob.fs.unlink(path);
+  return true;
 }
 
 
@@ -149,7 +151,7 @@ export async function cacheTiles(cacheConfig) {
   const { tiles, areaId, layerId, layerUrl, extension = 'png' } = cacheConfig;
 
   if (!tiles || !areaId || !layerId || !layerUrl) throw new Error('Cache tiles params missing', cacheConfig);
-  const folder = `${CONSTANTS.maps.tilesFolder}/${areaId}/${layerId}`;
+  const folder = `${CONSTANTS.files.tiles}/${areaId}/${layerId}`;
   await checkImageFolder(folder);
   const CONCURRENCY = 3;
   let arrayPromises = [];

@@ -153,11 +153,8 @@ class Map extends Component {
       Location.requestWhenInUseAuthorization();
       StatusBar.setBarStyle('light-content');
     }
-    if (this.props.clusters === null) {
-      Timer.setTimeout(this, 'setAlerts', this.props.setActiveAlerts, 300);
-    } else {
-      this.renderMap();
-    }
+
+    Timer.setTimeout(this, 'setAlerts', this.props.setActiveAlerts, 300);
     this.geoLocate();
   }
 
@@ -613,9 +610,10 @@ class Map extends Component {
     const hasNeighbours = neighbours && neighbours.length > 0;
     let veilHeight = 120;
     if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
-    const mapKey = Platform.OS === 'ios' ? markers.length : 'mapView';
+    const isIOS = Platform.OS === 'ios';
+    const mapKey = isIOS ? markers.length : 'mapView';
     // Map elements
-    const basemapLayerElement = isConnected
+    const basemapLayerElement = isConnected // eslint-disable-line
       ? (
         <MapView.UrlTile
           key="basemapLayerElement"
@@ -623,13 +621,16 @@ class Map extends Component {
           zIndex={-1}
         />
       )
-      : (
-        <MapView.LocalTile
-          key="localBasemapLayerElementL"
-          localTemplate={basemapLocalTilePath}
-          zIndex={-1}
-        />
-      );
+      : isIOS
+        ? null
+        :
+          (
+            <MapView.LocalTile
+              key="localBasemapLayerElementL"
+              localTemplate={basemapLocalTilePath}
+              zIndex={-1}
+            />
+          );
     const contextualLayerElement = contextualLayer // eslint-disable-line
       ? isConnected
         ? (
@@ -745,7 +746,7 @@ class Map extends Component {
           ref={(ref) => { this.map = ref; }}
           style={styles.map}
           provider={MapView.PROVIDER_GOOGLE}
-          mapType="none"
+          mapType={'none'}
           minZoomLevel={2}
           maxZoomLevel={18}
           rotateEnabled={false}
@@ -779,7 +780,7 @@ class Map extends Component {
                 lastPosition={this.state.lastPosition}
               />
             }
-            <MapAttribution />
+            {<MapAttribution />}
           </View>
           {hasAlertsSelected
             ? this.renderFooter()

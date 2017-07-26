@@ -49,7 +49,7 @@ export default function reducer(state = initialState, action) {
       return { ...state, templates, synced: true, syncing: false };
     }
     case GET_REPORT_TEMPLATE_REQUEST: {
-      const { templateId } = action.payload;
+      const templateId = action.payload;
 
       const pendingData = {
         ...state.pendingData,

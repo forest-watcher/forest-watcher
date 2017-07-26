@@ -30,8 +30,20 @@ export default {
         ]
       ]
     },
-    tilesFolder: 'tiles',
-    cachedZoomLevels: [8, 9, 10, 11, 12, 13, 14]
+    cacheZoom: [
+      {
+        start: 8,
+        end: 14
+      },
+      {
+        start: 15,
+        end: 16
+      },
+      {
+        start: 17,
+        end: 17
+      }
+    ]
   },
   tileServers: {
     glad: 'http://wri-tiles.s3.amazonaws.com/glad_prod/tiles'
@@ -48,7 +60,8 @@ export default {
   files: {
     images: {
       alerts: 'images/alerts'
-    }
+    },
+    tiles: 'tiles'
   },
   reports: {
     default: 'defaultReport'

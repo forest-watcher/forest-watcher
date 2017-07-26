@@ -1,9 +1,11 @@
 import Config from 'react-native-config';
+import { Platform } from 'react-native';
 import omit from 'lodash/omit';
 import CONSTANTS from 'config/constants';
-import { getTilesInBbox } from 'helpers/map';
-import { cacheTiles } from 'helpers/fileManagement';
+import RNFetchBlob from 'react-native-fetch-blob';
+import { unzip } from 'react-native-zip-archive';
 import { getActionsTodoCount } from 'helpers/sync';
+import { removeFolder } from 'helpers/fileManagement';
 
 import { GET_AREAS_COMMIT } from 'redux-modules/areas';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
@@ -13,12 +15,12 @@ const GET_LAYERS_COMMIT = 'layers/GET_LAYERS_COMMIT';
 const GET_LAYERS_ROLLBACK = 'layers/GET_LAYERS_ROLLBACK';
 const SET_ACTIVE_LAYER = 'layer/SET_ACTIVE_LAYER';
 const CACHE_BASEMAP_REQUEST = 'layer/CACHE_BASEMAP_REQUEST';
-const CACHE_BASEMAP_COMMIT = 'layer/CACHE_BASEMAP_COMMIT';
-const CACHE_BASEMAP_ROLLBACK = 'layer/CACHE_BASEMAP_ROLLBACK';
-const CACHE_LAYER_REQUEST = 'layer/CACHE_LAYER_REQUEST';
-const CACHE_LAYER_COMMIT = 'layer/CACHE_LAYER_COMMIT';
+const CACHE_BASEMAP_COMMIT = 'layers/CACHE_BASEMAP_COMMIT';
+export const CACHE_BASEMAP_ROLLBACK = 'layers/CACHE_BASEMAP_ROLLBACK';
+const CACHE_LAYER_REQUEST = 'layers/CACHE_LAYER_REQUEST';
+const CACHE_LAYER_COMMIT = 'layers/CACHE_LAYER_COMMIT';
+export const CACHE_LAYER_ROLLBACK = 'layer/CACHE_LAYER_ROLLBACK';
 
-const BoundingBox = require('boundingbox');
 
 // TODO: use when support 512 custom tiles size
 // const BASEMAP_URL = PixelRatio.get() >= 2 ? CONSTANTS.maps.basemapHD : CONSTANTS.maps.basemap;
@@ -54,32 +56,36 @@ export default function reducer(state = initialState, action) {
     case SET_ACTIVE_LAYER:
       return { ...state, activeLayer: action.payload };
     case GET_AREAS_COMMIT: {
-      const data = [...action.payload];
-      const cache = { ...state.cache };
-      let pendingData = { ...state.pendingData };
-      data.forEach((area) => {
-        if (!cache.basemap[area.id]) {
-          pendingData = {
-            ...pendingData,
-            basemap: {
-              ...pendingData.basemap,
-              [area.id]: false
-            }
-          };
-        }
-        state.data.forEach((layer) => {
-          if (!cache[layer.id] || (cache[layer.id] && !cache[layer.id][area.id])) {
+      const isAndroid = Platform.OS === 'android'; // TODO: remove this on iOS cache ready
+      if (isAndroid) {
+        const data = [...action.payload];
+        const cache = { ...state.cache };
+        let pendingData = { ...state.pendingData };
+        data.forEach((area) => {
+          if (!cache.basemap[area.id]) {
             pendingData = {
               ...pendingData,
-              [layer.id]: {
-                ...pendingData[layer.id],
+              basemap: {
+                ...pendingData.basemap,
                 [area.id]: false
               }
             };
           }
-        }, this);
-      });
-      return { ...state, pendingData };
+          state.data.forEach((layer) => {
+            if (!cache[layer.id] || (cache[layer.id] && !cache[layer.id][area.id])) {
+              pendingData = {
+                ...pendingData,
+                [layer.id]: {
+                  ...pendingData[layer.id],
+                  [area.id]: false
+                }
+              };
+            }
+          }, this);
+        });
+        return { ...state, pendingData };
+      }
+      return state;
     }
     case CACHE_BASEMAP_REQUEST: {
       const area = action.payload;
@@ -94,8 +100,9 @@ export default function reducer(state = initialState, action) {
       return { ...state, pendingData };
     }
     case CACHE_BASEMAP_COMMIT: {
-      const area = action.meta.area;
-      const path = action.payload;
+      const { area } = action.meta;
+      let path = action.payload;
+      path = (path && path.length > 0) ? path[0] : path;
       const pendingData = {
         ...state.pendingData,
         basemap: omit(state.pendingData.basemap, [area.id])
@@ -108,6 +115,18 @@ export default function reducer(state = initialState, action) {
         }
       };
       return { ...state, cache, pendingData };
+    }
+    case CACHE_BASEMAP_ROLLBACK: {
+      const { area } = action.meta;
+      const { basemap } = state.pendingData;
+      const pendingData = {
+        ...state.pendingData,
+        basemap: {
+          ...basemap,
+          [area.id]: false
+        }
+      };
+      return { ...state, pendingData };
     }
     case CACHE_LAYER_REQUEST: {
       const { area, layer } = action.payload;
@@ -122,7 +141,8 @@ export default function reducer(state = initialState, action) {
     }
     case CACHE_LAYER_COMMIT: {
       const { area, layer } = action.meta;
-      const path = action.payload;
+      let path = action.payload;
+      path = (path && path.length > 0) ? path[0] : path;
       const pendingData = {
         ...state.pendingData,
         [layer.id]: omit(state.pendingData[layer.id], [area.id])
@@ -136,7 +156,19 @@ export default function reducer(state = initialState, action) {
       };
       return { ...state, cache, pendingData };
     }
+    case CACHE_LAYER_ROLLBACK: {
+      const { area, layer } = action.meta;
+      const pendingData = {
+        ...state.pendingData,
+        [layer.id]: {
+          ...state.pendingData[layer.id],
+          [area.id]: false
+        }
+      };
+      return { ...state, pendingData };
+    }
     case LOGOUT_REQUEST:
+      removeFolder(CONSTANTS.files.tiles);
       return initialState;
     default:
       return state;
@@ -169,12 +201,34 @@ export function setActiveContextualLayer(layerId, value) {
 }
 
 async function downloadLayer(config) {
-  const { bbox, areaId, layerId, layerUrl } = config;
-  const zooms = CONSTANTS.maps.cachedZoomLevels;
-  const tiles = getTilesInBbox(bbox, zooms);
-  const cacheConfig = { tiles, areaId, layerId, layerUrl };
-  return await cacheTiles(cacheConfig);
+  const { area, layerId, layerUrl, zoom } = config;
+  const url = `${Config.API_URL}/download-tiles/${area.geostore}/${zoom.start}/${zoom.end}?layerUrl=${layerUrl}`;
+  const res = await RNFetchBlob
+    // add this option that makes response data to be stored as a file,
+    // this is much more performant.
+    .config({ fileCache: true })
+    .fetch('GET', url);
+  if (res) {
+    const downloadPath = res.path();
+    if (downloadPath) {
+      const tilesPath = `${CONSTANTS.files.tiles}/${area.id}/${layerId}`;
+      const targetPath = `${RNFetchBlob.fs.dirs.DocumentDir}/${tilesPath}`;
+      await unzip(downloadPath, targetPath);
+      res.flush(); // remove from the cache
+      return `${tilesPath}/{z}x{x}x{y}`;
+    }
+  }
+  throw new Error('Downloaded path not found');
 }
+
+function downloadAllLayers(config) {
+  const { cacheZoom } = CONSTANTS.maps;
+  return Promise.all(cacheZoom.map((cacheLevel) => {
+    const layerConfig = { ...config, zoom: cacheLevel };
+    return downloadLayer(layerConfig);
+  }, this));
+}
+
 
 function getAreaById(areas, areaId) {
   // Using deconstructor to generate a new object
@@ -190,35 +244,22 @@ function getLayerById(layers, layerId) {
 export function cacheAreaBasemap(areaId) {
   return (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
-    const geostore = state().geostore.data[area.geostore];
-    let bbox = null;
-    if (geostore) {
-      // TODO: refactor this to get directly the bbox of the geostore
-      const bboxArea = new BoundingBox(geostore.geojson.features[0]);
-      if (bboxArea) {
-        bbox = [
-          { lat: bboxArea.minlat, lng: bboxArea.maxlon },
-          { lat: bboxArea.maxlat, lng: bboxArea.minlon }
-        ];
-      }
-    }
-    if (bbox) {
+    if (area) {
       const downloadConfig = {
-        bbox,
-        areaId,
-        extension: 'jpg',
+        area,
         layerId: 'basemap',
         layerUrl: URL_BASEMAP_TEMPLATE
       };
-      const promise = downloadLayer(downloadConfig);
+
+      const promise = downloadAllLayers(downloadConfig);
       dispatch({
         type: CACHE_BASEMAP_REQUEST,
         payload: area,
         meta: {
           offline: {
-            effect: { promise },
+            effect: { promise, errorCode: 400 },
             commit: { type: CACHE_BASEMAP_COMMIT, meta: { area } },
-            rollback: { type: CACHE_BASEMAP_ROLLBACK }
+            rollback: { type: CACHE_BASEMAP_ROLLBACK, meta: { area } }
           }
         }
       });
@@ -226,37 +267,26 @@ export function cacheAreaBasemap(areaId) {
   };
 }
 
+// TODO: refactor to use the same download layer logic
 export function cacheAreaLayer(areaId, layerId) {
   return (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
-    const geostore = state().geostore.data[area.geostore];
-    let bbox = null;
-    if (geostore) {
-      // TODO: refactor this to get directly the bbox of the geostore
-      const bboxArea = new BoundingBox(geostore.geojson.features[0]);
-      if (bboxArea) {
-        bbox = [
-          { lat: bboxArea.minlat, lng: bboxArea.maxlon },
-          { lat: bboxArea.maxlat, lng: bboxArea.minlon }
-        ];
-      }
-    }
     const layer = getLayerById(state().layers.data, layerId);
-    if (bbox && layer) {
+    if (area && layer) {
       const downloadConfig = {
-        bbox,
-        areaId,
+        area,
         layerId: layer.id,
         layerUrl: layer.url
       };
-      const promise = downloadLayer(downloadConfig);
+      const promise = downloadAllLayers(downloadConfig);
       dispatch({
         type: CACHE_LAYER_REQUEST,
         payload: { area, layer },
         meta: {
           offline: {
-            effect: { promise },
-            commit: { type: CACHE_LAYER_COMMIT, meta: { area, layer } }
+            effect: { promise, errorCode: 400 },
+            commit: { type: CACHE_LAYER_COMMIT, meta: { area, layer } },
+            rollback: { type: CACHE_LAYER_ROLLBACK, meta: { area, layer } }
           }
         }
       });

@@ -1,9 +1,9 @@
 import Config from 'react-native-config';
+import CONSTANTS from 'config/constants';
 import omit from 'lodash/omit';
-import { getCachedImageByUrl, removeFolder } from 'helpers/fileManagement';
+import { getCachedImageByUrl } from 'helpers/fileManagement';
 import { getActionsTodoCount } from 'helpers/sync';
 import { getInitialDatasets } from 'helpers/area';
-import CONSTANTS from 'config/constants';
 import { initDb } from 'helpers/database';
 
 // Actions
@@ -440,26 +440,6 @@ export function saveArea(params) {
         rollback: { type: SAVE_AREA_ROLLBACK }
       }
     }
-  };
-}
-
-export function removeCachedArea(areaId, datasetSlug) {
-  return async (dispatch, state) => {
-    const area = getAreaById(state().areas.data, areaId);
-    const oldArea = { ...area, datasets: updatedCacheDatasets(area.datasets, datasetSlug, true) };
-    const folder = `${CONSTANTS.maps.tilesFolder}/${areaId}/${datasetSlug}`;
-
-    dispatch({
-      type: REMOVE_CACHE_AREA_REQUEST,
-      payload: area,
-      meta: {
-        offline: {
-          effect: { promise: removeFolder(folder), errorCode: 400 },
-          commit: { type: REMOVE_CACHE_AREA_COMMIT, meta: { area } },
-          rollback: { type: REMOVE_CACHE_AREA_ROLLBACK, meta: { area: oldArea } }
-        }
-      }
-    });
   };
 }
 
