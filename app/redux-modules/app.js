@@ -8,6 +8,7 @@ import { syncLayers, CACHE_LAYER_ROLLBACK, CACHE_BASEMAP_ROLLBACK } from 'redux-
 import { syncReports } from 'redux-modules/reports';
 
 // Actions
+export const START_APP = 'app/START_APP';
 const SET_LANGUAGE = 'app/SET_LANGUAGE';
 const SET_SYNC_MODAL = 'app/SET_SYNC_MODAL';
 const SET_SYNC_SKIP = 'app/SET_SYNC_SKIP';
@@ -26,6 +27,8 @@ export default function reducer(state = initialState, action) {
       return Object.assign({}, state, { language: action.payload });
     case SET_SYNC_MODAL:
       return { ...state, syncModalOpen: action.payload };
+    case START_APP:
+      return { ...state, syncSkip: false };
     case SET_SYNC_SKIP:
       return { ...state, syncSkip: action.payload };
     case CACHE_LAYER_ROLLBACK:
@@ -62,16 +65,22 @@ export function setSyncSkip(status) {
     payload: status
   };
 }
+export function startApp() {
+  return {
+    type: START_APP
+  };
+}
+
 export function syncApp() {
   return (dispatch, state) => {
     const { feedback, user, countries } = state();
-    dispatch(syncAreas());
-    dispatch(syncGeostore());
-    dispatch(syncLayers());
-    dispatch(syncReports());
     if (!user.synced && !user.syncing) dispatch(getUser());
     if (!feedback.synced.daily && !feedback.syncing.daily) dispatch(getFeedbackQuestions('daily'));
     if (!feedback.synced.weekly && !feedback.syncing.weekly) dispatch(getFeedbackQuestions('weekly'));
     if (!countries.synced && !countries.syncing) dispatch(getCountries());
+    dispatch(syncLayers());
+    dispatch(syncReports());
+    dispatch(syncGeostore());
+    dispatch(syncAreas());
   };
 }

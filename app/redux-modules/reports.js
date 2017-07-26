@@ -77,7 +77,7 @@ export default function reducer(state = initialState, action) {
       const data = [...action.payload];
       let pendingData = state.pendingData;
       data.forEach((area) => {
-        if (area.templateId) {
+        if (area.templateId && !state.data[area.templateId]) {
           pendingData = {
             templates: { ...pendingData.templates, [area.templateId]: false }
           };

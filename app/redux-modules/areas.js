@@ -1,4 +1,5 @@
 import Config from 'react-native-config';
+import CONSTANTS from 'config/constants';
 import omit from 'lodash/omit';
 import { getCachedImageByUrl } from 'helpers/fileManagement';
 import { getActionsTodoCount } from 'helpers/sync';
@@ -7,6 +8,7 @@ import { initDb } from 'helpers/database';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
+import { START_APP } from 'redux-modules/app';
 
 const d3Dsv = require('d3-dsv');
 
@@ -110,20 +112,25 @@ export function resetAlertsDb() {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case START_APP: {
+      return { ...state, synced: false };
+    }
     case GET_AREAS_REQUEST:
       return { ...state, synced: false, syncing: true };
     case GET_AREAS_COMMIT: {
       let pendingData = state.pendingData;
       const data = [...action.payload];
+      const existingAreasID = state.data.length > 0
+        ? state.data.map((area) => area.id)
+        : [];
       data.forEach((newArea) => {
-        pendingData = {
-          coverage: { ...pendingData.coverage, [newArea.id]: false },
-          alert: { ...pendingData.alert, [newArea.id]: false },
-          image: { ...pendingData.image, [newArea.id]: false }
-        };
-        if (newArea.cache) { // TODO: check with @sorodrigo this
-          pendingData.alert = { ...pendingData.alert, [newArea.id]: false };
-        }
+        if (!existingAreasID.includes(newArea.id)) {
+          pendingData = {
+            coverage: { ...pendingData.coverage, [newArea.id]: false },
+            alert: { ...pendingData.alert, [newArea.id]: false },
+            image: { ...pendingData.image, [newArea.id]: false }
+          };
+        } // TODO: remove cache of removed areas
       });
       return { ...state, data, pendingData, synced: true, syncing: false };
     }
@@ -498,24 +505,25 @@ export function deleteArea(areaId) {
 export function getAreaAlerts(areaId, datasetSlug) {
   return (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
-    // const activeDataset = activeDataset(area);
-    // we are always requesting all of the data so the filter is only for the map locally
-    // for viirs we have the last 7 days and 12 months for glad
-    const range = datasetSlug === 'viirs' ? 7 : 12;
-    const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore}?range=${range}&output=csv`;
-    const oldArea = { ...area, datasets: updatedCacheDatasets(area.datasets, datasetSlug, false) };
+    const range = CONSTANTS.areas.alertRange[datasetSlug];
+    if (range) {
+      const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore}?range=${range}&output=csv`;
+      const oldArea = { ...area, datasets: updatedCacheDatasets(area.datasets, datasetSlug, false) };
 
-    dispatch({
-      type: GET_ALERTS_REQUEST,
-      payload: area,
-      meta: {
-        offline: {
-          effect: { url, deserialize: false },
-          commit: { type: GET_ALERTS_COMMIT, meta: { area, datasetSlug } },
-          rollback: { type: GET_ALERTS_ROLLBACK, meta: { area: oldArea } }
+      dispatch({
+        type: GET_ALERTS_REQUEST,
+        payload: area,
+        meta: {
+          offline: {
+            effect: { url, deserialize: false },
+            commit: { type: GET_ALERTS_COMMIT, meta: { area, datasetSlug } },
+            rollback: { type: GET_ALERTS_ROLLBACK, meta: { area: oldArea } }
+          }
         }
-      }
-    });
+      });
+    } else {
+      console.warn('Error getting the default range for alerts request');
+    }
   };
 }
 
@@ -547,9 +555,7 @@ export function syncAreas() {
               const { datasets } = area;
               if (datasets) {
                 datasets.forEach((dataset) => {
-                  if (dataset.cache) {
-                    dispatch(getAreaAlerts(id, dataset.slug));
-                  }
+                  dispatch(getAreaAlerts(id, dataset.slug));
                 });
               }
             });
@@ -557,7 +563,7 @@ export function syncAreas() {
           default:
         }
       });
-    } else if (!hasAreas && !synced && !syncing) {
+    } else if (!synced && !syncing) {
       dispatch(getAreas());
     }
   };

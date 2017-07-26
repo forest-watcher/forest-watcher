@@ -20,7 +20,6 @@ export function getInitialDatasets(coverage) {
       slug: 'umd_as_it_happens',
       name: 'GLAD',
       active: false,
-      cache: true,
       startDate: 6,
       endDate: moment().format('YYYYMMDD') // TODO: think a way to standarize with viirs
     }
@@ -31,7 +30,6 @@ export function getInitialDatasets(coverage) {
       slug: 'viirs',
       name: 'VIIRS',
       active: false,
-      cache: true,
       startDate: '1',
       endDate: '8'
     }

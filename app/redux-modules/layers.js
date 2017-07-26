@@ -7,7 +7,7 @@ import { unzip } from 'react-native-zip-archive';
 import { getActionsTodoCount } from 'helpers/sync';
 import { removeFolder } from 'helpers/fileManagement';
 
-import { GET_GEOSTORE_COMMIT } from 'redux-modules/geostore';
+import { GET_AREAS_COMMIT } from 'redux-modules/areas';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
@@ -55,30 +55,34 @@ export default function reducer(state = initialState, action) {
     }
     case SET_ACTIVE_LAYER:
       return { ...state, activeLayer: action.payload };
-    case GET_GEOSTORE_COMMIT: {
-      const { area } = action.meta;
-      const { basemap } = state.pendingData;
-      const isAndroid = Platform.OS === 'android';
+    case GET_AREAS_COMMIT: {
+      const isAndroid = Platform.OS === 'android'; // TODO: remove this on iOS cache ready
       if (isAndroid) {
-        let pendingData = {
-          ...state.pendingData,
-          basemap: {
-            ...basemap,
-            [area.id]: false
-          }
-        };
-        if (state.synced) {
-          const pendingLayers = {};
-          state.data.forEach((layer) => {
-            pendingLayers[layer.id] = {
-              [area.id]: false
+        const data = [...action.payload];
+        const cache = { ...state.cache };
+        let pendingData = { ...state.pendingData };
+        data.forEach((area) => {
+          if (!cache.basemap[area.id]) {
+            pendingData = {
+              ...pendingData,
+              basemap: {
+                ...pendingData.basemap,
+                [area.id]: false
+              }
             };
+          }
+          state.data.forEach((layer) => {
+            if (!cache[layer.id] || (cache[layer.id] && !cache[layer.id][area.id])) {
+              pendingData = {
+                ...pendingData,
+                [layer.id]: {
+                  ...pendingData[layer.id],
+                  [area.id]: false
+                }
+              };
+            }
           }, this);
-          pendingData = {
-            ...pendingData,
-            ...pendingLayers
-          };
-        }
+        });
         return { ...state, pendingData };
       }
       return state;
