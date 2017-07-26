@@ -45,7 +45,7 @@ class Answers extends Component {
     navigator.popToRoot({ animate: true });
   }
 
-  onEdit = (result, index) => {
+  onEdit = (index) => {
     const { navigator, form } = this.props;
     const isFeedback = name => (name === 'daily' || name === 'weekly');
     const screen = isFeedback(form) ? 'ForestWatcher.Feedback' : 'ForestWatcher.NewReport';
@@ -79,8 +79,12 @@ class Answers extends Component {
     const { results, readOnly } = this.props;
     const regularAnswers = results.filter(({ question }) => question.type !== 'blob');
     const images = results.filter(({ question }) => question.type === 'blob')
-      .map(image => ({ id: image.question.Id, uri: image.answers[0], name: image.question.name }))
-      .filter(image => !!image.uri);
+      .map(image => ({
+        id: image.question.Id,
+        uri: image.answers[0],
+        name: image.question.name,
+        questionNumber: image.question.questionNumber
+      }));
     const imageActions = !readOnly ? [{
       callback: (id, name) => this.onDeleteImage(id, name, images),
       icon: deleteIcon
@@ -95,7 +99,7 @@ class Answers extends Component {
                 key={result.question.Id}
                 answers={result.answers}
                 question={result.question.label}
-                onEditPress={() => this.onEdit(result, result.question.questionNumber)}
+                onEditPress={() => this.onEdit(result.question.questionNumber)}
                 readOnly={readOnly}
               />
             ))
@@ -103,7 +107,11 @@ class Answers extends Component {
           {images.length > 0 &&
             <View style={styles.picturesContainer}>
               <Text style={styles.answersText}>Pictures</Text>
-              <ImageCarousel images={images} actions={imageActions} />
+              <ImageCarousel
+                images={images}
+                actions={imageActions}
+                add={this.onEdit}
+              />
             </View>
           }
           {!readOnly &&
