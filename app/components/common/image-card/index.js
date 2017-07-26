@@ -6,15 +6,13 @@ import {
   Image
 } from 'react-native';
 import Theme from 'config/theme';
-import ImageCache from 'components/common/image-cache';
 import styles from './styles';
 
 const ImageCard = ({ id, name, uri, actions, width, height }) => (
   <View style={styles.container}>
-    <ImageCache
+    <Image
       resizeMode="cover"
       style={{ height: height - styles.actions.height, width }}
-      localSource
       source={{ uri }}
     />
     {actions &&
