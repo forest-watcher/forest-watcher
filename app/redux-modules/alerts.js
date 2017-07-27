@@ -17,9 +17,9 @@ const d3Dsv = require('d3-dsv');
 
 const SET_CAN_DISPLAY_ALERTS = 'alerts/SET_CAN_DISPLAY_ALERTS';
 const SET_ACTIVE_ALERTS = 'alerts/SET_ACTIVE_ALERTS';
-const GET_ALERTS_REQUEST = 'areas/GET_ALERTS_REQUEST';
-export const GET_ALERTS_COMMIT = 'areas/GET_ALERTS_COMMIT';
-const GET_ALERTS_ROLLBACK = 'areas/GET_ALERTS_ROLLBACK';
+const GET_ALERTS_REQUEST = 'alerts/GET_ALERTS_REQUEST';
+export const GET_ALERTS_COMMIT = 'alerts/GET_ALERTS_COMMIT';
+const GET_ALERTS_ROLLBACK = 'alerts/GET_ALERTS_ROLLBACK';
 
 const supercluster = require('supercluster');
 

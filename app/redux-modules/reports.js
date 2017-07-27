@@ -11,8 +11,10 @@ import { SAVE_AREA_COMMIT, GET_AREAS_COMMIT } from 'redux-modules/areas';
 
 const GET_DEFAULT_TEMPLATE_REQUEST = 'report/GET_DEFAULT_TEMPLATE_REQUEST';
 const GET_DEFAULT_TEMPLATE_COMMIT = 'report/GET_DEFAULT_TEMPLATE_COMMIT';
+const GET_DEFAULT_TEMPLATE_ROLLBACK = 'report/GET_DEFAULT_TEMPLATE_ROLLBACK';
 const GET_REPORT_TEMPLATE_REQUEST = 'report/GET_REPORT_TEMPLATE_REQUEST';
 const GET_REPORT_TEMPLATE_COMMIT = 'report/GET_REPORT_TEMPLATE_COMMIT';
+const GET_REPORT_TEMPLATE_ROLLBACK = 'report/GET_REPORT_TEMPLATE_ROLLBACK';
 const CREATE_REPORT = 'report/CREATE_REPORT';
 const UPDATE_REPORT = 'report/UPDATE_REPORT';
 const UPLOAD_REPORT_REQUEST = 'report/UPLOAD_REPORT_REQUEST';
@@ -48,6 +50,8 @@ export default function reducer(state = initialState, action) {
       };
       return { ...state, templates, synced: true, syncing: false };
     }
+    case GET_DEFAULT_TEMPLATE_ROLLBACK:
+      return { ...state, syncing: false };
     case GET_REPORT_TEMPLATE_REQUEST: {
       const templateId = action.payload;
 
@@ -72,6 +76,18 @@ export default function reducer(state = initialState, action) {
         templates: omit(state.pendingData.templates, [template.id])
       };
       return { ...state, templates, pendingData };
+    }
+    case GET_REPORT_TEMPLATE_ROLLBACK: {
+      const { templateId } = action.meta;
+
+      const pendingData = {
+        ...state.pendingData,
+        templates: {
+          ...state.pendingData.templates,
+          [templateId]: false
+        }
+      };
+      return { ...state, pendingData };
     }
     case GET_AREAS_COMMIT: {
       const data = [...action.payload];
@@ -138,7 +154,8 @@ export function getDefaultReport() {
     meta: {
       offline: {
         effect: { url },
-        commit: { type: GET_DEFAULT_TEMPLATE_COMMIT }
+        commit: { type: GET_DEFAULT_TEMPLATE_COMMIT },
+        rollback: { type: GET_DEFAULT_TEMPLATE_ROLLBACK }
       }
     }
   };
@@ -153,7 +170,8 @@ export function getReportTemplate(templateId) {
     meta: {
       offline: {
         effect: { url },
-        commit: { type: GET_REPORT_TEMPLATE_COMMIT }
+        commit: { type: GET_REPORT_TEMPLATE_COMMIT },
+        rollback: { type: GET_REPORT_TEMPLATE_ROLLBACK, meta: { templateId } }
       }
     }
   };

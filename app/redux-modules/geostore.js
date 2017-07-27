@@ -32,7 +32,7 @@ export default function reducer(state = initialState, action) {
       let pendingData = state.pendingData;
       const data = [...action.payload];
       data.forEach((area) => {
-        if (!state.data[area.id]) {
+        if (!state.data[area.geostore]) {
           pendingData = {
             areas: { ...pendingData.areas, [area.id]: false }
           };

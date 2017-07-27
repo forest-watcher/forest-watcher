@@ -51,7 +51,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case START_APP: {
-      return { ...state, synced: false };
+      return { ...state, synced: false, syncing: false };
     }
     case GET_AREAS_REQUEST:
       return { ...state, synced: false, syncing: true };
@@ -400,6 +400,7 @@ export function deleteArea(areaId) {
 
 export function syncAreas() {
   return async (dispatch, state) => {
+    const { loggedIn } = state().user;
     const { data, synced, syncing, pendingData } = state().areas;
     const hasAreas = data && data.length;
     if (hasAreas && synced && getActionsTodoCount(pendingData) > 0) {
@@ -423,7 +424,7 @@ export function syncAreas() {
           default:
         }
       });
-    } else if (!synced && !syncing) {
+    } else if (!synced && !syncing && loggedIn) {
       dispatch(getAreas());
     }
   };

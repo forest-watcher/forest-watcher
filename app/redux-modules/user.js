@@ -38,7 +38,7 @@ export default function reducer(state = initialState, action) {
     case SET_LOGIN_STATUS:
       return Object.assign({}, state, { ...action.payload });
     case LOGOUT_REQUEST:
-      return { ...state, loggedIn: false };
+      return { ...state, token: null, loggedIn: false };
     case LOGOUT_COMMIT:
       return { ...initialState, logSuccess: true };
     case LOGOUT_ROLLBACK:

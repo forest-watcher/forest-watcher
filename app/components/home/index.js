@@ -44,7 +44,7 @@ class Home extends Component {
     setLanguage();
     if (loggedIn) {
       tracker.setUser(token);
-      if (!syncFinished && !syncModalOpen && !this.modalOpen) {
+      if (!syncFinished && !syncModalOpen) {
         this.openModal();
       } else if (syncFinished || syncSkip) {
         if (!hasAreas) {
@@ -76,9 +76,6 @@ class Home extends Component {
   openModal = () => {
     const { navigator, setSyncModal } = this.props;
     setSyncModal(true);
-    // we need this just in case the component check it again
-    // before the flag is stored in redux;
-    this.modalOpen = true;
     navigator.showModal({
       screen: 'ForestWatcher.Sync',
       passProps: {
