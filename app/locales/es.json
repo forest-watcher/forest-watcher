@@ -150,6 +150,7 @@
         "inputRadio": "Elija una opción para continuar",
         "inputSelect": "Seleccione al menos una opción para continuar",
         "input": "Por favor conteste la pregunta",
+        "empty": "No report submitted, please go to the map and report one alert!",
         "completed": "Terminado",
         "uploadAll": "Subir todo",
         "drafts": "Borradores",
