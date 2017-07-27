@@ -143,6 +143,7 @@
         "selected": "Report selected",
         "area": "Report area",
         "takePicture": "Toma una foto",
+        "choosePicture": "Please take or choose a picture",
         "datePlaceholder": "Seleccione una fecha",
         "saveLaterTitle": "Guardar para más adelante",
         "saveLaterDescription": "Aparecerá como borrador en la sección de informes",

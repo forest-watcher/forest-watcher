@@ -15,5 +15,8 @@ export default StyleSheet.create({
     justifyContent: 'flex-end',
     height: 48,
     width: 128
+  },
+  actionsBtn: {
+    backgroundColor: 'transparent'
   }
 });
