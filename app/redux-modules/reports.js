@@ -68,7 +68,7 @@ export default function reducer(state = initialState, action) {
       const template = action.payload || {};
       template.questions = orderQuestions(template.questions);
       let templates = { ...state.templates };
-      if (template.status !== 'unpublished') {
+      if (template.status && template.status !== 'unpublished') {
         templates = {
           ...templates,
           [template.id]: template
@@ -93,16 +93,31 @@ export default function reducer(state = initialState, action) {
       return { ...state, pendingData };
     }
     case GET_AREAS_COMMIT: {
-      const data = [...action.payload];
+      const areas = [...action.payload];
+      const templates = { ...state.templates };
       let pendingData = state.pendingData;
-      data.forEach((area) => {
-        if (area.templateId && !state.templates[area.templateId]) {
-          pendingData = {
-            templates: { ...pendingData.templates, [area.templateId]: false }
-          };
+      const newTemplatesId = [];
+      areas.forEach((area) => {
+        if (area.templateId) {
+          newTemplatesId.push(area.templateId);
+          if (!templates[area.templateId]) {
+            pendingData = {
+              templates: { ...pendingData.templates, [area.templateId]: false }
+            };
+          }
         }
       });
-      return { ...state, pendingData };
+      const templatesFilter = Object.keys(templates).filter((template) => (
+        template === 'default' || newTemplatesId.includes(template)
+      ));
+      let newTemplates = {};
+      templatesFilter.forEach(id => {
+        newTemplates = {
+          ...newTemplates,
+          [id]: templates[id]
+        };
+      });
+      return { ...state, templates, pendingData };
     }
     case SAVE_AREA_COMMIT: {
       const area = action.payload;
