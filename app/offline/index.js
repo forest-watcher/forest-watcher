@@ -4,6 +4,7 @@ import detectNetwork from 'redux-offline/lib/defaults/detectNetwork.native';
 import { AsyncStorage } from 'react-native'; // eslint-disable-line import/no-unresolved
 import { persistStore } from 'redux-persist';
 import { version } from 'package.json';
+import { resetAlertsDb } from 'redux-modules/alerts';
 import effect from './effect';
 
 const persistNative = (store, options, callback) => {
@@ -15,6 +16,7 @@ const persistNative = (store, options, callback) => {
     }
     if (app && app.version !== version) {
       getPersistedStore().purge();
+      resetAlertsDb();
     } else {
       getPersistedStore(); // .purge to clean the offline data
     }

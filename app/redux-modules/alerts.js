@@ -153,14 +153,15 @@ function getAreaById(areas, areaId) {
 export function saveAlertsToDb(areaId, slug, alerts) {
   if (alerts && alerts.length > 0) {
     const realm = initDb();
-    const existingAlerts = realm.objects('Alert').filtered(`areaId = '${areaId}' AND slug = '${slug}'`);
-    try {
-      realm.write(() => {
-        realm.delete(existingAlerts);
-      });
-    } catch (e) {
-      console.warn('Error cleaning db', e);
-    }
+    // TODO: remove alerts incrementally getting the days range
+    // const existingAlerts = realm.objects('Alert').filtered(`areaId = '${areaId}' AND slug = '${slug}'`);
+    // try {
+    //   realm.write(() => {
+    //     realm.delete(existingAlerts);
+    //   });
+    // } catch (e) {
+    //   console.warn('Error cleaning db', e);
+    // }
     const alertsArray = d3Dsv.csvParse(alerts);
     realm.write(() => {
       alertsArray.forEach((alert) => {
