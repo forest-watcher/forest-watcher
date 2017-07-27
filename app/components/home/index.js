@@ -44,9 +44,7 @@ class Home extends Component {
     setLanguage();
     if (loggedIn) {
       tracker.setUser(token);
-      if (!syncFinished && !syncModalOpen) {
-        this.openModal();
-      } else if (syncFinished || syncSkip) {
+      if (syncFinished || syncSkip) {
         if (!hasAreas) {
           navigator.resetTo({
             screen: 'ForestWatcher.Setup',
@@ -65,6 +63,8 @@ class Home extends Component {
           setSyncModal(false);
           navigator.dismissModal();
         }
+      } else if (!syncFinished && !syncModalOpen) {
+        this.openModal();
       }
     } else {
       navigator.resetTo({

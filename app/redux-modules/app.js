@@ -76,13 +76,15 @@ export function syncApp() {
   return (dispatch, state) => {
     const { feedback, user, countries } = state();
     if (!user.synced && !user.syncing) dispatch(getUser());
-    if (!feedback.synced.daily && !feedback.syncing.daily) dispatch(getFeedbackQuestions('daily'));
-    if (!feedback.synced.weekly && !feedback.syncing.weekly) dispatch(getFeedbackQuestions('weekly'));
-    if (!countries.synced && !countries.syncing) dispatch(getCountries());
-    dispatch(syncReports());
-    dispatch(syncAreas());
-    dispatch(syncGeostore());
-    dispatch(syncAlerts());
-    dispatch(syncLayers());
+    if (user.loggedIn) {
+      if (!feedback.synced.daily && !feedback.syncing.daily) dispatch(getFeedbackQuestions('daily'));
+      if (!feedback.synced.weekly && !feedback.syncing.weekly) dispatch(getFeedbackQuestions('weekly'));
+      if (!countries.synced && !countries.syncing) dispatch(getCountries());
+      dispatch(syncReports());
+      dispatch(syncAreas());
+      dispatch(syncGeostore());
+      dispatch(syncAlerts());
+      dispatch(syncLayers());
+    }
   };
 }
