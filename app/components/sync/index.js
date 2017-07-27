@@ -76,6 +76,73 @@ class Sync extends Component {
     return texts;
   }
 
+  getContent() {
+    const { isConnected, reach, actionsPending, criticalSyncError } = this.props;
+    const { completeTimeoutFlag, canSyncDataOnMobile } = this.state;
+    const { title, subtitle } = this.getTexts();
+    if (criticalSyncError) {
+      return (
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>
+            {I18n.t('sync.error')}
+          </Text>
+          <Text style={styles.subtitle}>
+            {I18n.t('sync.errorDesc')}
+          </Text>
+        </View>
+      );
+    }
+    return (
+      <View style={styles.textContainer}>
+        {isConnected && (WIFI.includes(reach) || canSyncDataOnMobile) && (actionsPending > 0 || !completeTimeoutFlag) &&
+        <ActivityIndicator
+          color={Theme.colors.color1}
+          style={{ height: 80 }}
+          size="large"
+        />
+        }
+        <Text style={styles.title}>
+          {title}
+        </Text>
+        <Text style={styles.subtitle}>
+          {subtitle}
+        </Text>
+      </View>
+    );
+  }
+
+  getAction() {
+    const { reach, actionsPending, skipAllowed, criticalSyncError, retrySync } = this.props;
+    const { completeTimeoutFlag, canSyncDataOnMobile } = this.state;
+    const showSkipSyncingBtn = (!MOBILE.includes(reach) || canSyncDataOnMobile) && (actionsPending > 0 || !completeTimeoutFlag) && skipAllowed;
+    if (criticalSyncError) {
+      return (
+        <View>
+          <ActionButton
+            monochrome
+            noIcon
+            style={styles.button}
+            onPress={retrySync} // TODO: retry again
+            text={I18n.t('sync.tryAgain').toUpperCase()}
+          />
+        </View>
+      );
+    }
+    return showSkipSyncingBtn
+      ? (
+        <View>
+          <ActionButton
+            monochrome
+            noIcon
+            style={styles.button}
+            onPress={this.onSkipPress}
+            text={I18n.t('home.skip').toUpperCase()}
+          />
+        </View>
+      )
+      : null;
+  }
+
   syncData = () => {
     const { isConnected, reach } = this.props;
     if (isConnected && (this.state.canSyncDataOnMobile || WIFI.includes(reach))) {
@@ -98,41 +165,14 @@ class Sync extends Component {
   }
 
   render() {
-    const { isConnected, reach, actionsPending, skipAllowed } = this.props;
-    const { completeTimeoutFlag, canSyncDataOnMobile } = this.state;
-    const { title, subtitle } = this.getTexts();
-
-    const showSkipSyncingBtn = (!MOBILE.includes(reach) || canSyncDataOnMobile) && (actionsPending > 0 || !completeTimeoutFlag) && skipAllowed;
+    const { isConnected, reach, skipAllowed } = this.props;
+    const { canSyncDataOnMobile } = this.state;
 
     return (
       <View style={[styles.mainContainer, styles.center]}>
         <View>
-          <View style={styles.textContainer}>
-            {isConnected && (WIFI.includes(reach) || canSyncDataOnMobile) && (actionsPending > 0 || !completeTimeoutFlag) &&
-            <ActivityIndicator
-              color={Theme.colors.color1}
-              style={{ height: 80 }}
-              size="large"
-            />
-            }
-            <Text style={styles.title}>
-              {title}
-            </Text>
-            <Text style={styles.subtitle}>
-              {subtitle}
-            </Text>
-          </View>
-          {showSkipSyncingBtn &&
-            <View>
-              <ActionButton
-                monochrome
-                noIcon
-                style={styles.button}
-                onPress={this.onSkipPress}
-                text={I18n.t('home.skip').toUpperCase()}
-              />
-            </View>
-          }
+          {this.getContent()}
+          {this.getAction()}
           {isConnected && MOBILE.includes(reach) && !canSyncDataOnMobile &&
           <View style={styles.buttonGroupContainer}>
             {skipAllowed &&
@@ -161,11 +201,13 @@ class Sync extends Component {
 
 Sync.propTypes = {
   isConnected: PropTypes.bool.isRequired,
+  criticalSyncError: PropTypes.bool.isRequired,
   skipAllowed: PropTypes.bool.isRequired,
   reach: PropTypes.string.isRequired,
   navigator: PropTypes.object.isRequired,
   actionsPending: PropTypes.number.isRequired,
   syncApp: PropTypes.func.isRequired,
+  retrySync: PropTypes.func.isRequired,
   setSyncModal: PropTypes.func.isRequired,
   setSyncSkip: PropTypes.func.isRequired
 };
