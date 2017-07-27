@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import ImageCache from 'components/common/image-cache';
+import { storeImage } from 'helpers/fileManagement';
 import i18n from 'locales';
 import Theme from 'config/theme';
 import styles from './styles';
@@ -35,11 +36,11 @@ class ImageBlobInput extends Component {
     StatusBar.setBarStyle('default');
   }
 
-  launch() {
+  launch = () => {
     const options = {
       storageOptions: {
         skipBackup: true,
-        path: 'images'
+        waitUntilSaved: true
       }
     };
     ImagePicker.launchCamera(options, (response) => {
@@ -48,9 +49,8 @@ class ImageBlobInput extends Component {
       } else if (response.error) {
         console.warn(response.error);
       } else {
-        const source = { uri: response.uri };
-        this.setState({ source });
-        console.warn(source.uri);
+        const path = response.path;
+        this.savePicture(path);
       }
     });
   }
@@ -62,25 +62,18 @@ class ImageBlobInput extends Component {
     });
   }
 
-  // async savePicture(image) {
-  //   if (!this.state.saving) {
-  //     this.setState({
-  //       saving: true
-  //     }, async () => {
-  //       try {
-  //         const storedUrl = await storeImage(image.path, true);
-  //         this.setState({
-  //           cameraVisible: false,
-  //           saving: false
-  //         }, () => {
-  //           this.props.input.onChange(storedUrl);
-  //         });
-  //       } catch (err) {
-  //         console.warn('TODO: handle error', err);
-  //       }
-  //     });
-  //   }
-  // }
+  async savePicture(path) {
+    try {
+      const storedUrl = await storeImage(path, true);
+      this.setState({
+        source: storedUrl
+      }, () => {
+        this.props.input.onChange(storedUrl);
+      });
+    } catch (err) {
+      console.warn('TODO: handle error', err);
+    }
+  }
 
   renderConfirmView() {
     let image = <Text>{i18n.t('commonText.loading')}</Text>;
