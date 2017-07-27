@@ -159,5 +159,11 @@
     },
     "feedback": {
         "title": "Feedback"
+    },
+    "map": {
+        "alerts": "Alerts",
+        "reported": "Reported",
+        "settings": "Map Settings",
+        "ctxLayers": "Contextual layers"
     }
 }
