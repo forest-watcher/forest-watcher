@@ -6,6 +6,7 @@ import { persistStore } from 'redux-persist';
 import { version } from 'package.json';
 import { resetAlertsDb } from 'redux-modules/alerts';
 import effect from './effect';
+import retry from './retry';
 
 const persistNative = (store, options, callback) => {
   AsyncStorage.getItem('reduxPersist:app', (err, appData) => {
@@ -26,6 +27,7 @@ const persistNative = (store, options, callback) => {
 const config = params => ({
   ...offlineConfig,
   effect,
+  retry,
   detectNetwork,
   persist: persistNative,
   persistOptions: { blacklist: ['setup'] },
