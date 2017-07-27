@@ -11,7 +11,7 @@ import styles from './styles';
 
 const ActionCard = ({ label, width, height, action, icon }) => (
   <TouchableHighlight
-    activeOpacity={0.5}
+    activeOpacity={action ? 0.5 : 1}
     underlayColor="transparent"
     onPress={action}
   >
@@ -30,7 +30,7 @@ ActionCard.propTypes = {
   label: PropTypes.string.isRequired,
   width: PropTypes.number,
   height: PropTypes.number,
-  action: PropTypes.func.isRequired,
+  action: PropTypes.func,
   icon: PropTypes.node
 };
 

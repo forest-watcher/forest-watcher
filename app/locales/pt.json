@@ -155,7 +155,9 @@
         "drafts": "Rascunhos",
         "uploaded": "Carregado",
         "unable": "Não é possível enviar relatório",
-        "connectionRequired": "Você precisa de uma conexão com a internet"
+        "connectionRequired": "Você precisa de uma conexão com a internet",
+        "addPicture": "Add Picture",
+        "emptyPicture": "Empty"
     },
     "feedback": {
         "title": "Feedback"

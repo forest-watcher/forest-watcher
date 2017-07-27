@@ -155,7 +155,9 @@
         "drafts": "Borradores",
         "uploaded": "Subido",
         "unable": "Imposible enviar el reporte",
-        "connectionRequired": "Necesita una conexión a internet"
+        "connectionRequired": "Necesita una conexión a internet",
+        "addPicture": "Add Picture",
+        "emptyPicture": "Empty"
     },
     "feedback": {
         "title": "Feedback"
