@@ -29,7 +29,8 @@ class Home extends Component {
       this.props.syncFinished !== nextProps.syncFinished,
       this.props.hasAreas !== nextProps.hasAreas,
       this.props.token !== nextProps.token,
-      this.props.syncSkip !== nextProps.syncSkip
+      this.props.syncSkip !== nextProps.syncSkip,
+      this.props.syncModalOpen !== nextProps.syncModalOpen
     ];
     return conditions.includes(true);
   }
