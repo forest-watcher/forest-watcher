@@ -47,9 +47,8 @@ class Answers extends Component {
 
   onEdit = (index) => {
     const { navigator, form } = this.props;
-    const isFeedback = name => (name === 'daily' || name === 'weekly');
-    const screen = isFeedback(form) ? 'ForestWatcher.Feedback' : 'ForestWatcher.NewReport';
-    const disableDraft = isFeedback(form);
+    const screen = 'ForestWatcher.NewReport';
+    const disableDraft = false;
     navigator.showModal({
       screen,
       backButtonHidden: true,

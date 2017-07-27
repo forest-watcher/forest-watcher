@@ -112,6 +112,9 @@ export function logout() {
           }
         });
       }
+      dispatch({
+        type: LOGOUT_REQUEST
+      });
       return dispatch({
         type: LOGOUT_COMMIT
       });

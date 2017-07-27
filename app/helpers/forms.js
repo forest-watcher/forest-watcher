@@ -37,14 +37,7 @@ export const getTemplate = (state, formName) => {
   const list = state.reports.list[formName];
   const templateId = list && list.area.templateId && list.area.status === 'published' ?
     list.area.templateId : 'default';
-  switch (formName) {
-    case 'daily':
-      return Object.assign({}, state.feedback.daily);
-    case 'weekly':
-      return Object.assign({}, state.feedback.weekly);
-    default:
-      return Object.assign({}, state.reports.templates[templateId]);
-  }
+  return Object.assign({}, state.reports.templates[templateId]);
 };
 
 export const getNextStep = ({ currentQuestion, questions, answers }) => {

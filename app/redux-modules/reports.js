@@ -117,7 +117,7 @@ export default function reducer(state = initialState, action) {
           [id]: templates[id]
         };
       });
-      return { ...state, templates, pendingData };
+      return { ...state, templates: newTemplates, pendingData };
     }
     case SAVE_AREA_COMMIT: {
       const area = action.payload;

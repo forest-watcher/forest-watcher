@@ -2,8 +2,6 @@ import { connect } from 'react-redux';
 import { getBtnTextByType, parseQuestion, getTemplate, getAnswers, getNextStep } from 'helpers/forms';
 import FormStep from 'components/common/form/form-step';
 
-const isFeedback = formName => (formName === 'daily' || formName === 'weekly');
-
 function getNextCallback({ currentQuestion, questions, answers, navigator, form, screen, title, finish }) {
   const nextStep = getNextStep({ currentQuestion, questions, answers });
   if (nextStep && currentQuestion < questions.length - 1) {
@@ -15,7 +13,7 @@ function getNextCallback({ currentQuestion, questions, answers, navigator, form,
         title,
         screen,
         step: nextStep,
-        disableDraft: isFeedback(form)
+        disableDraft: false
       }
     });
   }
@@ -27,7 +25,7 @@ function getNextCallback({ currentQuestion, questions, answers, navigator, form,
       passProps: {
         form,
         finish,
-        disableDraft: isFeedback(form)
+        disableDraft: false
       }
     });
   };
@@ -47,7 +45,7 @@ function getEditNextCallback({ currentQuestion, questions, answers, navigator, f
           title,
           screen,
           step: nextStep,
-          disableDraft: isFeedback(form)
+          disableDraft: false
         }
       });
     }
