@@ -34,9 +34,9 @@ class ImageBlobInput extends Component {
 
   componentDidMount() {
     this.getPermissions();
-    if (this.camera !== undefined) {
-      this.selectCameraType();
-    }
+    // if (this.camera !== undefined) {
+    //   this.selectCameraType();
+    // }
   }
 
   componentWillUnmount() {
@@ -60,8 +60,7 @@ class ImageBlobInput extends Component {
             }
           );
           if (granted === false) {
-            // TODO: Continue form without picture?
-            console.warn('Please allow Camera');
+            this.props.input.onChange('');
           }
         }
         this.setState({
@@ -94,6 +93,7 @@ class ImageBlobInput extends Component {
 
   async takePicture() {
     const image = await this.camera.capture();
+    console.warn(image);
     this.savePicture(image);
   }
 

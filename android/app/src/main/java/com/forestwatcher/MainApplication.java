@@ -23,6 +23,7 @@ import com.airbnb.android.react.maps.MapsPackage;
 import com.i18n.reactnativei18n.ReactNativeI18n;
 import com.syarul.rnlocation.RNLocation;
 import com.rnziparchive.RNZipArchivePackage;
+import com.imagepicker.ImagePickerPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -49,7 +50,8 @@ public class MainApplication extends NavigationApplication {
       new RNLocation(),
       new RealmReactPackage(),
       new RNZipArchivePackage(),
-      new CookieManagerPackage()
+      new CookieManagerPackage(),
+      new ImagePickerPackage()
     );
   }
 }
