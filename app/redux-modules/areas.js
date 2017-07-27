@@ -228,7 +228,7 @@ export default function reducer(state = initialState, action) {
 }
 
 export function getAreas() {
-  const url = `${Config.API_URL}/area`;
+  const url = `${Config.API_URL}/area/fw`;
   return {
     type: GET_AREAS_REQUEST,
     meta: {
