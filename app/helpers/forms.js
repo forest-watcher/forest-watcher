@@ -35,7 +35,8 @@ export const getAnswers = (forms, formName) => {
 
 export const getTemplate = (state, formName) => {
   const list = state.reports.list[formName];
-  const templateId = list && list.area.templateId ? list.area.templateId : 'default';
+  const templateId = list && list.area.templateId && list.area.status === 'published' ?
+    list.area.templateId : 'default';
   switch (formName) {
     case 'daily':
       return Object.assign({}, state.feedback.daily);

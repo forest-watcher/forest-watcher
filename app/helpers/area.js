@@ -13,7 +13,7 @@ export function enabledDatasetName(area) {
   return enabledDataset !== false ? enabledDataset.name : false;
 }
 
-export function getInitialDatasets(coverage) {
+export function getSupportedDatasets(coverage) {
   const layers = coverage.layers || [];
   const alerts = [
     {

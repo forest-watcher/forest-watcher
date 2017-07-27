@@ -1,16 +1,25 @@
+import Config from 'react-native-config';
 import moment from 'moment';
 import memoize from 'lodash/memoize';
+import omit from 'lodash/omit';
 import { pointsToGeoJSON } from 'helpers/map';
 import { initDb, read } from 'helpers/database';
-import { activeDataset } from 'helpers/area';
+import { activeDataset, getSupportedDatasets } from 'helpers/area';
+import { getActionsTodoCount } from 'helpers/sync';
 import CONSTANTS from 'config/constants';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { UPLOAD_REPORT_COMMIT } from 'redux-modules/reports';
+import { GET_AREA_COVERAGE_COMMIT } from 'redux-modules/areas';
+
+const d3Dsv = require('d3-dsv');
 
 const SET_CAN_DISPLAY_ALERTS = 'alerts/SET_CAN_DISPLAY_ALERTS';
 const SET_ACTIVE_ALERTS = 'alerts/SET_ACTIVE_ALERTS';
+const GET_ALERTS_REQUEST = 'alerts/GET_ALERTS_REQUEST';
+export const GET_ALERTS_COMMIT = 'alerts/GET_ALERTS_COMMIT';
+const GET_ALERTS_ROLLBACK = 'alerts/GET_ALERTS_ROLLBACK';
 
 const supercluster = require('supercluster');
 
@@ -44,10 +53,11 @@ const memoizedAreaToClusters = memoize(mapAreaToClusters, (...rest) => rest.join
 
 // Reducer
 const initialState = {
-  data: {},
+  cache: {},
   reported: [],
   canDisplayAlerts: true,
-  clusters: null
+  clusters: null,
+  pendingData: {}
 };
 
 export default function reducer(state = initialState, action) {
@@ -57,22 +67,124 @@ export default function reducer(state = initialState, action) {
     case SET_ACTIVE_ALERTS:
       return { ...state, clusters: action.payload };
     case UPLOAD_REPORT_COMMIT: {
-      const { alerts } = action.payload;
-      let reported = { ...state.reported };
+      const { alerts } = action.meta.report;
+      let reported = [...state.reported];
 
       if (alerts && alerts.length) {
-        reported.forEach((alert) => {
-          reported = [...reported, `${alert.long}${alert.lat}`];
+        alerts.forEach((alert) => {
+          reported = [...reported, `${alert.lon}${alert.lat}`];
         }, this);
       }
       return { ...state, reported };
     }
-    case LOGOUT_REQUEST:
+    case GET_AREA_COVERAGE_COMMIT: {
+      const { area } = action.meta;
+      const datasets = getSupportedDatasets(action.payload);
+      let pendingData = { ...state.pendingData };
+      if (datasets && datasets.length) {
+        datasets.forEach((dataset) => {
+          const datasetSlug = dataset.slug;
+          pendingData = {
+            ...pendingData,
+            [datasetSlug]: {
+              ...pendingData[datasetSlug],
+              [area.id]: false
+            }
+          };
+        });
+      }
+      return { ...state, pendingData };
+    }
+    case GET_ALERTS_REQUEST: {
+      const { area, datasetSlug } = action.payload;
+      const pendingData = {
+        ...state.pendingData,
+        [datasetSlug]: {
+          ...state.pendingData[datasetSlug],
+          [area.id]: true
+        }
+      };
+      return { ...state, pendingData };
+    }
+    case GET_ALERTS_COMMIT: {
+      const { area, datasetSlug } = action.meta;
+      const pendingData = {
+        ...state.pendingData,
+        [datasetSlug]: omit(state.pendingData[datasetSlug], [area.id])
+      };
+      const cache = {
+        ...state.cache,
+        [datasetSlug]: {
+          ...state.cache[datasetSlug],
+          [area.id]: Date.now()
+        }
+      };
+      if (action.payload) {
+        saveAlertsToDb(area.id, datasetSlug, action.payload);
+      }
+      return { ...state, pendingData, cache };
+    }
+    case GET_ALERTS_ROLLBACK: {
+      const { area, datasetSlug } = action.meta;
+      const pendingData = {
+        ...state.pendingData,
+        [datasetSlug]: {
+          ...state.pendingData[datasetSlug],
+          [area.id]: false
+        }
+      };
+      return { ...state, pendingData };
+    }
+    case LOGOUT_REQUEST: {
+      resetAlertsDb();
       return initialState;
+    }
     default:
       return state;
   }
 }
+
+// Helpers
+function getAreaById(areas, areaId) {
+  // Using deconstructor to generate a new object
+  return { ...areas.find((areaData) => (areaData.id === areaId)) };
+}
+
+export function saveAlertsToDb(areaId, slug, alerts) {
+  if (alerts && alerts.length > 0) {
+    const realm = initDb();
+    // TODO: remove alerts incrementally getting the days range
+    // const existingAlerts = realm.objects('Alert').filtered(`areaId = '${areaId}' AND slug = '${slug}'`);
+    // try {
+    //   realm.write(() => {
+    //     realm.delete(existingAlerts);
+    //   });
+    // } catch (e) {
+    //   console.warn('Error cleaning db', e);
+    // }
+    const alertsArray = d3Dsv.csvParse(alerts);
+    realm.write(() => {
+      alertsArray.forEach((alert) => {
+        realm.create('Alert', {
+          slug,
+          areaId,
+          date: parseInt(alert.date, 10),
+          lat: parseFloat(alert.lat, 10),
+          long: parseFloat(alert.lon, 10)
+        });
+      });
+    });
+  }
+}
+
+export function resetAlertsDb() {
+  const realm = initDb();
+  realm.write(() => {
+    const allAlerts = realm.objects('Alert');
+    realm.delete(allAlerts);
+  });
+}
+
 
 // Action Creators
 export function setCanDisplayAlerts(canDisplay) {
@@ -103,3 +215,61 @@ export function setActiveAlerts() {
     dispatch(action);
   };
 }
+
+export function getAreaAlerts(areaId, datasetSlug) {
+  return (dispatch, state) => {
+    const area = getAreaById(state().areas.data, areaId);
+    const { cache } = state().alerts;
+    let range = null;
+    // Get the last cache date and request only that new data
+    if (cache[datasetSlug] && cache[datasetSlug][areaId]) {
+      const now = moment();
+      const lastCache = moment(cache[datasetSlug][areaId]);
+      const daysFromLastCache = now.diff(lastCache, 'days');
+      if (daysFromLastCache > 0) {
+        range = daysFromLastCache;
+      }
+    // or get the default in case we haven't cached it before
+    } else {
+      range = CONSTANTS.areas.alertRange[datasetSlug];
+    }
+    if (range) {
+      const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore}?range=${range}&output=csv`;
+      dispatch({
+        type: GET_ALERTS_REQUEST,
+        payload: { area, datasetSlug },
+        meta: {
+          offline: {
+            effect: { url, deserialize: false },
+            commit: { type: GET_ALERTS_COMMIT, meta: { area, datasetSlug } },
+            rollback: { type: GET_ALERTS_ROLLBACK, meta: { area, datasetSlug } }
+          }
+        }
+      });
+    } else {
+      dispatch({
+        type: GET_ALERTS_COMMIT,
+        meta: { area, datasetSlug },
+        payload: false
+      });
+    }
+  };
+}
+
+export function syncAlerts() {
+  return (dispatch, state) => {
+    const { pendingData } = state().alerts;
+    if (getActionsTodoCount(pendingData) > 0) {
+      Object.keys(pendingData).forEach((dataset) => {
+        const syncingAlertsData = pendingData[dataset];
+        const canDispatch = id => (typeof syncingAlertsData[id] !== 'undefined' && syncingAlertsData[id] === false);
+        Object.keys(syncingAlertsData).forEach(id => {
+          if (canDispatch(id)) {
+            dispatch(getAreaAlerts(id, dataset));
+          }
+        });
+      });
+    }
+  };
+}
+

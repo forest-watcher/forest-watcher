@@ -7,8 +7,8 @@ import { unzip } from 'react-native-zip-archive';
 import { getActionsTodoCount } from 'helpers/sync';
 import { removeFolder } from 'helpers/fileManagement';
 
-import { GET_AREAS_COMMIT } from 'redux-modules/areas';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
+import { START_APP } from 'redux-modules/app';
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
 const GET_LAYERS_COMMIT = 'layers/GET_LAYERS_COMMIT';
@@ -42,26 +42,19 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case START_APP:
+      return { ...state, synced: false, syncing: false };
     case GET_LAYERS_REQUEST:
       return { ...state, synced: false, syncing: true };
     case GET_LAYERS_COMMIT: {
-      const data = [...action.payload];
-      return { ...state, data, synced: true, syncing: false };
-      // TODO: check if geostores was synced before and include in the pendingData
-    }
-    case GET_LAYERS_ROLLBACK: {
-      const data = [...action.meta.layers];
-      return { ...state, data, syncing: false };
-    }
-    case SET_ACTIVE_LAYER:
-      return { ...state, activeLayer: action.payload };
-    case GET_AREAS_COMMIT: {
+      const layers = [...action.payload];
+      let pendingData = { ...state.pendingData };
+
       const isAndroid = Platform.OS === 'android'; // TODO: remove this on iOS cache ready
       if (isAndroid) {
-        const data = [...action.payload];
+        const areas = [...action.meta.areas];
         const cache = { ...state.cache };
-        let pendingData = { ...state.pendingData };
-        data.forEach((area) => {
+        areas.forEach((area) => {
           if (!cache.basemap[area.id]) {
             pendingData = {
               ...pendingData,
@@ -71,7 +64,7 @@ export default function reducer(state = initialState, action) {
               }
             };
           }
-          state.data.forEach((layer) => {
+          layers.forEach((layer) => {
             if (!cache[layer.id] || (cache[layer.id] && !cache[layer.id][area.id])) {
               pendingData = {
                 ...pendingData,
@@ -83,10 +76,15 @@ export default function reducer(state = initialState, action) {
             }
           }, this);
         });
-        return { ...state, pendingData };
       }
-      return state;
+
+      return { ...state, data: layers, synced: true, syncing: false, pendingData };
     }
+    case GET_LAYERS_ROLLBACK: {
+      return { ...state, syncing: false };
+    }
+    case SET_ACTIVE_LAYER:
+      return { ...state, activeLayer: action.payload };
     case CACHE_BASEMAP_REQUEST: {
       const area = action.payload;
       const { basemap } = state.pendingData;
@@ -177,15 +175,15 @@ export default function reducer(state = initialState, action) {
 
 export function getUserLayers() {
   return (dispatch, state) => {
-    const layers = state().layers.data;
     const url = `${Config.API_URL}/contextual-layer/?enabled=true`;
+    const areas = state().areas.data;
     return dispatch({
       type: GET_LAYERS_REQUEST,
       meta: {
         offline: {
           effect: { url },
-          commit: { type: GET_LAYERS_COMMIT },
-          rollback: { type: GET_LAYERS_ROLLBACK, meta: { layers } }
+          commit: { type: GET_LAYERS_COMMIT, meta: { areas } },
+          rollback: { type: GET_LAYERS_ROLLBACK }
         }
       }
     });
@@ -294,9 +292,10 @@ export function cacheAreaLayer(areaId, layerId) {
   };
 }
 
-export function cacheLayers() {
+export function syncLayers() {
   return (dispatch, state) => {
-    const { pendingData } = state().layers;
+    const { synced, syncing, pendingData } = state().layers;
+    if (!synced && !syncing) dispatch(getUserLayers());
     if (getActionsTodoCount(pendingData) > 0) {
       Object.keys(pendingData).forEach((layer) => {
         const syncingLayersData = pendingData[layer];

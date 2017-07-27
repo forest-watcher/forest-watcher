@@ -58,9 +58,10 @@ export default () => {
     window.tron = Reactotron; // eslint-disable-line
     store = offline({ persistCallback: startApp })(Reactotron.createStore)(reducer, undefined, middleware);
   } else {
+    const closeLightbox = () => Navigation.dismissLightBox;
     global.ErrorUtils.setGlobalHandler((error, isFatal) => Navigation.showLightBox({
       screen: 'ForestWatcher.ErrorLightbox',
-      passProps: { error, isFatal },
+      passProps: { error, isFatal, closeLightbox },
       style: {
         backgroundBlur: 'none',
         tapBackgroundToDismiss: true

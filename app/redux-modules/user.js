@@ -7,6 +7,7 @@ const CookieManager = require('react-native-cookies');
 // Actions
 const GET_USER_REQUEST = 'user/GET_USER_REQUEST';
 const GET_USER_COMMIT = 'user/GET_USER_COMMIT';
+const GET_USER_ROLLBACK = 'user/GET_USER_ROLLBACK';
 const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
 export const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
 const LOGOUT_COMMIT = 'user/LOGOUT_COMMIT';
@@ -31,10 +32,13 @@ export default function reducer(state = initialState, action) {
       const user = action.payload;
       return { ...state, data: user, synced: true, syncing: false };
     }
+    case GET_USER_ROLLBACK: {
+      return { ...state, syncing: false };
+    }
     case SET_LOGIN_STATUS:
       return Object.assign({}, state, { ...action.payload });
     case LOGOUT_REQUEST:
-      return { ...state, loggedIn: false };
+      return { ...state, token: null, loggedIn: false };
     case LOGOUT_COMMIT:
       return { ...initialState, logSuccess: true };
     case LOGOUT_ROLLBACK:
@@ -51,7 +55,8 @@ export function getUser() {
     meta: {
       offline: {
         effect: { url: `${Config.API_AUTH}/user` },
-        commit: { type: GET_USER_COMMIT }
+        commit: { type: GET_USER_COMMIT },
+        rollback: { type: GET_USER_ROLLBACK }
       }
     }
   };

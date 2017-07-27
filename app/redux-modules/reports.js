@@ -11,8 +11,10 @@ import { SAVE_AREA_COMMIT, GET_AREAS_COMMIT } from 'redux-modules/areas';
 
 const GET_DEFAULT_TEMPLATE_REQUEST = 'report/GET_DEFAULT_TEMPLATE_REQUEST';
 const GET_DEFAULT_TEMPLATE_COMMIT = 'report/GET_DEFAULT_TEMPLATE_COMMIT';
+const GET_DEFAULT_TEMPLATE_ROLLBACK = 'report/GET_DEFAULT_TEMPLATE_ROLLBACK';
 const GET_REPORT_TEMPLATE_REQUEST = 'report/GET_REPORT_TEMPLATE_REQUEST';
 const GET_REPORT_TEMPLATE_COMMIT = 'report/GET_REPORT_TEMPLATE_COMMIT';
+const GET_REPORT_TEMPLATE_ROLLBACK = 'report/GET_REPORT_TEMPLATE_ROLLBACK';
 const CREATE_REPORT = 'report/CREATE_REPORT';
 const UPDATE_REPORT = 'report/UPDATE_REPORT';
 const UPLOAD_REPORT_REQUEST = 'report/UPLOAD_REPORT_REQUEST';
@@ -48,6 +50,8 @@ export default function reducer(state = initialState, action) {
       };
       return { ...state, templates, synced: true, syncing: false };
     }
+    case GET_DEFAULT_TEMPLATE_ROLLBACK:
+      return { ...state, syncing: false };
     case GET_REPORT_TEMPLATE_REQUEST: {
       const templateId = action.payload;
 
@@ -63,27 +67,57 @@ export default function reducer(state = initialState, action) {
     case GET_REPORT_TEMPLATE_COMMIT: {
       const template = action.payload || {};
       template.questions = orderQuestions(template.questions);
-      const templates = {
-        ...state.templates,
-        [template.id]: template
-      };
+      let templates = { ...state.templates };
+      if (template.status && template.status !== 'unpublished') {
+        templates = {
+          ...templates,
+          [template.id]: template
+        };
+      }
       const pendingData = {
         ...state.pendingData,
         templates: omit(state.pendingData.templates, [template.id])
       };
       return { ...state, templates, pendingData };
     }
+    case GET_REPORT_TEMPLATE_ROLLBACK: {
+      const { templateId } = action.meta;
+
+      const pendingData = {
+        ...state.pendingData,
+        templates: {
+          ...state.pendingData.templates,
+          [templateId]: false
+        }
+      };
+      return { ...state, pendingData };
+    }
     case GET_AREAS_COMMIT: {
-      const data = [...action.payload];
+      const areas = [...action.payload];
+      const templates = { ...state.templates };
       let pendingData = state.pendingData;
-      data.forEach((area) => {
-        if (area.templateId && !state.templates[area.templateId]) {
-          pendingData = {
-            templates: { ...pendingData.templates, [area.templateId]: false }
-          };
+      const newTemplatesId = [];
+      areas.forEach((area) => {
+        if (area.templateId) {
+          newTemplatesId.push(area.templateId);
+          if (!templates[area.templateId]) {
+            pendingData = {
+              templates: { ...pendingData.templates, [area.templateId]: false }
+            };
+          }
         }
       });
-      return { ...state, pendingData };
+      const templatesFilter = Object.keys(templates).filter((template) => (
+        template === 'default' || newTemplatesId.includes(template)
+      ));
+      let newTemplates = {};
+      templatesFilter.forEach(id => {
+        newTemplates = {
+          ...newTemplates,
+          [id]: templates[id]
+        };
+      });
+      return { ...state, templates, pendingData };
     }
     case SAVE_AREA_COMMIT: {
       const area = action.payload;
@@ -138,7 +172,8 @@ export function getDefaultReport() {
     meta: {
       offline: {
         effect: { url },
-        commit: { type: GET_DEFAULT_TEMPLATE_COMMIT }
+        commit: { type: GET_DEFAULT_TEMPLATE_COMMIT },
+        rollback: { type: GET_DEFAULT_TEMPLATE_ROLLBACK }
       }
     }
   };
@@ -153,7 +188,8 @@ export function getReportTemplate(templateId) {
     meta: {
       offline: {
         effect: { url },
-        commit: { type: GET_REPORT_TEMPLATE_COMMIT }
+        commit: { type: GET_REPORT_TEMPLATE_COMMIT },
+        rollback: { type: GET_REPORT_TEMPLATE_ROLLBACK, meta: { templateId } }
       }
     }
   };
@@ -231,7 +267,7 @@ export function uploadReport({ reportName, fields }) {
     const commitPayload = {
       name: reportName,
       status: CONSTANTS.status.uploaded,
-      alerts: report.clickedPosition
+      alerts: JSON.parse(report.clickedPosition)
     };
     const url = `${Config.API_URL}/reports/${Config.REPORT_ID}/answers`;
     const headers = { 'content-type': 'multipart/form-data' };

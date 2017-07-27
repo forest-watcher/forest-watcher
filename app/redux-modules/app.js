@@ -4,8 +4,9 @@ import { syncAreas, UPDATE_AREA_REQUEST, SAVE_AREA_REQUEST } from 'redux-modules
 import { getCountries } from 'redux-modules/countries';
 import { getUser, LOGOUT_REQUEST } from 'redux-modules/user';
 import { syncGeostore } from 'redux-modules/geostore';
-import { cacheLayers, getUserLayers, CACHE_LAYER_ROLLBACK, CACHE_BASEMAP_ROLLBACK } from 'redux-modules/layers';
+import { syncLayers, CACHE_LAYER_ROLLBACK, CACHE_BASEMAP_ROLLBACK } from 'redux-modules/layers';
 import { syncReports } from 'redux-modules/reports';
+import { syncAlerts } from 'redux-modules/alerts';
 
 // Actions
 export const START_APP = 'app/START_APP';
@@ -28,7 +29,7 @@ export default function reducer(state = initialState, action) {
     case SET_SYNC_MODAL:
       return { ...state, syncModalOpen: action.payload };
     case START_APP:
-      return { ...state, syncSkip: false };
+      return { ...state, syncSkip: false, syncModalOpen: false };
     case SET_SYNC_SKIP:
       return { ...state, syncSkip: action.payload };
     case CACHE_LAYER_ROLLBACK:
@@ -73,15 +74,17 @@ export function startApp() {
 
 export function syncApp() {
   return (dispatch, state) => {
-    const { feedback, user, countries, layers } = state();
+    const { feedback, user, countries } = state();
     if (!user.synced && !user.syncing) dispatch(getUser());
-    if (!feedback.synced.daily && !feedback.syncing.daily) dispatch(getFeedbackQuestions('daily'));
-    if (!feedback.synced.weekly && !feedback.syncing.weekly) dispatch(getFeedbackQuestions('weekly'));
-    if (!countries.synced && !countries.syncing) dispatch(getCountries());
-    if (!layers.synced && !layers.syncing) dispatch(getUserLayers());
-    dispatch(syncReports());
-    dispatch(syncGeostore());
-    dispatch(syncAreas());
-    dispatch(cacheLayers());
+    if (user.loggedIn) {
+      if (!feedback.synced.daily && !feedback.syncing.daily) dispatch(getFeedbackQuestions('daily'));
+      if (!feedback.synced.weekly && !feedback.syncing.weekly) dispatch(getFeedbackQuestions('weekly'));
+      if (!countries.synced && !countries.syncing) dispatch(getCountries());
+      dispatch(syncReports());
+      dispatch(syncAreas());
+      dispatch(syncGeostore());
+      dispatch(syncAlerts());
+      dispatch(syncLayers());
+    }
   };
 }
