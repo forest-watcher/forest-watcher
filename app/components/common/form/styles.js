@@ -7,6 +7,14 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.main,
     position: 'relative'
   },
+  backgroundHack: {
+    position: 'absolute',
+    top: -64,
+    left: 0,
+    right: 0,
+    height: 64,
+    backgroundColor: Theme.background.main
+  },
   containerCenter: {
     alignItems: 'center',
     justifyContent: 'center'

@@ -39,6 +39,7 @@ class FormStep extends Component { // eslint-disable-line
     return (
       <View style={styles.container}>
         <View style={styles.container}>
+          <View style={styles.backgroundHack} />
           <Field
             name={question.name}
             component={getInputForm}
