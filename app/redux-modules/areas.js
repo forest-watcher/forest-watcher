@@ -1,6 +1,6 @@
 import Config from 'react-native-config';
 import omit from 'lodash/omit';
-import union from 'lodash/union';
+import unionBy from 'lodash/unionBy';
 import { getCachedImageByUrl } from 'helpers/fileManagement';
 import { getActionsTodoCount } from 'helpers/sync';
 import { getSupportedDatasets } from 'helpers/area';
@@ -109,7 +109,7 @@ export default function reducer(state = initialState, action) {
           if ((area.datasets && area.datasets.length === 0) || !area.datasets) {
             updated.datasets = newDatasets;
           } else {
-            updated.datasets = union(area.datasets, newDatasets, 'slug');
+            updated.datasets = unionBy(area.datasets, newDatasets, 'slug');
           }
         }
         pendingData = {
