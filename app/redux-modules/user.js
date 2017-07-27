@@ -99,25 +99,24 @@ export function loginGoogle() {
 
 export function logout() {
   return (dispatch, state) => {
-    CookieManager.clearAll(() => {
-      if (state().user.socialNetwork === 'google') {
-        return dispatch({
-          type: LOGOUT_REQUEST,
-          meta: {
-            offline: {
-              effect: { promise: GoogleOAuth.logout(), errorCode: 400 },
-              commit: { type: LOGOUT_COMMIT },
-              rollback: { type: LOGOUT_ROLLBACK }
-            }
-          }
-        });
-      }
-      dispatch({
-        type: LOGOUT_REQUEST
-      });
+    CookieManager.clearAll((err) => (err && console.warn(err)));
+    if (state().user.socialNetwork === 'google') {
       return dispatch({
-        type: LOGOUT_COMMIT
+        type: LOGOUT_REQUEST,
+        meta: {
+          offline: {
+            effect: { promise: GoogleOAuth.logout(), errorCode: 400 },
+            commit: { type: LOGOUT_COMMIT },
+            rollback: { type: LOGOUT_ROLLBACK }
+          }
+        }
       });
+    }
+    dispatch({
+      type: LOGOUT_REQUEST
+    });
+    return dispatch({
+      type: LOGOUT_COMMIT
     });
   };
 }
