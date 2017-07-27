@@ -16,7 +16,6 @@ import styles from './styles';
 
 const ImagePicker = require('react-native-image-picker');
 
-const cameraIcon = require('assets/camera.png');
 const cameraAddIcon = require('assets/camera_add.png');
 
 class ImageBlobInput extends Component {
@@ -94,7 +93,7 @@ class ImageBlobInput extends Component {
         <View style={styles.preview}>{image}</View>
         <TouchableHighlight
           style={styles.leftBtn}
-          onPress={this.removePicture}
+          onPress={this.launch}
           activeOpacity={0.8}
           underlayColor={Theme.background.white}
         >
@@ -113,13 +112,6 @@ class ImageBlobInput extends Component {
             <Image style={{ width: 100, height: 200 }} source={this.state.source} />
           }
         </View>
-        <TouchableHighlight
-          style={[styles.captureBtn, this.state.saving ? styles.captureBtnDisabled : '']}
-          activeOpacity={0.8}
-          underlayColor={Theme.background.secondary}
-        >
-          <Image style={Theme.icon} source={cameraIcon} />
-        </TouchableHighlight>
       </View>
     );
   }
