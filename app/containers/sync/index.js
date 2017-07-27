@@ -11,6 +11,7 @@ function mapStateToProps(state) {
 
   return {
     criticalSyncError: (!hasAreas && state.areas.syncError) || (!hasAlerts && state.alerts.syncError),
+    updatingError: state.areas.syncError || state.alerts.syncError,
     isConnected: state.offline.online,
     skipAllowed: (hasAreas && hasAlerts),
     reach: state.offline.netInfo && state.offline.netInfo.reach,

@@ -32,7 +32,7 @@ class Sync extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { completeTimeoutFlag, dismissTimeoutFlag, canSyncDataOnMobile } = this.state;
-    const { actionsPending } = this.props;
+    const { actionsPending, updatingError, criticalSyncError } = this.props;
     if (actionsPending > 0) {
       this.syncData();
     }
@@ -44,6 +44,9 @@ class Sync extends Component {
     }
     if (actionsPending === 0 && dismissTimeoutFlag && dismissTimeoutFlag !== prevState.dismissTimeoutFlag) {
       this.dismissModal();
+    }
+    if (updatingError && !criticalSyncError) {
+      this.onSkipPress();
     }
   }
 
@@ -201,6 +204,7 @@ class Sync extends Component {
 
 Sync.propTypes = {
   isConnected: PropTypes.bool.isRequired,
+  updatingError: PropTypes.bool.isRequired,
   criticalSyncError: PropTypes.bool.isRequired,
   skipAllowed: PropTypes.bool.isRequired,
   reach: PropTypes.string.isRequired,
