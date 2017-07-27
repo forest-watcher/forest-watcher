@@ -110,6 +110,7 @@ class Answers extends Component {
                 images={images}
                 actions={imageActions}
                 add={this.onEdit}
+                readOnly={readOnly}
               />
             </View>
           }

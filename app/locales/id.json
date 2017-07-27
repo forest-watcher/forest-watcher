@@ -155,7 +155,9 @@
         "drafts": "Draf",
         "uploaded": "Terunggah",
         "unable": "Tidak dapat mengirim laporan",
-        "connectionRequired": "Anda membutuhkan koneksi internet"
+        "connectionRequired": "Anda membutuhkan koneksi internet",
+        "addPicture": "Add Picture",
+        "emptyPicture": "Empty"
     },
     "feedback": {
         "title": "Umpan balik"

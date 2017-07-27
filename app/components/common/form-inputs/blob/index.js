@@ -62,6 +62,7 @@ class ImageBlobInput extends Component {
           if (granted === false) {
             // TODO: Continue form without picture?
             console.warn('Please allow Camera');
+            this.props.input.onChange('');
           }
         }
         this.setState({
@@ -70,6 +71,10 @@ class ImageBlobInput extends Component {
       } catch (err) {
         console.warn(err);
       }
+    } else {
+      this.setState({
+        cameraVisible: !this.props.input.value || this.props.input.value.length === 0
+      });
     }
   }
 

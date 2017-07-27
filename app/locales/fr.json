@@ -155,7 +155,9 @@
         "drafts": "Brouillons",
         "uploaded": "Sauvegardé",
         "unable": "Impossible d'envoyer le rapport",
-        "connectionRequired": "Une connexion internet est requise"
+        "connectionRequired": "Une connexion internet est requise",
+        "addPicture": "Add Picture",
+        "emptyPicture": "Empty"
     },
     "feedback": {
         "title": "Feedback"
