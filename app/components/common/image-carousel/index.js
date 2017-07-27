@@ -39,7 +39,7 @@ const ImageCarousel = (props) => {
               width={itemWidth}
               height={itemHeight}
               icon={icon}
-              action={getAction()}
+              action={getAction(image)}
             />
         ))
       }
