@@ -4,18 +4,16 @@ import {
   Text,
   View,
   Image,
-  Platform,
   StatusBar,
-  TouchableHighlight,
-  PermissionsAndroid
+  TouchableHighlight
 } from 'react-native';
-import Camera from 'react-native-camera';
 
 import ImageCache from 'components/common/image-cache';
-import { storeImage } from 'helpers/fileManagement';
 import i18n from 'locales';
 import Theme from 'config/theme';
 import styles from './styles';
+
+const ImagePicker = require('react-native-image-picker');
 
 const cameraIcon = require('assets/camera.png');
 const cameraAddIcon = require('assets/camera_add.png');
@@ -23,65 +21,38 @@ const cameraAddIcon = require('assets/camera_add.png');
 class ImageBlobInput extends Component {
   constructor(props) {
     super(props);
-    this.takePicture = this.takePicture.bind(this);
     this.removePicture = this.removePicture.bind(this);
     this.state = {
-      cameraVisible: false,
-      cameraType: Camera.constants.Type.back,
-      saving: false
+      source: ''
     };
   }
 
   componentDidMount() {
-    this.getPermissions();
-    // if (this.camera !== undefined) {
-    //   this.selectCameraType();
-    // }
+    this.launch();
   }
 
   componentWillUnmount() {
     StatusBar.setBarStyle('default');
   }
 
-  async getPermissions() {
-    if (Platform.OS === 'android') {
-      try {
-        let isCameraPermitted = false;
-        try {
-          isCameraPermitted = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.CAMERA);
-        } catch (err) {
-          console.warn(err);
-        }
-        if (!isCameraPermitted) {
-          const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA,
-            {
-              title: 'Camera Permission',
-              message: ''
-            }
-          );
-          if (granted === false) {
-            this.props.input.onChange('');
-          }
-        }
-        this.setState({
-          cameraVisible: !this.props.input.value || this.props.input.value.length === 0
-        });
-      } catch (err) {
-        console.warn(err);
+  launch() {
+    const options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images'
       }
-    }
-  }
-
-  selectCameraType() {
-    this.camera.hasFlash()
-      .then((flash) => {
-        if (!flash) {
-          this.setState({
-            cameraType: Camera.constants.Type.front
-          });
-        }
-      })
-      .catch((error) => { console.warn(error); });
+    };
+    ImagePicker.launchCamera(options, (response) => {
+      if (response.didCancel) {
+        this.props.input.onChange('');
+      } else if (response.error) {
+        console.warn(response.error);
+      } else {
+        const source = { uri: response.uri };
+        this.setState({ source });
+        console.warn(source.uri);
+      }
+    });
   }
 
   removePicture() {
@@ -91,31 +62,25 @@ class ImageBlobInput extends Component {
     });
   }
 
-  async takePicture() {
-    const image = await this.camera.capture();
-    console.warn(image);
-    this.savePicture(image);
-  }
-
-  async savePicture(image) {
-    if (!this.state.saving) {
-      this.setState({
-        saving: true
-      }, async () => {
-        try {
-          const storedUrl = await storeImage(image.path, true);
-          this.setState({
-            cameraVisible: false,
-            saving: false
-          }, () => {
-            this.props.input.onChange(storedUrl);
-          });
-        } catch (err) {
-          console.warn('TODO: handle error', err);
-        }
-      });
-    }
-  }
+  // async savePicture(image) {
+  //   if (!this.state.saving) {
+  //     this.setState({
+  //       saving: true
+  //     }, async () => {
+  //       try {
+  //         const storedUrl = await storeImage(image.path, true);
+  //         this.setState({
+  //           cameraVisible: false,
+  //           saving: false
+  //         }, () => {
+  //           this.props.input.onChange(storedUrl);
+  //         });
+  //       } catch (err) {
+  //         console.warn('TODO: handle error', err);
+  //       }
+  //     });
+  //   }
+  // }
 
   renderConfirmView() {
     let image = <Text>{i18n.t('commonText.loading')}</Text>;
@@ -151,22 +116,12 @@ class ImageBlobInput extends Component {
       <View style={styles.container}>
         <Text style={styles.captureLabel} >{i18n.t('report.takePicture')}</Text>
         <View pointerEvents="none" style={styles.cameraContainer}>
-          <Camera
-            ref={(cam) => { this.camera = cam; }}
-            type={this.state.cameraType}
-            style={styles.camera}
-            aspect={Camera.constants.Aspect.fit}
-            captureTarget={Camera.constants.CaptureTarget.disk}
-            captureQuality={Camera.constants.CaptureQuality.medium}
-            onFocusChanged={() => {}}
-            onZoomChanged={() => {}}
-            defaultTouchToFocus
-            mirrorImage={false}
-          />
+          {this.state.source &&
+            <Image style={{ width: 100, height: 200 }} source={this.state.source} />
+          }
         </View>
         <TouchableHighlight
           style={[styles.captureBtn, this.state.saving ? styles.captureBtnDisabled : '']}
-          onPress={this.takePicture}
           activeOpacity={0.8}
           underlayColor={Theme.background.secondary}
         >
