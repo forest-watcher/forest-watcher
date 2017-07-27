@@ -35,7 +35,9 @@ export const getAnswers = (forms, formName) => {
 
 export const getTemplate = (state, formName) => {
   const list = state.reports.list[formName];
-  const status = templateId => state.reports.templates[templateId].status;
+  const status = templateId => (
+    state.reports.templates[templateId] && state.reports.templates[templateId].status
+  );
   const templateId = list && list.area.templateId && status(list.area.templateId) !== 'unpublished' ?
     list.area.templateId : 'default';
   return Object.assign({}, state.reports.templates[templateId]);
