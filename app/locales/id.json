@@ -159,5 +159,11 @@
     },
     "feedback": {
         "title": "Umpan balik"
+    },
+    "map": {
+        "alerts": "Alerts",
+        "reported": "Reported",
+        "settings": "Map Settings",
+        "ctxLayers": "Contextual layers"
     }
 }

@@ -98,11 +98,11 @@ class Sync extends Component {
   }
 
   render() {
-    const { isConnected, reach, actionsPending, hasAreas } = this.props;
+    const { isConnected, reach, actionsPending, skipAllowed } = this.props;
     const { completeTimeoutFlag, canSyncDataOnMobile } = this.state;
     const { title, subtitle } = this.getTexts();
 
-    const showSkipSyncingBtn = (!MOBILE.includes(reach) || canSyncDataOnMobile) && (actionsPending > 0 || !completeTimeoutFlag) && hasAreas;
+    const showSkipSyncingBtn = (!MOBILE.includes(reach) || canSyncDataOnMobile) && (actionsPending > 0 || !completeTimeoutFlag) && skipAllowed;
 
     return (
       <View style={[styles.mainContainer, styles.center]}>
@@ -135,7 +135,7 @@ class Sync extends Component {
           }
           {isConnected && MOBILE.includes(reach) && !canSyncDataOnMobile &&
           <View style={styles.buttonGroupContainer}>
-            {hasAreas &&
+            {skipAllowed &&
               <ActionButton
                 style={[styles.groupButton, styles.groupButtonLeft]}
                 monochrome
@@ -161,7 +161,7 @@ class Sync extends Component {
 
 Sync.propTypes = {
   isConnected: PropTypes.bool.isRequired,
-  hasAreas: PropTypes.bool.isRequired,
+  skipAllowed: PropTypes.bool.isRequired,
   reach: PropTypes.string.isRequired,
   navigator: PropTypes.object.isRequired,
   actionsPending: PropTypes.number.isRequired,

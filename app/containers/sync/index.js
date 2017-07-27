@@ -1,13 +1,14 @@
 import { connect } from 'react-redux';
 import { syncApp, setSyncModal, setSyncSkip } from 'redux-modules/app';
 import { getTotalActionsPending } from 'helpers/sync';
+import isEmpty from 'lodash/isEmpty';
 
 import Sync from 'components/sync';
 
 function mapStateToProps(state) {
   return {
     isConnected: state.offline.online,
-    hasAreas: !!state.areas.data.length,
+    skipAllowed: (!!state.areas.data.length && !isEmpty(state.alerts.cache)),
     reach: state.offline.netInfo && state.offline.netInfo.reach,
     actionsPending: getTotalActionsPending(state)
   };
