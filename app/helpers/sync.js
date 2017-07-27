@@ -27,9 +27,7 @@ export function getTotalActionsTodoCount(state) {
     !state.areas.synced && !state.areas.syncing,
     !state.user.synced && !state.user.syncing,
     !state.layers.synced && !state.layers.syncing,
-    !state.reports.synced && !state.reports.syncing,
-    !state.feedback.synced.daily && !state.feedback.syncing.daily,
-    !state.feedback.synced.weekly && !state.feedback.syncing.weekly
+    !state.reports.synced && !state.reports.syncing
   ];
   const actionsPendingCount = actionsPending.reduce((ac, next) => (next ? ac + 1 : ac), 0);
 
@@ -47,9 +45,7 @@ export function getTotalActionsInProgessCount(state) {
     !state.areas.synced && state.areas.syncing,
     !state.user.synced && state.user.syncing,
     !state.layers.synced && state.layers.syncing,
-    !state.reports.synced && state.reports.syncing,
-    !state.feedback.synced.daily && state.feedback.syncing.daily,
-    !state.feedback.synced.weekly && state.feedback.syncing.weekly
+    !state.reports.synced && state.reports.syncing
   ];
   const actionsInProgressCount = actionsInProgress.reduce((ac, next) => (next ? ac + 1 : ac), 0);
 

@@ -1,5 +1,4 @@
 import { version } from 'package.json';
-import { getFeedbackQuestions } from 'redux-modules/feedback';
 import { syncAreas, UPDATE_AREA_REQUEST, SAVE_AREA_REQUEST } from 'redux-modules/areas';
 import { getCountries } from 'redux-modules/countries';
 import { getUser, LOGOUT_REQUEST } from 'redux-modules/user';
@@ -74,11 +73,9 @@ export function startApp() {
 
 export function syncApp() {
   return (dispatch, state) => {
-    const { feedback, user, countries } = state();
+    const { user, countries } = state();
     if (!user.synced && !user.syncing) dispatch(getUser());
     if (user.loggedIn) {
-      if (!feedback.synced.daily && !feedback.syncing.daily) dispatch(getFeedbackQuestions('daily'));
-      if (!feedback.synced.weekly && !feedback.syncing.weekly) dispatch(getFeedbackQuestions('weekly'));
       if (!countries.synced && !countries.syncing) dispatch(getCountries());
       dispatch(syncReports());
       dispatch(syncAreas());
