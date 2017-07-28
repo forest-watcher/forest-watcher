@@ -7,6 +7,12 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.main,
     position: 'relative'
   },
+  containerEmpty: {
+    flex: 1,
+    backgroundColor: Theme.background.main,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   containerCenter: {
     alignItems: 'center',
     justifyContent: 'center'
@@ -32,6 +38,16 @@ export default StyleSheet.create({
   },
   listTitle: {
     fontSize: 17,
+    fontWeight: '400',
+    fontFamily: Theme.font,
+    color: Theme.fontColors.light
+  },
+  emptyTitle: {
+    flex: 1,
+    fontSize: 17,
+    marginTop: 48,
+    marginLeft: Theme.margin.left,
+    marginRight: Theme.margin.left,
     fontWeight: '400',
     fontFamily: Theme.font,
     color: Theme.fontColors.light

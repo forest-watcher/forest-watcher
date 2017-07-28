@@ -33,7 +33,7 @@ class ImageBlobInput extends Component {
       this.launchCamera();
     }
   }
-
+  
   launchCamera = () => {
     const options = {
       mediaType: 'photo',
