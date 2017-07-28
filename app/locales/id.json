@@ -2,7 +2,7 @@
     "commonText": {
         "error": "Error",
         "unexpectedError": "Something unexpected happened",
-        "appName": "Forest Watcher 2.0",
+        "appName": "Forest Watcher",
         "next": "Lanjut",
         "save": "Menyimpan",
         "boundaries": "Batas",
@@ -30,7 +30,7 @@
     "home": {
         "title": {
             "updating": "Memperbarui data ...",
-            "outOfDate": "Lansiran Anda kedaluwarsa",
+            "outOfDate": "You are offline",
             "updated": "Update selesai!"
         },
         "subtitle": {

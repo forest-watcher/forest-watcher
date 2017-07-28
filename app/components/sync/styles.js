@@ -20,7 +20,9 @@ export default StyleSheet.create({
   subtitle: {
     color: Theme.colors.color3,
     marginTop: 18,
-    marginBottom: 25
+    marginBottom: 25,
+    maxWidth: 300,
+    textAlign: 'center'
   },
   buttonGroupContainer: {
     left: 0,

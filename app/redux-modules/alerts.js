@@ -40,6 +40,7 @@ export const activeCluster = {
 
 function mapAreaToClusters(areaId, datasetSlug, startDate) {
   const realm = initDb();
+  // TODO: use days in both systems
   const timeFrame = datasetSlug === CONSTANTS.datasets.VIIRS ? 'day' : 'month';
   const limitRange = moment().subtract(startDate, timeFrame).valueOf();
   const alerts = read(realm, 'Alert')
@@ -107,7 +108,7 @@ export default function reducer(state = initialState, action) {
       return { ...state, pendingData };
     }
     case GET_ALERTS_COMMIT: {
-      const { area, datasetSlug } = action.meta;
+      const { area, datasetSlug, range } = action.meta;
       const pendingData = {
         ...state.pendingData,
         [datasetSlug]: omit(state.pendingData[datasetSlug], [area.id])
@@ -120,7 +121,7 @@ export default function reducer(state = initialState, action) {
         }
       };
       if (action.payload) {
-        saveAlertsToDb(area.id, datasetSlug, action.payload);
+        saveAlertsToDb(area.id, datasetSlug, action.payload, range);
       }
       return { ...state, pendingData, cache };
     }
@@ -150,18 +151,26 @@ function getAreaById(areas, areaId) {
   return { ...areas.find((areaData) => (areaData.id === areaId)) };
 }
 
-export function saveAlertsToDb(areaId, slug, alerts) {
+export function saveAlertsToDb(areaId, slug, alerts, range) {
   if (alerts && alerts.length > 0) {
     const realm = initDb();
-    // TODO: remove alerts incrementally getting the days range
-    // const existingAlerts = realm.objects('Alert').filtered(`areaId = '${areaId}' AND slug = '${slug}'`);
-    // try {
-    //   realm.write(() => {
-    //     realm.delete(existingAlerts);
-    //   });
-    // } catch (e) {
-    //   console.warn('Error cleaning db', e);
-    // }
+    if (range) {
+      const daysFromRange = CONSTANTS.areas.alertRange[slug] - range > 0
+        ? CONSTANTS.areas.alertRange[slug] - range
+        : range; // just in case we are more outdated than a year
+      const oldAlertsRange = moment().subtract(daysFromRange, 'days').valueOf();
+      const existingAlerts = read(realm, 'Alert')
+        .filtered(`areaId = '${areaId}' AND slug = '${slug}' AND date < '${oldAlertsRange}'`);
+      if (existingAlerts.length > 0) {
+        try {
+          realm.write(() => {
+            realm.delete(existingAlerts);
+          });
+        } catch (e) {
+          console.warn('Error cleaning db', e);
+        }
+      }
+    }
     const alertsArray = d3Dsv.csvParse(alerts);
     realm.write(() => {
       alertsArray.forEach((alert) => {
@@ -241,7 +250,7 @@ export function getAreaAlerts(areaId, datasetSlug) {
         meta: {
           offline: {
             effect: { url, deserialize: false },
-            commit: { type: GET_ALERTS_COMMIT, meta: { area, datasetSlug } },
+            commit: { type: GET_ALERTS_COMMIT, meta: { area, datasetSlug, range } },
             rollback: { type: GET_ALERTS_ROLLBACK, meta: { area, datasetSlug } }
           }
         }

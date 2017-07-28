@@ -42,6 +42,7 @@ const initialState = {
   images: {},
   synced: false,
   syncing: false,
+  syncDate: Date.now(),
   pendingData: {
     coverage: {},
     image: {}
@@ -74,7 +75,8 @@ export default function reducer(state = initialState, action) {
           };
         }
       });
-      return { ...state, data, pendingData, synced: true, syncing: false };
+      const syncDate = Date.now();
+      return { ...state, data, pendingData, syncDate, synced: true, syncing: false };
     }
     case GET_AREAS_ROLLBACK: {
       return { ...state, syncing: false };
