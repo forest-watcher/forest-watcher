@@ -30,7 +30,7 @@
     "home": {
         "title": {
             "updating": "Memperbarui data ...",
-            "outOfDate": "Lansiran Anda kedaluwarsa",
+            "outOfDate": "You are offline",
             "updated": "Update selesai!"
         },
         "subtitle": {

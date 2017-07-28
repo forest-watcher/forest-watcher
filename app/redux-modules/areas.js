@@ -4,7 +4,6 @@ import unionBy from 'lodash/unionBy';
 import { getCachedImageByUrl } from 'helpers/fileManagement';
 import { getActionsTodoCount } from 'helpers/sync';
 import { getSupportedDatasets } from 'helpers/area';
-import { isOutdated } from 'helpers/date';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
@@ -53,10 +52,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case START_APP: {
-      if (isOutdated(state.syncDate)) {
-        return { ...state, synced: false, syncing: false };
-      }
-      return state;
+      return { ...state, synced: false, syncing: false };
     }
     case GET_AREAS_REQUEST:
       return { ...state, synced: false, syncing: true };

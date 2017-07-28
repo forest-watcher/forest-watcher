@@ -30,7 +30,7 @@
     "home": {
         "title": {
             "updating": "Mise à jour des données...",
-            "outOfDate": "Vos alertes ne sont plus à jour",
+            "outOfDate": "You are offline",
             "updated": "Mise à jour effectuée !"
         },
         "subtitle": {

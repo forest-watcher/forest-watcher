@@ -15,6 +15,6 @@ export function todayDate() {
 export function isOutdated(date) {
   const now = moment();
   const lastSync = moment(date);
-  return lastSync.diff(now, 'days') > 0;
+  return now.diff(lastSync, 'days') > 0;
 }
 

@@ -5,7 +5,6 @@ import CONSTANTS from 'config/constants';
 import RNFetchBlob from 'react-native-fetch-blob';
 import { unzip } from 'react-native-zip-archive';
 import { getActionsTodoCount } from 'helpers/sync';
-import { isOutdated } from 'helpers/date';
 import { removeFolder } from 'helpers/fileManagement';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
@@ -45,10 +44,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case START_APP: {
-      if (isOutdated(state.syncDate)) {
-        return { ...state, synced: false, syncing: false };
-      }
-      return state;
+      return { ...state, synced: false, syncing: false };
     }
     case GET_LAYERS_REQUEST:
       return { ...state, synced: false, syncing: true };

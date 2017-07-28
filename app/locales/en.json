@@ -30,7 +30,7 @@
     "home": {
         "title": {
             "updating": "Updating data...",
-            "outOfDate": "Your alerts are out of date",
+            "outOfDate": "You are offline",
             "updated": "Update Completed!"
         },
         "subtitle": {
