@@ -1,6 +1,6 @@
 # Forest Watcher Changelog
 
-## [Relase] - 2017-07-28
+## [v1.0.0] - 2017-07-28
 
 ### Added
 
