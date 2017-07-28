@@ -12,6 +12,7 @@ import CONSTANTS from 'config/constants';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { UPLOAD_REPORT_COMMIT } from 'redux-modules/reports';
 import { GET_AREA_COVERAGE_COMMIT } from 'redux-modules/areas';
+import { RETRY_SYNC } from 'redux-modules/app';
 
 const d3Dsv = require('d3-dsv');
 
@@ -58,11 +59,15 @@ const initialState = {
   reported: [],
   canDisplayAlerts: true,
   clusters: null,
+  syncError: false,
   pendingData: {}
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case RETRY_SYNC: {
+      return { ...state, syncError: false };
+    }
     case SET_CAN_DISPLAY_ALERTS:
       return { ...state, canDisplayAlerts: action.payload };
     case SET_ACTIVE_ALERTS:
@@ -123,7 +128,11 @@ export default function reducer(state = initialState, action) {
       if (action.payload) {
         saveAlertsToDb(area.id, datasetSlug, action.payload, range);
       }
-      return { ...state, pendingData, cache };
+      let syncError = state.syncError;
+      if (getActionsTodoCount(pendingData) === 0) {
+        syncError = false;
+      }
+      return { ...state, pendingData, cache, syncError };
     }
     case GET_ALERTS_ROLLBACK: {
       const { area, datasetSlug } = action.meta;
@@ -134,7 +143,7 @@ export default function reducer(state = initialState, action) {
           [area.id]: false
         }
       };
-      return { ...state, pendingData };
+      return { ...state, pendingData, syncError: true };
     }
     case LOGOUT_REQUEST: {
       resetAlertsDb();

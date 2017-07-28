@@ -12,6 +12,7 @@ export const START_APP = 'app/START_APP';
 const SET_LANGUAGE = 'app/SET_LANGUAGE';
 const SET_SYNC_MODAL = 'app/SET_SYNC_MODAL';
 const SET_SYNC_SKIP = 'app/SET_SYNC_SKIP';
+export const RETRY_SYNC = 'app/RETRY_SYNC';
 
 // Reducer
 const initialState = {
@@ -83,5 +84,12 @@ export function syncApp() {
       dispatch(syncAlerts());
       dispatch(syncLayers());
     }
+  };
+}
+
+export function retrySync() {
+  return (dispatch) => {
+    dispatch({ type: RETRY_SYNC });
+    dispatch(syncApp());
   };
 }

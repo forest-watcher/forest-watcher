@@ -7,7 +7,7 @@ import { getSupportedDatasets } from 'helpers/area';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
-import { START_APP } from 'redux-modules/app';
+import { START_APP, RETRY_SYNC } from 'redux-modules/app';
 import { GET_ALERTS_COMMIT } from 'redux-modules/alerts';
 
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
@@ -42,6 +42,7 @@ const initialState = {
   images: {},
   synced: false,
   syncing: false,
+  syncError: false,
   syncDate: Date.now(),
   pendingData: {
     coverage: {},
@@ -52,7 +53,10 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case START_APP: {
-      return { ...state, synced: false, syncing: false };
+      return { ...state, synced: false, syncing: false, syncError: false };
+    }
+    case RETRY_SYNC: {
+      return { ...state, syncError: false };
     }
     case GET_AREAS_REQUEST:
       return { ...state, synced: false, syncing: true };
@@ -76,10 +80,10 @@ export default function reducer(state = initialState, action) {
         }
       });
       const syncDate = Date.now();
-      return { ...state, data, pendingData, syncDate, synced: true, syncing: false };
+      return { ...state, data, pendingData, syncDate, synced: true, syncing: false, syncError: false };
     }
     case GET_AREAS_ROLLBACK: {
-      return { ...state, syncing: false };
+      return { ...state, syncing: false, syncError: true };
     }
     case GET_ALERTS_COMMIT: {
       const area = action.meta.area;
