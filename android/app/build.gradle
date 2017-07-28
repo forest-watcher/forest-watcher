@@ -167,7 +167,6 @@ dependencies {
     }
     compile project(':react-native-cookies')
     compile project(':react-native-sensor-manager')
-    compile project(':react-native-camera')
     compile project(':react-native-image-picker')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-i18n')

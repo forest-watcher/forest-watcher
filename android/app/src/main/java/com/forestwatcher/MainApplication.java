@@ -10,7 +10,6 @@ import io.realm.react.RealmReactPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.sensormanager.SensorManagerPackage;
-import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.facebook.react.ReactInstanceManager;
@@ -43,7 +42,6 @@ public class MainApplication extends NavigationApplication {
       new GoogleAnalyticsBridgePackage(),
       new SensorManagerPackage(),
       new RNFetchBlobPackage(),
-      new RCTCameraPackage(),
       new ReactNativeConfigPackage(),
       new MapsPackage(),
       new ReactNativeI18n(),
