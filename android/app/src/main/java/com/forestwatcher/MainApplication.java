@@ -10,7 +10,6 @@ import io.realm.react.RealmReactPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.sensormanager.SensorManagerPackage;
-import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.facebook.react.ReactInstanceManager;
@@ -23,6 +22,7 @@ import com.airbnb.android.react.maps.MapsPackage;
 import com.i18n.reactnativei18n.ReactNativeI18n;
 import com.syarul.rnlocation.RNLocation;
 import com.rnziparchive.RNZipArchivePackage;
+import com.imagepicker.ImagePickerPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,14 +42,14 @@ public class MainApplication extends NavigationApplication {
       new GoogleAnalyticsBridgePackage(),
       new SensorManagerPackage(),
       new RNFetchBlobPackage(),
-      new RCTCameraPackage(),
       new ReactNativeConfigPackage(),
       new MapsPackage(),
       new ReactNativeI18n(),
       new RNLocation(),
       new RealmReactPackage(),
       new RNZipArchivePackage(),
-      new CookieManagerPackage()
+      new CookieManagerPackage(),
+      new ImagePickerPackage()
     );
   }
 }

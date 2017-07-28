@@ -143,6 +143,7 @@
         "selected": "Report selected",
         "area": "Report area",
         "takePicture": "Take a picture",
+        "choosePicture": "Please take or choose a picture",
         "datePlaceholder": "Select date",
         "saveLaterTitle": "Save for later",
         "saveLaterDescription": "It will appear as a draft in the reports section",

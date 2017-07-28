@@ -68,4 +68,20 @@ export const getFormFields = (template, answers) => {
   return fields.map(field => template.questions[field].name);
 };
 
-export default { getBtnTextByType, parseQuestion, getTemplate, getAnswers, getFormFields, getNextStep };
+export const isQuestionAnswered = (question, answers) => {
+  if (!question) return false;
+  if (question.type !== 'blob') {
+    return typeof answers[question.name] !== 'undefined';
+  }
+  return answers[question.name] && !!answers[question.name].length;
+};
+
+export default {
+  getBtnTextByType,
+  parseQuestion,
+  getTemplate,
+  getAnswers,
+  getFormFields,
+  getNextStep,
+  isQuestionAnswered
+};
