@@ -5,6 +5,7 @@ import CONSTANTS from 'config/constants';
 import RNFetchBlob from 'react-native-fetch-blob';
 import { unzip } from 'react-native-zip-archive';
 import { getActionsTodoCount } from 'helpers/sync';
+import { isOutdated } from 'helpers/date';
 import { removeFolder } from 'helpers/fileManagement';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
@@ -32,6 +33,7 @@ const initialState = {
   synced: false,
   syncing: false,
   activeLayer: null,
+  syncDate: Date.now(),
   cache: { // save the layers path for each area
     basemap: {}
   },
@@ -42,8 +44,12 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case START_APP:
-      return { ...state, synced: false, syncing: false };
+    case START_APP: {
+      if (isOutdated(state.syncDate)) {
+        return { ...state, synced: false, syncing: false };
+      }
+      return state;
+    }
     case GET_LAYERS_REQUEST:
       return { ...state, synced: false, syncing: true };
     case GET_LAYERS_COMMIT: {
@@ -77,8 +83,9 @@ export default function reducer(state = initialState, action) {
           }, this);
         });
       }
+      const syncDate = Date.now();
 
-      return { ...state, data: layers, synced: true, syncing: false, pendingData };
+      return { ...state, data: layers, syncDate, synced: true, syncing: false, pendingData };
     }
     case GET_LAYERS_ROLLBACK: {
       return { ...state, syncing: false };

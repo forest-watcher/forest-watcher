@@ -12,3 +12,9 @@ export function todayDate() {
   return moment().format('YYYYMMDD');
 }
 
+export function isOutdated(date) {
+  const now = moment();
+  const lastSync = moment(date);
+  return lastSync.diff(now, 'days') > 0;
+}
+
