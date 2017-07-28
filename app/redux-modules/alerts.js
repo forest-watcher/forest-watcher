@@ -155,7 +155,9 @@ export function saveAlertsToDb(areaId, slug, alerts, range) {
   if (alerts && alerts.length > 0) {
     const realm = initDb();
     if (range) {
-      const daysFromRange = CONSTANTS.areas.alertRange[slug] - range;
+      const daysFromRange = CONSTANTS.areas.alertRange[slug] - range > 0
+        ? CONSTANTS.areas.alertRange[slug] - range
+        : range; // just in case we are more outdated than a year
       const oldAlertsRange = moment().subtract(daysFromRange, 'days').valueOf();
       const existingAlerts = read(realm, 'Alert')
         .filtered(`areaId = '${areaId}' AND slug = '${slug}' AND date < '${oldAlertsRange}'`);
