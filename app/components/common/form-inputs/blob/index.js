@@ -60,7 +60,8 @@ class ImageBlobInput extends Component {
   }
 
   render() {
-    const imagePath = this.props.input.value;
+    // When removing image redux-form transform the value into an array, solved with [].toString() === ''
+    const imagePath = this.props.input.value.toString();
     return (
       <View style={styles.container}>
         <View style={styles.preview}>
