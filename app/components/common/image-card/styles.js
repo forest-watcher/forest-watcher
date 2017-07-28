@@ -13,7 +13,9 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
-    height: 48,
-    width: 128
+    height: 48
+  },
+  actionsBtn: {
+    backgroundColor: 'transparent'
   }
 });

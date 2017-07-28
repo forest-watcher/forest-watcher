@@ -1,5 +1,12 @@
 import { connect } from 'react-redux';
-import { getBtnTextByType, parseQuestion, getTemplate, getAnswers, getNextStep } from 'helpers/forms';
+import {
+  getBtnTextByType,
+  parseQuestion,
+  getTemplate,
+  getAnswers,
+  getNextStep,
+  isQuestionAnswered
+} from 'helpers/forms';
 import FormStep from 'components/common/form/form-step';
 
 function getNextCallback({ currentQuestion, questions, answers, navigator, form, screen, title, finish }) {
@@ -61,7 +68,7 @@ function mapStateToProps(state, { form, index, questionsToSkip, finish, title, s
   const question = questions && questions[index];
   const parsedQuestion = question && parseQuestion({ question, form: template }, state.app.language);
   const answers = getAnswers(state.form, form);
-  const hasAnswer = question ? typeof answers[question.name] !== 'undefined' : false;
+  const hasAnswer = isQuestionAnswered(question, answers);
   const nextText = !hasAnswer && question.required ? getBtnTextByType(question.type) : 'commonText.next';
   const getCallback = editMode ? getEditNextCallback : getNextCallback;
   return {

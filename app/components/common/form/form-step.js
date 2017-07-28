@@ -15,7 +15,7 @@ const getNext = (question, hasAnswer, next) => {
   const isBlob = question.type === 'blob';
 
   if (isBlob) {
-    return (<NextButton transparent={!hasAnswer} style={styles.buttonNextPos} disabled={disabled} onPress={next.callback} />);
+    return (<NextButton transparent={disabled} style={styles.buttonNextPos} disabled={disabled} onPress={next.callback} />);
   }
   return (<ActionButton
     style={styles.buttonPos}

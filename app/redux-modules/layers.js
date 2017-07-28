@@ -32,6 +32,7 @@ const initialState = {
   synced: false,
   syncing: false,
   activeLayer: null,
+  syncDate: Date.now(),
   cache: { // save the layers path for each area
     basemap: {}
   },
@@ -42,8 +43,9 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case START_APP:
+    case START_APP: {
       return { ...state, synced: false, syncing: false };
+    }
     case GET_LAYERS_REQUEST:
       return { ...state, synced: false, syncing: true };
     case GET_LAYERS_COMMIT: {
@@ -77,8 +79,9 @@ export default function reducer(state = initialState, action) {
           }, this);
         });
       }
+      const syncDate = Date.now();
 
-      return { ...state, data: layers, synced: true, syncing: false, pendingData };
+      return { ...state, data: layers, syncDate, synced: true, syncing: false, pendingData };
     }
     case GET_LAYERS_ROLLBACK: {
       return { ...state, syncing: false };

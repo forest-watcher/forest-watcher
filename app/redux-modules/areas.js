@@ -43,6 +43,7 @@ const initialState = {
   synced: false,
   syncing: false,
   syncError: false,
+  syncDate: Date.now(),
   pendingData: {
     coverage: {},
     image: {}
@@ -78,7 +79,8 @@ export default function reducer(state = initialState, action) {
           };
         }
       });
-      return { ...state, data, pendingData, synced: true, syncing: false, syncError: false };
+      const syncDate = Date.now();
+      return { ...state, data, pendingData, syncDate, synced: true, syncing: false, syncError: false };
     }
     case GET_AREAS_ROLLBACK: {
       return { ...state, syncing: false, syncError: true };
@@ -232,7 +234,7 @@ export default function reducer(state = initialState, action) {
 }
 
 export function getAreas() {
-  const url = `${Config.API_URL}/area`;
+  const url = `${Config.API_URL}/area/fw`;
   return {
     type: GET_AREAS_REQUEST,
     meta: {

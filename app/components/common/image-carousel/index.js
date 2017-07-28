@@ -4,11 +4,18 @@ import Theme from 'config/theme';
 import Carousel from 'react-native-snap-carousel';
 import ImageCard from 'components/common/image-card';
 import ActionCard from 'components/common/action-card';
+import I18n from 'locales';
 
 const plusIcon = require('assets/plus.png');
 
 const ImageCarousel = (props) => {
-  const { actions, images, itemWidth, itemHeight, add } = props;
+  const { actions, images, itemWidth, itemHeight, add, readOnly } = props;
+  const label = readOnly ? I18n.t('report.emptyPicture') : I18n.t('report.addPicture');
+  const icon = !readOnly && plusIcon;
+  const getAction = (image) => {
+    if (!readOnly) return () => add(image.questionNumber);
+    return undefined;
+  };
   return (
     <Carousel
       sliderWidth={Theme.screen.width}
@@ -28,11 +35,11 @@ const ImageCarousel = (props) => {
             /> :
             <ActionCard
               key={image.id}
-              label="Add Picture"
+              label={label}
               width={itemWidth}
               height={itemHeight}
-              icon={plusIcon}
-              action={() => add(image.questionNumber)}
+              icon={icon}
+              action={getAction(image)}
             />
         ))
       }
@@ -50,7 +57,8 @@ ImageCarousel.propTypes = {
   images: PropTypes.array,
   itemHeight: PropTypes.number,
   itemWidth: PropTypes.number,
-  add: PropTypes.func
+  add: PropTypes.func,
+  readOnly: PropTypes.bool
 };
 
 ImageCarousel.defaultProps = {

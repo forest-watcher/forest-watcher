@@ -71,6 +71,8 @@ class Answers extends Component {
     // const index = images.findIndex(image => image.id === id);
     // removeAnswer(form, name, index);
     removeAllAnswers(form, name);
+    const image = images.find(i => i.id === id);
+    if (image.required) this.onEdit(image.questionNumber);
   }
   /* eslint-enable no-unused-vars */
 
@@ -82,7 +84,8 @@ class Answers extends Component {
         id: image.question.Id,
         uri: image.answers[0],
         name: image.question.name,
-        questionNumber: image.question.questionNumber
+        questionNumber: image.question.questionNumber,
+        required: image.question.required
       }));
     const imageActions = !readOnly ? [{
       callback: (id, name) => this.onDeleteImage(id, name, images),
@@ -110,6 +113,7 @@ class Answers extends Component {
                 images={images}
                 actions={imageActions}
                 add={this.onEdit}
+                readOnly={readOnly}
               />
             </View>
           }

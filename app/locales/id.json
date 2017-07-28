@@ -2,7 +2,7 @@
     "commonText": {
         "error": "Error",
         "unexpectedError": "Something unexpected happened",
-        "appName": "Forest Watcher 2.0",
+        "appName": "Forest Watcher",
         "next": "Lanjut",
         "save": "Menyimpan",
         "boundaries": "Batas",
@@ -30,7 +30,7 @@
     "home": {
         "title": {
             "updating": "Memperbarui data ...",
-            "outOfDate": "Lansiran Anda kedaluwarsa",
+            "outOfDate": "You are offline",
             "updated": "Update selesai!"
         },
         "subtitle": {
@@ -143,6 +143,7 @@
         "selected": "Report selected",
         "area": "Report area",
         "takePicture": "Ambil gambar",
+        "choosePicture": "Please take or choose a picture",
         "datePlaceholder": "Pilih tanggal",
         "saveLaterTitle": "Simpan untuk nanti",
         "saveLaterDescription": "Ini akan muncul sebagai draf di bagian Laporan",
@@ -150,12 +151,15 @@
         "inputRadio": "Pilih satu opsi untuk melanjutkan",
         "inputSelect": "Pilih setidaknya satu opsi untuk melanjutkan",
         "input": "Silakan jawab pertanyaannya",
+        "empty": "No report submitted, please go to the map and report one alert!",
         "completed": "Lengkap",
         "uploadAll": "Unggah semua",
         "drafts": "Draf",
         "uploaded": "Terunggah",
         "unable": "Tidak dapat mengirim laporan",
-        "connectionRequired": "Anda membutuhkan koneksi internet"
+        "connectionRequired": "Anda membutuhkan koneksi internet",
+        "addPicture": "Add Picture",
+        "emptyPicture": "Empty"
     },
     "feedback": {
         "title": "Umpan balik"

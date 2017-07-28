@@ -143,23 +143,35 @@ class Reports extends Component {
 
   render() {
     const { complete, draft, uploaded } = this.props.reports;
+    const hasReports = !!complete.length || !!draft.length || !!uploaded.length;
     return (
       <ScrollView
         style={styles.container}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        <View style={styles.container}>
-          {draft && draft.length > 0 &&
-            this.getDrafts(draft)
-          }
-          {complete && complete.length > 0 &&
-            this.getCompleted(complete)
-          }
-          {uploaded && uploaded.length > 0 &&
-            this.getUploaded(uploaded)
-          }
-        </View>
+        {hasReports
+          ? (
+            <View style={styles.container}>
+              {draft && draft.length > 0 &&
+                this.getDrafts(draft)
+              }
+              {complete && complete.length > 0 &&
+                this.getCompleted(complete)
+              }
+              {uploaded && uploaded.length > 0 &&
+                this.getUploaded(uploaded)
+              }
+            </View>
+          )
+          : (
+            <View style={styles.containerEmpty}>
+              <Text style={styles.emptyTitle}>
+                {I18n.t('report.empty')}
+              </Text>
+            </View>
+          )
+        }
       </ScrollView>
     );
   }

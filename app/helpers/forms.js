@@ -35,7 +35,10 @@ export const getAnswers = (forms, formName) => {
 
 export const getTemplate = (state, formName) => {
   const list = state.reports.list[formName];
-  const templateId = list && list.area.templateId && list.area.status === 'published' ?
+  const status = templateId => (
+    state.reports.templates[templateId] && state.reports.templates[templateId].status
+  );
+  const templateId = list && list.area.templateId && status(list.area.templateId) !== 'unpublished' ?
     list.area.templateId : 'default';
   return Object.assign({}, state.reports.templates[templateId]);
 };
@@ -65,4 +68,20 @@ export const getFormFields = (template, answers) => {
   return fields.map(field => template.questions[field].name);
 };
 
-export default { getBtnTextByType, parseQuestion, getTemplate, getAnswers, getFormFields, getNextStep };
+export const isQuestionAnswered = (question, answers) => {
+  if (!question) return false;
+  if (question.type !== 'blob') {
+    return typeof answers[question.name] !== 'undefined';
+  }
+  return answers[question.name] && !!answers[question.name].length;
+};
+
+export default {
+  getBtnTextByType,
+  parseQuestion,
+  getTemplate,
+  getAnswers,
+  getFormFields,
+  getNextStep,
+  isQuestionAnswered
+};

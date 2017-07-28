@@ -2,7 +2,7 @@
     "commonText": {
         "error": "Error",
         "unexpectedError": "Something unexpected happened",
-        "appName": "Forest Watcher 2.0",
+        "appName": "Forest Watcher",
         "next": "Next",
         "save": "Save",
         "boundaries": "Boundaries",
@@ -30,7 +30,7 @@
     "home": {
         "title": {
             "updating": "Updating data...",
-            "outOfDate": "Your alerts are out of date",
+            "outOfDate": "You are offline",
             "updated": "Update Completed!"
         },
         "subtitle": {
@@ -143,6 +143,7 @@
         "selected": "Report selected",
         "area": "Report area",
         "takePicture": "Take a picture",
+        "choosePicture": "Please take or choose a picture",
         "datePlaceholder": "Select date",
         "saveLaterTitle": "Save for later",
         "saveLaterDescription": "It will appear as a draft in the reports section",
@@ -150,12 +151,15 @@
         "inputRadio": "Choose one option to continue",
         "inputSelect": "Choose at least one option to continue",
         "input": "Please, answer the question",
+        "empty": "No report submitted, please go to the map and report one alert!",
         "completed": "Completed",
         "uploadAll": "Upload All",
         "drafts": "Drafts",
         "uploaded": "Uploaded",
         "unable": "Unable to send report",
-        "connectionRequired": "You need an internet connection"
+        "connectionRequired": "You need an internet connection",
+        "addPicture": "Add Picture",
+        "emptyPicture": "Empty"
     },
     "feedback": {
         "title": "Feedback"
