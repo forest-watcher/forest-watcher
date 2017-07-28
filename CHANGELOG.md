@@ -1,25 +1,33 @@
 # Forest Watcher Changelog
 
-## [beta 2] - 2017-07-21
+## [Relase] - 2017-07-28
 
 ### Added
 
-- Download alerts speed improvements
-- Multiselection (still some styles bugs on buttons and texts)
-- Compass fixes
-- Production error tracking
-- Custom basemap
-- General styles polish
-- RN 0.45 update
-- Make the map performance much much better
+- Custom basemap with mapbox attribution
+- Makes the map a lot faster
 - Contextual layers sidebar
-- Cache basemap and contextual layers
-- Review uploaded report
-- Working on iOS!
-- Include map attribution
 - Clear cache on version upgrade
+- Map legend for alerts
+- Multiselect alerts
+- Show reported alerts in different color
+- New camera implementation with option of choosing images from library
+- New home screen design
+- Logout improvements
+- Review uploaded report
+- Report review images edit and delete
+- Support multiple images in report review
+- Custom area templates support
+- Cache basemap and contextual layers
+- Zip basemap cache to zoom level 17
+- Alerts incremental sync
+- Download alerts speed improvements
+- Sync areas, layers and alerts on each app open
+- RN 0.45 update
 - Fix offline map date filter
-
+- Production error tracking
+- Compass fixes
+- Remove alerts on zoom out
 
 ## [beta] - 2017-06-21
 
