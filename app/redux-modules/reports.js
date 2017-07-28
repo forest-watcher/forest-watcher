@@ -17,8 +17,8 @@ const GET_REPORT_TEMPLATE_COMMIT = 'report/GET_REPORT_TEMPLATE_COMMIT';
 const GET_REPORT_TEMPLATE_ROLLBACK = 'report/GET_REPORT_TEMPLATE_ROLLBACK';
 const CREATE_REPORT = 'report/CREATE_REPORT';
 const UPDATE_REPORT = 'report/UPDATE_REPORT';
-const UPLOAD_REPORT_REQUEST = 'report/UPLOAD_REPORT_REQUEST';
-export const UPLOAD_REPORT_COMMIT = 'report/UPLOAD_REPORT_COMMIT';
+export const UPLOAD_REPORT_REQUEST = 'report/UPLOAD_REPORT_REQUEST';
+const UPLOAD_REPORT_COMMIT = 'report/UPLOAD_REPORT_COMMIT';
 const UPLOAD_REPORT_ROLLBACK = 'report/UPLOAD_REPORT_ROLLBACK';
 
 // Reducer
@@ -262,12 +262,12 @@ export function uploadReport({ reportName, fields }) {
 
     const requestPayload = {
       name: reportName,
-      status: CONSTANTS.status.complete
+      status: CONSTANTS.status.complete,
+      alerts: JSON.parse(report.clickedPosition)
     };
     const commitPayload = {
       name: reportName,
-      status: CONSTANTS.status.uploaded,
-      alerts: JSON.parse(report.clickedPosition)
+      status: CONSTANTS.status.uploaded
     };
     const url = `${Config.API_URL}/reports/${Config.REPORT_ID}/answers`;
     const headers = { 'content-type': 'multipart/form-data' };
