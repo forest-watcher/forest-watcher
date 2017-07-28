@@ -4,96 +4,85 @@ import {
   Text,
   View,
   Image,
-  StatusBar,
   TouchableHighlight
 } from 'react-native';
 
-import ImageCache from 'components/common/image-cache';
-import { storeImage } from 'helpers/fileManagement';
+import ImageCard from 'components/common/image-card';
 import i18n from 'locales';
 import Theme from 'config/theme';
+import CONSTANTS from 'config/constants';
+
 import styles from './styles';
 
 const ImagePicker = require('react-native-image-picker');
-
 const cameraAddIcon = require('assets/camera_add.png');
+const deleteIcon = require('assets/delete_red.png');
 
 class ImageBlobInput extends Component {
   constructor(props) {
     super(props);
-    this.removePicture = this.removePicture.bind(this);
-    this.state = {
-      source: ''
-    };
+    this.actions = [{
+      callback: this.removePicture,
+      icon: deleteIcon
+    }];
   }
 
   componentDidMount() {
-    this.launch();
+    const imagePath = this.props.input.value;
+    if (!imagePath) {
+      this.launchCamera();
+    }
   }
 
-  componentWillUnmount() {
-    StatusBar.setBarStyle('default');
-  }
-
-  launch = () => {
+  launchCamera = () => {
     const options = {
+      mediaType: 'photo',
+      noData: true,
+      quality: 0.7,
       storageOptions: {
         skipBackup: true,
-        waitUntilSaved: true
+        waitUntilSaved: true,
+        path: CONSTANTS.appName,
+        cameraRoll: true
       }
     };
-    ImagePicker.launchCamera(options, (response) => {
-      if (response.didCancel) {
-        this.props.input.onChange('');
-      } else if (response.error) {
+    ImagePicker.showImagePicker(options, (response) => {
+      if (response.error) {
         console.warn(response.error);
-      } else {
-        const path = response.path;
-        this.savePicture(path);
+      } else if (response.uri) {
+        this.props.input.onChange(response.uri);
       }
     });
   }
 
-  removePicture() {
+  removePicture = () => {
     this.props.input.onChange('');
-    this.setState({
-      cameraVisible: true
-    });
   }
 
-  async savePicture(path) {
-    try {
-      const storedUrl = await storeImage(path, true);
-      this.setState({
-        source: storedUrl
-      }, () => {
-        this.props.input.onChange(storedUrl);
-      });
-    } catch (err) {
-      console.warn('TODO: handle error', err);
-    }
-  }
-
-  renderConfirmView() {
-    let image = <Text>{i18n.t('commonText.loading')}</Text>;
-
-    if (this.props.input.value && this.props.input.value.length > 0) {
-      image = (<ImageCache
-        resizeMode="contain"
-        style={{ height: 416, width: Theme.screen.width - (56 * 2) }}
-        localSource
-        source={{
-          uri: this.props.input.value
-        }}
-      />);
-    }
-
+  render() {
+    const imagePath = this.props.input.value;
     return (
       <View style={styles.container}>
-        <View style={styles.preview}>{image}</View>
+        <View style={styles.preview}>
+          {imagePath
+            ? (
+              <ImageCard
+                id={'imagePreview'}
+                key={1}
+                name={'imagePreview'}
+                actions={this.actions}
+                uri={imagePath}
+                width={Theme.screen.width - 48}
+                height={416}
+              />
+            )
+            : <Text style={styles.captureLabel}>{i18n.t('report.choosePicture')}</Text>
+          }
+        </View>
         <TouchableHighlight
           style={styles.leftBtn}
-          onPress={this.launch}
+          onPress={this.launchCamera}
+
           activeOpacity={0.8}
           underlayColor={Theme.background.white}
         >
@@ -101,25 +90,6 @@ class ImageBlobInput extends Component {
         </TouchableHighlight>
       </View>
     );
-  }
-
-  renderCameraView() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.captureLabel} >{i18n.t('report.takePicture')}</Text>
-        <View pointerEvents="none" style={styles.cameraContainer}>
-          {this.state.source &&
-            <Image style={{ width: 100, height: 200 }} source={this.state.source} />
-          }
-        </View>
-      </View>
-    );
-  }
-
-  render() {
-    const cameraVisible = this.state.cameraVisible;
-    StatusBar.setBarStyle(cameraVisible ? 'light-content' : 'default');
-    return cameraVisible ? this.renderCameraView() : this.renderConfirmView();
   }
 }
 

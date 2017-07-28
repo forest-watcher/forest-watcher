@@ -1,4 +1,5 @@
 export default {
+  appName: 'Forest Watcher',
   areas: {
     maxSize: 1500000000, // square meters
     alertRange: { // days from to get data
