@@ -2,7 +2,7 @@
     "commonText": {
         "error": "Error",
         "unexpectedError": "Something unexpected happened",
-        "appName": "Forest Watcher 2.0",
+        "appName": "Forest Watcher",
         "next": "Next",
         "save": "Save",
         "boundaries": "Boundaries",
@@ -30,7 +30,7 @@
     "home": {
         "title": {
             "updating": "Updating data...",
-            "outOfDate": "Your alerts are out of date",
+            "outOfDate": "You are offline",
             "updated": "Update Completed!"
         },
         "subtitle": {
