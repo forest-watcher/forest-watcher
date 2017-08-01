@@ -17,8 +17,7 @@ export default {
   maps: {
     lat: 27.568640,
     lng: -33.461281,
-    basemap: 'https://api.mapbox.com/styles/v1/forestwatcher/cj4772tx20vsv2rrza5q3v0d4/tiles/256/{z}/{x}/{y}',
-    basemapHD: 'https://api.mapbox.com/styles/v1/forestwatcher/cj4772tx20vsv2rrza5q3v0d4/tiles/{z}/{x}/{y}@2x',
+    basemap: 'http://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
     bbox: {
       type: 'Polygon',
       coordinates: [
@@ -34,15 +33,11 @@ export default {
     cacheZoom: [
       {
         start: 8,
-        end: 14
+        end: 15
       },
       {
-        start: 15,
+        start: 16,
         end: 16
-      },
-      {
-        start: 17,
-        end: 17
       }
     ]
   },

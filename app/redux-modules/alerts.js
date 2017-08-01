@@ -10,7 +10,7 @@ import CONSTANTS from 'config/constants';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
-import { UPLOAD_REPORT_COMMIT } from 'redux-modules/reports';
+import { UPLOAD_REPORT_REQUEST } from 'redux-modules/reports';
 import { GET_AREA_COVERAGE_COMMIT } from 'redux-modules/areas';
 import { RETRY_SYNC } from 'redux-modules/app';
 
@@ -28,7 +28,7 @@ const supercluster = require('supercluster');
 function createCluster(data) {
   const cluster = supercluster({
     radius: 120,
-    maxZoom: 16, // Default: 16,
+    maxZoom: 15, // Default: 16,
     nodeSize: 128
   });
   cluster.load(data.features);
@@ -72,8 +72,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, canDisplayAlerts: action.payload };
     case SET_ACTIVE_ALERTS:
       return { ...state, clusters: action.payload };
-    case UPLOAD_REPORT_COMMIT: {
-      const { alerts } = action.meta.report;
+    case UPLOAD_REPORT_REQUEST: {
+      const { alerts } = action.payload;
       let reported = [...state.reported];
 
       if (alerts && alerts.length) {

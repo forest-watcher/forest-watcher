@@ -21,11 +21,6 @@ const CACHE_LAYER_REQUEST = 'layers/CACHE_LAYER_REQUEST';
 const CACHE_LAYER_COMMIT = 'layers/CACHE_LAYER_COMMIT';
 export const CACHE_LAYER_ROLLBACK = 'layer/CACHE_LAYER_ROLLBACK';
 
-
-// TODO: use when support 512 custom tiles size
-// const BASEMAP_URL = PixelRatio.get() >= 2 ? CONSTANTS.maps.basemapHD : CONSTANTS.maps.basemap;
-const URL_BASEMAP_TEMPLATE = `${CONSTANTS.maps.basemap}?access_token=${Config.MAPBOX_TOKEN}`;
-
 // Reducer
 const initialState = {
   data: [],
@@ -51,35 +46,14 @@ export default function reducer(state = initialState, action) {
     case GET_LAYERS_COMMIT: {
       const layers = [...action.payload];
       let pendingData = { ...state.pendingData };
+      const areas = [...action.meta.areas];
+      const cache = { ...state.cache };
+      const syncDate = Date.now();
 
       const isAndroid = Platform.OS === 'android'; // TODO: remove this on iOS cache ready
       if (isAndroid) {
-        const areas = [...action.meta.areas];
-        const cache = { ...state.cache };
-        areas.forEach((area) => {
-          if (!cache.basemap[area.id]) {
-            pendingData = {
-              ...pendingData,
-              basemap: {
-                ...pendingData.basemap,
-                [area.id]: false
-              }
-            };
-          }
-          layers.forEach((layer) => {
-            if (!cache[layer.id] || (cache[layer.id] && !cache[layer.id][area.id])) {
-              pendingData = {
-                ...pendingData,
-                [layer.id]: {
-                  ...pendingData[layer.id],
-                  [area.id]: false
-                }
-              };
-            }
-          }, this);
-        });
+        pendingData = getCachePendingData({ areas, layers, cache, pendingData });
       }
-      const syncDate = Date.now();
 
       return { ...state, data: layers, syncDate, synced: true, syncing: false, pendingData };
     }
@@ -209,17 +183,16 @@ async function downloadLayer(config) {
     // this is much more performant.
     .config({ fileCache: true })
     .fetch('GET', url);
-  if (res) {
+  const statusCode = res.info().status;
+  if (statusCode >= 200 && statusCode < 400 && res.path()) {
     const downloadPath = res.path();
-    if (downloadPath) {
-      const tilesPath = `${CONSTANTS.files.tiles}/${area.id}/${layerId}`;
-      const targetPath = `${RNFetchBlob.fs.dirs.DocumentDir}/${tilesPath}`;
-      await unzip(downloadPath, targetPath);
-      res.flush(); // remove from the cache
-      return `${tilesPath}/{z}x{x}x{y}`;
-    }
+    const tilesPath = `${CONSTANTS.files.tiles}/${area.id}/${layerId}`;
+    const targetPath = `${RNFetchBlob.fs.dirs.DocumentDir}/${tilesPath}`;
+    await unzip(downloadPath, targetPath);
+    res.flush(); // remove from the cache
+    return `${tilesPath}/{z}x{x}x{y}`;
   }
-  throw new Error('Downloaded path not found');
+  throw new Error(`Fetch blob error ${statusCode}`);
 }
 
 function downloadAllLayers(config) {
@@ -249,7 +222,7 @@ export function cacheAreaBasemap(areaId) {
       const downloadConfig = {
         area,
         layerId: 'basemap',
-        layerUrl: URL_BASEMAP_TEMPLATE
+        layerUrl: CONSTANTS.maps.basemap
       };
 
       const promise = downloadAllLayers(downloadConfig);
@@ -298,7 +271,8 @@ export function cacheAreaLayer(areaId, layerId) {
 export function syncLayers() {
   return (dispatch, state) => {
     const { synced, syncing, pendingData } = state().layers;
-    if (!synced && !syncing) dispatch(getUserLayers());
+    const hasAreas = state().areas.data.length;
+    if (!synced && !syncing && hasAreas) dispatch(getUserLayers());
     if (getActionsTodoCount(pendingData) > 0) {
       Object.keys(pendingData).forEach((layer) => {
         const syncingLayersData = pendingData[layer];
@@ -320,4 +294,31 @@ export function syncLayers() {
       });
     }
   };
+}
+
+function getCachePendingData({ areas = [], layers = [], cache = {}, pendingData = {} } = {}) {
+  let cachePendingData = { ...pendingData };
+  areas.forEach((area) => {
+    if (!cache.basemap[area.id]) {
+      cachePendingData = {
+        ...cachePendingData,
+        basemap: {
+          ...cachePendingData.basemap,
+          [area.id]: false
+        }
+      };
+    }
+    layers.forEach((layer) => {
+      if (!cache[layer.id] || (cache[layer.id] && !cache[layer.id][area.id])) {
+        cachePendingData = {
+          ...cachePendingData,
+          [layer.id]: {
+            ...cachePendingData[layer.id],
+            [area.id]: false
+          }
+        };
+      }
+    });
+  });
+  return cachePendingData;
 }
