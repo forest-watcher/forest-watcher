@@ -32,7 +32,7 @@ class Sync extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { completeTimeoutFlag, dismissTimeoutFlag, canSyncDataOnMobile } = this.state;
-    const { actionsPending, updatingError, criticalSyncError } = this.props;
+    const { actionsPending, updatingError, criticalSyncError, syncSkip } = this.props;
     if (actionsPending > 0) {
       this.syncData();
     }
@@ -43,6 +43,9 @@ class Sync extends Component {
       Timer.setTimeout(this, 'dismissModal', this.dismiss, 1000);
     }
     if (actionsPending === 0 && dismissTimeoutFlag && dismissTimeoutFlag !== prevState.dismissTimeoutFlag) {
+      this.dismissModal();
+    }
+    if (syncSkip) {
       this.dismissModal();
     }
     if (updatingError && !criticalSyncError) {
@@ -117,7 +120,8 @@ class Sync extends Component {
   getAction() {
     const { reach, actionsPending, skipAllowed, criticalSyncError, retrySync } = this.props;
     const { completeTimeoutFlag, canSyncDataOnMobile } = this.state;
-    const showSkipSyncingBtn = (!MOBILE.includes(reach) || canSyncDataOnMobile) && (actionsPending > 0 || !completeTimeoutFlag) && skipAllowed;
+    const showSkipSyncingBtn = (!MOBILE.includes(reach) || canSyncDataOnMobile) &&
+      (actionsPending > 0 || !completeTimeoutFlag) && skipAllowed;
     if (criticalSyncError) {
       return (
         <View>
@@ -213,7 +217,8 @@ Sync.propTypes = {
   syncApp: PropTypes.func.isRequired,
   retrySync: PropTypes.func.isRequired,
   setSyncModal: PropTypes.func.isRequired,
-  setSyncSkip: PropTypes.func.isRequired
+  setSyncSkip: PropTypes.func.isRequired,
+  syncSkip: PropTypes.bool.isRequired
 };
 
 export default Sync;
