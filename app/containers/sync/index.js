@@ -10,6 +10,7 @@ function mapStateToProps(state) {
   const hasAlerts = !isEmpty(state.alerts.cache);
 
   return {
+    syncSkip: state.app.syncSkip,
     criticalSyncError: (!hasAreas && state.areas.syncError) || (!hasAlerts && state.alerts.syncError),
     updatingError: state.areas.syncError || state.alerts.syncError,
     isConnected: state.offline.online,

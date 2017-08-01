@@ -21,10 +21,6 @@ const CACHE_LAYER_REQUEST = 'layers/CACHE_LAYER_REQUEST';
 const CACHE_LAYER_COMMIT = 'layers/CACHE_LAYER_COMMIT';
 export const CACHE_LAYER_ROLLBACK = 'layer/CACHE_LAYER_ROLLBACK';
 
-// TODO: use when support 512 custom tiles size
-// const BASEMAP_URL = PixelRatio.get() >= 2 ? CONSTANTS.maps.basemapHD : CONSTANTS.maps.basemap;
-const URL_BASEMAP_TEMPLATE = `${CONSTANTS.maps.basemap}?access_token=${Config.MAPBOX_TOKEN}`;
-
 // Reducer
 const initialState = {
   data: [],
@@ -226,7 +222,7 @@ export function cacheAreaBasemap(areaId) {
       const downloadConfig = {
         area,
         layerId: 'basemap',
-        layerUrl: URL_BASEMAP_TEMPLATE
+        layerUrl: CONSTANTS.maps.basemap
       };
 
       const promise = downloadAllLayers(downloadConfig);

@@ -12,7 +12,7 @@ import {
   Text,
   Platform
 } from 'react-native';
-import Config from 'react-native-config';
+
 import CONSTANTS from 'config/constants';
 import throttle from 'lodash/throttle';
 import isEqual from 'lodash/isEqual';
@@ -42,9 +42,6 @@ const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 10;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-// TODO: use when support 512 custom tiles size
-// const basemap = PixelRatio.get() >= 2 ? CONSTANTS.maps.basemapHD : CONSTANTS.maps.basemap;
-const URL_BASEMAP_TEMPLATE = `${CONSTANTS.maps.basemap}?access_token=${Config.MAPBOX_TOKEN}`;
 
 const markerImage = require('assets/marker.png');
 const markerCompassRedImage = require('assets/compass_circle_red.png');
@@ -617,7 +614,7 @@ class Map extends Component {
       ? (
         <MapView.UrlTile
           key="basemapLayerElement"
-          urlTemplate={URL_BASEMAP_TEMPLATE}
+          urlTemplate={CONSTANTS.maps.basemap}
           zIndex={-1}
         />
       )

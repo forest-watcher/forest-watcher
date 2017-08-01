@@ -28,7 +28,7 @@ const supercluster = require('supercluster');
 function createCluster(data) {
   const cluster = supercluster({
     radius: 120,
-    maxZoom: 16, // Default: 16,
+    maxZoom: 15, // Default: 16,
     nodeSize: 128
   });
   cluster.load(data.features);
