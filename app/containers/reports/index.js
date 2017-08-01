@@ -21,7 +21,20 @@ function getReports(reports) {
       });
     }
   });
-  return data;
+  return sortReports(data);
+}
+
+function sortReports(reports) {
+  const sorted = {};
+  Object.keys(reports).forEach((status) => {
+    const section = reports[status].sort((a, b) => {
+      if (a.date > b.date) return -1;
+      if (a.date < b.date) return +1;
+      return 0;
+    });
+    sorted[status] = section;
+  });
+  return sorted;
 }
 
 function mapStateToProps(state) {
