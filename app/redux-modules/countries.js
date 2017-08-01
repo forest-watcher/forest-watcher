@@ -33,7 +33,7 @@ export default function reducer(state = initialState, action) {
 }
 
 // Action Creators
-export function getCountries() {
+function getCountries() {
   const currentLang = getLanguage();
   const nameColumnId = CONSTANTS.countries.nameColumn[currentLang] ||
     CONSTANTS.countries.nameColumn.en;
@@ -51,5 +51,12 @@ export function getCountries() {
         rollback: { type: GET_COUNTRIES_ROLLBACK }
       }
     }
+  };
+}
+
+export function syncCountries() {
+  return (dispatch, state) => {
+    const { countries } = state();
+    if (!countries.synced && !countries.syncing) dispatch(getCountries());
   };
 }

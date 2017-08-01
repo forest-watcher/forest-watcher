@@ -1,7 +1,7 @@
 import { version } from 'package.json';
 import { syncAreas, UPDATE_AREA_REQUEST, SAVE_AREA_REQUEST } from 'redux-modules/areas';
-import { getCountries } from 'redux-modules/countries';
-import { getUser, LOGOUT_REQUEST } from 'redux-modules/user';
+import { syncCountries } from 'redux-modules/countries';
+import { syncUser, LOGOUT_REQUEST } from 'redux-modules/user';
 import { syncGeostore } from 'redux-modules/geostore';
 import { syncLayers, CACHE_LAYER_ROLLBACK, CACHE_BASEMAP_ROLLBACK } from 'redux-modules/layers';
 import { syncReports } from 'redux-modules/reports';
@@ -74,10 +74,10 @@ export function startApp() {
 
 export function syncApp() {
   return (dispatch, state) => {
-    const { user, countries } = state();
-    if (!user.synced && !user.syncing) dispatch(getUser());
+    const { user } = state();
+    dispatch(syncUser());
     if (user.loggedIn) {
-      if (!countries.synced && !countries.syncing) dispatch(getCountries());
+      dispatch(syncCountries());
       dispatch(syncReports());
       dispatch(syncAreas());
       dispatch(syncGeostore());
