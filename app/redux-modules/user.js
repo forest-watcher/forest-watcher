@@ -49,7 +49,7 @@ export default function reducer(state = initialState, action) {
 }
 
 // Action Creators
-export function getUser() {
+function getUser() {
   return {
     type: GET_USER_REQUEST,
     meta: {
@@ -59,6 +59,13 @@ export function getUser() {
         rollback: { type: GET_USER_ROLLBACK }
       }
     }
+  };
+}
+
+export function syncUser() {
+  return (dispatch, state) => {
+    const { user } = state();
+    if (!user.synced && !user.syncing) dispatch(getUser());
   };
 }
 

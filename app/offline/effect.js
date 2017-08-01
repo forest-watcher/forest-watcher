@@ -20,7 +20,7 @@ export default function effect({ url, headers, promise, errorCode, deserialize =
     return promise
       .then(data => data)
       .catch(err => {
-        console.warn(JSON.stringify(err));
+        console.warn('offline effect error', JSON.stringify(err, null, '  '));
         return Promise.reject({ msg: 'Error in custom promise offline handler', status: errorCode });
       });
   }
