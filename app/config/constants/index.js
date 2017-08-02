@@ -34,10 +34,6 @@ export default {
       {
         start: 8,
         end: 15
-      },
-      {
-        start: 16,
-        end: 16
       }
     ]
   },

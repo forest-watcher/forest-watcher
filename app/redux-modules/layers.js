@@ -1,5 +1,4 @@
 import Config from 'react-native-config';
-import { Platform } from 'react-native';
 import omit from 'lodash/omit';
 import CONSTANTS from 'config/constants';
 import RNFetchBlob from 'react-native-fetch-blob';
@@ -49,11 +48,7 @@ export default function reducer(state = initialState, action) {
       const areas = [...action.meta.areas];
       const cache = { ...state.cache };
       const syncDate = Date.now();
-
-      const isAndroid = Platform.OS === 'android'; // TODO: remove this on iOS cache ready
-      if (isAndroid) {
-        pendingData = getCachePendingData({ areas, layers, cache, pendingData });
-      }
+      pendingData = getCachePendingData({ areas, layers, cache, pendingData });
 
       return { ...state, data: layers, syncDate, synced: true, syncing: false, pendingData };
     }
@@ -179,10 +174,8 @@ async function downloadLayer(config) {
   const { area, layerId, layerUrl, zoom } = config;
   const url = `${Config.API_URL}/download-tiles/${area.geostore}/${zoom.start}/${zoom.end}?layerUrl=${layerUrl}`;
   const res = await RNFetchBlob
-    // add this option that makes response data to be stored as a file,
-    // this is much more performant.
     .config({ fileCache: true })
-    .fetch('GET', url);
+    .fetch('GET', encodeURI(url));
   const statusCode = res.info().status;
   if (statusCode >= 200 && statusCode < 400 && res.path()) {
     const downloadPath = res.path();

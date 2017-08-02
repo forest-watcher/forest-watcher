@@ -610,7 +610,7 @@ class Map extends Component {
     const isIOS = Platform.OS === 'ios';
     const mapKey = isIOS ? markers.length : 'mapView';
     // Map elements
-    const basemapLayerElement = isConnected // eslint-disable-line
+    const basemapLayerElement = false // TODO: use is connected once tested
       ? (
         <MapView.UrlTile
           key="basemapLayerElement"
@@ -618,16 +618,13 @@ class Map extends Component {
           zIndex={-1}
         />
       )
-      : isIOS
-        ? null
-        :
-          (
-            <MapView.LocalTile
-              key="localBasemapLayerElementL"
-              localTemplate={basemapLocalTilePath}
-              zIndex={-1}
-            />
-          );
+      : (
+        <MapView.LocalTile
+          key="localBasemapLayerElementL"
+          localTemplate={basemapLocalTilePath}
+          zIndex={-1}
+        />
+      );
     const contextualLayerElement = contextualLayer // eslint-disable-line
       ? isConnected
         ? (
