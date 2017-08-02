@@ -8,20 +8,14 @@ import {
 } from 'react-native';
 import Theme from 'config/theme';
 
-import Row from 'components/common/row';
+import AreaCache from './area-cache';
 import styles from './styles';
 
 const nextIcon = require('assets/next.png');
-const downloadIcon = require('assets/upload.png');
 
 function AreaList(props) {
-  const { areas } = props;
+  const { areas, onAreaPress } = props;
   if (!areas) return null;
-
-  const cacheAreaAction = {
-    icon: downloadIcon,
-    callback: () => console.warn('CACHING BABY')
-  };
 
   return (
     <View>
@@ -30,7 +24,7 @@ function AreaList(props) {
           <TouchableHighlight
             activeOpacity={0.5}
             underlayColor="transparent"
-            onPress={() => props.onAreaPress(area.id, area.name, index)}
+            onPress={() => onAreaPress(area.id, area.name, index)}
           >
             <View style={styles.item}>
               <View style={styles.imageContainer}>
@@ -43,15 +37,13 @@ function AreaList(props) {
               <TouchableHighlight
                 activeOpacity={0.5}
                 underlayColor="transparent"
-                onPress={() => props.onAreaPress(area.id, area.name)}
+                onPress={() => onAreaPress(area.id, area.name)}
               >
                 <Image style={Theme.icon} source={nextIcon} />
               </TouchableHighlight>
             </View>
           </TouchableHighlight>
-          <Row action={cacheAreaAction}>
-            <Text style={styles.rowTitle}>Make this area offline</Text>
-          </Row>
+          <AreaCache />
         </View>
       ))}
     </View>
@@ -59,7 +51,8 @@ function AreaList(props) {
 }
 
 AreaList.propTypes = {
-  areas: PropTypes.array
+  areas: PropTypes.array,
+  onAreaPress: PropTypes.func
 };
 
 export default AreaList;

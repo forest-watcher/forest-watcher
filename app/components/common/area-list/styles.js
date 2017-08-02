@@ -32,11 +32,5 @@ export default StyleSheet.create({
     fontSize: 17,
     fontWeight: '400',
     marginLeft: 16
-  },
-  rowTitle: {
-    fontFamily: Theme.font,
-    color: Theme.fontColors.light,
-    fontSize: 17,
-    fontStyle: 'italic'
   }
 });
