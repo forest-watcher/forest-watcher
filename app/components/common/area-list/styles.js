@@ -2,13 +2,15 @@ import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+  container: {
+    marginBottom: 16
+  },
   item: {
     paddingRight: 10,
     height: 128,
     borderBottomColor: Theme.borderColors.main,
     borderBottomWidth: 2,
     backgroundColor: Theme.background.white,
-    marginBottom: 8,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between'
@@ -30,5 +32,11 @@ export default StyleSheet.create({
     fontSize: 17,
     fontWeight: '400',
     marginLeft: 16
+  },
+  rowTitle: {
+    fontFamily: Theme.font,
+    color: Theme.fontColors.light,
+    fontSize: 17,
+    fontStyle: 'italic'
   }
 });
