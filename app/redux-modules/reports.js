@@ -180,7 +180,7 @@ export function getDefaultReport() {
 }
 
 export function getReportTemplate(templateId) {
-  const url = `${Config.API_URL}/reports/597b0f55856351000b087c9c`;
+  const url = `${Config.API_URL}/reports/${templateId}`;
 
   return {
     type: GET_REPORT_TEMPLATE_REQUEST,
