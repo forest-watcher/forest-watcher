@@ -182,7 +182,7 @@ async function downloadLayer(config) {
     // add this option that makes response data to be stored as a file,
     // this is much more performant.
     .config({ fileCache: true })
-    .fetch('GET', url);
+    .fetch('GET', encodeURI(url));
   const statusCode = res.info().status;
   if (statusCode >= 200 && statusCode < 400 && res.path()) {
     const downloadPath = res.path();
