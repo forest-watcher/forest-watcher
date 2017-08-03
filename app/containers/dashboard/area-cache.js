@@ -5,7 +5,6 @@ import AreaCache from 'components/common/area-list/area-cache';
 // TODO: remove this
 function mapStateToProps(state, { areaId }) {
   const cacheStatus = state.layers.cacheStatus[areaId];
-  console.log(cacheStatus);
   return {
     cacheStatus
   };

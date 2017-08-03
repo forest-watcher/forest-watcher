@@ -70,10 +70,7 @@ export default function reducer(state = initialState, action) {
       let pendingCache = { ...state.pendingCache };
       let cacheStatus = { ...state.cacheStatus };
 
-      debugger;
-      console.log(data);
       const layers = getLayersWithBasemap(data);
-      console.log('layers after', layers);
 
       layers.forEach((layer) => {
         if (!cache[layer.id] || (cache[layer.id] && !cache[layer.id][area.id])) {
@@ -139,7 +136,6 @@ export default function reducer(state = initialState, action) {
 
       const layersWithBasemap = getLayersWithBasemap([layer]);
       cacheStatus = getCacheStatus(cache, cacheStatus, [area], layersWithBasemap);
-      console.log(cacheStatus);
       return { ...state, cache, cacheStatus, pendingCache };
     }
     case CACHE_LAYER_ROLLBACK: {
