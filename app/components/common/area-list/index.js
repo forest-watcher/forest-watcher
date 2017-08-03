@@ -14,10 +14,10 @@ import styles from './styles';
 const nextIcon = require('assets/next.png');
 
 function AreaList(props) {
-  const { areas, onAreaPress, cacheProgress } = props;
+  const { areas, onAreaPress, cacheProgress, downloadArea } = props;
   if (!areas) return null;
 
-  const hasCache = id => (cacheProgress && cacheProgress[id] && !cacheProgress[id].cache);
+  const hasCache = id => (cacheProgress && cacheProgress[id] && !cacheProgress[id].complete);
   return (
     <View>
       {areas.map((area, index) => (
@@ -47,7 +47,8 @@ function AreaList(props) {
           {hasCache(area.id) &&
             <AreaCache
               areaId={area.id}
-              progress={cacheProgress[area.id].progress}
+              areaCache={cacheProgress[area.id]}
+              downloadArea={downloadArea}
             />
           }
         </View>
@@ -59,7 +60,8 @@ function AreaList(props) {
 AreaList.propTypes = {
   areas: PropTypes.array,
   onAreaPress: PropTypes.func,
-  cacheProgress: PropTypes.object
+  cacheProgress: PropTypes.object,
+  downloadArea: PropTypes.func
 };
 
 export default AreaList;

@@ -31,15 +31,18 @@ const initialState = {
   cacheProgress: {
     '5943d3d39522f8001094462e': {
       progress: 0,
-      cache: false
+      complete: false,
+      requested: false
     },
     '595dfb85c806a20010d8a031': {
       progress: 0.2,
-      cache: false
+      complete: false,
+      requested: true
     },
     '5979e791941179001105cca2': {
       progress: 0,
-      cache: true
+      complete: true,
+      requested: false
     }
   },
   cache: { // save the layers path for each area
@@ -155,6 +158,12 @@ export default function reducer(state = initialState, action) {
         }
       };
       return { ...state, pendingData };
+    }
+    case 'layers/DOWNLOAD_AREA': {
+      const { areaId, requested } = action.payload;
+      const areaProgress = state.cacheProgress[areaId];
+      const cacheProgress = { ...state.cacheProgress, [areaId]: { ...areaProgress, requested } };
+      return { ...state, cacheProgress };
     }
     case LOGOUT_REQUEST:
       removeFolder(CONSTANTS.files.tiles);
@@ -335,4 +344,14 @@ function getCachePendingData({ areas = [], layers = [], cache = {}, pendingData 
     });
   });
   return cachePendingData;
+}
+
+export function downloadArea(areaId) {
+  return {
+    type: 'layers/DOWNLOAD_AREA',
+    payload: {
+      areaId,
+      requested: true
+    }
+  };
 }

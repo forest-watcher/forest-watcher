@@ -19,7 +19,7 @@ const persistNative = (store, options, callback) => {
       getPersistedStore().purge();
       resetAlertsDb();
     } else {
-      getPersistedStore(); // .purge to clean the offline data
+      getPersistedStore().purge(); // .purge to clean the offline data
     }
   });
 };

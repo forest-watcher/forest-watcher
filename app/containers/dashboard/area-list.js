@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-
+import { downloadArea } from 'redux-modules/layers';
 import AreaList from 'components/common/area-list';
 
 // TODO: remove this
@@ -19,7 +19,13 @@ function mapStateToProps(state) {
   };
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    downloadArea: areaId => dispatch(downloadArea(areaId))
+  };
+}
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(AreaList);

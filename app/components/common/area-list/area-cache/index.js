@@ -18,16 +18,18 @@ class AreaCache extends PureComponent {
   static propTypes = {
     areaId: PropTypes.string.isRequired,
     downloadArea: PropTypes.func.isRequired,
-    progress: PropTypes.number
+    areaCache: PropTypes.shape({
+      requested: PropTypes.bool.isRequired,
+      progress: PropTypes.bool.isRequired
+    }).isRequired
   };
 
   state = {
-    downloading: false,
     indeterminate: true
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.downloading !== prevState.downloading) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.areaCache.requested !== prevProps.requested) {
       Timer.setTimeout(this, 'setIndeterminate', this.removeIndeterminate, 1000);
     }
   }
@@ -38,8 +40,7 @@ class AreaCache extends PureComponent {
 
   onDownload = () => {
     const { areaId, downloadArea } = this.props;
-    this.setState(() => ({ downloading: true }));
-    if (downloadArea) downloadArea(areaId);
+    downloadArea(areaId);
   }
 
   removeIndeterminate = () => {
@@ -47,7 +48,7 @@ class AreaCache extends PureComponent {
   }
 
   render() {
-    const { progress } = this.props;
+    const { areaCache } = this.props;
     const { downloading, indeterminate } = this.state;
     const cacheAreaAction = {
       icon: downloadIcon,
@@ -64,7 +65,7 @@ class AreaCache extends PureComponent {
           <Text style={styles.title}>Downloading area</Text>
           <ProgressBar
             indeterminate={indeterminate}
-            progress={progress}
+            progress={areaCache.progress}
             width={(Theme.screen.width - 48)}
             color={Theme.colors.color1}
           />
