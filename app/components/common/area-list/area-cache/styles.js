@@ -7,5 +7,14 @@ export default StyleSheet.create({
     color: Theme.fontColors.light,
     fontSize: 17,
     fontStyle: 'italic'
+  },
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  rowContent: {
+    alignItems: 'flex-start',
+    flexDirection: 'column'
   }
 });

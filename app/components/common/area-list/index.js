@@ -43,7 +43,7 @@ function AreaList(props) {
               </TouchableHighlight>
             </View>
           </TouchableHighlight>
-          <AreaCache />
+          <AreaCache areaId={area.id} progress={0.2} />
         </View>
       ))}
     </View>
