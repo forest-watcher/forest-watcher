@@ -28,6 +28,20 @@ const initialState = {
   syncing: false,
   activeLayer: null,
   syncDate: Date.now(),
+  cacheProgress: {
+    '5943d3d39522f8001094462e': {
+      progress: 0,
+      cache: false
+    },
+    '595dfb85c806a20010d8a031': {
+      progress: 0.2,
+      cache: false
+    },
+    '5979e791941179001105cca2': {
+      progress: 0,
+      cache: true
+    }
+  },
   cache: { // save the layers path for each area
     basemap: {}
   },

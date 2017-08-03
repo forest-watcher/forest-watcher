@@ -7,7 +7,7 @@ import {
   Text
 } from 'react-native';
 
-import AreaList from 'containers/common/area-list';
+import AreaList from 'containers/dashboard/area-list';
 import Row from 'components/common/row';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';

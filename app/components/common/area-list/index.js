@@ -14,9 +14,10 @@ import styles from './styles';
 const nextIcon = require('assets/next.png');
 
 function AreaList(props) {
-  const { areas, onAreaPress } = props;
+  const { areas, onAreaPress, cacheProgress } = props;
   if (!areas) return null;
 
+  const hasCache = id => (cacheProgress && cacheProgress[id] && !cacheProgress[id].cache);
   return (
     <View>
       {areas.map((area, index) => (
@@ -43,7 +44,12 @@ function AreaList(props) {
               </TouchableHighlight>
             </View>
           </TouchableHighlight>
-          <AreaCache areaId={area.id} progress={0.2} />
+          {hasCache(area.id) &&
+            <AreaCache
+              areaId={area.id}
+              progress={cacheProgress[area.id].progress}
+            />
+          }
         </View>
       ))}
     </View>
@@ -52,7 +58,8 @@ function AreaList(props) {
 
 AreaList.propTypes = {
   areas: PropTypes.array,
-  onAreaPress: PropTypes.func
+  onAreaPress: PropTypes.func,
+  cacheProgress: PropTypes.object
 };
 
 export default AreaList;
