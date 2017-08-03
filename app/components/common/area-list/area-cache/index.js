@@ -5,6 +5,7 @@ import {
   View
 } from 'react-native';
 
+import i18n from 'locales';
 import ProgressBar from 'react-native-progress/Bar';
 import Row from 'components/common/row';
 import Theme from 'config/theme';
@@ -17,10 +18,10 @@ class AreaCache extends PureComponent {
 
   static propTypes = {
     areaId: PropTypes.string.isRequired,
-    downloadArea: PropTypes.func.isRequired,
-    areaCache: PropTypes.shape({
+    downloadAreaById: PropTypes.func.isRequired,
+    cacheStatus: PropTypes.shape({
       requested: PropTypes.bool.isRequired,
-      progress: PropTypes.bool.isRequired
+      progress: PropTypes.number.isRequired
     }).isRequired
   };
 
@@ -29,7 +30,7 @@ class AreaCache extends PureComponent {
   };
 
   componentDidUpdate(prevProps) {
-    if (prevProps.areaCache.requested !== prevProps.requested) {
+    if (prevProps.cacheStatus.requested !== prevProps.requested) {
       Timer.setTimeout(this, 'setIndeterminate', this.removeIndeterminate, 1000);
     }
   }
@@ -39,8 +40,8 @@ class AreaCache extends PureComponent {
   }
 
   onDownload = () => {
-    const { areaId, downloadArea } = this.props;
-    downloadArea(areaId);
+    const { areaId, downloadAreaById } = this.props;
+    downloadAreaById(areaId);
   }
 
   removeIndeterminate = () => {
@@ -48,31 +49,31 @@ class AreaCache extends PureComponent {
   }
 
   render() {
-    const { areaCache } = this.props;
-    const { downloading, indeterminate } = this.state;
+    const { cacheStatus } = this.props;
+    const { indeterminate } = this.state;
     const cacheAreaAction = {
       icon: downloadIcon,
       callback: this.onDownload
     };
     const cacheRow = (
       <Row action={cacheAreaAction}>
-        <Text style={styles.title}>Make this area offline</Text>
+        <Text style={styles.title}>{i18n.t('dashboard.downloadArea')}</Text>
       </Row>
     );
     const progressRow = (
       <Row>
         <View style={styles.rowContent}>
-          <Text style={styles.title}>Downloading area</Text>
+          <Text style={styles.title}>{i18n.t('dashboard.downloadingArea')}</Text>
           <ProgressBar
             indeterminate={indeterminate}
-            progress={areaCache.progress}
+            progress={cacheStatus.progress}
             width={(Theme.screen.width - 48)}
             color={Theme.colors.color1}
           />
         </View>
       </Row>
     );
-    return (downloading ? progressRow : cacheRow);
+    return (cacheStatus.requested ? progressRow : cacheRow);
   }
 }
 

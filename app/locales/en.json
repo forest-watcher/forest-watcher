@@ -50,7 +50,9 @@
         "uploadData": "Saved and uploaded data",
         "map": "Map",
         "dailyFeedback": "Daily feedback",
-        "weeklyFeedback": "Weekly feedback"
+        "weeklyFeedback": "Weekly feedback",
+        "downloadArea": "Make this area available offline",
+        "downloadingArea": "Downloading area"
     },
     "login": {
         "title": "Login",

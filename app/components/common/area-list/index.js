@@ -8,16 +8,15 @@ import {
 } from 'react-native';
 import Theme from 'config/theme';
 
-import AreaCache from './area-cache';
+import AreaCache from 'containers/dashboard/area-cache';
 import styles from './styles';
 
 const nextIcon = require('assets/next.png');
 
 function AreaList(props) {
-  const { areas, onAreaPress, cacheProgress, downloadArea } = props;
+  const { areas, onAreaPress, showCache } = props;
   if (!areas) return null;
 
-  const hasCache = id => (cacheProgress && cacheProgress[id] && !cacheProgress[id].complete);
   return (
     <View>
       {areas.map((area, index) => (
@@ -35,6 +34,9 @@ function AreaList(props) {
                 }
               </View>
               <Text style={styles.title} numberOfLines={2}> {area.name} </Text>
+              {showCache && area.cacheComplete &&
+                <Text> TODO: put the image </Text>
+              }
               <TouchableHighlight
                 activeOpacity={0.5}
                 underlayColor="transparent"
@@ -44,12 +46,8 @@ function AreaList(props) {
               </TouchableHighlight>
             </View>
           </TouchableHighlight>
-          {hasCache(area.id) &&
-            <AreaCache
-              areaId={area.id}
-              areaCache={cacheProgress[area.id]}
-              downloadArea={downloadArea}
-            />
+          {showCache && !area.cacheComplete &&
+            <AreaCache areaId={area.id} />
           }
         </View>
       ))}
@@ -58,10 +56,20 @@ function AreaList(props) {
 }
 
 AreaList.propTypes = {
-  areas: PropTypes.array,
+  areas: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      image: PropTypes.string.isRequired,
+      cacheComplete: PropTypes.bool
+    })
+  ),
   onAreaPress: PropTypes.func,
-  cacheProgress: PropTypes.object,
-  downloadArea: PropTypes.func
+  showCache: PropTypes.bool
+};
+
+AreaList.defaultProps = {
+  showCache: false
 };
 
 export default AreaList;

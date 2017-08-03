@@ -1,31 +1,28 @@
 import { connect } from 'react-redux';
-import { downloadArea } from 'redux-modules/layers';
 import AreaList from 'components/common/area-list';
 
 // TODO: remove this
 function mapStateToProps(state) {
   const { images, data } = state.areas;
-  const { cacheProgress } = state.layers;
+  const { cacheStatus } = state.layers;
   const areas = data.map((area) => {
     if (images[area.id]) {
-      return { ...area, image: images[area.id] };
+      return {
+        ...area,
+        image: images[area.id],
+        cacheComplete: cacheStatus[area.id].complete
+      };
     }
     return area;
   });
 
   return {
     areas,
-    cacheProgress
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    downloadArea: areaId => dispatch(downloadArea(areaId))
+    showCache: true
   };
 }
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(AreaList);
