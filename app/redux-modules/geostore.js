@@ -64,7 +64,7 @@ export default function reducer(state = initialState, action) {
       const data = { ...state.data };
       data[action.payload.id] = action.payload;
 
-      const area = action.meta.area;
+      const { area } = action.meta;
       const pendingData = {
         ...state.pendingData,
         areas: omit(state.pendingData.areas, [area.id])
@@ -72,7 +72,7 @@ export default function reducer(state = initialState, action) {
       return { ...state, data, pendingData };
     }
     case GET_GEOSTORE_ROLLBACK: {
-      const area = action.payload;
+      const { area } = action.meta;
       const pendingData = {
         ...state.pendingData,
         areas: {
@@ -117,7 +117,7 @@ export function getGeostore(area) {
       offline: {
         effect: { url },
         commit: { type: GET_GEOSTORE_COMMIT, meta: { area } },
-        rollback: { type: GET_GEOSTORE_ROLLBACK }
+        rollback: { type: GET_GEOSTORE_ROLLBACK, meta: { area } }
       }
     }
   };
