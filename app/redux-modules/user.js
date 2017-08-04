@@ -1,3 +1,4 @@
+import { RESET_STATE } from 'redux-offline/lib/constants';
 import Config from 'react-native-config';
 import GoogleOAuth from 'config/oAuth/GoogleOAuth';
 
@@ -106,6 +107,7 @@ export function loginGoogle() {
 
 export function logout() {
   return (dispatch, state) => {
+    dispatch({ type: RESET_STATE });
     CookieManager.clearAll((err) => (err && console.warn(err)));
     if (state().user.socialNetwork === 'google') {
       return dispatch({
@@ -119,11 +121,7 @@ export function logout() {
         }
       });
     }
-    dispatch({
-      type: LOGOUT_REQUEST
-    });
-    return dispatch({
-      type: LOGOUT_COMMIT
-    });
+    dispatch({ type: LOGOUT_REQUEST });
+    return dispatch({ type: LOGOUT_COMMIT });
   };
 }
