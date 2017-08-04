@@ -7,7 +7,7 @@ function mapStateToProps(state) {
   const areas = data.map((area) => ({
     ...area,
     image: images[area.id],
-    cacheComplete: cacheStatus[area.id] ? cacheStatus[area.id].complete : false
+    cacheComplete: cacheStatus[area.id].complete
   }));
 
   return {

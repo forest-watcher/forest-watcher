@@ -7,6 +7,7 @@ import { getActionsTodoCount } from 'helpers/sync';
 import { removeFolder } from 'helpers/fileManagement';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
+import { SAVE_AREA_COMMIT } from 'redux-modules/areas';
 import { START_APP } from 'redux-modules/app';
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
@@ -137,8 +138,7 @@ export default function reducer(state = initialState, action) {
         }
       };
 
-      const layersWithBasemap = getLayersWithBasemap([layer]);
-      cacheStatus = getCacheStatus(cache, cacheStatus, [area], layersWithBasemap);
+      cacheStatus = getCacheStatus(cache, cacheStatus, [area], [layer]);
       return { ...state, cache, cacheStatus, pendingCache };
     }
     case CACHE_LAYER_ROLLBACK: {
@@ -155,6 +155,12 @@ export default function reducer(state = initialState, action) {
     }
     case SET_CACHE_STATUS: {
       return { ...state, cacheStatus: action.payload };
+    }
+    case SAVE_AREA_COMMIT: {
+      const { cache, cacheStatus, data: layers } = state;
+      const area = action.payload;
+      const newCacheStatus = getCacheStatus(cache, cacheStatus, [area], layers);
+      return { ...state, cacheStatus: newCacheStatus };
     }
     case LOGOUT_REQUEST:
       removeFolder(CONSTANTS.files.tiles);
@@ -336,11 +342,12 @@ function getLayersWithBasemap(layers) {
 }
 
 function getCacheStatus(cache = {}, cacheStatus = {}, areas = [], layers = []) {
-  const layersCount = layers.length;
+  const enhancedLayers = getLayersWithBasemap(layers);
+  const layersCount = enhancedLayers.length;
   let newCacheStatus = { ...cacheStatus };
   areas.forEach((area) => {
     let layersCached = 0;
-    layers.forEach((layer) => {
+    enhancedLayers.forEach((layer) => {
       if (cache[layer.id] && (cache[layer.id] && cache[layer.id][area.id])) {
         layersCached += 1;
       }
