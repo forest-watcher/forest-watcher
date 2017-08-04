@@ -7,7 +7,7 @@ import {
   Text
 } from 'react-native';
 
-import AreaList from 'containers/common/area-list';
+import AreaList from 'containers/dashboard/area-list';
 import Row from 'components/common/row';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
@@ -20,6 +20,16 @@ const nextIcon = require('assets/next.png');
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
 
 class Dashboard extends PureComponent {
+
+  static propTypes = {
+    navigator: PropTypes.object.isRequired,
+    actionsPending: PropTypes.number.isRequired,
+    syncModalOpen: PropTypes.bool.isRequired,
+    syncSkip: PropTypes.bool.isRequired,
+    setSyncModal: PropTypes.func.isRequired,
+    updateSelectedIndex: PropTypes.func.isRequired
+  };
+
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color1,
     navBarButtonColor: Theme.colors.color1,
@@ -39,7 +49,7 @@ class Dashboard extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
     this.reportsAction = {
       callback: this.onPressReports,
       icon: nextIcon
@@ -69,7 +79,7 @@ class Dashboard extends PureComponent {
     });
   }
 
-  onNavigatorEvent(event) {
+  onNavigatorEvent = (event) => {
     const { actionsPending, syncModalOpen, syncSkip } = this.props;
     if (event.type === 'NavBarButtonPress') {
       if (event.id === 'settings') {
@@ -114,14 +124,5 @@ class Dashboard extends PureComponent {
     );
   }
 }
-
-Dashboard.propTypes = {
-  navigator: PropTypes.object.isRequired,
-  actionsPending: PropTypes.number.isRequired,
-  syncModalOpen: PropTypes.bool.isRequired,
-  syncSkip: PropTypes.bool.isRequired,
-  setSyncModal: PropTypes.func.isRequired,
-  updateSelectedIndex: PropTypes.func.isRequired
-};
 
 export default Dashboard;

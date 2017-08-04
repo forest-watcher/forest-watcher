@@ -1,5 +1,6 @@
 {
     "commonText": {
+        "retry": "Retry",
         "error": "Error",
         "unexpectedError": "Something unexpected happened",
         "appName": "Forest Watcher",
@@ -50,7 +51,13 @@
         "uploadData": "Saved and uploaded data",
         "map": "Map",
         "dailyFeedback": "Daily feedback",
-        "weeklyFeedback": "Weekly feedback"
+        "weeklyFeedback": "Weekly feedback",
+        "downloadArea": "Make this area available offline",
+        "downloadingArea": "Downloading area",
+        "unable": "Unable to download area",
+        "connectionRequired": "You need an internet connection",
+        "downloadFailed": "Download failed"
+
     },
     "login": {
         "title": "Login",

@@ -15,7 +15,7 @@ function Row(props) {
   const onPress = props.action ? props.action.callback : null;
   return (
     <TouchableHighlight
-      activeOpacity={onPress ? 0.5 : 1}
+      activeOpacity={onPress ? (props.opacity || 0.5) : 1}
       underlayColor="transparent"
       onPress={onPress}
       style={props.style}
@@ -41,7 +41,8 @@ Row.propTypes = {
   action: PropTypes.shape({
     callback: PropTypes.func.isRequired,
     icon: PropTypes.any
-  })
+  }),
+  opacity: PropTypes.number
 };
 
 export default Row;
