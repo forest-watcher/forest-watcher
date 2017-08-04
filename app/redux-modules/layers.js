@@ -123,6 +123,7 @@ export default function reducer(state = initialState, action) {
     }
     case CACHE_LAYER_COMMIT: {
       const { area, layer } = action.meta;
+      const layers = [...state.data];
       let path = action.payload;
       let cacheStatus = { ...state.cacheStatus };
       path = (path && path.length > 0) ? path[0] : path;
@@ -138,7 +139,7 @@ export default function reducer(state = initialState, action) {
         }
       };
 
-      cacheStatus = getCacheStatus(cache, cacheStatus, [area], [layer]);
+      cacheStatus = getCacheStatus(cache, cacheStatus, [area], layers);
       return { ...state, cache, cacheStatus, pendingCache };
     }
     case CACHE_LAYER_ROLLBACK: {
@@ -337,10 +338,6 @@ export function cacheLayers() {
   };
 }
 
-function getLayersWithBasemap(layers) {
-  return [{ id: 'basemap' }, ...layers];
-}
-
 function getCacheStatus(cache = {}, cacheStatus = {}, areas = [], layers = []) {
   const enhancedLayers = getLayersWithBasemap(layers);
   const layersCount = enhancedLayers.length;
@@ -348,7 +345,7 @@ function getCacheStatus(cache = {}, cacheStatus = {}, areas = [], layers = []) {
   areas.forEach((area) => {
     let layersCached = 0;
     enhancedLayers.forEach((layer) => {
-      if (cache[layer.id] && (cache[layer.id] && cache[layer.id][area.id])) {
+      if (cache[layer.id] && cache[layer.id][area.id]) {
         layersCached += 1;
       }
     });
@@ -383,4 +380,8 @@ export function resetCacheStatus(areaId) {
       payload: newCacheStatus
     });
   };
+}
+
+function getLayersWithBasemap(layers) {
+  return [{ id: 'basemap' }, ...layers];
 }
