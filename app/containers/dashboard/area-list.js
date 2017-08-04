@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import AreaList from 'components/common/area-list';
 
-// TODO: remove this
 function mapStateToProps(state) {
   const { images, data } = state.areas;
   const { cacheStatus } = state.layers;

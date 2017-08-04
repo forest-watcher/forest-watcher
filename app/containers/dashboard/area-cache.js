@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { downloadAreaById, resetCacheStatus } from 'redux-modules/layers';
 import AreaCache from 'components/common/area-list/area-cache';
 
-// TODO: remove this
 function mapStateToProps(state, { areaId }) {
   const cacheStatus = state.layers.cacheStatus[areaId];
   return {

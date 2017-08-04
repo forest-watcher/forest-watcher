@@ -25,12 +25,19 @@ export default StyleSheet.create({
     height: 126,
     resizeMode: 'cover'
   },
-  title: {
+  titleContainer: {
     flex: 1,
+    alignItems: 'flex-start'
+  },
+  title: {
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
     fontSize: 17,
     fontWeight: '400',
     marginLeft: 16
+  },
+  downloadedIcon: {
+    alignItems: 'flex-start',
+    marginLeft: 2
   }
 });

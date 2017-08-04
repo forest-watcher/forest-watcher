@@ -13,7 +13,7 @@ import Theme from 'config/theme';
 import styles from './styles';
 
 const Timer = require('react-native-timer');
-const downloadIcon = require('assets/upload.png');
+const downloadIcon = require('assets/download.png');
 
 class AreaCache extends PureComponent {
 

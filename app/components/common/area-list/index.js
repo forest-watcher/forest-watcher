@@ -12,6 +12,7 @@ import AreaCache from 'containers/dashboard/area-cache';
 import styles from './styles';
 
 const nextIcon = require('assets/next.png');
+const downloadedIcon = require('assets/downloaded.png');
 
 function AreaList(props) {
   const { areas, onAreaPress, showCache } = props;
@@ -33,10 +34,12 @@ function AreaList(props) {
                   : null
                 }
               </View>
-              <Text style={styles.title} numberOfLines={2}> {area.name} </Text>
-              {showCache && area.cacheComplete &&
-                <Text> TODO: put the image </Text>
-              }
+              <View style={styles.titleContainer}>
+                <Text style={styles.title} numberOfLines={2}> {area.name} </Text>
+                {showCache && area.cacheComplete &&
+                  <Image style={[Theme.icon, styles.downloadedIcon]} source={downloadedIcon} />
+                }
+              </View>
               <TouchableHighlight
                 activeOpacity={0.5}
                 underlayColor="transparent"
