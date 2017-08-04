@@ -13,7 +13,8 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.white,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    position: 'relative'
   },
   imageContainer: {
     width: 128,
@@ -37,7 +38,8 @@ export default StyleSheet.create({
     marginLeft: 16
   },
   downloadedIcon: {
-    alignItems: 'flex-start',
-    marginLeft: 2
+    position: 'absolute',
+    bottom: 12,
+    left: 148
   }
 });

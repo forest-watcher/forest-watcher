@@ -78,10 +78,10 @@ class AreaList extends PureComponent {
                 </View>
                 <View style={styles.titleContainer}>
                   <Text style={styles.title} numberOfLines={2}> {area.name} </Text>
-                  {showCache && area.cacheComplete &&
-                    <Image style={[Theme.icon, styles.downloadedIcon]} source={downloadedIcon} />
-                  }
                 </View>
+                {showCache && area.cacheComplete &&
+                  <Image style={styles.downloadedIcon} source={downloadedIcon} />
+                }
                 <TouchableHighlight
                   activeOpacity={0.5}
                   underlayColor="transparent"
