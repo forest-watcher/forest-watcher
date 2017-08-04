@@ -11,6 +11,7 @@
 #import "AIRGoogleMapPolyline.h"
 #import "AIRGoogleMapCircle.h"
 #import "AIRGoogleMapUrlTile.h"
+#import "AIRGoogleMapLocalTile.h"
 #import <GoogleMaps/GoogleMaps.h>
 #import <MapKit/MapKit.h>
 #import <React/UIView+React.h>
@@ -91,6 +92,10 @@ id regionAsJSON(MKCoordinateRegion region) {
     AIRGoogleMapUrlTile *tile = (AIRGoogleMapUrlTile*)subview;
     tile.tileLayer.map = self;
     [self.tiles addObject:tile];
+  } else if ([subview isKindOfClass:[AIRGoogleMapLocalTile class]]) {
+    AIRGoogleMapLocalTile *tile = (AIRGoogleMapLocalTile*)subview;
+    tile.tileLayer.map = self;
+    [self.tiles addObject:tile];
   } else {
     NSArray<id<RCTComponent>> *childSubviews = [subview reactSubviews];
     for (int i = 0; i < childSubviews.count; i++) {
@@ -125,6 +130,10 @@ id regionAsJSON(MKCoordinateRegion region) {
     [self.circles removeObject:circle];
   } else if ([subview isKindOfClass:[AIRGoogleMapUrlTile class]]) {
     AIRGoogleMapUrlTile *tile = (AIRGoogleMapUrlTile*)subview;
+    tile.tileLayer.map = nil;
+    [self.tiles removeObject:tile];
+  } else if ([subview isKindOfClass:[AIRGoogleMapLocalTile class]]) {
+    AIRGoogleMapLocalTile *tile = (AIRGoogleMapLocalTile*)subview;
     tile.tileLayer.map = nil;
     [self.tiles removeObject:tile];
   } else {
