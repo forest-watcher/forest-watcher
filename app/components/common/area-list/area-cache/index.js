@@ -2,10 +2,11 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   Text,
-  View
+  View,
+  Alert
 } from 'react-native';
 
-import i18n from 'locales';
+import I18n from 'locales';
 import ProgressBar from 'react-native-progress/Bar';
 import Row from 'components/common/row';
 import Theme from 'config/theme';
@@ -21,8 +22,11 @@ class AreaCache extends PureComponent {
     downloadAreaById: PropTypes.func.isRequired,
     cacheStatus: PropTypes.shape({
       requested: PropTypes.bool.isRequired,
-      progress: PropTypes.number.isRequired
-    }).isRequired
+      progress: PropTypes.number.isRequired,
+      error: PropTypes.bool.isRequired
+    }).isRequired,
+    isConnected: PropTypes.bool.isRequired,
+    resetCacheStatus: PropTypes.func.isRequired
   };
 
   state = {
@@ -30,8 +34,18 @@ class AreaCache extends PureComponent {
   };
 
   componentDidUpdate(prevProps) {
-    if (prevProps.cacheStatus.requested !== prevProps.requested) {
+    if (prevProps.cacheStatus.requested !== this.props.cacheStatus.requested) {
       Timer.setTimeout(this, 'setIndeterminate', this.removeIndeterminate, 1000);
+    }
+    if (prevProps.cacheStatus.error !== this.props.cacheStatus.error && this.props.cacheStatus.error) {
+      Alert.alert(
+        I18n.t('commonText.error'),
+        I18n.t('dashboard.downloadFailed'),
+        [
+          { text: 'OK', onPress: this.resetCacheStatus },
+          { text: I18n.t('commonText.retry'), onPress: this.onRetry }
+        ]
+      );
     }
   }
 
@@ -44,26 +58,44 @@ class AreaCache extends PureComponent {
     downloadAreaById(areaId);
   }
 
+  onRetry = () => {
+    this.resetCacheStatus();
+    this.onDownload();
+  }
+
+  onOfflinePress = () => {
+    Alert.alert(
+      I18n.t('dashboard.unable'),
+      I18n.t('dashboard.connectionRequired'),
+      [{ text: 'OK' }]
+    );
+  }
+
+  resetCacheStatus = () => {
+    const { areaId, resetCacheStatus } = this.props;
+    resetCacheStatus(areaId);
+  }
+
   removeIndeterminate = () => {
     this.setState(() => ({ indeterminate: false }));
   }
 
   render() {
-    const { cacheStatus } = this.props;
+    const { cacheStatus, isConnected } = this.props;
     const { indeterminate } = this.state;
     const cacheAreaAction = {
       icon: downloadIcon,
-      callback: this.onDownload
+      callback: isConnected ? this.onDownload : this.onOfflinePress
     };
     const cacheRow = (
-      <Row action={cacheAreaAction}>
-        <Text style={styles.title}>{i18n.t('dashboard.downloadArea')}</Text>
+      <Row opacity={1} action={cacheAreaAction}>
+        <Text style={styles.title}>{I18n.t('dashboard.downloadArea')}</Text>
       </Row>
     );
     const progressRow = (
-      <Row>
+      <Row opacity={1}>
         <View style={styles.rowContent}>
-          <Text style={styles.title}>{i18n.t('dashboard.downloadingArea')}</Text>
+          <Text style={styles.title}>{I18n.t('dashboard.downloadingArea')}</Text>
           <ProgressBar
             indeterminate={indeterminate}
             progress={cacheStatus.progress}

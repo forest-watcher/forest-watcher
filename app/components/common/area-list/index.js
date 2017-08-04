@@ -60,7 +60,7 @@ AreaList.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
+      image: PropTypes.string,
       cacheComplete: PropTypes.bool
     })
   ),

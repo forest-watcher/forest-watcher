@@ -17,6 +17,7 @@ const DOWNLOAD_AREA = 'layer/DOWNLOAD_AREA';
 const CACHE_LAYER_REQUEST = 'layers/CACHE_LAYER_REQUEST';
 const CACHE_LAYER_COMMIT = 'layers/CACHE_LAYER_COMMIT';
 export const CACHE_LAYER_ROLLBACK = 'layer/CACHE_LAYER_ROLLBACK';
+const SET_CACHE_STATUS = 'layer/SET_CACHE_STATUS';
 
 // Reducer
 const initialState = {
@@ -31,7 +32,8 @@ const initialState = {
     // areaId: {
     //   progress: 0,
     //   completed: false,
-    //   requested: false
+    //   requested: false,
+    //   error: false
     // }
   },
   cache: {
@@ -98,7 +100,8 @@ export default function reducer(state = initialState, action) {
           [area.id]: {
             progress: 0,
             completed: false,
-            requested: true
+            requested: true,
+            error: false
           }
         };
       }
@@ -140,14 +143,18 @@ export default function reducer(state = initialState, action) {
     }
     case CACHE_LAYER_ROLLBACK: {
       const { area, layer } = action.meta;
+      const { areas, data: layers, cacheStatus, cache } = state;
+      const updatedCacheStatus = getCacheStatus(cache, cacheStatus, areas, layers);
+      const areaCacheStatus = { ...updatedCacheStatus[area.id], requested: false, error: true };
+      const newCacheStatus = { ...updatedCacheStatus, [area.id]: { ...areaCacheStatus } };
       const pendingCache = {
         ...state.pendingCache,
-        [layer.id]: {
-          ...state.pendingCache[layer.id],
-          [area.id]: false
-        }
+        [layer.id]: omit(state.pendingCache[layer.id], [area.id])
       };
-      return { ...state, pendingCache };
+      return { ...state, pendingCache, cacheStatus: newCacheStatus };
+    }
+    case SET_CACHE_STATUS: {
+      return { ...state, cacheStatus: action.payload };
     }
     case LOGOUT_REQUEST:
       removeFolder(CONSTANTS.files.tiles);
@@ -344,9 +351,29 @@ function getCacheStatus(cache = {}, cacheStatus = {}, areas = [], layers = []) {
       [area.id]: {
         requested: (newCacheStatus[area.id] && newCacheStatus[area.id].requested) || false,
         progress,
-        complete: progress === 1
+        complete: progress === 1,
+        error: false
       }
     };
   });
   return newCacheStatus;
+}
+
+export function resetCacheStatus(areaId) {
+  return (dispatch, state) => {
+    const { cacheStatus } = state().layers;
+    const newCacheStatus = {
+      ...cacheStatus,
+      [areaId]: {
+        requested: false,
+        complete: false,
+        progress: 0,
+        error: false
+      }
+    };
+    dispatch({
+      type: SET_CACHE_STATUS,
+      payload: newCacheStatus
+    });
+  };
 }
