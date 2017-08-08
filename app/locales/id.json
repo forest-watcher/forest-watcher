@@ -1,7 +1,8 @@
 {
     "commonText": {
-        "error": "Error",
-        "unexpectedError": "Something unexpected happened",
+        "retry": "Retry",
+        "error": "Eror",
+        "unexpectedError": "Terjadi sesuatu yang tak terduga",
         "appName": "Forest Watcher",
         "next": "Lanjut",
         "save": "Menyimpan",
@@ -17,7 +18,7 @@
         "loading": "Pemuatan",
         "notAvailable": "Tidak tersedia",
         "kmAway": "km jauhnya",
-        "updated": "Updated",
+        "updated": "Diperbarui",
         "name": "Nama",
         "yourPosition": "Posisi kamu",
         "connectionRequiredTitle": "Tidak ada koneksi",
@@ -30,7 +31,7 @@
     "home": {
         "title": {
             "updating": "Memperbarui data ...",
-            "outOfDate": "You are offline",
+            "outOfDate": "Anda sedang offline",
             "updated": "Update selesai!"
         },
         "subtitle": {
@@ -50,7 +51,12 @@
         "uploadData": "Data tersimpan dan terunggah",
         "map": "Peta",
         "dailyFeedback": "Umpan balilk harian",
-        "weeklyFeedback": "Umpan balik mingguan"
+        "weeklyFeedback": "Umpan balik mingguan",
+        "downloadArea": "Make this area available offline",
+        "downloadingArea": "Downloading area",
+        "unable": "Unable to download area",
+        "connectionRequired": "You need an internet connection",
+        "downloadFailed": "Download failed"
     },
     "login": {
         "title": "Masuk",
@@ -63,7 +69,7 @@
         "brazilTitle": "Brasil",
         "colombiaTitle": "Kolombia",
         "indonesiaTitle": "Indonesia",
-        "failed": "There was an error during login/logout"
+        "failed": "Terjadi eror selama masuk/keluar"
     },
     "countries": {
         "searchPlaceholder": "Cari negara"
@@ -135,13 +141,15 @@
         "3MonthsAgo": "3 bulan yang lalu",
         "6MonthsAgo": "6 bulan yang lalu",
         "1yearAgo": "1 tahun yang lalu",
-        "availableOffline": "Tersedia secara offline"
+        "availableOffline": "Tersedia secara offline",
+        "unable": "Unable to add area",
+        "connectionRequired": "You need an internet connection"
     },
     "report": {
         "title": "Lapor",
         "plural": "Laporan",
-        "selected": "Report selected",
-        "area": "Report area",
+        "selected": "Laporan dipilih",
+        "area": "Laporkan area",
         "takePicture": "Ambil gambar",
         "choosePicture": "Please take or choose a picture",
         "datePlaceholder": "Pilih tanggal",
@@ -151,24 +159,24 @@
         "inputRadio": "Pilih satu opsi untuk melanjutkan",
         "inputSelect": "Pilih setidaknya satu opsi untuk melanjutkan",
         "input": "Silakan jawab pertanyaannya",
-        "empty": "No report submitted, please go to the map and report one alert!",
+        "empty": "Tak ada laporan terkirim, harap pergi ke peta dan laporkan satu sinyal!",
         "completed": "Lengkap",
         "uploadAll": "Unggah semua",
         "drafts": "Draf",
         "uploaded": "Terunggah",
         "unable": "Tidak dapat mengirim laporan",
         "connectionRequired": "Anda membutuhkan koneksi internet",
-        "addPicture": "Add Picture",
-        "emptyPicture": "Empty"
+        "addPicture": "Tambah Gambar",
+        "emptyPicture": "Kosong"
     },
     "feedback": {
         "title": "Umpan balik"
     },
     "map": {
-        "alerts": "Alerts",
-        "reported": "Reported",
-        "settings": "Map Settings",
-        "ctxLayers": "Contextual layers"
+        "alerts": "Sinyal",
+        "reported": "Dilaporkan",
+        "settings": "Pengaturan Peta",
+        "ctxLayers": "Lapisan kontekstual"
     },
     "sync": {
         "error": "Sync error",
