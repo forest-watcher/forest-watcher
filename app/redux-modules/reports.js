@@ -242,8 +242,8 @@ export function uploadReport({ reportName, fields }) {
     form.append('username', userName);
     form.append('organization', organization);
     form.append('date', report && report.date);
-    form.append('clickedPosition', report && report.clickedPosition.toString());
-    form.append('userPosition', report && report.userPosition.toString());
+    form.append('clickedPosition', report && report.clickedPosition);
+    form.append('userPosition', report && report.userPosition);
 
     Object.keys(reportValues).forEach((key) => {
       if (fields.includes(key)) {
