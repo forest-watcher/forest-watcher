@@ -770,7 +770,7 @@ class Map extends Component {
           />
         </View>
         <View pointerEvents="box-none" style={styles.footer}>
-          <View style={[styles.footerRow, { justifyContent: hasAlertsSelected ? 'space-between' : 'flex-end' }]}>
+          <View style={styles.footerRow}>
             {hasAlertsSelected &&
               <AlertPosition
                 alertSelected={selectedAlerts[lastAlertIndex]}
