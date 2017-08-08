@@ -167,6 +167,7 @@ class Map extends Component {
       nextState.renderMap !== this.state.renderMap,
       !isEqual(nextState.lastPosition, this.state.lastPosition),
       nextState.hasCompass !== this.state.hasCompass,
+      nextState.heading !== this.state.heading,
       !isEqual(nextState.region, this.state.region),
       !isEqual(nextState.markers, this.state.markers),
       !isEqual(nextState.selectedAlerts, this.state.selectedAlerts),
@@ -298,11 +299,10 @@ class Map extends Component {
   }
 
   getMapKey = () => {
-    const { markers, heading } = this.state;
+    const { markers } = this.state;
     const { contextualLayer } = this.props;
-    const compass = heading ? heading.toString() : '';
     const layer = contextualLayer ? contextualLayer.name : '';
-    return `map-key-${markers.length}-${compass}-${layer}`;
+    return `map-key-${markers.length}-${layer}`;
   }
 
   updateMarkers(clean = false) {
