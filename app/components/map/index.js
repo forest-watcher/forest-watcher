@@ -428,9 +428,9 @@ class Map extends Component {
       Location.startUpdatingHeading();
       this.eventOrientation = DeviceEventEmitter.addListener(
         'headingUpdated',
-        (data) => {
+        throttle((data) => {
           this.setState(updateHeading(data.heading));
-        }
+        }, 450)
       );
     } else {
       SensorManager.startOrientation(300);
@@ -438,7 +438,7 @@ class Map extends Component {
         'Orientation',
         throttle((data) => {
           this.setState(updateHeading(data.azimuth));
-        }, 16)
+        }, 450)
       );
     }
   }
