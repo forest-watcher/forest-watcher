@@ -297,6 +297,14 @@ class Map extends Component {
     });
   }
 
+  getMapKey = () => {
+    const { markers, heading } = this.state;
+    const { contextualLayer } = this.props;
+    const compass = heading ? heading.toString() : '';
+    const layer = contextualLayer ? contextualLayer.name : '';
+    return `map-key-${markers.length}-${compass}-${layer}`;
+  }
+
   updateMarkers(clean = false) {
     const { region } = this.state;
     const clusters = this.props.clusters && this.props.clusters.getClusters([
@@ -608,7 +616,7 @@ class Map extends Component {
     let veilHeight = 120;
     if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
     const isIOS = Platform.OS === 'ios';
-    const mapKey = isIOS ? markers.length : 'mapView';
+    const mapKey = isIOS ? this.getMapKey() : 'mapView';
     // Map elements
     const basemapLayerElement = isConnected // eslint-disable-line
       ? (
