@@ -36,10 +36,5 @@ export default StyleSheet.create({
     fontSize: 17,
     fontWeight: '400',
     marginLeft: 16
-  },
-  downloadedIcon: {
-    position: 'absolute',
-    bottom: 12,
-    left: 148
   }
 });
