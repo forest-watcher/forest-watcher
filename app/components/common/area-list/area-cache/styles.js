@@ -2,19 +2,37 @@ import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  title: {
+  cacheBtnContainer: {
+    position: 'absolute',
+    left: 8,
+    bottom: 8,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center'
+  },
+  cacheTooltip: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Theme.background.main,
+    paddingHorizontal: 18,
+    height: 48
+  },
+  cacheTooltipText: {
     fontFamily: Theme.font,
     color: Theme.fontColors.light,
     fontSize: 17,
-    fontStyle: 'italic'
+    fontWeight: '400'
   },
-  row: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center'
+  cacheBtn: {
+    width: 64,
+    height: 64,
+    backgroundColor: Theme.background.secondary,
+    borderRadius: 32,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  rowContent: {
-    alignItems: 'flex-start',
-    flexDirection: 'column'
+  progressBarContainer: {
+    position: 'absolute',
+    bottom: 0
   }
 });

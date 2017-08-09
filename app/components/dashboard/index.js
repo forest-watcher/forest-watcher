@@ -4,7 +4,8 @@ import {
   View,
   ScrollView,
   Platform,
-  Text
+  Text,
+  TouchableWithoutFeedback
 } from 'react-native';
 
 import AreaList from 'containers/common/area-list';
@@ -50,6 +51,9 @@ class Dashboard extends PureComponent {
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    this.state = {
+      pristine: true
+    };
     this.reportsAction = {
       callback: this.onPressReports,
       icon: nextIcon
@@ -102,25 +106,34 @@ class Dashboard extends PureComponent {
     }
   }
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.backgroundHack} />
+  setPristine = () => {
+    if (this.state.pristine) {
+      this.setState({ pristine: false });
+    }
+  }
 
-        <ScrollView
-          style={styles.list}
-          contentContainerStyle={styles.listContent}
-          scrollEnabled
-        >
-          <Text style={styles.label}>
-            {I18n.t('settings.yourAreas')}
-          </Text>
-          <AreaList onAreaPress={this.onAreaPress} showCache />
-          <Row style={styles.row} action={this.reportsAction}>
-            <Text>{I18n.t('dashboard.myReports')}</Text>
-          </Row>
-        </ScrollView>
-      </View>
+  render() {
+    const { pristine } = this.state;
+    return (
+      <TouchableWithoutFeedback onPressIn={this.setPristine}>
+        <View style={styles.container} pointerEvents={pristine ? 'box-only' : 'auto'}>
+          <View style={styles.backgroundHack} />
+          <ScrollView
+            onScroll={this.setPristine}
+            style={styles.list}
+            contentContainerStyle={styles.listContent}
+            scrollEnabled
+          >
+            <Text style={styles.label}>
+              {I18n.t('settings.yourAreas')}
+            </Text>
+            <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
+            <Row style={styles.row} action={this.reportsAction}>
+              <Text>{I18n.t('dashboard.myReports')}</Text>
+            </Row>
+          </ScrollView>
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

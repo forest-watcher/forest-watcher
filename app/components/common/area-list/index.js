@@ -14,7 +14,7 @@ import styles from './styles';
 const nextIcon = require('assets/next.png');
 
 function AreaList(props) {
-  const { areas, onAreaPress, showCache } = props;
+  const { areas, onAreaPress, showCache, pristine } = props;
   if (!areas) return null;
 
   return (
@@ -46,7 +46,7 @@ function AreaList(props) {
             </View>
           </TouchableHighlight>
           {showCache &&
-            <AreaCache areaId={area.id} />
+            <AreaCache areaId={area.id} showTooltip={index === 0 && pristine} />
           }
         </View>
       ))}
@@ -63,7 +63,8 @@ AreaList.propTypes = {
     })
   ),
   onAreaPress: PropTypes.func,
-  showCache: PropTypes.bool
+  showCache: PropTypes.bool,
+  pristine: PropTypes.bool
 };
 
 export default AreaList;
