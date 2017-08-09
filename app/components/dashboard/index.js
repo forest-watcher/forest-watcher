@@ -7,7 +7,7 @@ import {
   Text
 } from 'react-native';
 
-import AreaList from 'containers/dashboard/area-list';
+import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
@@ -115,7 +115,7 @@ class Dashboard extends PureComponent {
           <Text style={styles.label}>
             {I18n.t('settings.yourAreas')}
           </Text>
-          <AreaList onAreaPress={this.onAreaPress} />
+          <AreaList onAreaPress={this.onAreaPress} showCache />
           <Row style={styles.row} action={this.reportsAction}>
             <Text>{I18n.t('dashboard.myReports')}</Text>
           </Row>
