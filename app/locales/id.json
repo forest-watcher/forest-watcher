@@ -141,7 +141,9 @@
         "3MonthsAgo": "3 bulan yang lalu",
         "6MonthsAgo": "6 bulan yang lalu",
         "1yearAgo": "1 tahun yang lalu",
-        "availableOffline": "Tersedia secara offline"
+        "availableOffline": "Tersedia secara offline",
+        "unable": "Unable to add area",
+        "connectionRequired": "You need an internet connection"
     },
     "report": {
         "title": "Lapor",

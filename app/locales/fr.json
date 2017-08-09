@@ -141,7 +141,9 @@
         "3MonthsAgo": "Les 3 derniers mois",
         "6MonthsAgo": "Les 6 derniers mois",
         "1yearAgo": "L'année dernière",
-        "availableOffline": "Disponible hors-ligne"
+        "availableOffline": "Disponible hors-ligne",
+        "unable": "Unable to add area",
+        "connectionRequired": "You need an internet connection"
     },
     "report": {
         "title": "Rapport",

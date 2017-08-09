@@ -7,7 +7,8 @@ import {
   Text,
   TouchableHighlight,
   ScrollView,
-  Image
+  Image,
+  Alert
 } from 'react-native';
 
 import Theme from 'config/theme';
@@ -26,10 +27,14 @@ class Settings extends Component {
     navBarBackgroundColor: Theme.background.main
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  static propTypes = {
+    user: PropTypes.any,
+    loggedIn: PropTypes.bool, // eslint-disable-line
+    areas: PropTypes.any,
+    navigator: PropTypes.object.isRequired,
+    logout: PropTypes.func.isRequired,
+    isConnected: PropTypes.bool.isRequired
+  };
 
   componentDidMount() {
     tracker.trackScreenView('Set Up');
@@ -61,9 +66,18 @@ class Settings extends Component {
   }
 
   onPressAddArea = () => {
-    this.props.navigator.push({
-      screen: 'ForestWatcher.Setup'
-    });
+    const { navigator, isConnected } = this.props;
+    if (isConnected) {
+      navigator.push({
+        screen: 'ForestWatcher.Setup'
+      });
+    } else {
+      Alert.alert(
+        I18n.t('settings.unable'),
+        I18n.t('settings.connectionRequired'),
+        [{ text: 'OK' }]
+      );
+    }
   }
 
   handlePartnersLink = () => {
@@ -157,13 +171,5 @@ class Settings extends Component {
     );
   }
 }
-
-Settings.propTypes = {
-  user: PropTypes.any,
-  loggedIn: PropTypes.bool, // eslint-disable-line
-  areas: PropTypes.any,
-  navigator: PropTypes.object.isRequired,
-  logout: PropTypes.func.isRequired
-};
 
 export default Settings;

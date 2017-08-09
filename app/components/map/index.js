@@ -343,13 +343,14 @@ class Map extends Component {
         lon: alert.longitude
       }));
     }
+    const userLatLng = this.state.lastPosition && `${this.state.lastPosition.latitude},${this.state.lastPosition.longitude}`;
     const screen = 'ForestWatcher.NewReport';
     const title = 'Report';
     const form = `${area.name.toUpperCase()}-${area.dataset.name}-REPORT--${moment().format('YYYY-MM-DDTHH:mm:ss')}`;
     this.props.createReport({
       area,
       name: form,
-      userPosition: this.lastPosition || '0,0',
+      userPosition: userLatLng || '0,0',
       clickedPosition: JSON.stringify(latLng)
     });
     this.props.navigator.push({

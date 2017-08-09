@@ -141,7 +141,9 @@
         "3MonthsAgo": "3 months ago",
         "6MonthsAgo": "6 months ago",
         "1yearAgo": "1 year ago",
-        "availableOffline": "Available offline"
+        "availableOffline": "Available offline",
+        "unable": "Unable to add area",
+        "connectionRequired": "You need an internet connection"
     },
     "report": {
         "title": "Report",
