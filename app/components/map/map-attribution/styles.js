@@ -5,10 +5,12 @@ import {
 
 export default StyleSheet.create({
   attributionContainer: {
+    position: 'absolute',
+    right: 0,
+    bottom: 4,
     paddingRight: Theme.margin.right,
-    flex: 1,
     alignItems: 'flex-end',
-    marginBottom: 4
+    width: Theme.screen.width / 2
   },
   footerZIndex: {
     zIndex: 4

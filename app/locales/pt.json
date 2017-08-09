@@ -1,7 +1,8 @@
 {
     "commonText": {
-        "error": "Error",
-        "unexpectedError": "Something unexpected happened",
+        "retry": "Retry",
+        "error": "Erro",
+        "unexpectedError": "Ocorreu algo inesperado",
         "appName": "Forest Watcher",
         "next": "Próximo",
         "save": "Salve",
@@ -17,7 +18,7 @@
         "loading": "Carregando",
         "notAvailable": "Não disponível",
         "kmAway": "Km de distância",
-        "updated": "Updated",
+        "updated": "Atualizado",
         "name": "Nome",
         "yourPosition": "Sua posição",
         "connectionRequiredTitle": "Sem conexão",
@@ -30,7 +31,7 @@
     "home": {
         "title": {
             "updating": "Atualizando dados ...",
-            "outOfDate": "You are offline",
+            "outOfDate": "Está offline",
             "updated": "Atualização concluída"
         },
         "subtitle": {
@@ -50,7 +51,12 @@
         "uploadData": "Guardar e enviar dados",
         "map": "Mapa",
         "dailyFeedback": "Feedback diário",
-        "weeklyFeedback": "Feedback semanal"
+        "weeklyFeedback": "Feedback semanal",
+        "downloadArea": "Make this area available offline",
+        "downloadingArea": "Downloading area",
+        "unable": "Unable to download area",
+        "connectionRequired": "You need an internet connection",
+        "downloadFailed": "Download failed"
     },
     "login": {
         "title": "Entrar",
@@ -63,7 +69,7 @@
         "brazilTitle": "Brasil",
         "colombiaTitle": "Colômbia",
         "indonesiaTitle": "Indonésia",
-        "failed": "There was an error during login/logout"
+        "failed": "Ocorreu um erro a entrar/sair"
     },
     "countries": {
         "searchPlaceholder": "Procurar um país"
@@ -140,8 +146,8 @@
     "report": {
         "title": "Relatório",
         "plural": "Relatórios",
-        "selected": "Report selected",
-        "area": "Report area",
+        "selected": "Relatar selecionado",
+        "area": "Relatar área",
         "takePicture": "Tire uma fotografia",
         "choosePicture": "Please take or choose a picture",
         "datePlaceholder": "Escolha uma data",
@@ -151,24 +157,24 @@
         "inputRadio": "Escolha uma opção para continuar",
         "inputSelect": "Escolha pelo menos uma opção para continuar",
         "input": "Por favor, responda à questão",
-        "empty": "No report submitted, please go to the map and report one alert!",
+        "empty": "Nenhum relatório submetido, por favor vá ao mapa e relate um alerta!",
         "completed": "Terminado",
         "uploadAll": "Carregar todos",
         "drafts": "Rascunhos",
         "uploaded": "Carregado",
         "unable": "Não é possível enviar relatório",
         "connectionRequired": "Você precisa de uma conexão com a internet",
-        "addPicture": "Add Picture",
-        "emptyPicture": "Empty"
+        "addPicture": "Adicionar Imagem",
+        "emptyPicture": "Vazio"
     },
     "feedback": {
         "title": "Feedback"
     },
     "map": {
-        "alerts": "Alerts",
-        "reported": "Reported",
-        "settings": "Map Settings",
-        "ctxLayers": "Contextual layers"
+        "alerts": "Alertas",
+        "reported": "Relatados",
+        "settings": "Definições do Mapa",
+        "ctxLayers": "Camadas contextuais"
     },
     "sync": {
         "error": "Sync error",

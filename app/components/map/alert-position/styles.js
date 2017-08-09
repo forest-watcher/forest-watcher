@@ -14,7 +14,7 @@ export default StyleSheet.create({
   },
   currentPositionContainer: {
     paddingLeft: Theme.margin.left,
-    width: 2 * (Theme.screen.width / 3),
+    width: Theme.screen.width,
     flex: 1,
     justifyContent: 'flex-end'
   },

@@ -57,7 +57,6 @@
         "unable": "Unable to download area",
         "connectionRequired": "You need an internet connection",
         "downloadFailed": "Download failed"
-
     },
     "login": {
         "title": "Login",

@@ -167,6 +167,7 @@ class Map extends Component {
       nextState.renderMap !== this.state.renderMap,
       !isEqual(nextState.lastPosition, this.state.lastPosition),
       nextState.hasCompass !== this.state.hasCompass,
+      nextState.heading !== this.state.heading,
       !isEqual(nextState.region, this.state.region),
       !isEqual(nextState.markers, this.state.markers),
       !isEqual(nextState.selectedAlerts, this.state.selectedAlerts),
@@ -297,6 +298,13 @@ class Map extends Component {
     });
   }
 
+  getMapKey = () => {
+    const { markers } = this.state;
+    const { contextualLayer } = this.props;
+    const layer = contextualLayer ? contextualLayer.name : '';
+    return `map-key-${markers.length}-${layer}`;
+  }
+
   updateMarkers(clean = false) {
     const { region } = this.state;
     const clusters = this.props.clusters && this.props.clusters.getClusters([
@@ -420,9 +428,9 @@ class Map extends Component {
       Location.startUpdatingHeading();
       this.eventOrientation = DeviceEventEmitter.addListener(
         'headingUpdated',
-        (data) => {
+        throttle((data) => {
           this.setState(updateHeading(data.heading));
-        }
+        }, 450)
       );
     } else {
       SensorManager.startOrientation(300);
@@ -430,7 +438,7 @@ class Map extends Component {
         'Orientation',
         throttle((data) => {
           this.setState(updateHeading(data.azimuth));
-        }, 16)
+        }, 450)
       );
     }
   }
@@ -608,7 +616,7 @@ class Map extends Component {
     let veilHeight = 120;
     if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
     const isIOS = Platform.OS === 'ios';
-    const mapKey = isIOS ? markers.length : 'mapView';
+    const mapKey = isIOS ? this.getMapKey() : 'mapView';
     // Map elements
     const basemapLayerElement = isConnected // eslint-disable-line
       ? (
@@ -770,7 +778,7 @@ class Map extends Component {
           />
         </View>
         <View pointerEvents="box-none" style={styles.footer}>
-          <View style={[styles.footerRow, { justifyContent: hasAlertsSelected ? 'space-between' : 'flex-end' }]}>
+          <View style={styles.footerRow}>
             {hasAlertsSelected &&
               <AlertPosition
                 alertSelected={selectedAlerts[lastAlertIndex]}
