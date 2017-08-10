@@ -14,7 +14,12 @@ export default StyleSheet.create({
     position: 'relative',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 1
   },
   cacheTooltip: {
     alignItems: 'center',
@@ -25,9 +30,9 @@ export default StyleSheet.create({
   },
   cacheTooltipArrow: {
     position: 'absolute',
-    left: -8,
-    height: 16,
-    width: 16,
+    left: -5,
+    height: 10,
+    width: 10,
     backgroundColor: Theme.background.main,
     transform: [{ rotate: '45deg' }]
   },

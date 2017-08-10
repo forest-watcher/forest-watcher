@@ -130,10 +130,10 @@ class Dashboard extends PureComponent {
               {I18n.t('settings.yourAreas')}
             </Text>
             <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
-            <Row style={styles.row} action={this.reportsAction}>
-              <Text>{I18n.t('dashboard.myReports')}</Text>
-            </Row>
           </ScrollView>
+          <Row style={styles.row} action={this.reportsAction}>
+            <Text>{I18n.t('dashboard.myReports')}</Text>
+          </Row>
         </View>
       </TouchableWithoutFeedback>
     );
