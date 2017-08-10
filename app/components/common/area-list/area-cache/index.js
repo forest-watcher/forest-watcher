@@ -35,7 +35,7 @@ class AreaCache extends PureComponent {
   };
 
   state = {
-    indeterminate: true,
+    indeterminate: !this.props.cacheStatus.requested,
     canRefresh: this.props.cacheStatus.completed
   };
 
