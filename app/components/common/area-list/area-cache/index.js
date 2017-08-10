@@ -133,8 +133,11 @@ class AreaCache extends PureComponent {
           <Image style={Theme.icon} source={cacheButtonIcon} />
         </TouchableHighlight>
         {showTooltip &&
-          <View style={styles.cacheTooltip}>
-            <Text>Make available offline</Text>
+          <View style={styles.cacheTooltipContainer}>
+            <View style={styles.cacheTooltipArrow} />
+            <View style={styles.cacheTooltip}>
+              <Text>Make available offline</Text>
+            </View>
           </View>
         }
       </View>

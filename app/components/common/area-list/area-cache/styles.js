@@ -10,12 +10,26 @@ export default StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center'
   },
+  cacheTooltipContainer: {
+    position: 'relative',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start'
+  },
   cacheTooltip: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: Theme.background.main,
     paddingHorizontal: 18,
     height: 48
+  },
+  cacheTooltipArrow: {
+    position: 'absolute',
+    left: -8,
+    height: 16,
+    width: 16,
+    backgroundColor: Theme.background.main,
+    transform: [{ rotate: '45deg' }]
   },
   cacheTooltipText: {
     fontFamily: Theme.font,
