@@ -55,7 +55,7 @@ class AreaCache extends PureComponent {
       );
     }
 
-    if (!prevProps.cacheStatus.complete && this.props.cacheStatus) {
+    if (!prevProps.cacheStatus.complete && this.props.cacheStatus.complete) {
       Timer.setTimeout(this, 'canRefresh', this.setCanRefresh, 2000);
     }
   }
@@ -75,6 +75,7 @@ class AreaCache extends PureComponent {
   }
 
   onRefresh = () => {
+    this.setState({ canRefresh: false });
     return null;
   }
 

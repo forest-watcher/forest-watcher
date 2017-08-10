@@ -106,7 +106,7 @@ class Dashboard extends PureComponent {
     }
   }
 
-  setPristine = () => {
+  disablePristine = () => {
     if (this.state.pristine) {
       this.setState({ pristine: false });
     }
@@ -114,12 +114,14 @@ class Dashboard extends PureComponent {
 
   render() {
     const { pristine } = this.state;
+    // we remove the event handler to improve performance
+    const disablePristine = pristine ? this.disablePristine : undefined;
     return (
-      <TouchableWithoutFeedback onPressIn={this.setPristine}>
+      <TouchableWithoutFeedback onPressIn={disablePristine}>
         <View style={styles.container} pointerEvents={pristine ? 'box-only' : 'auto'}>
           <View style={styles.backgroundHack} />
           <ScrollView
-            onScroll={this.setPristine}
+            onScroll={disablePristine}
             style={styles.list}
             contentContainerStyle={styles.listContent}
             scrollEnabled
