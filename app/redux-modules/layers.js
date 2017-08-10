@@ -50,7 +50,21 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case START_APP: {
-      return { ...state, synced: false, syncing: false };
+      let cacheStatus = { ...state.cacheStatus };
+      Object.keys(cacheStatus).forEach((areaId) => {
+        const progress = cacheStatus[areaId].progress;
+        if (progress < 1 && !cacheStatus[areaId].completed && cacheStatus[areaId].requested) {
+          cacheStatus = {
+            [areaId]: {
+              progress,
+              requested: false,
+              completed: false,
+              error: false
+            }
+          };
+        }
+      });
+      return { ...state, synced: false, syncing: false, cacheStatus, pendingCache: {} };
     }
     case GET_LAYERS_REQUEST:
       return { ...state, synced: false, syncing: true };
