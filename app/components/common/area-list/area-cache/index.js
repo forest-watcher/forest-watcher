@@ -31,7 +31,8 @@ class AreaCache extends PureComponent {
     }).isRequired,
     isConnected: PropTypes.bool.isRequired,
     resetCacheStatus: PropTypes.func.isRequired,
-    showTooltip: PropTypes.bool.isRequired
+    showTooltip: PropTypes.bool.isRequired,
+    refreshAreaCacheById: PropTypes.func.isRequired
   };
 
   state = {
@@ -71,12 +72,14 @@ class AreaCache extends PureComponent {
 
   onRetry = () => {
     this.resetCacheStatus();
-    this.onDownload();
+    const action = this.getCacheAreaAction();
+    action();
   }
 
   onRefresh = () => {
     this.setState({ canRefresh: false });
-    return null;
+    const { areaId, refreshAreaCacheById } = this.props;
+    refreshAreaCacheById(areaId);
   }
 
   onOfflinePress = () => {

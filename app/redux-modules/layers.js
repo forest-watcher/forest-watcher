@@ -19,6 +19,7 @@ const CACHE_LAYER_REQUEST = 'layers/CACHE_LAYER_REQUEST';
 const CACHE_LAYER_COMMIT = 'layers/CACHE_LAYER_COMMIT';
 export const CACHE_LAYER_ROLLBACK = 'layer/CACHE_LAYER_ROLLBACK';
 const SET_CACHE_STATUS = 'layer/SET_CACHE_STATUS';
+export const INVALIDATE_CACHE = 'layer/INVALIDATE_CACHE';
 
 // Reducer
 const initialState = {
@@ -121,6 +122,17 @@ export default function reducer(state = initialState, action) {
         };
       }
       return { ...state, pendingCache, cacheStatus };
+    }
+    case INVALIDATE_CACHE: {
+      const areaId = action.payload;
+      let cache = { ...state.cache };
+      Object.keys(cache).forEach((layerId) => {
+        cache = {
+          ...cache,
+          [layerId]: omit(cache[layerId], [areaId])
+        };
+      });
+      return { ...state, cache };
     }
     case SET_ACTIVE_LAYER:
       return { ...state, activeLayer: action.payload };
@@ -323,6 +335,13 @@ export function downloadAreaById(areaId) {
       payload: area
     });
     dispatch(cacheLayers());
+  };
+}
+
+export function refreshAreaCacheById(areaId) {
+  return (dispatch) => {
+    dispatch({ type: INVALIDATE_CACHE, payload: areaId });
+    dispatch(downloadAreaById(areaId));
   };
 }
 
