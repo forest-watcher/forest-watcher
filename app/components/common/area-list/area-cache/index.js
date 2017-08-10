@@ -27,7 +27,7 @@ class AreaCache extends PureComponent {
       requested: PropTypes.bool.isRequired,
       progress: PropTypes.number.isRequired,
       error: PropTypes.bool.isRequired,
-      complete: PropTypes.bool.isRequired
+      completed: PropTypes.bool.isRequired
     }).isRequired,
     isConnected: PropTypes.bool.isRequired,
     resetCacheStatus: PropTypes.func.isRequired,
@@ -36,7 +36,7 @@ class AreaCache extends PureComponent {
 
   state = {
     indeterminate: true,
-    canRefresh: this.props.cacheStatus.complete
+    canRefresh: this.props.cacheStatus.completed
   };
 
   componentDidUpdate(prevProps) {
@@ -55,7 +55,7 @@ class AreaCache extends PureComponent {
       );
     }
 
-    if (!prevProps.cacheStatus.complete && this.props.cacheStatus.complete) {
+    if (!prevProps.cacheStatus.completed && this.props.cacheStatus.completed) {
       Timer.setTimeout(this, 'canRefresh', this.setCanRefresh, 2000);
     }
   }
@@ -95,15 +95,15 @@ class AreaCache extends PureComponent {
     const { isConnected, cacheStatus } = this.props;
     const { canRefresh } = this.state;
     if (!isConnected) return this.onOfflinePress;
-    if (!cacheStatus.complete) return this.onDownload;
-    if (canRefresh && cacheStatus.complete) return this.onRefresh;
+    if (!cacheStatus.completed) return this.onDownload;
+    if (canRefresh && cacheStatus.completed) return this.onRefresh;
     return null;
   }
 
   getCacheAreaIcon = () => {
     const { cacheStatus } = this.props;
     const { canRefresh } = this.state;
-    if (!cacheStatus.complete) return downloadIcon;
+    if (!cacheStatus.completed) return downloadIcon;
     if (!canRefresh) return downloadedIcon;
     return refreshIcon;
   }
@@ -156,7 +156,7 @@ class AreaCache extends PureComponent {
         />
       </View>
     );
-    if (cacheStatus.requested && !cacheStatus.complete) return progressBar;
+    if (cacheStatus.requested && !cacheStatus.completed) return progressBar;
     return cacheButton;
   }
 }

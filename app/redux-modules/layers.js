@@ -355,7 +355,7 @@ function getCacheStatus(cache = {}, cacheStatus = {}, areas = [], layers = []) {
       [area.id]: {
         requested: (newCacheStatus[area.id] && newCacheStatus[area.id].requested) || false,
         progress,
-        complete: progress === 1,
+        completed: progress === 1,
         error: false
       }
     };
@@ -370,7 +370,7 @@ export function resetCacheStatus(areaId) {
       ...cacheStatus,
       [areaId]: {
         requested: false,
-        complete: false,
+        completed: false,
         progress: 0,
         error: false
       }
