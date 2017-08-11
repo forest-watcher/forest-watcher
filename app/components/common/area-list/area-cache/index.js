@@ -73,8 +73,9 @@ class AreaCache extends PureComponent {
   }
 
   onRefresh = () => {
-    this.setState({ canRefresh: false });
     const { areaId, refreshAreaCacheById } = this.props;
+    this.setState({ canRefresh: false });
+    this.resetCacheStatus();
     refreshAreaCacheById(areaId);
   }
 
