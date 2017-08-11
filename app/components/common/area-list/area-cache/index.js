@@ -13,7 +13,6 @@ import ProgressBar from 'react-native-progress/Bar';
 import Theme from 'config/theme';
 import styles from './styles';
 
-const Timer = require('react-native-timer');
 const downloadIcon = require('assets/download.png');
 const refreshIcon = require('assets/refresh.png');
 const downloadedIcon = require('assets/downloaded.png');
@@ -36,13 +35,17 @@ class AreaCache extends PureComponent {
   };
 
   state = {
-    indeterminate: !this.props.cacheStatus.requested,
+    indeterminate: this.props.cacheStatus.progress === 0,
     canRefresh: this.props.cacheStatus.completed
   };
 
   componentDidUpdate(prevProps) {
-    if (prevProps.cacheStatus.requested !== this.props.cacheStatus.requested) {
-      Timer.setTimeout(this, 'setIndeterminate', this.removeIndeterminate, 1000);
+    if (prevProps.cacheStatus.progress > 0 && this.props.cacheStatus.progress === 0) {
+      this.setIndeterminate(true);
+    }
+
+    if (prevProps.cacheStatus.progress === 0 && this.props.cacheStatus.progress > 0) {
+      this.setIndeterminate(false);
     }
 
     if (prevProps.cacheStatus.error !== this.props.cacheStatus.error && this.props.cacheStatus.error) {
@@ -55,10 +58,6 @@ class AreaCache extends PureComponent {
         ]
       );
     }
-  }
-
-  componentWillUnmount() {
-    Timer.clearTimeout(this, 'setIndeterminate');
   }
 
   onDownload = () => {
@@ -104,13 +103,13 @@ class AreaCache extends PureComponent {
     return refreshIcon;
   }
 
+  setIndeterminate = (indeterminate) => {
+    this.setState(() => ({ indeterminate }));
+  }
+
   resetCacheStatus = () => {
     const { areaId, resetCacheStatus } = this.props;
     resetCacheStatus(areaId);
-  }
-
-  removeIndeterminate = () => {
-    this.setState(() => ({ indeterminate: false }));
   }
 
   render() {
