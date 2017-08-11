@@ -1,5 +1,11 @@
 # Forest Watcher Changelog
 
+## [v1.0.0rc4] - 2017-08-11
+- User position saved properly.
+- Prevents adding areas if no internet connection.
+- Fix iOS map updates.
+- Dashboard re-style with recache posibility.
+
 ## [v1.0.0rc3] - 2017-08-04
 - Cache areas on demand
 - Fix offline rollback actions
