@@ -19,14 +19,16 @@ export default StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    elevation: 1
+    elevation: 1,
+    backgroundColor: 'transparent'
   },
   cacheTooltip: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: Theme.background.main,
     paddingHorizontal: 18,
-    height: 48
+    height: 48,
+    marginLeft: 6
   },
   cacheTooltipArrow: {
     position: 'absolute',
@@ -34,7 +36,8 @@ export default StyleSheet.create({
     height: 10,
     width: 10,
     backgroundColor: Theme.background.main,
-    transform: [{ rotate: '45deg' }]
+    transform: [{ rotate: '45deg' }],
+    marginLeft: 6
   },
   cacheTooltipText: {
     fontFamily: Theme.font,
