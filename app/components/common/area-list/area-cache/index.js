@@ -1,19 +1,22 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Text,
+  TouchableHighlight,
   View,
-  Alert
+  Alert,
+  Image,
+  Text
 } from 'react-native';
 
 import I18n from 'locales';
 import ProgressBar from 'react-native-progress/Bar';
-import Row from 'components/common/row';
 import Theme from 'config/theme';
 import styles from './styles';
 
 const Timer = require('react-native-timer');
 const downloadIcon = require('assets/download.png');
+const refreshIcon = require('assets/refresh.png');
+const downloadedIcon = require('assets/downloaded.png');
 
 class AreaCache extends PureComponent {
 
@@ -23,20 +26,25 @@ class AreaCache extends PureComponent {
     cacheStatus: PropTypes.shape({
       requested: PropTypes.bool.isRequired,
       progress: PropTypes.number.isRequired,
-      error: PropTypes.bool.isRequired
+      error: PropTypes.bool.isRequired,
+      completed: PropTypes.bool.isRequired
     }).isRequired,
     isConnected: PropTypes.bool.isRequired,
-    resetCacheStatus: PropTypes.func.isRequired
+    resetCacheStatus: PropTypes.func.isRequired,
+    showTooltip: PropTypes.bool.isRequired,
+    refreshAreaCacheById: PropTypes.func.isRequired
   };
 
   state = {
-    indeterminate: true
+    indeterminate: !this.props.cacheStatus.requested,
+    canRefresh: this.props.cacheStatus.completed
   };
 
   componentDidUpdate(prevProps) {
     if (prevProps.cacheStatus.requested !== this.props.cacheStatus.requested) {
       Timer.setTimeout(this, 'setIndeterminate', this.removeIndeterminate, 1000);
     }
+
     if (prevProps.cacheStatus.error !== this.props.cacheStatus.error && this.props.cacheStatus.error) {
       Alert.alert(
         I18n.t('commonText.error'),
@@ -60,7 +68,15 @@ class AreaCache extends PureComponent {
 
   onRetry = () => {
     this.resetCacheStatus();
-    this.onDownload();
+    const action = this.getCacheAreaAction();
+    if (action) action();
+  }
+
+  onRefresh = () => {
+    const { areaId, refreshAreaCacheById } = this.props;
+    this.setState({ canRefresh: false });
+    this.resetCacheStatus();
+    refreshAreaCacheById(areaId);
   }
 
   onOfflinePress = () => {
@@ -69,6 +85,23 @@ class AreaCache extends PureComponent {
       I18n.t('dashboard.connectionRequired'),
       [{ text: 'OK' }]
     );
+  }
+
+  getCacheAreaAction = () => {
+    const { isConnected, cacheStatus } = this.props;
+    const { canRefresh } = this.state;
+    if (!isConnected) return this.onOfflinePress;
+    if (!cacheStatus.completed) return this.onDownload;
+    if (canRefresh && cacheStatus.completed) return this.onRefresh;
+    return null;
+  }
+
+  getCacheAreaIcon = () => {
+    const { cacheStatus } = this.props;
+    const { canRefresh } = this.state;
+    if (!cacheStatus.completed) return downloadIcon;
+    if (!canRefresh) return downloadedIcon;
+    return refreshIcon;
   }
 
   resetCacheStatus = () => {
@@ -81,31 +114,46 @@ class AreaCache extends PureComponent {
   }
 
   render() {
-    const { cacheStatus, isConnected } = this.props;
+    const { cacheStatus, showTooltip } = this.props;
     const { indeterminate } = this.state;
-    const cacheAreaAction = {
-      icon: downloadIcon,
-      callback: isConnected ? this.onDownload : this.onOfflinePress
-    };
-    const cacheRow = (
-      <Row opacity={1} action={cacheAreaAction}>
-        <Text style={styles.title}>{I18n.t('dashboard.downloadArea')}</Text>
-      </Row>
+    const cacheAreaAction = this.getCacheAreaAction();
+    const cacheButtonIcon = this.getCacheAreaIcon();
+
+    const cacheButton = (
+      <View style={styles.cacheBtnContainer}>
+        <TouchableHighlight
+          style={styles.cacheBtn}
+          activeOpacity={1}
+          underlayColor={Theme.background.secondary}
+          onPress={cacheAreaAction}
+        >
+          <Image style={Theme.icon} source={cacheButtonIcon} />
+        </TouchableHighlight>
+        {showTooltip &&
+          <View style={styles.cacheTooltipContainer}>
+            <View style={styles.cacheTooltipArrow} />
+            <View style={styles.cacheTooltip}>
+              <Text>Make available offline</Text>
+            </View>
+          </View>
+        }
+      </View>
     );
-    const progressRow = (
-      <Row opacity={1}>
-        <View style={styles.rowContent}>
-          <Text style={styles.title}>{I18n.t('dashboard.downloadingArea')}</Text>
-          <ProgressBar
-            indeterminate={indeterminate}
-            progress={cacheStatus.progress}
-            width={(Theme.screen.width - 48)}
-            color={Theme.colors.color1}
-          />
-        </View>
-      </Row>
+    const progressBar = (
+      <View style={styles.progressBarContainer}>
+        <ProgressBar
+          indeterminate={indeterminate}
+          progress={cacheStatus.progress}
+          width={Theme.screen.width}
+          height={4}
+          color={Theme.colors.color1}
+          borderRadius={0}
+          borderColor="transparent"
+        />
+      </View>
     );
-    return (cacheStatus.requested ? progressRow : cacheRow);
+    if (cacheStatus.requested && !cacheStatus.completed) return progressBar;
+    return cacheButton;
   }
 }
 

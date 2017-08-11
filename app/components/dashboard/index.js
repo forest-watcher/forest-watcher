@@ -4,10 +4,11 @@ import {
   View,
   ScrollView,
   Platform,
-  Text
+  Text,
+  TouchableWithoutFeedback
 } from 'react-native';
 
-import AreaList from 'containers/dashboard/area-list';
+import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
@@ -50,6 +51,9 @@ class Dashboard extends PureComponent {
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    this.state = {
+      pristine: true
+    };
     this.reportsAction = {
       callback: this.onPressReports,
       icon: nextIcon
@@ -102,25 +106,38 @@ class Dashboard extends PureComponent {
     }
   }
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.backgroundHack} />
+  disablePristine = () => {
+    if (this.state.pristine) {
+      this.setState({ pristine: false });
+    }
+  }
 
-        <ScrollView
-          style={styles.list}
-          contentContainerStyle={styles.listContent}
-          scrollEnabled
-        >
-          <Text style={styles.label}>
-            {I18n.t('settings.yourAreas')}
-          </Text>
-          <AreaList onAreaPress={this.onAreaPress} />
+  render() {
+    const { pristine } = this.state;
+    // we remove the event handler to improve performance
+    const disablePristine = pristine ? this.disablePristine : undefined;
+    return (
+      <TouchableWithoutFeedback onPressIn={disablePristine}>
+        <View style={styles.container}>
+          <View style={styles.backgroundHack} />
+          <ScrollView
+            onScroll={disablePristine}
+            style={styles.list}
+            contentContainerStyle={styles.listContent}
+            scrollEnabled
+          >
+            <View pointerEvents={pristine ? 'box-only' : 'auto'}>
+              <Text style={styles.label}>
+                {I18n.t('settings.yourAreas')}
+              </Text>
+              <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
+            </View>
+          </ScrollView>
           <Row style={styles.row} action={this.reportsAction}>
             <Text>{I18n.t('dashboard.myReports')}</Text>
           </Row>
-        </ScrollView>
-      </View>
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

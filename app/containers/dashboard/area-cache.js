@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { downloadAreaById, resetCacheStatus } from 'redux-modules/layers';
+import { downloadAreaById, resetCacheStatus, refreshAreaCacheById } from 'redux-modules/layers';
 import AreaCache from 'components/common/area-list/area-cache';
 
 function mapStateToProps(state, { areaId }) {
@@ -13,7 +13,8 @@ function mapStateToProps(state, { areaId }) {
 function mapDispatchToProps(dispatch) {
   return {
     downloadAreaById: areaId => dispatch(downloadAreaById(areaId)),
-    resetCacheStatus: areaId => dispatch(resetCacheStatus(areaId))
+    resetCacheStatus: areaId => dispatch(resetCacheStatus(areaId)),
+    refreshAreaCacheById: areaId => dispatch(refreshAreaCacheById(areaId))
   };
 }
 

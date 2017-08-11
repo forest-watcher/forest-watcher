@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Image,
@@ -7,98 +7,64 @@ import {
   View
 } from 'react-native';
 import Theme from 'config/theme';
-import isEqual from 'lodash/isEqual';
 
 import AreaCache from 'containers/dashboard/area-cache';
 import styles from './styles';
 
-const Timer = require('react-native-timer');
-
 const nextIcon = require('assets/next.png');
-const downloadedIcon = require('assets/downloaded.png');
 
-class AreaList extends PureComponent {
+function AreaList(props) {
+  const { areas, onAreaPress, showCache, pristine } = props;
+  if (!areas) return null;
 
-  static propTypes = {
-    areas: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        image: PropTypes.string,
-        cacheComplete: PropTypes.bool
-      })
-    ),
-    onAreaPress: PropTypes.func,
-    showCache: PropTypes.bool
-  };
-
-  static defaultProps = {
-    showCache: false
-  };
-
-  state = {
-    areasToCache: this.props.areas.map(area => area.cacheComplete)
-  };
-
-  componentWillReceiveProps(nextProps) {
-    const areasToCache = nextProps.areas.map(area => area.cacheComplete);
-    if (!isEqual(areasToCache, this.state.areasToCache)) {
-      this.updateAreasToCache(areasToCache);
-    }
-  }
-
-  componentWillUnmount() {
-    Timer.clearTimeout(this, 'updateAreasToCache');
-  }
-
-  updateAreasToCache(areasToCache) {
-    Timer.setTimeout(this, 'updateAreasToCache', () => this.setState({ areasToCache }), 350);
-  }
-
-  render() {
-    const { areas, onAreaPress, showCache } = this.props;
-    const { areasToCache } = this.state;
-    if (!areas) return null;
-
-    return (
-      <View>
-        {areas.map((area, index) => (
-          <View key={`${area.id}-area-list`} style={styles.container}>
-            <TouchableHighlight
-              activeOpacity={0.5}
-              underlayColor="transparent"
-              onPress={() => onAreaPress(area.id, area.name, index)}
-            >
-              <View style={styles.item}>
-                <View style={styles.imageContainer}>
-                  {area.image
-                    ? <Image style={styles.image} source={{ uri: area.image }} />
-                    : null
-                  }
-                </View>
-                <View style={styles.titleContainer}>
-                  <Text style={styles.title} numberOfLines={2}> {area.name} </Text>
-                </View>
-                {showCache && area.cacheComplete &&
-                  <Image style={styles.downloadedIcon} source={downloadedIcon} />
+  return (
+    <View>
+      {areas.map((area, index) => (
+        <View key={`${area.id}-area-list`} style={styles.container}>
+          <TouchableHighlight
+            activeOpacity={0.5}
+            underlayColor="transparent"
+            onPress={() => onAreaPress(area.id, area.name, index)}
+          >
+            <View style={styles.item}>
+              <View style={styles.imageContainer}>
+                {area.image
+                  ? <Image style={styles.image} source={{ uri: area.image }} />
+                  : null
                 }
-                <TouchableHighlight
-                  activeOpacity={0.5}
-                  underlayColor="transparent"
-                  onPress={() => onAreaPress(area.id, area.name)}
-                >
-                  <Image style={Theme.icon} source={nextIcon} />
-                </TouchableHighlight>
               </View>
-            </TouchableHighlight>
-            {showCache && !areasToCache[index] &&
-              <AreaCache areaId={area.id} />
-            }
-          </View>
-        ))}
-      </View>
-    );
-  }
+              <View style={styles.titleContainer}>
+                <Text style={styles.title} numberOfLines={2}> {area.name} </Text>
+              </View>
+              <TouchableHighlight
+                activeOpacity={0.5}
+                underlayColor="transparent"
+                onPress={() => onAreaPress(area.id, area.name)}
+              >
+                <Image style={Theme.icon} source={nextIcon} />
+              </TouchableHighlight>
+            </View>
+          </TouchableHighlight>
+          {showCache &&
+            <AreaCache areaId={area.id} showTooltip={index === 0 && pristine} />
+          }
+        </View>
+      ))}
+    </View>
+  );
 }
+
+AreaList.propTypes = {
+  areas: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      image: PropTypes.string
+    })
+  ),
+  onAreaPress: PropTypes.func,
+  showCache: PropTypes.bool,
+  pristine: PropTypes.bool
+};
 
 export default AreaList;

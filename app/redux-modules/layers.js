@@ -19,6 +19,8 @@ const CACHE_LAYER_REQUEST = 'layers/CACHE_LAYER_REQUEST';
 const CACHE_LAYER_COMMIT = 'layers/CACHE_LAYER_COMMIT';
 export const CACHE_LAYER_ROLLBACK = 'layer/CACHE_LAYER_ROLLBACK';
 const SET_CACHE_STATUS = 'layer/SET_CACHE_STATUS';
+export const INVALIDATE_CACHE = 'layer/INVALIDATE_CACHE';
+const UPDATE_PROGRESS = 'layer/UPDATE_PROGRESS';
 
 // Reducer
 const initialState = {
@@ -27,7 +29,12 @@ const initialState = {
   syncing: false,
   activeLayer: null,
   syncDate: Date.now(),
-
+  layersProgress: {
+    // saves the progress relative to each area's layer
+    // areaId: {
+    //   layerId: 0.2
+    // }
+  },
   cacheStatus: {
     // status of the current area cache
     // areaId: {
@@ -50,7 +57,23 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case START_APP: {
-      return { ...state, synced: false, syncing: false };
+      let cacheStatus = { ...state.cacheStatus };
+      Object.keys(cacheStatus).forEach((areaId) => {
+        const areaStatus = cacheStatus[areaId];
+        const progress = areaStatus.progress;
+        if (progress < 1 && !areaStatus.completed && areaStatus.requested) {
+          cacheStatus = {
+            ...cacheStatus,
+            [areaId]: {
+              progress,
+              requested: false,
+              completed: false,
+              error: false
+            }
+          };
+        }
+      });
+      return { ...state, synced: false, syncing: false, cacheStatus, pendingCache: {} };
     }
     case GET_LAYERS_REQUEST:
       return { ...state, synced: false, syncing: true };
@@ -59,8 +82,7 @@ export default function reducer(state = initialState, action) {
       const layers = [...action.payload];
       const syncDate = Date.now();
       const cache = { ...state.cache };
-      let cacheStatus = { ...state.cacheStatus };
-      cacheStatus = getCacheStatus(cache, cacheStatus, areas, layers);
+      const cacheStatus = getCacheStatus(cache, state.cacheStatus, areas, layers);
 
       return { ...state, data: layers, cacheStatus, syncDate, synced: true, syncing: false };
     }
@@ -108,6 +130,39 @@ export default function reducer(state = initialState, action) {
       }
       return { ...state, pendingCache, cacheStatus };
     }
+    case UPDATE_PROGRESS: {
+      const { areaId, progress, layerId } = action.payload;
+      const areaLayersProgress = state.layersProgress[areaId];
+      const layersProgress = {
+        ...state.layersProgress,
+        [areaId]: {
+          ...areaLayersProgress,
+          [layerId]: progress
+        }
+      };
+      const layersCount = state.data.length + 1; // plus one cause basemap
+      const areaCacheStatus = state.cacheStatus[areaId];
+      const newProgress = Object.values(layersProgress[areaId]).reduce((acc, next) => (acc + next), 0) / layersCount;
+      const cacheStatus = {
+        ...state.cacheStatus,
+        [areaId]: {
+          ...areaCacheStatus,
+          progress: newProgress
+        }
+      };
+      return { ...state, cacheStatus, layersProgress };
+    }
+    case INVALIDATE_CACHE: {
+      const areaId = action.payload;
+      let cache = { ...state.cache };
+      Object.keys(cache).forEach((layerId) => {
+        cache = {
+          ...cache,
+          [layerId]: omit(cache[layerId], [areaId])
+        };
+      });
+      return { ...state, cache };
+    }
     case SET_ACTIVE_LAYER:
       return { ...state, activeLayer: action.payload };
     case CACHE_LAYER_REQUEST: {
@@ -144,7 +199,7 @@ export default function reducer(state = initialState, action) {
     }
     case CACHE_LAYER_ROLLBACK: {
       const { area, layer } = action.meta;
-      const { areas, data: layers, cacheStatus, cache } = state;
+      const { cache, areas, cacheStatus, data: layers } = state;
       const updatedCacheStatus = getCacheStatus(cache, cacheStatus, areas, layers);
       const areaCacheStatus = { ...updatedCacheStatus[area.id], requested: false, error: true };
       const newCacheStatus = { ...updatedCacheStatus, [area.id]: { ...areaCacheStatus } };
@@ -196,14 +251,18 @@ export function setActiveContextualLayer(layerId, value) {
   };
 }
 
-async function downloadLayer(config) {
+async function downloadLayer(config, dispatch) {
   const { area, layerId, layerUrl, zoom } = config;
   const url = `${Config.API_URL}/download-tiles/${area.geostore}/${zoom.start}/${zoom.end}?layerUrl=${layerUrl}`;
   const res = await RNFetchBlob
     // add this option that makes response data to be stored as a file,
     // this is much more performant.
     .config({ fileCache: true })
-    .fetch('GET', encodeURI(url));
+    .fetch('GET', encodeURI(url))
+    .progress((received, total) => {
+      const progress = (received / total);
+      dispatch({ type: UPDATE_PROGRESS, payload: { areaId: area.id, progress, layerId } });
+    });
   const statusCode = res.info().status;
   if (statusCode >= 200 && statusCode < 400 && res.path()) {
     const downloadPath = res.path();
@@ -216,11 +275,11 @@ async function downloadLayer(config) {
   throw new Error(`Fetch blob error ${statusCode}`);
 }
 
-function downloadAllLayers(config) {
+function downloadAllLayers(config, dispatch) {
   const { cacheZoom } = CONSTANTS.maps;
   return Promise.all(cacheZoom.map((cacheLevel) => {
     const layerConfig = { ...config, zoom: cacheLevel };
-    return downloadLayer(layerConfig);
+    return downloadLayer(layerConfig, dispatch);
   }, this));
 }
 
@@ -250,7 +309,7 @@ export function cacheAreaBasemap(areaId) {
         layerUrl: layer.url
       };
 
-      const promise = downloadAllLayers(downloadConfig);
+      const promise = downloadAllLayers(downloadConfig, dispatch);
       dispatch({
         type: CACHE_LAYER_REQUEST,
         payload: { area, layer },
@@ -276,7 +335,7 @@ export function cacheAreaLayer(areaId, layerId) {
         layerId: layer.id,
         layerUrl: layer.url
       };
-      const promise = downloadAllLayers(downloadConfig);
+      const promise = downloadAllLayers(downloadConfig, dispatch);
       dispatch({
         type: CACHE_LAYER_REQUEST,
         payload: { area, layer },
@@ -309,6 +368,13 @@ export function downloadAreaById(areaId) {
       payload: area
     });
     dispatch(cacheLayers());
+  };
+}
+
+export function refreshAreaCacheById(areaId) {
+  return (dispatch) => {
+    dispatch({ type: INVALIDATE_CACHE, payload: areaId });
+    dispatch(downloadAreaById(areaId));
   };
 }
 
@@ -349,13 +415,17 @@ function getCacheStatus(cache = {}, cacheStatus = {}, areas = [], layers = []) {
         layersCached += 1;
       }
     });
-    const progress = layersCached / layersCount;
+    const layersLeft = layersCount - layersCached;
+    let progress = 1;
+    if (layersLeft > 0) {
+      progress = newCacheStatus[area.id] ? newCacheStatus[area.id].progress : 0;
+    }
     newCacheStatus = {
       ...newCacheStatus,
       [area.id]: {
         requested: (newCacheStatus[area.id] && newCacheStatus[area.id].requested) || false,
         progress,
-        complete: progress === 1,
+        completed: progress === 1,
         error: false
       }
     };
@@ -370,7 +440,7 @@ export function resetCacheStatus(areaId) {
       ...cacheStatus,
       [areaId]: {
         requested: false,
-        complete: false,
+        completed: false,
         progress: 0,
         error: false
       }
