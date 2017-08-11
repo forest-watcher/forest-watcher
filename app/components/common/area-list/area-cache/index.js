@@ -73,7 +73,7 @@ class AreaCache extends PureComponent {
   onRetry = () => {
     this.resetCacheStatus();
     const action = this.getCacheAreaAction();
-    action();
+    if (action) action();
   }
 
   onRefresh = () => {

@@ -53,9 +53,11 @@ export default function reducer(state = initialState, action) {
     case START_APP: {
       let cacheStatus = { ...state.cacheStatus };
       Object.keys(cacheStatus).forEach((areaId) => {
-        const progress = cacheStatus[areaId].progress;
-        if (progress < 1 && !cacheStatus[areaId].completed && cacheStatus[areaId].requested) {
+        const areaStatus = cacheStatus[areaId];
+        const progress = areaStatus.progress;
+        if (progress < 1 && !areaStatus.completed && areaStatus.requested) {
           cacheStatus = {
+            ...cacheStatus,
             [areaId]: {
               progress,
               requested: false,

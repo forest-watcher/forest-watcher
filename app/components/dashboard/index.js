@@ -118,7 +118,7 @@ class Dashboard extends PureComponent {
     const disablePristine = pristine ? this.disablePristine : undefined;
     return (
       <TouchableWithoutFeedback onPressIn={disablePristine}>
-        <View style={styles.container} pointerEvents={pristine ? 'box-only' : 'auto'}>
+        <View style={styles.container}>
           <View style={styles.backgroundHack} />
           <ScrollView
             onScroll={disablePristine}
@@ -126,10 +126,12 @@ class Dashboard extends PureComponent {
             contentContainerStyle={styles.listContent}
             scrollEnabled
           >
-            <Text style={styles.label}>
-              {I18n.t('settings.yourAreas')}
-            </Text>
-            <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
+            <View pointerEvents={pristine ? 'box-only' : 'auto'}>
+              <Text style={styles.label}>
+                {I18n.t('settings.yourAreas')}
+              </Text>
+              <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
+            </View>
           </ScrollView>
           <Row style={styles.row} action={this.reportsAction}>
             <Text>{I18n.t('dashboard.myReports')}</Text>
