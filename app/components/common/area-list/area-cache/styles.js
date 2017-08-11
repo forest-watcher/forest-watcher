@@ -46,8 +46,8 @@ export default StyleSheet.create({
     fontWeight: '400'
   },
   cacheBtn: {
-    width: 64,
-    height: 64,
+    width: 56,
+    height: 56,
     backgroundColor: Theme.background.secondary,
     borderRadius: 32,
     alignItems: 'center',

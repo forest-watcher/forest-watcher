@@ -55,10 +55,6 @@ class AreaCache extends PureComponent {
         ]
       );
     }
-
-    if (!prevProps.cacheStatus.completed && this.props.cacheStatus.completed) {
-      Timer.setTimeout(this, 'canRefresh', this.setCanRefresh, 2000);
-    }
   }
 
   componentWillUnmount() {
@@ -88,10 +84,6 @@ class AreaCache extends PureComponent {
       I18n.t('dashboard.connectionRequired'),
       [{ text: 'OK' }]
     );
-  }
-
-  setCanRefresh = () => {
-    this.setState(() => ({ canRefresh: true }));
   }
 
   getCacheAreaAction = () => {
@@ -130,8 +122,8 @@ class AreaCache extends PureComponent {
       <View style={styles.cacheBtnContainer}>
         <TouchableHighlight
           style={styles.cacheBtn}
-          activeOpacity={0.8}
-          underlayColor={Theme.background.white}
+          activeOpacity={1}
+          underlayColor={Theme.background.secondary}
           onPress={cacheAreaAction}
         >
           <Image style={Theme.icon} source={cacheButtonIcon} />
