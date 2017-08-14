@@ -31,7 +31,8 @@ class AreaCache extends PureComponent {
     isConnected: PropTypes.bool.isRequired,
     resetCacheStatus: PropTypes.func.isRequired,
     showTooltip: PropTypes.bool.isRequired,
-    refreshAreaCacheById: PropTypes.func.isRequired
+    refreshAreaCacheById: PropTypes.func.isRequired,
+    pendingCache: PropTypes.number.isRequired
   };
 
   state = {
@@ -48,7 +49,7 @@ class AreaCache extends PureComponent {
       this.setIndeterminate(false);
     }
 
-    if (prevProps.cacheStatus.error !== this.props.cacheStatus.error && this.props.cacheStatus.error) {
+    if (this.props.cacheStatus.error && prevProps.pendingCache > 0 && this.props.pendingCache === 0) {
       Alert.alert(
         I18n.t('commonText.error'),
         I18n.t('dashboard.downloadFailed'),
