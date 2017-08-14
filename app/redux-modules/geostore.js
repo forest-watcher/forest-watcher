@@ -22,9 +22,10 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case STORE_GEOSTORE: {
-      const data = { ...state.data };
-      if (!data[action.payload.id]) {
-        data[action.payload.id] = action.payload;
+      const geostore = action.payload;
+      let data = { ...state.data };
+      if (!data[geostore.id]) {
+        data = { ...data, [geostore.id]: { id: geostore.id, ...geostore.data } };
       }
       return { ...state, data };
     }
