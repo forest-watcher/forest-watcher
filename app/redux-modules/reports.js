@@ -234,6 +234,7 @@ export function uploadReport({ reportName, fields }) {
     const templateId = report.area.templateId || defaultTemplate.id;
 
     form.append('report', templateId);
+    form.append('reportName', reportName);
     form.append('areaOfInterest', area.id);
     form.append('startDate', dataset.startDate);
     form.append('endDate', dataset.endDate);
