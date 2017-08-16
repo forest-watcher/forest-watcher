@@ -356,8 +356,7 @@ export function cacheAreaLayer(areaId, layerId) {
 export function syncLayers() {
   return (dispatch, state) => {
     const { synced, syncing } = state().layers;
-    const hasAreas = state().areas.data.length;
-    if (!synced && !syncing && hasAreas) dispatch(getUserLayers());
+    if (!synced && !syncing) dispatch(getUserLayers());
   };
 }
 
