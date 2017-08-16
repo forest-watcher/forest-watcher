@@ -35,9 +35,18 @@ class AreaCache extends PureComponent {
     pendingCache: PropTypes.number.isRequired
   };
 
+  static defaultProps = {
+    cacheStatus: {
+      progress: 0,
+      completed: false,
+      requested: false,
+      error: false
+    }
+  };
+
   state = {
-    indeterminate: this.props.cacheStatus ? this.props.cacheStatus.progress === 0 : true,
-    canRefresh: this.props.cacheStatus ? this.props.cacheStatus.completed : false
+    indeterminate: this.props.cacheStatus.progress === 0,
+    canRefresh: this.props.cacheStatus.completed
   };
 
   componentDidUpdate(prevProps) {
