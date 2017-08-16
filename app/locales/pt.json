@@ -167,7 +167,8 @@
         "unable": "Não é possível enviar relatório",
         "connectionRequired": "Você precisa de uma conexão com a internet",
         "addPicture": "Adicionar Imagem",
-        "emptyPicture": "Vazio"
+        "emptyPicture": "Vazio",
+        "pictures": "Pictures"
     },
     "feedback": {
         "title": "Feedback"
