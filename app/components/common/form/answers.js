@@ -108,7 +108,7 @@ class Answers extends Component {
           }
           {images.length > 0 &&
             <View style={styles.picturesContainer}>
-              <Text style={styles.answersText}>Pictures</Text>
+              <Text style={styles.answersText}>{I18n.t('report.pictures')}</Text>
               <ImageCarousel
                 images={images}
                 actions={imageActions}
