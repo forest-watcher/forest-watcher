@@ -20,7 +20,7 @@ function Row(props) {
       onPress={onPress}
       style={props.style}
     >
-      <View style={styles.row}>
+      <View style={[styles.row, props.rowStyle]}>
         <View style={styles.title}>
           {props.children}
         </View>
@@ -42,7 +42,8 @@ Row.propTypes = {
     callback: PropTypes.func.isRequired,
     icon: PropTypes.any
   }),
-  opacity: PropTypes.number
+  opacity: PropTypes.number,
+  rowStyle: PropTypes.any
 };
 
 export default Row;

@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import {
   View,
   Text,
-  Image,
-  ScrollView,
-  TouchableHighlight
+  ScrollView
 } from 'react-native';
 
+import Row from 'components/common/row';
 import moment from 'moment';
 import I18n from 'locales';
 import Theme from 'config/theme';
@@ -27,32 +26,18 @@ function getItems(data, image, onPress) {
       }
     }
     const dateParsed = moment(item.date).fromNow();
-    let icon = null;
-    if (image && onPress) {
-      icon = (
-        <TouchableHighlight
-          onPress={() => typeof onPress === 'function' && onPress(item.title)}
-          underlayColor="transparent"
-          activeOpacity={0.8}
-        >
-          <Image style={Theme.icon} source={image} />
-        </TouchableHighlight>
-      );
-    } else if (image) {
-      icon = <Image style={Theme.icon} source={image} />;
-    }
+    const action = {
+      icon: image,
+      callback: () => onPress(item.title)
+    };
     return (
-      <View
-        key={index}
-        style={styles.listItem}
-      >
-        <View style={styles.listItemContent}>
+      <Row key={index + item.title} rowStyle={{ height: 120 }} action={action}>
+        <View style={styles.listItem}>
           <Text style={styles.itemTitle}>{item.title}</Text>
           <Text style={styles.itemText}>{positionParsed}</Text>
           <Text style={styles.itemText}>{dateParsed}</Text>
         </View>
-        <View style={styles.listBtn}>{icon}</View>
-      </View>
+      </Row>
     );
   });
 }
@@ -84,7 +69,6 @@ class Reports extends Component {
     <View style={styles.listContainer}>
       <View style={styles.listHeader}>
         <Text style={styles.listTitle}>{I18n.t('report.completed')}</Text>
-        <Text style={[styles.listTitle, styles.listAction]}>{I18n.t('report.uploadAll').toUpperCase()}</Text>
       </View>
       {getItems(completed, nextIcon, this.onClickNext)}
     </View>
