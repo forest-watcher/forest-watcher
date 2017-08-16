@@ -207,7 +207,8 @@ export default function reducer(state = initialState, action) {
         ...state.pendingCache,
         [layer.id]: omit(state.pendingCache[layer.id], [area.id])
       };
-      return { ...state, pendingCache, cacheStatus: newCacheStatus };
+      const layersProgress = omit(state.layersProgress, [area.id]);
+      return { ...state, pendingCache, cacheStatus: newCacheStatus, layersProgress };
     }
     case SET_CACHE_STATUS: {
       return { ...state, cacheStatus: action.payload };
@@ -280,7 +281,7 @@ function downloadAllLayers(config, dispatch) {
   return Promise.all(cacheZoom.map((cacheLevel) => {
     const layerConfig = { ...config, zoom: cacheLevel };
     return downloadLayer(layerConfig, dispatch);
-  }, this));
+  }));
 }
 
 
