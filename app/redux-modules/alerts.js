@@ -12,7 +12,7 @@ import CONSTANTS from 'config/constants';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { UPLOAD_REPORT_REQUEST } from 'redux-modules/reports';
 import { GET_AREA_COVERAGE_COMMIT } from 'redux-modules/areas';
-import { RETRY_SYNC } from 'redux-modules/app';
+import { START_APP, RETRY_SYNC } from 'redux-modules/app';
 
 const d3Dsv = require('d3-dsv');
 
@@ -65,6 +65,9 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case START_APP: {
+      return { ...state, syncError: false, pendingData: {} };
+    }
     case RETRY_SYNC: {
       return { ...state, syncError: false };
     }
