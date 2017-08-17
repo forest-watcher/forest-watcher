@@ -1,5 +1,13 @@
 # Forest Watcher Changelog
 
+## [v1.0.0rc5] - 2017-08-17
+- Improve download cache status progress bar
+- Fix breaks in area creation
+- Save area images properly
+- Fix custom reports reponses
+- Fix sync missing templates
+- Fix rollback on report upload
+
 ## [v1.0.0rc4] - 2017-08-11
 - User position saved properly
 - Prevents adding areas if no internet connection
