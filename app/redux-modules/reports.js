@@ -67,13 +67,10 @@ export default function reducer(state = initialState, action) {
     case GET_REPORT_TEMPLATE_COMMIT: {
       const template = action.payload || {};
       template.questions = orderQuestions(template.questions);
-      let templates = { ...state.templates };
-      if (template.status && template.status !== 'unpublished') {
-        templates = {
-          ...templates,
-          [template.id]: template
-        };
-      }
+      const templates = {
+        ...state.templates,
+        [template.id]: template
+      };
       const pendingData = {
         ...state.pendingData,
         templates: omit(state.pendingData.templates, [template.id])
@@ -100,11 +97,9 @@ export default function reducer(state = initialState, action) {
       areas.forEach((area) => {
         if (area.templateId) {
           newTemplatesId.push(area.templateId);
-          if (!templates[area.templateId]) {
-            pendingData = {
-              templates: { ...pendingData.templates, [area.templateId]: false }
-            };
-          }
+          pendingData = {
+            templates: { ...pendingData.templates, [area.templateId]: false }
+          };
         }
       });
       const templatesFilter = Object.keys(templates).filter((template) => (
