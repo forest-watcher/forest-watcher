@@ -27,6 +27,20 @@ class AreaDetail extends Component {
     navBarBackgroundColor: Theme.background.main
   };
 
+  static defaultProps = {
+    disableDelete: false
+  };
+
+  static propTypes = {
+    imageUrl: PropTypes.string,
+    updateArea: PropTypes.func,
+    deleteArea: PropTypes.func,
+    isConnected: PropTypes.bool.isRequired,
+    navigator: PropTypes.object,
+    area: PropTypes.object,
+    disableDelete: PropTypes.bool.isRequired
+  };
+
   constructor(props) {
     super();
     this.state = {
@@ -136,6 +150,9 @@ class AreaDetail extends Component {
           <Text style={styles.title}>{I18n.t('alerts.alertSystems')}</Text>
           <AlertSystem areaId={area.id} />
         </View>
+        <View style={styles.row}>
+          <Text style={styles.title}>{I18n.t('settings.coordinates')}</Text>
+        </View>
         {!disableDelete &&
           <View style={styles.buttonContainer}>
             <ActionButton onPress={this.handleDeleteArea} delete text={I18n.t('areaDetail.delete')} />
@@ -145,19 +162,5 @@ class AreaDetail extends Component {
     );
   }
 }
-
-AreaDetail.defaultProps = {
-  disableDelete: false
-};
-
-AreaDetail.propTypes = {
-  imageUrl: PropTypes.string,
-  updateArea: PropTypes.func,
-  deleteArea: PropTypes.func,
-  isConnected: PropTypes.bool.isRequired,
-  navigator: PropTypes.object,
-  area: PropTypes.object,
-  disableDelete: PropTypes.bool.isRequired
-};
 
 export default AreaDetail;

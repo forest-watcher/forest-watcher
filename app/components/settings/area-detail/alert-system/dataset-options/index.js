@@ -4,7 +4,7 @@ import {
   View
 } from 'react-native';
 
-import DropdownPicker from 'components/settings/area-detail/alert-system/dropdown-picker';
+import DatasetDropdown from 'components/settings/area-detail/alert-system/dataset-dropdown';
 
 import styles from './styles';
 
@@ -20,7 +20,7 @@ class DatasetOptions extends Component {
     return (
       <View style={styles.datasetSection}>
         <View style={[styles.row, styles.nested]}>
-          <DropdownPicker
+          <DatasetDropdown
             updateRange={this.handleUpdateDate}
             startDate={parseInt(startDate, 10)}
             slug={slug}

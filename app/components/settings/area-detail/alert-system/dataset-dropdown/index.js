@@ -47,7 +47,12 @@ const GLAD_OPTIONS = [
   }
 ];
 
-class DropdownPicker extends Component {
+class DatasetDropdown extends Component {
+  static propTypes = {
+    startDate: PropTypes.number.isRequired,
+    updateRange: PropTypes.func.isRequired,
+    slug: PropTypes.string.isRequired
+  };
   getPickerOptions() {
     const options = this.props.slug === constants.datasets.VIIRS ? VIIRS_OPTIONS : GLAD_OPTIONS;
     return options.map(option => (<Picker.Item label={I18n.t(option.label)} value={option.value} key={option.label} />));
@@ -75,10 +80,4 @@ class DropdownPicker extends Component {
   }
 }
 
-DropdownPicker.propTypes = {
-  startDate: PropTypes.number.isRequired,
-  updateRange: PropTypes.func.isRequired,
-  slug: PropTypes.string.isRequired
-};
-
-export default DropdownPicker;
+export default DatasetDropdown;
