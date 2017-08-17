@@ -150,9 +150,6 @@ class AreaDetail extends Component {
           <Text style={styles.title}>{I18n.t('alerts.alertSystems')}</Text>
           <AlertSystem areaId={area.id} />
         </View>
-        <View style={styles.row}>
-          <Text style={styles.title}>{I18n.t('settings.coordinates')}</Text>
-        </View>
         {!disableDelete &&
           <View style={styles.buttonContainer}>
             <ActionButton onPress={this.handleDeleteArea} delete text={I18n.t('areaDetail.delete')} />
