@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { uploadReport } from 'redux-modules/reports';
 import { setCanDisplayAlerts } from 'redux-modules/alerts';
-import { getAnswers, getFormFields } from 'helpers/forms';
+import { getAnswers, getFormFields, getTemplate } from 'helpers/forms';
 
 import Reports from 'components/reports';
 
@@ -72,9 +72,9 @@ function mergeProps({ form, stateReports, ...state }, { submitForm, ...dispatch 
       return 0;
     },
     finish: (formName) => {
-      const templateId = stateReports.list[formName].area.templateId || 'default';
+      const template = getTemplate(stateReports, formName);
       const answers = Object.keys(getAnswers(form, formName));
-      submitForm(stateReports.templates[templateId], formName, answers);
+      submitForm(template, formName, answers);
     }
   };
 }

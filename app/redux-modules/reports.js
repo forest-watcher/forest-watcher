@@ -3,6 +3,7 @@ import tracker from 'helpers/googleAnalytics';
 import CONSTANTS from 'config/constants';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { getActionsTodoCount } from 'helpers/sync';
+import { getTemplate } from 'helpers/forms';
 import omit from 'lodash/omit';
 
 import { SAVE_AREA_COMMIT, GET_AREAS_COMMIT } from 'redux-modules/areas';
@@ -220,15 +221,15 @@ export function uploadReport({ reportName, fields }) {
     const user = state().user;
     const userName = (user && user.data && user.data.fullName) || 'Guest user';
     const organization = (user && user.data && user.data.organization) || 'None';
-    const report = state().reports.list[reportName];
+    const reports = state().reports;
+    const report = reports.list[reportName];
     const language = state().app.language;
     const area = report.area;
     const dataset = area.dataset || {};
     const form = new FormData();
-    const defaultTemplate = state().reports.templates.default;
-    const templateId = report.area.templateId || defaultTemplate.id;
+    const template = getTemplate(reports, reportName);
 
-    form.append('report', templateId);
+    form.append('report', template.id);
     form.append('reportName', reportName);
     form.append('areaOfInterest', area.id);
     form.append('startDate', dataset.startDate);
@@ -265,7 +266,7 @@ export function uploadReport({ reportName, fields }) {
       name: reportName,
       status: CONSTANTS.status.uploaded
     };
-    const url = `${Config.API_URL}/reports/${Config.REPORT_ID}/answers`;
+    const url = `${Config.API_URL}/reports/${template.id}/answers`;
     const headers = { 'content-type': 'multipart/form-data' };
     dispatch({
       type: UPLOAD_REPORT_REQUEST,

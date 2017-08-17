@@ -32,7 +32,7 @@ function mapFormToAnsweredQuestions(fields, answers, form, deviceLang) {
 }
 
 function mapStateToProps(state, { form, readOnly }) {
-  const template = getTemplate(state, form);
+  const template = getTemplate(state.reports, form);
   const answers = getAnswers(state.form, form);
   // map readOnly to object because withDraft expects disableDraft and answers expects readOnly
   const readOnlyProps = readOnly ? { disableDraft: true, readOnly } : {};
