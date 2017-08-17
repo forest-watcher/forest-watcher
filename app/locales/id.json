@@ -32,15 +32,15 @@
         "title": {
             "updating": "Memperbarui data ...",
             "outOfDate": "Anda sedang offline",
-            "updated": "Update selesai!"
+            "updated": "Pembaruan selesai!"
         },
         "subtitle": {
             "takesTime": "Proses ini bisa memakan waktu beberapa menit",
             "mobile": "Apakah Anda ingin memperbaruinya melalui 3G?",
             "noConnection": "Anda memerlukan koneksi internet untuk mengupdate data Anda",
-            "updated": "Data berhasil diupdate!"
+            "updated": "Data berhasil diperbarui"
         },
-        "skip": "melewatkan",
+        "skip": "Lewati",
         "update": "memperbarui"
     },
     "dashboard": {
@@ -52,7 +52,7 @@
         "map": "Peta",
         "dailyFeedback": "Umpan balilk harian",
         "weeklyFeedback": "Umpan balik mingguan",
-        "downloadArea": "Make this area available offline",
+        "downloadArea": "Jadikan area ini tersedia offline",
         "downloadingArea": "Downloading area",
         "unable": "Unable to download area",
         "connectionRequired": "You need an internet connection",
@@ -106,7 +106,7 @@
     "setupDrawAreas": {
         "invalidShape": "Bentuk valid",
         "invalidSize": "Gambarlah area yang lebih kecil",
-        "tapInstruction": "Ketuk peta untuk menggambar area"
+        "tapInstruction": "Klik peta untuk menggambar area"
     },
     "setupHeader": {
         "errorFirst": "Properti tidak valid",
@@ -124,7 +124,7 @@
     "settings": {
         "title": "Pengaturan",
         "loggedIn": "Anda masuk sebagai",
-        "yourAreas": "Area anga",
+        "yourAreas": "Area Anda",
         "logOut": "KELUAR",
         "addArea": "TAMBAH AREA",
         "aboutApp": "Tentang aplikasi ini",
@@ -167,13 +167,14 @@
         "unable": "Tidak dapat mengirim laporan",
         "connectionRequired": "Anda membutuhkan koneksi internet",
         "addPicture": "Tambah Gambar",
-        "emptyPicture": "Kosong"
+        "emptyPicture": "Kosong",
+        "pictures": "Pictures"
     },
     "feedback": {
         "title": "Umpan balik"
     },
     "map": {
-        "alerts": "Sinyal",
+        "alerts": "Sistem Peringatan",
         "reported": "Dilaporkan",
         "settings": "Pengaturan Peta",
         "ctxLayers": "Lapisan kontekstual"

@@ -167,7 +167,8 @@
         "unable": "Unable to send report",
         "connectionRequired": "You need an internet connection",
         "addPicture": "Add Picture",
-        "emptyPicture": "Empty"
+        "emptyPicture": "Empty",
+        "pictures": "Pictures"
     },
     "feedback": {
         "title": "Feedback"

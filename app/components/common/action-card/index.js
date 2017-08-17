@@ -19,7 +19,7 @@ const ActionCard = ({ label, width, height, action, icon }) => (
       style={[styles.card, { width, height }]}
     >
       <Image style={Theme.icon} source={icon} />
-      <Text>
+      <Text style={styles.text}>
         {label}
       </Text>
     </View>
