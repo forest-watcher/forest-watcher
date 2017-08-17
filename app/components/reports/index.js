@@ -15,6 +15,7 @@ import styles from './styles';
 
 const editIcon = require('assets/edit.png');
 const nextIcon = require('assets/next.png');
+const uploadIcon = require('assets/upload.png');
 
 function getItems(data, image, onPress) {
   return data.map((item, index) => {
@@ -50,6 +51,17 @@ class Reports extends Component {
     navBarBackgroundColor: Theme.background.main
   };
 
+  static propTypes = {
+    navigator: PropTypes.object.isRequired,
+    reports: PropTypes.shape({
+      draft: PropTypes.array,
+      uploaded: PropTypes.array,
+      complete: PropTypes.array
+    }).isRequired,
+    getLastStep: PropTypes.func.isRequired,
+    finish: PropTypes.func.isRequired
+  };
+
   componentDidMount() {
     tracker.trackScreenView('Reports');
   }
@@ -65,12 +77,16 @@ class Reports extends Component {
     });
   }
 
+  onClickUpload = (reportName) => {
+    this.props.finish(reportName);
+  }
+
   getCompleted = (completed) => (
     <View style={styles.listContainer}>
       <View style={styles.listHeader}>
         <Text style={styles.listTitle}>{I18n.t('report.completed')}</Text>
       </View>
-      {getItems(completed, nextIcon, this.onClickNext)}
+      {getItems(completed, uploadIcon, this.onClickUpload)}
     </View>
   );
 
@@ -160,17 +176,5 @@ class Reports extends Component {
     );
   }
 }
-
-Reports.propTypes = {
-  navigator: PropTypes.object.isRequired,
-  reports: PropTypes.shape({
-    draft: PropTypes.array,
-    uploaded: PropTypes.array,
-    complete: PropTypes.array
-  }).isRequired,
-  getLastStep: PropTypes.func.isRequired,
-  finish: PropTypes.func.isRequired
-};
-
 
 export default Reports;
