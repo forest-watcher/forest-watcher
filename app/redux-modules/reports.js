@@ -141,13 +141,13 @@ export default function reducer(state = initialState, action) {
       return { ...state, list, synced: false, syncing: true };
     }
     case UPLOAD_REPORT_COMMIT: {
+      return { ...state, synced: true, syncing: false };
+    }
+    case UPLOAD_REPORT_ROLLBACK: {
       const { name, status } = action.meta.report;
       const report = state.list[name];
       const list = { ...state.list, [name]: { ...report, status } };
       return { ...state, list, synced: true, syncing: false };
-    }
-    case UPLOAD_REPORT_ROLLBACK: {
-      return { ...state, syncing: false };
     }
     case LOGOUT_REQUEST: {
       return initialState;
@@ -259,12 +259,16 @@ export function uploadReport({ reportName, fields }) {
 
     const requestPayload = {
       name: reportName,
-      status: CONSTANTS.status.complete,
+      status: CONSTANTS.status.uploaded,
       alerts: JSON.parse(report.clickedPosition)
     };
     const commitPayload = {
       name: reportName,
       status: CONSTANTS.status.uploaded
+    };
+    const rollbackPayload = {
+      name: reportName,
+      status: CONSTANTS.status.complete
     };
     const url = `${Config.API_URL}/reports/${template.id}/answers`;
     const headers = { 'content-type': 'multipart/form-data' };
@@ -273,9 +277,9 @@ export function uploadReport({ reportName, fields }) {
       payload: requestPayload,
       meta: {
         offline: {
-          effect: { url, body: form, method: 'POST', headers },
+          effect: { url, body: form, method: 'POST', headers, errorCode: 400 },
           commit: { type: UPLOAD_REPORT_COMMIT, meta: { report: commitPayload } },
-          rollback: { type: UPLOAD_REPORT_ROLLBACK }
+          rollback: { type: UPLOAD_REPORT_ROLLBACK, meta: { report: rollbackPayload } }
         }
       }
     });
