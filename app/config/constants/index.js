@@ -1,13 +1,13 @@
-export const appName = 'Forest Watcher';
+export const APP_NAME = 'Forest Watcher';
 
-export const areas = {
+export const AREAS = {
   maxSize: 1500000000, // square meters
   alertRange: { // days from to get data
     viirs: 7,
     umd_as_it_happens: 365
   }
 };
-export const storage = {
+export const STORAGE = {
   app: {
     setup: '@App:setup',
     tutorial: '@App:tutorial',
@@ -15,7 +15,7 @@ export const storage = {
   }
 };
 
-export const maps = {
+export const MAPS = {
   lat: 27.568640,
   lng: -33.461281,
   basemap: 'http://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -43,11 +43,11 @@ export const maps = {
   ]
 };
 
-export const tileServers = {
+export const TILE_SERVERS = {
   glad: 'http://wri-tiles.s3.amazonaws.com/glad_prod/tiles'
 };
 
-export const countries = {
+export const COUNTRIES = {
   nameColumn: {
     en: 'name_engli',
     es: 'name_spani',
@@ -57,36 +57,36 @@ export const countries = {
   }
 };
 
-export const files = {
+export const FILES = {
   images: {
     alerts: 'images/alerts'
   },
   tiles: 'tiles'
 };
 
-export const reports = {
+export const REPORTS = {
   default: 'defaultReport'
 };
 
-export const status = {
+export const STATUS = {
   draft: 'draft',
   complete: 'complete',
   uploaded: 'uploaded'
 };
 
-export const reach = {
+export const REACH = {
   WIFI: ['WIFI'],
   MOBILE: ['MOBILE', 'MOBILE_DUN', 'MOBILE_HIPRI', 'MOBILE_MMS', 'MOBILE_SUPL', 'CELL'],
   OTHER: ['BLUETOOTH', 'DUMMY', 'ETHERNET', 'VPN', 'WIMAX'],
   NONE: ['NONE', 'UNKNOWN']
 };
 
-export const datasets = {
+export const DATASETS = {
   VIIRS: 'viirs',
   GLAD: 'umd_as_it_happens'
 };
 
-export const coordinatesFormats = {
+export const COORDINATES_FORMATS = {
   decimal: {
     label: 'settings.coordinatesDecimal',
     value: 'decimal'
@@ -98,16 +98,16 @@ export const coordinatesFormats = {
 };
 
 export default {
-  appName,
-  areas,
-  storage,
-  maps,
-  tileServers,
-  countries,
-  files,
-  reports,
-  status,
-  reach,
-  datasets
+  appName: APP_NAME,
+  areas: AREAS,
+  storage: STORAGE,
+  maps: MAPS,
+  tileServers: TILE_SERVERS,
+  countries: COUNTRIES,
+  files: FILES,
+  reports: REPORTS,
+  status: STATUS,
+  reach: REACH,
+  datasets: DATASETS
 };
 

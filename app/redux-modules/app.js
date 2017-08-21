@@ -1,5 +1,5 @@
 import { version } from 'package.json';
-import { coordinatesFormats } from 'config/constants/index';
+import { COORDINATES_FORMATS } from 'config/constants/index';
 import { syncAreas, UPDATE_AREA_REQUEST, SAVE_AREA_REQUEST } from 'redux-modules/areas';
 import { syncCountries } from 'redux-modules/countries';
 import { syncUser, LOGOUT_REQUEST } from 'redux-modules/user';
@@ -21,7 +21,7 @@ const initialState = {
   language: null,
   syncModalOpen: false,
   syncSkip: false,
-  coordinatesFormat: coordinatesFormats.decimal.value,
+  coordinatesFormat: COORDINATES_FORMATS.decimal.value,
   version // app cache invalidation depends on this, if this changes make sure that redux-persist invalidation changes also.
 };
 

@@ -7,11 +7,14 @@ import {
 } from 'react-native';
 
 import GeoPoint from 'geopoint';
+import DmsCoordinates from 'dms-conversion';
+import { COORDINATES_FORMATS } from 'config/constants';
+
 import styles from './styles';
 
 
 function AlertPosition(props) {
-  const { alertSelected, lastPosition } = props;
+  const { alertSelected, lastPosition, coordinatesFormat } = props;
 
   let distanceText = '';
   let positionText = '';
@@ -19,7 +22,12 @@ function AlertPosition(props) {
   if (lastPosition && (alertSelected && alertSelected.latitude && alertSelected.longitude)) {
     const geoPoint = new GeoPoint(alertSelected.latitude, alertSelected.longitude);
     const currentPoint = new GeoPoint(lastPosition.latitude, lastPosition.longitude);
-    positionText = `${I18n.t('commonText.yourPosition')}: ${lastPosition.latitude.toFixed(4)}, ${lastPosition.longitude.toFixed(4)}`;
+    if (coordinatesFormat === COORDINATES_FORMATS.decimal.value) {
+      positionText = `${I18n.t('commonText.yourPosition')}: ${lastPosition.latitude.toFixed(4)}, ${lastPosition.longitude.toFixed(4)}`;
+    } else {
+      const degrees = new DmsCoordinates(lastPosition.latitude, lastPosition.longitude);
+      positionText = `${I18n.t('commonText.yourPosition')}: ${degrees}`;
+    }
     distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);
     distanceText = `${distance} ${I18n.t('commonText.kmAway')}`; // in Kilometers
   }
@@ -40,7 +48,8 @@ function AlertPosition(props) {
 
 AlertPosition.propTypes = {
   alertSelected: PropTypes.object,
-  lastPosition: PropTypes.object
+  lastPosition: PropTypes.object,
+  coordinatesFormat: PropTypes.string
 };
 
 export default AlertPosition;

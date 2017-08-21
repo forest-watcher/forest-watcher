@@ -21,7 +21,7 @@ import moment from 'moment';
 import Theme from 'config/theme';
 import { getAllNeighbours } from 'helpers/map';
 import ActionBtn from 'components/common/action-button';
-import AlertPosition from 'components/map/alert-position';
+import AlertPosition from 'containers/map/alert-position';
 import MapAttribution from 'components/map/map-attribution';
 import AreaCarousel from 'containers/map/area-carousel';
 import Clusters from 'containers/map/clusters/';
