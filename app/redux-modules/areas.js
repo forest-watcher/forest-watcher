@@ -325,8 +325,8 @@ export function saveArea(params) {
   body.append('geostore', params.area.geostore);
   const image = {
     uri: params.snapshot,
-    type: 'image/png',
-    name: `${encodeURIComponent(params.area.name)}.png`
+    type: 'image/jpg',
+    name: `${encodeURIComponent(params.area.name)}.jpg`
   };
   if (params.datasets) {
     body.append('datasets', JSON.stringify(params.datasets));
