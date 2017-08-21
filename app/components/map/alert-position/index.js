@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import GeoPoint from 'geopoint';
-import DmsCoordinates from 'dms-conversion';
+import formatcoords from 'formatcoords';
 import { COORDINATES_FORMATS } from 'config/constants';
 
 import styles from './styles';
@@ -25,7 +25,8 @@ function AlertPosition(props) {
     if (coordinatesFormat === COORDINATES_FORMATS.decimal.value) {
       positionText = `${I18n.t('commonText.yourPosition')}: ${lastPosition.latitude.toFixed(4)}, ${lastPosition.longitude.toFixed(4)}`;
     } else {
-      const degrees = new DmsCoordinates(lastPosition.latitude, lastPosition.longitude);
+      const degrees = formatcoords(lastPosition.latitude, lastPosition.longitude)
+        .format('FFf', { latLonSeparator: ', ', decimalPlaces: 2 });
       positionText = `${I18n.t('commonText.yourPosition')}: ${degrees}`;
     }
     distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);

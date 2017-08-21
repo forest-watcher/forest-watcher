@@ -62,7 +62,8 @@ function mapStateToProps(state) {
     syncModalOpen: state.app.syncModalOpen,
     syncSkip: state.app.syncSkip,
     canDisplayAlerts: state.alerts.canDisplayAlerts,
-    contextualLayer
+    contextualLayer,
+    coordinatesFormat: state.app.coordinatesFormat
   };
 }
 

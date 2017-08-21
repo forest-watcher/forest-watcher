@@ -13,7 +13,7 @@ import {
   Platform
 } from 'react-native';
 
-import CONSTANTS from 'config/constants';
+import CONSTANTS, { COORDINATES_FORMATS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import isEqual from 'lodash/isEqual';
 import moment from 'moment';
@@ -21,13 +21,14 @@ import moment from 'moment';
 import Theme from 'config/theme';
 import { getAllNeighbours } from 'helpers/map';
 import ActionBtn from 'components/common/action-button';
-import AlertPosition from 'containers/map/alert-position';
+import AlertPosition from 'components/map/alert-position';
 import MapAttribution from 'components/map/map-attribution';
 import AreaCarousel from 'containers/map/area-carousel';
 import Clusters from 'containers/map/clusters/';
 import tracker from 'helpers/googleAnalytics';
 import I18n from 'locales';
 import MapView from 'react-native-maps';
+import formatcoords from 'formatcoords';
 import styles from './styles';
 
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
@@ -289,11 +290,27 @@ class Map extends Component {
 
   setHeaderTitle = () => {
     const { selectedAlerts } = this.state;
+    const { navigator, coordinatesFormat } = this.props;
     const last = selectedAlerts.length - 1;
-    const headerText = selectedAlerts && selectedAlerts.length > 0
-      ? `${selectedAlerts[last].latitude.toFixed(4)}, ${selectedAlerts[last].longitude.toFixed(4)}`
-      : I18n.t('dashboard.map');
-    this.props.navigator.setTitle({
+    let headerText = I18n.t('dashboard.map');
+    if (selectedAlerts && selectedAlerts.length > 0) {
+      const lat = selectedAlerts[last].latitude;
+      const lng = selectedAlerts[last].longitude;
+      if (coordinatesFormat === COORDINATES_FORMATS.decimal.value) {
+        headerText = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+      } else {
+        headerText = formatcoords(lat, lng)
+          .format('FFf', { latLonSeparator: ', ', decimalPlaces: 2 });
+      }
+      navigator.setStyle({
+        navBarTextFontSize: 16
+      });
+    } else {
+      navigator.setStyle({
+        navBarTextFontSize: 18
+      });
+    }
+    navigator.setTitle({
       title: headerText
     });
   }
@@ -830,7 +847,8 @@ Map.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
     url: PropTypes.string.isRequired
-  })
+  }),
+  coordinatesFormat: PropTypes.string.isRequired
 };
 
 export default Map;

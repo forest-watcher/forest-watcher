@@ -323,11 +323,13 @@ export function saveArea(params) {
   const body = new FormData();
   body.append('name', params.area.name);
   body.append('geostore', params.area.geostore);
+
   const image = {
     uri: params.snapshot,
     type: 'image/jpg',
     name: `${encodeURIComponent(params.area.name)}.jpg`
   };
+
   if (params.datasets) {
     body.append('datasets', JSON.stringify(params.datasets));
   }
