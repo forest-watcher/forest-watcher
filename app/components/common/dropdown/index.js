@@ -23,7 +23,13 @@ const Dropdown = (props) => {
             onValueChange={onValueChange}
             itemStyle={{ height: 72 }} // Only for iOS platform
           >
-            {options.map(option => (<Picker.Item {...option} label={I18n.t(option.label)} />))}
+            {options.map((option, i) => (
+              <Picker.Item
+                key={option.value + i}
+                label={I18n.t(option.label)}
+                value={option.value}
+              />
+            ))}
           </Picker>
         </View>
       </View>
@@ -36,9 +42,8 @@ Dropdown.propTypes = {
   selectedValue: PropTypes.string.isRequired,
   onValueChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired
+    value: PropTypes.any.isRequired
   })).isRequired
 };
 

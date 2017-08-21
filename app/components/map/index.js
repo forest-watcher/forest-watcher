@@ -626,7 +626,7 @@ class Map extends Component {
     const { hasCompass, lastPosition, compassFallback,
             selectedAlerts, neighbours, heading, markers } = this.state;
     const { areaCoordinates, datasetSlug, contextualLayer,
-            basemapLocalTilePath, isConnected, ctxLayerLocalTilePath } = this.props;
+            basemapLocalTilePath, isConnected, ctxLayerLocalTilePath, coordinatesFormat } = this.props;
     const showCompassFallback = !hasCompass && lastPosition && selectedAlerts && compassFallback;
     const lastAlertIndex = selectedAlerts.length - 1;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
@@ -801,6 +801,7 @@ class Map extends Component {
               <AlertPosition
                 alertSelected={selectedAlerts[lastAlertIndex]}
                 lastPosition={this.state.lastPosition}
+                coordinatesFormat={coordinatesFormat}
               />
             }
             <MapAttribution />

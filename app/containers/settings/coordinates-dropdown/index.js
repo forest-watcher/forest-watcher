@@ -9,7 +9,7 @@ function mapStateToProps(state) {
   return {
     label: 'settings.coordinatesFormat',
     selectedValue: state.app.coordinatesFormat,
-    options: Object.values(COORDINATES_FORMATS).map(format => ({ key: format.value, ...format }))
+    options: Object.values(COORDINATES_FORMATS)
   };
 }
 

@@ -4,9 +4,46 @@ import {
   View
 } from 'react-native';
 
-import DatasetDropdown from 'components/settings/area-detail/alert-system/dataset-dropdown';
-
+import { DATASETS } from 'config/constants/index';
+import Dropdown from 'components/common/dropdown';
 import styles from './styles';
+
+const VIIRS_OPTIONS = [
+  {
+    label: 'settings.24hAgo',
+    value: 1
+  },
+  {
+    label: 'settings.48hAgo',
+    value: 2
+  },
+  {
+    label: 'settings.72hAgo',
+    value: 3
+  },
+  {
+    label: 'settings.oneWeekAgo',
+    value: 7
+  }
+];
+const GLAD_OPTIONS = [
+  {
+    label: 'settings.1MonthAgo',
+    value: 1
+  },
+  {
+    label: 'settings.3MonthsAgo',
+    value: 3
+  },
+  {
+    label: 'settings.6MonthsAgo',
+    value: 6
+  },
+  {
+    label: 'settings.1yearAgo',
+    value: 12
+  }
+];
 
 class DatasetOptions extends Component {
 
@@ -17,13 +54,15 @@ class DatasetOptions extends Component {
 
   render() {
     const { slug, startDate } = this.props.dataset;
+    const options = slug === DATASETS.VIIRS ? VIIRS_OPTIONS : GLAD_OPTIONS;
     return (
       <View style={styles.datasetSection}>
         <View style={[styles.row, styles.nested]}>
-          <DatasetDropdown
-            updateRange={this.handleUpdateDate}
-            startDate={parseInt(startDate, 10)}
-            slug={slug}
+          <Dropdown
+            label={'settings.timeFrame'}
+            selectedValue={parseInt(startDate, 10)}
+            onValueChange={days => this.handleUpdateDate({ startDate: days })}
+            options={options}
           />
         </View>
       </View>
