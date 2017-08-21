@@ -133,7 +133,9 @@ class Settings extends Component {
             </TouchableHighlight>
           </View>
 
-          <CoordinatesDropdown />
+          <View style={styles.coordinates}>
+            <CoordinatesDropdown />
+          </View>
 
           {areas && areas.length
             ? <View style={styles.areas}>

@@ -7,8 +7,8 @@ export default StyleSheet.create({
   },
   containerLabel: {
     width: 120,
-    height: 22,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    justifyContent: 'center'
   },
   container: {
     flex: 1,

@@ -144,7 +144,7 @@
         "availableOffline": "Disponível offline",
         "unable": "Unable to add area",
         "connectionRequired": "You need an internet connection",
-        "coordinates": "Coordinates",
+        "coordinatesFormat": "Coordinates Format",
         "coordinatesDecimal": "Decimal",
         "coordinatesDegrees": "Degrees"
     },

@@ -7,7 +7,7 @@ import Dropdown from 'components/common/dropdown';
 
 function mapStateToProps(state) {
   return {
-    label: 'settings.coordinates',
+    label: 'settings.coordinatesFormat',
     selectedValue: state.app.coordinatesFormat,
     options: Object.values(coordinatesFormats).map(format => ({ key: format.value, ...format }))
   };
