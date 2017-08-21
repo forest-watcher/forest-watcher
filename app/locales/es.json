@@ -143,7 +143,10 @@
         "1yearAgo": "Hace 1 año",
         "availableOffline": "Disponible offline",
         "unable": "Unable to add area",
-        "connectionRequired": "You need an internet connection"
+        "connectionRequired": "You need an internet connection",
+        "coordinates": "Coordinates",
+        "coordinatesDecimal": "Decimal",
+        "coordinatesDegrees": "Degrees"
     },
     "report": {
         "title": "Informe",
@@ -168,7 +171,7 @@
         "connectionRequired": "Necesita una conexión a internet",
         "addPicture": "Añadir imagen",
         "emptyPicture": "Vacío",
-        "pictures": "Fotos"
+        "pictures": "Pictures"
     },
     "feedback": {
         "title": "Feedback"
