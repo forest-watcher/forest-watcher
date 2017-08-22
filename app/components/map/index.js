@@ -497,11 +497,10 @@ class Map extends Component {
 
   mapPress = (coordinate) => {
     if (coordinate) {
-      const { selectedAlerts } = this.state;
-      this.setState({
+      this.setState(({ selectedAlerts }) => ({
         neighbours: [],
         selectedAlerts: selectedAlerts && selectedAlerts.length > 0 ? [] : [coordinate]
-      });
+      }));
     }
   }
 
@@ -773,7 +772,7 @@ class Map extends Component {
           minZoomLevel={2}
           maxZoomLevel={18}
           rotateEnabled={false}
-          initialRegion={this.state.region}
+          region={this.state.region}
           onRegionChangeComplete={this.updateRegion}
           onLayout={this.onLayout}
           moveOnMarkerPress={false}
