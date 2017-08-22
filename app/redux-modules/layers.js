@@ -81,8 +81,7 @@ export default function reducer(state = initialState, action) {
       const areas = [...action.meta.areas];
       const layers = [...action.payload];
       const syncDate = Date.now();
-      const cache = { ...state.cache };
-      const cacheStatus = getCacheStatus(cache, state.cacheStatus, areas, layers);
+      const cacheStatus = getCacheStatus(state.cacheStatus, areas);
 
       return { ...state, data: layers, cacheStatus, syncDate, synced: true, syncing: false };
     }
@@ -140,16 +139,9 @@ export default function reducer(state = initialState, action) {
           [layerId]: progress
         }
       };
-      const layersCount = state.data.length + 1; // plus one cause basemap
-      const areaCacheStatus = state.cacheStatus[areaId];
-      const newProgress = Object.values(layersProgress[areaId]).reduce((acc, next) => (acc + next), 0) / layersCount;
-      const cacheStatus = {
-        ...state.cacheStatus,
-        [areaId]: {
-          ...areaCacheStatus,
-          progress: newProgress
-        }
-      };
+      const layerCount = getLayersWithBasemap(state.data).length;
+      const cacheStatus = updateAreaProgress(areaId, state.cacheStatus, layersProgress, layerCount);
+
       return { ...state, cacheStatus, layersProgress };
     }
     case INVALIDATE_CACHE: {
@@ -178,9 +170,7 @@ export default function reducer(state = initialState, action) {
     }
     case CACHE_LAYER_COMMIT: {
       const { area, layer } = action.meta;
-      const layers = [...state.data];
       let path = action.payload;
-      let cacheStatus = { ...state.cacheStatus };
       path = (path && path.length > 0) ? path[0] : path;
       const pendingCache = {
         ...state.pendingCache,
@@ -193,30 +183,45 @@ export default function reducer(state = initialState, action) {
           [area.id]: path
         }
       };
+      const layersProgress = {
+        ...state.layersProgress,
+        [area.id]: {
+          ...state.layersProgress[area.id],
+          [layer.id]: 1
+        }
+      };
+      const layerCount = getLayersWithBasemap(state.data).length;
+      const updatedCacheStatus = updateAreaProgress(area.id, state.cacheStatus, layersProgress, layerCount);
+      const cacheStatus = getCacheStatus(updatedCacheStatus, [area]);
 
-      cacheStatus = getCacheStatus(cache, cacheStatus, [area], layers);
-      return { ...state, cache, cacheStatus, pendingCache };
+      return { ...state, cache, cacheStatus, pendingCache, layersProgress };
     }
     case CACHE_LAYER_ROLLBACK: {
       const { area, layer } = action.meta;
-      const { cache, areas, cacheStatus, data: layers } = state;
-      const updatedCacheStatus = getCacheStatus(cache, cacheStatus, areas, layers);
+      const { areas, cacheStatus } = state;
+      const updatedCacheStatus = getCacheStatus(cacheStatus, areas);
       const areaCacheStatus = { ...updatedCacheStatus[area.id], requested: false, error: true };
       const newCacheStatus = { ...updatedCacheStatus, [area.id]: { ...areaCacheStatus } };
       const pendingCache = {
         ...state.pendingCache,
         [layer.id]: omit(state.pendingCache[layer.id], [area.id])
       };
-      const layersProgress = omit(state.layersProgress, [area.id]);
+      const layersProgress = {
+        ...state.layersProgress,
+        [area.id]: {
+          ...state.layersProgress[area.id],
+          [layer.id]: 0
+        }
+      };
       return { ...state, pendingCache, cacheStatus: newCacheStatus, layersProgress };
     }
     case SET_CACHE_STATUS: {
       return { ...state, cacheStatus: action.payload };
     }
     case SAVE_AREA_COMMIT: {
-      const { cache, cacheStatus, data: layers } = state;
+      const { cacheStatus } = state;
       const area = action.payload;
-      const newCacheStatus = getCacheStatus(cache, cacheStatus, [area], layers);
+      const newCacheStatus = getCacheStatus(cacheStatus, [area]);
       return { ...state, cacheStatus: newCacheStatus };
     }
     case LOGOUT_REQUEST:
@@ -404,29 +409,18 @@ export function cacheLayers() {
   };
 }
 
-function getCacheStatus(cache = {}, cacheStatus = {}, areas = [], layers = []) {
-  const enhancedLayers = getLayersWithBasemap(layers);
-  const layersCount = enhancedLayers.length;
+function getCacheStatus(cacheStatus = {}, areas = []) {
   let newCacheStatus = { ...cacheStatus };
   areas.forEach((area) => {
-    let layersCached = 0;
-    enhancedLayers.forEach((layer) => {
-      if (cache[layer.id] && cache[layer.id][area.id]) {
-        layersCached += 1;
-      }
-    });
-    const layersLeft = layersCount - layersCached;
-    let progress = 1;
-    if (layersLeft > 0) {
-      progress = newCacheStatus[area.id] ? newCacheStatus[area.id].progress : 0;
-    }
+    const progress = newCacheStatus[area.id] ? newCacheStatus[area.id].progress : 0;
+    const error = newCacheStatus[area.id] ? newCacheStatus[area.id].error : false;
     newCacheStatus = {
       ...newCacheStatus,
       [area.id]: {
         requested: (newCacheStatus[area.id] && newCacheStatus[area.id].requested) || false,
         progress,
         completed: progress === 1,
-        error: false
+        error
       }
     };
   });
@@ -454,4 +448,19 @@ export function resetCacheStatus(areaId) {
 
 function getLayersWithBasemap(layers) {
   return [{ id: 'basemap' }, ...layers];
+}
+
+function updateAreaProgress(areaId = '', cacheStatus = {}, layersProgress = {}, layerCount = 1) {
+  if (!areaId || typeof areaId !== 'string') throw new TypeError('AreaId is not a valid string');
+  const areaCacheStatus = cacheStatus[areaId];
+  const areaLayersProgress = Object.values(layersProgress[areaId]);
+  const newProgress = areaLayersProgress
+    .reduce((acc, next) => (acc + next), 0) / layerCount;
+  return {
+    ...cacheStatus,
+    [areaId]: {
+      ...areaCacheStatus,
+      progress: newProgress
+    }
+  };
 }
