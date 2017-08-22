@@ -136,7 +136,7 @@ export default function reducer(state = initialState, action) {
       const layersProgress = omit(state.layersProgress, [area.id]);
       const areaCache = [];
       let cache = { ...state.cache };
-      cache.forEach((layerId) => {
+      Object.keys(cache).forEach((layerId) => {
         if (cache[layerId][area.id]) areaCache.push(cache[layerId][area.id]);
         cache = {
           ...cache,
