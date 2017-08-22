@@ -39,7 +39,7 @@ const Dropdown = (props) => {
 
 Dropdown.propTypes = {
   label: PropTypes.string.isRequired,
-  selectedValue: PropTypes.string.isRequired,
+  selectedValue: PropTypes.any.isRequired,
   onValueChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
