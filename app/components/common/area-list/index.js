@@ -4,7 +4,8 @@ import {
   Image,
   Text,
   TouchableHighlight,
-  View
+  View,
+  Platform
 } from 'react-native';
 import Theme from 'config/theme';
 
@@ -45,7 +46,7 @@ function AreaList(props) {
               </TouchableHighlight>
             </View>
           </TouchableHighlight>
-          {showCache &&
+          {showCache && Platform.OS === 'android' &&
             <AreaCache areaId={area.id} showTooltip={index === 0 && pristine} />
           }
         </View>
