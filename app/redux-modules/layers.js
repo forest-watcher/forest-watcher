@@ -134,18 +134,15 @@ export default function reducer(state = initialState, action) {
       const { area } = action.meta;
       const cacheStatus = omit(state.cacheStatus, [area.id]);
       const layersProgress = omit(state.layersProgress, [area.id]);
-      const areaCache = [];
       let cache = { ...state.cache };
       Object.keys(cache).forEach((layerId) => {
-        if (cache[layerId][area.id]) areaCache.push(cache[layerId][area.id]);
         cache = {
           ...cache,
           [layerId]: omit(cache[layerId], [area.id])
         };
       });
-      const removeCachePromises = areaCache.map(path => removeFolder(path));
-      Promise.all(removeCachePromises)
-        .then(() => console.info(`Area ${area.id} cache removed successfully`));
+      removeFolder(`${CONSTANTS.files.tiles}/${area.id}`)
+        .then(() => console.info(`Area ${area.id} cache deleted successfully`));
       return { ...state, cache, cacheStatus, layersProgress };
     }
     case UPDATE_PROGRESS: {
