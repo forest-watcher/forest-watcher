@@ -7,7 +7,7 @@ import { getActionsTodoCount } from 'helpers/sync';
 import { removeFolder } from 'helpers/fileManagement';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
-import { SAVE_AREA_COMMIT } from 'redux-modules/areas';
+import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
 import { START_APP } from 'redux-modules/app';
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
@@ -130,6 +130,24 @@ export default function reducer(state = initialState, action) {
       }
       return { ...state, pendingCache, cacheStatus };
     }
+    case DELETE_AREA_COMMIT: {
+      const { area } = action.meta;
+      const cacheStatus = omit(state.cacheStatus, [area.id]);
+      const layersProgress = omit(state.layersProgress, [area.id]);
+      const areaCache = [];
+      let cache = { ...state.cache };
+      cache.forEach((layerId) => {
+        if (cache[layerId][area.id]) areaCache.push(cache[layerId][area.id]);
+        cache = {
+          ...cache,
+          [layerId]: omit(cache[layerId], [area.id])
+        };
+      });
+      const removeCachePromises = areaCache.map(path => removeFolder(path));
+      Promise.all(removeCachePromises)
+        .then(() => console.info(`Area ${area.id} cache removed successfully`));
+      return { ...state, cache, cacheStatus, layersProgress };
+    }
     case UPDATE_PROGRESS: {
       const { areaId, progress, layerId } = action.payload;
       const areaLayersProgress = state.layersProgress[areaId];
@@ -220,7 +238,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, cacheStatus: newCacheStatus };
     }
     case LOGOUT_REQUEST:
-      removeFolder(CONSTANTS.files.tiles);
+      removeFolder(CONSTANTS.files.tiles)
+        .then(console.info('Folder removed successfully'));
       return initialState;
     default:
       return state;
