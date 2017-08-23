@@ -78,7 +78,10 @@ class Partners extends Component {
       >
         <View style={styles.partner}>
           <Text style={styles.partnerText}>{I18n.t('partners.description')}</Text>
-          <Text style={styles.partnerText}>{I18n.t('partners.listOfPartners')}</Text>
+          <Text style={styles.partnerText}
+            onPress={() => Linking.openUrl('http://www.globalforestwatch.org/about/the-gfw-partnership')}>
+            {I18n.t('partners.listOfPartners')}
+          </Text>
         </View>
         <List content={partners} bigSeparation={false}>{}</List>
       </ScrollView>
