@@ -634,6 +634,7 @@ class Map extends Component {
     if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
     const isIOS = Platform.OS === 'ios';
     const mapKey = isIOS ? this.getMapKey() : 'mapView';
+    const mapRegion = isIOS ? this.state.region : undefined;
     // Map elements
     const basemapLayerElement = isConnected // eslint-disable-line
       ? (
@@ -772,7 +773,8 @@ class Map extends Component {
           minZoomLevel={2}
           maxZoomLevel={18}
           rotateEnabled={false}
-          region={this.state.region}
+          initialRegion={mapRegion}
+          region={mapRegion}
           onRegionChangeComplete={this.updateRegion}
           onLayout={this.onLayout}
           moveOnMarkerPress={false}
