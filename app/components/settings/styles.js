@@ -67,6 +67,16 @@ export default StyleSheet.create({
     marginTop: 2,
     marginRight: 10
   },
+  coordinates: {
+    height: 72,
+    paddingLeft: Theme.margin.left,
+    paddingRight: Theme.margin.right,
+    borderBottomColor: Theme.borderColors.main,
+    borderBottomWidth: 2,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
   areas: {
     marginTop: 30
   },

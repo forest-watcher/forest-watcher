@@ -143,7 +143,10 @@
         "1yearAgo": "1 tahun yang lalu",
         "availableOffline": "Tersedia secara offline",
         "unable": "Unable to add area",
-        "connectionRequired": "You need an internet connection"
+        "connectionRequired": "You need an internet connection",
+        "coordinatesFormat": "Coordinates Format",
+        "coordinatesDecimal": "Decimal",
+        "coordinatesDegrees": "Degrees"
     },
     "report": {
         "title": "Lapor",

@@ -1,16 +1,16 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  datesSection: {
+  section: {
     flexDirection: 'row',
     alignItems: 'center'
   },
-  dateContainerLabel: {
+  containerLabel: {
     width: 120,
-    height: 22,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    justifyContent: 'center'
   },
-  dateContainer: {
+  container: {
     flex: 1,
     flexDirection: 'column'
   },
