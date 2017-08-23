@@ -19,6 +19,7 @@
     "boundingbox": "0.1.0",
     "buffer": "5.0.5",
     "d3-dsv": "1.0.5",
+    "formatcoords": "1.1.3",
     "geojson-polygon-self-intersections": "1.1.1",
     "geokdbush": "1.1.0",
     "geopoint": "1.0.1",

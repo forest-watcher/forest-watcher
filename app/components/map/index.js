@@ -13,7 +13,7 @@ import {
   Platform
 } from 'react-native';
 
-import CONSTANTS from 'config/constants';
+import CONSTANTS, { COORDINATES_FORMATS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import isEqual from 'lodash/isEqual';
 import moment from 'moment';
@@ -28,6 +28,7 @@ import Clusters from 'containers/map/clusters/';
 import tracker from 'helpers/googleAnalytics';
 import I18n from 'locales';
 import MapView from 'react-native-maps';
+import formatcoords from 'formatcoords';
 import styles from './styles';
 
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
@@ -289,11 +290,27 @@ class Map extends Component {
 
   setHeaderTitle = () => {
     const { selectedAlerts } = this.state;
+    const { navigator, coordinatesFormat } = this.props;
     const last = selectedAlerts.length - 1;
-    const headerText = selectedAlerts && selectedAlerts.length > 0
-      ? `${selectedAlerts[last].latitude.toFixed(4)}, ${selectedAlerts[last].longitude.toFixed(4)}`
-      : I18n.t('dashboard.map');
-    this.props.navigator.setTitle({
+    let headerText = I18n.t('dashboard.map');
+    if (selectedAlerts && selectedAlerts.length > 0) {
+      const lat = selectedAlerts[last].latitude;
+      const lng = selectedAlerts[last].longitude;
+      if (coordinatesFormat === COORDINATES_FORMATS.decimal.value) {
+        headerText = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+      } else {
+        headerText = formatcoords(lat, lng)
+          .format('FFf', { latLonSeparator: ', ', decimalPlaces: 2 });
+      }
+      navigator.setStyle({
+        navBarTextFontSize: 16
+      });
+    } else {
+      navigator.setStyle({
+        navBarTextFontSize: 18
+      });
+    }
+    navigator.setTitle({
       title: headerText
     });
   }
@@ -480,11 +497,10 @@ class Map extends Component {
 
   mapPress = (coordinate) => {
     if (coordinate) {
-      const { selectedAlerts } = this.state;
-      this.setState({
+      this.setState(({ selectedAlerts }) => ({
         neighbours: [],
         selectedAlerts: selectedAlerts && selectedAlerts.length > 0 ? [] : [coordinate]
-      });
+      }));
     }
   }
 
@@ -609,7 +625,7 @@ class Map extends Component {
     const { hasCompass, lastPosition, compassFallback,
             selectedAlerts, neighbours, heading, markers } = this.state;
     const { areaCoordinates, datasetSlug, contextualLayer,
-            basemapLocalTilePath, isConnected, ctxLayerLocalTilePath } = this.props;
+            basemapLocalTilePath, isConnected, ctxLayerLocalTilePath, coordinatesFormat } = this.props;
     const showCompassFallback = !hasCompass && lastPosition && selectedAlerts && compassFallback;
     const lastAlertIndex = selectedAlerts.length - 1;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
@@ -756,7 +772,7 @@ class Map extends Component {
           minZoomLevel={2}
           maxZoomLevel={18}
           rotateEnabled={false}
-          initialRegion={this.state.region}
+          region={this.state.region}
           onRegionChangeComplete={this.updateRegion}
           onLayout={this.onLayout}
           moveOnMarkerPress={false}
@@ -784,6 +800,7 @@ class Map extends Component {
               <AlertPosition
                 alertSelected={selectedAlerts[lastAlertIndex]}
                 lastPosition={this.state.lastPosition}
+                coordinatesFormat={coordinatesFormat}
               />
             }
             <MapAttribution />
@@ -830,7 +847,8 @@ Map.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
     url: PropTypes.string.isRequired
-  })
+  }),
+  coordinatesFormat: PropTypes.string.isRequired
 };
 
 export default Map;

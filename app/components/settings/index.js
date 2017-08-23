@@ -14,6 +14,7 @@ import {
 import Theme from 'config/theme';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
+import CoordinatesDropdown from 'containers/settings/coordinates-dropdown';
 
 import styles from './styles';
 
@@ -130,6 +131,10 @@ class Settings extends Component {
             >
               <Text style={styles.logout}>{I18n.t('settings.logOut')}</Text>
             </TouchableHighlight>
+          </View>
+
+          <View style={styles.coordinates}>
+            <CoordinatesDropdown />
           </View>
 
           {areas && areas.length
