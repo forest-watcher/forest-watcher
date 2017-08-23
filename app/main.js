@@ -38,7 +38,7 @@ export default () => {
   }
 
   const authMiddleware = ({ getState }) => next => action => (
-    action.type.endsWith('REQUEST') ? next({ ...action, auth: getState().user.token }) : next(action)
+    action.type && action.type.endsWith('REQUEST') ? next({ ...action, auth: getState().user.token }) : next(action)
   );
 
   const reducer = combineReducers(reducers);
