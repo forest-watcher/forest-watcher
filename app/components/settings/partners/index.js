@@ -45,27 +45,27 @@ class Partners extends Component {
   render() {
     const partners = [
       {
-        description: 'World Resources Institute',
-        image: wriLogo,
-        url: 'http://www.wri.org/',
-        functionOnPress: this.handleLink
-      },
-      {
-        description: 'The Jane Goodall Institute',
-        image: jgiLogo,
-        url: 'http://www.janegoodall.org/',
-        functionOnPress: this.handleLink
-      },
-      {
         description: 'Global Forest Watch',
         image: gfwLogo,
         url: 'http://www.globalforestwatch.org/',
         functionOnPress: this.handleLink
       },
       {
+        description: 'World Resources Institute',
+        image: wriLogo,
+        url: 'http://www.wri.org/',
+        functionOnPress: this.handleLink
+      },
+      {
         description: 'Vizzuality',
         image: vizzualityLogo,
         url: 'http://www.vizzuality.com/',
+        functionOnPress: this.handleLink
+      },
+      {
+        description: 'The Jane Goodall Institute',
+        image: jgiLogo,
+        url: 'http://www.janegoodall.org/',
         functionOnPress: this.handleLink
       }
     ];
