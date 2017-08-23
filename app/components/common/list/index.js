@@ -13,7 +13,11 @@ const nextImage = require('assets/next.png');
 
 function onPress(data) {
   if (data && data.functionOnPress) {
-    data.functionOnPress(data.url);
+    if (data.url) {
+      data.functionOnPress(data.url);
+    } else {
+      data.functionOnPress(data.section, data.text);
+    }
   }
 }
 

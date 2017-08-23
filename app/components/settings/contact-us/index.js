@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
   ScrollView,
@@ -10,7 +9,6 @@ import tracker from 'helpers/googleAnalytics';
 
 import I18n from 'locales';
 import Theme from 'config/theme';
-import List from 'components/common/list';
 import styles from './styles';
 
 class ContactUs extends Component {
@@ -20,14 +18,6 @@ class ContactUs extends Component {
     topBarElevationShadowEnabled: false,
     navBarBackgroundColor: Theme.background.main
   };
-
-  constructor() {
-    super();
-
-    this.state = {
-      currentPosition: null
-    };
-  }
 
   componentDidMount() {
     tracker.trackScreenView('ContactUs');
@@ -42,7 +32,12 @@ class ContactUs extends Component {
         showsHorizontalScrollIndicator={false}
       >
         <View style={styles.contactUs}>
-          <Text style={styles.contactUsText}>{I18n.t('contactUs.description')}</Text>
+          <Text
+            style={styles.contactUsText}
+            onPress={() => Linking.openURL('mailto:forestwatcher@wri.or?subject=FW app contact')}
+          >
+            {I18n.t('contactUs.description')}
+          </Text>
         </View>
       </ScrollView>
     );

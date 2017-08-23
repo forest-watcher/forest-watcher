@@ -26,14 +26,6 @@ class Partners extends Component {
     navBarBackgroundColor: Theme.background.main
   };
 
-  constructor() {
-    super();
-
-    this.state = {
-      currentPosition: null
-    };
-  }
-
   componentDidMount() {
     tracker.trackScreenView('Partners');
   }
@@ -78,8 +70,10 @@ class Partners extends Component {
       >
         <View style={styles.partner}>
           <Text style={styles.partnerText}>{I18n.t('partners.description')}</Text>
-          <Text style={styles.partnerText}
-            onPress={() => Linking.openUrl('http://www.globalforestwatch.org/about/the-gfw-partnership')}>
+          <Text
+            style={styles.partnerText}
+            onPress={() => this.handleLink('http://www.globalforestwatch.org/about/the-gfw-partnership')}
+          >
             {I18n.t('partners.listOfPartners')}
           </Text>
         </View>
