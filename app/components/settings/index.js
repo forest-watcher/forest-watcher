@@ -81,10 +81,10 @@ class Settings extends Component {
     }
   }
 
-  handlePartnersLink = () => {
+  handleStaticLinks = (section, text) => {
     this.props.navigator.push({
-      screen: 'ForestWatcher.Partners',
-      title: 'Partners'
+      screen: section,
+      title: text
     });
   }
 
@@ -93,12 +93,26 @@ class Settings extends Component {
       {
         text: I18n.t('settings.aboutPartners'),
         image: null,
-        functionOnPress: this.handlePartnersLink
+        section: 'ForestWatcher.Partners',
+        functionOnPress: this.handleStaticLinks
       },
       {
         text: I18n.t('settings.aboutTerms'),
         image: null,
+        section: null,
         functionOnPress: null
+      },
+      {
+        text: I18n.t('settings.aboutFAQ'),
+        image: null,
+        section: null,
+        functionOnPress: null
+      },
+      {
+        text: I18n.t('settings.aboutContactUs'),
+        image: null,
+        section: 'ForestWatcher.ContactUs',
+        functionOnPress: this.handleStaticLinks
       }
     ];
     const { areas } = this.props;

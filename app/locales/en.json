@@ -103,6 +103,10 @@
         "description": "Forest Watcher is created in collaboration between World Resources Institute’s Global Forest Watch Program, Vizzuality, and the Jane Goodall Institute.",
         "listOfPartners": "See all Global Forest Watch partners."
     },
+    "contactUs": {
+      "title": "Contact us",
+      "description": "Questions or feedback? Email forestwatcher@wri.org"
+    },
     "setupDrawAreas": {
         "invalidShape": "Invalid shape",
         "invalidSize": "Please draw a smaller area",
@@ -130,6 +134,8 @@
         "aboutApp": "About this app",
         "aboutPartners": "Partners",
         "aboutTerms": "Terms and Conditions",
+        "aboutFAQ": "FAQ",
+        "aboutContactUs": "Contact Us",
         "timeFrame": "Time Frame",
         "from": "From",
         "to": "To",
