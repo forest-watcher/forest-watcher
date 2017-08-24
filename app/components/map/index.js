@@ -13,7 +13,7 @@ import {
   Platform
 } from 'react-native';
 
-import CONSTANTS, { COORDINATES_FORMATS } from 'config/constants';
+import { COORDINATES_FORMATS, MAPS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import isEqual from 'lodash/isEqual';
 import moment from 'moment';
@@ -119,7 +119,7 @@ class Map extends Component {
   constructor(props) {
     super(props);
     const { center } = props;
-    const initialCoords = center || { lat: CONSTANTS.maps.lat, lon: CONSTANTS.maps.lng };
+    const initialCoords = center || { lat: MAPS.lat, lon: MAPS.lng };
     this.eventLocation = null;
     this.eventOrientation = null;
     this.hasSetCoordinates = false;
@@ -208,7 +208,6 @@ class Map extends Component {
   componentWillUnmount() {
     Location.stopUpdatingLocation();
     Timer.clearTimeout(this, 'setAlerts');
-    Timer.cancelAnimationFrame(this, 'updateAreaFitBounds');
     if (this.eventLocation) {
       this.eventLocation.remove();
     }
@@ -315,13 +314,6 @@ class Map extends Component {
     });
   }
 
-  getMapKey = () => {
-    const { markers } = this.state;
-    const { contextualLayer } = this.props;
-    const layer = contextualLayer ? contextualLayer.name : '';
-    return `map-key-${markers.length}-${layer}`;
-  }
-
   updateMarkers(clean = false) {
     const { region } = this.state;
     const clusters = this.props.clusters && this.props.clusters.getClusters([
@@ -404,7 +396,7 @@ class Map extends Component {
     this.animateGeo();
 
     navigator.geolocation.getCurrentPosition(
-      (location) => {
+      throttle((location) => {
         const coords = typeof location.coords !== 'undefined' ? location.coords : location;
         this.setState({
           lastPosition: {
@@ -412,7 +404,7 @@ class Map extends Component {
             longitude: coords.longitude
           }
         });
-      },
+      }, 300),
       (error) => console.info(error),
       { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
     );
@@ -553,7 +545,7 @@ class Map extends Component {
       const margin = Platform.OS === 'ios' ? 150 : 250;
       const options = { edgePadding: { top: margin, right: margin, bottom: margin, left: margin }, animated: false };
       if (this.map) {
-        Timer.requestAnimationFrame(this, 'updateAreaFitBounds', () => this.map.fitToCoordinates(this.props.areaCoordinates, options));
+        this.map.fitToCoordinates(this.props.areaCoordinates, options);
       }
     });
   }
@@ -633,39 +625,37 @@ class Map extends Component {
     let veilHeight = 120;
     if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
     const isIOS = Platform.OS === 'ios';
-    const mapKey = isIOS ? this.getMapKey() : 'mapView';
-    const mapRegion = isIOS ? this.state.region : undefined;
+    const ctxLayerKey = isIOS && contextualLayer ? `contextualLayerElement-${contextualLayer.name}` : 'contextualLayerElement';
+    const clustersKey = isIOS && markers ? `clustersElement-${markers.length}` : 'clustersElement';
+
     // Map elements
-    const basemapLayerElement = isConnected // eslint-disable-line
-      ? (
+    const basemapLayerElement = isConnected ?
+      (
         <MapView.UrlTile
           key="basemapLayerElement"
-          urlTemplate={CONSTANTS.maps.basemap}
+          urlTemplate={MAPS.basemap}
           zIndex={-1}
         />
       )
-      : isIOS
-        ? null
-        :
-          (
-            <MapView.LocalTile
-              key="localBasemapLayerElementL"
-              localTemplate={basemapLocalTilePath}
-              zIndex={-1}
-            />
-          );
+      : (
+        <MapView.LocalTile
+          key="localBasemapLayerElementL"
+          localTemplate={basemapLocalTilePath}
+          zIndex={-1}
+        />
+      );
     const contextualLayerElement = contextualLayer // eslint-disable-line
       ? isConnected
         ? (
           <MapView.UrlTile
-            key="contextualLayerElement"
+            key={ctxLayerKey}
             urlTemplate={contextualLayer.url}
             zIndex={1}
           />
         )
         : (
           <MapView.LocalTile
-            key="contextualLayerElementOffline"
+            key={ctxLayerKey}
             localTemplate={ctxLayerLocalTilePath}
             zIndex={1}
           />
@@ -748,7 +738,7 @@ class Map extends Component {
       : null;
     const clustersElement = datasetSlug ? (
       <Clusters
-        key="clustersElement"
+        key={clustersKey}
         markers={markers}
         selectAlert={this.selectAlert}
         zoomTo={this.zoomTo}
@@ -765,7 +755,6 @@ class Map extends Component {
           />
         </View>
         <MapView
-          key={mapKey}
           ref={(ref) => { this.map = ref; }}
           style={styles.map}
           provider={MapView.PROVIDER_GOOGLE}
@@ -773,8 +762,6 @@ class Map extends Component {
           minZoomLevel={2}
           maxZoomLevel={18}
           rotateEnabled={false}
-          initialRegion={mapRegion}
-          region={mapRegion}
           onRegionChangeComplete={this.updateRegion}
           onLayout={this.onLayout}
           moveOnMarkerPress={false}

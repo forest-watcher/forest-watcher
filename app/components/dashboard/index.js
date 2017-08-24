@@ -52,7 +52,7 @@ class Dashboard extends PureComponent {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
     this.state = {
-      pristine: Platform.OS === 'android'
+      pristine: true
     };
     this.reportsAction = {
       callback: this.onPressReports,

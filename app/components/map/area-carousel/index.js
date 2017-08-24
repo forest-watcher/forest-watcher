@@ -7,7 +7,6 @@ import {
   TouchableHighlight,
   Image
 } from 'react-native';
-import throttle from 'lodash/throttle';
 import moment from 'moment';
 import Theme from 'config/theme';
 
@@ -68,7 +67,8 @@ class AreaCarousel extends Component {
             firstItem={selectedArea}
             sliderWidth={sliderWidth}
             itemWidth={itemWidth}
-            onSnapToItem={throttle((index) => this.props.updateSelectedArea(index), 300)}
+            onSnapToItem={this.props.updateSelectedArea}
+            scrollEndDragDebounceValue={300}
             showsHorizontalScrollIndicator={false}
             slideStyle={styles.slideStyle}
           >
