@@ -32,8 +32,7 @@
   NSFileManager *fileManager = [NSFileManager defaultManager];
   BOOL isFileExist = [fileManager fileExistsAtPath: imagePath];
   if (isFileExist) {
-    UIImage* image = [UIImage imageWithContentsOfFile:imagePath];
-    return image;
+    return [UIImage imageWithContentsOfFile:imagePath];
   } else {
     NSString *urlJpg = [NSString stringWithFormat: @"%@.jpg", url];
     NSString *imagePath=[[self applicationDocumentsDirectory] stringByAppendingPathComponent: urlJpg];

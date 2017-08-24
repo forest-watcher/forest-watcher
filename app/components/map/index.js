@@ -13,7 +13,7 @@ import {
   Platform
 } from 'react-native';
 
-import CONSTANTS, { COORDINATES_FORMATS } from 'config/constants';
+import { COORDINATES_FORMATS, MAPS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import isEqual from 'lodash/isEqual';
 import moment from 'moment';
@@ -119,7 +119,7 @@ class Map extends Component {
   constructor(props) {
     super(props);
     const { center } = props;
-    const initialCoords = center || { lat: CONSTANTS.maps.lat, lon: CONSTANTS.maps.lng };
+    const initialCoords = center || { lat: MAPS.lat, lon: MAPS.lng };
     this.eventLocation = null;
     this.eventOrientation = null;
     this.hasSetCoordinates = false;
@@ -629,11 +629,11 @@ class Map extends Component {
     const clustersKey = isIOS && markers ? `clustersElement-${markers.length}` : 'clustersElement';
 
     // Map elements
-    const basemapLayerElement = false // TODO: use is connected once tested
-      ? (
+    const basemapLayerElement = isConnected ?
+      (
         <MapView.UrlTile
           key="basemapLayerElement"
-          urlTemplate={CONSTANTS.maps.basemap}
+          urlTemplate={MAPS.basemap}
           zIndex={-1}
         />
       )

@@ -8,7 +8,7 @@
 
 @interface AIRGoogleMapLocalTile : UIView
 
-@property (nonatomic, strong) GMSTileLayer *tileLayer;
+@property (nonatomic, strong) GMSSyncTileLayer *tileLayer;
 @property (nonatomic, assign) NSString *localTemplate;
 @property (nonatomic, assign) int zIndex;
 

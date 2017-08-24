@@ -95,6 +95,7 @@ id regionAsJSON(MKCoordinateRegion region) {
   } else if ([subview isKindOfClass:[AIRGoogleMapLocalTile class]]) {
     AIRGoogleMapLocalTile *tile = (AIRGoogleMapLocalTile*)subview;
     tile.tileLayer.map = self;
+    tile.tileLayer.opacity = 1;
     [self.tiles addObject:tile];
   } else {
     NSArray<id<RCTComponent>> *childSubviews = [subview reactSubviews];
