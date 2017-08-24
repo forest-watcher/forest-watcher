@@ -27,10 +27,17 @@ export default StyleSheet.create({
   },
   listContent: {
     paddingTop: 10,
-    paddingBottom: 30
+    paddingBottom: 72
   },
   row: {
-    marginTop: 32
+    position: 'absolute',
+    width: Theme.screen.width,
+    bottom: 0,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 1
   },
   iconSettings: {
     position: 'absolute',

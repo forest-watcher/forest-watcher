@@ -290,7 +290,7 @@ class DrawAreas extends Component {
   takeSnapshot() {
     return this.map.takeSnapshot({
       height: 224,
-      format: 'png',
+      format: 'jpg',
       quality: 0.8,
       result: 'file'
     });

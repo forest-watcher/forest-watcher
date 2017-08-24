@@ -27,6 +27,20 @@ class AreaDetail extends Component {
     navBarBackgroundColor: Theme.background.main
   };
 
+  static defaultProps = {
+    disableDelete: false
+  };
+
+  static propTypes = {
+    imageUrl: PropTypes.string,
+    updateArea: PropTypes.func,
+    deleteArea: PropTypes.func,
+    isConnected: PropTypes.bool.isRequired,
+    navigator: PropTypes.object,
+    area: PropTypes.object,
+    disableDelete: PropTypes.bool.isRequired
+  };
+
   constructor(props) {
     super();
     this.state = {
@@ -145,19 +159,5 @@ class AreaDetail extends Component {
     );
   }
 }
-
-AreaDetail.defaultProps = {
-  disableDelete: false
-};
-
-AreaDetail.propTypes = {
-  imageUrl: PropTypes.string,
-  updateArea: PropTypes.func,
-  deleteArea: PropTypes.func,
-  isConnected: PropTypes.bool.isRequired,
-  navigator: PropTypes.object,
-  area: PropTypes.object,
-  disableDelete: PropTypes.bool.isRequired
-};
 
 export default AreaDetail;

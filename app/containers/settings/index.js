@@ -7,7 +7,8 @@ function mapStateToProps(state) {
   return {
     user: state.user.data,
     loggedIn: state.user.loggedIn,
-    areas: state.areas.data
+    areas: state.areas.data,
+    isConnected: state.offline.online
   };
 }
 

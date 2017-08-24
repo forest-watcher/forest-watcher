@@ -15,12 +15,16 @@ export default function effect({ url, headers, promise, errorCode, deserialize =
     };
     const canDeserialize = (res) => (res && typeof res === 'object' && res.data && deserialize);
     return defaultEffect(req, action)
-      .then((data) => (canDeserialize(data) ? new JSONAPIDeserializer(deserializeOptions).deserialize(data) : data));
+      .then((data) => (canDeserialize(data) ? new JSONAPIDeserializer(deserializeOptions).deserialize(data) : data))
+      .catch((err) => {
+        if (errorCode) return Promise.reject({ msg: err, status: errorCode });
+        throw err;
+      });
   } else if (typeof promise !== 'undefined') {
     return promise
       .then(data => data)
       .catch(err => {
-        console.warn('offline effect error', JSON.stringify(err, null, '  '));
+        console.warn('offline effect error', err.message, err.stack);
         return Promise.reject({ msg: 'Error in custom promise offline handler', status: errorCode });
       });
   }

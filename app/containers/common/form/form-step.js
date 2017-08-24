@@ -63,7 +63,7 @@ function getEditNextCallback({ currentQuestion, questions, answers, navigator, f
 }
 
 function mapStateToProps(state, { form, index, questionsToSkip, finish, title, screen, navigator, editMode }) {
-  const template = getTemplate(state, form);
+  const template = getTemplate(state.reports, form);
   const questions = template.questions;
   const question = questions && questions[index];
   const parsedQuestion = question && parseQuestion({ question, form: template }, state.app.language);

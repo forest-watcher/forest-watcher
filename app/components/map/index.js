@@ -13,7 +13,7 @@ import {
   Platform
 } from 'react-native';
 
-import CONSTANTS from 'config/constants';
+import CONSTANTS, { COORDINATES_FORMATS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import isEqual from 'lodash/isEqual';
 import moment from 'moment';
@@ -28,6 +28,7 @@ import Clusters from 'containers/map/clusters/';
 import tracker from 'helpers/googleAnalytics';
 import I18n from 'locales';
 import MapView from 'react-native-maps';
+import formatcoords from 'formatcoords';
 import styles from './styles';
 
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
@@ -167,6 +168,7 @@ class Map extends Component {
       nextState.renderMap !== this.state.renderMap,
       !isEqual(nextState.lastPosition, this.state.lastPosition),
       nextState.hasCompass !== this.state.hasCompass,
+      nextState.heading !== this.state.heading,
       !isEqual(nextState.region, this.state.region),
       !isEqual(nextState.markers, this.state.markers),
       !isEqual(nextState.selectedAlerts, this.state.selectedAlerts),
@@ -206,7 +208,6 @@ class Map extends Component {
   componentWillUnmount() {
     Location.stopUpdatingLocation();
     Timer.clearTimeout(this, 'setAlerts');
-    Timer.cancelAnimationFrame(this, 'updateAreaFitBounds');
     if (this.eventLocation) {
       this.eventLocation.remove();
     }
@@ -288,11 +289,27 @@ class Map extends Component {
 
   setHeaderTitle = () => {
     const { selectedAlerts } = this.state;
+    const { navigator, coordinatesFormat } = this.props;
     const last = selectedAlerts.length - 1;
-    const headerText = selectedAlerts && selectedAlerts.length > 0
-      ? `${selectedAlerts[last].latitude.toFixed(4)}, ${selectedAlerts[last].longitude.toFixed(4)}`
-      : I18n.t('dashboard.map');
-    this.props.navigator.setTitle({
+    let headerText = I18n.t('dashboard.map');
+    if (selectedAlerts && selectedAlerts.length > 0) {
+      const lat = selectedAlerts[last].latitude;
+      const lng = selectedAlerts[last].longitude;
+      if (coordinatesFormat === COORDINATES_FORMATS.decimal.value) {
+        headerText = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+      } else {
+        headerText = formatcoords(lat, lng)
+          .format('FFf', { latLonSeparator: ', ', decimalPlaces: 2 });
+      }
+      navigator.setStyle({
+        navBarTextFontSize: 16
+      });
+    } else {
+      navigator.setStyle({
+        navBarTextFontSize: 18
+      });
+    }
+    navigator.setTitle({
       title: headerText
     });
   }
@@ -335,13 +352,14 @@ class Map extends Component {
         lon: alert.longitude
       }));
     }
+    const userLatLng = this.state.lastPosition && `${this.state.lastPosition.latitude},${this.state.lastPosition.longitude}`;
     const screen = 'ForestWatcher.NewReport';
     const title = 'Report';
     const form = `${area.name.toUpperCase()}-${area.dataset.name}-REPORT--${moment().format('YYYY-MM-DDTHH:mm:ss')}`;
     this.props.createReport({
       area,
       name: form,
-      userPosition: this.lastPosition || '0,0',
+      userPosition: userLatLng || '0,0',
       clickedPosition: JSON.stringify(latLng)
     });
     this.props.navigator.push({
@@ -378,7 +396,7 @@ class Map extends Component {
     this.animateGeo();
 
     navigator.geolocation.getCurrentPosition(
-      (location) => {
+      throttle((location) => {
         const coords = typeof location.coords !== 'undefined' ? location.coords : location;
         this.setState({
           lastPosition: {
@@ -386,7 +404,7 @@ class Map extends Component {
             longitude: coords.longitude
           }
         });
-      },
+      }, 300),
       (error) => console.info(error),
       { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
     );
@@ -420,9 +438,9 @@ class Map extends Component {
       Location.startUpdatingHeading();
       this.eventOrientation = DeviceEventEmitter.addListener(
         'headingUpdated',
-        (data) => {
+        throttle((data) => {
           this.setState(updateHeading(data.heading));
-        }
+        }, 450)
       );
     } else {
       SensorManager.startOrientation(300);
@@ -430,7 +448,7 @@ class Map extends Component {
         'Orientation',
         throttle((data) => {
           this.setState(updateHeading(data.azimuth));
-        }, 16)
+        }, 450)
       );
     }
   }
@@ -471,11 +489,10 @@ class Map extends Component {
 
   mapPress = (coordinate) => {
     if (coordinate) {
-      const { selectedAlerts } = this.state;
-      this.setState({
+      this.setState(({ selectedAlerts }) => ({
         neighbours: [],
         selectedAlerts: selectedAlerts && selectedAlerts.length > 0 ? [] : [coordinate]
-      });
+      }));
     }
   }
 
@@ -528,7 +545,7 @@ class Map extends Component {
       const margin = Platform.OS === 'ios' ? 150 : 250;
       const options = { edgePadding: { top: margin, right: margin, bottom: margin, left: margin }, animated: false };
       if (this.map) {
-        Timer.requestAnimationFrame(this, 'updateAreaFitBounds', () => this.map.fitToCoordinates(this.props.areaCoordinates, options));
+        this.map.fitToCoordinates(this.props.areaCoordinates, options);
       }
     });
   }
@@ -600,7 +617,7 @@ class Map extends Component {
     const { hasCompass, lastPosition, compassFallback,
             selectedAlerts, neighbours, heading, markers } = this.state;
     const { areaCoordinates, datasetSlug, contextualLayer,
-            basemapLocalTilePath, isConnected, ctxLayerLocalTilePath } = this.props;
+            basemapLocalTilePath, isConnected, ctxLayerLocalTilePath, coordinatesFormat } = this.props;
     const showCompassFallback = !hasCompass && lastPosition && selectedAlerts && compassFallback;
     const lastAlertIndex = selectedAlerts.length - 1;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
@@ -608,7 +625,9 @@ class Map extends Component {
     let veilHeight = 120;
     if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
     const isIOS = Platform.OS === 'ios';
-    const mapKey = isIOS ? markers.length : 'mapView';
+    const ctxLayerKey = isIOS && contextualLayer ? `contextualLayerElement-${contextualLayer.name}` : 'contextualLayerElement';
+    const clustersKey = isIOS && markers ? `clustersElement-${markers.length}` : 'clustersElement';
+
     // Map elements
     const basemapLayerElement = false // TODO: use is connected once tested
       ? (
@@ -629,14 +648,14 @@ class Map extends Component {
       ? isConnected
         ? (
           <MapView.UrlTile
-            key="contextualLayerElement"
+            key={ctxLayerKey}
             urlTemplate={contextualLayer.url}
             zIndex={1}
           />
         )
         : (
           <MapView.LocalTile
-            key="contextualLayerElementOffline"
+            key={ctxLayerKey}
             localTemplate={ctxLayerLocalTilePath}
             zIndex={1}
           />
@@ -719,7 +738,7 @@ class Map extends Component {
       : null;
     const clustersElement = datasetSlug ? (
       <Clusters
-        key="clustersElement"
+        key={clustersKey}
         markers={markers}
         selectAlert={this.selectAlert}
         zoomTo={this.zoomTo}
@@ -736,7 +755,6 @@ class Map extends Component {
           />
         </View>
         <MapView
-          key={mapKey}
           ref={(ref) => { this.map = ref; }}
           style={styles.map}
           provider={MapView.PROVIDER_GOOGLE}
@@ -744,7 +762,6 @@ class Map extends Component {
           minZoomLevel={2}
           maxZoomLevel={18}
           rotateEnabled={false}
-          initialRegion={this.state.region}
           onRegionChangeComplete={this.updateRegion}
           onLayout={this.onLayout}
           moveOnMarkerPress={false}
@@ -767,11 +784,12 @@ class Map extends Component {
           />
         </View>
         <View pointerEvents="box-none" style={styles.footer}>
-          <View style={[styles.footerRow, { justifyContent: hasAlertsSelected ? 'space-between' : 'flex-end' }]}>
+          <View style={styles.footerRow}>
             {hasAlertsSelected &&
               <AlertPosition
                 alertSelected={selectedAlerts[lastAlertIndex]}
                 lastPosition={this.state.lastPosition}
+                coordinatesFormat={coordinatesFormat}
               />
             }
             <MapAttribution />
@@ -818,7 +836,8 @@ Map.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
     url: PropTypes.string.isRequired
-  })
+  }),
+  coordinatesFormat: PropTypes.string.isRequired
 };
 
 export default Map;

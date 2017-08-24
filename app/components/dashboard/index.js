@@ -4,7 +4,8 @@ import {
   View,
   ScrollView,
   Platform,
-  Text
+  Text,
+  TouchableWithoutFeedback
 } from 'react-native';
 
 import AreaList from 'containers/common/area-list';
@@ -20,6 +21,16 @@ const nextIcon = require('assets/next.png');
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
 
 class Dashboard extends PureComponent {
+
+  static propTypes = {
+    navigator: PropTypes.object.isRequired,
+    actionsPending: PropTypes.number.isRequired,
+    syncModalOpen: PropTypes.bool.isRequired,
+    syncSkip: PropTypes.bool.isRequired,
+    setSyncModal: PropTypes.func.isRequired,
+    updateSelectedIndex: PropTypes.func.isRequired
+  };
+
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color1,
     navBarButtonColor: Theme.colors.color1,
@@ -39,7 +50,10 @@ class Dashboard extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    this.state = {
+      pristine: Platform.OS === 'android'
+    };
     this.reportsAction = {
       callback: this.onPressReports,
       icon: nextIcon
@@ -69,7 +83,7 @@ class Dashboard extends PureComponent {
     });
   }
 
-  onNavigatorEvent(event) {
+  onNavigatorEvent = (event) => {
     const { actionsPending, syncModalOpen, syncSkip } = this.props;
     if (event.type === 'NavBarButtonPress') {
       if (event.id === 'settings') {
@@ -92,36 +106,40 @@ class Dashboard extends PureComponent {
     }
   }
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.backgroundHack} />
+  disablePristine = () => {
+    if (this.state.pristine) {
+      this.setState({ pristine: false });
+    }
+  }
 
-        <ScrollView
-          style={styles.list}
-          contentContainerStyle={styles.listContent}
-          scrollEnabled
-        >
-          <Text style={styles.label}>
-            {I18n.t('settings.yourAreas')}
-          </Text>
-          <AreaList onAreaPress={this.onAreaPress} />
+  render() {
+    const { pristine } = this.state;
+    // we remove the event handler to improve performance
+    const disablePristine = pristine ? this.disablePristine : undefined;
+    return (
+      <TouchableWithoutFeedback onPressIn={disablePristine}>
+        <View style={styles.container}>
+          <View style={styles.backgroundHack} />
+          <ScrollView
+            onScroll={disablePristine}
+            style={styles.list}
+            contentContainerStyle={styles.listContent}
+            scrollEnabled
+          >
+            <View pointerEvents={pristine ? 'box-only' : 'auto'}>
+              <Text style={styles.label}>
+                {I18n.t('settings.yourAreas')}
+              </Text>
+              <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
+            </View>
+          </ScrollView>
           <Row style={styles.row} action={this.reportsAction}>
             <Text>{I18n.t('dashboard.myReports')}</Text>
           </Row>
-        </ScrollView>
-      </View>
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
-
-Dashboard.propTypes = {
-  navigator: PropTypes.object.isRequired,
-  actionsPending: PropTypes.number.isRequired,
-  syncModalOpen: PropTypes.bool.isRequired,
-  syncSkip: PropTypes.bool.isRequired,
-  setSyncModal: PropTypes.func.isRequired,
-  updateSelectedIndex: PropTypes.func.isRequired
-};
 
 export default Dashboard;

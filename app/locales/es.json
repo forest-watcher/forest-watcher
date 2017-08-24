@@ -1,7 +1,8 @@
 {
     "commonText": {
+        "retry": "Retry",
         "error": "Error",
-        "unexpectedError": "Something unexpected happened",
+        "unexpectedError": "Sucedió algo inesperado",
         "appName": "Forest Watcher",
         "next": "Siguiente",
         "save": "Guardar",
@@ -17,7 +18,7 @@
         "loading": "Cargando",
         "notAvailable": "No disponible",
         "kmAway": "Km de distancia",
-        "updated": "Updated",
+        "updated": "Actualizado",
         "name": "Nombre",
         "yourPosition": "Tu posición",
         "connectionRequiredTitle": "Sin conexión",
@@ -30,7 +31,7 @@
     "home": {
         "title": {
             "updating": "Actualizando datos...",
-            "outOfDate": "You are offline",
+            "outOfDate": "Está desconectado",
             "updated": "¡ Actualización completa !"
         },
         "subtitle": {
@@ -50,7 +51,12 @@
         "uploadData": "Datos guardados y subidos",
         "map": "Mapa",
         "dailyFeedback": "Feedback diario",
-        "weeklyFeedback": "Feedback semanal"
+        "weeklyFeedback": "Feedback semanal",
+        "downloadArea": "Make this area available offline",
+        "downloadingArea": "Downloading area",
+        "unable": "Unable to download area",
+        "connectionRequired": "You need an internet connection",
+        "downloadFailed": "Download failed"
     },
     "login": {
         "title": "Iniciar sesión",
@@ -63,7 +69,7 @@
         "brazilTitle": "Brasil",
         "colombiaTitle": "Colombia",
         "indonesiaTitle": "Indonesia",
-        "failed": "There was an error during login/logout"
+        "failed": "Se ha producido un error durante el inicio o cierre de sesión"
     },
     "countries": {
         "searchPlaceholder": "Buscar un país"
@@ -135,13 +141,18 @@
         "3MonthsAgo": "Hace 3 meses",
         "6MonthsAgo": "Hace 6 meses",
         "1yearAgo": "Hace 1 año",
-        "availableOffline": "Disponible offline"
+        "availableOffline": "Disponible offline",
+        "unable": "Unable to add area",
+        "connectionRequired": "You need an internet connection",
+        "coordinatesFormat": "Coordinates Format",
+        "coordinatesDecimal": "Decimal",
+        "coordinatesDegrees": "Degrees"
     },
     "report": {
         "title": "Informe",
         "plural": "Informes",
-        "selected": "Report selected",
-        "area": "Report area",
+        "selected": "Informe seleccionado",
+        "area": "Informar área",
         "takePicture": "Toma una foto",
         "choosePicture": "Please take or choose a picture",
         "datePlaceholder": "Seleccione una fecha",
@@ -151,24 +162,25 @@
         "inputRadio": "Elija una opción para continuar",
         "inputSelect": "Seleccione al menos una opción para continuar",
         "input": "Por favor conteste la pregunta",
-        "empty": "No report submitted, please go to the map and report one alert!",
+        "empty": "No se ha enviado ningún informe, por favor, vaya al mapa e informe una alerta.",
         "completed": "Terminado",
         "uploadAll": "Subir todo",
         "drafts": "Borradores",
         "uploaded": "Subido",
         "unable": "Imposible enviar el reporte",
         "connectionRequired": "Necesita una conexión a internet",
-        "addPicture": "Add Picture",
-        "emptyPicture": "Empty"
+        "addPicture": "Añadir imagen",
+        "emptyPicture": "Vacío",
+        "pictures": "Pictures"
     },
     "feedback": {
         "title": "Feedback"
     },
     "map": {
-        "alerts": "Alerts",
-        "reported": "Reported",
-        "settings": "Map Settings",
-        "ctxLayers": "Contextual layers"
+        "alerts": "Alertas",
+        "reported": "Informado",
+        "settings": "Ajustes del mapa",
+        "ctxLayers": "Capas de contexto"
     },
     "sync": {
         "error": "Sync error",

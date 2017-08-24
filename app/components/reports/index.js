@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import {
   View,
   Text,
-  Image,
-  ScrollView,
-  TouchableHighlight
+  ScrollView
 } from 'react-native';
 
+import Row from 'components/common/row';
 import moment from 'moment';
 import I18n from 'locales';
 import Theme from 'config/theme';
@@ -16,6 +15,7 @@ import styles from './styles';
 
 const editIcon = require('assets/edit.png');
 const nextIcon = require('assets/next.png');
+const uploadIcon = require('assets/upload.png');
 
 function getItems(data, image, onPress) {
   return data.map((item, index) => {
@@ -27,32 +27,18 @@ function getItems(data, image, onPress) {
       }
     }
     const dateParsed = moment(item.date).fromNow();
-    let icon = null;
-    if (image && onPress) {
-      icon = (
-        <TouchableHighlight
-          onPress={() => typeof onPress === 'function' && onPress(item.title)}
-          underlayColor="transparent"
-          activeOpacity={0.8}
-        >
-          <Image style={Theme.icon} source={image} />
-        </TouchableHighlight>
-      );
-    } else if (image) {
-      icon = <Image style={Theme.icon} source={image} />;
-    }
+    const action = {
+      icon: image,
+      callback: () => onPress(item.title)
+    };
     return (
-      <View
-        key={index}
-        style={styles.listItem}
-      >
-        <View style={styles.listItemContent}>
+      <Row key={index + item.title} rowStyle={{ height: 120 }} action={action}>
+        <View style={styles.listItem}>
           <Text style={styles.itemTitle}>{item.title}</Text>
           <Text style={styles.itemText}>{positionParsed}</Text>
           <Text style={styles.itemText}>{dateParsed}</Text>
         </View>
-        <View style={styles.listBtn}>{icon}</View>
-      </View>
+      </Row>
     );
   });
 }
@@ -63,6 +49,17 @@ class Reports extends Component {
     navBarButtonColor: Theme.colors.color1,
     topBarElevationShadowEnabled: false,
     navBarBackgroundColor: Theme.background.main
+  };
+
+  static propTypes = {
+    navigator: PropTypes.object.isRequired,
+    reports: PropTypes.shape({
+      draft: PropTypes.array,
+      uploaded: PropTypes.array,
+      complete: PropTypes.array
+    }).isRequired,
+    getLastStep: PropTypes.func.isRequired,
+    finish: PropTypes.func.isRequired
   };
 
   componentDidMount() {
@@ -80,13 +77,16 @@ class Reports extends Component {
     });
   }
 
+  onClickUpload = (reportName) => {
+    this.props.finish(reportName);
+  }
+
   getCompleted = (completed) => (
     <View style={styles.listContainer}>
       <View style={styles.listHeader}>
         <Text style={styles.listTitle}>{I18n.t('report.completed')}</Text>
-        <Text style={[styles.listTitle, styles.listAction]}>{I18n.t('report.uploadAll').toUpperCase()}</Text>
       </View>
-      {getItems(completed, nextIcon, this.onClickNext)}
+      {getItems(completed, uploadIcon, this.onClickUpload)}
     </View>
   );
 
@@ -176,17 +176,5 @@ class Reports extends Component {
     );
   }
 }
-
-Reports.propTypes = {
-  navigator: PropTypes.object.isRequired,
-  reports: PropTypes.shape({
-    draft: PropTypes.array,
-    uploaded: PropTypes.array,
-    complete: PropTypes.array
-  }).isRequired,
-  getLastStep: PropTypes.func.isRequired,
-  finish: PropTypes.func.isRequired
-};
-
 
 export default Reports;

@@ -1,5 +1,6 @@
 {
     "commonText": {
+        "retry": "Retry",
         "error": "Error",
         "unexpectedError": "Something unexpected happened",
         "appName": "Forest Watcher",
@@ -50,7 +51,12 @@
         "uploadData": "Saved and uploaded data",
         "map": "Map",
         "dailyFeedback": "Daily feedback",
-        "weeklyFeedback": "Weekly feedback"
+        "weeklyFeedback": "Weekly feedback",
+        "downloadArea": "Make this area available offline",
+        "downloadingArea": "Downloading area",
+        "unable": "Unable to download area",
+        "connectionRequired": "You need an internet connection",
+        "downloadFailed": "Download failed"
     },
     "login": {
         "title": "Login",
@@ -135,7 +141,12 @@
         "3MonthsAgo": "3 months ago",
         "6MonthsAgo": "6 months ago",
         "1yearAgo": "1 year ago",
-        "availableOffline": "Available offline"
+        "availableOffline": "Available offline",
+        "unable": "Unable to add area",
+        "connectionRequired": "You need an internet connection",
+        "coordinatesFormat": "Coordinates Format",
+        "coordinatesDecimal": "Decimal",
+        "coordinatesDegrees": "Degrees"
     },
     "report": {
         "title": "Report",
@@ -159,7 +170,8 @@
         "unable": "Unable to send report",
         "connectionRequired": "You need an internet connection",
         "addPicture": "Add Picture",
-        "emptyPicture": "Empty"
+        "emptyPicture": "Empty",
+        "pictures": "Pictures"
     },
     "feedback": {
         "title": "Feedback"

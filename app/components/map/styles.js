@@ -101,9 +101,11 @@ export default StyleSheet.create({
   },
   footerRow: {
     flex: 1,
+    position: 'relative',
     flexDirection: 'row',
     alignItems: 'flex-end',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    minHeight: 32
   },
   footerBGContainer: {
     left: 0,

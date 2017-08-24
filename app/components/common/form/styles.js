@@ -38,13 +38,12 @@ export default StyleSheet.create({
   answersText: {
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
-    fontSize: 17
+    fontSize: 17,
+    paddingLeft: Theme.margin.left
   },
   picturesContainer: {
     paddingTop: 16,
-    paddingBottom: 16,
-    paddingLeft: Theme.margin.left,
-    paddingRight: Theme.margin.right
+    paddingBottom: 16
   },
   buttonSaveContainer: {
     paddingLeft: 8,

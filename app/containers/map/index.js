@@ -56,13 +56,14 @@ function mapStateToProps(state) {
     areaCoordinates,
     clusters: activeCluster.supercluster,
     isConnected: state.offline.online,
-    basemapLocalTilePath: (area && area.id && cache.basemap[area.id]) || '',
+    basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',
     ctxLayerLocalTilePath: cache[state.layers.activeLayer] ? cache[state.layers.activeLayer][area.id] : '',
     actionsPending: getTotalActionsPending(state),
     syncModalOpen: state.app.syncModalOpen,
     syncSkip: state.app.syncSkip,
     canDisplayAlerts: state.alerts.canDisplayAlerts,
-    contextualLayer
+    contextualLayer,
+    coordinatesFormat: state.app.coordinatesFormat
   };
 }
 

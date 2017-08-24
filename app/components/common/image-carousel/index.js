@@ -18,6 +18,7 @@ const ImageCarousel = (props) => {
   };
   return (
     <Carousel
+      showsHorizontalScrollIndicator={false}
       sliderWidth={Theme.screen.width}
       itemWidth={itemWidth}
     >

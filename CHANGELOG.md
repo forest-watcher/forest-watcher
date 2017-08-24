@@ -1,6 +1,32 @@
 # Forest Watcher Changelog
 
-## [v1.0.0rc] - 2017-07-28
+## [v1.0.0rc5] - 2017-08-17
+- Improve download cache status progress bar
+- Fix breaks in area creation
+- Save area images properly
+- Fix custom reports reponses
+- Fix sync missing templates
+- Fix rollback on report upload
+
+## [v1.0.0rc4] - 2017-08-11
+- User position saved properly
+- Prevents adding areas if no internet connection
+- Fix iOS map updates
+- Dashboard re-style with recache posibility
+- Download progress bar more fluid
+- Use android high resolution icons
+
+## [v1.0.0rc3] - 2017-08-04
+- Cache areas on demand
+- Fix offline rollback actions
+- Clear offline actions pending on logout
+
+## [v1.0.0rc2] - 2017-08-01
+- Sort report by last date
+- iOS release
+- Fixed infinite sync page
+
+## [v1.0.0rc1] - 2017-07-28
 
 ### Added
 

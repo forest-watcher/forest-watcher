@@ -3,6 +3,7 @@ import tracker from 'helpers/googleAnalytics';
 import CONSTANTS from 'config/constants';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { getActionsTodoCount } from 'helpers/sync';
+import { getTemplate } from 'helpers/forms';
 import omit from 'lodash/omit';
 
 import { SAVE_AREA_COMMIT, GET_AREAS_COMMIT } from 'redux-modules/areas';
@@ -67,13 +68,10 @@ export default function reducer(state = initialState, action) {
     case GET_REPORT_TEMPLATE_COMMIT: {
       const template = action.payload || {};
       template.questions = orderQuestions(template.questions);
-      let templates = { ...state.templates };
-      if (template.status && template.status !== 'unpublished') {
-        templates = {
-          ...templates,
-          [template.id]: template
-        };
-      }
+      const templates = {
+        ...state.templates,
+        [template.id]: template
+      };
       const pendingData = {
         ...state.pendingData,
         templates: omit(state.pendingData.templates, [template.id])
@@ -100,11 +98,9 @@ export default function reducer(state = initialState, action) {
       areas.forEach((area) => {
         if (area.templateId) {
           newTemplatesId.push(area.templateId);
-          if (!templates[area.templateId]) {
-            pendingData = {
-              templates: { ...pendingData.templates, [area.templateId]: false }
-            };
-          }
+          pendingData = {
+            templates: { ...pendingData.templates, [area.templateId]: false }
+          };
         }
       });
       const templatesFilter = Object.keys(templates).filter((template) => (
@@ -145,13 +141,13 @@ export default function reducer(state = initialState, action) {
       return { ...state, list, synced: false, syncing: true };
     }
     case UPLOAD_REPORT_COMMIT: {
+      return { ...state, synced: true, syncing: false };
+    }
+    case UPLOAD_REPORT_ROLLBACK: {
       const { name, status } = action.meta.report;
       const report = state.list[name];
       const list = { ...state.list, [name]: { ...report, status } };
       return { ...state, list, synced: true, syncing: false };
-    }
-    case UPLOAD_REPORT_ROLLBACK: {
-      return { ...state, syncing: false };
     }
     case LOGOUT_REQUEST: {
       return initialState;
@@ -225,15 +221,16 @@ export function uploadReport({ reportName, fields }) {
     const user = state().user;
     const userName = (user && user.data && user.data.fullName) || 'Guest user';
     const organization = (user && user.data && user.data.organization) || 'None';
-    const report = state().reports.list[reportName];
+    const reports = state().reports;
+    const report = reports.list[reportName];
     const language = state().app.language;
     const area = report.area;
     const dataset = area.dataset || {};
     const form = new FormData();
-    const defaultTemplate = state().reports.templates.default;
-    const templateId = report.area.templateId || defaultTemplate.id;
+    const template = getTemplate(reports, reportName);
 
-    form.append('report', templateId);
+    form.append('report', template.id);
+    form.append('reportName', reportName);
     form.append('areaOfInterest', area.id);
     form.append('startDate', dataset.startDate);
     form.append('endDate', dataset.endDate);
@@ -242,8 +239,8 @@ export function uploadReport({ reportName, fields }) {
     form.append('username', userName);
     form.append('organization', organization);
     form.append('date', report && report.date);
-    form.append('clickedPosition', report && report.clickedPosition.toString());
-    form.append('userPosition', report && report.userPosition.toString());
+    form.append('clickedPosition', report && report.clickedPosition);
+    form.append('userPosition', report && report.userPosition);
 
     Object.keys(reportValues).forEach((key) => {
       if (fields.includes(key)) {
@@ -262,23 +259,27 @@ export function uploadReport({ reportName, fields }) {
 
     const requestPayload = {
       name: reportName,
-      status: CONSTANTS.status.complete,
+      status: CONSTANTS.status.uploaded,
       alerts: JSON.parse(report.clickedPosition)
     };
     const commitPayload = {
       name: reportName,
       status: CONSTANTS.status.uploaded
     };
-    const url = `${Config.API_URL}/reports/${Config.REPORT_ID}/answers`;
+    const rollbackPayload = {
+      name: reportName,
+      status: CONSTANTS.status.complete
+    };
+    const url = `${Config.API_URL}/reports/${template.id}/answers`;
     const headers = { 'content-type': 'multipart/form-data' };
     dispatch({
       type: UPLOAD_REPORT_REQUEST,
       payload: requestPayload,
       meta: {
         offline: {
-          effect: { url, body: form, method: 'POST', headers },
+          effect: { url, body: form, method: 'POST', headers, errorCode: 400 },
           commit: { type: UPLOAD_REPORT_COMMIT, meta: { report: commitPayload } },
-          rollback: { type: UPLOAD_REPORT_ROLLBACK }
+          rollback: { type: UPLOAD_REPORT_ROLLBACK, meta: { report: rollbackPayload } }
         }
       }
     });

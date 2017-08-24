@@ -1,6 +1,6 @@
 {
   "name": "ForestWatcher",
-  "version": "1.0.0",
+  "version": "1.0.0rc5",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
@@ -19,6 +19,7 @@
     "boundingbox": "0.1.0",
     "buffer": "5.0.5",
     "d3-dsv": "1.0.5",
+    "formatcoords": "1.1.3",
     "geojson-polygon-self-intersections": "1.1.1",
     "geokdbush": "1.1.0",
     "geopoint": "1.0.1",
@@ -42,6 +43,7 @@
     "react-native-location": "timfpark/react-native-location",
     "react-native-maps": "Vizzuality/react-native-maps",
     "react-native-navigation": "1.1.65",
+    "react-native-progress": "^3.3.0",
     "react-native-scrollable-tab-view": "0.7.4",
     "react-native-sensor-manager": "0.1.10",
     "react-native-snap-carousel": "2.1.2",

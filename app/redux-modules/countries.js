@@ -12,7 +12,7 @@ const GET_COUNTRIES_ROLLBACK = 'countries/GET_COUNTRIES_ROLLBACK';
 
 // Reducer
 const initialState = {
-  data: null,
+  data: countriesFallback,
   synced: false,
   syncing: false
 };
@@ -24,7 +24,7 @@ export default function reducer(state = initialState, action) {
     case GET_COUNTRIES_COMMIT:
       return { ...state, data: action.payload.data, synced: true, syncing: false };
     case GET_COUNTRIES_ROLLBACK:
-      return { ...state, data: countriesFallback, syncing: false };
+      return { ...state, syncing: false };
     case LOGOUT_REQUEST:
       return initialState;
     default:

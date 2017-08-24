@@ -7,12 +7,14 @@ import {
   Text,
   TouchableHighlight,
   ScrollView,
-  Image
+  Image,
+  Alert
 } from 'react-native';
 
 import Theme from 'config/theme';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
+import CoordinatesDropdown from 'containers/settings/coordinates-dropdown';
 
 import styles from './styles';
 
@@ -26,10 +28,14 @@ class Settings extends Component {
     navBarBackgroundColor: Theme.background.main
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  static propTypes = {
+    user: PropTypes.any,
+    loggedIn: PropTypes.bool, // eslint-disable-line
+    areas: PropTypes.any,
+    navigator: PropTypes.object.isRequired,
+    logout: PropTypes.func.isRequired,
+    isConnected: PropTypes.bool.isRequired
+  };
 
   componentDidMount() {
     tracker.trackScreenView('Set Up');
@@ -61,9 +67,18 @@ class Settings extends Component {
   }
 
   onPressAddArea = () => {
-    this.props.navigator.push({
-      screen: 'ForestWatcher.Setup'
-    });
+    const { navigator, isConnected } = this.props;
+    if (isConnected) {
+      navigator.push({
+        screen: 'ForestWatcher.Setup'
+      });
+    } else {
+      Alert.alert(
+        I18n.t('settings.unable'),
+        I18n.t('settings.connectionRequired'),
+        [{ text: 'OK' }]
+      );
+    }
   }
 
   handlePartnersLink = () => {
@@ -118,6 +133,10 @@ class Settings extends Component {
             </TouchableHighlight>
           </View>
 
+          <View style={styles.coordinates}>
+            <CoordinatesDropdown />
+          </View>
+
           {areas && areas.length
             ? <View style={styles.areas}>
               <Text style={styles.label}>
@@ -157,13 +176,5 @@ class Settings extends Component {
     );
   }
 }
-
-Settings.propTypes = {
-  user: PropTypes.any,
-  loggedIn: PropTypes.bool, // eslint-disable-line
-  areas: PropTypes.any,
-  navigator: PropTypes.object.isRequired,
-  logout: PropTypes.func.isRequired
-};
 
 export default Settings;

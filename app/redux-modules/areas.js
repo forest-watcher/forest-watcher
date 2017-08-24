@@ -23,7 +23,7 @@ export const UPDATE_AREA_REQUEST = 'areas/UPDATE_AREA_REQUEST';
 const UPDATE_AREA_COMMIT = 'areas/UPDATE_AREA_COMMIT';
 const UPDATE_AREA_ROLLBACK = 'areas/UPDATE_AREA_ROLLBACK';
 const DELETE_AREA_REQUEST = 'areas/DELETE_AREA_REQUEST';
-const DELETE_AREA_COMMIT = 'areas/DELETE_AREA_COMMIT';
+export const DELETE_AREA_COMMIT = 'areas/DELETE_AREA_COMMIT';
 const DELETE_AREA_ROLLBACK = 'areas/DELETE_AREA_ROLLBACK';
 const SET_AREA_IMAGE_REQUEST = 'areas/SET_AREA_IMAGE_REQUEST';
 const SET_AREA_IMAGE_COMMIT = 'areas/SET_AREA_IMAGE_COMMIT';
@@ -63,16 +63,15 @@ export default function reducer(state = initialState, action) {
     case GET_AREAS_COMMIT: {
       let pendingData = { ...state.pendingData };
       const data = [...action.payload];
-      const existingAreasID = state.data.length > 0
-        ? state.data.map((area) => area.id)
-        : [];
+      const existingImages = Object.keys(state.images);
       data.forEach((newArea) => {
         // Always request new coverage in case there are new alert system in the area
         pendingData = {
-          coverage: { ...pendingData.coverage, [newArea.id]: false }
+          coverage: { ...pendingData.coverage, [newArea.id]: false },
+          image: { ...pendingData.image }
         };
         // and only cache the images if is a new area
-        if (!existingAreasID.includes(newArea.id)) {
+        if (!existingImages.includes(newArea.id)) {
           pendingData = {
             ...pendingData,
             image: { ...pendingData.image, [newArea.id]: false }
@@ -324,11 +323,13 @@ export function saveArea(params) {
   const body = new FormData();
   body.append('name', params.area.name);
   body.append('geostore', params.area.geostore);
+
   const image = {
     uri: params.snapshot,
-    type: 'image/png',
-    name: `${encodeURIComponent(params.area.name)}.png`
+    type: 'image/jpg',
+    name: `${encodeURIComponent(params.area.name)}.jpg`
   };
+
   if (params.datasets) {
     body.append('datasets', JSON.stringify(params.datasets));
   }

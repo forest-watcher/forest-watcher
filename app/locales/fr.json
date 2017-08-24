@@ -1,7 +1,8 @@
 {
     "commonText": {
-        "error": "Error",
-        "unexpectedError": "Something unexpected happened",
+        "retry": "Retry",
+        "error": "Erreur",
+        "unexpectedError": "Un évènement imprévu s'est produit",
         "appName": "Forest Watcher",
         "next": "Suivant",
         "save": "Enregistrer",
@@ -17,7 +18,7 @@
         "loading": "Chargement",
         "notAvailable": "Indisponible",
         "kmAway": "Km de distance",
-        "updated": "Updated",
+        "updated": "Mise à jour",
         "name": "Nom",
         "yourPosition": "Votre position",
         "connectionRequiredTitle": "Pas de connexion",
@@ -30,7 +31,7 @@
     "home": {
         "title": {
             "updating": "Mise à jour des données...",
-            "outOfDate": "You are offline",
+            "outOfDate": "Vous n'êtes pas connecté",
             "updated": "Mise à jour effectuée !"
         },
         "subtitle": {
@@ -50,7 +51,12 @@
         "uploadData": "Données sauvegardées",
         "map": "Carte",
         "dailyFeedback": "Donner un avis quotidien",
-        "weeklyFeedback": "Donner un avis hebdomadaire"
+        "weeklyFeedback": "Donner un avis hebdomadaire",
+        "downloadArea": "Make this area available offline",
+        "downloadingArea": "Downloading area",
+        "unable": "Unable to download area",
+        "connectionRequired": "You need an internet connection",
+        "downloadFailed": "Download failed"
     },
     "login": {
         "title": "S'identifier",
@@ -63,7 +69,7 @@
         "brazilTitle": "Brésil",
         "colombiaTitle": "Colombie",
         "indonesiaTitle": "Indonésie",
-        "failed": "There was an error during login/logout"
+        "failed": "Il y avait un erreur pendant l'ouverture ou la fermeture de la session"
     },
     "countries": {
         "searchPlaceholder": "Rechercher un pays"
@@ -135,13 +141,18 @@
         "3MonthsAgo": "Les 3 derniers mois",
         "6MonthsAgo": "Les 6 derniers mois",
         "1yearAgo": "L'année dernière",
-        "availableOffline": "Disponible hors-ligne"
+        "availableOffline": "Disponible hors-ligne",
+        "unable": "Unable to add area",
+        "connectionRequired": "You need an internet connection",
+        "coordinatesFormat": "Coordinates Format",
+        "coordinatesDecimal": "Decimal",
+        "coordinatesDegrees": "Degrees"
     },
     "report": {
         "title": "Rapport",
         "plural": "Rapports",
-        "selected": "Report selected",
-        "area": "Report area",
+        "selected": "Rapport sélectionnée",
+        "area": "Zone de rapport",
         "takePicture": "Prendre une photo",
         "choosePicture": "Please take or choose a picture",
         "datePlaceholder": "Sélectionner une date",
@@ -151,24 +162,25 @@
         "inputRadio": "Choisissez une option pour continuer",
         "inputSelect": "Choisissez au moins une option pour continuer",
         "input": "S'il vous plaît, répondez à la question",
-        "empty": "No report submitted, please go to the map and report one alert!",
+        "empty": "Aucun notification soumis. Veuillez-vous rendre sur la carte et faire un rapport sur une notification!",
         "completed": "Terminé",
         "uploadAll": "Tout sauvegarder",
         "drafts": "Brouillons",
         "uploaded": "Sauvegardé",
         "unable": "Impossible d'envoyer le rapport",
         "connectionRequired": "Une connexion internet est requise",
-        "addPicture": "Add Picture",
-        "emptyPicture": "Empty"
+        "addPicture": "Ajouter image",
+        "emptyPicture": "Vide",
+        "pictures": "Pictures"
     },
     "feedback": {
         "title": "Feedback"
     },
     "map": {
-        "alerts": "Alerts",
-        "reported": "Reported",
-        "settings": "Map Settings",
-        "ctxLayers": "Contextual layers"
+        "alerts": "Notifications",
+        "reported": "Notifié",
+        "settings": "Paramètres carte",
+        "ctxLayers": "Couches contextuels"
     },
     "sync": {
         "error": "Sync error",

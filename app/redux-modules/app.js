@@ -1,9 +1,10 @@
 import { version } from 'package.json';
+import { COORDINATES_FORMATS } from 'config/constants/index';
 import { syncAreas, UPDATE_AREA_REQUEST, SAVE_AREA_REQUEST } from 'redux-modules/areas';
 import { syncCountries } from 'redux-modules/countries';
 import { syncUser, LOGOUT_REQUEST } from 'redux-modules/user';
 import { syncGeostore } from 'redux-modules/geostore';
-import { syncLayers, CACHE_LAYER_ROLLBACK, CACHE_BASEMAP_ROLLBACK } from 'redux-modules/layers';
+import { syncLayers } from 'redux-modules/layers';
 import { syncReports } from 'redux-modules/reports';
 import { syncAlerts } from 'redux-modules/alerts';
 
@@ -13,12 +14,14 @@ const SET_LANGUAGE = 'app/SET_LANGUAGE';
 const SET_SYNC_MODAL = 'app/SET_SYNC_MODAL';
 const SET_SYNC_SKIP = 'app/SET_SYNC_SKIP';
 export const RETRY_SYNC = 'app/RETRY_SYNC';
+const SET_COORDINATES_FORMAT = 'app/SET_COORDINATES_FORMAT';
 
 // Reducer
 const initialState = {
   language: null,
   syncModalOpen: false,
   syncSkip: false,
+  coordinatesFormat: COORDINATES_FORMATS.decimal.value,
   version // app cache invalidation depends on this, if this changes make sure that redux-persist invalidation changes also.
 };
 
@@ -32,14 +35,12 @@ export default function reducer(state = initialState, action) {
       return { ...state, syncSkip: false, syncModalOpen: false };
     case SET_SYNC_SKIP:
       return { ...state, syncSkip: action.payload };
-    case CACHE_LAYER_ROLLBACK:
-      return { ...state, syncSkip: true };
-    case CACHE_BASEMAP_ROLLBACK:
-      return { ...state, syncSkip: true };
     case UPDATE_AREA_REQUEST:
       return { ...state, syncSkip: false };
     case SAVE_AREA_REQUEST:
       return { ...state, syncSkip: false };
+    case SET_COORDINATES_FORMAT:
+      return { ...state, coordinatesFormat: action.payload };
     case LOGOUT_REQUEST:
       return initialState;
     default:
@@ -91,5 +92,12 @@ export function retrySync() {
   return (dispatch) => {
     dispatch({ type: RETRY_SYNC });
     dispatch(syncApp());
+  };
+}
+
+export function setCoordinatesFormat(format) {
+  return {
+    type: SET_COORDINATES_FORMAT,
+    payload: format
   };
 }
