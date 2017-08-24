@@ -625,6 +625,8 @@ class Map extends Component {
     let veilHeight = 120;
     if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
     const isIOS = Platform.OS === 'ios';
+    const ctxLayerKey = isIOS && contextualLayer ? `contextualLayerElement-${contextualLayer.name}` : 'contextualLayerElement';
+    const clustersKey = isIOS && markers ? `clustersElement-${markers.length}` : 'clustersElement';
 
     // Map elements
     const basemapLayerElement = isConnected // eslint-disable-line
@@ -649,14 +651,14 @@ class Map extends Component {
       ? isConnected
         ? (
           <MapView.UrlTile
-            key={`contextualLayerElement-${contextualLayer.name}`}
+            key={ctxLayerKey}
             urlTemplate={contextualLayer.url}
             zIndex={1}
           />
         )
         : (
           <MapView.LocalTile
-            key={`contextualLayerElementOffline-${contextualLayer.name}`}
+            key={ctxLayerKey}
             localTemplate={ctxLayerLocalTilePath}
             zIndex={1}
           />
@@ -739,7 +741,7 @@ class Map extends Component {
       : null;
     const clustersElement = datasetSlug ? (
       <Clusters
-        key={`clusters-${markers.length}`}
+        key={clustersKey}
         markers={markers}
         selectAlert={this.selectAlert}
         zoomTo={this.zoomTo}
