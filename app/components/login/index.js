@@ -23,7 +23,7 @@ import 'moment/locale/id';
 
 import styles from './styles';
 
-const logoIcon = require('assets/logo.png');
+const logoIcon = require('assets/logo_dark.png');
 const facebookIcon = require('assets/facebook_white.png');
 const twitterIcon = require('assets/twitter_white.png');
 const googleIcon = require('assets/google_white.png');
@@ -187,7 +187,6 @@ class Login extends PureComponent {
               style={styles.logo}
               source={logoIcon}
             />
-            <Text style={styles.introLabel}>{I18n.t('commonText.appName').toUpperCase()}</Text>
           </View>
           <View style={styles.buttons}>
             <Text style={styles.buttonsLabel}>{I18n.t('login.introductionText')}</Text>

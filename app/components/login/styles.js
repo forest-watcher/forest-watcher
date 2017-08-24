@@ -13,14 +13,7 @@ export default StyleSheet.create({
   logo: {
     width: 108,
     height: 112,
-    marginTop: 60
-  },
-  introLabel: {
-    fontFamily: Theme.font,
-    color: Theme.fontColors.main,
-    fontSize: 15,
-    fontWeight: '500',
-    marginTop: 20
+    marginTop: 80
   },
   buttons: {
     flex: 0.6,
