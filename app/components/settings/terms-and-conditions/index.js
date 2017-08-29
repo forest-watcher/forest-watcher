@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import {
   View,
   ScrollView,
-  Text,
-  Linking
+  Text
 } from 'react-native';
 // import tracker from 'helpers/googleAnalytics';
 
@@ -21,6 +20,10 @@ class TermsAndConditions extends Component {
     navBarBackgroundColor: Theme.background.main
   };
 
+  static propTypes = {
+    navigator: PropTypes.object.isRequired
+  };
+
   componentDidMount() {
     // tracker.trackScreenView('TermsAndConditions');
   }
@@ -30,7 +33,7 @@ class TermsAndConditions extends Component {
       screen: section,
       title: text,
       passProps: {
-        contentTerm: list,
+        contentTerm: list === '' ? null : list,
         descriptionTerm: description
       }
     });
@@ -104,9 +107,5 @@ class TermsAndConditions extends Component {
     );
   }
 }
-
-TermsAndConditions.propTypes = {
-  partners: PropTypes.array
-};
 
 export default TermsAndConditions;

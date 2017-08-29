@@ -12,7 +12,7 @@ import NewReport from 'containers/reports/form';
 import AreaDetail from 'containers/settings/area-detail';
 import Partners from 'components/settings/partners';
 import TermsAndConditions from 'components/settings/terms-and-conditions';
-import TermsAndConditionsDetail from 'components/settings/terms-and-conditions/detail'
+import TermsAndConditionsDetail from 'components/settings/terms-and-conditions/detail';
 import Sync from 'containers/sync';
 import Answers from 'containers/common/form/answers';
 import RightDrawer from 'components/right-drawer';

@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import {
   View,
   ScrollView,
-  Text,
-  Linking
+  Text
 } from 'react-native';
 // import tracker from 'helpers/googleAnalytics';
 
-import I18n from 'locales';
 import Theme from 'config/theme';
 import styles from './styles';
 
@@ -50,7 +48,7 @@ class TermsAndConditionsDetail extends Component {
           style={styles.terms}
         >
           <Text style={this.state.description === '' ? styles.termsTextNone : styles.termsText}>{this.state.description}</Text>
-          {this.state.content.map((data, key) => (
+          {this.state.content !== null ? this.state.content.map((data, key) => (
             <View
               key={key}
               style={this.state.description === '' ? styles.termsListNoPadding : styles.termsList}
@@ -58,7 +56,7 @@ class TermsAndConditionsDetail extends Component {
               <Text style={styles.termsText}>{String.fromCharCode(97 + (key % 27))}. </Text>
               <Text style={styles.termsText}>{data.text}</Text>
             </View>
-          ))}
+          )) : <Text style={styles.termsText}>{}</Text> }
         </View>
 
       </ScrollView>
