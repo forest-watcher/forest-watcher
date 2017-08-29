@@ -95,7 +95,6 @@ class DrawAreas extends Component {
       ? this.props.country.centroid.coordinates
       : [CONSTANTS.maps.lng, CONSTANTS.maps.lat];
 
-    this.bboxed = false;
     this.state = {
       loading: false,
       valid: true,
@@ -179,7 +178,6 @@ class DrawAreas extends Component {
   }
 
   setBoundaries = () => {
-    this.bboxed = true;
     let boundaries = CONSTANTS.maps.bbox.coordinates[0];
     if (this.props.country && this.props.country.bbox) {
       boundaries = this.props.country.bbox.coordinates[0];
@@ -251,12 +249,7 @@ class DrawAreas extends Component {
         geometry: getGeoJson(shape.coordinates)
       });
 
-      if ((intersects && intersects.geometry) &&
-      intersects.geometry.coordinates.length > 0) {
-        isValid = false;
-      } else {
-        isValid = true;
-      }
+      isValid = (intersects && intersects.geometry && intersects.geometry.coordinates.length === 0);
       const area = geojsonArea.geometry(getGeoJson(shape.coordinates));
       if (area > CONSTANTS.areas.maxSize) {
         isHuge = true;
