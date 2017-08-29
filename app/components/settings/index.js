@@ -105,8 +105,8 @@ class Settings extends Component {
       {
         text: I18n.t('settings.aboutFAQ'),
         image: null,
-        section: null,
-        functionOnPress: null
+        section: 'ForestWatcher.FaqList',
+        functionOnPress: this.handleStaticLinks
       },
       {
         text: I18n.t('settings.aboutContactUs'),
