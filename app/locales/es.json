@@ -36,10 +36,11 @@
         },
         "subtitle": {
             "takesTime": "Este proceso podría llevar varios minutos.",
-            "mobile": "¿Quiere actualizar la app usando 3G?",
+            "mobile": "Do you want to update the data and maps over cellular data?",
             "noConnection": "Necesita una conexión a internet para actualizar los datos",
             "updated": "¡Los datos fueron actualizados correctamente!"
         },
+        "ok": "ok",
         "skip": "saltar",
         "update": "actualizar"
     },
@@ -558,7 +559,7 @@
         "inputRadio": "Elija una opción para continuar",
         "inputSelect": "Seleccione al menos una opción para continuar",
         "input": "Por favor conteste la pregunta",
-        "empty": "No se ha enviado ningún informe, por favor, vaya al mapa e informe una alerta.",
+        "empty": "No report submitted, please go to the map and report a point or group of points!",
         "completed": "Terminado",
         "uploadAll": "Subir todo",
         "drafts": "Borradores",

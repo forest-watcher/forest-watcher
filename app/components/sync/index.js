@@ -143,7 +143,7 @@ class Sync extends Component {
             noIcon
             style={styles.button}
             onPress={this.onSkipPress}
-            text={I18n.t('home.skip').toUpperCase()}
+            text={I18n.t('home.ok').toUpperCase()}
           />
         </View>
       )

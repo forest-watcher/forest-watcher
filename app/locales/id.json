@@ -36,10 +36,11 @@
         },
         "subtitle": {
             "takesTime": "Proses ini bisa memakan waktu beberapa menit",
-            "mobile": "Apakah Anda ingin memperbaruinya melalui 3G?",
+            "mobile": "Do you want to update the data and maps over cellular data?",
             "noConnection": "Anda memerlukan koneksi internet untuk mengupdate data Anda",
             "updated": "Data berhasil diperbarui"
         },
+        "ok": "ok",
         "skip": "Lewati",
         "update": "memperbarui"
     },
@@ -558,7 +559,7 @@
         "inputRadio": "Pilih satu opsi untuk melanjutkan",
         "inputSelect": "Pilih setidaknya satu opsi untuk melanjutkan",
         "input": "Silakan jawab pertanyaannya",
-        "empty": "Tak ada laporan terkirim, harap pergi ke peta dan laporkan satu sinyal!",
+        "empty": "No report submitted, please go to the map and report a point or group of points!",
         "completed": "Lengkap",
         "uploadAll": "Unggah semua",
         "drafts": "Draf",

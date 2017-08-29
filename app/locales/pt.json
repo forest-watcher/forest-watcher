@@ -36,10 +36,11 @@
         },
         "subtitle": {
             "takesTime": "Esse processo pode levar vários minutos",
-            "mobile": "Deseja atualizá-los por 3G?",
+            "mobile": "Do you want to update the data and maps over cellular data?",
             "noConnection": "Você precisa de uma conexão com a internet para atualizar seus dados",
             "updated": "Os dados foram atualizados com sucesso!"
         },
+        "ok": "ok",
         "skip": "pular",
         "update": "atualizar"
     },
@@ -558,7 +559,7 @@
         "inputRadio": "Escolha uma opção para continuar",
         "inputSelect": "Escolha pelo menos uma opção para continuar",
         "input": "Por favor, responda à questão",
-        "empty": "Nenhum relatório submetido, por favor vá ao mapa e relate um alerta!",
+        "empty": "No report submitted, please go to the map and report a point or group of points!",
         "completed": "Terminado",
         "uploadAll": "Carregar todos",
         "drafts": "Rascunhos",

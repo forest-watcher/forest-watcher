@@ -36,10 +36,11 @@
         },
         "subtitle": {
             "takesTime": "Cette opération peut durer plusieurs minutes",
-            "mobile": "Voulez-vous les mettre à jour via 3G ?",
+            "mobile": "Do you want to update the data and maps over cellular data?",
             "noConnection": "Une connexion internet est requise pour mettre à jour vos données",
             "updated": "Les données ont été mises à jour !"
         },
+        "ok": "ok",
         "skip": "passer",
         "update": "mettre à jour"
     },
@@ -558,7 +559,7 @@
         "inputRadio": "Choisissez une option pour continuer",
         "inputSelect": "Choisissez au moins une option pour continuer",
         "input": "S'il vous plaît, répondez à la question",
-        "empty": "Aucun notification soumis. Veuillez-vous rendre sur la carte et faire un rapport sur une notification!",
+        "empty": "No report submitted, please go to the map and report a point or group of points!",
         "completed": "Terminé",
         "uploadAll": "Tout sauvegarder",
         "drafts": "Brouillons",
