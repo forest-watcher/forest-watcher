@@ -99,8 +99,8 @@ class Settings extends Component {
       {
         text: I18n.t('settings.aboutTerms'),
         image: null,
-        section: null,
-        functionOnPress: null
+        section: 'ForestWatcher.TermsAndConditions',
+        functionOnPress: this.handleStaticLinks
       },
       {
         text: I18n.t('settings.aboutFAQ'),

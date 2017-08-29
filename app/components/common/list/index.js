@@ -16,7 +16,7 @@ function onPress(data) {
     if (data.url) {
       data.functionOnPress(data.url);
     } else {
-      data.functionOnPress(data.section, data.text);
+      data.functionOnPress(data.section, data.text, data.list, data.description);
     }
   }
 }
