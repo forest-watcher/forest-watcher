@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Hyperlink from 'react-native-hyperlink';
 import {
   View,
   ScrollView,
@@ -32,12 +33,17 @@ class ContactUs extends Component {
         showsHorizontalScrollIndicator={false}
       >
         <View style={styles.contactUs}>
-          <Text
-            style={styles.contactUsText}
-            onPress={() => Linking.openURL('mailto:forestwatcher@wri.or?subject=FW app contact')}
+          <Hyperlink
+            linkDefault linkStyle={{ color: '#97be32' }}
+            linkText={(url) => (url === 'mailto:forestwatcher@wri.org' ? 'forestwatcher@wri.org' : url)}
           >
-            {I18n.t('contactUs.description')}
-          </Text>
+            <Text
+              style={styles.contactUsText}
+              onPress={() => Linking.openURL('mailto:forestwatcher@wri.or?subject=FW app contact')}
+            >
+              {I18n.t('contactUs.description')}
+            </Text>
+          </Hyperlink>
         </View>
       </ScrollView>
     );
