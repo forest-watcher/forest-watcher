@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Hyperlink from 'react-native-hyperlink';
 import PropTypes from 'prop-types';
 import {
   View,
@@ -23,9 +24,10 @@ class FaqDetail extends Component {
   };
 
   state = {
-    description: this.props.contentFaq.description,
-    orderList: this.props.contentFaq.orderList,
-    orderListLetters: this.props.contentFaq.orderListLetters
+    description: this.props.contentFaq[0].description,
+    orderList: this.props.contentFaq[1].orderList,
+    orderListLetters: this.props.contentFaq[2].orderListLetters,
+    footerText: this.props.contentFaq[3].footerText
   };
 
   componentDidMount() {
@@ -45,7 +47,13 @@ class FaqDetail extends Component {
           style={styles.faq}
         >
           {this.state.description !== null ? this.state.description.map((data, key) => (
-            <Text style={styles.faqText} key={key}>{data.text}</Text>
+            <Hyperlink
+              key={key}
+              linkDefault linkStyle={{ color: '#97be32' }}
+              linkText={(url) => (url === 'mailto:forestwatcher@wri.org' ? 'forestwatcher@wri.org' : url)}
+            >
+              <Text style={styles.faqText}>{data.text}</Text>
+            </Hyperlink>
           )) : <Text>{}</Text>}
           {this.state.orderList !== null ? this.state.orderList.map((data, key) => (
             <View
@@ -53,7 +61,9 @@ class FaqDetail extends Component {
               style={this.state.description === '' ? styles.faqListNoPadding : styles.faqList}
             >
               <View style={styles.faqDotList}>{}</View>
-              <Text style={styles.faqText}>{data.text}</Text>
+              <Hyperlink linkDefault linkStyle={{ color: '#97be32' }}>
+                <Text style={styles.faqText}>{data.text}</Text>
+              </Hyperlink>
             </View>
           )) : <Text>{}</Text>}
 
@@ -61,13 +71,26 @@ class FaqDetail extends Component {
             <View key={key}>
               <View style={styles.faqListLetter}>
                 <Text style={styles.faqText}>{String.fromCharCode(97 + (key % 27))}. </Text>
-                <Text style={styles.faqText}>{data.text}</Text>
+                <Hyperlink linkDefault linkStyle={{ color: '#97be32' }}>
+                  <Text style={styles.faqText}>{data.text}</Text>
+                </Hyperlink>
               </View>
               <View style={styles.faqListLetterDescription}>
                 <Text style={styles.faqText}>i. </Text>
-                <Text style={styles.faqText}>{data.description}</Text>
+                <Hyperlink
+                  linkDefault
+                  linkStyle={{ color: '#97be32' }}
+                  linkText={(url) => (url === 'mailto:forestwatcher@wri.org' ? 'forestwatcher@wri.org' : url)}
+                >
+                  <Text style={styles.faqText}>{data.description}</Text>
+                </Hyperlink>
               </View>
             </View>
+          )) : <Text>{}</Text>}
+          {this.state.footerText !== null ? this.state.footerText.map((data, key) => (
+            <Hyperlink key={key} linkDefault linkStyle={{ color: '#97be32' }}>
+              <Text style={styles.faqText}>{data.text}</Text>
+            </Hyperlink>
           )) : <Text>{}</Text>}
         </View>
 

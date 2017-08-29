@@ -111,7 +111,7 @@
           {
             "description": [
               {
-                "text": "Forest Watcher is a mobile application designed to allow easy, offline access to data about forest change from Global Forest Watch (www.globalforestwatch.org)."
+                "text": "Forest Watcher is a mobile application designed to allow easy, offline access to data about forest change from Global Forest Watch http://www.globalforestwatch.org/."
               },
               {
                 "text": "Global Forest Watch (GFW) is a dynamic online forest monitoring and alert system that empowers people everywhere to better manage forests. GFW brings together satellite technology, cloud computing, and open data to provide timely information about forests to communities around the world."
@@ -342,11 +342,11 @@
               },
               {
                 "text": "The app crashes",
-                "description": "If the app crashes, open it again. If it crashes multiple times, please send an email to forestwatcher@wri.org and include information about your device model and what you were doing in the app when it crashed."
+                "description": "If the app crashes, open it again. If it crashes multiple times, please send an email to mailto:forestwatcher@wri.org and include information about your device model and what you were doing in the app when it crashed."
               },
               {
                 "text": "I can’t see the compass/my location",
-                "description": "The location and navigation features on Forest Watcher rely on your device’s internal GPS. First, check that the GPS (often called “location services”) is turned on in your mobile device settings. If it still doesn’t work, please send an email to forestwatcher@wri.org telling us what device model you are using."
+                "description": "The location and navigation features on Forest Watcher rely on your device’s internal GPS. First, check that the GPS (often called “location services”) is turned on in your mobile device settings. If it still doesn’t work, please send an email to mailto:forestwatcher@wri.org telling us what device model you are using."
               },
               {
                 "text": "I cannot take a photo in the app",
@@ -385,7 +385,7 @@
           {
             "description": [
               {
-                "text": "Contact us with feedback or questions by emailing forestwatcher@wri.org."
+                "text": "Contact us with feedback or questions by emailing mailto:forestwatcher@wri.org."
               }
             ]
           },
@@ -457,7 +457,7 @@
       },
       "fifthTerm": {
         "title": "Copyright Protection",
-        "description": "If You are a copyright owner or an agent thereof, and believe that any content on the Site infringes Your copyrights, You may send a notice in writing to World Resources Institute Tel: + 1 (202) 729-7600 E-mail: gfw@wri.org with the following information:",
+        "description": "If You are a copyright owner or an agent thereof, and believe that any content on the Site infringes Your copyrights, You may send a notice in writing to World Resources Institute Tel: + 1 (202) 729-7600 E-mail: mailto:gfw@wri.org with the following information:",
         "list": [
           {
             "text": "Your signature as a person authorized to act on behalf of the owner of an exclusive right that is allegedly infringed;"
@@ -478,7 +478,7 @@
       },
       "sixthTerm": {
         "title": "Additional Terms",
-        "description": "If You are a copyright owner or an agent thereof, and believe that any content on the Site infringes Your copyrights, You may send a notice in writing to World Resources Institute Tel: + 1 (202) 729-7600 E-mail: gfw@wri.org with the following information:",
+        "description": "If You are a copyright owner or an agent thereof, and believe that any content on the Site infringes Your copyrights, You may send a notice in writing to World Resources Institute Tel: + 1 (202) 729-7600 E-mail: mailto:gfw@wri.org with the following information:",
         "list": [
           {
             "text": "The laws of the State of New York, U.S.A., excluding New York's conflict of laws provisions, apply to any dispute about the Site, its content or these Terms. The U.N. Convention on Contracts for the International Sale of Goods doesn't apply. All claims arising out of or relating to these Terms will be litigated exclusively in the courts in and for New York City, New York, USA, and You consent to the personal jurisdiction of those courts."
@@ -500,7 +500,7 @@
     },
     "contactUs": {
       "title": "Contact us",
-      "description": "Questions or feedback? Email forestwatcher@wri.org"
+      "description": "Questions or feedback? Email mailto:forestwatcher@wri.org"
     },
     "setupDrawAreas": {
         "invalidShape": "Invalid shape",

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Hyperlink from 'react-native-hyperlink';
 import PropTypes from 'prop-types';
 import {
   View,
@@ -44,7 +45,13 @@ class TermsAndConditionsDetail extends Component {
         <View
           style={styles.terms}
         >
-          <Text style={this.state.description === '' ? styles.termsTextNone : styles.termsText}>{this.state.description}</Text>
+
+          <Hyperlink
+            linkDefault linkStyle={{ color: '#97be32' }}
+            linkText={(url) => (url === 'mailto:gfw@wri.org' ? 'gfw@wri.org' : url)}
+          >
+            <Text style={this.state.description === '' ? styles.termsTextNone : styles.termsText}>{this.state.description}</Text>
+          </Hyperlink>
           {this.state.content !== null ? this.state.content.map((data, key) => (
             <View
               key={key}
