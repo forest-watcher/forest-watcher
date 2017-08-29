@@ -590,7 +590,7 @@ class Map extends Component {
         );
     };
     return (
-      <View style={styles.btnContainer}>
+      <View pointerEvents="none" style={styles.btnContainer}>
         {getButtons()}
       </View>
     );
@@ -633,7 +633,7 @@ class Map extends Component {
       (
         <MapView.UrlTile
           key="basemapLayerElement"
-          urlTemplate={MAPS.basemap}
+          urlTemplate={__DEV__ ? MAPS.devBasemap : MAPS.prodBasemap}
           zIndex={-1}
         />
       )
@@ -777,14 +777,14 @@ class Map extends Component {
           {neighboursAlertsElement}
           {selectedAlertsElement}
         </MapView>
-        <View pointerEvents="box-none" style={[styles.footerBGContainer, { height: veilHeight }]}>
+        <View pointerEvents="none" style={[styles.footerBGContainer, { height: veilHeight }]}>
           <Image
             style={[styles.footerBg, { height: veilHeight }]}
             source={backgroundImage}
           />
         </View>
         <View pointerEvents="box-none" style={styles.footer}>
-          <View style={styles.footerRow}>
+          <View pointerEvents="none" style={styles.footerRow}>
             {hasAlertsSelected &&
               <AlertPosition
                 alertSelected={selectedAlerts[lastAlertIndex]}

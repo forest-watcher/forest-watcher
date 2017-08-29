@@ -2,9 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
-  Text
+  Text,
+  Image
 } from 'react-native';
 import styles from './styles';
+
+const mapboxImage = require('assets/mapbox.png');
 
 function MapAttribution() {
   return (
@@ -13,7 +16,10 @@ function MapAttribution() {
         styles.attributionContainer,
         styles.footerZIndex
       ]}
+      pointerEvents="box-none"
     >
+      <Image source={mapboxImage} />
+      <Text style={styles.attributionText}>© Mapbox</Text>
       <Text style={styles.attributionText}>© OpenStreetMap</Text>
     </View>
   );
