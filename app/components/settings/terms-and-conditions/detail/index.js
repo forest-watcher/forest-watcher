@@ -23,13 +23,10 @@ class TermsAndConditionsDetail extends Component {
     descriptionTerm: PropTypes.any
   };
 
-  constructor(props) {
-    super();
-    this.state = {
-      content: props.contentTerm,
-      description: props.descriptionTerm
-    };
-  }
+  state = {
+    content: this.props.contentTerm,
+    description: this.props.descriptionTerm
+  };
 
   componentDidMount() {
     // tracker.trackScreenView('TermsAndConditions');

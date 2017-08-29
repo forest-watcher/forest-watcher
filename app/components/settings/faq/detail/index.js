@@ -22,14 +22,11 @@ class FaqDetail extends Component {
     contentFaq: PropTypes.any
   };
 
-  constructor(props) {
-    super();
-    this.state = {
-      description: props.contentFaq[0].description,
-      orderList: props.contentFaq[1].orderList,
-      orderListLetters: props.contentFaq[2].orderListLetters
-    };
-  }
+  state = {
+    description: this.props.contentFaq.description,
+    orderList: this.props.contentFaq.orderList,
+    orderListLetters: this.props.contentFaq.orderListLetters
+  };
 
   componentDidMount() {
     // tracker.trackScreenView('TermsAndConditions');
