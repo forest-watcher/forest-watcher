@@ -14,32 +14,35 @@ import styles from './styles';
 
 const backIcon = require('assets/previous.png');
 const nextIcon = require('assets/next.png');
+const phone1 = require('assets/walkthrough-phone1.png');
+const phone4 = require('assets/walkthrough-phone4.png');
+const phone5 = require('assets/walkthrough-phone5.png');
 
 const SLIDES = [
   {
     title: 'Welcome to Forest Watcher',
     subtitle: 'Create areas of interest to monitor alerts of forest change',
-    image: 'page1',
+    image: phone1,
     color: Theme.colors.color1
   },
   {
     subtitle: 'Enter the settings to configure the data you want to see',
-    image: 'page2',
+    image: null,
     color: Theme.colors.color2
   },
   {
     subtitle: 'Navigate to the alerts and create reports to collect data about that change',
-    image: 'page3',
+    image: null,
     color: Theme.colors.color3
   },
   {
     subtitle: 'You can select multiple alerts to report them in bulk.',
-    image: 'page4',
+    image: phone4,
     color: Theme.colors.color5
   },
   {
     subtitle: 'If you discover a new area of forest change, tap directly on the map to report it',
-    image: 'page5',
+    image: phone5,
     color: Theme.colors.color6
   }
 ];
@@ -94,7 +97,10 @@ class Walkthrough extends PureComponent {
                 }
               </View>
               <View style={styles.phoneContainer}>
-                <View style={[styles.phoneImage, { backgroundColor: slide.color }]} />
+                {slide.image ?
+                  <Image style={styles.phoneImage} source={slide.image} />
+                : <View style={[styles.phoneImage, { backgroundColor: slide.color }]} />
+                }
               </View>
               <View style={styles.footer}>
                 <TouchableHighlight

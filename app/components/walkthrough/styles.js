@@ -44,7 +44,6 @@ export default StyleSheet.create({
   phoneImage: {
     width: 259,
     height: 424,
-    borderRadius: 8,
-    backgroundColor: Theme.background.red
+    borderRadius: 8
   }
 });
