@@ -81,7 +81,7 @@ class Walkthrough extends PureComponent {
   render() {
     const { page } = this.state;
     return (
-      <StepsSlider page={page}>
+      <StepsSlider page={page} barStyle={{ height: 64 }}>
         {SLIDES.map((slide, index) =>
           (
             <View key={`slide-${index}`} style={styles.container}>

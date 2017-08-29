@@ -7,13 +7,13 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import styles from './styles';
 
-function getIndexBar(slides) {
+function getIndexBar(slides, barStyle) {
   const dots = [];
   for (let i = 0; i < slides.tabs.length; i++) {
     const dotStyle = slides.activeTab === i ? [styles.dot, styles.dotActive] : styles.dot;
     dots.push(<View key={i} style={dotStyle} />);
   }
-  return <View style={styles.indexBar}><View style={styles.indexBar}>{dots}</View></View>;
+  return <View style={[styles.indexBar, barStyle]}><View style={[styles.indexBar, barStyle]}>{dots}</View></View>;
 }
 
 function StepsSlider(props) {
@@ -21,7 +21,7 @@ function StepsSlider(props) {
     <ScrollableTabView
       locked
       tabBarPosition="overlayBottom"
-      renderTabBar={props.hideIndex ? () => <View /> : getIndexBar}
+      renderTabBar={props.hideIndex ? () => <View /> : (slides) => getIndexBar(slides, props.barStyle)}
       prerenderingSiblingsNumber={0}
       {...props}
     >
@@ -32,7 +32,8 @@ function StepsSlider(props) {
 
 StepsSlider.propTypes = {
   hideIndex: PropTypes.bool,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  barStyle: PropTypes.any
 };
 
 export default StepsSlider;
