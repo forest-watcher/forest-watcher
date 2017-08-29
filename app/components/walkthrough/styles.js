@@ -5,16 +5,12 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.background.main,
-    flexDirection: 'column',
-    justifyContent: 'space-between'
+    justifyContent: 'flex-end'
   },
-  footer: {
-    flexDirection: 'row',
-    height: 64,
-    width: Theme.screen.width,
-    backgroundColor: Theme.background.white,
-    justifyContent: 'space-between',
-    alignItems: 'center'
+  slideContainer: {
+    height: Theme.screen.height,
+    flex: 1,
+    justifyContent: 'space-between'
   },
   textsContainer: {
     marginTop: 42,
@@ -35,15 +31,33 @@ export default StyleSheet.create({
     textAlign: 'center'
   },
   phoneContainer: {
-    position: 'absolute',
-    bottom: 0,
     width: Theme.screen.width,
     alignItems: 'center'
-
   },
   phoneImage: {
     width: 259,
     height: 424,
     borderRadius: 8
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 0,
+    flexDirection: 'row',
+    height: 64,
+    width: Theme.screen.width,
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 1
+  },
+  footerHack: {
+    position: 'absolute',
+    bottom: 0,
+    height: 64,
+    width: Theme.screen.width,
+    backgroundColor: Theme.background.white
   }
 });

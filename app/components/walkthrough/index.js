@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   View,
   Image,
-  TouchableHighlight,
+  TouchableOpacity,
   Text
 } from 'react-native';
 
@@ -72,7 +72,7 @@ class Walkthrough extends PureComponent {
       this.setState({ page: page + 1 });
     } else {
       navigator.resetTo({
-        screen: 'ForestWatcher.Setup',
+        screen: 'ForestWatcher.Login',
         title: 'Set up',
         passProps: {
           goBackDisabled: true
@@ -84,44 +84,45 @@ class Walkthrough extends PureComponent {
   render() {
     const { page } = this.state;
     return (
-      <StepsSlider page={page} barStyle={{ height: 64 }}>
-        {SLIDES.map((slide, index) =>
-          (
-            <View key={`slide-${index}`} style={styles.container}>
-              <View style={styles.textsContainer}>
-                {slide.title &&
-                  <Text style={styles.title}>{slide.title}</Text>
-                }
-                {slide.subtitle &&
-                  <Text style={styles.subtitle}>{slide.subtitle}</Text>
-                }
+      <View style={styles.container}>
+        <StepsSlider page={page} barStyle={{ height: 64 }}>
+          {SLIDES.map((slide, index) =>
+            (
+              <View style={styles.slideContainer} key={`slide-${index}`}>
+                <View style={styles.textsContainer}>
+                  {slide.title &&
+                    <Text style={styles.title}>{slide.title}</Text>
+                  }
+                  {slide.subtitle &&
+                    <Text style={styles.subtitle}>{slide.subtitle}</Text>
+                  }
+                </View>
+                <View style={styles.phoneContainer}>
+                  {slide.image ?
+                    <Image style={styles.phoneImage} source={slide.image} />
+                  : <View style={[styles.phoneImage, { backgroundColor: slide.color }]} />
+                  }
+                </View>
+                <View style={styles.footerHack} />
               </View>
-              <View style={styles.phoneContainer}>
-                {slide.image ?
-                  <Image style={styles.phoneImage} source={slide.image} />
-                : <View style={[styles.phoneImage, { backgroundColor: slide.color }]} />
-                }
-              </View>
-              <View style={styles.footer}>
-                <TouchableHighlight
-                  activeOpacity={0.5}
-                  underlayColor="transparent"
-                  onPress={this.onPressBack}
-                >
-                  <Image style={Theme.icon} source={backIcon} />
-                </TouchableHighlight>
-                <TouchableHighlight
-                  activeOpacity={0.5}
-                  underlayColor="transparent"
-                  onPress={this.onPressNext}
-                >
-                  <Image style={Theme.icon} source={nextIcon} />
-                </TouchableHighlight>
-              </View>
-            </View>
-          ))
-        }
-      </StepsSlider>
+            ))
+          }
+        </StepsSlider>
+        <View style={[styles.footer, page > 0 ? { justifyContent: 'space-between' } : { justifyContent: 'flex-end' }]}>
+          {page > 0 && // Buttons are placed here because inside the StepsSlider the events wont trigger
+          <TouchableOpacity
+            onPress={this.onPressBack}
+          >
+            <Image style={Theme.icon} source={backIcon} />
+          </TouchableOpacity>
+          }
+          <TouchableOpacity
+            onPress={this.onPressNext}
+          >
+            <Image style={Theme.icon} source={nextIcon} />
+          </TouchableOpacity>
+        </View>
+      </View>
     );
   }
 }

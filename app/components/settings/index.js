@@ -44,7 +44,7 @@ class Settings extends Component {
   componentWillReceiveProps(props) {
     if (props.areas.length === 0 && props.loggedIn) {
       props.navigator.push({
-        screen: 'ForestWatcher.Walkthrough'
+        screen: 'ForestWatcher.Setup'
       });
     }
   }
