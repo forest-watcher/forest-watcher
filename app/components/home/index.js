@@ -48,8 +48,7 @@ class Home extends Component {
       if (syncFinished || syncSkip) {
         if (!hasAreas) {
           navigator.resetTo({
-            screen: 'ForestWatcher.Setup',
-            title: 'Set up',
+            screen: 'ForestWatcher.Walkthrough',
             passProps: {
               goBackDisabled: true
             }
