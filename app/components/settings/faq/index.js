@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  View,
-  ScrollView,
-  Text
+  ScrollView
 } from 'react-native';
 // import tracker from 'helpers/googleAnalytics';
 
@@ -33,7 +31,7 @@ class FaqList extends Component {
       screen: section,
       title: text,
       passProps: {
-        contentFaq: list === '' ? null : list,
+        contentFaq: list === '' ? null : list
       }
     });
   }

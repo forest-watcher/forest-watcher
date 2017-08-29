@@ -18,13 +18,16 @@ class FaqDetail extends Component {
     navBarBackgroundColor: Theme.background.main
   };
 
+  static propTypes = {
+    contentFaq: PropTypes.any
+  };
+
   constructor(props) {
     super();
-    tron.log(props.contentFaq[2].orderListLetters);
     this.state = {
       description: props.contentFaq[0].description,
       orderList: props.contentFaq[1].orderList,
-      orderListLetters: props.contentFaq[2].orderListLetters,
+      orderListLetters: props.contentFaq[2].orderListLetters
     };
   }
 
