@@ -24,7 +24,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingLeft: 16
+    paddingLeft: 0
   },
   buttonLight: {
     justifyContent: 'flex-start'
