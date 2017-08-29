@@ -197,7 +197,7 @@ class DrawAreas extends Component {
        styles.actionButtonWithPadding : null;
 
       return (
-        <View style={[styles.actionButton, withPadding]}>
+        <View pointerEvents="none" style={[styles.actionButton, withPadding]}>
           <Text style={styles.footerTitle}>{I18n.t('setupDrawAreas.tapInstruction')}</Text>
         </View>
       );
@@ -339,12 +339,12 @@ class DrawAreas extends Component {
             })
           }
         </MapView>
-        <View style={styles.footer}>
+        <View pointerEvents="box-none" style={styles.footer}>
           <Image
             style={styles.footerBg}
             source={footerBackgroundImage}
           />
-          <View style={styles.footerButton}>
+          <View pointerEvents="box-none" style={styles.footerButton}>
             {this.state.shape.coordinates.length >= 1 &&
               <TouchableHighlight
                 style={styles.undoButton}
