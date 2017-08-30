@@ -49,7 +49,6 @@ class Home extends Component {
         if (!hasAreas) {
           navigator.resetTo({
             screen: 'ForestWatcher.Setup',
-            title: 'Set up',
             passProps: {
               goBackDisabled: true
             }
@@ -69,7 +68,7 @@ class Home extends Component {
       }
     } else {
       navigator.resetTo({
-        screen: 'ForestWatcher.Login'
+        screen: 'ForestWatcher.Walkthrough'
       });
     }
   }

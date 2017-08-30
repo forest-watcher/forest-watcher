@@ -19,10 +19,12 @@ import Sync from 'containers/sync';
 import Answers from 'containers/common/form/answers';
 import RightDrawer from 'components/right-drawer';
 import ErrorLightbox from 'components/error-lightbox';
+import Walkthrough from 'components/walkthrough';
 
 export function registerScreens(store, Provider) {
   Navigation.registerComponent('ForestWatcher.Home', () => Home, store, Provider);
   Navigation.registerComponent('ForestWatcher.Login', () => Login, store, Provider);
+  Navigation.registerComponent('ForestWatcher.Walkthrough', () => Walkthrough, store, Provider);
   Navigation.registerComponent('ForestWatcher.Setup', () => Setup, store, Provider);
   Navigation.registerComponent('ForestWatcher.Dashboard', () => Dashboard, store, Provider);
   Navigation.registerComponent('ForestWatcher.Map', () => Map, store, Provider);

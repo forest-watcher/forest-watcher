@@ -18,12 +18,9 @@ class Setup extends Component {
     navBarHidden: true
   };
 
-  constructor() {
-    super();
-    this.state = {
-      page: 0
-    };
-  }
+  state = {
+    page: 0
+  };
 
   componentWillMount() {
     this.props.initSetup();
