@@ -33,10 +33,10 @@ class ContactUs extends Component {
       >
         <View style={styles.contactUs}>
           <Hyperlink
-            linkDefault linkStyle={{ color: '#97be32' }}
+            linkStyle={Theme.link}
             linkText={(url) => (url === 'mailto:forestwatcher@wri.org' ? 'forestwatcher@wri.org' : url)}
           >
-            <Text style={styles.contactUsText} >
+            <Text style={styles.contactUsText} selectable>
               {I18n.t('contactUs.description')}
             </Text>
           </Hyperlink>

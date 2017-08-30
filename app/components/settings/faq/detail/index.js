@@ -6,7 +6,6 @@ import {
   ScrollView,
   Text
 } from 'react-native';
-// import tracker from 'helpers/googleAnalytics';
 
 import Theme from 'config/theme';
 import styles from './styles';
@@ -28,10 +27,11 @@ function FaqDetail(props) {
         {description && description.map((data, key) => (
           <Hyperlink
             key={key}
-            linkDefault linkStyle={{ color: '#97be32' }}
+            linkDefault
+            linkStyle={Theme.link}
             linkText={(url) => (url === 'mailto:forestwatcher@wri.org' ? 'forestwatcher@wri.org' : url)}
           >
-            <Text style={styles.faqText}>{data.text}</Text>
+            <Text style={styles.faqText} selectable>{data.text}</Text>
           </Hyperlink>
         ))}
 
@@ -41,8 +41,8 @@ function FaqDetail(props) {
             style={description === '' ? styles.faqListNoPadding : styles.faqList}
           >
             <View style={styles.faqDotList}>{}</View>
-            <Hyperlink linkDefault linkStyle={{ color: '#97be32' }}>
-              <Text style={styles.faqText}>{data.text}</Text>
+            <Hyperlink linkDefault linkStyle={Theme.link}>
+              <Text style={styles.faqText} selectable>{data.text}</Text>
             </Hyperlink>
           </View>
         ))}
@@ -51,26 +51,26 @@ function FaqDetail(props) {
           <View key={key}>
             <View style={styles.faqListLetter}>
               <Text style={styles.faqText}>{String.fromCharCode(97 + (key % 27))}. </Text>
-              <Hyperlink linkDefault linkStyle={{ color: '#97be32' }}>
-                <Text style={styles.faqText}>{data.text}</Text>
+              <Hyperlink linkDefault linkStyle={Theme.link}>
+                <Text style={styles.faqText} selectable>{data.text}</Text>
               </Hyperlink>
             </View>
             <View style={styles.faqListLetterDescription}>
               <Text style={styles.faqText}>i. </Text>
               <Hyperlink
                 linkDefault
-                linkStyle={{ color: '#97be32' }}
+                linkStyle={Theme.link}
                 linkText={(url) => (url === 'mailto:forestwatcher@wri.org' ? 'forestwatcher@wri.org' : url)}
               >
-                <Text style={styles.faqText}>{data.description}</Text>
+                <Text style={styles.faqText} selectable>{data.description}</Text>
               </Hyperlink>
             </View>
           </View>
         ))}
 
         {footerText && footerText.map((data, key) => (
-          <Hyperlink key={key} linkDefault linkStyle={{ color: '#97be32' }}>
-            <Text style={styles.faqText}>{data.text}</Text>
+          <Hyperlink key={key} linkDefault linkStyle={Theme.link}>
+            <Text style={styles.faqText} selectable>{data.text}</Text>
           </Hyperlink>
         ))}
       </View>

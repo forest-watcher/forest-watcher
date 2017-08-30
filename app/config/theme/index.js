@@ -82,6 +82,9 @@ const config = {
       navBarButtonColor: '#ffffff',
       statusBarTextColorScheme: 'light'
     }
+  },
+  link: {
+    color: colors.color1
   }
 };
 

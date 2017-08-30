@@ -6,7 +6,6 @@ import {
   ScrollView,
   Text
 } from 'react-native';
-// import tracker from 'helpers/googleAnalytics';
 
 import Theme from 'config/theme';
 import styles from './styles';
@@ -25,11 +24,13 @@ function TermsAndConditionsDetail(props) {
         style={styles.terms}
       >
 
-        {description && <Hyperlink
-          linkDefault linkStyle={{ color: '#97be32' }}
+        {description &&
+        <Hyperlink
+          linkDefault
+          linkStyle={Theme.link}
           linkText={(url) => (url === 'mailto:gfw@wri.org' ? 'gfw@wri.org' : url)}
         >
-          <Text style={styles.termsText}>{description}</Text>
+          <Text style={styles.termsText} selectable>{description}</Text>
         </Hyperlink>}
 
         {list && list.map((data, key) => (

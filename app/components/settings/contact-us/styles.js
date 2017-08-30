@@ -1,5 +1,5 @@
 import Theme from 'config/theme';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -25,7 +25,11 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     fontSize: 17,
     fontWeight: '100',
-    color: Theme.fontColors.light,
-    marginTop: 10
+    marginTop: 10,
+    ...Platform.select({
+      ios: {
+        color: Theme.fontColors.light
+      }
+    })
   }
 });
