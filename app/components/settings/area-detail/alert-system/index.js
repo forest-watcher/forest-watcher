@@ -51,7 +51,7 @@ class AlertSystem extends Component {
           return (
             <View key={i}>
               <Row value={dataset.active} onValueChange={onDatasetValueChange}>
-                <Text>{dataset.name}</Text>
+                <Text style={styles.alertSystemText}>{dataset.name}</Text>
               </Row>
               {dataset.active
                 ? <DatasetOptions

@@ -134,7 +134,7 @@ class Dashboard extends PureComponent {
             </View>
           </ScrollView>
           <Row style={styles.row} action={this.reportsAction}>
-            <Text>{I18n.t('dashboard.myReports')}</Text>
+            <Text style={styles.textMyReports}>{I18n.t('dashboard.myReports')}</Text>
           </Row>
         </View>
       </TouchableWithoutFeedback>
