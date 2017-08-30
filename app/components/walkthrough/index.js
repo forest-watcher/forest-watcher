@@ -15,6 +15,8 @@ import styles from './styles';
 const backIcon = require('assets/previous.png');
 const nextIcon = require('assets/next.png');
 const phone1 = require('assets/walkthrough-phone1.png');
+const phone2 = require('assets/walkthrough-phone2.png');
+const phone3 = require('assets/walkthrough-phone3.png');
 const phone4 = require('assets/walkthrough-phone4.png');
 const phone5 = require('assets/walkthrough-phone5.png');
 
@@ -27,12 +29,12 @@ const SLIDES = [
   },
   {
     subtitle: 'Enter the settings to configure the data you want to see',
-    image: null,
+    image: phone2,
     color: Theme.colors.color2
   },
   {
     subtitle: 'Navigate to the alerts and create reports to collect data about that change',
-    image: null,
+    image: phone3,
     color: Theme.colors.color3
   },
   {
