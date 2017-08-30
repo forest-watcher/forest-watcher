@@ -141,7 +141,10 @@ export default function reducer(state = initialState, action) {
       return { ...state, list, synced: false, syncing: true };
     }
     case UPLOAD_REPORT_COMMIT: {
-      return { ...state, synced: true, syncing: false };
+      const { name, status } = action.meta.report;
+      const report = state.list[name];
+      const list = { ...state.list, [name]: { ...report, status } };
+      return { ...state, list, synced: true, syncing: false };
     }
     case UPLOAD_REPORT_ROLLBACK: {
       const { name, status } = action.meta.report;
@@ -259,7 +262,7 @@ export function uploadReport({ reportName, fields }) {
 
     const requestPayload = {
       name: reportName,
-      status: CONSTANTS.status.uploaded,
+      status: CONSTANTS.status.complete,
       alerts: JSON.parse(report.clickedPosition)
     };
     const commitPayload = {
