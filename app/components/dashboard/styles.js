@@ -22,6 +22,11 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     fontWeight: '400'
   },
+  textMyReports: {
+    fontWeight: '400',
+    fontSize: 17,
+    color: Theme.fontColors.secondary
+  },
   list: {
     flex: 1
   },

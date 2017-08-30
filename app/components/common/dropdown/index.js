@@ -28,6 +28,7 @@ const Dropdown = (props) => {
                 key={option.value + i}
                 label={I18n.t(option.label)}
                 value={option.value}
+                style={styles.pickerItem}
               />
             ))}
           </Picker>
