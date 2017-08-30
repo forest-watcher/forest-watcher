@@ -83,6 +83,10 @@ class Walkthrough extends PureComponent {
     }
   };
 
+  onChangeTab = (tab) => {
+    this.setSliderPage(tab.i);
+  }
+
   setSliderPage = (page) => {
     this.setState({ page });
   };
@@ -96,7 +100,7 @@ class Walkthrough extends PureComponent {
           barStyle={{ height: 64 }}
           locked={false}
           prerenderingSiblingsNumber={1}
-          onChangeTab={({ i }) => this.setSliderPage(i)}
+          onChangeTab={this.onChangeTab}
         >
           {SLIDES.map((slide, index) =>
             (
