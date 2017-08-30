@@ -63,20 +63,12 @@ export default function reducer(state = initialState, action) {
     case GET_AREAS_COMMIT: {
       let pendingData = { ...state.pendingData };
       const data = [...action.payload];
-      const existingImages = Object.keys(state.images);
       data.forEach((newArea) => {
         // Always request new coverage in case there are new alert system in the area
         pendingData = {
           coverage: { ...pendingData.coverage, [newArea.id]: false },
-          image: { ...pendingData.image }
+          image: { ...pendingData.image, [newArea.id]: false }
         };
-        // and only cache the images if is a new area
-        if (!existingImages.includes(newArea.id)) {
-          pendingData = {
-            ...pendingData,
-            image: { ...pendingData.image, [newArea.id]: false }
-          };
-        }
       });
       const syncDate = Date.now();
       return { ...state, data, pendingData, syncDate, synced: true, syncing: false, syncError: false };
@@ -250,19 +242,16 @@ export function cacheAreaImage(areaId) {
   return (dispatch, state) => {
     const areas = state().areas;
     const area = getAreaById(areas.data, areaId);
-    const images = { ...areas.images };
-    if (!images[area.id]) {
-      dispatch({
-        type: SET_AREA_IMAGE_REQUEST,
-        payload: area,
-        meta: {
-          offline: {
-            effect: { promise: getCachedImageByUrl(area.image, 'areas') },
-            commit: { type: SET_AREA_IMAGE_COMMIT, meta: { area } }
-          }
+    dispatch({
+      type: SET_AREA_IMAGE_REQUEST,
+      payload: area,
+      meta: {
+        offline: {
+          effect: { promise: getCachedImageByUrl(area.image, 'areas') },
+          commit: { type: SET_AREA_IMAGE_COMMIT, meta: { area } }
         }
-      });
-    }
+      }
+    });
   };
 }
 
