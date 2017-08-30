@@ -1,5 +1,17 @@
 # Forest Watcher Changelog
 
+## [v1.0.0rc7] - 2017-08-30
+- Fix click on arrow in area-list not doing anything.
+- Adds active state to switch component.
+- Includes app walkthrough on start.
+- Fix polygon on area creation doesn't update correctly.
+- Improves areas image loading.
+- Updates app icons.
+- Includes contextual layers on area creation map.
+- Update static texts: includes ToS and FAQ sections.
+- Fix reporting offline shows wrong button text.
+- Fix reporting offline sets report status to uploaded.
+
 ## [v1.0.0rc6] - 2017-08-24
 - Includes the possibility of switching coordinates formats between decimal and degrees.
 - Fixes regression on make area available offline feature.
