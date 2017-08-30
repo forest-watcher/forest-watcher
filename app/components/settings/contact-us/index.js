@@ -3,8 +3,7 @@ import Hyperlink from 'react-native-hyperlink';
 import {
   View,
   ScrollView,
-  Text,
-  Linking
+  Text
 } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
 
@@ -37,10 +36,7 @@ class ContactUs extends Component {
             linkDefault linkStyle={{ color: '#97be32' }}
             linkText={(url) => (url === 'mailto:forestwatcher@wri.org' ? 'forestwatcher@wri.org' : url)}
           >
-            <Text
-              style={styles.contactUsText}
-              onPress={() => Linking.openURL('mailto:forestwatcher@wri.or?subject=FW app contact')}
-            >
+            <Text style={styles.contactUsText} >
               {I18n.t('contactUs.description')}
             </Text>
           </Hyperlink>

@@ -24,15 +24,11 @@ class FaqDetail extends Component {
   };
 
   state = {
-    description: this.props.contentFaq[0].description,
-    orderList: this.props.contentFaq[1].orderList,
-    orderListLetters: this.props.contentFaq[2].orderListLetters,
-    footerText: this.props.contentFaq[3].footerText
+    description: this.props.contentFaq.description,
+    orderList: this.props.contentFaq.orderList,
+    orderListLetters: this.props.contentFaq.orderListLetters,
+    footerText: this.props.contentFaq.footerText
   };
-
-  componentDidMount() {
-    // tracker.trackScreenView('TermsAndConditions');
-  }
 
   render() {
     return (
@@ -46,7 +42,8 @@ class FaqDetail extends Component {
         <View
           style={styles.faq}
         >
-          {this.state.description !== null ? this.state.description.map((data, key) => (
+
+          {this.state.description && this.state.description.map((data, key) => (
             <Hyperlink
               key={key}
               linkDefault linkStyle={{ color: '#97be32' }}
@@ -54,8 +51,9 @@ class FaqDetail extends Component {
             >
               <Text style={styles.faqText}>{data.text}</Text>
             </Hyperlink>
-          )) : <Text>{}</Text>}
-          {this.state.orderList !== null ? this.state.orderList.map((data, key) => (
+          ))}
+
+          {this.state.orderList && this.state.orderList.map((data, key) => (
             <View
               key={key}
               style={this.state.description === '' ? styles.faqListNoPadding : styles.faqList}
@@ -65,9 +63,9 @@ class FaqDetail extends Component {
                 <Text style={styles.faqText}>{data.text}</Text>
               </Hyperlink>
             </View>
-          )) : <Text>{}</Text>}
+          ))}
 
-          {this.state.orderListLetters !== null ? this.state.orderListLetters.map((data, key) => (
+          {this.state.orderListLetters && this.state.orderListLetters.map((data, key) => (
             <View key={key}>
               <View style={styles.faqListLetter}>
                 <Text style={styles.faqText}>{String.fromCharCode(97 + (key % 27))}. </Text>
@@ -86,12 +84,13 @@ class FaqDetail extends Component {
                 </Hyperlink>
               </View>
             </View>
-          )) : <Text>{}</Text>}
-          {this.state.footerText !== null ? this.state.footerText.map((data, key) => (
+          ))}
+
+          {this.state.footerText && this.state.footerText.map((data, key) => (
             <Hyperlink key={key} linkDefault linkStyle={{ color: '#97be32' }}>
               <Text style={styles.faqText}>{data.text}</Text>
             </Hyperlink>
-          )) : <Text>{}</Text>}
+          ))}
         </View>
 
       </ScrollView>

@@ -5,7 +5,7 @@ import {
   ScrollView,
   Text
 } from 'react-native';
-// import tracker from 'helpers/googleAnalytics';
+import tracker from 'helpers/googleAnalytics';
 
 import I18n from 'locales';
 import Theme from 'config/theme';
@@ -25,16 +25,15 @@ class TermsAndConditions extends Component {
   };
 
   componentDidMount() {
-    // tracker.trackScreenView('TermsAndConditions');
+    tracker.trackScreenView('TermsAndConditions');
   }
 
-  handleStaticLinks = (section, text, list, description) => {
+  handleStaticLinks = (section, text, list) => {
     this.props.navigator.push({
       screen: section,
       title: text,
       passProps: {
-        contentTerm: list === '' ? null : list,
-        descriptionTerm: description
+        contentTerm: list
       }
     });
   }
@@ -44,8 +43,7 @@ class TermsAndConditions extends Component {
       {
         text: I18n.t('termsAndConditions.firstTerm.title'),
         title: I18n.t('termsAndConditions.firstTerm.title'),
-        list: I18n.t('termsAndConditions.firstTerm.list'),
-        description: I18n.t('termsAndConditions.firstTerm.description'),
+        list: I18n.t('termsAndConditions.firstTerm.content'),
         section: 'ForestWatcher.TermsAndConditionsDetail',
         functionOnPress: this.handleStaticLinks
 
@@ -53,40 +51,35 @@ class TermsAndConditions extends Component {
       {
         text: I18n.t('termsAndConditions.secondTerm.title'),
         title: I18n.t('termsAndConditions.secondTerm.title'),
-        list: I18n.t('termsAndConditions.secondTerm.list'),
-        description: I18n.t('termsAndConditions.secondTerm.description'),
+        list: I18n.t('termsAndConditions.secondTerm.content'),
         section: 'ForestWatcher.TermsAndConditionsDetail',
         functionOnPress: this.handleStaticLinks
       },
       {
         text: I18n.t('termsAndConditions.thirdTerm.title'),
         title: I18n.t('termsAndConditions.thirdTerm.title'),
-        list: I18n.t('termsAndConditions.thirdTerm.list'),
-        description: I18n.t('termsAndConditions.thirdTerm.description'),
+        list: I18n.t('termsAndConditions.thirdTerm.content'),
         section: 'ForestWatcher.TermsAndConditionsDetail',
         functionOnPress: this.handleStaticLinks
       },
       {
         text: I18n.t('termsAndConditions.fourthTerm.title'),
         title: I18n.t('termsAndConditions.fourthTerm.title'),
-        list: I18n.t('termsAndConditions.fourthTerm.list'),
-        description: I18n.t('termsAndConditions.fourthTerm.description'),
+        list: I18n.t('termsAndConditions.fourthTerm.content'),
         section: 'ForestWatcher.TermsAndConditionsDetail',
         functionOnPress: this.handleStaticLinks
       },
       {
         text: I18n.t('termsAndConditions.fifthTerm.title'),
         title: I18n.t('termsAndConditions.fifthTerm.title'),
-        list: I18n.t('termsAndConditions.fifthTerm.list'),
-        description: I18n.t('termsAndConditions.fifthTerm.description'),
+        list: I18n.t('termsAndConditions.fifthTerm.content'),
         section: 'ForestWatcher.TermsAndConditionsDetail',
         functionOnPress: this.handleStaticLinks
       },
       {
         text: I18n.t('termsAndConditions.sixthTerm.title'),
         title: I18n.t('termsAndConditions.sixthTerm.title'),
-        list: I18n.t('termsAndConditions.sixthTerm.list'),
-        description: I18n.t('termsAndConditions.sixthTerm.description'),
+        list: I18n.t('termsAndConditions.sixthTerm.content'),
         section: 'ForestWatcher.TermsAndConditionsDetail',
         functionOnPress: this.handleStaticLinks
       }

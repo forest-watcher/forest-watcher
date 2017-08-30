@@ -20,18 +20,13 @@ class TermsAndConditionsDetail extends Component {
   };
 
   static propTypes = {
-    contentTerm: PropTypes.any,
-    descriptionTerm: PropTypes.any
+    contentTerm: PropTypes.any
   };
 
   state = {
-    content: this.props.contentTerm,
-    description: this.props.descriptionTerm
+    description: this.props.contentTerm.description,
+    list: this.props.contentTerm.list
   };
-
-  componentDidMount() {
-    // tracker.trackScreenView('TermsAndConditions');
-  }
 
   render() {
     return (
@@ -46,21 +41,22 @@ class TermsAndConditionsDetail extends Component {
           style={styles.terms}
         >
 
-          <Hyperlink
+          {this.state.description && <Hyperlink
             linkDefault linkStyle={{ color: '#97be32' }}
             linkText={(url) => (url === 'mailto:gfw@wri.org' ? 'gfw@wri.org' : url)}
           >
-            <Text style={this.state.description === '' ? styles.termsTextNone : styles.termsText}>{this.state.description}</Text>
-          </Hyperlink>
-          {this.state.content !== null ? this.state.content.map((data, key) => (
+            <Text style={styles.termsText}>{this.state.description}</Text>
+          </Hyperlink>}
+
+          {this.state.list && this.state.list.map((data, key) => (
             <View
               key={key}
-              style={this.state.description === '' ? styles.termsListNoPadding : styles.termsList}
+              style={this.state.description ? styles.termsListNoPadding : styles.termsList}
             >
               <Text style={styles.termsText}>{String.fromCharCode(97 + (key % 27))}. </Text>
               <Text style={styles.termsText}>{data.text}</Text>
             </View>
-          )) : <Text style={styles.termsText}>{}</Text> }
+          ))}
         </View>
 
       </ScrollView>

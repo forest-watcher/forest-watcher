@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   ScrollView
 } from 'react-native';
-// import tracker from 'helpers/googleAnalytics';
+import tracker from 'helpers/googleAnalytics';
 
 import I18n from 'locales';
 import Theme from 'config/theme';
@@ -23,7 +23,7 @@ class FaqList extends Component {
   };
 
   componentDidMount() {
-    // tracker.trackScreenView('TermsAndConditions');
+    tracker.trackScreenView('FaqList');
   }
 
   handleStaticLinks = (section, text, list) => {
@@ -31,7 +31,7 @@ class FaqList extends Component {
       screen: section,
       title: text,
       passProps: {
-        contentFaq: list === '' ? null : list
+        contentFaq: list
       }
     });
   }
