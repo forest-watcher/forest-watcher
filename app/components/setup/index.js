@@ -81,14 +81,17 @@ class Setup extends Component {
           showBack={showBack || page > 0}
           onBackPress={onBackPress}
           prerenderingSiblingsNumber={this.slides}
-          transparent={page === 1}
+          map={page === 1}
+          navigator={this.props.navigator}
         />
         <StepsSlider
           page={this.state.page}
           onChangeTab={this.updatePage}
         >
           <SetupCountry onNextPress={this.goToNextPage} />
-          <SetupBoundaries onNextPress={this.goToNextPage} />
+          <SetupBoundaries
+            onNextPress={this.goToNextPage}
+          />
           <SetupOverView onNextPress={this.onFinishSetup} />
         </StepsSlider>
       </View>

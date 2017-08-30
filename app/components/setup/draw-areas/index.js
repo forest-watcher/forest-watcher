@@ -6,7 +6,8 @@ import {
   Text,
   Dimensions,
   ActivityIndicator,
-  TouchableHighlight
+  TouchableHighlight,
+  Platform
 } from 'react-native';
 
 import CONSTANTS from 'config/constants';
@@ -89,6 +90,7 @@ function renderLoading() {
 }
 
 class DrawAreas extends Component {
+
   constructor(props) {
     super(props);
     const intialCoords = this.props.country && this.props.country.centroid
@@ -278,8 +280,11 @@ class DrawAreas extends Component {
 
   render() {
     const { valid, shape } = this.state;
+    const { contextualLayer } = this.props;
     const { coordinates } = shape;
     const markers = parseCoordinates(coordinates);
+    const ctxLayerKey = Platform.OS === 'ios' && contextualLayer ?
+    `contextualLayerElement-${contextualLayer.name}` : 'contextualLayerElement';
 
     return (
       <View style={styles.container}>
@@ -297,6 +302,12 @@ class DrawAreas extends Component {
           moveOnMarkerPress={false}
           onLayout={this.setBoundaries}
         >
+          {contextualLayer && <MapView.UrlTile
+            key={ctxLayerKey}
+            urlTemplate={contextualLayer.url}
+            zIndex={1}
+          />
+          }
           {coordinates.length > 0 && (
             <MapView.Polygon
               key={coordinates.length}
@@ -366,7 +377,12 @@ DrawAreas.propTypes = {
     centroid: PropTypes.object
   }).isRequired,
   onDrawAreaFinish: PropTypes.func.isRequired,
-  storeGeostore: PropTypes.func.isRequired
+  storeGeostore: PropTypes.func.isRequired,
+  contextualLayer: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    url: PropTypes.string.isRequired
+  })
 };
 
 export default DrawAreas;

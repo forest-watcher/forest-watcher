@@ -90,3 +90,7 @@ export function getTilesInBbox(bbox, zooms) {
   return tilesArray;
 }
 
+export function getContextualLayer(layers) {
+  if (!layers.activeLayer) return null;
+  return layers.data.find(layer => layer.id === layers.activeLayer);
+}

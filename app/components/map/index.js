@@ -141,7 +141,7 @@ class Map extends Component {
       selectedAlerts: [],
       neighbours: []
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
   componentDidMount() {

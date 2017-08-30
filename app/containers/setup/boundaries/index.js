@@ -1,15 +1,18 @@
 import { connect } from 'react-redux';
 import { setSetupAOI } from 'redux-modules/setup';
 import { storeGeostore } from 'redux-modules/geostore';
+import { getContextualLayer } from 'helpers/map';
 
 import SetupBoundaries from 'components/setup/boundaries';
 
 function mapStateToProps(state) {
+  const contextualLayer = getContextualLayer(state.layers);
   return {
     user: state.user.data,
     setupCountry: state.setup.country,
     countries: state.countries.data,
-    area: state.setup.area
+    area: state.setup.area,
+    contextualLayer
   };
 }
 
