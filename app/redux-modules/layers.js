@@ -320,7 +320,7 @@ export function cacheAreaBasemap(areaId) {
     const area = getAreaById(state().areas.data, areaId);
     const layer = {
       id: 'basemap',
-      url: __DEV__ ? CONSTANTS.maps.devBasemap : CONSTANTS.maps.prodBasemap
+      url: CONSTANTS.maps.devBasemap
     };
     if (area) {
       const downloadConfig = {

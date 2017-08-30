@@ -633,7 +633,7 @@ class Map extends Component {
       (
         <MapView.UrlTile
           key="basemapLayerElement"
-          urlTemplate={__DEV__ ? MAPS.devBasemap : MAPS.prodBasemap}
+          urlTemplate={MAPS.devBasemap}
           zIndex={-1}
         />
       )
