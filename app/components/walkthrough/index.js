@@ -63,7 +63,7 @@ class Walkthrough extends PureComponent {
   };
 
   onPressBack = () => {
-    this.setState(state => ({ page: state.page - 1 }));
+    this.setSliderPage(this.state.page - 1);
   };
 
   onPressNext = () => {
@@ -83,11 +83,25 @@ class Walkthrough extends PureComponent {
     }
   };
 
+  onChangeTab = (tab) => {
+    this.setSliderPage(tab.i);
+  }
+
+  setSliderPage = (page) => {
+    this.setState({ page });
+  };
+
   render() {
     const { page } = this.state;
     return (
       <View style={styles.container}>
-        <StepsSlider page={page} barStyle={{ height: 64 }}>
+        <StepsSlider
+          page={page}
+          barStyle={{ height: 64 }}
+          locked={false}
+          prerenderingSiblingsNumber={1}
+          onChangeTab={this.onChangeTab}
+        >
           {SLIDES.map((slide, index) =>
             (
               <View style={styles.slideContainer} key={`slide-${index}`}>
