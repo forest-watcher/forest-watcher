@@ -29,7 +29,6 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 30;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-const Timer = require('react-native-timer');
 const footerBackgroundImage = require('assets/map_bg_gradient.png');
 const markerImage = require('assets/circle.png');
 // const markerRedImage = require('assets/circle_red.png');
@@ -96,9 +95,7 @@ class DrawAreas extends Component {
       ? this.props.country.centroid.coordinates
       : [CONSTANTS.maps.lng, CONSTANTS.maps.lat];
 
-    this.bboxed = false;
     this.state = {
-      renderMap: false,
       loading: false,
       valid: true,
       huge: false,
@@ -117,12 +114,6 @@ class DrawAreas extends Component {
 
   componentDidMount() {
     tracker.trackScreenView('Draw Areas');
-    Timer.setTimeout(this, 'renderMap', this.renderMap, 400);
-  }
-
-  componentWillUnmount() {
-    Timer.clearTimeout(this, 'renderMap');
-    Timer.clearTimeout(this, 'afterRenderTimer');
   }
 
   onMapPress(e) {
@@ -132,20 +123,21 @@ class DrawAreas extends Component {
         ...shape.coordinates,
         e.nativeEvent.coordinate
       ];
+      const geo = getGeoJson(coords);
       let isValid = valid;
       let isHuge = false;
 
       if (coords.length >= 3) {
         const intersects = gpsi({
           type: 'Feature',
-          geometry: getGeoJson(coords)
+          geometry: geo
         });
 
         if ((intersects && intersects.geometry) &&
         intersects.geometry.coordinates.length > 0) {
           isValid = false;
         }
-        const area = geojsonArea.geometry(getGeoJson(coords));
+        const area = geojsonArea.geometry(geo);
         if (area > CONSTANTS.areas.maxSize) {
           isHuge = true;
         }
@@ -186,22 +178,14 @@ class DrawAreas extends Component {
   }
 
   setBoundaries = () => {
-    if (!this.bboxed) {
-      if (Timer.timeoutExists(this, 'afterRenderTimer')) {
-        Timer.clearTimeout(this, 'afterRenderTimer');
-      }
-      Timer.setTimeout(this, 'afterRenderTimer', () => {
-        this.bboxed = true;
-        let boundaries = CONSTANTS.maps.bbox.coordinates[0];
-        if (this.props.country && this.props.country.bbox) {
-          boundaries = this.props.country.bbox.coordinates[0];
-        }
-        this.map.fitToCoordinates(getGoogleMapsCoordinates(boundaries), {
-          edgePadding: { top: 0, right: 0, bottom: 0, left: 0 },
-          animated: true
-        });
-      }, 1000);
+    let boundaries = CONSTANTS.maps.bbox.coordinates[0];
+    if (this.props.country && this.props.country.bbox) {
+      boundaries = this.props.country.bbox.coordinates[0];
     }
+    this.map.fitToCoordinates(getGoogleMapsCoordinates(boundaries), {
+      edgePadding: { top: 0, right: 0, bottom: 0, left: 0 },
+      animated: true
+    });
   }
 
   getLegend() {
@@ -211,7 +195,7 @@ class DrawAreas extends Component {
        styles.actionButtonWithPadding : null;
 
       return (
-        <View style={[styles.actionButton, withPadding]}>
+        <View pointerEvents="none" style={[styles.actionButton, withPadding]}>
           <Text style={styles.footerTitle}>{I18n.t('setupDrawAreas.tapInstruction')}</Text>
         </View>
       );
@@ -265,12 +249,7 @@ class DrawAreas extends Component {
         geometry: getGeoJson(shape.coordinates)
       });
 
-      if ((intersects && intersects.geometry) &&
-      intersects.geometry.coordinates.length > 0) {
-        isValid = false;
-      } else {
-        isValid = true;
-      }
+      isValid = (intersects && intersects.geometry && intersects.geometry.coordinates.length === 0);
       const area = geojsonArea.geometry(getGeoJson(shape.coordinates));
       if (area > CONSTANTS.areas.maxSize) {
         isHuge = true;
@@ -296,14 +275,6 @@ class DrawAreas extends Component {
     });
   }
 
-  renderMap = () => {
-    if (!this.state.renderMap) {
-      this.setState({
-        renderMap: true
-      });
-    }
-  }
-
 
   render() {
     const { valid, shape } = this.state;
@@ -316,59 +287,57 @@ class DrawAreas extends Component {
           ? renderLoading()
           : null
         }
-        {this.state.renderMap &&
-          <MapView
-            ref={(ref) => { this.map = ref; }}
-            style={styles.map}
-            provider={MapView.PROVIDER_GOOGLE}
-            mapType="hybrid"
-            rotateEnabled={false}
-            onPress={e => this.onMapPress(e)}
-            moveOnMarkerPress={false}
-            onLayout={this.setBoundaries}
-          >
-            {coordinates.length > 0 && (
-              <MapView.Polygon
-                key={0}
-                coordinates={coordinates}
-                fillColor={valid ? Theme.polygon.fill : Theme.polygon.fillInvalid}
-                strokeColor={Theme.polygon.strokeSelected}
-                strokeWidth={coordinates.length >= 3 ? 2 : 0}
-                zIndex={0}
-              />
-            )}
-            {markers.length > 0 && !this.state.snapshot && (
-              <MapView.Polyline
-                key="line"
-                coordinates={markers}
-                strokeColor={Theme.polygon.strokeSelected}
-                strokeWidth={2}
-                zIndex={2}
-              />
-            )}
-            {markers.length >= 0 && !this.state.snapshot &&
-              markers.map((marker, index) => {
-                // const image = this.state.valid ? markerImage : markerRedImage;
-                const image = markerImage;
+        <MapView
+          ref={(ref) => { this.map = ref; }}
+          style={styles.map}
+          provider={MapView.PROVIDER_GOOGLE}
+          mapType="hybrid"
+          rotateEnabled={false}
+          onPress={e => this.onMapPress(e)}
+          moveOnMarkerPress={false}
+          onLayout={this.setBoundaries}
+        >
+          {coordinates.length > 0 && (
+            <MapView.Polygon
+              key={coordinates.length}
+              coordinates={coordinates}
+              fillColor={valid ? Theme.polygon.fill : Theme.polygon.fillInvalid}
+              strokeColor={Theme.polygon.strokeSelected}
+              strokeWidth={coordinates.length >= 3 ? 2 : 0}
+              zIndex={0}
+            />
+          )}
+          {markers.length > 0 && !this.state.snapshot && coordinates.length > 1 && (
+            <MapView.Polyline
+              key={'line'}
+              coordinates={markers}
+              strokeColor={Theme.polygon.strokeSelected}
+              strokeWidth={2}
+              zIndex={2}
+            />
+          )}
+          {markers.length >= 0 && !this.state.snapshot &&
+            markers.map((marker, index) => {
+              // const image = this.state.valid ? markerImage : markerRedImage;
+              const image = markerImage;
 
-                return (
-                  <MapView.Marker.Animated key={index} coordinate={marker} anchor={{ x: 0.5, y: 0.5 }}>
-                    <Image
-                      style={{ width: 10, height: 10 }}
-                      source={image}
-                    />
-                  </MapView.Marker.Animated>
-                );
-              })
-            }
-          </MapView>
-        }
-        <View style={styles.footer}>
+              return (
+                <MapView.Marker.Animated key={index} coordinate={marker} anchor={{ x: 0.5, y: 0.5 }}>
+                  <Image
+                    style={{ width: 10, height: 10 }}
+                    source={image}
+                  />
+                </MapView.Marker.Animated>
+              );
+            })
+          }
+        </MapView>
+        <View pointerEvents="box-none" style={styles.footer}>
           <Image
             style={styles.footerBg}
             source={footerBackgroundImage}
           />
-          <View style={styles.footerButton}>
+          <View pointerEvents="box-none" style={styles.footerButton}>
             {this.state.shape.coordinates.length >= 1 &&
               <TouchableHighlight
                 style={styles.undoButton}

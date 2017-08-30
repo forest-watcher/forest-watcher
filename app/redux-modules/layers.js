@@ -7,7 +7,7 @@ import { getActionsTodoCount } from 'helpers/sync';
 import { removeFolder } from 'helpers/fileManagement';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
-import { SAVE_AREA_COMMIT } from 'redux-modules/areas';
+import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
 import { START_APP } from 'redux-modules/app';
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
@@ -129,6 +129,21 @@ export default function reducer(state = initialState, action) {
       }
       return { ...state, pendingCache, cacheStatus };
     }
+    case DELETE_AREA_COMMIT: {
+      const { area } = action.meta;
+      const cacheStatus = omit(state.cacheStatus, [area.id]);
+      const layersProgress = omit(state.layersProgress, [area.id]);
+      let cache = { ...state.cache };
+      Object.keys(cache).forEach((layerId) => {
+        cache = {
+          ...cache,
+          [layerId]: omit(cache[layerId], [area.id])
+        };
+      });
+      removeFolder(`${CONSTANTS.files.tiles}/${area.id}`)
+        .then(() => console.info(`Area ${area.id} cache deleted successfully`));
+      return { ...state, cache, cacheStatus, layersProgress };
+    }
     case UPDATE_PROGRESS: {
       const { areaId, progress, layerId } = action.payload;
       const areaLayersProgress = state.layersProgress[areaId];
@@ -225,7 +240,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, cacheStatus: newCacheStatus };
     }
     case LOGOUT_REQUEST:
-      removeFolder(CONSTANTS.files.tiles);
+      removeFolder(CONSTANTS.files.tiles)
+        .then(console.info('Folder removed successfully'));
       return initialState;
     default:
       return state;
@@ -261,8 +277,6 @@ async function downloadLayer(config, dispatch) {
   const { area, layerId, layerUrl, zoom } = config;
   const url = `${Config.API_URL}/download-tiles/${area.geostore}/${zoom.start}/${zoom.end}?layerUrl=${layerUrl}`;
   const res = await RNFetchBlob
-    // add this option that makes response data to be stored as a file,
-    // this is much more performant.
     .config({ fileCache: true })
     .fetch('GET', encodeURI(url))
     .progress((received, total) => {
@@ -306,7 +320,7 @@ export function cacheAreaBasemap(areaId) {
     const area = getAreaById(state().areas.data, areaId);
     const layer = {
       id: 'basemap',
-      url: CONSTANTS.maps.basemap
+      url: __DEV__ ? CONSTANTS.maps.devBasemap : CONSTANTS.maps.prodBasemap
     };
     if (area) {
       const downloadConfig = {

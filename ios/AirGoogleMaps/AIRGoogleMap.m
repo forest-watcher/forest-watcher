@@ -11,6 +11,7 @@
 #import "AIRGoogleMapPolyline.h"
 #import "AIRGoogleMapCircle.h"
 #import "AIRGoogleMapUrlTile.h"
+#import "AIRGoogleMapLocalTile.h"
 #import <GoogleMaps/GoogleMaps.h>
 #import <MapKit/MapKit.h>
 #import <React/UIView+React.h>
@@ -91,6 +92,11 @@ id regionAsJSON(MKCoordinateRegion region) {
     AIRGoogleMapUrlTile *tile = (AIRGoogleMapUrlTile*)subview;
     tile.tileLayer.map = self;
     [self.tiles addObject:tile];
+  } else if ([subview isKindOfClass:[AIRGoogleMapLocalTile class]]) {
+    AIRGoogleMapLocalTile *tile = (AIRGoogleMapLocalTile*)subview;
+    tile.tileLayer.map = self;
+    tile.tileLayer.opacity = 1;
+    [self.tiles addObject:tile];
   } else {
     NSArray<id<RCTComponent>> *childSubviews = [subview reactSubviews];
     for (int i = 0; i < childSubviews.count; i++) {
@@ -127,6 +133,10 @@ id regionAsJSON(MKCoordinateRegion region) {
     AIRGoogleMapUrlTile *tile = (AIRGoogleMapUrlTile*)subview;
     tile.tileLayer.map = nil;
     [self.tiles removeObject:tile];
+  } else if ([subview isKindOfClass:[AIRGoogleMapLocalTile class]]) {
+    AIRGoogleMapLocalTile *tile = (AIRGoogleMapLocalTile*)subview;
+    tile.tileLayer.map = nil;
+    [self.tiles removeObject:tile];
   } else {
     NSArray<id<RCTComponent>> *childSubviews = [subview reactSubviews];
     for (int i = 0; i < childSubviews.count; i++) {
@@ -153,6 +163,10 @@ id regionAsJSON(MKCoordinateRegion region) {
 - (void)setRegion:(MKCoordinateRegion)region {
   // TODO: The JS component is repeatedly setting region unnecessarily. We might want to deal with that in here.
   self.camera = [AIRGoogleMap makeGMSCameraPositionFromMap:self  andMKCoordinateRegion:region];
+}
+
+- (void)didFinishTileRendering {
+    if (self.onMapReady) self.onMapReady(@{});
 }
 
 - (BOOL)didTapMarker:(GMSMarker *)marker {

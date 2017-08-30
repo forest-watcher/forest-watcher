@@ -4,8 +4,7 @@ import {
   Image,
   Text,
   TouchableHighlight,
-  View,
-  Platform
+  View
 } from 'react-native';
 import Theme from 'config/theme';
 
@@ -37,16 +36,10 @@ function AreaList(props) {
               <View style={styles.titleContainer}>
                 <Text style={styles.title} numberOfLines={2}> {area.name} </Text>
               </View>
-              <TouchableHighlight
-                activeOpacity={0.5}
-                underlayColor="transparent"
-                onPress={() => onAreaPress(area.id, area.name)}
-              >
-                <Image style={Theme.icon} source={nextIcon} />
-              </TouchableHighlight>
+              <Image style={Theme.icon} source={nextIcon} />
             </View>
           </TouchableHighlight>
-          {showCache && Platform.OS === 'android' &&
+          {showCache &&
             <AreaCache areaId={area.id} showTooltip={index === 0 && pristine} />
           }
         </View>

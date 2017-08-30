@@ -1,5 +1,16 @@
 # Forest Watcher Changelog
 
+## [v1.0.0rc6] - 2017-08-24
+- Includes the possibility of switching coordinates formats between decimal and degrees.
+- Fixes regression on make area available offline feature.
+- Fixes area not zooming in properly on enter.
+- Major performance improvement on iOS map.
+- Updates splash screen and app logos.
+- iOS support for area caching.
+- Remove cached data when deleting an area.
+- Fix area creation on iOS.
+- Creating an area over 3G no longer causes a crash.
+
 ## [v1.0.0rc5] - 2017-08-17
 - Improve download cache status progress bar
 - Fix breaks in area creation

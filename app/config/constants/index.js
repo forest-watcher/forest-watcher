@@ -1,3 +1,5 @@
+import Config from 'react-native-config';
+
 export const APP_NAME = 'Forest Watcher';
 
 export const AREAS = {
@@ -18,17 +20,16 @@ export const STORAGE = {
 export const MAPS = {
   lat: 27.568640,
   lng: -33.461281,
-  basemap: 'http://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  devBasemap: 'http://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  prodBasemap: `https://api.mapbox.com/styles/v1/forestwatcher/cj512vh3m0yth2rn62y69uoek/tiles/256/{z}/{x}/{y}.png?access_token=${Config.MAPBOX_TOKEN}`,
   bbox: {
     type: 'Polygon',
     coordinates: [
-      [
-        [-147.65625, -51.8357775204525],
-        [-147.65625, 70.959697166864],
-        [159.9609375, 70.959697166864],
-        [159.9609375, -51.8357775204525],
-        [-147.65625, -51.8357775204525]
-      ]
+      [-147.65625, -51.8357775204525],
+      [-147.65625, 70.959697166864],
+      [159.9609375, 70.959697166864],
+      [159.9609375, -51.8357775204525],
+      [-147.65625, -51.8357775204525]
     ]
   },
   cacheZoom: [
