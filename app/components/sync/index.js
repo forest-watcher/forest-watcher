@@ -118,7 +118,7 @@ class Sync extends Component {
   }
 
   getAction() {
-    const { reach, actionsPending, skipAllowed, criticalSyncError, retrySync } = this.props;
+    const { reach, actionsPending, skipAllowed, criticalSyncError, retrySync, isConnected } = this.props;
     const { completeTimeoutFlag, canSyncDataOnMobile } = this.state;
     const showSkipSyncingBtn = (!MOBILE.includes(reach) || canSyncDataOnMobile) &&
       (actionsPending > 0 || !completeTimeoutFlag) && skipAllowed;
@@ -143,7 +143,7 @@ class Sync extends Component {
             noIcon
             style={styles.button}
             onPress={this.onSkipPress}
-            text={I18n.t('home.skip').toUpperCase()}
+            text={!isConnected ? I18n.t('home.ok').toUpperCase() : I18n.t('home.skip').toUpperCase()}
           />
         </View>
       )
