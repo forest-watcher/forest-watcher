@@ -590,7 +590,7 @@ class Map extends Component {
         );
     };
     return (
-      <View pointerEvents="none" style={styles.btnContainer}>
+      <View pointerEvents="box-none" style={styles.btnContainer}>
         {getButtons()}
       </View>
     );

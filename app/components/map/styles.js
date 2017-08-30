@@ -105,7 +105,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
-    minHeight: 32
+    minHeight: 60
   },
   footerBGContainer: {
     left: 0,
