@@ -10,7 +10,14 @@ export default StyleSheet.create({
     right: 0,
     flexDirection: 'row',
     alignItems: 'center',
-    zIndex: 1
+    zIndex: 1,
+    flex: 1,
+    justifyContent: 'space-between'
+  },
+  arrowText: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   title: {
     fontFamily: Theme.font,
@@ -19,5 +26,8 @@ export default StyleSheet.create({
   },
   margin: {
     marginLeft: 16
+  },
+  layerIcon: {
+    marginRight: 16
   }
 });

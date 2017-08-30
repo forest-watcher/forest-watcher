@@ -14,7 +14,8 @@ class SetupBoundaries extends Component {
     setSetupArea: PropTypes.func.isRequired,
     setupCountry: PropTypes.object.isRequired,
     onNextPress: PropTypes.func.isRequired,
-    storeGeostore: PropTypes.func.isRequired
+    storeGeostore: PropTypes.func.isRequired,
+    contextualLayer: PropTypes.object
   };
 
   componentDidMount() {
@@ -36,6 +37,7 @@ class SetupBoundaries extends Component {
           country={this.props.setupCountry}
           storeGeostore={this.storeGeostore}
           onDrawAreaFinish={this.onDrawAreaFinish}
+          contextualLayer={this.props.contextualLayer}
         />
       </View>
     );

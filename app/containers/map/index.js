@@ -3,6 +3,7 @@ import { createReport } from 'redux-modules/reports';
 import { setSyncModal } from 'redux-modules/app';
 import { setCanDisplayAlerts, setActiveAlerts, activeCluster } from 'redux-modules/alerts';
 import tracker from 'helpers/googleAnalytics';
+import { getContextualLayer } from 'helpers/map';
 import Map from 'components/map';
 import { activeDataset } from 'helpers/area';
 import { getTotalActionsPending } from 'helpers/sync';
@@ -16,11 +17,6 @@ function getAreaCoordinates(areaFeature) {
       latitude: coordinate[1]
     }
   ));
-}
-
-function getContextualLayer(layers) {
-  if (!layers.activeLayer) return null;
-  return layers.data.find(layer => layer.id === layers.activeLayer);
 }
 
 function mapStateToProps(state) {
