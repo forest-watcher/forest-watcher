@@ -34,7 +34,7 @@ function AlertPosition(props) {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} pointerEvents="none">
       <View pointerEvents="none" style={[styles.currentPositionContainer, styles.footerZIndex]}>
         <Text style={styles.coordinateDistanceText}>
           {positionText}
