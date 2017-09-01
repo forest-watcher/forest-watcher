@@ -4,7 +4,8 @@ import {
   View,
   Text,
   TouchableHighlight,
-  Image
+  Image,
+  ScrollView
 } from 'react-native';
 import i18n from 'locales';
 import Theme from 'config/theme';
@@ -14,7 +15,9 @@ import styles from './styles';
 const closeIcon = require('assets/close.png');
 
 const MapSidebar = (props) => (
-  <View style={styles.container}>
+  <View
+    style={styles.container}
+  >
     <View style={styles.header}>
       <Text style={styles.heading}>{i18n.t('map.settings')}</Text>
       <TouchableHighlight
@@ -25,7 +28,11 @@ const MapSidebar = (props) => (
         <Image style={Theme.icon} source={closeIcon} />
       </TouchableHighlight>
     </View>
-    <View style={styles.body}>
+    <ScrollView
+      style={styles.body}
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+    >
       {props.legend &&
         <View style={styles.legendContainer}>
           <Text style={styles.contextualLayersTitle}>{i18n.t('map.alerts')}</Text>
@@ -57,7 +64,7 @@ const MapSidebar = (props) => (
           ))
         }
       </View>
-    </View>
+    </ScrollView>
   </View>
 );
 
