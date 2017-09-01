@@ -56,6 +56,7 @@ export default StyleSheet.create({
     maxWidth: 288
   },
   itemTitle: {
+    paddingTop: 1,
     fontSize: 17,
     lineHeight: 20,
     fontWeight: '400',
