@@ -63,7 +63,7 @@ class Walkthrough extends PureComponent {
   };
 
   onPressBack = () => {
-    this.setSliderPage(this.state.page - 1);
+    this.setState({ page: this.state.page - 1 });
   };
 
   onPressNext = () => {
@@ -83,13 +83,13 @@ class Walkthrough extends PureComponent {
     }
   };
 
-  onChangeTab = (tab) => {
-    this.setSliderPage(tab.i);
+  onChangeTab = ({ i: newPage }) => {
+    if (newPage > this.state.page) {
+      this.onPressNext();
+    } else if (newPage < this.state.page) {
+      this.onPressBack();
+    }
   }
-
-  setSliderPage = (page) => {
-    this.setState({ page });
-  };
 
   render() {
     const { page } = this.state;
@@ -123,6 +123,7 @@ class Walkthrough extends PureComponent {
               </View>
             ))
           }
+          <View />
         </StepsSlider>
         <View style={[styles.footer, page > 0 ? { justifyContent: 'space-between' } : { justifyContent: 'flex-end' }]}>
           {page > 0 && // Buttons are placed here because inside the StepsSlider the events wont trigger
