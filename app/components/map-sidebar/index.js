@@ -26,7 +26,7 @@ const MapSidebar = (props) => (
       </TouchableHighlight>
     </View>
     <View style={styles.body}>
-      {props.legend &&
+      {props.legend && props.showLegend &&
         <View style={styles.legendContainer}>
           <Text style={styles.contextualLayersTitle}>{i18n.t('map.alerts')}</Text>
           <Row>
@@ -77,7 +77,8 @@ MapSidebar.propTypes = {
     })
   ).isRequired,
   onLayerToggle: PropTypes.func.isRequired, // eslint-disable-line
-  activeLayer: PropTypes.string
+  activeLayer: PropTypes.string,
+  showLegend: PropTypes.bool
 };
 
 export default MapSidebar;

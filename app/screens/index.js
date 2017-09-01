@@ -17,7 +17,7 @@ import FaqList from 'components/settings/faq';
 import FaqDetail from 'components/settings/faq/detail';
 import Sync from 'containers/sync';
 import Answers from 'containers/common/form/answers';
-import RightDrawer from 'components/right-drawer';
+import RightDrawer from 'containers/right-drawer';
 import ErrorLightbox from 'components/error-lightbox';
 import Walkthrough from 'components/walkthrough';
 

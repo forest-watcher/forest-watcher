@@ -79,6 +79,7 @@ class Setup extends Component {
           onBackPress={onBackPress}
           prerenderingSiblingsNumber={this.slides}
           map={page === 1}
+          setShowLegend={this.props.setShowLegend}
           navigator={this.props.navigator}
         />
         <StepsSlider
@@ -98,6 +99,7 @@ class Setup extends Component {
 
 Setup.propTypes = {
   navigator: PropTypes.object.isRequired,
+  setShowLegend: PropTypes.func.isRequired,
   initSetup: PropTypes.func.isRequired,
   goBackDisabled: PropTypes.bool
 };

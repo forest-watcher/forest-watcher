@@ -18,6 +18,7 @@ const layersIcon = require('assets/layers.png');
 class SetupHeader extends Component {
 
   onContextualLayersPress = () => {
+    this.props.setShowLegend(false);
     this.props.navigator.toggleDrawer({
       side: 'right',
       animated: true
@@ -64,6 +65,7 @@ class SetupHeader extends Component {
 SetupHeader.propTypes = {
   title: PropTypes.string,
   navigator: PropTypes.object,
+  setShowLegend: PropTypes.func.isRequired,
   showBack: PropTypes.bool,
   onBackPress: (props, propName, componentName) => {
     if (props.showBack && !props[propName]) {
