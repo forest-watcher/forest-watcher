@@ -26,9 +26,14 @@ class SetupHeader extends Component {
   }
 
   render() {
-    const { page, showBack, onBackPress, title } = this.props;
+    const { page, showBack, onBackPress, title, logout } = this.props;
     const showBackStyle = showBack ? '' : styles.margin;
     const titleColor = page === 1 ? { color: 'white' } : { color: Theme.fontColors.main };
+    const titleElement = (
+      <Text style={[styles.title, showBackStyle, titleColor]}>
+        {title}
+      </Text>
+    );
     return (
       <View style={styles.container}>
         <View style={styles.arrowText}>
@@ -39,24 +44,25 @@ class SetupHeader extends Component {
               activeOpacity={0.5}
               underlayColor="transparent"
             >
-              <Image style={Theme.icon} source={page === 1 ? backIconWhite : backIcon} />
+              <View style={styles.titleContainer}>
+                <Image style={Theme.icon} source={page === 1 ? backIconWhite : backIcon} />
+                {titleElement}
+              </View>
             </TouchableHighlight>
           }
-          <Text style={[styles.title, showBackStyle, titleColor]}>
-            {title}
-          </Text>
+          {!showBack && titleElement}
         </View>
-        {page === 0 &&
+        {page === 0 && !showBack &&
         <TouchableHighlight
           style={styles.rightButton}
-          onPress={this.onContextualLayersPress}
+          onPress={logout}
           activeOpacity={0.5}
           underlayColor="transparent"
         >
           <Text style={styles.logout}>Logout</Text>
         </TouchableHighlight>
         }
-        {page === 1 && !showBack &&
+        {page === 1 &&
           <TouchableHighlight
             style={styles.rightButton}
             onPress={this.onContextualLayersPress}
@@ -77,6 +83,7 @@ SetupHeader.propTypes = {
   title: PropTypes.string,
   navigator: PropTypes.object,
   setShowLegend: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
   showBack: PropTypes.bool,
   onBackPress: (props, propName, componentName) => {
     if (props.showBack && !props[propName]) {

@@ -75,6 +75,7 @@ class Setup extends Component {
           prerenderingSiblingsNumber={this.slides}
           page={page}
           setShowLegend={this.props.setShowLegend}
+          logout={this.props.logout}
           navigator={this.props.navigator}
         />
         <StepsSlider
@@ -95,6 +96,7 @@ class Setup extends Component {
 Setup.propTypes = {
   navigator: PropTypes.object.isRequired,
   setShowLegend: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
   initSetup: PropTypes.func.isRequired,
   goBackDisabled: PropTypes.bool
 };

@@ -1,6 +1,8 @@
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { initSetup } from 'redux-modules/setup';
-import { setShowLegend } from 'redux-modules/app';
+import { setShowLegend } from 'redux-modules/layers';
+import { logout } from 'redux-modules/user';
 
 import Setup from 'components/setup';
 
@@ -11,18 +13,12 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch, { navigation }) {
-  return {
-    initSetup: () => {
-      dispatch(initSetup());
-    },
-    goBack: () => {
-      navigation.goBack();
-    },
-    setShowLegend: (hasAlerts) => {
-      dispatch(setShowLegend(hasAlerts));
-    }
-  };
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    initSetup,
+    logout,
+    setShowLegend
+  }, dispatch);
 }
 
 export default connect(

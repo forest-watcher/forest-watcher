@@ -19,6 +19,10 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   title: {
     fontFamily: Theme.font,
     fontSize: 21,
