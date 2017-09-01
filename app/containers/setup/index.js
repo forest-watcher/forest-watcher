@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { initSetup } from 'redux-modules/setup';
+import { setShowLegend } from 'redux-modules/app';
 
 import Setup from 'components/setup';
 
@@ -17,6 +18,9 @@ function mapDispatchToProps(dispatch, { navigation }) {
     },
     goBack: () => {
       navigation.goBack();
+    },
+    setShowLegend: (hasAlerts) => {
+      dispatch(setShowLegend(hasAlerts));
     }
   };
 }

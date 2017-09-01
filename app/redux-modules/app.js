@@ -15,6 +15,7 @@ const SET_SYNC_MODAL = 'app/SET_SYNC_MODAL';
 const SET_SYNC_SKIP = 'app/SET_SYNC_SKIP';
 export const RETRY_SYNC = 'app/RETRY_SYNC';
 const SET_COORDINATES_FORMAT = 'app/SET_COORDINATES_FORMAT';
+const SET_LAYERS_DRAWER_SECTIONS = 'app/SET_LAYERS_DRAWER_SECTIONS';
 
 // Reducer
 const initialState = {
@@ -22,6 +23,7 @@ const initialState = {
   syncModalOpen: false,
   syncSkip: false,
   coordinatesFormat: COORDINATES_FORMATS.decimal.value,
+  showLegend: true,
   version // app cache invalidation depends on this, if this changes make sure that redux-persist invalidation changes also.
 };
 
@@ -41,6 +43,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, syncSkip: false };
     case SET_COORDINATES_FORMAT:
       return { ...state, coordinatesFormat: action.payload };
+    case SET_LAYERS_DRAWER_SECTIONS:
+      return { ...state, showLegend: action.payload };
     case LOGOUT_REQUEST:
       return initialState;
     default:
@@ -99,5 +103,12 @@ export function setCoordinatesFormat(format) {
   return {
     type: SET_COORDINATES_FORMAT,
     payload: format
+  };
+}
+
+export function setShowLegend(hasAlerts) {
+  return {
+    type: SET_LAYERS_DRAWER_SECTIONS,
+    payload: hasAlerts
   };
 }

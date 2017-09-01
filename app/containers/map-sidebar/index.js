@@ -10,10 +10,11 @@ import MapSidebar from 'components/map-sidebar';
 function mapStateToProps(state) {
   const index = state.areas.selectedIndex;
   const area = state.areas.data[index] || null;
+  const showLegend = state.app.showLegend;
   let legend = false;
   if (area) {
     const dataset = activeDataset(area);
-    if (dataset) {
+    if (dataset && showLegend) {
       const color = dataset.slug === CONSTANTS.datasets.VIIRS ? Theme.colors.colorViirs : Theme.colors.colorGlad;
       legend = {
         title: dataset.name,
