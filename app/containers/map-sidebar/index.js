@@ -24,7 +24,8 @@ function mapStateToProps(state) {
   return {
     layers: state.layers.data,
     activeLayer: state.layers.activeLayer,
-    legend
+    legend,
+    showLegend: state.app.showLegend
   };
 }
 
