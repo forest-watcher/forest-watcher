@@ -68,18 +68,11 @@ class Walkthrough extends PureComponent {
 
   onPressNext = () => {
     const { page } = this.state;
-    const { navigator } = this.props;
 
     if (page + 1 < SLIDES.length) {
       this.setState({ page: page + 1 });
     } else {
-      navigator.resetTo({
-        screen: 'ForestWatcher.Login',
-        title: 'Set up',
-        passProps: {
-          goBackDisabled: true
-        }
-      });
+      this.goToLogin();
     }
   };
 
@@ -89,6 +82,16 @@ class Walkthrough extends PureComponent {
     } else if (newPage < this.state.page) {
       this.onPressBack();
     }
+  };
+
+  goToLogin = () => {
+    this.props.navigator.resetTo({
+      screen: 'ForestWatcher.Login',
+      title: 'Set up',
+      passProps: {
+        goBackDisabled: true
+      }
+    });
   }
 
   render() {
@@ -113,6 +116,9 @@ class Walkthrough extends PureComponent {
                     <Text style={styles.subtitle}>{slide.subtitle}</Text>
                   }
                 </View>
+                <TouchableOpacity onPress={this.goToLogin}>
+                  <Text style={styles.skipButton}>Skip</Text>
+                </TouchableOpacity>
                 <View style={styles.phoneContainer}>
                   {slide.image ?
                     <Image style={styles.phoneImage} source={slide.image} />

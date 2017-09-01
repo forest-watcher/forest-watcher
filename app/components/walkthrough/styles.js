@@ -59,5 +59,12 @@ export default StyleSheet.create({
     height: 64,
     width: Theme.screen.width,
     backgroundColor: Theme.background.white
+  },
+  skipButton: {
+    color: Theme.fontColors.light,
+    fontFamily: Theme.font,
+    fontSize: 14,
+    fontWeight: '400',
+    textAlign: 'center'
   }
 });
