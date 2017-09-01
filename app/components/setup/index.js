@@ -60,25 +60,20 @@ class Setup extends Component {
   }
 
   render() {
-    let showBack = true;
-    if (this.props && this.props.goBackDisabled) {
-      showBack = false;
-    }
-
+    const { page } = this.state;
+    const showBack = !this.props.goBackDisabled || page > 0;
     const onBackPress = this.state.page === 0
       ? this.goBack
       : this.goToPrevPage;
-
-    const { page } = this.state;
 
     return (
       <View style={page !== 1 ? styles.defaultHeader : styles.mapHeader}>
         <Header
           title={I18n.t('commonText.setUp')}
-          showBack={showBack || page > 0}
+          showBack={showBack}
           onBackPress={onBackPress}
           prerenderingSiblingsNumber={this.slides}
-          map={page === 1}
+          page={page}
           navigator={this.props.navigator}
         />
         <StepsSlider

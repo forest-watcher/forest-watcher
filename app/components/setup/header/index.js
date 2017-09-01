@@ -25,33 +25,44 @@ class SetupHeader extends Component {
   }
 
   render() {
-    const showBackStyle = this.props.showBack ? '' : styles.margin;
-    const titleColor = this.props.map ? { color: 'white' } : { color: Theme.fontColors.main };
+    const { page, showBack, onBackPress, title } = this.props;
+    const showBackStyle = showBack ? '' : styles.margin;
+    const titleColor = page === 1 ? { color: 'white' } : { color: Theme.fontColors.main };
     return (
       <View style={styles.container}>
         <View style={styles.arrowText}>
-          {this.props.showBack &&
+          {showBack &&
             <TouchableHighlight
               style={styles.backIcon}
-              onPress={this.props.onBackPress}
+              onPress={onBackPress}
               activeOpacity={0.5}
               underlayColor="transparent"
             >
-              <Image style={Theme.icon} source={this.props.map ? backIconWhite : backIcon} />
+              <Image style={Theme.icon} source={page === 1 ? backIconWhite : backIcon} />
             </TouchableHighlight>
           }
           <Text style={[styles.title, showBackStyle, titleColor]}>
-            {this.props.title}
+            {title}
           </Text>
         </View>
-        {this.props.map &&
+        {page === 0 &&
+        <TouchableHighlight
+          style={styles.rightButton}
+          onPress={this.onContextualLayersPress}
+          activeOpacity={0.5}
+          underlayColor="transparent"
+        >
+          <Text style={styles.logout}>Logout</Text>
+        </TouchableHighlight>
+        }
+        {page === 1 && !showBack &&
           <TouchableHighlight
+            style={styles.rightButton}
             onPress={this.onContextualLayersPress}
             activeOpacity={0.5}
             underlayColor="transparent"
           >
             <Image
-              style={styles.layerIcon}
               source={layersIcon}
             />
           </TouchableHighlight>
@@ -72,7 +83,7 @@ SetupHeader.propTypes = {
     }
     return null;
   },
-  map: PropTypes.bool
+  page: PropTypes.number.isRequired
 };
 
 export default SetupHeader;
