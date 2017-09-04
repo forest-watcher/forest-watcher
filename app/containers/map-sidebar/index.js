@@ -10,7 +10,7 @@ import MapSidebar from 'components/map-sidebar';
 function mapStateToProps(state) {
   const index = state.areas.selectedIndex;
   const area = state.areas.data[index] || null;
-  const showLegend = state.app.showLegend;
+  const showLegend = state.layers.showLegend;
   let legend = false;
   if (area) {
     const dataset = activeDataset(area);
