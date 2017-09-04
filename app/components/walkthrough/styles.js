@@ -66,7 +66,7 @@ export default StyleSheet.create({
     fontSize: 14,
     fontWeight: '400',
     textAlign: 'right',
-    marginTop: 30,
+    marginTop: 16,
     paddingRight: 24
   }
 });

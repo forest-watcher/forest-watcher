@@ -9,6 +9,7 @@ import {
 
 import i18n from 'locales';
 import Theme from 'config/theme';
+import capitalize from 'lodash/capitalize';
 import StepsSlider from 'components/common/steps-slider';
 
 import styles from './styles';
@@ -111,7 +112,7 @@ class Walkthrough extends PureComponent {
               <View style={styles.slideContainer} key={`slide-${index}`}>
                 <View>
                   <TouchableOpacity onPress={this.goToLogin}>
-                    <Text style={styles.skipButton}>{i18n.t('walkthrough.skip')}</Text>
+                    <Text style={styles.skipButton}>{capitalize(i18n.t('walkthrough.skip'))}</Text>
                   </TouchableOpacity>
                   <View style={styles.textsContainer}>
                     {slide.title &&
