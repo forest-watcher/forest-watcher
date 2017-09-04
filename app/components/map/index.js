@@ -576,7 +576,7 @@ class Map extends Component {
             left
             monochrome
             icon="reportArea"
-            style={[styles.footerButton, styles.footerButton2]}
+            style={[styles.footerButton, styles.footerButton2, styles.footerReport]}
             text={I18n.t('report.area').toUpperCase()}
             onPress={this.reportArea}
           />
