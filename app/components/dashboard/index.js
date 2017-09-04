@@ -26,8 +26,10 @@ class Dashboard extends PureComponent {
     actionsPending: PropTypes.number.isRequired,
     syncModalOpen: PropTypes.bool.isRequired,
     syncSkip: PropTypes.bool.isRequired,
+    pristine: PropTypes.bool.isRequired,
     setSyncModal: PropTypes.func.isRequired,
-    updateSelectedIndex: PropTypes.func.isRequired
+    updateSelectedIndex: PropTypes.func.isRequired,
+    setPristine: PropTypes.func.isRequired
   };
 
   static navigatorStyle = {
@@ -50,9 +52,6 @@ class Dashboard extends PureComponent {
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
-    this.state = {
-      pristine: true
-    };
     this.reportsAction = {
       callback: this.onPressReports,
       icon: nextIcon
@@ -102,17 +101,13 @@ class Dashboard extends PureComponent {
           }
         });
       }
-    }
-  }
-
-  disablePristine = () => {
-    if (this.state.pristine) {
-      this.setState({ pristine: false });
+    } else if (event.id === 'willDisappear') {
+      this.props.setPristine(false);
     }
   }
 
   render() {
-    const { pristine } = this.state;
+    const { pristine } = this.props;
     // we remove the event handler to improve performance
     const disablePristine = pristine ? this.disablePristine : undefined;
     return (
@@ -121,14 +116,15 @@ class Dashboard extends PureComponent {
           style={styles.containerScroll}
           onScroll={disablePristine}
         >
+          <View style={styles.backgroundHack} />
           <View
             onStartShouldSetResponder={() => true}
-            onResponderRelease={() => this.disablePristine()}
+            onResponderRelease={() => this.props.setPristine(false)}
             style={styles.list}
             contentContainerStyle={styles.listContent}
             scrollEnabled
           >
-            <View pointerEvents={pristine ? 'box-only' : 'auto'}>
+            <View>
               <Text style={styles.label}>
                 {I18n.t('settings.yourAreas')}
               </Text>

@@ -16,6 +16,7 @@ const SET_SYNC_SKIP = 'app/SET_SYNC_SKIP';
 export const RETRY_SYNC = 'app/RETRY_SYNC';
 const SET_COORDINATES_FORMAT = 'app/SET_COORDINATES_FORMAT';
 const SET_LAYERS_DRAWER_SECTIONS = 'app/SET_LAYERS_DRAWER_SECTIONS';
+const SET_PRISTINE = 'app/SET_PRISTINE';
 
 // Reducer
 const initialState = {
@@ -24,6 +25,7 @@ const initialState = {
   syncSkip: false,
   coordinatesFormat: COORDINATES_FORMATS.decimal.value,
   showLegend: true,
+  pristine: true,
   version // app cache invalidation depends on this, if this changes make sure that redux-persist invalidation changes also.
 };
 
@@ -45,6 +47,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, coordinatesFormat: action.payload };
     case SET_LAYERS_DRAWER_SECTIONS:
       return { ...state, showLegend: action.payload };
+    case SET_PRISTINE:
+      return { ...state, pristine: action.payload };
     case LOGOUT_REQUEST:
       return initialState;
     default:
@@ -110,5 +114,12 @@ export function setShowLegend(hasAlerts) {
   return {
     type: SET_LAYERS_DRAWER_SECTIONS,
     payload: hasAlerts
+  };
+}
+
+export function setPristine(pristine) {
+  return {
+    type: SET_PRISTINE,
+    payload: pristine
   };
 }
