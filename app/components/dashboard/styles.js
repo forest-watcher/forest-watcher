@@ -14,6 +14,9 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: Theme.background.main
   },
+  containerScroll: {
+    marginBottom: 56
+  },
   label: {
     marginLeft: 16,
     marginBottom: 8,

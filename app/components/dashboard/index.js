@@ -117,11 +117,15 @@ class Dashboard extends PureComponent {
     // we remove the event handler to improve performance
     const disablePristine = pristine ? this.disablePristine : undefined;
     return (
-      <TouchableWithoutFeedback onPressIn={disablePristine}>
-        <View style={styles.container}>
+      <View style={styles.container}>
+        <ScrollView
+          style={styles.containerScroll}
+          onScroll={disablePristine}
+        >
           <View style={styles.backgroundHack} />
-          <ScrollView
-            onScroll={disablePristine}
+          <View
+            onStartShouldSetResponder={() => true}
+            onResponderRelease={() => this.disablePristine()}
             style={styles.list}
             contentContainerStyle={styles.listContent}
             scrollEnabled
@@ -132,12 +136,12 @@ class Dashboard extends PureComponent {
               </Text>
               <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
             </View>
-          </ScrollView>
-          <Row style={styles.row} action={this.reportsAction}>
-            <Text style={styles.textMyReports}>{I18n.t('dashboard.myReports')}</Text>
-          </Row>
-        </View>
-      </TouchableWithoutFeedback>
+          </View>
+        </ScrollView>
+        <Row style={styles.row} action={this.reportsAction}>
+          <Text style={styles.textMyReports}>{I18n.t('dashboard.myReports')}</Text>
+        </Row>
+      </View>
     );
   }
 }
