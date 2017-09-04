@@ -4,8 +4,7 @@ import {
   View,
   ScrollView,
   Platform,
-  Text,
-  TouchableWithoutFeedback
+  Text
 } from 'react-native';
 
 import AreaList from 'containers/common/area-list';
@@ -122,7 +121,6 @@ class Dashboard extends PureComponent {
           style={styles.containerScroll}
           onScroll={disablePristine}
         >
-          <View style={styles.backgroundHack} />
           <View
             onStartShouldSetResponder={() => true}
             onResponderRelease={() => this.disablePristine()}
