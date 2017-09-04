@@ -65,6 +65,8 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     fontSize: 14,
     fontWeight: '400',
-    textAlign: 'center'
+    textAlign: 'right',
+    marginTop: 30,
+    paddingRight: 24
   }
 });

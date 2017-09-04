@@ -44,6 +44,9 @@
         "skip": "skip",
         "update": "update"
     },
+    "walkthrough": {
+      "skip": "skip tutorial"
+    },
     "dashboard": {
         "title": "Dashboard",
         "alerts": "My alerts",

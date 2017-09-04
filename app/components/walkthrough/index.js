@@ -7,6 +7,7 @@ import {
   Text
 } from 'react-native';
 
+import i18n from 'locales';
 import Theme from 'config/theme';
 import StepsSlider from 'components/common/steps-slider';
 
@@ -108,17 +109,19 @@ class Walkthrough extends PureComponent {
           {SLIDES.map((slide, index) =>
             (
               <View style={styles.slideContainer} key={`slide-${index}`}>
-                <View style={styles.textsContainer}>
-                  {slide.title &&
-                    <Text style={styles.title}>{slide.title}</Text>
-                  }
-                  {slide.subtitle &&
-                    <Text style={styles.subtitle}>{slide.subtitle}</Text>
-                  }
+                <View>
+                  <TouchableOpacity onPress={this.goToLogin}>
+                    <Text style={styles.skipButton}>{i18n.t('walkthrough.skip')}</Text>
+                  </TouchableOpacity>
+                  <View style={styles.textsContainer}>
+                    {slide.title &&
+                      <Text style={styles.title}>{slide.title}</Text>
+                    }
+                    {slide.subtitle &&
+                      <Text style={styles.subtitle}>{slide.subtitle}</Text>
+                    }
+                  </View>
                 </View>
-                <TouchableOpacity onPress={this.goToLogin}>
-                  <Text style={styles.skipButton}>Skip</Text>
-                </TouchableOpacity>
                 <View style={styles.phoneContainer}>
                   {slide.image ?
                     <Image style={styles.phoneImage} source={slide.image} />
