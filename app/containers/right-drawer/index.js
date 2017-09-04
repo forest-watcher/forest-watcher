@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { setShowLegend } from 'redux-modules/app';
+import { setShowLegend } from 'redux-modules/layers';
 import RightDrawer from 'components/right-drawer';
 
 function mapDispatchToProps(dispatch) {

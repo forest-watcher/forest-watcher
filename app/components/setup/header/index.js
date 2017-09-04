@@ -25,34 +25,58 @@ class SetupHeader extends Component {
     });
   }
 
+  onLogoutPress = () => {
+    this.props.logout();
+    this.props.navigator.resetTo({
+      screen: 'ForestWatcher.Home'
+    });
+  }
+
   render() {
-    const showBackStyle = this.props.showBack ? '' : styles.margin;
-    const titleColor = this.props.map ? { color: 'white' } : { color: Theme.fontColors.main };
+    const { page, showBack, onBackPress, title } = this.props;
+    const showBackStyle = showBack ? '' : styles.margin;
+    const titleColor = page === 1 ? { color: 'white' } : { color: Theme.fontColors.main };
+    const titleElement = (
+      <Text style={[styles.title, showBackStyle, titleColor]}>
+        {title}
+      </Text>
+    );
     return (
       <View style={styles.container}>
         <View style={styles.arrowText}>
-          {this.props.showBack &&
+          {showBack &&
             <TouchableHighlight
               style={styles.backIcon}
-              onPress={this.props.onBackPress}
+              onPress={onBackPress}
               activeOpacity={0.5}
               underlayColor="transparent"
             >
-              <Image style={Theme.icon} source={this.props.map ? backIconWhite : backIcon} />
+              <View style={styles.titleContainer}>
+                <Image style={Theme.icon} source={page === 1 ? backIconWhite : backIcon} />
+                {titleElement}
+              </View>
             </TouchableHighlight>
           }
-          <Text style={[styles.title, showBackStyle, titleColor]}>
-            {this.props.title}
-          </Text>
+          {!showBack && titleElement}
         </View>
-        {this.props.map &&
+        {page === 0 && !showBack &&
+        <TouchableHighlight
+          style={styles.rightButton}
+          onPress={this.onLogoutPress}
+          activeOpacity={0.5}
+          underlayColor="transparent"
+        >
+          <Text style={styles.logout}>Logout</Text>
+        </TouchableHighlight>
+        }
+        {page === 1 &&
           <TouchableHighlight
+            style={styles.rightButton}
             onPress={this.onContextualLayersPress}
             activeOpacity={0.5}
             underlayColor="transparent"
           >
             <Image
-              style={styles.layerIcon}
               source={layersIcon}
             />
           </TouchableHighlight>
@@ -66,6 +90,7 @@ SetupHeader.propTypes = {
   title: PropTypes.string,
   navigator: PropTypes.object,
   setShowLegend: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
   showBack: PropTypes.bool,
   onBackPress: (props, propName, componentName) => {
     if (props.showBack && !props[propName]) {
@@ -74,7 +99,7 @@ SetupHeader.propTypes = {
     }
     return null;
   },
-  map: PropTypes.bool
+  page: PropTypes.number.isRequired
 };
 
 export default SetupHeader;

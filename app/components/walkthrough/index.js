@@ -7,7 +7,9 @@ import {
   Text
 } from 'react-native';
 
+import i18n from 'locales';
 import Theme from 'config/theme';
+import capitalize from 'lodash/capitalize';
 import StepsSlider from 'components/common/steps-slider';
 
 import styles from './styles';
@@ -63,33 +65,36 @@ class Walkthrough extends PureComponent {
   };
 
   onPressBack = () => {
-    this.setSliderPage(this.state.page - 1);
+    this.setState({ page: this.state.page - 1 });
   };
 
   onPressNext = () => {
     const { page } = this.state;
-    const { navigator } = this.props;
 
     if (page + 1 < SLIDES.length) {
       this.setState({ page: page + 1 });
     } else {
-      navigator.resetTo({
-        screen: 'ForestWatcher.Login',
-        title: 'Set up',
-        passProps: {
-          goBackDisabled: true
-        }
-      });
+      this.goToLogin();
     }
   };
 
-  onChangeTab = (tab) => {
-    this.setSliderPage(tab.i);
-  }
-
-  setSliderPage = (page) => {
-    this.setState({ page });
+  onChangeTab = ({ i: newPage }) => {
+    if (newPage > this.state.page) {
+      this.onPressNext();
+    } else if (newPage < this.state.page) {
+      this.onPressBack();
+    }
   };
+
+  goToLogin = () => {
+    this.props.navigator.resetTo({
+      screen: 'ForestWatcher.Login',
+      title: 'Set up',
+      passProps: {
+        goBackDisabled: true
+      }
+    });
+  }
 
   render() {
     const { page } = this.state;
@@ -105,13 +110,18 @@ class Walkthrough extends PureComponent {
           {SLIDES.map((slide, index) =>
             (
               <View style={styles.slideContainer} key={`slide-${index}`}>
-                <View style={styles.textsContainer}>
-                  {slide.title &&
-                    <Text style={styles.title}>{slide.title}</Text>
-                  }
-                  {slide.subtitle &&
-                    <Text style={styles.subtitle}>{slide.subtitle}</Text>
-                  }
+                <View>
+                  <TouchableOpacity onPress={this.goToLogin}>
+                    <Text style={styles.skipButton}>{capitalize(i18n.t('walkthrough.skip'))}</Text>
+                  </TouchableOpacity>
+                  <View style={styles.textsContainer}>
+                    {slide.title &&
+                      <Text style={styles.title}>{slide.title}</Text>
+                    }
+                    {slide.subtitle &&
+                      <Text style={styles.subtitle}>{slide.subtitle}</Text>
+                    }
+                  </View>
                 </View>
                 <View style={styles.phoneContainer}>
                   {slide.image ?
@@ -123,6 +133,7 @@ class Walkthrough extends PureComponent {
               </View>
             ))
           }
+          <View />
         </StepsSlider>
         <View style={[styles.footer, page > 0 ? { justifyContent: 'space-between' } : { justifyContent: 'flex-end' }]}>
           {page > 0 && // Buttons are placed here because inside the StepsSlider the events wont trigger

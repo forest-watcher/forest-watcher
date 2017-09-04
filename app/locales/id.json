@@ -44,6 +44,9 @@
         "skip": "Lewati",
         "update": "memperbarui"
     },
+    "walkthrough": {
+        "skip": "skip tutorial"
+    },
     "dashboard": {
         "title": "Dasbor",
         "alerts": "Peringatan",
