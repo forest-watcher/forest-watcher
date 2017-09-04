@@ -16,7 +16,7 @@ const SET_SYNC_SKIP = 'app/SET_SYNC_SKIP';
 export const RETRY_SYNC = 'app/RETRY_SYNC';
 const SET_COORDINATES_FORMAT = 'app/SET_COORDINATES_FORMAT';
 const SET_LAYERS_DRAWER_SECTIONS = 'app/SET_LAYERS_DRAWER_SECTIONS';
-const SET_PRISTINE = 'app/SET_PRISTINE';
+const SET_PRISTINE_CACHE_TOOLTIP = 'app/SET_PRISTINE_CACHE_TOOLTIP';
 
 // Reducer
 const initialState = {
@@ -25,7 +25,7 @@ const initialState = {
   syncSkip: false,
   coordinatesFormat: COORDINATES_FORMATS.decimal.value,
   showLegend: true,
-  pristine: true,
+  pristineCacheTooltip: true,
   version // app cache invalidation depends on this, if this changes make sure that redux-persist invalidation changes also.
 };
 
@@ -47,8 +47,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, coordinatesFormat: action.payload };
     case SET_LAYERS_DRAWER_SECTIONS:
       return { ...state, showLegend: action.payload };
-    case SET_PRISTINE:
-      return { ...state, pristine: action.payload };
+    case SET_PRISTINE_CACHE_TOOLTIP:
+      return { ...state, pristineCacheTooltip: action.payload };
     case LOGOUT_REQUEST:
       return initialState;
     default:
@@ -117,9 +117,9 @@ export function setShowLegend(hasAlerts) {
   };
 }
 
-export function pristineCacheTooltip(pristine) {
+export function setPristineCacheTooltip(pristine) {
   return {
-    type: SET_PRISTINE,
+    type: SET_PRISTINE_CACHE_TOOLTIP,
     payload: pristine
   };
 }
