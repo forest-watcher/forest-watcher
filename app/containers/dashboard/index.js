@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Dashboard from 'components/dashboard';
-import { setSyncModal, setPristine } from 'redux-modules/app';
+import { setSyncModal, pristineCacheTooltip } from 'redux-modules/app';
 import { createReport } from 'redux-modules/reports';
 import { getTotalActionsPending } from 'helpers/sync';
 import { updateSelectedIndex } from 'redux-modules/areas';
@@ -20,7 +20,7 @@ function mapDispatchToProps(dispatch) {
       dispatch(createReport(report));
     },
     setPristine: (pristine) => {
-      dispatch(setPristine(pristine));
+      dispatch(pristineCacheTooltip(pristine));
     },
     setSyncModal: open => dispatch(setSyncModal(open)),
     updateSelectedIndex: index => dispatch(updateSelectedIndex(index))

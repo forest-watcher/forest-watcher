@@ -117,7 +117,7 @@ export function setShowLegend(hasAlerts) {
   };
 }
 
-export function setPristine(pristine) {
+export function pristineCacheTooltip(pristine) {
   return {
     type: SET_PRISTINE,
     payload: pristine
