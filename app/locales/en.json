@@ -45,7 +45,7 @@
         "update": "update"
     },
     "walkthrough": {
-      "skip": "skip tutorial"
+        "skip": "skip tutorial"
     },
     "dashboard": {
         "title": "Dashboard",

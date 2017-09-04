@@ -13,7 +13,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between'
   },
   textsContainer: {
-    marginTop: 42,
+    marginTop: 32,
     paddingHorizontal: 24
   },
   title: {
