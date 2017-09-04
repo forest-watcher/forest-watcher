@@ -126,7 +126,6 @@ class Answers extends Component {
           </View>
           }
         </ScrollView>
-
       </View>
     );
   }
