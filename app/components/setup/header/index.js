@@ -25,8 +25,15 @@ class SetupHeader extends Component {
     });
   }
 
+  onLogoutPress = () => {
+    this.props.logout();
+    this.props.navigator.resetTo({
+      screen: 'ForestWatcher.Home'
+    });
+  }
+
   render() {
-    const { page, showBack, onBackPress, title, logout } = this.props;
+    const { page, showBack, onBackPress, title } = this.props;
     const showBackStyle = showBack ? '' : styles.margin;
     const titleColor = page === 1 ? { color: 'white' } : { color: Theme.fontColors.main };
     const titleElement = (
@@ -55,7 +62,7 @@ class SetupHeader extends Component {
         {page === 0 && !showBack &&
         <TouchableHighlight
           style={styles.rightButton}
-          onPress={logout}
+          onPress={this.onLogoutPress}
           activeOpacity={0.5}
           underlayColor="transparent"
         >
