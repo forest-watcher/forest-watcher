@@ -34,12 +34,8 @@ export const MAPS = {
   },
   cacheZoom: [
     {
-      start: 8,
-      end: 15
-    },
-    {
-      start: 16,
-      end: 16
+      start: 3,
+      end: 12
     }
   ]
 };
