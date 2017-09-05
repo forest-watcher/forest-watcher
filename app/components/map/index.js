@@ -627,6 +627,7 @@ class Map extends Component {
     const isIOS = Platform.OS === 'ios';
     const ctxLayerKey = isIOS && contextualLayer ? `contextualLayerElement-${contextualLayer.name}` : 'contextualLayerElement';
     const clustersKey = isIOS && markers ? `clustersElement-${markers.length}` : 'clustersElement';
+    const keyRand = isIOS ? Math.floor((Math.random() * 100) + 1) : '';
 
     // Map elements
     const basemapLayerElement = isConnected ?
@@ -712,7 +713,7 @@ class Map extends Component {
     const neighboursAlertsElement = neighbours && neighbours.length > 0
       ? (neighbours.map((neighbour, i) => (
         <MapView.Marker
-          key={`neighboursAlertsElement-${i}`}
+          key={`neighboursAlertsElement-${i}-${keyRand}`}
           coordinate={neighbour}
           anchor={{ x: 0.5, y: 0.5 }}
           onPress={() => this.includeNeighbour(neighbour)}
@@ -725,7 +726,7 @@ class Map extends Component {
     const selectedAlertsElement = selectedAlerts && selectedAlerts.length > 0
       ? (selectedAlerts.map((alert, i) => (
         <MapView.Marker
-          key={`selectedAlertsElement-${i}`}
+          key={`selectedAlertsElement-${i}-${keyRand}`}
           coordinate={alert}
           anchor={{ x: 0.5, y: 0.5 }}
           pointerEvents="none"

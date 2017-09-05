@@ -66,7 +66,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case START_APP: {
-      return { ...state, syncError: false, pendingData: {} };
+      return { ...state, syncError: false, pendingData: {}, clusters: null };
     }
     case RETRY_SYNC: {
       return { ...state, syncError: false };
@@ -150,6 +150,7 @@ export default function reducer(state = initialState, action) {
     }
     case LOGOUT_REQUEST: {
       resetAlertsDb();
+      memoizedAreaToClusters.cache.clear();
       return initialState;
     }
     default:
