@@ -14,7 +14,9 @@ class Home extends Component {
   };
 
   componentWillMount() {
-    this.props.startApp();
+    if (!this.props.syncModalOpen) {
+      this.props.startApp();
+    }
   }
 
   componentDidMount() {
