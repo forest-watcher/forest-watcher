@@ -44,6 +44,9 @@
         "skip": "pular",
         "update": "atualizar"
     },
+    "walkthrough": {
+        "skip": "skip tutorial"
+    },
     "dashboard": {
         "title": "Painel",
         "alerts": "Meus alertas",

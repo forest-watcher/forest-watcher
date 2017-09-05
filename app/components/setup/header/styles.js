@@ -19,6 +19,10 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   title: {
     fontFamily: Theme.font,
     fontSize: 21,
@@ -27,7 +31,16 @@ export default StyleSheet.create({
   margin: {
     marginLeft: 16
   },
-  layerIcon: {
+  logout: {
+    height: 24,
+    fontFamily: Theme.font,
+    color: Theme.fontColors.main,
+    fontSize: 16,
+    fontWeight: '400',
+    marginTop: 2,
+    marginRight: 10
+  },
+  rightButton: {
     marginRight: 16
   }
 });
