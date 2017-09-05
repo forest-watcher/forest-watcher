@@ -20,7 +20,7 @@ export const STORAGE = {
 export const MAPS = {
   lat: 27.568640,
   lng: -33.461281,
-  devBasemap: 'http://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  devBasemap: 'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
   prodBasemap: `https://api.mapbox.com/styles/v1/forestwatcher/cj512vh3m0yth2rn62y69uoek/tiles/256/{z}/{x}/{y}.png?access_token=${Config.MAPBOX_TOKEN}`,
   bbox: {
     type: 'Polygon',
