@@ -1,5 +1,10 @@
 # Forest Watcher Changelog
 
+## [v1.0.0rc8-1] - 2017-09-06
+- Includes offline maps tile rescaling both in Android and iOS
+- Fixes walkthrough images order.
+- Fixes connectivity changes being squashed by persisted state.
+
 ## [v1.0.0rc8] - 2017-09-05
 - Fix sync modal opening twice in some cases.
 - Fix question text-detail (text that prompts on select _other_) has the label again.

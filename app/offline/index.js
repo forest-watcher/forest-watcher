@@ -1,6 +1,6 @@
-import { offline } from '@redux-offline/redux-offline';
-import offlineConfig from '@redux-offline/redux-offline/lib/defaults';
-import detectNetwork from '@redux-offline/redux-offline/lib/defaults/detectNetwork.native';
+import { offline } from 'redux-offline';
+import offlineConfig from 'redux-offline/lib/defaults';
+import detectNetwork from 'redux-offline/lib/defaults/detectNetwork.native';
 import { AsyncStorage } from 'react-native'; // eslint-disable-line import/no-unresolved
 import { persistStore } from 'redux-persist';
 import { version } from 'package.json';

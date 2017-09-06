@@ -1,4 +1,4 @@
-import defaultEffect from '@redux-offline/redux-offline/lib/defaults/effect';
+import defaultEffect from 'redux-offline/lib/defaults/effect';
 
 const JSONAPIDeserializer = require('jsonapi-serializer').Deserializer;
 
