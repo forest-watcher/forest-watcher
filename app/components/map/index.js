@@ -634,7 +634,7 @@ class Map extends Component {
       (
         <MapView.UrlTile
           key="basemapLayerElement"
-          urlTemplate={MAPS.devBasemap}
+          urlTemplate={MAPS.basemap}
           zIndex={-1}
         />
       )
@@ -643,6 +643,7 @@ class Map extends Component {
           key="localBasemapLayerElementL"
           localTemplate={basemapLocalTilePath}
           zIndex={-1}
+          maxZoom={12}
         />
       );
     const contextualLayerElement = contextualLayer // eslint-disable-line
@@ -659,6 +660,7 @@ class Map extends Component {
             key={ctxLayerKey}
             localTemplate={ctxLayerLocalTilePath}
             zIndex={1}
+            maxZoom={12}
           />
         )
       : null;
