@@ -1,6 +1,6 @@
 {
   "name": "ForestWatcher",
-  "version": "1.0.0rc8-1",
+  "version": "1.0.0rc8-3",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",

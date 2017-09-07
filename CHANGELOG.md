@@ -1,5 +1,11 @@
 # Forest Watcher Changelog
 
+## [v1.0.0rc8-3] - 2017-09-07
+- Fix mapbox basemap requests
+
+## [v1.0.0rc8-2] - 2017-09-07
+- Fix google sign in android store
+
 ## [v1.0.0rc8-1] - 2017-09-06
 - Includes offline maps tile rescaling both in Android and iOS
 - Fixes walkthrough images order.
