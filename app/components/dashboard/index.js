@@ -4,8 +4,7 @@ import {
   View,
   ScrollView,
   Platform,
-  Text,
-  TouchableWithoutFeedback
+  Text
 } from 'react-native';
 
 import AreaList from 'containers/common/area-list';
@@ -27,8 +26,10 @@ class Dashboard extends PureComponent {
     actionsPending: PropTypes.number.isRequired,
     syncModalOpen: PropTypes.bool.isRequired,
     syncSkip: PropTypes.bool.isRequired,
+    pristine: PropTypes.bool.isRequired,
     setSyncModal: PropTypes.func.isRequired,
-    updateSelectedIndex: PropTypes.func.isRequired
+    updateSelectedIndex: PropTypes.func.isRequired,
+    setPristine: PropTypes.func.isRequired
   };
 
   static navigatorStyle = {
@@ -48,12 +49,13 @@ class Dashboard extends PureComponent {
     ]
   };
 
+  static disableListener() {
+    return false;
+  }
+
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
-    this.state = {
-      pristine: true
-    };
     this.reportsAction = {
       callback: this.onPressReports,
       icon: nextIcon
@@ -103,41 +105,59 @@ class Dashboard extends PureComponent {
           }
         });
       }
+    } else if (event.id === 'willDisappear') {
+      this.props.setPristine(false);
     }
   }
 
+  getPristine = () => (this.props.pristine)
+
   disablePristine = () => {
-    if (this.state.pristine) {
-      this.setState({ pristine: false });
-    }
+    this.props.setPristine(false);
   }
 
   render() {
-    const { pristine } = this.state;
+    const { pristine } = this.props;
+    const isIOS = Platform.OS === 'ios';
     // we remove the event handler to improve performance
+
+    // this is done this way because in android the event listener needs to be at...
+    // ...the root and in iOS needs to be a children to scroll view
     const disablePristine = pristine ? this.disablePristine : undefined;
+    const androidListener = !isIOS ? this.getPristine : Dashboard.disableListener;
+    const iOSListener = isIOS ? this.getPristine : Dashboard.disableListener;
+    const androidHandler = !isIOS ? this.disablePristine : undefined;
+    const iOSHandler = isIOS ? this.disablePristine : undefined;
     return (
-      <TouchableWithoutFeedback onPressIn={disablePristine}>
-        <View style={styles.container}>
-          <View style={styles.backgroundHack} />
-          <ScrollView
-            onScroll={disablePristine}
+      <View
+        style={styles.container}
+        onStartShouldSetResponder={androidListener}
+        onResponderRelease={androidHandler}
+      >
+        <View style={styles.backgroundHack} />
+        <ScrollView
+          style={styles.containerScroll}
+          onScroll={disablePristine}
+        >
+          <View
+            onStartShouldSetResponder={iOSListener}
+            onResponderRelease={iOSHandler}
             style={styles.list}
             contentContainerStyle={styles.listContent}
             scrollEnabled
           >
-            <View pointerEvents={pristine ? 'box-only' : 'auto'}>
+            <View>
               <Text style={styles.label}>
                 {I18n.t('settings.yourAreas')}
               </Text>
               <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
             </View>
-          </ScrollView>
-          <Row style={styles.row} action={this.reportsAction}>
-            <Text style={styles.textMyReports}>{I18n.t('dashboard.myReports')}</Text>
-          </Row>
-        </View>
-      </TouchableWithoutFeedback>
+          </View>
+        </ScrollView>
+        <Row style={styles.row} action={this.reportsAction}>
+          <Text style={styles.textMyReports}>{I18n.t('dashboard.myReports')}</Text>
+        </Row>
+      </View>
     );
   }
 }

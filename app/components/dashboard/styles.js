@@ -2,17 +2,12 @@ import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  backgroundHack: {
-    position: 'absolute',
-    top: -64,
-    left: 0,
-    right: 0,
-    height: 64,
-    backgroundColor: Theme.background.main
-  },
   container: {
     flex: 1,
     backgroundColor: Theme.background.main
+  },
+  containerScroll: {
+    marginBottom: 56
   },
   label: {
     marginLeft: 16,
