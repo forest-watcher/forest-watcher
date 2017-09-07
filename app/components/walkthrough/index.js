@@ -10,6 +10,7 @@ import {
 import i18n from 'locales';
 import Theme from 'config/theme';
 import capitalize from 'lodash/capitalize';
+import throttle from 'lodash/throttle';
 import StepsSlider from 'components/common/steps-slider';
 
 import styles from './styles';
@@ -64,11 +65,11 @@ class Walkthrough extends PureComponent {
     page: 0
   };
 
-  onPressBack = () => {
+  onPressBack = throttle(() => {
     this.setState({ page: this.state.page - 1 });
-  };
+  }, 300);
 
-  onPressNext = () => {
+  onPressNext = throttle(() => {
     const { page } = this.state;
 
     if (page + 1 < SLIDES.length) {
@@ -76,7 +77,7 @@ class Walkthrough extends PureComponent {
     } else {
       this.goToLogin();
     }
-  };
+  }, 300);
 
   onChangeTab = ({ i: newPage }) => {
     if (newPage > this.state.page) {
