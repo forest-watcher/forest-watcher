@@ -17,11 +17,12 @@ export const STORAGE = {
   }
 };
 
+const devBasemap = 'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const prodBasemap = `https://api.mapbox.com/styles/v1/forestwatcher/cj512vh3m0yth2rn62y69uoek/tiles/256/{z}/{x}/{y}?access_token=${Config.MAPBOX_TOKEN}`;
 export const MAPS = {
   lat: 27.568640,
   lng: -33.461281,
-  devBasemap: 'http://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  prodBasemap: `https://api.mapbox.com/styles/v1/forestwatcher/cj512vh3m0yth2rn62y69uoek/tiles/256/{z}/{x}/{y}.png?access_token=${Config.MAPBOX_TOKEN}`,
+  basemap: __DEV__ ? devBasemap : prodBasemap,
   bbox: {
     type: 'Polygon',
     coordinates: [
@@ -34,12 +35,8 @@ export const MAPS = {
   },
   cacheZoom: [
     {
-      start: 8,
-      end: 15
-    },
-    {
-      start: 16,
-      end: 16
+      start: 3,
+      end: 12
     }
   ]
 };

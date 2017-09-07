@@ -179,5 +179,8 @@ export default StyleSheet.create({
     fontSize: 18,
     borderTopColor: '#CCCCCC',
     padding: 0
+  },
+  footerReport: {
+    paddingLeft: 8
   }
 });

@@ -110,13 +110,6 @@ export function setCoordinatesFormat(format) {
   };
 }
 
-export function setShowLegend(hasAlerts) {
-  return {
-    type: SET_LAYERS_DRAWER_SECTIONS,
-    payload: hasAlerts
-  };
-}
-
 export function setPristineCacheTooltip(pristine) {
   return {
     type: SET_PRISTINE_CACHE_TOOLTIP,

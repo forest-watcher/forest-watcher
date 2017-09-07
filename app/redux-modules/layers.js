@@ -21,6 +21,7 @@ export const CACHE_LAYER_ROLLBACK = 'layer/CACHE_LAYER_ROLLBACK';
 const SET_CACHE_STATUS = 'layer/SET_CACHE_STATUS';
 export const INVALIDATE_CACHE = 'layer/INVALIDATE_CACHE';
 const UPDATE_PROGRESS = 'layer/UPDATE_PROGRESS';
+const SET_SHOW_LEGEND = 'layer/SET_SHOW_LEGEND';
 
 // Reducer
 const initialState = {
@@ -29,6 +30,7 @@ const initialState = {
   syncing: false,
   activeLayer: null,
   syncDate: Date.now(),
+  showLegend: true,
   layersProgress: {
     // saves the progress relative to each area's layer
     // areaId: {
@@ -239,6 +241,8 @@ export default function reducer(state = initialState, action) {
       const newCacheStatus = getCacheStatus(cacheStatus, [area]);
       return { ...state, cacheStatus: newCacheStatus };
     }
+    case SET_SHOW_LEGEND:
+      return { ...state, showLegend: action.payload };
     case LOGOUT_REQUEST:
       removeFolder(CONSTANTS.files.tiles)
         .then(console.info('Folder removed successfully'));
@@ -320,7 +324,7 @@ export function cacheAreaBasemap(areaId) {
     const area = getAreaById(state().areas.data, areaId);
     const layer = {
       id: 'basemap',
-      url: CONSTANTS.maps.devBasemap
+      url: CONSTANTS.maps.basemap
     };
     if (area) {
       const downloadConfig = {
@@ -476,5 +480,12 @@ function updateAreaProgress(areaId = '', cacheStatus = {}, layersProgress = {}, 
       ...areaCacheStatus,
       progress: newProgress
     }
+  };
+}
+
+export function setShowLegend(showLegend) {
+  return {
+    type: SET_SHOW_LEGEND,
+    payload: showLegend
   };
 }

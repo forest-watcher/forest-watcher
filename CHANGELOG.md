@@ -1,5 +1,29 @@
 # Forest Watcher Changelog
 
+## [v1.0.0rc8-3] - 2017-09-07
+- Fix mapbox basemap requests
+
+## [v1.0.0rc8-2] - 2017-09-07
+- Fix google sign in android store
+
+## [v1.0.0rc8-1] - 2017-09-06
+- Includes offline maps tile rescaling both in Android and iOS
+- Fixes walkthrough images order.
+- Fixes connectivity changes being squashed by persisted state.
+
+## [v1.0.0rc8] - 2017-09-05
+- Fix sync modal opening twice in some cases.
+- Fix question text-detail (text that prompts on select _other_) has the label again.
+- Removes legend from map sidebar when creating an area
+- Fixes texts in some places that we're getting cut off.
+- Sliding on walkthrough now also leads you to login page.
+- Adds skip button to walkthrough.
+- If logging in with no areas now you have the option to logout.
+- Contextual layers sidebar now has scroll enabled.
+- When selecting multiple neighbour alerts and then zooming out: neighbour alerts are removed.
+- When assigning a custom template to an area the alerts stop showing: fixed on the backend.
+- On contextual layers now you have available the 2014/2015 Loss Layer: added on the backend.
+
 ## [v1.0.0rc7] - 2017-08-30
 - Fix click on arrow in area-list not doing anything.
 - Adds active state to switch component.

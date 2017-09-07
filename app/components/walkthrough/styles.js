@@ -13,7 +13,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between'
   },
   textsContainer: {
-    marginTop: 42,
+    marginTop: 32,
     paddingHorizontal: 24
   },
   title: {
@@ -59,5 +59,14 @@ export default StyleSheet.create({
     height: 64,
     width: Theme.screen.width,
     backgroundColor: Theme.background.white
+  },
+  skipButton: {
+    color: Theme.fontColors.light,
+    fontFamily: Theme.font,
+    fontSize: 14,
+    fontWeight: '400',
+    textAlign: 'right',
+    marginTop: 16,
+    paddingRight: 24
   }
 });

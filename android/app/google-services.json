@@ -13,16 +13,20 @@
       },
       "oauth_client": [
         {
-          "client_id": "872868960419-s7spvr19dv7jpf2hhr9b7cu9iqqf89im.apps.googleusercontent.com",
+          "client_id": "872868960419-g0b68bsv8hoc8lvlckso1qoeengmisr0.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "872868960419-ipofevad3tedds5fv0nflbnsg37f4c1r.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "872868960419-bf8kfalgh5b0pc51ju0po1ul5brtc3rn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.forestwatcher",
             "certificate_hash": "4a875ee02041d767b2a2f87ccee6e9d15011ab45"
           }
-        },
-        {
-          "client_id": "872868960419-g0b68bsv8hoc8lvlckso1qoeengmisr0.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [

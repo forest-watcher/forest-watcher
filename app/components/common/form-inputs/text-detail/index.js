@@ -57,7 +57,7 @@ class InputTextDetail extends Component {
               autoCapitalize="none"
               value={this.props.input.value}
               onChangeText={this.props.input.onChange}
-              placeholder={this.props.question.defaultValue}
+              placeholder={this.props.question.label}
               underlineColorAndroid="transparent"
               selectionColor={Theme.colors.color1}
               placeholderTextColor={Theme.fontColors.light}

@@ -10,6 +10,7 @@
 
 @property (nonatomic, strong) GMSSyncTileLayer *tileLayer;
 @property (nonatomic, assign) NSString *localTemplate;
+@property (nonatomic, assign) int maxZoom;
 @property (nonatomic, assign) int zIndex;
 
 @end
