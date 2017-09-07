@@ -69,15 +69,15 @@ class Sync extends Component {
     const texts = {};
     if (isConnected) {
       if (!this.state.completeTimeoutFlag || actionsPending > 0) {
-        texts.title = (WIFI.includes(reach) || canSyncDataOnMobile) ? I18n.t('home.title.updating') : I18n.t('home.title.outOfDate');
-        texts.subtitle = (WIFI.includes(reach) || canSyncDataOnMobile) ? I18n.t('home.subtitle.takesTime') : I18n.t('home.subtitle.mobile');
+        texts.title = (WIFI.includes(reach) || canSyncDataOnMobile) ? I18n.t('sync.title.wifi') : I18n.t('sync.title.cellular');
+        texts.subtitle = (WIFI.includes(reach) || canSyncDataOnMobile) ? I18n.t('sync.subtitle.wifi') : I18n.t('sync.subtitle.cellular');
       } else {
-        texts.title = I18n.t('home.title.updated');
-        texts.subtitle = I18n.t('home.subtitle.updated');
+        texts.title = I18n.t('sync.title.updated');
+        texts.subtitle = I18n.t('sync.subtitle.updated');
       }
     } else {
-      texts.title = I18n.t('home.title.outOfDate');
-      texts.subtitle = I18n.t('home.subtitle.noConnection');
+      texts.title = I18n.t('sync.title.offline');
+      texts.subtitle = I18n.t('sync.subtitle.offline');
     }
     return texts;
   }
@@ -143,7 +143,7 @@ class Sync extends Component {
             noIcon
             style={styles.button}
             onPress={this.onSkipPress}
-            text={!isConnected ? I18n.t('home.ok').toUpperCase() : I18n.t('home.skip').toUpperCase()}
+            text={!isConnected ? I18n.t('sync.ok').toUpperCase() : I18n.t('sync.skip').toUpperCase()}
           />
         </View>
       )
@@ -188,7 +188,7 @@ class Sync extends Component {
                 monochrome
                 noIcon
                 onPress={this.onSkipPress}
-                text={I18n.t('home.skip').toUpperCase()}
+                text={I18n.t('sync.skip').toUpperCase()}
               />
             }
             <ActionButton
@@ -196,7 +196,7 @@ class Sync extends Component {
               main
               noIcon
               onPress={() => this.setState({ canSyncDataOnMobile: true })}
-              text={I18n.t('home.update').toUpperCase()}
+              text={I18n.t('sync.update').toUpperCase()}
             />
           </View>
           }

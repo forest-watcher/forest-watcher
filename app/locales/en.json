@@ -28,22 +28,6 @@
         "noCached": "no-cached",
         "noAlertSystem": "No alert system selected"
     },
-    "home": {
-        "title": {
-            "updating": "Updating data...",
-            "outOfDate": "You are offline",
-            "updated": "Update Completed!"
-        },
-        "subtitle": {
-            "takesTime": "This process can take several minutes",
-            "mobile": "Do you want to update the data and maps over cellular data?",
-            "noConnection": "You need an internet connection to update your data",
-            "updated": "Data was successfully updated!"
-        },
-        "ok": "ok",
-        "skip": "skip",
-        "update": "update"
-    },
     "walkthrough": {
         "skip": "skip tutorial"
     },
@@ -527,6 +511,21 @@
     "sync": {
         "error": "Sync error",
         "errorDesc": "Something went wrong",
-        "tryAgain": "Try again"
+        "tryAgain": "Try again",
+        "title": {
+            "wifi": "Updating data...",
+            "cellular": "You are under cellular data",
+            "offline": "You are offline",
+            "updated": "Update Completed!"
+        },
+        "subtitle": {
+            "wifi": "This process can take some minutes",
+            "cellular": "Do you want to update the data and maps over cellular data?",
+            "offline": "You need an internet connection to update your data",
+            "updated": "Data was successfully updated!"
+        },
+        "ok": "ok",
+        "skip": "skip",
+        "update": "update"
     }
 }

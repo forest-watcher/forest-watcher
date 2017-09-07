@@ -28,22 +28,6 @@
         "noCached": "sem-cache",
         "noAlertSystem": "Nenhum sistema de alerta selecionado"
     },
-    "home": {
-        "title": {
-            "updating": "Atualizando dados ...",
-            "outOfDate": "Está offline",
-            "updated": "Atualização concluída"
-        },
-        "subtitle": {
-            "takesTime": "Esse processo pode levar vários minutos",
-            "mobile": "Do you want to update the data and maps over cellular data?",
-            "noConnection": "Você precisa de uma conexão com a internet para atualizar seus dados",
-            "updated": "Os dados foram atualizados com sucesso!"
-        },
-        "ok": "ok",
-        "skip": "pular",
-        "update": "atualizar"
-    },
     "walkthrough": {
         "skip": "skip tutorial"
     },
@@ -527,6 +511,21 @@
     "sync": {
         "error": "Erro de sincronização",
         "errorDesc": "Algo correu mal",
-        "tryAgain": "Tente novamente"
+        "tryAgain": "Tente novamente",
+        "title": {
+            "wifi": "Atualizando dados ...",
+            "cellular": "Você está utilizando dados móveis",
+            "offline": "Está offline",
+            "updated": "Atualização concluída"
+        },
+        "subtitle": {
+            "wifi": "Esse processo pode levar vários minutos",
+            "cellular": "Você gostaria de atualizar dados e mapas com conexão de dados?",
+            "offline": "Você precisa de uma conexão com a internet para atualizar seus dados",
+            "updated": "Os dados foram atualizados com sucesso!"
+        },
+        "ok": "ok",
+        "skip": "pular",
+        "update": "atualizar"
     }
 }
