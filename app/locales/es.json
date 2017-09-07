@@ -28,22 +28,6 @@
         "noCached": "no cacheada",
         "noAlertSystem": "No hay alertas seleccionadas"
     },
-    "home": {
-        "title": {
-            "updating": "Actualizando datos...",
-            "outOfDate": "Está desconectado",
-            "updated": "¡ Actualización completa !"
-        },
-        "subtitle": {
-            "takesTime": "Este proceso podría llevar varios minutos.",
-            "mobile": "Do you want to update the data and maps over cellular data?",
-            "noConnection": "Necesita una conexión a internet para actualizar los datos",
-            "updated": "¡Los datos fueron actualizados correctamente!"
-        },
-        "ok": "ok",
-        "skip": "saltar",
-        "update": "actualizar"
-    },
     "walkthrough": {
         "skip": "skip tutorial"
     },
@@ -527,6 +511,21 @@
     "sync": {
         "error": "Error de sincronización",
         "errorDesc": "Algo ha ido mal",
-        "tryAgain": "Intentar de nuevo"
+        "tryAgain": "Intentar de nuevo",
+        "title": {
+            "wifi": "Actualizando datos...",
+            "cellular": "Esta usando conexión de datos celulares",
+            "offline": "Está desconectado",
+            "updated": "¡ Actualización completa !"
+        },
+        "subtitle": {
+            "wifi": "Este proceso podría llevar algunos minutos.",
+            "cellular": "Desea actualizar los datos usando la conexión celular?",
+            "offline": "Necesita una conexión a internet para actualizar los datos",
+            "updated": "¡Los datos fueron actualizados correctamente!"
+        },
+        "ok": "ok",
+        "skip": "saltar",
+        "update": "actualizar"
     }
 }

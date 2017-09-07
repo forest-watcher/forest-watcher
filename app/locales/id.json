@@ -28,22 +28,6 @@
         "noCached": "Tidak tersimpan",
         "noAlertSystem": "Tidak ada sistem peringatan yang dipilih"
     },
-    "home": {
-        "title": {
-            "updating": "Memperbarui data ...",
-            "outOfDate": "Anda sedang offline",
-            "updated": "Pembaruan selesai!"
-        },
-        "subtitle": {
-            "takesTime": "Proses ini bisa memakan waktu beberapa menit",
-            "mobile": "Do you want to update the data and maps over cellular data?",
-            "noConnection": "Anda memerlukan koneksi internet untuk mengupdate data Anda",
-            "updated": "Data berhasil diperbarui"
-        },
-        "ok": "ok",
-        "skip": "Lewati",
-        "update": "memperbarui"
-    },
     "walkthrough": {
         "skip": "skip tutorial"
     },
@@ -527,6 +511,21 @@
     "sync": {
         "error": "Sinkronisasi mengalami masalah",
         "errorDesc": "Ada yang salah",
-        "tryAgain": "Coba lagi"
+        "tryAgain": "Coba lagi",
+        "title": {
+            "wifi": "Memperbarui data ...",
+            "cellular": "You are under cellular data",
+            "offline": "Anda sedang offline",
+            "updated": "Pembaruan selesai!"
+        },
+        "subtitle": {
+            "wifi": "This process can take some minutes",
+            "cellular": "Do you want to update the data and maps over cellular data?",
+            "offline": "Anda memerlukan koneksi internet untuk mengupdate data Anda",
+            "updated": "Data berhasil diperbarui"
+        },
+        "ok": "ok",
+        "skip": "Lewati",
+        "update": "memperbarui"
     }
 }
