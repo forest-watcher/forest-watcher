@@ -49,6 +49,10 @@ class Dashboard extends PureComponent {
     ]
   };
 
+  static disableListener() {
+    return false;
+  }
+
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
@@ -114,18 +118,30 @@ class Dashboard extends PureComponent {
 
   render() {
     const { pristine } = this.props;
+    const isIOS = Platform.OS === 'ios';
     // we remove the event handler to improve performance
+
+    // this is done this way because in android the event listener needs to be at...
+    // ...the root and in iOS needs to be a children to scroll view
     const disablePristine = pristine ? this.disablePristine : undefined;
+    const androidListener = !isIOS ? this.getPristine : Dashboard.disableListener;
+    const iOSListener = isIOS ? this.getPristine : Dashboard.disableListener;
+    const androidHandler = !isIOS ? this.disablePristine : undefined;
+    const iOSHandler = isIOS ? this.disablePristine : undefined;
     return (
-      <View style={styles.container}>
+      <View
+        style={styles.container}
+        onStartShouldSetResponder={androidListener}
+        onResponderRelease={androidHandler}
+      >
         <View style={styles.backgroundHack} />
         <ScrollView
           style={styles.containerScroll}
           onScroll={disablePristine}
         >
           <View
-            onStartShouldSetResponder={this.getPristine}
-            onResponderRelease={this.disablePristine}
+            onStartShouldSetResponder={iOSListener}
+            onResponderRelease={iOSHandler}
             style={styles.list}
             contentContainerStyle={styles.listContent}
             scrollEnabled
