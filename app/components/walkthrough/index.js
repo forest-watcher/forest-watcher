@@ -87,7 +87,7 @@ class Walkthrough extends PureComponent {
     }
   };
 
-  goToLogin = () => {
+  goToLogin = throttle(() => {
     this.props.navigator.resetTo({
       screen: 'ForestWatcher.Login',
       title: 'Set up',
@@ -95,7 +95,7 @@ class Walkthrough extends PureComponent {
         goBackDisabled: true
       }
     });
-  }
+  }, 1000);
 
   render() {
     const { page } = this.state;
