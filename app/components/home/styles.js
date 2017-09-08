@@ -9,5 +9,9 @@ export default StyleSheet.create({
   },
   center: {
     justifyContent: 'space-around'
+  },
+  button: {
+    marginLeft: 8,
+    marginRight: 8
   }
 });
