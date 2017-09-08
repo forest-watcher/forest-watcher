@@ -1,47 +1,64 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import MapView from 'react-native-maps';
 import ClusterMarker from 'components/map/clusters/clusterMarker';
-import {
-  View
-} from 'react-native';
+import { View } from 'react-native';
+import CONSTANTS from 'config/constants';
 
-const alertGlad = require('assets/alert-glad.png');
-const alertViirs = require('assets/alert-viirs.png');
+import styles from './styles';
 
 class Clusters extends PureComponent {
   render() {
     if (!this.props.markers) return null;
     return (
       <View>
-        {this.props.markers.map((marker, index) => (
-          marker.properties.point_count !== undefined ? (
-            <ClusterMarker key={index} marker={marker} zoomTo={this.props.zoomTo} datasetSlug={this.props.datasetSlug} />
-          ) : (
+        {this.props.markers.map((marker, index) => {
+          const { datasetSlug } = this.props;
+          const coordinates = {
+            latitude: marker.geometry.coordinates[1],
+            longitude: marker.geometry.coordinates[0]
+          };
+
+          if (marker.properties.point_count !== undefined) {
+            return (
+              <ClusterMarker
+                id={`cluster-marker-${index}`}
+                key={`cluster-marker-${index}`}
+                marker={marker}
+                zoomTo={this.props.zoomTo}
+                datasetSlug={this.props.datasetSlug}
+              />
+            );
+          }
+          let markerColor = datasetSlug === CONSTANTS.datasets.GLAD ? styles.gladColor : styles.viirsColor;
+          const id = `${marker.geometry.coordinates[0]}${marker.geometry.coordinates[1]}`;
+          if (this.props.reportedAlerts.includes(id)) {
+            markerColor = styles.reportedColor;
+          }
+          return (
             <MapView.Marker
               key={index}
-              coordinate={{
-                latitude: marker.geometry.coordinates[1],
-                longitude: marker.geometry.coordinates[0]
-              }}
-              image={this.props.datasetSlug === 'viirs' ? alertViirs : alertGlad}
-              onPress={this.props.selectAlert}
+              coordinate={coordinates}
+              anchor={{ x: 0.5, y: 0.5 }}
+              onPress={() => this.props.selectAlert(coordinates)}
               zIndex={1}
               draggable={false}
-              anchor={{ x: 0.5, y: 0.5 }}
-              pointerEvents={'none'}
-            />
-          )
-        ))}
+            >
+              <View style={[styles.markerIcon, markerColor]} />
+            </MapView.Marker>
+          );
+        })}
       </View>
     );
   }
 }
 
 Clusters.propTypes = {
-  markers: React.PropTypes.array.isRequired,
-  datasetSlug: React.PropTypes.string.isRequired,
-  selectAlert: React.PropTypes.func.isRequired,
-  zoomTo: React.PropTypes.func.isRequired
+  markers: PropTypes.array.isRequired,
+  reportedAlerts: PropTypes.array.isRequired,
+  datasetSlug: PropTypes.string.isRequired,
+  selectAlert: PropTypes.func.isRequired,
+  zoomTo: PropTypes.func.isRequired
 };
 
 export default Clusters;

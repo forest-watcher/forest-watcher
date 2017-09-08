@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   ScrollView,
@@ -25,14 +26,6 @@ class Partners extends Component {
     navBarBackgroundColor: Theme.background.main
   };
 
-  constructor() {
-    super();
-
-    this.state = {
-      currentPosition: null
-    };
-  }
-
   componentDidMount() {
     tracker.trackScreenView('Partners');
   }
@@ -44,27 +37,27 @@ class Partners extends Component {
   render() {
     const partners = [
       {
-        description: 'World Resources Institute',
-        image: wriLogo,
-        url: 'http://www.wri.org/',
-        functionOnPress: this.handleLink
-      },
-      {
-        description: 'The Jane Goodall Institute',
-        image: jgiLogo,
-        url: 'http://www.janegoodall.org/',
-        functionOnPress: this.handleLink
-      },
-      {
         description: 'Global Forest Watch',
         image: gfwLogo,
         url: 'http://www.globalforestwatch.org/',
         functionOnPress: this.handleLink
       },
       {
+        description: 'World Resources Institute',
+        image: wriLogo,
+        url: 'http://www.wri.org/',
+        functionOnPress: this.handleLink
+      },
+      {
         description: 'Vizzuality',
         image: vizzualityLogo,
         url: 'http://www.vizzuality.com/',
+        functionOnPress: this.handleLink
+      },
+      {
+        description: 'The Jane Goodall Institute',
+        image: jgiLogo,
+        url: 'http://www.janegoodall.org/',
         functionOnPress: this.handleLink
       }
     ];
@@ -77,7 +70,12 @@ class Partners extends Component {
       >
         <View style={styles.partner}>
           <Text style={styles.partnerText}>{I18n.t('partners.description')}</Text>
-          <Text style={styles.partnerText}>{I18n.t('partners.listOfPartners')}</Text>
+          <Text
+            style={styles.partnerText}
+            onPress={() => this.handleLink('http://www.globalforestwatch.org/about/the-gfw-partnership')}
+          >
+            {I18n.t('partners.listOfPartners')}
+          </Text>
         </View>
         <List content={partners} bigSeparation={false}>{}</List>
       </ScrollView>
@@ -86,7 +84,7 @@ class Partners extends Component {
 }
 
 Partners.propTypes = {
-  partners: React.PropTypes.array
+  partners: PropTypes.array
 };
 
 export default Partners;

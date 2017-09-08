@@ -23,11 +23,23 @@ export default () => {
       screen: {
         screen: 'ForestWatcher.Home',
         navigatorStyle: Theme.navigator.styles
+      },
+      drawer: {
+        right: {
+          screen: 'ForestWatcher.RightDrawer',
+          passProps: {}
+        },
+        disableOpenGesture: true
+      },
+      appStyle: {
+        orientation: 'portrait'
       }
     });
   }
 
-  const authMiddleware = ({ getState }) => next => action => next({ ...action, auth: getState().user.token });
+  const authMiddleware = ({ getState }) => next => action => (
+    action.type && action.type.endsWith('REQUEST') ? next({ ...action, auth: getState().user.token }) : next(action)
+  );
 
   const reducer = combineReducers(reducers);
   const middleware = applyMiddleware(thunk, authMiddleware);
@@ -43,8 +55,18 @@ export default () => {
       .use(asyncStorage())
       .connect()
       .clear();
+    window.tron = Reactotron; // eslint-disable-line
     store = offline({ persistCallback: startApp })(Reactotron.createStore)(reducer, undefined, middleware);
   } else {
+    const closeLightbox = () => Navigation.dismissLightBox;
+    global.ErrorUtils.setGlobalHandler((error, isFatal) => Navigation.showLightBox({
+      screen: 'ForestWatcher.ErrorLightbox',
+      passProps: { error, isFatal, closeLightbox },
+      style: {
+        backgroundBlur: 'none',
+        tapBackgroundToDismiss: true
+      }
+    }));
     store = offline({ persistCallback: startApp })(createStore)(reducer, undefined, middleware);
   }
 

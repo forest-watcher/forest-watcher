@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   ScrollView,
@@ -6,6 +7,7 @@ import {
 } from 'react-native';
 import { Field } from 'redux-form';
 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import CheckBtn from 'components/common/form-inputs/check-btn';
 import TextInput from '../text-detail';
 import styles from '../styles';
@@ -24,63 +26,65 @@ function SelectInput(props) {
   }
   const { childQuestions } = props.question;
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>{props.question.label}</Text>
-      <ScrollView
-        style={styles.containerContent}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      >
-        {props.question.values.map((item, index) => {
-          const checked = props.input.value.indexOf(item.value) >= 0;
-          let conditionalField = null;
-          if (childQuestions && childQuestions.length > 0) {
-            childQuestions.forEach(childConditional => {
-              if (item.value === childConditional.conditionalValue) {
-                conditionalField = (
-                  <Field
-                    visible={checked}
-                    name={childConditional.name}
-                    component={TextInput}
-                    question={childConditional}
-                  />
-                );
-              }
-            });
-          }
-          return [
-            <View style={styles.inputContainer}>
-              <CheckBtn
-                key={index}
-                label={item.label}
-                checked={checked}
-                onPress={() => handlePress(item.value)}
-              />
-            </View>,
-            conditionalField
-          ];
-        })}
-      </ScrollView>
-    </View>
+    <KeyboardAwareScrollView>
+      <View style={styles.container}>
+        <Text style={styles.label}>{props.question.label}</Text>
+        <ScrollView
+          style={styles.containerContent}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        >
+          {props.question.values.map((item, index) => {
+            const checked = props.input.value.indexOf(item.value) >= 0;
+            let conditionalField = null;
+            if (childQuestions && childQuestions.length > 0) {
+              childQuestions.forEach(childConditional => {
+                if (item.value === childConditional.conditionalValue) {
+                  conditionalField = (
+                    <Field
+                      visible={checked}
+                      name={childConditional.name}
+                      component={TextInput}
+                      question={childConditional}
+                    />
+                  );
+                }
+              });
+            }
+            return [
+              <View style={styles.inputContainer}>
+                <CheckBtn
+                  key={index}
+                  label={item.label}
+                  checked={checked}
+                  onPress={() => handlePress(item.value)}
+                />
+              </View>,
+              conditionalField
+            ];
+          })}
+        </ScrollView>
+      </View>
+    </KeyboardAwareScrollView>
   );
 }
 
 SelectInput.propTypes = {
-  question: React.PropTypes.shape({
-    label: React.PropTypes.string,
-    defaultValue: React.PropTypes.number,
-    values: React.PropTypes.arrayOf(
-      React.PropTypes.shape({
-        value: React.PropTypes.number.isRequired,
-        label: React.PropTypes.string.isRequired
+  question: PropTypes.shape({
+    label: PropTypes.string,
+    defaultValue: PropTypes.number,
+    values: PropTypes.arrayOf(
+      PropTypes.shape({
+        value: PropTypes.number.isRequired,
+        label: PropTypes.string.isRequired
       })
     )
   }).isRequired,
-  input: React.PropTypes.shape({
-    onBlur: React.PropTypes.func.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    onFocus: React.PropTypes.func.isRequired,
-    value: React.PropTypes.any.isRequired
+  input: PropTypes.shape({
+    onBlur: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
+    value: PropTypes.any.isRequired
   }).isRequired
 };
 

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { setLanguage, setSyncModal, setSyncSkip } from 'redux-modules/app';
+import { setLanguage, setSyncModal, startApp } from 'redux-modules/app';
 import { setLoginStatus } from 'redux-modules/user';
 import { getLanguage } from 'helpers/language';
 import { isSyncFinished } from 'helpers/sync';
@@ -27,7 +27,7 @@ function mapDispatchToProps(dispatch) {
       dispatch(setLanguage(getLanguage()));
     },
     setSyncModal: open => dispatch(setSyncModal(open)),
-    setSyncSkip: open => dispatch(setSyncSkip(open))
+    startApp: () => dispatch(startApp())
   };
 }
 

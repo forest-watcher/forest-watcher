@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text
@@ -49,21 +50,21 @@ function RadioInput(props) {
 }
 
 RadioInput.propTypes = {
-  question: React.PropTypes.shape({
-    label: React.PropTypes.string,
-    defaultValue: React.PropTypes.number,
-    values: React.PropTypes.arrayOf(
-      React.PropTypes.shape({
-        value: React.PropTypes.number.isRequired,
-        label: React.PropTypes.string.isRequired
+  question: PropTypes.shape({
+    label: PropTypes.string,
+    defaultValue: PropTypes.number,
+    values: PropTypes.arrayOf(
+      PropTypes.shape({
+        value: PropTypes.number.isRequired,
+        label: PropTypes.string.isRequired
       })
     )
   }).isRequired,
-  input: React.PropTypes.shape({
-    onBlur: React.PropTypes.func.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    onFocus: React.PropTypes.func.isRequired,
-    value: React.PropTypes.any.isRequired
+  input: PropTypes.shape({
+    onBlur: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
+    value: PropTypes.any.isRequired
   }).isRequired
 };
 

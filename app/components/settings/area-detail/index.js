@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Alert,
   View,
@@ -24,6 +25,20 @@ class AreaDetail extends Component {
     navBarButtonColor: Theme.colors.color1,
     topBarElevationShadowEnabled: false,
     navBarBackgroundColor: Theme.background.main
+  };
+
+  static defaultProps = {
+    disableDelete: false
+  };
+
+  static propTypes = {
+    imageUrl: PropTypes.string,
+    updateArea: PropTypes.func,
+    deleteArea: PropTypes.func,
+    isConnected: PropTypes.bool.isRequired,
+    navigator: PropTypes.object,
+    area: PropTypes.object,
+    disableDelete: PropTypes.bool.isRequired
   };
 
   constructor(props) {
@@ -128,7 +143,7 @@ class AreaDetail extends Component {
         <View style={styles.row}>
           <Text style={styles.title}>{I18n.t('commonText.boundaries')}</Text>
           <View style={styles.imageContainer}>
-            <Image style={styles.image} source={{ uri: imageUrl || 'placeholder.png' }} />
+            <Image resizeMode="cover" style={styles.image} source={{ uri: imageUrl || 'placeholder.png' }} />
           </View>
         </View>
         <View style={styles.row}>
@@ -144,19 +159,5 @@ class AreaDetail extends Component {
     );
   }
 }
-
-AreaDetail.defaultProps = {
-  disableDelete: false
-};
-
-AreaDetail.propTypes = {
-  imageUrl: React.PropTypes.string,
-  updateArea: React.PropTypes.func,
-  deleteArea: React.PropTypes.func,
-  isConnected: React.PropTypes.bool.isRequired,
-  navigator: React.PropTypes.object,
-  area: React.PropTypes.object,
-  disableDelete: React.PropTypes.bool.isRequired
-};
 
 export default AreaDetail;

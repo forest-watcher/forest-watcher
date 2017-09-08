@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -11,6 +12,10 @@ import styles from './styles';
 
 const nextIcon = require('assets/next.png');
 const nextIconWhite = require('assets/next_white.png');
+const reportSingle = require('assets/report_single.png'); // eslint-disable-line
+const reportArea = require('assets/report_area.png');
+
+const icons = { reportSingle, reportArea }; // eslint-disable-line
 
 function ActionButton(props) {
   function onButtonPress() {
@@ -33,13 +38,21 @@ function ActionButton(props) {
     props.main ? styles.buttonTextMain : '',
     props.monochrome ? styles.buttonTextMonochrome : '',
     props.light ? styles.buttonTextLight : '',
+    props.left ? styles.buttonTextLeft : '',
     props.disabled ? styles.buttonTextDisabled : '',
     props.error ? styles.buttonTextError : '',
     props.delete ? styles.buttonTextError : ''
   ];
 
+  let arrowIcon = nextIconWhite;
   let underlayColor = Theme.background.secondary;
-  if (props.light) underlayColor = Theme.background.white;
+  if (props.light) {
+    underlayColor = Theme.background.white;
+    arrowIcon = nextIcon;
+  }
+  if (props.monochrome) {
+    arrowIcon = nextIcon;
+  }
   if (props.disabled) underlayColor = Theme.colors.color6;
   if (props.error || props.delete) underlayColor = Theme.colors.color7;
 
@@ -51,10 +64,17 @@ function ActionButton(props) {
       underlayColor={underlayColor}
     >
       <View style={[styles.button, props.light ? styles.buttonLight : '']}>
-        <Text style={textStyles}>{props.text}</Text>
-        {!(props.disabled || props.delete || props.noIcon) &&
-          <Image style={Theme.icon} source={props.light ? nextIcon : nextIconWhite} />
-        }
+        <View style={styles.iconContainer}>
+          {icons[props.icon] &&
+            <Image style={Theme.icon} source={icons[props.icon]} />
+          }
+        </View>
+        <Text style={textStyles}>{props.text.toUpperCase()}</Text>
+        <View style={styles.iconContainer}>
+          {!(props.disabled || props.delete || props.noIcon) &&
+            <Image style={Theme.icon} source={arrowIcon} />
+          }
+        </View>
       </View>
     </TouchableHighlight>
   );
@@ -65,16 +85,18 @@ ActionButton.defaultProps = {
 };
 
 ActionButton.propTypes = {
-  light: React.PropTypes.bool,
-  style: React.PropTypes.node,
-  disabled: React.PropTypes.bool,
-  delete: React.PropTypes.bool,
-  error: React.PropTypes.bool,
-  text: React.PropTypes.string.isRequired,
-  onPress: React.PropTypes.func.isRequired,
-  noIcon: React.PropTypes.bool,
-  main: React.PropTypes.bool,
-  monochrome: React.PropTypes.bool
+  light: PropTypes.bool,
+  style: PropTypes.node,
+  left: PropTypes.bool,
+  disabled: PropTypes.bool,
+  delete: PropTypes.bool,
+  error: PropTypes.bool,
+  icon: PropTypes.string,
+  text: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired,
+  noIcon: PropTypes.bool,
+  main: PropTypes.bool,
+  monochrome: PropTypes.bool
 };
 
 export default ActionButton;

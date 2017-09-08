@@ -7,6 +7,12 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.main,
     position: 'relative'
   },
+  containerEmpty: {
+    flex: 1,
+    backgroundColor: Theme.background.main,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   containerCenter: {
     alignItems: 'center',
     justifyContent: 'center'
@@ -36,33 +42,21 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     color: Theme.fontColors.light
   },
-  listAction: {
-    fontSize: 15,
-    fontWeight: '500',
-    color: Theme.fontColors.main,
-    opacity: 0 // TODO: show it once the features are ready
+  emptyTitle: {
+    flex: 1,
+    fontSize: 17,
+    marginTop: 48,
+    marginLeft: Theme.margin.left,
+    marginRight: Theme.margin.left,
+    fontWeight: '400',
+    fontFamily: Theme.font,
+    color: Theme.fontColors.light
   },
   listItem: {
-    flex: 1,
-    minHeight: 64,
-    maxHeight: 120,
-    padding: 16,
-    paddingLeft: Theme.margin.left,
-    paddingRight: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Theme.background.white,
-    borderBottomWidth: 1,
-    borderBottomColor: Theme.borderColors.main
-  },
-  listItemContent: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'center'
+    maxWidth: 288
   },
   itemTitle: {
+    paddingTop: 1,
     fontSize: 17,
     lineHeight: 20,
     fontWeight: '400',

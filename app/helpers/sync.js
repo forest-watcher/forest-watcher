@@ -26,30 +26,36 @@ export function getTotalActionsTodoCount(state) {
   const actionsPending = [
     !state.areas.synced && !state.areas.syncing,
     !state.user.synced && !state.user.syncing,
-    !state.reports.synced && !state.reports.syncing,
-    !state.feedback.synced.daily && !state.feedback.syncing.daily,
-    !state.feedback.synced.weekly && !state.feedback.syncing.weekly
+    !state.layers.synced && !state.layers.syncing,
+    !state.reports.synced && !state.reports.syncing
   ];
   const actionsPendingCount = actionsPending.reduce((ac, next) => (next ? ac + 1 : ac), 0);
 
-  const { pendingData } = state.areas;
-  const areasDataPendingCount = getActionsTodoCount(pendingData);
-  return actionsPendingCount + areasDataPendingCount;
+  let pendingDataCount = 0;
+  Object.keys(state).forEach((key) => {
+    if (state[key].pendingData) {
+      pendingDataCount += getActionsTodoCount(state[key].pendingData);
+    }
+  });
+  return actionsPendingCount + pendingDataCount;
 }
 
 export function getTotalActionsInProgessCount(state) {
-  const actionsPending = [
+  const actionsInProgress = [
     !state.areas.synced && state.areas.syncing,
     !state.user.synced && state.user.syncing,
-    !state.reports.synced && state.reports.syncing,
-    !state.feedback.synced.daily && state.feedback.syncing.daily,
-    !state.feedback.synced.weekly && state.feedback.syncing.weekly
+    !state.layers.synced && state.layers.syncing,
+    !state.reports.synced && state.reports.syncing
   ];
-  const actionsInProgressCount = actionsPending.reduce((ac, next) => (next ? ac + 1 : ac), 0);
+  const actionsInProgressCount = actionsInProgress.reduce((ac, next) => (next ? ac + 1 : ac), 0);
 
-  const { pendingData } = state.areas;
-  const areasDataPendingInProgress = getActionsInProgessCount(pendingData);
-  return actionsInProgressCount + areasDataPendingInProgress;
+  let pendingDataCount = 0;
+  Object.keys(state).forEach((key) => {
+    if (state[key].pendingData) {
+      pendingDataCount += getActionsInProgessCount(state[key].pendingData);
+    }
+  });
+  return actionsInProgressCount + pendingDataCount;
 }
 
 export function getTotalActionsPending(pendingData) {

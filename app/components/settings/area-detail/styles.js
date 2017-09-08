@@ -25,9 +25,8 @@ export default StyleSheet.create({
     justifyContent: 'center'
   },
   image: {
-    width: 360,
-    height: 200,
-    resizeMode: 'cover'
+    width: Theme.screen.width,
+    height: 200
   },
   title: {
     marginLeft: Theme.margin.left,

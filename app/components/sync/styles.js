@@ -15,12 +15,15 @@ export default StyleSheet.create({
   },
   title: {
     color: Theme.colors.color1,
-    fontSize: 21
+    fontSize: 21,
+    textAlign: 'center'
   },
   subtitle: {
     color: Theme.colors.color3,
     marginTop: 18,
-    marginBottom: 25
+    marginBottom: 25,
+    maxWidth: 300,
+    textAlign: 'center'
   },
   buttonGroupContainer: {
     left: 0,

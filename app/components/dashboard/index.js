@@ -1,54 +1,43 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
-  Text,
-  Image,
   ScrollView,
-  TouchableHighlight,
-  Platform
+  Platform,
+  Text
 } from 'react-native';
 
-import myAlertIcon from 'assets/section_my_alerts.png';
-import myReportsIcon from 'assets/section_my_reports.png';
+import AreaList from 'containers/common/area-list';
+import Row from 'components/common/row';
 import Theme from 'config/theme';
-import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
+import I18n from 'locales';
 import styles from './styles';
 
 const settingsIcon = require('assets/settings.png');
+const nextIcon = require('assets/next.png');
 
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
 
-const sections = [
-  // TEMP
-  {
-    title: I18n.t('dashboard.map'),
-    section: 'Map',
-    image: myAlertIcon
-  },
-  {
-    title: I18n.t('dashboard.myReports'),
-    section: 'Reports',
-    image: myReportsIcon
-  },
-  {
-    title: I18n.t('dashboard.dailyFeedback'),
-    section: 'DailyFeedback',
-    image: null
-  },
-  {
-    title: I18n.t('dashboard.weeklyFeedback'),
-    section: 'WeeklyFeedback',
-    image: null
-  }
-];
-
 class Dashboard extends PureComponent {
+
+  static propTypes = {
+    navigator: PropTypes.object.isRequired,
+    actionsPending: PropTypes.number.isRequired,
+    syncModalOpen: PropTypes.bool.isRequired,
+    syncSkip: PropTypes.bool.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    setSyncModal: PropTypes.func.isRequired,
+    updateSelectedIndex: PropTypes.func.isRequired,
+    setPristine: PropTypes.func.isRequired
+  };
+
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color1,
+    navBarButtonColor: Theme.colors.color1,
     topBarElevationShadowEnabled: false,
     navBarBackgroundColor: Theme.background.main,
-    navBarTitleTextCentered: true
+    navBarNoBorder: true
   };
 
   static navigatorButtons = {
@@ -60,9 +49,17 @@ class Dashboard extends PureComponent {
     ]
   };
 
+  static disableListener() {
+    return false;
+  }
+
   constructor(props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    this.reportsAction = {
+      callback: this.onPressReports,
+      icon: nextIcon
+    };
   }
 
   componentDidMount() {
@@ -72,7 +69,23 @@ class Dashboard extends PureComponent {
     tracker.trackScreenView('DashBoard');
   }
 
-  onNavigatorEvent(event) {
+  onAreaPress = (areaId, name, index) => {
+    if (typeof index === 'undefined') return;
+    this.props.updateSelectedIndex(index);
+    this.props.navigator.push({
+      screen: 'ForestWatcher.Map',
+      title: I18n.t('dashboard.map')
+    });
+  }
+
+  onPressReports = () => {
+    this.props.navigator.push({
+      screen: 'ForestWatcher.Reports',
+      title: I18n.t('dashboard.myReports')
+    });
+  }
+
+  onNavigatorEvent = (event) => {
     const { actionsPending, syncModalOpen, syncSkip } = this.props;
     if (event.type === 'NavBarButtonPress') {
       if (event.id === 'settings') {
@@ -92,110 +105,61 @@ class Dashboard extends PureComponent {
           }
         });
       }
+    } else if (event.id === 'willDisappear') {
+      this.props.setPristine(false);
     }
   }
 
-  onItemTap(item) {
-    if (item.section === 'Alerts') {
-      tracker.trackEvent('Alerts', 'Open Alerts', { label: '', value: 0 });
-    }
-    if (item.section && item.section.length > 0) {
-      switch (item.section) {
-        case 'DailyFeedback': {
-          const screen = 'ForestWatcher.Feedback';
-          const title = 'Feedback';
-          this.props.navigator.push({
-            screen,
-            title,
-            passProps: {
-              title,
-              screen,
-              form: 'daily',
-              questionsToSkip: 0,
-              texts: {
-                saveLaterTitle: 'feedback.saveLaterTitle',
-                saveLaterDescription: 'feedback.saveLaterDescription',
-                requiredId: 'feedback.reportIdRequired'
-              }
-            }
-          });
-          break;
-        }
-        case 'WeeklyFeedback': {
-          const screen = 'ForestWatcher.Feedback';
-          const title = 'Feedback';
-          this.props.navigator.push({
-            screen,
-            title,
-            passProps: {
-              title,
-              screen,
-              form: 'weekly',
-              questionsToSkip: 0,
-              texts: {
-                saveLaterTitle: 'feedback.saveLaterTitle',
-                saveLaterDescription: 'feedback.saveLaterDescription',
-                requiredId: 'feedback.reportIdRequired'
-              }
-            }
-          });
-          break;
-        }
-        default:
-          this.props.navigator.push({
-            screen: `ForestWatcher.${item.section}`,
-            title: item.title
-          });
-          break;
-      }
-    }
+  getPristine = () => (this.props.pristine)
+
+  disablePristine = () => {
+    this.props.setPristine(false);
   }
 
   render() {
+    const { pristine } = this.props;
+    const isIOS = Platform.OS === 'ios';
+    // we remove the event handler to improve performance
+
+    // this is done this way because in android the event listener needs to be at...
+    // ...the root and in iOS needs to be a children to scroll view
+    const disablePristine = pristine ? this.disablePristine : undefined;
+    const androidListener = !isIOS ? this.getPristine : Dashboard.disableListener;
+    const iOSListener = isIOS ? this.getPristine : Dashboard.disableListener;
+    const androidHandler = !isIOS ? this.disablePristine : undefined;
+    const iOSHandler = isIOS ? this.disablePristine : undefined;
     return (
-      <View style={styles.container}>
-
+      <View
+        style={styles.container}
+        onStartShouldSetResponder={androidListener}
+        onResponderRelease={androidHandler}
+      >
+        <View style={styles.backgroundHack} />
         <ScrollView
-          style={styles.list}
-          contentContainerStyle={styles.content}
-          scrollEnabled={false}
+          style={styles.containerScroll}
+          onScroll={disablePristine}
         >
-          {sections.map((item, key) =>
-            (
-              <TouchableHighlight
-                style={item.section === 'DailyFeedback' || item.section === 'WeeklyFeedback' ? [styles.buttonRound] : [styles.item]}
-                key={key}
-                onPress={() => this.onItemTap(item)}
-                activeOpacity={0.5}
-                underlayColor="#FFFFFF"
-              >
-                <View style={item.section === 'DailyFeedback' || item.section === 'WeeklyFeedback' ? null : [styles.imageIcon]}>
-
-                  {item.image &&
-                    <Image
-                      style={styles.logo}
-                      source={item.image}
-                    />
-                  }
-                  <Text style={item.section === 'DailyFeedback' || item.section === 'WeeklyFeedback' ? [styles.buttonTextRound] : null}>
-                    {item.title}
-                  </Text>
-                </View>
-              </TouchableHighlight>
-            )
-          )}
+          <View
+            onStartShouldSetResponder={iOSListener}
+            onResponderRelease={iOSHandler}
+            style={styles.list}
+            contentContainerStyle={styles.listContent}
+            scrollEnabled
+          >
+            <View>
+              <Text style={styles.label}>
+                {I18n.t('settings.yourAreas')}
+              </Text>
+              <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
+            </View>
+          </View>
         </ScrollView>
+        <Row style={styles.row} action={this.reportsAction}>
+          <Text style={styles.textMyReports}>{I18n.t('dashboard.myReports')}</Text>
+        </Row>
       </View>
     );
   }
 }
-
-Dashboard.propTypes = {
-  navigator: React.PropTypes.object.isRequired,
-  actionsPending: React.PropTypes.number.isRequired,
-  syncModalOpen: React.PropTypes.bool.isRequired,
-  syncSkip: React.PropTypes.bool.isRequired,
-  setSyncModal: React.PropTypes.func.isRequired
-};
 
 export default Dashboard;

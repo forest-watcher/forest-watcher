@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import I18n from 'locales';
 import {
   View,
@@ -6,13 +7,11 @@ import {
   TouchableHighlight,
   Image
 } from 'react-native';
-import throttle from 'lodash/throttle';
 import moment from 'moment';
 import Theme from 'config/theme';
 
 import Carousel from 'react-native-snap-carousel';
 import { enabledDatasetName, activeDataset } from 'helpers/area';
-import GeoPoint from 'geopoint';
 import { sliderWidth, itemWidth, styles } from './styles';
 
 const settingsIcon = require('assets/settings.png');
@@ -32,23 +31,9 @@ class AreaCarousel extends Component {
   }
 
   render() {
-    const { alertSelected, lastPosition, selectedArea } = this.props;
+    const { selectedArea } = this.props;
 
-    let distanceText = '';
-    let positionText = '';
     let datasetName = I18n.t('commonText.notAvailable');
-    let distance = 999999;
-    const containerTextSyle = alertSelected
-      ? [styles.textContainer, styles.textContainerSmall]
-      : styles.textContainer;
-    if (lastPosition && (alertSelected && alertSelected.latitude && alertSelected.longitude)) {
-      const geoPoint = new GeoPoint(alertSelected.latitude, alertSelected.longitude);
-      const currentPoint = new GeoPoint(lastPosition.latitude, lastPosition.longitude);
-      positionText = `${I18n.t('commonText.yourPosition')}: ${lastPosition.latitude.toFixed(4)}, ${lastPosition.longitude.toFixed(4)}`;
-      distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);
-      distanceText = `${distance} ${I18n.t('commonText.kmAway')}`; // in Kilometers
-    }
-
     const settingsButton = (area) => (
       <View style={styles.settingsButton}>
         <TouchableHighlight
@@ -63,58 +48,43 @@ class AreaCarousel extends Component {
 
     const sliderItems = this.props.areas.map((area, index) => {
       const dataset = activeDataset(area);
-      const lastUpdatedText = dataset ? `${I18n.t('commonText.lastUpdated')}: ${moment(dataset.lastUpdate).fromNow()}` : '';
+      const lastUpdatedText = dataset ? `${I18n.t('commonText.updated')} ${moment(dataset.lastUpdate).fromNow()}` : '';
       datasetName = enabledDatasetName(area) || NO_ALERT_SELECTED;
       return (
         <View key={`entry-${index}`} style={styles.slideInnerContainer}>
-          <Text style={containerTextSyle}>{ area.name } - { datasetName }</Text>
-          {!alertSelected &&
-          <View style={styles.currentPosition}>
-            <Text style={styles.coordinateDistanceText}>
-              {lastUpdatedText}
-            </Text>
-          </View>
-          }
-          {alertSelected &&
-            <View style={styles.currentPosition}>
-              <Text style={styles.coordinateDistanceText}>
-                {distanceText}
-              </Text>
-              <Text style={styles.coordinateDistanceText}>
-                {positionText}
-              </Text>
-            </View>
-          }
+          <Text style={styles.textContainer}>{ area.name }</Text>
+          <Text style={styles.smallCarouselText}>
+            { datasetName } - {lastUpdatedText}
+          </Text>
           {settingsButton(area)}
         </View>
       );
     });
-
     return (
-      <View style={{ position: 'absolute', bottom: 0, zIndex: 10 }}>
-        <Carousel
-          ref={(carousel) => { this.carousel = carousel; }}
-          firstItem={selectedArea}
-          sliderWidth={sliderWidth}
-          itemWidth={itemWidth}
-          onSnapToItem={throttle((index) => this.props.updateSelectedArea(index), 300)}
-          showsHorizontalScrollIndicator={false}
-          slideStyle={styles.slideStyle}
-        >
-          { sliderItems }
-        </Carousel>
+      <View style={styles.container}>
+        <View style={styles.footerZIndex}>
+          <Carousel
+            firstItem={selectedArea}
+            sliderWidth={sliderWidth}
+            itemWidth={itemWidth}
+            onSnapToItem={this.props.updateSelectedArea}
+            scrollEndDragDebounceValue={300}
+            showsHorizontalScrollIndicator={false}
+            slideStyle={styles.slideStyle}
+          >
+            { sliderItems }
+          </Carousel>
+        </View>
       </View>
     );
   }
 }
 
 AreaCarousel.propTypes = {
-  alertSelected: React.PropTypes.object,
-  lastPosition: React.PropTypes.object,
-  areas: React.PropTypes.array,
-  navigator: React.PropTypes.object.isRequired,
-  updateSelectedArea: React.PropTypes.func,
-  selectedArea: React.PropTypes.number
+  areas: PropTypes.array,
+  navigator: PropTypes.object.isRequired,
+  updateSelectedArea: PropTypes.func,
+  selectedArea: PropTypes.number
 };
 
 export default AreaCarousel;

@@ -7,6 +7,9 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.secondary,
     overflow: 'hidden'
   },
+  iconContainer: {
+    width: Theme.icon.width
+  },
   light: {
     backgroundColor: Theme.background.white
   },
@@ -20,39 +23,38 @@ export default StyleSheet.create({
     height: 64,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingLeft: 0
   },
   buttonLight: {
     justifyContent: 'flex-start'
   },
   buttonText: {
     flex: 1,
-    marginLeft: Theme.icon.width,
     textAlign: 'center',
     color: Theme.fontColors.white,
     fontFamily: Theme.font,
     fontSize: 15,
     fontWeight: '500'
   },
+  buttonTextLeft: {
+    marginLeft: 8,
+    textAlign: 'left'
+  },
   buttonTextMain: {
     textAlign: 'center',
     fontStyle: 'normal',
-    fontSize: 16,
-    marginLeft: 0
+    fontSize: 16
   },
   buttonTextMonochrome: {
-    textAlign: 'center',
     fontStyle: 'normal',
     fontSize: 16,
-    marginLeft: 0,
     color: Theme.fontColors.main
   },
   buttonTextLight: {
     color: Theme.fontColors.secondary,
     fontSize: 17,
-    fontWeight: '400',
-    textAlign: 'left',
-    marginLeft: Theme.margin.left
+    fontWeight: '400'
   },
   buttonTextDisabled: {
     color: Theme.fontColors.light,

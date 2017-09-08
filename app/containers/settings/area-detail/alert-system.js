@@ -1,5 +1,7 @@
+
+
 import { connect } from 'react-redux';
-import { setAreaDatasetCache, setAreaDatasetStatus, updateDate } from 'redux-modules/areas';
+import { setAreaDatasetStatus, updateDate } from 'redux-modules/areas';
 import AlertSystem from 'components/settings/area-detail/alert-system';
 
 function mapStateToProps(state, { areaId }) {
@@ -11,9 +13,6 @@ function mapStateToProps(state, { areaId }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setAreaDatasetCache: (areaId, slug, cache) => {
-      dispatch(setAreaDatasetCache(areaId, slug, cache));
-    },
     setAreaDatasetStatus: (areaId, dataset, status) => {
       dispatch(setAreaDatasetStatus(areaId, dataset, status));
     },

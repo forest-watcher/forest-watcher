@@ -1,5 +1,6 @@
 import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
+import { hexToRgb } from 'helpers/utils';
 
 export default StyleSheet.create({
   container: {
@@ -22,5 +23,18 @@ export default StyleSheet.create({
     color: Theme.colors.color5,
     fontSize: 13,
     marginTop: 10
+  },
+  markerIcon: { // TODO: refactor this to common icon
+    width: 18,
+    height: 18
+  },
+  reportedColor: {
+    backgroundColor: `rgba(${hexToRgb(Theme.colors.color1)}, 0.8)`
+  },
+  viirsColor: {
+    backgroundColor: `rgba(${hexToRgb(Theme.colors.colorViirs)}, 0.7)`
+  },
+  gladColor: {
+    backgroundColor: `rgba(${hexToRgb(Theme.colors.colorGlad)}, 0.7)`
   }
 });

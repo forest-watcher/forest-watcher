@@ -2,7 +2,7 @@ import moment from 'moment';
 
 export function activeDataset(area) {
   if (area.datasets === undefined) return false;
-  const enabledDataset = area.datasets.find((d) => (d.active === true));
+  const enabledDataset = { ...area.datasets.find((d) => (d.active === true)) };
   if (typeof enabledDataset !== 'undefined') { return enabledDataset; }
   return false;
 }
@@ -13,14 +13,13 @@ export function enabledDatasetName(area) {
   return enabledDataset !== false ? enabledDataset.name : false;
 }
 
-export function getInitialDatasets(coverage) {
+export function getSupportedDatasets(coverage) {
   const layers = coverage.layers || [];
   const alerts = [
     {
       slug: 'umd_as_it_happens',
       name: 'GLAD',
       active: false,
-      cache: true,
       startDate: 6,
       endDate: moment().format('YYYYMMDD') // TODO: think a way to standarize with viirs
     }
@@ -31,7 +30,6 @@ export function getInitialDatasets(coverage) {
       slug: 'viirs',
       name: 'VIIRS',
       active: false,
-      cache: true,
       startDate: '1',
       endDate: '8'
     }

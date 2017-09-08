@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   ActivityIndicator
 } from 'react-native';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
+import I18n from 'locales';
+import ActionButton from 'components/common/action-button';
 import styles from './styles';
 
 class Home extends Component {
@@ -13,7 +16,9 @@ class Home extends Component {
   };
 
   componentWillMount() {
-    this.props.setSyncSkip(false);
+    if (!this.props.syncModalOpen) {
+      this.props.startApp();
+    }
   }
 
   componentDidMount() {
@@ -28,7 +33,8 @@ class Home extends Component {
       this.props.syncFinished !== nextProps.syncFinished,
       this.props.hasAreas !== nextProps.hasAreas,
       this.props.token !== nextProps.token,
-      this.props.syncSkip !== nextProps.syncSkip
+      this.props.syncSkip !== nextProps.syncSkip,
+      this.props.syncModalOpen !== nextProps.syncModalOpen
     ];
     return conditions.includes(true);
   }
@@ -38,17 +44,15 @@ class Home extends Component {
   }
 
   handleStatus() {
-    const { loggedIn, token, hasAreas, syncFinished, syncSkip, setLanguage, navigator, syncModalOpen } = this.props;
+    const { loggedIn, token, hasAreas, syncFinished, syncSkip, setLanguage,
+            navigator, syncModalOpen, setSyncModal } = this.props;
     setLanguage();
     if (loggedIn) {
       tracker.setUser(token);
-      if (!syncFinished && !syncModalOpen && !this.modalOpen) {
-        this.openModal();
-      } else if (syncFinished || syncSkip) {
+      if (syncFinished || syncSkip) {
         if (!hasAreas) {
           navigator.resetTo({
             screen: 'ForestWatcher.Setup',
-            title: 'Set up',
             passProps: {
               goBackDisabled: true
             }
@@ -56,13 +60,19 @@ class Home extends Component {
         } else {
           navigator.resetTo({
             screen: 'ForestWatcher.Dashboard',
-            title: 'FOREST WATCHER'
+            title: 'Forest Watcher'
           });
         }
+        if (syncSkip) {
+          setSyncModal(false);
+          navigator.dismissModal();
+        }
+      } else if (!syncFinished && !syncModalOpen) {
+        this.openModal();
       }
     } else {
       navigator.resetTo({
-        screen: 'ForestWatcher.Login'
+        screen: 'ForestWatcher.Walkthrough'
       });
     }
   }
@@ -70,9 +80,6 @@ class Home extends Component {
   openModal = () => {
     const { navigator, setSyncModal } = this.props;
     setSyncModal(true);
-    // we need this just in case the component check it again
-    // before the flag is stored in redux;
-    this.modalOpen = true;
     navigator.showModal({
       screen: 'ForestWatcher.Sync',
       passProps: {
@@ -84,26 +91,36 @@ class Home extends Component {
   render() {
     return (
       <View style={[styles.mainContainer, styles.center]}>
-        <ActivityIndicator
-          color={Theme.colors.color1}
-          style={{ height: 80 }}
-          size="large"
-        />
+        {this.props.syncModalOpen ?
+          <ActionButton
+            style={styles.button}
+            main
+            noIcon
+            onPress={this.openModal}
+            text={I18n.t('sync.update').toUpperCase()}
+          />
+          :
+          <ActivityIndicator
+            color={Theme.colors.color1}
+            style={{ height: 80 }}
+            size="large"
+          />
+        }
       </View>
     );
   }
 }
 Home.propTypes = {
-  loggedIn: React.PropTypes.bool.isRequired,
-  token: React.PropTypes.string,
-  syncSkip: React.PropTypes.bool.isRequired,
-  syncFinished: React.PropTypes.bool.isRequired,
-  setLanguage: React.PropTypes.func.isRequired,
-  navigator: React.PropTypes.object.isRequired,
-  hasAreas: React.PropTypes.bool.isRequired,
-  syncModalOpen: React.PropTypes.bool.isRequired,
-  setSyncModal: React.PropTypes.func.isRequired,
-  setSyncSkip: React.PropTypes.func.isRequired
+  loggedIn: PropTypes.bool.isRequired,
+  token: PropTypes.string,
+  syncSkip: PropTypes.bool.isRequired,
+  syncFinished: PropTypes.bool.isRequired,
+  setLanguage: PropTypes.func.isRequired,
+  navigator: PropTypes.object.isRequired,
+  hasAreas: PropTypes.bool.isRequired,
+  syncModalOpen: PropTypes.bool.isRequired,
+  setSyncModal: PropTypes.func.isRequired,
+  startApp: PropTypes.func.isRequired
 };
 Home.navigationOptions = {
   header: {

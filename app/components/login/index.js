@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import {
   Alert,
   View,
@@ -22,7 +23,7 @@ import 'moment/locale/id';
 
 import styles from './styles';
 
-const logoIcon = require('assets/logo.png');
+const logoIcon = require('assets/logo_dark.png');
 const facebookIcon = require('assets/facebook_white.png');
 const twitterIcon = require('assets/twitter_white.png');
 const googleIcon = require('assets/google_white.png');
@@ -54,8 +55,12 @@ class Login extends PureComponent {
     tracker.trackScreenView('Login');
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (this.props.loggedIn) this.onLoggedIn();
+
+    if (prevProps.logSuccess !== this.props.logSuccess || prevProps.isConnected !== this.props.isConnected) {
+      this.ensureLogout();
+    }
   }
 
   onLoadEnd() {
@@ -94,13 +99,9 @@ class Login extends PureComponent {
   }
 
   onPressGoogle = () => {
-    const { logoutSuccess, logout, isConnected, loginGoogle } = this.props;
+    const { isConnected, loginGoogle } = this.props;
     if (isConnected) {
-      if (!logoutSuccess) {
-        logout();
-      } else {
-        loginGoogle();
-      }
+      loginGoogle();
     } else {
       Alert.alert(
         I18n.t('login.unable'),
@@ -125,6 +126,17 @@ class Login extends PureComponent {
     this.props.navigator.resetTo({
       screen: 'ForestWatcher.Home'
     });
+  }
+
+  ensureLogout() {
+    const { logSuccess, logout, loggedIn, isConnected } = this.props;
+    if (!loggedIn && !logSuccess && isConnected) {
+      Alert.alert(
+        I18n.t('commonText.error'),
+        I18n.t('login.failed'),
+        [{ text: 'OK', onPress: logout }]
+      );
+    }
   }
 
   closeWebview() {
@@ -175,7 +187,6 @@ class Login extends PureComponent {
               style={styles.logo}
               source={logoIcon}
             />
-            <Text style={styles.introLabel}>{I18n.t('commonText.appName').toUpperCase()}</Text>
           </View>
           <View style={styles.buttons}>
             <Text style={styles.buttonsLabel}>{I18n.t('login.introductionText')}</Text>
@@ -240,13 +251,13 @@ class Login extends PureComponent {
 }
 
 Login.propTypes = {
-  loggedIn: React.PropTypes.bool.isRequired,
-  logoutSuccess: React.PropTypes.bool.isRequired,
-  logout: React.PropTypes.func.isRequired,
-  isConnected: React.PropTypes.bool.isRequired,
-  loginGoogle: React.PropTypes.func.isRequired,
-  setLoginStatus: React.PropTypes.func.isRequired,
-  navigator: React.PropTypes.object.isRequired
+  loggedIn: PropTypes.bool.isRequired,
+  logSuccess: PropTypes.bool.isRequired,
+  logout: PropTypes.func.isRequired,
+  isConnected: PropTypes.bool.isRequired,
+  loginGoogle: PropTypes.func.isRequired,
+  setLoginStatus: PropTypes.func.isRequired,
+  navigator: PropTypes.object.isRequired
 };
 
 export default Login;

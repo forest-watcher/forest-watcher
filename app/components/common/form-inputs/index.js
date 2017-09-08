@@ -1,10 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Text from './text';
 import Radio from './radio';
 import Select from './select';
 import Date from './date';
 import Blob from './blob';
-import Number from './number';
+// TODO: fix numbers input in iOS as we can't accept the value
+// import Number from './number';
 
 // REDUX-FORM custom inputs
 // http://redux-form.com/6.5.0/docs/api/Field.md/
@@ -13,7 +15,7 @@ export default function getInputForm(props) {
     case 'text':
       return <Text {...props} />;
     case 'number':
-      return <Number {...props} />;
+      return <Text {...props} />; // Use the number component here
     case 'radio':
       return <Radio {...props} />;
     case 'select':
@@ -30,12 +32,12 @@ export default function getInputForm(props) {
 }
 
 getInputForm.propTypes = {
-  question: React.PropTypes.shape({
-    value: React.PropTypes.number,
-    type: React.PropTypes.string.isRequired,
-    defaultValue: React.PropTypes.oneOfType([
-      React.PropTypes.number.isRequired,
-      React.PropTypes.string.isRequired
+  question: PropTypes.shape({
+    value: PropTypes.number,
+    type: PropTypes.string.isRequired,
+    defaultValue: PropTypes.oneOfType([
+      PropTypes.number.isRequired,
+      PropTypes.string.isRequired
     ])
   }).isRequired
 };

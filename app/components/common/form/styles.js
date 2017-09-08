@@ -7,6 +7,14 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.main,
     position: 'relative'
   },
+  backgroundHack: {
+    position: 'absolute',
+    top: -64,
+    left: 0,
+    right: 0,
+    height: 64,
+    backgroundColor: Theme.background.main
+  },
   containerCenter: {
     alignItems: 'center',
     justifyContent: 'center'
@@ -21,5 +29,26 @@ export default StyleSheet.create({
     position: 'absolute',
     bottom: 52,
     right: 8
+  },
+  answersContainer: {
+    backgroundColor: Theme.background.main,
+    flex: 1,
+    paddingTop: 32
+  },
+  answersText: {
+    fontFamily: Theme.font,
+    color: Theme.fontColors.secondary,
+    fontSize: 17,
+    paddingLeft: Theme.margin.left
+  },
+  picturesContainer: {
+    paddingTop: 16,
+    paddingBottom: 16
+  },
+  buttonSaveContainer: {
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingTop: 32,
+    paddingBottom: 32
   }
 });

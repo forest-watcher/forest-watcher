@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   ScrollView,
@@ -12,7 +13,11 @@ const nextImage = require('assets/next.png');
 
 function onPress(data) {
   if (data && data.functionOnPress) {
-    data.functionOnPress(data.url);
+    if (data.url) {
+      data.functionOnPress(data.url);
+    } else {
+      data.functionOnPress(data.section, data.text, data.list, data.description);
+    }
   }
 }
 
@@ -53,8 +58,8 @@ function List(props) {
 }
 
 List.propTypes = {
-  content: React.PropTypes.array,
-  bigSeparation: React.PropTypes.bool
+  content: PropTypes.array,
+  bigSeparation: PropTypes.bool
 };
 
 export default List;

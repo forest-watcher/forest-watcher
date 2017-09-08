@@ -40,7 +40,8 @@ export default StyleSheet.create({
     color: Theme.fontColors.white,
     fontSize: 17,
     fontStyle: 'italic',
-    fontWeight: '400'
+    fontWeight: '400',
+    backgroundColor: 'transparent'
   },
   undoButton: {
     width: 64,

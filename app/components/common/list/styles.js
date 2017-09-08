@@ -30,8 +30,8 @@ export default StyleSheet.create({
 
   text: {
     flex: 1,
-    fontSize: 16,
-    color: Theme.color2,
+    fontSize: 17,
+    color: Theme.fontColors.secondary,
     marginLeft: Theme.margin.left
   },
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -33,12 +34,12 @@ function CheckboxInput(props) {
 }
 
 CheckboxInput.propTypes = {
-  label: React.PropTypes.string,
-  checked: React.PropTypes.oneOfType([
-    React.PropTypes.bool,
-    React.PropTypes.string
+  label: PropTypes.string,
+  checked: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string
   ]),
-  onPress: React.PropTypes.func.isRequired
+  onPress: PropTypes.func.isRequired
 };
 
 export default CheckboxInput;

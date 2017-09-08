@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import List from 'components/common/list';
-import AreaList from 'containers/settings/area-list';
+import AreaList from 'containers/common/area-list';
 import {
   View,
   Text,
   TouchableHighlight,
   ScrollView,
-  Image
+  Image,
+  Alert
 } from 'react-native';
 
 import Theme from 'config/theme';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
+import CoordinatesDropdown from 'containers/settings/coordinates-dropdown';
 
 import styles from './styles';
 
@@ -25,17 +28,21 @@ class Settings extends Component {
     navBarBackgroundColor: Theme.background.main
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  static propTypes = {
+    user: PropTypes.any,
+    loggedIn: PropTypes.bool, // eslint-disable-line
+    areas: PropTypes.any,
+    navigator: PropTypes.object.isRequired,
+    logout: PropTypes.func.isRequired,
+    isConnected: PropTypes.bool.isRequired
+  };
 
   componentDidMount() {
     tracker.trackScreenView('Set Up');
   }
 
   componentWillReceiveProps(props) {
-    if (props.areas.length === 0) {
+    if (props.areas.length === 0 && props.loggedIn) {
       props.navigator.push({
         screen: 'ForestWatcher.Setup'
       });
@@ -60,15 +67,24 @@ class Settings extends Component {
   }
 
   onPressAddArea = () => {
-    this.props.navigator.push({
-      screen: 'ForestWatcher.Setup'
-    });
+    const { navigator, isConnected } = this.props;
+    if (isConnected) {
+      navigator.push({
+        screen: 'ForestWatcher.Setup'
+      });
+    } else {
+      Alert.alert(
+        I18n.t('settings.unable'),
+        I18n.t('settings.connectionRequired'),
+        [{ text: 'OK' }]
+      );
+    }
   }
 
-  handlePartnersLink = () => {
+  handleStaticLinks = (section, text) => {
     this.props.navigator.push({
-      screen: 'ForestWatcher.Partners',
-      title: 'Partners'
+      screen: section,
+      title: text
     });
   }
 
@@ -77,12 +93,26 @@ class Settings extends Component {
       {
         text: I18n.t('settings.aboutPartners'),
         image: null,
-        functionOnPress: this.handlePartnersLink
+        section: 'ForestWatcher.Partners',
+        functionOnPress: this.handleStaticLinks
       },
       {
         text: I18n.t('settings.aboutTerms'),
         image: null,
-        functionOnPress: null
+        section: 'ForestWatcher.TermsAndConditions',
+        functionOnPress: this.handleStaticLinks
+      },
+      {
+        text: I18n.t('settings.aboutFAQ'),
+        image: null,
+        section: 'ForestWatcher.FaqList',
+        functionOnPress: this.handleStaticLinks
+      },
+      {
+        text: I18n.t('settings.aboutContactUs'),
+        image: null,
+        section: 'ForestWatcher.ContactUs',
+        functionOnPress: this.handleStaticLinks
       }
     ];
     const { areas } = this.props;
@@ -117,6 +147,10 @@ class Settings extends Component {
             </TouchableHighlight>
           </View>
 
+          <View style={styles.coordinates}>
+            <CoordinatesDropdown />
+          </View>
+
           {areas && areas.length
             ? <View style={styles.areas}>
               <Text style={styles.label}>
@@ -129,9 +163,7 @@ class Settings extends Component {
           <TouchableHighlight
             activeOpacity={0.5}
             underlayColor="transparent"
-            onPress={() => this.props.navigator.push({
-              screen: 'ForestWatcher.Setup' }
-            )}
+            onPress={this.onPressAddArea}
           >
             <View style={styles.addButton}>
               <Image style={Theme.icon} source={plusIcon} />
@@ -158,12 +190,5 @@ class Settings extends Component {
     );
   }
 }
-
-Settings.propTypes = {
-  user: React.PropTypes.any,
-  areas: React.PropTypes.any,
-  navigator: React.PropTypes.object.isRequired,
-  logout: React.PropTypes.func.isRequired
-};
 
 export default Settings;
