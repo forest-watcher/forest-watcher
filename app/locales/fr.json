@@ -530,7 +530,7 @@
             "updated": "Mise à jour effectuée !"
         },
         "subtitle": {
-            "wifi": "This process can take some minutes",
+            "wifi": "Cette opération peut durer plusieurs minutes",
             "cellular": "Do you want to update the data and maps over cellular data?",
             "offline": "Une connexion internet est requise pour mettre à jour vos données",
             "updated": "Les données ont été mises à jour !"

@@ -525,13 +525,13 @@
         "tryAgain": "Tente novamente",
         "title": {
             "wifi": "Atualizando dados ...",
-            "cellular": "You are under cellular data",
+            "cellular": "Você está utilizando dados móveis",
             "offline": "Está offline",
             "updated": "Atualização concluída"
         },
         "subtitle": {
-            "wifi": "This process can take some minutes",
-            "cellular": "Do you want to update the data and maps over cellular data?",
+            "wifi": "Esse processo pode levar vários minutos",
+            "cellular": "Você gostaria de atualizar dados e mapas com conexão de dados?",
             "offline": "Você precisa de uma conexão com a internet para atualizar seus dados",
             "updated": "Os dados foram atualizados com sucesso!"
         },
