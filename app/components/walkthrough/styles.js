@@ -1,5 +1,5 @@
 import Theme from 'config/theme';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -12,9 +12,14 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between'
   },
+  topSection: {
+    flex: 1
+  },
   textsContainer: {
     marginTop: 32,
-    paddingHorizontal: 24
+    paddingHorizontal: 24,
+    flex: 1,
+    justifyContent: 'center'
   },
   title: {
     color: Theme.fontColors.main,
@@ -66,7 +71,14 @@ export default StyleSheet.create({
     fontSize: 14,
     fontWeight: '400',
     textAlign: 'right',
-    marginTop: 16,
+    ...Platform.select({
+      android: {
+        marginTop: 16
+      },
+      ios: {
+        marginTop: 24
+      }
+    }),
     paddingRight: 24
   }
 });

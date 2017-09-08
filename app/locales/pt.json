@@ -29,6 +29,17 @@
         "noAlertSystem": "Nenhum sistema de alerta selecionado"
     },
     "walkthrough": {
+        "title": {
+            "slide1": "Welcome to Forest Watcher"
+        },
+        "subtitle": {
+            "slide1": "First, set up an area that you want to monitor",
+            "slide2": "Select the deforestation or fire alerts that you want to display",
+            "slide3": "Navigate to an alert and collect data from the location",
+            "slide4": "Click on alerts to submit a report about them",
+            "slide5": "Or tap on any area in the map to create a report for that area",
+            "slide6": "More questions? Go to Settings to read our FAQs or visit fw.globalforestwatch.org"
+        },
         "skip": "skip tutorial"
     },
     "dashboard": {
