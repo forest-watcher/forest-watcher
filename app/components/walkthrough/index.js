@@ -12,6 +12,8 @@ import Theme from 'config/theme';
 import capitalize from 'lodash/capitalize';
 import throttle from 'lodash/throttle';
 import StepsSlider from 'components/common/steps-slider';
+import Hyperlink from 'react-native-hyperlink';
+
 
 import styles from './styles';
 
@@ -25,30 +27,34 @@ const phone5 = require('assets/walkthrough-phone5.png');
 
 const SLIDES = [
   {
-    title: 'Welcome to Forest Watcher',
-    subtitle: 'Create areas of interest to monitor alerts of forest change',
+    title: i18n.t('walkthrough.title.slide1'),
+    subtitle: i18n.t('walkthrough.subtitle.slide1'),
     image: phone1,
-    color: Theme.colors.color1
+    color: Theme.colors.color3
   },
   {
-    subtitle: 'Enter the settings to configure the data you want to see',
+    subtitle: i18n.t('walkthrough.subtitle.slide2'),
     image: phone2,
-    color: Theme.colors.color2
+    color: Theme.colors.color3
   },
   {
-    subtitle: 'Navigate to the alerts and create reports to collect data about that change',
+    subtitle: i18n.t('walkthrough.subtitle.slide3'),
     image: phone3,
     color: Theme.colors.color3
   },
   {
-    subtitle: 'You can select multiple alerts to report them in bulk.',
+    subtitle: i18n.t('walkthrough.subtitle.slide4'),
     image: phone4,
-    color: Theme.colors.color5
+    color: Theme.colors.color3
   },
   {
-    subtitle: 'If you discover a new area of forest change, tap directly on the map to report it',
+    subtitle: i18n.t('walkthrough.subtitle.slide5'),
     image: phone5,
-    color: Theme.colors.color6
+    color: Theme.colors.color3
+  },
+  {
+    subtitle: i18n.t('walkthrough.subtitle.slide6'),
+    textOnly: true
   }
 ];
 
@@ -111,7 +117,7 @@ class Walkthrough extends PureComponent {
           {SLIDES.map((slide, index) =>
             (
               <View style={styles.slideContainer} key={`slide-${index}`}>
-                <View>
+                <View style={styles.topSection}>
                   <TouchableOpacity onPress={this.goToLogin}>
                     <Text style={styles.skipButton}>{capitalize(i18n.t('walkthrough.skip'))}</Text>
                   </TouchableOpacity>
@@ -120,16 +126,20 @@ class Walkthrough extends PureComponent {
                       <Text style={styles.title}>{slide.title}</Text>
                     }
                     {slide.subtitle &&
-                      <Text style={styles.subtitle}>{slide.subtitle}</Text>
+                      <Hyperlink linkDefault linkStyle={Theme.linkSecondary}>
+                        <Text style={styles.subtitle}>{slide.subtitle}</Text>
+                      </Hyperlink>
                     }
                   </View>
                 </View>
-                <View style={styles.phoneContainer}>
-                  {slide.image ?
-                    <Image style={styles.phoneImage} source={slide.image} />
-                  : <View style={[styles.phoneImage, { backgroundColor: slide.color }]} />
-                  }
-                </View>
+                {!slide.textOnly &&
+                  <View style={styles.phoneContainer}>
+                    {slide.image ?
+                      <Image style={styles.phoneImage} source={slide.image} />
+                      : <View style={[styles.phoneImage, { backgroundColor: slide.color }]} />
+                    }
+                  </View>
+                }
                 <View style={styles.footerHack} />
               </View>
             ))

@@ -85,6 +85,9 @@ const config = {
   },
   link: {
     color: colors.color1
+  },
+  linkSecondary: {
+    color: colors.color3
   }
 };
 
