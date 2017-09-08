@@ -15,7 +15,8 @@ export default StyleSheet.create({
   },
   title: {
     color: Theme.colors.color1,
-    fontSize: 21
+    fontSize: 21,
+    textAlign: 'center'
   },
   subtitle: {
     color: Theme.colors.color3,

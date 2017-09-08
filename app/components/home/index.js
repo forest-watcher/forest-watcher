@@ -6,6 +6,8 @@ import {
 } from 'react-native';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
+import I18n from 'locales';
+import ActionButton from 'components/common/action-button';
 import styles from './styles';
 
 class Home extends Component {
@@ -89,11 +91,21 @@ class Home extends Component {
   render() {
     return (
       <View style={[styles.mainContainer, styles.center]}>
-        <ActivityIndicator
-          color={Theme.colors.color1}
-          style={{ height: 80 }}
-          size="large"
-        />
+        {this.props.syncModalOpen ?
+          <ActionButton
+            style={styles.button}
+            main
+            noIcon
+            onPress={this.openModal}
+            text={I18n.t('sync.update').toUpperCase()}
+          />
+          :
+          <ActivityIndicator
+            color={Theme.colors.color1}
+            style={{ height: 80 }}
+            size="large"
+          />
+        }
       </View>
     );
   }
