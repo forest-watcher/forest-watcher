@@ -1,5 +1,12 @@
 # Forest Watcher Changelog
 
+## [v1.0.0] - 2017-09-08
+- Production ready!
+
+## [v1.0.0rc9] - 2017-09-07
+- Fix infinite spinner on first load
+- Update translations
+
 ## [v1.0.0rc8-3] - 2017-09-07
 - Fix mapbox basemap requests
 
