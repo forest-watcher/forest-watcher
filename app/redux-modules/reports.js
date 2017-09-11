@@ -15,7 +15,7 @@ const GET_DEFAULT_TEMPLATE_COMMIT = 'report/GET_DEFAULT_TEMPLATE_COMMIT';
 const GET_DEFAULT_TEMPLATE_ROLLBACK = 'report/GET_DEFAULT_TEMPLATE_ROLLBACK';
 const GET_REPORT_TEMPLATE_REQUEST = 'report/GET_REPORT_TEMPLATE_REQUEST';
 const GET_REPORT_TEMPLATE_COMMIT = 'report/GET_REPORT_TEMPLATE_COMMIT';
-const GET_REPORT_TEMPLATE_ROLLBACK = 'report/GET_REPORT_TEMPLATE_ROLLBACK';
+export const GET_REPORT_TEMPLATE_ROLLBACK = 'report/GET_REPORT_TEMPLATE_ROLLBACK';
 const CREATE_REPORT = 'report/CREATE_REPORT';
 const UPDATE_REPORT = 'report/UPDATE_REPORT';
 export const UPLOAD_REPORT_REQUEST = 'report/UPLOAD_REPORT_REQUEST';
@@ -80,14 +80,22 @@ export default function reducer(state = initialState, action) {
     }
     case GET_REPORT_TEMPLATE_ROLLBACK: {
       const { templateId } = action.meta;
-
-      const pendingData = {
-        ...state.pendingData,
-        templates: {
-          ...state.pendingData.templates,
-          [templateId]: false
-        }
-      };
+      const { status } = action.payload;
+      let pendingData;
+      if (status === 404) {
+        pendingData = {
+          ...state.pendingData,
+          templates: omit(state.pendingData.templates, [templateId])
+        };
+      } else {
+        pendingData = {
+          ...state.pendingData,
+          templates: {
+            ...state.pendingData.templates,
+            [templateId]: false
+          }
+        };
+      }
       return { ...state, pendingData };
     }
     case GET_AREAS_COMMIT: {
