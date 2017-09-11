@@ -163,8 +163,7 @@ export default function reducer(state = initialState, action) {
 
 // Action Creators
 export function getDefaultReport() {
-  const template = Config.REPORT_ID;
-  const url = `${Config.API_URL}/reports/${template}`;
+  const url = `${Config.API_URL}/reports/default`;
 
   return {
     type: GET_DEFAULT_TEMPLATE_REQUEST,
