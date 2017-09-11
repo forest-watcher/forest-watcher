@@ -1,4 +1,4 @@
-import { RESET_STATE } from 'redux-offline/lib/constants';
+import { RESET_STATE } from '@redux-offline/redux-offline/lib/constants';
 import Config from 'react-native-config';
 import GoogleOAuth from 'config/oAuth/GoogleOAuth';
 
