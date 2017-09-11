@@ -9,6 +9,7 @@ import { getSupportedDatasets } from 'helpers/area';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { START_APP, RETRY_SYNC } from 'redux-modules/app';
 import { GET_ALERTS_COMMIT } from 'redux-modules/alerts';
+import { GET_REPORT_TEMPLATE_ROLLBACK } from 'redux-modules/reports';
 
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
 export const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
@@ -215,6 +216,14 @@ export default function reducer(state = initialState, action) {
     }
     case UPDATE_INDEX: {
       return Object.assign({}, state, { selectedIndex: action.payload });
+    }
+    case GET_REPORT_TEMPLATE_ROLLBACK: {
+      const { templateId } = action.meta;
+      const { status } = action.payload;
+      const data = status === 404 ? state.data
+        .map(area => (area.templateId === templateId ? { ...area, templateId: null } : area))
+        : state.data;
+      return { ...state, data };
     }
     case LOGOUT_REQUEST: {
       return initialState;
