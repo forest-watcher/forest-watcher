@@ -19,11 +19,11 @@ import styles from './styles';
 
 const backIcon = require('assets/previous.png');
 const nextIcon = require('assets/next.png');
-const phone1 = require('assets/walkthrough-phone1.png');
-const phone2 = require('assets/walkthrough-phone2.png');
-const phone3 = require('assets/walkthrough-phone3.png');
-const phone4 = require('assets/walkthrough-phone4.png');
-const phone5 = require('assets/walkthrough-phone5.png');
+const phone1 = require('assets/phone-1.png');
+const phone2 = require('assets/phone-2.png');
+const phone3 = require('assets/phone-3.png');
+const phone4 = require('assets/phone-4.png');
+const phone5 = require('assets/phone-5.png');
 
 const SLIDES = [
   {
@@ -107,6 +107,9 @@ class Walkthrough extends PureComponent {
     const { page } = this.state;
     return (
       <View style={styles.container}>
+        <TouchableOpacity onPress={this.goToLogin}>
+          <Text style={styles.skipButton}>{capitalize(i18n.t('walkthrough.skip'))}</Text>
+        </TouchableOpacity>
         <StepsSlider
           page={page}
           barStyle={{ height: 64 }}
@@ -118,9 +121,6 @@ class Walkthrough extends PureComponent {
             (
               <View style={styles.slideContainer} key={`slide-${index}`}>
                 <View style={styles.topSection}>
-                  <TouchableOpacity onPress={this.goToLogin}>
-                    <Text style={styles.skipButton}>{capitalize(i18n.t('walkthrough.skip'))}</Text>
-                  </TouchableOpacity>
                   <View style={styles.textsContainer}>
                     {slide.title &&
                       <Text style={styles.title}>{slide.title}</Text>
@@ -134,9 +134,8 @@ class Walkthrough extends PureComponent {
                 </View>
                 {!slide.textOnly &&
                   <View style={styles.phoneContainer}>
-                    {slide.image ?
-                      <Image style={styles.phoneImage} source={slide.image} />
-                      : <View style={[styles.phoneImage, { backgroundColor: slide.color }]} />
+                    {slide.image &&
+                      <Image style={styles.phoneImage} resizeMode="contain" source={slide.image} />
                     }
                   </View>
                 }
@@ -144,7 +143,6 @@ class Walkthrough extends PureComponent {
               </View>
             ))
           }
-          <View />
         </StepsSlider>
         <View style={[styles.footer, page > 0 ? { justifyContent: 'space-between' } : { justifyContent: 'flex-end' }]}>
           {page > 0 && // Buttons are placed here because inside the StepsSlider the events wont trigger
