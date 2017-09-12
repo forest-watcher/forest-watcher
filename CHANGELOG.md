@@ -3,7 +3,7 @@
 ## [v1.0.2] - 2017-09-12
 - Fix images walktrhought in large screens
 
-## [v1.0.0] - 2017-09-11
+## [v1.0.1] - 2017-09-11
 - Updates default report template endpoint to use always a generic endpoint.
 - Adds backwards compatibility to areas with deleted templates.
 - Replaces logo.
