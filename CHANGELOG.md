@@ -1,5 +1,8 @@
 # Forest Watcher Changelog
 
+## [v1.0.3] - 2017-09-13
+- Fix walktrhought android images
+
 ## [v1.0.2] - 2017-09-12
 - Fix images walktrhought in large screens
 
