@@ -6,7 +6,7 @@ export default StyleSheet.create({
     flex: 1,
     width: Theme.screen.width,
     height: Theme.screen.height,
-    backgroundColor: Theme.background.main,
+    backgroundColor: '#f8f8f8',
     position: 'relative'
   },
   slideContainer: {
