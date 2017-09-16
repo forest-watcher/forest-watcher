@@ -125,7 +125,7 @@ class FaqList extends Component {
         functionOnPress: this.handleStaticLinks
 
       }
-    ];
+    ].filter(term => (term.list && Object.values(term.list).some(text => (!!text))));
     return (
       <ScrollView
         style={styles.container}
