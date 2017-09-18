@@ -1,10 +1,18 @@
 # Forest Watcher Changelog
 
+## [v1.0.5]
+- Updates android manifest to make camera feature optional.
+- Updates texts.
+- Fixes FAQ questions not opening.
+
+## [v1.0.4]
+- Use iPhone frame in wlakthrough images.
+
 ## [v1.0.3] - 2017-09-13
-- Fix walktrhought android images
+- Fix walkthrough android images
 
 ## [v1.0.2] - 2017-09-12
-- Fix images walktrhought in large screens
+- Fix images walkthrough in large screens
 
 ## [v1.0.1] - 2017-09-11
 - Updates default report template endpoint to use always a generic endpoint.
