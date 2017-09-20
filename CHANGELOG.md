@@ -6,7 +6,7 @@
 - Fixes FAQ questions not opening.
 
 ## [v1.0.4]
-- Use iPhone frame in wlakthrough images.
+- Use iPhone frame in walkthrough images.
 
 ## [v1.0.3] - 2017-09-13
 - Fix walkthrough android images

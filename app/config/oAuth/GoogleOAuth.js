@@ -12,9 +12,9 @@ class GoogleOAuth {
    * @returns {Promise} - GoogleSignin configuration promise
    * @private
    */
-  _start() {
+  async _start() {
     if (!this._googleSignIn) {
-      this._googleSignIn = GoogleSignin.configure({
+      this._googleSignIn = await GoogleSignin.configure({
         iosClientId: Config.LOGIN_GOOGLE_CLIENT_ID_IOS,
         webClientId: Config.LOGIN_GOOGLE_CLIENT_ID_ANDROID,
         offlineAccess: false,
@@ -41,7 +41,7 @@ class GoogleOAuth {
    */
   async logout() {
     await this._start();
-    return GoogleSignin.revokeAccess();
+    return GoogleSignin.signOut();
   }
 }
 
