@@ -111,12 +111,9 @@ export function logout() {
     dispatch({ type: RESET_STATE });
     CookieManager.clearAll((err) => (err && console.warn(err)));
     if (state().user.socialNetwork === 'google') {
-      const logoutRequest = async () => {
-        dispatch({ type: LOGOUT_REQUEST });
-        return await GoogleOAuth.logout();
-      };
+      dispatch({ type: LOGOUT_REQUEST });
 
-      return dispatch(logoutRequest)
+      return GoogleOAuth.logout()
         .then(() => dispatch({ type: LOGOUT_COMMIT }))
         .catch(error => dispatch({ type: LOGOUT_ROLLBACK, payload: error }));
     }
