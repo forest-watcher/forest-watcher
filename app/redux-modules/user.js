@@ -1,6 +1,7 @@
 import { RESET_STATE } from '@redux-offline/redux-offline/lib/constants';
 import Config from 'react-native-config';
 import GoogleOAuth from 'config/oAuth/GoogleOAuth';
+import { DISMISS_LOGIN_CODES } from 'config/constants/index';
 
 const CookieManager = require('react-native-cookies');
 
@@ -96,10 +97,10 @@ export function loginGoogle() {
         }))
         .catch(() => dispatch(logout()));
     })
-      .catch(() => dispatch({
+      .catch(({ code }) => dispatch({
         type: SET_LOGIN_STATUS,
         payload: {
-          logSuccess: false
+          logSuccess: DISMISS_LOGIN_CODES.includes(code)
         }
       }));
   };
@@ -110,17 +111,13 @@ export function logout() {
     dispatch({ type: RESET_STATE });
     CookieManager.clearAll((err) => (err && console.warn(err)));
     if (state().user.socialNetwork === 'google') {
-      return dispatch({
-        type: LOGOUT_REQUEST,
-        meta: {
-          offline: {
-            effect: { promise: GoogleOAuth.logout(), errorCode: 400 },
-            commit: { type: LOGOUT_COMMIT },
-            rollback: { type: LOGOUT_ROLLBACK }
-          }
-        }
-      });
+      dispatch({ type: LOGOUT_REQUEST });
+
+      return GoogleOAuth.logout()
+        .then(() => dispatch({ type: LOGOUT_COMMIT }))
+        .catch(error => dispatch({ type: LOGOUT_ROLLBACK, payload: error }));
     }
+
     dispatch({ type: LOGOUT_REQUEST });
     return dispatch({ type: LOGOUT_COMMIT });
   };
