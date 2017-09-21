@@ -1,5 +1,10 @@
 # Forest Watcher Changelog
 
+## [v1.0.6]
+- Fix logging out crashes the app.
+- Dismiss login user selector won't throw an error anymore.
+- Fix reported alerts changed position when zoom changed.
+
 ## [v1.0.5]
 - Updates android manifest to make camera feature optional.
 - Updates texts.
