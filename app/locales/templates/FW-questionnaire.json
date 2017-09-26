@@ -26,7 +26,7 @@
             "label": {
               "en": "Photo",
               "es": "Foto",
-              "fr": "",
+              "fr": "Photo",
               "id": "Gambar",
               "pt": ""
             }, 
@@ -42,8 +42,8 @@
             "label": {
               "en": "Do you see deforestation or degradation?",
               "es": "¿Usted ve deforestación o degradación?",
-              "fr": "",
               "id": "Apakah anda melihat adanya deforestasi atau degradasi?",
+              "fr": "Voyez-vous une déforestation ou dégradation ?",
               "pt": ""
             }, 
             "name": "question-2", 
@@ -81,15 +81,15 @@
               ],
               "fr": [
                 {
-                  "label": "", 
+                  "label": "Oui", 
                   "value": 0
                 }, 
                 {
-                  "label": "", 
+                  "label": "Non", 
                   "value": 1
                 }, 
                 {
-                  "label": "", 
+                  "label": "Je ne suis pas sûr", 
                   "value": 2
                 }
               ],
@@ -136,8 +136,8 @@
             "label": {
               "en": "Is the deforestation/degradation recent?",
               "es": "¿La deforestación es nueva?",
-              "fr": "",
               "id": "Apakah deforestasi terjadi baru-baru ini?",
+              "fr": "La déforestation/dégradation est-elle récente ?",
               "pt": ""
             }, 
             "name": "question-3", 
@@ -167,11 +167,11 @@
               ],
               "fr": [
                 {
-                  "label": "", 
+                  "label": "Oui - incendie récent, pas de repousse", 
                   "value": 0
                 }, 
                 {
-                  "label": "", 
+                  "label": "Non - ferme installée ou repousse de la forêt", 
                   "value": 1
                 }
               ],
@@ -206,8 +206,8 @@
                 "label": {
                   "en": "Please describe.",
                   "es": "por favor describa",
-                  "fr": "",
                   "id": "jelaskan",
+                  "fr": "Veuillez décrire.",
                   "pt": ""
                 }, 
                 "name": "question-4-more-info", 
@@ -226,8 +226,8 @@
             "label": {
               "en": "Describe the driver",
               "es": "Describa el motivo",
-              "fr": "",
               "id": "Jelaskan deforestasi",
+              "fr": "Décrivez le moteur",
               "pt": ""
             }, 
             "name": "question-4", 
@@ -321,43 +321,43 @@
               ],
               "fr": [
                 {
-                  "label": "", 
+                  "label": "Coupe sélective", 
                   "value": 0
                 }, 
                 {
-                  "label": "", 
+                  "label": "Coupe complète", 
                   "value": 1
                 }, 
                 {
-                  "label": "", 
+                  "label": "Production de charbon", 
                   "value": 2
                 }, 
                 {
-                  "label": "", 
+                  "label": "Incendies", 
                   "value": 3
                 }, 
                 {
-                  "label": "", 
+                  "label": "Coupe à visée agricole", 
                   "value": 4
                 }, 
                 {
-                  "label": "", 
+                  "label": "Route", 
                   "value": 5
                 }, 
                 {
-                  "label": "", 
+                  "label": "Barrage", 
                   "value": 6
                 }, 
                 {
-                  "label": "", 
+                  "label": "Extraction minière", 
                   "value": 7
                 }, 
                 {
-                  "label": "", 
+                  "label": "Extraction de pétrole/gaz", 
                   "value": 8
                 }, 
                 {
-                  "label": "", 
+                  "label": "Autre (veuillez décrire ci-dessous)", 
                   "value": 9
                 }
               ],
@@ -456,8 +456,8 @@
                 "label": {
                   "en": "Why?",
                   "es": "¿por qué?",
-                  "fr": "",
                   "id": "Mengapa?",
+                  "fr": "Pourquoi ?",
                   "pt": ""
                 }, 
                 "name": "question-5-more-info", 
@@ -470,8 +470,8 @@
             "label": {
               "en": "Do you think further action should be taken in this area?",
               "es": "¿Considera necesaria alguna otra medida en este área?",
-              "fr": "",
               "id": "Apakah perlu tindak lanjut di area deforestasi ini?",
+              "fr": "Pensez-vous que des actions doivent être entreprises dans cette zone ?",
               "pt": ""
             }, 
             "name": "question-5", 
@@ -501,11 +501,11 @@
               ],
               "fr": [
                 {
-                  "label": "", 
+                  "label": "Oui", 
                   "value": 0
                 }, 
                 {
-                  "label": "", 
+                  "label": "Non", 
                   "value": 1
                 }
               ],
@@ -538,8 +538,8 @@
             "label": {
               "en": "Any other notes?",
               "es": "Añada otra información / notas",
-              "fr": "",
               "id": "Catatan / informasi tambahan",
+              "fr": "Souhaitez-vous ajouter des notes ?",
               "pt": ""
             }, 
             "name": "question-6", 
