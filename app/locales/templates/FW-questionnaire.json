@@ -2,6 +2,7 @@
   "data": [
     {
       "attributes": {
+        "createdAt": "2017-09-11T14:49:15.236Z", 
         "defaultLanguage": "en", 
         "languages": [
           "en",
@@ -13,8 +14,8 @@
         "name": {
           "en": "Forest Watcher Questionnaire",
           "es": "Forest Watcher reporte",
-    	    "fr": "Rapport de Forest Watcher",
-    	    "id": "Forest Watcher laporan",
+          "fr": "Rapport de Forest Watcher",
+          "id": "Forest Watcher laporan",
           "pt": "Relatório do Forest Watcher"
         }, 
         "public": true, 
@@ -25,10 +26,10 @@
             "conditions": [], 
             "label": {
               "en": "Photo",
-              "es": "Foto",
-              "fr": "Photo",
-              "id": "Gambar",
-              "pt": ""
+              "es": "",
+              "fr": "",
+              "id": "",
+              "pt": "Foto"
             }, 
             "name": "question-1", 
             "order": 0, 
@@ -41,10 +42,10 @@
             "conditions": [], 
             "label": {
               "en": "Do you see deforestation or degradation?",
-              "es": "¿Usted ve deforestación o degradación?",
-              "id": "Apakah anda melihat adanya deforestasi atau degradasi?",
-              "fr": "Voyez-vous une déforestation ou dégradation ?",
-              "pt": ""
+              "es": "",
+              "fr": "",
+              "id": "",
+              "pt": "Você vê desflorestamento ou degradação?"
             }, 
             "name": "question-2", 
             "order": 1, 
@@ -67,57 +68,57 @@
               ],
               "es": [
                 {
-                  "label": "Sí", 
+                  "label": "", 
                   "value": 0
                 }, 
                 {
-                  "label": "No", 
+                  "label": "", 
                   "value": 1
                 }, 
                 {
-                  "label": "No estoy seguro", 
+                  "label": "", 
                   "value": 2
                 }
               ],
               "fr": [
                 {
-                  "label": "Oui", 
+                  "label": "", 
                   "value": 0
                 }, 
                 {
-                  "label": "Non", 
+                  "label": "", 
                   "value": 1
                 }, 
                 {
-                  "label": "Je ne suis pas sûr", 
+                  "label": "", 
                   "value": 2
                 }
               ],
               "id": [
                 {
-                  "label": "Ya", 
+                  "label": "", 
                   "value": 0
                 }, 
                 {
-                  "label": "Tidak", 
+                  "label": "", 
                   "value": 1
                 }, 
                 {
-                  "label": "Tidak yakin", 
+                  "label": "", 
                   "value": 2
                 }
               ],
               "pt": [
                 {
-                  "label": "", 
+                  "label": "Sim", 
                   "value": 0
                 }, 
                 {
-                  "label": "", 
+                  "label": "Não",
                   "value": 1
                 }, 
                 {
-                  "label": "", 
+                  "label": "Incerto", 
                   "value": 2
                 }
               ]
@@ -135,10 +136,10 @@
             ], 
             "label": {
               "en": "Is the deforestation/degradation recent?",
-              "es": "¿La deforestación es nueva?",
-              "id": "Apakah deforestasi terjadi baru-baru ini?",
-              "fr": "La déforestation/dégradation est-elle récente ?",
-              "pt": ""
+              "es": "",
+              "fr": "",
+              "id": "",
+              "pt": "O desflorestamento/degradação é recente?"
             }, 
             "name": "question-3", 
             "order": 2, 
@@ -157,41 +158,41 @@
               ],
               "es": [
                 {
-                  "label": "Sí - Se aprecian zonas quemadas recientes y falta de crecimiento de la vegetación", 
+                  "label": "", 
                   "value": 0
                 }, 
                 {
-                  "label": "No - Es una granja establecida o un bosque cultivado", 
+                  "label": "", 
                   "value": 1
                 }
               ],
               "fr": [
                 {
-                  "label": "Oui - incendie récent, pas de repousse", 
+                  "label": "", 
                   "value": 0
                 }, 
                 {
-                  "label": "Non - ferme installée ou repousse de la forêt", 
+                  "label": "", 
                   "value": 1
                 }
               ],
               "id": [
                 {
-                  "label": "Ya - baru terbakar, tidak tumbuh kembali", 
+                  "label": "", 
                   "value": 0
                 }, 
                 {
-                  "label": "Tidak - kebun sudah muncul atau hutan kembali merintis", 
+                  "label": "", 
                   "value": 1
                 }
               ],
               "pt": [
                 {
-                  "label": "", 
+                  "label": "Sim - queimada recente, nenhum broto",
                   "value": 0
                 }, 
                 {
-                  "label": "", 
+                  "label": "Não - fazenda estabilizada ou floresta brotando", 
                   "value": 1
                 }
               ]
@@ -205,10 +206,10 @@
                 "conditionalValue": 9, 
                 "label": {
                   "en": "Please describe.",
-                  "es": "por favor describa",
-                  "id": "jelaskan",
-                  "fr": "Veuillez décrire.",
-                  "pt": ""
+                  "es": "",
+                  "fr": "",
+                  "id": "",
+                  "pt": "Por favor descreva."
                 }, 
                 "name": "question-4-more-info", 
                 "order": 0, 
@@ -225,10 +226,10 @@
             ], 
             "label": {
               "en": "Describe the driver",
-              "es": "Describa el motivo",
-              "id": "Jelaskan deforestasi",
-              "fr": "Décrivez le moteur",
-              "pt": ""
+              "es": "",
+              "fr": "",
+              "id": "",
+              "pt": "Descreva o motorista"
             }, 
             "name": "question-4", 
             "order": 3, 
@@ -279,169 +280,169 @@
               ],
               "es": [
                 {
-                  "label": "Deforestación selectiva", 
+                  "label": "", 
                   "value": 0
                 }, 
                 {
-                  "label": "Deforestación completa", 
+                  "label": "", 
                   "value": 1
                 }, 
                 {
-                  "label": "Producción de carbón", 
+                  "label": "", 
                   "value": 2
                 }, 
                 {
-                  "label": "Quemado", 
+                  "label": "", 
                   "value": 3
                 }, 
                 {
-                  "label": "Deforestación agrícola", 
+                  "label": "", 
                   "value": 4
                 }, 
                 {
-                  "label": "Carretera", 
+                  "label": "", 
                   "value": 5
                 }, 
                 {
-                  "label": "Presa", 
+                  "label": "", 
                   "value": 6
                 }, 
                 {
-                  "label": "Minas", 
+                  "label": "", 
                   "value": 7
                 }, 
                 {
-                  "label": "Extracción de gas/petróleo", 
+                  "label": "", 
                   "value": 8
                 }, 
                 {
-                  "label": "Otro (por favor describa)", 
+                  "label": "", 
                   "value": 9
                 }
               ],
               "fr": [
                 {
-                  "label": "Coupe sélective", 
+                  "label": "", 
                   "value": 0
                 }, 
                 {
-                  "label": "Coupe complète", 
+                  "label": "", 
                   "value": 1
                 }, 
                 {
-                  "label": "Production de charbon", 
+                  "label": "", 
                   "value": 2
                 }, 
                 {
-                  "label": "Incendies", 
+                  "label": "", 
                   "value": 3
                 }, 
                 {
-                  "label": "Coupe à visée agricole", 
+                  "label": "", 
                   "value": 4
                 }, 
                 {
-                  "label": "Route", 
+                  "label": "", 
                   "value": 5
                 }, 
                 {
-                  "label": "Barrage", 
+                  "label": "", 
                   "value": 6
                 }, 
                 {
-                  "label": "Extraction minière", 
+                  "label": "", 
                   "value": 7
                 }, 
                 {
-                  "label": "Extraction de pétrole/gaz", 
+                  "label": "", 
                   "value": 8
                 }, 
                 {
-                  "label": "Autre (veuillez décrire ci-dessous)", 
+                  "label": "", 
                   "value": 9
                 }
               ],
               "id": [
                 {
-                  "label": "Tebang pilih", 
+                  "label": "", 
                   "value": 0
                 }, 
                 {
-                  "label": "Tebang habis", 
+                  "label": "", 
                   "value": 1
                 }, 
                 {
-                  "label": "Produksi batu bara", 
+                  "label": "", 
                   "value": 2
                 }, 
                 {
-                  "label": "Pembakaran", 
+                  "label": "", 
                   "value": 3
                 }, 
                 {
-                  "label": "Pembukaan hutan untuk pertanian", 
+                  "label": "", 
                   "value": 4
                 }, 
                 {
-                  "label": "Jalan", 
+                  "label": "", 
                   "value": 5
                 }, 
                 {
-                  "label": "Bendungan", 
+                  "label": "", 
                   "value": 6
                 }, 
                 {
-                  "label": "Tambang", 
+                  "label": "", 
                   "value": 7
                 }, 
                 {
-                  "label": "Eksplorasi migas", 
+                  "label": "", 
                   "value": 8
                 }, 
                 {
-                  "label": "Lainnya (jelaskan)", 
+                  "label": "", 
                   "value": 9
                 }
               ],
               "pt": [
                 {
-                  "label": "", 
+                  "label": "Corte seletivo", 
                   "value": 0
                 }, 
                 {
-                  "label": "", 
+                  "label": "Corte total", 
                   "value": 1
                 }, 
                 {
-                  "label": "", 
+                  "label": "Produção de carvão", 
                   "value": 2
                 }, 
                 {
-                  "label": "", 
+                  "label": "Queimadas", 
                   "value": 3
                 }, 
                 {
-                  "label": "", 
+                  "label": "Limpeza de terreno", 
                   "value": 4
                 }, 
                 {
-                  "label": "", 
+                  "label": "Estradas", 
                   "value": 5
                 }, 
                 {
-                  "label": "", 
+                  "label": "Barragem", 
                   "value": 6
                 }, 
                 {
-                  "label": "", 
+                  "label": "Mineiração", 
                   "value": 7
                 }, 
                 {
-                  "label": "", 
+                  "label": "Extração de gás/petróleo", 
                   "value": 8
                 }, 
                 {
-                  "label": "", 
+                  "label": "Outro (por favor descreva abaixo)", 
                   "value": 9
                 }
               ]
@@ -455,10 +456,10 @@
                 "conditionalValue": 0, 
                 "label": {
                   "en": "Why?",
-                  "es": "¿por qué?",
-                  "id": "Mengapa?",
-                  "fr": "Pourquoi ?",
-                  "pt": ""
+                  "es": "",
+                  "fr": "",
+                  "id": "",
+                  "pt": "Porque?"
                 }, 
                 "name": "question-5-more-info", 
                 "order": 0, 
@@ -469,10 +470,10 @@
             "conditions": [], 
             "label": {
               "en": "Do you think further action should be taken in this area?",
-              "es": "¿Considera necesaria alguna otra medida en este área?",
-              "id": "Apakah perlu tindak lanjut di area deforestasi ini?",
-              "fr": "Pensez-vous que des actions doivent être entreprises dans cette zone ?",
-              "pt": ""
+              "es": "",
+              "fr": "",
+              "id": "",
+              "pt": "Você acha que mais ações deveriam ser tomadas nesta área?"
             }, 
             "name": "question-5", 
             "order": 4, 
@@ -491,41 +492,41 @@
               ],
               "es": [
                 {
-                  "label": "Sí", 
+                  "label": "", 
                   "value": 0
                 }, 
                 {
-                  "label": "No", 
+                  "label": "", 
                   "value": 1
                 }
               ],
               "fr": [
                 {
-                  "label": "Oui", 
+                  "label": "", 
                   "value": 0
                 }, 
                 {
-                  "label": "Non", 
+                  "label": "", 
                   "value": 1
                 }
               ],
               "id": [
                 {
-                  "label": "Ya", 
+                  "label": "", 
                   "value": 0
                 }, 
                 {
-                  "label": "Tidak", 
+                  "label": "", 
                   "value": 1
                 }
               ],
               "pt": [
                 {
-                  "label": "", 
+                  "label": "Sim", 
                   "value": 0
                 }, 
                 {
-                  "label": "", 
+                  "label": "Não", 
                   "value": 1
                 }
               ]
@@ -537,10 +538,10 @@
             "conditions": [], 
             "label": {
               "en": "Any other notes?",
-              "es": "Añada otra información / notas",
-              "id": "Catatan / informasi tambahan",
-              "fr": "Souhaitez-vous ajouter des notes ?",
-              "pt": ""
+              "es": "",
+              "fr": "",
+              "id": "",
+              "pt": "Alguma outra nota?"
             }, 
             "name": "question-6", 
             "order": 5, 
