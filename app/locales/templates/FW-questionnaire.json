@@ -27,7 +27,7 @@
             "label": {
               "en": "Photo",
               "es": "",
-              "fr": "",
+              "fr": "Photo",
               "id": "",
               "pt": ""
             }, 
@@ -43,7 +43,7 @@
             "label": {
               "en": "Do you see deforestation or degradation?",
               "es": "",
-              "fr": "",
+              "fr": "Voyez-vous une déforestation ou dégradation ?",
               "id": "",
               "pt": ""
             }, 
@@ -82,15 +82,15 @@
               ],
               "fr": [
                 {
-                  "label": "", 
+                  "label": "Oui", 
                   "value": 0
                 }, 
                 {
-                  "label": "", 
+                  "label": "Non", 
                   "value": 1
                 }, 
                 {
-                  "label": "", 
+                  "label": "Je ne suis pas sûr", 
                   "value": 2
                 }
               ],
@@ -137,7 +137,7 @@
             "label": {
               "en": "Is the deforestation/degradation recent?",
               "es": "",
-              "fr": "",
+              "fr": "La déforestation/dégradation est-elle récente ?",
               "id": "",
               "pt": ""
             }, 
@@ -168,11 +168,11 @@
               ],
               "fr": [
                 {
-                  "label": "", 
+                  "label": "Oui - incendie récent, pas de repousse", 
                   "value": 0
                 }, 
                 {
-                  "label": "", 
+                  "label": "Non - ferme installée ou repousse de la forêt", 
                   "value": 1
                 }
               ],
@@ -207,7 +207,7 @@
                 "label": {
                   "en": "Please describe.",
                   "es": "",
-                  "fr": "",
+                  "fr": "Veuillez décrire.",
                   "id": "",
                   "pt": ""
                 }, 
@@ -227,7 +227,7 @@
             "label": {
               "en": "Describe the driver",
               "es": "",
-              "fr": "",
+              "fr": "Décrivez le moteur",
               "id": "",
               "pt": ""
             }, 
@@ -322,43 +322,43 @@
               ],
               "fr": [
                 {
-                  "label": "", 
+                  "label": "Coupe sélective", 
                   "value": 0
                 }, 
                 {
-                  "label": "", 
+                  "label": "Coupe complète", 
                   "value": 1
                 }, 
                 {
-                  "label": "", 
+                  "label": "Production de charbon", 
                   "value": 2
                 }, 
                 {
-                  "label": "", 
+                  "label": "Incendies", 
                   "value": 3
                 }, 
                 {
-                  "label": "", 
+                  "label": "Coupe à visée agricole", 
                   "value": 4
                 }, 
                 {
-                  "label": "", 
+                  "label": "Route", 
                   "value": 5
                 }, 
                 {
-                  "label": "", 
+                  "label": "Barrage", 
                   "value": 6
                 }, 
                 {
-                  "label": "", 
+                  "label": "Extraction minière", 
                   "value": 7
                 }, 
                 {
-                  "label": "", 
+                  "label": "Extraction de pétrole/gaz", 
                   "value": 8
                 }, 
                 {
-                  "label": "", 
+                  "label": "Autre (veuillez décrire ci-dessous)", 
                   "value": 9
                 }
               ],
@@ -457,7 +457,7 @@
                 "label": {
                   "en": "Why?",
                   "es": "",
-                  "fr": "",
+                  "fr": "Pourquoi ?",
                   "id": "",
                   "pt": ""
                 }, 
@@ -471,7 +471,7 @@
             "label": {
               "en": "Do you think further action should be taken in this area?",
               "es": "",
-              "fr": "",
+              "fr": "Pensez-vous que des actions doivent être entreprises dans cette zone ?",
               "id": "",
               "pt": ""
             }, 
@@ -502,11 +502,11 @@
               ],
               "fr": [
                 {
-                  "label": "", 
+                  "label": "Oui", 
                   "value": 0
                 }, 
                 {
-                  "label": "", 
+                  "label": "Non", 
                   "value": 1
                 }
               ],
@@ -539,7 +539,7 @@
             "label": {
               "en": "Any other notes?",
               "es": "",
-              "fr": "",
+              "fr": "Souhaitez-vous ajouter des notes ?",
               "id": "",
               "pt": ""
             }, 
