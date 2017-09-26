@@ -2,7 +2,6 @@
   "data": [
     {
       "attributes": {
-        "createdAt": "2017-09-11T14:49:15.236Z", 
         "defaultLanguage": "en", 
         "languages": [
           "en",
@@ -26,9 +25,9 @@
             "conditions": [], 
             "label": {
               "en": "Photo",
-              "es": "",
+              "es": "Foto",
               "fr": "",
-              "id": "",
+              "id": "Gambar",
               "pt": ""
             }, 
             "name": "question-1", 
@@ -42,9 +41,9 @@
             "conditions": [], 
             "label": {
               "en": "Do you see deforestation or degradation?",
-              "es": "",
+              "es": "¿Usted ve deforestación o degradación?",
               "fr": "",
-              "id": "",
+              "id": "Apakah anda melihat adanya deforestasi atau degradasi?",
               "pt": ""
             }, 
             "name": "question-2", 
@@ -68,15 +67,15 @@
               ],
               "es": [
                 {
-                  "label": "", 
+                  "label": "Sí", 
                   "value": 0
                 }, 
                 {
-                  "label": "", 
+                  "label": "No", 
                   "value": 1
                 }, 
                 {
-                  "label": "", 
+                  "label": "No estoy seguro", 
                   "value": 2
                 }
               ],
@@ -96,15 +95,15 @@
               ],
               "id": [
                 {
-                  "label": "", 
+                  "label": "Ya", 
                   "value": 0
                 }, 
                 {
-                  "label": "", 
+                  "label": "Tidak", 
                   "value": 1
                 }, 
                 {
-                  "label": "", 
+                  "label": "Tidak yakin", 
                   "value": 2
                 }
               ],
@@ -136,9 +135,9 @@
             ], 
             "label": {
               "en": "Is the deforestation/degradation recent?",
-              "es": "",
+              "es": "¿La deforestación es nueva?",
               "fr": "",
-              "id": "",
+              "id": "Apakah deforestasi terjadi baru-baru ini?",
               "pt": ""
             }, 
             "name": "question-3", 
@@ -158,11 +157,11 @@
               ],
               "es": [
                 {
-                  "label": "", 
+                  "label": "Sí - Se aprecian zonas quemadas recientes y falta de crecimiento de la vegetación", 
                   "value": 0
                 }, 
                 {
-                  "label": "", 
+                  "label": "No - Es una granja establecida o un bosque cultivado", 
                   "value": 1
                 }
               ],
@@ -178,11 +177,11 @@
               ],
               "id": [
                 {
-                  "label": "", 
+                  "label": "Ya - baru terbakar, tidak tumbuh kembali", 
                   "value": 0
                 }, 
                 {
-                  "label": "", 
+                  "label": "Tidak - kebun sudah muncul atau hutan kembali merintis", 
                   "value": 1
                 }
               ],
@@ -206,9 +205,9 @@
                 "conditionalValue": 9, 
                 "label": {
                   "en": "Please describe.",
-                  "es": "",
+                  "es": "por favor describa",
                   "fr": "",
-                  "id": "",
+                  "id": "jelaskan",
                   "pt": ""
                 }, 
                 "name": "question-4-more-info", 
@@ -226,9 +225,9 @@
             ], 
             "label": {
               "en": "Describe the driver",
-              "es": "",
+              "es": "Describa el motivo",
               "fr": "",
-              "id": "",
+              "id": "Jelaskan deforestasi",
               "pt": ""
             }, 
             "name": "question-4", 
@@ -280,43 +279,43 @@
               ],
               "es": [
                 {
-                  "label": "", 
+                  "label": "Deforestación selectiva", 
                   "value": 0
                 }, 
                 {
-                  "label": "", 
+                  "label": "Deforestación completa", 
                   "value": 1
                 }, 
                 {
-                  "label": "", 
+                  "label": "Producción de carbón", 
                   "value": 2
                 }, 
                 {
-                  "label": "", 
+                  "label": "Quemado", 
                   "value": 3
                 }, 
                 {
-                  "label": "", 
+                  "label": "Deforestación agrícola", 
                   "value": 4
                 }, 
                 {
-                  "label": "", 
+                  "label": "Carretera", 
                   "value": 5
                 }, 
                 {
-                  "label": "", 
+                  "label": "Presa", 
                   "value": 6
                 }, 
                 {
-                  "label": "", 
+                  "label": "Minas", 
                   "value": 7
                 }, 
                 {
-                  "label": "", 
+                  "label": "Extracción de gas/petróleo", 
                   "value": 8
                 }, 
                 {
-                  "label": "", 
+                  "label": "Otro (por favor describa)", 
                   "value": 9
                 }
               ],
@@ -364,43 +363,43 @@
               ],
               "id": [
                 {
-                  "label": "", 
+                  "label": "Tebang pilih", 
                   "value": 0
                 }, 
                 {
-                  "label": "", 
+                  "label": "Tebang habis", 
                   "value": 1
                 }, 
                 {
-                  "label": "", 
+                  "label": "Produksi batu bara", 
                   "value": 2
                 }, 
                 {
-                  "label": "", 
+                  "label": "Pembakaran", 
                   "value": 3
                 }, 
                 {
-                  "label": "", 
+                  "label": "Pembukaan hutan untuk pertanian", 
                   "value": 4
                 }, 
                 {
-                  "label": "", 
+                  "label": "Jalan", 
                   "value": 5
                 }, 
                 {
-                  "label": "", 
+                  "label": "Bendungan", 
                   "value": 6
                 }, 
                 {
-                  "label": "", 
+                  "label": "Tambang", 
                   "value": 7
                 }, 
                 {
-                  "label": "", 
+                  "label": "Eksplorasi migas", 
                   "value": 8
                 }, 
                 {
-                  "label": "", 
+                  "label": "Lainnya (jelaskan)", 
                   "value": 9
                 }
               ],
@@ -456,9 +455,9 @@
                 "conditionalValue": 0, 
                 "label": {
                   "en": "Why?",
-                  "es": "",
+                  "es": "¿por qué?",
                   "fr": "",
-                  "id": "",
+                  "id": "Mengapa?",
                   "pt": ""
                 }, 
                 "name": "question-5-more-info", 
@@ -470,9 +469,9 @@
             "conditions": [], 
             "label": {
               "en": "Do you think further action should be taken in this area?",
-              "es": "",
+              "es": "¿Considera necesaria alguna otra medida en este área?",
               "fr": "",
-              "id": "",
+              "id": "Apakah perlu tindak lanjut di area deforestasi ini?",
               "pt": ""
             }, 
             "name": "question-5", 
@@ -492,11 +491,11 @@
               ],
               "es": [
                 {
-                  "label": "", 
+                  "label": "Sí", 
                   "value": 0
                 }, 
                 {
-                  "label": "", 
+                  "label": "No", 
                   "value": 1
                 }
               ],
@@ -512,11 +511,11 @@
               ],
               "id": [
                 {
-                  "label": "", 
+                  "label": "Ya", 
                   "value": 0
                 }, 
                 {
-                  "label": "", 
+                  "label": "Tidak", 
                   "value": 1
                 }
               ],
@@ -538,9 +537,9 @@
             "conditions": [], 
             "label": {
               "en": "Any other notes?",
-              "es": "",
+              "es": "Añada otra información / notas",
               "fr": "",
-              "id": "",
+              "id": "Catatan / informasi tambahan",
               "pt": ""
             }, 
             "name": "question-6", 
