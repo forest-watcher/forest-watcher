@@ -17,8 +17,11 @@ export const parseQuestion = ({ question, form }, deviceLang) => {
   let parsedQuestion = { ...question };
   const whitelist = ['defaultValue', 'label', 'values', 'name'];
   whitelist.forEach((key) => {
-    if (typeof parsedQuestion[key] === 'object' && typeof parsedQuestion[key][lang] !== 'undefined') {
-      parsedQuestion = { ...parsedQuestion, [key]: parsedQuestion[key][lang] };
+    if (typeof parsedQuestion[key] === 'object') {
+      const parsedValue = typeof parsedQuestion[key][lang] !== 'undefined'
+        ? parsedQuestion[key][lang]
+        : '';
+      parsedQuestion = { ...parsedQuestion, [key]: parsedValue };
     }
   });
   if (parsedQuestion.childQuestions) {
