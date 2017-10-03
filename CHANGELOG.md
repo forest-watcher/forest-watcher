@@ -1,5 +1,9 @@
 # Forest Watcher Changelog
 
+## [v1.0.7]
+- Fix form crash on empty or invalid language label.
+- Decrease the retries policy to provide feedback sooner to the user.
+
 ## [v1.0.6]
 - Fix logging out crashes the app.
 - Dismiss login user selector won't throw an error anymore.
