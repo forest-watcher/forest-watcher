@@ -30,9 +30,7 @@ class AreaCarousel extends Component {
     });
   }
 
-  render() {
-    const { selectedArea } = this.props;
-
+  renderItem = ({ item, index }) => {
     let datasetName = I18n.t('commonText.notAvailable');
     const settingsButton = (area) => (
       <View style={styles.settingsButton}>
@@ -45,35 +43,37 @@ class AreaCarousel extends Component {
         </TouchableHighlight>
       </View>
     );
+    const dataset = activeDataset(item);
+    const lastUpdatedText = dataset ? `${I18n.t('commonText.updated')} ${moment(dataset.lastUpdate).fromNow()}` : '';
+    datasetName = enabledDatasetName(item) || NO_ALERT_SELECTED;
+    return (
+      <View key={`entry-${index}`} style={styles.slideInnerContainer}>
+        <Text style={styles.textContainer}>{ item.name }</Text>
+        <Text style={styles.smallCarouselText}>
+          { datasetName } - {lastUpdatedText}
+        </Text>
+        {settingsButton(item)}
+      </View>
+    );
+  }
 
-    const sliderItems = this.props.areas.map((area, index) => {
-      const dataset = activeDataset(area);
-      const lastUpdatedText = dataset ? `${I18n.t('commonText.updated')} ${moment(dataset.lastUpdate).fromNow()}` : '';
-      datasetName = enabledDatasetName(area) || NO_ALERT_SELECTED;
-      return (
-        <View key={`entry-${index}`} style={styles.slideInnerContainer}>
-          <Text style={styles.textContainer}>{ area.name }</Text>
-          <Text style={styles.smallCarouselText}>
-            { datasetName } - {lastUpdatedText}
-          </Text>
-          {settingsButton(area)}
-        </View>
-      );
-    });
+  render() {
+    const { selectedArea } = this.props;
+
     return (
       <View style={styles.container}>
         <View style={styles.footerZIndex}>
           <Carousel
             firstItem={selectedArea}
+            data={this.props.areas}
             sliderWidth={sliderWidth}
             itemWidth={itemWidth}
+            renderItem={this.renderItem}
             onSnapToItem={this.props.updateSelectedArea}
             scrollEndDragDebounceValue={300}
             showsHorizontalScrollIndicator={false}
             slideStyle={styles.slideStyle}
-          >
-            { sliderItems }
-          </Carousel>
+          />
         </View>
       </View>
     );
