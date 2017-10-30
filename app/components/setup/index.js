@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   View
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import StepsSlider from 'components/common/steps-slider';
 import SetupCountry from 'containers/setup/country';
@@ -79,14 +80,17 @@ class Setup extends Component {
           navigator={this.props.navigator}
         />
         <StepsSlider
-          page={this.state.page}
+          hideIndex={page === 2}
+          page={page}
           onChangeTab={this.updatePage}
         >
           <SetupCountry onNextPress={this.goToNextPage} />
           <SetupBoundaries
             onNextPress={this.goToNextPage}
           />
-          <SetupOverView onNextPress={this.onFinishSetup} />
+          <KeyboardAwareScrollView>
+            <SetupOverView onNextPress={this.onFinishSetup} />
+          </KeyboardAwareScrollView>
         </StepsSlider>
       </View>
     );
