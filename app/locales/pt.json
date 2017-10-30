@@ -483,7 +483,9 @@
         "connectionRequired": "Precisa de uma conexão à Internet",
         "coordinatesFormat": "Formato das Coordenadas",
         "coordinatesDecimal": "Decimal",
-        "coordinatesDegrees": "Graus"
+        "coordinatesDegrees": "Graus",
+        "unsafeLogout": "Your reports are not synced!",
+        "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost."
     },
     "report": {
         "title": "Relatório",

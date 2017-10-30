@@ -483,13 +483,15 @@
         "connectionRequired": "Tienes que tener una conexión a Internet",
         "coordinatesFormat": "Coordina el formato",
         "coordinatesDecimal": "Decimal",
-        "coordinatesDegrees": "Grados"
+        "coordinatesDegrees": "Grados",
+        "unsafeLogout": "Your reports are not synced!",
+        "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost."
     },
     "report": {
         "title": "Informe",
         "plural": "Informes",
         "selected": "Informe seleccionado",
-        "area": "Informar área",
+        "area": "Area del informe",
         "takePicture": "Toma una foto",
         "choosePicture": "Por favor, haz o elige una foto",
         "datePlaceholder": "Seleccione una fecha",

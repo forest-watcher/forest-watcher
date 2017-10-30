@@ -18,6 +18,14 @@ class Setup extends Component {
     navBarHidden: true
   };
 
+  static propTypes = {
+    navigator: PropTypes.object.isRequired,
+    setShowLegend: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
+    initSetup: PropTypes.func.isRequired,
+    goBackDisabled: PropTypes.bool
+  };
+
   state = {
     page: 0
   };
@@ -92,13 +100,5 @@ class Setup extends Component {
     );
   }
 }
-
-Setup.propTypes = {
-  navigator: PropTypes.object.isRequired,
-  setShowLegend: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired,
-  initSetup: PropTypes.func.isRequired,
-  goBackDisabled: PropTypes.bool
-};
 
 export default Setup;
