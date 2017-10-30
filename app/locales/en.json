@@ -530,7 +530,7 @@
             "updated": "Update Completed!"
         },
         "subtitle": {
-            "wifi": "This process can take some minutes",
+            "wifi": "This process can take several minutes",
             "cellular": "Do you want to update the data and maps over cellular data?",
             "offline": "You need an internet connection to update your data",
             "updated": "Data was successfully updated!"

@@ -626,7 +626,7 @@ class Map extends Component {
     if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
     const isIOS = Platform.OS === 'ios';
     const ctxLayerKey = isIOS && contextualLayer ? `contextualLayerElement-${contextualLayer.name}` : 'contextualLayerElement';
-    const clustersKey = isIOS && markers ? `clustersElement-${markers.length}` : 'clustersElement';
+    const clustersKey = markers ? `clustersElement-${markers.length}` : 'clustersElement';
     const keyRand = isIOS ? Math.floor((Math.random() * 100) + 1) : '';
 
     // Map elements

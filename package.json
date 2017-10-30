@@ -1,6 +1,6 @@
 {
   "name": "ForestWatcher",
-  "version": "1.0.0",
+  "version": "1.0.7",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
@@ -16,7 +16,7 @@
     "@mapbox/geo-viewport": "0.2.2",
     "@mapbox/geojson-area": "0.2.2",
     "@mapbox/tilebelt": "github:Vizzuality/tilebelt",
-    "redux-offline": "github:redux-offline/redux-offline#fix/netInfo-squashed-on-rehydrate",
+    "@redux-offline/redux-offline": "2.1.0",
     "boundingbox": "0.1.0",
     "buffer": "5.0.5",
     "d3-dsv": "1.0.5",
@@ -36,7 +36,7 @@
     "react-native-datepicker": "1.4.5",
     "react-native-fetch-blob": "0.10.4",
     "react-native-google-analytics-bridge": "5.0.0",
-    "react-native-google-signin": "0.10.0",
+    "react-native-google-signin": "github:ianlin/react-native-google-signin#check-connection-before-signout",
     "react-native-gps": "github:Vizzuality/react-native-gps",
     "react-native-hyperlink": "0.0.10",
     "react-native-i18n": "1.0.0",

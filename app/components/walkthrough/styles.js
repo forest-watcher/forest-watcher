@@ -4,21 +4,25 @@ import { StyleSheet, Platform } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Theme.background.main,
-    justifyContent: 'flex-end'
+    width: Theme.screen.width,
+    height: Theme.screen.height,
+    backgroundColor: '#f8f8f8',
+    position: 'relative'
   },
   slideContainer: {
-    height: Theme.screen.height,
     flex: 1,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   topSection: {
-    flex: 1
+    maxHeight: 140,
+    marginBottom: 40
   },
   textsContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
     flex: 1,
+    alignItems: 'center',
     justifyContent: 'center'
   },
   title: {
@@ -36,13 +40,19 @@ export default StyleSheet.create({
     textAlign: 'center'
   },
   phoneContainer: {
+    flex: 1,
     width: Theme.screen.width,
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   phoneImage: {
-    width: 259,
-    height: 424,
-    borderRadius: 8
+    width: '100%',
+    height: '100%',
+    maxWidth: Theme.screen.width > 300 ? 250 : 270,
+    maxHeight: 400,
+    borderRadius: 8,
+    marginTop: 80,
+    marginBottom: 128
   },
   footer: {
     position: 'absolute',

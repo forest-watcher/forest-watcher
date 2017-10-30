@@ -1,5 +1,33 @@
 # Forest Watcher Changelog
 
+## [v1.0.7]
+- Fix form crash on empty or invalid language label.
+- Decrease the retries policy to provide feedback sooner to the user.
+
+## [v1.0.6]
+- Fix logging out crashes the app.
+- Dismiss login user selector won't throw an error anymore.
+- Fix reported alerts changed position when zoom changed.
+
+## [v1.0.5]
+- Updates android manifest to make camera feature optional.
+- Updates texts.
+- Fixes FAQ questions not opening.
+
+## [v1.0.4]
+- Use iPhone frame in walkthrough images.
+
+## [v1.0.3] - 2017-09-13
+- Fix walkthrough android images
+
+## [v1.0.2] - 2017-09-12
+- Fix images walkthrough in large screens
+
+## [v1.0.1] - 2017-09-11
+- Updates default report template endpoint to use always a generic endpoint.
+- Adds backwards compatibility to areas with deleted templates.
+- Replaces logo.
+
 ## [v1.0.0] - 2017-09-08
 - Production ready!
 

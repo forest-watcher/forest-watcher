@@ -19,11 +19,11 @@ import styles from './styles';
 
 const backIcon = require('assets/previous.png');
 const nextIcon = require('assets/next.png');
-const phone1 = require('assets/walkthrough-phone1.png');
-const phone2 = require('assets/walkthrough-phone2.png');
-const phone3 = require('assets/walkthrough-phone3.png');
-const phone4 = require('assets/walkthrough-phone4.png');
-const phone5 = require('assets/walkthrough-phone5.png');
+const phone1 = require('assets/phone1.png');
+const phone2 = require('assets/phone2.png');
+const phone3 = require('assets/phone3.png');
+const phone4 = require('assets/phone4.png');
+const phone5 = require('assets/phone5.png');
 
 const SLIDES = [
   {
@@ -107,6 +107,9 @@ class Walkthrough extends PureComponent {
     const { page } = this.state;
     return (
       <View style={styles.container}>
+        <TouchableOpacity onPress={this.goToLogin}>
+          <Text style={styles.skipButton}>{capitalize(i18n.t('walkthrough.skip'))}</Text>
+        </TouchableOpacity>
         <StepsSlider
           page={page}
           barStyle={{ height: 64 }}
@@ -117,10 +120,7 @@ class Walkthrough extends PureComponent {
           {SLIDES.map((slide, index) =>
             (
               <View style={styles.slideContainer} key={`slide-${index}`}>
-                <View style={styles.topSection}>
-                  <TouchableOpacity onPress={this.goToLogin}>
-                    <Text style={styles.skipButton}>{capitalize(i18n.t('walkthrough.skip'))}</Text>
-                  </TouchableOpacity>
+                <View style={[styles.topSection, { maxHeight: slide.textOnly ? undefined : 140 }]}>
                   <View style={styles.textsContainer}>
                     {slide.title &&
                       <Text style={styles.title}>{slide.title}</Text>
@@ -134,9 +134,8 @@ class Walkthrough extends PureComponent {
                 </View>
                 {!slide.textOnly &&
                   <View style={styles.phoneContainer}>
-                    {slide.image ?
-                      <Image style={styles.phoneImage} source={slide.image} />
-                      : <View style={[styles.phoneImage, { backgroundColor: slide.color }]} />
+                    {slide.image &&
+                      <Image style={styles.phoneImage} resizeMode="contain" source={slide.image} />
                     }
                   </View>
                 }
@@ -144,7 +143,7 @@ class Walkthrough extends PureComponent {
               </View>
             ))
           }
-          <View />
+          <View>{/* This view is required to force the slider to navigate to login on the last slide */}</View>
         </StepsSlider>
         <View style={[styles.footer, page > 0 ? { justifyContent: 'space-between' } : { justifyContent: 'flex-end' }]}>
           {page > 0 && // Buttons are placed here because inside the StepsSlider the events wont trigger

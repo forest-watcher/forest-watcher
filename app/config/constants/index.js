@@ -1,7 +1,9 @@
 import Config from 'react-native-config';
 
 export const APP_NAME = 'Forest Watcher';
-
+// codes that doesn't mean an error from here
+// https://github.com/devfd/react-native-google-signin/issues/281
+export const DISMISS_LOGIN_CODES = [8, 12501];
 export const AREAS = {
   maxSize: 1500000000, // square meters
   alertRange: { // days from to get data
