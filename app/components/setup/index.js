@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
   View
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import StepsSlider from 'components/common/steps-slider';
 import SetupCountry from 'containers/setup/country';
@@ -20,7 +19,8 @@ class Setup extends Component {
   };
 
   state = {
-    page: 0
+    page: 0,
+    hideIndex: false
   };
 
   componentWillMount() {
@@ -60,8 +60,12 @@ class Setup extends Component {
     });
   }
 
+  hideIndex = () => this.setState({ hideIndex: true });
+
+  showIndex = () => this.setState({ hideIndex: false });
+
   render() {
-    const { page } = this.state;
+    const { page, hideIndex } = this.state;
     const showBack = !this.props.goBackDisabled || page > 0;
     const onBackPress = this.state.page === 0
       ? this.goBack
@@ -80,7 +84,7 @@ class Setup extends Component {
           navigator={this.props.navigator}
         />
         <StepsSlider
-          hideIndex={page === 2}
+          hideIndex={hideIndex}
           page={page}
           onChangeTab={this.updatePage}
         >
@@ -88,9 +92,11 @@ class Setup extends Component {
           <SetupBoundaries
             onNextPress={this.goToNextPage}
           />
-          <KeyboardAwareScrollView>
-            <SetupOverView onNextPress={this.onFinishSetup} />
-          </KeyboardAwareScrollView>
+          <SetupOverView
+            onNextPress={this.onFinishSetup}
+            onTextFocus={this.hideIndex}
+            onTextBlur={this.showIndex}
+          />
         </StepsSlider>
       </View>
     );
