@@ -36,7 +36,7 @@
     "react-native-datepicker": "1.4.5",
     "react-native-fetch-blob": "0.10.4",
     "react-native-google-analytics-bridge": "5.0.0",
-    "react-native-google-signin": "github:ianlin/react-native-google-signin#check-connection-before-signout",
+    "react-native-google-signin": "github:Vizzuality/react-native-google-signin#v0.11.1-FW",
     "react-native-gps": "github:Vizzuality/react-native-gps#0.1.2-FW",
     "react-native-hyperlink": "0.0.10",
     "react-native-i18n": "1.0.0",
