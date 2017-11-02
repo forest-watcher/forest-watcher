@@ -483,7 +483,9 @@
         "connectionRequired": "You need an internet connection",
         "coordinatesFormat": "Coordinates Format",
         "coordinatesDecimal": "Decimal",
-        "coordinatesDegrees": "Degrees"
+        "coordinatesDegrees": "Degrees",
+        "unsafeLogout": "Your reports are not synced!",
+        "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost."
     },
     "report": {
         "title": "Report",

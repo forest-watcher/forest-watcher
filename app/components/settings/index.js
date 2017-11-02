@@ -34,7 +34,8 @@ class Settings extends Component {
     areas: PropTypes.any,
     navigator: PropTypes.object.isRequired,
     logout: PropTypes.func.isRequired,
-    isConnected: PropTypes.bool.isRequired
+    isConnected: PropTypes.bool.isRequired,
+    isUnsafeLogout: PropTypes.bool.isRequired
   };
 
   componentDidMount() {
@@ -60,10 +61,26 @@ class Settings extends Component {
   }
 
   onLogoutPress = () => {
-    this.props.logout();
-    this.props.navigator.resetTo({
-      screen: 'ForestWatcher.Home'
-    });
+    const { logout, navigator, isUnsafeLogout } = this.props;
+    const proceedWithLogout = () => {
+      logout();
+      navigator.resetTo({
+        screen: 'ForestWatcher.Home'
+      });
+    };
+    if (isUnsafeLogout) {
+      Alert.alert(
+        I18n.t('settings.unsafeLogout'),
+        I18n.t('settings.unsavedDataLost'),
+        [
+          { text: 'OK', onPress: proceedWithLogout },
+          {
+            text: 'Cancel',
+            style: 'cancel'
+          }
+        ]
+      );
+    } else proceedWithLogout();
   }
 
   onPressAddArea = () => {
