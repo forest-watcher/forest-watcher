@@ -19,7 +19,8 @@ class Setup extends Component {
   };
 
   state = {
-    page: 0
+    page: 0,
+    hideIndex: false
   };
 
   componentWillMount() {
@@ -59,8 +60,12 @@ class Setup extends Component {
     });
   }
 
+  hideIndex = () => this.setState({ hideIndex: true });
+
+  showIndex = () => this.setState({ hideIndex: false });
+
   render() {
-    const { page } = this.state;
+    const { page, hideIndex } = this.state;
     const showBack = !this.props.goBackDisabled || page > 0;
     const onBackPress = this.state.page === 0
       ? this.goBack
@@ -79,14 +84,19 @@ class Setup extends Component {
           navigator={this.props.navigator}
         />
         <StepsSlider
-          page={this.state.page}
+          hideIndex={hideIndex}
+          page={page}
           onChangeTab={this.updatePage}
         >
           <SetupCountry onNextPress={this.goToNextPage} />
           <SetupBoundaries
             onNextPress={this.goToNextPage}
           />
-          <SetupOverView onNextPress={this.onFinishSetup} />
+          <SetupOverView
+            onNextPress={this.onFinishSetup}
+            onTextFocus={this.hideIndex}
+            onTextBlur={this.showIndex}
+          />
         </StepsSlider>
       </View>
     );
