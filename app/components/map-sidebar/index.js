@@ -59,7 +59,7 @@ const MapSidebar = (props) => (
               value={layer.id === props.activeLayer}
               onValueChange={value => props.onLayerToggle(layer.id, value)}
             >
-              <Text>{layer.name}</Text>
+              <Text>{i18n.t(layer.name)}</Text>
             </Row>
           ))
         }

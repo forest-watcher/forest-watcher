@@ -540,5 +540,14 @@
         "ok": "ok",
         "skip": "skip",
         "update": "update"
+    },
+    "layers": {
+        "protectedAreas": "Protected Areas",
+        "treeCoverLoss2014": "Tree Cover Loss (2014)",
+        "treeCoverLoss2015": "Tree Cover Loss (2015)",
+        "oilPalm": "Oil Palm",
+        "mangedForests": "Managed Forests",
+        "woodFiber": "Wood Fiber",
+        "mining": "Mining"
     }
 }

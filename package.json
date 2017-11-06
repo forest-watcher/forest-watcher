@@ -16,7 +16,7 @@
     "@mapbox/geo-viewport": "0.2.2",
     "@mapbox/geojson-area": "0.2.2",
     "@mapbox/tilebelt": "github:Vizzuality/tilebelt#v1.0.2-FW",
-    "@redux-offline/redux-offline": "2.1.0",
+    "@redux-offline/redux-offline": "^2.2.0",
     "boundingbox": "0.1.0",
     "buffer": "5.0.5",
     "d3-dsv": "1.0.5",
