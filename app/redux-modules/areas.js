@@ -120,7 +120,7 @@ export default function reducer(state = initialState, action) {
     }
     case SET_AREA_IMAGE_REQUEST: {
       const area = action.payload;
-      const pendingData = { ...state.pendingData, image: { ...state.pendingData.images, [area.id]: true } };
+      const pendingData = { ...state.pendingData, image: { ...state.pendingData.image, [area.id]: true } };
       return { ...state, pendingData };
     }
     case SET_AREA_IMAGE_COMMIT: {
