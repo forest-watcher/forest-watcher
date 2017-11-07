@@ -542,12 +542,12 @@
         "update": "atualizar"
     },
     "layers": {
-        "protectedAreas": "Protected Areas",
-        "treeCoverLoss2014": "Tree Cover Loss (2014)",
-        "treeCoverLoss2015": "Tree Cover Loss (2015)",
-        "oilPalm": "Oil Palm",
-        "mangedForests": "Managed Forests",
-        "woodFiber": "Wood Fiber",
-        "mining": "Mining"
+        "protectedAreas": "Áreas protegidas",
+        "treeCoverLoss2014": "Área desflorestada (2014)",
+        "treeCoverLoss2015": "Área desflorestada (2015)",
+        "oilPalm": "Óleo de palma",
+        "mangedForests": "Concessões florestais",
+        "woodFiber": "Fibra de madeira",
+        "mining": "Zona de minas"
     }
 }
