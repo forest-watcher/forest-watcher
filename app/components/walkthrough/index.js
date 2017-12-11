@@ -19,11 +19,11 @@ import styles from './styles';
 
 const backIcon = require('assets/previous.png');
 const nextIcon = require('assets/next.png');
-const phone1 = require('assets/phone1.png');
-const phone2 = require('assets/phone2.png');
-const phone3 = require('assets/phone3.png');
-const phone4 = require('assets/phone4.png');
-const phone5 = require('assets/phone5.png');
+const phone1 = require('assets/phone1.jpg');
+const phone2 = require('assets/phone2.jpg');
+const phone3 = require('assets/phone3.jpg');
+const phone4 = require('assets/phone4.jpg');
+const phone5 = require('assets/phone5.jpg');
 
 const SLIDES = [
   {
