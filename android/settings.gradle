@@ -1,4 +1,8 @@
 rootProject.name = 'ForestWatcher'
+include ':react-native-cookies'
+project(':react-native-cookies').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-cookies/android')
+include ':react-native-i18n'
+project(':react-native-i18n').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-i18n/android')
 
 include ':app'
 include ':react-native-navigation'
@@ -9,8 +13,6 @@ include ':react-native-sensor-manager'
 project(':react-native-sensor-manager').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-sensor-manager/android')
 include ':react-native-fetch-blob'
 project(':react-native-fetch-blob').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fetch-blob/android')
-include ':react-native-i18n'
-project(':react-native-i18n').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-i18n/android')
 include ':react-native-config'
 project(':react-native-config').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-config/android')
 include ':react-native-maps'
@@ -23,7 +25,5 @@ include ':react-native-google-signin'
 project(':react-native-google-signin').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-google-signin/android')
 include ':react-native-zip-archive'
 project(':react-native-zip-archive').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-zip-archive/android')
-include ':react-native-cookies'
-project(':react-native-cookies').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-cookies/android')
 include ':react-native-image-picker'
 project(':react-native-image-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-picker/android')
