@@ -6,7 +6,7 @@ export default StyleSheet.create({
     flex: 1,
     width: Theme.screen.width,
     height: Theme.screen.height,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: Theme.background.main,
     position: 'relative'
   },
   slideContainer: {
@@ -52,7 +52,7 @@ export default StyleSheet.create({
     maxHeight: 400,
     borderRadius: 8,
     marginTop: 80,
-    marginBottom: 128
+    marginBottom: 102
   },
   footer: {
     position: 'absolute',

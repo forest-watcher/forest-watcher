@@ -14,6 +14,8 @@ import styles from './styles';
 
 const closeIcon = require('assets/close.png');
 
+const getLayerName = name => ((name.match(/^layers\./) !== null) ? i18n.t(name) : name);
+
 const MapSidebar = (props) => (
   <View
     style={styles.container}
@@ -59,7 +61,7 @@ const MapSidebar = (props) => (
               value={layer.id === props.activeLayer}
               onValueChange={value => props.onLayerToggle(layer.id, value)}
             >
-              <Text>{layer.name}</Text>
+              <Text>{getLayerName(layer.name)}</Text>
             </Row>
           ))
         }

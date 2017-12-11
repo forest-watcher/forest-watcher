@@ -483,13 +483,15 @@
         "connectionRequired": "Tienes que tener una conexión a Internet",
         "coordinatesFormat": "Coordina el formato",
         "coordinatesDecimal": "Decimal",
-        "coordinatesDegrees": "Grados"
+        "coordinatesDegrees": "Grados",
+        "unsafeLogout": "Your reports are not synced!",
+        "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost."
     },
     "report": {
         "title": "Informe",
         "plural": "Informes",
         "selected": "Informe seleccionado",
-        "area": "Informar área",
+        "area": "Area del informe",
         "takePicture": "Toma una foto",
         "choosePicture": "Por favor, haz o elige una foto",
         "datePlaceholder": "Seleccione una fecha",
@@ -538,5 +540,14 @@
         "ok": "de acuerdo",
         "skip": "saltar",
         "update": "actualizar"
+    },
+    "layers": {
+        "protectedAreas": "Áreas protegidas",
+        "treeCoverLoss2014": "Pérdida de cobertura arbórea (2014)",
+        "treeCoverLoss2015": "Pérdida de cobertura arbórea (2015)",
+        "oilPalm": "Aceite de palma",
+        "mangedForests": "Concesiones forestales",
+        "woodFiber": "Fibra de madera",
+        "mining": "Minería"
     }
 }

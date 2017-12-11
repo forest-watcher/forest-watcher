@@ -54,15 +54,7 @@ export default StyleSheet.create({
     height: 64,
     marginTop: 16,
     paddingLeft: 8,
-    paddingRight: 8,
-    ...Platform.select({
-      ios: {
-        left: 0,
-        right: 0,
-        bottom: 40,
-        position: 'absolute'
-      }
-    })
+    paddingRight: 8
   },
   buttonPos: {
     flex: 1,

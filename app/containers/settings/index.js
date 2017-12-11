@@ -1,10 +1,12 @@
 import { connect } from 'react-redux';
+import { isUnsafeLogout } from 'helpers/user';
 import { logout } from 'redux-modules/user';
 
 import Settings from 'components/settings';
 
 function mapStateToProps(state) {
   return {
+    isUnsafeLogout: isUnsafeLogout(state),
     user: state.user.data,
     loggedIn: state.user.loggedIn,
     areas: state.areas.data,
@@ -12,11 +14,8 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch, { navigation }) {
+function mapDispatchToProps(dispatch) {
   return {
-    navigate: (routeName, params) => {
-      navigation.navigate(routeName, params);
-    },
     logout: () => {
       dispatch(logout());
     }

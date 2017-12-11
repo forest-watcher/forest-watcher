@@ -483,7 +483,9 @@
         "connectionRequired": "Vous avez besoin d'une connexion à internet",
         "coordinatesFormat": "Coordonne le format",
         "coordinatesDecimal": "Décimal",
-        "coordinatesDegrees": "Degrés"
+        "coordinatesDegrees": "Degrés",
+        "unsafeLogout": "Your reports are not synced!",
+        "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost."
     },
     "report": {
         "title": "Rapport",
@@ -538,5 +540,14 @@
         "ok": "ok",
         "skip": "passer",
         "update": "mettre à jour"
+    },
+    "layers": {
+        "protectedAreas": "Zones protégées",
+        "treeCoverLoss2014": "Perte de couverture forestière (2014)",
+        "treeCoverLoss2015": "Perte de couverture forestière (2015)",
+        "oilPalm": "Huile de palme",
+        "mangedForests": "Concessions forestières",
+        "woodFiber": "Fibre de bois",
+        "mining": "Exploitation minière"
     }
 }
