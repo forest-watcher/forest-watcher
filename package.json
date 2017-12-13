@@ -4,13 +4,21 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "start:clean": "npm cache clean && npm run clear && npm run start -- --reset-cache",
+    "clear:cache": "rm -rf $TMPDIR/react-native-packager-cache-* && rm -rf $TMPDIR/metro-bundler-cache-*",
+    "clear:modules": "rm -rf /node_modules && npm i",
+    "clear": "npm run clear:cache && npm run clear:modules",
     "lint": "eslint .",
     "test": "jest",
     "lint-staged": "lint-staged",
     "precommit": "npm run lint-staged",
     "transifex:push": "node transifex/transifex-push.js",
     "transifex:pull": "node transifex/transifex-pull.js",
-    "preinstall": "source no-package-lock.sh"
+    "preinstall": "source no-package-lock.sh",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "release:android": "cd android && ./gradlew assembleRelease",
+    "release:ios": "react-native run-ios --configuration Release"
   },
   "dependencies": {
     "@mapbox/geo-viewport": "0.2.2",
