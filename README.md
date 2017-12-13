@@ -45,6 +45,14 @@ pod install
 
 ## Running the application
 
+### Easy way
+Open simulators and
+```npm run ios|android```
+
+### Troubleshoot
+error: could not install *smartsocket* listener: Address already in use ADB server didn't ACK * failed to start daemon *
+https://github.com/facebook/react-native/issues/8401#issuecomment-344628512
+
 #### iOS Environment
 
 1. Open XCode
