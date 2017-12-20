@@ -75,10 +75,10 @@ export const STATUS = {
 };
 
 export const REACH = {
-  WIFI: ['WIFI'],
-  MOBILE: ['MOBILE', 'MOBILE_DUN', 'MOBILE_HIPRI', 'MOBILE_MMS', 'MOBILE_SUPL', 'CELL'],
-  OTHER: ['BLUETOOTH', 'DUMMY', 'ETHERNET', 'VPN', 'WIMAX'],
-  NONE: ['NONE', 'UNKNOWN']
+  WIFI: ['wifi'],
+  MOBILE: ['cellular'],
+  OTHER: ['bluetooth', 'ethernet', 'wimax'],
+  NONE: ['none', 'unknown']
 };
 
 export const DATASETS = {

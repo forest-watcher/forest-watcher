@@ -76,8 +76,8 @@ DatasetOptions.propTypes = {
     slug: PropTypes.string,
     cache: PropTypes.bool,
     startDate: PropTypes.oneOf(
-      React.PropTypes.string,
-      React.PropTypes.number
+      PropTypes.string,
+      PropTypes.number
     )
   }),
   updateDate: PropTypes.func.isRequired

@@ -109,7 +109,8 @@ export function loginGoogle() {
 export function logout() {
   return (dispatch, state) => {
     dispatch({ type: RESET_STATE });
-    CookieManager.clearAll((err) => (err && console.warn(err)));
+    CookieManager.clearAll()
+      .then((res) => (console.info(res)));
     if (state().user.socialNetwork === 'google') {
       dispatch({ type: LOGOUT_REQUEST });
 
