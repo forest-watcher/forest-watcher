@@ -186,7 +186,7 @@ class Map extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { clusters, area, setActiveAlerts, areaCoordinates } = this.props;
-    if (this.map && (clusters === null || area.id !== prevProps.area.id
+    if (this.map && area && (clusters === null || area.id !== prevProps.area.id
       || area.dataset.startDate !== prevProps.area.dataset.startDate)) {
       setActiveAlerts();
     }
