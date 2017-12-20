@@ -6,7 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "start:clean": "npm cache clean && npm run clear && npm run start -- --reset-cache",
     "clear:cache": "rm -rf $TMPDIR/react-native-packager-cache-* && rm -rf $TMPDIR/metro-bundler-cache-*",
-    "clear:modules": "rm -rf /node_modules && npm i",
+    "clear:modules": "rm -rf node_modules/ && npm i",
     "clear": "npm run clear:cache && npm run clear:modules",
     "lint": "eslint .",
     "test": "jest",
