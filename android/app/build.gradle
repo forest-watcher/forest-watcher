@@ -98,12 +98,11 @@ def enableProguardInReleaseBuilds = false
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
-
     defaultConfig {
         applicationId "com.forestwatcher"
-        minSdkVersion 17
+        minSdkVersion 21
         targetSdkVersion 22
-        versionCode 16
+        versionCode 17
         versionName "1.0.8"
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -149,7 +148,7 @@ android {
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
-            def versionCodes = ["armeabi-v7a":1, "x86":2]
+            def versionCodes = ["armeabi-v7a": 1, "x86": 2]
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
@@ -162,29 +161,29 @@ android {
 dependencies {
     compile project(':react-native-cookies')
     compile project(':react-native-i18n')
-    compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:23.0.1"
-    compile "com.facebook.react:react-native:+"  // From node_modules
-
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.facebook.react:react-native:+'
+    // From node_modules
     compile project(':react-native-zip-archive')
-    compile(project(':realm')){
-      exclude group: 'com.google.android.gms'
+    compile(project(':realm')) {
+        exclude group: 'com.google.android.gms'
     }
-    compile(project(':react-native-google-signin')){
-      exclude group: 'com.google.android.gms'
+    compile(project(':react-native-google-signin')) {
+        exclude group: 'com.google.android.gms'
     }
-    compile (project(':react-native-google-analytics-bridge')){
-      exclude group: 'com.google.android.gms'
+    compile(project(':react-native-google-analytics-bridge')) {
+        exclude group: 'com.google.android.gms'
     }
     compile project(':react-native-sensor-manager')
     compile project(':react-native-image-picker')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-config')
     compile project(':RNLocation')
-    compile fileTree(dir: "libs", include: ["*.jar"])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':react-native-navigation')
-    compile(project(':react-native-maps')){
-      exclude group: 'com.google.android.gms'
+    compile(project(':react-native-maps')) {
+        exclude group: 'com.google.android.gms'
     }
     compile 'com.google.android.gms:play-services:10.2.1'
 }
