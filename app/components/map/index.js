@@ -152,7 +152,7 @@ class Map extends Component {
       StatusBar.setBarStyle('light-content');
     }
 
-    Timer.setTimeout(this, 'setAlerts', this.props.setActiveAlerts, 300);
+    Timer.setTimeout(this, 'setAlerts', this.props.setActiveAlerts, 500);
     this.geoLocate();
   }
 
@@ -185,12 +185,12 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { clusters, area, setActiveAlerts, areaCoordinates } = this.props;
+    const { clusters, datasetSlug, area, setActiveAlerts, areaCoordinates } = this.props;
     if (this.map && area && (clusters === null || area.id !== prevProps.area.id
       || area.dataset.startDate !== prevProps.area.dataset.startDate)) {
       setActiveAlerts();
     }
-    if (clusters !== null) {
+    if (clusters !== null || !datasetSlug) {
       this.renderMap();
     }
     if (this.state.renderMap) {
