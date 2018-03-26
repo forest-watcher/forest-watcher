@@ -5,7 +5,6 @@ import com.microsoft.codepush.react.ReactInstanceHolder;
 import com.microsoft.codepush.react.CodePush;
 import com.psykar.cookiemanager.CookieManagerPackage;
 import io.realm.react.RealmReactPackage;
-import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.sensormanager.SensorManagerPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -44,7 +43,6 @@ public class MainApplication extends NavigationApplication implements ReactInsta
     // Add additional packages you require here
     // No need to add RnnPackage and MainReactPackage
     return Arrays.<ReactPackage>asList(
-      new RNGoogleSigninPackage(),
       new GoogleAnalyticsBridgePackage(),
       new SensorManagerPackage(),
       new RNFetchBlobPackage(),

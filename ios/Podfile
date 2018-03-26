@@ -6,7 +6,7 @@ platform :ios, '8.0'
 target 'ForestWatcher' do
 
   pod 'GoogleMaps'
-  pod 'Google/SignIn'
+  pod 'AppAuth'
 
   # pod 'CodePush', :path => '../node_modules/react-native-code-push'
 

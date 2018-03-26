@@ -10,12 +10,12 @@
 #import "AppDelegate.h"
 #import <CodePush/CodePush.h>
 #import "RCCManager.h"
+#import "AppAuth.h"
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import "ReactNativeConfig.h"
 #import <GoogleMaps/GoogleMaps.h>
-#import <RNGoogleSignin/RNGoogleSignin.h>
 
 @implementation AppDelegate
 
@@ -41,10 +41,14 @@
   return YES;
 }
 
-  - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-
-  return [RNGoogleSignin application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+- (BOOL)application:(UIApplication *)app
+            openURL:(NSURL *)url
+            options:(NSDictionary<NSString *, id> *)options {
+  if ([_currentAuthorizationFlow resumeAuthorizationFlowWithURL:url]) {
+    _currentAuthorizationFlow = nil;
+    return YES;
+  }
+  return NO;
 }
 
 @end

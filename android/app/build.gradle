@@ -111,6 +111,9 @@ android {
         }
         resValue "string", "build_config_package", "com.forestwatcher"
         multiDexEnabled true
+        manifestPlaceholders = [
+            'appAuthRedirectScheme': 'com.forestwatcher'
+        ]
     }
     dexOptions {
         preDexLibraries false
@@ -162,6 +165,7 @@ android {
 
 dependencies {
     compile project(':react-native-code-push')
+    compile project(':react-native-app-auth')
     compile project(':react-native-cookies')
     compile project(':react-native-i18n')
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -170,9 +174,6 @@ dependencies {
     // From node_modules
     compile project(':react-native-zip-archive')
     compile(project(':realm')) {
-        exclude group: 'com.google.android.gms'
-    }
-    compile(project(':react-native-google-signin')) {
         exclude group: 'com.google.android.gms'
     }
     compile(project(':react-native-google-analytics-bridge')) {
@@ -189,6 +190,7 @@ dependencies {
         exclude group: 'com.google.android.gms'
     }
     compile 'com.google.android.gms:play-services:10.2.1'
+    compile "com.android.support:appcompat-v7:25.3.1"
 }
 
 // Run this once to be able to run the application with BUCK

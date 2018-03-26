@@ -1,7 +1,8 @@
 import { RESET_STATE } from '@redux-offline/redux-offline/lib/constants';
+import { authorize, revoke } from 'react-native-app-auth';
 import Config from 'react-native-config';
-import GoogleOAuth from 'config/oAuth/GoogleOAuth';
 import { DISMISS_LOGIN_CODES } from 'config/constants/index';
+
 
 const CookieManager = require('react-native-cookies');
 
@@ -20,6 +21,7 @@ const initialState = {
   data: {},
   loggedIn: false,
   token: null,
+  refreshToken: null,
   socialNetwork: null,
   logSuccess: true,
   synced: false,
@@ -80,23 +82,30 @@ export function setLoginStatus(status) {
 
 export function loginGoogle() {
   return (dispatch) => {
-    GoogleOAuth.login()
-    .then((user) => {
-      fetch(`${Config.API_AUTH}/auth/google/token?access_token=${user.accessToken}`)
-        .then(response => {
-          if (response.ok) return response.json();
-          throw new Error(response.statusText);
-        })
-        .then(data => dispatch({
-          type: SET_LOGIN_STATUS,
-          payload: {
-            socialNetwork: 'google',
-            loggedIn: true,
-            token: data.token
-          }
-        }))
-        .catch(() => dispatch(logout()));
-    })
+    const config = {
+      issuer: 'https://accounts.google.com',
+      clientId: Config.LOGIN_GOOGLE_CLIENT_ID_IOS,
+      redirectUrl: 'com.googleusercontent.apps.904166352461-h7nutpto3o0s8e5gi000shub8231s4eu:/oauth2redirect/google',
+      scopes: ['openid', 'profile']
+    };
+    authorize(config)
+      .then((user) => {
+        fetch(`${Config.API_AUTH}/auth/google/token?access_token=${user.accessToken}`)
+          .then(response => {
+            if (response.ok) return response.json();
+            throw new Error(response.statusText);
+          })
+          .then(data => dispatch({
+            type: SET_LOGIN_STATUS,
+            payload: {
+              socialNetwork: 'google',
+              loggedIn: true,
+              token: data.token,
+              refreshToken: user.refreshToken
+            }
+          }))
+          .catch(() => dispatch(logout()));
+      })
       .catch(({ code }) => dispatch({
         type: SET_LOGIN_STATUS,
         payload: {
@@ -107,16 +116,20 @@ export function loginGoogle() {
 }
 
 export function logout() {
-  return (dispatch, state) => {
+  return async (dispatch, state) => {
     dispatch({ type: RESET_STATE });
     CookieManager.clearAll()
       .then((res) => (console.info(res)));
     if (state().user.socialNetwork === 'google') {
       dispatch({ type: LOGOUT_REQUEST });
-
-      return GoogleOAuth.logout()
-        .then(() => dispatch({ type: LOGOUT_COMMIT }))
-        .catch(error => dispatch({ type: LOGOUT_ROLLBACK, payload: error }));
+      const config = {
+        issuer: 'https://accounts.google.com',
+        clientId: Config.LOGIN_GOOGLE_CLIENT_ID_IOS,
+        redirectUrl: 'com.googleusercontent.apps.904166352461-h7nutpto3o0s8e5gi000shub8231s4eu:/oauth2redirect/google',
+        scopes: ['openid', 'profile']
+      };
+      const tokenToRevoke = state().user.refreshToken;
+      return await revoke(config, { tokenToRevoke });
     }
 
     dispatch({ type: LOGOUT_REQUEST });

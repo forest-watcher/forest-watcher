@@ -4609,10 +4609,6 @@ react-native-google-analytics-bridge@5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/react-native-google-analytics-bridge/-/react-native-google-analytics-bridge-5.3.0.tgz#c94800936a51054e8aae5c6e69c4a07b8fe775eb"
 
-"react-native-google-signin@github:Vizzuality/react-native-google-signin":
-  version "0.11.0"
-  resolved "https://codeload.github.com/Vizzuality/react-native-google-signin/tar.gz/799bb1a2201c0c101892ef1227dcc03aea3adb0b"
-
 "react-native-gps@github:Vizzuality/react-native-gps":
   version "0.1.2"
   resolved "https://codeload.github.com/Vizzuality/react-native-gps/tar.gz/9065c4f66e32b5b0f837bdeb583e1f6f2bb59c28"
