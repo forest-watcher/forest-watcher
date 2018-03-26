@@ -1,8 +1,13 @@
-<p align="center"><img src="https://raw.githubusercontent.com/Vizzuality/forest-watcher/master/fw-logo.png" width=224></p>
-<h2 align="center">Forest-Watcher</h2>
-<p>
+# Forest Watcher
+> Delivering real-time data to frontline forest guardians.
+<p align="center"><img src="screen-shot.png" height=400></p>
+<br>
 <br>
 
-> Delivering real-time data to frontline forest guardians.
+- [Documentation](https://vizzuality.gitbooks.io/forest-watcher/content/)
+- [Changelog](https://github.com/Vizzuality/forest-watcher/blob/master/CHANGELOG.md)
+- [Read more](http://vizzuality.com/projects/forest-watcher)
+## License
+MIT License
 
-[Documentation](https://vizzuality.gitbooks.io/forest-watcher/content/)
+Copyright (c) 2016 Vizzuality
