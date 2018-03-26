@@ -1,79 +1,13 @@
-# Forest Watcher 2.0
+# Forest Watcher
+> Delivering real-time data to frontline forest guardians.
+<p align="center"><img src="screen-shot.png" height=400></p>
+<br>
+<br>
 
-Forest Watcher is a mobile application that helps people report or verify deforestation activity in the field using their smartphone.
+- [Documentation](https://vizzuality.gitbooks.io/forest-watcher/content/)
+- [Changelog](https://github.com/Vizzuality/forest-watcher/blob/master/CHANGELOG.md)
+- [Read more](http://vizzuality.com/projects/forest-watcher)
+## License
+MIT License
 
-## Set up
-Before installing the dependencies to run the app, you must install the following depending on the environment you'll work on:
-
-#### iOS Environment
-* XCode [How to install](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
-* XCode Command Line tools:
-```bash
-xcode-select --install
-```
-* CocoaPods [How to install](https://cocoapods.org/)
-
-#### Android Environment
-* [Android Studio](https://developer.android.com/studio/index.html)
-* [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-
-## Installing dependencies
-
-- Homebrew [How to install](http://brew.sh/)
-- Node.js:
-```bash
-brew install node
-```
-- Watchman:
-```bash
-brew install watchman
-```
-- The React Native CLI:
-```bash
-npm install -g react-native-cli
-```
-- Project dependencies
-```bash
-npm install
-```
-- For **iOS only**
-```bash
-cd /ios/
-pod install
-```
-- Create the .env file from .env.sample
-
-## Running the application
-
-### Easy way
-Open simulators and
-```npm run ios|android```
-
-### Troubleshoot
-error: could not install *smartsocket* listener: Address already in use ADB server didn't ACK * failed to start daemon *
-https://github.com/facebook/react-native/issues/8401#issuecomment-344628512
-
-#### iOS Environment
-
-1. Open XCode
-2. File > Open > ios/ForestWatcher.xcworkspace
-3. Run
-
-#### Android Environment
-
-1. Open Android Studio
-2. Open an existing Android Studio Project > /android
-3. Run
-4. Install SDK platform, Build Tools and sync projects as asked
-5. Create and fill .env
-6. Run again
-
-#### React Debugger
-
-1. Install react debugger: https://github.com/jhen0409/react-native-debugger
-2. Launch it from Genymotion - Open Menu (Command + M) and select Debug JS Remotely
-
-#### Transifex API scripts
-
-1. To push the source file (EN): `npm run transifex:push`
-2. To pull translation files (ES, FR, ID, PT): `npm run transifex:pull`
+Copyright (c) 2016 Vizzuality
