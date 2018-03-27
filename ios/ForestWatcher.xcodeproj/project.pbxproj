@@ -30,6 +30,7 @@
 		32711EC720690CA70062DBE0 /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32711EBC20690C6E0062DBE0 /* libReactNativeConfig.a */; };
 		328B66F81FDEE855006D994E /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32776BA91F3102A0005A50D2 /* GoogleSignIn.framework */; };
 		42AC781C1E5F36A200A6C0E4 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 42AC781B1E5F36A200A6C0E4 /* libsqlite3.0.tbd */; };
+		49CD0D3D91D717C74DFF110B /* libPods-ForestWatcher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A3ADBC730C78FF8241E80A2 /* libPods-ForestWatcher.a */; };
 		4F8FF06BF93F41C98195D384 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF92319489B349B393001EAC /* libRNI18n.a */; };
 		5178971FFF8F46658E8D3678 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51D134D57FDD4549A1E6C253 /* SystemConfiguration.framework */; };
 		564A88C81E3A415B008BA75C /* firasansot_light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 564A88C51E3A415B008BA75C /* firasansot_light.ttf */; };
@@ -40,7 +41,6 @@
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		676D9D0F33C74730B70925F4 /* libRCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF75393B56F14CC2AD08F836 /* libRCTGoogleAnalyticsBridge.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		83578A7F831798845B1A199D /* libPods-ForestWatcher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 61F21EDFBD0EF17323B9569F /* libPods-ForestWatcher.a */; };
 		870A4482587B4FDA87979853 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C46E1DCE638244B9BEF82B05 /* libAirMaps.a */; };
 		8D81A3AA1EDC3D7B00232B09 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D81A3A91EDC3D4500232B09 /* libReactNativeNavigation.a */; };
 		8DA06A5A1EDDAD5F0064A0C4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8DA06A591EDDAD5F0064A0C4 /* GoogleService-Info.plist */; };
@@ -466,19 +466,19 @@
 		21DAFAF673A54569B81DC361 /* libRNZipArchive.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNZipArchive.a; sourceTree = "<group>"; };
 		325CC9CB2064423C00FFA4A0 /* CodePush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
 		32776BA91F3102A0005A50D2 /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSignIn.framework; path = Pods/GoogleSignIn/Frameworks/GoogleSignIn.framework; sourceTree = "<group>"; };
+		3347183563523C1F84590F23 /* Pods-ForestWatcher.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForestWatcher.release.xcconfig"; path = "Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher.release.xcconfig"; sourceTree = "<group>"; };
 		3E8CB66C60824FF1A2264409 /* RCTGoogleAnalyticsBridge.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTGoogleAnalyticsBridge.xcodeproj; path = "../node_modules/react-native-google-analytics-bridge/ios/RCTGoogleAnalyticsBridge/RCTGoogleAnalyticsBridge.xcodeproj"; sourceTree = "<group>"; };
 		3F87F1F834674C6A87F5820A /* RNZipArchive.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNZipArchive.xcodeproj; path = "../node_modules/react-native-zip-archive/ios/RNZipArchive.xcodeproj"; sourceTree = "<group>"; };
 		42AC781B1E5F36A200A6C0E4 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
-		4456F586BDF42408C00413F7 /* Pods-ForestWatcher.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForestWatcher.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher.debug.xcconfig"; sourceTree = "<group>"; };
 		51D134D57FDD4549A1E6C253 /* SystemConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		562101E31E1ABE00000A266F /* ForestWatcher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ForestWatcher.entitlements; path = ForestWatcher/ForestWatcher.entitlements; sourceTree = "<group>"; };
 		564A88C51E3A415B008BA75C /* firasansot_light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = firasansot_light.ttf; path = Fonts/firasansot_light.ttf; sourceTree = "<group>"; };
 		564A88C61E3A415B008BA75C /* firasansot_medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = firasansot_medium.ttf; path = Fonts/firasansot_medium.ttf; sourceTree = "<group>"; };
 		564A88C71E3A415B008BA75C /* firasansot_regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = firasansot_regular.ttf; path = Fonts/firasansot_regular.ttf; sourceTree = "<group>"; };
 		56ADFC001E4DC28800820294 /* firasansot_italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = firasansot_italic.otf; path = Fonts/firasansot_italic.otf; sourceTree = "<group>"; };
+		5A3ADBC730C78FF8241E80A2 /* libPods-ForestWatcher.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ForestWatcher.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D4F624D14DF49A4BF4873B3 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
-		61F21EDFBD0EF17323B9569F /* libPods-ForestWatcher.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ForestWatcher.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E8A7CAFCE0440FBAA399033 /* SafariServices.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		74CCF8429ACB4893920FF94B /* libRNCookieManagerIOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCookieManagerIOS.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
@@ -487,7 +487,6 @@
 		7CC1FA19BF67424591686AF2 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		7EF6A30059A74EEC8745DC44 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		8461A40EA8F02CFA6A0E6AA6 /* Pods-ForestWatcher.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForestWatcher.release.xcconfig"; path = "Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher.release.xcconfig"; sourceTree = "<group>"; };
 		8D81A3A41EDC3D4500232B09 /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		8DA06A591EDDAD5F0064A0C4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A28DC2A5220D42359951057B /* libReactNativeConfig.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeConfig.a; sourceTree = "<group>"; };
@@ -537,6 +536,7 @@
 		BE756DCF1F4EFB7C001E681A /* RCTConvert+GMSMapViewType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTConvert+GMSMapViewType.m"; sourceTree = "<group>"; };
 		BEE19B621F2A5E0100777F63 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		BF75393B56F14CC2AD08F836 /* libRCTGoogleAnalyticsBridge.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTGoogleAnalyticsBridge.a; sourceTree = "<group>"; };
+		C1AD64D900D26783F721FADA /* Pods-ForestWatcher.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForestWatcher.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher.debug.xcconfig"; sourceTree = "<group>"; };
 		C46E1DCE638244B9BEF82B05 /* libAirMaps.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAirMaps.a; sourceTree = "<group>"; };
 		D6AC5FBC622541AFBCE094A6 /* RNLocation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNLocation.xcodeproj; path = "../node_modules/react-native-location/ios/RNLocation.xcodeproj"; sourceTree = "<group>"; };
 		DC3B5E33832747FC897A49A3 /* libRNGoogleSignin.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGoogleSignin.a; sourceTree = "<group>"; };
@@ -591,8 +591,8 @@
 				870A4482587B4FDA87979853 /* libAirMaps.a in Frameworks */,
 				4F8FF06BF93F41C98195D384 /* libRNI18n.a in Frameworks */,
 				0BA4D79D19864B1FA7A990EC /* libRNCookieManagerIOS.a in Frameworks */,
-				83578A7F831798845B1A199D /* libPods-ForestWatcher.a in Frameworks */,
 				325CCA042064425E00FFA4A0 /* libCodePush.a in Frameworks */,
+				49CD0D3D91D717C74DFF110B /* libPods-ForestWatcher.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -656,6 +656,15 @@
 				00E356F11AD99517003FC87E /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		050452AE32024B8D04FC6132 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C1AD64D900D26783F721FADA /* Pods-ForestWatcher.debug.xcconfig */,
+				3347183563523C1F84590F23 /* Pods-ForestWatcher.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		139105B71AF99BAD00B5F7CC /* Products */ = {
@@ -816,7 +825,7 @@
 				6E8A7CAFCE0440FBAA399033 /* SafariServices.framework */,
 				51D134D57FDD4549A1E6C253 /* SystemConfiguration.framework */,
 				DFD632EF65604568B651A931 /* AddressBook.framework */,
-				61F21EDFBD0EF17323B9569F /* libPods-ForestWatcher.a */,
+				5A3ADBC730C78FF8241E80A2 /* libPods-ForestWatcher.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -847,15 +856,6 @@
 				5E9157351DD0AC6500FF2AA8 /* libRCTAnimation.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		675989525142C4D6399D8FD5 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				4456F586BDF42408C00413F7 /* Pods-ForestWatcher.debug.xcconfig */,
-				8461A40EA8F02CFA6A0E6AA6 /* Pods-ForestWatcher.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
@@ -919,7 +919,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				45A6AD05F54FD09326DA9BF6 /* Frameworks */,
 				326270761F74FDFB007511AC /* Recovered References */,
-				675989525142C4D6399D8FD5 /* Pods */,
+				050452AE32024B8D04FC6132 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -1042,13 +1042,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ForestWatcher" */;
 			buildPhases = (
-				243C00CE4D2A8575CC4DF74D /* [CP] Check Pods Manifest.lock */,
+				E5223B2C0F2BD0E372B8F0D1 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				EFA2968EB30B011159E3F826 /* [CP] Embed Pods Frameworks */,
-				3C89CB0B4FA2F5A447DA46E6 /* [CP] Copy Pods Resources */,
+				422575D1BBCDC5B8B387AF83 /* [CP] Embed Pods Frameworks */,
+				46216A141A82381D73C72A13 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1616,25 +1616,22 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		243C00CE4D2A8575CC4DF74D /* [CP] Check Pods Manifest.lock */ = {
+		422575D1BBCDC5B8B387AF83 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
 			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ForestWatcher-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3C89CB0B4FA2F5A447DA46E6 /* [CP] Copy Pods Resources */ = {
+		46216A141A82381D73C72A13 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1654,19 +1651,22 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EFA2968EB30B011159E3F826 /* [CP] Embed Pods Frameworks */ = {
+		E5223B2C0F2BD0E372B8F0D1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ForestWatcher-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1787,7 +1787,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4456F586BDF42408C00413F7 /* Pods-ForestWatcher.debug.xcconfig */;
+			baseConfigurationReference = C1AD64D900D26783F721FADA /* Pods-ForestWatcher.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Chad Snelgar (V3C3KAB68A)";
@@ -1844,7 +1844,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8461A40EA8F02CFA6A0E6AA6 /* Pods-ForestWatcher.release.xcconfig */;
+			baseConfigurationReference = 3347183563523C1F84590F23 /* Pods-ForestWatcher.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: World Resources Institute (MEXRL59E77)";

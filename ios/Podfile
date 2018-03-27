@@ -8,6 +8,6 @@ target 'ForestWatcher' do
   pod 'GoogleMaps'
   pod 'Google/SignIn'
 
-  pod 'CodePush', :path => '../node_modules/react-native-code-push'
+  # pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
 end
