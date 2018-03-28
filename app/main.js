@@ -1,3 +1,4 @@
+import codePush from 'react-native-code-push';
 import { Navigation } from 'react-native-navigation';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
@@ -17,8 +18,14 @@ import { reactotronRedux } from 'reactotron-redux'; // eslint-disable-line
 // Show request in chrome network tool
 // GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
-export default () => {
+const codePushOptions = {
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  installMode: codePush.InstallMode.ON_NEXT_RESUME
+};
+
+const app = () => {
   function startApp() {
+    codePush.sync(codePushOptions);
     Navigation.startSingleScreenApp({
       screen: {
         screen: 'ForestWatcher.Home',
@@ -72,3 +79,5 @@ export default () => {
 
   registerScreens(store, Provider);
 };
+
+export default app;

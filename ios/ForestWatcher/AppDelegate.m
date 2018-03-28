@@ -8,6 +8,7 @@
  */
 
 #import "AppDelegate.h"
+#import <CodePush/CodePush.h>
 #import "RCCManager.h"
 
 #import <React/RCTBundleURLProvider.h>
@@ -27,10 +28,10 @@
 
   [GMSServices provideAPIKey:apiUrl];
 
-  #ifdef DEBUG
+#ifdef DEBUG
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 #else
-  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  jsCodeLocation = [CodePush bundleURL];
 #endif
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];

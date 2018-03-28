@@ -75,10 +75,12 @@ import com.android.build.OutputFile
 
 project.ext.react = [
     entryFile: "index.js",
-    inputExcludes: ["ios/**", "__tests__/**", "bundle_out/**"]
+    inputExcludes: ["ios/**", "__tests__/**", "bundle_out/**"],
+    nodeExecutableAndArgs : ["/usr/local/bin/node"]
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -159,10 +161,11 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-code-push')
     compile project(':react-native-cookies')
     compile project(':react-native-i18n')
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.android.support:appcompat-v7:25.0.3'
     compile 'com.facebook.react:react-native:+'
     // From node_modules
     compile project(':react-native-zip-archive')
