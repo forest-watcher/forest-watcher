@@ -16,6 +16,7 @@ import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.syarul.rnlocation.RNLocation;
 import com.rnziparchive.RNZipArchivePackage;
 import com.imagepicker.ImagePickerPackage;
+import com.reactlibrary.RNAppAuthPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -59,7 +60,8 @@ public class MainApplication extends NavigationApplication implements ReactInsta
         getApplicationContext(),
         BuildConfig.DEBUG,
         R.string.CodePushPublicKey
-      )
+      ),
+      new RNAppAuthPackage()
     );
   }
 

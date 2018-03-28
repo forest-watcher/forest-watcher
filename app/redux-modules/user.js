@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { RESET_STATE } from '@redux-offline/redux-offline/lib/constants';
 import { authorize, revoke } from 'react-native-app-auth';
 import Config from 'react-native-config';
@@ -85,7 +86,7 @@ export function loginGoogle() {
     const config = {
       issuer: 'https://accounts.google.com',
       clientId: Config.LOGIN_GOOGLE_CLIENT_ID_IOS,
-      redirectUrl: 'com.googleusercontent.apps.904166352461-h7nutpto3o0s8e5gi000shub8231s4eu:/oauth2redirect/google',
+      redirectUrl: `${Config.LOGIN_GOOGLE_CLIENT_ID_IOS}:/oauth2redirect/google`,
       scopes: ['openid', 'profile']
     };
     authorize(config)
@@ -125,7 +126,7 @@ export function logout() {
       const config = {
         issuer: 'https://accounts.google.com',
         clientId: Config.LOGIN_GOOGLE_CLIENT_ID_IOS,
-        redirectUrl: 'com.googleusercontent.apps.904166352461-h7nutpto3o0s8e5gi000shub8231s4eu:/oauth2redirect/google',
+        redirectUrl: `${Config.LOGIN_GOOGLE_CLIENT_ID_IOS}:/oauth2redirect/google`,
         scopes: ['openid', 'profile']
       };
       const tokenToRevoke = state().user.refreshToken;
