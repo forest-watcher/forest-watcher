@@ -1,12 +1,10 @@
-import { Platform } from 'react-native';
 import { RESET_STATE } from '@redux-offline/redux-offline/lib/constants';
 import { authorize, revoke } from 'react-native-app-auth';
 import Config from 'react-native-config';
+import oAuth from 'config/oAuth';
 import { DISMISS_LOGIN_CODES } from 'config/constants/index';
 
-
 const CookieManager = require('react-native-cookies');
-
 
 // Actions
 const GET_USER_REQUEST = 'user/GET_USER_REQUEST';
@@ -82,57 +80,51 @@ export function setLoginStatus(status) {
 }
 
 export function loginGoogle() {
-  return (dispatch) => {
-    const config = {
-      issuer: 'https://accounts.google.com',
-      clientId: Config.LOGIN_GOOGLE_CLIENT_ID_IOS,
-      redirectUrl: `${Config.LOGIN_GOOGLE_CLIENT_ID_IOS}:/oauth2redirect/google`,
-      scopes: ['openid', 'profile']
-    };
-    authorize(config)
-      .then((user) => {
-        fetch(`${Config.API_AUTH}/auth/google/token?access_token=${user.accessToken}`)
-          .then(response => {
-            if (response.ok) return response.json();
-            throw new Error(response.statusText);
-          })
-          .then(data => dispatch({
-            type: SET_LOGIN_STATUS,
-            payload: {
-              socialNetwork: 'google',
-              loggedIn: true,
-              token: data.token,
-              refreshToken: user.refreshToken
-            }
-          }))
-          .catch(() => dispatch(logout()));
-      })
-      .catch(({ code }) => dispatch({
+  return async (dispatch) => {
+    try {
+      const user = await authorize(oAuth.google);
+      try {
+        const response = await fetch(`${Config.API_AUTH}/auth/google/token?access_token=${user.accessToken}`);
+        if (!response.ok) throw new Error(response.statusText);
+        const data = await response.json();
+        dispatch({
+          type: SET_LOGIN_STATUS,
+          payload: {
+            socialNetwork: 'google',
+            loggedIn: true,
+            token: data.token,
+            refreshToken: user.accessToken
+          }
+        });
+      } catch (e) {
+        dispatch(logout());
+      }
+    } catch ({ code }) {
+      dispatch({
         type: SET_LOGIN_STATUS,
         payload: {
           logSuccess: DISMISS_LOGIN_CODES.includes(code)
         }
-      }));
+      });
+    }
   };
 }
 
 export function logout() {
   return async (dispatch, state) => {
     dispatch({ type: RESET_STATE });
-    CookieManager.clearAll()
-      .then((res) => (console.info(res)));
+    await CookieManager.clearAll();
     if (state().user.socialNetwork === 'google') {
       dispatch({ type: LOGOUT_REQUEST });
-      const config = {
-        issuer: 'https://accounts.google.com',
-        clientId: Config.LOGIN_GOOGLE_CLIENT_ID_IOS,
-        redirectUrl: `${Config.LOGIN_GOOGLE_CLIENT_ID_IOS}:/oauth2redirect/google`,
-        scopes: ['openid', 'profile']
-      };
       const tokenToRevoke = state().user.refreshToken;
-      return await revoke(config, { tokenToRevoke });
+      dispatch({ type: LOGOUT_REQUEST });
+      try {
+        await revoke(oAuth.google, { tokenToRevoke });
+      } catch (e) {
+        dispatch({ type: LOGOUT_ROLLBACK });
+      }
+      return dispatch({ type: LOGOUT_COMMIT });
     }
-
     dispatch({ type: LOGOUT_REQUEST });
     return dispatch({ type: LOGOUT_COMMIT });
   };

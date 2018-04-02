@@ -112,7 +112,7 @@ android {
         resValue "string", "build_config_package", "com.forestwatcher"
         multiDexEnabled true
         manifestPlaceholders = [
-            'appAuthRedirectScheme': project.env.get("LOGIN_GOOGLE_CLIENT_ID_IOS")
+            'appAuthRedirectScheme': project.env.get("LOGIN_REDIRECT_SCHEMA_ANDROID")
         ]
     }
     dexOptions {
