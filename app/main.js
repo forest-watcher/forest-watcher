@@ -18,14 +18,9 @@ import { reactotronRedux } from 'reactotron-redux'; // eslint-disable-line
 // Show request in chrome network tool
 // GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
-const codePushOptions = {
-  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
-  installMode: codePush.InstallMode.ON_NEXT_RESUME
-};
 
 const app = () => {
   function startApp() {
-    codePush.sync(codePushOptions);
     Navigation.startSingleScreenApp({
       screen: {
         screen: 'ForestWatcher.Home',
@@ -65,15 +60,11 @@ const app = () => {
     window.tron = Reactotron; // eslint-disable-line
     store = offline({ persistCallback: startApp })(Reactotron.createStore)(reducer, undefined, middleware);
   } else {
-    const closeLightbox = () => Navigation.dismissLightBox;
-    global.ErrorUtils.setGlobalHandler((error, isFatal) => Navigation.showLightBox({
-      screen: 'ForestWatcher.ErrorLightbox',
-      passProps: { error, isFatal, closeLightbox },
-      style: {
-        backgroundBlur: 'none',
-        tapBackgroundToDismiss: true
-      }
-    }));
+    const codePushOptions = {
+      checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+      installMode: codePush.InstallMode.ON_NEXT_RESUME
+    };
+    codePush.sync(codePushOptions);
     store = offline({ persistCallback: startApp })(createStore)(reducer, undefined, middleware);
   }
 
