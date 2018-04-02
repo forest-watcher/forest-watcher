@@ -4,6 +4,8 @@ import android.content.Intent;
 
 import com.facebook.react.ReactInstanceManager;
 import com.microsoft.codepush.react.ReactInstanceHolder;
+import com.microsoft.appcenter.reactnative.appcenter.AppCenterReactNativePackage;
+import com.microsoft.appcenter.reactnative.crashes.AppCenterReactNativeCrashesPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.psykar.cookiemanager.CookieManagerPackage;
 import io.realm.react.RealmReactPackage;
@@ -73,7 +75,9 @@ public class MainApplication extends NavigationApplication implements ReactInsta
         R.string.CodePushPublicKey
       ),
       new RNAppAuthPackage(),
-      new FBSDKPackage(mCallbackManager)
+      new FBSDKPackage(mCallbackManager),
+      new AppCenterReactNativePackage(MainApplication.this),
+      new AppCenterReactNativeCrashesPackage(MainApplication.this, "ALWAYS")
     );
   }
 

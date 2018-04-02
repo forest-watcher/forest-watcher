@@ -26,6 +26,8 @@
     "@mapbox/geojson-area": "0.2.2",
     "@mapbox/tilebelt": "github:Vizzuality/tilebelt",
     "@redux-offline/redux-offline": "2.2.0",
+    "appcenter": "^1.4.0",
+    "appcenter-crashes": "^1.4.0",
     "boundingbox": "0.1.0",
     "buffer": "5.0.5",
     "d3-dsv": "1.0.5",
