@@ -62,6 +62,8 @@ android/app/libs
 Pods/
 ios/Podfile.lock
 ios/.gems
+ios/ForestWatcher.ipa
+ios/ForestWatcher.app.dSYM.zip
 
 # It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
 # screenshots whenever they are needed.

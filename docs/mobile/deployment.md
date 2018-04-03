@@ -13,14 +13,15 @@ gem install fastlane -NV
 To deploy a beta version for the testers just run:
 
 ```bash
-cd /android
+cd /android | /ios
 fastlane beta
 ```
 
 To deploy to the stores:
 
-```
-WIP
+```bash
+cd /android | /ios
+fastlane deploy
 ```
 
 

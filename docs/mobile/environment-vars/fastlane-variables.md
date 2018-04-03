@@ -17,3 +17,17 @@ APPCENTER_OWNER_NAME=
 ```
 
 5. Fill them with the values from [here](https://appcenter.ms/settings/apitokens)
+
+## iOS
+
+1. Go to /ios folder
+2. Create a .env file with the following params:
+
+```bash
+APPLE_ID= # Your Apple email address
+ITC_TEAM_ID= # iTunes Connect Team ID
+TEAM_ID= # Developer Portal Team ID
+
+APPCENTER_API_TOKEN=
+APPCENTER_OWNER_NAME=
+```
