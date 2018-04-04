@@ -35,6 +35,7 @@ function RadioInput(props) {
               const visible = props.input.value === item.value;
               conditionalField = (
                 <Field
+                  key="field"
                   visible={visible}
                   name={childQuestions[0].name}
                   component={TextInput}
@@ -43,7 +44,7 @@ function RadioInput(props) {
               );
             }
             return [
-              <View style={styles.inputContainer}>
+              <View style={styles.inputContainer} key="container">
                 <CheckBtn
                   key={index}
                   label={item.label}
