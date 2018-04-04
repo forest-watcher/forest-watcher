@@ -23,23 +23,9 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.904166352461-h7nutpto3o0s8e5gi000shub8231s4eu</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>org.wri.ForestWatcherBetaVizz</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>org.wri.ForestWatcherBetaVizz</string>
+				<string>fb116932225822901</string>
 			</array>
 		</dict>
 	</array>
@@ -95,25 +81,16 @@ __RN_CONFIG_CODEPUSH_RELEASE_PUBLIC_KEY
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-    <key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>__RN_CONFIG_LOGIN_FACEBOOK_PROTOCOL_SCHEME</string>
-            </array>
-        </dict>
-    </array>
-    <key>FacebookAppID</key>
-    <string>__RN_CONFIG_LOGIN_FACEBOOK_APP_ID</string>
-    <key>FacebookDisplayName</key>
-    <string>Forest Watcher</string>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>fbapi</string>
-        <string>fb-messenger-share-api</string>
-        <string>fbauth2</string>
-        <string>fbshareextension</string>
-    </array>
+	<key>FacebookAppID</key>
+	<string>116932225822901</string>
+	<key>FacebookDisplayName</key>
+	<string>Forest Watcher</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 </dict>
 </plist>
