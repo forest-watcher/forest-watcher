@@ -98,8 +98,8 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.forestwatcher"
         minSdkVersion 21
@@ -112,7 +112,7 @@ android {
         resValue "string", "build_config_package", "com.forestwatcher"
         multiDexEnabled true
         manifestPlaceholders = [
-            'appAuthRedirectScheme': project.env.get("LOGIN_REDIRECT_SCHEMA_ANDROID")
+            'appAuthRedirectScheme': project.env.get("LOGIN_GOOGLE_REDIRECT_SCHEMA_ANDROID")
         ]
     }
     dexOptions {
@@ -164,12 +164,13 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fbsdk')
     compile project(':react-native-code-push')
     compile project(':react-native-app-auth')
     compile project(':react-native-cookies')
     compile project(':react-native-i18n')
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:appcompat-v7:26+'
     compile 'com.facebook.react:react-native:+'
     // From node_modules
     compile project(':react-native-zip-archive')

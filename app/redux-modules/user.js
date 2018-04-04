@@ -1,5 +1,6 @@
 import { RESET_STATE } from '@redux-offline/redux-offline/lib/constants';
 import { authorize, revoke } from 'react-native-app-auth';
+import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import Config from 'react-native-config';
 import oAuth from 'config/oAuth';
 import { DISMISS_LOGIN_CODES } from 'config/constants/index';
@@ -20,7 +21,7 @@ const initialState = {
   data: {},
   loggedIn: false,
   token: null,
-  refreshToken: null,
+  oAuthToken: null,
   socialNetwork: null,
   logSuccess: true,
   synced: false,
@@ -79,7 +80,7 @@ export function setLoginStatus(status) {
   };
 }
 
-export function loginGoogle() {
+export function googleLogin() {
   return async (dispatch) => {
     try {
       const user = await authorize(oAuth.google);
@@ -93,7 +94,7 @@ export function loginGoogle() {
             socialNetwork: 'google',
             loggedIn: true,
             token: data.token,
-            refreshToken: user.accessToken
+            oAuthToken: user.accessToken
           }
         });
       } catch (e) {
@@ -110,13 +111,40 @@ export function loginGoogle() {
   };
 }
 
+export function facebookLogin() {
+  return async (dispatch) => {
+    try {
+      const result = await LoginManager.logInWithReadPermissions(oAuth.facebook);
+      if (!result.isCancelled) {
+        try {
+          const data = await AccessToken.getCurrentAccessToken();
+          console.warn(data.accessToken);
+          // TODO: implement GFW API login here when available
+          dispatch({
+            type: SET_LOGIN_STATUS,
+            payload: {
+              loggedIn: true,
+              socialNetwork: 'facebook',
+              oAuthToken: data.accessToken
+            }
+          });
+        } catch (e) {
+          dispatch(logout());
+        }
+      }
+    } catch (e) {
+      dispatch({ type: SET_LOGIN_STATUS, payload: { logSuccess: false } });
+    }
+  };
+}
+
 export function logout() {
   return async (dispatch, state) => {
     dispatch({ type: RESET_STATE });
     await CookieManager.clearAll();
     if (state().user.socialNetwork === 'google') {
       dispatch({ type: LOGOUT_REQUEST });
-      const tokenToRevoke = state().user.refreshToken;
+      const tokenToRevoke = state().user.oAuthToken;
       dispatch({ type: LOGOUT_REQUEST });
       try {
         await revoke(oAuth.google, { tokenToRevoke });

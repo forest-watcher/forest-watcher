@@ -1,5 +1,6 @@
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setLoginStatus, loginGoogle, logout } from 'redux-modules/user';
+import { setLoginStatus, googleLogin, facebookLogin, logout } from 'redux-modules/user';
 import Login from 'components/login';
 
 function mapStateToProps(state) {
@@ -10,15 +11,12 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    setLoginStatus: (action) => {
-      dispatch(setLoginStatus(action));
-    },
-    loginGoogle: () => dispatch(loginGoogle()),
-    logout: () => dispatch(logout())
-  };
-}
+const mapDispatchToProps = dispatch => bindActionCreators({
+  logout,
+  googleLogin,
+  facebookLogin,
+  setLoginStatus
+}, dispatch);
 
 export default connect(
   mapStateToProps,

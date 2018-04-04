@@ -95,5 +95,25 @@ __RN_CONFIG_CODEPUSH_RELEASE_PUBLIC_KEY
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>__RN_CONFIG_LOGIN_FACEBOOK_PROTOCOL_SCHEME</string>
+            </array>
+        </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>__RN_CONFIG_LOGIN_FACEBOOK_APP_ID</string>
+    <key>FacebookDisplayName</key>
+    <string>Forest Watcher</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>fbapi</string>
+        <string>fb-messenger-share-api</string>
+        <string>fbauth2</string>
+        <string>fbshareextension</string>
+    </array>
 </dict>
 </plist>

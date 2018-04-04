@@ -7,6 +7,7 @@ target 'ForestWatcher' do
 
   pod 'GoogleMaps'
   pod 'AppAuth'
+  pod 'FBSDKLoginKit'
 
   # pod 'CodePush', :path => '../node_modules/react-native-code-push'
 

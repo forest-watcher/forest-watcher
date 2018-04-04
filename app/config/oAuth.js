@@ -7,9 +7,8 @@ export default {
   google: {
     issuer: 'https://accounts.google.com',
     clientId: isIOS ? Config.LOGIN_GOOGLE_CLIENT_ID_IOS : Config.LOGIN_GOOGLE_CLIENT_ID_ANDROID,
-    redirectUrl: `${isIOS ? Config.LOGIN_REDIRECT_SCHEMA_IOS : Config.LOGIN_REDIRECT_SCHEMA_ANDROID}:/oauth2redirect/google`,
+    redirectUrl: `${isIOS ? Config.LOGIN_GOOGLE_REDIRECT_SCHEMA_IOS : Config.LOGIN_GOOGLE_REDIRECT_SCHEMA_ANDROID}:/oauth2redirect/google`,
     scopes: ['openid', 'profile']
   },
-  twitter: {},
-  facebook: {}
+  facebook: ['public_profile', 'email']
 };
