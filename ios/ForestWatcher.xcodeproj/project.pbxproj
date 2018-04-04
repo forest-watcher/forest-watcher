@@ -36,6 +36,7 @@
 		564A88CA1E3A415B008BA75C /* firasansot_regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 564A88C71E3A415B008BA75C /* firasansot_regular.ttf */; };
 		56ADFC011E4DC28800820294 /* firasansot_italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 56ADFC001E4DC28800820294 /* firasansot_italic.otf */; };
 		5728E0BA95ED4530B75240CA /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D4F624D14DF49A4BF4873B3 /* libRNFetchBlob.a */; };
+		5D7B3E888AF44400DEBABCD7 /* libPods-ForestWatcher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 12CB75AD35BD92B4AED1F46B /* libPods-ForestWatcher.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		5ECB4841A9BF4B3990758BF4 /* libRNAppAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7E52CB30334853805F5795 /* libRNAppAuth.a */; };
 		676D9D0F33C74730B70925F4 /* libRCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF75393B56F14CC2AD08F836 /* libRCTGoogleAnalyticsBridge.a */; };
@@ -449,6 +450,7 @@
 		00E356F21AD99517003FC87E /* ForestWatcherTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ForestWatcherTests.m; sourceTree = "<group>"; };
 		01DAAFC2547C467BA03F1D7A /* libc++.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		07B7E5BF26F94948A1260D45 /* RNCookieManagerIOS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNCookieManagerIOS.xcodeproj; path = "../node_modules/react-native-cookies/ios/RNCookieManagerIOS.xcodeproj"; sourceTree = "<group>"; };
+		12CB75AD35BD92B4AED1F46B /* libPods-ForestWatcher.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ForestWatcher.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* ForestWatcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ForestWatcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -460,6 +462,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ForestWatcher/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		21DAFAF673A54569B81DC361 /* libRNZipArchive.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNZipArchive.a; sourceTree = "<group>"; };
+		22464D4F32580CCECDAE25C8 /* Pods-ForestWatcher.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForestWatcher.release.xcconfig"; path = "Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher.release.xcconfig"; sourceTree = "<group>"; };
 		325CC9CB2064423C00FFA4A0 /* CodePush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
 		3E8CB66C60824FF1A2264409 /* RCTGoogleAnalyticsBridge.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTGoogleAnalyticsBridge.xcodeproj; path = "../node_modules/react-native-google-analytics-bridge/ios/RCTGoogleAnalyticsBridge/RCTGoogleAnalyticsBridge.xcodeproj"; sourceTree = "<group>"; };
 		3F87F1F834674C6A87F5820A /* RNZipArchive.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNZipArchive.xcodeproj; path = "../node_modules/react-native-zip-archive/ios/RNZipArchive.xcodeproj"; sourceTree = "<group>"; };
@@ -530,15 +533,14 @@
 		BEE19B621F2A5E0100777F63 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		BEF80B122074D43700EA64C3 /* CodePush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CodePush.h; path = "../node_modules/react-native-code-push/ios/CodePush/CodePush.h"; sourceTree = "<group>"; };
 		BF75393B56F14CC2AD08F836 /* libRCTGoogleAnalyticsBridge.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTGoogleAnalyticsBridge.a; sourceTree = "<group>"; };
-		C28EC025636945E844E3A512 /* Pods-ForestWatcher.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForestWatcher.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher.debug.xcconfig"; sourceTree = "<group>"; };
 		C46E1DCE638244B9BEF82B05 /* libAirMaps.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAirMaps.a; sourceTree = "<group>"; };
-		C8B8390795979BD9A36ADC3E /* Pods-ForestWatcher.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForestWatcher.release.xcconfig"; path = "Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher.release.xcconfig"; sourceTree = "<group>"; };
 		D6AC5FBC622541AFBCE094A6 /* RNLocation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNLocation.xcodeproj; path = "../node_modules/react-native-location/ios/RNLocation.xcodeproj"; sourceTree = "<group>"; };
 		DE58CD73E5C4463A8F78063D /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeConfig.xcodeproj; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; };
 		DFD632EF65604568B651A931 /* AddressBook.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		E0DCCAF571BA4E58BE7D0459 /* RNAppAuth.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNAppAuth.xcodeproj; path = "../node_modules/react-native-app-auth/ios/RNAppAuth.xcodeproj"; sourceTree = "<group>"; };
 		E8111E20D7A84341B125D6AB /* libRealmReact.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRealmReact.a; sourceTree = "<group>"; };
 		EF92319489B349B393001EAC /* libRNI18n.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNI18n.a; sourceTree = "<group>"; };
+		F7E8AE88140CFBC5D9A19215 /* Pods-ForestWatcher.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForestWatcher.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher.debug.xcconfig"; sourceTree = "<group>"; };
 		F9B10266C3A943979E94327F /* RNI18n.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNI18n.xcodeproj; path = "../node_modules/react-native-i18n/ios/RNI18n.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -587,6 +589,7 @@
 				0BA4D79D19864B1FA7A990EC /* libRNCookieManagerIOS.a in Frameworks */,
 				325CCA042064425E00FFA4A0 /* libCodePush.a in Frameworks */,
 				5ECB4841A9BF4B3990758BF4 /* libRNAppAuth.a in Frameworks */,
+				5D7B3E888AF44400DEBABCD7 /* libPods-ForestWatcher.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -792,15 +795,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		44B9BF4E96E65CBCA35CB613 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				C28EC025636945E844E3A512 /* Pods-ForestWatcher.debug.xcconfig */,
-				C8B8390795979BD9A36ADC3E /* Pods-ForestWatcher.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		45A6AD05F54FD09326DA9BF6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -811,6 +805,7 @@
 				6E8A7CAFCE0440FBAA399033 /* SafariServices.framework */,
 				51D134D57FDD4549A1E6C253 /* SystemConfiguration.framework */,
 				DFD632EF65604568B651A931 /* AddressBook.framework */,
+				12CB75AD35BD92B4AED1F46B /* libPods-ForestWatcher.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -850,6 +845,15 @@
 				563AC2271E00611B00B6E8CD /* libRCTLinking-tvOS.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		8111D6EF3677DBEC2393FAA2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F7E8AE88140CFBC5D9A19215 /* Pods-ForestWatcher.debug.xcconfig */,
+				22464D4F32580CCECDAE25C8 /* Pods-ForestWatcher.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -903,7 +907,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				45A6AD05F54FD09326DA9BF6 /* Frameworks */,
 				326270761F74FDFB007511AC /* Recovered References */,
-				44B9BF4E96E65CBCA35CB613 /* Pods */,
+				8111D6EF3677DBEC2393FAA2 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -1034,13 +1038,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ForestWatcher" */;
 			buildPhases = (
-				1EBC53D26FDCF0ED67EA3B86 /* [CP] Check Pods Manifest.lock */,
+				F04CDDB793D52D4FAA8207CA /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				8B201573CC02849688775B7E /* [CP] Embed Pods Frameworks */,
-				3E954BA8C4DCFA9EE3A57525 /* [CP] Copy Pods Resources */,
+				54DFA3129ABC7E5165815E83 /* [CP] Embed Pods Frameworks */,
+				41DEF1EE91F5CE124202EBA5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1607,22 +1611,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		1EBC53D26FDCF0ED67EA3B86 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		3E954BA8C4DCFA9EE3A57525 /* [CP] Copy Pods Resources */ = {
+		41DEF1EE91F5CE124202EBA5 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1637,7 +1626,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8B201573CC02849688775B7E /* [CP] Embed Pods Frameworks */ = {
+		54DFA3129ABC7E5165815E83 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1650,6 +1639,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F04CDDB793D52D4FAA8207CA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1772,7 +1776,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C28EC025636945E844E3A512 /* Pods-ForestWatcher.debug.xcconfig */;
+			baseConfigurationReference = F7E8AE88140CFBC5D9A19215 /* Pods-ForestWatcher.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Chad Snelgar (V3C3KAB68A)";
@@ -1826,7 +1830,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C8B8390795979BD9A36ADC3E /* Pods-ForestWatcher.release.xcconfig */;
+			baseConfigurationReference = 22464D4F32580CCECDAE25C8 /* Pods-ForestWatcher.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: World Resources Institute (MEXRL59E77)";

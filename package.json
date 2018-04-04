@@ -73,6 +73,7 @@
     "turf-intersect": "github:Vizzuality/turf-intersect"
   },
   "devDependencies": {
+    "adm-zip": "0.4.7",
     "babel-eslint": "7.1.1",
     "babel-jest": "17.0.2",
     "babel-plugin-module-resolver": "3.0.0",
@@ -89,9 +90,11 @@
     "jest": "17.0.3",
     "lint-staged": "3.4.0",
     "node-fetch": "1.7.1",
+    "plist": "3.0.1",
     "react-test-renderer": "15.4.1",
     "reactotron-react-native": "1.12.3",
-    "reactotron-redux": "1.12.2"
+    "reactotron-redux": "1.12.2",
+    "xcode": "1.0.0"
   },
   "jest": {
     "preset": "react-native"

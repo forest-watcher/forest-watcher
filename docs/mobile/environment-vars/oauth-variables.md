@@ -43,3 +43,27 @@ In order to generate this values follow the next steps:
 6. Select Apple (same case, no need to add any code). Fill the following fields:
   - Bundle ID
   - In step 4 you'll find the env var values that you need (should be the same in Android and iOS).
+
+To setup facebook authentication from scratch you'll need to follow the instructions in these links:
+
+**Android**
+1. Follow all steps in `Facebook Login/Quickstart/Android`.
+2. Follow the instructions [here](https://developers.facebook.com/docs/react-native/configure-android-current)
+3. The previously linked docs aren't 100% accurate, you'll need to add this to `MainApplication.java` instead:
+```java
+@Override
+  public void onCreate() {
+    super.onCreate();
+
+    setActivityCallbacks(new ActivityCallbacks() {
+      @Override
+      public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+      }
+    });
+  }
+```
+
+**iOS**
+1. Follow steps 1-5 in `Facebook Login/Quickstart/iOS`.
+2. In step 4, replace the app id and CFBundleURLSchemes with `__RN_CONFIG_LOGIN_FACEBOOK_APP_ID` and `fb____RN_CONFIG_LOGIN_FACEBOOK_APP_ID`

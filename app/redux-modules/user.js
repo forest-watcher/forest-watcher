@@ -129,10 +129,12 @@ export function facebookLogin() {
             }
           });
         } catch (e) {
+          console.warn(e);
           dispatch(logout());
         }
       }
     } catch (e) {
+      console.error(e);
       dispatch({ type: SET_LOGIN_STATUS, payload: { logSuccess: false } });
     }
   };
