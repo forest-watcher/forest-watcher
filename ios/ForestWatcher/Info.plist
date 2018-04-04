@@ -20,15 +20,25 @@
 	<string>1.1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fb116932225822901</string>
-			</array>
-		</dict>
-	</array>
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleTypeRole</key>
+      <string>Editor</string>
+      <key>CFBundleURLName</key>
+      <string>org.wri.ForestWatcherBetaVizz</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>org.wri.ForestWatcherBetaVizz</string>
+      </array>
+    </dict>
+    <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>fb116932225822901</string>
+      </array>
+    </dict>
+  </array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>CodePushDeploymentKey</key>

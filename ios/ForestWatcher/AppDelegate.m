@@ -44,16 +44,6 @@
   return YES;
 }
 
-- (BOOL)application:(UIApplication *)app
-            openURL:(NSURL *)url
-            options:(NSDictionary<NSString *, id> *)options {
-  if ([_currentAuthorizationFlow resumeAuthorizationFlowWithURL:url]) {
-    _currentAuthorizationFlow = nil;
-    return YES;
-  }
-  return NO;
-}
-
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication

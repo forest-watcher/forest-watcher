@@ -21,7 +21,6 @@ import com.rnziparchive.RNZipArchivePackage;
 import com.imagepicker.ImagePickerPackage;
 import com.reactlibrary.RNAppAuthPackage;
 import com.facebook.CallbackManager;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
 
 import java.util.Arrays;
 import java.util.List;
