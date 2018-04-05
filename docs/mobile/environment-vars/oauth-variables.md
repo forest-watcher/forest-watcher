@@ -76,6 +76,8 @@ npm i
 # link sdk to project
 react-native link react-native-fbsdk
 ```
-4. If you get an "FBSDKShareKit/FBSDKShareKit.h file not found" error, the easiest way out is to remove all references to it in the FBSDK and remove the share folder from ios folder in `react-native-fbsdk` node module.
+4. If you get an "FBSDKShareKit/FBSDKShareKit.h file not found" error, the easiest way out is removing the `share` folder from `libraries/FBSDK/` folder in xcode as the following image:
+
+![Image to fix FBSDK issue](/assets/react-native-fbsdk.png)
 
 
