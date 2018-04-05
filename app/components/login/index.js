@@ -86,7 +86,7 @@ class Login extends PureComponent {
       const provider = {
         google: this.props.googleLogin,
         facebook: this.props.facebookLogin,
-        twitter: this.webViewProvider.bind(this)
+        twitter: this.webViewProvider
       }[socialNetwork];
       return provider(socialNetwork);
     }
@@ -132,7 +132,7 @@ class Login extends PureComponent {
     });
   }
 
-  webViewProvider(socialNetwork) {
+  webViewProvider = (socialNetwork) => {
     const url = `${Config.API_AUTH}/auth/${socialNetwork}?token=true&callbackUrl=${Config.API_AUTH_CALLBACK_URL}`;
     this.setState({
       socialNetwork,

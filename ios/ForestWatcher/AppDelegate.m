@@ -48,13 +48,17 @@
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
-    
+
     BOOL handled = [[FBSDKApplicationDelegate sharedInstance] application:application
                                                                   openURL:url
                                                         sourceApplication:sourceApplication
                                                                annotation:annotation
                     ];
     // Add any custom logic here.
+    if ([_currentAuthorizationFlow resumeAuthorizationFlowWithURL:url]) {
+      _currentAuthorizationFlow = nil;
+      return YES;
+    }
     return handled;
 }
 
