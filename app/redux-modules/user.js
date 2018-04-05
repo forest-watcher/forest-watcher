@@ -130,12 +130,10 @@ export function facebookLogin() {
             }
           });
         } catch (e) {
-          console.warn(e);
           dispatch(logout());
         }
       }
     } catch (e) {
-      console.error(e);
       dispatch({ type: SET_LOGIN_STATUS, payload: { logSuccess: false } });
     }
   };
@@ -145,18 +143,21 @@ export function logout() {
   return async (dispatch, state) => {
     dispatch({ type: RESET_STATE });
     await CookieManager.clearAll();
-    if (state().user.socialNetwork === 'google') {
-      dispatch({ type: LOGOUT_REQUEST });
-      const tokenToRevoke = state().user.oAuthToken;
-      dispatch({ type: LOGOUT_REQUEST });
-      try {
-        await revoke(oAuth.google, { tokenToRevoke });
-      } catch (e) {
-        dispatch({ type: LOGOUT_ROLLBACK });
-      }
-      return dispatch({ type: LOGOUT_COMMIT });
-    }
     dispatch({ type: LOGOUT_REQUEST });
+    const { oAuthToken: tokenToRevoke, socialNetwork } = state().user;
+    try {
+      switch (socialNetwork) {
+        case 'google':
+          await revoke(oAuth.google, { tokenToRevoke });
+          break;
+        case 'facebook':
+          await LoginManager.logOut();
+          break;
+        default: break;
+      }
+    } catch (e) {
+      dispatch({ type: LOGOUT_ROLLBACK });
+    }
     return dispatch({ type: LOGOUT_COMMIT });
   };
 }
