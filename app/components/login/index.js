@@ -86,7 +86,7 @@ class Login extends PureComponent {
       const provider = {
         google: this.props.googleLogin,
         facebook: this.props.facebookLogin,
-        twitter: this.webViewProvider
+        twitter: this.webViewProvider.bind(this)
       }[socialNetwork];
       return provider(socialNetwork);
     }

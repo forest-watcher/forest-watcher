@@ -20,25 +20,35 @@
 	<string>1.1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-  <key>CFBundleURLTypes</key>
-  <array>
-    <dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+	  <dict>
       <key>CFBundleTypeRole</key>
       <string>Editor</string>
       <key>CFBundleURLName</key>
-      <string>org.wri.ForestWatcherBetaVizz</string>
+      <string></string>
       <key>CFBundleURLSchemes</key>
       <array>
-        <string>org.wri.ForestWatcherBetaVizz</string>
+        <string>__RN_CONFIG_LOGIN_GOOGLE_REDIRECT_SCHEMA_IOS</string>
       </array>
     </dict>
-    <dict>
-      <key>CFBundleURLSchemes</key>
-      <array>
-        <string>fb116932225822901</string>
-      </array>
-    </dict>
-  </array>
+	  <dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>org.wri.ForestWatcherBetaVizz</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>org.wri.ForestWatcherBetaVizz</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>__RN_CONFIG_LOGIN_FACEBOOK_PROTOCOL_SCHEME</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>CodePushDeploymentKey</key>
@@ -92,7 +102,7 @@ __RN_CONFIG_CODEPUSH_RELEASE_PUBLIC_KEY
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>FacebookAppID</key>
-	<string>116932225822901</string>
+	<string>__RN_CONFIG_LOGIN_FACEBOOK_APP_ID</string>
 	<key>FacebookDisplayName</key>
 	<string>Forest Watcher</string>
 	<key>LSApplicationQueriesSchemes</key>

@@ -3,7 +3,6 @@ import { authorize, revoke } from 'react-native-app-auth';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import Config from 'react-native-config';
 import oAuth from 'config/oAuth';
-import { DISMISS_LOGIN_CODES } from 'config/constants/index';
 
 const CookieManager = require('react-native-cookies');
 
@@ -100,11 +99,13 @@ export function googleLogin() {
       } catch (e) {
         dispatch(logout());
       }
-    } catch ({ code }) {
+    } catch (e) {
+      // very brittle approach but only way to know currently
+      const userDismissedLogin = e.message.indexOf('error -4') !== -1;
       dispatch({
         type: SET_LOGIN_STATUS,
         payload: {
-          logSuccess: DISMISS_LOGIN_CODES.includes(code)
+          logSuccess: userDismissedLogin
         }
       });
     }

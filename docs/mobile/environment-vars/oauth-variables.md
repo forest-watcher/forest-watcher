@@ -66,4 +66,16 @@ To setup facebook authentication from scratch you'll need to follow the instruct
 
 **iOS**
 1. Follow steps 1-5 in `Facebook Login/Quickstart/iOS`.
-2. In step 4, replace the app id and CFBundleURLSchemes with `__RN_CONFIG_LOGIN_FACEBOOK_APP_ID` and `fb____RN_CONFIG_LOGIN_FACEBOOK_APP_ID`
+2. In step 4, replace the app id and CFBundleURLSchemes with `__RN_CONFIG_LOGIN_FACEBOOK_APP_ID` and `__RN_CONFIG_LOGIN_FACEBOOK_PROTOCOL_SCHEME`
+3. Running the following will install the Facebook SDK
+```bash
+# install node modules
+npm i
+# install pods
+(cd ios; pod install;)
+# link sdk to project
+react-native link react-native-fbsdk
+```
+4. If you get an "FBSDKShareKit/FBSDKShareKit.h file not found" error, the easiest way out is to remove all references to it in the FBSDK and remove the share folder from ios folder in `react-native-fbsdk` node module.
+
+
