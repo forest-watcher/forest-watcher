@@ -1,10 +1,10 @@
 import { RESET_STATE } from '@redux-offline/redux-offline/lib/constants';
+import { authorize, revoke } from 'react-native-app-auth';
+import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import Config from 'react-native-config';
-import GoogleOAuth from 'config/oAuth/GoogleOAuth';
-import { DISMISS_LOGIN_CODES } from 'config/constants/index';
+import oAuth from 'config/oAuth';
 
 const CookieManager = require('react-native-cookies');
-
 
 // Actions
 const GET_USER_REQUEST = 'user/GET_USER_REQUEST';
@@ -20,6 +20,7 @@ const initialState = {
   data: {},
   loggedIn: false,
   token: null,
+  oAuthToken: null,
   socialNetwork: null,
   logSuccess: true,
   synced: false,
@@ -78,48 +79,85 @@ export function setLoginStatus(status) {
   };
 }
 
-export function loginGoogle() {
-  return (dispatch) => {
-    GoogleOAuth.login()
-    .then((user) => {
-      fetch(`${Config.API_AUTH}/auth/google/token?access_token=${user.accessToken}`)
-        .then(response => {
-          if (response.ok) return response.json();
-          throw new Error(response.statusText);
-        })
-        .then(data => dispatch({
+export function googleLogin() {
+  return async (dispatch) => {
+    try {
+      const user = await authorize(oAuth.google);
+      try {
+        const response = await fetch(`${Config.API_AUTH}/auth/google/token?access_token=${user.accessToken}`);
+        if (!response.ok) throw new Error(response.statusText);
+        const data = await response.json();
+        dispatch({
           type: SET_LOGIN_STATUS,
           payload: {
             socialNetwork: 'google',
             loggedIn: true,
-            token: data.token
+            token: data.token,
+            oAuthToken: user.accessToken
           }
-        }))
-        .catch(() => dispatch(logout()));
-    })
-      .catch(({ code }) => dispatch({
+        });
+      } catch (e) {
+        dispatch(logout());
+      }
+    } catch (e) {
+      // very brittle approach but only way to know currently
+      const userDismissedLogin = e.message.indexOf('error -4') !== -1;
+      dispatch({
         type: SET_LOGIN_STATUS,
         payload: {
-          logSuccess: DISMISS_LOGIN_CODES.includes(code)
+          logSuccess: userDismissedLogin
         }
-      }));
+      });
+    }
+  };
+}
+
+export function facebookLogin() {
+  return async (dispatch) => {
+    try {
+      const result = await LoginManager.logInWithReadPermissions(oAuth.facebook);
+      if (!result.isCancelled) {
+        try {
+          const data = await AccessToken.getCurrentAccessToken();
+          console.warn(data.accessToken);
+          // TODO: implement GFW API login here when available
+          dispatch({
+            type: SET_LOGIN_STATUS,
+            payload: {
+              loggedIn: true,
+              socialNetwork: 'facebook',
+              oAuthToken: data.accessToken
+            }
+          });
+        } catch (e) {
+          dispatch(logout());
+        }
+      }
+    } catch (e) {
+      dispatch({ type: SET_LOGIN_STATUS, payload: { logSuccess: false } });
+    }
   };
 }
 
 export function logout() {
-  return (dispatch, state) => {
+  return async (dispatch, state) => {
     dispatch({ type: RESET_STATE });
-    CookieManager.clearAll()
-      .then((res) => (console.info(res)));
-    if (state().user.socialNetwork === 'google') {
-      dispatch({ type: LOGOUT_REQUEST });
-
-      return GoogleOAuth.logout()
-        .then(() => dispatch({ type: LOGOUT_COMMIT }))
-        .catch(error => dispatch({ type: LOGOUT_ROLLBACK, payload: error }));
-    }
-
+    await CookieManager.clearAll();
     dispatch({ type: LOGOUT_REQUEST });
+    const { oAuthToken: tokenToRevoke, socialNetwork } = state().user;
+    try {
+      switch (socialNetwork) {
+        case 'google':
+          await revoke(oAuth.google, { tokenToRevoke });
+          break;
+        case 'facebook':
+          await LoginManager.logOut();
+          break;
+        default: break;
+      }
+    } catch (e) {
+      dispatch({ type: LOGOUT_ROLLBACK });
+    }
     return dispatch({ type: LOGOUT_COMMIT });
   };
 }

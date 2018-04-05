@@ -4,8 +4,10 @@ import android.widget.LinearLayout;
 import android.graphics.Color;
 import android.widget.TextView;
 import android.view.Gravity;
-import android.util.TypedValue;
+
 import com.reactnativenavigation.controllers.SplashActivity;
+
+import android.content.Intent;
 
 public class MainActivity extends SplashActivity {
 
@@ -19,5 +21,11 @@ public class MainActivity extends SplashActivity {
 
         view.addView(textView);
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
     }
 }

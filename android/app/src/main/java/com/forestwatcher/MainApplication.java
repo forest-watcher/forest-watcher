@@ -1,12 +1,14 @@
 package com.forestwatcher;
 
+import android.content.Intent;
+
 import com.facebook.react.ReactInstanceManager;
 import com.microsoft.codepush.react.ReactInstanceHolder;
 import com.microsoft.codepush.react.CodePush;
 import com.psykar.cookiemanager.CookieManagerPackage;
 import io.realm.react.RealmReactPackage;
-import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
+import com.reactnativenavigation.controllers.ActivityCallbacks;
 import com.sensormanager.SensorManagerPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
@@ -17,17 +19,26 @@ import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.syarul.rnlocation.RNLocation;
 import com.rnziparchive.RNZipArchivePackage;
 import com.imagepicker.ImagePickerPackage;
+import com.reactlibrary.RNAppAuthPackage;
+import com.facebook.CallbackManager;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends NavigationApplication implements ReactInstanceHolder {
 
-	@Override
-	public String getJSBundleFile() {
-    // Override default getJSBundleFile method with the one CodePush is providing
-		return CodePush.getJSBundleFile();
-	}
+  private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
+
+  protected static CallbackManager getCallbackManager() {
+    return mCallbackManager;
+  }
+
+  @Override
+  public String getJSBundleFile() {
+  // Override default getJSBundleFile method with the one CodePush is providing
+      return CodePush.getJSBundleFile();
+  }
 
   @Override
   public String getJSMainModuleName() {
@@ -44,7 +55,6 @@ public class MainApplication extends NavigationApplication implements ReactInsta
     // Add additional packages you require here
     // No need to add RnnPackage and MainReactPackage
     return Arrays.<ReactPackage>asList(
-      new RNGoogleSigninPackage(),
       new GoogleAnalyticsBridgePackage(),
       new SensorManagerPackage(),
       new RNFetchBlobPackage(),
@@ -61,7 +71,9 @@ public class MainApplication extends NavigationApplication implements ReactInsta
         getApplicationContext(),
         BuildConfig.DEBUG,
         R.string.CodePushPublicKey
-      )
+      ),
+      new RNAppAuthPackage(),
+      new FBSDKPackage(mCallbackManager)
     );
   }
 
@@ -74,5 +86,17 @@ public class MainApplication extends NavigationApplication implements ReactInsta
   public ReactInstanceManager getReactInstanceManager() {
       // CodePush must be told how to find React Native instance
     return getReactNativeHost().getReactInstanceManager();
+  }
+
+  @Override
+  public void onCreate() {
+    super.onCreate();
+
+    setActivityCallbacks(new ActivityCallbacks() {
+      @Override
+      public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+      }
+    });
   }
 }

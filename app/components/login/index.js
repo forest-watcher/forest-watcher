@@ -37,8 +37,8 @@ class Login extends PureComponent {
     navBarHidden: true
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       webviewVisible: false,
@@ -82,33 +82,20 @@ class Login extends PureComponent {
 
   onPress(socialNetwork) {
     if (this.props.isConnected) {
-      const url = `${Config.API_AUTH}/auth/${socialNetwork}?token=true&callbackUrl=${Config.API_AUTH_CALLBACK_URL}`;
-
-      this.setState({
-        socialNetwork,
-        webviewVisible: true,
-        webViewUrl: url
-      });
-    } else {
-      Alert.alert(
-        I18n.t('login.unable'),
-        I18n.t('login.connectionRequired'),
-        [{ text: 'OK' }]
-      );
+      this.setState({ socialNetwork });
+      const provider = {
+        google: this.props.googleLogin,
+        facebook: this.props.facebookLogin,
+        twitter: this.webViewProvider
+      }[socialNetwork];
+      return provider(socialNetwork);
     }
-  }
 
-  onPressGoogle = () => {
-    const { isConnected, loginGoogle } = this.props;
-    if (isConnected) {
-      loginGoogle();
-    } else {
-      Alert.alert(
-        I18n.t('login.unable'),
-        I18n.t('login.connectionRequired'),
-        [{ text: 'OK' }]
-      );
-    }
+    return Alert.alert(
+      I18n.t('login.unable'),
+      I18n.t('login.connectionRequired'),
+      [{ text: 'OK' }]
+    );
   }
 
   onNavigationStateChange(navState) {
@@ -139,9 +126,18 @@ class Login extends PureComponent {
     }
   }
 
-  closeWebview() {
+  closeWebview = () => {
     this.setState({
       webviewVisible: false
+    });
+  }
+
+  webViewProvider = (socialNetwork) => {
+    const url = `${Config.API_AUTH}/auth/${socialNetwork}?token=true&callbackUrl=${Config.API_AUTH_CALLBACK_URL}`;
+    this.setState({
+      socialNetwork,
+      webviewVisible: true,
+      webViewUrl: url
     });
   }
 
@@ -152,7 +148,7 @@ class Login extends PureComponent {
           <View style={styles.webViewHeader}>
             <TouchableHighlight
               style={styles.webViewButtonClose}
-              onPress={() => this.closeWebview()}
+              onPress={this.closeWebview}
               activeOpacity={0.8}
               underlayColor={'transparent'}
             >
@@ -228,7 +224,7 @@ class Login extends PureComponent {
             </TouchableHighlight>
             <TouchableHighlight
               style={[styles.button, styles.buttonGoogle]}
-              onPress={this.onPressGoogle}
+              onPress={() => this.onPress('google')}
               activeOpacity={0.8}
               underlayColor={Theme.socialNetworks.google}
             >
@@ -255,7 +251,8 @@ Login.propTypes = {
   logSuccess: PropTypes.bool.isRequired,
   logout: PropTypes.func.isRequired,
   isConnected: PropTypes.bool.isRequired,
-  loginGoogle: PropTypes.func.isRequired,
+  facebookLogin: PropTypes.func.isRequired,
+  googleLogin: PropTypes.func.isRequired,
   setLoginStatus: PropTypes.func.isRequired,
   navigator: PropTypes.object.isRequired
 };

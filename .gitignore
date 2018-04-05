@@ -1,6 +1,8 @@
 # Env
 .env
 private/
+ios/ForestWatcher/AppCenter-Config.plist
+android/app/src/main/assets/appcenter-config.json
 
 # OSX
 #
@@ -69,4 +71,3 @@ ios/.gems
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
-

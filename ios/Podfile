@@ -6,8 +6,17 @@ platform :ios, '8.0'
 target 'ForestWatcher' do
 
   pod 'GoogleMaps'
-  pod 'Google/SignIn'
+  pod 'AppAuth'
+  pod 'FBSDKLoginKit'
 
   # pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
+  post_install do |installer|
+    installer.pods_project.targets.each do |target|
+         target.build_configurations.each do |config|
+              config.build_settings['CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF'] = 'NO'
+              config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+         end
+    end
+  end
 end
