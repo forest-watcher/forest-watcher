@@ -7,7 +7,9 @@ The following env vars are directly related to the app behaviour.
 
 For the rest of the env vars go to:
 - [OAuth variables](/mobile/environment-vars/oauth-variables.md)
+- [Fastlane variables](/mobile/environment-vars/fastlane-variables.md)
 - [Other third party variables](/mobile/environment-vars/other-third-party-variables.md)
+
 ## Application dependencies
 
 Basic dependencies from the [RW API](https://resource-watch.github.io/doc-api/index-rw.html) and the values from some datasets.

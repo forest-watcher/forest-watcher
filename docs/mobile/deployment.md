@@ -1,8 +1,29 @@
-# Deployment 
+# Deployment
 
 ## Stores release
 
-Made by hand for now, [fastlane](https://fastlane.tools/) wip
+Fastlane saves us a lot of time automating processes, please take a look first on the [fastlane variables doc](/mobile/environment-vars/fastlane-variables.md).
+
+And remember to install it.
+
+```bash
+gem install fastlane -NV
+````
+
+To deploy a beta version for the testers just run:
+
+```bash
+cd /android | /ios
+fastlane beta
+```
+
+To deploy to the stores:
+
+```bash
+cd /android | /ios
+fastlane deploy
+```
+
 
 ## Code push release
 
