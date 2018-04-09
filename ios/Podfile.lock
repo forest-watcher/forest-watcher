@@ -1,14 +1,14 @@
 PODS:
-  - AppAuth (0.9.1)
-  - Bolts (1.8.4):
-    - Bolts/AppLinks (= 1.8.4)
-    - Bolts/Tasks (= 1.8.4)
-  - Bolts/AppLinks (1.8.4):
+  - AppAuth (0.92.0)
+  - Bolts (1.9.0):
+    - Bolts/AppLinks (= 1.9.0)
+    - Bolts/Tasks (= 1.9.0)
+  - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
-  - Bolts/Tasks (1.8.4)
-  - FBSDKCoreKit (4.24.0):
+  - Bolts/Tasks (1.9.0)
+  - FBSDKCoreKit (4.31.1):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.24.0):
+  - FBSDKLoginKit (4.31.1):
     - FBSDKCoreKit
   - GoogleMaps (2.3.1):
     - GoogleMaps/Maps (= 2.3.1)
@@ -22,12 +22,12 @@ DEPENDENCIES:
   - GoogleMaps
 
 SPEC CHECKSUMS:
-  AppAuth: f7d9a2ce4ffe79a62a8b0c1d0938e88d9809b846
-  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  FBSDKCoreKit: f8c9eb0dd34a9cd277c7b60da4b32226d142502d
-  FBSDKLoginKit: 1214c6d5a1c4995b694d8db8a9ba6910c6028acf
+  AppAuth: 3f4f1d6d85ad631d0bbf15ffcdc10c447face97a
+  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
+  FBSDKCoreKit: e08ccfcefa7bc1347a07c276dac9bf6c7fe57024
+  FBSDKLoginKit: 99797ac39252fef6f72600b886f6ee60b4b29cab
   GoogleMaps: c66a71058b9b1294bcdd5463a68e357fa50c079f
 
-PODFILE CHECKSUM: 13e0771f6120621c0865cabf62d0403498e79cb4
+PODFILE CHECKSUM: 5cbf013ca28b058a5f65d9298cd9b751a715fa6f
 
 COCOAPODS: 1.4.0
