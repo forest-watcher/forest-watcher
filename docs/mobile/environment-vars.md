@@ -28,10 +28,10 @@ In order to run the app on Android you'll need to generate a signing key and a k
 After generating it, you need to save it in the `/android/app` folder and add the following env vars with **your** info.
 
 ```bash
-RELEASE_STORE_FILE=
-RELEASE_KEY_ALIAS=
-RELEASE_STORE_PASSWORD=
-RELEASE_KEY_PASSWORD=
+RELEASE_STORE_FILE=my-release-key.keystore
+RELEASE_KEY_ALIAS=my-app-alias
+RELEASE_STORE_PASSWORD=my-release-key-store-password
+RELEASE_KEY_PASSWORD=my-release-key-password
 ```
 
 Read more about key/keystore generation [here](https://developer.android.com/studio/publish/app-signing.html#generate-key).
