@@ -1,4 +1,7 @@
 [ignore]
+; dependencies
+.*/node_modules/.*
+
 ; We fork some components by platform
 .*/*[.]android.js
 
@@ -50,5 +53,20 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowIssue\\((\\(<VERSION>\\)? *\\(site=[a-z,_]*
 suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
 suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 
+; aliases support
+module.system.node.resolve_dirname=node_modules
+module.system.node.resolve_dirname=./app
+module.system.node.resolve_dirname=./app/screens
+module.system.node.resolve_dirname=./app/locales
+module.system.node.resolve_dirname=./app/config
+module.system.node.resolve_dirname=./app/helpers
+module.system.node.resolve_dirname=./app/components
+module.system.node.resolve_dirname=./app/containers
+module.system.node.resolve_dirname=./app/redux-modules
+module.system.node.resolve_dirname=./app/assets
+module.system.node.resolve_dirname=./app/offline
+module.system.node.resolve_dirname=./package.json
+module.system.node.resolve_dirname=./app/types
+
 [version]
-^0.65.0
+^0.69.0

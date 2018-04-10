@@ -1,3 +1,6 @@
+// @flow
+import type { Action } from 'types/store';
+
 import { RESET_STATE } from '@redux-offline/redux-offline/lib/constants';
 import { authorize, revoke } from 'react-native-app-auth';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
@@ -7,13 +10,24 @@ import oAuth from 'config/oAuth';
 const CookieManager = require('react-native-cookies');
 
 // Actions
-const GET_USER_REQUEST = 'user/GET_USER_REQUEST';
+export const GET_USER_REQUEST = 'user/GET_USER_REQUEST';
 const GET_USER_COMMIT = 'user/GET_USER_COMMIT';
 const GET_USER_ROLLBACK = 'user/GET_USER_ROLLBACK';
 const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
 export const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
 const LOGOUT_COMMIT = 'user/LOGOUT_COMMIT';
 const LOGOUT_ROLLBACK = 'user/LOGOUT_ROLLBACK';
+
+type UserInitialState = {
+  data: Object,
+  loggedIn: boolean,
+  token: ?string,
+  oAuthToken: ?string,
+  socialNetwork: ?string,
+  logSuccess: boolean,
+  synced: boolean,
+  syncing: boolean
+}
 
 // Reducer
 const initialState = {
@@ -27,7 +41,7 @@ const initialState = {
   syncing: false
 };
 
-export default function reducer(state = initialState, action) {
+export default function reducer(state: UserInitialState = initialState, action: Action): UserInitialState {
   switch (action.type) {
     case GET_USER_REQUEST:
       return { ...state, synced: false, syncing: true };
@@ -52,7 +66,7 @@ export default function reducer(state = initialState, action) {
 }
 
 // Action Creators
-function getUser() {
+function getUser() : Action {
   return {
     type: GET_USER_REQUEST,
     meta: {

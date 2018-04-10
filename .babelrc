@@ -1,6 +1,7 @@
 {
   "presets": [
-    "react-native"
+    "react-native",
+    "flow"
   ],
   "plugins": [
     [
@@ -17,7 +18,8 @@
           "redux-modules": "./app/redux-modules",
           "assets": "./app/assets",
           "offline": "./app/offline",
-          "package.json": "./package.json"
+          "package.json": "./package.json",
+          "types": "./app/types"
         }
       }
     ]
