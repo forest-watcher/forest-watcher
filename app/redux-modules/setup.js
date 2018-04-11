@@ -1,3 +1,7 @@
+// @flow
+import type { SetupState, SetupAction, CountryArea } from 'types/setup.types';
+import type { Country } from 'types/countries.types';
+
 // Actions
 import { SAVE_AREA_COMMIT, SAVE_AREA_ROLLBACK } from 'redux-modules/areas';
 
@@ -8,7 +12,12 @@ const SET_AOI = 'setup/SET_AOI'; // AOI = Area of interest
 
 // Reducer
 const initialState = {
-  country: {},
+  country: {
+    name: null,
+    iso: null,
+    centroid: null,
+    bbox: null
+  },
   area: {
     name: '',
     geostore: '',
@@ -20,7 +29,7 @@ const initialState = {
   areaSaved: false
 };
 
-export default function reducer(state = initialState, action) {
+export default function reducer(state: SetupState = initialState, action: SetupAction): SetupState {
   switch (action.type) {
     case INIT_SETUP: {
       return initialState;
@@ -52,20 +61,20 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-export function initSetup() {
+export function initSetup(): SetupAction {
   return {
     type: INIT_SETUP
   };
 }
 
-export function setSetupCountry(country) {
+export function setSetupCountry(country: Country): SetupAction {
   return {
     type: SET_COUNTRY,
     payload: country
   };
 }
 
-export function setSetupAOI(area, snapshot) {
+export function setSetupAOI(area: CountryArea, snapshot: string): SetupAction {
   return {
     type: SET_AOI,
     payload: {
