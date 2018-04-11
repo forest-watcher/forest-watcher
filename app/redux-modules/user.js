@@ -1,6 +1,6 @@
 // @flow
 import type { Thunk, Dispatch, GetState } from 'types/store';
-import type { UserAction } from 'types/user';
+import type { UserState, UserAction } from 'types/user';
 
 import { RESET_STATE } from '@redux-offline/redux-offline/lib/constants';
 import { authorize, revoke } from 'react-native-app-auth';
@@ -17,17 +17,6 @@ export const GET_USER_ROLLBACK = 'user/GET_USER_ROLLBACK';
 export const SET_LOGIN_AUTH = 'user/SET_LOGIN_AUTH';
 export const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
 export const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
-
-export type UserState = {
-  data: Object,
-  loggedIn: boolean,
-  token: ?string,
-  oAuthToken: ?string,
-  socialNetwork: ?string,
-  logSuccess: boolean,
-  synced: boolean,
-  syncing: boolean
-}
 
 // Reducer
 const initialState = {
