@@ -1,5 +1,5 @@
 // @flow
-import type { Action } from 'types/store';
+import { UserAction } from 'types/user';
 
 import { RESET_STATE } from '@redux-offline/redux-offline/lib/constants';
 import { authorize, revoke } from 'react-native-app-auth';
@@ -18,7 +18,7 @@ export const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
 const LOGOUT_COMMIT = 'user/LOGOUT_COMMIT';
 const LOGOUT_ROLLBACK = 'user/LOGOUT_ROLLBACK';
 
-type UserInitialState = {
+export type UserState = {
   data: Object,
   loggedIn: boolean,
   token: ?string,
@@ -41,7 +41,7 @@ const initialState = {
   syncing: false
 };
 
-export default function reducer(state: UserInitialState = initialState, action: Action): UserInitialState {
+export default function reducer(state: UserState = initialState, action: UserAction): UserState {
   switch (action.type) {
     case GET_USER_REQUEST:
       return { ...state, synced: false, syncing: true };
@@ -66,7 +66,7 @@ export default function reducer(state: UserInitialState = initialState, action: 
 }
 
 // Action Creators
-function getUser() : Action {
+function getUser() : UserAction {
   return {
     type: GET_USER_REQUEST,
     meta: {
