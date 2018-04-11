@@ -7,10 +7,12 @@ import Theme from 'config/theme';
 import { registerScreens } from 'screens';
 
 import * as reducers from 'redux-modules';
+import { SAVE_LASTS_ACTIONS } from 'redux-modules/app';
 import offline from 'offline';
 
 import Reactotron, { trackGlobalErrors, networking, openInEditor, asyncStorage } from 'reactotron-react-native'; // eslint-disable-line
 import { reactotronRedux } from 'reactotron-redux'; // eslint-disable-line
+import { setExceptionHandlers, checkPrevCrashes } from './crashes';
 
 // Disable ios warnings
 // console.disableYellowBox = true;
@@ -20,6 +22,8 @@ import { reactotronRedux } from 'reactotron-redux'; // eslint-disable-line
 
 
 const app = () => {
+  let store = null;
+
   function startApp() {
     Navigation.startSingleScreenApp({
       screen: {
@@ -37,16 +41,24 @@ const app = () => {
         orientation: 'portrait'
       }
     });
+    setExceptionHandlers(store);
+    checkPrevCrashes(store);
   }
 
   const authMiddleware = ({ getState }) => next => action => (
     action.type && action.type.endsWith('REQUEST') ? next({ ...action, auth: getState().user.token }) : next(action)
   );
 
-  const reducer = combineReducers(reducers);
-  const middleware = applyMiddleware(thunk, authMiddleware);
+  const lastActionsMiddleware = (storem) => next => action => {
+    if (action.type !== SAVE_LASTS_ACTIONS) {
+      storem.dispatch({ type: SAVE_LASTS_ACTIONS, payload: action });
+    }
+    return next(action);
+  };
 
-  let store = null;
+  const reducer = combineReducers(reducers);
+  const middleware = applyMiddleware(thunk, authMiddleware, lastActionsMiddleware);
+
   if (__DEV__) {
     Reactotron
       .configure()

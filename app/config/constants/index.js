@@ -95,6 +95,8 @@ export const COORDINATES_FORMATS = {
   }
 };
 
+export const ACTIONS_SAVED_TO_REPORT = 5;
+
 export default {
   appName: APP_NAME,
   areas: AREAS,
@@ -106,6 +108,7 @@ export default {
   reports: REPORTS,
   status: STATUS,
   reach: REACH,
-  datasets: DATASETS
+  datasets: DATASETS,
+  actionsSavedToReport: ACTIONS_SAVED_TO_REPORT
 };
 

@@ -1,4 +1,3 @@
-import Crashes from 'appcenter-crashes';
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -7,7 +6,6 @@ import {
   Platform,
   Text
 } from 'react-native';
-import { Navigation } from 'react-native-navigation';
 
 import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
@@ -116,22 +114,6 @@ class Dashboard extends PureComponent {
 
   disablePristine = () => {
     this.props.setPristine(false);
-  }
-
-  checkPrevCrashes = async () => {
-    const didCrash = await Crashes.hasCrashedInLastSession();
-    if (didCrash) {
-      const closeLightbox = () => Navigation.dismissLightBox;
-      const crashReport = await Crashes.lastSessionCrashReport();
-      Navigation.showLightBox({
-        screen: 'ForestWatcher.ErrorLightbox',
-        passProps: { error: crashReport, closeLightbox },
-        style: {
-          backgroundBlur: 'none',
-          tapBackgroundToDismiss: true
-        }
-      });
-    }
   }
 
   render() {

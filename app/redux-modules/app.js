@@ -1,5 +1,5 @@
-import { version } from 'package.json';
-import { COORDINATES_FORMATS } from 'config/constants/index';
+import { version } from 'package.json'; // eslint-disable-line
+import { COORDINATES_FORMATS, ACTIONS_SAVED_TO_REPORT } from 'config/constants/index';
 import { syncAreas, UPDATE_AREA_REQUEST, SAVE_AREA_REQUEST } from 'redux-modules/areas';
 import { syncCountries } from 'redux-modules/countries';
 import { syncUser, LOGOUT_REQUEST } from 'redux-modules/user';
@@ -7,6 +7,7 @@ import { syncGeostore } from 'redux-modules/geostore';
 import { syncLayers } from 'redux-modules/layers';
 import { syncReports } from 'redux-modules/reports';
 import { syncAlerts } from 'redux-modules/alerts';
+import takeRight from 'lodash/takeRight';
 
 // Actions
 export const START_APP = 'app/START_APP';
@@ -17,6 +18,7 @@ export const RETRY_SYNC = 'app/RETRY_SYNC';
 const SET_COORDINATES_FORMAT = 'app/SET_COORDINATES_FORMAT';
 const SET_LAYERS_DRAWER_SECTIONS = 'app/SET_LAYERS_DRAWER_SECTIONS';
 const SET_PRISTINE_CACHE_TOOLTIP = 'app/SET_PRISTINE_CACHE_TOOLTIP';
+export const SAVE_LASTS_ACTIONS = 'app/SAVE_LASTS_ACTIONS';
 
 // Reducer
 const initialState = {
@@ -26,6 +28,7 @@ const initialState = {
   coordinatesFormat: COORDINATES_FORMATS.decimal.value,
   showLegend: true,
   pristineCacheTooltip: true,
+  actions: [],
   version // app cache invalidation depends on this, if this changes make sure that redux-persist invalidation changes also.
 };
 
@@ -49,6 +52,11 @@ export default function reducer(state = initialState, action) {
       return { ...state, showLegend: action.payload };
     case SET_PRISTINE_CACHE_TOOLTIP:
       return { ...state, pristineCacheTooltip: action.payload };
+    case SAVE_LASTS_ACTIONS: {
+      // Save the last actions to send to the report
+      const actions = [...takeRight(state.actions, ACTIONS_SAVED_TO_REPORT), action.payload];
+      return { ...state, actions };
+    }
     case LOGOUT_REQUEST:
       return initialState;
     default:
