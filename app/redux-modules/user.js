@@ -1,6 +1,6 @@
 // @flow
-import type { Thunk, Dispatch, GetState } from 'types/store';
-import type { UserState, UserAction } from 'types/user';
+import type { Dispatch, GetState } from 'types/store.types';
+import type { UserState, UserAction } from 'types/user.types';
 
 import { RESET_STATE } from '@redux-offline/redux-offline/lib/constants';
 import { authorize, revoke } from 'react-native-app-auth';
@@ -70,14 +70,14 @@ function getUser(): UserAction {
   };
 }
 
-export function syncUser(): Thunk<UserAction> {
+export function syncUser() {
   return (dispatch: Dispatch, state: GetState) => {
     const { user } = state();
     if (!user.synced && !user.syncing) dispatch(getUser());
   };
 }
 
-export function googleLogin(): Thunk<UserAction> {
+export function googleLogin() {
   return async (dispatch: Dispatch) => {
     try {
       const user = await authorize(oAuth.google);
@@ -108,7 +108,7 @@ export function googleLogin(): Thunk<UserAction> {
   };
 }
 
-export function facebookLogin(): Thunk<UserAction> {
+export function facebookLogin() {
   return async (dispatch: Dispatch) => {
     try {
       const result = await LoginManager.logInWithReadPermissions(oAuth.facebook);
@@ -148,7 +148,7 @@ export function setLoginAuth(details: { token: string, loggedIn: boolean, social
   };
 }
 
-export function logout(): Thunk<UserAction> {
+export function logout() {
   return async (dispatch: Dispatch, state: GetState) => {
     dispatch({ type: RESET_STATE });
     await CookieManager.clearAll();

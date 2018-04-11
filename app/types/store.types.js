@@ -8,7 +8,7 @@ import type {
   OfflineState
 } from '@redux-offline/redux-offline/src/types';
 
-import type { UserAction, UserState } from 'types/user';
+import type { UserAction, UserState } from 'types/user.types';
 
 type Action = UserAction;
 

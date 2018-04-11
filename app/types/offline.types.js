@@ -4,7 +4,7 @@ export type OfflineMeta = {
   offline: {
     effect: {
       url: string,
-      method: 'POST' | 'PUT' | 'DELETE' | 'PATCH',
+      method?: 'POST' | 'PUT' | 'DELETE' | 'PATCH',
       errorCode?: number,
       headers?: Object,
       deserialize?: boolean
