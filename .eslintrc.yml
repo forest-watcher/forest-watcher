@@ -1,5 +1,5 @@
 ---
-extends: airbnb
+extends: [airbnb, plugin:flowtype/recommended]
 env:
   node: true
   es6: true
@@ -15,7 +15,7 @@ parserOptions:
     jsx: true
     experimentalObjectRestSpread: true
   sourceType: module
-plugins: [react]
+plugins: [react, flowtype]
 
 rules:
   max-len: [1, 140, 2, {"ignoreUrls":true}]
@@ -37,3 +37,6 @@ settings:
       moduleDirectory:
         - node_modules
         - app
+  settings:
+    flowtype:
+      onlyFilesWithFlowAnnotation: true
