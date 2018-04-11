@@ -1,9 +1,12 @@
+// @flow
+import type { State } from 'types/store';
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setLoginStatus, googleLogin, facebookLogin, logout } from 'redux-modules/user';
+import { setLoginAuth, googleLogin, facebookLogin, logout } from 'redux-modules/user';
 import Login from 'components/login';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: State) {
   return {
     isConnected: state.offline.online,
     loggedIn: state.user.loggedIn,
@@ -11,11 +14,11 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch: *) => bindActionCreators({
   logout,
   googleLogin,
   facebookLogin,
-  setLoginStatus
+  setLoginAuth
 }, dispatch);
 
 export default connect(

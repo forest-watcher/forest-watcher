@@ -69,7 +69,7 @@ class Login extends PureComponent {
 
       if (token && token[1]) {
         token = token[1].replace('#', '');
-        this.props.setLoginStatus({
+        this.props.setLoginAuth({
           token,
           socialNetwork: this.state.socialNetwork,
           loggedIn: true
@@ -253,7 +253,7 @@ Login.propTypes = {
   isConnected: PropTypes.bool.isRequired,
   facebookLogin: PropTypes.func.isRequired,
   googleLogin: PropTypes.func.isRequired,
-  setLoginStatus: PropTypes.func.isRequired,
+  setLoginAuth: PropTypes.func.isRequired,
   navigator: PropTypes.object.isRequired
 };
 

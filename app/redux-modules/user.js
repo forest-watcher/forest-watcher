@@ -1,5 +1,6 @@
 // @flow
-import { UserAction } from 'types/user';
+import type { Thunk, Dispatch, GetState } from 'types/store';
+import type { UserAction } from 'types/user';
 
 import { RESET_STATE } from '@redux-offline/redux-offline/lib/constants';
 import { authorize, revoke } from 'react-native-app-auth';
@@ -11,12 +12,11 @@ const CookieManager = require('react-native-cookies');
 
 // Actions
 export const GET_USER_REQUEST = 'user/GET_USER_REQUEST';
-const GET_USER_COMMIT = 'user/GET_USER_COMMIT';
-const GET_USER_ROLLBACK = 'user/GET_USER_ROLLBACK';
-const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
+export const GET_USER_COMMIT = 'user/GET_USER_COMMIT';
+export const GET_USER_ROLLBACK = 'user/GET_USER_ROLLBACK';
+export const SET_LOGIN_AUTH = 'user/SET_LOGIN_AUTH';
+export const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
 export const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
-const LOGOUT_COMMIT = 'user/LOGOUT_COMMIT';
-const LOGOUT_ROLLBACK = 'user/LOGOUT_ROLLBACK';
 
 export type UserState = {
   data: Object,
@@ -52,21 +52,23 @@ export default function reducer(state: UserState = initialState, action: UserAct
     case GET_USER_ROLLBACK: {
       return { ...state, syncing: false };
     }
-    case SET_LOGIN_STATUS:
-      return Object.assign({}, state, { ...action.payload });
+    case SET_LOGIN_AUTH: {
+      const { socialNetwork, loggedIn, token, oAuthToken } = action.payload;
+      return { ...state, socialNetwork, loggedIn, token, oAuthToken };
+    }
+    case SET_LOGIN_STATUS: {
+      const logSuccess = action.payload;
+      return { ...state, logSuccess };
+    }
     case LOGOUT_REQUEST:
       return { ...state, token: null, loggedIn: false };
-    case LOGOUT_COMMIT:
-      return { ...initialState, logSuccess: true };
-    case LOGOUT_ROLLBACK:
-      return { ...state, logSuccess: false };
     default:
       return state;
   }
 }
 
 // Action Creators
-function getUser() : UserAction {
+function getUser(): UserAction {
   return {
     type: GET_USER_REQUEST,
     meta: {
@@ -79,22 +81,15 @@ function getUser() : UserAction {
   };
 }
 
-export function syncUser() {
-  return (dispatch, state) => {
+export function syncUser(): Thunk<UserAction> {
+  return (dispatch: Dispatch, state: GetState) => {
     const { user } = state();
     if (!user.synced && !user.syncing) dispatch(getUser());
   };
 }
 
-export function setLoginStatus(status) {
-  return {
-    type: SET_LOGIN_STATUS,
-    payload: status
-  };
-}
-
-export function googleLogin() {
-  return async (dispatch) => {
+export function googleLogin(): Thunk<UserAction> {
+  return async (dispatch: Dispatch) => {
     try {
       const user = await authorize(oAuth.google);
       try {
@@ -102,7 +97,7 @@ export function googleLogin() {
         if (!response.ok) throw new Error(response.statusText);
         const data = await response.json();
         dispatch({
-          type: SET_LOGIN_STATUS,
+          type: SET_LOGIN_AUTH,
           payload: {
             socialNetwork: 'google',
             loggedIn: true,
@@ -118,16 +113,14 @@ export function googleLogin() {
       const userDismissedLogin = e.message.indexOf('error -4') !== -1;
       dispatch({
         type: SET_LOGIN_STATUS,
-        payload: {
-          logSuccess: userDismissedLogin
-        }
+        payload: userDismissedLogin
       });
     }
   };
 }
 
-export function facebookLogin() {
-  return async (dispatch) => {
+export function facebookLogin(): Thunk<UserAction> {
+  return async (dispatch: Dispatch) => {
     try {
       const result = await LoginManager.logInWithReadPermissions(oAuth.facebook);
       if (!result.isCancelled) {
@@ -136,11 +129,12 @@ export function facebookLogin() {
           console.warn(data.accessToken);
           // TODO: implement GFW API login here when available
           dispatch({
-            type: SET_LOGIN_STATUS,
+            type: SET_LOGIN_AUTH,
             payload: {
               loggedIn: true,
               socialNetwork: 'facebook',
-              oAuthToken: data.accessToken
+              oAuthToken: data.accessToken,
+              token: 'no token' // for now
             }
           });
         } catch (e) {
@@ -148,13 +142,25 @@ export function facebookLogin() {
         }
       }
     } catch (e) {
-      dispatch({ type: SET_LOGIN_STATUS, payload: { logSuccess: false } });
+      dispatch({ type: SET_LOGIN_STATUS, payload: false });
     }
   };
 }
 
-export function logout() {
-  return async (dispatch, state) => {
+export function setLoginAuth(details: { token: string, loggedIn: boolean, socialNetwork: string }): UserAction {
+  const { token, loggedIn, socialNetwork } = details;
+  return {
+    type: SET_LOGIN_AUTH,
+    payload: {
+      token,
+      loggedIn,
+      socialNetwork
+    }
+  };
+}
+
+export function logout(): Thunk<UserAction> {
+  return async (dispatch: Dispatch, state: GetState) => {
     dispatch({ type: RESET_STATE });
     await CookieManager.clearAll();
     dispatch({ type: LOGOUT_REQUEST });
@@ -170,8 +176,8 @@ export function logout() {
         default: break;
       }
     } catch (e) {
-      dispatch({ type: LOGOUT_ROLLBACK });
+      dispatch({ type: SET_LOGIN_STATUS, payload: false });
     }
-    return dispatch({ type: LOGOUT_COMMIT });
+    return dispatch({ type: SET_LOGIN_STATUS, payload: true });
   };
 }
