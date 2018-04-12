@@ -3,12 +3,12 @@
 import type { LogoutRequest } from 'types/user.types';
 
 export type Country = {
-  name: ?string,
-  iso: ?string,
-  centroid: ?string,
-  bbox: ?string
+  name: string,
+  iso: string,
+  centroid: string,
+  bbox: string
 }
-type CountriesData = [Country];
+type CountriesData = Array<Country>;
 export type CountriesState = {
   data: CountriesData,
   synced: boolean,

@@ -8,11 +8,10 @@ import SetupBoundaries from 'components/setup/boundaries';
 function mapStateToProps(state) {
   const contextualLayer = getContextualLayer(state.layers);
   return {
+    contextualLayer,
     user: state.user.data,
-    setupCountry: state.setup.country,
     countries: state.countries.data,
-    area: state.setup.area,
-    contextualLayer
+    setupCountry: state.setup.country
   };
 }
 

@@ -12,17 +12,11 @@ const SET_AOI = 'setup/SET_AOI'; // AOI = Area of interest
 
 // Reducer
 const initialState = {
-  country: {
-    name: null,
-    iso: null,
-    centroid: null,
-    bbox: null
-  },
+  country: null,
   area: {
     name: '',
     geostore: '',
     wdpaid: 0,
-    userId: '',
     id: null
   },
   snapshot: '',
@@ -35,13 +29,16 @@ export default function reducer(state: SetupState = initialState, action: SetupA
       return initialState;
     }
     case SET_COUNTRY: {
-      const country = {
-        name: action.payload.name,
-        iso: action.payload.iso,
-        centroid: action.payload.centroid ? JSON.parse(action.payload.centroid) : action.payload.centroid,
-        bbox: action.payload.bbox ? JSON.parse(action.payload.bbox) : action.payload.bbox
-      };
-      return Object.assign({}, state, { country });
+      if (typeof action.payload.centroid === 'string' && action.payload.bbox === 'string') {
+        const country = {
+          name: action.payload.name,
+          iso: action.payload.iso,
+          centroid: action.payload.centroid ? JSON.parse(action.payload.centroid) : action.payload.centroid,
+          bbox: action.payload.bbox ? JSON.parse(action.payload.bbox) : action.payload.bbox
+        };
+        return Object.assign({}, state, { country });
+      }
+      return state;
     }
     case SET_AOI:
       return Object.assign({}, state, {
@@ -49,8 +46,7 @@ export default function reducer(state: SetupState = initialState, action: SetupA
         snapshot: action.payload.snapshot
       });
     case SAVE_AREA_COMMIT: {
-      const area = { ...state.area };
-      area.id = action.payload.id;
+      const area = { ...state.area, id: action.payload.id };
       return Object.assign({}, state, { areaSaved: true, area });
     }
     case SAVE_AREA_ROLLBACK: {

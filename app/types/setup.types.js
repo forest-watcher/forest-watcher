@@ -7,12 +7,11 @@ export type CountryArea = {
   name: string,
   geostore: string,
   wdpaid: number,
-  userId: string,
   id: ?string
 };
 
 export type SetupState = {
-  country: Country,
+  country: ?Country,
   area: CountryArea,
   snapshot: string,
   areaSaved: boolean

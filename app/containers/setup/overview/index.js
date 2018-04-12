@@ -6,12 +6,7 @@ function mapStateToProps(state) {
   return {
     area: state.setup.area,
     snapshot: state.setup.snapshot,
-    user: {
-      id: state.user.data.id,
-      token: state.user.token
-    },
-    areaSaved: state.setup.areaSaved,
-    areaId: state.setup.area.id
+    areaSaved: state.setup.areaSaved
   };
 }
 

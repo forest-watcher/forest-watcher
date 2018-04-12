@@ -21,7 +21,7 @@ class SetupOverview extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: this.props.area.wdpaName || '',
+      name: this.props.area ? this.props.area.name : '',
       saving: false
     };
   }
@@ -30,9 +30,9 @@ class SetupOverview extends Component {
     tracker.trackScreenView('Overview Set Up');
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.props = nextProps;
-    if (this.props.areaSaved) {
+  componentDidUpdate(prevProps) {
+    const { areaSaved } = this.props;
+    if (areaSaved && (prevProps.areaSaved !== areaSaved)) {
       this.onAreaSaved();
     }
   }
@@ -49,7 +49,6 @@ class SetupOverview extends Component {
         name: this.state.name,
         ...this.props.area
       },
-      userid: this.props.user.id,
       snapshot: this.props.snapshot
     };
     this.props.saveArea(params);
@@ -117,10 +116,6 @@ class SetupOverview extends Component {
 }
 
 SetupOverview.propTypes = {
-  user: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    token: PropTypes.string.isRequired
-  }).isRequired,
   area: PropTypes.object.isRequired,
   areaSaved: PropTypes.bool.isRequired,
   snapshot: PropTypes.string.isRequired,
