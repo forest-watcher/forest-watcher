@@ -26,5 +26,5 @@ export type SetupAction =
 
 export type InitSetup = { type: 'setup/INIT_SETUP' };
 export type SetCountry = { type: 'setup/SET_COUNTRY', payload: Country };
-export type SetAoi = { type: 'setup/SET_COUNTRY', payload: { area: CountryArea, snapshot: string } };
+export type SetAoi = { type: 'setup/SET_AOI', payload: { area: CountryArea, snapshot: string } };
 

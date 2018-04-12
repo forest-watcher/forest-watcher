@@ -1,3 +1,7 @@
+// @flow
+import type { State } from 'types/store.types';
+
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setSetupAOI } from 'redux-modules/setup';
 import { storeGeostore } from 'redux-modules/geostore';
@@ -5,7 +9,7 @@ import { getContextualLayer } from 'helpers/map';
 
 import SetupBoundaries from 'components/setup/boundaries';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: State) {
   const contextualLayer = getContextualLayer(state.layers);
   return {
     contextualLayer,
@@ -15,16 +19,10 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    setSetupArea: (area, snapshot) => {
-      dispatch(setSetupAOI(area, snapshot));
-    },
-    storeGeostore: (id, data) => {
-      dispatch(storeGeostore(id, data));
-    }
-  };
-}
+const mapDispatchToProps = (dispatch: *) => bindActionCreators({
+  storeGeostore,
+  setSetupArea: setSetupAOI
+}, dispatch);
 
 export default connect(
   mapStateToProps,
