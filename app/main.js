@@ -49,9 +49,9 @@ const app = () => {
     action.type && action.type.endsWith('REQUEST') ? next({ ...action, auth: getState().user.token }) : next(action)
   );
 
-  const lastActionsMiddleware = (storem) => next => action => {
+  const lastActionsMiddleware = ({ dispatch }) => next => action => {
     if (action.type !== SAVE_LAST_ACTIONS) {
-      storem.dispatch({ type: SAVE_LAST_ACTIONS, payload: action });
+      dispatch({ type: SAVE_LAST_ACTIONS, payload: action });
     }
     return next(action);
   };
