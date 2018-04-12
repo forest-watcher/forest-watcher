@@ -1,9 +1,9 @@
 import Crashes, { ErrorAttachmentLog } from 'appcenter-crashes';
 import { Navigation } from 'react-native-navigation';
 import pick from 'lodash/pick';
+import { REDUCERS_SAVED_TO_REPORT } from 'config/constants';
 
 export function setExceptionHandlers(store) {
-  const storeKeysToSave = ['app'];
   Crashes.setListener({
     // Always send the crashes by default
     shouldAwaitUserConfirmation() {
@@ -13,7 +13,7 @@ export function setExceptionHandlers(store) {
     getErrorAttachments() {
       if (!store) return undefined; // Default values are used if a method with return parameter is not defined.
       const state = store.getState();
-      const storeToSave = pick(state, storeKeysToSave);
+      const storeToSave = pick(state, REDUCERS_SAVED_TO_REPORT);
       const textContent = JSON.stringify(storeToSave);
       const textAttachment = ErrorAttachmentLog.attachmentWithText(textContent, 'store.txt');
       return [textAttachment];

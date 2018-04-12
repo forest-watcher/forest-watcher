@@ -95,6 +95,7 @@ export const COORDINATES_FORMATS = {
   }
 };
 
+export const REDUCERS_SAVED_TO_REPORT = ['app', 'areas', 'layers'];
 export const ACTIONS_SAVED_TO_REPORT = 5;
 
 export default {

@@ -50,7 +50,7 @@ const app = () => {
   );
 
   const lastActionsMiddleware = ({ dispatch }) => next => action => {
-    if (action.type !== SAVE_LAST_ACTIONS) {
+    if (action.type !== SAVE_LAST_ACTIONS || action.type.startsWith('user/')) {
       dispatch({ type: SAVE_LAST_ACTIONS, payload: action });
     }
     return next(action);
