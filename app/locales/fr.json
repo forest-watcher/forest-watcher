@@ -1,8 +1,10 @@
 {
     "commonText": {
         "retry": "Réessayez",
+        "oops": "Oops!",
         "error": "Erreur",
         "unexpectedError": "Un évènement imprévu s'est produit",
+        "crashFeedback": "Quelque chose s’est mal passé. Nous ferons tout notre possible pour régler le problème aussi vite que possible.",
         "appName": "Forest Watcher",
         "next": "Suivant",
         "save": "Enregistrer",
@@ -542,12 +544,12 @@
         "update": "mettre à jour"
     },
     "layers": {
-        "protectedAreas": "Zones protégées",
-        "treeCoverLoss2014": "Perte de couverture forestière (2014)",
-        "treeCoverLoss2015": "Perte de couverture forestière (2015)",
-        "oilPalm": "Huile de palme",
-        "mangedForests": "Concessions forestières",
-        "woodFiber": "Fibre de bois",
-        "mining": "Exploitation minière"
+        "protectedAreas": "Protected Areas",
+        "treeCoverLoss2014": "Tree Cover Loss (2014)",
+        "treeCoverLoss2015": "Tree Cover Loss (2015)",
+        "oilPalm": "Oil Palm",
+        "mangedForests": "Managed Forests",
+        "woodFiber": "Wood Fiber",
+        "mining": "Mining"
     }
 }

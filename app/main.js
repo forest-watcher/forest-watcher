@@ -7,7 +7,7 @@ import Theme from 'config/theme';
 import { registerScreens } from 'screens';
 
 import * as reducers from 'redux-modules';
-import { SAVE_LASTS_ACTIONS } from 'redux-modules/app';
+import { SAVE_LAST_ACTIONS } from 'redux-modules/app';
 import offline from 'offline';
 
 import Reactotron, { trackGlobalErrors, networking, openInEditor, asyncStorage } from 'reactotron-react-native'; // eslint-disable-line
@@ -42,7 +42,7 @@ const app = () => {
       }
     });
     setExceptionHandlers(store);
-    checkPrevCrashes(store);
+    checkPrevCrashes();
   }
 
   const authMiddleware = ({ getState }) => next => action => (
@@ -50,8 +50,8 @@ const app = () => {
   );
 
   const lastActionsMiddleware = (storem) => next => action => {
-    if (action.type !== SAVE_LASTS_ACTIONS) {
-      storem.dispatch({ type: SAVE_LASTS_ACTIONS, payload: action });
+    if (action.type !== SAVE_LAST_ACTIONS) {
+      storem.dispatch({ type: SAVE_LAST_ACTIONS, payload: action });
     }
     return next(action);
   };

@@ -18,7 +18,7 @@ export const RETRY_SYNC = 'app/RETRY_SYNC';
 const SET_COORDINATES_FORMAT = 'app/SET_COORDINATES_FORMAT';
 const SET_LAYERS_DRAWER_SECTIONS = 'app/SET_LAYERS_DRAWER_SECTIONS';
 const SET_PRISTINE_CACHE_TOOLTIP = 'app/SET_PRISTINE_CACHE_TOOLTIP';
-export const SAVE_LASTS_ACTIONS = 'app/SAVE_LASTS_ACTIONS';
+export const SAVE_LAST_ACTIONS = 'app/SAVE_LAST_ACTIONS';
 
 // Reducer
 const initialState = {
@@ -52,7 +52,7 @@ export default function reducer(state = initialState, action) {
       return { ...state, showLegend: action.payload };
     case SET_PRISTINE_CACHE_TOOLTIP:
       return { ...state, pristineCacheTooltip: action.payload };
-    case SAVE_LASTS_ACTIONS: {
+    case SAVE_LAST_ACTIONS: {
       // Save the last actions to send to the report
       const actions = [...takeRight(state.actions, ACTIONS_SAVED_TO_REPORT), action.payload];
       return { ...state, actions };

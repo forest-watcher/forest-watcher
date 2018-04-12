@@ -6,21 +6,20 @@ import I18n from 'locales';
 class ErrorLightbox extends Component {
 
   static propTypes = {
-    error: PropTypes.object.isRequired,
-    closeLightbox: PropTypes.func.isRequired
+    error: PropTypes.object,
+    onPressOK: PropTypes.func.isRequired
   };
 
   componentDidMount() {
-    const { error, closeLightbox } = this.props;
+    const { error, onPressOK } = this.props;
     console.warn(error);
     Alert.alert(
-      I18n.t('commonText.error'),
-      I18n.t('commonText.unexpectedError'),
+      I18n.t('commonText.oops'),
+      I18n.t('commonText.crashFeedback'),
       [
         {
-          text: 'Close',
-          style: 'close',
-          onPress: closeLightbox
+          text: 'OK',
+          onPress: onPressOK
         }
       ],
       { cancelable: false }

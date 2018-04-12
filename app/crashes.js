@@ -29,7 +29,7 @@ export async function checkPrevCrashes() {
     const crashReport = await Crashes.lastSessionCrashReport();
     Navigation.showLightBox({
       screen: 'ForestWatcher.ErrorLightbox',
-      passProps: { error: crashReport, closeLightbox },
+      passProps: { error: crashReport, onPressOK: closeLightbox },
       style: {
         backgroundBlur: 'none',
         tapBackgroundToDismiss: true

@@ -1,8 +1,10 @@
 {
     "commonText": {
         "retry": "Coba lagi",
+        "oops": "Oops!",
         "error": "Eror",
         "unexpectedError": "Terjadi sesuatu yang tak terduga",
+        "crashFeedback": "Ada yang salah. Kami sedang mengusahakan untuk memperbaiki hal ini secepat mungkin.",
         "appName": "Forest Watcher",
         "next": "Lanjut",
         "save": "Menyimpan",
