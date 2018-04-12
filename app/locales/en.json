@@ -1,8 +1,10 @@
 {
     "commonText": {
         "retry": "Retry",
+        "oops": "Oops!",
         "error": "Error",
         "unexpectedError": "Something unexpected happened",
+        "crashFeedback": "Something went wrong. We're working on getting this fixed as soon as we can.",
         "appName": "Forest Watcher",
         "next": "Next",
         "save": "Save",

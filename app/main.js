@@ -7,10 +7,12 @@ import Theme from 'config/theme';
 import { registerScreens } from 'screens';
 
 import * as reducers from 'redux-modules';
+import { SAVE_LAST_ACTIONS } from 'redux-modules/app';
 import offline from 'offline';
 
 import Reactotron, { trackGlobalErrors, networking, openInEditor, asyncStorage } from 'reactotron-react-native'; // eslint-disable-line
 import { reactotronRedux } from 'reactotron-redux'; // eslint-disable-line
+import { setExceptionHandlers, checkPrevCrashes } from './crashes';
 
 // Disable ios warnings
 // console.disableYellowBox = true;
@@ -18,14 +20,11 @@ import { reactotronRedux } from 'reactotron-redux'; // eslint-disable-line
 // Show request in chrome network tool
 // GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
-const codePushOptions = {
-  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
-  installMode: codePush.InstallMode.ON_NEXT_RESUME
-};
 
 const app = () => {
+  let store = null;
+
   function startApp() {
-    codePush.sync(codePushOptions);
     Navigation.startSingleScreenApp({
       screen: {
         screen: 'ForestWatcher.Home',
@@ -42,16 +41,24 @@ const app = () => {
         orientation: 'portrait'
       }
     });
+    setExceptionHandlers(store);
+    checkPrevCrashes();
   }
 
   const authMiddleware = ({ getState }) => next => action => (
     action.type && action.type.endsWith('REQUEST') ? next({ ...action, auth: getState().user.token }) : next(action)
   );
 
-  const reducer = combineReducers(reducers);
-  const middleware = applyMiddleware(thunk, authMiddleware);
+  const lastActionsMiddleware = ({ dispatch }) => next => action => {
+    if (action.type !== SAVE_LAST_ACTIONS) {
+      dispatch({ type: SAVE_LAST_ACTIONS, payload: action });
+    }
+    return next(action);
+  };
 
-  let store = null;
+  const reducer = combineReducers(reducers);
+  const middleware = applyMiddleware(thunk, authMiddleware, lastActionsMiddleware);
+
   if (__DEV__) {
     Reactotron
       .configure()
@@ -65,15 +72,11 @@ const app = () => {
     window.tron = Reactotron; // eslint-disable-line
     store = offline({ persistCallback: startApp })(Reactotron.createStore)(reducer, undefined, middleware);
   } else {
-    const closeLightbox = () => Navigation.dismissLightBox;
-    global.ErrorUtils.setGlobalHandler((error, isFatal) => Navigation.showLightBox({
-      screen: 'ForestWatcher.ErrorLightbox',
-      passProps: { error, isFatal, closeLightbox },
-      style: {
-        backgroundBlur: 'none',
-        tapBackgroundToDismiss: true
-      }
-    }));
+    const codePushOptions = {
+      checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+      installMode: codePush.InstallMode.ON_NEXT_RESUME
+    };
+    codePush.sync(codePushOptions);
     store = offline({ persistCallback: startApp })(createStore)(reducer, undefined, middleware);
   }
 

@@ -165,6 +165,8 @@ android {
 
 dependencies {
     compile project(':react-native-fbsdk')
+    compile project(':appcenter')
+    compile project(':appcenter-crashes')
     compile project(':react-native-code-push')
     compile project(':react-native-app-auth')
     compile project(':react-native-cookies')
