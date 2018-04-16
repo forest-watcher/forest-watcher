@@ -50,7 +50,13 @@ export default function reducer(state: UserState = initialState, action: UserAct
       return { ...state, logSuccess };
     }
     case LOGOUT_REQUEST:
-      return { ...state, token: null, loggedIn: false };
+      return {
+        ...state,
+        token: null,
+        synced: false,
+        loggedIn: false,
+        oAuthToken: null
+      };
     default:
       return state;
   }
