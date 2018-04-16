@@ -53,7 +53,7 @@ class SetupCountry extends Component {
 
   onNextPress = () => {
     const { setupCountry, countries, user } = this.props;
-    if (!setupCountry.iso && user.country) {
+    if (!(setupCountry && setupCountry.iso) && user.country) {
       const currentCountry = getCurrentCountry(countries, user.country);
       this.props.setSetupCountry(currentCountry);
     }
@@ -63,7 +63,7 @@ class SetupCountry extends Component {
   render() {
     const { user, countries, setupCountry } = this.props;
     if (user && countries && countries.length) {
-      const iso = setupCountry.iso || user.country;
+      const iso = (setupCountry && setupCountry.iso) || user.country;
       return (
         <View style={styles.container}>
           <View style={styles.content}>
