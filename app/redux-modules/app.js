@@ -16,7 +16,7 @@ import takeRight from 'lodash/takeRight';
 
 // Actions
 export const START_APP = 'app/START_APP';
-export const SET_LANGUAGE = 'app/SET_LANGUAGE';
+const SET_LANGUAGE = 'app/SET_LANGUAGE';
 const SET_SYNC_MODAL = 'app/SET_SYNC_MODAL';
 const SET_SYNC_SKIP = 'app/SET_SYNC_SKIP';
 export const RETRY_SYNC = 'app/RETRY_SYNC';

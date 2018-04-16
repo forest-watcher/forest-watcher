@@ -57,6 +57,9 @@ buck-out/
 android/app/libs
 *.keystore
 
++# Bundle artifact
++*.jsbundle
+
 # Cocoapods
 #
 Pods/
