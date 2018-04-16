@@ -1,21 +1,24 @@
+// @flow
+import type { Dispatch, GetState } from 'types/store.types';
+import type { ReportsState, ReportsAction } from 'types/reports.types';
+
 import Config from 'react-native-config';
 import tracker from 'helpers/googleAnalytics';
 import CONSTANTS from 'config/constants';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
-import { getActionsTodoCount } from 'helpers/sync';
+// import { getActionsTodoCount } from 'helpers/sync';
 import { getTemplate } from 'helpers/forms';
-import omit from 'lodash/omit';
+// import omit from 'lodash/omit';
 
-import { SAVE_AREA_COMMIT, GET_AREAS_COMMIT } from 'redux-modules/areas';
+import { GET_AREAS_COMMIT } from 'redux-modules/areas';
 
 // Actions
-
 const GET_DEFAULT_TEMPLATE_REQUEST = 'report/GET_DEFAULT_TEMPLATE_REQUEST';
 const GET_DEFAULT_TEMPLATE_COMMIT = 'report/GET_DEFAULT_TEMPLATE_COMMIT';
 const GET_DEFAULT_TEMPLATE_ROLLBACK = 'report/GET_DEFAULT_TEMPLATE_ROLLBACK';
-const GET_REPORT_TEMPLATE_REQUEST = 'report/GET_REPORT_TEMPLATE_REQUEST';
-const GET_REPORT_TEMPLATE_COMMIT = 'report/GET_REPORT_TEMPLATE_COMMIT';
-export const GET_REPORT_TEMPLATE_ROLLBACK = 'report/GET_REPORT_TEMPLATE_ROLLBACK';
+// const GET_REPORT_TEMPLATE_REQUEST = 'report/GET_REPORT_TEMPLATE_REQUEST';
+// const GET_REPORT_TEMPLATE_COMMIT = 'report/GET_REPORT_TEMPLATE_COMMIT';
+// const GET_REPORT_TEMPLATE_ROLLBACK = 'report/GET_REPORT_TEMPLATE_ROLLBACK';
 const CREATE_REPORT = 'report/CREATE_REPORT';
 const UPDATE_REPORT = 'report/UPDATE_REPORT';
 export const UPLOAD_REPORT_REQUEST = 'report/UPLOAD_REPORT_REQUEST';
@@ -27,10 +30,7 @@ const initialState = {
   templates: {},
   list: {},
   synced: false,
-  syncing: false,
-  pendingData: {
-    templates: {}
-  }
+  syncing: false
 };
 
 function orderQuestions(questions) {
@@ -38,7 +38,7 @@ function orderQuestions(questions) {
   return questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
 }
 
-export default function reducer(state = initialState, action) {
+export default function reducer(state: ReportsState = initialState, action: ReportsAction) {
   switch (action.type) {
     case GET_DEFAULT_TEMPLATE_REQUEST:
       return { ...state, synced: false, syncing: true };
@@ -53,94 +53,71 @@ export default function reducer(state = initialState, action) {
     }
     case GET_DEFAULT_TEMPLATE_ROLLBACK:
       return { ...state, syncing: false };
-    case GET_REPORT_TEMPLATE_REQUEST: {
-      const templateId = action.payload;
+    // case GET_REPORT_TEMPLATE_REQUEST: {
+    //   const templateId = action.payload;
 
-      const pendingData = {
-        ...state.pendingData,
-        templates: {
-          ...state.pendingData.templates,
-          [templateId]: true
-        }
-      };
-      return { ...state, pendingData };
-    }
-    case GET_REPORT_TEMPLATE_COMMIT: {
-      const template = action.payload || {};
-      template.questions = orderQuestions(template.questions);
-      const templates = {
-        ...state.templates,
-        [template.id]: template
-      };
-      const pendingData = {
-        ...state.pendingData,
-        templates: omit(state.pendingData.templates, [template.id])
-      };
-      return { ...state, templates, pendingData };
-    }
-    case GET_REPORT_TEMPLATE_ROLLBACK: {
-      const { templateId } = action.meta;
-      const { status } = action.payload;
-      let pendingData;
-      if (status === 404) {
-        pendingData = {
-          ...state.pendingData,
-          templates: omit(state.pendingData.templates, [templateId])
-        };
-      } else {
-        pendingData = {
-          ...state.pendingData,
-          templates: {
-            ...state.pendingData.templates,
-            [templateId]: false
-          }
-        };
-      }
-      return { ...state, pendingData };
-    }
+    //   const pendingData = {
+    //     ...state.pendingData,
+    //     templates: {
+    //       ...state.pendingData.templates,
+    //       [templateId]: true
+    //     }
+    //   };
+    //   return { ...state, pendingData };
+    // }
+    // case GET_REPORT_TEMPLATE_COMMIT: {
+    //   const template = action.payload || {};
+    //   template.questions = orderQuestions(template.questions);
+    //   const templates = {
+    //     ...state.templates,
+    //     [template.id]: template
+    //   };
+    //   const pendingData = {
+    //     ...state.pendingData,
+    //     templates: omit(state.pendingData.templates, [template.id])
+    //   };
+    //   return { ...state, templates, pendingData };
+    // }
+    // case GET_REPORT_TEMPLATE_ROLLBACK: {
+    //   const { templateId } = action.meta;
+    //   const { status } = action.payload;
+    //   let pendingData;
+    //   if (status === 404) {
+    //     pendingData = {
+    //       ...state.pendingData,
+    //       templates: omit(state.pendingData.templates, [templateId])
+    //     };
+    //   } else {
+    //     pendingData = {
+    //       ...state.pendingData,
+    //       templates: {
+    //         ...state.pendingData.templates,
+    //         [templateId]: false
+    //       }
+    //     };
+    //   }
+    //   return { ...state, pendingData };
+    // }
     case GET_AREAS_COMMIT: {
-      const areas = [...action.payload];
-      const templates = { ...state.templates };
-      let pendingData = state.pendingData;
-      const newTemplatesId = [];
-      areas.forEach((area) => {
-        if (area.templateId) {
-          newTemplatesId.push(area.templateId);
-          pendingData = {
-            templates: { ...pendingData.templates, [area.templateId]: false }
-          };
-        }
-      });
-      const templatesFilter = Object.keys(templates).filter((template) => (
-        template === 'default' || newTemplatesId.includes(template)
-      ));
-      let newTemplates = {};
-      templatesFilter.forEach(id => {
-        newTemplates = {
-          ...newTemplates,
-          [id]: templates[id]
-        };
-      });
-      return { ...state, templates: newTemplates, pendingData };
-    }
-    case SAVE_AREA_COMMIT: {
-      const area = action.payload;
-      let pendingData = { ...state.pendingData };
-      if (area && area.templateId) {
-        pendingData = {
-          templates: { ...pendingData.templates, [area.templateId]: false }
-        };
-      }
-      return { ...state, pendingData };
+      const templates = action.payload
+        .filter(a => a.reportTemplate !== null)
+        .reduce((acc, { reportTemplate }) => ({
+          ...acc,
+          [reportTemplate.id]: {
+            ...reportTemplate,
+            questions: orderQuestions(reportTemplate.questions)
+          }
+        }), {});
+      return { ...state, templates };
     }
     case CREATE_REPORT: {
-      const reports = { ...state.list, ...action.payload };
-      return Object.assign({}, state, { list: reports });
+      const list = { ...state.list, ...action.payload };
+      return { ...state, list };
     }
     case UPDATE_REPORT: {
-      const list = Object.assign({}, state.list);
-      list[action.payload.name] = Object.assign({}, state.list[action.payload.name], action.payload.data);
-      return Object.assign({}, state, { list });
+      const list = { ...state.list };
+      list[action.payload.name] = { ...state.list[action.payload.name], ...action.payload.data };
+      return { ...state, list };
     }
     case UPLOAD_REPORT_REQUEST: {
       const { name, status } = action.payload;
@@ -185,21 +162,21 @@ export function getDefaultReport() {
   };
 }
 
-export function getReportTemplate(templateId) {
-  const url = `${Config.API_URL}/reports/${templateId}`;
+// export function getReportTemplate(templateId) {
+//   const url = `${Config.API_URL}/reports/${templateId}`;
 
-  return {
-    type: GET_REPORT_TEMPLATE_REQUEST,
-    payload: templateId,
-    meta: {
-      offline: {
-        effect: { url },
-        commit: { type: GET_REPORT_TEMPLATE_COMMIT },
-        rollback: { type: GET_REPORT_TEMPLATE_ROLLBACK, meta: { templateId } }
-      }
-    }
-  };
-}
+//   return {
+//     type: GET_REPORT_TEMPLATE_REQUEST,
+//     payload: templateId,
+//     meta: {
+//       offline: {
+//         effect: { url },
+//         commit: { type: GET_REPORT_TEMPLATE_COMMIT },
+//         rollback: { type: GET_REPORT_TEMPLATE_ROLLBACK, meta: { templateId } }
+//       }
+//     }
+//   };
+// }
 
 export function createReport({ name, userPosition, clickedPosition, area }) {
   return {
@@ -226,14 +203,14 @@ export function saveReport(name, data) {
 
 export function uploadReport({ reportName, fields }) {
   tracker.trackEvent('Report', 'Complete Report', { label: 'Click Done', value: 0 });
-  return (dispatch, state) => {
+  return (dispatch: Dispatch, state: GetState) => {
     const reportValues = state().form[reportName].values;
     const user = state().user;
     const userName = (user && user.data && user.data.fullName) || 'Guest user';
     const organization = (user && user.data && user.data.organization) || 'None';
     const reports = state().reports;
     const report = reports.list[reportName];
-    const language = state().app.language;
+    const language = state().app.language || '';
     const area = report.area;
     const dataset = area.dataset || {};
     const form = new FormData();
@@ -297,20 +274,20 @@ export function uploadReport({ reportName, fields }) {
 }
 
 export function syncReports() {
-  return (dispatch, state) => {
+  return (dispatch: Dispatch, state: GetState) => {
     const { reports } = state();
     if (!reports.synced && !reports.syncing) dispatch(getDefaultReport());
-    const { pendingData } = state().reports;
-    if (getActionsTodoCount(pendingData) > 0) {
-      Object.keys(pendingData).forEach((type) => {
-        const syncingReportsData = pendingData[type];
-        const canDispatch = id => (typeof syncingReportsData[id] !== 'undefined' && syncingReportsData[id] === false);
-        Object.keys(syncingReportsData).forEach(id => {
-          if (canDispatch(id)) {
-            dispatch(getReportTemplate(id));
-          }
-        });
-      });
-    }
+    // const { pendingData } = state().reports;
+    // if (getActionsTodoCount(pendingData) > 0) {
+    //   Object.keys(pendingData).forEach((type) => {
+    //     const syncingReportsData = pendingData[type];
+    //     const canDispatch = id => (typeof syncingReportsData[id] !== 'undefined' && syncingReportsData[id] === false);
+    //     Object.keys(syncingReportsData).forEach(id => {
+    //       if (canDispatch(id)) {
+    //         dispatch(getReportTemplate(id));
+    //       }
+    //     });
+    //   });
+    // }
   };
 }
