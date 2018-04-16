@@ -57,7 +57,10 @@ const app = () => {
   };
 
   const reducer = combineReducers(reducers);
-  const middleware = applyMiddleware(thunk, authMiddleware, lastActionsMiddleware);
+
+  const middlewareList = [thunk, authMiddleware];
+  if (!__DEV__) middlewareList.push(lastActionsMiddleware);
+  const middleware = applyMiddleware(...middlewareList);
 
   if (__DEV__) {
     Reactotron
