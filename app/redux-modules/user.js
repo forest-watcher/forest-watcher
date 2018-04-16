@@ -11,11 +11,11 @@ import oAuth from 'config/oAuth';
 const CookieManager = require('react-native-cookies');
 
 // Actions
-export const GET_USER_REQUEST = 'user/GET_USER_REQUEST';
-export const GET_USER_COMMIT = 'user/GET_USER_COMMIT';
-export const GET_USER_ROLLBACK = 'user/GET_USER_ROLLBACK';
-export const SET_LOGIN_AUTH = 'user/SET_LOGIN_AUTH';
-export const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
+const GET_USER_REQUEST = 'user/GET_USER_REQUEST';
+const GET_USER_COMMIT = 'user/GET_USER_COMMIT';
+const GET_USER_ROLLBACK = 'user/GET_USER_ROLLBACK';
+const SET_LOGIN_AUTH = 'user/SET_LOGIN_AUTH';
+const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
 export const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
 
 // Reducer
