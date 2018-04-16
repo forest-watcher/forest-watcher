@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "test": "jest",
     "lint-staged": "lint-staged",
-    "precommit": "npm run lint-staged",
+    "precommit": "flow check && lint-staged",
     "transifex:push": "node transifex/transifex-push.js",
     "transifex:pull": "node transifex/transifex-pull.js",
     "preinstall": "source no-package-lock.sh",
@@ -103,6 +103,6 @@
     "preset": "react-native"
   },
   "lint-staged": {
-    "app/**/*.js": "eslint"
+    "app/**/*.js": ["eslint"]
   }
 }
