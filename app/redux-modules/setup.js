@@ -29,7 +29,7 @@ export default function reducer(state: SetupState = initialState, action: SetupA
       return initialState;
     }
     case SET_COUNTRY: {
-      if (typeof action.payload.centroid === 'string' && action.payload.bbox === 'string') {
+      if (typeof action.payload.centroid === 'string' && typeof action.payload.bbox === 'string') {
         const country = {
           name: action.payload.name,
           iso: action.payload.iso,
