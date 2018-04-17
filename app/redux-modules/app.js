@@ -8,7 +8,6 @@ import { COORDINATES_FORMATS, ACTIONS_SAVED_TO_REPORT } from 'config/constants/i
 import { syncAreas, UPDATE_AREA_REQUEST, SAVE_AREA_REQUEST } from 'redux-modules/areas';
 import { syncCountries } from 'redux-modules/countries';
 import { syncUser, LOGOUT_REQUEST } from 'redux-modules/user';
-import { syncGeostore } from 'redux-modules/geostore';
 import { syncLayers } from 'redux-modules/layers';
 import { syncReports } from 'redux-modules/reports';
 import { syncAlerts } from 'redux-modules/alerts';
@@ -102,7 +101,6 @@ export function syncApp() {
       dispatch(syncCountries());
       dispatch(syncReports());
       dispatch(syncAreas());
-      dispatch(syncGeostore());
       dispatch(syncAlerts());
       dispatch(syncLayers());
     }

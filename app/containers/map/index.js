@@ -30,7 +30,7 @@ function mapStateToProps(state) {
   if (area) {
     dataset = activeDataset(area);
     datasetSlug = dataset.slug;
-    const geostore = state.geostore.data[area.geostore];
+    const geostore = area.geostore;
     const areaFeatures = (geostore && geostore.geojson.features[0]) || false;
     if (areaFeatures) {
       center = new BoundingBox(areaFeatures).getCenter();
