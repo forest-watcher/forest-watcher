@@ -4,14 +4,14 @@ import memoize from 'lodash/memoize';
 import omit from 'lodash/omit';
 import { pointsToGeoJSON } from 'helpers/map';
 import { initDb, read } from 'helpers/database';
-import { activeDataset, getSupportedDatasets } from 'helpers/area';
+import { activeDataset } from 'helpers/area';
 import { getActionsTodoCount } from 'helpers/sync';
 import CONSTANTS from 'config/constants';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { UPLOAD_REPORT_REQUEST } from 'redux-modules/reports';
-import { GET_AREA_COVERAGE_COMMIT } from 'redux-modules/areas';
+import { GET_AREAS_COMMIT } from 'redux-modules/areas';
 import { START_APP, RETRY_SYNC } from 'redux-modules/app';
 
 const d3Dsv = require('d3-dsv');
@@ -86,22 +86,24 @@ export default function reducer(state = initialState, action) {
       }
       return { ...state, reported };
     }
-    case GET_AREA_COVERAGE_COMMIT: {
-      const { area } = action.meta;
-      const datasets = getSupportedDatasets(action.payload);
+    case GET_AREAS_COMMIT: {
+      const { payload: areas } = action;
       let pendingData = { ...state.pendingData };
-      if (datasets && datasets.length) {
-        datasets.forEach((dataset) => {
-          const datasetSlug = dataset.slug;
-          pendingData = {
-            ...pendingData,
-            [datasetSlug]: {
-              ...pendingData[datasetSlug],
-              [area.id]: false
-            }
-          };
-        });
-      }
+      areas.forEach(area => {
+        const { datasets } = area;
+        if (datasets && datasets.length) {
+          datasets.forEach((dataset) => {
+            const datasetSlug = dataset.slug;
+            pendingData = {
+              ...pendingData,
+              [datasetSlug]: {
+                ...pendingData[datasetSlug],
+                [area.id]: false
+              }
+            };
+          });
+        }
+      });
       return { ...state, pendingData };
     }
     case GET_ALERTS_REQUEST: {
@@ -256,7 +258,7 @@ export function getAreaAlerts(areaId, datasetSlug) {
       range = CONSTANTS.areas.alertRange[datasetSlug];
     }
     if (range) {
-      const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore}?range=${range}&output=csv`;
+      const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore.id}?range=${range}&output=csv`;
       dispatch({
         type: GET_ALERTS_REQUEST,
         payload: { area, datasetSlug },

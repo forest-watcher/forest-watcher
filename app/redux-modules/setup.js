@@ -79,3 +79,10 @@ export function setSetupAOI(area: CountryArea, snapshot: string): SetupAction {
     }
   };
 }
+
+export function storeGeostore(id, data) {
+  return () => {
+    console.warn('TODO: do it in the API');
+    console.warn(id, data);
+  };
+}

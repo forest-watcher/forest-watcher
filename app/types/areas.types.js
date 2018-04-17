@@ -1,6 +1,17 @@
 // @flow
 import type { Template } from 'types/reports.types';
 
+export type Geostore = {
+  geojson: Object,
+  hash: string,
+  provider: Object,
+  areaHa: number,
+  bbox: [number, number, number, number],
+  lock: boolean,
+  info: Object,
+  id: string
+}
+
 export type Dataset = {
   slug: string,
   name: string,
@@ -12,18 +23,17 @@ export type Dataset = {
   cache: boolean
 }
 
-export type AreaResponse = {
+export type Area = {
   id: string,
   name: string,
   application: string,
-  geostore: string,
+  geostore: Geostore,
   userId: string,
   createdAt: string,
   image: string,
   datasets: [Dataset],
   use: Object,
   iso: Object,
-  coverage: [string],
   reportTemplate: Template
 }
 
@@ -42,12 +52,18 @@ export type AreasState = {
 };
 
 export type AreasAction =
+  | SaveAreaRequest
   | SaveAreaCommit
   | SaveAreaRollback
+  | GetAreasRequest
   | GetAreasCommit
+  | GetAreasRollback
   | SaveAreaCommit;
 
 // Actions
+export type SaveAreaRequest = { type: 'areas/SAVE_AREA_REQUEST' };
 export type SaveAreaCommit = { type: 'areas/SAVE_AREA_COMMIT', payload: { id: string } };
 export type SaveAreaRollback = { type: 'areas/SAVE_AREA_ROLLBACK', payload: { id: string } };
-export type GetAreasCommit = { type: 'areas/GET_AREAS_COMMIT', payload: [AreaResponse] };
+export type GetAreasRequest = { type: 'areas/GET_AREAS_REQUEST' };
+export type GetAreasCommit = { type: 'areas/GET_AREAS_COMMIT', payload: [Area] };
+export type GetAreasRollback = { type: 'areas/GET_AREAS_ROLLBACK' };

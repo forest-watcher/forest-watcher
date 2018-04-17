@@ -1,13 +1,11 @@
 // @flow
-import type { AreasAction, AreasState } from 'types/areas.types';
+import type { Area, AreasAction, AreasState } from 'types/areas.types';
 import type { Dispatch, GetState } from 'types/store.types';
 
 import Config from 'react-native-config';
 import omit from 'lodash/omit';
-import unionBy from 'lodash/unionBy';
 import { getCachedImageByUrl } from 'helpers/fileManagement';
 import { getActionsTodoCount } from 'helpers/sync';
-import { getSupportedDatasets } from 'helpers/area';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
@@ -20,9 +18,6 @@ const GET_AREAS_ROLLBACK = 'areas/GET_AREAS_ROLLBACK';
 export const SAVE_AREA_REQUEST = 'areas/SAVE_AREA_REQUEST';
 export const SAVE_AREA_COMMIT = 'areas/SAVE_AREA_COMMIT';
 export const SAVE_AREA_ROLLBACK = 'areas/SAVE_AREA_ROLLBACK';
-const GET_AREA_COVERAGE_REQUEST = 'areas/GET_AREA_COVERAGE_REQUEST';
-export const GET_AREA_COVERAGE_COMMIT = 'areas/GET_AREA_COVERAGE_COMMIT';
-const GET_AREA_COVERAGE_ROLLBACK = 'areas/GET_AREA_COVERAGE_ROLLBACK';
 export const UPDATE_AREA_REQUEST = 'areas/UPDATE_AREA_REQUEST';
 const UPDATE_AREA_COMMIT = 'areas/UPDATE_AREA_COMMIT';
 const UPDATE_AREA_ROLLBACK = 'areas/UPDATE_AREA_ROLLBACK';
@@ -93,31 +88,6 @@ export default function reducer(state: AreasState = initialState, action: AreasA
       });
       return { ...state, data };
     }
-    case GET_AREA_COVERAGE_REQUEST: {
-      const area = action.payload;
-      const pendingData = { ...state.pendingData, coverage: { ...state.pendingData.coverage, [area.id]: true } };
-      return { ...state, pendingData };
-    }
-    case GET_AREA_COVERAGE_COMMIT: {
-      let pendingData = state.pendingData;
-      const data = state.data.map((area) => {
-        const updated = { ...area };
-        const newDatasets = getSupportedDatasets(action.payload);
-        if (area.id === action.meta.area.id) {
-          if ((area.datasets && area.datasets.length === 0) || !area.datasets) {
-            updated.datasets = newDatasets;
-          } else {
-            updated.datasets = unionBy(area.datasets, newDatasets, 'slug');
-          }
-        }
-        pendingData = {
-          ...pendingData,
-          coverage: omit(pendingData.coverage, [area.id])
-        };
-        return updated;
-      });
-      return { ...state, data, pendingData };
-    }
     case SET_AREA_IMAGE_REQUEST: {
       const area = action.payload;
       const pendingData = { ...state.pendingData, image: { ...state.pendingData.image, [area.id]: true } };
@@ -144,9 +114,8 @@ export default function reducer(state: AreasState = initialState, action: AreasA
       let pendingData = state.pendingData;
       if (area) {
         data = [...data, area];
-        const { coverage, image } = state.pendingData;
+        const { image } = state.pendingData;
         pendingData = {
-          coverage: { ...coverage, [area.id]: false },
           image: { ...image, [area.id]: false }
         };
       }
@@ -226,7 +195,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
 }
 
 export function getAreas() {
-  const url = `${Config.API_URL}/forest-watcher/areas?includes=geostore,coverage,templates`;
+  const url = `${Config.API_URL}/forest-watcher/areas?includes=geostore,templates`;
   return {
     type: GET_AREAS_REQUEST,
     meta: {
@@ -239,8 +208,8 @@ export function getAreas() {
   };
 }
 
-export function cacheAreaImage(areaId) {
-  return (dispatch, state) => {
+export function cacheAreaImage(areaId: string) {
+  return (dispatch: Dispatch, state: GetState) => {
     const areas = state().areas;
     const area = getAreaById(areas.data, areaId);
     dispatch({
@@ -294,6 +263,7 @@ export function saveArea(params: { snapshot: string, area: Area }) {
   const headers = { 'content-type': 'multipart/form-data' };
   const body = new FormData();
   body.append('name', params.area.name);
+  // TODO: use geojson and create the geostore in the API
   body.append('geostore', params.area.geostore);
 
   const image = {
@@ -335,7 +305,7 @@ export function setAreaDatasetStatus(areaId: string, datasetSlug: string, status
   };
 }
 
-export function updateDate(areaId: string, datasetSlug: string, date) {
+export function updateDate(areaId: string, datasetSlug: string, date: Object) {
   return async (dispatch: Dispatch, state: GetState) => {
     const area = getAreaById(state().areas.data, areaId);
     const dateKeys = Object.keys(date) || [];

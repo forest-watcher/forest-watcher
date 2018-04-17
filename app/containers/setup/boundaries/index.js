@@ -3,8 +3,7 @@ import type { State } from 'types/store.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setSetupAOI } from 'redux-modules/setup';
-import { storeGeostore } from 'redux-modules/geostore';
+import { setSetupAOI, storeGeostore } from 'redux-modules/setup';
 import { getContextualLayer } from 'helpers/map';
 
 import SetupBoundaries from 'components/setup/boundaries';
