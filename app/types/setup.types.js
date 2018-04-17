@@ -1,7 +1,7 @@
 // @flow
 
 import type { Country } from 'types/countries.types';
-import type { SaveAreaCommit, SaveAreaRollback } from 'types/area.types';
+import type { SaveAreaCommit, SaveAreaRollback } from 'types/areas.types';
 
 export type CountryArea = {
   name: string,
