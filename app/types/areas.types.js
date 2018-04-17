@@ -13,6 +13,7 @@ export type Dataset = {
 }
 
 export type AreaResponse = {
+  id: string,
   name: string,
   application: string,
   geostore: string,
@@ -25,6 +26,26 @@ export type AreaResponse = {
   coverage: [string],
   reportTemplate: Template
 }
+
+
+export type AreasState = {
+  data: [],
+  selectedIndex: number,
+  images: {},
+  synced: boolean,
+  syncing: boolean,
+  syncError: boolean,
+  syncDate: number,
+  pendingData: {
+    image: {}
+  }
+};
+
+export type AreasAction =
+  | SaveAreaCommit
+  | SaveAreaRollback
+  | GetAreasCommit
+  | SaveAreaCommit;
 
 // Actions
 export type SaveAreaCommit = { type: 'areas/SAVE_AREA_COMMIT', payload: { id: string } };

@@ -1,5 +1,5 @@
 // @flow
-import type { GetAreasCommit } from 'types/area.types';
+import type { GetAreasCommit } from 'types/areas.types';
 import type { LogoutRequest } from 'types/user.types';
 
 export type Question = {

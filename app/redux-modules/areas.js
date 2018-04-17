@@ -1,3 +1,7 @@
+// @flow
+import type { AreasAction, AreasState } from 'types/areas.types';
+import type { Dispatch, GetState } from 'types/store.types';
+
 import Config from 'react-native-config';
 import omit from 'lodash/omit';
 import unionBy from 'lodash/unionBy';
@@ -45,12 +49,11 @@ const initialState = {
   syncError: false,
   syncDate: Date.now(),
   pendingData: {
-    coverage: {},
     image: {}
   }
 };
 
-export default function reducer(state = initialState, action) {
+export default function reducer(state: AreasState = initialState, action: AreasAction) {
   switch (action.type) {
     case START_APP: {
       return { ...state, synced: false, syncing: false, syncError: false };
@@ -64,9 +67,7 @@ export default function reducer(state = initialState, action) {
       let pendingData = { ...state.pendingData };
       const data = [...action.payload];
       data.forEach((newArea) => {
-        // Always request new coverage in case there are new alert system in the area
         pendingData = {
-          coverage: { ...pendingData.coverage, [newArea.id]: false },
           image: { ...pendingData.image, [newArea.id]: false }
         };
       });
@@ -255,26 +256,8 @@ export function cacheAreaImage(areaId) {
   };
 }
 
-export function getAreaCoverage(areaId) {
-  return async (dispatch, state) => {
-    const area = getAreaById(state().areas.data, areaId);
-    const url = `${Config.API_URL}/coverage/intersect?geostore=${area.geostore}`;
-    dispatch({
-      type: GET_AREA_COVERAGE_REQUEST,
-      payload: area,
-      meta: {
-        offline: {
-          effect: { url },
-          commit: { type: GET_AREA_COVERAGE_COMMIT, meta: { area } },
-          rollback: { type: GET_AREA_COVERAGE_ROLLBACK }
-        }
-      }
-    });
-  };
-}
-
-export function updateArea(area) {
-  return async (dispatch, state) => {
+export function updateArea(area: Area) {
+  return async (dispatch: Dispatch, state: GetState) => {
     const url = `${Config.API_URL}/area/${area.id}`;
     const originalArea = getAreaById(state().areas.data, area.id);
     const headers = { 'content-type': 'multipart/form-data' };
@@ -299,14 +282,14 @@ export function updateArea(area) {
   };
 }
 
-export function updateSelectedIndex(index) {
+export function updateSelectedIndex(index: number) {
   return {
     type: UPDATE_INDEX,
     payload: index
   };
 }
 
-export function saveArea(params) {
+export function saveArea(params: { snapshot: string, area: Area }) {
   const url = `${Config.API_URL}/area`;
   const headers = { 'content-type': 'multipart/form-data' };
   const body = new FormData();
@@ -335,8 +318,8 @@ export function saveArea(params) {
   };
 }
 
-export function setAreaDatasetStatus(areaId, datasetSlug, status) {
-  return async (dispatch, state) => {
+export function setAreaDatasetStatus(areaId: string, datasetSlug: string, status: boolean) {
+  return async (dispatch: Dispatch, state: GetState) => {
     const area = getAreaById(state().areas.data, areaId);
     if (area) {
       const datasets = area.datasets.map((item) => {
@@ -352,8 +335,8 @@ export function setAreaDatasetStatus(areaId, datasetSlug, status) {
   };
 }
 
-export function updateDate(areaId, datasetSlug, date) {
-  return async (dispatch, state) => {
+export function updateDate(areaId: string, datasetSlug: string, date) {
+  return async (dispatch: Dispatch, state: GetState) => {
     const area = getAreaById(state().areas.data, areaId);
     const dateKeys = Object.keys(date) || [];
     if (area) {
@@ -374,8 +357,8 @@ export function updateDate(areaId, datasetSlug, date) {
 }
 
 
-export function deleteArea(areaId) {
-  return async (dispatch, state) => {
+export function deleteArea(areaId: string) {
+  return async (dispatch: Dispatch, state: GetState) => {
     const area = getAreaById(state().areas.data, areaId);
     if (area) {
       const url = `${Config.API_URL}/area/${area.id}`;
@@ -395,7 +378,7 @@ export function deleteArea(areaId) {
 }
 
 export function syncAreas() {
-  return async (dispatch, state) => {
+  return async (dispatch: Dispatch, state: GetState) => {
     const { loggedIn } = state().user;
     const { data, synced, syncing, pendingData } = state().areas;
     const hasAreas = data && data.length;
@@ -411,9 +394,6 @@ export function syncAreas() {
           });
         };
         switch (type) {
-          case 'coverage':
-            syncAreasData(id => dispatch(getAreaCoverage(id)));
-            break;
           case 'image':
             syncAreasData(id => dispatch(cacheAreaImage(id)));
             break;
