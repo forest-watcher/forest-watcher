@@ -39,7 +39,7 @@ export type Area = {
 
 
 export type AreasState = {
-  data: [],
+  data: [Area],
   selectedIndex: number,
   images: {},
   synced: boolean,
@@ -58,7 +58,10 @@ export type AreasAction =
   | GetAreasRequest
   | GetAreasCommit
   | GetAreasRollback
-  | SaveAreaCommit;
+  | UpdateAreaRequest
+  | UpdateAreaCommit
+  | UpdateAreaRollback
+  | DeleteAreaRequest;
 
 // Actions
 export type SaveAreaRequest = { type: 'areas/SAVE_AREA_REQUEST' };
@@ -67,3 +70,7 @@ export type SaveAreaRollback = { type: 'areas/SAVE_AREA_ROLLBACK', payload: { id
 export type GetAreasRequest = { type: 'areas/GET_AREAS_REQUEST' };
 export type GetAreasCommit = { type: 'areas/GET_AREAS_COMMIT', payload: [Area] };
 export type GetAreasRollback = { type: 'areas/GET_AREAS_ROLLBACK' };
+export type UpdateAreaRequest = { type: 'areas/UPDATE_AREA_REQUEST', payload: Area };
+export type UpdateAreaCommit = { type: 'areas/UPDATE_AREA_COMMIT', payload: Area };
+export type UpdateAreaRollback = { type: 'areas/UPDATE_AREA_ROLLBACK', meta: Area };
+export type DeleteAreaRequest = { type: 'areas/DELETE_AREA_REQUEST', payload: Area };

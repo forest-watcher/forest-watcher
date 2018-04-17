@@ -1,5 +1,6 @@
 // @flow
 import type { Area, AreasAction, AreasState } from 'types/areas.types';
+import type { CountryArea } from 'types/setup.types';
 import type { Dispatch, GetState } from 'types/store.types';
 
 import Config from 'react-native-config';
@@ -122,7 +123,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
       return { ...state, data, pendingData, synced: true, syncing: false };
     }
     case UPDATE_AREA_REQUEST: {
-      const { area: newArea } = action.payload;
+      const newArea = { ...action.payload };
       const areas = state.data.map((area) => {
         if (area.id === newArea.id) {
           return { ...newArea };
@@ -132,10 +133,11 @@ export default function reducer(state: AreasState = initialState, action: AreasA
       return { ...state, data: areas };
     }
     case UPDATE_AREA_COMMIT: {
-      const newArea = action.payload;
+      // Not overwritting the geostore
+      const { geostore, ...newArea } = action.payload; // eslint-disable-line
       const data = state.data.map((area) => {
         if (area.id === newArea.id) {
-          return { ...newArea };
+          return { ...area, ...newArea };
         }
         return area;
       });
@@ -239,7 +241,7 @@ export function updateArea(area: Area) {
     }
     dispatch({
       type: UPDATE_AREA_REQUEST,
-      payload: { area },
+      payload: area,
       meta: {
         offline: {
           effect: { url, method: 'PATCH', headers, body },
@@ -258,13 +260,12 @@ export function updateSelectedIndex(index: number) {
   };
 }
 
-export function saveArea(params: { snapshot: string, area: Area }) {
+export function saveArea(params: { snapshot: string, area: CountryArea }) {
   const url = `${Config.API_URL}/area`;
   const headers = { 'content-type': 'multipart/form-data' };
   const body = new FormData();
   body.append('name', params.area.name);
-  // TODO: use geojson and create the geostore in the API
-  body.append('geostore', params.area.geostore);
+  body.append('geojson', params.area.geojson);
 
   const image = {
     uri: params.snapshot,

@@ -15,7 +15,7 @@ const initialState = {
   country: null,
   area: {
     name: '',
-    geostore: '',
+    geojson: {},
     wdpaid: 0,
     id: null
   },
@@ -36,18 +36,17 @@ export default function reducer(state: SetupState = initialState, action: SetupA
           centroid: action.payload.centroid ? JSON.parse(action.payload.centroid) : action.payload.centroid,
           bbox: action.payload.bbox ? JSON.parse(action.payload.bbox) : action.payload.bbox
         };
-        return Object.assign({}, state, { country });
+        return { ...state, country };
       }
       return state;
     }
-    case SET_AOI:
-      return Object.assign({}, state, {
-        area: action.payload.area,
-        snapshot: action.payload.snapshot
-      });
+    case SET_AOI: {
+      const { area, snapshot } = action.payload;
+      return { ...state, area, snapshot };
+    }
     case SAVE_AREA_COMMIT: {
       const area = { ...state.area, id: action.payload.id };
-      return Object.assign({}, state, { areaSaved: true, area });
+      return { ...state, areaSaved: true, area };
     }
     case SAVE_AREA_ROLLBACK: {
       return { ...state, areaSaved: false };
@@ -70,19 +69,12 @@ export function setSetupCountry(country: Country): SetupAction {
   };
 }
 
-export function setSetupAOI(area: CountryArea, snapshot: string): SetupAction {
+export function setSetupArea(area: CountryArea, snapshot: string): SetupAction {
   return {
     type: SET_AOI,
     payload: {
       area,
       snapshot
     }
-  };
-}
-
-export function storeGeostore(id, data) {
-  return () => {
-    console.warn('TODO: do it in the API');
-    console.warn(id, data);
   };
 }

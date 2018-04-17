@@ -544,7 +544,7 @@ class Map extends Component {
       this.updateMarkers();
       const margin = Platform.OS === 'ios' ? 150 : 250;
       const options = { edgePadding: { top: margin, right: margin, bottom: margin, left: margin }, animated: false };
-      if (this.map) {
+      if (this.map && this.props.areaCoordinates) {
         this.map.fitToCoordinates(this.props.areaCoordinates, options);
       }
     });
