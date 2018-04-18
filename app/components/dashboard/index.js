@@ -23,11 +23,7 @@ class Dashboard extends PureComponent {
 
   static propTypes = {
     navigator: PropTypes.object.isRequired,
-    actionsPending: PropTypes.number.isRequired,
-    syncModalOpen: PropTypes.bool.isRequired,
-    syncSkip: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
-    setSyncModal: PropTypes.func.isRequired,
     updateSelectedIndex: PropTypes.func.isRequired,
     setPristine: PropTypes.func.isRequired
   };
@@ -86,23 +82,12 @@ class Dashboard extends PureComponent {
   }
 
   onNavigatorEvent = (event) => {
-    const { actionsPending, syncModalOpen, syncSkip } = this.props;
+    const { navigator } = this.props;
     if (event.type === 'NavBarButtonPress') {
       if (event.id === 'settings') {
-        this.props.navigator.push({
+        navigator.push({
           screen: 'ForestWatcher.Settings',
           title: 'Settings'
-        });
-      }
-    } else if (event.id === 'didAppear') {
-      if (actionsPending > 0 && !syncModalOpen && !syncSkip && !this.syncModalOpen) {
-        this.syncModalOpen = true;
-        this.props.setSyncModal(true);
-        this.props.navigator.showModal({
-          screen: 'ForestWatcher.Sync',
-          passProps: {
-            goBackDisabled: true
-          }
         });
       }
     } else if (event.id === 'willDisappear') {

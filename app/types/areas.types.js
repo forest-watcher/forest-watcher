@@ -37,7 +37,6 @@ export type Area = {
   reportTemplate: Template
 }
 
-
 export type AreasState = {
   data: [Area],
   selectedIndex: number,

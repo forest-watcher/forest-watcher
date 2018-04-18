@@ -1,12 +1,10 @@
 import { connect } from 'react-redux';
 import { createReport } from 'redux-modules/reports';
-import { setSyncModal } from 'redux-modules/app';
 import { setCanDisplayAlerts, setActiveAlerts, activeCluster } from 'redux-modules/alerts';
 import tracker from 'helpers/googleAnalytics';
 import { getContextualLayer } from 'helpers/map';
 import Map from 'components/map';
 import { activeDataset } from 'helpers/area';
-import { getTotalActionsPending } from 'helpers/sync';
 
 const BoundingBox = require('boundingbox');
 
@@ -54,9 +52,6 @@ function mapStateToProps(state) {
     isConnected: state.offline.online,
     basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',
     ctxLayerLocalTilePath: cache[state.layers.activeLayer] ? cache[state.layers.activeLayer][area.id] : '',
-    actionsPending: getTotalActionsPending(state),
-    syncModalOpen: state.app.syncModalOpen,
-    syncSkip: state.app.syncSkip,
     canDisplayAlerts: state.alerts.canDisplayAlerts,
     contextualLayer,
     coordinatesFormat: state.app.coordinatesFormat
@@ -74,7 +69,6 @@ function mapDispatchToProps(dispatch, { navigation }) {
     navigate: (routeName, params) => {
       navigation.navigate(routeName, params);
     },
-    setSyncModal: open => dispatch(setSyncModal(open)),
     setCanDisplayAlerts: canDisplay => dispatch(setCanDisplayAlerts(canDisplay))
   };
 }

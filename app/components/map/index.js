@@ -244,17 +244,7 @@ class Map extends Component {
   }
 
   onDidAppear = () => {
-    const { actionsPending, syncModalOpen, syncSkip, setCanDisplayAlerts, canDisplayAlerts } = this.props;
-    if (actionsPending > 0 && !syncModalOpen && !syncSkip && !this.syncModalOpen) {
-      this.syncModalOpen = true;
-      this.props.setSyncModal(true);
-      this.props.navigator.showModal({
-        screen: 'ForestWatcher.Sync',
-        passProps: {
-          goBackDisabled: true
-        }
-      });
-    }
+    const { setCanDisplayAlerts, canDisplayAlerts } = this.props;
     if (!canDisplayAlerts) {
       setCanDisplayAlerts(true);
     }
@@ -826,11 +816,7 @@ Map.propTypes = {
   basemapLocalTilePath: PropTypes.string,
   ctxLayerLocalTilePath: PropTypes.string,
   areaCoordinates: PropTypes.array,
-  actionsPending: PropTypes.number.isRequired,
   isConnected: PropTypes.bool.isRequired,
-  syncModalOpen: PropTypes.bool.isRequired,
-  syncSkip: PropTypes.bool.isRequired,
-  setSyncModal: PropTypes.func.isRequired,
   setCanDisplayAlerts: PropTypes.func.isRequired,
   canDisplayAlerts: PropTypes.bool.isRequired,
   area: PropTypes.object.isRequired,

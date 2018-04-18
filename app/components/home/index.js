@@ -6,19 +6,18 @@ import {
 } from 'react-native';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
-import I18n from 'locales';
-import ActionButton from 'components/common/action-button';
 import styles from './styles';
+
+const Timer = require('react-native-timer');
 
 class Home extends Component {
   static navigatorStyle = {
     navBarHidden: true
   };
 
-  componentWillMount() {
-    if (!this.props.syncModalOpen) {
-      this.props.startApp();
-    }
+  constructor(props) {
+    super(props);
+    this.syncModalOpen = false;
   }
 
   componentDidMount() {
@@ -30,26 +29,42 @@ class Home extends Component {
   shouldComponentUpdate(nextProps) {
     const conditions = [
       this.props.loggedIn !== nextProps.loggedIn,
-      this.props.syncFinished !== nextProps.syncFinished,
+      this.props.isAppSynced !== nextProps.isAppSynced,
       this.props.hasAreas !== nextProps.hasAreas,
       this.props.token !== nextProps.token,
-      this.props.syncSkip !== nextProps.syncSkip,
-      this.props.syncModalOpen !== nextProps.syncModalOpen
+      this.props.actionsPending !== nextProps.actionsPending
     ];
     return conditions.includes(true);
   }
 
   componentDidUpdate() {
     this.handleStatus();
+    this.props.setLanguage();
+  }
+
+  componentWillUnmount() {
+    Timer.clearImmediate('closeModal');
+  }
+
+  setSyncModal(status) {
+    this.syncModalOpen = status;
   }
 
   handleStatus() {
-    const { loggedIn, token, hasAreas, syncFinished, syncSkip, setLanguage,
-            navigator, syncModalOpen, setSyncModal } = this.props;
-    setLanguage();
+    const {
+      loggedIn,
+      token,
+      hasAreas,
+      isAppSynced,
+      navigator,
+      actionsPending,
+      setAppSynced,
+      syncApp
+    } = this.props;
+
     if (loggedIn) {
       tracker.setUser(token);
-      if (syncFinished || syncSkip) {
+      if (isAppSynced) {
         if (!hasAreas) {
           navigator.resetTo({
             screen: 'ForestWatcher.Setup',
@@ -63,12 +78,14 @@ class Home extends Component {
             title: 'Forest Watcher'
           });
         }
-        if (syncSkip) {
-          setSyncModal(false);
-          navigator.dismissModal();
+      } else if (actionsPending === 0) {
+        setAppSynced(true);
+        Timer.setImmediate('closeModal', this.closeModal);
+      } else {
+        syncApp();
+        if (!this.syncModalOpen) {
+          this.openModal();
         }
-      } else if (!syncFinished && !syncModalOpen) {
-        this.openModal();
       }
     } else {
       navigator.resetTo({
@@ -78,8 +95,8 @@ class Home extends Component {
   }
 
   openModal = () => {
-    const { navigator, setSyncModal } = this.props;
-    setSyncModal(true);
+    const { navigator } = this.props;
+    this.setSyncModal(true);
     navigator.showModal({
       screen: 'ForestWatcher.Sync',
       passProps: {
@@ -88,24 +105,20 @@ class Home extends Component {
     });
   }
 
+  closeModal = () => {
+    const { navigator } = this.props;
+    this.setSyncModal(false);
+    navigator.dismissModal();
+  }
+
   render() {
     return (
       <View style={[styles.mainContainer, styles.center]}>
-        {this.props.syncModalOpen ?
-          <ActionButton
-            style={styles.button}
-            main
-            noIcon
-            onPress={this.openModal}
-            text={I18n.t('sync.update').toUpperCase()}
-          />
-          :
-          <ActivityIndicator
-            color={Theme.colors.color1}
-            style={{ height: 80 }}
-            size="large"
-          />
-        }
+        <ActivityIndicator
+          color={Theme.colors.color1}
+          style={{ height: 80 }}
+          size="large"
+        />
       </View>
     );
   }
@@ -113,14 +126,13 @@ class Home extends Component {
 Home.propTypes = {
   loggedIn: PropTypes.bool.isRequired,
   token: PropTypes.string,
-  syncSkip: PropTypes.bool.isRequired,
-  syncFinished: PropTypes.bool.isRequired,
+  isAppSynced: PropTypes.bool.isRequired,
   setLanguage: PropTypes.func.isRequired,
   navigator: PropTypes.object.isRequired,
   hasAreas: PropTypes.bool.isRequired,
-  syncModalOpen: PropTypes.bool.isRequired,
-  setSyncModal: PropTypes.func.isRequired,
-  startApp: PropTypes.func.isRequired
+  actionsPending: PropTypes.number.isRequired,
+  setAppSynced: PropTypes.func.isRequired,
+  syncApp: PropTypes.func.isRequired
 };
 Home.navigationOptions = {
   header: {
