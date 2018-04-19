@@ -6,8 +6,8 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'com.google.gms:google-services:3.0.0'
+        classpath 'com.android.tools.build:gradle:3.0.0'
+        classpath 'com.google.gms:google-services:3.1.1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -16,6 +16,18 @@ buildscript {
 
 allprojects {
     repositories {
+        configurations.all {
+            resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+                if (details.getRequested().getGroup() == 'com.google.android.gms') {
+                    details.useVersion('12.0.1')
+                }
+                if (details.getRequested().getGroup() == 'com.android.support') {
+                    if (!requested.name.startsWith("multidex")) {
+                        details.useVersion '27.0.2'
+                    }
+                }
+            }
+        }
         mavenLocal()
         jcenter()
         maven {
@@ -28,8 +40,8 @@ allprojects {
 
 subprojects {
     ext {
-        compileSdk = 26
-        buildTools = "26.0.2"
+        compileSdk = 27
+        buildTools = "27.0.3"
         minSdk = 17
         targetSdk = 22
     }
