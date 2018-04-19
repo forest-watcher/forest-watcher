@@ -1,5 +1,6 @@
+// @flow
+
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
   ActivityIndicator
@@ -10,12 +11,34 @@ import styles from './styles';
 
 const Timer = require('react-native-timer');
 
-class Home extends Component {
+type Props = {
+  loggedIn: boolean,
+  token: string,
+  isAppSynced: boolean,
+  setLanguage: () => void,
+  navigator: Object,
+  hasAreas: boolean,
+  actionsPending: number,
+  setAppSynced: boolean => void,
+  syncApp: () => void
+};
+
+type State = {
+  syncModalOpen: boolean
+};
+
+class Home extends Component<Props, State> {
   static navigatorStyle = {
     navBarHidden: true
   };
 
-  constructor(props) {
+  static navigationOptions = {
+    header: {
+      visible: false
+    }
+  };
+
+  constructor(props: Props) {
     super(props);
     this.state = {
       syncModalOpen: false
@@ -28,7 +51,7 @@ class Home extends Component {
   }
 
   // Override shouldComponentUpdate because setLanguage passed as prop always changes
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps: Props) {
     const conditions = [
       this.props.loggedIn !== nextProps.loggedIn,
       this.props.isAppSynced !== nextProps.isAppSynced,
@@ -48,7 +71,7 @@ class Home extends Component {
     Timer.clearImmediate('closeModal');
   }
 
-  setSyncModal(status) {
+  setSyncModal(status: boolean) {
     this.state.syncModalOpen = status;
   }
 
@@ -125,20 +148,5 @@ class Home extends Component {
     );
   }
 }
-Home.propTypes = {
-  loggedIn: PropTypes.bool.isRequired,
-  token: PropTypes.string,
-  isAppSynced: PropTypes.bool.isRequired,
-  setLanguage: PropTypes.func.isRequired,
-  navigator: PropTypes.object.isRequired,
-  hasAreas: PropTypes.bool.isRequired,
-  actionsPending: PropTypes.number.isRequired,
-  setAppSynced: PropTypes.func.isRequired,
-  syncApp: PropTypes.func.isRequired
-};
-Home.navigationOptions = {
-  header: {
-    visible: false
-  }
-};
+
 export default Home;

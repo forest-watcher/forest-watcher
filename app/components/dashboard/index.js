@@ -1,5 +1,6 @@
+// @flow
+
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
   ScrollView,
@@ -20,19 +21,19 @@ const nextIcon = require('assets/next.png');
 
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
 
-class Dashboard extends PureComponent {
+type Props = {
+  navigator: Object,
+  setAreasRefreshing: boolean => void,
+  areasOutdated: boolean,
+  areasSyncing: boolean,
+  refreshing: boolean,
+  pristine: boolean,
+  getAreas: () => void,
+  updateSelectedIndex: number => void,
+  setPristine: boolean => void
+};
 
-  static propTypes = {
-    navigator: PropTypes.object.isRequired,
-    setAreasRefreshing: PropTypes.func.isRequired,
-    areasOutdated: PropTypes.bool.isRequired,
-    areasSyncing: PropTypes.bool.isRequired,
-    refreshing: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired,
-    getAreas: PropTypes.func.isRequired,
-    updateSelectedIndex: PropTypes.func.isRequired,
-    setPristine: PropTypes.func.isRequired
-  };
+class Dashboard extends PureComponent<Props> {
 
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color1,
@@ -55,20 +56,21 @@ class Dashboard extends PureComponent {
     return false;
   }
 
-  constructor(props) {
+  reportsAction: { callback: () => void, icon: any } = {
+    callback: this.onPressReports,
+    icon: nextIcon
+  }
+
+  constructor(props: Props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
-    this.reportsAction = {
-      callback: this.onPressReports,
-      icon: nextIcon
-    };
   }
 
   componentDidMount() {
     if (Platform.OS === 'ios') {
       Location.requestAlwaysAuthorization();
     }
-    tracker.trackScreenView('DashBoard');
+    tracker.trackScreenView('Dashboard');
     this.checkNeedsUpdate();
   }
 
@@ -77,7 +79,7 @@ class Dashboard extends PureComponent {
     this.props.getAreas();
   }
 
-  onAreaPress = (areaId, name, index) => {
+  onAreaPress = (areaId: string, name: string, index?: number) => {
     if (typeof index === 'undefined') return;
     this.props.updateSelectedIndex(index);
     this.props.navigator.push({
@@ -93,7 +95,7 @@ class Dashboard extends PureComponent {
     });
   }
 
-  onNavigatorEvent = (event) => {
+  onNavigatorEvent = (event: { type: string, id: string }) => {
     const { navigator } = this.props;
     if (event.type === 'NavBarButtonPress') {
       if (event.id === 'settings') {
@@ -107,7 +109,7 @@ class Dashboard extends PureComponent {
     }
   }
 
-  getPristine = () => (this.props.pristine)
+  getPristine = (): boolean => (this.props.pristine)
 
   checkNeedsUpdate() {
     const { areasOutdated, areasSyncing, getAreas } = this.props;

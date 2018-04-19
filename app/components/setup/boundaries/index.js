@@ -1,5 +1,9 @@
+// @flow
+import type { CountryArea } from 'types/setup.types';
+import type { Country } from 'types/countries.types';
+import type { ContextualLayer } from 'types/layers.types';
+
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   View
 } from 'react-native';
@@ -8,20 +12,20 @@ import DrawAreas from 'components/setup/draw-areas';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
-class SetupBoundaries extends Component {
+type Props = {
+  setSetupArea: (area: CountryArea, snapshot: string) => void,
+  setupCountry: Country,
+  onNextPress: () => void,
+  contextualLayer: ContextualLayer
+};
 
-  static propTypes = {
-    setSetupArea: PropTypes.func.isRequired,
-    setupCountry: PropTypes.object.isRequired,
-    onNextPress: PropTypes.func.isRequired,
-    contextualLayer: PropTypes.object
-  };
+class SetupBoundaries extends Component<Props> {
 
   componentDidMount() {
     tracker.trackScreenView('Boundaries');
   }
 
-  onDrawAreaFinish = (area, snapshot) => {
+  onDrawAreaFinish = (area: CountryArea, snapshot: string) => {
     this.props.setSetupArea(area, snapshot);
     return this.props.onNextPress();
   }

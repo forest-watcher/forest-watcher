@@ -27,6 +27,8 @@ rules:
   arrow-parens: 0
   no-use-before-define: 0
   react/prefer-stateless-function: 1
+  react/sort-comp: 1
+  react/prop-types: 1
 settings:
   import/resolver:
     babel-module: {}
