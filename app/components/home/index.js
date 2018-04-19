@@ -23,11 +23,8 @@ type Props = {
   syncApp: () => void
 };
 
-type State = {
-  syncModalOpen: boolean
-};
+class Home extends Component<Props> {
 
-class Home extends Component<Props, State> {
   static navigatorStyle = {
     navBarHidden: true
   };
@@ -38,12 +35,7 @@ class Home extends Component<Props, State> {
     }
   };
 
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      syncModalOpen: false
-    };
-  }
+  syncModalOpen: boolean = false;
 
   componentDidMount() {
     this.handleStatus();
@@ -69,10 +61,6 @@ class Home extends Component<Props, State> {
 
   componentWillUnmount() {
     Timer.clearImmediate('closeModal');
-  }
-
-  setSyncModal(status: boolean) {
-    this.state.syncModalOpen = status;
   }
 
   handleStatus() {
@@ -108,7 +96,7 @@ class Home extends Component<Props, State> {
         Timer.setImmediate('closeModal', this.closeModal);
       } else {
         syncApp();
-        if (!this.state.syncModalOpen) {
+        if (!this.syncModalOpen) {
           this.openModal();
         }
       }
@@ -117,6 +105,10 @@ class Home extends Component<Props, State> {
         screen: 'ForestWatcher.Walkthrough'
       });
     }
+  }
+
+  setSyncModal(status: boolean) {
+    this.syncModalOpen = status;
   }
 
   openModal = () => {
@@ -133,7 +125,7 @@ class Home extends Component<Props, State> {
   closeModal = () => {
     const { navigator } = this.props;
     this.setSyncModal(false);
-    navigator.dismissModal();
+    navigator.dismissAllModals();
   }
 
   render() {

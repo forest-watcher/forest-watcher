@@ -163,7 +163,8 @@ export default function reducer(state = initialState, action) {
 // Helpers
 function getAreaById(areas, areaId) {
   // Using deconstructor to generate a new object
-  return { ...areas.find((areaData) => (areaData.id === areaId)) };
+  const area = areas.find((areaData) => (areaData.id === areaId));
+  return area ? { ...area } : null;
 }
 
 export function saveAlertsToDb(areaId, slug, alerts, range) {
@@ -243,6 +244,7 @@ export function setActiveAlerts() {
 export function getAreaAlerts(areaId, datasetSlug) {
   return (dispatch, state) => {
     const area = getAreaById(state().areas.data, areaId);
+    if (!area) return;
     const { cache } = state().alerts;
     let range = null;
     // Get the last cache date and request only that new data

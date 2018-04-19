@@ -6,7 +6,8 @@ import {
   ScrollView,
   RefreshControl,
   Platform,
-  Text
+  Text,
+  StatusBar
 } from 'react-native';
 
 import AreaList from 'containers/common/area-list';
@@ -25,12 +26,12 @@ type Props = {
   navigator: Object,
   setAreasRefreshing: boolean => void,
   areasOutdated: boolean,
-  areasSyncing: boolean,
+  appSyncing: boolean,
   refreshing: boolean,
   pristine: boolean,
-  getAreas: () => void,
   updateSelectedIndex: number => void,
-  setPristine: boolean => void
+  setPristine: boolean => void,
+  updateApp: () => void
 };
 
 class Dashboard extends PureComponent<Props> {
@@ -72,11 +73,14 @@ class Dashboard extends PureComponent<Props> {
     }
     tracker.trackScreenView('Dashboard');
     this.checkNeedsUpdate();
+    if (this.props.refreshing && !this.props.appSyncing) {
+      this.props.setAreasRefreshing(false);
+    }
   }
 
   onRefresh = () => {
     this.props.setAreasRefreshing(true);
-    this.props.getAreas();
+    this.props.updateApp();
   }
 
   onAreaPress = (areaId: string, name: string, index?: number) => {
@@ -96,7 +100,7 @@ class Dashboard extends PureComponent<Props> {
   }
 
   onNavigatorEvent = (event: { type: string, id: string }) => {
-    const { navigator } = this.props;
+    const { navigator, pristine, setPristine, refreshing, setAreasRefreshing } = this.props;
     if (event.type === 'NavBarButtonPress') {
       if (event.id === 'settings') {
         navigator.push({
@@ -105,16 +109,21 @@ class Dashboard extends PureComponent<Props> {
         });
       }
     } else if (event.id === 'willDisappear') {
-      this.props.setPristine(false);
+      if (pristine) {
+        setPristine(false);
+      }
+      if (refreshing) {
+        setAreasRefreshing(false);
+      }
     }
   }
 
   getPristine = (): boolean => (this.props.pristine)
 
   checkNeedsUpdate() {
-    const { areasOutdated, areasSyncing, getAreas } = this.props;
-    if (areasOutdated && !areasSyncing) {
-      getAreas();
+    const { areasOutdated, appSyncing, updateApp } = this.props;
+    if (areasOutdated && !appSyncing) {
+      updateApp();
       this.showUpdatingNotification();
     }
   }
@@ -134,7 +143,7 @@ class Dashboard extends PureComponent<Props> {
   }
 
   render() {
-    const { pristine, refreshing } = this.props;
+    const { pristine, refreshing, appSyncing } = this.props;
     const isIOS = Platform.OS === 'ios';
     // we remove the event handler to improve performance
 
@@ -151,6 +160,7 @@ class Dashboard extends PureComponent<Props> {
         onStartShouldSetResponder={androidListener}
         onResponderRelease={androidHandler}
       >
+        <StatusBar networkActivityIndicatorVisible={appSyncing} />
         <View style={styles.backgroundHack} />
         <Text style={styles.label}>
           {I18n.t('settings.yourAreas')}
