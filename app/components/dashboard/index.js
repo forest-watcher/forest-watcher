@@ -5,7 +5,8 @@ import {
   ScrollView,
   RefreshControl,
   Platform,
-  Text
+  Text,
+  StatusBar
 } from 'react-native';
 
 import AreaList from 'containers/common/area-list';
@@ -132,7 +133,7 @@ class Dashboard extends PureComponent {
   }
 
   render() {
-    const { pristine, refreshing } = this.props;
+    const { pristine, refreshing, areasSyncing } = this.props;
     const isIOS = Platform.OS === 'ios';
     // we remove the event handler to improve performance
 
@@ -149,6 +150,7 @@ class Dashboard extends PureComponent {
         onStartShouldSetResponder={androidListener}
         onResponderRelease={androidHandler}
       >
+        <StatusBar networkActivityIndicatorVisible={areasSyncing} />
         <View style={styles.backgroundHack} />
         <Text style={styles.label}>
           {I18n.t('settings.yourAreas')}

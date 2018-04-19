@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, ActivityIndicator, Text } from 'react-native';
+import { StatusBar, View, ActivityIndicator, Text } from 'react-native';
 import Theme from 'config/theme';
 import I18n from 'locales';
 import ActionButton from 'components/common/action-button';
@@ -84,6 +84,7 @@ class Sync extends Component {
   render() {
     return (
       <View style={[styles.mainContainer, styles.center]}>
+        <StatusBar networkActivityIndicatorVisible />
         <View>
           {this.getContent()}
           {this.getAction()}
