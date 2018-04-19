@@ -10,17 +10,16 @@ import styles from './styles';
 
 const Timer = require('react-native-timer');
 
+let syncModalOpen = false;
+
+function setSyncModal(status) {
+  syncModalOpen = status;
+}
+
 class Home extends Component {
   static navigatorStyle = {
     navBarHidden: true
   };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      syncModalOpen: false
-    };
-  }
 
   componentDidMount() {
     this.handleStatus();
@@ -46,10 +45,6 @@ class Home extends Component {
 
   componentWillUnmount() {
     Timer.clearImmediate('closeModal');
-  }
-
-  setSyncModal(status) {
-    this.state.syncModalOpen = status;
   }
 
   handleStatus() {
@@ -85,7 +80,7 @@ class Home extends Component {
         Timer.setImmediate('closeModal', this.closeModal);
       } else {
         syncApp();
-        if (!this.state.syncModalOpen) {
+        if (!syncModalOpen) {
           this.openModal();
         }
       }
@@ -98,7 +93,7 @@ class Home extends Component {
 
   openModal = () => {
     const { navigator } = this.props;
-    this.setSyncModal(true);
+    setSyncModal(true);
     navigator.showModal({
       screen: 'ForestWatcher.Sync',
       passProps: {
@@ -109,8 +104,8 @@ class Home extends Component {
 
   closeModal = () => {
     const { navigator } = this.props;
-    this.setSyncModal(false);
-    navigator.dismissModal();
+    setSyncModal(false);
+    navigator.dismissAllModals();
   }
 
   render() {
