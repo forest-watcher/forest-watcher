@@ -10,7 +10,7 @@ import { getActionsTodoCount } from 'helpers/sync';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
-import { START_APP, RETRY_SYNC } from 'redux-modules/app';
+import { RETRY_SYNC } from 'redux-modules/app';
 import { GET_ALERTS_COMMIT } from 'redux-modules/alerts';
 
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
@@ -53,9 +53,6 @@ const initialState = {
 
 export default function reducer(state: AreasState = initialState, action: AreasAction) {
   switch (action.type) {
-    case START_APP: {
-      return { ...state, synced: false, syncing: false, syncError: false };
-    }
     case RETRY_SYNC: {
       return { ...state, syncError: false };
     }
@@ -283,11 +280,11 @@ export function setAreasRefreshing(refreshing: boolean) {
 }
 
 export function saveArea(params: { snapshot: string, area: CountryArea }) {
-  const url = `${Config.API_URL}/area`;
+  const url = `${Config.API_URL}/forest-watcher/area`;
   const headers = { 'content-type': 'multipart/form-data' };
   const body = new FormData();
   body.append('name', params.area.name);
-  body.append('geojson', params.area.geojson);
+  body.append('geojson', JSON.stringify(params.area.geojson));
 
   const image = {
     uri: params.snapshot,
@@ -298,6 +295,7 @@ export function saveArea(params: { snapshot: string, area: CountryArea }) {
   if (params.datasets) {
     body.append('datasets', JSON.stringify(params.datasets));
   }
+  // $FlowFixMe
   body.append('image', image);
   return {
     type: SAVE_AREA_REQUEST,
