@@ -225,7 +225,7 @@ export function setActiveAlerts() {
     const index = areas.selectedIndex;
     const area = areas.data[index] || null;
     const dataset = activeDataset(area);
-    const datasetSlug = dataset.slug;
+    const datasetSlug = dataset && dataset.slug;
     const canDisplay = state().alerts.canDisplayAlerts;
 
     const action = { type: SET_ACTIVE_ALERTS, payload: null };

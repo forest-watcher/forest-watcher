@@ -15,7 +15,7 @@ const initialState = {
   country: null,
   area: {
     name: '',
-    geojson: {},
+    geojson: null,
     wdpaid: 0,
     id: null
   },

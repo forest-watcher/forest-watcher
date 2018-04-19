@@ -30,3 +30,4 @@ export type SetCoordinatesFormat = { type: 'app/SET_COORDINATES_FORMAT', payload
 export type SetLayersDrawersSection = { type: 'app/SET_LAYERS_DRAWER_SECTIONS', payload: boolean };
 export type SetPristineCacheTooltip = { type: 'app/SET_PRISTINE_CACHE_TOOLTIP', payload: boolean };
 export type SaveLastActions = { type: 'app/SAVE_LAST_ACTIONS', payload: AnyAction };
+export type RetrySync = { type: 'app/RETRY_SYNC' };

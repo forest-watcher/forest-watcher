@@ -1,12 +1,20 @@
+// @flow
+
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { StatusBar, View, ActivityIndicator, Text } from 'react-native';
 import Theme from 'config/theme';
 import I18n from 'locales';
 import ActionButton from 'components/common/action-button';
 import styles from './styles';
 
-class Sync extends Component {
+type Props = {
+  isConnected: boolean,
+  criticalSyncError: boolean,
+  actionsPending: number,
+  retrySync: () => void
+};
+
+class Sync extends Component<Props> {
   static navigatorStyle = {
     navBarHidden: true
   };
@@ -93,12 +101,5 @@ class Sync extends Component {
     );
   }
 }
-
-Sync.propTypes = {
-  isConnected: PropTypes.bool.isRequired,
-  criticalSyncError: PropTypes.bool.isRequired,
-  actionsPending: PropTypes.number.isRequired,
-  retrySync: PropTypes.func.isRequired
-};
 
 export default Sync;

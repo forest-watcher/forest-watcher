@@ -31,7 +31,7 @@ const SET_AREA_IMAGE_COMMIT = 'areas/SET_AREA_IMAGE_COMMIT';
 const UPDATE_INDEX = 'areas/UPDATE_INDEX';
 
 // Helpers
-function getAreaById(areas, areaId) {
+function getAreaById(areas: Array<Area>, areaId: string) {
   // Using deconstructor to generate a new object
   return { ...areas.find((areaData) => (areaData.id === areaId)) };
 }
@@ -204,21 +204,17 @@ export default function reducer(state: AreasState = initialState, action: AreasA
   }
 }
 
-export function getAreas() {
-  return (dispatch: Dispatch) => {
-    setTimeout(() => {
-      const url = `${Config.API_URL}/forest-watcher/area`;
-      dispatch({
-        type: GET_AREAS_REQUEST,
-        meta: {
-          offline: {
-            effect: { url },
-            commit: { type: GET_AREAS_COMMIT },
-            rollback: { type: GET_AREAS_ROLLBACK }
-          }
-        }
-      });
-    }, 1200);
+export function getAreas(): AreasAction {
+  const url = `${Config.API_URL}/forest-watcher/area`;
+  return {
+    type: GET_AREAS_REQUEST,
+    meta: {
+      offline: {
+        effect: { url },
+        commit: { type: GET_AREAS_COMMIT },
+        rollback: { type: GET_AREAS_ROLLBACK }
+      }
+    }
   };
 }
 
@@ -265,21 +261,21 @@ export function updateArea(area: Area) {
   };
 }
 
-export function updateSelectedIndex(index: number) {
+export function updateSelectedIndex(index: number): AreasAction {
   return {
     type: UPDATE_INDEX,
     payload: index
   };
 }
 
-export function setAreasRefreshing(refreshing: boolean) {
+export function setAreasRefreshing(refreshing: boolean): AreasAction {
   return {
     type: SET_AREAS_REFRESHING,
     payload: refreshing
   };
 }
 
-export function saveArea(params: { snapshot: string, area: CountryArea }) {
+export function saveArea(params: { snapshot: string, area: CountryArea }): AreasAction {
   const url = `${Config.API_URL}/forest-watcher/area`;
   const headers = { 'content-type': 'multipart/form-data' };
   const body = new FormData();

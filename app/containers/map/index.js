@@ -1,3 +1,6 @@
+// @flow
+import type { State } from 'types/store.types';
+
 import { connect } from 'react-redux';
 import { createReport } from 'redux-modules/reports';
 import { setCanDisplayAlerts, setActiveAlerts, activeCluster } from 'redux-modules/alerts';
@@ -18,7 +21,7 @@ function getAreaCoordinates(areaFeature) {
   ));
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: State) {
   const index = state.areas.selectedIndex;
   const area = state.areas.data[index] || null;
   let center = null;
@@ -28,19 +31,21 @@ function mapStateToProps(state) {
   let areaProps = null;
   if (area) {
     dataset = activeDataset(area);
-    datasetSlug = dataset.slug;
-    const geostore = area.geostore;
-    const areaFeatures = (geostore && geostore.geojson && geostore.geojson.features[0]) || false;
-    if (areaFeatures) {
-      center = new BoundingBox(areaFeatures).getCenter();
-      areaCoordinates = getAreaCoordinates(areaFeatures);
+    if (dataset) {
+      datasetSlug = dataset.slug;
+      const geostore = area.geostore;
+      const areaFeatures = (geostore && geostore.geojson && geostore.geojson.features[0]) || false;
+      if (areaFeatures) {
+        center = new BoundingBox(areaFeatures).getCenter();
+        areaCoordinates = getAreaCoordinates(areaFeatures);
+      }
+      areaProps = {
+        dataset,
+        id: area.id,
+        name: area.name,
+        templateId: area.templateId
+      };
     }
-    areaProps = {
-      dataset,
-      id: area.id,
-      name: area.name,
-      templateId: area.templateId
-    };
   }
   const { cache } = state.layers;
   const contextualLayer = getContextualLayer(state.layers);

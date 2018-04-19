@@ -1,5 +1,6 @@
 // @flow
 import type { Template } from 'types/reports.types';
+import type { RetrySync } from 'types/app.types';
 
 export type Geostore = {
   geojson: Object,
@@ -31,14 +32,14 @@ export type Area = {
   userId: string,
   createdAt: string,
   image: string,
-  datasets: [Dataset],
+  datasets: Array<Dataset>,
   use: Object,
   iso: Object,
   reportTemplate: Template
 }
 
 export type AreasState = {
-  data: [Area],
+  data: Array<Area>,
   selectedIndex: number,
   images: {},
   synced: boolean,
@@ -62,6 +63,8 @@ export type AreasAction =
   | UpdateAreaRequest
   | UpdateAreaCommit
   | UpdateAreaRollback
+  | RetrySync
+  | UpdateIndex
   | DeleteAreaRequest;
 
 // Actions
@@ -76,3 +79,4 @@ export type UpdateAreaRequest = { type: 'areas/UPDATE_AREA_REQUEST', payload: Ar
 export type UpdateAreaCommit = { type: 'areas/UPDATE_AREA_COMMIT', payload: Area };
 export type UpdateAreaRollback = { type: 'areas/UPDATE_AREA_ROLLBACK', meta: Area };
 export type DeleteAreaRequest = { type: 'areas/DELETE_AREA_REQUEST', payload: Area };
+export type UpdateIndex = { type: 'areas/UPDATE_INDEX', payload: number };

@@ -1,4 +1,5 @@
 // @flow
+import type { State } from 'types/store.types';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -8,7 +9,7 @@ import isEmpty from 'lodash/isEmpty';
 
 import Sync from 'components/sync';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: State) {
   const hasAreas = !!state.areas.data.length;
   const hasAlerts = !isEmpty(state.alerts.cache);
 

@@ -29,6 +29,7 @@ rules:
   react/prefer-stateless-function: 1
   react/sort-comp: 1
   react/prop-types: 1
+  import/prefer-default-export: 0
 settings:
   import/resolver:
     babel-module: {}

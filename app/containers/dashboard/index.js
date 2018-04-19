@@ -1,5 +1,5 @@
 // @flow
-import { State } from 'types/store.types';
+import type { State } from 'types/store.types';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';

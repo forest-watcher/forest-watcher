@@ -1,11 +1,14 @@
+// @flow
+
+import type { State } from 'types/store.types';
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Types } from 'components/toast-notification';
 import { Navigation } from 'react-native-navigation';
 
 // Container
-function mapStateToProps(state) {
+function mapStateToProps(state: State) {
   return {
     syncedAreas: state.areas.synced
   };
@@ -15,14 +18,17 @@ function getDisplayName(Component) {
   return Component.displayName || Component.name || 'Component';
 }
 
-function withSuccessNotifications(Component) {
-  class WithNotificationsHOC extends React.Component {
-    static propTypes = {
-      syncedAreas: PropTypes.bool.isRequired
-    };
+type Props = {
+  syncedAreas: boolean
+};
+
+function withSuccessNotifications(Component: any) {
+  class WithNotificationsHOC extends React.Component<Props> {
 
     static displayName = `HOC(${getDisplayName(Component)})`;
+    // $FlowFixMe
     static navigatorStyle = Component.navigatorStyle;
+    // $FlowFixMe
     static navigatorButtons = Component.navigatorButtons;
 
     componentDidUpdate(prevProps) {

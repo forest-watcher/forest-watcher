@@ -1,6 +1,7 @@
 // @flow
 import type { Dispatch, GetState } from 'types/store.types';
-import type { ReportsState, ReportsAction } from 'types/reports.types';
+import type { ReportsState, ReportsAction, Report } from 'types/reports.types';
+import type { Area } from 'types/areas.types';
 
 import Config from 'react-native-config';
 import tracker from 'helpers/googleAnalytics';
@@ -96,7 +97,7 @@ export default function reducer(state: ReportsState = initialState, action: Repo
 }
 
 // Action Creators
-export function getDefaultReport() {
+export function getDefaultReport(): ReportsAction {
   const url = `${Config.API_URL}/reports/default`;
 
   return {
@@ -111,7 +112,10 @@ export function getDefaultReport() {
   };
 }
 
-export function createReport({ name, userPosition, clickedPosition, area }) {
+export function createReport(
+  report: { name: string, userPosition: [number, number], clickedPosition: [number, number], area: Area }
+  ) {
+  const { name, userPosition, clickedPosition, area } = report;
   return {
     type: CREATE_REPORT,
     payload: {
@@ -127,14 +131,15 @@ export function createReport({ name, userPosition, clickedPosition, area }) {
   };
 }
 
-export function saveReport(name, data) {
+export function saveReport(name: string, data: Report): ReportsAction {
   return {
     type: UPDATE_REPORT,
     payload: { name, data }
   };
 }
 
-export function uploadReport({ reportName, fields }) {
+export function uploadReport(toUpload: { reportName: string, fields: Array<string> }) {
+  const { reportName, fields } = toUpload;
   tracker.trackEvent('Report', 'Complete Report', { label: 'Click Done', value: 0 });
   return (dispatch: Dispatch, state: GetState) => {
     const reportValues = state().form[reportName].values;
@@ -170,6 +175,7 @@ export function uploadReport({ reportName, fields }) {
             type: 'image/jpg',
             name: `${reportName}-image-${key}.jpg`
           };
+          // $FlowFixMe
           form.append(key, image);
         } else {
           form.append(key, reportValues[key].toString());

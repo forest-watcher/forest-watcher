@@ -5,7 +5,7 @@ import type { SaveAreaCommit, SaveAreaRollback } from 'types/areas.types';
 
 export type CountryArea = {
   name: string,
-  geojson: Object,
+  geojson: ?Object,
   wdpaid: number,
   id: ?string
 };

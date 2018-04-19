@@ -1,13 +1,15 @@
+// @flow
+
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
 import styles from './styles';
 
-class ToastNotification extends PureComponent {
-  static propTypes = {
-    type: PropTypes.string,
-    text: PropTypes.string
-  };
+type Props = {
+  type: string,
+  text: string
+};
+
+class ToastNotification extends PureComponent<Props> {
 
   render() {
     const { type, text } = this.props;
