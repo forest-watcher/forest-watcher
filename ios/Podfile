@@ -9,6 +9,7 @@ target 'ForestWatcher' do
   pod 'AppAuth'
   pod 'FBSDKLoginKit'
 
+  pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
   # pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
   ## Pods for AppCenter
@@ -16,12 +17,12 @@ target 'ForestWatcher' do
   pod 'AppCenterReactNativeShared', '~> 1.4.0'
 
 
-    post_install do |installer|
-      installer.pods_project.targets.each do |target|
-           target.build_configurations.each do |config|
-                config.build_settings['CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF'] = 'NO'
-                config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
-           end
-      end
+  post_install do |installer|
+    installer.pods_project.targets.each do |target|
+          target.build_configurations.each do |config|
+              config.build_settings['CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF'] = 'NO'
+              config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+          end
     end
+  end
 end

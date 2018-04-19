@@ -1,10 +1,16 @@
 import Theme from 'config/theme';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
   view: {
-    flex: 1,
-    paddingTop: 32,
+    ...Platform.select({
+      android: {
+        paddingTop: 16
+      },
+      ios: {
+        paddingTop: 32
+      }
+    }),
     paddingLeft: 16,
     paddingRight: 16,
     paddingBottom: 16,

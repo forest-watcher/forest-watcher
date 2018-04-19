@@ -7,6 +7,8 @@ import {
   TouchableHighlight,
   Text
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
+
 import styles from './styles';
 
 const nextImage = require('assets/next.png');
@@ -37,7 +39,7 @@ function List(props) {
           >
             <View style={data.text ? styles.containerImageText : styles.containerOnlyImage}>
               {data.image &&
-                <Image
+                <FastImage
                   style={styles.imageList}
                   source={data.image}
                 />

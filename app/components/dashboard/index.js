@@ -57,14 +57,14 @@ class Dashboard extends PureComponent<Props> {
     return false;
   }
 
-  reportsAction: { callback: () => void, icon: any } = {
-    callback: this.onPressReports,
-    icon: nextIcon
-  }
-
   constructor(props: Props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+
+    this.reportsAction = ({
+      callback: this.onPressReports,
+      icon: nextIcon
+    }: { callback: () => void, icon: any });
   }
 
   componentDidMount() {

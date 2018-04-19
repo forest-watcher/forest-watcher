@@ -164,6 +164,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fast-image')
     compile project(':react-native-fbsdk')
     compile project(':appcenter')
     compile project(':appcenter-crashes')
