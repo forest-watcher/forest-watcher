@@ -5,10 +5,10 @@ import type { AppState, AppAction, CoordinatesValue } from 'types/app.types';
 // $FlowFixMe
 import { version } from 'package.json'; // eslint-disable-line
 import { COORDINATES_FORMATS, ACTIONS_SAVED_TO_REPORT } from 'config/constants/index';
-import { syncAreas } from 'redux-modules/areas';
+import { syncAreas, getAreas } from 'redux-modules/areas';
 import { syncCountries } from 'redux-modules/countries';
 import { syncUser, LOGOUT_REQUEST } from 'redux-modules/user';
-import { syncLayers } from 'redux-modules/layers';
+import { syncLayers, getUserLayers } from 'redux-modules/layers';
 import { syncReports } from 'redux-modules/reports';
 import { syncAlerts } from 'redux-modules/alerts';
 import takeRight from 'lodash/takeRight';
@@ -82,6 +82,17 @@ export function syncApp() {
       dispatch(syncAreas());
       dispatch(syncAlerts());
       dispatch(syncLayers());
+    }
+  };
+}
+
+export function updateApp() {
+  return (dispatch: Dispatch, state: GetState) => {
+    const { user } = state();
+    if (user.loggedIn) {
+      dispatch(getAreas());
+      dispatch(getUserLayers());
+      dispatch(syncAlerts());
     }
   };
 }
