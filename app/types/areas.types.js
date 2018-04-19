@@ -43,6 +43,7 @@ export type AreasState = {
   images: {},
   synced: boolean,
   syncing: boolean,
+  refreshing: boolean,
   syncError: boolean,
   syncDate: number,
   pendingData: {
@@ -54,6 +55,7 @@ export type AreasAction =
   | SaveAreaRequest
   | SaveAreaCommit
   | SaveAreaRollback
+  | SetAreasRefreshing
   | GetAreasRequest
   | GetAreasCommit
   | GetAreasRollback
@@ -66,6 +68,7 @@ export type AreasAction =
 export type SaveAreaRequest = { type: 'areas/SAVE_AREA_REQUEST' };
 export type SaveAreaCommit = { type: 'areas/SAVE_AREA_COMMIT', payload: { id: string } };
 export type SaveAreaRollback = { type: 'areas/SAVE_AREA_ROLLBACK', payload: { id: string } };
+export type SetAreasRefreshing = { type: 'areas/SET_AREAS_REFRESHING', payload: boolean };
 export type GetAreasRequest = { type: 'areas/GET_AREAS_REQUEST' };
 export type GetAreasCommit = { type: 'areas/GET_AREAS_COMMIT', payload: [Area] };
 export type GetAreasRollback = { type: 'areas/GET_AREAS_ROLLBACK' };

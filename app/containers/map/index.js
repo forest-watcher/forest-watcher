@@ -5,6 +5,7 @@ import tracker from 'helpers/googleAnalytics';
 import { getContextualLayer } from 'helpers/map';
 import Map from 'components/map';
 import { activeDataset } from 'helpers/area';
+import withSuccessNotification from 'components/toast-notification/with-success-notification';
 
 const BoundingBox = require('boundingbox');
 
@@ -76,4 +77,4 @@ function mapDispatchToProps(dispatch, { navigation }) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Map);
+)(withSuccessNotification(Map));

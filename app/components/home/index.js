@@ -17,7 +17,9 @@ class Home extends Component {
 
   constructor(props) {
     super(props);
-    this.syncModalOpen = false;
+    this.state = {
+      syncModalOpen: false
+    };
   }
 
   componentDidMount() {
@@ -47,7 +49,7 @@ class Home extends Component {
   }
 
   setSyncModal(status) {
-    this.syncModalOpen = status;
+    this.state.syncModalOpen = status;
   }
 
   handleStatus() {
@@ -83,7 +85,7 @@ class Home extends Component {
         Timer.setImmediate('closeModal', this.closeModal);
       } else {
         syncApp();
-        if (!this.syncModalOpen) {
+        if (!this.state.syncModalOpen) {
           this.openModal();
         }
       }

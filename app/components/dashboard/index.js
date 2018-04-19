@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   View,
   ScrollView,
+  RefreshControl,
   Platform,
   Text
 } from 'react-native';
@@ -23,7 +24,12 @@ class Dashboard extends PureComponent {
 
   static propTypes = {
     navigator: PropTypes.object.isRequired,
+    setAreasRefreshing: PropTypes.func.isRequired,
+    areasOutdated: PropTypes.bool.isRequired,
+    areasSyncing: PropTypes.bool.isRequired,
+    refreshing: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
+    getAreas: PropTypes.func.isRequired,
     updateSelectedIndex: PropTypes.func.isRequired,
     setPristine: PropTypes.func.isRequired
   };
@@ -63,6 +69,12 @@ class Dashboard extends PureComponent {
       Location.requestAlwaysAuthorization();
     }
     tracker.trackScreenView('DashBoard');
+    this.checkNeedsUpdate();
+  }
+
+  onRefresh = () => {
+    this.props.setAreasRefreshing(true);
+    this.props.getAreas();
   }
 
   onAreaPress = (areaId, name, index) => {
@@ -97,12 +109,30 @@ class Dashboard extends PureComponent {
 
   getPristine = () => (this.props.pristine)
 
+  checkNeedsUpdate() {
+    const { areasOutdated, areasSyncing, getAreas } = this.props;
+    if (areasOutdated && !areasSyncing) {
+      getAreas();
+      this.showUpdatingNotification();
+    }
+  }
+
+  showUpdatingNotification() {
+    this.props.navigator.showInAppNotification({
+      screen: 'ForestWatcher.ToastNotification',
+      passProps: {
+        text: 'Getting the latest alerts'
+      },
+      autoDismissTimerSec: 2
+    });
+  }
+
   disablePristine = () => {
     this.props.setPristine(false);
   }
 
   render() {
-    const { pristine } = this.props;
+    const { pristine, refreshing } = this.props;
     const isIOS = Platform.OS === 'ios';
     // we remove the event handler to improve performance
 
@@ -120,9 +150,18 @@ class Dashboard extends PureComponent {
         onResponderRelease={androidHandler}
       >
         <View style={styles.backgroundHack} />
+        <Text style={styles.label}>
+          {I18n.t('settings.yourAreas')}
+        </Text>
         <ScrollView
           style={styles.containerScroll}
           onScroll={disablePristine}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
         >
           <View
             onStartShouldSetResponder={iOSListener}
@@ -132,9 +171,6 @@ class Dashboard extends PureComponent {
             scrollEnabled
           >
             <View>
-              <Text style={styles.label}>
-                {I18n.t('settings.yourAreas')}
-              </Text>
               <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
             </View>
           </View>

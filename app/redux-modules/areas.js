@@ -16,6 +16,7 @@ import { GET_ALERTS_COMMIT } from 'redux-modules/alerts';
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
 export const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
 const GET_AREAS_ROLLBACK = 'areas/GET_AREAS_ROLLBACK';
+const SET_AREAS_REFRESHING = 'areas/SET_AREAS_REFRESHING';
 export const SAVE_AREA_REQUEST = 'areas/SAVE_AREA_REQUEST';
 export const SAVE_AREA_COMMIT = 'areas/SAVE_AREA_COMMIT';
 export const SAVE_AREA_ROLLBACK = 'areas/SAVE_AREA_ROLLBACK';
@@ -41,6 +42,7 @@ const initialState = {
   selectedIndex: 0,
   images: {},
   synced: false,
+  refreshing: false,
   syncing: false,
   syncError: false,
   syncDate: Date.now(),
@@ -57,6 +59,9 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     case RETRY_SYNC: {
       return { ...state, syncError: false };
     }
+    case SET_AREAS_REFRESHING: {
+      return { ...state, refreshing: action.payload };
+    }
     case GET_AREAS_REQUEST:
       return { ...state, synced: false, syncing: true };
     case GET_AREAS_COMMIT: {
@@ -67,8 +72,14 @@ export default function reducer(state: AreasState = initialState, action: AreasA
           image: { ...pendingData.image, [newArea.id]: false }
         };
       });
-      const syncDate = Date.now();
-      return { ...state, data, pendingData, syncDate, synced: true, syncing: false, syncError: false };
+      const syncData = {
+        syncDate: Date.now(),
+        synced: true,
+        syncing: false,
+        syncError: false,
+        refreshing: false
+      };
+      return { ...state, data, pendingData, ...syncData };
     }
     case GET_AREAS_ROLLBACK: {
       return { ...state, syncing: false, syncError: true };
@@ -197,16 +208,20 @@ export default function reducer(state: AreasState = initialState, action: AreasA
 }
 
 export function getAreas() {
-  const url = `${Config.API_URL}/forest-watcher/areas?includes=geostore,templates`;
-  return {
-    type: GET_AREAS_REQUEST,
-    meta: {
-      offline: {
-        effect: { url },
-        commit: { type: GET_AREAS_COMMIT },
-        rollback: { type: GET_AREAS_ROLLBACK }
-      }
-    }
+  return (dispatch: Dispatch) => {
+    setTimeout(() => {
+      const url = `${Config.API_URL}/forest-watcher/area`;
+      dispatch({
+        type: GET_AREAS_REQUEST,
+        meta: {
+          offline: {
+            effect: { url },
+            commit: { type: GET_AREAS_COMMIT },
+            rollback: { type: GET_AREAS_ROLLBACK }
+          }
+        }
+      });
+    }, 1200);
   };
 }
 
@@ -257,6 +272,13 @@ export function updateSelectedIndex(index: number) {
   return {
     type: UPDATE_INDEX,
     payload: index
+  };
+}
+
+export function setAreasRefreshing(refreshing: boolean) {
+  return {
+    type: SET_AREAS_REFRESHING,
+    payload: refreshing
   };
 }
 
