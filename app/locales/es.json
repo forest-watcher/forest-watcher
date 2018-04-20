@@ -529,13 +529,11 @@
         "tryAgain": "Intentar de nuevo",
         "title": {
             "wifi": "Actualizando datos...",
-            "cellular": "Estás utilizando datos móviles",
             "offline": "Está desconectado",
             "updated": "¡ Actualización completa !"
         },
         "subtitle": {
             "wifi": "Este proceso podría llevar varios minutos.",
-            "cellular": "¿Quieres actualizar los datos y mapas utilizando los datos móviles?",
             "offline": "Necesita una conexión a internet para actualizar los datos",
             "updated": "¡Los datos fueron actualizados correctamente!"
         },

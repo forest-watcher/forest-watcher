@@ -1,33 +1,38 @@
-import { connect } from 'react-redux';
-import Dashboard from 'components/dashboard';
-import { setSyncModal, setPristineCacheTooltip } from 'redux-modules/app';
-import { createReport } from 'redux-modules/reports';
-import { getTotalActionsPending } from 'helpers/sync';
-import { updateSelectedIndex } from 'redux-modules/areas';
+// @flow
+import type { State } from 'types/store.types';
 
-function mapStateToProps(state) {
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import Dashboard from 'components/dashboard';
+import { updateApp, setPristineCacheTooltip } from 'redux-modules/app';
+import { createReport } from 'redux-modules/reports';
+import { isOutdated } from 'helpers/date';
+import { setAreasRefreshing, updateSelectedIndex } from 'redux-modules/areas';
+import withSuccessNotification from 'components/toast-notification/with-notifications';
+
+function mapStateToProps(state: State) {
+  // TODO: include the alerts pending data on the areas synced flag
+  // const { pendingData } = state.reports;
+  // const alertsSyncing = getActionsTodoCount(pendingData) > 0;
   return {
-    actionsPending: getTotalActionsPending(state),
-    syncModalOpen: state.app.syncModalOpen,
-    syncSkip: state.app.syncSkip,
+    refreshing: state.areas.refreshing,
+    areasOutdated: isOutdated(state.areas.syncDate),
+    appSyncing: (state.areas.syncing || state.layers.syncing),
     pristine: state.app.pristineCacheTooltip
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    createReport: (report) => {
-      dispatch(createReport(report));
-    },
-    setPristine: (pristine) => {
-      dispatch(setPristineCacheTooltip(pristine));
-    },
-    setSyncModal: open => dispatch(setSyncModal(open)),
-    updateSelectedIndex: index => dispatch(updateSelectedIndex(index))
-  };
+function mapDispatchToProps(dispatch: *) {
+  return bindActionCreators({
+    updateApp,
+    createReport,
+    setAreasRefreshing,
+    setPristine: setPristineCacheTooltip,
+    updateSelectedIndex
+  }, dispatch);
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Dashboard);
+)(withSuccessNotification(Dashboard));

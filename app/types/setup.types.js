@@ -1,11 +1,11 @@
 // @flow
 
 import type { Country } from 'types/countries.types';
-import type { SaveAreaCommit, SaveAreaRollback } from 'types/area.types';
+import type { SaveAreaCommit, SaveAreaRollback } from 'types/areas.types';
 
 export type CountryArea = {
   name: string,
-  geostore: string,
+  geojson: ?Object,
   wdpaid: number,
   id: ?string
 };
@@ -14,7 +14,7 @@ export type SetupState = {
   country: ?Country,
   area: CountryArea,
   snapshot: string,
-  areaSaved: boolean
+  error: boolean
 };
 
 export type SetupAction =

@@ -25,10 +25,20 @@ const app = () => {
   let store = null;
 
   function startApp() {
+    const state = store.getState();
+    let screen = 'ForestWatcher.Home';
+    let navigatorStyle = Theme.navigator.styles;
+    let title = '';
+    if (state.user.loggedIn && state.app.synced) {
+      screen = 'ForestWatcher.Dashboard';
+      navigatorStyle = {};
+      title = 'Forest Watcher';
+    }
     Navigation.startSingleScreenApp({
       screen: {
-        screen: 'ForestWatcher.Home',
-        navigatorStyle: Theme.navigator.styles
+        title,
+        screen,
+        navigatorStyle
       },
       drawer: {
         right: {

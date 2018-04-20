@@ -1,9 +1,9 @@
 import { offline } from '@redux-offline/redux-offline';
 import offlineConfig from '@redux-offline/redux-offline/lib/defaults';
 import detectNetwork from '@redux-offline/redux-offline/lib/defaults/detectNetwork.native';
-import { AsyncStorage } from 'react-native'; // eslint-disable-line import/no-unresolved
+import { AsyncStorage } from 'react-native';
 import { persistStore } from 'redux-persist';
-import { version } from 'package.json';
+import { version } from 'package.json';  // eslint-disable-line
 import { resetAlertsDb } from 'redux-modules/alerts';
 import effect from './effect';
 import retry from './retry';

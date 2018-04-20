@@ -98,8 +98,8 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.forestwatcher"
         minSdkVersion 21
@@ -164,6 +164,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fast-image')
     compile project(':react-native-fbsdk')
     compile project(':appcenter')
     compile project(':appcenter-crashes')
@@ -172,9 +173,8 @@ dependencies {
     compile project(':react-native-cookies')
     compile project(':react-native-i18n')
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:26+'
+    compile 'com.android.support:appcompat-v7:27.0.2'
     compile 'com.facebook.react:react-native:+'
-    // From node_modules
     compile project(':react-native-zip-archive')
     compile(project(':realm')) {
         exclude group: 'com.google.android.gms'
@@ -192,7 +192,7 @@ dependencies {
     compile(project(':react-native-maps')) {
         exclude group: 'com.google.android.gms'
     }
-    compile 'com.google.android.gms:play-services:10.2.1'
+    compile 'com.google.android.gms:play-services:12.0.1'
 }
 
 // Run this once to be able to run the application with BUCK

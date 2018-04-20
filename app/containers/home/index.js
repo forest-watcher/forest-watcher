@@ -3,26 +3,26 @@ import type { State } from 'types/store.types';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setLanguage, setSyncModal, startApp } from 'redux-modules/app';
+import { syncApp, setLanguage, setAppSynced } from 'redux-modules/app';
 import { getLanguage } from 'helpers/language';
-import { isSyncFinished } from 'helpers/sync';
+import { getTotalActionsPending } from 'helpers/sync';
 
 import Home from 'components/home';
 
 function mapStateToProps(state: State) {
   return {
     hasAreas: !!state.areas.data.length,
-    syncFinished: isSyncFinished(state),
+    isAppSynced: state.app.synced,
     loggedIn: state.user.loggedIn,
     token: state.user.token,
-    languageChanged: state.app.language !== getLanguage(),
-    syncModalOpen: state.app.syncModalOpen,
-    syncSkip: state.app.syncSkip
+    actionsPending: getTotalActionsPending(state),
+    languageChanged: state.app.language !== getLanguage()
   };
 }
+
 const mapDispatchToProps = (dispatch: *) => bindActionCreators({
-  startApp,
-  setSyncModal,
+  syncApp,
+  setAppSynced,
   setLanguageDispatch: () => setLanguage(getLanguage())
 }, dispatch);
 

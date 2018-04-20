@@ -3,8 +3,7 @@ import type { State } from 'types/store.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setSetupAOI } from 'redux-modules/setup';
-import { storeGeostore } from 'redux-modules/geostore';
+import { setSetupArea } from 'redux-modules/setup';
 import { getContextualLayer } from 'helpers/map';
 
 import SetupBoundaries from 'components/setup/boundaries';
@@ -20,8 +19,7 @@ function mapStateToProps(state: State) {
 }
 
 const mapDispatchToProps = (dispatch: *) => bindActionCreators({
-  storeGeostore,
-  setSetupArea: setSetupAOI
+  setSetupArea
 }, dispatch);
 
 export default connect(

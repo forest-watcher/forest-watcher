@@ -1,12 +1,14 @@
+// @flow
+import type { State } from 'types/store.types';
+
 import { connect } from 'react-redux';
 import { createReport } from 'redux-modules/reports';
-import { setSyncModal } from 'redux-modules/app';
 import { setCanDisplayAlerts, setActiveAlerts, activeCluster } from 'redux-modules/alerts';
 import tracker from 'helpers/googleAnalytics';
 import { getContextualLayer } from 'helpers/map';
 import Map from 'components/map';
 import { activeDataset } from 'helpers/area';
-import { getTotalActionsPending } from 'helpers/sync';
+import withSuccessNotification from 'components/toast-notification/with-notifications';
 
 const BoundingBox = require('boundingbox');
 
@@ -19,7 +21,7 @@ function getAreaCoordinates(areaFeature) {
   ));
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: State) {
   const index = state.areas.selectedIndex;
   const area = state.areas.data[index] || null;
   let center = null;
@@ -29,19 +31,21 @@ function mapStateToProps(state) {
   let areaProps = null;
   if (area) {
     dataset = activeDataset(area);
-    datasetSlug = dataset.slug;
-    const geostore = state.geostore.data[area.geostore];
-    const areaFeatures = (geostore && geostore.geojson.features[0]) || false;
-    if (areaFeatures) {
-      center = new BoundingBox(areaFeatures).getCenter();
-      areaCoordinates = getAreaCoordinates(areaFeatures);
+    if (dataset) {
+      datasetSlug = dataset.slug;
+      const geostore = area.geostore;
+      const areaFeatures = (geostore && geostore.geojson && geostore.geojson.features[0]) || false;
+      if (areaFeatures) {
+        center = new BoundingBox(areaFeatures).getCenter();
+        areaCoordinates = getAreaCoordinates(areaFeatures);
+      }
+      areaProps = {
+        dataset,
+        id: area.id,
+        name: area.name,
+        templateId: area.templateId
+      };
     }
-    areaProps = {
-      dataset,
-      id: area.id,
-      name: area.name,
-      templateId: area.templateId
-    };
   }
   const { cache } = state.layers;
   const contextualLayer = getContextualLayer(state.layers);
@@ -54,9 +58,6 @@ function mapStateToProps(state) {
     isConnected: state.offline.online,
     basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',
     ctxLayerLocalTilePath: cache[state.layers.activeLayer] ? cache[state.layers.activeLayer][area.id] : '',
-    actionsPending: getTotalActionsPending(state),
-    syncModalOpen: state.app.syncModalOpen,
-    syncSkip: state.app.syncSkip,
     canDisplayAlerts: state.alerts.canDisplayAlerts,
     contextualLayer,
     coordinatesFormat: state.app.coordinatesFormat
@@ -74,7 +75,6 @@ function mapDispatchToProps(dispatch, { navigation }) {
     navigate: (routeName, params) => {
       navigation.navigate(routeName, params);
     },
-    setSyncModal: open => dispatch(setSyncModal(open)),
     setCanDisplayAlerts: canDisplay => dispatch(setCanDisplayAlerts(canDisplay))
   };
 }
@@ -82,4 +82,4 @@ function mapDispatchToProps(dispatch, { navigation }) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Map);
+)(withSuccessNotification(Map));

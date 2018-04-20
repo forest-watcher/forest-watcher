@@ -23,8 +23,7 @@ export default StyleSheet.create({
   },
   image: {
     width: 128,
-    height: 126,
-    resizeMode: 'cover'
+    height: 126
   },
   titleContainer: {
     flex: 1,

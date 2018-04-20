@@ -26,6 +26,10 @@ rules:
   react/forbid-prop-types: 0
   arrow-parens: 0
   no-use-before-define: 0
+  react/prefer-stateless-function: 1
+  react/sort-comp: 1
+  react/prop-types: 1
+  import/prefer-default-export: 0
 settings:
   import/resolver:
     babel-module: {}

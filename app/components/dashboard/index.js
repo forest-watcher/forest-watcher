@@ -1,10 +1,13 @@
+// @flow
+
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
   ScrollView,
+  RefreshControl,
   Platform,
-  Text
+  Text,
+  StatusBar
 } from 'react-native';
 
 import AreaList from 'containers/common/area-list';
@@ -19,18 +22,19 @@ const nextIcon = require('assets/next.png');
 
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
 
-class Dashboard extends PureComponent {
+type Props = {
+  navigator: Object,
+  setAreasRefreshing: boolean => void,
+  areasOutdated: boolean,
+  appSyncing: boolean,
+  refreshing: boolean,
+  pristine: boolean,
+  updateSelectedIndex: number => void,
+  setPristine: boolean => void,
+  updateApp: () => void
+};
 
-  static propTypes = {
-    navigator: PropTypes.object.isRequired,
-    actionsPending: PropTypes.number.isRequired,
-    syncModalOpen: PropTypes.bool.isRequired,
-    syncSkip: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired,
-    setSyncModal: PropTypes.func.isRequired,
-    updateSelectedIndex: PropTypes.func.isRequired,
-    setPristine: PropTypes.func.isRequired
-  };
+class Dashboard extends PureComponent<Props> {
 
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color1,
@@ -53,23 +57,33 @@ class Dashboard extends PureComponent {
     return false;
   }
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
-    this.reportsAction = {
+
+    this.reportsAction = ({
       callback: this.onPressReports,
       icon: nextIcon
-    };
+    }: { callback: () => void, icon: any });
   }
 
   componentDidMount() {
     if (Platform.OS === 'ios') {
       Location.requestAlwaysAuthorization();
     }
-    tracker.trackScreenView('DashBoard');
+    tracker.trackScreenView('Dashboard');
+    this.checkNeedsUpdate();
+    if (this.props.refreshing && !this.props.appSyncing) {
+      this.props.setAreasRefreshing(false);
+    }
   }
 
-  onAreaPress = (areaId, name, index) => {
+  onRefresh = () => {
+    this.props.setAreasRefreshing(true);
+    this.props.updateApp();
+  }
+
+  onAreaPress = (areaId: string, name: string, index?: number) => {
     if (typeof index === 'undefined') return;
     this.props.updateSelectedIndex(index);
     this.props.navigator.push({
@@ -85,39 +99,51 @@ class Dashboard extends PureComponent {
     });
   }
 
-  onNavigatorEvent = (event) => {
-    const { actionsPending, syncModalOpen, syncSkip } = this.props;
+  onNavigatorEvent = (event: { type: string, id: string }) => {
+    const { navigator, pristine, setPristine, refreshing, setAreasRefreshing } = this.props;
     if (event.type === 'NavBarButtonPress') {
       if (event.id === 'settings') {
-        this.props.navigator.push({
+        navigator.push({
           screen: 'ForestWatcher.Settings',
           title: 'Settings'
         });
       }
-    } else if (event.id === 'didAppear') {
-      if (actionsPending > 0 && !syncModalOpen && !syncSkip && !this.syncModalOpen) {
-        this.syncModalOpen = true;
-        this.props.setSyncModal(true);
-        this.props.navigator.showModal({
-          screen: 'ForestWatcher.Sync',
-          passProps: {
-            goBackDisabled: true
-          }
-        });
-      }
     } else if (event.id === 'willDisappear') {
-      this.props.setPristine(false);
+      if (pristine) {
+        setPristine(false);
+      }
+      if (refreshing) {
+        setAreasRefreshing(false);
+      }
     }
   }
 
-  getPristine = () => (this.props.pristine)
+  getPristine = (): boolean => (this.props.pristine)
+
+  checkNeedsUpdate() {
+    const { areasOutdated, appSyncing, updateApp } = this.props;
+    if (areasOutdated && !appSyncing) {
+      updateApp();
+      this.showUpdatingNotification();
+    }
+  }
+
+  showUpdatingNotification() {
+    this.props.navigator.showInAppNotification({
+      screen: 'ForestWatcher.ToastNotification',
+      passProps: {
+        text: 'Getting the latest alerts'
+      },
+      autoDismissTimerSec: 2
+    });
+  }
 
   disablePristine = () => {
     this.props.setPristine(false);
   }
 
   render() {
-    const { pristine } = this.props;
+    const { pristine, refreshing, appSyncing } = this.props;
     const isIOS = Platform.OS === 'ios';
     // we remove the event handler to improve performance
 
@@ -134,10 +160,20 @@ class Dashboard extends PureComponent {
         onStartShouldSetResponder={androidListener}
         onResponderRelease={androidHandler}
       >
+        <StatusBar networkActivityIndicatorVisible={appSyncing} />
         <View style={styles.backgroundHack} />
+        <Text style={styles.label}>
+          {I18n.t('settings.yourAreas')}
+        </Text>
         <ScrollView
           style={styles.containerScroll}
           onScroll={disablePristine}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
         >
           <View
             onStartShouldSetResponder={iOSListener}
@@ -147,9 +183,6 @@ class Dashboard extends PureComponent {
             scrollEnabled
           >
             <View>
-              <Text style={styles.label}>
-                {I18n.t('settings.yourAreas')}
-              </Text>
               <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
             </View>
           </View>
