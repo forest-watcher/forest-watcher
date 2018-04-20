@@ -14,6 +14,7 @@ import type { AppAction, AppState } from 'types/app.types';
 import type { CountriesAction, CountriesState } from 'types/countries.types';
 import type { SetupAction, SetupState } from 'types/setup.types';
 import type { AreasAction, AreasState } from 'types/areas.types';
+import type { AlertsState } from 'types/alerts.types';
 
 type Action =
   | UserAction
@@ -30,7 +31,8 @@ export type State = {
   offline: OfflineState,
   countries: CountriesState,
   setup: SetupState,
-  reports: ReportsState
+  reports: ReportsState,
+  alerts: AlertsState
 };
 
 export type Store = ReduxStore<State, Action>;

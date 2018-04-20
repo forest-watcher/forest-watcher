@@ -10,7 +10,6 @@ import { syncCountries } from 'redux-modules/countries';
 import { syncUser, LOGOUT_REQUEST } from 'redux-modules/user';
 import { syncLayers, getUserLayers } from 'redux-modules/layers';
 import { syncReports } from 'redux-modules/reports';
-import { syncAlerts } from 'redux-modules/alerts';
 import takeRight from 'lodash/takeRight';
 
 // Actions
@@ -80,7 +79,6 @@ export function syncApp() {
       dispatch(syncCountries());
       dispatch(syncReports());
       dispatch(syncAreas());
-      dispatch(syncAlerts());
       dispatch(syncLayers());
     }
   };
@@ -92,7 +90,6 @@ export function updateApp() {
     if (user.loggedIn) {
       dispatch(getAreas());
       dispatch(getUserLayers());
-      dispatch(syncAlerts());
     }
   };
 }

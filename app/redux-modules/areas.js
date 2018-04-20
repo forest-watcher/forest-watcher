@@ -9,7 +9,7 @@ import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { RETRY_SYNC } from 'redux-modules/app';
 import { GET_ALERTS_COMMIT } from 'redux-modules/alerts';
 
-const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
+export const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
 export const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
 const GET_AREAS_ROLLBACK = 'areas/GET_AREAS_ROLLBACK';
 const SET_AREAS_REFRESHING = 'areas/SET_AREAS_REFRESHING';
