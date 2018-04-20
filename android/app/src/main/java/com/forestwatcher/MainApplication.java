@@ -24,6 +24,7 @@ import com.imagepicker.ImagePickerPackage;
 import com.reactlibrary.RNAppAuthPackage;
 import com.facebook.CallbackManager;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.dylanvann.fastimage.FastImageViewPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -77,7 +78,8 @@ public class MainApplication extends NavigationApplication implements ReactInsta
       new RNAppAuthPackage(),
       new FBSDKPackage(mCallbackManager),
       new AppCenterReactNativePackage(MainApplication.this),
-      new AppCenterReactNativeCrashesPackage(MainApplication.this, "ALWAYS")
+      new AppCenterReactNativeCrashesPackage(MainApplication.this, "ALWAYS"),
+      new FastImageViewPackage()
     );
   }
 
