@@ -11,13 +11,10 @@ import { setAreasRefreshing, updateSelectedIndex } from 'redux-modules/areas';
 import withSuccessNotification from 'components/toast-notification/with-notifications';
 
 function mapStateToProps(state: State) {
-  // TODO: include the alerts pending data on the areas synced flag
-  // const { pendingData } = state.reports;
-  // const alertsSyncing = getActionsTodoCount(pendingData) > 0;
   return {
     refreshing: state.areas.refreshing,
     areasOutdated: isOutdated(state.areas.syncDate),
-    appSyncing: (state.areas.syncing || state.layers.syncing),
+    appSyncing: (state.areas.syncing || state.layers.syncing || state.alerts.queue.length > 0),
     pristine: state.app.pristineCacheTooltip
   };
 }
