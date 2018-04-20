@@ -1,4 +1,4 @@
-import { offline } from '@redux-offline/redux-offline';
+import { createOffline } from '@redux-offline/redux-offline';
 import offlineConfig from '@redux-offline/redux-offline/lib/defaults';
 import detectNetwork from '@redux-offline/redux-offline/lib/defaults/detectNetwork.native';
 import { AsyncStorage } from 'react-native';
@@ -34,4 +34,4 @@ const config = params => ({
   persistCallback: params.persistCallback
 });
 
-export default params => offline(config(params));
+export default params => createOffline(config(params));

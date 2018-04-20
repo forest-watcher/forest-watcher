@@ -3,13 +3,14 @@ import type { State } from 'types/store.types';
 
 import { put, takeEvery, select, all, fork } from 'redux-saga/effects';
 import { getAreaAlerts } from 'redux-modules/alerts';
-import { GET_AREAS_REQUEST } from 'redux-modules/areas';
+import { GET_AREAS_COMMIT } from 'redux-modules/areas';
 import { AREAS as areasConstants } from 'config/constants';
 import moment from 'moment/moment';
 
 function* syncAlertDatasets({ area, cache }): Generator<*, *, *> {
   yield all(Object.entries(areasConstants.alertRange)
-    .map(([slug, defaultRange]) => {
+    .map((entry: [string, number]) => {
+      const [slug, defaultRange] = entry;
       let range = defaultRange;
       // Get the last cache date and request only that new data
       if (cache[slug] && cache[slug][area.id]) {
@@ -32,5 +33,5 @@ export function* syncAlertsSaga(): Generator<*, *, *> {
 }
 
 export function* getAlertsOnAreasCommit(): Generator<*, *, *> {
-  yield takeEvery(GET_AREAS_REQUEST, syncAlertsSaga);
+  yield takeEvery(GET_AREAS_COMMIT, syncAlertsSaga);
 }

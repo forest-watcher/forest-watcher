@@ -29,9 +29,14 @@ if (!__DEV__) middlewareList.push(lastActionsMiddleware);
 
 
 const reducer = combineReducers(reducers);
-const middleware = applyMiddleware(...middlewareList);
 
 function createAppStore(startApp) {
+  const {
+    middleware: offlineMiddleware,
+    enhanceReducer,
+    enhanceStore
+  } = offline({ persistCallback: startApp });
+  const middleware = applyMiddleware(...middlewareList, offlineMiddleware);
   if (__DEV__) {
     Reactotron
       .configure()
@@ -43,14 +48,14 @@ function createAppStore(startApp) {
       .connect()
       .clear();
     window.tron = Reactotron; // eslint-disable-line
-    return Reactotron.createStore(reducer, compose(middleware, offline({ persistCallback: startApp })));
+    return Reactotron.createStore(enhanceReducer(reducer), compose(middleware, enhanceStore));
   }
   const codePushOptions = {
     checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
     installMode: codePush.InstallMode.ON_NEXT_RESUME
   };
   codePush.sync(codePushOptions);
-  return createStore(reducer, compose(middleware, offline({ persistCallback: startApp })));
+  return createStore(enhanceReducer(reducer), compose(middleware, enhanceStore));
 }
 
 createAppStore.runSagas = () => sagaMiddleware.run(getAlertsOnAreasCommit);
