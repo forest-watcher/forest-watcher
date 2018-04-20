@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { isUnsafeLogout } from 'helpers/user';
 import { logout } from 'redux-modules/user';
-import withSuccessNotification from 'components/toast-notification/with-success-notification';
+import withSuccessNotification from 'components/toast-notification/with-notifications';
 
 import Settings from 'components/settings';
 

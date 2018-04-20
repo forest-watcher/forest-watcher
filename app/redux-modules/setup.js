@@ -3,7 +3,7 @@ import type { SetupState, SetupAction, CountryArea } from 'types/setup.types';
 import type { Country } from 'types/countries.types';
 
 // Actions
-import { SAVE_AREA_COMMIT, SAVE_AREA_ROLLBACK } from 'redux-modules/areas';
+import { SAVE_AREA_REQUEST, SAVE_AREA_COMMIT, SAVE_AREA_ROLLBACK } from 'redux-modules/areas';
 
 const INIT_SETUP = 'setup/INIT_SETUP';
 const SET_COUNTRY = 'setup/SET_COUNTRY';
@@ -20,7 +20,7 @@ const initialState = {
     id: null
   },
   snapshot: '',
-  areaSaved: false
+  error: true
 };
 
 export default function reducer(state: SetupState = initialState, action: SetupAction): SetupState {
@@ -44,12 +44,15 @@ export default function reducer(state: SetupState = initialState, action: SetupA
       const { area, snapshot } = action.payload;
       return { ...state, area, snapshot };
     }
+    case SAVE_AREA_REQUEST: {
+      return { ...state, error: false };
+    }
     case SAVE_AREA_COMMIT: {
       const area = { ...state.area, id: action.payload.id };
-      return { ...state, areaSaved: true, area };
+      return { ...state, area };
     }
     case SAVE_AREA_ROLLBACK: {
-      return { ...state, areaSaved: false };
+      return { ...state, error: true };
     }
     default:
       return state;

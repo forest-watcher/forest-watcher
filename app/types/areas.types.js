@@ -41,15 +41,11 @@ export type Area = {
 export type AreasState = {
   data: Array<Area>,
   selectedIndex: number,
-  images: {},
   synced: boolean,
   syncing: boolean,
   refreshing: boolean,
   syncError: boolean,
   syncDate: number,
-  pendingData: {
-    image: {}
-  }
 };
 
 export type AreasAction =

@@ -9,8 +9,7 @@ import { saveArea } from 'redux-modules/areas';
 function mapStateToProps(state: State) {
   return {
     area: state.setup.area,
-    snapshot: state.setup.snapshot,
-    areaSaved: state.setup.areaSaved
+    snapshot: state.setup.snapshot
   };
 }
 

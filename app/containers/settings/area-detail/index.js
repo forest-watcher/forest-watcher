@@ -1,25 +1,24 @@
+// @flow
+import type { State } from 'types/store.types';
+
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { updateArea, deleteArea } from 'redux-modules/areas';
 import AreaDetail from 'components/settings/area-detail';
 
-function mapStateToProps(state, props) {
-  const area = state.areas.data.find((areaData) => (areaData.id === props.id));
+function mapStateToProps(state: State, { id }) {
+  const area = state.areas.data.find((areaData) => (areaData.id === id));
   return {
-    imageUrl: state.areas.images[props.id],
     area,
     isConnected: state.offline.online
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    updateArea: (area) => {
-      dispatch(updateArea(area));
-    },
-    deleteArea: (id) => {
-      dispatch(deleteArea(id));
-    }
-  };
+function mapDispatchToProps(dispatch: *) {
+  return bindActionCreators({
+    updateArea,
+    deleteArea
+  }, dispatch);
 }
 
 export default connect(

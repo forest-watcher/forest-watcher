@@ -14,7 +14,7 @@ export type SetupState = {
   country: ?Country,
   area: CountryArea,
   snapshot: string,
-  areaSaved: boolean
+  error: boolean
 };
 
 export type SetupAction =

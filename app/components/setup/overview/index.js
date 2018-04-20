@@ -30,17 +30,6 @@ class SetupOverview extends Component {
     tracker.trackScreenView('Overview Set Up');
   }
 
-  componentDidUpdate(prevProps) {
-    const { areaSaved } = this.props;
-    if (areaSaved && (prevProps.areaSaved !== areaSaved)) {
-      this.onAreaSaved();
-    }
-  }
-
-  onAreaSaved() {
-    this.props.onNextPress();
-  }
-
   onNextPress = async () => {
     this.setState({ saving: true });
 
@@ -52,6 +41,7 @@ class SetupOverview extends Component {
       snapshot: this.props.snapshot
     };
     this.props.saveArea(params);
+    this.props.onNextPress();
   }
 
   textChange = (name) => {
@@ -117,7 +107,6 @@ class SetupOverview extends Component {
 
 SetupOverview.propTypes = {
   area: PropTypes.object.isRequired,
-  areaSaved: PropTypes.bool.isRequired,
   snapshot: PropTypes.string.isRequired,
   saveArea: PropTypes.func.isRequired,
   onNextPress: PropTypes.func.isRequired,

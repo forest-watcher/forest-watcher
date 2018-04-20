@@ -4,10 +4,6 @@ import type { CountryArea } from 'types/setup.types';
 import type { Dispatch, GetState } from 'types/store.types';
 
 import Config from 'react-native-config';
-import omit from 'lodash/omit';
-import { getCachedImageByUrl } from 'helpers/fileManagement';
-import { getActionsTodoCount } from 'helpers/sync';
-
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { RETRY_SYNC } from 'redux-modules/app';
@@ -26,8 +22,6 @@ const UPDATE_AREA_ROLLBACK = 'areas/UPDATE_AREA_ROLLBACK';
 const DELETE_AREA_REQUEST = 'areas/DELETE_AREA_REQUEST';
 export const DELETE_AREA_COMMIT = 'areas/DELETE_AREA_COMMIT';
 const DELETE_AREA_ROLLBACK = 'areas/DELETE_AREA_ROLLBACK';
-const SET_AREA_IMAGE_REQUEST = 'areas/SET_AREA_IMAGE_REQUEST';
-const SET_AREA_IMAGE_COMMIT = 'areas/SET_AREA_IMAGE_COMMIT';
 const UPDATE_INDEX = 'areas/UPDATE_INDEX';
 
 // Helpers
@@ -40,15 +34,11 @@ function getAreaById(areas: Array<Area>, areaId: string) {
 const initialState = {
   data: [],
   selectedIndex: 0,
-  images: {},
   synced: false,
   refreshing: false,
   syncing: false,
   syncError: false,
-  syncDate: Date.now(),
-  pendingData: {
-    image: {}
-  }
+  syncDate: Date.now()
 };
 
 export default function reducer(state: AreasState = initialState, action: AreasAction) {
@@ -62,13 +52,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     case GET_AREAS_REQUEST:
       return { ...state, synced: false, syncing: true };
     case GET_AREAS_COMMIT: {
-      let pendingData = { ...state.pendingData };
-      const data = [...action.payload];
-      data.forEach((newArea) => {
-        pendingData = {
-          image: { ...pendingData.image, [newArea.id]: false }
-        };
-      });
+      const data = action.payload;
       const syncData = {
         syncDate: Date.now(),
         synced: true,
@@ -76,7 +60,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
         syncError: false,
         refreshing: false
       };
-      return { ...state, data, pendingData, ...syncData };
+      return { ...state, data, ...syncData };
     }
     case GET_AREAS_ROLLBACK: {
       return { ...state, syncing: false, syncError: true };
@@ -97,38 +81,19 @@ export default function reducer(state: AreasState = initialState, action: AreasA
       });
       return { ...state, data };
     }
-    case SET_AREA_IMAGE_REQUEST: {
-      const area = action.payload;
-      const pendingData = { ...state.pendingData, image: { ...state.pendingData.image, [area.id]: true } };
-      return { ...state, pendingData };
-    }
-    case SET_AREA_IMAGE_COMMIT: {
-      const area = action.meta.area;
-      const images = { ...state.images, [area.id]: action.payload };
-      const pendingData = {
-        ...state.pendingData,
-        image: omit(state.pendingData.image, [area.id])
-      };
-      return { ...state, images, pendingData };
-    }
     case SAVE_AREA_REQUEST: {
-      return { ...state, synced: false, syncing: true };
+      return { ...state, synced: false, syncing: true, refreshing: true };
     }
     case SAVE_AREA_ROLLBACK: {
-      return { ...state, syncing: false };
+      return { ...state, syncing: false, refreshing: false };
     }
     case SAVE_AREA_COMMIT: {
       let data = state.data;
       const area = action.payload;
-      let pendingData = state.pendingData;
       if (area) {
         data = [...data, area];
-        const { image } = state.pendingData;
-        pendingData = {
-          image: { ...image, [area.id]: false }
-        };
       }
-      return { ...state, data, pendingData, synced: true, syncing: false };
+      return { ...state, data, synced: true, syncing: false, refreshing: false };
     }
     case UPDATE_AREA_REQUEST: {
       const newArea = { ...action.payload };
@@ -169,10 +134,6 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     }
     case DELETE_AREA_COMMIT: {
       const { id } = action.meta.area || {};
-      let images = state.images;
-      if (typeof images[id] !== 'undefined') {
-        images = omit(images, [id]);
-      }
       // Update the selectedIndex of the map
       let selectedIndex = state.selectedIndex || 0;
       if (selectedIndex > 0) {
@@ -187,7 +148,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
           selectedIndex -= 1;
         }
       }
-      return { ...state, images, synced: true, syncing: false, selectedIndex };
+      return { ...state, synced: true, syncing: false, selectedIndex };
     }
     case DELETE_AREA_ROLLBACK: {
       const data = [...state.data, action.meta.area];
@@ -215,23 +176,6 @@ export function getAreas(): AreasAction {
         rollback: { type: GET_AREAS_ROLLBACK }
       }
     }
-  };
-}
-
-export function cacheAreaImage(areaId: string) {
-  return (dispatch: Dispatch, state: GetState) => {
-    const areas = state().areas;
-    const area = getAreaById(areas.data, areaId);
-    dispatch({
-      type: SET_AREA_IMAGE_REQUEST,
-      payload: area,
-      meta: {
-        offline: {
-          effect: { promise: getCachedImageByUrl(area.image, 'areas') },
-          commit: { type: SET_AREA_IMAGE_COMMIT, meta: { area } }
-        }
-      }
-    });
   };
 }
 
@@ -367,27 +311,8 @@ export function deleteArea(areaId: string) {
 export function syncAreas() {
   return async (dispatch: Dispatch, state: GetState) => {
     const { loggedIn } = state().user;
-    const { data, synced, syncing, pendingData } = state().areas;
-    const hasAreas = data && data.length;
-    if (hasAreas && synced && getActionsTodoCount(pendingData) > 0) {
-      Object.keys(pendingData).forEach((type) => {
-        const syncingAreasData = pendingData[type];
-        const canDispatch = id => (typeof syncingAreasData[id] !== 'undefined' && syncingAreasData[id] === false);
-        const syncAreasData = (action) => {
-          Object.keys(syncingAreasData).forEach(id => {
-            if (canDispatch(id)) {
-              action(id);
-            }
-          });
-        };
-        switch (type) {
-          case 'image':
-            syncAreasData(id => dispatch(cacheAreaImage(id)));
-            break;
-          default:
-        }
-      });
-    } else if (!synced && !syncing && loggedIn) {
+    const { synced, syncing } = state().areas;
+    if (!synced && !syncing && loggedIn) {
       dispatch(getAreas());
     }
   };

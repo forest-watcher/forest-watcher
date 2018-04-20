@@ -33,5 +33,11 @@ export default StyleSheet.create({
   },
   successText: {
     color: Theme.fontColors.white
+  },
+  error: {
+    backgroundColor: Theme.background.red
+  },
+  errorText: {
+    color: Theme.fontColors.white
   }
 });
