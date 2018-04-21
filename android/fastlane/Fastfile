@@ -16,6 +16,9 @@ default_platform(:android)
 platform :android do
   desc "Submit a new beta build to appCenter"
   lane :beta do
+    increment_version_code(
+      gradle_file_path: "app/build.gradle"
+    )
     gradle(task: "clean assembleRelease")
     appcenter_upload(
       api_token: ENV["APPCENTER_API_TOKEN"],
@@ -34,6 +37,9 @@ platform :android do
   desc "Deploy a new version to the Google Play"
   lane :deploy do
     gradle(task: "clean assembleRelease")
+    increment_version_code(
+      gradle_file_path: "app/build.gradle"
+    )
     upload_to_play_store(
       apk: APK_PATH
     )
