@@ -10,7 +10,7 @@ import { Navigation } from 'react-native-navigation';
 // Container
 function mapStateToProps(state: State) {
   return {
-    syncedAreas: state.areas.synced,
+    syncedAreas: (state.areas.synced || state.layers.synced || state.alerts.queue.length > 0),
     errorAreaCreation: state.setup.error
   };
 }
