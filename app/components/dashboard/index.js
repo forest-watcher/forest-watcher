@@ -7,6 +7,7 @@ import {
   RefreshControl,
   Platform,
   Text,
+  Alert,
   StatusBar
 } from 'react-native';
 
@@ -25,6 +26,7 @@ const { RNLocation: Location } = require('NativeModules'); // eslint-disable-lin
 type Props = {
   navigator: Object,
   setAreasRefreshing: boolean => void,
+  isConnected: boolean,
   areasOutdated: boolean,
   appSyncing: boolean,
   refreshing: boolean,
@@ -79,8 +81,19 @@ class Dashboard extends PureComponent<Props> {
   }
 
   onRefresh = () => {
-    this.props.setAreasRefreshing(true);
-    this.props.updateApp();
+    const { isConnected, appSyncing, updateApp, setAreasRefreshing } = this.props;
+    if (appSyncing) return;
+
+    if (isConnected) {
+      setAreasRefreshing(true);
+      updateApp();
+    } else {
+      Alert.alert(
+        I18n.t('commonText.connectionRequiredTitle'),
+        I18n.t('commonText.connectionRequired'),
+        [{ text: 'OK' }]
+      );
+    }
   }
 
   onAreaPress = (areaId: string, name: string, index?: number) => {
