@@ -2,7 +2,6 @@ import * as reducers from 'redux-modules';
 import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
 import offline from 'offline';
 import thunk from 'redux-thunk';
-import { SAVE_LAST_ACTIONS } from 'redux-modules/app';
 import createSagaMiddleware from 'redux-saga';
 
 import { getAlertsOnAreasCommit } from './sagas/sync';
@@ -14,18 +13,9 @@ const authMiddleware = ({ getState }) => next => action => (
   action.type && action.type.endsWith('REQUEST') ? next({ ...action, auth: getState().user.token }) : next(action)
 );
 
-const lastActionsMiddleware = ({ dispatch }) => next => action => {
-  if (action.type !== SAVE_LAST_ACTIONS || action.type.startsWith('user/')) {
-    dispatch({ type: SAVE_LAST_ACTIONS, payload: action });
-  }
-  return next(action);
-};
-
 export const sagaMiddleware = createSagaMiddleware();
 
 const middlewareList = [thunk, authMiddleware, sagaMiddleware];
-if (!__DEV__) middlewareList.push(lastActionsMiddleware);
-
 
 const reducer = combineReducers(reducers);
 
