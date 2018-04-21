@@ -9,6 +9,7 @@ import {
   Text,
   StatusBar
 } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 
 import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
@@ -17,10 +18,18 @@ import tracker from 'helpers/googleAnalytics';
 import I18n from 'locales';
 import styles from './styles';
 
+const Timer = require('react-native-timer');
 const settingsIcon = require('assets/settings.png');
 const nextIcon = require('assets/next.png');
 
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
+
+function clearModalTimeout() {
+  // Closing sync modal after the first load
+  // Done here to avoid missing timeouts the home screen
+  Navigation.dismissAllModals();
+  Timer.clearTimeout('clearModal');
+}
 
 type Props = {
   navigator: Object,
@@ -28,6 +37,7 @@ type Props = {
   areasOutdated: boolean,
   appSyncing: boolean,
   refreshing: boolean,
+  closeModal?: boolean,
   pristine: boolean,
   updateSelectedIndex: number => void,
   setPristine: boolean => void,
@@ -75,6 +85,9 @@ class Dashboard extends PureComponent<Props> {
     this.checkNeedsUpdate();
     if (this.props.refreshing && !this.props.appSyncing) {
       this.props.setAreasRefreshing(false);
+    }
+    if (this.props.closeModal) {
+      Timer.setTimeout('clearModal', clearModalTimeout, 1800);
     }
   }
 

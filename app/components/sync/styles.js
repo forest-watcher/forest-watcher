@@ -5,18 +5,28 @@ export default StyleSheet.create({
   mainContainer: {
     flex: 1,
     backgroundColor: Theme.background.main,
-    flexDirection: 'column'
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  animation: {
+    position: 'absolute'
   },
   center: {
-    justifyContent: 'space-around'
+    justifyContent: 'center'
   },
   textContainer: {
-    alignItems: 'center'
+    flex: 1,
+    paddingTop: 250,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   title: {
     color: Theme.colors.color1,
     fontSize: 21,
-    textAlign: 'center'
+    textAlign: 'center',
+    marginTop: 66
   },
   subtitle: {
     color: Theme.colors.color3,
