@@ -18,7 +18,7 @@ platform :ios do
   lane :beta do
     increment_build_number(xcodeproj: "ForestWatcher.xcodeproj")
     cocoapods()
-    build_app(workspace: "ForestWatcher.xcworkspace", scheme: "ForestWatcher")
+    gym(export_method: "ad-hoc")
     appcenter_upload(
       api_token: ENV["APPCENTER_API_TOKEN"],
       owner_name: ENV["APPCENTER_OWNER_NAME"],
@@ -35,6 +35,8 @@ platform :ios do
 
   desc "Deploy a new version to the Apple Store"
   lane :deploy do
+    cocoapods()
+    gym(scheme: "ForestWatcher")
     upload_to_app_store(
       ipa: IPA_PATH
     )

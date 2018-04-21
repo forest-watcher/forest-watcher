@@ -9,7 +9,7 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
-APK_PATH="./app/build/outputs/apk/app-release.apk"
+APK_PATH="./app/build/outputs/apk/release/app-release.apk"
 
 default_platform(:android)
 
