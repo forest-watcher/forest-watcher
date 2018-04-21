@@ -68,7 +68,7 @@ const initialState = {
 export default function reducer(state: AlertsState = initialState, action: AlertsAction) {
   switch (action.type) {
     case 'app/START_APP': {
-      return { ...state, syncError: false, pendingData: {}, clusters: null };
+      return { ...state, syncError: false, clusters: null };
     }
     case RETRY_SYNC: {
       return { ...state, syncError: false };

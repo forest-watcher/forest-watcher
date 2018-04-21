@@ -1,4 +1,3 @@
-import codePush from 'react-native-code-push';
 import * as reducers from 'redux-modules';
 import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
 import offline from 'offline';
@@ -50,11 +49,6 @@ function createAppStore(startApp) {
     window.tron = Reactotron; // eslint-disable-line
     return Reactotron.createStore(enhanceReducer(reducer), compose(middleware, enhanceStore));
   }
-  const codePushOptions = {
-    checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
-    installMode: codePush.InstallMode.ON_NEXT_RESUME
-  };
-  codePush.sync(codePushOptions);
   return createStore(enhanceReducer(reducer), compose(middleware, enhanceStore));
 }
 

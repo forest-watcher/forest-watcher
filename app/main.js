@@ -1,4 +1,4 @@
-
+import codePush from 'react-native-code-push';
 import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
 import Theme from 'config/theme';
@@ -14,6 +14,16 @@ import { setExceptionHandlers, checkPrevCrashes } from './crashes';
 // Show request in chrome network tool
 // GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
+function setCodePush() {
+  const codepushEnable = false; // !__DEV__
+  if (codepushEnable) {
+    const codePushOptions = {
+      checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+      installMode: codePush.InstallMode.ON_NEXT_RESUME
+    };
+    codePush.sync(codePushOptions);
+  }
+}
 
 const app = () => {
   const store = createStore(startApp);
@@ -49,6 +59,7 @@ const app = () => {
     });
     setExceptionHandlers(store);
     checkPrevCrashes();
+    setCodePush();
   }
 };
 
