@@ -49,6 +49,7 @@ export default function reducer(state: ReportsState = initialState, action: Repo
     case GET_DEFAULT_TEMPLATE_ROLLBACK:
       return { ...state, syncing: false };
     case GET_AREAS_COMMIT: {
+      const templateDefault = state.templates.default || {};
       const templates = action.payload
         .filter(a => a.reportTemplate !== null)
         .reduce((acc, { reportTemplate }) => ({
@@ -57,7 +58,7 @@ export default function reducer(state: ReportsState = initialState, action: Repo
             ...reportTemplate,
             questions: orderQuestions(reportTemplate.questions)
           }
-        }), {});
+        }), { default: templateDefault });
       return { ...state, templates };
     }
     case CREATE_REPORT: {

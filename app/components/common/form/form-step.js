@@ -11,8 +11,8 @@ import NextButton from './next-button';
 import styles from './styles';
 
 const getNext = (question, hasAnswer, next) => {
-  const disabled = !hasAnswer && question.required;
-  const isBlob = question.type === 'blob';
+  const disabled = !hasAnswer && question && question.required;
+  const isBlob = question && question.type === 'blob';
 
   if (isBlob) {
     return (<NextButton transparent={disabled} style={styles.buttonNextPos} disabled={disabled} onPress={next.callback} />);
@@ -40,12 +40,14 @@ class FormStep extends Component { // eslint-disable-line
       <View style={styles.container}>
         <View style={styles.container}>
           <View style={styles.backgroundHack} />
-          <Field
-            name={question.name}
-            component={getInputForm}
-            question={question}
-            navigator={navigator}
-          />
+          {question &&
+            <Field
+              name={question.name}
+              component={getInputForm}
+              question={question}
+              navigator={navigator}
+            />
+          }
         </View>
         {getNext(question, hasAnswer, next)}
       </View>
