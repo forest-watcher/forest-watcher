@@ -4,7 +4,7 @@ import type { State } from 'types/store.types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { retrySync } from 'redux-modules/app';
-import { getTotalActionsPending } from 'helpers/sync';
+import { isSyncFinished } from 'helpers/sync';
 import isEmpty from 'lodash/isEmpty';
 
 import Sync from 'components/sync';
@@ -16,7 +16,7 @@ function mapStateToProps(state: State) {
   return {
     criticalSyncError: (!hasAreas && state.areas.syncError) || (!hasAlerts && state.alerts.syncError),
     isConnected: state.offline.online,
-    actionsPending: getTotalActionsPending(state)
+    syncFinished: isSyncFinished(state)
   };
 }
 

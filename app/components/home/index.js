@@ -9,8 +9,6 @@ import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
-const Timer = require('react-native-timer');
-
 type Props = {
   loggedIn: boolean,
   token: string,
@@ -59,10 +57,6 @@ class Home extends Component<Props> {
     this.props.setLanguage();
   }
 
-  componentWillUnmount() {
-    Timer.clearImmediate('closeModal');
-  }
-
   handleStatus() {
     const {
       loggedIn,
@@ -88,12 +82,14 @@ class Home extends Component<Props> {
         } else {
           navigator.resetTo({
             screen: 'ForestWatcher.Dashboard',
-            title: 'Forest Watcher'
+            title: 'Forest Watcher',
+            passProps: {
+              closeModal: true
+            }
           });
         }
       } else if (actionsPending === 0) {
         setAppSynced(true);
-        Timer.setImmediate('closeModal', this.closeModal);
       } else {
         syncApp();
         if (!this.syncModalOpen) {
@@ -120,12 +116,6 @@ class Home extends Component<Props> {
         goBackDisabled: true
       }
     });
-  }
-
-  closeModal = () => {
-    const { navigator } = this.props;
-    this.setSyncModal(false);
-    navigator.dismissAllModals();
   }
 
   render() {

@@ -28,11 +28,15 @@
 		2A57A6A2A7194B1FB107C502 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 01DAAFC2547C467BA03F1D7A /* libc++.tbd */; };
 		307BBD714FA74881854E01D9 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFD632EF65604568B651A931 /* AddressBook.framework */; };
 		320246882089E6DE00BFFA31 /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 320246502089E6C500BFFA31 /* libFastImage.a */; };
-		325CCA042064425E00FFA4A0 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		32711EC720690CA70062DBE0 /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32711EBC20690C6E0062DBE0 /* libReactNativeConfig.a */; };
+		32CB169C208A599A0036D050 /* libLottie.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32CB1668208A59870036D050 /* libLottie.a */; };
+		32CB16A9208A59C00036D050 /* libLottieReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32CB16A8208A59B90036D050 /* libLottieReactNative.a */; };
+		32E52032208B4560006E6400 /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32CB1662208A59870036D050 /* Lottie.framework */; };
+		32E52033208B4560006E6400 /* Lottie.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 32CB1662208A59870036D050 /* Lottie.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		32EC8F822089F3AF00972CCC /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3202464D2089E6C500BFFA31 /* libCodePush.a */; };
 		37BADBF662AC46BBB8293946 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 89758A180D1B4EC7849736A4 /* libRCTFBSDK.a */; };
 		42AC781C1E5F36A200A6C0E4 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 42AC781B1E5F36A200A6C0E4 /* libsqlite3.0.tbd */; };
+		443C4D80F3BBE2346CD3893C /* libPods-ForestWatcher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87F6B75D3CAB4858914CC360 /* libPods-ForestWatcher.a */; };
 		4F8FF06BF93F41C98195D384 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF92319489B349B393001EAC /* libRNI18n.a */; };
 		5178971FFF8F46658E8D3678 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51D134D57FDD4549A1E6C253 /* SystemConfiguration.framework */; };
 		564A88C81E3A415B008BA75C /* firasansot_light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 564A88C51E3A415B008BA75C /* firasansot_light.ttf */; };
@@ -43,7 +47,6 @@
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		5ECB4841A9BF4B3990758BF4 /* libRNAppAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7E52CB30334853805F5795 /* libRNAppAuth.a */; };
 		676D9D0F33C74730B70925F4 /* libRCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF75393B56F14CC2AD08F836 /* libRCTGoogleAnalyticsBridge.a */; };
-		7F039C48B7011A88AF6FDE12 /* libPods-ForestWatcher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7352A40D92A3D77A362828C1 /* libPods-ForestWatcher.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		870A4482587B4FDA87979853 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C46E1DCE638244B9BEF82B05 /* libAirMaps.a */; };
 		8D81A3AA1EDC3D7B00232B09 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D81A3A91EDC3D4500232B09 /* libReactNativeNavigation.a */; };
@@ -359,6 +362,48 @@
 			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
 			remoteInfo = "privatedata-tvOS";
 		};
+		32CB1661208A59870036D050 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 32CB1654208A59870036D050 /* Lottie.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 62CA59B81E3C173B002D7188;
+			remoteInfo = Lottie_iOS;
+		};
+		32CB1663208A59870036D050 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 32CB1654208A59870036D050 /* Lottie.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FAE1F7E61E428CBE002E0974;
+			remoteInfo = Lottie_macOS;
+		};
+		32CB1665208A59870036D050 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 32CB1654208A59870036D050 /* Lottie.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8C5379761FB471D100C1BC65;
+			remoteInfo = Lottie_tvOS;
+		};
+		32CB1667208A59870036D050 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 32CB1654208A59870036D050 /* Lottie.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 84FE12EF1E4C1485009B157C;
+			remoteInfo = LottieLibraryIOS;
+		};
+		32CB16A7208A59B90036D050 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 32CB16A3208A59B90036D050 /* LottieReactNative.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 11FA5C511C4A1296003AC2EE;
+			remoteInfo = LottieReactNative;
+		};
+		32E52034208B4560006E6400 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 32CB1654208A59870036D050 /* Lottie.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 62CA59B71E3C173B002D7188;
+			remoteInfo = Lottie_iOS;
+		};
 		42C89EFF1E5F331F0015F408 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3E8CB66C60824FF1A2264409 /* RCTGoogleAnalyticsBridge.xcodeproj */;
@@ -494,6 +539,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		32E52070208B4560006E6400 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				32E52033208B4560006E6400 /* Lottie.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0072497D816E4CD2A9475F8A /* AppCenter-Config.plist */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text.plist.xml; name = "AppCenter-Config.plist"; path = "ForestWatcher/AppCenter-Config.plist"; sourceTree = "<group>"; };
 		00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTActionSheet.xcodeproj; path = "../node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj"; sourceTree = "<group>"; };
@@ -516,10 +575,11 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ForestWatcher/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ForestWatcher/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		1CB6CC20B5FA4E10DB61C9DC /* Pods-ForestWatcher.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForestWatcher.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher.debug.xcconfig"; sourceTree = "<group>"; };
 		21DAFAF673A54569B81DC361 /* libRNZipArchive.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNZipArchive.a; sourceTree = "<group>"; };
 		320246442089E6C500BFFA31 /* FastImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FastImage.xcodeproj; path = "../node_modules/react-native-fast-image/ios/FastImage.xcodeproj"; sourceTree = "<group>"; };
 		325CC9CB2064423C00FFA4A0 /* CodePush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
+		32CB1654208A59870036D050 /* Lottie.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lottie.xcodeproj; path = "../node_modules/lottie-ios/Lottie.xcodeproj"; sourceTree = "<group>"; };
+		32CB16A3208A59B90036D050 /* LottieReactNative.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LottieReactNative.xcodeproj; path = "../node_modules/lottie-react-native/src/ios/LottieReactNative.xcodeproj"; sourceTree = "<group>"; };
 		3E8CB66C60824FF1A2264409 /* RCTGoogleAnalyticsBridge.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTGoogleAnalyticsBridge.xcodeproj; path = "../node_modules/react-native-google-analytics-bridge/ios/RCTGoogleAnalyticsBridge/RCTGoogleAnalyticsBridge.xcodeproj"; sourceTree = "<group>"; };
 		3F87F1F834674C6A87F5820A /* RNZipArchive.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNZipArchive.xcodeproj; path = "../node_modules/react-native-zip-archive/ios/RNZipArchive.xcodeproj"; sourceTree = "<group>"; };
 		42AC781B1E5F36A200A6C0E4 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
@@ -533,7 +593,6 @@
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		65174C56E2D543369CCD494D /* libAppCenterReactNative.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAppCenterReactNative.a; sourceTree = "<group>"; };
 		6E8A7CAFCE0440FBAA399033 /* SafariServices.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
-		7352A40D92A3D77A362828C1 /* libPods-ForestWatcher.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ForestWatcher.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		74CCF8429ACB4893920FF94B /* libRNCookieManagerIOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCookieManagerIOS.a; sourceTree = "<group>"; };
 		7810B4B7B1804047833A3A30 /* AppCenterReactNativeCrashes.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AppCenterReactNativeCrashes.xcodeproj; path = "../node_modules/appcenter-crashes/ios/AppCenterReactNativeCrashes.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
@@ -543,7 +602,9 @@
 		7CC1FA19BF67424591686AF2 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		7EF6A30059A74EEC8745DC44 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		81A9FECD999C42F78E37CD53 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
+		81AABABE440A30BCD173A5EC /* Pods-ForestWatcher.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForestWatcher.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher.debug.xcconfig"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		87F6B75D3CAB4858914CC360 /* libPods-ForestWatcher.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ForestWatcher.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		89758A180D1B4EC7849736A4 /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
 		8D81A3A41EDC3D4500232B09 /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		96D5AEB1553B4F08A7F47ED4 /* libAppCenterReactNativeCrashes.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAppCenterReactNativeCrashes.a; sourceTree = "<group>"; };
@@ -599,7 +660,7 @@
 		BF75393B56F14CC2AD08F836 /* libRCTGoogleAnalyticsBridge.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTGoogleAnalyticsBridge.a; sourceTree = "<group>"; };
 		C46E1DCE638244B9BEF82B05 /* libAirMaps.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAirMaps.a; sourceTree = "<group>"; };
 		D6AC5FBC622541AFBCE094A6 /* RNLocation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNLocation.xcodeproj; path = "../node_modules/react-native-location/ios/RNLocation.xcodeproj"; sourceTree = "<group>"; };
-		DA440AEE580F1FAAA2C4303D /* Pods-ForestWatcher.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForestWatcher.release.xcconfig"; path = "Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher.release.xcconfig"; sourceTree = "<group>"; };
+		D80DE2C104E1E3AAB950DF8F /* Pods-ForestWatcher.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForestWatcher.release.xcconfig"; path = "Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher.release.xcconfig"; sourceTree = "<group>"; };
 		DE58CD73E5C4463A8F78063D /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeConfig.xcodeproj; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; };
 		DFD632EF65604568B651A931 /* AddressBook.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		E0DCCAF571BA4E58BE7D0459 /* RNAppAuth.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNAppAuth.xcodeproj; path = "../node_modules/react-native-app-auth/ios/RNAppAuth.xcodeproj"; sourceTree = "<group>"; };
@@ -621,6 +682,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32CB16A9208A59C00036D050 /* libLottieReactNative.a in Frameworks */,
+				32CB169C208A599A0036D050 /* libLottie.a in Frameworks */,
 				32EC8F822089F3AF00972CCC /* libCodePush.a in Frameworks */,
 				320246882089E6DE00BFFA31 /* libFastImage.a in Frameworks */,
 				32711EC720690CA70062DBE0 /* libReactNativeConfig.a in Frameworks */,
@@ -640,6 +703,7 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
+				32E52032208B4560006E6400 /* Lottie.framework in Frameworks */,
 				5728E0BA95ED4530B75240CA /* libRNFetchBlob.a in Frameworks */,
 				676D9D0F33C74730B70925F4 /* libRCTGoogleAnalyticsBridge.a in Frameworks */,
 				B80AF780A46A412BB5259DB3 /* libRNLocation.a in Frameworks */,
@@ -653,12 +717,11 @@
 				870A4482587B4FDA87979853 /* libAirMaps.a in Frameworks */,
 				4F8FF06BF93F41C98195D384 /* libRNI18n.a in Frameworks */,
 				0BA4D79D19864B1FA7A990EC /* libRNCookieManagerIOS.a in Frameworks */,
-				325CCA042064425E00FFA4A0 /* (null) in Frameworks */,
 				5ECB4841A9BF4B3990758BF4 /* libRNAppAuth.a in Frameworks */,
 				37BADBF662AC46BBB8293946 /* libRCTFBSDK.a in Frameworks */,
 				F25456B83F8A4B7EAE9CE277 /* libAppCenterReactNative.a in Frameworks */,
 				E5E7AC6055DF43F5BFC947E7 /* libAppCenterReactNativeCrashes.a in Frameworks */,
-				7F039C48B7011A88AF6FDE12 /* libPods-ForestWatcher.a in Frameworks */,
+				443C4D80F3BBE2346CD3893C /* libPods-ForestWatcher.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -722,15 +785,6 @@
 				00E356F11AD99517003FC87E /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		0580B97D92DF410D29D9B524 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				1CB6CC20B5FA4E10DB61C9DC /* Pods-ForestWatcher.debug.xcconfig */,
-				DA440AEE580F1FAAA2C4303D /* Pods-ForestWatcher.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		139105B71AF99BAD00B5F7CC /* Products */ = {
@@ -894,6 +948,25 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		32CB1655208A59870036D050 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				32CB1662208A59870036D050 /* Lottie.framework */,
+				32CB1664208A59870036D050 /* Lottie.framework */,
+				32CB1666208A59870036D050 /* Lottie.framework */,
+				32CB1668208A59870036D050 /* libLottie.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32CB16A4208A59B90036D050 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				32CB16A8208A59B90036D050 /* libLottieReactNative.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		42C89EF71E5F331F0015F408 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -913,7 +986,7 @@
 				6E8A7CAFCE0440FBAA399033 /* SafariServices.framework */,
 				51D134D57FDD4549A1E6C253 /* SystemConfiguration.framework */,
 				DFD632EF65604568B651A931 /* AddressBook.framework */,
-				7352A40D92A3D77A362828C1 /* libPods-ForestWatcher.a */,
+				87F6B75D3CAB4858914CC360 /* libPods-ForestWatcher.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -958,6 +1031,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				32CB16A3208A59B90036D050 /* LottieReactNative.xcodeproj */,
+				32CB1654208A59870036D050 /* Lottie.xcodeproj */,
 				320246442089E6C500BFFA31 /* FastImage.xcodeproj */,
 				325CC9CB2064423C00FFA4A0 /* CodePush.xcodeproj */,
 				BE756CD01F4EDAEA001E681A /* AirMaps.xcodeproj */,
@@ -1011,7 +1086,7 @@
 				45A6AD05F54FD09326DA9BF6 /* Frameworks */,
 				326270761F74FDFB007511AC /* Recovered References */,
 				0072497D816E4CD2A9475F8A /* AppCenter-Config.plist */,
-				0580B97D92DF410D29D9B524 /* Pods */,
+				E610A406322EF663F8773134 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -1133,6 +1208,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		E610A406322EF663F8773134 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				81AABABE440A30BCD173A5EC /* Pods-ForestWatcher.debug.xcconfig */,
+				D80DE2C104E1E3AAB950DF8F /* Pods-ForestWatcher.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1158,17 +1242,19 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ForestWatcher" */;
 			buildPhases = (
-				926EBF7692322CDB151B8E2C /* [CP] Check Pods Manifest.lock */,
+				82B6AB4B7C10C81B20D26C64 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				4DA54B748920786B368CF355 /* [CP] Embed Pods Frameworks */,
-				836446A946D59755A1D3423C /* [CP] Copy Pods Resources */,
+				32E52070208B4560006E6400 /* Embed Frameworks */,
+				AA74769B82E9D5FBB86C7426 /* [CP] Embed Pods Frameworks */,
+				EB4E5D9FFE122EFC8EB97BDA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				32E52035208B4560006E6400 /* PBXTargetDependency */,
 			);
 			name = ForestWatcher;
 			productName = "Hello World";
@@ -1243,6 +1329,14 @@
 				{
 					ProductGroup = 320246452089E6C500BFFA31 /* Products */;
 					ProjectRef = 320246442089E6C500BFFA31 /* FastImage.xcodeproj */;
+				},
+				{
+					ProductGroup = 32CB1655208A59870036D050 /* Products */;
+					ProjectRef = 32CB1654208A59870036D050 /* Lottie.xcodeproj */;
+				},
+				{
+					ProductGroup = 32CB16A4208A59B90036D050 /* Products */;
+					ProjectRef = 32CB16A3208A59B90036D050 /* LottieReactNative.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
@@ -1627,6 +1721,41 @@
 			remoteRef = 32C8255D20690EED00D5B47D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		32CB1662208A59870036D050 /* Lottie.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Lottie.framework;
+			remoteRef = 32CB1661208A59870036D050 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		32CB1664208A59870036D050 /* Lottie.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Lottie.framework;
+			remoteRef = 32CB1663208A59870036D050 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		32CB1666208A59870036D050 /* Lottie.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Lottie.framework;
+			remoteRef = 32CB1665208A59870036D050 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		32CB1668208A59870036D050 /* libLottie.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libLottie.a;
+			remoteRef = 32CB1667208A59870036D050 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		32CB16A8208A59B90036D050 /* libLottieReactNative.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libLottieReactNative.a;
+			remoteRef = 32CB16A7208A59B90036D050 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		42C89F001E5F331F0015F408 /* libRCTGoogleAnalyticsBridge.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1801,7 +1930,25 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		4DA54B748920786B368CF355 /* [CP] Embed Pods Frameworks */ = {
+		82B6AB4B7C10C81B20D26C64 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ForestWatcher-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AA74769B82E9D5FBB86C7426 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1816,7 +1963,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		836446A946D59755A1D3423C /* [CP] Copy Pods Resources */ = {
+		EB4E5D9FFE122EFC8EB97BDA /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1834,24 +1981,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		926EBF7692322CDB151B8E2C /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ForestWatcher-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1902,6 +2031,11 @@
 			isa = PBXTargetDependency;
 			target = 13B07F861A680F5B00A75B9A /* ForestWatcher */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
+		};
+		32E52035208B4560006E6400 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Lottie_iOS;
+			targetProxy = 32E52034208B4560006E6400 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1976,7 +2110,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1CB6CC20B5FA4E10DB61C9DC /* Pods-ForestWatcher.debug.xcconfig */;
+			baseConfigurationReference = 81AABABE440A30BCD173A5EC /* Pods-ForestWatcher.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_WARNINGS = NO;
@@ -2035,7 +2169,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DA440AEE580F1FAAA2C4303D /* Pods-ForestWatcher.release.xcconfig */;
+			baseConfigurationReference = D80DE2C104E1E3AAB950DF8F /* Pods-ForestWatcher.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_WARNINGS = NO;

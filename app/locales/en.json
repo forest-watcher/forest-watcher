@@ -531,14 +531,14 @@
         "alertsUpdated": "Your alerts are up to date",
         "errorCreatingArea": "There was an error creating your area",
         "title": {
-            "wifi": "Updating data...",
+            "updating": "Downloading data...",
             "offline": "You are offline",
-            "updated": "Update Completed!"
+            "updated": "Download Completed!"
         },
         "subtitle": {
-            "wifi": "This process can take several minutes",
+            "updating": "We are getting your phone ready for the field",
             "offline": "You need an internet connection to update your data",
-            "updated": "Data was successfully updated!"
+            "updated": "We are ready to go!"
         },
         "ok": "ok",
         "skip": "skip",

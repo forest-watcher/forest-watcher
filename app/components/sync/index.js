@@ -1,16 +1,19 @@
 // @flow
 
 import React, { Component } from 'react';
-import { StatusBar, View, ActivityIndicator, Text } from 'react-native';
-import Theme from 'config/theme';
+import { StatusBar, View, Text } from 'react-native';
 import I18n from 'locales';
 import ActionButton from 'components/common/action-button';
+import LottieView from 'lottie-react-native';
 import styles from './styles';
+
+const rangerAnimation = require('assets/animations/ranger.json');
+const loadedAnimation = require('assets/animations/check.json');
 
 type Props = {
   isConnected: boolean,
   criticalSyncError: boolean,
-  actionsPending: number,
+  syncFinished: boolean,
   retrySync: () => void
 };
 
@@ -19,16 +22,34 @@ class Sync extends Component<Props> {
     navBarHidden: true
   };
 
+  constructor() {
+    super();
+    this.animation = null;
+  }
+
+  componentDidMount() {
+    if (this.animation) {
+      this.animation.play();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { syncFinished } = this.props;
+    if (syncFinished !== prevProps.syncFinished) {
+      this.animation.play();
+    }
+  }
+
   getTexts = () => {
-    const { isConnected, actionsPending } = this.props;
+    const { isConnected, syncFinished } = this.props;
     const texts = {};
     if (isConnected) {
-      if (actionsPending > 0) {
-        texts.title = I18n.t('sync.title.wifi');
-        texts.subtitle = I18n.t('sync.subtitle.wifi');
-      } else {
+      if (syncFinished) {
         texts.title = I18n.t('sync.title.updated');
         texts.subtitle = I18n.t('sync.subtitle.updated');
+      } else {
+        texts.title = I18n.t('sync.title.updating');
+        texts.subtitle = I18n.t('sync.subtitle.updating');
       }
     } else {
       texts.title = I18n.t('sync.title.offline');
@@ -38,7 +59,7 @@ class Sync extends Component<Props> {
   }
 
   getContent() {
-    const { isConnected, actionsPending, criticalSyncError } = this.props;
+    const { criticalSyncError } = this.props;
     const { title, subtitle } = this.getTexts();
     if (criticalSyncError) {
       return (
@@ -52,15 +73,9 @@ class Sync extends Component<Props> {
         </View>
       );
     }
+
     return (
       <View style={styles.textContainer}>
-        {isConnected && actionsPending > 0 &&
-        <ActivityIndicator
-          color={Theme.colors.color1}
-          style={{ height: 80 }}
-          size="large"
-        />
-        }
         <Text style={styles.title}>
           {title}
         </Text>
@@ -73,30 +88,36 @@ class Sync extends Component<Props> {
 
   getAction() {
     const { criticalSyncError, retrySync } = this.props;
-    if (criticalSyncError) {
-      return (
-        <View>
-          <ActionButton
-            monochrome
-            noIcon
-            style={styles.button}
-            onPress={retrySync} // TODO: retry again
-            text={I18n.t('sync.tryAgain').toUpperCase()}
-          />
-        </View>
-      );
-    }
-    return null;
+    if (!criticalSyncError) return null;
+    return (
+      <View>
+        <ActionButton
+          monochrome
+          noIcon
+          style={styles.button}
+          onPress={retrySync} // TODO: retry again
+          text={I18n.t('sync.tryAgain').toUpperCase()}
+        />
+      </View>
+    );
   }
 
   render() {
+    const { isConnected, syncFinished } = this.props;
     return (
       <View style={[styles.mainContainer, styles.center]}>
         <StatusBar networkActivityIndicatorVisible />
-        <View>
-          {this.getContent()}
-          {this.getAction()}
-        </View>
+        {isConnected &&
+          <LottieView
+            loop={!syncFinished}
+            source={syncFinished ? loadedAnimation : rangerAnimation}
+            ref={animation => {
+              this.animation = animation;
+            }}
+          />
+        }
+        {this.getContent()}
+        {this.getAction()}
       </View>
     );
   }

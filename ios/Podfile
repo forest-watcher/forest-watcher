@@ -17,6 +17,9 @@ target 'ForestWatcher' do
   pod 'AppCenterReactNativeShared', '~> 1.4.0'
 
 
+  # pod 'lottie-ios', :path => '../node_modules/lottie-ios'
+  # pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+
   post_install do |installer|
     installer.pods_project.targets.each do |target|
           target.build_configurations.each do |config|

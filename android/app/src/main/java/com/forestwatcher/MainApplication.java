@@ -3,6 +3,7 @@ package com.forestwatcher;
 import android.content.Intent;
 
 import com.facebook.react.ReactInstanceManager;
+import com.airbnb.android.react.lottie.LottiePackage;
 import com.microsoft.codepush.react.ReactInstanceHolder;
 import com.microsoft.appcenter.reactnative.appcenter.AppCenterReactNativePackage;
 import com.microsoft.appcenter.reactnative.crashes.AppCenterReactNativeCrashesPackage;
@@ -79,7 +80,8 @@ public class MainApplication extends NavigationApplication implements ReactInsta
       new FBSDKPackage(mCallbackManager),
       new AppCenterReactNativePackage(MainApplication.this),
       new AppCenterReactNativeCrashesPackage(MainApplication.this, "ALWAYS"),
-      new FastImageViewPackage()
+      new FastImageViewPackage(),
+      new LottiePackage()
     );
   }
 

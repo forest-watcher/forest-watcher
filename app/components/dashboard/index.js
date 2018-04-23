@@ -9,6 +9,7 @@ import {
   Text,
   StatusBar
 } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 import { Types, showNotification } from 'components/toast-notification';
 
 import AreaList from 'containers/common/area-list';
@@ -18,6 +19,7 @@ import tracker from 'helpers/googleAnalytics';
 import I18n from 'locales';
 import styles from './styles';
 
+const Timer = require('react-native-timer');
 const settingsIcon = require('assets/settings.png');
 const nextIcon = require('assets/next.png');
 
@@ -30,10 +32,12 @@ type Props = {
   areasOutdated: boolean,
   appSyncing: boolean,
   refreshing: boolean,
+  closeModal?: boolean,
   pristine: boolean,
   updateSelectedIndex: number => void,
   setPristine: boolean => void,
-  updateApp: () => void
+  updateApp: () => void,
+
 };
 
 class Dashboard extends PureComponent<Props> {
@@ -59,14 +63,16 @@ class Dashboard extends PureComponent<Props> {
     return false;
   }
 
+  reportsAction: { callback: () => void, icon: any }
+
   constructor(props: Props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
 
-    this.reportsAction = ({
+    this.reportsAction = {
       callback: this.onPressReports,
       icon: nextIcon
-    }: { callback: () => void, icon: any });
+    };
   }
 
   componentDidMount() {
@@ -78,6 +84,13 @@ class Dashboard extends PureComponent<Props> {
     if (this.props.refreshing && !this.props.appSyncing) {
       this.props.setAreasRefreshing(false);
     }
+    if (this.props.closeModal) {
+      Timer.setTimeout(this, 'clearModal', Navigation.dismissAllModals, 1800);
+    }
+  }
+
+  componentWillUnmount() {
+    Timer.clearTimeout(this, 'clearModal');
   }
 
   onRefresh = () => {
