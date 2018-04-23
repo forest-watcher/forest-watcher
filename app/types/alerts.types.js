@@ -2,6 +2,8 @@
 import type { OfflineMeta } from 'types/offline.types';
 import type { Area } from 'types/areas.types';
 import type { LogoutRequest } from 'types/user.types';
+import type { RetrySync } from 'types/app.types';
+import type { UploadReportRequest } from 'types/reports.types';
 
 export type AlertsState = {
   cache: {
@@ -20,12 +22,16 @@ export type AlertsState = {
 };
 
 export type AlertsAction =
+  | RetrySync
+  | SetActiveAlerts
   | SetCanDisplayAlerts
   | GetAreaAlertsRequest
   | GetAreaAlertsCommit
   | GetAreaAlertsRollback
+  | UploadReportRequest
   | LogoutRequest;
 
+type SetActiveAlerts = { type: 'alerts/SET_ACTIVE_ALERTS', payload: boolean };
 type SetCanDisplayAlerts = { type: 'alerts/SET_CAN_DISPLAY_ALERTS', payload: boolean };
 type GetAreaAlertsRequest = {
   type: 'alerts/GET_ALERTS_REQUEST',

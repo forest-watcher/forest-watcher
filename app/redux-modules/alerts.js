@@ -104,6 +104,7 @@ export default function reducer(state: AlertsState = initialState, action: Alert
       const queue = state.queue.filter(item => item !== alertId);
       if (action.payload) {
         saveAlertsToDb(area.id, datasetSlug, action.payload, range);
+        memoizedAreaToClusters.cache.clear();
       }
       return { ...state, queue, cache };
     }
