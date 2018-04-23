@@ -76,7 +76,8 @@ class Home extends Component<Props> {
           navigator.resetTo({
             screen: 'ForestWatcher.Setup',
             passProps: {
-              goBackDisabled: true
+              goBackDisabled: true,
+              closeModal: true
             }
           });
         } else {

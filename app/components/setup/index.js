@@ -1,8 +1,10 @@
+// @flow
+
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   View
 } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 
 import StepsSlider from 'components/common/steps-slider';
 import SetupCountry from 'containers/setup/country';
@@ -13,17 +15,25 @@ import tracker from 'helpers/googleAnalytics';
 import Header from './header';
 import styles from './styles';
 
-class Setup extends Component {
+const Timer = require('react-native-timer');
+
+type Props = {
+  navigator: Object,
+  setShowLegend: () => void,
+  logout: () => void,
+  initSetup: () => void,
+  goBackDisabled: boolean,
+  closeModal: boolean
+};
+
+type State = {
+  page: number,
+  hideIndex: boolean
+};
+
+class Setup extends Component<Props, State> {
   static navigatorStyle = {
     navBarHidden: true
-  };
-
-  static propTypes = {
-    navigator: PropTypes.object.isRequired,
-    setShowLegend: PropTypes.func.isRequired,
-    logout: PropTypes.func.isRequired,
-    initSetup: PropTypes.func.isRequired,
-    goBackDisabled: PropTypes.bool
   };
 
   state = {
@@ -37,6 +47,14 @@ class Setup extends Component {
 
   componentDidMount() {
     tracker.trackScreenView('Set Up');
+
+    if (this.props.closeModal) {
+      Timer.setTimeout(this, 'clearModal', Navigation.dismissAllModals, 1800);
+    }
+  }
+
+  componentWillUnmount() {
+    Timer.clearTimeout(this, 'clearModal');
   }
 
   onFinishSetup = () => {
@@ -56,7 +74,7 @@ class Setup extends Component {
     page: prevState.page + 1
   }));
 
-  updatePage = (slide) => {
+  updatePage = (slide: { i: number }) => {
     this.setState({
       page: slide.i
     });
@@ -85,7 +103,6 @@ class Setup extends Component {
           title={I18n.t('commonText.setUp')}
           showBack={showBack}
           onBackPress={onBackPress}
-          prerenderingSiblingsNumber={this.slides}
           page={page}
           setShowLegend={this.props.setShowLegend}
           logout={this.props.logout}
