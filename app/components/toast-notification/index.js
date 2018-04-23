@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import { View, Text } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 import styles from './styles';
 
 type Props = {
@@ -22,8 +23,24 @@ class ToastNotification extends PureComponent<Props> {
 }
 
 export const Types = {
+  warn: 'warn',
   error: 'error',
   success: 'success'
 };
+
+export function showNotification(params: { type?: string, text: string }, dismiss: boolean = true, time: number = 2) {
+  const { type, text } = params;
+  if (dismiss) {
+    Navigation.dismissInAppNotification();
+  }
+  Navigation.showInAppNotification({
+    screen: 'ForestWatcher.ToastNotification',
+    passProps: {
+      type,
+      text
+    },
+    autoDismissTimerSec: time
+  });
+}
 
 export default ToastNotification;
