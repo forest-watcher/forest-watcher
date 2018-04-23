@@ -527,6 +527,9 @@
         "error": "Sinkronisasi mengalami masalah",
         "errorDesc": "Ada yang salah",
         "tryAgain": "Coba lagi",
+        "gettingLatestAlerts": "Getting the latest alerts",
+        "alertsUpdated": "Your alerts are up to date",
+        "errorCreatingArea": "There was an error creating your area",
         "title": {
             "wifi": "Memperbarui data ...",
             "offline": "Anda sedang offline",

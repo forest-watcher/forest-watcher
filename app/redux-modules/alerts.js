@@ -1,18 +1,20 @@
+// @flow
+import type { AlertsState, AlertsAction } from 'types/alerts.types';
+import type { Dispatch, GetState } from 'types/store.types';
+import type { Area } from 'types/areas.types';
+
 import Config from 'react-native-config';
 import moment from 'moment';
 import memoize from 'lodash/memoize';
-import omit from 'lodash/omit';
 import { pointsToGeoJSON } from 'helpers/map';
 import { initDb, read } from 'helpers/database';
 import { activeDataset } from 'helpers/area';
-import { getActionsTodoCount } from 'helpers/sync';
 import CONSTANTS from 'config/constants';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { UPLOAD_REPORT_REQUEST } from 'redux-modules/reports';
-import { GET_AREAS_COMMIT } from 'redux-modules/areas';
-import { START_APP, RETRY_SYNC } from 'redux-modules/app';
+import { RETRY_SYNC } from 'redux-modules/app';
 
 const d3Dsv = require('d3-dsv');
 
@@ -60,13 +62,13 @@ const initialState = {
   canDisplayAlerts: true,
   clusters: null,
   syncError: false,
-  pendingData: {}
+  queue: []
 };
 
-export default function reducer(state = initialState, action) {
+export default function reducer(state: AlertsState = initialState, action: AlertsAction) {
   switch (action.type) {
-    case START_APP: {
-      return { ...state, syncError: false, pendingData: {}, clusters: null };
+    case 'app/START_APP': {
+      return { ...state, syncError: false, clusters: null };
     }
     case RETRY_SYNC: {
       return { ...state, syncError: false };
@@ -86,43 +88,12 @@ export default function reducer(state = initialState, action) {
       }
       return { ...state, reported };
     }
-    case GET_AREAS_COMMIT: {
-      const { payload: areas } = action;
-      let pendingData = { ...state.pendingData };
-      areas.forEach(area => {
-        const { datasets } = area;
-        if (datasets && datasets.length) {
-          datasets.forEach((dataset) => {
-            const datasetSlug = dataset.slug;
-            pendingData = {
-              ...pendingData,
-              [datasetSlug]: {
-                ...pendingData[datasetSlug],
-                [area.id]: false
-              }
-            };
-          });
-        }
-      });
-      return { ...state, pendingData };
-    }
     case GET_ALERTS_REQUEST: {
-      const { area, datasetSlug } = action.payload;
-      const pendingData = {
-        ...state.pendingData,
-        [datasetSlug]: {
-          ...state.pendingData[datasetSlug],
-          [area.id]: true
-        }
-      };
-      return { ...state, pendingData };
+      const queue = [...state.queue, action.payload];
+      return { ...state, queue };
     }
     case GET_ALERTS_COMMIT: {
-      const { area, datasetSlug, range } = action.meta;
-      const pendingData = {
-        ...state.pendingData,
-        [datasetSlug]: omit(state.pendingData[datasetSlug], [area.id])
-      };
+      const { area, datasetSlug, range, alertId } = action.meta;
       const cache = {
         ...state.cache,
         [datasetSlug]: {
@@ -130,25 +101,17 @@ export default function reducer(state = initialState, action) {
           [area.id]: Date.now()
         }
       };
+      const queue = state.queue.filter(item => item !== alertId);
       if (action.payload) {
         saveAlertsToDb(area.id, datasetSlug, action.payload, range);
+        memoizedAreaToClusters.cache.clear();
       }
-      let syncError = state.syncError;
-      if (getActionsTodoCount(pendingData) === 0) {
-        syncError = false;
-      }
-      return { ...state, pendingData, cache, syncError };
+      return { ...state, queue, cache };
     }
     case GET_ALERTS_ROLLBACK: {
-      const { area, datasetSlug } = action.meta;
-      const pendingData = {
-        ...state.pendingData,
-        [datasetSlug]: {
-          ...state.pendingData[datasetSlug],
-          [area.id]: false
-        }
-      };
-      return { ...state, pendingData, syncError: true };
+      const { alertId } = action.meta;
+      const queue = state.queue.filter(item => item !== alertId);
+      return { ...state, queue, syncError: true };
     }
     case LOGOUT_REQUEST: {
       resetAlertsDb();
@@ -160,14 +123,7 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-// Helpers
-function getAreaById(areas, areaId) {
-  // Using deconstructor to generate a new object
-  const area = areas.find((areaData) => (areaData.id === areaId));
-  return area ? { ...area } : null;
-}
-
-export function saveAlertsToDb(areaId, slug, alerts, range) {
+export function saveAlertsToDb(areaId: string, slug: string, alerts: string, range: number) {
   if (alerts && alerts.length > 0) {
     const realm = initDb();
     if (range) {
@@ -194,8 +150,8 @@ export function saveAlertsToDb(areaId, slug, alerts, range) {
           slug,
           areaId,
           date: parseInt(alert.date, 10),
-          lat: parseFloat(alert.lat, 10),
-          long: parseFloat(alert.lon, 10)
+          lat: parseFloat(alert.lat),
+          long: parseFloat(alert.lon)
         });
       });
     });
@@ -212,7 +168,7 @@ export function resetAlertsDb() {
 
 
 // Action Creators
-export function setCanDisplayAlerts(canDisplay) {
+export function setCanDisplayAlerts(canDisplay: boolean) {
   return {
     type: SET_CAN_DISPLAY_ALERTS,
     payload: canDisplay
@@ -220,18 +176,17 @@ export function setCanDisplayAlerts(canDisplay) {
 }
 
 export function setActiveAlerts() {
-  return (dispatch, state) => {
+  return (dispatch: Dispatch, state: GetState) => {
     const areas = state().areas;
     const index = areas.selectedIndex;
     const area = areas.data[index] || null;
     const dataset = activeDataset(area);
-    const datasetSlug = dataset && dataset.slug;
     const canDisplay = state().alerts.canDisplayAlerts;
 
-    const action = { type: SET_ACTIVE_ALERTS, payload: null };
-    if (datasetSlug && canDisplay) {
-      activeCluster.supercluster = memoizedAreaToClusters(area.id, datasetSlug, dataset.startDate);
-      action.payload = `${area.id}_${datasetSlug}_${dataset.startDate}`;
+    const action = ({ type: SET_ACTIVE_ALERTS, payload: null }: { type: string, payload: ?string });
+    if (dataset && canDisplay) {
+      activeCluster.supercluster = memoizedAreaToClusters(area.id, dataset.slug, dataset.startDate);
+      action.payload = `${area.id}_${dataset.slug}_${dataset.startDate}`;
       if (memoizedAreaToClusters.cache.size > 3) {
         const first = memoizedAreaToClusters.cache.keys().next().value;
         memoizedAreaToClusters.cache.delete(first);
@@ -241,60 +196,18 @@ export function setActiveAlerts() {
   };
 }
 
-export function getAreaAlerts(areaId, datasetSlug) {
-  return (dispatch, state) => {
-    const area = getAreaById(state().areas.data, areaId);
-    if (!area) return;
-    const { cache } = state().alerts;
-    let range = null;
-    // Get the last cache date and request only that new data
-    if (cache[datasetSlug] && cache[datasetSlug][areaId]) {
-      const now = moment();
-      const lastCache = moment(cache[datasetSlug][areaId]);
-      const daysFromLastCache = now.diff(lastCache, 'days');
-      if (daysFromLastCache > 0) {
-        range = daysFromLastCache;
+export function getAreaAlerts(area: Area, datasetSlug: string, range: number) {
+  const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore.id}?range=${range}&output=csv`;
+  const alertId = `${area.id}_${datasetSlug}`;
+  return {
+    type: GET_ALERTS_REQUEST,
+    payload: alertId,
+    meta: {
+      offline: {
+        effect: { url, deserialize: false },
+        commit: { type: GET_ALERTS_COMMIT, meta: { area, datasetSlug, range, alertId } },
+        rollback: { type: GET_ALERTS_ROLLBACK, meta: { alertId } }
       }
-    // or get the default in case we haven't cached it before
-    } else {
-      range = CONSTANTS.areas.alertRange[datasetSlug];
-    }
-    if (range) {
-      const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore.id}?range=${range}&output=csv`;
-      dispatch({
-        type: GET_ALERTS_REQUEST,
-        payload: { area, datasetSlug },
-        meta: {
-          offline: {
-            effect: { url, deserialize: false },
-            commit: { type: GET_ALERTS_COMMIT, meta: { area, datasetSlug, range } },
-            rollback: { type: GET_ALERTS_ROLLBACK, meta: { area, datasetSlug } }
-          }
-        }
-      });
-    } else {
-      dispatch({
-        type: GET_ALERTS_COMMIT,
-        meta: { area, datasetSlug },
-        payload: false
-      });
-    }
-  };
-}
-
-export function syncAlerts() {
-  return (dispatch, state) => {
-    const { pendingData } = state().alerts;
-    if (getActionsTodoCount(pendingData) > 0) {
-      Object.keys(pendingData).forEach((dataset) => {
-        const syncingAlertsData = pendingData[dataset];
-        const canDispatch = id => (typeof syncingAlertsData[id] !== 'undefined' && syncingAlertsData[id] === false);
-        Object.keys(syncingAlertsData).forEach(id => {
-          if (canDispatch(id)) {
-            dispatch(getAreaAlerts(id, dataset));
-          }
-        });
-      });
     }
   };
 }

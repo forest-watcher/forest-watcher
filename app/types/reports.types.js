@@ -46,7 +46,7 @@ export type GetDefaultTemplateRollback = { type: 'report/GET_DEFAULT_TEMPLATE_RO
 
 export type CreateReport = { type: 'report/CREATE_REPORT' };
 export type UpdateReport = { type: 'report/UPDATE_REPORT', payload: { name: string, data: Report } };
-export type UploadReportRequest = { type: 'report/UPLOAD_REPORT_REQUEST' };
+export type UploadReportRequest = { type: 'report/UPLOAD_REPORT_REQUEST', payload: { alerts: Array<any> }};
 export type UploadReportCommit = { type: 'report/UPLOAD_REPORT_COMMIT' };
 export type UploadReportRollback = { type: 'report/UPLOAD_REPORT_ROLLBACK' };
 

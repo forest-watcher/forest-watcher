@@ -9,6 +9,7 @@ import {
   Text,
   StatusBar
 } from 'react-native';
+import { Types, showNotification } from 'components/toast-notification';
 
 import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
@@ -25,6 +26,7 @@ const { RNLocation: Location } = require('NativeModules'); // eslint-disable-lin
 type Props = {
   navigator: Object,
   setAreasRefreshing: boolean => void,
+  isConnected: boolean,
   areasOutdated: boolean,
   appSyncing: boolean,
   refreshing: boolean,
@@ -79,8 +81,19 @@ class Dashboard extends PureComponent<Props> {
   }
 
   onRefresh = () => {
-    this.props.setAreasRefreshing(true);
-    this.props.updateApp();
+    const { isConnected, appSyncing, updateApp, setAreasRefreshing } = this.props;
+    if (appSyncing) return;
+
+    if (isConnected) {
+      setAreasRefreshing(true);
+      updateApp();
+    } else {
+      const notification = {
+        type: Types.disable,
+        text: I18n.t('commonText.connectionRequired')
+      };
+      showNotification(notification);
+    }
   }
 
   onAreaPress = (areaId: string, name: string, index?: number) => {
@@ -124,18 +137,11 @@ class Dashboard extends PureComponent<Props> {
     const { areasOutdated, appSyncing, updateApp } = this.props;
     if (areasOutdated && !appSyncing) {
       updateApp();
-      this.showUpdatingNotification();
+      const notification = {
+        text: I18n.t('sync.gettingLatestAlerts')
+      };
+      showNotification(notification);
     }
-  }
-
-  showUpdatingNotification() {
-    this.props.navigator.showInAppNotification({
-      screen: 'ForestWatcher.ToastNotification',
-      passProps: {
-        text: 'Getting the latest alerts'
-      },
-      autoDismissTimerSec: 2
-    });
   }
 
   disablePristine = () => {
