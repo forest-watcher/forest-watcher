@@ -4,8 +4,8 @@ import type { State } from 'types/store.types';
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { Types } from 'components/toast-notification';
-import { Navigation } from 'react-native-navigation';
+import { Types, showNotification } from 'components/toast-notification';
+import I18n from 'locales';
 
 // Container
 function mapStateToProps(state: State) {
@@ -20,7 +20,8 @@ function getDisplayName(Component) {
 }
 
 type Props = {
-  syncedAreas: boolean
+  syncedAreas: boolean,
+  errorAreaCreation: boolean,
 };
 
 function withNotifications(Component: any) {
@@ -35,26 +36,18 @@ function withNotifications(Component: any) {
     componentDidUpdate(prevProps) {
       const { syncedAreas, errorAreaCreation } = this.props;
       if (syncedAreas && syncedAreas !== prevProps.syncedAreas) {
-        Navigation.dismissInAppNotification();
-        Navigation.showInAppNotification({
-          screen: 'ForestWatcher.ToastNotification',
-          passProps: {
-            type: Types.success,
-            text: 'Your alerts are up to date'
-          },
-          autoDismissTimerSec: 2
-        });
+        const notification = {
+          type: Types.success,
+          text: I18n.t('sync.alertsUpdated')
+        };
+        showNotification(notification);
       }
       if (errorAreaCreation && errorAreaCreation !== prevProps.errorAreaCreation) {
-        Navigation.dismissInAppNotification();
-        Navigation.showInAppNotification({
-          screen: 'ForestWatcher.ToastNotification',
-          passProps: {
-            type: Types.error,
-            text: 'There was an error creating your area'
-          },
-          autoDismissTimerSec: 2
-        });
+        const notification = {
+          type: Types.error,
+          text: I18n.t('sync.errorCreatingArea')
+        };
+        showNotification(notification);
       }
     }
 

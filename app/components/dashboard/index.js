@@ -7,9 +7,9 @@ import {
   RefreshControl,
   Platform,
   Text,
-  Alert,
   StatusBar
 } from 'react-native';
+import { Types, showNotification } from 'components/toast-notification';
 
 import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
@@ -88,11 +88,11 @@ class Dashboard extends PureComponent<Props> {
       setAreasRefreshing(true);
       updateApp();
     } else {
-      Alert.alert(
-        I18n.t('commonText.connectionRequiredTitle'),
-        I18n.t('commonText.connectionRequired'),
-        [{ text: 'OK' }]
-      );
+      const notification = {
+        type: Types.warn,
+        text: I18n.t('commonText.connectionRequired')
+      };
+      showNotification(notification);
     }
   }
 
@@ -137,18 +137,11 @@ class Dashboard extends PureComponent<Props> {
     const { areasOutdated, appSyncing, updateApp } = this.props;
     if (areasOutdated && !appSyncing) {
       updateApp();
-      this.showUpdatingNotification();
+      const notification = {
+        text: I18n.t('sync.gettingLatestAlerts')
+      };
+      showNotification(notification);
     }
-  }
-
-  showUpdatingNotification() {
-    this.props.navigator.showInAppNotification({
-      screen: 'ForestWatcher.ToastNotification',
-      passProps: {
-        text: 'Getting the latest alerts'
-      },
-      autoDismissTimerSec: 2
-    });
   }
 
   disablePristine = () => {
