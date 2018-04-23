@@ -2042,7 +2042,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: World Resources Institute (MEXRL59E77)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = MEXRL59E77;
 				FRAMEWORK_SEARCH_PATHS = (
