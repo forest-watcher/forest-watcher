@@ -24,13 +24,6 @@ const nextIcon = require('assets/next.png');
 
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
 
-function clearModalTimeout() {
-  // Closing sync modal after the first load
-  // Done here to avoid missing timeouts the home screen
-  Navigation.dismissAllModals();
-  Timer.clearTimeout('clearModal');
-}
-
 type Props = {
   navigator: Object,
   setAreasRefreshing: boolean => void,
@@ -41,7 +34,8 @@ type Props = {
   pristine: boolean,
   updateSelectedIndex: number => void,
   setPristine: boolean => void,
-  updateApp: () => void
+  updateApp: () => void,
+
 };
 
 class Dashboard extends PureComponent<Props> {
@@ -67,14 +61,16 @@ class Dashboard extends PureComponent<Props> {
     return false;
   }
 
+  reportsAction: { callback: () => void, icon: any }
+
   constructor(props: Props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
 
-    this.reportsAction = ({
+    this.reportsAction = {
       callback: this.onPressReports,
       icon: nextIcon
-    }: { callback: () => void, icon: any });
+    };
   }
 
   componentDidMount() {
@@ -87,8 +83,12 @@ class Dashboard extends PureComponent<Props> {
       this.props.setAreasRefreshing(false);
     }
     if (this.props.closeModal) {
-      Timer.setTimeout('clearModal', clearModalTimeout, 1800);
+      Timer.setTimeout(this, 'clearModal', Navigation.dismissAllModals, 1800);
     }
+  }
+
+  componentWillUnmount() {
+    Timer.clearTimeout(this, 'clearModal');
   }
 
   onRefresh = () => {
