@@ -52,7 +52,7 @@ export const getTemplate = (reports, formName) => {
 
 export const getNextStep = ({ currentQuestion, questions, answers }) => {
   let next = 1;
-  if (currentQuestion < questions.length - 1) {
+  if (questions && currentQuestion < questions.length - 1) {
     for (let i = currentQuestion + 1, qLength = questions.length; i < qLength; i++) {
       const nextConditions = questions[i].conditions;
       const nextHasConditions = nextConditions && nextConditions.length > 0;

@@ -9,7 +9,7 @@ export type OfflineMeta = {
       headers?: Object,
       deserialize?: boolean
     },
-    commit: { type: string, meta?: Object },
-    rollback: { type: string, meta?: Object }
+    commit: { type: string, meta?: any },
+    rollback: { type: string, meta?: any }
   }
 }

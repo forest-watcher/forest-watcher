@@ -527,6 +527,9 @@
         "error": "Erro de sincronização",
         "errorDesc": "Algo correu mal",
         "tryAgain": "Tente novamente",
+        "gettingLatestAlerts": "Getting the latest alerts",
+        "alertsUpdated": "Your alerts are up to date",
+        "errorCreatingArea": "There was an error creating your area",
         "title": {
             "wifi": "Atualizando dados ...",
             "offline": "Está offline",

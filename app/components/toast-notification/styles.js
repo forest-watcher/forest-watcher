@@ -34,6 +34,12 @@ export default StyleSheet.create({
   successText: {
     color: Theme.fontColors.white
   },
+  disable: {
+    backgroundColor: Theme.background.gray
+  },
+  disableText: {
+    color: Theme.fontColors.white
+  },
   error: {
     backgroundColor: Theme.background.red
   },
