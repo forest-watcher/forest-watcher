@@ -69,7 +69,7 @@ function mapStateToProps(state, { form, index, questionsToSkip, finish, title, s
   const parsedQuestion = question && parseQuestion({ question, form: template }, state.app.language);
   const answers = getAnswers(state.form, form);
   const hasAnswer = isQuestionAnswered(question, answers);
-  const nextText = !hasAnswer && question.required ? getBtnTextByType(question.type) : 'commonText.next';
+  const nextText = !hasAnswer && question && question.required ? getBtnTextByType(question.type) : 'commonText.next';
   const getCallback = editMode ? getEditNextCallback : getNextCallback;
   return {
     form,
