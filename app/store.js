@@ -4,7 +4,7 @@ import offline from 'offline';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 
-import { getAlertsOnAreasCommit } from './sagas/sync';
+import { getAlertsOnAreasCommit } from './sagas/alerts';
 import { logLastActions } from './sagas/app';
 
 import Reactotron, { trackGlobalErrors, networking, openInEditor, asyncStorage } from 'reactotron-react-native'; // eslint-disable-line
