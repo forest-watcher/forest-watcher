@@ -333,18 +333,18 @@ export function cacheAreaBasemap(areaId) {
         layerUrl: layer.url
       };
 
-      const promise = downloadAllLayers(downloadConfig, dispatch);
-      dispatch({
-        type: CACHE_LAYER_REQUEST,
-        payload: { area, layer },
-        meta: {
-          offline: {
-            effect: { promise, errorCode: 400 },
-            commit: { type: CACHE_LAYER_COMMIT, meta: { area, layer } },
-            rollback: { type: CACHE_LAYER_ROLLBACK, meta: { area, layer } }
-          }
-        }
-      });
+      downloadAllLayers(downloadConfig, dispatch)
+        .then((payload) => dispatch({
+          payload,
+          meta: { area, layer },
+          type: CACHE_LAYER_COMMIT
+        }))
+        .catch((payload) => dispatch({
+          payload,
+          meta: { area, layer },
+          type: CACHE_LAYER_ROLLBACK
+        }));
+      dispatch({ type: CACHE_LAYER_REQUEST, payload: { area, layer } });
     }
   };
 }
@@ -359,18 +359,18 @@ export function cacheAreaLayer(areaId, layerId) {
         layerId: layer.id,
         layerUrl: layer.url
       };
-      const promise = downloadAllLayers(downloadConfig, dispatch);
-      dispatch({
-        type: CACHE_LAYER_REQUEST,
-        payload: { area, layer },
-        meta: {
-          offline: {
-            effect: { promise, errorCode: 400 },
-            commit: { type: CACHE_LAYER_COMMIT, meta: { area, layer } },
-            rollback: { type: CACHE_LAYER_ROLLBACK, meta: { area, layer } }
-          }
-        }
-      });
+      downloadAllLayers(downloadConfig, dispatch)
+        .then((payload) => dispatch({
+          payload,
+          meta: { area, layer },
+          type: CACHE_LAYER_COMMIT
+        }))
+        .catch((payload) => dispatch({
+          payload,
+          meta: { area, layer },
+          type: CACHE_LAYER_ROLLBACK
+        }));
+      dispatch({ type: CACHE_LAYER_REQUEST, payload: { area, layer } });
     }
   };
 }
