@@ -1,5 +1,5 @@
 // @flow
-import type { Dispatch, GetState } from 'types/store.types';
+import type { Dispatch, GetState, Action } from 'types/store.types';
 import type { AppState, AppAction, CoordinatesValue } from 'types/app.types';
 
 // $FlowFixMe
@@ -98,6 +98,13 @@ export function retrySync() {
   return (dispatch: Dispatch) => {
     dispatch({ type: RETRY_SYNC });
     dispatch(syncApp());
+  };
+}
+
+export function saveLastActions(payload: Action) {
+  return {
+    type: SAVE_LAST_ACTIONS,
+    payload
   };
 }
 

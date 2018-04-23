@@ -17,7 +17,7 @@ import type { AreasAction, AreasState } from 'types/areas.types';
 import type { AlertsState } from 'types/alerts.types';
 import type { LayersState } from 'types/layers.types';
 
-type Action =
+export type Action =
   | UserAction
   | ReportsAction
   | AppAction
