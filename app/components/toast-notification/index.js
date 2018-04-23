@@ -28,9 +28,9 @@ export const Types = {
   success: 'success'
 };
 
-export function showNotification(params: { type?: string, text: string }, dismiss: boolean = true, time: number = 2) {
+export function showNotification(params: { type?: string, text: string }, clearPrevious: boolean = true, time: number = 2) {
   const { type, text } = params;
-  if (dismiss) {
+  if (clearPrevious) {
     Navigation.dismissInAppNotification();
   }
   Navigation.showInAppNotification({

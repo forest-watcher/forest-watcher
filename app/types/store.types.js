@@ -16,6 +16,7 @@ import type { SetupAction, SetupState } from 'types/setup.types';
 import type { AreasAction, AreasState } from 'types/areas.types';
 import type { AlertsState } from 'types/alerts.types';
 import type { LayersState } from 'types/layers.types';
+import type { FormState } from 'types/form.types';
 
 export type Action =
   | UserAction
@@ -35,6 +36,7 @@ export type State = {
   reports: ReportsState,
   alerts: AlertsState,
   layers: LayersState,
+  form: FormState
 };
 
 export type Store = ReduxStore<State, Action>;

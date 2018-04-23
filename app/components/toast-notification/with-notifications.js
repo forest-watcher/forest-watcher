@@ -47,7 +47,7 @@ function withNotifications(Component: any) {
           type: Types.error,
           text: I18n.t('sync.errorCreatingArea')
         };
-        showNotification(notification);
+        showNotification(notification, true, 15);
       }
     }
 

@@ -115,7 +115,7 @@ export function getDefaultReport(): ReportsAction {
 
 export function createReport(
   report: { name: string, userPosition: [number, number], clickedPosition: [number, number], area: Area }
-  ) {
+  ): ReportsAction {
   const { name, userPosition, clickedPosition, area } = report;
   return {
     type: CREATE_REPORT,
