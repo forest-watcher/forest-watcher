@@ -89,7 +89,7 @@ class Dashboard extends PureComponent<Props> {
       updateApp();
     } else {
       const notification = {
-        type: Types.warn,
+        type: Types.disable,
         text: I18n.t('commonText.connectionRequired')
       };
       showNotification(notification);

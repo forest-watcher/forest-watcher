@@ -23,7 +23,7 @@ class ToastNotification extends PureComponent<Props> {
 }
 
 export const Types = {
-  warn: 'warn',
+  disable: 'disable',
   error: 'error',
   success: 'success'
 };

@@ -34,10 +34,10 @@ export default StyleSheet.create({
   successText: {
     color: Theme.fontColors.white
   },
-  warn: {
+  disable: {
     backgroundColor: Theme.background.gray
   },
-  warnText: {
+  disableText: {
     color: Theme.fontColors.white
   },
   error: {
