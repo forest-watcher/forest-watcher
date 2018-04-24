@@ -33,9 +33,10 @@ class Sync extends Component<Props> {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    const { syncFinished } = this.props;
-    if (syncFinished !== prevProps.syncFinished) {
+  componentDidUpdate(prevProps: Props) {
+    const { syncFinished, isConnected } = this.props;
+    if (syncFinished !== prevProps.syncFinished
+      || isConnected !== prevProps.isConnected) {
       this.animation.play();
     }
   }
