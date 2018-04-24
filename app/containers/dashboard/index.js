@@ -14,7 +14,7 @@ function mapStateToProps(state: State) {
   return {
     refreshing: state.areas.refreshing,
     isConnected: state.offline.online,
-    areasOutdated: isOutdated(state.areas.syncDate),
+    areasOutdated: !state.areas.synced || isOutdated(state.areas.syncDate),
     appSyncing: (state.areas.syncing || state.layers.syncing || state.alerts.queue.length > 0),
     pristine: state.app.pristineCacheTooltip
   };
