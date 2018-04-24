@@ -6,7 +6,7 @@ const deserializeOptions = {
   keyForAttribute: 'camelCase'
 };
 
-export default function effect({ url, headers, promise, errorCode, deserialize = true, ...params }, { auth, ...action }) {
+export default function effect({ url, headers, errorCode, deserialize = true, ...params }, { auth, ...action }) {
   if (url && typeof url === 'string') {
     const req = {
       ...params,
@@ -20,13 +20,7 @@ export default function effect({ url, headers, promise, errorCode, deserialize =
         if (errorCode) return Promise.reject({ msg: err, status: errorCode });
         throw err;
       });
-  } else if (typeof promise !== 'undefined') {
-    return promise
-      .then(data => data)
-      .catch(err => {
-        console.warn('offline effect error', err.message, err.stack);
-        return Promise.reject({ msg: 'Error in custom promise offline handler', status: errorCode });
-      });
   }
+
   throw new TypeError();
 }
