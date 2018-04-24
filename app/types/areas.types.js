@@ -37,7 +37,8 @@ export type Area = {
   datasets: Array<Dataset>,
   use: Object,
   iso: Object,
-  reportTemplate: Template
+  reportTemplate: Template,
+  templateId: string
 }
 
 export type AreasState = {
