@@ -26,6 +26,7 @@ import com.reactlibrary.RNAppAuthPackage;
 import com.facebook.CallbackManager;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
+import com.mapbox.rctmgl.RCTMGLPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -81,7 +82,8 @@ public class MainApplication extends NavigationApplication implements ReactInsta
       new AppCenterReactNativePackage(MainApplication.this),
       new AppCenterReactNativeCrashesPackage(MainApplication.this, "ALWAYS"),
       new FastImageViewPackage(),
-      new LottiePackage()
+      new LottiePackage(),
+      new RCTMGLPackage()
     );
   }
 

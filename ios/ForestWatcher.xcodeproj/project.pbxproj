@@ -28,6 +28,10 @@
 		2A57A6A2A7194B1FB107C502 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 01DAAFC2547C467BA03F1D7A /* libc++.tbd */; };
 		307BBD714FA74881854E01D9 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFD632EF65604568B651A931 /* AddressBook.framework */; };
 		320246882089E6DE00BFFA31 /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 320246502089E6C500BFFA31 /* libFastImage.a */; };
+		3225DC04208E0B5600ED077C /* Mapbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3225DC03208E0B5600ED077C /* Mapbox.framework */; };
+		3225DC05208E0B5600ED077C /* Mapbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3225DC03208E0B5600ED077C /* Mapbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3225DC0D208E0B7300ED077C /* libRCTMGL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3225DC0C208E0B6200ED077C /* libRCTMGL.a */; };
+		325CCA042064425E00FFA4A0 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		32711EC720690CA70062DBE0 /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32711EBC20690C6E0062DBE0 /* libReactNativeConfig.a */; };
 		32CB169C208A599A0036D050 /* libLottie.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32CB1668208A59870036D050 /* libLottie.a */; };
 		32CB16A9208A59C00036D050 /* libLottieReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32CB16A8208A59B90036D050 /* libLottieReactNative.a */; };
@@ -179,6 +183,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = D061F22A1E4887C4000350B4;
 			remoteInfo = RNZipArchive;
+		};
+		3225DC0B208E0B6200ED077C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3225DC07208E0B6100ED077C /* RCTMGL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C4D1443D1F4E16F600396F26;
+			remoteInfo = RCTMGL;
 		};
 		325CC9D32064423C00FFA4A0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -540,13 +551,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		32E52070208B4560006E6400 /* Embed Frameworks */ = {
+		3225DC06208E0B5600ED077C /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
 				32E52033208B4560006E6400 /* Lottie.framework in Embed Frameworks */,
+				3225DC05208E0B5600ED077C /* Mapbox.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -577,6 +589,8 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		21DAFAF673A54569B81DC361 /* libRNZipArchive.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNZipArchive.a; sourceTree = "<group>"; };
 		320246442089E6C500BFFA31 /* FastImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FastImage.xcodeproj; path = "../node_modules/react-native-fast-image/ios/FastImage.xcodeproj"; sourceTree = "<group>"; };
+		3225DC03208E0B5600ED077C /* Mapbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mapbox.framework; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/Mapbox.framework"; sourceTree = "<group>"; };
+		3225DC07208E0B6100ED077C /* RCTMGL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTMGL.xcodeproj; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/RCTMGL.xcodeproj"; sourceTree = "<group>"; };
 		325CC9CB2064423C00FFA4A0 /* CodePush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
 		32CB1654208A59870036D050 /* Lottie.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lottie.xcodeproj; path = "../node_modules/lottie-ios/Lottie.xcodeproj"; sourceTree = "<group>"; };
 		32CB16A3208A59B90036D050 /* LottieReactNative.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LottieReactNative.xcodeproj; path = "../node_modules/lottie-react-native/src/ios/LottieReactNative.xcodeproj"; sourceTree = "<group>"; };
@@ -684,6 +698,7 @@
 			files = (
 				32CB16A9208A59C00036D050 /* libLottieReactNative.a in Frameworks */,
 				32CB169C208A599A0036D050 /* libLottie.a in Frameworks */,
+				3225DC0D208E0B7300ED077C /* libRCTMGL.a in Frameworks */,
 				32EC8F822089F3AF00972CCC /* libCodePush.a in Frameworks */,
 				320246882089E6DE00BFFA31 /* libFastImage.a in Frameworks */,
 				32711EC720690CA70062DBE0 /* libReactNativeConfig.a in Frameworks */,
@@ -695,6 +710,7 @@
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
+				3225DC04208E0B5600ED077C /* Mapbox.framework in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
@@ -866,6 +882,14 @@
 			isa = PBXGroup;
 			children = (
 				3221AADA1F28739900D71E90 /* libRNZipArchive.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3225DC08208E0B6100ED077C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3225DC0C208E0B6200ED077C /* libRCTMGL.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1042,6 +1066,7 @@
 			children = (
 				32CB16A3208A59B90036D050 /* LottieReactNative.xcodeproj */,
 				32CB1654208A59870036D050 /* Lottie.xcodeproj */,
+				3225DC07208E0B6100ED077C /* RCTMGL.xcodeproj */,
 				320246442089E6C500BFFA31 /* FastImage.xcodeproj */,
 				325CC9CB2064423C00FFA4A0 /* CodePush.xcodeproj */,
 				BE756CD01F4EDAEA001E681A /* AirMaps.xcodeproj */,
@@ -1087,6 +1112,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				3225DC03208E0B5600ED077C /* Mapbox.framework */,
 				BE756DA51F4EFB7C001E681A /* AirGoogleMaps */,
 				13B07FAE1A68108700A75B9A /* ForestWatcher */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -1247,9 +1273,10 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				32E52070208B4560006E6400 /* Embed Frameworks */,
-				ADC2137E55DF20D5D27EF44D /* [CP] Embed Pods Frameworks */,
-				69D07D05204A76069E752C1C /* [CP] Copy Pods Resources */,
+				4DA54B748920786B368CF355 /* [CP] Embed Pods Frameworks */,
+				836446A946D59755A1D3423C /* [CP] Copy Pods Resources */,
+				3225DC06208E0B5600ED077C /* Embed Frameworks */,
+				3225DC0E208E0BBB00ED077C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1373,6 +1400,10 @@
 				{
 					ProductGroup = 78C398B11ACF4ADC00677621 /* Products */;
 					ProjectRef = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
+				},
+				{
+					ProductGroup = 3225DC08208E0B6100ED077C /* Products */;
+					ProjectRef = 3225DC07208E0B6100ED077C /* RCTMGL.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302D41ABCB9D200DB3ED1 /* Products */;
@@ -1537,6 +1568,13 @@
 			fileType = archive.ar;
 			path = libRNZipArchive.a;
 			remoteRef = 3221AAD91F28739900D71E90 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3225DC0C208E0B6200ED077C /* libRCTMGL.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTMGL.a;
+			remoteRef = 3225DC0B208E0B6200ED077C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		325CC9D42064423C00FFA4A0 /* libCodePush.a */ = {
@@ -1930,7 +1968,20 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		69D07D05204A76069E752C1C /* [CP] Copy Pods Resources */ = {
+		3225DC0E208E0BBB00ED077C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = " \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework/strip-frameworks.sh\"";
+		};
+		4DA54B748920786B368CF355 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2124,6 +2175,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/GoogleSdk",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/../node_modules/@mapbox/react-native-mapbox-gl/ios",
 				);
 				GCC_NO_COMMON_BLOCKS = NO;
 				HEADER_SEARCH_PATHS = (
@@ -2183,6 +2235,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/GoogleSdk",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/../node_modules/@mapbox/react-native-mapbox-gl/ios",
 				);
 				GCC_NO_COMMON_BLOCKS = NO;
 				HEADER_SEARCH_PATHS = (
