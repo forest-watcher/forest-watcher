@@ -43,6 +43,7 @@ function mapStateToProps(state: State) {
         dataset,
         id: area.id,
         name: area.name,
+        bbox: area.geostore.bbox,
         templateId: area.templateId
       };
     }
