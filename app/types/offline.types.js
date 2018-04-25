@@ -13,3 +13,5 @@ export type OfflineMeta = {
     rollback: { type: string, meta?: any }
   }
 }
+
+export type PersistRehydrate = { type: 'persist/REHYDRATE', payload: Object };

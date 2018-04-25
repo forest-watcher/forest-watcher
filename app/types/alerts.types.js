@@ -1,5 +1,5 @@
 // @flow
-import type { OfflineMeta } from 'types/offline.types';
+import type { OfflineMeta, PersistRehydrate } from 'types/offline.types';
 import type { Area } from 'types/areas.types';
 import type { LogoutRequest } from 'types/user.types';
 import type { RetrySync } from 'types/app.types';
@@ -28,6 +28,7 @@ export type AlertsAction =
   | GetAreaAlertsCommit
   | GetAreaAlertsRollback
   | UploadReportRequest
+  | PersistRehydrate
   | LogoutRequest;
 
 type SetActiveAlerts = { type: 'alerts/SET_ACTIVE_ALERTS', payload: boolean };

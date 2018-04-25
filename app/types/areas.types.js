@@ -2,7 +2,8 @@
 import type { Template } from 'types/reports.types';
 import type { RetrySync } from 'types/app.types';
 import type { GetAreaAlertsCommit } from 'types/alerts.types';
-import type { OfflineMeta } from 'types/offline.types';
+import type { OfflineMeta, PersistRehydrate } from 'types/offline.types';
+import type { LogoutRequest } from 'types/user.types';
 
 export type Geostore = {
   geojson: Object,
@@ -67,7 +68,9 @@ export type AreasAction =
   | GetAreaAlertsCommit
   | DeleteAreaRequest
   | DeleteAreaCommit
-  | DeleteAreaRollback;
+  | DeleteAreaRollback
+  | PersistRehydrate
+  | LogoutRequest;
 
 // Actions
 export type SaveAreaRequest = { type: 'areas/SAVE_AREA_REQUEST' };

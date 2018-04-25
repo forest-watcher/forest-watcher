@@ -8,6 +8,7 @@ import Config from 'react-native-config';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { RETRY_SYNC } from 'redux-modules/app';
 import { GET_ALERTS_COMMIT } from 'redux-modules/alerts';
+import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
 export const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
@@ -43,6 +44,9 @@ const initialState = {
 
 export default function reducer(state: AreasState = initialState, action: AreasAction) {
   switch (action.type) {
+    case PERSIST_REHYDRATE: {
+      return { ...state, syncError: false };
+    }
     case RETRY_SYNC: {
       return { ...state, syncError: false };
     }
