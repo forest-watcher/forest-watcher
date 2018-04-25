@@ -1,12 +1,10 @@
 // @flow
 import type { AlertsState, AlertsAction } from 'types/alerts.types';
-import type { Dispatch, GetState } from 'types/store.types';
 import type { Area } from 'types/areas.types';
 
 import Config from 'react-native-config';
 import moment from 'moment';
 import { initDb, read } from 'helpers/database';
-import { activeDataset } from 'helpers/area';
 import CONSTANTS from 'config/constants';
 import clusterGenerator from 'helpers/clusters-generator';
 
@@ -19,7 +17,7 @@ import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 const d3Dsv = require('d3-dsv');
 
 const SET_CAN_DISPLAY_ALERTS = 'alerts/SET_CAN_DISPLAY_ALERTS';
-const SET_ACTIVE_ALERTS = 'alerts/SET_ACTIVE_ALERTS';
+export const SET_ACTIVE_ALERTS = 'alerts/SET_ACTIVE_ALERTS';
 const GET_ALERTS_REQUEST = 'alerts/GET_ALERTS_REQUEST';
 export const GET_ALERTS_COMMIT = 'alerts/GET_ALERTS_COMMIT';
 const GET_ALERTS_ROLLBACK = 'alerts/GET_ALERTS_ROLLBACK';
@@ -43,8 +41,6 @@ export default function reducer(state: AlertsState = initialState, action: Alert
     }
     case SET_CAN_DISPLAY_ALERTS:
       return { ...state, canDisplayAlerts: action.payload };
-    case SET_ACTIVE_ALERTS:
-      return { ...state };
     case UPLOAD_REPORT_REQUEST: {
       const { alerts } = action.payload;
       let reported = [...state.reported];
@@ -144,20 +140,7 @@ export function setCanDisplayAlerts(canDisplay: boolean) {
 }
 
 export function setActiveAlerts() {
-  return (dispatch: Dispatch, state: GetState) => {
-    const areas = state().areas;
-    const index = areas.selectedIndex;
-    const area = areas.data[index] || null;
-    const dataset = activeDataset(area);
-    const canDisplay = state().alerts.canDisplayAlerts;
-
-    const action = ({ type: SET_ACTIVE_ALERTS, payload: null }: { type: string, payload: ?string });
-    if (dataset && canDisplay) {
-      clusterGenerator.update(area.id, dataset.slug, dataset.startDate);
-      action.payload = `${area.id}_${dataset.slug}_${dataset.startDate}`;
-    }
-    dispatch(action);
-  };
+  return { type: SET_ACTIVE_ALERTS };
 }
 
 export function getAreaAlerts(area: Area, datasetSlug: string, range: number) {

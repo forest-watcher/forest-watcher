@@ -31,7 +31,7 @@ export type AlertsAction =
   | PersistRehydrate
   | LogoutRequest;
 
-type SetActiveAlerts = { type: 'alerts/SET_ACTIVE_ALERTS', payload: boolean };
+type SetActiveAlerts = { type: 'alerts/SET_ACTIVE_ALERTS' };
 type SetCanDisplayAlerts = { type: 'alerts/SET_CAN_DISPLAY_ALERTS', payload: boolean };
 type GetAreaAlertsRequest = {
   type: 'alerts/GET_ALERTS_REQUEST',

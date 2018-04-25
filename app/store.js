@@ -3,9 +3,7 @@ import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
 import offline from 'offline';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
-
-import { getAlertsOnAreasCommit } from './sagas/alerts';
-import { logLastActions } from './sagas/app';
+import { rootSaga } from './sagas';
 
 import Reactotron, { trackGlobalErrors, networking, openInEditor, asyncStorage } from 'reactotron-react-native'; // eslint-disable-line
 import { reactotronRedux } from 'reactotron-redux'; // eslint-disable-line
@@ -43,12 +41,7 @@ function createAppStore(startApp) {
   return createStore(enhanceReducer(reducer), compose(middleware, enhanceStore));
 }
 
-createAppStore.runSagas = () => {
-  sagaMiddleware.run(getAlertsOnAreasCommit);
-  if (__DEV__) {
-    sagaMiddleware.run(logLastActions);
-  }
-};
+createAppStore.runSagas = () => sagaMiddleware.run(rootSaga);
 
 
 export default createAppStore;

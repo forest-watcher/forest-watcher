@@ -50,16 +50,16 @@ function mapStateToProps(state: State) {
   const { cache } = state.layers;
   const contextualLayer = getContextualLayer(state.layers);
   return {
-    area: areaProps,
     center,
     datasetSlug,
-    areaCoordinates,
-    isConnected: state.offline.online,
-    basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',
-    ctxLayerLocalTilePath: cache[state.layers.activeLayer] ? cache[state.layers.activeLayer][area.id] : '',
-    canDisplayAlerts: state.alerts.canDisplayAlerts,
     contextualLayer,
-    coordinatesFormat: state.app.coordinatesFormat
+    areaCoordinates,
+    area: areaProps,
+    isConnected: state.offline.online,
+    coordinatesFormat: state.app.coordinatesFormat,
+    canDisplayAlerts: state.alerts.canDisplayAlerts,
+    basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',
+    ctxLayerLocalTilePath: cache[state.layers.activeLayer] ? cache[state.layers.activeLayer][area.id] : ''
   };
 }
 

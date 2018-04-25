@@ -187,6 +187,7 @@ class Map extends Component {
     const { datasetSlug, area, setActiveAlerts, areaCoordinates } = this.props;
     const { clusters } = clusterGenerator;
     if (this.map && area && (clusters === null || area.id !== prevProps.area.id
+      || area.dataset.slug !== prevProps.area.dataset.slug
       || area.dataset.startDate !== prevProps.area.dataset.startDate)) {
       setActiveAlerts();
     }

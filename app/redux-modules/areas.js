@@ -23,7 +23,7 @@ const UPDATE_AREA_ROLLBACK = 'areas/UPDATE_AREA_ROLLBACK';
 const DELETE_AREA_REQUEST = 'areas/DELETE_AREA_REQUEST';
 export const DELETE_AREA_COMMIT = 'areas/DELETE_AREA_COMMIT';
 const DELETE_AREA_ROLLBACK = 'areas/DELETE_AREA_ROLLBACK';
-const UPDATE_INDEX = 'areas/UPDATE_INDEX';
+const UPDATE_AREA_INDEX = 'areas/UPDATE_AREA_INDEX';
 
 // Helpers
 function getAreaById(areas: Array<Area>, areaId: string) {
@@ -158,7 +158,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
       const data = [...state.data, action.meta.area];
       return { ...state, data, syncing: false };
     }
-    case UPDATE_INDEX: {
+    case UPDATE_AREA_INDEX: {
       return Object.assign({}, state, { selectedIndex: action.payload });
     }
     case LOGOUT_REQUEST: {
@@ -211,7 +211,7 @@ export function updateArea(area: Area) {
 
 export function updateSelectedIndex(index: number): AreasAction {
   return {
-    type: UPDATE_INDEX,
+    type: UPDATE_AREA_INDEX,
     payload: index
   };
 }
