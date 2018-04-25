@@ -16,7 +16,6 @@ export type AlertsState = {
   },
   reported: Array<string>,
   canDisplayAlerts: boolean,
-  clusters: any,
   syncError: boolean,
   queue: Array<string>
 };

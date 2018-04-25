@@ -3,7 +3,7 @@ import type { State } from 'types/store.types';
 
 import { connect } from 'react-redux';
 import { createReport } from 'redux-modules/reports';
-import { setCanDisplayAlerts, setActiveAlerts, activeCluster } from 'redux-modules/alerts';
+import { setCanDisplayAlerts, setActiveAlerts } from 'redux-modules/alerts';
 import tracker from 'helpers/googleAnalytics';
 import { getContextualLayer } from 'helpers/map';
 import Map from 'components/map';
@@ -54,7 +54,6 @@ function mapStateToProps(state: State) {
     center,
     datasetSlug,
     areaCoordinates,
-    clusters: activeCluster.supercluster,
     isConnected: state.offline.online,
     basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',
     ctxLayerLocalTilePath: cache[state.layers.activeLayer] ? cache[state.layers.activeLayer][area.id] : '',
