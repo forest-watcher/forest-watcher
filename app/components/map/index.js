@@ -13,22 +13,24 @@ import {
   Platform
 } from 'react-native';
 
-import { COORDINATES_FORMATS, MAPS } from 'config/constants';
+import { COORDINATES_FORMATS, MAPS, MANUAL_ALERT_SELECTION_ZOOM } from 'config/constants';
 import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import moment from 'moment';
+import formatcoords from 'formatcoords';
 
-import Theme from 'config/theme';
-import { getAllNeighbours } from 'helpers/map';
+import MapView from 'react-native-maps';
 import ActionBtn from 'components/common/action-button';
 import AlertPosition from 'components/map/alert-position';
 import MapAttribution from 'components/map/map-attribution';
 import AreaCarousel from 'containers/map/area-carousel';
 import Clusters from 'containers/map/clusters/';
+import { getAllNeighbours } from 'helpers/map';
 import tracker from 'helpers/googleAnalytics';
+import clusterGenerator from 'helpers/clusters-generator';
+import Theme from 'config/theme';
 import I18n from 'locales';
-import MapView from 'react-native-maps';
-import formatcoords from 'formatcoords';
 import styles from './styles';
 
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
@@ -48,7 +50,6 @@ const markerImage = require('assets/marker.png');
 const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
-
 const layersIcon = require('assets/layers.png');
 
 function renderLoading() {
@@ -163,7 +164,6 @@ class Map extends Component {
       nextProps.canDisplayAlerts !== this.props.canDisplayAlerts,
       nextProps.datasetSlug !== this.props.datasetSlug,
       !isEqual(nextProps.center, this.props.center),
-      !isEqual(nextProps.clusters, this.props.clusters),
       !isEqual(nextProps.contextualLayer, this.props.contextualLayer),
       nextState.renderMap !== this.state.renderMap,
       !isEqual(nextState.lastPosition, this.state.lastPosition),
@@ -185,8 +185,10 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { clusters, datasetSlug, area, setActiveAlerts, areaCoordinates } = this.props;
+    const { datasetSlug, area, setActiveAlerts, areaCoordinates } = this.props;
+    const { clusters } = clusterGenerator;
     if (this.map && area && (clusters === null || area.id !== prevProps.area.id
+      || area.dataset.slug !== prevProps.area.dataset.slug
       || area.dataset.startDate !== prevProps.area.dataset.startDate)) {
       setActiveAlerts();
     }
@@ -304,15 +306,19 @@ class Map extends Component {
     });
   }
 
-  updateMarkers(clean = false) {
+  updateMarkers = debounce((clean = false) => {
     const { region } = this.state;
-    const clusters = this.props.clusters && this.props.clusters.getClusters([
+    const bbox = [
       region.longitude - (region.longitudeDelta / 2),
       region.latitude - (region.latitudeDelta / 2),
       region.longitude + (region.longitudeDelta / 2),
       region.latitude + (region.latitudeDelta / 2)
-    ], getMapZoom(region));
+    ];
+    const zoom = getMapZoom(region);
+    const clusters = clusterGenerator.clusters && clusterGenerator.clusters.getClusters(bbox, zoom);
     const markers = clusters || [];
+    markers.activeMarkersId = markers.length > 0 ? bbox.join('_') + zoom : '';
+
     if (clean) {
       this.setState({
         markers,
@@ -322,7 +328,7 @@ class Map extends Component {
     } else {
       this.setState({ markers });
     }
-  }
+  }, 300);
 
   reportSelection = () => {
     this.createReport(this.state.selectedAlerts);
@@ -479,9 +485,12 @@ class Map extends Component {
 
   mapPress = (coordinate) => {
     if (coordinate) {
+      const alertsToAdd = getMapZoom(this.state.region) >= MANUAL_ALERT_SELECTION_ZOOM
+        ? [coordinate]
+        : [];
       this.setState(({ selectedAlerts }) => ({
         neighbours: [],
-        selectedAlerts: selectedAlerts && selectedAlerts.length > 0 ? [] : [coordinate]
+        selectedAlerts: selectedAlerts && selectedAlerts.length > 0 ? [] : alertsToAdd
       }));
     }
   }
@@ -616,8 +625,10 @@ class Map extends Component {
     if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
     const isIOS = Platform.OS === 'ios';
     const ctxLayerKey = isIOS && contextualLayer ? `contextualLayerElement-${contextualLayer.name}` : 'contextualLayerElement';
-    const clustersKey = markers ? `clustersElement-${markers.length}` : 'clustersElement';
     const keyRand = isIOS ? Math.floor((Math.random() * 100) + 1) : '';
+    const clustersKey = markers
+      ? `clustersElement-${clusterGenerator.activeClusterId}_${markers.activeMarkersId}`
+      : 'clustersElement';
 
     // Map elements
     const basemapLayerElement = isConnected ?
@@ -715,13 +726,12 @@ class Map extends Component {
         </MapView.Marker>
       )))
       : null;
-    const selectedAlertsElement = selectedAlerts && selectedAlerts.length > 0
+    const selectedAlertsElement = hasAlertsSelected
       ? (selectedAlerts.map((alert, i) => (
         <MapView.Marker
           key={`selectedAlertsElement-${i}-${keyRand}`}
           coordinate={alert}
           anchor={{ x: 0.5, y: 0.5 }}
-          pointerEvents="none"
           onPress={() => this.removeSelection(alert)}
           zIndex={20}
         >
@@ -807,7 +817,6 @@ class Map extends Component {
 Map.propTypes = {
   navigator: PropTypes.object.isRequired,
   createReport: PropTypes.func.isRequired,
-  clusters: PropTypes.object,
   center: PropTypes.shape({
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired

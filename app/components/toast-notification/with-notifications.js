@@ -27,7 +27,7 @@ type Props = {
 function withNotifications(Component: any) {
   class WithNotificationsHOC extends React.Component<Props> {
 
-    static displayName = `HOC(${getDisplayName(Component)})`;
+    static displayName = `withNotificationsHOC(${getDisplayName(Component)})`;
     // $FlowFixMe
     static navigatorStyle = Component.navigatorStyle;
     // $FlowFixMe

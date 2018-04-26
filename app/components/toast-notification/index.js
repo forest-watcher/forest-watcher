@@ -12,6 +12,10 @@ type Props = {
 
 class ToastNotification extends PureComponent<Props> {
 
+  componentWillUnmount() {
+    Navigation.dismissInAppNotification();
+  }
+
   render() {
     const { type, text } = this.props;
     return (

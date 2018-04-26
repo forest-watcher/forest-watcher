@@ -22,10 +22,7 @@ class Sync extends Component<Props> {
     navBarHidden: true
   };
 
-  constructor() {
-    super();
-    this.animation = null;
-  }
+  animation: ?{ play: () => void } = null;
 
   componentDidMount() {
     if (this.animation) {
@@ -35,8 +32,8 @@ class Sync extends Component<Props> {
 
   componentDidUpdate(prevProps: Props) {
     const { syncFinished, isConnected } = this.props;
-    if (syncFinished !== prevProps.syncFinished
-      || isConnected !== prevProps.isConnected) {
+    if ((syncFinished !== prevProps.syncFinished
+      || isConnected !== prevProps.isConnected) && this.animation) {
       this.animation.play();
     }
   }

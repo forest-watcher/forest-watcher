@@ -156,9 +156,9 @@ export function setLoginAuth(details: { token: string, loggedIn: boolean, social
 
 export function logout() {
   return async (dispatch: Dispatch, state: GetState) => {
+    dispatch({ type: LOGOUT_REQUEST });
     dispatch({ type: RESET_STATE });
     await CookieManager.clearAll();
-    dispatch({ type: LOGOUT_REQUEST });
     const { oAuthToken: tokenToRevoke, socialNetwork } = state().user;
     try {
       switch (socialNetwork) {

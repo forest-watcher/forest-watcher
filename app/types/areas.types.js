@@ -2,7 +2,8 @@
 import type { Template } from 'types/reports.types';
 import type { RetrySync } from 'types/app.types';
 import type { GetAreaAlertsCommit } from 'types/alerts.types';
-import type { OfflineMeta } from 'types/offline.types';
+import type { OfflineMeta, PersistRehydrate } from 'types/offline.types';
+import type { LogoutRequest } from 'types/user.types';
 
 export type Geostore = {
   geojson: Object,
@@ -67,7 +68,9 @@ export type AreasAction =
   | GetAreaAlertsCommit
   | DeleteAreaRequest
   | DeleteAreaCommit
-  | DeleteAreaRollback;
+  | DeleteAreaRollback
+  | PersistRehydrate
+  | LogoutRequest;
 
 // Actions
 export type SaveAreaRequest = { type: 'areas/SAVE_AREA_REQUEST' };
@@ -80,7 +83,7 @@ export type GetAreasRollback = { type: 'areas/GET_AREAS_ROLLBACK' };
 export type UpdateAreaRequest = { type: 'areas/UPDATE_AREA_REQUEST', payload: Area };
 export type UpdateAreaCommit = { type: 'areas/UPDATE_AREA_COMMIT', payload: Area };
 export type UpdateAreaRollback = { type: 'areas/UPDATE_AREA_ROLLBACK', meta: Area };
-export type UpdateIndex = { type: 'areas/UPDATE_INDEX', payload: number };
+export type UpdateIndex = { type: 'areas/UPDATE_AREA_INDEX', payload: number };
 export type DeleteAreaRequest = { type: 'areas/DELETE_AREA_REQUEST', payload: Area, meta: OfflineMeta };
 export type DeleteAreaCommit = { type: 'areas/DELETE_AREA_COMMIT', meta: { area: Area } };
 export type DeleteAreaRollback = { type: 'areas/DELETE_AREA_ROLLBACK', meta: { area: Area } };

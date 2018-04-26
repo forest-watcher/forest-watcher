@@ -1,5 +1,5 @@
 // @flow
-import type { OfflineMeta } from 'types/offline.types';
+import type { OfflineMeta, PersistRehydrate } from 'types/offline.types';
 import type { Area } from 'types/areas.types';
 import type { LogoutRequest } from 'types/user.types';
 import type { RetrySync } from 'types/app.types';
@@ -16,7 +16,6 @@ export type AlertsState = {
   },
   reported: Array<string>,
   canDisplayAlerts: boolean,
-  clusters: any,
   syncError: boolean,
   queue: Array<string>
 };
@@ -29,9 +28,10 @@ export type AlertsAction =
   | GetAreaAlertsCommit
   | GetAreaAlertsRollback
   | UploadReportRequest
+  | PersistRehydrate
   | LogoutRequest;
 
-type SetActiveAlerts = { type: 'alerts/SET_ACTIVE_ALERTS', payload: boolean };
+type SetActiveAlerts = { type: 'alerts/SET_ACTIVE_ALERTS' };
 type SetCanDisplayAlerts = { type: 'alerts/SET_CAN_DISPLAY_ALERTS', payload: boolean };
 type GetAreaAlertsRequest = {
   type: 'alerts/GET_ALERTS_REQUEST',

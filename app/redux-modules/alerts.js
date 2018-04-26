@@ -1,82 +1,47 @@
 // @flow
 import type { AlertsState, AlertsAction } from 'types/alerts.types';
-import type { Dispatch, GetState } from 'types/store.types';
 import type { Area } from 'types/areas.types';
 
 import Config from 'react-native-config';
 import moment from 'moment';
-import memoize from 'lodash/memoize';
-import { pointsToGeoJSON } from 'helpers/map';
 import { initDb, read } from 'helpers/database';
-import { activeDataset } from 'helpers/area';
 import CONSTANTS from 'config/constants';
+import clusterGenerator from 'helpers/clusters-generator';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { UPLOAD_REPORT_REQUEST } from 'redux-modules/reports';
 import { RETRY_SYNC } from 'redux-modules/app';
+import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 const d3Dsv = require('d3-dsv');
 
 const SET_CAN_DISPLAY_ALERTS = 'alerts/SET_CAN_DISPLAY_ALERTS';
-const SET_ACTIVE_ALERTS = 'alerts/SET_ACTIVE_ALERTS';
+export const SET_ACTIVE_ALERTS = 'alerts/SET_ACTIVE_ALERTS';
 const GET_ALERTS_REQUEST = 'alerts/GET_ALERTS_REQUEST';
 export const GET_ALERTS_COMMIT = 'alerts/GET_ALERTS_COMMIT';
 const GET_ALERTS_ROLLBACK = 'alerts/GET_ALERTS_ROLLBACK';
-
-const supercluster = require('supercluster');
-
-// TODO: refactor activeCluster into a helper class
-function createCluster(data) {
-  const cluster = supercluster({
-    radius: 120,
-    maxZoom: 15, // Default: 16,
-    nodeSize: 128
-  });
-  cluster.load(data.features);
-  return cluster;
-}
-
-export const activeCluster = {
-  supercluster: null
-};
-
-function mapAreaToClusters(areaId, datasetSlug, startDate) {
-  const realm = initDb();
-  // TODO: use days in both systems
-  const timeFrame = datasetSlug === CONSTANTS.datasets.VIIRS ? 'day' : 'month';
-  const limitRange = moment().subtract(startDate, timeFrame).valueOf();
-  const alerts = read(realm, 'Alert')
-    .filtered(`areaId = '${areaId}' AND slug = '${datasetSlug}' AND date > '${limitRange}'`);
-  const activeAlerts = pointsToGeoJSON(alerts);
-  return createCluster(activeAlerts);
-}
-
-memoize.Cache = Map;
-const memoizedAreaToClusters = memoize(mapAreaToClusters, (...rest) => rest.join('_'));
 
 // Reducer
 const initialState = {
   cache: {},
   reported: [],
   canDisplayAlerts: true,
-  clusters: null,
   syncError: false,
   queue: []
 };
 
 export default function reducer(state: AlertsState = initialState, action: AlertsAction) {
   switch (action.type) {
-    case 'app/START_APP': {
-      return { ...state, syncError: false, clusters: null };
+    case PERSIST_REHYDRATE: {
+      const { alerts } = action.payload;
+      return { ...state, ...alerts, syncError: false };
     }
     case RETRY_SYNC: {
       return { ...state, syncError: false };
     }
     case SET_CAN_DISPLAY_ALERTS:
       return { ...state, canDisplayAlerts: action.payload };
-    case SET_ACTIVE_ALERTS:
-      return { ...state, clusters: action.payload };
     case UPLOAD_REPORT_REQUEST: {
       const { alerts } = action.payload;
       let reported = [...state.reported];
@@ -104,7 +69,7 @@ export default function reducer(state: AlertsState = initialState, action: Alert
       const queue = state.queue.filter(item => item !== alertId);
       if (action.payload) {
         saveAlertsToDb(area.id, datasetSlug, action.payload, range);
-        memoizedAreaToClusters.cache.clear();
+        clusterGenerator.clear();
       }
       return { ...state, queue, cache };
     }
@@ -115,7 +80,7 @@ export default function reducer(state: AlertsState = initialState, action: Alert
     }
     case LOGOUT_REQUEST: {
       resetAlertsDb();
-      memoizedAreaToClusters.cache.clear();
+      clusterGenerator.clear();
       return initialState;
     }
     default:
@@ -176,24 +141,7 @@ export function setCanDisplayAlerts(canDisplay: boolean) {
 }
 
 export function setActiveAlerts() {
-  return (dispatch: Dispatch, state: GetState) => {
-    const areas = state().areas;
-    const index = areas.selectedIndex;
-    const area = areas.data[index] || null;
-    const dataset = activeDataset(area);
-    const canDisplay = state().alerts.canDisplayAlerts;
-
-    const action = ({ type: SET_ACTIVE_ALERTS, payload: null }: { type: string, payload: ?string });
-    if (dataset && canDisplay) {
-      activeCluster.supercluster = memoizedAreaToClusters(area.id, dataset.slug, dataset.startDate);
-      action.payload = `${area.id}_${dataset.slug}_${dataset.startDate}`;
-      if (memoizedAreaToClusters.cache.size > 3) {
-        const first = memoizedAreaToClusters.cache.keys().next().value;
-        memoizedAreaToClusters.cache.delete(first);
-      }
-    }
-    dispatch(action);
-  };
+  return { type: SET_ACTIVE_ALERTS };
 }
 
 export function getAreaAlerts(area: Area, datasetSlug: string, range: number) {

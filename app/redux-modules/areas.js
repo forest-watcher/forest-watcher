@@ -8,6 +8,7 @@ import Config from 'react-native-config';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { RETRY_SYNC } from 'redux-modules/app';
 import { GET_ALERTS_COMMIT } from 'redux-modules/alerts';
+import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
 export const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
@@ -22,7 +23,7 @@ const UPDATE_AREA_ROLLBACK = 'areas/UPDATE_AREA_ROLLBACK';
 const DELETE_AREA_REQUEST = 'areas/DELETE_AREA_REQUEST';
 export const DELETE_AREA_COMMIT = 'areas/DELETE_AREA_COMMIT';
 const DELETE_AREA_ROLLBACK = 'areas/DELETE_AREA_ROLLBACK';
-const UPDATE_INDEX = 'areas/UPDATE_INDEX';
+const UPDATE_AREA_INDEX = 'areas/UPDATE_AREA_INDEX';
 
 // Helpers
 function getAreaById(areas: Array<Area>, areaId: string) {
@@ -43,6 +44,10 @@ const initialState = {
 
 export default function reducer(state: AreasState = initialState, action: AreasAction) {
   switch (action.type) {
+    case PERSIST_REHYDRATE: {
+      const { areas } = action.payload;
+      return { ...state, ...areas, syncError: false };
+    }
     case RETRY_SYNC: {
       return { ...state, syncError: false };
     }
@@ -154,7 +159,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
       const data = [...state.data, action.meta.area];
       return { ...state, data, syncing: false };
     }
-    case UPDATE_INDEX: {
+    case UPDATE_AREA_INDEX: {
       return Object.assign({}, state, { selectedIndex: action.payload });
     }
     case LOGOUT_REQUEST: {
@@ -207,7 +212,7 @@ export function updateArea(area: Area) {
 
 export function updateSelectedIndex(index: number): AreasAction {
   return {
-    type: UPDATE_INDEX,
+    type: UPDATE_AREA_INDEX,
     payload: index
   };
 }
