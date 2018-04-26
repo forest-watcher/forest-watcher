@@ -10,7 +10,7 @@ import I18n from 'locales';
 // Container
 function mapStateToProps(state: State) {
   return {
-    syncedAreas: (state.areas.synced || state.layers.synced || state.alerts.queue.length > 0),
+    syncedAreas: (state.areas.synced && state.layers.synced && state.alerts.queue.length === 0),
     errorAreaCreation: state.setup.error
   };
 }
