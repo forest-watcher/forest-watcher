@@ -625,6 +625,7 @@ class Map extends Component {
     if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
     const isIOS = Platform.OS === 'ios';
     const ctxLayerKey = isIOS && contextualLayer ? `contextualLayerElement-${contextualLayer.name}` : 'contextualLayerElement';
+    const keyRand = isIOS ? Math.floor((Math.random() * 100) + 1) : '';
     const clustersKey = markers
       ? `clustersElement-${clusterGenerator.activeClusterId}_${markers.activeMarkersId}`
       : 'clustersElement';
@@ -715,7 +716,7 @@ class Map extends Component {
     const neighboursAlertsElement = neighbours && neighbours.length > 0
       ? (neighbours.map((neighbour, i) => (
         <MapView.Marker
-          key={`neighboursAlertsElement-${i}-${Object.values(neighbour).join('_')}`}
+          key={`neighboursAlertsElement-${i}-${keyRand}`}
           coordinate={neighbour}
           anchor={{ x: 0.5, y: 0.5 }}
           onPress={() => this.includeNeighbour(neighbour)}
@@ -728,7 +729,7 @@ class Map extends Component {
     const selectedAlertsElement = hasAlertsSelected
       ? (selectedAlerts.map((alert, i) => (
         <MapView.Marker
-          key={`selectedAlertsElement-${i}-${Object.values(alert).join('_')}`}
+          key={`selectedAlertsElement-${i}-${keyRand}`}
           coordinate={alert}
           anchor={{ x: 0.5, y: 0.5 }}
           onPress={() => this.removeSelection(alert)}
