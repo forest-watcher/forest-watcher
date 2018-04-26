@@ -1,5 +1,7 @@
 // @flow
 
+import type { State } from 'types/store.types';
+
 export type OfflineMeta = {
   offline: {
     effect: {
@@ -14,4 +16,4 @@ export type OfflineMeta = {
   }
 }
 
-export type PersistRehydrate = { type: 'persist/REHYDRATE', payload: Object };
+export type PersistRehydrate = { type: 'persist/REHYDRATE', payload: State };

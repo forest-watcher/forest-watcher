@@ -45,7 +45,8 @@ const initialState = {
 export default function reducer(state: AreasState = initialState, action: AreasAction) {
   switch (action.type) {
     case PERSIST_REHYDRATE: {
-      return { ...state, syncError: false };
+      const { areas } = action.payload;
+      return { ...state, ...areas, syncError: false };
     }
     case RETRY_SYNC: {
       return { ...state, syncError: false };

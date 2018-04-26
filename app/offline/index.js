@@ -16,11 +16,12 @@ const persistStore = (store, options, callback) => {
       app = JSON.parse(appData);
     }
     if (app && app.version !== version) {
-      getPersistedStore().purge();
+      const persistor = getPersistedStore();
+      persistor.purge();
       resetAlertsDb();
-    } else {
-      getPersistedStore(); // .purge to clean the offline data
+      return persistor;
     }
+    return getPersistedStore(); // .purge to clean the offline data
   });
 };
 

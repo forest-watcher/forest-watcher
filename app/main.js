@@ -27,7 +27,6 @@ function setCodePush() {
 
 const app = () => {
   const store = createStore(startApp);
-  createStore.runSagas();
   registerScreens(store, Provider);
 
   function startApp() {
@@ -60,6 +59,7 @@ const app = () => {
     setExceptionHandlers(store);
     checkPrevCrashes();
     setCodePush();
+    createStore.runSagas();
   }
 };
 
