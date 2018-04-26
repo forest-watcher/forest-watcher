@@ -20,7 +20,7 @@ function* syncAlertDatasets({ area, cache }): Generator<*, *, *> {
         const now = moment();
         const lastCache = moment(cache[slug][area.id]);
         const daysFromLastCache = now.diff(lastCache, 'days');
-        if (daysFromLastCache > 0) {
+        if (daysFromLastCache >= 0) {
           range = (daysFromLastCache: number);
         }
       }
