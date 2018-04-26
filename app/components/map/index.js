@@ -15,6 +15,7 @@ import {
 
 import { COORDINATES_FORMATS, MAPS, MANUAL_ALERT_SELECTION_ZOOM } from 'config/constants';
 import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import moment from 'moment';
 import formatcoords from 'formatcoords';
@@ -305,7 +306,7 @@ class Map extends Component {
     });
   }
 
-  updateMarkers(clean = false) {
+  updateMarkers = debounce((clean = false) => {
     const { region } = this.state;
     const bbox = [
       region.longitude - (region.longitudeDelta / 2),
@@ -327,7 +328,7 @@ class Map extends Component {
     } else {
       this.setState({ markers });
     }
-  }
+  }, 300);
 
   reportSelection = () => {
     this.createReport(this.state.selectedAlerts);
