@@ -1,4 +1,4 @@
-import { fork } from 'redux-saga/effects';
+import { all, fork } from 'redux-saga/effects';
 import { getAlertsOnAreasCommit, getAlertsOnAreaCreation, setActiveAlerts } from './alerts';
 import { logLastActions } from './app';
 
@@ -10,5 +10,5 @@ const sagas = [
 ];
 
 export function* rootSaga() {
-  yield sagas.map(saga => fork(saga));
+  yield all(sagas.map(saga => fork(saga)));
 }

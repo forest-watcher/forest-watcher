@@ -11,12 +11,17 @@ import { setAreasRefreshing, updateSelectedIndex } from 'redux-modules/areas';
 import withSuccessNotification from 'components/toast-notification/with-notifications';
 
 function mapStateToProps(state: State) {
+  const areasOutdated = !state.areas.synced || isOutdated(state.areas.syncDate);
+  const appSyncing = (state.areas.syncing || state.layers.syncing || state.alerts.queue.length > 0);
+  const isConnected = state.offline.online;
+  const loggedIn = state.user.loggedIn;
   return {
+    appSyncing,
+    isConnected,
+    areasOutdated,
     refreshing: state.areas.refreshing,
-    isConnected: state.offline.online,
-    areasOutdated: !state.areas.synced || isOutdated(state.areas.syncDate),
-    appSyncing: (state.areas.syncing || state.layers.syncing || state.alerts.queue.length > 0),
-    pristine: state.app.pristineCacheTooltip
+    pristine: state.app.pristineCacheTooltip,
+    needsUpdate: areasOutdated && !appSyncing && isConnected && loggedIn
   };
 }
 

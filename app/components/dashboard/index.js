@@ -29,7 +29,7 @@ type Props = {
   navigator: Object,
   setAreasRefreshing: boolean => void,
   isConnected: boolean,
-  areasOutdated: boolean,
+  needsUpdate: boolean,
   appSyncing: boolean,
   refreshing: boolean,
   closeModal?: boolean,
@@ -147,8 +147,8 @@ class Dashboard extends PureComponent<Props> {
   getPristine = (): boolean => (this.props.pristine)
 
   checkNeedsUpdate() {
-    const { areasOutdated, appSyncing, updateApp } = this.props;
-    if (areasOutdated && !appSyncing) {
+    const { needsUpdate, updateApp } = this.props;
+    if (needsUpdate) {
       updateApp();
       const notification = {
         text: I18n.t('sync.gettingLatestAlerts')
