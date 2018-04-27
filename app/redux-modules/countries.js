@@ -25,8 +25,10 @@ export default function reducer(state: CountriesState = initialState, action: Co
   switch (action.type) {
     case GET_COUNTRIES_REQUEST:
       return { ...state, synced: false, syncing: true };
-    case GET_COUNTRIES_COMMIT:
-      return { ...state, data: action.payload.data, synced: true, syncing: false };
+    case GET_COUNTRIES_COMMIT: {
+      const data = action.payload.data.filter(country => country.centroid !== null);
+      return { ...state, data, synced: true, syncing: false };
+    }
     case GET_COUNTRIES_ROLLBACK:
       return { ...state, syncing: false };
     case LOGOUT_REQUEST:
