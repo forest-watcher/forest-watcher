@@ -61,7 +61,7 @@ class SetupCountry extends Component {
   }
 
   render() {
-    const { user, countries, setupCountry } = this.props;
+    const { user, countries, setupCountry, setSetupCountry } = this.props;
     if (user && countries && countries.length) {
       const iso = (setupCountry && setupCountry.iso) || user.country;
       return (
@@ -75,7 +75,7 @@ class SetupCountry extends Component {
             <Text style={styles.selectorLabel}>{I18n.t('setupCountry.firstInstruction')}</Text>
             <SearchSelector
               selected={getCountrySelected(countries, iso)}
-              onOptionSelected={(country) => { this.props.setSetupCountry(country); }}
+              onOptionSelected={setSetupCountry}
               data={countries}
               placeholder={I18n.t('countries.searchPlaceholder')}
             />
