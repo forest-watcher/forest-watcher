@@ -1,4 +1,5 @@
 // @flow
+import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 import type { State } from 'types/store.types';
 
@@ -16,4 +17,4 @@ export type OfflineMeta = {
   }
 }
 
-export type PersistRehydrate = { type: 'persist/REHYDRATE', payload: State };
+export type PersistRehydrate = { type: PERSIST_REHYDRATE, payload: State };

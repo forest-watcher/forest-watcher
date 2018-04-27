@@ -15,7 +15,7 @@ import { setExceptionHandlers, checkPrevCrashes } from './crashes';
 // GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
 function setCodePush() {
-  const codepushEnable = false; // !__DEV__
+  const codepushEnable = !__DEV__;
   if (codepushEnable) {
     const codePushOptions = {
       checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
