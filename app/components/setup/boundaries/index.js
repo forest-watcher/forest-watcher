@@ -13,7 +13,7 @@ import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 type Props = {
-  setSetupArea: (area: CountryArea, snapshot: string) => void,
+  setSetupArea: ({ area: CountryArea, snapshot: string }) => void,
   setupCountry: Country,
   onNextPress: () => void,
   contextualLayer: ContextualLayer
@@ -26,7 +26,7 @@ class SetupBoundaries extends Component<Props> {
   }
 
   onDrawAreaFinish = (area: CountryArea, snapshot: string) => {
-    this.props.setSetupArea(area, snapshot);
+    this.props.setSetupArea({ area, snapshot });
     return this.props.onNextPress();
   }
 

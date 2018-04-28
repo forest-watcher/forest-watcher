@@ -4,6 +4,7 @@ import type { RetrySync } from 'types/app.types';
 import type { GetAreaAlertsCommit } from 'types/alerts.types';
 import type { OfflineMeta, PersistRehydrate } from 'types/offline.types';
 import type { LogoutRequest } from 'types/user.types';
+import type { CountryArea } from 'types/setup.types';
 
 export type Geostore = {
   geojson: Object,
@@ -75,7 +76,7 @@ export type AreasAction =
 // Actions
 export type SaveAreaRequest = { type: 'areas/SAVE_AREA_REQUEST' };
 export type SaveAreaCommit = { type: 'areas/SAVE_AREA_COMMIT', payload: { id: string } };
-export type SaveAreaRollback = { type: 'areas/SAVE_AREA_ROLLBACK', payload: { id: string } };
+export type SaveAreaRollback = { type: 'areas/SAVE_AREA_ROLLBACK', payload: { id: string }, meta: { area: CountryArea, snapshot: string} };
 export type SetAreasRefreshing = { type: 'areas/SET_AREAS_REFRESHING', payload: boolean };
 export type GetAreasRequest = { type: 'areas/GET_AREAS_REQUEST' };
 export type GetAreasCommit = { type: 'areas/GET_AREAS_COMMIT', payload: [Area] };
