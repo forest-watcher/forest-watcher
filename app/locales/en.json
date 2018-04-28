@@ -530,6 +530,8 @@
         "gettingLatestAlerts": "Getting the latest alerts",
         "alertsUpdated": "Your alerts are up to date",
         "errorCreatingArea": "There was an error creating your area",
+        "reportUploaded": "Report sent",
+        "reportUploadRollback": "Report failed to upload",
         "title": {
             "updating": "Downloading data...",
             "offline": "You are offline",

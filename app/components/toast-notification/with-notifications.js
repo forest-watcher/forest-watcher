@@ -10,8 +10,8 @@ import I18n from 'locales';
 // Container
 function mapStateToProps(state: State) {
   return {
-    syncedAreas: (state.areas.synced && state.layers.synced && state.alerts.queue.length === 0),
-    errorAreaCreation: state.setup.error
+    // TODO: move this to the notifications saga when the entire get areas saga has finished
+    syncedAreas: (state.areas.synced && state.layers.synced && state.alerts.queue.length === 0)
   };
 }
 
@@ -20,8 +20,7 @@ function getDisplayName(Component) {
 }
 
 type Props = {
-  syncedAreas: boolean,
-  errorAreaCreation: boolean,
+  syncedAreas: boolean
 };
 
 function withNotifications(Component: any) {
@@ -34,20 +33,13 @@ function withNotifications(Component: any) {
     static navigatorButtons = Component.navigatorButtons;
 
     componentDidUpdate(prevProps) {
-      const { syncedAreas, errorAreaCreation } = this.props;
+      const { syncedAreas } = this.props;
       if (syncedAreas && syncedAreas !== prevProps.syncedAreas) {
         const notification = {
           type: Types.success,
           text: I18n.t('sync.alertsUpdated')
         };
         showNotification(notification);
-      }
-      if (errorAreaCreation && errorAreaCreation !== prevProps.errorAreaCreation) {
-        const notification = {
-          type: Types.error,
-          text: I18n.t('sync.errorCreatingArea')
-        };
-        showNotification(notification, true, 15);
       }
     }
 
