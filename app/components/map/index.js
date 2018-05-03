@@ -761,7 +761,7 @@ class Map extends Component {
           ref={(ref) => { this.map = ref; }}
           style={styles.map}
           provider={MapView.PROVIDER_GOOGLE}
-          mapType={'none'}
+          mapType="none"
           minZoomLevel={2}
           maxZoomLevel={18}
           rotateEnabled={false}
