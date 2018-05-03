@@ -9,7 +9,7 @@ import {
   Platform
 } from 'react-native';
 
-import CONSTANTS from 'config/constants';
+import { MAPS, AREAS } from 'config/constants';
 import MapView from 'react-native-maps';
 import gpsi from 'geojson-polygon-self-intersections';
 import { storeImage } from 'helpers/fileManagement';
@@ -62,7 +62,7 @@ class DrawAreas extends Component {
     super(props);
     const intialCoords = this.props.country && this.props.country.centroid
       ? this.props.country.centroid.coordinates
-      : [CONSTANTS.maps.lng, CONSTANTS.maps.lat];
+      : [MAPS.lng, MAPS.lat];
 
     this.state = {
       valid: true,
@@ -117,7 +117,7 @@ class DrawAreas extends Component {
           isValid = false;
         }
         const area = geojsonArea.geometry(geo);
-        if (area > CONSTANTS.areas.maxSize) {
+        if (area > AREAS.maxSize) {
           isHuge = true;
         }
       }
@@ -144,7 +144,7 @@ class DrawAreas extends Component {
   }
 
   setBoundaries = () => {
-    let boundaries = getGoogleMapsCoordinates(CONSTANTS.maps.bbox.coordinates[0]);
+    let boundaries = getGoogleMapsCoordinates(MAPS.bbox.coordinates[0]);
     const { coordinates } = this.state.shape;
     if (coordinates && coordinates.length > 1) {
       boundaries = coordinates;
@@ -221,7 +221,7 @@ class DrawAreas extends Component {
 
       isValid = (intersects && intersects.geometry && intersects.geometry.coordinates.length === 0);
       const area = geojsonArea.geometry(getGeoJson(shape.coordinates));
-      if (area > CONSTANTS.areas.maxSize) {
+      if (area > AREAS.maxSize) {
         isHuge = true;
       }
     }
@@ -260,12 +260,17 @@ class DrawAreas extends Component {
           ref={(ref) => { this.map = ref; }}
           style={styles.map}
           provider={MapView.PROVIDER_GOOGLE}
-          mapType="hybrid"
+          mapType="none"
           rotateEnabled={false}
           onPress={e => this.onMapPress(e)}
           moveOnMarkerPress={false}
           onLayout={this.setBoundaries}
         >
+          <MapView.UrlTile
+            key="basemapLayerElement"
+            urlTemplate={MAPS.basemap}
+            zIndex={-1}
+          />
           {contextualLayer && <MapView.UrlTile
             key={ctxLayerKey}
             urlTemplate={contextualLayer.url}
