@@ -14,6 +14,7 @@ import styles from './styles';
 
 type Props = {
   setSetupArea: ({ area: CountryArea, snapshot: string }) => void,
+  coordinates: Array<Array<number>>,
   setupCountry: Country,
   onNextPress: () => void,
   contextualLayer: ContextualLayer
@@ -35,6 +36,7 @@ class SetupBoundaries extends Component<Props> {
       <View style={styles.container}>
         <DrawAreas
           country={this.props.setupCountry}
+          coordinates={this.props.coordinates}
           onDrawAreaFinish={this.onDrawAreaFinish}
           contextualLayer={this.props.contextualLayer}
         />

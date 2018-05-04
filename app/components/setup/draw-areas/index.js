@@ -41,6 +41,7 @@ function parseCoordinates(coordinates) {
 }
 
 function getGoogleMapsCoordinates(coordinates) {
+  if (!coordinates) return [];
   return coordinates.map((cordinate) => ({
     latitude: cordinate[1],
     longitude: cordinate[0]
@@ -68,7 +69,7 @@ class DrawAreas extends Component {
       valid: true,
       huge: false,
       shape: {
-        coordinates: []
+        coordinates: getGoogleMapsCoordinates(props.coordinates)
       },
       region: {
         latitude: intialCoords[1],

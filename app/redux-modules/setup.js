@@ -26,7 +26,7 @@ const initialState = {
 export default function reducer(state: SetupState = initialState, action: SetupAction): SetupState {
   switch (action.type) {
     case INIT_SETUP: {
-      return initialState;
+      return { ...initialState, country: state.country };
     }
     case SET_COUNTRY: {
       if (typeof action.payload.centroid === 'string' && typeof action.payload.bbox === 'string') {
