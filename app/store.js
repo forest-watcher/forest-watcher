@@ -8,7 +8,7 @@ import Reactotron, { trackGlobalErrors, networking, openInEditor, asyncStorage }
 import sagaPlugin from 'reactotron-redux-saga';// eslint-disable-line
 import { reactotronRedux } from 'reactotron-redux'; // eslint-disable-line
 
-import { rootSaga } from './sagas';
+import { rootSaga } from 'sagas';
 
 if (__DEV__) {
   Reactotron

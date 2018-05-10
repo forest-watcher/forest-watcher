@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { isUnsafeLogout } from 'helpers/user';
 import { logout } from 'redux-modules/user';
-import withSuccessNotification from 'components/toast-notification/with-notifications';
 
 import Settings from 'components/settings';
 
@@ -24,4 +23,4 @@ const mapDispatchToProps = (dispatch: *) => bindActionCreators({ logout }, dispa
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withSuccessNotification(Settings));
+)(Settings);

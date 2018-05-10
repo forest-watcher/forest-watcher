@@ -26,27 +26,25 @@ class ToastNotification extends PureComponent<Props> {
   }
 }
 
-export const Types = {
+export const Types: { disable: string, error: string, success: string } = {
   disable: 'disable',
   error: 'error',
   success: 'success'
 };
 
 export function showNotification(notification: { type?: string, text: string, clearPrevious?: boolean, time?: number }) {
-  const { type, text = '', clearPrevious = true, time = 2 } = notification;
+  const { type, text, clearPrevious = true, time = 2 } = notification;
   if (clearPrevious) {
     Navigation.dismissInAppNotification();
   }
-  if (text) {
-    Navigation.showInAppNotification({
-      screen: 'ForestWatcher.ToastNotification',
-      passProps: {
-        type,
-        text
-      },
-      autoDismissTimerSec: time
-    });
-  }
+  Navigation.showInAppNotification({
+    screen: 'ForestWatcher.ToastNotification',
+    passProps: {
+      type,
+      text
+    },
+    autoDismissTimerSec: time
+  });
 }
 
 export default ToastNotification;

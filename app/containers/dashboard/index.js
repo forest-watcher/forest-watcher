@@ -8,7 +8,6 @@ import { updateApp, setPristineCacheTooltip } from 'redux-modules/app';
 import { createReport } from 'redux-modules/reports';
 import { isOutdated } from 'helpers/date';
 import { setAreasRefreshing, updateSelectedIndex } from 'redux-modules/areas';
-import withSuccessNotification from 'components/toast-notification/with-notifications';
 
 function mapStateToProps(state: State) {
   const areasOutdated = !state.areas.synced || isOutdated(state.areas.syncDate);
@@ -38,4 +37,4 @@ function mapDispatchToProps(dispatch: *) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withSuccessNotification(Dashboard));
+)(Dashboard);

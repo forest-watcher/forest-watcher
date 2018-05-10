@@ -1,33 +1,18 @@
 // @flow
-import { takeEvery } from 'redux-saga/effects';
-import { SAVE_AREA_ROLLBACK } from 'redux-modules/areas';
-import { UPLOAD_REPORT_COMMIT, UPLOAD_REPORT_ROLLBACK } from 'redux-modules/reports';
-import { Types, showNotification } from 'components/toast-notification';
-import I18n from 'locales';
+import { takeEvery, select } from 'redux-saga/effects';
+import i18n from 'locales';
+import notifications from 'notifications.config';
+import { showNotification } from 'components/toast-notification';
 
 export function* reportNotifications(): Generator<*, *, *> {
-  function sendNotification(action) {
-    const notification = {};
-    switch (action.type) {
-      case UPLOAD_REPORT_COMMIT:
-        notification.type = Types.success;
-        notification.text = I18n.t('sync.reportUploaded');
-        break;
-      case UPLOAD_REPORT_ROLLBACK:
-        notification.type = Types.error;
-        notification.text = I18n.t('sync.reportUploadRollback');
-        break;
-      case SAVE_AREA_ROLLBACK:
-        notification.type = Types.error;
-        notification.text = I18n.t('sync.errorCreatingArea');
-        notification.time = 15;
-        break;
-
-      default:
-        break;
+  function* sendNotification(action) {
+    const state = yield select();
+    // we don't have to check whether notifications[action.type] is defined because action
+    // already depends on Object.keys(notifications)
+    const { check, text, ...notification } = notifications[action.type];
+    if ((typeof check === 'function' && check(state)) || typeof check === 'undefined') {
+      showNotification({ ...notification, text: i18n.t(text) });
     }
-    showNotification(notification);
   }
-  const actionsToNotify = [UPLOAD_REPORT_COMMIT, UPLOAD_REPORT_ROLLBACK, SAVE_AREA_ROLLBACK];
-  yield takeEvery(actionsToNotify, sendNotification);
+  yield takeEvery(Object.keys(notifications), sendNotification);
 }

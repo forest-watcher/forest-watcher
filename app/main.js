@@ -3,7 +3,7 @@ import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
 import Theme from 'config/theme';
 import { registerScreens } from 'screens';
-import createStore from './store';
+import createStore from 'store';
 
 
 import { setExceptionHandlers, checkPrevCrashes } from './crashes';
