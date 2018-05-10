@@ -39,6 +39,7 @@ function sortReports(reports) {
 
 function mapStateToProps(state) {
   return {
+    isConnected: state.offline.online,
     reports: getReports(state.reports.list),
     stateReports: state.reports,
     form: state.form

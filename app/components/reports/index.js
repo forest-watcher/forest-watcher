@@ -81,14 +81,19 @@ class Reports extends Component {
     this.props.finish(reportName);
   }
 
-  getCompleted = (completed) => (
-    <View style={styles.listContainer}>
-      <View style={styles.listHeader}>
-        <Text style={styles.listTitle}>{I18n.t('report.completed')}</Text>
+  getCompleted = (completed) => {
+    const { isConnected } = this.props;
+    const onClick = isConnected ? this.onClickUpload : this.onClickNext;
+    const icon = isConnected ? uploadIcon : nextIcon;
+    return (
+      <View style={styles.listContainer}>
+        <View style={styles.listHeader}>
+          <Text style={styles.listTitle}>{I18n.t('report.completed')}</Text>
+        </View>
+        {getItems(completed, icon, onClick)}
       </View>
-      {getItems(completed, uploadIcon, this.onClickUpload)}
-    </View>
-  );
+    );
+  }
 
   getDrafts(drafts) {
     const onActionPress = (reportName) => {
