@@ -14,7 +14,7 @@ import styles from './styles';
 
 
 function AlertPosition(props) {
-  const { alertSelected, lastPosition, coordinatesFormat } = props;
+  const { alertSelected, lastPosition, coordinatesFormat, kmThreshold } = props;
 
   let distanceText = '';
   let positionText = '';
@@ -29,8 +29,14 @@ function AlertPosition(props) {
         .format('FFf', { latLonSeparator: ', ', decimalPlaces: 2 });
       positionText = `${I18n.t('commonText.yourPosition')}: ${degrees}`;
     }
-    distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);
-    distanceText = `${distance} ${I18n.t('commonText.kmAway')}`; // in Kilometers
+    const meters = (currentPoint.distanceTo(geoPoint, true) * 1000); // in meters
+    distance = meters.toFixed(0);
+    distanceText = `${distance} ${I18n.t('commonText.metersAway')}`;
+
+    if (kmThreshold && meters >= (kmThreshold * 1000)) {
+      distance = (meters / 1000).toFixed(1); // in Kilometers
+      distanceText = `${distance} ${I18n.t('commonText.kmAway')}`;
+    }
   }
 
   return (
