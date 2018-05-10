@@ -30,7 +30,7 @@ import { getAllNeighbours } from 'helpers/map';
 import tracker from 'helpers/googleAnalytics';
 import clusterGenerator from 'helpers/clusters-generator';
 import Theme from 'config/theme';
-import I18n from 'locales';
+import i18n from 'locales';
 import styles from './styles';
 
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
@@ -283,7 +283,7 @@ class Map extends Component {
     const { selectedAlerts } = this.state;
     const { navigator, coordinatesFormat } = this.props;
     const last = selectedAlerts.length - 1;
-    let headerText = I18n.t('dashboard.map');
+    let headerText = i18n.t('dashboard.map');
     if (selectedAlerts && selectedAlerts.length > 0) {
       const lat = selectedAlerts[last].latitude;
       const lng = selectedAlerts[last].longitude;
@@ -567,7 +567,7 @@ class Map extends Component {
             left
             icon="reportSingle"
             style={[styles.footerButton, styles.footerButton1]}
-            text={I18n.t('report.selected').toUpperCase()}
+            text={i18n.t('report.selected').toUpperCase()}
             onPress={this.reportSelection}
           />,
           <ActionBtn
@@ -576,14 +576,14 @@ class Map extends Component {
             monochrome
             icon="reportArea"
             style={[styles.footerButton, styles.footerButton2, styles.footerReport]}
-            text={I18n.t('report.area').toUpperCase()}
+            text={i18n.t('report.area').toUpperCase()}
             onPress={this.reportArea}
           />
         ]
         : (
           <ActionBtn
             style={styles.footerButton}
-            text={I18n.t('report.title').toUpperCase()}
+            text={i18n.t('report.title').toUpperCase()}
             onPress={this.reportSelection}
           />
         );
@@ -607,7 +607,7 @@ class Map extends Component {
             style={[styles.geoLocation, { opacity: this.state.geoMarkerOpacity }]}
           />
         </View>
-        <Text style={styles.signalNoticeText}>{I18n.t('alerts.satelliteSignal')}</Text>
+        <Text style={styles.signalNoticeText}>{i18n.t('alerts.satelliteSignal')}</Text>
       </View>
     );
   }
