@@ -20,8 +20,8 @@ export type Geostore = {
 export type Dataset = {
   slug: string,
   name: string,
-  startDate: string,
-  endDate: string,
+  startDate: number,
+  endDate: number,
   lastUpdate: number,
   _id: string,
   active: boolean,

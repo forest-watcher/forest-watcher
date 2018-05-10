@@ -16,7 +16,7 @@ import styles from './styles';
 type Props = {
   area: Area,
   setAreaDatasetStatus: (id: string, slug: string, value: boolean) => void,
-  updateDate: (id: string, slug: string, date: number) => void
+  updateDate: (id: string, slug: string, date: { startDate: number }) => void
 };
 
 class AlertSystem extends React.PureComponent<Props> {
