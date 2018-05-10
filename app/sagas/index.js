@@ -5,13 +5,16 @@ import { reportNotifications } from './notifications';
 import { resetSetupOnAreaCreation } from './areas';
 
 const sagas = [
-  logLastActions,
   setActiveAlerts,
   getAlertsOnAreasCommit,
   getAlertsOnAreaCreation,
   reportNotifications,
   resetSetupOnAreaCreation
 ];
+
+if (!__DEV__) {
+  sagas.push(logLastActions);
+}
 
 export function* rootSaga() {
   yield all(sagas.map(saga => fork(saga)));

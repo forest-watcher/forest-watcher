@@ -147,8 +147,8 @@ class Dashboard extends PureComponent<Props> {
   getPristine = (): boolean => (this.props.pristine)
 
   checkNeedsUpdate() {
-    const { needsUpdate, updateApp, isConnected } = this.props;
-    if (needsUpdate && isConnected) {
+    const { needsUpdate, updateApp } = this.props;
+    if (needsUpdate) {
       updateApp();
       const notification = {
         text: I18n.t('sync.gettingLatestAlerts')
