@@ -7,8 +7,8 @@
     [
       "module-resolver",
       {
+        "root": ["./app"],
         "alias": {
-          "app": "./app",
           "screens": "./app/screens",
           "locales": "./app/locales",
           "config": "./app/config",

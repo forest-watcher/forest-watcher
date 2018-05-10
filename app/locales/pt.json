@@ -528,17 +528,19 @@
         "errorDesc": "Algo correu mal",
         "tryAgain": "Tente novamente",
         "gettingLatestAlerts": "Getting the latest alerts",
-        "alertsUpdated": "Your alerts are up to date",
+        "alertsUpdated": "Your areas are up to date",
         "errorCreatingArea": "There was an error creating your area",
+        "reportUploaded": "Report sent",
+        "reportUploadRollback": "Report failed to upload",
         "title": {
-            "wifi": "Atualizando dados ...",
+            "updating": "Downloading data...",
             "offline": "Está offline",
-            "updated": "Atualização concluída"
+            "updated": "Download Completed!"
         },
         "subtitle": {
-            "wifi": "Esse processo pode levar vários minutos",
+            "updating": "We are getting your phone ready for the field",
             "offline": "Você precisa de uma conexão com a internet para atualizar seus dados",
-            "updated": "Os dados foram atualizados com sucesso!"
+            "updated": "We are ready to go!"
         },
         "ok": "OK",
         "skip": "pular",

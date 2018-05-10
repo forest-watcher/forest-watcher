@@ -10,7 +10,11 @@ import SetupBoundaries from 'components/setup/boundaries';
 
 function mapStateToProps(state: State) {
   const contextualLayer = getContextualLayer(state.layers);
+  const coordinates = state.setup.area.geojson
+    ? state.setup.area.geojson.coordinates[0]
+    : [];
   return {
+    coordinates,
     contextualLayer,
     user: state.user.data,
     countries: state.countries.data,

@@ -26,14 +26,14 @@ class ToastNotification extends PureComponent<Props> {
   }
 }
 
-export const Types = {
+export const Types: { disable: string, error: string, success: string } = {
   disable: 'disable',
   error: 'error',
   success: 'success'
 };
 
-export function showNotification(params: { type?: string, text: string }, clearPrevious: boolean = true, time: number = 2) {
-  const { type, text } = params;
+export function showNotification(notification: { type?: string, text: string, clearPrevious?: boolean, time?: number }) {
+  const { type, text, clearPrevious = true, time = 2 } = notification;
   if (clearPrevious) {
     Navigation.dismissInAppNotification();
   }

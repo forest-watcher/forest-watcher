@@ -528,17 +528,19 @@
         "errorDesc": "Ada yang salah",
         "tryAgain": "Coba lagi",
         "gettingLatestAlerts": "Getting the latest alerts",
-        "alertsUpdated": "Your alerts are up to date",
+        "alertsUpdated": "Your areas are up to date",
         "errorCreatingArea": "There was an error creating your area",
+        "reportUploaded": "Report sent",
+        "reportUploadRollback": "Report failed to upload",
         "title": {
-            "wifi": "Memperbarui data ...",
+            "updating": "Downloading data...",
             "offline": "Anda sedang offline",
-            "updated": "Pembaruan selesai!"
+            "updated": "Download Completed!"
         },
         "subtitle": {
-            "wifi": "Proses ini bisa memakan waktu beberapa menit",
+            "updating": "We are getting your phone ready for the field",
             "offline": "Anda memerlukan koneksi internet untuk mengupdate data Anda",
-            "updated": "Data berhasil diperbarui"
+            "updated": "We are ready to go!"
         },
         "ok": "ok",
         "skip": "Lewati",

@@ -21,8 +21,7 @@ class SetupOverview extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: this.props.area ? this.props.area.name : '',
-      saving: false
+      name: this.props.area ? this.props.area.name : ''
     };
   }
 
@@ -31,8 +30,6 @@ class SetupOverview extends Component {
   }
 
   onNextPress = async () => {
-    this.setState({ saving: true });
-
     const params = {
       area: {
         name: this.state.name,
@@ -40,6 +37,7 @@ class SetupOverview extends Component {
       },
       snapshot: this.props.snapshot
     };
+    this.props.setSetupArea(params);
     this.props.saveArea(params);
     this.props.onNextPress();
   }
@@ -109,6 +107,7 @@ SetupOverview.propTypes = {
   area: PropTypes.object.isRequired,
   snapshot: PropTypes.string.isRequired,
   saveArea: PropTypes.func.isRequired,
+  setSetupArea: PropTypes.func.isRequired,
   onNextPress: PropTypes.func.isRequired,
   onTextFocus: PropTypes.func,
   onTextBlur: PropTypes.func

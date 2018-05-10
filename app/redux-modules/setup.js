@@ -3,7 +3,7 @@ import type { SetupState, SetupAction, CountryArea } from 'types/setup.types';
 import type { Country } from 'types/countries.types';
 
 // Actions
-import { SAVE_AREA_REQUEST, SAVE_AREA_COMMIT, SAVE_AREA_ROLLBACK } from 'redux-modules/areas';
+import { SAVE_AREA_ROLLBACK } from 'redux-modules/areas';
 
 const INIT_SETUP = 'setup/INIT_SETUP';
 const SET_COUNTRY = 'setup/SET_COUNTRY';
@@ -26,7 +26,7 @@ const initialState = {
 export default function reducer(state: SetupState = initialState, action: SetupAction): SetupState {
   switch (action.type) {
     case INIT_SETUP: {
-      return initialState;
+      return { ...initialState, country: state.country };
     }
     case SET_COUNTRY: {
       if (typeof action.payload.centroid === 'string' && typeof action.payload.bbox === 'string') {
@@ -44,15 +44,9 @@ export default function reducer(state: SetupState = initialState, action: SetupA
       const { area, snapshot } = action.payload;
       return { ...state, area, snapshot };
     }
-    case SAVE_AREA_REQUEST: {
-      return { ...state, error: false };
-    }
-    case SAVE_AREA_COMMIT: {
-      const area = { ...state.area, id: action.payload.id };
-      return { ...state, area };
-    }
     case SAVE_AREA_ROLLBACK: {
-      return { ...state, error: true };
+      const { area, snapshot } = action.meta;
+      return { ...state, area, snapshot };
     }
     default:
       return state;
@@ -72,7 +66,8 @@ export function setSetupCountry(country: Country): SetupAction {
   };
 }
 
-export function setSetupArea(area: CountryArea, snapshot: string): SetupAction {
+export function setSetupArea(setup: { area: CountryArea, snapshot: string }): SetupAction {
+  const { area, snapshot } = setup;
   return {
     type: SET_AOI,
     payload: {
