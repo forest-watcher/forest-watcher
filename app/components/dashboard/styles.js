@@ -20,6 +20,7 @@ export default StyleSheet.create({
   textMyReports: {
     fontWeight: '400',
     fontSize: 17,
+    fontFamily: Theme.font,
     color: Theme.fontColors.secondary
   },
   list: {
