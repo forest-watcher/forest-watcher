@@ -11,6 +11,7 @@ import {
   Alert
 } from 'react-native';
 
+import { version } from 'package.json'; // eslint-disable-line
 import Theme from 'config/theme';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
@@ -194,13 +195,13 @@ class Settings extends Component {
             <Text style={styles.label}>
               {I18n.t('settings.aboutApp')}
             </Text>
-
             <List content={aboutSections} bigSeparation={false}>{}</List>
-
-            <Text style={[styles.label, styles.footerText]}>
-              {I18n.t('commonText.appName')}
-            </Text>
-
+            <View style={styles.footerText}>
+              <Text style={[styles.label, { marginLeft: 0 }]}>
+                {I18n.t('commonText.appName')}
+              </Text>
+              <Text style={styles.versionText}>v{version}</Text>
+            </View>
           </View>
         </ScrollView>
       </View>
