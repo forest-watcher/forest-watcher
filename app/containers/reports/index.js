@@ -1,3 +1,6 @@
+// @flow
+import type { State } from 'types/store.types';
+
 import { connect } from 'react-redux';
 import { uploadReport } from 'redux-modules/reports';
 import { setCanDisplayAlerts } from 'redux-modules/alerts';
@@ -37,7 +40,7 @@ function sortReports(reports) {
   return sorted;
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: State) {
   return {
     isConnected: state.offline.online,
     reports: getReports(state.reports.list),
