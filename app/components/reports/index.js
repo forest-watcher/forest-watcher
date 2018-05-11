@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+
+import React, { PureComponent } from 'react';
 import {
   View,
   Text,
@@ -15,35 +16,24 @@ import styles from './styles';
 
 const editIcon = require('assets/edit.png');
 const nextIcon = require('assets/next.png');
-const uploadIcon = require('assets/upload.png');
 
-function getItems(data, image, onPress) {
-  return data.map((item, index) => {
-    let positionParsed = '';
-    if (item.position) {
-      const latLng = item.position.split(',');
-      if (latLng && latLng.length > 1) {
-        positionParsed = `${parseFloat(latLng[0]).toFixed(4)}, ${parseFloat(latLng[1]).toFixed(4)}`;
-      }
-    }
-    const dateParsed = moment(item.date).fromNow();
-    const action = {
-      icon: image,
-      callback: () => onPress(item.title)
-    };
-    return (
-      <Row key={index + item.title} rowStyle={{ height: 120 }} action={action}>
-        <View style={styles.listItem}>
-          <Text style={styles.itemTitle}>{item.title}</Text>
-          <Text style={styles.itemText}>{positionParsed}</Text>
-          <Text style={styles.itemText}>{dateParsed}</Text>
-        </View>
-      </Row>
-    );
-  });
-}
+type ReportItem = {
+  title: string,
+  date: string
+};
 
-class Reports extends Component {
+type Props = {
+  navigator: any,
+  reports: {
+    draft: Array<ReportItem>,
+    uploaded: Array<ReportItem>,
+    complete: Array<ReportItem>
+  },
+  getLastStep: string => number,
+  finish: () => void
+};
+
+class Reports extends PureComponent<Props> {
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color1,
     navBarButtonColor: Theme.colors.color1,
@@ -51,44 +41,74 @@ class Reports extends Component {
     navBarBackgroundColor: Theme.background.main
   };
 
-  static propTypes = {
-    navigator: PropTypes.object.isRequired,
-    reports: PropTypes.shape({
-      draft: PropTypes.array,
-      uploaded: PropTypes.array,
-      complete: PropTypes.array
-    }).isRequired,
-    getLastStep: PropTypes.func.isRequired,
-    finish: PropTypes.func.isRequired
-  };
+  static getItems(data: Array<ReportItem>, image: any, onPress: string => void) {
+    return data.map((item, index) => {
+      let positionParsed = '';
+      if (item.position) {
+        const latLng = item.position.split(',');
+        if (latLng && latLng.length > 1) {
+          positionParsed = `${parseFloat(latLng[0]).toFixed(4)}, ${parseFloat(latLng[1]).toFixed(4)}`;
+        }
+      }
+      const dateParsed = moment(item.date).fromNow();
+      const action = {
+        icon: image,
+        callback: () => onPress(item.title)
+      };
+      return (
+        <Row key={index + item.title} rowStyle={{ height: 120 }} action={action}>
+          <View style={styles.listItem}>
+            <Text style={styles.itemTitle}>{item.title}</Text>
+            <Text style={styles.itemText}>{positionParsed}</Text>
+            <Text style={styles.itemText}>{dateParsed}</Text>
+          </View>
+        </Row>
+      );
+    });
+  }
+
+  static renderSection(title: string, ...options: [Array<ReportItem>, any, string => void]) {
+    return (
+      <View style={styles.listContainer}>
+        <View style={styles.listHeader}>
+          <Text style={styles.listTitle}>{I18n.t(title)}</Text>
+        </View>
+        {Reports.getItems(...options)}
+      </View>
+    );
+  }
 
   componentDidMount() {
     tracker.trackScreenView('Reports');
   }
 
-  onClickNext = (reportName) => {
-    this.props.navigator.push({
-      title: 'Review report',
-      screen: 'ForestWatcher.Answers',
-      passProps: {
-        form: reportName,
-        readOnly: true
-      }
-    });
+  onClickNext = (reportName: string) => this.props.navigator.push({
+    title: 'Review report',
+    screen: 'ForestWatcher.Answers',
+    passProps: {
+      form: reportName,
+      readOnly: true
+    }
+  });
+
+  onClickUpload = (reportName: string) => this.props.navigator.push({
+    title: 'Review report',
+    screen: 'ForestWatcher.Answers',
+    passProps: {
+      form: reportName,
+      readOnly: true,
+      showUploadButton: true,
+      finish: this.props.finish
+    }
+  });
+
+  getCompleted(completed) {
+    return Reports.renderSection('report.completed', completed, nextIcon, this.onClickUpload);
   }
 
-  onClickUpload = (reportName) => {
-    this.props.finish(reportName);
+  getUploaded(uploaded) {
+    return Reports.renderSection('report.uploaded', uploaded, nextIcon, this.onClickNext);
   }
-
-  getCompleted = (completed) => (
-    <View style={styles.listContainer}>
-      <View style={styles.listHeader}>
-        <Text style={styles.listTitle}>{I18n.t('report.completed')}</Text>
-      </View>
-      {getItems(completed, uploadIcon, this.onClickUpload)}
-    </View>
-  );
 
   getDrafts(drafts) {
     const onActionPress = (reportName) => {
@@ -122,24 +142,9 @@ class Reports extends Component {
         });
       }
     };
-    return (
-      <View style={styles.listContainer}>
-        <View style={styles.listHeader}>
-          <Text style={styles.listTitle}>{I18n.t('report.drafts')}</Text>
-        </View>
-        {getItems(drafts, editIcon, onActionPress)}
-      </View>
-    );
-  }
 
-  getUploaded = (uploaded) => (
-    <View style={styles.listContainer}>
-      <View style={styles.listHeader}>
-        <Text style={styles.listTitle}>{I18n.t('report.uploaded')}</Text>
-      </View>
-      {getItems(uploaded, nextIcon, this.onClickNext)}
-    </View>
-  );
+    return Reports.renderSection('report.drafts', drafts, editIcon, onActionPress);
+  }
 
   render() {
     const { complete, draft, uploaded } = this.props.reports;

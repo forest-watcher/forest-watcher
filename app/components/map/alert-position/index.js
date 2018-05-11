@@ -1,5 +1,6 @@
+// @flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import I18n from 'locales';
 import {
   View,
@@ -12,8 +13,15 @@ import { COORDINATES_FORMATS } from 'config/constants';
 
 import styles from './styles';
 
+type Coordinates = { latitude: number, longitude: number }; // eslint-disable-line
+type Props = {
+  alertSelected: Coordinates,
+  lastPosition: Coordinates,
+  coordinatesFormat: 'decimal' | 'degrees',
+  kmThreshold: number
+};
 
-function AlertPosition(props) {
+function AlertPosition(props: Props) {
   const { alertSelected, lastPosition, coordinatesFormat, kmThreshold } = props;
 
   let distanceText = '';
@@ -52,11 +60,5 @@ function AlertPosition(props) {
     </View>
   );
 }
-
-AlertPosition.propTypes = {
-  alertSelected: PropTypes.object,
-  lastPosition: PropTypes.object,
-  coordinatesFormat: PropTypes.string
-};
 
 export default AlertPosition;

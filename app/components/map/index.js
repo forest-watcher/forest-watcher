@@ -162,7 +162,6 @@ class Map extends Component {
       !isEqual(nextProps.areaCoordinates, this.props.areaCoordinates),
       !isEqual(nextProps.area, this.props.area),
       nextProps.canDisplayAlerts !== this.props.canDisplayAlerts,
-      nextProps.area.dataset !== this.props.area.dataset,
       !isEqual(nextProps.center, this.props.center),
       !isEqual(nextProps.contextualLayer, this.props.contextualLayer),
       nextState.renderMap !== this.state.renderMap,
