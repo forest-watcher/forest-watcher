@@ -1,5 +1,6 @@
+// @flow
+
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import {
   Alert,
   View,
@@ -7,10 +8,12 @@ import {
   WebView,
   TouchableHighlight,
   ScrollView,
-  Image
+  Image,
+  ActivityIndicator
 } from 'react-native';
 
 import Config from 'react-native-config';
+// $FlowFixMe
 import { version } from 'package.json' // eslint-disable-line
 import Theme from 'config/theme';
 import I18n from 'locales';
@@ -33,12 +36,45 @@ const nextIcon = require('assets/next_white.png');
 // Set global moment internationalization
 moment.locale(getLanguage());
 
-class Login extends PureComponent {
+type Props = {
+  loggedIn: boolean,
+  logSuccess: boolean,
+  logout: () => void,
+  isConnected: boolean,
+  facebookLogin: () => void,
+  googleLogin: () => void,
+  setLoginAuth: ({ token: string, socialNetwork: ?string, loggedIn: boolean }) => void,
+  navigator: any
+};
+
+type State = {
+  webviewVisible: boolean,
+  webViewUrl: string,
+  webViewCurrenUrl: string,
+  webViewStatus: ?string,
+  socialNetwork: ?string
+}
+
+class Login extends PureComponent<Props, State> {
   static navigatorStyle = {
     navBarHidden: true
   };
 
-  constructor(props) {
+  static renderLoading() {
+    return (
+      <View style={[styles.loaderContainer, styles.loader]}>
+        <ActivityIndicator
+          color={Theme.colors.color1}
+          style={{ height: 80 }}
+          size="large"
+        />
+      </View>
+    );
+  }
+
+  webView: any;
+
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -48,15 +84,13 @@ class Login extends PureComponent {
       webViewStatus: null,
       socialNetwork: null
     };
-    this.onLoadEnd = this.onLoadEnd.bind(this);
-    this.onNavigationStateChange = this.onNavigationStateChange.bind(this);
   }
 
   componentDidMount() {
     tracker.trackScreenView('Login');
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.loggedIn) this.onLoggedIn();
 
     if (prevProps.logSuccess !== this.props.logSuccess || prevProps.isConnected !== this.props.isConnected) {
@@ -64,11 +98,11 @@ class Login extends PureComponent {
     }
   }
 
-  setWebviewRef = (ref) => {
+  setWebviewRef = (ref: any) => {
     this.webView = ref;
   }
 
-  onLoadEnd() {
+  onLoadEnd = () => {
     if (this.state.webViewCurrenUrl.indexOf(Config.API_AUTH_CALLBACK_URL) !== -1) {
       let token = this.state.webViewCurrenUrl.match(/token[=](.*)/);
 
@@ -85,7 +119,7 @@ class Login extends PureComponent {
     }
   }
 
-  onPress(socialNetwork) {
+  onPress(socialNetwork: string) {
     if (this.props.isConnected) {
       this.setState({ socialNetwork });
       const provider = {
@@ -103,7 +137,7 @@ class Login extends PureComponent {
     );
   }
 
-  onNavigationStateChange(navState) {
+  onNavigationStateChange = (navState: { url: string, title: string }) => {
     this.setState({
       webViewCurrenUrl: navState.url,
       webViewStatus: navState.title
@@ -137,7 +171,7 @@ class Login extends PureComponent {
     });
   }
 
-  webViewProvider = (socialNetwork) => {
+  webViewProvider = (socialNetwork: string) => {
     const url = `${Config.API_AUTH}/auth/${socialNetwork}?token=true&callbackUrl=${Config.API_AUTH_CALLBACK_URL}`;
     this.setState({
       socialNetwork,
@@ -189,6 +223,7 @@ class Login extends PureComponent {
       this.state.webviewVisible
         ? this.renderWebview()
         : <ScrollView style={styles.container}>
+          {this.props.loading && Login.renderLoading()}
           <View style={styles.intro}>
             <Image
               style={styles.logo}
@@ -261,16 +296,5 @@ class Login extends PureComponent {
     );
   }
 }
-
-Login.propTypes = {
-  loggedIn: PropTypes.bool.isRequired,
-  logSuccess: PropTypes.bool.isRequired,
-  logout: PropTypes.func.isRequired,
-  isConnected: PropTypes.bool.isRequired,
-  facebookLogin: PropTypes.func.isRequired,
-  googleLogin: PropTypes.func.isRequired,
-  setLoginAuth: PropTypes.func.isRequired,
-  navigator: PropTypes.object.isRequired
-};
 
 export default Login;

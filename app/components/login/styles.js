@@ -173,5 +173,19 @@ export default StyleSheet.create({
     color: Theme.fontColors.main,
     fontSize: 14,
     textAlign: 'center'
+  },
+  loaderContainer: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    position: 'absolute',
+    zIndex: 5
+  },
+  loader: {
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
