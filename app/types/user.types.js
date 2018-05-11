@@ -10,7 +10,8 @@ export type UserState = {
   socialNetwork: ?string,
   logSuccess: boolean,
   synced: boolean,
-  syncing: boolean
+  syncing: boolean,
+  loading: boolean
 }
 
 export type UserAction =
@@ -19,6 +20,7 @@ export type UserAction =
   | GetUserRollback
   | SetLoginAuth
   | SetLoginStatus
+  | SetLoginLoading
   | LogoutRequest;
 
 type User = {};
@@ -42,3 +44,7 @@ export type SetLoginStatus = {
 export type LogoutRequest = {
   type: 'user/LOGOUT_REQUEST'
 }
+export type SetLoginLoading = {
+  type: 'user/SET_LOGIN_LOADING',
+  payload: boolean
+};

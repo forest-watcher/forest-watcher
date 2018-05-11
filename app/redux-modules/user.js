@@ -17,6 +17,7 @@ const GET_USER_ROLLBACK = 'user/GET_USER_ROLLBACK';
 const SET_LOGIN_AUTH = 'user/SET_LOGIN_AUTH';
 const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
 export const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
+const SET_LOGIN_LOADING = 'user/SET_LOGIN_LOADING';
 
 // Reducer
 const initialState = {
@@ -27,7 +28,8 @@ const initialState = {
   socialNetwork: null,
   logSuccess: true,
   synced: false,
-  syncing: false
+  syncing: false,
+  loading: false
 };
 
 export default function reducer(state: UserState = initialState, action: UserAction): UserState {
@@ -48,6 +50,10 @@ export default function reducer(state: UserState = initialState, action: UserAct
     case SET_LOGIN_STATUS: {
       const logSuccess = action.payload;
       return { ...state, logSuccess };
+    }
+    case SET_LOGIN_LOADING: {
+      const loading = action.payload;
+      return { ...state, loading };
     }
     case LOGOUT_REQUEST:
       return {
@@ -87,8 +93,10 @@ export function googleLogin() {
   return async (dispatch: Dispatch) => {
     try {
       const user = await authorize(oAuth.google);
+      dispatch({ type: SET_LOGIN_LOADING, payload: true });
       try {
         const response = await fetch(`${Config.API_AUTH}/auth/google/token?access_token=${user.accessToken}`);
+        dispatch({ type: SET_LOGIN_LOADING, payload: false });
         if (!response.ok) throw new Error(response.statusText);
         const data = await response.json();
         dispatch({
@@ -101,6 +109,7 @@ export function googleLogin() {
           }
         });
       } catch (e) {
+        dispatch({ type: SET_LOGIN_LOADING, payload: false });
         dispatch(logout());
       }
     } catch (e) {
