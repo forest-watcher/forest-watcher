@@ -129,7 +129,7 @@ class Map extends Component {
       renderMap: false,
       lastPosition: null,
       hasCompass: false,
-      compassFallback: null,
+      compassLine: null,
       heading: null,
       geoMarkerOpacity: new Animated.Value(0.3),
       region: {
@@ -173,15 +173,9 @@ class Map extends Component {
       !isEqual(nextState.markers, this.state.markers),
       !isEqual(nextState.selectedAlerts, this.state.selectedAlerts),
       !isEqual(nextState.neighbours, this.state.neighbours),
-      !isEqual(nextState.compassFallback, this.state.compassFallback)
+      !isEqual(nextState.compassLine, this.state.compassLine)
     ];
     return conditions.includes(true);
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    if (this.state.selectedAlerts !== nextState.selectedAlerts && this.state.lastPosition !== null) {
-      this.setCompassLine();
-    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -204,6 +198,14 @@ class Map extends Component {
     }
     if (this.state.selectedAlerts !== prevState.selectedAlerts) {
       this.setHeaderTitle();
+    }
+
+    const updateCompassLine = [
+      this.state.lastPosition !== prevState.lastPosition,
+      this.state.selectedAlerts !== prevState.selectedAlerts
+    ];
+    if (updateCompassLine.includes(true)) {
+      this.setCompassLine();
     }
   }
 
@@ -270,10 +272,10 @@ class Map extends Component {
         // extract not needed props
         // eslint-disable-next-line no-unused-vars
         const { accuracy, altitude, speed, course, ...rest } = this.state.lastPosition;
-        state.compassFallback = [{ ...rest }, { ...this.state.selectedAlerts[last] }];
+        state.compassLine = [{ ...rest }, { ...this.state.selectedAlerts[last] }];
       }
-      if (prevState.compassFallback !== null && prevState.selectedAlerts.length === 0) {
-        state.compassFallback = null;
+      if (prevState.compassLine !== null && prevState.selectedAlerts.length === 0) {
+        state.compassLine = null;
       }
       return state;
     });
@@ -412,8 +414,8 @@ class Map extends Component {
       throttle((location) => {
         const coords = typeof location.coords !== 'undefined' ? location.coords : location;
         const { lastPosition } = this.state;
-        if (lastPosition && lastPosition.latitude !== coords.latitude &&
-          lastPosition.longitude !== coords.longitude) {
+        if (lastPosition && (lastPosition.latitude !== coords.latitude ||
+          lastPosition.longitude !== coords.longitude)) {
           this.setState({ lastPosition: {
             latitude: coords.latitude,
             longitude: coords.longitude
@@ -613,11 +615,11 @@ class Map extends Component {
   }
 
   render() {
-    const { hasCompass, lastPosition, compassFallback,
+    const { lastPosition, compassLine,
             selectedAlerts, neighbours, heading, markers } = this.state;
     const { areaCoordinates, datasetSlug, contextualLayer,
             basemapLocalTilePath, isConnected, ctxLayerLocalTilePath, coordinatesFormat } = this.props;
-    const showCompassFallback = !hasCompass && lastPosition && selectedAlerts && compassFallback;
+    const showCompassLine = lastPosition && selectedAlerts && compassLine;
     const lastAlertIndex = selectedAlerts.length - 1;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
     const hasNeighbours = neighbours && neighbours.length > 0;
@@ -665,10 +667,10 @@ class Map extends Component {
           />
         )
       : null;
-    const compassFallbackElement = showCompassFallback ? (
+    const compassLineElement = showCompassLine ? (
       <MapView.Polyline
-        key="compassFallbackElement"
-        coordinates={compassFallback}
+        key="compassLineElement"
+        coordinates={compassLine}
         strokeColor={Theme.colors.color5}
         strokeWidth={2}
         zIndex={2}
@@ -773,7 +775,7 @@ class Map extends Component {
           {basemapLayerElement}
           {contextualLayerElement}
           {clustersElement}
-          {compassFallbackElement}
+          {compassLineElement}
           {areaPolygonElement}
           {userPositionElement}
           {compassElement}
