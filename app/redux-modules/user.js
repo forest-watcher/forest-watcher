@@ -61,7 +61,8 @@ export default function reducer(state: UserState = initialState, action: UserAct
         token: null,
         synced: false,
         loggedIn: false,
-        oAuthToken: null
+        oAuthToken: null,
+        socialNetwork: null
       };
     default:
       return state;
@@ -110,7 +111,7 @@ export function googleLogin() {
         });
       } catch (e) {
         dispatch({ type: SET_LOGIN_LOADING, payload: false });
-        dispatch(logout());
+        dispatch(logout('google'));
       }
     } catch (e) {
       // very brittle approach but only way to know currently
@@ -129,20 +130,24 @@ export function facebookLogin() {
       const result = await LoginManager.logInWithReadPermissions(oAuth.facebook);
       if (!result.isCancelled) {
         try {
-          const data = await AccessToken.getCurrentAccessToken();
-          console.warn(data.accessToken);
-          // TODO: implement GFW API login here when available
+          const user = await AccessToken.getCurrentAccessToken();
+          console.warn(user.accessToken);
+          const response = await fetch(`${Config.API_AUTH}/auth/facebook/token?access_token=${user.accessToken}`);
+          dispatch({ type: SET_LOGIN_LOADING, payload: false });
+          if (!response.ok) throw new Error(response.statusText);
+          const data = await response.json();
           dispatch({
             type: SET_LOGIN_AUTH,
             payload: {
               loggedIn: true,
               socialNetwork: 'facebook',
-              oAuthToken: data.accessToken,
-              token: 'no token' // for now
+              oAuthToken: user.accessToken,
+              token: data.token
             }
           });
         } catch (e) {
-          dispatch(logout());
+          dispatch({ type: SET_LOGIN_LOADING, payload: false });
+          dispatch(logout('facebook'));
         }
       }
     } catch (e) {
@@ -163,14 +168,15 @@ export function setLoginAuth(details: { token: string, loggedIn: boolean, social
   };
 }
 
-export function logout() {
+export function logout(socialNetworkFallback: string) {
   return async (dispatch: Dispatch, state: GetState) => {
+    const { oAuthToken: tokenToRevoke, socialNetwork } = state().user;
     dispatch({ type: LOGOUT_REQUEST });
     dispatch({ type: RESET_STATE });
     await CookieManager.clearAll();
-    const { oAuthToken: tokenToRevoke, socialNetwork } = state().user;
+    const social = socialNetwork || socialNetworkFallback;
     try {
-      switch (socialNetwork) {
+      switch (social) {
         case 'google':
           await revoke(oAuth.google, { tokenToRevoke });
           break;
