@@ -1,5 +1,5 @@
 // @flow
-import type { Area, AreasAction, AreasState } from 'types/areas.types';
+import type { Area, AreasAction, AreasState, Dataset } from 'types/areas.types';
 import type { CountryArea } from 'types/setup.types';
 import type { Dispatch, GetState } from 'types/store.types';
 
@@ -271,13 +271,13 @@ export function setAreaDatasetStatus(areaId: string, datasetSlug: string, status
   };
 }
 
-export function updateDate(areaId: string, datasetSlug: string, date: Object) {
+export function updateDate(areaId: string, datasetSlug: string, date: { startDate: number }) {
   return async (dispatch: Dispatch, state: GetState) => {
     const area = getAreaById(state().areas.data, areaId);
     const dateKeys = Object.keys(date) || [];
     if (area) {
-      area.datasets = area.datasets.map((d) => {
-        const newDataset = d;
+      area.datasets = area.datasets.map((d: Dataset) => {
+        const newDataset = { ...d };
         if (d.slug === datasetSlug) {
           dateKeys.forEach((dKey) => {
             if (d[dKey]) {

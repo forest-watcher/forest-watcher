@@ -555,5 +555,9 @@
         "mangedForests": "Managed Forests",
         "woodFiber": "Wood Fiber",
         "mining": "Mining"
+    },
+    "datasets": {
+        "umd_as_it_happens": "Deforestation (GLAD)",
+        "viirs": "Fires (VIIRS)"
     }
 }
