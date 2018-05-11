@@ -20,6 +20,7 @@
         "loading": "Loading",
         "notAvailable": "Not available",
         "kmAway": "km away",
+        "metersAway": "m away",
         "updated": "Updated",
         "name": "Name",
         "yourPosition": "Your position",

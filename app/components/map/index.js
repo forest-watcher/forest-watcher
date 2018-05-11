@@ -793,6 +793,7 @@ class Map extends Component {
                 alertSelected={selectedAlerts[lastAlertIndex]}
                 lastPosition={this.state.lastPosition}
                 coordinatesFormat={coordinatesFormat}
+                kmThreshold={30}
               />
             }
             <MapAttribution />
