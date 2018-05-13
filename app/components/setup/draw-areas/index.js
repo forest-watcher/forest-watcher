@@ -15,6 +15,7 @@ import gpsi from 'geojson-polygon-self-intersections';
 import { storeImage } from 'helpers/fileManagement';
 
 import ActionButton from 'components/common/action-button';
+import MapAttribution from 'components/map/map-attribution';
 import Theme from 'config/theme';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
@@ -27,7 +28,7 @@ const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 30;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-const edgePadding = { top: 100, right: 50, bottom: 100, left: 50 };
+const edgePadding = { top: 180, right: 85, bottom: 180, left: 85 };
 
 const footerBackgroundImage = require('assets/map_bg_gradient.png');
 const markerImage = require('assets/circle.png');
@@ -41,6 +42,7 @@ function parseCoordinates(coordinates) {
 }
 
 function getGoogleMapsCoordinates(coordinates) {
+  if (!coordinates) return [];
   return coordinates.map((cordinate) => ({
     latitude: cordinate[1],
     longitude: cordinate[0]
@@ -68,7 +70,7 @@ class DrawAreas extends Component {
       valid: true,
       huge: false,
       shape: {
-        coordinates: []
+        coordinates: getGoogleMapsCoordinates(props.coordinates)
       },
       region: {
         latitude: intialCoords[1],
@@ -167,6 +169,7 @@ class DrawAreas extends Component {
       return (
         <View pointerEvents="none" style={[styles.actionButton, withPadding]}>
           <Text style={styles.footerTitle}>{I18n.t('setupDrawAreas.tapInstruction')}</Text>
+          <MapAttribution />
         </View>
       );
     }

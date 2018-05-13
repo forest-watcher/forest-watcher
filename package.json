@@ -1,6 +1,6 @@
 {
   "name": "ForestWatcher",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
@@ -95,8 +95,9 @@
     "lint-staged": "3.4.0",
     "node-fetch": "1.7.1",
     "react-test-renderer": "15.4.1",
-    "reactotron-react-native": "1.12.3",
-    "reactotron-redux": "1.12.2"
+    "reactotron-react-native": "2.0.0-beta.2",
+    "reactotron-redux": "1.13.0",
+    "reactotron-redux-saga": "1.13.0"
   },
   "jest": {
     "preset": "react-native"

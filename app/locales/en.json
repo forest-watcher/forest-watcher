@@ -20,6 +20,7 @@
         "loading": "Loading",
         "notAvailable": "Not available",
         "kmAway": "km away",
+        "metersAway": "m away",
         "updated": "Updated",
         "name": "Name",
         "yourPosition": "Your position",
@@ -528,8 +529,10 @@
         "errorDesc": "Something went wrong",
         "tryAgain": "Try again",
         "gettingLatestAlerts": "Getting the latest alerts",
-        "alertsUpdated": "Your alerts are up to date",
+        "alertsUpdated": "Your areas are up to date",
         "errorCreatingArea": "There was an error creating your area",
+        "reportUploaded": "Report sent",
+        "reportUploadRollback": "Report failed to upload",
         "title": {
             "updating": "Downloading data...",
             "offline": "You are offline",
@@ -552,5 +555,9 @@
         "mangedForests": "Managed Forests",
         "woodFiber": "Wood Fiber",
         "mining": "Mining"
+    },
+    "datasets": {
+        "umd_as_it_happens": "Deforestation (GLAD)",
+        "viirs": "Fires (VIIRS)"
     }
 }

@@ -17,6 +17,7 @@ const GET_USER_ROLLBACK = 'user/GET_USER_ROLLBACK';
 const SET_LOGIN_AUTH = 'user/SET_LOGIN_AUTH';
 const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
 export const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
+const SET_LOGIN_LOADING = 'user/SET_LOGIN_LOADING';
 
 // Reducer
 const initialState = {
@@ -27,7 +28,8 @@ const initialState = {
   socialNetwork: null,
   logSuccess: true,
   synced: false,
-  syncing: false
+  syncing: false,
+  loading: false
 };
 
 export default function reducer(state: UserState = initialState, action: UserAction): UserState {
@@ -49,13 +51,18 @@ export default function reducer(state: UserState = initialState, action: UserAct
       const logSuccess = action.payload;
       return { ...state, logSuccess };
     }
+    case SET_LOGIN_LOADING: {
+      const loading = action.payload;
+      return { ...state, loading };
+    }
     case LOGOUT_REQUEST:
       return {
         ...state,
         token: null,
         synced: false,
         loggedIn: false,
-        oAuthToken: null
+        oAuthToken: null,
+        socialNetwork: null
       };
     default:
       return state;
@@ -87,8 +94,10 @@ export function googleLogin() {
   return async (dispatch: Dispatch) => {
     try {
       const user = await authorize(oAuth.google);
+      dispatch({ type: SET_LOGIN_LOADING, payload: true });
       try {
         const response = await fetch(`${Config.API_AUTH}/auth/google/token?access_token=${user.accessToken}`);
+        dispatch({ type: SET_LOGIN_LOADING, payload: false });
         if (!response.ok) throw new Error(response.statusText);
         const data = await response.json();
         dispatch({
@@ -101,7 +110,8 @@ export function googleLogin() {
           }
         });
       } catch (e) {
-        dispatch(logout());
+        dispatch({ type: SET_LOGIN_LOADING, payload: false });
+        dispatch(logout('google'));
       }
     } catch (e) {
       // very brittle approach but only way to know currently
@@ -120,20 +130,24 @@ export function facebookLogin() {
       const result = await LoginManager.logInWithReadPermissions(oAuth.facebook);
       if (!result.isCancelled) {
         try {
-          const data = await AccessToken.getCurrentAccessToken();
-          console.warn(data.accessToken);
-          // TODO: implement GFW API login here when available
+          const user = await AccessToken.getCurrentAccessToken();
+          console.warn(user.accessToken);
+          const response = await fetch(`${Config.API_AUTH}/auth/facebook/token?access_token=${user.accessToken}`);
+          dispatch({ type: SET_LOGIN_LOADING, payload: false });
+          if (!response.ok) throw new Error(response.statusText);
+          const data = await response.json();
           dispatch({
             type: SET_LOGIN_AUTH,
             payload: {
               loggedIn: true,
               socialNetwork: 'facebook',
-              oAuthToken: data.accessToken,
-              token: 'no token' // for now
+              oAuthToken: user.accessToken,
+              token: data.token
             }
           });
         } catch (e) {
-          dispatch(logout());
+          dispatch({ type: SET_LOGIN_LOADING, payload: false });
+          dispatch(logout('facebook'));
         }
       }
     } catch (e) {
@@ -154,14 +168,15 @@ export function setLoginAuth(details: { token: string, loggedIn: boolean, social
   };
 }
 
-export function logout() {
+export function logout(socialNetworkFallback: string) {
   return async (dispatch: Dispatch, state: GetState) => {
+    const { oAuthToken: tokenToRevoke, socialNetwork } = state().user;
     dispatch({ type: LOGOUT_REQUEST });
     dispatch({ type: RESET_STATE });
     await CookieManager.clearAll();
-    const { oAuthToken: tokenToRevoke, socialNetwork } = state().user;
+    const social = socialNetwork || socialNetworkFallback;
     try {
-      switch (socialNetwork) {
+      switch (social) {
         case 'google':
           await revoke(oAuth.google, { tokenToRevoke });
           break;

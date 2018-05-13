@@ -1,5 +1,7 @@
+// @flow
+import type { Dataset } from 'types/areas.types';
+
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   View
 } from 'react-native';
@@ -45,9 +47,17 @@ const GLAD_OPTIONS = [
   }
 ];
 
-class DatasetOptions extends Component {
+type Date = { startDate: number };
 
-  handleUpdateDate = (date) => {
+type Props = {
+  id: string,
+  dataset: Dataset,
+  updateDate: (id: string, slug: string, date: Date) => void
+};
+
+class DatasetOptions extends Component<Props> {
+
+  handleUpdateDate = (date: Date) => {
     const { id, dataset, updateDate } = this.props;
     updateDate(id, dataset.slug, date);
   }
@@ -69,18 +79,5 @@ class DatasetOptions extends Component {
     );
   }
 }
-
-DatasetOptions.propTypes = {
-  id: PropTypes.string,
-  dataset: PropTypes.shape({
-    slug: PropTypes.string,
-    cache: PropTypes.bool,
-    startDate: PropTypes.oneOf(
-      PropTypes.string,
-      PropTypes.number
-    )
-  }),
-  updateDate: PropTypes.func.isRequired
-};
 
 export default DatasetOptions;

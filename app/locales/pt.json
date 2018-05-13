@@ -4,7 +4,7 @@
         "oops": "Oops!",
         "error": "Erro",
         "unexpectedError": "Ocorreu algo inesperado",
-        "crashFeedback": "Ocorreu um problema. Estamos a trabalhar para o corrigir assim que possível.",
+        "crashFeedback": "Algo saiu errado. Estamos trabalhando para arraumar isso o mais rápido possível.",
         "appName": "Forest Watcher",
         "next": "Próximo",
         "save": "Salve",
@@ -20,6 +20,7 @@
         "loading": "Carregando",
         "notAvailable": "Não disponível",
         "kmAway": "Km de distância",
+        "metersAway": "m de distância",
         "updated": "Atualizado",
         "name": "Nome",
         "yourPosition": "Sua posição",
@@ -528,17 +529,19 @@
         "errorDesc": "Algo correu mal",
         "tryAgain": "Tente novamente",
         "gettingLatestAlerts": "Getting the latest alerts",
-        "alertsUpdated": "Your alerts are up to date",
-        "errorCreatingArea": "There was an error creating your area",
+        "alertsUpdated": "Suas áreas estão atualizadas",
+        "errorCreatingArea": "Houve um erro ao criar sua área",
+        "reportUploaded": "Relatório enviado",
+        "reportUploadRollback": "Relatório falhou ao fazer o upload",
         "title": {
-            "wifi": "Atualizando dados ...",
+            "updating": "Fazendo download...",
             "offline": "Está offline",
-            "updated": "Atualização concluída"
+            "updated": "Download completo!"
         },
         "subtitle": {
-            "wifi": "Esse processo pode levar vários minutos",
+            "updating": "Estamos preparando seu celular para o campo",
             "offline": "Você precisa de uma conexão com a internet para atualizar seus dados",
-            "updated": "Os dados foram atualizados com sucesso!"
+            "updated": "Estamos prontos!"
         },
         "ok": "OK",
         "skip": "pular",
@@ -552,5 +555,9 @@
         "mangedForests": "Managed Forests",
         "woodFiber": "Wood Fiber",
         "mining": "Mining"
+    },
+    "datasets": {
+        "umd_as_it_happens": "Desflorestamento (GLAD)",
+        "viirs": "Incêndios (VIIRS)"
     }
 }

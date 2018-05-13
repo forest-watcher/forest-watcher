@@ -21,7 +21,6 @@ type Props = {
   navigator: Object,
   setShowLegend: () => void,
   logout: () => void,
-  initSetup: () => void,
   goBackDisabled: boolean,
   closeModal: boolean
 };
@@ -40,10 +39,6 @@ class Setup extends Component<Props, State> {
     page: 0,
     hideIndex: false
   };
-
-  componentWillMount() {
-    this.props.initSetup();
-  }
 
   componentDidMount() {
     tracker.trackScreenView('Set Up');

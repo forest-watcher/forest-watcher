@@ -8,7 +8,6 @@ import tracker from 'helpers/googleAnalytics';
 import { getContextualLayer } from 'helpers/map';
 import Map from 'components/map';
 import { activeDataset } from 'helpers/area';
-import withSuccessNotification from 'components/toast-notification/with-notifications';
 
 const BoundingBox = require('boundingbox');
 
@@ -26,32 +25,27 @@ function mapStateToProps(state: State) {
   const area = state.areas.data[index] || null;
   let center = null;
   let areaCoordinates = null;
-  let datasetSlug = null;
   let dataset = null;
   let areaProps = null;
   if (area) {
     dataset = activeDataset(area);
-    if (dataset) {
-      datasetSlug = dataset.slug;
-      const geostore = area.geostore;
-      const areaFeatures = (geostore && geostore.geojson && geostore.geojson.features[0]) || false;
-      if (areaFeatures) {
-        center = new BoundingBox(areaFeatures).getCenter();
-        areaCoordinates = getAreaCoordinates(areaFeatures);
-      }
-      areaProps = {
-        dataset,
-        id: area.id,
-        name: area.name,
-        templateId: area.templateId
-      };
+    const geostore = area.geostore;
+    const areaFeatures = (geostore && geostore.geojson && geostore.geojson.features[0]) || false;
+    if (areaFeatures) {
+      center = new BoundingBox(areaFeatures).getCenter();
+      areaCoordinates = getAreaCoordinates(areaFeatures);
     }
+    areaProps = {
+      dataset,
+      id: area.id,
+      name: area.name,
+      templateId: area.templateId
+    };
   }
   const { cache } = state.layers;
   const contextualLayer = getContextualLayer(state.layers);
   return {
     center,
-    datasetSlug,
     contextualLayer,
     areaCoordinates,
     area: areaProps,
@@ -81,4 +75,4 @@ function mapDispatchToProps(dispatch, { navigation }) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withSuccessNotification(Map));
+)(Map);

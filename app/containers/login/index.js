@@ -10,7 +10,8 @@ function mapStateToProps(state: State) {
   return {
     isConnected: state.offline.online,
     loggedIn: state.user.loggedIn,
-    logSuccess: state.user.logSuccess
+    logSuccess: state.user.logSuccess,
+    loading: state.user.loading
   };
 }
 

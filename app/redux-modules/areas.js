@@ -1,5 +1,5 @@
 // @flow
-import type { Area, AreasAction, AreasState } from 'types/areas.types';
+import type { Area, AreasAction, AreasState, Dataset } from 'types/areas.types';
 import type { CountryArea } from 'types/setup.types';
 import type { Dispatch, GetState } from 'types/store.types';
 
@@ -89,9 +89,6 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     case SAVE_AREA_REQUEST: {
       return { ...state, synced: false, syncing: true, refreshing: true };
     }
-    case SAVE_AREA_ROLLBACK: {
-      return { ...state, syncing: false, refreshing: false };
-    }
     case SAVE_AREA_COMMIT: {
       let data = state.data;
       const area = action.payload;
@@ -99,6 +96,9 @@ export default function reducer(state: AreasState = initialState, action: AreasA
         data = [...data, area];
       }
       return { ...state, data, synced: true, syncing: false, refreshing: false };
+    }
+    case SAVE_AREA_ROLLBACK: {
+      return { ...state, syncing: false, refreshing: false };
     }
     case UPDATE_AREA_REQUEST: {
       const newArea = { ...action.payload };
@@ -160,7 +160,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
       return { ...state, data, syncing: false };
     }
     case UPDATE_AREA_INDEX: {
-      return Object.assign({}, state, { selectedIndex: action.payload });
+      return { ...state, selectedIndex: action.payload };
     }
     case LOGOUT_REQUEST: {
       return initialState;
@@ -248,7 +248,7 @@ export function saveArea(params: { snapshot: string, area: CountryArea }): Areas
       offline: {
         effect: { url, method: 'POST', headers, body },
         commit: { type: SAVE_AREA_COMMIT },
-        rollback: { type: SAVE_AREA_ROLLBACK }
+        rollback: { type: SAVE_AREA_ROLLBACK, meta: params }
       }
     }
   };
@@ -271,13 +271,13 @@ export function setAreaDatasetStatus(areaId: string, datasetSlug: string, status
   };
 }
 
-export function updateDate(areaId: string, datasetSlug: string, date: Object) {
+export function updateDate(areaId: string, datasetSlug: string, date: { startDate: number }) {
   return async (dispatch: Dispatch, state: GetState) => {
     const area = getAreaById(state().areas.data, areaId);
     const dateKeys = Object.keys(date) || [];
     if (area) {
-      area.datasets = area.datasets.map((d) => {
-        const newDataset = d;
+      area.datasets = area.datasets.map((d: Dataset) => {
+        const newDataset = { ...d };
         if (d.slug === datasetSlug) {
           dateKeys.forEach((dKey) => {
             if (d[dKey]) {

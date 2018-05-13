@@ -14,7 +14,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingLeft: Theme.margin.left,
     paddingRight: Theme.margin.right,
-    marginTop: 6,
+    marginTop: 16,
     marginBottom: 0
   },
   heading: {
@@ -46,5 +46,10 @@ export default StyleSheet.create({
     height: 24,
     backgroundColor: `rgba(${hexToRgb(Theme.colors.color1)}, 0.8)`,
     marginRight: 16
+  },
+  sidebarLabel: {
+    fontFamily: Theme.font,
+    color: Theme.fontColors.secondary,
+    fontSize: 17
   }
 });

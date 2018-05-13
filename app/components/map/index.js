@@ -30,7 +30,7 @@ import { getAllNeighbours } from 'helpers/map';
 import tracker from 'helpers/googleAnalytics';
 import clusterGenerator from 'helpers/clusters-generator';
 import Theme from 'config/theme';
-import I18n from 'locales';
+import i18n from 'locales';
 import styles from './styles';
 
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
@@ -129,7 +129,7 @@ class Map extends Component {
       renderMap: false,
       lastPosition: null,
       hasCompass: false,
-      compassFallback: null,
+      compassLine: null,
       heading: null,
       geoMarkerOpacity: new Animated.Value(0.3),
       region: {
@@ -162,7 +162,6 @@ class Map extends Component {
       !isEqual(nextProps.areaCoordinates, this.props.areaCoordinates),
       !isEqual(nextProps.area, this.props.area),
       nextProps.canDisplayAlerts !== this.props.canDisplayAlerts,
-      nextProps.datasetSlug !== this.props.datasetSlug,
       !isEqual(nextProps.center, this.props.center),
       !isEqual(nextProps.contextualLayer, this.props.contextualLayer),
       nextState.renderMap !== this.state.renderMap,
@@ -173,26 +172,19 @@ class Map extends Component {
       !isEqual(nextState.markers, this.state.markers),
       !isEqual(nextState.selectedAlerts, this.state.selectedAlerts),
       !isEqual(nextState.neighbours, this.state.neighbours),
-      !isEqual(nextState.compassFallback, this.state.compassFallback)
+      !isEqual(nextState.compassLine, this.state.compassLine)
     ];
     return conditions.includes(true);
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    if (this.state.selectedAlerts !== nextState.selectedAlerts && this.state.lastPosition !== null) {
-      this.setCompassLine();
-    }
-  }
-
   componentDidUpdate(prevProps, prevState) {
-    const { datasetSlug, area, setActiveAlerts, areaCoordinates } = this.props;
+    const { area, setActiveAlerts, areaCoordinates } = this.props;
     const { clusters } = clusterGenerator;
-    if (this.map && area && (clusters === null || area.id !== prevProps.area.id
-      || area.dataset.slug !== prevProps.area.dataset.slug
-      || area.dataset.startDate !== prevProps.area.dataset.startDate)) {
+    if (this.map && area && area.dataset && (clusters === null || area.id !== prevProps.area.id
+      || !isEqual(area.dataset, prevProps.area.dataset))) {
       setActiveAlerts();
     }
-    if (clusters !== null || !datasetSlug) {
+    if (clusters !== null || !area.dataset) {
       this.renderMap();
     }
     if (this.state.renderMap) {
@@ -204,6 +196,14 @@ class Map extends Component {
     }
     if (this.state.selectedAlerts !== prevState.selectedAlerts) {
       this.setHeaderTitle();
+    }
+
+    const updateCompassLine = [
+      this.state.lastPosition !== prevState.lastPosition,
+      this.state.selectedAlerts !== prevState.selectedAlerts
+    ];
+    if (updateCompassLine.includes(true)) {
+      this.setCompassLine();
     }
   }
 
@@ -270,10 +270,10 @@ class Map extends Component {
         // extract not needed props
         // eslint-disable-next-line no-unused-vars
         const { accuracy, altitude, speed, course, ...rest } = this.state.lastPosition;
-        state.compassFallback = [{ ...rest }, { ...this.state.selectedAlerts[last] }];
+        state.compassLine = [{ ...rest }, { ...this.state.selectedAlerts[last] }];
       }
-      if (prevState.compassFallback !== null && prevState.selectedAlerts.length === 0) {
-        state.compassFallback = null;
+      if (prevState.compassLine !== null && prevState.selectedAlerts.length === 0) {
+        state.compassLine = null;
       }
       return state;
     });
@@ -283,7 +283,7 @@ class Map extends Component {
     const { selectedAlerts } = this.state;
     const { navigator, coordinatesFormat } = this.props;
     const last = selectedAlerts.length - 1;
-    let headerText = I18n.t('dashboard.map');
+    let headerText = i18n.t('dashboard.map');
     if (selectedAlerts && selectedAlerts.length > 0) {
       const lat = selectedAlerts[last].latitude;
       const lng = selectedAlerts[last].longitude;
@@ -351,7 +351,8 @@ class Map extends Component {
     const userLatLng = this.state.lastPosition && `${this.state.lastPosition.latitude},${this.state.lastPosition.longitude}`;
     const screen = 'ForestWatcher.NewReport';
     const title = 'Report';
-    const form = `${area.name.toUpperCase()}-${area.dataset.name}-REPORT--${moment().format('YYYY-MM-DDTHH:mm:ss')}`;
+    const reportedDataset = area.dataset ? `-${area.dataset.name}` : '';
+    const form = `${area.name.toUpperCase()}${reportedDataset}-REPORT--${moment().format('YYYY-MM-DDTHH:mm:ss')}`;
     this.props.createReport({
       area,
       name: form,
@@ -412,8 +413,8 @@ class Map extends Component {
       throttle((location) => {
         const coords = typeof location.coords !== 'undefined' ? location.coords : location;
         const { lastPosition } = this.state;
-        if (lastPosition && lastPosition.latitude !== coords.latitude &&
-          lastPosition.longitude !== coords.longitude) {
+        if (lastPosition && (lastPosition.latitude !== coords.latitude ||
+          lastPosition.longitude !== coords.longitude)) {
           this.setState({ lastPosition: {
             latitude: coords.latitude,
             longitude: coords.longitude
@@ -567,7 +568,7 @@ class Map extends Component {
             left
             icon="reportSingle"
             style={[styles.footerButton, styles.footerButton1]}
-            text={I18n.t('report.selected').toUpperCase()}
+            text={i18n.t('report.selected').toUpperCase()}
             onPress={this.reportSelection}
           />,
           <ActionBtn
@@ -576,14 +577,14 @@ class Map extends Component {
             monochrome
             icon="reportArea"
             style={[styles.footerButton, styles.footerButton2, styles.footerReport]}
-            text={I18n.t('report.area').toUpperCase()}
+            text={i18n.t('report.area').toUpperCase()}
             onPress={this.reportArea}
           />
         ]
         : (
           <ActionBtn
             style={styles.footerButton}
-            text={I18n.t('report.title').toUpperCase()}
+            text={i18n.t('report.title').toUpperCase()}
             onPress={this.reportSelection}
           />
         );
@@ -607,17 +608,17 @@ class Map extends Component {
             style={[styles.geoLocation, { opacity: this.state.geoMarkerOpacity }]}
           />
         </View>
-        <Text style={styles.signalNoticeText}>{I18n.t('alerts.satelliteSignal')}</Text>
+        <Text style={styles.signalNoticeText}>{i18n.t('alerts.satelliteSignal')}</Text>
       </View>
     );
   }
 
   render() {
-    const { hasCompass, lastPosition, compassFallback,
+    const { lastPosition, compassLine,
             selectedAlerts, neighbours, heading, markers } = this.state;
-    const { areaCoordinates, datasetSlug, contextualLayer,
+    const { areaCoordinates, area, contextualLayer,
             basemapLocalTilePath, isConnected, ctxLayerLocalTilePath, coordinatesFormat } = this.props;
-    const showCompassFallback = !hasCompass && lastPosition && selectedAlerts && compassFallback;
+    const showCompassLine = lastPosition && selectedAlerts && compassLine;
     const lastAlertIndex = selectedAlerts.length - 1;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
     const hasNeighbours = neighbours && neighbours.length > 0;
@@ -665,10 +666,10 @@ class Map extends Component {
           />
         )
       : null;
-    const compassFallbackElement = showCompassFallback ? (
+    const compassLineElement = showCompassLine ? (
       <MapView.Polyline
-        key="compassFallbackElement"
-        coordinates={compassFallback}
+        key="compassLineElement"
+        coordinates={compassLine}
         strokeColor={Theme.colors.color5}
         strokeWidth={2}
         zIndex={2}
@@ -739,13 +740,13 @@ class Map extends Component {
         </MapView.Marker>
       )))
       : null;
-    const clustersElement = datasetSlug ? (
+    const clustersElement = area.dataset ? (
       <Clusters
         key={clustersKey}
         markers={markers}
         selectAlert={this.selectAlert}
         zoomTo={this.zoomTo}
-        datasetSlug={datasetSlug}
+        datasetSlug={area.dataset.slug}
       />
     ) : null;
     return (
@@ -773,7 +774,7 @@ class Map extends Component {
           {basemapLayerElement}
           {contextualLayerElement}
           {clustersElement}
-          {compassFallbackElement}
+          {compassLineElement}
           {areaPolygonElement}
           {userPositionElement}
           {compassElement}
@@ -793,6 +794,7 @@ class Map extends Component {
                 alertSelected={selectedAlerts[lastAlertIndex]}
                 lastPosition={this.state.lastPosition}
                 coordinatesFormat={coordinatesFormat}
+                kmThreshold={30}
               />
             }
             <MapAttribution />
@@ -821,7 +823,6 @@ Map.propTypes = {
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired
   }),
-  datasetSlug: PropTypes.string,
   basemapLocalTilePath: PropTypes.string,
   ctxLayerLocalTilePath: PropTypes.string,
   areaCoordinates: PropTypes.array,

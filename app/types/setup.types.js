@@ -1,12 +1,12 @@
 // @flow
 
 import type { Country } from 'types/countries.types';
-import type { SaveAreaCommit, SaveAreaRequest, SaveAreaRollback } from 'types/areas.types';
+import type { SaveAreaRequest, SaveAreaCommit, SaveAreaRollback } from 'types/areas.types';
 
 export type CountryArea = {
   name: string,
   geojson: ?Object,
-  wdpaid: number,
+  wdpaid: ?number,
   id: ?string
 };
 

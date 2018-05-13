@@ -1,5 +1,6 @@
+// @flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import I18n from 'locales';
 import {
   View,
@@ -12,9 +13,16 @@ import { COORDINATES_FORMATS } from 'config/constants';
 
 import styles from './styles';
 
+type Coordinates = { latitude: number, longitude: number }; // eslint-disable-line
+type Props = {
+  alertSelected: Coordinates,
+  lastPosition: Coordinates,
+  coordinatesFormat: 'decimal' | 'degrees',
+  kmThreshold: number
+};
 
-function AlertPosition(props) {
-  const { alertSelected, lastPosition, coordinatesFormat } = props;
+function AlertPosition(props: Props) {
+  const { alertSelected, lastPosition, coordinatesFormat, kmThreshold } = props;
 
   let distanceText = '';
   let positionText = '';
@@ -29,8 +37,14 @@ function AlertPosition(props) {
         .format('FFf', { latLonSeparator: ', ', decimalPlaces: 2 });
       positionText = `${I18n.t('commonText.yourPosition')}: ${degrees}`;
     }
-    distance = currentPoint.distanceTo(geoPoint, true).toFixed(4);
-    distanceText = `${distance} ${I18n.t('commonText.kmAway')}`; // in Kilometers
+    const meters = (currentPoint.distanceTo(geoPoint, true) * 1000); // in meters
+    distance = meters.toFixed(0);
+    distanceText = `${distance} ${I18n.t('commonText.metersAway')}`;
+
+    if (kmThreshold && meters >= (kmThreshold * 1000)) {
+      distance = (meters / 1000).toFixed(1); // in Kilometers
+      distanceText = `${distance} ${I18n.t('commonText.kmAway')}`;
+    }
   }
 
   return (
@@ -46,11 +60,5 @@ function AlertPosition(props) {
     </View>
   );
 }
-
-AlertPosition.propTypes = {
-  alertSelected: PropTypes.object,
-  lastPosition: PropTypes.object,
-  coordinatesFormat: PropTypes.string
-};
 
 export default AlertPosition;

@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import type { Question } from 'types/reports.types';
+
+import React, { PureComponent } from 'react';
 import {
   View,
   Text,
@@ -15,8 +17,19 @@ import withDraft from './withDraft';
 import styles from './styles';
 
 const deleteIcon = require('assets/delete_red.png');
+const uploadIcon = require('assets/upload.png');
 
-class Answers extends Component {
+type Props = {
+  navigator: any,
+  results: Array<{ question: Question, answers: Array<string> }>,
+  form: string,
+  finish: () => void,
+  readOnly: boolean,
+  removeAnswer: (string, string, number) => void,
+  removeAllAnswers: (string, string) => void
+};
+
+class Answers extends PureComponent<Props> {
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color1,
     navBarButtonColor: Theme.colors.color1,
@@ -24,19 +37,21 @@ class Answers extends Component {
     navBarBackgroundColor: Theme.background.main
   };
 
-  static propTypes = {
-    navigator: PropTypes.object.isRequired,
-    results: PropTypes.arrayOf(
-      PropTypes.shape({
-        question: PropTypes.object,
-        answers: PropTypes.array
-      })
-    ),
-    form: PropTypes.string.isRequired,
-    finish: PropTypes.func,
-    readOnly: PropTypes.bool,
-    removeAnswer: PropTypes.func.isRequired,
-    removeAllAnswers: PropTypes.func.isRequired
+  constructor(props) {
+    super(props);
+    if (props.showUploadButton) {
+      props.navigator.setButtons({
+        rightButtons: [{ icon: uploadIcon, id: 'upload' }]
+      });
+      props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    }
+  }
+
+  onNavigatorEvent = (event) => {
+    const { form, finish } = this.props;
+    if (event.type === 'NavBarButtonPress') {
+      if (event.id === 'upload') finish(form);
+    }
   };
 
   onPressSave = () => {
