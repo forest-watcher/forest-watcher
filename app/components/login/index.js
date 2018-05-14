@@ -222,7 +222,7 @@ class Login extends PureComponent<Props, State> {
     return (
       this.state.webviewVisible
         ? this.renderWebview()
-        : <ScrollView style={styles.container}>
+        : <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           {this.props.loading && Login.renderLoading()}
           <View style={styles.intro}>
             <Image

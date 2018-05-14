@@ -50,7 +50,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>3</string>
 	<key>CodePushDeploymentKey</key>
 	<string>__RN_CONFIG_CODEPUSH_IOS_DEPLOY_KEY</string>
 	<key>CodePushPublicKey</key>
@@ -60,7 +60,7 @@ __RN_CONFIG_CODEPUSH_RELEASE_PUBLIC_KEY
 	<key>FacebookAppID</key>
 	<string>__RN_CONFIG_LOGIN_FACEBOOK_APP_ID</string>
 	<key>FacebookDisplayName</key>
-	<string>Forest Watcher</string>
+	<string>Global Forest Watch</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
