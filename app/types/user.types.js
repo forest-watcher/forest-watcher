@@ -1,6 +1,6 @@
 // @flow
 
-import type { OfflineMeta } from 'types/offline.types';
+import type { OfflineMeta, PersistRehydrate } from 'types/offline.types';
 
 export type UserState = {
   data: Object,
@@ -21,6 +21,7 @@ export type UserAction =
   | SetLoginAuth
   | SetLoginStatus
   | SetLoginLoading
+  | PersistRehydrate
   | LogoutRequest;
 
 type User = {};

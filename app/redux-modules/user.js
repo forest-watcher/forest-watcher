@@ -2,7 +2,7 @@
 import type { Dispatch, GetState } from 'types/store.types';
 import type { UserState, UserAction } from 'types/user.types';
 
-import { RESET_STATE } from '@redux-offline/redux-offline/lib/constants';
+import { PERSIST_REHYDRATE, RESET_STATE } from '@redux-offline/redux-offline/lib/constants';
 import { authorize, revoke } from 'react-native-app-auth';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import Config from 'react-native-config';
@@ -34,6 +34,10 @@ const initialState = {
 
 export default function reducer(state: UserState = initialState, action: UserAction): UserState {
   switch (action.type) {
+    case PERSIST_REHYDRATE: {
+      const { user } = action.payload;
+      return { ...state, ...user, loading: false };
+    }
     case GET_USER_REQUEST:
       return { ...state, synced: false, syncing: true };
     case GET_USER_COMMIT: {
