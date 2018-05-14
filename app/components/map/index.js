@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
-  ActivityIndicator,
   Dimensions,
   DeviceEventEmitter,
   Animated,
@@ -51,18 +50,6 @@ const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
 const layersIcon = require('assets/layers.png');
-
-function renderLoading() {
-  return (
-    <View style={[styles.loaderContainer, styles.loader]}>
-      <ActivityIndicator
-        color={Theme.colors.color1}
-        style={{ height: 80 }}
-        size="large"
-      />
-    </View>
-  );
-}
 
 function pointsFromCluster(cluster) {
   if (!cluster || !cluster.length > 0) return [];
@@ -126,7 +113,6 @@ class Map extends Component {
     this.hasSetCoordinates = false;
     // Google maps lon and lat are inverted
     this.state = {
-      renderMap: false,
       lastPosition: null,
       hasCompass: false,
       compassLine: null,
@@ -164,7 +150,6 @@ class Map extends Component {
       nextProps.canDisplayAlerts !== this.props.canDisplayAlerts,
       !isEqual(nextProps.center, this.props.center),
       !isEqual(nextProps.contextualLayer, this.props.contextualLayer),
-      nextState.renderMap !== this.state.renderMap,
       !isEqual(nextState.lastPosition, this.state.lastPosition),
       nextState.hasCompass !== this.state.hasCompass,
       nextState.heading !== this.state.heading,
@@ -184,16 +169,13 @@ class Map extends Component {
       || !isEqual(area.dataset, prevProps.area.dataset))) {
       setActiveAlerts();
     }
-    if (clusters !== null || !area.dataset) {
-      this.renderMap();
+
+    if (!isEqual(areaCoordinates, prevProps.areaCoordinates)) {
+      this.updateSelectedArea();
+    } else if (!isEqual(clusters, prevProps.clusters)) {
+      this.updateMarkers();
     }
-    if (this.state.renderMap) {
-      if (!isEqual(areaCoordinates, prevProps.areaCoordinates)) {
-        this.updateSelectedArea();
-      } else if (!isEqual(clusters, prevProps.clusters)) {
-        this.updateMarkers();
-      }
-    }
+
     if (this.state.selectedAlerts !== prevState.selectedAlerts) {
       this.setHeaderTitle();
     }
@@ -252,7 +234,7 @@ class Map extends Component {
     }
   }
 
-  onLayout = () => {
+  onMapReady = () => {
     if (this.hasSetCoordinates === false && this.props.areaCoordinates) {
       const margin = Platform.OS === 'ios' ? 150 : 250;
       const options = { edgePadding: { top: margin, right: margin, bottom: margin, left: margin }, animated: false };
@@ -550,14 +532,6 @@ class Map extends Component {
     });
   }
 
-  renderMap = () => {
-    if (!this.state.renderMap) {
-      this.setState({
-        renderMap: true
-      });
-    }
-  }
-
   renderFooter() {
     const getButtons = () => {
       const { neighbours } = this.state;
@@ -751,7 +725,6 @@ class Map extends Component {
     ) : null;
     return (
       <View style={styles.container}>
-        {!this.state.renderMap && renderLoading()}
         <View pointerEvents="none" style={styles.header}>
           <Image
             style={styles.headerBg}
@@ -767,7 +740,7 @@ class Map extends Component {
           maxZoomLevel={18}
           rotateEnabled={false}
           onRegionChangeComplete={this.updateRegion}
-          onLayout={this.onLayout}
+          onMapReady={this.onMapReady}
           moveOnMarkerPress={false}
           onPress={e => this.mapPress(e.nativeEvent.coordinate)}
         >
