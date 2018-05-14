@@ -42,7 +42,7 @@ const { RNLocation: Location } = require('NativeModules'); // eslint-disable-lin
 const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 10;
+const LATITUDE_DELTA = 5;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const markerImage = require('assets/marker.png');
@@ -119,8 +119,8 @@ class Map extends Component {
       heading: null,
       geoMarkerOpacity: new Animated.Value(0.3),
       region: {
-        latitude: initialCoords.lon,
-        longitude: initialCoords.lat,
+        latitude: initialCoords.lat,
+        longitude: initialCoords.lon,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
@@ -588,7 +588,7 @@ class Map extends Component {
   }
 
   render() {
-    const { lastPosition, compassLine,
+    const { lastPosition, compassLine, region,
             selectedAlerts, neighbours, heading, markers } = this.state;
     const { areaCoordinates, area, contextualLayer,
             basemapLocalTilePath, isConnected, ctxLayerLocalTilePath, coordinatesFormat } = this.props;
@@ -738,6 +738,7 @@ class Map extends Component {
           mapType="none"
           minZoomLevel={2}
           maxZoomLevel={18}
+          initialRegion={region}
           rotateEnabled={false}
           onRegionChangeComplete={this.updateRegion}
           onMapReady={this.onMapReady}
