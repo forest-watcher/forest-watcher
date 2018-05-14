@@ -7,7 +7,6 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.main
   },
   intro: {
-    minHeight: '40%',
     alignItems: 'center'
   },
   logo: {
@@ -16,7 +15,7 @@ export default StyleSheet.create({
     marginTop: 80
   },
   bottomContainer: {
-    minHeight: '60%',
+    flex: 1,
     justifyContent: 'space-between'
   },
   buttons: {
