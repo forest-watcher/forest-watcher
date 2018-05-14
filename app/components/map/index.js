@@ -247,7 +247,7 @@ class Map extends Component {
   setCompassLine = () => {
     this.setState((prevState) => {
       const state = {};
-      if (prevState.selectedAlerts && prevState.selectedAlerts.length > 0) {
+      if (prevState.selectedAlerts && prevState.selectedAlerts.length > 0 && this.state.lastPosition) {
         const last = this.state.selectedAlerts.length - 1;
         // extract not needed props
         // eslint-disable-next-line no-unused-vars
