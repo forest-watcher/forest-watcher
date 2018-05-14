@@ -50,7 +50,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>3</string>
 	<key>CodePushDeploymentKey</key>
 	<string>__RN_CONFIG_CODEPUSH_IOS_DEPLOY_KEY</string>
 	<key>CodePushPublicKey</key>
