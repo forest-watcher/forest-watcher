@@ -6,6 +6,9 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: Theme.background.main
   },
+  contentContainer: {
+    flex: 1
+  },
   intro: {
     alignItems: 'center'
   },
@@ -178,13 +181,13 @@ export default StyleSheet.create({
     backgroundColor: 'transparent',
     left: 0,
     right: 0,
-    top: 0,
+    top: 192,
     bottom: 0,
     position: 'absolute',
     zIndex: 5
   },
   loader: {
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'flex-start'
   }
 });
