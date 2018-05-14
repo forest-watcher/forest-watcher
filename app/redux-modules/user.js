@@ -93,8 +93,8 @@ export function syncUser() {
 export function googleLogin() {
   return async (dispatch: Dispatch) => {
     try {
-      const user = await authorize(oAuth.google);
       dispatch({ type: SET_LOGIN_LOADING, payload: true });
+      const user = await authorize(oAuth.google);
       try {
         const response = await fetch(`${Config.API_AUTH}/auth/google/token?access_token=${user.accessToken}`);
         dispatch({ type: SET_LOGIN_LOADING, payload: false });
@@ -115,11 +115,13 @@ export function googleLogin() {
       }
     } catch (e) {
       // very brittle approach but only way to know currently
-      const userDismissedLogin = e.message.indexOf('error -4') !== -1;
+      const userDismissedLoginIOS = e.message.indexOf('error -3') !== -1;
+      const userDismissedLoginAndroid = e.message.indexOf('Failed to authenticate') !== -1;
       dispatch({
         type: SET_LOGIN_STATUS,
-        payload: userDismissedLogin
+        payload: userDismissedLoginIOS || userDismissedLoginAndroid
       });
+      dispatch({ type: SET_LOGIN_LOADING, payload: false });
     }
   };
 }
@@ -127,14 +129,14 @@ export function googleLogin() {
 export function facebookLogin() {
   return async (dispatch: Dispatch) => {
     try {
+      dispatch({ type: SET_LOGIN_LOADING, payload: true });
       const result = await LoginManager.logInWithReadPermissions(oAuth.facebook);
       if (!result.isCancelled) {
         try {
           const user = await AccessToken.getCurrentAccessToken();
-          console.warn(user.accessToken);
           const response = await fetch(`${Config.API_AUTH}/auth/facebook/token?access_token=${user.accessToken}`);
           dispatch({ type: SET_LOGIN_LOADING, payload: false });
-          if (!response.ok) throw new Error(response.statusText);
+          if (!response.ok) throw new Error(response.status);
           const data = await response.json();
           dispatch({
             type: SET_LOGIN_AUTH,
@@ -146,11 +148,13 @@ export function facebookLogin() {
             }
           });
         } catch (e) {
+          console.error(e);
           dispatch({ type: SET_LOGIN_LOADING, payload: false });
           dispatch(logout('facebook'));
         }
       }
     } catch (e) {
+      console.error(e);
       dispatch({ type: SET_LOGIN_STATUS, payload: false });
     }
   };
@@ -186,6 +190,7 @@ export function logout(socialNetworkFallback: string) {
         default: break;
       }
     } catch (e) {
+      console.error(e);
       dispatch({ type: SET_LOGIN_STATUS, payload: false });
     }
     return dispatch({ type: SET_LOGIN_STATUS, payload: true });

@@ -6,8 +6,10 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: Theme.background.main
   },
+  contentContainer: {
+    flex: 1
+  },
   intro: {
-    minHeight: '40%',
     alignItems: 'center'
   },
   logo: {
@@ -16,7 +18,7 @@ export default StyleSheet.create({
     marginTop: 80
   },
   bottomContainer: {
-    minHeight: '60%',
+    flex: 1,
     justifyContent: 'space-between'
   },
   buttons: {
@@ -179,13 +181,13 @@ export default StyleSheet.create({
     backgroundColor: 'transparent',
     left: 0,
     right: 0,
-    top: 0,
+    top: 192,
     bottom: 0,
     position: 'absolute',
     zIndex: 5
   },
   loader: {
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'flex-start'
   }
 });
