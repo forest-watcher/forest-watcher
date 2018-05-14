@@ -93,8 +93,8 @@ export function syncUser() {
 export function googleLogin() {
   return async (dispatch: Dispatch) => {
     try {
-      const user = await authorize(oAuth.google);
       dispatch({ type: SET_LOGIN_LOADING, payload: true });
+      const user = await authorize(oAuth.google);
       try {
         const response = await fetch(`${Config.API_AUTH}/auth/google/token?access_token=${user.accessToken}`);
         dispatch({ type: SET_LOGIN_LOADING, payload: false });
@@ -121,6 +121,7 @@ export function googleLogin() {
         type: SET_LOGIN_STATUS,
         payload: userDismissedLoginIOS || userDismissedLoginAndroid
       });
+      dispatch({ type: SET_LOGIN_LOADING, payload: false });
     }
   };
 }
@@ -128,6 +129,7 @@ export function googleLogin() {
 export function facebookLogin() {
   return async (dispatch: Dispatch) => {
     try {
+      dispatch({ type: SET_LOGIN_LOADING, payload: true });
       const result = await LoginManager.logInWithReadPermissions(oAuth.facebook);
       if (!result.isCancelled) {
         try {
