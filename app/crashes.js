@@ -25,11 +25,10 @@ export function setExceptionHandlers(store) {
 export async function checkPrevCrashes() {
   const didCrash = await Crashes.hasCrashedInLastSession();
   if (didCrash) {
-    const closeLightbox = () => Navigation.dismissLightBox;
     const crashReport = await Crashes.lastSessionCrashReport();
     Navigation.showLightBox({
       screen: 'ForestWatcher.ErrorLightbox',
-      passProps: { error: crashReport, onPressOK: closeLightbox },
+      passProps: { error: crashReport, onPressOK: Navigation.dismissLightBox },
       style: {
         backgroundBlur: 'none',
         tapBackgroundToDismiss: true
