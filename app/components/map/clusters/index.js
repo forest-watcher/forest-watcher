@@ -1,5 +1,6 @@
+// @flow
+
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import MapView from 'react-native-maps';
 import ClusterMarker from 'components/map/clusters/clusterMarker';
 import { View } from 'react-native';
@@ -7,7 +8,32 @@ import CONSTANTS from 'config/constants';
 
 import styles from './styles';
 
-class Clusters extends PureComponent {
+type Coordinates = {
+  longitude: number,
+  latitude: number
+};
+
+type Marker = {
+  geometry: [number, number]
+}
+
+type Props = {
+  markers: Array<Marker>,
+  reportedAlerts: Array<string>,
+  datasetSlug: string,
+  selectAlert: Coordinates => void,
+  zoomTo: Coordinates => void,
+  mapZoom: number
+};
+
+class Clusters extends PureComponent<Props> {
+  getMarkerSize() {
+    const { mapZoom } = this.props;
+    const coefficient = mapZoom <= 12 ? 1 : (mapZoom - 12) * 2;
+    const size = 0.5 * coefficient;
+    return { x: size, y: size };
+  }
+
   render() {
     if (!this.props.markers) return null;
     return (
@@ -39,7 +65,7 @@ class Clusters extends PureComponent {
             <MapView.Marker
               key={index}
               coordinate={coordinates}
-              anchor={{ x: 0.5, y: 0.5 }}
+              anchor={this.getMarkerSize()}
               onPress={() => this.props.selectAlert(coordinates)}
               zIndex={1}
               draggable={false}
@@ -52,13 +78,5 @@ class Clusters extends PureComponent {
     );
   }
 }
-
-Clusters.propTypes = {
-  markers: PropTypes.array.isRequired,
-  reportedAlerts: PropTypes.array.isRequired,
-  datasetSlug: PropTypes.string.isRequired,
-  selectAlert: PropTypes.func.isRequired,
-  zoomTo: PropTypes.func.isRequired
-};
 
 export default Clusters;

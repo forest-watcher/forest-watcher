@@ -75,18 +75,6 @@ function getNeighboursSelected(selectedAlerts, markers) {
   return neighbours;
 }
 
-function getMapZoom(region) {
-  if (!region.longitude || !region.latitude) return 0;
-  const bounds = [
-    region.longitude - (region.longitudeDelta / 2),
-    region.latitude - (region.latitudeDelta / 2),
-    region.longitude + (region.longitudeDelta / 2),
-    region.latitude + (region.latitudeDelta / 2)
-  ];
-
-  return geoViewport.viewport(bounds, [width, height], 0, 21, 256).zoom || 0;
-}
-
 class Map extends Component {
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color5,
@@ -103,6 +91,18 @@ class Map extends Component {
       { icon: layersIcon, id: 'contextualLayers' }
     ]
   };
+
+  static getMapZoom(region) {
+    if (!region.longitude || !region.latitude) return 0;
+    const bounds = [
+      region.longitude - (region.longitudeDelta / 2),
+      region.latitude - (region.latitudeDelta / 2),
+      region.longitude + (region.longitudeDelta / 2),
+      region.latitude + (region.latitudeDelta / 2)
+    ];
+
+    return geoViewport.viewport(bounds, [width, height], 0, 21, 256).zoom || 0;
+  }
 
   constructor(props) {
     super(props);
@@ -187,6 +187,8 @@ class Map extends Component {
     if (updateCompassLine.includes(true)) {
       this.setCompassLine();
     }
+
+    this.mapZoom = Map.getMapZoom(this.state.region);
   }
 
   componentWillUnmount() {
@@ -296,10 +298,9 @@ class Map extends Component {
       region.longitude + (region.longitudeDelta / 2),
       region.latitude + (region.latitudeDelta / 2)
     ];
-    const zoom = getMapZoom(region);
-    const clusters = clusterGenerator.clusters && clusterGenerator.clusters.getClusters(bbox, zoom);
+    const clusters = clusterGenerator.clusters && clusterGenerator.clusters.getClusters(bbox, this.mapZoom);
     const markers = clusters || [];
-    markers.activeMarkersId = markers.length > 0 ? bbox.join('_') + zoom : '';
+    markers.activeMarkersId = markers.length > 0 ? bbox.join('_') + this.mapZoom : '';
 
     if (clean) {
       this.setState({
@@ -433,14 +434,14 @@ class Map extends Component {
   }
 
   updateRegion = (region) => {
-    const clean = getMapZoom(this.state.region) > getMapZoom(region);
+    const clean = this.mapZoom > Map.getMapZoom(region);
     this.setState({ region }, () => {
       this.updateMarkers(clean);
     });
   }
 
   zoomScale = () => {
-    const zoomLevel = getMapZoom(this.state.region);
+    const zoomLevel = this.mapZoom;
     switch (true) {
       case zoomLevel < 6:
         return 16;
@@ -468,7 +469,7 @@ class Map extends Component {
 
   mapPress = (coordinate) => {
     if (coordinate) {
-      const alertsToAdd = getMapZoom(this.state.region) >= MANUAL_ALERT_SELECTION_ZOOM
+      const alertsToAdd = this.mapZoom >= MANUAL_ALERT_SELECTION_ZOOM
         ? [coordinate]
         : [];
       this.setState(({ selectedAlerts }) => ({
@@ -721,6 +722,7 @@ class Map extends Component {
         selectAlert={this.selectAlert}
         zoomTo={this.zoomTo}
         datasetSlug={area.dataset.slug}
+        mapZoom={this.mapZoom}
       />
     ) : null;
     return (
