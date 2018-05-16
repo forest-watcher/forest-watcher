@@ -448,24 +448,8 @@ class Map extends Component {
     });
   }
 
-  zoomScale = () => {
-    const { mapZoom } = this.state;
-    switch (true) {
-      case mapZoom < 6:
-        return 16;
-      case mapZoom < 8:
-        return 10;
-      case mapZoom < 10:
-        return 8;
-      case mapZoom < 14:
-        return 4;
-      default:
-        return 2;
-    }
-  }
-
-  zoomTo = (coordinates) => {
-    const zoomScale = this.zoomScale();
+  zoomTo = (coordinates, id) => {
+    const zoomScale = clusterGenerator.clusters.getClusterExpansionZoom(id);
     const zoomCoordinates = {
       latitude: coordinates.latitude,
       longitude: coordinates.longitude,

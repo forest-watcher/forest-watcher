@@ -12,6 +12,7 @@ function ClusterMarker(props) {
     latitude: props.marker.geometry.coordinates[1],
     longitude: props.marker.geometry.coordinates[0]
   };
+  const clusterId = props.marker.properties.cluster_id;
   return (
     <MapView.Marker
       key={props.id}
@@ -19,7 +20,7 @@ function ClusterMarker(props) {
       zIndex={1}
       anchor={{ x: 0.5, y: 0.5 }}
       pointerEvents={'none'}
-      onPress={() => props.zoomTo(clusterCoordinates)}
+      onPress={() => props.zoomTo(clusterCoordinates, clusterId)}
     >
       <View style={styles.container}>
         <View style={props.datasetSlug === 'viirs' ? styles.bubbleViirs : styles.bubbleGlad}>
