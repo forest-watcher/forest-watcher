@@ -449,7 +449,8 @@ class Map extends Component {
   }
 
   zoomTo = (coordinates, id) => {
-    const zoomScale = clusterGenerator.clusters.getClusterExpansionZoom(id);
+    // We substract one so there's always some margin
+    const zoomScale = clusterGenerator.clusters.getClusterExpansionZoom(id) - 1;
     const zoomCoordinates = {
       latitude: coordinates.latitude,
       longitude: coordinates.longitude,
