@@ -13,8 +13,6 @@ import {
 } from 'react-native';
 
 import Config from 'react-native-config';
-// $FlowFixMe
-import { version } from 'package.json' // eslint-disable-line
 import Theme from 'config/theme';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
@@ -44,6 +42,7 @@ type Props = {
   facebookLogin: () => void,
   googleLogin: () => void,
   setLoginAuth: ({ token: string, socialNetwork: ?string, loggedIn: boolean }) => void,
+  version: string,
   navigator: any
 };
 
@@ -289,7 +288,7 @@ class Login extends PureComponent<Props, State> {
               </TouchableHighlight>
             </View>
             <View style={styles.versionContainer}>
-              <Text style={styles.versionText}>v{version}</Text>
+              <Text style={styles.versionText}>v{this.props.version}</Text>
             </View>
           </View>
         </ScrollView>

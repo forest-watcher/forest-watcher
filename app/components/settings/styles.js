@@ -176,7 +176,7 @@ export default StyleSheet.create({
   versionText: {
     flex: 1,
     fontFamily: Theme.font,
-    color: Theme.fontColors.main,
+    color: Theme.fontColors.light,
     fontSize: 14
   }
 });

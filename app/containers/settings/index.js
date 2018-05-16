@@ -10,6 +10,7 @@ import Settings from 'components/settings';
 
 function mapStateToProps(state: State) {
   return {
+    version: state.app.version,
     isUnsafeLogout: isUnsafeLogout(state),
     user: state.user.data,
     loggedIn: state.user.loggedIn,
