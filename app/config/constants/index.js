@@ -92,6 +92,10 @@ export const COORDINATES_FORMATS = {
   degrees: {
     label: 'settings.coordinatesDegrees',
     value: 'degrees'
+  },
+  utm: {
+    label: 'settings.coordinatesUtm',
+    value: 'utm'
   }
 };
 
