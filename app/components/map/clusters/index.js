@@ -23,16 +23,11 @@ type Props = {
   datasetSlug: string,
   selectAlert: Coordinates => void,
   zoomTo: Coordinates => void,
-  mapZoom: number
+  markerSize: number
 };
 
 class Clusters extends PureComponent<Props> {
-  getMarkerSize() {
-    const { mapZoom } = this.props;
-    const coefficient = mapZoom <= 12 ? 1 : (mapZoom - 12) * 2;
-    const size = 0.5 * coefficient;
-    return { x: size, y: size };
-  }
+  markerAnchor = { x: 0.5, y: 0.5 };
 
   render() {
     if (!this.props.markers) return null;
@@ -65,12 +60,12 @@ class Clusters extends PureComponent<Props> {
             <MapView.Marker
               key={index}
               coordinate={coordinates}
-              anchor={this.getMarkerSize()}
+              anchor={this.markerAnchor}
               onPress={() => this.props.selectAlert(coordinates)}
               zIndex={1}
               draggable={false}
             >
-              <View style={[styles.markerIcon, markerColor]} />
+              <View style={[this.props.markerSize, markerColor]} />
             </MapView.Marker>
           );
         })}

@@ -24,10 +24,6 @@ export default StyleSheet.create({
     fontSize: 13,
     marginTop: 10
   },
-  markerIcon: { // TODO: refactor this to common icon
-    width: 18,
-    height: 18
-  },
   reportedColor: {
     backgroundColor: `rgba(${hexToRgb(Theme.colors.color1)}, 0.8)`
   },
