@@ -13,11 +13,13 @@ function ClusterMarker(props) {
     longitude: props.marker.geometry.coordinates[0]
   };
   const clusterId = props.marker.properties.cluster_id;
-  // TODO: pass isRecent prop
-  const style = [styles.bubble, styles[`${props.datasetSlug}Color`]];
-  if (props.isRecent) {
-    style.push(styles.recentColor);
-  }
+
+  const style = [
+    styles.bubble,
+    props.marker.properties.isRecent
+      ? styles.recentColor
+      : styles[`${props.datasetSlug}Color`]
+  ];
   return (
     <MapView.Marker
       key={props.id}

@@ -19,7 +19,7 @@ export default StyleSheet.create({
   [`${DATASETS.VIIRS}Color`]: {
     backgroundColor: Theme.colors.colorViirs
   },
-  colorRecent: {
+  recentColor: {
     backgroundColor: Theme.colors.colorRecent
   },
   [`${DATASETS.GLAD}ColorAlert`]: {
@@ -28,7 +28,7 @@ export default StyleSheet.create({
   [`${DATASETS.VIIRS}ColorAlert`]: {
     backgroundColor: `rgba(${hexToRgb(Theme.colors.colorViirs)}, 0.7)`
   },
-  colorRecentAlert: {
+  recentColorAlert: {
     backgroundColor: `rgba(${hexToRgb(Theme.colors.colorRecent)}, 0.7)`
   },
   number: {
