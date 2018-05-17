@@ -53,15 +53,12 @@ export default StyleSheet.create({
     zIndex: 2,
     resizeMode: 'contain'
   },
-  markerIcon: {
-    width: 18,
-    height: 18,
-    backgroundColor: 'rgba(255, 255, 255, 1)'
+  selectedMarkerIcon: {
+    borderColor: 'rgba(85, 85, 85, 0.7)',
+    backgroundColor: Theme.colors.color1
   },
   markerIconArea: {
-    borderWidth: 2,
-    borderColor: 'rgba(255, 255, 255, 0.5)',
-    backgroundColor: 'transparent'
+    backgroundColor: 'rgba(255, 255, 255, 1)'
   },
   header: {
     left: 0,

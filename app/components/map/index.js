@@ -75,18 +75,6 @@ function getNeighboursSelected(selectedAlerts, markers) {
   return neighbours;
 }
 
-function getMapZoom(region) {
-  if (!region.longitude || !region.latitude) return 0;
-  const bounds = [
-    region.longitude - (region.longitudeDelta / 2),
-    region.latitude - (region.latitudeDelta / 2),
-    region.longitude + (region.longitudeDelta / 2),
-    region.latitude + (region.latitudeDelta / 2)
-  ];
-
-  return geoViewport.viewport(bounds, [width, height], 0, 21, 256).zoom || 0;
-}
-
 class Map extends Component {
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color5,
@@ -103,6 +91,18 @@ class Map extends Component {
       { icon: layersIcon, id: 'contextualLayers' }
     ]
   };
+
+  static getMapZoom(region) {
+    if (!region.longitude || !region.latitude) return 0;
+    const bounds = [
+      region.longitude - (region.longitudeDelta / 2.5),
+      region.latitude - (region.latitudeDelta / 2.5),
+      region.longitude + (region.longitudeDelta / 2.5),
+      region.latitude + (region.latitudeDelta / 2.5)
+    ];
+
+    return geoViewport.viewport(bounds, [width, height], 0, 18, 256).zoom || 0;
+  }
 
   constructor(props) {
     super(props);
@@ -126,7 +126,8 @@ class Map extends Component {
       },
       markers: [],
       selectedAlerts: [],
-      neighbours: []
+      neighbours: [],
+      mapZoom: 2
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
@@ -289,17 +290,16 @@ class Map extends Component {
   }
 
   updateMarkers = debounce((clean = false) => {
-    const { region } = this.state;
+    const { region, mapZoom } = this.state;
     const bbox = [
       region.longitude - (region.longitudeDelta / 2),
       region.latitude - (region.latitudeDelta / 2),
       region.longitude + (region.longitudeDelta / 2),
       region.latitude + (region.latitudeDelta / 2)
     ];
-    const zoom = getMapZoom(region);
-    const clusters = clusterGenerator.clusters && clusterGenerator.clusters.getClusters(bbox, zoom);
+    const clusters = clusterGenerator.clusters && clusterGenerator.clusters.getClusters(bbox, mapZoom);
     const markers = clusters || [];
-    markers.activeMarkersId = markers.length > 0 ? bbox.join('_') + zoom : '';
+    markers.activeMarkersId = markers.length > 0 ? bbox.join('_') + mapZoom : '';
 
     if (clean) {
       this.setState({
@@ -311,6 +311,17 @@ class Map extends Component {
       this.setState({ markers });
     }
   }, 300);
+
+  getMarkerSize() {
+    const { mapZoom } = this.state;
+    const expandClusterZoomLevel = 15;
+    const initialMarkerSize = 18;
+
+    const scale = mapZoom - expandClusterZoomLevel;
+    const rescaleFactor = mapZoom <= expandClusterZoomLevel ? 1 : scale;
+    const size = initialMarkerSize * rescaleFactor;
+    return { height: size, width: size };
+  }
 
   reportSelection = () => {
     this.createReport(this.state.selectedAlerts);
@@ -433,30 +444,16 @@ class Map extends Component {
   }
 
   updateRegion = (region) => {
-    const clean = getMapZoom(this.state.region) > getMapZoom(region);
-    this.setState({ region }, () => {
+    const mapZoom = Map.getMapZoom(region);
+    const clean = this.state.mapZoom > mapZoom;
+    this.setState({ region, mapZoom }, () => {
       this.updateMarkers(clean);
     });
   }
 
-  zoomScale = () => {
-    const zoomLevel = getMapZoom(this.state.region);
-    switch (true) {
-      case zoomLevel < 6:
-        return 16;
-      case zoomLevel < 8:
-        return 10;
-      case zoomLevel < 10:
-        return 8;
-      case zoomLevel < 14:
-        return 4;
-      default:
-        return 2;
-    }
-  }
-
-  zoomTo = (coordinates) => {
-    const zoomScale = this.zoomScale();
+  zoomTo = (coordinates, id) => {
+    // We substract one so there's always some margin
+    const zoomScale = clusterGenerator.clusters.getClusterExpansionZoom(id) - 1;
     const zoomCoordinates = {
       latitude: coordinates.latitude,
       longitude: coordinates.longitude,
@@ -468,7 +465,7 @@ class Map extends Component {
 
   mapPress = (coordinate) => {
     if (coordinate) {
-      const alertsToAdd = getMapZoom(this.state.region) >= MANUAL_ALERT_SELECTION_ZOOM
+      const alertsToAdd = this.state.mapZoom >= MANUAL_ALERT_SELECTION_ZOOM
         ? [coordinate]
         : [];
       this.setState(({ selectedAlerts }) => ({
@@ -539,17 +536,13 @@ class Map extends Component {
         ? [
           <ActionBtn
             key="1"
-            left
-            icon="reportSingle"
             style={[styles.footerButton, styles.footerButton1]}
             text={i18n.t('report.selected').toUpperCase()}
             onPress={this.reportSelection}
           />,
           <ActionBtn
             key="2"
-            left
             monochrome
-            icon="reportArea"
             style={[styles.footerButton, styles.footerButton2, styles.footerReport]}
             text={i18n.t('report.area').toUpperCase()}
             onPress={this.reportArea}
@@ -604,6 +597,7 @@ class Map extends Component {
     const clustersKey = markers
       ? `clustersElement-${clusterGenerator.activeClusterId}_${markers.activeMarkersId}`
       : 'clustersElement';
+    const markerSize = this.getMarkerSize();
 
     // Map elements
     const basemapLayerElement = isConnected ?
@@ -697,7 +691,7 @@ class Map extends Component {
           onPress={() => this.includeNeighbour(neighbour)}
           zIndex={10}
         >
-          <View style={[styles.markerIcon, styles.markerIconArea]} />
+          <View style={[markerSize, styles.markerIconArea]} />
         </MapView.Marker>
       )))
       : null;
@@ -710,7 +704,7 @@ class Map extends Component {
           onPress={() => this.removeSelection(alert)}
           zIndex={20}
         >
-          <View style={styles.markerIcon} />
+          <View style={[markerSize, styles.selectedMarkerIcon]} />
         </MapView.Marker>
       )))
       : null;
@@ -721,6 +715,7 @@ class Map extends Component {
         selectAlert={this.selectAlert}
         zoomTo={this.zoomTo}
         datasetSlug={area.dataset.slug}
+        markerSize={markerSize}
       />
     ) : null;
     return (
