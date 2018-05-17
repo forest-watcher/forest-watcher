@@ -1,8 +1,10 @@
 {
     "commonText": {
         "retry": "Reintentar",
+        "oops": "Oops!",
         "error": "Error",
         "unexpectedError": "Sucedió algo inesperado",
+        "crashFeedback": "Algo salió mal. Estamos trabajando en arreglar esto tan pronto como podamos.",
         "appName": "Forest Watcher",
         "next": "Siguiente",
         "save": "Guardar",
@@ -18,6 +20,7 @@
         "loading": "Cargando",
         "notAvailable": "No disponible",
         "kmAway": "Km de distancia",
+        "metersAway": "m away",
         "updated": "Actualizado",
         "name": "Nombre",
         "yourPosition": "Tu posición",
@@ -483,13 +486,16 @@
         "connectionRequired": "Tienes que tener una conexión a Internet",
         "coordinatesFormat": "Coordina el formato",
         "coordinatesDecimal": "Decimal",
-        "coordinatesDegrees": "Grados"
+        "coordinatesDegrees": "Grados",
+        "coordinatesUtm": "UTM",
+        "unsafeLogout": "Your reports are not synced!",
+        "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost."
     },
     "report": {
         "title": "Informe",
         "plural": "Informes",
         "selected": "Informe seleccionado",
-        "area": "Informar área",
+        "area": "Area del informe",
         "takePicture": "Toma una foto",
         "choosePicture": "Por favor, haz o elige una foto",
         "datePlaceholder": "Seleccione una fecha",
@@ -523,20 +529,36 @@
         "error": "Error de sincronización",
         "errorDesc": "Algo ha ido mal",
         "tryAgain": "Intentar de nuevo",
+        "gettingLatestAlerts": "Getting the latest alerts",
+        "alertsUpdated": "Your areas are up to date",
+        "errorCreatingArea": "There was an error creating your area",
+        "reportUploaded": "Report sent",
+        "reportUploadRollback": "Report failed to upload",
         "title": {
-            "wifi": "Actualizando datos...",
-            "cellular": "Estás utilizando datos móviles",
+            "updating": "Downloading data...",
             "offline": "Está desconectado",
-            "updated": "¡ Actualización completa !"
+            "updated": "Download Completed!"
         },
         "subtitle": {
-            "wifi": "Este proceso podría llevar varios minutos.",
-            "cellular": "¿Quieres actualizar los datos y mapas utilizando los datos móviles?",
+            "updating": "We are getting your phone ready for the field",
             "offline": "Necesita una conexión a internet para actualizar los datos",
-            "updated": "¡Los datos fueron actualizados correctamente!"
+            "updated": "We are ready to go!"
         },
         "ok": "de acuerdo",
         "skip": "saltar",
         "update": "actualizar"
+    },
+    "layers": {
+        "protectedAreas": "Protected Areas",
+        "treeCoverLoss2014": "Tree Cover Loss (2014)",
+        "treeCoverLoss2015": "Tree Cover Loss (2015)",
+        "oilPalm": "Oil Palm",
+        "mangedForests": "Managed Forests",
+        "woodFiber": "Wood Fiber",
+        "mining": "Mining"
+    },
+    "datasets": {
+        "umd_as_it_happens": "Deforestation (GLAD)",
+        "viirs": "Fires (VIIRS)"
     }
 }

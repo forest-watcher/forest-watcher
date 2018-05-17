@@ -10,6 +10,7 @@ import {
   TouchableHighlight
 } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
+import FastImage from 'react-native-fast-image';
 
 import I18n from 'locales';
 import Theme from 'config/theme';
@@ -32,7 +33,6 @@ class AreaDetail extends Component {
   };
 
   static propTypes = {
-    imageUrl: PropTypes.string,
     updateArea: PropTypes.func,
     deleteArea: PropTypes.func,
     isConnected: PropTypes.bool.isRequired,
@@ -95,7 +95,6 @@ class AreaDetail extends Component {
   }
 
   render() {
-    const imageUrl = this.props.imageUrl !== undefined ? this.props.imageUrl : null;
     const { area, disableDelete } = this.props;
 
     if (!area) return null;
@@ -143,7 +142,7 @@ class AreaDetail extends Component {
         <View style={styles.row}>
           <Text style={styles.title}>{I18n.t('commonText.boundaries')}</Text>
           <View style={styles.imageContainer}>
-            <Image resizeMode="cover" style={styles.image} source={{ uri: imageUrl || 'placeholder.png' }} />
+            <FastImage style={styles.image} source={{ uri: area.image }} />
           </View>
         </View>
         <View style={styles.row}>

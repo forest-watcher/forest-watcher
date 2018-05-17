@@ -1,8 +1,10 @@
+// @flow
+
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   View
 } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 
 import StepsSlider from 'components/common/steps-slider';
 import SetupCountry from 'containers/setup/country';
@@ -13,21 +15,41 @@ import tracker from 'helpers/googleAnalytics';
 import Header from './header';
 import styles from './styles';
 
-class Setup extends Component {
+const Timer = require('react-native-timer');
+
+type Props = {
+  navigator: Object,
+  setShowLegend: () => void,
+  logout: () => void,
+  goBackDisabled: boolean,
+  closeModal: boolean
+};
+
+type State = {
+  page: number,
+  hideIndex: boolean
+};
+
+class Setup extends Component<Props, State> {
   static navigatorStyle = {
     navBarHidden: true
   };
 
   state = {
-    page: 0
+    page: 0,
+    hideIndex: false
   };
-
-  componentWillMount() {
-    this.props.initSetup();
-  }
 
   componentDidMount() {
     tracker.trackScreenView('Set Up');
+
+    if (this.props.closeModal) {
+      Timer.setTimeout(this, 'clearModal', Navigation.dismissAllModals, 1800);
+    }
+  }
+
+  componentWillUnmount() {
+    Timer.clearTimeout(this, 'clearModal');
   }
 
   onFinishSetup = () => {
@@ -47,7 +69,7 @@ class Setup extends Component {
     page: prevState.page + 1
   }));
 
-  updatePage = (slide) => {
+  updatePage = (slide: { i: number }) => {
     this.setState({
       page: slide.i
     });
@@ -59,8 +81,12 @@ class Setup extends Component {
     });
   }
 
+  hideIndex = () => this.setState({ hideIndex: true });
+
+  showIndex = () => this.setState({ hideIndex: false });
+
   render() {
-    const { page } = this.state;
+    const { page, hideIndex } = this.state;
     const showBack = !this.props.goBackDisabled || page > 0;
     const onBackPress = this.state.page === 0
       ? this.goBack
@@ -72,33 +98,29 @@ class Setup extends Component {
           title={I18n.t('commonText.setUp')}
           showBack={showBack}
           onBackPress={onBackPress}
-          prerenderingSiblingsNumber={this.slides}
           page={page}
           setShowLegend={this.props.setShowLegend}
           logout={this.props.logout}
           navigator={this.props.navigator}
         />
         <StepsSlider
-          page={this.state.page}
+          hideIndex={hideIndex}
+          page={page}
           onChangeTab={this.updatePage}
         >
           <SetupCountry onNextPress={this.goToNextPage} />
           <SetupBoundaries
             onNextPress={this.goToNextPage}
           />
-          <SetupOverView onNextPress={this.onFinishSetup} />
+          <SetupOverView
+            onNextPress={this.onFinishSetup}
+            onTextFocus={this.hideIndex}
+            onTextBlur={this.showIndex}
+          />
         </StepsSlider>
       </View>
     );
   }
 }
-
-Setup.propTypes = {
-  navigator: PropTypes.object.isRequired,
-  setShowLegend: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired,
-  initSetup: PropTypes.func.isRequired,
-  goBackDisabled: PropTypes.bool
-};
 
 export default Setup;

@@ -1,30 +1,37 @@
-import { connect } from 'react-redux';
-import Dashboard from 'components/dashboard';
-import { setSyncModal, setPristineCacheTooltip } from 'redux-modules/app';
-import { createReport } from 'redux-modules/reports';
-import { getTotalActionsPending } from 'helpers/sync';
-import { updateSelectedIndex } from 'redux-modules/areas';
+// @flow
+import type { State } from 'types/store.types';
 
-function mapStateToProps(state) {
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import Dashboard from 'components/dashboard';
+import { updateApp, setPristineCacheTooltip } from 'redux-modules/app';
+import { createReport } from 'redux-modules/reports';
+import { isOutdated } from 'helpers/date';
+import { setAreasRefreshing, updateSelectedIndex } from 'redux-modules/areas';
+
+function mapStateToProps(state: State) {
+  const areasOutdated = !state.areas.synced || isOutdated(state.areas.syncDate);
+  const appSyncing = (state.areas.syncing || state.layers.syncing || state.alerts.queue.length > 0);
+  const isConnected = state.offline.online;
+  const loggedIn = state.user.loggedIn;
   return {
-    actionsPending: getTotalActionsPending(state),
-    syncModalOpen: state.app.syncModalOpen,
-    syncSkip: state.app.syncSkip,
-    pristine: state.app.pristineCacheTooltip
+    appSyncing,
+    isConnected,
+    areasOutdated,
+    refreshing: state.areas.refreshing,
+    pristine: state.app.pristineCacheTooltip,
+    needsUpdate: areasOutdated && !appSyncing && isConnected && loggedIn
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    createReport: (report) => {
-      dispatch(createReport(report));
-    },
-    setPristine: (pristine) => {
-      dispatch(setPristineCacheTooltip(pristine));
-    },
-    setSyncModal: open => dispatch(setSyncModal(open)),
-    updateSelectedIndex: index => dispatch(updateSelectedIndex(index))
-  };
+function mapDispatchToProps(dispatch: *) {
+  return bindActionCreators({
+    updateApp,
+    createReport,
+    setAreasRefreshing,
+    setPristine: setPristineCacheTooltip,
+    updateSelectedIndex
+  }, dispatch);
 }
 
 export default connect(

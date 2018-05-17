@@ -169,9 +169,14 @@ export default StyleSheet.create({
     marginTop: 4
   },
   footerText: {
-    flex: 1,
     marginTop: 30,
-    textAlign: 'center',
+    alignItems: 'center',
     marginLeft: 0
+  },
+  versionText: {
+    flex: 1,
+    fontFamily: Theme.font,
+    color: Theme.fontColors.light,
+    fontSize: 14
   }
 });

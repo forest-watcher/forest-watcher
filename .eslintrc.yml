@@ -1,5 +1,5 @@
 ---
-extends: airbnb
+extends: [airbnb, plugin:flowtype/recommended]
 env:
   node: true
   es6: true
@@ -15,7 +15,7 @@ parserOptions:
     jsx: true
     experimentalObjectRestSpread: true
   sourceType: module
-plugins: [react]
+plugins: [react, flowtype]
 
 rules:
   max-len: [1, 140, 2, {"ignoreUrls":true}]
@@ -26,6 +26,10 @@ rules:
   react/forbid-prop-types: 0
   arrow-parens: 0
   no-use-before-define: 0
+  react/prefer-stateless-function: 1
+  react/sort-comp: 1
+  react/prop-types: 0
+  import/prefer-default-export: 0
 settings:
   import/resolver:
     babel-module: {}
@@ -37,3 +41,6 @@ settings:
       moduleDirectory:
         - node_modules
         - app
+  settings:
+    flowtype:
+      onlyFilesWithFlowAnnotation: true

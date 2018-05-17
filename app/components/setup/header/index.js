@@ -17,6 +17,22 @@ const layersIcon = require('assets/layers.png');
 
 class SetupHeader extends Component {
 
+  static propTypes = {
+    title: PropTypes.string,
+    navigator: PropTypes.object,
+    setShowLegend: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
+    showBack: PropTypes.bool,
+    onBackPress: (props, propName, componentName) => {
+      if (props.showBack && !props[propName]) {
+        return new Error(`${I18n.t('setupHeader.errorFirst')} ${propName}
+      ${I18n.t('setupHeader.errorSecond')}  ${componentName}. ${I18n.t('setupHeader.errorThird')}`);
+      }
+      return null;
+    },
+    page: PropTypes.number.isRequired
+  };
+
   onContextualLayersPress = () => {
     this.props.setShowLegend(false);
     this.props.navigator.toggleDrawer({
@@ -85,21 +101,5 @@ class SetupHeader extends Component {
     );
   }
 }
-
-SetupHeader.propTypes = {
-  title: PropTypes.string,
-  navigator: PropTypes.object,
-  setShowLegend: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired,
-  showBack: PropTypes.bool,
-  onBackPress: (props, propName, componentName) => {
-    if (props.showBack && !props[propName]) {
-      return new Error(`${I18n.t('setupHeader.errorFirst')} ${propName}
-      ${I18n.t('setupHeader.errorSecond')}  ${componentName}. ${I18n.t('setupHeader.errorThird')}`);
-    }
-    return null;
-  },
-  page: PropTypes.number.isRequired
-};
 
 export default SetupHeader;

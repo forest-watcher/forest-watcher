@@ -1,18 +1,14 @@
+// @flow
+import type { State } from 'types/store.types';
+
 import { connect } from 'react-redux';
 
 import AreaList from 'components/common/area-list';
 
 // TODO: remove this
-function mapStateToProps(state) {
-  const { images, data } = state.areas;
-  const areas = data.map((area) => {
-    if (images[area.id]) {
-      return { ...area, image: images[area.id] };
-    }
-    return area;
-  });
+function mapStateToProps(state: State) {
   return {
-    areas
+    areas: state.areas.data
   };
 }
 

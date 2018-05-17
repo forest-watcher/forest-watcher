@@ -1,9 +1,13 @@
+// @flow
+import type { State } from 'types/store.types';
+
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setSetupCountry } from 'redux-modules/setup';
 
 import SetupCountry from 'components/setup/country';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: State) {
   return {
     user: !state.user.data ? ' ' : state.user.data,
     setupCountry: state.setup.country,
@@ -11,13 +15,9 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    setSetupCountry: (country) => {
-      dispatch(setSetupCountry(country));
-    }
-  };
-}
+const mapDispatchToProps = (dispatch: *) => bindActionCreators({
+  setSetupCountry
+}, dispatch);
 
 export default connect(
   mapStateToProps,

@@ -1,8 +1,10 @@
 {
     "commonText": {
         "retry": "Réessayez",
+        "oops": "Oops!",
         "error": "Erreur",
         "unexpectedError": "Un évènement imprévu s'est produit",
+        "crashFeedback": "Quelque chose n'a pas marché. Nous travaillons sur la réparation aussi vite que possible.",
         "appName": "Forest Watcher",
         "next": "Suivant",
         "save": "Enregistrer",
@@ -18,6 +20,7 @@
         "loading": "Chargement",
         "notAvailable": "Indisponible",
         "kmAway": "Km de distance",
+        "metersAway": "m d'ici",
         "updated": "Mise à jour",
         "name": "Nom",
         "yourPosition": "Votre position",
@@ -483,7 +486,10 @@
         "connectionRequired": "Vous avez besoin d'une connexion à internet",
         "coordinatesFormat": "Coordonne le format",
         "coordinatesDecimal": "Décimal",
-        "coordinatesDegrees": "Degrés"
+        "coordinatesDegrees": "Degrés",
+        "coordinatesUtm": "UTM",
+        "unsafeLogout": "Your reports are not synced!",
+        "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost."
     },
     "report": {
         "title": "Rapport",
@@ -523,20 +529,36 @@
         "error": "Erreur de synchronisation",
         "errorDesc": "Il y a eu un problème",
         "tryAgain": "Réessayez",
+        "gettingLatestAlerts": "Getting the latest alerts",
+        "alertsUpdated": "Vos zones sont à jour",
+        "errorCreatingArea": "Il y avait une erreur en faisant votre zone",
+        "reportUploaded": "Votre rapport a été envoyé",
+        "reportUploadRollback": "Votre rapport n'a pas pu être envoyé",
         "title": {
-            "wifi": "Mise à jour des données...",
-            "cellular": "Vous utilisez les données mobiles",
+            "updating": "Le téléchargement est en cours...",
             "offline": "Vous n'êtes pas connecté",
-            "updated": "Mise à jour effectuée !"
+            "updated": "Le téléchargement est terminé!"
         },
         "subtitle": {
-            "wifi": "Cette opération peut durer plusieurs minutes",
-            "cellular": "Voulez-vous mettre à jour les données et les cartes en utilisant les données mobiles ?",
+            "updating": "Nous préparons votre téléphone pour le champ",
             "offline": "Une connexion internet est requise pour mettre à jour vos données",
-            "updated": "Les données ont été mises à jour !"
+            "updated": "C'est parti!"
         },
         "ok": "ok",
         "skip": "passer",
         "update": "mettre à jour"
+    },
+    "layers": {
+        "protectedAreas": "Protected Areas",
+        "treeCoverLoss2014": "Tree Cover Loss (2014)",
+        "treeCoverLoss2015": "Tree Cover Loss (2015)",
+        "oilPalm": "Oil Palm",
+        "mangedForests": "Managed Forests",
+        "woodFiber": "Wood Fiber",
+        "mining": "Mining"
+    },
+    "datasets": {
+        "umd_as_it_happens": "La déforestation (GLAD)",
+        "viirs": "Les feus (VIIRS)"
     }
 }

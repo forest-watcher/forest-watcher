@@ -15,20 +15,6 @@ export default StyleSheet.create({
     bottom: -26,
     top: 0
   },
-  loaderContainer: {
-    flex: 1,
-    backgroundColor: '#EDEAE2',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    position: 'absolute',
-    zIndex: 5
-  },
-  loader: {
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
   signalNotice: {
     marginBottom: 4,
     marginLeft: 16,
@@ -67,15 +53,12 @@ export default StyleSheet.create({
     zIndex: 2,
     resizeMode: 'contain'
   },
-  markerIcon: {
-    width: 18,
-    height: 18,
-    backgroundColor: 'rgba(255, 255, 255, 1)'
+  selectedMarkerIcon: {
+    borderColor: 'rgba(85, 85, 85, 0.7)',
+    backgroundColor: Theme.colors.color1
   },
   markerIconArea: {
-    borderWidth: 2,
-    borderColor: 'rgba(255, 255, 255, 0.5)',
-    backgroundColor: 'transparent'
+    backgroundColor: 'rgba(255, 255, 255, 1)'
   },
   header: {
     left: 0,

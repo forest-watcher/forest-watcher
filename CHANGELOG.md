@@ -1,5 +1,20 @@
 # Forest Watcher Changelog
 
+## [v1.1.0]
+- Update RN verstion to 0.51.
+- Update most of libraries version to match new dependencies.
+- Catch and fix some crashes.
+- New glad coverage included.
+- Android: update min required version.
+
+## [v1.0.8]
+- Fix radio input lists not scrolling.
+- Fix connection status is not updated correctly.
+- Fix keyboard covers text input in area creation.
+- Adds a warning on logout about loosing reports.
+- Adds translations to layer names.
+- Points to tags on github repo dependencies.
+
 ## [v1.0.7]
 - Fix form crash on empty or invalid language label.
 - Decrease the retries policy to provide feedback sooner to the user.

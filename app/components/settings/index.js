@@ -30,11 +30,13 @@ class Settings extends Component {
 
   static propTypes = {
     user: PropTypes.any,
+    version: PropTypes.string,
     loggedIn: PropTypes.bool, // eslint-disable-line
     areas: PropTypes.any,
     navigator: PropTypes.object.isRequired,
     logout: PropTypes.func.isRequired,
-    isConnected: PropTypes.bool.isRequired
+    isConnected: PropTypes.bool.isRequired,
+    isUnsafeLogout: PropTypes.bool.isRequired
   };
 
   componentDidMount() {
@@ -60,10 +62,26 @@ class Settings extends Component {
   }
 
   onLogoutPress = () => {
-    this.props.logout();
-    this.props.navigator.resetTo({
-      screen: 'ForestWatcher.Home'
-    });
+    const { logout, navigator, isUnsafeLogout } = this.props;
+    const proceedWithLogout = () => {
+      logout();
+      navigator.resetTo({
+        screen: 'ForestWatcher.Home'
+      });
+    };
+    if (isUnsafeLogout) {
+      Alert.alert(
+        I18n.t('settings.unsafeLogout'),
+        I18n.t('settings.unsavedDataLost'),
+        [
+          { text: 'OK', onPress: proceedWithLogout },
+          {
+            text: 'Cancel',
+            style: 'cancel'
+          }
+        ]
+      );
+    } else proceedWithLogout();
   }
 
   onPressAddArea = () => {
@@ -115,7 +133,7 @@ class Settings extends Component {
         functionOnPress: this.handleStaticLinks
       }
     ];
-    const { areas } = this.props;
+    const { version, areas } = this.props;
 
     return (
       <View style={styles.container}>
@@ -177,13 +195,13 @@ class Settings extends Component {
             <Text style={styles.label}>
               {I18n.t('settings.aboutApp')}
             </Text>
-
             <List content={aboutSections} bigSeparation={false}>{}</List>
-
-            <Text style={[styles.label, styles.footerText]}>
-              {I18n.t('commonText.appName')}
-            </Text>
-
+            <View style={styles.footerText}>
+              <Text style={[styles.label, { marginLeft: 0 }]}>
+                {I18n.t('commonText.appName')}
+              </Text>
+              <Text style={styles.versionText}>v{version}</Text>
+            </View>
           </View>
         </ScrollView>
       </View>

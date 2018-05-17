@@ -2,29 +2,24 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Alert } from 'react-native';
 import I18n from 'locales';
-import tracker from 'helpers/googleAnalytics';
 
 class ErrorLightbox extends Component {
 
   static propTypes = {
-    error: PropTypes.object.isRequired,
-    isFatal: PropTypes.bool.isRequired,
-    closeLightbox: PropTypes.func.isRequired
+    error: PropTypes.object,
+    onPressOK: PropTypes.func.isRequired
   };
 
   componentDidMount() {
-    const { error, isFatal, closeLightbox } = this.props;
-    tracker.trackException(
-       JSON.stringify({ type: error.name, message: error.message, stack: error.stack }), isFatal
-    );
+    const { error, onPressOK } = this.props;
+    console.warn(error);
     Alert.alert(
-      I18n.t('commonText.error'),
-      I18n.t('commonText.unexpectedError'),
+      I18n.t('commonText.oops'),
+      I18n.t('commonText.crashFeedback'),
       [
         {
-          text: 'Close',
-          style: 'close',
-          onPress: closeLightbox
+          text: 'OK',
+          onPress: onPressOK
         }
       ],
       { cancelable: false }

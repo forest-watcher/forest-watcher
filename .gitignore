@@ -1,6 +1,8 @@
 # Env
 .env
 private/
+ios/ForestWatcher/AppCenter-Config.plist
+android/app/src/main/assets/appcenter-config.json
 
 # OSX
 #
@@ -55,8 +57,22 @@ buck-out/
 android/app/libs
 *.keystore
 
++# Bundle artifact
++*.jsbundle
+
 # Cocoapods
 #
 Pods/
 ios/Podfile.lock
 ios/.gems
+ios/ForestWatcher.ipa
+ios/ForestWatcher.app.dSYM.zip
+
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/
+
+*/fastlane/report.xml
+*/fastlane/Preview.html
+*/fastlane/screenshots

@@ -1,35 +1,30 @@
+// @flow
+import type { State } from 'types/store.types';
+
 import { connect } from 'react-redux';
-import { setLanguage, setSyncModal, startApp } from 'redux-modules/app';
-import { setLoginStatus } from 'redux-modules/user';
+import { bindActionCreators } from 'redux';
+import { syncApp, setLanguage, setAppSynced } from 'redux-modules/app';
 import { getLanguage } from 'helpers/language';
-import { isSyncFinished } from 'helpers/sync';
+import { getTotalActionsPending } from 'helpers/sync';
 
 import Home from 'components/home';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: State) {
   return {
     hasAreas: !!state.areas.data.length,
-    syncFinished: isSyncFinished(state),
+    isAppSynced: state.app.synced,
     loggedIn: state.user.loggedIn,
     token: state.user.token,
-    languageChanged: state.app.language !== getLanguage(),
-    syncModalOpen: state.app.syncModalOpen,
-    syncSkip: state.app.syncSkip
+    actionsPending: getTotalActionsPending(state),
+    languageChanged: state.app.language !== getLanguage()
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    setLoginStatus: (status) => {
-      dispatch(setLoginStatus(status));
-    },
-    setLanguageDispatch: () => {
-      dispatch(setLanguage(getLanguage()));
-    },
-    setSyncModal: open => dispatch(setSyncModal(open)),
-    startApp: () => dispatch(startApp())
-  };
-}
+const mapDispatchToProps = (dispatch: *) => bindActionCreators({
+  syncApp,
+  setAppSynced,
+  setLanguageDispatch: () => setLanguage(getLanguage())
+}, dispatch);
 
 function mergeProps({ languageChanged, ...stateProps }, { setLanguageDispatch, ...dispatchProps }, ownProps) {
   return {

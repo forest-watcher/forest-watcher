@@ -1,11 +1,16 @@
+// @flow
+
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
   ScrollView,
+  RefreshControl,
   Platform,
-  Text
+  Text,
+  StatusBar
 } from 'react-native';
+import { Navigation } from 'react-native-navigation';
+import { Types, showNotification } from 'components/toast-notification';
 
 import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
@@ -14,23 +19,28 @@ import tracker from 'helpers/googleAnalytics';
 import I18n from 'locales';
 import styles from './styles';
 
+const Timer = require('react-native-timer');
 const settingsIcon = require('assets/settings.png');
 const nextIcon = require('assets/next.png');
 
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
 
-class Dashboard extends PureComponent {
+type Props = {
+  navigator: Object,
+  setAreasRefreshing: boolean => void,
+  isConnected: boolean,
+  needsUpdate: boolean,
+  appSyncing: boolean,
+  refreshing: boolean,
+  closeModal?: boolean,
+  pristine: boolean,
+  updateSelectedIndex: number => void,
+  setPristine: boolean => void,
+  updateApp: () => void,
 
-  static propTypes = {
-    navigator: PropTypes.object.isRequired,
-    actionsPending: PropTypes.number.isRequired,
-    syncModalOpen: PropTypes.bool.isRequired,
-    syncSkip: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired,
-    setSyncModal: PropTypes.func.isRequired,
-    updateSelectedIndex: PropTypes.func.isRequired,
-    setPristine: PropTypes.func.isRequired
-  };
+};
+
+class Dashboard extends PureComponent<Props> {
 
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color1,
@@ -53,9 +63,12 @@ class Dashboard extends PureComponent {
     return false;
   }
 
-  constructor(props) {
+  reportsAction: { callback: () => void, icon: any }
+
+  constructor(props: Props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+
     this.reportsAction = {
       callback: this.onPressReports,
       icon: nextIcon
@@ -66,10 +79,37 @@ class Dashboard extends PureComponent {
     if (Platform.OS === 'ios') {
       Location.requestAlwaysAuthorization();
     }
-    tracker.trackScreenView('DashBoard');
+    tracker.trackScreenView('Dashboard');
+    this.checkNeedsUpdate();
+    if (this.props.refreshing && !this.props.appSyncing) {
+      this.props.setAreasRefreshing(false);
+    }
+    if (this.props.closeModal) {
+      Timer.setTimeout(this, 'clearModal', Navigation.dismissAllModals, 1800);
+    }
   }
 
-  onAreaPress = (areaId, name, index) => {
+  componentWillUnmount() {
+    Timer.clearTimeout(this, 'clearModal');
+  }
+
+  onRefresh = () => {
+    const { isConnected, appSyncing, updateApp, setAreasRefreshing } = this.props;
+    if (appSyncing) return;
+
+    if (isConnected) {
+      setAreasRefreshing(true);
+      updateApp();
+    } else {
+      const notification = {
+        type: Types.disable,
+        text: I18n.t('commonText.connectionRequired')
+      };
+      showNotification(notification);
+    }
+  }
+
+  onAreaPress = (areaId: string, name: string, index?: number) => {
     if (typeof index === 'undefined') return;
     this.props.updateSelectedIndex(index);
     this.props.navigator.push({
@@ -85,39 +125,44 @@ class Dashboard extends PureComponent {
     });
   }
 
-  onNavigatorEvent = (event) => {
-    const { actionsPending, syncModalOpen, syncSkip } = this.props;
+  onNavigatorEvent = (event: { type: string, id: string }) => {
+    const { navigator, pristine, setPristine, refreshing, setAreasRefreshing } = this.props;
     if (event.type === 'NavBarButtonPress') {
       if (event.id === 'settings') {
-        this.props.navigator.push({
+        navigator.push({
           screen: 'ForestWatcher.Settings',
           title: 'Settings'
         });
       }
-    } else if (event.id === 'didAppear') {
-      if (actionsPending > 0 && !syncModalOpen && !syncSkip && !this.syncModalOpen) {
-        this.syncModalOpen = true;
-        this.props.setSyncModal(true);
-        this.props.navigator.showModal({
-          screen: 'ForestWatcher.Sync',
-          passProps: {
-            goBackDisabled: true
-          }
-        });
-      }
     } else if (event.id === 'willDisappear') {
-      this.props.setPristine(false);
+      if (pristine) {
+        setPristine(false);
+      }
+      if (refreshing) {
+        setAreasRefreshing(false);
+      }
     }
   }
 
-  getPristine = () => (this.props.pristine)
+  getPristine = (): boolean => (this.props.pristine)
+
+  checkNeedsUpdate() {
+    const { needsUpdate, updateApp } = this.props;
+    if (needsUpdate) {
+      updateApp();
+      const notification = {
+        text: I18n.t('sync.gettingLatestAlerts')
+      };
+      showNotification(notification);
+    }
+  }
 
   disablePristine = () => {
     this.props.setPristine(false);
   }
 
   render() {
-    const { pristine } = this.props;
+    const { pristine, refreshing, appSyncing } = this.props;
     const isIOS = Platform.OS === 'ios';
     // we remove the event handler to improve performance
 
@@ -134,10 +179,20 @@ class Dashboard extends PureComponent {
         onStartShouldSetResponder={androidListener}
         onResponderRelease={androidHandler}
       >
+        <StatusBar networkActivityIndicatorVisible={appSyncing} />
         <View style={styles.backgroundHack} />
+        <Text style={styles.label}>
+          {I18n.t('settings.yourAreas')}
+        </Text>
         <ScrollView
           style={styles.containerScroll}
           onScroll={disablePristine}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
         >
           <View
             onStartShouldSetResponder={iOSListener}
@@ -147,9 +202,6 @@ class Dashboard extends PureComponent {
             scrollEnabled
           >
             <View>
-              <Text style={styles.label}>
-                {I18n.t('settings.yourAreas')}
-              </Text>
               <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
             </View>
           </View>

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Forest Watcher</string>
+    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">@string/CODEPUSH_ANDROID_DEPLOY_KEY</string>
+    <string name="CodePushPublicKey">@string/CODEPUSH_RELEASE_PUBLIC_KEY</string>
+    <string name="facebook_app_id">@string/LOGIN_FACEBOOK_APP_ID</string>
+    <string name="fb_login_protocol_scheme">@string/LOGIN_FACEBOOK_PROTOCOL_SCHEME</string>
+    <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true">ALWAYS_SEND</string>
 </resources>

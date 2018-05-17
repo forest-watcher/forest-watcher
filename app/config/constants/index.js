@@ -1,9 +1,7 @@
 import Config from 'react-native-config';
 
 export const APP_NAME = 'Forest Watcher';
-// codes that doesn't mean an error from here
-// https://github.com/devfd/react-native-google-signin/issues/281
-export const DISMISS_LOGIN_CODES = [8, 12501];
+
 export const AREAS = {
   maxSize: 1500000000, // square meters
   alertRange: { // days from to get data
@@ -75,10 +73,10 @@ export const STATUS = {
 };
 
 export const REACH = {
-  WIFI: ['WIFI'],
-  MOBILE: ['MOBILE', 'MOBILE_DUN', 'MOBILE_HIPRI', 'MOBILE_MMS', 'MOBILE_SUPL', 'CELL'],
-  OTHER: ['BLUETOOTH', 'DUMMY', 'ETHERNET', 'VPN', 'WIMAX'],
-  NONE: ['NONE', 'UNKNOWN']
+  WIFI: ['wifi'],
+  MOBILE: ['cellular'],
+  OTHER: ['bluetooth', 'ethernet', 'wimax'],
+  NONE: ['none', 'unknown']
 };
 
 export const DATASETS = {
@@ -94,8 +92,16 @@ export const COORDINATES_FORMATS = {
   degrees: {
     label: 'settings.coordinatesDegrees',
     value: 'degrees'
+  },
+  utm: {
+    label: 'settings.coordinatesUtm',
+    value: 'utm'
   }
 };
+
+export const REDUCERS_SAVED_TO_REPORT = ['app', 'areas', 'layers'];
+export const ACTIONS_SAVED_TO_REPORT = 5;
+export const MANUAL_ALERT_SELECTION_ZOOM = 12;
 
 export default {
   appName: APP_NAME,
@@ -108,6 +114,7 @@ export default {
   reports: REPORTS,
   status: STATUS,
   reach: REACH,
-  datasets: DATASETS
+  datasets: DATASETS,
+  actionsSavedToReport: ACTIONS_SAVED_TO_REPORT
 };
 

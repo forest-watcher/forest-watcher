@@ -1,31 +1,30 @@
+// @flow
+import type { State } from 'types/store.types';
+
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setSetupAOI } from 'redux-modules/setup';
-import { storeGeostore } from 'redux-modules/geostore';
+import { setSetupArea } from 'redux-modules/setup';
 import { getContextualLayer } from 'helpers/map';
 
 import SetupBoundaries from 'components/setup/boundaries';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: State) {
   const contextualLayer = getContextualLayer(state.layers);
+  const coordinates = state.setup.area.geojson
+    ? state.setup.area.geojson.coordinates[0]
+    : [];
   return {
+    coordinates,
+    contextualLayer,
     user: state.user.data,
-    setupCountry: state.setup.country,
     countries: state.countries.data,
-    area: state.setup.area,
-    contextualLayer
+    setupCountry: state.setup.country
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    setSetupArea: (area, snapshot) => {
-      dispatch(setSetupAOI(area, snapshot));
-    },
-    storeGeostore: (id, data) => {
-      dispatch(storeGeostore(id, data));
-    }
-  };
-}
+const mapDispatchToProps = (dispatch: *) => bindActionCreators({
+  setSetupArea
+}, dispatch);
 
 export default connect(
   mapStateToProps,

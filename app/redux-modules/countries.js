@@ -1,3 +1,7 @@
+// @flow
+import type { Dispatch, GetState } from 'types/store.types';
+import type { CountriesState, CountriesAction } from 'types/countries.types';
+
 import Config from 'react-native-config';
 import { getLanguage } from 'helpers/language';
 import CONSTANTS from 'config/constants';
@@ -17,12 +21,14 @@ const initialState = {
   syncing: false
 };
 
-export default function reducer(state = initialState, action) {
+export default function reducer(state: CountriesState = initialState, action: CountriesAction) {
   switch (action.type) {
     case GET_COUNTRIES_REQUEST:
       return { ...state, synced: false, syncing: true };
-    case GET_COUNTRIES_COMMIT:
-      return { ...state, data: action.payload.data, synced: true, syncing: false };
+    case GET_COUNTRIES_COMMIT: {
+      const data = action.payload.data.filter(country => country.centroid !== null);
+      return { ...state, data, synced: true, syncing: false };
+    }
     case GET_COUNTRIES_ROLLBACK:
       return { ...state, syncing: false };
     case LOGOUT_REQUEST:
@@ -33,7 +39,7 @@ export default function reducer(state = initialState, action) {
 }
 
 // Action Creators
-function getCountries() {
+function getCountries(): CountriesAction {
   const currentLang = getLanguage();
   const nameColumnId = CONSTANTS.countries.nameColumn[currentLang] ||
     CONSTANTS.countries.nameColumn.en;
@@ -55,7 +61,7 @@ function getCountries() {
 }
 
 export function syncCountries() {
-  return (dispatch, state) => {
+  return (dispatch: Dispatch, state: GetState) => {
     const { countries } = state();
     if (!countries.synced && !countries.syncing) dispatch(getCountries());
   };

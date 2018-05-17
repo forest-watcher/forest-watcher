@@ -1,6 +1,7 @@
-// loop through the pending data object looking for actions that hasn't been dispatched yet
-// return the num of actions to be dispatched
-export function getActionsTodoCount(pendingData) {
+// @flow
+import type { State } from 'types/store.types';
+
+export function getActionsTodoCount(pendingData: Object) {
   if (!pendingData || typeof pendingData !== 'object') return 0;
   return Object.keys(pendingData).reduce((acc, next) => (
     acc + Object.keys(pendingData[next]).reduce((acc2, action) => (
@@ -11,59 +12,30 @@ export function getActionsTodoCount(pendingData) {
   ), 0);
 }
 
-export function getActionsInProgessCount(pendingData) {
-  if (!pendingData || typeof pendingData !== 'object') return 0;
-  return Object.keys(pendingData).reduce((acc, next) => (
-    acc + Object.keys(pendingData[next]).reduce((acc2, action) => (
-      // true means the action is being done
-      // so we have to sum it;
-      acc2 + (!pendingData[next][action] ? 0 : 1)
-    ), 0)
-  ), 0);
-}
-
-export function getTotalActionsTodoCount(state) {
-  const actionsPending = [
+export function getTotalActionsTodoCount(state: State) {
+  const modulesToSync = [
     !state.areas.synced && !state.areas.syncing,
     !state.user.synced && !state.user.syncing,
     !state.layers.synced && !state.layers.syncing,
     !state.reports.synced && !state.reports.syncing
   ];
-  const actionsPendingCount = actionsPending.reduce((ac, next) => (next ? ac + 1 : ac), 0);
-
-  let pendingDataCount = 0;
-  Object.keys(state).forEach((key) => {
-    if (state[key].pendingData) {
-      pendingDataCount += getActionsTodoCount(state[key].pendingData);
-    }
-  });
-  return actionsPendingCount + pendingDataCount;
+  return modulesToSync.reduce((ac, next) => (next ? ac + 1 : ac), 0);
 }
 
-export function getTotalActionsInProgessCount(state) {
+export function getTotalActionsInProgessCount(state: State) {
   const actionsInProgress = [
     !state.areas.synced && state.areas.syncing,
     !state.user.synced && state.user.syncing,
     !state.layers.synced && state.layers.syncing,
     !state.reports.synced && state.reports.syncing
   ];
-  const actionsInProgressCount = actionsInProgress.reduce((ac, next) => (next ? ac + 1 : ac), 0);
-
-  let pendingDataCount = 0;
-  Object.keys(state).forEach((key) => {
-    if (state[key].pendingData) {
-      pendingDataCount += getActionsInProgessCount(state[key].pendingData);
-    }
-  });
-  return actionsInProgressCount + pendingDataCount;
+  return actionsInProgress.reduce((ac, next) => (next ? ac + 1 : ac), 0) + state.alerts.queue.length;
 }
 
-export function getTotalActionsPending(pendingData) {
-  return getTotalActionsTodoCount(pendingData) + getTotalActionsInProgessCount(pendingData);
+export function getTotalActionsPending(state: State) {
+  return getTotalActionsTodoCount(state) + getTotalActionsInProgessCount(state);
 }
 
-export function isSyncFinished(pendingData) {
-  return (getTotalActionsPending(pendingData)) === 0;
+export function hasSyncFinished(state: State) {
+  return (getTotalActionsPending(state)) === 0;
 }
-
-export default { getTotalActionsPending };

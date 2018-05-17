@@ -1,0 +1,2 @@
+- Updates texts.
+- Fixes FAQ questions not opening.

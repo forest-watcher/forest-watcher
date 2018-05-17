@@ -1,33 +1,28 @@
+// @flow
+import type { State } from 'types/store.types';
+
 import { connect } from 'react-redux';
-import { syncApp, retrySync, setSyncModal, setSyncSkip } from 'redux-modules/app';
-import { getTotalActionsPending } from 'helpers/sync';
+import { bindActionCreators } from 'redux';
+import { retrySync } from 'redux-modules/app';
+import { hasSyncFinished } from 'helpers/sync';
 import isEmpty from 'lodash/isEmpty';
 
 import Sync from 'components/sync';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: State) {
   const hasAreas = !!state.areas.data.length;
   const hasAlerts = !isEmpty(state.alerts.cache);
 
   return {
-    syncSkip: state.app.syncSkip,
     criticalSyncError: (!hasAreas && state.areas.syncError) || (!hasAlerts && state.alerts.syncError),
-    updatingError: state.areas.syncError || state.alerts.syncError,
     isConnected: state.offline.online,
-    skipAllowed: (hasAreas && hasAlerts),
-    reach: state.offline.netInfo && state.offline.netInfo.reach,
-    actionsPending: getTotalActionsPending(state)
+    syncFinished: hasSyncFinished(state)
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    syncApp: () => dispatch(syncApp()),
-    retrySync: () => dispatch(retrySync()),
-    setSyncModal: open => dispatch(setSyncModal(open)),
-    setSyncSkip: status => dispatch(setSyncSkip(status))
-  };
-}
+const mapDispatchToProps = (dispatch: *) => bindActionCreators({
+  retrySync
+}, dispatch);
 
 export default connect(
   mapStateToProps,

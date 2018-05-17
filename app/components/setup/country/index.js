@@ -53,7 +53,7 @@ class SetupCountry extends Component {
 
   onNextPress = () => {
     const { setupCountry, countries, user } = this.props;
-    if (!setupCountry.iso && user.country) {
+    if (!(setupCountry && setupCountry.iso) && user.country) {
       const currentCountry = getCurrentCountry(countries, user.country);
       this.props.setSetupCountry(currentCountry);
     }
@@ -61,9 +61,9 @@ class SetupCountry extends Component {
   }
 
   render() {
-    const { user, countries, setupCountry } = this.props;
+    const { user, countries, setupCountry, setSetupCountry } = this.props;
     if (user && countries && countries.length) {
-      const iso = setupCountry.iso || user.country;
+      const iso = (setupCountry && setupCountry.iso) || user.country;
       return (
         <View style={styles.container}>
           <View style={styles.content}>
@@ -75,7 +75,7 @@ class SetupCountry extends Component {
             <Text style={styles.selectorLabel}>{I18n.t('setupCountry.firstInstruction')}</Text>
             <SearchSelector
               selected={getCountrySelected(countries, iso)}
-              onOptionSelected={(country) => { this.props.setSetupCountry(country); }}
+              onOptionSelected={setSetupCountry}
               data={countries}
               placeholder={I18n.t('countries.searchPlaceholder')}
             />

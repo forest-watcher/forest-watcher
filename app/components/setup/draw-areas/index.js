@@ -5,18 +5,17 @@ import {
   Image,
   Text,
   Dimensions,
-  ActivityIndicator,
   TouchableHighlight,
   Platform
 } from 'react-native';
 
-import CONSTANTS from 'config/constants';
-import Config from 'react-native-config';
+import { MAPS, AREAS } from 'config/constants';
 import MapView from 'react-native-maps';
 import gpsi from 'geojson-polygon-self-intersections';
 import { storeImage } from 'helpers/fileManagement';
 
 import ActionButton from 'components/common/action-button';
+import MapAttribution from 'components/map/map-attribution';
 import Theme from 'config/theme';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
@@ -29,10 +28,10 @@ const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 30;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+const edgePadding = { top: 180, right: 85, bottom: 180, left: 85 };
 
 const footerBackgroundImage = require('assets/map_bg_gradient.png');
 const markerImage = require('assets/circle.png');
-// const markerRedImage = require('assets/circle_red.png');
 const undoImage = require('assets/undo.png');
 
 function parseCoordinates(coordinates) {
@@ -43,6 +42,7 @@ function parseCoordinates(coordinates) {
 }
 
 function getGoogleMapsCoordinates(coordinates) {
+  if (!coordinates) return [];
   return coordinates.map((cordinate) => ({
     latitude: cordinate[1],
     longitude: cordinate[0]
@@ -59,50 +59,18 @@ function getGeoJson(coordinates) {
   };
 }
 
-function saveGeoJson(geojson) {
-  const fetchConfig = {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify({
-      lock: true,
-      geojson
-    })
-  };
-  const url = `${Config.API_URL}/geostore`;
-  return fetch(url, fetchConfig);
-}
-
-function renderLoading() {
-  return (
-    <View
-      style={styles.loader}
-      pointerEvents={'none'}
-    >
-      <ActivityIndicator
-        color={Theme.colors.color1}
-        style={{ height: 80 }}
-        size={'large'}
-      />
-    </View>
-  );
-}
-
 class DrawAreas extends Component {
-
   constructor(props) {
     super(props);
     const intialCoords = this.props.country && this.props.country.centroid
       ? this.props.country.centroid.coordinates
-      : [CONSTANTS.maps.lng, CONSTANTS.maps.lat];
+      : [MAPS.lng, MAPS.lat];
 
     this.state = {
-      loading: false,
       valid: true,
       huge: false,
       shape: {
-        coordinates: []
+        coordinates: getGoogleMapsCoordinates(props.coordinates)
       },
       region: {
         latitude: intialCoords[1],
@@ -117,6 +85,17 @@ class DrawAreas extends Component {
   componentDidMount() {
     tracker.trackScreenView('Draw Areas');
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { coordinates } = this.state.shape;
+    if (coordinates && coordinates.length > 1 && coordinates !== prevState.shape.coordinates) {
+      this.map.fitToCoordinates(coordinates, {
+        edgePadding,
+        animated: true
+      });
+    }
+  }
+
 
   onMapPress(e) {
     if (e.nativeEvent.coordinate) {
@@ -140,7 +119,7 @@ class DrawAreas extends Component {
           isValid = false;
         }
         const area = geojsonArea.geometry(geo);
-        if (area > CONSTANTS.areas.maxSize) {
+        if (area > AREAS.maxSize) {
           isHuge = true;
         }
       }
@@ -157,35 +136,26 @@ class DrawAreas extends Component {
   }
 
   onNextPress = () => {
-    this.map.fitToCoordinates(this.state.shape.coordinates, {
-      edgePadding: { top: 100, right: 50, bottom: 100, left: 50 },
-      animated: false
+    requestAnimationFrame(async () => {
+      const snapshot = await this.takeSnapshot();
+      const url = snapshot.uri ? snapshot.uri : snapshot;
+      const storedUrl = await storeImage(url);
+      const geojson = getGeoJson(this.state.shape.coordinates);
+      this.props.onDrawAreaFinish({ geojson }, storedUrl);
     });
-    this.setState({ loading: true, snapshot: true });
-    saveGeoJson(getGeoJson(this.state.shape.coordinates))
-      .then(res => {
-        if (res.ok) return res.json();
-        throw new Error(res.statusText);
-      })
-      .then(async (response) => {
-        const geostore = response.data && response.data.id;
-        this.props.storeGeostore(geostore, response.data.attributes);
-        const snapshot = await this.takeSnapshot();
-        const url = snapshot.uri ? snapshot.uri : snapshot;
-        const storedUrl = await storeImage(url);
-        await this.props.onDrawAreaFinish({ geostore }, storedUrl);
-        this.setState({ loading: false });
-      })
-      .catch((error) => console.warn(error));
   }
 
   setBoundaries = () => {
-    let boundaries = CONSTANTS.maps.bbox.coordinates[0];
-    if (this.props.country && this.props.country.bbox) {
-      boundaries = this.props.country.bbox.coordinates[0];
+    let boundaries = getGoogleMapsCoordinates(MAPS.bbox.coordinates[0]);
+    const { coordinates } = this.state.shape;
+    if (coordinates && coordinates.length > 1) {
+      boundaries = coordinates;
+    } else if (this.props.country && this.props.country.bbox) {
+      boundaries = getGoogleMapsCoordinates(this.props.country.bbox.coordinates[0]);
     }
-    this.map.fitToCoordinates(getGoogleMapsCoordinates(boundaries), {
-      edgePadding: { top: 0, right: 0, bottom: 0, left: 0 },
+
+    this.map.fitToCoordinates(boundaries, {
+      edgePadding,
       animated: true
     });
   }
@@ -199,6 +169,7 @@ class DrawAreas extends Component {
       return (
         <View pointerEvents="none" style={[styles.actionButton, withPadding]}>
           <Text style={styles.footerTitle}>{I18n.t('setupDrawAreas.tapInstruction')}</Text>
+          <MapAttribution />
         </View>
       );
     }
@@ -253,7 +224,7 @@ class DrawAreas extends Component {
 
       isValid = (intersects && intersects.geometry && intersects.geometry.coordinates.length === 0);
       const area = geojsonArea.geometry(getGeoJson(shape.coordinates));
-      if (area > CONSTANTS.areas.maxSize) {
+      if (area > AREAS.maxSize) {
         isHuge = true;
       }
     }
@@ -288,20 +259,21 @@ class DrawAreas extends Component {
 
     return (
       <View style={styles.container}>
-        {this.state.loading
-          ? renderLoading()
-          : null
-        }
         <MapView
           ref={(ref) => { this.map = ref; }}
           style={styles.map}
           provider={MapView.PROVIDER_GOOGLE}
-          mapType="hybrid"
+          mapType="none"
           rotateEnabled={false}
           onPress={e => this.onMapPress(e)}
           moveOnMarkerPress={false}
           onLayout={this.setBoundaries}
         >
+          <MapView.UrlTile
+            key="basemapLayerElement"
+            urlTemplate={MAPS.basemap}
+            zIndex={-1}
+          />
           {contextualLayer && <MapView.UrlTile
             key={ctxLayerKey}
             urlTemplate={contextualLayer.url}
@@ -377,7 +349,6 @@ DrawAreas.propTypes = {
     centroid: PropTypes.object
   }).isRequired,
   onDrawAreaFinish: PropTypes.func.isRequired,
-  storeGeostore: PropTypes.func.isRequired,
   contextualLayer: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,

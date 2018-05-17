@@ -1,23 +1,27 @@
+// @flow
+import type { State } from 'types/store.types';
+
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setActiveContextualLayer } from 'redux-modules/layers';
 import { activeDataset } from 'helpers/area';
-import CONSTANTS from 'config/constants';
+import { DATASETS } from 'config/constants';
 import { hexToRgb } from 'helpers/utils';
 import Theme from 'config/theme';
 import MapSidebar from 'components/map-sidebar';
 
 
-function mapStateToProps(state) {
+function mapStateToProps(state: State) {
   const index = state.areas.selectedIndex;
   const area = state.areas.data[index] || null;
   const showLegend = state.layers.showLegend;
-  let legend = false;
+  let legend = null;
   if (area) {
     const dataset = activeDataset(area);
     if (dataset && showLegend) {
-      const color = dataset.slug === CONSTANTS.datasets.VIIRS ? Theme.colors.colorViirs : Theme.colors.colorGlad;
+      const color = dataset.slug === DATASETS.VIIRS ? Theme.colors.colorViirs : Theme.colors.colorGlad;
       legend = {
-        title: dataset.name,
+        title: `datasets.${dataset.slug}`,
         color: `rgba(${hexToRgb(color)}, 0.7)`
       };
     }
@@ -29,13 +33,9 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    onLayerToggle: (layerId, value) => {
-      dispatch(setActiveContextualLayer(layerId, value));
-    }
-  };
-}
+const mapDispatchToProps = (dispatch: *) => bindActionCreators({
+  onLayerToggle: setActiveContextualLayer
+}, dispatch);
 
 export default connect(
   mapStateToProps,

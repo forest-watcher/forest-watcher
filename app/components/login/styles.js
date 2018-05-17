@@ -6,8 +6,10 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: Theme.background.main
   },
+  contentContainer: {
+    flex: 1
+  },
   intro: {
-    flex: 0.4,
     alignItems: 'center'
   },
   logo: {
@@ -15,8 +17,11 @@ export default StyleSheet.create({
     height: 112,
     marginTop: 80
   },
+  bottomContainer: {
+    flex: 1,
+    justifyContent: 'space-between'
+  },
   buttons: {
-    flex: 0.6,
     marginTop: 70
   },
   buttonsLabel: {
@@ -161,5 +166,28 @@ export default StyleSheet.create({
         marginTop: 64
       }
     })
+  },
+  versionContainer: {
+    marginBottom: 8
+  },
+  versionText: {
+    fontFamily: Theme.font,
+    color: Theme.fontColors.light,
+    fontSize: 14,
+    textAlign: 'center'
+  },
+  loaderContainer: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    left: 0,
+    right: 0,
+    top: 192,
+    bottom: 0,
+    position: 'absolute',
+    zIndex: 5
+  },
+  loader: {
+    alignItems: 'center',
+    justifyContent: 'flex-start'
   }
 });

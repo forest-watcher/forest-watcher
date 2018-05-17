@@ -6,6 +6,8 @@ import {
   TouchableHighlight,
   View
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
+
 import Theme from 'config/theme';
 
 import AreaCache from 'containers/dashboard/area-cache';
@@ -29,7 +31,7 @@ function AreaList(props) {
             <View style={styles.item}>
               <View style={styles.imageContainer}>
                 {area.image
-                  ? <Image style={styles.image} source={{ uri: area.image }} />
+                  ? <FastImage style={styles.image} source={{ uri: area.image }} />
                   : null
                 }
               </View>

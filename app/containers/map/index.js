@@ -1,12 +1,13 @@
+// @flow
+import type { State } from 'types/store.types';
+
 import { connect } from 'react-redux';
 import { createReport } from 'redux-modules/reports';
-import { setSyncModal } from 'redux-modules/app';
-import { setCanDisplayAlerts, setActiveAlerts, activeCluster } from 'redux-modules/alerts';
+import { setCanDisplayAlerts, setActiveAlerts } from 'redux-modules/alerts';
 import tracker from 'helpers/googleAnalytics';
 import { getContextualLayer } from 'helpers/map';
 import Map from 'components/map';
 import { activeDataset } from 'helpers/area';
-import { getTotalActionsPending } from 'helpers/sync';
 
 const BoundingBox = require('boundingbox');
 
@@ -19,19 +20,17 @@ function getAreaCoordinates(areaFeature) {
   ));
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: State) {
   const index = state.areas.selectedIndex;
   const area = state.areas.data[index] || null;
   let center = null;
   let areaCoordinates = null;
-  let datasetSlug = null;
   let dataset = null;
   let areaProps = null;
   if (area) {
     dataset = activeDataset(area);
-    datasetSlug = dataset.slug;
-    const geostore = state.geostore.data[area.geostore];
-    const areaFeatures = (geostore && geostore.geojson.features[0]) || false;
+    const geostore = area.geostore;
+    const areaFeatures = (geostore && geostore.geojson && geostore.geojson.features[0]) || false;
     if (areaFeatures) {
       center = new BoundingBox(areaFeatures).getCenter();
       areaCoordinates = getAreaCoordinates(areaFeatures);
@@ -46,20 +45,15 @@ function mapStateToProps(state) {
   const { cache } = state.layers;
   const contextualLayer = getContextualLayer(state.layers);
   return {
-    area: areaProps,
     center,
-    datasetSlug,
-    areaCoordinates,
-    clusters: activeCluster.supercluster,
-    isConnected: state.offline.online,
-    basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',
-    ctxLayerLocalTilePath: cache[state.layers.activeLayer] ? cache[state.layers.activeLayer][area.id] : '',
-    actionsPending: getTotalActionsPending(state),
-    syncModalOpen: state.app.syncModalOpen,
-    syncSkip: state.app.syncSkip,
-    canDisplayAlerts: state.alerts.canDisplayAlerts,
     contextualLayer,
-    coordinatesFormat: state.app.coordinatesFormat
+    areaCoordinates,
+    area: areaProps,
+    isConnected: state.offline.online,
+    coordinatesFormat: state.app.coordinatesFormat,
+    canDisplayAlerts: state.alerts.canDisplayAlerts,
+    basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',
+    ctxLayerLocalTilePath: cache[state.layers.activeLayer] ? cache[state.layers.activeLayer][area.id] : ''
   };
 }
 
@@ -74,7 +68,6 @@ function mapDispatchToProps(dispatch, { navigation }) {
     navigate: (routeName, params) => {
       navigation.navigate(routeName, params);
     },
-    setSyncModal: open => dispatch(setSyncModal(open)),
     setCanDisplayAlerts: canDisplay => dispatch(setCanDisplayAlerts(canDisplay))
   };
 }

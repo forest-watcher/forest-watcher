@@ -1,33 +1,43 @@
-import { RESET_STATE } from '@redux-offline/redux-offline/lib/constants';
+// @flow
+import type { Dispatch, GetState } from 'types/store.types';
+import type { UserState, UserAction } from 'types/user.types';
+
+import { PERSIST_REHYDRATE, RESET_STATE } from '@redux-offline/redux-offline/lib/constants';
+import { authorize, revoke } from 'react-native-app-auth';
+import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import Config from 'react-native-config';
-import GoogleOAuth from 'config/oAuth/GoogleOAuth';
-import { DISMISS_LOGIN_CODES } from 'config/constants/index';
+import oAuth from 'config/oAuth';
 
 const CookieManager = require('react-native-cookies');
-
 
 // Actions
 const GET_USER_REQUEST = 'user/GET_USER_REQUEST';
 const GET_USER_COMMIT = 'user/GET_USER_COMMIT';
 const GET_USER_ROLLBACK = 'user/GET_USER_ROLLBACK';
+const SET_LOGIN_AUTH = 'user/SET_LOGIN_AUTH';
 const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
 export const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
-const LOGOUT_COMMIT = 'user/LOGOUT_COMMIT';
-const LOGOUT_ROLLBACK = 'user/LOGOUT_ROLLBACK';
+const SET_LOGIN_LOADING = 'user/SET_LOGIN_LOADING';
 
 // Reducer
 const initialState = {
   data: {},
   loggedIn: false,
   token: null,
+  oAuthToken: null,
   socialNetwork: null,
   logSuccess: true,
   synced: false,
-  syncing: false
+  syncing: false,
+  loading: false
 };
 
-export default function reducer(state = initialState, action) {
+export default function reducer(state: UserState = initialState, action: UserAction): UserState {
   switch (action.type) {
+    case PERSIST_REHYDRATE: {
+      const { user } = action.payload;
+      return { ...state, ...user, loading: false };
+    }
     case GET_USER_REQUEST:
       return { ...state, synced: false, syncing: true };
     case GET_USER_COMMIT: {
@@ -37,21 +47,34 @@ export default function reducer(state = initialState, action) {
     case GET_USER_ROLLBACK: {
       return { ...state, syncing: false };
     }
-    case SET_LOGIN_STATUS:
-      return Object.assign({}, state, { ...action.payload });
+    case SET_LOGIN_AUTH: {
+      const { socialNetwork, loggedIn, token, oAuthToken } = action.payload;
+      return { ...state, socialNetwork, loggedIn, token, oAuthToken };
+    }
+    case SET_LOGIN_STATUS: {
+      const logSuccess = action.payload;
+      return { ...state, logSuccess };
+    }
+    case SET_LOGIN_LOADING: {
+      const loading = action.payload;
+      return { ...state, loading };
+    }
     case LOGOUT_REQUEST:
-      return { ...state, token: null, loggedIn: false };
-    case LOGOUT_COMMIT:
-      return { ...initialState, logSuccess: true };
-    case LOGOUT_ROLLBACK:
-      return { ...state, logSuccess: false };
+      return {
+        ...state,
+        token: null,
+        synced: false,
+        loggedIn: false,
+        oAuthToken: null,
+        socialNetwork: null
+      };
     default:
       return state;
   }
 }
 
 // Action Creators
-function getUser() {
+function getUser(): UserAction {
   return {
     type: GET_USER_REQUEST,
     meta: {
@@ -65,60 +88,114 @@ function getUser() {
 }
 
 export function syncUser() {
-  return (dispatch, state) => {
+  return (dispatch: Dispatch, state: GetState) => {
     const { user } = state();
     if (!user.synced && !user.syncing) dispatch(getUser());
   };
 }
 
-export function setLoginStatus(status) {
-  return {
-    type: SET_LOGIN_STATUS,
-    payload: status
-  };
-}
-
-export function loginGoogle() {
-  return (dispatch) => {
-    GoogleOAuth.login()
-    .then((user) => {
-      fetch(`${Config.API_AUTH}/auth/google/token?access_token=${user.accessToken}`)
-        .then(response => {
-          if (response.ok) return response.json();
-          throw new Error(response.statusText);
-        })
-        .then(data => dispatch({
-          type: SET_LOGIN_STATUS,
+export function googleLogin() {
+  return async (dispatch: Dispatch) => {
+    try {
+      dispatch({ type: SET_LOGIN_LOADING, payload: true });
+      const user = await authorize(oAuth.google);
+      try {
+        const response = await fetch(`${Config.API_AUTH}/auth/google/token?access_token=${user.accessToken}`);
+        dispatch({ type: SET_LOGIN_LOADING, payload: false });
+        if (!response.ok) throw new Error(response.statusText);
+        const data = await response.json();
+        dispatch({
+          type: SET_LOGIN_AUTH,
           payload: {
             socialNetwork: 'google',
             loggedIn: true,
-            token: data.token
+            token: data.token,
+            oAuthToken: user.accessToken
           }
-        }))
-        .catch(() => dispatch(logout()));
-    })
-      .catch(({ code }) => dispatch({
+        });
+      } catch (e) {
+        dispatch({ type: SET_LOGIN_LOADING, payload: false });
+        dispatch(logout('google'));
+      }
+    } catch (e) {
+      // very brittle approach but only way to know currently
+      const userDismissedLoginIOS = e.message.indexOf('error -3') !== -1;
+      const userDismissedLoginAndroid = e.message.indexOf('Failed to authenticate') !== -1;
+      dispatch({
         type: SET_LOGIN_STATUS,
-        payload: {
-          logSuccess: DISMISS_LOGIN_CODES.includes(code)
-        }
-      }));
+        payload: userDismissedLoginIOS || userDismissedLoginAndroid
+      });
+      dispatch({ type: SET_LOGIN_LOADING, payload: false });
+    }
   };
 }
 
-export function logout() {
-  return (dispatch, state) => {
-    dispatch({ type: RESET_STATE });
-    CookieManager.clearAll((err) => (err && console.warn(err)));
-    if (state().user.socialNetwork === 'google') {
-      dispatch({ type: LOGOUT_REQUEST });
-
-      return GoogleOAuth.logout()
-        .then(() => dispatch({ type: LOGOUT_COMMIT }))
-        .catch(error => dispatch({ type: LOGOUT_ROLLBACK, payload: error }));
+export function facebookLogin() {
+  return async (dispatch: Dispatch) => {
+    try {
+      dispatch({ type: SET_LOGIN_LOADING, payload: true });
+      const result = await LoginManager.logInWithReadPermissions(oAuth.facebook);
+      if (!result.isCancelled) {
+        try {
+          const user = await AccessToken.getCurrentAccessToken();
+          const response = await fetch(`${Config.API_AUTH}/auth/facebook/token?access_token=${user.accessToken}`);
+          if (!response.ok) throw new Error(response.status);
+          const data = await response.json();
+          dispatch({
+            type: SET_LOGIN_AUTH,
+            payload: {
+              loggedIn: true,
+              socialNetwork: 'facebook',
+              oAuthToken: user.accessToken,
+              token: data.token
+            }
+          });
+        } catch (e) {
+          console.error(e);
+          dispatch(logout('facebook'));
+        }
+      }
+      dispatch({ type: SET_LOGIN_LOADING, payload: false });
+    } catch (e) {
+      console.error(e);
+      dispatch({ type: SET_LOGIN_STATUS, payload: false });
     }
+  };
+}
 
+export function setLoginAuth(details: { token: string, loggedIn: boolean, socialNetwork: string }): UserAction {
+  const { token, loggedIn, socialNetwork } = details;
+  return {
+    type: SET_LOGIN_AUTH,
+    payload: {
+      token,
+      loggedIn,
+      socialNetwork
+    }
+  };
+}
+
+export function logout(socialNetworkFallback: string) {
+  return async (dispatch: Dispatch, state: GetState) => {
+    const { oAuthToken: tokenToRevoke, socialNetwork } = state().user;
     dispatch({ type: LOGOUT_REQUEST });
-    return dispatch({ type: LOGOUT_COMMIT });
+    dispatch({ type: RESET_STATE });
+    await CookieManager.clearAll();
+    const social = socialNetwork || socialNetworkFallback;
+    try {
+      switch (social) {
+        case 'google':
+          await revoke(oAuth.google, { tokenToRevoke });
+          break;
+        case 'facebook':
+          await LoginManager.logOut();
+          break;
+        default: break;
+      }
+    } catch (e) {
+      console.error(e);
+      dispatch({ type: SET_LOGIN_STATUS, payload: false });
+    }
+    return dispatch({ type: SET_LOGIN_STATUS, payload: true });
   };
 }

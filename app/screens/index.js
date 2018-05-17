@@ -20,6 +20,7 @@ import Answers from 'containers/common/form/answers';
 import RightDrawer from 'containers/right-drawer';
 import ErrorLightbox from 'components/error-lightbox';
 import Walkthrough from 'components/walkthrough';
+import ToastNotification from 'components/toast-notification';
 
 export function registerScreens(store, Provider) {
   Navigation.registerComponent('ForestWatcher.Home', () => Home, store, Provider);
@@ -42,6 +43,7 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent('ForestWatcher.Answers', () => Answers, store, Provider);
   Navigation.registerComponent('ForestWatcher.RightDrawer', () => RightDrawer, store, Provider);
   Navigation.registerComponent('ForestWatcher.ErrorLightbox', () => ErrorLightbox, store, Provider);
+  Navigation.registerComponent('ForestWatcher.ToastNotification', () => ToastNotification, store, Provider);
 }
 
 export default registerScreens;

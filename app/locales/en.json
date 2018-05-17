@@ -1,8 +1,10 @@
 {
     "commonText": {
         "retry": "Retry",
+        "oops": "Oops!",
         "error": "Error",
         "unexpectedError": "Something unexpected happened",
+        "crashFeedback": "Something went wrong. We're working on getting this fixed as soon as we can.",
         "appName": "Forest Watcher",
         "next": "Next",
         "save": "Save",
@@ -18,6 +20,7 @@
         "loading": "Loading",
         "notAvailable": "Not available",
         "kmAway": "km away",
+        "metersAway": "m away",
         "updated": "Updated",
         "name": "Name",
         "yourPosition": "Your position",
@@ -483,7 +486,10 @@
         "connectionRequired": "You need an internet connection",
         "coordinatesFormat": "Coordinates Format",
         "coordinatesDecimal": "Decimal",
-        "coordinatesDegrees": "Degrees"
+        "coordinatesDegrees": "Degrees",
+        "coordinatesUtm": "UTM",
+        "unsafeLogout": "Your reports are not synced!",
+        "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost."
     },
     "report": {
         "title": "Report",
@@ -523,20 +529,36 @@
         "error": "Sync error",
         "errorDesc": "Something went wrong",
         "tryAgain": "Try again",
+        "gettingLatestAlerts": "Getting the latest alerts",
+        "alertsUpdated": "Your areas are up to date",
+        "errorCreatingArea": "There was an error creating your area",
+        "reportUploaded": "Report sent",
+        "reportUploadRollback": "Report failed to upload",
         "title": {
-            "wifi": "Updating data...",
-            "cellular": "You are under cellular data",
+            "updating": "Downloading data...",
             "offline": "You are offline",
-            "updated": "Update Completed!"
+            "updated": "Download Completed!"
         },
         "subtitle": {
-            "wifi": "This process can take several minutes",
-            "cellular": "Do you want to update the data and maps over cellular data?",
+            "updating": "We are getting your phone ready for the field",
             "offline": "You need an internet connection to update your data",
-            "updated": "Data was successfully updated!"
+            "updated": "We are ready to go!"
         },
         "ok": "ok",
         "skip": "skip",
         "update": "update"
+    },
+    "layers": {
+        "protectedAreas": "Protected Areas",
+        "treeCoverLoss2014": "Tree Cover Loss (2014)",
+        "treeCoverLoss2015": "Tree Cover Loss (2015)",
+        "oilPalm": "Oil Palm",
+        "mangedForests": "Managed Forests",
+        "woodFiber": "Wood Fiber",
+        "mining": "Mining"
+    },
+    "datasets": {
+        "umd_as_it_happens": "Deforestation (GLAD)",
+        "viirs": "Fires (VIIRS)"
     }
 }

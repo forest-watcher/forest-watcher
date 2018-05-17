@@ -1,8 +1,10 @@
 {
     "commonText": {
         "retry": "Coba lagi",
+        "oops": "Oops!",
         "error": "Eror",
         "unexpectedError": "Terjadi sesuatu yang tak terduga",
+        "crashFeedback": "Ada yang salah. Kami sedang mengusahakan untuk memperbaiki hal ini secepat mungkin.",
         "appName": "Forest Watcher",
         "next": "Lanjut",
         "save": "Menyimpan",
@@ -18,6 +20,7 @@
         "loading": "Pemuatan",
         "notAvailable": "Tidak tersedia",
         "kmAway": "km jauhnya",
+        "metersAway": "m away",
         "updated": "Diperbarui",
         "name": "Nama",
         "yourPosition": "Posisi kamu",
@@ -483,7 +486,10 @@
         "connectionRequired": "Anda membutuhkan koneksi internet",
         "coordinatesFormat": "Format Koordinat",
         "coordinatesDecimal": "Desimal",
-        "coordinatesDegrees": "Derajat"
+        "coordinatesDegrees": "Derajat",
+        "coordinatesUtm": "UTM",
+        "unsafeLogout": "Your reports are not synced!",
+        "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost."
     },
     "report": {
         "title": "Lapor",
@@ -523,20 +529,36 @@
         "error": "Sinkronisasi mengalami masalah",
         "errorDesc": "Ada yang salah",
         "tryAgain": "Coba lagi",
+        "gettingLatestAlerts": "Getting the latest alerts",
+        "alertsUpdated": "Your areas are up to date",
+        "errorCreatingArea": "There was an error creating your area",
+        "reportUploaded": "Report sent",
+        "reportUploadRollback": "Report failed to upload",
         "title": {
-            "wifi": "Memperbarui data ...",
-            "cellular": "Anda sedang menggunakan data seluler",
+            "updating": "Downloading data...",
             "offline": "Anda sedang offline",
-            "updated": "Pembaruan selesai!"
+            "updated": "Download Completed!"
         },
         "subtitle": {
-            "wifi": "Proses ini bisa memakan waktu beberapa menit",
-            "cellular": "Apakah Anda ingin memperbarui data dan peta melalui data seluler?",
+            "updating": "We are getting your phone ready for the field",
             "offline": "Anda memerlukan koneksi internet untuk mengupdate data Anda",
-            "updated": "Data berhasil diperbarui"
+            "updated": "We are ready to go!"
         },
         "ok": "ok",
         "skip": "Lewati",
         "update": "memperbarui"
+    },
+    "layers": {
+        "protectedAreas": "Protected Areas",
+        "treeCoverLoss2014": "Tree Cover Loss (2014)",
+        "treeCoverLoss2015": "Tree Cover Loss (2015)",
+        "oilPalm": "Oil Palm",
+        "mangedForests": "Managed Forests",
+        "woodFiber": "Wood Fiber",
+        "mining": "Mining"
+    },
+    "datasets": {
+        "umd_as_it_happens": "Deforestation (GLAD)",
+        "viirs": "Fires (VIIRS)"
     }
 }

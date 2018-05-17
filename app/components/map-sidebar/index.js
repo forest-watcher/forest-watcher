@@ -1,5 +1,6 @@
+// @flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -14,77 +15,71 @@ import styles from './styles';
 
 const closeIcon = require('assets/close.png');
 
-const MapSidebar = (props) => (
-  <View
-    style={styles.container}
-  >
-    <View style={styles.header}>
-      <Text style={styles.heading}>{i18n.t('map.settings')}</Text>
-      <TouchableHighlight
-        activeOpacity={0.5}
-        underlayColor="transparent"
-        onPress={props.onPressClose}
-      >
-        <Image style={Theme.icon} source={closeIcon} />
-      </TouchableHighlight>
-    </View>
-    <ScrollView
-      style={styles.body}
-      showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}
+const getLayerName = name => ((name.match(/^layers\./) !== null) ? i18n.t(name) : name);
+
+type Props = {
+  onPressClose: () => void,
+  legend: ?{ title: string, color: string },
+  layers: Array<{ id: string, name: string }>,
+  onLayerToggle: (id: string, value: boolean) => void, // eslint-disable-line
+  activeLayer: string
+};
+
+const MapSidebar = (props: Props) => {
+  const { onPressClose, legend, layers, activeLayer, onLayerToggle } = props;
+  return (
+    <View
+      style={styles.container}
     >
-      {props.legend &&
+      <View style={styles.header}>
+        <Text style={styles.heading}>{i18n.t('map.settings')}</Text>
+        <TouchableHighlight
+          activeOpacity={0.5}
+          underlayColor="transparent"
+          onPress={onPressClose}
+        >
+          <Image style={Theme.icon} source={closeIcon} />
+        </TouchableHighlight>
+      </View>
+      <ScrollView
+        style={styles.body}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
+        {legend !== null &&
         <View style={styles.legendContainer}>
           <Text style={styles.contextualLayersTitle}>{i18n.t('map.alerts')}</Text>
           <Row>
             <View style={styles.alertContainer}>
-              <View style={[styles.alertLegend, { backgroundColor: props.legend.color }]} />
-              <Text>{props.legend.title}</Text>
+              <View style={[styles.alertLegend, { backgroundColor: legend.color }]} />
+              <Text style={styles.sidebarLabel}>{i18n.t(legend.title)}</Text>
             </View>
           </Row>
           <Row>
             <View style={styles.alertContainer}>
               <View style={styles.alertLegend} />
-              <Text>{i18n.t('map.reported').toUpperCase()}</Text>
+              <Text style={styles.sidebarLabel}>{i18n.t('map.reported')}</Text>
             </View>
           </Row>
         </View>
-      }
-      <View style={styles.contextualLayersContainer}>
-        <Text style={styles.contextualLayersTitle}>{i18n.t('map.ctxLayers')}</Text>
-        {
-          props.layers.map((layer) => (
-            <Row
-              key={layer.id}
-              value={layer.id === props.activeLayer}
-              onValueChange={value => props.onLayerToggle(layer.id, value)}
-            >
-              <Text>{layer.name}</Text>
-            </Row>
-          ))
         }
-      </View>
-    </ScrollView>
-  </View>
-);
-
-MapSidebar.propTypes = {
-  onPressClose: PropTypes.func.isRequired,
-  legend: PropTypes.oneOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      color: PropTypes.string.isRequired
-    }),
-    PropTypes.bool,
-  ),
-  layers: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired
-    })
-  ).isRequired,
-  onLayerToggle: PropTypes.func.isRequired, // eslint-disable-line
-  activeLayer: PropTypes.string
+        <View style={styles.contextualLayersContainer}>
+          <Text style={styles.contextualLayersTitle}>{i18n.t('map.ctxLayers')}</Text>
+          {
+            layers.map((layer) => (
+              <Row
+                key={layer.id}
+                value={layer.id === activeLayer}
+                onValueChange={value => onLayerToggle(layer.id, value)}
+              >
+                <Text style={styles.sidebarLabel}>{getLayerName(layer.name)}</Text>
+              </Row>
+            ))
+          }
+        </View>
+      </ScrollView>
+    </View>
+  );
 };
 
 export default MapSidebar;
