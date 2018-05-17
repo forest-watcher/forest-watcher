@@ -314,9 +314,12 @@ class Map extends Component {
 
   getMarkerSize() {
     const { mapZoom } = this.state;
-    const scale = (mapZoom - 15);
-    const coefficient = mapZoom <= 15 ? 1 : scale;
-    const size = 18 * coefficient;
+    const expandClusterZoomLevel = 15;
+    const initialMarkerSize = 18;
+
+    const scale = mapZoom - expandClusterZoomLevel;
+    const rescaleFactor = mapZoom <= expandClusterZoomLevel ? 1 : scale;
+    const size = initialMarkerSize * rescaleFactor;
     return { height: size, width: size };
   }
 
@@ -533,17 +536,13 @@ class Map extends Component {
         ? [
           <ActionBtn
             key="1"
-            left
-            icon="reportSingle"
             style={[styles.footerButton, styles.footerButton1]}
             text={i18n.t('report.selected').toUpperCase()}
             onPress={this.reportSelection}
           />,
           <ActionBtn
             key="2"
-            left
             monochrome
-            icon="reportArea"
             style={[styles.footerButton, styles.footerButton2, styles.footerReport]}
             text={i18n.t('report.area').toUpperCase()}
             onPress={this.reportArea}
@@ -599,7 +598,6 @@ class Map extends Component {
       ? `clustersElement-${clusterGenerator.activeClusterId}_${markers.activeMarkersId}`
       : 'clustersElement';
     const markerSize = this.getMarkerSize();
-    const markerBorder = { borderWidth: (markerSize.width / 18) * 4 };
 
     // Map elements
     const basemapLayerElement = isConnected ?
@@ -693,7 +691,7 @@ class Map extends Component {
           onPress={() => this.includeNeighbour(neighbour)}
           zIndex={10}
         >
-          <View style={[markerSize, markerBorder, styles.markerIconArea]} />
+          <View style={[markerSize, styles.markerIconArea]} />
         </MapView.Marker>
       )))
       : null;
@@ -706,7 +704,7 @@ class Map extends Component {
           onPress={() => this.removeSelection(alert)}
           zIndex={20}
         >
-          <View style={[markerSize, markerBorder, styles.selectedMarkerIcon]} />
+          <View style={[markerSize, styles.selectedMarkerIcon]} />
         </MapView.Marker>
       )))
       : null;

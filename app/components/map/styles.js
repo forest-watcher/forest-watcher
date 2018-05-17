@@ -55,11 +55,10 @@ export default StyleSheet.create({
   },
   selectedMarkerIcon: {
     borderColor: 'rgba(85, 85, 85, 0.7)',
-    backgroundColor: 'rgba(255, 255, 255, 1)'
+    backgroundColor: Theme.colors.color1
   },
   markerIconArea: {
-    borderColor: 'rgba(85, 85, 85, 0.7)',
-    backgroundColor: 'transparent'
+    backgroundColor: 'rgba(255, 255, 255, 1)'
   },
   header: {
     left: 0,
