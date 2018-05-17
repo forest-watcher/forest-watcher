@@ -15,7 +15,7 @@ type Clusters = {
 };
 
 class ClustersGenerator {
-  static createCluster(data: { features: Object }): Clusters {
+  static createCluster(data: { features: Array<Object> }): Clusters {
     const cluster = supercluster({
       radius: 120,
       maxZoom: 15, // Default: 16,
@@ -35,7 +35,7 @@ class ClustersGenerator {
     const limitRange = moment().subtract(startDate, timeFrame).valueOf();
     const alerts = read(realm, 'Alert')
       .filtered(`areaId = '${areaId}' AND slug = '${slug}' AND date > '${limitRange}'`);
-    const activeAlerts = pointsToGeoJSON(alerts);
+    const activeAlerts = pointsToGeoJSON(alerts, slug);
     return ClustersGenerator.createCluster(activeAlerts);
   }, (...rest) => rest.join('_'));
 

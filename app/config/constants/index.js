@@ -84,6 +84,11 @@ export const DATASETS = {
   GLAD: 'umd_as_it_happens'
 };
 
+export const GLAD_RECENT_RANGE = {
+  range: 7,
+  measure: 'days'
+};
+
 export const COORDINATES_FORMATS = {
   decimal: {
     label: 'settings.coordinatesDecimal',
