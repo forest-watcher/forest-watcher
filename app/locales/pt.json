@@ -487,6 +487,7 @@
         "coordinatesFormat": "Formato das Coordenadas",
         "coordinatesDecimal": "Decimal",
         "coordinatesDegrees": "Graus",
+        "coordinatesUtm": "UTM",
         "unsafeLogout": "Your reports are not synced!",
         "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost."
     },

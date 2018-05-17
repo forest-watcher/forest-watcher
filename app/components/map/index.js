@@ -12,12 +12,11 @@ import {
   Platform
 } from 'react-native';
 
-import { COORDINATES_FORMATS, MAPS, MANUAL_ALERT_SELECTION_ZOOM } from 'config/constants';
+import { MAPS, MANUAL_ALERT_SELECTION_ZOOM } from 'config/constants';
 import throttle from 'lodash/throttle';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import moment from 'moment';
-import formatcoords from 'formatcoords';
 
 import MapView from 'react-native-maps';
 import ActionBtn from 'components/common/action-button';
@@ -25,7 +24,7 @@ import AlertPosition from 'components/map/alert-position';
 import MapAttribution from 'components/map/map-attribution';
 import AreaCarousel from 'containers/map/area-carousel';
 import Clusters from 'containers/map/clusters/';
-import { getAllNeighbours } from 'helpers/map';
+import { formatCoordsByFormat, getAllNeighbours } from 'helpers/map';
 import tracker from 'helpers/googleAnalytics';
 import clusterGenerator from 'helpers/clusters-generator';
 import Theme from 'config/theme';
@@ -265,17 +264,14 @@ class Map extends Component {
   setHeaderTitle = () => {
     const { selectedAlerts } = this.state;
     const { navigator, coordinatesFormat } = this.props;
-    const last = selectedAlerts.length - 1;
     let headerText = i18n.t('dashboard.map');
     if (selectedAlerts && selectedAlerts.length > 0) {
-      const lat = selectedAlerts[last].latitude;
-      const lng = selectedAlerts[last].longitude;
-      if (coordinatesFormat === COORDINATES_FORMATS.decimal.value) {
-        headerText = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
-      } else {
-        headerText = formatcoords(lat, lng)
-          .format('FFf', { latLonSeparator: ', ', decimalPlaces: 2 });
-      }
+      const last = selectedAlerts.length - 1;
+      const coordinates = {
+        latitude: selectedAlerts[last].latitude,
+        longitude: selectedAlerts[last].longitude
+      };
+      headerText = formatCoordsByFormat(coordinates, coordinatesFormat);
       navigator.setStyle({
         navBarTextFontSize: 16
       });

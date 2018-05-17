@@ -72,7 +72,8 @@
     "redux-thunk": "2.2.0",
     "sphere-knn": "1.3.1",
     "supercluster": "^3.0.2",
-    "turf-intersect": "github:Vizzuality/turf-intersect"
+    "turf-intersect": "github:Vizzuality/turf-intersect",
+    "utm-latlng": "1.0.5"
   },
   "devDependencies": {
     "babel-eslint": "7.1.1",

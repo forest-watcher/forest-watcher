@@ -11,7 +11,6 @@ import {
   Alert
 } from 'react-native';
 
-import { version } from 'package.json'; // eslint-disable-line
 import Theme from 'config/theme';
 import I18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
@@ -31,6 +30,7 @@ class Settings extends Component {
 
   static propTypes = {
     user: PropTypes.any,
+    version: PropTypes.string,
     loggedIn: PropTypes.bool, // eslint-disable-line
     areas: PropTypes.any,
     navigator: PropTypes.object.isRequired,
@@ -133,7 +133,7 @@ class Settings extends Component {
         functionOnPress: this.handleStaticLinks
       }
     ];
-    const { areas } = this.props;
+    const { version, areas } = this.props;
 
     return (
       <View style={styles.container}>

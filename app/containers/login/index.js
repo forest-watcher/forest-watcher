@@ -11,7 +11,8 @@ function mapStateToProps(state: State) {
     isConnected: state.offline.online,
     loggedIn: state.user.loggedIn,
     logSuccess: state.user.logSuccess,
-    loading: state.user.loading
+    loading: state.user.loading,
+    version: state.app.version
   };
 }
 
