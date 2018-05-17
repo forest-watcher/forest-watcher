@@ -48,7 +48,7 @@ function createAppStore(startApp) {
   }
   return storeCreator(
     enhanceReducer(reducer),
-    compose(middleware, enhanceStore)
+    compose(enhanceStore, middleware)
   );
 }
 
