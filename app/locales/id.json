@@ -521,6 +521,7 @@
     },
     "map": {
         "alerts": "Sistem Peringatan",
+        "recent": "Baru",
         "reported": "Dilaporkan",
         "settings": "Pengaturan Peta",
         "ctxLayers": "Lapisan kontekstual"

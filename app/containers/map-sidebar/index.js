@@ -21,6 +21,7 @@ function mapStateToProps(state: State) {
     if (dataset && showLegend) {
       const color = dataset.slug === DATASETS.VIIRS ? Theme.colors.colorViirs : Theme.colors.colorGlad;
       legend = {
+        showRecent: dataset.slug === DATASETS.GLAD,
         title: `datasets.${dataset.slug}`,
         color: `rgba(${hexToRgb(color)}, 0.7)`
       };

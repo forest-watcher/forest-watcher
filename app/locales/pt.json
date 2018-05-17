@@ -521,6 +521,7 @@
     },
     "map": {
         "alerts": "Alertas",
+        "recent": "Recente",
         "reported": "Relatados",
         "settings": "Definições do Mapa",
         "ctxLayers": "Camadas contextuais"
