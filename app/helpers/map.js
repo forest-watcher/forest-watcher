@@ -3,7 +3,7 @@
 import { COORDINATES_FORMATS } from 'config/constants';
 import UtmLatLng from 'utm-latlng';
 import formatcoords from 'formatcoords';
-import type { Coordinates, CoordinatesFormat } from 'types/helpers/map.types';
+import type { Coordinates, CoordinatesFormat } from 'types/common.types';
 
 const kdbush = require('kdbush');
 const geokdbush = require('geokdbush');

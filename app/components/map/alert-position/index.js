@@ -9,7 +9,7 @@ import {
 
 import GeoPoint from 'geopoint';
 import { formatCoordsByFormat } from 'helpers/map';
-import type { Coordinates, CoordinatesFormat } from 'types/helpers/map.types';
+import type { Coordinates, CoordinatesFormat } from 'types/common.types';
 
 import styles from './styles';
 
