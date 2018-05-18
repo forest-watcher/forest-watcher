@@ -15,8 +15,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "release:android": "cd android && ./gradlew assembleRelease",
-    "release:ios": "react-native run-ios --configuration Release",
-    "postinstall": "rimraf node_modules/react-native-fbsdk/ios/RCTFBSDK/share/"
+    "release:ios": "react-native run-ios --configuration Release"
   },
   "dependencies": {
     "@mapbox/geo-viewport": "0.2.2",
@@ -47,7 +46,7 @@
     "react-native-cookies": "3.2.0",
     "react-native-datepicker": "1.6.0",
     "react-native-fast-image": "4.0.2",
-    "react-native-fbsdk": "0.7.0",
+    "react-native-fbsdk": "github:Vizzuality/react-native-fbsdk",
     "react-native-fetch-blob": "0.10.8",
     "react-native-google-analytics-bridge": "5.3.0",
     "react-native-gps": "github:Vizzuality/react-native-gps",
@@ -99,8 +98,7 @@
     "react-test-renderer": "15.4.1",
     "reactotron-react-native": "2.0.0-beta.2",
     "reactotron-redux": "1.13.0",
-    "reactotron-redux-saga": "1.13.0",
-    "rimraf": "2.6.2"
+    "reactotron-redux-saga": "1.13.0"
   },
   "jest": {
     "preset": "react-native"
