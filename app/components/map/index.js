@@ -23,7 +23,7 @@ import ActionBtn from 'components/common/action-button';
 import AlertPosition from 'components/map/alert-position';
 import MapAttribution from 'components/map/map-attribution';
 import AreaCarousel from 'containers/map/area-carousel';
-import Clusters from 'containers/map/clusters/';
+import Clusters from 'containers/map/clusters';
 import { formatCoordsByFormat, getAllNeighbours } from 'helpers/map';
 import tracker from 'helpers/googleAnalytics';
 import clusterGenerator from 'helpers/clusters-generator';
@@ -172,8 +172,6 @@ class Map extends Component {
 
     if (!isEqual(areaCoordinates, prevProps.areaCoordinates)) {
       this.updateSelectedArea();
-    } else if (!isEqual(clusters, prevProps.clusters)) {
-      this.updateMarkers();
     }
 
     if (this.state.selectedAlerts !== prevState.selectedAlerts) {

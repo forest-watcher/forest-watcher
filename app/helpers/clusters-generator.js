@@ -15,7 +15,7 @@ type Clusters = {
 };
 
 class ClustersGenerator {
-  static createCluster(data: { features: Array<Object> }, options): Clusters {
+  static createCluster(data: { features: Array<Object> }, options: any): Clusters {
     const cluster = supercluster({
       radius: 120,
       maxZoom: 15, // Default: 16,
@@ -39,12 +39,8 @@ class ClustersGenerator {
     const activeAlerts = pointsToGeoJSON(alerts, slug);
     const options = {
       initial: () => ({ isRecent: false }),
-      reduce: (acc, next) => {
-        // TODO: fix reduce fired twice so isRecent
-        // is always false in the second iteration
-        const isRecent = acc.isRecent || next.isRecent;
-        return { ...acc, isRecent };
-      }
+      // mutating the accumulator to get the reference accross markers in diferent levels
+      reduce: (acc, next) => { acc.isRecent = acc.isRecent || next.isRecent } // eslint-disable-line
     };
     return ClustersGenerator.createCluster(activeAlerts, options);
   }, (...rest) => rest.join('_'));
