@@ -150,13 +150,13 @@ class Walkthrough extends PureComponent {
           <TouchableOpacity
             onPress={this.onPressBack}
           >
-            <Image style={Theme.icon} source={backIcon} />
+            <Image style={[Theme.icon, styles.icon]} source={backIcon} />
           </TouchableOpacity>
           }
           <TouchableOpacity
             onPress={this.onPressNext}
           >
-            <Image style={Theme.icon} source={nextIcon} />
+            <Image style={[Theme.icon, styles.icon]} source={nextIcon} />
           </TouchableOpacity>
         </View>
       </View>

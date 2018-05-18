@@ -11,9 +11,12 @@ export default StyleSheet.create({
   actions: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     justifyContent: 'flex-end',
     height: 48
+  },
+  icon: {
+    marginRight: 8
   },
   actionsBtn: {
     backgroundColor: 'transparent'

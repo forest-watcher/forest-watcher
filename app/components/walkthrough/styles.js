@@ -90,5 +90,9 @@ export default StyleSheet.create({
       }
     }),
     paddingRight: 24
+  },
+  icon: {
+    marginLeft: 12,
+    marginRight: 12
   }
 });
