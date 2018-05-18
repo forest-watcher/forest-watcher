@@ -28,7 +28,7 @@ const ImageCard = ({ id, name, uri, actions, width, height }) => {
                 underlayColor="transparent"
                 onPress={() => action.callback(id, name)}
               >
-                <Image style={Theme.icon} source={action.icon} />
+                <Image style={[Theme.icon, styles.icon]} source={action.icon} />
               </TouchableHighlight>
             ))
           }

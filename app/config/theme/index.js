@@ -60,11 +60,11 @@ const config = {
     google: '#ea4335'
   },
   icon: {
-    width: 48,
-    height: 48,
+    width: 24,
+    height: 24,
     alignItems: 'center',
     justifyContent: 'center',
-    resizeMode: 'center'
+    resizeMode: 'contain'
   },
   polygon: {
     fill: 'rgba(151, 190, 49, 0.5)',

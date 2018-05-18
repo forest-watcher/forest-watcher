@@ -8,7 +8,8 @@ export default StyleSheet.create({
     overflow: 'hidden'
   },
   iconContainer: {
-    width: Theme.icon.width
+    width: Theme.icon.width,
+    marginRight: 12
   },
   light: {
     backgroundColor: Theme.background.white

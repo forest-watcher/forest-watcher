@@ -39,6 +39,8 @@ export default StyleSheet.create({
     width: 64,
     height: 64,
     position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
     left: 8,
     bottom: 52,
     backgroundColor: Theme.background.gray,
@@ -46,7 +48,7 @@ export default StyleSheet.create({
   },
   leftBtnIcon: {
     position: 'absolute',
-    top: 6,
-    left: 12
+    top: 16,
+    left: 22
   }
 });
