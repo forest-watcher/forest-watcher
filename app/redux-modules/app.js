@@ -10,6 +10,7 @@ import { syncCountries } from 'redux-modules/countries';
 import { syncUser, LOGOUT_REQUEST } from 'redux-modules/user';
 import { syncLayers, getUserLayers } from 'redux-modules/layers';
 import { syncReports } from 'redux-modules/reports';
+import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import takeRight from 'lodash/takeRight';
 
 // Actions
@@ -29,11 +30,15 @@ const initialState = {
   showLegend: true,
   pristineCacheTooltip: true,
   actions: [],
-  version // app cache invalidation depends on this, if this changes make sure that redux-persist invalidation changes also.
+  version
 };
 
 export default function reducer(state: AppState = initialState, action: AppAction) {
   switch (action.type) {
+    case PERSIST_REHYDRATE: {
+      const { app } = action.payload;
+      return { ...state, app, version };
+    }
     case SET_LANGUAGE:
       return { ...state, language: action.payload };
     case SET_APP_SYNCED:
