@@ -172,8 +172,6 @@ class Map extends Component {
 
     if (!isEqual(areaCoordinates, prevProps.areaCoordinates)) {
       this.updateSelectedArea();
-    } else if (!isEqual(clusters, prevProps.clusters)) {
-      this.updateMarkers();
     }
 
     if (this.state.selectedAlerts !== prevState.selectedAlerts) {
