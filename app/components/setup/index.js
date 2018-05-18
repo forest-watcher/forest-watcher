@@ -10,7 +10,7 @@ import StepsSlider from 'components/common/steps-slider';
 import SetupCountry from 'containers/setup/country';
 import SetupBoundaries from 'containers/setup/boundaries';
 import SetupOverView from 'containers/setup/overview';
-import I18n from 'locales';
+import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import Header from './header';
 import styles from './styles';
@@ -95,7 +95,7 @@ class Setup extends Component<Props, State> {
     return (
       <View style={page !== 1 ? styles.defaultHeader : styles.mapHeader}>
         <Header
-          title={I18n.t('commonText.setUp')}
+          title={i18n.t('commonText.setUp')}
           showBack={showBack}
           onBackPress={onBackPress}
           page={page}

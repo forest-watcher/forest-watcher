@@ -17,7 +17,7 @@ import { storeImage } from 'helpers/fileManagement';
 import ActionButton from 'components/common/action-button';
 import MapAttribution from 'components/map/map-attribution';
 import Theme from 'config/theme';
-import I18n from 'locales';
+import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
@@ -168,7 +168,7 @@ class DrawAreas extends Component {
 
       return (
         <View pointerEvents="none" style={[styles.actionButton, withPadding]}>
-          <Text style={styles.footerTitle}>{I18n.t('setupDrawAreas.tapInstruction')}</Text>
+          <Text style={styles.footerTitle}>{i18n.t('setupDrawAreas.tapInstruction')}</Text>
           <MapAttribution />
         </View>
       );
@@ -177,10 +177,10 @@ class DrawAreas extends Component {
     let validArea = true;
     let btnText = null;
     if (!this.state.valid) {
-      btnText = I18n.t('setupDrawAreas.invalidShape');
+      btnText = i18n.t('setupDrawAreas.invalidShape');
       validArea = false;
     } else if (this.state.huge) {
-      btnText = I18n.t('setupDrawAreas.invalidSize');
+      btnText = i18n.t('setupDrawAreas.invalidSize');
       validArea = false;
     }
 
@@ -188,7 +188,7 @@ class DrawAreas extends Component {
       ? <ActionButton
         style={[styles.actionButton, styles.actionButtonWithPadding]}
         onPress={this.onNextPress}
-        text={I18n.t('commonText.next').toUpperCase()}
+        text={i18n.t('commonText.next').toUpperCase()}
       />
       : <ActionButton
         style={[styles.actionButton, styles.actionButtonWithPadding]}

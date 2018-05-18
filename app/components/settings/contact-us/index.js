@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
 
-import I18n from 'locales';
+import i18n from 'locales';
 import Theme from 'config/theme';
 import styles from './styles';
 
@@ -37,7 +37,7 @@ class ContactUs extends Component {
             linkText={(url) => (url === 'mailto:forestwatcher@wri.org' ? 'forestwatcher@wri.org' : url)}
           >
             <Text style={styles.contactUsText} selectable>
-              {I18n.t('contactUs.description')}
+              {i18n.t('contactUs.description')}
             </Text>
           </Hyperlink>
         </View>

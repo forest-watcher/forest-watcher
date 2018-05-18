@@ -5,7 +5,7 @@ import {
   Text
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
-import I18n from 'locales';
+import i18n from 'locales';
 
 import styles from '../styles';
 import dateStyles from './styles';
@@ -25,9 +25,9 @@ function DateInput(props) {
           date={props.input.value}
           mode="datetime"
           format="MMMM Do YYYY, h:mm"
-          placeholder={I18n.t('report.datePlaceholder')}
-          cancelBtnText={I18n.t('commonText.cancel')}
-          confirmBtnText={I18n.t('commonText.confirm')}
+          placeholder={i18n.t('report.datePlaceholder')}
+          cancelBtnText={i18n.t('commonText.cancel')}
+          confirmBtnText={i18n.t('commonText.confirm')}
           onDateChange={handlePress}
           customStyles={{
             dateInput: dateStyles.dateInput,

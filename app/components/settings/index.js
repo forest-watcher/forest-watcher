@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import Theme from 'config/theme';
-import I18n from 'locales';
+import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import CoordinatesDropdown from 'containers/settings/coordinates-dropdown';
 
@@ -71,8 +71,8 @@ class Settings extends Component {
     };
     if (isUnsafeLogout) {
       Alert.alert(
-        I18n.t('settings.unsafeLogout'),
-        I18n.t('settings.unsavedDataLost'),
+        i18n.t('settings.unsafeLogout'),
+        i18n.t('settings.unsavedDataLost'),
         [
           { text: 'OK', onPress: proceedWithLogout },
           {
@@ -92,8 +92,8 @@ class Settings extends Component {
       });
     } else {
       Alert.alert(
-        I18n.t('settings.unable'),
-        I18n.t('settings.connectionRequired'),
+        i18n.t('settings.unable'),
+        i18n.t('settings.connectionRequired'),
         [{ text: 'OK' }]
       );
     }
@@ -109,25 +109,25 @@ class Settings extends Component {
   render() {
     const aboutSections = [
       {
-        text: I18n.t('settings.aboutPartners'),
+        text: i18n.t('settings.aboutPartners'),
         image: null,
         section: 'ForestWatcher.Partners',
         functionOnPress: this.handleStaticLinks
       },
       {
-        text: I18n.t('settings.aboutTerms'),
+        text: i18n.t('settings.aboutTerms'),
         image: null,
         section: 'ForestWatcher.TermsAndConditions',
         functionOnPress: this.handleStaticLinks
       },
       {
-        text: I18n.t('settings.aboutFAQ'),
+        text: i18n.t('settings.aboutFAQ'),
         image: null,
         section: 'ForestWatcher.FaqList',
         functionOnPress: this.handleStaticLinks
       },
       {
-        text: I18n.t('settings.aboutContactUs'),
+        text: i18n.t('settings.aboutContactUs'),
         image: null,
         section: 'ForestWatcher.ContactUs',
         functionOnPress: this.handleStaticLinks
@@ -144,7 +144,7 @@ class Settings extends Component {
           showsHorizontalScrollIndicator={false}
         >
           <Text style={styles.label}>
-            {I18n.t('settings.loggedIn')}
+            {i18n.t('settings.loggedIn')}
           </Text>
 
           <View style={styles.user}>
@@ -161,7 +161,7 @@ class Settings extends Component {
               underlayColor="transparent"
               onPress={this.onLogoutPress}
             >
-              <Text style={styles.logout}>{I18n.t('settings.logOut')}</Text>
+              <Text style={styles.logout}>{i18n.t('settings.logOut')}</Text>
             </TouchableHighlight>
           </View>
 
@@ -172,7 +172,7 @@ class Settings extends Component {
           {areas && areas.length
             ? <View style={styles.areas}>
               <Text style={styles.label}>
-                {I18n.t('settings.yourAreas')}
+                {i18n.t('settings.yourAreas')}
               </Text>
               <AreaList onAreaPress={(areaId, name) => this.onAreaPress(areaId, name)} />
             </View>
@@ -186,19 +186,19 @@ class Settings extends Component {
             <View style={styles.addButton}>
               <Image style={Theme.icon} source={plusIcon} />
               <Text style={styles.addButtonText}>
-                {I18n.t('settings.addArea').toUpperCase()}
+                {i18n.t('settings.addArea').toUpperCase()}
               </Text>
             </View>
           </TouchableHighlight>
 
           <View style={styles.aboutSection}>
             <Text style={styles.label}>
-              {I18n.t('settings.aboutApp')}
+              {i18n.t('settings.aboutApp')}
             </Text>
             <List content={aboutSections} bigSeparation={false}>{}</List>
             <View style={styles.footerText}>
               <Text style={[styles.label, { marginLeft: 0 }]}>
-                {I18n.t('commonText.appName')}
+                {i18n.t('commonText.appName')}
               </Text>
               <Text style={styles.versionText}>v{version}</Text>
             </View>

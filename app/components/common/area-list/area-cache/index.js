@@ -8,7 +8,7 @@ import {
   Text
 } from 'react-native';
 
-import I18n from 'locales';
+import i18n from 'locales';
 import ProgressBar from 'react-native-progress/Bar';
 import Theme from 'config/theme';
 import styles from './styles';
@@ -60,11 +60,11 @@ class AreaCache extends PureComponent {
 
     if (this.props.cacheStatus.error && prevProps.pendingCache > 0 && this.props.pendingCache === 0) {
       Alert.alert(
-        I18n.t('commonText.error'),
-        I18n.t('dashboard.downloadFailed'),
+        i18n.t('commonText.error'),
+        i18n.t('dashboard.downloadFailed'),
         [
           { text: 'OK', onPress: this.resetCacheStatus },
-          { text: I18n.t('commonText.retry'), onPress: this.onRetry }
+          { text: i18n.t('commonText.retry'), onPress: this.onRetry }
         ]
       );
     }
@@ -90,8 +90,8 @@ class AreaCache extends PureComponent {
 
   onOfflinePress = () => {
     Alert.alert(
-      I18n.t('dashboard.unable'),
-      I18n.t('dashboard.connectionRequired'),
+      i18n.t('dashboard.unable'),
+      i18n.t('dashboard.connectionRequired'),
       [{ text: 'OK' }]
     );
   }

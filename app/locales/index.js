@@ -1,4 +1,4 @@
-import I18n from 'react-native-i18n';
+import i18n from 'react-native-i18n';
 
 // Locales
 import en from 'locales/en.json';
@@ -7,13 +7,13 @@ import fr from 'locales/fr.json';
 import pt from 'locales/pt.json';
 import id from 'locales/id.json';
 
-I18n.fallbacks = true;
+i18n.fallbacks = true;
 
-if (I18n.locale.indexOf('in') >= 0) {
-  I18n.locale = 'id';
+if (i18n.locale.indexOf('in') >= 0) {
+  i18n.locale = 'id';
 }
 
-I18n.translations = {
+i18n.translations = {
   en: { ...en },
   es: { ...es },
   fr: { ...fr },
@@ -21,4 +21,4 @@ I18n.translations = {
   id: { ...id }
 };
 
-export default I18n;
+export default i18n;

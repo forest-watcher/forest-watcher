@@ -4,7 +4,7 @@ import Theme from 'config/theme';
 import Carousel from 'react-native-snap-carousel';
 import ImageCard from 'components/common/image-card';
 import ActionCard from 'components/common/action-card';
-import I18n from 'locales';
+import i18n from 'locales';
 
 const plusIcon = require('assets/plus.png');
 
@@ -31,7 +31,7 @@ class ImageCarousel extends PureComponent {
 
   renderItem = ({ item }) => {
     const { actions, itemHeight, add, readOnly, itemWidth } = this.props;
-    const label = readOnly ? I18n.t('report.emptyPicture') : I18n.t('report.addPicture');
+    const label = readOnly ? i18n.t('report.emptyPicture') : i18n.t('report.addPicture');
     const icon = !readOnly && plusIcon;
     const getAction = (image) => {
       if (!readOnly) return () => add(image.questionNumber);

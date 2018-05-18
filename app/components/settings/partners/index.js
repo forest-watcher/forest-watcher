@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
 
-import I18n from 'locales';
+import i18n from 'locales';
 import Theme from 'config/theme';
 import List from 'components/common/list';
 import styles from './styles';
@@ -69,12 +69,12 @@ class Partners extends Component {
         showsHorizontalScrollIndicator={false}
       >
         <View style={styles.partner}>
-          <Text style={styles.partnerText}>{I18n.t('partners.description')}</Text>
+          <Text style={styles.partnerText}>{i18n.t('partners.description')}</Text>
           <Text
             style={styles.partnerText}
             onPress={() => this.handleLink('http://www.globalforestwatch.org/about/the-gfw-partnership')}
           >
-            {I18n.t('partners.listOfPartners')}
+            {i18n.t('partners.listOfPartners')}
           </Text>
         </View>
         <List content={partners} bigSeparation={false}>{}</List>

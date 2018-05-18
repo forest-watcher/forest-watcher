@@ -8,7 +8,7 @@ import {
   ScrollView
 } from 'react-native';
 import Theme from 'config/theme';
-import I18n from 'locales';
+import i18n from 'locales';
 
 import ActionButton from 'components/common/action-button';
 import Answer from 'components/common/form/answer/answer';
@@ -123,7 +123,7 @@ class Answers extends PureComponent<Props> {
           }
           {images.length > 0 &&
             <View style={styles.picturesContainer}>
-              <Text style={styles.answersText}>{I18n.t('report.pictures')}</Text>
+              <Text style={styles.answersText}>{i18n.t('report.pictures')}</Text>
               <ImageCarousel
                 images={images}
                 actions={imageActions}
@@ -136,7 +136,7 @@ class Answers extends PureComponent<Props> {
           <View style={styles.buttonSaveContainer}>
             <ActionButton
               onPress={this.onPressSave}
-              text={I18n.t('commonText.save')}
+              text={i18n.t('commonText.save')}
             />
           </View>
           }

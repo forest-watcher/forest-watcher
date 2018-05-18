@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import I18n from 'locales';
+import i18n from 'locales';
 import {
   View,
   Text,
@@ -16,7 +16,7 @@ import { sliderWidth, itemWidth, styles } from './styles';
 
 const settingsIcon = require('assets/settings.png');
 
-const NO_ALERT_SELECTED = I18n.t('commonText.noAlertSystem');
+const NO_ALERT_SELECTED = i18n.t('commonText.noAlertSystem');
 
 class AreaCarousel extends Component {
   handleLink(area) {
@@ -31,7 +31,7 @@ class AreaCarousel extends Component {
   }
 
   renderItem = ({ item, index }) => {
-    let datasetName = I18n.t('commonText.notAvailable');
+    let datasetName = i18n.t('commonText.notAvailable');
     const settingsButton = (area) => (
       <View style={styles.settingsButton}>
         <TouchableHighlight
@@ -44,7 +44,7 @@ class AreaCarousel extends Component {
       </View>
     );
     const dataset = activeDataset(item);
-    const lastUpdatedText = dataset ? `${I18n.t('commonText.updated')} ${moment(dataset.lastUpdate).fromNow()}` : '';
+    const lastUpdatedText = dataset ? `${i18n.t('commonText.updated')} ${moment(dataset.lastUpdate).fromNow()}` : '';
     datasetName = enabledDatasetName(item) || NO_ALERT_SELECTED;
     return (
       <View key={`entry-${index}`} style={styles.slideInnerContainer}>

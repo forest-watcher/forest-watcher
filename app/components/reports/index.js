@@ -9,7 +9,7 @@ import {
 
 import Row from 'components/common/row';
 import moment from 'moment';
-import I18n from 'locales';
+import i18n from 'locales';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
@@ -71,7 +71,7 @@ class Reports extends PureComponent<Props> {
     return (
       <View style={styles.listContainer}>
         <View style={styles.listHeader}>
-          <Text style={styles.listTitle}>{I18n.t(title)}</Text>
+          <Text style={styles.listTitle}>{i18n.t(title)}</Text>
         </View>
         {Reports.getItems(...options)}
       </View>
@@ -172,7 +172,7 @@ class Reports extends PureComponent<Props> {
           : (
             <View style={styles.containerEmpty}>
               <Text style={styles.emptyTitle}>
-                {I18n.t('report.empty')}
+                {i18n.t('report.empty')}
               </Text>
             </View>
           )

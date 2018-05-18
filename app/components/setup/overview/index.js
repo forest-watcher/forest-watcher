@@ -11,7 +11,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
-import I18n from 'locales';
+import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
@@ -48,18 +48,18 @@ class SetupOverview extends Component {
 
   render() {
     let btnEnabled = true;
-    let btnText = I18n.t('commonText.finish');
+    let btnText = i18n.t('commonText.finish');
     if (!this.state.name) {
       btnEnabled = false;
     } else if (this.state.saving) {
       btnEnabled = false;
-      btnText = I18n.t('commonText.saving');
+      btnText = i18n.t('commonText.saving');
     }
     return (
       <KeyboardAwareScrollView>
         <View style={styles.container}>
           <View style={styles.selector}>
-            <Text style={styles.selectorLabel}>{I18n.t('setupOverview.areaName')}</Text>
+            <Text style={styles.selectorLabel}>{i18n.t('setupOverview.areaName')}</Text>
             <ScrollView scrollEnabled={false} style={styles.scrollContainImage} >
               {this.props.snapshot !== '' &&
                 <Image style={styles.image} source={{ uri: this.props.snapshot }} />
@@ -73,7 +73,7 @@ class SetupOverview extends Component {
                 autoCapitalize="none"
                 value={this.state.name}
                 keyboardType="default"
-                placeholder={I18n.t('setupOverview.placeholder')}
+                placeholder={i18n.t('setupOverview.placeholder')}
                 style={styles.searchInput}
                 onChangeText={this.textChange}
                 onFocus={this.props.onTextFocus}

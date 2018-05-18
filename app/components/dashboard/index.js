@@ -16,7 +16,7 @@ import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
-import I18n from 'locales';
+import i18n from 'locales';
 import styles from './styles';
 
 const Timer = require('react-native-timer');
@@ -103,7 +103,7 @@ class Dashboard extends PureComponent<Props> {
     } else {
       const notification = {
         type: Types.disable,
-        text: I18n.t('commonText.connectionRequired')
+        text: i18n.t('commonText.connectionRequired')
       };
       showNotification(notification);
     }
@@ -114,14 +114,14 @@ class Dashboard extends PureComponent<Props> {
     this.props.updateSelectedIndex(index);
     this.props.navigator.push({
       screen: 'ForestWatcher.Map',
-      title: I18n.t('dashboard.map')
+      title: i18n.t('dashboard.map')
     });
   }
 
   onPressReports = () => {
     this.props.navigator.push({
       screen: 'ForestWatcher.Reports',
-      title: I18n.t('dashboard.myReports')
+      title: i18n.t('dashboard.myReports')
     });
   }
 
@@ -151,7 +151,7 @@ class Dashboard extends PureComponent<Props> {
     if (needsUpdate) {
       updateApp();
       const notification = {
-        text: I18n.t('sync.gettingLatestAlerts')
+        text: i18n.t('sync.gettingLatestAlerts')
       };
       showNotification(notification);
     }
@@ -182,7 +182,7 @@ class Dashboard extends PureComponent<Props> {
         <StatusBar networkActivityIndicatorVisible={appSyncing} />
         <View style={styles.backgroundHack} />
         <Text style={styles.label}>
-          {I18n.t('settings.yourAreas')}
+          {i18n.t('settings.yourAreas')}
         </Text>
         <ScrollView
           style={styles.containerScroll}
@@ -207,7 +207,7 @@ class Dashboard extends PureComponent<Props> {
           </View>
         </ScrollView>
         <Row style={styles.row} action={this.reportsAction}>
-          <Text style={styles.textMyReports}>{I18n.t('dashboard.myReports')}</Text>
+          <Text style={styles.textMyReports}>{i18n.t('dashboard.myReports')}</Text>
         </Row>
       </View>
     );
