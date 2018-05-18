@@ -37,7 +37,12 @@ class ClustersGenerator {
     const alerts = read(realm, 'Alert')
       .filtered(`areaId = '${areaId}' AND slug = '${slug}' AND date > '${limitRange}'`);
     const activeAlerts = pointsToGeoJSON(alerts, slug);
-    return ClustersGenerator.createCluster(activeAlerts);
+    const options = {
+      initial: () => ({ isRecent: false }),
+      // mutating the accumulator to get the reference accross markers in diferent levels
+      reduce: (acc, next) => { acc.isRecent = acc.isRecent || next.isRecent } // eslint-disable-line
+    };
+    return ClustersGenerator.createCluster(activeAlerts, options);
   }, (...rest) => rest.join('_'));
 
   update(...options: *) {
