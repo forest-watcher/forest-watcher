@@ -13,6 +13,13 @@ function ClusterMarker(props) {
     longitude: props.marker.geometry.coordinates[0]
   };
   const clusterId = props.marker.properties.cluster_id;
+
+  const style = [
+    styles.bubble,
+    props.marker.properties.isRecent
+      ? styles.recentColor
+      : styles[`${props.datasetSlug}Color`]
+  ];
   return (
     <MapView.Marker
       key={props.id}
@@ -23,7 +30,7 @@ function ClusterMarker(props) {
       onPress={() => props.zoomTo(clusterCoordinates, clusterId)}
     >
       <View style={styles.container}>
-        <View style={props.datasetSlug === 'viirs' ? styles.bubbleViirs : styles.bubbleGlad}>
+        <View style={style}>
           <Text style={styles.number}>{props.marker.properties.point_count}</Text>
         </View>
       </View>

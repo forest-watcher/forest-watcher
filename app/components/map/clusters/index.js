@@ -4,7 +4,6 @@ import React, { PureComponent } from 'react';
 import MapView from 'react-native-maps';
 import ClusterMarker from 'components/map/clusters/clusterMarker';
 import { View } from 'react-native';
-import CONSTANTS from 'config/constants';
 
 import styles from './styles';
 
@@ -40,7 +39,7 @@ class Clusters extends PureComponent<Props> {
             longitude: marker.geometry.coordinates[0]
           };
 
-          if (marker.properties.point_count !== undefined) {
+          if (marker.properties.cluster) {
             return (
               <ClusterMarker
                 id={`cluster-marker-${index}`}
@@ -51,7 +50,11 @@ class Clusters extends PureComponent<Props> {
               />
             );
           }
-          let markerColor = datasetSlug === CONSTANTS.datasets.GLAD ? styles.gladColor : styles.viirsColor;
+
+          let markerColor = marker.properties.isRecent
+            ? styles.recentColorAlert
+            : styles[`${datasetSlug}ColorAlert`];
+
           const id = `${marker.geometry.coordinates[0]}${marker.geometry.coordinates[1]}`;
           if (this.props.reportedAlerts.includes(id)) {
             markerColor = styles.reportedColor;

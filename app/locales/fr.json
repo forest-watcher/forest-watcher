@@ -521,6 +521,7 @@
     },
     "map": {
         "alerts": "Notifications",
+        "recent": "Récent",
         "reported": "Notifié",
         "settings": "Paramètres carte",
         "ctxLayers": "Couches contextuels"

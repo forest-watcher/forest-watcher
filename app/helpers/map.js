@@ -1,9 +1,10 @@
 // @flow
 
-import { COORDINATES_FORMATS } from 'config/constants';
+import { COORDINATES_FORMATS, GLAD_RECENT_RANGE, DATASETS } from 'config/constants';
 import UtmLatLng from 'utm-latlng';
 import formatcoords from 'formatcoords';
-import type { Coordinates, CoordinatesFormat } from 'types/common.types';
+import moment from 'moment';
+import type { Coordinates, CoordinatesFormat, Alert } from 'types/common.types';
 
 const kdbush = require('kdbush');
 const geokdbush = require('geokdbush');
@@ -50,13 +51,21 @@ export function getAllNeighbours(firstPoint: Coordinates, points: Coordinates, d
   return neighbours;
 }
 
-export function pointsToGeoJSON(points) {
+export function isDateRecent(date: number) {
+  const { measure, range } = GLAD_RECENT_RANGE;
+  return moment().diff(moment(date), measure) <= range;
+}
+
+export function pointsToGeoJSON(points: Array<Alert>, slug: string) {
   return {
     type: 'MapCollection',
     features: points.map((value) => ({
       type: 'Map',
       properties: {
-        date: value.date
+        date: value.date,
+        isRecent: slug === DATASETS.GLAD
+          ? isDateRecent(value.date)
+          : false
       },
       geometry: {
         type: 'Point',

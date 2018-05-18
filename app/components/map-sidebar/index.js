@@ -19,7 +19,7 @@ const getLayerName = name => ((name.match(/^layers\./) !== null) ? i18n.t(name) 
 
 type Props = {
   onPressClose: () => void,
-  legend: ?{ title: string, color: string },
+  legend: ?{ title: string, showRecent: boolean, color: string },
   layers: Array<{ id: string, name: string }>,
   onLayerToggle: (id: string, value: boolean) => void, // eslint-disable-line
   activeLayer: string
@@ -55,6 +55,14 @@ const MapSidebar = (props: Props) => {
               <Text style={styles.sidebarLabel}>{i18n.t(legend.title)}</Text>
             </View>
           </Row>
+          {legend.showRecent &&
+            <Row>
+              <View style={styles.alertContainer}>
+                <View style={[styles.alertLegend, styles.alertLegendRecent]} />
+                <Text style={styles.sidebarLabel}>{i18n.t('map.recent')}</Text>
+              </View>
+            </Row>
+          }
           <Row>
             <View style={styles.alertContainer}>
               <View style={styles.alertLegend} />

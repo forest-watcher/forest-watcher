@@ -521,6 +521,7 @@
     },
     "map": {
         "alerts": "Alerts",
+        "recent": "Recent",
         "reported": "Reported",
         "settings": "Map Settings",
         "ctxLayers": "Contextual layers"

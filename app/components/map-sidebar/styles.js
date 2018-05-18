@@ -47,6 +47,9 @@ export default StyleSheet.create({
     backgroundColor: `rgba(${hexToRgb(Theme.colors.color1)}, 0.8)`,
     marginRight: 16
   },
+  alertLegendRecent: {
+    backgroundColor: `rgba(${hexToRgb(Theme.colors.colorRecent)}, 0.8)`
+  },
   sidebarLabel: {
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,

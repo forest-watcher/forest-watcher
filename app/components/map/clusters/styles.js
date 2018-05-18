@@ -1,23 +1,35 @@
 import Theme from 'config/theme';
+import { DATASETS } from 'config/constants';
 import { StyleSheet } from 'react-native';
 import { hexToRgb } from 'helpers/utils';
 
 export default StyleSheet.create({
   container: {
   },
-  bubbleGlad: {
-    backgroundColor: Theme.colors.colorGlad,
+  bubble: {
     borderRadius: 100,
     width: 40,
     height: 40,
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: Theme.colors.color1
   },
-  bubbleViirs: {
-    backgroundColor: Theme.colors.colorViirs,
-    borderRadius: 100,
-    width: 40,
-    height: 40,
-    alignItems: 'center'
+  [`${DATASETS.GLAD}Color`]: {
+    backgroundColor: Theme.colors.colorGlad
+  },
+  [`${DATASETS.VIIRS}Color`]: {
+    backgroundColor: Theme.colors.colorViirs
+  },
+  recentColor: {
+    backgroundColor: Theme.colors.colorRecent
+  },
+  [`${DATASETS.GLAD}ColorAlert`]: {
+    backgroundColor: `rgba(${hexToRgb(Theme.colors.colorGlad)}, 0.7)`
+  },
+  [`${DATASETS.VIIRS}ColorAlert`]: {
+    backgroundColor: `rgba(${hexToRgb(Theme.colors.colorViirs)}, 0.7)`
+  },
+  recentColorAlert: {
+    backgroundColor: `rgba(${hexToRgb(Theme.colors.colorRecent)}, 0.7)`
   },
   number: {
     color: Theme.colors.color5,
@@ -26,11 +38,5 @@ export default StyleSheet.create({
   },
   reportedColor: {
     backgroundColor: `rgba(${hexToRgb(Theme.colors.color1)}, 0.8)`
-  },
-  viirsColor: {
-    backgroundColor: `rgba(${hexToRgb(Theme.colors.colorViirs)}, 0.7)`
-  },
-  gladColor: {
-    backgroundColor: `rgba(${hexToRgb(Theme.colors.colorGlad)}, 0.7)`
   }
 });
