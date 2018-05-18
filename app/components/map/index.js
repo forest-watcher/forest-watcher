@@ -23,7 +23,7 @@ import ActionBtn from 'components/common/action-button';
 import AlertPosition from 'components/map/alert-position';
 import MapAttribution from 'components/map/map-attribution';
 import AreaCarousel from 'containers/map/area-carousel';
-import Clusters from 'containers/map/clusters/';
+import Clusters from 'containers/map/clusters';
 import { formatCoordsByFormat, getAllNeighbours } from 'helpers/map';
 import tracker from 'helpers/googleAnalytics';
 import clusterGenerator from 'helpers/clusters-generator';
@@ -294,7 +294,19 @@ class Map extends Component {
       region.latitude + (region.latitudeDelta / 2)
     ];
     const clusters = clusterGenerator.clusters && clusterGenerator.clusters.getClusters(bbox, mapZoom);
-    const markers = clusters || [];
+    const markers = (clusters || []).map(c => {
+      if (!c.properties.cluster) return c;
+      // Get all child elements to check if are recent
+      const items = clusterGenerator.clusters.getLeaves(c.properties.cluster_id, Infinity);
+      const isRecent = items.reduce((acc, next) => acc || next.properties.isRecent, false);
+      return {
+        ...c,
+        properties: {
+          ...c.properties,
+          isRecent
+        }
+      };
+    });
     markers.activeMarkersId = markers.length > 0 ? bbox.join('_') + mapZoom : '';
 
     if (clean) {

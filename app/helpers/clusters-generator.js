@@ -15,7 +15,7 @@ type Clusters = {
 };
 
 class ClustersGenerator {
-  static createCluster(data: { features: Array<Object> }, options): Clusters {
+  static createCluster(data: { features: Array<Object> }, options: any): Clusters {
     const cluster = supercluster({
       radius: 120,
       maxZoom: 15, // Default: 16,
@@ -37,16 +37,7 @@ class ClustersGenerator {
     const alerts = read(realm, 'Alert')
       .filtered(`areaId = '${areaId}' AND slug = '${slug}' AND date > '${limitRange}'`);
     const activeAlerts = pointsToGeoJSON(alerts, slug);
-    const options = {
-      initial: () => ({ isRecent: false }),
-      reduce: (acc, next) => {
-        // TODO: fix reduce fired twice so isRecent
-        // is always false in the second iteration
-        const isRecent = acc.isRecent || next.isRecent;
-        return { ...acc, isRecent };
-      }
-    };
-    return ClustersGenerator.createCluster(activeAlerts, options);
+    return ClustersGenerator.createCluster(activeAlerts);
   }, (...rest) => rest.join('_'));
 
   update(...options: *) {
