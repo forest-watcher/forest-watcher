@@ -59,9 +59,6 @@
   },
   "faq": {
     "eighthQuestion": {
-      "content": {
-        "description": null
-      },
       "title": "What does the satellite imagery basemap show?"
     },
     "eleventhQuestion": {
