@@ -37,7 +37,7 @@ export default function reducer(state: AppState = initialState, action: AppActio
   switch (action.type) {
     case PERSIST_REHYDRATE: {
       const { app } = action.payload;
-      return { ...state, app, version };
+      return { ...state, ...app, version };
     }
     case SET_LANGUAGE:
       return { ...state, language: action.payload };
