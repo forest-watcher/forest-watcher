@@ -279,7 +279,7 @@ export function setActiveContextualLayer(layerId, value) {
 
 async function downloadLayer(config, dispatch) {
   const { area, layerId, layerUrl, zoom } = config;
-  const url = `${Config.API_URL}/download-tiles/${area.geostore.id}/${zoom.start}/${zoom.end}?layerUrl=${layerUrl}`;
+  const url = `${Config.API_URL}/download-tiles/${area.geostore.id}/${zoom.start}/${zoom.end}?layerUrl=${layerUrl}&useExtension=false`;
   const res = await RNFetchBlob
     .config({ fileCache: true })
     .fetch('GET', encodeURI(url))
