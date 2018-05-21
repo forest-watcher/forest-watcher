@@ -2,17 +2,18 @@
 
 import type { Question, ReportsState, Template } from 'types/reports.types';
 import type { Answers, FormState } from 'types/form.types';
+import i18n from 'locales';
 
 export const getBtnTextByType = (type: string) => {
   switch (type) {
     case 'text':
-      return 'report.inputText';
+      return i18n.t('report.inputText');
     case 'radio':
-      return 'report.inputRadio';
+      return i18n.t('report.inputRadio');
     case 'select':
-      return 'report.inputSelect';
+      return i18n.t('report.inputSelect');
     default:
-      return 'report.input';
+      return i18n.t('report.input');
   }
 };
 

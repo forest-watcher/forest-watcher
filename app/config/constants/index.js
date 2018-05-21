@@ -1,4 +1,5 @@
 import Config from 'react-native-config';
+import i18n from 'locales';
 
 export const APP_NAME = 'Forest Watcher';
 
@@ -84,6 +85,17 @@ export const DATASETS = {
   GLAD: 'umd_as_it_happens'
 };
 
+export const DATASETSi18n = {
+  VIIRS: i18n.t('datasets.viirs'),
+  GLAD: i18n.t('datasets.umd_as_it_happens')
+};
+
+export const LAYERSi18n = {
+  protectedAreas: i18n.t('layers.protectedAreas'),
+  treeCoverLoss2014: i18n.t('layers.treeCoverLoss2014'),
+  treeCoverLoss2015: i18n.t('layers.treeCoverLoss2015')
+};
+
 export const GLAD_RECENT_RANGE = {
   range: 7,
   measure: 'days'
@@ -91,15 +103,15 @@ export const GLAD_RECENT_RANGE = {
 
 export const COORDINATES_FORMATS = {
   decimal: {
-    label: 'settings.coordinatesDecimal',
+    label: i18n.t('settings.coordinatesDecimal'),
     value: 'decimal'
   },
   degrees: {
-    label: 'settings.coordinatesDegrees',
+    label: i18n.t('settings.coordinatesDegrees'),
     value: 'degrees'
   },
   utm: {
-    label: 'settings.coordinatesUtm',
+    label: i18n.t('settings.coordinatesUtm'),
     value: 'utm'
   }
 };

@@ -131,7 +131,7 @@ class Dashboard extends PureComponent<Props> {
       if (event.id === 'settings') {
         navigator.push({
           screen: 'ForestWatcher.Settings',
-          title: 'Settings'
+          title: i18n.t('settings.title')
         });
       }
     } else if (event.id === 'willDisappear') {

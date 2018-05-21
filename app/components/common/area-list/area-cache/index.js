@@ -142,7 +142,7 @@ class AreaCache extends PureComponent {
           <View style={styles.cacheTooltipContainer}>
             <View style={styles.cacheTooltipArrow} />
             <View style={styles.cacheTooltip}>
-              <Text>Make available offline</Text>
+              <Text>{i18n.t('dashboard.makeAvailableOffline')}</Text>
             </View>
           </View>
         }

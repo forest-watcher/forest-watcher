@@ -7,6 +7,7 @@ import {
   getNextStep,
   isQuestionAnswered
 } from 'helpers/forms';
+import i18n from 'locales';
 import FormStep from 'components/common/form/form-step';
 
 function getNextCallback({ currentQuestion, questions, answers, navigator, form, screen, title, finish }) {
@@ -26,7 +27,7 @@ function getNextCallback({ currentQuestion, questions, answers, navigator, form,
   }
   return () => {
     navigator.push({
-      title: 'Review report',
+      title: i18n.t('report.review'),
       screen: 'ForestWatcher.Answers',
       backButtonHidden: true,
       passProps: {
@@ -69,7 +70,7 @@ function mapStateToProps(state, { form, index, questionsToSkip, finish, title, s
   const parsedQuestion = question && parseQuestion({ question, form: template }, state.app.language);
   const answers = getAnswers(state.form, form);
   const hasAnswer = isQuestionAnswered(question, answers);
-  const nextText = !hasAnswer && question && question.required ? getBtnTextByType(question.type) : 'commonText.next';
+  const nextText = !hasAnswer && question && question.required ? getBtnTextByType(question.type) : i18n.t('commonText.next');
   const getCallback = editMode ? getEditNextCallback : getNextCallback;
   return {
     form,

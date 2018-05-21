@@ -71,7 +71,7 @@ class Reports extends PureComponent<Props> {
     return (
       <View style={styles.listContainer}>
         <View style={styles.listHeader}>
-          <Text style={styles.listTitle}>{i18n.t(title)}</Text>
+          <Text style={styles.listTitle}>{title}</Text>
         </View>
         {Reports.getItems(...options)}
       </View>
@@ -83,7 +83,7 @@ class Reports extends PureComponent<Props> {
   }
 
   onClickNext = (reportName: string) => this.props.navigator.push({
-    title: 'Review report',
+    title: i18n.t('report.review'),
     screen: 'ForestWatcher.Answers',
     passProps: {
       form: reportName,
@@ -92,7 +92,7 @@ class Reports extends PureComponent<Props> {
   });
 
   onClickUpload = (reportName: string) => this.props.navigator.push({
-    title: 'Review report',
+    title: i18n.t('report.review'),
     screen: 'ForestWatcher.Answers',
     passProps: {
       form: reportName,
@@ -103,11 +103,11 @@ class Reports extends PureComponent<Props> {
   });
 
   getCompleted(completed) {
-    return Reports.renderSection('report.completed', completed, nextIcon, this.onClickUpload);
+    return Reports.renderSection(i18n.t('report.completed'), completed, nextIcon, this.onClickUpload);
   }
 
   getUploaded(uploaded) {
-    return Reports.renderSection('report.uploaded', uploaded, nextIcon, this.onClickNext);
+    return Reports.renderSection(i18n.t('report.uploaded'), uploaded, nextIcon, this.onClickNext);
   }
 
   getDrafts(drafts) {
@@ -115,7 +115,7 @@ class Reports extends PureComponent<Props> {
       const lastStep = this.props.getLastStep(reportName);
       if (lastStep !== null) {
         const screen = 'ForestWatcher.NewReport';
-        const title = 'Report';
+        const title = i18n.t('report.title');
         this.props.navigator.push({
           screen,
           title,
@@ -123,17 +123,12 @@ class Reports extends PureComponent<Props> {
             screen,
             title,
             form: reportName,
-            step: lastStep,
-            texts: {
-              saveLaterTitle: 'report.saveLaterTitle',
-              saveLaterDescription: 'report.saveLaterDescription',
-              requiredId: 'report.reportIdRequired'
-            }
+            step: lastStep
           }
         });
       } else {
         this.props.navigator.push({
-          title: 'Review report',
+          title: i18n.t('report.review'),
           screen: 'ForestWatcher.Answers',
           passProps: {
             form: reportName,
@@ -143,7 +138,7 @@ class Reports extends PureComponent<Props> {
       }
     };
 
-    return Reports.renderSection('report.drafts', drafts, editIcon, onActionPress);
+    return Reports.renderSection(i18n.t('report.drafts'), drafts, editIcon, onActionPress);
   }
 
   render() {

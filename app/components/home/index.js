@@ -6,6 +6,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 import Theme from 'config/theme';
+import { APP_NAME } from 'config/constants';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
@@ -83,7 +84,7 @@ class Home extends Component<Props> {
         } else {
           navigator.resetTo({
             screen: 'ForestWatcher.Dashboard',
-            title: 'Forest Watcher',
+            title: APP_NAME,
             passProps: {
               closeModal: true
             }

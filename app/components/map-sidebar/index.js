@@ -52,7 +52,7 @@ const MapSidebar = (props: Props) => {
           <Row>
             <View style={styles.alertContainer}>
               <View style={[styles.alertLegend, { backgroundColor: legend.color }]} />
-              <Text style={styles.sidebarLabel}>{i18n.t(legend.title)}</Text>
+              <Text style={styles.sidebarLabel}>{legend.title}</Text>
             </View>
           </Row>
           {legend.showRecent &&

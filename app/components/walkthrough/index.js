@@ -96,7 +96,7 @@ class Walkthrough extends PureComponent {
   goToLogin = throttle(() => {
     this.props.navigator.resetTo({
       screen: 'ForestWatcher.Login',
-      title: 'Set up',
+      title: i18n.t('commonText.setup'),
       passProps: {
         goBackDisabled: true
       }

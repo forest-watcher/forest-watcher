@@ -69,7 +69,7 @@ class Answers extends PureComponent<Props> {
       backButtonHidden: true,
       passProps: {
         form,
-        title: 'Report',
+        title: i18n.t('report.title'),
         screen,
         step: index,
         disableDraft,

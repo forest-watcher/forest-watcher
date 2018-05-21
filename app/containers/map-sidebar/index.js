@@ -7,6 +7,7 @@ import { setActiveContextualLayer } from 'redux-modules/layers';
 import { activeDataset } from 'helpers/area';
 import { DATASETS } from 'config/constants';
 import { hexToRgb } from 'helpers/utils';
+import i18n from 'locales';
 import Theme from 'config/theme';
 import MapSidebar from 'components/map-sidebar';
 
@@ -22,7 +23,7 @@ function mapStateToProps(state: State) {
       const color = dataset.slug === DATASETS.VIIRS ? Theme.colors.colorViirs : Theme.colors.colorGlad;
       legend = {
         showRecent: dataset.slug === DATASETS.GLAD,
-        title: `datasets.${dataset.slug}`,
+        title: i18n.t(`datasets.${dataset.slug}`),
         color: `rgba(${hexToRgb(color)}, 0.7)`
       };
     }
