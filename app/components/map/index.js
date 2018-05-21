@@ -33,7 +33,6 @@ import styles from './styles';
 
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
 
-const Timer = require('react-native-timer');
 const geoViewport = require('@mapbox/geo-viewport');
 
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
@@ -74,7 +73,7 @@ function getNeighboursSelected(selectedAlerts, markers) {
   return neighbours;
 }
 
-class Map extends Component {
+class MapComponent extends Component {
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color5,
     navBarButtonColor: Theme.colors.color5,
@@ -109,7 +108,7 @@ class Map extends Component {
     const initialCoords = center || { lat: MAPS.lat, lon: MAPS.lng };
     this.eventLocation = null;
     this.eventOrientation = null;
-    this.hasSetCoordinates = false;
+    this.isMapLoaded = false;
     // Google maps lon and lat are inverted
     this.state = {
       lastPosition: null,
@@ -118,8 +117,8 @@ class Map extends Component {
       heading: null,
       geoMarkerOpacity: new Animated.Value(0.3),
       region: {
-        latitude: initialCoords.lat,
-        longitude: initialCoords.lon,
+        latitude: initialCoords.lon,
+        longitude: initialCoords.lat,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
@@ -139,7 +138,6 @@ class Map extends Component {
       StatusBar.setBarStyle('light-content');
     }
 
-    Timer.setTimeout(this, 'setAlerts', this.props.setActiveAlerts, 500);
     this.geoLocate();
   }
 
@@ -148,12 +146,11 @@ class Map extends Component {
       !isEqual(nextProps.areaCoordinates, this.props.areaCoordinates),
       !isEqual(nextProps.area, this.props.area),
       nextProps.canDisplayAlerts !== this.props.canDisplayAlerts,
-      !isEqual(nextProps.center, this.props.center),
       !isEqual(nextProps.contextualLayer, this.props.contextualLayer),
       !isEqual(nextState.lastPosition, this.state.lastPosition),
       nextState.hasCompass !== this.state.hasCompass,
       nextState.heading !== this.state.heading,
-      !isEqual(nextState.region, this.state.region),
+      // !isEqual(nextState.region, this.state.region),
       !isEqual(nextState.markers, this.state.markers),
       !isEqual(nextState.selectedAlerts, this.state.selectedAlerts),
       !isEqual(nextState.neighbours, this.state.neighbours),
@@ -189,7 +186,6 @@ class Map extends Component {
 
   componentWillUnmount() {
     Location.stopUpdatingLocation();
-    Timer.clearTimeout(this, 'setAlerts');
     if (this.eventLocation) {
       this.eventLocation.remove();
     }
@@ -233,12 +229,13 @@ class Map extends Component {
   }
 
   onMapReady = () => {
-    if (this.hasSetCoordinates === false && this.props.areaCoordinates) {
+    if (this.isMapLoaded === false && this.props.areaCoordinates) {
       const margin = Platform.OS === 'ios' ? 150 : 250;
       const options = { edgePadding: { top: margin, right: margin, bottom: margin, left: margin }, animated: false };
 
       this.map.fitToCoordinates(this.props.areaCoordinates, options);
-      this.hasSetCoordinates = true;
+      this.props.setActiveAlerts();
+      this.isMapLoaded = true;
     }
   }
 
@@ -438,11 +435,13 @@ class Map extends Component {
   }
 
   updateRegion = (region) => {
-    const mapZoom = Map.getMapZoom(region);
+    const mapZoom = MapComponent.getMapZoom(region);
     const clean = this.state.mapZoom > mapZoom;
-    this.setState({ region, mapZoom }, () => {
-      this.updateMarkers(clean);
-    });
+    if (this.isMapLoaded) {
+      this.setState({ region, mapZoom }, () => {
+        this.updateMarkers(clean);
+      });
+    }
   }
 
   zoomTo = (coordinates, id) => {
@@ -702,7 +701,7 @@ class Map extends Component {
         </MapView.Marker>
       )))
       : null;
-    const clustersElement = area.dataset ? (
+    const clustersElement = area && area.dataset ? (
       <Clusters
         key={clustersKey}
         markers={markers}
@@ -779,7 +778,7 @@ class Map extends Component {
   }
 }
 
-Map.propTypes = {
+MapComponent.propTypes = {
   navigator: PropTypes.object.isRequired,
   createReport: PropTypes.func.isRequired,
   center: PropTypes.shape({
@@ -802,4 +801,4 @@ Map.propTypes = {
   coordinatesFormat: PropTypes.string.isRequired
 };
 
-export default Map;
+export default MapComponent;
