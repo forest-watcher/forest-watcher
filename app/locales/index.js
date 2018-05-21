@@ -13,12 +13,6 @@ if (i18n.locale.indexOf('in') >= 0) {
   i18n.locale = 'id';
 }
 
-i18n.translations = {
-  en: { ...en },
-  es: { ...es },
-  fr: { ...fr },
-  pt: { ...pt },
-  id: { ...id }
-};
+i18n.translations = { en, es, fr, pt, id };
 
 export default i18n;
