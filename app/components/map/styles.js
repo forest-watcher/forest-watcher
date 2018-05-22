@@ -16,8 +16,8 @@ export default StyleSheet.create({
     top: 0
   },
   signalNotice: {
-    marginBottom: 4,
-    marginLeft: 16,
+    marginBottom: 8,
+    marginLeft: 8,
     flexDirection: 'row',
     alignItems: 'center'
   },
@@ -75,20 +75,28 @@ export default StyleSheet.create({
     position: 'absolute',
     top: 0
   },
+  buttonPanel: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    marginLeft: 8,
+    marginRight: 8,
+    marginBottom: 16
+  },
+  buttonPanelSelected: {
+    flexDirection: 'column'
+  },
+  buttonPanelRow: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   footer: {
     left: 0,
     right: 0,
     bottom: 0,
     zIndex: 3,
     position: 'absolute'
-  },
-  footerRow: {
-    flex: 1,
-    position: 'relative',
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
-    minHeight: 60
   },
   footerBGContainer: {
     left: 0,
@@ -106,64 +114,22 @@ export default StyleSheet.create({
     bottom: 0,
     transform: [{ rotate: '180deg' }]
   },
-  footerTitle: {
-    fontFamily: Theme.font,
-    color: Theme.fontColors.white,
-    fontSize: 17,
-    fontWeight: '500',
-    position: 'absolute',
-    zIndex: 2,
-    bottom: 40,
-    marginLeft: Theme.margin.left,
-    opacity: 1,
-    backgroundColor: 'transparent'
-  },
   footerSubtitle: {
     bottom: 20
   },
   btnContainer: {
     flex: 1,
-    marginTop: 8,
-    marginBottom: 8
+    flexDirection: 'row',
+    marginTop: 8
   },
-  footerButton: {
-    height: 64,
-    marginLeft: 8,
-    marginRight: 8,
-    zIndex: 4
+  btnReport: {
+    flex: 1
   },
-  footerButton1: {
-    marginBottom: 4
+  btnLeft: {
+    marginRight: 8
   },
-  footerButton2: {
-    marginTop: 4
-  },
-  coordinateDistanceText: {
-    fontFamily: Theme.font,
-    color: Theme.fontColors.secondary,
-    fontSize: 14,
-    fontWeight: '400',
-    marginLeft: 14,
-    backgroundColor: 'transparent',
-    lineHeight: 13
-  },
-  currentPosition: {
-    paddingTop: 3,
-    position: 'relative'
-  },
-  btnRemoveCurrent: {
-    width: 20,
-    height: 20,
-    position: 'absolute',
-    right: 0,
-    bottom: 0
-  },
-  btnRemoveCurrentText: {
-    fontSize: 18,
-    borderTopColor: '#CCCCCC',
-    padding: 0
-  },
-  footerReport: {
-    paddingLeft: 8
+  hidden: {
+    opacity: 0,
+    height: 0
   }
 });

@@ -24,7 +24,7 @@ function AlertPosition(props: Props) {
   const { alertSelected, lastPosition, coordinatesFormat, kmThreshold } = props;
 
   let distanceText = '';
-  let positionText = `${I18n.t('commonText.yourPosition')}: `;
+  let positionText = '';
   let distance = 99999999;
   if (lastPosition && (alertSelected && alertSelected.latitude && alertSelected.longitude)) {
     const { latitude, longitude } = lastPosition;

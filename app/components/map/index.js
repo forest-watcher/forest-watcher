@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
-  Button,
   Dimensions,
   DeviceEventEmitter,
   Animated,
@@ -21,9 +20,9 @@ import moment from 'moment';
 
 import MapView from 'react-native-maps';
 import ActionBtn from 'components/common/action-button';
+import CircleButton from 'components/common/circle-button';
 import AlertPosition from 'components/map/alert-position';
 import MapAttribution from 'components/map/map-attribution';
-import AreaCarousel from 'containers/map/area-carousel';
 import Clusters from 'containers/map/clusters';
 import { formatCoordsByFormat, getAllNeighbours } from 'helpers/map';
 import tracker from 'helpers/googleAnalytics';
@@ -49,6 +48,9 @@ const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
 const layersIcon = require('assets/layers.png');
+
+const settingsIcon = require('assets/settings.png');
+const reportArea = require('assets/report_area.png');
 
 function pointsFromCluster(cluster) {
   if (!cluster || !cluster.length > 0) return [];
@@ -86,7 +88,7 @@ class MapComponent extends Component {
   };
 
   static margin = Platform.OS === 'ios' ? 50 : 250;
-  static FIT_OPTIONS = { edgePadding: { top: MapComponent.margin, right: MapComponent.margin, bottom: MapComponent.margin, left: MapComponent.margin }, animated: false };
+  static FIT_OPTIONS = { edgePadding: { top: this.margin, right: this.margin, bottom: this.margin, left: this.margin }, animated: false };
 
   static navigatorButtons = {
     rightButtons: [
@@ -213,13 +215,13 @@ class MapComponent extends Component {
         this.onDidAppear();
         break;
       case 'contextualLayers':
-        this.onContextualLayersPress();
+        this.onSettingsPress();
         break;
       default:
     }
   }
 
-  onContextualLayersPress = () => {
+  onSettingsPress = () => {
     this.props.navigator.toggleDrawer({
       side: 'right',
       animated: true
@@ -532,42 +534,75 @@ class MapComponent extends Component {
     });
   }
 
-  renderFooter() {
-    const getButtons = () => {
-      const { neighbours } = this.state;
-      return neighbours && neighbours.length > 0
-        ? [
-          <ActionBtn
-            key="1"
-            style={[styles.footerButton, styles.footerButton1]}
-            text={i18n.t('report.selected').toUpperCase()}
-            onPress={this.reportSelection}
-          />,
-          <ActionBtn
-            key="2"
-            monochrome
-            style={[styles.footerButton, styles.footerButton2, styles.footerReport]}
-            text={i18n.t('report.area').toUpperCase()}
-            onPress={this.reportArea}
-          />
-        ]
-        : (
-          <ActionBtn
-            style={styles.footerButton}
-            text={i18n.t('report.title').toUpperCase()}
-            onPress={this.reportSelection}
-          />
-        );
-    };
+  renderButtonPanelSelected() {
+    const { selectedAlerts, lastPosition, neighbours } = this.state;
+    const { coordinatesFormat } = this.props;
+    const lastAlertIndex = selectedAlerts.length - 1;
     return (
-      <View pointerEvents="box-none" style={styles.btnContainer}>
-        {getButtons()}
+      <View style={[styles.buttonPanel, styles.buttonPanelSelected]}>
+        <View style={styles.buttonPanelRow}>
+          {lastPosition &&
+            <CircleButton
+              light
+              style={styles.btnLeft}
+              icon={settingsIcon}
+              onPress={this.fitPosition}
+            />
+          }
+          <AlertPosition
+            alertSelected={selectedAlerts[lastAlertIndex]}
+            lastPosition={this.state.lastPosition}
+            coordinatesFormat={coordinatesFormat}
+            kmThreshold={30}
+          />
+        </View>
+        <View style={styles.buttonPanelRow}>
+          <View pointerEvents="box-none" style={styles.btnContainer}>
+            {neighbours && neighbours.length > 0
+              ? [
+                <CircleButton
+                  key="1"
+                  icon={reportArea}
+                  style={styles.btnLeft}
+                  onPress={this.reportSelection}
+                />,
+                <ActionBtn
+                  key="2"
+                  short
+                  left
+                  style={styles.btnReport}
+                  text={i18n.t('report.selected').toUpperCase()}
+                  onPress={this.reportArea}
+                />
+              ]
+              : (
+                <ActionBtn
+                  short
+                  left
+                  style={styles.btnReport}
+                  text={i18n.t('report.title').toUpperCase()}
+                  onPress={this.reportSelection}
+                />
+              )
+            }
+          </View>
+        </View>
       </View>
     );
   }
 
-  renderFooterLoading() {
-    return (!this.state.lastPosition &&
+  renderButtonPanel() {
+    const { lastPosition } = this.state;
+    return (
+      <View style={styles.buttonPanel}>
+        <CircleButton style={lastPosition ? styles.btnLeft : styles.hidden} onPress={this.fitPosition} light icon={settingsIcon} />
+        <CircleButton onPress={this.onSettingsPress} light icon={settingsIcon} />
+      </View>
+    );
+  }
+
+  renderNoSignal() {
+    return (
       <View pointerEvents="box-none" style={styles.signalNotice}>
         <View style={styles.geoLocationContainer}>
           <Image
@@ -583,17 +618,39 @@ class MapComponent extends Component {
     );
   }
 
+  renderMapFooter() {
+    const { selectedAlerts, neighbours, lastPosition } = this.state;
+    const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
+
+    const hasNeighbours = neighbours && neighbours.length > 0;
+    let veilHeight = 120;
+    if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
+
+    return [
+      <View key="bg" pointerEvents="none" style={[styles.footerBGContainer, { height: veilHeight }]}>
+        <Image
+          style={[styles.footerBg, { height: veilHeight }]}
+          source={backgroundImage}
+        />
+      </View>,
+      <View key="footer" pointerEvents="box-none" style={styles.footer}>
+        {!lastPosition && this.renderNoSignal()}
+        {hasAlertsSelected
+          ? this.renderButtonPanelSelected()
+          : this.renderButtonPanel()
+        }
+        <MapAttribution />
+      </View>
+    ];
+  }
+
   render() {
     const { lastPosition, compassLine, region,
             selectedAlerts, neighbours, heading, markers } = this.state;
     const { areaCoordinates, area, contextualLayer,
-            basemapLocalTilePath, isConnected, ctxLayerLocalTilePath, coordinatesFormat } = this.props;
+            basemapLocalTilePath, isConnected, ctxLayerLocalTilePath } = this.props;
     const showCompassLine = lastPosition && selectedAlerts && compassLine;
-    const lastAlertIndex = selectedAlerts.length - 1;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
-    const hasNeighbours = neighbours && neighbours.length > 0;
-    let veilHeight = 120;
-    if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
     const isIOS = Platform.OS === 'ios';
     const ctxLayerKey = isIOS && contextualLayer ? `contextualLayerElement-${contextualLayer.name}` : 'contextualLayerElement';
     const keyRand = isIOS ? Math.floor((Math.random() * 100) + 1) : '';
@@ -755,37 +812,7 @@ class MapComponent extends Component {
           {neighboursAlertsElement}
           {selectedAlertsElement}
         </MapView>
-        <View pointerEvents="none" style={[styles.footerBGContainer, { height: veilHeight }]}>
-          <Image
-            style={[styles.footerBg, { height: veilHeight }]}
-            source={backgroundImage}
-          />
-        </View>
-        <View pointerEvents="box-none" style={styles.footer}>
-          {lastPosition && <Button onPress={this.fitPosition} title="Fit to coordinates" />}
-          <View pointerEvents="none" style={styles.footerRow}>
-            {hasAlertsSelected &&
-              <AlertPosition
-                alertSelected={selectedAlerts[lastAlertIndex]}
-                lastPosition={this.state.lastPosition}
-                coordinatesFormat={coordinatesFormat}
-                kmThreshold={30}
-              />
-            }
-            <MapAttribution />
-          </View>
-          {hasAlertsSelected
-            ? this.renderFooter()
-            : this.renderFooterLoading()
-          }
-          {!hasAlertsSelected &&
-            <AreaCarousel
-              navigator={this.props.navigator}
-              alertSelected={selectedAlerts[lastAlertIndex]}
-              lastPosition={this.state.lastPosition}
-            />
-          }
-        </View>
+        {this.renderMapFooter()}
       </View>
     );
   }

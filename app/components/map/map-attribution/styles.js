@@ -6,16 +6,21 @@ import {
 export default StyleSheet.create({
   attributionContainer: {
     position: 'absolute',
+    left: 0,
     right: 0,
-    bottom: 4,
-    paddingRight: Theme.margin.right,
+    bottom: 0,
+    flexDirection: 'row',
     alignItems: 'flex-end',
-    width: Theme.screen.width / 2
+    justifyContent: 'flex-end',
+    width: Theme.screen.width,
+    paddingLeft: 8,
+    paddingRight: 8
   },
   footerZIndex: {
     zIndex: 4
   },
   attributionText: {
+    flexDirection: 'row',
     color: Theme.fontColors.white,
     backgroundColor: 'transparent'
   }
