@@ -6,7 +6,6 @@ import {
   Picker
 } from 'react-native';
 
-import I18n from 'locales';
 import styles from './styles';
 
 const Dropdown = (props) => {
@@ -14,7 +13,7 @@ const Dropdown = (props) => {
   return (
     <View style={styles.section}>
       <Text style={styles.containerLabel}>
-        {I18n.t(label)}
+        {label}
       </Text>
       <View style={styles.container}>
         <View style={styles.pickerContainer}>
@@ -26,7 +25,7 @@ const Dropdown = (props) => {
             {options.map((option, i) => (
               <Picker.Item
                 key={option.value + i}
-                label={I18n.t(option.label)}
+                label={option.label}
                 value={option.value}
                 style={styles.pickerItem}
               />

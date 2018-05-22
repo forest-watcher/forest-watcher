@@ -12,7 +12,7 @@ import {
 import tracker from 'helpers/googleAnalytics';
 import FastImage from 'react-native-fast-image';
 
-import I18n from 'locales';
+import i18n from 'locales';
 import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
 import AlertSystem from 'containers/settings/area-detail/alert-system';
@@ -86,8 +86,8 @@ class AreaDetail extends Component {
       });
     } else {
       Alert.alert(
-        I18n.t('commonText.connectionRequiredTitle'),
-        I18n.t('commonText.connectionRequired'),
+        i18n.t('commonText.connectionRequiredTitle'),
+        i18n.t('commonText.connectionRequired'),
         [{ text: 'OK' }],
         { cancelable: false }
       );
@@ -107,7 +107,7 @@ class AreaDetail extends Component {
         keyboardShouldPersistTaps={'always'}
       >
         <View>
-          <Text style={styles.title}>{I18n.t('commonText.name')}</Text>
+          <Text style={styles.title}>{i18n.t('commonText.name')}</Text>
           {!this.state.editingName ?
             <View style={styles.section}>
               <Text style={styles.name}>
@@ -140,18 +140,18 @@ class AreaDetail extends Component {
           }
         </View>
         <View style={styles.row}>
-          <Text style={styles.title}>{I18n.t('commonText.boundaries')}</Text>
+          <Text style={styles.title}>{i18n.t('commonText.boundaries')}</Text>
           <View style={styles.imageContainer}>
             <FastImage style={styles.image} source={{ uri: area.image }} />
           </View>
         </View>
         <View style={styles.row}>
-          <Text style={styles.title}>{I18n.t('alerts.alertSystems')}</Text>
+          <Text style={styles.title}>{i18n.t('alerts.alertSystems')}</Text>
           <AlertSystem areaId={area.id} />
         </View>
         {!disableDelete &&
           <View style={styles.buttonContainer}>
-            <ActionButton onPress={this.handleDeleteArea} delete text={I18n.t('areaDetail.delete')} />
+            <ActionButton onPress={this.handleDeleteArea} delete text={i18n.t('areaDetail.delete')} />
           </View>
         }
       </ScrollView>

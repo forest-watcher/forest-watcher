@@ -1,6 +1,5 @@
 // @flow
 import { takeEvery, select } from 'redux-saga/effects';
-import i18n from 'locales';
 import notifications from 'notifications.config';
 import { showNotification } from 'components/toast-notification';
 
@@ -11,7 +10,7 @@ export function* reportNotifications(): Generator<*, *, *> {
     // already depends on Object.keys(notifications)
     const { check, text, ...notification } = notifications[action.type];
     if ((typeof check === 'function' && check(state)) || typeof check === 'undefined') {
-      showNotification({ ...notification, text: i18n.t(text) });
+      showNotification({ ...notification, text });
     }
   }
   yield takeEvery(Object.keys(notifications), sendNotification);

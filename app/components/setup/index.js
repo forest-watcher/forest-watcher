@@ -5,12 +5,13 @@ import {
   View
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import { APP_NAME } from 'config/constants';
 
 import StepsSlider from 'components/common/steps-slider';
 import SetupCountry from 'containers/setup/country';
 import SetupBoundaries from 'containers/setup/boundaries';
 import SetupOverView from 'containers/setup/overview';
-import I18n from 'locales';
+import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import Header from './header';
 import styles from './styles';
@@ -55,7 +56,7 @@ class Setup extends Component<Props, State> {
   onFinishSetup = () => {
     this.props.navigator.resetTo({
       screen: 'ForestWatcher.Dashboard',
-      title: 'Forest Watcher'
+      title: APP_NAME
     });
   }
 
@@ -95,7 +96,7 @@ class Setup extends Component<Props, State> {
     return (
       <View style={page !== 1 ? styles.defaultHeader : styles.mapHeader}>
         <Header
-          title={I18n.t('commonText.setUp')}
+          title={i18n.t('commonText.setup')}
           showBack={showBack}
           onBackPress={onBackPress}
           page={page}

@@ -6,7 +6,7 @@ import {
   Image
 } from 'react-native';
 
-import I18n from 'locales';
+import i18n from 'locales';
 import CONSTANTS from 'config/constants';
 import { getCachedImageByUrl } from 'helpers/fileManagement';
 import styles from './styles';
@@ -64,7 +64,7 @@ class ImageCache extends Component {
         {this.state.loading
         ? (
           <View style={styles.loader}>
-            <Text>{I18n.t('commonText.loading')}</Text>
+            <Text>{i18n.t('commonText.loading')}</Text>
           </View>
           )
         : null
@@ -72,7 +72,7 @@ class ImageCache extends Component {
         {!this.state.loading && this.state.noImage
         ? (
           <View style={styles.loader}>
-            <Text style={styles.loaderText}>{I18n.t('commonText.noImage')}</Text>
+            <Text style={styles.loaderText}>{i18n.t('commonText.noImage')}</Text>
           </View>
           )
         : null

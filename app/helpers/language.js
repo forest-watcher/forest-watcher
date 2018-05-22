@@ -1,7 +1,7 @@
-import I18n from 'react-native-i18n';
+import i18n from 'react-native-i18n';
 
 export function getLanguage() {
-  let lang = I18n.locale;
+  let lang = i18n.locale;
   if (lang.indexOf('-') !== -1) {
     lang = lang.split('-')[0];
   }
