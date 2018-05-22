@@ -547,7 +547,7 @@ class Map extends Component {
         : (
           <ActionBtn
             style={styles.footerButton}
-            text={i18n.t('report.title').toUpperCase()}
+            text={i18n.t('report.toReport').toUpperCase()}
             onPress={this.reportSelection}
           />
         );
