@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
-  Button,
   Dimensions,
   DeviceEventEmitter,
   Animated,
@@ -51,6 +50,9 @@ const backgroundImage = require('assets/map_bg_gradient.png');
 const settingsBlackIcon = require('assets/settings_black.png');
 const myLocationIcon = require('assets/my_location.png');
 const reportAreaIcon = require('assets/report_area.png');
+
+const settingsIcon = require('assets/settings.png');
+const reportArea = require('assets/report_area.png');
 
 function pointsFromCluster(cluster) {
   if (!cluster || !cluster.length > 0) return [];
