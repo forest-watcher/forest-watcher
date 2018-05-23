@@ -47,10 +47,9 @@ const markerImage = require('assets/marker.png');
 const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
-const layersIcon = require('assets/layers.png');
-
-const settingsIcon = require('assets/settings.png');
-const reportArea = require('assets/report_area.png');
+const settingsBlackIcon = require('assets/settings_black.png');
+const myLocationIcon = require('assets/my_location.png');
+const reportAreaIcon = require('assets/report_area.png');
 
 function pointsFromCluster(cluster) {
   if (!cluster || !cluster.length > 0) return [];
@@ -89,12 +88,6 @@ class MapComponent extends Component {
 
   static margin = Platform.OS === 'ios' ? 50 : 250;
   static FIT_OPTIONS = { edgePadding: { top: this.margin, right: this.margin, bottom: this.margin, left: this.margin }, animated: false };
-
-  static navigatorButtons = {
-    rightButtons: [
-      { icon: layersIcon, id: 'contextualLayers' }
-    ]
-  };
 
   static getMapZoom(region) {
     if (!region.longitude || !region.latitude) return 0;
@@ -545,7 +538,7 @@ class MapComponent extends Component {
             <CircleButton
               light
               style={styles.btnLeft}
-              icon={settingsIcon}
+              icon={myLocationIcon}
               onPress={this.fitPosition}
             />
           }
@@ -562,7 +555,7 @@ class MapComponent extends Component {
               ? [
                 <CircleButton
                   key="1"
-                  icon={reportArea}
+                  icon={reportAreaIcon}
                   style={styles.btnLeft}
                   onPress={this.reportSelection}
                 />,
@@ -595,8 +588,8 @@ class MapComponent extends Component {
     const { lastPosition } = this.state;
     return (
       <View style={styles.buttonPanel}>
-        <CircleButton style={lastPosition ? styles.btnLeft : styles.hidden} onPress={this.fitPosition} light icon={settingsIcon} />
-        <CircleButton onPress={this.onSettingsPress} light icon={settingsIcon} />
+        <CircleButton style={lastPosition ? styles.btnLeft : styles.hidden} onPress={this.fitPosition} light icon={myLocationIcon} />
+        <CircleButton onPress={this.onSettingsPress} light icon={settingsBlackIcon} />
       </View>
     );
   }
