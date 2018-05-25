@@ -77,6 +77,10 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center'
   },
+  offlineMode: {
+    width: Theme.screen.width,
+    marginTop: 30
+  },
   areas: {
     marginTop: 30
   },

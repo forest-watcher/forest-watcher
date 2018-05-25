@@ -15,6 +15,7 @@ import Theme from 'config/theme';
 import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import CoordinatesDropdown from 'containers/settings/coordinates-dropdown';
+import Row from 'components/common/row';
 
 import styles from './styles';
 
@@ -167,6 +168,16 @@ class Settings extends Component {
 
           <View style={styles.coordinates}>
             <CoordinatesDropdown />
+          </View>
+          <View style={styles.offlineMode}>
+            <Row
+              value={false}
+              onValueChange={() => true}
+            >
+              <Text>
+                {i18n.t('settings.offlineMode')}
+              </Text>
+            </Row>
           </View>
 
           {areas && areas.length
