@@ -9,7 +9,7 @@ import {
 import SearchSelector from 'components/common/search-selector';
 import ActionButton from 'components/common/action-button';
 import Theme from 'config/theme';
-import I18n from 'locales';
+import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
@@ -67,17 +67,17 @@ class SetupCountry extends Component {
       return (
         <View style={styles.container}>
           <View style={styles.content}>
-            <Text style={styles.text}>{I18n.t('setupCountry.welcomeText')}{user ? '!' : ` ${user.fullName}`}</Text>
-            <Text style={styles.text}>{I18n.t('setupCountry.secondWelcomeText')}</Text>
+            <Text style={styles.text}>{i18n.t('setupCountry.welcomeText')}{user ? '!' : ` ${user.fullName}`}</Text>
+            <Text style={styles.text}>{i18n.t('setupCountry.secondWelcomeText')}</Text>
           </View>
 
           <View style={styles.selector}>
-            <Text style={styles.selectorLabel}>{I18n.t('setupCountry.firstInstruction')}</Text>
+            <Text style={styles.selectorLabel}>{i18n.t('setupCountry.firstInstruction')}</Text>
             <SearchSelector
               selected={getCountrySelected(countries, iso)}
               onOptionSelected={setSetupCountry}
               data={countries}
-              placeholder={I18n.t('countries.searchPlaceholder')}
+              placeholder={i18n.t('countries.searchPlaceholder')}
             />
           </View>
 
@@ -85,7 +85,7 @@ class SetupCountry extends Component {
             style={styles.buttonPos}
             disabled={!iso}
             onPress={this.onNextPress}
-            text={I18n.t('commonText.next').toUpperCase()}
+            text={i18n.t('commonText.next').toUpperCase()}
           />
         </View>
       );

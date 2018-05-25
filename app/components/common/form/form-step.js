@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { Field, reduxForm } from 'redux-form';
 
-import I18n from 'locales';
 import ActionButton from 'components/common/action-button';
 import getInputForm from 'components/common/form-inputs';
 import withDraft from './withDraft';
@@ -21,7 +20,7 @@ const getNext = (question, hasAnswer, next) => {
     style={styles.buttonPos}
     disabled={disabled}
     onPress={next.callback}
-    text={I18n.t(next.text)}
+    text={next.text}
   />);
 };
 

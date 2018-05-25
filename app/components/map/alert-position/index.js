@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import I18n from 'locales';
+import i18n from 'locales';
 import {
   View,
   Text
@@ -36,11 +36,11 @@ function AlertPosition(props: Props) {
     }
     const meters = (currentPoint.distanceTo(geoPoint, true) * 1000); // in meters
     distance = meters.toFixed(0);
-    distanceText = `${distance} ${I18n.t('commonText.metersAway')}`;
+    distanceText = `${distance} ${i18n.t('commonText.metersAway')}`;
 
     if (kmThreshold && meters >= (kmThreshold * 1000)) {
       distance = (meters / 1000).toFixed(1); // in Kilometers
-      distanceText = `${distance} ${I18n.t('commonText.kmAway')}`;
+      distanceText = `${distance} ${i18n.t('commonText.kmAway')}`;
     }
   }
 

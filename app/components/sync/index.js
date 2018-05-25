@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { StatusBar, View, Text } from 'react-native';
-import I18n from 'locales';
+import i18n from 'locales';
 import ActionButton from 'components/common/action-button';
 import LottieView from 'lottie-react-native';
 import styles from './styles';
@@ -43,15 +43,15 @@ class Sync extends Component<Props> {
     const texts = {};
     if (isConnected) {
       if (syncFinished) {
-        texts.title = I18n.t('sync.title.updated');
-        texts.subtitle = I18n.t('sync.subtitle.updated');
+        texts.title = i18n.t('sync.title.updated');
+        texts.subtitle = i18n.t('sync.subtitle.updated');
       } else {
-        texts.title = I18n.t('sync.title.updating');
-        texts.subtitle = I18n.t('sync.subtitle.updating');
+        texts.title = i18n.t('sync.title.updating');
+        texts.subtitle = i18n.t('sync.subtitle.updating');
       }
     } else {
-      texts.title = I18n.t('sync.title.offline');
-      texts.subtitle = I18n.t('sync.subtitle.offline');
+      texts.title = i18n.t('sync.title.offline');
+      texts.subtitle = i18n.t('sync.subtitle.offline');
     }
     return texts;
   }
@@ -63,10 +63,10 @@ class Sync extends Component<Props> {
       return (
         <View style={styles.textContainer}>
           <Text style={styles.title}>
-            {I18n.t('sync.error')}
+            {i18n.t('sync.error')}
           </Text>
           <Text style={styles.subtitle}>
-            {I18n.t('sync.errorDesc')}
+            {i18n.t('sync.errorDesc')}
           </Text>
         </View>
       );
@@ -94,7 +94,7 @@ class Sync extends Component<Props> {
           noIcon
           style={styles.button}
           onPress={retrySync} // TODO: retry again
-          text={I18n.t('sync.tryAgain').toUpperCase()}
+          text={i18n.t('sync.tryAgain').toUpperCase()}
         />
       </View>
     );

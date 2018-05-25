@@ -39,6 +39,10 @@ class ImageBlobInput extends Component {
       mediaType: 'photo',
       noData: true,
       quality: 0.7,
+      title: i18n.t('chooseImage.title'),
+      takePhotoButtonTitle: i18n.t('chooseImage.takePhoto'),
+      chooseFromLibraryButtonTitle: i18n.t('chooseImage.chooseFromLibrary'),
+      cancelButtonTitle: i18n.t('chooseImage.cancel'),
       storageOptions: {
         skipBackup: true,
         waitUntilSaved: true,

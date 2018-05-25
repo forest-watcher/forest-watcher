@@ -14,7 +14,7 @@ import {
 
 import Config from 'react-native-config';
 import Theme from 'config/theme';
-import I18n from 'locales';
+import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import { getLanguage } from 'helpers/language';
 import moment from 'moment';
@@ -130,8 +130,8 @@ class Login extends PureComponent<Props, State> {
     }
 
     return Alert.alert(
-      I18n.t('login.unable'),
-      I18n.t('login.connectionRequired'),
+      i18n.t('login.unable'),
+      i18n.t('login.connectionRequired'),
       [{ text: 'OK' }]
     );
   }
@@ -157,8 +157,8 @@ class Login extends PureComponent<Props, State> {
     const { logSuccess, logout, loggedIn, isConnected } = this.props;
     if (!loggedIn && !logSuccess && isConnected) {
       Alert.alert(
-        I18n.t('commonText.error'),
-        I18n.t('login.failed'),
+        i18n.t('commonText.error'),
+        i18n.t('login.failed'),
         [{ text: 'OK', onPress: logout }]
       );
     }
@@ -231,7 +231,7 @@ class Login extends PureComponent<Props, State> {
           </View>
           <View style={styles.bottomContainer}>
             <View style={styles.buttons}>
-              <Text style={styles.buttonsLabel}>{I18n.t('login.introductionText')}</Text>
+              <Text style={styles.buttonsLabel}>{i18n.t('login.introductionText')}</Text>
               <TouchableHighlight
                 style={[styles.button, styles.buttonFacebook]}
                 onPress={() => this.onPress('facebook')}
@@ -243,7 +243,7 @@ class Login extends PureComponent<Props, State> {
                     style={styles.iconFacebook}
                     source={facebookIcon}
                   />
-                  <Text style={styles.buttonText}>{I18n.t('login.facebookTitle')}</Text>
+                  <Text style={styles.buttonText}>{i18n.t('login.facebookTitle')}</Text>
                   <Image
                     style={styles.iconArrow}
                     source={nextIcon}
@@ -261,7 +261,7 @@ class Login extends PureComponent<Props, State> {
                     style={styles.iconTwitter}
                     source={twitterIcon}
                   />
-                  <Text style={styles.buttonText}>{I18n.t('login.twitterTitle')}</Text>
+                  <Text style={styles.buttonText}>{i18n.t('login.twitterTitle')}</Text>
                   <Image
                     style={styles.iconArrow}
                     source={nextIcon}
@@ -279,7 +279,7 @@ class Login extends PureComponent<Props, State> {
                     style={styles.iconGoogle}
                     source={googleIcon}
                   />
-                  <Text style={styles.buttonText}>{I18n.t('login.googleTitle')}</Text>
+                  <Text style={styles.buttonText}>{i18n.t('login.googleTitle')}</Text>
                   <Image
                     style={styles.iconArrow}
                     source={nextIcon}

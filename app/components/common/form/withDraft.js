@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 
 import CONSTANTS from 'config/constants';
-import I18n from 'locales';
+import i18n from 'locales';
 
 const saveReportIcon = require('assets/save_for_later.png');
 
@@ -39,8 +39,8 @@ function withDraft(WrappedComponent) {
     onPressDraft = () => {
       const { form } = this.props;
       Alert.alert(
-        I18n.t('report.saveLaterTitle'),
-        I18n.t('report.saveLaterDescription'),
+        i18n.t('report.saveLaterTitle'),
+        i18n.t('report.saveLaterDescription'),
         [
           {
             text: 'Cancel',

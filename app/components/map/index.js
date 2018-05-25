@@ -343,7 +343,7 @@ class MapComponent extends Component {
     }
     const userLatLng = this.state.lastPosition && `${this.state.lastPosition.latitude},${this.state.lastPosition.longitude}`;
     const screen = 'ForestWatcher.NewReport';
-    const title = 'Report';
+    const title = i18n.t('report.title');
     const reportedDataset = area.dataset ? `-${area.dataset.name}` : '';
     const form = `${area.name.toUpperCase()}${reportedDataset}-REPORT--${moment().format('YYYY-MM-DDTHH:mm:ss')}`;
     this.props.createReport({

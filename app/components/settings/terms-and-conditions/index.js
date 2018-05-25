@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
 
-import I18n from 'locales';
+import i18n from 'locales';
 import Theme from 'config/theme';
 import List from 'components/common/list';
 import styles from './styles';
@@ -41,45 +41,45 @@ class TermsAndConditions extends Component {
   render() {
     const terms = [
       {
-        text: I18n.t('termsAndConditions.firstTerm.title'),
-        title: I18n.t('termsAndConditions.firstTerm.title'),
-        list: I18n.t('termsAndConditions.firstTerm.content'),
+        text: i18n.t('termsAndConditions.firstTerm.title'),
+        title: i18n.t('termsAndConditions.firstTerm.title'),
+        list: i18n.t('termsAndConditions.firstTerm.content'),
         section: 'ForestWatcher.TermsAndConditionsDetail',
         functionOnPress: this.handleStaticLinks
 
       },
       {
-        text: I18n.t('termsAndConditions.secondTerm.title'),
-        title: I18n.t('termsAndConditions.secondTerm.title'),
-        list: I18n.t('termsAndConditions.secondTerm.content'),
+        text: i18n.t('termsAndConditions.secondTerm.title'),
+        title: i18n.t('termsAndConditions.secondTerm.title'),
+        list: i18n.t('termsAndConditions.secondTerm.content'),
         section: 'ForestWatcher.TermsAndConditionsDetail',
         functionOnPress: this.handleStaticLinks
       },
       {
-        text: I18n.t('termsAndConditions.thirdTerm.title'),
-        title: I18n.t('termsAndConditions.thirdTerm.title'),
-        list: I18n.t('termsAndConditions.thirdTerm.content'),
+        text: i18n.t('termsAndConditions.thirdTerm.title'),
+        title: i18n.t('termsAndConditions.thirdTerm.title'),
+        list: i18n.t('termsAndConditions.thirdTerm.content'),
         section: 'ForestWatcher.TermsAndConditionsDetail',
         functionOnPress: this.handleStaticLinks
       },
       {
-        text: I18n.t('termsAndConditions.fourthTerm.title'),
-        title: I18n.t('termsAndConditions.fourthTerm.title'),
-        list: I18n.t('termsAndConditions.fourthTerm.content'),
+        text: i18n.t('termsAndConditions.fourthTerm.title'),
+        title: i18n.t('termsAndConditions.fourthTerm.title'),
+        list: i18n.t('termsAndConditions.fourthTerm.content'),
         section: 'ForestWatcher.TermsAndConditionsDetail',
         functionOnPress: this.handleStaticLinks
       },
       {
-        text: I18n.t('termsAndConditions.fifthTerm.title'),
-        title: I18n.t('termsAndConditions.fifthTerm.title'),
-        list: I18n.t('termsAndConditions.fifthTerm.content'),
+        text: i18n.t('termsAndConditions.fifthTerm.title'),
+        title: i18n.t('termsAndConditions.fifthTerm.title'),
+        list: i18n.t('termsAndConditions.fifthTerm.content'),
         section: 'ForestWatcher.TermsAndConditionsDetail',
         functionOnPress: this.handleStaticLinks
       },
       {
-        text: I18n.t('termsAndConditions.sixthTerm.title'),
-        title: I18n.t('termsAndConditions.sixthTerm.title'),
-        list: I18n.t('termsAndConditions.sixthTerm.content'),
+        text: i18n.t('termsAndConditions.sixthTerm.title'),
+        title: i18n.t('termsAndConditions.sixthTerm.title'),
+        list: i18n.t('termsAndConditions.sixthTerm.content'),
         section: 'ForestWatcher.TermsAndConditionsDetail',
         functionOnPress: this.handleStaticLinks
       }
@@ -92,8 +92,8 @@ class TermsAndConditions extends Component {
         showsHorizontalScrollIndicator={false}
       >
         <View style={styles.terms}>
-          <Text style={styles.termsText}>{I18n.t('termsAndConditions.description')}</Text>
-          <Text style={styles.termsText}>{I18n.t('termsAndConditions.agreeText')}</Text>
+          <Text style={styles.termsText}>{i18n.t('termsAndConditions.description')}</Text>
+          <Text style={styles.termsText}>{i18n.t('termsAndConditions.agreeText')}</Text>
         </View>
         <List content={terms} bigSeparation={false}>{}</List>
       </ScrollView>

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import Theme from 'config/theme';
-import I18n from 'locales';
+import i18n from 'locales';
 import styles from './styles';
 
 const backIcon = require('assets/previous.png');
@@ -25,8 +25,8 @@ class SetupHeader extends Component {
     showBack: PropTypes.bool,
     onBackPress: (props, propName, componentName) => {
       if (props.showBack && !props[propName]) {
-        return new Error(`${I18n.t('setupHeader.errorFirst')} ${propName}
-      ${I18n.t('setupHeader.errorSecond')}  ${componentName}. ${I18n.t('setupHeader.errorThird')}`);
+        return new Error(`${i18n.t('setupHeader.errorFirst')} ${propName}
+      ${i18n.t('setupHeader.errorSecond')}  ${componentName}. ${i18n.t('setupHeader.errorThird')}`);
       }
       return null;
     },
