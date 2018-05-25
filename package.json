@@ -45,7 +45,7 @@
     "react-native-config": "0.11.5",
     "react-native-cookies": "3.2.0",
     "react-native-datepicker": "1.6.0",
-    "react-native-fast-image": "4.0.2",
+    "react-native-fast-image": "4.0.14",
     "react-native-fbsdk": "github:Vizzuality/react-native-fbsdk",
     "react-native-fetch-blob": "0.10.8",
     "react-native-google-analytics-bridge": "5.3.0",
