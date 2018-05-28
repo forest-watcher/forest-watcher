@@ -17,8 +17,9 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import "ReactNativeConfig.h"
-#import <GoogleMaps/GoogleMaps.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+
+@import GoogleMaps;
 
 @implementation AppDelegate
 

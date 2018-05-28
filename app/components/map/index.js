@@ -664,9 +664,10 @@ class MapComponent extends Component {
       : (
         <MapView.LocalTile
           key="localBasemapLayerElementL"
-          localTemplate={basemapLocalTilePath}
+          pathTemplate={basemapLocalTilePath}
           zIndex={-1}
           maxZoom={12}
+          tileSize={256}
         />
       );
     const contextualLayerElement = contextualLayer // eslint-disable-line
@@ -681,9 +682,10 @@ class MapComponent extends Component {
         : (
           <MapView.LocalTile
             key={ctxLayerKey}
-            localTemplate={ctxLayerLocalTilePath}
+            pathTemplate={ctxLayerLocalTilePath}
             zIndex={1}
             maxZoom={12}
+            tileSize={256}
           />
         )
       : null;

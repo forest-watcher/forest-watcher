@@ -5,7 +5,6 @@ platform :ios, '9.0'
 # https://github.com/airbnb/react-native-maps/issues/718#issuecomment-295585410
 target 'ForestWatcher' do
 
-  pod 'GoogleMaps'
   pod 'AppAuth'
   pod 'FBSDKLoginKit'
 
@@ -19,6 +18,10 @@ target 'ForestWatcher' do
 
   # pod 'lottie-ios', :path => '../node_modules/lottie-ios'
   # pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+
+# react-native-maps dependencies
+  pod 'GoogleMaps'
+  pod 'Google-Maps-iOS-Utils'
 
   post_install do |installer|
     installer.pods_project.targets.each do |target|
