@@ -86,8 +86,8 @@ class MapComponent extends Component {
     navBarTranslucent: true
   };
 
-  static margin = Platform.OS === 'ios' ? 50 : 250;
-  static FIT_OPTIONS = { edgePadding: { top: this.margin, right: this.margin, bottom: this.margin, left: this.margin }, animated: false };
+  margin = Platform.OS === 'ios' ? 50 : 250;
+  FIT_OPTIONS = { edgePadding: { top: this.margin, right: this.margin, bottom: this.margin, left: this.margin }, animated: false };
 
   static getMapZoom(region) {
     if (!region.longitude || !region.latitude) return 0;
@@ -229,8 +229,9 @@ class MapComponent extends Component {
   }
 
   onLayout = () => {
+    // tron.log('MAP LAYOUT')
     if (this.props.areaCoordinates) {
-      this.map.fitToCoordinates(this.props.areaCoordinates, MapComponent.FIT_OPTIONS);
+      this.map.fitToCoordinates(this.props.areaCoordinates, this.FIT_OPTIONS);
     }
     this.props.setActiveAlerts();
     this.updateMarkers();
@@ -522,7 +523,7 @@ class MapComponent extends Component {
       selectedAlerts: []
     }, () => {
       if (this.map && this.props.areaCoordinates) {
-        this.map.fitToCoordinates(this.props.areaCoordinates, MapComponent.FIT_OPTIONS);
+        this.map.fitToCoordinates(this.props.areaCoordinates, this.FIT_OPTIONS);
       }
     });
   }
@@ -534,13 +535,14 @@ class MapComponent extends Component {
     return (
       <View style={[styles.buttonPanel, styles.buttonPanelSelected]}>
         <View style={styles.buttonPanelRow}>
-          {lastPosition &&
-            <CircleButton
+          {lastPosition
+            ? <CircleButton
               light
               style={styles.btnLeft}
               icon={myLocationIcon}
               onPress={this.fitPosition}
             />
+            : this.renderNoSignal()
           }
           <AlertPosition
             alertSelected={selectedAlerts[lastAlertIndex]}
@@ -588,7 +590,10 @@ class MapComponent extends Component {
     const { lastPosition } = this.state;
     return (
       <View style={styles.buttonPanel}>
-        <CircleButton style={lastPosition ? styles.btnLeft : styles.hidden} onPress={this.fitPosition} light icon={myLocationIcon} />
+        {lastPosition
+          ? <CircleButton onPress={this.fitPosition} light icon={myLocationIcon} />
+          : this.renderNoSignal()
+        }
         <CircleButton onPress={this.onSettingsPress} light icon={settingsBlackIcon} />
       </View>
     );
@@ -612,7 +617,7 @@ class MapComponent extends Component {
   }
 
   renderMapFooter() {
-    const { selectedAlerts, neighbours, lastPosition } = this.state;
+    const { selectedAlerts, neighbours } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
 
     const hasNeighbours = neighbours && neighbours.length > 0;
@@ -627,7 +632,6 @@ class MapComponent extends Component {
         />
       </View>,
       <View key="footer" pointerEvents="box-none" style={styles.footer}>
-        {!lastPosition && this.renderNoSignal()}
         {hasAlertsSelected
           ? this.renderButtonPanelSelected()
           : this.renderButtonPanel()

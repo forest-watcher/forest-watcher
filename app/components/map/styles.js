@@ -16,7 +16,6 @@ export default StyleSheet.create({
     top: 0
   },
   signalNotice: {
-    marginBottom: 8,
     marginLeft: 8,
     flexDirection: 'row',
     alignItems: 'center'
@@ -25,9 +24,9 @@ export default StyleSheet.create({
     fontWeight: '400',
     fontStyle: 'italic',
     fontFamily: Theme.font,
-    fontSize: 17,
+    fontSize: 15,
     color: Theme.fontColors.white,
-    marginLeft: 16,
+    marginLeft: 8,
     backgroundColor: 'transparent'
   },
   geoLocationContainer: {
