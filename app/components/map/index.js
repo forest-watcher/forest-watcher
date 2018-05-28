@@ -90,7 +90,7 @@ class MapComponent extends Component {
     navBarTranslucent: true
   };
 
-  margin = Platform.OS === 'ios' ? 50 : 100;
+  margin = Platform.OS === 'ios' ? 50 : 250;
   FIT_OPTIONS = { edgePadding: { top: this.margin, right: this.margin, bottom: this.margin, left: this.margin }, animated: false };
 
   static getMapZoom(region) {
