@@ -86,7 +86,7 @@ class MapComponent extends Component {
     navBarTranslucent: true
   };
 
-  margin = Platform.OS === 'ios' ? 50 : 250;
+  margin = Platform.OS === 'ios' ? 50 : 100;
   FIT_OPTIONS = { edgePadding: { top: this.margin, right: this.margin, bottom: this.margin, left: this.margin }, animated: false };
 
   static getMapZoom(region) {
@@ -229,9 +229,8 @@ class MapComponent extends Component {
   }
 
   onLayout = () => {
-    // tron.log('MAP LAYOUT')
     if (this.props.areaCoordinates) {
-      this.map.fitToCoordinates(this.props.areaCoordinates, this.FIT_OPTIONS);
+      requestAnimationFrame(() => this.map.fitToCoordinates(this.props.areaCoordinates, this.FIT_OPTIONS));
     }
     this.props.setActiveAlerts();
     this.updateMarkers();
