@@ -15,6 +15,7 @@ import takeRight from 'lodash/takeRight';
 
 // Actions
 const SET_LANGUAGE = 'app/SET_LANGUAGE';
+const SET_OFFLINE_MODE = 'app/SET_OFFLINE_MODE';
 export const SET_APP_SYNCED = 'app/SET_APP_SYNCED';
 export const RETRY_SYNC = 'app/RETRY_SYNC';
 const SET_COORDINATES_FORMAT = 'app/SET_COORDINATES_FORMAT';
@@ -24,21 +25,25 @@ export const SAVE_LAST_ACTIONS = 'app/SAVE_LAST_ACTIONS';
 
 // Reducer
 const initialState = {
-  language: null,
-  synced: false,
-  coordinatesFormat: COORDINATES_FORMATS.decimal.value,
-  showLegend: true,
-  pristineCacheTooltip: true,
+  version,
   actions: [],
-  version
+  synced: false,
+  language: null,
+  showLegend: true,
+  offlineMode: false,
+  pristineCacheTooltip: true,
+  coordinatesFormat: COORDINATES_FORMATS.decimal.value
 };
 
 export default function reducer(state: AppState = initialState, action: AppAction) {
   switch (action.type) {
     case PERSIST_REHYDRATE: {
+      // $FlowFixMe
       const { app } = action.payload;
       return { ...state, ...app, version };
     }
+    case SET_OFFLINE_MODE:
+      return { ...state, offlineMode: action.payload };
     case SET_LANGUAGE:
       return { ...state, language: action.payload };
     case SET_APP_SYNCED:
@@ -66,6 +71,13 @@ export function setLanguage(language: string): AppAction {
   return {
     type: SET_LANGUAGE,
     payload: language
+  };
+}
+
+export function setOfflineMode(offlineMode: boolean): AppAction {
+  return {
+    type: SET_OFFLINE_MODE,
+    payload: offlineMode
   };
 }
 

@@ -12,11 +12,13 @@ export type AppState = {
   showLegend: boolean,
   pristineCacheTooltip: boolean,
   version: string,
-  actions: Array<AnyAction>
+  actions: Array<AnyAction>,
+  offlineMode: boolean
 }
 
 export type AppAction =
   | SetLanguage
+  | SetOfflineMode
   | SetAppSynced
   | SetCoordinatesFormat
   | SetLayersDrawersSection
@@ -24,6 +26,7 @@ export type AppAction =
   | SaveLastActions
   | LogoutRequest;
 
+export type SetOfflineMode = { type: 'app/SET_OFFLINE_MODE', payload: boolean };
 export type SetLanguage = { type: 'app/SET_LANGUAGE', payload: string };
 export type SetAppSynced = { type: 'app/SET_APP_SYNCED', payload: boolean };
 export type SetCoordinatesFormat = { type: 'app/SET_COORDINATES_FORMAT', payload: CoordinatesValue };

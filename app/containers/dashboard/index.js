@@ -6,13 +6,14 @@ import { bindActionCreators } from 'redux';
 import Dashboard from 'components/dashboard';
 import { updateApp, setPristineCacheTooltip } from 'redux-modules/app';
 import { createReport } from 'redux-modules/reports';
-import { isOutdated } from 'helpers/date';
 import { setAreasRefreshing, updateSelectedIndex } from 'redux-modules/areas';
+import { isOutdated } from 'helpers/date';
+import { shouldBeConnected } from 'helpers/app';
 
 function mapStateToProps(state: State) {
   const areasOutdated = !state.areas.synced || isOutdated(state.areas.syncDate);
   const appSyncing = (state.areas.syncing || state.layers.syncing || state.alerts.queue.length > 0);
-  const isConnected = state.offline.online;
+  const isConnected = shouldBeConnected(state);
   const loggedIn = state.user.loggedIn;
   return {
     appSyncing,

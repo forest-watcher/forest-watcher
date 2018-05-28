@@ -7,6 +7,7 @@ import {
   getNextStep,
   isQuestionAnswered
 } from 'helpers/forms';
+import { shouldBeConnected } from 'helpers/app';
 import i18n from 'locales';
 import FormStep from 'components/common/form/form-step';
 
@@ -89,7 +90,7 @@ function mapStateToProps(state, { form, index, questionsToSkip, finish, title, s
         currentQuestion: index,
         questions,
         answers,
-        isConnected: state.offline.online
+        isConnected: shouldBeConnected(state)
       })
     }
   };

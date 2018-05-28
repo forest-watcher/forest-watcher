@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
+import { shouldBeConnected } from 'helpers/app';
 import ImageCache from 'components/common/image-cache';
 
 function mapStateToProps(state) {
   return {
-    isConnected: state.offline.online
+    isConnected: shouldBeConnected(state)
   };
 }
 

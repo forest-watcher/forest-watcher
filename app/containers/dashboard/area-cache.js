@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { downloadAreaById, resetCacheStatus, refreshAreaCacheById } from 'redux-modules/layers';
+import { shouldBeConnected } from 'helpers/app';
 import AreaCache from 'components/common/area-list/area-cache';
 
 const getAreaPendingCache = (areaId, pendingCache) => Object.values(pendingCache)
@@ -10,7 +11,7 @@ function mapStateToProps(state, { areaId }) {
   const cacheStatus = state.layers.cacheStatus[areaId];
   return {
     cacheStatus,
-    isConnected: state.offline.online,
+    isConnected: shouldBeConnected(state),
     pendingCache: getAreaPendingCache(areaId, state.layers.pendingCache)
   };
 }

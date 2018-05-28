@@ -37,7 +37,8 @@ class Settings extends Component {
     navigator: PropTypes.object.isRequired,
     logout: PropTypes.func.isRequired,
     isConnected: PropTypes.bool.isRequired,
-    isUnsafeLogout: PropTypes.bool.isRequired
+    isUnsafeLogout: PropTypes.bool.isRequired,
+    setOfflineMode: PropTypes.func.isRequired
   };
 
   componentDidMount() {
@@ -86,8 +87,8 @@ class Settings extends Component {
   }
 
   onPressAddArea = () => {
-    const { navigator, isConnected } = this.props;
-    if (isConnected) {
+    const { navigator, isConnected, offlineMode } = this.props;
+    if (isConnected && !offlineMode) {
       navigator.push({
         screen: 'ForestWatcher.Setup'
       });
@@ -134,7 +135,7 @@ class Settings extends Component {
         functionOnPress: this.handleStaticLinks
       }
     ];
-    const { version, areas } = this.props;
+    const { version, areas, setOfflineMode, offlineMode } = this.props;
 
     return (
       <View style={styles.container}>
@@ -171,10 +172,10 @@ class Settings extends Component {
           </View>
           <View style={styles.offlineMode}>
             <Row
-              value={false}
-              onValueChange={() => true}
+              value={offlineMode}
+              onValueChange={setOfflineMode}
             >
-              <Text>
+              <Text style={[styles.label, { marginLeft: 0 }]}>
                 {i18n.t('settings.offlineMode')}
               </Text>
             </Row>
