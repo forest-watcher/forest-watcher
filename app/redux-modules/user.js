@@ -102,7 +102,7 @@ export function googleLogin() {
       try {
         const response = await fetch(`${Config.API_AUTH}/auth/google/token?access_token=${user.accessToken}`);
         dispatch({ type: SET_LOGIN_LOADING, payload: false });
-        if (!response.ok) throw new Error(response.statusText);
+        if (!response.ok) throw new Error(response.status);
         const data = await response.json();
         dispatch({
           type: SET_LOGIN_AUTH,
@@ -114,6 +114,7 @@ export function googleLogin() {
           }
         });
       } catch (e) {
+        console.error(e);
         dispatch({ type: SET_LOGIN_LOADING, payload: false });
         dispatch(logout('google'));
       }
@@ -184,9 +185,12 @@ export function logout(socialNetworkFallback: string) {
     const social = socialNetwork || socialNetworkFallback;
     try {
       switch (social) {
-        case 'google':
-          await revoke(oAuth.google, { tokenToRevoke });
+        case 'google': {
+          if (tokenToRevoke) {
+            await revoke(oAuth.google, { tokenToRevoke });
+          }
           break;
+        }
         case 'facebook':
           await LoginManager.logOut();
           break;
