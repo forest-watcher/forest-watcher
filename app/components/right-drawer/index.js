@@ -23,7 +23,7 @@ class RightDrawer extends Component {
   }
 
   render() {
-    return <MapSidebar onPressClose={this.onPressClose} />;
+    return <MapSidebar onPressClose={this.onPressClose} areaId={this.props.areaId} />;
   }
 }
 

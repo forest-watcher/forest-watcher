@@ -17,6 +17,11 @@ export type Geostore = {
   id: string
 }
 
+export type DatasetLegend = {
+  label: string,
+  color: string
+}
+
 export type Dataset = {
   slug: string,
   name: string,

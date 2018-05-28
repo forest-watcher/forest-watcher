@@ -7,6 +7,7 @@ import {
   Text
 } from 'react-native';
 import Row from 'components/common/row';
+import { ALERTS_COLOR } from 'config/constants';
 import DatasetOptions from 'components/settings/area-detail/alert-system/dataset-options';
 
 import i18n from 'locales';
@@ -15,6 +16,7 @@ import styles from './styles';
 
 type Props = {
   area: Area,
+  showLegend: boolean,
   setAreaDatasetStatus: (id: string, slug: string, value: boolean) => void,
   updateDate: (id: string, slug: string, date: { startDate: number }) => void
 };
@@ -45,7 +47,8 @@ class AlertSystem extends React.PureComponent<Props> {
   }
 
   render() {
-    const { setAreaDatasetStatus, updateDate, area: { datasets, id } } = this.props;
+    const { setAreaDatasetStatus, updateDate, area, showLegend } = this.props;
+    const { datasets, id } = area || {};
 
     if (!datasets) return AlertSystem.renderLoadingState();
     if (typeof datasets === 'undefined' || datasets.length === 0) {
@@ -53,11 +56,12 @@ class AlertSystem extends React.PureComponent<Props> {
     }
     return (
       <View style={styles.container}>
-        {
+        {datasets.length > 0 &&
           datasets.map((dataset, i) => (
             <View key={i}>
               <Row
                 value={dataset.active}
+                switchColorOn={showLegend && ALERTS_COLOR[dataset.slug]}
                 onValueChange={value => setAreaDatasetStatus(id, dataset.slug, value)}
               >
                 <Text style={styles.alertSystemText}>{i18n.t(`datasets.${dataset.slug}`)}</Text>
@@ -67,6 +71,7 @@ class AlertSystem extends React.PureComponent<Props> {
                   id={id}
                   dataset={dataset}
                   updateDate={updateDate}
+                  showLegend={showLegend}
                 />
               }
             </View>
