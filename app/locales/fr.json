@@ -9,9 +9,9 @@
     },
     "chooseImage": {
         "cancel": "Annuler",
-        "chooseFromLibrary": "Choose from library",
-        "takePhoto": "Take photo",
-        "title": "Select a image"
+        "chooseFromLibrary": "Choisissez parmi la bibliothèque",
+        "takePhoto": "Prendre photo",
+        "title": "Sélectionnez une image"
     },
     "commonText": {
         "appName": "Forest Watcher",
@@ -355,9 +355,9 @@
         }
     },
     "layers": {
-        "protectedAreas": "Protected Areas",
-        "treeCoverLoss2014": "Tree Cover Loss (2014)",
-        "treeCoverLoss2015": "Tree Cover Loss (2015)"
+        "protectedAreas": "Zones protégées",
+        "treeCoverLoss2014": "Perte de couvert forestier (2014)",
+        "treeCoverLoss2015": "Perte de couvert forestier (2015)"
     },
     "login": {
         "connectionRequired": "Une connexion à Internet est requise",
@@ -371,7 +371,7 @@
     "map": {
         "alerts": "Notifications",
         "ctxLayers": "Couches contextuels",
-        "recent": "Recent",
+        "recent": "Récent",
         "reported": "Notifié",
         "settings": "Paramètres carte"
     },
@@ -393,7 +393,7 @@
         "inputSelect": "Choisissez au moins une option pour continuer",
         "inputText": "Veuillez écrire quelque chose",
         "pictures": "Images",
-        "review": "Review report",
+        "review": "Examiner le rapport",
         "saveLaterDescription": "Il apparaîtra comme un brouillon dans la section Rapports",
         "saveLaterTitle": "Garder pour plus tard",
         "selected": "Rapport sélectionnée",
@@ -426,8 +426,8 @@
         "timeFrame": "Intervalle de temps",
         "title": "Paramètres",
         "unable": "Impossible d'ajouter une zone",
-        "unsafeLogout": "Your reports are not synced!",
-        "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost.",
+        "unsafeLogout": "Vos rapports ne sont pas synchronisés !",
+        "unsavedDataLost": "Si vous procédez à la déconnexion, toutes vos données non enregistrées seront perdues.",
         "yourAreas": "Vos zones"
     },
     "setupCountry": {
@@ -450,22 +450,22 @@
         "placeholder": "Entrez un nom"
     },
     "sync": {
-        "alertsUpdated": "Your areas are up to date",
+        "alertsUpdated": "Vos zones sont à jour",
         "error": "Erreur de synchronisation",
-        "errorCreatingArea": "There was an error creating your area",
+        "errorCreatingArea": "Une erreur s'est produite lors de la création de votre zone",
         "errorDesc": "Il y a eu un problème",
-        "gettingLatestAlerts": "Getting the latest alerts",
-        "reportUploadRollback": "Report failed to upload",
-        "reportUploaded": "Report sent",
+        "gettingLatestAlerts": "Obtenez les dernières alertes",
+        "reportUploadRollback": "Le rapport n'a pas pu être importé",
+        "reportUploaded": "Rapport envoyé",
         "subtitle": {
             "offline": "Une connexion internet est requise pour mettre à jour vos données",
-            "updated": "We are ready to go!",
-            "updating": "We are getting your phone ready for the field"
+            "updated": "Nous sommes prêts à partir !",
+            "updating": "Nous préparons votre téléphone pour le terrain"
         },
         "title": {
             "offline": "Vous n'êtes pas connecté",
-            "updated": "Download Completed!",
-            "updating": "Downloading data..."
+            "updated": "Téléchargement terminé !",
+            "updating": "Téléchargement des données..."
         },
         "tryAgain": "Réessayez"
     },

@@ -9,9 +9,9 @@
     },
     "chooseImage": {
         "cancel": "Batal",
-        "chooseFromLibrary": "Choose from library",
-        "takePhoto": "Take photo",
-        "title": "Select a image"
+        "chooseFromLibrary": "Pilih dari perpustakaan",
+        "takePhoto": "Ambil foto",
+        "title": "Pilih gambar"
     },
     "commonText": {
         "appName": "Forest Watcher",
@@ -25,7 +25,7 @@
         "finish": "Selesai",
         "kmAway": "km jauhnya",
         "loading": "Pemuatan",
-        "metersAway": "m away",
+        "metersAway": "m lagi",
         "name": "Nama",
         "next": "Lanjut",
         "noAlertSystem": "Tidak ada sistem peringatan yang dipilih",
@@ -48,14 +48,14 @@
     "dashboard": {
         "connectionRequired": "Anda membutuhkan koneksi internet",
         "downloadFailed": "Unduhan gagal",
-        "makeAvailableOffline": "Make available offline",
+        "makeAvailableOffline": "Sediakan luring",
         "map": "Peta",
         "myReports": "Laporan Saya",
         "unable": "Tidak dapat mengunduh area"
     },
     "datasets": {
-        "umd_as_it_happens": "Deforestation (GLAD)",
-        "viirs": "Fires (VIIRS)"
+        "umd_as_it_happens": "Deforestasi (GLAD)",
+        "viirs": "Kebakaran (VIIRS)"
     },
     "faq": {
         "eighthQuestion": {
@@ -65,10 +65,10 @@
             "content": {
                 "description": [
                     {
-                        "text": "Hubungi kami dengan umpan balik atau pertanyaan melalui surel ke mailto:forestwatcher@wri.org.\n"
+                        "text": "Hubungi kami dengan umpan balik atau pertanyaan melalui surel ke mailto:forestwatcher@wri.org."
                     },
                     {
-                        "text": "Hubungi kami dengan umpan balik atau pertanyaan melalui surel ke mailto:forestwatcher@wri.org.\n"
+                        "text": "Hubungi kami dengan umpan balik atau pertanyaan melalui surel ke mailto:forestwatcher@wri.org."
                     }
                 ]
             },
@@ -355,9 +355,9 @@
         }
     },
     "layers": {
-        "protectedAreas": "Protected Areas",
-        "treeCoverLoss2014": "Tree Cover Loss (2014)",
-        "treeCoverLoss2015": "Tree Cover Loss (2015)"
+        "protectedAreas": "Wilayah Terlindung",
+        "treeCoverLoss2014": "Kehilangan Tutupan Pohon (2014)",
+        "treeCoverLoss2015": "Kehilangan Tutupan Pohon (2015)"
     },
     "login": {
         "connectionRequired": "Anda memerlukan koneksi internet",
@@ -371,7 +371,7 @@
     "map": {
         "alerts": "Sistem Peringatan",
         "ctxLayers": "Lapisan kontekstual",
-        "recent": "Recent",
+        "recent": "Terbaru",
         "reported": "Dilaporkan",
         "settings": "Pengaturan Peta"
     },
@@ -393,7 +393,7 @@
         "inputSelect": "Pilih setidaknya satu opsi untuk melanjutkan",
         "inputText": "Silakan tulis sesuatu",
         "pictures": "Gambar",
-        "review": "Review report",
+        "review": "Tinjau Laporan",
         "saveLaterDescription": "Ini akan muncul sebagai draf di bagian Laporan",
         "saveLaterTitle": "Simpan untuk nanti",
         "selected": "Laporan dipilih",
@@ -426,8 +426,8 @@
         "timeFrame": "Jangka waktu",
         "title": "Pengaturan",
         "unable": "Tidak dapat menambahkan area",
-        "unsafeLogout": "Your reports are not synced!",
-        "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost.",
+        "unsafeLogout": "Laporan Anda belum disinkronkan!",
+        "unsavedDataLost": "Apabila Anda keluar, semua data yang belum disimpan akan hilang.",
         "yourAreas": "Area Anda"
     },
     "setupCountry": {
@@ -450,22 +450,22 @@
         "placeholder": "Masukkan nama"
     },
     "sync": {
-        "alertsUpdated": "Your areas are up to date",
+        "alertsUpdated": "Wilayah Anda sudah terbarukan",
         "error": "Sinkronisasi mengalami masalah",
-        "errorCreatingArea": "There was an error creating your area",
+        "errorCreatingArea": "Ada kesalahan saat membuat wilayah Anda",
         "errorDesc": "Ada yang salah",
-        "gettingLatestAlerts": "Getting the latest alerts",
-        "reportUploadRollback": "Report failed to upload",
-        "reportUploaded": "Report sent",
+        "gettingLatestAlerts": "Mengambil peringatan terbaru",
+        "reportUploadRollback": "Laporan gagal diunggah",
+        "reportUploaded": "Laporan terkirim",
         "subtitle": {
             "offline": "Anda memerlukan koneksi internet untuk mengupdate data Anda",
-            "updated": "We are ready to go!",
-            "updating": "We are getting your phone ready for the field"
+            "updated": "Kita siap berangkat!",
+            "updating": "Kami mempersiapkan ponsel Anda untuk lapangan"
         },
         "title": {
             "offline": "Anda sedang offline",
-            "updated": "Download Completed!",
-            "updating": "Downloading data..."
+            "updated": "Unduhan Selesai!",
+            "updating": "Mengunduh data..."
         },
         "tryAgain": "Coba lagi"
     },
@@ -583,7 +583,7 @@
                         "text": "Undang-undang Negara Bagian New York, A.S., tidak termasuk ketentuan undang-undang tentang hukum New York, berlaku untuk setiap perselisihan terhadap Situs, kontennya, atau Persyaratan ini. Konvensi U.N tentang Kontrak untuk Penjualan Barang Internasional tidak berlaku. Semua klaim yang timbul dari atau terkait dengan Persyaratan ini akan diajukan secara eksklusif di pengadilan di dan untuk New York City, New York, AS, dan Anda menyetujui yurisdiksi pribadi pengadilan tersebut."
                     },
                     {
-                        "text": "Jika kami tidak segera menerapkan Persyaratan, Kami belum menyerahkan hak lainnya atau hak untuk menerapkannya atau Persyaratan lainnya di masa mendatang.\n"
+                        "text": "Jika kami tidak segera menerapkan Persyaratan, Kami belum menyerahkan hak lainnya atau hak untuk menerapkannya atau Persyaratan lainnya di masa mendatang."
                     },
                     {
                         "text": "Jika ketentuan tertentu dari Persyaratan ini tidak dapat diterapkan, hal itu tidak mempengaruhi penerapan ketentuan Persyaratan lainnya."
@@ -598,7 +598,7 @@
                         "text": "Undang-undang Negara Bagian New York, A.S., tidak termasuk ketentuan undang-undang tentang hukum New York, berlaku untuk setiap perselisihan terhadap Situs, kontennya, atau Persyaratan ini. Konvensi U.N tentang Kontrak untuk Penjualan Barang Internasional tidak berlaku. Semua klaim yang timbul dari atau terkait dengan Persyaratan ini akan diajukan secara eksklusif di pengadilan di dan untuk New York City, New York, AS, dan Anda menyetujui yurisdiksi pribadi pengadilan tersebut."
                     },
                     {
-                        "text": "Jika kami tidak segera menerapkan Persyaratan, Kami belum menyerahkan hak lainnya atau hak untuk menerapkannya atau Persyaratan lainnya di masa mendatang.\n"
+                        "text": "Jika kami tidak segera menerapkan Persyaratan, Kami belum menyerahkan hak lainnya atau hak untuk menerapkannya atau Persyaratan lainnya di masa mendatang."
                     },
                     {
                         "text": "Jika ketentuan tertentu dari Persyaratan ini tidak dapat diterapkan, hal itu tidak mempengaruhi penerapan ketentuan Persyaratan lainnya."

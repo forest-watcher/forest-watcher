@@ -9,9 +9,9 @@
     },
     "chooseImage": {
         "cancel": "Cancelar",
-        "chooseFromLibrary": "Choose from library",
-        "takePhoto": "Take photo",
-        "title": "Select a image"
+        "chooseFromLibrary": "Escolha a partir da biblioteca",
+        "takePhoto": "Tirar foto",
+        "title": "Selecione uma imagem"
     },
     "commonText": {
         "appName": "Forest Watcher",
@@ -355,9 +355,9 @@
         }
     },
     "layers": {
-        "protectedAreas": "Protected Areas",
-        "treeCoverLoss2014": "Tree Cover Loss (2014)",
-        "treeCoverLoss2015": "Tree Cover Loss (2015)"
+        "protectedAreas": "Áreas protegidas",
+        "treeCoverLoss2014": "Perda de cobertura arbórea (2014)",
+        "treeCoverLoss2015": "Perda de cobertura arbórea (2015)"
     },
     "login": {
         "connectionRequired": "Necessita ligação à Internet",
@@ -393,7 +393,7 @@
         "inputSelect": "Escolha pelo menos uma opção para continuar",
         "inputText": "Por favor introduza algum texto",
         "pictures": "Imagens",
-        "review": "Review report",
+        "review": "Rever relatório",
         "saveLaterDescription": "Aparecerá como um rascunho na secção de relatórios",
         "saveLaterTitle": "Guardar para mais tarde",
         "selected": "Relatar selecionado",
@@ -426,8 +426,8 @@
         "timeFrame": "Prazo",
         "title": "Configurações",
         "unable": "Não foi possível adicionar a área",
-        "unsafeLogout": "Your reports are not synced!",
-        "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost.",
+        "unsafeLogout": "Os seus relatórios não estão sincronizados!",
+        "unsavedDataLost": "Se prosseguir com o encerramento de sessão, irá perder todos os seus dados não guardados.",
         "yourAreas": "Suas áreas"
     },
     "setupCountry": {
@@ -450,22 +450,22 @@
         "placeholder": "Introduza um nome"
     },
     "sync": {
-        "alertsUpdated": "Your areas are up to date",
+        "alertsUpdated": "As suas áreas estão atualizadas",
         "error": "Erro de sincronização",
-        "errorCreatingArea": "There was an error creating your area",
+        "errorCreatingArea": "Ocorreu um erro ao criar a sua área",
         "errorDesc": "Algo correu mal",
-        "gettingLatestAlerts": "Getting the latest alerts",
-        "reportUploadRollback": "Report failed to upload",
-        "reportUploaded": "Report sent",
+        "gettingLatestAlerts": "Obtenção dos últimos alertas",
+        "reportUploadRollback": "Erro ao fazer o upload do relatório",
+        "reportUploaded": "Relatório enviado",
         "subtitle": {
             "offline": "Você precisa de uma conexão com a internet para atualizar seus dados",
-            "updated": "We are ready to go!",
-            "updating": "We are getting your phone ready for the field"
+            "updated": "Estamos prontos!",
+            "updating": "Estamos a preparar o seu telefone para o terreno"
         },
         "title": {
             "offline": "Está offline",
-            "updated": "Download Completed!",
-            "updating": "Downloading data..."
+            "updated": "Download concluído!",
+            "updating": "A fazer o download dos dados..."
         },
         "tryAgain": "Tente novamente"
     },
