@@ -23,7 +23,7 @@ const UPDATE_AREA_ROLLBACK = 'areas/UPDATE_AREA_ROLLBACK';
 const DELETE_AREA_REQUEST = 'areas/DELETE_AREA_REQUEST';
 export const DELETE_AREA_COMMIT = 'areas/DELETE_AREA_COMMIT';
 const DELETE_AREA_ROLLBACK = 'areas/DELETE_AREA_ROLLBACK';
-const UPDATE_AREA_INDEX = 'areas/UPDATE_AREA_INDEX';
+const SET_SELECTED_AREA_ID = 'areas/SET_SELECTED_AREA_ID';
 
 // Helpers
 function getAreaById(areas: Array<Area>, areaId: string) {
@@ -34,7 +34,7 @@ function getAreaById(areas: Array<Area>, areaId: string) {
 // Reducer
 const initialState = {
   data: [],
-  selectedIndex: 0,
+  selectedAreaId: '',
   synced: false,
   refreshing: false,
   syncing: false,
@@ -139,28 +139,15 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     }
     case DELETE_AREA_COMMIT: {
       const { id } = action.meta.area || {};
-      // Update the selectedIndex of the map
-      let selectedIndex = state.selectedIndex || 0;
-      if (selectedIndex > 0) {
-        let deletedIndex = 0;
-        for (let i = 0; i < state.data.length; i++) {
-          if (state.data[i].id === id) {
-            deletedIndex = i;
-            break;
-          }
-        }
-        if (deletedIndex <= selectedIndex) {
-          selectedIndex -= 1;
-        }
-      }
-      return { ...state, synced: true, syncing: false, selectedIndex };
+      const selectedAreaId = id === state.selectedAreaId ? '' : state.selectedAreaId;
+      return { ...state, synced: true, syncing: false, selectedAreaId };
     }
     case DELETE_AREA_ROLLBACK: {
       const data = [...state.data, action.meta.area];
       return { ...state, data, syncing: false };
     }
-    case UPDATE_AREA_INDEX: {
-      return { ...state, selectedIndex: action.payload };
+    case SET_SELECTED_AREA_ID: {
+      return { ...state, selectedAreaId: action.payload };
     }
     case LOGOUT_REQUEST: {
       return initialState;
@@ -210,10 +197,10 @@ export function updateArea(area: Area) {
   };
 }
 
-export function updateSelectedIndex(index: number): AreasAction {
+export function setSelectedAreaId(id: string): AreasAction {
   return {
-    type: UPDATE_AREA_INDEX,
-    payload: index
+    type: SET_SELECTED_AREA_ID,
+    payload: id
   };
 }
 

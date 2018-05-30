@@ -7,7 +7,7 @@ import { GET_AREAS_COMMIT, SAVE_AREA_COMMIT } from 'redux-modules/areas';
 import { AREAS as areasConstants } from 'config/constants';
 import moment from 'moment/moment';
 import clusterGenerator from 'helpers/clusters-generator';
-import { activeDataset } from 'helpers/area';
+import { getSelectedArea, activeDataset } from 'helpers/area';
 
 function* syncAlertDatasets({ area, cache }): Generator<*, *, *> {
   yield all(Object.entries(areasConstants.alertRange)
@@ -50,7 +50,7 @@ export function* getAlertsOnAreaCreation(): Generator<*, *, *> {
 
 export function* setActiveAlerts(): Generator<*, *, *> {
   function* updateClusters() {
-    const area = yield select(({ areas }: State) => areas.data[areas.selectedIndex]) || null;
+    const area = yield select(({ areas }: State) => getSelectedArea(areas.data, areas.selectedAreaId));
     const canDisplay = yield select(({ alerts }) => alerts.canDisplayAlerts);
     const dataset = activeDataset(area);
 

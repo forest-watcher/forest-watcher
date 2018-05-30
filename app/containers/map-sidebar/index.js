@@ -5,11 +5,11 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setActiveContextualLayer } from 'redux-modules/layers';
 import MapSidebar from 'components/map-sidebar';
+import { getSelectedArea } from 'helpers/area';
 
 
 function mapStateToProps(state: State) {
-  const index = state.areas.selectedIndex;
-  const area = state.areas.data[index] || null;
+  const area = getSelectedArea(state.areas.data, state.areas.selectedAreaId);
 
   return {
     areaId: area && area.id,

@@ -50,7 +50,7 @@ export type Area = {
 
 export type AreasState = {
   data: Array<Area>,
-  selectedIndex: number,
+  selectedAreaId: string,
   synced: boolean,
   syncing: boolean,
   refreshing: boolean,
@@ -70,7 +70,7 @@ export type AreasAction =
   | UpdateAreaCommit
   | UpdateAreaRollback
   | RetrySync
-  | UpdateIndex
+  | UpdateSelected
   | GetAreaAlertsCommit
   | DeleteAreaRequest
   | DeleteAreaCommit
@@ -89,7 +89,7 @@ export type GetAreasRollback = { type: 'areas/GET_AREAS_ROLLBACK' };
 export type UpdateAreaRequest = { type: 'areas/UPDATE_AREA_REQUEST', payload: Area };
 export type UpdateAreaCommit = { type: 'areas/UPDATE_AREA_COMMIT', payload: Area };
 export type UpdateAreaRollback = { type: 'areas/UPDATE_AREA_ROLLBACK', meta: Area };
-export type UpdateIndex = { type: 'areas/UPDATE_AREA_INDEX', payload: number };
+export type UpdateSelected = { type: 'areas/SET_SELECTED_AREA_ID', payload: string };
 export type DeleteAreaRequest = { type: 'areas/DELETE_AREA_REQUEST', payload: Area, meta: OfflineMeta };
 export type DeleteAreaCommit = { type: 'areas/DELETE_AREA_COMMIT', meta: { area: Area } };
 export type DeleteAreaRollback = { type: 'areas/DELETE_AREA_ROLLBACK', meta: { area: Area } };

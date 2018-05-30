@@ -31,10 +31,12 @@ const MapSidebar = (props: Props) => {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        <View style={styles.legendContainer}>
-          <Text style={styles.contextualLayersTitle}>{i18n.t('map.alerts')}</Text>
-          {areaId && <AlertSystem areaId={areaId} showLegend />}
-        </View>
+        {areaId &&
+          <View style={styles.legendContainer}>
+            <Text style={styles.contextualLayersTitle}>{i18n.t('map.alerts')}</Text>
+            <AlertSystem areaId={areaId} showLegend />
+          </View>
+        }
         <View style={styles.contextualLayersContainer}>
           <Text style={styles.contextualLayersTitle}>{i18n.t('map.ctxLayers')}</Text>
           {
