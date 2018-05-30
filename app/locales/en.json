@@ -1,7 +1,7 @@
 {
     "alerts": {
         "alertSystems": "Alert systems",
-        "satelliteSignal": "Waiting for the satellite signal..."
+        "noGPS": "No GPS"
     },
     "areaDetail": {
         "delete": "Delete this area",

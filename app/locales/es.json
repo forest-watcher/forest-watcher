@@ -1,7 +1,7 @@
 {
     "alerts": {
         "alertSystems": "Sistema de alertas",
-        "satelliteSignal": "Esperando la señal del satélite..."
+        "noGPS": "Sin GPS"
     },
     "areaDetail": {
         "delete": "Elimina esta area",

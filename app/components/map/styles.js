@@ -27,7 +27,10 @@ export default StyleSheet.create({
     fontSize: 15,
     color: Theme.fontColors.white,
     marginLeft: 8,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    top: 14,
+    left: 32
   },
   geoLocationContainer: {
     width: 48,

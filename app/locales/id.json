@@ -1,7 +1,7 @@
 {
     "alerts": {
         "alertSystems": "Sistem peringatan",
-        "satelliteSignal": "Menunggu sinyal satelit ..."
+        "noGPS": "Tidak GPS"
     },
     "areaDetail": {
         "delete": "Hapus area ini",

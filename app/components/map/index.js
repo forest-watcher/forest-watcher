@@ -50,6 +50,7 @@ const backgroundImage = require('assets/map_bg_gradient.png');
 const settingsBlackIcon = require('assets/settings_black.png');
 const myLocationIcon = require('assets/my_location.png');
 const reportAreaIcon = require('assets/report_area.png');
+const addLocationIcon = require('assets/add_location.png');
 
 function pointsFromCluster(cluster) {
   if (!cluster || !cluster.length > 0) return [];
@@ -209,6 +210,10 @@ class MapComponent extends Component {
         break;
       default:
     }
+  }
+
+  onDemandReportPress = () => {
+    console.warn('TODO');
   }
 
   onSettingsPress = () => {
@@ -587,6 +592,7 @@ class MapComponent extends Component {
           ? <CircleButton onPress={this.fitPosition} light icon={myLocationIcon} />
           : this.renderNoSignal()
         }
+        <CircleButton onPress={this.onDemandReportPress} icon={addLocationIcon} />
         <CircleButton onPress={this.onSettingsPress} light icon={settingsBlackIcon} />
       </View>
     );
@@ -604,7 +610,7 @@ class MapComponent extends Component {
             style={[styles.geoLocation, { opacity: this.state.geoMarkerOpacity }]}
           />
         </View>
-        <Text style={styles.signalNoticeText}>{i18n.t('alerts.satelliteSignal')}</Text>
+        <Text style={styles.signalNoticeText}>{i18n.t('alerts.noGPS')}</Text>
       </View>
     );
   }
