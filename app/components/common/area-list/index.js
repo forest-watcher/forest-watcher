@@ -10,7 +10,7 @@ import FastImage from 'react-native-fast-image';
 
 import Theme from 'config/theme';
 
-import AreaCache from 'containers/dashboard/area-cache';
+import AreaCache from 'containers/common/area-list/area-cache';
 import styles from './styles';
 
 const nextIcon = require('assets/next.png');
