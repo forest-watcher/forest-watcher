@@ -382,6 +382,7 @@
     "report": {
         "addPicture": "Adicionar Imagem",
         "area": "Relatar área",
+        "here": "Report here",
         "choosePicture": "Tire ou escolha uma foto",
         "completed": "Terminado",
         "datePlaceholder": "Escolha uma data",

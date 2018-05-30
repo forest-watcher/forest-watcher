@@ -51,6 +51,8 @@ const settingsBlackIcon = require('assets/settings_black.png');
 const myLocationIcon = require('assets/my_location.png');
 const reportAreaIcon = require('assets/report_area.png');
 const addLocationIcon = require('assets/add_location.png');
+const newAlertIcon = require('assets/new-alert.png');
+const deleteIcon = require('assets/delete_white.png');
 
 function pointsFromCluster(cluster) {
   if (!cluster || !cluster.length > 0) return [];
@@ -124,7 +126,9 @@ class MapComponent extends Component {
       markers: [],
       selectedAlerts: [],
       neighbours: [],
-      mapZoom: 2
+      mapZoom: 2,
+      customReporting: false,
+      dragging: false
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
@@ -149,6 +153,8 @@ class MapComponent extends Component {
       !isEqual(nextState.lastPosition, this.state.lastPosition),
       nextState.hasCompass !== this.state.hasCompass,
       nextState.heading !== this.state.heading,
+      nextState.customReporting !== this.state.customReporting,
+      nextState.dragging !== this.state.dragging,
       !isEqual(nextState.markers, this.state.markers),
       !isEqual(nextState.selectedAlerts, this.state.selectedAlerts),
       !isEqual(nextState.neighbours, this.state.neighbours),
@@ -212,8 +218,18 @@ class MapComponent extends Component {
     }
   }
 
-  onDemandReportPress = () => {
-    console.warn('TODO');
+  onCustomReportingPress = () => {
+    this.setState({
+      customReporting: true,
+      selectedAlerts: [this.state.region]
+    });
+  }
+
+  onCustomReportingCancelPress = () => {
+    this.setState({
+      customReporting: false,
+      selectedAlerts: []
+    });
   }
 
   onSettingsPress = () => {
@@ -321,7 +337,12 @@ class MapComponent extends Component {
       if (selectedAlerts.length) {
         coordinates.push(selectedAlerts[selectedAlerts.length - 1]);
       }
-      this.map.fitToCoordinates(coordinates, options);
+      this.setState({
+        customReporting: false,
+        dragging: false
+      }, () => {
+        this.map.fitToCoordinates(coordinates, options);
+      });
     }
   }
 
@@ -445,10 +466,27 @@ class MapComponent extends Component {
     }
   }
 
-  updateRegion = (region) => {
+  onRegionChange = (region) => {
+    if (this.state.customReporting) {
+      this.props.navigator.setTitle({
+        title: formatCoordsByFormat(region, this.props.coordinatesFormat)
+      });
+    }
+  }
+
+  onRegionChangeComplete = (region) => {
     const mapZoom = MapComponent.getMapZoom(region);
 
-    this.setState({ region, mapZoom }, () => {
+    const selectedAlerts = this.state.customReporting && this.state.dragging
+      ? [region]
+      : this.state.selectedAlerts;
+
+    this.setState({
+      region,
+      mapZoom,
+      selectedAlerts,
+      dragging: false
+    }, () => {
       this.updateMarkers();
     });
   }
@@ -466,7 +504,7 @@ class MapComponent extends Component {
   }
 
   mapPress = (coordinate) => {
-    if (coordinate) {
+    if (coordinate && !this.state.customReporting) {
       const alertsToAdd = this.state.mapZoom >= MANUAL_ALERT_SELECTION_ZOOM
         ? [coordinate]
         : [];
@@ -529,9 +567,11 @@ class MapComponent extends Component {
   }
 
   renderButtonPanelSelected() {
-    const { selectedAlerts, lastPosition, neighbours } = this.state;
+    const { selectedAlerts, lastPosition, neighbours, customReporting } = this.state;
     const { coordinatesFormat } = this.props;
     const lastAlertIndex = selectedAlerts.length - 1;
+    const hasNeighbours = (neighbours && neighbours.length > 0);
+    const showActionBtn = hasNeighbours || customReporting;
     return (
       <View style={[styles.buttonPanel, styles.buttonPanelSelected]}>
         <View style={styles.buttonPanelRow}>
@@ -556,15 +596,15 @@ class MapComponent extends Component {
             {neighbours && neighbours.length > 0
               ? <React.Fragment>
                 <CircleButton
-                  icon={reportAreaIcon}
+                  icon={hasNeighbours ? reportAreaIcon : deleteIcon}
                   style={styles.btnLeft}
-                  onPress={this.reportSelection}
+                  onPress={hasNeighbours ? this.reportSelection : this.onCustomReportingCancelPress}
                 />,
                 <ActionBtn
                   short
                   left
                   style={styles.btnReport}
-                  text={i18n.t('report.selected').toUpperCase()}
+                  text={hasNeighbours ? i18n.t('report.selected').toUpperCase() : i18n.t('report.here').toUpperCase()}
                   onPress={this.reportArea}
                 />
               </React.Fragment>
@@ -592,7 +632,7 @@ class MapComponent extends Component {
           ? <CircleButton onPress={this.fitPosition} light icon={myLocationIcon} />
           : this.renderNoSignal()
         }
-        <CircleButton onPress={this.onDemandReportPress} icon={addLocationIcon} />
+        <CircleButton onPress={this.onCustomReportingPress} icon={addLocationIcon} />
         <CircleButton onPress={this.onSettingsPress} light icon={settingsBlackIcon} />
       </View>
     );
@@ -616,30 +656,35 @@ class MapComponent extends Component {
   }
 
   renderMapFooter() {
-    const { selectedAlerts, neighbours } = this.state;
+    const { selectedAlerts, neighbours, customReporting } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
 
     const hasNeighbours = neighbours && neighbours.length > 0;
     let veilHeight = 120;
     if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
 
-    return (
-      <React.Fragment>
-        <View pointerEvents="none" style={[styles.footerBGContainer, { height: veilHeight }]}>
-          <Image
-            style={[styles.footerBg, { height: veilHeight }]}
-            source={backgroundImage}
-          />
-        </View>
-        <View pointerEvents="box-none" style={styles.footer}>
-          {hasAlertsSelected
-            ? this.renderButtonPanelSelected()
-            : this.renderButtonPanel()
-          }
-          <MapAttribution />
-        </View>
-      </React.Fragment>
-    );
+    return [
+      <View key="bg" pointerEvents="none" style={[styles.footerBGContainer, { height: veilHeight }]}>
+        <Image
+          style={[styles.footerBg, { height: veilHeight }]}
+          source={backgroundImage}
+        />
+      </View>,
+      <View key="footer" pointerEvents="box-none" style={styles.footer}>
+        {hasAlertsSelected || customReporting
+          ? this.renderButtonPanelSelected()
+          : this.renderButtonPanel()
+        }
+        <MapAttribution />
+      </View>
+    ];
+  }
+
+  onMoveShouldSetResponder = () => {
+    // Hack to fix onPanDrag not working for iOS when scroll enabled
+    // https://github.com/react-community/react-native-maps/blob/master/docs/mapview.md
+    this.setState({ dragging: true });
+    return true;
   }
 
   render() {
@@ -779,8 +824,19 @@ class MapComponent extends Component {
       />
     ) : null;
 
+    const customReportingElement = this.state.customReporting ? (
+      <View pointerEvents="none" style={[styles.customLocationFixed, this.state.dragging ? styles.customLocationTransparent : '']}>
+        <Image
+          style={[Theme.icon, styles.customLocationMarker]}
+          source={newAlertIcon}
+        />
+      </View>
+    ) : null;
     return (
-      <View style={styles.container}>
+      <View
+        style={styles.container}
+        onMoveShouldSetResponder={this.onMoveShouldSetResponder}
+      >
         <View pointerEvents="none" style={styles.header}>
           <Image
             style={styles.headerBg}
@@ -799,7 +855,8 @@ class MapComponent extends Component {
           rotateEnabled
           moveOnMarkerPress={false}
           onMapReady={this.onMapReady}
-          onRegionChangeComplete={this.updateRegion}
+          onRegionChange={this.onRegionChange}
+          onRegionChangeComplete={this.onRegionChangeComplete}
           onPress={e => this.mapPress(e.nativeEvent.coordinate)}
         >
           {basemapLayerElement}
@@ -812,6 +869,7 @@ class MapComponent extends Component {
           {neighboursAlertsElement}
           {selectedAlertsElement}
         </MapView>
+        {customReportingElement}
         {this.renderMapFooter()}
       </View>
     );
