@@ -88,7 +88,7 @@ type CacheLayerCommit = {
 };
 type CacheLayerRollback = {
   type: 'layers/CACHE_LAYER_ROLLBACK',
-  meta: { areaId: string, layer: ContextualLayer, areas: Array<Area> }
+  meta: { layer: ContextualLayer, area: Area }
 };
 type DownloadArea = { type: 'layers/DOWNLOAD_AREA', payload: Area };
 type InvalidateCache = { type: 'layers/INVALIDATE_CACHE', payload: string };
