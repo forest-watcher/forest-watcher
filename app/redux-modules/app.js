@@ -5,10 +5,10 @@ import type { AppState, AppAction, CoordinatesValue } from 'types/app.types';
 // $FlowFixMe
 import { version } from 'package.json'; // eslint-disable-line
 import { COORDINATES_FORMATS, ACTIONS_SAVED_TO_REPORT } from 'config/constants/index';
-import { syncAreas, getAreas } from 'redux-modules/areas';
+import { syncAreas } from 'redux-modules/areas';
 import { syncCountries } from 'redux-modules/countries';
 import { syncUser, LOGOUT_REQUEST } from 'redux-modules/user';
-import { syncLayers, getUserLayers } from 'redux-modules/layers';
+import { syncLayers } from 'redux-modules/layers';
 import { syncReports } from 'redux-modules/reports';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import takeRight from 'lodash/takeRight';
@@ -22,6 +22,8 @@ const SET_COORDINATES_FORMAT = 'app/SET_COORDINATES_FORMAT';
 const SET_LAYERS_DRAWER_SECTIONS = 'app/SET_LAYERS_DRAWER_SECTIONS';
 const SET_PRISTINE_CACHE_TOOLTIP = 'app/SET_PRISTINE_CACHE_TOOLTIP';
 export const SAVE_LAST_ACTIONS = 'app/SAVE_LAST_ACTIONS';
+export const SHOW_CONNECTION_REQUIRED = 'app/SHOW_CONNECTION_REQUIRED';
+export const UPDATE_APP = 'app/UPDATE_APP';
 
 // Reducer
 const initialState = {
@@ -102,12 +104,8 @@ export function syncApp() {
 }
 
 export function updateApp() {
-  return (dispatch: Dispatch, state: GetState) => {
-    const { user } = state();
-    if (user.loggedIn) {
-      dispatch(getAreas());
-      dispatch(getUserLayers());
-    }
+  return {
+    type: UPDATE_APP
   };
 }
 
@@ -136,5 +134,11 @@ export function setPristineCacheTooltip(pristine: boolean): AppAction {
   return {
     type: SET_PRISTINE_CACHE_TOOLTIP,
     payload: pristine
+  };
+}
+
+export function showConnectionRequired(): AppAction {
+  return {
+    type: SHOW_CONNECTION_REQUIRED
   };
 }

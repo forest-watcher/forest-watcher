@@ -4,7 +4,7 @@ import type { State } from 'types/store.types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Dashboard from 'components/dashboard';
-import { updateApp, setPristineCacheTooltip } from 'redux-modules/app';
+import { updateApp, setPristineCacheTooltip, showConnectionRequired } from 'redux-modules/app';
 import { createReport } from 'redux-modules/reports';
 import { setAreasRefreshing, updateSelectedIndex } from 'redux-modules/areas';
 import { isOutdated } from 'helpers/date';
@@ -30,8 +30,9 @@ function mapDispatchToProps(dispatch: *) {
     updateApp,
     createReport,
     setAreasRefreshing,
-    setPristine: setPristineCacheTooltip,
-    updateSelectedIndex
+    updateSelectedIndex,
+    showConnectionRequired,
+    setPristine: setPristineCacheTooltip
   }, dispatch);
 }
 

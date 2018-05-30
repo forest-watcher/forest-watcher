@@ -5,6 +5,8 @@ import i18n from 'locales';
 import { UPLOAD_REPORT_COMMIT, UPLOAD_REPORT_ROLLBACK } from 'redux-modules/reports';
 import { SAVE_AREA_ROLLBACK } from 'redux-modules/areas';
 import { GET_ALERTS_COMMIT } from 'redux-modules/alerts';
+import { SHOW_CONNECTION_REQUIRED, UPDATE_APP } from 'redux-modules/app';
+import { Types } from 'components/toast-notification';
 
 export default {
   [UPLOAD_REPORT_COMMIT]: {
@@ -24,5 +26,12 @@ export default {
     type: 'success',
     text: i18n.t('sync.alertsUpdated'),
     check: (state: State) => (state.areas.synced && state.layers.synced && state.alerts.queue.length === 0)
+  },
+  [SHOW_CONNECTION_REQUIRED]: {
+    type: Types.disable,
+    text: i18n.t('commonText.connectionRequired')
+  },
+  [UPDATE_APP]: {
+    text: i18n.t('sync.gettingLatestAlerts')
   }
 };

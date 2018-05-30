@@ -1,5 +1,5 @@
 import { all, fork } from 'redux-saga/effects';
-import { logLastActions } from './app';
+import { logLastActions, updateApp } from './app';
 import { getAlertsOnAreasCommit, getAlertsOnAreaCreation, setActiveAlerts } from './alerts';
 import { reportNotifications } from './notifications';
 import { resetSetupOnAreaCreation } from './areas';
@@ -9,7 +9,8 @@ const sagas = [
   getAlertsOnAreasCommit,
   getAlertsOnAreaCreation,
   reportNotifications,
-  resetSetupOnAreaCreation
+  resetSetupOnAreaCreation,
+  updateApp
 ];
 
 if (!__DEV__) {

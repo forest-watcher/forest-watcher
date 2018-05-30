@@ -24,6 +24,7 @@ export type AppAction =
   | SetLayersDrawersSection
   | SetPristineCacheTooltip
   | SaveLastActions
+  | ShowConnectionRequired
   | LogoutRequest;
 
 export type SetOfflineMode = { type: 'app/SET_OFFLINE_MODE', payload: boolean };
@@ -34,3 +35,4 @@ export type SetLayersDrawersSection = { type: 'app/SET_LAYERS_DRAWER_SECTIONS', 
 export type SetPristineCacheTooltip = { type: 'app/SET_PRISTINE_CACHE_TOOLTIP', payload: boolean };
 export type SaveLastActions = { type: 'app/SAVE_LAST_ACTIONS', payload: AnyAction };
 export type RetrySync = { type: 'app/RETRY_SYNC' };
+export type ShowConnectionRequired = { type: 'app/SHOW_CONNECTION_REQUIRED' };
