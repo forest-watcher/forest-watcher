@@ -36,7 +36,7 @@ type Props = {
   updateSelectedIndex: number => void,
   setPristine: boolean => void,
   updateApp: () => void,
-  showConnectionRequired: () => void
+  showNotConnectedNotification: () => void
 };
 
 class Dashboard extends PureComponent<Props> {
@@ -98,7 +98,7 @@ class Dashboard extends PureComponent<Props> {
       appSyncing,
       updateApp,
       setAreasRefreshing,
-      showConnectionRequired
+      showNotConnectedNotification
     } = this.props;
     if (appSyncing) return;
 
@@ -106,7 +106,7 @@ class Dashboard extends PureComponent<Props> {
       setAreasRefreshing(true);
       updateApp();
     } else {
-      showConnectionRequired();
+      showNotConnectedNotification();
     }
   }
 

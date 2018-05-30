@@ -35,6 +35,7 @@ const initialState = {
 export default function reducer(state: UserState = initialState, action: UserAction): UserState {
   switch (action.type) {
     case PERSIST_REHYDRATE: {
+      // $FlowFixMe
       const { user } = action.payload;
       return { ...state, ...user, loading: false };
     }

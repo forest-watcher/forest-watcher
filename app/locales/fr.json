@@ -1,7 +1,7 @@
 {
     "alerts": {
         "alertSystems": "Systèmes d'Alerte",
-        "satelliteSignal": "En attente du signal satellite ..."
+        "satelliteSignal": "TRANSLATE_ME"
     },
     "areaDetail": {
         "delete": "Supprimer cette zone",
@@ -31,6 +31,7 @@
         "noAlertSystem": "Aucun système d'alerte sélectionné",
         "noImage": "Aucune image",
         "notAvailable": "Indisponible",
+        "offlineModeIsOn": "You are in offline mode",
         "oops": "Oops!",
         "retry": "Réessayez",
         "save": "Enregistrer",
@@ -46,12 +47,10 @@
         "searchPlaceholder": "Rechercher un pays"
     },
     "dashboard": {
-        "connectionRequired": "Vous avez besoin d'une connexion à internet",
         "downloadFailed": "Échec du téléchargement",
         "makeAvailableOffline": "Disponible hors-ligne",
         "map": "Carte",
-        "myReports": "Mes rapports",
-        "unable": "Impossible de télécharger la zone"
+        "myReports": "Mes rapports"
     },
     "datasets": {
         "umd_as_it_happens": "La déforestation (GLAD)",
@@ -69,6 +68,12 @@
                     },
                     {
                         "text": "Contactez-nous avec vos commentaires ou questions en envoyant un e-mail à : forestwatcher@wri.org."
+                    },
+                    {
+                        "text": "Contactez-nous avec vos commentaires ou questions en envoyant un e-mail à : forestwatcher@wri.org."
+                    },
+                    {
+                        "text": "Contactez-nous avec vos commentaires ou questions en envoyant un e-mail à : forestwatcher@wri.org."
                     }
                 ]
             },
@@ -77,6 +82,24 @@
         "fifthQuestion": {
             "content": {
                 "description": [
+                    {
+                        "text": "Chaque jeu de données sur les changements forestiers a été soumis à des tests scientifiques rigoureux et a un ensemble de limites bien précis. Par exemple, les évaluations des alertes GLAD au Pérou donnent 13,5 % de faux positifs (le fait qu'une alerte apparaisse dans les données alors qu'il n'y a pas eu de changement sur le terrain) et 33 % de faux négatifs (le fait qu'il y ait eu des changements observés sur le terrain qui n'ont pas été affichés comme alertes dans les données). Cela signifie qu'environ 87 pour cent des alertes GLAD représentent des événements de changement forestier. Le taux de faux négatifs, plus élevé, signifie que les alertes constituent une estimation prudente de la perte de couverture arborée. Cela permet de minimiser la probabilité que les utilisateurs dépensent en ressources pour enquêter sur des alertes qui ne représentent pas des changements forestiers réels."
+                    },
+                    {
+                        "text": "Les utilisateurs doivent également garder à l'esprit que les alertes GLAD détectent toutes les pertes de couverture arborée, peu importe si elles sont causées par des humains (par exemple à travers l'exploitation forestière) ou par la nature (par exemple un glissement de terrain). De plus, les alertes ne différencient pas entre couverture arborée naturelle et couverture arborée plantée. Pour obtenir des informations complètes sur chaque jeu de données, veuillez visiter www.globalforestwatch.org."
+                    },
+                    {
+                        "text": "Une évaluation des données VIIRS a révélé que le taux de faux positifs était proche de 0 pour la plupart des régions, avec un maximum de 1,2 pour cent dans les régions évaluées, qui est dû principalement à la lumière solaire sur les toits réfléchissants. Le taux d'omission n'a pas été évalué. Le VIIRS ne peut pas détecter les feux de forêt trop petits ou trop timides (généralement ceux dont la puissance est inférieure à 700 K ou l'étendue est inférieure à 100 mètres carrés). Des omissions peuvent également avoir lieu lorsque les feux commencent et se terminent entre les passages des satellites, ou lorsque les feux sont obscurcis par la couverture nuageuse, une fumée dense ou par la canopée des arbres."
+                    },
+                    {
+                        "text": "Chaque jeu de données sur les changements forestiers a été soumis à des tests scientifiques rigoureux et a un ensemble de limites bien précis. Par exemple, les évaluations des alertes GLAD au Pérou donnent 13,5 % de faux positifs (le fait qu'une alerte apparaisse dans les données alors qu'il n'y a pas eu de changement sur le terrain) et 33 % de faux négatifs (le fait qu'il y ait eu des changements observés sur le terrain qui n'ont pas été affichés comme alertes dans les données). Cela signifie qu'environ 87 pour cent des alertes GLAD représentent des événements de changement forestier. Le taux de faux négatifs, plus élevé, signifie que les alertes constituent une estimation prudente de la perte de couverture arborée. Cela permet de minimiser la probabilité que les utilisateurs dépensent en ressources pour enquêter sur des alertes qui ne représentent pas des changements forestiers réels."
+                    },
+                    {
+                        "text": "Les utilisateurs doivent également garder à l'esprit que les alertes GLAD détectent toutes les pertes de couverture arborée, peu importe si elles sont causées par des humains (par exemple à travers l'exploitation forestière) ou par la nature (par exemple un glissement de terrain). De plus, les alertes ne différencient pas entre couverture arborée naturelle et couverture arborée plantée. Pour obtenir des informations complètes sur chaque jeu de données, veuillez visiter www.globalforestwatch.org."
+                    },
+                    {
+                        "text": "Une évaluation des données VIIRS a révélé que le taux de faux positifs était proche de 0 pour la plupart des régions, avec un maximum de 1,2 pour cent dans les régions évaluées, qui est dû principalement à la lumière solaire sur les toits réfléchissants. Le taux d'omission n'a pas été évalué. Le VIIRS ne peut pas détecter les feux de forêt trop petits ou trop timides (généralement ceux dont la puissance est inférieure à 700 K ou l'étendue est inférieure à 100 mètres carrés). Des omissions peuvent également avoir lieu lorsque les feux commencent et se terminent entre les passages des satellites, ou lorsque les feux sont obscurcis par la couverture nuageuse, une fumée dense ou par la canopée des arbres."
+                    },
                     {
                         "text": "Chaque jeu de données sur les changements forestiers a été soumis à des tests scientifiques rigoureux et a un ensemble de limites bien précis. Par exemple, les évaluations des alertes GLAD au Pérou donnent 13,5 % de faux positifs (le fait qu'une alerte apparaisse dans les données alors qu'il n'y a pas eu de changement sur le terrain) et 33 % de faux négatifs (le fait qu'il y ait eu des changements observés sur le terrain qui n'ont pas été affichés comme alertes dans les données). Cela signifie qu'environ 87 pour cent des alertes GLAD représentent des événements de changement forestier. Le taux de faux négatifs, plus élevé, signifie que les alertes constituent une estimation prudente de la perte de couverture arborée. Cela permet de minimiser la probabilité que les utilisateurs dépensent en ressources pour enquêter sur des alertes qui ne représentent pas des changements forestiers réels."
                     },
@@ -131,9 +154,69 @@
                     },
                     {
                         "text": "Plus précisément, cette application permet aux utilisateurs de :"
+                    },
+                    {
+                        "text": "Forest Watcher est une application mobile conçue pour permettre un accès facile et hors ligne aux données sur le changement forestier de Global Forest Watch http://www.globalforestwatch.org/."
+                    },
+                    {
+                        "text": "Global Forest Watch (GFW) est un système dynamique de suivi et d'alerte forestiers en ligne qui permet aux gens partout dans le monde de mieux gérer les forêts. GFW regroupe la technologie satellitaire, l'informatique sur le nuage et les données ouvertes pour fournir aux communautés dans le monde des informations en temps opportun sur les forêts."
+                    },
+                    {
+                        "text": "Forest Watcher met des informations précieuses de GFW directement à la disposition des chargés de suivi des forêts sur le terrain. Forest Watcher permet à quiconque de voir des alertes de déforestation et de feux de forêts sur un appareil mobile, de se rendre à l'emplacement de l'alerte en étant hors ligne et de recueillir des informations et des photos sur ce qu'ils trouvent."
+                    },
+                    {
+                        "text": "Cette application fournit une solution abordable et simple pour : identifier rapidement les zones nécessitant des patrouilles forestières ou des enquêtes de terrain, recueillir des preuves de changements forestiers sur le terrain, utiliser les données collectées pour prendre des décisions factuelles de gestion et de conservation et valider les produits de télédétection sur le terrain."
+                    },
+                    {
+                        "text": "Plus précisément, cette application permet aux utilisateurs de :"
+                    },
+                    {
+                        "text": "Forest Watcher est une application mobile conçue pour permettre un accès facile et hors ligne aux données sur le changement forestier de Global Forest Watch http://www.globalforestwatch.org/."
+                    },
+                    {
+                        "text": "Global Forest Watch (GFW) est un système dynamique de suivi et d'alerte forestiers en ligne qui permet aux gens partout dans le monde de mieux gérer les forêts. GFW regroupe la technologie satellitaire, l'informatique sur le nuage et les données ouvertes pour fournir aux communautés dans le monde des informations en temps opportun sur les forêts."
+                    },
+                    {
+                        "text": "Forest Watcher met des informations précieuses de GFW directement à la disposition des chargés de suivi des forêts sur le terrain. Forest Watcher permet à quiconque de voir des alertes de déforestation et de feux de forêts sur un appareil mobile, de se rendre à l'emplacement de l'alerte en étant hors ligne et de recueillir des informations et des photos sur ce qu'ils trouvent."
+                    },
+                    {
+                        "text": "Cette application fournit une solution abordable et simple pour : identifier rapidement les zones nécessitant des patrouilles forestières ou des enquêtes de terrain, recueillir des preuves de changements forestiers sur le terrain, utiliser les données collectées pour prendre des décisions factuelles de gestion et de conservation et valider les produits de télédétection sur le terrain."
+                    },
+                    {
+                        "text": "Plus précisément, cette application permet aux utilisateurs de :"
                     }
                 ],
                 "orderList": [
+                    {
+                        "text": "Mettez en ligne ou dessinez des centre(s) d'intérêt personnalisés pour des analyses"
+                    },
+                    {
+                        "text": "Téléchargez différentes données satellitaires sur les changements forestiers et d'autres données contextuelles (par exemple les alertes en temps quasi réel sur la déforestation, les zones protégées et les paysages forestiers intacts) sur n'importe quel appareil mobile"
+                    },
+                    {
+                        "text": "Mettez en ligne vos propres jeux de données"
+                    },
+                    {
+                        "text": "Enquêtez sur les alertes sur le terrain et collectez des informations (notamment les points GPS et les photos) à travers des formulaires personnalisables"
+                    },
+                    {
+                        "text": "Examinez, analysez et téléchargez les données collectées avec l'application"
+                    },
+                    {
+                        "text": "Mettez en ligne ou dessinez des centre(s) d'intérêt personnalisés pour des analyses"
+                    },
+                    {
+                        "text": "Téléchargez différentes données satellitaires sur les changements forestiers et d'autres données contextuelles (par exemple les alertes en temps quasi réel sur la déforestation, les zones protégées et les paysages forestiers intacts) sur n'importe quel appareil mobile"
+                    },
+                    {
+                        "text": "Mettez en ligne vos propres jeux de données"
+                    },
+                    {
+                        "text": "Enquêtez sur les alertes sur le terrain et collectez des informations (notamment les points GPS et les photos) à travers des formulaires personnalisables"
+                    },
+                    {
+                        "text": "Examinez, analysez et téléchargez les données collectées avec l'application"
+                    },
                     {
                         "text": "Mettez en ligne ou dessinez des centre(s) d'intérêt personnalisés pour des analyses"
                     },
@@ -176,6 +259,12 @@
                     },
                     {
                         "text": "Il existe trois jeux de données de Global Forest Watch qui sont fournis par défaut dans Forest Watcher :"
+                    },
+                    {
+                        "text": "Il existe trois jeux de données de Global Forest Watch qui sont fournis par défaut dans Forest Watcher :"
+                    },
+                    {
+                        "text": "Il existe trois jeux de données de Global Forest Watch qui sont fournis par défaut dans Forest Watcher :"
                     }
                 ],
                 "footerText": [
@@ -184,9 +273,33 @@
                     },
                     {
                         "text": "Pour plus d'informations sur chaque jeu de données, visitez http://data.globalforestwatch.org/."
+                    },
+                    {
+                        "text": "Pour plus d'informations sur chaque jeu de données, visitez http://data.globalforestwatch.org/."
+                    },
+                    {
+                        "text": "Pour plus d'informations sur chaque jeu de données, visitez http://data.globalforestwatch.org/."
                     }
                 ],
                 "orderList": [
+                    {
+                        "text": "Les alertes VIIRS de feux de forêts actifs : Produites par la NASA, mises à jour quotidiennement à 375 mètres de résolution. Elles vous montrent les emplacements où des feux de forêts ont été soupçonnés la semaine dernière."
+                    },
+                    {
+                        "text": "Les alertes GLAD : Produites par le Laboratoire mondial d'analyse et de découverte de terres (GLAD) de l'Université du Maryland, mises à jour chaque semaine à une résolution de 30 mètres. Elles vous montrent semaine par semaine les endroits où la zone forestière pourrait avoir changé."
+                    },
+                    {
+                        "text": "Perte annuelle de la couverture arborée : Également produite par le laboratoire GLAD, mise à jour annuellement à une résolution de 30 mètres. Elle vous montre année par année les endroits où la zone forestière a changé. Actuellement, ces données ne sont disponibles que sous forme de couche de données contextuelle : vous ne pourrez pas créer un rapport lié à une alerte de perte annuelle, quoique vous puissiez néanmoins créer un rapport pour cet emplacement en appuyant sur l'écran à l'emplacement de la perte ou du gain forestier."
+                    },
+                    {
+                        "text": "Les alertes VIIRS de feux de forêts actifs : Produites par la NASA, mises à jour quotidiennement à 375 mètres de résolution. Elles vous montrent les emplacements où des feux de forêts ont été soupçonnés la semaine dernière."
+                    },
+                    {
+                        "text": "Les alertes GLAD : Produites par le Laboratoire mondial d'analyse et de découverte de terres (GLAD) de l'Université du Maryland, mises à jour chaque semaine à une résolution de 30 mètres. Elles vous montrent semaine par semaine les endroits où la zone forestière pourrait avoir changé."
+                    },
+                    {
+                        "text": "Perte annuelle de la couverture arborée : Également produite par le laboratoire GLAD, mise à jour annuellement à une résolution de 30 mètres. Elle vous montre année par année les endroits où la zone forestière a changé. Actuellement, ces données ne sont disponibles que sous forme de couche de données contextuelle : vous ne pourrez pas créer un rapport lié à une alerte de perte annuelle, quoique vous puissiez néanmoins créer un rapport pour cet emplacement en appuyant sur l'écran à l'emplacement de la perte ou du gain forestier."
+                    },
                     {
                         "text": "Les alertes VIIRS de feux de forêts actifs : Produites par la NASA, mises à jour quotidiennement à 375 mètres de résolution. Elles vous montrent les emplacements où des feux de forêts ont été soupçonnés la semaine dernière."
                     },
@@ -217,6 +330,12 @@
                     },
                     {
                         "text": "Les images présentées sur la carte de base du satellite sont mises à jour moins fréquemment que les données d'alerte. Ainsi, vous pouvez remarquer des alertes de changement forestier pour les zones qui apparaissent comme forêt intacte sur la carte de base du satellite. Visiter les endroits signalés par les alertes GLAD est la meilleure façon de vérifier les changements sur le terrain."
+                    },
+                    {
+                        "text": "Les images présentées sur la carte de base du satellite sont mises à jour moins fréquemment que les données d'alerte. Ainsi, vous pouvez remarquer des alertes de changement forestier pour les zones qui apparaissent comme forêt intacte sur la carte de base du satellite. Visiter les endroits signalés par les alertes GLAD est la meilleure façon de vérifier les changements sur le terrain."
+                    },
+                    {
+                        "text": "Les images présentées sur la carte de base du satellite sont mises à jour moins fréquemment que les données d'alerte. Ainsi, vous pouvez remarquer des alertes de changement forestier pour les zones qui apparaissent comme forêt intacte sur la carte de base du satellite. Visiter les endroits signalés par les alertes GLAD est la meilleure façon de vérifier les changements sur le terrain."
                     }
                 ]
             },
@@ -225,6 +344,12 @@
         "secondQuestion": {
             "content": {
                 "description": [
+                    {
+                        "text": "Au départ, Forest Watcher a été mis au point par Jane Goodall Institute (JGI), Google, Touchlab et Global Forest Watch. Les chargés de suivi des forêts des villages, les gardes des zones protégées et les communautés locales qui travaillent avec le Jane Goodall Institute avaient besoin d'accéder à des données satellitaires à jour pour le suivi des forêts ; mais l'accès à Internet est limité dans les régions éloignées où ils travaillent. Sans ces informations, les chargés de suivi des forêts pourraient manquer les activités de déforestation qui se produisent en dehors de leurs itinéraires de patrouille. JGI, GFW, Touchlab, Vizzuality et Google ont créé Forest Watcher pour permettre l'accès aux données GFW hors ligne en étant sur le terrain."
+                    },
+                    {
+                        "text": "Au départ, Forest Watcher a été mis au point par Jane Goodall Institute (JGI), Google, Touchlab et Global Forest Watch. Les chargés de suivi des forêts des villages, les gardes des zones protégées et les communautés locales qui travaillent avec le Jane Goodall Institute avaient besoin d'accéder à des données satellitaires à jour pour le suivi des forêts ; mais l'accès à Internet est limité dans les régions éloignées où ils travaillent. Sans ces informations, les chargés de suivi des forêts pourraient manquer les activités de déforestation qui se produisent en dehors de leurs itinéraires de patrouille. JGI, GFW, Touchlab, Vizzuality et Google ont créé Forest Watcher pour permettre l'accès aux données GFW hors ligne en étant sur le terrain."
+                    },
                     {
                         "text": "Au départ, Forest Watcher a été mis au point par Jane Goodall Institute (JGI), Google, Touchlab et Global Forest Watch. Les chargés de suivi des forêts des villages, les gardes des zones protégées et les communautés locales qui travaillent avec le Jane Goodall Institute avaient besoin d'accéder à des données satellitaires à jour pour le suivi des forêts ; mais l'accès à Internet est limité dans les régions éloignées où ils travaillent. Sans ces informations, les chargés de suivi des forêts pourraient manquer les activités de déforestation qui se produisent en dehors de leurs itinéraires de patrouille. JGI, GFW, Touchlab, Vizzuality et Google ont créé Forest Watcher pour permettre l'accès aux données GFW hors ligne en étant sur le terrain."
                     },
@@ -243,6 +368,12 @@
                     },
                     {
                         "text": "Forest Watcher Desktop est l'interface de bureau en ligne complémentaire à l'application mobile, qui peut être utilisée pour gérer les Centres d'intérêt, créer de nouvelles formes de rapport, configurer une équipe d'utilisateurs, examiner et télécharger les rapports soumis via l'application. L'interface de bureau est destinée aux administrateurs et aux gestionnaires d'équipe afin qu'ils puissent configurer l'application à utiliser par leur équipe. Pour plus d'informations sur Forest Watcher Desktop, cliquez ici"
+                    },
+                    {
+                        "text": "Forest Watcher Desktop est l'interface de bureau en ligne complémentaire à l'application mobile, qui peut être utilisée pour gérer les Centres d'intérêt, créer de nouvelles formes de rapport, configurer une équipe d'utilisateurs, examiner et télécharger les rapports soumis via l'application. L'interface de bureau est destinée aux administrateurs et aux gestionnaires d'équipe afin qu'ils puissent configurer l'application à utiliser par leur équipe. Pour plus d'informations sur Forest Watcher Desktop, cliquez ici"
+                    },
+                    {
+                        "text": "Forest Watcher Desktop est l'interface de bureau en ligne complémentaire à l'application mobile, qui peut être utilisée pour gérer les Centres d'intérêt, créer de nouvelles formes de rapport, configurer une équipe d'utilisateurs, examiner et télécharger les rapports soumis via l'application. L'interface de bureau est destinée aux administrateurs et aux gestionnaires d'équipe afin qu'ils puissent configurer l'application à utiliser par leur équipe. Pour plus d'informations sur Forest Watcher Desktop, cliquez ici"
                     }
                 ]
             },
@@ -251,6 +382,12 @@
         "sixthQuestion": {
             "content": {
                 "description": [
+                    {
+                        "text": "Oui, vous pouvez mettre en ligne et ajouter vos propres jeux de données à l'application en utilisant la version web de Forest Watcher. À l'aide de la version web, vous lieriez un service de mosaïque Web à Forest Watcher via une URL. Plus d'informations sont disponibles sur la version web."
+                    },
+                    {
+                        "text": "Oui, vous pouvez mettre en ligne et ajouter vos propres jeux de données à l'application en utilisant la version web de Forest Watcher. À l'aide de la version web, vous lieriez un service de mosaïque Web à Forest Watcher via une URL. Plus d'informations sont disponibles sur la version web."
+                    },
                     {
                         "text": "Oui, vous pouvez mettre en ligne et ajouter vos propres jeux de données à l'application en utilisant la version web de Forest Watcher. À l'aide de la version web, vous lieriez un service de mosaïque Web à Forest Watcher via une URL. Plus d'informations sont disponibles sur la version web."
                     },
@@ -335,6 +472,78 @@
                     {
                         "description": "Vous pouvez utiliser Forest Watcher Desktop pour créer un modèle de formulaire personnalisé à utiliser par votre équipe lors de la collecte des données. Vous pouvez également ajouter des notes dans la section finale du formulaire si vous avez des observations que vous souhaitez faire.",
                         "text": "Je souhaite collecter des données personnalisées"
+                    },
+                    {
+                        "description": "Si vous ne voyez aucune alerte dans votre Centre d'intérêt, visitez globalforestwatch.org pour voir si des données existent pour cet emplacement et la période que vous avez choisis. S'il n'y a pas d'alertes GLAD ou VIIRS récentes, cela signifie qu'il n'y a eu aucun changement forestier récemment. Envisagez d'utiliser la couche contextuelle Variation annuelle de la couverture arborée pour chercher d'anciennes alertes de perte forestière, qui pourraient également éclairer les acteurs d'une enquête ou d'une visite sur le terrain.",
+                        "text": "Je ne vois aucune donnée d'alerte"
+                    },
+                    {
+                        "description": "Si l'application se bloque, ouvrez-la à nouveau. Si elle se bloque plusieurs fois, veuillez envoyer un e-mail à mailto:forestwatcher@wri.org en fournissant des informations sur le modèle de votre appareil et ce que vous faisiez dans l'application lorsqu'elle s'est bloquée.",
+                        "text": "L'application se bloque"
+                    },
+                    {
+                        "description": "Les fonctions de localisation et de navigation de Forest Watcher s'appuient sur le GPS interne de votre appareil. Tout d'abord, vérifiez que le GPS (souvent appelé « services de localisation ») est activé dans les paramètres de votre appareil mobile. Si ça ne fonctionne toujours pas, veuillez envoyer un e-mail à mailto:forestwatcher@wri.org en nous indiquant le modèle de périphérique que vous utilisez.",
+                        "text": "Je ne vois pas la boussole ou mon emplacement"
+                    },
+                    {
+                        "description": "Certains appareils qui n'ont que des caméras face avant peuvent ne pas être compatibles avec la caméra du formulaire de rapport. Vous pouvez plutôt prendre une photo sur votre application de caméra et utiliser la fonction de mise en ligne du rapport dans Forest Watcher pour ajouter une photo de votre bibliothèque au rapport.",
+                        "text": "Je ne peux pas prendre une photo dans l'application"
+                    },
+                    {
+                        "description": "Il se peut que vous ne puissiez pas toujours finir d'écrire un rapport en étant sur les lieux signalés par une alerte. Vous pouvez commencer à écrire un rapport, l'enregistrer et y revenir plus tard lorsque vous êtes de retour dans votre base. Vous pouvez également prendre une photo en utilisant votre appareil photo, puis remplir le rapport plus tard : vous pouvez joindre l'image à votre rapport.",
+                        "text": "Je souhaite remplir un rapport plus tard"
+                    },
+                    {
+                        "description": "Lorsque vous configurez Forest Watcher pour la première fois sur votre appareil mobile, l'application devra télécharger beaucoup de données pour fonctionner hors ligne. Vous devrez peut-être attendre environ 5 minutes pour que toutes les données soient chargées correctement. C'est normal. Si vous avez une connexion Internet faible ou lente, cela peut rendre le téléchargement plus long. Gardez l'application ouverte pour permettre au téléchargement d'arriver à terme. Après la configuration initiale, de nouvelles données d'alerte seront téléchargées chaque fois que vous connectez votre appareil à Internet - le temps de téléchargement varie selon le nombre d'alertes. La taille de ces mises à jour sera à l'échelle de kilooctets, tandis que le téléchargement initial prendra probablement quelques mégaoctets.",
+                        "text": "Les alertes se chargent lentement"
+                    },
+                    {
+                        "description": "Pour le moment, vous ne pouvez afficher qu'un seul jeu de données à la fois pour chaque Centre d'intérêt. Le jeu de données que vous consultez pour chaque Centre d'intérêt est contrôlé à l'aide du menu des paramètres. Si vous souhaitez consulter à la fois les données sur les feux de forêt et les données sur la déforestation pour le même emplacement, vous devrez créer deux Centres d'intérêt pour ce même emplacement et configurer chacune d'entre elles pour télécharger les différents jeux de données.",
+                        "text": "Je veux voir les alertes GLAD et VIIRS pour le même Centre d'intérêt"
+                    },
+                    {
+                        "description": "Forest Watcher contient un grand nombre de données et peut prendre beaucoup d'espace mémoire sur votre appareil en fonction du nombre de Centres d'intérêt que vous avez, de leur taille et du nombre d'alertes contenues dans chacun de ces Centres d'intérêt. Nous vous recommandons d'avoir au moins 16 Go de stockage interne sur votre appareil, de sorte que vous puissiez utiliser les autres applications ainsi que Forest Watcher : Forest Watcher n'aura pas besoin de tout cet espace de stockage. Plus les Centres d'intérêt que vous configurez dans l'application sont de petite taille et moins nombreuses, plus la taille des données à télécharger sur votre appareil sera réduite.",
+                        "text": "La mémoire de mon appareil est saturée"
+                    },
+                    {
+                        "description": "Vous pouvez utiliser Forest Watcher Desktop pour créer un modèle de formulaire personnalisé à utiliser par votre équipe lors de la collecte des données. Vous pouvez également ajouter des notes dans la section finale du formulaire si vous avez des observations que vous souhaitez faire.",
+                        "text": "Je souhaite collecter des données personnalisées"
+                    },
+                    {
+                        "description": "Si vous ne voyez aucune alerte dans votre Centre d'intérêt, visitez globalforestwatch.org pour voir si des données existent pour cet emplacement et la période que vous avez choisis. S'il n'y a pas d'alertes GLAD ou VIIRS récentes, cela signifie qu'il n'y a eu aucun changement forestier récemment. Envisagez d'utiliser la couche contextuelle Variation annuelle de la couverture arborée pour chercher d'anciennes alertes de perte forestière, qui pourraient également éclairer les acteurs d'une enquête ou d'une visite sur le terrain.",
+                        "text": "Je ne vois aucune donnée d'alerte"
+                    },
+                    {
+                        "description": "Si l'application se bloque, ouvrez-la à nouveau. Si elle se bloque plusieurs fois, veuillez envoyer un e-mail à mailto:forestwatcher@wri.org en fournissant des informations sur le modèle de votre appareil et ce que vous faisiez dans l'application lorsqu'elle s'est bloquée.",
+                        "text": "L'application se bloque"
+                    },
+                    {
+                        "description": "Les fonctions de localisation et de navigation de Forest Watcher s'appuient sur le GPS interne de votre appareil. Tout d'abord, vérifiez que le GPS (souvent appelé « services de localisation ») est activé dans les paramètres de votre appareil mobile. Si ça ne fonctionne toujours pas, veuillez envoyer un e-mail à mailto:forestwatcher@wri.org en nous indiquant le modèle de périphérique que vous utilisez.",
+                        "text": "Je ne vois pas la boussole ou mon emplacement"
+                    },
+                    {
+                        "description": "Certains appareils qui n'ont que des caméras face avant peuvent ne pas être compatibles avec la caméra du formulaire de rapport. Vous pouvez plutôt prendre une photo sur votre application de caméra et utiliser la fonction de mise en ligne du rapport dans Forest Watcher pour ajouter une photo de votre bibliothèque au rapport.",
+                        "text": "Je ne peux pas prendre une photo dans l'application"
+                    },
+                    {
+                        "description": "Il se peut que vous ne puissiez pas toujours finir d'écrire un rapport en étant sur les lieux signalés par une alerte. Vous pouvez commencer à écrire un rapport, l'enregistrer et y revenir plus tard lorsque vous êtes de retour dans votre base. Vous pouvez également prendre une photo en utilisant votre appareil photo, puis remplir le rapport plus tard : vous pouvez joindre l'image à votre rapport.",
+                        "text": "Je souhaite remplir un rapport plus tard"
+                    },
+                    {
+                        "description": "Lorsque vous configurez Forest Watcher pour la première fois sur votre appareil mobile, l'application devra télécharger beaucoup de données pour fonctionner hors ligne. Vous devrez peut-être attendre environ 5 minutes pour que toutes les données soient chargées correctement. C'est normal. Si vous avez une connexion Internet faible ou lente, cela peut rendre le téléchargement plus long. Gardez l'application ouverte pour permettre au téléchargement d'arriver à terme. Après la configuration initiale, de nouvelles données d'alerte seront téléchargées chaque fois que vous connectez votre appareil à Internet - le temps de téléchargement varie selon le nombre d'alertes. La taille de ces mises à jour sera à l'échelle de kilooctets, tandis que le téléchargement initial prendra probablement quelques mégaoctets.",
+                        "text": "Les alertes se chargent lentement"
+                    },
+                    {
+                        "description": "Pour le moment, vous ne pouvez afficher qu'un seul jeu de données à la fois pour chaque Centre d'intérêt. Le jeu de données que vous consultez pour chaque Centre d'intérêt est contrôlé à l'aide du menu des paramètres. Si vous souhaitez consulter à la fois les données sur les feux de forêt et les données sur la déforestation pour le même emplacement, vous devrez créer deux Centres d'intérêt pour ce même emplacement et configurer chacune d'entre elles pour télécharger les différents jeux de données.",
+                        "text": "Je veux voir les alertes GLAD et VIIRS pour le même Centre d'intérêt"
+                    },
+                    {
+                        "description": "Forest Watcher contient un grand nombre de données et peut prendre beaucoup d'espace mémoire sur votre appareil en fonction du nombre de Centres d'intérêt que vous avez, de leur taille et du nombre d'alertes contenues dans chacun de ces Centres d'intérêt. Nous vous recommandons d'avoir au moins 16 Go de stockage interne sur votre appareil, de sorte que vous puissiez utiliser les autres applications ainsi que Forest Watcher : Forest Watcher n'aura pas besoin de tout cet espace de stockage. Plus les Centres d'intérêt que vous configurez dans l'application sont de petite taille et moins nombreuses, plus la taille des données à télécharger sur votre appareil sera réduite.",
+                        "text": "La mémoire de mon appareil est saturée"
+                    },
+                    {
+                        "description": "Vous pouvez utiliser Forest Watcher Desktop pour créer un modèle de formulaire personnalisé à utiliser par votre équipe lors de la collecte des données. Vous pouvez également ajouter des notes dans la section finale du formulaire si vous avez des observations que vous souhaitez faire.",
+                        "text": "Je souhaite collecter des données personnalisées"
                     }
                 ]
             },
@@ -343,6 +552,12 @@
         "thirdQuestion": {
             "content": {
                 "description": [
+                    {
+                        "text": "Forest Watcher affiche les données sur le changement forestier dans des « Centres d'intérêt » ou zones que vous suivez. Vous pouvez définir des Centres d'intérêt dans le menu des paramètres. Si vous faites partie d'une équipe, vous pouvez avoir des zones déjà configurées pour vous et que vous pouvez mettre en ligne sur l'application. L'application téléchargera automatiquement les données de changement forestier pour ces zones et les mettra à jour avec les dernières alertes de feux de forêts et de déforestation lorsque vous êtes connecté à Internet. Une fois que vous téléchargez les données nécessaires sur votre appareil mobile, vous pouvez aller sur le terrain avec l'application hors ligne. Forest Watcher vous indiquera les zones d'alerte qui sont à proximité en utilisant le GPS interne du téléphone. Lorsque vous arrivez dans la zone d'alerte, vous pouvez remplir un rapport sur ce que vous avez trouvé et ajouter des photos."
+                    },
+                    {
+                        "text": "Forest Watcher affiche les données sur le changement forestier dans des « Centres d'intérêt » ou zones que vous suivez. Vous pouvez définir des Centres d'intérêt dans le menu des paramètres. Si vous faites partie d'une équipe, vous pouvez avoir des zones déjà configurées pour vous et que vous pouvez mettre en ligne sur l'application. L'application téléchargera automatiquement les données de changement forestier pour ces zones et les mettra à jour avec les dernières alertes de feux de forêts et de déforestation lorsque vous êtes connecté à Internet. Une fois que vous téléchargez les données nécessaires sur votre appareil mobile, vous pouvez aller sur le terrain avec l'application hors ligne. Forest Watcher vous indiquera les zones d'alerte qui sont à proximité en utilisant le GPS interne du téléphone. Lorsque vous arrivez dans la zone d'alerte, vous pouvez remplir un rapport sur ce que vous avez trouvé et ajouter des photos."
+                    },
                     {
                         "text": "Forest Watcher affiche les données sur le changement forestier dans des « Centres d'intérêt » ou zones que vous suivez. Vous pouvez définir des Centres d'intérêt dans le menu des paramètres. Si vous faites partie d'une équipe, vous pouvez avoir des zones déjà configurées pour vous et que vous pouvez mettre en ligne sur l'application. L'application téléchargera automatiquement les données de changement forestier pour ces zones et les mettra à jour avec les dernières alertes de feux de forêts et de déforestation lorsque vous êtes connecté à Internet. Une fois que vous téléchargez les données nécessaires sur votre appareil mobile, vous pouvez aller sur le terrain avec l'application hors ligne. Forest Watcher vous indiquera les zones d'alerte qui sont à proximité en utilisant le GPS interne du téléphone. Lorsque vous arrivez dans la zone d'alerte, vous pouvez remplir un rapport sur ce que vous avez trouvé et ajouter des photos."
                     },
@@ -415,17 +630,16 @@
         "aboutPartners": "Les partenaires",
         "aboutTerms": "Conditions d'utilisation",
         "addArea": "AJOUTER ZONE",
-        "connectionRequired": "Vous avez besoin d'une connexion à internet",
         "coordinatesDecimal": "Décimal",
         "coordinatesDegrees": "Degrés",
         "coordinatesFormat": "Coordonne le format",
         "coordinatesUtm": "UTM",
         "logOut": "SE DÉCONNECTER",
         "loggedIn": "Vous êtes connecté en tant que",
+        "offlineMode": "Offline Mode",
         "oneWeekAgo": "La semaine dernière",
         "timeFrame": "Intervalle de temps",
         "title": "Paramètres",
-        "unable": "Impossible d'ajouter une zone",
         "unsafeLogout": "Vos rapports ne sont pas synchronisés !",
         "unsavedDataLost": "Si vous procédez à la déconnexion, toutes vos données non enregistrées seront perdues.",
         "yourAreas": "Vos zones"
@@ -505,6 +719,36 @@
                     },
                     {
                         "text": "Une déclaration selon laquelle les informations contenues dans l'avis sont exactes et, sous peine de parjure, que la partie plaignante est autorisée à agir au nom du titulaire d'un droit exclusif qui aurait été violé."
+                    },
+                    {
+                        "text": "Votre signature en tant que personne autorisée à agir au nom du titulaire d'un droit exclusif qui aurait été violé ;"
+                    },
+                    {
+                        "text": "L'identification sur le Site de l'endroit exact où des travaux protégés auraient fait l'objet d'une infraction ou, si plusieurs œuvres protégées par droits d'auteur sur le Site sont couvertes par un seul avis, une liste représentative de tels travaux tels qu'identifiés sur le Site ;"
+                    },
+                    {
+                        "text": "L'adresse, le numéro de téléphone et l'adresse e-mail de la partie plaignante ;"
+                    },
+                    {
+                        "text": "Une déclaration selon laquelle la partie plaignante croit de bonne foi que l'utilisation des éléments de la manière faisant l'objet de la plainte n'est pas autorisée par le titulaire du droit d'auteur, son agent ou la loi ; et"
+                    },
+                    {
+                        "text": "Une déclaration selon laquelle les informations contenues dans l'avis sont exactes et, sous peine de parjure, que la partie plaignante est autorisée à agir au nom du titulaire d'un droit exclusif qui aurait été violé."
+                    },
+                    {
+                        "text": "Votre signature en tant que personne autorisée à agir au nom du titulaire d'un droit exclusif qui aurait été violé ;"
+                    },
+                    {
+                        "text": "L'identification sur le Site de l'endroit exact où des travaux protégés auraient fait l'objet d'une infraction ou, si plusieurs œuvres protégées par droits d'auteur sur le Site sont couvertes par un seul avis, une liste représentative de tels travaux tels qu'identifiés sur le Site ;"
+                    },
+                    {
+                        "text": "L'adresse, le numéro de téléphone et l'adresse e-mail de la partie plaignante ;"
+                    },
+                    {
+                        "text": "Une déclaration selon laquelle la partie plaignante croit de bonne foi que l'utilisation des éléments de la manière faisant l'objet de la plainte n'est pas autorisée par le titulaire du droit d'auteur, son agent ou la loi ; et"
+                    },
+                    {
+                        "text": "Une déclaration selon laquelle les informations contenues dans l'avis sont exactes et, sous peine de parjure, que la partie plaignante est autorisée à agir au nom du titulaire d'un droit exclusif qui aurait été violé."
                     }
                 ]
             },
@@ -543,6 +787,36 @@
                     },
                     {
                         "text": "Nous pouvons modifier ces Conditions de temps en temps pour tenir compte des modifications de la loi et du Site. Vous devez lire régulièrement ces Conditions pour vérifier les éventuelles modifications. Si Vous n'acceptez pas une modification quelconque des Conditions, vous devez cesser d'accéder et d'utiliser le Site."
+                    },
+                    {
+                        "text": "Nous Vous fournissons l'accès au Site et à son contenu afin que vous puissiez mieux gérer les forêts et accéder à des informations à jour sur l'état des forêts du monde. Votre utilisation du Site ne Vous donne aucun droit de propriété sur la propriété intellectuelle du Site ou sur son contenu. Vous acceptez d'utiliser le Site et son contenu uniquement à des fins licites, de ne diffamer, harceler ou menacer personne et de ne mettre à disposition aucun contenu obscène, pornographique ou offensant. Vous acceptez qu'en utilisant le Site, Vous n'endommagerez pas ou ne nuirez pas au Site ou à l'utilisation du Site par d'autres personnes."
+                    },
+                    {
+                        "text": "Sauf pour les éléments identifiés comme étant soumis à des restrictions supplémentaires, Vous pouvez utiliser le Site et son contenu, copier, adapter et distribuer le contenu à d'autres personnes en vertu de cette licence."
+                    },
+                    {
+                        "text": "Vous êtes seul responsable de Votre utilisation du Site et de toutes les activités s'opérant sur Votre compte. Vous acceptez, à notre demande, de Nous indemniser, de Nous tenir indemnes et de Nous défendre, nous et les personnes qui nous sont liées, de toute responsabilité découlant de Votre utilisation du Site, de Votre Contenu Utilisateur (tel que défini ci-dessous) ou de Votre violation des présentes Conditions. Nous pouvons suspendre l'accès au Site si Nous soupçonnons que Vous ou ceux qui utilisent Votre compte violent ces Conditions."
+                    },
+                    {
+                        "text": "Vous pouvez cesser d'utiliser le Site et son contenu à tout moment, et nous pouvons également mettre fin au Site et à son contenu à tout moment."
+                    },
+                    {
+                        "text": "Nous pouvons modifier ces Conditions de temps en temps pour tenir compte des modifications de la loi et du Site. Vous devez lire régulièrement ces Conditions pour vérifier les éventuelles modifications. Si Vous n'acceptez pas une modification quelconque des Conditions, vous devez cesser d'accéder et d'utiliser le Site."
+                    },
+                    {
+                        "text": "Nous Vous fournissons l'accès au Site et à son contenu afin que vous puissiez mieux gérer les forêts et accéder à des informations à jour sur l'état des forêts du monde. Votre utilisation du Site ne Vous donne aucun droit de propriété sur la propriété intellectuelle du Site ou sur son contenu. Vous acceptez d'utiliser le Site et son contenu uniquement à des fins licites, de ne diffamer, harceler ou menacer personne et de ne mettre à disposition aucun contenu obscène, pornographique ou offensant. Vous acceptez qu'en utilisant le Site, Vous n'endommagerez pas ou ne nuirez pas au Site ou à l'utilisation du Site par d'autres personnes."
+                    },
+                    {
+                        "text": "Sauf pour les éléments identifiés comme étant soumis à des restrictions supplémentaires, Vous pouvez utiliser le Site et son contenu, copier, adapter et distribuer le contenu à d'autres personnes en vertu de cette licence."
+                    },
+                    {
+                        "text": "Vous êtes seul responsable de Votre utilisation du Site et de toutes les activités s'opérant sur Votre compte. Vous acceptez, à notre demande, de Nous indemniser, de Nous tenir indemnes et de Nous défendre, nous et les personnes qui nous sont liées, de toute responsabilité découlant de Votre utilisation du Site, de Votre Contenu Utilisateur (tel que défini ci-dessous) ou de Votre violation des présentes Conditions. Nous pouvons suspendre l'accès au Site si Nous soupçonnons que Vous ou ceux qui utilisent Votre compte violent ces Conditions."
+                    },
+                    {
+                        "text": "Vous pouvez cesser d'utiliser le Site et son contenu à tout moment, et nous pouvons également mettre fin au Site et à son contenu à tout moment."
+                    },
+                    {
+                        "text": "Nous pouvons modifier ces Conditions de temps en temps pour tenir compte des modifications de la loi et du Site. Vous devez lire régulièrement ces Conditions pour vérifier les éventuelles modifications. Si Vous n'acceptez pas une modification quelconque des Conditions, vous devez cesser d'accéder et d'utiliser le Site."
                     }
                 ]
             },
@@ -552,6 +826,18 @@
             "content": {
                 "description": null,
                 "list": [
+                    {
+                        "text": "VOUS ACCEPTEZ QUE VOUS UTILISEZ CE SITE ET SON CONTENU À VOS PROPRES RISQUES. NOUS NE FAISONS AUCUNE PROMESSE ET NE PRENONS AUCUN ENGAGEMENT CONCERNANT LE SITE OU SON CONTENU, ET LE SITE ET SON CONTENU SONT FOURNIS « TELS QUELS » ET SANS GARANTIE NI DÉCLARATION DE QUELQUE NATURE QUE CE SOIT, EXPRESSE OU IMPLICITE. DANS TOUTE LA MESURE PERMISE PAR LA LOI, NOUS DÉCLINONS TOUTE RESPONSABILITÉ CONCERNANT TOUTES LES GARANTIES, STATUTAIRES, EXPRESSES OU IMPLICITES, Y COMPRIS LES GARANTIES IMPLICITES DE QUALITÉ MARCHANDE, D'ADÉQUATION À UN USAGE PARTICULIER, DE TITRE ET D'ABSENCE DE CONTREFAÇON"
+                    },
+                    {
+                        "text": "NOUS NE POUVONS EN AUCUN CAS ÊTRE TENUS RESPONSABLES D'AUCUN DOMMAGE SPÉCIAL, INDIRECT, ACCESSOIRE, CONSÉCUTIF OU EXEMPLAIRE (Y COMPRIS, MAIS SANS LIMITATION, LA PERTE DE PROFITS, DE DONNÉES OU D'UTILISATION, OU LE COÛT DE COUVERTURE) RÉSULTANT DE VOTRE UTILISATION OU DE L'INCAPACITÉ D'UTILISER LE SITE OU SON CONTENU, MÊME SI NOUS ÉTIONS CONSCIENTS DE LA POSSIBILITÉ DE TELS DOMMAGES. NOUS N'AURONS, EN AUCUN CAS, AUCUNE RESPONSABILITÉ ENVERS VOUS CONCERNANT TOUTE RÉCLAMATION OU DOMMAGE EXCÉDENT CENT DOLLARS (100 $ US). CERTAINES JURIDICTIONS N'AUTORISENT PAS LES EXCLUSIONS OU LES LIMITATIONS SUR LES GARANTIES IMPLICITES OU SUR LA RESPONSABILITÉ. PAR CONSÉQUENT, CERTAINES OU TOUTES LES RENONCIATIONS, EXCLUSIONS OU LIMITATIONS POURRAIENT NE PAS S'APPLIQUER À VOUS, ET VOUS POURRIEZ AVOIR DES DROITS SUPPLÉMENTAIRES."
+                    },
+                    {
+                        "text": "VOUS ACCEPTEZ QUE VOUS UTILISEZ CE SITE ET SON CONTENU À VOS PROPRES RISQUES. NOUS NE FAISONS AUCUNE PROMESSE ET NE PRENONS AUCUN ENGAGEMENT CONCERNANT LE SITE OU SON CONTENU, ET LE SITE ET SON CONTENU SONT FOURNIS « TELS QUELS » ET SANS GARANTIE NI DÉCLARATION DE QUELQUE NATURE QUE CE SOIT, EXPRESSE OU IMPLICITE. DANS TOUTE LA MESURE PERMISE PAR LA LOI, NOUS DÉCLINONS TOUTE RESPONSABILITÉ CONCERNANT TOUTES LES GARANTIES, STATUTAIRES, EXPRESSES OU IMPLICITES, Y COMPRIS LES GARANTIES IMPLICITES DE QUALITÉ MARCHANDE, D'ADÉQUATION À UN USAGE PARTICULIER, DE TITRE ET D'ABSENCE DE CONTREFAÇON"
+                    },
+                    {
+                        "text": "NOUS NE POUVONS EN AUCUN CAS ÊTRE TENUS RESPONSABLES D'AUCUN DOMMAGE SPÉCIAL, INDIRECT, ACCESSOIRE, CONSÉCUTIF OU EXEMPLAIRE (Y COMPRIS, MAIS SANS LIMITATION, LA PERTE DE PROFITS, DE DONNÉES OU D'UTILISATION, OU LE COÛT DE COUVERTURE) RÉSULTANT DE VOTRE UTILISATION OU DE L'INCAPACITÉ D'UTILISER LE SITE OU SON CONTENU, MÊME SI NOUS ÉTIONS CONSCIENTS DE LA POSSIBILITÉ DE TELS DOMMAGES. NOUS N'AURONS, EN AUCUN CAS, AUCUNE RESPONSABILITÉ ENVERS VOUS CONCERNANT TOUTE RÉCLAMATION OU DOMMAGE EXCÉDENT CENT DOLLARS (100 $ US). CERTAINES JURIDICTIONS N'AUTORISENT PAS LES EXCLUSIONS OU LES LIMITATIONS SUR LES GARANTIES IMPLICITES OU SUR LA RESPONSABILITÉ. PAR CONSÉQUENT, CERTAINES OU TOUTES LES RENONCIATIONS, EXCLUSIONS OU LIMITATIONS POURRAIENT NE PAS S'APPLIQUER À VOUS, ET VOUS POURRIEZ AVOIR DES DROITS SUPPLÉMENTAIRES."
+                    },
                     {
                         "text": "VOUS ACCEPTEZ QUE VOUS UTILISEZ CE SITE ET SON CONTENU À VOS PROPRES RISQUES. NOUS NE FAISONS AUCUNE PROMESSE ET NE PRENONS AUCUN ENGAGEMENT CONCERNANT LE SITE OU SON CONTENU, ET LE SITE ET SON CONTENU SONT FOURNIS « TELS QUELS » ET SANS GARANTIE NI DÉCLARATION DE QUELQUE NATURE QUE CE SOIT, EXPRESSE OU IMPLICITE. DANS TOUTE LA MESURE PERMISE PAR LA LOI, NOUS DÉCLINONS TOUTE RESPONSABILITÉ CONCERNANT TOUTES LES GARANTIES, STATUTAIRES, EXPRESSES OU IMPLICITES, Y COMPRIS LES GARANTIES IMPLICITES DE QUALITÉ MARCHANDE, D'ADÉQUATION À UN USAGE PARTICULIER, DE TITRE ET D'ABSENCE DE CONTREFAÇON"
                     },
@@ -608,6 +894,36 @@
                     },
                     {
                         "text": "Ces Conditions constituent la déclaration complète de l'accord entre Vous et Nous concernant le Site et son contenu."
+                    },
+                    {
+                        "text": "Les lois de l'État de New York, aux États-Unis, à l'exclusion des dispositions de New York relatives aux conflits de lois, s'appliquent à tout litige concernant le Site, son contenu ou les présentes Conditions. La Convention des Nations unies sur les contrats de vente internationale de marchandises ne s'applique pas. Toutes les réclamations découlant de ou relatives aux présentes Conditions seront soumises exclusivement aux tribunaux de New York City, New York, États-Unis, et vous consentez à la juridiction personnelle de ces tribunaux."
+                    },
+                    {
+                        "text": "Si nous n'appliquons pas les Conditions promptement, cela ne signifie pas que nous avons renoncé à tout autre droit ou au droit de les appliquer ou d'appliquer d'autres Conditions à l'avenir."
+                    },
+                    {
+                        "text": "Si une disposition particulière des présentes Conditions n'est pas exécutoire, cela n'affecte pas l'applicabilité de toute autre disposition des Conditions."
+                    },
+                    {
+                        "text": "Ces Conditions ne concernent que Vous et Nous, et personne d'autre ne peut les appliquer."
+                    },
+                    {
+                        "text": "Ces Conditions constituent la déclaration complète de l'accord entre Vous et Nous concernant le Site et son contenu."
+                    },
+                    {
+                        "text": "Les lois de l'État de New York, aux États-Unis, à l'exclusion des dispositions de New York relatives aux conflits de lois, s'appliquent à tout litige concernant le Site, son contenu ou les présentes Conditions. La Convention des Nations unies sur les contrats de vente internationale de marchandises ne s'applique pas. Toutes les réclamations découlant de ou relatives aux présentes Conditions seront soumises exclusivement aux tribunaux de New York City, New York, États-Unis, et vous consentez à la juridiction personnelle de ces tribunaux."
+                    },
+                    {
+                        "text": "Si nous n'appliquons pas les Conditions promptement, cela ne signifie pas que nous avons renoncé à tout autre droit ou au droit de les appliquer ou d'appliquer d'autres Conditions à l'avenir."
+                    },
+                    {
+                        "text": "Si une disposition particulière des présentes Conditions n'est pas exécutoire, cela n'affecte pas l'applicabilité de toute autre disposition des Conditions."
+                    },
+                    {
+                        "text": "Ces Conditions ne concernent que Vous et Nous, et personne d'autre ne peut les appliquer."
+                    },
+                    {
+                        "text": "Ces Conditions constituent la déclaration complète de l'accord entre Vous et Nous concernant le Site et son contenu."
                     }
                 ]
             },
@@ -617,6 +933,18 @@
             "content": {
                 "description": null,
                 "list": [
+                    {
+                        "text": "Vous pouvez Nous soumettre des données, des documents, des idées et d'autres informations à publier sur le Site (« Contenu utilisateur »)."
+                    },
+                    {
+                        "text": "Vous demeurez propriétaire de tout le Contenu utilisateur que vous apportez au Site, mais en soumettant votre Contenu utilisateur, Vous Nous autorisez, nous et tous les autres utilisateurs du Site à travers le monde, à utiliser, adapter et rendre votre Contenu utilisateur accessible aux autres, sans aucune obligation envers vous, même si Vous arrêtez d'utiliser le Site."
+                    },
+                    {
+                        "text": "Vous pouvez Nous soumettre des données, des documents, des idées et d'autres informations à publier sur le Site (« Contenu utilisateur »)."
+                    },
+                    {
+                        "text": "Vous demeurez propriétaire de tout le Contenu utilisateur que vous apportez au Site, mais en soumettant votre Contenu utilisateur, Vous Nous autorisez, nous et tous les autres utilisateurs du Site à travers le monde, à utiliser, adapter et rendre votre Contenu utilisateur accessible aux autres, sans aucune obligation envers vous, même si Vous arrêtez d'utiliser le Site."
+                    },
                     {
                         "text": "Vous pouvez Nous soumettre des données, des documents, des idées et d'autres informations à publier sur le Site (« Contenu utilisateur »)."
                     },

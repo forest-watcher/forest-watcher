@@ -32,7 +32,7 @@ type Props = {
   showTooltip: boolean,
   refreshAreaCacheById: string => void,
   pendingCache: number,
-  showConnectionRequired: () => void
+  showNotConnectedNotification: () => void
 }
 type State = {
   indeterminate: boolean,
@@ -94,7 +94,7 @@ class AreaCache extends PureComponent<Props, State> {
     refreshAreaCacheById(areaId);
   }
 
-  onOfflinePress = () => this.props.showConnectionRequired();
+  onOfflinePress = () => this.props.showNotConnectedNotification();
 
   getCacheAreaAction = () => {
     const { isConnected, cacheStatus } = this.props;

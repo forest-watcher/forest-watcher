@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { isUnsafeLogout } from 'helpers/app';
 import { logout } from 'redux-modules/user';
-import { setOfflineMode } from 'redux-modules/app';
+import { setOfflineMode, showNotConnectedNotification } from 'redux-modules/app';
 
 import Settings from 'components/settings';
 
@@ -23,7 +23,8 @@ function mapStateToProps(state: State) {
 
 const mapDispatchToProps = (dispatch: *) => bindActionCreators({
   logout,
-  setOfflineMode
+  setOfflineMode,
+  showNotConnectedNotification
 }, dispatch);
 
 export default connect(

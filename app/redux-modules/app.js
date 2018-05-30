@@ -22,6 +22,7 @@ const SET_COORDINATES_FORMAT = 'app/SET_COORDINATES_FORMAT';
 const SET_LAYERS_DRAWER_SECTIONS = 'app/SET_LAYERS_DRAWER_SECTIONS';
 const SET_PRISTINE_CACHE_TOOLTIP = 'app/SET_PRISTINE_CACHE_TOOLTIP';
 export const SAVE_LAST_ACTIONS = 'app/SAVE_LAST_ACTIONS';
+export const SHOW_OFFLINE_MODE_IS_ON = 'app/SHOW_OFFLINE_MODE_IS_ON';
 export const SHOW_CONNECTION_REQUIRED = 'app/SHOW_CONNECTION_REQUIRED';
 export const UPDATE_APP = 'app/UPDATE_APP';
 
@@ -137,8 +138,12 @@ export function setPristineCacheTooltip(pristine: boolean): AppAction {
   };
 }
 
-export function showConnectionRequired(): AppAction {
-  return {
-    type: SHOW_CONNECTION_REQUIRED
+export function showNotConnectedNotification() {
+  return (dispatch: Dispatch, getState: GetState) => {
+    const { offlineMode } = getState().app;
+    if (offlineMode) {
+      return dispatch({ type: SHOW_OFFLINE_MODE_IS_ON });
+    }
+    return dispatch({ type: SHOW_CONNECTION_REQUIRED });
   };
 }

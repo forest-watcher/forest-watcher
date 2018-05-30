@@ -5,11 +5,12 @@ import type { LayersPendingCache } from 'types/layers.types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { downloadAreaById, resetCacheStatus, refreshAreaCacheById } from 'redux-modules/layers';
-import { showConnectionRequired } from 'redux-modules/app';
+import { showNotConnectedNotification } from 'redux-modules/app';
 import { shouldBeConnected } from 'helpers/app';
 import AreaCache from 'components/common/area-list/area-cache';
 
 const getAreaPendingCache = (areaId: string, pendingCache: LayersPendingCache) => Object.values(pendingCache)
+    // $FlowFixMe
     .map((areas) => (typeof areas[areaId] !== 'undefined' ? 1 : 0))
     .reduce((acc, next) => acc + next, 0);
 
@@ -27,7 +28,7 @@ const mapDispatchToProps = (dispatch: *) => bindActionCreators({
   downloadAreaById,
   resetCacheStatus,
   refreshAreaCacheById,
-  showConnectionRequired
+  showNotConnectedNotification
 }, dispatch);
 
 export default connect(
