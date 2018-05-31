@@ -15,37 +15,37 @@ import styles from './styles';
 const VIIRS_OPTIONS = [
   {
     label: i18n.t('settings.24hAgo'),
-    value: 1
+    value: '1'
   },
   {
     label: i18n.t('settings.48hAgo'),
-    value: 2
+    value: '2'
   },
   {
     label: i18n.t('settings.72hAgo'),
-    value: 3
+    value: '3'
   },
   {
     label: i18n.t('settings.oneWeekAgo'),
-    value: 7
+    value: '7'
   }
 ];
 const GLAD_OPTIONS = [
   {
     label: i18n.t('settings.1MonthAgo'),
-    value: 1
+    value: '1'
   },
   {
     label: i18n.t('settings.3MonthsAgo'),
-    value: 3
+    value: '3'
   },
   {
     label: i18n.t('settings.6MonthsAgo'),
-    value: 6
+    value: '6'
   },
   {
     label: i18n.t('settings.1yearAgo'),
-    value: 12
+    value: '12'
   }
 ];
 
@@ -61,7 +61,7 @@ type Props = {
 class DatasetOptions extends Component<Props> {
   handleUpdateDate = (date: Date) => {
     const { id, dataset, updateDate } = this.props;
-    if (dataset.startDate !== date) {
+    if (dataset.startDate !== date.startDate) {
       updateDate(id, dataset.slug, date);
     }
   }
@@ -76,7 +76,7 @@ class DatasetOptions extends Component<Props> {
         <View style={[styles.row, styles.nested]}>
           <Dropdown
             label={i18n.t('settings.timeFrame')}
-            selectedValue={parseInt(startDate, 10)}
+            selectedValue={startDate}
             onValueChange={days => this.handleUpdateDate({ startDate: days })}
             options={options}
           />
