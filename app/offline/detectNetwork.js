@@ -21,38 +21,38 @@ class DetectNetworkPing {
     1000 * 60 * 60 // After 1 hour
   ];
   count = 0;
-  pingToDetectNetwork = cb => netInfo => {
+  pingToDetectNetwork = cb => connection => {
     const xhr = new XMLHttpRequest();
     xhr.timeout = 1000;
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 && xhr.status === 200) {
-        cb(null, { netInfo });
+        cb(null, connection);
       }
     };
-    xhr.onerror = () => cb(new Error('There was a network error.'), netInfo);
-    xhr.ontimeout = () => cb(new Error('Request timed out.'), netInfo);
+    xhr.onerror = () => cb(new Error('There was a network error.'), connection);
+    xhr.ontimeout = () => cb(new Error('Request timed out.'), connection);
 
     const index = this.count % DetectNetworkPing.urlList.length;
     xhr.open('HEAD', DetectNetworkPing.urlList[index]);
-    if (netInfo.online) {
+    if (connection.online) {
       xhr.send();
     } else {
-      cb(null, { netInfo });
+      cb(null, connection);
     }
   };
-  isOnline = dispatch => (error, { netInfo } = {}) => {
+  isOnline = dispatch => (error, connection) => {
     if (error) {
-      if (this.count === 0) dispatch({ ...netInfo, online: false });
+      if (this.count === 0) dispatch({ ...connection, online: false });
       if (this.count < DetectNetworkPing.decaySchedule.length) {
         setTimeout(
-          () => this.pingToDetectNetwork(this.isOnline(dispatch))(netInfo),
+          () => this.pingToDetectNetwork(this.isOnline(dispatch))(connection),
           DetectNetworkPing.decaySchedule[this.count]
         );
         this.count += 1;
       }
     } else {
       this.count = 0;
-      dispatch(netInfo);
+      dispatch(connection);
     }
   };
   start = dispatch => detectNetwork(this.pingToDetectNetwork(this.isOnline(dispatch)))
