@@ -61,7 +61,9 @@ type Props = {
 class DatasetOptions extends Component<Props> {
   handleUpdateDate = (date: Date) => {
     const { id, dataset, updateDate } = this.props;
-    updateDate(id, dataset.slug, date);
+    if (dataset.startDate !== date) {
+      updateDate(id, dataset.slug, date);
+    }
   }
 
   render() {

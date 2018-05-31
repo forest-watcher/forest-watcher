@@ -158,7 +158,7 @@ class MapComponent extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { area, setActiveAlerts } = this.props;
-    if (area && area.id && area.dataset) {
+    if (area && area.dataset) {
       const differentArea = area.id !== prevProps.area.id;
       const datasetChanged = !isEqual(area.dataset, prevProps.area.dataset);
       if (differentArea || datasetChanged) {
