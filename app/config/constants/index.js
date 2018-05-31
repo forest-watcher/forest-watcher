@@ -1,5 +1,7 @@
 import Config from 'react-native-config';
 import i18n from 'locales';
+import Theme from 'config/theme';
+import { hexToRgb } from 'helpers/utils';
 
 export const APP_NAME = 'Forest Watcher';
 
@@ -94,6 +96,27 @@ export const LAYERSi18n = {
   protectedAreas: i18n.t('layers.protectedAreas'),
   treeCoverLoss2014: i18n.t('layers.treeCoverLoss2014'),
   treeCoverLoss2015: i18n.t('layers.treeCoverLoss2015')
+};
+
+export const ALERTS_COLOR = {
+  [DATASETS.GLAD]: Theme.colors.colorGlad,
+  [DATASETS.VIIRS]: Theme.colors.colorViirs
+};
+
+export const ALERTS_LEGEND = {
+  [DATASETS.GLAD]: [
+    {
+      label: i18n.t('map.recent'),
+      color: `rgba(${hexToRgb(Theme.colors.colorRecent)}, 0.8)`
+    }
+  ],
+  [DATASETS.VIIRS]: [],
+  common: [
+    {
+      label: i18n.t('map.reported'),
+      color: `rgba(${hexToRgb(Theme.colors.color1)}, 0.8)`
+    }
+  ]
 };
 
 export const GLAD_RECENT_RANGE = {

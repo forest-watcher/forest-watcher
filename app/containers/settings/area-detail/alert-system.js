@@ -1,24 +1,23 @@
+// @flow
+import type { State } from 'types/store.types';
 
-
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setAreaDatasetStatus, updateDate } from 'redux-modules/areas';
 import AlertSystem from 'components/settings/area-detail/alert-system';
 
-function mapStateToProps(state, { areaId }) {
+function mapStateToProps(state: State, ownProps: { areaId: string }) {
+  const { areaId } = ownProps;
   const area = state.areas.data.find((areaData) => (areaData.id === areaId));
   return {
     area
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    setAreaDatasetStatus: (areaId, dataset, status) => {
-      dispatch(setAreaDatasetStatus(areaId, dataset, status));
-    },
-    updateDate: (areaId, dataset, date) => dispatch(updateDate(areaId, dataset, date))
-  };
-}
+const mapDispatchToProps = (dispatch: *) => bindActionCreators({
+  setAreaDatasetStatus,
+  updateDate
+}, dispatch);
 
 export default connect(
   mapStateToProps,

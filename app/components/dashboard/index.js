@@ -114,7 +114,7 @@ class Dashboard extends PureComponent<Props> {
     this.props.updateSelectedIndex(index);
     this.props.navigator.push({
       screen: 'ForestWatcher.Map',
-      title: i18n.t('dashboard.map')
+      title: name
     });
   }
 

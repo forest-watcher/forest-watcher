@@ -46,7 +46,7 @@
     "react-native-config": "0.11.5",
     "react-native-cookies": "3.2.0",
     "react-native-datepicker": "1.6.0",
-    "react-native-fast-image": "4.0.2",
+    "react-native-fast-image": "4.0.14",
     "react-native-fbsdk": "github:Vizzuality/react-native-fbsdk",
     "react-native-fetch-blob": "0.10.8",
     "react-native-google-analytics-bridge": "5.3.0",
@@ -98,7 +98,7 @@
     "lint-staged": "3.4.0",
     "node-fetch": "1.7.1",
     "react-test-renderer": "15.4.1",
-    "reactotron-react-native": "2.0.0-beta.2",
+    "reactotron-react-native": "2.0.0-beta.3",
     "reactotron-redux": "1.13.0",
     "reactotron-redux-saga": "1.13.0"
   },

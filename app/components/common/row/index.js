@@ -13,6 +13,7 @@ import styles from './styles';
 function Row(props) {
   const hasCustomSwitch = typeof props.value !== 'undefined';
   const onPress = props.action ? props.action.callback : null;
+
   return (
     <TouchableHighlight
       activeOpacity={onPress ? (props.opacity || 0.5) : 1}
@@ -24,7 +25,14 @@ function Row(props) {
         <View style={styles.title}>
           {props.children}
         </View>
-        {hasCustomSwitch && <CustomSwitch value={props.value} onValueChange={props.onValueChange} />}
+        {hasCustomSwitch &&
+          <CustomSwitch
+            value={props.value}
+            colorOn={props.switchColorOn}
+            colorOff={props.switchColorOff}
+            onValueChange={props.onValueChange}
+          />
+        }
         {props.action &&
           <Image style={Theme.icon} source={props.action.icon} />
         }
