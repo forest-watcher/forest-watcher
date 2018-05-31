@@ -20,7 +20,6 @@ class SetupHeader extends Component {
   static propTypes = {
     title: PropTypes.string,
     navigator: PropTypes.object,
-    setShowLegend: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
     showBack: PropTypes.bool,
     onBackPress: (props, propName, componentName) => {
@@ -34,7 +33,6 @@ class SetupHeader extends Component {
   };
 
   onContextualLayersPress = () => {
-    this.props.setShowLegend(false);
     this.props.navigator.toggleDrawer({
       side: 'right',
       animated: true

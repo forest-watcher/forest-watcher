@@ -12,10 +12,9 @@ import styles from './styles';
 
 const nextIcon = require('assets/next.png');
 const nextIconWhite = require('assets/next_white.png');
-const reportSingle = require('assets/report_single.png'); // eslint-disable-line
-const reportArea = require('assets/report_area.png');
 
-const icons = { reportSingle, reportArea }; // eslint-disable-line
+// Feature ready to use icons but empty to remove old and unused ones
+const icons = {};
 
 function ActionButton(props) {
   function onButtonPress() {

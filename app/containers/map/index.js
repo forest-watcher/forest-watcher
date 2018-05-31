@@ -1,13 +1,15 @@
 // @flow
 import type { State } from 'types/store.types';
 
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { setSelectedAreaId } from 'redux-modules/areas';
 import { createReport } from 'redux-modules/reports';
 import { setCanDisplayAlerts, setActiveAlerts } from 'redux-modules/alerts';
 import tracker from 'helpers/googleAnalytics';
 import { getContextualLayer } from 'helpers/map';
 import Map from 'components/map';
-import { activeDataset } from 'helpers/area';
+import { getSelectedArea, activeDataset } from 'helpers/area';
 
 const BoundingBox = require('boundingbox');
 
@@ -21,8 +23,7 @@ function getAreaCoordinates(areaFeature) {
 }
 
 function mapStateToProps(state: State) {
-  const index = state.areas.selectedIndex;
-  const area = state.areas.data[index] || null;
+  const area = getSelectedArea(state.areas.data, state.areas.selectedAreaId);
   let center = null;
   let areaCoordinates = null;
   let dataset = null;
@@ -53,23 +54,24 @@ function mapStateToProps(state: State) {
     coordinatesFormat: state.app.coordinatesFormat,
     canDisplayAlerts: state.alerts.canDisplayAlerts,
     basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',
-    ctxLayerLocalTilePath: cache[state.layers.activeLayer] ? cache[state.layers.activeLayer][area.id] : ''
+    ctxLayerLocalTilePath: area && cache[state.layers.activeLayer] ? cache[state.layers.activeLayer][area.id] : ''
   };
 }
 
 
 function mapDispatchToProps(dispatch, { navigation }) {
-  return {
-    setActiveAlerts: () => dispatch(setActiveAlerts()),
+  return bindActionCreators({
+    setActiveAlerts,
+    setCanDisplayAlerts,
+    setSelectedAreaId,
     createReport: (report) => {
       dispatch(createReport(report));
       tracker.trackEvent('Report', 'Create Report', { label: 'Click Done', value: 0 });
     },
     navigate: (routeName, params) => {
       navigation.navigate(routeName, params);
-    },
-    setCanDisplayAlerts: canDisplay => dispatch(setCanDisplayAlerts(canDisplay))
-  };
+    }
+  }, dispatch);
 }
 
 export default connect(

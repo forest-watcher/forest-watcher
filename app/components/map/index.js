@@ -199,6 +199,7 @@ class MapComponent extends Component {
     } else {
       SensorManager.stopOrientation();
     }
+    this.props.setSelectedAreaId('');
   }
 
   onNavigatorEvent(event) {

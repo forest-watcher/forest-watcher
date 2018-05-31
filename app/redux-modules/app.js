@@ -18,7 +18,6 @@ const SET_LANGUAGE = 'app/SET_LANGUAGE';
 export const SET_APP_SYNCED = 'app/SET_APP_SYNCED';
 export const RETRY_SYNC = 'app/RETRY_SYNC';
 const SET_COORDINATES_FORMAT = 'app/SET_COORDINATES_FORMAT';
-const SET_LAYERS_DRAWER_SECTIONS = 'app/SET_LAYERS_DRAWER_SECTIONS';
 const SET_PRISTINE_CACHE_TOOLTIP = 'app/SET_PRISTINE_CACHE_TOOLTIP';
 export const SAVE_LAST_ACTIONS = 'app/SAVE_LAST_ACTIONS';
 
@@ -27,7 +26,6 @@ const initialState = {
   language: null,
   synced: false,
   coordinatesFormat: COORDINATES_FORMATS.decimal.value,
-  showLegend: true,
   pristineCacheTooltip: true,
   actions: [],
   version
@@ -45,8 +43,6 @@ export default function reducer(state: AppState = initialState, action: AppActio
       return { ...state, synced: action.payload };
     case SET_COORDINATES_FORMAT:
       return { ...state, coordinatesFormat: action.payload };
-    case SET_LAYERS_DRAWER_SECTIONS:
-      return { ...state, showLegend: action.payload };
     case SET_PRISTINE_CACHE_TOOLTIP:
       return { ...state, pristineCacheTooltip: action.payload };
     case SAVE_LAST_ACTIONS: {

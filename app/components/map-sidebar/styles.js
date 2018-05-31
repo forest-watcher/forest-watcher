@@ -6,21 +6,9 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.background.main,
-    flexDirection: 'column'
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingLeft: Theme.margin.left,
-    paddingRight: Theme.margin.right,
-    marginTop: 16,
-    marginBottom: 0
-  },
-  heading: {
-    fontSize: 21,
-    color: Theme.fontColors.main,
-    fontFamily: Theme.font
+    flexDirection: 'column',
+    borderLeftColor: Theme.borderColors.main,
+    borderLeftWidth: 2
   },
   body: {
     marginTop: 40

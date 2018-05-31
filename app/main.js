@@ -50,6 +50,9 @@ const app = () => {
           screen: 'ForestWatcher.RightDrawer',
           passProps: {}
         },
+        style: {
+          drawerShadow: 'NO'
+        },
         disableOpenGesture: true
       },
       appStyle: {

@@ -26,7 +26,7 @@ function AreaList(props) {
           <TouchableHighlight
             activeOpacity={0.5}
             underlayColor="transparent"
-            onPress={() => onAreaPress(area.id, area.name, index)}
+            onPress={() => onAreaPress(area.id, area.name)}
           >
             <View style={styles.item}>
               <View style={styles.imageContainer}>
