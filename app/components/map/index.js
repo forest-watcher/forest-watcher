@@ -148,7 +148,6 @@ class MapComponent extends Component {
       !isEqual(nextState.lastPosition, this.state.lastPosition),
       nextState.hasCompass !== this.state.hasCompass,
       nextState.heading !== this.state.heading,
-      // !isEqual(nextState.region, this.state.region),
       !isEqual(nextState.markers, this.state.markers),
       !isEqual(nextState.selectedAlerts, this.state.selectedAlerts),
       !isEqual(nextState.neighbours, this.state.neighbours),
@@ -207,9 +206,6 @@ class MapComponent extends Component {
       case 'didAppear':
         this.onDidAppear();
         break;
-      case 'contextualLayers':
-        this.onSettingsPress();
-        break;
       default:
     }
   }
@@ -228,7 +224,7 @@ class MapComponent extends Component {
     }
   }
 
-  onLayout = () => {
+  onMapReady = () => {
     if (this.props.areaCoordinates) {
       requestAnimationFrame(() => this.map.fitToCoordinates(this.props.areaCoordinates, this.FIT_OPTIONS));
     }
@@ -445,7 +441,6 @@ class MapComponent extends Component {
 
   updateRegion = (region) => {
     const mapZoom = MapComponent.getMapZoom(region);
-    // const clean = this.state.mapZoom > mapZoom;
 
     this.setState({ region, mapZoom }, () => {
       this.updateMarkers();
@@ -553,22 +548,20 @@ class MapComponent extends Component {
         <View style={styles.buttonPanelRow}>
           <View pointerEvents="box-none" style={styles.btnContainer}>
             {neighbours && neighbours.length > 0
-              ? [
+              ? <React.Fragment>
                 <CircleButton
-                  key="1"
                   icon={reportAreaIcon}
                   style={styles.btnLeft}
                   onPress={this.reportSelection}
                 />,
                 <ActionBtn
-                  key="2"
                   short
                   left
                   style={styles.btnReport}
                   text={i18n.t('report.selected').toUpperCase()}
                   onPress={this.reportArea}
                 />
-              ]
+              </React.Fragment>
               : (
                 <ActionBtn
                   short
@@ -623,21 +616,23 @@ class MapComponent extends Component {
     let veilHeight = 120;
     if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
 
-    return [
-      <View key="bg" pointerEvents="none" style={[styles.footerBGContainer, { height: veilHeight }]}>
-        <Image
-          style={[styles.footerBg, { height: veilHeight }]}
-          source={backgroundImage}
-        />
-      </View>,
-      <View key="footer" pointerEvents="box-none" style={styles.footer}>
-        {hasAlertsSelected
-          ? this.renderButtonPanelSelected()
-          : this.renderButtonPanel()
-        }
-        <MapAttribution />
-      </View>
-    ];
+    return (
+      <React.Fragment>
+        <View pointerEvents="none" style={[styles.footerBGContainer, { height: veilHeight }]}>
+          <Image
+            style={[styles.footerBg, { height: veilHeight }]}
+            source={backgroundImage}
+          />
+        </View>
+        <View pointerEvents="box-none" style={styles.footer}>
+          {hasAlertsSelected
+            ? this.renderButtonPanelSelected()
+            : this.renderButtonPanel()
+          }
+          <MapAttribution />
+        </View>
+      </React.Fragment>
+    );
   }
 
   render() {
@@ -796,7 +791,7 @@ class MapComponent extends Component {
           showsCompass
           rotateEnabled
           moveOnMarkerPress={false}
-          onLayout={this.onLayout}
+          onMapReady={this.onMapReady}
           onRegionChangeComplete={this.updateRegion}
           onPress={e => this.mapPress(e.nativeEvent.coordinate)}
         >

@@ -1,5 +1,5 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
   Text
@@ -7,7 +7,13 @@ import {
 
 import styles from './styles';
 
-function Alertlegend(props) {
+type Props = {
+  color: string,
+  label: string,
+  style: Object
+};
+
+function Alertlegend(props: Props) {
   const { style, color, label } = props;
   return (
     <View style={[styles.container, style]}>
@@ -16,10 +22,5 @@ function Alertlegend(props) {
     </View>
   );
 }
-
-Alertlegend.propTypes = {
-  color: PropTypes.string,
-  label: PropTypes.string
-};
 
 export default Alertlegend;
