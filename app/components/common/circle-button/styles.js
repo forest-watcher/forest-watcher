@@ -13,6 +13,9 @@ export default StyleSheet.create({
   light: {
     backgroundColor: Theme.background.white
   },
+  red: {
+    backgroundColor: Theme.colors.color7
+  },
   disabled: {
     backgroundColor: Theme.colors.color6
   }

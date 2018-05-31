@@ -12,7 +12,7 @@ import {
   Platform
 } from 'react-native';
 
-import { MAPS, MANUAL_ALERT_SELECTION_ZOOM } from 'config/constants';
+import { MAPS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
@@ -52,7 +52,7 @@ const myLocationIcon = require('assets/my_location.png');
 const reportAreaIcon = require('assets/report_area.png');
 const addLocationIcon = require('assets/add_location.png');
 const newAlertIcon = require('assets/new-alert.png');
-const deleteIcon = require('assets/delete_white.png');
+const closeIcon = require('assets/close_white.png');
 
 function pointsFromCluster(cluster) {
   if (!cluster || !cluster.length > 0) return [];
@@ -332,17 +332,21 @@ class MapComponent extends Component {
   fitPosition = () => {
     const { lastPosition, selectedAlerts } = this.state;
     if (lastPosition) {
-      const options = { edgePadding: { top: 100, right: 40, bottom: 240, left: 40 }, animated: true };
+      const options = { edgePadding: { top: 150, right: 30, bottom: 210, left: 30 }, animated: true };
       const coordinates = [lastPosition];
       if (selectedAlerts.length) {
-        coordinates.push(selectedAlerts[selectedAlerts.length - 1]);
+        let selected = selectedAlerts[selectedAlerts.length - 1];
+        if (this.state.customReporting) {
+          selected = selectedAlerts[0];
+          const oposite = {
+            latitude: (selected.latitude - lastPosition.latitude) + selected.latitude,
+            longitude: (selected.longitude - lastPosition.longitude) + selected.longitude
+          };
+          coordinates.push(oposite);
+        }
+        coordinates.push(selected);
       }
-      this.setState({
-        customReporting: false,
-        dragging: false
-      }, () => {
-        this.map.fitToCoordinates(coordinates, options);
-      });
+      this.map.fitToCoordinates(coordinates, options);
     }
   }
 
@@ -503,20 +507,8 @@ class MapComponent extends Component {
     this.map.animateToRegion(zoomCoordinates);
   }
 
-  mapPress = (coordinate) => {
-    if (coordinate && !this.state.customReporting) {
-      const alertsToAdd = this.state.mapZoom >= MANUAL_ALERT_SELECTION_ZOOM
-        ? [coordinate]
-        : [];
-      this.setState(({ selectedAlerts }) => ({
-        neighbours: [],
-        selectedAlerts: selectedAlerts && selectedAlerts.length > 0 ? [] : alertsToAdd
-      }));
-    }
-  }
-
   selectAlert = (coordinate) => {
-    if (coordinate) {
+    if (coordinate && !this.state.customReporting) {
       const { markers } = this.state;
       const selectedAlerts = [...this.state.selectedAlerts, coordinate];
       const neighbours = getNeighboursSelected(selectedAlerts, markers);
@@ -596,7 +588,8 @@ class MapComponent extends Component {
             {neighbours && neighbours.length > 0
               ? <React.Fragment>
                 <CircleButton
-                  icon={hasNeighbours ? reportAreaIcon : deleteIcon}
+                  icon={hasNeighbours ? reportAreaIcon : closeIcon}
+                  red={!hasNeighbours}
                   style={styles.btnLeft}
                   onPress={hasNeighbours ? this.reportSelection : this.onCustomReportingCancelPress}
                 />,
@@ -688,7 +681,7 @@ class MapComponent extends Component {
   }
 
   render() {
-    const { lastPosition, compassLine, region,
+    const { lastPosition, compassLine, region, customReporting,
             selectedAlerts, neighbours, heading, markers } = this.state;
     const { areaCoordinates, area, contextualLayer,
             basemapLocalTilePath, isConnected, ctxLayerLocalTilePath } = this.props;
@@ -800,7 +793,7 @@ class MapComponent extends Component {
         </MapView.Marker>
       )))
       : null;
-    const selectedAlertsElement = hasAlertsSelected
+    const selectedAlertsElement = hasAlertsSelected && !customReporting
       ? (selectedAlerts.map((alert, i) => (
         <MapView.Marker
           key={`selectedAlertsElement-${i}-${keyRand}`}
@@ -857,7 +850,6 @@ class MapComponent extends Component {
           onMapReady={this.onMapReady}
           onRegionChange={this.onRegionChange}
           onRegionChangeComplete={this.onRegionChangeComplete}
-          onPress={e => this.mapPress(e.nativeEvent.coordinate)}
         >
           {basemapLayerElement}
           {contextualLayerElement}
