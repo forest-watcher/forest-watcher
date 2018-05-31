@@ -585,14 +585,14 @@ class MapComponent extends Component {
         </View>
         <View style={styles.buttonPanelRow}>
           <View pointerEvents="box-none" style={styles.btnContainer}>
-            {neighbours && neighbours.length > 0
+            {showActionBtn
               ? <React.Fragment>
                 <CircleButton
                   icon={hasNeighbours ? reportAreaIcon : closeIcon}
                   red={!hasNeighbours}
                   style={styles.btnLeft}
                   onPress={hasNeighbours ? this.reportSelection : this.onCustomReportingCancelPress}
-                />,
+                />
                 <ActionBtn
                   short
                   left
@@ -621,12 +621,16 @@ class MapComponent extends Component {
     const { lastPosition } = this.state;
     return (
       <View style={styles.buttonPanel}>
+        {
+          // To fix the missing signal text overflow rendering in reverse row
+          // last to render will be on top of the others
+        }
+        <CircleButton onPress={this.onSettingsPress} light icon={settingsBlackIcon} />
+        <CircleButton onPress={this.onCustomReportingPress} icon={addLocationIcon} />
         {lastPosition
           ? <CircleButton onPress={this.fitPosition} light icon={myLocationIcon} />
           : this.renderNoSignal()
         }
-        <CircleButton onPress={this.onCustomReportingPress} icon={addLocationIcon} />
-        <CircleButton onPress={this.onSettingsPress} light icon={settingsBlackIcon} />
       </View>
     );
   }

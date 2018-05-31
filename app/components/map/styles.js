@@ -33,9 +33,9 @@ export default StyleSheet.create({
     width: 48
   },
   signalNotice: {
-    marginLeft: 8,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    overflow: 'visible'
   },
   signalNoticeText: {
     fontWeight: '400',
@@ -46,8 +46,10 @@ export default StyleSheet.create({
     marginLeft: 8,
     backgroundColor: 'transparent',
     position: 'absolute',
+    width: 80,
     top: 14,
-    left: 32
+    left: 32,
+    zIndex: 5
   },
   geoLocationContainer: {
     width: 48,
@@ -63,7 +65,6 @@ export default StyleSheet.create({
     backgroundColor: Theme.colors.color7,
     opacity: 0.5,
     position: 'absolute',
-    zIndex: 1,
     top: 0
   },
   marker: {
@@ -95,7 +96,7 @@ export default StyleSheet.create({
     top: 0
   },
   buttonPanel: {
-    flexDirection: 'row',
+    flexDirection: 'row-reverse', // See jsx comment to understand better
     alignItems: 'flex-end',
     justifyContent: 'space-between',
     marginLeft: 8,

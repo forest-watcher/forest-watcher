@@ -74,11 +74,11 @@ function ActionButton(props) {
       underlayColor={underlayColor}
     >
       <View style={btnStyles}>
-        <View style={styles.iconContainer}>
-          {icons[props.icon] &&
+        {icons[props.icon] &&
+          <View style={styles.iconContainer}>
             <Image style={Theme.icon} source={icons[props.icon]} />
-          }
-        </View>
+          </View>
+        }
         <Text style={textStyles}>{props.text.toUpperCase()}</Text>
         <View style={styles.iconContainer}>
           {!(props.disabled || props.delete || props.noIcon) &&
