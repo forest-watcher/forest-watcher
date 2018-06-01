@@ -680,7 +680,7 @@ class MapComponent extends Component {
     // Hack to fix onPanDrag not working for iOS when scroll enabled
     // https://github.com/react-community/react-native-maps/blob/master/docs/mapview.md
     this.setState({ dragging: true });
-    return true;
+    return false;
   }
 
   render() {
