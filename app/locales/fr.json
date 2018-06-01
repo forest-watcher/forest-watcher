@@ -244,7 +244,9 @@
     "layers": {
         "protectedAreas": "Zones protégées",
         "treeCoverLoss2014": "Perte de couvert forestier (2014)",
-        "treeCoverLoss2015": "Perte de couvert forestier (2015)"
+        "treeCoverLoss2015": "Perte de couvert forestier (2015)",
+        "treeCoverLoss2016": "Perte de couvert forestier (2016)",
+        "treeCoverLoss2017": "Perte de couvert forestier (2017)"
     },
     "login": {
         "connectionRequired": "Une connexion à Internet est requise",
