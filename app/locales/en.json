@@ -28,17 +28,13 @@
         "metersAway": "m away",
         "name": "Name",
         "next": "Next",
-        "noAlertSystem": "No alert system selected",
         "noImage": "No image",
-        "notAvailable": "Not available",
         "offlineModeIsOn": "You are in offline mode",
         "oops": "Oops!",
         "retry": "Retry",
         "save": "Save",
         "saving": "Saving",
-        "setup": "Set up",
-        "updated": "Updated",
-        "yourPosition": "Your position"
+        "setup": "Set up"
     },
     "contactUs": {
         "description": "Questions or feedback? Email mailto:forestwatcher@wri.org"
@@ -263,8 +259,7 @@
         "alerts": "Alerts",
         "ctxLayers": "Contextual layers",
         "recent": "Recent",
-        "reported": "Reported",
-        "settings": "Map Settings"
+        "reported": "Reported"
     },
     "partners": {
         "description": "Forest Watcher is created in collaboration between World Resources Institute’s Global Forest Watch Program, Vizzuality, and the Jane Goodall Institute.",
@@ -272,13 +267,13 @@
     },
     "report": {
         "addPicture": "Add Picture",
-        "area": "Report area",
         "choosePicture": "Please take or choose a picture",
         "completed": "Completed",
         "datePlaceholder": "Select date",
         "drafts": "Drafts",
         "empty": "No report submitted, please go to the map and report a point or group of points!",
         "emptyPicture": "Empty",
+        "here": "Report here",
         "input": "Please, answer the question",
         "inputRadio": "Choose one option to continue",
         "inputSelect": "Choose at least one option to continue",

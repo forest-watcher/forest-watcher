@@ -28,17 +28,13 @@
         "metersAway": "m lagi",
         "name": "Nama",
         "next": "Lanjut",
-        "noAlertSystem": "Tidak ada sistem peringatan yang dipilih",
         "noImage": "Tidak ada gambar",
-        "notAvailable": "Tidak tersedia",
         "offlineModeIsOn": "You are in offline mode",
         "oops": "Oops!",
         "retry": "Coba lagi",
         "save": "Menyimpan",
         "saving": "Penghematan",
-        "setup": "Pengaturan",
-        "updated": "Diperbarui",
-        "yourPosition": "Posisi kamu"
+        "setup": "Pengaturan"
     },
     "contactUs": {
         "description": "Pertanyaan atau masukan? Surel mailto: forestwatcher@wri.org"
@@ -263,8 +259,7 @@
         "alerts": "Sistem Peringatan",
         "ctxLayers": "Lapisan kontekstual",
         "recent": "Terbaru",
-        "reported": "Dilaporkan",
-        "settings": "Pengaturan Peta"
+        "reported": "Dilaporkan"
     },
     "partners": {
         "description": "Forest Watcher dibuat dengan kolaborasi antara Program Global Forest Watch dari World Resources Institute, Vizzuality, dan Jane Goodall Institute.",
@@ -272,13 +267,13 @@
     },
     "report": {
         "addPicture": "Tambah Gambar",
-        "area": "Laporkan area",
         "choosePicture": "Silakan ambil atau pilih gambar",
         "completed": "Lengkap",
         "datePlaceholder": "Pilih tanggal",
         "drafts": "Draf",
         "empty": "Tidak ada laporan yang dikirimkan, silakan kunjungi peta dan laporkan satu poin atau beberapa poin!",
         "emptyPicture": "Kosong",
+        "here": "Report here",
         "input": "Silakan jawab pertanyaannya",
         "inputRadio": "Pilih satu opsi untuk melanjutkan",
         "inputSelect": "Pilih setidaknya satu opsi untuk melanjutkan",

@@ -611,7 +611,7 @@ class MapComponent extends Component {
                   short
                   left
                   style={styles.btnReport}
-                  text={i18n.t('report.title').toUpperCase()}
+                  text={i18n.t('report.toReport').toUpperCase()}
                   onPress={this.reportSelection}
                 />
               )
