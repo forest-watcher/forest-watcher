@@ -39,18 +39,10 @@ const initialState = {
   syncing: false,
   activeLayer: null,
   syncDate: Date.now(),
-  layersProgress: {
-    // saves the progress relative to each area's layer
-  },
-  cacheStatus: {
-    // status of the current area cache
-  },
-  cache: {
-    // save the layers path for each area
-  },
-  pendingCache: {
-    // key value with layer => areaId to cache
-  }
+  layersProgress: {}, // saves the progress relative to each area's layer
+  cacheStatus: {}, // status of the current area cache
+  cache: {}, // save the layers path for each area
+  pendingCache: {} // key value with layer => areaId to cache
 };
 
 export default function reducer(state: LayersState = initialState, action: LayersAction) {
@@ -58,24 +50,26 @@ export default function reducer(state: LayersState = initialState, action: Layer
     case PERSIST_REHYDRATE: {
       // $FlowFixMe
       const { layers }: State = action.payload;
-      const cacheStatus = Object.entries(layers.cacheStatus)
-        .reduce((acc, [areaId, status]) => {
-          // $FlowFixMe
-          const progress = status.progress;
-          // $FlowFixMe
-          if (progress < 1 && !status.completed && status.requested) {
-            return {
-              ...acc,
-              [areaId]: {
-                progress,
-                requested: false,
-                completed: false,
-                error: false
-              }
-            };
-          }
-          return { ...acc, [areaId]: status };
-        }, {});
+      const cacheStatus = !layers
+        ? {}
+        : Object.entries(layers.cacheStatus)
+          .reduce((acc, [areaId, status]) => {
+            // $FlowFixMe
+            const progress = status.progress;
+            // $FlowFixMe
+            if (progress < 1 && !status.completed && status.requested) {
+              return {
+                ...acc,
+                [areaId]: {
+                  progress,
+                  requested: false,
+                  completed: false,
+                  error: false
+                }
+              };
+            }
+            return { ...acc, [areaId]: status };
+          }, {});
       return {
         ...state,
         ...layers,
