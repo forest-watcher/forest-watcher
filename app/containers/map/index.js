@@ -61,10 +61,12 @@ function mapStateToProps(state: State) {
 
 
 function mapDispatchToProps(dispatch, { navigation }) {
-  return bindActionCreators({
-    setActiveAlerts,
-    setCanDisplayAlerts,
-    setSelectedAreaId,
+  return {
+    ...bindActionCreators({
+      setActiveAlerts,
+      setCanDisplayAlerts,
+      setSelectedAreaId
+    }, dispatch),
     createReport: (report) => {
       dispatch(createReport(report));
       tracker.trackEvent('Report', 'Create Report', { label: 'Click Done', value: 0 });
@@ -72,7 +74,7 @@ function mapDispatchToProps(dispatch, { navigation }) {
     navigate: (routeName, params) => {
       navigation.navigate(routeName, params);
     }
-  }, dispatch);
+  };
 }
 
 export default connect(

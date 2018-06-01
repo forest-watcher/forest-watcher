@@ -12,7 +12,7 @@ import {
   Platform
 } from 'react-native';
 
-import { MAPS, MANUAL_ALERT_SELECTION_ZOOM } from 'config/constants';
+import { MAPS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
@@ -50,6 +50,9 @@ const backgroundImage = require('assets/map_bg_gradient.png');
 const settingsBlackIcon = require('assets/settings_black.png');
 const myLocationIcon = require('assets/my_location.png');
 const reportAreaIcon = require('assets/report_area.png');
+const addLocationIcon = require('assets/add_location.png');
+const newAlertIcon = require('assets/new-alert.png');
+const closeIcon = require('assets/close_gray.png');
 
 function pointsFromCluster(cluster) {
   if (!cluster || !cluster.length > 0) return [];
@@ -123,7 +126,9 @@ class MapComponent extends Component {
       markers: [],
       selectedAlerts: [],
       neighbours: [],
-      mapZoom: 2
+      mapZoom: 2,
+      customReporting: false,
+      dragging: false
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
@@ -148,6 +153,8 @@ class MapComponent extends Component {
       !isEqual(nextState.lastPosition, this.state.lastPosition),
       nextState.hasCompass !== this.state.hasCompass,
       nextState.heading !== this.state.heading,
+      nextState.customReporting !== this.state.customReporting,
+      nextState.dragging !== this.state.dragging,
       !isEqual(nextState.markers, this.state.markers),
       !isEqual(nextState.selectedAlerts, this.state.selectedAlerts),
       !isEqual(nextState.neighbours, this.state.neighbours),
@@ -209,6 +216,21 @@ class MapComponent extends Component {
         break;
       default:
     }
+  }
+
+  onCustomReportingPress = () => {
+    this.setState({
+      customReporting: true,
+      selectedAlerts: [this.state.region]
+    });
+  }
+
+  onSelectionCancelPress = () => {
+    this.setState({
+      customReporting: false,
+      selectedAlerts: [],
+      neighbours: []
+    });
   }
 
   onSettingsPress = () => {
@@ -311,10 +333,19 @@ class MapComponent extends Component {
   fitPosition = () => {
     const { lastPosition, selectedAlerts } = this.state;
     if (lastPosition) {
-      const options = { edgePadding: { top: 100, right: 40, bottom: 240, left: 40 }, animated: true };
+      const options = { edgePadding: { top: 150, right: 30, bottom: 210, left: 30 }, animated: true };
       const coordinates = [lastPosition];
       if (selectedAlerts.length) {
-        coordinates.push(selectedAlerts[selectedAlerts.length - 1]);
+        let selected = selectedAlerts[selectedAlerts.length - 1];
+        if (this.state.customReporting) {
+          selected = selectedAlerts[0];
+          const oposite = {
+            latitude: (selected.latitude - lastPosition.latitude) + selected.latitude,
+            longitude: (selected.longitude - lastPosition.longitude) + selected.longitude
+          };
+          coordinates.push(oposite);
+        }
+        coordinates.push(selected);
       }
       this.map.fitToCoordinates(coordinates, options);
     }
@@ -440,10 +471,27 @@ class MapComponent extends Component {
     }
   }
 
-  updateRegion = (region) => {
+  onRegionChange = (region) => {
+    if (this.state.customReporting) {
+      this.props.navigator.setTitle({
+        title: formatCoordsByFormat(region, this.props.coordinatesFormat)
+      });
+    }
+  }
+
+  onRegionChangeComplete = (region) => {
     const mapZoom = MapComponent.getMapZoom(region);
 
-    this.setState({ region, mapZoom }, () => {
+    const selectedAlerts = this.state.customReporting && this.state.dragging
+      ? [region]
+      : this.state.selectedAlerts;
+
+    this.setState({
+      region,
+      mapZoom,
+      selectedAlerts,
+      dragging: false
+    }, () => {
       this.updateMarkers();
     });
   }
@@ -460,20 +508,8 @@ class MapComponent extends Component {
     this.map.animateToRegion(zoomCoordinates);
   }
 
-  mapPress = (coordinate) => {
-    if (coordinate) {
-      const alertsToAdd = this.state.mapZoom >= MANUAL_ALERT_SELECTION_ZOOM
-        ? [coordinate]
-        : [];
-      this.setState(({ selectedAlerts }) => ({
-        neighbours: [],
-        selectedAlerts: selectedAlerts && selectedAlerts.length > 0 ? [] : alertsToAdd
-      }));
-    }
-  }
-
   selectAlert = (coordinate) => {
-    if (coordinate) {
+    if (coordinate && !this.state.customReporting) {
       const { markers } = this.state;
       const selectedAlerts = [...this.state.selectedAlerts, coordinate];
       const neighbours = getNeighboursSelected(selectedAlerts, markers);
@@ -527,6 +563,7 @@ class MapComponent extends Component {
     const { selectedAlerts, lastPosition, neighbours } = this.state;
     const { coordinatesFormat } = this.props;
     const lastAlertIndex = selectedAlerts.length - 1;
+    const hasNeighbours = (neighbours && neighbours.length > 0);
     return (
       <View style={[styles.buttonPanel, styles.buttonPanelSelected]}>
         <View style={styles.buttonPanelRow}>
@@ -548,18 +585,24 @@ class MapComponent extends Component {
         </View>
         <View style={styles.buttonPanelRow}>
           <View pointerEvents="box-none" style={styles.btnContainer}>
-            {neighbours && neighbours.length > 0
+            <CircleButton
+              light
+              icon={closeIcon}
+              style={styles.btnLeft}
+              onPress={this.onSelectionCancelPress}
+            />
+            {hasNeighbours
               ? <React.Fragment>
                 <CircleButton
                   icon={reportAreaIcon}
                   style={styles.btnLeft}
                   onPress={this.reportSelection}
-                />,
+                />
                 <ActionBtn
                   short
                   left
                   style={styles.btnReport}
-                  text={i18n.t('report.selected').toUpperCase()}
+                  text={hasNeighbours ? i18n.t('report.selected').toUpperCase() : i18n.t('report.here').toUpperCase()}
                   onPress={this.reportArea}
                 />
               </React.Fragment>
@@ -568,7 +611,7 @@ class MapComponent extends Component {
                   short
                   left
                   style={styles.btnReport}
-                  text={i18n.t('report.title').toUpperCase()}
+                  text={i18n.t('report.toReport').toUpperCase()}
                   onPress={this.reportSelection}
                 />
               )
@@ -583,11 +626,16 @@ class MapComponent extends Component {
     const { lastPosition } = this.state;
     return (
       <View style={styles.buttonPanel}>
+        {
+          // To fix the missing signal text overflow rendering in reverse row
+          // last to render will be on top of the others
+        }
+        <CircleButton onPress={this.onSettingsPress} light icon={settingsBlackIcon} />
+        <CircleButton onPress={this.onCustomReportingPress} icon={addLocationIcon} />
         {lastPosition
           ? <CircleButton onPress={this.fitPosition} light icon={myLocationIcon} />
           : this.renderNoSignal()
         }
-        <CircleButton onPress={this.onSettingsPress} light icon={settingsBlackIcon} />
       </View>
     );
   }
@@ -604,40 +652,45 @@ class MapComponent extends Component {
             style={[styles.geoLocation, { opacity: this.state.geoMarkerOpacity }]}
           />
         </View>
-        <Text style={styles.signalNoticeText}>{i18n.t('alerts.satelliteSignal')}</Text>
+        <Text style={styles.signalNoticeText}>{i18n.t('alerts.noGPS')}</Text>
       </View>
     );
   }
 
   renderMapFooter() {
-    const { selectedAlerts, neighbours } = this.state;
+    const { selectedAlerts, neighbours, customReporting } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
 
     const hasNeighbours = neighbours && neighbours.length > 0;
     let veilHeight = 120;
     if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
 
-    return (
-      <React.Fragment>
-        <View pointerEvents="none" style={[styles.footerBGContainer, { height: veilHeight }]}>
-          <Image
-            style={[styles.footerBg, { height: veilHeight }]}
-            source={backgroundImage}
-          />
-        </View>
-        <View pointerEvents="box-none" style={styles.footer}>
-          {hasAlertsSelected
-            ? this.renderButtonPanelSelected()
-            : this.renderButtonPanel()
-          }
-          <MapAttribution />
-        </View>
-      </React.Fragment>
-    );
+    return [
+      <View key="bg" pointerEvents="none" style={[styles.footerBGContainer, { height: veilHeight }]}>
+        <Image
+          style={[styles.footerBg, { height: veilHeight }]}
+          source={backgroundImage}
+        />
+      </View>,
+      <View key="footer" pointerEvents="box-none" style={styles.footer}>
+        {hasAlertsSelected || customReporting
+          ? this.renderButtonPanelSelected()
+          : this.renderButtonPanel()
+        }
+        <MapAttribution />
+      </View>
+    ];
+  }
+
+  onMoveShouldSetResponder = () => {
+    // Hack to fix onPanDrag not working for iOS when scroll enabled
+    // https://github.com/react-community/react-native-maps/blob/master/docs/mapview.md
+    this.setState({ dragging: true });
+    return true;
   }
 
   render() {
-    const { lastPosition, compassLine, region,
+    const { lastPosition, compassLine, region, customReporting,
             selectedAlerts, neighbours, heading, markers } = this.state;
     const { areaCoordinates, area, contextualLayer,
             basemapLocalTilePath, isConnected, ctxLayerLocalTilePath } = this.props;
@@ -650,6 +703,7 @@ class MapComponent extends Component {
       ? `clustersElement-${clusterGenerator.activeClusterId}_${markers.activeMarkersId}`
       : 'clustersElement';
     const markerSize = this.getMarkerSize();
+    const markerBorder = { borderWidth: (markerSize.width / 18) * 4 };
 
     // Map elements
     const basemapLayerElement = isConnected ?
@@ -745,11 +799,11 @@ class MapComponent extends Component {
           onPress={() => this.includeNeighbour(neighbour)}
           zIndex={10}
         >
-          <View style={[markerSize, styles.markerIconArea]} />
+          <View style={[markerSize, markerBorder, styles.markerIconArea]} />
         </MapView.Marker>
       )))
       : null;
-    const selectedAlertsElement = hasAlertsSelected
+    const selectedAlertsElement = hasAlertsSelected && !customReporting
       ? (selectedAlerts.map((alert, i) => (
         <MapView.Marker
           key={`selectedAlertsElement-${i}-${keyRand}`}
@@ -758,7 +812,7 @@ class MapComponent extends Component {
           onPress={() => this.removeSelection(alert)}
           zIndex={20}
         >
-          <View style={[markerSize, styles.selectedMarkerIcon]} />
+          <View style={[markerSize, markerBorder, styles.selectedMarkerIcon]} />
         </MapView.Marker>
       )))
       : null;
@@ -773,8 +827,19 @@ class MapComponent extends Component {
       />
     ) : null;
 
+    const customReportingElement = this.state.customReporting ? (
+      <View pointerEvents="none" style={[styles.customLocationFixed, this.state.dragging ? styles.customLocationTransparent : '']}>
+        <Image
+          style={[Theme.icon, styles.customLocationMarker]}
+          source={newAlertIcon}
+        />
+      </View>
+    ) : null;
     return (
-      <View style={styles.container}>
+      <View
+        style={styles.container}
+        onMoveShouldSetResponder={this.onMoveShouldSetResponder}
+      >
         <View pointerEvents="none" style={styles.header}>
           <Image
             style={styles.headerBg}
@@ -793,8 +858,8 @@ class MapComponent extends Component {
           rotateEnabled
           moveOnMarkerPress={false}
           onMapReady={this.onMapReady}
-          onRegionChangeComplete={this.updateRegion}
-          onPress={e => this.mapPress(e.nativeEvent.coordinate)}
+          onRegionChange={this.onRegionChange}
+          onRegionChangeComplete={this.onRegionChangeComplete}
         >
           {basemapLayerElement}
           {contextualLayerElement}
@@ -806,6 +871,7 @@ class MapComponent extends Component {
           {neighboursAlertsElement}
           {selectedAlertsElement}
         </MapView>
+        {customReportingElement}
         {this.renderMapFooter()}
       </View>
     );

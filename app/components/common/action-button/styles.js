@@ -1,5 +1,5 @@
 import Theme from 'config/theme';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -25,7 +25,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingLeft: 0
+    paddingLeft: 8
   },
   short: {
     height: 48
@@ -44,7 +44,11 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     fontSize: 15,
     fontWeight: '500',
-    marginTop: 2
+    ...Platform.select({
+      ios: {
+        marginTop: 2
+      }
+    })
   },
   buttonTextLeft: {
     marginLeft: 8,

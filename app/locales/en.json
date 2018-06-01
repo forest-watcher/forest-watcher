@@ -1,7 +1,7 @@
 {
     "alerts": {
         "alertSystems": "Alert systems",
-        "satelliteSignal": "TRANSLATE_ME"
+        "noGPS": "No GPS"
     },
     "areaDetail": {
         "delete": "Delete this area",
@@ -28,17 +28,13 @@
         "metersAway": "m away",
         "name": "Name",
         "next": "Next",
-        "noAlertSystem": "No alert system selected",
         "noImage": "No image",
-        "notAvailable": "Not available",
         "offlineModeIsOn": "You are in offline mode",
         "oops": "Oops!",
         "retry": "Retry",
         "save": "Save",
         "saving": "Saving",
-        "setup": "Set up",
-        "updated": "Updated",
-        "yourPosition": "Your position"
+        "setup": "Set up"
     },
     "contactUs": {
         "description": "Questions or feedback? Email mailto:forestwatcher@wri.org"
@@ -65,15 +61,6 @@
                 "description": [
                     {
                         "text": "Contact us with feedback or questions by emailing mailto:forestwatcher@wri.org."
-                    },
-                    {
-                        "text": "Contact us with feedback or questions by emailing mailto:forestwatcher@wri.org."
-                    },
-                    {
-                        "text": "Contact us with feedback or questions by emailing mailto:forestwatcher@wri.org."
-                    },
-                    {
-                        "text": "Contact us with feedback or questions by emailing mailto:forestwatcher@wri.org."
                     }
                 ]
             },
@@ -82,33 +69,6 @@
         "fifthQuestion": {
             "content": {
                 "description": [
-                    {
-                        "text": "Each forest change data set has been through rigorous scientific testing and has a unique set of limitations. For example, the GLAD alerts were evaluated in Peru to have 13.5 percent false positives (an alert appeared in the data when it wasn’t there on the ground) and 33 percent false negatives (there was change observed on the ground that did not show up as an alert in the data). This means that around 87 percent of GLAD alerts represent forest change events. The higher rate of false negatives means the alerts are a conservative estimate of the tree cover loss. This helps minimize the likelihood that users spend resources investigating alerts that do not represent actual forest change. "
-                    },
-                    {
-                        "text": "Users should also keep in mind that GLAD alerts detect all tree cover loss, regardless if it is caused by humans (such as through logging) or natural causes (such as  a landslide). In addition, the alerts do not differentiate between natural tree cover and planted tree cover. For complete information about each dataset, please visit www.globalforestwatch.org."
-                    },
-                    {
-                        "text": "An assessment of the VIIRS data found the rate of false positives to be near 0 for most regions, with a maximum of 1.2 percent in the regions assessed, mostly associated with sunglint on reflective rooftops. The rate of omission was not assessed. VIIRS cannot detect fires that are too small or too cool (generally cooler than 700 K or smaller than 100 square meters). Omissions may also occur when fires start and end between satellite overpasses, or when fires are obscured by cloud cover, heavy smoke, or tree canopy."
-                    },
-                    {
-                        "text": "Each forest change data set has been through rigorous scientific testing and has a unique set of limitations. For example, the GLAD alerts were evaluated in Peru to have 13.5 percent false positives (an alert appeared in the data when it wasn’t there on the ground) and 33 percent false negatives (there was change observed on the ground that did not show up as an alert in the data). This means that around 87 percent of GLAD alerts represent forest change events. The higher rate of false negatives means the alerts are a conservative estimate of the tree cover loss. This helps minimize the likelihood that users spend resources investigating alerts that do not represent actual forest change. "
-                    },
-                    {
-                        "text": "Users should also keep in mind that GLAD alerts detect all tree cover loss, regardless if it is caused by humans (such as through logging) or natural causes (such as  a landslide). In addition, the alerts do not differentiate between natural tree cover and planted tree cover. For complete information about each dataset, please visit www.globalforestwatch.org."
-                    },
-                    {
-                        "text": "An assessment of the VIIRS data found the rate of false positives to be near 0 for most regions, with a maximum of 1.2 percent in the regions assessed, mostly associated with sunglint on reflective rooftops. The rate of omission was not assessed. VIIRS cannot detect fires that are too small or too cool (generally cooler than 700 K or smaller than 100 square meters). Omissions may also occur when fires start and end between satellite overpasses, or when fires are obscured by cloud cover, heavy smoke, or tree canopy."
-                    },
-                    {
-                        "text": "Each forest change data set has been through rigorous scientific testing and has a unique set of limitations. For example, the GLAD alerts were evaluated in Peru to have 13.5 percent false positives (an alert appeared in the data when it wasn’t there on the ground) and 33 percent false negatives (there was change observed on the ground that did not show up as an alert in the data). This means that around 87 percent of GLAD alerts represent forest change events. The higher rate of false negatives means the alerts are a conservative estimate of the tree cover loss. This helps minimize the likelihood that users spend resources investigating alerts that do not represent actual forest change. "
-                    },
-                    {
-                        "text": "Users should also keep in mind that GLAD alerts detect all tree cover loss, regardless if it is caused by humans (such as through logging) or natural causes (such as  a landslide). In addition, the alerts do not differentiate between natural tree cover and planted tree cover. For complete information about each dataset, please visit www.globalforestwatch.org."
-                    },
-                    {
-                        "text": "An assessment of the VIIRS data found the rate of false positives to be near 0 for most regions, with a maximum of 1.2 percent in the regions assessed, mostly associated with sunglint on reflective rooftops. The rate of omission was not assessed. VIIRS cannot detect fires that are too small or too cool (generally cooler than 700 K or smaller than 100 square meters). Omissions may also occur when fires start and end between satellite overpasses, or when fires are obscured by cloud cover, heavy smoke, or tree canopy."
-                    },
                     {
                         "text": "Each forest change data set has been through rigorous scientific testing and has a unique set of limitations. For example, the GLAD alerts were evaluated in Peru to have 13.5 percent false positives (an alert appeared in the data when it wasn’t there on the ground) and 33 percent false negatives (there was change observed on the ground that did not show up as an alert in the data). This means that around 87 percent of GLAD alerts represent forest change events. The higher rate of false negatives means the alerts are a conservative estimate of the tree cover loss. This helps minimize the likelihood that users spend resources investigating alerts that do not represent actual forest change. "
                     },
@@ -139,99 +99,9 @@
                     },
                     {
                         "text": "Specifically, this app allows users to: "
-                    },
-                    {
-                        "text": "Forest Watcher is a mobile application designed to allow easy, offline access to data about forest change from Global Forest Watch http://www.globalforestwatch.org/."
-                    },
-                    {
-                        "text": "Global Forest Watch (GFW) is a dynamic online forest monitoring and alert system that empowers people everywhere to better manage forests. GFW brings together satellite technology, cloud computing, and open data to provide timely information about forests to communities around the world."
-                    },
-                    {
-                        "text": "Forest Watcher puts valuable information from GFW directly into the hands of people monitoring forests on the ground. Forest Watcher allows anyone to see deforestation and fire alerts on a mobile device, navigate to the location of the alert offline, and collect information and photos about what they find."
-                    },
-                    {
-                        "text": "This app provides an affordable and easy-to-use solution to: quickly identify areas for forest patrols or field investigations; collect evidence about forest changes from the ground; use data collected to make evidence-based management and conservation decisions; and validate remote sensing products in the field."
-                    },
-                    {
-                        "text": "Specifically, this app allows users to: "
-                    },
-                    {
-                        "text": "Forest Watcher is a mobile application designed to allow easy, offline access to data about forest change from Global Forest Watch http://www.globalforestwatch.org/."
-                    },
-                    {
-                        "text": "Global Forest Watch (GFW) is a dynamic online forest monitoring and alert system that empowers people everywhere to better manage forests. GFW brings together satellite technology, cloud computing, and open data to provide timely information about forests to communities around the world."
-                    },
-                    {
-                        "text": "Forest Watcher puts valuable information from GFW directly into the hands of people monitoring forests on the ground. Forest Watcher allows anyone to see deforestation and fire alerts on a mobile device, navigate to the location of the alert offline, and collect information and photos about what they find."
-                    },
-                    {
-                        "text": "This app provides an affordable and easy-to-use solution to: quickly identify areas for forest patrols or field investigations; collect evidence about forest changes from the ground; use data collected to make evidence-based management and conservation decisions; and validate remote sensing products in the field."
-                    },
-                    {
-                        "text": "Specifically, this app allows users to: "
-                    },
-                    {
-                        "text": "Forest Watcher is a mobile application designed to allow easy, offline access to data about forest change from Global Forest Watch http://www.globalforestwatch.org/."
-                    },
-                    {
-                        "text": "Global Forest Watch (GFW) is a dynamic online forest monitoring and alert system that empowers people everywhere to better manage forests. GFW brings together satellite technology, cloud computing, and open data to provide timely information about forests to communities around the world."
-                    },
-                    {
-                        "text": "Forest Watcher puts valuable information from GFW directly into the hands of people monitoring forests on the ground. Forest Watcher allows anyone to see deforestation and fire alerts on a mobile device, navigate to the location of the alert offline, and collect information and photos about what they find."
-                    },
-                    {
-                        "text": "This app provides an affordable and easy-to-use solution to: quickly identify areas for forest patrols or field investigations; collect evidence about forest changes from the ground; use data collected to make evidence-based management and conservation decisions; and validate remote sensing products in the field."
-                    },
-                    {
-                        "text": "Specifically, this app allows users to: "
                     }
                 ],
                 "orderList": [
-                    {
-                        "text": "Upload or draw custom area(s) of interest for analysis"
-                    },
-                    {
-                        "text": "Download various satellite-based forest change and other contextual data (e.g. near real-time deforestation alerts, protected areas, and intact forest landscapes)  onto any mobile device"
-                    },
-                    {
-                        "text": "Upload your own datasets"
-                    },
-                    {
-                        "text": "Investigate alerts in the field and collect information (including GPS points and photos) through customizable forms"
-                    },
-                    {
-                        "text": "Review, analyze, and download data collected with the app"
-                    },
-                    {
-                        "text": "Upload or draw custom area(s) of interest for analysis"
-                    },
-                    {
-                        "text": "Download various satellite-based forest change and other contextual data (e.g. near real-time deforestation alerts, protected areas, and intact forest landscapes)  onto any mobile device"
-                    },
-                    {
-                        "text": "Upload your own datasets"
-                    },
-                    {
-                        "text": "Investigate alerts in the field and collect information (including GPS points and photos) through customizable forms"
-                    },
-                    {
-                        "text": "Review, analyze, and download data collected with the app"
-                    },
-                    {
-                        "text": "Upload or draw custom area(s) of interest for analysis"
-                    },
-                    {
-                        "text": "Download various satellite-based forest change and other contextual data (e.g. near real-time deforestation alerts, protected areas, and intact forest landscapes)  onto any mobile device"
-                    },
-                    {
-                        "text": "Upload your own datasets"
-                    },
-                    {
-                        "text": "Investigate alerts in the field and collect information (including GPS points and photos) through customizable forms"
-                    },
-                    {
-                        "text": "Review, analyze, and download data collected with the app"
-                    },
                     {
                         "text": "Upload or draw custom area(s) of interest for analysis"
                     },
@@ -256,59 +126,14 @@
                 "description": [
                     {
                         "text": "There are three default datasets from Global Forest Watch provided in Forest Watcher:"
-                    },
-                    {
-                        "text": "There are three default datasets from Global Forest Watch provided in Forest Watcher:"
-                    },
-                    {
-                        "text": "There are three default datasets from Global Forest Watch provided in Forest Watcher:"
-                    },
-                    {
-                        "text": "There are three default datasets from Global Forest Watch provided in Forest Watcher:"
                     }
                 ],
                 "footerText": [
                     {
                         "text": "For more detailed information about each dataset, please visit http://data.globalforestwatch.org/."
-                    },
-                    {
-                        "text": "For more detailed information about each dataset, please visit http://data.globalforestwatch.org/."
-                    },
-                    {
-                        "text": "For more detailed information about each dataset, please visit http://data.globalforestwatch.org/."
-                    },
-                    {
-                        "text": "For more detailed information about each dataset, please visit http://data.globalforestwatch.org/."
                     }
                 ],
                 "orderList": [
-                    {
-                        "text": "VIIRS Active Fire alerts: Produced by NASA, updated daily at 375 meter resolution. This shows you the location of suspected fires in the last week."
-                    },
-                    {
-                        "text": "GLAD alerts: Produced by the University of Maryland Global Land Analysis & Discovery (GLAD) Lab, updated weekly at 30 meter resolution. This show you week-by-week where forest area may have changed."
-                    },
-                    {
-                        "text": "Annual tree cover loss: Also produced by the GLAD lab, updated annually at 30 meter resolution. This shows you year-to-year where forest area has changed. At the moment this data is only available as a contextual data layer: you will not be able to create a report related to an annual loss alert, although you can still create a report for that location by tapping the screen at the location of the forest loss or gain."
-                    },
-                    {
-                        "text": "VIIRS Active Fire alerts: Produced by NASA, updated daily at 375 meter resolution. This shows you the location of suspected fires in the last week."
-                    },
-                    {
-                        "text": "GLAD alerts: Produced by the University of Maryland Global Land Analysis & Discovery (GLAD) Lab, updated weekly at 30 meter resolution. This show you week-by-week where forest area may have changed."
-                    },
-                    {
-                        "text": "Annual tree cover loss: Also produced by the GLAD lab, updated annually at 30 meter resolution. This shows you year-to-year where forest area has changed. At the moment this data is only available as a contextual data layer: you will not be able to create a report related to an annual loss alert, although you can still create a report for that location by tapping the screen at the location of the forest loss or gain."
-                    },
-                    {
-                        "text": "VIIRS Active Fire alerts: Produced by NASA, updated daily at 375 meter resolution. This shows you the location of suspected fires in the last week."
-                    },
-                    {
-                        "text": "GLAD alerts: Produced by the University of Maryland Global Land Analysis & Discovery (GLAD) Lab, updated weekly at 30 meter resolution. This show you week-by-week where forest area may have changed."
-                    },
-                    {
-                        "text": "Annual tree cover loss: Also produced by the GLAD lab, updated annually at 30 meter resolution. This shows you year-to-year where forest area has changed. At the moment this data is only available as a contextual data layer: you will not be able to create a report related to an annual loss alert, although you can still create a report for that location by tapping the screen at the location of the forest loss or gain."
-                    },
                     {
                         "text": "VIIRS Active Fire alerts: Produced by NASA, updated daily at 375 meter resolution. This shows you the location of suspected fires in the last week."
                     },
@@ -327,15 +152,6 @@
                 "description": [
                     {
                         "text": "Imagery featured in the satellite basemap is updated less often than the alert data. As such, you may notice forest change alerts for areas that appear as intact forest in the satellite basemap. Visiting GLAD alerts in the field is the best way to verify on-the-ground change."
-                    },
-                    {
-                        "text": "Imagery featured in the satellite basemap is updated less often than the alert data. As such, you may notice forest change alerts for areas that appear as intact forest in the satellite basemap. Visiting GLAD alerts in the field is the best way to verify on-the-ground change."
-                    },
-                    {
-                        "text": "Imagery featured in the satellite basemap is updated less often than the alert data. As such, you may notice forest change alerts for areas that appear as intact forest in the satellite basemap. Visiting GLAD alerts in the field is the best way to verify on-the-ground change."
-                    },
-                    {
-                        "text": "Imagery featured in the satellite basemap is updated less often than the alert data. As such, you may notice forest change alerts for areas that appear as intact forest in the satellite basemap. Visiting GLAD alerts in the field is the best way to verify on-the-ground change."
                     }
                 ]
             },
@@ -344,15 +160,6 @@
         "secondQuestion": {
             "content": {
                 "description": [
-                    {
-                        "text": "Forest Watcher was first developed by the Jane Goodall Institute (JGI), Google, Touchlab and Global Forest Watch. Village forest monitors, protected area rangers and local communities working with the Jane Goodall Institute needed to access up-to-date satellite data for forest monitoring; however, internet access is limited in the remote areas where they work. Without this information, forest monitors could miss deforestation activity occurring beyond their patrol routes. JGI, GFW, Touchlab, Vizzuality and Google created Forest Watcher to enable access to GFW data offline while in the field."
-                    },
-                    {
-                        "text": "Forest Watcher was first developed by the Jane Goodall Institute (JGI), Google, Touchlab and Global Forest Watch. Village forest monitors, protected area rangers and local communities working with the Jane Goodall Institute needed to access up-to-date satellite data for forest monitoring; however, internet access is limited in the remote areas where they work. Without this information, forest monitors could miss deforestation activity occurring beyond their patrol routes. JGI, GFW, Touchlab, Vizzuality and Google created Forest Watcher to enable access to GFW data offline while in the field."
-                    },
-                    {
-                        "text": "Forest Watcher was first developed by the Jane Goodall Institute (JGI), Google, Touchlab and Global Forest Watch. Village forest monitors, protected area rangers and local communities working with the Jane Goodall Institute needed to access up-to-date satellite data for forest monitoring; however, internet access is limited in the remote areas where they work. Without this information, forest monitors could miss deforestation activity occurring beyond their patrol routes. JGI, GFW, Touchlab, Vizzuality and Google created Forest Watcher to enable access to GFW data offline while in the field."
-                    },
                     {
                         "text": "Forest Watcher was first developed by the Jane Goodall Institute (JGI), Google, Touchlab and Global Forest Watch. Village forest monitors, protected area rangers and local communities working with the Jane Goodall Institute needed to access up-to-date satellite data for forest monitoring; however, internet access is limited in the remote areas where they work. Without this information, forest monitors could miss deforestation activity occurring beyond their patrol routes. JGI, GFW, Touchlab, Vizzuality and Google created Forest Watcher to enable access to GFW data offline while in the field."
                     }
@@ -365,15 +172,6 @@
                 "description": [
                     {
                         "text": "Forest Watcher Desktop is the supplementary online desktop interface for the mobile app, which can be used to manage areas of interest, create new report templates, configure a team of users, and review and download reports submitted through the app. The desktop interface is for administrators and team managers, so they can set up the application for their team to use. For more information on Forest Watcher Desktop, click here"
-                    },
-                    {
-                        "text": "Forest Watcher Desktop is the supplementary online desktop interface for the mobile app, which can be used to manage areas of interest, create new report templates, configure a team of users, and review and download reports submitted through the app. The desktop interface is for administrators and team managers, so they can set up the application for their team to use. For more information on Forest Watcher Desktop, click here"
-                    },
-                    {
-                        "text": "Forest Watcher Desktop is the supplementary online desktop interface for the mobile app, which can be used to manage areas of interest, create new report templates, configure a team of users, and review and download reports submitted through the app. The desktop interface is for administrators and team managers, so they can set up the application for their team to use. For more information on Forest Watcher Desktop, click here"
-                    },
-                    {
-                        "text": "Forest Watcher Desktop is the supplementary online desktop interface for the mobile app, which can be used to manage areas of interest, create new report templates, configure a team of users, and review and download reports submitted through the app. The desktop interface is for administrators and team managers, so they can set up the application for their team to use. For more information on Forest Watcher Desktop, click here"
                     }
                 ]
             },
@@ -382,15 +180,6 @@
         "sixthQuestion": {
             "content": {
                 "description": [
-                    {
-                        "text": "Yes, you can upload and add your own datasets to the app using the Forest Watcher Desktop site. Using the Desktop site, you would link a web tile service to Forest Watcher through a URL. More information is available on the Desktop site."
-                    },
-                    {
-                        "text": "Yes, you can upload and add your own datasets to the app using the Forest Watcher Desktop site. Using the Desktop site, you would link a web tile service to Forest Watcher through a URL. More information is available on the Desktop site."
-                    },
-                    {
-                        "text": "Yes, you can upload and add your own datasets to the app using the Forest Watcher Desktop site. Using the Desktop site, you would link a web tile service to Forest Watcher through a URL. More information is available on the Desktop site."
-                    },
                     {
                         "text": "Yes, you can upload and add your own datasets to the app using the Forest Watcher Desktop site. Using the Desktop site, you would link a web tile service to Forest Watcher through a URL. More information is available on the Desktop site."
                     }
@@ -436,114 +225,6 @@
                     {
                         "description": "You can use Forest Watcher Desktop to create a custom form template for your team to use when collecting data. You can also add notes in the final section of the form if you have observations you want to make.",
                         "text": "I want to collect custom data"
-                    },
-                    {
-                        "description": "If you don’t see any alerts in your Area of Interest, check globalforestwatch.org to see if there is data for that location and the timeframe you chose. If there are no recent GLAD or VIIRS alerts, then there has been no recent forest change activity. Consider using the Annual Tree Cover Change contextual layer to find older loss alerts, which could still inform an investigation or field visit.",
-                        "text": "I don’t see any alert data"
-                    },
-                    {
-                        "description": "If the app crashes, open it again. If it crashes multiple times, please send an email to mailto:forestwatcher@wri.org and include information about your device model and what you were doing in the app when it crashed.",
-                        "text": "The app crashes"
-                    },
-                    {
-                        "description": "The location and navigation features on Forest Watcher rely on your device’s internal GPS. First, check that the GPS (often called “location services”) is turned on in your mobile device settings. If it still doesn’t work, please send an email to mailto:forestwatcher@wri.org telling us what device model you are using.",
-                        "text": "I can’t see the compass/my location"
-                    },
-                    {
-                        "description": "Some devices that only have front facing cameras may not be compatible with the camera in the report form. You can instead take a photo on your camera app, and use the upload function in the report in Forest Watcher to add a photo from your library to the report.",
-                        "text": "I cannot take a photo in the app"
-                    },
-                    {
-                        "description": "You may not always be able to complete a report right at the scene of an alert. You can start writing a report, save it, and return to it later when you are back at your base. You can also take a picture just using your device’s camera, then fill out the report later on: you can attach the picture to your report. ",
-                        "text": "I want to complete a report later"
-                    },
-                    {
-                        "description": "When you first set up Forest Watcher on your mobile device, the app will need to download a lot of data to work offline. You may need to wait about 5 minutes for all the data to load properly. This is normal. If you have a weak or slow internet connection, this can make the download take longer. Keep the app open to allow the download to complete. After the initial set up, new alert data will download every time you connect your device to the internet - the download time will vary depending on how many alerts have occurred. These updates would be on the scale of Kilobytes, where the initial download will likely be a few Megabytes.",
-                        "text": "Alerts are slow to load"
-                    },
-                    {
-                        "description": "At the moment you can only view one dataset at a time for each Area of Interest. The dataset you are looking at for each Area of Interest is controlled using the settings menu. If you want to look at both fires data and forest loss data for the same place, you will need to create two Areas of Interest for the same location and set up each of them to download the different datasets.",
-                        "text": "I want to see GLAD alerts and VIIRS for the same Area of Interest"
-                    },
-                    {
-                        "description": "Forest Watcher contains a lot of data and could take up a lot of memory on your device, depending on how many Areas of Interest you have, how big they are and how many alerts there are in each one. We recommend having at least 16GB of internal storage on your device, so you can use your other apps as well as Forest Watcher: Forest Watcher won’t need all of this storage. The fewer, smaller areas of interest you set up in the app, the less data will need to be downloaded onto your device.",
-                        "text": "I run out of memory on my device"
-                    },
-                    {
-                        "description": "You can use Forest Watcher Desktop to create a custom form template for your team to use when collecting data. You can also add notes in the final section of the form if you have observations you want to make.",
-                        "text": "I want to collect custom data"
-                    },
-                    {
-                        "description": "If you don’t see any alerts in your Area of Interest, check globalforestwatch.org to see if there is data for that location and the timeframe you chose. If there are no recent GLAD or VIIRS alerts, then there has been no recent forest change activity. Consider using the Annual Tree Cover Change contextual layer to find older loss alerts, which could still inform an investigation or field visit.",
-                        "text": "I don’t see any alert data"
-                    },
-                    {
-                        "description": "If the app crashes, open it again. If it crashes multiple times, please send an email to mailto:forestwatcher@wri.org and include information about your device model and what you were doing in the app when it crashed.",
-                        "text": "The app crashes"
-                    },
-                    {
-                        "description": "The location and navigation features on Forest Watcher rely on your device’s internal GPS. First, check that the GPS (often called “location services”) is turned on in your mobile device settings. If it still doesn’t work, please send an email to mailto:forestwatcher@wri.org telling us what device model you are using.",
-                        "text": "I can’t see the compass/my location"
-                    },
-                    {
-                        "description": "Some devices that only have front facing cameras may not be compatible with the camera in the report form. You can instead take a photo on your camera app, and use the upload function in the report in Forest Watcher to add a photo from your library to the report.",
-                        "text": "I cannot take a photo in the app"
-                    },
-                    {
-                        "description": "You may not always be able to complete a report right at the scene of an alert. You can start writing a report, save it, and return to it later when you are back at your base. You can also take a picture just using your device’s camera, then fill out the report later on: you can attach the picture to your report. ",
-                        "text": "I want to complete a report later"
-                    },
-                    {
-                        "description": "When you first set up Forest Watcher on your mobile device, the app will need to download a lot of data to work offline. You may need to wait about 5 minutes for all the data to load properly. This is normal. If you have a weak or slow internet connection, this can make the download take longer. Keep the app open to allow the download to complete. After the initial set up, new alert data will download every time you connect your device to the internet - the download time will vary depending on how many alerts have occurred. These updates would be on the scale of Kilobytes, where the initial download will likely be a few Megabytes.",
-                        "text": "Alerts are slow to load"
-                    },
-                    {
-                        "description": "At the moment you can only view one dataset at a time for each Area of Interest. The dataset you are looking at for each Area of Interest is controlled using the settings menu. If you want to look at both fires data and forest loss data for the same place, you will need to create two Areas of Interest for the same location and set up each of them to download the different datasets.",
-                        "text": "I want to see GLAD alerts and VIIRS for the same Area of Interest"
-                    },
-                    {
-                        "description": "Forest Watcher contains a lot of data and could take up a lot of memory on your device, depending on how many Areas of Interest you have, how big they are and how many alerts there are in each one. We recommend having at least 16GB of internal storage on your device, so you can use your other apps as well as Forest Watcher: Forest Watcher won’t need all of this storage. The fewer, smaller areas of interest you set up in the app, the less data will need to be downloaded onto your device.",
-                        "text": "I run out of memory on my device"
-                    },
-                    {
-                        "description": "You can use Forest Watcher Desktop to create a custom form template for your team to use when collecting data. You can also add notes in the final section of the form if you have observations you want to make.",
-                        "text": "I want to collect custom data"
-                    },
-                    {
-                        "description": "If you don’t see any alerts in your Area of Interest, check globalforestwatch.org to see if there is data for that location and the timeframe you chose. If there are no recent GLAD or VIIRS alerts, then there has been no recent forest change activity. Consider using the Annual Tree Cover Change contextual layer to find older loss alerts, which could still inform an investigation or field visit.",
-                        "text": "I don’t see any alert data"
-                    },
-                    {
-                        "description": "If the app crashes, open it again. If it crashes multiple times, please send an email to mailto:forestwatcher@wri.org and include information about your device model and what you were doing in the app when it crashed.",
-                        "text": "The app crashes"
-                    },
-                    {
-                        "description": "The location and navigation features on Forest Watcher rely on your device’s internal GPS. First, check that the GPS (often called “location services”) is turned on in your mobile device settings. If it still doesn’t work, please send an email to mailto:forestwatcher@wri.org telling us what device model you are using.",
-                        "text": "I can’t see the compass/my location"
-                    },
-                    {
-                        "description": "Some devices that only have front facing cameras may not be compatible with the camera in the report form. You can instead take a photo on your camera app, and use the upload function in the report in Forest Watcher to add a photo from your library to the report.",
-                        "text": "I cannot take a photo in the app"
-                    },
-                    {
-                        "description": "You may not always be able to complete a report right at the scene of an alert. You can start writing a report, save it, and return to it later when you are back at your base. You can also take a picture just using your device’s camera, then fill out the report later on: you can attach the picture to your report. ",
-                        "text": "I want to complete a report later"
-                    },
-                    {
-                        "description": "When you first set up Forest Watcher on your mobile device, the app will need to download a lot of data to work offline. You may need to wait about 5 minutes for all the data to load properly. This is normal. If you have a weak or slow internet connection, this can make the download take longer. Keep the app open to allow the download to complete. After the initial set up, new alert data will download every time you connect your device to the internet - the download time will vary depending on how many alerts have occurred. These updates would be on the scale of Kilobytes, where the initial download will likely be a few Megabytes.",
-                        "text": "Alerts are slow to load"
-                    },
-                    {
-                        "description": "At the moment you can only view one dataset at a time for each Area of Interest. The dataset you are looking at for each Area of Interest is controlled using the settings menu. If you want to look at both fires data and forest loss data for the same place, you will need to create two Areas of Interest for the same location and set up each of them to download the different datasets.",
-                        "text": "I want to see GLAD alerts and VIIRS for the same Area of Interest"
-                    },
-                    {
-                        "description": "Forest Watcher contains a lot of data and could take up a lot of memory on your device, depending on how many Areas of Interest you have, how big they are and how many alerts there are in each one. We recommend having at least 16GB of internal storage on your device, so you can use your other apps as well as Forest Watcher: Forest Watcher won’t need all of this storage. The fewer, smaller areas of interest you set up in the app, the less data will need to be downloaded onto your device.",
-                        "text": "I run out of memory on my device"
-                    },
-                    {
-                        "description": "You can use Forest Watcher Desktop to create a custom form template for your team to use when collecting data. You can also add notes in the final section of the form if you have observations you want to make.",
-                        "text": "I want to collect custom data"
                     }
                 ]
             },
@@ -552,15 +233,6 @@
         "thirdQuestion": {
             "content": {
                 "description": [
-                    {
-                        "text": "Forest Watcher displays data about forest change in “Areas of Interest,” or areas that you monitor. You can define Areas of Interest in the settings menu. If you’re part of a team, you may already have areas set up for you, which you can upload to the app. The app will then automatically download forest change data for those areas and refresh with the latest deforestation and fire alerts while you are connected to the Internet. Once you download the relevant data onto your mobile device, you can take the application offline into the field. Forest Watcher will direct you nearby alerts using the phone's internal GPS. Once you have arrived at an alert, you can fill out a report about what you find and add photos. "
-                    },
-                    {
-                        "text": "Forest Watcher displays data about forest change in “Areas of Interest,” or areas that you monitor. You can define Areas of Interest in the settings menu. If you’re part of a team, you may already have areas set up for you, which you can upload to the app. The app will then automatically download forest change data for those areas and refresh with the latest deforestation and fire alerts while you are connected to the Internet. Once you download the relevant data onto your mobile device, you can take the application offline into the field. Forest Watcher will direct you nearby alerts using the phone's internal GPS. Once you have arrived at an alert, you can fill out a report about what you find and add photos. "
-                    },
-                    {
-                        "text": "Forest Watcher displays data about forest change in “Areas of Interest,” or areas that you monitor. You can define Areas of Interest in the settings menu. If you’re part of a team, you may already have areas set up for you, which you can upload to the app. The app will then automatically download forest change data for those areas and refresh with the latest deforestation and fire alerts while you are connected to the Internet. Once you download the relevant data onto your mobile device, you can take the application offline into the field. Forest Watcher will direct you nearby alerts using the phone's internal GPS. Once you have arrived at an alert, you can fill out a report about what you find and add photos. "
-                    },
                     {
                         "text": "Forest Watcher displays data about forest change in “Areas of Interest,” or areas that you monitor. You can define Areas of Interest in the settings menu. If you’re part of a team, you may already have areas set up for you, which you can upload to the app. The app will then automatically download forest change data for those areas and refresh with the latest deforestation and fire alerts while you are connected to the Internet. Once you download the relevant data onto your mobile device, you can take the application offline into the field. Forest Watcher will direct you nearby alerts using the phone's internal GPS. Once you have arrived at an alert, you can fill out a report about what you find and add photos. "
                     }
@@ -587,8 +259,7 @@
         "alerts": "Alerts",
         "ctxLayers": "Contextual layers",
         "recent": "Recent",
-        "reported": "Reported",
-        "settings": "Map Settings"
+        "reported": "Reported"
     },
     "partners": {
         "description": "Forest Watcher is created in collaboration between World Resources Institute’s Global Forest Watch Program, Vizzuality, and the Jane Goodall Institute.",
@@ -596,13 +267,13 @@
     },
     "report": {
         "addPicture": "Add Picture",
-        "area": "Report area",
         "choosePicture": "Please take or choose a picture",
         "completed": "Completed",
         "datePlaceholder": "Select date",
         "drafts": "Drafts",
         "empty": "No report submitted, please go to the map and report a point or group of points!",
         "emptyPicture": "Empty",
+        "here": "Report here",
         "input": "Please, answer the question",
         "inputRadio": "Choose one option to continue",
         "inputSelect": "Choose at least one option to continue",
@@ -704,51 +375,6 @@
                     },
                     {
                         "text": "A statement that the information in the notification is accurate, and under penalty of perjury, that the complaining party is authorized to act on behalf of the owner of an exclusive right that is allegedly infringed."
-                    },
-                    {
-                        "text": "Your signature as a person authorized to act on behalf of the owner of an exclusive right that is allegedly infringed;"
-                    },
-                    {
-                        "text": "Identification of the exact location on the Site of copyrighted work claimed to have been infringed, or, if multiple copyrighted works on the Site are covered by a single notification, a representative list of such works as located on the Site;"
-                    },
-                    {
-                        "text": "The address, telephone number, and e-mail address of the complaining party;"
-                    },
-                    {
-                        "text": "A statement that the complaining party has a good faith belief that use of the material in the manner complained of is not authorized by the copyright owner, its agent, or the law; and"
-                    },
-                    {
-                        "text": "A statement that the information in the notification is accurate, and under penalty of perjury, that the complaining party is authorized to act on behalf of the owner of an exclusive right that is allegedly infringed."
-                    },
-                    {
-                        "text": "Your signature as a person authorized to act on behalf of the owner of an exclusive right that is allegedly infringed;"
-                    },
-                    {
-                        "text": "Identification of the exact location on the Site of copyrighted work claimed to have been infringed, or, if multiple copyrighted works on the Site are covered by a single notification, a representative list of such works as located on the Site;"
-                    },
-                    {
-                        "text": "The address, telephone number, and e-mail address of the complaining party;"
-                    },
-                    {
-                        "text": "A statement that the complaining party has a good faith belief that use of the material in the manner complained of is not authorized by the copyright owner, its agent, or the law; and"
-                    },
-                    {
-                        "text": "A statement that the information in the notification is accurate, and under penalty of perjury, that the complaining party is authorized to act on behalf of the owner of an exclusive right that is allegedly infringed."
-                    },
-                    {
-                        "text": "Your signature as a person authorized to act on behalf of the owner of an exclusive right that is allegedly infringed;"
-                    },
-                    {
-                        "text": "Identification of the exact location on the Site of copyrighted work claimed to have been infringed, or, if multiple copyrighted works on the Site are covered by a single notification, a representative list of such works as located on the Site;"
-                    },
-                    {
-                        "text": "The address, telephone number, and e-mail address of the complaining party;"
-                    },
-                    {
-                        "text": "A statement that the complaining party has a good faith belief that use of the material in the manner complained of is not authorized by the copyright owner, its agent, or the law; and"
-                    },
-                    {
-                        "text": "A statement that the information in the notification is accurate, and under penalty of perjury, that the complaining party is authorized to act on behalf of the owner of an exclusive right that is allegedly infringed."
                     }
                 ]
             },
@@ -772,51 +398,6 @@
                     },
                     {
                         "text": "We may change these Terms from time to time to reflect changes in the law and Site. You should review these Terms regularly for any changes. If You don't agree with a change in the Terms, You should stop accessing and using the Site."
-                    },
-                    {
-                        "text": "We provide You with access to the Site and its content in order to better manage forest usage and to access up-to-date information on the status of the world's forests. Your use of the Site does not give You any ownership rights in the intellectual property of the Site or in its contents. You agree to use the Site and its contents only for lawful purposes and not to defame, harass or threaten any one or to make available any obscene, pornographic or offensive material. You agree that in using the Site You will not damage or impair the Site or anyone else's use of the Site."
-                    },
-                    {
-                        "text": "Except for items that are identified as being subject to additional restrictions, You may use the Site and its content, and copy, adapt and distribute the content to others under this license."
-                    },
-                    {
-                        "text": "You are solely responsible for Your use of the Site and all activity that occurs under Your account. You agree to indemnify, hold harmless and, at our request, defend Us and our related persons from all liability arising from Your use of the Site, Your User Content (as defined below), or Your violation of these Terms. We may suspend access to the Site if We suspect You or those using Your account are violating these Terms."
-                    },
-                    {
-                        "text": "You can stop using the Site and its contents at any time, and We can cease providing the Site and its contents at any time."
-                    },
-                    {
-                        "text": "We may change these Terms from time to time to reflect changes in the law and Site. You should review these Terms regularly for any changes. If You don't agree with a change in the Terms, You should stop accessing and using the Site."
-                    },
-                    {
-                        "text": "We provide You with access to the Site and its content in order to better manage forest usage and to access up-to-date information on the status of the world's forests. Your use of the Site does not give You any ownership rights in the intellectual property of the Site or in its contents. You agree to use the Site and its contents only for lawful purposes and not to defame, harass or threaten any one or to make available any obscene, pornographic or offensive material. You agree that in using the Site You will not damage or impair the Site or anyone else's use of the Site."
-                    },
-                    {
-                        "text": "Except for items that are identified as being subject to additional restrictions, You may use the Site and its content, and copy, adapt and distribute the content to others under this license."
-                    },
-                    {
-                        "text": "You are solely responsible for Your use of the Site and all activity that occurs under Your account. You agree to indemnify, hold harmless and, at our request, defend Us and our related persons from all liability arising from Your use of the Site, Your User Content (as defined below), or Your violation of these Terms. We may suspend access to the Site if We suspect You or those using Your account are violating these Terms."
-                    },
-                    {
-                        "text": "You can stop using the Site and its contents at any time, and We can cease providing the Site and its contents at any time."
-                    },
-                    {
-                        "text": "We may change these Terms from time to time to reflect changes in the law and Site. You should review these Terms regularly for any changes. If You don't agree with a change in the Terms, You should stop accessing and using the Site."
-                    },
-                    {
-                        "text": "We provide You with access to the Site and its content in order to better manage forest usage and to access up-to-date information on the status of the world's forests. Your use of the Site does not give You any ownership rights in the intellectual property of the Site or in its contents. You agree to use the Site and its contents only for lawful purposes and not to defame, harass or threaten any one or to make available any obscene, pornographic or offensive material. You agree that in using the Site You will not damage or impair the Site or anyone else's use of the Site."
-                    },
-                    {
-                        "text": "Except for items that are identified as being subject to additional restrictions, You may use the Site and its content, and copy, adapt and distribute the content to others under this license."
-                    },
-                    {
-                        "text": "You are solely responsible for Your use of the Site and all activity that occurs under Your account. You agree to indemnify, hold harmless and, at our request, defend Us and our related persons from all liability arising from Your use of the Site, Your User Content (as defined below), or Your violation of these Terms. We may suspend access to the Site if We suspect You or those using Your account are violating these Terms."
-                    },
-                    {
-                        "text": "You can stop using the Site and its contents at any time, and We can cease providing the Site and its contents at any time."
-                    },
-                    {
-                        "text": "We may change these Terms from time to time to reflect changes in the law and Site. You should review these Terms regularly for any changes. If You don't agree with a change in the Terms, You should stop accessing and using the Site."
                     }
                 ]
             },
@@ -826,24 +407,6 @@
             "content": {
                 "description": null,
                 "list": [
-                    {
-                        "text": "YOU AGREE THAT YOUR USE OF THE SITE AND ITS CONTENT IS AT YOUR SOLE RISK. WE MAKE NO PROMISES OR COMMITMENTS ABOUT THE SITE OR ITS CONTENT, AND THE SITE AND CONTENT ARE PROVIDED ON AN “AS IS” BASIS AND WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED. TO THE FULLEST EXTENT PERMITTED BY LAW, WE DISCLAIM ALL WARRANTIES, STATUTORY, EXPRESS OR IMPLIED, INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT"
-                    },
-                    {
-                        "text": "UNDER NO CIRCUMSTANCES WILL WE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL, CONSEQUENTIAL, OR EXEMPLARY DAMAGES (INCLUDING WITHOUT LIMITATION, LOSS OF PROFITS, DATA, OR USE OR COST OF COVER) RESULTING FROM YOUR USE OR THE INABILITY TO USE THE SITE OR ITS CONTENTS, EVEN IF WE WERE AWARE OF THE POSSIBILITY OF SUCH DAMAGES. IN NO EVENT WILL WE HAVE ANY LIABILITY TO YOU FOR ALL CLAIMS OR DAMAGES FOR ANY REASON IN EXCESS OF ONE HUNDRED DOLLARS ($100 USD). CERTAIN JURISDICTIONS DO NOT ALLOW EXCLUSIONS OR LIMITATIONS ON IMPLIED WARRANTIES OR LIMITATIONS ON LIABILITY, AND THEREFORE SOME OR ALL OF THE DISCLAIMERS, EXCLUSIONS, OR LIMITATIONS MAY NOT APPLY TO YOU, AND YOU MAY HAVE ADDITIONAL RIGHTS."
-                    },
-                    {
-                        "text": "YOU AGREE THAT YOUR USE OF THE SITE AND ITS CONTENT IS AT YOUR SOLE RISK. WE MAKE NO PROMISES OR COMMITMENTS ABOUT THE SITE OR ITS CONTENT, AND THE SITE AND CONTENT ARE PROVIDED ON AN “AS IS” BASIS AND WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED. TO THE FULLEST EXTENT PERMITTED BY LAW, WE DISCLAIM ALL WARRANTIES, STATUTORY, EXPRESS OR IMPLIED, INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT"
-                    },
-                    {
-                        "text": "UNDER NO CIRCUMSTANCES WILL WE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL, CONSEQUENTIAL, OR EXEMPLARY DAMAGES (INCLUDING WITHOUT LIMITATION, LOSS OF PROFITS, DATA, OR USE OR COST OF COVER) RESULTING FROM YOUR USE OR THE INABILITY TO USE THE SITE OR ITS CONTENTS, EVEN IF WE WERE AWARE OF THE POSSIBILITY OF SUCH DAMAGES. IN NO EVENT WILL WE HAVE ANY LIABILITY TO YOU FOR ALL CLAIMS OR DAMAGES FOR ANY REASON IN EXCESS OF ONE HUNDRED DOLLARS ($100 USD). CERTAIN JURISDICTIONS DO NOT ALLOW EXCLUSIONS OR LIMITATIONS ON IMPLIED WARRANTIES OR LIMITATIONS ON LIABILITY, AND THEREFORE SOME OR ALL OF THE DISCLAIMERS, EXCLUSIONS, OR LIMITATIONS MAY NOT APPLY TO YOU, AND YOU MAY HAVE ADDITIONAL RIGHTS."
-                    },
-                    {
-                        "text": "YOU AGREE THAT YOUR USE OF THE SITE AND ITS CONTENT IS AT YOUR SOLE RISK. WE MAKE NO PROMISES OR COMMITMENTS ABOUT THE SITE OR ITS CONTENT, AND THE SITE AND CONTENT ARE PROVIDED ON AN “AS IS” BASIS AND WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED. TO THE FULLEST EXTENT PERMITTED BY LAW, WE DISCLAIM ALL WARRANTIES, STATUTORY, EXPRESS OR IMPLIED, INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT"
-                    },
-                    {
-                        "text": "UNDER NO CIRCUMSTANCES WILL WE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL, CONSEQUENTIAL, OR EXEMPLARY DAMAGES (INCLUDING WITHOUT LIMITATION, LOSS OF PROFITS, DATA, OR USE OR COST OF COVER) RESULTING FROM YOUR USE OR THE INABILITY TO USE THE SITE OR ITS CONTENTS, EVEN IF WE WERE AWARE OF THE POSSIBILITY OF SUCH DAMAGES. IN NO EVENT WILL WE HAVE ANY LIABILITY TO YOU FOR ALL CLAIMS OR DAMAGES FOR ANY REASON IN EXCESS OF ONE HUNDRED DOLLARS ($100 USD). CERTAIN JURISDICTIONS DO NOT ALLOW EXCLUSIONS OR LIMITATIONS ON IMPLIED WARRANTIES OR LIMITATIONS ON LIABILITY, AND THEREFORE SOME OR ALL OF THE DISCLAIMERS, EXCLUSIONS, OR LIMITATIONS MAY NOT APPLY TO YOU, AND YOU MAY HAVE ADDITIONAL RIGHTS."
-                    },
                     {
                         "text": "YOU AGREE THAT YOUR USE OF THE SITE AND ITS CONTENT IS AT YOUR SOLE RISK. WE MAKE NO PROMISES OR COMMITMENTS ABOUT THE SITE OR ITS CONTENT, AND THE SITE AND CONTENT ARE PROVIDED ON AN “AS IS” BASIS AND WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED. TO THE FULLEST EXTENT PERMITTED BY LAW, WE DISCLAIM ALL WARRANTIES, STATUTORY, EXPRESS OR IMPLIED, INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT"
                     },
@@ -879,51 +442,6 @@
                     },
                     {
                         "text": "These Terms are the entire statement of the agreement between You and Us regarding the Site and its contents."
-                    },
-                    {
-                        "text": "The laws of the State of New York, U.S.A., excluding New York's conflict of laws provisions, apply to any dispute about the Site, its content or these Terms. The U.N. Convention on Contracts for the International Sale of Goods doesn't apply. All claims arising out of or relating to these Terms will be litigated exclusively in the courts in and for New York City, New York, USA, and You consent to the personal jurisdiction of those courts."
-                    },
-                    {
-                        "text": "If we do not promptly enforce the Terms, We have not given up any other rights or the right to enforce them or other Terms in the future."
-                    },
-                    {
-                        "text": "If any particular provision of these Terms is not enforceable, that doesn't affect the enforceability of any other provision of the Terms."
-                    },
-                    {
-                        "text": "These Terms are between You and Us, and no one else can enforce them."
-                    },
-                    {
-                        "text": "These Terms are the entire statement of the agreement between You and Us regarding the Site and its contents."
-                    },
-                    {
-                        "text": "The laws of the State of New York, U.S.A., excluding New York's conflict of laws provisions, apply to any dispute about the Site, its content or these Terms. The U.N. Convention on Contracts for the International Sale of Goods doesn't apply. All claims arising out of or relating to these Terms will be litigated exclusively in the courts in and for New York City, New York, USA, and You consent to the personal jurisdiction of those courts."
-                    },
-                    {
-                        "text": "If we do not promptly enforce the Terms, We have not given up any other rights or the right to enforce them or other Terms in the future."
-                    },
-                    {
-                        "text": "If any particular provision of these Terms is not enforceable, that doesn't affect the enforceability of any other provision of the Terms."
-                    },
-                    {
-                        "text": "These Terms are between You and Us, and no one else can enforce them."
-                    },
-                    {
-                        "text": "These Terms are the entire statement of the agreement between You and Us regarding the Site and its contents."
-                    },
-                    {
-                        "text": "The laws of the State of New York, U.S.A., excluding New York's conflict of laws provisions, apply to any dispute about the Site, its content or these Terms. The U.N. Convention on Contracts for the International Sale of Goods doesn't apply. All claims arising out of or relating to these Terms will be litigated exclusively in the courts in and for New York City, New York, USA, and You consent to the personal jurisdiction of those courts."
-                    },
-                    {
-                        "text": "If we do not promptly enforce the Terms, We have not given up any other rights or the right to enforce them or other Terms in the future."
-                    },
-                    {
-                        "text": "If any particular provision of these Terms is not enforceable, that doesn't affect the enforceability of any other provision of the Terms."
-                    },
-                    {
-                        "text": "These Terms are between You and Us, and no one else can enforce them."
-                    },
-                    {
-                        "text": "These Terms are the entire statement of the agreement between You and Us regarding the Site and its contents."
                     }
                 ]
             },
@@ -933,24 +451,6 @@
             "content": {
                 "description": null,
                 "list": [
-                    {
-                        "text": "You may submit data, material, ideas and other information to Us for posting on the Site (“User Content”)."
-                    },
-                    {
-                        "text": "You retain ownership to all of Your User Content that You contribute to the Site, but by submitting Your User Content, You allow Us and all other users of the Site throughout the world to use, adapt and make Your User Content available to others, without any obligation to You, even if You stop using the Site."
-                    },
-                    {
-                        "text": "You may submit data, material, ideas and other information to Us for posting on the Site (“User Content”)."
-                    },
-                    {
-                        "text": "You retain ownership to all of Your User Content that You contribute to the Site, but by submitting Your User Content, You allow Us and all other users of the Site throughout the world to use, adapt and make Your User Content available to others, without any obligation to You, even if You stop using the Site."
-                    },
-                    {
-                        "text": "You may submit data, material, ideas and other information to Us for posting on the Site (“User Content”)."
-                    },
-                    {
-                        "text": "You retain ownership to all of Your User Content that You contribute to the Site, but by submitting Your User Content, You allow Us and all other users of the Site throughout the world to use, adapt and make Your User Content available to others, without any obligation to You, even if You stop using the Site."
-                    },
                     {
                         "text": "You may submit data, material, ideas and other information to Us for posting on the Site (“User Content”)."
                     },
