@@ -9,6 +9,7 @@ import styles from './styles';
 
 const rangerAnimation = require('assets/animations/ranger.json');
 const loadedAnimation = require('assets/animations/check.json');
+const noConnectionAnimation = require('assets/animations/no_connection.json');
 
 type Props = {
   isConnected: boolean,
@@ -101,19 +102,20 @@ class Sync extends Component<Props> {
   }
 
   render() {
-    const { isConnected, syncFinished } = this.props;
+    const { isConnected, syncFinished, criticalSyncError } = this.props;
+    let animationSource = noConnectionAnimation;
+    if (isConnected && !criticalSyncError) animationSource = syncFinished ? loadedAnimation : rangerAnimation;
+
     return (
       <View style={[styles.mainContainer, styles.center]}>
         <StatusBar networkActivityIndicatorVisible />
-        {isConnected &&
-          <LottieView
-            loop={!syncFinished}
-            source={syncFinished ? loadedAnimation : rangerAnimation}
-            ref={animation => {
-              this.animation = animation;
-            }}
-          />
-        }
+        <LottieView
+          loop={!syncFinished}
+          source={animationSource}
+          ref={animation => {
+            this.animation = animation;
+          }}
+        />
         {this.getContent()}
         {this.getAction()}
       </View>
