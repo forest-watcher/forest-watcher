@@ -1,5 +1,6 @@
+// @flow
+
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import {
   TouchableHighlight,
   View,
@@ -17,23 +18,28 @@ const downloadIcon = require('assets/download.png');
 const refreshIcon = require('assets/refresh.png');
 const downloadedIcon = require('assets/downloaded.png');
 
-class AreaCache extends PureComponent {
+type Props = {
+  areaId: string,
+  downloadAreaById: string => void,
+  cacheStatus: {
+    requested: boolean,
+    progress: number,
+    error: boolean,
+    completed: boolean
+  },
+  isConnected: boolean,
+  resetCacheStatus: string => void,
+  showTooltip: boolean,
+  refreshAreaCacheById: string => void,
+  pendingCache: number,
+  showNotConnectedNotification: () => void
+}
+type State = {
+  indeterminate: boolean,
+  canRefresh: boolean
+}
 
-  static propTypes = {
-    areaId: PropTypes.string.isRequired,
-    downloadAreaById: PropTypes.func.isRequired,
-    cacheStatus: PropTypes.shape({
-      requested: PropTypes.bool.isRequired,
-      progress: PropTypes.number.isRequired,
-      error: PropTypes.bool.isRequired,
-      completed: PropTypes.bool.isRequired
-    }).isRequired,
-    isConnected: PropTypes.bool.isRequired,
-    resetCacheStatus: PropTypes.func.isRequired,
-    showTooltip: PropTypes.bool.isRequired,
-    refreshAreaCacheById: PropTypes.func.isRequired,
-    pendingCache: PropTypes.number.isRequired
-  };
+class AreaCache extends PureComponent<Props, State> {
 
   static defaultProps = {
     cacheStatus: {
@@ -49,7 +55,7 @@ class AreaCache extends PureComponent {
     canRefresh: this.props.cacheStatus.completed
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (prevProps.cacheStatus.progress > 0 && this.props.cacheStatus.progress === 0) {
       this.setIndeterminate(true);
     }
@@ -88,13 +94,7 @@ class AreaCache extends PureComponent {
     refreshAreaCacheById(areaId);
   }
 
-  onOfflinePress = () => {
-    Alert.alert(
-      i18n.t('dashboard.unable'),
-      i18n.t('dashboard.connectionRequired'),
-      [{ text: 'OK' }]
-    );
-  }
+  onOfflinePress = () => this.props.showNotConnectedNotification();
 
   getCacheAreaAction = () => {
     const { isConnected, cacheStatus } = this.props;
@@ -113,7 +113,7 @@ class AreaCache extends PureComponent {
     return refreshIcon;
   }
 
-  setIndeterminate = (indeterminate) => {
+  setIndeterminate = (indeterminate: boolean) => {
     this.setState(() => ({ indeterminate }));
   }
 

@@ -31,6 +31,7 @@
         "noAlertSystem": "No hay alertas seleccionadas",
         "noImage": "Sin imagen",
         "notAvailable": "No disponible",
+        "offlineModeIsOn": "Estás en modo sin conexión",
         "oops": "Oops!",
         "retry": "Reintentar",
         "save": "Guardar",
@@ -46,12 +47,10 @@
         "searchPlaceholder": "Buscar un país"
     },
     "dashboard": {
-        "connectionRequired": "Tienes que tener una conexión a Internet",
         "downloadFailed": "Error en la descarga",
         "makeAvailableOffline": "Descargar para uso sin conexión",
         "map": "Mapa",
-        "myReports": "Mis informes",
-        "unable": "No se ha podido descargar el área"
+        "myReports": "Mis informes"
     },
     "datasets": {
         "umd_as_it_happens": "Deforestación (GLAD)",
@@ -66,9 +65,6 @@
                 "description": [
                     {
                         "text": "Contacta con nosotros para enviarnos tus comentarios o preguntas en el correo electrónico mailto:forestwatcher@wri.org."
-                    },
-                    {
-                        "text": "Contacta con nosotros para enviarnos tus comentarios o preguntas en el correo electrónico mailto:forestwatcher@wri.org."
                     }
                 ]
             },
@@ -77,15 +73,6 @@
         "fifthQuestion": {
             "content": {
                 "description": [
-                    {
-                        "text": "Cada conjunto de datos de cambio forestal ha superado rigurosas pruebas científicas y tiene un conjunto único de limitaciones. Por ejemplo, en Perú se evaluó que las alertas GLAD tenían un 13,5 % de falsos positivos (aparecía una alerta en los datos cuando no estaba en el suelo) y un 33 % de falsos negativos (había un cambio observado en el suelo que no aparecía como una alerta en los datos). Esto quiere decir que en torno a un 87 % de las alertas GLAD representan eventos de cambio forestal. La mayor tasa de falsos negativos quiere decir que las alertas son una estimación conservadora de la pérdida de cobertura de árboles. Esto ayuda a minimizar la probabilidad de que los usuarios gasten recursos en investigar alertas que no representan verdaderos cambios forestales."
-                    },
-                    {
-                        "text": "Los usuarios también deben tener en cuenta que las alertas GLAD detectan todas las pérdidas de cobertura de árboles, independientemente de si están causadas por humanos (como por ejemplo debido a la tala) o a causas naturales (como un deslizamiento de tierra). Además, las alertas no distinguen entre cobertura de árboles naturales y cobertura de árboles plantados. Para obtener una información completa sobre cada conjunto de datos, por favor, visita www.globalforestwatch.org."
-                    },
-                    {
-                        "text": "Una evaluación de los datos VIIRS descubrió que la tasa de falsos positivos era próxima a 0 para la mayoría de las regiones, con un máximo de 1,2 % en las regiones evaluadas, cifra que se asociaba sobre todo a la luz del sol en tejados reflectantes. La tasa de omisión no fue evaluada. VIIRS no puede detectar incendios que sean demasiado pequeños o demasiado fríos (en general, más fríos que 700 K o más pequeños que 100 metros cuadrados). Las omisiones también pueden darse cuando los incendios comienzan y terminan entre pasadas de satélites o cuando los incendios están ocultos por nubes, humo espeso o copas de árboles."
-                    },
                     {
                         "text": "Cada conjunto de datos de cambio forestal ha superado rigurosas pruebas científicas y tiene un conjunto único de limitaciones. Por ejemplo, en Perú se evaluó que las alertas GLAD tenían un 13,5 % de falsos positivos (aparecía una alerta en los datos cuando no estaba en el suelo) y un 33 % de falsos negativos (había un cambio observado en el suelo que no aparecía como una alerta en los datos). Esto quiere decir que en torno a un 87 % de las alertas GLAD representan eventos de cambio forestal. La mayor tasa de falsos negativos quiere decir que las alertas son una estimación conservadora de la pérdida de cobertura de árboles. Esto ayuda a minimizar la probabilidad de que los usuarios gasten recursos en investigar alertas que no representan verdaderos cambios forestales."
                     },
@@ -116,39 +103,9 @@
                     },
                     {
                         "text": "Específicamente, esta aplicación permite a los usuarios:"
-                    },
-                    {
-                        "text": "Forest Watcher es una aplicación móvil diseñada para permitir un acceso fácil y sin necesidad de conexión a Internet a los datos sobre el cambio forestal de Global Forest Watch: http://www.globalforestwatch.org/."
-                    },
-                    {
-                        "text": "Global Forest Watch (GFW) es un sistema de alerta y monitorización forestal dinámico en línea que permite a la gente de todas partes gestionar mejor los bosques. GFW aúna tecnología de satélite, computación en la nube y datos abiertos para proporcionar información puntual sobre los bosques a comunidades de todo el mundo."
-                    },
-                    {
-                        "text": "Forest Watcher pone la valiosa información de GFW directamente en manos de la gente que monitoriza los bosques sobre el terreno. Forest Watcher permite que cualquiera vea alertas de deforestación e incendios en un dispositivo móvil, navegue a la ubicación de la alerta sin conexión a Internet y recoja información y fotos sobre lo que descubra."
-                    },
-                    {
-                        "text": "Esta aplicación proporciona una solución asequible y fácil de usar para: identificar rápidamente áreas para patrullas forestales o investigaciones sobre el terreno; recoger evidencias sobre cambios forestales desde el suelo; utilizar los datos recogidos para tomar decisiones de gestión y conservación basadas en evidencias y validar productos de detección remota sobre el terreno."
-                    },
-                    {
-                        "text": "Específicamente, esta aplicación permite a los usuarios:"
                     }
                 ],
                 "orderList": [
-                    {
-                        "text": "Subir o dibujar áreas de interés personalizadas para analizarlas"
-                    },
-                    {
-                        "text": "Descarga diversos datos basados en satélite sobre cambio forestal y otros datos contextuales (p. ej.: alertas casi en tiempo real sobre alertas de deforestación, áreas protegidas y zonas forestales intactas) en cualquier dispositivo móvil"
-                    },
-                    {
-                        "text": "Subir tus propios conjuntos de datos"
-                    },
-                    {
-                        "text": "Investiga alertas sobre el terreno y recoge información (incluyendo puntos GPS y fotos) mediante formularios personalizables"
-                    },
-                    {
-                        "text": "Revisar, analizar y descargar datos recogidos con la aplicación"
-                    },
                     {
                         "text": "Subir o dibujar áreas de interés personalizadas para analizarlas"
                     },
@@ -173,29 +130,14 @@
                 "description": [
                     {
                         "text": "Forest Watcher proporciona tres conjuntos de datos por defecto de Global Forest Watch:"
-                    },
-                    {
-                        "text": "Forest Watcher proporciona tres conjuntos de datos por defecto de Global Forest Watch:"
                     }
                 ],
                 "footerText": [
                     {
                         "text": "Para ver información más detallada sobre cada conjunto de datos, por favor, visita http://data.globalforestwatch.org/."
-                    },
-                    {
-                        "text": "Para ver información más detallada sobre cada conjunto de datos, por favor, visita http://data.globalforestwatch.org/."
                     }
                 ],
                 "orderList": [
-                    {
-                        "text": "Alertas de incendio activas VIIRS: producidas por la NASA y actualizadas diariamente a una resolución de 375 metros. Esto te muestra la ubicación de los presuntos incendios durante la última semana."
-                    },
-                    {
-                        "text": "Alertas GLAD: producidas por el laboratorio Global Land Analysis & Discovery (GLAD) de la Universidad de Maryland y actualizadas semanalmente a una resolución de 30 metros. Esto te muestra semana a semana dónde puede haber cambiado la zona forestal."
-                    },
-                    {
-                        "text": "Pérdida anual de cobertura de árboles: también se produce en el laboratorio GLAD y se actualiza anualmente a una resolución de 30 metros. Esto muestra año tras año en dónde ha cambiado la zona forestal. En este momento esos datos solo están disponibles como una capa contextual de datos: no puedes crear un informe relacionado con una alerta de pérdida anual, si bien puedes crear un informe para esa ubicación pulsando en la pantalla en la ubicación de la pérdida o ganancia forestal."
-                    },
                     {
                         "text": "Alertas de incendio activas VIIRS: producidas por la NASA y actualizadas diariamente a una resolución de 375 metros. Esto te muestra la ubicación de los presuntos incendios durante la última semana."
                     },
@@ -214,9 +156,6 @@
                 "description": [
                     {
                         "text": "Las imágenes de satélite mostradas en el mapa se actualizan con menor frecuencia que los datos de alertas. Por lo tanto, puedes recibir alertas de cambio forestal en áreas que aparecen como bosques intactos en el mapa de satélite. La mejor forma de verificar el cambio es visitar las alertas GLAD sobre el terreno."
-                    },
-                    {
-                        "text": "Las imágenes de satélite mostradas en el mapa se actualizan con menor frecuencia que los datos de alertas. Por lo tanto, puedes recibir alertas de cambio forestal en áreas que aparecen como bosques intactos en el mapa de satélite. La mejor forma de verificar el cambio es visitar las alertas GLAD sobre el terreno."
                     }
                 ]
             },
@@ -225,9 +164,6 @@
         "secondQuestion": {
             "content": {
                 "description": [
-                    {
-                        "text": "Forest Watcher fue desarrollado inicialmente por el Instituto Jane Goodall (IJG), Google, Touchlab y Global Forest Watch. Los monitores en zonas forestales, los guardas forestales de áreas protegidas y comunidades locales que trabajaban con el Instituto Jane Goodall necesitaban acceder a datos de satélite actualizados para monitorizar los bosques; sin embargo, el acceso a Internet es muy limitado en las zonas remotas en las que trabajan. Sin esta información, los monitores forestales podían pasar por alto actividad de deforestación que tuviera lugar más allá de sus rutas. IJG, GFW, Touchlab, Vizzuality y Google han creado Forest Watcher para permitir el acceso a los datos de GFW sobre el terreno."
-                    },
                     {
                         "text": "Forest Watcher fue desarrollado inicialmente por el Instituto Jane Goodall (IJG), Google, Touchlab y Global Forest Watch. Los monitores en zonas forestales, los guardas forestales de áreas protegidas y comunidades locales que trabajaban con el Instituto Jane Goodall necesitaban acceder a datos de satélite actualizados para monitorizar los bosques; sin embargo, el acceso a Internet es muy limitado en las zonas remotas en las que trabajan. Sin esta información, los monitores forestales podían pasar por alto actividad de deforestación que tuviera lugar más allá de sus rutas. IJG, GFW, Touchlab, Vizzuality y Google han creado Forest Watcher para permitir el acceso a los datos de GFW sobre el terreno."
                     }
@@ -240,9 +176,6 @@
                 "description": [
                     {
                         "text": "Forest Watcher Desktop es la interfaz de escritorio en línea complementaria a la aplicación móvil, la cual se puede usar para gestionar áreas de interés, crear nuevas plantillas de informes, configurar un equipo de usuarios y revisar y descargar informes enviados a través de la aplicación. La interfaz de escritorio es para administradores y gestores de equipo, para que puedan configurar la aplicación de modo que pueda usarla su equipo. Para más información sobre Forest Watcher Desktop, pulsa aquí"
-                    },
-                    {
-                        "text": "Forest Watcher Desktop es la interfaz de escritorio en línea complementaria a la aplicación móvil, la cual se puede usar para gestionar áreas de interés, crear nuevas plantillas de informes, configurar un equipo de usuarios y revisar y descargar informes enviados a través de la aplicación. La interfaz de escritorio es para administradores y gestores de equipo, para que puedan configurar la aplicación de modo que pueda usarla su equipo. Para más información sobre Forest Watcher Desktop, pulsa aquí"
                     }
                 ]
             },
@@ -251,9 +184,6 @@
         "sixthQuestion": {
             "content": {
                 "description": [
-                    {
-                        "text": "Sí, puedes subir y añadir tus propios conjuntos de datos a la aplicación utilizando el sitio de Forest Watcher Desktop. Utilizando el sitio Desktop puedes añadir un web map tile service (WMTS) a Forest Watcher a través de una URL. Puedes encontrar más información en el sitio Desktop."
-                    },
                     {
                         "text": "Sí, puedes subir y añadir tus propios conjuntos de datos a la aplicación utilizando el sitio de Forest Watcher Desktop. Utilizando el sitio Desktop puedes añadir un web map tile service (WMTS) a Forest Watcher a través de una URL. Puedes encontrar más información en el sitio Desktop."
                     }
@@ -299,42 +229,6 @@
                     {
                         "description": "Puedes utilizar Forest Watcher Desktop para crear una plantilla de formulario personalizada para que la use tu equipo al recoger datos. También puedes agregar notas en la sección final del formulario si tienes observaciones que hacer.",
                         "text": "Quiero recoger datos personalizados"
-                    },
-                    {
-                        "description": "Si no ves ninguna alerta en tu área de Interés, comprueba globalforestwatch.org para ver si hay datos para esa ubicación y el intervalo temporal que seleccionaste. Si no hay alertas GLAD o VIIRS recientes es que no ha habido actividad reciente de cambio forestal. Puedes utilizar la capa contextual Cambio en la Cobertura de Árboles Anual para encontrar alertas antiguas perdidas, las cuales aún podrían servir para una investigación o visita sobre el terreno.",
-                        "text": "No veo datos de alertas"
-                    },
-                    {
-                        "description": "Si la aplicación se bloquea, vuelve a abrirla. Si se bloquea múltiples veces, por favor, envía un correo electrónico a mailto:forestwatcher@wri.org e incluye la información sobre el modelo de tu dispositivo móvil y sobre lo que estabas haciendo con la aplicación cuando se bloqueó.",
-                        "text": "La aplicación se bloquea"
-                    },
-                    {
-                        "description": "Las funcionalidades de ubicación y navegación de Forest Watcher dependen del GPS interno de tu dispositivo. En primer lugar, comprueba que el GPS (llamado frecuentemente \"servicios de ubicación\") está conectado en los ajustes de tu dispositivo móvil. Si aun así no funciona, por favor, envíanos un correo electrónico a mailto:forestwatcher@wri.org indicándonos el modelo del dispositivo que estás utilizando.",
-                        "text": "No puedo ver la brújula/mi ubicación"
-                    },
-                    {
-                        "description": "Algunos dispositivos que solo cuentan con cámaras en la parte delantera pueden no ser compatibles con la cámara en el formulario del informe. En su lugar puedes tomar una foto con tu aplicación de cámara y usar la función de subida en el informe de Forest Watcher para añadir una foto de tu biblioteca al informe.",
-                        "text": "No puedo hacer una foto en la aplicación"
-                    },
-                    {
-                        "description": "Puede que no siempre te resulte posible completar un informe justo en el escenario de una alerta. Puedes empezar a escribir un informe, guardarlo y volver a él más tarde cuando estés de vuelta en tu base. También puedes hacer una foto utilizando la cámara de tu dispositivo y rellenar el informe más tarde: puedes adjuntar la foto a tu informe.",
-                        "text": "Quiero completar un informe más tarde"
-                    },
-                    {
-                        "description": "Cuando configures por primera vez Forest Watcher en tu dispositivo móvil, la aplicación tendrá que descargar muchos datos para poder funcionar sin conexión a Internet. Puede que tengas que esperar unos 5 minutos para que todos los datos se carguen adecuadamente. Esto es normal. Si tienes una conexión a Internet lenta o débil, el tiempo de descarga puede ser mayor. Mantén abierta la aplicación para dejar que se complete la descarga. Después de la configuración inicial se descargarán nuevos datos de alertas cada vez que conectes tu dispositivo a Internet; el tiempo de descarga variará en función de cuántas alertas se hayan producido. Estas actualizaciones serán del orden de Kilobytes, mientras que la descarga inicial probablemente será de algunos Megabytes.",
-                        "text": "Las alertas tardan mucho en cargarse"
-                    },
-                    {
-                        "description": "En este momento solo puedes ver un conjunto de datos en un momento dado por cada área de interés. El conjunto de datos al que estás mirando por para área de interés se controla utilizando el menú de ajustes. Si quieres mirar los datos sobre incendios y sobre pérdida forestal para el mismo lugar, tendrás que crear dos áreas de interés para la misma ubicación y ajustar cada una de ellas para que se descarguen los distintos conjuntos de datos.",
-                        "text": "Quiero ver alertas GLAD y VIIRS para la misma área de interés"
-                    },
-                    {
-                        "description": "Forest Watcher contiene muchos datos y podría ocupar mucha memoria en tu dispositivo, en función de cuántas áreas de interés tengas, lo grandes que sean y cuántas alertas haya en cada una. Recomendamos que tu dispositivo tenga al menos 16 GB de almacenamiento interno para que puedas utilizar tus otras aplicaciones además de Forest Watcher: Forest Watcher no necesitará todo este almacenamiento. Cuantas menos áreas de interés configures en la aplicación y más pequeñas sean, menos datos tendrán que descargarse a tu dispositivo.",
-                        "text": "Me he quedado sin memoria en mi dispositivo"
-                    },
-                    {
-                        "description": "Puedes utilizar Forest Watcher Desktop para crear una plantilla de formulario personalizada para que la use tu equipo al recoger datos. También puedes agregar notas en la sección final del formulario si tienes observaciones que hacer.",
-                        "text": "Quiero recoger datos personalizados"
                     }
                 ]
             },
@@ -343,9 +237,6 @@
         "thirdQuestion": {
             "content": {
                 "description": [
-                    {
-                        "text": "Forest Watcher muestra datos sobre el cambio forestal en \"áreas de interés\", que son áreas que monitorizas. Puedes definir áreas de interés en el menú de ajustes. Si formas parte de un equipo puede que ya tengas áreas configuradas para ti, las cuales puedes subir a la aplicación. La aplicación descargará automáticamente datos sobre el cambio forestal en esas áreas y se refrescará con las últimas alertas de deforestación e incendios mientras estás conectado a Internet. Cuando descargues los datos relevantes en tu dispositivo móvil puedes utilizar la aplicación sobre el terreno sin necesidad de conexión a Internet. Forest Watcher te enviará alertas cercanas utilizando el GPS interno del teléfono. Cuando hayas llegado a una alerta puedes rellenar un informe sobre lo que encuentres y añadir fotos."
-                    },
                     {
                         "text": "Forest Watcher muestra datos sobre el cambio forestal en \"áreas de interés\", que son áreas que monitorizas. Puedes definir áreas de interés en el menú de ajustes. Si formas parte de un equipo puede que ya tengas áreas configuradas para ti, las cuales puedes subir a la aplicación. La aplicación descargará automáticamente datos sobre el cambio forestal en esas áreas y se refrescará con las últimas alertas de deforestación e incendios mientras estás conectado a Internet. Cuando descargues los datos relevantes en tu dispositivo móvil puedes utilizar la aplicación sobre el terreno sin necesidad de conexión a Internet. Forest Watcher te enviará alertas cercanas utilizando el GPS interno del teléfono. Cuando hayas llegado a una alerta puedes rellenar un informe sobre lo que encuentres y añadir fotos."
                     }
@@ -382,7 +273,6 @@
     "report": {
         "addPicture": "Añadir imagen",
         "area": "Area del informe",
-        "here": "Report here",
         "choosePicture": "Por favor, haz o elige una foto",
         "completed": "Terminado",
         "datePlaceholder": "Seleccione una fecha",
@@ -416,17 +306,16 @@
         "aboutPartners": "Colaboradores",
         "aboutTerms": "Términos y Condiciones",
         "addArea": "AÑADIR ÁREA",
-        "connectionRequired": "Necesitas una conexión a Internet",
         "coordinatesDecimal": "Decimal",
         "coordinatesDegrees": "Grados",
         "coordinatesFormat": "Formato de Coordenadas",
         "coordinatesUtm": "UTM",
         "logOut": "Cerrar sesión",
         "loggedIn": "Has iniciado sesión como",
+        "offlineMode": "Modo Sin Conexión",
         "oneWeekAgo": "Hace una semana",
         "timeFrame": "Periodo de tiempo",
         "title": "Ajustes",
-        "unable": "No se ha podido añadir el área",
         "unsafeLogout": "Tus reportes no están sincronizados!",
         "unsavedDataLost": "Si continúas con el cierre de sesión, todos tus datos se perderán.",
         "yourAreas": "Tus áreas"
@@ -491,21 +380,6 @@
                     },
                     {
                         "text": "Una declaración de que la información de la notificación es precisa y, bajo pena de perjurio, que la parte reclamante está autorizada a actuar en nombre del propietario de un derecho exclusivo que presuntamente se ha vulnerado."
-                    },
-                    {
-                        "text": "Tu firma como persona autorizada para actuar en nombre del propietario de un derecho exclusivo que supuestamente se ha vulnerado;"
-                    },
-                    {
-                        "text": "Identificación de la ubicación exacta en el Sitio de la obra cuyos derechos de autor se reclama que se han vulnerado o, si múltiples obras en el Sitio están cubiertas por una sola notificación, una lista representativa de dichas obras tal y como se localizan en el Sitio;"
-                    },
-                    {
-                        "text": "La dirección, el número de teléfono y la dirección de correo electrónico de la parte reclamante;"
-                    },
-                    {
-                        "text": "Una declaración de que la parte reclamante considera de buena fe que el uso del material del modo sobre el que se reclama no está autorizado por el propietario de los derechos de autor, su agente ni la ley; y"
-                    },
-                    {
-                        "text": "Una declaración de que la información de la notificación es precisa y, bajo pena de perjurio, que la parte reclamante está autorizada a actuar en nombre del propietario de un derecho exclusivo que presuntamente se ha vulnerado."
                     }
                 ]
             },
@@ -529,21 +403,6 @@
                     },
                     {
                         "text": "Podemos cambiar ocasionalmente estos Términos para reflejar cambios en la ley y en el Sitio. Deberías revisar estos Términos regularmente por si hay cambios. Si no estuvieras de acuerdo con un cambio en los Términos, deberías dejar de acceder  al Sitio y de usarlo."
-                    },
-                    {
-                        "text": "Te proporcionamos acceso al Sitio y su contenido para poder gestionar mejor el uso forestal y para acceder a información actualizada sobre el estado de los bosques del mundo. Tu uso del Sitio no te da ningún derecho de propiedad intelectual sobre el Sitio ni sus contenidos. Estás de acuerdo en usar el Sitio y sus contenidos únicamente para propósitos legales y no difamar, acosar ni amenazar a nadie ni publicar ningún material obsceno, pornográfico ni ofensivo. Estás de acuerdo en que al usar el Sitio no dañarás ni perjudicarás al Sitio ni a nadie más que use el Sitio."
-                    },
-                    {
-                        "text": "Excepto para los artículos que están identificados como sujetos a restricciones adicionales, puedes utilizar el Sitio y su contenido y copiar, adaptar y distribuir el contenido a otros bajo esta licencia."
-                    },
-                    {
-                        "text": "Eres el único responsable de Tu uso del Sitio y de cualquier actividad que se produzca en Tu cuenta. Aceptas indemnizarnos, eximirnos de toda responsabilidad y, bajo petición nuestra, defendernos a Nosotros y a las personas relacionadas con Nosotros frente a cualquier responsabilidad derivada de Tu uso del Sitio, Tu Contenido de Usuario (tal y como se define a continuación) o Tu incumplimiento de estos Términos. Podemos suspender el acceso al Sitio si sospechamos que Tú o aquellos que usen Tu cuenta están incumpliendo estos Términos."
-                    },
-                    {
-                        "text": "Puedes dejar de usar el Sitio y sus contenidos en cualquier momento y Nosotros podemos dejar de ofrecer el Sitio y sus contenidos en cualquier momento."
-                    },
-                    {
-                        "text": "Podemos cambiar ocasionalmente estos Términos para reflejar cambios en la ley y en el Sitio. Deberías revisar estos Términos regularmente por si hay cambios. Si no estuvieras de acuerdo con un cambio en los Términos, deberías dejar de acceder  al Sitio y de usarlo."
                     }
                 ]
             },
@@ -553,12 +412,6 @@
             "content": {
                 "description": null,
                 "list": [
-                    {
-                        "text": "ACEPTAS QUE TU USO DEL SITIO Y SU CONTENIDO ES POR TU CUENTA Y RIESGO. NO HACEMOS PROMESAS NI COMPROMISOS SOBRE EL SITIO NI SU CONTENIDO Y EL SITIO Y EL CONTENIDO SE PROPORCIONAN \"TAL CUAL\" SIN GARANTÍAS NI REPRESENTACIONES DE NINGÚN TIPO, EXPLÍCITAS O IMPLÍCITAS. EN LA MEDIDA MÁS AMPLIA PERMITIDA POR LA LEY, RENUNCIAMOS A TODAS LAS GARANTÍAS, ESTATUTARIAS, EXPLÍCITAS O IMPLÍCITAS, INCLUIDAS LAS GARANTÍAS IMPLÍCITAS DE COMERCIABILIDAD, ADECUACIÓN PARA UN PROPÓSITO PARTICULAR, TÍTULO Y NO INFRACCIÓN"
-                    },
-                    {
-                        "text": "BAJO NINGUNA CIRCUNSTANCIA SEREMOS RESPONSABLES DE CUALQUIER DAÑO ESPECIAL, INDIRECTO, INCIDENTAL, CONSECUENTE O EJEMPLAR (INCLUYENDO, SIN LIMITACIÓN, PÉRDIDA DE BENEFICIOS, DATOS, O USO O COSTE DE COBERTURA) QUE RESULTE DEL USO O DE LA INCAPACIDAD DE USO DEL SITIO O SUS CONTENIDOS, INCLUSO AUNQUE FUÉRAMOS CONSCIENTES DE LA POSIBILIDAD DE DICHOS DAÑOS. EN NINGÚN CASO TENDREMOS NINGUNA RESPONSABILIDAD HACIA TI POR NINGUNA RECLAMACIÓN O DAÑOS POR NINGÚN MOTIVO QUE SUPEREN LOS CIEN DÓLARES ESTADOUNIDENSES (100 $). ALGUNAS JURISDICCIONES NO PERMITEN EXCLUSIONES O LIMITACIONES SOBRE GARANTÍAS IMPLÍCITAS O LIMITACIONES DE RESPONSABILIDAD Y POR LO TANTO ALGUNOS O TODOS LOS DESCARGOS DE RESPONSABILIDAD, EXCLUSIONES O LIMITACIONES PUEDEN NO APLICARSE A TU CASO Y PUEDES DISPONER DE DERECHOS ADICIONALES."
-                    },
                     {
                         "text": "ACEPTAS QUE TU USO DEL SITIO Y SU CONTENIDO ES POR TU CUENTA Y RIESGO. NO HACEMOS PROMESAS NI COMPROMISOS SOBRE EL SITIO NI SU CONTENIDO Y EL SITIO Y EL CONTENIDO SE PROPORCIONAN \"TAL CUAL\" SIN GARANTÍAS NI REPRESENTACIONES DE NINGÚN TIPO, EXPLÍCITAS O IMPLÍCITAS. EN LA MEDIDA MÁS AMPLIA PERMITIDA POR LA LEY, RENUNCIAMOS A TODAS LAS GARANTÍAS, ESTATUTARIAS, EXPLÍCITAS O IMPLÍCITAS, INCLUIDAS LAS GARANTÍAS IMPLÍCITAS DE COMERCIABILIDAD, ADECUACIÓN PARA UN PROPÓSITO PARTICULAR, TÍTULO Y NO INFRACCIÓN"
                     },
@@ -594,21 +447,6 @@
                     },
                     {
                         "text": "Estos Términos son la declaración completa del acuerdo entre Tú y Nosotros en relación al Sitio y sus contenidos."
-                    },
-                    {
-                        "text": "Las leyes del estado de Nueva York, EE. UU., a excepción de las disposiciones sobre conflictos de leyes de Nueva York, se aplican a cualquier disputa sobre el Sitio, su contenido o estos Términos. La Convención de las Naciones Unidas sobre los Contratos de Compraventa Internacional de Mercaderías no se aplica. Todas las reclamaciones que se deriven o relacionen con estos Términos se litigarán exclusivamente en los juzgados de la ciudad de Nueva York, Nueva York, EE. UU. y das tu consentimiento a la jurisdicción personal de estos juzgados."
-                    },
-                    {
-                        "text": "Si no aplicamos rápidamente los Términos, no hemos renunciado a ningún otro derecho ni al derecho de aplicar estos Términos u otros en el futuro."
-                    },
-                    {
-                        "text": "Si cualquier disposición particular de estos Términos no es aplicable, eso no afecta a la aplicabilidad de cualquiera de las demás disposiciones de los Términos."
-                    },
-                    {
-                        "text": "Estos Términos son entre Tú y Nosotros y nadie más puede aplicarlos."
-                    },
-                    {
-                        "text": "Estos Términos son la declaración completa del acuerdo entre Tú y Nosotros en relación al Sitio y sus contenidos."
                     }
                 ]
             },
@@ -618,12 +456,6 @@
             "content": {
                 "description": null,
                 "list": [
-                    {
-                        "text": "Puedes enviarnos datos, materiales, ideas y otra información para que los publiquemos en el Sitio (\"Contenido de Usuario\")."
-                    },
-                    {
-                        "text": "Conservas la propiedad de todo Tu Contenido de Usuario que aportes al Sitio, pero al enviar Tu Contenido de Usuario permites que Nosotros y todos los demás usuarios del Sitio de todo el mundo usen, adapten y pongan a disposición de otros Tu Contenido de Usuario, sin ninguna obligación hacia Ti, incluso aunque dejes de usar el Sitio."
-                    },
                     {
                         "text": "Puedes enviarnos datos, materiales, ideas y otra información para que los publiquemos en el Sitio (\"Contenido de Usuario\")."
                     },

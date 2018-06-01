@@ -1,26 +1,43 @@
+// @flow
+import type { Area } from 'types/areas.types';
+
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import List from 'components/common/list';
 import AreaList from 'containers/common/area-list';
 import {
-  View,
-  Text,
-  TouchableHighlight,
-  ScrollView,
-  Image,
-  Alert
+View,
+Text,
+TouchableHighlight,
+ScrollView,
+Image,
+Alert
 } from 'react-native';
 
 import Theme from 'config/theme';
 import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import CoordinatesDropdown from 'containers/settings/coordinates-dropdown';
+import Row from 'components/common/row';
 
 import styles from './styles';
 
 const plusIcon = require('assets/plus.png');
 
-class Settings extends Component {
+type Props = {
+  user: any,
+  version: string,
+  loggedIn: boolean, // eslint-disable-line
+  areas: Array<Area>,
+  navigator: any,
+  logout: () => void,
+  isConnected: boolean,
+  isUnsafeLogout: boolean,
+  setOfflineMode: () => void,
+  offlineMode: boolean,
+  showNotConnectedNotification: () => void
+};
+
+class Settings extends Component<Props> {
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color1,
     navBarButtonColor: Theme.colors.color1,
@@ -28,22 +45,11 @@ class Settings extends Component {
     navBarBackgroundColor: Theme.background.main
   };
 
-  static propTypes = {
-    user: PropTypes.any,
-    version: PropTypes.string,
-    loggedIn: PropTypes.bool, // eslint-disable-line
-    areas: PropTypes.any,
-    navigator: PropTypes.object.isRequired,
-    logout: PropTypes.func.isRequired,
-    isConnected: PropTypes.bool.isRequired,
-    isUnsafeLogout: PropTypes.bool.isRequired
-  };
-
   componentDidMount() {
     tracker.trackScreenView('Set Up');
   }
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(props: Props) {
     if (props.areas.length === 0 && props.loggedIn) {
       props.navigator.push({
         screen: 'ForestWatcher.Setup'
@@ -51,7 +57,7 @@ class Settings extends Component {
     }
   }
 
-  onAreaPress = (areaId, name) => {
+  onAreaPress = (areaId: string, name: string) => {
     this.props.navigator.push({
       screen: 'ForestWatcher.AreaDetail',
       title: name,
@@ -85,21 +91,17 @@ class Settings extends Component {
   }
 
   onPressAddArea = () => {
-    const { navigator, isConnected } = this.props;
-    if (isConnected) {
+    const { navigator, isConnected, offlineMode, showNotConnectedNotification } = this.props;
+    if (isConnected && !offlineMode) {
       navigator.push({
         screen: 'ForestWatcher.Setup'
       });
     } else {
-      Alert.alert(
-        i18n.t('settings.unable'),
-        i18n.t('settings.connectionRequired'),
-        [{ text: 'OK' }]
-      );
+      showNotConnectedNotification();
     }
   }
 
-  handleStaticLinks = (section, text) => {
+  handleStaticLinks = (section: string, text: string) => {
     this.props.navigator.push({
       screen: section,
       title: text
@@ -133,7 +135,7 @@ class Settings extends Component {
         functionOnPress: this.handleStaticLinks
       }
     ];
-    const { version, areas } = this.props;
+    const { version, areas, setOfflineMode, offlineMode } = this.props;
 
     return (
       <View style={styles.container}>
@@ -152,7 +154,7 @@ class Settings extends Component {
               <Text style={styles.name}>
                 {this.props.user.fullName}
               </Text>
-              <Text style={styles.email} numberOfLines={1} ellipsizeMode="tail" >
+              <Text style={styles.email} numberOfLines={1} ellipsizeMode="tail">
                 {this.props.user.email}
               </Text>
             </View>
@@ -167,6 +169,16 @@ class Settings extends Component {
 
           <View style={styles.coordinates}>
             <CoordinatesDropdown />
+          </View>
+          <View style={styles.offlineMode}>
+            <Row
+              value={offlineMode}
+              onValueChange={setOfflineMode}
+            >
+              <Text style={[styles.label, { marginLeft: 0 }]}>
+                {i18n.t('settings.offlineMode')}
+              </Text>
+            </Row>
           </View>
 
           {areas && areas.length

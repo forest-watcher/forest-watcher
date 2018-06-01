@@ -8,8 +8,9 @@ import { createReport } from 'redux-modules/reports';
 import { setCanDisplayAlerts, setActiveAlerts } from 'redux-modules/alerts';
 import tracker from 'helpers/googleAnalytics';
 import { getContextualLayer } from 'helpers/map';
-import Map from 'components/map';
+import { shouldBeConnected } from 'helpers/app';
 import { getSelectedArea, activeDataset } from 'helpers/area';
+import Map from 'components/map';
 
 const BoundingBox = require('boundingbox');
 
@@ -50,7 +51,7 @@ function mapStateToProps(state: State) {
     contextualLayer,
     areaCoordinates,
     area: areaProps,
-    isConnected: state.offline.online,
+    isConnected: shouldBeConnected(state),
     coordinatesFormat: state.app.coordinatesFormat,
     canDisplayAlerts: state.alerts.canDisplayAlerts,
     basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',

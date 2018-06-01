@@ -1,3 +1,12 @@
+// @flow
+import type {
+  LayersState,
+  LayersAction,
+  LayersCacheStatus,
+  LayersProgress
+} from 'types/layers.types';
+import type { Dispatch, GetState, State } from 'types/store.types';
+
 import Config from 'react-native-config';
 import omit from 'lodash/omit';
 import CONSTANTS from 'config/constants';
@@ -8,13 +17,14 @@ import { removeFolder } from 'helpers/fileManagement';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
-import { START_APP } from 'redux-modules/app';
+import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
+import type { Area } from 'types/areas.types';
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
 const GET_LAYERS_COMMIT = 'layers/GET_LAYERS_COMMIT';
 const GET_LAYERS_ROLLBACK = 'layers/GET_LAYERS_ROLLBACK';
-const SET_ACTIVE_LAYER = 'layer/SET_ACTIVE_LAYER';
-const DOWNLOAD_AREA = 'layer/DOWNLOAD_AREA';
+const SET_ACTIVE_LAYER = 'layers/SET_ACTIVE_LAYER';
+const DOWNLOAD_AREA = 'layers/DOWNLOAD_AREA';
 const CACHE_LAYER_REQUEST = 'layers/CACHE_LAYER_REQUEST';
 const CACHE_LAYER_COMMIT = 'layers/CACHE_LAYER_COMMIT';
 export const CACHE_LAYER_ROLLBACK = 'layer/CACHE_LAYER_ROLLBACK';
@@ -31,49 +41,49 @@ const initialState = {
   syncDate: Date.now(),
   layersProgress: {
     // saves the progress relative to each area's layer
-    // areaId: {
-    //   layerId: 0.2
-    // }
   },
   cacheStatus: {
     // status of the current area cache
-    // areaId: {
-    //   progress: 0,
-    //   completed: false,
-    //   requested: false,
-    //   error: false
-    // }
   },
   cache: {
     // save the layers path for each area
-    // basemap: { areaId: local files path }
   },
   pendingCache: {
     // key value with layer => areaId to cache
-    // basemap: { areaId: true | false }
   }
 };
 
-export default function reducer(state = initialState, action) {
+export default function reducer(state: LayersState = initialState, action: LayersAction) {
   switch (action.type) {
-    case START_APP: {
-      let cacheStatus = { ...state.cacheStatus };
-      Object.keys(cacheStatus).forEach((areaId) => {
-        const areaStatus = cacheStatus[areaId];
-        const progress = areaStatus.progress;
-        if (progress < 1 && !areaStatus.completed && areaStatus.requested) {
-          cacheStatus = {
-            ...cacheStatus,
-            [areaId]: {
-              progress,
-              requested: false,
-              completed: false,
-              error: false
-            }
-          };
-        }
-      });
-      return { ...state, synced: false, syncing: false, cacheStatus, pendingCache: {} };
+    case PERSIST_REHYDRATE: {
+      // $FlowFixMe
+      const { layers }: State = action.payload;
+      const cacheStatus = Object.entries(layers.cacheStatus)
+        .reduce((acc, [areaId, status]) => {
+          // $FlowFixMe
+          const progress = status.progress;
+          // $FlowFixMe
+          if (progress < 1 && !status.completed && status.requested) {
+            return {
+              ...acc,
+              [areaId]: {
+                progress,
+                requested: false,
+                completed: false,
+                error: false
+              }
+            };
+          }
+          return { ...acc, [areaId]: status };
+        }, {});
+      return {
+        ...state,
+        ...layers,
+        cacheStatus,
+        synced: false,
+        syncing: false,
+        pendingCache: {}
+      };
     }
     case GET_LAYERS_REQUEST:
       return { ...state, synced: false, syncing: true };
@@ -81,7 +91,7 @@ export default function reducer(state = initialState, action) {
       const areas = [...action.meta.areas];
       const layers = [...action.payload];
       const syncDate = Date.now();
-      const cacheStatus = getCacheStatus(state.cacheStatus, areas);
+      const cacheStatus = getCacheStatusFromAreas(state.cacheStatus, areas);
 
       return { ...state, data: layers, cacheStatus, syncDate, synced: true, syncing: false };
     }
@@ -207,14 +217,14 @@ export default function reducer(state = initialState, action) {
       };
       const layerCount = getLayersWithBasemap(state.data).length;
       const updatedCacheStatus = updateAreaProgress(area.id, state.cacheStatus, layersProgress, layerCount);
-      const cacheStatus = getCacheStatus(updatedCacheStatus, [area]);
+      const cacheStatus = updateCacheAreaStatus(updatedCacheStatus, area);
 
       return { ...state, cache, cacheStatus, pendingCache, layersProgress };
     }
     case CACHE_LAYER_ROLLBACK: {
       const { area, layer } = action.meta;
-      const { areas, cacheStatus } = state;
-      const updatedCacheStatus = getCacheStatus(cacheStatus, areas);
+      const { cacheStatus } = state;
+      const updatedCacheStatus = updateCacheAreaStatus(cacheStatus, area);
       const areaCacheStatus = { ...updatedCacheStatus[area.id], requested: false, error: true };
       const newCacheStatus = { ...updatedCacheStatus, [area.id]: { ...areaCacheStatus } };
       const pendingCache = {
@@ -236,7 +246,7 @@ export default function reducer(state = initialState, action) {
     case SAVE_AREA_COMMIT: {
       const { cacheStatus } = state;
       const area = action.payload;
-      const newCacheStatus = getCacheStatus(cacheStatus, [area]);
+      const newCacheStatus = updateCacheAreaStatus(cacheStatus, area);
       return { ...state, cacheStatus: newCacheStatus };
     }
     case LOGOUT_REQUEST:
@@ -249,7 +259,7 @@ export default function reducer(state = initialState, action) {
 }
 
 export function getUserLayers() {
-  return (dispatch, state) => {
+  return (dispatch: Dispatch, state: GetState) => {
     const url = `${Config.API_URL}/contextual-layer/?enabled=true`;
     const areas = state().areas.data;
     return dispatch({
@@ -265,15 +275,17 @@ export function getUserLayers() {
   };
 }
 
-export function setActiveContextualLayer(layerId, value) {
-  return (dispatch, state) => {
+export function setActiveContextualLayer(layerId: string, value: boolean) {
+  return (dispatch: Dispatch, state: GetState) => {
     let activeLayer = null;
-    if (layerId !== state().layers.activeLayer && value) activeLayer = layerId;
+    if (layerId !== state().layers.activeLayer && value) {
+      activeLayer = layerId;
+    }
     return dispatch({ type: SET_ACTIVE_LAYER, payload: activeLayer });
   };
 }
 
-async function downloadLayer(config, dispatch) {
+async function downloadLayer(config, dispatch: Dispatch) {
   const { area, layerId, layerUrl, zoom } = config;
   const url = `${Config.API_URL}/download-tiles/${area.geostore.id}/${zoom.start}/${zoom.end}?layerUrl=${layerUrl}&useExtension=false`;
   const res = await RNFetchBlob
@@ -295,7 +307,10 @@ async function downloadLayer(config, dispatch) {
   throw new Error(`Fetch blob error ${statusCode}`);
 }
 
-function downloadAllLayers(config, dispatch) {
+function downloadAllLayers(
+  config: { area: Area, layerId: string, layerUrl: string },
+  dispatch: Dispatch
+) {
   const { cacheZoom } = CONSTANTS.maps;
   return Promise.all(cacheZoom.map((cacheLevel) => {
     const layerConfig = { ...config, zoom: cacheLevel };
@@ -315,9 +330,10 @@ function getLayerById(layers, layerId) {
   return { ...layers.find((layer) => (layer.id === layerId)) };
 }
 
-export function cacheAreaBasemap(areaId) {
-  return (dispatch, state) => {
-    const area = getAreaById(state().areas.data, areaId);
+export function cacheAreaBasemap(areaId: string) {
+  return (dispatch: Dispatch, state: GetState) => {
+    const areas = state().areas.data;
+    const area = getAreaById(areas, areaId);
     const layer = {
       id: 'basemap',
       url: CONSTANTS.maps.basemap
@@ -335,8 +351,7 @@ export function cacheAreaBasemap(areaId) {
           meta: { area, layer },
           type: CACHE_LAYER_COMMIT
         }))
-        .catch((payload) => dispatch({
-          payload,
+        .catch(() => dispatch({
           meta: { area, layer },
           type: CACHE_LAYER_ROLLBACK
         }));
@@ -345,9 +360,10 @@ export function cacheAreaBasemap(areaId) {
   };
 }
 
-export function cacheAreaLayer(areaId, layerId) {
-  return (dispatch, state) => {
-    const area = getAreaById(state().areas.data, areaId);
+export function cacheAreaLayer(areaId: string, layerId: string) {
+  return (dispatch: Dispatch, state: GetState) => {
+    const areas = state().areas.data;
+    const area = getAreaById(areas, areaId);
     const layer = getLayerById(state().layers.data, layerId);
     if (area && layer) {
       const downloadConfig = {
@@ -361,8 +377,7 @@ export function cacheAreaLayer(areaId, layerId) {
           meta: { area, layer },
           type: CACHE_LAYER_COMMIT
         }))
-        .catch((payload) => dispatch({
-          payload,
+        .catch(() => dispatch({
           meta: { area, layer },
           type: CACHE_LAYER_ROLLBACK
         }));
@@ -373,14 +388,14 @@ export function cacheAreaLayer(areaId, layerId) {
 
 
 export function syncLayers() {
-  return (dispatch, state) => {
+  return (dispatch: Dispatch, state: GetState) => {
     const { synced, syncing } = state().layers;
     if (!synced && !syncing) dispatch(getUserLayers());
   };
 }
 
-export function downloadAreaById(areaId) {
-  return (dispatch, state) => {
+export function downloadAreaById(areaId: string) {
+  return (dispatch: Dispatch, state: GetState) => {
     const area = getAreaById(state().areas.data, areaId);
     dispatch({
       type: DOWNLOAD_AREA,
@@ -390,15 +405,15 @@ export function downloadAreaById(areaId) {
   };
 }
 
-export function refreshAreaCacheById(areaId) {
-  return (dispatch) => {
+export function refreshAreaCacheById(areaId: string) {
+  return (dispatch: Dispatch) => {
     dispatch({ type: INVALIDATE_CACHE, payload: areaId });
     dispatch(downloadAreaById(areaId));
   };
 }
 
 export function cacheLayers() {
-  return (dispatch, state) => {
+  return (dispatch: Dispatch, state: GetState) => {
     const { pendingCache } = state().layers;
     if (getActionsTodoCount(pendingCache) > 0) {
       Object.keys(pendingCache).forEach((layer) => {
@@ -423,26 +438,26 @@ export function cacheLayers() {
   };
 }
 
-function getCacheStatus(cacheStatus = {}, areas = []) {
-  let newCacheStatus = { ...cacheStatus };
-  areas.forEach((area) => {
-    const progress = newCacheStatus[area.id] ? newCacheStatus[area.id].progress : 0;
-    const error = newCacheStatus[area.id] ? newCacheStatus[area.id].error : false;
-    newCacheStatus = {
-      ...newCacheStatus,
-      [area.id]: {
-        requested: (newCacheStatus[area.id] && newCacheStatus[area.id].requested) || false,
-        progress,
-        completed: progress === 1,
-        error
-      }
-    };
-  });
-  return newCacheStatus;
+function getCacheStatusFromAreas(cacheStatus: LayersCacheStatus = {}, areas = []) {
+  return areas.reduce((acc, next) => updateCacheAreaStatus(acc, next), cacheStatus);
 }
 
-export function resetCacheStatus(areaId) {
-  return (dispatch, state) => {
+function updateCacheAreaStatus(cacheStatus: LayersCacheStatus, area: Area) {
+  const progress = cacheStatus[area.id] ? cacheStatus[area.id].progress : 0;
+  const error = cacheStatus[area.id] ? cacheStatus[area.id].error : false;
+  return {
+    ...cacheStatus,
+    [area.id]: {
+      error,
+      progress,
+      completed: progress === 1,
+      requested: cacheStatus[area.id] ? cacheStatus[area.id].requested : false
+    }
+  };
+}
+
+export function resetCacheStatus(areaId: string) {
+  return (dispatch: Dispatch, state: GetState) => {
     const { cacheStatus } = state().layers;
     const newCacheStatus = {
       ...cacheStatus,
@@ -464,12 +479,17 @@ function getLayersWithBasemap(layers) {
   return [{ id: 'basemap' }, ...layers];
 }
 
-function updateAreaProgress(areaId = '', cacheStatus = {}, layersProgress = {}, layerCount = 1) {
+function updateAreaProgress(
+  areaId: string = '',
+  cacheStatus: LayersCacheStatus = {},
+  layersProgress: LayersProgress = {},
+  layerCount: number = 1
+) {
   if (!areaId || typeof areaId !== 'string') throw new TypeError('AreaId is not a valid string');
   const areaCacheStatus = cacheStatus[areaId];
   const areaLayersProgress = Object.values(layersProgress[areaId]);
   const newProgress = areaLayersProgress
-    .reduce((acc, next) => (acc + next), 0) / layerCount;
+    .reduce((acc, next) => (acc + parseFloat(next)), 0) / layerCount;
   return {
     ...cacheStatus,
     [areaId]: {

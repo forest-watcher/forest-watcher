@@ -4,15 +4,16 @@ import type { State } from 'types/store.types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Dashboard from 'components/dashboard';
-import { updateApp, setPristineCacheTooltip } from 'redux-modules/app';
+import { updateApp, setPristineCacheTooltip, showNotConnectedNotification } from 'redux-modules/app';
 import { createReport } from 'redux-modules/reports';
-import { isOutdated } from 'helpers/date';
 import { setAreasRefreshing, setSelectedAreaId } from 'redux-modules/areas';
+import { isOutdated } from 'helpers/date';
+import { shouldBeConnected } from 'helpers/app';
 
 function mapStateToProps(state: State) {
   const areasOutdated = !state.areas.synced || isOutdated(state.areas.syncDate);
   const appSyncing = (state.areas.syncing || state.layers.syncing || state.alerts.queue.length > 0);
-  const isConnected = state.offline.online;
+  const isConnected = shouldBeConnected(state);
   const loggedIn = state.user.loggedIn;
   return {
     appSyncing,
@@ -29,8 +30,9 @@ function mapDispatchToProps(dispatch: *) {
     updateApp,
     createReport,
     setAreasRefreshing,
-    setPristine: setPristineCacheTooltip,
-    setSelectedAreaId
+    setSelectedAreaId,
+    showNotConnectedNotification,
+    setPristine: setPristineCacheTooltip
   }, dispatch);
 }
 

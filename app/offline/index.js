@@ -1,7 +1,7 @@
 import { createOffline } from '@redux-offline/redux-offline';
 import offlineConfig from '@redux-offline/redux-offline/lib/defaults';
 import persistNative from '@redux-offline/redux-offline/lib/defaults/persist.native';
-import detectNetwork from '@redux-offline/redux-offline/lib/defaults/detectNetwork.native';
+import detectNetwork from './detectNetwork';
 import effect from './effect';
 import retry from './retry';
 
