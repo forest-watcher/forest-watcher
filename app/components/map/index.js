@@ -20,9 +20,9 @@ import moment from 'moment';
 
 import MapView from 'react-native-maps';
 import ActionBtn from 'components/common/action-button';
+import CircleButton from 'components/common/circle-button';
 import AlertPosition from 'components/map/alert-position';
 import MapAttribution from 'components/map/map-attribution';
-import AreaCarousel from 'containers/map/area-carousel';
 import Clusters from 'containers/map/clusters';
 import { formatCoordsByFormat, getAllNeighbours } from 'helpers/map';
 import tracker from 'helpers/googleAnalytics';
@@ -33,7 +33,6 @@ import styles from './styles';
 
 import { SensorManager } from 'NativeModules'; // eslint-disable-line
 
-const Timer = require('react-native-timer');
 const geoViewport = require('@mapbox/geo-viewport');
 
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
@@ -48,7 +47,9 @@ const markerImage = require('assets/marker.png');
 const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
-const layersIcon = require('assets/layers.png');
+const settingsBlackIcon = require('assets/settings_black.png');
+const myLocationIcon = require('assets/my_location.png');
+const reportAreaIcon = require('assets/report_area.png');
 
 function pointsFromCluster(cluster) {
   if (!cluster || !cluster.length > 0) return [];
@@ -74,7 +75,7 @@ function getNeighboursSelected(selectedAlerts, markers) {
   return neighbours;
 }
 
-class Map extends Component {
+class MapComponent extends Component {
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color5,
     navBarButtonColor: Theme.colors.color5,
@@ -85,11 +86,8 @@ class Map extends Component {
     navBarTranslucent: true
   };
 
-  static navigatorButtons = {
-    rightButtons: [
-      { icon: layersIcon, id: 'contextualLayers' }
-    ]
-  };
+  margin = Platform.OS === 'ios' ? 50 : 100;
+  FIT_OPTIONS = { edgePadding: { top: this.margin, right: this.margin, bottom: this.margin, left: this.margin }, animated: false };
 
   static getMapZoom(region) {
     if (!region.longitude || !region.latitude) return 0;
@@ -109,7 +107,6 @@ class Map extends Component {
     const initialCoords = center || { lat: MAPS.lat, lon: MAPS.lng };
     this.eventLocation = null;
     this.eventOrientation = null;
-    this.hasSetCoordinates = false;
     // Google maps lon and lat are inverted
     this.state = {
       lastPosition: null,
@@ -118,8 +115,8 @@ class Map extends Component {
       heading: null,
       geoMarkerOpacity: new Animated.Value(0.3),
       region: {
-        latitude: initialCoords.lat,
-        longitude: initialCoords.lon,
+        latitude: initialCoords.lon,
+        longitude: initialCoords.lat,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
@@ -139,7 +136,6 @@ class Map extends Component {
       StatusBar.setBarStyle('light-content');
     }
 
-    Timer.setTimeout(this, 'setAlerts', this.props.setActiveAlerts, 500);
     this.geoLocate();
   }
 
@@ -148,12 +144,10 @@ class Map extends Component {
       !isEqual(nextProps.areaCoordinates, this.props.areaCoordinates),
       !isEqual(nextProps.area, this.props.area),
       nextProps.canDisplayAlerts !== this.props.canDisplayAlerts,
-      !isEqual(nextProps.center, this.props.center),
       !isEqual(nextProps.contextualLayer, this.props.contextualLayer),
       !isEqual(nextState.lastPosition, this.state.lastPosition),
       nextState.hasCompass !== this.state.hasCompass,
       nextState.heading !== this.state.heading,
-      !isEqual(nextState.region, this.state.region),
       !isEqual(nextState.markers, this.state.markers),
       !isEqual(nextState.selectedAlerts, this.state.selectedAlerts),
       !isEqual(nextState.neighbours, this.state.neighbours),
@@ -163,15 +157,17 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { area, setActiveAlerts, areaCoordinates } = this.props;
-    const { clusters } = clusterGenerator;
-    if (this.map && area && area.dataset && (clusters === null || area.id !== prevProps.area.id
-      || !isEqual(area.dataset, prevProps.area.dataset))) {
-      setActiveAlerts();
-    }
-
-    if (!isEqual(areaCoordinates, prevProps.areaCoordinates)) {
-      this.updateSelectedArea();
+    const { area, setActiveAlerts } = this.props;
+    if (area && area.dataset) {
+      const differentArea = area.id !== prevProps.area.id;
+      const datasetChanged = !isEqual(area.dataset, prevProps.area.dataset);
+      if (differentArea || datasetChanged) {
+        setActiveAlerts();
+        this.updateMarkers();
+        if (differentArea) {
+          this.updateSelectedArea();
+        }
+      }
     }
 
     if (this.state.selectedAlerts !== prevState.selectedAlerts) {
@@ -189,7 +185,6 @@ class Map extends Component {
 
   componentWillUnmount() {
     Location.stopUpdatingLocation();
-    Timer.clearTimeout(this, 'setAlerts');
     if (this.eventLocation) {
       this.eventLocation.remove();
     }
@@ -204,6 +199,7 @@ class Map extends Component {
     } else {
       SensorManager.stopOrientation();
     }
+    this.props.setSelectedAreaId('');
   }
 
   onNavigatorEvent(event) {
@@ -211,14 +207,11 @@ class Map extends Component {
       case 'didAppear':
         this.onDidAppear();
         break;
-      case 'contextualLayers':
-        this.onContextualLayersPress();
-        break;
       default:
     }
   }
 
-  onContextualLayersPress = () => {
+  onSettingsPress = () => {
     this.props.navigator.toggleDrawer({
       side: 'right',
       animated: true
@@ -233,13 +226,11 @@ class Map extends Component {
   }
 
   onMapReady = () => {
-    if (this.hasSetCoordinates === false && this.props.areaCoordinates) {
-      const margin = Platform.OS === 'ios' ? 150 : 250;
-      const options = { edgePadding: { top: margin, right: margin, bottom: margin, left: margin }, animated: false };
-
-      this.map.fitToCoordinates(this.props.areaCoordinates, options);
-      this.hasSetCoordinates = true;
+    if (this.props.areaCoordinates) {
+      requestAnimationFrame(() => this.map.fitToCoordinates(this.props.areaCoordinates, this.FIT_OPTIONS));
     }
+    this.props.setActiveAlerts();
+    this.updateMarkers();
   }
 
   setCompassLine = () => {
@@ -283,6 +274,17 @@ class Map extends Component {
     });
   }
 
+  getMarkerSize() {
+    const { mapZoom } = this.state;
+    const expandClusterZoomLevel = 15;
+    const initialMarkerSize = 18;
+
+    const scale = mapZoom - expandClusterZoomLevel;
+    const rescaleFactor = mapZoom <= expandClusterZoomLevel ? 1 : scale;
+    const size = initialMarkerSize * rescaleFactor;
+    return { height: size, width: size };
+  }
+
   updateMarkers = debounce((clean = false) => {
     const { region, mapZoom } = this.state;
     const bbox = [
@@ -306,15 +308,16 @@ class Map extends Component {
     }
   }, 300);
 
-  getMarkerSize() {
-    const { mapZoom } = this.state;
-    const expandClusterZoomLevel = 15;
-    const initialMarkerSize = 18;
-
-    const scale = mapZoom - expandClusterZoomLevel;
-    const rescaleFactor = mapZoom <= expandClusterZoomLevel ? 1 : scale;
-    const size = initialMarkerSize * rescaleFactor;
-    return { height: size, width: size };
+  fitPosition = () => {
+    const { lastPosition, selectedAlerts } = this.state;
+    if (lastPosition) {
+      const options = { edgePadding: { top: 100, right: 40, bottom: 240, left: 40 }, animated: true };
+      const coordinates = [lastPosition];
+      if (selectedAlerts.length) {
+        coordinates.push(selectedAlerts[selectedAlerts.length - 1]);
+      }
+      this.map.fitToCoordinates(coordinates, options);
+    }
   }
 
   reportSelection = () => {
@@ -438,10 +441,10 @@ class Map extends Component {
   }
 
   updateRegion = (region) => {
-    const mapZoom = Map.getMapZoom(region);
-    const clean = this.state.mapZoom > mapZoom;
+    const mapZoom = MapComponent.getMapZoom(region);
+
     this.setState({ region, mapZoom }, () => {
-      this.updateMarkers(clean);
+      this.updateMarkers();
     });
   }
 
@@ -514,51 +517,83 @@ class Map extends Component {
       neighbours: [],
       selectedAlerts: []
     }, () => {
-      this.updateMarkers();
-      const margin = Platform.OS === 'ios' ? 150 : 250;
-      const options = { edgePadding: { top: margin, right: margin, bottom: margin, left: margin }, animated: false };
       if (this.map && this.props.areaCoordinates) {
-        this.map.fitToCoordinates(this.props.areaCoordinates, options);
+        this.map.fitToCoordinates(this.props.areaCoordinates, this.FIT_OPTIONS);
       }
     });
   }
 
-  renderFooter() {
-    const getButtons = () => {
-      const { neighbours } = this.state;
-      return neighbours && neighbours.length > 0
-        ? [
-          <ActionBtn
-            key="1"
-            style={[styles.footerButton, styles.footerButton1]}
-            text={i18n.t('report.selected').toUpperCase()}
-            onPress={this.reportSelection}
-          />,
-          <ActionBtn
-            key="2"
-            monochrome
-            style={[styles.footerButton, styles.footerButton2, styles.footerReport]}
-            text={i18n.t('report.area').toUpperCase()}
-            onPress={this.reportArea}
-          />
-        ]
-        : (
-          <ActionBtn
-            style={styles.footerButton}
-            text={i18n.t('report.toReport').toUpperCase()}
-            onPress={this.reportSelection}
-          />
-        );
-    };
+  renderButtonPanelSelected() {
+    const { selectedAlerts, lastPosition, neighbours } = this.state;
+    const { coordinatesFormat } = this.props;
+    const lastAlertIndex = selectedAlerts.length - 1;
     return (
-      <View pointerEvents="box-none" style={styles.btnContainer}>
-        {getButtons()}
+      <View style={[styles.buttonPanel, styles.buttonPanelSelected]}>
+        <View style={styles.buttonPanelRow}>
+          {lastPosition
+            ? <CircleButton
+              light
+              style={styles.btnLeft}
+              icon={myLocationIcon}
+              onPress={this.fitPosition}
+            />
+            : this.renderNoSignal()
+          }
+          <AlertPosition
+            alertSelected={selectedAlerts[lastAlertIndex]}
+            lastPosition={this.state.lastPosition}
+            coordinatesFormat={coordinatesFormat}
+            kmThreshold={30}
+          />
+        </View>
+        <View style={styles.buttonPanelRow}>
+          <View pointerEvents="box-none" style={styles.btnContainer}>
+            {neighbours && neighbours.length > 0
+              ? <React.Fragment>
+                <CircleButton
+                  icon={reportAreaIcon}
+                  style={styles.btnLeft}
+                  onPress={this.reportSelection}
+                />,
+                <ActionBtn
+                  short
+                  left
+                  style={styles.btnReport}
+                  text={i18n.t('report.selected').toUpperCase()}
+                  onPress={this.reportArea}
+                />
+              </React.Fragment>
+              : (
+                <ActionBtn
+                  short
+                  left
+                  style={styles.btnReport}
+                  text={i18n.t('report.title').toUpperCase()}
+                  onPress={this.reportSelection}
+                />
+              )
+            }
+          </View>
+        </View>
       </View>
     );
   }
 
-  renderFooterLoading() {
-    return (!this.state.lastPosition &&
+  renderButtonPanel() {
+    const { lastPosition } = this.state;
+    return (
+      <View style={styles.buttonPanel}>
+        {lastPosition
+          ? <CircleButton onPress={this.fitPosition} light icon={myLocationIcon} />
+          : this.renderNoSignal()
+        }
+        <CircleButton onPress={this.onSettingsPress} light icon={settingsBlackIcon} />
+      </View>
+    );
+  }
+
+  renderNoSignal() {
+    return (
       <View pointerEvents="box-none" style={styles.signalNotice}>
         <View style={styles.geoLocationContainer}>
           <Image
@@ -574,17 +609,40 @@ class Map extends Component {
     );
   }
 
+  renderMapFooter() {
+    const { selectedAlerts, neighbours } = this.state;
+    const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
+
+    const hasNeighbours = neighbours && neighbours.length > 0;
+    let veilHeight = 120;
+    if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
+
+    return (
+      <React.Fragment>
+        <View pointerEvents="none" style={[styles.footerBGContainer, { height: veilHeight }]}>
+          <Image
+            style={[styles.footerBg, { height: veilHeight }]}
+            source={backgroundImage}
+          />
+        </View>
+        <View pointerEvents="box-none" style={styles.footer}>
+          {hasAlertsSelected
+            ? this.renderButtonPanelSelected()
+            : this.renderButtonPanel()
+          }
+          <MapAttribution />
+        </View>
+      </React.Fragment>
+    );
+  }
+
   render() {
     const { lastPosition, compassLine, region,
             selectedAlerts, neighbours, heading, markers } = this.state;
     const { areaCoordinates, area, contextualLayer,
-            basemapLocalTilePath, isConnected, ctxLayerLocalTilePath, coordinatesFormat } = this.props;
+            basemapLocalTilePath, isConnected, ctxLayerLocalTilePath } = this.props;
     const showCompassLine = lastPosition && selectedAlerts && compassLine;
-    const lastAlertIndex = selectedAlerts.length - 1;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
-    const hasNeighbours = neighbours && neighbours.length > 0;
-    let veilHeight = 120;
-    if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
     const isIOS = Platform.OS === 'ios';
     const ctxLayerKey = isIOS && contextualLayer ? `contextualLayerElement-${contextualLayer.name}` : 'contextualLayerElement';
     const keyRand = isIOS ? Math.floor((Math.random() * 100) + 1) : '';
@@ -704,7 +762,7 @@ class Map extends Component {
         </MapView.Marker>
       )))
       : null;
-    const clustersElement = area.dataset ? (
+    const clustersElement = area && area.dataset ? (
       <Clusters
         key={clustersKey}
         markers={markers}
@@ -714,6 +772,7 @@ class Map extends Component {
         markerSize={markerSize}
       />
     ) : null;
+
     return (
       <View style={styles.container}>
         <View pointerEvents="none" style={styles.header}>
@@ -730,10 +789,11 @@ class Map extends Component {
           minZoomLevel={2}
           maxZoomLevel={18}
           initialRegion={region}
-          rotateEnabled={false}
-          onRegionChangeComplete={this.updateRegion}
-          onMapReady={this.onMapReady}
+          showsCompass
+          rotateEnabled
           moveOnMarkerPress={false}
+          onMapReady={this.onMapReady}
+          onRegionChangeComplete={this.updateRegion}
           onPress={e => this.mapPress(e.nativeEvent.coordinate)}
         >
           {basemapLayerElement}
@@ -746,42 +806,13 @@ class Map extends Component {
           {neighboursAlertsElement}
           {selectedAlertsElement}
         </MapView>
-        <View pointerEvents="none" style={[styles.footerBGContainer, { height: veilHeight }]}>
-          <Image
-            style={[styles.footerBg, { height: veilHeight }]}
-            source={backgroundImage}
-          />
-        </View>
-        <View pointerEvents="box-none" style={styles.footer}>
-          <View pointerEvents="none" style={styles.footerRow}>
-            {hasAlertsSelected &&
-              <AlertPosition
-                alertSelected={selectedAlerts[lastAlertIndex]}
-                lastPosition={this.state.lastPosition}
-                coordinatesFormat={coordinatesFormat}
-                kmThreshold={30}
-              />
-            }
-            <MapAttribution />
-          </View>
-          {hasAlertsSelected
-            ? this.renderFooter()
-            : this.renderFooterLoading()
-          }
-          {!hasAlertsSelected &&
-            <AreaCarousel
-              navigator={this.props.navigator}
-              alertSelected={selectedAlerts[lastAlertIndex]}
-              lastPosition={this.state.lastPosition}
-            />
-          }
-        </View>
+        {this.renderMapFooter()}
       </View>
     );
   }
 }
 
-Map.propTypes = {
+MapComponent.propTypes = {
   navigator: PropTypes.object.isRequired,
   createReport: PropTypes.func.isRequired,
   center: PropTypes.shape({
@@ -804,4 +835,4 @@ Map.propTypes = {
   coordinatesFormat: PropTypes.string.isRequired
 };
 
-export default Map;
+export default MapComponent;

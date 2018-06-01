@@ -15,7 +15,6 @@ export type LayersState = {
   syncing: boolean,
   activeLayer: ?boolean,
   syncDate: number,
-  showLegend: boolean,
   layersProgress: LayersProgress,
   cacheStatus: LayersCacheStatus,
   cache: LayersCache,

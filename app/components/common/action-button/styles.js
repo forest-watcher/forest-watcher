@@ -27,6 +27,13 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 0
   },
+  short: {
+    height: 48
+  },
+  shortIcon: {
+    width: 16,
+    height: 16
+  },
   buttonLight: {
     justifyContent: 'flex-start'
   },
@@ -36,7 +43,8 @@ export default StyleSheet.create({
     color: Theme.fontColors.white,
     fontFamily: Theme.font,
     fontSize: 15,
-    fontWeight: '500'
+    fontWeight: '500',
+    marginTop: 2
   },
   buttonTextLeft: {
     marginLeft: 8,

@@ -19,7 +19,6 @@ const SET_OFFLINE_MODE = 'app/SET_OFFLINE_MODE';
 export const SET_APP_SYNCED = 'app/SET_APP_SYNCED';
 export const RETRY_SYNC = 'app/RETRY_SYNC';
 const SET_COORDINATES_FORMAT = 'app/SET_COORDINATES_FORMAT';
-const SET_LAYERS_DRAWER_SECTIONS = 'app/SET_LAYERS_DRAWER_SECTIONS';
 const SET_PRISTINE_CACHE_TOOLTIP = 'app/SET_PRISTINE_CACHE_TOOLTIP';
 export const SAVE_LAST_ACTIONS = 'app/SAVE_LAST_ACTIONS';
 export const SHOW_OFFLINE_MODE_IS_ON = 'app/SHOW_OFFLINE_MODE_IS_ON';
@@ -32,7 +31,6 @@ const initialState = {
   actions: [],
   synced: false,
   language: null,
-  showLegend: true,
   offlineMode: false,
   pristineCacheTooltip: true,
   coordinatesFormat: COORDINATES_FORMATS.decimal.value
@@ -53,8 +51,6 @@ export default function reducer(state: AppState = initialState, action: AppActio
       return { ...state, synced: action.payload };
     case SET_COORDINATES_FORMAT:
       return { ...state, coordinatesFormat: action.payload };
-    case SET_LAYERS_DRAWER_SECTIONS:
-      return { ...state, showLegend: action.payload };
     case SET_PRISTINE_CACHE_TOOLTIP:
       return { ...state, pristineCacheTooltip: action.payload };
     case SAVE_LAST_ACTIONS: {

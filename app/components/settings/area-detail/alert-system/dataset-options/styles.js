@@ -33,15 +33,23 @@ export default StyleSheet.create({
     fontWeight: '800'
   },
   row: {
-    height: 72,
     paddingLeft: Theme.margin.left,
     paddingRight: Theme.margin.right,
     backgroundColor: Theme.colors.color5,
     borderBottomColor: Theme.borderColors.main,
     borderBottomWidth: 2,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  legendContainer: {
+    width: '100%',
+    backgroundColor: Theme.colors.color5,
+    flexDirection: 'row',
+    paddingBottom: 8
+  },
+  legendItem: {
+    marginRight: 24
   },
   nested: {
     backgroundColor: Theme.colors.color4

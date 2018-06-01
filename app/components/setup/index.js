@@ -20,7 +20,6 @@ const Timer = require('react-native-timer');
 
 type Props = {
   navigator: Object,
-  setShowLegend: () => void,
   logout: () => void,
   goBackDisabled: boolean,
   closeModal: boolean
@@ -100,7 +99,6 @@ class Setup extends Component<Props, State> {
           showBack={showBack}
           onBackPress={onBackPress}
           page={page}
-          setShowLegend={this.props.setShowLegend}
           logout={this.props.logout}
           navigator={this.props.navigator}
         />

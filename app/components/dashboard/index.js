@@ -33,7 +33,7 @@ type Props = {
   refreshing: boolean,
   closeModal?: boolean,
   pristine: boolean,
-  updateSelectedIndex: number => void,
+  setSelectedAreaId: string => void,
   setPristine: boolean => void,
   updateApp: () => void,
   showNotConnectedNotification: () => void
@@ -110,13 +110,14 @@ class Dashboard extends PureComponent<Props> {
     }
   }
 
-  onAreaPress = (areaId: string, name: string, index?: number) => {
-    if (typeof index === 'undefined') return;
-    this.props.updateSelectedIndex(index);
-    this.props.navigator.push({
-      screen: 'ForestWatcher.Map',
-      title: i18n.t('dashboard.map')
-    });
+  onAreaPress = (areaId: string, name: string) => {
+    if (areaId) {
+      this.props.setSelectedAreaId(areaId);
+      this.props.navigator.push({
+        screen: 'ForestWatcher.Map',
+        title: name
+      });
+    }
   }
 
   onPressReports = () => {

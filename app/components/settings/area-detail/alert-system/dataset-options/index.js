@@ -7,7 +7,8 @@ import {
 } from 'react-native';
 import i18n from 'locales';
 
-import { DATASETS } from 'config/constants/index';
+import { DATASETS, ALERTS_LEGEND } from 'config/constants/index';
+import Alertlegend from 'components/common/alert-legend';
 import Dropdown from 'components/common/dropdown';
 import styles from './styles';
 
@@ -53,18 +54,22 @@ type Date = { startDate: number };
 type Props = {
   id: string,
   dataset: Dataset,
+  showLegend: boolean,
   updateDate: (id: string, slug: string, date: Date) => void
 };
 
 class DatasetOptions extends Component<Props> {
-
   handleUpdateDate = (date: Date) => {
     const { id, dataset, updateDate } = this.props;
-    updateDate(id, dataset.slug, date);
+    if (dataset.startDate !== date) {
+      updateDate(id, dataset.slug, date);
+    }
   }
 
   render() {
-    const { slug, startDate } = this.props.dataset;
+    const { dataset, showLegend } = this.props;
+    const { slug, startDate } = dataset;
+    const legend = showLegend && [...ALERTS_LEGEND[slug], ...ALERTS_LEGEND.common];
     const options = slug === DATASETS.VIIRS ? VIIRS_OPTIONS : GLAD_OPTIONS;
     return (
       <View style={styles.datasetSection}>
@@ -75,6 +80,13 @@ class DatasetOptions extends Component<Props> {
             onValueChange={days => this.handleUpdateDate({ startDate: days })}
             options={options}
           />
+          {legend &&
+            <View style={[styles.legendContainer, styles.nested]}>
+              {legend.map(l => (
+                <Alertlegend label={l.label} color={l.color} key={l.color} style={styles.legendItem} />
+              ))}
+            </View>
+          }
         </View>
       </View>
     );

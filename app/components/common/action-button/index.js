@@ -12,10 +12,9 @@ import styles from './styles';
 
 const nextIcon = require('assets/next.png');
 const nextIconWhite = require('assets/next_white.png');
-const reportSingle = require('assets/report_single.png'); // eslint-disable-line
-const reportArea = require('assets/report_area.png');
 
-const icons = { reportSingle, reportArea }; // eslint-disable-line
+// Feature ready to use icons but empty to remove old and unused ones
+const icons = {};
 
 function ActionButton(props) {
   function onButtonPress() {
@@ -23,7 +22,7 @@ function ActionButton(props) {
       props.onPress();
     }
   }
-  const btnStyles = [
+  const containerStyles = [
     styles.container,
     props.monochrome ? styles.light : '',
     props.light ? styles.light : '',
@@ -31,6 +30,12 @@ function ActionButton(props) {
     props.error ? styles.error : '',
     props.delete ? styles.error : '',
     props.style
+  ];
+
+  const btnStyles = [
+    styles.button,
+    props.light ? styles.buttonLight : '',
+    props.short ? styles.short : ''
   ];
 
   const textStyles = [
@@ -42,6 +47,11 @@ function ActionButton(props) {
     props.disabled ? styles.buttonTextDisabled : '',
     props.error ? styles.buttonTextError : '',
     props.delete ? styles.buttonTextError : ''
+  ];
+
+  const arrowIconStyles = [
+    Theme.icon,
+    props.short ? styles.shortIcon : ''
   ];
 
   let arrowIcon = nextIconWhite;
@@ -58,12 +68,12 @@ function ActionButton(props) {
 
   return (
     <TouchableHighlight
-      style={btnStyles}
+      style={containerStyles}
       onPress={onButtonPress}
       activeOpacity={0.8}
       underlayColor={underlayColor}
     >
-      <View style={[styles.button, props.light ? styles.buttonLight : '']}>
+      <View style={btnStyles}>
         <View style={styles.iconContainer}>
           {icons[props.icon] &&
             <Image style={Theme.icon} source={icons[props.icon]} />
@@ -72,7 +82,7 @@ function ActionButton(props) {
         <Text style={textStyles}>{props.text.toUpperCase()}</Text>
         <View style={styles.iconContainer}>
           {!(props.disabled || props.delete || props.noIcon) &&
-            <Image style={Theme.icon} source={arrowIcon} />
+            <Image style={arrowIconStyles} source={arrowIcon} />
           }
         </View>
       </View>
@@ -81,7 +91,8 @@ function ActionButton(props) {
 }
 
 ActionButton.defaultProps = {
-  disabled: false
+  disabled: false,
+  short: false
 };
 
 ActionButton.propTypes = {
@@ -90,6 +101,7 @@ ActionButton.propTypes = {
   left: PropTypes.bool,
   disabled: PropTypes.bool,
   delete: PropTypes.bool,
+  short: PropTypes.bool,
   error: PropTypes.bool,
   icon: PropTypes.string,
   text: PropTypes.string.isRequired,

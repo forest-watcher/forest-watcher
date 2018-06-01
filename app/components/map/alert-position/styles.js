@@ -10,11 +10,12 @@ export default StyleSheet.create({
     marginBottom: 4
   },
   coordinateDistanceText: {
-    color: Theme.fontColors.white
+    fontFamily: Theme.font,
+    color: Theme.fontColors.white,
+    fontSize: 17,
+    fontWeight: '500'
   },
   currentPositionContainer: {
-    paddingLeft: Theme.margin.left,
-    width: Theme.screen.width / 2,
     flex: 1,
     justifyContent: 'flex-end'
   },

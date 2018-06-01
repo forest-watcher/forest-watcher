@@ -21,6 +21,7 @@ const Dropdown = (props) => {
             selectedValue={selectedValue}
             onValueChange={onValueChange}
             itemStyle={{ height: 72 }} // Only for iOS platform
+            mode="dropdown" // Only for Android
           >
             {options.map((option, i) => (
               <Picker.Item

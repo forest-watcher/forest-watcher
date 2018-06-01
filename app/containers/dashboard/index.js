@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import Dashboard from 'components/dashboard';
 import { updateApp, setPristineCacheTooltip, showNotConnectedNotification } from 'redux-modules/app';
 import { createReport } from 'redux-modules/reports';
-import { setAreasRefreshing, updateSelectedIndex } from 'redux-modules/areas';
+import { setAreasRefreshing, setSelectedAreaId } from 'redux-modules/areas';
 import { isOutdated } from 'helpers/date';
 import { shouldBeConnected } from 'helpers/app';
 
@@ -30,7 +30,7 @@ function mapDispatchToProps(dispatch: *) {
     updateApp,
     createReport,
     setAreasRefreshing,
-    updateSelectedIndex,
+    setSelectedAreaId,
     showNotConnectedNotification,
     setPristine: setPristineCacheTooltip
   }, dispatch);

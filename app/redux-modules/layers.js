@@ -27,11 +27,10 @@ const SET_ACTIVE_LAYER = 'layers/SET_ACTIVE_LAYER';
 const DOWNLOAD_AREA = 'layers/DOWNLOAD_AREA';
 const CACHE_LAYER_REQUEST = 'layers/CACHE_LAYER_REQUEST';
 const CACHE_LAYER_COMMIT = 'layers/CACHE_LAYER_COMMIT';
-export const CACHE_LAYER_ROLLBACK = 'layers/CACHE_LAYER_ROLLBACK';
-const SET_CACHE_STATUS = 'layers/SET_CACHE_STATUS';
-export const INVALIDATE_CACHE = 'layers/INVALIDATE_CACHE';
-const UPDATE_PROGRESS = 'layers/UPDATE_PROGRESS';
-const SET_SHOW_LEGEND = 'layers/SET_SHOW_LEGEND';
+export const CACHE_LAYER_ROLLBACK = 'layer/CACHE_LAYER_ROLLBACK';
+const SET_CACHE_STATUS = 'layer/SET_CACHE_STATUS';
+export const INVALIDATE_CACHE = 'layer/INVALIDATE_CACHE';
+const UPDATE_PROGRESS = 'layer/UPDATE_PROGRESS';
 
 // Reducer
 const initialState = {
@@ -40,7 +39,6 @@ const initialState = {
   syncing: false,
   activeLayer: null,
   syncDate: Date.now(),
-  showLegend: true,
   layersProgress: {
     // saves the progress relative to each area's layer
   },
@@ -251,8 +249,6 @@ export default function reducer(state: LayersState = initialState, action: Layer
       const newCacheStatus = updateCacheAreaStatus(cacheStatus, area);
       return { ...state, cacheStatus: newCacheStatus };
     }
-    case SET_SHOW_LEGEND:
-      return { ...state, showLegend: action.payload };
     case LOGOUT_REQUEST:
       removeFolder(CONSTANTS.files.tiles)
         .then(console.info('Folder removed successfully'));
@@ -500,12 +496,5 @@ function updateAreaProgress(
       ...areaCacheStatus,
       progress: newProgress
     }
-  };
-}
-
-export function setShowLegend(showLegend) {
-  return {
-    type: SET_SHOW_LEGEND,
-    payload: showLegend
   };
 }
