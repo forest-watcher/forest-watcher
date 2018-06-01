@@ -17,6 +17,7 @@ function ButtonCircle(props) {
   const btnStyles = [
     styles.container,
     props.light ? styles.light : '',
+    props.gray ? styles.gray : '',
     props.red ? styles.red : '',
     props.style
   ];
@@ -27,6 +28,9 @@ function ButtonCircle(props) {
   }
   if (props.red) {
     underlayColor = Theme.colors.color7;
+  }
+  if (props.gray) {
+    underlayColor = Theme.background.gray;
   }
   if (props.disabled) underlayColor = Theme.colors.color6;
 

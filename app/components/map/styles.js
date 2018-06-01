@@ -74,11 +74,12 @@ export default StyleSheet.create({
     resizeMode: 'contain'
   },
   selectedMarkerIcon: {
-    borderColor: 'rgba(85, 85, 85, 0.7)',
+    borderColor: 'rgba(255, 255, 255, 1)',
     backgroundColor: Theme.colors.color1
   },
   markerIconArea: {
-    backgroundColor: 'rgba(255, 255, 255, 1)'
+    borderColor: 'rgba(255, 255, 255, 1)',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)'
   },
   header: {
     left: 0,

@@ -52,7 +52,7 @@ const myLocationIcon = require('assets/my_location.png');
 const reportAreaIcon = require('assets/report_area.png');
 const addLocationIcon = require('assets/add_location.png');
 const newAlertIcon = require('assets/new-alert.png');
-const closeIcon = require('assets/close_white.png');
+const closeIcon = require('assets/close_gray.png');
 
 function pointsFromCluster(cluster) {
   if (!cluster || !cluster.length > 0) return [];
@@ -225,10 +225,11 @@ class MapComponent extends Component {
     });
   }
 
-  onCustomReportingCancelPress = () => {
+  onSelectionCancelPress = () => {
     this.setState({
       customReporting: false,
-      selectedAlerts: []
+      selectedAlerts: [],
+      neighbours: []
     });
   }
 
@@ -559,11 +560,10 @@ class MapComponent extends Component {
   }
 
   renderButtonPanelSelected() {
-    const { selectedAlerts, lastPosition, neighbours, customReporting } = this.state;
+    const { selectedAlerts, lastPosition, neighbours } = this.state;
     const { coordinatesFormat } = this.props;
     const lastAlertIndex = selectedAlerts.length - 1;
     const hasNeighbours = (neighbours && neighbours.length > 0);
-    const showActionBtn = hasNeighbours || customReporting;
     return (
       <View style={[styles.buttonPanel, styles.buttonPanelSelected]}>
         <View style={styles.buttonPanelRow}>
@@ -585,13 +585,18 @@ class MapComponent extends Component {
         </View>
         <View style={styles.buttonPanelRow}>
           <View pointerEvents="box-none" style={styles.btnContainer}>
-            {showActionBtn
+            <CircleButton
+              light
+              icon={closeIcon}
+              style={styles.btnLeft}
+              onPress={this.onSelectionCancelPress}
+            />
+            {hasNeighbours
               ? <React.Fragment>
                 <CircleButton
-                  icon={hasNeighbours ? reportAreaIcon : closeIcon}
-                  red={!hasNeighbours}
+                  icon={reportAreaIcon}
                   style={styles.btnLeft}
-                  onPress={hasNeighbours ? this.reportSelection : this.onCustomReportingCancelPress}
+                  onPress={this.reportSelection}
                 />
                 <ActionBtn
                   short
@@ -698,6 +703,7 @@ class MapComponent extends Component {
       ? `clustersElement-${clusterGenerator.activeClusterId}_${markers.activeMarkersId}`
       : 'clustersElement';
     const markerSize = this.getMarkerSize();
+    const markerBorder = { borderWidth: (markerSize.width / 18) * 4 };
 
     // Map elements
     const basemapLayerElement = isConnected ?
@@ -793,7 +799,7 @@ class MapComponent extends Component {
           onPress={() => this.includeNeighbour(neighbour)}
           zIndex={10}
         >
-          <View style={[markerSize, styles.markerIconArea]} />
+          <View style={[markerSize, markerBorder, styles.markerIconArea]} />
         </MapView.Marker>
       )))
       : null;
@@ -806,7 +812,7 @@ class MapComponent extends Component {
           onPress={() => this.removeSelection(alert)}
           zIndex={20}
         >
-          <View style={[markerSize, styles.selectedMarkerIcon]} />
+          <View style={[markerSize, markerBorder, styles.selectedMarkerIcon]} />
         </MapView.Marker>
       )))
       : null;
