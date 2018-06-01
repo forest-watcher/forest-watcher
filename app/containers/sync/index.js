@@ -1,11 +1,12 @@
 // @flow
 import type { State } from 'types/store.types';
 
+import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { retrySync } from 'redux-modules/app';
 import { hasSyncFinished } from 'helpers/sync';
-import isEmpty from 'lodash/isEmpty';
+import { shouldBeConnected } from 'helpers/app';
 
 import Sync from 'components/sync';
 
@@ -15,7 +16,7 @@ function mapStateToProps(state: State) {
 
   return {
     criticalSyncError: (!hasAreas && state.areas.syncError) || (!hasAlerts && state.alerts.syncError),
-    isConnected: state.offline.online,
+    isConnected: shouldBeConnected(state),
     syncFinished: hasSyncFinished(state)
   };
 }

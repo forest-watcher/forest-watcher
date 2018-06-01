@@ -10,7 +10,6 @@ import {
   StatusBar
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import { Types, showNotification } from 'components/toast-notification';
 
 import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
@@ -37,6 +36,7 @@ type Props = {
   setSelectedAreaId: string => void,
   setPristine: boolean => void,
   updateApp: () => void,
+  showNotConnectedNotification: () => void
 };
 
 class Dashboard extends PureComponent<Props> {
@@ -93,18 +93,20 @@ class Dashboard extends PureComponent<Props> {
   }
 
   onRefresh = () => {
-    const { isConnected, appSyncing, updateApp, setAreasRefreshing } = this.props;
+    const {
+      isConnected,
+      appSyncing,
+      updateApp,
+      setAreasRefreshing,
+      showNotConnectedNotification
+    } = this.props;
     if (appSyncing) return;
 
     if (isConnected) {
       setAreasRefreshing(true);
       updateApp();
     } else {
-      const notification = {
-        type: Types.disable,
-        text: i18n.t('commonText.connectionRequired')
-      };
-      showNotification(notification);
+      showNotConnectedNotification();
     }
   }
 
@@ -150,10 +152,6 @@ class Dashboard extends PureComponent<Props> {
     const { needsUpdate, updateApp } = this.props;
     if (needsUpdate) {
       updateApp();
-      const notification = {
-        text: i18n.t('sync.gettingLatestAlerts')
-      };
-      showNotification(notification);
     }
   }
 
@@ -165,7 +163,6 @@ class Dashboard extends PureComponent<Props> {
     const { pristine, refreshing, appSyncing } = this.props;
     const isIOS = Platform.OS === 'ios';
     // we remove the event handler to improve performance
-
     // this is done this way because in android the event listener needs to be at...
     // ...the root and in iOS needs to be a children to scroll view
     const disablePristine = pristine ? this.disablePristine : undefined;

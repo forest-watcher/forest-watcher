@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { uploadReport } from 'redux-modules/reports';
 import { setCanDisplayAlerts } from 'redux-modules/alerts';
 import { getAnswers, getFormFields, getTemplate } from 'helpers/forms';
+import { shouldBeConnected } from 'helpers/app';
 
 import Reports from 'components/reports';
 
@@ -42,7 +43,7 @@ function sortReports(reports) {
 
 function mapStateToProps(state: State) {
   return {
-    isConnected: state.offline.online,
+    isConnected: shouldBeConnected(state),
     reports: getReports(state.reports.list),
     stateReports: state.reports,
     form: state.form
