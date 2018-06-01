@@ -112,6 +112,9 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
+  btnMarginContainer: {
+    marginTop: 8
+  },
   footer: {
     left: 0,
     right: 0,
@@ -137,11 +140,6 @@ export default StyleSheet.create({
   },
   footerSubtitle: {
     bottom: 20
-  },
-  btnContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    marginTop: 8
   },
   btnReport: {
     flex: 1

@@ -40,6 +40,7 @@ function ButtonCircle(props) {
       onPress={onButtonPress}
       activeOpacity={0.8}
       underlayColor={underlayColor}
+      hitSlop={{ top: 16, right: 16, bottom: 16, left: 16 }}
     >
       {props.icon &&
         <Image style={Theme.icon} source={props.icon} />

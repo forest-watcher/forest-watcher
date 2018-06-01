@@ -563,9 +563,16 @@ class MapComponent extends Component {
     const { selectedAlerts, lastPosition, neighbours } = this.state;
     const { coordinatesFormat } = this.props;
     const lastAlertIndex = selectedAlerts.length - 1;
+    const hasAlertSelected = (selectedAlerts && selectedAlerts.length > 0);
     const hasNeighbours = (neighbours && neighbours.length > 0);
+    let reportBtnText = i18n.t('report.here').toUpperCase();
+    if (hasAlertSelected) {
+      reportBtnText = hasNeighbours
+        ? i18n.t('report.selected').toUpperCase()
+        : i18n.t('report.toReport').toUpperCase();
+    }
     return (
-      <View style={[styles.buttonPanel, styles.buttonPanelSelected]}>
+      <View pointerEvents="box-none" style={[styles.buttonPanel, styles.buttonPanelSelected]}>
         <View style={styles.buttonPanelRow}>
           {lastPosition
             ? <CircleButton
@@ -583,40 +590,27 @@ class MapComponent extends Component {
             kmThreshold={30}
           />
         </View>
-        <View style={styles.buttonPanelRow}>
-          <View pointerEvents="box-none" style={styles.btnContainer}>
+        <View pointerEvents="box-none" style={[styles.buttonPanelRow, styles.btnMarginContainer]}>
+          <CircleButton
+            light
+            icon={closeIcon}
+            style={styles.btnLeft}
+            onPress={this.onSelectionCancelPress}
+          />
+          {hasNeighbours &&
             <CircleButton
-              light
-              icon={closeIcon}
+              icon={reportAreaIcon}
               style={styles.btnLeft}
-              onPress={this.onSelectionCancelPress}
+              onPress={this.reportArea}
             />
-            {hasNeighbours
-              ? <React.Fragment>
-                <CircleButton
-                  icon={reportAreaIcon}
-                  style={styles.btnLeft}
-                  onPress={this.reportSelection}
-                />
-                <ActionBtn
-                  short
-                  left
-                  style={styles.btnReport}
-                  text={hasNeighbours ? i18n.t('report.selected').toUpperCase() : i18n.t('report.here').toUpperCase()}
-                  onPress={this.reportArea}
-                />
-              </React.Fragment>
-              : (
-                <ActionBtn
-                  short
-                  left
-                  style={styles.btnReport}
-                  text={i18n.t('report.toReport').toUpperCase()}
-                  onPress={this.reportSelection}
-                />
-              )
-            }
-          </View>
+          }
+          <ActionBtn
+            short
+            left
+            style={styles.btnReport}
+            text={reportBtnText}
+            onPress={this.reportSelection}
+          />
         </View>
       </View>
     );
