@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
+  View,
   Image,
   TouchableHighlight
 } from 'react-native';
@@ -40,10 +41,12 @@ function ButtonCircle(props) {
       onPress={onButtonPress}
       activeOpacity={0.8}
       underlayColor={underlayColor}
-      hitSlop={{ top: 16, right: 16, bottom: 16, left: 16 }}
     >
       {props.icon &&
-        <Image style={Theme.icon} source={props.icon} />
+        // https://github.com/facebook/react-native/issues/14958#issuecomment-324237317
+        <View pointerEvents="none">
+          <Image style={Theme.icon} source={props.icon} />
+        </View>
       }
     </TouchableHighlight>
   );
