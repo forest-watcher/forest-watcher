@@ -104,8 +104,8 @@ android {
         applicationId "com.forestwatcher"
         minSdkVersion 21
         targetSdkVersion 22
-        versionCode 17
-        versionName "1.3.0"
+        versionCode 19
+        versionName "1.5.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
