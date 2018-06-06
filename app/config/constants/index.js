@@ -93,9 +93,15 @@ export const DATASETSi18n = {
 };
 
 export const LAYERSi18n = {
+  oilPalm: i18n.t('layers.oilPalm'),
+  managedForests: i18n.t('layers.managedForests'),
   protectedAreas: i18n.t('layers.protectedAreas'),
+  woodFiber: i18n.t('layers.woodFiber'),
+  mining: i18n.t('layers.mining'),
   treeCoverLoss2014: i18n.t('layers.treeCoverLoss2014'),
-  treeCoverLoss2015: i18n.t('layers.treeCoverLoss2015')
+  treeCoverLoss2015: i18n.t('layers.treeCoverLoss2015'),
+  treeCoverLoss2016: i18n.t('layers.treeCoverLoss2016'),
+  treeCoverLoss2017: i18n.t('layers.treeCoverLoss2017')
 };
 
 export const ALERTS_COLOR = {
