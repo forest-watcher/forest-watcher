@@ -38,16 +38,18 @@ function orderQuestions(questions) {
 export default function reducer(state: ReportsState = initialState, action: ReportsAction) {
   switch (action.type) {
     case PERSIST_REHYDRATE: {
+      // $FlowFixMe
       const { reports, form } = action.payload;
-      const oldList = [...reports.list];
-      const formatAnswers = values => Object.entries(values).map(([questionId, value]) => ({ questionId, value }));
-      const answers = Object.entries(form)
-        .reduce((acc, [reportName, formEntry]) => ({
-          ...acc,
-          [reportName]: { reportName, answers: formatAnswers((formEntry.values || {})) }
-        }), {});
-
-      return { ...reports, list: merge(answers, oldList) };
+      if (form) {
+        const formatAnswers = values => Object.entries(values).map(([questionId, value]) => ({ questionId, value }));
+        const answers = Object.entries(form)
+          .reduce((acc, [reportName, formEntry]) => ({
+            ...acc,
+            [reportName]: { answers: formatAnswers((formEntry.values || {})) }
+          }), {});
+        return { ...reports, list: merge(answers, reports.list) };
+      }
+      return reports;
     }
     case GET_DEFAULT_TEMPLATE_REQUEST:
       return { ...state, synced: false, syncing: true };
@@ -128,19 +130,21 @@ export function getDefaultReport(): ReportsAction {
 }
 
 export function createReport(
-  report: { name: string, userPosition: [number, number], clickedPosition: [number, number], area: Area }
+  report: { reportName: string, userPosition: [number, number], clickedPosition: [number, number], area: Area }
   ): ReportsAction {
-  const { name, userPosition, clickedPosition, area } = report;
+  const { reportName, userPosition, clickedPosition, area } = report;
   return {
     type: CREATE_REPORT,
     payload: {
-      [name]: {
+      [reportName]: {
         area,
+        reportName,
         userPosition,
         clickedPosition,
         index: 0,
-        status: CONSTANTS.status.draft,
-        date: new Date().toISOString()
+        answers: [],
+        date: new Date().toISOString(),
+        status: CONSTANTS.status.draft
       }
     }
   };

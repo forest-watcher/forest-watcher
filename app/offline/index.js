@@ -15,7 +15,7 @@ const config = params => ({
   effect,
   retry,
   detectNetwork,
-  persist: persistNative,
+  persist: (...options) => persistNative(...options).purge(['form']),
   persistOptions: { blacklist: ['setup'], transforms: [migrationTransform] },
   persistCallback: params.persistCallback
 });

@@ -370,24 +370,18 @@ class MapComponent extends Component {
       }));
     }
     const userLatLng = this.state.lastPosition && `${this.state.lastPosition.latitude},${this.state.lastPosition.longitude}`;
-    const screen = 'ForestWatcher.NewReport';
-    const title = i18n.t('report.title');
     const reportedDataset = area.dataset ? `-${area.dataset.name}` : '';
-    const form = `${area.name.toUpperCase()}${reportedDataset}-REPORT--${moment().format('YYYY-MM-DDTHH:mm:ss')}`;
+    const reportName = `${area.name.toUpperCase()}${reportedDataset}-REPORT--${moment().format('YYYY-MM-DDTHH:mm:ss')}`;
     this.props.createReport({
       area,
-      name: form,
+      reportName,
       userPosition: userLatLng || '0,0',
       clickedPosition: JSON.stringify(latLng)
     });
     this.props.navigator.push({
-      screen,
-      title,
-      passProps: {
-        screen,
-        title,
-        form
-      }
+      screen: 'ForestWatcher.NewReport',
+      title: i18n.t('report.title'),
+      passProps: { reportName }
     });
   }
 
