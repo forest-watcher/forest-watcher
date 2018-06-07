@@ -56,18 +56,26 @@ export const getTemplate = (reports: ReportsState, formName: string) => {
   return Object.assign({}, reports.templates[templateId]);
 };
 
-export const getNextStep = (step: { currentQuestion: number, questions: Array<Question>, answers: Answers }) => {
+export const getNextStep = (
+  step: { currentQuestion: number, questions: Array<Question>, answers: Answers }
+  ): ?number => {
   const { currentQuestion, questions, answers } = step;
-  let next = 1;
   if (questions && currentQuestion < questions.length - 1) {
-    for (let i = currentQuestion + 1, qLength = questions.length; i < qLength; i++) {
-      const nextConditions = questions[i].conditions;
-      const nextHasConditions = nextConditions && nextConditions.length > 0;
-      if (!nextHasConditions || (answers[nextConditions[0].name] === nextConditions[0].value)) {
-        break;
+    const findStep = (currentIndex: number = 0, jumpStart: number = 0) => {
+      const jump = jumpStart + 1;
+      const conditions = questions[currentIndex].conditions;
+      const nextHasConditions = conditions && conditions.length > 0;
+      const answerMatchesCondition = nextHasConditions && answers[conditions[0].name] === conditions[0].value;
+      if (
+        !nextHasConditions
+        || answerMatchesCondition
+        || (questions.length - 1) === currentIndex
+      ) {
+        return jump;
       }
-      next += 1;
-    }
+      return findStep(currentIndex + 1, jump);
+    };
+    const next = findStep(currentQuestion);
     return currentQuestion + next;
   }
   return null;
@@ -77,9 +85,12 @@ export const getFormFields = (template: Template, answers: Answers) => {
   const fields = [0];
   template.questions.forEach((question, index) => {
     const nextStep = getNextStep({ currentQuestion: index, questions: template.questions, answers });
-    if (nextStep) fields.push(nextStep);
+    if (nextStep !== null) {
+      fields.push(nextStep);
+    }
   });
-  return fields.map(field => template.questions[field].name);
+  const res = fields.map(field => template.questions[field] && template.questions[field].name);
+  return res;
 };
 
 export const isQuestionAnswered = (question: Question, answers: Answers) => {

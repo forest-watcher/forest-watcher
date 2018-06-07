@@ -66,19 +66,21 @@ function mergeProps({ form, stateReports, ...state }, { submitForm, ...dispatch 
     ...state,
     ...dispatch,
     getLastStep: (formName) => {
-      const answers = Object.keys(getAnswers(form, formName));
-      if (answers.length) {
+      const answers = getAnswers(form, formName);
+      const answersKeys = answers ? Object.keys(answers) : [];
+      if (answersKeys.length) {
         const templateId = stateReports.list[formName].area.templateId || 'default';
         const questions = stateReports.templates[templateId].questions;
-        const last = Math.max(...answers.map(answer => questions.findIndex(question => answer === question.name)));
+        const last = Math.max(...answersKeys.map(answer => questions.findIndex(question => answer === question.name)));
         return last < (questions.length - 1) ? last : null;
       }
-      // we need to return 0 in case that answers.length === 0, because that means that a form was created but no answer was submitted
+      // we need to return 0 in case that answers.length === 0,
+      // because that means that a form was created but no answer was submitted
       return 0;
     },
     finish: (formName) => {
+      const answers = getAnswers(form, formName);
       const template = getTemplate(stateReports, formName);
-      const answers = Object.keys(getAnswers(form, formName));
       submitForm(template, formName, answers);
     }
   };

@@ -1,4 +1,3 @@
-import { connect } from 'react-redux';
 import {
   getBtnTextByType,
   parseQuestion,
@@ -9,11 +8,10 @@ import {
 } from 'helpers/forms';
 import { shouldBeConnected } from 'helpers/app';
 import i18n from 'locales';
-import FormStep from 'components/common/form/form-step';
 
 function getNextCallback({ currentQuestion, questions, answers, navigator, form, screen, title, finish }) {
   const nextStep = getNextStep({ currentQuestion, questions, answers });
-  if (nextStep && currentQuestion < questions.length - 1) {
+  if (nextStep !== null && currentQuestion < questions.length - 1) {
     return () => navigator.push({
       title,
       screen,
@@ -42,7 +40,7 @@ function getNextCallback({ currentQuestion, questions, answers, navigator, form,
 
 function getEditNextCallback({ currentQuestion, questions, answers, navigator, form, screen, title }) {
   const nextStep = getNextStep({ currentQuestion, questions, answers });
-  if (nextStep && currentQuestion < questions.length - 1) {
+  if (nextStep !== null && currentQuestion < questions.length - 1) {
     const nextQuestionName = questions[nextStep].name;
     if (typeof answers[nextQuestionName] === 'undefined') {
       return () => navigator.push({
@@ -95,6 +93,3 @@ function mapStateToProps(state, { form, index, questionsToSkip, finish, title, s
     }
   };
 }
-
-
-export default connect(mapStateToProps)(FormStep);
