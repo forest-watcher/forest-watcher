@@ -36,6 +36,7 @@ export type Template = {
 }
 
 export type Report = {
+  name: string,
   area: Area,
   userPosition: string,
   clickedPosition: string,

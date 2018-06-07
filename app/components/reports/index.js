@@ -86,7 +86,7 @@ class Reports extends PureComponent<Props> {
     title: i18n.t('report.review'),
     screen: 'ForestWatcher.Answers',
     passProps: {
-      form: reportName,
+      reportName,
       readOnly: true
     }
   });
@@ -95,7 +95,7 @@ class Reports extends PureComponent<Props> {
     title: i18n.t('report.review'),
     screen: 'ForestWatcher.Answers',
     passProps: {
-      form: reportName,
+      reportName,
       readOnly: true,
       showUploadButton: true,
       finish: this.props.finish
@@ -122,7 +122,7 @@ class Reports extends PureComponent<Props> {
           passProps: {
             screen,
             title,
-            form: reportName,
+            reportName,
             step: lastStep
           }
         });
@@ -131,7 +131,7 @@ class Reports extends PureComponent<Props> {
           title: i18n.t('report.review'),
           screen: 'ForestWatcher.Answers',
           passProps: {
-            form: reportName,
+            reportName,
             finish: this.props.finish
           }
         });

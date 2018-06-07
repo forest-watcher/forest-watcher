@@ -8,7 +8,7 @@ import Map from 'containers/map';
 import Settings from 'containers/settings';
 import ContactUs from 'components/settings/contact-us';
 import Reports from 'containers/reports';
-import NewReport from 'containers/reports/form';
+import NewReport from 'containers/form/form';
 import AreaDetail from 'containers/settings/area-detail';
 import Partners from 'components/settings/partners';
 import TermsAndConditions from 'components/settings/terms-and-conditions';
@@ -16,7 +16,7 @@ import TermsAndConditionsDetail from 'components/settings/terms-and-conditions/d
 import FaqList from 'components/settings/faq';
 import FaqDetail from 'components/settings/faq/detail';
 import Sync from 'containers/sync';
-import Answers from 'containers/common/form/answers';
+import Answers from 'containers/form/answers';
 import RightDrawer from 'components/right-drawer';
 import ErrorLightbox from 'components/error-lightbox';
 import Walkthrough from 'components/walkthrough';

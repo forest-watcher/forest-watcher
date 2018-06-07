@@ -4,7 +4,9 @@ import type { ReportsState, ReportsAction, Report } from 'types/reports.types';
 import type { Area } from 'types/areas.types';
 
 import Config from 'react-native-config';
+import merge from 'lodash/merge';
 import tracker from 'helpers/googleAnalytics';
+import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import CONSTANTS from 'config/constants';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { getTemplate } from 'helpers/forms';
@@ -35,6 +37,18 @@ function orderQuestions(questions) {
 
 export default function reducer(state: ReportsState = initialState, action: ReportsAction) {
   switch (action.type) {
+    case PERSIST_REHYDRATE: {
+      const { reports, form } = action.payload;
+      const oldList = [...reports.list];
+      const formatAnswers = values => Object.entries(values).map(([questionId, value]) => ({ questionId, value }));
+      const answers = Object.entries(form)
+        .reduce((acc, [reportName, formEntry]) => ({
+          ...acc,
+          [reportName]: { reportName, answers: formatAnswers((formEntry.values || {})) }
+        }), {});
+
+      return { ...reports, list: merge(answers, oldList) };
+    }
     case GET_DEFAULT_TEMPLATE_REQUEST:
       return { ...state, synced: false, syncing: true };
     case GET_DEFAULT_TEMPLATE_COMMIT: {
