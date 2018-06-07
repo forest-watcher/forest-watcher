@@ -11,7 +11,7 @@ import Theme from 'config/theme';
 import i18n from 'locales';
 
 import ActionButton from 'components/common/action-button';
-import Answer from 'components/common/form/answer/answer';
+import Answer from 'components/form/answer/answer';
 import ImageCarousel from 'components/common/image-carousel';
 import withDraft from './withDraft';
 import styles from './styles';
@@ -24,9 +24,7 @@ type Props = {
   results: Array<{ question: Question, answers: Array<string> }>,
   form: string,
   finish: () => void,
-  readOnly: boolean,
-  removeAnswer: (string, string, number) => void,
-  removeAllAnswers: (string, string) => void
+  readOnly: boolean
 };
 
 class Answers extends PureComponent<Props> {
@@ -78,18 +76,10 @@ class Answers extends PureComponent<Props> {
     });
   }
 
-  /* eslint-disable no-unused-vars */
   onDeleteImage = (id, name, images) => {
-    const { form, removeAnswer, removeAllAnswers } = this.props;
-    // TODO: when multiple pictures is implemented this will suffice to remove the selected image
-    // TODO: to implement multiple images, the input value needs to be an array of image uri.
-    // const index = images.findIndex(image => image.id === id);
-    // removeAnswer(form, name, index);
-    removeAllAnswers(form, name);
     const image = images.find(i => i.id === id);
     if (image.required) this.onEdit(image.questionNumber);
   }
-  /* eslint-enable no-unused-vars */
 
   render() {
     const { results, readOnly } = this.props;

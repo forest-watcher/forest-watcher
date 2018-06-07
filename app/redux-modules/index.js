@@ -1,4 +1,3 @@
-export { reducer as form } from 'redux-form';
 export { default as app } from './app';
 export { default as alerts } from './alerts';
 export { default as user } from './user';

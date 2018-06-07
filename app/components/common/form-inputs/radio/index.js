@@ -5,7 +5,6 @@ import {
   ScrollView,
   Text
 } from 'react-native';
-import { Field } from 'redux-form';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import CheckBtn from 'components/common/form-inputs/check-btn';
@@ -29,32 +28,27 @@ function RadioInput(props) {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          {props.question.values.map((item, index) => {
-            let conditionalField = null;
-            if (childQuestions && childQuestions.length && childQuestions[0].conditionalValue === item.value) {
-              const visible = props.input.value === item.value;
-              conditionalField = (
-                <Field
-                  key="field"
-                  visible={visible}
-                  name={childQuestions[0].name}
-                  component={TextInput}
-                  question={childQuestions[0]}
-                />
-              );
-            }
-            return [
-              <View style={styles.inputContainer} key="container">
-                <CheckBtn
-                  key={index}
-                  label={item.label}
-                  checked={props.input.value === item.value}
-                  onPress={() => handlePress(item.value)}
-                />
-              </View>,
-              conditionalField
-            ];
-          })}
+          {
+            props.question.values.map((item, index) => (
+              <React.Fragment>
+                <View style={styles.inputContainer} key="container">
+                  <CheckBtn
+                    key={index}
+                    label={item.label}
+                    checked={props.input.value === item.value}
+                    onPress={() => handlePress(item.value)}
+                  />
+                </View>
+                {childQuestions && childQuestions.length
+                && childQuestions[0].conditionalValue === item.value &&
+                  <TextInput
+                    visible={props.input.value === item.value}
+                    question={childQuestions[0]}
+                  />
+                }
+              </React.Fragment>
+            ))
+          }
         </ScrollView>
       </View>
     </KeyboardAwareScrollView>

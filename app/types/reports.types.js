@@ -15,6 +15,11 @@ export type Question = {
   label: { [string]: string },
 }
 
+export type Answer = {
+  questionId: string,
+  value: any
+}
+
 export type Template = {
   name: {
     [string]: Object
@@ -30,6 +35,16 @@ export type Template = {
   id: string
 }
 
+export type Report = {
+  area: Area,
+  userPosition: string,
+  clickedPosition: string,
+  index: number,
+  status: 'draft' | 'complete' | 'uploaded',
+  date: string,
+  answers: Array<Answer>
+};
+
 export type ReportsState = {
   templates: {
     [string]: Template
@@ -40,15 +55,6 @@ export type ReportsState = {
   synced: boolean,
   syncing: boolean
 }
-
-export type Report = {
-  area: Area,
-  userPosition: string,
-  clickedPosition: string,
-  index: number,
-  status: 'draft' | 'complete' | 'uploaded',
-  date: string
-};
 
 export type GetDefaultTemplateRequest = { type: 'report/GET_DEFAULT_TEMPLATE_REQUEST' };
 export type GetDefaultTemplateCommit = { type: 'report/GET_DEFAULT_TEMPLATE_COMMIT', payload: Template };

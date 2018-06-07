@@ -5,7 +5,6 @@ import {
   ScrollView,
   Text
 } from 'react-native';
-import { Field } from 'redux-form';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import CheckBtn from 'components/common/form-inputs/check-btn';
@@ -24,7 +23,7 @@ function SelectInput(props) {
     }
     props.input.onChange(newVal);
   }
-  const { childQuestions } = props.question;
+  const checked = props.input.value.indexOf(item.value) >= 0;
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
@@ -34,39 +33,32 @@ function SelectInput(props) {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          {props.question.values.map((item, index) => {
-            const checked = props.input.value.indexOf(item.value) >= 0;
-            let conditionalField = null;
-            if (childQuestions && childQuestions.length > 0) {
-              childQuestions.forEach(childConditional => {
-                if (item.value === childConditional.conditionalValue) {
-                  conditionalField = (
-                    <Field
-                      visible={checked}
-                      name={childConditional.name}
-                      component={TextInput}
-                      question={childConditional}
-                    />
-                  );
+          {
+            props.question.values.map((item, index) => (
+              <React.Fragment>
+                <View style={styles.inputContainer}>
+                  <CheckBtn
+                    key={index}
+                    label={item.label}
+                    checked={checked}
+                    onPress={() => handlePress(item.value)}
+                  />
+                </View>
+                {childQuestions && childQuestions.length
+                  && childQuestions[0].conditionalValue === item.value &&
+                  <TextInput
+                    visible={checked}
+                    question={childQuestions[0]}
+                  />
                 }
-              });
-            }
-            return [
-              <View style={styles.inputContainer}>
-                <CheckBtn
-                  key={index}
-                  label={item.label}
-                  checked={checked}
-                  onPress={() => handlePress(item.value)}
-                />
-              </View>,
-              conditionalField
-            ];
-          })}
+              </React.Fragment>
+            ))
+          }
         </ScrollView>
       </View>
     </KeyboardAwareScrollView>
   );
+  const { childQuestions } = props.question;
 }
 
 SelectInput.propTypes = {

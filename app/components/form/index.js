@@ -5,20 +5,19 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
-import styles from 'components/common/form/styles';
+import styles from 'components/form/styles';
 import ActionButton from 'components/common/action-button';
 import FormField from 'components/common/form-inputs';
-import NextButton from 'components/common/form/next-button';
-import withDraft from 'components/common/form/withDraft';
-
+import NextButton from 'components/form/next-button';
+import withDraft from 'components/form/withDraft';
 
 type Props = {
   question: Question,
   answer: any,
   text: string,
-  onSubmit: () => void
+  onSubmit: () => void,
+  navigator: any
 };
-
 
 class Form extends Component<Props> {
   static navigatorStyle = {
@@ -43,15 +42,15 @@ class Form extends Component<Props> {
     const isBlob = question && question.type === 'blob';
     const Next = isBlob ? NextButton : ActionButton;
     const style = isBlob ? styles.buttonNextPos : styles.buttonPos;
-
-    return (
-      <Next
-        style={style}
-        disabled={disabled}
-        onPress={this.onSubmit}
-        text={!isBlob && text}
-      />
-    );
+    return null;
+    // return (
+    //   <Next
+    //     style={style}
+    //     disabled={disabled}
+    //     onPress={this.onSubmit}
+    //     text={!isBlob && text}
+    //   />
+    // );
   }
 
   render() {
