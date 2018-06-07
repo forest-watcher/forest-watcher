@@ -23,7 +23,6 @@ function SelectInput(props) {
     }
     props.input.onChange(newVal);
   }
-  const checked = props.input.value.indexOf(item.value) >= 0;
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
@@ -34,31 +33,34 @@ function SelectInput(props) {
           showsHorizontalScrollIndicator={false}
         >
           {
-            props.question.values.map((item, index) => (
-              <React.Fragment>
-                <View style={styles.inputContainer}>
-                  <CheckBtn
-                    key={index}
-                    label={item.label}
-                    checked={checked}
-                    onPress={() => handlePress(item.value)}
-                  />
-                </View>
-                {childQuestions && childQuestions.length
-                  && childQuestions[0].conditionalValue === item.value &&
-                  <TextInput
-                    visible={checked}
-                    question={childQuestions[0]}
-                  />
-                }
-              </React.Fragment>
-            ))
+            props.question.values.map((item, index) => {
+              const checked = props.input.value.indexOf(item.value) >= 0;
+              const { childQuestions } = props.question;
+              return (
+                <React.Fragment>
+                  <View style={styles.inputContainer}>
+                    <CheckBtn
+                      key={index}
+                      label={item.label}
+                      checked={checked}
+                      onPress={() => handlePress(item.value)}
+                    />
+                  </View>
+                  {childQuestions && childQuestions.length
+                    && childQuestions[0].conditionalValue === item.value &&
+                    <TextInput
+                      visible={checked}
+                      question={childQuestions[0]}
+                    />
+                  }
+                </React.Fragment>
+              );
+            })
           }
         </ScrollView>
       </View>
     </KeyboardAwareScrollView>
   );
-  const { childQuestions } = props.question;
 }
 
 SelectInput.propTypes = {
@@ -72,7 +74,7 @@ SelectInput.propTypes = {
       })
     )
   }).isRequired,
-  input: PropTypes.shape({
+  input: PropTypes.shape({ // eslint-disable-line
     onChange: PropTypes.func.isRequired,
     value: PropTypes.any.isRequired
   }).isRequired

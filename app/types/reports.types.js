@@ -68,6 +68,7 @@ export type CreateReport = {
   };
 };
 export type UpdateReport = { type: 'report/UPDATE_REPORT', payload: { name: string, data: Report } };
+export type SetReportAnswer = { type: 'report/SET_REPORT_ANSWER', payload: { reportName: string, answer: Answer } };
 
 export type UploadReportRequest = {
   type: 'report/UPLOAD_REPORT_REQUEST',

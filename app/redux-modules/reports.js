@@ -21,6 +21,7 @@ const UPDATE_REPORT = 'report/UPDATE_REPORT';
 export const UPLOAD_REPORT_REQUEST = 'report/UPLOAD_REPORT_REQUEST';
 export const UPLOAD_REPORT_COMMIT = 'report/UPLOAD_REPORT_COMMIT';
 export const UPLOAD_REPORT_ROLLBACK = 'report/UPLOAD_REPORT_ROLLBACK';
+const SET_REPORT_ANSWER = 'report/SET_REPORT_ANSWER';
 
 // Reducer
 const initialState = {
@@ -86,6 +87,25 @@ export default function reducer(state: ReportsState = initialState, action: Repo
       list[action.payload.name] = { ...state.list[action.payload.name], ...action.payload.data };
       return { ...state, list };
     }
+    case SET_REPORT_ANSWER: {
+      const { reportName, answer } = action.payload;
+      const report = state.list[reportName];
+      // TODO: clean the selection from here to the right
+      const answers = report.answers.length
+        ? report.answers.map(a => (a.questionName === answer.questionName
+          ? answer
+          : a
+        ))
+        : [answer];
+      const list = {
+        ...state.list,
+        [reportName]: {
+          ...report,
+          answers
+        }
+      };
+      return { ...state, list };
+    }
     case UPLOAD_REPORT_REQUEST: {
       const { name, status } = action.payload;
       const report = state.list[name];
@@ -146,6 +166,16 @@ export function createReport(
         date: new Date().toISOString(),
         status: CONSTANTS.status.draft
       }
+    }
+  };
+}
+
+export function setReportAnswer(reportName: string, answer: Answer): ReportsAction {
+  return {
+    type: SET_REPORT_ANSWER,
+    payload: {
+      reportName,
+      answer
     }
   };
 }

@@ -1,7 +1,6 @@
 // @flow
 
-import type { Question, ReportsState, Template } from 'types/reports.types';
-import type { Answers, FormState } from 'types/form.types';
+import type { Question, ReportsState, Template, Answers, FormState } from 'types/reports.types';
 import i18n from 'locales';
 
 export const getBtnTextByType = (type: string) => {
@@ -63,9 +62,11 @@ export const getNextStep = (
   if (questions && currentQuestion < questions.length - 1) {
     const findStep = (currentIndex: number = 0, jumpStart: number = 0) => {
       const jump = jumpStart + 1;
-      const conditions = questions[currentIndex].conditions;
+      const question = questions[currentIndex];
+      const conditions = question.conditions;
       const nextHasConditions = conditions && conditions.length > 0;
-      const answerMatchesCondition = nextHasConditions && answers[conditions[0].name] === conditions[0].value;
+      const answer = answers.find(ans => ans.questionName === question.name) || {};
+      const answerMatchesCondition = nextHasConditions && answer.value === conditions[0].value;
       if (
         !nextHasConditions
         || answerMatchesCondition
