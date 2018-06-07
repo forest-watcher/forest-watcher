@@ -1,11 +1,18 @@
 import Theme from 'config/theme';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   defaultHeader: {
     flex: 1,
     backgroundColor: Theme.background.main,
-    paddingTop: 88
+    ...Platform.select({
+      ios: {
+        paddingTop: 80
+      },
+      android: {
+        paddingTop: 60
+      }
+    })
   },
   mapHeader: {
     flex: 1,
