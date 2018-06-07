@@ -26,7 +26,7 @@ const geojsonArea = require('@mapbox/geojson-area');
 const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 30;
+const LATITUDE_DELTA = 15;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const edgePadding = { top: 180, right: 85, bottom: 180, left: 85 };
 
@@ -66,9 +66,12 @@ class DrawAreas extends Component {
       ? this.props.country.centroid.coordinates
       : [MAPS.lng, MAPS.lat];
 
+    this.nextPress = false;
+    this.mapReady = false;
     this.state = {
       valid: true,
       huge: false,
+      loading: false,
       shape: {
         coordinates: getGoogleMapsCoordinates(props.coordinates)
       },
@@ -77,8 +80,7 @@ class DrawAreas extends Component {
         longitude: intialCoords[0],
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
-      },
-      snapshot: false
+      }
     };
   }
 
@@ -86,19 +88,26 @@ class DrawAreas extends Component {
     tracker.trackScreenView('Draw Areas');
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { coordinates } = this.state.shape;
-    if (coordinates && coordinates.length > 1 && coordinates !== prevState.shape.coordinates) {
-      this.map.fitToCoordinates(coordinates, {
-        edgePadding,
-        animated: true
-      });
+  onMapReady = () => {
+    this.mapReady = true;
+  }
+
+  onRegionChangeComplete = async () => {
+    if (this.nextPress) {
+      const { coordinates } = this.state.shape;
+      const snapshot = await this.takeSnapshot();
+      const url = snapshot.uri ? snapshot.uri : snapshot;
+      const storedUrl = await storeImage(url);
+      const geojson = getGeoJson(coordinates);
+      this.setState({ loading: false });
+      this.props.onDrawAreaFinish({ geojson }, storedUrl);
+      this.nextPress = false;
     }
   }
 
-
-  onMapPress(e) {
-    if (e.nativeEvent.coordinate) {
+  onMapPress = (e) => {
+    const { coordinate } = e.nativeEvent;
+    if (this.mapReady && coordinate) {
       const { shape, valid } = this.state;
       const coords = [
         ...shape.coordinates,
@@ -135,17 +144,22 @@ class DrawAreas extends Component {
     }
   }
 
-  onNextPress = () => {
-    requestAnimationFrame(async () => {
-      const snapshot = await this.takeSnapshot();
-      const url = snapshot.uri ? snapshot.uri : snapshot;
-      const storedUrl = await storeImage(url);
-      const geojson = getGeoJson(this.state.shape.coordinates);
-      this.props.onDrawAreaFinish({ geojson }, storedUrl);
-    });
+  onNextPress = async () => {
+    const { coordinates } = this.state.shape;
+    if (coordinates && coordinates.length > 1) {
+      this.setState({ loading: true });
+      const snapshotPadding = Platform.OS === 'ios'
+        ? { top: 280, right: 80, bottom: 360, left: 80 }
+        : { top: 560, right: 160, bottom: 720, left: 160 };
+      this.map.fitToCoordinates(coordinates, {
+        edgePadding: snapshotPadding,
+        animated: true
+      });
+      this.nextPress = true;
+    }
   }
 
-  setBoundaries = () => {
+  onLayout = () => {
     let boundaries = getGoogleMapsCoordinates(MAPS.bbox.coordinates[0]);
     const { coordinates } = this.state.shape;
     if (coordinates && coordinates.length > 1) {
@@ -187,6 +201,7 @@ class DrawAreas extends Component {
     return (validArea)
       ? <ActionButton
         style={[styles.actionButton, styles.actionButtonWithPadding]}
+        disabled={this.state.loading}
         onPress={this.onNextPress}
         text={i18n.t('commonText.next').toUpperCase()}
       />
@@ -241,7 +256,6 @@ class DrawAreas extends Component {
 
   takeSnapshot() {
     return this.map.takeSnapshot({
-      height: 224,
       format: 'jpg',
       quality: 0.8,
       result: 'file'
@@ -265,9 +279,11 @@ class DrawAreas extends Component {
           provider={MapView.PROVIDER_GOOGLE}
           mapType="none"
           rotateEnabled={false}
-          onPress={e => this.onMapPress(e)}
+          onMapReady={this.onMapReady}
+          onRegionChangeComplete={this.onRegionChangeComplete}
+          onPress={this.onMapPress}
           moveOnMarkerPress={false}
-          onLayout={this.setBoundaries}
+          onLayout={this.onLayout}
         >
           <MapView.UrlTile
             key="basemapLayerElement"
@@ -290,7 +306,7 @@ class DrawAreas extends Component {
               zIndex={0}
             />
           )}
-          {markers.length > 0 && !this.state.snapshot && coordinates.length > 1 && (
+          {markers.length > 0 && coordinates.length > 1 && (
             <MapView.Polyline
               key={'line'}
               coordinates={markers}
@@ -299,7 +315,7 @@ class DrawAreas extends Component {
               zIndex={2}
             />
           )}
-          {markers.length >= 0 && !this.state.snapshot &&
+          {markers.length >= 0 &&
             markers.map((marker, index) => {
               // const image = this.state.valid ? markerImage : markerRedImage;
               const image = markerImage;
