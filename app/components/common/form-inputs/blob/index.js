@@ -100,9 +100,7 @@ class ImageBlobInput extends Component {
 
 ImageBlobInput.propTypes = {
   input: PropTypes.shape({
-    onBlur: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
-    onFocus: PropTypes.func.isRequired,
     value: PropTypes.any.isRequired
   }).isRequired
 };

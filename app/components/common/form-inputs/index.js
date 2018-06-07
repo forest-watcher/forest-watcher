@@ -4,9 +4,7 @@ import Radio from './radio';
 import Select from './select';
 import Date from './date';
 import Blob from './blob';
-// TODO: fix numbers input in iOS as we can't accept the value
-// import Number from './number';
-
+import Number from './number';
 
 function FormField(props) {
   if (!props.question) return null;
@@ -15,7 +13,7 @@ function FormField(props) {
     case 'text':
       return <Text {...props} />;
     case 'number':
-      return <Text {...props} />; // Use the number component here
+      return <Number {...props} />;
     case 'radio':
       return <Radio {...props} />;
     case 'select':

@@ -79,7 +79,7 @@ function ActionButton(props) {
             <Image style={Theme.icon} source={icons[props.icon]} />
           </View>
         }
-        <Text style={textStyles}>{props.text.toUpperCase()}</Text>
+        {props.text && <Text style={textStyles}>{props.text.toUpperCase()}</Text>}
         <View style={styles.iconContainer}>
           {!(props.disabled || props.delete || props.noIcon) &&
             <Image style={arrowIconStyles} source={arrowIcon} />

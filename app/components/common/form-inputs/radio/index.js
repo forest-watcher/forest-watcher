@@ -30,10 +30,9 @@ function RadioInput(props) {
         >
           {
             props.question.values.map((item, index) => (
-              <React.Fragment>
+              <React.Fragment key={index}>
                 <View style={styles.inputContainer} key="container">
                   <CheckBtn
-                    key={index}
                     label={item.label}
                     checked={props.input.value === item.value}
                     onPress={() => handlePress(item.value)}
@@ -67,9 +66,7 @@ RadioInput.propTypes = {
     )
   }).isRequired,
   input: PropTypes.shape({
-    onBlur: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
-    onFocus: PropTypes.func.isRequired,
     value: PropTypes.any.isRequired
   }).isRequired
 };

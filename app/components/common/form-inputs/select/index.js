@@ -73,9 +73,7 @@ SelectInput.propTypes = {
     )
   }).isRequired,
   input: PropTypes.shape({
-    onBlur: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
-    onFocus: PropTypes.func.isRequired,
     value: PropTypes.any.isRequired
   }).isRequired
 };
