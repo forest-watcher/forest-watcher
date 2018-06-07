@@ -32,10 +32,12 @@ const edgePadding = { top: 180, right: 85, bottom: 180, left: 85 };
 
 const footerBackgroundImage = require('assets/map_bg_gradient.png');
 const markerImage = require('assets/circle.png');
+const markerRedImage = require('assets/circle_red.png');
 const undoImage = require('assets/undo.png');
 
 function parseCoordinates(coordinates) {
   return coordinates.map((cordinate) => ({
+    key: cordinate.key,
     latitude: cordinate.latitude,
     longitude: cordinate.longitude
   }));
@@ -111,7 +113,10 @@ class DrawAreas extends Component {
       const { shape, valid } = this.state;
       const coords = [
         ...shape.coordinates,
-        e.nativeEvent.coordinate
+        {
+          ...coordinate,
+          key: `${coordinate.latitude}-${coordinate.longitude}`
+        }
       ];
       const geo = getGeoJson(coords);
       let isValid = valid;
@@ -227,18 +232,16 @@ class DrawAreas extends Component {
     const { shape, valid } = this.state;
     let isValid = valid;
     let isHuge = false;
-    shape.coordinates = shape.coordinates.filter((cord, index) => (
-      index < shape.coordinates.length - 1
-    ));
+    const coordinates = shape.coordinates.slice(0, -1);
 
-    if (shape.coordinates.length >= 3) {
+    if (coordinates.length >= 3) {
       const intersects = gpsi({
         type: 'Feature',
-        geometry: getGeoJson(shape.coordinates)
+        geometry: getGeoJson(coordinates)
       });
 
       isValid = (intersects && intersects.geometry && intersects.geometry.coordinates.length === 0);
-      const area = geojsonArea.geometry(getGeoJson(shape.coordinates));
+      const area = geojsonArea.geometry(getGeoJson(coordinates));
       if (area > AREAS.maxSize) {
         isHuge = true;
       }
@@ -247,7 +250,7 @@ class DrawAreas extends Component {
     this.setState({
       shape: {
         ...shape,
-        coordinates: shape.coordinates
+        coordinates
       },
       valid: isValid,
       huge: isHuge
@@ -316,12 +319,14 @@ class DrawAreas extends Component {
             />
           )}
           {markers.length >= 0 &&
-            markers.map((marker, index) => {
-              // const image = this.state.valid ? markerImage : markerRedImage;
-              const image = markerImage;
-
+            markers.map((marker) => {
+              const image = valid ? markerImage : markerRedImage;
               return (
-                <MapView.Marker.Animated key={index} coordinate={marker} anchor={{ x: 0.5, y: 0.5 }}>
+                <MapView.Marker.Animated
+                  key={marker.key + valid}
+                  coordinate={marker}
+                  anchor={{ x: 0.5, y: 0.5 }}
+                >
                   <Image
                     style={{ width: 10, height: 10 }}
                     source={image}
@@ -337,7 +342,7 @@ class DrawAreas extends Component {
             source={footerBackgroundImage}
           />
           <View pointerEvents="box-none" style={styles.footerButton}>
-            {this.state.shape.coordinates.length >= 1 &&
+            {shape.coordinates.length >= 1 &&
               <TouchableHighlight
                 style={styles.undoButton}
                 activeOpacity={0.8}
