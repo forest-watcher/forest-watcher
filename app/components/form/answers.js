@@ -23,7 +23,7 @@ type Props = {
   navigator: any,
   results: Array<{ question: Question, answers: Array<string> }>,
   reportName: string,
-  finish: (string) => void,
+  uploadReport: (string) => void,
   readOnly: boolean
 };
 
@@ -46,15 +46,15 @@ class Answers extends PureComponent<Props> {
   }
 
   onNavigatorEvent = (event) => {
-    const { reportName, finish } = this.props;
+    const { reportName, uploadReport } = this.props;
     if (event.type === 'NavBarButtonPress') {
-      if (event.id === 'upload') finish(reportName);
+      if (event.id === 'upload') uploadReport(reportName);
     }
   };
 
   onPressSave = () => {
-    const { reportName, finish, navigator } = this.props;
-    finish(reportName);
+    const { reportName, uploadReport, navigator } = this.props;
+    uploadReport(reportName);
     navigator.popToRoot({ animate: true });
   }
 

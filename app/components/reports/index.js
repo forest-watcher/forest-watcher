@@ -29,8 +29,7 @@ type Props = {
     uploaded: Array<ReportItem>,
     complete: Array<ReportItem>
   },
-  getLastStep: string => number,
-  finish: () => void
+  getLastStep: string => number
 };
 
 class Reports extends PureComponent<Props> {
@@ -97,8 +96,7 @@ class Reports extends PureComponent<Props> {
     passProps: {
       reportName,
       readOnly: true,
-      showUploadButton: true,
-      finish: this.props.finish
+      showUploadButton: true
     }
   });
 
@@ -130,10 +128,7 @@ class Reports extends PureComponent<Props> {
         this.props.navigator.push({
           title: i18n.t('report.review'),
           screen: 'ForestWatcher.Answers',
-          passProps: {
-            reportName,
-            finish: this.props.finish
-          }
+          passProps: { reportName }
         });
       }
     };
