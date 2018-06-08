@@ -24,7 +24,8 @@ type Props = {
   results: Array<{ question: Question, answers: Array<string> }>,
   reportName: string,
   uploadReport: (string) => void,
-  readOnly: boolean
+  readOnly: boolean,
+  setActiveAlerts: boolean => void
 };
 
 class Answers extends PureComponent<Props> {
@@ -53,8 +54,9 @@ class Answers extends PureComponent<Props> {
   };
 
   onPressSave = () => {
-    const { reportName, uploadReport, navigator } = this.props;
+    const { reportName, uploadReport, navigator, setActiveAlerts } = this.props;
     uploadReport(reportName);
+    setActiveAlerts(true);
     navigator.popToRoot({ animate: true });
   }
 

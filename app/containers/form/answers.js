@@ -5,6 +5,7 @@ import type { Template, Answer } from 'types/reports.types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { saveReport, uploadReport } from 'redux-modules/reports';
+import { setActiveAlerts } from 'redux-modules/alerts';
 import { getTemplate, parseQuestion } from 'helpers/forms';
 import Answers from 'components/form/answers';
 
@@ -52,8 +53,9 @@ function mapStateToProps(state: State, ownProps: { reportName: string, readOnly:
 }
 
 const mapDispatchToProps = (dispatch: *) => bindActionCreators({
+  saveReport,
   uploadReport,
-  saveReport
+  setActiveAlerts
 }, dispatch);
 
 
