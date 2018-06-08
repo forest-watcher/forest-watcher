@@ -16,7 +16,7 @@ export type Question = {
 }
 
 export type Answer = {
-  questionId: string,
+  questionName: string,
   value: any
 }
 
@@ -109,4 +109,5 @@ export type ReportsAction =
   | UploadReportRequest
   | UploadReportCommit
   | UploadReportRollback
+  | SetReportAnswer
   | LogoutRequest;

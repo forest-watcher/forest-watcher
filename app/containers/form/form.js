@@ -8,22 +8,22 @@ import { setReportAnswer } from 'redux-modules/reports';
 import ReportForm from 'components/form';
 
 const mapStateToProps = (state: State, ownProps: { reportName: string, questionIndex: string }) => {
-  const { deviceLang } = state.app;
+  const { language } = state.app;
   const { reportName, questionIndex = 0 } = ownProps;
   const { answers } = state.reports.list[reportName];
   const template = getTemplate(state.reports, reportName);
   const { questions = [] } = template;
 
-  const question = parseQuestion({ form: template, question: questions[questionIndex] }, deviceLang);
+  const question = parseQuestion({ form: template, question: questions[questionIndex] }, language);
   const answer = answers.find(a => a.questionName === question.name)
-    || { questionName: question.name };
+    || { questionName: question.name, value: '' };
   const nextQuestionIndex = getNextStep({ currentQuestion: questionIndex, questions, answers });
   const text = getBtnTextByType(question.type);
   return { question, answer, nextQuestionIndex, text };
 };
 
 const mapDispatchToProps = (dispatch: *) => bindActionCreators({
-  onSubmit: setReportAnswer
+  setReportAnswer
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReportForm);

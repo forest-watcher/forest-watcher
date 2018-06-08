@@ -34,13 +34,12 @@ function SelectInput(props) {
         >
           {
             props.question.values.map((item, index) => {
-              const checked = props.input.value.indexOf(item.value) >= 0;
+              const checked = props.input.value && props.input.value.indexOf(item.value) >= 0;
               const { childQuestions } = props.question;
               return (
-                <React.Fragment>
+                <React.Fragment key={index}>
                   <View style={styles.inputContainer}>
                     <CheckBtn
-                      key={index}
                       label={item.label}
                       checked={checked}
                       onPress={() => handlePress(item.value)}

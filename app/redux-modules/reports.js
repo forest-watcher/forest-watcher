@@ -42,7 +42,7 @@ export default function reducer(state: ReportsState = initialState, action: Repo
       // $FlowFixMe
       const { reports, form } = action.payload;
       if (form) {
-        const formatAnswers = values => Object.entries(values).map(([questionId, value]) => ({ questionId, value }));
+        const formatAnswers = values => Object.entries(values).map(([questionName, value]) => ({ questionName, value }));
         const answers = Object.entries(form)
           .reduce((acc, [reportName, formEntry]) => ({
             ...acc,
@@ -90,13 +90,15 @@ export default function reducer(state: ReportsState = initialState, action: Repo
     case SET_REPORT_ANSWER: {
       const { reportName, answer } = action.payload;
       const report = state.list[reportName];
-      // TODO: clean the selection from here to the right
-      const answers = report.answers.length
-        ? report.answers.map(a => (a.questionName === answer.questionName
-          ? answer
-          : a
-        ))
-        : [answer];
+      const answeredIndex = report.answers.findIndex(a => (a.questionName === answer.questionName));
+      let answers = [...report.answers];
+
+      if (answeredIndex !== -1) {
+        answers = report.answers.slice(0, answeredIndex);
+      }
+
+      answers.push(answer);
+
       const list = {
         ...state.list,
         [reportName]: {

@@ -60,23 +60,23 @@ export const getNextStep = (
   ): ?number => {
   const { currentQuestion, questions, answers } = step;
   if (questions && currentQuestion < questions.length - 1) {
-    const findStep = (currentIndex: number = 0, jumpStart: number = 0) => {
+    const getJump = (currentIndex: number = 0, jumpStart: number = 0) => {
       const jump = jumpStart + 1;
-      const question = questions[currentIndex];
+      const question = questions[currentIndex + 1];
       const conditions = question.conditions;
       const nextHasConditions = conditions && conditions.length > 0;
-      const answer = answers.find(ans => ans.questionName === question.name) || {};
+      const answer = answers[currentIndex] || {};
       const answerMatchesCondition = nextHasConditions && answer.value === conditions[0].value;
       if (
         !nextHasConditions
         || answerMatchesCondition
-        || (questions.length - 1) === currentIndex
+        || (questions.length - 1) === currentIndex + 1
       ) {
         return jump;
       }
-      return findStep(currentIndex + 1, jump);
+      return getJump(currentIndex + 1, jump);
     };
-    const next = findStep(currentQuestion);
+    const next = getJump(currentQuestion);
     return currentQuestion + next;
   }
   return null;
@@ -90,7 +90,7 @@ export const getFormFields = (template: Template, answers: Answers) => {
       fields.push(nextStep);
     }
   });
-  const res = fields.map(field => template.questions[field] && template.questions[field].name);
+  const res = fields.map((field) => template.questions[field] && template.questions[field].name);
   return res;
 };
 

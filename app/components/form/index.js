@@ -1,5 +1,5 @@
 // @flow
-import type { Question } from 'types/reports.types';
+import type { Question, Answer } from 'types/reports.types';
 
 import React, { Component } from 'react';
 import i18n from 'locales';
@@ -14,9 +14,11 @@ import withDraft from 'components/form/withDraft';
 
 type Props = {
   question: Question,
-  answer: any,
+  reportName: string,
+  nextQuestionIndex: ?number,
+  answer: Answer,
   text: string,
-  onSubmit: () => void,
+  setReportAnswer: (string, Answer) => void,
   navigator: any
 };
 
@@ -28,32 +30,35 @@ class Form extends Component<Props> {
     navBarBackgroundColor: Theme.background.main
   };
 
-  state = {
-    value: this.props.answer.value || ''
-  }
-
   componentDidMount() {
     tracker.trackScreenView('Reports');
   }
 
   onChange = (value) => {
-    this.setState({
-      value
-    });
+    const { setReportAnswer, answer, reportName } = this.props;
+    setReportAnswer(reportName, { ...answer, value });
   }
 
   onSubmit = () => {
-    const { value } = this.state;
-    const { onSubmit, navigator, answer, reportName, nextQuestionIndex } = this.props;
-    onSubmit(reportName, { ...answer, value });
-    navigator.push({
-      screen: 'ForestWatcher.NewReport',
-      title: i18n.t('report.title'),
-      passProps: {
-        reportName,
-        questionIndex: nextQuestionIndex
-      }
-    });
+    const { navigator, reportName, nextQuestionIndex } = this.props;
+    if (nextQuestionIndex !== null) {
+      navigator.push({
+        screen: 'ForestWatcher.NewReport',
+        title: i18n.t('report.title'),
+        passProps: {
+          reportName,
+          questionIndex: nextQuestionIndex
+        }
+      });
+    } else {
+      navigator.push({
+        screen: 'ForestWatcher.Answers',
+        title: i18n.t('report.reports'),
+        passProps: {
+          reportName
+        }
+      });
+    }
   };
 
   getNext(question, answer, text) {
@@ -75,7 +80,7 @@ class Form extends Component<Props> {
   render() {
     const { question, answer, text } = this.props;
     const input = {
-      value: this.state.value,
+      value: this.props.answer.value,
       onChange: this.onChange
     };
     return (
