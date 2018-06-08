@@ -233,7 +233,7 @@ export function uploadReport(reportName: string) {
         }
       };
       appendAnswer(answer);
-      if (answer.child !== null) {
+      if (answer.child) {
         appendAnswer(answer.child);
       }
     });

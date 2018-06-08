@@ -2,6 +2,7 @@
 import type { Question, Answer } from 'types/reports.types';
 
 import React, { Component } from 'react';
+import debounce from 'lodash/debounce';
 import i18n from 'locales';
 import { View } from 'react-native';
 import Theme from 'config/theme';
@@ -41,10 +42,10 @@ class Form extends Component<Props> {
     return this.props.answer !== nextProps.answer;
   }
 
-  onChange = (value) => {
+  onChange = debounce((value) => {
     const { setReportAnswer, answer, reportName } = this.props;
     setReportAnswer(reportName, { ...answer, value, child: null }); // CONFLICT!!! SORRY NOT SORRY
-  }
+  }, 300);
 
   onSubmit = () => {
     const {
@@ -64,12 +65,13 @@ class Form extends Component<Props> {
         screen: 'ForestWatcher.NewReport',
         title: i18n.t('report.title'),
         passProps: {
+          editMode,
           reportName,
           questionIndex: nextQuestionIndex
         }
       });
     } else if (editMode) {
-      navigator.dismissModal();
+      navigator.dismissAllModals();
     } else {
       navigator.push({
         screen: 'ForestWatcher.Answers',
