@@ -1,6 +1,6 @@
 // @flow
 import type { Dispatch, GetState } from 'types/store.types';
-import type { ReportsState, ReportsAction, Report } from 'types/reports.types';
+import type { ReportsState, ReportsAction, Report, Answer } from 'types/reports.types';
 import type { Area } from 'types/areas.types';
 
 import Config from 'react-native-config';

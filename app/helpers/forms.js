@@ -16,7 +16,7 @@ export const getBtnTextByType = (type: string) => {
   }
 };
 
-export const parseQuestion = (step: { question: Question, template: Template }, deviceLang: string) => {
+export const parseQuestion = (step: { question: Question, template: Template }, deviceLang: ?string) => {
   const { question, template } = step;
   const lang = template.languages.includes(deviceLang) ? deviceLang : template.defaultLanguage;
   let parsedQuestion = { ...question };

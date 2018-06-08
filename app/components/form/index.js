@@ -46,8 +46,8 @@ class Form extends Component<Props> {
   }
 
   onSubmit = () => {
-    const { navigator, reportName, nextQuestionIndex, answer, setReportAnswer } = this.props;
-    if (answer.value === '') {
+    const { navigator, reportName, nextQuestionIndex, answer, setReportAnswer, editMode } = this.props;
+    if (answer.value === '') { // should I use questionAnswered? or is this gonna be removed
       setReportAnswer(reportName, answer);
     }
     if (nextQuestionIndex !== null) {
@@ -59,6 +59,8 @@ class Form extends Component<Props> {
           questionIndex: nextQuestionIndex
         }
       });
+    } else if (editMode) {
+      navigator.dismissModal();
     } else {
       navigator.push({
         screen: 'ForestWatcher.Answers',
