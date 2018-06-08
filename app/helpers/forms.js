@@ -16,9 +16,9 @@ export const getBtnTextByType = (type: string) => {
   }
 };
 
-export const parseQuestion = (step: { question: Question, form: Template }, deviceLang: string) => {
-  const { question, form } = step;
-  const lang = form.languages.includes(deviceLang) ? deviceLang : form.defaultLanguage;
+export const parseQuestion = (step: { question: Question, template: Template }, deviceLang: string) => {
+  const { question, template } = step;
+  const lang = template.languages.includes(deviceLang) ? deviceLang : template.defaultLanguage;
   let parsedQuestion = { ...question };
   const whitelist = ['defaultValue', 'label', 'values', 'name'];
   whitelist.forEach((key: string) => {
@@ -28,21 +28,15 @@ export const parseQuestion = (step: { question: Question, form: Template }, devi
       if (hasValue) {
         value = parsedQuestion[key][lang];
       } else {
-        value = parsedQuestion[key][form.defaultLanguage] || '';
+        value = parsedQuestion[key][template.defaultLanguage] || '';
       }
       parsedQuestion = { ...parsedQuestion, [key]: value };
     }
   });
   if (parsedQuestion.childQuestions) {
-    parsedQuestion.childQuestions = parsedQuestion.childQuestions.map((child) => parseQuestion({ question: child, form }, deviceLang));
+    parsedQuestion.childQuestions = parsedQuestion.childQuestions.map((child) => parseQuestion({ question: child, template }, deviceLang));
   }
   return parsedQuestion;
-};
-
-export const getAnswers = (forms: ReportsState, formName: string) => {
-  if (!forms) return null;
-  if (forms[formName] && forms[formName].values) return forms[formName].values;
-  return {};
 };
 
 export const getTemplate = (reports: ReportsState, formName: string) => {
@@ -56,7 +50,7 @@ export const getTemplate = (reports: ReportsState, formName: string) => {
 };
 
 export const getNextStep = (
-  step: { currentQuestion: number, questions: Array<Question>, answers: Answer }
+  step: { currentQuestion: number, questions: Array<Question>, answers: Array<Answer> }
   ): ?number => {
   const { currentQuestion, questions, answers } = step;
   if (questions && currentQuestion < questions.length - 1) {
@@ -82,29 +76,7 @@ export const getNextStep = (
   return null;
 };
 
-export const getFormFields = (template: Template, answers: Array<Answer>) => {
-  const fields = [0];
-  template.questions.forEach((question, index) => {
-    const nextStep = getNextStep({ currentQuestion: index, questions: template.questions, answers });
-    if (nextStep !== null) {
-      fields.push(nextStep);
-    }
-  });
-  const res = fields.map((field) => template.questions[field] && template.questions[field].name);
-  return res;
-};
-
 export const isQuestionAnswered = (answer: Answer) => {
   if (!answer) return false;
   return answer.value !== '';
-};
-
-export default {
-  getBtnTextByType,
-  parseQuestion,
-  getTemplate,
-  getAnswers,
-  getFormFields,
-  getNextStep,
-  isQuestionAnswered
 };

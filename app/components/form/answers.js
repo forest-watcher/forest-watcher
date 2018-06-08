@@ -22,8 +22,8 @@ const uploadIcon = require('assets/upload.png');
 type Props = {
   navigator: any,
   results: Array<{ question: Question, answers: Array<string> }>,
-  form: string,
-  finish: () => void,
+  reportName: string,
+  finish: (string) => void,
   readOnly: boolean
 };
 
@@ -46,30 +46,29 @@ class Answers extends PureComponent<Props> {
   }
 
   onNavigatorEvent = (event) => {
-    const { form, finish } = this.props;
+    const { reportName, finish } = this.props;
     if (event.type === 'NavBarButtonPress') {
-      if (event.id === 'upload') finish(form);
+      if (event.id === 'upload') finish(reportName);
     }
   };
 
   onPressSave = () => {
-    const { form, finish, navigator } = this.props;
-    finish(form);
+    const { reportName, finish, navigator } = this.props;
+    finish(reportName);
     navigator.popToRoot({ animate: true });
   }
 
   onEdit = (index) => {
-    const { navigator, form } = this.props;
+    const { navigator, reportName } = this.props;
     const screen = 'ForestWatcher.NewReport';
     const disableDraft = false;
     navigator.showModal({
       screen,
       backButtonHidden: true,
       passProps: {
-        form,
+        reportName,
         title: i18n.t('report.title'),
-        screen,
-        step: index,
+        questionIndex: index,
         disableDraft,
         editMode: true
       }

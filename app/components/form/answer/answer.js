@@ -18,7 +18,11 @@ const Answer = (props) => (
     </View>
     <View style={styles.answersContainer}>
       <View style={styles.answers}>
-        {props.answers.map((answer, i) => (<Text style={styles.answer} key={`${props.questionId}${i}`}>{answer}</Text>))}
+        {props.answers &&
+          props.answers.map((answer, i) => (
+            <Text style={styles.answer} key={`${props.questionId}${i}`}>{answer}</Text>
+          ))
+        }
       </View>
       {!props.readOnly &&
         <TouchableHighlight

@@ -4,7 +4,7 @@ import type { State } from 'types/store.types';
 import { connect } from 'react-redux';
 import { uploadReport } from 'redux-modules/reports';
 import { setCanDisplayAlerts } from 'redux-modules/alerts';
-import { getAnswers, getFormFields, getTemplate } from 'helpers/forms';
+import { getNextStep, getTemplate } from 'helpers/forms';
 import { shouldBeConnected } from 'helpers/app';
 
 import Reports from 'components/reports';
@@ -45,41 +45,39 @@ function mapStateToProps(state: State) {
   return {
     isConnected: shouldBeConnected(state),
     reports: getReports(state.reports.list),
-    stateReports: state.reports,
-    form: state.form
+    stateReports: state.reports
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: *) {
   return {
-    submitForm: (template, reportName, answers) => {
-      const fields = getFormFields(template, answers);
-      dispatch(uploadReport({ reportName, fields }));
+    submitForm: (template, reportName) => {
+      dispatch(uploadReport({ reportName }));
       dispatch(setCanDisplayAlerts(true));
     }
   };
 }
 
-function mergeProps({ form, stateReports, ...state }, { submitForm, ...dispatch }, ownProps) {
+function mergeProps({ stateReports, ...state }, { submitForm, ...dispatch }, ownProps) {
   return {
     ...ownProps,
     ...state,
     ...dispatch,
     getLastStep: (formName) => {
-      const answers = getAnswers(form, formName);
-      const answersKeys = answers ? Object.keys(answers) : [];
-      if (answersKeys.length) {
+      const answers = stateReports.list[formName].answers;
+      if (answers.length) {
         const templateId = stateReports.list[formName].area.templateId || 'default';
         const questions = stateReports.templates[templateId].questions;
-        const last = Math.max(...answersKeys.map(answer => questions.findIndex(question => answer === question.name)));
-        return last < (questions.length - 1) ? last : null;
+        const last = answers[answers.length - 1];
+        const currentQuestion = questions.findIndex(question => (last && last.questionName) === question.name);
+        return getNextStep({ currentQuestion, questions, answers });
       }
       // we need to return 0 in case that answers.length === 0,
       // because that means that a form was created but no answer was submitted
       return 0;
     },
     finish: (formName) => {
-      const answers = getAnswers(form, formName);
+      const answers = stateReports.list[formName].answers;
       const template = getTemplate(stateReports, formName);
       submitForm(template, formName, answers);
     }

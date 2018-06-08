@@ -1,6 +1,7 @@
+// @flow
 import { connect } from 'react-redux';
 import { saveReport } from 'redux-modules/reports';
-import { getTemplate, getAnswers, parseQuestion, getFormFields } from 'helpers/forms';
+import { getTemplate, parseQuestion } from 'helpers/forms';
 import Answers from 'components/form/answers';
 
 function getAnswerValues(question, answer) {
@@ -13,32 +14,31 @@ function getAnswerValues(question, answer) {
   return answerList;
 }
 
-function mapFormToAnsweredQuestions(fields, answers, form, deviceLang) {
-  const questions = form.questions.map((question, index) => ({ ...question, questionNumber: index }))
-    .filter(question => fields.includes(question.name))
-    .map((question) => {
-      const parsedQuestion = parseQuestion({ form, question }, deviceLang);
-      const answer = answers[question.name];
-      if (question.type === 'blob' && typeof answer === 'undefined') {
-        console.warn(`Image of question (${question.Id}) was not saved properly`);
-      }
-      return {
-        question: { ...parsedQuestion },
-        answers: getAnswerValues(parsedQuestion, answer)
-      };
-    });
-  return questions;
+function mapFormToAnsweredQuestions(answers, template, deviceLang) {
+  const questions = template.questions.reduce(
+    (acc, question, index) => ({ ...acc, [question.name]: { ...question, questionNumber: index } }),
+    {}
+  );
+  return answers
+  .map((answer) => {
+    const question = questions[answer.questionName];
+    const parsedQuestion = parseQuestion({ template, question }, deviceLang);
+    const value = answer && answer.value;
+    return {
+      question: { ...parsedQuestion },
+      answers: value && getAnswerValues(parsedQuestion, value)
+    };
+  });
 }
 
-function mapStateToProps(state, { form, readOnly }) {
-  const template = getTemplate(state.reports, form);
-  const answers = getAnswers(state.form, form);
+function mapStateToProps(state, { reportName, readOnly }) {
+  const template = getTemplate(state.reports, reportName);
+  const answers = state.reports.list[reportName].answers;
   // map readOnly to object because withDraft expects disableDraft and answers expects readOnly
   const readOnlyProps = readOnly ? { disableDraft: true, readOnly } : {};
   return {
     results: mapFormToAnsweredQuestions(
-      getFormFields(template, answers),
-      getAnswers(state.form, form),
+      answers,
       template,
       state.app.language
     ),

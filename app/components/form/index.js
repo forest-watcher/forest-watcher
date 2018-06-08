@@ -20,7 +20,8 @@ type Props = {
   answer: Answer,
   text: string,
   setReportAnswer: (string, Answer) => void,
-  navigator: any
+  navigator: any,
+  questionIndex: ?number
 };
 
 class Form extends Component<Props> {
@@ -35,13 +36,20 @@ class Form extends Component<Props> {
     tracker.trackScreenView('Reports');
   }
 
+  shouldComponentUpdate(nextProps) {
+    return this.props.answer !== nextProps.answer;
+  }
+
   onChange = (value) => {
     const { setReportAnswer, answer, reportName } = this.props;
     setReportAnswer(reportName, { ...answer, value });
   }
 
   onSubmit = () => {
-    const { navigator, reportName, nextQuestionIndex } = this.props;
+    const { navigator, reportName, nextQuestionIndex, answer, setReportAnswer } = this.props;
+    if (answer.value === '') {
+      setReportAnswer(reportName, answer);
+    }
     if (nextQuestionIndex !== null) {
       navigator.push({
         screen: 'ForestWatcher.NewReport',
