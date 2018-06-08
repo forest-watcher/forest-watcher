@@ -14,6 +14,7 @@ import withDraft from 'components/form/withDraft';
 
 type Props = {
   question: Question,
+  questionAnswered: boolean,
   reportName: string,
   nextQuestionIndex: ?number,
   answer: Answer,
@@ -61,8 +62,8 @@ class Form extends Component<Props> {
     }
   };
 
-  getNext(question, answer, text) {
-    const disabled = !answer && question && question.required;
+  getNext(question, questionAnswered, text) {
+    const disabled = question.required && !questionAnswered;
     const isBlob = question && question.type === 'blob';
     const Next = isBlob ? NextButton : ActionButton;
     const style = isBlob ? styles.buttonNextPos : styles.buttonPos;
@@ -78,9 +79,9 @@ class Form extends Component<Props> {
   }
 
   render() {
-    const { question, answer, text } = this.props;
+    const { question, answer, questionAnswered, text } = this.props;
     const input = {
-      value: this.props.answer.value,
+      value: answer.value,
       onChange: this.onChange
     };
     return (
@@ -89,7 +90,7 @@ class Form extends Component<Props> {
           <View style={styles.backgroundHack} />
           {question && <FormField question={question} input={input} />}
         </View>
-        {this.getNext(question, answer, text)}
+        {this.getNext(question, questionAnswered, text)}
       </View>
     );
   }

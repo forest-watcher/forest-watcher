@@ -1,6 +1,6 @@
 // @flow
 
-import type { Question, ReportsState, Template, Answers, FormState } from 'types/reports.types';
+import type { Question, ReportsState, Template, Answer } from 'types/reports.types';
 import i18n from 'locales';
 
 export const getBtnTextByType = (type: string) => {
@@ -39,7 +39,7 @@ export const parseQuestion = (step: { question: Question, form: Template }, devi
   return parsedQuestion;
 };
 
-export const getAnswers = (forms: FormState, formName: string) => {
+export const getAnswers = (forms: ReportsState, formName: string) => {
   if (!forms) return null;
   if (forms[formName] && forms[formName].values) return forms[formName].values;
   return {};
@@ -56,7 +56,7 @@ export const getTemplate = (reports: ReportsState, formName: string) => {
 };
 
 export const getNextStep = (
-  step: { currentQuestion: number, questions: Array<Question>, answers: Answers }
+  step: { currentQuestion: number, questions: Array<Question>, answers: Answer }
   ): ?number => {
   const { currentQuestion, questions, answers } = step;
   if (questions && currentQuestion < questions.length - 1) {
@@ -82,7 +82,7 @@ export const getNextStep = (
   return null;
 };
 
-export const getFormFields = (template: Template, answers: Answers) => {
+export const getFormFields = (template: Template, answers: Array<Answer>) => {
   const fields = [0];
   template.questions.forEach((question, index) => {
     const nextStep = getNextStep({ currentQuestion: index, questions: template.questions, answers });
@@ -94,12 +94,9 @@ export const getFormFields = (template: Template, answers: Answers) => {
   return res;
 };
 
-export const isQuestionAnswered = (question: Question, answers: Answers) => {
-  if (!question) return false;
-  if (question.type !== 'blob') {
-    return typeof answers[question.name] !== 'undefined';
-  }
-  return typeof answers[question.name] === 'string' && !!answers[question.name].length;
+export const isQuestionAnswered = (answer: Answer) => {
+  if (!answer) return false;
+  return answer.value !== '';
 };
 
 export default {
