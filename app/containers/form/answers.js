@@ -1,6 +1,11 @@
 // @flow
+import type { State } from 'types/store.types';
+import type { Template, Answer } from 'types/reports.types';
+
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { saveReport } from 'redux-modules/reports';
+import { saveReport, uploadReport } from 'redux-modules/reports';
+import { setActiveAlerts } from 'redux-modules/alerts';
 import { getTemplate, parseQuestion } from 'helpers/forms';
 import Answers from 'components/form/answers';
 
@@ -14,7 +19,7 @@ function getAnswerValues(question, answer) {
   return answerList;
 }
 
-function mapFormToAnsweredQuestions(answers, template, deviceLang) {
+function mapFormToAnsweredQuestions(answers: Array<Answer>, template: Template, deviceLang: ?string) {
   const questions = template.questions.reduce(
     (acc, question, index) => ({ ...acc, [question.name]: { ...question, questionNumber: index } }),
     {}
@@ -31,7 +36,8 @@ function mapFormToAnsweredQuestions(answers, template, deviceLang) {
   });
 }
 
-function mapStateToProps(state, { reportName, readOnly }) {
+function mapStateToProps(state: State, ownProps: { reportName: string, readOnly: boolean }) {
+  const { reportName, readOnly } = ownProps;
   const template = getTemplate(state.reports, reportName);
   const answers = state.reports.list[reportName].answers;
   // map readOnly to object because withDraft expects disableDraft and answers expects readOnly
@@ -46,12 +52,11 @@ function mapStateToProps(state, { reportName, readOnly }) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    saveReport: (reportName, params) => {
-      dispatch(saveReport(reportName, params));
-    }
-  };
-}
+const mapDispatchToProps = (dispatch: *) => bindActionCreators({
+  saveReport,
+  uploadReport,
+  setActiveAlerts
+}, dispatch);
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Answers);

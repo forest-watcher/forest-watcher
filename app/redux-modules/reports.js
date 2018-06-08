@@ -42,7 +42,8 @@ export default function reducer(state: ReportsState = initialState, action: Repo
       // $FlowFixMe
       const { reports, form } = action.payload;
       if (form) {
-        const formatAnswers = values => Object.entries(values).map(([questionName, value]) => ({ questionName, value }));
+        const formatAnswers = values => Object.entries(values)
+          .map(([questionName, value]) => ({ questionName, value, child: null }));
         const answers = Object.entries(form)
           .reduce((acc, [reportName, formEntry]) => ({
             ...acc,
@@ -189,22 +190,20 @@ export function saveReport(name: string, data: Report): ReportsAction {
   };
 }
 
-export function uploadReport(toUpload: { reportName: string, fields: Array<string> }) {
-  const { reportName, fields } = toUpload;
+export function uploadReport(reportName: string) {
   tracker.trackEvent('Report', 'Complete Report', { label: 'Click Done', value: 0 });
-  return (dispatch: Dispatch, state: GetState) => {
-    const reportValues = state().form[reportName].values;
-    const user = state().user;
+  return (dispatch: Dispatch, getState: GetState) => {
+    const { user, reports, app } = getState();
+    const answers = reports.list[reportName].answers;
     const userName = (user && user.data && user.data.fullName) || 'Guest user';
     const organization = (user && user.data && user.data.organization) || 'None';
-    const reports = state().reports;
     const report = reports.list[reportName];
-    const language = state().app.language || '';
+    const language = app.language || '';
     const area = report.area;
     const dataset = area.dataset || {};
-    const form = new FormData();
     const template = getTemplate(reports, reportName);
 
+    const form = new FormData();
     form.append('report', template.id);
     form.append('reportName', reportName);
     form.append('areaOfInterest', area.id);
@@ -218,19 +217,24 @@ export function uploadReport(toUpload: { reportName: string, fields: Array<strin
     form.append('clickedPosition', report && report.clickedPosition);
     form.append('userPosition', report && report.userPosition);
 
-    Object.keys(reportValues).forEach((key) => {
-      if (fields.includes(key)) {
-        if (typeof reportValues[key] === 'string' && reportValues[key].indexOf('jpg') >= 0) { // TODO: improve this
+    answers.forEach(answer => {
+      const appendAnswer = ({ value, questionName }) => {
+        // TODO: improve this
+        if (typeof value === 'string' && value.indexOf('jpg') >= 0) {
           const image = {
-            uri: reportValues[key],
+            uri: value,
             type: 'image/jpg',
-            name: `${reportName}-image-${key}.jpg`
+            name: `${reportName}-image-${questionName}.jpg`
           };
           // $FlowFixMe
-          form.append(key, image);
+          form.append(questionName, image);
         } else {
-          form.append(key, reportValues[key].toString());
+          form.append(questionName, value.toString());
         }
+      };
+      appendAnswer(answer);
+      if (answer.child) {
+        appendAnswer(answer.child);
       }
     });
 
