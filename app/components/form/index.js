@@ -21,7 +21,8 @@ type Props = {
   text: string,
   setReportAnswer: (string, Answer) => void,
   navigator: any,
-  questionIndex: ?number
+  questionIndex: ?number,
+  editMode: boolean
 };
 
 class Form extends Component<Props> {
@@ -46,8 +47,16 @@ class Form extends Component<Props> {
   }
 
   onSubmit = () => {
-    const { navigator, reportName, nextQuestionIndex, answer, setReportAnswer, editMode } = this.props;
-    if (answer.value === '') { // should I use questionAnswered? or is this gonna be removed
+    const {
+      navigator,
+      reportName,
+      nextQuestionIndex,
+      answer,
+      setReportAnswer,
+      editMode,
+      questionAnswered
+    } = this.props;
+    if (questionAnswered) {
       setReportAnswer(reportName, answer);
     }
     if (nextQuestionIndex !== null) {
