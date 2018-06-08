@@ -43,7 +43,7 @@ class Form extends Component<Props> {
 
   onChange = (value) => {
     const { setReportAnswer, answer, reportName } = this.props;
-    setReportAnswer(reportName, { ...answer, value });
+    setReportAnswer(reportName, { ...answer, value, child: null }); // CONFLICT!!! SORRY NOT SORRY
   }
 
   onSubmit = () => {

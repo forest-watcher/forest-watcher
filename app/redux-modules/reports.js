@@ -42,7 +42,8 @@ export default function reducer(state: ReportsState = initialState, action: Repo
       // $FlowFixMe
       const { reports, form } = action.payload;
       if (form) {
-        const formatAnswers = values => Object.entries(values).map(([questionName, value]) => ({ questionName, value }));
+        const formatAnswers = values => Object.entries(values)
+          .map(([questionName, value]) => ({ questionName, value, child: null }));
         const answers = Object.entries(form)
           .reduce((acc, [reportName, formEntry]) => ({
             ...acc,
@@ -217,18 +218,23 @@ export function uploadReport(reportName: string) {
     form.append('userPosition', report && report.userPosition);
 
     answers.forEach(answer => {
-      const { value, questionName } = answer;
-      // TODO: improve this
-      if (typeof value === 'string' && value.indexOf('jpg') >= 0) {
-        const image = {
-          uri: value,
-          type: 'image/jpg',
-          name: `${reportName}-image-${questionName}.jpg`
-        };
-        // $FlowFixMe
-        form.append(questionName, image);
-      } else {
-        form.append(questionName, value.toString());
+      const appendAnswer = ({ value, questionName }) => {
+        // TODO: improve this
+        if (typeof value === 'string' && value.indexOf('jpg') >= 0) {
+          const image = {
+            uri: value,
+            type: 'image/jpg',
+            name: `${reportName}-image-${questionName}.jpg`
+          };
+          // $FlowFixMe
+          form.append(questionName, image);
+        } else {
+          form.append(questionName, value.toString());
+        }
+      };
+      appendAnswer(answer);
+      if (answer.child !== null) {
+        appendAnswer(answer.child);
       }
     });
 
