@@ -97,7 +97,7 @@ export default function reducer(state: ReportsState = initialState, action: Repo
       // const updateValue = question && question.type === 'blob';
       let answers = [...report.answers];
 
-      if (updateOnly) {
+      if (answeredIndex > -1 && updateOnly) {
         answers[answeredIndex] = answer;
       } else {
         if (answeredIndex !== -1) {
@@ -179,7 +179,7 @@ export function createReport(
   };
 }
 
-export function setReportAnswer(reportName: string, answer: Answer, updateOnly: boolean): ReportsAction {
+export function setReportAnswer(reportName: string, answer: Answer, updateOnly: boolean = false): ReportsAction {
   return {
     type: SET_REPORT_ANSWER,
     payload: {

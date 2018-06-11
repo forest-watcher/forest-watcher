@@ -35,7 +35,18 @@ const mapStateToProps = (
 
   const nextQuestionAnswer = answers.find(ans => ans.questionName === (nextStep && questions[nextStep].name));
   const nextQuestionIndex = typeof nextQuestionAnswer !== 'undefined' && editMode ? null : nextStep;
-  return { question, answer, nextQuestionIndex, text, questionAnswered };
+  // Necesary until we have the "cache" selection ready
+  // because the imagen won't change the path on the report
+  // but we don't want to clear following answers
+  const updateOnly = question.type === 'blob';
+  return {
+    question,
+    answer,
+    nextQuestionIndex,
+    text,
+    questionAnswered,
+    updateOnly
+  };
 };
 
 const mapDispatchToProps = (dispatch: *) => bindActionCreators({

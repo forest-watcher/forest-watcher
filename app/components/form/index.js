@@ -17,11 +17,12 @@ import withDraft from 'components/form/withDraft';
 type Props = {
   question: Question,
   questionAnswered: boolean,
+  updateOnly: boolean,
   reportName: string,
   nextQuestionIndex: ?number,
   answer: Answer,
   text: string,
-  setReportAnswer: (string, Answer) => void,
+  setReportAnswer: (string, Answer, boolean) => void,
   navigator: any,
   questionIndex: ?number,
   editMode: boolean
@@ -44,8 +45,8 @@ class Form extends Component<Props> {
   }
 
   onChange = debounce((answer) => {
-    const { setReportAnswer, reportName } = this.props;
-    setReportAnswer(reportName, answer);
+    const { setReportAnswer, reportName, updateOnly } = this.props;
+    setReportAnswer(reportName, answer, updateOnly);
   }, 300);
 
   onSubmit = () => {
@@ -55,11 +56,12 @@ class Form extends Component<Props> {
       nextQuestionIndex,
       answer,
       setReportAnswer,
+      updateOnly,
       editMode,
       questionAnswered
     } = this.props;
     if (!questionAnswered) {
-      setReportAnswer(reportName, answer);
+      setReportAnswer(reportName, answer, updateOnly);
     }
     if (nextQuestionIndex !== null) {
       navigator.push({
