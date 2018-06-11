@@ -30,7 +30,7 @@ function mapFormToAnsweredQuestions(answers: Array<Answer>, template: Template, 
     const value = answer && answer.value;
     return {
       question: { ...parsedQuestion },
-      answers: value && getAnswerValues(parsedQuestion, value)
+      answers: typeof value !== 'undefined' && getAnswerValues(parsedQuestion, value)
     };
   });
 }

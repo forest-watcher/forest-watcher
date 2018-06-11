@@ -17,26 +17,34 @@ type Props = {
   onChange: (string) => void,
 };
 
-function InputTextCustom(props: Props) {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.label}>{props.question.label}</Text>
-      <View style={styles.inputContainer}>
-        <TextInput
-          autoFocus={false}
-          autoCorrect={false}
-          style={styles.input}
-          autoCapitalize="none"
-          value={props.answer.value}
-          onChangeText={props.onChange}
-          placeholder={props.question.defaultValue}
-          underlineColorAndroid="transparent"
-          selectionColor={Theme.colors.color1}
-          placeholderTextColor={Theme.fontColors.light}
-        />
+class InputTextCustom extends React.PureComponent<Props> {
+  onChange = (value) => {
+    const { answer, onChange } = this.props;
+    onChange({ ...answer, value });
+  }
+
+  render() {
+    const { answer, question } = this.props;
+    return (
+      <View style={styles.container}>
+        <Text style={styles.label}>{question.label}</Text>
+        <View style={styles.inputContainer}>
+          <TextInput
+            autoFocus={false}
+            autoCorrect={false}
+            style={styles.input}
+            autoCapitalize="none"
+            value={answer.value}
+            onChangeText={this.onChange}
+            placeholder={question.defaultValue}
+            underlineColorAndroid="transparent"
+            selectionColor={Theme.colors.color1}
+            placeholderTextColor={Theme.fontColors.light}
+          />
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
 }
 
 export default InputTextCustom;
