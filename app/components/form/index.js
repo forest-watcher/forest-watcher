@@ -2,6 +2,7 @@
 import type { Question, Answer } from 'types/reports.types';
 
 import React, { Component } from 'react';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import debounce from 'lodash/debounce';
 import i18n from 'locales';
 import { View } from 'react-native';
@@ -42,9 +43,9 @@ class Form extends Component<Props> {
     return this.props.answer !== nextProps.answer;
   }
 
-  onChange = debounce((value) => {
-    const { setReportAnswer, answer, reportName } = this.props;
-    setReportAnswer(reportName, { ...answer, value, child: null }); // CONFLICT!!! SORRY NOT SORRY
+  onChange = debounce((answer) => {
+    const { setReportAnswer, reportName } = this.props;
+    setReportAnswer(reportName, answer);
   }, 300);
 
   onSubmit = () => {
@@ -75,7 +76,7 @@ class Form extends Component<Props> {
     } else {
       navigator.push({
         screen: 'ForestWatcher.Answers',
-        title: i18n.t('report.reports'),
+        title: i18n.t('report.review'),
         passProps: {
           reportName
         }
@@ -101,18 +102,22 @@ class Form extends Component<Props> {
 
   render() {
     const { question, answer, questionAnswered, text } = this.props;
-    const input = {
-      value: answer.value,
-      onChange: this.onChange
-    };
     return (
-      <View style={styles.container}>
+      <KeyboardAwareScrollView contentContainerStyle={styles.container}>
         <View style={styles.container}>
-          <View style={styles.backgroundHack} />
-          {question && <FormField question={question} input={input} />}
+          <View style={styles.container}>
+            <View style={styles.backgroundHack} />
+            {question && (
+              <FormField
+                question={question}
+                answer={answer}
+                onChange={this.onChange}
+              />
+            )}
+          </View>
+          {this.getNext(question, questionAnswered, text)}
         </View>
-        {this.getNext(question, questionAnswered, text)}
-      </View>
+      </KeyboardAwareScrollView>
     );
   }
 }

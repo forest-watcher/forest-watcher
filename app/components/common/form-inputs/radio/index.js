@@ -7,7 +7,6 @@ import {
   ScrollView,
   Text
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import CheckBtn from 'components/common/form-inputs/check-btn';
 import TextInput from '../text-detail';
@@ -45,36 +44,34 @@ function RadioInput(props: Props) {
   const { childQuestions } = question;
   const hasValues = question && question.values && question.values.length;
   return (
-    <KeyboardAwareScrollView>
-      <View style={styles.container}>
-        <Text style={styles.label}>{question.label}</Text>
-        <ScrollView
-          style={styles.containerContent}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-        >
-          {hasValues && question.values.map((item, index) => (
-            <React.Fragment key={index}>
-              <View style={styles.inputContainer} key="container">
-                <CheckBtn
-                  label={item.label}
-                  checked={answer.value === item.value}
-                  onPress={() => handlePress(item.value)}
-                />
-              </View>
-              {childQuestions && childQuestions.conditionalValue === item.value &&
-                <TextInput
-                  visible={answer.value === item.value}
-                  question={childQuestions}
-                  onChange={onChildChange}
-                  answer={answer.child || {}}
-                />
-              }
-            </React.Fragment>
-          ))}
-        </ScrollView>
-      </View>
-    </KeyboardAwareScrollView>
+    <View style={styles.container}>
+      <Text style={styles.label}>{question.label}</Text>
+      <ScrollView
+        style={styles.containerContent}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
+        {hasValues && question.values.map((item, index) => (
+          <React.Fragment key={index}>
+            <View style={styles.inputContainer} key="container">
+              <CheckBtn
+                label={item.label}
+                checked={answer.value === item.value}
+                onPress={() => handlePress(item.value)}
+              />
+            </View>
+            {childQuestions && childQuestions.conditionalValue === item.value &&
+              <TextInput
+                visible={answer.value === item.value}
+                question={childQuestions}
+                onChange={onChildChange}
+                answer={answer.child || {}}
+              />
+            }
+          </React.Fragment>
+        ))}
+      </ScrollView>
+    </View>
   );
 }
 

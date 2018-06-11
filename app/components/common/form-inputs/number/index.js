@@ -7,7 +7,6 @@ import {
   Text,
   TextInput
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import Theme from 'config/theme';
 import styles from '../styles';
@@ -29,26 +28,24 @@ function InputNumber(props: Props) {
   }
 
   return (
-    <KeyboardAwareScrollView>
-      <View style={styles.container}>
-        <Text style={styles.label}>{props.question.label}</Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            keyboardType="numeric"
-            autoFocus={false}
-            autoCorrect={false}
-            style={styles.input}
-            autoCapitalize="none"
-            value={props.answer.value}
-            onChangeText={handleChange}
-            placeholder={props.question.defaultValue}
-            underlineColorAndroid="transparent"
-            selectionColor={Theme.colors.color1}
-            placeholderTextColor={Theme.fontColors.light}
-          />
-        </View>
+    <View style={styles.container}>
+      <Text style={styles.label}>{props.question.label}</Text>
+      <View style={styles.inputContainer}>
+        <TextInput
+          keyboardType="numeric"
+          autoFocus={false}
+          autoCorrect={false}
+          style={styles.input}
+          autoCapitalize="none"
+          value={props.answer.value}
+          onChangeText={handleChange}
+          placeholder={props.question.defaultValue}
+          underlineColorAndroid="transparent"
+          selectionColor={Theme.colors.color1}
+          placeholderTextColor={Theme.fontColors.light}
+        />
       </View>
-    </KeyboardAwareScrollView>
+    </View>
   );
 }
 
