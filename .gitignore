@@ -76,3 +76,5 @@ ios/ForestWatcher.app.dSYM.zip
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
+*/fastlane/metadata/review_information
+*/fastlane/metadata/trade_representative_contact_information
