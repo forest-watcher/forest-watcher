@@ -54,7 +54,12 @@ function withDraft(WrappedComponent) {
                   status: CONSTANTS.status.draft
                 });
               }
-              this.props.navigator.popToRoot({ animate: true });
+              this.props.navigator.popToRoot({ animated: false });
+              this.props.navigator.push({
+                animated: false,
+                screen: 'ForestWatcher.Reports',
+                title: i18n.t('dashboard.myReports')
+              });
             }
           }
         ],
