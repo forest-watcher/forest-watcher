@@ -1,4 +1,0 @@
-In this new release:
-
-- Replaces JGI logo.
-- Makes default report template fetching more standard.
