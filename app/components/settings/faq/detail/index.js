@@ -24,30 +24,30 @@ function FaqDetail(props) {
         style={styles.faq}
       >
 
-        {description && description.map((data, key) => (
+        {description && Object.values(description).map((text, key) => (
           <Hyperlink
             key={key}
             linkDefault
             linkStyle={Theme.link}
             linkText={(url) => (url === 'mailto:forestwatcher@wri.org' ? 'forestwatcher@wri.org' : url)}
           >
-            <Text style={styles.faqText} selectable>{data.text}</Text>
+            <Text style={styles.faqText} selectable>{text}</Text>
           </Hyperlink>
         ))}
 
-        {orderList && orderList.map((data, key) => (
+        {orderList && Object.values(orderList).map((text, key) => (
           <View
             key={key}
             style={description === '' ? styles.faqListNoPadding : styles.faqList}
           >
             <View style={styles.faqDotList}>{}</View>
             <Hyperlink linkDefault linkStyle={Theme.link}>
-              <Text style={styles.faqText} selectable>{data.text}</Text>
+              <Text style={styles.faqText} selectable>{text}</Text>
             </Hyperlink>
           </View>
         ))}
 
-        {orderListLetters && orderListLetters.map((data, key) => (
+        {orderListLetters && Object.values(orderListLetters).map((data, key) => (
           <View key={key}>
             <View style={styles.faqListLetter}>
               <Text style={styles.faqText}>{String.fromCharCode(97 + (key % 27))}. </Text>
@@ -68,11 +68,11 @@ function FaqDetail(props) {
           </View>
         ))}
 
-        {footerText && footerText.map((data, key) => (
-          <Hyperlink key={key} linkDefault linkStyle={Theme.link}>
-            <Text style={styles.faqText} selectable>{data.text}</Text>
+        {footerText && (
+          <Hyperlink linkDefault linkStyle={Theme.link}>
+            <Text style={styles.faqText} selectable>{footerText}</Text>
           </Hyperlink>
-        ))}
+        )}
       </View>
 
     </ScrollView>
