@@ -9,6 +9,7 @@ export type Question = {
   Id: string,
   conditions: Array<any>,
   childQuestions: Array<any>,
+  defaultValue: string,
   values?: Array<any>,
   order: number,
   required: boolean,
@@ -17,7 +18,8 @@ export type Question = {
 
 export type Answer = {
   questionName: string,
-  value: any
+  value: any,
+  child: ?Answer
 }
 
 export type Template = {

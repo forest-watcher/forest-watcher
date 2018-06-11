@@ -34,7 +34,11 @@ export const parseQuestion = (step: { question: Question, template: Template }, 
     }
   });
   if (parsedQuestion.childQuestions) {
-    parsedQuestion.childQuestions = parsedQuestion.childQuestions.map((child) => parseQuestion({ question: child, template }, deviceLang));
+    // TODO: Support more than one child question... one day...
+    const child = parsedQuestion.childQuestions[0];
+    parsedQuestion.childQuestions = child
+      ? parseQuestion({ question: child, template }, deviceLang)
+      : null;
   }
   return parsedQuestion;
 };

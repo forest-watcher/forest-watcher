@@ -19,11 +19,15 @@ const mapStateToProps = (
   const { questions = [] } = template;
 
   const question = parseQuestion({ template, question: questions[questionIndex] }, lang);
-  const answer = answers.find(a => a.questionName === question.name)
-    || { questionName: question.name, value: '' };
+  const defaultAnswer = {
+    value: '',
+    questionName: question.name,
+    child: question.childQuestions ? { value: '' } : null
+  };
+  const answer = answers.find(a => a.questionName === question.name) || defaultAnswer;
   const nextStep = getNextStep({ currentQuestion: questionIndex, questions, answers });
   const questionAnswered = isQuestionAnswered(answer);
-  const text = questionAnswered
+  const text = questionAnswered || !question.required
     ? i18n.t('commonText.next')
     : getBtnTextByType(question.type);
 
