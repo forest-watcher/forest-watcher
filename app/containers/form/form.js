@@ -14,7 +14,7 @@ const mapStateToProps = (
 ) => {
   const lang = state.app.language || 'en';
   const { reportName, questionIndex = 0, editMode } = ownProps;
-  const { answers } = state.reports.list[reportName];
+  const { answers = [] } = state.reports.list[reportName] || {};
   const template = getTemplate(state.reports, reportName);
   const { questions = [] } = template;
 
