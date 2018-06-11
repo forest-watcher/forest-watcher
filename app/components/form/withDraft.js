@@ -71,7 +71,7 @@ function withDraft(WrappedComponent: any) {
                   title: i18n.t('dashboard.myReports')
                 });
               } else {
-                navigator.dismissAllModals();
+                navigator.dismissModal();
               }
             }
           }

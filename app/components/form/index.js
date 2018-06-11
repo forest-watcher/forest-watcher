@@ -74,7 +74,7 @@ class Form extends Component<Props> {
         }
       });
     } else if (editMode) {
-      navigator.dismissAllModals();
+      navigator.dismissModal();
     } else {
       navigator.push({
         screen: 'ForestWatcher.Answers',
