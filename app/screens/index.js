@@ -12,7 +12,6 @@ import NewReport from 'containers/reports/form';
 import AreaDetail from 'containers/settings/area-detail';
 import Partners from 'components/settings/partners';
 import TermsAndConditions from 'components/settings/terms-and-conditions';
-import TermsAndConditionsDetail from 'components/settings/terms-and-conditions/detail';
 import FaqList from 'components/settings/faq';
 import FaqDetail from 'components/settings/faq/detail';
 import Sync from 'containers/sync';
@@ -38,7 +37,6 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent('ForestWatcher.TermsAndConditions', () => TermsAndConditions, store, Provider);
   Navigation.registerComponent('ForestWatcher.FaqList', () => FaqList, store, Provider);
   Navigation.registerComponent('ForestWatcher.FaqDetail', () => FaqDetail, store, Provider);
-  Navigation.registerComponent('ForestWatcher.TermsAndConditionsDetail', () => TermsAndConditionsDetail, store, Provider);
   Navigation.registerComponent('ForestWatcher.Sync', () => Sync, store, Provider);
   Navigation.registerComponent('ForestWatcher.Answers', () => Answers, store, Provider);
   Navigation.registerComponent('ForestWatcher.RightDrawer', () => RightDrawer, store, Provider);
