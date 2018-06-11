@@ -1,5 +1,7 @@
+// @flow
+import type { Question, Answer } from 'types/reports.types';
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
   ScrollView,
@@ -12,63 +14,68 @@ import TextInput from '../text-detail';
 
 import styles from '../styles';
 
-function RadioInput(props) {
+type Props = {
+  question: Question,
+  answer: Answer,
+  onChange: (Answer) => void,
+};
+
+function RadioInput(props: Props) {
+  const { onChange, question, answer } = props;
   function handlePress(value) {
-    if (value !== props.input.value) {
-      props.input.onChange(value);
+    if (value !== answer.value) {
+      onChange({
+        ...answer,
+        value
+      });
     }
   }
-  const { childQuestions } = props.question;
+  function onChildChange(value) {
+    if (value !== answer.child.value) {
+      onChange({
+        ...answer,
+        child: {
+          ...answer.child,
+          value
+        }
+      });
+    }
+  }
+
+  const { childQuestions } = question;
+  const hasValues = question && question.values && question.values.length;
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
-        <Text style={styles.label}>{props.question.label}</Text>
+        <Text style={styles.label}>{question.label}</Text>
         <ScrollView
           style={styles.containerContent}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          {
-            props.question.values.map((item, index) => (
-              <React.Fragment key={index}>
-                <View style={styles.inputContainer} key="container">
-                  <CheckBtn
-                    label={item.label}
-                    checked={props.input.value === item.value}
-                    onPress={() => handlePress(item.value)}
-                  />
-                </View>
-                {childQuestions && childQuestions.length
-                && childQuestions[0].conditionalValue === item.value &&
-                  <TextInput
-                    visible={props.input.value === item.value}
-                    question={childQuestions[0]}
-                  />
-                }
-              </React.Fragment>
-            ))
-          }
+          {hasValues && question.values.map((item, index) => (
+            <React.Fragment key={index}>
+              <View style={styles.inputContainer} key="container">
+                <CheckBtn
+                  label={item.label}
+                  checked={answer.value === item.value}
+                  onPress={() => handlePress(item.value)}
+                />
+              </View>
+              {childQuestions && childQuestions.conditionalValue === item.value &&
+                <TextInput
+                  visible={answer.value === item.value}
+                  question={childQuestions}
+                  onChange={onChildChange}
+                  answer={answer.child || {}}
+                />
+              }
+            </React.Fragment>
+          ))}
         </ScrollView>
       </View>
     </KeyboardAwareScrollView>
   );
 }
-
-RadioInput.propTypes = {
-  question: PropTypes.shape({
-    label: PropTypes.string,
-    defaultValue: PropTypes.number,
-    values: PropTypes.arrayOf(
-      PropTypes.shape({
-        value: PropTypes.number.isRequired,
-        label: PropTypes.string.isRequired
-      })
-    )
-  }).isRequired,
-  input: PropTypes.shape({
-    onChange: PropTypes.func.isRequired,
-    value: PropTypes.any.isRequired
-  }).isRequired
-};
 
 export default RadioInput;

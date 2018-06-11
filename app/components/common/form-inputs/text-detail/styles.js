@@ -17,6 +17,7 @@ export default StyleSheet.create({
     width: 0,
     height: 0,
     top: -20,
+    left: 24,
     position: 'absolute',
     borderWidth: 10,
     borderLeftColor: 'transparent',

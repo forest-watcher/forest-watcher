@@ -1,5 +1,7 @@
+// @flow
+import type { Answer } from 'types/reports.types';
+
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   Text,
   View,
@@ -18,8 +20,13 @@ const ImagePicker = require('react-native-image-picker');
 const cameraAddIcon = require('assets/camera_add.png');
 const deleteIcon = require('assets/delete_red.png');
 
+type Props = {
+  answer: Answer,
+  onChange: (Answer) => void,
+};
+
 class ImageBlobInput extends Component {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.actions = [{
       callback: this.removePicture,
@@ -28,7 +35,7 @@ class ImageBlobInput extends Component {
   }
 
   componentDidMount() {
-    const imagePath = this.props.input.value;
+    const imagePath = this.props.answer.value;
     if (!imagePath) {
       this.launchCamera();
     }
@@ -54,18 +61,24 @@ class ImageBlobInput extends Component {
       if (response.error) {
         console.warn(response.error);
       } else if (response.uri) {
-        this.props.input.onChange(response.uri);
+        this.handlePress(response.uri);
       }
     });
   }
 
   removePicture = () => {
-    this.props.input.onChange('');
+    this.handlePress('');
+  }
+
+  handlePress = (value) => {
+    const { answer, onChange } = this.props;
+    if (value !== answer.value) {
+      onChange({ ...answer, value });
+    }
   }
 
   render() {
-    // When removing image redux-form transform the value into an array, solved with [].toString() === ''
-    const imagePath = this.props.input.value.toString();
+    const imagePath = this.props.answer.value;
     return (
       <View style={styles.container}>
         <View style={styles.preview}>
@@ -97,12 +110,5 @@ class ImageBlobInput extends Component {
     );
   }
 }
-
-ImageBlobInput.propTypes = {
-  input: PropTypes.shape({
-    onChange: PropTypes.func.isRequired,
-    value: PropTypes.any.isRequired
-  }).isRequired
-};
 
 export default ImageBlobInput;

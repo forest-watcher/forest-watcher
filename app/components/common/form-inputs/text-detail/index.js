@@ -1,5 +1,7 @@
+// @flow
+import type { Question, Answer } from 'types/reports.types';
+
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
   TextInput,
@@ -11,14 +13,25 @@ import Theme from 'config/theme';
 import styles from '../styles';
 import detailStyles from './styles';
 
-class InputTextDetail extends Component {
-  constructor(props) {
+type State = {
+  inputHeight: number
+};
+
+type Props = {
+  visible: boolean,
+  question: Question,
+  answer: Answer,
+  onChange: (string) => void,
+};
+
+class InputTextDetail extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       inputHeight: new Animated.Value(0)
     };
-    this.height = 64;
   }
+  height = 64;
 
   componentDidMount() {
     if (this.props.visible) {
@@ -26,13 +39,13 @@ class InputTextDetail extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (this.props.visible !== nextProps.visible) {
       this.setVisibility(nextProps.visible);
     }
   }
 
-  setVisibility(visible) {
+  setVisibility(visible: boolean) {
     Animated.spring(
       this.state.inputHeight,
       { toValue: visible ? this.height : 0 }
@@ -55,8 +68,8 @@ class InputTextDetail extends Component {
               autoCorrect={false}
               style={[styles.inputLabel, detailStyles.inputLabel]}
               autoCapitalize="none"
-              value={this.props.input.value}
-              onChangeText={this.props.input.onChange}
+              value={this.props.answer.value}
+              onChangeText={this.props.onChange}
               placeholder={this.props.question.label}
               underlineColorAndroid="transparent"
               selectionColor={Theme.colors.color1}
@@ -68,17 +81,5 @@ class InputTextDetail extends Component {
     );
   }
 }
-
-InputTextDetail.propTypes = {
-  visible: PropTypes.bool.isRequired,
-  question: PropTypes.shape({
-    label: PropTypes.string,
-    defaultValue: PropTypes.string
-  }).isRequired,
-  input: PropTypes.shape({
-    onChange: PropTypes.func.isRequired,
-    value: PropTypes.any.isRequired
-  }).isRequired
-};
 
 export default InputTextDetail;

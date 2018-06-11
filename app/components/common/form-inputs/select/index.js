@@ -1,5 +1,7 @@
+// @flow
+import type { Question, Answer } from 'types/reports.types';
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
   ScrollView,
@@ -11,72 +13,74 @@ import CheckBtn from 'components/common/form-inputs/check-btn';
 import TextInput from '../text-detail';
 import styles from '../styles';
 
+type Props = {
+  question: Question,
+  answer: Answer,
+  onChange: (Answer) => void,
+};
 
-function SelectInput(props) {
+function SelectInput(props: Props) {
+  const { onChange, question, answer } = props;
   function handlePress(value) {
-    const newVal = [...props.input.value];
+    const newVal = [...answer.value];
     const index = newVal.indexOf(value);
     if (index >= 0) {
       newVal.splice(index, 1);
     } else {
       newVal.push(value);
     }
-    props.input.onChange(newVal);
+    onChange({
+      ...answer,
+      value: newVal
+    });
   }
+
+  function onChildPress(value) {
+    onChange({
+      ...answer,
+      child: {
+        ...answer.child,
+        value
+      }
+    });
+  }
+  const hasValues = question && question.values && question.values.length;
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
-        <Text style={styles.label}>{props.question.label}</Text>
+        <Text style={styles.label}>{question.label}</Text>
         <ScrollView
           style={styles.containerContent}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          {
-            props.question.values.map((item, index) => {
-              const checked = props.input.value && props.input.value.indexOf(item.value) >= 0;
-              const { childQuestions } = props.question;
-              return (
-                <React.Fragment key={index}>
-                  <View style={styles.inputContainer}>
-                    <CheckBtn
-                      label={item.label}
-                      checked={checked}
-                      onPress={() => handlePress(item.value)}
-                    />
-                  </View>
-                  {childQuestions && childQuestions.length
-                    && childQuestions[0].conditionalValue === item.value &&
-                    <TextInput
-                      visible={checked}
-                      question={childQuestions[0]}
-                    />
-                  }
-                </React.Fragment>
-              );
-            })
-          }
+          {hasValues && question.values.map((item, index) => {
+            const checked = answer.value && answer.value.indexOf(item.value) >= 0;
+            const { childQuestions } = question;
+            return (
+              <React.Fragment key={index}>
+                <View style={styles.inputContainer}>
+                  <CheckBtn
+                    label={item.label}
+                    checked={checked}
+                    onPress={() => handlePress(item.value)}
+                  />
+                </View>
+                {childQuestions && childQuestions.conditionalValue === item.value &&
+                  <TextInput
+                    visible={checked}
+                    question={childQuestions}
+                    answer={answer.child || {}}
+                    onChange={onChildPress}
+                  />
+                }
+              </React.Fragment>
+            );
+          })}
         </ScrollView>
       </View>
     </KeyboardAwareScrollView>
   );
 }
-
-SelectInput.propTypes = {
-  question: PropTypes.shape({
-    label: PropTypes.string,
-    defaultValue: PropTypes.number,
-    values: PropTypes.arrayOf(
-      PropTypes.shape({
-        value: PropTypes.number.isRequired,
-        label: PropTypes.string.isRequired
-      })
-    )
-  }).isRequired,
-  input: PropTypes.shape({ // eslint-disable-line
-    onChange: PropTypes.func.isRequired,
-    value: PropTypes.any.isRequired
-  }).isRequired
-};
 
 export default SelectInput;

@@ -1,5 +1,7 @@
+// @flow
+import type { Question, Answer } from 'types/reports.types';
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -9,8 +11,13 @@ import {
 import Theme from 'config/theme';
 import styles from '../styles';
 
+type Props = {
+  question: Question,
+  answer: Answer,
+  onChange: (string) => void,
+};
 
-function InputTextCustom(props) {
+function InputTextCustom(props: Props) {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{props.question.label}</Text>
@@ -20,8 +27,8 @@ function InputTextCustom(props) {
           autoCorrect={false}
           style={styles.input}
           autoCapitalize="none"
-          value={props.input.value}
-          onChangeText={props.input.onChange}
+          value={props.answer.value}
+          onChangeText={props.onChange}
           placeholder={props.question.defaultValue}
           underlineColorAndroid="transparent"
           selectionColor={Theme.colors.color1}
@@ -31,16 +38,5 @@ function InputTextCustom(props) {
     </View>
   );
 }
-
-InputTextCustom.propTypes = {
-  question: PropTypes.shape({
-    label: PropTypes.string,
-    defaultValue: PropTypes.string
-  }).isRequired,
-  input: PropTypes.shape({
-    onChange: PropTypes.func.isRequired,
-    value: PropTypes.any.isRequired
-  }).isRequired
-};
 
 export default InputTextCustom;
