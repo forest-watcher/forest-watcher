@@ -1,5 +1,5 @@
 // @flow
-import type { Question } from 'types/reports.types';
+import type { Answer, Question } from 'types/reports.types';
 
 import React, { PureComponent } from 'react';
 import {
@@ -11,7 +11,7 @@ import Theme from 'config/theme';
 import i18n from 'locales';
 
 import ActionButton from 'components/common/action-button';
-import Answer from 'components/form/answer/answer';
+import AnswerComponent from 'components/form/answer/answer';
 import ImageCarousel from 'components/common/image-carousel';
 import withDraft from './withDraft';
 import styles from './styles';
@@ -24,6 +24,7 @@ type Props = {
   results: Array<{ question: Question, answers: Array<string> }>,
   reportName: string,
   uploadReport: (string) => void,
+  setReportAnswer: (string, Answer, boolean) => void,
   readOnly: boolean,
   setActiveAlerts: boolean => void
 };
@@ -77,8 +78,14 @@ class Answers extends PureComponent<Props> {
     });
   }
 
-  onDeleteImage = (id, name, images) => {
+  onDeleteImage = (id, questionName, images) => {
     const image = images.find(i => i.id === id);
+    const { reportName, setReportAnswer } = this.props;
+    const answer = {
+      questionName,
+      value: ''
+    };
+    setReportAnswer(reportName, answer, true);
     if (image.required) this.onEdit(image.questionNumber);
   }
 
@@ -86,9 +93,9 @@ class Answers extends PureComponent<Props> {
     const { results, readOnly } = this.props;
     const regularAnswers = results.filter(({ question }) => question.type !== 'blob');
     const images = results.filter(({ question }) => question.type === 'blob')
-      .map(image => ({
+      .map((image, index) => ({
         id: image.question.Id,
-        uri: image.answers[0],
+        uri: image.answers[index],
         name: image.question.name,
         questionNumber: image.question.questionNumber,
         required: image.question.required
@@ -102,7 +109,7 @@ class Answers extends PureComponent<Props> {
         <ScrollView>
           {
             regularAnswers.map((result) => (
-              <Answer
+              <AnswerComponent
                 id={result.question.Id}
                 key={result.question.Id}
                 answers={result.answers}

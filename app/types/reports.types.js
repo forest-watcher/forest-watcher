@@ -8,7 +8,7 @@ export type Question = {
   name: string,
   Id: string,
   conditions: Array<any>,
-  childQuestions: Array<any>,
+  childQuestions: Array<Question> | Question,
   defaultValue: string,
   values?: Array<any>,
   order: number,
@@ -19,7 +19,7 @@ export type Question = {
 export type Answer = {
   questionName: string,
   value: any,
-  child: ?Answer
+  child?: ?Answer
 }
 
 export type Template = {
@@ -70,7 +70,7 @@ export type CreateReport = {
   };
 };
 export type UpdateReport = { type: 'report/UPDATE_REPORT', payload: { name: string, data: Report } };
-export type SetReportAnswer = { type: 'report/SET_REPORT_ANSWER', payload: { reportName: string, answer: Answer } };
+export type SetReportAnswer = { type: 'report/SET_REPORT_ANSWER', payload: { reportName: string, answer: Answer, updateOnly?: boolean } };
 
 export type UploadReportRequest = {
   type: 'report/UPLOAD_REPORT_REQUEST',

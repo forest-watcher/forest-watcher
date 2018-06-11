@@ -4,7 +4,7 @@ import type { Template, Answer } from 'types/reports.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { saveReport, uploadReport } from 'redux-modules/reports';
+import { saveReport, uploadReport, setReportAnswer } from 'redux-modules/reports';
 import { setActiveAlerts } from 'redux-modules/alerts';
 import { getTemplate, parseQuestion } from 'helpers/forms';
 import Answers from 'components/form/answers';
@@ -24,8 +24,7 @@ function mapFormToAnsweredQuestions(answers: Array<Answer>, template: Template, 
     (acc, question, index) => ({ ...acc, [question.name]: { ...question, questionNumber: index } }),
     {}
   );
-  return answers
-  .map((answer) => {
+  return answers.map((answer) => {
     const question = questions[answer.questionName];
     const parsedQuestion = parseQuestion({ template, question }, deviceLang);
     const value = answer && answer.value;
@@ -55,6 +54,7 @@ function mapStateToProps(state: State, ownProps: { reportName: string, readOnly:
 const mapDispatchToProps = (dispatch: *) => bindActionCreators({
   saveReport,
   uploadReport,
+  setReportAnswer,
   setActiveAlerts
 }, dispatch);
 

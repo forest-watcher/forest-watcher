@@ -26,7 +26,9 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingLeft: Theme.margin.left,
-    paddingRight: 8
+    paddingRight: Theme.margin.right,
+    paddingTop: 20,
+    paddingBottom: 20
   },
   answers: {
     flexBasis: 242
@@ -34,8 +36,6 @@ export default StyleSheet.create({
   answer: {
     fontFamily: Theme.font,
     color: Theme.fontColors.light,
-    fontSize: 17,
-    paddingTop: 20,
-    paddingBottom: 20
+    fontSize: 17
   }
 });
