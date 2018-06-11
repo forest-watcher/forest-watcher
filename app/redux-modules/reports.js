@@ -89,16 +89,22 @@ export default function reducer(state: ReportsState = initialState, action: Repo
       return { ...state, list };
     }
     case SET_REPORT_ANSWER: {
-      const { reportName, answer } = action.payload;
+      const { reportName, answer, updateOnly } = action.payload;
       const report = state.list[reportName];
       const answeredIndex = report.answers.findIndex(a => (a.questionName === answer.questionName));
+      // const template = state.templates[report.area.templateId];
+      // const question = template.questions.find(q => (q.name === answer.questionName));
+      // const updateValue = question && question.type === 'blob';
       let answers = [...report.answers];
 
-      if (answeredIndex !== -1) {
-        answers = report.answers.slice(0, answeredIndex);
+      if (updateOnly) {
+        answers[answeredIndex] = answer;
+      } else {
+        if (answeredIndex !== -1) {
+          answers = report.answers.slice(0, answeredIndex);
+        }
+        answers.push(answer);
       }
-
-      answers.push(answer);
 
       const list = {
         ...state.list,
@@ -173,12 +179,13 @@ export function createReport(
   };
 }
 
-export function setReportAnswer(reportName: string, answer: Answer): ReportsAction {
+export function setReportAnswer(reportName: string, answer: Answer, updateOnly: boolean): ReportsAction {
   return {
     type: SET_REPORT_ANSWER,
     payload: {
       reportName,
-      answer
+      answer,
+      updateOnly
     }
   };
 }
