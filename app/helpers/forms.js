@@ -62,20 +62,21 @@ export const getNextStep = (
       const jump = jumpStart + 1;
       const question = questions[currentIndex + 1];
       const conditions = question.conditions;
-      const nextHasConditions = conditions && conditions.length > 0;
       const answer = answers[currentIndex] || {};
+      const isLastQuestion = (questions.length - 1) === currentIndex + 1;
+      const nextHasConditions = conditions && conditions.length > 0;
       const answerMatchesCondition = nextHasConditions && answer.value === conditions[0].value;
-      if (
-        !nextHasConditions
-        || answerMatchesCondition
-        || (questions.length - 1) === currentIndex + 1
-      ) {
-        return jump;
+      if (nextHasConditions && !answerMatchesCondition && isLastQuestion) {
+        return null;
       }
-      return getJump(currentIndex + 1, jump);
+      return !nextHasConditions || answerMatchesCondition || isLastQuestion
+        ? jump
+        : getJump(currentIndex + 1, jump);
     };
     const next = getJump(currentQuestion);
-    return currentQuestion + next;
+    return next !== null
+      ? currentQuestion + next
+      : null;
   }
   return null;
 };
