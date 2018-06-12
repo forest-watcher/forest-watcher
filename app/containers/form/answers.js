@@ -49,7 +49,7 @@ function mapFormToAnsweredQuestions(answers: Array<Answer>, template: Template, 
       answer: getAnswerValues(question, answer)
     };
 
-    if (answer.child !== null) {
+    if (answer.child && answer.child !== null) {
       const childQuestion = questions[answer.child.questionName];
       return [
         answeredQuestion,

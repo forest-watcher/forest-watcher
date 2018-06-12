@@ -1,5 +1,5 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   Text,
   View,
@@ -11,7 +11,15 @@ import styles from './styles';
 
 const editIcon = require('assets/edit.png');
 
-const Answer = (props) => (
+type Props = {
+  questionId: string,
+  question: string,
+  answers: Array<any>,
+  onEditPress?: () => void,
+  readOnly: boolean
+};
+
+const Answer = (props: Props) => (
   <View style={styles.container}>
     <View style={styles.question}>
       <Text style={styles.questionText}>{props.question}</Text>
@@ -36,13 +44,5 @@ const Answer = (props) => (
     </View>
   </View>
 );
-
-Answer.propTypes = {
-  questionId: PropTypes.string,
-  question: PropTypes.string.isRequired,
-  answers: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onEditPress: PropTypes.func.isRequired,
-  readOnly: PropTypes.bool
-};
 
 export default Answer;

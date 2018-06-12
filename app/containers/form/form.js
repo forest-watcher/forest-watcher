@@ -22,7 +22,7 @@ const mapStateToProps = (
   const defaultAnswer = {
     value: '',
     questionName: question.name,
-    child: question.childQuestions
+    child: question.childQuestion
       ? { value: '', questionName: question.childQuestion.name }
       : null
   };
