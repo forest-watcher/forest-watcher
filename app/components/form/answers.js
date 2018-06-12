@@ -21,7 +21,7 @@ const uploadIcon = require('assets/upload.png');
 
 type Props = {
   navigator: any,
-  results: Array<{ question: Question, answers: Array<string> }>,
+  results: Array<{ question: Question, answer: Answer }>,
   reportName: string,
   uploadReport: (string) => void,
   setReportAnswer: (string, Answer, boolean) => void,
@@ -86,18 +86,18 @@ class Answers extends PureComponent<Props> {
       value: ''
     };
     setReportAnswer(reportName, answer, true);
-    if (image.required) this.onEdit(image.questionNumber);
+    if (image.required) this.onEdit(image.order);
   }
 
   render() {
-    const { results, readOnly } = this.props;
+    const { results, readOnly, metadata } = this.props;
     const regularAnswers = results.filter(({ question }) => question.type !== 'blob');
     const images = results.filter(({ question }) => question.type === 'blob')
       .map((image, index) => ({
         id: image.question.Id,
-        uri: image.answers[index],
+        uri: image.answer.value[index],
         name: image.question.name,
-        questionNumber: image.question.questionNumber,
+        order: image.question.order,
         required: image.question.required
       }));
     const imageActions = !readOnly ? [{
@@ -108,13 +108,24 @@ class Answers extends PureComponent<Props> {
       <View style={styles.answersContainer}>
         <ScrollView>
           {
+            metadata.map((meta) => (
+              <AnswerComponent
+                id={meta.id}
+                key={meta.id}
+                answers={meta.value}
+                question={meta.label}
+                readOnly
+              />
+            ))
+          }
+          {
             regularAnswers.map((result) => (
               <AnswerComponent
                 id={result.question.Id}
                 key={result.question.Id}
-                answers={result.answers}
+                answers={result.answer.value}
                 question={result.question.label}
-                onEditPress={() => this.onEdit(result.question.questionNumber)}
+                onEditPress={() => this.onEdit(result.question.order)}
                 readOnly={readOnly}
               />
             ))

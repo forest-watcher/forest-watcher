@@ -34,7 +34,13 @@
         "retry": "Retry",
         "save": "Save",
         "saving": "Saving",
-        "setup": "Set up"
+        "setup": "Set up",
+        "date": "Date",
+        "area": "Area",
+        "language": "Language",
+        "userPosition": "User Position",
+        "reportedPosition": "Reported Position",
+        "alert": "Alert"
     },
     "contactUs": {
         "description": "Questions or feedback? Email mailto:forestwatcher@wri.org"

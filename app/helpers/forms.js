@@ -33,10 +33,10 @@ export const parseQuestion = (step: { question: Question, template: Template }, 
       parsedQuestion = { ...parsedQuestion, [key]: value };
     }
   });
-  if (parsedQuestion.childQuestions) {
+  if (parsedQuestion.childQuestions && parsedQuestion.childQuestions.length > 0) {
     // TODO: Support more than one child question... one day...
     const child = parsedQuestion.childQuestions[0];
-    parsedQuestion.childQuestions = child
+    parsedQuestion.childQuestion = typeof child !== 'undefined'
       ? parseQuestion({ question: child, template }, deviceLang)
       : null;
   }

@@ -1,7 +1,10 @@
 // @flow
 import type { State } from 'types/store.types';
-import type { Template, Answer } from 'types/reports.types';
+import type { Template, Answer, Report } from 'types/reports.types';
 
+import flatMap from 'lodash/flatMap';
+import i18n from 'locales';
+import moment from 'moment';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { saveReport, uploadReport, setReportAnswer } from 'redux-modules/reports';
@@ -10,43 +13,96 @@ import { getTemplate, parseQuestion } from 'helpers/forms';
 import Answers from 'components/form/answers';
 
 function getAnswerValues(question, answer) {
+  if (typeof answer === 'undefined') return undefined;
   const simpleTypeInputs = ['number', 'text', 'point', 'blob'];
-  const answerList = Array.isArray(answer) ? answer : [answer];
+  let value = Array.isArray(answer.value) ? answer.value : [answer.value];
   if (!simpleTypeInputs.includes(question.type)) {
-    return question.values.filter(item => answerList.includes(item.value))
+    value = question.values.filter(item => value.includes(item.value))
       .map(item => item.label);
   }
-  return answerList;
+  return { ...answer, value };
 }
 
 function mapFormToAnsweredQuestions(answers: Array<Answer>, template: Template, deviceLang: ?string) {
-  const questions = template.questions.reduce(
-    (acc, question, index) => ({ ...acc, [question.name]: { ...question, questionNumber: index } }),
-    {}
-  );
-  return answers.map((answer) => {
-    const question = questions[answer.questionName];
+  const questions = flatMap(template.questions, (question) => {
     const parsedQuestion = parseQuestion({ template, question }, deviceLang);
-    const value = answer && answer.value;
-    return {
-      question: { ...parsedQuestion },
-      answers: typeof value !== 'undefined' && getAnswerValues(parsedQuestion, value)
+    if (parsedQuestion.childQuestion) {
+      const parsedChildQuestion = {
+        ...parsedQuestion.childQuestion,
+        order: parsedQuestion.order
+      };
+      return [
+        parsedQuestion,
+        parsedChildQuestion
+      ];
+    }
+    return parsedQuestion;
+  })
+    .reduce(
+      (acc, question) => ({ ...acc, [question.name]: question }),
+      {}
+    );
+  return flatMap(answers, (answer) => {
+    const question = questions[answer.questionName];
+    const answeredQuestion = {
+      question,
+      answer: getAnswerValues(question, answer)
     };
+
+    if (answer.child !== null) {
+      const childQuestion = questions[answer.child.questionName];
+      return [
+        answeredQuestion,
+        {
+          question: childQuestion,
+          answer: getAnswerValues(childQuestion, answer.child)
+        }
+      ];
+    }
+
+    return answeredQuestion;
   });
+}
+
+function mapReportToMetadata(report: Report, language) {
+  const { area: { dataset = {} } } = report;
+  const reportedPosition = report.clickedPosition && JSON.parse(report.clickedPosition)
+    .map(pos => [
+      pos.lat.toLocaleString(undefined, { maximumFractionDigits: 4 }),
+      pos.lon.toLocaleString(undefined, { maximumFractionDigits: 4 })
+    ].toString());
+  const date = moment(report.date).format('MMM Do YY');
+  const metadata = [
+    { id: 'name', label: i18n.t('commonText.name'), value: [report.reportName] },
+    { id: 'areaName', label: i18n.t('commonText.area'), value: [report.area.name] },
+    { id: 'date', label: i18n.t('commonText.date'), value: [date] },
+    { id: 'language', label: i18n.t('commonText.language'), value: [language] },
+    { id: 'userPosition', label: i18n.t('commonText.userPosition'), value: [report.userPosition] },
+    { id: 'clickedPosition', label: i18n.t('commonText.reportedPosition'), value: [reportedPosition] }
+  ];
+
+  if (dataset.slug) {
+    metadata.push({ id: 'dataset', label: i18n.t('commonText.alert'), value: [i18n.t(`datasets.${dataset.slug}`)] });
+  }
+
+  return metadata;
 }
 
 function mapStateToProps(state: State, ownProps: { reportName: string, readOnly: boolean }) {
   const { reportName, readOnly } = ownProps;
-  const template = getTemplate(state.reports, reportName);
-  const answers = state.reports.list[reportName].answers;
+  const { reports, app } = state;
+  const template = getTemplate(reports, reportName);
+  const templateLang = template.languages.includes(app.language) ? app.language : template.defaultLanguage;
+  const report = reports.list[reportName];
   // map readOnly to object because withDraft expects disableDraft and answers expects readOnly
   const readOnlyProps = readOnly ? { disableDraft: true, readOnly } : {};
   return {
     results: mapFormToAnsweredQuestions(
-      answers,
+      report.answers,
       template,
       state.app.language
     ),
+    metadata: mapReportToMetadata(report, templateLang),
     ...readOnlyProps
   };
 }

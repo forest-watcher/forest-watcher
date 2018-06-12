@@ -41,7 +41,7 @@ function RadioInput(props: Props) {
     }
   }
 
-  const { childQuestions } = question;
+  const { childQuestion } = question;
   const hasValues = question && question.values && question.values.length;
   return (
     <View style={styles.container}>
@@ -60,10 +60,10 @@ function RadioInput(props: Props) {
                 onPress={() => handlePress(item.value)}
               />
             </View>
-            {childQuestions && childQuestions.conditionalValue === item.value &&
+            {childQuestion && childQuestion.conditionalValue === item.value &&
               <TextInput
                 visible={answer.value === item.value}
-                question={childQuestions}
+                question={childQuestion}
                 onChange={onChildChange}
                 answer={answer.child || {}}
               />

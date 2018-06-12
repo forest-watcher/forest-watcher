@@ -23,7 +23,7 @@ const mapStateToProps = (
     value: '',
     questionName: question.name,
     child: question.childQuestions
-      ? { value: '', questionName: question.childQuestions.name }
+      ? { value: '', questionName: question.childQuestion.name }
       : null
   };
   const answer = answers.find(a => a.questionName === question.name) || defaultAnswer;

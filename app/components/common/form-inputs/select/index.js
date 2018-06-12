@@ -54,7 +54,7 @@ function SelectInput(props: Props) {
       >
         {hasValues && question.values.map((item, index) => {
           const checked = answer.value && answer.value.indexOf(item.value) >= 0;
-          const { childQuestions } = question;
+          const { childQuestion } = question;
           return (
             <React.Fragment key={index}>
               <View style={styles.inputContainer}>
@@ -64,10 +64,10 @@ function SelectInput(props: Props) {
                   onPress={() => handlePress(item.value)}
                 />
               </View>
-              {childQuestions && childQuestions.conditionalValue === item.value &&
+              {childQuestion && childQuestion.conditionalValue === item.value &&
                 <TextInput
                   visible={checked}
-                  question={childQuestions}
+                  question={childQuestion}
                   answer={answer.child || {}}
                   onChange={onChildPress}
                 />
