@@ -71,7 +71,7 @@ function mapReportToMetadata(report: Report, language) {
       pos.lat.toLocaleString(undefined, { maximumFractionDigits: 4 }),
       pos.lon.toLocaleString(undefined, { maximumFractionDigits: 4 })
     ].toString());
-  const date = moment(report.date).format('MMM Do YY');
+  const date = moment(report.date).format('YYYY-MM-DD');
   const metadata = [
     { id: 'name', label: i18n.t('commonText.name'), value: [report.reportName] },
     { id: 'areaName', label: i18n.t('commonText.area'), value: [report.area.name] },

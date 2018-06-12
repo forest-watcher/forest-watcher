@@ -47,7 +47,10 @@ export default function reducer(state: ReportsState = initialState, action: Repo
         const answers = Object.entries(form)
           .reduce((acc, [reportName, formEntry]) => ({
             ...acc,
-            [reportName]: { answers: formatAnswers((formEntry.values || {})) }
+            [reportName]: {
+              reportName,
+              answers: formatAnswers((formEntry.values || {}))
+            }
           }), {});
         return { ...reports, list: merge(answers, reports.list) };
       }
