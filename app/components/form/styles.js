@@ -33,7 +33,7 @@ export default StyleSheet.create({
   answersContainer: {
     backgroundColor: Theme.background.main,
     flex: 1,
-    paddingTop: 32
+    paddingTop: 8
   },
   answersText: {
     fontFamily: Theme.font,
@@ -50,5 +50,21 @@ export default StyleSheet.create({
     paddingRight: 8,
     paddingTop: 32,
     paddingBottom: 32
+  },
+  listContainer: {
+    marginTop: 24,
+    marginBottom: 8
+  },
+  listContainerFirst: {
+    marginTop: 0
+  },
+  listTitle: {
+    fontSize: 17,
+    fontWeight: '400',
+    fontFamily: Theme.font,
+    color: Theme.fontColors.light,
+    marginLeft: Theme.margin.left,
+    marginRight: 18,
+    marginBottom: 8
   }
 });

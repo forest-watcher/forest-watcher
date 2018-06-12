@@ -21,6 +21,7 @@ const uploadIcon = require('assets/upload.png');
 
 type Props = {
   navigator: any,
+  metadata: Array<{ id: string, label: string, value: any }>,
   results: Array<{ question: Question, answer: Answer }>,
   reportName: string,
   uploadReport: (string) => void,
@@ -107,28 +108,34 @@ class Answers extends PureComponent<Props> {
     return (
       <View style={styles.answersContainer}>
         <ScrollView>
-          {
-            metadata.map((meta) => (
-              <AnswerComponent
-                id={meta.id}
-                key={meta.id}
-                answers={meta.value}
-                question={meta.label}
-                readOnly
-              />
-            ))
+          {metadata && metadata.length &&
+            <View style={[styles.listContainer, styles.listContainerFirst]}>
+              <Text style={styles.listTitle}>{i18n.t('report.metadata')}</Text>
+              {metadata.map((meta) => (
+                <AnswerComponent
+                  questionId={meta.id}
+                  key={meta.id}
+                  answers={meta.value}
+                  question={meta.label}
+                  readOnly
+                />
+              ))}
+            </View>
           }
-          {
-            regularAnswers.map((result) => (
-              <AnswerComponent
-                id={result.question.Id}
-                key={result.question.Id}
-                answers={result.answer.value}
-                question={result.question.label}
-                onEditPress={() => this.onEdit(result.question.order)}
-                readOnly={readOnly}
-              />
-            ))
+          {regularAnswers && regularAnswers.length &&
+            <View style={styles.listContainer}>
+              <Text style={styles.listTitle}>{i18n.t('report.responses')}</Text>
+              {regularAnswers.map((result) => (
+                <AnswerComponent
+                  questionId={result.question.id}
+                  key={result.question.id}
+                  answers={result.answer.value}
+                  question={result.question.label}
+                  onEditPress={() => this.onEdit(result.question.order)}
+                  readOnly={readOnly}
+                />
+              ))}
+            </View>
           }
           {images.length > 0 &&
             <View style={styles.picturesContainer}>

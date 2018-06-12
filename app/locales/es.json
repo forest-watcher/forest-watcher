@@ -282,6 +282,8 @@
         "inputText": "Por favor escriba algo",
         "pictures": "Imágenes",
         "review": "Resumen del reporte",
+        "metadata": "Metadata",
+        "responses": "Responses",
         "saveLaterDescription": "Aparecerá como borrador en la sección de informes",
         "saveLaterTitle": "Guardar para más adelante",
         "selected": "Informe seleccionado",

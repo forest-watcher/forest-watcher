@@ -10,8 +10,8 @@ export default StyleSheet.create({
   question: {
     borderBottomColor: Theme.borderColors.main,
     borderBottomWidth: 1,
-    paddingTop: 16,
-    paddingBottom: 16,
+    paddingTop: 12,
+    paddingBottom: 12,
     paddingLeft: Theme.margin.left,
     paddingRight: Theme.margin.right
   },
@@ -27,8 +27,8 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     paddingLeft: Theme.margin.left,
     paddingRight: Theme.margin.right,
-    paddingTop: 20,
-    paddingBottom: 20
+    paddingTop: 16,
+    paddingBottom: 16
   },
   answers: {
     flexBasis: 242

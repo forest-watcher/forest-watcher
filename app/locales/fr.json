@@ -281,6 +281,8 @@
         "inputSelect": "Choisissez au moins une option pour continuer",
         "inputText": "Veuillez écrire quelque chose",
         "pictures": "Images",
+        "metadata": "Metadata",
+        "responses": "Responses",
         "review": "Examiner le rapport",
         "saveLaterDescription": "Il apparaîtra comme un brouillon dans la section Rapports",
         "saveLaterTitle": "Garder pour plus tard",
