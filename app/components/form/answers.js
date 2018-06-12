@@ -65,7 +65,7 @@ class Answers extends PureComponent<Props> {
     const { navigator, reportName } = this.props;
     const screen = 'ForestWatcher.NewReport';
     const disableDraft = false;
-    navigator.showModal({
+    navigator.push({
       screen,
       backButtonHidden: true,
       passProps: {

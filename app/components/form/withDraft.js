@@ -17,8 +17,7 @@ type Props = {
   disableDraft: boolean,
   navigator: any,
   reportName: string,
-  saveReport: string => void,
-  editMode: boolean
+  saveReport: string => void
 };
 
 function withDraft(WrappedComponent: any) {
@@ -46,7 +45,7 @@ function withDraft(WrappedComponent: any) {
     }
 
     onPressDraft = () => {
-      const { reportName, saveReport, navigator, editMode } = this.props;
+      const { reportName, saveReport, navigator } = this.props;
       Alert.alert(
         i18n.t('report.saveLaterTitle'),
         i18n.t('report.saveLaterDescription'),
@@ -63,16 +62,12 @@ function withDraft(WrappedComponent: any) {
                   status: CONSTANTS.status.draft
                 });
               }
-              if (!editMode) {
-                navigator.popToRoot({ animated: false });
-                navigator.push({
-                  animated: false,
-                  screen: 'ForestWatcher.Reports',
-                  title: i18n.t('dashboard.myReports')
-                });
-              } else {
-                navigator.dismissModal();
-              }
+              navigator.popToRoot({ animated: false });
+              navigator.push({
+                animated: false,
+                screen: 'ForestWatcher.Reports',
+                title: i18n.t('dashboard.myReports')
+              });
             }
           }
         ],
