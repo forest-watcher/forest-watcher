@@ -1,12 +1,19 @@
 import Theme from 'config/theme';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    height: 104,
+    ...Platform.select({
+      ios: {
+        height: 104
+      },
+      android: {
+        height: 60
+      }
+    }),
     position: 'absolute',
     top: 0,
-    left: 0,
+    left: 16,
     right: 0,
     flexDirection: 'row',
     alignItems: 'center',
@@ -26,7 +33,8 @@ export default StyleSheet.create({
   title: {
     fontFamily: Theme.font,
     fontSize: 21,
-    fontWeight: '400'
+    fontWeight: '400',
+    marginLeft: 8
   },
   margin: {
     marginLeft: 16

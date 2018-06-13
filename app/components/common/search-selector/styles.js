@@ -34,8 +34,8 @@ export default StyleSheet.create({
   },
   closeIcon: {
     position: 'absolute',
-    bottom: 8,
-    right: 8
+    bottom: 20,
+    right: 16
   },
   searchInput: {
     height: 88,
