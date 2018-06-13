@@ -25,14 +25,11 @@ type Props = {
   onChange: (Answer) => void,
 };
 
-class ImageBlobInput extends Component {
-  constructor(props: Props) {
-    super(props);
-    this.actions = [{
-      callback: this.removePicture,
-      icon: deleteIcon
-    }];
-  }
+class ImageBlobInput extends Component<Props> {
+  actions = [{
+    callback: this.removePicture,
+    icon: deleteIcon
+  }];
 
   componentDidMount() {
     const imagePath = this.props.answer.value;
@@ -70,7 +67,7 @@ class ImageBlobInput extends Component {
     this.handlePress('');
   }
 
-  handlePress = (value) => {
+  handlePress = (value: string) => {
     const { answer, onChange } = this.props;
     if (value !== answer.value) {
       onChange({ ...answer, value });

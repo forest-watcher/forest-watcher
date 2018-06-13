@@ -70,6 +70,7 @@ export type CreateReport = {
     [string]: Report
   };
 };
+export type DeleteReport = { type: 'report/DELETE_REPORT', payload: { reportName: string } };
 export type UpdateReport = { type: 'report/UPDATE_REPORT', payload: { name: string, data: Report } };
 export type SetReportAnswer = { type: 'report/SET_REPORT_ANSWER', payload: { reportName: string, answer: Answer, updateOnly?: boolean } };
 
@@ -108,6 +109,7 @@ export type ReportsAction =
   | GetDefaultTemplateCommit
   | GetDefaultTemplateRollback
   | CreateReport
+  | DeleteReport
   | UpdateReport
   | UploadReportRequest
   | UploadReportCommit

@@ -25,6 +25,7 @@ type Props = {
   results: Array<{ question: Question, answer: Answer }>,
   reportName: string,
   uploadReport: (string) => void,
+  deleteReport: (string) => void,
   setReportAnswer: (string, Answer, boolean) => void,
   readOnly: boolean,
   setActiveAlerts: boolean => void
@@ -55,7 +56,7 @@ class Answers extends PureComponent<Props> {
     }
   };
 
-  onPressSave = () => {
+  onPressSend = () => {
     const { reportName, uploadReport, navigator, setActiveAlerts } = this.props;
     uploadReport(reportName);
     setActiveAlerts(true);
@@ -90,6 +91,17 @@ class Answers extends PureComponent<Props> {
     if (image.required) this.onEdit(image.order);
   }
 
+  handleDeleteArea = () => {
+    const { navigator, deleteReport, reportName } = this.props;
+    deleteReport(reportName);
+    navigator.popToRoot({ animated: false });
+    navigator.push({
+      animated: false,
+      screen: 'ForestWatcher.Reports',
+      title: i18n.t('dashboard.myReports')
+    });
+  }
+
   render() {
     const { results, readOnly, metadata } = this.props;
     const regularAnswers = results.filter(({ question }) => question.type !== 'blob');
@@ -105,6 +117,7 @@ class Answers extends PureComponent<Props> {
       callback: (id, name) => this.onDeleteImage(id, name, images),
       icon: deleteIcon
     }] : null;
+
     return (
       <View style={styles.answersContainer}>
         <ScrollView>
@@ -127,8 +140,8 @@ class Answers extends PureComponent<Props> {
               <Text style={styles.listTitle}>{i18n.t('report.responses')}</Text>
               {regularAnswers.map((result) => (
                 <AnswerComponent
-                  questionId={result.question.id}
-                  key={result.question.id}
+                  questionId={result.question.Id}
+                  key={result.question.Id}
                   answers={result.answer.value}
                   question={result.question.label}
                   onEditPress={() => this.onEdit(result.question.order)}
@@ -148,14 +161,19 @@ class Answers extends PureComponent<Props> {
               />
             </View>
           }
-          {!readOnly &&
-          <View style={styles.buttonSaveContainer}>
+          <View style={styles.buttonsContainer}>
+            {!readOnly && <ActionButton
+              style={styles.actionBtn}
+              onPress={this.onPressSend}
+              text={i18n.t('commonText.send')}
+            />}
             <ActionButton
-              onPress={this.onPressSave}
-              text={i18n.t('commonText.save')}
+              delete
+              style={styles.actionBtn}
+              onPress={this.handleDeleteArea}
+              text={i18n.t('report.delete')}
             />
           </View>
-          }
         </ScrollView>
       </View>
     );

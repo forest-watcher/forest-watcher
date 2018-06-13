@@ -45,11 +45,15 @@ export default StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 16
   },
-  buttonSaveContainer: {
+  buttonsContainer: {
     paddingLeft: 8,
     paddingRight: 8,
-    paddingTop: 32,
+    paddingTop: 16,
     paddingBottom: 32
+  },
+  actionBtn: {
+    marginTop: 8,
+    marginBottom: 8
   },
   listContainer: {
     marginTop: 24,

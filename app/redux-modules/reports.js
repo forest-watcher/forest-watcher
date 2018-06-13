@@ -2,6 +2,7 @@
 import type { Dispatch, GetState } from 'types/store.types';
 import type { ReportsState, ReportsAction, Report, Answer } from 'types/reports.types';
 import type { Area } from 'types/areas.types';
+import omit from 'lodash/omit';
 
 import Config from 'react-native-config';
 import merge from 'lodash/merge';
@@ -18,6 +19,7 @@ const GET_DEFAULT_TEMPLATE_COMMIT = 'report/GET_DEFAULT_TEMPLATE_COMMIT';
 const GET_DEFAULT_TEMPLATE_ROLLBACK = 'report/GET_DEFAULT_TEMPLATE_ROLLBACK';
 const CREATE_REPORT = 'report/CREATE_REPORT';
 const UPDATE_REPORT = 'report/UPDATE_REPORT';
+const DELETE_REPORT = 'report/DELETE_REPORT';
 export const UPLOAD_REPORT_REQUEST = 'report/UPLOAD_REPORT_REQUEST';
 export const UPLOAD_REPORT_COMMIT = 'report/UPLOAD_REPORT_COMMIT';
 export const UPLOAD_REPORT_ROLLBACK = 'report/UPLOAD_REPORT_ROLLBACK';
@@ -84,6 +86,11 @@ export default function reducer(state: ReportsState = initialState, action: Repo
     }
     case CREATE_REPORT: {
       const list = { ...state.list, ...action.payload };
+      return { ...state, list };
+    }
+    case DELETE_REPORT: {
+      const { reportName } = action.payload;
+      const list = omit(state.list, reportName);
       return { ...state, list };
     }
     case UPDATE_REPORT: {
@@ -190,6 +197,13 @@ export function setReportAnswer(reportName: string, answer: Answer, updateOnly: 
       answer,
       updateOnly
     }
+  };
+}
+
+export function deleteReport(reportName: string): ReportsAction {
+  return {
+    type: DELETE_REPORT,
+    payload: { reportName }
   };
 }
 
