@@ -140,34 +140,37 @@ class Reports extends PureComponent<Props> {
     const { complete, draft, uploaded } = this.props.reports;
     const hasReports = !!complete.length || !!draft.length || !!uploaded.length;
     return (
-      <ScrollView
-        style={styles.container}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      >
-        {hasReports
-          ? (
-            <View style={styles.container}>
-              {draft && draft.length > 0 &&
-                this.getDrafts(draft)
-              }
-              {complete && complete.length > 0 &&
-                this.getCompleted(complete)
-              }
-              {uploaded && uploaded.length > 0 &&
-                this.getUploaded(uploaded)
-              }
-            </View>
-          )
-          : (
-            <View style={styles.containerEmpty}>
-              <Text style={styles.emptyTitle}>
-                {i18n.t('report.empty')}
-              </Text>
-            </View>
-          )
-        }
-      </ScrollView>
+      /* View necessary to fix the swipe back on wix navigation */
+      <View style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        >
+          {hasReports
+            ? (
+              <View style={styles.container}>
+                {draft && draft.length > 0 &&
+                  this.getDrafts(draft)
+                }
+                {complete && complete.length > 0 &&
+                  this.getCompleted(complete)
+                }
+                {uploaded && uploaded.length > 0 &&
+                  this.getUploaded(uploaded)
+                }
+              </View>
+            )
+            : (
+              <View style={styles.containerEmpty}>
+                <Text style={styles.emptyTitle}>
+                  {i18n.t('report.empty')}
+                </Text>
+              </View>
+            )
+          }
+        </ScrollView>
+      </View>
     );
   }
 }
