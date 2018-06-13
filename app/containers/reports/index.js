@@ -45,7 +45,7 @@ function mapStateToProps(state: State) {
     reports: getReports(state.reports.list),
     getLastStep: (formName) => {
       const answers = state.reports.list[formName].answers;
-      if (answers.length) {
+      if (answers && answers.length) {
         const templateId = state.reports.list[formName].area.templateId || 'default';
         const questions = state.reports.templates[templateId].questions;
         const last = answers[answers.length - 1];
