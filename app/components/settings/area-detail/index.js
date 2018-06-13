@@ -93,10 +93,10 @@ class AreaDetail extends Component<Props, State> {
     const newName = ev.nativeEvent.text;
     const { name } = this.props.area;
     if (newName && newName !== name) {
-      this.setState((state) => ({
-        name: (newName || state.name || name),
+      this.setState({
+        name: newName,
         editingName: false
-      }));
+      });
 
       const updatedArea = { ...this.props.area, name: newName };
       this.props.updateArea(updatedArea);
