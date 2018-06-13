@@ -43,10 +43,10 @@ export default function reducer(state: ReportsState = initialState, action: Repo
     case PERSIST_REHYDRATE: {
       // $FlowFixMe
       const { reports = state, form } = action.payload;
-      if (form) {
+      if (form && !form.migrated) {
         const formatAnswers = values => Object.entries(values)
           .map(([questionName, value]) => ({ questionName, value, child: null }));
-        const answers = Object.entries(form)
+        const answers = Object.entries(form || {})
           .reduce((acc, [reportName, formEntry]) => ({
             ...acc,
             [reportName]: {
