@@ -121,7 +121,7 @@ class Answers extends PureComponent<Props> {
     return (
       <View style={styles.answersContainer}>
         <ScrollView>
-          {metadata && metadata.length &&
+          {metadata && !!metadata.length &&
             <View style={[styles.listContainer, styles.listContainerFirst]}>
               <Text style={styles.listTitle}>{i18n.t('report.metadata')}</Text>
               {metadata.map((meta) => (
@@ -135,7 +135,7 @@ class Answers extends PureComponent<Props> {
               ))}
             </View>
           }
-          {regularAnswers && regularAnswers.length &&
+          {regularAnswers && !!regularAnswers.length &&
             <View style={styles.listContainer}>
               <Text style={styles.listTitle}>{i18n.t('report.responses')}</Text>
               {regularAnswers.map((result) => (
