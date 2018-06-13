@@ -75,7 +75,7 @@ export default function reducer(state: UserState = initialState, action: UserAct
 }
 
 // Action Creators
-function getUser(): UserAction {
+export function getUser(): UserAction {
   return {
     type: GET_USER_REQUEST,
     meta: {

@@ -4,6 +4,7 @@ import type { Area } from 'types/areas.types';
 import React, { Component } from 'react';
 import List from 'components/common/list';
 import AreaList from 'containers/common/area-list';
+import Hyperlink from 'react-native-hyperlink';
 import {
 View,
 Text,
@@ -136,6 +137,7 @@ class Settings extends Component<Props> {
       }
     ];
     const { version, areas, setOfflineMode, offlineMode } = this.props;
+    const hasUserData = this.props.user.fullName && this.props.user.email;
 
     return (
       <View style={styles.container}>
@@ -150,14 +152,27 @@ class Settings extends Component<Props> {
           </Text>
 
           <View style={styles.user}>
-            <View style={styles.info}>
-              <Text style={styles.name}>
-                {this.props.user.fullName}
-              </Text>
-              <Text style={styles.email} numberOfLines={1} ellipsizeMode="tail">
-                {this.props.user.email}
-              </Text>
-            </View>
+            {hasUserData
+              ? <View style={styles.info}>
+                <Text style={styles.name}>
+                  {this.props.user.fullName}
+                </Text>
+                <Text style={styles.email} numberOfLines={1} ellipsizeMode="tail">
+                  {this.props.user.email}
+                </Text>
+              </View>
+              : <View style={styles.info}>
+                <Hyperlink
+                  linkDefault
+                  linkStyle={Theme.link}
+                  linkText={(url) => (url === 'https://www.globalforestwatch.org/my_gfw' ? 'my GFW' : url)}
+                >
+                  <Text selectable style={styles.completeProfile} numberOfLines={2}>
+                    {`${i18n.t('settings.completeYourProfileOn')} https://www.globalforestwatch.org/my_gfw`}
+                  </Text>
+                </Hyperlink>
+              </View>
+            }
             <TouchableHighlight
               activeOpacity={0.5}
               underlayColor="transparent"

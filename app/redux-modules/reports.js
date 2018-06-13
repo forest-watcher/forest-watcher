@@ -144,12 +144,11 @@ export function uploadReport(toUpload: { reportName: string, fields: Array<strin
   tracker.trackEvent('Report', 'Complete Report', { label: 'Click Done', value: 0 });
   return (dispatch: Dispatch, state: GetState) => {
     const reportValues = state().form[reportName].values;
-    const user = state().user;
-    const userName = (user && user.data && user.data.fullName) || 'Guest user';
-    const organization = (user && user.data && user.data.organization) || 'None';
-    const reports = state().reports;
+    const { user = {}, reports, app } = state();
+    const userName = (user.data && user.data.fullName) || '';
+    const organization = (user.data && user.data.organization) || '';
     const report = reports.list[reportName];
-    const language = state().app.language || '';
+    const language = app.language || '';
     const area = report.area;
     const dataset = area.dataset || {};
     const form = new FormData();
@@ -158,6 +157,7 @@ export function uploadReport(toUpload: { reportName: string, fields: Array<strin
     form.append('report', template.id);
     form.append('reportName', reportName);
     form.append('areaOfInterest', area.id);
+    form.append('areaOfInterestName', area.name);
     form.append('startDate', dataset.startDate);
     form.append('endDate', dataset.endDate);
     form.append('layer', dataset.slug);
