@@ -15,8 +15,9 @@
 * [Running the application](mobile/running-the-application.md)
 * [Deployment](mobile/deployment.md)
 
-## Desktop
+## Web
 
-* [Introduction](desktop/README.md)
-* [Set up](desktop/set-up.md)
+* [Introduction](web/README.md)
+* [Set up](web/set-up.md)
+* [Contextual layers](web/contextual-layers.md)
 

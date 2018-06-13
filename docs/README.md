@@ -6,7 +6,7 @@ Visit the [forest watcher](http://forestwatcher.globalforestwatch.org) website. 
 
 ## Documentation
 - [Mobile](mobile/README.md)
-- [Desktop](desktop/README.md)
+- [Web](web/README.md)
 
 ## License
 MIT License

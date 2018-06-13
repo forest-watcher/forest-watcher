@@ -41,7 +41,7 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   info: {
-    width: 200
+    width: 250
   },
   name: {
     height: 22,
@@ -52,6 +52,14 @@ export default StyleSheet.create({
   },
   email: {
     height: 24,
+    fontFamily: Theme.font,
+    color: Theme.fontColors.light,
+    fontSize: 17,
+    fontWeight: '400',
+    fontStyle: 'italic'
+  },
+  completeProfile: {
+    width: 180,
     fontFamily: Theme.font,
     color: Theme.fontColors.light,
     fontSize: 17,

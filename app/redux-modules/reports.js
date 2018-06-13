@@ -217,10 +217,9 @@ export function saveReport(name: string, data: Report): ReportsAction {
 export function uploadReport(reportName: string) {
   tracker.trackEvent('Report', 'Complete Report', { label: 'Click Done', value: 0 });
   return (dispatch: Dispatch, getState: GetState) => {
-    const { user, reports, app } = getState();
-    const answers = reports.list[reportName].answers;
-    const userName = (user && user.data && user.data.fullName) || 'Guest user';
-    const organization = (user && user.data && user.data.organization) || 'None';
+    const { user = {}, reports, app } = getState();
+    const userName = (user.data && user.data.fullName) || '';
+    const organization = (user.data && user.data.organization) || '';
     const report = reports.list[reportName];
     const language = app.language || '';
     const area = report.area;
@@ -231,6 +230,7 @@ export function uploadReport(reportName: string) {
     form.append('report', template.id);
     form.append('reportName', reportName);
     form.append('areaOfInterest', area.id);
+    form.append('areaOfInterestName', area.name);
     form.append('startDate', dataset.startDate);
     form.append('endDate', dataset.endDate);
     form.append('layer', dataset.slug);
@@ -241,7 +241,7 @@ export function uploadReport(reportName: string) {
     form.append('clickedPosition', report && report.clickedPosition);
     form.append('userPosition', report && report.userPosition);
 
-    answers.forEach(answer => {
+    report.answers.forEach(answer => {
       const appendAnswer = ({ value, questionName }) => {
         // TODO: improve this
         if (typeof value === 'string' && value.indexOf('jpg') >= 0) {
