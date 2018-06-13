@@ -25,7 +25,10 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingLeft: 8
+    paddingLeft: 24
+  },
+  buttonNoIcon: {
+    paddingLeft: 0
   },
   short: {
     height: 48
@@ -51,7 +54,6 @@ export default StyleSheet.create({
     })
   },
   buttonTextLeft: {
-    marginLeft: 8,
     textAlign: 'left'
   },
   buttonTextMain: {

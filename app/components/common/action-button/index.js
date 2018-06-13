@@ -25,6 +25,7 @@ function ActionButton(props) {
   const containerStyles = [
     styles.container,
     props.monochrome ? styles.light : '',
+    props.left ? styles.left : '',
     props.light ? styles.light : '',
     props.disabled ? styles.disabled : '',
     props.error ? styles.error : '',
@@ -35,7 +36,8 @@ function ActionButton(props) {
   const btnStyles = [
     styles.button,
     props.light ? styles.buttonLight : '',
-    props.short ? styles.short : ''
+    props.short ? styles.short : '',
+    props.disabled || props.delete || props.noIcon ? styles.buttonNoIcon : ''
   ];
 
   const textStyles = [
@@ -80,11 +82,11 @@ function ActionButton(props) {
           </View>
         }
         {props.text && <Text style={textStyles}>{props.text.toUpperCase()}</Text>}
-        <View style={styles.iconContainer}>
-          {!(props.disabled || props.delete || props.noIcon) &&
+        {!(props.disabled || props.delete || props.noIcon) &&
+          <View style={styles.iconContainer}>
             <Image style={arrowIconStyles} source={arrowIcon} />
-          }
-        </View>
+          </View>
+        }
       </View>
     </TouchableHighlight>
   );
