@@ -73,9 +73,15 @@ class Form extends Component<Props> {
           questionIndex: nextQuestionIndex
         }
       });
-    } else if (editMode) {
-      navigator.dismissModal();
     } else {
+      if (editMode) {
+        navigator.popToRoot({ animated: false });
+        navigator.push({
+          animated: false,
+          screen: 'ForestWatcher.Reports',
+          title: i18n.t('dashboard.myReports')
+        });
+      }
       navigator.push({
         screen: 'ForestWatcher.Answers',
         title: i18n.t('report.review'),
