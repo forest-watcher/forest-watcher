@@ -58,195 +58,149 @@
         },
         "eleventhQuestion": {
             "content": {
-                "description": [
-                    {
-                        "text": "Hubungi kami dengan umpan balik atau pertanyaan melalui surel ke mailto:forestwatcher@wri.org."
-                    }
-                ]
+                "description": {
+                    "text": "Hubungi kami dengan umpan balik atau pertanyaan melalui surel ke mailto:forestwatcher@wri.org."
+                }
             },
             "title": "Bagaimana saya mendapatkan bantuan?"
         },
         "fifthQuestion": {
             "content": {
-                "description": [
-                    {
-                        "text": "Setiap kumpulan data perubahan hutan telah melalui pengujian ilmiah yang ketat dan memiliki batasan yang unik. Misalnya, lansiran GLAD dievaluasi di Peru memiliki 13,5 persen kesalahan positif (sebuah lansiran muncul dalam data yang tidak ada di lapangan) dan 33 persen kesalahan negatif (ada perubahan yang diobservasipada lapangan yang tidak muncul sebagai lansiran dalam data). Ini berarti bahwa sekitar 87 persen lansiran GLAD mewakili peristiwa perubahan hutan. Tingkat kesalahan negatif yang lebih tinggi berarti lansiran tersebut merupakan perkiraan konservatif cakupan kehilangan pohon. Ini membantu meminimalkan kemungkinan pengguna menghabiskan sumber daya dalam menyelidiki lansiran yang tidak mewakili perubahan hutan yang sebenarnya."
-                    },
-                    {
-                        "text": "Pengguna juga harus ingat bahwa lansiran GLAD mendeteksi semua cakupan kehilangan pohon, terlepas dari apakah itu disebabkan oleh manusia (seperti melalui penebangan) atau kejadian alami (seperti tanah longsor). Selain itu, lansiran tidak membedakan antara cakupan pohon alami dan tutupan pohon yang ditanami. Untuk informasi lengkap tentang setiap kumpulan data, kunjungi www.globalforestwatch.org."
-                    },
-                    {
-                        "text": "Penilaian data VIIRS menemukan tingkat kesalahan positif mendekati 0 untuk sebagian besar wilayah, dengan maksimum 1,2 persen di wilayah yang dinilai, sebagian besar terkait dengan sunglint di atas atap reflektif. Tingkat kelalaian tidak dinilai. VIIRS tidak bisa mendeteksi kebakaran yang terlalu kecil atau terlalu dingin (umumnya lebih dingin dari 700 K atau lebih kecil dari 100 meter persegi). Kelalaian dapat juga terjadi saat kebakaran dimulai dan berakhir di antara jalur layang satelit, atau saat kebakaran dikaburkan oleh awan, asap tebal, atau kanopi pohon."
-                    }
-                ]
+                "description": {
+                    "text1": "Setiap kumpulan data perubahan hutan telah melalui pengujian ilmiah yang ketat dan memiliki batasan yang unik. Misalnya, lansiran GLAD dievaluasi di Peru memiliki 13,5 persen kesalahan positif (sebuah lansiran muncul dalam data yang tidak ada di lapangan) dan 33 persen kesalahan negatif (ada perubahan yang diobservasipada lapangan yang tidak muncul sebagai lansiran dalam data). Ini berarti bahwa sekitar 87 persen lansiran GLAD mewakili peristiwa perubahan hutan. Tingkat kesalahan negatif yang lebih tinggi berarti lansiran tersebut merupakan perkiraan konservatif cakupan kehilangan pohon. Ini membantu meminimalkan kemungkinan pengguna menghabiskan sumber daya dalam menyelidiki lansiran yang tidak mewakili perubahan hutan yang sebenarnya.",
+                    "text2": "Pengguna juga harus ingat bahwa lansiran GLAD mendeteksi semua cakupan kehilangan pohon, terlepas dari apakah itu disebabkan oleh manusia (seperti melalui penebangan) atau kejadian alami (seperti tanah longsor). Selain itu, lansiran tidak membedakan antara cakupan pohon alami dan tutupan pohon yang ditanami. Untuk informasi lengkap tentang setiap kumpulan data, kunjungi www.globalforestwatch.org.",
+                    "text3": "Penilaian data VIIRS menemukan tingkat kesalahan positif mendekati 0 untuk sebagian besar wilayah, dengan maksimum 1,2 persen di wilayah yang dinilai, sebagian besar terkait dengan sunglint di atas atap reflektif. Tingkat kelalaian tidak dinilai. VIIRS tidak bisa mendeteksi kebakaran yang terlalu kecil atau terlalu dingin (umumnya lebih dingin dari 700 K atau lebih kecil dari 100 meter persegi). Kelalaian dapat juga terjadi saat kebakaran dimulai dan berakhir di antara jalur layang satelit, atau saat kebakaran dikaburkan oleh awan, asap tebal, atau kanopi pohon."
+                }
             },
             "title": "Seberapa akuratnya lansiran?"
         },
         "firstQuestion": {
             "content": {
-                "description": [
-                    {
-                        "text": "Forest Watcher adalah aplikasi seluler yang dirancang untuk memudahkan akses luring terhadap data tentang perubahan hutan dari Global Forest Watch http://www.globalforestwatch.org/."
-                    },
-                    {
-                        "text": "Global Forest Watch (GFW) adalah sistem pemantauan dan lansiran hutan daring dinamis yang memberdayakan orang di mana pun untuk mengelola hutan dengan lebih baik. GFW menyatukan teknologi satelit, komputasi awan, dan data terbuka untuk memberikan informasi yang tepat waktu mengenai hutan kepada masyarakat di seluruh dunia."
-                    },
-                    {
-                        "text": "Forest Watcher menaruh informasi berharga dari GFW langsung ke tangan orang-orang yang memantau hutan di lapangan. Forest Watcher mengizinkan seseorang untuk melihat penggundulan hutan dan peringatan kebakaran pada perangkat seluler, navigasi ke lokasi lansiran secara luring, dan mengumpulkan informasi dan foto tentang apa yang mereka temukan."
-                    },
-                    {
-                        "text": "Aplikasi ini menyediakan solusi yang terjangkau dan mudah digunakan untuk: dengan cepat mengidentifikasi area untuk patroli hutan atau investigasi lapangan; mengumpulkan bukti tentang perubahan hutan dari permukaan; menggunakan data yang dikumpulkan untuk membuat manajemen berbasis bukti dan keputusan konservasi; dan memvalidasi produk penginderaan jarak jauh di lapangan."
-                    },
-                    {
-                        "text": "Secara spesifik, aplikasi ini memungkinkan pengguna untuk:"
-                    }
-                ],
-                "orderList": [
-                    {
-                        "text": "Unggah atau buat area kustom yang diminati untuk dianalisis"
-                    },
-                    {
-                        "text": "Unduh berbagai perubahan hutan berbasis satelit dan data kontekstual lainnya (Misal: lansiran deforestasi, kawasan lindung, dan lanskap hutan utuh mendekati waktu nyata) ke perangkat seluler mana saja"
-                    },
-                    {
-                        "text": "Unggah kumpulan data Anda sendiri"
-                    },
-                    {
-                        "text": "Investigasi lansiran di lapangan dan kumpulkan informasi (termasuk titik dan foto GPS) melalui formulir yang dapat disesuaikan"
-                    },
-                    {
-                        "text": "Tinjau, analisis, dan unduh data yang dikumpulkan dengan aplikasi"
-                    }
-                ]
+                "description": {
+                    "text1": "Forest Watcher adalah aplikasi seluler yang dirancang untuk memudahkan akses luring terhadap data tentang perubahan hutan dari Global Forest Watch http://www.globalforestwatch.org/.",
+                    "text2": "Global Forest Watch (GFW) adalah sistem pemantauan dan lansiran hutan daring dinamis yang memberdayakan orang di mana pun untuk mengelola hutan dengan lebih baik. GFW menyatukan teknologi satelit, komputasi awan, dan data terbuka untuk memberikan informasi yang tepat waktu mengenai hutan kepada masyarakat di seluruh dunia.",
+                    "text3": "Forest Watcher menaruh informasi berharga dari GFW langsung ke tangan orang-orang yang memantau hutan di lapangan. Forest Watcher mengizinkan seseorang untuk melihat penggundulan hutan dan peringatan kebakaran pada perangkat seluler, navigasi ke lokasi lansiran secara luring, dan mengumpulkan informasi dan foto tentang apa yang mereka temukan.",
+                    "text4": "Aplikasi ini menyediakan solusi yang terjangkau dan mudah digunakan untuk: dengan cepat mengidentifikasi area untuk patroli hutan atau investigasi lapangan; mengumpulkan bukti tentang perubahan hutan dari permukaan; menggunakan data yang dikumpulkan untuk membuat manajemen berbasis bukti dan keputusan konservasi; dan memvalidasi produk penginderaan jarak jauh di lapangan.",
+                    "text5": "Secara spesifik, aplikasi ini memungkinkan pengguna untuk:"
+                },
+                "orderList": {
+                    "text1": "Unggah atau buat area kustom yang diminati untuk dianalisis",
+                    "text2": "Unduh berbagai perubahan hutan berbasis satelit dan data kontekstual lainnya (Misal: lansiran deforestasi, kawasan lindung, dan lanskap hutan utuh mendekati waktu nyata) ke perangkat seluler mana saja",
+                    "text3": "Unggah kumpulan data Anda sendiri",
+                    "text4": "Investigasi lansiran di lapangan dan kumpulkan informasi (termasuk titik dan foto GPS) melalui formulir yang dapat disesuaikan",
+                    "text5": "Tinjau, analisis, dan unduh data yang dikumpulkan dengan aplikasi"
+                }
             },
             "title": "Apa itu Forest Watcher?"
         },
         "fourthQuestion": {
             "content": {
-                "description": [
-                    {
-                        "text": "Ada tiga kumpulan data standar dari Global Forest Watch yang disediakan di Forest Watcher:"
-                    }
-                ],
-                "footerText": [
-                    {
-                        "text": "Untuk informasi lebih rinci tentang setiap kumpulan data, kunjungi http://data.globalforestwatch.org/."
-                    }
-                ],
-                "orderList": [
-                    {
-                        "text": "Lansiran Kebakaran Aktif VIIRS: Diproduksi oleh NASA, diperbaharui setiap hari dengan resolusi 375 meter. Ini menunjukkan lokasi dugaan kebakaran seminggu terakhir."
-                    },
-                    {
-                        "text": "Lansiran GLAD: Diproduksi oleh Laboratorium Global Land Analysis & Discovery (GLAD) Universitas Maryland, diperbaharui tiap minggu dengan resolusi 30 meter. Ini menunjukkan Anda dimana kawasan hutan mungkin telah berubah minggu demi minggu."
-                    },
-                    {
-                        "text": "Cakupan Kehilangan Pohon Tahunan: Juga diproduksi oleh lab GLAD, diperbaharui tiap tahun dengan resolusi 30 meter. Ini menunjukkan Anda tahun ke tahun di mana kawasan hutan telah berubah. Saat ini data hanya tersedia sebagai lapisan data kontekstual: Anda tidak akan dapat membuat laporan yang terkait dengan lansiran kehilangan tahunan, walaupun Anda masih dapat membuat laporan untuk lokasi tersebut dengan menekan layar di lokasi kehilangan atau penambahan hutan."
-                    }
-                ]
+                "description": {
+                    "text": "Ada tiga kumpulan data standar dari Global Forest Watch yang disediakan di Forest Watcher:"
+                },
+                "footerText": "Untuk informasi lebih rinci tentang setiap kumpulan data, kunjungi http://data.globalforestwatch.org/.",
+                "orderList": {
+                    "text1": "Lansiran Kebakaran Aktif VIIRS: Diproduksi oleh NASA, diperbaharui setiap hari dengan resolusi 375 meter. Ini menunjukkan lokasi dugaan kebakaran seminggu terakhir.",
+                    "text2": "Lansiran GLAD: Diproduksi oleh Laboratorium Global Land Analysis & Discovery (GLAD) Universitas Maryland, diperbaharui tiap minggu dengan resolusi 30 meter. Ini menunjukkan Anda dimana kawasan hutan mungkin telah berubah minggu demi minggu.",
+                    "text3": "Cakupan Kehilangan Pohon Tahunan: Juga diproduksi oleh lab GLAD, diperbaharui tiap tahun dengan resolusi 30 meter. Ini menunjukkan Anda tahun ke tahun di mana kawasan hutan telah berubah. Saat ini data hanya tersedia sebagai lapisan data kontekstual: Anda tidak akan dapat membuat laporan yang terkait dengan lansiran kehilangan tahunan, walaupun Anda masih dapat membuat laporan untuk lokasi tersebut dengan menekan layar di lokasi kehilangan atau penambahan hutan."
+                }
             },
             "title": "Kumpulan data apa saja yang tersedia dan dari mana asalnya?"
         },
         "ninethQuestion": {
             "content": {
-                "description": [
-                    {
-                        "text": "Citra yang ditampilkan di peta basis satelit diperbarui lebih jarang daripada data lansiran. Dengan demikian, Anda mungkin melihat lansiran perubahan hutan untuk area yang tampak utuh seperti hutan di peta satelit. Mengunjungi lansiran GLAD di lapangan adalah cara terbaik untuk memverifikasi perubahan di lapangan."
-                    }
-                ]
+                "description": {
+                    "text": "Citra yang ditampilkan di peta basis satelit diperbarui lebih jarang daripada data lansiran. Dengan demikian, Anda mungkin melihat lansiran perubahan hutan untuk area yang tampak utuh seperti hutan di peta satelit. Mengunjungi lansiran GLAD di lapangan adalah cara terbaik untuk memverifikasi perubahan di lapangan."
+                }
             },
             "title": "Mengapa saya melihat lansiran GLAD tapi tidak ada perubahan pada peta citra satelit?"
         },
         "secondQuestion": {
             "content": {
-                "description": [
-                    {
-                        "text": "Forest Watcher pertama kali dikembangkan oleh Jane Goodall Institute (JGI), Google, Touchlab dan Global Forest Watch. Pemantau hutan desa, penjaga hutan kawasan lindung dan masyarakat lokal yang bekerja dengan Jane Goodall Institute memerlukan akses data satelit terkini untuk pemantauan hutan; Namun, akses internet terbatas di daerah terpencil tempat mereka bekerja. Tanpa informasi ini, pemantau hutan bisa kehilangan aktivitas deforestasi yang terjadi di luar rute patroli mereka. JGI, GFW, Touchlab, Vizzualitas dan Google membuat Forest Watcher untuk mengaktifkan akses ke data GFW secara luring saat berada di lapangan."
-                    }
-                ]
+                "description": {
+                    "text": "Forest Watcher pertama kali dikembangkan oleh Jane Goodall Institute (JGI), Google, Touchlab dan Global Forest Watch. Pemantau hutan desa, penjaga hutan kawasan lindung dan masyarakat lokal yang bekerja dengan Jane Goodall Institute memerlukan akses data satelit terkini untuk pemantauan hutan; Namun, akses internet terbatas di daerah terpencil tempat mereka bekerja. Tanpa informasi ini, pemantau hutan bisa kehilangan aktivitas deforestasi yang terjadi di luar rute patroli mereka. JGI, GFW, Touchlab, Vizzualitas dan Google membuat Forest Watcher untuk mengaktifkan akses ke data GFW secara luring saat berada di lapangan."
+                }
             },
             "title": "Mengapa Anda membuat Forest Watcher?"
         },
         "seventhQuestion": {
             "content": {
-                "description": [
-                    {
-                        "text": "Forest Watcher Desktop adalah antarmuka desktop daring tambahan untuk aplikasi seluler, yang dapat digunakan untuk mengelola area minat, membuat kerangka laporan baru, mengkonfigurasi tim pengguna, dan meninjau dan mengunduh laporan yang dikirimkan melalui aplikasi. Antarmuka desktop ditujukan untuk administrator dan pengelola tim, sehingga mereka dapat menyiapkan aplikasi untuk digunakan tim mereka. Untuk informasi lebih lanjut tentang Forest Watcher Desktop, klik di sini"
-                    }
-                ]
+                "description": {
+                    "text": "Forest Watcher Desktop adalah antarmuka desktop daring tambahan untuk aplikasi seluler, yang dapat digunakan untuk mengelola area minat, membuat kerangka laporan baru, mengkonfigurasi tim pengguna, dan meninjau dan mengunduh laporan yang dikirimkan melalui aplikasi. Antarmuka desktop ditujukan untuk administrator dan pengelola tim, sehingga mereka dapat menyiapkan aplikasi untuk digunakan tim mereka. Untuk informasi lebih lanjut tentang Forest Watcher Desktop, klik di sini"
+                }
             },
             "title": "Apa itu Forest Watcher Desktop?"
         },
         "sixthQuestion": {
             "content": {
-                "description": [
-                    {
-                        "text": "Ya, Anda dapat mengunggah dan menambahkan kumpulan data Anda ke aplikasi menggunakan situs Desktop Forest Watcher. Dengan menggunakan situs Desktop, Anda akan menghubungkan layanan ubin web ke Forest Watcher melalui URL. Informasi lebih lanjut tersedia di situs Desktop."
-                    }
-                ]
+                "description": {
+                    "text": "Ya, Anda dapat mengunggah dan menambahkan kumpulan data Anda ke aplikasi menggunakan situs Desktop Forest Watcher. Dengan menggunakan situs Desktop, Anda akan menghubungkan layanan ubin web ke Forest Watcher melalui URL. Informasi lebih lanjut tersedia di situs Desktop."
+                }
             },
             "title": "Dapatkah saya menambahkan lapisan data saya sendiri ke dalam Forest Watcher?"
         },
         "tenthQuestion": {
             "content": {
-                "orderListLetters": [
-                    {
+                "orderListLetters": {
+                    "order1": {
                         "description": "Jika Anda tidak melihat lansiran pada Area Minat Anda, periksa globalforestwatch.org untuk melihat apakah ada data untuk lokasi dan jangka waktu yang Anda pilih. Jika tidak ada lansiran GLAD atau VIIRS terbaru, maka tidak ada aktivitas perubahan hutan baru-baru ini. Pertimbangkan untuk menggunakan lapisan kontekstual Peralihan Pohon Tahunan untuk menemukan lansiran lama, yang masih dapat menginformasikan investigasi atau kunjungan lapangan.",
                         "text": "Saya tidak melihat data lansiran"
                     },
-                    {
+                    "order2": {
                         "description": "Jika aplikasi bertabrakan, buka sekali lagi. Jika bertabrakan berkali-kali, kirim surel ke mailto:forestwatcher@wri.org dan sertakan informasi tentang model perangkat Anda dan apa yang Anda lakukan di aplikasi saat bertabrakan.",
                         "text": "Aplikasi bertabrakan"
                     },
-                    {
+                    "order3": {
                         "description": "Fitur lokasi dan navigasi di Forest Watcher bergantung pada GPS internal perangkat Anda. Pertama, periksa apakah GPS (sering disebut \"layanan lokasi\") diaktifkan di pengaturan perangkat seluler Anda. Jika masih tidak berhasil, kirim surel ke mailto:forestwatcher@wri.org memberi tahu kami model perangkat apa yang Anda gunakan.",
                         "text": "Saya tidak bisa melihat kompas/lokasi saya"
                     },
-                    {
+                    "order4": {
                         "description": "Beberapa perangkat yang hanya memiliki kamera depan mungkin tidak kompatibel dengan kamera dalam formulir laporan. Sebagai gantinya Anda dapat mengambil foto di aplikasi kamera Anda, dan menggunakan fungsi unggah dalam laporan di Forest Watcher untuk menambahkan foto dari perpustakaan Anda ke laporan.",
                         "text": "Saya tidak dapat mengambil foto di aplikasi"
                     },
-                    {
+                    "order5": {
                         "description": "Anda mungkin tidak dapat selalu menyelesaikan laporan tepat pada terjadinya lansiran. Anda bisa mulai menulis laporan, menyimpannya, dan kembali lagi nanti saat Anda kembali ke markas Anda. Anda juga dapat mengambil gambar hanya dengan menggunakan kamera perangkat Anda, lalu isi laporannya nanti: Anda dapat melampirkan gambar ke laporan Anda.",
                         "text": "Saya ingin melengkapi laporan nanti"
                     },
-                    {
+                    "order6": {
                         "description": "Saat pertama kali menyiapkan Forest Watcher di perangkat seluler Anda, aplikasi perlu mengunduh banyak data agar berfungsi secara luring. Anda mungkin perlu menunggu sekitar 5 menit agar semua data bisa dimuat dengan benar. Hal ini normal. Jika Anda memiliki koneksi internet yang lemah atau lambat, ini bisa membuat unduhan memakan waktu lebih lama. Jaga agar aplikasi tetap terbuka agar unduhan selesai. Setelah persiapan awal, data lansiran baru akan diunduh setiap kali Anda menghubungkan perangkat Anda ke internet - waktu pengunduhan akan bervariasi tergantung pada berapa banyak lansiran yang telah terjadi. Pembaruan ini akan berada pada skala Kilobyte, di mana unduhan awal kemungkinan akan menjadi beberapa Megabyte.",
                         "text": "Lansiran lambat dimuat"
                     },
-                    {
+                    "order7": {
                         "description": "Saat ini Anda hanya dapat melihat satu kumpulan data sekaligus untuk setiap Area Minat. Kumpulan data yang Anda cari untuk setiap Area Minat dikontrol menggunakan menu pengaturan. Jika Anda ingin melihat semua data kebakaran dan kehilangan hutan untuk tempat yang sama, Anda perlu membuat dua Area Minat untuk lokasi yang sama dan mengatur masing-masing untuk mengunduh kumpulan yang berbeda.",
                         "text": "Saya ingin melihat lansiran GLAD dan VIIRS untuk Area Minat yang sama"
                     },
-                    {
+                    "order8": {
                         "description": "Forest Watcher memiliki banyak data dan dapat menghabiskan banyak memori di perangkat Anda, tergantung pada seberapa banyak Area yang Anda minati, seberapa besar jumlahnya dan berapa banyak lansiran yang ada di setiap perangkat. Kami merekomendasikan penyimpanan internal yang dimiliki minimal 16GB di perangkat Anda, sehingga Anda dapat menggunakan aplikasi Anda yang lain dan juga Forest Watcher: Forest Watcher tidak memerlukan semua penyimpanan ini. Semakin sedikit, semakin kecil area minat yang Anda siapkan di aplikasi, semakin sedikit data yang perlu diunduh ke perangkat Anda.",
                         "text": "Saya kehabisan memori di perangkat saya"
                     },
-                    {
+                    "order9": {
                         "description": "Anda dapat menggunakan Forest Watcher Desktop untuk membuat template formulir khusus yang dapat digunakan tim Anda saat mengumpulkan data. Anda juga dapat menambahkan catatan di bagian akhir formulir jika Anda memiliki observasi yang ingin Anda buat.",
                         "text": "Saya ingin mengumpulkan data khusus"
                     }
-                ]
+                }
             },
             "title": "Apa yang harus saya lakukan jika:"
         },
         "thirdQuestion": {
             "content": {
-                "description": [
-                    {
-                        "text": "Forest Watcher menampilkan data mengenai perubahan hutan di \"Area Minat\", atau area yang Anda monitor. Anda dapat menentukan Area Minat di menu pengaturan. Jika Anda adalah anggota dari tim, Anda mungkin sudah memiliki area yang disiapkan untuk Anda, yang dapat Anda unggah ke aplikasi. Aplikasi ini kemudian akan secara otomatis mengunduh data perubahan hutan untuk area tersebut dan memperbarui lansiran penggundulan hutan dan peringatan kebakaran terbaru saat Anda terhubung ke Internet. Setelah Anda mengunduh data relevan ke perangkat seluler Anda, Anda dapat membawa aplikasi secara luring ke lapangan. Forest Watcher akan mengarahkan lansiran terdekat dengan menggunakan GPS internal telepon. Setelah sampai pada lansiran, Anda dapat mengisi laporan tentang apa yang Anda temukan dan menambahkan foto."
-                    }
-                ]
+                "description": {
+                    "text": "Forest Watcher menampilkan data mengenai perubahan hutan di \"Area Minat\", atau area yang Anda monitor. Anda dapat menentukan Area Minat di menu pengaturan. Jika Anda adalah anggota dari tim, Anda mungkin sudah memiliki area yang disiapkan untuk Anda, yang dapat Anda unggah ke aplikasi. Aplikasi ini kemudian akan secara otomatis mengunduh data perubahan hutan untuk area tersebut dan memperbarui lansiran penggundulan hutan dan peringatan kebakaran terbaru saat Anda terhubung ke Internet. Setelah Anda mengunduh data relevan ke perangkat seluler Anda, Anda dapat membawa aplikasi secara luring ke lapangan. Forest Watcher akan mengarahkan lansiran terdekat dengan menggunakan GPS internal telepon. Setelah sampai pada lansiran, Anda dapat mengisi laporan tentang apa yang Anda temukan dan menambahkan foto."
+                }
             },
             "title": "Bagaimana cara kerja Forest Watcher?"
         }
     },
     "layers": {
+        "managedForests": "Managed Forest",
+        "mining": "Pertambangan\n",
+        "oilPalm": "Oil palm",
         "protectedAreas": "Wilayah Terlindung",
         "treeCoverLoss2014": "Kehilangan Tutupan Pohon (2014)",
         "treeCoverLoss2015": "Kehilangan Tutupan Pohon (2015)",
-        "treeCoverLoss2016": "Kehilangan Tutupan Pohon (2016)",
-        "treeCoverLoss2017": "Kehilangan Tutupan Pohon (2017)"
+        "treeCoverLoss2016": "Tree Cover Loss (2016)",
+        "treeCoverLoss2017": "Tree Cover Loss (2017)",
+        "woodFiber": "Wood fiber"
     },
     "login": {
         "connectionRequired": "Anda memerlukan koneksi internet",
@@ -359,112 +313,8 @@
         "tryAgain": "Coba lagi"
     },
     "termsAndConditions": {
-        "agreeText": "Dengan menggunakan Situs, anda setuju dengan Persyaratan ini.",
-        "description": "World Resources Institute ('WRI') dan pemasoknya (bersama dengan WRI, kadang-kadang disebut 'Kami' or 'Kita') membuat situs Global Forest Watch ini dan isinya dan/atau perusahaan atau organisasi Anda (terkadang disebut sebagai 'Anda') dapat mengakses melalui yang tersedia bagi Anda berdasarkan Persyaratan Layanan Hutan Global ('Persyaratan') ini.",
-        "fifthTerm": {
-            "content": {
-                "description": "Jika Anda adalah pemilik hak cipta atau agen, dan yakin bahwa setiap konten di Situs melanggar hak cipta Anda, Anda dapat mengirimkan pemberitahuan secara tertulis ke World Resources Institute Tel: + 1 (202) 729-7600 Surel: mailto: gfw@wri.org dengan informasi berikut:",
-                "list": [
-                    {
-                        "text": "Tanda tangan Anda sebagai orang yang diberi kuasa untuk bertindak atas nama pemilik hak eksklusif yang diduga dilanggar;"
-                    },
-                    {
-                        "text": "Identifikasi lokasi terperinci di Situs dari karya berhak cipta diklaim telah dilanggar, atau, jika beberapa karya berhak cipta di Situs dicakup oleh notifikasi tunggal, daftar perwakilan karya-karya sejenis yang terdapat di Situs;"
-                    },
-                    {
-                        "text": "Alamat, nomor telepon, dan alamat surel dari pihak yang mengajukan keluhan;"
-                    },
-                    {
-                        "text": "Pernyataan bahwa pihak yang mengajukan keluhan memiliki keyakinan dengan niat baik bahwa penggunaan materi yang dikeluhkan tidak diizinkan oleh pemilik hak cipta, agennya, atau hukum; dan"
-                    },
-                    {
-                        "text": "Pernyataan bahwa informasi dalam notifikasi adalah akurat, dan di bawah hukuman sumpah palsu, pihak yang mengajukan pengaduan berwenang untuk bertindak atas nama pemilik hak eksklusif yang diduga dilanggar."
-                    }
-                ]
-            },
-            "title": "Perlindungan Hak Cipta"
-        },
-        "firstTerm": {
-            "content": {
-                "description": null,
-                "list": [
-                    {
-                        "text": "Kami memberi Anda akses ke Situs dan kontennya untuk mengelola penggunaan hutan dengan lebih baik dan mengakses informasi terbaru mengenai status hutan dunia. Penggunaan Anda atas Situs ini tidak memberi Anda hak kepemilikan apapun atas kekayaan intelektual Situs atau isinya. Anda setuju untuk menggunakan Situs ini dan isinya hanya untuk tujuan yang sah dan tidak mencemarkan nama baik, melecehkan atau mengancam siapapun atau menyediakan materi cabul, pornografi atau ofensif lainnya. Anda setuju bahwa dengan menggunakan Situs Anda tidak akan merusak atau mengganggu Situs atau penggunaan Situs oleh orang lain."
-                    },
-                    {
-                        "text": "Kecuali untuk barang yang diidentifikasi sebagai subjek pembatasan tambahan, Anda dapat menggunakan Situs dan kontennya, dan menyalin, menyesuaikan, dan mendistribusikan konten ke orang lain berdasarkan lisensi ini."
-                    },
-                    {
-                        "text": "Anda bertanggung jawab penuh atas penggunaan Situs dan semua aktivitas yang terjadi atas akun Anda. Anda setuju untuk mengganti kerugian, tidak membahayakan, dan atas permintaan kami, membela Kami dan orang terkait dari semua pertanggungjawaban yang timbul dari penggunaan Situs oleh Anda, Konten Pengguna Anda (sebagaimana didefinisikan di bawah), atau pelanggaran Anda atas Persyaratan ini. Kami dapat menangguhkan akses ke Situs jika Kami menduga Anda atau mereka yang menggunakan akun Anda melanggar Persyaratan ini."
-                    },
-                    {
-                        "text": "Anda dapat berhenti menggunakan Situs dan isinya setiap saat, dan Kami dapat menghentikan penyediaan Situs dan isinya setiap saat."
-                    },
-                    {
-                        "text": "Kami dapat mengubah Persyaratan ini dari waktu ke waktu untuk mencerminkan perubahan dalam undang-undang dan Situs. Anda harus meninjau Persyaratan ini secara teratur untuk setiap perubahan. Jika Anda tidak setuju dengan perubahan Persyaratan, Anda harus berhenti mengakses dan menggunakan Situs."
-                    }
-                ]
-            },
-            "title": "Bagaimana saya mendapatkan bantuan?"
-        },
-        "fourthTerm": {
-            "content": {
-                "description": null,
-                "list": [
-                    {
-                        "text": "ANDA SETUJU BAHWA PENGGUNAAN SITUS DAN KONTENNYA ADALAH RISIKO ANDA SENDIRI. KAMI TIDAK BERJANJI ATAU BERKOMITMEN MENGENAI SITUS ATAU KONTENNYA, DAN SITUS DAN KONTEN DISEDIAKAN SESUAI \"APA ADANYA\" TANPA JAMINAN ATAU REPRESENTASI APAPUN, BAIK TERSURAT MAUPUN TERSIRAT. SEJAUH DIIZINKAN OLEH UNDANG-UNDANG, KAMI MENYATAKAN SEMUA JAMINAN, HUKUM, TERSURAT MAUPUN TERSIRAT, TERMASUK JAMINAN TERSIRAT MENGENAI KELAYAKAN UNTUK DIPERDAGANGKAN, KESESUAIAN UNTUK TUJUAN TERTENTU, JUDUL, DAN PELANGGARAN"
-                    },
-                    {
-                        "text": "DALAM KEADAAN APA PUN TIDAK AKAN BERTANGGUNG JAWAB ATAS KERUSAKAN KHUSUS, TIDAK LANGSUNG, INSIDENTAL, KONSEKUENSIAL, ATAU SEBAGAI CONTOH (TERMASUK TANPA PEMBATASAN, HILANGNYA KEUNTUNGAN, DATA, ATAU PENGGUNAAN ATAU BIAYA PERLINDUNGAN) YANG BERHUBUNGAN DENGAN PENGGUNAAN ATAU KETIDAKMAMPUAN ANDA UNTUK MENGGUNAKAN SITUS ATAU ISINYA, BAHKAN JIKA KAMI MENGETAHUI KEMUNGKINAN KERUSAKAN TERSEBUT. DALAM HAL APAPUN KAMI TIDAK MEMILIKI KEWAJIBAN APAPUN KEPADA ANDA UNTUK SEMUA KLAIM ATAU KERUSAKAN UNTUK ALASAN APAPUN LEBIH DARI SERATUS DOLLAR ($100 USD). JURISDIKSI TERTENTU TIDAK MENGIZINKAN PENGECUALIAN ATAU PEMBATASAN TERHADAP JAMINAN ATAU PEMBATASAN TERSIRAT TENTANG KEWAJIBAN, DAN SEHINGGA BEBERAPA ATAU SEMUA PENOLAKAN, PENGECUALIAN, ATAU BATASAN TIDAK MUNGKIN BERLAKU UNTUK ANDA, DAN ANDA MUNGKIN MEMILIKI HAK TAMBAHAN."
-                    }
-                ]
-            },
-            "title": "Penafian dan Keterbatasan"
-        },
-        "secondTerm": {
-            "content": {
-                "description": "Situs ini menggabungkan data dan informasi dari orang lain, termasuk Anda. Walau kami dapat meninjau konten apa pun, dan menghapusnya jika kami yakin itu melanggar hukum, Persyaratan atau kebijakan kami, Kami tidak berkomitmen untuk meninjau semua konten, dan Anda seharusnya tidak bergantung pada Kami untuk melakukannya.",
-                "list": null
-            },
-            "title": "Persyaratan Pihak Ketiga"
-        },
-        "sixthTerm": {
-            "content": {
-                "description": "Jika Anda adalah pemilik hak cipta atau agen, dan yakin bahwa setiap konten di Situs melanggar hak cipta Anda, Anda dapat mengirimkan pemberitahuan secara tertulis ke World Resources Institute Tel: + 1 (202) 729-7600 Surel: mailto: gfw@wri.org dengan informasi berikut:",
-                "list": [
-                    {
-                        "text": "Undang-undang Negara Bagian New York, A.S., tidak termasuk ketentuan undang-undang tentang hukum New York, berlaku untuk setiap perselisihan terhadap Situs, kontennya, atau Persyaratan ini. Konvensi U.N tentang Kontrak untuk Penjualan Barang Internasional tidak berlaku. Semua klaim yang timbul dari atau terkait dengan Persyaratan ini akan diajukan secara eksklusif di pengadilan di dan untuk New York City, New York, AS, dan Anda menyetujui yurisdiksi pribadi pengadilan tersebut."
-                    },
-                    {
-                        "text": "Jika kami tidak segera menerapkan Persyaratan, Kami belum menyerahkan hak lainnya atau hak untuk menerapkannya atau Persyaratan lainnya di masa mendatang."
-                    },
-                    {
-                        "text": "Jika ketentuan tertentu dari Persyaratan ini tidak dapat diterapkan, hal itu tidak mempengaruhi penerapan ketentuan Persyaratan lainnya."
-                    },
-                    {
-                        "text": "Persyaratan ini antara Anda dan Kami, dan tidak ada orang lain yang bisa memaksakannya."
-                    },
-                    {
-                        "text": "Persyaratan ini adalah keseluruhan pernyataan kesepakatan antara Anda dan Kami mengenai Situs dan isinya."
-                    }
-                ]
-            },
-            "title": "Persyaratan Tambahan"
-        },
-        "thirdTerm": {
-            "content": {
-                "description": null,
-                "list": [
-                    {
-                        "text": "Anda dapat mengirimkan data, materi, ide dan informasi lainnya kepada Kami untuk dipos di Situs (\"Konten Pengguna\")."
-                    },
-                    {
-                        "text": "Anda mempertahankan kepemilikan atas semua Konten Pengguna Anda yang Anda kontribusikan ke Situs, namun dengan mengirimkan Konten Pengguna Anda, Anda mengizinkan Kami dan semua Pengguna Situs ini di seluruh dunia untuk menggunakan, mengadaptasi, dan membuat Konten Pengguna Anda tersedia bagi orang lain, tanpa kewajiban apapun kepada Anda, bahkan jika Anda berhenti menggunakan Situs."
-                    }
-                ]
-            },
-            "title": "Konten Anda"
-        }
+        "agreeText": "By using this app, you agree to these",
+        "linkText": "terms and conditions"
     },
     "walkthrough": {
         "skip": "lewati tutorial",
