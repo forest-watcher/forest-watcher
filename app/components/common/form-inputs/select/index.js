@@ -43,16 +43,16 @@ function SelectInput(props: Props) {
       }
     });
   }
-  const hasValues = question && question.values && question.values.length;
+  const hasValues = question && question.values && !!question.values.length;
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{question.label}</Text>
       <KeyboardAwareScrollView style={styles.containerContent}>
         {hasValues && question.values.map((item, index) => {
-          const checked = answer.value && answer.value.indexOf(item.value) >= 0;
+          const checked = !!answer.value && answer.value.indexOf(item.value) >= 0;
           const { childQuestion } = question;
           return (
-            <React.Fragment key={index}>
+            <View key={index}>
               <View style={styles.inputContainer}>
                 <CheckBtn
                   label={item.label}
@@ -68,7 +68,7 @@ function SelectInput(props: Props) {
                   onChange={onChildPress}
                 />
               }
-            </React.Fragment>
+            </View>
           );
         })}
       </KeyboardAwareScrollView>

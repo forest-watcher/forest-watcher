@@ -56,8 +56,8 @@ class InputTextDetail extends Component<Props, State> {
   render() {
     const { visible, answer, onChange, question } = this.props;
     return (
-      <View style={[detailStyles.inputContainer, this.props.visible ? '' : detailStyles.hide]}>
-        <View style={[detailStyles.marker, this.props.visible ? '' : detailStyles.hide]} >
+      <View style={[detailStyles.inputContainer, visible ? '' : detailStyles.hide]}>
+        <View style={[detailStyles.marker, visible ? '' : detailStyles.hide]} >
           <View style={[detailStyles.marker, detailStyles.markerInner]} />
         </View>
         <Animated.View
