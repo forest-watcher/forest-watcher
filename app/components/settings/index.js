@@ -39,6 +39,35 @@ type Props = {
 };
 
 class Settings extends Component<Props> {
+  constructor() {
+    super();
+    this.aboutSections = [
+      {
+        text: i18n.t('settings.aboutPartners'),
+        image: null,
+        section: 'ForestWatcher.Partners',
+        functionOnPress: this.handleStaticLinks
+      },
+      {
+        text: i18n.t('settings.aboutTerms'),
+        image: null,
+        section: 'ForestWatcher.TermsAndConditions',
+        functionOnPress: this.handleStaticLinks
+      },
+      {
+        text: i18n.t('settings.aboutFAQ'),
+        image: null,
+        section: 'ForestWatcher.FaqList',
+        functionOnPress: this.handleStaticLinks
+      },
+      {
+        text: i18n.t('settings.aboutContactUs'),
+        image: null,
+        section: 'ForestWatcher.ContactUs',
+        functionOnPress: this.handleStaticLinks
+      }
+    ];
+  }
   static navigatorStyle = {
     navBarTextColor: Theme.colors.color1,
     navBarButtonColor: Theme.colors.color1,
@@ -110,32 +139,6 @@ class Settings extends Component<Props> {
   }
 
   render() {
-    const aboutSections = [
-      {
-        text: i18n.t('settings.aboutPartners'),
-        image: null,
-        section: 'ForestWatcher.Partners',
-        functionOnPress: this.handleStaticLinks
-      },
-      {
-        text: i18n.t('settings.aboutTerms'),
-        image: null,
-        section: 'ForestWatcher.TermsAndConditions',
-        functionOnPress: this.handleStaticLinks
-      },
-      {
-        text: i18n.t('settings.aboutFAQ'),
-        image: null,
-        section: 'ForestWatcher.FaqList',
-        functionOnPress: this.handleStaticLinks
-      },
-      {
-        text: i18n.t('settings.aboutContactUs'),
-        image: null,
-        section: 'ForestWatcher.ContactUs',
-        functionOnPress: this.handleStaticLinks
-      }
-    ];
     const { version, areas, setOfflineMode, offlineMode } = this.props;
     const hasUserData = this.props.user.fullName && this.props.user.email;
 
@@ -167,7 +170,7 @@ class Settings extends Component<Props> {
                   linkStyle={Theme.link}
                   linkText={(url) => (url === 'https://www.globalforestwatch.org/my_gfw' ? 'my GFW' : url)}
                 >
-                  <Text selectable style={styles.completeProfile} numberOfLines={2}>
+                  <Text selectable style={styles.completeProfile}>
                     {`${i18n.t('settings.completeYourProfileOn')} https://www.globalforestwatch.org/my_gfw`}
                   </Text>
                 </Hyperlink>
@@ -211,7 +214,7 @@ class Settings extends Component<Props> {
             onPress={this.onPressAddArea}
           >
             <View style={styles.addButton}>
-              <Image style={Theme.icon} source={plusIcon} />
+              <Image style={[Theme.icon, styles.addButtonIcon]} source={plusIcon} />
               <Text style={styles.addButtonText}>
                 {i18n.t('settings.addArea').toUpperCase()}
               </Text>
@@ -222,7 +225,7 @@ class Settings extends Component<Props> {
             <Text style={styles.label}>
               {i18n.t('settings.aboutApp')}
             </Text>
-            <List content={aboutSections} bigSeparation={false}>{}</List>
+            <List content={this.aboutSections} bigSeparation={false}>{}</List>
             <View style={styles.footerText}>
               <Text style={[styles.label, { marginLeft: 0 }]}>
                 {i18n.t('commonText.appName')}
