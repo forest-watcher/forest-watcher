@@ -47,7 +47,7 @@ class Form extends Component<Props> {
   onChange = debounce((answer) => {
     const { setReportAnswer, reportName, updateOnly } = this.props;
     setReportAnswer(reportName, answer, updateOnly);
-  }, 300);
+  }, 300, { leading: true, trailing: true });
 
   onSubmit = () => {
     const {
