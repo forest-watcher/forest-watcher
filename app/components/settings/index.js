@@ -76,7 +76,7 @@ class Settings extends Component<Props> {
   };
 
   componentDidMount() {
-    tracker.trackScreenView('Set Up');
+    tracker.trackScreenView('Settings');
   }
 
   componentWillReceiveProps(props: Props) {

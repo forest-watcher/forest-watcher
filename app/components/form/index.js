@@ -35,7 +35,7 @@ class Form extends Component<Props> {
   };
 
   componentDidMount() {
-    tracker.trackScreenView('Reports');
+    tracker.trackScreenView('Reporting - Form Step');
   }
 
   shouldComponentUpdate(nextProps) {

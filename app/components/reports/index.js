@@ -78,7 +78,7 @@ class Reports extends PureComponent<Props> {
   }
 
   componentDidMount() {
-    tracker.trackScreenView('Reports');
+    tracker.trackScreenView('My Reports');
   }
 
   onClickNext = (reportName: string) => this.props.navigator.push({

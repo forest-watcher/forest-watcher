@@ -48,7 +48,7 @@ function getCurrentCountry(countries, iso) {
 
 class SetupCountry extends Component {
   componentDidMount() {
-    tracker.trackScreenView('Country Set Up');
+    tracker.trackScreenView('Set Up - Select Country');
   }
 
   onNextPress = () => {

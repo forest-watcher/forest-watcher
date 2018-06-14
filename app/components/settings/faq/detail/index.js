@@ -41,7 +41,7 @@ function FaqDetail(props) {
               key={key}
               style={description === '' ? styles.faqListNoPadding : styles.faqList}
             >
-              <View style={styles.faqDotList}>{}</View>
+              <View style={styles.faqDotList} />
               <Hyperlink linkDefault linkStyle={Theme.link}>
                 <Text style={styles.faqText} selectable>{text}</Text>
               </Hyperlink>
