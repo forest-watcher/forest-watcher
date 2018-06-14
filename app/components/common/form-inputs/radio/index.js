@@ -30,7 +30,8 @@ function RadioInput(props: Props) {
     }
   }
   function onChildChange(value) {
-    if (value !== answer.child.value) {
+    const { child } = answer;
+    if (child && value !== child.value) {
       onChange({
         ...answer,
         child: {

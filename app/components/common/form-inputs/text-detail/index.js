@@ -7,6 +7,7 @@ import {
   TextInput,
   Animated
 } from 'react-native';
+import debounce from 'lodash/debounce';
 
 import Theme from 'config/theme';
 
@@ -14,6 +15,7 @@ import styles from '../styles';
 import detailStyles from './styles';
 
 type State = {
+  value: string,
   inputHeight: number
 };
 
@@ -28,10 +30,21 @@ class InputTextDetail extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      inputHeight: new Animated.Value(0)
+      inputHeight: new Animated.Value(0),
+      value: props.answer.value
     };
   }
   height = 64;
+
+  onChange = (value: string) => {
+    this.setState({ value });
+    this.debouncedChange(value);
+  }
+
+  debouncedChange = debounce((value: string) => {
+    const { onChange } = this.props;
+    onChange(value);
+  }, 300)
 
   componentDidMount() {
     if (this.props.visible) {
@@ -54,7 +67,7 @@ class InputTextDetail extends Component<Props, State> {
 
 
   render() {
-    const { visible, answer, onChange, question } = this.props;
+    const { visible, question } = this.props;
     return (
       <View style={[detailStyles.inputContainer, visible ? '' : detailStyles.hide]}>
         <View style={[detailStyles.marker, visible ? '' : detailStyles.hide]} >
@@ -65,12 +78,12 @@ class InputTextDetail extends Component<Props, State> {
         >
           {visible &&
             <TextInput
-              autoFocus={!answer.value}
+              autoFocus={!this.state.value}
               autoCorrect={false}
               style={[styles.inputLabel, detailStyles.inputLabel]}
               autoCapitalize="none"
-              value={answer.value}
-              onChangeText={onChange}
+              value={this.state.value}
+              onChangeText={this.onChange}
               placeholder={question.label}
               underlineColorAndroid="transparent"
               selectionColor={Theme.colors.color1}

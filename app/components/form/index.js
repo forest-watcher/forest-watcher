@@ -2,7 +2,6 @@
 import type { Question, Answer } from 'types/reports.types';
 
 import React, { Component } from 'react';
-import debounce from 'lodash/debounce';
 import i18n from 'locales';
 import { View } from 'react-native';
 import Theme from 'config/theme';
@@ -43,10 +42,10 @@ class Form extends Component<Props> {
     return this.props.answer !== nextProps.answer;
   }
 
-  onChange = debounce((answer) => {
+  onChange = (answer) => {
     const { setReportAnswer, reportName, updateOnly } = this.props;
     setReportAnswer(reportName, answer, updateOnly);
-  }, 300, { leading: true, trailing: true });
+  };
 
   onSubmit = () => {
     const {

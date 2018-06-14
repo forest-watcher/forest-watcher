@@ -135,62 +135,64 @@ class AreaDetail extends Component<Props, State> {
 
     if (!area) return null;
     return (
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.containerContent}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        keyboardShouldPersistTaps={'always'}
-      >
-        <View>
-          <Text style={styles.title}>{i18n.t('commonText.name')}</Text>
-          {!this.state.editingName ?
-            <View style={styles.section}>
-              <Text style={styles.name}>
-                {this.state.name}
-              </Text>
-              <TouchableHighlight
-                activeOpacity={0.5}
-                underlayColor="transparent"
-                onPress={this.onEditPress}
-              >
-                <Image style={Theme.icon} source={editIcon} />
-              </TouchableHighlight>
+      <View style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.containerContent}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          keyboardShouldPersistTaps={'always'}
+        >
+          <View>
+            <Text style={styles.title}>{i18n.t('commonText.name')}</Text>
+            {!this.state.editingName ?
+              <View style={styles.section}>
+                <Text style={styles.name}>
+                  {this.state.name}
+                </Text>
+                <TouchableHighlight
+                  activeOpacity={0.5}
+                  underlayColor="transparent"
+                  onPress={this.onEditPress}
+                >
+                  <Image style={Theme.icon} source={editIcon} />
+                </TouchableHighlight>
+              </View>
+              : <View style={styles.section}>
+                <TextInput
+                  autoFocus
+                  autoCorrect={false}
+                  multiline={false}
+                  style={styles.input}
+                  autoCapitalize="none"
+                  value={this.state.name !== null ? this.state.name : this.props.area.name}
+                  onChangeText={this.onNameChange}
+                  onSubmitEditing={this.onNameSubmit}
+                  onBlur={this.onNameSubmit}
+                  underlineColorAndroid="transparent"
+                  selectionColor={Theme.colors.color1}
+                  placeholderTextColor={Theme.fontColors.light}
+                />
+              </View>
+            }
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.title}>{i18n.t('commonText.boundaries')}</Text>
+            <View style={styles.imageContainer}>
+              <FastImage style={styles.image} source={{ uri: area.image }} />
             </View>
-            : <View style={styles.section}>
-              <TextInput
-                autoFocus
-                autoCorrect={false}
-                multiline={false}
-                style={styles.input}
-                autoCapitalize="none"
-                value={this.state.name !== null ? this.state.name : this.props.area.name}
-                onChangeText={this.onNameChange}
-                onSubmitEditing={this.onNameSubmit}
-                onBlur={this.onNameSubmit}
-                underlineColorAndroid="transparent"
-                selectionColor={Theme.colors.color1}
-                placeholderTextColor={Theme.fontColors.light}
-              />
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.title}>{i18n.t('alerts.alertSystems')}</Text>
+            <AlertSystem areaId={area.id} />
+          </View>
+          {!disableDelete &&
+            <View style={styles.buttonContainer}>
+              <ActionButton onPress={this.handleDeleteArea} delete text={i18n.t('areaDetail.delete')} />
             </View>
           }
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.title}>{i18n.t('commonText.boundaries')}</Text>
-          <View style={styles.imageContainer}>
-            <FastImage style={styles.image} source={{ uri: area.image }} />
-          </View>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.title}>{i18n.t('alerts.alertSystems')}</Text>
-          <AlertSystem areaId={area.id} />
-        </View>
-        {!disableDelete &&
-          <View style={styles.buttonContainer}>
-            <ActionButton onPress={this.handleDeleteArea} delete text={i18n.t('areaDetail.delete')} />
-          </View>
-        }
-      </ScrollView>
+        </ScrollView>
+      </View>
     );
   }
 }
