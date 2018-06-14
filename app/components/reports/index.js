@@ -29,8 +29,7 @@ type Props = {
     uploaded: Array<ReportItem>,
     complete: Array<ReportItem>
   },
-  getLastStep: string => number,
-  finish: () => void
+  getLastStep: string => number
 };
 
 class Reports extends PureComponent<Props> {
@@ -86,7 +85,7 @@ class Reports extends PureComponent<Props> {
     title: i18n.t('report.review'),
     screen: 'ForestWatcher.Answers',
     passProps: {
-      form: reportName,
+      reportName,
       readOnly: true
     }
   });
@@ -95,10 +94,9 @@ class Reports extends PureComponent<Props> {
     title: i18n.t('report.review'),
     screen: 'ForestWatcher.Answers',
     passProps: {
-      form: reportName,
+      reportName,
       readOnly: true,
-      showUploadButton: true,
-      finish: this.props.finish
+      showUploadButton: true
     }
   });
 
@@ -122,7 +120,7 @@ class Reports extends PureComponent<Props> {
           passProps: {
             screen,
             title,
-            form: reportName,
+            reportName,
             step: lastStep
           }
         });
@@ -130,10 +128,7 @@ class Reports extends PureComponent<Props> {
         this.props.navigator.push({
           title: i18n.t('report.review'),
           screen: 'ForestWatcher.Answers',
-          passProps: {
-            form: reportName,
-            finish: this.props.finish
-          }
+          passProps: { reportName }
         });
       }
     };
@@ -145,34 +140,37 @@ class Reports extends PureComponent<Props> {
     const { complete, draft, uploaded } = this.props.reports;
     const hasReports = !!complete.length || !!draft.length || !!uploaded.length;
     return (
-      <ScrollView
-        style={styles.container}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      >
-        {hasReports
-          ? (
-            <View style={styles.container}>
-              {draft && draft.length > 0 &&
-                this.getDrafts(draft)
-              }
-              {complete && complete.length > 0 &&
-                this.getCompleted(complete)
-              }
-              {uploaded && uploaded.length > 0 &&
-                this.getUploaded(uploaded)
-              }
-            </View>
-          )
-          : (
-            <View style={styles.containerEmpty}>
-              <Text style={styles.emptyTitle}>
-                {i18n.t('report.empty')}
-              </Text>
-            </View>
-          )
-        }
-      </ScrollView>
+      /* View necessary to fix the swipe back on wix navigation */
+      <View style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        >
+          {hasReports
+            ? (
+              <View style={styles.container}>
+                {draft && draft.length > 0 &&
+                  this.getDrafts(draft)
+                }
+                {complete && complete.length > 0 &&
+                  this.getCompleted(complete)
+                }
+                {uploaded && uploaded.length > 0 &&
+                  this.getUploaded(uploaded)
+                }
+              </View>
+            )
+            : (
+              <View style={styles.containerEmpty}>
+                <Text style={styles.emptyTitle}>
+                  {i18n.t('report.empty')}
+                </Text>
+              </View>
+            )
+          }
+        </ScrollView>
+      </View>
     );
   }
 }

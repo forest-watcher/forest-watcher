@@ -36,7 +36,9 @@ const app = () => {
     let title = '';
     if (state.user.loggedIn && state.app.synced) {
       screen = 'ForestWatcher.Dashboard';
-      navigatorStyle = {};
+      navigatorStyle = {
+        screenBackgroundColor: Theme.background.main
+      };
       title = 'Forest Watcher';
     }
     Navigation.startSingleScreenApp({
