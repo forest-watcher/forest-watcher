@@ -38,7 +38,6 @@ class Home extends Component<Props> {
 
   componentDidMount() {
     this.handleStatus();
-    tracker.trackScreenView('Home');
   }
 
   // Override shouldComponentUpdate because setLanguage passed as prop always changes

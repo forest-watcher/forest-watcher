@@ -7,9 +7,14 @@ import {
   Text,
   TextInput
 } from 'react-native';
+import debounce from 'lodash/debounce';
 
 import Theme from 'config/theme';
 import styles from '../styles';
+
+type State = {
+  value: string
+}
 
 type Props = {
   question: Question,
@@ -17,14 +22,23 @@ type Props = {
   onChange: (string) => void,
 };
 
-class InputTextCustom extends React.PureComponent<Props> {
-  onChange = (value) => {
-    const { answer, onChange } = this.props;
-    onChange({ ...answer, value });
+class InputTextCustom extends React.PureComponent<Props, State> {
+  state = {
+    value: this.props.answer.value || ''
   }
 
+  onChange = (value: string) => {
+    this.setState({ value });
+    this.debouncedChange(value);
+  }
+
+  debouncedChange = debounce((value: string) => {
+    const { answer, onChange } = this.props;
+    onChange({ ...answer, value });
+  }, 300)
+
   render() {
-    const { answer, question } = this.props;
+    const { question } = this.props;
     return (
       <View style={styles.container}>
         <Text style={styles.label}>{question.label}</Text>
@@ -34,7 +48,7 @@ class InputTextCustom extends React.PureComponent<Props> {
             autoCorrect={false}
             style={styles.input}
             autoCapitalize="none"
-            value={answer.value}
+            value={this.state.value}
             onChangeText={this.onChange}
             placeholder={question.defaultValue}
             underlineColorAndroid="transparent"

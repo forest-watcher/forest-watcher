@@ -15,7 +15,7 @@ export default StyleSheet.create({
     paddingBottom: 30
   },
   partner: {
-    padding: 30,
+    padding: 24,
     paddingTop: 0,
     paddingBottom: 10,
     flexDirection: 'column',

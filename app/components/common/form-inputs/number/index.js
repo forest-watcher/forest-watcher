@@ -7,6 +7,7 @@ import {
   Text,
   TextInput
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import Theme from 'config/theme';
 import styles from '../styles';
@@ -28,7 +29,7 @@ function InputNumber(props: Props) {
   }
 
   return (
-    <View style={styles.container}>
+    <KeyboardAwareScrollView style={styles.container}>
       <Text style={styles.label}>{props.question.label}</Text>
       <View style={styles.inputContainer}>
         <TextInput
@@ -45,7 +46,7 @@ function InputNumber(props: Props) {
           placeholderTextColor={Theme.fontColors.light}
         />
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 }
 

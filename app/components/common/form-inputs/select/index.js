@@ -4,10 +4,10 @@ import type { Question, Answer } from 'types/reports.types';
 import React from 'react';
 import {
   View,
-  ScrollView,
   Text
 } from 'react-native';
 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import CheckBtn from 'components/common/form-inputs/check-btn';
 import TextInput from '../text-detail';
 import styles from '../styles';
@@ -43,20 +43,16 @@ function SelectInput(props: Props) {
       }
     });
   }
-  const hasValues = question && question.values && question.values.length;
+  const hasValues = question && question.values && !!question.values.length;
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{question.label}</Text>
-      <ScrollView
-        style={styles.containerContent}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      >
+      <KeyboardAwareScrollView style={styles.containerContent}>
         {hasValues && question.values.map((item, index) => {
-          const checked = answer.value && answer.value.indexOf(item.value) >= 0;
+          const checked = !!answer.value && answer.value.indexOf(item.value) >= 0;
           const { childQuestion } = question;
           return (
-            <React.Fragment key={index}>
+            <View key={index}>
               <View style={styles.inputContainer}>
                 <CheckBtn
                   label={item.label}
@@ -72,10 +68,10 @@ function SelectInput(props: Props) {
                   onChange={onChildPress}
                 />
               }
-            </React.Fragment>
+            </View>
           );
         })}
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </View>
   );
 }

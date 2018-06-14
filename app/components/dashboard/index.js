@@ -78,7 +78,7 @@ class Dashboard extends PureComponent<Props> {
     if (Platform.OS === 'ios') {
       Location.requestAlwaysAuthorization();
     }
-    tracker.trackScreenView('Dashboard');
+    tracker.trackScreenView('Home - Dashboard');
     this.checkNeedsUpdate();
     if (this.props.refreshing && !this.props.appSyncing) {
       this.props.setAreasRefreshing(false);

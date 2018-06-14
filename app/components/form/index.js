@@ -2,8 +2,6 @@
 import type { Question, Answer } from 'types/reports.types';
 
 import React, { Component } from 'react';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import debounce from 'lodash/debounce';
 import i18n from 'locales';
 import { View } from 'react-native';
 import Theme from 'config/theme';
@@ -37,17 +35,17 @@ class Form extends Component<Props> {
   };
 
   componentDidMount() {
-    tracker.trackScreenView('Reports');
+    tracker.trackScreenView('Reporting - Form Step');
   }
 
   shouldComponentUpdate(nextProps) {
     return this.props.answer !== nextProps.answer;
   }
 
-  onChange = debounce((answer) => {
+  onChange = (answer) => {
     const { setReportAnswer, reportName, updateOnly } = this.props;
     setReportAnswer(reportName, answer, updateOnly);
-  }, 300);
+  };
 
   onSubmit = () => {
     const {
@@ -111,21 +109,17 @@ class Form extends Component<Props> {
   render() {
     const { question, answer, questionAnswered, text } = this.props;
     return (
-      <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-        <View style={styles.container}>
-          <View style={styles.container}>
-            <View style={styles.backgroundHack} />
-            {question && (
-              <FormField
-                question={question}
-                answer={answer}
-                onChange={this.onChange}
-              />
-            )}
-          </View>
-          {this.getNext(question, questionAnswered, text)}
-        </View>
-      </KeyboardAwareScrollView>
+      <View style={styles.container}>
+        <View style={styles.backgroundHack} />
+        {question && (
+          <FormField
+            question={question}
+            answer={answer}
+            onChange={this.onChange}
+          />
+        )}
+        {this.getNext(question, questionAnswered, text)}
+      </View>
     );
   }
 }

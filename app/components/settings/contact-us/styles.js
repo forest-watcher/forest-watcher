@@ -2,11 +2,6 @@ import Theme from 'config/theme';
 import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Theme.background.main,
-    paddingTop: 10
-  },
   containerContent: {
     paddingBottom: 20
   },
@@ -14,9 +9,11 @@ export default StyleSheet.create({
     paddingTop: 0,
     paddingBottom: 30
   },
-  contactUs: {
-    padding: 30,
-    paddingTop: 0,
+  container: {
+    flex: 1,
+    backgroundColor: Theme.background.main,
+    padding: 24,
+    paddingTop: 10,
     paddingBottom: 10,
     flexDirection: 'column',
     justifyContent: 'space-between'

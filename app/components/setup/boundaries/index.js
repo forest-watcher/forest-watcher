@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 
 import DrawAreas from 'components/setup/draw-areas';
-import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 type Props = {
@@ -21,10 +20,6 @@ type Props = {
 };
 
 class SetupBoundaries extends Component<Props> {
-
-  componentDidMount() {
-    tracker.trackScreenView('Boundaries');
-  }
 
   onDrawAreaFinish = (area: CountryArea, snapshot: string) => {
     this.props.setSetupArea({ area, snapshot });

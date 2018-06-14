@@ -12,7 +12,6 @@ import SetupCountry from 'containers/setup/country';
 import SetupBoundaries from 'containers/setup/boundaries';
 import SetupOverView from 'containers/setup/overview';
 import i18n from 'locales';
-import tracker from 'helpers/googleAnalytics';
 import Header from './header';
 import styles from './styles';
 
@@ -41,8 +40,6 @@ class Setup extends Component<Props, State> {
   };
 
   componentDidMount() {
-    tracker.trackScreenView('Set Up');
-
     if (this.props.closeModal) {
       Timer.setTimeout(this, 'clearModal', Navigation.dismissAllModals, 1800);
     }
