@@ -16,6 +16,9 @@ import { MAPS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
+import toUpper from 'lodash/toUpper';
+import kebabCase from 'lodash/kebabCase';
+import deburr from 'lodash/deburr';
 import moment from 'moment';
 
 import MapView from 'react-native-maps';
@@ -371,7 +374,8 @@ class MapComponent extends Component {
     }
     const userLatLng = this.state.lastPosition && `${this.state.lastPosition.latitude},${this.state.lastPosition.longitude}`;
     const reportedDataset = area.dataset ? `-${area.dataset.name}` : '';
-    const reportName = `${area.name.toUpperCase()}${reportedDataset}-REPORT--${moment().format('YYYY-MM-DDTHH:mm:ss')}`;
+    const areaName = toUpper(kebabCase(deburr(area.name)));
+    const reportName = `${areaName}${reportedDataset}-REPORT--${moment().format('YYYY-MM-DDTHH:mm:ss')}`;
     this.props.createReport({
       area,
       reportName,
