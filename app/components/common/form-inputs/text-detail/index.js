@@ -54,6 +54,7 @@ class InputTextDetail extends Component<Props, State> {
 
 
   render() {
+    const { visible, answer, onChange, question } = this.props;
     return (
       <View style={[detailStyles.inputContainer, this.props.visible ? '' : detailStyles.hide]}>
         <View style={[detailStyles.marker, this.props.visible ? '' : detailStyles.hide]} >
@@ -62,15 +63,15 @@ class InputTextDetail extends Component<Props, State> {
         <Animated.View
           style={{ height: this.state.inputHeight }}
         >
-          {this.props.visible &&
+          {visible &&
             <TextInput
-              autoFocus={false}
+              autoFocus={!answer.value}
               autoCorrect={false}
               style={[styles.inputLabel, detailStyles.inputLabel]}
               autoCapitalize="none"
-              value={this.props.answer.value}
-              onChangeText={this.props.onChange}
-              placeholder={this.props.question.label}
+              value={answer.value}
+              onChangeText={onChange}
+              placeholder={question.label}
               underlineColorAndroid="transparent"
               selectionColor={Theme.colors.color1}
               placeholderTextColor={Theme.fontColors.light}

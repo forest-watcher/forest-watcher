@@ -4,9 +4,9 @@ import type { Question, Answer } from 'types/reports.types';
 import React from 'react';
 import {
   View,
-  ScrollView,
   Text
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import CheckBtn from 'components/common/form-inputs/check-btn';
 import TextInput from '../text-detail';
@@ -46,11 +46,7 @@ function RadioInput(props: Props) {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{question.label}</Text>
-      <ScrollView
-        style={styles.containerContent}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      >
+      <KeyboardAwareScrollView style={styles.containerContent}>
         {hasValues && question.values.map((item, index) => (
           <React.Fragment key={index}>
             <View style={styles.inputContainer} key="container">
@@ -70,7 +66,7 @@ function RadioInput(props: Props) {
             }
           </React.Fragment>
         ))}
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </View>
   );
 }

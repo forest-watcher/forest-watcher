@@ -2,7 +2,6 @@
 import type { Question, Answer } from 'types/reports.types';
 
 import React, { Component } from 'react';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import debounce from 'lodash/debounce';
 import i18n from 'locales';
 import { View } from 'react-native';
@@ -111,21 +110,17 @@ class Form extends Component<Props> {
   render() {
     const { question, answer, questionAnswered, text } = this.props;
     return (
-      <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-        <View style={styles.container}>
-          <View style={styles.container}>
-            <View style={styles.backgroundHack} />
-            {question && (
-              <FormField
-                question={question}
-                answer={answer}
-                onChange={this.onChange}
-              />
-            )}
-          </View>
-          {this.getNext(question, questionAnswered, text)}
-        </View>
-      </KeyboardAwareScrollView>
+      <View style={styles.container}>
+        <View style={styles.backgroundHack} />
+        {question && (
+          <FormField
+            question={question}
+            answer={answer}
+            onChange={this.onChange}
+          />
+        )}
+        {this.getNext(question, questionAnswered, text)}
+      </View>
     );
   }
 }
