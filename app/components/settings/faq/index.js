@@ -122,7 +122,7 @@ class FaqList extends Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.containerContent}

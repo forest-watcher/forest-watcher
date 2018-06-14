@@ -19,23 +19,9 @@ const gfwLogo = require('assets/gfw_logo.png');
 const vizzualityLogo = require('assets/vizzuality_logo.png');
 
 class Partners extends Component {
-  static navigatorStyle = {
-    navBarTextColor: Theme.colors.color1,
-    navBarButtonColor: Theme.colors.color1,
-    topBarElevationShadowEnabled: false,
-    navBarBackgroundColor: Theme.background.main
-  };
-
-  componentDidMount() {
-    tracker.trackScreenView('Partners');
-  }
-
-  handleLink = (url) => {
-    Linking.openURL(url);
-  }
-
-  render() {
-    const partners = [
+  constructor() {
+    super();
+    this.partners = [
       {
         description: 'Global Forest Watch',
         image: gfwLogo,
@@ -61,6 +47,24 @@ class Partners extends Component {
         functionOnPress: this.handleLink
       }
     ];
+  }
+
+  static navigatorStyle = {
+    navBarTextColor: Theme.colors.color1,
+    navBarButtonColor: Theme.colors.color1,
+    topBarElevationShadowEnabled: false,
+    navBarBackgroundColor: Theme.background.main
+  };
+
+  componentDidMount() {
+    tracker.trackScreenView('Partners');
+  }
+
+  handleLink = (url) => {
+    Linking.openURL(url);
+  }
+
+  render() {
     return (
       <ScrollView
         style={styles.container}
@@ -77,7 +81,7 @@ class Partners extends Component {
             {i18n.t('partners.listOfPartners')}
           </Text>
         </View>
-        <List content={partners} bigSeparation={false}>{}</List>
+        <List content={this.partners} bigSeparation={false}>{}</List>
       </ScrollView>
     );
   }
