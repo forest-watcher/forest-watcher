@@ -10,6 +10,11 @@ import styles from './styles';
 
 const Dropdown = (props) => {
   const { label, selectedValue, options, onValueChange } = props;
+  const onValueChangeHandler = (value) => {
+    if (value !== selectedValue) {
+      onValueChange(value);
+    }
+  };
   return (
     <View style={styles.section}>
       <Text style={styles.containerLabel}>
@@ -19,7 +24,7 @@ const Dropdown = (props) => {
         <View style={styles.pickerContainer}>
           <Picker
             selectedValue={selectedValue}
-            onValueChange={onValueChange}
+            onValueChange={onValueChangeHandler}
             itemStyle={{ height: 72 }} // Only for iOS platform
             mode="dropdown" // Only for Android
           >

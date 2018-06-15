@@ -12,10 +12,13 @@ import {
   Platform
 } from 'react-native';
 
-import { MAPS } from 'config/constants';
+import { MAPS, REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
+import toUpper from 'lodash/toUpper';
+import kebabCase from 'lodash/kebabCase';
+import deburr from 'lodash/deburr';
 import moment from 'moment';
 
 import MapView from 'react-native-maps';
@@ -370,24 +373,19 @@ class MapComponent extends Component {
       }));
     }
     const userLatLng = this.state.lastPosition && `${this.state.lastPosition.latitude},${this.state.lastPosition.longitude}`;
-    const screen = 'ForestWatcher.NewReport';
-    const title = i18n.t('report.title');
     const reportedDataset = area.dataset ? `-${area.dataset.name}` : '';
-    const form = `${area.name.toUpperCase()}${reportedDataset}-REPORT--${moment().format('YYYY-MM-DDTHH:mm:ss')}`;
+    const areaName = toUpper(kebabCase(deburr(area.name)));
+    const reportName = `${areaName}${reportedDataset}-REPORT--${moment().format('YYYY-MM-DDTHH:mm:ss')}`;
     this.props.createReport({
       area,
-      name: form,
-      userPosition: userLatLng || '0,0',
+      reportName,
+      userPosition: userLatLng || REPORTS.noGpsPosition,
       clickedPosition: JSON.stringify(latLng)
     });
     this.props.navigator.push({
-      screen,
-      title,
-      passProps: {
-        screen,
-        title,
-        form
-      }
+      screen: 'ForestWatcher.NewReport',
+      title: i18n.t('report.title'),
+      passProps: { reportName }
     });
   }
 

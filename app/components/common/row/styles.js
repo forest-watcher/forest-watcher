@@ -12,5 +12,8 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  title: {
+    maxWidth: '80%'
   }
 });

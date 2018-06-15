@@ -26,13 +26,17 @@ export async function checkPrevCrashes() {
   const didCrash = await Crashes.hasCrashedInLastSession();
   if (didCrash) {
     const crashReport = await Crashes.lastSessionCrashReport();
-    Navigation.showLightBox({
-      screen: 'ForestWatcher.ErrorLightbox',
-      passProps: { error: crashReport, onPressOK: Navigation.dismissLightBox },
-      style: {
-        backgroundBlur: 'none',
-        tapBackgroundToDismiss: true
-      }
-    });
+    if (__DEV__) {
+      console.warn(crashReport);
+    } else {
+      Navigation.showLightBox({
+        screen: 'ForestWatcher.ErrorLightbox',
+        passProps: { error: crashReport, onPressOK: Navigation.dismissLightBox },
+        style: {
+          backgroundBlur: 'none',
+          tapBackgroundToDismiss: true
+        }
+      });
+    }
   }
 }

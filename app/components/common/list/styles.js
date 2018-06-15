@@ -32,7 +32,8 @@ export default StyleSheet.create({
     flex: 1,
     fontSize: 17,
     color: Theme.fontColors.secondary,
-    marginLeft: Theme.margin.left
+    marginLeft: Theme.margin.left,
+    marginRight: 16
   },
 
   imageList: {

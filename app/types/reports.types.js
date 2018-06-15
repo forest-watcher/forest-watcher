@@ -8,11 +8,19 @@ export type Question = {
   name: string,
   Id: string,
   conditions: Array<any>,
-  childQuestions: Array<any>,
+  childQuestions: Array<Question>,
+  childQuestion: Question,
+  defaultValue: string,
   values?: Array<any>,
   order: number,
   required: boolean,
   label: { [string]: string },
+}
+
+export type Answer = {
+  questionName: string,
+  value: any,
+  child?: ?Answer
 }
 
 export type Template = {
@@ -30,6 +38,17 @@ export type Template = {
   id: string
 }
 
+export type Report = {
+  name: string,
+  area: Area,
+  userPosition: string,
+  clickedPosition: string,
+  index: number,
+  status: 'draft' | 'complete' | 'uploaded',
+  date: string,
+  answers: Array<Answer>
+};
+
 export type ReportsState = {
   templates: {
     [string]: Template
@@ -41,15 +60,6 @@ export type ReportsState = {
   syncing: boolean
 }
 
-export type Report = {
-  area: Area,
-  userPosition: string,
-  clickedPosition: string,
-  index: number,
-  status: 'draft' | 'complete' | 'uploaded',
-  date: string
-};
-
 export type GetDefaultTemplateRequest = { type: 'report/GET_DEFAULT_TEMPLATE_REQUEST' };
 export type GetDefaultTemplateCommit = { type: 'report/GET_DEFAULT_TEMPLATE_COMMIT', payload: Template };
 export type GetDefaultTemplateRollback = { type: 'report/GET_DEFAULT_TEMPLATE_ROLLBACK' };
@@ -60,7 +70,9 @@ export type CreateReport = {
     [string]: Report
   };
 };
+export type DeleteReport = { type: 'report/DELETE_REPORT', payload: { reportName: string } };
 export type UpdateReport = { type: 'report/UPDATE_REPORT', payload: { name: string, data: Report } };
+export type SetReportAnswer = { type: 'report/SET_REPORT_ANSWER', payload: { reportName: string, answer: Answer, updateOnly?: boolean } };
 
 export type UploadReportRequest = {
   type: 'report/UPLOAD_REPORT_REQUEST',
@@ -97,8 +109,10 @@ export type ReportsAction =
   | GetDefaultTemplateCommit
   | GetDefaultTemplateRollback
   | CreateReport
+  | DeleteReport
   | UpdateReport
   | UploadReportRequest
   | UploadReportCommit
   | UploadReportRollback
+  | SetReportAnswer
   | LogoutRequest;

@@ -1,5 +1,7 @@
+// @flow
+import type { Question, Answer } from 'types/reports.types';
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
   Text
@@ -10,9 +12,20 @@ import i18n from 'locales';
 import styles from '../styles';
 import dateStyles from './styles';
 
-function DateInput(props) {
-  function handlePress(date) {
-    props.input.onChange(date);
+type Props = {
+  question: Question,
+  answer: Answer,
+  onChange: (Answer) => void,
+};
+
+function DateInput(props: Props) {
+  function handleChange(value) {
+    if (value !== props.answer.value) {
+      props.onChange({
+        ...props.answer,
+        value
+      });
+    }
   }
 
   return (
@@ -22,13 +35,13 @@ function DateInput(props) {
         <DatePicker
           style={dateStyles.datePicker}
           showIcon={false}
-          date={props.input.value}
+          date={props.answer.value}
           mode="datetime"
           format="MMMM Do YYYY, h:mm"
           placeholder={i18n.t('report.datePlaceholder')}
           cancelBtnText={i18n.t('commonText.cancel')}
           confirmBtnText={i18n.t('commonText.confirm')}
-          onDateChange={handlePress}
+          onDateChange={handleChange}
           customStyles={{
             dateInput: dateStyles.dateInput,
             dateText: dateStyles.dateText
@@ -38,19 +51,5 @@ function DateInput(props) {
     </View>
   );
 }
-
-DateInput.propTypes = {
-  question: PropTypes.shape({
-    label: PropTypes.string,
-    defaultValue: PropTypes.string,
-    values: PropTypes.array
-  }).isRequired,
-  input: PropTypes.shape({
-    onBlur: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired,
-    onFocus: PropTypes.func.isRequired,
-    value: PropTypes.any.isRequired
-  }).isRequired
-};
 
 export default DateInput;

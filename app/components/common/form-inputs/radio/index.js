@@ -1,11 +1,11 @@
+// @flow
+import type { Question, Answer } from 'types/reports.types';
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
-  ScrollView,
   Text
 } from 'react-native';
-import { Field } from 'redux-form';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import CheckBtn from 'components/common/form-inputs/check-btn';
@@ -13,71 +13,63 @@ import TextInput from '../text-detail';
 
 import styles from '../styles';
 
-function RadioInput(props) {
+type Props = {
+  question: Question,
+  answer: Answer,
+  onChange: (Answer) => void,
+};
+
+function RadioInput(props: Props) {
+  const { onChange, question, answer } = props;
   function handlePress(value) {
-    if (value !== props.input.value) {
-      props.input.onChange(value);
+    if (value !== answer.value) {
+      onChange({
+        ...answer,
+        value
+      });
     }
   }
-  const { childQuestions } = props.question;
+  function onChildChange(value) {
+    const { child } = answer;
+    if (child && value !== child.value) {
+      onChange({
+        ...answer,
+        child: {
+          ...answer.child,
+          value
+        }
+      });
+    }
+  }
+
+  const { childQuestion } = question;
+  const hasValues = question && question.values && question.values.length;
   return (
-    <KeyboardAwareScrollView>
-      <View style={styles.container}>
-        <Text style={styles.label}>{props.question.label}</Text>
-        <ScrollView
-          style={styles.containerContent}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-        >
-          {props.question.values.map((item, index) => {
-            let conditionalField = null;
-            if (childQuestions && childQuestions.length && childQuestions[0].conditionalValue === item.value) {
-              const visible = props.input.value === item.value;
-              conditionalField = (
-                <Field
-                  key="field"
-                  visible={visible}
-                  name={childQuestions[0].name}
-                  component={TextInput}
-                  question={childQuestions[0]}
-                />
-              );
+    <View style={styles.container}>
+      <Text style={styles.label}>{question.label}</Text>
+      <KeyboardAwareScrollView style={styles.containerContent}>
+        {hasValues && question.values.map((item, index) => (
+          <React.Fragment key={index}>
+            <View style={styles.inputContainer} key="container">
+              <CheckBtn
+                label={item.label}
+                checked={answer.value === item.value}
+                onPress={() => handlePress(item.value)}
+              />
+            </View>
+            {childQuestion && childQuestion.conditionalValue === item.value &&
+              <TextInput
+                visible={answer.value === item.value}
+                question={childQuestion}
+                onChange={onChildChange}
+                answer={answer.child || {}}
+              />
             }
-            return [
-              <View style={styles.inputContainer} key="container">
-                <CheckBtn
-                  key={index}
-                  label={item.label}
-                  checked={props.input.value === item.value}
-                  onPress={() => handlePress(item.value)}
-                />
-              </View>,
-              conditionalField
-            ];
-          })}
-        </ScrollView>
-      </View>
-    </KeyboardAwareScrollView>
+          </React.Fragment>
+        ))}
+      </KeyboardAwareScrollView>
+    </View>
   );
 }
-
-RadioInput.propTypes = {
-  question: PropTypes.shape({
-    label: PropTypes.string,
-    defaultValue: PropTypes.number,
-    values: PropTypes.arrayOf(
-      PropTypes.shape({
-        value: PropTypes.number.isRequired,
-        label: PropTypes.string.isRequired
-      })
-    )
-  }).isRequired,
-  input: PropTypes.shape({
-    onBlur: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired,
-    onFocus: PropTypes.func.isRequired,
-    value: PropTypes.any.isRequired
-  }).isRequired
-};
 
 export default RadioInput;

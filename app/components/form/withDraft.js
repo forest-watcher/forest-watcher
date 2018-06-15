@@ -1,3 +1,4 @@
+// @flow
 import PropTypes from 'prop-types';
 import {
   Alert
@@ -12,14 +13,21 @@ function getDisplayName(WrappedComponent) {
   return WrappedComponent.displayName || WrappedComponent.name || 'Component';
 }
 
-function withDraft(WrappedComponent) {
+type Props = {
+  disableDraft: boolean,
+  navigator: any,
+  reportName: string,
+  saveReport: string => void
+};
+
+function withDraft(WrappedComponent: any) {
   return class withDraftHOC extends WrappedComponent {
     static displayName = `HOC(${getDisplayName(WrappedComponent)})`;
     static navigatorStyle = WrappedComponent.navigatorStyle;
     static navigatorButtons = WrappedComponent.navigatorButtons;
     static propTypes = { saveReport: PropTypes.func };
 
-    constructor(props) {
+    constructor(props: Props) {
       super(props);
       if (!this.props.disableDraft) {
         const navButtons = WrappedComponent.navigatorButtons || {};
@@ -37,7 +45,7 @@ function withDraft(WrappedComponent) {
     }
 
     onPressDraft = () => {
-      const { form } = this.props;
+      const { reportName, saveReport, navigator } = this.props;
       Alert.alert(
         i18n.t('report.saveLaterTitle'),
         i18n.t('report.saveLaterDescription'),
@@ -49,12 +57,17 @@ function withDraft(WrappedComponent) {
           {
             text: 'OK',
             onPress: () => {
-              if (this.props.saveReport) {
-                this.props.saveReport(form, {
+              if (saveReport) {
+                saveReport(reportName, {
                   status: CONSTANTS.status.draft
                 });
               }
-              this.props.navigator.popToRoot({ animate: true });
+              navigator.popToRoot({ animated: false });
+              navigator.push({
+                animated: false,
+                screen: 'ForestWatcher.Reports',
+                title: i18n.t('dashboard.myReports')
+              });
             }
           }
         ],
@@ -62,7 +75,7 @@ function withDraft(WrappedComponent) {
       );
     };
 
-    onNavigatorEvent = (event) => {
+    onNavigatorEvent = (event: { type: string, id: string }) => {
       if (super.onNavigatorEvent) super.onNavigatorEvent(event);
       if (event.type === 'NavBarButtonPress') {
         if (event.id === 'draft') this.onPressDraft();

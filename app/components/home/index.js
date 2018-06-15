@@ -14,7 +14,6 @@ type Props = {
   loggedIn: boolean,
   token: string,
   isAppSynced: boolean,
-  setLanguage: () => void,
   navigator: Object,
   hasAreas: boolean,
   actionsPending: number,
@@ -38,24 +37,10 @@ class Home extends Component<Props> {
 
   componentDidMount() {
     this.handleStatus();
-    tracker.trackScreenView('Home');
-  }
-
-  // Override shouldComponentUpdate because setLanguage passed as prop always changes
-  shouldComponentUpdate(nextProps: Props) {
-    const conditions = [
-      this.props.loggedIn !== nextProps.loggedIn,
-      this.props.isAppSynced !== nextProps.isAppSynced,
-      this.props.hasAreas !== nextProps.hasAreas,
-      this.props.token !== nextProps.token,
-      this.props.actionsPending !== nextProps.actionsPending
-    ];
-    return conditions.includes(true);
   }
 
   componentDidUpdate() {
     this.handleStatus();
-    this.props.setLanguage();
   }
 
   handleStatus() {

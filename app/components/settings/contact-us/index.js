@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Hyperlink from 'react-native-hyperlink';
 import {
   View,
-  ScrollView,
   Text
 } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
@@ -25,23 +24,16 @@ class ContactUs extends Component {
 
   render() {
     return (
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.containerContent}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      >
-        <View style={styles.contactUs}>
-          <Hyperlink
-            linkStyle={Theme.link}
-            linkText={(url) => (url === 'mailto:forestwatcher@wri.org' ? 'forestwatcher@wri.org' : url)}
-          >
-            <Text style={styles.contactUsText} selectable>
-              {i18n.t('contactUs.description')}
-            </Text>
-          </Hyperlink>
-        </View>
-      </ScrollView>
+      <View style={styles.container} >
+        <Hyperlink
+          linkStyle={Theme.link}
+          linkText={(url) => (url === 'mailto:forestwatcher@wri.org' ? 'forestwatcher@wri.org' : url)}
+        >
+          <Text style={styles.contactUsText} selectable>
+            {i18n.t('contactUs.description')}
+          </Text>
+        </Hyperlink>
+      </View>
     );
   }
 }

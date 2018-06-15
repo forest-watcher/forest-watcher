@@ -27,11 +27,21 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.white,
     marginTop: 8
   },
-  input: {
+  checkboxInput: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  input: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: Theme.fontColors.light,
+    fontFamily: Theme.font,
+    fontSize: 17,
+    fontWeight: '400'
   },
   inputLabel: {
     flex: 1,

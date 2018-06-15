@@ -34,15 +34,18 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Theme.background.white,
-    marginBottom: 0
+    marginBottom: 0,
+    paddingLeft: 16,
+    paddingRight: 16
   },
   searchInput: {
     flex: 1,
+    textAlignVertical: 'center',
     height: 64,
     maxHeight: 64,
+    paddingTop: 0,
     paddingBottom: 0,
-    marginLeft: Theme.margin.left,
-    marginRight: Theme.icon.width,
+    marginRight: 16,
     fontFamily: Theme.font,
     fontSize: 17,
     fontWeight: '400',

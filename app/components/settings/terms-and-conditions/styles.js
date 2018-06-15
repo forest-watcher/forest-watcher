@@ -1,11 +1,15 @@
 import Theme from 'config/theme';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.background.main,
-    paddingTop: 10
+    padding: 24,
+    paddingTop: 10,
+    paddingBottom: 10,
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   },
   containerContent: {
     paddingBottom: 20
@@ -14,18 +18,24 @@ export default StyleSheet.create({
     paddingTop: 0,
     paddingBottom: 30
   },
-  terms: {
-    padding: 30,
-    paddingTop: 0,
-    paddingBottom: 10,
-    flexDirection: 'column',
-    justifyContent: 'space-between'
-  },
   termsText: {
     fontFamily: Theme.font,
     fontSize: 17,
     fontWeight: '100',
-    color: Theme.fontColors.light,
-    marginTop: 10
+    marginTop: 0,
+    ...Platform.select({
+      ios: {
+        color: Theme.fontColors.light
+      }
+    }),
+    textAlignVertical: 'bottom',
+    lineHeight: 32
+  },
+  termsTextLinkContainer: {
+    paddingLeft: 4,
+    paddingTop: 4
+  },
+  termsTextLink: {
+    marginTop: 0
   }
 });

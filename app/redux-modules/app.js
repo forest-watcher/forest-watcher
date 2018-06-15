@@ -6,6 +6,7 @@ import type { AppState, AppAction, CoordinatesValue } from 'types/app.types';
 import { version } from 'package.json'; // eslint-disable-line
 import { COORDINATES_FORMATS, ACTIONS_SAVED_TO_REPORT } from 'config/constants/index';
 import { syncAreas } from 'redux-modules/areas';
+import { getLanguage } from 'helpers/language';
 import { syncCountries } from 'redux-modules/countries';
 import { syncUser, LOGOUT_REQUEST } from 'redux-modules/user';
 import { syncLayers } from 'redux-modules/layers';
@@ -14,7 +15,6 @@ import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import takeRight from 'lodash/takeRight';
 
 // Actions
-const SET_LANGUAGE = 'app/SET_LANGUAGE';
 const SET_OFFLINE_MODE = 'app/SET_OFFLINE_MODE';
 export const SET_APP_SYNCED = 'app/SET_APP_SYNCED';
 export const RETRY_SYNC = 'app/RETRY_SYNC';
@@ -41,12 +41,11 @@ export default function reducer(state: AppState = initialState, action: AppActio
     case PERSIST_REHYDRATE: {
       // $FlowFixMe
       const { app } = action.payload;
-      return { ...state, ...app, version };
+      const language = getLanguage();
+      return { ...state, ...app, language, version };
     }
     case SET_OFFLINE_MODE:
       return { ...state, offlineMode: action.payload };
-    case SET_LANGUAGE:
-      return { ...state, language: action.payload };
     case SET_APP_SYNCED:
       return { ...state, synced: action.payload };
     case SET_COORDINATES_FORMAT:
@@ -63,14 +62,6 @@ export default function reducer(state: AppState = initialState, action: AppActio
     default:
       return state;
   }
-}
-
-// Action Creators
-export function setLanguage(language: string): AppAction {
-  return {
-    type: SET_LANGUAGE,
-    payload: language
-  };
 }
 
 export function setOfflineMode(offlineMode: boolean): AppAction {

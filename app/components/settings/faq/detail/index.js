@@ -13,69 +13,71 @@ import styles from './styles';
 function FaqDetail(props) {
   const { description, orderList, orderListLetters, footerText } = props.contentFaq;
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.containerContent}
-      showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}
-    >
-
-      <View
-        style={styles.faq}
+    <View style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.containerContent}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
       >
 
-        {description && description.map((data, key) => (
-          <Hyperlink
-            key={key}
-            linkDefault
-            linkStyle={Theme.link}
-            linkText={(url) => (url === 'mailto:forestwatcher@wri.org' ? 'forestwatcher@wri.org' : url)}
-          >
-            <Text style={styles.faqText} selectable>{data.text}</Text>
-          </Hyperlink>
-        ))}
+        <View
+          style={styles.faq}
+        >
 
-        {orderList && orderList.map((data, key) => (
-          <View
-            key={key}
-            style={description === '' ? styles.faqListNoPadding : styles.faqList}
-          >
-            <View style={styles.faqDotList}>{}</View>
-            <Hyperlink linkDefault linkStyle={Theme.link}>
-              <Text style={styles.faqText} selectable>{data.text}</Text>
+          {description && Object.values(description).map((text, key) => (
+            <Hyperlink
+              key={key}
+              linkDefault
+              linkStyle={Theme.link}
+              linkText={(url) => (url === 'mailto:forestwatcher@wri.org' ? 'forestwatcher@wri.org' : url)}
+            >
+              <Text style={styles.faqText} selectable>{text}</Text>
             </Hyperlink>
-          </View>
-        ))}
+          ))}
 
-        {orderListLetters && orderListLetters.map((data, key) => (
-          <View key={key}>
-            <View style={styles.faqListLetter}>
-              <Text style={styles.faqText}>{String.fromCharCode(97 + (key % 27))}. </Text>
+          {orderList && Object.values(orderList).map((text, key) => (
+            <View
+              key={key}
+              style={description === '' ? styles.faqListNoPadding : styles.faqList}
+            >
+              <View style={styles.faqDotList} />
               <Hyperlink linkDefault linkStyle={Theme.link}>
-                <Text style={styles.faqText} selectable>{data.text}</Text>
+                <Text style={styles.faqText} selectable>{text}</Text>
               </Hyperlink>
             </View>
-            <View style={styles.faqListLetterDescription}>
-              <Text style={styles.faqText}>i. </Text>
-              <Hyperlink
-                linkDefault
-                linkStyle={Theme.link}
-                linkText={(url) => (url === 'mailto:forestwatcher@wri.org' ? 'forestwatcher@wri.org' : url)}
-              >
-                <Text style={styles.faqText} selectable>{data.description}</Text>
-              </Hyperlink>
+          ))}
+
+          {orderListLetters && Object.values(orderListLetters).map((data, key) => (
+            <View key={key}>
+              <View style={styles.faqListLetter}>
+                <Text style={styles.faqText}>{String.fromCharCode(97 + (key % 27))}. </Text>
+                <Hyperlink linkDefault linkStyle={Theme.link}>
+                  <Text style={styles.faqText} selectable>{data.text}</Text>
+                </Hyperlink>
+              </View>
+              <View style={styles.faqListLetterDescription}>
+                <Text style={styles.faqText}>i. </Text>
+                <Hyperlink
+                  linkDefault
+                  linkStyle={Theme.link}
+                  linkText={(url) => (url === 'mailto:forestwatcher@wri.org' ? 'forestwatcher@wri.org' : url)}
+                >
+                  <Text style={styles.faqText} selectable>{data.description}</Text>
+                </Hyperlink>
+              </View>
             </View>
-          </View>
-        ))}
+          ))}
 
-        {footerText && footerText.map((data, key) => (
-          <Hyperlink key={key} linkDefault linkStyle={Theme.link}>
-            <Text style={styles.faqText} selectable>{data.text}</Text>
-          </Hyperlink>
-        ))}
-      </View>
+          {footerText && (
+            <Hyperlink linkDefault linkStyle={Theme.link}>
+              <Text style={styles.faqText} selectable>{footerText}</Text>
+            </Hyperlink>
+          )}
+        </View>
 
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 

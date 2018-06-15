@@ -41,7 +41,7 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   info: {
-    width: 200
+    width: '66%'
   },
   name: {
     height: 22,
@@ -52,6 +52,14 @@ export default StyleSheet.create({
   },
   email: {
     height: 24,
+    fontFamily: Theme.font,
+    color: Theme.fontColors.light,
+    fontSize: 17,
+    fontWeight: '400',
+    fontStyle: 'italic'
+  },
+  completeProfile: {
+    width: 180,
     fontFamily: Theme.font,
     color: Theme.fontColors.light,
     fontSize: 17,
@@ -96,6 +104,9 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
+  addButtonIcon: {
+    marginLeft: 8
+  },
   addButtonText: {
     flex: 1,
     fontFamily: Theme.font,
@@ -103,7 +114,7 @@ export default StyleSheet.create({
     fontWeight: '500',
     color: Theme.fontColors.main,
     textAlign: 'center',
-    marginRight: Theme.icon.width,
+    marginRight: Theme.icon.width + 8,
     marginTop: 2
   },
   datesSection: {

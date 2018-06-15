@@ -41,7 +41,7 @@ function mapStateToProps(state: State) {
       dataset,
       id: area.id,
       name: area.name,
-      templateId: area.templateId
+      templateId: area.templateId || 'default'
     };
   }
   const { cache } = state.layers;

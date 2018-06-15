@@ -20,7 +20,7 @@ function CheckboxInput(props) {
       underlayColor="transparent"
       onPress={props.onPress}
     >
-      <View style={styles.input}>
+      <View style={styles.checkboxInput}>
         {props.label &&
           <Text style={styles.inputLabel}>{props.label}</Text>
         }

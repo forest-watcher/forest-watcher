@@ -1,7 +1,6 @@
 // @flow
 
-import type { Question, ReportsState, Template } from 'types/reports.types';
-import type { Answers, FormState } from 'types/form.types';
+import type { Question, ReportsState, Template, Answer } from 'types/reports.types';
 import i18n from 'locales';
 
 export const getBtnTextByType = (type: string) => {
@@ -17,9 +16,9 @@ export const getBtnTextByType = (type: string) => {
   }
 };
 
-export const parseQuestion = (step: { question: Question, form: Template }, deviceLang: string) => {
-  const { question, form } = step;
-  const lang = form.languages.includes(deviceLang) ? deviceLang : form.defaultLanguage;
+export const parseQuestion = (step: { question: Question, template: Template }, deviceLang: ?string) => {
+  const { question, template } = step;
+  const lang = template.languages.includes(deviceLang) ? deviceLang : template.defaultLanguage;
   let parsedQuestion = { ...question };
   const whitelist = ['defaultValue', 'label', 'values', 'name'];
   whitelist.forEach((key: string) => {
@@ -29,21 +28,19 @@ export const parseQuestion = (step: { question: Question, form: Template }, devi
       if (hasValue) {
         value = parsedQuestion[key][lang];
       } else {
-        value = parsedQuestion[key][form.defaultLanguage] || '';
+        value = parsedQuestion[key][template.defaultLanguage] || '';
       }
       parsedQuestion = { ...parsedQuestion, [key]: value };
     }
   });
-  if (parsedQuestion.childQuestions) {
-    parsedQuestion.childQuestions = parsedQuestion.childQuestions.map((child) => parseQuestion({ question: child, form }, deviceLang));
+  if (parsedQuestion.childQuestions && parsedQuestion.childQuestions.length > 0) {
+    // TODO: Support more than one child question... one day...
+    const child = parsedQuestion.childQuestions[0];
+    parsedQuestion.childQuestion = typeof child !== 'undefined'
+      ? parseQuestion({ question: child, template }, deviceLang)
+      : null;
   }
   return parsedQuestion;
-};
-
-export const getAnswers = (forms: FormState, formName: string) => {
-  if (!forms) return null;
-  if (forms[formName] && forms[formName].values) return forms[formName].values;
-  return {};
 };
 
 export const getTemplate = (reports: ReportsState, formName: string) => {
@@ -56,46 +53,35 @@ export const getTemplate = (reports: ReportsState, formName: string) => {
   return Object.assign({}, reports.templates[templateId]);
 };
 
-export const getNextStep = (step: { currentQuestion: number, questions: Array<Question>, answers: Answers }) => {
+export const getNextStep = (
+  step: { currentQuestion: number, questions: Array<Question>, answers: Array<Answer> }
+  ): ?number => {
   const { currentQuestion, questions, answers } = step;
-  let next = 1;
   if (questions && currentQuestion < questions.length - 1) {
-    for (let i = currentQuestion + 1, qLength = questions.length; i < qLength; i++) {
-      const nextConditions = questions[i].conditions;
-      const nextHasConditions = nextConditions && nextConditions.length > 0;
-      if (!nextHasConditions || (answers[nextConditions[0].name] === nextConditions[0].value)) {
-        break;
+    const getJump = (currentIndex: number = 0, jumpStart: number = 0) => {
+      const jump = jumpStart + 1;
+      const question = questions[currentIndex + 1];
+      const conditions = question.conditions;
+      const answer = answers[currentIndex] || {};
+      const isLastQuestion = (questions.length - 1) === currentIndex + 1;
+      const nextHasConditions = conditions && conditions.length > 0;
+      const answerMatchesCondition = nextHasConditions && answer.value === conditions[0].value;
+      if (nextHasConditions && !answerMatchesCondition && isLastQuestion) {
+        return null;
       }
-      next += 1;
-    }
-    return currentQuestion + next;
+      return !nextHasConditions || answerMatchesCondition || isLastQuestion
+        ? jump
+        : getJump(currentIndex + 1, jump);
+    };
+    const next = getJump(currentQuestion);
+    return next !== null
+      ? currentQuestion + next
+      : null;
   }
   return null;
 };
 
-export const getFormFields = (template: Template, answers: Answers) => {
-  const fields = [0];
-  template.questions.forEach((question, index) => {
-    const nextStep = getNextStep({ currentQuestion: index, questions: template.questions, answers });
-    if (nextStep) fields.push(nextStep);
-  });
-  return fields.map(field => template.questions[field].name);
-};
-
-export const isQuestionAnswered = (question: Question, answers: Answers) => {
-  if (!question) return false;
-  if (question.type !== 'blob') {
-    return typeof answers[question.name] !== 'undefined';
-  }
-  return typeof answers[question.name] === 'string' && !!answers[question.name].length;
-};
-
-export default {
-  getBtnTextByType,
-  parseQuestion,
-  getTemplate,
-  getAnswers,
-  getFormFields,
-  getNextStep,
-  isQuestionAnswered
+export const isQuestionAnswered = (answer: Answer) => {
+  if (!answer) return false;
+  return answer.value !== '';
 };

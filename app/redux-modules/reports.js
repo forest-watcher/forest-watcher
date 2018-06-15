@@ -1,10 +1,13 @@
 // @flow
 import type { Dispatch, GetState } from 'types/store.types';
-import type { ReportsState, ReportsAction, Report } from 'types/reports.types';
+import type { ReportsState, ReportsAction, Report, Answer } from 'types/reports.types';
 import type { Area } from 'types/areas.types';
+import omit from 'lodash/omit';
 
 import Config from 'react-native-config';
+import merge from 'lodash/merge';
 import tracker from 'helpers/googleAnalytics';
+import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import CONSTANTS from 'config/constants';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { getTemplate } from 'helpers/forms';
@@ -16,9 +19,11 @@ const GET_DEFAULT_TEMPLATE_COMMIT = 'report/GET_DEFAULT_TEMPLATE_COMMIT';
 const GET_DEFAULT_TEMPLATE_ROLLBACK = 'report/GET_DEFAULT_TEMPLATE_ROLLBACK';
 const CREATE_REPORT = 'report/CREATE_REPORT';
 const UPDATE_REPORT = 'report/UPDATE_REPORT';
+const DELETE_REPORT = 'report/DELETE_REPORT';
 export const UPLOAD_REPORT_REQUEST = 'report/UPLOAD_REPORT_REQUEST';
 export const UPLOAD_REPORT_COMMIT = 'report/UPLOAD_REPORT_COMMIT';
 export const UPLOAD_REPORT_ROLLBACK = 'report/UPLOAD_REPORT_ROLLBACK';
+const SET_REPORT_ANSWER = 'report/SET_REPORT_ANSWER';
 
 // Reducer
 const initialState = {
@@ -35,6 +40,24 @@ function orderQuestions(questions) {
 
 export default function reducer(state: ReportsState = initialState, action: ReportsAction) {
   switch (action.type) {
+    case PERSIST_REHYDRATE: {
+      // $FlowFixMe
+      const { reports = state, form } = action.payload;
+      if (form && !form.migrated) {
+        const formatAnswers = values => Object.entries(values)
+          .map(([questionName, value]) => ({ questionName, value, child: null }));
+        const answers = Object.entries(form || {})
+          .reduce((acc, [reportName, formEntry]) => ({
+            ...acc,
+            [reportName]: {
+              reportName,
+              answers: formatAnswers((formEntry.values || {}))
+            }
+          }), {});
+        return { ...reports, list: merge(answers, reports.list) };
+      }
+      return reports;
+    }
     case GET_DEFAULT_TEMPLATE_REQUEST:
       return { ...state, synced: false, syncing: true };
     case GET_DEFAULT_TEMPLATE_COMMIT: {
@@ -65,9 +88,41 @@ export default function reducer(state: ReportsState = initialState, action: Repo
       const list = { ...state.list, ...action.payload };
       return { ...state, list };
     }
+    case DELETE_REPORT: {
+      const { reportName } = action.payload;
+      const list = omit(state.list, reportName);
+      return { ...state, list };
+    }
     case UPDATE_REPORT: {
       const list = { ...state.list };
       list[action.payload.name] = { ...state.list[action.payload.name], ...action.payload.data };
+      return { ...state, list };
+    }
+    case SET_REPORT_ANSWER: {
+      const { reportName, answer, updateOnly } = action.payload;
+      const report = state.list[reportName];
+      const answeredIndex = report.answers.findIndex(a => (a.questionName === answer.questionName));
+      // const template = state.templates[report.area.templateId];
+      // const question = template.questions.find(q => (q.name === answer.questionName));
+      // const updateValue = question && question.type === 'blob';
+      let answers = [...report.answers];
+
+      if (answeredIndex > -1 && updateOnly) {
+        answers[answeredIndex] = answer;
+      } else {
+        if (answeredIndex !== -1) {
+          answers = report.answers.slice(0, answeredIndex);
+        }
+        answers.push(answer);
+      }
+
+      const list = {
+        ...state.list,
+        [reportName]: {
+          ...report,
+          answers
+        }
+      };
       return { ...state, list };
     }
     case UPLOAD_REPORT_REQUEST: {
@@ -114,21 +169,41 @@ export function getDefaultReport(): ReportsAction {
 }
 
 export function createReport(
-  report: { name: string, userPosition: [number, number], clickedPosition: [number, number], area: Area }
+  report: { reportName: string, userPosition: [number, number], clickedPosition: [number, number], area: Area }
   ): ReportsAction {
-  const { name, userPosition, clickedPosition, area } = report;
+  const { reportName, userPosition, clickedPosition, area } = report;
   return {
     type: CREATE_REPORT,
     payload: {
-      [name]: {
+      [reportName]: {
         area,
+        reportName,
         userPosition,
         clickedPosition,
         index: 0,
-        status: CONSTANTS.status.draft,
-        date: new Date().toISOString()
+        answers: [],
+        date: new Date().toISOString(),
+        status: CONSTANTS.status.draft
       }
     }
+  };
+}
+
+export function setReportAnswer(reportName: string, answer: Answer, updateOnly: boolean = false): ReportsAction {
+  return {
+    type: SET_REPORT_ANSWER,
+    payload: {
+      reportName,
+      answer,
+      updateOnly
+    }
+  };
+}
+
+export function deleteReport(reportName: string): ReportsAction {
+  return {
+    type: DELETE_REPORT,
+    payload: { reportName }
   };
 }
 
@@ -139,25 +214,23 @@ export function saveReport(name: string, data: Report): ReportsAction {
   };
 }
 
-export function uploadReport(toUpload: { reportName: string, fields: Array<string> }) {
-  const { reportName, fields } = toUpload;
+export function uploadReport(reportName: string) {
   tracker.trackEvent('Report', 'Complete Report', { label: 'Click Done', value: 0 });
-  return (dispatch: Dispatch, state: GetState) => {
-    const reportValues = state().form[reportName].values;
-    const user = state().user;
-    const userName = (user && user.data && user.data.fullName) || 'Guest user';
-    const organization = (user && user.data && user.data.organization) || 'None';
-    const reports = state().reports;
+  return (dispatch: Dispatch, getState: GetState) => {
+    const { user = {}, reports, app } = getState();
+    const userName = (user.data && user.data.fullName) || '';
+    const organization = (user.data && user.data.organization) || '';
     const report = reports.list[reportName];
-    const language = state().app.language || '';
+    const language = app.language || '';
     const area = report.area;
     const dataset = area.dataset || {};
-    const form = new FormData();
     const template = getTemplate(reports, reportName);
 
+    const form = new FormData();
     form.append('report', template.id);
     form.append('reportName', reportName);
     form.append('areaOfInterest', area.id);
+    form.append('areaOfInterestName', area.name);
     form.append('startDate', dataset.startDate);
     form.append('endDate', dataset.endDate);
     form.append('layer', dataset.slug);
@@ -168,19 +241,24 @@ export function uploadReport(toUpload: { reportName: string, fields: Array<strin
     form.append('clickedPosition', report && report.clickedPosition);
     form.append('userPosition', report && report.userPosition);
 
-    Object.keys(reportValues).forEach((key) => {
-      if (fields.includes(key)) {
-        if (typeof reportValues[key] === 'string' && reportValues[key].indexOf('jpg') >= 0) { // TODO: improve this
+    report.answers.forEach(answer => {
+      const appendAnswer = ({ value, questionName }) => {
+        // TODO: improve this
+        if (typeof value === 'string' && value.indexOf('jpg') >= 0) {
           const image = {
-            uri: reportValues[key],
+            uri: value,
             type: 'image/jpg',
-            name: `${reportName}-image-${key}.jpg`
+            name: `${reportName}-image-${questionName}.jpg`
           };
           // $FlowFixMe
-          form.append(key, image);
+          form.append(questionName, image);
         } else {
-          form.append(key, reportValues[key].toString());
+          form.append(questionName, value.toString());
         }
+      };
+      appendAnswer(answer);
+      if (answer.child) {
+        appendAnswer(answer.child);
       }
     });
 
