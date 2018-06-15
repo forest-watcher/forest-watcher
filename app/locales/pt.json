@@ -243,6 +243,7 @@
         "inputSelect": "Escolha pelo menos uma opção para continuar",
         "inputText": "Por favor introduza algum texto",
         "metadata": "Metadados",
+        "noGpsPosition": "Sem sinal de GPS no momento do reporte",
         "pictures": "Imagens",
         "review": "Rever relatório",
         "saveLaterDescription": "Aparecerá como um rascunho na secção de relatórios",

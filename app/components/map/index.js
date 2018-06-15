@@ -12,7 +12,7 @@ import {
   Platform
 } from 'react-native';
 
-import { MAPS } from 'config/constants';
+import { MAPS, REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
@@ -379,7 +379,7 @@ class MapComponent extends Component {
     this.props.createReport({
       area,
       reportName,
-      userPosition: userLatLng || '0,0',
+      userPosition: userLatLng || REPORTS.noGpsPosition,
       clickedPosition: JSON.stringify(latLng)
     });
     this.props.navigator.push({

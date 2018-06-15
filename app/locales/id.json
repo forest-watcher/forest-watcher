@@ -243,6 +243,7 @@
         "inputSelect": "Pilih setidaknya satu opsi untuk melanjutkan",
         "inputText": "Silakan tulis sesuatu",
         "metadata": "Metadata",
+        "noGpsPosition": "GPS signal not available at time of reporting",
         "pictures": "Gambar",
         "review": "Tinjau Laporan",
         "saveLaterDescription": "Ini akan muncul sebagai draf di bagian Laporan",

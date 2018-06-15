@@ -243,6 +243,7 @@
         "inputSelect": "Choisissez au moins une option pour continuer",
         "inputText": "Veuillez écrire quelque chose",
         "metadata": "Métadonnées",
+        "noGpsPosition": "Réception GPS non disponible au moment du signalement",
         "pictures": "Images",
         "review": "Examiner le rapport",
         "saveLaterDescription": "Il apparaîtra comme un brouillon dans la section Rapports",
