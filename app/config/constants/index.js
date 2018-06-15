@@ -66,7 +66,8 @@ export const FILES = {
 };
 
 export const REPORTS = {
-  default: 'defaultReport'
+  default: 'defaultReport',
+  noGpsPosition: '0,0'
 };
 
 export const STATUS = {

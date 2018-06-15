@@ -14,7 +14,7 @@
         "title": "Selecciona una foto"
     },
     "commonText": {
-        "alert": "Alert",
+        "alert": "Alerta",
         "appName": "Forest Watcher",
         "area": "Area",
         "boundaries": "Límites",
@@ -27,7 +27,7 @@
         "error": "Error",
         "finish": "Terminar",
         "kmAway": "Km de distancia",
-        "language": "Language",
+        "language": "Idioma",
         "loading": "Cargando",
         "metersAway": "m de distancia",
         "name": "Nombre",
@@ -35,12 +35,12 @@
         "noImage": "Sin imagen",
         "offlineModeIsOn": "Estás en modo sin conexión",
         "oops": "Oops!",
-        "reportedPosition": "Reported Position",
+        "reportedPosition": "Posición del reporte",
         "retry": "Reintentar",
         "saving": "Guardando",
-        "send": "Send",
+        "send": "Enviar",
         "setup": "Configuración",
-        "userPosition": "User Position"
+        "userPosition": "Posición del usuario"
     },
     "contactUs": {
         "description": "¿Tienes preguntas o comentarios? Envíanos un correo a mailto:forestwatcher@wri.org"
@@ -198,15 +198,15 @@
         }
     },
     "layers": {
-        "managedForests": "Managed Forest",
+        "managedForests": "Bosques gestionados",
         "mining": "Minería",
-        "oilPalm": "Oil palm",
+        "oilPalm": "Aceite de palma",
         "protectedAreas": "Areas Protegidas",
         "treeCoverLoss2014": "Perdida Cobertura Arbórea (2014)",
         "treeCoverLoss2015": "Perdida Cobertura Arbórea (2015)",
-        "treeCoverLoss2016": "Tree Cover Loss (2016)",
-        "treeCoverLoss2017": "Tree Cover Loss (2017)",
-        "woodFiber": "Wood fiber"
+        "treeCoverLoss2016": "Perdida Cobertura Arbórea (2016)",
+        "treeCoverLoss2017": "Perdida Cobertura Arbórea (2017)",
+        "woodFiber": "Fibra de madera"
     },
     "login": {
         "connectionRequired": "Necesitas una conexión a internet",
@@ -229,21 +229,22 @@
     },
     "report": {
         "addPicture": "Añadir imagen",
+        "answers": "Respuestas",
         "choosePicture": "Por favor, haz o elige una foto",
         "completed": "Terminado",
         "datePlaceholder": "Seleccione una fecha",
-        "delete": "Delete this report",
+        "delete": "Borrar este reporte",
         "drafts": "Borradores",
         "empty": "No se ha enviado ningún informe. ¡Por favor, ve al mapa e informa sobre un punto o un grupo de puntos!",
         "emptyPicture": "Vacío",
-        "here": "Report here",
+        "here": "Reportar aquí",
         "input": "Por favor conteste la pregunta",
         "inputRadio": "Elija una opción para continuar",
         "inputSelect": "Seleccione al menos una opción para continuar",
         "inputText": "Por favor escriba algo",
-        "metadata": "Metadata",
+        "metadata": "Meta información",
+        "noGpsPosition": "Señal de GPS no disponible en el momento del reporte",
         "pictures": "Imágenes",
-        "responses": "Responses",
         "review": "Resumen del reporte",
         "saveLaterDescription": "Aparecerá como borrador en la sección de informes",
         "saveLaterTitle": "Guardar para más adelante",
@@ -266,7 +267,7 @@
         "aboutPartners": "Colaboradores",
         "aboutTerms": "Términos y Condiciones",
         "addArea": "AÑADIR ÁREA",
-        "completeYourProfileOn": "Complete your profile on",
+        "completeYourProfileOn": "Completar el perfil en",
         "coordinatesDecimal": "Decimal",
         "coordinatesDegrees": "Grados",
         "coordinatesFormat": "Formato de Coordenadas",
@@ -321,8 +322,8 @@
         "tryAgain": "Intentar de nuevo"
     },
     "termsAndConditions": {
-        "agreeText": "By using this app, you agree to these",
-        "linkText": "terms and conditions"
+        "agreeText": "Al utilizar esta aplicación, usted acepta estos",
+        "linkText": "términos y condiciones"
     },
     "walkthrough": {
         "skip": "saltar tutorial",

@@ -2,6 +2,7 @@
 import type { State } from 'types/store.types';
 import type { Template, Answer, Report } from 'types/reports.types';
 
+import { REPORTS } from 'config/constants';
 import flatMap from 'lodash/flatMap';
 import i18n from 'locales';
 import moment from 'moment';
@@ -77,12 +78,15 @@ function mapReportToMetadata(report: Report, language) {
       pos.lon.toLocaleString(undefined, { maximumFractionDigits: 4 })
     ].toString());
   const date = moment(report.date).format('YYYY-MM-DD');
+  const userPosition = report.userPosition === REPORTS.noGpsPosition
+    ? i18n.t('report.noGpsPosition')
+    : report.userPosition;
   const metadata = [
     { id: 'name', label: i18n.t('commonText.name'), value: [report.reportName] },
     { id: 'areaName', label: i18n.t('commonText.area'), value: [report.area.name] },
     { id: 'date', label: i18n.t('commonText.date'), value: [date] },
     { id: 'language', label: i18n.t('commonText.language'), value: [language] },
-    { id: 'userPosition', label: i18n.t('commonText.userPosition'), value: [report.userPosition] },
+    { id: 'userPosition', label: i18n.t('commonText.userPosition'), value: [userPosition] },
     { id: 'clickedPosition', label: i18n.t('commonText.reportedPosition'), value: [reportedPosition] }
   ];
 

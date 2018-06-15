@@ -11,7 +11,7 @@ module.exports = {
     resource: {
       loadPath: 'app/locales/{{lng}}.json',
       savePath: 'app/locales/{{lng}}.json',
-      jsonIndent: 2
+      jsonIndent: 4
     }
   }
 };
