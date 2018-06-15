@@ -204,8 +204,8 @@
         "protectedAreas": "Wilayah Terlindung",
         "treeCoverLoss2014": "Kehilangan Tutupan Pohon (2014)",
         "treeCoverLoss2015": "Kehilangan Tutupan Pohon (2015)",
-        "treeCoverLoss2016": "Tree Cover Loss (2016)",
-        "treeCoverLoss2017": "Tree Cover Loss (2017)",
+        "treeCoverLoss2016": "Kehilangan Tutupan Pohon (2016)",
+        "treeCoverLoss2017": "Kehilangan Tutupan Pohon (2017)",
         "woodFiber": "Wood fiber"
     },
     "login": {
@@ -229,6 +229,7 @@
     },
     "report": {
         "addPicture": "Tambah Gambar",
+        "answers": "Answers",
         "choosePicture": "Silakan ambil atau pilih gambar",
         "completed": "Lengkap",
         "datePlaceholder": "Pilih tanggal",
@@ -243,7 +244,6 @@
         "inputText": "Silakan tulis sesuatu",
         "metadata": "Metadata",
         "pictures": "Gambar",
-        "responses": "Responses",
         "review": "Tinjau Laporan",
         "saveLaterDescription": "Ini akan muncul sebagai draf di bagian Laporan",
         "saveLaterTitle": "Simpan untuk nanti",

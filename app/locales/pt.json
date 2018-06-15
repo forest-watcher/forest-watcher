@@ -14,9 +14,9 @@
         "title": "Selecione uma imagem"
     },
     "commonText": {
-        "alert": "Alert",
+        "alert": "Alerta",
         "appName": "Forest Watcher",
-        "area": "Area",
+        "area": "Área",
         "boundaries": "Limites",
         "cancel": "Cancelar",
         "confirm": "Confirmar",
@@ -27,20 +27,20 @@
         "error": "Erro",
         "finish": "Terminar",
         "kmAway": "Km de distância",
-        "language": "Language",
+        "language": "Língua",
         "loading": "Carregando",
         "metersAway": "m de distância",
         "name": "Nome",
         "next": "Próximo",
         "noImage": "Sem imagem",
-        "offlineModeIsOn": "You are in offline mode",
+        "offlineModeIsOn": "Está em modo offline",
         "oops": "Oops!",
-        "reportedPosition": "Reported Position",
+        "reportedPosition": "Localização reportada",
         "retry": "Tentar novamente",
         "saving": "Salvando",
-        "send": "Send",
+        "send": "Enviar",
         "setup": "Configuração",
-        "userPosition": "User Position"
+        "userPosition": "Posição do usuário"
     },
     "contactUs": {
         "description": "Perguntas ou comentários? Email mailto:forestwatcher@wri.org"
@@ -198,15 +198,15 @@
         }
     },
     "layers": {
-        "managedForests": "Managed Forest",
+        "managedForests": "Floresta gerenciada",
         "mining": "Mineração",
-        "oilPalm": "Oil palm",
+        "oilPalm": "Óleo de palma",
         "protectedAreas": "Áreas protegidas",
         "treeCoverLoss2014": "Perda de cobertura arbórea (2014)",
         "treeCoverLoss2015": "Perda de cobertura arbórea (2015)",
-        "treeCoverLoss2016": "Tree Cover Loss (2016)",
-        "treeCoverLoss2017": "Tree Cover Loss (2017)",
-        "woodFiber": "Wood fiber"
+        "treeCoverLoss2016": "Perda de cobertura arbórea (2016)",
+        "treeCoverLoss2017": "Perda de cobertura arbórea (2017)",
+        "woodFiber": "Fibra de Madeira"
     },
     "login": {
         "connectionRequired": "Necessita ligação à Internet",
@@ -229,21 +229,21 @@
     },
     "report": {
         "addPicture": "Adicionar Imagem",
+        "answers": "Respostas",
         "choosePicture": "Tire ou escolha uma foto",
         "completed": "Terminado",
         "datePlaceholder": "Escolha uma data",
-        "delete": "Delete this report",
+        "delete": "Apagar esse relatório",
         "drafts": "Rascunhos",
         "empty": "Não foi submetido nenhum relatório. Por favor, vá até ao mapa e submeta um relatório sobre um ponto ou grupo de pontos!",
         "emptyPicture": "Vazio",
-        "here": "Report here",
+        "here": "Reporte aqui",
         "input": "Por favor, responda à questão",
         "inputRadio": "Escolha uma opção para continuar",
         "inputSelect": "Escolha pelo menos uma opção para continuar",
         "inputText": "Por favor introduza algum texto",
-        "metadata": "Metadata",
+        "metadata": "Metadados",
         "pictures": "Imagens",
-        "responses": "Responses",
         "review": "Rever relatório",
         "saveLaterDescription": "Aparecerá como um rascunho na secção de relatórios",
         "saveLaterTitle": "Guardar para mais tarde",
@@ -266,14 +266,14 @@
         "aboutPartners": "Parceiros",
         "aboutTerms": "Termos e Condições",
         "addArea": "ADICIONAR ÁREA",
-        "completeYourProfileOn": "Complete your profile on",
+        "completeYourProfileOn": "Complete seu perfil",
         "coordinatesDecimal": "Decimal",
         "coordinatesDegrees": "Graus",
         "coordinatesFormat": "Formato das Coordenadas",
         "coordinatesUtm": "UTM",
         "logOut": "SAIR",
         "loggedIn": "Você está identificado como",
-        "offlineMode": "Offline Mode",
+        "offlineMode": "Modo offline",
         "oneWeekAgo": "Uma semana atrás",
         "timeFrame": "Prazo",
         "title": "Configurações",
@@ -321,8 +321,8 @@
         "tryAgain": "Tente novamente"
     },
     "termsAndConditions": {
-        "agreeText": "By using this app, you agree to these",
-        "linkText": "terms and conditions"
+        "agreeText": "Ao usar essa app, concorda com estes",
+        "linkText": "termos e condições"
     },
     "walkthrough": {
         "skip": "avançar tutorial",

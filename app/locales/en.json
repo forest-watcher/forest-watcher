@@ -229,6 +229,7 @@
     },
     "report": {
         "addPicture": "Add Picture",
+        "answers": "Answers",
         "choosePicture": "Please take or choose a picture",
         "completed": "Completed",
         "datePlaceholder": "Select date",
@@ -243,7 +244,6 @@
         "inputText": "Please write something",
         "metadata": "Metadata",
         "pictures": "Pictures",
-        "responses": "Responses",
         "review": "Review report",
         "saveLaterDescription": "It will appear as a draft in the reports section",
         "saveLaterTitle": "Save for later",

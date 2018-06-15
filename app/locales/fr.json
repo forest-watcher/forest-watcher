@@ -14,9 +14,9 @@
         "title": "Sélectionnez une image"
     },
     "commonText": {
-        "alert": "Alert",
+        "alert": "Alerte",
         "appName": "Forest Watcher",
-        "area": "Area",
+        "area": "Zone",
         "boundaries": "Limites",
         "cancel": "Annuler",
         "confirm": "Confirmer",
@@ -27,20 +27,20 @@
         "error": "Erreur",
         "finish": "Terminer",
         "kmAway": "Km de distance",
-        "language": "Language",
+        "language": "Langue",
         "loading": "Chargement",
         "metersAway": "m d'ici",
         "name": "Nom",
         "next": "Suivant",
         "noImage": "Aucune image",
-        "offlineModeIsOn": "You are in offline mode",
+        "offlineModeIsOn": "Vous êtes en mode hors ligne",
         "oops": "Oops!",
-        "reportedPosition": "Reported Position",
+        "reportedPosition": "Position signalée",
         "retry": "Réessayez",
         "saving": "Sauvegarde",
-        "send": "Send",
+        "send": "Envoyer",
         "setup": "Configurer",
-        "userPosition": "User Position"
+        "userPosition": " Position de l’utilisateur"
     },
     "contactUs": {
         "description": "Vous avez des questions ou des commentaires ? Envoyez un e-mail à mailto:forestwatcher@wri.org"
@@ -198,15 +198,15 @@
         }
     },
     "layers": {
-        "managedForests": "Managed Forest",
+        "managedForests": "Forêts gérées",
         "mining": "Exploitation minière",
-        "oilPalm": "Oil palm",
+        "oilPalm": "Palmier à huile",
         "protectedAreas": "Zones protégées",
         "treeCoverLoss2014": "Perte de couvert forestier (2014)",
         "treeCoverLoss2015": "Perte de couvert forestier (2015)",
-        "treeCoverLoss2016": "Tree Cover Loss (2016)",
-        "treeCoverLoss2017": "Tree Cover Loss (2017)",
-        "woodFiber": "Wood fiber"
+        "treeCoverLoss2016": "Perte de couvert forestier (2016)",
+        "treeCoverLoss2017": "Perte de couvert forestier (2017)",
+        "woodFiber": "Fibre de bois"
     },
     "login": {
         "connectionRequired": "Une connexion à Internet est requise",
@@ -229,21 +229,21 @@
     },
     "report": {
         "addPicture": "Ajouter image",
+        "answers": "Réponses",
         "choosePicture": "Veuillez prendre ou choisir une image",
         "completed": "Terminé",
         "datePlaceholder": "Sélectionner une date",
-        "delete": "Delete this report",
+        "delete": "Eliminer ce rapport",
         "drafts": "Brouillons",
         "empty": "Aucun rapport envoyé ; veuillez accéder à la carte et signaler un point ou un groupe de points !",
         "emptyPicture": "Vide",
-        "here": "Report here",
+        "here": "Signaler ici",
         "input": "S'il vous plaît, répondez à la question",
         "inputRadio": "Choisissez une option pour continuer",
         "inputSelect": "Choisissez au moins une option pour continuer",
         "inputText": "Veuillez écrire quelque chose",
-        "metadata": "Metadata",
+        "metadata": "Métadonnées",
         "pictures": "Images",
-        "responses": "Responses",
         "review": "Examiner le rapport",
         "saveLaterDescription": "Il apparaîtra comme un brouillon dans la section Rapports",
         "saveLaterTitle": "Garder pour plus tard",
@@ -266,14 +266,14 @@
         "aboutPartners": "Les partenaires",
         "aboutTerms": "Conditions d'utilisation",
         "addArea": "AJOUTER ZONE",
-        "completeYourProfileOn": "Complete your profile on",
+        "completeYourProfileOn": "Compléter votre profile en",
         "coordinatesDecimal": "Décimal",
         "coordinatesDegrees": "Degrés",
         "coordinatesFormat": "Coordonne le format",
         "coordinatesUtm": "UTM",
         "logOut": "SE DÉCONNECTER",
         "loggedIn": "Vous êtes connecté en tant que",
-        "offlineMode": "Offline Mode",
+        "offlineMode": "Mode hors ligne",
         "oneWeekAgo": "La semaine dernière",
         "timeFrame": "Intervalle de temps",
         "title": "Paramètres",
@@ -321,8 +321,8 @@
         "tryAgain": "Réessayez"
     },
     "termsAndConditions": {
-        "agreeText": "By using this app, you agree to these",
-        "linkText": "terms and conditions"
+        "agreeText": "En utilisant cette application, vous acceptez d’être soumis aux présentes",
+        "linkText": "conditions générales d’utilisation"
     },
     "walkthrough": {
         "skip": "ignorer le tutoriel",
