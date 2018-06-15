@@ -137,7 +137,7 @@ class Answers extends PureComponent<Props> {
           }
           {regularAnswers && !!regularAnswers.length &&
             <View style={styles.listContainer}>
-              <Text style={styles.listTitle}>{i18n.t('report.responses')}</Text>
+              <Text style={styles.listTitle}>{i18n.t('report.answers')}</Text>
               {regularAnswers.map((result) => (
                 <AnswerComponent
                   questionId={result.question.Id}

@@ -31,7 +31,11 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    color: Theme.fontColors.light,
+    fontFamily: Theme.font,
+    fontSize: 17,
+    fontWeight: '400'
   },
   inputLabel: {
     flex: 1,
