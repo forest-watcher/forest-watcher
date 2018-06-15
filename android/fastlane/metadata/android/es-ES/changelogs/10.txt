@@ -1,0 +1,2 @@
+This is the launch version of Forest Watcher. 
+Read the full description for more information on the features in the app

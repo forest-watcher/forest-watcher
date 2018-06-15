@@ -1,0 +1,5 @@
+- Rapport amélioré.
+- Possibilité de retirer des rapports.
+- Invitation à créer un compte en suivant un lien pour les utilisateurs sans compte my_gfw.
+- Mise à jour des modalités et conditions.
+- Évaluer les traductions pour les couches contextuelles manquantes

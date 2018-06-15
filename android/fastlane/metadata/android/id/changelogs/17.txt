@@ -1,0 +1,11 @@
+App syncing is smoother, simpler and more friendly including a new pull to refresh feature!
+
+Other improvements:
+- Always show the line between alert selected and your position.
+- Use meters instead of km for distances.
+- Alert names changed from GLAD to deforestation and VIIRS to fires.
+- Show app version number in settings and login page.
+- Now it is easier to define your area.
+- Get notifications on data retrieval.
+
+And other fixes, including to the facebook login.
