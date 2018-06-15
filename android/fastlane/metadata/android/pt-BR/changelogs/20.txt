@@ -1,5 +1,5 @@
-- Relatórios melhorados;
-- Capacidade de remover relatórios;
+- Reportes melhorados;
+- Capacidade de remover reportes;
 - Adicionado convite para utilizadores sem conta my_gfw a criarem uma através de um link para a página;
 - Actualizados os termos e condições;
 - Traduções revistas nas camadas de dados contextuais
