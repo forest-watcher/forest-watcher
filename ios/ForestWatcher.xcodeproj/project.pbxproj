@@ -1377,7 +1377,6 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				32E52070208B4560006E6400 /* Embed Frameworks */,
-				519A525DB3208C912B60B20D /* [CP] Embed Pods Frameworks */,
 				5F7D7882DDFFCD0ED23EF858 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -2047,21 +2046,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		519A525DB3208C912B60B20D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		545C73DF8ED53C595077D845 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
