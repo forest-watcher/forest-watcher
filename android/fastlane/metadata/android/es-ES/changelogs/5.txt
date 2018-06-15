@@ -1,0 +1,11 @@
+This release focus on bug fixing and performance improvements, these include:
+
+- Sync modal opened twice.
+- Question text-detail has the label again.
+- Removes legend from map sidebar when creating an area
+- Fixes texts in some places that we're getting cut
+- Slide from walkthrough to login
+- Adds skip button to walkthrough.
+- If user has now areas they can logout
+- Contextual layers sidebar now has scroll enabled
+- When selecting neighbour alerts and zooming out neighbour alerts are removed.
