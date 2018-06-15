@@ -1,17 +1,14 @@
-Forest Watcher is a mobile application designed to bring the dynamic online forest monitoring and alert systems of Global Forest Watch (GFW) offline and into the field. Forest Watcher allows users to easily access GFW’s forest change data on any mobile device, navigate to areas of detected change, and collect information about what they find, regardless of connectivity.
+Forest Watcher est une application mobile conçue pour proposer la surveillance dynamique des forêts en ligne et les systèmes d’alerte de Global Forest Watch (GFW) hors ligne et sur le terrain. Forest Watcher permet aux utilisateurs d’accéder facilement aux données sur les changements forestiers de GFW à partir de n’importe quel appareil mobile, de naviguer dans les zones où des changements ont été détectés et de recueillir des informations sur leurs découvertes, indépendamment de la connectivité.
+Cette application est complètement gratuite et facile à utiliser permettant d’identifier rapidement les zones de patrouilles ou d’enquêtes sur le terrain ; d’utiliser les données recueillies afin d’adopter une gestion fondée sur les preuves et de prendre des décisions concernant la conservation ; et d’examiner les produits de télédétection sur le terrain.
 
-This app provides an affordable and easy-to-use solution to: quickly identify areas for patrols or field investigations; collect evidence about forest changes from the field; use the data that’s collected to make evidence-based management and conservation decisions; and investigate remote sensing products in the field.
+Caractéristiques :
+* Désigner les centres d’intérêt à suivre
+* Stocker diverses données sur les changements forestiers provenant des satellites, tels que des alertes de déforestation en temps quasi réel sur votre appareil mobile
+* Superposer des couches contextuelles, telles que les Zones protégées et les Concessions forestières, ou charger d’autres ensembles de données
+* Analyser les alertes sur le terrain et recueillir des informations (notamment des points GPS et des photos) grâce aux formulaires intégrés et personnalisables
+* Examiner, analyser et télécharger les données recueillies avec l’application
+* Gérer une équipe et plus à travers l’application web supplémentaire à forestwatcher.globalforestwatch.org
 
-Features:
-* Designate areas of interest to monitor
-* Store various satellite-based forest change data, such as near real-time deforestation alerts on your mobile device
-* Overlay contextual layers, such as Protected Areas and Timber Concessions, or upload other datasets
-* Investigate alerts in the field and collect information (including GPS points and photos) through built-in and customizable forms
-* Review, analyze, and download data collected with the app
-* Manage a team and more through the supplementary desktop application at forestwatcher.globalforestwatch.org
-
-If you have any issues downloading or using the app, please reference our “how to” materials. If the issues persist, please contact us at forestwatcher@wri.org.
-
-Any other questions or feedback, please contact us at forestwatcher@wri.org.
-
-Full terms and conditions can be found at http://www.globalforestwatch.org/terms.
+Si vous rencontrez des problèmes pendant le téléchargement ou l’utilisation de l’application, veuillez vous référer à notre documentation « instructions ». Si les problèmes persistent, veuillez nous contacter à forestwatcher@wri.org.
+Pour d’autres questions ou commentaires, veuillez nous contacter à forestwatcher@wri.org.
+Vous pouvez consulter nos Conditions générales à http://www.globalforestwatch.org/terms.
