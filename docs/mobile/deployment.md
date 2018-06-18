@@ -19,9 +19,27 @@ fastlane beta
 
 To deploy to the stores:
 
+1. Update the changelogs:
+
+**Android**
+open /android/metadata/android/[language]/[build-number].txt
+
+**iOS**
+open /ios/metadata/[language]/[release_notes].txt
+
+2. Generating the screenshots
+_WIP_
+
+3. Save them and run
+
 ```bash
 cd /android | /ios
 fastlane deploy
+```
+
+4. For iOS you will need to run the publish command skipping the screnshots as we don't have all of them ready yet
+```bash
+fastlane deliver --skip_screenshots
 ```
 
 
