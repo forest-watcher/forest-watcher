@@ -14,7 +14,7 @@
         "title": "Pilih gambar"
     },
     "commonText": {
-        "alert": "Alert",
+        "alert": "Peringatan",
         "appName": "Forest Watcher",
         "area": "Area",
         "boundaries": "Batas",
@@ -27,20 +27,20 @@
         "error": "Eror",
         "finish": "Selesai",
         "kmAway": "km jauhnya",
-        "language": "Language",
+        "language": "Bahasa",
         "loading": "Pemuatan",
         "metersAway": "m lagi",
         "name": "Nama",
         "next": "Lanjut",
         "noImage": "Tidak ada gambar",
-        "offlineModeIsOn": "You are in offline mode",
+        "offlineModeIsOn": "Anda berada dalam mode luring",
         "oops": "Oops!",
-        "reportedPosition": "Reported Position",
+        "reportedPosition": "Posisi Terlapor",
         "retry": "Coba lagi",
         "saving": "Penghematan",
-        "send": "Send",
+        "send": "Kirim",
         "setup": "Pengaturan",
-        "userPosition": "User Position"
+        "userPosition": "Posisi Pengguna"
     },
     "contactUs": {
         "description": "Pertanyaan atau masukan? Surel mailto: forestwatcher@wri.org"
@@ -198,15 +198,15 @@
         }
     },
     "layers": {
-        "managedForests": "Managed Forest",
+        "managedForests": "Hutan Terkelola",
         "mining": "Pertambangan\n",
-        "oilPalm": "Oil palm",
+        "oilPalm": "Kelapa sawit",
         "protectedAreas": "Wilayah Terlindung",
         "treeCoverLoss2014": "Kehilangan Tutupan Pohon (2014)",
         "treeCoverLoss2015": "Kehilangan Tutupan Pohon (2015)",
         "treeCoverLoss2016": "Kehilangan Tutupan Pohon (2016)",
         "treeCoverLoss2017": "Kehilangan Tutupan Pohon (2017)",
-        "woodFiber": "Wood fiber"
+        "woodFiber": "Serat kayu"
     },
     "login": {
         "connectionRequired": "Anda memerlukan koneksi internet",
@@ -229,21 +229,21 @@
     },
     "report": {
         "addPicture": "Tambah Gambar",
-        "answers": "Answers",
+        "answers": "Jawaban",
         "choosePicture": "Silakan ambil atau pilih gambar",
         "completed": "Lengkap",
         "datePlaceholder": "Pilih tanggal",
-        "delete": "Delete this report",
+        "delete": "Hapus laporan ini",
         "drafts": "Draf",
         "empty": "Tidak ada laporan yang dikirimkan, silakan kunjungi peta dan laporkan satu poin atau beberapa poin!",
         "emptyPicture": "Kosong",
-        "here": "Report here",
+        "here": "Laporkan di sini",
         "input": "Silakan jawab pertanyaannya",
         "inputRadio": "Pilih satu opsi untuk melanjutkan",
         "inputSelect": "Pilih setidaknya satu opsi untuk melanjutkan",
         "inputText": "Silakan tulis sesuatu",
         "metadata": "Metadata",
-        "noGpsPosition": "GPS signal not available at time of reporting",
+        "noGpsPosition": "Sinyal GPS tidak tersedia pada saat pelaporan",
         "pictures": "Gambar",
         "review": "Tinjau Laporan",
         "saveLaterDescription": "Ini akan muncul sebagai draf di bagian Laporan",
@@ -267,14 +267,14 @@
         "aboutPartners": "Mitra",
         "aboutTerms": "Syarat dan Ketentuan",
         "addArea": "TAMBAH AREA",
-        "completeYourProfileOn": "Complete your profile on",
+        "completeYourProfileOn": "Selesaikan profil Anda di",
         "coordinatesDecimal": "Desimal",
         "coordinatesDegrees": "Derajat",
         "coordinatesFormat": "Format Koordinat",
         "coordinatesUtm": "UTM",
         "logOut": "KELUAR",
         "loggedIn": "Anda masuk sebagai",
-        "offlineMode": "Offline Mode",
+        "offlineMode": "Mode Luring",
         "oneWeekAgo": "Satu minggu yang lalu",
         "timeFrame": "Jangka waktu",
         "title": "Pengaturan",
@@ -322,8 +322,8 @@
         "tryAgain": "Coba lagi"
     },
     "termsAndConditions": {
-        "agreeText": "By using this app, you agree to these",
-        "linkText": "terms and conditions"
+        "agreeText": "Dengan menggunakan aplikasi ini, Anda setuju dengan",
+        "linkText": "kondisi dan persyaratan"
     },
     "walkthrough": {
         "skip": "lewati tutorial",
