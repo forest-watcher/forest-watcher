@@ -27,8 +27,14 @@ open /android/metadata/android/[language]/[build-number].txt
 **iOS**
 open /ios/metadata/[language]/[release_notes].txt
 
-2. Generating the screenshots
-_WIP_
+2. Update the screenshots
+Use the [template](https://github.com/jtholloran/shots) to generate yours and move to `/screenshots` folder
+
+**Android**
+run fastlane supply
+
+**iOS**
+run fastlane deliver
 
 3. Save them and run
 
