@@ -2,8 +2,8 @@
 
 buildscript {
     repositories {
-        jcenter()
         google()
+        jcenter()
         maven {
             url 'https://maven.google.com'
         }
@@ -35,8 +35,8 @@ allprojects {
                 }
             }
         }
-        mavenLocal()
         google()
+        mavenLocal()
         jcenter()
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
