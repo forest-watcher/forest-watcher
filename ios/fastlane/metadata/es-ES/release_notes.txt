@@ -1,0 +1,5 @@
+- Reportes mejorados.
+- Posibilidad de eliminar reportes.
+- Invitación a usuarios con cuenta en my_gfw a crear una con un enlace web.
+- Actualizados los términos y condiciones.
+- Revisadas las traducciones.

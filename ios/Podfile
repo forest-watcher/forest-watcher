@@ -1,0 +1,34 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+platform :ios, '9.0'
+
+# https://github.com/airbnb/react-native-maps/issues/718#issuecomment-295585410
+target 'ForestWatcher' do
+
+  pod 'AppAuth'
+  pod 'FBSDKLoginKit'
+
+  # pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
+  # pod 'CodePush', :path => '../node_modules/react-native-code-push'
+
+  ## Pods for AppCenter
+  pod 'AppCenter/Crashes', '~> 1.5.0'
+  pod 'AppCenterReactNativeShared', '~> 1.4.0'
+
+
+  # pod 'lottie-ios', :path => '../node_modules/lottie-ios'
+  # pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+
+# react-native-maps dependencies
+  pod 'GoogleMaps'
+  pod 'Google-Maps-iOS-Utils'
+
+  post_install do |installer|
+    installer.pods_project.targets.each do |target|
+          target.build_configurations.each do |config|
+              config.build_settings['CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF'] = 'NO'
+              config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+          end
+      end
+  end
+end

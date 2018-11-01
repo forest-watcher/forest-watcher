@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "872868960419",
+    "project_id": "gfw-apis"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:872868960419:android:d917a4f85fdc544f",
+        "android_client_info": {
+          "package_name": "com.forestwatcher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "872868960419-g0b68bsv8hoc8lvlckso1qoeengmisr0.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "872868960419-ipofevad3tedds5fv0nflbnsg37f4c1r.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "872868960419-bf8kfalgh5b0pc51ju0po1ul5brtc3rn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.forestwatcher",
+            "certificate_hash": "4a875ee02041d767b2a2f87ccee6e9d15011ab45"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAn6qKuBg8D5maq89LfQPgvKbygGFKh6To"
+        },
+        {
+          "current_key": "AIzaSyDLoLG1d95f7qJTbuuRxXTQeVrvF96gF_0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

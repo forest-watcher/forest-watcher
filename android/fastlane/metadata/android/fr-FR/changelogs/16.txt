@@ -1,0 +1,5 @@
+Fixes scroll in radio input lists.
+Fixes connection status when online.
+Fixes keyboard covers text input in area creation.
+Adds a warning on logout about losing reports.
+Adds translations to layer names.

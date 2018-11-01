@@ -1,0 +1,3 @@
+- Fix logging out crashes the app.
+- Dismiss login user selector won't throw an error anymore.
+- Fix reported alerts changed position when zoom changed.

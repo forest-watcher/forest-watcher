@@ -1,0 +1,79 @@
+# Env
+.env
+private/
+ios/ForestWatcher/AppCenter-Config.plist
+android/app/src/main/assets/appcenter-config.json
+
+# OSX
+#
+.DS_Store
+
+# Editors
+/.vscode
+
+# Xcode
+#
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.xcuserstate
+project.xcworkspace
+
+# Android/IntelliJ
+#
+build/
+.idea
+.gradle
+local.properties
+*.iml
+
+# node.js
+#
+node_modules/
+npm-debug.log
+
+# ruby
+#
+ios/.gems
+ruby/transifex/.gems
+ruby/transifex/.rbenv-gemsets
+ruby/transifex/.ruby-version
+
+# BUCK
+buck-out/
+\.buckd/
+android/app/libs
+*.keystore
+
++# Bundle artifact
++*.jsbundle
+
+# Cocoapods
+#
+Pods/
+ios/Podfile.lock
+ios/.gems
+ios/ForestWatcher.ipa
+ios/ForestWatcher.app.dSYM.zip
+
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/
+
+*/fastlane/report.xml
+*/fastlane/Preview.html
+*/fastlane/metadata/review_information
+*/fastlane/metadata/trade_representative_contact_information

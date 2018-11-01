@@ -1,29 +1,13 @@
-# README #
+# Forest Watcher
+> Delivering real-time data to frontline forest guardians.
+<p align="center"><img src="screen-shot.png" height=400></p>
+<br>
+<br>
 
-This README would normally document whatever steps are necessary to get your application up and running.
+- [Documentation](https://vizzuality.gitbooks.io/forest-watcher/content/)
+- [Changelog](https://github.com/Vizzuality/forest-watcher/blob/master/CHANGELOG.md)
+- [Read more](http://vizzuality.com/projects/forest-watcher)
+## License
+MIT License
 
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+Copyright (c) 2016 Vizzuality

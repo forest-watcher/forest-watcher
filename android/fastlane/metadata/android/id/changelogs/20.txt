@@ -1,0 +1,5 @@
+- peningkatan kualitas laporan
+- kemampuan untuk menghapus laporan
+- mengundang pengguna tanpa akun my_gfw untuk membuat akun dengan tautan halaman web
+- memperbarui syarat dan ketentuan
+- meninjau terjemahan untuk lapisan kontekstual yang belum tersedia
