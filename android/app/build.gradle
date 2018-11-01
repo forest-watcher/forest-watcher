@@ -114,6 +114,15 @@ android {
             'appAuthRedirectScheme': project.env.get("LOGIN_GOOGLE_REDIRECT_SCHEMA_ANDROID")
         ]
     }
+    /*
+     * See if this can be removed when the dependencies have been upgraded and sanitised
+     *
+     * It's needed to workaround an issue with lottie-react-native
+     */
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
     dexOptions {
         preDexLibraries false
         javaMaxHeapSize "8g"
