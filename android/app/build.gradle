@@ -120,12 +120,6 @@ android {
         javaMaxHeapSize "8g"
     }
     signingConfigs {
-        debug {
-            storeFile file(project.env.get("RELEASE_STORE_FILE"))
-            storePassword project.env.get("RELEASE_STORE_PASSWORD")
-            keyAlias project.env.get("RELEASE_KEY_ALIAS")
-            keyPassword project.env.get("RELEASE_KEY_PASSWORD")
-        }
         release {
             storeFile file(project.env.get("RELEASE_STORE_FILE"))
             storePassword project.env.get("RELEASE_STORE_PASSWORD")
