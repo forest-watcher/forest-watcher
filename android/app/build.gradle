@@ -75,8 +75,7 @@ import com.android.build.OutputFile
 
 project.ext.react = [
     entryFile: "index.js",
-    inputExcludes: ["ios/**", "__tests__/**", "bundle_out/**"],
-    nodeExecutableAndArgs : ["/usr/local/bin/node"]
+    inputExcludes: ["ios/**", "__tests__/**", "bundle_out/**"]
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -115,22 +114,25 @@ android {
             'appAuthRedirectScheme': project.env.get("LOGIN_GOOGLE_REDIRECT_SCHEMA_ANDROID")
         ]
     }
+    /*
+     * See if this can be removed when the dependencies have been upgraded and sanitised
+     *
+     * It's needed to workaround an issue with lottie-react-native
+     */
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
     dexOptions {
         preDexLibraries false
         javaMaxHeapSize "8g"
     }
     signingConfigs {
-        debug {
-            storeFile file(project.env.get("RELEASE_STORE_FILE"))
-            storePassword project.env.get("RELEASE_STORE_PASSWORD")
-            keyAlias project.env.get("RELEASE_KEY_ALIAS")
-            keyPassword project.env.get("RELEASE_KEY_PASSWORD")
-        }
         release {
-            storeFile file(project.env.get("RELEASE_STORE_FILE"))
-            storePassword project.env.get("RELEASE_STORE_PASSWORD")
-            keyAlias project.env.get("RELEASE_KEY_ALIAS")
-            keyPassword project.env.get("RELEASE_KEY_PASSWORD")
+            storeFile = file("$rootDir/keystores/keystore.keystore")
+            storePassword = project.findProperty("keystore_password") ?: ""
+            keyAlias = project.findProperty("key_alias") ?: ""
+            keyPassword = project.findProperty("key_password") ?: ""
         }
     }
     splits {
