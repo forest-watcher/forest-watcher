@@ -1,6 +1,6 @@
 {
   "name": "ForestWatcher",
-  "version": "1.6.0",
+  "version": "1.6.3",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
@@ -16,7 +16,8 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "release:android": "cd android && ./gradlew assembleRelease",
-    "release:ios": "react-native run-ios --configuration Release"
+    "release:ios": "react-native run-ios --configuration Release",
+    "postinstall": "cd node_modules/react-native; exec ./scripts/ios-install-third-party.sh; cd third-party/glog-0.3.4; exec ./configure; cd ../../../.."
   },
   "dependencies": {
     "@mapbox/geo-viewport": "0.2.2",
