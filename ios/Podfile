@@ -7,6 +7,7 @@ target 'ForestWatcher' do
 
   pod 'AppAuth'
   pod 'FBSDKLoginKit'
+  pod 'FBSDKShareKit'
 
   # pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
   # pod 'CodePush', :path => '../node_modules/react-native-code-push'
