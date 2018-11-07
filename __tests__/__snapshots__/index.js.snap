@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Unit Tests snapshot object test 1`] = `
+Object {
+  "hello": true,
+  "number": 232,
+}
+`;
+
+exports[`Unit Tests snapshot redux action test 1`] = `
+Object {
+  "payload": true,
+  "type": "app/SET_OFFLINE_MODE",
+}
+`;
+
+exports[`Unit Tests snapshot redux action test 2`] = `
+Object {
+  "payload": false,
+  "type": "app/SET_OFFLINE_MODE",
+}
+`;
+
+exports[`Unit Tests snapshot runs 1`] = `false`;
