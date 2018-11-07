@@ -2240,7 +2240,6 @@
 				DEVELOPMENT_TEAM = MEXRL59E77;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/GoogleSdk",
 					"$(PROJECT_DIR)",
 				);
 				GCC_NO_COMMON_BLOCKS = NO;
@@ -2299,7 +2298,6 @@
 				DEVELOPMENT_TEAM = MEXRL59E77;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/GoogleSdk",
 					"$(PROJECT_DIR)",
 				);
 				GCC_NO_COMMON_BLOCKS = NO;
