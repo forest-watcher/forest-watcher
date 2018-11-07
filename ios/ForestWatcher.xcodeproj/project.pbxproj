@@ -29,7 +29,6 @@
 		307BBD714FA74881854E01D9 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFD632EF65604568B651A931 /* AddressBook.framework */; };
 		320246882089E6DE00BFFA31 /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 320246502089E6C500BFFA31 /* libFastImage.a */; };
 		32711EC720690CA70062DBE0 /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32711EBC20690C6E0062DBE0 /* libReactNativeConfig.a */; };
-		32CB169C208A599A0036D050 /* libLottie.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32CB1668208A59870036D050 /* libLottie.a */; };
 		32CB16A9208A59C00036D050 /* libLottieReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32CB16A8208A59B90036D050 /* libLottieReactNative.a */; };
 		32E52032208B4560006E6400 /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32CB1662208A59870036D050 /* Lottie.framework */; };
 		32E52033208B4560006E6400 /* Lottie.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 32CB1662208A59870036D050 /* Lottie.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -752,7 +751,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				32CB16A9208A59C00036D050 /* libLottieReactNative.a in Frameworks */,
-				32CB169C208A599A0036D050 /* libLottie.a in Frameworks */,
 				32EC8F822089F3AF00972CCC /* libCodePush.a in Frameworks */,
 				320246882089E6DE00BFFA31 /* libFastImage.a in Frameworks */,
 				32711EC720690CA70062DBE0 /* libReactNativeConfig.a in Frameworks */,
@@ -2045,7 +2043,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		545C73DF8ED53C595077D845 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
