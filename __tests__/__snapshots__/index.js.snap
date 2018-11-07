@@ -21,4 +21,16 @@ Object {
 }
 `;
 
+exports[`Unit Tests snapshot redux reducer test 1`] = `
+Object {
+  "actions": Array [],
+  "coordinatesFormat": "decimal",
+  "language": null,
+  "offlineMode": true,
+  "pristineCacheTooltip": true,
+  "synced": false,
+  "version": "1.6.3",
+}
+`;
+
 exports[`Unit Tests snapshot runs 1`] = `false`;

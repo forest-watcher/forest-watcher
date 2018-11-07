@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import { setOfflineMode } from '../app/redux-modules/app';
+import { default as reducer, setOfflineMode } from '../app/redux-modules/app';
 
 describe('Unit Tests', () => {
 
@@ -19,6 +19,10 @@ describe('Unit Tests', () => {
   it('snapshot redux action test', () => {
     expect(setOfflineMode(true)).toMatchSnapshot();
     expect(setOfflineMode(false)).toMatchSnapshot();
+  });
+
+  it('snapshot redux reducer test', () => {
+    expect(reducer(undefined, setOfflineMode(true))).toMatchSnapshot();
   });
 
 });
