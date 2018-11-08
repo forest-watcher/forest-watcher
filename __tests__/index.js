@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import { default as reducer, setOfflineMode } from '../app/redux-modules/app';
+import { default as reducer, setOfflineMode, syncApp } from '../app/redux-modules/app';
 
 describe('Unit Tests', () => {
 
@@ -9,10 +9,6 @@ describe('Unit Tests', () => {
   });
 
   it('snapshot runs', () => {
-    expect(false).toMatchSnapshot();
-  });
-
-  it('snapshot object test', () => {
     expect({'hello': true, number: 232}).toMatchSnapshot();
   });
 
@@ -23,6 +19,10 @@ describe('Unit Tests', () => {
 
   it('snapshot redux reducer test', () => {
     expect(reducer(undefined, setOfflineMode(true))).toMatchSnapshot();
+  });
+
+  it('snapshot sync app function test', () => {
+    expect(syncApp()).toMatchSnapshot();
   });
 
 });

@@ -1,12 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Unit Tests snapshot object test 1`] = `
-Object {
-  "hello": true,
-  "number": 232,
-}
-`;
-
 exports[`Unit Tests snapshot redux action test 1`] = `
 Object {
   "payload": true,
@@ -33,4 +26,11 @@ Object {
 }
 `;
 
-exports[`Unit Tests snapshot runs 1`] = `false`;
+exports[`Unit Tests snapshot runs 1`] = `
+Object {
+  "hello": true,
+  "number": 232,
+}
+`;
+
+exports[`Unit Tests snapshot sync app function test 1`] = `[Function]`;
