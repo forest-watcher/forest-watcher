@@ -1,6 +1,6 @@
 import 'react-native';
 import 'jest';
-import * as appReducer from '../app/redux-modules/app';
+import appReducer, { setOfflineMode, syncApp } from '../app/redux-modules/app';
 
 describe('Unit Tests', () => {
   it('test runs', () => {
@@ -12,16 +12,16 @@ describe('Unit Tests', () => {
   });
 
   it('snapshot redux action test', () => {
-    expect(appReducer.setOfflineMode(true)).toMatchSnapshot();
-    expect(appReducer.setOfflineMode(false)).toMatchSnapshot();
+    expect(setOfflineMode(true)).toMatchSnapshot();
+    expect(setOfflineMode(false)).toMatchSnapshot();
   });
 
   it('snapshot redux reducer test', () => {
-    expect(appReducer(undefined, appReducer.setOfflineMode(true))).toMatchSnapshot();
+    expect(appReducer(undefined, setOfflineMode(true))).toMatchSnapshot();
   });
 
   it('snapshot sync app function test', () => {
-    expect(appReducer.syncApp()).toMatchSnapshot();
+    expect(syncApp()).toMatchSnapshot();
   });
 });
 
