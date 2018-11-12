@@ -102,7 +102,8 @@
     "react-test-renderer": "15.4.1",
     "reactotron-react-native": "2.0.0-beta.4",
     "reactotron-redux": "1.13.0",
-    "reactotron-redux-saga": "1.13.0"
+    "reactotron-redux-saga": "1.13.0",
+    "redux-mock-store": "^1.5.3"
   },
   "jest": {
     "preset": "react-native",
