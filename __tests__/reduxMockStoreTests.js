@@ -1,6 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-// import fetchMock from 'fetch-mock';
+
+global.fetch = require('jest-fetch-mock');
 
 const mockStore = configureMockStore([thunk]);
 
@@ -8,20 +9,19 @@ const mockStore = configureMockStore([thunk]);
 
 describe('async actions', () => {
   afterEach(() => {
-    // fetchMock.restore();
+    fetch.resetMocks();
   });
 
   it('creates FETCH_TODOS_SUCCESS when fetching todos has been done', () => {
-    // fetchMock.getOnce('/todos', {
-    //   body: { todos: ['do something'] },
-    //   headers: { 'content-type': 'application/json' }
-    // });
+    fetch.mockResponseOnce(JSON.stringify({
+      todos: ['TWO', 'THREE']
+    }));
 
     const expectedActions = [
       { type: FETCH_TODOS_REQUEST },
-      { type: FETCH_TODOS_SUCCESS, body: { todos: ['do something'] } }
+      { type: FETCH_TODOS_SUCCESS, body: { todos: ['TWO', 'THREE'] } }
     ];
-    const store = mockStore({ todos: [] });
+    const store = mockStore({ todos: ['ONE'] });
 
     return store.dispatch(fetchTodos()).then(() => {
       // return of async actions
