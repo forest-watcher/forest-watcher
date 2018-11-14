@@ -13,19 +13,37 @@ describe('async actions', () => {
   });
 
   it('creates FETCH_TODOS_SUCCESS when fetching todos has been done', () => {
-    fetch.mockResponseOnce(JSON.stringify({
-      todos: ['TWO', 'THREE']
-    }));
+    const initialState = { todos: ['ONE'] };
+    const store = mockStore(initialState);
+    const responseBody = { todos: ['TWO', 'THREE'] };
+
+    fetch.mockResponseOnce(JSON.stringify(responseBody));
 
     const expectedActions = [
       { type: FETCH_TODOS_REQUEST },
-      { type: FETCH_TODOS_SUCCESS, body: { todos: ['TWO', 'THREE'] } }
+      { type: FETCH_TODOS_SUCCESS, body: responseBody }
     ];
-    const store = mockStore({ todos: ['ONE'] });
 
     return store.dispatch(fetchTodos()).then(() => {
-      // return of async actions
       expect(store.getActions()).toEqual(expectedActions);
+      expect(store.getActions()).toMatchSnapshot();
+    });
+  });
+
+  it('creates FETCH_TODOS_FAILURE when fetching todos is rejected', () => {
+    const store = mockStore();
+    const errorObject = { name: 'Mock Error', message: 'Mock error message.' };
+
+    fetch.mockRejectOnce(errorObject);
+
+    const expectedActions = [
+      { type: FETCH_TODOS_REQUEST },
+      { type: FETCH_TODOS_FAILURE, exception: errorObject }
+    ];
+
+    return store.dispatch(fetchTodos()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+      expect(store.getActions()).toMatchSnapshot();
     });
   });
 });
@@ -60,8 +78,8 @@ export function fetchTodos() {
   return dispatch => {
     dispatch(fetchTodosRequest());
     return fetch('http://example.com/todos')
-      .then(res => res.json())
-      .then(body => dispatch(fetchTodosSuccess(body)))
-      .catch(exception => dispatch(fetchTodosFailure(exception)));
+    .then(res => res.json())
+    .then(body => dispatch(fetchTodosSuccess(body)))
+    .catch(exception => dispatch(fetchTodosFailure(exception)));
   };
 }
