@@ -11,9 +11,18 @@ import { retrySync } from 'redux-modules/app';
  * todo: explain -> component-like testing
  */
 describe('async actions', () => {
-  it('combined Reducer test', () => {
-    // todo: use Any<Number> for syncDate field in snapshot
-    expect(combinedReducer(undefined, { type: 'unknownActionTest' })).toMatchSnapshot();
+  it('Tests redux initial state and handles unknown action', () => {
+    expect(combinedReducer(undefined, { type: 'unknownActionTest' })).toMatchSnapshot({
+      areas: { syncDate: expect.any(Number) },
+      layers: { syncDate: expect.any(Number) }
+    });
+  });
+
+  it('Test retrySync on initial state', () => {
+    expect(combinedReducer(undefined, retrySync())).toMatchSnapshot({
+      areas: { syncDate: expect.any(Number) },
+      layers: { syncDate: expect.any(Number) }
+    });
   });
 });
 
