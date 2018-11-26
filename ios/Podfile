@@ -13,8 +13,8 @@ target 'ForestWatcher' do
   # pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
   ## Pods for AppCenter
-  pod 'AppCenter/Crashes', '~> 1.5.0'
-  pod 'AppCenterReactNativeShared', '~> 1.4.0'
+  pod 'AppCenter/Crashes', '~> 1.11.0'
+  pod 'AppCenterReactNativeShared', '~> 1.10.0'
 
 
   # pod 'lottie-ios', :path => '../node_modules/lottie-ios'

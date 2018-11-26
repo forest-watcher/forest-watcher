@@ -6,7 +6,7 @@ import { registerScreens } from 'screens';
 import createStore from 'store';
 
 
-import { setExceptionHandlers, checkPrevCrashes } from './crashes';
+import { checkPrevCrashes } from './crashes';
 
 // Disable ios warnings
 // console.disableYellowBox = true;
@@ -61,7 +61,6 @@ const app = () => {
         orientation: 'portrait'
       }
     });
-    setExceptionHandlers(store);
     checkPrevCrashes();
     setCodePush();
     createStore.runSagas();
