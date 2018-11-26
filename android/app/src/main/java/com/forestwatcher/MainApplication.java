@@ -18,7 +18,6 @@ import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.facebook.react.ReactPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
-import com.syarul.rnlocation.RNLocation;
 import com.rnziparchive.RNZipArchivePackage;
 import com.imagepicker.ImagePickerPackage;
 import com.reactlibrary.RNAppAuthPackage;
@@ -65,7 +64,6 @@ public class MainApplication extends NavigationApplication implements ReactInsta
       new ReactNativeConfigPackage(),
       new MapsPackage(),
       new RNI18nPackage(),
-      new RNLocation(),
       new RealmReactPackage(),
       new RNZipArchivePackage(),
       new CookieManagerPackage(),
