@@ -107,7 +107,7 @@ class Walkthrough extends PureComponent {
     const { page } = this.state;
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={this.goToLogin}>
+        <TouchableOpacity onPress={this.goToLogin} style={styles.skipButtonWrapper}>
           <Text style={styles.skipButton}>{capitalize(i18n.t('walkthrough.skip'))}</Text>
         </TouchableOpacity>
         <StepsSlider

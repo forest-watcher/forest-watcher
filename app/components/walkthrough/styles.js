@@ -75,18 +75,22 @@ export default StyleSheet.create({
     width: Theme.screen.width,
     backgroundColor: Theme.background.white
   },
+  skipButtonWrapper: {
+    alignSelf: 'flex-end'
+  },
   skipButton: {
     color: Theme.fontColors.light,
     fontFamily: Theme.font,
     fontSize: 14,
     fontWeight: '400',
     textAlign: 'right',
+    padding: 10,
     ...Platform.select({
       android: {
         marginTop: 16
       },
       ios: {
-        marginTop: 24
+        marginTop: 34
       }
     }),
     paddingRight: 24
