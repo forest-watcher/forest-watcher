@@ -12,7 +12,6 @@ import com.psykar.cookiemanager.CookieManagerPackage;
 import io.realm.react.RealmReactPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.reactnativenavigation.controllers.ActivityCallbacks;
-import com.sensormanager.SensorManagerPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.facebook.react.ReactPackage;
@@ -59,7 +58,6 @@ public class MainApplication extends NavigationApplication implements ReactInsta
     // No need to add RnnPackage and MainReactPackage
     return Arrays.<ReactPackage>asList(
       new GoogleAnalyticsBridgePackage(),
-      new SensorManagerPackage(),
       new RNFetchBlobPackage(),
       new ReactNativeConfigPackage(),
       new MapsPackage(),

@@ -7106,11 +7106,6 @@ react-native-scrollable-tab-view@0.10.0:
     prop-types "^15.6.0"
     react-timer-mixin "^0.13.3"
 
-react-native-sensor-manager@0.1.10:
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/react-native-sensor-manager/-/react-native-sensor-manager-0.1.10.tgz#c228280d67fddb668e715b4d7b823188de504da8"
-  integrity sha1-wigoDWf922aOcVtNe4IxiN5QTag=
-
 react-native-snap-carousel@3.7.5:
   version "3.7.5"
   resolved "https://registry.yarnpkg.com/react-native-snap-carousel/-/react-native-snap-carousel-3.7.5.tgz#7172456d40ab9161523055eb302f9b03b244240a"

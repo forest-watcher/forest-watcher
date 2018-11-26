@@ -185,11 +185,9 @@ dependencies {
     implementation(project(':react-native-google-analytics-bridge')) {
         exclude group: 'com.google.android.gms'
     }
-    implementation project(':react-native-sensor-manager')
     implementation project(':react-native-image-picker')
     implementation project(':react-native-fetch-blob')
     implementation project(':react-native-config')
-    implementation project(':RNLocation')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':react-native-navigation')
     implementation(project(':react-native-maps')) {
