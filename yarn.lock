@@ -7042,10 +7042,6 @@ react-native-google-analytics-bridge@5.3.0:
   resolved "https://registry.yarnpkg.com/react-native-google-analytics-bridge/-/react-native-google-analytics-bridge-5.3.0.tgz#c94800936a51054e8aae5c6e69c4a07b8fe775eb"
   integrity sha512-+okDgluLB5i0E0f9Na+NQTw6fUF88tlrU8nXH73ngKVbSXwhILXNTs+BdVdgGVdhL32uzJc1ypoF7knazSnL+A==
 
-"react-native-gps@github:Vizzuality/react-native-gps":
-  version "0.1.2"
-  resolved "https://codeload.github.com/Vizzuality/react-native-gps/tar.gz/9065c4f66e32b5b0f837bdeb583e1f6f2bb59c28"
-
 react-native-hyperlink@0.0.14:
   version "0.0.14"
   resolved "https://registry.yarnpkg.com/react-native-hyperlink/-/react-native-hyperlink-0.0.14.tgz#138bbfe5b410667d1e37f04a2b4713163ab0ed81"
@@ -7074,10 +7070,6 @@ react-native-keyboard-aware-scroll-view@0.3.0:
     create-react-class "^15.6.0"
     prop-types "^15.5.10"
     react-timer-mixin "^0.13.3"
-
-"react-native-location@github:timfpark/react-native-location":
-  version "0.14.3"
-  resolved "https://codeload.github.com/timfpark/react-native-location/tar.gz/723d46382d8c370f6e6b795006276f98e80b2d84"
 
 react-native-maps@0.22.1:
   version "0.22.1"
