@@ -13,7 +13,6 @@ target 'ForestWatcher' do
   # pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
   ## Pods for AppCenter
-  pod 'AppCenter/Crashes', '~> 1.11.0'
   pod 'AppCenterReactNativeShared', '~> 1.10.0'
 
   ## react-native-maps dependencies
