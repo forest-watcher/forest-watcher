@@ -108,6 +108,7 @@
   },
   "jest": {
     "preset": "react-native",
+    "verbose": true,
     "automock": false
   },
   "lint-staged": {
