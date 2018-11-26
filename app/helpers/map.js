@@ -8,7 +8,6 @@ import type { Coordinates, CoordinatesFormat, Alert } from 'types/common.types';
 
 const kdbush = require('kdbush');
 const geokdbush = require('geokdbush');
-const tilebelt = require('@mapbox/tilebelt');
 
 // Use example
 // const firstPoint = { latitude: -3.097125, longitude: -45.600375 }
@@ -76,34 +75,6 @@ export function pointsToGeoJSON(points: Array<Alert>, slug: string) {
       }
     }))
   };
-}
-
-export function pointsFromGeojson(geojson) {
-  if (!geojson || !geojson.features) return [];
-  return geojson.features.map((feature) => ({
-    lon: feature.geometry.coordinates[0],
-    lat: feature.geometry.coordinates[1]
-  }));
-}
-
-export function getTilesInBbox(bbox, zooms) {
-  const tilesArray = [];
-  const zoomsArray = typeof zooms === 'number'
-    ? [zooms]
-    : zooms;
-  zoomsArray.forEach((zoom) => {
-    const pointTiles = bbox.map(point => tilebelt.pointToTile(point.lat, point.lng, zoom));
-    const tiles = {
-      x: [pointTiles[0][0], pointTiles[1][0]],
-      y: [pointTiles[0][1], pointTiles[1][1]]
-    };
-    for (let x = tiles.x[0], xLength = tiles.x[1]; x <= xLength; x++) {
-      for (let y = tiles.y[0], yLength = tiles.y[1]; y <= yLength; y++) {
-        tilesArray.push([x, y, zoom]);
-      }
-    }
-  });
-  return tilesArray;
 }
 
 export function getContextualLayer(layers) {
