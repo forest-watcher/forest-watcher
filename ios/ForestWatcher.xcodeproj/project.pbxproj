@@ -48,8 +48,6 @@
 		676D9D0F33C74730B70925F4 /* libRCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF75393B56F14CC2AD08F836 /* libRCTGoogleAnalyticsBridge.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8D81A3AA1EDC3D7B00232B09 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D81A3A91EDC3D4500232B09 /* libReactNativeNavigation.a */; };
-		98A5EE6221AC2AC00079AF2A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98A5EE2521AC2AC00079AF2A /* MapKit.framework */; };
-		98A5EEC221AC2DBF0079AF2A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98A5EE8521AC2DBF0079AF2A /* UIKit.framework */; };
 		98B1DF6821932067002426DC /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC1FA19BF67424591686AF2 /* libz.tbd */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B80AF780A46A412BB5259DB3 /* libRNLocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C4D5573CD8F4C9F9DBE141C /* libRNLocation.a */; };
@@ -602,8 +600,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98A5EEC221AC2DBF0079AF2A /* UIKit.framework in Frameworks */,
-				98A5EE6221AC2AC00079AF2A /* MapKit.framework in Frameworks */,
 				32CB16A9208A59C00036D050 /* libLottieReactNative.a in Frameworks */,
 				32EC8F822089F3AF00972CCC /* libCodePush.a in Frameworks */,
 				320246882089E6DE00BFFA31 /* libFastImage.a in Frameworks */,
