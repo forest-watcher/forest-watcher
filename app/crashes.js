@@ -1,9 +1,9 @@
-import Crashes, { ErrorAttachmentLog } from 'appcenter-crashes';
 import { Navigation } from 'react-native-navigation';
 import pick from 'lodash/pick';
 import { REDUCERS_SAVED_TO_REPORT } from 'config/constants';
 
 export function setExceptionHandlers(store) {
+  /*
   Crashes.setListener({
     // Always send the crashes by default
     shouldAwaitUserConfirmation() {
@@ -19,10 +19,12 @@ export function setExceptionHandlers(store) {
       return [textAttachment];
     }
   });
+  */
 }
 
 // Check previous crashes after restart to show user feedback
 export async function checkPrevCrashes() {
+  /*
   const didCrash = await Crashes.hasCrashedInLastSession();
   if (didCrash) {
     const crashReport = await Crashes.lastSessionCrashReport();
@@ -39,4 +41,5 @@ export async function checkPrevCrashes() {
       });
     }
   }
+  */
 }

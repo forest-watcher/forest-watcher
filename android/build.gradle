@@ -2,18 +2,15 @@
 
 buildscript {
     ext {
-        buildToolsVersion = "27.0.3"
         minSdkVersion = 17
         compileSdkVersion = 27
         targetSdkVersion = 26
         supportLibVersion = "27.1.1"
+        glideVersion = "4.7.1"
     }
     repositories {
         google()
         jcenter()
-        maven {
-            url 'https://maven.google.com'
-        }
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url "$rootDir/../node_modules/react-native/android"
@@ -21,7 +18,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.4'
-        classpath 'com.google.gms:google-services:3.1.1'
+        classpath 'com.google.gms:google-services:4.1.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -30,47 +27,12 @@ buildscript {
 
 allprojects {
     repositories {
-        configurations.all {
-            resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-                if (details.getRequested().getGroup() == 'com.google.android.gms') {
-                    details.useVersion('12.0.1')
-                }
-                if (details.getRequested().getGroup() == 'com.android.support') {
-                    if (!requested.name.startsWith("multidex")) {
-                        details.useVersion '27.0.2'
-                    }
-                }
-            }
-        }
         google()
         mavenLocal()
         jcenter()
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url "$rootDir/../node_modules/react-native/android"
-        }
-    }
-}
-
-subprojects {
-    ext {
-        compileSdk = 27
-        buildTools = "27.0.3"
-        minSdk = 17
-        targetSdk = 26
-    }
-
-    afterEvaluate { project ->
-        if (!project.name.equalsIgnoreCase("app")
-                && project.hasProperty("android")) {
-            android {
-                compileSdkVersion compileSdk
-                buildToolsVersion buildTools
-                defaultConfig {
-                  minSdkVersion minSdk
-                  targetSdkVersion targetSdk
-                }
-            }
         }
     }
 }
