@@ -1,18 +1,20 @@
 
 # Testing
 
+Also see [Writing Tests](writing-tests.md)
+
 ## Commands
 
 `yarn test` will run all tests (relating to changed files).
 
-`yarn test:watch` **todo: explain! will run an interactive test. Where you can individually update snapshots, or re-run all tests.
+`yarn test:watch` runs an interactive CLI where you can individually update snapshots and re-run tests.
 
 ## What we test
 
 - Unit Tests
   - Redux
-  - Component UI **todo
-  - Other functions **todo
+  - Component UI
+  - Other functions
 - E2E Tests
 
 ### Unit Tests
@@ -73,6 +75,14 @@ These are usually very easy to do:
 >
 > **Debugging:** It’s easy to step into the code of an integration test in JS instead of trying to recreate the screenshot test scenario and debugging what happened in the visual diff.
 
-## Why Snapshot Tests? **todo
+## Snapshot Tests
 
-- Prevents duplicating the code in method being tested. Simple way to show if method output changes, very quick to check and change.
+### What are snapshot tests?
+
+The first time a snapshots test is run, it takes the output of a function (JavaScript Object) and saves this in a separate `.snap` file. 
+Then every time this test is run again, it compares the output of the function to the previously stored output. If the output was meant to be changed, the developer can run `yarn test:watch` to update the snapshot value to the current output of the function.
+
+### Why snapshot tests?
+- Best practise. 
+- Prevents duplicating the code in method being tested. 
+- Simple way to show if method output changes, very quick to check and change.
