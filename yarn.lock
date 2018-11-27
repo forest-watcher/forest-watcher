@@ -6073,6 +6073,7 @@ react-native-progress@3.5.0:
 react-native-safe-area@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/react-native-safe-area/-/react-native-safe-area-0.5.0.tgz#15523625d32b6f1b1685afbeebc045a9985f2d3a"
+  integrity sha512-VpqO+54+ikeQ0RCq6xWR9Zhv5GVLo21gBg57s4PtRNpPopNz9J6vak/9Gf7AStVnC4feyk+rCKAnxrHmC3M70g==
 
 react-native-safe-module@^1.1.0:
   version "1.2.0"

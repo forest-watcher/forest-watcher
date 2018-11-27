@@ -19,10 +19,15 @@ target 'ForestWatcher' do
   pod 'GoogleMaps'
   pod 'Google-Maps-iOS-Utils'
 
+  pod 'React', :path => '../node_modules/react-native'
+  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
   pod 'react-native-safe-area', :path => '../node_modules/react-native-safe-area'
 
   post_install do |installer|
     installer.pods_project.targets.each do |target|
+          if target.name == "React"
+              target.remove_from_project
+          end
           target.build_configurations.each do |config|
               config.build_settings['CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF'] = 'NO'
               config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '10.0'
