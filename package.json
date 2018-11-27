@@ -171,6 +171,7 @@
                 }
             ],
             "react/destructuring-assignment": "off",
+            "react/display-name": "warn",
             "react/forbid-component-props": "off",
             "react/forbid-prop-types": "off",
             "react/jsx-boolean-value": [
