@@ -15,34 +15,40 @@ import appReducer, {
 } from 'redux-modules/app';
 
 describe('Redux App Module', () => {
-// ACTION TESTS
-  describe('Redux Snapshot Actions', () => {
+  describe('Simple Actions: snapshot and reducer test', () => {
+    // todo: use snapshot-diff snapshot with reducer initial state!!
+    // Snapshot tests the action object and the reducer state
+    function simpleActionTest(action) {
+      expect(action).toMatchSnapshot();
+      expect(appReducer(undefined, action)).toMatchSnapshot();
+    }
+
     it('saveLastActions', () => {
-      expect(saveLastActions()).toMatchSnapshot();
+      simpleActionTest(saveLastActions());
     });
 
     it('setAppSynced', () => {
-      expect(setAppSynced(true)).toMatchSnapshot();
-      expect(setAppSynced(false)).toMatchSnapshot();
+      simpleActionTest(setAppSynced(true));
+      simpleActionTest(setAppSynced(false));
     });
 
     it('setCoordinatesFormat', () => {
-      expect(setCoordinatesFormat('decimal')).toMatchSnapshot();
-      expect(setCoordinatesFormat('degrees')).toMatchSnapshot();
+      simpleActionTest(setCoordinatesFormat('decimal'));
+      simpleActionTest(setCoordinatesFormat('degrees'));
     });
 
     it('setOfflineMode', () => {
-      expect(setOfflineMode(true)).toMatchSnapshot();
-      expect(setOfflineMode(false)).toMatchSnapshot();
+      simpleActionTest(setOfflineMode(true));
+      simpleActionTest(setOfflineMode(false));
     });
 
     it('setPristineCacheTooltip', () => {
-      expect(setPristineCacheTooltip(true)).toMatchSnapshot();
-      expect(setPristineCacheTooltip(false)).toMatchSnapshot();
+      simpleActionTest(setPristineCacheTooltip(true));
+      simpleActionTest(setPristineCacheTooltip(false));
     });
 
     it('updateApp', () => {
-      expect(updateApp()).toMatchSnapshot();
+      simpleActionTest(updateApp());
     });
   });
 
@@ -54,6 +60,7 @@ describe('Redux App Module', () => {
     beforeAll(() => {
       // create store
       initialStoreState = combinedReducer(undefined, { type: 'NONE' });
+      // initialStoreState = { app: appReducer(undefined, { type: 'NONE' }) };
       configuredStore = configureStore([thunk]);
     });
 
@@ -62,17 +69,19 @@ describe('Redux App Module', () => {
       store = configuredStore(initialStoreState);
     });
 
-    function mockDispatchAction(state, action) {
+    function mockDispatchAction(state, action, test = true) {
       const newStore = configuredStore({ app: state });
       newStore.dispatch(action);
       const resolvedActions = newStore.getActions();
-      expect(resolvedActions).toMatchSnapshot();
       let newState = state;
       // should only be one but the loop is used for future changes and so all tests conform.
       resolvedActions.forEach(resolvedAction => {
         newState = appReducer(newState, resolvedAction); // todo should pass reducer in?
       }); // todo: how one thunk calling another is handled
-      expect(newState).toMatchSnapshot();
+      if (test) {
+        expect(resolvedActions).toMatchSnapshot();
+        expect(newState).toMatchSnapshot();
+      }
       return newState;
     }
 
@@ -104,31 +113,9 @@ describe('Redux App Module', () => {
       // todo: can for loop actions:
       newState = mockDispatchAction(newState, showNotConnectedNotification());
       newState = mockDispatchAction(newState, setOfflineMode(true));
-      /* newState = */
       mockDispatchAction(newState, showNotConnectedNotification());
     });
   });
-
-// REDUCER & STATE TESTS
-  // describe('Redux Reducers - Unit Tests', () => {
-    // it('tests', () => {
-    //   expect(true);
-    // });
-    // it('snapshot redux reducer initial state test', () => {
-    //   expect(appReducer(undefined, { type: 'NONE' })).toMatchSnapshot();
-    // });
-    //
-    // it('snapshot redux reducer action test', () => {
-    //   expect(appReducer(undefined, setAppSynced(true))).toMatchSnapshot();
-    // });
-    //
-    // it('snapshot redux reducer multiple action test', () => {
-    //   let state = appReducer(undefined, setAppSynced(true));
-    //   expect(state).toMatchSnapshot();
-    //   state = appReducer(state, setOfflineMode(true));
-    //   expect(state).toMatchSnapshot();
-    // });
-  // });
 });
 
 // MOCKS

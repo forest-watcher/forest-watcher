@@ -8,7 +8,6 @@ import { retrySync } from 'redux-modules/app';
  * We're testing the actions and reducers independently.
  * This let's us test the whole store's state, but at a much lower level
  * and with better insights into how the actions are called/dispatched.
- * todo: explain -> component-like testing
  */
 describe('async actions', () => {
   it('Tests redux initial state and handles unknown action', () => {

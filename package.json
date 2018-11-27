@@ -107,9 +107,7 @@
     "redux-mock-store": "1.5.3"
   },
   "jest": {
-    "preset": "react-native",
-    "verbose": true,
-    "automock": false
+    "preset": "react-native"
   },
   "lint-staged": {
     "app/**/*.js": [

@@ -1,74 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Redux App Module Redux Snapshot Actions saveLastActions 1`] = `
-Object {
-  "payload": undefined,
-  "type": "app/SAVE_LAST_ACTIONS",
-}
-`;
-
-exports[`Redux App Module Redux Snapshot Actions setAppSynced 1`] = `
-Object {
-  "payload": true,
-  "type": "app/SET_APP_SYNCED",
-}
-`;
-
-exports[`Redux App Module Redux Snapshot Actions setAppSynced 2`] = `
-Object {
-  "payload": false,
-  "type": "app/SET_APP_SYNCED",
-}
-`;
-
-exports[`Redux App Module Redux Snapshot Actions setCoordinatesFormat 1`] = `
-Object {
-  "payload": "decimal",
-  "type": "app/SET_COORDINATES_FORMAT",
-}
-`;
-
-exports[`Redux App Module Redux Snapshot Actions setCoordinatesFormat 2`] = `
-Object {
-  "payload": "degrees",
-  "type": "app/SET_COORDINATES_FORMAT",
-}
-`;
-
-exports[`Redux App Module Redux Snapshot Actions setOfflineMode 1`] = `
-Object {
-  "payload": true,
-  "type": "app/SET_OFFLINE_MODE",
-}
-`;
-
-exports[`Redux App Module Redux Snapshot Actions setOfflineMode 2`] = `
-Object {
-  "payload": false,
-  "type": "app/SET_OFFLINE_MODE",
-}
-`;
-
-exports[`Redux App Module Redux Snapshot Actions setPristineCacheTooltip 1`] = `
-Object {
-  "payload": true,
-  "type": "app/SET_PRISTINE_CACHE_TOOLTIP",
-}
-`;
-
-exports[`Redux App Module Redux Snapshot Actions setPristineCacheTooltip 2`] = `
-Object {
-  "payload": false,
-  "type": "app/SET_PRISTINE_CACHE_TOOLTIP",
-}
-`;
-
-exports[`Redux App Module Redux Snapshot Actions updateApp 1`] = `
-Object {
-  "type": "app/UPDATE_APP",
-}
-`;
-
 exports[`Redux App Module Redux Snapshot Thunk Actions retrySync 1`] = `
 Array [
   Object {
@@ -181,4 +112,195 @@ Array [
     "type": "user/GET_USER_REQUEST",
   },
 ]
+`;
+
+exports[`Redux App Module Simple Actions: snapshot and reducer test saveLastActions 1`] = `
+Object {
+  "payload": undefined,
+  "type": "app/SAVE_LAST_ACTIONS",
+}
+`;
+
+exports[`Redux App Module Simple Actions: snapshot and reducer test saveLastActions 2`] = `
+Object {
+  "actions": Array [
+    undefined,
+  ],
+  "coordinatesFormat": "decimal",
+  "language": null,
+  "offlineMode": false,
+  "pristineCacheTooltip": true,
+  "synced": false,
+  "version": "1.6.3",
+}
+`;
+
+exports[`Redux App Module Simple Actions: snapshot and reducer test setAppSynced 1`] = `
+Object {
+  "payload": true,
+  "type": "app/SET_APP_SYNCED",
+}
+`;
+
+exports[`Redux App Module Simple Actions: snapshot and reducer test setAppSynced 2`] = `
+Object {
+  "actions": Array [],
+  "coordinatesFormat": "decimal",
+  "language": null,
+  "offlineMode": false,
+  "pristineCacheTooltip": true,
+  "synced": true,
+  "version": "1.6.3",
+}
+`;
+
+exports[`Redux App Module Simple Actions: snapshot and reducer test setAppSynced 3`] = `
+Object {
+  "payload": false,
+  "type": "app/SET_APP_SYNCED",
+}
+`;
+
+exports[`Redux App Module Simple Actions: snapshot and reducer test setAppSynced 4`] = `
+Object {
+  "actions": Array [],
+  "coordinatesFormat": "decimal",
+  "language": null,
+  "offlineMode": false,
+  "pristineCacheTooltip": true,
+  "synced": false,
+  "version": "1.6.3",
+}
+`;
+
+exports[`Redux App Module Simple Actions: snapshot and reducer test setCoordinatesFormat 1`] = `
+Object {
+  "payload": "decimal",
+  "type": "app/SET_COORDINATES_FORMAT",
+}
+`;
+
+exports[`Redux App Module Simple Actions: snapshot and reducer test setCoordinatesFormat 2`] = `
+Object {
+  "actions": Array [],
+  "coordinatesFormat": "decimal",
+  "language": null,
+  "offlineMode": false,
+  "pristineCacheTooltip": true,
+  "synced": false,
+  "version": "1.6.3",
+}
+`;
+
+exports[`Redux App Module Simple Actions: snapshot and reducer test setCoordinatesFormat 3`] = `
+Object {
+  "payload": "degrees",
+  "type": "app/SET_COORDINATES_FORMAT",
+}
+`;
+
+exports[`Redux App Module Simple Actions: snapshot and reducer test setCoordinatesFormat 4`] = `
+Object {
+  "actions": Array [],
+  "coordinatesFormat": "degrees",
+  "language": null,
+  "offlineMode": false,
+  "pristineCacheTooltip": true,
+  "synced": false,
+  "version": "1.6.3",
+}
+`;
+
+exports[`Redux App Module Simple Actions: snapshot and reducer test setOfflineMode 1`] = `
+Object {
+  "payload": true,
+  "type": "app/SET_OFFLINE_MODE",
+}
+`;
+
+exports[`Redux App Module Simple Actions: snapshot and reducer test setOfflineMode 2`] = `
+Object {
+  "actions": Array [],
+  "coordinatesFormat": "decimal",
+  "language": null,
+  "offlineMode": true,
+  "pristineCacheTooltip": true,
+  "synced": false,
+  "version": "1.6.3",
+}
+`;
+
+exports[`Redux App Module Simple Actions: snapshot and reducer test setOfflineMode 3`] = `
+Object {
+  "payload": false,
+  "type": "app/SET_OFFLINE_MODE",
+}
+`;
+
+exports[`Redux App Module Simple Actions: snapshot and reducer test setOfflineMode 4`] = `
+Object {
+  "actions": Array [],
+  "coordinatesFormat": "decimal",
+  "language": null,
+  "offlineMode": false,
+  "pristineCacheTooltip": true,
+  "synced": false,
+  "version": "1.6.3",
+}
+`;
+
+exports[`Redux App Module Simple Actions: snapshot and reducer test setPristineCacheTooltip 1`] = `
+Object {
+  "payload": true,
+  "type": "app/SET_PRISTINE_CACHE_TOOLTIP",
+}
+`;
+
+exports[`Redux App Module Simple Actions: snapshot and reducer test setPristineCacheTooltip 2`] = `
+Object {
+  "actions": Array [],
+  "coordinatesFormat": "decimal",
+  "language": null,
+  "offlineMode": false,
+  "pristineCacheTooltip": true,
+  "synced": false,
+  "version": "1.6.3",
+}
+`;
+
+exports[`Redux App Module Simple Actions: snapshot and reducer test setPristineCacheTooltip 3`] = `
+Object {
+  "payload": false,
+  "type": "app/SET_PRISTINE_CACHE_TOOLTIP",
+}
+`;
+
+exports[`Redux App Module Simple Actions: snapshot and reducer test setPristineCacheTooltip 4`] = `
+Object {
+  "actions": Array [],
+  "coordinatesFormat": "decimal",
+  "language": null,
+  "offlineMode": false,
+  "pristineCacheTooltip": false,
+  "synced": false,
+  "version": "1.6.3",
+}
+`;
+
+exports[`Redux App Module Simple Actions: snapshot and reducer test updateApp 1`] = `
+Object {
+  "type": "app/UPDATE_APP",
+}
+`;
+
+exports[`Redux App Module Simple Actions: snapshot and reducer test updateApp 2`] = `
+Object {
+  "actions": Array [],
+  "coordinatesFormat": "decimal",
+  "language": null,
+  "offlineMode": false,
+  "pristineCacheTooltip": true,
+  "synced": false,
+  "version": "1.6.3",
+}
 `;
