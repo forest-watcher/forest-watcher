@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Redux App Module Redux Snapshot Actions retrySync 1`] = `[Function]`;
+
+exports[`Redux App Module Redux Snapshot Actions saveLastActions 1`] = `
+Object {
+  "payload": undefined,
+  "type": "app/SAVE_LAST_ACTIONS",
+}
+`;
+
+exports[`Redux App Module Redux Snapshot Actions setAppSynced 1`] = `
+Object {
+  "payload": true,
+  "type": "app/SET_APP_SYNCED",
+}
+`;
+
+exports[`Redux App Module Redux Snapshot Actions setAppSynced 2`] = `
+Object {
+  "payload": false,
+  "type": "app/SET_APP_SYNCED",
+}
+`;
+
+exports[`Redux App Module Redux Snapshot Actions setCoordinatesFormat 1`] = `
+Object {
+  "payload": "decimal",
+  "type": "app/SET_COORDINATES_FORMAT",
+}
+`;
+
+exports[`Redux App Module Redux Snapshot Actions setCoordinatesFormat 2`] = `
+Object {
+  "payload": "degrees",
+  "type": "app/SET_COORDINATES_FORMAT",
+}
+`;
+
+exports[`Redux App Module Redux Snapshot Actions setOfflineMode 1`] = `
+Object {
+  "payload": true,
+  "type": "app/SET_OFFLINE_MODE",
+}
+`;
+
+exports[`Redux App Module Redux Snapshot Actions setOfflineMode 2`] = `
+Object {
+  "payload": false,
+  "type": "app/SET_OFFLINE_MODE",
+}
+`;
+
+exports[`Redux App Module Redux Snapshot Actions setPristineCacheTooltip 1`] = `
+Object {
+  "payload": true,
+  "type": "app/SET_PRISTINE_CACHE_TOOLTIP",
+}
+`;
+
+exports[`Redux App Module Redux Snapshot Actions setPristineCacheTooltip 2`] = `
+Object {
+  "payload": false,
+  "type": "app/SET_PRISTINE_CACHE_TOOLTIP",
+}
+`;
+
+exports[`Redux App Module Redux Snapshot Actions showNotConnectedNotification 1`] = `[Function]`;
+
+exports[`Redux App Module Redux Snapshot Actions syncApp 1`] = `[Function]`;
+
+exports[`Redux App Module Redux Snapshot Actions updateApp 1`] = `
+Object {
+  "type": "app/UPDATE_APP",
+}
+`;
