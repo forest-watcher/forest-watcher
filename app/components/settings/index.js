@@ -21,6 +21,7 @@ import CoordinatesDropdown from 'containers/settings/coordinates-dropdown';
 import Row from 'components/common/row';
 
 import styles from './styles';
+import { Navigation } from 'react-native-navigation';
 
 const plusIcon = require('assets/plus.png');
 
@@ -29,7 +30,7 @@ type Props = {
   version: string,
   loggedIn: boolean, // eslint-disable-line
   areas: Array<Area>,
-  navigator: any,
+  componentId: string,
   logout: () => void,
   isConnected: boolean,
   isUnsafeLogout: boolean,
@@ -39,6 +40,17 @@ type Props = {
 };
 
 class Settings extends Component<Props> {
+
+  static options(passProps) {
+    return {
+      topBar: {
+        title: {
+          text: i18n.t('settings.title')
+        }
+      }
+    };
+  }
+
   constructor() {
     super();
     this.aboutSections = [
@@ -68,12 +80,6 @@ class Settings extends Component<Props> {
       }
     ];
   }
-  static navigatorStyle = {
-    navBarTextColor: Theme.colors.color1,
-    navBarButtonColor: Theme.colors.color1,
-    topBarElevationShadowEnabled: false,
-    navBarBackgroundColor: Theme.background.main
-  };
 
   componentDidMount() {
     tracker.trackScreenView('Settings');
@@ -81,28 +87,40 @@ class Settings extends Component<Props> {
 
   componentWillReceiveProps(props: Props) {
     if (props.areas.length === 0 && props.loggedIn) {
-      props.navigator.push({
-        screen: 'ForestWatcher.Setup'
+      Navigation.push(this.props.componentId, {
+        component: {
+          name: 'ForestWatcher.Setup'
+        }
       });
     }
   }
 
   onAreaPress = (areaId: string, name: string) => {
-    this.props.navigator.push({
-      screen: 'ForestWatcher.AreaDetail',
-      title: name,
-      passProps: {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.AreaDetail',
+        passProps: {
         id: areaId
+        },
+        options: {
+          topBar: {
+            title: {
+              text: name
+            }
+          }
+        }
       }
     });
   }
 
   onLogoutPress = () => {
-    const { logout, navigator, isUnsafeLogout } = this.props;
+    const { logout, componentId, isUnsafeLogout } = this.props;
     const proceedWithLogout = () => {
       logout();
-      navigator.resetTo({
-        screen: 'ForestWatcher.Home'
+      Navigation.setStackRoot(componentId, {
+        component: {
+          name: 'ForestWatcher.Home'
+        }
       });
     };
     if (isUnsafeLogout) {
@@ -121,10 +139,12 @@ class Settings extends Component<Props> {
   }
 
   onPressAddArea = () => {
-    const { navigator, isConnected, offlineMode, showNotConnectedNotification } = this.props;
+    const { componentId, isConnected, offlineMode, showNotConnectedNotification } = this.props;
     if (isConnected && !offlineMode) {
-      navigator.push({
-        screen: 'ForestWatcher.Setup'
+      Navigation.push(componentId, {
+        component: {
+          name: 'ForestWatcher.Setup'
+        }
       });
     } else {
       showNotConnectedNotification();
@@ -132,9 +152,17 @@ class Settings extends Component<Props> {
   }
 
   handleStaticLinks = (section: string, text: string) => {
-    this.props.navigator.push({
-      screen: section,
-      title: text
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: section,
+        options: {
+          topBar: {
+            title: {
+              text: text
+            }
+          }
+        }
+      }
     });
   }
 

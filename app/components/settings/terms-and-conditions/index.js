@@ -12,15 +12,8 @@ import Theme from 'config/theme';
 import styles from './styles';
 
 class TermsAndConditions extends Component {
-  static navigatorStyle = {
-    navBarTextColor: Theme.colors.color1,
-    navBarButtonColor: Theme.colors.color1,
-    topBarElevationShadowEnabled: false,
-    navBarBackgroundColor: Theme.background.main
-  };
-
   static propTypes = {
-    navigator: PropTypes.object.isRequired
+    componentId: PropTypes.string.isRequired
   };
 
   componentDidMount() {

@@ -13,6 +13,7 @@ import capitalize from 'lodash/capitalize';
 import throttle from 'lodash/throttle';
 import StepsSlider from 'components/common/steps-slider';
 import Hyperlink from 'react-native-hyperlink';
+import { Navigation } from 'react-native-navigation';
 
 
 import styles from './styles';
@@ -59,12 +60,16 @@ const SLIDES = [
 ];
 
 class Walkthrough extends PureComponent {
-  static navigatorStyle = {
-    navBarHidden: true
-  };
+  static options(passProps) {
+    return {
+      topBar: {
+        visible: false
+      }
+    };
+  }
 
   static propTypes = {
-    navigator: PropTypes.object.isRequired
+    componentId: PropTypes.string.isRequired
   };
 
   state = {
@@ -94,11 +99,19 @@ class Walkthrough extends PureComponent {
   };
 
   goToLogin = throttle(() => {
-    this.props.navigator.resetTo({
-      screen: 'ForestWatcher.Login',
-      title: i18n.t('commonText.setup'),
-      passProps: {
-        goBackDisabled: true
+    Navigation.setStackRoot(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.Login',
+        passProps: {
+          goBackDisabled: true
+        },
+        options: {
+          topBar: {
+            title: {
+              text: i18n.t('commonText.setup')
+            }
+          }
+        }
       }
     });
   }, 1000);

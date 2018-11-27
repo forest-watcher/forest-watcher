@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import Config from 'react-native-config';
+import { Navigation } from 'react-native-navigation';
 import Theme from 'config/theme';
 import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
@@ -43,7 +44,7 @@ type Props = {
   googleLogin: () => void,
   setLoginAuth: ({ token: string, socialNetwork: ?string, loggedIn: boolean }) => void,
   version: string,
-  navigator: any
+  componentId: string,
 };
 
 type State = {
@@ -55,9 +56,14 @@ type State = {
 }
 
 class Login extends PureComponent<Props, State> {
-  static navigatorStyle = {
-    navBarHidden: true
-  };
+
+  static options(passProps) {
+    return {
+      topBar: {
+        visible: false
+      }
+    };
+  }
 
   static renderLoading() {
     return (
@@ -148,8 +154,10 @@ class Login extends PureComponent<Props, State> {
       webviewVisible: false,
       webViewUrl: ''
     });
-    this.props.navigator.resetTo({
-      screen: 'ForestWatcher.Home'
+    Navigation.setStackRoot(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.Home'
+      }
     });
   }
 
