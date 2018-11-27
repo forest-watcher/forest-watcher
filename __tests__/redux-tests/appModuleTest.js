@@ -1,4 +1,7 @@
 import 'react-native';
+import thunk from 'redux-thunk';
+import configureStore from 'redux-mock-store';
+import { combinedReducer } from 'combinedReducer';
 import appReducer, {
   retrySync,
   saveLastActions,
@@ -14,10 +17,6 @@ import appReducer, {
 describe('Redux App Module', () => {
 // ACTION TESTS
   describe('Redux Snapshot Actions', () => {
-    it('retrySync', () => { // todo thunk
-      expect(retrySync()).toMatchSnapshot();
-    });
-
     it('saveLastActions', () => {
       expect(saveLastActions()).toMatchSnapshot();
     });
@@ -42,16 +41,41 @@ describe('Redux App Module', () => {
       expect(setPristineCacheTooltip(false)).toMatchSnapshot();
     });
 
-    it('showNotConnectedNotification', () => { // todo thunk
-      expect(showNotConnectedNotification()).toMatchSnapshot();
-    });
-
-    it('syncApp', () => { // todo thunk
-      expect(syncApp()).toMatchSnapshot();
-    });
-
     it('updateApp', () => {
       expect(updateApp()).toMatchSnapshot();
+    });
+  });
+
+  describe('Redux Snapshot Thunk Actions', () => {
+    let initialStoreState;
+    let configuredStore;
+    let store;
+
+    beforeAll(() => {
+      // create store
+      initialStoreState = combinedReducer(undefined, { type: 'NONE' });
+      configuredStore = configureStore([thunk]);
+    });
+
+    beforeEach(() => {
+      // reset store state and clears actions
+      store = configuredStore(initialStoreState);
+    });
+
+    it('retrySync', () => {
+      store.dispatch(retrySync());
+      expect(store.getActions()).toMatchSnapshot();
+    });
+
+    it('showNotConnectedNotification', () => {
+      store.dispatch(showNotConnectedNotification());
+      // todo find way to call setOfflineMode(true) then dispatch showNotConnectedNotification again
+      expect(store.getActions()).toMatchSnapshot();
+    });
+
+    it('syncApp', () => {
+      store.dispatch(syncApp());
+      expect(store.getActions()).toMatchSnapshot();
     });
   });
 
@@ -79,8 +103,14 @@ describe('Redux App Module', () => {
 
 // MOCKS
 /* eslint-disable */
-jest.mock('react-native-config', () => ({ API_URL: '', MAPBOX_TOKEN: '' }));
-jest.mock('react-native-cookies', () => {clearAll: jest.fn();});
-jest.mock('react-native-fetch-blob', () => {config: jest.fn();});
-jest.mock('react-native-zip-archive', () => {unzip: jest.fn();});
+jest.mock('react-native-config', () => ({ API_URL: '', API_AUTH: '<TEST_API_AUTH>', MAPBOX_TOKEN: '' }));
+jest.mock('react-native-cookies', () => {
+  clearAll: jest.fn();
+});
+jest.mock('react-native-fetch-blob', () => {
+  config: jest.fn();
+});
+jest.mock('react-native-zip-archive', () => {
+  unzip: jest.fn();
+});
 jest.mock('Dimensions');
