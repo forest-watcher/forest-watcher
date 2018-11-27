@@ -101,6 +101,67 @@ Array [
 ]
 `;
 
+exports[`Redux App Module Redux Snapshot Thunk Actions showNotConnectedNotification full test 1`] = `
+Array [
+  Object {
+    "type": "app/SHOW_CONNECTION_REQUIRED",
+  },
+]
+`;
+
+exports[`Redux App Module Redux Snapshot Thunk Actions showNotConnectedNotification full test 2`] = `
+Object {
+  "actions": Array [],
+  "coordinatesFormat": "decimal",
+  "language": null,
+  "offlineMode": false,
+  "pristineCacheTooltip": true,
+  "synced": false,
+  "version": "1.6.3",
+}
+`;
+
+exports[`Redux App Module Redux Snapshot Thunk Actions showNotConnectedNotification full test 3`] = `
+Array [
+  Object {
+    "payload": true,
+    "type": "app/SET_OFFLINE_MODE",
+  },
+]
+`;
+
+exports[`Redux App Module Redux Snapshot Thunk Actions showNotConnectedNotification full test 4`] = `
+Object {
+  "actions": Array [],
+  "coordinatesFormat": "decimal",
+  "language": null,
+  "offlineMode": true,
+  "pristineCacheTooltip": true,
+  "synced": false,
+  "version": "1.6.3",
+}
+`;
+
+exports[`Redux App Module Redux Snapshot Thunk Actions showNotConnectedNotification full test 5`] = `
+Array [
+  Object {
+    "type": "app/SHOW_OFFLINE_MODE_IS_ON",
+  },
+]
+`;
+
+exports[`Redux App Module Redux Snapshot Thunk Actions showNotConnectedNotification full test 6`] = `
+Object {
+  "actions": Array [],
+  "coordinatesFormat": "decimal",
+  "language": null,
+  "offlineMode": true,
+  "pristineCacheTooltip": true,
+  "synced": false,
+  "version": "1.6.3",
+}
+`;
+
 exports[`Redux App Module Redux Snapshot Thunk Actions syncApp 1`] = `
 Array [
   Object {
