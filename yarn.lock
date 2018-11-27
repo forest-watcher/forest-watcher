@@ -6050,6 +6050,10 @@ react-native-keyboard-aware-scroll-view@0.3.0:
     prop-types "^15.5.10"
     react-timer-mixin "^0.13.3"
 
+"react-native-location@github:timfpark/react-native-location":
+  version "1.0.0"
+  resolved "https://codeload.github.com/timfpark/react-native-location/tar.gz/5f628f2468b80f89c8534f8da2c56bf36ef4317c"
+
 react-native-maps@0.22.1:
   version "0.22.1"
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.22.1.tgz#ce856e71970e872e596e6fa4773279cae2c4dcdd"

@@ -464,6 +464,13 @@
 			remoteGlobalIDString = 3DF7F6AC203AA09B00D0EAB7;
 			remoteInfo = "ReactNativeConfig-tvOS";
 		};
+		98FC9CD921AD557E004A7846 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0D4E610A58604E1A8077282A /* RNLocation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNLocation;
+		};
 		ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */;
@@ -527,6 +534,7 @@
 		00E356F21AD99517003FC87E /* ForestWatcherTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ForestWatcherTests.m; sourceTree = "<group>"; };
 		01DAAFC2547C467BA03F1D7A /* libc++.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		07B7E5BF26F94948A1260D45 /* RNCookieManagerIOS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNCookieManagerIOS.xcodeproj; path = "../node_modules/react-native-cookies/ios/RNCookieManagerIOS.xcodeproj"; sourceTree = "<group>"; };
+		0D4E610A58604E1A8077282A /* RNLocation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNLocation.xcodeproj; path = "../node_modules/react-native-location/ios/RNLocation.xcodeproj"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* ForestWatcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ForestWatcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -968,6 +976,7 @@
 				E0DCCAF571BA4E58BE7D0459 /* RNAppAuth.xcodeproj */,
 				81A9FECD999C42F78E37CD53 /* RCTFBSDK.xcodeproj */,
 				B2F950A0801F4128AB09345D /* AppCenterReactNative.xcodeproj */,
+				0D4E610A58604E1A8077282A /* RNLocation.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1011,6 +1020,14 @@
 			isa = PBXGroup;
 			children = (
 				8D81A3A91EDC3D4500232B09 /* libReactNativeNavigation.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		98FC9C9C21AD557D004A7846 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				98FC9CDA21AD557E004A7846 /* libRNLocation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1259,6 +1276,10 @@
 				{
 					ProductGroup = BEE19B631F2A5E0100777F63 /* Products */;
 					ProjectRef = BEE19B621F2A5E0100777F63 /* RNImagePicker.xcodeproj */;
+				},
+				{
+					ProductGroup = 98FC9C9C21AD557D004A7846 /* Products */;
+					ProjectRef = 0D4E610A58604E1A8077282A /* RNLocation.xcodeproj */;
 				},
 				{
 					ProductGroup = 3221AAAF1F28739900D71E90 /* Products */;
@@ -1666,6 +1687,13 @@
 			remoteRef = 98FC989821AC3CA1004A7846 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		98FC9CDA21AD557E004A7846 /* libRNLocation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNLocation.a;
+			remoteRef = 98FC9CD921AD557E004A7846 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1906,6 +1934,7 @@
 					"$(SRCROOT)/../node_modules/react-native-app-auth/ios",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/appcenter/ios/AppCenterReactNative",
+					"$(SRCROOT)/../node_modules/react-native-location/ios/**",
 				);
 				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = ForestWatcher/Info.plist;
@@ -1960,6 +1989,7 @@
 					"$(SRCROOT)/../node_modules/react-native-app-auth/ios",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/appcenter/ios/AppCenterReactNative",
+					"$(SRCROOT)/../node_modules/react-native-location/ios/**",
 				);
 				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = ForestWatcher/Info.plist;
