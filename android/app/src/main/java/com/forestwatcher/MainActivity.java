@@ -5,23 +5,11 @@ import android.graphics.Color;
 import android.widget.TextView;
 import android.view.Gravity;
 
-import com.reactnativenavigation.controllers.SplashActivity;
+import com.reactnativenavigation.NavigationActivity;
 
 import android.content.Intent;
 
-public class MainActivity extends SplashActivity {
-
-    @Override
-    public LinearLayout createSplashLayout() {
-        LinearLayout view = new LinearLayout(this);
-        TextView textView = new TextView(this);
-
-        view.setBackgroundColor(Color.parseColor("#97be32"));
-        view.setGravity(Gravity.CENTER);
-
-        view.addView(textView);
-        return view;
-    }
+public class MainActivity extends NavigationActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

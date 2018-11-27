@@ -113,6 +113,7 @@ android {
         manifestPlaceholders = [
             'appAuthRedirectScheme': project.env.get("LOGIN_GOOGLE_REDIRECT_SCHEMA_ANDROID")
         ]
+        missingDimensionStrategy "RNN.reactNativeVersion", "reactNative57"
     }
     /*
      * See if this can be removed when the dependencies have been upgraded and sanitised

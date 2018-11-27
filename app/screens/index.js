@@ -22,26 +22,26 @@ import Walkthrough from 'components/walkthrough';
 import ToastNotification from 'components/toast-notification';
 
 export function registerScreens(store, Provider) {
-  Navigation.registerComponent('ForestWatcher.Home', () => Home, store, Provider);
-  Navigation.registerComponent('ForestWatcher.Login', () => Login, store, Provider);
-  Navigation.registerComponent('ForestWatcher.Walkthrough', () => Walkthrough, store, Provider);
-  Navigation.registerComponent('ForestWatcher.Setup', () => Setup, store, Provider);
-  Navigation.registerComponent('ForestWatcher.Dashboard', () => Dashboard, store, Provider);
-  Navigation.registerComponent('ForestWatcher.Map', () => Map, store, Provider);
-  Navigation.registerComponent('ForestWatcher.Settings', () => Settings, store, Provider);
-  Navigation.registerComponent('ForestWatcher.ContactUs', () => ContactUs, store, Provider);
-  Navigation.registerComponent('ForestWatcher.Reports', () => Reports, store, Provider);
-  Navigation.registerComponent('ForestWatcher.NewReport', () => NewReport, store, Provider);
-  Navigation.registerComponent('ForestWatcher.AreaDetail', () => AreaDetail, store, Provider);
-  Navigation.registerComponent('ForestWatcher.Partners', () => Partners, store, Provider);
-  Navigation.registerComponent('ForestWatcher.TermsAndConditions', () => TermsAndConditions, store, Provider);
-  Navigation.registerComponent('ForestWatcher.FaqList', () => FaqList, store, Provider);
-  Navigation.registerComponent('ForestWatcher.FaqDetail', () => FaqDetail, store, Provider);
-  Navigation.registerComponent('ForestWatcher.Sync', () => Sync, store, Provider);
-  Navigation.registerComponent('ForestWatcher.Answers', () => Answers, store, Provider);
-  Navigation.registerComponent('ForestWatcher.RightDrawer', () => RightDrawer, store, Provider);
-  Navigation.registerComponent('ForestWatcher.ErrorLightbox', () => ErrorLightbox, store, Provider);
-  Navigation.registerComponent('ForestWatcher.ToastNotification', () => ToastNotification, store, Provider);
+  Navigation.registerComponentWithRedux('ForestWatcher.Home', () => Home, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.Login', () => Login, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.Walkthrough', () => Walkthrough, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.Setup', () => Setup, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.Dashboard', () => Dashboard, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.Map', () => Map, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.Settings', () => Settings, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.ContactUs', () => ContactUs, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.Reports', () => Reports, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.NewReport', () => NewReport, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.AreaDetail', () => AreaDetail, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.Partners', () => Partners, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.TermsAndConditions', () => TermsAndConditions, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.FaqList', () => FaqList, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.FaqDetail', () => FaqDetail, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.Sync', () => Sync, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.Answers', () => Answers, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.RightDrawer', () => RightDrawer, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.ErrorLightbox', () => ErrorLightbox, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.ToastNotification', () => ToastNotification, Provider, store);
 }
 
 export default registerScreens;

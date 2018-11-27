@@ -20,6 +20,7 @@ import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
 import AlertSystem from 'containers/settings/area-detail/alert-system';
 import styles from './styles';
+import { Navigation } from 'react-native-navigation';
 
 const editIcon = require('assets/edit.png');
 const deleteIcon = require('assets/delete_white.png');
@@ -33,27 +34,22 @@ type Props = {
   updateArea: (Area) => void,
   deleteArea: (string) => void,
   isConnected: boolean,
-  navigator: Object,
+  componentId: string,
   area: Area,
   disableDelete: boolean
 };
 
 class AreaDetail extends Component<Props, State> {
-  static navigatorStyle = {
-    navBarTextColor: Theme.colors.color1,
-    navBarButtonColor: Theme.colors.color1,
-    topBarElevationShadowEnabled: false,
-    navBarBackgroundColor: Theme.background.main
-  };
-
-  static navigatorButtons = {
-    rightButtons: [
-      {
-        icon: deleteIcon,
-        id: 'deleteArea'
+  static options(passProps) {
+    return {
+      topBar: {
+        rightButtons: [{
+          id: 'deleteArea',
+          icon: deleteIcon
+        }]
       }
-    ]
-  };
+    };
+  }
 
   static defaultProps = {
     disableDelete: false
@@ -63,22 +59,28 @@ class AreaDetail extends Component<Props, State> {
     updateArea: PropTypes.func,
     deleteArea: PropTypes.func,
     isConnected: PropTypes.bool.isRequired,
-    navigator: PropTypes.object,
+    componentId: PropTypes.string,
     area: PropTypes.object,
     disableDelete: PropTypes.bool.isRequired
   };
 
   constructor(props: Props) {
-    super();
+    super(props);
+    Navigation.events().bindComponent(this);
     this.state = {
       name: props.area.name,
       editingName: false
     };
-    props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   componentDidMount() {
     tracker.trackScreenView('AreaDetail');
+  }
+
+  navigationButtonPressed({ buttonId }) {
+    if (buttonId === 'deleteArea') {
+      this.handleDeleteArea();
+    }
   }
 
   onEditPress = () => {
@@ -104,22 +106,20 @@ class AreaDetail extends Component<Props, State> {
     }
   }
 
-  onNavigatorEvent = (event: { type: string, id: string }) => {
-    if (event.type === 'NavBarButtonPress' && event.id === 'deleteArea') {
-      this.handleDeleteArea();
-    }
-  }
-
   replaceRouteTitle = (title: string) => {
-    this.props.navigator.setTitle({ title });
+    Navigation.mergeOptions(this.props.componentId, {
+      topBar: {
+        title: {
+          text: title
+        }
+      }
+    });
   }
 
   handleDeleteArea = () => {
     if (this.props.isConnected) {
       this.props.deleteArea(this.props.area.id);
-      this.props.navigator.pop({
-        animated: true
-      });
+      Navigation.pop(this.props.componentId);
     } else {
       Alert.alert(
         i18n.t('commonText.connectionRequiredTitle'),

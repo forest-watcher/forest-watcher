@@ -33,6 +33,7 @@ import clusterGenerator from 'helpers/clusters-generator';
 import Theme from 'config/theme';
 import i18n from 'locales';
 import styles from './styles';
+import { Navigation } from 'react-native-navigation';
 
 const geoViewport = require('@mapbox/geo-viewport');
 
@@ -80,15 +81,25 @@ function getNeighboursSelected(selectedAlerts, markers) {
 }
 
 class MapComponent extends Component {
-  static navigatorStyle = {
-    navBarTextColor: Theme.colors.color5,
-    navBarButtonColor: Theme.colors.color5,
-    drawUnderNavBar: true,
-    topBarElevationShadowEnabled: false,
-    navBarBackgroundColor: Theme.background.main,
-    navBarTransparent: true,
-    navBarTranslucent: true
-  };
+
+  static options(passProps) {
+    return {
+      topBar: {
+        background: {
+          color: 'transparent',
+          translucent: true
+        },
+        backButton: {
+          color: Theme.colors.color5
+        },
+        buttonColor: Theme.colors.color5,
+        drawBehind: true,
+        title: {
+          color: Theme.colors.color5
+        }
+      }
+    };
+  }
 
   margin = Platform.OS === 'ios' ? 50 : 100;
   FIT_OPTIONS = { edgePadding: { top: this.margin, right: this.margin, bottom: this.margin, left: this.margin }, animated: false };
@@ -107,6 +118,7 @@ class MapComponent extends Component {
 
   constructor(props) {
     super(props);
+    Navigation.events().bindComponent(this);
     const { center } = props;
     const initialCoords = center || { lat: MAPS.lat, lon: MAPS.lng };
     this.eventLocation = null;
@@ -131,7 +143,6 @@ class MapComponent extends Component {
       customReporting: false,
       dragging: false
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
   componentDidMount() {
@@ -143,6 +154,13 @@ class MapComponent extends Component {
     }
 
     this.geoLocate();
+  }
+
+  componentDidAppear() {
+    const { setCanDisplayAlerts, canDisplayAlerts } = this.props;
+    if (!canDisplayAlerts) {
+      setCanDisplayAlerts(true);
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -210,15 +228,6 @@ class MapComponent extends Component {
     this.props.setSelectedAreaId('');
   }
 
-  onNavigatorEvent(event) {
-    switch (event.id) {
-      case 'didAppear':
-        this.onDidAppear();
-        break;
-      default:
-    }
-  }
-
   onCustomReportingPress = () => {
     this.setState({
       customReporting: true,
@@ -235,17 +244,13 @@ class MapComponent extends Component {
   }
 
   onSettingsPress = () => {
-    this.props.navigator.toggleDrawer({
-      side: 'right',
-      animated: true
+    Navigation.mergeOptions(componentId, {
+      sideMenu: {
+        right: {
+          visible: true
+        }
+      }
     });
-  }
-
-  onDidAppear = () => {
-    const { setCanDisplayAlerts, canDisplayAlerts } = this.props;
-    if (!canDisplayAlerts) {
-      setCanDisplayAlerts(true);
-    }
   }
 
   onMapReady = () => {
@@ -275,8 +280,9 @@ class MapComponent extends Component {
 
   setHeaderTitle = () => {
     const { selectedAlerts } = this.state;
-    const { navigator, coordinatesFormat } = this.props;
+    const { componentId, coordinatesFormat } = this.props;
     let headerText = i18n.t('dashboard.map');
+    let fontSize;
     if (selectedAlerts && selectedAlerts.length > 0) {
       const last = selectedAlerts.length - 1;
       const coordinates = {
@@ -284,16 +290,17 @@ class MapComponent extends Component {
         longitude: selectedAlerts[last].longitude
       };
       headerText = formatCoordsByFormat(coordinates, coordinatesFormat);
-      navigator.setStyle({
-        navBarTextFontSize: 16
-      });
+      fontSize = 16;
     } else {
-      navigator.setStyle({
-        navBarTextFontSize: 18
-      });
+      fontSize = 18;
     }
-    navigator.setTitle({
-      title: headerText
+    Navigation.mergeOptions(componentId, {
+      topBar: {
+        title: {
+          fontSize: fontSize,
+          text: headerText
+        }
+      }
     });
   }
 
@@ -380,10 +387,12 @@ class MapComponent extends Component {
       userPosition: userLatLng || REPORTS.noGpsPosition,
       clickedPosition: JSON.stringify(latLng)
     });
-    this.props.navigator.push({
-      screen: 'ForestWatcher.NewReport',
-      title: i18n.t('report.title'),
-      passProps: { reportName }
+
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.NewReport',
+        passProps: { reportName }
+      }
     });
   }
 
@@ -470,8 +479,12 @@ class MapComponent extends Component {
 
   onRegionChange = (region) => {
     if (this.state.customReporting) {
-      this.props.navigator.setTitle({
-        title: formatCoordsByFormat(region, this.props.coordinatesFormat)
+      Navigation.mergeOptions(this.props.componentId, {
+        topBar: {
+          title: {
+            text: formatCoordsByFormat(region, this.props.coordinatesFormat)
+          }
+        }
       });
     }
   }
@@ -870,7 +883,7 @@ class MapComponent extends Component {
 }
 
 MapComponent.propTypes = {
-  navigator: PropTypes.object.isRequired,
+  componentId: PropTypes.string.isRequired,
   createReport: PropTypes.func.isRequired,
   center: PropTypes.shape({
     lat: PropTypes.number.isRequired,

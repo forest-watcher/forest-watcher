@@ -19,9 +19,13 @@ type Props = {
 };
 
 class Sync extends Component<Props> {
-  static navigatorStyle = {
-    navBarHidden: true
-  };
+  static options(passProps) {
+    return {
+      topBar: {
+        visible: false
+      }
+    };
+  }
 
   animation: ?{ play: () => void } = null;
 
