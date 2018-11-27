@@ -24,6 +24,8 @@ target 'ForestWatcher' do
   pod 'GoogleMaps'
   pod 'Google-Maps-iOS-Utils'
 
+  pod 'react-native-safe-area', :path => '../node_modules/react-native-safe-area'
+
   post_install do |installer|
     installer.pods_project.targets.each do |target|
           target.build_configurations.each do |config|

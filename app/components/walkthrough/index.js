@@ -13,10 +13,11 @@ import capitalize from 'lodash/capitalize';
 import throttle from 'lodash/throttle';
 import StepsSlider from 'components/common/steps-slider';
 import Hyperlink from 'react-native-hyperlink';
-
+// import { withSafeArea } from 'react-native-safe-area';
 
 import styles from './styles';
 
+// const SafeAreaView = withSafeArea(View, 'margin', 'all');
 const backIcon = require('assets/previous.png');
 const nextIcon = require('assets/next.png');
 const phone1 = require('assets/phone1.jpg');
