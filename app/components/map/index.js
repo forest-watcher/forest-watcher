@@ -244,7 +244,7 @@ class MapComponent extends Component {
   }
 
   onSettingsPress = () => {
-    Navigation.mergeOptions(componentId, {
+    Navigation.mergeOptions(this.props.componentId, {
       sideMenu: {
         right: {
           visible: true

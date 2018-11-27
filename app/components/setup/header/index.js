@@ -10,6 +10,7 @@ import {
 import Theme from 'config/theme';
 import i18n from 'locales';
 import styles from './styles';
+import { Navigation } from 'react-native-navigation';
 
 const backIcon = require('assets/previous.png');
 const backIconWhite = require('assets/previous_white.png');
