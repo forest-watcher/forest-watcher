@@ -34,8 +34,6 @@ import Theme from 'config/theme';
 import i18n from 'locales';
 import styles from './styles';
 
-import { SensorManager } from 'NativeModules'; // eslint-disable-line
-
 const geoViewport = require('@mapbox/geo-viewport');
 
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
@@ -194,7 +192,6 @@ class MapComponent extends Component {
   }
 
   componentWillUnmount() {
-    Location.stopUpdatingLocation();
     if (this.eventLocation) {
       this.eventLocation.remove();
     }
@@ -205,9 +202,10 @@ class MapComponent extends Component {
 
     if (Platform.OS === 'ios') {
       StatusBar.setBarStyle('default');
+      Location.stopUpdatingLocation();
       Location.stopUpdatingHeading();
     } else {
-      SensorManager.stopOrientation();
+      //SensorManager.stopOrientation();
     }
     this.props.setSelectedAreaId('');
   }
@@ -425,23 +423,6 @@ class MapComponent extends Component {
       { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
     );
 
-    Location.startUpdatingLocation();
-
-    this.eventLocation = DeviceEventEmitter.addListener(
-      'locationUpdated',
-      throttle((location) => {
-        const coords = typeof location.coords !== 'undefined' ? location.coords : location;
-        const { lastPosition } = this.state;
-        if (lastPosition && (lastPosition.latitude !== coords.latitude ||
-          lastPosition.longitude !== coords.longitude)) {
-          this.setState({ lastPosition: {
-            latitude: coords.latitude,
-            longitude: coords.longitude
-          } });
-        }
-      }, 300)
-    );
-
     const updateHeading = heading => (prevState) => {
       const state = {
         heading: parseInt(heading, 10)
@@ -451,6 +432,24 @@ class MapComponent extends Component {
     };
 
     if (Platform.OS === 'ios') {
+
+      Location.startUpdatingLocation();
+
+      this.eventLocation = DeviceEventEmitter.addListener(
+        'locationUpdated',
+        throttle((location) => {
+          const coords = typeof location.coords !== 'undefined' ? location.coords : location;
+          const { lastPosition } = this.state;
+          if (lastPosition && (lastPosition.latitude !== coords.latitude ||
+            lastPosition.longitude !== coords.longitude)) {
+            this.setState({ lastPosition: {
+              latitude: coords.latitude,
+              longitude: coords.longitude
+            } });
+          }
+        }, 300)
+      );
+
       Location.startUpdatingHeading();
       this.eventOrientation = DeviceEventEmitter.addListener(
         'headingUpdated',
@@ -459,7 +458,7 @@ class MapComponent extends Component {
         }, 450)
       );
     } else {
-      SensorManager.startOrientation(300);
+      //SensorManager.startOrientation(300);
       this.eventOrientation = DeviceEventEmitter.addListener(
         'Orientation',
         throttle((data) => {
