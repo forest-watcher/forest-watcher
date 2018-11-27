@@ -1,6 +1,13 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+    ext {
+        buildToolsVersion = "27.0.3"
+        minSdkVersion = 17
+        compileSdkVersion = 27
+        targetSdkVersion = 26
+        supportLibVersion = "27.1.1"
+    }
     repositories {
         google()
         jcenter()
@@ -13,7 +20,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.1.4'
         classpath 'com.google.gms:google-services:3.1.1'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -50,7 +57,7 @@ subprojects {
         compileSdk = 27
         buildTools = "27.0.3"
         minSdk = 17
-        targetSdk = 22
+        targetSdk = 26
     }
 
     afterEvaluate { project ->
@@ -66,4 +73,9 @@ subprojects {
             }
         }
     }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.4'
+    distributionUrl = distributionUrl.replace("bin", "all")
 }

@@ -97,12 +97,13 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
     defaultConfig {
         applicationId "com.forestwatcher"
-        minSdkVersion 21
-        targetSdkVersion 22
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 20
         versionName "1.6.0"
         ndk {
@@ -176,7 +177,7 @@ dependencies {
     implementation project(':react-native-cookies')
     implementation project(':react-native-i18n')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation project(':react-native-zip-archive')
     implementation(project(':realm')) {
         exclude group: 'com.google.android.gms'
@@ -184,11 +185,9 @@ dependencies {
     implementation(project(':react-native-google-analytics-bridge')) {
         exclude group: 'com.google.android.gms'
     }
-    implementation project(':react-native-sensor-manager')
     implementation project(':react-native-image-picker')
     implementation project(':react-native-fetch-blob')
     implementation project(':react-native-config')
-    implementation project(':RNLocation')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':react-native-navigation')
     implementation(project(':react-native-maps')) {
