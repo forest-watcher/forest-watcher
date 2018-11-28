@@ -9,6 +9,7 @@
     "clear:cache": "rm -rf $TMPDIR/react-native-packager-cache-* && rm -rf $TMPDIR/metro-bundler-cache-* && watchman watch-del-all",
     "clear:modules": "rm -rf node_modules",
     "clear": "npm run clear:cache && npm run clear:modules && npm install",
+    "precommit": "lint-staged",
     "transifex:extract": "i18next-scanner --config ./app/locales/extract.config.js './app/**/*.{js,jsx}'",
     "transifex:push": "node transifex/transifex-push.js",
     "transifex:pull": "node transifex/transifex-pull.js",
@@ -89,6 +90,7 @@
     "flow-bin": "0.78.0",
     "i18next-scanner": "2.7.0",
     "jest": "23.6.0",
+    "jest-fetch-mock": "1.7.4",
     "lint-staged": "8.1.0",
     "metro-react-native-babel-preset": "0.47.1",
     "node-fetch": "2.3.0",
@@ -99,7 +101,10 @@
     "redux-mock-store": "1.5.3"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "transform": {
+      "^.+\\.(js)$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
+    }
   },
   "lint-staged": {
     "app/**/*.js": [
