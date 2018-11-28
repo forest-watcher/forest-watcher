@@ -5,7 +5,6 @@ import {
   View
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import { APP_NAME } from 'config/constants';
 
 import StepsSlider from 'components/common/steps-slider';
 import SetupCountry from 'containers/setup/country';
@@ -15,13 +14,10 @@ import i18n from 'locales';
 import Header from './header';
 import styles from './styles';
 
-const Timer = require('react-native-timer');
-
 type Props = {
   componentId: string,
   logout: () => void,
-  goBackDisabled: boolean,
-  closeModal: boolean
+  goBackDisabled: boolean
 };
 
 type State = {
@@ -42,16 +38,6 @@ class Setup extends Component<Props, State> {
     page: 0,
     hideIndex: false
   };
-
-  componentDidMount() {
-    if (this.props.closeModal) {
-      Timer.setTimeout(this, 'clearModal', Navigation.dismissAllModals, 1800);
-    }
-  }
-
-  componentWillUnmount() {
-    Timer.clearTimeout(this, 'clearModal');
-  }
 
   onFinishSetup = () => {
     Navigation.setStackRoot(this.props.componentId, {

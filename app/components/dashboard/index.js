@@ -18,7 +18,6 @@ import tracker from 'helpers/googleAnalytics';
 import i18n from 'locales';
 import styles from './styles';
 
-const Timer = require('react-native-timer');
 const settingsIcon = require('assets/settings.png');
 const nextIcon = require('assets/next.png');
 
@@ -31,7 +30,6 @@ type Props = {
   needsUpdate: boolean,
   appSyncing: boolean,
   refreshing: boolean,
-  closeModal?: boolean,
   pristine: boolean,
   setSelectedAreaId: string => void,
   setPristine: boolean => void,
@@ -80,9 +78,6 @@ class Dashboard extends PureComponent<Props> {
     if (this.props.refreshing && !this.props.appSyncing) {
       this.props.setAreasRefreshing(false);
     }
-    if (this.props.closeModal) {
-      Timer.setTimeout(this, 'clearModal', Navigation.dismissAllModals, 1800);
-    }
   }
 
   componentDidDisappear() {
@@ -93,10 +88,6 @@ class Dashboard extends PureComponent<Props> {
     if (refreshing) {
       setAreasRefreshing(false);
     }
-  }
-
-  componentWillUnmount() {
-    Timer.clearTimeout(this, 'clearModal');
   }
 
   navigationButtonPressed({ buttonId }) {

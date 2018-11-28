@@ -57,22 +57,20 @@ class Home extends Component<Props> {
       tracker.setUser(token);
       if (isAppSynced) {
         if (!hasAreas) {
+          Navigation.dismissAllModals();
           Navigation.setStackRoot(componentId, {
             component: {
               name: 'ForestWatcher.Setup',
               passProps: {
-                goBackDisabled: true,
-                closeModal: true
+                goBackDisabled: true
               }
             }
           });
         } else {
+          Navigation.dismissAllModals();
           Navigation.setStackRoot(componentId, {
             component: {
-              name: 'ForestWatcher.Dashboard',
-              passProps: {
-                closeModal: true
-              }
+              name: 'ForestWatcher.Dashboard'
             }
           });
         }
