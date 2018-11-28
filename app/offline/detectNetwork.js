@@ -1,8 +1,9 @@
 import detectNetwork from '@redux-offline/redux-offline/lib/defaults/detectNetwork.native';
+import Config from 'react-native-config';
 
 class DetectNetworkPing {
   static urlList = [
-    'https://know-it-all.io', // fastest web in the world (not really, real fast though)
+    Config.API_URL,
     'https://www.globalforestwatch.org',
     'https://www.google.com',
     'https://www.facebook.com',
@@ -25,7 +26,8 @@ class DetectNetworkPing {
     const xhr = new XMLHttpRequest();
     xhr.timeout = 1000;
     xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4 && xhr.status === 200) {
+      if (xhr.status > 0) {
+        xhr.onreadystatechange = null;
         cb(null, connection);
       }
     };
