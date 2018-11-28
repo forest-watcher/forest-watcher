@@ -1,6 +1,13 @@
 # Set up
 Before installing the dependencies to run the app, you must install the following depending on the environment you'll work on:
 
+#### Node environment
+Other configurations may work but we've tested with the following:
+
+* node v9.4.0
+* Python v2.7.10
+* yarn v1.10.1
+
 #### iOS Environment
 * XCode [How to install](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
 * XCode Command Line tools:

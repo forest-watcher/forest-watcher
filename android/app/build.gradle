@@ -1,5 +1,5 @@
 apply plugin: "com.android.application"
-apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+apply from: "../../node_modules/react-native-config/android/dotenv.gradle"
 
 import com.android.build.OutputFile
 
@@ -97,12 +97,12 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
     defaultConfig {
         applicationId "com.forestwatcher"
-        minSdkVersion 21
-        targetSdkVersion 22
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 20
         versionName "1.6.0"
         ndk {
@@ -122,10 +122,6 @@ android {
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
-    }
-    dexOptions {
-        preDexLibraries false
-        javaMaxHeapSize "8g"
     }
     signingConfigs {
         release {
@@ -163,38 +159,84 @@ android {
             }
         }
     }
+    sourceSets {
+        main.java.srcDirs += '../../node_modules/appcenter/android/src/main/java'
+        main.java.srcDirs += '../../node_modules/lottie-react-native/src/android/src/main/java'
+        main.java.srcDirs += '../../node_modules/react-native-app-auth/android/src/main/java'
+        main.java.srcDirs += '../../node_modules/react-native-code-push/android/app/src/main/java'
+        main.java.srcDirs += '../../node_modules/react-native-config/android/src/main/java'
+        main.java.srcDirs += '../../node_modules/react-native-cookies/android/src/main/java'
+        main.java.srcDirs += '../../node_modules/react-native-fast-image/android/src/main/java'
+        main.java.srcDirs += '../../node_modules/react-native-fbsdk/android/src/main/java'
+        main.java.srcDirs += '../../node_modules/react-native-fetch-blob/android/src/main/java'
+        main.java.srcDirs += '../../node_modules/react-native-google-analytics-bridge/android/src/main/java'
+        main.java.srcDirs += '../../node_modules/react-native-i18n/android/src/main/java'
+        main.java.srcDirs += '../../node_modules/react-native-maps/lib/android/src/main/java'
+        main.java.srcDirs += '../../node_modules/react-native-zip-archive/android/src/main/java'
+    }
 }
 
+/**
+ * Avoid depending on react-native library wrappers directly.
+ *
+ * Instead, prefer depending on just the library source, by adding it to the sourceSets block above, and adding any dependencies it requires in this section
+ *
+ * Doing so gives us more agility to respond to issues with library dependency versions, build tools, and more visibility of what dependencies the overall build has.
+ *
+ * e.g. a library that is not strict about which versions its dependencies have, will lead to unrepeatable builds
+ *      it is common for libraries to be slow to update their play services and support library versions, leading to conflicts
+ */
 dependencies {
-    implementation project(':lottie-react-native')
-    implementation project(':react-native-fast-image')
-    implementation project(':react-native-fbsdk')
-    implementation project(':appcenter')
-    implementation project(':appcenter-crashes')
-    implementation project(':react-native-code-push')
-    implementation project(':react-native-app-auth')
-    implementation project(':react-native-cookies')
-    implementation project(':react-native-i18n')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:27.0.2'
-    implementation project(':react-native-zip-archive')
-    implementation(project(':realm')) {
-        exclude group: 'com.google.android.gms'
+
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+    implementation "com.facebook.react:react-native:+"  // From node_modules
+
+    // appcenter
+    implementation 'com.microsoft.appcenter:appcenter:1.10.0'
+    implementation 'com.microsoft.appcenter.reactnative:appcenter-react-native:1.10.0'
+
+    // lottie-react-native
+    implementation 'com.airbnb.android:lottie:2.5.5'
+
+    // react-native-app-auth
+    implementation "net.openid:appauth:0.7.1"
+
+    // react-native-code-push
+    implementation 'com.nimbusds:nimbus-jose-jwt:5.1'
+
+    // react-native-fast-image
+    implementation("com.github.bumptech.glide:glide:${rootProject.ext.glideVersion}") {
+        exclude group: "com.android.support", module: "glide"
     }
-    implementation(project(':react-native-google-analytics-bridge')) {
-        exclude group: 'com.google.android.gms'
+    implementation("com.github.bumptech.glide:annotations:${rootProject.ext.glideVersion}") {
+        exclude group: "com.android.support", module: "annotations"
     }
-    implementation project(':react-native-sensor-manager')
+    annotationProcessor "com.github.bumptech.glide:compiler:${rootProject.ext.glideVersion}"
+    implementation("com.github.bumptech.glide:okhttp3-integration:${rootProject.ext.glideVersion}") {
+        exclude group: "com.android.support", module: "okhttp3-integration"
+        exclude group: "com.android.support", module: "glide-parent"
+    }
+
+    // react-native-fbsdk
+    implementation('com.facebook.android:facebook-android-sdk:4.35.0')
+
+    // react-native-google-analytics-bridge
+    implementation 'com.google.android.gms:play-services-analytics:16.0.5'
+
+    // react-native-image-picker
     implementation project(':react-native-image-picker')
-    implementation project(':react-native-fetch-blob')
-    implementation project(':react-native-config')
-    implementation project(':RNLocation')
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    // react-native-maps
+    implementation "com.google.android.gms:play-services-base:16.0.1"
+    implementation "com.google.android.gms:play-services-maps:16.0.0"
+    implementation "com.google.maps.android:android-maps-utils:0.5"
+
+    // react-native-navigation
     implementation project(':react-native-navigation')
-    implementation(project(':react-native-maps')) {
-        exclude group: 'com.google.android.gms'
-    }
-    implementation 'com.google.android.gms:play-services:12.0.1'
+
+    // realm
+    implementation(project(':realm'))
 }
 
 // Run this once to be able to run the application with BUCK

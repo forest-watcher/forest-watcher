@@ -8,7 +8,6 @@
  */
 
 #import "AppDelegate.h"
-#import <AppCenterReactNativeCrashes/AppCenterReactNativeCrashes.h>
 #import <AppCenterReactNative/AppCenterReactNative.h>
 #import <CodePush/CodePush.h>
 #import "RCCManager.h"
@@ -28,8 +27,6 @@
     [[FBSDKApplicationDelegate sharedInstance] application:application
                              didFinishLaunchingWithOptions:launchOptions];
     NSURL *jsCodeLocation;
-
-  [AppCenterReactNativeCrashes registerWithAutomaticProcessing];  // Initialize AppCenter crashes
 
   [AppCenterReactNative register];  // Initialize AppCenter
 
