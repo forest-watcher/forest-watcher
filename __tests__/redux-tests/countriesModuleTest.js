@@ -6,7 +6,11 @@ import countriesReducer, {
   syncCountries
 } from 'redux-modules/countries';
 
-describe('Redux App Module', () => {
+describe('Redux Countries Module', () => {
+  it('Initial reducer state', () => {
+    expect(countriesReducer(undefined, { type: 'NONE' })).toMatchSnapshot();
+  });
+
   describe('Redux Snapshot Thunk Actions', () => {
     let initialStoreState;
     let configuredStore;
@@ -15,7 +19,6 @@ describe('Redux App Module', () => {
     beforeAll(() => {
       // create store
       initialStoreState = combinedReducer(undefined, { type: 'NONE' });
-      // initialStoreState = { app: countriesReducer(undefined, { type: 'NONE' }) };
       configuredStore = configureStore([thunk]);
     });
 

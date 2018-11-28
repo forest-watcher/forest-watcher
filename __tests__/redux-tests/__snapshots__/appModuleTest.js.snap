@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Redux App Module Initial reducer state 1`] = `
+Object {
+  "actions": Array [],
+  "coordinatesFormat": "decimal",
+  "language": null,
+  "offlineMode": false,
+  "pristineCacheTooltip": true,
+  "synced": false,
+  "version": "1.6.3",
+}
+`;
+
 exports[`Redux App Module Redux Snapshot Thunk Actions retrySync 1`] = `
 Array [
   Object {

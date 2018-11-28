@@ -1,5 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Redux Alerts Module Initial reducer state 1`] = `
+Object {
+  "cache": Object {},
+  "canDisplayAlerts": true,
+  "queue": Array [],
+  "reported": Array [],
+  "syncError": false,
+}
+`;
+
 exports[`Redux Alerts Module Simple Actions: snapshot and reducer test getAreaAlerts 1`] = `
 Object {
   "meta": Object {

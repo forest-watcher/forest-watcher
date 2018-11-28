@@ -7,6 +7,10 @@ import alertsReducer, {
 // todo test realm actions: resetAlertsDb & saveAlertsToDb ?
 
 describe('Redux Alerts Module', () => {
+  it('Initial reducer state', () => {
+    expect(alertsReducer(undefined, { type: 'NONE' })).toMatchSnapshot();
+  });
+
   describe('Simple Actions: snapshot and reducer test', () => {
     // Snapshot tests the action object and the reducer state
     function simpleActionTest(action) {

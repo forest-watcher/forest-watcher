@@ -15,6 +15,10 @@ import appReducer, {
 } from 'redux-modules/app';
 
 describe('Redux App Module', () => {
+  it('Initial reducer state', () => {
+    expect(appReducer(undefined, { type: 'NONE' })).toMatchSnapshot();
+  });
+
   describe('Simple Actions: snapshot and reducer test', () => {
     // todo: use snapshot-diff snapshot with reducer initial state!!
     // Snapshot tests the action object and the reducer state
@@ -89,6 +93,11 @@ describe('Redux App Module', () => {
       store.dispatch(retrySync());
       expect(store.getActions()).toMatchSnapshot();
     });
+
+    // it('retrySync222', () => { //todo?
+    //   const newState = appReducer(undefined, { type: 'NONE' });
+    //   mockDispatchAction(newState, retrySync());
+    // });
 
     it('syncApp', () => {
       store.dispatch(syncApp());
