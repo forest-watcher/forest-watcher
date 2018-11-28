@@ -12,7 +12,7 @@ Array [
           "type": "user/GET_USER_COMMIT",
         },
         "effect": Object {
-          "url": "<TEST_API_AUTH>/user",
+          "url": "undefined/user",
         },
         "rollback": Object {
           "type": "user/GET_USER_ROLLBACK",
@@ -102,7 +102,7 @@ Array [
           "type": "user/GET_USER_COMMIT",
         },
         "effect": Object {
-          "url": "<TEST_API_AUTH>/user",
+          "url": "undefined/user",
         },
         "rollback": Object {
           "type": "user/GET_USER_ROLLBACK",
