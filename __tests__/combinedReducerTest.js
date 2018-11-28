@@ -24,11 +24,3 @@ describe('async actions', () => {
     });
   });
 });
-
-// MOCKS
-/* eslint-disable */
-jest.mock('react-native-config', () => ({ API_URL: '', MAPBOX_TOKEN: '' }));
-jest.mock('react-native-cookies', () => { clearAll: jest.fn(); });
-jest.mock('react-native-fetch-blob', () => { config: jest.fn(); });
-jest.mock('react-native-zip-archive', () => { unzip: jest.fn(); });
-jest.mock('Dimensions');

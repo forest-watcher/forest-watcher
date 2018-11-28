@@ -117,17 +117,3 @@ describe('Redux App Module', () => {
     });
   });
 });
-
-// MOCKS
-/* eslint-disable */
-jest.mock('react-native-config', () => ({ API_URL: '', API_AUTH: '<TEST_API_AUTH>', MAPBOX_TOKEN: '' }));
-jest.mock('react-native-cookies', () => {
-  clearAll: jest.fn();
-});
-jest.mock('react-native-fetch-blob', () => {
-  config: jest.fn();
-});
-jest.mock('react-native-zip-archive', () => {
-  unzip: jest.fn();
-});
-jest.mock('Dimensions');
