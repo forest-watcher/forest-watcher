@@ -63,6 +63,7 @@ class Walkthrough extends PureComponent {
   static options(passProps) {
     return {
       topBar: {
+        drawBehind: true,
         visible: false
       }
     };

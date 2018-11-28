@@ -29,6 +29,7 @@ class Setup extends Component<Props, State> {
   static options(passProps) {
     return {
       topBar: {
+        drawBehind: true,
         visible: false
       }
     };

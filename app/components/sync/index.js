@@ -22,6 +22,7 @@ class Sync extends Component<Props> {
   static options(passProps) {
     return {
       topBar: {
+        drawBehind: true,
         visible: false
       }
     };

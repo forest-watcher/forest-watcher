@@ -60,6 +60,7 @@ class Login extends PureComponent<Props, State> {
   static options(passProps) {
     return {
       topBar: {
+        drawBehind: true,
         visible: false
       }
     };
