@@ -60,6 +60,7 @@
     "react-native-scrollable-tab-view": "0.10.0",
     "react-native-snap-carousel": "3.7.5",
     "react-native-timer": "1.3.4",
+    "react-native-webview": "^2.13.0",
     "react-native-zip-archive": "3.0.1",
     "react-redux": "5.1.1",
     "realm": "1.13.0",

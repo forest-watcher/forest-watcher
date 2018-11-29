@@ -2580,7 +2580,7 @@ fbjs-scripts@^1.0.0:
     semver "^5.1.0"
     through2 "^2.0.0"
 
-fbjs@^0.8.4, fbjs@^0.8.9:
+fbjs@^0.8.17, fbjs@^0.8.4, fbjs@^0.8.9:
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   dependencies:
@@ -6099,6 +6099,14 @@ react-native-snap-carousel@3.7.5:
 react-native-timer@1.3.4:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/react-native-timer/-/react-native-timer-1.3.4.tgz#3aedc59fed43a74314416a36cb28b093b685f393"
+
+react-native-webview@^2.13.0:
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-2.13.0.tgz#06eb1f7a21be079e4eac693a0682034540c1084d"
+  integrity sha512-gaUZWRvXL8g/kEqi/EITOYJlHh5Ah2VgZl8Ye5p7tfP/hCNUT2Hh+SXur5dpSyAvXG6V1ef9hISI3qzi6sZYuQ==
+  dependencies:
+    escape-string-regexp "^1.0.5"
+    fbjs "^0.8.17"
 
 react-native-zip-archive@3.0.1:
   version "3.0.1"

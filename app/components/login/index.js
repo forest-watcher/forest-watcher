@@ -2,15 +2,11 @@
 
 import React, { PureComponent } from 'react';
 import {
-  Alert,
-  View,
-  Text,
-  WebView,
-  TouchableHighlight,
-  ScrollView,
-  Image,
-  ActivityIndicator
+  Alert, View, Text, TouchableHighlight, ScrollView, Image, ActivityIndicator, SafeAreaView
 } from 'react-native';
+import { WebView } from 'react-native-webview';
+
+import SafeArea from 'react-native-safe-area';
 
 import Config from 'react-native-config';
 import Theme from 'config/theme';
@@ -41,7 +37,11 @@ type Props = {
   isConnected: boolean,
   facebookLogin: () => void,
   googleLogin: () => void,
-  setLoginAuth: ({ token: string, socialNetwork: ?string, loggedIn: boolean }) => void,
+  setLoginAuth: ({
+    token: string,
+    socialNetwork: ?string,
+    loggedIn: boolean
+  }) => void,
   version: string,
   navigator: any
 };
@@ -52,7 +52,7 @@ type State = {
   webViewCurrenUrl: string,
   webViewStatus: ?string,
   socialNetwork: ?string
-}
+};
 
 class Login extends PureComponent<Props, State> {
   static navigatorStyle = {
@@ -62,11 +62,7 @@ class Login extends PureComponent<Props, State> {
   static renderLoading() {
     return (
       <View style={[styles.loaderContainer, styles.loader]}>
-        <ActivityIndicator
-          color={Theme.colors.color1}
-          style={{ height: 80 }}
-          size="large"
-        />
+        <ActivityIndicator color={Theme.colors.color1} style={{ height: 80 }} size="large" />
       </View>
     );
   }
@@ -87,6 +83,15 @@ class Login extends PureComponent<Props, State> {
 
   componentDidMount() {
     tracker.trackScreenView('Login');
+
+    // Determine the current insets. This is so, for the page indictator view,
+    // we can add additional padding to ensure the white background is extended
+    // beyond the safe area.
+    SafeArea.getSafeAreaInsetsForRootView().then(result => {
+      this.setState(state => ({
+        topSafeAreaInset: result.safeAreaInsets.top
+      }));
+    });
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -99,7 +104,7 @@ class Login extends PureComponent<Props, State> {
 
   setWebviewRef = (ref: any) => {
     this.webView = ref;
-  }
+  };
 
   onLoadEnd = () => {
     if (this.state.webViewCurrenUrl.indexOf(Config.API_AUTH_CALLBACK_URL) !== -1) {
@@ -116,7 +121,7 @@ class Login extends PureComponent<Props, State> {
         console.warn('Login incorrect');
       }
     }
-  }
+  };
 
   onPress(socialNetwork: string) {
     if (this.props.isConnected) {
@@ -129,11 +134,7 @@ class Login extends PureComponent<Props, State> {
       return provider(socialNetwork);
     }
 
-    return Alert.alert(
-      i18n.t('login.unable'),
-      i18n.t('login.connectionRequired'),
-      [{ text: 'OK' }]
-    );
+    return Alert.alert(i18n.t('login.unable'), i18n.t('login.connectionRequired'), [{ text: 'OK' }]);
   }
 
   onNavigationStateChange = (navState: { url: string, title: string }) => {
@@ -141,7 +142,7 @@ class Login extends PureComponent<Props, State> {
       webViewCurrenUrl: navState.url,
       webViewStatus: navState.title
     });
-  }
+  };
 
   onLoggedIn() {
     this.setState({
@@ -154,13 +155,11 @@ class Login extends PureComponent<Props, State> {
   }
 
   ensureLogout() {
-    const { logSuccess, logout, loggedIn, isConnected } = this.props;
+    const {
+      logSuccess, logout, loggedIn, isConnected
+    } = this.props;
     if (!loggedIn && !logSuccess && isConnected) {
-      Alert.alert(
-        i18n.t('commonText.error'),
-        i18n.t('login.failed'),
-        [{ text: 'OK', onPress: logout }]
-      );
+      Alert.alert(i18n.t('commonText.error'), i18n.t('login.failed'), [{ text: 'OK', onPress: logout }]);
     }
   }
 
@@ -168,7 +167,7 @@ class Login extends PureComponent<Props, State> {
     this.setState({
       webviewVisible: false
     });
-  }
+  };
 
   webViewProvider = (socialNetwork: string) => {
     const url = `${Config.API_AUTH}/auth/${socialNetwork}?token=true&callbackUrl=${Config.API_AUTH_CALLBACK_URL}`;
@@ -177,121 +176,98 @@ class Login extends PureComponent<Props, State> {
       webviewVisible: true,
       webViewUrl: url
     });
-  }
+  };
 
   renderWebview() {
     return (
-      <View style={styles.modal}>
-        <View style={styles.webViewHeader}>
+      <View style={{flex: 1}}>
+        <View style={[styles.webViewHeader, { marginTop: -this.state.topSafeAreaInset, height: 40 + this.state.topSafeAreaInset}]}>
           <TouchableHighlight
             style={styles.webViewButtonClose}
             onPress={this.closeWebview}
             activeOpacity={0.8}
-            underlayColor={'transparent'}
+            underlayColor="transparent"
           >
             <Text style={styles.webViewButtonCloseText}>x</Text>
           </TouchableHighlight>
-          <Text
-            style={styles.webViewUrl}
-            ellipsizeMode={'tail'}
-            numberOfLines={1}
-          >
+          <Text style={[styles.webViewUrl]} ellipsizeMode="tail" numberOfLines={1}>
             {this.state.webViewCurrenUrl}
           </Text>
         </View>
-
         <WebView
           ref={this.setWebviewRef}
           automaticallyAdjustContentInsets={false}
-          style={styles.webView}
           source={{ uri: this.state.webViewUrl }}
           javaScriptEnabled
           domStorageEnabled
-          decelerationRate={'normal'}
+          decelerationRate="normal"
           onLoadEnd={this.onLoadEnd}
           onNavigationStateChange={this.onNavigationStateChange}
           startInLoadingState
-          scalesPageToFit
         />
+      </View>
+    );
+  }
+
+  renderSignInPage() {
+    return (
+      <View>
+        {this.props.loading && Login.renderLoading()}
+        <View style={styles.intro}>
+          <Image style={styles.logo} source={logoIcon} />
+        </View>
+        <View style={styles.bottomContainer}>
+          <View style={styles.buttons}>
+            <Text style={styles.buttonsLabel}>{i18n.t('login.introductionText')}</Text>
+            <TouchableHighlight
+              style={[styles.button, styles.buttonFacebook]}
+              onPress={() => this.onPress('facebook')}
+              activeOpacity={0.8}
+              underlayColor={Theme.socialNetworks.facebook}
+            >
+              <View>
+                <Image style={styles.iconFacebook} source={facebookIcon} />
+                <Text style={styles.buttonText}>{i18n.t('login.facebookTitle')}</Text>
+                <Image style={styles.iconArrow} source={nextIcon} />
+              </View>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={[styles.button, styles.buttonTwitter]}
+              onPress={() => this.onPress('twitter')}
+              activeOpacity={0.8}
+              underlayColor={Theme.socialNetworks.twitter}
+            >
+              <View>
+                <Image style={styles.iconTwitter} source={twitterIcon} />
+                <Text style={styles.buttonText}>{i18n.t('login.twitterTitle')}</Text>
+                <Image style={styles.iconArrow} source={nextIcon} />
+              </View>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={[styles.button, styles.buttonGoogle]}
+              onPress={() => this.onPress('google')}
+              activeOpacity={0.8}
+              underlayColor={Theme.socialNetworks.google}
+            >
+              <View>
+                <Image style={styles.iconGoogle} source={googleIcon} />
+                <Text style={styles.buttonText}>{i18n.t('login.googleTitle')}</Text>
+                <Image style={styles.iconArrow} source={nextIcon} />
+              </View>
+            </TouchableHighlight>
+          </View>
+          <Text style={styles.versionText}>{`v${this.props.version}`}</Text>
+        </View>
       </View>
     );
   }
 
   render() {
     return (
-      this.state.webviewVisible
-        ? this.renderWebview()
-        : <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          {this.props.loading && Login.renderLoading()}
-          <View style={styles.intro}>
-            <Image
-              style={styles.logo}
-              source={logoIcon}
-            />
-          </View>
-          <View style={styles.bottomContainer}>
-            <View style={styles.buttons}>
-              <Text style={styles.buttonsLabel}>{i18n.t('login.introductionText')}</Text>
-              <TouchableHighlight
-                style={[styles.button, styles.buttonFacebook]}
-                onPress={() => this.onPress('facebook')}
-                activeOpacity={0.8}
-                underlayColor={Theme.socialNetworks.facebook}
-              >
-                <View>
-                  <Image
-                    style={styles.iconFacebook}
-                    source={facebookIcon}
-                  />
-                  <Text style={styles.buttonText}>{i18n.t('login.facebookTitle')}</Text>
-                  <Image
-                    style={styles.iconArrow}
-                    source={nextIcon}
-                  />
-                </View>
-              </TouchableHighlight>
-              <TouchableHighlight
-                style={[styles.button, styles.buttonTwitter]}
-                onPress={() => this.onPress('twitter')}
-                activeOpacity={0.8}
-                underlayColor={Theme.socialNetworks.twitter}
-              >
-                <View>
-                  <Image
-                    style={styles.iconTwitter}
-                    source={twitterIcon}
-                  />
-                  <Text style={styles.buttonText}>{i18n.t('login.twitterTitle')}</Text>
-                  <Image
-                    style={styles.iconArrow}
-                    source={nextIcon}
-                  />
-                </View>
-              </TouchableHighlight>
-              <TouchableHighlight
-                style={[styles.button, styles.buttonGoogle]}
-                onPress={() => this.onPress('google')}
-                activeOpacity={0.8}
-                underlayColor={Theme.socialNetworks.google}
-              >
-                <View>
-                  <Image
-                    style={styles.iconGoogle}
-                    source={googleIcon}
-                  />
-                  <Text style={styles.buttonText}>{i18n.t('login.googleTitle')}</Text>
-                  <Image
-                    style={styles.iconArrow}
-                    source={nextIcon}
-                  />
-                </View>
-              </TouchableHighlight>
-            </View>
-            <View style={styles.versionContainer}>
-              <Text style={styles.versionText}>v{this.props.version}</Text>
-            </View>
-          </View>
-        </ScrollView>
+        <SafeAreaView style={{flex: 1}}>
+          { this.state.webviewVisible && this.renderWebview()}
+          { !this.state.webviewVisible && this.renderSignInPage()}
+        </SafeAreaView>
     );
   }
 }

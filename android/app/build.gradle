@@ -167,6 +167,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-webview')
     implementation project(':lottie-react-native')
     implementation project(':react-native-fast-image')
     implementation project(':react-native-fbsdk')
