@@ -6984,6 +6984,11 @@ react-native-keyboard-aware-scroll-view@0.3.0:
     prop-types "^15.5.10"
     react-timer-mixin "^0.13.3"
 
+react-native-location@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-location/-/react-native-location-1.0.0.tgz#e2f0b8a278f342682051455dfe6e6ceada839ee5"
+  integrity sha512-48M1w9N9giACHerOr/Yc35DiD0Q/0rIg72D48B/+ltMdxfhuMYuExW6wMoW3o5BFFIqRjdvSaPtZLoHZ9+f4OQ==
+
 react-native-maps@0.22.1:
   version "0.22.1"
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.22.1.tgz#ce856e71970e872e596e6fa4773279cae2c4dcdd"
