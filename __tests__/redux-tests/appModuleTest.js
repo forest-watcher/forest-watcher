@@ -28,7 +28,7 @@ describe('Redux App Module', () => {
     }
 
     it('saveLastActions', () => {
-      simpleActionTest(saveLastActions());
+      simpleActionTest(saveLastActions()); // todo (payload) - how to test this
     });
 
     it('setAppSynced', () => {
@@ -73,6 +73,7 @@ describe('Redux App Module', () => {
       store = configuredStore(initialStoreState);
     });
 
+    // if changing this method, change in other tests too
     function mockDispatchAction(state, action, test = true) {
       const newStore = configuredStore({ app: state });
       newStore.dispatch(action);

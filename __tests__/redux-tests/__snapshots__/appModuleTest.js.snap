@@ -24,7 +24,7 @@ Array [
           "type": "user/GET_USER_COMMIT",
         },
         "effect": Object {
-          "url": "undefined/user",
+          "url": "<API_AUTH_MOCK>/user",
         },
         "rollback": Object {
           "type": "user/GET_USER_ROLLBACK",
@@ -114,7 +114,7 @@ Array [
           "type": "user/GET_USER_COMMIT",
         },
         "effect": Object {
-          "url": "undefined/user",
+          "url": "<API_AUTH_MOCK>/user",
         },
         "rollback": Object {
           "type": "user/GET_USER_ROLLBACK",

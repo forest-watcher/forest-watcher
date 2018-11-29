@@ -1,5 +1,5 @@
 const existsMock = jest.fn();
-existsMock.mockReturnValueOnce({then: jest.fn()});
+existsMock.mockReturnValueOnce({ then: jest.fn() });
 
 export default {
   DocumentDir: () => {},

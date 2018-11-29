@@ -30,7 +30,7 @@ Object {
       },
       "effect": Object {
         "deserialize": false,
-        "url": "undefined/fw-alerts/datasetSlugMock/geostoreID?range=10&output=csv",
+        "url": "<API_URL_MOCK>/fw-alerts/datasetSlugMock/geostoreID?range=10&output=csv",
       },
       "rollback": Object {
         "meta": Object {

@@ -1851,7 +1851,7 @@ Array [
         },
         "effect": Object {
           "deserialize": false,
-          "url": "undefined/query/undefined?sql=
+          "url": "<API_URL_MOCK>/query/<DATASET_COUNTRIES_MOCK>?sql=
     SELECT name_engli as name, iso, centroid, bbox
     FROM gadm28_countries WHERE name_engli != '' ORDER BY name_engli ASC",
         },
@@ -9245,7 +9245,7 @@ Array [
         },
         "effect": Object {
           "deserialize": false,
-          "url": "undefined/query/undefined?sql=
+          "url": "<API_URL_MOCK>/query/<DATASET_COUNTRIES_MOCK>?sql=
     SELECT name_engli as name, iso, centroid, bbox
     FROM gadm28_countries WHERE name_engli != '' ORDER BY name_engli ASC",
         },
