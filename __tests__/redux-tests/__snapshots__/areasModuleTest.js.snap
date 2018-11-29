@@ -1,0 +1,682 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Redux Areas Module Initial reducer state 1`] = `
+Object {
+  "data": Array [],
+  "refreshing": false,
+  "selectedAreaId": "",
+  "syncDate": Any<Number>,
+  "syncError": false,
+  "synced": false,
+  "syncing": false,
+}
+`;
+
+exports[`Redux Areas Module Redux Snapshot Thunk Actions deleteArea with area 1`] = `
+Array [
+  Object {
+    "meta": Object {
+      "offline": Object {
+        "commit": Object {
+          "meta": Object {
+            "area": Object {
+              "id": "areaIDMock1",
+              "name": "nameMock",
+            },
+          },
+          "type": "areas/DELETE_AREA_COMMIT",
+        },
+        "effect": Object {
+          "method": "DELETE",
+          "url": "<API_URL_MOCK>/area/areaIDMock1",
+        },
+        "rollback": Object {
+          "meta": Object {
+            "area": Object {
+              "id": "areaIDMock1",
+              "name": "nameMock",
+            },
+          },
+          "type": "areas/DELETE_AREA_ROLLBACK",
+        },
+      },
+    },
+    "payload": Object {
+      "id": "areaIDMock1",
+      "name": "nameMock",
+    },
+    "type": "areas/DELETE_AREA_REQUEST",
+  },
+]
+`;
+
+exports[`Redux Areas Module Redux Snapshot Thunk Actions setAreaDatasetStatus with area 1`] = `
+Array [
+  Object {
+    "meta": Object {
+      "offline": Object {
+        "commit": Object {
+          "type": "areas/UPDATE_AREA_COMMIT",
+        },
+        "effect": Object {
+          "body": FormDataMock {
+            "append": [MockFunction] {
+              "calls": Array [
+                Array [
+                  "name",
+                  "nameMock",
+                ],
+                Array [
+                  "datasets",
+                  "[{\\"slug\\":\\"datasetSlugMock1\\",\\"name\\":\\"nameMock\\",\\"active\\":true},{\\"slug\\":\\"datasetSlugMock2\\",\\"name\\":\\"nameMock\\",\\"active\\":false},{\\"slug\\":\\"datasetSlugMock3\\",\\"name\\":\\"nameMock\\",\\"active\\":false}]",
+                ],
+              ],
+              "results": Array [
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+              ],
+            },
+          },
+          "headers": Object {
+            "content-type": "multipart/form-data",
+          },
+          "method": "PATCH",
+          "url": "<API_URL_MOCK>/area/areaIDMock",
+        },
+        "rollback": Object {
+          "meta": Object {
+            "application": "applicationMock",
+            "datasets": Array [
+              Object {
+                "name": "nameMock",
+                "slug": "datasetSlugMock1",
+              },
+              Object {
+                "name": "nameMock",
+                "slug": "datasetSlugMock2",
+              },
+              Object {
+                "name": "nameMock",
+                "slug": "datasetSlugMock3",
+              },
+            ],
+            "id": "areaIDMock",
+            "name": "nameMock",
+          },
+          "type": "areas/UPDATE_AREA_ROLLBACK",
+        },
+      },
+    },
+    "payload": Object {
+      "application": "applicationMock",
+      "datasets": Array [
+        Object {
+          "active": true,
+          "name": "nameMock",
+          "slug": "datasetSlugMock1",
+        },
+        Object {
+          "active": false,
+          "name": "nameMock",
+          "slug": "datasetSlugMock2",
+        },
+        Object {
+          "active": false,
+          "name": "nameMock",
+          "slug": "datasetSlugMock3",
+        },
+      ],
+      "id": "areaIDMock",
+      "name": "nameMock",
+    },
+    "type": "areas/UPDATE_AREA_REQUEST",
+  },
+  Object {
+    "meta": Object {
+      "offline": Object {
+        "commit": Object {
+          "type": "areas/UPDATE_AREA_COMMIT",
+        },
+        "effect": Object {
+          "body": FormDataMock {
+            "append": [MockFunction] {
+              "calls": Array [
+                Array [
+                  "name",
+                  "nameMock",
+                ],
+                Array [
+                  "datasets",
+                  "[{\\"slug\\":\\"datasetSlugMock1\\",\\"name\\":\\"nameMock\\",\\"active\\":false},{\\"slug\\":\\"datasetSlugMock2\\",\\"name\\":\\"nameMock\\"},{\\"slug\\":\\"datasetSlugMock3\\",\\"name\\":\\"nameMock\\"}]",
+                ],
+              ],
+              "results": Array [
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+              ],
+            },
+          },
+          "headers": Object {
+            "content-type": "multipart/form-data",
+          },
+          "method": "PATCH",
+          "url": "<API_URL_MOCK>/area/areaIDMock",
+        },
+        "rollback": Object {
+          "meta": Object {
+            "application": "applicationMock",
+            "datasets": Array [
+              Object {
+                "name": "nameMock",
+                "slug": "datasetSlugMock1",
+              },
+              Object {
+                "name": "nameMock",
+                "slug": "datasetSlugMock2",
+              },
+              Object {
+                "name": "nameMock",
+                "slug": "datasetSlugMock3",
+              },
+            ],
+            "id": "areaIDMock",
+            "name": "nameMock",
+          },
+          "type": "areas/UPDATE_AREA_ROLLBACK",
+        },
+      },
+    },
+    "payload": Object {
+      "application": "applicationMock",
+      "datasets": Array [
+        Object {
+          "active": false,
+          "name": "nameMock",
+          "slug": "datasetSlugMock1",
+        },
+        Object {
+          "name": "nameMock",
+          "slug": "datasetSlugMock2",
+        },
+        Object {
+          "name": "nameMock",
+          "slug": "datasetSlugMock3",
+        },
+      ],
+      "id": "areaIDMock",
+      "name": "nameMock",
+    },
+    "type": "areas/UPDATE_AREA_REQUEST",
+  },
+]
+`;
+
+exports[`Redux Areas Module Redux Snapshot Thunk Actions syncAreas 1`] = `
+Array [
+  Object {
+    "meta": Object {
+      "offline": Object {
+        "commit": Object {
+          "type": "areas/GET_AREAS_COMMIT",
+        },
+        "effect": Object {
+          "url": "<API_URL_MOCK>/forest-watcher/area",
+        },
+        "rollback": Object {
+          "type": "areas/GET_AREAS_ROLLBACK",
+        },
+      },
+    },
+    "type": "areas/GET_AREAS_REQUEST",
+  },
+]
+`;
+
+exports[`Redux Areas Module Redux Snapshot Thunk Actions updateArea 1`] = `
+Array [
+  Object {
+    "meta": Object {
+      "offline": Object {
+        "commit": Object {
+          "type": "areas/UPDATE_AREA_COMMIT",
+        },
+        "effect": Object {
+          "body": FormDataMock {
+            "append": [MockFunction],
+          },
+          "headers": Object {
+            "content-type": "multipart/form-data",
+          },
+          "method": "PATCH",
+          "url": "<API_URL_MOCK>/area/IDMock",
+        },
+        "rollback": Object {
+          "meta": Object {},
+          "type": "areas/UPDATE_AREA_ROLLBACK",
+        },
+      },
+    },
+    "payload": Object {
+      "id": "IDMock",
+    },
+    "type": "areas/UPDATE_AREA_REQUEST",
+  },
+]
+`;
+
+exports[`Redux Areas Module Redux Snapshot Thunk Actions updateArea 2`] = `
+Array [
+  Object {
+    "meta": Object {
+      "offline": Object {
+        "commit": Object {
+          "type": "areas/UPDATE_AREA_COMMIT",
+        },
+        "effect": Object {
+          "body": FormDataMock {
+            "append": [MockFunction] {
+              "calls": Array [
+                Array [
+                  "name",
+                  "nameMock",
+                ],
+                Array [
+                  "datasets",
+                  "{\\"datasetMock\\":\\"mockData\\"}",
+                ],
+              ],
+              "results": Array [
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+              ],
+            },
+          },
+          "headers": Object {
+            "content-type": "multipart/form-data",
+          },
+          "method": "PATCH",
+          "url": "<API_URL_MOCK>/area/IDMock",
+        },
+        "rollback": Object {
+          "meta": Object {},
+          "type": "areas/UPDATE_AREA_ROLLBACK",
+        },
+      },
+    },
+    "payload": Object {
+      "application": "applicationMock",
+      "datasets": Object {
+        "datasetMock": "mockData",
+      },
+      "id": "IDMock",
+      "name": "nameMock",
+    },
+    "type": "areas/UPDATE_AREA_REQUEST",
+  },
+]
+`;
+
+exports[`Redux Areas Module Redux Snapshot Thunk Actions updateDate with area 1`] = `
+Array [
+  Object {
+    "meta": Object {
+      "offline": Object {
+        "commit": Object {
+          "type": "areas/UPDATE_AREA_COMMIT",
+        },
+        "effect": Object {
+          "body": FormDataMock {
+            "append": [MockFunction] {
+              "calls": Array [
+                Array [
+                  "name",
+                  "nameMock",
+                ],
+                Array [
+                  "datasets",
+                  "[{\\"slug\\":\\"datasetSlugMock1\\",\\"name\\":\\"nameMock\\",\\"startDate\\":1234567890},{\\"slug\\":\\"datasetSlugMock2\\",\\"name\\":\\"nameMock\\",\\"startDate\\":7890},{\\"slug\\":\\"datasetSlugMock3\\",\\"name\\":\\"nameMock\\",\\"startDate\\":67890}]",
+                ],
+              ],
+              "results": Array [
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+              ],
+            },
+          },
+          "headers": Object {
+            "content-type": "multipart/form-data",
+          },
+          "method": "PATCH",
+          "url": "<API_URL_MOCK>/area/areaIDMock",
+        },
+        "rollback": Object {
+          "meta": Object {
+            "application": "applicationMock",
+            "datasets": Array [
+              Object {
+                "name": "nameMock",
+                "slug": "datasetSlugMock1",
+                "startDate": 890,
+              },
+              Object {
+                "name": "nameMock",
+                "slug": "datasetSlugMock2",
+                "startDate": 7890,
+              },
+              Object {
+                "name": "nameMock",
+                "slug": "datasetSlugMock3",
+                "startDate": 67890,
+              },
+            ],
+            "id": "areaIDMock",
+            "name": "nameMock",
+          },
+          "type": "areas/UPDATE_AREA_ROLLBACK",
+        },
+      },
+    },
+    "payload": Object {
+      "application": "applicationMock",
+      "datasets": Array [
+        Object {
+          "name": "nameMock",
+          "slug": "datasetSlugMock1",
+          "startDate": 1234567890,
+        },
+        Object {
+          "name": "nameMock",
+          "slug": "datasetSlugMock2",
+          "startDate": 7890,
+        },
+        Object {
+          "name": "nameMock",
+          "slug": "datasetSlugMock3",
+          "startDate": 67890,
+        },
+      ],
+      "id": "areaIDMock",
+      "name": "nameMock",
+    },
+    "type": "areas/UPDATE_AREA_REQUEST",
+  },
+]
+`;
+
+exports[`Redux Areas Module Simple Actions: snapshot and reducer test saveArea 1`] = `
+Object {
+  "meta": Object {
+    "offline": Object {
+      "commit": Object {
+        "type": "areas/SAVE_AREA_COMMIT",
+      },
+      "effect": Object {
+        "body": FormDataMock {
+          "append": [MockFunction] {
+            "calls": Array [
+              Array [
+                "name",
+                "nameMock",
+              ],
+              Array [
+                "geojson",
+                undefined,
+              ],
+              Array [
+                "image",
+                Object {
+                  "name": "nameMock.jpg",
+                  "type": "image/jpg",
+                  "uri": "snapshotMock",
+                },
+              ],
+            ],
+            "results": Array [
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+            ],
+          },
+        },
+        "headers": Object {
+          "content-type": "multipart/form-data",
+        },
+        "method": "POST",
+        "url": "<API_URL_MOCK>/forest-watcher/area",
+      },
+      "rollback": Object {
+        "meta": Object {
+          "area": Object {
+            "name": "nameMock",
+          },
+          "snapshot": "snapshotMock",
+        },
+        "type": "areas/SAVE_AREA_ROLLBACK",
+      },
+    },
+  },
+  "type": "areas/SAVE_AREA_REQUEST",
+}
+`;
+
+exports[`Redux Areas Module Simple Actions: snapshot and reducer test saveArea 2`] = `
+Object {
+  "data": Array [],
+  "refreshing": true,
+  "selectedAreaId": "",
+  "syncDate": Any<Number>,
+  "syncError": false,
+  "synced": false,
+  "syncing": true,
+}
+`;
+
+exports[`Redux Areas Module Simple Actions: snapshot and reducer test saveArea 3`] = `
+Object {
+  "meta": Object {
+    "offline": Object {
+      "commit": Object {
+        "type": "areas/SAVE_AREA_COMMIT",
+      },
+      "effect": Object {
+        "body": FormDataMock {
+          "append": [MockFunction] {
+            "calls": Array [
+              Array [
+                "name",
+                "nameMock",
+              ],
+              Array [
+                "geojson",
+                "\\"geojsonMock\\"",
+              ],
+              Array [
+                "datasets",
+                "{\\"datasetMock\\":\\"mockData\\"}",
+              ],
+              Array [
+                "image",
+                Object {
+                  "name": "nameMock.jpg",
+                  "type": "image/jpg",
+                  "uri": "snapshotMock",
+                },
+              ],
+            ],
+            "results": Array [
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+            ],
+          },
+        },
+        "headers": Object {
+          "content-type": "multipart/form-data",
+        },
+        "method": "POST",
+        "url": "<API_URL_MOCK>/forest-watcher/area",
+      },
+      "rollback": Object {
+        "meta": Object {
+          "area": Object {
+            "geojson": "geojsonMock",
+            "name": "nameMock",
+          },
+          "datasets": Object {
+            "datasetMock": "mockData",
+          },
+          "snapshot": "snapshotMock",
+        },
+        "type": "areas/SAVE_AREA_ROLLBACK",
+      },
+    },
+  },
+  "type": "areas/SAVE_AREA_REQUEST",
+}
+`;
+
+exports[`Redux Areas Module Simple Actions: snapshot and reducer test saveArea 4`] = `
+Object {
+  "data": Array [],
+  "refreshing": true,
+  "selectedAreaId": "",
+  "syncDate": Any<Number>,
+  "syncError": false,
+  "synced": false,
+  "syncing": true,
+}
+`;
+
+exports[`Redux Areas Module Simple Actions: snapshot and reducer test saveLastActions 1`] = `
+Object {
+  "meta": Object {
+    "offline": Object {
+      "commit": Object {
+        "type": "areas/GET_AREAS_COMMIT",
+      },
+      "effect": Object {
+        "url": "<API_URL_MOCK>/forest-watcher/area",
+      },
+      "rollback": Object {
+        "type": "areas/GET_AREAS_ROLLBACK",
+      },
+    },
+  },
+  "type": "areas/GET_AREAS_REQUEST",
+}
+`;
+
+exports[`Redux Areas Module Simple Actions: snapshot and reducer test saveLastActions 2`] = `
+Object {
+  "data": Array [],
+  "refreshing": false,
+  "selectedAreaId": "",
+  "syncDate": Any<Number>,
+  "syncError": false,
+  "synced": false,
+  "syncing": true,
+}
+`;
+
+exports[`Redux Areas Module Simple Actions: snapshot and reducer test setAreasRefreshing 1`] = `
+Object {
+  "payload": true,
+  "type": "areas/SET_AREAS_REFRESHING",
+}
+`;
+
+exports[`Redux Areas Module Simple Actions: snapshot and reducer test setAreasRefreshing 2`] = `
+Object {
+  "data": Array [],
+  "refreshing": true,
+  "selectedAreaId": "",
+  "syncDate": Any<Number>,
+  "syncError": false,
+  "synced": false,
+  "syncing": false,
+}
+`;
+
+exports[`Redux Areas Module Simple Actions: snapshot and reducer test setAreasRefreshing 3`] = `
+Object {
+  "payload": false,
+  "type": "areas/SET_AREAS_REFRESHING",
+}
+`;
+
+exports[`Redux Areas Module Simple Actions: snapshot and reducer test setAreasRefreshing 4`] = `
+Object {
+  "data": Array [],
+  "refreshing": false,
+  "selectedAreaId": "",
+  "syncDate": Any<Number>,
+  "syncError": false,
+  "synced": false,
+  "syncing": false,
+}
+`;
+
+exports[`Redux Areas Module Simple Actions: snapshot and reducer test setSelectedAreaId 1`] = `
+Object {
+  "payload": "IDMock",
+  "type": "areas/SET_SELECTED_AREA_ID",
+}
+`;
+
+exports[`Redux Areas Module Simple Actions: snapshot and reducer test setSelectedAreaId 2`] = `
+Object {
+  "data": Array [],
+  "refreshing": false,
+  "selectedAreaId": "IDMock",
+  "syncDate": Any<Number>,
+  "syncError": false,
+  "synced": false,
+  "syncing": false,
+}
+`;
