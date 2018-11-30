@@ -63,9 +63,11 @@ const app = () => {
         }
       }
     });
-    setCodePush();
+    //setCodePush();
     createStore.runSagas();
   }
+
+  throw new Error('Sentry: Test throw error');
 };
 
 export default app;

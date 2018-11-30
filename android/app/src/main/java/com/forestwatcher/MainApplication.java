@@ -38,12 +38,6 @@ public class MainApplication extends NavigationApplication implements ReactInsta
     ReactNativeHost host = new NavigationReactNativeHost(this, isDebug(), createAdditionalReactPackages()) {
 
       @Override
-      public String getJSBundleFile() {
-      // Override default getJSBundleFile method with the one CodePush is providing
-          return CodePush.getJSBundleFile();
-      }
-
-      @Override
       public String getJSMainModuleName() {
         return "index";
       }
