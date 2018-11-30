@@ -6,7 +6,6 @@ import com.facebook.react.ReactInstanceManager;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.microsoft.codepush.react.ReactInstanceHolder;
 import com.microsoft.appcenter.reactnative.appcenter.AppCenterReactNativePackage;
-import com.microsoft.appcenter.reactnative.crashes.AppCenterReactNativeCrashesPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.psykar.cookiemanager.CookieManagerPackage;
 import io.realm.react.RealmReactPackage;
@@ -75,7 +74,6 @@ public class MainApplication extends NavigationApplication implements ReactInsta
       new RNAppAuthPackage(),
       new FBSDKPackage(mCallbackManager),
       new AppCenterReactNativePackage(MainApplication.this),
-      new AppCenterReactNativeCrashesPackage(MainApplication.this, "ALWAYS"),
       new FastImageViewPackage(),
       new LottiePackage()
     );
