@@ -5,12 +5,12 @@ import {
 } from 'react-native-sentry';
 
 // disable stacktrace merging
-export function setupCrashLogging() {
-  Sentry.config("https://bb8968e348f54fff8517f7b4e97bca6c:68da4d3de8a441679753ab6cf8d68a74@sentry.io/1334455", {
+export async function setupCrashLogging() {
+  await Sentry.config("https://bb8968e348f54fff8517f7b4e97bca6c:68da4d3de8a441679753ab6cf8d68a74@sentry.io/1334455", {
     //deactivateStacktraceMerging: false, // default: true | Deactivates the stacktrace merging feature
-    //logLevel: SentryLog.Debug, // default SentryLog.None | Possible values:  .None, .Error, .Debug, .Verbose
+    logLevel: SentryLog.Debug, // default SentryLog.None | Possible values:  .None, .Error, .Debug, .Verbose
     //disableNativeIntegration: false, // default: false | Deactivates the native integration and only uses raven-js
-    //handlePromiseRejection: true // default: true | Handle unhandled promise rejections
+    handlePromiseRejection: true // default: true | Handle unhandled promise rejections
     // sampleRate: 0.5 // default: 1.0 | Only set this if you don't want to send every event so e.g.: 0.5 will send 50% of all events
     // These two options will only be considered if stacktrace merging is active
     // Here you can add modules that should be ignored or exclude modules
@@ -26,6 +26,7 @@ export function setupCrashLogging() {
     // can also be called outside this block but maybe null
     // Sentry.lastEventId(); -> returns the last event_id after the first successfully sent event
     // Sentry.lastException(); -> returns the last event after the first successfully sent event
+    console.log("3SC", "Sentry event logged successfully", event);
   });
 
   Sentry.setShouldSendCallback((event) => {

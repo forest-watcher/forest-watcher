@@ -239,7 +239,7 @@ dependencies {
     implementation project(':react-native-navigation')
 
     // react-native-sentry
-    implementation 'io.sentry:sentry-android:1.7.5'
+    implementation 'io.sentry:sentry-android:1.7.15'
 
     // realm
     implementation project(':realm')

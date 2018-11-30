@@ -24,11 +24,12 @@ function setCodePush() {
 }
 
 const app = () => {
-  setupCrashLogging();
   const store = createStore(startApp);
   registerScreens(store, Provider);
 
   async function startApp() {
+    await setupCrashLogging();
+
     const state = store.getState();
     let screen = 'ForestWatcher.Home';
     if (state.user.loggedIn && state.app.synced) {
