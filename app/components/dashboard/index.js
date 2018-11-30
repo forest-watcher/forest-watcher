@@ -17,7 +17,9 @@ import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import i18n from 'locales';
 import styles from './styles';
+import SafeArea, { withSafeArea, type SafeAreaInsets } from 'react-native-safe-area';
 
+const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
 const Timer = require('react-native-timer');
 const settingsIcon = require('assets/settings.png');
 const nextIcon = require('assets/next.png');
@@ -64,6 +66,10 @@ class Dashboard extends PureComponent<Props> {
 
   reportsAction: { callback: () => void, icon: any }
 
+  state = {
+    page: 0
+  };
+
   constructor(props: Props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
@@ -86,6 +92,15 @@ class Dashboard extends PureComponent<Props> {
     if (this.props.closeModal) {
       Timer.setTimeout(this, 'clearModal', Navigation.dismissAllModals, 1800);
     }
+
+    // Determine the current insets. This is so, for the page indictator view,
+    // we can add additional padding to ensure the white background is extended
+    // beyond the safe area.
+    SafeArea.getSafeAreaInsetsForRootView().then(result => {
+      this.setState(state => ({
+        bottomSafeAreaInset: result.safeAreaInsets.bottom
+      }));
+    });
   }
 
   componentWillUnmount() {
@@ -160,6 +175,7 @@ class Dashboard extends PureComponent<Props> {
   }
 
   render() {
+    const { page, bottomSafeAreaInset } = this.state;
     const { pristine, refreshing, appSyncing } = this.props;
     const isIOS = Platform.OS === 'ios';
     // we remove the event handler to improve performance
@@ -176,8 +192,8 @@ class Dashboard extends PureComponent<Props> {
         onStartShouldSetResponder={androidListener}
         onResponderRelease={androidHandler}
       >
+      <SafeAreaView style={styles.contentContainer}>
         <StatusBar networkActivityIndicatorVisible={appSyncing} />
-        <View style={styles.backgroundHack} />
         <Text style={styles.label}>
           {i18n.t('settings.yourAreas')}
         </Text>
@@ -203,9 +219,13 @@ class Dashboard extends PureComponent<Props> {
             </View>
           </View>
         </ScrollView>
-        <Row style={styles.row} action={this.reportsAction}>
+        <Row style={[styles.test, styles.row, {height: 64 + bottomSafeAreaInset,
+        backgroundColor: Theme.background.white,
+        paddingBottom: bottomSafeAreaInset,
+        marginBottom: -bottomSafeAreaInset}]} action={this.reportsAction}>
           <Text style={styles.textMyReports}>{i18n.t('dashboard.myReports')}</Text>
         </Row>
+        </SafeAreaView>
       </View>
     );
   }

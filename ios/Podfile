@@ -17,14 +17,23 @@ target 'ForestWatcher' do
 
   ## react-native-maps dependencies
   pod 'GoogleMaps'
+  pod 'react-native-maps', path: '../node_modules/react-native-maps'
+  pod 'react-native-google-maps', path: '../node_modules/react-native-maps'
   pod 'Google-Maps-iOS-Utils'
 
-  pod 'React', :path => '../node_modules/react-native'
+  pod 'React', :path => '../node_modules/react-native', subspecs: [
+   ‘RCTImage’
+ ]
   pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
   pod 'react-native-safe-area', :path => '../node_modules/react-native-safe-area'
 
   post_install do |installer|
     installer.pods_project.targets.each do |target|
+      if target.name == 'react-native-google-maps'
+        target.build_configurations.each do |config|
+          config.build_settings['CLANG_ENABLE_MODULES'] = 'No'
+        end
+      end
           if target.name == "React"
               target.remove_from_project
           end

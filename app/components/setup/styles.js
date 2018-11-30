@@ -3,16 +3,22 @@ import { Platform, StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   defaultHeader: {
+    alignSelf: 'flex-end',
+    backgroundColor: Theme.background.main
+  },
+  container: {
     flex: 1,
-    backgroundColor: Theme.background.main,
-    ...Platform.select({
-      ios: {
-        paddingTop: 80
-      },
-      android: {
-        paddingTop: 60
-      }
-    })
+    flexDirection: 'column'
+  },
+  slideContainer: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  contentContainer: {
+    flex: 1,
+    width: Theme.screen.width,
+    height: Theme.screen.height
   },
   mapHeader: {
     flex: 1,

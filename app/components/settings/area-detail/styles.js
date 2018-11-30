@@ -6,6 +6,11 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: Theme.background.main
   },
+  contentContainer: {
+    flex: 1,
+    width: Theme.screen.width,
+    height: Theme.screen.height
+  },
   containerContent: {
     paddingTop: 10
   },

@@ -3,22 +3,9 @@ import { Platform, StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    ...Platform.select({
-      ios: {
-        height: 104
-      },
-      android: {
-        height: 60
-      }
-    }),
-    position: 'absolute',
-    top: 0,
-    left: 16,
-    right: 0,
     flexDirection: 'row',
     alignItems: 'center',
     zIndex: 1,
-    flex: 1,
     justifyContent: 'space-between'
   },
   arrowText: {
