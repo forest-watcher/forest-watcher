@@ -61,6 +61,8 @@ __RN_CONFIG_CODEPUSH_RELEASE_PUBLIC_KEY
 	<string>__RN_CONFIG_LOGIN_FACEBOOK_APP_ID</string>
 	<key>FacebookDisplayName</key>
 	<string>Global Forest Watch</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
