@@ -24,6 +24,7 @@ import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.reactnativenavigation.react.ReactGateway;
 import com.rnziparchive.RNZipArchivePackage;
 import io.realm.react.RealmReactPackage;
+import io.sentry.RNSentryPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -84,7 +85,8 @@ public class MainApplication extends NavigationApplication implements ReactInsta
       new FBSDKPackage(mCallbackManager),
       new AppCenterReactNativePackage(MainApplication.this),
       new FastImageViewPackage(),
-      new LottiePackage()
+      new LottiePackage(),
+      new RNSentryPackage()
     );
   }
 

@@ -4,9 +4,7 @@ import { Provider } from 'react-redux';
 import Theme from 'config/theme';
 import { registerScreens } from 'screens';
 import createStore from 'store';
-
-
-import { checkPrevCrashes } from './crashes';
+import { setupCrashLogging } from './crashes';
 
 // Disable ios warnings
 // console.disableYellowBox = true;
@@ -26,6 +24,7 @@ function setCodePush() {
 }
 
 const app = () => {
+  setupCrashLogging();
   const store = createStore(startApp);
   registerScreens(store, Provider);
 
@@ -64,7 +63,6 @@ const app = () => {
         }
       }
     });
-    checkPrevCrashes();
     setCodePush();
     createStore.runSagas();
   }

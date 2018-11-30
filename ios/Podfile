@@ -30,6 +30,8 @@ target 'ForestWatcher' do
   ## react-native-navigation dependencies.
   pod 'ReactNativeNavigation', :path => '../node_modules/react-native-navigation'
 
+  pod 'SentryReactNative', :path => '../node_modules/react-native-sentry'
+
   post_install do |installer|
     installer.pods_project.targets.each do |target|
       if target.name == 'react-native-google-maps'

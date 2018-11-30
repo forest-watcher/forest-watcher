@@ -1053,6 +1053,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7B4AB9F2D3C845B2806C808B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			path = Application;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1085,6 +1093,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				32E52070208B4560006E6400 /* Embed Frameworks */,
 				5F7D7882DDFFCD0ED23EF858 /* [CP] Copy Pods Resources */,
+				ACBAAC00B3FD465CA6F51300 /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
 			);
@@ -1737,7 +1746,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		545C73DF8ED53C595077D845 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1776,6 +1785,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		ACBAAC00B3FD465CA6F51300 /* Upload Debug Symbols to Sentry */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Upload Debug Symbols to Sentry";
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			shellPath = /bin/sh;
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
 		};
 /* End PBXShellScriptBuildPhase section */
 

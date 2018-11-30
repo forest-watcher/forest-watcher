@@ -14,6 +14,11 @@
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#if __has_include(<React/RNSentry.h>)
+#import <React/RNSentry.h> // This is used for versions of react >= 0.40
+#else
+#import "RNSentry.h" // This is used for versions of react < 0.40
+#endif
 #import <ReactNativeNavigation/ReactNativeNavigation.h>
 #import "ReactNativeConfig.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
