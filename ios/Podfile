@@ -39,12 +39,16 @@ target 'ForestWatcher' do
           config.build_settings['CLANG_ENABLE_MODULES'] = 'No'
         end
       end
-      # If the target's name is React, remove it from the project.
+      # If the target's name is React or yoga, remove it from the project.
       # This means that the pods which don't correctly add header search paths still get their search paths,
-      # while also ensuring that we don't have duplicated react-native modules.
-      if target.name == "React"
+      # while also ensuring that we don't have duplicated targets.
+      targets_to_ignore = %w(React yoga)
+
+      if targets_to_ignore.include? target.name
         target.remove_from_project
       end
+
+      # Set some magic build settings on each of the remaining targets.
       target.build_configurations.each do |config|
         config.build_settings['CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF'] = 'NO'
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '10.0'
