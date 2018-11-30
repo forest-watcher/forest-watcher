@@ -5,15 +5,24 @@ import { View, Text } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import styles from './styles';
 
+const Timer = require('react-native-timer');
+
 type Props = {
   type: string,
-  text: string
+  text: string,
+  autoDismissTimerMillis: number
 };
 
 class ToastNotification extends PureComponent<Props> {
 
+  componentDidMount() {
+    Timer.setTimeout(this, 'dismissNotification', () => {
+      Navigation.dismissOverlay(this.props.componentId);
+    }, this.props.autoDismissTimerMillis);
+  }
+
   componentWillUnmount() {
-    Navigation.dismissInAppNotification();
+    Timer.clearTimeout(this, 'dismissNotification');
   }
 
   render() {
@@ -35,15 +44,17 @@ export const Types: { disable: string, error: string, success: string } = {
 export function showNotification(notification: { type?: string, text: string, clearPrevious?: boolean, time?: number }) {
   const { type, text, clearPrevious = true, time = 2 } = notification;
   if (clearPrevious) {
-    Navigation.dismissInAppNotification();
+    //Navigation.dismissInAppNotification();
   }
-  Navigation.showInAppNotification({
-    screen: 'ForestWatcher.ToastNotification',
-    passProps: {
-      type,
-      text
-    },
-    autoDismissTimerSec: time
+  Navigation.showOverlay({
+    component: {
+      name: 'ForestWatcher.ToastNotification',
+      passProps: {
+        type,
+        text,
+        autoDismissTimerMillis: time * 1000
+      }
+    }
   });
 }
 

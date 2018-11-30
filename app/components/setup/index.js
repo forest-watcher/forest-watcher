@@ -5,7 +5,6 @@ import {
   View
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import { APP_NAME } from 'config/constants';
 
 import StepsSlider from 'components/common/steps-slider';
 import SetupCountry from 'containers/setup/country';
@@ -15,13 +14,10 @@ import i18n from 'locales';
 import Header from './header';
 import styles from './styles';
 
-const Timer = require('react-native-timer');
-
 type Props = {
-  navigator: Object,
+  componentId: string,
   logout: () => void,
-  goBackDisabled: boolean,
-  closeModal: boolean
+  goBackDisabled: boolean
 };
 
 type State = {
@@ -30,29 +26,25 @@ type State = {
 };
 
 class Setup extends Component<Props, State> {
-  static navigatorStyle = {
-    navBarHidden: true
-  };
+  static options(passProps) {
+    return {
+      topBar: {
+        drawBehind: true,
+        visible: false
+      }
+    };
+  }
 
   state = {
     page: 0,
     hideIndex: false
   };
 
-  componentDidMount() {
-    if (this.props.closeModal) {
-      Timer.setTimeout(this, 'clearModal', Navigation.dismissAllModals, 1800);
-    }
-  }
-
-  componentWillUnmount() {
-    Timer.clearTimeout(this, 'clearModal');
-  }
-
   onFinishSetup = () => {
-    this.props.navigator.resetTo({
-      screen: 'ForestWatcher.Dashboard',
-      title: APP_NAME
+    Navigation.setStackRoot(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.Dashboard'
+      }
     });
   }
 
@@ -73,9 +65,7 @@ class Setup extends Component<Props, State> {
   }
 
   goBack = () => {
-    this.props.navigator.pop({
-      animated: true
-    });
+    Navigation.pop(this.props.componentId);
   }
 
   hideIndex = () => this.setState({ hideIndex: true });
@@ -97,7 +87,7 @@ class Setup extends Component<Props, State> {
           onBackPress={onBackPress}
           page={page}
           logout={this.props.logout}
-          navigator={this.props.navigator}
+          componentId={this.props.componentId}
         />
         <StepsSlider
           hideIndex={hideIndex}

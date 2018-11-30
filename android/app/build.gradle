@@ -113,6 +113,7 @@ android {
         manifestPlaceholders = [
             'appAuthRedirectScheme': project.env.get("LOGIN_GOOGLE_REDIRECT_SCHEMA_ANDROID")
         ]
+        missingDimensionStrategy "RNN.reactNativeVersion", rootProject.ext.reactNativeNavigationFlavor
     }
     /*
      * See if this can be removed when the dependencies have been upgraded and sanitised
@@ -236,7 +237,7 @@ dependencies {
     implementation project(':react-native-navigation')
 
     // realm
-    implementation(project(':realm'))
+    implementation project(':realm')
 }
 
 // Run this once to be able to run the application with BUCK

@@ -1,4 +1,3 @@
-import { Navigation } from 'react-native-navigation';
 import pick from 'lodash/pick';
 import { REDUCERS_SAVED_TO_REPORT } from 'config/constants';
 

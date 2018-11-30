@@ -1,28 +1,29 @@
 package com.forestwatcher;
 
 import android.content.Intent;
-
-import com.facebook.react.ReactInstanceManager;
+import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
-import com.microsoft.codepush.react.ReactInstanceHolder;
+import com.airbnb.android.react.maps.MapsPackage;
+import com.dylanvann.fastimage.FastImageViewPackage;
+import com.facebook.CallbackManager;
+import com.facebook.react.ReactInstanceManager;
+import com.facebook.react.ReactNativeHost;
+import com.facebook.react.ReactPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
+import com.imagepicker.ImagePickerPackage;
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.microsoft.appcenter.reactnative.appcenter.AppCenterReactNativePackage;
 import com.microsoft.codepush.react.CodePush;
+import com.microsoft.codepush.react.ReactInstanceHolder;
 import com.psykar.cookiemanager.CookieManagerPackage;
-import io.realm.react.RealmReactPackage;
-import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
-import com.reactnativenavigation.controllers.ActivityCallbacks;
-import com.RNFetchBlob.RNFetchBlobPackage;
-import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
-import com.facebook.react.ReactPackage;
-import com.reactnativenavigation.NavigationApplication;
-import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
-import com.rnziparchive.RNZipArchivePackage;
-import com.imagepicker.ImagePickerPackage;
 import com.reactlibrary.RNAppAuthPackage;
-import com.facebook.CallbackManager;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
-import com.dylanvann.fastimage.FastImageViewPackage;
-import com.airbnb.android.react.maps.MapsPackage;
+import com.reactnativenavigation.NavigationApplication;
+import com.reactnativenavigation.react.NavigationReactNativeHost;
+import com.reactnativenavigation.react.ReactGateway;
+import com.rnziparchive.RNZipArchivePackage;
+import io.realm.react.RealmReactPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,19 +32,27 @@ public class MainApplication extends NavigationApplication implements ReactInsta
 
   private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
 
+  @Override
+  protected ReactGateway createReactGateway() {
+    ReactNativeHost host = new NavigationReactNativeHost(this, isDebug(), createAdditionalReactPackages()) {
+
+      @Override
+      public String getJSBundleFile() {
+      // Override default getJSBundleFile method with the one CodePush is providing
+          return CodePush.getJSBundleFile();
+      }
+
+      @Override
+      public String getJSMainModuleName() {
+        return "index";
+      }
+
+    };
+    return new ReactGateway(this, isDebug(), host);
+  }
+
   protected static CallbackManager getCallbackManager() {
     return mCallbackManager;
-  }
-
-  @Override
-  public String getJSBundleFile() {
-  // Override default getJSBundleFile method with the one CodePush is providing
-      return CodePush.getJSBundleFile();
-  }
-
-  @Override
-  public String getJSMainModuleName() {
-    return "index";
   }
 
   @Override
@@ -93,12 +102,5 @@ public class MainApplication extends NavigationApplication implements ReactInsta
   @Override
   public void onCreate() {
     super.onCreate();
-
-    setActivityCallbacks(new ActivityCallbacks() {
-      @Override
-      public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mCallbackManager.onActivityResult(requestCode, resultCode, data);
-      }
-    });
   }
 }

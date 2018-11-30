@@ -10,11 +10,11 @@
 #import "AppDelegate.h"
 #import <AppCenterReactNative/AppCenterReactNative.h>
 #import <CodePush/CodePush.h>
-#import "RCCManager.h"
 #import "AppAuth.h"
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import <ReactNativeNavigation/ReactNativeNavigation.h>
 #import "ReactNativeConfig.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
@@ -43,7 +43,8 @@
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   self.window.backgroundColor = [UIColor whiteColor];
-  [[RCCManager sharedInstance] initBridgeWithBundleURL:jsCodeLocation];
+  
+  [ReactNativeNavigation bootstrap:jsCodeLocation launchOptions:launchOptions];
 
   return YES;
 }
