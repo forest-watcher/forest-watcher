@@ -9,9 +9,10 @@ npm install -g react-native-cli
 ```
 - Project dependencies
 ```bash
-npm install
+yarn
 ```
 **iOS only**
+
 - Homebrew [How to install](http://brew.sh/)
 
 Instead of entering all of the installation commands yourself, you're able to run a magic quick-start script that'll:
