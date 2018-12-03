@@ -1,4 +1,10 @@
 apply plugin: "com.android.application"
+
+project.ext.envConfigFiles = [
+    debug: ".env.android",
+    release: ".env.android"
+]
+
 apply from: "../../node_modules/react-native-config/android/dotenv.gradle"
 
 import com.android.build.OutputFile
@@ -112,7 +118,7 @@ android {
         resValue "string", "build_config_package", "com.forestwatcher"
         multiDexEnabled true
         manifestPlaceholders = [
-            'appAuthRedirectScheme': project.env.get("LOGIN_GOOGLE_REDIRECT_SCHEMA_ANDROID")
+            'appAuthRedirectScheme': project.env.get("LOGIN_GOOGLE_REDIRECT_SCHEMA")
         ]
         missingDimensionStrategy "RNN.reactNativeVersion", rootProject.ext.reactNativeNavigationFlavor
     }

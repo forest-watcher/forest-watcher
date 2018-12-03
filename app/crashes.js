@@ -1,3 +1,4 @@
+import Config from 'react-native-config';
 import {
   Sentry,
   SentrySeverity,
@@ -6,7 +7,7 @@ import {
 
 // disable stacktrace merging
 export async function setupCrashLogging() {
-  await Sentry.config("https://bb8968e348f54fff8517f7b4e97bca6c:68da4d3de8a441679753ab6cf8d68a74@sentry.io/1334455", {
+  await Sentry.config(Config.SENTRY_DSN, {
     //deactivateStacktraceMerging: false, // default: true | Deactivates the stacktrace merging feature
     logLevel: SentryLog.Debug, // default SentryLog.None | Possible values:  .None, .Error, .Debug, .Verbose
     //disableNativeIntegration: false, // default: false | Deactivates the native integration and only uses raven-js

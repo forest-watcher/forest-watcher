@@ -2,11 +2,11 @@
 
 import React, { PureComponent } from 'react';
 import { View, ScrollView, RefreshControl, Platform, Text, StatusBar } from 'react-native';
+import Config from 'react-native-config';
 import { Navigation } from 'react-native-navigation';
 
 import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
-import { APP_NAME } from 'config/constants';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import i18n from 'locales';
@@ -45,7 +45,7 @@ class Dashboard extends PureComponent<Props> {
           }
         ],
         title: {
-          text: APP_NAME
+          text: Config.APP_NAME
         }
       }
     };
