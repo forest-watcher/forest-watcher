@@ -9,11 +9,11 @@ import {
   Text,
   StatusBar
 } from 'react-native';
+import Config from 'react-native-config';
 import { Navigation } from 'react-native-navigation';
 
 import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
-import { APP_NAME } from 'config/constants';
 import tracker from 'helpers/googleAnalytics';
 import i18n from 'locales';
 import styles from './styles';
@@ -47,7 +47,7 @@ class Dashboard extends PureComponent<Props> {
           icon: settingsIcon
         }],
         title: {
-          text: APP_NAME
+          text: Config.APP_NAME
         }
       }
     };

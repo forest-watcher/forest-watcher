@@ -36,7 +36,7 @@
   [AppCenterReactNative register];  // Initialize AppCenter
 
   // Google Maps API Key
-  NSString *apiUrl = [ReactNativeConfig envFor:@"GOOGLE_MAPS_API_KEY_IOS"];
+  NSString *apiUrl = [ReactNativeConfig envFor:@"GOOGLE_MAPS_API_KEY"];
 
   [GMSServices provideAPIKey:apiUrl];
 
@@ -48,7 +48,7 @@
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   self.window.backgroundColor = [UIColor whiteColor];
-  
+
   [ReactNativeNavigation bootstrap:jsCodeLocation launchOptions:launchOptions];
 
   return YES;

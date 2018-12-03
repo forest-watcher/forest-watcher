@@ -70,10 +70,10 @@ public class MainApplication extends NavigationApplication implements ReactInsta
       new CookieManagerPackage(),
       new ImagePickerPackage(),
       new CodePush(
-        BuildConfig.CODEPUSH_ANDROID_DEPLOY_KEY,
+        BuildConfig.CODEPUSH_DEPLOY_KEY,
         getApplicationContext(),
         BuildConfig.DEBUG,
-        R.string.CodePushPublicKey
+        R.string.CODEPUSH_RELEASE_PUBLIC_KEY
       ),
       new RNAppAuthPackage(),
       new FBSDKPackage(mCallbackManager),
