@@ -12,22 +12,29 @@ target 'ForestWatcher' do
   # pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
   # pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
-  ## Pods for AppCenter
+  ## appcenter dependencies.
   pod 'AppCenterReactNativeShared', '~> 1.10.0'
 
-  ## react-native-maps dependencies
+  ## react-native-maps dependencies.
+  pod 'react-native-maps', path: '../node_modules/react-native-maps'
+  pod 'react-native-google-maps', path: '../node_modules/react-native-maps'
   pod 'GoogleMaps'
   pod 'react-native-maps', path: '../node_modules/react-native-maps'
   pod 'react-native-google-maps', path: '../node_modules/react-native-maps'
   pod 'Google-Maps-iOS-Utils'
 
-  pod 'React', :path => '../node_modules/react-native', subspecs: [
-   ‘RCTImage’
- ]
+  ## React dependencies, added so that various projects which don't use header search paths can still function correctly.
+  pod 'React', path: '../node_modules/react-native', subspecs: [
+    'RCTImage'
+  ]
   pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
   pod 'react-native-safe-area', :path => '../node_modules/react-native-safe-area'
-
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
+  ## react-native-navigation dependencies.
+  pod 'ReactNativeNavigation', :path => '../node_modules/react-native-navigation'
+
+  pod 'SentryReactNative', :path => '../node_modules/react-native-sentry'
 
   post_install do |installer|
     installer.pods_project.targets.each do |target|
@@ -36,13 +43,20 @@ target 'ForestWatcher' do
           config.build_settings['CLANG_ENABLE_MODULES'] = 'No'
         end
       end
-          if target.name == "React"
-              target.remove_from_project
-          end
-          target.build_configurations.each do |config|
-              config.build_settings['CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF'] = 'NO'
-              config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '10.0'
-          end
+      # If the target's name is React or yoga, remove it from the project.
+      # This means that the pods which don't correctly add header search paths still get their search paths,
+      # while also ensuring that we don't have duplicated targets.
+      targets_to_ignore = %w(React yoga)
+
+      if targets_to_ignore.include? target.name
+        target.remove_from_project
       end
+
+      # Set some magic build settings on each of the remaining targets.
+      target.build_configurations.each do |config|
+        config.build_settings['CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF'] = 'NO'
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '10.0'
+      end
+    end
   end
 end

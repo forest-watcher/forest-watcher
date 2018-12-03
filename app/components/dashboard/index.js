@@ -13,6 +13,7 @@ import { Navigation } from 'react-native-navigation';
 
 import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
+import { APP_NAME } from 'config/constants';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import i18n from 'locales';
@@ -27,13 +28,12 @@ const nextIcon = require('assets/next.png');
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
 
 type Props = {
-  navigator: Object,
+  componentId: string,
   setAreasRefreshing: boolean => void,
   isConnected: boolean,
   needsUpdate: boolean,
   appSyncing: boolean,
   refreshing: boolean,
-  closeModal?: boolean,
   pristine: boolean,
   setSelectedAreaId: string => void,
   setPristine: boolean => void,
@@ -43,22 +43,19 @@ type Props = {
 
 class Dashboard extends PureComponent<Props> {
 
-  static navigatorStyle = {
-    navBarTextColor: Theme.colors.color1,
-    navBarButtonColor: Theme.colors.color1,
-    topBarElevationShadowEnabled: false,
-    navBarBackgroundColor: Theme.background.main,
-    navBarNoBorder: true
-  };
-
-  static navigatorButtons = {
-    rightButtons: [
-      {
-        icon: settingsIcon,
-        id: 'settings'
+  static options(passProps) {
+    return {
+      topBar: {
+        rightButtons: [{
+          id: 'settings',
+          icon: settingsIcon
+        }],
+        title: {
+          text: APP_NAME
+        }
       }
-    ]
-  };
+    };
+  }
 
   static disableListener() {
     return false;
@@ -72,7 +69,7 @@ class Dashboard extends PureComponent<Props> {
 
   constructor(props: Props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    Navigation.events().bindComponent(this);
 
     this.reportsAction = {
       callback: this.onPressReports,
@@ -89,9 +86,6 @@ class Dashboard extends PureComponent<Props> {
     if (this.props.refreshing && !this.props.appSyncing) {
       this.props.setAreasRefreshing(false);
     }
-    if (this.props.closeModal) {
-      Timer.setTimeout(this, 'clearModal', Navigation.dismissAllModals, 1800);
-    }
 
     // Determine the current insets. This is so, for the page indictator view,
     // we can add additional padding to ensure the white background is extended
@@ -103,8 +97,24 @@ class Dashboard extends PureComponent<Props> {
     });
   }
 
-  componentWillUnmount() {
-    Timer.clearTimeout(this, 'clearModal');
+  componentDidDisappear() {
+    const { pristine, setPristine, refreshing, setAreasRefreshing } = this.props;
+    if (pristine) {
+      setPristine(false);
+    }
+    if (refreshing) {
+      setAreasRefreshing(false);
+    }
+  }
+
+  navigationButtonPressed({ buttonId }) {
+    if (buttonId === 'settings') {
+      Navigation.push(this.props.componentId, {
+        component: {
+          name: 'ForestWatcher.Settings'
+        }
+      });
+    }
   }
 
   onRefresh = () => {
@@ -128,37 +138,27 @@ class Dashboard extends PureComponent<Props> {
   onAreaPress = (areaId: string, name: string) => {
     if (areaId) {
       this.props.setSelectedAreaId(areaId);
-      this.props.navigator.push({
-        screen: 'ForestWatcher.Map',
-        title: name
+      Navigation.push(this.props.componentId, {
+        component: {
+          name: 'ForestWatcher.Map',
+          options: {
+            topBar: {
+              title: {
+                text: name
+              }
+            }
+          }
+        }
       });
     }
   }
 
   onPressReports = () => {
-    this.props.navigator.push({
-      screen: 'ForestWatcher.Reports',
-      title: i18n.t('dashboard.myReports')
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.Reports'
+      }
     });
-  }
-
-  onNavigatorEvent = (event: { type: string, id: string }) => {
-    const { navigator, pristine, setPristine, refreshing, setAreasRefreshing } = this.props;
-    if (event.type === 'NavBarButtonPress') {
-      if (event.id === 'settings') {
-        navigator.push({
-          screen: 'ForestWatcher.Settings',
-          title: i18n.t('settings.title')
-        });
-      }
-    } else if (event.id === 'willDisappear') {
-      if (pristine) {
-        setPristine(false);
-      }
-      if (refreshing) {
-        setAreasRefreshing(false);
-      }
-    }
   }
 
   getPristine = (): boolean => (this.props.pristine)

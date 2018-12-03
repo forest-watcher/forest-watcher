@@ -10,6 +10,7 @@ import {
 import Theme from 'config/theme';
 import i18n from 'locales';
 import styles from './styles';
+import { Navigation } from 'react-native-navigation';
 
 const backIcon = require('assets/previous.png');
 const backIconWhite = require('assets/previous_white.png');
@@ -19,7 +20,7 @@ class SetupHeader extends Component {
 
   static propTypes = {
     title: PropTypes.string,
-    navigator: PropTypes.object,
+    componentId: PropTypes.string,
     logout: PropTypes.func.isRequired,
     showBack: PropTypes.bool,
     onBackPress: (props, propName, componentName) => {
@@ -33,16 +34,20 @@ class SetupHeader extends Component {
   };
 
   onContextualLayersPress = () => {
+    /*
     this.props.navigator.toggleDrawer({
       side: 'right',
       animated: true
     });
+    */
   }
 
   onLogoutPress = () => {
     this.props.logout();
-    this.props.navigator.resetTo({
-      screen: 'ForestWatcher.Home'
+    Navigation.setStackRoot(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.Home'
+      }
     });
   }
 

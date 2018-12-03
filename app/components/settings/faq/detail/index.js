@@ -81,13 +81,6 @@ function FaqDetail(props) {
   );
 }
 
-FaqDetail.navigatorStyle = {
-  navBarTextColor: Theme.colors.color1,
-  navBarButtonColor: Theme.colors.color1,
-  topBarElevationShadowEnabled: false,
-  navBarBackgroundColor: Theme.background.main
-};
-
 FaqDetail.propTypes = {
   contentFaq: PropTypes.any
 };

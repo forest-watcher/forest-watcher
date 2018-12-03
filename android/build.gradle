@@ -2,11 +2,13 @@
 
 buildscript {
     ext {
-        minSdkVersion = 17
+        buildToolsVersion = "28.0.3"
+        minSdkVersion = 21
         compileSdkVersion = 27
-        targetSdkVersion = 26
+        targetSdkVersion = 27
         supportLibVersion = "27.1.1"
         glideVersion = "4.7.1"
+        reactNativeNavigationFlavor = "reactNative57"
     }
     repositories {
         google()
@@ -17,11 +19,33 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:3.2.1'
         classpath 'com.google.gms:google-services:4.1.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+    }
+}
+
+subprojects {
+    afterEvaluate { project ->
+        if (!project.name.equalsIgnoreCase("app")
+                && project.hasProperty("android")) {
+            android {
+                compileSdkVersion rootProject.ext.compileSdkVersion
+                buildToolsVersion rootProject.ext.buildToolsVersion
+                defaultConfig {
+                    minSdkVersion rootProject.ext.minSdkVersion
+                    targetSdkVersion rootProject.ext.targetSdkVersion
+                }
+                variantFilter { variant ->
+                    def names = variant.flavors*.name
+                    if (project.name.equalsIgnoreCase("react-native-navigation") && !names.contains(rootProject.ext.reactNativeNavigationFlavor)) {
+                        setIgnore(true)
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -34,6 +58,7 @@ allprojects {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url "$rootDir/../node_modules/react-native/android"
         }
+        maven { url 'https://jitpack.io' }
     }
 
     configurations.all {
@@ -52,6 +77,6 @@ allprojects {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.4'
+    gradleVersion = '4.6'
     distributionUrl = distributionUrl.replace("bin", "all")
 }
