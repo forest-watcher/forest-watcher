@@ -12,6 +12,7 @@ import {
 import Config from 'react-native-config';
 import { Navigation } from 'react-native-navigation';
 
+import { requestLocationPermissions } from 'helpers/app';
 import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
 import tracker from 'helpers/googleAnalytics';
@@ -20,8 +21,6 @@ import styles from './styles';
 
 const settingsIcon = require('assets/settings.png');
 const nextIcon = require('assets/next.png');
-
-const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
 
 type Props = {
   componentId: string,
@@ -70,9 +69,7 @@ class Dashboard extends PureComponent<Props> {
   }
 
   componentDidMount() {
-    if (Platform.OS === 'ios') {
-      Location.requestAlwaysAuthorization();
-    }
+    requestLocationPermissions();
     tracker.trackScreenView('Home - Dashboard');
     this.checkNeedsUpdate();
     if (this.props.refreshing && !this.props.appSyncing) {
