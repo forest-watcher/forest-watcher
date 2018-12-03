@@ -6,7 +6,8 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     zIndex: 1,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginBottom: 10
   },
   arrowText: {
     flex: 1,

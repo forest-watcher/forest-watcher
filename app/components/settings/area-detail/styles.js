@@ -11,9 +11,6 @@ export default StyleSheet.create({
     width: Theme.screen.width,
     height: Theme.screen.height
   },
-  containerContent: {
-    paddingTop: 10
-  },
   input: {
     flex: 1,
     fontSize: 17,

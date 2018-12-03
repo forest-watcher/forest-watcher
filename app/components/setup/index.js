@@ -10,7 +10,7 @@ import StepsSlider from 'components/common/steps-slider';
 import SetupCountry from 'containers/setup/country';
 import SetupBoundaries from 'containers/setup/boundaries';
 import SetupOverView from 'containers/setup/overview';
-import SafeArea, { withSafeArea, type SafeAreaInsets } from 'react-native-safe-area';
+import { withSafeArea } from 'react-native-safe-area';
 import i18n from 'locales';
 import Theme from 'config/theme';
 import Header from './header';
@@ -44,14 +44,6 @@ class Setup extends Component<Props, State> {
     hideIndex: false
   };
 
-  componentDidMount() {
-    SafeArea.getSafeAreaInsetsForRootView().then(result => {
-      this.setState(state => ({
-        bottomSafeAreaInset: result.safeAreaInsets.bottom
-      }));
-    });
-  }
-
   onFinishSetup = () => {
     Navigation.setStackRoot(this.props.componentId, {
       component: {
@@ -74,6 +66,13 @@ class Setup extends Component<Props, State> {
     this.setState({
       page: slide.i
     });
+
+    // If we've just navigated to the map screen, hide the indexbar, otherwise show it.
+    if (slide.i === 1) {
+      this.hideIndex();
+    } else {
+      this.showIndex();
+    }
   }
 
   goBack = () => {
@@ -85,7 +84,7 @@ class Setup extends Component<Props, State> {
   showIndex = () => this.setState({ hideIndex: false });
 
   render() {
-    const { page, hideIndex, bottomSafeAreaInset } = this.state;
+    const { page, hideIndex } = this.state;
     const showBack = !this.props.goBackDisabled || page > 0;
     const onBackPress = this.state.page === 0
       ? this.goBack

@@ -16,7 +16,7 @@ import SafeArea, { withSafeArea, type SafeAreaInsets } from 'react-native-safe-a
 
 import styles from './styles';
 
-const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
+const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const backIcon = require('assets/previous.png');
 const nextIcon = require('assets/next.png');
 const phone1 = require('assets/phone1.jpg');
@@ -77,7 +77,7 @@ class Walkthrough extends PureComponent {
   };
 
   componentDidMount() {
-    // Determine the current insets. This is so, for the page indictator view,
+    // Determine the current insets. This is so, for the page indicator view,
     // we can add additional padding to ensure the white background is extended
     // beyond the safe area.
     SafeArea.getSafeAreaInsetsForRootView().then(result => {
@@ -130,6 +130,8 @@ class Walkthrough extends PureComponent {
   render() {
     const { page, bottomSafeAreaInset } = this.state;
 
+    const footerJustifyContent = page > 0 ? 'space-between' : 'flex-end';
+
     return (
       <View style={styles.backing}>
         <SafeAreaView style={styles.contentContainer}>
@@ -139,11 +141,8 @@ class Walkthrough extends PureComponent {
           <StepsSlider
             page={page}
             barStyle={{
-              // Use the bottomSafeAreaInset here to increase the size of the bar beyond the safe area
-              height: 64 + bottomSafeAreaInset,
+              height: 64,
               backgroundColor: Theme.background.white,
-              paddingBottom: bottomSafeAreaInset,
-              marginBottom: -bottomSafeAreaInset
             }}
             locked={false}
             prerenderingSiblingsNumber={1}
@@ -170,7 +169,7 @@ class Walkthrough extends PureComponent {
             ))}
             <View>{/* This view is required to force the slider to navigate to login on the last slide */}</View>
           </StepsSlider>
-          <View style={[styles.footer, page > 0 ? { justifyContent: 'space-between' } : { justifyContent: 'flex-end' }]}>
+          <View style={[styles.footer, { justifyContent: footerJustifyContent, marginBottom: bottomSafeAreaInset }]}>
             {page > 0 && ( // Buttons are placed here because inside the StepsSlider the events wont trigger
               <TouchableOpacity onPress={this.onPressBack}>
                 <Image style={[Theme.icon, styles.icon]} source={backIcon} />

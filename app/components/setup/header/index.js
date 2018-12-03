@@ -13,7 +13,6 @@ import styles from './styles';
 import { Navigation } from 'react-native-navigation';
 
 const backIcon = require('assets/previous.png');
-const backIconWhite = require('assets/previous_white.png');
 const layersIcon = require('assets/layers.png');
 
 class SetupHeader extends Component {
@@ -54,7 +53,7 @@ class SetupHeader extends Component {
   render() {
     const { page, showBack, onBackPress, title } = this.props;
     const showBackStyle = showBack ? '' : styles.margin;
-    const titleColor = page === 1 ? { color: 'white' } : { color: Theme.fontColors.main };
+    const titleColor = { color: Theme.fontColors.main };
     const titleElement = (
       <Text style={[styles.title, showBackStyle, titleColor]}>
         {title}
@@ -71,7 +70,7 @@ class SetupHeader extends Component {
               underlayColor="transparent"
             >
               <View style={styles.titleContainer}>
-                <Image style={Theme.icon} source={page === 1 ? backIconWhite : backIcon} />
+                <Image style={Theme.icon} source={backIcon} />
                 {titleElement}
               </View>
             </TouchableHighlight>

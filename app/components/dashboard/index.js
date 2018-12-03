@@ -192,8 +192,8 @@ class Dashboard extends PureComponent<Props> {
         onStartShouldSetResponder={androidListener}
         onResponderRelease={androidHandler}
       >
+      <StatusBar networkActivityIndicatorVisible={appSyncing} />
       <SafeAreaView style={styles.contentContainer}>
-        <StatusBar networkActivityIndicatorVisible={appSyncing} />
         <Text style={styles.label}>
           {i18n.t('settings.yourAreas')}
         </Text>

@@ -39,7 +39,7 @@ export default StyleSheet.create({
   button: {
     height: 64,
     position: 'absolute',
-    bottom: 50,
+    bottom: 64,
     left: 8,
     right: 8,
     borderRadius: 32,
@@ -55,7 +55,7 @@ export default StyleSheet.create({
   },
   buttonPos: {
     position: 'absolute',
-    bottom: 50,
+    bottom: 100,
     left: 8,
     right: 8
   }

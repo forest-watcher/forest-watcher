@@ -21,7 +21,6 @@ export default StyleSheet.create({
     height: Theme.screen.height
   },
   mapHeader: {
-    flex: 1,
     backgroundColor: 'transparent',
     paddingTop: 0
   }
