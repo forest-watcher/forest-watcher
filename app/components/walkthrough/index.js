@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import {
-  View, Image, TouchableOpacity, Text
-} from 'react-native';
+import { View, Image, TouchableOpacity, Text } from 'react-native';
 
 import i18n from 'locales';
 import Theme from 'config/theme';
@@ -142,7 +140,7 @@ class Walkthrough extends PureComponent {
             page={page}
             barStyle={{
               height: 64,
-              backgroundColor: Theme.background.white,
+              backgroundColor: Theme.background.white
             }}
             locked={false}
             prerenderingSiblingsNumber={1}

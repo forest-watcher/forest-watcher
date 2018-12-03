@@ -1,9 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import {
-  View
-} from 'react-native';
+import { View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import StepsSlider from 'components/common/steps-slider';
@@ -50,17 +48,18 @@ class Setup extends Component<Props, State> {
         name: 'ForestWatcher.Dashboard'
       }
     });
-  }
+  };
 
   goToPrevPage = () => {
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       page: prevState.page - 1
     }));
-  }
+  };
 
-  goToNextPage = () => this.setState((prevState) => ({
-    page: prevState.page + 1
-  }));
+  goToNextPage = () =>
+    this.setState(prevState => ({
+      page: prevState.page + 1
+    }));
 
   updatePage = (slide: { i: number }) => {
     this.setState({
@@ -73,11 +72,11 @@ class Setup extends Component<Props, State> {
     } else {
       this.showIndex();
     }
-  }
+  };
 
   goBack = () => {
     Navigation.pop(this.props.componentId);
-  }
+  };
 
   hideIndex = () => this.setState({ hideIndex: true });
 
@@ -86,9 +85,7 @@ class Setup extends Component<Props, State> {
   render() {
     const { page, hideIndex } = this.state;
     const showBack = !this.props.goBackDisabled || page > 0;
-    const onBackPress = this.state.page === 0
-      ? this.goBack
-      : this.goToPrevPage;
+    const onBackPress = this.state.page === 0 ? this.goBack : this.goToPrevPage;
 
     return (
       <View style={[page !== 1 ? styles.defaultHeader : styles.mapHeader, styles.container]}>
@@ -101,16 +98,9 @@ class Setup extends Component<Props, State> {
             logout={this.props.logout}
             navigator={this.props.navigator}
           />
-          <StepsSlider
-            hideIndex={hideIndex}
-            page={page}
-            onChangeTab={this.updatePage}
-          >
+          <StepsSlider hideIndex={hideIndex} page={page} onChangeTab={this.updatePage}>
             <SetupCountry style={styles.slideContainer} onNextPress={this.goToNextPage} />
-            <SetupBoundaries
-              onNextPress={this.goToNextPage}
-              style={styles.slideContainer}
-            />
+            <SetupBoundaries onNextPress={this.goToNextPage} style={styles.slideContainer} />
             <SetupOverView
               onNextPress={this.onFinishSetup}
               onTextFocus={this.hideIndex}

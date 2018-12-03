@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  TextInput
-} from 'react-native';
+import { View, Text, Image, ScrollView, TextInput } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import Theme from 'config/theme';
@@ -40,11 +34,11 @@ class SetupOverview extends Component {
     this.props.setSetupArea(params);
     this.props.saveArea(params);
     this.props.onNextPress();
-  }
+  };
 
-  textChange = (name) => {
+  textChange = name => {
     this.setState({ name });
-  }
+  };
 
   render() {
     let btnEnabled = true;
@@ -60,14 +54,14 @@ class SetupOverview extends Component {
         <View style={styles.container}>
           <View style={styles.selector}>
             <Text style={styles.selectorLabel}>{i18n.t('setupOverview.areaName')}</Text>
-            <ScrollView scrollEnabled={false} style={styles.scrollContainImage} >
-              {this.props.snapshot !== '' &&
-                <Image resizeMode="cover" style={styles.image} source={{ uri: this.props.snapshot }} />
-              }
+            <ScrollView scrollEnabled={false} style={styles.scrollContainImage}>
+              {this.props.snapshot !== '' && <Image resizeMode="cover" style={styles.image} source={{ uri: this.props.snapshot }} />}
             </ScrollView>
             <View style={styles.searchContainer}>
               <TextInput
-                ref={(ref) => { this.input = ref; }}
+                ref={ref => {
+                  this.input = ref;
+                }}
                 autoFocus={false}
                 autoCorrect={false}
                 autoCapitalize="none"
@@ -82,20 +76,11 @@ class SetupOverview extends Component {
                 selectionColor={Theme.colors.color1}
                 placeholderTextColor={Theme.fontColors.light}
               />
-              <Image
-                style={Theme.icon}
-                source={editImage}
-                onPress={() => this.input.focus()}
-              />
+              <Image style={Theme.icon} source={editImage} onPress={() => this.input.focus()} />
             </View>
           </View>
           <ScrollView style={styles.scrollContainButton}>
-            <ActionButton
-              style={styles.buttonPos}
-              disabled={!btnEnabled}
-              onPress={this.onNextPress}
-              text={btnText.toUpperCase()}
-            />
+            <ActionButton style={styles.buttonPos} disabled={!btnEnabled} onPress={this.onNextPress} text={btnText.toUpperCase()} />
           </ScrollView>
         </View>
       </KeyboardAwareScrollView>

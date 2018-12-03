@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import {
-  View
-} from 'react-native';
+import { View } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
 
@@ -27,9 +25,10 @@ function getIndexBar(slides, barStyle, bottomSafeAreaInset) {
         barStyle,
         {
           height: height,
-          paddingBottom: bottomSafeAreaInset,
+          paddingBottom: bottomSafeAreaInset
         }
-      ]}>
+      ]}
+    >
       <View
         style={[
           styles.indexBar,
@@ -39,7 +38,8 @@ function getIndexBar(slides, barStyle, bottomSafeAreaInset) {
             paddingBottom: bottomSafeAreaInset,
             marginBottom: -bottomSafeAreaInset
           }
-        ]}>
+        ]}
+      >
         {dots}
       </View>
     </SafeAreaView>
@@ -47,7 +47,6 @@ function getIndexBar(slides, barStyle, bottomSafeAreaInset) {
 }
 
 class StepsSlider extends PureComponent {
-
   state = {};
 
   componentDidMount() {
@@ -67,7 +66,7 @@ class StepsSlider extends PureComponent {
       <ScrollableTabView
         locked
         tabBarPosition="overlayBottom"
-        renderTabBar={props.hideIndex ? () => <View /> : (slides) => getIndexBar(slides, props.barStyle, bottomSafeAreaInset)}
+        renderTabBar={props.hideIndex ? () => <View /> : slides => getIndexBar(slides, props.barStyle, bottomSafeAreaInset)}
         prerenderingSiblingsNumber={0}
         {...props}
       >

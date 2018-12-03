@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  Text,
-  ActivityIndicator
-} from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 
 import SearchSelector from 'components/common/search-selector';
 import ActionButton from 'components/common/action-button';
@@ -16,11 +12,7 @@ import styles from './styles';
 function renderLoading() {
   return (
     <View style={[styles.container, styles.center]}>
-      <ActivityIndicator
-        color={Theme.colors.color1}
-        style={{ height: 80 }}
-        size={'large'}
-      />
+      <ActivityIndicator color={Theme.colors.color1} style={{ height: 80 }} size={'large'} />
     </View>
   );
 }
@@ -58,7 +50,7 @@ class SetupCountry extends Component {
       this.props.setSetupCountry(currentCountry);
     }
     this.props.onNextPress();
-  }
+  };
 
   render() {
     const { user, countries, setupCountry, setSetupCountry } = this.props;
@@ -67,7 +59,10 @@ class SetupCountry extends Component {
       return (
         <View style={styles.container}>
           <View style={styles.content}>
-            <Text style={styles.text}>{i18n.t('setupCountry.welcomeText')}{user ? '!' : ` ${user.fullName}`}</Text>
+            <Text style={styles.text}>
+              {i18n.t('setupCountry.welcomeText')}
+              {user ? '!' : ` ${user.fullName}`}
+            </Text>
             <Text style={styles.text}>{i18n.t('setupCountry.secondWelcomeText')}</Text>
           </View>
 

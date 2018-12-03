@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  Text,
-  Image,
-  TouchableHighlight
-} from 'react-native';
+import { View, Text, Image, TouchableHighlight } from 'react-native';
 
 import Theme from 'config/theme';
 import i18n from 'locales';
@@ -16,7 +11,6 @@ const backIcon = require('assets/previous.png');
 const layersIcon = require('assets/layers.png');
 
 class SetupHeader extends Component {
-
   static propTypes = {
     title: PropTypes.string,
     componentId: PropTypes.string,
@@ -39,7 +33,7 @@ class SetupHeader extends Component {
       animated: true
     });
     */
-  }
+  };
 
   onLogoutPress = () => {
     this.props.logout();
@@ -48,57 +42,41 @@ class SetupHeader extends Component {
         name: 'ForestWatcher.Home'
       }
     });
-  }
+  };
 
   render() {
     const { page, showBack, onBackPress, title } = this.props;
     const showBackStyle = showBack ? '' : styles.margin;
     const titleColor = { color: Theme.fontColors.main };
-    const titleElement = (
-      <Text style={[styles.title, showBackStyle, titleColor]}>
-        {title}
-      </Text>
-    );
+    const titleElement = <Text style={[styles.title, showBackStyle, titleColor]}>{title}</Text>;
     return (
       <View style={styles.container}>
         <View style={styles.arrowText}>
-          {showBack &&
-            <TouchableHighlight
-              style={styles.backIcon}
-              onPress={onBackPress}
-              activeOpacity={0.5}
-              underlayColor="transparent"
-            >
+          {showBack && (
+            <TouchableHighlight style={styles.backIcon} onPress={onBackPress} activeOpacity={0.5} underlayColor="transparent">
               <View style={styles.titleContainer}>
                 <Image style={Theme.icon} source={backIcon} />
                 {titleElement}
               </View>
             </TouchableHighlight>
-          }
+          )}
           {!showBack && titleElement}
         </View>
-        {page === 0 && !showBack &&
-        <TouchableHighlight
-          style={styles.rightButton}
-          onPress={this.onLogoutPress}
-          activeOpacity={0.5}
-          underlayColor="transparent"
-        >
-          <Text style={styles.logout}>Logout</Text>
-        </TouchableHighlight>
-        }
-        {page === 1 &&
+        {page === 0 && !showBack && (
+          <TouchableHighlight style={styles.rightButton} onPress={this.onLogoutPress} activeOpacity={0.5} underlayColor="transparent">
+            <Text style={styles.logout}>Logout</Text>
+          </TouchableHighlight>
+        )}
+        {page === 1 && (
           <TouchableHighlight
             style={styles.rightButton}
             onPress={this.onContextualLayersPress}
             activeOpacity={0.5}
             underlayColor="transparent"
           >
-            <Image
-              source={layersIcon}
-            />
+            <Image source={layersIcon} />
           </TouchableHighlight>
-        }
+        )}
       </View>
     );
   }
