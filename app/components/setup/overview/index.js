@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, Image, ScrollView, TextInput } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Navigation } from 'react-native-navigation';
 
 import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
@@ -12,6 +13,16 @@ import styles from './styles';
 const editImage = require('assets/edit.png');
 
 class SetupOverview extends Component {
+  static options(passProps) {
+    return {
+      topBar: {
+        title: {
+          text: i18n.t('commonText.setup')
+        }
+      }
+    };
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -33,7 +44,11 @@ class SetupOverview extends Component {
     };
     this.props.setSetupArea(params);
     this.props.saveArea(params);
-    this.props.onNextPress();
+    Navigation.setStackRoot(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.Dashboard'
+      }
+    });
   };
 
   textChange = name => {
@@ -93,7 +108,6 @@ SetupOverview.propTypes = {
   snapshot: PropTypes.string.isRequired,
   saveArea: PropTypes.func.isRequired,
   setSetupArea: PropTypes.func.isRequired,
-  onNextPress: PropTypes.func.isRequired,
   onTextFocus: PropTypes.func,
   onTextBlur: PropTypes.func
 };

@@ -61,7 +61,7 @@ class Home extends Component<Props> {
           Navigation.dismissAllModals();
           Navigation.setStackRoot(componentId, {
             component: {
-              name: 'ForestWatcher.Setup',
+              name: 'ForestWatcher.SetupCountry',
               passProps: {
                 goBackDisabled: true
               }
