@@ -40,7 +40,8 @@ class AreaDetail extends Component<Props, State> {
         rightButtons: [
           {
             id: 'deleteArea',
-            icon: deleteIcon
+            icon: deleteIcon,
+            color: Theme.colors.color1
           }
         ]
       }
