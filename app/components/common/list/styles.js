@@ -37,7 +37,9 @@ export default StyleSheet.create({
   },
 
   imageList: {
-    margin: 30
+    width: 48,
+    height: 48,
+    marginHorizontal: 30
   },
 
   nextIcon: {

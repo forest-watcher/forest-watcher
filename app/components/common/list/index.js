@@ -42,6 +42,7 @@ function List(props) {
                 <FastImage
                   style={styles.imageList}
                   source={data.image}
+                  resizeMode={"contain"}
                 />
               }
               {data.text &&
