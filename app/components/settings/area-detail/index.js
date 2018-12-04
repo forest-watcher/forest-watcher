@@ -13,7 +13,7 @@ import ActionButton from 'components/common/action-button';
 import AlertSystem from 'containers/settings/area-detail/alert-system';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
-import SafeArea, { withSafeArea, type SafeAreaInsets } from 'react-native-safe-area';
+import { withSafeArea } from 'react-native-safe-area';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
 const editIcon = require('assets/edit.png');
@@ -71,12 +71,6 @@ class AreaDetail extends Component<Props, State> {
 
   componentDidMount() {
     tracker.trackScreenView('AreaDetail');
-
-    SafeArea.getSafeAreaInsetsForRootView().then(result => {
-      this.setState(state => ({
-        bottomSafeAreaInset: result.safeAreaInsets.bottom
-      }));
-    });
   }
 
   navigationButtonPressed({ buttonId }) {
