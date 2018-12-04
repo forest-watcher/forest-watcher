@@ -94,7 +94,6 @@ class Sync extends Component<Props> {
     const { criticalSyncError, retrySync } = this.props;
     if (!criticalSyncError) return null;
     return (
-      <View>
         <ActionButton
           monochrome
           noIcon
@@ -102,7 +101,6 @@ class Sync extends Component<Props> {
           onPress={retrySync} // TODO: retry again
           text={i18n.t('sync.tryAgain').toUpperCase()}
         />
-      </View>
     );
   }
 
