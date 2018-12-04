@@ -2,12 +2,14 @@ import Theme from 'config/theme';
 import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
-  container: {
+  backing: {
+    backgroundColor: Theme.background.main,
+    flex: 1
+  },
+  contentContainer: {
     flex: 1,
     width: Theme.screen.width,
     height: Theme.screen.height,
-    backgroundColor: Theme.background.main,
-    position: 'relative'
   },
   slideContainer: {
     flex: 1,
@@ -68,13 +70,6 @@ export default StyleSheet.create({
     shadowRadius: 4,
     elevation: 1
   },
-  footerHack: {
-    position: 'absolute',
-    bottom: 0,
-    height: 64,
-    width: Theme.screen.width,
-    backgroundColor: Theme.background.white
-  },
   skipButtonWrapper: {
     alignSelf: 'flex-end'
   },
@@ -85,14 +80,7 @@ export default StyleSheet.create({
     fontWeight: '400',
     textAlign: 'right',
     padding: 10,
-    ...Platform.select({
-      android: {
-        marginTop: 16
-      },
-      ios: {
-        marginTop: 34
-      }
-    }),
+    marginTop: 16,
     paddingRight: 24
   },
   icon: {

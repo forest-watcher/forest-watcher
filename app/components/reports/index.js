@@ -13,6 +13,7 @@ import i18n from 'locales';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
+import { Navigation } from 'react-native-navigation';
 
 const editIcon = require('assets/edit.png');
 const nextIcon = require('assets/next.png');
@@ -23,7 +24,7 @@ type ReportItem = {
 };
 
 type Props = {
-  navigator: any,
+  componentId: string,
   reports: {
     draft: Array<ReportItem>,
     uploaded: Array<ReportItem>,
@@ -33,12 +34,16 @@ type Props = {
 };
 
 class Reports extends PureComponent<Props> {
-  static navigatorStyle = {
-    navBarTextColor: Theme.colors.color1,
-    navBarButtonColor: Theme.colors.color1,
-    topBarElevationShadowEnabled: false,
-    navBarBackgroundColor: Theme.background.main
-  };
+
+  static options(passProps) {
+    return {
+      topBar: {
+        title: {
+          text: i18n.t('dashboard.myReports')
+        }
+      }
+    };
+  }
 
   static getItems(data: Array<ReportItem>, image: any, onPress: string => void) {
     return data.map((item, index) => {
@@ -81,22 +86,24 @@ class Reports extends PureComponent<Props> {
     tracker.trackScreenView('My Reports');
   }
 
-  onClickNext = (reportName: string) => this.props.navigator.push({
-    title: i18n.t('report.review'),
-    screen: 'ForestWatcher.Answers',
-    passProps: {
-      reportName,
-      readOnly: true
+  onClickNext = (reportName: string) => Navigation.push(this.props.componentId, {
+    component: {
+      name: 'ForestWatcher.Answers',
+      passProps: {
+        reportName,
+        readOnly: true
+      }
     }
   });
 
-  onClickUpload = (reportName: string) => this.props.navigator.push({
-    title: i18n.t('report.review'),
-    screen: 'ForestWatcher.Answers',
-    passProps: {
-      reportName,
-      readOnly: true,
-      showUploadButton: true
+  onClickUpload = (reportName: string) => Navigation.push(this.props.componentId, {
+    component: {
+      name: 'ForestWatcher.Answers',
+      passProps: {
+        reportName,
+        readOnly: true,
+        showUploadButton: true
+      }
     }
   });
 
@@ -114,21 +121,32 @@ class Reports extends PureComponent<Props> {
       if (lastStep !== null) {
         const screen = 'ForestWatcher.NewReport';
         const title = i18n.t('report.title');
-        this.props.navigator.push({
-          screen,
-          title,
-          passProps: {
-            screen,
-            title,
-            reportName,
-            step: lastStep
+        Navigation.push(this.props.componentId, {
+          component: {
+            name: screen,
+            passProps: {
+              screen,
+              title,
+              reportName,
+              step: lastStep
+            },
+            options: {
+              topBar: {
+                title: {
+                  text: title
+                }
+              }
+            }
           }
         });
       } else {
-        this.props.navigator.push({
-          title: i18n.t('report.review'),
-          screen: 'ForestWatcher.Answers',
-          passProps: { reportName }
+        Navigation.push(this.props.componentId, {
+          component: {
+            name: 'ForestWatcher.Answers',
+            passProps: {
+              reportName
+            }
+          }
         });
       }
     };

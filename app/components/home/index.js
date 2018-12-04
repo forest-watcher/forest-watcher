@@ -5,8 +5,8 @@ import {
   View,
   ActivityIndicator
 } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 import Theme from 'config/theme';
-import { APP_NAME } from 'config/constants';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
@@ -14,7 +14,7 @@ type Props = {
   loggedIn: boolean,
   token: string,
   isAppSynced: boolean,
-  navigator: Object,
+  componentId: string,
   hasAreas: boolean,
   actionsPending: number,
   setAppSynced: boolean => void,
@@ -23,15 +23,14 @@ type Props = {
 
 class Home extends Component<Props> {
 
-  static navigatorStyle = {
-    navBarHidden: true
-  };
-
-  static navigationOptions = {
-    header: {
-      visible: false
-    }
-  };
+  static options(passProps) {
+    return {
+      topBar: {
+        drawBehind: true,
+        visible: false
+      }
+    };
+  }
 
   syncModalOpen: boolean = false;
 
@@ -49,7 +48,7 @@ class Home extends Component<Props> {
       token,
       hasAreas,
       isAppSynced,
-      navigator,
+      componentId,
       actionsPending,
       setAppSynced,
       syncApp
@@ -59,19 +58,20 @@ class Home extends Component<Props> {
       tracker.setUser(token);
       if (isAppSynced) {
         if (!hasAreas) {
-          navigator.resetTo({
-            screen: 'ForestWatcher.Setup',
-            passProps: {
-              goBackDisabled: true,
-              closeModal: true
+          Navigation.dismissAllModals();
+          Navigation.setStackRoot(componentId, {
+            component: {
+              name: 'ForestWatcher.SetupCountry',
+              passProps: {
+                goBackDisabled: true
+              }
             }
           });
         } else {
-          navigator.resetTo({
-            screen: 'ForestWatcher.Dashboard',
-            title: APP_NAME,
-            passProps: {
-              closeModal: true
+          Navigation.dismissAllModals();
+          Navigation.setStackRoot(componentId, {
+            component: {
+              name: 'ForestWatcher.Dashboard'
             }
           });
         }
@@ -84,8 +84,10 @@ class Home extends Component<Props> {
         }
       }
     } else {
-      navigator.resetTo({
-        screen: 'ForestWatcher.Walkthrough'
+      Navigation.setStackRoot(componentId, {
+        component: {
+          name: 'ForestWatcher.Walkthrough'
+        }
       });
     }
   }
@@ -95,12 +97,19 @@ class Home extends Component<Props> {
   }
 
   openModal = () => {
-    const { navigator } = this.props;
     this.setSyncModal(true);
-    navigator.showModal({
-      screen: 'ForestWatcher.Sync',
-      passProps: {
-        goBackDisabled: true
+    Navigation.showModal({
+      stack: {
+        children: [
+          {
+            component: {
+              name: 'ForestWatcher.Sync',
+              passProps: {
+                goBackDisabled: true
+              }
+            }
+          }
+        ]
       }
     });
   }

@@ -11,9 +11,9 @@ function CustomSwitch(props) {
     <Switch
       value={props.value}
       onValueChange={props.onValueChange}
-      tintColor={Theme.colors.color6}
-      onTintColor={Theme.colors.color4}
-      thumbTintColor={props.value ? props.colorOn : props.colorOff}
+      trackColor={Theme.colors.color6}
+      trackColor={Theme.colors.color4}
+      thumbColor={props.value ? props.colorOn : props.colorOff}
     />
   );
 }

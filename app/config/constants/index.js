@@ -3,8 +3,6 @@ import i18n from 'locales';
 import Theme from 'config/theme';
 import { hexToRgb } from 'helpers/utils';
 
-export const APP_NAME = 'Forest Watcher';
-
 export const AREAS = {
   maxSize: 1500000000, // square meters
   alertRange: { // days from to get data
@@ -150,7 +148,6 @@ export const REDUCERS_SAVED_TO_REPORT = ['app', 'areas', 'layers'];
 export const ACTIONS_SAVED_TO_REPORT = 5;
 
 export default {
-  appName: APP_NAME,
   areas: AREAS,
   storage: STORAGE,
   maps: MAPS,

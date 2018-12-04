@@ -1,33 +1,79 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import {
-  View
-} from 'react-native';
+import { View } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
+import SafeArea, { withSafeArea } from 'react-native-safe-area';
 
 import styles from './styles';
 
-function getIndexBar(slides, barStyle) {
+const SafeAreaView = withSafeArea(View, 'margin', 'bottom');
+
+function getIndexBar(slides, barStyle, bottomSafeAreaInset) {
   const dots = [];
+
   for (let i = 0; i < slides.tabs.length; i++) {
     const dotStyle = slides.activeTab === i ? [styles.dot, styles.dotActive] : styles.dot;
     dots.push(<View key={i} style={dotStyle} />);
   }
-  return <View style={[styles.indexBar, barStyle]}><View style={[styles.indexBar, barStyle]}>{dots}</View></View>;
+
+  const height = Math.max(styles.indexBar.height, barStyle?.height || 0) + bottomSafeAreaInset;
+
+  return (
+    <SafeAreaView
+      style={[
+        styles.indexBar,
+        barStyle,
+        {
+          height: height,
+          paddingBottom: bottomSafeAreaInset
+        }
+      ]}
+    >
+      <View
+        style={[
+          styles.indexBar,
+          barStyle,
+          {
+            height: height,
+            paddingBottom: bottomSafeAreaInset,
+            marginBottom: -bottomSafeAreaInset
+          }
+        ]}
+      >
+        {dots}
+      </View>
+    </SafeAreaView>
+  );
 }
 
-function StepsSlider(props) {
-  return (
-    <ScrollableTabView
-      locked
-      tabBarPosition="overlayBottom"
-      renderTabBar={props.hideIndex ? () => <View /> : (slides) => getIndexBar(slides, props.barStyle)}
-      prerenderingSiblingsNumber={0}
-      {...props}
-    >
-      {props.children}
-    </ScrollableTabView>
-  );
+class StepsSlider extends PureComponent {
+  state = {};
+
+  componentDidMount() {
+    SafeArea.getSafeAreaInsetsForRootView().then(result => {
+      this.setState(state => ({
+        bottomSafeAreaInset: result.safeAreaInsets.bottom
+      }));
+    });
+  }
+
+  render() {
+    const { bottomSafeAreaInset } = this.state;
+
+    const props = this.props;
+
+    return (
+      <ScrollableTabView
+        locked
+        tabBarPosition="overlayBottom"
+        renderTabBar={props.hideIndex ? () => <View /> : slides => getIndexBar(slides, props.barStyle, bottomSafeAreaInset)}
+        prerenderingSiblingsNumber={0}
+        {...props}
+      >
+        {props.children}
+      </ScrollableTabView>
+    );
+  }
 }
 
 StepsSlider.propTypes = {
@@ -37,4 +83,3 @@ StepsSlider.propTypes = {
 };
 
 export default StepsSlider;
-

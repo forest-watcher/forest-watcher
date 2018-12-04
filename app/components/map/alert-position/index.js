@@ -7,7 +7,7 @@ import {
   Text
 } from 'react-native';
 
-import GeoPoint from 'geopoint';
+import geokdbush from 'geokdbush';
 import { formatCoordsByFormat } from 'helpers/map';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
 
@@ -21,20 +21,24 @@ type Props = {
 };
 
 function AlertPosition(props: Props) {
-  const { alertSelected, lastPosition, coordinatesFormat, kmThreshold } = props;
+  const {
+    alertSelected,
+    lastPosition,
+    coordinatesFormat,
+    kmThreshold
+  } = props;
 
   let distanceText = '';
   let positionText = '';
   let distance = 99999999;
+
   if (lastPosition && (alertSelected && alertSelected.latitude && alertSelected.longitude)) {
     const { latitude, longitude } = lastPosition;
-    const geoPoint = new GeoPoint(alertSelected.latitude, alertSelected.longitude);
-    const currentPoint = new GeoPoint(latitude, longitude);
     const text = formatCoordsByFormat(lastPosition, coordinatesFormat);
     if (text) {
       positionText += text;
     }
-    const meters = (currentPoint.distanceTo(geoPoint, true) * 1000); // in meters
+    const meters = geokdbush.distance(alertSelected.longitude, alertSelected.latitude, longitude, latitude) * 1000; // in meters
     distance = meters.toFixed(0);
     distanceText = `${distance} ${i18n.t('commonText.metersAway')}`;
 
