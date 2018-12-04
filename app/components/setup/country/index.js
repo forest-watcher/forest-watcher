@@ -71,7 +71,7 @@ class SetupCountry extends Component {
 
   navigationButtonPressed({ buttonId }) {
     if (buttonId === 'logout') {
-      //this.props.logout();
+      this.props.logout();
       Navigation.setStackRoot(this.props.componentId, {
         component: {
           name: 'ForestWatcher.Home'
