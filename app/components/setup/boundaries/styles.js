@@ -21,5 +21,20 @@ export default StyleSheet.create({
     bottom: 50,
     left: 8,
     right: 8
+  },
+  header: {
+    left: 0,
+    right: 0,
+    top: 0,
+    height: 164,
+    zIndex: 3,
+    position: 'absolute'
+  },
+  headerBg: {
+    width: Theme.screen.width,
+    height: 132,
+    resizeMode: 'stretch',
+    position: 'absolute',
+    top: 0
   }
 });

@@ -4,6 +4,7 @@ import type { State } from 'types/store.types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setSetupCountry } from 'redux-modules/setup';
+import { logout } from 'redux-modules/user';
 
 import SetupCountry from 'components/setup/country';
 
@@ -15,9 +16,12 @@ function mapStateToProps(state: State) {
   };
 }
 
-const mapDispatchToProps = (dispatch: *) => bindActionCreators({
-  setSetupCountry
-}, dispatch);
+function mapDispatchToProps(dispatch: *) {
+  return bindActionCreators({
+    logout,
+    setSetupCountry
+  }, dispatch);
+}
 
 export default connect(
   mapStateToProps,

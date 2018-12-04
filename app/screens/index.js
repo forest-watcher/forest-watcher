@@ -2,7 +2,9 @@ import { Navigation } from 'react-native-navigation';
 
 import Home from 'containers/home';
 import Login from 'containers/login';
-import Setup from 'containers/setup';
+import SetupBoundaries from 'containers/setup/boundaries';
+import SetupCountry from 'containers/setup/country';
+import SetupOverview from 'containers/setup/overview';
 import Dashboard from 'containers/dashboard';
 import Map from 'containers/map';
 import Settings from 'containers/settings';
@@ -25,7 +27,9 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponentWithRedux('ForestWatcher.Home', () => Home, Provider, store);
   Navigation.registerComponentWithRedux('ForestWatcher.Login', () => Login, Provider, store);
   Navigation.registerComponentWithRedux('ForestWatcher.Walkthrough', () => Walkthrough, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.Setup', () => Setup, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.SetupBoundaries', () => SetupBoundaries, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.SetupCountry', () => SetupCountry, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.SetupOverview', () => SetupOverview, Provider, store);
   Navigation.registerComponentWithRedux('ForestWatcher.Dashboard', () => Dashboard, Provider, store);
   Navigation.registerComponentWithRedux('ForestWatcher.Map', () => Map, Provider, store);
   Navigation.registerComponentWithRedux('ForestWatcher.Settings', () => Settings, Provider, store);
