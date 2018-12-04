@@ -10,7 +10,7 @@ export default StyleSheet.create({
     justifyContent: 'center'
   },
   animation: {
-    position: 'absolute'
+    height: 256
   },
   center: {
     justifyContent: 'center'
