@@ -1,0 +1,14 @@
+/* 
+  InfoPlist.strings
+  ForestWatcher
+
+  Created by Ryan Bourne on 03/12/2018.
+  Copyright © 2018 Facebook. All rights reserved.
+*/
+
+"NSCameraUsageDescription" = "FR_We need access to the camera.";
+"NSLocationAlwaysUsageDescription" = "FR_The app uses the localization services, please activate them";
+"NSLocationWhenInUseUsageDescription" = "FR_The app uses the localization services, please activate them";
+"NSPhotoLibraryAddUsageDescription" = "FR_$(PRODUCT_NAME) would like to save photos to your photo gallery";
+"NSPhotoLibraryUsageDescription" = "FR_We need access to the media library.";
+"CFBundleDisplayName" = "FR_Forest Watcher";
