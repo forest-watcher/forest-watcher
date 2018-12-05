@@ -21,7 +21,8 @@
     "test": "jest --forceExit --detectOpenHandles",
     "test:ci": "jest --forceExit --detectOpenHandles --ci --coverage",
     "test:watch": "jest --watch",
-    "lint": "node_modules/.bin/eslint ./app/"
+    "lint": "node_modules/.bin/eslint ./app/",
+    "lint:ci": "node_modules/.bin/eslint ./app/ -o reports/lint.html -f html"
   },
   "dependencies": {
     "@mapbox/geo-viewport": "0.4.0",
