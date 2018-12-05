@@ -42,9 +42,9 @@ export function getAllNeighbours(firstPoint: Coordinates, points: Coordinates, d
 
   getNeighbours(firstPoint);
   // return array of siblings without the point
-  if (neighbours && neighbours.length &&
-      neighbours[0].latitude && neighbours[0].latitude === firstPoint.latitude &&
-      neighbours[0].longitude && neighbours[0].longitude === firstPoint.longitude) {
+  if (neighbours && neighbours.length
+      && neighbours[0].latitude && neighbours[0].latitude === firstPoint.latitude
+      && neighbours[0].longitude && neighbours[0].longitude === firstPoint.longitude) {
     neighbours.shift();
   }
   return neighbours;
@@ -90,7 +90,8 @@ export function formatCoordsByFormat(coordinates: Coordinates, format: Coordinat
     return `${utmCoords.ZoneNumber} ${utmCoords.ZoneLetter}, ${utmCoords.Easting} E ${utmCoords.Northing} N`;
   } else if (format === COORDINATES_FORMATS.decimal.value) {
     return `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+  } else {
+    // Not utm, not decimal... has to be degrees
+    return formatcoords(latitude, longitude).format('FFf', { latLonSeparator: ', ', decimalPlaces: 2 });
   }
-  // Not utm, not decimal... has to be degrees
-  return formatcoords(latitude, longitude).format('FFf', { latLonSeparator: ', ', decimalPlaces: 2 });
 }

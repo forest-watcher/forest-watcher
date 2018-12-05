@@ -19,6 +19,8 @@ target 'ForestWatcher' do
   pod 'react-native-maps', path: '../node_modules/react-native-maps'
   pod 'react-native-google-maps', path: '../node_modules/react-native-maps'
   pod 'GoogleMaps'
+  pod 'react-native-maps', path: '../node_modules/react-native-maps'
+  pod 'react-native-google-maps', path: '../node_modules/react-native-maps'
   pod 'Google-Maps-iOS-Utils'
 
   ## React dependencies, added so that various projects which don't use header search paths can still function correctly.
@@ -26,6 +28,8 @@ target 'ForestWatcher' do
     'RCTImage'
   ]
   pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+  pod 'react-native-safe-area', :path => '../node_modules/react-native-safe-area'
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
   ## react-native-navigation dependencies.
   pod 'ReactNativeNavigation', :path => '../node_modules/react-native-navigation'

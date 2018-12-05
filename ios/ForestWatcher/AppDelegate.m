@@ -50,6 +50,8 @@
   self.window.backgroundColor = [UIColor whiteColor];
 
   [ReactNativeNavigation bootstrap:jsCodeLocation launchOptions:launchOptions];
+  
+  [RNSentry installWithRootView:[ReactNativeNavigation getBridge]];
 
   return YES;
 }

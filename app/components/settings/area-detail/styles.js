@@ -6,8 +6,10 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: Theme.background.main
   },
-  containerContent: {
-    paddingTop: 10
+  contentContainer: {
+    flex: 1,
+    width: Theme.screen.width,
+    height: Theme.screen.height
   },
   input: {
     flex: 1,

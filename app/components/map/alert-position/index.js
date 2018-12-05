@@ -21,11 +21,17 @@ type Props = {
 };
 
 function AlertPosition(props: Props) {
-  const { alertSelected, lastPosition, coordinatesFormat, kmThreshold } = props;
+  const {
+    alertSelected,
+    lastPosition,
+    coordinatesFormat,
+    kmThreshold
+  } = props;
 
   let distanceText = '';
   let positionText = '';
   let distance = 99999999;
+
   if (lastPosition && (alertSelected && alertSelected.latitude && alertSelected.longitude)) {
     const { latitude, longitude } = lastPosition;
     const text = formatCoordsByFormat(lastPosition, coordinatesFormat);

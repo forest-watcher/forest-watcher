@@ -10,14 +10,12 @@ export default StyleSheet.create({
     justifyContent: 'center'
   },
   animation: {
-    position: 'absolute'
+    height: 256
   },
   center: {
     justifyContent: 'center'
   },
   textContainer: {
-    flex: 1,
-    paddingTop: 250,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center'
@@ -44,9 +42,8 @@ export default StyleSheet.create({
     marginLeft: 8
   },
   button: {
-    left: 8,
-    right: 8,
-    position: 'absolute'
+    alignSelf: "stretch",
+    marginHorizontal: 16
   },
   groupButton: {
     flex: 1

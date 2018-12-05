@@ -1,24 +1,21 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import {
-  View,
-  ScrollView,
-  RefreshControl,
-  Platform,
-  Text,
-  StatusBar
-} from 'react-native';
+import { View, ScrollView, RefreshControl, Platform, Text, StatusBar } from 'react-native';
 import Config from 'react-native-config';
 import { Navigation } from 'react-native-navigation';
 
 import { requestLocationPermissions } from 'helpers/app';
 import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
+import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import i18n from 'locales';
 import styles from './styles';
+import SafeArea, { withSafeArea, type SafeAreaInsets } from 'react-native-safe-area';
 
+const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
+const Timer = require('react-native-timer');
 const settingsIcon = require('assets/settings.png');
 const nextIcon = require('assets/next.png');
 
@@ -37,14 +34,15 @@ type Props = {
 };
 
 class Dashboard extends PureComponent<Props> {
-
   static options(passProps) {
     return {
       topBar: {
-        rightButtons: [{
-          id: 'settings',
-          icon: settingsIcon
-        }],
+        rightButtons: [
+          {
+            id: 'settings',
+            icon: settingsIcon
+          }
+        ],
         title: {
           text: Config.APP_NAME
         }
@@ -56,7 +54,11 @@ class Dashboard extends PureComponent<Props> {
     return false;
   }
 
-  reportsAction: { callback: () => void, icon: any }
+  reportsAction: { callback: () => void, icon: any };
+
+  state = {
+    page: 0
+  };
 
   constructor(props: Props) {
     super(props);
@@ -75,6 +77,15 @@ class Dashboard extends PureComponent<Props> {
     if (this.props.refreshing && !this.props.appSyncing) {
       this.props.setAreasRefreshing(false);
     }
+
+    // Determine the current insets. This is so, for the page indictator view,
+    // we can add additional padding to ensure the white background is extended
+    // beyond the safe area.
+    SafeArea.getSafeAreaInsetsForRootView().then(result => {
+      this.setState(state => ({
+        bottomSafeAreaInset: result.safeAreaInsets.bottom
+      }));
+    });
   }
 
   componentDidDisappear() {
@@ -98,13 +109,7 @@ class Dashboard extends PureComponent<Props> {
   }
 
   onRefresh = () => {
-    const {
-      isConnected,
-      appSyncing,
-      updateApp,
-      setAreasRefreshing,
-      showNotConnectedNotification
-    } = this.props;
+    const { isConnected, appSyncing, updateApp, setAreasRefreshing, showNotConnectedNotification } = this.props;
     if (appSyncing) return;
 
     if (isConnected) {
@@ -113,7 +118,7 @@ class Dashboard extends PureComponent<Props> {
     } else {
       showNotConnectedNotification();
     }
-  }
+  };
 
   onAreaPress = (areaId: string, name: string) => {
     if (areaId) {
@@ -131,7 +136,7 @@ class Dashboard extends PureComponent<Props> {
         }
       });
     }
-  }
+  };
 
   onPressReports = () => {
     Navigation.push(this.props.componentId, {
@@ -139,9 +144,9 @@ class Dashboard extends PureComponent<Props> {
         name: 'ForestWatcher.Reports'
       }
     });
-  }
+  };
 
-  getPristine = (): boolean => (this.props.pristine)
+  getPristine = (): boolean => this.props.pristine;
 
   checkNeedsUpdate() {
     const { needsUpdate, updateApp } = this.props;
@@ -152,9 +157,10 @@ class Dashboard extends PureComponent<Props> {
 
   disablePristine = () => {
     this.props.setPristine(false);
-  }
+  };
 
   render() {
+    const { page, bottomSafeAreaInset } = this.state;
     const { pristine, refreshing, appSyncing } = this.props;
     const isIOS = Platform.OS === 'ios';
     // we remove the event handler to improve performance
@@ -166,41 +172,43 @@ class Dashboard extends PureComponent<Props> {
     const androidHandler = !isIOS ? this.disablePristine : undefined;
     const iOSHandler = isIOS ? this.disablePristine : undefined;
     return (
-      <View
-        style={styles.container}
-        onStartShouldSetResponder={androidListener}
-        onResponderRelease={androidHandler}
-      >
+      <View style={styles.container} onStartShouldSetResponder={androidListener} onResponderRelease={androidHandler}>
         <StatusBar networkActivityIndicatorVisible={appSyncing} />
-        <View style={styles.backgroundHack} />
-        <Text style={styles.label}>
-          {i18n.t('settings.yourAreas')}
-        </Text>
-        <ScrollView
-          style={styles.containerScroll}
-          onScroll={disablePristine}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={this.onRefresh}
-            />
-          }
-        >
-          <View
-            onStartShouldSetResponder={iOSListener}
-            onResponderRelease={iOSHandler}
-            style={styles.list}
-            contentContainerStyle={styles.listContent}
-            scrollEnabled
+        <SafeAreaView style={styles.contentContainer}>
+          <Text style={styles.label}>{i18n.t('settings.yourAreas')}</Text>
+          <ScrollView
+            style={styles.containerScroll}
+            onScroll={disablePristine}
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />}
           >
-            <View>
-              <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
+            <View
+              onStartShouldSetResponder={iOSListener}
+              onResponderRelease={iOSHandler}
+              style={styles.list}
+              contentContainerStyle={styles.listContent}
+              scrollEnabled
+            >
+              <View>
+                <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
+              </View>
             </View>
-          </View>
-        </ScrollView>
-        <Row style={styles.row} action={this.reportsAction}>
-          <Text style={styles.textMyReports}>{i18n.t('dashboard.myReports')}</Text>
-        </Row>
+          </ScrollView>
+          <Row
+            style={[
+              styles.test,
+              styles.row,
+              {
+                height: 64 + bottomSafeAreaInset,
+                backgroundColor: Theme.background.white,
+                paddingBottom: bottomSafeAreaInset,
+                marginBottom: -bottomSafeAreaInset
+              }
+            ]}
+            action={this.reportsAction}
+          >
+            <Text style={styles.textMyReports}>{i18n.t('dashboard.myReports')}</Text>
+          </Row>
+        </SafeAreaView>
       </View>
     );
   }
