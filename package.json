@@ -19,7 +19,7 @@
     "release:ios": "react-native run-ios --configuration Release",
     "postinstall:ios": "cd node_modules/react-native; exec ./scripts/ios-install-third-party.sh; cd third-party/glog-0.3.4; exec ./configure; cd ../../../..",
     "test": "jest --forceExit --detectOpenHandles",
-    "test:ci": "jest --forceExit --detectOpenHandles --ci --coverage --json --outputFile test-results.json",
+    "test:ci": "jest --forceExit --detectOpenHandles --ci --coverage",
     "test:watch": "jest --watch",
     "lint": "node_modules/.bin/eslint ./app/"
   },
@@ -98,6 +98,7 @@
     "i18next-scanner": "2.7.0",
     "jest": "23.6.0",
     "jest-fetch-mock": "1.7.4",
+    "jest-html-reporter": "^2.4.2",
     "lint-staged": "8.1.0",
     "metro-react-native-babel-preset": "0.47.1",
     "node-fetch": "2.3.0",
@@ -110,6 +111,16 @@
   },
   "jest": {
     "preset": "react-native",
+    "coverageDirectory": "reports/coverage",
+    "reporters": [
+      "default",
+      [
+        "./node_modules/jest-html-reporter",
+        {
+          "outputPath": "reports/test-report.html"
+        }
+      ]
+    ],
     "transform": {
       "^.+\\.(js)$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
     }
