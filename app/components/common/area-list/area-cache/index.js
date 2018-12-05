@@ -9,6 +9,9 @@ import {
   Text
 } from 'react-native';
 
+import Config from 'react-native-config';
+import checkConnectivity from 'helpers/networking';
+
 import i18n from 'locales';
 import ProgressBar from 'react-native-progress/Bar';
 import Theme from 'config/theme';
@@ -77,8 +80,15 @@ class AreaCache extends PureComponent<Props, State> {
   }
 
   onDownload = () => {
-    const { areaId, downloadAreaById } = this.props;
-    downloadAreaById(areaId);
+    checkConnectivity(Config.API_URL, response => {
+      if (!response.ok) {
+        this.onOfflinePress();
+        return;
+      }
+
+      const { areaId, downloadAreaById } = this.props;
+      downloadAreaById(areaId);
+    });
   }
 
   onRetry = () => {

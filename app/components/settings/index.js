@@ -1,6 +1,8 @@
 // @flow
 import type { Area } from 'types/areas.types';
 
+import Config from 'react-native-config';
+
 import React, { Component } from 'react';
 import { launchAppRoot } from 'main';
 import List from 'components/common/list';
@@ -16,6 +18,8 @@ import Row from 'components/common/row';
 
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
+
+import checkConnectivity from 'helpers/networking';
 
 const plusIcon = require('assets/plus.png');
 
@@ -125,15 +129,23 @@ class Settings extends Component<Props> {
 
   onPressAddArea = () => {
     const { isConnected, offlineMode, showNotConnectedNotification } = this.props;
-    if (isConnected && !offlineMode) {
+    if (offlineMode) {
+      showNotConnectedNotification();
+      return;
+    }
+
+    checkConnectivity(Config.API_URL, response => {
+      if (!response.ok) {
+        showNotConnectedNotification();
+        return;
+      }
+
       Navigation.push(this.props.componentId, {
         component: {
           name: 'ForestWatcher.SetupCountry'
         }
       });
-    } else {
-      showNotConnectedNotification();
-    }
+    });
   };
 
   handleStaticLinks = (section: string, text: string) => {
