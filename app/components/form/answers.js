@@ -15,12 +15,13 @@ import AnswerComponent from 'components/form/answer/answer';
 import ImageCarousel from 'components/common/image-carousel';
 import withDraft from './withDraft';
 import styles from './styles';
+import { Navigation } from 'react-native-navigation';
 
 const deleteIcon = require('assets/delete_red.png');
 const uploadIcon = require('assets/upload.png');
 
 type Props = {
-  navigator: any,
+  componentId: string,
   metadata: Array<{ id: string, label: string, value: any }>,
   results: Array<{ question: Question, answer: Answer }>,
   reportName: string,
@@ -32,50 +33,60 @@ type Props = {
 };
 
 class Answers extends PureComponent<Props> {
-  static navigatorStyle = {
-    navBarTextColor: Theme.colors.color1,
-    navBarButtonColor: Theme.colors.color1,
-    topBarElevationShadowEnabled: false,
-    navBarBackgroundColor: Theme.background.main
-  };
+  static options(passProps) {
+    return {
+      topBar: {
+        rightButtons: passProps.showUploadBar ? [{
+          id: 'upload',
+          icon: uploadIcon
+        }] : [],
+        title: {
+          text: i18n.t('report.review')
+        }
+      }
+    };
+  }
 
   constructor(props) {
     super(props);
-    if (props.showUploadButton) {
-      props.navigator.setButtons({
-        rightButtons: [{ icon: uploadIcon, id: 'upload' }]
-      });
-      props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    Navigation.events().bindComponent(this);
+  }
+
+  navigationButtonPressed({ buttonId }) {
+    const { reportName, uploadReport } = this.props;
+    if (buttonId === 'upload') {
+      uploadReport(reportName);
     }
   }
 
-  onNavigatorEvent = (event) => {
-    const { reportName, uploadReport } = this.props;
-    if (event.type === 'NavBarButtonPress') {
-      if (event.id === 'upload') uploadReport(reportName);
-    }
-  };
-
   onPressSend = () => {
-    const { reportName, uploadReport, navigator, setActiveAlerts } = this.props;
+    const { reportName, uploadReport, componentId, setActiveAlerts } = this.props;
     uploadReport(reportName);
     setActiveAlerts(true);
-    navigator.popToRoot({ animate: true });
+    Navigation.popToRoot(componentId);
   }
 
   onEdit = (index) => {
-    const { navigator, reportName } = this.props;
+    const { reportName } = this.props;
     const screen = 'ForestWatcher.NewReport';
     const disableDraft = false;
-    navigator.push({
-      screen,
-      backButtonHidden: true,
-      passProps: {
-        reportName,
-        title: i18n.t('report.title'),
-        questionIndex: index,
-        disableDraft,
-        editMode: true
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: screen,
+        passProps: {
+          reportName,
+          title: i18n.t('report.title'),
+          questionIndex: index,
+          disableDraft,
+          editMode: true
+        },
+        options: {
+          topBar: {
+            backButton: {
+              visible: false
+            }
+          }
+        }
       }
     });
   }
@@ -92,13 +103,19 @@ class Answers extends PureComponent<Props> {
   }
 
   handleDeleteArea = () => {
-    const { navigator, deleteReport, reportName } = this.props;
+    const { componentId, deleteReport, reportName } = this.props;
     deleteReport(reportName);
-    navigator.popToRoot({ animated: false });
-    navigator.push({
-      animated: false,
-      screen: 'ForestWatcher.Reports',
-      title: i18n.t('dashboard.myReports')
+    Navigation.popToRoot(componentId, {
+      animations: {
+        popToRoot: {
+          enabled: false
+        }
+      }
+    });
+    Navigation.push(componentId, {
+      component: {
+        name: 'ForestWatcher.Reports'
+      }
     });
   }
 

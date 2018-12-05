@@ -99,7 +99,7 @@ ActionButton.defaultProps = {
 
 ActionButton.propTypes = {
   light: PropTypes.bool,
-  style: PropTypes.node,
+  style: PropTypes.any,
   left: PropTypes.bool,
   disabled: PropTypes.bool,
   delete: PropTypes.bool,

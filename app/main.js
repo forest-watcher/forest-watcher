@@ -4,9 +4,7 @@ import { Provider } from 'react-redux';
 import Theme from 'config/theme';
 import { registerScreens } from 'screens';
 import createStore from 'store';
-
-
-import { checkPrevCrashes } from './crashes';
+import { setupCrashLogging } from './crashes';
 
 // Disable ios warnings
 // console.disableYellowBox = true;
@@ -25,46 +23,59 @@ function setCodePush() {
   }
 }
 
-const app = () => {
+const app = async () => {
+  if (!__DEV__) {
+    await setupCrashLogging();
+  }
+
   const store = createStore(startApp);
   registerScreens(store, Provider);
 
-  function startApp() {
+  async function startApp() {
+
     const state = store.getState();
     let screen = 'ForestWatcher.Home';
-    let navigatorStyle = Theme.navigator.styles;
-    let title = '';
     if (state.user.loggedIn && state.app.synced) {
       screen = 'ForestWatcher.Dashboard';
-      navigatorStyle = {
-        screenBackgroundColor: Theme.background.main
-      };
-      title = 'Forest Watcher';
     }
-    Navigation.startSingleScreenApp({
-      screen: {
-        title,
-        screen,
-        navigatorStyle
-      },
-      drawer: {
-        right: {
-          screen: 'ForestWatcher.RightDrawer',
-          passProps: {}
-        },
-        style: {
-          drawerShadow: 'NO'
-        },
-        disableOpenGesture: true
-      },
-      appStyle: {
-        orientation: 'portrait'
-      }
+
+    await Navigation.setDefaultOptions({
+      ...Theme.navigator.styles
     });
-    checkPrevCrashes();
-    setCodePush();
+
+    await launchAppRoot(screen);
+    //setCodePush();
     createStore.runSagas();
   }
 };
+
+export function launchAppRoot(screen) {
+  return Navigation.setRoot({
+    root: {
+      sideMenu: {
+        center: {
+          stack: {
+            children: [
+              {
+                component: {
+                  name: screen
+                }
+              }
+            ],
+            options: {
+              ...Theme.navigator.style
+            }
+          }
+        },
+        right: {
+          component: {
+            name: 'ForestWatcher.RightDrawer',
+            passProps: {}
+          }
+        }
+      }
+    }
+  });
+}
 
 export default app;

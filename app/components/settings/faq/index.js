@@ -10,6 +10,7 @@ import i18n from 'locales';
 import Theme from 'config/theme';
 import List from 'components/common/list';
 import styles from './styles';
+import { Navigation } from 'react-native-navigation';
 
 class FaqList extends Component {
   constructor() {
@@ -94,15 +95,8 @@ class FaqList extends Component {
     ].filter(term => (term.list && Object.values(term.list).some(text => (!!text))));
   }
 
-  static navigatorStyle = {
-    navBarTextColor: Theme.colors.color1,
-    navBarButtonColor: Theme.colors.color1,
-    topBarElevationShadowEnabled: false,
-    navBarBackgroundColor: Theme.background.main
-  };
-
   static propTypes = {
-    navigator: PropTypes.object.isRequired
+    componentId: PropTypes.string.isRequired
   };
 
 
@@ -111,11 +105,19 @@ class FaqList extends Component {
   }
 
   handleStaticLinks = (section, text, list) => {
-    this.props.navigator.push({
-      screen: section,
-      title: text,
-      passProps: {
-        contentFaq: list
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: section,
+        passProps: {
+          contentFaq: list
+        },
+        options: {
+          topBar: {
+            title: {
+              text: text
+            }
+          }
+        }
       }
     });
   }

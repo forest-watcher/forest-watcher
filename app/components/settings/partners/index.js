@@ -13,6 +13,7 @@ import Theme from 'config/theme';
 import List from 'components/common/list';
 import styles from './styles';
 
+const tscLogo = require('assets/3sc_logo.jpeg');
 const wriLogo = require('assets/wri_logo.png');
 const jgiLogo = require('assets/jgi_logo.png');
 const gfwLogo = require('assets/gfw_logo.png');
@@ -23,38 +24,37 @@ class Partners extends Component {
     super();
     this.partners = [
       {
-        description: 'Global Forest Watch',
+        text: 'Global Forest Watch',
         image: gfwLogo,
         url: 'http://www.globalforestwatch.org/',
         functionOnPress: this.handleLink
       },
       {
-        description: 'World Resources Institute',
+        text: 'World Resources Institute',
         image: wriLogo,
         url: 'http://www.wri.org/',
         functionOnPress: this.handleLink
       },
       {
-        description: 'Vizzuality',
+        text: '3 Sided Cube',
+        image: tscLogo,
+        url: 'https://3sidedcube.com/',
+        functionOnPress: this.handleLink
+      },
+      {
+        text: 'Vizzuality',
         image: vizzualityLogo,
         url: 'http://www.vizzuality.com/',
         functionOnPress: this.handleLink
       },
       {
-        description: 'The Jane Goodall Institute',
+        text: 'The Jane Goodall Institute',
         image: jgiLogo,
         url: 'http://www.janegoodall.org/',
         functionOnPress: this.handleLink
       }
     ];
   }
-
-  static navigatorStyle = {
-    navBarTextColor: Theme.colors.color1,
-    navBarButtonColor: Theme.colors.color1,
-    topBarElevationShadowEnabled: false,
-    navBarBackgroundColor: Theme.background.main
-  };
 
   componentDidMount() {
     tracker.trackScreenView('Partners');

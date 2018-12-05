@@ -1,4 +1,10 @@
 apply plugin: "com.android.application"
+
+project.ext.envConfigFiles = [
+    debug: ".env.android",
+    release: ".env.android"
+]
+
 apply from: "../../node_modules/react-native-config/android/dotenv.gradle"
 
 import com.android.build.OutputFile
@@ -79,6 +85,7 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-sentry/sentry.gradle"
 apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 
 /**
@@ -111,8 +118,9 @@ android {
         resValue "string", "build_config_package", "com.forestwatcher"
         multiDexEnabled true
         manifestPlaceholders = [
-            'appAuthRedirectScheme': project.env.get("LOGIN_GOOGLE_REDIRECT_SCHEMA_ANDROID")
+            'appAuthRedirectScheme': project.env.get("LOGIN_GOOGLE_REDIRECT_SCHEMA")
         ]
+        missingDimensionStrategy "RNN.reactNativeVersion", rootProject.ext.reactNativeNavigationFlavor
     }
     /*
      * See if this can be removed when the dependencies have been upgraded and sanitised
@@ -172,6 +180,7 @@ android {
         main.java.srcDirs += '../../node_modules/react-native-google-analytics-bridge/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-i18n/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-maps/lib/android/src/main/java'
+        main.java.srcDirs += '../../node_modules/react-native-sentry/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-zip-archive/android/src/main/java'
     }
 }
@@ -235,8 +244,11 @@ dependencies {
     // react-native-navigation
     implementation project(':react-native-navigation')
 
+    // react-native-sentry
+    implementation 'io.sentry:sentry-android:1.7.15'
+
     // realm
-    implementation(project(':realm'))
+    implementation project(':realm')
 }
 
 // Run this once to be able to run the application with BUCK

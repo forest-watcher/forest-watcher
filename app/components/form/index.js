@@ -11,6 +11,7 @@ import ActionButton from 'components/common/action-button';
 import FormField from 'components/common/form-inputs';
 import NextButton from 'components/form/next-button';
 import withDraft from 'components/form/withDraft';
+import { Navigation } from 'react-native-navigation';
 
 type Props = {
   question: Question,
@@ -21,18 +22,22 @@ type Props = {
   answer: Answer,
   text: string,
   setReportAnswer: (string, Answer, boolean) => void,
-  navigator: any,
+  componentId: string,
   questionIndex: ?number,
   editMode: boolean
 };
 
 class Form extends Component<Props> {
-  static navigatorStyle = {
-    navBarTextColor: Theme.colors.color1,
-    navBarButtonColor: Theme.colors.color1,
-    topBarElevationShadowEnabled: false,
-    navBarBackgroundColor: Theme.background.main
-  };
+
+  static options(passProps) {
+    return {
+      topBar: {
+        title: {
+          text: i18n.t('report.title')
+        }
+      }
+    };
+  }
 
   componentDidMount() {
     tracker.trackScreenView('Reporting - Form Step');
@@ -49,7 +54,7 @@ class Form extends Component<Props> {
 
   onSubmit = () => {
     const {
-      navigator,
+      componentId,
       reportName,
       nextQuestionIndex,
       answer,
@@ -62,29 +67,42 @@ class Form extends Component<Props> {
       setReportAnswer(reportName, answer, updateOnly);
     }
     if (nextQuestionIndex !== null) {
-      navigator.push({
-        screen: 'ForestWatcher.NewReport',
-        title: i18n.t('report.title'),
-        passProps: {
-          editMode,
-          reportName,
-          questionIndex: nextQuestionIndex
+      Navigation.push(componentId, {
+        component: {
+          name: 'ForestWatcher.NewReport',
+          passProps: {
+            editMode,
+            reportName,
+            questionIndex: nextQuestionIndex
+          }
         }
       });
     } else {
       if (editMode) {
-        navigator.popToRoot({ animated: false });
-        navigator.push({
-          animated: false,
-          screen: 'ForestWatcher.Reports',
-          title: i18n.t('dashboard.myReports')
+        Navigation.popToRoot(componentId, {
+          animations: {
+            popToRoot: {
+              enabled: false
+            }
+          }
+        });
+        Navigation.push(componentId, {
+          animations: {
+            push: {
+              enabled: false
+            }
+          },
+          component: {
+            name: 'ForestWatcher.Reports'
+          }
         });
       }
-      navigator.push({
-        screen: 'ForestWatcher.Answers',
-        title: i18n.t('report.review'),
-        passProps: {
-          reportName
+      Navigation.push(componentId, {
+        component: {
+          name: 'ForestWatcher.Answers',
+          passProps: {
+            reportName
+          }
         }
       });
     }
