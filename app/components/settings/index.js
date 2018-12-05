@@ -2,6 +2,7 @@
 import type { Area } from 'types/areas.types';
 
 import React, { Component } from 'react';
+import { launchAppRoot } from 'main';
 import List from 'components/common/list';
 import AreaList from 'containers/common/area-list';
 import Hyperlink from 'react-native-hyperlink';
@@ -109,11 +110,7 @@ class Settings extends Component<Props> {
     const { logout, componentId, isUnsafeLogout } = this.props;
     const proceedWithLogout = () => {
       logout();
-      Navigation.setStackRoot(componentId, {
-        component: {
-          name: 'ForestWatcher.Home'
-        }
-      });
+      launchAppRoot('ForestWatcher.Home');
     };
     if (isUnsafeLogout) {
       Alert.alert(i18n.t('settings.unsafeLogout'), i18n.t('settings.unsavedDataLost'), [
