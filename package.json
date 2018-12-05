@@ -19,6 +19,7 @@
     "release:ios": "react-native run-ios --configuration Release",
     "postinstall:ios": "cd node_modules/react-native; exec ./scripts/ios-install-third-party.sh; cd third-party/glog-0.3.4; exec ./configure; cd ../../../..",
     "test": "jest --forceExit --detectOpenHandles",
+    "test:ci": "jest --forceExit --detectOpenHandles --ci --coverage --json --outputFile test-results.json",
     "test:watch": "jest --watch",
     "lint": "node_modules/.bin/eslint ./app/"
   },
