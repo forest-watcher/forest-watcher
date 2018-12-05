@@ -43,33 +43,39 @@ const app = async () => {
       ...Theme.navigator.styles
     });
 
-    await Navigation.setRoot({
-      root: {
-        sideMenu: {
-          center: {
-            stack: {
-              children: [{
-                component: {
-                  name: screen
-                }
-              }],
-              options: {
-                ...Theme.navigator.style
-              }
-            }
-          },
-          right: {
-            component: {
-              name: 'ForestWatcher.RightDrawer',
-              passProps: {}
-            }
-          }
-        }
-      }
-    });
+    await launchAppRoot(screen);
     //setCodePush();
     createStore.runSagas();
   }
 };
+
+export function launchAppRoot(screen) {
+  return Navigation.setRoot({
+    root: {
+      sideMenu: {
+        center: {
+          stack: {
+            children: [
+              {
+                component: {
+                  name: screen
+                }
+              }
+            ],
+            options: {
+              ...Theme.navigator.style
+            }
+          }
+        },
+        right: {
+          component: {
+            name: 'ForestWatcher.RightDrawer',
+            passProps: {}
+          }
+        }
+      }
+    }
+  });
+}
 
 export default app;

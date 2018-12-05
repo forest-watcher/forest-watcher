@@ -9,6 +9,7 @@ import Theme from 'config/theme';
 import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
+import { launchAppRoot } from '../../../main';
 
 const backIcon = require('assets/previous.png');
 const layersIcon = require('assets/layers.png');
@@ -72,11 +73,7 @@ class SetupCountry extends Component {
   navigationButtonPressed({ buttonId }) {
     if (buttonId === 'logout') {
       this.props.logout();
-      Navigation.setStackRoot(this.props.componentId, {
-        component: {
-          name: 'ForestWatcher.Home'
-        }
-      });
+      launchAppRoot('ForestWatcher.Home');
     }
   }
 
