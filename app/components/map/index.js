@@ -17,6 +17,7 @@ import CircleButton from 'components/common/circle-button';
 import AlertPosition from 'components/map/alert-position';
 import MapAttribution from 'components/map/map-attribution';
 import Clusters from 'containers/map/clusters';
+import { requestLocationPermissions } from 'helpers/app';
 import { formatCoordsByFormat, getAllNeighbours } from 'helpers/map';
 import tracker from 'helpers/googleAnalytics';
 import clusterGenerator from 'helpers/clusters-generator';
@@ -112,6 +113,7 @@ class MapComponent extends Component {
     const initialCoords = center || { lat: MAPS.lat, lon: MAPS.lng };
     this.eventLocation = null;
     this.eventOrientation = null;
+    this.geolocationWatchId = 0;
     // Google maps lon and lat are inverted
     this.state = {
       lastPosition: null,
@@ -138,7 +140,6 @@ class MapComponent extends Component {
     tracker.trackScreenView('Map');
 
     if (Platform.OS === 'ios') {
-      Location.requestWhenInUseAuthorization();
       StatusBar.setBarStyle('light-content');
     }
 
@@ -208,7 +209,9 @@ class MapComponent extends Component {
       StatusBar.setBarStyle('default');
       Location.stopUpdatingLocation();
       Location.stopUpdatingHeading();
-    } else {
+    } else if (this.geolocationWatchId) {
+      navigator.geolocation.clearWatch(this.geolocationWatchId);
+      this.geolocationWatchId = 0;
       //SensorManager.stopOrientation();
     }
     this.props.setSelectedAreaId('');
@@ -401,22 +404,21 @@ class MapComponent extends Component {
     });
   }
 
-  geoLocate() {
+  async geoLocate() {
+
     this.animateGeo();
 
-    navigator.geolocation.getCurrentPosition(
-      throttle(location => {
-        const coords = typeof location.coords !== 'undefined' ? location.coords : location;
-        this.setState({
-          lastPosition: {
-            latitude: coords.latitude,
-            longitude: coords.longitude
-          }
-        });
-      }, 300),
-      error => console.info(error),
-      { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
-    );
+    const hasPermissions = await requestLocationPermissions();
+
+    const updateLocationFromGeolocation = throttle(location => {
+      const coords = typeof location.coords !== 'undefined' ? location.coords : location;
+      this.setState({
+        lastPosition: {
+          latitude: coords.latitude,
+          longitude: coords.longitude
+        }
+      });
+    }, 300);
 
     const updateHeading = heading => prevState => {
       const state = {
@@ -426,23 +428,21 @@ class MapComponent extends Component {
       return state;
     };
 
+    if (!hasPermissions) {
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(updateLocationFromGeolocation, error => console.info(error), {
+      enableHighAccuracy: true,
+      timeout: 30000
+    });
+
     if (Platform.OS === 'ios') {
       Location.startUpdatingLocation();
 
       this.eventLocation = DeviceEventEmitter.addListener(
         'locationUpdated',
-        throttle(location => {
-          const coords = typeof location.coords !== 'undefined' ? location.coords : location;
-          const { lastPosition } = this.state;
-          if (lastPosition && (lastPosition.latitude !== coords.latitude || lastPosition.longitude !== coords.longitude)) {
-            this.setState({
-              lastPosition: {
-                latitude: coords.latitude,
-                longitude: coords.longitude
-              }
-            });
-          }
-        }, 300)
+        updateLocationFromGeolocation
       );
 
       Location.startUpdatingHeading();
@@ -453,6 +453,13 @@ class MapComponent extends Component {
         }, 450)
       );
     } else {
+      this.geolocationWatchId = navigator.geolocation.watchPosition(updateLocationFromGeolocation, error => console.info(error), {
+        enableHighAccuracy: true,
+        timeout: 30000,
+        maximumAge: 0,
+        distanceFilter: 0
+      });
+
       //SensorManager.startOrientation(300);
       this.eventOrientation = DeviceEventEmitter.addListener(
         'Orientation',

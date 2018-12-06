@@ -9,6 +9,9 @@ import {
   Text
 } from 'react-native';
 
+import Config from 'react-native-config';
+import checkConnectivity from 'helpers/networking';
+
 import i18n from 'locales';
 import ProgressBar from 'react-native-progress/Bar';
 import Theme from 'config/theme';
@@ -77,8 +80,24 @@ class AreaCache extends PureComponent<Props, State> {
   }
 
   onDownload = () => {
-    const { areaId, downloadAreaById } = this.props;
-    downloadAreaById(areaId);
+    // Update the state as we're now checking connectivity.
+    // It'll show the progress bar while we're awaiting a connection.
+    this.setState({
+        checkingConnectivity: true
+    })
+    checkConnectivity(Config.API_URL).then(connected => {
+      // Update the state again now we've finished checking connectivity.
+      this.setState({
+          checkingConnectivity: false
+      })
+      if (!connected) {
+        this.onOfflinePress();
+        return;
+      }
+
+      const { areaId, downloadAreaById } = this.props;
+      downloadAreaById(areaId);
+    });
   }
 
   onRetry = () => {
@@ -97,9 +116,8 @@ class AreaCache extends PureComponent<Props, State> {
   onOfflinePress = () => this.props.showNotConnectedNotification();
 
   getCacheAreaAction = () => {
-    const { isConnected, cacheStatus } = this.props;
+    const { cacheStatus } = this.props;
     const { canRefresh } = this.state;
-    if (!isConnected) return this.onOfflinePress;
     if (!cacheStatus.completed) return this.onDownload;
     if (canRefresh && cacheStatus.completed) return this.onRefresh;
     return null;
@@ -124,7 +142,7 @@ class AreaCache extends PureComponent<Props, State> {
 
   render() {
     const { cacheStatus, showTooltip } = this.props;
-    const { indeterminate } = this.state;
+    const { indeterminate, checkingConnectivity } = this.state;
     const cacheAreaAction = this.getCacheAreaAction();
     const cacheButtonIcon = this.getCacheAreaIcon();
 
@@ -161,7 +179,7 @@ class AreaCache extends PureComponent<Props, State> {
         />
       </View>
     );
-    if (cacheStatus.requested && !cacheStatus.completed) return progressBar;
+    if ((cacheStatus.requested && !cacheStatus.completed) || checkingConnectivity) return progressBar;
     return cacheButton;
   }
 }
