@@ -4,11 +4,11 @@
  *
  * @param {string} url - The url to call using the fetch api
  * @param {Object} request - The request information
- * @param {number} [timeout=1000] - The time in milliseconds to time out the request after
+ * @param {number} [timeout=30000] - The time in milliseconds to time out the request after
  *
  * @returns {Promise.<*>}
  */
-export default function fetchWithTimeout(url, request, timeout = 1000) {
+export default function fetchWithTimeout(url, request, timeout = 30000) {
 	const fetchPromise = fetch(url, request).catch(err => {
 		// Some sort of networking error has occurred
 		throw {

@@ -1,13 +1,9 @@
 import fetch from './fetchWithTimeout';
 
-export default function checkConnectivity(url, completionHandler) {
-  fetch(url, {
+export default async function checkConnectivity(url) {
+  return fetch(url, {
     method: 'HEAD'
-  }).then(response => {
-    completionHandler(response)
-  }).catch(error => {
-    completionHandler({
-      ok: false
-    })
-  });
+  })
+    .then(response => response.ok)
+    .catch(() => false);
 }

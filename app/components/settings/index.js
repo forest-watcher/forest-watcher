@@ -30,7 +30,6 @@ type Props = {
   areas: Array<Area>,
   componentId: string,
   logout: () => void,
-  isConnected: boolean,
   isUnsafeLogout: boolean,
   setOfflineMode: () => void,
   offlineMode: boolean,
@@ -128,23 +127,10 @@ class Settings extends Component<Props> {
   };
 
   onPressAddArea = () => {
-    const { isConnected, offlineMode, showNotConnectedNotification } = this.props;
-    if (offlineMode) {
-      showNotConnectedNotification();
-      return;
-    }
-
-    checkConnectivity(Config.API_URL, response => {
-      if (!response.ok) {
-        showNotConnectedNotification();
-        return;
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.SetupCountry'
       }
-
-      Navigation.push(this.props.componentId, {
-        component: {
-          name: 'ForestWatcher.SetupCountry'
-        }
-      });
     });
   };
 

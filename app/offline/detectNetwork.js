@@ -13,6 +13,12 @@ class DetectNetworkPing {
   ];
 
   pingToDetectNetwork = (dispatch, urlIndex) => connection => {
+    /*
+      This is being called when the connection status is updated (like when the WiFi / LTE is being enabled / disabled).
+      If everything is off, then the connection would be offline so there’d be no need to continue.
+      When it detects that WiFi or LTE has been enabled again, it should become true and then we can check for internet reachability.
+      Redux-offline should handle all of that internally.
+    */
     if (!connection.online) {
       dispatch(connection);
       return;
@@ -22,8 +28,10 @@ class DetectNetworkPing {
     const url = DetectNetworkPing.urlList[urlIndex % DetectNetworkPing.urlList.length];
 
     // Attempt fetch with a 1s timeout.
-    checkConnectivity(url, response => {
-      if (response.ok) {
+
+    checkConnectivity(url).then(connected => {
+      // If we've got a connection, update the redux state.
+      if (connected) {
         dispatch({... connection, online: true});
         return;
       }
@@ -33,7 +41,7 @@ class DetectNetworkPing {
         dispatch({ ...connection, online: false });
       }
 
-      if (urlIndex < DetectNetworkPing.urlList.length) {
+      if (urlIndex < DetectNetworkPing.urlList.length - 1) {
         // Recall this function, incrementing the urlIndex so we try the next URL.
         this.pingToDetectNetwork(dispatch, urlIndex + 1)(connection)
       } else {
