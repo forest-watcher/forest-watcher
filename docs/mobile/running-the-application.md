@@ -5,7 +5,7 @@ Open simulators and
 ```npm start```
 
 ### Troubleshoot
-- When compiling the native dependencies, you may need to reset the build cache. Just run `npm start -- --reset-cache`.
+- When compiling the native dependencies, you may need to reset the build cache. Just run `yarn start:reset`.
 
 - Failed to start daemon error
 ```bash
