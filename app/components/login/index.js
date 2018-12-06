@@ -14,6 +14,7 @@ import Theme from 'config/theme';
 import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import { getLanguage } from 'helpers/language';
+import checkConnectivity from 'helpers/networking';
 import moment from 'moment';
 import 'moment/locale/es';
 import 'moment/locale/fr';
@@ -35,7 +36,6 @@ type Props = {
   loggedIn: boolean,
   logSuccess: boolean,
   logout: () => void,
-  isConnected: boolean,
   facebookLogin: () => void,
   googleLogin: () => void,
   setLoginAuth: ({
@@ -104,7 +104,7 @@ class Login extends PureComponent<Props, State> {
   componentDidUpdate(prevProps: Props) {
     if (this.props.loggedIn) this.onLoggedIn();
 
-    if (prevProps.logSuccess !== this.props.logSuccess || prevProps.isConnected !== this.props.isConnected) {
+    if (prevProps.logSuccess !== this.props.logSuccess) {
       this.ensureLogout();
     }
   }
@@ -131,17 +131,15 @@ class Login extends PureComponent<Props, State> {
   };
 
   onPress(socialNetwork: string) {
-    if (this.props.isConnected) {
-      this.setState({ socialNetwork });
-      const provider = {
-        google: this.props.googleLogin,
-        facebook: this.props.facebookLogin,
-        twitter: this.webViewProvider
-      }[socialNetwork];
-      return provider(socialNetwork);
-    }
+    this.setState({ socialNetwork });
 
-    return Alert.alert(i18n.t('login.unable'), i18n.t('login.connectionRequired'), [{ text: 'OK' }]);
+    const provider = {
+      google: this.props.googleLogin,
+      facebook: this.props.facebookLogin,
+      twitter: this.webViewProvider
+    }[socialNetwork];
+
+    provider(socialNetwork);
   }
 
   onNavigationStateChange = (navState: { url: string, title: string }) => {
@@ -165,9 +163,9 @@ class Login extends PureComponent<Props, State> {
 
   ensureLogout() {
     const {
-      logSuccess, logout, loggedIn, isConnected
+      logSuccess, logout, loggedIn
     } = this.props;
-    if (!loggedIn && !logSuccess && isConnected) {
+    if (!loggedIn && !logSuccess) {
       Alert.alert(i18n.t('commonText.error'), i18n.t('login.failed'), [{ text: 'OK', onPress: logout }]);
     }
   }
