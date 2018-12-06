@@ -16,7 +16,6 @@ function mapStateToProps(state: State) {
     user: state.user.data,
     loggedIn: state.user.loggedIn,
     areas: state.areas.data,
-    isConnected: state.offline.online,
     offlineMode: state.app.offlineMode
   };
 }
