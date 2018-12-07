@@ -247,6 +247,8 @@ dependencies {
     // react-native-sentry
     implementation 'io.sentry:sentry-android:1.7.15'
 
+    implementation project(':react-native-webview')
+
     // realm
     implementation project(':realm')
 }
