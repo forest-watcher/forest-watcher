@@ -155,7 +155,7 @@ class Dashboard extends PureComponent<Props> {
   };
 
   render() {
-    const { bottomSafeAreaInset } = this.state;
+    const bottomSafeAreaInset = this.state?.bottomSafeAreaInset || 0;
     const { pristine, refreshing, appSyncing } = this.props;
     const isIOS = Platform.OS === 'ios';
     // we remove the event handler to improve performance
