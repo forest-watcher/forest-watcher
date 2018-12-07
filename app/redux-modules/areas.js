@@ -27,9 +27,8 @@ const SET_SELECTED_AREA_ID = 'areas/SET_SELECTED_AREA_ID';
 
 // Helpers
 function getAreaById(areas: Array<Area>, areaId: string) {
-  // Using deconstructor to generate a new object
-  // todo fix: return null if not found
-  return { ...areas.find((areaData) => (areaData.id === areaId)) };
+  const area = areas.find((areaData) => (areaData.id === areaId));
+  return area ? { ...area } : null;
 }
 
 // Reducer

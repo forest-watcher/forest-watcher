@@ -14,11 +14,20 @@ Object {
 }
 `;
 
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaBasemap 1`] = `
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaBasemap 1`] = `Array []`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaBasemap 2`] = `
 Array [
   Object {
     "payload": Object {
-      "area": Object {},
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+      },
       "layer": Object {
         "id": "basemap",
         "url": "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -29,17 +38,7 @@ Array [
 ]
 `;
 
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaLayer 1`] = `
-Array [
-  Object {
-    "payload": Object {
-      "area": Object {},
-      "layer": Object {},
-    },
-    "type": "layers/CACHE_LAYER_REQUEST",
-  },
-]
-`;
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaLayer 1`] = `Array []`;
 
 exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaLayer 2`] = `
 Array [
@@ -58,13 +57,6 @@ Array [
         "name": "nameMock",
         "url": "urlMock",
       },
-    },
-    "type": "layers/CACHE_LAYER_REQUEST",
-  },
-  Object {
-    "payload": Object {
-      "area": Object {},
-      "layer": Object {},
     },
     "type": "layers/CACHE_LAYER_REQUEST",
   },

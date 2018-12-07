@@ -79,7 +79,22 @@ describe('Redux Layers Module', () => {
     });
 
     it('cacheAreaBasemap', () => {
-      store.dispatch(cacheAreaBasemap());
+      store.dispatch(cacheAreaBasemap('areaIDMock'));
+      expect(store.getActions()).toMatchSnapshot();
+
+      const mockArea = {
+        name: 'nameMock',
+        id: 'areaIDMock',
+        application: 'applicationMock', // used to test that all fields are included in payload
+        geostore: { id: 'geostoreIDMock'}
+      };
+      store = configuredStore({
+        ...initialStoreState,
+        areas: { data: [mockArea] },
+      });
+
+      store.dispatch(cacheAreaBasemap('areaIDMock'));
+      store.dispatch(cacheAreaBasemap('areaIDMock1'));
       expect(store.getActions()).toMatchSnapshot();
     });
 

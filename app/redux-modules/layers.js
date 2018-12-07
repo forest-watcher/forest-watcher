@@ -314,16 +314,14 @@ function downloadAllLayers(
 
 
 function getAreaById(areas, areaId) {
-  // Using deconstructor to generate a new object
-  // todo fix: return null if not found
-  return { ...areas.find((areaData) => (areaData.id === areaId)) };
+  const area = areas.find((areaData) => (areaData.id === areaId));
+  return area ? { ...area } : null;
 }
 
 function getLayerById(layers, layerId) {
   if (!layers) return null;
-  // Using deconstructor to generate a new object
-  // todo fix: return null if not found
-  return { ...layers.find((layer) => (layer.id === layerId)) };
+  const layer = layers.find((layerData) => (layerData.id ===layerId));
+  return layer ? { ...layer } : null;
 }
 
 export function cacheAreaBasemap(areaId: string) {
