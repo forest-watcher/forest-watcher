@@ -509,7 +509,7 @@ class MapComponent extends Component {
   selectAlert = coordinate => {
     if (coordinate && !this.state.customReporting) {
       this.setState(prevState => ({
-        neighbours: getNeighboursSelected(prevState.selectedAlerts, prevState.markers),
+        neighbours: getNeighboursSelected([...prevState.selectedAlerts, coordinate], prevState.markers),
         selectedAlerts: [...prevState.selectedAlerts, coordinate]
       }));
     }
