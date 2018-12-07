@@ -25,6 +25,7 @@ describe('Redux Layers Module', () => {
     let store;
 
     beforeAll(() => {
+      // todo move mock area(s)/layers out of tests.
       // create store
       initialStoreState = combinedReducer(undefined, { type: 'NONE' });
       configuredStore = configureStore([thunk]);
@@ -138,6 +139,26 @@ describe('Redux Layers Module', () => {
       });
 
       store.dispatch(cacheLayers());
+      expect(store.getActions()).toMatchSnapshot();
+    });
+
+    it('downloadAreaById', () => {
+      store.dispatch(downloadAreaById('areaIDMock'));
+      expect(store.getActions()).toMatchSnapshot();
+
+      const mockArea = {
+        name: 'nameMock',
+        id: 'areaIDMock',
+        application: 'applicationMock', // used to test that all fields are included in payload
+        geostore: { id: 'geostoreIDMock'}
+      };
+      store = configuredStore({
+        ...initialStoreState,
+        areas: { data: [mockArea] },
+      });
+
+      store.dispatch(downloadAreaById('areaIDMock'));
+      store.dispatch(downloadAreaById('areaIDMock1'));
       expect(store.getActions()).toMatchSnapshot();
     });
 

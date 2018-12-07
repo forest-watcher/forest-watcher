@@ -88,6 +88,35 @@ Array [
 ]
 `;
 
+exports[`Redux Layers Module Redux Snapshot Thunk Actions downloadAreaById 1`] = `
+Array [
+  Object {
+    "payload": null,
+    "type": "layers/DOWNLOAD_AREA",
+  },
+]
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions downloadAreaById 2`] = `
+Array [
+  Object {
+    "payload": Object {
+      "application": "applicationMock",
+      "geostore": Object {
+        "id": "geostoreIDMock",
+      },
+      "id": "areaIDMock",
+      "name": "nameMock",
+    },
+    "type": "layers/DOWNLOAD_AREA",
+  },
+  Object {
+    "payload": null,
+    "type": "layers/DOWNLOAD_AREA",
+  },
+]
+`;
+
 exports[`Redux Layers Module Redux Snapshot Thunk Actions getUserLayers 1`] = `
 Array [
   Object {
