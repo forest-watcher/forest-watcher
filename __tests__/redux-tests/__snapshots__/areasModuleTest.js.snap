@@ -263,7 +263,7 @@ Array [
           "url": "<API_URL_MOCK>/area/IDMock",
         },
         "rollback": Object {
-          "meta": Object {},
+          "meta": null,
           "type": "areas/UPDATE_AREA_ROLLBACK",
         },
       },
@@ -316,7 +316,7 @@ Array [
           "url": "<API_URL_MOCK>/area/IDMock",
         },
         "rollback": Object {
-          "meta": Object {},
+          "meta": null,
           "type": "areas/UPDATE_AREA_ROLLBACK",
         },
       },

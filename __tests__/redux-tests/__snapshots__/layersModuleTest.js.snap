@@ -1,0 +1,174 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Redux Layers Module Initial reducer state 1`] = `
+Object {
+  "activeLayer": null,
+  "cache": Object {},
+  "cacheStatus": Object {},
+  "data": Array [],
+  "layersProgress": Object {},
+  "pendingCache": Object {},
+  "syncDate": Any<Number>,
+  "synced": false,
+  "syncing": false,
+}
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaBasemap 1`] = `Array []`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaBasemap 2`] = `
+Array [
+  Object {
+    "payload": Object {
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+      },
+      "layer": Object {
+        "id": "basemap",
+        "url": "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      },
+    },
+    "type": "layers/CACHE_LAYER_REQUEST",
+  },
+]
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaLayer 1`] = `Array []`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaLayer 2`] = `
+Array [
+  Object {
+    "payload": Object {
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+      },
+      "layer": Object {
+        "id": "layerIDMock",
+        "name": "nameMock",
+        "url": "urlMock",
+      },
+    },
+    "type": "layers/CACHE_LAYER_REQUEST",
+  },
+]
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions getUserLayers 1`] = `
+Array [
+  Object {
+    "meta": Object {
+      "offline": Object {
+        "commit": Object {
+          "meta": Object {
+            "areas": Array [],
+          },
+          "type": "layers/GET_LAYERS_COMMIT",
+        },
+        "effect": Object {
+          "url": "<API_URL_MOCK>/contextual-layer/?enabled=true",
+        },
+        "rollback": Object {
+          "type": "layers/GET_LAYERS_ROLLBACK",
+        },
+      },
+    },
+    "type": "layers/GET_LAYERS_REQUEST",
+  },
+]
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions setActiveContextualLayer 1`] = `
+Array [
+  Object {
+    "payload": null,
+    "type": "layers/SET_ACTIVE_LAYER",
+  },
+  Object {
+    "payload": "layerMock",
+    "type": "layers/SET_ACTIVE_LAYER",
+  },
+  Object {
+    "payload": "layerMock",
+    "type": "layers/SET_ACTIVE_LAYER",
+  },
+]
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions setActiveContextualLayer full test 1`] = `
+Array [
+  Object {
+    "payload": null,
+    "type": "layers/SET_ACTIVE_LAYER",
+  },
+]
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions setActiveContextualLayer full test 2`] = `
+Object {
+  "activeLayer": null,
+  "cache": Object {},
+  "cacheStatus": Object {},
+  "data": Array [],
+  "layersProgress": Object {},
+  "pendingCache": Object {},
+  "syncDate": Any<Number>,
+  "synced": false,
+  "syncing": false,
+}
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions setActiveContextualLayer full test 3`] = `
+Array [
+  Object {
+    "payload": "layerMock",
+    "type": "layers/SET_ACTIVE_LAYER",
+  },
+]
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions setActiveContextualLayer full test 4`] = `
+Object {
+  "activeLayer": "layerMock",
+  "cache": Object {},
+  "cacheStatus": Object {},
+  "data": Array [],
+  "layersProgress": Object {},
+  "pendingCache": Object {},
+  "syncDate": Any<Number>,
+  "synced": false,
+  "syncing": false,
+}
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions setActiveContextualLayer full test 5`] = `
+Array [
+  Object {
+    "payload": null,
+    "type": "layers/SET_ACTIVE_LAYER",
+  },
+]
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions setActiveContextualLayer full test 6`] = `
+Object {
+  "activeLayer": null,
+  "cache": Object {},
+  "cacheStatus": Object {},
+  "data": Array [],
+  "layersProgress": Object {},
+  "pendingCache": Object {},
+  "syncDate": Any<Number>,
+  "synced": false,
+  "syncing": false,
+}
+`;
