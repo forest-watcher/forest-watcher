@@ -32,8 +32,7 @@ type Props = {
   logout: () => void,
   isUnsafeLogout: boolean,
   setOfflineMode: () => void,
-  offlineMode: boolean,
-  showNotConnectedNotification: () => void
+  offlineMode: boolean
 };
 
 class Settings extends Component<Props> {
@@ -81,6 +80,7 @@ class Settings extends Component<Props> {
     tracker.trackScreenView('Settings');
   }
 
+  // eslint-disable-next-line react/no-deprecated
   componentWillReceiveProps(props: Props) {
     if (props.areas.length === 0 && props.loggedIn) {
       Navigation.push(this.props.componentId, {

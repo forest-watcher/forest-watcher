@@ -6,7 +6,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { downloadAreaById, resetCacheStatus, refreshAreaCacheById } from 'redux-modules/layers';
 import { showNotConnectedNotification } from 'redux-modules/app';
-import { shouldBeConnected } from 'helpers/app';
 import AreaCache from 'components/common/area-list/area-cache';
 
 const getAreaPendingCache = (areaId: string, pendingCache: LayersPendingCache) => Object.values(pendingCache)
@@ -19,7 +18,6 @@ function mapStateToProps(state: State, ownProps: { areaId: string }) {
   const cacheStatus = state.layers.cacheStatus[areaId];
   return {
     cacheStatus,
-    isConnected: shouldBeConnected(state),
     pendingCache: getAreaPendingCache(areaId, state.layers.pendingCache)
   };
 }

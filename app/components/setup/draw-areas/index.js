@@ -57,7 +57,7 @@ function getGeoJson(coordinates) {
 class DrawAreas extends Component {
   constructor(props) {
     super(props);
-    const intialCoords = this.props.country && this.props.country.centroid ? this.props.country.centroid.coordinates : [MAPS.lng, MAPS.lat];
+    //const intialCoords = this.props.country && this.props.country.centroid ? this.props.country.centroid.coordinates : [MAPS.lng, MAPS.lat];
 
     this.nextPress = false;
     this.mapReady = false;
@@ -68,12 +68,12 @@ class DrawAreas extends Component {
       shape: {
         coordinates: getGoogleMapsCoordinates(props.coordinates)
       },
-      region: {
+      /*region: {
         latitude: intialCoords[1],
         longitude: intialCoords[0],
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
-      }
+      }*/
     };
   }
 

@@ -21,8 +21,4 @@ function MapAttribution() {
   );
 }
 
-MapAttribution.propTypes = {
-  hasAlertsSelected: PropTypes.bool
-};
-
 export default MapAttribution;

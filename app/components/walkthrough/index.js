@@ -10,7 +10,7 @@ import StepsSlider from 'components/common/steps-slider';
 import Hyperlink from 'react-native-hyperlink';
 import { Navigation } from 'react-native-navigation';
 
-import SafeArea, { withSafeArea, type SafeAreaInsets } from 'react-native-safe-area';
+import SafeArea, { withSafeArea } from 'react-native-safe-area';
 
 import styles from './styles';
 
@@ -79,14 +79,14 @@ class Walkthrough extends PureComponent {
     // we can add additional padding to ensure the white background is extended
     // beyond the safe area.
     SafeArea.getSafeAreaInsetsForRootView().then(result => {
-      this.setState(state => ({
+      this.setState({
         bottomSafeAreaInset: result.safeAreaInsets.bottom
-      }));
+      });
     });
   }
 
   onPressBack = throttle(() => {
-    this.setState({ page: this.state.page - 1 });
+    this.setState(prevState => ({ page: prevState.page - 1 }));
   }, 300);
 
   onPressNext = throttle(() => {

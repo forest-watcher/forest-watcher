@@ -1,9 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import {
-  Alert, View, Text, TouchableHighlight, ScrollView, Image, ActivityIndicator, SafeAreaView
-} from 'react-native';
+import { Alert, View, Text, TouchableHighlight, ScrollView, Image, ActivityIndicator, SafeAreaView } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 import SafeArea from 'react-native-safe-area';
@@ -44,19 +42,17 @@ type Props = {
     loggedIn: boolean
   }) => void,
   version: string,
-  componentId: string,
+  componentId: string
 };
 
 type State = {
   webviewVisible: boolean,
   webViewUrl: string,
   webViewCurrenUrl: string,
-  webViewStatus: ?string,
   socialNetwork: ?string
 };
 
 class Login extends PureComponent<Props, State> {
-
   static options(passProps) {
     return {
       topBar: {
@@ -83,7 +79,6 @@ class Login extends PureComponent<Props, State> {
       webviewVisible: false,
       webViewUrl: '',
       webViewCurrenUrl: '',
-      webViewStatus: null,
       socialNetwork: null
     };
   }
@@ -144,8 +139,7 @@ class Login extends PureComponent<Props, State> {
 
   onNavigationStateChange = (navState: { url: string, title: string }) => {
     this.setState({
-      webViewCurrenUrl: navState.url,
-      webViewStatus: navState.title
+      webViewCurrenUrl: navState.url
     });
   };
 
@@ -162,9 +156,7 @@ class Login extends PureComponent<Props, State> {
   }
 
   ensureLogout() {
-    const {
-      logSuccess, logout, loggedIn
-    } = this.props;
+    const { logSuccess, logout, loggedIn } = this.props;
     if (!loggedIn && !logSuccess) {
       Alert.alert(i18n.t('commonText.error'), i18n.t('login.failed'), [{ text: 'OK', onPress: logout }]);
     }
@@ -187,14 +179,9 @@ class Login extends PureComponent<Props, State> {
 
   renderWebview() {
     return (
-      <View style={{flex: 1}}>
-        <View style={[styles.webViewHeader, { marginTop: -this.state.topSafeAreaInset, height: 40 + this.state.topSafeAreaInset}]}>
-          <TouchableHighlight
-            style={styles.webViewButtonClose}
-            onPress={this.closeWebview}
-            activeOpacity={0.8}
-            underlayColor="transparent"
-          >
+      <View style={{ flex: 1 }}>
+        <View style={[styles.webViewHeader, { marginTop: -this.state.topSafeAreaInset, height: 40 + this.state.topSafeAreaInset }]}>
+          <TouchableHighlight style={styles.webViewButtonClose} onPress={this.closeWebview} activeOpacity={0.8} underlayColor="transparent">
             <Text style={styles.webViewButtonCloseText}>x</Text>
           </TouchableHighlight>
           <Text style={[styles.webViewUrl]} ellipsizeMode="tail" numberOfLines={1}>
@@ -271,10 +258,10 @@ class Login extends PureComponent<Props, State> {
 
   render() {
     return (
-        <SafeAreaView style={{flex: 1}}>
-          { this.state.webviewVisible && this.renderWebview()}
-          { !this.state.webviewVisible && this.renderSignInPage()}
-        </SafeAreaView>
+      <SafeAreaView style={{ flex: 1 }}>
+        {this.state.webviewVisible && this.renderWebview()}
+        {!this.state.webviewVisible && this.renderSignInPage()}
+      </SafeAreaView>
     );
   }
 }

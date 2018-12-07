@@ -218,9 +218,11 @@ class MapComponent extends Component {
   }
 
   onCustomReportingPress = () => {
+    const region = this.state.region;
+
     this.setState({
       customReporting: true,
-      selectedAlerts: [this.state.region]
+      selectedAlerts: [region]
     });
   };
 
@@ -253,12 +255,12 @@ class MapComponent extends Component {
   setCompassLine = () => {
     this.setState(prevState => {
       const state = {};
-      if (prevState.selectedAlerts && prevState.selectedAlerts.length > 0 && this.state.lastPosition) {
-        const last = this.state.selectedAlerts.length - 1;
+      if (prevState.selectedAlerts && prevState.selectedAlerts.length > 0 && prevState.lastPosition) {
+        const last = prevState.selectedAlerts.length - 1;
         // extract not needed props
         // eslint-disable-next-line no-unused-vars
-        const { accuracy, altitude, speed, course, ...rest } = this.state.lastPosition;
-        state.compassLine = [{ ...rest }, { ...this.state.selectedAlerts[last] }];
+        const { accuracy, altitude, speed, course, ...rest } = prevState.lastPosition;
+        state.compassLine = [{ ...rest }, { ...prevState.selectedAlerts[last] }];
       }
       if (prevState.compassLine !== null && prevState.selectedAlerts.length === 0) {
         state.compassLine = null;
@@ -485,13 +487,15 @@ class MapComponent extends Component {
   onRegionChangeComplete = region => {
     const mapZoom = MapComponent.getMapZoom(region);
 
-    const selectedAlerts = this.state.customReporting && this.state.dragging ? [region] : this.state.selectedAlerts;
+    const { customReporting, dragging, selectedAlerts } = this.state;
+
+    const newSelectedAlerts = customReporting && dragging ? [region] : selectedAlerts;
 
     this.setState(
       {
         region,
         mapZoom,
-        selectedAlerts,
+        selectedAlerts: newSelectedAlerts,
         dragging: false
       },
       () => {
@@ -514,12 +518,12 @@ class MapComponent extends Component {
 
   selectAlert = coordinate => {
     if (coordinate && !this.state.customReporting) {
-      const { markers } = this.state;
-      const selectedAlerts = [...this.state.selectedAlerts, coordinate];
-      const neighbours = getNeighboursSelected(selectedAlerts, markers);
+      const { markers, selectedAlerts } = this.state;
+      const alertsToSelect = [...selectedAlerts, coordinate];
+      const neighbours = getNeighboursSelected(alertsToSelect, markers);
       this.setState({
         neighbours,
-        selectedAlerts
+        selectedAlerts: alertsToSelect
       });
     }
   };

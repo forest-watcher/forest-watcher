@@ -4,10 +4,7 @@ import type { Country } from 'types/countries.types';
 import type { ContextualLayer } from 'types/layers.types';
 
 import React, { Component } from 'react';
-import {
-  Image,
-  View
-} from 'react-native';
+import { Image, View } from 'react-native';
 
 import DrawAreas from 'components/setup/draw-areas';
 import Theme from 'config/theme';
@@ -22,12 +19,10 @@ type Props = {
   setSetupArea: ({ area: CountryArea, snapshot: string }) => void,
   coordinates: Array<Array<number>>,
   setupCountry: Country,
-  onNextPress: () => void,
   contextualLayer: ContextualLayer
 };
 
 class SetupBoundaries extends Component<Props> {
-
   static options(passProps) {
     return {
       topBar: {
@@ -74,11 +69,11 @@ class SetupBoundaries extends Component<Props> {
   onDrawAreaFinish = (area: CountryArea, snapshot: string) => {
     this.props.setSetupArea({ area, snapshot });
     Navigation.push(this.props.componentId, {
-        component: {
-          name: 'ForestWatcher.SetupOverview'
-        }
+      component: {
+        name: 'ForestWatcher.SetupOverview'
+      }
     });
-  }
+  };
 
   render() {
     return (

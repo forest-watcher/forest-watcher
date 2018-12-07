@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
   Text
@@ -12,9 +11,6 @@ import Theme from 'config/theme';
 import styles from './styles';
 
 class TermsAndConditions extends Component {
-  static propTypes = {
-    componentId: PropTypes.string.isRequired
-  };
 
   componentDidMount() {
     tracker.trackScreenView('TermsAndConditions');

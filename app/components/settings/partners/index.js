@@ -87,8 +87,4 @@ class Partners extends Component {
   }
 }
 
-Partners.propTypes = {
-  partners: PropTypes.array
-};
-
 export default Partners;
