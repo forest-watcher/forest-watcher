@@ -70,7 +70,9 @@ class SetupOverview extends Component {
           <View style={styles.selector}>
             <Text style={styles.selectorLabel}>{i18n.t('setupOverview.areaName')}</Text>
             <ScrollView scrollEnabled={false} style={styles.scrollContainImage}>
-              {this.props.snapshot !== '' && <Image resizeMode="cover" style={styles.image} source={{ uri: this.props.snapshot }} />}
+              {this.props.snapshot !== '' && (
+                <Image resizeMode="cover" style={styles.image} source={{ uri: this.props.snapshot }} />
+              )}
             </ScrollView>
             <View style={styles.searchContainer}>
               <TextInput
@@ -95,7 +97,12 @@ class SetupOverview extends Component {
             </View>
           </View>
           <ScrollView style={styles.scrollContainButton}>
-            <ActionButton style={styles.buttonPos} disabled={!btnEnabled} onPress={this.onNextPress} text={btnText.toUpperCase()} />
+            <ActionButton
+              style={styles.buttonPos}
+              disabled={!btnEnabled}
+              onPress={this.onNextPress}
+              text={btnText.toUpperCase()}
+            />
           </ScrollView>
         </View>
       </KeyboardAwareScrollView>
@@ -105,6 +112,7 @@ class SetupOverview extends Component {
 
 SetupOverview.propTypes = {
   area: PropTypes.object.isRequired,
+  componentId: PropTypes.string.isRequired,
   snapshot: PropTypes.string.isRequired,
   saveArea: PropTypes.func.isRequired,
   setSetupArea: PropTypes.func.isRequired,

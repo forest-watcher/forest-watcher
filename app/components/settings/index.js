@@ -1,8 +1,6 @@
 // @flow
 import type { Area } from 'types/areas.types';
 
-import Config from 'react-native-config';
-
 import React, { Component } from 'react';
 import { launchAppRoot } from 'main';
 import List from 'components/common/list';
@@ -19,8 +17,6 @@ import Row from 'components/common/row';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
 
-import checkConnectivity from 'helpers/networking';
-
 const plusIcon = require('assets/plus.png');
 
 type Props = {
@@ -32,8 +28,7 @@ type Props = {
   logout: () => void,
   isUnsafeLogout: boolean,
   setOfflineMode: () => void,
-  offlineMode: boolean,
-  showNotConnectedNotification: () => void
+  offlineMode: boolean
 };
 
 class Settings extends Component<Props> {
@@ -81,7 +76,7 @@ class Settings extends Component<Props> {
     tracker.trackScreenView('Settings');
   }
 
-  componentWillReceiveProps(props: Props) {
+  UNSAFE_componentWillReceiveProps(props: Props) {
     if (props.areas.length === 0 && props.loggedIn) {
       Navigation.push(this.props.componentId, {
         component: {
@@ -110,7 +105,7 @@ class Settings extends Component<Props> {
   };
 
   onLogoutPress = () => {
-    const { logout, componentId, isUnsafeLogout } = this.props;
+    const { logout, isUnsafeLogout } = this.props;
     const proceedWithLogout = () => {
       logout();
       launchAppRoot('ForestWatcher.Home');

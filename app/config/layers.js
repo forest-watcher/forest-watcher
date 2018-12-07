@@ -1,13 +1,14 @@
 export default {
   viirs: {
     endpoint: 'https://wri-01.carto.com/api/v1/map/',
-    layers: [{
-      user_name: 'wri-01',
-      type: 'cartodb',
-      options: {
-        sql: 'SELECT *, CURRENT_DATE-acq_date as date FROM vnp14imgtdl_nrt_global_7d order by date desc',
-        cartocss_version: '2.3.0',
-        cartocss: `#vnp14imgtdl_nrt_global_7d {
+    layers: [
+      {
+        user_name: 'wri-01',
+        type: 'cartodb',
+        options: {
+          sql: 'SELECT *, CURRENT_DATE-acq_date as date FROM vnp14imgtdl_nrt_global_7d order by date desc',
+          cartocss_version: '2.3.0',
+          cartocss: `#vnp14imgtdl_nrt_global_7d {
           marker-fill: transparent;
           marker-width: 1;
           marker-line-width: 0;
@@ -24,7 +25,8 @@ export default {
         #vnp14imgtdl_nrt_global_7d[date=5]{marker-fill: rgba(0,0,6,1);}
         #vnp14imgtdl_nrt_global_7d[date=6]{marker-fill: rgba(0,0,7,1);}
         #vnp14imgtdl_nrt_global_7d[date=7]{marker-fill: rgba(0,0,8,1);}`
+        }
       }
-    }]
+    ]
   }
 };

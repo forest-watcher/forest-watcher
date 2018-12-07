@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Switch
-} from 'react-native';
+import { Switch } from 'react-native';
 
 import Theme from 'config/theme';
 
@@ -11,7 +9,6 @@ function CustomSwitch(props) {
     <Switch
       value={props.value}
       onValueChange={props.onValueChange}
-      trackColor={Theme.colors.color6}
       trackColor={Theme.colors.color4}
       thumbColor={props.value ? props.colorOn : props.colorOff}
     />
@@ -19,8 +16,8 @@ function CustomSwitch(props) {
 }
 
 CustomSwitch.defaultProps = {
-  colorOn: Theme.colors.color1,
-  colorOff: Theme.colors.color4
+  colorOff: Theme.colors.color4,
+  colorOn: Theme.colors.color1
 };
 
 CustomSwitch.propTypes = {

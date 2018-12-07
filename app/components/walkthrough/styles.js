@@ -1,5 +1,5 @@
 import Theme from 'config/theme';
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   backing: {
@@ -9,7 +9,7 @@ export default StyleSheet.create({
   contentContainer: {
     flex: 1,
     width: Theme.screen.width,
-    height: Theme.screen.height,
+    height: Theme.screen.height
   },
   slideContainer: {
     flex: 1,

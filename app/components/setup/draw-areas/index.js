@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Image, Text, Dimensions, TouchableHighlight, Platform } from 'react-native';
+import { View, Image, Text, TouchableHighlight, Platform } from 'react-native';
 
 import { MAPS, AREAS } from 'config/constants';
 import MapView from 'react-native-maps';
@@ -16,11 +16,6 @@ import styles from './styles';
 
 const geojsonArea = require('@mapbox/geojson-area');
 
-const { width, height } = Dimensions.get('window');
-
-const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 15;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const edgePadding = { top: 180, right: 85, bottom: 180, left: 85 };
 
 const footerBackgroundImage = require('assets/map_bg_gradient.png');
@@ -57,8 +52,6 @@ function getGeoJson(coordinates) {
 class DrawAreas extends Component {
   constructor(props) {
     super(props);
-    const intialCoords = this.props.country && this.props.country.centroid ? this.props.country.centroid.coordinates : [MAPS.lng, MAPS.lat];
-
     this.nextPress = false;
     this.mapReady = false;
     this.state = {
@@ -67,12 +60,6 @@ class DrawAreas extends Component {
       loading: false,
       shape: {
         coordinates: getGoogleMapsCoordinates(props.coordinates)
-      },
-      region: {
-        latitude: intialCoords[1],
-        longitude: intialCoords[0],
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA
       }
     };
   }
@@ -144,7 +131,9 @@ class DrawAreas extends Component {
     if (coordinates && coordinates.length > 1) {
       this.setState({ loading: true });
       const snapshotPadding =
-        Platform.OS === 'ios' ? { top: 280, right: 80, bottom: 360, left: 80 } : { top: 560, right: 160, bottom: 720, left: 160 };
+        Platform.OS === 'ios'
+          ? { top: 280, right: 80, bottom: 360, left: 80 }
+          : { top: 560, right: 160, bottom: 720, left: 160 };
       this.map.fitToCoordinates(coordinates, {
         edgePadding: snapshotPadding,
         animated: true
@@ -261,7 +250,9 @@ class DrawAreas extends Component {
     const { coordinates } = shape;
     const markers = parseCoordinates(coordinates);
     const ctxLayerKey =
-      Platform.OS === 'ios' && contextualLayer ? `contextualLayerElement-${contextualLayer.name}` : 'contextualLayerElement';
+      Platform.OS === 'ios' && contextualLayer
+        ? `contextualLayerElement-${contextualLayer.name}`
+        : 'contextualLayerElement';
 
     return (
       <View style={styles.container}>
@@ -292,7 +283,13 @@ class DrawAreas extends Component {
             />
           )}
           {markers.length > 0 && coordinates.length > 1 && (
-            <MapView.Polyline key={'line'} coordinates={markers} strokeColor={Theme.polygon.strokeSelected} strokeWidth={2} zIndex={2} />
+            <MapView.Polyline
+              key={'line'}
+              coordinates={markers}
+              strokeColor={Theme.polygon.strokeSelected}
+              strokeWidth={2}
+              zIndex={2}
+            />
           )}
           {markers.length >= 0 &&
             markers.map(marker => {
@@ -326,6 +323,7 @@ class DrawAreas extends Component {
 }
 
 DrawAreas.propTypes = {
+  coordinates: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
   country: PropTypes.shape({
     iso: PropTypes.string.isRequired,
     bbox: PropTypes.object,

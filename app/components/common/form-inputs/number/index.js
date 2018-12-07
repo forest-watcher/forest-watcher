@@ -2,11 +2,7 @@
 import type { Question, Answer } from 'types/reports.types';
 
 import React from 'react';
-import {
-  View,
-  Text,
-  TextInput
-} from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import Theme from 'config/theme';
@@ -15,7 +11,7 @@ import styles from '../styles';
 type Props = {
   question: Question,
   answer: Answer,
-  onChange: (string) => void,
+  onChange: string => void
 };
 
 function InputNumber(props: Props) {

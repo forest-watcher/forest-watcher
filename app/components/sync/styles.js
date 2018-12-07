@@ -42,7 +42,7 @@ export default StyleSheet.create({
     marginLeft: 8
   },
   button: {
-    alignSelf: "stretch",
+    alignSelf: 'stretch',
     marginHorizontal: 16
   },
   groupButton: {

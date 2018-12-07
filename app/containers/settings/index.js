@@ -20,11 +20,15 @@ function mapStateToProps(state: State) {
   };
 }
 
-const mapDispatchToProps = (dispatch: *) => bindActionCreators({
-  logout,
-  setOfflineMode,
-  showNotConnectedNotification
-}, dispatch);
+const mapDispatchToProps = (dispatch: *) =>
+  bindActionCreators(
+    {
+      logout,
+      setOfflineMode,
+      showNotConnectedNotification
+    },
+    dispatch
+  );
 
 export default connect(
   mapStateToProps,

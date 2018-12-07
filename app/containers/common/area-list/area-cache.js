@@ -6,12 +6,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { downloadAreaById, resetCacheStatus, refreshAreaCacheById } from 'redux-modules/layers';
 import { showNotConnectedNotification } from 'redux-modules/app';
-import { shouldBeConnected } from 'helpers/app';
 import AreaCache from 'components/common/area-list/area-cache';
 
-const getAreaPendingCache = (areaId: string, pendingCache: LayersPendingCache) => Object.values(pendingCache)
+const getAreaPendingCache = (areaId: string, pendingCache: LayersPendingCache) =>
+  Object.values(pendingCache)
     // $FlowFixMe
-    .map((areas) => (typeof areas[areaId] !== 'undefined' ? 1 : 0))
+    .map(areas => (typeof areas[areaId] !== 'undefined' ? 1 : 0))
     .reduce((acc, next) => acc + next, 0);
 
 function mapStateToProps(state: State, ownProps: { areaId: string }) {
@@ -19,17 +19,20 @@ function mapStateToProps(state: State, ownProps: { areaId: string }) {
   const cacheStatus = state.layers.cacheStatus[areaId];
   return {
     cacheStatus,
-    isConnected: shouldBeConnected(state),
     pendingCache: getAreaPendingCache(areaId, state.layers.pendingCache)
   };
 }
 
-const mapDispatchToProps = (dispatch: *) => bindActionCreators({
-  downloadAreaById,
-  resetCacheStatus,
-  refreshAreaCacheById,
-  showNotConnectedNotification
-}, dispatch);
+const mapDispatchToProps = (dispatch: *) =>
+  bindActionCreators(
+    {
+      downloadAreaById,
+      resetCacheStatus,
+      refreshAreaCacheById,
+      showNotConnectedNotification
+    },
+    dispatch
+  );
 
 export default connect(
   mapStateToProps,

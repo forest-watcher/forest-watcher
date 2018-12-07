@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Modal,
-  View,
-  Text,
-  Image,
-  StatusBar,
-  TouchableHighlight
-} from 'react-native';
+import { Modal, View, Text, Image, StatusBar, TouchableHighlight } from 'react-native';
 
 import Theme from 'config/theme';
 import styles from './styles';
@@ -38,19 +31,9 @@ class MapModal extends Component {
         onRequestClose={() => this.close()}
         hardwareAccelerated
       >
-        <View
-          style={styles.header}
-          pointerEvents={'none'}
-        >
-          <Image
-            style={styles.headerBg}
-            source={headerBackgroundImage}
-          />
-          <Text
-            style={styles.headerTitle}
-          >
-            {this.props.title}
-          </Text>
+        <View style={styles.header} pointerEvents={'none'}>
+          <Image style={styles.headerBg} source={headerBackgroundImage} />
+          <Text style={styles.headerTitle}>{this.props.title}</Text>
         </View>
         <TouchableHighlight
           style={styles.closeIcon}
@@ -60,10 +43,7 @@ class MapModal extends Component {
         >
           <Image style={Theme.icon} source={closeImage} />
         </TouchableHighlight>
-        {this.props.visible
-          ? this.props.children
-          : null
-        }
+        {this.props.visible ? this.props.children : null}
       </Modal>
     );
   }

@@ -15,12 +15,16 @@ function mapStateToProps(state: State) {
   };
 }
 
-const mapDispatchToProps = (dispatch: *) => bindActionCreators({
-  logout,
-  googleLogin,
-  facebookLogin,
-  setLoginAuth
-}, dispatch);
+const mapDispatchToProps = (dispatch: *) =>
+  bindActionCreators(
+    {
+      logout,
+      googleLogin,
+      facebookLogin,
+      setLoginAuth
+    },
+    dispatch
+  );
 
 export default connect(
   mapStateToProps,

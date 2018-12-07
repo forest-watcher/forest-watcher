@@ -21,9 +21,13 @@ function mapStateToProps(state: State) {
   };
 }
 
-const mapDispatchToProps = (dispatch: *) => bindActionCreators({
-  retrySync
-}, dispatch);
+const mapDispatchToProps = (dispatch: *) =>
+  bindActionCreators(
+    {
+      retrySync
+    },
+    dispatch
+  );
 
 export default connect(
   mapStateToProps,

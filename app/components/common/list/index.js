@@ -1,12 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  ScrollView,
-  Image,
-  TouchableHighlight,
-  Text
-} from 'react-native';
+import { View, ScrollView, Image, TouchableHighlight, Text } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 import styles from './styles';
@@ -26,7 +20,7 @@ function onPress(data) {
 function List(props) {
   return (
     <ScrollView>
-      { props.content.map((data, key) => (
+      {props.content.map((data, key) => (
         <TouchableHighlight
           key={`link-${key}`}
           onPress={() => onPress(data)}
@@ -38,21 +32,10 @@ function List(props) {
             style={props.bigSeparation ? [styles.container, styles.containerBigSeparation] : [styles.container]}
           >
             <View style={data.text ? styles.containerImageText : styles.containerOnlyImage}>
-              {data.image &&
-                <FastImage
-                  style={styles.imageList}
-                  source={data.image}
-                  resizeMode={"contain"}
-                />
-              }
-              {data.text &&
-                <Text style={styles.text}>{data.text}</Text>
-              }
+              {data.image && <FastImage style={styles.imageList} source={data.image} resizeMode={'contain'} />}
+              {data.text && <Text style={styles.text}>{data.text}</Text>}
             </View>
-            <Image
-              style={styles.nextIcon}
-              source={nextImage}
-            />
+            <Image style={styles.nextIcon} source={nextImage} />
           </View>
         </TouchableHighlight>
       ))}

@@ -103,7 +103,7 @@ export default StyleSheet.create({
     borderBottomColor: Theme.colors.color6,
     ...Platform.select({
       ios: {
-        zIndex: 1,
+        zIndex: 1
       },
       android: {
         height: 44
@@ -115,7 +115,8 @@ export default StyleSheet.create({
     paddingRight: 10,
     alignItems: 'center',
     ...Platform.select({
-      android: { // todo: check how this behaves on Android, now absolute positioning has been purged.
+      android: {
+        // todo: check how this behaves on Android, now absolute positioning has been purged.
         top: 4
       }
     })

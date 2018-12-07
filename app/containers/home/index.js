@@ -18,10 +18,14 @@ function mapStateToProps(state: State) {
   };
 }
 
-const mapDispatchToProps = (dispatch: *) => bindActionCreators({
-  syncApp,
-  setAppSynced
-}, dispatch);
+const mapDispatchToProps = (dispatch: *) =>
+  bindActionCreators(
+    {
+      syncApp,
+      setAppSynced
+    },
+    dispatch
+  );
 
 export default connect(
   mapStateToProps,

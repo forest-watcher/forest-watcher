@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/default
 import codePush from 'react-native-code-push';
 import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
@@ -32,7 +33,6 @@ const app = async () => {
   registerScreens(store, Provider);
 
   async function startApp() {
-
     const state = store.getState();
     let screen = 'ForestWatcher.Home';
     if (state.user.loggedIn && state.app.synced) {

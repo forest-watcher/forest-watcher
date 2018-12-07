@@ -47,7 +47,7 @@ export default function reducer(state: AlertsState = initialState, action: Alert
       let reported = [...state.reported];
 
       if (alerts && alerts.length) {
-        alerts.forEach((alert) => {
+        alerts.forEach(alert => {
           reported = [...reported, `${alert.lon}${alert.lat}`];
         }, this);
       }
@@ -92,12 +92,14 @@ export function saveAlertsToDb(areaId: string, slug: string, alerts: string, ran
   if (alerts && alerts.length > 0) {
     const realm = initDb();
     if (range) {
-      const daysFromRange = CONSTANTS.areas.alertRange[slug] - range > 0
-        ? CONSTANTS.areas.alertRange[slug] - range
-        : range; // just in case we are more outdated than a year
-      const oldAlertsRange = moment().subtract(daysFromRange, 'days').valueOf();
-      const existingAlerts = read(realm, 'Alert')
-        .filtered(`areaId = '${areaId}' AND slug = '${slug}' AND date < '${oldAlertsRange}'`);
+      const daysFromRange =
+        CONSTANTS.areas.alertRange[slug] - range > 0 ? CONSTANTS.areas.alertRange[slug] - range : range; // just in case we are more outdated than a year
+      const oldAlertsRange = moment()
+        .subtract(daysFromRange, 'days')
+        .valueOf();
+      const existingAlerts = read(realm, 'Alert').filtered(
+        `areaId = '${areaId}' AND slug = '${slug}' AND date < '${oldAlertsRange}'`
+      );
       if (existingAlerts.length > 0) {
         try {
           realm.write(() => {
@@ -110,7 +112,7 @@ export function saveAlertsToDb(areaId: string, slug: string, alerts: string, ran
     }
     const alertsArray = d3Dsv.csvParse(alerts);
     realm.write(() => {
-      alertsArray.forEach((alert) => {
+      alertsArray.forEach(alert => {
         realm.create('Alert', {
           slug,
           areaId,
@@ -130,7 +132,6 @@ export function resetAlertsDb() {
     realm.delete(allAlerts);
   });
 }
-
 
 // Action Creators
 export function setCanDisplayAlerts(canDisplay: boolean) {
@@ -159,4 +160,3 @@ export function getAreaAlerts(area: Area, datasetSlug: string, range: number) {
     }
   };
 }
-

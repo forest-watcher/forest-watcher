@@ -2,10 +2,7 @@
 
 import React from 'react';
 import i18n from 'locales';
-import {
-  View,
-  Text
-} from 'react-native';
+import { View, Text } from 'react-native';
 
 import geokdbush from 'geokdbush';
 import { formatCoordsByFormat } from 'helpers/map';
@@ -21,12 +18,7 @@ type Props = {
 };
 
 function AlertPosition(props: Props) {
-  const {
-    alertSelected,
-    lastPosition,
-    coordinatesFormat,
-    kmThreshold
-  } = props;
+  const { alertSelected, lastPosition, coordinatesFormat, kmThreshold } = props;
 
   let distanceText = '';
   let positionText = '';
@@ -42,7 +34,7 @@ function AlertPosition(props: Props) {
     distance = meters.toFixed(0);
     distanceText = `${distance} ${i18n.t('commonText.metersAway')}`;
 
-    if (kmThreshold && meters >= (kmThreshold * 1000)) {
+    if (kmThreshold && meters >= kmThreshold * 1000) {
       distance = (meters / 1000).toFixed(1); // in Kilometers
       distanceText = `${distance} ${i18n.t('commonText.kmAway')}`;
     }
@@ -51,12 +43,8 @@ function AlertPosition(props: Props) {
   return (
     <View style={styles.container} pointerEvents="none">
       <View pointerEvents="none" style={[styles.currentPositionContainer, styles.footerZIndex]}>
-        <Text style={styles.coordinateDistanceText}>
-          {positionText}
-        </Text>
-        <Text style={styles.coordinateDistanceText}>
-          {distanceText}
-        </Text>
+        <Text style={styles.coordinateDistanceText}>{positionText}</Text>
+        <Text style={styles.coordinateDistanceText}>{distanceText}</Text>
       </View>
     </View>
   );

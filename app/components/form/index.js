@@ -4,7 +4,6 @@ import type { Question, Answer } from 'types/reports.types';
 import React, { Component } from 'react';
 import i18n from 'locales';
 import { View } from 'react-native';
-import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import styles from 'components/form/styles';
 import ActionButton from 'components/common/action-button';
@@ -23,12 +22,10 @@ type Props = {
   text: string,
   setReportAnswer: (string, Answer, boolean) => void,
   componentId: string,
-  questionIndex: ?number,
   editMode: boolean
 };
 
 class Form extends Component<Props> {
-
   static options(passProps) {
     return {
       topBar: {
@@ -47,7 +44,7 @@ class Form extends Component<Props> {
     return this.props.answer !== nextProps.answer;
   }
 
-  onChange = (answer) => {
+  onChange = answer => {
     const { setReportAnswer, reportName, updateOnly } = this.props;
     setReportAnswer(reportName, answer, updateOnly);
   };
@@ -114,14 +111,7 @@ class Form extends Component<Props> {
     const Next = isBlob ? NextButton : ActionButton;
     const style = isBlob ? styles.buttonNextPos : styles.buttonPos;
 
-    return (
-      <Next
-        style={style}
-        disabled={disabled}
-        onPress={this.onSubmit}
-        text={!isBlob && text}
-      />
-    );
+    return <Next style={style} disabled={disabled} onPress={this.onSubmit} text={!isBlob && text} />;
   }
 
   render() {
@@ -129,13 +119,7 @@ class Form extends Component<Props> {
     return (
       <View style={styles.container}>
         <View style={styles.backgroundHack} />
-        {question && (
-          <FormField
-            question={question}
-            answer={answer}
-            onChange={this.onChange}
-          />
-        )}
+        {question && <FormField question={question} answer={answer} onChange={this.onChange} />}
         {this.getNext(question, questionAnswered, text)}
       </View>
     );

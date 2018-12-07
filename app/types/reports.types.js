@@ -14,14 +14,14 @@ export type Question = {
   values?: Array<any>,
   order: number,
   required: boolean,
-  label: { [string]: string },
-}
+  label: { [string]: string }
+};
 
 export type Answer = {
   questionName: string,
   value: any,
   child?: ?Answer
-}
+};
 
 export type Template = {
   name: {
@@ -36,7 +36,7 @@ export type Template = {
   public: boolean,
   status: 'unpublished' | 'published',
   id: string
-}
+};
 
 export type Report = {
   name: string,
@@ -58,7 +58,7 @@ export type ReportsState = {
   },
   synced: boolean,
   syncing: boolean
-}
+};
 
 export type GetDefaultTemplateRequest = { type: 'report/GET_DEFAULT_TEMPLATE_REQUEST' };
 export type GetDefaultTemplateCommit = { type: 'report/GET_DEFAULT_TEMPLATE_COMMIT', payload: Template };
@@ -68,18 +68,21 @@ export type CreateReport = {
   type: 'report/CREATE_REPORT',
   payload: {
     [string]: Report
-  };
+  }
 };
 export type DeleteReport = { type: 'report/DELETE_REPORT', payload: { reportName: string } };
 export type UpdateReport = { type: 'report/UPDATE_REPORT', payload: { name: string, data: Report } };
-export type SetReportAnswer = { type: 'report/SET_REPORT_ANSWER', payload: { reportName: string, answer: Answer, updateOnly?: boolean } };
+export type SetReportAnswer = {
+  type: 'report/SET_REPORT_ANSWER',
+  payload: { reportName: string, answer: Answer, updateOnly?: boolean }
+};
 
 export type UploadReportRequest = {
   type: 'report/UPLOAD_REPORT_REQUEST',
   payload: {
     name: string,
     status: 'complete',
-    alerts: Array<{ lon: number, lat: number}>
+    alerts: Array<{ lon: number, lat: number }>
   },
   meta: OfflineMeta
 };

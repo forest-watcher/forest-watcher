@@ -1,8 +1,6 @@
 // @flow
 import PropTypes from 'prop-types';
-import {
-  Alert
-} from 'react-native';
+import { Alert } from 'react-native';
 
 import CONSTANTS from 'config/constants';
 import i18n from 'locales';
@@ -31,10 +29,15 @@ function withDraft(WrappedComponent: any) {
         ...(wrappedOptions || {}),
         topBar: {
           ...(wrappedOptions?.topBar || {}),
-          rightButtons: passProps.disableDraft ? (wrappedOptions?.topBar?.rightButtons || []) : [...(wrappedOptions?.topBar?.rightButtons || []), {
-            id: 'draft',
-            icon: saveReportIcon
-          }]
+          rightButtons: passProps.disableDraft
+            ? wrappedOptions?.topBar?.rightButtons || []
+            : [
+                ...(wrappedOptions?.topBar?.rightButtons || []),
+                {
+                  id: 'draft',
+                  icon: saveReportIcon
+                }
+              ]
         }
       };
     }

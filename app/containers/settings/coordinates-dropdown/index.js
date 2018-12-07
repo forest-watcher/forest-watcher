@@ -15,9 +15,12 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    onValueChange: setCoordinatesFormat
-  }, dispatch);
+  return bindActionCreators(
+    {
+      onValueChange: setCoordinatesFormat
+    },
+    dispatch
+  );
 }
 
 export default connect(

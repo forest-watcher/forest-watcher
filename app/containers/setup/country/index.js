@@ -17,10 +17,13 @@ function mapStateToProps(state: State) {
 }
 
 function mapDispatchToProps(dispatch: *) {
-  return bindActionCreators({
-    logout,
-    setSetupCountry
-  }, dispatch);
+  return bindActionCreators(
+    {
+      logout,
+      setSetupCountry
+    },
+    dispatch
+  );
 }
 
 export default connect(

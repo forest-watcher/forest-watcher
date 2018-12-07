@@ -2,12 +2,7 @@
 import type { Answer } from 'types/reports.types';
 
 import React, { Component } from 'react';
-import {
-  Text,
-  View,
-  Image,
-  TouchableHighlight
-} from 'react-native';
+import { Text, View, Image, TouchableHighlight } from 'react-native';
 
 import ImageCard from 'components/common/image-card';
 import i18n from 'locales';
@@ -22,14 +17,16 @@ const deleteIcon = require('assets/delete_red.png');
 
 type Props = {
   answer: Answer,
-  onChange: (Answer) => void,
+  onChange: Answer => void
 };
 
 class ImageBlobInput extends Component<Props> {
-  actions = [{
-    callback: this.removePicture,
-    icon: deleteIcon
-  }];
+  actions = [
+    {
+      callback: this.removePicture,
+      icon: deleteIcon
+    }
+  ];
 
   componentDidMount() {
     const imagePath = this.props.answer.value;
@@ -54,50 +51,48 @@ class ImageBlobInput extends Component<Props> {
         cameraRoll: true
       }
     };
-    ImagePicker.showImagePicker(options, (response) => {
+    ImagePicker.showImagePicker(options, response => {
       if (response.error) {
         console.warn(response.error);
       } else if (response.uri) {
         this.handlePress(response.uri);
       }
     });
-  }
+  };
 
   removePicture = () => {
     this.handlePress('');
-  }
+  };
 
   handlePress = (value: string) => {
     const { answer, onChange } = this.props;
     if (value !== answer.value) {
       onChange({ ...answer, value });
     }
-  }
+  };
 
   render() {
     const imagePath = this.props.answer.value;
     return (
       <View style={styles.container}>
         <View style={styles.preview}>
-          {imagePath
-            ? (
-              <ImageCard
-                id={'imagePreview'}
-                key={1}
-                name={'imagePreview'}
-                actions={this.actions}
-                uri={imagePath}
-                width={Theme.screen.width - 48}
-                height={416}
-              />
-            )
-            : <Text style={styles.captureLabel}>{i18n.t('report.choosePicture')}</Text>
-          }
+          {imagePath ? (
+            <ImageCard
+              id={'imagePreview'}
+              key={1}
+              name={'imagePreview'}
+              actions={this.actions}
+              uri={imagePath}
+              width={Theme.screen.width - 48}
+              height={416}
+            />
+          ) : (
+            <Text style={styles.captureLabel}>{i18n.t('report.choosePicture')}</Text>
+          )}
         </View>
         <TouchableHighlight
           style={styles.leftBtn}
           onPress={this.launchCamera}
-
           activeOpacity={0.8}
           underlayColor={Theme.background.white}
         >

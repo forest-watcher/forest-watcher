@@ -1,11 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  Text,
-  Image,
-  TouchableHighlight
-} from 'react-native';
+import { View, Text, Image, TouchableHighlight } from 'react-native';
 
 import Theme from 'config/theme';
 import styles from './styles';
@@ -51,10 +46,7 @@ function ActionButton(props) {
     props.delete ? styles.buttonTextError : ''
   ];
 
-  const arrowIconStyles = [
-    Theme.icon,
-    props.short ? styles.shortIcon : ''
-  ];
+  const arrowIconStyles = [Theme.icon, props.short ? styles.shortIcon : ''];
 
   let arrowIcon = nextIconWhite;
   let underlayColor = Theme.background.secondary;
@@ -76,17 +68,17 @@ function ActionButton(props) {
       underlayColor={underlayColor}
     >
       <View style={btnStyles}>
-        {icons[props.icon] &&
+        {icons[props.icon] && (
           <View style={styles.iconContainer}>
             <Image style={Theme.icon} source={icons[props.icon]} />
           </View>
-        }
+        )}
         {props.text && <Text style={textStyles}>{props.text.toUpperCase()}</Text>}
-        {!(props.disabled || props.delete || props.noIcon) &&
+        {!(props.disabled || props.delete || props.noIcon) && (
           <View style={styles.iconContainer}>
             <Image style={arrowIconStyles} source={arrowIcon} />
           </View>
-        }
+        )}
       </View>
     </TouchableHighlight>
   );

@@ -12,48 +12,20 @@ import styles from './styles';
 import { launchAppRoot } from '../../../main';
 
 const backIcon = require('assets/previous.png');
-const layersIcon = require('assets/layers.png');
-
-function renderLoading() {
-  return (
-    <View style={[styles.container, styles.center]}>
-      <ActivityIndicator color={Theme.colors.color1} style={{ height: 80 }} size={'large'} />
-    </View>
-  );
-}
-
-function getCountrySelected(countries, iso) {
-  for (let i = 0, length = countries.length; i < length; i++) {
-    if (countries[i].iso === iso) {
-      return {
-        label: countries[i].name,
-        id: iso
-      };
-    }
-  }
-  return { label: '', id: iso };
-}
-
-function getCurrentCountry(countries, iso) {
-  for (let i = 0, length = countries.length; i < length; i++) {
-    if (countries[i].iso === iso) {
-      return countries[i];
-    }
-  }
-  return { label: '', id: iso };
-}
 
 class SetupCountry extends Component {
   static options(passProps) {
     return {
       topBar: {
-        leftButtons: passProps.goBackDisabled ? [
-          {
-            id: 'logout',
-            text: "Logout",
-            icon: backIcon
-          }
-        ] : undefined,
+        leftButtons: passProps.goBackDisabled
+          ? [
+              {
+                id: 'logout',
+                text: 'Logout',
+                icon: backIcon
+              }
+            ]
+          : undefined,
         title: {
           text: i18n.t('commonText.setup')
         }
@@ -61,7 +33,7 @@ class SetupCountry extends Component {
     };
   }
 
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
     Navigation.events().bindComponent(this);
   }
@@ -77,16 +49,45 @@ class SetupCountry extends Component {
     }
   }
 
+  renderLoading() {
+    return (
+      <View style={[styles.container, styles.center]}>
+        <ActivityIndicator color={Theme.colors.color1} style={{ height: 80 }} size={'large'} />
+      </View>
+    );
+  }
+
+  getCountrySelected(countries, iso) {
+    for (let i = 0, length = countries.length; i < length; i++) {
+      if (countries[i].iso === iso) {
+        return {
+          label: countries[i].name,
+          id: iso
+        };
+      }
+    }
+    return { label: '', id: iso };
+  }
+
+  getCurrentCountry(countries, iso) {
+    for (let i = 0, length = countries.length; i < length; i++) {
+      if (countries[i].iso === iso) {
+        return countries[i];
+      }
+    }
+    return { label: '', id: iso };
+  }
+
   onNextPress = () => {
     const { componentId, setupCountry, countries, user } = this.props;
     if (!(setupCountry && setupCountry.iso) && user.country) {
-      const currentCountry = getCurrentCountry(countries, user.country);
+      const currentCountry = this.getCurrentCountry(countries, user.country);
       this.props.setSetupCountry(currentCountry);
     }
     Navigation.push(componentId, {
-        component: {
-          name: 'ForestWatcher.SetupBoundaries'
-        }
+      component: {
+        name: 'ForestWatcher.SetupBoundaries'
+      }
     });
   };
 
@@ -107,7 +108,7 @@ class SetupCountry extends Component {
           <View style={styles.selector}>
             <Text style={styles.selectorLabel}>{i18n.t('setupCountry.firstInstruction')}</Text>
             <SearchSelector
-              selected={getCountrySelected(countries, iso)}
+              selected={this.getCountrySelected(countries, iso)}
               onOptionSelected={setSetupCountry}
               data={countries}
               placeholder={i18n.t('countries.searchPlaceholder')}
@@ -123,7 +124,7 @@ class SetupCountry extends Component {
         </View>
       );
     }
-    return renderLoading();
+    return this.renderLoading();
   }
 }
 
@@ -132,7 +133,8 @@ SetupCountry.propTypes = {
   user: PropTypes.any,
   setupCountry: PropTypes.any,
   countries: PropTypes.any,
-  setSetupCountry: PropTypes.func.isRequired
+  setSetupCountry: PropTypes.func.isRequired,
+  componentId: PropTypes.string.isRequired
 };
 
 export default SetupCountry;

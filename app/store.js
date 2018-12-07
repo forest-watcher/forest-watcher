@@ -11,8 +11,7 @@ import { reactotronRedux } from 'reactotron-redux'; // eslint-disable-line
 import { rootSaga } from 'sagas';
 
 if (__DEV__) {
-  Reactotron
-    .configure()
+  Reactotron.configure()
     .use(reactotronRedux())
     .use(sagaPlugin())
     .use(trackGlobalErrors())
@@ -27,26 +26,26 @@ if (__DEV__) {
 const sagaMonitor = __DEV__ && Reactotron.createSagaMonitor();
 const sagaMiddleware = createSagaMiddleware({ sagaMonitor });
 
-const authMiddleware = ({ getState }) => next => action => (
-  action && action.type && action.type.endsWith('REQUEST') ? next({ ...action, auth: getState().user.token }) : next(action)
-);
+const authMiddleware = ({ getState }) => next => action =>
+  action && action.type && action.type.endsWith('REQUEST')
+    ? next({ ...action, auth: getState().user.token })
+    : next(action);
 
 const middlewareList = [thunk, authMiddleware, sagaMiddleware];
 
 function createAppStore(startApp) {
   let storeCreator = createStore;
-  const {
-    middleware: offlineMiddleware,
-    enhanceReducer,
-    enhanceStore
-  } = offline({ persistCallback: startApp });
+  const { middleware: offlineMiddleware, enhanceReducer, enhanceStore } = offline({ persistCallback: startApp });
   const middleware = applyMiddleware(...middlewareList, offlineMiddleware);
   if (__DEV__) {
     storeCreator = Reactotron.createStore;
   }
   return storeCreator(
     enhanceReducer(combinedReducer),
-    compose(enhanceStore, middleware)
+    compose(
+      enhanceStore,
+      middleware
+    )
   );
 }
 

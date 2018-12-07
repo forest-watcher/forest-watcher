@@ -1,15 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import {
-  View,
-  ScrollView,
-  Text,
-  Linking
-} from 'react-native';
+import { View, ScrollView, Text, Linking } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
 
 import i18n from 'locales';
-import Theme from 'config/theme';
 import List from 'components/common/list';
 import styles from './styles';
 
@@ -60,9 +53,9 @@ class Partners extends Component {
     tracker.trackScreenView('Partners');
   }
 
-  handleLink = (url) => {
+  handleLink = url => {
     Linking.openURL(url);
-  }
+  };
 
   render() {
     return (
@@ -81,14 +74,12 @@ class Partners extends Component {
             {i18n.t('partners.listOfPartners')}
           </Text>
         </View>
-        <List content={this.partners} bigSeparation={false}>{}</List>
+        <List content={this.partners} bigSeparation={false}>
+          {}
+        </List>
       </ScrollView>
     );
   }
 }
-
-Partners.propTypes = {
-  partners: PropTypes.array
-};
 
 export default Partners;

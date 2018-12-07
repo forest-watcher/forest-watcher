@@ -131,7 +131,7 @@
     "arrowParens": "avoid",
     "bracketSpacing": true,
     "jsxBracketSameLine": false,
-    "printWidth": 140,
+    "printWidth": 120,
     "semi": true,
     "singleQuote": true,
     "tabWidth": 2,
@@ -187,8 +187,13 @@
           ]
         }
       ],
-      "no-unused-vars": "warn",
-      "prettier/prettier": "off",
+      "no-unused-vars": [
+        "warn",
+        {
+          "args": "none"
+        }
+      ],
+      "prettier/prettier": "warn",
       "react/default-props-match-prop-types": [
         "warn",
         {
@@ -213,9 +218,9 @@
       "react/jsx-no-literals": "off",
       "react/jsx-sort-default-props": "warn",
       "react/jsx-sort-props": "off",
-      "react/no-array-index-key": "warn",
+      "react/no-array-index-key": "off",
       "react/no-set-state": "off",
-      "react/no-unused-proptypes": "warn",
+      "react/no-unsafe": "warn",
       "react/prefer-stateless-function": "off",
       "react/prop-types": "warn",
       "react/require-default-props": "off",

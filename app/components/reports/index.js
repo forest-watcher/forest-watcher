@@ -1,16 +1,11 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import {
-  View,
-  Text,
-  ScrollView
-} from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 
 import Row from 'components/common/row';
 import moment from 'moment';
 import i18n from 'locales';
-import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
@@ -34,7 +29,6 @@ type Props = {
 };
 
 class Reports extends PureComponent<Props> {
-
   static options(passProps) {
     return {
       topBar: {
@@ -71,7 +65,7 @@ class Reports extends PureComponent<Props> {
     });
   }
 
-  static renderSection(title: string, ...options: [Array<ReportItem>, any, string => void]) {
+  static renderSection(title: string, ...options: [Array<ReportItem>, any, (string) => void]) {
     return (
       <View style={styles.listContainer}>
         <View style={styles.listHeader}>
@@ -86,26 +80,28 @@ class Reports extends PureComponent<Props> {
     tracker.trackScreenView('My Reports');
   }
 
-  onClickNext = (reportName: string) => Navigation.push(this.props.componentId, {
-    component: {
-      name: 'ForestWatcher.Answers',
-      passProps: {
-        reportName,
-        readOnly: true
+  onClickNext = (reportName: string) =>
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.Answers',
+        passProps: {
+          reportName,
+          readOnly: true
+        }
       }
-    }
-  });
+    });
 
-  onClickUpload = (reportName: string) => Navigation.push(this.props.componentId, {
-    component: {
-      name: 'ForestWatcher.Answers',
-      passProps: {
-        reportName,
-        readOnly: true,
-        showUploadButton: true
+  onClickUpload = (reportName: string) =>
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.Answers',
+        passProps: {
+          reportName,
+          readOnly: true,
+          showUploadButton: true
+        }
       }
-    }
-  });
+    });
 
   getCompleted(completed) {
     return Reports.renderSection(i18n.t('report.completed'), completed, nextIcon, this.onClickUpload);
@@ -116,7 +112,7 @@ class Reports extends PureComponent<Props> {
   }
 
   getDrafts(drafts) {
-    const onActionPress = (reportName) => {
+    const onActionPress = reportName => {
       const lastStep = this.props.getLastStep(reportName);
       if (lastStep !== null) {
         const screen = 'ForestWatcher.NewReport';
@@ -165,28 +161,17 @@ class Reports extends PureComponent<Props> {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          {hasReports
-            ? (
-              <View style={styles.container}>
-                {draft && draft.length > 0 &&
-                  this.getDrafts(draft)
-                }
-                {complete && complete.length > 0 &&
-                  this.getCompleted(complete)
-                }
-                {uploaded && uploaded.length > 0 &&
-                  this.getUploaded(uploaded)
-                }
-              </View>
-            )
-            : (
-              <View style={styles.containerEmpty}>
-                <Text style={styles.emptyTitle}>
-                  {i18n.t('report.empty')}
-                </Text>
-              </View>
-            )
-          }
+          {hasReports ? (
+            <View style={styles.container}>
+              {draft && draft.length > 0 && this.getDrafts(draft)}
+              {complete && complete.length > 0 && this.getCompleted(complete)}
+              {uploaded && uploaded.length > 0 && this.getUploaded(uploaded)}
+            </View>
+          ) : (
+            <View style={styles.containerEmpty}>
+              <Text style={styles.emptyTitle}>{i18n.t('report.empty')}</Text>
+            </View>
+          )}
         </ScrollView>
       </View>
     );

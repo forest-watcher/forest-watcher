@@ -4,7 +4,6 @@ import { Alert } from 'react-native';
 import i18n from 'locales';
 
 class ErrorLightbox extends Component {
-
   static propTypes = {
     error: PropTypes.object,
     onPressOK: PropTypes.func.isRequired

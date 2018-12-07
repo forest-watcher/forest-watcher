@@ -14,6 +14,6 @@ export type OfflineMeta = {
     commit: { type: string, meta?: any },
     rollback: { type: string, meta?: any }
   }
-}
+};
 
 export type PersistRehydrate = { type: 'persist/REHYDRATE', payload: State };

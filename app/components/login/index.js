@@ -33,6 +33,7 @@ const nextIcon = require('assets/next_white.png');
 moment.locale(getLanguage());
 
 type Props = {
+  loading: boolean,
   loggedIn: boolean,
   logSuccess: boolean,
   logout: () => void,
@@ -43,15 +44,13 @@ type Props = {
     socialNetwork: ?string,
     loggedIn: boolean
   }) => void,
-  version: string,
-  componentId: string
+  version: string
 };
 
 type State = {
   webviewVisible: boolean,
   webViewUrl: string,
   webViewCurrenUrl: string,
-  webViewStatus: ?string,
   socialNetwork: ?string
 };
 
