@@ -75,6 +75,7 @@
     "redux-saga": "0.16.2",
     "redux-thunk": "2.3.0",
     "supercluster": "4.1.1",
+    "url-parse": "1.4.4",
     "utm-latlng": "1.0.5"
   },
   "devDependencies": {

@@ -1,20 +1,21 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import {
-  Alert, View, Text, TouchableHighlight, ScrollView, Image, ActivityIndicator, SafeAreaView
-} from 'react-native';
+import { Alert, View, Text, TouchableHighlight, Image, ActivityIndicator, SafeAreaView } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 import SafeArea from 'react-native-safe-area';
-
 import Config from 'react-native-config';
+
 import Theme from 'config/theme';
 import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import { getLanguage } from 'helpers/language';
+
 import { launchAppRoot } from 'main';
 import moment from 'moment';
+const parseUrl = require('url-parse');
+
 import 'moment/locale/es';
 import 'moment/locale/fr';
 import 'moment/locale/pt';
@@ -43,7 +44,7 @@ type Props = {
     loggedIn: boolean
   }) => void,
   version: string,
-  componentId: string,
+  componentId: string
 };
 
 type State = {
@@ -55,7 +56,6 @@ type State = {
 };
 
 class Login extends PureComponent<Props, State> {
-
   static options(passProps) {
     return {
       topBar: {
@@ -82,7 +82,6 @@ class Login extends PureComponent<Props, State> {
       webviewVisible: false,
       webViewUrl: '',
       webViewCurrenUrl: '',
-      webViewStatus: null,
       socialNetwork: null
     };
   }
@@ -113,19 +112,13 @@ class Login extends PureComponent<Props, State> {
   };
 
   onLoadEnd = () => {
-    if (this.state.webViewCurrenUrl.indexOf(Config.API_AUTH_CALLBACK_URL) !== -1) {
-      let token = this.state.webViewCurrenUrl.match(/token[=](.*)/);
-
-      if (token && token[1]) {
-        token = token[1].replace('#', '');
-        this.props.setLoginAuth({
-          token,
-          socialNetwork: this.state.socialNetwork,
-          loggedIn: true
-        });
-      } else {
-        console.warn('Login incorrect');
-      }
+    const parsedUrl = parseUrl(this.state.webViewCurrenUrl, true);
+    if (parsedUrl.origin == Config.API_AUTH && parsedUrl.pathname == Config.API_AUTH_CALLBACK_PATH && parsedUrl.query?.token) {
+      this.props.setLoginAuth({
+        token: parsedUrl.query.token,
+        socialNetwork: this.state.socialNetwork,
+        loggedIn: true
+      });
     }
   };
 
@@ -143,8 +136,7 @@ class Login extends PureComponent<Props, State> {
 
   onNavigationStateChange = (navState: { url: string, title: string }) => {
     this.setState({
-      webViewCurrenUrl: navState.url,
-      webViewStatus: navState.title
+      webViewCurrenUrl: navState.url
     });
   };
 
@@ -157,9 +149,7 @@ class Login extends PureComponent<Props, State> {
   }
 
   ensureLogout() {
-    const {
-      logSuccess, logout, loggedIn
-    } = this.props;
+    const { logSuccess, logout, loggedIn } = this.props;
     if (!loggedIn && !logSuccess) {
       Alert.alert(i18n.t('commonText.error'), i18n.t('login.failed'), [{ text: 'OK', onPress: logout }]);
     }
@@ -172,7 +162,8 @@ class Login extends PureComponent<Props, State> {
   };
 
   webViewProvider = (socialNetwork: string) => {
-    const url = `${Config.API_AUTH}/auth/${socialNetwork}?token=true&callbackUrl=${Config.API_AUTH_CALLBACK_URL}`;
+    const callbackUrl = `${Config.API_AUTH}${Config.API_AUTH_CALLBACK_PATH}`;
+    const url = `${Config.API_AUTH}/auth/${socialNetwork}?token=true&callbackUrl=${callbackUrl}`;
     this.setState({
       socialNetwork,
       webviewVisible: true,
@@ -182,14 +173,9 @@ class Login extends PureComponent<Props, State> {
 
   renderWebview() {
     return (
-      <View style={{flex: 1}}>
-        <View style={[styles.webViewHeader, { marginTop: -this.state.topSafeAreaInset, height: 40 + this.state.topSafeAreaInset}]}>
-          <TouchableHighlight
-            style={styles.webViewButtonClose}
-            onPress={this.closeWebview}
-            activeOpacity={0.8}
-            underlayColor="transparent"
-          >
+      <View style={{ flex: 1 }}>
+        <View style={[styles.webViewHeader, { marginTop: -this.state.topSafeAreaInset, height: 40 + this.state.topSafeAreaInset }]}>
+          <TouchableHighlight style={styles.webViewButtonClose} onPress={this.closeWebview} activeOpacity={0.8} underlayColor="transparent">
             <Text style={styles.webViewButtonCloseText}>x</Text>
           </TouchableHighlight>
           <Text style={[styles.webViewUrl]} ellipsizeMode="tail" numberOfLines={1}>
@@ -266,10 +252,10 @@ class Login extends PureComponent<Props, State> {
 
   render() {
     return (
-        <SafeAreaView style={{flex: 1}}>
-          { this.state.webviewVisible && this.renderWebview()}
-          { !this.state.webviewVisible && this.renderSignInPage()}
-        </SafeAreaView>
+      <SafeAreaView style={{ flex: 1 }}>
+        {this.state.webviewVisible && this.renderWebview()}
+        {!this.state.webviewVisible && this.renderSignInPage()}
+      </SafeAreaView>
     );
   }
 }
