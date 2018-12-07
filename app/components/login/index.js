@@ -9,12 +9,11 @@ import { WebView } from 'react-native-webview';
 import SafeArea from 'react-native-safe-area';
 
 import Config from 'react-native-config';
-import { Navigation } from 'react-native-navigation';
 import Theme from 'config/theme';
 import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import { getLanguage } from 'helpers/language';
-import checkConnectivity from 'helpers/networking';
+import { launchAppRoot } from 'main';
 import moment from 'moment';
 import 'moment/locale/es';
 import 'moment/locale/fr';
@@ -154,11 +153,7 @@ class Login extends PureComponent<Props, State> {
       webviewVisible: false,
       webViewUrl: ''
     });
-    Navigation.setStackRoot(this.props.componentId, {
-      component: {
-        name: 'ForestWatcher.Home'
-      }
-    });
+    launchAppRoot('ForestWatcher.Home');
   }
 
   ensureLogout() {
