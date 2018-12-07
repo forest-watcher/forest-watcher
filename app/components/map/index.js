@@ -218,12 +218,10 @@ class MapComponent extends Component {
   }
 
   onCustomReportingPress = () => {
-    const region = this.state.region;
-
-    this.setState({
+    this.setState(prevState => ({
       customReporting: true,
-      selectedAlerts: [region]
-    });
+      selectedAlerts: [prevState.region]
+    }));
   };
 
   onSelectionCancelPress = () => {
@@ -483,17 +481,13 @@ class MapComponent extends Component {
   onRegionChangeComplete = region => {
     const mapZoom = MapComponent.getMapZoom(region);
 
-    const { customReporting, dragging, selectedAlerts } = this.state;
-
-    const newSelectedAlerts = customReporting && dragging ? [region] : selectedAlerts;
-
     this.setState(
-      {
+      prevState => ({
         region,
         mapZoom,
-        selectedAlerts: newSelectedAlerts,
+        selectedAlerts: prevState.customReporting && prevState.dragging ? [region] : prevState.selectedAlerts,
         dragging: false
-      },
+      }),
       () => {
         this.updateMarkers();
       }
@@ -514,13 +508,10 @@ class MapComponent extends Component {
 
   selectAlert = coordinate => {
     if (coordinate && !this.state.customReporting) {
-      const { markers, selectedAlerts } = this.state;
-      const alertsToSelect = [...selectedAlerts, coordinate];
-      const neighbours = getNeighboursSelected(alertsToSelect, markers);
-      this.setState({
-        neighbours,
-        selectedAlerts: alertsToSelect
-      });
+      this.setState(prevState => ({
+        neighbours: getNeighboursSelected(prevState.selectedAlerts, prevState.markers),
+        selectedAlerts: [...prevState.selectedAlerts, coordinate]
+      }));
     }
   };
 

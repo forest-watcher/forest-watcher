@@ -48,8 +48,7 @@ class InputTextDetail extends Component<Props, State> {
     }
   }
 
-  // eslint-disable-next-line react/no-deprecated
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (this.props.visible !== nextProps.visible) {
       this.setVisibility(nextProps.visible);
     }

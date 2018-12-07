@@ -1,4 +1,5 @@
-//import codePush from 'react-native-code-push';
+// eslint-disable-next-line import/default
+import codePush from 'react-native-code-push';
 import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
 import Theme from 'config/theme';
@@ -12,7 +13,7 @@ import { setupCrashLogging } from './crashes';
 // Show request in chrome network tool
 // GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
-/*function setCodePush() {
+function setCodePush() {
   const codepushEnable = !__DEV__;
   if (codepushEnable) {
     const codePushOptions = {
@@ -21,7 +22,7 @@ import { setupCrashLogging } from './crashes';
     };
     codePush.sync(codePushOptions);
   }
-}*/
+}
 
 const app = async () => {
   if (!__DEV__) {

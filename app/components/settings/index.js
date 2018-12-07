@@ -80,8 +80,7 @@ class Settings extends Component<Props> {
     tracker.trackScreenView('Settings');
   }
 
-  // eslint-disable-next-line react/no-deprecated
-  componentWillReceiveProps(props: Props) {
+  UNSAFE_componentWillReceiveProps(props: Props) {
     if (props.areas.length === 0 && props.loggedIn) {
       Navigation.push(this.props.componentId, {
         component: {
