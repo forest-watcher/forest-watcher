@@ -5,14 +5,17 @@ import { Alert, View, Text, TouchableHighlight, Image, ActivityIndicator, SafeAr
 import { WebView } from 'react-native-webview';
 
 import SafeArea from 'react-native-safe-area';
-
 import Config from 'react-native-config';
+
 import Theme from 'config/theme';
 import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import { getLanguage } from 'helpers/language';
+
 import { launchAppRoot } from 'main';
 import moment from 'moment';
+const parseUrl = require('url-parse');
+
 import 'moment/locale/es';
 import 'moment/locale/fr';
 import 'moment/locale/pt';
@@ -108,19 +111,13 @@ class Login extends PureComponent<Props, State> {
   };
 
   onLoadEnd = () => {
-    if (this.state.webViewCurrenUrl.indexOf(Config.API_AUTH_CALLBACK_URL) !== -1) {
-      let token = this.state.webViewCurrenUrl.match(/token[=](.*)/);
-
-      if (token && token[1]) {
-        token = token[1].replace('#', '');
-        this.props.setLoginAuth({
-          token,
-          socialNetwork: this.state.socialNetwork,
-          loggedIn: true
-        });
-      } else {
-        console.warn('Login incorrect');
-      }
+    const parsedUrl = parseUrl(this.state.webViewCurrenUrl, true);
+    if (parsedUrl.origin == Config.API_AUTH && parsedUrl.pathname == Config.API_AUTH_CALLBACK_PATH && parsedUrl.query?.token) {
+      this.props.setLoginAuth({
+        token: parsedUrl.query.token,
+        socialNetwork: this.state.socialNetwork,
+        loggedIn: true
+      });
     }
   };
 
@@ -164,7 +161,8 @@ class Login extends PureComponent<Props, State> {
   };
 
   webViewProvider = (socialNetwork: string) => {
-    const url = `${Config.API_AUTH}/auth/${socialNetwork}?token=true&callbackUrl=${Config.API_AUTH_CALLBACK_URL}`;
+    const callbackUrl = `${Config.API_AUTH}${Config.API_AUTH_CALLBACK_PATH}`;
+    const url = `${Config.API_AUTH}/auth/${socialNetwork}?token=true&callbackUrl=${callbackUrl}`;
     this.setState({
       socialNetwork,
       webviewVisible: true,
@@ -175,18 +173,8 @@ class Login extends PureComponent<Props, State> {
   renderWebview() {
     return (
       <View style={{ flex: 1 }}>
-        <View
-          style={[
-            styles.webViewHeader,
-            { marginTop: -this.state.topSafeAreaInset, height: 40 + this.state.topSafeAreaInset }
-          ]}
-        >
-          <TouchableHighlight
-            style={styles.webViewButtonClose}
-            onPress={this.closeWebview}
-            activeOpacity={0.8}
-            underlayColor="transparent"
-          >
+        <View style={[styles.webViewHeader, { marginTop: -this.state.topSafeAreaInset, height: 40 + this.state.topSafeAreaInset }]}>
+          <TouchableHighlight style={styles.webViewButtonClose} onPress={this.closeWebview} activeOpacity={0.8} underlayColor="transparent">
             <Text style={styles.webViewButtonCloseText}>x</Text>
           </TouchableHighlight>
           <Text style={[styles.webViewUrl]} ellipsizeMode="tail" numberOfLines={1}>
