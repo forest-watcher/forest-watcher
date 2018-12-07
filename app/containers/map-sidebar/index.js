@@ -7,7 +7,6 @@ import { setActiveContextualLayer } from 'redux-modules/layers';
 import MapSidebar from 'components/map-sidebar';
 import { getSelectedArea } from 'helpers/area';
 
-
 function mapStateToProps(state: State) {
   const area = getSelectedArea(state.areas.data, state.areas.selectedAreaId);
 
@@ -18,9 +17,13 @@ function mapStateToProps(state: State) {
   };
 }
 
-const mapDispatchToProps = (dispatch: *) => bindActionCreators({
-  onLayerToggle: setActiveContextualLayer
-}, dispatch);
+const mapDispatchToProps = (dispatch: *) =>
+  bindActionCreators(
+    {
+      onLayerToggle: setActiveContextualLayer
+    },
+    dispatch
+  );
 
 export default connect(
   mapStateToProps,

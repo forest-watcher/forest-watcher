@@ -17,15 +17,8 @@ export type SetupState = {
   error: boolean
 };
 
-export type SetupAction =
-  | InitSetup
-  | SetCountry
-  | SetAoi
-  | SaveAreaRequest
-  | SaveAreaCommit
-  | SaveAreaRollback;
+export type SetupAction = InitSetup | SetCountry | SetAoi | SaveAreaRequest | SaveAreaCommit | SaveAreaRollback;
 
 export type InitSetup = { type: 'setup/INIT_SETUP' };
 export type SetCountry = { type: 'setup/SET_COUNTRY', payload: Country };
 export type SetAoi = { type: 'setup/SET_AOI', payload: { area: CountryArea, snapshot: string } };
-

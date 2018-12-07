@@ -32,7 +32,7 @@ class DetectNetworkPing {
     checkConnectivity(url).then(connected => {
       // If we've got a connection, update the redux state.
       if (connected) {
-        dispatch({... connection, online: true});
+        dispatch({ ...connection, online: true });
         return;
       }
 
@@ -43,7 +43,7 @@ class DetectNetworkPing {
 
       if (urlIndex < DetectNetworkPing.urlList.length - 1) {
         // Recall this function, incrementing the urlIndex so we try the next URL.
-        this.pingToDetectNetwork(dispatch, urlIndex + 1)(connection)
+        this.pingToDetectNetwork(dispatch, urlIndex + 1)(connection);
       } else {
         // If every URL has failed, fail the request and stop attempting.
         dispatch({ ...connection, online: false });

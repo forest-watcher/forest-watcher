@@ -8,7 +8,7 @@ import { shouldBeConnected } from 'helpers/app';
 import AreaDetail from 'components/settings/area-detail';
 
 function mapStateToProps(state: State, { id }) {
-  const area = state.areas.data.find((areaData) => (areaData.id === id));
+  const area = state.areas.data.find(areaData => areaData.id === id);
   return {
     area,
     isConnected: shouldBeConnected(state)
@@ -16,10 +16,13 @@ function mapStateToProps(state: State, { id }) {
 }
 
 function mapDispatchToProps(dispatch: *) {
-  return bindActionCreators({
-    updateArea,
-    deleteArea
-  }, dispatch);
+  return bindActionCreators(
+    {
+      updateArea,
+      deleteArea
+    },
+    dispatch
+  );
 }
 
 export default connect(

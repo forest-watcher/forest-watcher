@@ -9,7 +9,7 @@ export default StyleSheet.create({
   contentContainer: {
     flex: 1,
     width: Theme.screen.width,
-    height: Theme.screen.height,
+    height: Theme.screen.height
   },
   slideContainer: {
     flex: 1,

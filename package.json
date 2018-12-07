@@ -187,7 +187,7 @@
         }
       ],
       "no-unused-vars": "warn",
-      "prettier/prettier": "off",
+      "prettier/prettier": "warn",
       "react/default-props-match-prop-types": [
         "warn",
         {
@@ -215,7 +215,6 @@
       "react/no-array-index-key": "warn",
       "react/no-set-state": "off",
       "react/no-unsafe": "warn",
-      "react/no-unused-proptypes": "warn",
       "react/prefer-stateless-function": "off",
       "react/prop-types": "warn",
       "react/require-default-props": "off",

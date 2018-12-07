@@ -7,7 +7,7 @@ export type Country = {
   iso: string,
   centroid: string,
   bbox: string
-}
+};
 type CountriesData = Array<Country>;
 export type CountriesState = {
   data: CountriesData,
@@ -15,11 +15,7 @@ export type CountriesState = {
   syncing: boolean
 };
 
-export type CountriesAction =
-  | GetCountriesRequest
-  | GetCountriesCommit
-  | GetCountriesRollback
-  | LogoutRequest;
+export type CountriesAction = GetCountriesRequest | GetCountriesCommit | GetCountriesRollback | LogoutRequest;
 
 export type GetCountriesRequest = { type: 'countries/GET_COUNTRIES_REQUEST' };
 export type GetCountriesCommit = { type: 'countries/GET_COUNTRIES_COMMIT', payload: { data: CountriesData } };

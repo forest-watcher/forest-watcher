@@ -69,7 +69,10 @@ class Partners extends Component {
       >
         <View style={styles.partner}>
           <Text style={styles.partnerText}>{i18n.t('partners.description')}</Text>
-          <Text style={styles.partnerText} onPress={() => this.handleLink('http://www.globalforestwatch.org/about/the-gfw-partnership')}>
+          <Text
+            style={styles.partnerText}
+            onPress={() => this.handleLink('http://www.globalforestwatch.org/about/the-gfw-partnership')}
+          >
             {i18n.t('partners.listOfPartners')}
           </Text>
         </View>

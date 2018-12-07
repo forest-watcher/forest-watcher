@@ -1,10 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import {
-  View,
-  ActivityIndicator
-} from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
@@ -22,7 +19,6 @@ type Props = {
 };
 
 class Home extends Component<Props> {
-
   static options(passProps) {
     return {
       topBar: {
@@ -43,16 +39,7 @@ class Home extends Component<Props> {
   }
 
   handleStatus() {
-    const {
-      loggedIn,
-      token,
-      hasAreas,
-      isAppSynced,
-      componentId,
-      actionsPending,
-      setAppSynced,
-      syncApp
-    } = this.props;
+    const { loggedIn, token, hasAreas, isAppSynced, componentId, actionsPending, setAppSynced, syncApp } = this.props;
 
     if (loggedIn) {
       tracker.setUser(token);
@@ -113,16 +100,12 @@ class Home extends Component<Props> {
         ]
       }
     });
-  }
+  };
 
   render() {
     return (
       <View style={[styles.mainContainer, styles.center]}>
-        <ActivityIndicator
-          color={Theme.colors.color1}
-          style={{ height: 80 }}
-          size="large"
-        />
+        <ActivityIndicator color={Theme.colors.color1} style={{ height: 80 }} size="large" />
       </View>
     );
   }

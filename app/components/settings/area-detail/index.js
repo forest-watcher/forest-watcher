@@ -118,9 +118,14 @@ class AreaDetail extends Component<Props, State> {
       this.props.deleteArea(this.props.area.id);
       Navigation.pop(this.props.componentId);
     } else {
-      Alert.alert(i18n.t('commonText.connectionRequiredTitle'), i18n.t('commonText.connectionRequired'), [{ text: 'OK' }], {
-        cancelable: false
-      });
+      Alert.alert(
+        i18n.t('commonText.connectionRequiredTitle'),
+        i18n.t('commonText.connectionRequired'),
+        [{ text: 'OK' }],
+        {
+          cancelable: false
+        }
+      );
     }
   };
 

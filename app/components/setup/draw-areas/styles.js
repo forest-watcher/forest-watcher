@@ -9,7 +9,7 @@ export default StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     zIndex: 0,
     flex: 1,
-    position: 'absolute',
+    position: 'absolute'
   },
   loader: {
     ...StyleSheet.absoluteFillObject,

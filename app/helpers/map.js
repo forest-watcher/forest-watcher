@@ -12,9 +12,10 @@ const geokdbush = require('geokdbush');
 // Use example
 // const firstPoint = { latitude: -3.097125, longitude: -45.600375 }
 // const points = [{ latitude: -2.337625, longitude: -46.940875 }]
-export function getAllNeighbours(firstPoint: Coordinates, points: Coordinates, distance: number = 0.03) { // default distance 30m
+export function getAllNeighbours(firstPoint: Coordinates, points: Coordinates, distance: number = 0.03) {
+  // default distance 30m
   const neighbours = [];
-  const index = kdbush(points, (p) => p.longitude, (p) => p.latitude);
+  const index = kdbush(points, p => p.longitude, p => p.latitude);
 
   function isIncluded(result) {
     for (let i = 0; i < neighbours.length; i++) {
@@ -42,9 +43,14 @@ export function getAllNeighbours(firstPoint: Coordinates, points: Coordinates, d
 
   getNeighbours(firstPoint);
   // return array of siblings without the point
-  if (neighbours && neighbours.length
-      && neighbours[0].latitude && neighbours[0].latitude === firstPoint.latitude
-      && neighbours[0].longitude && neighbours[0].longitude === firstPoint.longitude) {
+  if (
+    neighbours &&
+    neighbours.length &&
+    neighbours[0].latitude &&
+    neighbours[0].latitude === firstPoint.latitude &&
+    neighbours[0].longitude &&
+    neighbours[0].longitude === firstPoint.longitude
+  ) {
     neighbours.shift();
   }
   return neighbours;
@@ -58,20 +64,15 @@ export function isDateRecent(date: number) {
 export function pointsToGeoJSON(points: Array<Alert>, slug: string) {
   return {
     type: 'MapCollection',
-    features: points.map((value) => ({
+    features: points.map(value => ({
       type: 'Map',
       properties: {
         date: value.date,
-        isRecent: slug === DATASETS.GLAD
-          ? isDateRecent(value.date)
-          : false
+        isRecent: slug === DATASETS.GLAD ? isDateRecent(value.date) : false
       },
       geometry: {
         type: 'Point',
-        coordinates: [
-          value.long,
-          value.lat
-        ]
+        coordinates: [value.long, value.lat]
       }
     }))
   };

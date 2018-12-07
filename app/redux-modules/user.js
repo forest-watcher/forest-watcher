@@ -195,7 +195,8 @@ export function logout(socialNetworkFallback: string) {
         case 'facebook':
           await LoginManager.logOut();
           break;
-        default: break;
+        default:
+          break;
       }
     } catch (e) {
       console.error(e);

@@ -51,7 +51,16 @@ class Form extends Component<Props> {
   };
 
   onSubmit = () => {
-    const { componentId, reportName, nextQuestionIndex, answer, setReportAnswer, updateOnly, editMode, questionAnswered } = this.props;
+    const {
+      componentId,
+      reportName,
+      nextQuestionIndex,
+      answer,
+      setReportAnswer,
+      updateOnly,
+      editMode,
+      questionAnswered
+    } = this.props;
     if (!questionAnswered) {
       setReportAnswer(reportName, answer, updateOnly);
     }

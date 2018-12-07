@@ -1,7 +1,16 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { Alert, View, Text, TouchableHighlight, ScrollView, Image, ActivityIndicator, SafeAreaView } from 'react-native';
+import {
+  Alert,
+  View,
+  Text,
+  TouchableHighlight,
+  ScrollView,
+  Image,
+  ActivityIndicator,
+  SafeAreaView
+} from 'react-native';
 import { WebView } from 'react-native-webview';
 
 import SafeArea from 'react-native-safe-area';
@@ -180,8 +189,18 @@ class Login extends PureComponent<Props, State> {
   renderWebview() {
     return (
       <View style={{ flex: 1 }}>
-        <View style={[styles.webViewHeader, { marginTop: -this.state.topSafeAreaInset, height: 40 + this.state.topSafeAreaInset }]}>
-          <TouchableHighlight style={styles.webViewButtonClose} onPress={this.closeWebview} activeOpacity={0.8} underlayColor="transparent">
+        <View
+          style={[
+            styles.webViewHeader,
+            { marginTop: -this.state.topSafeAreaInset, height: 40 + this.state.topSafeAreaInset }
+          ]}
+        >
+          <TouchableHighlight
+            style={styles.webViewButtonClose}
+            onPress={this.closeWebview}
+            activeOpacity={0.8}
+            underlayColor="transparent"
+          >
             <Text style={styles.webViewButtonCloseText}>x</Text>
           </TouchableHighlight>
           <Text style={[styles.webViewUrl]} ellipsizeMode="tail" numberOfLines={1}>

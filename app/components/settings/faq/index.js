@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  ScrollView
-} from 'react-native';
+import { View, ScrollView } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
 
 import i18n from 'locales';
@@ -92,13 +89,12 @@ class FaqList extends Component {
         section: 'ForestWatcher.FaqDetail',
         functionOnPress: this.handleStaticLinks
       }
-    ].filter(term => (term.list && Object.values(term.list).some(text => (!!text))));
+    ].filter(term => term.list && Object.values(term.list).some(text => !!text));
   }
 
   static propTypes = {
     componentId: PropTypes.string.isRequired
   };
-
 
   componentDidMount() {
     tracker.trackScreenView('FaqList');
@@ -120,7 +116,7 @@ class FaqList extends Component {
         }
       }
     });
-  }
+  };
 
   render() {
     return (
@@ -131,7 +127,9 @@ class FaqList extends Component {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          <List content={this.terms} bigSeparation={false}>{}</List>
+          <List content={this.terms} bigSeparation={false}>
+            {}
+          </List>
         </ScrollView>
       </View>
     );

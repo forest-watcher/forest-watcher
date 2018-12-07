@@ -1,10 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  TouchableHighlight,
-  Image
-} from 'react-native';
+import { View, TouchableHighlight, Image } from 'react-native';
 
 import Theme from 'config/theme';
 import CustomSwitch from 'components/common/switch';
@@ -16,26 +12,22 @@ function Row(props) {
 
   return (
     <TouchableHighlight
-      activeOpacity={onPress ? (props.opacity || 0.5) : 1}
+      activeOpacity={onPress ? props.opacity || 0.5 : 1}
       underlayColor="transparent"
       onPress={onPress}
       style={props.style}
     >
       <View style={[styles.row, props.rowStyle]}>
-        <View style={styles.title}>
-          {props.children}
-        </View>
-        {hasCustomSwitch &&
+        <View style={styles.title}>{props.children}</View>
+        {hasCustomSwitch && (
           <CustomSwitch
             value={props.value}
             colorOn={props.switchColorOn}
             colorOff={props.switchColorOff}
             onValueChange={props.onValueChange}
           />
-        }
-        {props.action &&
-          <Image style={Theme.icon} source={props.action.icon} />
-        }
+        )}
+        {props.action && <Image style={Theme.icon} source={props.action.icon} />}
       </View>
     </TouchableHighlight>
   );

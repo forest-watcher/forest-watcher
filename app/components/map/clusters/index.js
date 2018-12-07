@@ -14,7 +14,7 @@ type Coordinates = {
 
 type Marker = {
   geometry: [number, number]
-}
+};
 
 type Props = {
   markers: Array<Marker>,
@@ -51,9 +51,7 @@ class Clusters extends PureComponent<Props> {
             );
           }
 
-          let markerColor = marker.properties.isRecent
-            ? styles.recentColorAlert
-            : styles[`${datasetSlug}ColorAlert`];
+          let markerColor = marker.properties.isRecent ? styles.recentColorAlert : styles[`${datasetSlug}ColorAlert`];
 
           const id = `${marker.geometry.coordinates[0]}${marker.geometry.coordinates[1]}`;
           if (this.props.reportedAlerts.includes(id)) {

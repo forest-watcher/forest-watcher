@@ -1,8 +1,5 @@
 import Theme from 'config/theme';
-import {
-  Platform,
-  StyleSheet
-} from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -19,7 +16,7 @@ export default StyleSheet.create({
   },
   preview: {
     height: 416,
-    width: Theme.screen.width - (56 * 2),
+    width: Theme.screen.width - 56 * 2,
     marginTop: 16,
     marginLeft: 56,
     marginRight: 56,
@@ -33,7 +30,7 @@ export default StyleSheet.create({
   },
   previewImage: {
     height: 416,
-    width: Theme.screen.width - (56 * 2)
+    width: Theme.screen.width - 56 * 2
   },
   leftBtn: {
     width: 64,

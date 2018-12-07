@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  Text
-} from 'react-native';
+import { View, Text } from 'react-native';
 import MapView from 'react-native-maps';
 import styles from './styles';
 
@@ -16,9 +13,7 @@ function ClusterMarker(props) {
 
   const style = [
     styles.bubble,
-    props.marker.properties.isRecent
-      ? styles.recentColor
-      : styles[`${props.datasetSlug}Color`]
+    props.marker.properties.isRecent ? styles.recentColor : styles[`${props.datasetSlug}Color`]
   ];
   return (
     <MapView.Marker
@@ -35,7 +30,6 @@ function ClusterMarker(props) {
         </View>
       </View>
     </MapView.Marker>
-
   );
 }
 

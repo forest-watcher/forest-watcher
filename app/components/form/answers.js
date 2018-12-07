@@ -2,11 +2,7 @@
 import type { Answer, Question } from 'types/reports.types';
 
 import React, { PureComponent } from 'react';
-import {
-  View,
-  Text,
-  ScrollView
-} from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import Theme from 'config/theme';
 import i18n from 'locales';
 
@@ -25,8 +21,8 @@ type Props = {
   metadata: Array<{ id: string, label: string, value: any }>,
   results: Array<{ question: Question, answer: Answer }>,
   reportName: string,
-  uploadReport: (string) => void,
-  deleteReport: (string) => void,
+  uploadReport: string => void,
+  deleteReport: string => void,
   setReportAnswer: (string, Answer, boolean) => void,
   readOnly: boolean,
   setActiveAlerts: boolean => void
@@ -36,10 +32,14 @@ class Answers extends PureComponent<Props> {
   static options(passProps) {
     return {
       topBar: {
-        rightButtons: passProps.showUploadBar ? [{
-          id: 'upload',
-          icon: uploadIcon
-        }] : [],
+        rightButtons: passProps.showUploadBar
+          ? [
+              {
+                id: 'upload',
+                icon: uploadIcon
+              }
+            ]
+          : [],
         title: {
           text: i18n.t('report.review')
         }
@@ -64,9 +64,9 @@ class Answers extends PureComponent<Props> {
     uploadReport(reportName);
     setActiveAlerts(true);
     Navigation.popToRoot(componentId);
-  }
+  };
 
-  onEdit = (index) => {
+  onEdit = index => {
     const { reportName } = this.props;
     const screen = 'ForestWatcher.NewReport';
     const disableDraft = false;
@@ -89,7 +89,7 @@ class Answers extends PureComponent<Props> {
         }
       }
     });
-  }
+  };
 
   onDeleteImage = (id, questionName, images) => {
     const image = images.find(i => i.id === id);
@@ -100,7 +100,7 @@ class Answers extends PureComponent<Props> {
     };
     setReportAnswer(reportName, answer, true);
     if (image.required) this.onEdit(image.order);
-  }
+  };
 
   handleDeleteArea = () => {
     const { componentId, deleteReport, reportName } = this.props;
@@ -117,12 +117,13 @@ class Answers extends PureComponent<Props> {
         name: 'ForestWatcher.Reports'
       }
     });
-  }
+  };
 
   render() {
     const { results, readOnly, metadata } = this.props;
     const regularAnswers = results.filter(({ question }) => question.type !== 'blob');
-    const images = results.filter(({ question }) => question.type === 'blob')
+    const images = results
+      .filter(({ question }) => question.type === 'blob')
       .map((image, index) => ({
         id: image.question.Id,
         uri: image.answer.value[index],
@@ -130,18 +131,22 @@ class Answers extends PureComponent<Props> {
         order: image.question.order,
         required: image.question.required
       }));
-    const imageActions = !readOnly ? [{
-      callback: (id, name) => this.onDeleteImage(id, name, images),
-      icon: deleteIcon
-    }] : null;
+    const imageActions = !readOnly
+      ? [
+          {
+            callback: (id, name) => this.onDeleteImage(id, name, images),
+            icon: deleteIcon
+          }
+        ]
+      : null;
 
     return (
       <View style={styles.answersContainer}>
         <ScrollView>
-          {metadata && !!metadata.length &&
+          {metadata && !!metadata.length && (
             <View style={[styles.listContainer, styles.listContainerFirst]}>
               <Text style={styles.listTitle}>{i18n.t('report.metadata')}</Text>
-              {metadata.map((meta) => (
+              {metadata.map(meta => (
                 <AnswerComponent
                   questionId={meta.id}
                   key={meta.id}
@@ -151,11 +156,11 @@ class Answers extends PureComponent<Props> {
                 />
               ))}
             </View>
-          }
-          {regularAnswers && !!regularAnswers.length &&
+          )}
+          {regularAnswers && !!regularAnswers.length && (
             <View style={styles.listContainer}>
               <Text style={styles.listTitle}>{i18n.t('report.answers')}</Text>
-              {regularAnswers.map((result) => (
+              {regularAnswers.map(result => (
                 <AnswerComponent
                   questionId={result.question.Id}
                   key={result.question.Id}
@@ -166,24 +171,17 @@ class Answers extends PureComponent<Props> {
                 />
               ))}
             </View>
-          }
-          {images.length > 0 &&
+          )}
+          {images.length > 0 && (
             <View style={styles.picturesContainer}>
               <Text style={styles.answersText}>{i18n.t('report.pictures')}</Text>
-              <ImageCarousel
-                images={images}
-                actions={imageActions}
-                add={this.onEdit}
-                readOnly={readOnly}
-              />
+              <ImageCarousel images={images} actions={imageActions} add={this.onEdit} readOnly={readOnly} />
             </View>
-          }
+          )}
           <View style={styles.buttonsContainer}>
-            {!readOnly && <ActionButton
-              style={styles.actionBtn}
-              onPress={this.onPressSend}
-              text={i18n.t('commonText.send')}
-            />}
+            {!readOnly && (
+              <ActionButton style={styles.actionBtn} onPress={this.onPressSend} text={i18n.t('commonText.send')} />
+            )}
             <ActionButton
               delete
               style={styles.actionBtn}

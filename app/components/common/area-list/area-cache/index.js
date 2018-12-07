@@ -136,7 +136,12 @@ class AreaCache extends PureComponent<Props, State> {
 
     const cacheButton = (
       <View style={styles.cacheBtnContainer}>
-        <TouchableHighlight style={styles.cacheBtn} activeOpacity={1} underlayColor={Theme.background.secondary} onPress={cacheAreaAction}>
+        <TouchableHighlight
+          style={styles.cacheBtn}
+          activeOpacity={1}
+          underlayColor={Theme.background.secondary}
+          onPress={cacheAreaAction}
+        >
           <Image style={Theme.icon} source={cacheButtonIcon} />
         </TouchableHighlight>
         {showTooltip && (

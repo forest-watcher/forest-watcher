@@ -66,7 +66,9 @@ class StepsSlider extends PureComponent {
       <ScrollableTabView
         locked
         tabBarPosition="overlayBottom"
-        renderTabBar={props.hideIndex ? () => <View /> : slides => this.getIndexBar(slides, props.barStyle, bottomSafeAreaInset)}
+        renderTabBar={
+          props.hideIndex ? () => <View /> : slides => this.getIndexBar(slides, props.barStyle, bottomSafeAreaInset)
+        }
         prerenderingSiblingsNumber={0}
         {...props}
       >

@@ -8,16 +8,20 @@ import AlertSystem from 'components/settings/area-detail/alert-system';
 
 function mapStateToProps(state: State, ownProps: { areaId: string }) {
   const { areaId } = ownProps;
-  const area = state.areas.data.find((areaData) => (areaData.id === areaId));
+  const area = state.areas.data.find(areaData => areaData.id === areaId);
   return {
     area
   };
 }
 
-const mapDispatchToProps = (dispatch: *) => bindActionCreators({
-  setAreaDatasetStatus,
-  updateDate
-}, dispatch);
+const mapDispatchToProps = (dispatch: *) =>
+  bindActionCreators(
+    {
+      setAreaDatasetStatus,
+      updateDate
+    },
+    dispatch
+  );
 
 export default connect(
   mapStateToProps,

@@ -25,7 +25,7 @@ export default {
   [GET_ALERTS_COMMIT]: {
     type: 'success',
     text: i18n.t('sync.alertsUpdated'),
-    check: (state: State) => (state.areas.synced && state.layers.synced && state.alerts.queue.length === 0)
+    check: (state: State) => state.areas.synced && state.layers.synced && state.alerts.queue.length === 0
   },
   [SHOW_CONNECTION_REQUIRED]: {
     type: Types.disable,

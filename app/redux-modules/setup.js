@@ -9,7 +9,6 @@ const INIT_SETUP = 'setup/INIT_SETUP';
 const SET_COUNTRY = 'setup/SET_COUNTRY';
 const SET_AOI = 'setup/SET_AOI'; // AOI = Area of interest
 
-
 // Reducer
 const initialState = {
   country: null,

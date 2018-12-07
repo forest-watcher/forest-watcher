@@ -12,7 +12,7 @@ import { shouldBeConnected } from 'helpers/app';
 
 function mapStateToProps(state: State) {
   const areasOutdated = !state.areas.synced || isOutdated(state.areas.syncDate);
-  const appSyncing = (state.areas.syncing || state.layers.syncing || state.alerts.queue.length > 0);
+  const appSyncing = state.areas.syncing || state.layers.syncing || state.alerts.queue.length > 0;
   const isConnected = shouldBeConnected(state);
   const loggedIn = state.user.loggedIn;
   return {
@@ -26,14 +26,17 @@ function mapStateToProps(state: State) {
 }
 
 function mapDispatchToProps(dispatch: *) {
-  return bindActionCreators({
-    updateApp,
-    createReport,
-    setAreasRefreshing,
-    setSelectedAreaId,
-    showNotConnectedNotification,
-    setPristine: setPristineCacheTooltip
-  }, dispatch);
+  return bindActionCreators(
+    {
+      updateApp,
+      createReport,
+      setAreasRefreshing,
+      setSelectedAreaId,
+      showNotConnectedNotification,
+      setPristine: setPristineCacheTooltip
+    },
+    dispatch
+  );
 }
 
 export default connect(

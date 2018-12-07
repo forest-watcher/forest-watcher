@@ -8,10 +8,7 @@ import { setReportAnswer } from 'redux-modules/reports';
 
 import ReportForm from 'components/form';
 
-const mapStateToProps = (
-  state: State,
-  ownProps: { reportName: string, questionIndex: number, editMode: boolean }
-) => {
+const mapStateToProps = (state: State, ownProps: { reportName: string, questionIndex: number, editMode: boolean }) => {
   const lang = state.app.language || 'en';
   const { reportName, questionIndex = 0, editMode } = ownProps;
   const { answers = [] } = state.reports.list[reportName] || {};
@@ -22,16 +19,12 @@ const mapStateToProps = (
   const defaultAnswer = {
     value: '',
     questionName: question.name,
-    child: question.childQuestion
-      ? { value: '', questionName: question.childQuestion.name }
-      : null
+    child: question.childQuestion ? { value: '', questionName: question.childQuestion.name } : null
   };
   const answer = answers.find(a => a.questionName === question.name) || defaultAnswer;
   const nextStep = getNextStep({ currentQuestion: questionIndex, questions, answers });
   const questionAnswered = isQuestionAnswered(answer);
-  const text = questionAnswered || !question.required
-    ? i18n.t('commonText.next')
-    : getBtnTextByType(question.type);
+  const text = questionAnswered || !question.required ? i18n.t('commonText.next') : getBtnTextByType(question.type);
 
   const nextQuestionAnswer = answers.find(ans => ans.questionName === (nextStep && questions[nextStep].name));
   const nextQuestionIndex = typeof nextQuestionAnswer !== 'undefined' && editMode ? null : nextStep;
@@ -49,8 +42,15 @@ const mapStateToProps = (
   };
 };
 
-const mapDispatchToProps = (dispatch: *) => bindActionCreators({
-  setReportAnswer
-}, dispatch);
+const mapDispatchToProps = (dispatch: *) =>
+  bindActionCreators(
+    {
+      setReportAnswer
+    },
+    dispatch
+  );
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReportForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ReportForm);

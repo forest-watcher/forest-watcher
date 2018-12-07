@@ -9,7 +9,6 @@ import i18n from 'locales';
 const plusIcon = require('assets/plus.png');
 
 class ImageCarousel extends PureComponent {
-
   static propTypes = {
     actions: PropTypes.arrayOf(
       PropTypes.shape({
@@ -33,12 +32,12 @@ class ImageCarousel extends PureComponent {
     const { actions, itemHeight, add, readOnly, itemWidth } = this.props;
     const label = readOnly ? i18n.t('report.emptyPicture') : i18n.t('report.addPicture');
     const icon = !readOnly && plusIcon;
-    const getAction = (image) => {
+    const getAction = image => {
       if (!readOnly) return () => add(image.questionNumber);
       return undefined;
     };
 
-    return item.uri ?
+    return item.uri ? (
       <ImageCard
         id={item.id}
         name={item.name}
@@ -47,7 +46,8 @@ class ImageCarousel extends PureComponent {
         uri={item.uri}
         width={itemWidth}
         height={itemHeight}
-      /> :
+      />
+    ) : (
       <ActionCard
         key={item.id}
         label={label}
@@ -55,8 +55,9 @@ class ImageCarousel extends PureComponent {
         height={itemHeight}
         icon={icon}
         action={getAction(item)}
-      />;
-  }
+      />
+    );
+  };
 
   render() {
     const { images, itemWidth } = this.props;
@@ -74,4 +75,3 @@ class ImageCarousel extends PureComponent {
 }
 
 export default ImageCarousel;
-

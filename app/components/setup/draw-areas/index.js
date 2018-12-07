@@ -144,7 +144,9 @@ class DrawAreas extends Component {
     if (coordinates && coordinates.length > 1) {
       this.setState({ loading: true });
       const snapshotPadding =
-        Platform.OS === 'ios' ? { top: 280, right: 80, bottom: 360, left: 80 } : { top: 560, right: 160, bottom: 720, left: 160 };
+        Platform.OS === 'ios'
+          ? { top: 280, right: 80, bottom: 360, left: 80 }
+          : { top: 560, right: 160, bottom: 720, left: 160 };
       this.map.fitToCoordinates(coordinates, {
         edgePadding: snapshotPadding,
         animated: true
@@ -261,7 +263,9 @@ class DrawAreas extends Component {
     const { coordinates } = shape;
     const markers = parseCoordinates(coordinates);
     const ctxLayerKey =
-      Platform.OS === 'ios' && contextualLayer ? `contextualLayerElement-${contextualLayer.name}` : 'contextualLayerElement';
+      Platform.OS === 'ios' && contextualLayer
+        ? `contextualLayerElement-${contextualLayer.name}`
+        : 'contextualLayerElement';
 
     return (
       <View style={styles.container}>
@@ -292,7 +296,13 @@ class DrawAreas extends Component {
             />
           )}
           {markers.length > 0 && coordinates.length > 1 && (
-            <MapView.Polyline key={'line'} coordinates={markers} strokeColor={Theme.polygon.strokeSelected} strokeWidth={2} zIndex={2} />
+            <MapView.Polyline
+              key={'line'}
+              coordinates={markers}
+              strokeColor={Theme.polygon.strokeSelected}
+              strokeWidth={2}
+              zIndex={2}
+            />
           )}
           {markers.length >= 0 &&
             markers.map(marker => {
