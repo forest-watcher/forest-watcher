@@ -98,6 +98,49 @@ describe('Redux Layers Module', () => {
       expect(store.getActions()).toMatchSnapshot();
     });
 
+    it('cacheLayers', () => {
+      store.dispatch(cacheLayers());
+      expect(store.getActions()).toMatchSnapshot();
+
+      const mockArea = {
+        name: 'nameMock',
+        id: 'areaIDMock',
+        application: 'applicationMock', // used to test that all fields are included in payload
+        geostore: { id: 'geostoreIDMock'}
+      };
+      const mockLayer = {
+        url: 'urlMock',
+        name: 'nameMock',
+        id: 'layerIDMock',
+      };
+      const mockPendingCache = {
+        layerIDMock: {
+          areaIDMock: false,
+          areaIDMock2: false,
+          mockAreaID: 'areaIDMock'
+        },
+        mockLayerID2: {
+          areaIDMock: false,
+          areaIDMock2: false,
+          areaIDMock3: false,
+          mockAreaID: 'areaIDMock'
+        }
+      };
+
+      store = configuredStore({
+        ...initialStoreState,
+        areas: { data: [mockArea] },
+        layers: {
+          ...initialStoreState.layers,
+          data: [mockLayer],
+          pendingCache: mockPendingCache
+        }
+      });
+
+      store.dispatch(cacheLayers());
+      expect(store.getActions()).toMatchSnapshot();
+    });
+
     it('getUserLayers', () => {
       store.dispatch(getUserLayers());
       expect(store.getActions()).toMatchSnapshot();

@@ -63,6 +63,31 @@ Array [
 ]
 `;
 
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheLayers 1`] = `Array []`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheLayers 2`] = `
+Array [
+  Object {
+    "payload": Object {
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+      },
+      "layer": Object {
+        "id": "layerIDMock",
+        "name": "nameMock",
+        "url": "urlMock",
+      },
+    },
+    "type": "layers/CACHE_LAYER_REQUEST",
+  },
+]
+`;
+
 exports[`Redux Layers Module Redux Snapshot Thunk Actions getUserLayers 1`] = `
 Array [
   Object {
