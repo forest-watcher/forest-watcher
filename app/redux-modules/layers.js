@@ -391,11 +391,13 @@ export function syncLayers() {
 export function downloadAreaById(areaId: string) {
   return (dispatch: Dispatch, state: GetState) => {
     const area = getAreaById(state().areas.data, areaId);
-    dispatch({
-      type: DOWNLOAD_AREA,
-      payload: area
-    });
-    dispatch(cacheLayers());
+    if (area) {
+      dispatch({
+        type: DOWNLOAD_AREA,
+        payload: area
+      });
+      dispatch(cacheLayers());
+    }
   };
 }
 
