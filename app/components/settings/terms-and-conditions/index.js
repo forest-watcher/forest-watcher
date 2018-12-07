@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Text
-} from 'react-native';
+import { View, Text } from 'react-native';
 import Hyperlink from 'react-native-hyperlink';
 import tracker from 'helpers/googleAnalytics';
 
@@ -11,7 +8,6 @@ import Theme from 'config/theme';
 import styles from './styles';
 
 class TermsAndConditions extends Component {
-
   componentDidMount() {
     tracker.trackScreenView('TermsAndConditions');
   }

@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  ScrollView,
-  Text,
-  Linking
-} from 'react-native';
+import { View, ScrollView, Text, Linking } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
 
 import i18n from 'locales';
@@ -60,9 +55,9 @@ class Partners extends Component {
     tracker.trackScreenView('Partners');
   }
 
-  handleLink = (url) => {
+  handleLink = url => {
     Linking.openURL(url);
-  }
+  };
 
   render() {
     return (
@@ -74,14 +69,13 @@ class Partners extends Component {
       >
         <View style={styles.partner}>
           <Text style={styles.partnerText}>{i18n.t('partners.description')}</Text>
-          <Text
-            style={styles.partnerText}
-            onPress={() => this.handleLink('http://www.globalforestwatch.org/about/the-gfw-partnership')}
-          >
+          <Text style={styles.partnerText} onPress={() => this.handleLink('http://www.globalforestwatch.org/about/the-gfw-partnership')}>
             {i18n.t('partners.listOfPartners')}
           </Text>
         </View>
-        <List content={this.partners} bigSeparation={false}>{}</List>
+        <List content={this.partners} bigSeparation={false}>
+          {}
+        </List>
       </ScrollView>
     );
   }

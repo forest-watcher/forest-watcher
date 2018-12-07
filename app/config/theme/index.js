@@ -1,6 +1,4 @@
-import {
-  Dimensions
-} from 'react-native';
+import { Dimensions } from 'react-native';
 
 const screen = Dimensions.get('window');
 const colors = {

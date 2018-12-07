@@ -17,13 +17,15 @@ class SetupCountry extends Component {
   static options(passProps) {
     return {
       topBar: {
-        leftButtons: passProps.goBackDisabled ? [
-          {
-            id: 'logout',
-            text: "Logout",
-            icon: backIcon
-          }
-        ] : undefined,
+        leftButtons: passProps.goBackDisabled
+          ? [
+              {
+                id: 'logout',
+                text: 'Logout',
+                icon: backIcon
+              }
+            ]
+          : undefined,
         title: {
           text: i18n.t('commonText.setup')
         }
@@ -83,9 +85,9 @@ class SetupCountry extends Component {
       this.props.setSetupCountry(currentCountry);
     }
     Navigation.push(componentId, {
-        component: {
-          name: 'ForestWatcher.SetupBoundaries'
-        }
+      component: {
+        name: 'ForestWatcher.SetupBoundaries'
+      }
     });
   };
 

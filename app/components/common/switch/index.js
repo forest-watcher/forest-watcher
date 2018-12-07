@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Switch
-} from 'react-native';
+import { Switch } from 'react-native';
 
 import Theme from 'config/theme';
 

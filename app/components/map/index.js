@@ -407,7 +407,6 @@ class MapComponent extends Component {
   }
 
   async geoLocate() {
-
     this.animateGeo();
 
     const hasPermissions = await requestLocationPermissions();
@@ -442,10 +441,7 @@ class MapComponent extends Component {
     if (Platform.OS === 'ios') {
       Location.startUpdatingLocation();
 
-      this.eventLocation = DeviceEventEmitter.addListener(
-        'locationUpdated',
-        updateLocationFromGeolocation
-      );
+      this.eventLocation = DeviceEventEmitter.addListener('locationUpdated', updateLocationFromGeolocation);
 
       Location.startUpdatingHeading();
       this.eventOrientation = DeviceEventEmitter.addListener(

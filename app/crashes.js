@@ -1,9 +1,5 @@
 import Config from 'react-native-config';
-import {
-  Sentry,
-  SentrySeverity,
-  SentryLog
-} from 'react-native-sentry';
+import { Sentry, SentrySeverity, SentryLog } from 'react-native-sentry';
 
 // disable stacktrace merging
 export async function setupCrashLogging() {
@@ -23,14 +19,15 @@ export async function setupCrashLogging() {
 
   // set a callback after an event was successfully sentry
   // its only guaranteed that this event contains `event_id` & `level`
-  Sentry.setEventSentSuccessfully((event) => {
+  Sentry.setEventSentSuccessfully(event => {
     // can also be called outside this block but maybe null
     // Sentry.lastEventId(); -> returns the last event_id after the first successfully sent event
     // Sentry.lastException(); -> returns the last event after the first successfully sent event
-    console.log("3SC", "Sentry event logged successfully", event);
+    // eslint-disable-next-line no-console
+    console.log('3SC', 'Sentry event logged successfully', event);
   });
 
-  Sentry.setShouldSendCallback((event) => {
+  Sentry.setShouldSendCallback(event => {
     return true; // if return false, event will not be sent
   });
 }

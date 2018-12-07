@@ -67,7 +67,7 @@ class DrawAreas extends Component {
       loading: false,
       shape: {
         coordinates: getGoogleMapsCoordinates(props.coordinates)
-      },
+      }
       /*region: {
         latitude: intialCoords[1],
         longitude: intialCoords[0],
