@@ -19,6 +19,7 @@ import com.microsoft.codepush.react.CodePush;
 import com.microsoft.codepush.react.ReactInstanceHolder;
 import com.psykar.cookiemanager.CookieManagerPackage;
 import com.reactlibrary.RNAppAuthPackage;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.reactnativenavigation.react.ReactGateway;
@@ -80,7 +81,8 @@ public class MainApplication extends NavigationApplication implements ReactInsta
       new AppCenterReactNativePackage(MainApplication.this),
       new FastImageViewPackage(),
       new LottiePackage(),
-      new RNSentryPackage()
+      new RNSentryPackage(),
+      new RNCWebViewPackage()
     );
   }
 
@@ -93,10 +95,5 @@ public class MainApplication extends NavigationApplication implements ReactInsta
   public ReactInstanceManager getReactInstanceManager() {
       // CodePush must be told how to find React Native instance
     return getReactNativeHost().getReactInstanceManager();
-  }
-
-  @Override
-  public void onCreate() {
-    super.onCreate();
   }
 }

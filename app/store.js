@@ -1,5 +1,5 @@
-import * as reducers from 'redux-modules';
-import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
+import { createStore, compose, applyMiddleware } from 'redux';
+import { combinedReducer } from 'combinedReducer';
 import offline from 'offline';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
@@ -33,8 +33,6 @@ const authMiddleware = ({ getState }) => next => action => (
 
 const middlewareList = [thunk, authMiddleware, sagaMiddleware];
 
-const reducer = combineReducers(reducers);
-
 function createAppStore(startApp) {
   let storeCreator = createStore;
   const {
@@ -47,7 +45,7 @@ function createAppStore(startApp) {
     storeCreator = Reactotron.createStore;
   }
   return storeCreator(
-    enhanceReducer(reducer),
+    enhanceReducer(combinedReducer),
     compose(enhanceStore, middleware)
   );
 }

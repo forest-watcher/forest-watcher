@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`async actions creates FETCH_TODOS_FAILURE when fetching todos is rejected 1`] = `
+Array [
+  Object {
+    "type": "FETCH_TODOS_REQUEST",
+  },
+  Object {
+    "exception": Object {
+      "message": "Mock error message.",
+      "name": "Mock Error",
+    },
+    "type": "FETCH_TODOS_FAILURE",
+  },
+]
+`;
+
+exports[`async actions creates FETCH_TODOS_SUCCESS when fetching todos has been done 1`] = `
+Array [
+  Object {
+    "type": "FETCH_TODOS_REQUEST",
+  },
+  Object {
+    "body": Object {
+      "todos": Array [
+        "TWO",
+        "THREE",
+      ],
+    },
+    "type": "FETCH_TODOS_SUCCESS",
+  },
+]
+`;
