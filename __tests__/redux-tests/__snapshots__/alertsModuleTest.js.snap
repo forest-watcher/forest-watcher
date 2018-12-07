@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Redux Alerts Module Initial reducer state 1`] = `
+Object {
+  "cache": Object {},
+  "canDisplayAlerts": true,
+  "queue": Array [],
+  "reported": Array [],
+  "syncError": false,
+}
+`;
+
+exports[`Redux Alerts Module Simple Actions: snapshot and reducer test getAreaAlerts 1`] = `
+Object {
+  "meta": Object {
+    "offline": Object {
+      "commit": Object {
+        "meta": Object {
+          "alertId": "areaID_datasetSlugMock",
+          "area": Object {
+            "geostore": Object {
+              "id": "geostoreID",
+            },
+            "id": "areaID",
+          },
+          "datasetSlug": "datasetSlugMock",
+          "range": 10,
+        },
+        "type": "alerts/GET_ALERTS_COMMIT",
+      },
+      "effect": Object {
+        "deserialize": false,
+        "url": "<API_URL_MOCK>/fw-alerts/datasetSlugMock/geostoreID?range=10&output=csv",
+      },
+      "rollback": Object {
+        "meta": Object {
+          "alertId": "areaID_datasetSlugMock",
+        },
+        "type": "alerts/GET_ALERTS_ROLLBACK",
+      },
+    },
+  },
+  "payload": "areaID_datasetSlugMock",
+  "type": "alerts/GET_ALERTS_REQUEST",
+}
+`;
+
+exports[`Redux Alerts Module Simple Actions: snapshot and reducer test getAreaAlerts 2`] = `
+Object {
+  "cache": Object {},
+  "canDisplayAlerts": true,
+  "queue": Array [
+    "areaID_datasetSlugMock",
+  ],
+  "reported": Array [],
+  "syncError": false,
+}
+`;
+
+exports[`Redux Alerts Module Simple Actions: snapshot and reducer test setActiveAlerts 1`] = `
+Object {
+  "type": "alerts/SET_ACTIVE_ALERTS",
+}
+`;
+
+exports[`Redux Alerts Module Simple Actions: snapshot and reducer test setActiveAlerts 2`] = `
+Object {
+  "cache": Object {},
+  "canDisplayAlerts": true,
+  "queue": Array [],
+  "reported": Array [],
+  "syncError": false,
+}
+`;
+
+exports[`Redux Alerts Module Simple Actions: snapshot and reducer test setCanDisplayAlerts 1`] = `
+Object {
+  "payload": true,
+  "type": "alerts/SET_CAN_DISPLAY_ALERTS",
+}
+`;
+
+exports[`Redux Alerts Module Simple Actions: snapshot and reducer test setCanDisplayAlerts 2`] = `
+Object {
+  "cache": Object {},
+  "canDisplayAlerts": true,
+  "queue": Array [],
+  "reported": Array [],
+  "syncError": false,
+}
+`;
+
+exports[`Redux Alerts Module Simple Actions: snapshot and reducer test setCanDisplayAlerts 3`] = `
+Object {
+  "payload": false,
+  "type": "alerts/SET_CAN_DISPLAY_ALERTS",
+}
+`;
+
+exports[`Redux Alerts Module Simple Actions: snapshot and reducer test setCanDisplayAlerts 4`] = `
+Object {
+  "cache": Object {},
+  "canDisplayAlerts": false,
+  "queue": Array [],
+  "reported": Array [],
+  "syncError": false,
+}
+`;
