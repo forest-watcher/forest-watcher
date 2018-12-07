@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Image, Text, Dimensions, TouchableHighlight, Platform } from 'react-native';
+import { View, Image, Text, TouchableHighlight, Platform } from 'react-native';
 
 import { MAPS, AREAS } from 'config/constants';
 import MapView from 'react-native-maps';
@@ -16,11 +16,6 @@ import styles from './styles';
 
 const geojsonArea = require('@mapbox/geojson-area');
 
-const { width, height } = Dimensions.get('window');
-
-const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 15;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const edgePadding = { top: 180, right: 85, bottom: 180, left: 85 };
 
 const footerBackgroundImage = require('assets/map_bg_gradient.png');
@@ -57,8 +52,6 @@ function getGeoJson(coordinates) {
 class DrawAreas extends Component {
   constructor(props) {
     super(props);
-    //const intialCoords = this.props.country && this.props.country.centroid ? this.props.country.centroid.coordinates : [MAPS.lng, MAPS.lat];
-
     this.nextPress = false;
     this.mapReady = false;
     this.state = {
@@ -68,12 +61,6 @@ class DrawAreas extends Component {
       shape: {
         coordinates: getGoogleMapsCoordinates(props.coordinates)
       }
-      /*region: {
-        latitude: intialCoords[1],
-        longitude: intialCoords[0],
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA
-      }*/
     };
   }
 
@@ -336,6 +323,7 @@ class DrawAreas extends Component {
 }
 
 DrawAreas.propTypes = {
+  coordinates: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
   country: PropTypes.shape({
     iso: PropTypes.string.isRequired,
     bbox: PropTypes.object,

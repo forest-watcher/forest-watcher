@@ -186,7 +186,12 @@
           ]
         }
       ],
-      "no-unused-vars": "warn",
+      "no-unused-vars": [
+        "warn",
+        {
+          "args": "none"
+        }
+      ],
       "prettier/prettier": "warn",
       "react/default-props-match-prop-types": [
         "warn",
@@ -212,7 +217,7 @@
       "react/jsx-no-literals": "off",
       "react/jsx-sort-default-props": "warn",
       "react/jsx-sort-props": "off",
-      "react/no-array-index-key": "warn",
+      "react/no-array-index-key": "off",
       "react/no-set-state": "off",
       "react/no-unsafe": "warn",
       "react/prefer-stateless-function": "off",

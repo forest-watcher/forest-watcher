@@ -48,7 +48,8 @@ ButtonCircle.propTypes = {
   style: PropTypes.node,
   icon: PropTypes.number,
   disabled: PropTypes.bool,
-  onPress: PropTypes.func.isRequired
+  onPress: PropTypes.func.isRequired,
+  gray: PropTypes.bool
 };
 
 export default ButtonCircle;

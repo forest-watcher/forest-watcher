@@ -1,5 +1,5 @@
 import Config from 'react-native-config';
-import { Sentry, SentrySeverity, SentryLog } from 'react-native-sentry';
+import { Sentry, SentryLog } from 'react-native-sentry';
 
 // disable stacktrace merging
 export async function setupCrashLogging() {

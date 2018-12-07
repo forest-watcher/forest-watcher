@@ -1,16 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import {
-  Alert,
-  View,
-  Text,
-  TouchableHighlight,
-  ScrollView,
-  Image,
-  ActivityIndicator,
-  SafeAreaView
-} from 'react-native';
+import { Alert, View, Text, TouchableHighlight, Image, ActivityIndicator, SafeAreaView } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 import SafeArea from 'react-native-safe-area';
@@ -21,7 +12,6 @@ import Theme from 'config/theme';
 import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import { getLanguage } from 'helpers/language';
-import checkConnectivity from 'helpers/networking';
 import moment from 'moment';
 import 'moment/locale/es';
 import 'moment/locale/fr';
@@ -40,6 +30,7 @@ const nextIcon = require('assets/next_white.png');
 moment.locale(getLanguage());
 
 type Props = {
+  loading: boolean,
   loggedIn: boolean,
   logSuccess: boolean,
   logout: () => void,

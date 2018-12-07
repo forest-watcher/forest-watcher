@@ -133,7 +133,8 @@ SetupCountry.propTypes = {
   user: PropTypes.any,
   setupCountry: PropTypes.any,
   countries: PropTypes.any,
-  setSetupCountry: PropTypes.func.isRequired
+  setSetupCountry: PropTypes.func.isRequired,
+  componentId: PropTypes.string.isRequired
 };
 
 export default SetupCountry;

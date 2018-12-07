@@ -6,7 +6,6 @@ import { View, Text, ScrollView } from 'react-native';
 import Row from 'components/common/row';
 import moment from 'moment';
 import i18n from 'locales';
-import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';

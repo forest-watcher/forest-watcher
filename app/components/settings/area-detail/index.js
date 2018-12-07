@@ -131,7 +131,6 @@ class AreaDetail extends Component<Props, State> {
 
   render() {
     const { area, disableDelete } = this.props;
-    const { page, bottomSafeAreaInset } = this.state;
 
     if (!area) return null;
     return (

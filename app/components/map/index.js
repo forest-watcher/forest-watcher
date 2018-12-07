@@ -866,7 +866,8 @@ MapComponent.propTypes = {
     name: PropTypes.string,
     url: PropTypes.string.isRequired
   }),
-  coordinatesFormat: PropTypes.string.isRequired
+  coordinatesFormat: PropTypes.string.isRequired,
+  setSelectedAreaId: PropTypes.func.isRequired
 };
 
 export default MapComponent;

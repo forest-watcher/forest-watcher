@@ -4,7 +4,6 @@ import type { Question, Answer } from 'types/reports.types';
 import React, { Component } from 'react';
 import i18n from 'locales';
 import { View } from 'react-native';
-import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import styles from 'components/form/styles';
 import ActionButton from 'components/common/action-button';

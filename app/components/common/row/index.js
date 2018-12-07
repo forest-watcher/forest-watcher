@@ -43,7 +43,9 @@ Row.propTypes = {
     icon: PropTypes.any
   }),
   opacity: PropTypes.number,
-  rowStyle: PropTypes.any
+  rowStyle: PropTypes.any,
+  switchColorOn: PropTypes.string,
+  switchColorOff: PropTypes.string
 };
 
 export default Row;

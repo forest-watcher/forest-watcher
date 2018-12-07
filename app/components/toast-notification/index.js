@@ -10,7 +10,8 @@ const Timer = require('react-native-timer');
 type Props = {
   type: string,
   text: string,
-  autoDismissTimerMillis: number
+  autoDismissTimerMillis: number,
+  componentId: string
 };
 
 class ToastNotification extends PureComponent<Props> {

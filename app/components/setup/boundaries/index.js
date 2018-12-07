@@ -19,7 +19,8 @@ type Props = {
   setSetupArea: ({ area: CountryArea, snapshot: string }) => void,
   coordinates: Array<Array<number>>,
   setupCountry: Country,
-  contextualLayer: ContextualLayer
+  contextualLayer: ContextualLayer,
+  componentId: string
 };
 
 class SetupBoundaries extends Component<Props> {

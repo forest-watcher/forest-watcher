@@ -112,6 +112,7 @@ class SetupOverview extends Component {
 
 SetupOverview.propTypes = {
   area: PropTypes.object.isRequired,
+  componentId: PropTypes.string.isRequired,
   snapshot: PropTypes.string.isRequired,
   saveArea: PropTypes.func.isRequired,
   setSetupArea: PropTypes.func.isRequired,

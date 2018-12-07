@@ -3,7 +3,6 @@ import type { Answer, Question } from 'types/reports.types';
 
 import React, { PureComponent } from 'react';
 import { View, Text, ScrollView } from 'react-native';
-import Theme from 'config/theme';
 import i18n from 'locales';
 
 import ActionButton from 'components/common/action-button';

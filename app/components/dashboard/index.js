@@ -12,10 +12,9 @@ import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import i18n from 'locales';
 import styles from './styles';
-import SafeArea, { withSafeArea, type SafeAreaInsets } from 'react-native-safe-area';
+import SafeArea, { withSafeArea } from 'react-native-safe-area';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
-const Timer = require('react-native-timer');
 const settingsIcon = require('assets/settings.png');
 const nextIcon = require('assets/next.png');
 
@@ -55,10 +54,6 @@ class Dashboard extends PureComponent<Props> {
   }
 
   reportsAction: { callback: () => void, icon: any };
-
-  state = {
-    page: 0
-  };
 
   constructor(props: Props) {
     super(props);
@@ -160,7 +155,7 @@ class Dashboard extends PureComponent<Props> {
   };
 
   render() {
-    const { page, bottomSafeAreaInset } = this.state;
+    const { bottomSafeAreaInset } = this.state;
     const { pristine, refreshing, appSyncing } = this.props;
     const isIOS = Platform.OS === 'ios';
     // we remove the event handler to improve performance

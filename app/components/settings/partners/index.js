@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { View, ScrollView, Text, Linking } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
 
 import i18n from 'locales';
-import Theme from 'config/theme';
 import List from 'components/common/list';
 import styles from './styles';
 
