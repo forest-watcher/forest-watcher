@@ -1,8 +1,10 @@
 package com.forestwatcher;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.security.ProviderInstaller;
 import com.reactnativenavigation.NavigationActivity;
@@ -82,5 +84,11 @@ public class MainActivity extends NavigationActivity implements ProviderInstalle
 			// install/update/enable Google Play services.
 			availability.showErrorDialogFragment(this, errorCode, PROVIDER_INSTALLER_RECOVERY_REQUEST_CODE);
 		}
+	}
+
+	@Override
+	protected void addDefaultSplashLayout()
+	{
+		setContentView(R.layout.splash);
 	}
 }
