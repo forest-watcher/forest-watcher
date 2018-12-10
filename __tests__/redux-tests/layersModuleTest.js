@@ -49,12 +49,25 @@ describe('Redux Layers Module', () => {
 
   describe('Redux Snapshot Thunk Actions', () => {
     let initialStoreState;
+    let populatedStoreState;
     let configuredStore;
     let store;
 
     beforeAll(() => {
       // create store
       initialStoreState = combinedReducer(undefined, { type: 'NONE' });
+      populatedStoreState = {
+        ...initialStoreState,
+        areas: {
+          ...initialStoreState.areas,
+          data: [mockArea]
+        },
+        layers: {
+          ...initialStoreState.layers,
+          data: [mockLayer],
+          pendingCache: mockPendingCache
+        }
+      };
       configuredStore = configureStore([thunk]);
     });
 
@@ -84,18 +97,7 @@ describe('Redux Layers Module', () => {
       store.dispatch(cacheAreaLayer('areaIDMock', 'layerIDMock'));
       expect(store.getActions()).toMatchSnapshot();
 
-
-      store = configuredStore({
-        ...initialStoreState,
-        areas: {
-          ...initialStoreState.area,
-          data: [mockArea]
-        },
-        layers: {
-          ...initialStoreState.layers,
-          data: [mockLayer]
-        }
-      });
+      store = configuredStore(populatedStoreState);
 
       store.dispatch(cacheAreaLayer('areaIDMock', 'layerIDMock'));
       store.dispatch(cacheAreaLayer('areaIDMock1', 'layerIDMock1'));
@@ -106,13 +108,7 @@ describe('Redux Layers Module', () => {
       store.dispatch(cacheAreaBasemap('areaIDMock'));
       expect(store.getActions()).toMatchSnapshot();
 
-      store = configuredStore({
-        ...initialStoreState,
-        areas: {
-          ...initialStoreState.area,
-          data: [mockArea]
-        },
-      });
+      store = configuredStore(populatedStoreState);
 
       store.dispatch(cacheAreaBasemap('areaIDMock'));
       store.dispatch(cacheAreaBasemap('areaIDMock1'));
@@ -123,20 +119,7 @@ describe('Redux Layers Module', () => {
       store.dispatch(cacheLayers());
       expect(store.getActions()).toMatchSnapshot();
 
-
-
-      store = configuredStore({
-        ...initialStoreState,
-        areas: {
-          ...initialStoreState.area,
-          data: [mockArea]
-        },
-        layers: {
-          ...initialStoreState.layers,
-          data: [mockLayer],
-          pendingCache: mockPendingCache
-        }
-      });
+      store = configuredStore(populatedStoreState);
 
       store.dispatch(cacheLayers());
       expect(store.getActions()).toMatchSnapshot();
@@ -146,18 +129,7 @@ describe('Redux Layers Module', () => {
       store.dispatch(downloadAreaById('areaIDMock'));
       expect(store.getActions()).toMatchSnapshot();
 
-      store = configuredStore({
-        ...initialStoreState,
-        areas: {
-          ...initialStoreState.areas,
-          data: [mockArea]
-        },
-        layers: {
-          ...initialStoreState.layers,
-          data: [mockLayer],
-          pendingCache: mockPendingCache
-        }
-      });
+      store = configuredStore(populatedStoreState);
 
       store.dispatch(downloadAreaById('areaIDMock'));
       store.dispatch(downloadAreaById('areaIDMock1'));
