@@ -670,16 +670,17 @@ class MapComponent extends Component {
     const markerBorder = { borderWidth: (markerSize.width / 18) * 4 };
 
     // Map elements
-    const basemapLayerElement = isConnected ? (
-      <MapView.UrlTile key="basemapLayerElement" urlTemplate={MAPS.basemap} zIndex={-1} />
-    ) : (
+    const basemapLocalLayerElement = basemapLocalTilePath ? (
       <MapView.LocalTile
         key="localBasemapLayerElementL"
         pathTemplate={basemapLocalTilePath}
-        zIndex={-1}
+        zIndex={-2}
         maxZoom={12}
         tileSize={256}
       />
+    ) : null;
+    const basemapRemoteLayerElement = (
+      <MapView.UrlTile key="basemapLayerElement" urlTemplate={MAPS.basemap} zIndex={-1} />
     );
     const contextualLayerElement = contextualLayer ? ( // eslint-disable-line
       isConnected ? (
@@ -812,7 +813,8 @@ class MapComponent extends Component {
           onRegionChange={this.onRegionChange}
           onRegionChangeComplete={this.onRegionChangeComplete}
         >
-          {basemapLayerElement}
+          {basemapLocalLayerElement}
+          {basemapRemoteLayerElement}
           {contextualLayerElement}
           {clustersElement}
           {compassLineElement}
