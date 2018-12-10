@@ -669,6 +669,13 @@
   dependencies:
     "@mapbox/sphericalmercator" "~1.1.0"
 
+"@mapbox/geo-viewport@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@mapbox/geo-viewport/-/geo-viewport-0.2.2.tgz#93206c044238c21a60fca7e9064c8ce63e8027b4"
+  integrity sha1-kyBsBEI4whpg/KfpBkyM5j6AJ7Q=
+  dependencies:
+    "@mapbox/sphericalmercator" "~1.0.2"
+
 "@mapbox/geojson-area@0.2.2":
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/@mapbox/geojson-area/-/geojson-area-0.2.2.tgz#18d7814aa36bf23fbbcc379f8e26a22927debf10"
@@ -676,10 +683,19 @@
   dependencies:
     wgs84 "0.0.0"
 
+"@mapbox/sphericalmercator@~1.0.2":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@mapbox/sphericalmercator/-/sphericalmercator-1.0.5.tgz#70237b9774095ed1cfdbcea7a8fd1fc82b2691f2"
+  integrity sha1-cCN7l3QJXtHP286nqP0fyCsmkfI=
+
 "@mapbox/sphericalmercator@~1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@mapbox/sphericalmercator/-/sphericalmercator-1.1.0.tgz#f3b1af042620716a1289fc41e1e97f610823aefe"
   integrity sha512-pEsfZyG4OMThlfFQbCte4gegvHUjxXCjz0KZ4Xk8NdOYTQBLflj6U8PL05RPAiuRAMAQNUUKJuL6qYZ5Y4kAWA==
+
+"@mapbox/tilebelt@Vizzuality/tilebelt":
+  version "1.0.1"
+  resolved "https://codeload.github.com/Vizzuality/tilebelt/tar.gz/9e0c09681881c84bcb62a26b00f3d8d56a8c4035"
 
 "@redux-offline/redux-offline@2.5.1":
   version "2.5.1"
@@ -7219,10 +7235,12 @@ react-native-location@1.0.0:
   resolved "https://registry.yarnpkg.com/react-native-location/-/react-native-location-1.0.0.tgz#e2f0b8a278f342682051455dfe6e6ceada839ee5"
   integrity sha512-48M1w9N9giACHerOr/Yc35DiD0Q/0rIg72D48B/+ltMdxfhuMYuExW6wMoW3o5BFFIqRjdvSaPtZLoHZ9+f4OQ==
 
-react-native-maps@0.22.1:
+react-native-maps@3sidedcube/react-native-maps#app/forest-watcher:
   version "0.22.1"
-  resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.22.1.tgz#ce856e71970e872e596e6fa4773279cae2c4dcdd"
-  integrity sha512-JjBpAXjzZY8AW4HTcAZxX+cGk6e6i+J5Vd//DViMUe0bRkKKv92ds1W9rqZ+o9PhUqdP++3DvKv0jrB05icqKA==
+  resolved "https://codeload.github.com/3sidedcube/react-native-maps/tar.gz/09447e7bf58efa8cfe2bb1473ec39ebd2e9db071"
+  dependencies:
+    "@mapbox/geo-viewport" "^0.2.2"
+    "@mapbox/tilebelt" Vizzuality/tilebelt
 
 react-native-navigation@2.1.3:
   version "2.1.3"
@@ -9062,7 +9080,7 @@ url-parse-lax@^1.0.0:
   dependencies:
     prepend-http "^1.0.1"
 
-url-parse@^1.1.7, url-parse@^1.4.4:
+url-parse@1.4.4, url-parse@^1.1.7:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.4.4.tgz#cac1556e95faa0303691fec5cf9d5a1bc34648f8"
   integrity sha512-/92DTTorg4JjktLNLe6GPS2/RvAd/RGr6LuktmWSMLEOa6rjnlrFXNgSbSmkNvCoL2T028A0a1JaJLzRMlFoHg==
