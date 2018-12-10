@@ -161,10 +161,24 @@ describe('Redux Layers Module', () => {
     });
 
     it('resetCacheStatus', () => {
-      // todo full test with existing area in cache
       store.dispatch(resetCacheStatus('areaIDMock'));
       store.dispatch(resetCacheStatus('areaIDMock1'));
       expect(store.getActions()).toMatchSnapshot();
+    });
+
+    it('resetCacheStatus full test', () => {
+      const propertyMatcher = { syncDate: expect.any(Number) };
+      let newState = {
+        layers: layerReducer(undefined, { type: 'NONE' }),
+        areas: {
+          ...initialStoreState.areas,
+          data: [mockArea]
+        }
+      };
+
+      newState = mockDispatchAction(newState, resetCacheStatus('areaIDMock'), propertyMatcher);
+      newState = mockDispatchAction(newState, downloadAreaById('areaIDMock'), propertyMatcher);
+      mockDispatchAction(newState, resetCacheStatus('areaIDMock2'), propertyMatcher);
     });
 
     it('setActiveContextualLayer', () => {
