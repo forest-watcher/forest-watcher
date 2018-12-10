@@ -793,7 +793,7 @@ class MapComponent extends Component {
       <View style={styles.container} onMoveShouldSetResponder={this.onMoveShouldSetResponder}>
         <View pointerEvents="none" style={styles.header}>
           <Image style={styles.headerBg} source={backgroundImage} />
-          {!isConnected && <Text style={styles.offlineNotice}>Offline</Text>}
+          {!isConnected && <Text style={styles.offlineNotice}>{i18n.t('commonText.connectionRequiredTitle')}</Text>}
         </View>
         <MapView
           ref={ref => {
