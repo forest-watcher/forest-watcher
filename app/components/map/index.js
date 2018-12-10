@@ -25,6 +25,7 @@ import Theme from 'config/theme';
 import i18n from 'locales';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 const geoViewport = require('@mapbox/geo-viewport');
 
@@ -792,6 +793,7 @@ class MapComponent extends Component {
       <View style={styles.container} onMoveShouldSetResponder={this.onMoveShouldSetResponder}>
         <View pointerEvents="none" style={styles.header}>
           <Image style={styles.headerBg} source={backgroundImage} />
+          {!isConnected && <Text style={styles.offlineNotice}>Offline</Text>}
         </View>
         <MapView
           ref={ref => {

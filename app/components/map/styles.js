@@ -37,6 +37,13 @@ export default StyleSheet.create({
     alignItems: 'center',
     overflow: 'visible'
   },
+  offlineNotice: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    color: 'red',
+    margin: 16
+  },
   signalNoticeText: {
     fontWeight: '400',
     fontStyle: 'italic',
