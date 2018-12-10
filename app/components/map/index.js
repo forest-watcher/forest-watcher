@@ -25,6 +25,7 @@ import Theme from 'config/theme';
 import i18n from 'locales';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 const geoViewport = require('@mapbox/geo-viewport');
 
@@ -155,25 +156,6 @@ class MapComponent extends Component {
     if (!canDisplayAlerts) {
       setCanDisplayAlerts(true);
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    const conditions = [
-      !isEqual(nextProps.areaCoordinates, this.props.areaCoordinates),
-      !isEqual(nextProps.area, this.props.area),
-      nextProps.canDisplayAlerts !== this.props.canDisplayAlerts,
-      !isEqual(nextProps.contextualLayer, this.props.contextualLayer),
-      !isEqual(nextState.lastPosition, this.state.lastPosition),
-      nextState.hasCompass !== this.state.hasCompass,
-      nextState.heading !== this.state.heading,
-      nextState.customReporting !== this.state.customReporting,
-      nextState.dragging !== this.state.dragging,
-      !isEqual(nextState.markers, this.state.markers),
-      !isEqual(nextState.selectedAlerts, this.state.selectedAlerts),
-      !isEqual(nextState.neighbours, this.state.neighbours),
-      !isEqual(nextState.compassLine, this.state.compassLine)
-    ];
-    return conditions.includes(true);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -811,6 +793,7 @@ class MapComponent extends Component {
       <View style={styles.container} onMoveShouldSetResponder={this.onMoveShouldSetResponder}>
         <View pointerEvents="none" style={styles.header}>
           <Image style={styles.headerBg} source={backgroundImage} />
+          {!isConnected && <Text style={styles.offlineNotice}>{i18n.t('commonText.connectionRequiredTitle')}</Text>}
         </View>
         <MapView
           ref={ref => {
