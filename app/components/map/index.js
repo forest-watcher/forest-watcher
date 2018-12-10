@@ -157,25 +157,6 @@ class MapComponent extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    const conditions = [
-      !isEqual(nextProps.areaCoordinates, this.props.areaCoordinates),
-      !isEqual(nextProps.area, this.props.area),
-      nextProps.canDisplayAlerts !== this.props.canDisplayAlerts,
-      !isEqual(nextProps.contextualLayer, this.props.contextualLayer),
-      !isEqual(nextState.lastPosition, this.state.lastPosition),
-      nextState.hasCompass !== this.state.hasCompass,
-      nextState.heading !== this.state.heading,
-      nextState.customReporting !== this.state.customReporting,
-      nextState.dragging !== this.state.dragging,
-      !isEqual(nextState.markers, this.state.markers),
-      !isEqual(nextState.selectedAlerts, this.state.selectedAlerts),
-      !isEqual(nextState.neighbours, this.state.neighbours),
-      !isEqual(nextState.compassLine, this.state.compassLine)
-    ];
-    return conditions.includes(true);
-  }
-
   componentDidUpdate(prevProps, prevState) {
     const { area, setActiveAlerts } = this.props;
     if (area && area.dataset) {
