@@ -10,25 +10,25 @@ import { Types } from 'components/toast-notification';
 
 export default {
   [UPLOAD_REPORT_COMMIT]: {
-    type: 'success',
+    type: Types.success,
     text: i18n.t('sync.reportUploaded')
   },
   [UPLOAD_REPORT_ROLLBACK]: {
-    type: 'error',
+    type: Types.error,
     text: i18n.t('sync.reportUploadRollback')
   },
   [SAVE_AREA_ROLLBACK]: {
-    type: 'error',
+    type: Types.error,
     text: i18n.t('sync.errorCreatingArea'),
     time: 15
   },
   [GET_ALERTS_COMMIT]: {
-    type: 'success',
+    type: Types.success,
     text: i18n.t('sync.alertsUpdated'),
     check: (state: State) => state.areas.synced && state.layers.synced && state.alerts.queue.length === 0
   },
   [SHOW_CONNECTION_REQUIRED]: {
-    type: Types.disable,
+    type: Types.error,
     text: i18n.t('commonText.connectionRequired')
   },
   [SHOW_OFFLINE_MODE_IS_ON]: {
