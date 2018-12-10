@@ -20,13 +20,13 @@ describe('Redux Layers Module', () => {
     name: 'nameMock',
     id: 'areaIDMock',
     application: 'applicationMock', // used to test that all fields are included in payload
-    geostore: { id: 'geostoreIDMock'}
+    geostore: { id: 'geostoreIDMock' }
   };
 
   const mockLayer = {
     url: 'urlMock',
     name: 'nameMock',
-    id: 'layerIDMock',
+    id: 'layerIDMock'
   };
 
   const mockPendingCache = {
@@ -78,10 +78,11 @@ describe('Redux Layers Module', () => {
 
     // if changing this method, change in other tests too
     function mockDispatchAction(state, action, propertyMatcher, test = true) {
-      const newStore = configuredStore({ layers: state });
+      // slightly different implementation in this redux module test.
+      const newStore = configuredStore(state);
       newStore.dispatch(action);
       const resolvedActions = newStore.getActions();
-      let newState = state;
+      let newState = state.layers;
       // should only be one but the loop is used for future changes and so all tests conform.
       resolvedActions.forEach(resolvedAction => {
         newState = layerReducer(newState, resolvedAction);
@@ -90,7 +91,14 @@ describe('Redux Layers Module', () => {
         expect(resolvedActions).toMatchSnapshot();
         expect(newState).toMatchSnapshot(propertyMatcher);
       }
-      return newState;
+
+      const returnState = {
+        ...state,
+        layers: {
+          ...newState
+        }
+      };
+      return returnState;
     }
 
     it('cacheAreaLayer', () => {
@@ -167,7 +175,7 @@ describe('Redux Layers Module', () => {
 
     it('setActiveContextualLayer full test', () => {
       const propertyMatcher = { syncDate: expect.any(Number) };
-      let newState = layerReducer(undefined, { type: 'NONE' });
+      let newState = { layers: layerReducer(undefined, { type: 'NONE' })};
       newState = mockDispatchAction(newState, setActiveContextualLayer('layerMock', false), propertyMatcher);
       newState = mockDispatchAction(newState, setActiveContextualLayer('layerMock', true), propertyMatcher);
       mockDispatchAction(newState, setActiveContextualLayer('layerMock', true), propertyMatcher);
