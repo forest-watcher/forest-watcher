@@ -136,19 +136,31 @@ describe('Redux Layers Module', () => {
       expect(store.getActions()).toMatchSnapshot();
     });
 
-    it('refreshAreaCacheById', () => {
-      store.dispatch(refreshAreaCacheById());
-      expect(store.getActions()).toMatchSnapshot();
-    });
-
     it('getUserLayers', () => {
       store.dispatch(getUserLayers());
       expect(store.getActions()).toMatchSnapshot();
     });
 
+    it('refreshAreaCacheById', () => {
+      store.dispatch(refreshAreaCacheById('areaIDMock'));
+      expect(store.getActions()).toMatchSnapshot();
+
+      store = configuredStore(populatedStoreState);
+
+      store.dispatch(refreshAreaCacheById('areaIDMock'));
+      store.dispatch(refreshAreaCacheById('areaIDMock1'));
+      expect(store.getActions()).toMatchSnapshot();
+    });
+
+    it('resetCacheStatus', () => {
+      // todo full test with existing area in cache
+      store.dispatch(resetCacheStatus('areaIDMock'));
+      store.dispatch(resetCacheStatus('areaIDMock1'));
+      expect(store.getActions()).toMatchSnapshot();
+    });
+
     it('setActiveContextualLayer', () => {
       store.dispatch(setActiveContextualLayer('layerMock', false));
-      store.dispatch(setActiveContextualLayer('layerMock', true));
       store.dispatch(setActiveContextualLayer('layerMock', true));
       expect(store.getActions()).toMatchSnapshot();
     });
@@ -159,6 +171,22 @@ describe('Redux Layers Module', () => {
       newState = mockDispatchAction(newState, setActiveContextualLayer('layerMock', false), propertyMatcher);
       newState = mockDispatchAction(newState, setActiveContextualLayer('layerMock', true), propertyMatcher);
       mockDispatchAction(newState, setActiveContextualLayer('layerMock', true), propertyMatcher);
+    });
+
+    it('syncLayers', () => {
+      store.dispatch(syncLayers());
+      expect(store.getActions()).toMatchSnapshot();
+
+      store = configuredStore({
+        ...initialStoreState,
+        layers: {
+          ...initialStoreState.layers,
+          synced: true
+        }
+      });
+
+      store.dispatch(syncLayers());
+      expect(store.getActions()).toMatchSnapshot();
     });
   });
 });
