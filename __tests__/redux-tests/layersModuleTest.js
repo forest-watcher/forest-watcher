@@ -70,8 +70,14 @@ describe('Redux Layers Module', () => {
       };
       store = configuredStore({
         ...initialStoreState,
-        areas: { data: [mockArea] },
-        layers: { data: [mockLayer] }
+        areas: {
+          ...initialStoreState.area,
+          data: [mockArea]
+        },
+        layers: {
+          ...initialStoreState.layers,
+          data: [mockLayer]
+        }
       });
 
       store.dispatch(cacheAreaLayer('areaIDMock', 'layerIDMock'));
@@ -91,7 +97,10 @@ describe('Redux Layers Module', () => {
       };
       store = configuredStore({
         ...initialStoreState,
-        areas: { data: [mockArea] },
+        areas: {
+          ...initialStoreState.area,
+          data: [mockArea]
+        },
       });
 
       store.dispatch(cacheAreaBasemap('areaIDMock'));
@@ -130,7 +139,10 @@ describe('Redux Layers Module', () => {
 
       store = configuredStore({
         ...initialStoreState,
-        areas: { data: [mockArea] },
+        areas: {
+          ...initialStoreState.area,
+          data: [mockArea]
+        },
         layers: {
           ...initialStoreState.layers,
           data: [mockLayer],
@@ -152,13 +164,45 @@ describe('Redux Layers Module', () => {
         application: 'applicationMock', // used to test that all fields are included in payload
         geostore: { id: 'geostoreIDMock'}
       };
+      const mockLayer = {
+        url: 'urlMock',
+        name: 'nameMock',
+        id: 'layerIDMock',
+      };
+      const mockPendingCache = {
+        layerIDMock: {
+          areaIDMock: false,
+          areaIDMock2: false,
+          mockAreaID: 'areaIDMock'
+        },
+        mockLayerID2: {
+          areaIDMock: false,
+          areaIDMock2: false,
+          areaIDMock3: false,
+          mockAreaID: 'areaIDMock'
+        }
+      };
+
       store = configuredStore({
         ...initialStoreState,
-        areas: { data: [mockArea] },
+        areas: {
+          ...initialStoreState.areas,
+          data: [mockArea]
+        },
+        layers: {
+          ...initialStoreState.layers,
+          data: [mockLayer],
+          pendingCache: mockPendingCache
+        }
       });
 
       store.dispatch(downloadAreaById('areaIDMock'));
       store.dispatch(downloadAreaById('areaIDMock1'));
+      expect(store.getActions()).toMatchSnapshot();
+    });
+
+    it('refreshAreaCacheById', () => {
+      store.dispatch(refreshAreaCacheById());
       expect(store.getActions()).toMatchSnapshot();
     });
 
