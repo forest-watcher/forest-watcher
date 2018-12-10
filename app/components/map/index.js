@@ -669,13 +669,18 @@ class MapComponent extends Component {
     const markerSize = this.getMarkerSize();
     const markerBorder = { borderWidth: (markerSize.width / 18) * 4 };
 
+    const tileBaseDir = Platform.select({
+      android: `${RNFetchBlob.fs.dirs.DocumentDir}/`,
+      ios: ''
+    });
+
     // Map elements
     const basemapLayerElement = isConnected ? (
       <MapView.UrlTile key="basemapLayerElement" urlTemplate={MAPS.basemap} zIndex={-1} />
     ) : (
       <MapView.LocalTile
         key="localBasemapLayerElementL"
-        pathTemplate={basemapLocalTilePath}
+        pathTemplate={`${tileBaseDir}${basemapLocalTilePath}`}
         zIndex={-1}
         maxZoom={12}
         tileSize={256}
@@ -687,7 +692,7 @@ class MapComponent extends Component {
       ) : (
         <MapView.LocalTile
           key={ctxLayerKey}
-          pathTemplate={ctxLayerLocalTilePath}
+          pathTemplate={`${tileBaseDir}${ctxLayerLocalTilePath}`}
           zIndex={1}
           maxZoom={12}
           tileSize={256}
