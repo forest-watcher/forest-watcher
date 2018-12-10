@@ -3,7 +3,6 @@ import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
   view: {
-    height: 64,
     ...Platform.select({
       android: {
         paddingTop: 16
