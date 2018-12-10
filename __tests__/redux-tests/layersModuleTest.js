@@ -15,6 +15,34 @@ import layerReducer, {
 } from 'redux-modules/layers';
 
 describe('Redux Layers Module', () => {
+  // Mock Objects:
+  const mockArea = {
+    name: 'nameMock',
+    id: 'areaIDMock',
+    application: 'applicationMock', // used to test that all fields are included in payload
+    geostore: { id: 'geostoreIDMock'}
+  };
+
+  const mockLayer = {
+    url: 'urlMock',
+    name: 'nameMock',
+    id: 'layerIDMock',
+  };
+
+  const mockPendingCache = {
+    layerIDMock: {
+      areaIDMock: false,
+      areaIDMock2: false,
+      mockAreaID: 'areaIDMock'
+    },
+    mockLayerID2: {
+      areaIDMock: false,
+      areaIDMock2: false,
+      areaIDMock3: false,
+      mockAreaID: 'areaIDMock'
+    }
+  };
+
   it('Initial reducer state', () => {
     expect(layerReducer(undefined, { type: 'NONE' })).toMatchSnapshot({ syncDate: expect.any(Number) });
   });
@@ -25,7 +53,6 @@ describe('Redux Layers Module', () => {
     let store;
 
     beforeAll(() => {
-      // todo move mock area(s)/layers out of tests.
       // create store
       initialStoreState = combinedReducer(undefined, { type: 'NONE' });
       configuredStore = configureStore([thunk]);
@@ -57,17 +84,7 @@ describe('Redux Layers Module', () => {
       store.dispatch(cacheAreaLayer('areaIDMock', 'layerIDMock'));
       expect(store.getActions()).toMatchSnapshot();
 
-      const mockArea = {
-        name: 'nameMock',
-        id: 'areaIDMock',
-        application: 'applicationMock', // used to test that all fields are included in payload
-        geostore: { id: 'geostoreIDMock'}
-      };
-      const mockLayer = {
-        url: 'urlMock',
-        name: 'nameMock',
-        id: 'layerIDMock',
-      };
+
       store = configuredStore({
         ...initialStoreState,
         areas: {
@@ -89,12 +106,6 @@ describe('Redux Layers Module', () => {
       store.dispatch(cacheAreaBasemap('areaIDMock'));
       expect(store.getActions()).toMatchSnapshot();
 
-      const mockArea = {
-        name: 'nameMock',
-        id: 'areaIDMock',
-        application: 'applicationMock', // used to test that all fields are included in payload
-        geostore: { id: 'geostoreIDMock'}
-      };
       store = configuredStore({
         ...initialStoreState,
         areas: {
@@ -112,30 +123,7 @@ describe('Redux Layers Module', () => {
       store.dispatch(cacheLayers());
       expect(store.getActions()).toMatchSnapshot();
 
-      const mockArea = {
-        name: 'nameMock',
-        id: 'areaIDMock',
-        application: 'applicationMock', // used to test that all fields are included in payload
-        geostore: { id: 'geostoreIDMock'}
-      };
-      const mockLayer = {
-        url: 'urlMock',
-        name: 'nameMock',
-        id: 'layerIDMock',
-      };
-      const mockPendingCache = {
-        layerIDMock: {
-          areaIDMock: false,
-          areaIDMock2: false,
-          mockAreaID: 'areaIDMock'
-        },
-        mockLayerID2: {
-          areaIDMock: false,
-          areaIDMock2: false,
-          areaIDMock3: false,
-          mockAreaID: 'areaIDMock'
-        }
-      };
+
 
       store = configuredStore({
         ...initialStoreState,
@@ -157,31 +145,6 @@ describe('Redux Layers Module', () => {
     it('downloadAreaById', () => {
       store.dispatch(downloadAreaById('areaIDMock'));
       expect(store.getActions()).toMatchSnapshot();
-
-      const mockArea = {
-        name: 'nameMock',
-        id: 'areaIDMock',
-        application: 'applicationMock', // used to test that all fields are included in payload
-        geostore: { id: 'geostoreIDMock'}
-      };
-      const mockLayer = {
-        url: 'urlMock',
-        name: 'nameMock',
-        id: 'layerIDMock',
-      };
-      const mockPendingCache = {
-        layerIDMock: {
-          areaIDMock: false,
-          areaIDMock2: false,
-          mockAreaID: 'areaIDMock'
-        },
-        mockLayerID2: {
-          areaIDMock: false,
-          areaIDMock2: false,
-          areaIDMock3: false,
-          mockAreaID: 'areaIDMock'
-        }
-      };
 
       store = configuredStore({
         ...initialStoreState,
