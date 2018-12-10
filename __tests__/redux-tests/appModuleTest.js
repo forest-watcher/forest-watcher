@@ -81,8 +81,8 @@ describe('Redux App Module', () => {
       let newState = state;
       // should only be one but the loop is used for future changes and so all tests conform.
       resolvedActions.forEach(resolvedAction => {
-        newState = appReducer(newState, resolvedAction); // todo should pass reducer in?
-      }); // todo: how one thunk calling another is handled
+        newState = appReducer(newState, resolvedAction);
+      });
       if (test) {
         expect(resolvedActions).toMatchSnapshot();
         expect(newState).toMatchSnapshot();
