@@ -83,4 +83,10 @@ public class MainActivity extends NavigationActivity implements ProviderInstalle
 			availability.showErrorDialogFragment(this, errorCode, PROVIDER_INSTALLER_RECOVERY_REQUEST_CODE);
 		}
 	}
+
+	@Override
+	protected void addDefaultSplashLayout()
+	{
+		setContentView(R.layout.splash);
+	}
 }
