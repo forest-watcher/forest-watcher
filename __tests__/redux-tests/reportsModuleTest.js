@@ -111,20 +111,22 @@ describe('Redux Reports Module', () => {
       store = configuredStore(initialStoreState);
     });
 
-    function mockDispatchAction(state, action, propertyMatcher) {
+    function mockDispatchAction(state, action, statePropertyMatcher, actionPropertyMatcher) {
       // slightly different implementation in this redux module test.
       const newStore = configuredStore(state);
       newStore.dispatch(action);
       const resolvedActions = newStore.getActions();
       let newState = state.layers;
-      const actionPropertyMatcher = propertyMatcher ? { payload: propertyMatcher } : {};
+
+      const actionPropertyMatcherObj = actionPropertyMatcher ? { payload: actionPropertyMatcher } : {};
+      const statePropertyMatcherObj = statePropertyMatcher ? { list: statePropertyMatcher } : {};
+
       resolvedActions.forEach(resolvedAction => {
         newState = reportsReducer(newState, resolvedAction);
-        expect(action).toMatchSnapshot(actionPropertyMatcher);
+        expect(resolvedAction).toMatchSnapshot(actionPropertyMatcherObj); // property matcher
       });
 
-      const statePropertyMatcher = propertyMatcher ? { list: propertyMatcher } : {};
-      expect(newState).toMatchSnapshot(statePropertyMatcher);
+      expect(newState).toMatchSnapshot(statePropertyMatcherObj);
 
       const returnState = {
         ...state,
@@ -142,23 +144,35 @@ describe('Redux Reports Module', () => {
 
     it('simple report actions full test', () => {
       let newState = {
-        layers: reportsReducer(undefined, { type: 'NONE' }),
-        // areas: {
-        //   ...initialStoreState.areas,
-        //   data: [mockArea]
-        // }
+        layers: reportsReducer(undefined, { type: 'NONE' })
       };
-      const propertyMatcher = { mockCreateReportName: { date: expect.any(String) } };
-      newState = mockDispatchAction(newState, createReport(mockCreateReport), propertyMatcher);
-      newState = mockDispatchAction(newState, setOfflineMode(true));
-      // mockDispatchAction(newState, showNotConnectedNotification());
-    });
 
-    // it('showNotConnectedNotification full test', () => {
-    //   let newState = appReducer(undefined, { type: 'NONE' });
-    //   newState = mockDispatchAction(newState, showNotConnectedNotification());
-    //   newState = mockDispatchAction(newState, setOfflineMode(true));
-    //   mockDispatchAction(newState, showNotConnectedNotification());
-    // });
+      const dataString = { date: expect.any(String) };
+      newState = mockDispatchAction(
+        newState,
+        createReport(mockCreateReport),
+        { mockCreateReportName: dataString },
+        { mockCreateReportName: dataString }
+      );
+
+      const mockCreateReport2 = {
+        ...mockCreateReport,
+        reportName: mockCreateReport.reportName + '2'
+      };
+
+      newState = mockDispatchAction(
+        newState,
+        createReport(mockCreateReport2),
+        { mockCreateReportName: dataString, mockCreateReportName2: dataString },
+        { mockCreateReportName2: dataString }
+      );
+
+      newState = mockDispatchAction(
+        newState,
+        deleteReport(mockCreateReport.reportName),
+        { mockCreateReportName2: dataString },
+        null
+      );
+    });
   });
 });

@@ -61,6 +61,111 @@ Object {
 }
 `;
 
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 3`] = `
+Object {
+  "payload": Object {
+    "mockCreateReportName2": Object {
+      "answers": Array [],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+      },
+      "clickedPosition": "3,4",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName2",
+      "status": "draft",
+      "userPosition": "1,2",
+    },
+  },
+  "type": "report/CREATE_REPORT",
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 4`] = `
+Object {
+  "list": Object {
+    "mockCreateReportName": Object {
+      "answers": Array [],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+      },
+      "clickedPosition": "3,4",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName",
+      "status": "draft",
+      "userPosition": "1,2",
+    },
+    "mockCreateReportName2": Object {
+      "answers": Array [],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+      },
+      "clickedPosition": "3,4",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName2",
+      "status": "draft",
+      "userPosition": "1,2",
+    },
+  },
+  "synced": false,
+  "syncing": false,
+  "templates": Object {},
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 5`] = `
+Object {
+  "payload": Object {
+    "reportName": "mockCreateReportName",
+  },
+  "type": "report/DELETE_REPORT",
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 6`] = `
+Object {
+  "list": Object {
+    "mockCreateReportName2": Object {
+      "answers": Array [],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+      },
+      "clickedPosition": "3,4",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName2",
+      "status": "draft",
+      "userPosition": "1,2",
+    },
+  },
+  "synced": false,
+  "syncing": false,
+  "templates": Object {},
+}
+`;
+
 exports[`Redux Reports Module Redux Snapshot Thunk Actions syncReports 1`] = `
 Array [
   Object {
