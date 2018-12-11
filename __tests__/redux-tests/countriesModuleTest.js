@@ -48,7 +48,7 @@ describe('Redux Countries Module', () => {
       expect(store.getActions()).toMatchSnapshot();
     });
 
-    it('AA full test', () => {
+    it('syncCountries full test', () => {
       const newState = countriesReducer(undefined, { type: 'NONE' });
       newState.synced = false;
       newState.syncing = false;

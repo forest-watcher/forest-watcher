@@ -63,6 +63,67 @@ Array [
 ]
 `;
 
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheLayers 1`] = `Array []`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheLayers 2`] = `
+Array [
+  Object {
+    "payload": Object {
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+      },
+      "layer": Object {
+        "id": "layerIDMock",
+        "name": "nameMock",
+        "url": "urlMock",
+      },
+    },
+    "type": "layers/CACHE_LAYER_REQUEST",
+  },
+]
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions downloadAreaById 1`] = `Array []`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions downloadAreaById 2`] = `
+Array [
+  Object {
+    "payload": Object {
+      "application": "applicationMock",
+      "geostore": Object {
+        "id": "geostoreIDMock",
+      },
+      "id": "areaIDMock",
+      "name": "nameMock",
+    },
+    "type": "layers/DOWNLOAD_AREA",
+  },
+  Object {
+    "payload": Object {
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+      },
+      "layer": Object {
+        "id": "layerIDMock",
+        "name": "nameMock",
+        "url": "urlMock",
+      },
+    },
+    "type": "layers/CACHE_LAYER_REQUEST",
+  },
+]
+`;
+
 exports[`Redux Layers Module Redux Snapshot Thunk Actions getUserLayers 1`] = `
 Array [
   Object {
@@ -87,14 +148,219 @@ Array [
 ]
 `;
 
+exports[`Redux Layers Module Redux Snapshot Thunk Actions refreshAreaCacheById 1`] = `
+Array [
+  Object {
+    "payload": "areaIDMock",
+    "type": "layer/INVALIDATE_CACHE",
+  },
+]
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions refreshAreaCacheById 2`] = `
+Array [
+  Object {
+    "payload": "areaIDMock",
+    "type": "layer/INVALIDATE_CACHE",
+  },
+  Object {
+    "payload": Object {
+      "application": "applicationMock",
+      "geostore": Object {
+        "id": "geostoreIDMock",
+      },
+      "id": "areaIDMock",
+      "name": "nameMock",
+    },
+    "type": "layers/DOWNLOAD_AREA",
+  },
+  Object {
+    "payload": Object {
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+      },
+      "layer": Object {
+        "id": "layerIDMock",
+        "name": "nameMock",
+        "url": "urlMock",
+      },
+    },
+    "type": "layers/CACHE_LAYER_REQUEST",
+  },
+  Object {
+    "payload": "areaIDMock1",
+    "type": "layer/INVALIDATE_CACHE",
+  },
+]
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions resetCacheStatus 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "areaIDMock": Object {
+        "completed": false,
+        "error": false,
+        "progress": 0,
+        "requested": false,
+      },
+    },
+    "type": "layer/SET_CACHE_STATUS",
+  },
+  Object {
+    "payload": Object {
+      "areaIDMock1": Object {
+        "completed": false,
+        "error": false,
+        "progress": 0,
+        "requested": false,
+      },
+    },
+    "type": "layer/SET_CACHE_STATUS",
+  },
+]
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions resetCacheStatus full test 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "areaIDMock": Object {
+        "completed": false,
+        "error": false,
+        "progress": 0,
+        "requested": false,
+      },
+    },
+    "type": "layer/SET_CACHE_STATUS",
+  },
+]
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions resetCacheStatus full test 2`] = `
+Object {
+  "activeLayer": null,
+  "cache": Object {},
+  "cacheStatus": Object {
+    "areaIDMock": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": false,
+    },
+  },
+  "data": Array [],
+  "layersProgress": Object {},
+  "pendingCache": Object {},
+  "syncDate": Any<Number>,
+  "synced": false,
+  "syncing": false,
+}
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions resetCacheStatus full test 3`] = `
+Array [
+  Object {
+    "payload": Object {
+      "application": "applicationMock",
+      "geostore": Object {
+        "id": "geostoreIDMock",
+      },
+      "id": "areaIDMock",
+      "name": "nameMock",
+    },
+    "type": "layers/DOWNLOAD_AREA",
+  },
+]
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions resetCacheStatus full test 4`] = `
+Object {
+  "activeLayer": null,
+  "cache": Object {},
+  "cacheStatus": Object {
+    "areaIDMock": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": true,
+    },
+  },
+  "data": Array [],
+  "layersProgress": Object {},
+  "pendingCache": Object {
+    "basemap": Object {
+      "areaIDMock": false,
+    },
+  },
+  "syncDate": Any<Number>,
+  "synced": false,
+  "syncing": false,
+}
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions resetCacheStatus full test 5`] = `
+Array [
+  Object {
+    "payload": Object {
+      "areaIDMock": Object {
+        "completed": false,
+        "error": false,
+        "progress": 0,
+        "requested": true,
+      },
+      "areaIDMock2": Object {
+        "completed": false,
+        "error": false,
+        "progress": 0,
+        "requested": false,
+      },
+    },
+    "type": "layer/SET_CACHE_STATUS",
+  },
+]
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions resetCacheStatus full test 6`] = `
+Object {
+  "activeLayer": null,
+  "cache": Object {},
+  "cacheStatus": Object {
+    "areaIDMock": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": true,
+    },
+    "areaIDMock2": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": false,
+    },
+  },
+  "data": Array [],
+  "layersProgress": Object {},
+  "pendingCache": Object {
+    "basemap": Object {
+      "areaIDMock": false,
+    },
+  },
+  "syncDate": Any<Number>,
+  "synced": false,
+  "syncing": false,
+}
+`;
+
 exports[`Redux Layers Module Redux Snapshot Thunk Actions setActiveContextualLayer 1`] = `
 Array [
   Object {
     "payload": null,
-    "type": "layers/SET_ACTIVE_LAYER",
-  },
-  Object {
-    "payload": "layerMock",
     "type": "layers/SET_ACTIVE_LAYER",
   },
   Object {
@@ -172,3 +438,29 @@ Object {
   "syncing": false,
 }
 `;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions syncLayers 1`] = `
+Array [
+  Object {
+    "meta": Object {
+      "offline": Object {
+        "commit": Object {
+          "meta": Object {
+            "areas": Array [],
+          },
+          "type": "layers/GET_LAYERS_COMMIT",
+        },
+        "effect": Object {
+          "url": "<API_URL_MOCK>/contextual-layer/?enabled=true",
+        },
+        "rollback": Object {
+          "type": "layers/GET_LAYERS_ROLLBACK",
+        },
+      },
+    },
+    "type": "layers/GET_LAYERS_REQUEST",
+  },
+]
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions syncLayers 2`] = `Array []`;

@@ -1841,7 +1841,7 @@ Object {
 }
 `;
 
-exports[`Redux Countries Module Redux Snapshot Thunk Actions AA full test 1`] = `
+exports[`Redux Countries Module Redux Snapshot Thunk Actions syncCountries 1`] = `
 Array [
   Object {
     "meta": Object {
@@ -1865,7 +1865,31 @@ Array [
 ]
 `;
 
-exports[`Redux Countries Module Redux Snapshot Thunk Actions AA full test 2`] = `
+exports[`Redux Countries Module Redux Snapshot Thunk Actions syncCountries full test 1`] = `
+Array [
+  Object {
+    "meta": Object {
+      "offline": Object {
+        "commit": Object {
+          "type": "countries/GET_COUNTRIES_COMMIT",
+        },
+        "effect": Object {
+          "deserialize": false,
+          "url": "<API_URL_MOCK>/query/<DATASET_COUNTRIES_MOCK>?sql=
+    SELECT name_engli as name, iso, centroid, bbox
+    FROM gadm28_countries WHERE name_engli != '' ORDER BY name_engli ASC",
+        },
+        "rollback": Object {
+          "type": "countries/GET_COUNTRIES_ROLLBACK",
+        },
+      },
+    },
+    "type": "countries/GET_COUNTRIES_REQUEST",
+  },
+]
+`;
+
+exports[`Redux Countries Module Redux Snapshot Thunk Actions syncCountries full test 2`] = `
 Object {
   "data": Array [
     Object {
@@ -3706,9 +3730,9 @@ Object {
 }
 `;
 
-exports[`Redux Countries Module Redux Snapshot Thunk Actions AA full test 3`] = `Array []`;
+exports[`Redux Countries Module Redux Snapshot Thunk Actions syncCountries full test 3`] = `Array []`;
 
-exports[`Redux Countries Module Redux Snapshot Thunk Actions AA full test 4`] = `
+exports[`Redux Countries Module Redux Snapshot Thunk Actions syncCountries full test 4`] = `
 Object {
   "data": Array [
     Object {
@@ -5549,9 +5573,9 @@ Object {
 }
 `;
 
-exports[`Redux Countries Module Redux Snapshot Thunk Actions AA full test 5`] = `Array []`;
+exports[`Redux Countries Module Redux Snapshot Thunk Actions syncCountries full test 5`] = `Array []`;
 
-exports[`Redux Countries Module Redux Snapshot Thunk Actions AA full test 6`] = `
+exports[`Redux Countries Module Redux Snapshot Thunk Actions syncCountries full test 6`] = `
 Object {
   "data": Array [
     Object {
@@ -7392,9 +7416,9 @@ Object {
 }
 `;
 
-exports[`Redux Countries Module Redux Snapshot Thunk Actions AA full test 7`] = `Array []`;
+exports[`Redux Countries Module Redux Snapshot Thunk Actions syncCountries full test 7`] = `Array []`;
 
-exports[`Redux Countries Module Redux Snapshot Thunk Actions AA full test 8`] = `
+exports[`Redux Countries Module Redux Snapshot Thunk Actions syncCountries full test 8`] = `
 Object {
   "data": Array [
     Object {
@@ -9233,28 +9257,4 @@ Object {
   "synced": true,
   "syncing": true,
 }
-`;
-
-exports[`Redux Countries Module Redux Snapshot Thunk Actions syncCountries 1`] = `
-Array [
-  Object {
-    "meta": Object {
-      "offline": Object {
-        "commit": Object {
-          "type": "countries/GET_COUNTRIES_COMMIT",
-        },
-        "effect": Object {
-          "deserialize": false,
-          "url": "<API_URL_MOCK>/query/<DATASET_COUNTRIES_MOCK>?sql=
-    SELECT name_engli as name, iso, centroid, bbox
-    FROM gadm28_countries WHERE name_engli != '' ORDER BY name_engli ASC",
-        },
-        "rollback": Object {
-          "type": "countries/GET_COUNTRIES_ROLLBACK",
-        },
-      },
-    },
-    "type": "countries/GET_COUNTRIES_REQUEST",
-  },
-]
 `;
