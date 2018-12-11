@@ -72,7 +72,10 @@ function ActionButton(props) {
         ios: containerStyles
       })}
       onPress={onButtonPress}
-      background={TouchableNativeFeedback.Ripple(props.light ? Theme.background.secondary : Theme.background.white)}
+      background={Platform.select({
+        android: TouchableNativeFeedback.Ripple(props.light ? Theme.background.secondary : Theme.background.white),
+        ios: undefined
+      })}
       activeOpacity={0.8}
       underlayColor={underlayColor}
       disabled={props.disabled}
