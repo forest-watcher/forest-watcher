@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Image, TouchableHighlight } from 'react-native';
+import { View, Text, Image, Platform, TouchableHighlight, TouchableNativeFeedback } from 'react-native';
 
 import Theme from 'config/theme';
 import styles from './styles';
@@ -60,14 +60,29 @@ function ActionButton(props) {
   if (props.disabled) underlayColor = Theme.colors.color6;
   if (props.error || props.delete) underlayColor = Theme.colors.color7;
 
+  const Touchable = Platform.select({
+    android: TouchableNativeFeedback,
+    ios: TouchableHighlight
+  });
+
   return (
-    <TouchableHighlight
-      style={containerStyles}
+    <Touchable
+      style={Platform.select({
+        android: { borderRadius: 32 },
+        ios: containerStyles
+      })}
       onPress={onButtonPress}
+      background={TouchableNativeFeedback.Ripple(props.light ? Theme.background.secondary : Theme.background.white)}
       activeOpacity={0.8}
       underlayColor={underlayColor}
+      disabled={props.disabled}
     >
-      <View style={btnStyles}>
+      <View
+        style={Platform.select({
+          android: [containerStyles, btnStyles],
+          ios: btnStyles
+        })}
+      >
         {icons[props.icon] && (
           <View style={styles.iconContainer}>
             <Image style={Theme.icon} source={icons[props.icon]} />
@@ -80,7 +95,7 @@ function ActionButton(props) {
           </View>
         )}
       </View>
-    </TouchableHighlight>
+    </Touchable>
   );
 }
 
