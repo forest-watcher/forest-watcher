@@ -14,7 +14,7 @@ import i18n from 'locales';
 import styles from './styles';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
 
-const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
+const SafeAreaView = withSafeArea(View, 'margin', 'bottom');
 const settingsIcon = require('assets/settings.png');
 const nextIcon = require('assets/next.png');
 
@@ -169,28 +169,27 @@ class Dashboard extends PureComponent<Props> {
     return (
       <View style={styles.container} onStartShouldSetResponder={androidListener} onResponderRelease={androidHandler}>
         <StatusBar networkActivityIndicatorVisible={appSyncing} />
-        <SafeAreaView style={styles.contentContainer}>
-          <Text style={styles.label}>{i18n.t('settings.yourAreas')}</Text>
-          <ScrollView
-            style={styles.containerScroll}
-            onScroll={disablePristine}
-            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />}
+        <Text style={styles.label}>{i18n.t('settings.yourAreas')}</Text>
+        <ScrollView
+          style={styles.containerScroll}
+          onScroll={disablePristine}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />}
+        >
+          <View
+            onStartShouldSetResponder={iOSListener}
+            onResponderRelease={iOSHandler}
+            style={styles.list}
+            contentContainerStyle={styles.listContent}
+            scrollEnabled
           >
-            <View
-              onStartShouldSetResponder={iOSListener}
-              onResponderRelease={iOSHandler}
-              style={styles.list}
-              contentContainerStyle={styles.listContent}
-              scrollEnabled
-            >
-              <View>
-                <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
-              </View>
+            <View>
+              <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
             </View>
-          </ScrollView>
+          </View>
+        </ScrollView>
+        <SafeAreaView style={styles.contentContainer}>
           <Row
             style={[
-              styles.test,
               styles.row,
               {
                 height: 64 + bottomSafeAreaInset,
