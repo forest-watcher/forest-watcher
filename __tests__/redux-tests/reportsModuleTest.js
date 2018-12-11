@@ -13,16 +13,38 @@ import reportsReducer, {
 } from 'redux-modules/reports';
 
 describe('Redux Reports Module', () => {
+  const mockArea = {
+    name: 'nameMock',
+    id: 'areaIDMock',
+    application: 'applicationMock', // used to test that all fields are included in payload
+    geostore: { id: 'geostoreIDMock' }
+  };
+
   it('Initial reducer state', () => {
     expect(reportsReducer(undefined, { type: 'NONE' })).toMatchSnapshot();
   });
 
   describe('Simple Actions: snapshot and reducer test', () => {
     // Snapshot tests the action object and the reducer state
-    function simpleActionTest(action) {
-      expect(action).toMatchSnapshot();
-      expect(reportsReducer(undefined, action)).toMatchSnapshot();
+    function simpleActionTest(action, propertyMatcher) {
+      const actionPropertyMatcher = propertyMatcher ? { payload: propertyMatcher } : {};
+      const statePropertyMatcher = propertyMatcher ? { list: propertyMatcher } : {};
+      expect(action).toMatchSnapshot(actionPropertyMatcher);
+      expect(reportsReducer(undefined, action)).toMatchSnapshot(statePropertyMatcher);
     }
+
+    it('createReport', () => {
+      const propertyMatcher = { mockReportName: { date: expect.any(String) } };
+      simpleActionTest(
+        createReport({
+          reportName: 'mockReportName',
+          userPosition: [1, 2],
+          clickedPosition: '3,4',
+          area: mockArea
+        }),
+        propertyMatcher
+      );
+    });
 
     it('getDefaultReport', () => {
       simpleActionTest(getDefaultReport());
