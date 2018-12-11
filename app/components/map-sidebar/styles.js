@@ -5,6 +5,7 @@ import { hexToRgb } from 'helpers/utils';
 export default StyleSheet.create({
   container: {
     flex: 1,
+    width: 300,
     backgroundColor: Theme.background.main,
     flexDirection: 'column',
     borderLeftColor: Theme.borderColors.main,

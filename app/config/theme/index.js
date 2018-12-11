@@ -82,7 +82,8 @@ const config = {
       },
       sideMenu: {
         right: {
-          enabled: false
+          enabled: false,
+          width: 300
         }
       },
       statusBar: {
