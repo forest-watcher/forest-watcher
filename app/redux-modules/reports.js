@@ -106,6 +106,9 @@ export default function reducer(state: ReportsState = initialState, action: Repo
     case SET_REPORT_ANSWER: {
       const { reportName, answer, updateOnly } = action.payload;
       const report = state.list[reportName];
+      if (!report) { // todo - code review
+        return;
+      }
       const answeredIndex = report.answers.findIndex(a => a.questionName === answer.questionName);
       // const template = state.templates[report.area.templateId];
       // const question = template.questions.find(q => (q.name === answer.questionName));

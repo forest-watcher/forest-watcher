@@ -20,6 +20,33 @@ describe('Redux Reports Module', () => {
     geostore: { id: 'geostoreIDMock' }
   };
 
+  const mockReport = {
+    name: 'reportNameMock',
+    area: mockArea,
+    userPosition: '1,2',
+    clickedPosition: '3,4',
+    index: 1,
+    status: 'draft',
+    date: 'mockDateString',
+    answers: []
+  };
+
+  const mockAnswerChild = {
+    questionName: 'mockQuestionName2',
+    value: 'Value2'
+  };
+
+  const mockAnswerParent = {
+    questionName: 'mockQuestionName1',
+    value: 'Value1',
+    child: mockAnswerChild
+  };
+
+  const mockReportWithAnswers = {
+    ...mockReport,
+    answers: [mockAnswerParent]
+  };
+
   it('Initial reducer state', () => {
     expect(reportsReducer(undefined, { type: 'NONE' })).toMatchSnapshot();
   });
@@ -38,7 +65,7 @@ describe('Redux Reports Module', () => {
       simpleActionTest(
         createReport({
           reportName: 'mockReportName',
-          userPosition: [1, 2],
+          userPosition: '1,2',
           clickedPosition: '3,4',
           area: mockArea
         }),
@@ -46,9 +73,28 @@ describe('Redux Reports Module', () => {
       );
     });
 
+    it('deleteReport', () => {
+      simpleActionTest(deleteReport('mockReportName'));
+    });
+
     it('getDefaultReport', () => {
       simpleActionTest(getDefaultReport());
     });
+
+    it('saveReport', () => {
+      simpleActionTest(saveReport(mockReport.name, mockReport));
+    });
+
+    it('saveReport with answers', () => {
+      simpleActionTest(saveReport(mockReportWithAnswers.name, mockReportWithAnswers));
+    });
+
+    it('setReportAnswer', () => {
+      simpleActionTest(setReportAnswer('mockReportName', mockAnswerParent, true));
+      // simpleActionTest(setReportAnswer('mockReportName', mockAnswerParent, false));
+    });
+
+    // TODO FUll TEST : create, delete, save, set answer
   });
 
   describe('Redux Snapshot Thunk Actions', () => {
