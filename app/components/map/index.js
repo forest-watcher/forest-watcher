@@ -120,7 +120,7 @@ class MapComponent extends Component {
     const initialCoords = center || { lat: MAPS.lat, lon: MAPS.lng };
     this.eventLocation = null;
     this.eventOrientation = null;
-    this.geolocationWatchId = 0;
+    this.geolocationWatchId = null;
     // Google maps lon and lat are inverted
     this.state = {
       lastPosition: null,
@@ -200,9 +200,9 @@ class MapComponent extends Component {
       StatusBar.setBarStyle('default');
       Location.stopUpdatingLocation();
       Location.stopUpdatingHeading();
-    } else if (this.geolocationWatchId) {
+    } else if (this.geolocationWatchId !== null) {
       navigator.geolocation.clearWatch(this.geolocationWatchId);
-      this.geolocationWatchId = 0;
+      this.geolocationWatchId = null;
       //SensorManager.stopOrientation();
     }
     this.props.setSelectedAreaId('');
@@ -451,6 +451,7 @@ class MapComponent extends Component {
           distanceFilter: 0
         }
       );
+      console.log("3SC", "geolocationWatchId", this.geolocationWatchId);
 
       //SensorManager.startOrientation(300);
       this.eventOrientation = DeviceEventEmitter.addListener(
