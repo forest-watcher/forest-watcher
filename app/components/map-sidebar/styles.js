@@ -1,11 +1,15 @@
 import Theme from 'config/theme';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { hexToRgb } from 'helpers/utils';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    width: 300,
+    ...Platform.select({
+      ios: {
+        width: 300
+      }
+    }),
     backgroundColor: Theme.background.main,
     flexDirection: 'column',
     borderLeftColor: Theme.borderColors.main,

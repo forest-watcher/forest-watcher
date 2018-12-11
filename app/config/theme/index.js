@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 
 const screen = Dimensions.get('window');
 const colors = {
@@ -83,7 +83,11 @@ const config = {
       sideMenu: {
         right: {
           enabled: false,
-          width: 300
+          ...Platform.select({
+            ios: {
+              width: 300
+            }
+          })
         }
       },
       statusBar: {
