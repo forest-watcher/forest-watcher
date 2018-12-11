@@ -31,6 +31,18 @@ subprojects {
     afterEvaluate { project ->
         if (!project.name.equalsIgnoreCase("app")
                 && project.hasProperty("android")) {
+
+            // https://stackoverflow.com/questions/53712328/gradle-error-could-not-find-any-matches-for-com-android-tools-buildgradle2-2
+            if (project.name.contains('react-native-image-picker') ||
+                project.name.contains('react-native-vector-icons')) {
+                buildscript {
+                    repositories {
+                        jcenter()
+                        maven { url "https://dl.bintray.com/android/android-tools/"  }
+                    }
+                }
+            }
+
             android {
                 compileSdkVersion rootProject.ext.compileSdkVersion
                 buildToolsVersion rootProject.ext.buildToolsVersion
