@@ -9,6 +9,6 @@
 "NSCameraUsageDescription" = "ES_We need access to the camera.";
 "NSLocationAlwaysUsageDescription" = "ES_The app uses the localization services, please activate them";
 "NSLocationWhenInUseUsageDescription" = "ES_The app uses the localization services, please activate them";
-"NSPhotoLibraryAddUsageDescription" = "ES_$(PRODUCT_NAME) would like to save photos to your photo gallery";
+"NSPhotoLibraryAddUsageDescription" = "ES_The app would like to save photos to your photo gallery";
 "NSPhotoLibraryUsageDescription" = "ES_We need access to the media library.";
 "CFBundleDisplayName" = "ES_Forest Watcher";
