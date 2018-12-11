@@ -9,10 +9,10 @@ Object {
 }
 `;
 
-exports[`Redux Reports Module Simple Actions: snapshot and reducer test createReport 1`] = `
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 1`] = `
 Object {
   "payload": Object {
-    "mockReportName": Object {
+    "mockCreateReportName": Object {
       "answers": Array [],
       "area": Object {
         "application": "applicationMock",
@@ -25,7 +25,80 @@ Object {
       "clickedPosition": "3,4",
       "date": Any<String>,
       "index": 0,
-      "reportName": "mockReportName",
+      "reportName": "mockCreateReportName",
+      "status": "draft",
+      "userPosition": "1,2",
+    },
+  },
+  "type": "report/CREATE_REPORT",
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 2`] = `
+Object {
+  "list": Object {
+    "mockCreateReportName": Object {
+      "answers": Array [],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+      },
+      "clickedPosition": "3,4",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName",
+      "status": "draft",
+      "userPosition": "1,2",
+    },
+  },
+  "synced": false,
+  "syncing": false,
+  "templates": Object {},
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions syncReports 1`] = `
+Array [
+  Object {
+    "meta": Object {
+      "offline": Object {
+        "commit": Object {
+          "type": "report/GET_DEFAULT_TEMPLATE_COMMIT",
+        },
+        "effect": Object {
+          "url": "<API_URL_MOCK>/reports/default",
+        },
+        "rollback": Object {
+          "type": "report/GET_DEFAULT_TEMPLATE_ROLLBACK",
+        },
+      },
+    },
+    "type": "report/GET_DEFAULT_TEMPLATE_REQUEST",
+  },
+]
+`;
+
+exports[`Redux Reports Module Simple Actions: snapshot and reducer test createReport 1`] = `
+Object {
+  "payload": Object {
+    "mockCreateReportName": Object {
+      "answers": Array [],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+      },
+      "clickedPosition": "3,4",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName",
       "status": "draft",
       "userPosition": "1,2",
     },
@@ -37,7 +110,7 @@ Object {
 exports[`Redux Reports Module Simple Actions: snapshot and reducer test createReport 2`] = `
 Object {
   "list": Object {
-    "mockReportName": Object {
+    "mockCreateReportName": Object {
       "answers": Array [],
       "area": Object {
         "application": "applicationMock",
@@ -50,7 +123,7 @@ Object {
       "clickedPosition": "3,4",
       "date": Any<String>,
       "index": 0,
-      "reportName": "mockReportName",
+      "reportName": "mockCreateReportName",
       "status": "draft",
       "userPosition": "1,2",
     },

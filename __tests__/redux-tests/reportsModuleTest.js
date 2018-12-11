@@ -20,6 +20,13 @@ describe('Redux Reports Module', () => {
     geostore: { id: 'geostoreIDMock' }
   };
 
+  const mockCreateReport = {
+    reportName: 'mockCreateReportName',
+    userPosition: '1,2',
+    clickedPosition: '3,4',
+    area: mockArea
+  };
+
   const mockReport = {
     name: 'reportNameMock',
     area: mockArea,
@@ -61,16 +68,8 @@ describe('Redux Reports Module', () => {
     }
 
     it('createReport', () => {
-      const propertyMatcher = { mockReportName: { date: expect.any(String) } };
-      simpleActionTest(
-        createReport({
-          reportName: 'mockReportName',
-          userPosition: '1,2',
-          clickedPosition: '3,4',
-          area: mockArea
-        }),
-        propertyMatcher
-      );
+      const propertyMatcher = { mockCreateReportName: { date: expect.any(String) } };
+      simpleActionTest(createReport(mockCreateReport), propertyMatcher);
     });
 
     it('deleteReport', () => {
@@ -93,8 +92,6 @@ describe('Redux Reports Module', () => {
       simpleActionTest(setReportAnswer('mockReportName', mockAnswerParent, true));
       // simpleActionTest(setReportAnswer('mockReportName', mockAnswerParent, false));
     });
-
-    // TODO FUll TEST : create, delete, save, set answer
   });
 
   describe('Redux Snapshot Thunk Actions', () => {
@@ -114,21 +111,54 @@ describe('Redux Reports Module', () => {
       store = configuredStore(initialStoreState);
     });
 
-    // if changing this method, change in other tests too
-    function mockDispatchAction(state, action, test = true) {
-      const newStore = configuredStore({ app: state });
+    function mockDispatchAction(state, action, propertyMatcher) {
+      // slightly different implementation in this redux module test.
+      const newStore = configuredStore(state);
       newStore.dispatch(action);
       const resolvedActions = newStore.getActions();
-      let newState = state;
-      // should only be one but the loop is used for future changes and so all tests conform.
+      let newState = state.layers;
+      const actionPropertyMatcher = propertyMatcher ? { payload: propertyMatcher } : {};
       resolvedActions.forEach(resolvedAction => {
         newState = reportsReducer(newState, resolvedAction);
+        expect(action).toMatchSnapshot(actionPropertyMatcher);
       });
-      if (test) {
-        expect(resolvedActions).toMatchSnapshot();
-        expect(newState).toMatchSnapshot();
-      }
-      return newState;
+
+      const statePropertyMatcher = propertyMatcher ? { list: propertyMatcher } : {};
+      expect(newState).toMatchSnapshot(statePropertyMatcher);
+
+      const returnState = {
+        ...state,
+        layers: {
+          ...newState
+        }
+      };
+      return returnState;
     }
+
+    it('syncReports', () => {
+      store.dispatch(syncReports()); // todo test sync/syncing
+      expect(store.getActions()).toMatchSnapshot();
+    });
+
+    it('simple report actions full test', () => {
+      let newState = {
+        layers: reportsReducer(undefined, { type: 'NONE' }),
+        // areas: {
+        //   ...initialStoreState.areas,
+        //   data: [mockArea]
+        // }
+      };
+      const propertyMatcher = { mockCreateReportName: { date: expect.any(String) } };
+      newState = mockDispatchAction(newState, createReport(mockCreateReport), propertyMatcher);
+      newState = mockDispatchAction(newState, setOfflineMode(true));
+      // mockDispatchAction(newState, showNotConnectedNotification());
+    });
+
+    // it('showNotConnectedNotification full test', () => {
+    //   let newState = appReducer(undefined, { type: 'NONE' });
+    //   newState = mockDispatchAction(newState, showNotConnectedNotification());
+    //   newState = mockDispatchAction(newState, setOfflineMode(true));
+    //   mockDispatchAction(newState, showNotConnectedNotification());
+    // });
   });
 });
