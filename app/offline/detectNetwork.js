@@ -3,7 +3,7 @@ import Config from 'react-native-config';
 
 import checkConnectivity from 'helpers/networking';
 
-class DetectNetworkPing {
+export class DetectNetworkPing {
   static urlList = [
     Config.API_URL,
     'https://www.globalforestwatch.org',
@@ -28,8 +28,7 @@ class DetectNetworkPing {
     const url = DetectNetworkPing.urlList[urlIndex % DetectNetworkPing.urlList.length];
 
     // Attempt fetch with a 1s timeout.
-
-    checkConnectivity(url).then(connected => {
+    return checkConnectivity(url).then(connected => {
       // If we've got a connection, update the redux state.
       if (connected) {
         dispatch({ ...connection, online: true });
