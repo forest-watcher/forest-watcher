@@ -26,7 +26,9 @@ import i18n from 'locales';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
 import RNFetchBlob from 'react-native-fetch-blob';
+import SafeArea, { withSafeArea } from 'react-native-safe-area';
 
+const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const geoViewport = require('@mapbox/geo-viewport');
 
 const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
@@ -793,7 +795,11 @@ class MapComponent extends Component {
       <View style={styles.container} onMoveShouldSetResponder={this.onMoveShouldSetResponder}>
         <View pointerEvents="none" style={styles.header}>
           <Image style={styles.headerBg} source={backgroundImage} />
-          {!isConnected && <Text style={styles.offlineNotice}>{i18n.t('commonText.connectionRequiredTitle')}</Text>}
+          {!isConnected && (
+            <SafeAreaView>
+              <Text style={styles.offlineNotice}>{i18n.t('commonText.connectionRequiredTitle')}</Text>
+            </SafeAreaView>
+          )}
         </View>
         <MapView
           ref={ref => {
