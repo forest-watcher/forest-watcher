@@ -31,7 +31,7 @@ class Answers extends PureComponent<Props> {
   static options(passProps) {
     return {
       topBar: {
-        rightButtons: passProps.showUploadBar
+        rightButtons: passProps.showUploadButton
           ? [
               {
                 id: 'upload',
@@ -52,8 +52,8 @@ class Answers extends PureComponent<Props> {
   }
 
   navigationButtonPressed({ buttonId }) {
-    const { reportName, uploadReport } = this.props;
     if (buttonId === 'upload') {
+      const { reportName, uploadReport } = this.props;
       uploadReport(reportName);
     }
   }
