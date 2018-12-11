@@ -670,29 +670,29 @@ class MapComponent extends Component {
     const markerBorder = { borderWidth: (markerSize.width / 18) * 4 };
 
     // Map elements
-    const basemapLayerElement = isConnected ? (
-      <MapView.UrlTile key="basemapLayerElement" urlTemplate={MAPS.basemap} zIndex={-1} />
-    ) : (
+    const basemapLocalLayerElement = basemapLocalTilePath ? (
       <MapView.LocalTile
         key="localBasemapLayerElementL"
         pathTemplate={basemapLocalTilePath}
-        zIndex={-1}
+        zIndex={-2}
         maxZoom={12}
         tileSize={256}
       />
+    ) : null;
+    const basemapRemoteLayerElement = (
+      <MapView.UrlTile key="basemapLayerElement" urlTemplate={MAPS.basemap} zIndex={-1} />
     );
-    const contextualLayerElement = contextualLayer ? ( // eslint-disable-line
-      isConnected ? (
-        <MapView.UrlTile key={ctxLayerKey} urlTemplate={contextualLayer.url} zIndex={1} />
-      ) : (
-        <MapView.LocalTile
-          key={ctxLayerKey}
-          pathTemplate={ctxLayerLocalTilePath}
-          zIndex={1}
-          maxZoom={12}
-          tileSize={256}
-        />
-      )
+    const contextualLocalLayerElement = ctxLayerLocalTilePath ? (
+      <MapView.LocalTile
+        key={`${ctxLayerKey}_local`}
+        pathTemplate={ctxLayerLocalTilePath}
+        zIndex={1}
+        maxZoom={12}
+        tileSize={256}
+      />
+    ) : null;
+    const contextualRemoteLayerElement = contextualLayer ? ( // eslint-disable-line
+      <MapView.UrlTile key={ctxLayerKey} urlTemplate={contextualLayer.url} zIndex={2} />
     ) : null;
     const compassLineElement = showCompassLine ? (
       <MapView.Polyline
@@ -700,7 +700,7 @@ class MapComponent extends Component {
         coordinates={compassLine}
         strokeColor={Theme.colors.color5}
         strokeWidth={2}
-        zIndex={2}
+        zIndex={3}
       />
     ) : null;
     const areaPolygonElement = areaCoordinates ? (
@@ -709,7 +709,7 @@ class MapComponent extends Component {
         coordinates={areaCoordinates}
         strokeColor={Theme.colors.color1}
         strokeWidth={2}
-        zIndex={2}
+        zIndex={3}
       />
     ) : null;
     const userPositionElement = lastPosition ? (
@@ -727,7 +727,7 @@ class MapComponent extends Component {
         <MapView.Marker
           key="compassElement"
           coordinate={lastPosition}
-          zIndex={2}
+          zIndex={3}
           anchor={{ x: 0.5, y: 0.5 }}
           pointerEvents={'none'}
         >
@@ -812,8 +812,10 @@ class MapComponent extends Component {
           onRegionChange={this.onRegionChange}
           onRegionChangeComplete={this.onRegionChangeComplete}
         >
-          {basemapLayerElement}
-          {contextualLayerElement}
+          {basemapLocalLayerElement}
+          {basemapRemoteLayerElement}
+          {contextualLocalLayerElement}
+          {contextualRemoteLayerElement}
           {clustersElement}
           {compassLineElement}
           {areaPolygonElement}
