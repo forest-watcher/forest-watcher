@@ -148,6 +148,8 @@ describe('Redux Reports Module', () => {
       };
 
       const dataString = { date: expect.any(String) };
+
+      // Create report 1
       newState = mockDispatchAction(
         newState,
         createReport(mockCreateReport),
@@ -160,6 +162,7 @@ describe('Redux Reports Module', () => {
         reportName: mockCreateReport.reportName + '2'
       };
 
+      // Create report 2
       newState = mockDispatchAction(
         newState,
         createReport(mockCreateReport2),
@@ -167,6 +170,25 @@ describe('Redux Reports Module', () => {
         { mockCreateReportName2: dataString }
       );
 
+      // Edit entire report 1
+      // newState = mockDispatchAction(
+      //   newState,
+      //   saveReport(mockCreateReport.reportName, {
+      //
+      //   }),
+      //   { mockCreateReportName: dataString, mockCreateReportName2: dataString },
+      //   { mockCreateReportName2: dataString }
+      // );
+
+      // Edit report 2 status
+      newState = mockDispatchAction(
+        newState,
+        saveReport(mockCreateReport2.reportName, { status: 'complete' }),
+        { mockCreateReportName: dataString, mockCreateReportName2: dataString },
+        null, //{ data: { mockCreateReportName23: { dataString } } }
+      );
+
+      //Delete report 1
       newState = mockDispatchAction(
         newState,
         deleteReport(mockCreateReport.reportName),
