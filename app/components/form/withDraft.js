@@ -13,7 +13,7 @@ function getDisplayName(WrappedComponent) {
 }
 
 type Props = {
-  disableDraft: boolean,
+  readOnly: boolean,
   componentId: string,
   reportName: string,
   saveReport: string => void
@@ -29,7 +29,7 @@ function withDraft(WrappedComponent: any) {
         ...(wrappedOptions || {}),
         topBar: {
           ...(wrappedOptions?.topBar || {}),
-          rightButtons: passProps.disableDraft
+          rightButtons: passProps.readOnly
             ? wrappedOptions?.topBar?.rightButtons || []
             : [
                 ...(wrappedOptions?.topBar?.rightButtons || []),

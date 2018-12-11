@@ -68,7 +68,6 @@ class Answers extends PureComponent<Props> {
   onEdit = index => {
     const { reportName } = this.props;
     const screen = 'ForestWatcher.NewReport';
-    const disableDraft = false;
     Navigation.push(this.props.componentId, {
       component: {
         name: screen,
@@ -76,7 +75,7 @@ class Answers extends PureComponent<Props> {
           reportName,
           title: i18n.t('report.title'),
           questionIndex: index,
-          disableDraft,
+          readOnly: false,
           editMode: true
         },
         options: {

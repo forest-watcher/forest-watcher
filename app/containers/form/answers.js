@@ -100,12 +100,10 @@ function mapStateToProps(state: State, ownProps: { reportName: string, readOnly:
   const templateLang = template.languages.includes(app.language) ? app.language : template.defaultLanguage;
   const report = reports.list[reportName];
   const answers = report && report.answers;
-  // map readOnly to object because withDraft expects disableDraft and answers expects readOnly
-  const readOnlyProps = readOnly ? { disableDraft: true, readOnly } : {};
   return {
     results: mapFormToAnsweredQuestions(answers, template, state.app.language),
     metadata: mapReportToMetadata(report, templateLang),
-    ...readOnlyProps
+    readOnly
   };
 }
 
