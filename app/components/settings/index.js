@@ -1,21 +1,21 @@
 // @flow
+import React, { Component } from 'react';
+import { View, Text, TouchableHighlight, ScrollView, Image, Alert } from 'react-native';
+import { Navigation } from 'react-native-navigation';
+import Hyperlink from 'react-native-hyperlink';
+
 import type { Area } from 'types/areas.types';
 
-import React, { Component } from 'react';
-import { launchAppRoot } from 'main';
 import List from 'components/common/list';
 import AreaList from 'containers/common/area-list';
-import Hyperlink from 'react-native-hyperlink';
-import { View, Text, TouchableHighlight, ScrollView, Image, Alert } from 'react-native';
-
 import Theme from 'config/theme';
-import i18n from 'locales';
-import tracker from 'helpers/googleAnalytics';
 import CoordinatesDropdown from 'containers/settings/coordinates-dropdown';
 import Row from 'components/common/row';
 
+import { launchAppRoot } from 'main';
+import i18n from 'locales';
+import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
-import { Navigation } from 'react-native-navigation';
 
 const plusIcon = require('assets/plus.png');
 
@@ -122,6 +122,13 @@ class Settings extends Component<Props> {
   };
 
   onPressAddArea = () => {
+    const { offlineMode } = this.props;
+
+    if (offlineMode) {
+      this.props.showNotConnectedNotification();
+      return;
+    }
+
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.SetupCountry'
