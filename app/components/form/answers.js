@@ -62,7 +62,7 @@ class Answers extends PureComponent<Props> {
     const { reportName, uploadReport, componentId, setActiveAlerts } = this.props;
     uploadReport(reportName);
     setActiveAlerts(true);
-    Navigation.popToRoot(componentId);
+    Navigation.dismissModal(componentId);
   };
 
   onEdit = index => {
@@ -103,18 +103,7 @@ class Answers extends PureComponent<Props> {
   handleDeleteArea = () => {
     const { componentId, deleteReport, reportName } = this.props;
     deleteReport(reportName);
-    Navigation.popToRoot(componentId, {
-      animations: {
-        popToRoot: {
-          enabled: false
-        }
-      }
-    });
-    Navigation.push(componentId, {
-      component: {
-        name: 'ForestWatcher.Reports'
-      }
-    });
+    Navigation.dismissModal(componentId);
   };
 
   render() {

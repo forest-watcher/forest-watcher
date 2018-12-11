@@ -66,23 +66,7 @@ function withDraft(WrappedComponent: any) {
                   status: CONSTANTS.status.draft
                 });
               }
-              Navigation.popToRoot(componentId, {
-                animations: {
-                  popToRoot: {
-                    enabled: false
-                  }
-                }
-              });
-              Navigation.push(componentId, {
-                animations: {
-                  push: {
-                    enabled: false
-                  }
-                },
-                component: {
-                  name: 'ForestWatcher.Reports'
-                }
-              });
+              Navigation.dismissModal(componentId);
             }
           }
         ],

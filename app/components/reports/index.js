@@ -81,25 +81,37 @@ class Reports extends PureComponent<Props> {
   }
 
   onClickNext = (reportName: string) =>
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: 'ForestWatcher.Answers',
-        passProps: {
-          reportName,
-          readOnly: true
-        }
+    Navigation.showModal({
+      stack: {
+        children: [
+          {
+            component: {
+              name: 'ForestWatcher.Answers',
+              passProps: {
+                reportName,
+                readOnly: true
+              }
+            }
+          }
+        ]
       }
     });
 
   onClickUpload = (reportName: string) =>
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: 'ForestWatcher.Answers',
-        passProps: {
-          reportName,
-          readOnly: true,
-          showUploadButton: true
-        }
+    Navigation.showModal({
+      stack: {
+        children: [
+          {
+            component: {
+              name: 'ForestWatcher.Answers',
+              passProps: {
+                reportName,
+                readOnly: true,
+                showUploadButton: true
+              }
+            }
+          }
+        ]
       }
     });
 
@@ -117,31 +129,43 @@ class Reports extends PureComponent<Props> {
       if (lastStep !== null) {
         const screen = 'ForestWatcher.NewReport';
         const title = i18n.t('report.title');
-        Navigation.push(this.props.componentId, {
-          component: {
-            name: screen,
-            passProps: {
-              screen,
-              title,
-              reportName,
-              step: lastStep
-            },
-            options: {
-              topBar: {
-                title: {
-                  text: title
+        Navigation.showModal({
+          stack: {
+            children: [
+              {
+                component: {
+                  name: screen,
+                  passProps: {
+                    screen,
+                    title,
+                    reportName,
+                    step: lastStep
+                  },
+                  options: {
+                    topBar: {
+                      title: {
+                        text: title
+                      }
+                    }
+                  }
                 }
               }
-            }
+            ]
           }
         });
       } else {
-        Navigation.push(this.props.componentId, {
-          component: {
-            name: 'ForestWatcher.Answers',
-            passProps: {
-              reportName
-            }
+        Navigation.showModal({
+          stack: {
+            children: [
+              {
+                component: {
+                  name: 'ForestWatcher.Answers',
+                  passProps: {
+                    reportName
+                  }
+                }
+              }
+            ]
           }
         });
       }

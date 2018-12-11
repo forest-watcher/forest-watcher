@@ -369,10 +369,16 @@ class MapComponent extends Component {
       clickedPosition: JSON.stringify(latLng)
     });
 
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: 'ForestWatcher.NewReport',
-        passProps: { reportName }
+    Navigation.showModal({
+      stack: {
+        children: [
+          {
+            component: {
+              name: 'ForestWatcher.NewReport',
+              passProps: { reportName }
+            }
+          }
+        ]
       }
     });
   };
