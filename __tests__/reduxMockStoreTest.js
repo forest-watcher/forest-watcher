@@ -19,10 +19,7 @@ describe('async actions', () => {
 
     fetch.mockResponseOnce(JSON.stringify(responseBody));
 
-    const expectedActions = [
-      { type: FETCH_TODOS_REQUEST },
-      { type: FETCH_TODOS_SUCCESS, body: responseBody }
-    ];
+    const expectedActions = [{ type: FETCH_TODOS_REQUEST }, { type: FETCH_TODOS_SUCCESS, body: responseBody }];
 
     return store.dispatch(fetchTodos()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
@@ -36,10 +33,7 @@ describe('async actions', () => {
 
     fetch.mockRejectOnce(errorObject);
 
-    const expectedActions = [
-      { type: FETCH_TODOS_REQUEST },
-      { type: FETCH_TODOS_FAILURE, exception: errorObject }
-    ];
+    const expectedActions = [{ type: FETCH_TODOS_REQUEST }, { type: FETCH_TODOS_FAILURE, exception: errorObject }];
 
     return store.dispatch(fetchTodos()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
@@ -78,8 +72,8 @@ export function fetchTodos() {
   return dispatch => {
     dispatch(fetchTodosRequest());
     return fetch('http://example.com/todos')
-    .then(res => res.json())
-    .then(body => dispatch(fetchTodosSuccess(body)))
-    .catch(exception => dispatch(fetchTodosFailure(exception)));
+      .then(res => res.json())
+      .then(body => dispatch(fetchTodosSuccess(body)))
+      .catch(exception => dispatch(fetchTodosFailure(exception)));
   };
 }
