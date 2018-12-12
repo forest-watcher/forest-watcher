@@ -18,6 +18,7 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
  */
 public class OrientationListener implements SensorEventListener
 {
+	private static final long SEND_THROTTLE_MILLIS = 1000;
 
 	private ReactContext context;
 	private SensorManager sensorManager;
@@ -28,6 +29,7 @@ public class OrientationListener implements SensorEventListener
 	private float[] magnetometerReading;
 
 	private int isRegistered = 0;
+	private long lastUpdate = 0L;
 
 
 	public OrientationListener(ReactApplicationContext reactContext)
@@ -64,9 +66,16 @@ public class OrientationListener implements SensorEventListener
 		@Nullable WritableMap params
 	)
 	{
+		// Avoid sending too often over the JS bridge
+		if (System.currentTimeMillis() - lastUpdate < SEND_THROTTLE_MILLIS)
+		{
+			return;
+		}
+
 		try
 		{
 			context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(eventName, params);
+			lastUpdate = System.currentTimeMillis();
 		}
 		catch (Exception e)
 		{
