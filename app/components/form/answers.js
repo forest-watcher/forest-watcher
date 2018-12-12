@@ -46,11 +46,6 @@ class Answers extends PureComponent<Props> {
     };
   }
 
-  constructor(props) {
-    super(props);
-    Navigation.events().bindComponent(this);
-  }
-
   navigationButtonPressed({ buttonId }) {
     if (buttonId === 'upload') {
       const { reportName, uploadReport } = this.props;
