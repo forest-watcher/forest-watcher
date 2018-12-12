@@ -69,11 +69,9 @@ class SetupOverview extends Component {
         <View style={styles.container}>
           <View style={styles.selector}>
             <Text style={styles.selectorLabel}>{i18n.t('setupOverview.areaName')}</Text>
-            <ScrollView scrollEnabled={false} style={styles.scrollContainImage}>
-              {this.props.snapshot !== '' && (
-                <Image resizeMode="cover" style={styles.image} source={{ uri: this.props.snapshot }} />
-              )}
-            </ScrollView>
+            {this.props.snapshot !== '' && (
+              <Image resizeMode="cover" style={styles.image} source={{ uri: this.props.snapshot }} />
+            )}
             <View style={styles.searchContainer}>
               <TextInput
                 ref={ref => {
@@ -96,14 +94,12 @@ class SetupOverview extends Component {
               <Image style={Theme.icon} source={editImage} onPress={() => this.input.focus()} />
             </View>
           </View>
-          <ScrollView style={styles.scrollContainButton}>
-            <ActionButton
-              style={styles.buttonPos}
-              disabled={!btnEnabled}
-              onPress={this.onNextPress}
-              text={btnText.toUpperCase()}
-            />
-          </ScrollView>
+          <ActionButton
+            style={styles.buttonPos}
+            disabled={!btnEnabled}
+            onPress={this.onNextPress}
+            text={btnText.toUpperCase()}
+          />
         </View>
       </KeyboardAwareScrollView>
     );
