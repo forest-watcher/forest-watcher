@@ -55,7 +55,7 @@ export default StyleSheet.create({
   },
   buttonPos: {
     position: 'absolute',
-    bottom: 100,
+    bottom: 50,
     left: 8,
     right: 8
   }
