@@ -199,9 +199,11 @@ class MapComponent extends Component {
       StatusBar.setBarStyle('default');
       Location.stopUpdatingLocation();
       Location.stopUpdatingHeading();
-    } else if (this.geolocationWatchId !== null) {
+    } else if (Platform.OS === 'android') {
+      if (this.geolocationWatchId !== null) {
       navigator.geolocation.clearWatch(this.geolocationWatchId);
       this.geolocationWatchId = null;
+      }
       SensorManager.stopOrientation();
     }
     this.props.setSelectedAreaId('');
