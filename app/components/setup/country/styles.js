@@ -36,17 +36,6 @@ export default StyleSheet.create({
       }
     })
   },
-  button: {
-    height: 64,
-    position: 'absolute',
-    bottom: 64,
-    left: 8,
-    right: 8,
-    borderRadius: 32,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Theme.colors.color1
-  },
   buttonText: {
     color: Theme.fontColors.white,
     fontFamily: Theme.font,
@@ -54,9 +43,12 @@ export default StyleSheet.create({
     fontWeight: '500'
   },
   buttonPos: {
+    height: 64,
     position: 'absolute',
-    bottom: 50,
     left: 8,
-    right: 8
+    right: 8,
+    bottom: 0,
+    justifyContent: 'center',
+    marginBottom: 8
   }
 });

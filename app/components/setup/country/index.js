@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import { withSafeArea } from 'react-native-safe-area';
 
 import SearchSelector from 'components/common/search-selector';
 import ActionButton from 'components/common/action-button';
@@ -11,6 +12,7 @@ import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 import { launchAppRoot } from '../../../main';
 
+const SafeAreaView = withSafeArea(View, 'margin', 'bottom');
 const backIcon = require('assets/previous.png');
 
 class SetupCountry extends Component {
@@ -96,7 +98,7 @@ class SetupCountry extends Component {
     if (user && countries && countries.length) {
       const iso = (setupCountry && setupCountry.iso) || user.country;
       return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           <View style={styles.content}>
             <Text style={styles.text}>
               {i18n.t('setupCountry.welcomeText')}
@@ -121,7 +123,7 @@ class SetupCountry extends Component {
             onPress={this.onNextPress}
             text={i18n.t('commonText.next').toUpperCase()}
           />
-        </View>
+        </SafeAreaView>
       );
     }
     return this.renderLoading();
