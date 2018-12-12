@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Dimensions, DeviceEventEmitter, Animated, Easing, StatusBar, Image, Text, Platform } from 'react-native';
+import { View, Dimensions, DeviceEventEmitter, Animated, Easing, StatusBar, Image, Text, Platform, NativeModules } from 'react-native';
 
 import { MAPS, REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
@@ -30,7 +30,7 @@ import { withSafeArea } from 'react-native-safe-area';
 const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const geoViewport = require('@mapbox/geo-viewport');
 
-const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
+const { RNLocation: Location, SensorManager } = require('NativeModules');
 
 const { width, height } = Dimensions.get('window');
 
@@ -202,7 +202,7 @@ class MapComponent extends Component {
     } else if (this.geolocationWatchId !== null) {
       navigator.geolocation.clearWatch(this.geolocationWatchId);
       this.geolocationWatchId = null;
-      //SensorManager.stopOrientation();
+      SensorManager.stopOrientation();
     }
     this.props.setSelectedAreaId('');
   }
@@ -457,7 +457,7 @@ class MapComponent extends Component {
         }
       );
 
-      //SensorManager.startOrientation(300);
+      SensorManager.startOrientation();
       this.eventOrientation = DeviceEventEmitter.addListener(
         'Orientation',
         throttle(data => {
@@ -730,7 +730,7 @@ class MapComponent extends Component {
       />
     ) : null;
     const compassElement =
-      lastPosition && heading ? (
+      lastPosition && (heading !== null) ? (
         <MapView.Marker
           key="compassElement"
           coordinate={lastPosition}
