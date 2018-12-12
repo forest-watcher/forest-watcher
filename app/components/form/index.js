@@ -83,14 +83,15 @@ class Form extends Component<Props> {
       if (editMode) {
         Navigation.pop(componentId);
       } else {
-      Navigation.push(componentId, {
-        component: {
-          name: 'ForestWatcher.Answers',
-          passProps: {
-            reportName
+        Navigation.push(componentId, {
+          component: {
+            name: 'ForestWatcher.Answers',
+            passProps: {
+              reportName
+            }
           }
-        }
-      });
+        });
+      }
     }
   };
 
