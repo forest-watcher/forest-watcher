@@ -451,7 +451,6 @@ class MapComponent extends Component {
           distanceFilter: 0
         }
       );
-      console.log("3SC", "geolocationWatchId", this.geolocationWatchId);
 
       //SensorManager.startOrientation(300);
       this.eventOrientation = DeviceEventEmitter.addListener(
