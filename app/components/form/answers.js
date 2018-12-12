@@ -31,6 +31,12 @@ class Answers extends PureComponent<Props> {
   static options(passProps) {
     return {
       topBar: {
+        leftButtons: [
+          {
+            id: 'backButton',
+            text: i18n.t('commonText.cancel')
+          }
+        ],
         rightButtons: passProps.showUploadButton
           ? [
               {
@@ -48,13 +54,23 @@ class Answers extends PureComponent<Props> {
 
   constructor(props) {
     super(props);
+
     Navigation.events().bindComponent(this);
   }
 
+  /**
+   * navigationButtonPressed - Handles events from the buttons on the modal nav bar.
+   *
+   * @param  {type} { buttonId } The component ID for the button.
+   */
   navigationButtonPressed({ buttonId }) {
     if (buttonId === 'upload') {
       const { reportName, uploadReport } = this.props;
       uploadReport(reportName);
+    }
+
+    if (buttonId === 'backButton') {
+      Navigation.dismissModal(this.props.componentId);
     }
   }
 

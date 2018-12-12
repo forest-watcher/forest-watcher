@@ -31,7 +31,13 @@ class Form extends Component<Props> {
       topBar: {
         title: {
           text: i18n.t('report.title')
-        }
+        },
+        leftButtons: [
+          {
+            id: 'backButton',
+            text: i18n.t('commonText.cancel')
+          }
+        ]
       }
     };
   }
@@ -43,6 +49,19 @@ class Form extends Component<Props> {
 
   componentDidMount() {
     tracker.trackScreenView('Reporting - Form Step');
+
+    Navigation.events().bindComponent(this);
+  }
+
+  /**
+   * navigationButtonPressed - Handles events from the back button on the modal nav bar.
+   *
+   * @param  {type} { buttonId } The component ID for the button.
+   */
+  navigationButtonPressed({ buttonId }) {
+    if (buttonId === 'backButton') {
+      Navigation.dismissModal(this.props.componentId);
+    }
   }
 
   shouldComponentUpdate(nextProps) {
