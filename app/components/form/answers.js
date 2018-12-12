@@ -31,7 +31,7 @@ class Answers extends PureComponent<Props> {
   static options(passProps) {
     return {
       topBar: {
-        rightButtons: passProps.showUploadBar
+        rightButtons: passProps.showUploadButton
           ? [
               {
                 id: 'upload',
@@ -52,8 +52,8 @@ class Answers extends PureComponent<Props> {
   }
 
   navigationButtonPressed({ buttonId }) {
-    const { reportName, uploadReport } = this.props;
     if (buttonId === 'upload') {
+      const { reportName, uploadReport } = this.props;
       uploadReport(reportName);
     }
   }
@@ -62,13 +62,12 @@ class Answers extends PureComponent<Props> {
     const { reportName, uploadReport, componentId, setActiveAlerts } = this.props;
     uploadReport(reportName);
     setActiveAlerts(true);
-    Navigation.popToRoot(componentId);
+    Navigation.dismissModal(componentId);
   };
 
   onEdit = index => {
     const { reportName } = this.props;
     const screen = 'ForestWatcher.NewReport';
-    const disableDraft = false;
     Navigation.push(this.props.componentId, {
       component: {
         name: screen,
@@ -76,7 +75,7 @@ class Answers extends PureComponent<Props> {
           reportName,
           title: i18n.t('report.title'),
           questionIndex: index,
-          disableDraft,
+          readOnly: false,
           editMode: true
         },
         options: {
@@ -104,18 +103,7 @@ class Answers extends PureComponent<Props> {
   handleDeleteArea = () => {
     const { componentId, deleteReport, reportName } = this.props;
     deleteReport(reportName);
-    Navigation.popToRoot(componentId, {
-      animations: {
-        popToRoot: {
-          enabled: false
-        }
-      }
-    });
-    Navigation.push(componentId, {
-      component: {
-        name: 'ForestWatcher.Reports'
-      }
-    });
+    Navigation.dismissModal(componentId);
   };
 
   render() {

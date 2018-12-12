@@ -36,6 +36,11 @@ class Form extends Component<Props> {
     };
   }
 
+  constructor(props) {
+    super(props);
+    Navigation.events().bindComponent(this);
+  }
+
   componentDidMount() {
     tracker.trackScreenView('Reporting - Form Step');
   }
@@ -76,24 +81,8 @@ class Form extends Component<Props> {
       });
     } else {
       if (editMode) {
-        Navigation.popToRoot(componentId, {
-          animations: {
-            popToRoot: {
-              enabled: false
-            }
-          }
-        });
-        Navigation.push(componentId, {
-          animations: {
-            push: {
-              enabled: false
-            }
-          },
-          component: {
-            name: 'ForestWatcher.Reports'
-          }
-        });
-      }
+        Navigation.pop(componentId);
+      } else {
       Navigation.push(componentId, {
         component: {
           name: 'ForestWatcher.Answers',

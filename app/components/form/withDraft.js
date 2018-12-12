@@ -13,7 +13,7 @@ function getDisplayName(WrappedComponent) {
 }
 
 type Props = {
-  disableDraft: boolean,
+  readOnly: boolean,
   componentId: string,
   reportName: string,
   saveReport: string => void
@@ -29,7 +29,7 @@ function withDraft(WrappedComponent: any) {
         ...(wrappedOptions || {}),
         topBar: {
           ...(wrappedOptions?.topBar || {}),
-          rightButtons: passProps.disableDraft
+          rightButtons: passProps.readOnly
             ? wrappedOptions?.topBar?.rightButtons || []
             : [
                 ...(wrappedOptions?.topBar?.rightButtons || []),
@@ -45,7 +45,7 @@ function withDraft(WrappedComponent: any) {
 
     constructor(props: Props) {
       super(props);
-      Navigation.events().bindComponent(this);
+      super.navigationButtonPressed = super.navigationButtonPressed?.bind?.(this);
     }
 
     onPressDraft = () => {
@@ -66,23 +66,7 @@ function withDraft(WrappedComponent: any) {
                   status: CONSTANTS.status.draft
                 });
               }
-              Navigation.popToRoot(componentId, {
-                animations: {
-                  popToRoot: {
-                    enabled: false
-                  }
-                }
-              });
-              Navigation.push(componentId, {
-                animations: {
-                  push: {
-                    enabled: false
-                  }
-                },
-                component: {
-                  name: 'ForestWatcher.Reports'
-                }
-              });
+              Navigation.dismissModal(componentId);
             }
           }
         ],
@@ -90,8 +74,9 @@ function withDraft(WrappedComponent: any) {
       );
     };
 
-    navigationButtonPressed({ buttonId }) {
-      if (buttonId === 'draft') {
+    navigationButtonPressed(event) {
+      super.navigationButtonPressed?.(event);
+      if (event.buttonId === 'draft') {
         this.onPressDraft();
       }
     }

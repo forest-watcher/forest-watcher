@@ -21,13 +21,6 @@ type Props = {
 };
 
 class ImageBlobInput extends Component<Props> {
-  actions = [
-    {
-      callback: this.removePicture,
-      icon: deleteIcon
-    }
-  ];
-
   componentDidMount() {
     const imagePath = this.props.answer.value;
     if (!imagePath) {
@@ -81,7 +74,12 @@ class ImageBlobInput extends Component<Props> {
               id={'imagePreview'}
               key={1}
               name={'imagePreview'}
-              actions={this.actions}
+              actions={[
+                {
+                  callback: this.removePicture,
+                  icon: deleteIcon
+                }
+              ]}
               uri={imagePath}
               width={Theme.screen.width - 48}
               height={416}
