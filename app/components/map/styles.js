@@ -109,7 +109,8 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     marginLeft: 8,
     marginRight: 8,
-    marginBottom: 16
+    marginBottom: 16,
+    paddingBottom: 16
   },
   buttonPanelSelected: {
     flexDirection: 'column'
