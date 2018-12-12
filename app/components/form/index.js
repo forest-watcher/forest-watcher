@@ -81,7 +81,7 @@ class Form extends Component<Props> {
       });
     } else {
       if (editMode) {
-        Navigation.pop(componentId);
+        Navigation.popToRoot(componentId);
       } else {
         Navigation.push(componentId, {
           component: {
