@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableHighlight, Modal, Image, ScrollView, TextInput } from 'react-native';
+import { withSafeArea } from 'react-native-safe-area';
 
 import deburr from 'lodash/deburr';
 import Theme from 'config/theme';
 import styles from './styles';
 
+const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const searchImage = require('assets/search.png');
 const closeImage = require('assets/close.png');
 
@@ -68,7 +70,7 @@ class SearchSelector extends Component {
           visible={this.state.showList}
           onRequestClose={() => this.close()}
         >
-          <View style={styles.modal}>
+          <SafeAreaView style={styles.modal}>
             <View style={styles.search}>
               <TextInput
                 autoFocus={false}
@@ -109,7 +111,7 @@ class SearchSelector extends Component {
                 </TouchableHighlight>
               ))}
             </ScrollView>
-          </View>
+          </SafeAreaView>
         </Modal>
       </View>
     );
