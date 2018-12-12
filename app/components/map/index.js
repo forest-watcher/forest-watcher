@@ -759,6 +759,7 @@ class MapComponent extends Component {
               anchor={{ x: 0.5, y: 0.5 }}
               onPress={() => this.includeNeighbour(neighbour)}
               zIndex={10}
+              tracksViewChanges={false}
             >
               <View style={[markerSize, markerBorder, styles.markerIconArea]} />
             </MapView.Marker>
@@ -773,6 +774,7 @@ class MapComponent extends Component {
               anchor={{ x: 0.5, y: 0.5 }}
               onPress={() => this.removeSelection(alert)}
               zIndex={20}
+              tracksViewChanges={false}
             >
               <View style={[markerSize, markerBorder, styles.selectedMarkerIcon]} />
             </MapView.Marker>
