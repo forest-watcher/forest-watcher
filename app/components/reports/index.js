@@ -19,7 +19,6 @@ type ReportItem = {
 };
 
 type Props = {
-  componentId: string,
   reports: {
     draft: Array<ReportItem>,
     uploaded: Array<ReportItem>,

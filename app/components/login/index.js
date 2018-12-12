@@ -112,7 +112,11 @@ class Login extends PureComponent<Props, State> {
 
   onLoadEnd = () => {
     const parsedUrl = parseUrl(this.state.webViewCurrenUrl, true);
-    if (parsedUrl.origin == Config.API_AUTH && parsedUrl.pathname == Config.API_AUTH_CALLBACK_PATH && parsedUrl.query?.token) {
+    if (
+      parsedUrl.origin == Config.API_AUTH &&
+      parsedUrl.pathname == Config.API_AUTH_CALLBACK_PATH &&
+      parsedUrl.query?.token
+    ) {
       this.props.setLoginAuth({
         token: parsedUrl.query.token,
         socialNetwork: this.state.socialNetwork,
@@ -173,8 +177,18 @@ class Login extends PureComponent<Props, State> {
   renderWebview() {
     return (
       <View style={{ flex: 1 }}>
-        <View style={[styles.webViewHeader, { marginTop: -this.state.topSafeAreaInset, height: 40 + this.state.topSafeAreaInset }]}>
-          <TouchableHighlight style={styles.webViewButtonClose} onPress={this.closeWebview} activeOpacity={0.8} underlayColor="transparent">
+        <View
+          style={[
+            styles.webViewHeader,
+            { marginTop: -this.state.topSafeAreaInset, height: 40 + this.state.topSafeAreaInset }
+          ]}
+        >
+          <TouchableHighlight
+            style={styles.webViewButtonClose}
+            onPress={this.closeWebview}
+            activeOpacity={0.8}
+            underlayColor="transparent"
+          >
             <Text style={styles.webViewButtonCloseText}>x</Text>
           </TouchableHighlight>
           <Text style={[styles.webViewUrl]} ellipsizeMode="tail" numberOfLines={1}>

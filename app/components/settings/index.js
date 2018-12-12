@@ -28,7 +28,8 @@ type Props = {
   logout: () => void,
   isUnsafeLogout: boolean,
   setOfflineMode: () => void,
-  offlineMode: boolean
+  offlineMode: boolean,
+  showNotConnectedNotification: () => void
 };
 
 class Settings extends Component<Props> {

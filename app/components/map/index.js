@@ -25,8 +25,7 @@ import Theme from 'config/theme';
 import i18n from 'locales';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
-import RNFetchBlob from 'react-native-fetch-blob';
-import SafeArea, { withSafeArea } from 'react-native-safe-area';
+import { withSafeArea } from 'react-native-safe-area';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const geoViewport = require('@mapbox/geo-viewport');

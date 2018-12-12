@@ -15,7 +15,6 @@ type Props = {
 };
 
 class ToastNotification extends PureComponent<Props> {
-
   static options(passProps) {
     return {
       layout: {
