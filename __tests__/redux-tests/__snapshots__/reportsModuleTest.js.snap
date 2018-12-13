@@ -621,6 +621,164 @@ Array [
 ]
 `;
 
+exports[`Redux Reports Module Redux Snapshot Thunk Actions uploadReport 1`] = `
+Array [
+  Object {
+    "meta": Object {
+      "offline": Object {
+        "commit": Object {
+          "meta": Object {
+            "report": Object {
+              "name": "reportNameMock",
+              "status": "uploaded",
+            },
+          },
+          "type": "report/UPLOAD_REPORT_COMMIT",
+        },
+        "effect": Object {
+          "body": FormDataMock {
+            "append": [MockFunction] {
+              "calls": Array [
+                Array [
+                  "report",
+                  "templateIDMock",
+                ],
+                Array [
+                  "reportName",
+                  "reportNameMock",
+                ],
+                Array [
+                  "areaOfInterest",
+                  "areaIDMock",
+                ],
+                Array [
+                  "areaOfInterestName",
+                  "nameMock",
+                ],
+                Array [
+                  "startDate",
+                  "startDateMock",
+                ],
+                Array [
+                  "endDate",
+                  "endDateMock",
+                ],
+                Array [
+                  "layer",
+                  "slugMock",
+                ],
+                Array [
+                  "language",
+                  "languageMock",
+                ],
+                Array [
+                  "username",
+                  "fullNameMock",
+                ],
+                Array [
+                  "organization",
+                  "organizationMock",
+                ],
+                Array [
+                  "date",
+                  "mockDateString",
+                ],
+                Array [
+                  "clickedPosition",
+                  "[3,4]",
+                ],
+                Array [
+                  "userPosition",
+                  "[1,2]",
+                ],
+              ],
+              "results": Array [
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+              ],
+            },
+          },
+          "errorCode": 400,
+          "headers": Object {
+            "content-type": "multipart/form-data",
+          },
+          "method": "POST",
+          "url": "<API_URL_MOCK>/reports/templateIDMock/answers",
+        },
+        "rollback": Object {
+          "meta": Object {
+            "report": Object {
+              "name": "reportNameMock",
+              "status": "complete",
+            },
+          },
+          "type": "report/UPLOAD_REPORT_ROLLBACK",
+        },
+      },
+    },
+    "payload": Object {
+      "alerts": Array [
+        3,
+        4,
+      ],
+      "name": "reportNameMock",
+      "status": "complete",
+    },
+    "type": "report/UPLOAD_REPORT_REQUEST",
+  },
+]
+`;
+
 exports[`Redux Reports Module Simple Actions: snapshot and reducer test createReport 1`] = `
 Object {
   "payload": Object {

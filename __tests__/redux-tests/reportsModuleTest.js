@@ -147,6 +147,36 @@ describe('Redux Reports Module', () => {
       expect(store.getActions()).toMatchSnapshot();
     });
 
+    it('uploadReport', () => {
+      const state = {
+        reports: {
+          list: {
+            reportNameMock: {
+              ...mockReport,
+              area: {
+                ...mockReport.area,
+                dataset: {
+                  startDate: 'startDateMock',
+                  endDate: 'endDateMock',
+                  slug: 'slugMock'
+                }
+              }
+            }
+          },
+          templates: {
+            templateIDMock: { status: 'published', id: 'templateIDMock' },
+            templateIDMock2: { status: 'unpublished', id: 'templateIDMock2' }
+          }
+        },
+        app: { language: 'languageMock' },
+        user: { data: { fullName: 'fullNameMock', organization: 'organizationMock' } }
+      };
+      store = configuredStore(state);
+      store.dispatch(uploadReport('reportNameMock'));
+
+      expect(store.getActions()).toMatchSnapshot();
+    });
+
     it('simple report actions full test', () => {
       let newState = {
         reports: reportsReducer(undefined, { type: 'NONE' })
@@ -238,14 +268,6 @@ describe('Redux Reports Module', () => {
       //   newState,
       //   uploadReport(mockCreateReport2.reportName),
       //   { mockCreateReportName2: dataString },
-      //   null
-      // );
-      //
-      // // Sync reports
-      // mockDispatchAction(
-      //   newState,
-      //   syncReports(),
-      //   { mockCreateReportName2: dataString},
       //   null
       // );
     });
