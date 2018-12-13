@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Dimensions, DeviceEventEmitter, Animated, Easing, StatusBar, Image, Text, Platform, NativeModules } from 'react-native';
+import {
+  View,
+  Dimensions,
+  DeviceEventEmitter,
+  Animated,
+  Easing,
+  StatusBar,
+  Image,
+  Text,
+  Platform,
+  NativeModules
+} from 'react-native';
 
 import { MAPS, REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
@@ -201,8 +212,8 @@ class MapComponent extends Component {
       Location.stopUpdatingHeading();
     } else if (Platform.OS === 'android') {
       if (this.geolocationWatchId !== null) {
-      navigator.geolocation.clearWatch(this.geolocationWatchId);
-      this.geolocationWatchId = null;
+        navigator.geolocation.clearWatch(this.geolocationWatchId);
+        this.geolocationWatchId = null;
       }
       SensorManager.stopOrientation();
     }
@@ -732,7 +743,7 @@ class MapComponent extends Component {
       />
     ) : null;
     const compassElement =
-      lastPosition && (heading !== null) ? (
+      lastPosition && heading !== null ? (
         <MapView.Marker
           key="compassElement"
           coordinate={lastPosition}
