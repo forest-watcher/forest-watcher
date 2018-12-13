@@ -424,6 +424,83 @@ Object {
 
 exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 13`] = `
 Object {
+  "meta": Object {
+    "offline": Object {
+      "commit": Object {
+        "type": "report/GET_DEFAULT_TEMPLATE_COMMIT",
+      },
+      "effect": Object {
+        "url": "<API_URL_MOCK>/reports/default",
+      },
+      "rollback": Object {
+        "type": "report/GET_DEFAULT_TEMPLATE_ROLLBACK",
+      },
+    },
+  },
+  "type": "report/GET_DEFAULT_TEMPLATE_REQUEST",
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 14`] = `
+Object {
+  "list": Object {
+    "mockCreateReportName": Object {
+      "answers": Array [
+        Object {
+          "questionName": "mockQuestionName1",
+          "value": "Value1a",
+        },
+      ],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+      },
+      "clickedPosition": "3,4",
+      "date": Any<String>,
+      "index": 1,
+      "reportName": "mockCreateReportName",
+      "status": "draft",
+      "userPosition": "1,2",
+    },
+    "mockCreateReportName2": Object {
+      "answers": Array [
+        Object {
+          "child": Object {
+            "questionName": "mockQuestionName2",
+            "value": "Value2",
+          },
+          "questionName": "mockQuestionName1",
+          "value": "Value1",
+        },
+      ],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+      },
+      "clickedPosition": "3,4",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName2",
+      "status": "complete",
+      "userPosition": "1,2",
+    },
+  },
+  "synced": false,
+  "syncing": true,
+  "templates": Object {},
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 15`] = `
+Object {
   "payload": Object {
     "reportName": "mockCreateReportName",
   },
@@ -431,7 +508,7 @@ Object {
 }
 `;
 
-exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 14`] = `
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 16`] = `
 Object {
   "list": Object {
     "mockCreateReportName2": Object {

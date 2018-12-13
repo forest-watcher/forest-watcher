@@ -116,7 +116,7 @@ describe('Redux Reports Module', () => {
       const newStore = configuredStore(state);
       newStore.dispatch(action);
       const resolvedActions = newStore.getActions();
-      let newState = state.layers;
+      let newState = state.reports;
 
       const actionPropertyMatcherObj = actionPropertyMatcher ? { payload: actionPropertyMatcher } : {};
       const statePropertyMatcherObj = statePropertyMatcher ? { list: statePropertyMatcher } : {};
@@ -130,7 +130,7 @@ describe('Redux Reports Module', () => {
 
       const returnState = {
         ...state,
-        layers: {
+        reports: {
           ...newState
         }
       };
@@ -144,7 +144,7 @@ describe('Redux Reports Module', () => {
 
     it('simple report actions full test', () => {
       let newState = {
-        layers: reportsReducer(undefined, { type: 'NONE' })
+        reports: reportsReducer(undefined, { type: 'NONE' })
       };
 
       const dataString = { date: expect.any(String) };
@@ -201,15 +201,39 @@ describe('Redux Reports Module', () => {
         setReportAnswer(mockCreateReport2.reportName, mockAnswerParent),
         { mockCreateReportName: dataString, mockCreateReportName2: dataString },
         null
-      ); // todo check answers are as you expect in snapshot!
+      );
+
+      // Sync reports
+      mockDispatchAction(
+        newState,
+        syncReports(),
+        { mockCreateReportName: dataString, mockCreateReportName2: dataString },
+        null
+      );
 
       //Delete report 1
-      mockDispatchAction(
+      newState = mockDispatchAction(
         newState,
         deleteReport(mockCreateReport.reportName),
         { mockCreateReportName2: dataString },
         null
       );
+
+      // // Upload report 2
+      // mockDispatchAction(
+      //   newState,
+      //   uploadReport(mockCreateReport2.reportName),
+      //   { mockCreateReportName2: dataString },
+      //   null
+      // );
+      //
+      // // Sync reports
+      // mockDispatchAction(
+      //   newState,
+      //   syncReports(),
+      //   { mockCreateReportName2: dataString},
+      //   null
+      // );
     });
   });
 });
