@@ -539,7 +539,45 @@ Object {
     },
   },
   "synced": false,
-  "syncing": false,
+  "syncing": true,
+  "templates": Object {},
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 17`] = `"NO_RESOLVED_ACTIONS"`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 18`] = `
+Object {
+  "list": Object {
+    "mockCreateReportName2": Object {
+      "answers": Array [
+        Object {
+          "child": Object {
+            "questionName": "mockQuestionName2",
+            "value": "Value2",
+          },
+          "questionName": "mockQuestionName1",
+          "value": "Value1",
+        },
+      ],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName2",
+      "status": "complete",
+      "userPosition": "[1,2]",
+    },
+  },
+  "synced": false,
+  "syncing": true,
   "templates": Object {},
 }
 `;

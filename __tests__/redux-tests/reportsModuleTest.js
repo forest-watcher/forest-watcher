@@ -121,10 +121,14 @@ describe('Redux Reports Module', () => {
       const actionPropertyMatcherObj = actionPropertyMatcher ? { payload: actionPropertyMatcher } : {};
       const statePropertyMatcherObj = statePropertyMatcher ? { list: statePropertyMatcher } : {};
 
-      resolvedActions.forEach(resolvedAction => {
-        newState = reportsReducer(newState, resolvedAction);
-        expect(resolvedAction).toMatchSnapshot(actionPropertyMatcherObj); // property matcher
-      });
+      if (resolvedActions.length === 0) {
+        expect('NO_RESOLVED_ACTIONS').toMatchSnapshot();
+      } else {
+        resolvedActions.forEach(resolvedAction => {
+          newState = reportsReducer(newState, resolvedAction);
+          expect(resolvedAction).toMatchSnapshot(actionPropertyMatcherObj);
+        });
+      }
 
       expect(newState).toMatchSnapshot(statePropertyMatcherObj);
 
@@ -205,7 +209,7 @@ describe('Redux Reports Module', () => {
       );
 
       // Sync reports
-      mockDispatchAction(
+      newState = mockDispatchAction(
         newState,
         syncReports(),
         { mockCreateReportName: dataString, mockCreateReportName2: dataString },
@@ -216,6 +220,15 @@ describe('Redux Reports Module', () => {
       newState = mockDispatchAction(
         newState,
         deleteReport(mockCreateReport.reportName),
+        { mockCreateReportName2: dataString },
+        null
+      );
+
+      // Sync reports
+      mockDispatchAction(
+        // Should produce no actions
+        newState,
+        syncReports(),
         { mockCreateReportName2: dataString },
         null
       );
