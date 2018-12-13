@@ -45,7 +45,8 @@ function withDraft(WrappedComponent: any) {
 
     constructor(props: Props) {
       super(props);
-      super.navigationButtonPressed = super.navigationButtonPressed?.bind?.(this);
+      this.navigationButtonPressed = this.navigationButtonPressed.bind(this);
+      Navigation.events().bindComponent(this);
     }
 
     onPressDraft = () => {
@@ -75,7 +76,7 @@ function withDraft(WrappedComponent: any) {
     };
 
     navigationButtonPressed(event) {
-      super.navigationButtonPressed?.(event);
+      super.navigationButtonPressed?.bind(this)?.(event);
       if (event.buttonId === 'draft') {
         this.onPressDraft();
       }

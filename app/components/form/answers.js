@@ -57,11 +57,6 @@ class Answers extends PureComponent<Props> {
     };
   }
 
-  constructor(props) {
-    super(props);
-    Navigation.events().bindComponent(this);
-  }
-
   /**
    * navigationButtonPressed - Handles events from the buttons on the modal nav bar.
    *
