@@ -3,7 +3,7 @@ import type { Question, Answer } from 'types/reports.types';
 
 import React, { Component } from 'react';
 import i18n from 'locales';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
 import styles from 'components/form/styles';
 import ActionButton from 'components/common/action-button';
@@ -25,13 +25,24 @@ type Props = {
   editMode: boolean
 };
 
+const closeIcon = require('assets/close.png');
+
 class Form extends Component<Props> {
   static options(passProps) {
     return {
       topBar: {
         title: {
           text: i18n.t('report.title')
-        }
+        },
+        leftButtons: [
+          {
+            id: 'backButton',
+            text: i18n.t('commonText.cancel'),
+            icon: Platform.select({
+              android: closeIcon
+            })
+          }
+        ]
       }
     };
   }
@@ -43,6 +54,21 @@ class Form extends Component<Props> {
 
   componentDidMount() {
     tracker.trackScreenView('Reporting - Form Step');
+  }
+
+  /**
+   * navigationButtonPressed - Handles events from the back button on the modal nav bar.
+   *
+   * @param  {type} { buttonId } The component ID for the button.
+   */
+  navigationButtonPressed({ buttonId }) {
+    if (buttonId === 'backButton') {
+      if (this.props.nextQuestionIndex !== null || !this.props.editMode) {
+        Navigation.dismissModal(this.props.componentId);
+      } else {
+        Navigation.popToRoot(this.props.componentId);
+      }
+    }
   }
 
   shouldComponentUpdate(nextProps) {
@@ -81,7 +107,7 @@ class Form extends Component<Props> {
       });
     } else {
       if (editMode) {
-        Navigation.pop(componentId);
+        Navigation.popToRoot(componentId);
       } else {
         Navigation.push(componentId, {
           component: {
