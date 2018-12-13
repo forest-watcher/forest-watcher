@@ -8,7 +8,7 @@ function MapAttribution() {
   return (
     <View style={[styles.attributionContainer, styles.footerZIndex]} pointerEvents="box-none">
       <Image source={mapboxImage} />
-      <Text style={styles.attributionText}>{` © OpenStreetMap`}</Text>
+      <Text style={styles.attributionText}>{` © Mapbox © OpenStreetMap`}</Text>
     </View>
   );
 }
