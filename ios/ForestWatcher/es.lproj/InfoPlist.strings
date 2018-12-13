@@ -6,9 +6,9 @@
   Copyright © 2018 Facebook. All rights reserved.
 */
 
-"NSCameraUsageDescription" = "ES_We need access to the camera.";
-"NSLocationAlwaysUsageDescription" = "ES_The app uses the localization services, please activate them";
-"NSLocationWhenInUseUsageDescription" = "ES_The app uses the localization services, please activate them";
-"NSPhotoLibraryAddUsageDescription" = "ES_The app would like to save photos to your photo gallery";
-"NSPhotoLibraryUsageDescription" = "ES_We need access to the media library.";
-"CFBundleDisplayName" = "ES_Forest Watcher";
+"NSCameraUsageDescription" = "Mientras esté funcionando, Forest Watcher usará la cámara para tomar fotos para los informes.";
+"NSLocationAlwaysUsageDescription" = "La aplicación usa los servicios de ubicación para ayudar en la navegación";
+"NSLocationWhenInUseUsageDescription" = "La aplicación usa los servicios de ubicación para ayudar en la navegación";
+"NSPhotoLibraryAddUsageDescription" = "Forest Watcher guardará las fotos de los informes en la galería de fotos.";
+"NSPhotoLibraryUsageDescription" = "Forest Watcher necesita autorización para agregar a los informes, fotos que han sido tomadas anteriormente.";
+"CFBundleDisplayName" = "Forest Watcher";

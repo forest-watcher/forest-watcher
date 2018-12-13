@@ -1,6 +1,6 @@
 // @flow
 
-import React, { PureComponent } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import MapView from 'react-native-maps';
 import ClusterMarker from 'components/map/clusters/clusterMarker';
 import { View } from 'react-native';
@@ -31,7 +31,7 @@ class Clusters extends PureComponent<Props> {
   render() {
     if (!this.props.markers) return null;
     return (
-      <View>
+      <React.Fragment>
         {this.props.markers.map((marker, index) => {
           const { datasetSlug } = this.props;
           const coordinates = {
@@ -65,12 +65,13 @@ class Clusters extends PureComponent<Props> {
               onPress={() => this.props.selectAlert(coordinates)}
               zIndex={1}
               draggable={false}
+              tracksViewChanges={false}
             >
               <View style={[this.props.markerSize, markerColor]} />
             </MapView.Marker>
           );
         })}
-      </View>
+      </React.Fragment>
     );
   }
 }

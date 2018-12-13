@@ -2,7 +2,7 @@
 import type { Answer, Question } from 'types/reports.types';
 
 import React, { PureComponent } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Platform } from 'react-native';
 import i18n from 'locales';
 
 import ActionButton from 'components/common/action-button';
@@ -27,10 +27,21 @@ type Props = {
   setActiveAlerts: boolean => void
 };
 
+const closeIcon = require('assets/close.png');
+
 class Answers extends PureComponent<Props> {
   static options(passProps) {
     return {
       topBar: {
+        leftButtons: [
+          {
+            id: 'backButton',
+            text: i18n.t('commonText.cancel'),
+            icon: Platform.select({
+              android: closeIcon
+            })
+          }
+        ],
         rightButtons: passProps.showUploadButton
           ? [
               {
@@ -51,10 +62,19 @@ class Answers extends PureComponent<Props> {
     Navigation.events().bindComponent(this);
   }
 
+  /**
+   * navigationButtonPressed - Handles events from the buttons on the modal nav bar.
+   *
+   * @param  {type} { buttonId } The component ID for the button.
+   */
   navigationButtonPressed({ buttonId }) {
     if (buttonId === 'upload') {
       const { reportName, uploadReport } = this.props;
       uploadReport(reportName);
+    }
+
+    if (buttonId === 'backButton') {
+      Navigation.dismissModal(this.props.componentId);
     }
   }
 

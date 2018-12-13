@@ -96,15 +96,15 @@ __RN_CONFIG_CODEPUSH_RELEASE_PUBLIC_KEY
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>We need access to the camera.</string>
+	<string>Forest Watcher will use your camera when running the application to collect photos for your reports.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>The app uses the localization services, please activate them</string>
+	<string>The app uses the location services to help you navigate in the application.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>The app uses the localization services, please activate them</string>
+	<string>The app uses the location services to help you navigate in the application.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to save photos to your photo gallery</string>
+	<string>Forest Watcher would like to save photos from your report to your photo gallery</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to the media library.</string>
+	<string>Forest Watcher needs access to allow you to add previously taken photos to your reports</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>firasansot_light.ttf</string>
