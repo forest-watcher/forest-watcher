@@ -17,7 +17,8 @@ describe('Redux Reports Module', () => {
     name: 'nameMock',
     id: 'areaIDMock',
     application: 'applicationMock', // used to test that all fields are included in payload
-    geostore: { id: 'geostoreIDMock' }
+    geostore: { id: 'geostoreIDMock' },
+    templateId: 'templateIDMock'
   };
 
   const mockCreateReport = {
@@ -142,14 +143,13 @@ describe('Redux Reports Module', () => {
     }
 
     it('syncReports', () => {
-      store.dispatch(syncReports()); // todo test sync/syncing
+      store.dispatch(syncReports());
       expect(store.getActions()).toMatchSnapshot();
     });
 
     it('simple report actions full test', () => {
       let newState = {
-        reports: reportsReducer(undefined, { type: 'NONE' }),
-        app: { language: 'languageMock' }
+        reports: reportsReducer(undefined, { type: 'NONE' })
       };
 
       const dataString = { date: expect.any(String) };
@@ -225,7 +225,7 @@ describe('Redux Reports Module', () => {
       );
 
       // Sync reports
-      mockDispatchAction(
+      newState = mockDispatchAction(
         // Should produce no actions
         newState,
         syncReports(),
@@ -251,3 +251,7 @@ describe('Redux Reports Module', () => {
     });
   });
 });
+
+global.FormData = function FormDataMock() {
+  this.append = jest.fn();
+};
