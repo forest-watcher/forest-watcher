@@ -9,6 +9,6 @@
 "NSCameraUsageDescription" = "Mientras esté funcionando, Forest Watcher usará la cámara para tomar fotos para los informes.";
 "NSLocationAlwaysUsageDescription" = "La aplicación usa los servicios de ubicación para ayudar en la navegación";
 "NSLocationWhenInUseUsageDescription" = "La aplicación usa los servicios de ubicación para ayudar en la navegación";
-"NSPhotoLibraryAddUsageDescription" = "ES_The app would like to save photos to your photo gallery";
+"NSPhotoLibraryAddUsageDescription" = "Forest Watcher guardará las fotos de los informes en la galería de fotos.";
 "NSPhotoLibraryUsageDescription" = "Forest Watcher necesita autorización para agregar a los informes, fotos que han sido tomadas anteriormente.";
 "CFBundleDisplayName" = "Forest Watcher";
