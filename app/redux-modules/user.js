@@ -159,6 +159,8 @@ export function facebookLogin() {
           dispatch({ type: SET_LOGIN_LOADING, payload: false });
           dispatch(logout('facebook'));
         }
+      } else {
+        dispatch({ type: SET_LOGIN_LOADING, payload: false });
       }
     } catch (e) {
       console.error(e);
