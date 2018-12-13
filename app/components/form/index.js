@@ -54,8 +54,6 @@ class Form extends Component<Props> {
 
   componentDidMount() {
     tracker.trackScreenView('Reporting - Form Step');
-
-    Navigation.events().bindComponent(this);
   }
 
   /**
