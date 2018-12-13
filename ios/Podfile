@@ -6,6 +6,9 @@ platform :ios, '10.0'
 target 'ForestWatcher' do
 
   pod 'AppAuth'
+
+  # Facebook SDK versions fixed to 4.38.0 to fix https://github.com/facebook/react-native-fbsdk/issues/433.
+  # This is where login fails on testflight / live builds, but works on dev builds. When fixed, feel free to remove these fixed versions.
   pod 'FBSDKCoreKit', '4.38.0'
   pod 'FBSDKLoginKit', '4.38.0'
   pod 'FBSDKShareKit', '4.38.0'
