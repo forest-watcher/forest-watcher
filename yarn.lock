@@ -7139,10 +7139,10 @@ react-native-app-auth@2.6.1:
   resolved "https://registry.yarnpkg.com/react-native-app-auth/-/react-native-app-auth-2.6.1.tgz#b4cb724a0004ee709ea24788d12f3af8a83d3cf5"
   integrity sha512-R8EkNXNk3RWcFL5wVDlq2Y102vL5OJvVScb+SenhJc7F1WXj3XugpSmx4oIH0U0rM+yOHc31iEbGaw1E3NIDAA==
 
-react-native-code-push@5.4.2:
-  version "5.4.2"
-  resolved "https://registry.yarnpkg.com/react-native-code-push/-/react-native-code-push-5.4.2.tgz#a43f976f983b9866005aac50fe7c1e915ab23943"
-  integrity sha512-O5HO7bT5s4Z9alCpryMm8d0yUiqESi55BaEJQ0KrMtb8ZeFAlINrSyrcmdXryM56D62HqHhm3U77OWEkuMuj7g==
+react-native-code-push@5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-code-push/-/react-native-code-push-5.5.0.tgz#984c7f7cfc1b9e3b88b8725f7e1712d17dc36bb8"
+  integrity sha512-QsAsrtEt3ufImXZqaMHDtMpDELPX0nGUPZ5UCq9x5uVQi+C2ZYIlrC4uCb3vl2dHy7hAOxP3f99Iee6gcbw5vQ==
   dependencies:
     code-push "2.0.6"
     glob "^5.0.15"

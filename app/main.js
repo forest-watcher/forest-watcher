@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/default
 import codePush from 'react-native-code-push';
+import { Sentry } from 'react-native-sentry';
 import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
 import Theme from 'config/theme';
@@ -13,14 +14,20 @@ import { setupCrashLogging } from './crashes';
 // Show request in chrome network tool
 // GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
+const codePushOptions = {
+  checkFrequency: codePush.CheckFrequency.MANUAL,
+  installMode: codePush.InstallMode.ON_NEXT_RESUME
+};
+
 function setCodePush() {
   const codepushEnable = !__DEV__;
   if (codepushEnable) {
-    const codePushOptions = {
-      checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
-      installMode: codePush.InstallMode.ON_NEXT_RESUME
-    };
     codePush.sync(codePushOptions);
+    codePush.getUpdateMetadata().then(update => {
+      if (update) {
+        Sentry.setVersion(update.appVersion + '-codepush:' + update.label);
+      }
+    });
   }
 }
 
@@ -44,7 +51,8 @@ const app = async () => {
     });
 
     await launchAppRoot(screen);
-    //setCodePush();
+    setCodePush();
+
     createStore.runSagas();
   }
 };
