@@ -63,9 +63,13 @@ class Form extends Component<Props> {
    */
   navigationButtonPressed({ buttonId }) {
     if (buttonId === 'backButton') {
+      if (this.props.nextQuestionIndex !== null || !this.props.editMode) {
         Navigation.dismissModal(this.props.componentId);
+      } else {
+        Navigation.popToRoot(this.props.componentId);
       }
     }
+  }
 
   shouldComponentUpdate(nextProps) {
     return this.props.answer !== nextProps.answer;
@@ -103,7 +107,7 @@ class Form extends Component<Props> {
       });
     } else {
       if (editMode) {
-        Navigation.pop(componentId);
+        Navigation.popToRoot(componentId);
       } else {
         Navigation.push(componentId, {
           component: {
