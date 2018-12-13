@@ -7235,9 +7235,9 @@ react-native-location@1.0.0:
   resolved "https://registry.yarnpkg.com/react-native-location/-/react-native-location-1.0.0.tgz#e2f0b8a278f342682051455dfe6e6ceada839ee5"
   integrity sha512-48M1w9N9giACHerOr/Yc35DiD0Q/0rIg72D48B/+ltMdxfhuMYuExW6wMoW3o5BFFIqRjdvSaPtZLoHZ9+f4OQ==
 
-react-native-maps@3sidedcube/react-native-maps#a8b737d347e3d721e048098191968bde39cc94ee:
+react-native-maps@3sidedcube/react-native-maps#6791d28f17191dfbaa4450a6ffd6f8c797cb2ff8:
   version "0.22.1"
-  resolved "https://codeload.github.com/3sidedcube/react-native-maps/tar.gz/a8b737d347e3d721e048098191968bde39cc94ee"
+  resolved "https://codeload.github.com/3sidedcube/react-native-maps/tar.gz/6791d28f17191dfbaa4450a6ffd6f8c797cb2ff8"
   dependencies:
     "@mapbox/geo-viewport" "^0.2.2"
     "@mapbox/tilebelt" Vizzuality/tilebelt
