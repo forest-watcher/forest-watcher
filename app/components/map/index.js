@@ -1,16 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  Dimensions,
-  DeviceEventEmitter,
-  Animated,
-  Easing,
-  StatusBar,
-  Image,
-  Text,
-  Platform
-} from 'react-native';
+import { View, Dimensions, DeviceEventEmitter, Animated, Easing, StatusBar, Image, Text, Platform } from 'react-native';
 
 import { MAPS, REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';

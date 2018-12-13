@@ -39,7 +39,7 @@ export function shouldBeConnected(state: State) {
 export function getVersionName() {
   return codePush.getUpdateMetadata().then(update => {
     if (update) {
-      return `v${version}-${update.label}`;
+      return `v${version}-codepush_${update.label}`;
     }
     return `v${version}`;
   });
