@@ -28,7 +28,6 @@
     "@mapbox/geo-viewport": "0.4.0",
     "@mapbox/geojson-area": "0.2.2",
     "@redux-offline/redux-offline": "2.5.1",
-    "appcenter": "1.10.0",
     "boundingbox": "0.1.2",
     "buffer": "5.2.1",
     "d3-dsv": "1.0.10",

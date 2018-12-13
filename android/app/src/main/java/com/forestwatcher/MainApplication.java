@@ -15,7 +15,6 @@ import com.forestwatcher.sensors.SensorManagerPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.imagepicker.ImagePickerPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
-import com.microsoft.appcenter.reactnative.appcenter.AppCenterReactNativePackage;
 import com.microsoft.codepush.react.CodePush;
 import com.microsoft.codepush.react.ReactInstanceHolder;
 import com.psykar.cookiemanager.CookieManagerPackage;
@@ -83,7 +82,6 @@ public class MainApplication extends NavigationApplication implements ReactInsta
       ),
       new RNAppAuthPackage(),
       new FBSDKPackage(mCallbackManager),
-      new AppCenterReactNativePackage(MainApplication.this),
       new FastImageViewPackage(),
       new LottiePackage(),
       new RNSentryPackage(),
