@@ -123,10 +123,13 @@ export function googleLogin() {
       // very brittle approach but only way to know currently
       const userDismissedLoginIOS = e.message.indexOf('error -3') !== -1;
       const userDismissedLoginAndroid = e.message.indexOf('Failed to authenticate') !== -1;
-      console.error(e);
+      const userDismissedLogin = userDismissedLoginAndroid || userDismissedLoginIOS;
+      if (!userDismissedLogin) {
+        console.error(e);
+      }
       dispatch({
         type: SET_LOGIN_STATUS,
-        payload: userDismissedLoginIOS || userDismissedLoginAndroid
+        payload: userDismissedLogin
       });
       dispatch({ type: SET_LOGIN_LOADING, payload: false });
     }
