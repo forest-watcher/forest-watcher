@@ -190,9 +190,7 @@ class Dashboard extends PureComponent<Props> {
           style={[
             styles.row,
             {
-              height: 80 + bottomSafeAreaInset,
-              backgroundColor: Theme.background.white
-              //marginBottom: bottomSafeAreaInset
+              height: 80 + bottomSafeAreaInset
             }
           ]}
           action={this.reportsAction}
