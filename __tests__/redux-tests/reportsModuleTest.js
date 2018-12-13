@@ -263,13 +263,33 @@ describe('Redux Reports Module', () => {
         null
       );
 
-      // // Upload report 2
-      // mockDispatchAction(
-      //   newState,
-      //   uploadReport(mockCreateReport2.reportName),
-      //   { mockCreateReportName2: dataString },
-      //   null
-      // );
+      newState = {
+        ...newState,
+        reports: {
+          ...newState.reports,
+          list: {
+            ...newState.reports.list,
+            mockCreateReportName2: {
+              ...newState.reports.list.mockCreateReportName2,
+              date: 'dateMock' // need to mock, property matcher won't work for mocked function parameters
+            }
+          },
+          templates: {
+            templateIDMock: { status: 'unpublished' },
+            templateIDMock2: { status: 'statusMock' }
+          }
+        },
+        app: { language: 'languageMock' },
+        user: { data: { fullName: 'fullNameMock', organization: 'organizationMock' } }
+      };
+
+      // Upload report 2
+      mockDispatchAction(
+        newState,
+        uploadReport(mockCreateReport2.reportName),
+        { mockCreateReportName2: dataString },
+        null
+      );
     });
   });
 });
