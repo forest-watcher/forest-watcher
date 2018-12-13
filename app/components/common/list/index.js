@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView, Image, TouchableHighlight, Text } from 'react-native';
+import { View, ScrollView, Image, TouchableHighlight, Text, Platform, TouchableNativeFeedback } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
+import Theme from 'config/theme';
 import styles from './styles';
 
 const nextImage = require('assets/next.png');
@@ -18,11 +19,20 @@ function onPress(data) {
 }
 
 function List(props) {
+  const Touchable = Platform.select({
+    android: TouchableNativeFeedback,
+    ios: TouchableHighlight
+  });
+
   return (
     <ScrollView>
       {props.content.map((data, key) => (
-        <TouchableHighlight
+        <Touchable
           key={`link-${key}`}
+          background={Platform.select({
+            android: TouchableNativeFeedback.Ripple(Theme.background.gray),
+            ios: undefined
+          })}
           onPress={() => onPress(data)}
           activeOpacity={1}
           underlayColor="transparent"
@@ -37,7 +47,7 @@ function List(props) {
             </View>
             <Image style={styles.nextIcon} source={nextImage} />
           </View>
-        </TouchableHighlight>
+        </Touchable>
       ))}
     </ScrollView>
   );
