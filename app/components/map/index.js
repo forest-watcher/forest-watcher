@@ -9,8 +9,7 @@ import {
   StatusBar,
   Image,
   Text,
-  Platform,
-  NativeModules
+  Platform
 } from 'react-native';
 
 import { MAPS, REPORTS } from 'config/constants';

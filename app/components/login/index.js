@@ -9,6 +9,7 @@ import Config from 'react-native-config';
 
 import Theme from 'config/theme';
 import i18n from 'locales';
+import { getVersionName } from 'helpers/app';
 import tracker from 'helpers/googleAnalytics';
 import { getLanguage } from 'helpers/language';
 
@@ -43,8 +44,7 @@ type Props = {
     token: string,
     socialNetwork: ?string,
     loggedIn: boolean
-  }) => void,
-  version: string
+  }) => void
 };
 
 type State = {
@@ -81,7 +81,8 @@ class Login extends PureComponent<Props, State> {
       webviewVisible: false,
       webViewUrl: '',
       webViewCurrenUrl: '',
-      socialNetwork: null
+      socialNetwork: null,
+      versionName: ''
     };
   }
 
@@ -95,6 +96,12 @@ class Login extends PureComponent<Props, State> {
       this.setState(state => ({
         topSafeAreaInset: result.safeAreaInsets.top
       }));
+    });
+
+    getVersionName().then(name => {
+      this.setState({
+        versionName: name
+      });
     });
   }
 
@@ -257,7 +264,7 @@ class Login extends PureComponent<Props, State> {
               </View>
             </TouchableHighlight>
           </View>
-          <Text style={styles.versionText}>{`v${this.props.version}`}</Text>
+          <Text style={styles.versionText}>{this.state.versionName}</Text>
         </View>
       </View>
     );

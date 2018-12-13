@@ -11,6 +11,7 @@ import AreaList from 'containers/common/area-list';
 import Theme from 'config/theme';
 import CoordinatesDropdown from 'containers/settings/coordinates-dropdown';
 import Row from 'components/common/row';
+import { getVersionName } from 'helpers/app';
 
 import { launchAppRoot } from 'main';
 import i18n from 'locales';
@@ -21,7 +22,6 @@ const plusIcon = require('assets/plus.png');
 
 type Props = {
   user: any,
-  version: string,
   loggedIn: boolean, // eslint-disable-line
   areas: Array<Area>,
   componentId: string,
@@ -71,10 +71,20 @@ class Settings extends Component<Props> {
         functionOnPress: this.handleStaticLinks
       }
     ];
+
+    this.state = {
+      versionName: ''
+    };
   }
 
   componentDidMount() {
     tracker.trackScreenView('Settings');
+
+    getVersionName().then(name => {
+      this.setState({
+        versionName: name
+      });
+    });
   }
 
   UNSAFE_componentWillReceiveProps(props: Props) {
@@ -153,7 +163,7 @@ class Settings extends Component<Props> {
   };
 
   render() {
-    const { version, areas, setOfflineMode, offlineMode } = this.props;
+    const { areas, setOfflineMode, offlineMode } = this.props;
     const hasUserData = this.props.user.fullName && this.props.user.email;
 
     return (
@@ -221,7 +231,7 @@ class Settings extends Component<Props> {
             </List>
             <View style={styles.footerText}>
               <Text style={[styles.label, { marginLeft: 0 }]}>{i18n.t('commonText.appName')}</Text>
-              <Text style={styles.versionText}>v{version}</Text>
+              <Text style={styles.versionText}>{this.state.versionName}</Text>
             </View>
           </View>
         </ScrollView>

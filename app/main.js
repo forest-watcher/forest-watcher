@@ -1,6 +1,5 @@
 // eslint-disable-next-line import/default
 import codePush from 'react-native-code-push';
-import { Sentry } from 'react-native-sentry';
 import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
 import Theme from 'config/theme';
@@ -23,11 +22,6 @@ function setCodePush() {
   const codepushEnable = !__DEV__;
   if (codepushEnable) {
     codePush.sync(codePushOptions);
-    codePush.getUpdateMetadata().then(update => {
-      if (update) {
-        Sentry.setVersion(update.appVersion + '-codepush:' + update.label);
-      }
-    });
   }
 }
 
