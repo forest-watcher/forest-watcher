@@ -11,9 +11,6 @@ export default StyleSheet.create({
     width: Theme.screen.width,
     height: Theme.screen.height
   },
-  containerScroll: {
-    marginBottom: 56
-  },
   label: {
     marginLeft: 16,
     marginBottom: 8,
@@ -38,6 +35,7 @@ export default StyleSheet.create({
   row: {
     position: 'absolute',
     width: Theme.screen.width,
+    backgroundColor: Theme.background.white,
     bottom: 0,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -2 },

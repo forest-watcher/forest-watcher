@@ -4,6 +4,7 @@ import React, { PureComponent } from 'react';
 import { View, ScrollView, RefreshControl, Platform, Text, StatusBar } from 'react-native';
 import Config from 'react-native-config';
 import { Navigation } from 'react-native-navigation';
+import SafeArea from 'react-native-safe-area';
 
 import { requestLocationPermissions } from 'helpers/app';
 import AreaList from 'containers/common/area-list';
@@ -12,9 +13,7 @@ import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import i18n from 'locales';
 import styles from './styles';
-import SafeArea, { withSafeArea } from 'react-native-safe-area';
 
-const SafeAreaView = withSafeArea(View, 'margin', 'bottom');
 const settingsIcon = require('assets/settings.png');
 const nextIcon = require('assets/next.png');
 
@@ -187,22 +186,17 @@ class Dashboard extends PureComponent<Props> {
             </View>
           </View>
         </ScrollView>
-        <SafeAreaView style={styles.contentContainer}>
-          <Row
-            style={[
-              styles.row,
-              {
-                height: 64 + bottomSafeAreaInset,
-                backgroundColor: Theme.background.white,
-                paddingBottom: bottomSafeAreaInset,
-                marginBottom: -bottomSafeAreaInset
-              }
-            ]}
-            action={this.reportsAction}
-          >
-            <Text style={styles.textMyReports}>{i18n.t('dashboard.myReports')}</Text>
-          </Row>
-        </SafeAreaView>
+        <Row
+          style={[
+            styles.row,
+            {
+              height: 80 + bottomSafeAreaInset
+            }
+          ]}
+          action={this.reportsAction}
+        >
+          <Text style={styles.textMyReports}>{i18n.t('dashboard.myReports')}</Text>
+        </Row>
       </View>
     );
   }
