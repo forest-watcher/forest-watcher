@@ -11,9 +11,6 @@ export default StyleSheet.create({
     width: Theme.screen.width,
     height: Theme.screen.height
   },
-  containerScroll: {
-    marginBottom: 56
-  },
   label: {
     marginLeft: 16,
     marginBottom: 8,
