@@ -22,16 +22,16 @@ describe('Redux Reports Module', () => {
 
   const mockCreateReport = {
     reportName: 'mockCreateReportName',
-    userPosition: '1,2',
-    clickedPosition: '3,4',
+    userPosition: '[1,2]',
+    clickedPosition: '[3,4]',
     area: mockArea
   };
 
   const mockReport = {
     reportName: 'reportNameMock',
     area: mockArea,
-    userPosition: '1,2',
-    clickedPosition: '3,4',
+    userPosition: '[1,2]',
+    clickedPosition: '[3,4]',
     index: 1,
     status: 'draft',
     date: 'mockDateString',
@@ -144,7 +144,8 @@ describe('Redux Reports Module', () => {
 
     it('simple report actions full test', () => {
       let newState = {
-        reports: reportsReducer(undefined, { type: 'NONE' })
+        reports: reportsReducer(undefined, { type: 'NONE' }),
+        app: { language: 'languageMock' }
       };
 
       const dataString = { date: expect.any(String) };
