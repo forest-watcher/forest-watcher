@@ -107,7 +107,7 @@ export default function reducer(state: ReportsState = initialState, action: Repo
       const { reportName, answer, updateOnly } = action.payload;
       const report = state.list[reportName];
       if (!report || !report.answers) {
-        return;
+        return state;
       }
       const answeredIndex = report.answers.findIndex(a => a.questionName === answer.questionName);
       // const template = state.templates[report.area.templateId];

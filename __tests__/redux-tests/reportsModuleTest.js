@@ -28,7 +28,7 @@ describe('Redux Reports Module', () => {
   };
 
   const mockReport = {
-    name: 'reportNameMock',
+    reportName: 'reportNameMock',
     area: mockArea,
     userPosition: '1,2',
     clickedPosition: '3,4',
@@ -81,11 +81,11 @@ describe('Redux Reports Module', () => {
     });
 
     it('saveReport', () => {
-      simpleActionTest(saveReport(mockReport.name, mockReport));
+      simpleActionTest(saveReport(mockReport.reportName, mockReport));
     });
 
     it('saveReport with answers', () => {
-      simpleActionTest(saveReport(mockReportWithAnswers.name, mockReportWithAnswers));
+      simpleActionTest(saveReport(mockReportWithAnswers.reportName, mockReportWithAnswers));
     });
 
     it('setReportAnswer', () => {
@@ -157,12 +157,11 @@ describe('Redux Reports Module', () => {
         { mockCreateReportName: dataString }
       );
 
+      // Create report 2
       const mockCreateReport2 = {
         ...mockCreateReport,
         reportName: mockCreateReport.reportName + '2'
       };
-
-      // Create report 2
       newState = mockDispatchAction(
         newState,
         createReport(mockCreateReport2),
@@ -170,26 +169,42 @@ describe('Redux Reports Module', () => {
         { mockCreateReportName2: dataString }
       );
 
-      // Edit entire report 1
-      // newState = mockDispatchAction(
-      //   newState,
-      //   saveReport(mockCreateReport.reportName, {
-      //
-      //   }),
-      //   { mockCreateReportName: dataString, mockCreateReportName2: dataString },
-      //   { mockCreateReportName2: dataString }
-      // );
+      // Edit entire report 1 (some fields not changed)
+      const mockReportEdit = { ...mockReportWithAnswers, reportName: mockCreateReport.reportName };
+      newState = mockDispatchAction(
+        newState,
+        saveReport(mockReportEdit.reportName, mockReportEdit),
+        { mockCreateReportName: dataString, mockCreateReportName2: dataString },
+        null
+      );
 
       // Edit report 2 status
       newState = mockDispatchAction(
         newState,
         saveReport(mockCreateReport2.reportName, { status: 'complete' }),
         { mockCreateReportName: dataString, mockCreateReportName2: dataString },
-        null, //{ data: { mockCreateReportName23: { dataString } } }
+        null
       );
 
-      //Delete report 1
+      // Set report 1 answer
+      const mockNewAnswer = { questionName: 'mockQuestionName1', value: 'Value1a' };
       newState = mockDispatchAction(
+        newState,
+        setReportAnswer(mockCreateReport.reportName, mockNewAnswer),
+        { mockCreateReportName: dataString, mockCreateReportName2: dataString },
+        null
+      );
+
+      // Set report 2 answer
+      newState = mockDispatchAction(
+        newState,
+        setReportAnswer(mockCreateReport2.reportName, mockAnswerParent),
+        { mockCreateReportName: dataString, mockCreateReportName2: dataString },
+        null
+      ); // todo check answers are as you expect in snapshot!
+
+      //Delete report 1
+      mockDispatchAction(
         newState,
         deleteReport(mockCreateReport.reportName),
         { mockCreateReportName2: dataString },
