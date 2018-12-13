@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Dimensions, DeviceEventEmitter, Animated, Easing, StatusBar, Image, Text, Platform, NativeModules } from 'react-native';
+import {
+  View,
+  Dimensions,
+  DeviceEventEmitter,
+  Animated,
+  Easing,
+  StatusBar,
+  Image,
+  Text,
+  Platform,
+  NativeModules
+} from 'react-native';
 
 import { MAPS, REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
@@ -28,6 +39,7 @@ import { Navigation } from 'react-native-navigation';
 import { withSafeArea } from 'react-native-safe-area';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'top');
+const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
 const geoViewport = require('@mapbox/geo-viewport');
 
 const { RNLocation: Location, SensorManager } = require('NativeModules');
@@ -201,8 +213,8 @@ class MapComponent extends Component {
       Location.stopUpdatingHeading();
     } else if (Platform.OS === 'android') {
       if (this.geolocationWatchId !== null) {
-      navigator.geolocation.clearWatch(this.geolocationWatchId);
-      this.geolocationWatchId = null;
+        navigator.geolocation.clearWatch(this.geolocationWatchId);
+        this.geolocationWatchId = null;
       }
       SensorManager.stopOrientation();
     }
@@ -633,10 +645,10 @@ class MapComponent extends Component {
       <View key="bg" pointerEvents="none" style={[styles.footerBGContainer, { height: veilHeight }]}>
         <Image style={[styles.footerBg, { height: veilHeight }]} source={backgroundImage} />
       </View>,
-      <View key="footer" pointerEvents="box-none" style={styles.footer}>
+      <FooterSafeAreaView key="footer" pointerEvents="box-none" style={styles.footer}>
         {hasAlertsSelected || customReporting ? this.renderButtonPanelSelected() : this.renderButtonPanel()}
         <MapAttribution />
-      </View>
+      </FooterSafeAreaView>
     ];
   }
 
@@ -732,7 +744,7 @@ class MapComponent extends Component {
       />
     ) : null;
     const compassElement =
-      lastPosition && (heading !== null) ? (
+      lastPosition && heading !== null ? (
         <MapView.Marker
           key="compassElement"
           coordinate={lastPosition}
@@ -759,6 +771,7 @@ class MapComponent extends Component {
               anchor={{ x: 0.5, y: 0.5 }}
               onPress={() => this.includeNeighbour(neighbour)}
               zIndex={10}
+              tracksViewChanges={false}
             >
               <View style={[markerSize, markerBorder, styles.markerIconArea]} />
             </MapView.Marker>
@@ -773,6 +786,7 @@ class MapComponent extends Component {
               anchor={{ x: 0.5, y: 0.5 }}
               onPress={() => this.removeSelection(alert)}
               zIndex={20}
+              tracksViewChanges={false}
             >
               <View style={[markerSize, markerBorder, styles.selectedMarkerIcon]} />
             </MapView.Marker>

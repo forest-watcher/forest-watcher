@@ -23,6 +23,7 @@ function ClusterMarker(props) {
       anchor={{ x: 0.5, y: 0.5 }}
       pointerEvents={'none'}
       onPress={() => props.zoomTo(clusterCoordinates, clusterId)}
+      tracksViewChanges={false}
     >
       <View style={styles.container}>
         <View style={style}>

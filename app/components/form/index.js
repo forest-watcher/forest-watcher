@@ -3,7 +3,7 @@ import type { Question, Answer } from 'types/reports.types';
 
 import React, { Component } from 'react';
 import i18n from 'locales';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
 import styles from 'components/form/styles';
 import ActionButton from 'components/common/action-button';
@@ -25,19 +25,45 @@ type Props = {
   editMode: boolean
 };
 
+const closeIcon = require('assets/close.png');
+
 class Form extends Component<Props> {
   static options(passProps) {
     return {
       topBar: {
         title: {
           text: i18n.t('report.title')
-        }
+        },
+        leftButtons: [
+          {
+            id: 'backButton',
+            text: i18n.t('commonText.cancel'),
+            icon: Platform.select({
+              android: closeIcon
+            })
+          }
+        ]
       }
     };
   }
 
   componentDidMount() {
     tracker.trackScreenView('Reporting - Form Step');
+  }
+
+  /**
+   * navigationButtonPressed - Handles events from the back button on the modal nav bar.
+   *
+   * @param  {type} { buttonId } The component ID for the button.
+   */
+  navigationButtonPressed({ buttonId }) {
+    if (buttonId === 'backButton') {
+      if (this.props.nextQuestionIndex !== null || !this.props.editMode) {
+        Navigation.dismissModal(this.props.componentId);
+      } else {
+        Navigation.popToRoot(this.props.componentId);
+      }
+    }
   }
 
   shouldComponentUpdate(nextProps) {
@@ -103,7 +129,6 @@ class Form extends Component<Props> {
     const { question, answer, questionAnswered, text } = this.props;
     return (
       <View style={styles.container}>
-        <View style={styles.backgroundHack} />
         {question && <FormField question={question} answer={answer} onChange={this.onChange} />}
         {this.getNext(question, questionAnswered, text)}
       </View>
