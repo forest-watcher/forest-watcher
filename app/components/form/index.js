@@ -3,7 +3,7 @@ import type { Question, Answer } from 'types/reports.types';
 
 import React, { Component } from 'react';
 import i18n from 'locales';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
 import styles from 'components/form/styles';
 import ActionButton from 'components/common/action-button';
@@ -25,6 +25,8 @@ type Props = {
   editMode: boolean
 };
 
+const closeIcon = require('assets/close.png');
+
 class Form extends Component<Props> {
   static options(passProps) {
     return {
@@ -35,7 +37,10 @@ class Form extends Component<Props> {
         leftButtons: [
           {
             id: 'backButton',
-            text: i18n.t('commonText.cancel')
+            text: i18n.t('commonText.cancel'),
+            icon: Platform.select({
+              android: closeIcon
+            })
           }
         ]
       }
@@ -60,9 +65,9 @@ class Form extends Component<Props> {
    */
   navigationButtonPressed({ buttonId }) {
     if (buttonId === 'backButton') {
-      Navigation.dismissModal(this.props.componentId);
+        Navigation.dismissModal(this.props.componentId);
+      }
     }
-  }
 
   shouldComponentUpdate(nextProps) {
     return this.props.answer !== nextProps.answer;

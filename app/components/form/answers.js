@@ -2,7 +2,7 @@
 import type { Answer, Question } from 'types/reports.types';
 
 import React, { PureComponent } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Platform } from 'react-native';
 import i18n from 'locales';
 
 import ActionButton from 'components/common/action-button';
@@ -27,6 +27,8 @@ type Props = {
   setActiveAlerts: boolean => void
 };
 
+const closeIcon = require('assets/close.png');
+
 class Answers extends PureComponent<Props> {
   static options(passProps) {
     return {
@@ -34,7 +36,10 @@ class Answers extends PureComponent<Props> {
         leftButtons: [
           {
             id: 'backButton',
-            text: i18n.t('commonText.cancel')
+            text: i18n.t('commonText.cancel'),
+            icon: Platform.select({
+              android: closeIcon
+            })
           }
         ],
         rightButtons: passProps.showUploadButton
@@ -54,7 +59,6 @@ class Answers extends PureComponent<Props> {
 
   constructor(props) {
     super(props);
-
     Navigation.events().bindComponent(this);
   }
 
