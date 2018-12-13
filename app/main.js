@@ -61,10 +61,7 @@ export function launchAppRoot(screen) {
                   name: screen
                 }
               }
-            ],
-            options: {
-              ...Theme.navigator.style
-            }
+            ]
           }
         },
         right: {

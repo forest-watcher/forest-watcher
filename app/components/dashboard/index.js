@@ -81,6 +81,15 @@ class Dashboard extends PureComponent<Props> {
         bottomSafeAreaInset: result.safeAreaInsets.bottom
       }));
     });
+
+    // Can remove when this is fixed: https://github.com/wix/react-native-navigation/issues/4432
+    if (Platform.OS === 'android') {
+      Navigation.mergeOptions(this.props.componentId, {
+        topBar: {
+          elevation: 0
+        }
+      });
+    }
   }
 
   componentDidDisappear() {
