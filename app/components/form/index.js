@@ -134,7 +134,6 @@ class Form extends Component<Props> {
     const { question, answer, questionAnswered, text } = this.props;
     return (
       <View style={styles.container}>
-        <View style={styles.backgroundHack} />
         {question && <FormField question={question} answer={answer} onChange={this.onChange} />}
         {this.getNext(question, questionAnswered, text)}
       </View>
