@@ -39,6 +39,7 @@ import { Navigation } from 'react-native-navigation';
 import { withSafeArea } from 'react-native-safe-area';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'top');
+const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
 const geoViewport = require('@mapbox/geo-viewport');
 
 const { RNLocation: Location, SensorManager } = require('NativeModules');
@@ -644,10 +645,10 @@ class MapComponent extends Component {
       <View key="bg" pointerEvents="none" style={[styles.footerBGContainer, { height: veilHeight }]}>
         <Image style={[styles.footerBg, { height: veilHeight }]} source={backgroundImage} />
       </View>,
-      <View key="footer" pointerEvents="box-none" style={styles.footer}>
+      <FooterSafeAreaView key="footer" pointerEvents="box-none" style={styles.footer}>
         {hasAlertsSelected || customReporting ? this.renderButtonPanelSelected() : this.renderButtonPanel()}
         <MapAttribution />
-      </View>
+      </FooterSafeAreaView>
     ];
   }
 
