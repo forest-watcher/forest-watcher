@@ -10,10 +10,6 @@ target 'ForestWatcher' do
   pod 'FBSDKShareKit'
 
   # pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
-  # pod 'CodePush', :path => '../node_modules/react-native-code-push'
-
-  ## appcenter dependencies.
-  pod 'AppCenterReactNativeShared', '~> 1.10.0'
 
   ## react-native-maps dependencies.
   pod 'react-native-maps', path: '../node_modules/react-native-maps'
