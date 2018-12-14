@@ -24,7 +24,7 @@
     "lint": "node_modules/.bin/eslint ./app/",
     "lint:ci": "node_modules/.bin/eslint ./app/ -o reports/lint.html -f html",
     "codepush:release:android": "code-push release-react forest-watcher-android-client android -k private.pem",
-    "codepush:release:ios": "code-push release-react forest-watcher-ios-client android -k private.pem"
+    "codepush:release:ios": "code-push release-react forest-watcher-ios-client ios -k private.pem"
   },
   "dependencies": {
     "@mapbox/geo-viewport": "0.4.0",
