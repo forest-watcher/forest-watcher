@@ -95,12 +95,12 @@ class MapComponent extends Component {
           translucent: true
         },
         backButton: {
-          color: Theme.colors.color5
+          color: Theme.fontColors.white
         },
-        buttonColor: Theme.colors.color5,
+        buttonColor: Theme.fontColors.white,
         drawBehind: true,
         title: {
-          color: Theme.colors.color5
+          color: Theme.fontColors.white
         }
       }
     };
@@ -291,7 +291,8 @@ class MapComponent extends Component {
       topBar: {
         title: {
           fontSize: fontSize,
-          text: headerText
+          text: headerText,
+          color: Theme.fontColors.white
         }
       }
     });
