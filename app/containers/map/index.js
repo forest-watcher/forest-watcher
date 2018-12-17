@@ -50,6 +50,7 @@ function mapStateToProps(state: State) {
     areaCoordinates,
     area: areaProps,
     isConnected: shouldBeConnected(state),
+    isOfflineMode: state.app.offlineMode,
     coordinatesFormat: state.app.coordinatesFormat,
     canDisplayAlerts: state.alerts.canDisplayAlerts,
     basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',

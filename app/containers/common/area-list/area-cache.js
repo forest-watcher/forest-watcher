@@ -19,6 +19,7 @@ function mapStateToProps(state: State, ownProps: { areaId: string }) {
   const cacheStatus = state.layers.cacheStatus[areaId];
   return {
     cacheStatus,
+    isOfflineMode: state.app.offlineMode,
     pendingCache: getAreaPendingCache(areaId, state.layers.pendingCache)
   };
 }
