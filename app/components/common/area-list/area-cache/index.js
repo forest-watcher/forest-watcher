@@ -25,6 +25,7 @@ type Props = {
     completed: boolean
   },
   resetCacheStatus: string => void,
+  isOfflineMode: boolean,
   showTooltip: boolean,
   refreshAreaCacheById: string => void,
   pendingCache: number,
