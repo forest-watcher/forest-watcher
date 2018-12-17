@@ -9,7 +9,6 @@ import SafeArea from 'react-native-safe-area';
 import { requestLocationPermissions } from 'helpers/app';
 import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
-import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import i18n from 'locales';
 import styles from './styles';

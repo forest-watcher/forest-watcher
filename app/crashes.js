@@ -1,11 +1,12 @@
 import Config from 'react-native-config';
 import { Sentry, SentryLog } from 'react-native-sentry';
+import { getVersionName } from './helpers/app';
 
 // disable stacktrace merging
 export async function setupCrashLogging() {
   await Sentry.config(Config.SENTRY_DSN, {
     //deactivateStacktraceMerging: false, // default: true | Deactivates the stacktrace merging feature
-    logLevel: SentryLog.Debug, // default SentryLog.None | Possible values:  .None, .Error, .Debug, .Verbose
+    logLevel: __DEV__ ? SentryLog.Debug : SentryLog.Error, // default SentryLog.None | Possible values:  .None, .Error, .Debug, .Verbose
     //disableNativeIntegration: false, // default: false | Deactivates the native integration and only uses raven-js
     handlePromiseRejection: true // default: true | Handle unhandled promise rejections
     // sampleRate: 0.5 // default: 1.0 | Only set this if you don't want to send every event so e.g.: 0.5 will send 50% of all events
@@ -16,6 +17,9 @@ export async function setupCrashLogging() {
     // ignoreModulesInclude: ["RNSentry"], // default: [] | Include modules that should be ignored too
     // ---------------------------------
   }).install();
+
+  const versionName = await getVersionName();
+  Sentry.setVersion(versionName);
 
   // set a callback after an event was successfully sentry
   // its only guaranteed that this event contains `event_id` & `level`

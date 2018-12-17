@@ -8,7 +8,6 @@
  */
 
 #import "AppDelegate.h"
-#import <AppCenterReactNative/AppCenterReactNative.h>
 #import <CodePush/CodePush.h>
 #import "AppAuth.h"
 
@@ -32,8 +31,6 @@
     [[FBSDKApplicationDelegate sharedInstance] application:application
                              didFinishLaunchingWithOptions:launchOptions];
     NSURL *jsCodeLocation;
-
-  [AppCenterReactNative register];  // Initialize AppCenter
 
   // Google Maps API Key
   NSString *apiUrl = [ReactNativeConfig envFor:@"GOOGLE_MAPS_API_KEY"];
