@@ -104,8 +104,9 @@ class AreaCache extends PureComponent<Props, State> {
   onOfflinePress = () => this.props.showNotConnectedNotification();
 
   getCacheAreaAction = () => {
-    const { cacheStatus } = this.props;
+    const { cacheStatus, isOfflineMode } = this.props;
     const { canRefresh } = this.state;
+    if (isOfflineMode) return this.onOfflinePress;
     if (!cacheStatus.completed) return this.onDownload;
     if (canRefresh && cacheStatus.completed) return this.onRefresh;
     return null;
