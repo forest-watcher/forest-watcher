@@ -2,7 +2,7 @@
 import type { Answer } from 'types/reports.types';
 
 import React, { Component } from 'react';
-import { Text, View, Image, TouchableHighlight } from 'react-native';
+import { Text, View, Image, TouchableHighlight, Alert } from 'react-native';
 
 import ImageCard from 'components/common/image-card';
 import i18n from 'locales';
@@ -46,7 +46,7 @@ class ImageBlobInput extends Component<Props> {
     };
     ImagePicker.showImagePicker(options, response => {
       if (response.error) {
-        console.warn(response.error);
+        Alert.alert(i18n.t('commonText.error'), response.error, [{ text: 'OK' }]);
       } else if (response.uri) {
         this.handlePress(response.uri);
       }

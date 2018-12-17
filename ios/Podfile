@@ -6,8 +6,12 @@ platform :ios, '10.0'
 target 'ForestWatcher' do
 
   pod 'AppAuth'
-  pod 'FBSDKLoginKit'
-  pod 'FBSDKShareKit'
+
+  # Facebook SDK versions fixed to 4.38.0 to fix https://github.com/facebook/react-native-fbsdk/issues/433.
+  # This is where login fails on testflight / live builds, but works on dev builds. When fixed, feel free to remove these fixed versions.
+  pod 'FBSDKCoreKit', '4.38.0'
+  pod 'FBSDKLoginKit', '4.38.0'
+  pod 'FBSDKShareKit', '4.38.0'
 
   # pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
 
@@ -15,8 +19,6 @@ target 'ForestWatcher' do
   pod 'react-native-maps', path: '../node_modules/react-native-maps'
   pod 'react-native-google-maps', path: '../node_modules/react-native-maps'
   pod 'GoogleMaps'
-  pod 'react-native-maps', path: '../node_modules/react-native-maps'
-  pod 'react-native-google-maps', path: '../node_modules/react-native-maps'
   pod 'Google-Maps-iOS-Utils'
 
   ## React dependencies, added so that various projects which don't use header search paths can still function correctly.
