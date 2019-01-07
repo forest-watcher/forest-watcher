@@ -732,6 +732,7 @@ class MapComponent extends Component {
         style={{ zIndex: 3 }}
         anchor={{ x: 0.5, y: 0.5 }}
         pointerEvents={'none'}
+        tracksViewChanges={false}
       />
     ) : null;
     const compassElement =
