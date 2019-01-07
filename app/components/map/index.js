@@ -744,7 +744,7 @@ class MapComponent extends Component {
           anchor={{ x: 0.5, y: 0.5 }}
           pointerEvents={'none'}
         >
-          <Animated.Image
+          <Image
             style={{
               width: 94,
               height: 94,
