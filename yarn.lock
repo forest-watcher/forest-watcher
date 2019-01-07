@@ -7219,9 +7219,9 @@ react-native-location@1.0.0:
   resolved "https://registry.yarnpkg.com/react-native-location/-/react-native-location-1.0.0.tgz#e2f0b8a278f342682051455dfe6e6ceada839ee5"
   integrity sha512-48M1w9N9giACHerOr/Yc35DiD0Q/0rIg72D48B/+ltMdxfhuMYuExW6wMoW3o5BFFIqRjdvSaPtZLoHZ9+f4OQ==
 
-"react-native-maps@github:3sidedcube/react-native-maps#22af91f9d8e3ed231ee78011c0c693deaddbdefb":
+"react-native-maps@github:3sidedcube/react-native-maps#55f879c5071eb4deb76f605d5d87b0ac852e9d9f":
   version "0.22.1"
-  resolved "https://codeload.github.com/3sidedcube/react-native-maps/tar.gz/22af91f9d8e3ed231ee78011c0c693deaddbdefb"
+  resolved "https://codeload.github.com/3sidedcube/react-native-maps/tar.gz/55f879c5071eb4deb76f605d5d87b0ac852e9d9f"
   dependencies:
     "@mapbox/geo-viewport" "^0.2.2"
     "@mapbox/tilebelt" Vizzuality/tilebelt
@@ -9412,9 +9412,9 @@ xcode@^1.0.0:
     simple-plist "^0.2.1"
     uuid "^3.3.2"
 
-"xcode@git+https://github.com/apache/cordova-node-xcode.git#e7646f0680d509b590b839e567c217590451505b":
+"xcode@https://github.com/apache/cordova-node-xcode#e7646f0680d509b590b839e567c217590451505b":
   version "1.0.1-dev"
-  resolved "git+https://github.com/apache/cordova-node-xcode.git#e7646f0680d509b590b839e567c217590451505b"
+  resolved "https://github.com/apache/cordova-node-xcode#e7646f0680d509b590b839e567c217590451505b"
   dependencies:
     simple-plist "^0.2.1"
     uuid "3.0.1"
