@@ -59,7 +59,7 @@
     "react-native-image-picker": "0.27.2",
     "react-native-keyboard-aware-scroll-view": "0.3.0",
     "react-native-location": "1.0.0",
-    "react-native-maps": "github:3sidedcube/react-native-maps#cced139bcd0000f0d179aab33fda2ae557b70ed4",
+    "react-native-maps": "github:3sidedcube/react-native-maps#55f879c5071eb4deb76f605d5d87b0ac852e9d9f",
     "react-native-navigation": "2.1.3",
     "react-native-progress": "3.5.0",
     "react-native-safe-area": "^0.5.0",
