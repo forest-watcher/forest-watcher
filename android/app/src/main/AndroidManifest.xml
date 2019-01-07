@@ -24,7 +24,8 @@
     android:allowBackup="false"
     android:icon="@mipmap/ic_launcher"
     android:label="@string/APP_NAME"
-    android:theme="@style/AppTheme">
+    android:theme="@style/AppTheme"
+    android:largeHeap="true">
     <activity
       android:name=".MainActivity"
       android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
