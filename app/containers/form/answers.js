@@ -2,14 +2,19 @@
 import type { State } from 'types/store.types';
 import type { Template, Answer, Report } from 'types/reports.types';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+import { showNotConnectedNotification } from 'redux-modules/app';
+import { saveReport, uploadReport, deleteReport, setReportAnswer } from 'redux-modules/reports';
+import { setActiveAlerts } from 'redux-modules/alerts';
+
 import { REPORTS } from 'config/constants';
 import flatMap from 'lodash/flatMap';
 import i18n from 'locales';
 import moment from 'moment';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { saveReport, uploadReport, deleteReport, setReportAnswer } from 'redux-modules/reports';
-import { setActiveAlerts } from 'redux-modules/alerts';
+
+import { shouldBeConnected } from 'helpers/app';
 import { getTemplate, parseQuestion } from 'helpers/forms';
 import Answers from 'components/form/answers';
 
@@ -103,6 +108,7 @@ function mapStateToProps(state: State, ownProps: { reportName: string, readOnly:
   return {
     results: mapFormToAnsweredQuestions(answers, template, state.app.language),
     metadata: mapReportToMetadata(report, templateLang),
+    isConnected: shouldBeConnected(state),
     readOnly
   };
 }
@@ -114,7 +120,8 @@ const mapDispatchToProps = (dispatch: *) =>
       deleteReport,
       uploadReport,
       setReportAnswer,
-      setActiveAlerts
+      setActiveAlerts,
+      showNotConnectedNotification
     },
     dispatch
   );
