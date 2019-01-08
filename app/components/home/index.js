@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, InteractionManager } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
@@ -31,11 +31,15 @@ class Home extends Component<Props> {
   syncModalOpen: boolean = false;
 
   componentDidMount() {
-    this.handleStatus();
+    InteractionManager.runAfterInteractions(() => {
+      this.handleStatus();
+    });
   }
 
   componentDidUpdate() {
-    this.handleStatus();
+    InteractionManager.runAfterInteractions(() => {
+      this.handleStatus();
+    });
   }
 
   handleStatus() {
