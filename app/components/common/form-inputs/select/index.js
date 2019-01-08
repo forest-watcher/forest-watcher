@@ -18,7 +18,8 @@ type Props = {
 function SelectInput(props: Props) {
   const { onChange, question, answer } = props;
   function handlePress(value) {
-    const newVal = [...answer.value];
+    const oldVal = Array.isArray(answer.value) ? answer.value : [];
+    const newVal = [...oldVal];
     const index = newVal.indexOf(value);
     if (index >= 0) {
       newVal.splice(index, 1);
