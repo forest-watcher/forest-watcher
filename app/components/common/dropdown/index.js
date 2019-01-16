@@ -1,25 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  Text,
-  Picker
-} from 'react-native';
+import { View, Text, Picker } from 'react-native';
 
 import styles from './styles';
 
-const Dropdown = (props) => {
+const Dropdown = props => {
   const { label, selectedValue, options, onValueChange } = props;
-  const onValueChangeHandler = (value) => {
+  const onValueChangeHandler = value => {
     if (value !== selectedValue) {
       onValueChange(value);
     }
   };
   return (
     <View style={styles.section}>
-      <Text style={styles.containerLabel}>
-        {label}
-      </Text>
+      <Text style={styles.containerLabel}>{label}</Text>
       <View style={styles.container}>
         <View style={styles.pickerContainer}>
           <Picker
@@ -29,12 +23,7 @@ const Dropdown = (props) => {
             mode="dropdown" // Only for Android
           >
             {options.map((option, i) => (
-              <Picker.Item
-                key={option.value + i}
-                label={option.label}
-                value={option.value}
-                style={styles.pickerItem}
-              />
+              <Picker.Item key={option.value + i} label={option.label} value={option.value} style={styles.pickerItem} />
             ))}
           </Picker>
         </View>
@@ -47,10 +36,12 @@ Dropdown.propTypes = {
   label: PropTypes.string.isRequired,
   selectedValue: PropTypes.any.isRequired,
   onValueChange: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    value: PropTypes.any.isRequired
-  })).isRequired
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.any.isRequired
+    })
+  ).isRequired
 };
 
 export default Dropdown;

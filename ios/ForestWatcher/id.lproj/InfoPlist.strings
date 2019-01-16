@@ -1,0 +1,14 @@
+/* 
+  InfoPlist.strings
+  ForestWatcher
+
+  Created by Ryan Bourne on 03/12/2018.
+  Copyright © 2018 Facebook. All rights reserved.
+*/
+
+"NSCameraUsageDescription" = "Forest Watcher akan menggunakan kamera ketika aplikasi berjalan untuk mengumpulkan foto untuk laporan Anda.";
+"NSLocationAlwaysUsageDescription" = "Aplikasi ini menggunakan servis (lokalisasi/lokasi) untuk membantu navigasi pada aplikasi";
+"NSLocationWhenInUseUsageDescription" = "Aplikasi ini menggunakan servis (lokalisasi/lokasi) untuk membantu navigasi pada aplikasi";
+"NSPhotoLibraryAddUsageDescription" = "Forest Watcher ingin menyimpan foto dari laporan ke galeri foto";
+"NSPhotoLibraryUsageDescription" = "Forest Watcher perlu akses supaya Anda dapat menambahkan foto yang telah diambil untuk laporan Anda.";
+"CFBundleDisplayName" = "Forest Watcher";

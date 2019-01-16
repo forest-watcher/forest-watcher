@@ -13,10 +13,10 @@ export default function effect({ url, headers, errorCode, deserialize = true, ..
       url,
       headers: { ...headers, Authorization: `Bearer ${auth}` }
     };
-    const canDeserialize = (res) => (res && typeof res === 'object' && res.data && deserialize);
+    const canDeserialize = res => res && typeof res === 'object' && res.data && deserialize;
     return defaultEffect(req, action)
-      .then((data) => (canDeserialize(data) ? new JSONAPIDeserializer(deserializeOptions).deserialize(data) : data))
-      .catch((err) => {
+      .then(data => (canDeserialize(data) ? new JSONAPIDeserializer(deserializeOptions).deserialize(data) : data))
+      .catch(err => {
         if (errorCode) return Promise.reject({ msg: err, status: errorCode });
         throw err;
       });

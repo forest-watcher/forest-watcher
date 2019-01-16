@@ -2,7 +2,7 @@
 import type { LogoutRequest } from 'types/user.types';
 import type { OfflineMeta } from 'types/offline.types';
 
-export type AnyAction = { type: string, payload: any, meta?: OfflineMeta }
+export type AnyAction = { type: string, payload: any, meta?: OfflineMeta };
 export type CoordinatesValue = 'decimal' | 'degrees';
 
 export type AppState = {
@@ -13,7 +13,7 @@ export type AppState = {
   version: string,
   actions: Array<AnyAction>,
   offlineMode: boolean
-}
+};
 
 export type AppAction =
   | SetLanguage

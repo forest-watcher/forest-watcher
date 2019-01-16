@@ -4,8 +4,7 @@ import { StyleSheet } from 'react-native';
 import { hexToRgb } from 'helpers/utils';
 
 export default StyleSheet.create({
-  container: {
-  },
+  container: {},
   bubble: {
     borderRadius: 100,
     width: 40,

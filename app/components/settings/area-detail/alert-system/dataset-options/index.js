@@ -2,9 +2,7 @@
 import type { Dataset } from 'types/areas.types';
 
 import React, { Component } from 'react';
-import {
-  View
-} from 'react-native';
+import { View } from 'react-native';
 import i18n from 'locales';
 
 import { DATASETS, ALERTS_LEGEND } from 'config/constants/index';
@@ -64,7 +62,7 @@ class DatasetOptions extends Component<Props> {
     if (dataset.startDate !== date.startDate) {
       updateDate(id, dataset.slug, date);
     }
-  }
+  };
 
   render() {
     const { dataset, showLegend } = this.props;
@@ -80,13 +78,13 @@ class DatasetOptions extends Component<Props> {
             onValueChange={days => this.handleUpdateDate({ startDate: days })}
             options={options}
           />
-          {legend &&
+          {legend && (
             <View style={[styles.legendContainer, styles.nested]}>
               {legend.map(l => (
                 <Alertlegend label={l.label} color={l.color} key={l.color} style={styles.legendItem} />
               ))}
             </View>
-          }
+          )}
         </View>
       </View>
     );

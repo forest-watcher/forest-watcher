@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleAllowMixedLocalizations</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -12,12 +14,20 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>fr</string>
+		<string>id</string>
+		<string>es</string>
+		<string>pt</string>
+	</array>
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.6.1</string>
+	<string>1.7.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -29,7 +39,7 @@
 			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>__RN_CONFIG_LOGIN_GOOGLE_REDIRECT_SCHEMA_IOS</string>
+				<string>__RN_CONFIG_LOGIN_GOOGLE_REDIRECT_SCHEMA</string>
 			</array>
 		</dict>
 		<dict>
@@ -52,7 +62,7 @@
 	<key>CFBundleVersion</key>
 	<string>6</string>
 	<key>CodePushDeploymentKey</key>
-	<string>__RN_CONFIG_CODEPUSH_IOS_DEPLOY_KEY</string>
+	<string>__RN_CONFIG_CODEPUSH_DEPLOY_KEY</string>
 	<key>CodePushPublicKey</key>
 	<string>-----BEGIN PUBLIC KEY-----
 __RN_CONFIG_CODEPUSH_RELEASE_PUBLIC_KEY
@@ -61,6 +71,8 @@ __RN_CONFIG_CODEPUSH_RELEASE_PUBLIC_KEY
 	<string>__RN_CONFIG_LOGIN_FACEBOOK_APP_ID</string>
 	<key>FacebookDisplayName</key>
 	<string>Global Forest Watch</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -84,15 +96,15 @@ __RN_CONFIG_CODEPUSH_RELEASE_PUBLIC_KEY
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>We need access to the camera.</string>
+	<string>Forest Watcher will use your camera when running the application to collect photos for your reports.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>The app uses the localization services, please activate them</string>
+	<string>The app uses the location services to help you navigate in the application.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>The app uses the localization services, please activate them</string>
+	<string>The app uses the location services to help you navigate in the application.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to save photos to your photo gallery</string>
+	<string>Forest Watcher would like to save photos from your report to your photo gallery</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to the media library.</string>
+	<string>Forest Watcher needs access to allow you to add previously taken photos to your reports</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>firasansot_light.ttf</string>
@@ -114,5 +126,7 @@ __RN_CONFIG_CODEPUSH_RELEASE_PUBLIC_KEY
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>LSHasLocalizedDisplayName</key>
+	<true/>
 </dict>
 </plist>

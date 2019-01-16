@@ -8,14 +8,17 @@
  */
 
 #import "AppDelegate.h"
-#import <AppCenterReactNativeCrashes/AppCenterReactNativeCrashes.h>
-#import <AppCenterReactNative/AppCenterReactNative.h>
 #import <CodePush/CodePush.h>
-#import "RCCManager.h"
 #import "AppAuth.h"
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#if __has_include(<React/RNSentry.h>)
+#import <React/RNSentry.h> // This is used for versions of react >= 0.40
+#else
+#import "RNSentry.h" // This is used for versions of react < 0.40
+#endif
+#import <ReactNativeNavigation/ReactNativeNavigation.h>
 #import "ReactNativeConfig.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
@@ -29,12 +32,8 @@
                              didFinishLaunchingWithOptions:launchOptions];
     NSURL *jsCodeLocation;
 
-  [AppCenterReactNativeCrashes registerWithAutomaticProcessing];  // Initialize AppCenter crashes
-
-  [AppCenterReactNative register];  // Initialize AppCenter
-
   // Google Maps API Key
-  NSString *apiUrl = [ReactNativeConfig envFor:@"GOOGLE_MAPS_API_KEY_IOS"];
+  NSString *apiUrl = [ReactNativeConfig envFor:@"GOOGLE_MAPS_API_KEY"];
 
   [GMSServices provideAPIKey:apiUrl];
 
@@ -46,7 +45,10 @@
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   self.window.backgroundColor = [UIColor whiteColor];
-  [[RCCManager sharedInstance] initBridgeWithBundleURL:jsCodeLocation];
+
+  [ReactNativeNavigation bootstrap:jsCodeLocation launchOptions:launchOptions];
+  
+  [RNSentry installWithRootView:[ReactNativeNavigation getBridge]];
 
   return YES;
 }

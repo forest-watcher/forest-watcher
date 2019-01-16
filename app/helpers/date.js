@@ -7,4 +7,3 @@ export function isOutdated(date: number, days: number = 1) {
   const lastSync = moment(date);
   return now.diff(lastSync, 'days') >= days;
 }
-

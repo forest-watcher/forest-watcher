@@ -1,11 +1,6 @@
 // @flow
 import React from 'react';
-import {
-  Text,
-  View,
-  TouchableHighlight,
-  Image
-} from 'react-native';
+import { Text, View, TouchableHighlight, Image } from 'react-native';
 import Theme from 'config/theme';
 import styles from './styles';
 
@@ -28,19 +23,16 @@ const Answer = (props: Props) => (
       <View style={styles.answers}>
         {props.answers &&
           props.answers.map((answer, i) => (
-            <Text style={styles.answer} key={`${props.questionId}${i}`}>{answer}</Text>
-          ))
-        }
+            <Text style={styles.answer} key={`${props.questionId}${i}`}>
+              {answer}
+            </Text>
+          ))}
       </View>
-      {!props.readOnly &&
-        <TouchableHighlight
-          activeOpacity={0.5}
-          underlayColor="transparent"
-          onPress={props.onEditPress}
-        >
+      {!props.readOnly && (
+        <TouchableHighlight activeOpacity={0.5} underlayColor="transparent" onPress={props.onEditPress}>
           <Image style={Theme.icon} source={editIcon} />
         </TouchableHighlight>
-      }
+      )}
     </View>
   </View>
 );

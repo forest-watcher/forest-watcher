@@ -1,12 +1,11 @@
+// eslint-disable-next-line import/default
 import codePush from 'react-native-code-push';
 import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
 import Theme from 'config/theme';
 import { registerScreens } from 'screens';
 import createStore from 'store';
-
-
-import { setExceptionHandlers, checkPrevCrashes } from './crashes';
+import { setupCrashLogging } from './crashes';
 
 // Disable ios warnings
 // console.disableYellowBox = true;
@@ -14,58 +13,68 @@ import { setExceptionHandlers, checkPrevCrashes } from './crashes';
 // Show request in chrome network tool
 // GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
+const codePushOptions = {
+  checkFrequency: codePush.CheckFrequency.MANUAL,
+  installMode: codePush.InstallMode.ON_NEXT_RESUME
+};
+
 function setCodePush() {
   const codepushEnable = !__DEV__;
   if (codepushEnable) {
-    const codePushOptions = {
-      checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
-      installMode: codePush.InstallMode.ON_NEXT_RESUME
-    };
     codePush.sync(codePushOptions);
   }
 }
 
-const app = () => {
+const app = async () => {
+  if (!__DEV__) {
+    await setupCrashLogging();
+  }
+
   const store = createStore(startApp);
   registerScreens(store, Provider);
 
-  function startApp() {
+  async function startApp() {
     const state = store.getState();
     let screen = 'ForestWatcher.Home';
-    let navigatorStyle = Theme.navigator.styles;
-    let title = '';
     if (state.user.loggedIn && state.app.synced) {
       screen = 'ForestWatcher.Dashboard';
-      navigatorStyle = {
-        screenBackgroundColor: Theme.background.main
-      };
-      title = 'Forest Watcher';
     }
-    Navigation.startSingleScreenApp({
-      screen: {
-        title,
-        screen,
-        navigatorStyle
-      },
-      drawer: {
-        right: {
-          screen: 'ForestWatcher.RightDrawer',
-          passProps: {}
-        },
-        style: {
-          drawerShadow: 'NO'
-        },
-        disableOpenGesture: true
-      },
-      appStyle: {
-        orientation: 'portrait'
-      }
+
+    await Navigation.setDefaultOptions({
+      ...Theme.navigator.styles
     });
-    setExceptionHandlers(store);
-    checkPrevCrashes();
+
+    await launchAppRoot(screen);
     setCodePush();
+
     createStore.runSagas();
   }
 };
+
+export function launchAppRoot(screen) {
+  return Navigation.setRoot({
+    root: {
+      sideMenu: {
+        center: {
+          stack: {
+            children: [
+              {
+                component: {
+                  name: screen
+                }
+              }
+            ]
+          }
+        },
+        right: {
+          component: {
+            name: 'ForestWatcher.RightDrawer',
+            passProps: {}
+          }
+        }
+      }
+    }
+  });
+}
 
 export default app;

@@ -5,7 +5,6 @@ import { View, TextInput } from 'react-native';
 import Theme from 'config/theme';
 import styles from './styles';
 
-
 function InputText(props) {
   return (
     <View style={styles.inputContainer}>

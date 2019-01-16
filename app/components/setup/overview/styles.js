@@ -21,9 +21,6 @@ export default StyleSheet.create({
       }
     })
   },
-  scrollContainImage: {
-    maxHeight: 224
-  },
   image: {
     width: Theme.screen.width,
     height: 224,
@@ -51,16 +48,10 @@ export default StyleSheet.create({
     fontWeight: '400',
     color: Theme.fontColors.secondary
   },
-  scrollContainButton: {
-    flex: 1,
-    minHeight: 64,
-    height: 64,
-    marginTop: 16,
-    paddingLeft: 8,
-    paddingRight: 8
-  },
   buttonPos: {
     flex: 1,
-    height: 64
+    height: 64,
+    marginTop: 16,
+    marginHorizontal: 8
   }
 });

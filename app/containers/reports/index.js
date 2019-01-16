@@ -13,7 +13,7 @@ function getReports(reports) {
     complete: [],
     uploaded: []
   };
-  Object.keys(reports).forEach((key) => {
+  Object.keys(reports).forEach(key => {
     const report = reports[key];
     if (data[report.status]) {
       data[report.status].push({
@@ -28,7 +28,7 @@ function getReports(reports) {
 
 function sortReports(reports) {
   const sorted = {};
-  Object.keys(reports).forEach((status) => {
+  Object.keys(reports).forEach(status => {
     const section = reports[status].sort((a, b) => {
       if (a.date > b.date) return -1;
       if (a.date < b.date) return +1;
@@ -43,7 +43,7 @@ function mapStateToProps(state: State) {
   return {
     isConnected: shouldBeConnected(state),
     reports: getReports(state.reports.list),
-    getLastStep: (formName) => {
+    getLastStep: formName => {
       const answers = state.reports.list[formName].answers;
       if (answers && answers.length) {
         const templateId = state.reports.list[formName].area.templateId || 'default';
@@ -59,6 +59,4 @@ function mapStateToProps(state: State) {
   };
 }
 
-export default connect(
-  mapStateToProps
-)(Reports);
+export default connect(mapStateToProps)(Reports);

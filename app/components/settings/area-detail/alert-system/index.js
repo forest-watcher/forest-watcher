@@ -1,11 +1,7 @@
 // @flow
 import type { Area } from 'types/areas.types';
 import React from 'react';
-import {
-  ActivityIndicator,
-  View,
-  Text
-} from 'react-native';
+import { ActivityIndicator, View, Text } from 'react-native';
 import Row from 'components/common/row';
 import { ALERTS_COLOR } from 'config/constants';
 import DatasetOptions from 'components/settings/area-detail/alert-system/dataset-options';
@@ -37,11 +33,7 @@ class AlertSystem extends React.PureComponent<Props> {
   static renderLoadingState() {
     return (
       <View style={styles.loader}>
-        <ActivityIndicator
-          color={Theme.colors.color1}
-          style={{ height: 80 }}
-          size="large"
-        />
+        <ActivityIndicator color={Theme.colors.color1} style={{ height: 80 }} size="large" />
       </View>
     );
   }
@@ -66,17 +58,11 @@ class AlertSystem extends React.PureComponent<Props> {
               >
                 <Text style={styles.alertSystemText}>{i18n.t(`datasets.${dataset.slug}`)}</Text>
               </Row>
-              {dataset.active &&
-                <DatasetOptions
-                  id={id}
-                  dataset={dataset}
-                  updateDate={updateDate}
-                  showLegend={showLegend}
-                />
-              }
+              {dataset.active && (
+                <DatasetOptions id={id} dataset={dataset} updateDate={updateDate} showLegend={showLegend} />
+              )}
             </View>
-          ))
-        }
+          ))}
       </View>
     );
   }

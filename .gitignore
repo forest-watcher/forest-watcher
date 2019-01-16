@@ -1,5 +1,4 @@
 # Env
-.env
 private/
 ios/ForestWatcher/AppCenter-Config.plist
 android/app/src/main/assets/appcenter-config.json
@@ -77,3 +76,7 @@ ios/ForestWatcher.app.dSYM.zip
 */fastlane/Preview.html
 */fastlane/metadata/review_information
 */fastlane/metadata/trade_representative_contact_information
+
+realm-object-server/io\.realm\.object-server-utility/metadata/
+
+reports/**

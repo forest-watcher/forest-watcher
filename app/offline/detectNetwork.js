@@ -1,61 +1,59 @@
 import detectNetwork from '@redux-offline/redux-offline/lib/defaults/detectNetwork.native';
+import Config from 'react-native-config';
 
-class DetectNetworkPing {
+import checkConnectivity from 'helpers/networking';
+
+export class DetectNetworkPing {
   static urlList = [
-    'https://know-it-all.io', // fastest web in the world (not really, real fast though)
+    Config.API_URL,
     'https://www.globalforestwatch.org',
     'https://www.google.com',
     'https://www.facebook.com',
     'https://www.amazon.com'
   ];
-  static decaySchedule = [
-    1000, // After 1 seconds
-    1000 * 5, // After 5 seconds
-    1000 * 15, // After 15 seconds
-    1000 * 30, // After 30 seconds
-    1000 * 60, // After 1 minute
-    1000 * 60 * 3, // After 3 minutes
-    1000 * 60 * 5, // After 5 minutes
-    1000 * 60 * 10, // After 10 minutes
-    1000 * 60 * 30, // After 30 minutes
-    1000 * 60 * 60 // After 1 hour
-  ];
-  count = 0;
-  pingToDetectNetwork = cb => connection => {
-    const xhr = new XMLHttpRequest();
-    xhr.timeout = 1000;
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        cb(null, connection);
-      }
-    };
-    xhr.onerror = () => cb(new Error('There was a network error.'), connection);
-    xhr.ontimeout = () => cb(new Error('Request timed out.'), connection);
 
-    const index = this.count % DetectNetworkPing.urlList.length;
-    xhr.open('HEAD', DetectNetworkPing.urlList[index]);
-    if (connection.online) {
-      xhr.send();
-    } else {
-      cb(null, connection);
-    }
-  };
-  isOnline = dispatch => (error, connection) => {
-    if (error) {
-      if (this.count === 0) dispatch({ ...connection, online: false });
-      if (this.count < DetectNetworkPing.decaySchedule.length) {
-        setTimeout(
-          () => this.pingToDetectNetwork(this.isOnline(dispatch))(connection),
-          DetectNetworkPing.decaySchedule[this.count]
-        );
-        this.count += 1;
-      }
-    } else {
-      this.count = 0;
+  pingToDetectNetwork = (dispatch, urlIndex) => connection => {
+    /*
+      This is being called when the connection status is updated (like when the WiFi / LTE is being enabled / disabled).
+      If everything is off, then the connection would be offline so there’d be no need to continue.
+      When it detects that WiFi or LTE has been enabled again, it should become true and then we can check for internet reachability.
+      Redux-offline should handle all of that internally.
+    */
+    if (!connection.online) {
       dispatch(connection);
+      return;
     }
+
+    // Get URL based on current attempt number.
+    const url = DetectNetworkPing.urlList[urlIndex % DetectNetworkPing.urlList.length];
+
+    // Attempt fetch with a 1s timeout.
+    return checkConnectivity(url).then(connected => {
+      // If we've got a connection, update the redux state.
+      if (connected) {
+        dispatch({ ...connection, online: true });
+        return;
+      }
+
+      // There was an error, so at this point we should state the device is offline.
+      if (urlIndex === 0) {
+        dispatch({ ...connection, online: false });
+      }
+
+      if (urlIndex < DetectNetworkPing.urlList.length - 1) {
+        // Recall this function, incrementing the urlIndex so we try the next URL.
+        this.pingToDetectNetwork(dispatch, urlIndex + 1)(connection);
+      } else {
+        // If every URL has failed, fail the request and stop attempting.
+        dispatch({ ...connection, online: false });
+      }
+    });
   };
-  start = dispatch => detectNetwork(this.pingToDetectNetwork(this.isOnline(dispatch)))
+
+  /**
+   *  Starts the network detection, with the starting URL index of 0.
+   */
+  start = dispatch => detectNetwork(this.pingToDetectNetwork(dispatch, 0));
 }
 
 const detector = new DetectNetworkPing();

@@ -27,8 +27,8 @@ const SET_SELECTED_AREA_ID = 'areas/SET_SELECTED_AREA_ID';
 
 // Helpers
 function getAreaById(areas: Array<Area>, areaId: string) {
-  // Using deconstructor to generate a new object
-  return { ...areas.find((areaData) => (areaData.id === areaId)) };
+  const area = areas.find(areaData => areaData.id === areaId);
+  return area ? { ...area } : null;
 }
 
 // Reducer
@@ -72,9 +72,9 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     }
     case GET_ALERTS_COMMIT: {
       const area = action.meta.area;
-      const data = state.data.map((a) => {
+      const data = state.data.map(a => {
         if (a.id === area.id) {
-          const datasets = a.datasets.map((dataset) => {
+          const datasets = a.datasets.map(dataset => {
             if (dataset.slug === action.meta.datasetSlug) {
               return { ...dataset, lastUpdate: Date.now() };
             }
@@ -102,7 +102,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     }
     case UPDATE_AREA_REQUEST: {
       const newArea = { ...action.payload };
-      const areas = state.data.map((area) => {
+      const areas = state.data.map(area => {
         if (area.id === newArea.id) {
           return { ...newArea };
         }
@@ -113,7 +113,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     case UPDATE_AREA_COMMIT: {
       // Not overwritting the geostore
       const { geostore, ...newArea } = action.payload; // eslint-disable-line
-      const data = state.data.map((area) => {
+      const data = state.data.map(area => {
         if (area.id === newArea.id) {
           return { ...area, ...newArea };
         }
@@ -123,7 +123,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     }
     case UPDATE_AREA_ROLLBACK: {
       const oldArea = action.meta;
-      const areas = state.data.map((area) => {
+      const areas = state.data.map(area => {
         if (area.id === oldArea.id) {
           return { ...oldArea };
         }
@@ -132,9 +132,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
       return { ...state, data: areas };
     }
     case DELETE_AREA_REQUEST: {
-      const data = state.data.filter((area) => (
-        area.id !== action.payload.id
-      ));
+      const data = state.data.filter(area => area.id !== action.payload.id);
       return { ...state, data, synced: false, syncing: true };
     }
     case DELETE_AREA_COMMIT: {
@@ -245,11 +243,9 @@ export function setAreaDatasetStatus(areaId: string, datasetSlug: string, status
   return async (dispatch: Dispatch, state: GetState) => {
     const area = getAreaById(state().areas.data, areaId);
     if (area) {
-      const datasets = area.datasets.map((item) => {
+      const datasets = area.datasets.map(item => {
         if (item.slug !== datasetSlug) {
-          return status === true
-            ? { ...item, active: false }
-            : item;
+          return status === true ? { ...item, active: false } : item;
         }
         return { ...item, active: status };
       });
@@ -266,7 +262,7 @@ export function updateDate(areaId: string, datasetSlug: string, date: { startDat
       area.datasets = area.datasets.map((d: Dataset) => {
         const newDataset = { ...d };
         if (d.slug === datasetSlug) {
-          dateKeys.forEach((dKey) => {
+          dateKeys.forEach(dKey => {
             if (d[dKey]) {
               newDataset[dKey] = date[dKey];
             }
@@ -278,7 +274,6 @@ export function updateDate(areaId: string, datasetSlug: string, date: { startDat
     }
   };
 }
-
 
 export function deleteArea(areaId: string) {
   return async (dispatch: Dispatch, state: GetState) => {

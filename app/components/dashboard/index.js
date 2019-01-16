@@ -1,37 +1,28 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import {
-  View,
-  ScrollView,
-  RefreshControl,
-  Platform,
-  Text,
-  StatusBar
-} from 'react-native';
+import { View, ScrollView, RefreshControl, Platform, Text, StatusBar } from 'react-native';
+import Config from 'react-native-config';
 import { Navigation } from 'react-native-navigation';
+import SafeArea from 'react-native-safe-area';
 
+import { requestLocationPermissions } from 'helpers/app';
 import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
-import Theme from 'config/theme';
 import tracker from 'helpers/googleAnalytics';
 import i18n from 'locales';
 import styles from './styles';
 
-const Timer = require('react-native-timer');
 const settingsIcon = require('assets/settings.png');
 const nextIcon = require('assets/next.png');
 
-const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
-
 type Props = {
-  navigator: Object,
+  componentId: string,
   setAreasRefreshing: boolean => void,
   isConnected: boolean,
   needsUpdate: boolean,
   appSyncing: boolean,
   refreshing: boolean,
-  closeModal?: boolean,
   pristine: boolean,
   setSelectedAreaId: string => void,
   setPristine: boolean => void,
@@ -40,33 +31,31 @@ type Props = {
 };
 
 class Dashboard extends PureComponent<Props> {
-
-  static navigatorStyle = {
-    navBarTextColor: Theme.colors.color1,
-    navBarButtonColor: Theme.colors.color1,
-    topBarElevationShadowEnabled: false,
-    navBarBackgroundColor: Theme.background.main,
-    navBarNoBorder: true
-  };
-
-  static navigatorButtons = {
-    rightButtons: [
-      {
-        icon: settingsIcon,
-        id: 'settings'
+  static options(passProps) {
+    return {
+      topBar: {
+        rightButtons: [
+          {
+            id: 'settings',
+            icon: settingsIcon
+          }
+        ],
+        title: {
+          text: Config.APP_NAME
+        }
       }
-    ]
-  };
+    };
+  }
 
   static disableListener() {
     return false;
   }
 
-  reportsAction: { callback: () => void, icon: any }
+  reportsAction: { callback: () => void, icon: any };
 
   constructor(props: Props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    Navigation.events().bindComponent(this);
 
     this.reportsAction = {
       callback: this.onPressReports,
@@ -75,31 +64,54 @@ class Dashboard extends PureComponent<Props> {
   }
 
   componentDidMount() {
-    if (Platform.OS === 'ios') {
-      Location.requestAlwaysAuthorization();
-    }
+    requestLocationPermissions();
     tracker.trackScreenView('Home - Dashboard');
     this.checkNeedsUpdate();
     if (this.props.refreshing && !this.props.appSyncing) {
       this.props.setAreasRefreshing(false);
     }
-    if (this.props.closeModal) {
-      Timer.setTimeout(this, 'clearModal', Navigation.dismissAllModals, 1800);
+
+    // Determine the current insets. This is so, for the page indictator view,
+    // we can add additional padding to ensure the white background is extended
+    // beyond the safe area.
+    SafeArea.getSafeAreaInsetsForRootView().then(result => {
+      this.setState(state => ({
+        bottomSafeAreaInset: result.safeAreaInsets.bottom
+      }));
+    });
+
+    // Can remove when this is fixed: https://github.com/wix/react-native-navigation/issues/4432
+    if (Platform.OS === 'android') {
+      Navigation.mergeOptions(this.props.componentId, {
+        topBar: {
+          elevation: 0
+        }
+      });
     }
   }
 
-  componentWillUnmount() {
-    Timer.clearTimeout(this, 'clearModal');
+  componentDidDisappear() {
+    const { pristine, setPristine, refreshing, setAreasRefreshing } = this.props;
+    if (pristine) {
+      setPristine(false);
+    }
+    if (refreshing) {
+      setAreasRefreshing(false);
+    }
+  }
+
+  navigationButtonPressed({ buttonId }) {
+    if (buttonId === 'settings') {
+      Navigation.push(this.props.componentId, {
+        component: {
+          name: 'ForestWatcher.Settings'
+        }
+      });
+    }
   }
 
   onRefresh = () => {
-    const {
-      isConnected,
-      appSyncing,
-      updateApp,
-      setAreasRefreshing,
-      showNotConnectedNotification
-    } = this.props;
+    const { isConnected, appSyncing, updateApp, setAreasRefreshing, showNotConnectedNotification } = this.props;
     if (appSyncing) return;
 
     if (isConnected) {
@@ -108,45 +120,35 @@ class Dashboard extends PureComponent<Props> {
     } else {
       showNotConnectedNotification();
     }
-  }
+  };
 
   onAreaPress = (areaId: string, name: string) => {
     if (areaId) {
       this.props.setSelectedAreaId(areaId);
-      this.props.navigator.push({
-        screen: 'ForestWatcher.Map',
-        title: name
+      Navigation.push(this.props.componentId, {
+        component: {
+          name: 'ForestWatcher.Map',
+          options: {
+            topBar: {
+              title: {
+                text: name
+              }
+            }
+          }
+        }
       });
     }
-  }
+  };
 
   onPressReports = () => {
-    this.props.navigator.push({
-      screen: 'ForestWatcher.Reports',
-      title: i18n.t('dashboard.myReports')
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.Reports'
+      }
     });
-  }
+  };
 
-  onNavigatorEvent = (event: { type: string, id: string }) => {
-    const { navigator, pristine, setPristine, refreshing, setAreasRefreshing } = this.props;
-    if (event.type === 'NavBarButtonPress') {
-      if (event.id === 'settings') {
-        navigator.push({
-          screen: 'ForestWatcher.Settings',
-          title: i18n.t('settings.title')
-        });
-      }
-    } else if (event.id === 'willDisappear') {
-      if (pristine) {
-        setPristine(false);
-      }
-      if (refreshing) {
-        setAreasRefreshing(false);
-      }
-    }
-  }
-
-  getPristine = (): boolean => (this.props.pristine)
+  getPristine = (): boolean => this.props.pristine;
 
   checkNeedsUpdate() {
     const { needsUpdate, updateApp } = this.props;
@@ -157,9 +159,10 @@ class Dashboard extends PureComponent<Props> {
 
   disablePristine = () => {
     this.props.setPristine(false);
-  }
+  };
 
   render() {
+    const bottomSafeAreaInset = this.state?.bottomSafeAreaInset || 0;
     const { pristine, refreshing, appSyncing } = this.props;
     const isIOS = Platform.OS === 'ios';
     // we remove the event handler to improve performance
@@ -171,25 +174,13 @@ class Dashboard extends PureComponent<Props> {
     const androidHandler = !isIOS ? this.disablePristine : undefined;
     const iOSHandler = isIOS ? this.disablePristine : undefined;
     return (
-      <View
-        style={styles.container}
-        onStartShouldSetResponder={androidListener}
-        onResponderRelease={androidHandler}
-      >
+      <View style={styles.container} onStartShouldSetResponder={androidListener} onResponderRelease={androidHandler}>
         <StatusBar networkActivityIndicatorVisible={appSyncing} />
-        <View style={styles.backgroundHack} />
-        <Text style={styles.label}>
-          {i18n.t('settings.yourAreas')}
-        </Text>
+        <Text style={styles.label}>{i18n.t('settings.yourAreas')}</Text>
         <ScrollView
           style={styles.containerScroll}
           onScroll={disablePristine}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={this.onRefresh}
-            />
-          }
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />}
         >
           <View
             onStartShouldSetResponder={iOSListener}
@@ -203,7 +194,15 @@ class Dashboard extends PureComponent<Props> {
             </View>
           </View>
         </ScrollView>
-        <Row style={styles.row} action={this.reportsAction}>
+        <Row
+          style={[
+            styles.row,
+            {
+              height: 80 + bottomSafeAreaInset
+            }
+          ]}
+          action={this.reportsAction}
+        >
           <Text style={styles.textMyReports}>{i18n.t('dashboard.myReports')}</Text>
         </Row>
       </View>

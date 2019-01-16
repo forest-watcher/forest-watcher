@@ -1,69 +1,94 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+    ext {
+        buildToolsVersion = "28.0.3"
+        minSdkVersion = 21
+        compileSdkVersion = 27
+        targetSdkVersion = 27
+        supportLibVersion = "27.1.1"
+        glideVersion = "4.7.1"
+        reactNativeNavigationFlavor = "reactNative57"
+    }
     repositories {
-        jcenter()
         google()
-        maven {
-            url 'https://maven.google.com'
-        }
+        jcenter()
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url "$rootDir/../node_modules/react-native/android"
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
-        classpath 'com.google.gms:google-services:3.1.1'
+        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.google.gms:google-services:4.1.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
 
-allprojects {
-    repositories {
-        configurations.all {
-            resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-                if (details.getRequested().getGroup() == 'com.google.android.gms') {
-                    details.useVersion('12.0.1')
-                }
-                if (details.getRequested().getGroup() == 'com.android.support') {
-                    if (!requested.name.startsWith("multidex")) {
-                        details.useVersion '27.0.2'
-                    }
-                }
+subprojects {
+    // https://stackoverflow.com/questions/53712328/gradle-error-could-not-find-any-matches-for-com-android-tools-buildgradle2-2
+    if (project.name.contains('react-native-image-picker') ||
+        project.name.contains('react-native-vector-icons')) {
+        buildscript {
+            repositories {
+                jcenter()
+                maven { url "https://dl.bintray.com/android/android-tools/"  }
             }
         }
-        mavenLocal()
-        google()
-        jcenter()
-        maven {
-            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-            url "$rootDir/../node_modules/react-native/android"
-        }
-    }
-}
-
-subprojects {
-    ext {
-        compileSdk = 27
-        buildTools = "27.0.3"
-        minSdk = 17
-        targetSdk = 22
     }
 
     afterEvaluate { project ->
         if (!project.name.equalsIgnoreCase("app")
                 && project.hasProperty("android")) {
+
             android {
-                compileSdkVersion compileSdk
-                buildToolsVersion buildTools
+                compileSdkVersion rootProject.ext.compileSdkVersion
+                buildToolsVersion rootProject.ext.buildToolsVersion
                 defaultConfig {
-                  minSdkVersion minSdk
-                  targetSdkVersion targetSdk
+                    minSdkVersion rootProject.ext.minSdkVersion
+                    targetSdkVersion rootProject.ext.targetSdkVersion
+                }
+                variantFilter { variant ->
+                    def names = variant.flavors*.name
+                    if (project.name.equalsIgnoreCase("react-native-navigation") && !names.contains(rootProject.ext.reactNativeNavigationFlavor)) {
+                        setIgnore(true)
+                    }
                 }
             }
         }
     }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenLocal()
+        jcenter()
+        maven {
+            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+            url "$rootDir/../node_modules/react-native/android"
+        }
+        maven { url 'https://jitpack.io' }
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            // Ensure all support libraries are using the correct version (except multidex because that isn't on the same version train as the rest of the support libs)
+            eachDependency { DependencyResolveDetails details ->
+                if (details.requested.group == 'com.android.support' && !details.requested.name.contains("multidex")) {
+                    if (details.requested.version != rootProject.ext.supportLibVersion) {
+                        println "Force ${details.requested.group}:${details.requested.name}:${details.requested.version} to ${rootProject.ext.supportLibVersion}"
+                    }
+                    details.useVersion "${rootProject.ext.supportLibVersion}"
+                }
+            }
+        }
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.6'
+    distributionUrl = distributionUrl.replace("bin", "all")
 }

@@ -2,11 +2,7 @@
 import type { Question, Answer } from 'types/reports.types';
 
 import React, { Component } from 'react';
-import {
-  View,
-  TextInput,
-  Animated
-} from 'react-native';
+import { View, TextInput, Animated } from 'react-native';
 import debounce from 'lodash/debounce';
 
 import Theme from 'config/theme';
@@ -23,7 +19,7 @@ type Props = {
   visible: boolean,
   question: Question,
   answer: Answer,
-  onChange: (string) => void,
+  onChange: string => void
 };
 
 class InputTextDetail extends Component<Props, State> {
@@ -39,12 +35,12 @@ class InputTextDetail extends Component<Props, State> {
   onChange = (value: string) => {
     this.setState({ value });
     this.debouncedChange(value);
-  }
+  };
 
   debouncedChange = debounce((value: string) => {
     const { onChange } = this.props;
     onChange(value);
-  }, 300)
+  }, 300);
 
   componentDidMount() {
     if (this.props.visible) {
@@ -52,31 +48,25 @@ class InputTextDetail extends Component<Props, State> {
     }
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (this.props.visible !== nextProps.visible) {
       this.setVisibility(nextProps.visible);
     }
   }
 
   setVisibility(visible: boolean) {
-    Animated.spring(
-      this.state.inputHeight,
-      { toValue: visible ? this.height : 0 }
-    ).start();
+    Animated.spring(this.state.inputHeight, { toValue: visible ? this.height : 0 }).start();
   }
-
 
   render() {
     const { visible, question } = this.props;
     return (
       <View style={[detailStyles.inputContainer, visible ? '' : detailStyles.hide]}>
-        <View style={[detailStyles.marker, visible ? '' : detailStyles.hide]} >
+        <View style={[detailStyles.marker, visible ? '' : detailStyles.hide]}>
           <View style={[detailStyles.marker, detailStyles.markerInner]} />
         </View>
-        <Animated.View
-          style={{ height: this.state.inputHeight }}
-        >
-          {visible &&
+        <Animated.View style={{ height: this.state.inputHeight }}>
+          {visible && (
             <TextInput
               autoFocus={!this.state.value}
               autoCorrect={false}
@@ -89,7 +79,7 @@ class InputTextDetail extends Component<Props, State> {
               selectionColor={Theme.colors.color1}
               placeholderTextColor={Theme.fontColors.light}
             />
-          }
+          )}
         </Animated.View>
       </View>
     );

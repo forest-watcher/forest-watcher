@@ -2,14 +2,19 @@
 import type { State } from 'types/store.types';
 import type { Template, Answer, Report } from 'types/reports.types';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+import { showNotConnectedNotification } from 'redux-modules/app';
+import { saveReport, uploadReport, deleteReport, setReportAnswer } from 'redux-modules/reports';
+import { setActiveAlerts } from 'redux-modules/alerts';
+
 import { REPORTS } from 'config/constants';
 import flatMap from 'lodash/flatMap';
 import i18n from 'locales';
 import moment from 'moment';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { saveReport, uploadReport, deleteReport, setReportAnswer } from 'redux-modules/reports';
-import { setActiveAlerts } from 'redux-modules/alerts';
+
+import { shouldBeConnected } from 'helpers/app';
 import { getTemplate, parseQuestion } from 'helpers/forms';
 import Answers from 'components/form/answers';
 
@@ -18,32 +23,24 @@ function getAnswerValues(question, answer) {
   const simpleTypeInputs = ['number', 'text', 'point', 'blob'];
   let value = Array.isArray(answer.value) ? answer.value : [answer.value];
   if (!simpleTypeInputs.includes(question.type)) {
-    value = question.values.filter(item => value.includes(item.value))
-      .map(item => item.label);
+    value = question.values.filter(item => value.includes(item.value)).map(item => item.label);
   }
   return { ...answer, value };
 }
 
 function mapFormToAnsweredQuestions(answers: Array<Answer>, template: Template, deviceLang: ?string) {
-  const questions = flatMap(template.questions, (question) => {
+  const questions = flatMap(template.questions, question => {
     const parsedQuestion = parseQuestion({ template, question }, deviceLang);
     if (parsedQuestion.childQuestion) {
       const parsedChildQuestion = {
         ...parsedQuestion.childQuestion,
         order: parsedQuestion.order
       };
-      return [
-        parsedQuestion,
-        parsedChildQuestion
-      ];
+      return [parsedQuestion, parsedChildQuestion];
     }
     return parsedQuestion;
-  })
-    .reduce(
-      (acc, question) => ({ ...acc, [question.name]: question }),
-      {}
-    );
-  return flatMap(answers, (answer) => {
+  }).reduce((acc, question) => ({ ...acc, [question.name]: question }), {});
+  return flatMap(answers, answer => {
     const question = questions[answer.questionName];
     const answeredQuestion = {
       question,
@@ -51,8 +48,8 @@ function mapFormToAnsweredQuestions(answers: Array<Answer>, template: Template, 
     };
 
     const hasChild = answer.child && answer.child !== null;
-    const childMatchCondition = hasChild && question.childQuestion
-      && answer.value === question.childQuestion.conditionalValue;
+    const childMatchCondition =
+      hasChild && question.childQuestion && answer.value === question.childQuestion.conditionalValue;
     if (childMatchCondition) {
       const childQuestion = questions[answer.child.questionName];
       return [
@@ -71,16 +68,20 @@ function mapFormToAnsweredQuestions(answers: Array<Answer>, template: Template, 
 function mapReportToMetadata(report: Report, language) {
   if (!report) return [];
 
-  const { area: { dataset = {} } } = report;
-  const reportedPosition = report.clickedPosition && JSON.parse(report.clickedPosition)
-    .map(pos => [
-      pos.lat.toLocaleString(undefined, { maximumFractionDigits: 4 }),
-      pos.lon.toLocaleString(undefined, { maximumFractionDigits: 4 })
-    ].toString());
+  const {
+    area: { dataset = {} }
+  } = report;
+  const reportedPosition =
+    report.clickedPosition &&
+    JSON.parse(report.clickedPosition).map(pos =>
+      [
+        pos.lat.toLocaleString(undefined, { maximumFractionDigits: 4 }),
+        pos.lon.toLocaleString(undefined, { maximumFractionDigits: 4 })
+      ].toString()
+    );
   const date = moment(report.date).format('YYYY-MM-DD');
-  const userPosition = report.userPosition === REPORTS.noGpsPosition
-    ? i18n.t('report.noGpsPosition')
-    : report.userPosition;
+  const userPosition =
+    report.userPosition === REPORTS.noGpsPosition ? i18n.t('report.noGpsPosition') : report.userPosition;
   const metadata = [
     { id: 'name', label: i18n.t('commonText.name'), value: [report.reportName] },
     { id: 'areaName', label: i18n.t('commonText.area'), value: [report.area.name] },
@@ -104,22 +105,28 @@ function mapStateToProps(state: State, ownProps: { reportName: string, readOnly:
   const templateLang = template.languages.includes(app.language) ? app.language : template.defaultLanguage;
   const report = reports.list[reportName];
   const answers = report && report.answers;
-  // map readOnly to object because withDraft expects disableDraft and answers expects readOnly
-  const readOnlyProps = readOnly ? { disableDraft: true, readOnly } : {};
   return {
     results: mapFormToAnsweredQuestions(answers, template, state.app.language),
     metadata: mapReportToMetadata(report, templateLang),
-    ...readOnlyProps
+    isConnected: shouldBeConnected(state),
+    readOnly
   };
 }
 
-const mapDispatchToProps = (dispatch: *) => bindActionCreators({
-  saveReport,
-  deleteReport,
-  uploadReport,
-  setReportAnswer,
-  setActiveAlerts
-}, dispatch);
+const mapDispatchToProps = (dispatch: *) =>
+  bindActionCreators(
+    {
+      saveReport,
+      deleteReport,
+      uploadReport,
+      setReportAnswer,
+      setActiveAlerts,
+      showNotConnectedNotification
+    },
+    dispatch
+  );
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Answers);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Answers);

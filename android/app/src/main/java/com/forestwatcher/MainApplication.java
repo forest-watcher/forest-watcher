@@ -1,31 +1,31 @@
 package com.forestwatcher;
 
 import android.content.Intent;
-
-import com.facebook.react.ReactInstanceManager;
-import com.airbnb.android.react.lottie.LottiePackage;
-import com.microsoft.codepush.react.ReactInstanceHolder;
-import com.microsoft.appcenter.reactnative.appcenter.AppCenterReactNativePackage;
-import com.microsoft.appcenter.reactnative.crashes.AppCenterReactNativeCrashesPackage;
-import com.microsoft.codepush.react.CodePush;
-import com.psykar.cookiemanager.CookieManagerPackage;
-import io.realm.react.RealmReactPackage;
-import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
-import com.reactnativenavigation.controllers.ActivityCallbacks;
-import com.sensormanager.SensorManagerPackage;
-import com.RNFetchBlob.RNFetchBlobPackage;
-import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
-import com.facebook.react.ReactPackage;
-import com.reactnativenavigation.NavigationApplication;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
-import com.syarul.rnlocation.RNLocation;
-import com.rnziparchive.RNZipArchivePackage;
-import com.imagepicker.ImagePickerPackage;
-import com.reactlibrary.RNAppAuthPackage;
-import com.facebook.CallbackManager;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
-import com.dylanvann.fastimage.FastImageViewPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
+import com.airbnb.android.react.lottie.LottiePackage;
 import com.airbnb.android.react.maps.MapsPackage;
+import com.dylanvann.fastimage.FastImageViewPackage;
+import com.facebook.CallbackManager;
+import com.facebook.react.ReactInstanceManager;
+import com.facebook.react.ReactNativeHost;
+import com.facebook.react.ReactPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.forestwatcher.sensors.SensorManagerPackage;
+import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
+import com.imagepicker.ImagePickerPackage;
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
+import com.microsoft.codepush.react.CodePush;
+import com.microsoft.codepush.react.ReactInstanceHolder;
+import com.psykar.cookiemanager.CookieManagerPackage;
+import com.reactlibrary.RNAppAuthPackage;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
+import com.reactnativenavigation.NavigationApplication;
+import com.reactnativenavigation.react.NavigationReactNativeHost;
+import com.reactnativenavigation.react.ReactGateway;
+import com.rnziparchive.RNZipArchivePackage;
+import io.realm.react.RealmReactPackage;
+import io.sentry.RNSentryPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,19 +34,25 @@ public class MainApplication extends NavigationApplication implements ReactInsta
 
   private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
 
+  @Override
+  protected ReactGateway createReactGateway() {
+    ReactNativeHost host = new NavigationReactNativeHost(this, isDebug(), createAdditionalReactPackages()) {
+      @Override
+      protected String getJSBundleFile() {
+          return CodePush.getJSBundleFile();
+      }
+
+      @Override
+      protected String getJSMainModuleName() {
+          return "index";
+      }
+    };
+
+    return new ReactGateway(this, isDebug(), host);
+  }
+
   protected static CallbackManager getCallbackManager() {
     return mCallbackManager;
-  }
-
-  @Override
-  public String getJSBundleFile() {
-  // Override default getJSBundleFile method with the one CodePush is providing
-      return CodePush.getJSBundleFile();
-  }
-
-  @Override
-  public String getJSMainModuleName() {
-    return "index";
   }
 
   @Override
@@ -60,28 +66,27 @@ public class MainApplication extends NavigationApplication implements ReactInsta
     // No need to add RnnPackage and MainReactPackage
     return Arrays.<ReactPackage>asList(
       new GoogleAnalyticsBridgePackage(),
-      new SensorManagerPackage(),
       new RNFetchBlobPackage(),
       new ReactNativeConfigPackage(),
       new MapsPackage(),
       new RNI18nPackage(),
-      new RNLocation(),
       new RealmReactPackage(),
       new RNZipArchivePackage(),
       new CookieManagerPackage(),
       new ImagePickerPackage(),
       new CodePush(
-        BuildConfig.CODEPUSH_ANDROID_DEPLOY_KEY,
+        BuildConfig.CODEPUSH_DEPLOY_KEY,
         getApplicationContext(),
-        BuildConfig.DEBUG,
-        R.string.CodePushPublicKey
+        isDebug(),
+        R.string.CODEPUSH_RELEASE_PUBLIC_KEY
       ),
       new RNAppAuthPackage(),
       new FBSDKPackage(mCallbackManager),
-      new AppCenterReactNativePackage(MainApplication.this),
-      new AppCenterReactNativeCrashesPackage(MainApplication.this, "ALWAYS"),
       new FastImageViewPackage(),
-      new LottiePackage()
+      new LottiePackage(),
+      new RNSentryPackage(),
+      new RNCWebViewPackage(),
+      new SensorManagerPackage()
     );
   }
 
@@ -94,17 +99,5 @@ public class MainApplication extends NavigationApplication implements ReactInsta
   public ReactInstanceManager getReactInstanceManager() {
       // CodePush must be told how to find React Native instance
     return getReactNativeHost().getReactInstanceManager();
-  }
-
-  @Override
-  public void onCreate() {
-    super.onCreate();
-
-    setActivityCallbacks(new ActivityCallbacks() {
-      @Override
-      public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mCallbackManager.onActivityResult(requestCode, resultCode, data);
-      }
-    });
   }
 }

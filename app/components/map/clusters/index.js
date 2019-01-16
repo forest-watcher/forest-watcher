@@ -14,7 +14,7 @@ type Coordinates = {
 
 type Marker = {
   geometry: [number, number]
-}
+};
 
 type Props = {
   markers: Array<Marker>,
@@ -31,7 +31,7 @@ class Clusters extends PureComponent<Props> {
   render() {
     if (!this.props.markers) return null;
     return (
-      <View>
+      <React.Fragment>
         {this.props.markers.map((marker, index) => {
           const { datasetSlug } = this.props;
           const coordinates = {
@@ -51,9 +51,7 @@ class Clusters extends PureComponent<Props> {
             );
           }
 
-          let markerColor = marker.properties.isRecent
-            ? styles.recentColorAlert
-            : styles[`${datasetSlug}ColorAlert`];
+          let markerColor = marker.properties.isRecent ? styles.recentColorAlert : styles[`${datasetSlug}ColorAlert`];
 
           const id = `${marker.geometry.coordinates[0]}${marker.geometry.coordinates[1]}`;
           if (this.props.reportedAlerts.includes(id)) {
@@ -67,12 +65,13 @@ class Clusters extends PureComponent<Props> {
               onPress={() => this.props.selectAlert(coordinates)}
               zIndex={1}
               draggable={false}
+              tracksViewChanges={false}
             >
               <View style={[this.props.markerSize, markerColor]} />
             </MapView.Marker>
           );
         })}
-      </View>
+      </React.Fragment>
     );
   }
 }

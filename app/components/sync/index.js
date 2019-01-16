@@ -19,9 +19,14 @@ type Props = {
 };
 
 class Sync extends Component<Props> {
-  static navigatorStyle = {
-    navBarHidden: true
-  };
+  static options(passProps) {
+    return {
+      topBar: {
+        drawBehind: true,
+        visible: false
+      }
+    };
+  }
 
   animation: ?{ play: () => void } = null;
 
@@ -33,8 +38,7 @@ class Sync extends Component<Props> {
 
   componentDidUpdate(prevProps: Props) {
     const { syncFinished, isConnected } = this.props;
-    if ((syncFinished !== prevProps.syncFinished
-      || isConnected !== prevProps.isConnected) && this.animation) {
+    if ((syncFinished !== prevProps.syncFinished || isConnected !== prevProps.isConnected) && this.animation) {
       this.animation.play();
     }
   }
@@ -55,7 +59,7 @@ class Sync extends Component<Props> {
       texts.subtitle = i18n.t('sync.subtitle.offline');
     }
     return texts;
-  }
+  };
 
   getContent() {
     const { criticalSyncError } = this.props;
@@ -63,24 +67,16 @@ class Sync extends Component<Props> {
     if (criticalSyncError) {
       return (
         <View style={styles.textContainer}>
-          <Text style={styles.title}>
-            {i18n.t('sync.error')}
-          </Text>
-          <Text style={styles.subtitle}>
-            {i18n.t('sync.errorDesc')}
-          </Text>
+          <Text style={styles.title}>{i18n.t('sync.error')}</Text>
+          <Text style={styles.subtitle}>{i18n.t('sync.errorDesc')}</Text>
         </View>
       );
     }
 
     return (
       <View style={styles.textContainer}>
-        <Text style={styles.title}>
-          {title}
-        </Text>
-        <Text style={styles.subtitle}>
-          {subtitle}
-        </Text>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.subtitle}>{subtitle}</Text>
       </View>
     );
   }
@@ -89,15 +85,13 @@ class Sync extends Component<Props> {
     const { criticalSyncError, retrySync } = this.props;
     if (!criticalSyncError) return null;
     return (
-      <View>
-        <ActionButton
-          monochrome
-          noIcon
-          style={styles.button}
-          onPress={retrySync} // TODO: retry again
-          text={i18n.t('sync.tryAgain').toUpperCase()}
-        />
-      </View>
+      <ActionButton
+        monochrome
+        noIcon
+        style={styles.button}
+        onPress={retrySync} // TODO: retry again
+        text={i18n.t('sync.tryAgain').toUpperCase()}
+      />
     );
   }
 
@@ -110,6 +104,7 @@ class Sync extends Component<Props> {
       <View style={[styles.mainContainer, styles.center]}>
         <StatusBar networkActivityIndicatorVisible />
         <LottieView
+          style={styles.animation}
           loop={!syncFinished}
           source={animationSource}
           ref={animation => {

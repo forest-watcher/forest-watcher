@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Image,
-  TouchableHighlight
-} from 'react-native';
+import { Image, TouchableHighlight } from 'react-native';
 
 import Theme from 'config/theme';
 import styles from './styles';
@@ -35,15 +32,8 @@ function ButtonCircle(props) {
   if (props.disabled) underlayColor = Theme.colors.color6;
 
   return (
-    <TouchableHighlight
-      style={btnStyles}
-      onPress={onButtonPress}
-      activeOpacity={0.8}
-      underlayColor={underlayColor}
-    >
-      {props.icon &&
-        <Image style={Theme.icon} source={props.icon} />
-      }
+    <TouchableHighlight style={btnStyles} onPress={onButtonPress} activeOpacity={0.8} underlayColor={underlayColor}>
+      {props.icon && <Image style={Theme.icon} source={props.icon} />}
     </TouchableHighlight>
   );
 }
@@ -58,7 +48,8 @@ ButtonCircle.propTypes = {
   style: PropTypes.node,
   icon: PropTypes.number,
   disabled: PropTypes.bool,
-  onPress: PropTypes.func.isRequired
+  onPress: PropTypes.func.isRequired,
+  gray: PropTypes.bool
 };
 
 export default ButtonCircle;

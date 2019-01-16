@@ -10,22 +10,24 @@ import clusterGenerator from 'helpers/clusters-generator';
 import { getSelectedArea, activeDataset } from 'helpers/area';
 
 function* syncAlertDatasets({ area, cache }): Generator<*, *, *> {
-  yield all(Object.entries(areasConstants.alertRange)
-    // $FlowFixMe
-    .map((entry: [string, number]) => {
-      const [slug, defaultRange] = entry;
-      let range = defaultRange;
-      // Get the last cache date and request only that new data
-      if (cache[slug] && cache[slug][area.id]) {
-        const now = moment();
-        const lastCache = moment(cache[slug][area.id]);
-        const daysFromLastCache = now.diff(lastCache, 'days');
-        if (daysFromLastCache >= 0) {
-          range = (daysFromLastCache: number);
+  yield all(
+    Object.entries(areasConstants.alertRange)
+      // $FlowFixMe
+      .map((entry: [string, number]) => {
+        const [slug, defaultRange] = entry;
+        let range = defaultRange;
+        // Get the last cache date and request only that new data
+        if (cache[slug] && cache[slug][area.id]) {
+          const now = moment();
+          const lastCache = moment(cache[slug][area.id]);
+          const daysFromLastCache = now.diff(lastCache, 'days');
+          if (daysFromLastCache >= 0) {
+            range = (daysFromLastCache: number);
+          }
         }
-      }
-      return put(getAreaAlerts(area, slug, range));
-    }));
+        return put(getAreaAlerts(area, slug, range));
+      })
+  );
 }
 
 export function* getAlertsOnAreasCommit(): Generator<*, *, *> {

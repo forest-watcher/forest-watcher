@@ -1,37 +1,31 @@
 // @flow
+import React, { Component } from 'react';
+import { View, Text, TouchableHighlight, ScrollView, Image, Alert } from 'react-native';
+import { Navigation } from 'react-native-navigation';
+import Hyperlink from 'react-native-hyperlink';
+
 import type { Area } from 'types/areas.types';
 
-import React, { Component } from 'react';
 import List from 'components/common/list';
 import AreaList from 'containers/common/area-list';
-import Hyperlink from 'react-native-hyperlink';
-import {
-View,
-Text,
-TouchableHighlight,
-ScrollView,
-Image,
-Alert
-} from 'react-native';
-
 import Theme from 'config/theme';
-import i18n from 'locales';
-import tracker from 'helpers/googleAnalytics';
 import CoordinatesDropdown from 'containers/settings/coordinates-dropdown';
 import Row from 'components/common/row';
+import { getVersionName } from 'helpers/app';
 
+import { launchAppRoot } from 'main';
+import i18n from 'locales';
+import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 const plusIcon = require('assets/plus.png');
 
 type Props = {
   user: any,
-  version: string,
   loggedIn: boolean, // eslint-disable-line
   areas: Array<Area>,
-  navigator: any,
+  componentId: string,
   logout: () => void,
-  isConnected: boolean,
   isUnsafeLogout: boolean,
   setOfflineMode: () => void,
   offlineMode: boolean,
@@ -39,6 +33,16 @@ type Props = {
 };
 
 class Settings extends Component<Props> {
+  static options(passProps) {
+    return {
+      topBar: {
+        title: {
+          text: i18n.t('settings.title')
+        }
+      }
+    };
+  }
+
   constructor() {
     super();
     this.aboutSections = [
@@ -67,79 +71,99 @@ class Settings extends Component<Props> {
         functionOnPress: this.handleStaticLinks
       }
     ];
+
+    this.state = {
+      versionName: ''
+    };
   }
-  static navigatorStyle = {
-    navBarTextColor: Theme.colors.color1,
-    navBarButtonColor: Theme.colors.color1,
-    topBarElevationShadowEnabled: false,
-    navBarBackgroundColor: Theme.background.main
-  };
 
   componentDidMount() {
     tracker.trackScreenView('Settings');
+
+    getVersionName().then(name => {
+      this.setState({
+        versionName: name
+      });
+    });
   }
 
-  componentWillReceiveProps(props: Props) {
+  UNSAFE_componentWillReceiveProps(props: Props) {
     if (props.areas.length === 0 && props.loggedIn) {
-      props.navigator.push({
-        screen: 'ForestWatcher.Setup'
+      Navigation.push(this.props.componentId, {
+        component: {
+          name: 'ForestWatcher.SetupCountry'
+        }
       });
     }
   }
 
   onAreaPress = (areaId: string, name: string) => {
-    this.props.navigator.push({
-      screen: 'ForestWatcher.AreaDetail',
-      title: name,
-      passProps: {
-        id: areaId
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.AreaDetail',
+        passProps: {
+          id: areaId
+        },
+        options: {
+          topBar: {
+            title: {
+              text: name
+            }
+          }
+        }
       }
     });
-  }
+  };
 
   onLogoutPress = () => {
-    const { logout, navigator, isUnsafeLogout } = this.props;
+    const { logout, isUnsafeLogout } = this.props;
     const proceedWithLogout = () => {
       logout();
-      navigator.resetTo({
-        screen: 'ForestWatcher.Home'
-      });
+      launchAppRoot('ForestWatcher.Home');
     };
     if (isUnsafeLogout) {
-      Alert.alert(
-        i18n.t('settings.unsafeLogout'),
-        i18n.t('settings.unsavedDataLost'),
-        [
-          { text: 'OK', onPress: proceedWithLogout },
-          {
-            text: 'Cancel',
-            style: 'cancel'
-          }
-        ]
-      );
+      Alert.alert(i18n.t('settings.unsafeLogout'), i18n.t('settings.unsavedDataLost'), [
+        { text: 'OK', onPress: proceedWithLogout },
+        {
+          text: 'Cancel',
+          style: 'cancel'
+        }
+      ]);
     } else proceedWithLogout();
-  }
+  };
 
   onPressAddArea = () => {
-    const { navigator, isConnected, offlineMode, showNotConnectedNotification } = this.props;
-    if (isConnected && !offlineMode) {
-      navigator.push({
-        screen: 'ForestWatcher.Setup'
-      });
-    } else {
-      showNotConnectedNotification();
+    const { offlineMode } = this.props;
+
+    if (offlineMode) {
+      this.props.showNotConnectedNotification();
+      return;
     }
-  }
+
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.SetupCountry'
+      }
+    });
+  };
 
   handleStaticLinks = (section: string, text: string) => {
-    this.props.navigator.push({
-      screen: section,
-      title: text
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: section,
+        options: {
+          topBar: {
+            title: {
+              text: text
+            }
+          }
+        }
+      }
     });
-  }
+  };
 
   render() {
-    const { version, areas, setOfflineMode, offlineMode } = this.props;
+    const { areas, setOfflineMode, offlineMode } = this.props;
     const hasUserData = this.props.user.fullName && this.props.user.email;
 
     return (
@@ -150,37 +174,30 @@ class Settings extends Component<Props> {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          <Text style={styles.label}>
-            {i18n.t('settings.loggedIn')}
-          </Text>
+          <Text style={styles.label}>{i18n.t('settings.loggedIn')}</Text>
 
           <View style={styles.user}>
-            {hasUserData
-              ? <View style={styles.info}>
-                <Text style={styles.name}>
-                  {this.props.user.fullName}
-                </Text>
+            {hasUserData ? (
+              <View style={styles.info}>
+                <Text style={styles.name}>{this.props.user.fullName}</Text>
                 <Text style={styles.email} numberOfLines={1} ellipsizeMode="tail">
                   {this.props.user.email}
                 </Text>
               </View>
-              : <View style={styles.info}>
+            ) : (
+              <View style={styles.info}>
                 <Hyperlink
                   linkDefault
                   linkStyle={Theme.link}
-                  linkText={(url) => (url === 'https://www.globalforestwatch.org/my_gfw' ? 'my GFW' : url)}
+                  linkText={url => (url === 'https://www.globalforestwatch.org/my_gfw' ? 'my GFW' : url)}
                 >
                   <Text selectable style={styles.completeProfile}>
                     {`${i18n.t('settings.completeYourProfileOn')} https://www.globalforestwatch.org/my_gfw`}
                   </Text>
                 </Hyperlink>
               </View>
-            }
-            <TouchableHighlight
-              activeOpacity={0.5}
-              underlayColor="transparent"
-              onPress={this.onLogoutPress}
-            >
+            )}
+            <TouchableHighlight activeOpacity={0.5} underlayColor="transparent" onPress={this.onLogoutPress}>
               <Text style={styles.logout}>{i18n.t('settings.logOut')}</Text>
             </TouchableHighlight>
           </View>
@@ -189,48 +206,32 @@ class Settings extends Component<Props> {
             <CoordinatesDropdown />
           </View>
           <View style={styles.offlineMode}>
-            <Row
-              value={offlineMode}
-              onValueChange={setOfflineMode}
-            >
-              <Text style={[styles.label, { marginLeft: 0 }]}>
-                {i18n.t('settings.offlineMode')}
-              </Text>
+            <Row value={offlineMode} onValueChange={setOfflineMode}>
+              <Text style={[styles.label, { marginLeft: 0 }]}>{i18n.t('settings.offlineMode')}</Text>
             </Row>
           </View>
 
-          {areas && areas.length
-            ? <View style={styles.areas}>
-              <Text style={styles.label}>
-                {i18n.t('settings.yourAreas')}
-              </Text>
+          {areas && areas.length ? (
+            <View style={styles.areas}>
+              <Text style={styles.label}>{i18n.t('settings.yourAreas')}</Text>
               <AreaList onAreaPress={(areaId, name) => this.onAreaPress(areaId, name)} />
             </View>
-          : null
-          }
-          <TouchableHighlight
-            activeOpacity={0.5}
-            underlayColor="transparent"
-            onPress={this.onPressAddArea}
-          >
+          ) : null}
+          <TouchableHighlight activeOpacity={0.5} underlayColor="transparent" onPress={this.onPressAddArea}>
             <View style={styles.addButton}>
               <Image style={[Theme.icon, styles.addButtonIcon]} source={plusIcon} />
-              <Text style={styles.addButtonText}>
-                {i18n.t('settings.addArea').toUpperCase()}
-              </Text>
+              <Text style={styles.addButtonText}>{i18n.t('settings.addArea').toUpperCase()}</Text>
             </View>
           </TouchableHighlight>
 
           <View style={styles.aboutSection}>
-            <Text style={styles.label}>
-              {i18n.t('settings.aboutApp')}
-            </Text>
-            <List content={this.aboutSections} bigSeparation={false}>{}</List>
+            <Text style={styles.label}>{i18n.t('settings.aboutApp')}</Text>
+            <List content={this.aboutSections} bigSeparation={false}>
+              {}
+            </List>
             <View style={styles.footerText}>
-              <Text style={[styles.label, { marginLeft: 0 }]}>
-                {i18n.t('commonText.appName')}
-              </Text>
-              <Text style={styles.versionText}>v{version}</Text>
+              <Text style={[styles.label, { marginLeft: 0 }]}>{i18n.t('commonText.appName')}</Text>
+              <Text style={styles.versionText}>{this.state.versionName}</Text>
             </View>
           </View>
         </ScrollView>

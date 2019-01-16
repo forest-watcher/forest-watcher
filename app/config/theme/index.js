@@ -1,6 +1,4 @@
-import {
-  Dimensions
-} from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 
 const screen = Dimensions.get('window');
 const colors = {
@@ -78,11 +76,41 @@ const config = {
   },
   navigator: {
     styles: {
-      navBarBackgroundColor: '#426F9A',
-      navBarTextColor: '#ffffff',
-      navBarSubtitleTextColor: '#ffffff',
-      navBarButtonColor: '#ffffff',
-      statusBarTextColorScheme: 'light'
+      layout: {
+        backgroundColor: colors.color4,
+        orientation: 'portrait'
+      },
+      sideMenu: {
+        right: {
+          enabled: false,
+          ...Platform.select({
+            ios: {
+              width: 300
+            }
+          })
+        }
+      },
+      statusBar: {
+        style: 'light'
+      },
+      topBar: {
+        background: {
+          color: 'transparent'
+        },
+        backButton: {
+          color: colors.color1
+        },
+        buttonColor: colors.color1,
+        elevation: 0,
+        noBorder: true,
+        subtitle: {
+          color: colors.color1
+        },
+        title: {
+          color: colors.color1
+        },
+        visible: true
+      }
     }
   },
   link: {

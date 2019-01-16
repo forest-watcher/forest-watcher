@@ -37,6 +37,13 @@ export default StyleSheet.create({
     alignItems: 'center',
     overflow: 'visible'
   },
+  offlineNotice: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    color: 'red',
+    margin: 16
+  },
   signalNoticeText: {
     fontWeight: '400',
     fontStyle: 'italic',
@@ -102,7 +109,8 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     marginLeft: 8,
     marginRight: 8,
-    marginBottom: 16
+    marginBottom: 16,
+    paddingBottom: 16
   },
   buttonPanelSelected: {
     flexDirection: 'column'

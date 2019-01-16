@@ -1,10 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  TouchableHighlight,
-  Image
-} from 'react-native';
+import { View, TouchableHighlight, Image, Platform, TouchableNativeFeedback, ViewPropTypes } from 'react-native';
 
 import Theme from 'config/theme';
 import CustomSwitch from 'components/common/switch';
@@ -14,35 +10,39 @@ function Row(props) {
   const hasCustomSwitch = typeof props.value !== 'undefined';
   const onPress = props.action ? props.action.callback : null;
 
+  const Touchable = Platform.select({
+    android: TouchableNativeFeedback,
+    ios: TouchableHighlight
+  });
+
   return (
-    <TouchableHighlight
-      activeOpacity={onPress ? (props.opacity || 0.5) : 1}
+    <Touchable
+      activeOpacity={onPress ? props.opacity || 0.5 : 1}
+      background={Platform.select({
+        android: TouchableNativeFeedback.Ripple(Theme.background.gray),
+        ios: undefined
+      })}
       underlayColor="transparent"
       onPress={onPress}
-      style={props.style}
     >
-      <View style={[styles.row, props.rowStyle]}>
-        <View style={styles.title}>
-          {props.children}
-        </View>
-        {hasCustomSwitch &&
+      <View style={[props.style, styles.row, props.rowStyle]}>
+        <View style={styles.title}>{props.children}</View>
+        {hasCustomSwitch && (
           <CustomSwitch
             value={props.value}
             colorOn={props.switchColorOn}
             colorOff={props.switchColorOff}
             onValueChange={props.onValueChange}
           />
-        }
-        {props.action &&
-          <Image style={Theme.icon} source={props.action.icon} />
-        }
+        )}
+        {props.action && <Image style={Theme.icon} source={props.action.icon} />}
       </View>
-    </TouchableHighlight>
+    </Touchable>
   );
 }
 
 Row.propTypes = {
-  style: PropTypes.node,
+  style: ViewPropTypes.style,
   children: PropTypes.node,
   value: PropTypes.bool,
   onValueChange: PropTypes.func,
@@ -51,7 +51,9 @@ Row.propTypes = {
     icon: PropTypes.any
   }),
   opacity: PropTypes.number,
-  rowStyle: PropTypes.any
+  rowStyle: PropTypes.any,
+  switchColorOn: PropTypes.string,
+  switchColorOff: PropTypes.string
 };
 
 export default Row;

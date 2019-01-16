@@ -2,6 +2,7 @@ import { createOffline } from '@redux-offline/redux-offline';
 import offlineConfig from '@redux-offline/redux-offline/lib/defaults';
 import persistNative from '@redux-offline/redux-offline/lib/defaults/persist.native';
 import detectNetwork from './detectNetwork';
+import discard from './discard';
 import effect from './effect';
 import retry from './retry';
 
@@ -12,6 +13,7 @@ const migrationTransform = {
 
 const config = params => ({
   ...offlineConfig,
+  discard,
   effect,
   retry,
   detectNetwork,

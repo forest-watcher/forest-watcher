@@ -44,16 +44,18 @@ export default function reducer(state: ReportsState = initialState, action: Repo
       // $FlowFixMe
       const { reports = state, form } = action.payload;
       if (form && !form.migrated) {
-        const formatAnswers = values => Object.entries(values)
-          .map(([questionName, value]) => ({ questionName, value, child: null }));
-        const answers = Object.entries(form || {})
-          .reduce((acc, [reportName, formEntry]) => ({
+        const formatAnswers = values =>
+          Object.entries(values).map(([questionName, value]) => ({ questionName, value, child: null }));
+        const answers = Object.entries(form || {}).reduce(
+          (acc, [reportName, formEntry]) => ({
             ...acc,
             [reportName]: {
               reportName,
-              answers: formatAnswers((formEntry.values || {}))
+              answers: formatAnswers(formEntry.values || {})
             }
-          }), {});
+          }),
+          {}
+        );
         return { ...reports, list: merge(answers, reports.list) };
       }
       return reports;
@@ -75,13 +77,16 @@ export default function reducer(state: ReportsState = initialState, action: Repo
       const templateDefault = state.templates.default || {};
       const templates = action.payload
         .filter(a => a.reportTemplate !== null)
-        .reduce((acc, { reportTemplate }) => ({
-          ...acc,
-          [reportTemplate.id]: {
-            ...reportTemplate,
-            questions: orderQuestions(reportTemplate.questions)
-          }
-        }), { default: templateDefault });
+        .reduce(
+          (acc, { reportTemplate }) => ({
+            ...acc,
+            [reportTemplate.id]: {
+              ...reportTemplate,
+              questions: orderQuestions(reportTemplate.questions)
+            }
+          }),
+          { default: templateDefault }
+        );
       return { ...state, templates };
     }
     case CREATE_REPORT: {
@@ -101,7 +106,7 @@ export default function reducer(state: ReportsState = initialState, action: Repo
     case SET_REPORT_ANSWER: {
       const { reportName, answer, updateOnly } = action.payload;
       const report = state.list[reportName];
-      const answeredIndex = report.answers.findIndex(a => (a.questionName === answer.questionName));
+      const answeredIndex = report.answers.findIndex(a => a.questionName === answer.questionName);
       // const template = state.templates[report.area.templateId];
       // const question = template.questions.find(q => (q.name === answer.questionName));
       // const updateValue = question && question.type === 'blob';
@@ -168,9 +173,12 @@ export function getDefaultReport(): ReportsAction {
   };
 }
 
-export function createReport(
-  report: { reportName: string, userPosition: [number, number], clickedPosition: [number, number], area: Area }
-  ): ReportsAction {
+export function createReport(report: {
+  reportName: string,
+  userPosition: [number, number],
+  clickedPosition: [number, number],
+  area: Area
+}): ReportsAction {
   const { reportName, userPosition, clickedPosition, area } = report;
   return {
     type: CREATE_REPORT,

@@ -1,26 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  Text,
-  TouchableHighlight,
-  Modal,
-  Image,
-  ScrollView,
-  TextInput
-} from 'react-native';
+import { View, Text, TouchableHighlight, Modal, Image, ScrollView, TextInput } from 'react-native';
+import { withSafeArea } from 'react-native-safe-area';
 
 import deburr from 'lodash/deburr';
 import Theme from 'config/theme';
 import styles from './styles';
 
+const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const searchImage = require('assets/search.png');
 const closeImage = require('assets/close.png');
 
 function getFilteredData(data, filter) {
   if (!filter) return data;
   const filterUpper = deburr(filter.toUpperCase());
-  return data.filter((item) => deburr(item.name.toUpperCase()).indexOf(filterUpper) > -1);
+  return data.filter(item => deburr(item.name.toUpperCase()).indexOf(filterUpper) > -1);
 }
 
 class SearchSelector extends Component {
@@ -55,9 +49,8 @@ class SearchSelector extends Component {
   }
 
   render() {
-    const placeholder = this.props.selected && this.props.selected.label
-      ? this.props.selected.label
-      : this.props.placeholder;
+    const placeholder =
+      this.props.selected && this.props.selected.label ? this.props.selected.label : this.props.placeholder;
 
     return (
       <View>
@@ -67,9 +60,7 @@ class SearchSelector extends Component {
           underlayColor="transparent"
         >
           <View style={styles.searchContainer}>
-            <Text style={styles.searchText}>
-              {placeholder}
-            </Text>
+            <Text style={styles.searchText}>{placeholder}</Text>
             <Image style={Theme.icon} source={searchImage} />
           </View>
         </TouchableHighlight>
@@ -79,7 +70,7 @@ class SearchSelector extends Component {
           visible={this.state.showList}
           onRequestClose={() => this.close()}
         >
-          <View style={styles.modal}>
+          <SafeAreaView style={styles.modal}>
             <View style={styles.search}>
               <TextInput
                 autoFocus={false}
@@ -116,15 +107,11 @@ class SearchSelector extends Component {
                   activeOpacity={0.5}
                   underlayColor="transparent"
                 >
-                  <Text
-                    style={styles.listItemText}
-                  >
-                    {item.name}
-                  </Text>
+                  <Text style={styles.listItemText}>{item.name}</Text>
                 </TouchableHighlight>
               ))}
             </ScrollView>
-          </View>
+          </SafeAreaView>
         </Modal>
       </View>
     );

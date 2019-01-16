@@ -1,13 +1,15 @@
 import Theme from 'config/theme';
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  container: {
+  backing: {
+    backgroundColor: Theme.background.main,
+    flex: 1
+  },
+  contentContainer: {
     flex: 1,
     width: Theme.screen.width,
-    height: Theme.screen.height,
-    backgroundColor: Theme.background.main,
-    position: 'relative'
+    height: Theme.screen.height
   },
   slideContainer: {
     flex: 1,
@@ -15,11 +17,9 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   topSection: {
-    maxHeight: 140,
-    marginBottom: 40
+    flex: 1
   },
   textsContainer: {
-    marginTop: 32,
     paddingHorizontal: 24,
     flex: 1,
     alignItems: 'center',
@@ -40,19 +40,19 @@ export default StyleSheet.create({
     textAlign: 'center'
   },
   phoneContainer: {
-    flex: 1,
+    flex: 4,
+    flexDirection: 'row',
     width: Theme.screen.width,
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'center'
   },
   phoneImage: {
+    flex: 1,
     width: '100%',
     height: '100%',
     maxWidth: Theme.screen.width > 300 ? 250 : 270,
     maxHeight: 400,
-    borderRadius: 8,
-    marginTop: 80,
-    marginBottom: 102
+    borderRadius: 8
   },
   footer: {
     position: 'absolute',
@@ -68,12 +68,8 @@ export default StyleSheet.create({
     shadowRadius: 4,
     elevation: 1
   },
-  footerHack: {
-    position: 'absolute',
-    bottom: 0,
-    height: 64,
-    width: Theme.screen.width,
-    backgroundColor: Theme.background.white
+  skipButtonWrapper: {
+    alignSelf: 'flex-end'
   },
   skipButton: {
     color: Theme.fontColors.light,
@@ -81,14 +77,8 @@ export default StyleSheet.create({
     fontSize: 14,
     fontWeight: '400',
     textAlign: 'right',
-    ...Platform.select({
-      android: {
-        marginTop: 16
-      },
-      ios: {
-        marginTop: 24
-      }
-    }),
+    padding: 10,
+    marginTop: 16,
     paddingRight: 24
   },
   icon: {
