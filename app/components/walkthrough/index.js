@@ -148,7 +148,7 @@ class Walkthrough extends PureComponent {
           >
             {SLIDES.map((slide, index) => (
               <View style={styles.slideContainer} key={`slide-${index}`}>
-                <View style={[styles.topSection, { maxHeight: slide.textOnly ? undefined : 140 }]}>
+                <View style={styles.topSection}>
                   <View style={styles.textsContainer}>
                     {slide.title && <Text style={styles.title}>{slide.title}</Text>}
                     {slide.subtitle && (
@@ -159,8 +159,15 @@ class Walkthrough extends PureComponent {
                   </View>
                 </View>
                 {!slide.textOnly && (
-                  <View style={styles.phoneContainer}>
-                    {slide.image && <Image style={styles.phoneImage} resizeMode="contain" source={slide.image} />}
+                  <View
+                    style={[
+                      styles.phoneContainer,
+                      {
+                        marginBottom: 64 + bottomSafeAreaInset
+                      }
+                    ]}
+                  >
+                    {slide.image && <Image style={styles.phoneImage} resizeMode="cover" source={slide.image} />}
                   </View>
                 )}
               </View>

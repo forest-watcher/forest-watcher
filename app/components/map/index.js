@@ -1,17 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  Dimensions,
-  DeviceEventEmitter,
-  Animated,
-  Easing,
-  StatusBar,
-  Image,
-  Text,
-  Platform,
-  NativeModules
-} from 'react-native';
+import { View, Dimensions, DeviceEventEmitter, Animated, Easing, StatusBar, Image, Text, Platform } from 'react-native';
 
 import { MAPS, REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
@@ -95,12 +84,12 @@ class MapComponent extends Component {
           translucent: true
         },
         backButton: {
-          color: Theme.colors.color5
+          color: Theme.fontColors.white
         },
-        buttonColor: Theme.colors.color5,
+        buttonColor: Theme.fontColors.white,
         drawBehind: true,
         title: {
-          color: Theme.colors.color5
+          color: Theme.fontColors.white
         }
       }
     };
@@ -291,7 +280,8 @@ class MapComponent extends Component {
       topBar: {
         title: {
           fontSize: fontSize,
-          text: headerText
+          text: headerText,
+          color: Theme.fontColors.white
         }
       }
     });
@@ -676,6 +666,7 @@ class MapComponent extends Component {
       contextualLayer,
       basemapLocalTilePath,
       isConnected,
+      isOfflineMode,
       ctxLayerLocalTilePath
     } = this.props;
     const showCompassLine = lastPosition && selectedAlerts && compassLine;
@@ -700,9 +691,9 @@ class MapComponent extends Component {
         tileSize={256}
       />
     ) : null;
-    const basemapRemoteLayerElement = (
+    const basemapRemoteLayerElement = !isOfflineMode ? (
       <MapView.UrlTile key="basemapLayerElement" urlTemplate={MAPS.basemap} zIndex={-1} />
-    );
+    ) : null;
     const contextualLocalLayerElement = ctxLayerLocalTilePath ? (
       <MapView.LocalTile
         key={`${ctxLayerKey}_local`}
@@ -712,9 +703,9 @@ class MapComponent extends Component {
         tileSize={256}
       />
     ) : null;
-    const contextualRemoteLayerElement = contextualLayer ? ( // eslint-disable-line
-      <MapView.UrlTile key={ctxLayerKey} urlTemplate={contextualLayer.url} zIndex={2} />
-    ) : null;
+    const contextualRemoteLayerElement = (contextualLayer && !isOfflineMode) ? ( // eslint-disable-line
+        <MapView.UrlTile key={ctxLayerKey} urlTemplate={contextualLayer.url} zIndex={2} />
+      ) : null;
     const compassLineElement = showCompassLine ? (
       <MapView.Polyline
         key="compassLineElement"
@@ -741,6 +732,7 @@ class MapComponent extends Component {
         style={{ zIndex: 3 }}
         anchor={{ x: 0.5, y: 0.5 }}
         pointerEvents={'none'}
+        tracksViewChanges={false}
       />
     ) : null;
     const compassElement =
@@ -752,7 +744,7 @@ class MapComponent extends Component {
           anchor={{ x: 0.5, y: 0.5 }}
           pointerEvents={'none'}
         >
-          <Animated.Image
+          <Image
             style={{
               width: 94,
               height: 94,
@@ -818,7 +810,9 @@ class MapComponent extends Component {
           <Image style={styles.headerBg} source={backgroundImage} />
           {!isConnected && (
             <SafeAreaView>
-              <Text style={styles.offlineNotice}>{i18n.t('commonText.connectionRequiredTitle')}</Text>
+              <Text style={styles.offlineNotice}>
+                {isOfflineMode ? i18n.t('settings.offlineMode') : i18n.t('commonText.connectionRequiredTitle')}
+              </Text>
             </SafeAreaView>
           )}
         </View>
@@ -869,6 +863,7 @@ MapComponent.propTypes = {
   ctxLayerLocalTilePath: PropTypes.string,
   areaCoordinates: PropTypes.array,
   isConnected: PropTypes.bool.isRequired,
+  isOfflineMode: PropTypes.bool.isRequired,
   setCanDisplayAlerts: PropTypes.func.isRequired,
   canDisplayAlerts: PropTypes.bool.isRequired,
   area: PropTypes.object.isRequired,

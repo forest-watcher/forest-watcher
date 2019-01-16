@@ -9,10 +9,12 @@ import Config from 'react-native-config';
 
 import Theme from 'config/theme';
 import i18n from 'locales';
+import { getVersionName } from 'helpers/app';
 import tracker from 'helpers/googleAnalytics';
 import { getLanguage } from 'helpers/language';
 
 import { launchAppRoot } from 'main';
+import { throttle } from 'lodash';
 import moment from 'moment';
 const parseUrl = require('url-parse');
 
@@ -43,8 +45,7 @@ type Props = {
     token: string,
     socialNetwork: ?string,
     loggedIn: boolean
-  }) => void,
-  version: string
+  }) => void
 };
 
 type State = {
@@ -53,6 +54,14 @@ type State = {
   webViewCurrenUrl: string,
   socialNetwork: ?string
 };
+
+/**
+ * Interval in milliseconds after a button is pressed during which further presses should be suppressed, in order to
+ * prevent duplicate button presses.
+ *
+ * @type {number}
+ */
+const BUTTON_THROTTLE_INTERVAL_MS = 1000;
 
 class Login extends PureComponent<Props, State> {
   static options(passProps) {
@@ -81,7 +90,8 @@ class Login extends PureComponent<Props, State> {
       webviewVisible: false,
       webViewUrl: '',
       webViewCurrenUrl: '',
-      socialNetwork: null
+      socialNetwork: null,
+      versionName: ''
     };
   }
 
@@ -95,6 +105,12 @@ class Login extends PureComponent<Props, State> {
       this.setState(state => ({
         topSafeAreaInset: result.safeAreaInsets.top
       }));
+    });
+
+    getVersionName().then(name => {
+      this.setState({
+        versionName: name
+      });
     });
   }
 
@@ -222,9 +238,10 @@ class Login extends PureComponent<Props, State> {
             <Text style={styles.buttonsLabel}>{i18n.t('login.introductionText')}</Text>
             <TouchableHighlight
               style={[styles.button, styles.buttonFacebook]}
-              onPress={() => this.onPress('facebook')}
+              onPress={throttle(() => this.onPress('facebook'), BUTTON_THROTTLE_INTERVAL_MS)}
               activeOpacity={0.8}
               underlayColor={Theme.socialNetworks.facebook}
+              disabled={this.props.loading}
             >
               <View>
                 <Image style={styles.iconFacebook} source={facebookIcon} />
@@ -234,9 +251,10 @@ class Login extends PureComponent<Props, State> {
             </TouchableHighlight>
             <TouchableHighlight
               style={[styles.button, styles.buttonTwitter]}
-              onPress={() => this.onPress('twitter')}
+              onPress={throttle(() => this.onPress('twitter'), BUTTON_THROTTLE_INTERVAL_MS)}
               activeOpacity={0.8}
               underlayColor={Theme.socialNetworks.twitter}
+              disabled={this.props.loading}
             >
               <View>
                 <Image style={styles.iconTwitter} source={twitterIcon} />
@@ -246,9 +264,10 @@ class Login extends PureComponent<Props, State> {
             </TouchableHighlight>
             <TouchableHighlight
               style={[styles.button, styles.buttonGoogle]}
-              onPress={() => this.onPress('google')}
+              onPress={throttle(() => this.onPress('google'), BUTTON_THROTTLE_INTERVAL_MS)}
               activeOpacity={0.8}
               underlayColor={Theme.socialNetworks.google}
+              disabled={this.props.loading}
             >
               <View>
                 <Image style={styles.iconGoogle} source={googleIcon} />
@@ -257,7 +276,7 @@ class Login extends PureComponent<Props, State> {
               </View>
             </TouchableHighlight>
           </View>
-          <Text style={styles.versionText}>{`v${this.props.version}`}</Text>
+          <Text style={styles.versionText}>{this.state.versionName}</Text>
         </View>
       </View>
     );

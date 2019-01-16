@@ -8,7 +8,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.6.3",
+  "version": "1.7.0",
 }
 `;
 
@@ -60,7 +60,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.6.3",
+  "version": "1.7.0",
 }
 `;
 
@@ -81,7 +81,7 @@ Object {
   "offlineMode": true,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.6.3",
+  "version": "1.7.0",
 }
 `;
 
@@ -101,7 +101,7 @@ Object {
   "offlineMode": true,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.6.3",
+  "version": "1.7.0",
 }
 `;
 
@@ -143,7 +143,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.6.3",
+  "version": "1.7.0",
 }
 `;
 
@@ -162,7 +162,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": true,
-  "version": "1.6.3",
+  "version": "1.7.0",
 }
 `;
 
@@ -181,7 +181,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.6.3",
+  "version": "1.7.0",
 }
 `;
 
@@ -200,7 +200,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.6.3",
+  "version": "1.7.0",
 }
 `;
 
@@ -219,7 +219,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.6.3",
+  "version": "1.7.0",
 }
 `;
 
@@ -238,7 +238,7 @@ Object {
   "offlineMode": true,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.6.3",
+  "version": "1.7.0",
 }
 `;
 
@@ -257,7 +257,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.6.3",
+  "version": "1.7.0",
 }
 `;
 
@@ -276,7 +276,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.6.3",
+  "version": "1.7.0",
 }
 `;
 
@@ -295,7 +295,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": false,
   "synced": false,
-  "version": "1.6.3",
+  "version": "1.7.0",
 }
 `;
 
@@ -313,6 +313,6 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.6.3",
+  "version": "1.7.0",
 }
 `;

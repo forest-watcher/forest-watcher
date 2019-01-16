@@ -16,7 +16,7 @@ Object {
     "offlineMode": false,
     "pristineCacheTooltip": true,
     "synced": false,
-    "version": "1.6.3",
+    "version": "1.7.0",
   },
   "areas": Object {
     "data": Array [],
@@ -1927,7 +1927,7 @@ Object {
     "offlineMode": false,
     "pristineCacheTooltip": true,
     "synced": false,
-    "version": "1.6.3",
+    "version": "1.7.0",
   },
   "areas": Object {
     "data": Array [],

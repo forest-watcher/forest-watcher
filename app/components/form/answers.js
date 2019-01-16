@@ -24,7 +24,9 @@ type Props = {
   deleteReport: string => void,
   setReportAnswer: (string, Answer, boolean) => void,
   readOnly: boolean,
-  setActiveAlerts: boolean => void
+  setActiveAlerts: boolean => void,
+  isConnected: boolean,
+  showNotConnectedNotification: () => void
 };
 
 const closeIcon = require('assets/close.png');
@@ -57,11 +59,6 @@ class Answers extends PureComponent<Props> {
     };
   }
 
-  constructor(props) {
-    super(props);
-    Navigation.events().bindComponent(this);
-  }
-
   /**
    * navigationButtonPressed - Handles events from the buttons on the modal nav bar.
    *
@@ -69,8 +66,14 @@ class Answers extends PureComponent<Props> {
    */
   navigationButtonPressed({ buttonId }) {
     if (buttonId === 'upload') {
-      const { reportName, uploadReport } = this.props;
+      if (!this.props.isConnected) {
+        this.props.showNotConnectedNotification();
+        return;
+      }
+
+      const { reportName, uploadReport, componentId } = this.props;
       uploadReport(reportName);
+      Navigation.dismissModal(componentId);
     }
 
     if (buttonId === 'backButton') {

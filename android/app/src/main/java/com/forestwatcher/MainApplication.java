@@ -15,7 +15,6 @@ import com.forestwatcher.sensors.SensorManagerPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.imagepicker.ImagePickerPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
-import com.microsoft.appcenter.reactnative.appcenter.AppCenterReactNativePackage;
 import com.microsoft.codepush.react.CodePush;
 import com.microsoft.codepush.react.ReactInstanceHolder;
 import com.psykar.cookiemanager.CookieManagerPackage;
@@ -38,13 +37,17 @@ public class MainApplication extends NavigationApplication implements ReactInsta
   @Override
   protected ReactGateway createReactGateway() {
     ReactNativeHost host = new NavigationReactNativeHost(this, isDebug(), createAdditionalReactPackages()) {
-
       @Override
-      public String getJSMainModuleName() {
-        return "index";
+      protected String getJSBundleFile() {
+          return CodePush.getJSBundleFile();
       }
 
+      @Override
+      protected String getJSMainModuleName() {
+          return "index";
+      }
     };
+
     return new ReactGateway(this, isDebug(), host);
   }
 
@@ -74,12 +77,11 @@ public class MainApplication extends NavigationApplication implements ReactInsta
       new CodePush(
         BuildConfig.CODEPUSH_DEPLOY_KEY,
         getApplicationContext(),
-        BuildConfig.DEBUG,
+        isDebug(),
         R.string.CODEPUSH_RELEASE_PUBLIC_KEY
       ),
       new RNAppAuthPackage(),
       new FBSDKPackage(mCallbackManager),
-      new AppCenterReactNativePackage(MainApplication.this),
       new FastImageViewPackage(),
       new LottiePackage(),
       new RNSentryPackage(),

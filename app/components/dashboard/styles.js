@@ -38,6 +38,7 @@ export default StyleSheet.create({
   row: {
     position: 'absolute',
     width: Theme.screen.width,
+    backgroundColor: Theme.background.white,
     bottom: 0,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -2 },

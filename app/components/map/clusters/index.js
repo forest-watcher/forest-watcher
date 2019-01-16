@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Fragment, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import MapView from 'react-native-maps';
 import ClusterMarker from 'components/map/clusters/clusterMarker';
 import { View } from 'react-native';
