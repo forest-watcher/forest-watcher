@@ -27,7 +27,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.7.0</string>
+	<string>1.7.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -80,6 +80,8 @@ __RN_CONFIG_CODEPUSH_RELEASE_PUBLIC_KEY
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
 	</array>
+	<key>LSHasLocalizedDisplayName</key>
+	<true/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -126,7 +128,5 @@ __RN_CONFIG_CODEPUSH_RELEASE_PUBLIC_KEY
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>LSHasLocalizedDisplayName</key>
-	<true/>
 </dict>
 </plist>
