@@ -110,8 +110,8 @@ android {
         applicationId "com.forestwatcher"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 21
-        versionName "1.7.0"
+        versionCode 22
+        versionName "1.7.1"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -148,6 +148,9 @@ android {
         }
     }
     buildTypes {
+        debug {
+            versionNameSuffix "-dev"
+        }
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
