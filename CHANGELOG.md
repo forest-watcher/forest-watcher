@@ -1,5 +1,22 @@
 # Forest Watcher Changelog
 
+## [v1.7.1]
+- Fixed crash when creating a report for an area with no datasets
+- Changed Android activity launchMode to prevent hanging when attempting to launch a second app instance
+- Fixed crash on multi-select form input on production Android
+
+## [v1.7.0]
+- Upgraded to RN 0.57.5
+- Upgraded most other dependencies
+- Supported latest Android / iOS versions
+- Added Sentry crash logging
+- Added snapshot tests to characterise existing functionality
+- Numerous fixes relating to offline detection
+- Overhaul of map logic to reduce memory pressure on low-end devices
+- Made transition between offline / online maps less jarring
+- Fixed bug when cancelling login
+- Added splash screen on Android
+
 ## [v1.1.0]
 - Update RN verstion to 0.51.
 - Update most of libraries version to match new dependencies.
