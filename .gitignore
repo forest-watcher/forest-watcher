@@ -84,4 +84,6 @@ reports/**
 # Configuration
 sentry.properties
 google-services.json
-.env*
+.env
+.env.android*
+.env.ios*
