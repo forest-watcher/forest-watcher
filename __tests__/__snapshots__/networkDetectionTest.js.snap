@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`detect network actions pingToDetectNetwork when all urls are dead sends offline action 1`] = `
+Array [
+  Object {
+    "online": false,
+    "type": "STATUS_CHANGED",
+  },
+]
+`;
+
+exports[`detect network actions pingToDetectNetwork when first url is alive when offline sends offline action 1`] = `
+Array [
+  Object {
+    "online": false,
+    "type": "STATUS_CHANGED",
+  },
+]
+`;
+
+exports[`detect network actions pingToDetectNetwork when first url is alive when online sends online action 1`] = `
+Array [
+  Object {
+    "online": true,
+    "type": "STATUS_CHANGED",
+  },
+]
+`;
+
+exports[`detect network actions pingToDetectNetwork when first url is dead and second is online sends offline and online actions 1`] = `
+Array [
+  Object {
+    "online": true,
+    "type": "STATUS_CHANGED",
+  },
+]
+`;

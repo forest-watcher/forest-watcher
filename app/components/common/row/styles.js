@@ -7,8 +7,8 @@ export default StyleSheet.create({
     paddingLeft: Theme.margin.left,
     paddingRight: Theme.margin.right,
     backgroundColor: Theme.colors.color5,
-    borderBottomColor: Theme.borderColors.main,
-    borderBottomWidth: 2,
+    // borderBottomColor: Theme.borderColors.main,
+    // borderBottomWidth: 2,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'

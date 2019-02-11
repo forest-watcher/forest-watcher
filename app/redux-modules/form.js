@@ -14,9 +14,7 @@ export default function reducer(state = initialState, action) {
     case PERSIST_REHYDRATE: {
       const { form } = action.payload;
       if (!form) return initialState;
-      return !form.migrated
-        ? { migrated: true, oldData: form }
-        : { ...form };
+      return !form.migrated ? { migrated: true, oldData: form } : { ...form };
     }
     default:
       return state;

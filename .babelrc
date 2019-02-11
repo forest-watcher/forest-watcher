@@ -1,13 +1,15 @@
 {
   "presets": [
-    "react-native",
-    "flow"
+    "module:metro-react-native-babel-preset",
+    "@babel/preset-flow"
   ],
   "plugins": [
     [
       "module-resolver",
       {
-        "root": ["./app"],
+        "root": [
+          "./app"
+        ],
         "alias": {
           "screens": "./app/screens",
           "locales": "./app/locales",

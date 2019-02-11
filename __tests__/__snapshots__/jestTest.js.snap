@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Redux Actions - Unit Tests snapshot redux action test 1`] = `
+Object {
+  "payload": true,
+  "type": "app/SET_OFFLINE_MODE",
+}
+`;
+
+exports[`Redux Actions - Unit Tests snapshot redux action test 2`] = `
+Object {
+  "payload": false,
+  "type": "app/SET_OFFLINE_MODE",
+}
+`;
+
+exports[`Redux Actions - Unit Tests snapshot redux action thunk test 1`] = `[Function]`;
+
+exports[`Redux Reducers - Unit Tests snapshot redux reducer action test 1`] = `
+Object {
+  "actions": Array [],
+  "coordinatesFormat": "decimal",
+  "language": null,
+  "offlineMode": false,
+  "pristineCacheTooltip": true,
+  "synced": true,
+  "version": "1.7.1",
+}
+`;
+
+exports[`Redux Reducers - Unit Tests snapshot redux reducer initial state test 1`] = `
+Object {
+  "actions": Array [],
+  "coordinatesFormat": "decimal",
+  "language": null,
+  "offlineMode": false,
+  "pristineCacheTooltip": true,
+  "synced": false,
+  "version": "1.7.1",
+}
+`;
+
+exports[`Redux Reducers - Unit Tests snapshot redux reducer multiple action test 1`] = `
+Object {
+  "actions": Array [],
+  "coordinatesFormat": "decimal",
+  "language": null,
+  "offlineMode": false,
+  "pristineCacheTooltip": true,
+  "synced": true,
+  "version": "1.7.1",
+}
+`;
+
+exports[`Redux Reducers - Unit Tests snapshot redux reducer multiple action test 2`] = `
+Object {
+  "actions": Array [],
+  "coordinatesFormat": "decimal",
+  "language": null,
+  "offlineMode": true,
+  "pristineCacheTooltip": true,
+  "synced": true,
+  "version": "1.7.1",
+}
+`;
+
+exports[`Unit Tests snapshot runs 1`] = `
+Object {
+  "hello": true,
+  "number": 232,
+}
+`;

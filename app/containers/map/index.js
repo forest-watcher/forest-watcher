@@ -15,12 +15,10 @@ import Map from 'components/map';
 const BoundingBox = require('boundingbox');
 
 function getAreaCoordinates(areaFeature) {
-  return areaFeature.geometry.coordinates[0].map((coordinate) => (
-    {
-      longitude: coordinate[0],
-      latitude: coordinate[1]
-    }
-  ));
+  return areaFeature.geometry.coordinates[0].map(coordinate => ({
+    longitude: coordinate[0],
+    latitude: coordinate[1]
+  }));
 }
 
 function mapStateToProps(state: State) {
@@ -52,6 +50,7 @@ function mapStateToProps(state: State) {
     areaCoordinates,
     area: areaProps,
     isConnected: shouldBeConnected(state),
+    isOfflineMode: state.app.offlineMode,
     coordinatesFormat: state.app.coordinatesFormat,
     canDisplayAlerts: state.alerts.canDisplayAlerts,
     basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',
@@ -59,15 +58,17 @@ function mapStateToProps(state: State) {
   };
 }
 
-
 function mapDispatchToProps(dispatch, { navigation }) {
   return {
-    ...bindActionCreators({
-      setActiveAlerts,
-      setCanDisplayAlerts,
-      setSelectedAreaId
-    }, dispatch),
-    createReport: (report) => {
+    ...bindActionCreators(
+      {
+        setActiveAlerts,
+        setCanDisplayAlerts,
+        setSelectedAreaId
+      },
+      dispatch
+    ),
+    createReport: report => {
       dispatch(createReport(report));
       tracker.trackEvent('Report', 'Create Report', { label: 'Click Done', value: 0 });
     },

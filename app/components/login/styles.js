@@ -3,10 +3,7 @@ import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: Theme.background.main
-  },
-  contentContainer: {
+    backgroundColor: Theme.background.main,
     flex: 1
   },
   intro: {
@@ -18,7 +15,6 @@ export default StyleSheet.create({
     marginTop: 80
   },
   bottomContainer: {
-    flex: 1,
     justifyContent: 'space-between'
   },
   buttons: {
@@ -96,20 +92,18 @@ export default StyleSheet.create({
   buttonTextCountry: {
     marginLeft: 24
   },
-  modal: {
-    flex: 1
-  },
   webViewHeader: {
-    left: 0,
-    right: 0,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    alignSelf: 'stretch',
+    paddingHorizontal: 10,
+    paddingBottom: 10,
     backgroundColor: Theme.background.white,
     borderBottomWidth: 1,
     borderBottomColor: Theme.colors.color6,
     ...Platform.select({
       ios: {
-        height: 64,
-        zIndex: 1,
-        position: 'absolute'
+        zIndex: 1
       },
       android: {
         height: 44
@@ -117,15 +111,12 @@ export default StyleSheet.create({
     })
   },
   webViewButtonClose: {
-    width: 34,
     justifyContent: 'center',
+    paddingRight: 10,
     alignItems: 'center',
-    position: 'absolute',
     ...Platform.select({
-      ios: {
-        top: 21
-      },
       android: {
+        // todo: check how this behaves on Android, now absolute positioning has been purged.
         top: 4
       }
     })
@@ -147,34 +138,21 @@ export default StyleSheet.create({
     paddingBottom: 4,
     paddingLeft: 10,
     paddingRight: 10,
-    marginLeft: 32,
-    marginRight: 8,
+    marginLeft: 8,
+    marginRight: 10,
     overflow: 'hidden',
     ...Platform.select({
-      ios: {
-        top: 24
-      },
       android: {
         top: 6
       }
     })
   },
-  webView: {
-    position: 'relative',
-    ...Platform.select({
-      ios: {
-        marginTop: 64
-      }
-    })
-  },
-  versionContainer: {
-    marginBottom: 8
-  },
   versionText: {
     fontFamily: Theme.font,
     color: Theme.fontColors.light,
     fontSize: 14,
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom: 8
   },
   loaderContainer: {
     flex: 1,

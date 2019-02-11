@@ -4,13 +4,13 @@ import RNFetchBlob from 'react-native-fetch-blob';
 global.Buffer = global.Buffer || require('buffer').Buffer; // eslint-disable-line
 
 if (typeof btoa === 'undefined') {
-  global.btoa = function (str) {
+  global.btoa = function(str) {
     return new Buffer(str).toString('base64');
   };
 }
 
 if (typeof atob === 'undefined') {
-  global.atob = function (b64Encoded) {
+  global.atob = function(b64Encoded) {
     return new Buffer(b64Encoded, 'base64').toString();
   };
 }
@@ -49,8 +49,7 @@ export async function storeImage(url, imageDir = false) {
       }
     }
 
-    await RNFetchBlob.fs.mv(cleanedUrl, newPath)
-      .catch((error) => error);
+    await RNFetchBlob.fs.mv(cleanedUrl, newPath).catch(error => error);
 
     if (Platform.OS === 'android') {
       await RNFetchBlob.fs.scanFile([{ path: newPath }]);
@@ -91,9 +90,7 @@ export async function getCachedImageByUrl(url, imageDir) {
 
     if (!exists) {
       try {
-        const image = await RNFetchBlob
-          .config({ path: filePath })
-          .fetch('GET', parsedUrl);
+        const image = await RNFetchBlob.config({ path: filePath }).fetch('GET', parsedUrl);
         return parseImagePath(image.path());
       } catch (error) {
         return error;

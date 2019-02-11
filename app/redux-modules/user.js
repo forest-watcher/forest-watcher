@@ -123,9 +123,13 @@ export function googleLogin() {
       // very brittle approach but only way to know currently
       const userDismissedLoginIOS = e.message.indexOf('error -3') !== -1;
       const userDismissedLoginAndroid = e.message.indexOf('Failed to authenticate') !== -1;
+      const userDismissedLogin = userDismissedLoginAndroid || userDismissedLoginIOS;
+      if (!userDismissedLogin) {
+        console.error(e);
+      }
       dispatch({
         type: SET_LOGIN_STATUS,
-        payload: userDismissedLoginIOS || userDismissedLoginAndroid
+        payload: userDismissedLogin
       });
       dispatch({ type: SET_LOGIN_LOADING, payload: false });
     }
@@ -141,6 +145,7 @@ export function facebookLogin() {
         try {
           const user = await AccessToken.getCurrentAccessToken();
           const response = await fetch(`${Config.API_AUTH}/auth/facebook/token?access_token=${user.accessToken}`);
+          dispatch({ type: SET_LOGIN_LOADING, payload: false });
           if (!response.ok) throw new Error(response.status);
           const data = await response.json();
           dispatch({
@@ -154,13 +159,16 @@ export function facebookLogin() {
           });
         } catch (e) {
           console.error(e);
+          dispatch({ type: SET_LOGIN_LOADING, payload: false });
           dispatch(logout('facebook'));
         }
+      } else {
+        dispatch({ type: SET_LOGIN_LOADING, payload: false });
       }
-      dispatch({ type: SET_LOGIN_LOADING, payload: false });
     } catch (e) {
       console.error(e);
       dispatch({ type: SET_LOGIN_STATUS, payload: false });
+      dispatch({ type: SET_LOGIN_LOADING, payload: false });
     }
   };
 }
@@ -195,7 +203,8 @@ export function logout(socialNetworkFallback: string) {
         case 'facebook':
           await LoginManager.logOut();
           break;
-        default: break;
+        default:
+          break;
       }
     } catch (e) {
       console.error(e);

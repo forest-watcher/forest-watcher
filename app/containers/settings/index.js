@@ -16,16 +16,19 @@ function mapStateToProps(state: State) {
     user: state.user.data,
     loggedIn: state.user.loggedIn,
     areas: state.areas.data,
-    isConnected: state.offline.online,
     offlineMode: state.app.offlineMode
   };
 }
 
-const mapDispatchToProps = (dispatch: *) => bindActionCreators({
-  logout,
-  setOfflineMode,
-  showNotConnectedNotification
-}, dispatch);
+const mapDispatchToProps = (dispatch: *) =>
+  bindActionCreators(
+    {
+      logout,
+      setOfflineMode,
+      showNotConnectedNotification
+    },
+    dispatch
+  );
 
 export default connect(
   mapStateToProps,

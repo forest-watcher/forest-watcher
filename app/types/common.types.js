@@ -3,7 +3,7 @@
 export type Coordinates = {
   latitude: number,
   longitude: number
-}
+};
 
 export type Alert = {
   areaId: string,
@@ -11,6 +11,6 @@ export type Alert = {
   long: number,
   lat: number,
   date: number
-}
+};
 
 export type CoordinatesFormat = 'decimal' | 'degrees' | 'utm';

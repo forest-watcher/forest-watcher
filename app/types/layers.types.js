@@ -19,7 +19,7 @@ export type LayersState = {
   cacheStatus: LayersCacheStatus,
   cache: LayersCache,
   pendingCache: LayersPendingCache
-}
+};
 
 export type LayersProgress = {
   [string]: { layerId: number }
@@ -32,7 +32,7 @@ export type LayersCacheStatus = {
     requested: boolean,
     error: boolean
   }
-}
+};
 
 type LayersCache = {
   [string]: { areaId: string }
@@ -54,8 +54,7 @@ export type LayersAction =
   | DownloadArea
   | InvalidateCache
   | SetCacheStatus
-  | DeleteAreaCommit
-;
+  | DeleteAreaCommit;
 
 type GetLayersRequest = {
   type: 'layers/GET_LAYERS_REQUEST',
@@ -65,7 +64,7 @@ type GetLayersCommit = {
   type: 'layers/GET_LAYERS_COMMIT',
   payload: Array<ContextualLayer>,
   meta: { areas: Array<Area> }
-}
+};
 type GetLayersRollback = { type: 'layers/GET_LAYERS_ROLLBACK' };
 type SetActiveContextualLayer = { type: 'layers/SET_ACTIVE_LAYER', payload: string };
 type UpdateProgress = {
@@ -83,7 +82,7 @@ type CacheLayerRequest = {
 type CacheLayerCommit = {
   type: 'layers/CACHE_LAYER_COMMIT',
   payload: string,
-  meta: { area: Area, layer: ContextualLayer },
+  meta: { area: Area, layer: ContextualLayer }
 };
 type CacheLayerRollback = {
   type: 'layers/CACHE_LAYER_ROLLBACK',

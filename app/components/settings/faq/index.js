@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  ScrollView
-} from 'react-native';
+import { View, ScrollView } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
 
 import i18n from 'locales';
-import Theme from 'config/theme';
 import List from 'components/common/list';
 import styles from './styles';
+import { Navigation } from 'react-native-navigation';
 
 class FaqList extends Component {
   constructor() {
@@ -91,34 +88,34 @@ class FaqList extends Component {
         section: 'ForestWatcher.FaqDetail',
         functionOnPress: this.handleStaticLinks
       }
-    ].filter(term => (term.list && Object.values(term.list).some(text => (!!text))));
+    ].filter(term => term.list && Object.values(term.list).some(text => !!text));
   }
 
-  static navigatorStyle = {
-    navBarTextColor: Theme.colors.color1,
-    navBarButtonColor: Theme.colors.color1,
-    topBarElevationShadowEnabled: false,
-    navBarBackgroundColor: Theme.background.main
-  };
-
   static propTypes = {
-    navigator: PropTypes.object.isRequired
+    componentId: PropTypes.string.isRequired
   };
-
 
   componentDidMount() {
     tracker.trackScreenView('FaqList');
   }
 
   handleStaticLinks = (section, text, list) => {
-    this.props.navigator.push({
-      screen: section,
-      title: text,
-      passProps: {
-        contentFaq: list
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: section,
+        passProps: {
+          contentFaq: list
+        },
+        options: {
+          topBar: {
+            title: {
+              text: text
+            }
+          }
+        }
       }
     });
-  }
+  };
 
   render() {
     return (
@@ -129,7 +126,9 @@ class FaqList extends Component {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          <List content={this.terms} bigSeparation={false}>{}</List>
+          <List content={this.terms} bigSeparation={false}>
+            {}
+          </List>
         </ScrollView>
       </View>
     );

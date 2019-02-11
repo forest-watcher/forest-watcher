@@ -15,12 +15,12 @@ export type Geostore = {
   lock: boolean,
   info: Object,
   id: string
-}
+};
 
 export type DatasetLegend = {
   label: string,
   color: string
-}
+};
 
 export type Dataset = {
   slug: string,
@@ -31,7 +31,7 @@ export type Dataset = {
   _id: string,
   active: boolean,
   cache: boolean
-}
+};
 
 export type Area = {
   id: string,
@@ -46,7 +46,7 @@ export type Area = {
   iso: Object,
   reportTemplate: Template,
   templateId: string
-}
+};
 
 export type AreasState = {
   data: Array<Area>,
@@ -55,7 +55,7 @@ export type AreasState = {
   syncing: boolean,
   refreshing: boolean,
   syncError: boolean,
-  syncDate: number,
+  syncDate: number
 };
 
 export type AreasAction =
@@ -81,7 +81,11 @@ export type AreasAction =
 // Actions
 export type SaveAreaRequest = { type: 'areas/SAVE_AREA_REQUEST' };
 export type SaveAreaCommit = { type: 'areas/SAVE_AREA_COMMIT', payload: { id: string } };
-export type SaveAreaRollback = { type: 'areas/SAVE_AREA_ROLLBACK', payload: { id: string }, meta: { area: CountryArea, snapshot: string} };
+export type SaveAreaRollback = {
+  type: 'areas/SAVE_AREA_ROLLBACK',
+  payload: { id: string },
+  meta: { area: CountryArea, snapshot: string }
+};
 export type SetAreasRefreshing = { type: 'areas/SET_AREAS_REFRESHING', payload: boolean };
 export type GetAreasRequest = { type: 'areas/GET_AREAS_REQUEST' };
 export type GetAreasCommit = { type: 'areas/GET_AREAS_COMMIT', payload: [Area] };

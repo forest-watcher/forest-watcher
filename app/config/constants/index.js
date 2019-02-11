@@ -3,11 +3,10 @@ import i18n from 'locales';
 import Theme from 'config/theme';
 import { hexToRgb } from 'helpers/utils';
 
-export const APP_NAME = 'Forest Watcher';
-
 export const AREAS = {
   maxSize: 1500000000, // square meters
-  alertRange: { // days from to get data
+  alertRange: {
+    // days from to get data
     viirs: 7,
     umd_as_it_happens: 365
   }
@@ -21,9 +20,11 @@ export const STORAGE = {
 };
 
 const devBasemap = 'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png';
-const prodBasemap = `https://api.mapbox.com/styles/v1/forestwatcher/cj512vh3m0yth2rn62y69uoek/tiles/256/{z}/{x}/{y}?access_token=${Config.MAPBOX_TOKEN}`;
+const prodBasemap = `https://api.mapbox.com/styles/v1/forestwatcher/cj512vh3m0yth2rn62y69uoek/tiles/256/{z}/{x}/{y}?access_token=${
+  Config.MAPBOX_TOKEN
+}`;
 export const MAPS = {
-  lat: 27.568640,
+  lat: 27.56864,
   lng: -33.461281,
   basemap: __DEV__ ? devBasemap : prodBasemap,
   bbox: {
@@ -150,7 +151,6 @@ export const REDUCERS_SAVED_TO_REPORT = ['app', 'areas', 'layers'];
 export const ACTIONS_SAVED_TO_REPORT = 5;
 
 export default {
-  appName: APP_NAME,
   areas: AREAS,
   storage: STORAGE,
   maps: MAPS,
@@ -163,4 +163,3 @@ export default {
   datasets: DATASETS,
   actionsSavedToReport: ACTIONS_SAVED_TO_REPORT
 };
-

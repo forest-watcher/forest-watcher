@@ -8,7 +8,6 @@ import Login from 'components/login';
 
 function mapStateToProps(state: State) {
   return {
-    isConnected: state.offline.online,
     loggedIn: state.user.loggedIn,
     logSuccess: state.user.logSuccess,
     loading: state.user.loading,
@@ -16,12 +15,16 @@ function mapStateToProps(state: State) {
   };
 }
 
-const mapDispatchToProps = (dispatch: *) => bindActionCreators({
-  logout,
-  googleLogin,
-  facebookLogin,
-  setLoginAuth
-}, dispatch);
+const mapDispatchToProps = (dispatch: *) =>
+  bindActionCreators(
+    {
+      logout,
+      googleLogin,
+      facebookLogin,
+      setLoginAuth
+    },
+    dispatch
+  );
 
 export default connect(
   mapStateToProps,

@@ -8,14 +8,14 @@ import type { Coordinates, CoordinatesFormat, Alert } from 'types/common.types';
 
 const kdbush = require('kdbush');
 const geokdbush = require('geokdbush');
-const tilebelt = require('@mapbox/tilebelt');
 
 // Use example
 // const firstPoint = { latitude: -3.097125, longitude: -45.600375 }
 // const points = [{ latitude: -2.337625, longitude: -46.940875 }]
-export function getAllNeighbours(firstPoint: Coordinates, points: Coordinates, distance: number = 0.03) { // default distance 30m
+export function getAllNeighbours(firstPoint: Coordinates, points: Coordinates, distance: number = 0.03) {
+  // default distance 30m
   const neighbours = [];
-  const index = kdbush(points, (p) => p.longitude, (p) => p.latitude);
+  const index = kdbush(points, p => p.longitude, p => p.latitude);
 
   function isIncluded(result) {
     for (let i = 0; i < neighbours.length; i++) {
@@ -43,9 +43,14 @@ export function getAllNeighbours(firstPoint: Coordinates, points: Coordinates, d
 
   getNeighbours(firstPoint);
   // return array of siblings without the point
-  if (neighbours && neighbours.length &&
-      neighbours[0].latitude && neighbours[0].latitude === firstPoint.latitude &&
-      neighbours[0].longitude && neighbours[0].longitude === firstPoint.longitude) {
+  if (
+    neighbours &&
+    neighbours.length &&
+    neighbours[0].latitude &&
+    neighbours[0].latitude === firstPoint.latitude &&
+    neighbours[0].longitude &&
+    neighbours[0].longitude === firstPoint.longitude
+  ) {
     neighbours.shift();
   }
   return neighbours;
@@ -59,51 +64,18 @@ export function isDateRecent(date: number) {
 export function pointsToGeoJSON(points: Array<Alert>, slug: string) {
   return {
     type: 'MapCollection',
-    features: points.map((value) => ({
+    features: points.map(value => ({
       type: 'Map',
       properties: {
         date: value.date,
-        isRecent: slug === DATASETS.GLAD
-          ? isDateRecent(value.date)
-          : false
+        isRecent: slug === DATASETS.GLAD ? isDateRecent(value.date) : false
       },
       geometry: {
         type: 'Point',
-        coordinates: [
-          value.long,
-          value.lat
-        ]
+        coordinates: [value.long, value.lat]
       }
     }))
   };
-}
-
-export function pointsFromGeojson(geojson) {
-  if (!geojson || !geojson.features) return [];
-  return geojson.features.map((feature) => ({
-    lon: feature.geometry.coordinates[0],
-    lat: feature.geometry.coordinates[1]
-  }));
-}
-
-export function getTilesInBbox(bbox, zooms) {
-  const tilesArray = [];
-  const zoomsArray = typeof zooms === 'number'
-    ? [zooms]
-    : zooms;
-  zoomsArray.forEach((zoom) => {
-    const pointTiles = bbox.map(point => tilebelt.pointToTile(point.lat, point.lng, zoom));
-    const tiles = {
-      x: [pointTiles[0][0], pointTiles[1][0]],
-      y: [pointTiles[0][1], pointTiles[1][1]]
-    };
-    for (let x = tiles.x[0], xLength = tiles.x[1]; x <= xLength; x++) {
-      for (let y = tiles.y[0], yLength = tiles.y[1]; y <= yLength; y++) {
-        tilesArray.push([x, y, zoom]);
-      }
-    }
-  });
-  return tilesArray;
 }
 
 export function getContextualLayer(layers) {
@@ -119,7 +91,8 @@ export function formatCoordsByFormat(coordinates: Coordinates, format: Coordinat
     return `${utmCoords.ZoneNumber} ${utmCoords.ZoneLetter}, ${utmCoords.Easting} E ${utmCoords.Northing} N`;
   } else if (format === COORDINATES_FORMATS.decimal.value) {
     return `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+  } else {
+    // Not utm, not decimal... has to be degrees
+    return formatcoords(latitude, longitude).format('FFf', { latLonSeparator: ', ', decimalPlaces: 2 });
   }
-  // Not utm, not decimal... has to be degrees
-  return formatcoords(latitude, longitude).format('FFf', { latLonSeparator: ', ', decimalPlaces: 2 });
 }

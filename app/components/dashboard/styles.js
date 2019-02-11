@@ -6,6 +6,11 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: Theme.background.main
   },
+  contentContainer: {
+    flex: 1,
+    width: Theme.screen.width,
+    height: Theme.screen.height
+  },
   containerScroll: {
     marginBottom: 56
   },
@@ -33,12 +38,13 @@ export default StyleSheet.create({
   row: {
     position: 'absolute',
     width: Theme.screen.width,
+    backgroundColor: Theme.background.white,
     bottom: 0,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    elevation: 1
+    elevation: 16
   },
   iconSettings: {
     position: 'absolute',

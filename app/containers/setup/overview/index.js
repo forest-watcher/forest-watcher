@@ -14,10 +14,14 @@ function mapStateToProps(state: State) {
   };
 }
 
-const mapDispatchToProps = (dispatch: *) => bindActionCreators({
-  saveArea,
-  setSetupArea
-}, dispatch);
+const mapDispatchToProps = (dispatch: *) =>
+  bindActionCreators(
+    {
+      saveArea,
+      setSetupArea
+    },
+    dispatch
+  );
 
 export default connect(
   mapStateToProps,

@@ -2,12 +2,7 @@
 import type { Answer, Question } from 'types/reports.types';
 
 import React, { PureComponent } from 'react';
-import {
-  View,
-  Text,
-  ScrollView
-} from 'react-native';
-import Theme from 'config/theme';
+import { View, Text, ScrollView, Platform } from 'react-native';
 import i18n from 'locales';
 
 import ActionButton from 'components/common/action-button';
@@ -15,70 +10,107 @@ import AnswerComponent from 'components/form/answer/answer';
 import ImageCarousel from 'components/common/image-carousel';
 import withDraft from './withDraft';
 import styles from './styles';
+import { Navigation } from 'react-native-navigation';
 
 const deleteIcon = require('assets/delete_red.png');
 const uploadIcon = require('assets/upload.png');
 
 type Props = {
-  navigator: any,
+  componentId: string,
   metadata: Array<{ id: string, label: string, value: any }>,
   results: Array<{ question: Question, answer: Answer }>,
   reportName: string,
-  uploadReport: (string) => void,
-  deleteReport: (string) => void,
+  uploadReport: string => void,
+  deleteReport: string => void,
   setReportAnswer: (string, Answer, boolean) => void,
   readOnly: boolean,
-  setActiveAlerts: boolean => void
+  setActiveAlerts: boolean => void,
+  isConnected: boolean,
+  showNotConnectedNotification: () => void
 };
 
-class Answers extends PureComponent<Props> {
-  static navigatorStyle = {
-    navBarTextColor: Theme.colors.color1,
-    navBarButtonColor: Theme.colors.color1,
-    topBarElevationShadowEnabled: false,
-    navBarBackgroundColor: Theme.background.main
-  };
+const closeIcon = require('assets/close.png');
 
-  constructor(props) {
-    super(props);
-    if (props.showUploadButton) {
-      props.navigator.setButtons({
-        rightButtons: [{ icon: uploadIcon, id: 'upload' }]
-      });
-      props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
-    }
+class Answers extends PureComponent<Props> {
+  static options(passProps) {
+    return {
+      topBar: {
+        leftButtons: [
+          {
+            id: 'backButton',
+            text: i18n.t('commonText.cancel'),
+            icon: Platform.select({
+              android: closeIcon
+            })
+          }
+        ],
+        rightButtons: passProps.showUploadButton
+          ? [
+              {
+                id: 'upload',
+                icon: uploadIcon
+              }
+            ]
+          : [],
+        title: {
+          text: i18n.t('report.review')
+        }
+      }
+    };
   }
 
-  onNavigatorEvent = (event) => {
-    const { reportName, uploadReport } = this.props;
-    if (event.type === 'NavBarButtonPress') {
-      if (event.id === 'upload') uploadReport(reportName);
+  /**
+   * navigationButtonPressed - Handles events from the buttons on the modal nav bar.
+   *
+   * @param  {type} { buttonId } The component ID for the button.
+   */
+  navigationButtonPressed({ buttonId }) {
+    if (buttonId === 'upload') {
+      if (!this.props.isConnected) {
+        this.props.showNotConnectedNotification();
+        return;
+      }
+
+      const { reportName, uploadReport, componentId } = this.props;
+      uploadReport(reportName);
+      Navigation.dismissModal(componentId);
     }
-  };
+
+    if (buttonId === 'backButton') {
+      Navigation.dismissModal(this.props.componentId);
+    }
+  }
 
   onPressSend = () => {
-    const { reportName, uploadReport, navigator, setActiveAlerts } = this.props;
+    const { reportName, uploadReport, componentId, setActiveAlerts } = this.props;
     uploadReport(reportName);
     setActiveAlerts(true);
-    navigator.popToRoot({ animate: true });
-  }
+    Navigation.dismissModal(componentId);
+  };
 
-  onEdit = (index) => {
-    const { navigator, reportName } = this.props;
+  onEdit = index => {
+    const { reportName } = this.props;
     const screen = 'ForestWatcher.NewReport';
-    const disableDraft = false;
-    navigator.push({
-      screen,
-      backButtonHidden: true,
-      passProps: {
-        reportName,
-        title: i18n.t('report.title'),
-        questionIndex: index,
-        disableDraft,
-        editMode: true
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: screen,
+        passProps: {
+          reportName,
+          title: i18n.t('report.title'),
+          questionIndex: index,
+          readOnly: false,
+          editMode: true
+        },
+        options: {
+          topBar: {
+            backButton: {
+              visible: false
+            }
+          }
+        }
       }
     });
-  }
+  };
 
   onDeleteImage = (id, questionName, images) => {
     const image = images.find(i => i.id === id);
@@ -89,23 +121,19 @@ class Answers extends PureComponent<Props> {
     };
     setReportAnswer(reportName, answer, true);
     if (image.required) this.onEdit(image.order);
-  }
+  };
 
   handleDeleteArea = () => {
-    const { navigator, deleteReport, reportName } = this.props;
+    const { componentId, deleteReport, reportName } = this.props;
     deleteReport(reportName);
-    navigator.popToRoot({ animated: false });
-    navigator.push({
-      animated: false,
-      screen: 'ForestWatcher.Reports',
-      title: i18n.t('dashboard.myReports')
-    });
-  }
+    Navigation.dismissModal(componentId);
+  };
 
   render() {
     const { results, readOnly, metadata } = this.props;
     const regularAnswers = results.filter(({ question }) => question.type !== 'blob');
-    const images = results.filter(({ question }) => question.type === 'blob')
+    const images = results
+      .filter(({ question }) => question.type === 'blob')
       .map((image, index) => ({
         id: image.question.Id,
         uri: image.answer.value[index],
@@ -113,18 +141,22 @@ class Answers extends PureComponent<Props> {
         order: image.question.order,
         required: image.question.required
       }));
-    const imageActions = !readOnly ? [{
-      callback: (id, name) => this.onDeleteImage(id, name, images),
-      icon: deleteIcon
-    }] : null;
+    const imageActions = !readOnly
+      ? [
+          {
+            callback: (id, name) => this.onDeleteImage(id, name, images),
+            icon: deleteIcon
+          }
+        ]
+      : null;
 
     return (
       <View style={styles.answersContainer}>
         <ScrollView>
-          {metadata && !!metadata.length &&
+          {metadata && !!metadata.length && (
             <View style={[styles.listContainer, styles.listContainerFirst]}>
               <Text style={styles.listTitle}>{i18n.t('report.metadata')}</Text>
-              {metadata.map((meta) => (
+              {metadata.map(meta => (
                 <AnswerComponent
                   questionId={meta.id}
                   key={meta.id}
@@ -134,11 +166,11 @@ class Answers extends PureComponent<Props> {
                 />
               ))}
             </View>
-          }
-          {regularAnswers && !!regularAnswers.length &&
+          )}
+          {regularAnswers && !!regularAnswers.length && (
             <View style={styles.listContainer}>
               <Text style={styles.listTitle}>{i18n.t('report.answers')}</Text>
-              {regularAnswers.map((result) => (
+              {regularAnswers.map(result => (
                 <AnswerComponent
                   questionId={result.question.Id}
                   key={result.question.Id}
@@ -149,24 +181,17 @@ class Answers extends PureComponent<Props> {
                 />
               ))}
             </View>
-          }
-          {images.length > 0 &&
+          )}
+          {images.length > 0 && (
             <View style={styles.picturesContainer}>
               <Text style={styles.answersText}>{i18n.t('report.pictures')}</Text>
-              <ImageCarousel
-                images={images}
-                actions={imageActions}
-                add={this.onEdit}
-                readOnly={readOnly}
-              />
+              <ImageCarousel images={images} actions={imageActions} add={this.onEdit} readOnly={readOnly} />
             </View>
-          }
+          )}
           <View style={styles.buttonsContainer}>
-            {!readOnly && <ActionButton
-              style={styles.actionBtn}
-              onPress={this.onPressSend}
-              text={i18n.t('commonText.send')}
-            />}
+            {!readOnly && (
+              <ActionButton style={styles.actionBtn} onPress={this.onPressSend} text={i18n.t('commonText.send')} />
+            )}
             <ActionButton
               delete
               style={styles.actionBtn}

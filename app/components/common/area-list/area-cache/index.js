@@ -1,13 +1,10 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import {
-  TouchableHighlight,
-  View,
-  Alert,
-  Image,
-  Text
-} from 'react-native';
+import { TouchableHighlight, View, Alert, Image, Text } from 'react-native';
+
+import Config from 'react-native-config';
+import checkConnectivity from 'helpers/networking';
 
 import i18n from 'locales';
 import ProgressBar from 'react-native-progress/Bar';
@@ -27,20 +24,19 @@ type Props = {
     error: boolean,
     completed: boolean
   },
-  isConnected: boolean,
   resetCacheStatus: string => void,
+  isOfflineMode: boolean,
   showTooltip: boolean,
   refreshAreaCacheById: string => void,
   pendingCache: number,
   showNotConnectedNotification: () => void
-}
+};
 type State = {
   indeterminate: boolean,
   canRefresh: boolean
-}
+};
 
 class AreaCache extends PureComponent<Props, State> {
-
   static defaultProps = {
     cacheStatus: {
       progress: 0,
@@ -65,45 +61,57 @@ class AreaCache extends PureComponent<Props, State> {
     }
 
     if (this.props.cacheStatus.error && prevProps.pendingCache > 0 && this.props.pendingCache === 0) {
-      Alert.alert(
-        i18n.t('commonText.error'),
-        i18n.t('dashboard.downloadFailed'),
-        [
-          { text: 'OK', onPress: this.resetCacheStatus },
-          { text: i18n.t('commonText.retry'), onPress: this.onRetry }
-        ]
-      );
+      Alert.alert(i18n.t('commonText.error'), i18n.t('dashboard.downloadFailed'), [
+        { text: 'OK', onPress: this.resetCacheStatus },
+        { text: i18n.t('commonText.retry'), onPress: this.onRetry }
+      ]);
     }
   }
 
   onDownload = () => {
-    const { areaId, downloadAreaById } = this.props;
-    downloadAreaById(areaId);
-  }
+    // Update the state as we're now checking connectivity.
+    // It'll show the progress bar while we're awaiting a connection.
+    this.setState({
+      checkingConnectivity: true
+    });
+    checkConnectivity(Config.API_URL).then(connected => {
+      // Update the state again now we've finished checking connectivity.
+      this.setState({
+        checkingConnectivity: false
+      });
+      if (!connected) {
+        this.onOfflinePress();
+        return;
+      }
+
+      const { areaId, downloadAreaById } = this.props;
+      downloadAreaById(areaId);
+    });
+  };
 
   onRetry = () => {
     this.resetCacheStatus();
     const action = this.getCacheAreaAction();
     if (action) action();
-  }
+  };
 
   onRefresh = () => {
     const { areaId, refreshAreaCacheById } = this.props;
     this.setState({ canRefresh: false });
     this.resetCacheStatus();
     refreshAreaCacheById(areaId);
-  }
+  };
 
   onOfflinePress = () => this.props.showNotConnectedNotification();
 
   getCacheAreaAction = () => {
-    const { isConnected, cacheStatus } = this.props;
+    const { cacheStatus, isOfflineMode } = this.props;
     const { canRefresh } = this.state;
-    if (!isConnected) return this.onOfflinePress;
+    if (isOfflineMode) return this.onOfflinePress;
     if (!cacheStatus.completed) return this.onDownload;
     if (canRefresh && cacheStatus.completed) return this.onRefresh;
     return null;
-  }
+  };
 
   getCacheAreaIcon = () => {
     const { cacheStatus } = this.props;
@@ -111,20 +119,20 @@ class AreaCache extends PureComponent<Props, State> {
     if (!cacheStatus.completed) return downloadIcon;
     if (!canRefresh) return downloadedIcon;
     return refreshIcon;
-  }
+  };
 
   setIndeterminate = (indeterminate: boolean) => {
     this.setState(() => ({ indeterminate }));
-  }
+  };
 
   resetCacheStatus = () => {
     const { areaId, resetCacheStatus } = this.props;
     resetCacheStatus(areaId);
-  }
+  };
 
   render() {
     const { cacheStatus, showTooltip } = this.props;
-    const { indeterminate } = this.state;
+    const { indeterminate, checkingConnectivity } = this.state;
     const cacheAreaAction = this.getCacheAreaAction();
     const cacheButtonIcon = this.getCacheAreaIcon();
 
@@ -138,14 +146,14 @@ class AreaCache extends PureComponent<Props, State> {
         >
           <Image style={Theme.icon} source={cacheButtonIcon} />
         </TouchableHighlight>
-        {showTooltip &&
+        {showTooltip && (
           <View style={styles.cacheTooltipContainer}>
             <View style={styles.cacheTooltipArrow} />
             <View style={styles.cacheTooltip}>
               <Text>{i18n.t('dashboard.makeAvailableOffline')}</Text>
             </View>
           </View>
-        }
+        )}
       </View>
     );
     const progressBar = (
@@ -161,7 +169,7 @@ class AreaCache extends PureComponent<Props, State> {
         />
       </View>
     );
-    if (cacheStatus.requested && !cacheStatus.completed) return progressBar;
+    if ((cacheStatus.requested && !cacheStatus.completed) || checkingConnectivity) return progressBar;
     return cacheButton;
   }
 }

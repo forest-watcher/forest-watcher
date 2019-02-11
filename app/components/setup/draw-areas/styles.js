@@ -6,13 +6,10 @@ export default StyleSheet.create({
     ...StyleSheet.absoluteFillObject
   },
   map: {
+    ...StyleSheet.absoluteFillObject,
     zIndex: 0,
     flex: 1,
-    position: 'absolute',
-    right: 0,
-    left: 0,
-    bottom: -26,
-    top: 0
+    position: 'absolute'
   },
   loader: {
     ...StyleSheet.absoluteFillObject,

@@ -2,10 +2,7 @@
 import type { Question, Answer } from 'types/reports.types';
 
 import React from 'react';
-import {
-  View,
-  Text
-} from 'react-native';
+import { View, Text } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import i18n from 'locales';
 
@@ -15,7 +12,7 @@ import dateStyles from './styles';
 type Props = {
   question: Question,
   answer: Answer,
-  onChange: (Answer) => void,
+  onChange: Answer => void
 };
 
 function DateInput(props: Props) {

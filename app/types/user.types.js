@@ -12,7 +12,7 @@ export type UserState = {
   synced: boolean,
   syncing: boolean,
   loading: boolean
-}
+};
 
 export type UserAction =
   | GetUserRequest
@@ -37,14 +37,14 @@ export type SetLoginAuth = {
     token: string,
     oAuthToken?: string
   }
-}
+};
 export type SetLoginStatus = {
   type: 'user/SET_LOGIN_STATUS',
   payload: boolean
-}
+};
 export type LogoutRequest = {
   type: 'user/LOGOUT_REQUEST'
-}
+};
 export type SetLoginLoading = {
   type: 'user/SET_LOGIN_LOADING',
   payload: boolean

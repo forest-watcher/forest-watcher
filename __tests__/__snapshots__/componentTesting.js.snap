@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component Tests ActionCard renders 1`] = `
+<View
+  accessible={true}
+  isTVSelectable={true}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={null}
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "transparent",
+          "borderColor": "#97be32",
+          "borderStyle": "dashed",
+          "borderWidth": 2,
+          "flex": 1,
+          "justifyContent": "center",
+        },
+        Object {
+          "height": undefined,
+          "width": undefined,
+        },
+      ]
+    }
+  >
+    <Image
+      style={
+        Object {
+          "alignItems": "center",
+          "height": 24,
+          "justifyContent": "center",
+          "resizeMode": "contain",
+          "width": 24,
+        }
+      }
+    />
+    <Text
+      style={
+        Object {
+          "color": "#97be32",
+        }
+      }
+    >
+      test_label
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Component Tests ActionCard renders all props 1`] = `
+<View
+  accessible={true}
+  isTVSelectable={true}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={null}
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "transparent",
+          "borderColor": "#97be32",
+          "borderStyle": "dashed",
+          "borderWidth": 2,
+          "flex": 1,
+          "justifyContent": "center",
+        },
+        Object {
+          "height": 20,
+          "width": 10,
+        },
+      ]
+    }
+  >
+    <Image
+      source={1234}
+      style={
+        Object {
+          "alignItems": "center",
+          "height": 24,
+          "justifyContent": "center",
+          "resizeMode": "contain",
+          "width": 24,
+        }
+      }
+    />
+    <Text
+      style={
+        Object {
+          "color": "#97be32",
+        }
+      }
+    >
+      test_label
+    </Text>
+  </View>
+</View>
+`;
