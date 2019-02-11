@@ -1,0 +1,1251 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Redux Reports Module Initial reducer state 1`] = `
+Object {
+  "list": Object {},
+  "synced": false,
+  "syncing": false,
+  "templates": Object {},
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 1`] = `
+Object {
+  "payload": Object {
+    "mockCreateReportName": Object {
+      "answers": Array [],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName",
+      "status": "draft",
+      "userPosition": "[1,2]",
+    },
+  },
+  "type": "report/CREATE_REPORT",
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 2`] = `
+Object {
+  "list": Object {
+    "mockCreateReportName": Object {
+      "answers": Array [],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName",
+      "status": "draft",
+      "userPosition": "[1,2]",
+    },
+  },
+  "synced": false,
+  "syncing": false,
+  "templates": Object {},
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 3`] = `
+Object {
+  "payload": Object {
+    "mockCreateReportName2": Object {
+      "answers": Array [],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName2",
+      "status": "draft",
+      "userPosition": "[1,2]",
+    },
+  },
+  "type": "report/CREATE_REPORT",
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 4`] = `
+Object {
+  "list": Object {
+    "mockCreateReportName": Object {
+      "answers": Array [],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName",
+      "status": "draft",
+      "userPosition": "[1,2]",
+    },
+    "mockCreateReportName2": Object {
+      "answers": Array [],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName2",
+      "status": "draft",
+      "userPosition": "[1,2]",
+    },
+  },
+  "synced": false,
+  "syncing": false,
+  "templates": Object {},
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 5`] = `
+Object {
+  "payload": Object {
+    "data": Object {
+      "answers": Array [
+        Object {
+          "child": Object {
+            "questionName": "mockQuestionName2",
+            "value": "Value2",
+          },
+          "questionName": "mockQuestionName1",
+          "value": "Value1",
+        },
+      ],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": "mockDateString",
+      "index": 1,
+      "reportName": "mockCreateReportName",
+      "status": "draft",
+      "userPosition": "[1,2]",
+    },
+    "name": "mockCreateReportName",
+  },
+  "type": "report/UPDATE_REPORT",
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 6`] = `
+Object {
+  "list": Object {
+    "mockCreateReportName": Object {
+      "answers": Array [
+        Object {
+          "child": Object {
+            "questionName": "mockQuestionName2",
+            "value": "Value2",
+          },
+          "questionName": "mockQuestionName1",
+          "value": "Value1",
+        },
+      ],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 1,
+      "reportName": "mockCreateReportName",
+      "status": "draft",
+      "userPosition": "[1,2]",
+    },
+    "mockCreateReportName2": Object {
+      "answers": Array [],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName2",
+      "status": "draft",
+      "userPosition": "[1,2]",
+    },
+  },
+  "synced": false,
+  "syncing": false,
+  "templates": Object {},
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 7`] = `
+Object {
+  "payload": Object {
+    "data": Object {
+      "status": "complete",
+    },
+    "name": "mockCreateReportName2",
+  },
+  "type": "report/UPDATE_REPORT",
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 8`] = `
+Object {
+  "list": Object {
+    "mockCreateReportName": Object {
+      "answers": Array [
+        Object {
+          "child": Object {
+            "questionName": "mockQuestionName2",
+            "value": "Value2",
+          },
+          "questionName": "mockQuestionName1",
+          "value": "Value1",
+        },
+      ],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 1,
+      "reportName": "mockCreateReportName",
+      "status": "draft",
+      "userPosition": "[1,2]",
+    },
+    "mockCreateReportName2": Object {
+      "answers": Array [],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName2",
+      "status": "complete",
+      "userPosition": "[1,2]",
+    },
+  },
+  "synced": false,
+  "syncing": false,
+  "templates": Object {},
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 9`] = `
+Object {
+  "payload": Object {
+    "answer": Object {
+      "questionName": "mockQuestionName1",
+      "value": "Value1a",
+    },
+    "reportName": "mockCreateReportName",
+    "updateOnly": false,
+  },
+  "type": "report/SET_REPORT_ANSWER",
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 10`] = `
+Object {
+  "list": Object {
+    "mockCreateReportName": Object {
+      "answers": Array [
+        Object {
+          "questionName": "mockQuestionName1",
+          "value": "Value1a",
+        },
+      ],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 1,
+      "reportName": "mockCreateReportName",
+      "status": "draft",
+      "userPosition": "[1,2]",
+    },
+    "mockCreateReportName2": Object {
+      "answers": Array [],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName2",
+      "status": "complete",
+      "userPosition": "[1,2]",
+    },
+  },
+  "synced": false,
+  "syncing": false,
+  "templates": Object {},
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 11`] = `
+Object {
+  "payload": Object {
+    "answer": Object {
+      "child": Object {
+        "questionName": "mockQuestionName2",
+        "value": "Value2",
+      },
+      "questionName": "mockQuestionName1",
+      "value": "Value1",
+    },
+    "reportName": "mockCreateReportName2",
+    "updateOnly": false,
+  },
+  "type": "report/SET_REPORT_ANSWER",
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 12`] = `
+Object {
+  "list": Object {
+    "mockCreateReportName": Object {
+      "answers": Array [
+        Object {
+          "questionName": "mockQuestionName1",
+          "value": "Value1a",
+        },
+      ],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 1,
+      "reportName": "mockCreateReportName",
+      "status": "draft",
+      "userPosition": "[1,2]",
+    },
+    "mockCreateReportName2": Object {
+      "answers": Array [
+        Object {
+          "child": Object {
+            "questionName": "mockQuestionName2",
+            "value": "Value2",
+          },
+          "questionName": "mockQuestionName1",
+          "value": "Value1",
+        },
+      ],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName2",
+      "status": "complete",
+      "userPosition": "[1,2]",
+    },
+  },
+  "synced": false,
+  "syncing": false,
+  "templates": Object {},
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 13`] = `
+Object {
+  "meta": Object {
+    "offline": Object {
+      "commit": Object {
+        "type": "report/GET_DEFAULT_TEMPLATE_COMMIT",
+      },
+      "effect": Object {
+        "url": "<API_URL_MOCK>/reports/default",
+      },
+      "rollback": Object {
+        "type": "report/GET_DEFAULT_TEMPLATE_ROLLBACK",
+      },
+    },
+  },
+  "type": "report/GET_DEFAULT_TEMPLATE_REQUEST",
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 14`] = `
+Object {
+  "list": Object {
+    "mockCreateReportName": Object {
+      "answers": Array [
+        Object {
+          "questionName": "mockQuestionName1",
+          "value": "Value1a",
+        },
+      ],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 1,
+      "reportName": "mockCreateReportName",
+      "status": "draft",
+      "userPosition": "[1,2]",
+    },
+    "mockCreateReportName2": Object {
+      "answers": Array [
+        Object {
+          "child": Object {
+            "questionName": "mockQuestionName2",
+            "value": "Value2",
+          },
+          "questionName": "mockQuestionName1",
+          "value": "Value1",
+        },
+      ],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName2",
+      "status": "complete",
+      "userPosition": "[1,2]",
+    },
+  },
+  "synced": false,
+  "syncing": true,
+  "templates": Object {},
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 15`] = `
+Object {
+  "payload": Object {
+    "reportName": "mockCreateReportName",
+  },
+  "type": "report/DELETE_REPORT",
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 16`] = `
+Object {
+  "list": Object {
+    "mockCreateReportName2": Object {
+      "answers": Array [
+        Object {
+          "child": Object {
+            "questionName": "mockQuestionName2",
+            "value": "Value2",
+          },
+          "questionName": "mockQuestionName1",
+          "value": "Value1",
+        },
+      ],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName2",
+      "status": "complete",
+      "userPosition": "[1,2]",
+    },
+  },
+  "synced": false,
+  "syncing": true,
+  "templates": Object {},
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 17`] = `"NO_RESOLVED_ACTIONS"`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 18`] = `
+Object {
+  "list": Object {
+    "mockCreateReportName2": Object {
+      "answers": Array [
+        Object {
+          "child": Object {
+            "questionName": "mockQuestionName2",
+            "value": "Value2",
+          },
+          "questionName": "mockQuestionName1",
+          "value": "Value1",
+        },
+      ],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName2",
+      "status": "complete",
+      "userPosition": "[1,2]",
+    },
+  },
+  "synced": false,
+  "syncing": true,
+  "templates": Object {},
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 19`] = `
+Object {
+  "meta": Object {
+    "offline": Object {
+      "commit": Object {
+        "meta": Object {
+          "report": Object {
+            "name": "mockCreateReportName2",
+            "status": "uploaded",
+          },
+        },
+        "type": "report/UPLOAD_REPORT_COMMIT",
+      },
+      "effect": Object {
+        "body": FormDataMock {
+          "append": [MockFunction] {
+            "calls": Array [
+              Array [
+                "report",
+                undefined,
+              ],
+              Array [
+                "reportName",
+                "mockCreateReportName2",
+              ],
+              Array [
+                "areaOfInterest",
+                "areaIDMock",
+              ],
+              Array [
+                "areaOfInterestName",
+                "nameMock",
+              ],
+              Array [
+                "startDate",
+                undefined,
+              ],
+              Array [
+                "endDate",
+                undefined,
+              ],
+              Array [
+                "layer",
+                undefined,
+              ],
+              Array [
+                "language",
+                "languageMock",
+              ],
+              Array [
+                "username",
+                "fullNameMock",
+              ],
+              Array [
+                "organization",
+                "organizationMock",
+              ],
+              Array [
+                "date",
+                "dateMock",
+              ],
+              Array [
+                "clickedPosition",
+                "[3,4]",
+              ],
+              Array [
+                "userPosition",
+                "[1,2]",
+              ],
+              Array [
+                "mockQuestionName1",
+                "Value1",
+              ],
+              Array [
+                "mockQuestionName2",
+                "Value2",
+              ],
+            ],
+            "results": Array [
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+              Object {
+                "isThrow": false,
+                "value": undefined,
+              },
+            ],
+          },
+        },
+        "errorCode": 400,
+        "headers": Object {
+          "content-type": "multipart/form-data",
+        },
+        "method": "POST",
+        "url": "<API_URL_MOCK>/reports/undefined/answers",
+      },
+      "rollback": Object {
+        "meta": Object {
+          "report": Object {
+            "name": "mockCreateReportName2",
+            "status": "complete",
+          },
+        },
+        "type": "report/UPLOAD_REPORT_ROLLBACK",
+      },
+    },
+  },
+  "payload": Object {
+    "alerts": Array [
+      3,
+      4,
+    ],
+    "name": "mockCreateReportName2",
+    "status": "complete",
+  },
+  "type": "report/UPLOAD_REPORT_REQUEST",
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions simple report actions full test 20`] = `
+Object {
+  "list": Object {
+    "mockCreateReportName2": Object {
+      "answers": Array [
+        Object {
+          "child": Object {
+            "questionName": "mockQuestionName2",
+            "value": "Value2",
+          },
+          "questionName": "mockQuestionName1",
+          "value": "Value1",
+        },
+      ],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName2",
+      "status": "complete",
+      "userPosition": "[1,2]",
+    },
+  },
+  "synced": false,
+  "syncing": true,
+  "templates": Object {
+    "templateIDMock": Object {
+      "status": "unpublished",
+    },
+    "templateIDMock2": Object {
+      "status": "statusMock",
+    },
+  },
+}
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions syncReports 1`] = `
+Array [
+  Object {
+    "meta": Object {
+      "offline": Object {
+        "commit": Object {
+          "type": "report/GET_DEFAULT_TEMPLATE_COMMIT",
+        },
+        "effect": Object {
+          "url": "<API_URL_MOCK>/reports/default",
+        },
+        "rollback": Object {
+          "type": "report/GET_DEFAULT_TEMPLATE_ROLLBACK",
+        },
+      },
+    },
+    "type": "report/GET_DEFAULT_TEMPLATE_REQUEST",
+  },
+]
+`;
+
+exports[`Redux Reports Module Redux Snapshot Thunk Actions uploadReport 1`] = `
+Array [
+  Object {
+    "meta": Object {
+      "offline": Object {
+        "commit": Object {
+          "meta": Object {
+            "report": Object {
+              "name": "reportNameMock",
+              "status": "uploaded",
+            },
+          },
+          "type": "report/UPLOAD_REPORT_COMMIT",
+        },
+        "effect": Object {
+          "body": FormDataMock {
+            "append": [MockFunction] {
+              "calls": Array [
+                Array [
+                  "report",
+                  "templateIDMock",
+                ],
+                Array [
+                  "reportName",
+                  "reportNameMock",
+                ],
+                Array [
+                  "areaOfInterest",
+                  "areaIDMock",
+                ],
+                Array [
+                  "areaOfInterestName",
+                  "nameMock",
+                ],
+                Array [
+                  "startDate",
+                  "startDateMock",
+                ],
+                Array [
+                  "endDate",
+                  "endDateMock",
+                ],
+                Array [
+                  "layer",
+                  "slugMock",
+                ],
+                Array [
+                  "language",
+                  "languageMock",
+                ],
+                Array [
+                  "username",
+                  "fullNameMock",
+                ],
+                Array [
+                  "organization",
+                  "organizationMock",
+                ],
+                Array [
+                  "date",
+                  "mockDateString",
+                ],
+                Array [
+                  "clickedPosition",
+                  "[3,4]",
+                ],
+                Array [
+                  "userPosition",
+                  "[1,2]",
+                ],
+              ],
+              "results": Array [
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+                Object {
+                  "isThrow": false,
+                  "value": undefined,
+                },
+              ],
+            },
+          },
+          "errorCode": 400,
+          "headers": Object {
+            "content-type": "multipart/form-data",
+          },
+          "method": "POST",
+          "url": "<API_URL_MOCK>/reports/templateIDMock/answers",
+        },
+        "rollback": Object {
+          "meta": Object {
+            "report": Object {
+              "name": "reportNameMock",
+              "status": "complete",
+            },
+          },
+          "type": "report/UPLOAD_REPORT_ROLLBACK",
+        },
+      },
+    },
+    "payload": Object {
+      "alerts": Array [
+        3,
+        4,
+      ],
+      "name": "reportNameMock",
+      "status": "complete",
+    },
+    "type": "report/UPLOAD_REPORT_REQUEST",
+  },
+]
+`;
+
+exports[`Redux Reports Module Simple Actions: snapshot and reducer test createReport 1`] = `
+Object {
+  "payload": Object {
+    "mockCreateReportName": Object {
+      "answers": Array [],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName",
+      "status": "draft",
+      "userPosition": "[1,2]",
+    },
+  },
+  "type": "report/CREATE_REPORT",
+}
+`;
+
+exports[`Redux Reports Module Simple Actions: snapshot and reducer test createReport 2`] = `
+Object {
+  "list": Object {
+    "mockCreateReportName": Object {
+      "answers": Array [],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": Any<String>,
+      "index": 0,
+      "reportName": "mockCreateReportName",
+      "status": "draft",
+      "userPosition": "[1,2]",
+    },
+  },
+  "synced": false,
+  "syncing": false,
+  "templates": Object {},
+}
+`;
+
+exports[`Redux Reports Module Simple Actions: snapshot and reducer test deleteReport 1`] = `
+Object {
+  "payload": Object {
+    "reportName": "mockReportName",
+  },
+  "type": "report/DELETE_REPORT",
+}
+`;
+
+exports[`Redux Reports Module Simple Actions: snapshot and reducer test deleteReport 2`] = `
+Object {
+  "list": Object {},
+  "synced": false,
+  "syncing": false,
+  "templates": Object {},
+}
+`;
+
+exports[`Redux Reports Module Simple Actions: snapshot and reducer test getDefaultReport 1`] = `
+Object {
+  "meta": Object {
+    "offline": Object {
+      "commit": Object {
+        "type": "report/GET_DEFAULT_TEMPLATE_COMMIT",
+      },
+      "effect": Object {
+        "url": "<API_URL_MOCK>/reports/default",
+      },
+      "rollback": Object {
+        "type": "report/GET_DEFAULT_TEMPLATE_ROLLBACK",
+      },
+    },
+  },
+  "type": "report/GET_DEFAULT_TEMPLATE_REQUEST",
+}
+`;
+
+exports[`Redux Reports Module Simple Actions: snapshot and reducer test getDefaultReport 2`] = `
+Object {
+  "list": Object {},
+  "synced": false,
+  "syncing": true,
+  "templates": Object {},
+}
+`;
+
+exports[`Redux Reports Module Simple Actions: snapshot and reducer test saveReport 1`] = `
+Object {
+  "payload": Object {
+    "data": Object {
+      "answers": Array [],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": "mockDateString",
+      "index": 1,
+      "reportName": "reportNameMock",
+      "status": "draft",
+      "userPosition": "[1,2]",
+    },
+    "name": "reportNameMock",
+  },
+  "type": "report/UPDATE_REPORT",
+}
+`;
+
+exports[`Redux Reports Module Simple Actions: snapshot and reducer test saveReport 2`] = `
+Object {
+  "list": Object {
+    "reportNameMock": Object {
+      "answers": Array [],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": "mockDateString",
+      "index": 1,
+      "reportName": "reportNameMock",
+      "status": "draft",
+      "userPosition": "[1,2]",
+    },
+  },
+  "synced": false,
+  "syncing": false,
+  "templates": Object {},
+}
+`;
+
+exports[`Redux Reports Module Simple Actions: snapshot and reducer test saveReport with answers 1`] = `
+Object {
+  "payload": Object {
+    "data": Object {
+      "answers": Array [
+        Object {
+          "child": Object {
+            "questionName": "mockQuestionName2",
+            "value": "Value2",
+          },
+          "questionName": "mockQuestionName1",
+          "value": "Value1",
+        },
+      ],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": "mockDateString",
+      "index": 1,
+      "reportName": "reportNameMock",
+      "status": "draft",
+      "userPosition": "[1,2]",
+    },
+    "name": "reportNameMock",
+  },
+  "type": "report/UPDATE_REPORT",
+}
+`;
+
+exports[`Redux Reports Module Simple Actions: snapshot and reducer test saveReport with answers 2`] = `
+Object {
+  "list": Object {
+    "reportNameMock": Object {
+      "answers": Array [
+        Object {
+          "child": Object {
+            "questionName": "mockQuestionName2",
+            "value": "Value2",
+          },
+          "questionName": "mockQuestionName1",
+          "value": "Value1",
+        },
+      ],
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
+        "templateId": "templateIDMock",
+      },
+      "clickedPosition": "[3,4]",
+      "date": "mockDateString",
+      "index": 1,
+      "reportName": "reportNameMock",
+      "status": "draft",
+      "userPosition": "[1,2]",
+    },
+  },
+  "synced": false,
+  "syncing": false,
+  "templates": Object {},
+}
+`;
+
+exports[`Redux Reports Module Simple Actions: snapshot and reducer test setReportAnswer 1`] = `
+Object {
+  "payload": Object {
+    "answer": Object {
+      "child": Object {
+        "questionName": "mockQuestionName2",
+        "value": "Value2",
+      },
+      "questionName": "mockQuestionName1",
+      "value": "Value1",
+    },
+    "reportName": "mockReportName",
+    "updateOnly": true,
+  },
+  "type": "report/SET_REPORT_ANSWER",
+}
+`;
+
+exports[`Redux Reports Module Simple Actions: snapshot and reducer test setReportAnswer 2`] = `
+Object {
+  "list": Object {},
+  "synced": false,
+  "syncing": false,
+  "templates": Object {},
+}
+`;

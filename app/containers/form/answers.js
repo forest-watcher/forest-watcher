@@ -91,7 +91,7 @@ function mapReportToMetadata(report: Report, language) {
     { id: 'clickedPosition', label: i18n.t('commonText.reportedPosition'), value: [reportedPosition] }
   ];
 
-  if (dataset.slug) {
+  if (dataset && dataset.slug) {
     metadata.push({ id: 'dataset', label: i18n.t('commonText.alert'), value: [i18n.t(`datasets.${dataset.slug}`)] });
   }
 

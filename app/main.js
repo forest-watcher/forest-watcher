@@ -31,9 +31,9 @@ const app = async () => {
   }
 
   const store = createStore(startApp);
-  registerScreens(store, Provider);
 
   async function startApp() {
+    registerScreens(store, Provider);
     const state = store.getState();
     let screen = 'ForestWatcher.Home';
     if (state.user.loggedIn && state.app.synced) {
