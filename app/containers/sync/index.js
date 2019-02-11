@@ -16,7 +16,7 @@ function mapStateToProps(state: State) {
 
   return {
     // TODO: This has been temporarily commented out because Vizzuality server is always returning 500 for VIIRS alerts
-    criticalSyncError: (!hasAreas && state.areas.syncError), // || (!hasAlerts && state.alerts.syncError),
+    criticalSyncError: !hasAreas && state.areas.syncError, // || (!hasAlerts && state.alerts.syncError),
     isConnected: shouldBeConnected(state),
     syncFinished: hasSyncFinished(state)
   };

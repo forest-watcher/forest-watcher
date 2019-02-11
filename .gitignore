@@ -80,3 +80,10 @@ ios/ForestWatcher.app.dSYM.zip
 realm-object-server/io\.realm\.object-server-utility/metadata/
 
 reports/**
+
+# Configuration
+sentry.properties
+google-services.json
+.env
+.env.android*
+.env.ios*
