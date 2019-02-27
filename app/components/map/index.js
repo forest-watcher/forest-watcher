@@ -31,7 +31,7 @@ const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
 const geoViewport = require('@mapbox/geo-viewport');
 
-const { RNLocation: Location, SensorManager } = require('NativeModules');
+import RNLocation from 'react-native-location';
 
 const { width, height } = Dimensions.get('window');
 
@@ -188,18 +188,11 @@ class MapComponent extends Component {
   }
 
   componentWillUnmount() {
-    if (this.eventLocation) {
-      this.eventLocation.remove();
-    }
-
-    if (this.eventOrientation) {
-      this.eventOrientation.remove();
-    }
-
     if (Platform.OS === 'ios') {
       StatusBar.setBarStyle('default');
-      Location.stopUpdatingLocation();
-      Location.stopUpdatingHeading();
+      // Deregister event listeners.
+      this.eventLocation();
+      this.eventOrientation();
     } else if (Platform.OS === 'android') {
       if (this.geolocationWatchId !== null) {
         navigator.geolocation.clearWatch(this.geolocationWatchId);
@@ -408,48 +401,55 @@ class MapComponent extends Component {
   async geoLocate() {
     this.animateGeo();
 
-    const hasPermissions = await requestLocationPermissions();
-
     const updateLocationFromGeolocation = throttle(location => {
-      const coords = typeof location.coords !== 'undefined' ? location.coords : location;
-      this.setState({
-        lastPosition: {
-          latitude: coords.latitude,
-          longitude: coords.longitude
-        }
-      });
+      if (Platform.OS === 'ios') {
+        this.setState({
+          lastPosition: {
+            latitude: location.latitude,
+            longitude: location.longitude
+          }
+        });
+      } else {
+        const coords = typeof location.coords !== 'undefined' ? location.coords : location;
+        this.setState({
+          lastPosition: new {
+            latitude: coords.latitude,
+            longitude: coords.longitude
+          }()
+        });
+      }
     }, 300);
+
+    const updateHeadingFromGeolocation = throttle(heading => {
+      this.setState(updateHeading(heading.heading));
+    }, 450);
 
     const updateHeading = heading => prevState => {
       const state = {
-        heading: parseInt(heading, 10)
+        heading: heading
       };
       if (!prevState.hasCompass) state.hasCompass = true;
       return state;
     };
 
-    if (!hasPermissions) {
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(updateLocationFromGeolocation, error => console.info(error), {
-      enableHighAccuracy: true,
-      timeout: 30000
-    });
-
     if (Platform.OS === 'ios') {
-      Location.startUpdatingLocation();
+      RNLocation.getLatestLocation({ timeout: 60000 }).then(latestLocation => {
+        updateLocationFromGeolocation(latestLocation);
+      });
+      this.eventLocation = RNLocation.subscribeToLocationUpdates(locations => {
+        const location = locations[0];
+        updateLocationFromGeolocation(location);
+      });
 
-      this.eventLocation = DeviceEventEmitter.addListener('locationUpdated', updateLocationFromGeolocation);
-
-      Location.startUpdatingHeading();
-      this.eventOrientation = DeviceEventEmitter.addListener(
-        'headingUpdated',
-        throttle(data => {
-          this.setState(updateHeading(data.heading));
-        }, 450)
-      );
+      this.eventOrientation = RNLocation.subscribeToHeadingUpdates(heading => {
+        updateHeadingFromGeolocation(heading);
+      });
     } else {
+      navigator.geolocation.getCurrentPosition(updateLocationFromGeolocation, error => console.info(error), {
+        enableHighAccuracy: true,
+        timeout: 30000
+      });
+
       this.geolocationWatchId = navigator.geolocation.watchPosition(
         updateLocationFromGeolocation,
         error => console.info(error),
@@ -703,7 +703,8 @@ class MapComponent extends Component {
         tileSize={256}
       />
     ) : null;
-    const contextualRemoteLayerElement = (contextualLayer && !isOfflineMode) ? ( // eslint-disable-line
+    const contextualRemoteLayerElement =
+      contextualLayer && !isOfflineMode ? ( // eslint-disable-line
         <MapView.UrlTile key={ctxLayerKey} urlTemplate={contextualLayer.url} zIndex={2} />
       ) : null;
     const compassLineElement = showCompassLine ? (
@@ -729,10 +730,10 @@ class MapComponent extends Component {
         key="userPositionElement"
         image={markerImage}
         coordinate={lastPosition}
-        style={{ zIndex: 3 }}
+        style={{ zIndex: 10 }}
         anchor={{ x: 0.5, y: 0.5 }}
         pointerEvents={'none'}
-        tracksViewChanges={false}
+        tracksViewChanges={true}
       />
     ) : null;
     const compassElement =
@@ -740,7 +741,7 @@ class MapComponent extends Component {
         <MapView.Marker
           key="compassElement"
           coordinate={lastPosition}
-          zIndex={3}
+          zIndex={11}
           anchor={{ x: 0.5, y: 0.5 }}
           pointerEvents={'none'}
         >
@@ -751,6 +752,7 @@ class MapComponent extends Component {
               transform: [{ rotate: `${heading || '0'}deg` }]
             }}
             source={compassImage}
+            tracksViewChanges={true}
           />
         </MapView.Marker>
       ) : null;
@@ -840,10 +842,10 @@ class MapComponent extends Component {
           {clustersElement}
           {compassLineElement}
           {areaPolygonElement}
-          {userPositionElement}
-          {compassElement}
           {neighboursAlertsElement}
           {selectedAlertsElement}
+          {userPositionElement}
+          {compassElement}
         </MapView>
         {customReportingElement}
         {this.renderMapFooter()}

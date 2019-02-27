@@ -1,6 +1,6 @@
 // @flow
 import { PermissionsAndroid, Platform } from 'react-native';
-const { RNLocation: Location } = require('NativeModules'); // eslint-disable-line
+import RNLocation from 'react-native-location';
 
 import type { State } from 'types/store.types';
 
@@ -21,7 +21,15 @@ export function isUnsafeLogout(state: State) {
 
 export function requestLocationPermissions() {
   if (Platform.OS === 'ios') {
-    Location.requestWhenInUseAuthorization();
+    RNLocation.configure({
+      desiredAccuracy: {
+        ios: 'best'
+      },
+      interval: 5000
+    });
+    RNLocation.requestPermission({
+      ios: 'whenInUse'
+    });
     return Promise.resolve(true);
   } else if (Platform.OS === 'android') {
     return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION).then(
