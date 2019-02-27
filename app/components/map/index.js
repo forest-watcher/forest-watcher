@@ -32,6 +32,7 @@ const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
 const geoViewport = require('@mapbox/geo-viewport');
 
 import RNLocation from 'react-native-location';
+const { SensorManager } = require('NativeModules');
 
 const { width, height } = Dimensions.get('window');
 
@@ -401,23 +402,20 @@ class MapComponent extends Component {
   async geoLocate() {
     this.animateGeo();
 
+    const hasPermissions = await requestLocationPermissions();
+
+    if (!hasPermissions) {
+      return;
+    }
+
     const updateLocationFromGeolocation = throttle(location => {
-      if (Platform.OS === 'ios') {
-        this.setState({
-          lastPosition: {
-            latitude: location.latitude,
-            longitude: location.longitude
-          }
-        });
-      } else {
-        const coords = typeof location.coords !== 'undefined' ? location.coords : location;
-        this.setState({
-          lastPosition: new {
-            latitude: coords.latitude,
-            longitude: coords.longitude
-          }()
-        });
-      }
+      const coords = typeof location.coords !== 'undefined' ? location.coords : location;
+      this.setState({
+        lastPosition: {
+          latitude: coords.latitude,
+          longitude: coords.longitude
+        }
+      });
     }, 300);
 
     const updateHeadingFromGeolocation = throttle(heading => {
@@ -725,6 +723,9 @@ class MapComponent extends Component {
         zIndex={3}
       />
     ) : null;
+
+    // In the userPositionElement, if we do not track view changes on iOS the position marker will not render.
+    // However, on Android it needs to be set to false as to resolve memory leaks. In the future, we need to revisit this and hopefully we can remove it altogether.
     const userPositionElement = lastPosition ? (
       <MapView.Marker.Animated
         key="userPositionElement"
@@ -733,7 +734,7 @@ class MapComponent extends Component {
         style={{ zIndex: 10 }}
         anchor={{ x: 0.5, y: 0.5 }}
         pointerEvents={'none'}
-        tracksViewChanges={true}
+        tracksViewChanges={Platform.OS === 'ios' ? true : false}
       />
     ) : null;
     const compassElement =
@@ -752,7 +753,6 @@ class MapComponent extends Component {
               transform: [{ rotate: `${heading || '0'}deg` }]
             }}
             source={compassImage}
-            tracksViewChanges={true}
           />
         </MapView.Marker>
       ) : null;
