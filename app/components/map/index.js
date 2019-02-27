@@ -424,7 +424,7 @@ class MapComponent extends Component {
 
     const updateHeading = heading => prevState => {
       const state = {
-        heading: heading
+        heading: parseInt(heading, 10)
       };
       if (!prevState.hasCompass) state.hasCompass = true;
       return state;
