@@ -47,6 +47,7 @@
 		676D9D0F33C74730B70925F4 /* libRCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF75393B56F14CC2AD08F836 /* libRCTGoogleAnalyticsBridge.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		981A381A21C3B91F00A8DE5B /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 981A37BF21C3B7C400A8DE5B /* libCodePush.a */; };
+		9859C0E0221DB02B003429E7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9859C0A5221DB02B003429E7 /* CoreLocation.framework */; };
 		98B1DF6821932067002426DC /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC1FA19BF67424591686AF2 /* libz.tbd */; };
 		98CF896321B5811B00500B2F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98CF896521B5811B00500B2F /* InfoPlist.strings */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
@@ -560,6 +561,7 @@
 		89758A180D1B4EC7849736A4 /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
 		96D5AEB1553B4F08A7F47ED4 /* libAppCenterReactNativeCrashes.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAppCenterReactNativeCrashes.a; sourceTree = "<group>"; };
 		981A37B921C3B7C400A8DE5B /* CodePush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
+		9859C0A5221DB02B003429E7 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		98A5EE2521AC2AC00079AF2A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		98A5EE8521AC2DBF0079AF2A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		98CF895D21B5800500500B2F /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -600,6 +602,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9859C0E0221DB02B003429E7 /* CoreLocation.framework in Frameworks */,
 				981A381A21C3B91F00A8DE5B /* libCodePush.a in Frameworks */,
 				32CB16A9208A59C00036D050 /* libLottieReactNative.a in Frameworks */,
 				320246882089E6DE00BFFA31 /* libFastImage.a in Frameworks */,
@@ -858,6 +861,7 @@
 		45A6AD05F54FD09326DA9BF6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9859C0A5221DB02B003429E7 /* CoreLocation.framework */,
 				98A5EE8521AC2DBF0079AF2A /* UIKit.framework */,
 				98A5EE2521AC2AC00079AF2A /* MapKit.framework */,
 				BEF8102C2075273500EA64C3 /* RCTFBSDK.xcodeproj */,
