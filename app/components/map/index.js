@@ -139,7 +139,8 @@ class MapComponent extends Component {
       neighbours: [],
       mapZoom: 2,
       customReporting: false,
-      dragging: false
+      dragging: false,
+      layoutHasForceRefreshed: false
     };
   }
 
@@ -236,11 +237,21 @@ class MapComponent extends Component {
   };
 
   onMapReady = () => {
+    this.forceRefreshLayout();
     if (this.props.areaCoordinates) {
       requestAnimationFrame(() => this.map.fitToCoordinates(this.props.areaCoordinates, this.FIT_OPTIONS));
     }
     this.props.setActiveAlerts();
     this.updateMarkers();
+  };
+
+  // Makes the compass usable. This is so the map padding is applied to the map, instead of clipping the components.
+  forceRefreshLayout = () => {
+    if (!this.state.layoutHasForceRefreshed) {
+      this.setState({
+        layoutHasForceRefreshed: true
+      });
+    }
   };
 
   setCompassLine = () => {
@@ -804,8 +815,13 @@ class MapComponent extends Component {
         <Image style={[Theme.icon, styles.customLocationMarker]} source={newAlertIcon} />
       </View>
     ) : null;
+
+    const containerStyle = this.state.layoutHasForceRefreshed
+      ? [styles.container, styles.forceRefresh]
+      : styles.container;
+
     return (
-      <View style={styles.container} onMoveShouldSetResponder={this.onMoveShouldSetResponder}>
+      <View style={containerStyle} onMoveShouldSetResponder={this.onMoveShouldSetResponder}>
         <View pointerEvents="none" style={styles.header}>
           <Image style={styles.headerBg} source={backgroundImage} />
           {!isConnected && (
@@ -822,6 +838,12 @@ class MapComponent extends Component {
           }}
           style={styles.map}
           provider={MapView.PROVIDER_GOOGLE}
+          mapPadding={{
+            top: 40,
+            bottom: 0,
+            left: 0,
+            right: 0
+          }}
           mapType="none"
           minZoomLevel={2}
           maxZoomLevel={18}
