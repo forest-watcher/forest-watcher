@@ -140,7 +140,8 @@ class MapComponent extends Component {
       neighbours: [],
       mapZoom: 2,
       customReporting: false,
-      dragging: false
+      dragging: false,
+      layoutHasForceRefreshed: false
     };
   }
 
@@ -230,11 +231,29 @@ class MapComponent extends Component {
   };
 
   onMapReady = () => {
+    this.forceRefreshLayout();
     if (this.props.areaCoordinates) {
       requestAnimationFrame(() => this.map.fitToCoordinates(this.props.areaCoordinates, this.FIT_OPTIONS));
     }
     this.props.setActiveAlerts();
     this.updateMarkers();
+  };
+
+  /**
+   * Makes the compass usable. The mapPadding property of the MapView by default clips/crops the map views instead
+   * of applying the padding and pushing them inwards.
+   *
+   * This method forces the map view to redraw/layout after the padding has been applied and fixes the problem.
+   * GitHub Issues:
+   * https://github.com/react-native-community/react-native-maps/issues/2336
+   * https://github.com/react-native-community/react-native-maps/issues/1033
+   */
+  forceRefreshLayout = () => {
+    if (!this.state.layoutHasForceRefreshed) {
+      this.setState({
+        layoutHasForceRefreshed: true
+      });
+    }
   };
 
   setCompassLine = () => {
@@ -806,8 +825,13 @@ class MapComponent extends Component {
         <Image style={[Theme.icon, styles.customLocationMarker]} source={newAlertIcon} />
       </View>
     ) : null;
+
+    const containerStyle = this.state.layoutHasForceRefreshed
+      ? [styles.container, styles.forceRefresh]
+      : styles.container;
+
     return (
-      <View style={styles.container} onMoveShouldSetResponder={this.onMoveShouldSetResponder}>
+      <View style={containerStyle} onMoveShouldSetResponder={this.onMoveShouldSetResponder}>
         <View pointerEvents="none" style={styles.header}>
           <Image style={styles.headerBg} source={backgroundImage} />
           {!isConnected && (
@@ -824,6 +848,7 @@ class MapComponent extends Component {
           }}
           style={styles.map}
           provider={MapView.PROVIDER_GOOGLE}
+          mapPadding={Platform.OS === 'android' ? { top: 40, bottom: 0, left: 0, right: 0 } : undefined}
           mapType="none"
           minZoomLevel={2}
           maxZoomLevel={18}
