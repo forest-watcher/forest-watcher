@@ -245,7 +245,15 @@ class MapComponent extends Component {
     this.updateMarkers();
   };
 
-  // Makes the compass usable. This is so the map padding is applied to the map, instead of clipping the components.
+  /**
+   * Makes the compass usable. The mapPadding property of the MapView by default clips/crops the map views instead
+   * of applying the padding and pushing them inwards.
+   *
+   * This method forces the map view to redraw/layout after the padding has been applied and fixes the problem.
+   * GitHub Issues:
+   * https://github.com/react-native-community/react-native-maps/issues/2336
+   * https://github.com/react-native-community/react-native-maps/issues/1033
+   */
   forceRefreshLayout = () => {
     if (!this.state.layoutHasForceRefreshed) {
       this.setState({
@@ -838,12 +846,7 @@ class MapComponent extends Component {
           }}
           style={styles.map}
           provider={MapView.PROVIDER_GOOGLE}
-          mapPadding={{
-            top: 40,
-            bottom: 0,
-            left: 0,
-            right: 0
-          }}
+          mapPadding={Platform.OS === 'android' ? { top: 40, bottom: 0, left: 0, right: 0 } : undefined}
           mapType="none"
           minZoomLevel={2}
           maxZoomLevel={18}
