@@ -21,6 +21,6 @@ export const ExportMethod = {
  * @return {Promise<string[]>}
  *  Promise holding an array of file paths that were created in order to fulfil the export
  */
-export default async function exportReports(reports: [Report], dir: string, method: number = ExportMethod.CSV) {
+export default async function exportReports(reports: Report[], dir: string, method: number = ExportMethod.CSV) {
   return Promise.resolve([`${dir}/export.csv`]);
 }
