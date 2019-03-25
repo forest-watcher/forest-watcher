@@ -1,6 +1,6 @@
 {
   "name": "ForestWatcher",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
@@ -58,7 +58,7 @@
     "react-native-i18n": "2.0.15",
     "react-native-image-picker": "0.27.2",
     "react-native-keyboard-aware-scroll-view": "0.3.0",
-    "react-native-location": "1.0.0",
+    "react-native-location": "2.2.0",
     "react-native-maps": "github:3sidedcube/react-native-maps#55f879c5071eb4deb76f605d5d87b0ac852e9d9f",
     "react-native-navigation": "2.1.3",
     "react-native-progress": "3.5.0",
