@@ -1,6 +1,7 @@
 package com.forestwatcher;
 
 import android.content.Intent;
+import com.aakashns.reactnativedialogs.ReactNativeDialogsPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
@@ -68,6 +69,7 @@ public class MainApplication extends NavigationApplication implements ReactInsta
       new GoogleAnalyticsBridgePackage(),
       new RNFetchBlobPackage(),
       new ReactNativeConfigPackage(),
+      new ReactNativeDialogsPackage(),
       new MapsPackage(),
       new RNI18nPackage(),
       new RealmReactPackage(),
