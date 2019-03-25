@@ -212,6 +212,9 @@ dependencies {
     // react-native-code-push
     implementation 'com.nimbusds:nimbus-jose-jwt:5.1'
 
+    // react-native-dialogs
+    implementation project(':react-native-dialogs')
+
     // react-native-fast-image
     implementation("com.github.bumptech.glide:glide:${rootProject.ext.glideVersion}") {
         exclude group: "com.android.support", module: "glide"
