@@ -12,7 +12,7 @@ export const ExportMethod = {
  *  Array of reports to export
  * @param {string} dir
  *  Target directory to export the reports to
- * @param {string} method
+ * @param {number} method
  *  Integer corresponding to one of the values in ExportMethod indicating which format to export the data
  * @return {Promise<string[]>}
  *  Promise holding an array of file paths that were created in order to fulfil the export
