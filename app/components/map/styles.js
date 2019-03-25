@@ -158,5 +158,9 @@ export default StyleSheet.create({
   hidden: {
     opacity: 0,
     height: 0
+  },
+  forceRefresh: {
+    marginTop: -1,
+    paddingTop: 1
   }
 });
