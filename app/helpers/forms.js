@@ -17,6 +17,9 @@ export const getBtnTextByType = (type: string) => {
   }
 };
 
+/**
+ * Converts a question into a form where irrelevant information and languages are stripped
+ */
 export const parseQuestion = (step: { question: Question, template: Template }, deviceLang: ?string) => {
   const { question, template } = step;
   const lang = template.languages.includes(deviceLang) ? deviceLang : template.defaultLanguage;
@@ -92,8 +95,11 @@ function getAnswerValues(question, answer) {
   return { ...answer, value };
 }
 
-export function mapFormToAnsweredQuestions(answers: Array<Answer>, template: Template, deviceLang: ?string) {
-  const questions = flatMap(template.questions, question => {
+/**
+ * Converts a template into a form where irrelevant information and languages are stripped
+ */
+export function mapFormToQuestions(template: Template, deviceLang: ?string) {
+  return flatMap(template.questions, question => {
     const parsedQuestion = parseQuestion({ template, question }, deviceLang);
     if (parsedQuestion.childQuestion) {
       const parsedChildQuestion = {
@@ -104,6 +110,13 @@ export function mapFormToAnsweredQuestions(answers: Array<Answer>, template: Tem
     }
     return parsedQuestion;
   }).reduce((acc, question) => ({ ...acc, [question.name]: question }), {});
+}
+
+/**
+ * Converts a report into a form where irrelevant information and languages are stripped
+ */
+export function mapFormToAnsweredQuestions(answers: Array<Answer>, template: Template, deviceLang: ?string) {
+  const questions = mapFormToQuestions(template, deviceLang);
   return flatMap(answers, answer => {
     const question = questions[answer.questionName];
     const answeredQuestion = {

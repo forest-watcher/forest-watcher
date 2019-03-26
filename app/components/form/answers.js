@@ -1,10 +1,9 @@
 // @flow
-import type { Answer, Question, Report } from 'types/reports.types';
+import type { Answer, Question } from 'types/reports.types';
 
 import React, { PureComponent } from 'react';
-import { ActionSheetIOS, View, Text, ScrollView, Platform } from 'react-native';
+import { ActionSheetIOS, Alert, View, Text, ScrollView, Platform } from 'react-native';
 import DialogAndroid from 'react-native-dialogs';
-import RNFetchBlob from 'react-native-fetch-blob';
 import i18n from 'locales';
 
 import ActionButton from 'components/common/action-button';
@@ -13,7 +12,6 @@ import ImageCarousel from 'components/common/image-carousel';
 import withDraft from './withDraft';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
-import exportReports, { ExportMethod } from 'helpers/exportReports';
 
 const deleteIcon = require('assets/delete_red.png');
 const exportIcon = require('assets/upload.png');
@@ -25,9 +23,9 @@ type Props = {
   reportName: string,
   uploadReport: string => void,
   deleteReport: string => void,
+  exportReport: () => void,
   setReportAnswer: (string, Answer, boolean) => void,
   readOnly: boolean,
-  report: Report,
   setActiveAlerts: boolean => void,
   isConnected: boolean,
   showNotConnectedNotification: () => void,
@@ -77,7 +75,7 @@ class Answers extends PureComponent<Props> {
       const buttonHandler = idx => {
         switch (idx) {
           case 0: {
-            exportReports([this.props.report], RNFetchBlob.fs.dirs.DocumentDir, ExportMethod.CSV);
+            Alert.alert('hello', this.props.exportReport());
             break;
           }
           case 1: {

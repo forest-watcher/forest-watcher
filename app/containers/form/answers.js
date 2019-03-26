@@ -15,6 +15,7 @@ import moment from 'moment';
 
 import { shouldBeConnected } from 'helpers/app';
 import { getTemplate, mapFormToAnsweredQuestions } from 'helpers/forms';
+import { renderReportGroupAsCsv } from 'helpers/exportReports';
 import Answers from 'components/form/answers';
 
 function mapReportToMetadata(report: Report, language) {
@@ -58,10 +59,10 @@ function mapStateToProps(state: State, ownProps: { reportName: string, readOnly:
   const report = reports.list[reportName];
   const answers = report && report.answers;
   return {
+    exportReport: () => renderReportGroupAsCsv([report], template, templateLang),
     results: mapFormToAnsweredQuestions(answers, template, state.app.language),
     metadata: mapReportToMetadata(report, templateLang),
     isConnected: shouldBeConnected(state),
-    report,
     readOnly
   };
 }
