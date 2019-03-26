@@ -64,8 +64,6 @@ class Reports extends PureComponent<Props> {
     this.state = {
       selectedForExport: {}
     };
-
-    this.configureExportButton = this.configureExportButton.bind(this);
   }
 
   componentDidMount() {
@@ -73,10 +71,6 @@ class Reports extends PureComponent<Props> {
 
     Navigation.events().bindComponent(this);
 
-    this.configureExportButton();
-  }
-
-  configureExportButton() {
     // If we've got reports that can be exported, show the export button.
     const exportButton =
       this.props.reports.complete?.length > 0 || this.props.reports.uploaded?.length > 0
