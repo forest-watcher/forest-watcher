@@ -8,7 +8,7 @@ import moment from 'moment';
 import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
-import Theme, { colors } from 'config/theme';
+import { colors } from 'config/theme';
 import { Navigation } from 'react-native-navigation';
 import { withSafeArea } from 'react-native-safe-area';
 
