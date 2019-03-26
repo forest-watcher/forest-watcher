@@ -76,10 +76,6 @@ class Reports extends PureComponent<Props> {
     this.configureExportButton();
   }
 
-  componentDidUpdate() {
-    this.configureExportButton();
-  }
-
   configureExportButton() {
     // If we've got reports that can be exported, show the export button.
     const exportButton =
@@ -313,7 +309,7 @@ class Reports extends PureComponent<Props> {
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
         {hasReports ? (
           <View style={styles.container}>
-            {draft && draft.length > 0 && this.getDrafts(draft, editIcon)}
+            {draft && draft.length > 0 && !inExportMode && this.getDrafts(draft, editIcon)}
             {complete &&
               complete.length > 0 &&
               this.getCompleted(complete, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickUpload)}
