@@ -36,6 +36,16 @@ type Props = {
 const key_export_start = 'key_export_start';
 const key_export_cancel = 'key_export_cancel';
 
+const button_export_start = {
+  id: key_export_start,
+  text: 'Export'
+};
+
+const button_export_cancel = {
+  id: key_export_cancel,
+  text: 'Cancel'
+};
+
 class Reports extends PureComponent<Props> {
   static options(passProps) {
     return {
@@ -64,14 +74,16 @@ class Reports extends PureComponent<Props> {
     // If we've got reports that can be exported, show the export button.
     const exportButton =
       this.props.reports.complete?.length > 0 || this.props.reports.uploaded?.length > 0
-        ? {
-            id: key_export_start,
-            text: 'Export'
-          }
+        ? button_export_start
         : undefined;
     this.setExportButtonTo(exportButton);
   }
 
+  /**
+   * setExportButtonTo - Changes the 'export' nav bar button to the provided state.
+   *
+   * @param  {object} buttonState The new button object that should be shown in the nav bar.
+   */
   setExportButtonTo(buttonState) {
     Navigation.mergeOptions(this.props.componentId, {
       topBar: {
@@ -82,10 +94,7 @@ class Reports extends PureComponent<Props> {
 
   navigationButtonPressed({ buttonId }) {
     if (buttonId === key_export_start) {
-      this.setExportButtonTo({
-        id: key_export_cancel,
-        text: 'Cancel'
-      });
+      this.setExportButtonTo(button_export_cancel);
 
       // Merge together the completed and uploaded reports.
       const completedReports = this.props.reports.complete || [];
@@ -102,10 +111,7 @@ class Reports extends PureComponent<Props> {
       });
     } else if (buttonId === key_export_cancel) {
       // Reset the export button, and clear out the 'selectedForExport' state.
-      this.setExportButtonTo({
-        id: key_export_start,
-        text: 'Export'
-      });
+      this.setExportButtonTo(button_export_start);
 
       this.setState({
         selectedForExport: {}
