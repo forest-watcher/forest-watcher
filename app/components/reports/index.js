@@ -33,16 +33,16 @@ type Props = {
   getLastStep: string => number
 };
 
-const key_export_start = 'key_export_start';
-const key_export_cancel = 'key_export_cancel';
+const KEY_EXPORT_START = 'key_export_start';
+const KEY_EXPORT_CANCEL = 'key_export_cancel';
 
-const button_export_start = {
-  id: key_export_start,
+const BUTTON_EXPORT_START = {
+  id: KEY_EXPORT_START,
   text: 'Export'
 };
 
-const button_export_cancel = {
-  id: key_export_cancel,
+const BUTTON_EXPORT_CANCEL = {
+  id: KEY_EXPORT_CANCEL,
   text: 'Cancel'
 };
 
@@ -64,6 +64,8 @@ class Reports extends PureComponent<Props> {
     this.state = {
       selectedForExport: {}
     };
+
+    this.configureExportButton = this.configureExportButton.bind(this);
   }
 
   componentDidMount() {
@@ -71,10 +73,18 @@ class Reports extends PureComponent<Props> {
 
     Navigation.events().bindComponent(this);
 
+    this.configureExportButton();
+  }
+
+  componentDidUpdate() {
+    this.configureExportButton();
+  }
+
+  configureExportButton() {
     // If we've got reports that can be exported, show the export button.
     const exportButton =
       this.props.reports.complete?.length > 0 || this.props.reports.uploaded?.length > 0
-        ? button_export_start
+        ? BUTTON_EXPORT_START
         : undefined;
     this.setExportButtonTo(exportButton);
   }
@@ -93,8 +103,8 @@ class Reports extends PureComponent<Props> {
   }
 
   navigationButtonPressed({ buttonId }) {
-    if (buttonId === key_export_start) {
-      this.setExportButtonTo(button_export_cancel);
+    if (buttonId === KEY_EXPORT_START) {
+      this.setExportButtonTo(BUTTON_EXPORT_CANCEL);
 
       // Merge together the completed and uploaded reports.
       const completedReports = this.props.reports.complete || [];
@@ -109,9 +119,9 @@ class Reports extends PureComponent<Props> {
       this.setState({
         selectedForExport: exportData
       });
-    } else if (buttonId === key_export_cancel) {
+    } else if (buttonId === KEY_EXPORT_CANCEL) {
       // Reset the export button, and clear out the 'selectedForExport' state.
-      this.setExportButtonTo(button_export_start);
+      this.setExportButtonTo(BUTTON_EXPORT_START);
 
       this.setState({
         selectedForExport: {}
@@ -325,8 +335,6 @@ class Reports extends PureComponent<Props> {
     const inExportMode = Object.keys(this.state.selectedForExport).length > 0;
     const totalToExport = Object.values(this.state.selectedForExport).filter(row => row === true).length;
 
-    // Get the plural modifier that'll be shown in the UI if multiple reports have been selected.
-    const exportTextPlural = totalToExport > 1 ? 's' : '';
     return (
       /* View necessary to fix the swipe back on wix navigation */
       <View style={styles.container}>
@@ -342,7 +350,7 @@ class Reports extends PureComponent<Props> {
           >
             <TouchableOpacity style={styles.exportButton} disabled={totalToExport === 0}>
               <Text style={styles.exportTitle}>
-                {totalToExport > 0 ? `Export ${totalToExport} report${exportTextPlural}...` : 'No reports selected'}
+                {totalToExport > 0 ? `Export ${totalToExport} report...` : 'No reports selected'}
               </Text>
             </TouchableOpacity>
           </SafeAreaView>
