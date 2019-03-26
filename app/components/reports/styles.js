@@ -60,7 +60,6 @@ export default StyleSheet.create({
   },
   exportButtonContainer: {
     backgroundColor: 'white',
-
     borderTopWidth: 5,
     height: 75
   },
