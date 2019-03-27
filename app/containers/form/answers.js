@@ -35,6 +35,7 @@ function mapReportToMetadata(report: Report, language) {
   const date = moment(report.date).format('YYYY-MM-DD');
   const userPosition =
     report.userPosition === REPORTS.noGpsPosition ? i18n.t('report.noGpsPosition') : report.userPosition;
+
   const metadata = [
     { id: 'name', label: i18n.t('commonText.name'), value: [report.reportName] },
     { id: 'areaName', label: i18n.t('commonText.area'), value: [report.area.name] },
