@@ -7,7 +7,7 @@ export const QUESTION_TYPES = ['date', 'number', 'point', 'radio', 'select', 'te
 export function createFakeQuestion(languages, overrides = {}) {
   const type = overrides.type || faker.random.arrayElement(QUESTION_TYPES);
   const childQuestions = overrides.childQuestions || (faker.random.boolean(0.2) ? [createFakeQuestion(languages)] : []); // Only 1 child question currently supported
-  const numValues = faker.random.number(10) + 1;
+  const numValues = faker.random.number(10) + 2;
   const values =
     overrides.values ||
     (type === 'radio' || type === 'select' ? createFakeQuestionValues(languages, numValues) : undefined);
@@ -53,7 +53,7 @@ export function createFakeTemplate(overrides = {}) {
       })
     );
   return {
-    id: faker.random.uuid(),
+    Id: faker.random.uuid(),
     name: _.zipObject(languages, languages.map(() => faker.lorem.sentence())),
     languages: languages,
     defaultLanguage: faker.random.arrayElement(languages),
@@ -67,7 +67,7 @@ export function createFakeTemplate(overrides = {}) {
   };
 }
 
-export function createFakeReport(template, overrides = {}) {
+export function createFakeReport(template, lang, overrides = {}) {
   return {
     reportName: faker.random.uuid(),
     area: {
@@ -83,17 +83,17 @@ export function createFakeReport(template, overrides = {}) {
     index: 0,
     status: faker.random.arrayElement(['draft', 'complete', 'uploaded']),
     date: faker.date.past(),
-    answers: createFakeAnswers(template),
+    answers: createFakeAnswers(template, lang),
     ...overrides
   };
 }
 
-export function createFakeAnswers(template) {
-  return template.questions.map(question => createFakeAnswer(question));
+export function createFakeAnswers(template, lang) {
+  return template.questions.map(question => createFakeAnswer(question, lang));
 }
 
-export function createFakeAnswer(question) {
-  let value = createFakeAnswerValue(question);
+export function createFakeAnswer(question, lang) {
+  let value = createFakeAnswerValue(question, lang);
 
   return {
     questionName: question.name,
@@ -102,7 +102,7 @@ export function createFakeAnswer(question) {
   };
 }
 
-export function createFakeAnswerValue(question) {
+export function createFakeAnswerValue(question, lang) {
   switch (question.type) {
     case 'date':
       return faker.date.past();
@@ -111,12 +111,9 @@ export function createFakeAnswerValue(question) {
     case 'point':
       return `${faker.random.latitude},${faker.random.longitude}`;
     case 'radio':
-      console.log('3SC', 'reports', JSON.stringify(question));
-      return faker.random.arrayElement(Object.values(question.values)[0]).value;
+      return [faker.random.arrayElement(question.values[lang]).value];
     case 'select':
-      return Object.values(question.values)[0]
-        .filter(() => faker.random.boolean())
-        .map(value => value.value);
+      return question.values[lang].filter(() => faker.random.boolean()).map(value => value.value);
     case 'text': {
       return faker.lorem.paragraphs();
     }

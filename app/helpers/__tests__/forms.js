@@ -1,5 +1,11 @@
-import { createFakeLanguages, createFakeQuestion, createFakeTemplate, QUESTION_TYPES } from './generateFakeData';
-import { mapFormToQuestions, parseQuestion } from '../forms';
+import {
+  createFakeLanguages,
+  createFakeQuestion,
+  createFakeReport,
+  createFakeTemplate,
+  QUESTION_TYPES
+} from '../__mocks__/generateFakeData';
+import { mapFormToAnsweredQuestions, mapFormToQuestions, parseQuestion } from '../forms';
 
 const faker = require('faker');
 
@@ -7,6 +13,81 @@ describe('form helper functions', () => {
   //it('renders single report to CSV', () => {
   //  const template = createFakeTemplate();
   //});
+
+  it('mapFormToAnsweredQuestions works with text input', () => {
+    const languages = createFakeLanguages();
+    const question = createFakeQuestion(languages, { childQuestions: [], type: 'text' });
+    const template = createFakeTemplate({ languages, questions: [question] });
+    const deviceLang = faker.random.arrayElement(languages);
+    const inputtedText = 'test test';
+    const report = createFakeReport(template, deviceLang, {
+      answers: [
+        {
+          questionName: question.name,
+          value: inputtedText,
+          child: null
+        }
+      ]
+    });
+    const mapped = mapFormToAnsweredQuestions(report.answers, template, deviceLang);
+    expect(mapped).toEqual([
+      {
+        question: mapFormToQuestions(template, deviceLang)[question.name],
+        answer: { ...report.answers[0], value: [inputtedText] }
+      }
+    ]);
+  });
+
+  it('mapFormToAnsweredQuestions works with radio input', () => {
+    const languages = createFakeLanguages();
+    const question = createFakeQuestion(languages, { childQuestions: [], type: 'radio' });
+    const template = createFakeTemplate({ languages, questions: [question] });
+    const deviceLang = faker.random.arrayElement(languages);
+    const selectedAnswer = 1;
+    const report = createFakeReport(template, deviceLang, {
+      answers: [
+        {
+          questionName: question.name,
+          value: [selectedAnswer],
+          child: null
+        }
+      ]
+    });
+    const mapped = mapFormToAnsweredQuestions(report.answers, template, deviceLang);
+    expect(mapped).toEqual([
+      {
+        question: mapFormToQuestions(template, deviceLang)[question.name],
+        answer: { ...report.answers[0], value: [question.values[deviceLang][selectedAnswer].label] }
+      }
+    ]);
+  });
+
+  it('mapFormToAnsweredQuestions works with checkbox input', () => {
+    const languages = createFakeLanguages();
+    const question = createFakeQuestion(languages, { childQuestions: [], type: 'select' });
+    const template = createFakeTemplate({ languages, questions: [question] });
+    const deviceLang = faker.random.arrayElement(languages);
+    const selectedAnswers = [0, 1];
+    const report = createFakeReport(template, deviceLang, {
+      answers: [
+        {
+          questionName: question.name,
+          value: selectedAnswers,
+          child: null
+        }
+      ]
+    });
+    const mapped = mapFormToAnsweredQuestions(report.answers, template, deviceLang);
+    expect(mapped).toEqual([
+      {
+        question: mapFormToQuestions(template, deviceLang)[question.name],
+        answer: {
+          ...report.answers[0],
+          value: selectedAnswers.map(answer => question.values[deviceLang][answer].label)
+        }
+      }
+    ]);
+  });
 
   it('mapFormToQuestions works with each question type', () => {
     const languages = createFakeLanguages();

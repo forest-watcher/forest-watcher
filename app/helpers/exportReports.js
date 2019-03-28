@@ -118,7 +118,8 @@ export function renderReportGroupAsCsv(reports, template, lang) {
 
   // Finally send the array (of arrays) into json2csv, where each row will be turned into a line of a CSV file
   return parse(flattenedAnswers, {
-    fields: [...questionFields]
+    fields: [...questionFields],
+    header: true
   });
 }
 
