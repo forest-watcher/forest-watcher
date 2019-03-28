@@ -11,6 +11,7 @@ import styles from './styles';
 import { colors } from 'config/theme';
 import { Navigation } from 'react-native-navigation';
 import { withSafeArea } from 'react-native-safe-area';
+import exportReports from 'helpers/exportReports';
 
 const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
 
@@ -172,6 +173,36 @@ class Reports extends PureComponent<Props> {
         ]
       }
     });
+
+  /**
+   * Handles the 'export <x> reports' button being tapped.
+   *
+   * @param  {Object} selectedReports A mapping of report titles to a boolean dictating whether they've been selected for export.
+   * @param  {Array} userReports      The user's reports.
+   */
+  onExportReportsTapped = async (selectedReports, userReports) => {
+    // Merge the completed and uploaded reports that are available together, so we can find any selected reports to export them.
+    const completeReports = userReports.complete || [];
+    const mergedReports = completeReports.concat(userReports.uploaded);
+
+    let reportsToExport = [];
+
+    // Iterate through the selected reports. If the report has been marked to export, find the full report object.
+    Object.keys(selectedReports).forEach(key => {
+      const reportIsSelected = selectedReports[key];
+      if (!reportIsSelected) {
+        return;
+      }
+
+      const selectedReport = mergedReports.find(report => report.title === key);
+
+      reportsToExport.push(selectedReport);
+    });
+
+    // TODO: Pass reportsToExport to the magic export function ✨
+
+    // TODO: Upon completion of export, switch out of export mode and show success UI.
+  };
 
   /**
    * getItems - Returns an array of rows, based on the report data provided.
@@ -338,7 +369,13 @@ class Reports extends PureComponent<Props> {
               }
             ]}
           >
-            <TouchableOpacity style={styles.exportButton} disabled={totalToExport === 0}>
+            <TouchableOpacity
+              style={styles.exportButton}
+              disabled={totalToExport === 0}
+              onPress={() => {
+                this.onExportReportsTapped(this.state.selectedForExport, this.props.reports);
+              }}
+            >
               <Text style={styles.exportTitle}>
                 {totalToExport > 0 ? `Export ${totalToExport} report...` : 'No reports selected'}
               </Text>

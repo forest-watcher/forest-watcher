@@ -17,9 +17,8 @@ function getReports(reports) {
     const report = reports[key];
     if (data[report.status]) {
       data[report.status].push({
-        title: key,
-        position: report.position,
-        date: report.date
+        ...report,
+        title: key
       });
     }
   });
