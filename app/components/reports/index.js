@@ -84,28 +84,14 @@ class Reports extends PureComponent<Props> {
   }
 
   componentDidUpdate(prevProps) {
+    if (Object.keys(this.state.selectedForExport).length > 0) {
+      // Do not change the button state, if we're in export mode!
+      return;
+    }
+
     const {draft, complete, uploaded} = this.props.reports;
 
-    // Handles no current reports.
-    if (draft.length === 0 && complete.length === 0 && uploaded.length === 0) {
-      this.setExportButtonTo(BUTTON_EXPORT_EMPTY);
-    }
-
-    // Handles only having draft reports.
-    if (draft.length > 0 && complete.length === 0 && uploaded.length === 0) {
-      this.setExportButtonTo(BUTTON_EXPORT_EMPTY);
-    }
-
-    // Handles a draft report changing to complete / uploaded / deleted.
-    if (draft.length === 0) {
-      if (complete.length > 0 || uploaded.length > 0) {
-        // Report was completed.
-        this.setExportButtonTo(BUTTON_EXPORT_START);
-      } else {
-        // Report was deleted.
-        this.setExportButtonTo(BUTTON_EXPORT_EMPTY);
-      }
-    }
+    this.setExportButtonTo((complete.length + uploaded.length > 0) ? BUTTON_EXPORT_START : BUTTON_EXPORT_EMPTY)
   }
 
   /**
