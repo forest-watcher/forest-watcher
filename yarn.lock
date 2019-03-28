@@ -7154,6 +7154,11 @@ react-native-datepicker@1.7.2:
   dependencies:
     moment "^2.22.0"
 
+react-native-dialogs@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-dialogs/-/react-native-dialogs-1.0.4.tgz#c3bcee4a8a4ca2e97131bd5ffaed8db6ab1dec48"
+  integrity sha512-Q3e4bAPp13jnPkStKYzyE/pb6xVY1spSlGHzq3zljV7uMXqFHjuTBRiM/qfm2bSZplR/znzVS/y2TtcW+1aufQ==
+
 react-native-fast-image@5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-5.1.1.tgz#2595323a926ade0b3a37bd627eb55e3ebf67598b"

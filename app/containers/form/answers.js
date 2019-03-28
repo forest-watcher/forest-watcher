@@ -109,6 +109,7 @@ function mapStateToProps(state: State, ownProps: { reportName: string, readOnly:
     results: mapFormToAnsweredQuestions(answers, template, state.app.language),
     metadata: mapReportToMetadata(report, templateLang),
     isConnected: shouldBeConnected(state),
+    report,
     readOnly
   };
 }
