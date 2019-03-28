@@ -1,3 +1,5 @@
+import RNFetchBlob from 'react-native-fetch-blob';
+
 export const ExportMethod = {
   CSV: 0,
   HTML: 1,
@@ -17,6 +19,6 @@ export const ExportMethod = {
  * @return {Promise<string[]>}
  *  Promise holding an array of file paths that were created in order to fulfil the export
  */
-export default async function exportReports(reports, dir, method = ExportMethod.CSV) {
+export default async function exportReports(reports, dir = RNFetchBlob.fs.dirs.DocumentDir, method = ExportMethod.CSV) {
   return Promise.resolve([`${dir}/export.csv`]);
 }

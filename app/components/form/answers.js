@@ -77,7 +77,7 @@ class Answers extends PureComponent<Props> {
       const buttonHandler = idx => {
         switch (idx) {
           case 0: {
-            exportReports([this.props.report], RNFetchBlob.fs.dirs.DocumentDir, ExportMethod.CSV);
+            exportReports([this.props.report]);
             break;
           }
           case 1: {
