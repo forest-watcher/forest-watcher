@@ -31,7 +31,8 @@ type Props = {
     uploaded: Array<ReportItem>,
     complete: Array<ReportItem>
   },
-  getLastStep: string => number
+  getLastStep: string => number,
+  showExportReportsSuccessfulNotification: function
 };
 
 const KEY_EXPORT_START = 'key_export_start';
@@ -201,7 +202,14 @@ class Reports extends PureComponent<Props> {
 
     // TODO: Pass reportsToExport to the magic export function ✨
 
-    // TODO: Upon completion of export, switch out of export mode and show success UI.
+    // TODO: Handle errors returned from export function.
+
+    // Show 'export successful' notification, and reset export state to reset UI.
+    this.props.showExportReportsSuccessfulNotification()
+
+    this.setState({
+      selectedForExport: {}
+    })
   };
 
   /**
