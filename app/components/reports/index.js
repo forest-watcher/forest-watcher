@@ -38,15 +38,17 @@ type Props = {
 const KEY_EXPORT_START = 'key_export_start';
 const KEY_EXPORT_CANCEL = 'key_export_cancel';
 
-const BUTTON_EXPORT_START = {
+const BUTTON_EXPORT_START = [{
   id: KEY_EXPORT_START,
   text: 'Export'
-};
+}];
 
-const BUTTON_EXPORT_CANCEL = {
+const BUTTON_EXPORT_CANCEL = [{
   id: KEY_EXPORT_CANCEL,
   text: 'Cancel'
-};
+}];
+
+const BUTTON_EXPORT_EMPTY = [];
 
 class Reports extends PureComponent<Props> {
   static options(passProps) {
@@ -77,8 +79,33 @@ class Reports extends PureComponent<Props> {
     const exportButton =
       this.props.reports.complete?.length > 0 || this.props.reports.uploaded?.length > 0
         ? BUTTON_EXPORT_START
-        : undefined;
+        : BUTTON_EXPORT_EMPTY;
     this.setExportButtonTo(exportButton);
+  }
+
+  componentDidUpdate(prevProps) {
+    const {draft, complete, uploaded} = this.props.reports;
+
+    // Handles no current reports.
+    if (draft.length === 0 && complete.length === 0 && uploaded.length === 0) {
+      this.setExportButtonTo(BUTTON_EXPORT_EMPTY);
+    }
+
+    // Handles only having draft reports.
+    if (draft.length > 0 && complete.length === 0 && uploaded.length === 0) {
+      this.setExportButtonTo(BUTTON_EXPORT_EMPTY);
+    }
+
+    // Handles a draft report changing to complete / uploaded / deleted.
+    if (draft.length === 0) {
+      if (complete.length > 0 || uploaded.length > 0) {
+        // Report was completed.
+        this.setExportButtonTo(BUTTON_EXPORT_START);
+      } else {
+        // Report was deleted.
+        this.setExportButtonTo(BUTTON_EXPORT_EMPTY);
+      }
+    }
   }
 
   /**
@@ -89,7 +116,7 @@ class Reports extends PureComponent<Props> {
   setExportButtonTo(buttonState) {
     Navigation.mergeOptions(this.props.componentId, {
       topBar: {
-        rightButtons: [buttonState]
+        rightButtons: buttonState
       }
     });
   }
@@ -207,6 +234,7 @@ class Reports extends PureComponent<Props> {
     // Show 'export successful' notification, and reset export state to reset UI.
     this.props.showExportReportsSuccessfulNotification()
 
+    this.setExportButtonTo(BUTTON_EXPORT_START);
     this.setState({
       selectedForExport: {}
     })
