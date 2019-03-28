@@ -1,6 +1,8 @@
-import Config from 'react-native-config';
+import firebase from 'react-native-firebase';
 
 export default {
   trackEvent: () => {},
-  trackScreenView: () => {}
+  trackScreenView: screenName => {
+    firebase.analytics().setCurrentScreen(screenName, screenName);
+  }
 };

@@ -25,6 +25,7 @@ import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.reactnativenavigation.react.ReactGateway;
 import com.rnziparchive.RNZipArchivePackage;
 import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import io.realm.react.RealmReactPackage;
 import io.sentry.RNSentryPackage;
 
@@ -88,7 +89,8 @@ public class MainApplication extends NavigationApplication implements ReactInsta
       new RNSentryPackage(),
       new RNCWebViewPackage(),
       new SensorManagerPackage(),
-      new RNFirebasePackage()
+      new RNFirebasePackage(),
+      new RNFirebaseAnalyticsPackage()
     );
   }
 
