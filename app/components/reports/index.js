@@ -91,6 +91,14 @@ class Reports extends PureComponent<Props> {
 
     const {draft, complete, uploaded} = this.props.reports;
 
+    const hasExportableReports = complete.length + uploaded.length > 0;
+    const hadExportableReports = prevProps.reports.complete.length + prevProps.reports.uploaded.length > 0;
+
+    if (hasExportableReports === hadExportableReports) {
+      // Do not change the button state, as there's been no change that needs an update.
+      return;
+    }
+
     this.setExportButtonTo((complete.length + uploaded.length > 0) ? BUTTON_EXPORT_START : BUTTON_EXPORT_EMPTY)
   }
 
