@@ -2,8 +2,10 @@
 import type { State } from 'types/store.types';
 
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { getNextStep } from 'helpers/forms';
 import { shouldBeConnected } from 'helpers/app';
+import { showExportReportsSuccessfulNotification } from 'redux-modules/app';
 
 import Reports from 'components/reports';
 
@@ -17,9 +19,8 @@ function getReports(reports) {
     const report = reports[key];
     if (data[report.status]) {
       data[report.status].push({
-        title: key,
-        position: report.position,
-        date: report.date
+        ...report,
+        title: key
       });
     }
   });
@@ -59,4 +60,16 @@ function mapStateToProps(state: State) {
   };
 }
 
-export default connect(mapStateToProps)(Reports);
+function mapDispatchToProps(dispatch: *) {
+  return bindActionCreators(
+    {
+      showExportReportsSuccessfulNotification
+    },
+    dispatch
+  );
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Reports);
