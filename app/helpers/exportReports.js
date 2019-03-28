@@ -12,6 +12,11 @@ export const ExportMethod = {
  *
  * @param {Report} reports[]
  *  Array of reports to export
+ * @param {object} templates
+ *  Questionnaire templates mapped by their ID. Reports based on templates not in this object will be ignored.
+ * @param {string} lang
+ *  Language to use in exported documents. If the language cannot be found in the template then the templates default
+ *  language is used.
  * @param {string} dir
  *  Target directory to export the reports to
  * @param {number} method
@@ -19,6 +24,6 @@ export const ExportMethod = {
  * @return {Promise<string[]>}
  *  Promise holding an array of file paths that were created in order to fulfil the export
  */
-export default async function exportReports(reports, dir = RNFetchBlob.fs.dirs.DocumentDir, method = ExportMethod.CSV) {
+export default async function exportReports(reports, templates, lang, dir = RNFetchBlob.fs.dirs.DocumentDir, method = ExportMethod.CSV) {
   return Promise.resolve([`${dir}/export.csv`]);
 }
