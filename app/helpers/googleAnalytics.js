@@ -1,7 +1,9 @@
 import firebase from 'react-native-firebase';
 
 export default {
-  trackEvent: () => {},
+  trackEvent: (name, params) => {
+    firebase.analytics().logEvent(name, params);
+  },
   trackScreenView: screenName => {
     firebase.analytics().setCurrentScreen(screenName, screenName);
   }

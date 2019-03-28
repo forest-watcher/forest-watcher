@@ -226,7 +226,7 @@ export function saveReport(name: string, data: Report): ReportsAction {
 }
 
 export function uploadReport(reportName: string) {
-  tracker.trackEvent('Report', 'Complete Report', { label: 'Click Done', value: 0 });
+  tracker.trackEvent('level_end', { level_name: 'report' });
   return (dispatch: Dispatch, getState: GetState) => {
     const { user = {}, reports, app } = getState();
     const userName = (user.data && user.data.fullName) || '';

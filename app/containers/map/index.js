@@ -70,7 +70,7 @@ function mapDispatchToProps(dispatch, { navigation }) {
     ),
     createReport: report => {
       dispatch(createReport(report));
-      tracker.trackEvent('Report', 'Create Report', { label: 'Click Done', value: 0 });
+      tracker.trackEvent('level_start', { level_name: 'report' });
     },
     navigate: (routeName, params) => {
       navigation.navigate(routeName, params);
