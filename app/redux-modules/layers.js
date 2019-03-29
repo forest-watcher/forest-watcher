@@ -266,15 +266,24 @@ export function getUserLayers() {
 }
 
 export function setActiveContextualLayer(layerId: string, value: boolean) {
-  return (dispatch: Dispatch, state: GetState) => {
+  return (dispatch: Dispatch, getState: GetState) => {
     let activeLayer = null;
-    const currentActiveLayer = state().layers.activeLayer;
+    const state = getState();
+    const currentActiveLayerId = state.layers.activeLayer;
+    const currentActiveLayer = state.layers.data?.find(layerData => layerData.id === currentActiveLayerId);
     if (!value) {
-      tracker.trackLayerToggledEvent(currentActiveLayer, false);
-    } else if (layerId !== currentActiveLayer) {
-      tracker.trackLayerToggledEvent(currentActiveLayer, false);
+      if (currentActiveLayer) {
+        tracker.trackLayerToggledEvent(currentActiveLayer.name, false);
+      }
+    } else if (layerId !== currentActiveLayerId) {
+      if (currentActiveLayer) {
+        tracker.trackLayerToggledEvent(currentActiveLayer.name, false);
+      }
       activeLayer = layerId;
-      tracker.trackLayerToggledEvent(activeLayer, true);
+      const nextActiveLayer = state.layers.data?.find(layerData => layerData.id === layerId);
+      if (nextActiveLayer) {
+        tracker.trackLayerToggledEvent(nextActiveLayer.name, true);
+      }
     }
     return dispatch({ type: SET_ACTIVE_LAYER, payload: activeLayer });
   };
