@@ -42,7 +42,9 @@ function sortReports(reports) {
 
 function mapStateToProps(state: State) {
   return {
+    appLanguage: state.app.language,
     isConnected: shouldBeConnected(state),
+    templates: state.reports.templates,
     reports: getReports(state.reports.list),
     getLastStep: formName => {
       const answers = state.reports.list[formName].answers;

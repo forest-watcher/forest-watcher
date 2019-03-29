@@ -4,6 +4,8 @@ import _ from 'lodash';
 const { parse } = require('json2csv');
 import RNFetchBlob from 'react-native-fetch-blob';
 
+var moment = require('moment');
+
 export const ExportMethod = {
   CSV: 0,
   HTML: 1,
@@ -11,7 +13,7 @@ export const ExportMethod = {
 };
 
 /**
- * Asynchronously exports the specified reports to a specified directory so that the user can access them independently
+ * Exports the specified reports to a specified directory so that the user can access them independently
  * of the app.
  *
  * @param {Report} reports[]
@@ -25,17 +27,38 @@ export const ExportMethod = {
  *  Target directory to export the reports to
  * @param {number} method
  *  Integer corresponding to one of the values in ExportMethod indicating which format to export the data
- * @return {Promise<string[]>}
- *  Promise holding an array of file paths that were created in order to fulfil the export
+ * @return {string[]}
+ *  Array of file paths that were created in order to fulfil the export
  */
-export default async function exportReports(
+export default function exportReports(
   reports,
   templates,
   lang,
   dir = RNFetchBlob.fs.dirs.DocumentDir,
   method = ExportMethod.CSV
 ) {
-  return Promise.resolve([`${dir}/export.csv`]);
+  // TODO: Handle non-CSV methods.
+  if (method !== ExportMethod.CSV) {
+    throw new Error('Only CSV exporting is handled right now!');
+  }
+  // Get all of the CSV strings. This'll be a dictionary, with the key being the template ID and the contents being the document string.
+  const csvStrings = renderReportsAsCsv(reports, templates, lang);
+
+  // Determine the output directory.
+  const formattedDateTime = moment().format('YYYY-MM-DD_HH-mm-ss');
+  const exportDirectory = `${dir}/Reports/${formattedDateTime}`;
+
+  // For every CSV string (one per template), get the template's name & save the CSV string to a file!
+  let exportedFilePaths = Object.keys(csvStrings).map(key => {
+    const csvString = csvStrings[key];
+    const templateName = templates?.[key]?.['name']?.[lang] || templates?.[key]?.defaultLanguage;
+
+    const completeFilePath = `${exportDirectory}/${templateName}.csv`;
+    RNFetchBlob.fs.writeFile(completeFilePath, csvString, 'utf8');
+    return completeFilePath;
+  });
+
+  return exportedFilePaths;
 }
 
 /**
@@ -64,12 +87,14 @@ export function renderReportsAsCsv(reports, templates, lang) {
   reports?.forEach(report => {
     const templateId = report?.area?.templateId;
     if (templates[templateId]) {
-      reportsByTemplateId[templateId] = [...reportsByTemplateId[templateId], report];
+      reportsByTemplateId[templateId] = [...(reportsByTemplateId[templateId] || []), report];
     }
   });
 
   // For each related group of reports, create a CSV
-  return _.mapValues(reportsByTemplateId, (reports, template) => renderReportGroupAsCsv(reports, template, lang));
+  return _.mapValues(reportsByTemplateId, (reports, templateId) =>
+    renderReportGroupAsCsv(reports, templates[templateId], lang)
+  );
 }
 
 /**
