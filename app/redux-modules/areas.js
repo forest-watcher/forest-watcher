@@ -248,10 +248,20 @@ export function setAreaDatasetStatus(areaId: string, datasetSlug: string, status
     if (area) {
       const datasets = area.datasets.map(item => {
         if (item.slug !== datasetSlug) {
-          return status === true ? { ...item, active: false } : item;
+          if (status === true) {
+            if (item.active) {
+              tracker.trackLayerToggledEvent(item.slug, false);
+            }
+            return {
+              ...item,
+              active: false
+            };
+          }
+          return item;
         }
         return { ...item, active: status };
       });
+      tracker.trackLayerToggledEvent(datasetSlug, status);
       dispatch(updateArea({ ...area, datasets }));
     }
   };
