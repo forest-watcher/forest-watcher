@@ -8,7 +8,6 @@ import styles from './styles';
 
 type Props = {
   loggedIn: boolean,
-  token: string,
   isAppSynced: boolean,
   componentId: string,
   hasAreas: boolean,

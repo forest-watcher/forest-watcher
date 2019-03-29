@@ -33,21 +33,25 @@ type Props = {
     complete: Array<ReportItem>
   },
   getLastStep: string => number,
-  showExportReportsSuccessfulNotification: function
+  showExportReportsSuccessfulNotification: () => void
 };
 
 const KEY_EXPORT_START = 'key_export_start';
 const KEY_EXPORT_CANCEL = 'key_export_cancel';
 
-const BUTTON_EXPORT_START = [{
-  id: KEY_EXPORT_START,
-  text: 'Export'
-}];
+const BUTTON_EXPORT_START = [
+  {
+    id: KEY_EXPORT_START,
+    text: 'Export'
+  }
+];
 
-const BUTTON_EXPORT_CANCEL = [{
-  id: KEY_EXPORT_CANCEL,
-  text: 'Cancel'
-}];
+const BUTTON_EXPORT_CANCEL = [
+  {
+    id: KEY_EXPORT_CANCEL,
+    text: 'Cancel'
+  }
+];
 
 const BUTTON_EXPORT_EMPTY = [];
 
@@ -90,7 +94,7 @@ class Reports extends PureComponent<Props> {
       return;
     }
 
-    const {draft, complete, uploaded} = this.props.reports;
+    const { draft, complete, uploaded } = this.props.reports;
 
     const hasExportableReports = complete.length + uploaded.length > 0;
     const hadExportableReports = prevProps.reports.complete.length + prevProps.reports.uploaded.length > 0;
@@ -100,7 +104,7 @@ class Reports extends PureComponent<Props> {
       return;
     }
 
-    this.setExportButtonTo((complete.length + uploaded.length > 0) ? BUTTON_EXPORT_START : BUTTON_EXPORT_EMPTY)
+    this.setExportButtonTo(complete.length + uploaded.length > 0 ? BUTTON_EXPORT_START : BUTTON_EXPORT_EMPTY);
   }
 
   /**
@@ -222,19 +226,24 @@ class Reports extends PureComponent<Props> {
       reportsToExport.push(selectedReport);
     });
 
-    exportReports(reportsToExport, this.props.templates, this.props.appLanguage, Platform.select({
-      android: RNFetchBlob.fs.dirs.DownloadDir,
-      ios: RNFetchBlob.fs.dirs.DocumentDir
-    }));
+    exportReports(
+      reportsToExport,
+      this.props.templates,
+      this.props.appLanguage,
+      Platform.select({
+        android: RNFetchBlob.fs.dirs.DownloadDir,
+        ios: RNFetchBlob.fs.dirs.DocumentDir
+      })
+    );
 
     // TODO: Handle errors returned from export function.
 
     // Show 'export successful' notification, and reset export state to reset UI.
-    this.props.showExportReportsSuccessfulNotification()
+    this.props.showExportReportsSuccessfulNotification();
     this.setExportButtonTo(BUTTON_EXPORT_START);
     this.setState({
       selectedForExport: {}
-    })
+    });
   };
 
   /**

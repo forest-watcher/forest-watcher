@@ -1,5 +1,10 @@
 import { renderReportGroupAsCsv } from '../exportReports';
-import { createFakeLanguages, createFakeQuestion, createFakeReport, createFakeTemplate } from '../__mocks__/generateFakeData';
+import {
+  createFakeLanguages,
+  createFakeQuestion,
+  createFakeReport,
+  createFakeTemplate
+} from '../__mocks__/generateFakeData';
 
 const faker = require('faker');
 
