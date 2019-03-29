@@ -41,6 +41,7 @@ class SetupCountry extends Component {
   }
 
   componentDidMount() {
+    tracker.trackAreaCreationFlowStartedEvent();
     tracker.trackScreenView('Set Up - Select Country');
   }
 

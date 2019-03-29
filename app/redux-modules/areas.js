@@ -10,6 +10,8 @@ import { RETRY_SYNC } from 'redux-modules/app';
 import { GET_ALERTS_COMMIT } from 'redux-modules/alerts';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
+import tracker from 'helpers/googleAnalytics';
+
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
 export const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
 const GET_AREAS_ROLLBACK = 'areas/GET_AREAS_ROLLBACK';
@@ -227,6 +229,7 @@ export function saveArea(params: { snapshot: string, area: CountryArea }): Areas
   }
   // $FlowFixMe
   body.append('image', image);
+
   return {
     type: SAVE_AREA_REQUEST,
     meta: {
@@ -245,10 +248,20 @@ export function setAreaDatasetStatus(areaId: string, datasetSlug: string, status
     if (area) {
       const datasets = area.datasets.map(item => {
         if (item.slug !== datasetSlug) {
-          return status === true ? { ...item, active: false } : item;
+          if (status === true) {
+            if (item.active) {
+              tracker.trackLayerToggledEvent(item.slug, false);
+            }
+            return {
+              ...item,
+              active: false
+            };
+          }
+          return item;
         }
         return { ...item, active: status };
       });
+      tracker.trackLayerToggledEvent(datasetSlug, status);
       dispatch(updateArea({ ...area, datasets }));
     }
   };

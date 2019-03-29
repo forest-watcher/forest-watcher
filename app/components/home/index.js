@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { View, ActivityIndicator, InteractionManager } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import Theme from 'config/theme';
-import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 type Props = {
@@ -43,10 +42,9 @@ class Home extends Component<Props> {
   }
 
   handleStatus() {
-    const { loggedIn, token, hasAreas, isAppSynced, componentId, actionsPending, setAppSynced, syncApp } = this.props;
+    const { loggedIn, hasAreas, isAppSynced, componentId, actionsPending, setAppSynced, syncApp } = this.props;
 
     if (loggedIn) {
-      tracker.setUser(token);
       if (isAppSynced) {
         if (this.syncModalOpen) {
           Navigation.dismissAllModals();

@@ -70,7 +70,12 @@ function mapDispatchToProps(dispatch, { navigation }) {
     ),
     createReport: report => {
       dispatch(createReport(report));
-      tracker.trackEvent('Report', 'Create Report', { label: 'Click Done', value: 0 });
+      let numAlertsInReport = 0;
+      if (report.latLng) {
+        const parsedAlerts = JSON.parse(report.latLng);
+        numAlertsInReport = parsedAlerts.length;
+      }
+      tracker.trackReportFlowStartedEvent(numAlertsInReport);
     },
     navigate: (routeName, params) => {
       navigation.navigate(routeName, params);
