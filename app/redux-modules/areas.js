@@ -230,8 +230,6 @@ export function saveArea(params: { snapshot: string, area: CountryArea }): Areas
   // $FlowFixMe
   body.append('image', image);
 
-  tracker.trackAreaCreated();
-
   return {
     type: SAVE_AREA_REQUEST,
     meta: {
