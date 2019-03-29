@@ -4,6 +4,8 @@ import _ from 'lodash';
 const { parse } = require('json2csv');
 import RNFetchBlob from 'react-native-fetch-blob';
 
+var moment = require('moment');
+
 export const ExportMethod = {
   CSV: 0,
   HTML: 1,
@@ -35,7 +37,30 @@ export default async function exportReports(
   dir = RNFetchBlob.fs.dirs.DocumentDir,
   method = ExportMethod.CSV
 ) {
-  return Promise.resolve([`${dir}/export.csv`]);
+  // TODO: Handle non-CSV methods.
+  if (method !== ExportMethod.CSV) {
+    throw new Error('Only CSV exporting is handled right now!');
+  }
+  // Get all of the CSV strings. This'll be a dictionary, with the key being the template ID and the contents being the document string.
+  const csvStrings = renderReportsAsCsv(reports, templates, lang);
+
+  // Determine the output directory.
+  const formattedDateTime = moment().format('YYYY-MM-DD_HH-mm-ss');
+  const exportDirectory = `${dir}/Reports/${formattedDateTime}`;
+
+  let exportedFilePaths = [];
+
+  // For every CSV string (one per template), get the template's name & save the CSV string to a file!
+  Object.keys(csvStrings).forEach(key => {
+    const csvString = csvStrings[key];
+    const templateName = templates[key]['name'][lang] || 'Export';
+
+    const completeFilePath = `${exportDirectory}/${templateName}.csv`;
+    RNFetchBlob.fs.writeFile(completeFilePath, csvString, 'utf8');
+    exportedFilePaths.push(completeFilePath);
+  });
+
+  return exportedFilePaths;
 }
 
 /**
@@ -64,12 +89,14 @@ export function renderReportsAsCsv(reports, templates, lang) {
   reports?.forEach(report => {
     const templateId = report?.area?.templateId;
     if (templates[templateId]) {
-      reportsByTemplateId[templateId] = [...reportsByTemplateId[templateId], report];
+      reportsByTemplateId[templateId] = [...(reportsByTemplateId[templateId] || []), report];
     }
   });
 
   // For each related group of reports, create a CSV
-  return _.mapValues(reportsByTemplateId, (reports, template) => renderReportGroupAsCsv(reports, template, lang));
+  return _.mapValues(reportsByTemplateId, (reports, templateId) =>
+    renderReportGroupAsCsv(reports, templates[templateId], lang)
+  );
 }
 
 /**

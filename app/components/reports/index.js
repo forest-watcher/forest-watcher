@@ -221,13 +221,12 @@ class Reports extends PureComponent<Props> {
       reportsToExport.push(selectedReport);
     });
 
-    // TODO: Pass reportsToExport to the magic export function ✨
+    exportReports(reportsToExport, this.props.templates, this.props.appLanguage);
 
     // TODO: Handle errors returned from export function.
 
     // Show 'export successful' notification, and reset export state to reset UI.
     this.props.showExportReportsSuccessfulNotification()
-
     this.setExportButtonTo(BUTTON_EXPORT_START);
     this.setState({
       selectedForExport: {}
