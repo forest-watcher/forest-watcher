@@ -202,7 +202,7 @@ class Reports extends PureComponent<Props> {
    * @param  {Object} selectedReports A mapping of report titles to a boolean dictating whether they've been selected for export.
    * @param  {Array} userReports      The user's reports.
    */
-  onExportReportsTapped = async (selectedReports, userReports) => {
+  onExportReportsTapped = (selectedReports, userReports) => {
     // Merge the completed and uploaded reports that are available together, so we can find any selected reports to export them.
     const completeReports = userReports.complete || [];
     const mergedReports = completeReports.concat(userReports.uploaded);

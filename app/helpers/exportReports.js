@@ -13,7 +13,7 @@ export const ExportMethod = {
 };
 
 /**
- * Asynchronously exports the specified reports to a specified directory so that the user can access them independently
+ * Exports the specified reports to a specified directory so that the user can access them independently
  * of the app.
  *
  * @param {Report} reports[]
@@ -27,10 +27,10 @@ export const ExportMethod = {
  *  Target directory to export the reports to
  * @param {number} method
  *  Integer corresponding to one of the values in ExportMethod indicating which format to export the data
- * @return {Promise<string[]>}
- *  Promise holding an array of file paths that were created in order to fulfil the export
+ * @return {string[]}
+ *  Array of file paths that were created in order to fulfil the export
  */
-export default async function exportReports(
+export default function exportReports(
   reports,
   templates,
   lang,
@@ -48,16 +48,14 @@ export default async function exportReports(
   const formattedDateTime = moment().format('YYYY-MM-DD_HH-mm-ss');
   const exportDirectory = `${dir}/Reports/${formattedDateTime}`;
 
-  let exportedFilePaths = [];
-
   // For every CSV string (one per template), get the template's name & save the CSV string to a file!
-  Object.keys(csvStrings).forEach(key => {
+  let exportedFilePaths = Object.keys(csvStrings).map(key => {
     const csvString = csvStrings[key];
-    const templateName = templates[key]['name'][lang] || 'Export';
+    const templateName = templates?.[key]?.['name']?.[lang] || templates?.[key]?.defaultLanguage;
 
     const completeFilePath = `${exportDirectory}/${templateName}.csv`;
     RNFetchBlob.fs.writeFile(completeFilePath, csvString, 'utf8');
-    exportedFilePaths.push(completeFilePath);
+    return completeFilePath;
   });
 
   return exportedFilePaths;
