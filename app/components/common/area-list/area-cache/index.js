@@ -55,21 +55,26 @@ class AreaCache extends PureComponent<Props, State> {
 
   componentDidUpdate(prevProps: Props) {
     if (prevProps.cacheStatus.progress > 0 && this.props.cacheStatus.progress === 0) {
-      tracker.trackAreaDownloadStartedEvent();
       this.setIndeterminate(true);
     }
 
     if (prevProps.cacheStatus.progress === 0 && this.props.cacheStatus.progress > 0) {
-      tracker.trackAreaDownloadEndedEvent(true);
       this.setIndeterminate(false);
     }
 
     if (this.props.cacheStatus.error && prevProps.pendingCache > 0 && this.props.pendingCache === 0) {
-      tracker.trackAreaDownloadEndedEvent(false);
       Alert.alert(i18n.t('commonText.error'), i18n.t('dashboard.downloadFailed'), [
         { text: 'OK', onPress: this.resetCacheStatus },
         { text: i18n.t('commonText.retry'), onPress: this.onRetry }
       ]);
+    }
+
+    if (prevProps.cacheStatus.progress === 0 && this.props.cacheStatus.progress > 0) {
+      tracker.trackAreaDownloadStartedEvent();
+    }
+
+    if (this.props.pendingCache === 0 && prevProps.pendingCache > 0) {
+      tracker.trackAreaDownloadEndedEvent(!this.props.cacheStatus.error);
     }
   }
 
