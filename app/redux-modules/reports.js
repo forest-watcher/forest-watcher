@@ -6,7 +6,6 @@ import omit from 'lodash/omit';
 
 import Config from 'react-native-config';
 import merge from 'lodash/merge';
-import tracker from 'helpers/googleAnalytics';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import CONSTANTS from 'config/constants';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
@@ -226,7 +225,6 @@ export function saveReport(name: string, data: Report): ReportsAction {
 }
 
 export function uploadReport(reportName: string) {
-  tracker.trackEvent('level_end', { level_name: 'report' });
   return (dispatch: Dispatch, getState: GetState) => {
     const { user = {}, reports, app } = getState();
     const userName = (user.data && user.data.fullName) || '';

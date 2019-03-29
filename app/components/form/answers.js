@@ -4,14 +4,15 @@ import type { Answer, Question } from 'types/reports.types';
 import React, { PureComponent } from 'react';
 import { ActionSheetIOS, Alert, View, Text, ScrollView, Platform } from 'react-native';
 import DialogAndroid from 'react-native-dialogs';
+import { Navigation } from 'react-native-navigation';
 import i18n from 'locales';
 
 import ActionButton from 'components/common/action-button';
 import AnswerComponent from 'components/form/answer/answer';
 import ImageCarousel from 'components/common/image-carousel';
+import tracker, { REPORT_OUTCOME_CANCELLED, REPORT_OUTCOME_COMPLETED } from 'helpers/googleAnalytics';
 import withDraft from './withDraft';
 import styles from './styles';
-import { Navigation } from 'react-native-navigation';
 
 const deleteIcon = require('assets/delete_red.png');
 const exportIcon = require('assets/upload.png');
@@ -113,6 +114,7 @@ class Answers extends PureComponent<Props> {
 
     if (buttonId === 'backButton') {
       Navigation.dismissModal(this.props.componentId);
+      tracker.trackReportFlowEndedEvent(REPORT_OUTCOME_CANCELLED);
     }
   }
 
@@ -131,6 +133,7 @@ class Answers extends PureComponent<Props> {
     const { reportName, uploadReport, componentId, setActiveAlerts } = this.props;
     uploadReport(reportName);
     setActiveAlerts(true);
+    tracker.trackReportFlowEndedEvent(REPORT_OUTCOME_COMPLETED);
     Navigation.dismissModal(componentId);
   };
 
