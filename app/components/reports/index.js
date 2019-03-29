@@ -1,7 +1,8 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { Platform, View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 import Row from 'components/common/row';
 import moment from 'moment';
@@ -221,7 +222,10 @@ class Reports extends PureComponent<Props> {
       reportsToExport.push(selectedReport);
     });
 
-    exportReports(reportsToExport, this.props.templates, this.props.appLanguage);
+    exportReports(reportsToExport, this.props.templates, this.props.appLanguage, Platform.select({
+      android: RNFetchBlob.fs.dirs.DownloadDir,
+      ios: RNFetchBlob.fs.dirs.DocumentDir
+    }));
 
     // TODO: Handle errors returned from export function.
 
