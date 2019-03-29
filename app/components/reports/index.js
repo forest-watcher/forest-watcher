@@ -1,7 +1,8 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { Platform, View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 import Row from 'components/common/row';
 import moment from 'moment';
@@ -202,7 +203,7 @@ class Reports extends PureComponent<Props> {
    * @param  {Object} selectedReports A mapping of report titles to a boolean dictating whether they've been selected for export.
    * @param  {Array} userReports      The user's reports.
    */
-  onExportReportsTapped = async (selectedReports, userReports) => {
+  onExportReportsTapped = (selectedReports, userReports) => {
     // Merge the completed and uploaded reports that are available together, so we can find any selected reports to export them.
     const completeReports = userReports.complete || [];
     const mergedReports = completeReports.concat(userReports.uploaded);
@@ -221,13 +222,15 @@ class Reports extends PureComponent<Props> {
       reportsToExport.push(selectedReport);
     });
 
-    // TODO: Pass reportsToExport to the magic export function ✨
+    exportReports(reportsToExport, this.props.templates, this.props.appLanguage, Platform.select({
+      android: RNFetchBlob.fs.dirs.DownloadDir,
+      ios: RNFetchBlob.fs.dirs.DocumentDir
+    }));
 
     // TODO: Handle errors returned from export function.
 
     // Show 'export successful' notification, and reset export state to reset UI.
     this.props.showExportReportsSuccessfulNotification()
-
     this.setExportButtonTo(BUTTON_EXPORT_START);
     this.setState({
       selectedForExport: {}
