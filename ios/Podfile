@@ -13,6 +13,8 @@ target 'ForestWatcher' do
   pod 'FBSDKLoginKit', '4.38.0'
   pod 'FBSDKShareKit', '4.38.0'
 
+  pod 'Firebase/Core', '5.15.0'
+
   # pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
 
   ## react-native-maps dependencies.
