@@ -2,6 +2,7 @@ import { mapFormToAnsweredQuestions, mapFormToQuestions } from './forms';
 
 import _ from 'lodash';
 const { parse } = require('json2csv');
+import { PermissionsAndroid, Platform } from 'react-native';
 import RNFetchBlob from 'react-native-fetch-blob';
 
 var moment = require('moment');
@@ -30,7 +31,7 @@ export const ExportMethod = {
  * @return {string[]}
  *  Array of file paths that were created in order to fulfil the export
  */
-export default function exportReports(
+export default async function exportReports(
   reports,
   templates,
   lang,
@@ -41,6 +42,11 @@ export default function exportReports(
   if (method !== ExportMethod.CSV) {
     throw new Error('Only CSV exporting is handled right now!');
   }
+
+  if (Platform.OS === 'android') {
+    await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
+  }
+
   // Get all of the CSV strings. This'll be a dictionary, with the key being the template ID and the contents being the document string.
   const csvStrings = renderReportsAsCsv(reports, templates, lang);
 
