@@ -130,5 +130,7 @@ __RN_CONFIG_CODEPUSH_RELEASE_PUBLIC_KEY
 	<false/>
 	<key>UIFileSharingEnabled</key>
 	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
 </dict>
 </plist>
