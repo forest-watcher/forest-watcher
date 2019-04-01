@@ -2,7 +2,7 @@
 import type { Answer, Question } from 'types/reports.types';
 
 import React, { PureComponent } from 'react';
-import { ActionSheetIOS, Alert, View, Text, ScrollView, Platform } from 'react-native';
+import { ActionSheetIOS, View, Text, ScrollView, Platform } from 'react-native';
 import DialogAndroid from 'react-native-dialogs';
 import { Navigation } from 'react-native-navigation';
 import i18n from 'locales';
@@ -30,6 +30,7 @@ type Props = {
   setActiveAlerts: boolean => void,
   isConnected: boolean,
   showNotConnectedNotification: () => void,
+  showExportReportsSuccessfulNotification: () => void,
   showUploadButton: boolean
 };
 
@@ -76,7 +77,8 @@ class Answers extends PureComponent<Props> {
       const buttonHandler = idx => {
         switch (idx) {
           case 0: {
-            Alert.alert('hello', this.props.exportReport());
+            this.props.exportReport();
+            this.props.showExportReportsSuccessfulNotification();
             break;
           }
           case 1: {
