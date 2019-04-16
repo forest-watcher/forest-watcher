@@ -42,14 +42,14 @@ const KEY_EXPORT_CANCEL = 'key_export_cancel';
 const BUTTON_EXPORT_START = [
   {
     id: KEY_EXPORT_START,
-    text: 'Export'
+    text: i18n.t('report.export.navBarButtonText')
   }
 ];
 
 const BUTTON_EXPORT_CANCEL = [
   {
     id: KEY_EXPORT_CANCEL,
-    text: 'Cancel'
+    text: i18n.t('commonText.cancel')
   }
 ];
 
@@ -419,7 +419,11 @@ class Reports extends PureComponent<Props> {
               }}
             >
               <Text style={styles.exportTitle}>
-                {totalToExport > 0 ? `Export ${totalToExport} report...` : 'No reports selected'}
+                {totalToExport > 0
+                  ? totalToExport == 1
+                    ? i18n.t('report.export.oneReport', { count: 1 })
+                    : i18n.t('report.export.manyReports', { count: totalToExport })
+                  : i18n.t('report.export.noneSelected')}
               </Text>
             </TouchableOpacity>
           </SafeAreaView>
