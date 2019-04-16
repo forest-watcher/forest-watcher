@@ -71,9 +71,9 @@ class Answers extends PureComponent<Props> {
    */
   async navigationButtonPressed({ buttonId }) {
     if (buttonId === 'export') {
-      const title = 'Export report';
-      const message = 'How would you like to export this report?';
-      const options = ['Export as CSV...'];
+      const title = i18n.t('report.export.title');
+      const message = i18n.t('report.export.description');
+      const options = [i18n.t('report.export.option.asCSV')];
       const buttonHandler = idx => {
         switch (idx) {
           case 0: {
@@ -91,13 +91,13 @@ class Answers extends PureComponent<Props> {
       };
 
       if (this.props.showUploadButton) {
-        options.push('Upload');
+        options.push(i18n.t('report.upload'));
       }
 
       if (Platform.OS === 'ios') {
         ActionSheetIOS.showActionSheetWithOptions(
           {
-            options: [...options, 'Cancel'],
+            options: [...options, i18n.t('commonText.cancel')],
             cancelButtonIndex: options.length,
             title,
             message

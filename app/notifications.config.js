@@ -45,6 +45,6 @@ export default {
   },
   [EXPORT_REPORTS_SUCCESSFUL]: {
     type: Types.success,
-    text: 'Exporting reports succeeded!'
+    text: i18n.t('report.export.successful')
   }
 };
