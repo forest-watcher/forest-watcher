@@ -237,6 +237,18 @@
         "drafts": "Rascunhos",
         "empty": "Não foi submetido nenhum relatório. Por favor, vá até ao mapa e submeta um relatório sobre um ponto ou grupo de pontos!",
         "emptyPicture": "Vazio",
+        "export": {
+            "navBarButtonText": "Exportar",
+            "noneSelected": "Não foi selecionado nenhum relatório",
+            "oneReport": "Exportar %{count} relatório...",
+            "manyReports": "Exportar %{count} relatórios...",
+            "title": "Exportar relatório",
+            "description": "Como gostaria de exportar este relatório?",
+            "option": {
+                "asCSV": "Exportar como CSV..."
+            },
+            "successful": "Os relatórios foram exportados com sucesso!"
+        },
         "here": "Reporte aqui",
         "input": "Por favor, responda à questão",
         "inputRadio": "Escolha uma opção para continuar",
@@ -251,6 +263,7 @@
         "selected": "Relatar selecionado",
         "title": "Relatório",
         "toReport": "Relatório",
+        "upload": "Carregar",
         "uploaded": "Carregado"
     },
     "settings": {

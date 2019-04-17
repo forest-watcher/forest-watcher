@@ -237,6 +237,18 @@
         "drafts": "Brouillons",
         "empty": "Aucun rapport envoyé ; veuillez accéder à la carte et signaler un point ou un groupe de points !",
         "emptyPicture": "Vide",
+        "export": {
+            "navBarButtonText": "Exporter",
+            "noneSelected": "Aucun rapport sélectionné",
+            "oneReport": "Exporter %{count} rapport...",
+            "manyReports": "Exporter %{count} rapports...",
+            "title": "Exporter le rapport",
+            "description": "Comment souhaitez-vous exporter ce rapport ?",
+            "option": {
+                "asCSV": "Exporter en CSV..."
+            },
+            "successful": "Export des rapports réussi !"
+        },
         "here": "Signaler ici",
         "input": "S'il vous plaît, répondez à la question",
         "inputRadio": "Choisissez une option pour continuer",
@@ -251,6 +263,7 @@
         "selected": "Rapport sélectionnée",
         "title": "Rapport",
         "toReport": "Rapport",
+        "upload": "Charger",
         "uploaded": "Sauvegardé"
     },
     "settings": {
