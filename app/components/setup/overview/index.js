@@ -42,6 +42,7 @@ class SetupOverview extends Component {
       },
       snapshot: this.props.snapshot
     };
+    tracker.trackAreaCreationFlowEndedEvent();
     this.props.setSetupArea(params);
     this.props.saveArea(params);
     Navigation.setStackRoot(this.props.componentId, {

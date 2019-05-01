@@ -1,7 +1,7 @@
 import { Dimensions, Platform } from 'react-native';
 
 const screen = Dimensions.get('window');
-const colors = {
+export const colors = {
   color1: '#97be32',
   color2: '#555555',
   color3: '#8a8a8a',

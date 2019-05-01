@@ -237,6 +237,18 @@
         "drafts": "Borradores",
         "empty": "No se ha enviado ningún informe. ¡Por favor, ve al mapa e informa sobre un punto o un grupo de puntos!",
         "emptyPicture": "Vacío",
+        "export": {
+            "navBarButtonText": "Exportar",
+            "noneSelected": "No se ha seleccionado ningún informe",
+            "oneReport": "Exportar %{count} informe...",
+            "manyReports": "Exportar %{count} informes...",
+            "title": "Exportar informe",
+            "description": "¿Cómo quieres exportar este informe?",
+            "option": {
+                "asCSV": "Exportar como CSV..."
+            },
+            "successful": "¡Informes exportados correctamente!"
+        },
         "here": "Reportar aquí",
         "input": "Por favor conteste la pregunta",
         "inputRadio": "Elija una opción para continuar",
@@ -251,6 +263,7 @@
         "selected": "Informe seleccionado",
         "title": "Reporte",
         "toReport": "Reportar",
+        "upload": "Cargar",
         "uploaded": "Subido"
     },
     "settings": {

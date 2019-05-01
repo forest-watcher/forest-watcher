@@ -5,6 +5,7 @@ import { Alert } from 'react-native';
 import CONSTANTS from 'config/constants';
 import i18n from 'locales';
 import { Navigation } from 'react-native-navigation';
+import tracker, { REPORT_OUTCOME_SAVED } from '../../helpers/googleAnalytics';
 
 const saveReportIcon = require('assets/save_for_later.png');
 
@@ -67,6 +68,7 @@ function withDraft(WrappedComponent: any) {
                   status: CONSTANTS.status.draft
                 });
               }
+              tracker.trackReportFlowEndedEvent(REPORT_OUTCOME_SAVED);
               Navigation.dismissModal(componentId);
             }
           }

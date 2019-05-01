@@ -24,6 +24,7 @@ export const SAVE_LAST_ACTIONS = 'app/SAVE_LAST_ACTIONS';
 export const SHOW_OFFLINE_MODE_IS_ON = 'app/SHOW_OFFLINE_MODE_IS_ON';
 export const SHOW_CONNECTION_REQUIRED = 'app/SHOW_CONNECTION_REQUIRED';
 export const UPDATE_APP = 'app/UPDATE_APP';
+export const EXPORT_REPORTS_SUCCESSFUL = 'app/EXPORT_REPORTS_SUCCESSFUL';
 
 // Reducer
 const initialState = {
@@ -132,5 +133,11 @@ export function showNotConnectedNotification() {
       return dispatch({ type: SHOW_OFFLINE_MODE_IS_ON });
     }
     return dispatch({ type: SHOW_CONNECTION_REQUIRED });
+  };
+}
+
+export function showExportReportsSuccessfulNotification() {
+  return (dispatch: Dispatch, getState: GetState) => {
+    return dispatch({ type: EXPORT_REPORTS_SUCCESSFUL });
   };
 }
