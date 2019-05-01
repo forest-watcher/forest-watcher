@@ -2,7 +2,7 @@
 import type { Answer, Question } from 'types/reports.types';
 
 import React, { PureComponent } from 'react';
-import { ActionSheetIOS, Alert, View, Text, ScrollView, Platform } from 'react-native';
+import { ActionSheetIOS, View, Text, ScrollView, Platform } from 'react-native';
 import DialogAndroid from 'react-native-dialogs';
 import { Navigation } from 'react-native-navigation';
 import i18n from 'locales';
@@ -30,6 +30,7 @@ type Props = {
   setActiveAlerts: boolean => void,
   isConnected: boolean,
   showNotConnectedNotification: () => void,
+  showExportReportsSuccessfulNotification: () => void,
   showUploadButton: boolean
 };
 
@@ -70,13 +71,14 @@ class Answers extends PureComponent<Props> {
    */
   async navigationButtonPressed({ buttonId }) {
     if (buttonId === 'export') {
-      const title = 'Export report';
-      const message = 'How would you like to export this report?';
-      const options = ['Export as CSV...'];
+      const title = i18n.t('report.export.title');
+      const message = i18n.t('report.export.description');
+      const options = [i18n.t('report.export.option.asCSV')];
       const buttonHandler = idx => {
         switch (idx) {
           case 0: {
-            Alert.alert('hello', this.props.exportReport());
+            this.props.exportReport();
+            this.props.showExportReportsSuccessfulNotification();
             break;
           }
           case 1: {
@@ -89,13 +91,13 @@ class Answers extends PureComponent<Props> {
       };
 
       if (this.props.showUploadButton) {
-        options.push('Upload');
+        options.push(i18n.t('report.upload'));
       }
 
       if (Platform.OS === 'ios') {
         ActionSheetIOS.showActionSheetWithOptions(
           {
-            options: [...options, 'Cancel'],
+            options: [...options, i18n.t('commonText.cancel')],
             cancelButtonIndex: options.length,
             title,
             message

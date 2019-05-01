@@ -237,6 +237,18 @@
         "drafts": "Draf",
         "empty": "Tidak ada laporan yang dikirimkan, silakan kunjungi peta dan laporkan satu poin atau beberapa poin!",
         "emptyPicture": "Kosong",
+        "export": {
+            "navBarButtonText": "Ekspor",
+            "noneSelected": "Tak ada laporan yang dipilih",
+            "oneReport": "Ekspor %{count} laporan...",
+            "manyReports": "Ekspor %{count} laporan...",
+            "title": "Ekspor laporan",
+            "description": "Bagaimana Anda ingin mengekspor laporan ini?",
+            "option": {
+                "asCSV": "Ekspor sebagai CSV ..."
+            },
+            "successful": "Ekspor laporan berhasil!"
+        },
         "here": "Laporkan di sini",
         "input": "Silakan jawab pertanyaannya",
         "inputRadio": "Pilih satu opsi untuk melanjutkan",
@@ -251,6 +263,7 @@
         "selected": "Laporan dipilih",
         "title": "Lapor",
         "toReport": "Lapor",
+        "upload": "Unggah",
         "uploaded": "Terunggah"
     },
     "settings": {

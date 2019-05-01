@@ -4,8 +4,10 @@ import type { Report } from 'types/reports.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Platform } from 'react-native';
+import RNFetchBlob from 'react-native-fetch-blob';
 
-import { showNotConnectedNotification } from 'redux-modules/app';
+import { showNotConnectedNotification, showExportReportsSuccessfulNotification } from 'redux-modules/app';
 import { saveReport, uploadReport, deleteReport, setReportAnswer } from 'redux-modules/reports';
 import { setActiveAlerts } from 'redux-modules/alerts';
 
@@ -15,7 +17,7 @@ import moment from 'moment';
 
 import { shouldBeConnected } from 'helpers/app';
 import { getTemplate, mapFormToAnsweredQuestions } from 'helpers/forms';
-import { renderReportGroupAsCsv } from 'helpers/exportReports';
+import exportReports from 'helpers/exportReports';
 import Answers from 'components/form/answers';
 
 function mapReportToMetadata(report: Report, language) {
@@ -59,8 +61,18 @@ function mapStateToProps(state: State, ownProps: { reportName: string, readOnly:
   const templateLang = template.languages.includes(app.language) ? app.language : template.defaultLanguage;
   const report = reports.list[reportName];
   const answers = report && report.answers;
+
   return {
-    exportReport: () => renderReportGroupAsCsv([report], template, templateLang),
+    exportReport: () =>
+      exportReports(
+        [report],
+        { [report?.area?.templateId]: template },
+        templateLang,
+        Platform.select({
+          android: RNFetchBlob.fs.dirs.DownloadDir,
+          ios: RNFetchBlob.fs.dirs.DocumentDir
+        })
+      ),
     results: mapFormToAnsweredQuestions(answers, template, state.app.language),
     metadata: mapReportToMetadata(report, templateLang),
     isConnected: shouldBeConnected(state),
@@ -76,7 +88,8 @@ const mapDispatchToProps = (dispatch: *) =>
       uploadReport,
       setReportAnswer,
       setActiveAlerts,
-      showNotConnectedNotification
+      showNotConnectedNotification,
+      showExportReportsSuccessfulNotification
     },
     dispatch
   );
