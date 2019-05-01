@@ -1,6 +1,7 @@
-import { mapFormToAnsweredQuestions, mapFormToQuestions } from './forms';
+import { REPORT_METADATA_FIELDS, mapFormToAnsweredQuestions, mapFormToQuestions, mapReportToMetadata } from './forms';
 
 import _ from 'lodash';
+
 const { parse } = require('json2csv');
 import { PermissionsAndroid, Platform } from 'react-native';
 import RNFetchBlob from 'react-native-fetch-blob';
@@ -125,13 +126,21 @@ export function renderReportsAsCsv(reports, templates, lang) {
  * @return {string}
  */
 export function renderReportGroupAsCsv(reports, template, lang) {
+  // Define columns based on the metadata returned by mapReportToMetadata. These are passed as config to json2csv.
+  // Each label represents the column header, and value is a function to calculate the value of each cell
+  const metadataFields = REPORT_METADATA_FIELDS.map(field => ({
+    label: field.label,
+    value: reportData => reportData.metadata?.find(item => item.id === field.id)?.value?.join(', ')
+  }));
+
   const questions = mapFormToQuestions(template, lang);
 
   // These are passed as config to json2csv.
   // Each label represents the column header, and value is a function to calculate the value of each cell
   const questionFields = Object.values(questions).map(question => ({
     label: question.label,
-    value: (answers, field) => {
+    value: reportData => {
+      const answers = reportData.answers;
       const answerToThisQuestion = answers.find(answer => question.name === answer.questionName);
 
       if (!answerToThisQuestion) {
@@ -142,7 +151,9 @@ export function renderReportGroupAsCsv(reports, template, lang) {
     }
   }));
 
-  // Create an array of arrays. Each inner array is a localised array of answers comprising a report
+  // Create the metadata for each report
+  const reportMetadata = reports?.filter(report => !!report)?.map(report => mapReportToMetadata(report, lang));
+  // Create an array of answer arrays. Each inner array is a localised array of answers comprising a report
   const localisedAnswers = reports
     ?.filter(report => !!report)
     ?.map(report => mapFormToAnsweredQuestions(report.answers, template, lang))
@@ -154,9 +165,16 @@ export function renderReportGroupAsCsv(reports, template, lang) {
     _.flatMap(answers, answer => (answer.child ? [answer, answer.child] : [answer]))
   );
 
+  // Now zip together the report metadata and the associated answers
+  // This will create an array of arrays, which we then map into a more convenient object format
+  const reportData = _.zip(reportMetadata, flattenedAnswers).map(zippedPair => ({
+    metadata: zippedPair[0],
+    answers: zippedPair[1]
+  }));
+
   // Finally send the array (of arrays) into json2csv, where each row will be turned into a line of a CSV file
-  return parse(flattenedAnswers, {
-    fields: [...questionFields],
+  return parse(reportData, {
+    fields: [...metadataFields, ...questionFields],
     header: true
   });
 }

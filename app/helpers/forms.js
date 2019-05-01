@@ -1,6 +1,10 @@
 // @flow
 
-import type { Question, ReportsState, Template, Answer } from 'types/reports.types';
+import type { Question, Report, ReportsState, Template, Answer } from 'types/reports.types';
+
+import moment from 'moment';
+
+import { REPORTS } from 'config/constants';
 import i18n from 'locales';
 import flatMap from 'lodash/flatMap';
 
@@ -140,4 +144,62 @@ export function mapFormToAnsweredQuestions(answers: Array<Answer>, template: Tem
 
     return answeredQuestion;
   });
+}
+
+/**
+ * Constant array defining metadata fields returned by the mapReportsToMetadata.
+ */
+export const REPORT_METADATA_FIELDS = [
+  { id: 'name', label: i18n.t('commonText.name') },
+  { id: 'areaName', label: i18n.t('commonText.area') },
+  { id: 'date', label: i18n.t('commonText.date') },
+  { id: 'language', label: i18n.t('commonText.language') },
+  { id: 'userPosition', label: i18n.t('commonText.userPosition') },
+  { id: 'clickedPosition', label: i18n.t('commonText.reportedPosition') },
+  { id: 'dataset', label: i18n.t('commonText.alert') }
+];
+
+/**
+ * Creates and returns an array of structured metadata relating to the provided report
+ *
+ * The metadata returned by this method
+ *
+ * @param report
+ * @param language
+ *  A language to include as a metadata field. This is not used to localise any of the returned metadata.
+ * @return {*}
+ *  An array of objects, with each object having a unique id, a human-readable label, and an array of values
+ */
+export function mapReportToMetadata(report: Report, language) {
+  if (!report) return [];
+
+  const {
+    area: { dataset = {} }
+  } = report;
+  const reportedPosition =
+    report.clickedPosition &&
+    JSON.parse(report.clickedPosition).map(pos =>
+      [
+        pos.lat.toLocaleString(undefined, { maximumFractionDigits: 4 }),
+        pos.lon.toLocaleString(undefined, { maximumFractionDigits: 4 })
+      ].toString()
+    );
+  const date = moment(report.date).format('YYYY-MM-DD');
+  const userPosition =
+    report.userPosition === REPORTS.noGpsPosition ? i18n.t('report.noGpsPosition') : report.userPosition;
+
+  const metadata = [
+    { id: 'name', label: i18n.t('commonText.name'), value: [report.reportName] },
+    { id: 'areaName', label: i18n.t('commonText.area'), value: [report.area.name] },
+    { id: 'date', label: i18n.t('commonText.date'), value: [date] },
+    { id: 'language', label: i18n.t('commonText.language'), value: [language] },
+    { id: 'userPosition', label: i18n.t('commonText.userPosition'), value: [userPosition] },
+    { id: 'clickedPosition', label: i18n.t('commonText.reportedPosition'), value: [reportedPosition] }
+  ];
+
+  if (dataset && dataset.slug) {
+    metadata.push({ id: 'dataset', label: i18n.t('commonText.alert'), value: [i18n.t(`datasets.${dataset.slug}`)] });
+  }
+
+  return metadata;
 }
