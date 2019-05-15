@@ -125,7 +125,7 @@ export function renderReportsAsCsv(reports, templates, lang) {
  *  language is used.
  * @return {string}
  */
-export function renderReportGroupAsCsv(reports, template, lang) {
+export function renderReportGroupAsCsv(reports, template, lang, outputMetadata = true) {
   // Define columns based on the metadata returned by mapReportToMetadata. These are passed as config to json2csv.
   // Each label represents the column header, and value is a function to calculate the value of each cell
   const metadataFields = REPORT_METADATA_FIELDS.map(field => ({
@@ -174,7 +174,7 @@ export function renderReportGroupAsCsv(reports, template, lang) {
 
   // Finally send the array (of arrays) into json2csv, where each row will be turned into a line of a CSV file
   return parse(reportData, {
-    fields: [...metadataFields, ...questionFields],
+    fields: [...(outputMetadata ? metadataFields : []), ...questionFields],
     header: true
   });
 }
