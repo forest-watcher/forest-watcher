@@ -1,4 +1,10 @@
 rootProject.name = 'forest-watcher-android-client'
+include ':react-native-simple-compass'
+project(':react-native-simple-compass').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-simple-compass/android')
+include ':@mauron85_react-native-background-geolocation-common'
+project(':@mauron85_react-native-background-geolocation-common').projectDir = new File(rootProject.projectDir, '../node_modules/@mauron85/react-native-background-geolocation/android/common')
+include ':@mauron85_react-native-background-geolocation'
+project(':@mauron85_react-native-background-geolocation').projectDir = new File(rootProject.projectDir, '../node_modules/@mauron85/react-native-background-geolocation/android/lib')
 
 include ':app',
 		':react-native-dialogs',

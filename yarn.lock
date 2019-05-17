@@ -724,6 +724,11 @@
   version "1.0.1"
   resolved "https://codeload.github.com/Vizzuality/tilebelt/tar.gz/9e0c09681881c84bcb62a26b00f3d8d56a8c4035"
 
+"@mauron85/react-native-background-geolocation@0.5.3":
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/@mauron85/react-native-background-geolocation/-/react-native-background-geolocation-0.5.3.tgz#449a3f02fa2dd89198ad7db812ae95a37a983309"
+  integrity sha512-KzWzA55jWzCodXqHGdeKnw7MOXXsEO/f4+vd9KVicq7oyGLnEHA+t9DcpRd2YEEsFca515TNHmAcvh6vL1B0Kg==
+
 "@redux-offline/redux-offline@2.5.1":
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/@redux-offline/redux-offline/-/redux-offline-2.5.1.tgz#fc752e2ba3c21bfc7ac2dda9d1319e65891eda6c"
@@ -7236,11 +7241,6 @@ react-native-keyboard-aware-scroll-view@0.3.0:
     prop-types "^15.5.10"
     react-timer-mixin "^0.13.3"
 
-react-native-location@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-location/-/react-native-location-2.2.0.tgz#7eb1ce4be4a141035f87756ba08fe2e9b0b98134"
-  integrity sha512-1jgXB/2eiqbqr1qMhQBHosKHKk9PWbdNqxmUh+A6FetOBeJYutbp65xEAR8pr7Odg+x9yU2nfRiFl6fA+0BbEQ==
-
 "react-native-maps@github:3sidedcube/react-native-maps#55f879c5071eb4deb76f605d5d87b0ac852e9d9f":
   version "0.22.1"
   resolved "https://codeload.github.com/3sidedcube/react-native-maps/tar.gz/55f879c5071eb4deb76f605d5d87b0ac852e9d9f"
@@ -7294,6 +7294,11 @@ react-native-sentry@0.40.2:
   dependencies:
     "@sentry/wizard" "^0.12.1"
     raven-js "^3.24.2"
+
+react-native-simple-compass@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-simple-compass/-/react-native-simple-compass-1.0.0.tgz#ac60ff5e060c800941ff5c0432120b2986a8a69a"
+  integrity sha1-rGD/XgYMgAlB/1wEMhILKYaoppo=
 
 react-native-snap-carousel@3.7.5:
   version "3.7.5"
@@ -8785,6 +8790,11 @@ timed-out@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/timed-out/-/timed-out-4.0.1.tgz#f32eacac5a175bea25d7fab565ab3ed8741ef56f"
   integrity sha1-8y6srFoXW+ol1/q1Zas+2HQe9W8=
+
+tiny-emitter@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.1.0.tgz#1d1a56edfc51c43e863cbb5382a72330e3555423"
+  integrity sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==
 
 tinyqueue@^1.2.2:
   version "1.2.3"
