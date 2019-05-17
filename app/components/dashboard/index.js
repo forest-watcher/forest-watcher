@@ -6,7 +6,6 @@ import Config from 'react-native-config';
 import { Navigation } from 'react-native-navigation';
 import SafeArea from 'react-native-safe-area';
 
-import { requestLocationPermissions } from 'helpers/app';
 import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
 import tracker from 'helpers/googleAnalytics';
@@ -64,7 +63,6 @@ class Dashboard extends PureComponent<Props> {
   }
 
   componentDidMount() {
-    requestLocationPermissions();
     tracker.trackScreenView('Home - Dashboard');
     this.checkNeedsUpdate();
     if (this.props.refreshing && !this.props.appSyncing) {

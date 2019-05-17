@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Dimensions, DeviceEventEmitter, Animated, Easing, StatusBar, Image, Text, Platform } from 'react-native';
+import { View, Dimensions, Animated, Easing, StatusBar, Image, Text, Platform } from 'react-native';
 
 import { MAPS, REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
@@ -17,7 +17,6 @@ import CircleButton from 'components/common/circle-button';
 import AlertPosition from 'components/map/alert-position';
 import MapAttribution from 'components/map/map-attribution';
 import Clusters from 'containers/map/clusters';
-import { requestLocationPermissions } from 'helpers/app';
 import { formatCoordsByFormat, getAllNeighbours } from 'helpers/map';
 import tracker from 'helpers/googleAnalytics';
 import clusterGenerator from 'helpers/clusters-generator';
@@ -31,8 +30,19 @@ const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
 const geoViewport = require('@mapbox/geo-viewport');
 
-import RNLocation from 'react-native-location';
-const { SensorManager } = require('NativeModules');
+import {
+  GFWLocationAuthorizedAlways,
+  GFWLocationUnauthorized,
+  GFWOnLocationEvent,
+  GFWOnHeadingEvent,
+  checkLocationStatus,
+  getCurrentLocation,
+  startObservingLocationChanges,
+  stopObservingLocationChanges,
+  startObservingHeadingChanges,
+  stopObservingHeadingChanges
+} from 'helpers/location';
+var emitter = require('tiny-emitter/instance');
 
 const { width, height } = Dimensions.get('window');
 
@@ -119,9 +129,6 @@ class MapComponent extends Component {
     Navigation.events().bindComponent(this);
     const { center } = props;
     const initialCoords = center || { lat: MAPS.lat, lon: MAPS.lng };
-    this.eventLocation = null;
-    this.eventOrientation = null;
-    this.geolocationWatchId = null;
     // Google maps lon and lat are inverted
     this.state = {
       lastPosition: null,
@@ -143,6 +150,8 @@ class MapComponent extends Component {
       dragging: false,
       layoutHasForceRefreshed: false
     };
+
+    this.updateLocationFromGeolocation = this.updateLocationFromGeolocation.bind(this);
   }
 
   componentDidMount() {
@@ -190,18 +199,16 @@ class MapComponent extends Component {
   }
 
   componentWillUnmount() {
+    // Deregister event listeners.
+    emitter.off(GFWOnLocationEvent, this.updateLocationFromGeolocation);
+    emitter.off(GFWOnHeadingEvent);
+    stopObservingLocationChanges();
+    stopObservingHeadingChanges();
+
     if (Platform.OS === 'ios') {
       StatusBar.setBarStyle('default');
-      // Deregister event listeners.
-      this.eventLocation();
-      this.eventOrientation();
-    } else if (Platform.OS === 'android') {
-      if (this.geolocationWatchId !== null) {
-        navigator.geolocation.clearWatch(this.geolocationWatchId);
-        this.geolocationWatchId = null;
-      }
-      SensorManager.stopOrientation();
     }
+
     this.props.setSelectedAreaId('');
   }
 
@@ -421,26 +428,41 @@ class MapComponent extends Component {
   async geoLocate() {
     this.animateGeo();
 
-    const hasPermissions = await requestLocationPermissions();
+    checkLocationStatus(result => {
+      if (result.authorization === GFWLocationUnauthorized) {
+        // todo: handle this case.
+        return;
+      }
 
-    if (!hasPermissions) {
-      return;
-    }
-
-    const updateLocationFromGeolocation = throttle(location => {
-      const coords = typeof location.coords !== 'undefined' ? location.coords : location;
-      this.setState({
-        lastPosition: {
-          latitude: coords.latitude,
-          longitude: coords.longitude
+      // todo: fix issue where on first view of map, after giving permission no location is given.
+      getCurrentLocation((latestLocation, error) => {
+        if (error) {
+          // todo: handle error.
+          return;
         }
+        this.updateLocationFromGeolocation(latestLocation);
       });
-    }, 300);
 
-    const updateHeadingFromGeolocation = throttle(heading => {
-      this.setState(updateHeading(heading.heading));
-    }, 450);
+      emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
+      emitter.on(GFWOnHeadingEvent, this.updateHeading);
 
+      startObservingLocationChanges(GFWLocationAuthorizedAlways, error => {
+        // todo: handle error if returned.
+      });
+      startObservingHeadingChanges();
+    });
+  }
+
+  updateLocationFromGeolocation = throttle(location => {
+    this.setState({
+      lastPosition: {
+        latitude: location.latitude,
+        longitude: location.longitude
+      }
+    });
+  }, 300);
+
+  updateHeading = throttle(heading => {
     const updateHeading = heading => prevState => {
       const state = {
         heading: parseInt(heading, 10)
@@ -449,44 +471,8 @@ class MapComponent extends Component {
       return state;
     };
 
-    if (Platform.OS === 'ios') {
-      RNLocation.getLatestLocation({ timeout: 60000 }).then(latestLocation => {
-        updateLocationFromGeolocation(latestLocation);
-      });
-      this.eventLocation = RNLocation.subscribeToLocationUpdates(locations => {
-        const location = locations[0];
-        updateLocationFromGeolocation(location);
-      });
-
-      this.eventOrientation = RNLocation.subscribeToHeadingUpdates(heading => {
-        updateHeadingFromGeolocation(heading);
-      });
-    } else {
-      navigator.geolocation.getCurrentPosition(updateLocationFromGeolocation, error => console.info(error), {
-        enableHighAccuracy: true,
-        timeout: 30000
-      });
-
-      this.geolocationWatchId = navigator.geolocation.watchPosition(
-        updateLocationFromGeolocation,
-        error => console.info(error),
-        {
-          enableHighAccuracy: true,
-          timeout: 30000,
-          maximumAge: 0,
-          distanceFilter: 0
-        }
-      );
-
-      SensorManager.startOrientation();
-      this.eventOrientation = DeviceEventEmitter.addListener(
-        'Orientation',
-        throttle(data => {
-          this.setState(updateHeading(data.azimuth));
-        }, 450)
-      );
-    }
-  }
+    this.setState(updateHeading(heading));
+  }, 450);
 
   onRegionChange = region => {
     if (this.state.customReporting) {
