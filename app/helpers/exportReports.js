@@ -130,7 +130,7 @@ export function renderReportGroupAsCsv(reports, template, lang, outputMetadata =
   // Each label represents the column header, and value is a function to calculate the value of each cell
   const metadataFields = REPORT_METADATA_FIELDS.map(field => ({
     label: field.label,
-    value: reportData => reportData.metadata?.find(item => item.id === field.id)?.value?.join(', ')
+    value: reportData => reportData.metadata?.find(item => item.id === field.id)?.value?.join?.(', ')
   }));
 
   const questions = mapFormToQuestions(template, lang);
