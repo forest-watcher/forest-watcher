@@ -197,7 +197,10 @@ function renderReportAnswerAsText(questionType, answerValue) {
     case 'radio':
     case 'select':
     case 'text': {
-      return (answerValue || []).join(', ');
+      if (Array.isArray(answerValue)) {
+        return (answerValue || []).join(', ');
+      }
+      return '' + answerValue;
     }
     case 'blob':
     default: {
