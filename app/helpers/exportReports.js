@@ -200,7 +200,7 @@ function renderReportAnswerAsText(questionType, answerValue) {
       if (Array.isArray(answerValue)) {
         return (answerValue || []).join(', ');
       }
-      return '' + answerValue;
+      return '' + (answerValue || '');
     }
     case 'blob':
     default: {
