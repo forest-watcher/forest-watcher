@@ -107,8 +107,7 @@ export default StyleSheet.create({
     flexDirection: 'row-reverse', // See jsx comment to understand better
     alignItems: 'flex-end',
     justifyContent: 'space-between',
-    marginLeft: 8,
-    marginRight: 8,
+    marginHorizontal: 16,
     marginBottom: 16,
     paddingBottom: 16
   },

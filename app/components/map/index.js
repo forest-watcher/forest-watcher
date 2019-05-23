@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Dimensions, Animated, Easing, StatusBar, Image, Text, Platform } from 'react-native';
+import { View, Dimensions, Animated, Easing, Image, Text, Platform } from 'react-native';
 
 import { MAPS, REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
@@ -12,12 +12,10 @@ import deburr from 'lodash/deburr';
 import moment from 'moment';
 
 import MapView from 'react-native-maps';
-import ActionBtn from 'components/common/action-button';
 import CircleButton from 'components/common/circle-button';
-import AlertPosition from 'components/map/alert-position';
 import MapAttribution from 'components/map/map-attribution';
 import Clusters from 'containers/map/clusters';
-import { formatCoordsByFormat, getAllNeighbours } from 'helpers/map';
+import { formatCoordsByFormat, getDistanceFormattedText, getMapZoom, getNeighboursSelected } from 'helpers/map';
 import tracker from 'helpers/googleAnalytics';
 import clusterGenerator from 'helpers/clusters-generator';
 import Theme from 'config/theme';
@@ -28,7 +26,6 @@ import { withSafeArea } from 'react-native-safe-area';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
-const geoViewport = require('@mapbox/geo-viewport');
 
 import {
   GFWLocationAuthorizedAlways,
@@ -50,78 +47,53 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 5;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
+const backButtonImage = require('assets/back.png');
 const markerImage = require('assets/marker.png');
 const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
 const settingsBlackIcon = require('assets/settings_black.png');
+const startTrackingIcon = require('assets/startTracking.png');
 const myLocationIcon = require('assets/my_location.png');
-const reportAreaIcon = require('assets/report_area.png');
+const createReportIcon = require('assets/createReport.png');
 const addLocationIcon = require('assets/add_location.png');
 const newAlertIcon = require('assets/new-alert.png');
 const closeIcon = require('assets/close_gray.png');
 
-function pointsFromCluster(cluster) {
-  if (!cluster || !cluster.length > 0) return [];
-  return cluster
-    .filter(marker => marker.properties.point_count === undefined)
-    .map(feature => ({
-      longitude: feature.geometry.coordinates[0],
-      latitude: feature.geometry.coordinates[1]
-    }));
-}
-
-function getNeighboursSelected(selectedAlerts, markers) {
-  let neighbours = [];
-  const screenPoints = pointsFromCluster(markers);
-
-  selectedAlerts.forEach(alert => {
-    neighbours = [...neighbours, ...getAllNeighbours(alert, screenPoints)];
-  });
-  // Remove duplicates
-  neighbours = neighbours.filter(
-    (alert, index, self) =>
-      self.findIndex(t => t.latitude === alert.latitude && t.longitude === alert.longitude) === index
-  );
-  return neighbours;
-}
-
 class MapComponent extends Component {
-  static options(passProps) {
-    return {
-      topBar: {
-        background: {
-          color: 'transparent',
-          translucent: true
-        },
-        backButton: {
-          color: Theme.fontColors.white
-        },
-        buttonColor: Theme.fontColors.white,
-        drawBehind: true,
-        title: {
-          color: Theme.fontColors.white
-        }
-      }
-    };
-  }
-
   margin = Platform.OS === 'ios' ? 50 : 100;
   FIT_OPTIONS = {
     edgePadding: { top: this.margin, right: this.margin, bottom: this.margin, left: this.margin },
     animated: false
   };
 
-  static getMapZoom(region) {
-    if (!region.longitude || !region.latitude) return 0;
-    const bounds = [
-      region.longitude - region.longitudeDelta / 2.5,
-      region.latitude - region.latitudeDelta / 2.5,
-      region.longitude + region.longitudeDelta / 2.5,
-      region.latitude + region.latitudeDelta / 2.5
-    ];
-
-    return geoViewport.viewport(bounds, [width, height], 0, 18, 256).zoom || 0;
+  static options(passProps) {
+    return {
+      statusBar: {
+        style: 'dark'
+      },
+      topBar: {
+        background: {
+          color: 'transparent',
+          translucent: true
+        },
+        backButton: {
+          icon: backButtonImage,
+          color: Theme.fontColors.white
+        },
+        drawBehind: true,
+        title: {
+          color: Theme.fontColors.white
+        },
+        rightButtons: [
+          {
+            color: Theme.fontColors.white,
+            id: 'settings',
+            icon: settingsBlackIcon
+          }
+        ]
+      }
+    };
   }
 
   constructor(props) {
@@ -154,12 +126,14 @@ class MapComponent extends Component {
     this.updateLocationFromGeolocation = this.updateLocationFromGeolocation.bind(this);
   }
 
+  navigationButtonPressed({ buttonId }) {
+    if (buttonId === 'settings') {
+      this.onSettingsPress();
+    }
+  }
+
   componentDidMount() {
     tracker.trackScreenView('Map');
-
-    if (Platform.OS === 'ios') {
-      StatusBar.setBarStyle('light-content');
-    }
 
     this.geoLocate();
   }
@@ -204,10 +178,6 @@ class MapComponent extends Component {
     emitter.off(GFWOnHeadingEvent);
     stopObservingLocationChanges();
     stopObservingHeadingChanges();
-
-    if (Platform.OS === 'ios') {
-      StatusBar.setBarStyle('default');
-    }
 
     this.props.setSelectedAreaId('');
   }
@@ -282,6 +252,7 @@ class MapComponent extends Component {
 
   setHeaderTitle = () => {
     const { selectedAlerts } = this.state;
+    const lastAlertIndex = selectedAlerts.length - 1;
     const { componentId, coordinatesFormat } = this.props;
     let headerText = i18n.t('dashboard.map');
     let fontSize;
@@ -291,7 +262,11 @@ class MapComponent extends Component {
         latitude: selectedAlerts[last].latitude,
         longitude: selectedAlerts[last].longitude
       };
-      headerText = formatCoordsByFormat(coordinates, coordinatesFormat);
+      headerText = `${formatCoordsByFormat(coordinates, coordinatesFormat)}, ${getDistanceFormattedText(
+        selectedAlerts[lastAlertIndex],
+        this.state.lastPosition,
+        30
+      )}`;
       fontSize = 16;
     } else {
       fontSize = 18;
@@ -453,6 +428,10 @@ class MapComponent extends Component {
     });
   }
 
+  onStartTrackingPressed = () => {
+    //
+  };
+
   updateLocationFromGeolocation = throttle(location => {
     this.setState({
       lastPosition: {
@@ -487,7 +466,7 @@ class MapComponent extends Component {
   };
 
   onRegionChangeComplete = region => {
-    const mapZoom = MapComponent.getMapZoom(region);
+    const mapZoom = getMapZoom(region);
 
     this.setState(
       prevState => ({
@@ -565,51 +544,39 @@ class MapComponent extends Component {
     );
   };
 
+  // todo: merge this with the function below
   renderButtonPanelSelected() {
-    const { selectedAlerts, lastPosition, neighbours } = this.state;
-    const { coordinatesFormat } = this.props;
-    const lastAlertIndex = selectedAlerts.length - 1;
-    const hasAlertSelected = selectedAlerts && selectedAlerts.length > 0;
-    const hasNeighbours = neighbours && neighbours.length > 0;
-    let reportBtnText = i18n.t('report.here').toUpperCase();
-    if (hasAlertSelected) {
-      reportBtnText = hasNeighbours ? i18n.t('report.selected').toUpperCase() : i18n.t('report.toReport').toUpperCase();
-    }
+    const { lastPosition } = this.state;
+
+    // To fix the missing signal text overflow rendering in reverse row
+    // last to render will be on top of the others
     return (
-      <View pointerEvents="box-none" style={[styles.buttonPanel, styles.buttonPanelSelected]}>
-        <View style={styles.buttonPanelRow}>
-          {lastPosition ? (
-            <CircleButton light style={styles.btnLeft} icon={myLocationIcon} onPress={this.fitPosition} />
-          ) : (
-            this.renderNoSignal()
-          )}
-          <AlertPosition
-            alertSelected={selectedAlerts[lastAlertIndex]}
-            lastPosition={this.state.lastPosition}
-            coordinatesFormat={coordinatesFormat}
-            kmThreshold={30}
-          />
-        </View>
-        <View pointerEvents="box-none" style={[styles.buttonPanelRow, styles.btnMarginContainer]}>
-          <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
-          {hasNeighbours && <CircleButton icon={reportAreaIcon} style={styles.btnLeft} onPress={this.reportArea} />}
-          <ActionBtn short left style={styles.btnReport} text={reportBtnText} onPress={this.reportSelection} />
-        </View>
+      <View style={styles.buttonPanel}>
+        <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
+        {lastPosition ? (
+          <CircleButton shouldFillContainer onPress={this.fitPosition} light icon={myLocationIcon} />
+        ) : (
+          this.renderNoSignal()
+        )}
+        <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
+        <CircleButton shouldFillContainer onPress={this.onStartTrackingPressed} light icon={startTrackingIcon} />
       </View>
     );
   }
 
   renderButtonPanel() {
     const { lastPosition } = this.state;
+
+    // To fix the missing signal text overflow rendering in reverse row
+    // last to render will be on top of the others
     return (
       <View style={styles.buttonPanel}>
-        {
-          // To fix the missing signal text overflow rendering in reverse row
-          // last to render will be on top of the others
-        }
-        <CircleButton onPress={this.onSettingsPress} light icon={settingsBlackIcon} />
-        <CircleButton onPress={this.onCustomReportingPress} icon={addLocationIcon} />
-        {lastPosition ? <CircleButton onPress={this.fitPosition} light icon={myLocationIcon} /> : this.renderNoSignal()}
+        <CircleButton shouldFillContainer onPress={this.onCustomReportingPress} icon={addLocationIcon} />
+        {lastPosition ? (
+          <CircleButton shouldFillContainer onPress={this.fitPosition} light icon={myLocationIcon} />
+        ) : (
+          this.renderNoSignal()
+        )}
       </View>
     );
   }

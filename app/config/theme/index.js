@@ -66,6 +66,11 @@ const config = {
     justifyContent: 'center',
     resizeMode: 'contain'
   },
+  largeIcon: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    resizeMode: 'contain'
+  },
   polygon: {
     fill: 'rgba(151, 190, 49, 0.5)',
     fillSelected: 'rgba(255, 255, 255, 0.5)',
