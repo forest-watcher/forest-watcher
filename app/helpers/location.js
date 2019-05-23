@@ -93,7 +93,7 @@ export function startObservingLocationChanges(requiredPermssion, completion) {
     // Here, make sure that the result authorization matches the required permission.
     // Also, handle being given higher access than expected.
     if (
-      !result.authorization !== requiredPermssion &&
+      result.authorization !== requiredPermssion &&
       !(
         result.authorization === BackgroundGeolocation.AUTHORIZED &&
         requiredPermssion === BackgroundGeolocation.AUTHORIZED_FOREGROUND
@@ -120,7 +120,6 @@ export function startObservingLocationChanges(requiredPermssion, completion) {
     // todo: handle errors / other events.
 
     BackgroundGeolocation.start();
-    completion(null);
   });
 }
 

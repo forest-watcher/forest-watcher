@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Dimensions, Animated, Easing, StatusBar, Image, Text, Platform } from 'react-native';
+import { View, Dimensions, Animated, Easing, StatusBar, Image, Text, Platform, PermissionsAndroid } from 'react-native';
 
 import { MAPS, REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
@@ -152,6 +152,7 @@ class MapComponent extends Component {
     };
 
     this.updateLocationFromGeolocation = this.updateLocationFromGeolocation.bind(this);
+    this.requestAndroidLocationPermissions = this.requestAndroidLocationPermissions.bind(this);
   }
 
   componentDidMount() {
@@ -430,6 +431,9 @@ class MapComponent extends Component {
 
     checkLocationStatus(result => {
       if (result.authorization === GFWLocationUnauthorized) {
+        if (Platform.OS === "android") {
+          this.requestAndroidLocationPermissions();
+        }
         // todo: handle this case.
         return;
       }
@@ -451,6 +455,13 @@ class MapComponent extends Component {
       });
       startObservingHeadingChanges();
     });
+  }
+
+  async requestAndroidLocationPermissions() {
+    const permissionResult = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+    if (permissionResult === PermissionsAndroid.RESULTS.GRANTED) {
+      this.geoLocate();
+    }
   }
 
   updateLocationFromGeolocation = throttle(location => {
