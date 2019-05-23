@@ -5,6 +5,7 @@ import RNSimpleCompass from 'react-native-simple-compass';
 var emitter = require('tiny-emitter/instance');
 
 export const GFWLocationAuthorizedAlways = BackgroundGeolocation.AUTHORIZED;
+export const GFWLocationAuthorizedInUse = BackgroundGeolocation.AUTHORIZED_FOREGROUND;
 export const GFWLocationUnauthorized = BackgroundGeolocation.NOT_AUTHORIZED;
 export const GFWOnLocationEvent = 'gfw_onlocation_event';
 export const GFWOnStationaryEvent = 'gfw_onstationary_event';

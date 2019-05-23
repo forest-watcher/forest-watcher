@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Dimensions, Animated, Easing, Image, Text, Platform } from 'react-native';
+import { Alert, Animated, Dimensions, Easing, Image, Linking, Platform, Text, View } from 'react-native';
 
 import { MAPS, REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
@@ -429,7 +429,29 @@ class MapComponent extends Component {
   }
 
   onStartTrackingPressed = () => {
-    //
+    checkLocationStatus(result => {
+      // We need to have the GFWLocationAuthorizedAlways authorization level so we can track in the background!
+      // todo: translations!
+      if (result.authorization !== GFWLocationAuthorizedAlways) {
+        Alert.alert(
+          'Not authorized!',
+          `We need to access your location, even in the background, while you're on a route.`,
+          [
+            { text: 'OK' },
+            {
+              text: 'Open Settings',
+              onPress: () => {
+                // todo: find Android alternative
+                Linking.openURL('app-settings:');
+              }
+            }
+          ]
+        );
+        return;
+      }
+
+      // todo: update redux state, whenever a location update is received, get any locations from the framework & display them.
+    });
   };
 
   updateLocationFromGeolocation = throttle(location => {
