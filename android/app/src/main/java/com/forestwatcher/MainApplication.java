@@ -1,6 +1,5 @@
 package com.forestwatcher;
 
-import android.content.Intent;
 import com.aakashns.reactnativedialogs.ReactNativeDialogsPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -15,6 +14,7 @@ import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.forestwatcher.sensors.SensorManagerPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
+import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.microsoft.codepush.react.ReactInstanceHolder;
 import com.psykar.cookiemanager.CookieManagerPackage;
@@ -92,7 +92,8 @@ public class MainApplication extends NavigationApplication implements ReactInsta
       new SensorManagerPackage(),
       new RNFirebasePackage(),
       new RNFirebaseAnalyticsPackage(),
-      new RNSimpleCompassPackage()
+      new RNSimpleCompassPackage(),
+      new BackgroundGeolocationPackage()
     );
   }
 
