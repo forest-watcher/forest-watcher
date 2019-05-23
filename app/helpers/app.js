@@ -1,6 +1,5 @@
 // @flow
 import { PermissionsAndroid, Platform } from 'react-native';
-import RNLocation from 'react-native-location';
 
 import type { State } from 'types/store.types';
 
