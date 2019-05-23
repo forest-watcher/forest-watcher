@@ -197,8 +197,6 @@ android {
  *      it is common for libraries to be slow to update their play services and support library versions, leading to conflicts
  */
 dependencies {
-    compile project(':react-native-simple-compass')
-    compile project(':@mauron85_react-native-background-geolocation')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
@@ -209,6 +207,9 @@ dependencies {
 
     // react-native-app-auth
     implementation "net.openid:appauth:0.7.1"
+
+    // react-native-background-geolocation
+    implementation project(':@mauron85_react-native-background-geolocation')
 
     // react-native-code-push
     implementation 'com.nimbusds:nimbus-jose-jwt:5.1'
@@ -250,6 +251,10 @@ dependencies {
     // react-native-sentry
     implementation 'io.sentry:sentry-android:1.7.15'
 
+    // react-native-simple-compass
+    implementation project(':react-native-simple-compass')
+
+    // react-native-webview
     implementation project(':react-native-webview')
 
     // realm
