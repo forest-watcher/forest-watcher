@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
 import RNSimpleCompass from 'react-native-simple-compass';
 

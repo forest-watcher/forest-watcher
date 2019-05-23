@@ -1,6 +1,4 @@
 // @flow
-import { PermissionsAndroid, Platform } from 'react-native';
-
 import type { State } from 'types/store.types';
 
 import { STATUS } from 'config/constants/index';
