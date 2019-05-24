@@ -463,15 +463,13 @@ class MapComponent extends Component {
   }, 300);
 
   updateHeading = throttle(heading => {
-    const updateHeading = heading => prevState => {
+    this.setState(prevState => {
       const state = {
         heading: parseInt(heading, 10)
       };
       if (!prevState.hasCompass) state.hasCompass = true;
       return state;
-    };
-
-    this.setState(updateHeading(heading));
+    });
   }, 450);
 
   onRegionChange = region => {
