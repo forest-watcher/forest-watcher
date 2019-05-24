@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
 import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
 import RNSimpleCompass from 'react-native-simple-compass';
 
 var emitter = require('tiny-emitter/instance');
+
+import { LOCATION_TRACKING } from 'config/constants';
 
 export const GFWLocationAuthorizedAlways = BackgroundGeolocation.AUTHORIZED;
 export const GFWLocationUnauthorized = BackgroundGeolocation.NOT_AUTHORIZED;
@@ -16,15 +17,15 @@ export const GFWOnHeadingEvent = 'gfw_onheading_event';
 export function configureLocationFramework() {
   BackgroundGeolocation.configure({
     desiredAccuracy: BackgroundGeolocation.HIGH_ACCURACY,
-    stationaryRadius: 20,
-    distanceFilter: 10,
-    startOnBoot: false,
-    stopOnTerminate: true,
+    stationaryRadius: LOCATION_TRACKING.stationaryRadius,
+    distanceFilter: LOCATION_TRACKING.distanceFilter,
+    startOnBoot: LOCATION_TRACKING.startOnBoot,
+    stopOnTerminate: LOCATION_TRACKING.stopOnTerminate,
     locationProvider: BackgroundGeolocation.DISTANCE_FILTER_PROVIDER,
-    interval: 10000,
-    fastestInterval: 5000,
-    activitiesInterval: 10000,
-    stopOnStillActivity: false
+    interval: LOCATION_TRACKING.interval,
+    fastestInterval: LOCATION_TRACKING.fastestInterval,
+    activitiesInterval: LOCATION_TRACKING.activitiesInterval,
+    stopOnStillActivity: LOCATION_TRACKING.stopOnStillActivity
   });
 }
 
