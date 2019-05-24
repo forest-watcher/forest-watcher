@@ -182,6 +182,7 @@ android {
         main.java.srcDirs += '../../node_modules/react-native-i18n/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-maps/lib/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-sentry/android/src/main/java'
+        main.java.srcDirs += '../../node_modules/react-native-simple-compass/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-zip-archive/android/src/main/java'
     }
 }
@@ -250,9 +251,6 @@ dependencies {
 
     // react-native-sentry
     implementation 'io.sentry:sentry-android:1.7.15'
-
-    // react-native-simple-compass
-    implementation project(':react-native-simple-compass')
 
     // react-native-webview
     implementation project(':react-native-webview')
