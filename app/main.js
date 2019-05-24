@@ -7,6 +7,8 @@ import { registerScreens } from 'screens';
 import createStore from 'store';
 import { setupCrashLogging } from './crashes';
 
+import { configureLocationFramework } from 'helpers/location';
+
 // Disable ios warnings
 // console.disableYellowBox = true;
 
@@ -43,6 +45,8 @@ const app = async () => {
     await Navigation.setDefaultOptions({
       ...Theme.navigator.styles
     });
+
+    configureLocationFramework();
 
     await launchAppRoot(screen);
     setCodePush();
