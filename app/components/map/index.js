@@ -37,10 +37,10 @@ import {
   GFWOnHeadingEvent,
   checkLocationStatus,
   getCurrentLocation,
-  startObservingLocationChanges,
-  stopObservingLocationChanges,
-  startObservingHeadingChanges,
-  stopObservingHeadingChanges
+  startTrackingLocation,
+  stopTrackingLocation,
+  startTrackingHeading,
+  stopTrackingHeading
 } from 'helpers/location';
 var emitter = require('tiny-emitter/instance');
 
@@ -202,8 +202,8 @@ class MapComponent extends Component {
     // Deregister event listeners.
     emitter.off(GFWOnLocationEvent, this.updateLocationFromGeolocation);
     emitter.off(GFWOnHeadingEvent);
-    stopObservingLocationChanges();
-    stopObservingHeadingChanges();
+    stopTrackingLocation();
+    stopTrackingHeading();
 
     if (Platform.OS === 'ios') {
       StatusBar.setBarStyle('default');
@@ -446,10 +446,10 @@ class MapComponent extends Component {
       emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
       emitter.on(GFWOnHeadingEvent, this.updateHeading);
 
-      startObservingLocationChanges(GFWLocationAuthorizedAlways, error => {
+      startTrackingLocation(GFWLocationAuthorizedAlways, error => {
         // todo: handle error if returned.
       });
-      startObservingHeadingChanges();
+      startTrackingHeading();
     });
   }
 

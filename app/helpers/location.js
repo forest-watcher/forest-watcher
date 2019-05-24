@@ -74,7 +74,7 @@ export function getCurrentLocation(completion) {
 }
 
 /**
- * startObservingLocationChanges - When called, attempts to start observing location updates.
+ * startTrackingLocation - When called, attempts to start observing location updates.
  * If we don't have permission, we need to show an error.
  * If we have permission, we can register our listeners and start... listening...
  *
@@ -83,7 +83,7 @@ export function getCurrentLocation(completion) {
  * @param  {function} completion        A callback that'll be executed on either receiving an error, or upon successfully starting.
  * @param  {object}   completion.error  Defines an error if one occurred. If location observing started, this'll be null.
  */
-export function startObservingLocationChanges(requiredPermssion, completion) {
+export function startTrackingLocation(requiredPermssion, completion) {
   checkLocationStatus(result => {
     if (!result.locationServicesEnabled && result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
       // If location services are disabled and the authorization is explicitally denied, return an error.
@@ -126,34 +126,34 @@ export function startObservingLocationChanges(requiredPermssion, completion) {
 }
 
 /**
- * stopObservingLocationChanges - Stops... observing location updates.
+ * stopTrackingLocation - Stops... observing location updates.
  * This'll stop BackgroundGeolocation, and remove any listeners.
  *
  * @warning It is the responsibility of the implementing app to deregister any emitter listeners within the main app.
  */
-export function stopObservingLocationChanges() {
+export function stopTrackingLocation() {
   BackgroundGeolocation.stop();
 
   // todo: remove event listeners
 }
 
 /**
- * startObservingHeadingChanges - When called, starts observing compass heading updates!
+ * startTrackingHeading - When called, starts observing compass heading updates!
  *
  * @warning This will only emit a GFWOnHeadingEvent when the heading has changed by 3 or more degrees.
  */
-export function startObservingHeadingChanges() {
+export function startTrackingHeading() {
   RNSimpleCompass.start(3, degree => {
     emitter.emit(GFWOnHeadingEvent, degree);
   });
 }
 
 /**
- * stopObservingHeadingChanges - Stops observing heading updates.
+ * stopTrackingHeading - Stops observing heading updates.
  * This'll stop RNSimpleCompass.
  *
  * @warning It is the responsibility of the implementing app to deregister any emitter listeners within the main app.
  */
-export function stopObservingHeadingChanges() {
+export function stopTrackingHeading() {
   RNSimpleCompass.stop();
 }
