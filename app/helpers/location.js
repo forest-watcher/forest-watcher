@@ -160,7 +160,7 @@ export function stopObservingHeadingChanges() {
 
 export async function requestAndroidLocationPermissions(grantedCallback) {
   const permissionResult = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
-  if (permissionResult === PermissionsAndroid.RESULTS.GRANTED) {
+  if (permissionResult === true || permissionResult === PermissionsAndroid.RESULTS.GRANTED) {
     grantedCallback();
   }
 }
