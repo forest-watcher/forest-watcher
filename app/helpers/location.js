@@ -3,6 +3,8 @@ import RNSimpleCompass from 'react-native-simple-compass';
 
 var emitter = require('tiny-emitter/instance');
 
+import { LOCATION_TRACKING } from 'config/constants';
+
 export const GFWLocationAuthorizedAlways = BackgroundGeolocation.AUTHORIZED;
 export const GFWLocationUnauthorized = BackgroundGeolocation.NOT_AUTHORIZED;
 export const GFWOnLocationEvent = 'gfw_onlocation_event';
@@ -15,15 +17,15 @@ export const GFWOnHeadingEvent = 'gfw_onheading_event';
 export function configureLocationFramework() {
   BackgroundGeolocation.configure({
     desiredAccuracy: BackgroundGeolocation.HIGH_ACCURACY,
-    stationaryRadius: 20,
-    distanceFilter: 10,
-    startOnBoot: false,
-    stopOnTerminate: true,
+    stationaryRadius: LOCATION_TRACKING.stationaryRadius,
+    distanceFilter: LOCATION_TRACKING.distanceFilter,
+    startOnBoot: LOCATION_TRACKING.startOnBoot,
+    stopOnTerminate: LOCATION_TRACKING.stopOnTerminate,
     locationProvider: BackgroundGeolocation.DISTANCE_FILTER_PROVIDER,
-    interval: 10000,
-    fastestInterval: 5000,
-    activitiesInterval: 10000,
-    stopOnStillActivity: false
+    interval: LOCATION_TRACKING.interval,
+    fastestInterval: LOCATION_TRACKING.fastestInterval,
+    activitiesInterval: LOCATION_TRACKING.activitiesInterval,
+    stopOnStillActivity: LOCATION_TRACKING.stopOnStillActivity
   });
 }
 
@@ -73,16 +75,16 @@ export function getCurrentLocation(completion) {
 }
 
 /**
- * startObservingLocationChanges - When called, attempts to start observing location updates.
+ * startTrackingLocation - When called, attempts to start observing location updates.
  * If we don't have permission, we need to show an error.
  * If we have permission, we can register our listeners and start... listening...
  *
- * @param  {number}   requiredPermssion   The required permission that we need.
+ * @param  {number}   requiredPermission   The required permission that we need.
  *    For example, while listening on the map screen we only need while in use, but while route tracking we need always.
  * @param  {function} completion        A callback that'll be executed on either receiving an error, or upon successfully starting.
  * @param  {object}   completion.error  Defines an error if one occurred. If location observing started, this'll be null.
  */
-export function startObservingLocationChanges(requiredPermssion, completion) {
+export function startTrackingLocation(requiredPermission, completion) {
   checkLocationStatus(result => {
     if (!result.locationServicesEnabled && result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
       // If location services are disabled and the authorization is explicitally denied, return an error.
@@ -93,10 +95,10 @@ export function startObservingLocationChanges(requiredPermssion, completion) {
     // Here, make sure that the result authorization matches the required permission.
     // Also, handle being given higher access than expected.
     if (
-      !result.authorization !== requiredPermssion &&
+      result.authorization !== requiredPermission &&
       !(
         result.authorization === BackgroundGeolocation.AUTHORIZED &&
-        requiredPermssion === BackgroundGeolocation.AUTHORIZED_FOREGROUND
+        requiredPermission === BackgroundGeolocation.AUTHORIZED_FOREGROUND
       )
     ) {
       completion({ code: 1, message: 'Incorrect permission given' });
@@ -125,34 +127,34 @@ export function startObservingLocationChanges(requiredPermssion, completion) {
 }
 
 /**
- * stopObservingLocationChanges - Stops... observing location updates.
+ * stopTrackingLocation - Stops... observing location updates.
  * This'll stop BackgroundGeolocation, and remove any listeners.
  *
  * @warning It is the responsibility of the implementing app to deregister any emitter listeners within the main app.
  */
-export function stopObservingLocationChanges() {
+export function stopTrackingLocation() {
   BackgroundGeolocation.stop();
 
   // todo: remove event listeners
 }
 
 /**
- * startObservingHeadingChanges - When called, starts observing compass heading updates!
+ * startTrackingHeading - When called, starts observing compass heading updates!
  *
  * @warning This will only emit a GFWOnHeadingEvent when the heading has changed by 3 or more degrees.
  */
-export function startObservingHeadingChanges() {
+export function startTrackingHeading() {
   RNSimpleCompass.start(3, degree => {
     emitter.emit(GFWOnHeadingEvent, degree);
   });
 }
 
 /**
- * stopObservingHeadingChanges - Stops observing heading updates.
+ * stopTrackingHeading - Stops observing heading updates.
  * This'll stop RNSimpleCompass.
  *
  * @warning It is the responsibility of the implementing app to deregister any emitter listeners within the main app.
  */
-export function stopObservingHeadingChanges() {
+export function stopTrackingHeading() {
   RNSimpleCompass.stop();
 }
