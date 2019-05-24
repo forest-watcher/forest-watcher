@@ -1,5 +1,6 @@
 import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
 import RNSimpleCompass from 'react-native-simple-compass';
+import { PermissionsAndroid } from 'react-native';
 
 var emitter = require('tiny-emitter/instance');
 
@@ -120,6 +121,7 @@ export function startObservingLocationChanges(requiredPermssion, completion) {
     // todo: handle errors / other events.
 
     BackgroundGeolocation.start();
+    completion(null);
   });
 }
 
@@ -154,4 +156,11 @@ export function startObservingHeadingChanges() {
  */
 export function stopObservingHeadingChanges() {
   RNSimpleCompass.stop();
+}
+
+export async function requestAndroidLocationPermissions(grantedCallback) {
+  const permissionResult = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+  if (permissionResult === PermissionsAndroid.RESULTS.GRANTED) {
+    grantedCallback();
+  }
 }

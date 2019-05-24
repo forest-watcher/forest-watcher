@@ -37,6 +37,7 @@ import {
   GFWOnHeadingEvent,
   checkLocationStatus,
   getCurrentLocation,
+  requestAndroidLocationPermissions,
   startObservingLocationChanges,
   stopObservingLocationChanges,
   startObservingHeadingChanges,
@@ -152,7 +153,6 @@ class MapComponent extends Component {
     };
 
     this.updateLocationFromGeolocation = this.updateLocationFromGeolocation.bind(this);
-    this.requestAndroidLocationPermissions = this.requestAndroidLocationPermissions.bind(this);
   }
 
   componentDidMount() {
@@ -431,8 +431,10 @@ class MapComponent extends Component {
 
     checkLocationStatus(result => {
       if (result.authorization === GFWLocationUnauthorized) {
-        if (Platform.OS === "android") {
-          this.requestAndroidLocationPermissions();
+        if (Platform.OS === 'android') {
+          requestAndroidLocationPermissions(() => {
+            this.geoLocate();
+          });
         }
         // todo: handle this case.
         return;
@@ -455,13 +457,6 @@ class MapComponent extends Component {
       });
       startObservingHeadingChanges();
     });
-  }
-
-  async requestAndroidLocationPermissions() {
-    const permissionResult = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
-    if (permissionResult === PermissionsAndroid.RESULTS.GRANTED) {
-      this.geoLocate();
-    }
   }
 
   updateLocationFromGeolocation = throttle(location => {
