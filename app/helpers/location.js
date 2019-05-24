@@ -94,7 +94,7 @@ export function startTrackingLocation(requiredPermssion, completion) {
     // Here, make sure that the result authorization matches the required permission.
     // Also, handle being given higher access than expected.
     if (
-      !result.authorization !== requiredPermssion &&
+      result.authorization !== requiredPermssion &&
       !(
         result.authorization === BackgroundGeolocation.AUTHORIZED &&
         requiredPermssion === BackgroundGeolocation.AUTHORIZED_FOREGROUND
