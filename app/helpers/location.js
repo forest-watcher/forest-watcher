@@ -78,12 +78,12 @@ export function getCurrentLocation(completion) {
  * If we don't have permission, we need to show an error.
  * If we have permission, we can register our listeners and start... listening...
  *
- * @param  {number}   requiredPermssion   The required permission that we need.
+ * @param  {number}   requiredPermission   The required permission that we need.
  *    For example, while listening on the map screen we only need while in use, but while route tracking we need always.
  * @param  {function} completion        A callback that'll be executed on either receiving an error, or upon successfully starting.
  * @param  {object}   completion.error  Defines an error if one occurred. If location observing started, this'll be null.
  */
-export function startTrackingLocation(requiredPermssion, completion) {
+export function startTrackingLocation(requiredPermission, completion) {
   checkLocationStatus(result => {
     if (!result.locationServicesEnabled && result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
       // If location services are disabled and the authorization is explicitally denied, return an error.
@@ -94,10 +94,10 @@ export function startTrackingLocation(requiredPermssion, completion) {
     // Here, make sure that the result authorization matches the required permission.
     // Also, handle being given higher access than expected.
     if (
-      result.authorization !== requiredPermssion &&
+      result.authorization !== requiredPermission &&
       !(
         result.authorization === BackgroundGeolocation.AUTHORIZED &&
-        requiredPermssion === BackgroundGeolocation.AUTHORIZED_FOREGROUND
+        requiredPermission === BackgroundGeolocation.AUTHORIZED_FOREGROUND
       )
     ) {
       completion({ code: 1, message: 'Incorrect permission given' });
