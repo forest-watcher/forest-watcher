@@ -232,6 +232,7 @@ class MapComponent extends Component {
       getCurrentLocation((latestLocation, error) => {
         if (error) {
           if (Platform.OS === 'android') {
+            // todo: look at merging this permission request into the 'checkLocationStatus' function...
             requestAndroidLocationPermissions(() => {
               this.geoLocate();
             });

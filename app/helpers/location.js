@@ -46,6 +46,18 @@ export function checkLocationStatus(completion) {
 }
 
 /**
+ * requestAndroidLocationPermissions - When called, requests Android location permissions from the user.
+ *
+ * @param {function}  grantedCallback A callback that'll be executed if the user gives permission for us to access their location.
+ */
+export async function requestAndroidLocationPermissions(grantedCallback) {
+  const permissionResult = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+  if (permissionResult === true || permissionResult === PermissionsAndroid.RESULTS.GRANTED) {
+    grantedCallback();
+  }
+}
+
+/**
  * getCurrentLocation - When called, asks BackgroundGeolocation for the user's current location.
  *
  * @param  {function} completion A callback function, that will be called upon either a location being found, or an error being returned.
@@ -178,11 +190,4 @@ export function startTrackingHeading() {
  */
 export function stopTrackingHeading() {
   RNSimpleCompass.stop();
-}
-
-export async function requestAndroidLocationPermissions(grantedCallback) {
-  const permissionResult = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
-  if (permissionResult === true || permissionResult === PermissionsAndroid.RESULTS.GRANTED) {
-    grantedCallback();
-  }
 }
