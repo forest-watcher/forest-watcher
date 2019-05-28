@@ -1,5 +1,6 @@
 import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
 import RNSimpleCompass from 'react-native-simple-compass';
+import { PermissionsAndroid } from 'react-native';
 
 var emitter = require('tiny-emitter/instance');
 
@@ -157,4 +158,11 @@ export function startTrackingHeading() {
  */
 export function stopTrackingHeading() {
   RNSimpleCompass.stop();
+}
+
+export async function requestAndroidLocationPermissions(grantedCallback) {
+  const permissionResult = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+  if (permissionResult === true || permissionResult === PermissionsAndroid.RESULTS.GRANTED) {
+    grantedCallback();
+  }
 }

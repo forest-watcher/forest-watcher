@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Dimensions, Animated, Easing, StatusBar, Image, Text, Platform } from 'react-native';
+import { View, Dimensions, Animated, Easing, StatusBar, Image, Text, Platform, PermissionsAndroid } from 'react-native';
 
 import { MAPS, REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
@@ -37,6 +37,7 @@ import {
   GFWOnHeadingEvent,
   checkLocationStatus,
   getCurrentLocation,
+  requestAndroidLocationPermissions,
   startTrackingLocation,
   stopTrackingLocation,
   startTrackingHeading,
@@ -430,6 +431,11 @@ class MapComponent extends Component {
 
     checkLocationStatus(result => {
       if (result.authorization === GFWLocationUnauthorized) {
+        if (Platform.OS === 'android') {
+          requestAndroidLocationPermissions(() => {
+            this.geoLocate();
+          });
+        }
         // todo: handle this case.
         return;
       }
