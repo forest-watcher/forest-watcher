@@ -1,12 +1,8 @@
 rootProject.name = 'forest-watcher-android-client'
-include ':react-native-simple-compass'
-project(':react-native-simple-compass').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-simple-compass/android')
-include ':@mauron85_react-native-background-geolocation-common'
-project(':@mauron85_react-native-background-geolocation-common').projectDir = new File(rootProject.projectDir, '../node_modules/@mauron85/react-native-background-geolocation/android/common')
-include ':@mauron85_react-native-background-geolocation'
-project(':@mauron85_react-native-background-geolocation').projectDir = new File(rootProject.projectDir, '../node_modules/@mauron85/react-native-background-geolocation/android/lib')
 
 include ':app',
+		':@mauron85_react-native-background-geolocation',
+		':@mauron85_react-native-background-geolocation-common',
 		':react-native-dialogs',
 		':react-native-firebase',
 		':react-native-image-picker',
@@ -15,6 +11,8 @@ include ':app',
 		':realm'
 
 project(':realm').projectDir = new File(rootProject.projectDir, '../node_modules/realm/android')
+project(':@mauron85_react-native-background-geolocation').projectDir = new File(rootProject.projectDir, '../node_modules/@mauron85/react-native-background-geolocation/android/lib')
+project(':@mauron85_react-native-background-geolocation-common').projectDir = new File(rootProject.projectDir, '../node_modules/@mauron85/react-native-background-geolocation/android/common')
 project(':react-native-dialogs').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-dialogs/android')
 project(':react-native-firebase').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-firebase/android')
 project(':react-native-image-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-picker/android')
