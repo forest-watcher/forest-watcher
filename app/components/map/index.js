@@ -38,10 +38,10 @@ import {
   checkLocationStatus,
   getCurrentLocation,
   requestAndroidLocationPermissions,
-  startObservingLocationChanges,
-  stopObservingLocationChanges,
-  startObservingHeadingChanges,
-  stopObservingHeadingChanges
+  startTrackingLocation,
+  stopTrackingLocation,
+  startTrackingHeading,
+  stopTrackingHeading
 } from 'helpers/location';
 var emitter = require('tiny-emitter/instance');
 
@@ -203,8 +203,8 @@ class MapComponent extends Component {
     // Deregister event listeners.
     emitter.off(GFWOnLocationEvent, this.updateLocationFromGeolocation);
     emitter.off(GFWOnHeadingEvent);
-    stopObservingLocationChanges();
-    stopObservingHeadingChanges();
+    stopTrackingLocation();
+    stopTrackingHeading();
 
     if (Platform.OS === 'ios') {
       StatusBar.setBarStyle('default');
@@ -452,10 +452,10 @@ class MapComponent extends Component {
       emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
       emitter.on(GFWOnHeadingEvent, this.updateHeading);
 
-      startObservingLocationChanges(GFWLocationAuthorizedAlways, error => {
+      startTrackingLocation(GFWLocationAuthorizedAlways, error => {
         // todo: handle error if returned.
       });
-      startObservingHeadingChanges();
+      startTrackingHeading();
     });
   }
 
@@ -469,15 +469,13 @@ class MapComponent extends Component {
   }, 300);
 
   updateHeading = throttle(heading => {
-    const updateHeading = heading => prevState => {
+    this.setState(prevState => {
       const state = {
         heading: parseInt(heading, 10)
       };
       if (!prevState.hasCompass) state.hasCompass = true;
       return state;
-    };
-
-    this.setState(updateHeading(heading));
+    });
   }, 450);
 
   onRegionChange = region => {
