@@ -39,7 +39,7 @@ export default StyleSheet.create({
   },
   offlineNotice: {
     position: 'absolute',
-    top: 0,
+    top: 20,
     right: 0,
     color: 'red',
     margin: 16
