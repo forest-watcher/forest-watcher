@@ -34,6 +34,7 @@ import {
   GFWOnLocationEvent,
   GFWOnHeadingEvent,
   checkLocationStatus,
+  requestAndroidLocationPermissions,
   getCurrentLocation,
   getValidLocations,
   startTrackingLocation,
@@ -230,6 +231,11 @@ class MapComponent extends Component {
       // todo: fix issue where on first view of map, after giving permission no location is given.
       getCurrentLocation((latestLocation, error) => {
         if (error) {
+          if (Platform.OS === 'android') {
+            requestAndroidLocationPermissions(() => {
+              this.geoLocate();
+            });
+          }
           // todo: handle error.
           return;
         }
