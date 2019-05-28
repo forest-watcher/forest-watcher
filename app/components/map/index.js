@@ -29,11 +29,13 @@ const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
 
 import {
   GFWLocationAuthorizedAlways,
+  GFWLocationAuthorizedInUse,
   GFWLocationUnauthorized,
   GFWOnLocationEvent,
   GFWOnHeadingEvent,
   checkLocationStatus,
   getCurrentLocation,
+  getValidLocations,
   startTrackingLocation,
   stopTrackingLocation,
   startTrackingHeading,
@@ -54,6 +56,7 @@ const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
 const settingsBlackIcon = require('assets/settings_black.png');
 const startTrackingIcon = require('assets/startTracking.png');
+const stopTrackingIcon = require('assets/stopTracking.png');
 const myLocationIcon = require('assets/my_location.png');
 const createReportIcon = require('assets/createReport.png');
 const addLocationIcon = require('assets/add_location.png');
@@ -135,7 +138,8 @@ class MapComponent extends Component {
   componentDidMount() {
     tracker.trackScreenView('Map');
 
-    this.geoLocate();
+    this.animateGeo();
+    this.geoLocate(this.state.currentlyTrackingLocation);
   }
 
   componentDidAppear() {
@@ -159,7 +163,7 @@ class MapComponent extends Component {
       }
     }
 
-    if (this.state.selectedAlerts !== prevState.selectedAlerts) {
+    if (this.state.selectedAlerts !== prevState.selectedAlerts && !this.state.currentlyTrackingLocation) {
       this.setHeaderTitle();
     }
 
@@ -173,14 +177,145 @@ class MapComponent extends Component {
   }
 
   componentWillUnmount() {
-    // Deregister event listeners.
+    // If we're currently tracking a location, don't stop watching for updates!
+    if (!this.state.currentlyTrackingLocation) {
+      stopTrackingLocation();
+    }
+
+    // Do remove the emitter listeners here, as we don't want this screen to receive anything while it's non-existent!
     emitter.off(GFWOnLocationEvent, this.updateLocationFromGeolocation);
     emitter.off(GFWOnHeadingEvent);
-    stopTrackingLocation();
     stopTrackingHeading();
 
     this.props.setSelectedAreaId('');
   }
+
+  animateGeo() {
+    Animated.sequence([
+      Animated.timing(this.state.geoMarkerOpacity, {
+        toValue: 0.4,
+        easing: Easing.in(Easing.quad),
+        duration: 800
+      }),
+      Animated.timing(this.state.geoMarkerOpacity, {
+        toValue: 0.15,
+        easing: Easing.out(Easing.quad),
+        duration: 1000
+      })
+    ]).start(event => {
+      if (event.finished) {
+        this.animateGeo();
+      }
+    });
+  }
+
+  // todo: change this to cancel any emitters / location updates, and then set them again based on the geolocation type (passive / actively tracking)
+  async geoLocate(currentlyTrackingLocation) {
+    emitter.off(GFWOnLocationEvent);
+    emitter.off(GFWOnHeadingEvent);
+    stopTrackingLocation();
+    stopTrackingHeading();
+
+    checkLocationStatus(result => {
+      if (result.authorization === GFWLocationUnauthorized) {
+        // todo: handle this case.
+        return;
+      }
+
+      // todo: fix issue where on first view of map, after giving permission no location is given.
+      getCurrentLocation((latestLocation, error) => {
+        if (error) {
+          // todo: handle error.
+          return;
+        }
+        this.updateLocationFromGeolocation(latestLocation);
+      });
+
+      emitter.on(GFWOnHeadingEvent, this.updateHeading);
+      startTrackingHeading();
+
+      if (currentlyTrackingLocation) {
+        emitter.on(GFWOnLocationEvent, this.handleRouteTrackingUpdate);
+      } else {
+        emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
+      }
+
+      startTrackingLocation(GFWLocationAuthorizedAlways, error => {
+        // todo: handle error if returned.
+      });
+    });
+  }
+
+  onStartTrackingPressed = () => {
+    checkLocationStatus(result => {
+      // We need to have the GFWLocationAuthorizedAlways authorization level so we can track in the background!
+      // todo: translations!
+      if (result.authorization !== GFWLocationAuthorizedAlways) {
+        Alert.alert(
+          'Not authorized!',
+          `We need to access your location, even in the background, while you're on a route.`,
+          [
+            { text: 'OK' },
+            {
+              text: 'Open Settings',
+              onPress: () => {
+                // todo: find Android alternative
+                Linking.openURL('app-settings:');
+              }
+            }
+          ]
+        );
+        return;
+      }
+
+      this.props.onStartTrackingRoute(this.state.selectedAlerts[this.state.selectedAlerts.length - 1]);
+
+      this.geoLocate(this.state.currentlyTrackingLocation);
+    });
+  };
+
+  onStopTrackingPressed = () => {
+    this.props.onStopTrackingRoute();
+    this.geoLocate(this.state.currentlyTrackingLocation);
+
+    // todo: add end route UI.
+    // todo: handle deleting locations from database upon saving / deleting the route.
+  };
+
+  handleRouteTrackingUpdate = location => {
+    this.updateLocationFromGeolocation(location);
+    getValidLocations((locations, error) => {
+      if (error) {
+        // todo: handle error
+        return;
+      }
+
+      if (locations) {
+        this.setState({
+          currentRouteLocations: locations
+        });
+      }
+    });
+  };
+
+  updateLocationFromGeolocation = throttle(location => {
+    this.setState({
+      lastPosition: {
+        latitude: location.latitude,
+        longitude: location.longitude
+      }
+    });
+  }, 300);
+
+  updateHeading = throttle(heading => {
+    this.setState(prevState => {
+      const state = {
+        heading: parseInt(heading, 10)
+      };
+      if (!prevState.hasCompass) state.hasCompass = true;
+      return state;
+    });
+  }, 450);
 
   onCustomReportingPress = () => {
     this.setState(prevState => ({
@@ -381,100 +516,8 @@ class MapComponent extends Component {
     });
   };
 
-  animateGeo() {
-    Animated.sequence([
-      Animated.timing(this.state.geoMarkerOpacity, {
-        toValue: 0.4,
-        easing: Easing.in(Easing.quad),
-        duration: 800
-      }),
-      Animated.timing(this.state.geoMarkerOpacity, {
-        toValue: 0.15,
-        easing: Easing.out(Easing.quad),
-        duration: 1000
-      })
-    ]).start(event => {
-      if (event.finished) {
-        this.animateGeo();
-      }
-    });
-  }
-
-  async geoLocate() {
-    this.animateGeo();
-
-    checkLocationStatus(result => {
-      if (result.authorization === GFWLocationUnauthorized) {
-        // todo: handle this case.
-        return;
-      }
-
-      // todo: fix issue where on first view of map, after giving permission no location is given.
-      getCurrentLocation((latestLocation, error) => {
-        if (error) {
-          // todo: handle error.
-          return;
-        }
-        this.updateLocationFromGeolocation(latestLocation);
-      });
-
-      emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
-      emitter.on(GFWOnHeadingEvent, this.updateHeading);
-
-      startTrackingLocation(GFWLocationAuthorizedAlways, error => {
-        // todo: handle error if returned.
-      });
-      startTrackingHeading();
-    });
-  }
-
-  onStartTrackingPressed = () => {
-    checkLocationStatus(result => {
-      // We need to have the GFWLocationAuthorizedAlways authorization level so we can track in the background!
-      // todo: translations!
-      if (result.authorization !== GFWLocationAuthorizedAlways) {
-        Alert.alert(
-          'Not authorized!',
-          `We need to access your location, even in the background, while you're on a route.`,
-          [
-            { text: 'OK' },
-            {
-              text: 'Open Settings',
-              onPress: () => {
-                // todo: find Android alternative
-                Linking.openURL('app-settings:');
-              }
-            }
-          ]
-        );
-        return;
-      }
-
-      // todo: update redux state, whenever a location update is received, get any locations from the framework & display them.
-    });
-  };
-
-  updateLocationFromGeolocation = throttle(location => {
-    this.setState({
-      lastPosition: {
-        latitude: location.latitude,
-        longitude: location.longitude
-      }
-    });
-  }, 300);
-
-  updateHeading = throttle(heading => {
-    this.setState(prevState => {
-      const state = {
-        heading: parseInt(heading, 10)
-      };
-      if (!prevState.hasCompass) state.hasCompass = true;
-      return state;
-    });
-  }, 450);
-
   onRegionChange = region => {
-    if (this.state.customReporting) {
+    if (this.state.customReporting && !this.state.currentlyTrackingLocation) {
       Navigation.mergeOptions(this.props.componentId, {
         topBar: {
           title: {
@@ -567,6 +610,7 @@ class MapComponent extends Component {
   // todo: merge this with the function below
   renderButtonPanelSelected() {
     const { lastPosition } = this.state;
+    const { currentlyTrackingLocation } = this.props;
 
     // To fix the missing signal text overflow rendering in reverse row
     // last to render will be on top of the others
@@ -579,7 +623,36 @@ class MapComponent extends Component {
           this.renderNoSignal()
         )}
         <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
-        <CircleButton shouldFillContainer onPress={this.onStartTrackingPressed} light icon={startTrackingIcon} />
+        <CircleButton
+          shouldFillContainer
+          onPress={currentlyTrackingLocation ? this.onStopTrackingPressed : this.onStartTrackingPressed}
+          light
+          icon={currentlyTrackingLocation ? stopTrackingIcon : startTrackingIcon}
+        />
+      </View>
+    );
+  }
+
+  renderRouteTrackingButtonPanel() {
+    const { lastPosition } = this.state;
+    const { currentlyTrackingLocation } = this.props;
+
+    // To fix the missing signal text overflow rendering in reverse row
+    // last to render will be on top of the others
+    return (
+      <View style={styles.buttonPanel}>
+        <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
+        {lastPosition ? (
+          <CircleButton shouldFillContainer onPress={this.fitPosition} light icon={myLocationIcon} />
+        ) : (
+          this.renderNoSignal()
+        )}
+        <CircleButton
+          shouldFillContainer
+          onPress={currentlyTrackingLocation ? this.onStopTrackingPressed : this.onStartTrackingPressed}
+          light
+          icon={currentlyTrackingLocation ? stopTrackingIcon : startTrackingIcon}
+        />
       </View>
     );
   }
@@ -615,6 +688,7 @@ class MapComponent extends Component {
 
   renderMapFooter() {
     const { selectedAlerts, neighbours, customReporting } = this.state;
+    const { currentlyTrackingLocation } = this.props;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
 
     const hasNeighbours = neighbours && neighbours.length > 0;
@@ -626,7 +700,11 @@ class MapComponent extends Component {
         <Image style={[styles.footerBg, { height: veilHeight }]} source={backgroundImage} />
       </View>,
       <FooterSafeAreaView key="footer" pointerEvents="box-none" style={styles.footer}>
-        {hasAlertsSelected || customReporting ? this.renderButtonPanelSelected() : this.renderButtonPanel()}
+        {currentlyTrackingLocation
+          ? this.renderRouteTrackingButtonPanel()
+          : hasAlertsSelected || customReporting
+          ? this.renderButtonPanelSelected()
+          : this.renderButtonPanel()}
         <MapAttribution />
       </FooterSafeAreaView>
     ];
@@ -656,10 +734,11 @@ class MapComponent extends Component {
       contextualLayer,
       basemapLocalTilePath,
       isConnected,
+      currentlyTrackingLocation,
       isOfflineMode,
       ctxLayerLocalTilePath
     } = this.props;
-    const showCompassLine = lastPosition && selectedAlerts && compassLine;
+    const showCompassLine = lastPosition && selectedAlerts && compassLine && !currentlyTrackingLocation;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
     const isIOS = Platform.OS === 'ios';
     const ctxLayerKey =
@@ -670,6 +749,8 @@ class MapComponent extends Component {
       : 'clustersElement';
     const markerSize = this.getMarkerSize();
     const markerBorder = { borderWidth: (markerSize.width / 18) * 4 };
+
+    // todo: ensure that any route locations are rendered to the map.
 
     // Map elements
     const basemapLocalLayerElement = basemapLocalTilePath ? (
@@ -764,7 +845,7 @@ class MapComponent extends Component {
           ))
         : null;
     const selectedAlertsElement =
-      hasAlertsSelected && !customReporting
+      hasAlertsSelected && !customReporting && !currentlyTrackingLocation
         ? selectedAlerts.map((alert, i) => (
             <MapView.Marker
               key={`selectedAlertsElement-${i}-${keyRand}`}
@@ -778,6 +859,19 @@ class MapComponent extends Component {
             </MapView.Marker>
           ))
         : null;
+
+    // todo: ensure that this is shown correctly.
+    const routeDestinationElement = currentlyTrackingLocation ? (
+      <MapView.Marker
+        key={`routeDestination`}
+        coordinate={currentlyTrackingLocation}
+        anchor={{ x: 0.5, y: 0.5 }}
+        zIndex={20}
+        tracksViewChanges={false}
+      >
+        <Image style={[Theme.icon, styles.customLocationMarker]} source={newAlertIcon} />
+      </MapView.Marker>
+    ) : null;
     const clustersElement =
       area && area.dataset ? (
         <Clusters
@@ -790,14 +884,15 @@ class MapComponent extends Component {
         />
       ) : null;
 
-    const customReportingElement = this.state.customReporting ? (
-      <View
-        pointerEvents="none"
-        style={[styles.customLocationFixed, this.state.dragging ? styles.customLocationTransparent : '']}
-      >
-        <Image style={[Theme.icon, styles.customLocationMarker]} source={newAlertIcon} />
-      </View>
-    ) : null;
+    const customReportingElement =
+      this.state.customReporting && !currentlyTrackingLocation ? (
+        <View
+          pointerEvents="none"
+          style={[styles.customLocationFixed, this.state.dragging ? styles.customLocationTransparent : '']}
+        >
+          <Image style={[Theme.icon, styles.customLocationMarker]} source={newAlertIcon} />
+        </View>
+      ) : null;
 
     const containerStyle = this.state.layoutHasForceRefreshed
       ? [styles.container, styles.forceRefresh]
@@ -841,6 +936,7 @@ class MapComponent extends Component {
           {compassLineElement}
           {areaPolygonElement}
           {neighboursAlertsElement}
+          {routeDestinationElement}
           {selectedAlertsElement}
           {userPositionElement}
           {compassElement}
@@ -874,7 +970,13 @@ MapComponent.propTypes = {
     url: PropTypes.string.isRequired
   }),
   coordinatesFormat: PropTypes.string.isRequired,
-  setSelectedAreaId: PropTypes.func.isRequired
+  setSelectedAreaId: PropTypes.func.isRequired,
+  currentlyTrackingLocation: PropTypes.shape({
+    latitude: PropTypes.number.isRequired,
+    longitude: PropTypes.number.isRequired
+  }),
+  onStartTrackingRoute: PropTypes.func.isRequired,
+  onStopTrackingRoute: PropTypes.func.isRequired
 };
 
 export default MapComponent;

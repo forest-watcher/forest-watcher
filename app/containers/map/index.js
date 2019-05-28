@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setSelectedAreaId } from 'redux-modules/areas';
 import { createReport } from 'redux-modules/reports';
+import { setCurrentlyTrackingLocation } from 'redux-modules/routes';
 import { setCanDisplayAlerts, setActiveAlerts } from 'redux-modules/alerts';
 import tracker from 'helpers/googleAnalytics';
 import { getContextualLayer } from 'helpers/map';
@@ -51,6 +52,7 @@ function mapStateToProps(state: State) {
     area: areaProps,
     isConnected: shouldBeConnected(state),
     isOfflineMode: state.app.offlineMode,
+    currentlyTrackingLocation: state.routes.currentlyTrackingLocation,
     coordinatesFormat: state.app.coordinatesFormat,
     canDisplayAlerts: state.alerts.canDisplayAlerts,
     basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',
@@ -79,6 +81,12 @@ function mapDispatchToProps(dispatch, { navigation }) {
     },
     navigate: (routeName, params) => {
       navigation.navigate(routeName, params);
+    },
+    onStartTrackingRoute: location => {
+      dispatch(setCurrentlyTrackingLocation(location));
+    },
+    onStopTrackingRoute: () => {
+      dispatch(setCurrentlyTrackingLocation(undefined));
     }
   };
 }

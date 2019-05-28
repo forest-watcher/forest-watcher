@@ -75,6 +75,25 @@ export function getCurrentLocation(completion) {
   });
 }
 
+export function getValidLocations(completion) {
+  BackgroundGeolocation.getValidLocations(
+    locations => {
+      console.log(locations);
+      const mappedLocations = locations.map(location => {
+        return {
+          latitude: location.latitude,
+          longitude: location.longitude,
+          timestamp: location.time //todo: Ensure this is a number, apparently android returns this as a string...
+        };
+      });
+      completion(mappedLocations, null);
+    },
+    error => {
+      completion(null, error);
+    }
+  );
+}
+
 /**
  * startTrackingLocation - When called, attempts to start observing location updates.
  * If we don't have permission, we need to show an error.
