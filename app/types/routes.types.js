@@ -1,6 +1,6 @@
 // @flow
 export type RouteState = {
-  currentlyTrackingLocation: Location,
+  routeDestination: Location,
   previousRoutes: Array<Route>
 };
 
@@ -23,6 +23,6 @@ export type LocationPoint = {
   timestamp: number
 };
 
-export type RouteAction = setCurrentlyTracking;
+export type RouteAction = setRouteDestination;
 
 export type setCurrentlyTracking = { type: 'app/SET_CURRENTLY_TRACKING', payload: boolean };
