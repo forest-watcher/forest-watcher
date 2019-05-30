@@ -31,8 +31,8 @@ export type RouteAction =
   | finishAndSaveRoute
   | addLocationToRoute;
 
-export type setRouteDestination = { type: 'app/SET_ROUTE_DESTINATION', payload: Location };
-export type createRoute = { type: 'app/CREATE_ROUTE', payload: Route };
-export type createRouteDummy = { type: 'app/CREATE_ROUTE' };
-export type finishAndSaveRoute = { type: 'app/FINISH_AND_SAVE_ROUTE' };
-export type addLocationToRoute = { type: 'app/ADD_LOCATION_TO_ROUTE', payload: Location };
+type setRouteDestination = { type: 'app/SET_ROUTE_DESTINATION', payload: Location };
+type createRoute = { type: 'app/CREATE_ROUTE', payload: Route };
+type createRouteDummy = { type: 'app/CREATE_ROUTE' };
+type finishAndSaveRoute = { type: 'app/FINISH_AND_SAVE_ROUTE' };
+type addLocationToRoute = { type: 'app/ADD_LOCATION_TO_ROUTE', payload: Location };
