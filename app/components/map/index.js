@@ -267,20 +267,23 @@ class MapComponent extends Component {
       // We need to have the GFWLocationAuthorizedAlways authorization level so we can track in the background!
       // todo: translations!
       if (result.authorization !== GFWLocationAuthorizedAlways) {
-        Alert.alert(
-          'Not authorized!',
-          `We need to access your location, even in the background, while you're on a route.`,
-          [
-            { text: 'OK' },
-            {
-              text: 'Open Settings',
-              onPress: () => {
-                // todo: find Android alternative
-                Linking.openURL('app-settings:');
+        if (Platform.OS === 'android') {
+          requestAndroidLocationPermissions();
+        } else {
+          Alert.alert(
+            'Not authorized!',
+            `We need to access your location, even in the background, while you're on a route.`,
+            [
+              { text: 'OK' },
+              {
+                text: 'Open Settings',
+                onPress: () => {
+                  Linking.openURL('app-settings:');
+                }
               }
-            }
-          ]
-        );
+            ]
+          );
+        }
         return;
       }
 
