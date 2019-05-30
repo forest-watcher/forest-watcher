@@ -1,5 +1,5 @@
 // @flow
-import type { RouteState, RouteAction, LocationPoint } from 'types/routes.types';
+import type { RouteState, RouteAction, Route, LocationPoint } from 'types/routes.types';
 
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
@@ -10,7 +10,7 @@ const FINISH_AND_SAVE_ROUTE = 'app/FINISH_AND_SAVE_ROUTE';
 const ADD_LOCATION_TO_ROUTE = 'app/ADD_LOCATION_TO_ROUTE';
 
 // Reducer
-const initialState = {
+const initialState: RouteState = {
   routeDestination: undefined,
   previousRoutes: [],
   currentRoute: undefined
@@ -28,7 +28,7 @@ export default function reducer(state: RouteState = initialState, action: RouteA
     case CREATE_ROUTE:
       return {
         ...state,
-        currentRoute: { ...state.currentRoute, locations: [...state.currentRoute.locations, action.payload] }
+        currentRoute: action.payload
       };
     case FINISH_AND_SAVE_ROUTE:
       return {
