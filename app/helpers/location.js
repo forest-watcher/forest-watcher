@@ -1,10 +1,11 @@
 import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
 import RNSimpleCompass from 'react-native-simple-compass';
-import { PermissionsAndroid } from 'react-native';
+import { PermissionsAndroid, Platform } from 'react-native';
 
 var emitter = require('tiny-emitter/instance');
 
 import { LOCATION_TRACKING } from 'config/constants';
+import { addLocationToRoute } from 'redux-modules/routes';
 
 export const GFWLocationAuthorizedAlways = BackgroundGeolocation.AUTHORIZED;
 export const GFWLocationAuthorizedInUse = BackgroundGeolocation.AUTHORIZED_FOREGROUND;
@@ -96,7 +97,7 @@ export function getValidLocations(completion) {
         return {
           latitude: location.latitude,
           longitude: location.longitude,
-          timestamp: location.time //todo: Ensure this is a number, apparently android returns this as a string...
+          timestamp: location.time
         };
       });
       completion(mappedLocations, null);
@@ -140,16 +141,25 @@ export function startTrackingLocation(requiredPermission, completion) {
 
     // At this point, we should have the correct authorization.
     BackgroundGeolocation.on('location', location => {
-      BackgroundGeolocation.startTask(taskKey => {
-        emitter.emit(GFWOnLocationEvent, location);
-        // todo: store location in redux.
-        BackgroundGeolocation.endTask(taskKey);
-      });
+      if (Platform.OS === 'android') {
+        saveLocationUpdate(location);
+      } else {
+        BackgroundGeolocation.startTask(taskKey => {
+          saveLocationUpdate(location);
+          BackgroundGeolocation.endTask(taskKey);
+        });
+      }
     });
 
-    BackgroundGeolocation.on('stationary', stationaryLocation => {
-      emitter.emit(GFWOnStationaryEvent, location);
-      // todo: store location in redux.
+    BackgroundGeolocation.on('stationary', location => {
+      if (Platform.OS === 'android') {
+        saveLocationUpdate(location);
+      } else {
+        BackgroundGeolocation.startTask(taskKey => {
+          saveLocationUpdate(location);
+          BackgroundGeolocation.endTask(taskKey);
+        });
+      }
     });
 
     // todo: handle errors / other events.
@@ -157,6 +167,11 @@ export function startTrackingLocation(requiredPermission, completion) {
     BackgroundGeolocation.start();
     completion(null);
   });
+}
+
+function saveLocationUpdate(location) {
+  addLocationToRoute(location);
+  emitter.emit(GFWOnLocationEvent, location);
 }
 
 /**
