@@ -1,7 +1,8 @@
 // @flow
 export type RouteState = {
   routeDestination: Location,
-  previousRoutes: Array<Route>
+  previousRoutes: Array<Route>,
+  currentRoute: Route
 };
 
 export type Route = {
@@ -23,6 +24,15 @@ export type LocationPoint = {
   timestamp: number
 };
 
-export type RouteAction = setRouteDestination;
+export type RouteAction =
+  | setRouteDestination
+  | createRoute
+  | createRouteDummy
+  | finishAndSaveRoute
+  | addLocationToRoute;
 
-export type setCurrentlyTracking = { type: 'app/SET_CURRENTLY_TRACKING', payload: boolean };
+export type setRouteDestination = { type: 'app/SET_ROUTE_DESTINATION', payload: Location };
+export type createRoute = { type: 'app/CREATE_ROUTE', payload: Route };
+export type createRouteDummy = { type: 'app/CREATE_ROUTE' };
+export type finishAndSaveRoute = { type: 'app/FINISH_AND_SAVE_ROUTE' };
+export type addLocationToRoute = { type: 'app/ADD_LOCATION_TO_ROUTE', payload: Location };
