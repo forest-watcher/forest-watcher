@@ -164,7 +164,10 @@ export default function reducer(state: RouteState = initialState, action: RouteA
     case ADD_LOCATION_TO_ROUTE:
       return {
         ...state,
-        currentRoute: { ...state.currentRoute, locations: [...state.currentRoute.locations, action.payload] }
+        currentRoute: {
+          ...state.currentRoute,
+          locations: [...(state.currentRoute?.locations || []), action.payload]
+        }
       };
     default:
       return state;
