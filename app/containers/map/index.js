@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setSelectedAreaId } from 'redux-modules/areas';
 import { createReport } from 'redux-modules/reports';
-import { createRouteDummy, finishAndSaveRoute, setRouteDestination } from 'redux-modules/routes';
+import { addLocationToRoute, createRouteDummy, finishAndSaveRoute, setRouteDestination } from 'redux-modules/routes';
 import { setCanDisplayAlerts, setActiveAlerts } from 'redux-modules/alerts';
 import tracker from 'helpers/googleAnalytics';
 import { getContextualLayer } from 'helpers/map';
@@ -89,6 +89,9 @@ function mapDispatchToProps(dispatch, { navigation }) {
     onStopTrackingRoute: () => {
       dispatch(finishAndSaveRoute());
       dispatch(setRouteDestination(undefined));
+    },
+    addLocationToRoute: locationPoint => {
+      dispatch(addLocationToRoute(locationPoint));
     }
   };
 }

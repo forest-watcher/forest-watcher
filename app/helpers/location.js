@@ -170,7 +170,6 @@ export function startTrackingLocation(requiredPermission, completion) {
 }
 
 function saveLocationUpdate(location) {
-  addLocationToRoute(location);
   emitter.emit(GFWOnLocationEvent, location);
 }
 
