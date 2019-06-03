@@ -1,8 +1,7 @@
 // @flow
 export type RouteState = {
   routeDestination: Location,
-  previousRoutes: Array<Route>,
-  currentRoute: Route
+  previousRoutes: Array<Route>
 };
 
 export type Route = {
