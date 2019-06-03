@@ -24,7 +24,7 @@ export type LocationPoint = {
   timestamp: number
 };
 
-export type RouteAction = setRouteDestination | createRouteDummy | finishAndSaveRoute;
+export type RouteAction = setRouteDestination | finishAndSaveRoute;
 
 type setRouteDestination = { type: 'app/SET_ROUTE_DESTINATION', payload: Location };
 type finishAndSaveRoute = { type: 'app/FINISH_AND_SAVE_ROUTE', payload: Route };
