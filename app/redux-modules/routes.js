@@ -1,5 +1,5 @@
 // @flow
-import type { RouteState, RouteAction, Route, LocationPoint } from 'types/routes.types';
+import type { RouteState, RouteAction, Route } from 'types/routes.types';
 
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
