@@ -139,23 +139,23 @@ class Dashboard extends PureComponent<Props> {
     }
   };
 
-  onRoutePress = (routeId: string, name: string) => {
-    if (routeId) {
-      // todo: Open route details
-      /*this.props.setSelectedAreaId(areaId);
-      Navigation.push(this.props.componentId, {
-        component: {
-          name: 'ForestWatcher.Map',
-          options: {
-            topBar: {
-              title: {
-                text: name
-              }
+  onRoutePress = (routeName: string) => {
+    // this.props.setSelectedAreaId(areaId);
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.RouteDetail',
+        passProps: {
+          routeName
+        },
+        options: {
+          topBar: {
+            title: {
+              text: routeName
             }
           }
         }
-      });*/
-    }
+      }
+    });
   };
 
   onPressReports = () => {
@@ -209,7 +209,7 @@ class Dashboard extends PureComponent<Props> {
             <View>
               <Text style={styles.label}>{i18n.t('settings.yourAreas')}</Text>
               <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
-              <Text style={styles.label}>{'Your Routes'}</Text>
+              <Text style={styles.label}>Your Routes**</Text>
               <RouteList onRoutePress={this.onRoutePress} />
             </View>
           </View>
