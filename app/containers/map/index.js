@@ -86,7 +86,8 @@ function mapDispatchToProps(dispatch, { navigation }) {
       dispatch(setRouteDestination(location));
     },
     onStopTrackingRoute: () => {
-      dispatch(finishAndSaveRoute());
+      // TODO: Look at calling the below once a full route has been constructed by the user after pressing save.
+      //dispatch(finishAndSaveRoute());
       dispatch(setRouteDestination(undefined));
     }
   };
