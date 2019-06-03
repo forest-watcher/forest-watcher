@@ -43,9 +43,9 @@ export default StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 32
   },
-  actionBtn: {
-    marginTop: 8,
-    marginBottom: 8
+  actionButton: {
+    marginVertical: 8,
+    marginHorizontal: 32
   },
   listContainer: {
     marginTop: 24,
