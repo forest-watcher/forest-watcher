@@ -57,6 +57,10 @@ class RouteDetail extends PureComponent<Props> {
     });
   };
 
+  deleteRoute = () => {
+    // todo
+  };
+
   render() {
     const { route } = this.props;
     // todo mpf use existing translations
@@ -66,9 +70,9 @@ class RouteDetail extends PureComponent<Props> {
     const locationEnd = `End: ${lastLocation.latitude.toFixed(4)}, ${lastLocation.longitude.toFixed(4)}`;
     const routeData = [
       { label: [i18n.t('commonText.name')], value: [route.name], canEdit: true },
-      { label: ['Location**'], value: [locationStart, locationEnd] },
+      { label: ['Location'], value: [locationStart, locationEnd] },
       { label: [i18n.t('commonText.date')], value: [moment(route.date).format('YYYY-MM-DD')] },
-      { label: ['Difficulty**'], value: [route.difficulty], canEdit: true },
+      { label: ['Difficulty'], value: [route.difficulty], canEdit: true },
       { label: [i18n.t('commonText.language')], value: [route.language] }
     ];
 
@@ -76,19 +80,26 @@ class RouteDetail extends PureComponent<Props> {
       <ScrollView>
         <ActionButton
           style={styles.actionButton}
-          onPress={() => this.openRouteOnMap}
-          text={'View Route On Map**'.toUpperCase()}
+          onPress={this.openRouteOnMap}
+          text={'View Route On Map'.toUpperCase()}
           short
           light
         />
         <View style={styles.answersContainer}>
           <View style={styles.listContainer}>
-            <Text style={styles.listTitle}>Route Details**</Text>
+            <Text style={styles.listTitle}>Route Details</Text>
             {routeData.map((data, i) => (
               <AnswerComponent question={data.label} answers={data.value} key={i} readOnly={!data.canEdit} />
             ))}
           </View>
         </View>
+        <ActionButton
+          style={styles.actionButton}
+          onPress={this.deleteRoute}
+          text={'Delete Route'.toUpperCase()}
+          short
+          delete
+        />
       </ScrollView>
     );
   }

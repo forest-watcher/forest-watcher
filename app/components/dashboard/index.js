@@ -209,7 +209,7 @@ class Dashboard extends PureComponent<Props> {
             <View>
               <Text style={styles.label}>{i18n.t('settings.yourAreas')}</Text>
               <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
-              <Text style={styles.label}>Your Routes**</Text>
+              <Text style={styles.label}>Your Routes</Text>
               <RouteList onRoutePress={this.onRoutePress} />
             </View>
           </View>
