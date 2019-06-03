@@ -1,6 +1,6 @@
 import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
 import RNSimpleCompass from 'react-native-simple-compass';
-import { PermissionsAndroid } from 'react-native';
+import { PermissionsAndroid, Platform } from 'react-native';
 
 var emitter = require('tiny-emitter/instance');
 
@@ -96,7 +96,7 @@ export function getValidLocations(completion) {
         return {
           latitude: location.latitude,
           longitude: location.longitude,
-          timestamp: location.time //todo: Ensure this is a number, apparently android returns this as a string...
+          timestamp: location.time
         };
       });
       completion(mappedLocations, null);
@@ -140,16 +140,25 @@ export function startTrackingLocation(requiredPermission, completion) {
 
     // At this point, we should have the correct authorization.
     BackgroundGeolocation.on('location', location => {
-      BackgroundGeolocation.startTask(taskKey => {
+      if (Platform.OS === 'android') {
         emitter.emit(GFWOnLocationEvent, location);
-        // todo: store location in redux.
-        BackgroundGeolocation.endTask(taskKey);
-      });
+      } else {
+        BackgroundGeolocation.startTask(taskKey => {
+          emitter.emit(GFWOnLocationEvent, location);
+          BackgroundGeolocation.endTask(taskKey);
+        });
+      }
     });
 
-    BackgroundGeolocation.on('stationary', stationaryLocation => {
-      emitter.emit(GFWOnStationaryEvent, location);
-      // todo: store location in redux.
+    BackgroundGeolocation.on('stationary', location => {
+      if (Platform.OS === 'android') {
+        emitter.emit(GFWOnLocationEvent, location);
+      } else {
+        BackgroundGeolocation.startTask(taskKey => {
+          emitter.emit(GFWOnLocationEvent, location);
+          BackgroundGeolocation.endTask(taskKey);
+        });
+      }
     });
 
     // todo: handle errors / other events.

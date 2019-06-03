@@ -23,6 +23,7 @@ export type LocationPoint = {
   timestamp: number
 };
 
-export type RouteAction = setRouteDestination;
+export type RouteAction = setRouteDestination | finishAndSaveRoute;
 
-export type setCurrentlyTracking = { type: 'app/SET_CURRENTLY_TRACKING', payload: boolean };
+type setRouteDestination = { type: 'app/SET_ROUTE_DESTINATION', payload: Location };
+type finishAndSaveRoute = { type: 'app/FINISH_AND_SAVE_ROUTE', payload: Route };
