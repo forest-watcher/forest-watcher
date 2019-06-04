@@ -43,9 +43,9 @@ RouteList.propTypes = {
       timestamp: PropTypes.number,
       locations: PropTypes.arrayOf(
         PropTypes.shape({
-          longitude: PropTypes.string.isRequired,
-          latitude: PropTypes.string.isRequired,
-          timestamp: PropTypes.string.isRequired
+          longitude: PropTypes.number.isRequired,
+          latitude: PropTypes.number.isRequired,
+          timestamp: PropTypes.number.isRequired
         })
       )
     })

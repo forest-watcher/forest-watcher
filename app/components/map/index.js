@@ -104,9 +104,8 @@ class MapComponent extends Component {
     super(props);
     Navigation.events().bindComponent(this);
     const { center } = props;
-    const initialCoords = center || { lat: MAPS.lat, lon: MAPS.lng };
+    const initialCoords = center || { latitude: MAPS.lat, longitude: MAPS.lng };
     // Google maps lon and lat are inverted
-    // TODO: Read in a saved route into the screen state.
     this.state = {
       currentRouteLocations: [],
       lastPosition: null,
@@ -115,8 +114,8 @@ class MapComponent extends Component {
       heading: null,
       noSignalOpacity: new Animated.Value(0.3),
       region: {
-        latitude: initialCoords.lon,
-        longitude: initialCoords.lat,
+        latitude: initialCoords.longitude,
+        longitude: initialCoords.latitude,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
@@ -737,7 +736,7 @@ class MapComponent extends Component {
         {!this.isRouteTracking() ? (
           <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
         ) : null}
-        {lastPosition || this.isRouteTracking() ? (
+        {(lastPosition || this.isRouteTracking()) && this.props.previousRoute == undefined ? (
           <CircleButton
             shouldFillContainer
             onPress={this.isRouteTracking() ? this.onStopTrackingPressed : this.onStartTrackingPressed}

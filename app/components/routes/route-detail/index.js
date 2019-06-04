@@ -21,6 +21,9 @@ class RouteDetail extends PureComponent<Props> {
   static options(passProps) {
     return {
       topBar: {
+        title: {
+          text: passProps.routeName
+        },
         rightButtons: [
           {
             id: 'share',
@@ -43,6 +46,7 @@ class RouteDetail extends PureComponent<Props> {
   }
 
   openRouteOnMap = () => {
+    // Testing against a mocked route? You must provide your own area id here!
     this.props.setSelectedAreaId(this.props.route.areaId);
     Navigation.push(this.props.componentId, {
       component: {
