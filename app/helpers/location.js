@@ -50,11 +50,9 @@ export function checkLocationStatus(completion) {
  *
  * @param {function}  grantedCallback A callback that'll be executed if the user gives permission for us to access their location.
  */
-export async function requestAndroidLocationPermissions(grantedCallback) {
+export async function requestAndroidLocationPermissions() {
   const permissionResult = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
-  if (permissionResult === true || permissionResult === PermissionsAndroid.RESULTS.GRANTED) {
-    grantedCallback();
-  }
+  return permissionResult === true || permissionResult === PermissionsAndroid.RESULTS.GRANTED;
 }
 
 /**
