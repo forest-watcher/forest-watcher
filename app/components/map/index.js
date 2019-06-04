@@ -322,8 +322,6 @@ class MapComponent extends Component {
       }
 
       if (locations) {
-        this.props.addLocationToRoute(location);
-
         this.setState({
           currentRouteLocations: locations
         });
@@ -335,7 +333,6 @@ class MapComponent extends Component {
    * updateLocationFromGeolocation - Handles any location updates that arrive while the user is in 'passive' mode & is not actively tracking a route.
    */
   updateLocationFromGeolocation = throttle(location => {
-    // this.props.addLocationToRoute(location);
     this.setState({
       lastPosition: {
         latitude: location.latitude,
@@ -1027,8 +1024,7 @@ MapComponent.propTypes = {
     longitude: PropTypes.number.isRequired
   }),
   onStartTrackingRoute: PropTypes.func.isRequired,
-  onStopTrackingRoute: PropTypes.func.isRequired,
-  addLocationToRoute: PropTypes.func.isRequired
+  onStopTrackingRoute: PropTypes.func.isRequired
 };
 
 export default MapComponent;

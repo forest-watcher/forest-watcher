@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setSelectedAreaId } from 'redux-modules/areas';
 import { createReport } from 'redux-modules/reports';
-import { addLocationToRoute, createRouteDummy, finishAndSaveRoute, setRouteDestination } from 'redux-modules/routes';
+import { finishAndSaveRoute, setRouteDestination } from 'redux-modules/routes';
 import { setCanDisplayAlerts, setActiveAlerts } from 'redux-modules/alerts';
 import tracker from 'helpers/googleAnalytics';
 import { getContextualLayer } from 'helpers/map';
@@ -83,15 +83,12 @@ function mapDispatchToProps(dispatch, { navigation }) {
       navigation.navigate(routeName, params);
     },
     onStartTrackingRoute: location => {
-      dispatch(createRouteDummy());
       dispatch(setRouteDestination(location));
     },
     onStopTrackingRoute: () => {
-      dispatch(finishAndSaveRoute());
+      // TODO: Look at calling the below once a full route has been constructed by the user after pressing save.
+      //dispatch(finishAndSaveRoute());
       dispatch(setRouteDestination(undefined));
-    },
-    addLocationToRoute: locationPoint => {
-      dispatch(addLocationToRoute(locationPoint));
     }
   };
 }

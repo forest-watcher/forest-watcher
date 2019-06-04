@@ -1,13 +1,11 @@
 // @flow
-import type { RouteState, RouteAction, Route, LocationPoint } from 'types/routes.types';
+import type { RouteState, RouteAction, Route } from 'types/routes.types';
 
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 // Actions
 const SET_ROUTE_DESTINATION = 'app/SET_ROUTE_DESTINATION';
-const CREATE_ROUTE = 'app/CREATE_ROUTE';
 const FINISH_AND_SAVE_ROUTE = 'app/FINISH_AND_SAVE_ROUTE';
-const ADD_LOCATION_TO_ROUTE = 'app/ADD_LOCATION_TO_ROUTE';
 
 const locationsMock = [
   {
@@ -137,8 +135,7 @@ const routeMock2 = {
 // Reducer
 const initialState: RouteState = {
   routeDestination: undefined,
-  previousRoutes: [routeMock, routeMock2],
-  currentRoute: undefined
+  previousRoutes: [routeMock, routeMock2]
 };
 
 export default function reducer(state: RouteState = initialState, action: RouteAction) {
@@ -150,24 +147,10 @@ export default function reducer(state: RouteState = initialState, action: RouteA
     }
     case SET_ROUTE_DESTINATION:
       return { ...state, routeDestination: action.payload };
-    case CREATE_ROUTE:
-      return {
-        ...state,
-        currentRoute: action.payload
-      };
     case FINISH_AND_SAVE_ROUTE:
       return {
         ...state,
-        previousRoutes: [...state.previousRoutes, state.currentRoute],
-        currentRoute: undefined
-      };
-    case ADD_LOCATION_TO_ROUTE:
-      return {
-        ...state,
-        currentRoute: {
-          ...state.currentRoute,
-          locations: [...(state.currentRoute?.locations || []), action.payload]
-        }
+        previousRoutes: [...state.previousRoutes, action.payload]
       };
     default:
       return state;
@@ -181,14 +164,7 @@ export function setRouteDestination(location: Location): RouteAction {
   };
 }
 
-export function createRoute(route: Route): RouteAction {
-  return {
-    type: CREATE_ROUTE,
-    payload: route
-  };
-}
-
-export function createRouteDummy(): RouteAction {
+/*export function createRouteDummy(): RouteAction {
   return {
     type: CREATE_ROUTE,
     payload: {
@@ -199,17 +175,10 @@ export function createRouteDummy(): RouteAction {
       language: 'en-GB'
     }
   };
-}
+}*/
 
-export function finishAndSaveRoute(): RouteAction {
+export function finishAndSaveRoute(route: Route): RouteAction {
   return {
     type: FINISH_AND_SAVE_ROUTE
-  };
-}
-
-export function addLocationToRoute(locationPoint: LocationPoint): RouteAction {
-  return {
-    type: ADD_LOCATION_TO_ROUTE,
-    payload: locationPoint
   };
 }

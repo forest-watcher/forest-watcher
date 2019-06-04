@@ -5,7 +5,6 @@ import { PermissionsAndroid, Platform } from 'react-native';
 var emitter = require('tiny-emitter/instance');
 
 import { LOCATION_TRACKING } from 'config/constants';
-import { addLocationToRoute } from 'redux-modules/routes';
 
 export const GFWLocationAuthorizedAlways = BackgroundGeolocation.AUTHORIZED;
 export const GFWLocationAuthorizedInUse = BackgroundGeolocation.AUTHORIZED_FOREGROUND;
@@ -92,7 +91,6 @@ export function getCurrentLocation(completion) {
 export function getValidLocations(completion) {
   BackgroundGeolocation.getValidLocations(
     locations => {
-      console.log(locations);
       const mappedLocations = locations.map(location => {
         return {
           latitude: location.latitude,
