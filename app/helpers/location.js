@@ -139,25 +139,17 @@ export function startTrackingLocation(requiredPermission, completion) {
 
     // At this point, we should have the correct authorization.
     BackgroundGeolocation.on('location', location => {
-      if (Platform.OS === 'android') {
+      BackgroundGeolocation.startTask(taskKey => {
         saveLocationUpdate(location);
-      } else {
-        BackgroundGeolocation.startTask(taskKey => {
-          saveLocationUpdate(location);
-          BackgroundGeolocation.endTask(taskKey);
-        });
-      }
+        BackgroundGeolocation.endTask(taskKey);
+      });
     });
 
     BackgroundGeolocation.on('stationary', location => {
-      if (Platform.OS === 'android') {
+      BackgroundGeolocation.startTask(taskKey => {
         saveLocationUpdate(location);
-      } else {
-        BackgroundGeolocation.startTask(taskKey => {
-          saveLocationUpdate(location);
-          BackgroundGeolocation.endTask(taskKey);
-        });
-      }
+        BackgroundGeolocation.endTask(taskKey);
+      });
     });
 
     // todo: handle errors / other events.
