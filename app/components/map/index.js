@@ -133,7 +133,13 @@ class MapComponent extends Component {
 
     // TODO: While we're building this UI, whenever this screen is entered it'll bin any previous locations.
     // Once we've got save / delete logic built in, remove this!
-    deleteAllLocations(() => {});
+    //deleteAllLocations(() => {});
+
+    // If we're tracking a route, fetch any of the route locations from the database and display them.
+    // This means that any locations we received while in the background will be displayed.
+    if (this.isRouteTracking()) {
+      this.fetchRouteLocations();
+    }
   }
 
   navigationButtonPressed({ buttonId }) {
@@ -337,6 +343,11 @@ class MapComponent extends Component {
    */
   handleRouteTrackingUpdate = location => {
     this.updateLocationFromGeolocation(location);
+    this.fetchRouteLocations();
+    this.setHeaderTitle();
+  };
+
+  fetchRouteLocations = () => {
     getValidLocations((locations, error) => {
       if (error) {
         // todo: handle error
@@ -347,8 +358,6 @@ class MapComponent extends Component {
         this.setState({
           currentRouteLocations: locations
         });
-
-        this.setHeaderTitle();
       }
     });
   };
