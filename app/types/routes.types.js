@@ -1,15 +1,16 @@
 // @flow
 export type RouteState = {
-  routeDestination: Location,
+  activeRoute: Route,
   previousRoutes: Array<Route>
 };
 
 export type Route = {
   name: string,
-  locations: Array<LocationPoint>,
   date: number,
   difficulty: 'easy' | 'medium' | 'hard',
-  language: string
+  destination: Location,
+  language: string,
+  locations: Array<LocationPoint>
 };
 
 export type Location = {

@@ -140,7 +140,7 @@ class MapComponent extends Component {
     tracker.trackScreenView('Map');
 
     this.animateNoSignal();
-    this.geoLocate(this.props.routeDestination);
+    this.geoLocate(this.props.activeRoute);
   }
 
   componentDidAppear() {
@@ -164,7 +164,7 @@ class MapComponent extends Component {
       }
     }
 
-    if (this.state.selectedAlerts !== prevState.selectedAlerts && !this.props.routeDestination) {
+    if (this.state.selectedAlerts !== prevState.selectedAlerts && !this.props.activeRoute) {
       this.setHeaderTitle();
     }
 
@@ -179,7 +179,7 @@ class MapComponent extends Component {
 
   componentWillUnmount() {
     // If we're currently tracking a location, don't stop watching for updates!
-    if (!this.props.routeDestination) {
+    if (!this.props.activeRoute) {
       stopTrackingLocation();
     }
 
@@ -216,9 +216,9 @@ class MapComponent extends Component {
   /**
    * geoLocate - Resets the location / heading event listeners, calling specific callbacks depending on whether we're tracking a route or not.
    *
-   * @param  {Location} routeDestination The location we're currently routing to.
+   * @param  {Route} activeRoute The route the user is currently tracking.
    */
-  async geoLocate(routeDestination) {
+  async geoLocate(activeRoute) {
     // Remove any old emitters & stop tracking. We want to reset these to ensure the right functions are being called.
     emitter.off(GFWOnLocationEvent);
     emitter.off(GFWOnHeadingEvent);
@@ -249,7 +249,7 @@ class MapComponent extends Component {
       emitter.on(GFWOnHeadingEvent, this.updateHeading);
       startTrackingHeading();
 
-      if (routeDestination) {
+      if (activeRoute) {
         emitter.on(GFWOnLocationEvent, this.handleRouteTrackingUpdate);
       } else {
         emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
@@ -292,7 +292,7 @@ class MapComponent extends Component {
 
       this.props.onStartTrackingRoute(this.state.selectedAlerts[this.state.selectedAlerts.length - 1]);
 
-      this.geoLocate(this.props.routeDestination);
+      this.geoLocate(this.props.activeRoute);
     });
   };
 
@@ -301,7 +301,7 @@ class MapComponent extends Component {
    */
   onStopTrackingPressed = () => {
     this.props.onStopTrackingRoute();
-    this.geoLocate(this.props.routeDestination);
+    this.geoLocate(this.props.activeRoute);
 
     // todo: add end route UI.
     // todo: handle deleting locations from database upon saving / deleting the route.
@@ -440,10 +440,10 @@ class MapComponent extends Component {
 
   setHeaderTitle = () => {
     const { selectedAlerts, lastPosition } = this.state;
-    const { coordinatesFormat, routeDestination } = this.props;
+    const { coordinatesFormat, activeRoute } = this.props;
 
     // If we have selected alerts, and we're not currently tracking a route.
-    if (selectedAlerts && selectedAlerts.length > 0 && !routeDestination) {
+    if (selectedAlerts && selectedAlerts.length > 0 && !activeRoute) {
       const last = selectedAlerts.length - 1;
       const coordinates = {
         latitude: selectedAlerts[last].latitude,
@@ -451,9 +451,9 @@ class MapComponent extends Component {
       };
       const coordinateText = formatCoordsByFormat(coordinates, coordinatesFormat);
       this.setLocationHeaderTitle(coordinateText, coordinates, lastPosition);
-    } else if (routeDestination) {
-      const coordinateText = formatCoordsByFormat(routeDestination, coordinatesFormat);
-      this.setLocationHeaderTitle(coordinateText, routeDestination, lastPosition);
+    } else if (activeRoute) {
+      const coordinateText = formatCoordsByFormat(activeRoute.destination, coordinatesFormat);
+      this.setLocationHeaderTitle(coordinateText, activeRoute.destination, lastPosition);
     } else {
       this.setLocationHeaderTitle();
     }
@@ -559,7 +559,7 @@ class MapComponent extends Component {
   };
 
   onRegionChange = region => {
-    if (this.state.customReporting && this.props.routeDestination === undefined) {
+    if (this.state.customReporting && !this.props.activeRoute) {
       Navigation.mergeOptions(this.props.componentId, {
         topBar: {
           title: {
@@ -652,7 +652,7 @@ class MapComponent extends Component {
   // todo: merge this with the function below
   renderButtonPanelSelected() {
     const { lastPosition } = this.state;
-    const { routeDestination } = this.props;
+    const { activeRoute } = this.props;
 
     // To fix the missing signal text overflow rendering in reverse row
     // last to render will be on top of the others
@@ -668,9 +668,9 @@ class MapComponent extends Component {
         {lastPosition ? (
           <CircleButton
             shouldFillContainer
-            onPress={routeDestination ? this.onStopTrackingPressed : this.onStartTrackingPressed}
+            onPress={activeRoute ? this.onStopTrackingPressed : this.onStartTrackingPressed}
             light
-            icon={routeDestination ? stopTrackingIcon : startTrackingIcon}
+            icon={activeRoute ? stopTrackingIcon : startTrackingIcon}
           />
         ) : null}
       </View>
@@ -726,7 +726,7 @@ class MapComponent extends Component {
 
   renderMapFooter() {
     const { selectedAlerts, neighbours, customReporting } = this.state;
-    const { routeDestination } = this.props;
+    const { activeRoute } = this.props;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
 
     const hasNeighbours = neighbours && neighbours.length > 0;
@@ -738,7 +738,7 @@ class MapComponent extends Component {
         <Image style={[styles.footerBg, { height: veilHeight }]} source={backgroundImage} />
       </View>,
       <FooterSafeAreaView key="footer" pointerEvents="box-none" style={styles.footer}>
-        {routeDestination
+        {activeRoute
           ? this.renderRouteTrackingButtonPanel()
           : hasAlertsSelected || customReporting
           ? this.renderButtonPanelSelected()
@@ -766,16 +766,19 @@ class MapComponent extends Component {
       heading,
       markers
     } = this.state;
+
     const {
       areaCoordinates,
       area,
       contextualLayer,
       basemapLocalTilePath,
       isConnected,
-      routeDestination,
+      activeRoute,
       isOfflineMode,
       ctxLayerLocalTilePath
     } = this.props;
+
+    const routeDestination = activeRoute?.destination;
     const showCompassLine = lastPosition && selectedAlerts && compassLine && !routeDestination;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
     const isIOS = Platform.OS === 'ios';
@@ -1009,10 +1012,7 @@ MapComponent.propTypes = {
   }),
   coordinatesFormat: PropTypes.string.isRequired,
   setSelectedAreaId: PropTypes.func.isRequired,
-  routeDestination: PropTypes.shape({
-    latitude: PropTypes.number.isRequired,
-    longitude: PropTypes.number.isRequired
-  }),
+  activeRoute: PropTypes.object,
   onStartTrackingRoute: PropTypes.func.isRequired,
   onStopTrackingRoute: PropTypes.func.isRequired
 };
