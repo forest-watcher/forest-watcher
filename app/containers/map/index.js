@@ -4,7 +4,7 @@ import type { State } from 'types/store.types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setSelectedAreaId } from 'redux-modules/areas';
-import { createReport } from 'redux-modules/reports';
+import { finishAndSaveRoute, setRouteDestination } from 'redux-modules/routes';
 import { setCanDisplayAlerts, setActiveAlerts } from 'redux-modules/alerts';
 import tracker from 'helpers/googleAnalytics';
 import { getContextualLayer } from 'helpers/map';
@@ -48,6 +48,7 @@ function mapStateToProps(state: State) {
     center,
     contextualLayer,
     areaCoordinates,
+    activeRoute: state.routes.activeRoute,
     area: areaProps,
     isConnected: shouldBeConnected(state),
     isOfflineMode: state.app.offlineMode,
@@ -79,6 +80,14 @@ function mapDispatchToProps(dispatch, { navigation }) {
     },
     navigate: (routeName, params) => {
       navigation.navigate(routeName, params);
+    },
+    onStartTrackingRoute: location => {
+      dispatch(setRouteDestination(location));
+    },
+    onStopTrackingRoute: () => {
+      // TODO: Look at calling the below with a full route once the user has decided to save.
+      // Currently, we call it just to reset the active route.
+      dispatch(finishAndSaveRoute());
     }
   };
 }

@@ -1,12 +1,13 @@
 import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
 import RNSimpleCompass from 'react-native-simple-compass';
-import { PermissionsAndroid } from 'react-native';
+import { PermissionsAndroid, Platform } from 'react-native';
 
 var emitter = require('tiny-emitter/instance');
 
 import { LOCATION_TRACKING } from 'config/constants';
 
 export const GFWLocationAuthorizedAlways = BackgroundGeolocation.AUTHORIZED;
+export const GFWLocationAuthorizedInUse = BackgroundGeolocation.AUTHORIZED_FOREGROUND;
 export const GFWLocationUnauthorized = BackgroundGeolocation.NOT_AUTHORIZED;
 export const GFWOnLocationEvent = 'gfw_onlocation_event';
 export const GFWOnStationaryEvent = 'gfw_onstationary_event';
@@ -45,6 +46,18 @@ export function checkLocationStatus(completion) {
 }
 
 /**
+ * requestAndroidLocationPermissions - When called, requests Android location permissions from the user.
+ *
+ * @param {function}  grantedCallback A callback that'll be executed if the user gives permission for us to access their location.
+ */
+export async function requestAndroidLocationPermissions(grantedCallback) {
+  const permissionResult = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+  if (permissionResult === true || permissionResult === PermissionsAndroid.RESULTS.GRANTED) {
+    grantedCallback();
+  }
+}
+
+/**
  * getCurrentLocation - When called, asks BackgroundGeolocation for the user's current location.
  *
  * @param  {function} completion A callback function, that will be called upon either a location being found, or an error being returned.
@@ -73,6 +86,25 @@ export function getCurrentLocation(completion) {
       }
     );
   });
+}
+
+export function getValidLocations(completion) {
+  BackgroundGeolocation.getValidLocations(
+    locations => {
+      console.log(locations);
+      const mappedLocations = locations.map(location => {
+        return {
+          latitude: location.latitude,
+          longitude: location.longitude,
+          timestamp: location.time
+        };
+      });
+      completion(mappedLocations, null);
+    },
+    error => {
+      completion(null, error);
+    }
+  );
 }
 
 /**
@@ -108,16 +140,25 @@ export function startTrackingLocation(requiredPermission, completion) {
 
     // At this point, we should have the correct authorization.
     BackgroundGeolocation.on('location', location => {
-      BackgroundGeolocation.startTask(taskKey => {
+      if (Platform.OS === 'android') {
         emitter.emit(GFWOnLocationEvent, location);
-        // todo: store location in redux.
-        BackgroundGeolocation.endTask(taskKey);
-      });
+      } else {
+        BackgroundGeolocation.startTask(taskKey => {
+          emitter.emit(GFWOnLocationEvent, location);
+          BackgroundGeolocation.endTask(taskKey);
+        });
+      }
     });
 
-    BackgroundGeolocation.on('stationary', stationaryLocation => {
-      emitter.emit(GFWOnStationaryEvent, location);
-      // todo: store location in redux.
+    BackgroundGeolocation.on('stationary', location => {
+      if (Platform.OS === 'android') {
+        emitter.emit(GFWOnLocationEvent, location);
+      } else {
+        BackgroundGeolocation.startTask(taskKey => {
+          emitter.emit(GFWOnLocationEvent, location);
+          BackgroundGeolocation.endTask(taskKey);
+        });
+      }
     });
 
     // todo: handle errors / other events.
@@ -158,11 +199,4 @@ export function startTrackingHeading() {
  */
 export function stopTrackingHeading() {
   RNSimpleCompass.stop();
-}
-
-export async function requestAndroidLocationPermissions(grantedCallback) {
-  const permissionResult = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
-  if (permissionResult === true || permissionResult === PermissionsAndroid.RESULTS.GRANTED) {
-    grantedCallback();
-  }
 }
