@@ -687,6 +687,40 @@ class MapComponent extends Component {
     );
   };
 
+  /**
+   * reconcileRouteLocations - Given two arrays of locations, determines which should be used.
+   * This allows the UI to show locations for a current or previous route without needing to know what it's displaying.
+   *
+   * @param  {array<Location>} currentRouteLocations  Locations for a current route, if the user is tracking a route.
+   * @param  {array<Location>} previousRouteLocations Locations for a previous route, if the user is viewing a saved route.
+   */
+  reconcileRouteLocations = (currentRouteLocations, previousRouteLocations) => {
+    if (currentRouteLocations && currentRouteLocations?.length > 0) {
+      return currentRouteLocations;
+    } else if (previousRouteLocations && previousRouteLocations?.length > 0) {
+      return previousRouteLocations;
+    } else {
+      return null;
+    }
+  };
+
+  /**
+   * reconcileRouteDestination - Given two routes, determines which destination should be used.
+   * This allows the UI to show the destination for a current or previous route without needing to know what it's displaying.
+   *
+   * @param  {Route} currentRoute  The current route, if the user is tracking a route.
+   * @param  {Route} previousRoute The previous route, if the user is viewing a saved route.
+   */
+  reconcileRouteDestination = (currentRoute, previousRoute) => {
+    if (currentRoute) {
+      return currentRoute.destination;
+    } else if (previousRoute) {
+      return previousRoute.destination;
+    } else {
+      return null;
+    }
+  };
+
   renderButtonPanelSelected() {
     const { lastPosition } = this.state;
 
@@ -793,8 +827,11 @@ class MapComponent extends Component {
       isConnected,
       activeRoute,
       isOfflineMode,
-      ctxLayerLocalTilePath
+      ctxLayerLocalTilePath,
+      previousRoute
     } = this.props;
+    const routeLocations = this.reconcileRouteLocations(currentRouteLocations, previousRoute?.locations);
+    const routeDestination = this.reconcileRouteDestination(activeRoute, previousRoute);
     const showCompassLine = lastPosition && selectedAlerts && compassLine && !this.isRouteTracking();
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
     const isIOS = Platform.OS === 'ios';
@@ -806,8 +843,6 @@ class MapComponent extends Component {
       : 'clustersElement';
     const markerSize = this.getMarkerSize();
     const markerBorder = { borderWidth: (markerSize.width / 18) * 4 };
-
-    // todo: ensure that any route locations are rendered to the map.
 
     // Map elements
     const basemapLocalLayerElement = basemapLocalTilePath ? (
@@ -844,27 +879,27 @@ class MapComponent extends Component {
         zIndex={3}
       />
     ) : null;
-    const currentRouteStartElement = currentRouteLocations ? (
+    const currentRouteStartElement = routeLocations ? (
       <MapView.Marker
         key="currentRouteStartElement"
         image={markerImage}
-        coordinate={currentRouteLocations[0]}
+        coordinate={routeLocations[0]}
         style={{ zIndex: 4 }}
         anchor={{ x: 0.5, y: 0.5 }}
         tracksViewChanges={false}
       />
     ) : null;
-    const currentRouteLineElement = currentRouteLocations ? (
+    const currentRouteLineElement = routeLocations ? (
       <MapView.Polyline
         key="currentRouteLineElements"
-        coordinates={currentRouteLocations}
+        coordinates={routeLocations}
         strokeColor={Theme.colors.color5}
         strokeWidth={2}
         zIndex={3}
       />
     ) : null;
-    const currentRouteCornerElements = currentRouteLocations
-      ? currentRouteLocations.map(location => (
+    const currentRouteCornerElements = routeLocations
+      ? routeLocations.map(location => (
           <MapView.Marker
             key={`currentRouteCorner-${location.timestamp}`}
             coordinate={location}
@@ -950,10 +985,10 @@ class MapComponent extends Component {
         : null;
 
     // todo: ensure that this is shown correctly.
-    const routeDestinationElement = this.isRouteTracking() ? (
+    const routeDestinationElement = routeDestination ? (
       <MapView.Marker
         key={`routeDestination`}
-        coordinate={activeRoute?.destination}
+        coordinate={routeDestination}
         anchor={{ x: 0.5, y: 0.5 }}
         zIndex={20}
         tracksViewChanges={false}
@@ -1065,6 +1100,7 @@ MapComponent.propTypes = {
   coordinatesFormat: PropTypes.string.isRequired,
   setSelectedAreaId: PropTypes.func.isRequired,
   activeRoute: PropTypes.object,
+  previousRoute: PropTypes.object,
   onStartTrackingRoute: PropTypes.func.isRequired,
   onStopTrackingRoute: PropTypes.func.isRequired
 };
