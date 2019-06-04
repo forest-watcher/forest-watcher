@@ -9,7 +9,7 @@ const FINISH_AND_SAVE_ROUTE = 'app/FINISH_AND_SAVE_ROUTE';
 
 // Reducer
 const initialState: RouteState = {
-  routeDestination: undefined,
+  activeRoute: undefined,
   previousRoutes: []
 };
 
@@ -21,11 +21,18 @@ export default function reducer(state: RouteState = initialState, action: RouteA
       return { ...state, ...route };
     }
     case SET_ROUTE_DESTINATION:
-      return { ...state, routeDestination: action.payload };
+      return {
+        ...state,
+        activeRoute: {
+          ...state.activeRoute,
+          destination: action.payload
+        }
+      };
     case FINISH_AND_SAVE_ROUTE:
       return {
         ...state,
-        previousRoutes: [...state.previousRoutes, action.payload]
+        //previousRoutes: [...state.previousRoutes, action.payload],
+        activeRoute: undefined
       };
     default:
       return state;

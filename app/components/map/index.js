@@ -111,7 +111,7 @@ class MapComponent extends Component {
       hasCompass: false,
       compassLine: null,
       heading: null,
-      geoMarkerOpacity: new Animated.Value(0.3),
+      noSignalOpacity: new Animated.Value(0.3),
       region: {
         latitude: initialCoords.lon,
         longitude: initialCoords.lat,
@@ -139,7 +139,7 @@ class MapComponent extends Component {
   componentDidMount() {
     tracker.trackScreenView('Map');
 
-    this.animateGeo();
+    this.animateNoSignal();
     this.geoLocate();
   }
 
@@ -191,27 +191,32 @@ class MapComponent extends Component {
     this.props.setSelectedAreaId('');
   }
 
-  animateGeo() {
+  /**
+   * animateNoSignal - Fades the no signal element in and out.
+   */
+  animateNoSignal() {
     Animated.sequence([
-      Animated.timing(this.state.geoMarkerOpacity, {
+      Animated.timing(this.state.noSignalOpacity, {
         toValue: 0.4,
         easing: Easing.in(Easing.quad),
         duration: 800
       }),
-      Animated.timing(this.state.geoMarkerOpacity, {
+      Animated.timing(this.state.noSignalOpacity, {
         toValue: 0.15,
         easing: Easing.out(Easing.quad),
         duration: 1000
       })
     ]).start(event => {
       if (event.finished) {
-        this.animateGeo();
+        this.animateNoSignal();
       }
     });
   }
 
   /**
    * geoLocate - Resets the location / heading event listeners, calling specific callbacks depending on whether we're tracking a route or not.
+   *
+   * @param  {Route} activeRoute The route the user is currently tracking.
    */
   async geoLocate() {
     // Remove any old emitters & stop tracking. We want to reset these to ensure the right functions are being called.
@@ -418,14 +423,10 @@ class MapComponent extends Component {
 
   setLocationHeaderTitle = (formattedCoords, targetLocation, currentLocation) => {
     let headerText = i18n.t('dashboard.map');
-    let fontSize;
+    let fontSize = 16;
 
-    if (formattedCoords) {
-      if (targetLocation && currentLocation) {
-        headerText = `${formattedCoords}, ${getDistanceFormattedText(targetLocation, currentLocation, 30)}`;
-      }
-
-      fontSize = 16;
+    if (formattedCoords && targetLocation && currentLocation) {
+      headerText = `${formattedCoords}, ${getDistanceFormattedText(targetLocation, currentLocation, 30)}`;
     } else {
       fontSize = 18;
     }
@@ -443,7 +444,7 @@ class MapComponent extends Component {
 
   setHeaderTitle = () => {
     const { selectedAlerts, lastPosition } = this.state;
-    const { coordinatesFormat, routeDestination } = this.props;
+    const { coordinatesFormat, activeRoute } = this.props;
 
     // If we have selected alerts, and we're not currently tracking a route.
     if (selectedAlerts && selectedAlerts.length > 0 && !this.isRouteTracking) {
@@ -455,8 +456,10 @@ class MapComponent extends Component {
       const coordinateText = formatCoordsByFormat(coordinates, coordinatesFormat);
       this.setLocationHeaderTitle(coordinateText, coordinates, lastPosition);
     } else if (this.isRouteTracking) {
-      const coordinateText = formatCoordsByFormat(routeDestination, coordinatesFormat);
-      this.setLocationHeaderTitle(coordinateText, routeDestination, lastPosition);
+      const coordinateText = formatCoordsByFormat(activeRoute.destination, coordinatesFormat);
+      this.setLocationHeaderTitle(coordinateText, activeRoute.destination, lastPosition);
+    } else {
+      this.setLocationHeaderTitle();
     }
   };
 
@@ -690,12 +693,7 @@ class MapComponent extends Component {
         ) : (
           this.renderNoSignal()
         )}
-        <CircleButton
-          shouldFillContainer
-          onPress={this.isRouteTracking ? this.onStopTrackingPressed : this.onStartTrackingPressed}
-          light
-          icon={this.isRouteTracking ? stopTrackingIcon : startTrackingIcon}
-        />
+        <CircleButton shouldFillContainer onPress={this.onStopTrackingPressed} light icon={stopTrackingIcon} />
       </View>
     );
   }
@@ -722,7 +720,7 @@ class MapComponent extends Component {
       <View pointerEvents="box-none" style={styles.signalNotice}>
         <View style={styles.geoLocationContainer}>
           <Image style={styles.marker} source={markerCompassRedImage} />
-          <Animated.View style={[styles.geoLocation, { opacity: this.state.geoMarkerOpacity }]} />
+          <Animated.View style={[styles.geoLocation, { opacity: this.state.noSignalOpacity }]} />
         </View>
         <Text style={styles.signalNoticeText}>{i18n.t('alerts.noGPS')}</Text>
       </View>
@@ -770,13 +768,14 @@ class MapComponent extends Component {
       heading,
       markers
     } = this.state;
+
     const {
       areaCoordinates,
       area,
       contextualLayer,
       basemapLocalTilePath,
       isConnected,
-      routeDestination,
+      activeRoute,
       isOfflineMode,
       ctxLayerLocalTilePath
     } = this.props;
@@ -906,12 +905,12 @@ class MapComponent extends Component {
     const routeDestinationElement = this.isRouteTracking ? (
       <MapView.Marker
         key={`routeDestination`}
-        coordinate={routeDestination}
+        coordinate={activeRoute?.destination}
         anchor={{ x: 0.5, y: 0.5 }}
         zIndex={20}
         tracksViewChanges={false}
       >
-        <Image style={[Theme.icon, styles.customLocationMarker]} source={newAlertIcon} />
+        <View style={[markerSize, markerBorder, styles.selectedMarkerIcon]} />
       </MapView.Marker>
     ) : null;
     const clustersElement =
@@ -1013,10 +1012,7 @@ MapComponent.propTypes = {
   }),
   coordinatesFormat: PropTypes.string.isRequired,
   setSelectedAreaId: PropTypes.func.isRequired,
-  routeDestination: PropTypes.shape({
-    latitude: PropTypes.number.isRequired,
-    longitude: PropTypes.number.isRequired
-  }),
+  activeRoute: PropTypes.object,
   onStartTrackingRoute: PropTypes.func.isRequired,
   onStopTrackingRoute: PropTypes.func.isRequired
 };
