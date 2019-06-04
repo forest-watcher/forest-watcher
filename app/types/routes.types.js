@@ -5,6 +5,7 @@ export type RouteState = {
 };
 
 export type Route = {
+  areaId: string,
   name: string,
   saveDate: number,
   difficulty: 'easy' | 'medium' | 'hard',
