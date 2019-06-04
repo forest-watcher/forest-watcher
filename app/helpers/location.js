@@ -89,7 +89,6 @@ export function getCurrentLocation(completion) {
 export function getValidLocations(completion) {
   BackgroundGeolocation.getValidLocations(
     locations => {
-      console.log(locations);
       const mappedLocations = locations.map(location => {
         return {
           latitude: location.latitude,
@@ -138,25 +137,17 @@ export function startTrackingLocation(requiredPermission, completion) {
 
     // At this point, we should have the correct authorization.
     BackgroundGeolocation.on('location', location => {
-      if (Platform.OS === 'android') {
-        emitter.emit(GFWOnLocationEvent, location);
-      } else {
-        BackgroundGeolocation.startTask(taskKey => {
-          emitter.emit(GFWOnLocationEvent, location);
-          BackgroundGeolocation.endTask(taskKey);
-        });
-      }
+      BackgroundGeolocation.startTask(taskKey => {
+        saveLocationUpdate(location);
+        BackgroundGeolocation.endTask(taskKey);
+      });
     });
 
     BackgroundGeolocation.on('stationary', location => {
-      if (Platform.OS === 'android') {
-        emitter.emit(GFWOnLocationEvent, location);
-      } else {
-        BackgroundGeolocation.startTask(taskKey => {
-          emitter.emit(GFWOnLocationEvent, location);
-          BackgroundGeolocation.endTask(taskKey);
-        });
-      }
+      BackgroundGeolocation.startTask(taskKey => {
+        saveLocationUpdate(location);
+        BackgroundGeolocation.endTask(taskKey);
+      });
     });
 
     // todo: handle errors / other events.
@@ -164,6 +155,10 @@ export function startTrackingLocation(requiredPermission, completion) {
     BackgroundGeolocation.start();
     completion(null);
   });
+}
+
+function saveLocationUpdate(location) {
+  emitter.emit(GFWOnLocationEvent, location);
 }
 
 /**

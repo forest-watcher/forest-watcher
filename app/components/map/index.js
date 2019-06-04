@@ -227,7 +227,12 @@ class MapComponent extends Component {
 
     checkLocationStatus(result => {
       if (result.authorization === GFWLocationUnauthorized) {
-        // todo: handle this case.
+        if (Platform.OS === 'android') {
+          // todo: look at merging this permission request into the 'checkLocationStatus' function...
+          requestAndroidLocationPermissions(() => {
+            this.geoLocate();
+          });
+        }
         return;
       }
 
