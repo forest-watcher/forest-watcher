@@ -263,12 +263,16 @@ class MapComponent extends Component {
         this.updateLocationFromGeolocation(latestLocation);
 
         if (this.isRouteTracking()) {
-          this.setState(prevState => {
-            [
+          this.setState(prevState => ({
+            currentRouteLocations: [
               ...prevState.currentRouteLocations,
-              { latitude: latestLocation.latitude, longitude: latestLocation.longitude, timestamp: latestLocation.time }
-            ];
-          });
+              {
+                latitude: latestLocation.latitude,
+                longitude: latestLocation.longitude,
+                timestamp: latestLocation.time
+              }
+            ]
+          }));
         }
       });
 

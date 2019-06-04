@@ -104,7 +104,6 @@ export function getValidLocations(completion) {
           timestamp: location.time
         };
       });
-      console.log(mappedLocations);
       completion(mappedLocations, null);
     },
     error => {
