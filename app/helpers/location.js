@@ -50,11 +50,9 @@ export function checkLocationStatus(completion) {
  *
  * @param {function}  grantedCallback A callback that'll be executed if the user gives permission for us to access their location.
  */
-export async function requestAndroidLocationPermissions(grantedCallback) {
+export async function requestAndroidLocationPermissions() {
   const permissionResult = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
-  if (permissionResult === true || permissionResult === PermissionsAndroid.RESULTS.GRANTED) {
-    grantedCallback();
-  }
+  return permissionResult === true || permissionResult === PermissionsAndroid.RESULTS.GRANTED;
 }
 
 /**
@@ -159,25 +157,17 @@ export function startTrackingLocation(requiredPermission, completion) {
 
     // At this point, we should have the correct authorization.
     BackgroundGeolocation.on('location', location => {
-      if (Platform.OS === 'android') {
-        emitter.emit(GFWOnLocationEvent, location);
-      } else {
-        BackgroundGeolocation.startTask(taskKey => {
-          emitter.emit(GFWOnLocationEvent, location);
-          BackgroundGeolocation.endTask(taskKey);
-        });
-      }
+      BackgroundGeolocation.startTask(taskKey => {
+        saveLocationUpdate(location);
+        BackgroundGeolocation.endTask(taskKey);
+      });
     });
 
     BackgroundGeolocation.on('stationary', location => {
-      if (Platform.OS === 'android') {
-        emitter.emit(GFWOnLocationEvent, location);
-      } else {
-        BackgroundGeolocation.startTask(taskKey => {
-          emitter.emit(GFWOnLocationEvent, location);
-          BackgroundGeolocation.endTask(taskKey);
-        });
-      }
+      BackgroundGeolocation.startTask(taskKey => {
+        saveLocationUpdate(location);
+        BackgroundGeolocation.endTask(taskKey);
+      });
     });
 
     // todo: handle errors / other events.
@@ -185,6 +175,10 @@ export function startTrackingLocation(requiredPermission, completion) {
     BackgroundGeolocation.start();
     completion(null);
   });
+}
+
+function saveLocationUpdate(location) {
+  emitter.emit(GFWOnLocationEvent, location);
 }
 
 /**
