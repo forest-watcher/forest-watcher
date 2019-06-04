@@ -164,7 +164,7 @@ class MapComponent extends Component {
       }
     }
 
-    if (this.state.selectedAlerts !== prevState.selectedAlerts && !this.isRouteTracking) {
+    if (this.state.selectedAlerts !== prevState.selectedAlerts && !this.isRouteTracking()) {
       this.setHeaderTitle();
     }
 
@@ -179,7 +179,7 @@ class MapComponent extends Component {
 
   componentWillUnmount() {
     // If we're currently tracking a location, don't stop watching for updates!
-    if (!this.isRouteTracking) {
+    if (!this.isRouteTracking()) {
       stopTrackingLocation();
     }
 
@@ -232,11 +232,11 @@ class MapComponent extends Component {
       }
 
       // todo: fix issue where on first view of map, after giving permission no location is given.
-      getCurrentLocation((latestLocation, error) => {
+      getCurrentLocation(async (latestLocation, error) => {
         if (error) {
           if (Platform.OS === 'android') {
             // todo: look at merging this permission request into the 'checkLocationStatus' function...
-            if (requestAndroidLocationPermissions) {
+            if (await requestAndroidLocationPermissions()) {
               this.geoLocate();
             }
           }
@@ -447,7 +447,7 @@ class MapComponent extends Component {
     const { coordinatesFormat, activeRoute } = this.props;
 
     // If we have selected alerts, and we're not currently tracking a route.
-    if (selectedAlerts && selectedAlerts.length > 0 && !this.isRouteTracking) {
+    if (selectedAlerts && selectedAlerts.length > 0 && !this.isRouteTracking()) {
       const last = selectedAlerts.length - 1;
       const coordinates = {
         latitude: selectedAlerts[last].latitude,
@@ -455,7 +455,7 @@ class MapComponent extends Component {
       };
       const coordinateText = formatCoordsByFormat(coordinates, coordinatesFormat);
       this.setLocationHeaderTitle(coordinateText, coordinates, lastPosition);
-    } else if (this.isRouteTracking) {
+    } else if (this.isRouteTracking()) {
       const coordinateText = formatCoordsByFormat(activeRoute.destination, coordinatesFormat);
       this.setLocationHeaderTitle(coordinateText, activeRoute.destination, lastPosition);
     } else {
@@ -563,7 +563,7 @@ class MapComponent extends Component {
   };
 
   onRegionChange = region => {
-    if (this.state.customReporting && !this.props.routeDestination) {
+    if (this.state.customReporting && !this.isRouteTracking()) {
       Navigation.mergeOptions(this.props.componentId, {
         topBar: {
           title: {
@@ -671,9 +671,9 @@ class MapComponent extends Component {
         {lastPosition ? (
           <CircleButton
             shouldFillContainer
-            onPress={this.isRouteTracking ? this.onStopTrackingPressed : this.onStartTrackingPressed}
+            onPress={this.isRouteTracking() ? this.onStopTrackingPressed : this.onStartTrackingPressed}
             light
-            icon={this.isRouteTracking ? stopTrackingIcon : startTrackingIcon}
+            icon={this.isRouteTracking() ? stopTrackingIcon : startTrackingIcon}
           />
         ) : null}
       </View>
@@ -740,7 +740,7 @@ class MapComponent extends Component {
         <Image style={[styles.footerBg, { height: veilHeight }]} source={backgroundImage} />
       </View>,
       <FooterSafeAreaView key="footer" pointerEvents="box-none" style={styles.footer}>
-        {this.isRouteTracking
+        {this.isRouteTracking()
           ? this.renderRouteTrackingButtonPanel()
           : hasAlertsSelected || customReporting
           ? this.renderButtonPanelSelected()
@@ -779,7 +779,7 @@ class MapComponent extends Component {
       isOfflineMode,
       ctxLayerLocalTilePath
     } = this.props;
-    const showCompassLine = lastPosition && selectedAlerts && compassLine && !this.isRouteTracking;
+    const showCompassLine = lastPosition && selectedAlerts && compassLine && !this.isRouteTracking();
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
     const isIOS = Platform.OS === 'ios';
     const ctxLayerKey =
@@ -886,7 +886,7 @@ class MapComponent extends Component {
           ))
         : null;
     const selectedAlertsElement =
-      hasAlertsSelected && !customReporting && !this.isRouteTracking
+      hasAlertsSelected && !customReporting && !this.isRouteTracking()
         ? selectedAlerts.map((alert, i) => (
             <MapView.Marker
               key={`selectedAlertsElement-${i}-${keyRand}`}
@@ -902,7 +902,7 @@ class MapComponent extends Component {
         : null;
 
     // todo: ensure that this is shown correctly.
-    const routeDestinationElement = this.isRouteTracking ? (
+    const routeDestinationElement = this.isRouteTracking() ? (
       <MapView.Marker
         key={`routeDestination`}
         coordinate={activeRoute?.destination}
@@ -926,7 +926,7 @@ class MapComponent extends Component {
       ) : null;
 
     const customReportingElement =
-      this.state.customReporting && !this.isRouteTracking ? (
+      this.state.customReporting && !this.isRouteTracking() ? (
         <View
           pointerEvents="none"
           style={[styles.customLocationFixed, this.state.dragging ? styles.customLocationTransparent : '']}
