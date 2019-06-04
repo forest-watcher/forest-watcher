@@ -111,7 +111,7 @@ class MapComponent extends Component {
       hasCompass: false,
       compassLine: null,
       heading: null,
-      geoMarkerOpacity: new Animated.Value(0.3),
+      noSignalOpacity: new Animated.Value(0.3),
       region: {
         latitude: initialCoords.lon,
         longitude: initialCoords.lat,
@@ -139,7 +139,7 @@ class MapComponent extends Component {
   componentDidMount() {
     tracker.trackScreenView('Map');
 
-    this.animateGeo();
+    this.animateNoSignal();
     this.geoLocate(this.props.routeDestination);
   }
 
@@ -191,21 +191,24 @@ class MapComponent extends Component {
     this.props.setSelectedAreaId('');
   }
 
-  animateGeo() {
+  /**
+   * animateNoSignal - Fades the no signal element in and out.
+   */
+  animateNoSignal() {
     Animated.sequence([
-      Animated.timing(this.state.geoMarkerOpacity, {
+      Animated.timing(this.state.noSignalOpacity, {
         toValue: 0.4,
         easing: Easing.in(Easing.quad),
         duration: 800
       }),
-      Animated.timing(this.state.geoMarkerOpacity, {
+      Animated.timing(this.state.noSignalOpacity, {
         toValue: 0.15,
         easing: Easing.out(Easing.quad),
         duration: 1000
       })
     ]).start(event => {
       if (event.finished) {
-        this.animateGeo();
+        this.animateNoSignal();
       }
     });
   }
@@ -722,7 +725,7 @@ class MapComponent extends Component {
       <View pointerEvents="box-none" style={styles.signalNotice}>
         <View style={styles.geoLocationContainer}>
           <Image style={styles.marker} source={markerCompassRedImage} />
-          <Animated.View style={[styles.geoLocation, { opacity: this.state.geoMarkerOpacity }]} />
+          <Animated.View style={[styles.geoLocation, { opacity: this.state.noSignalOpacity }]} />
         </View>
         <Text style={styles.signalNoticeText}>{i18n.t('alerts.noGPS')}</Text>
       </View>
