@@ -49,10 +49,10 @@ function mapStateToProps(state: State) {
     center,
     contextualLayer,
     areaCoordinates,
+    activeRoute: state.routes.activeRoute,
     area: areaProps,
     isConnected: shouldBeConnected(state),
     isOfflineMode: state.app.offlineMode,
-    routeDestination: state.routes.routeDestination,
     coordinatesFormat: state.app.coordinatesFormat,
     canDisplayAlerts: state.alerts.canDisplayAlerts,
     basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',
@@ -86,9 +86,9 @@ function mapDispatchToProps(dispatch, { navigation }) {
       dispatch(setRouteDestination(location));
     },
     onStopTrackingRoute: () => {
-      // TODO: Look at calling the below once a full route has been constructed by the user after pressing save.
-      //dispatch(finishAndSaveRoute());
-      dispatch(setRouteDestination(undefined));
+      // TODO: Look at calling the below with a full route once the user has decided to save.
+      // Currently, we call it just to reset the active route.
+      dispatch(finishAndSaveRoute());
     }
   };
 }
