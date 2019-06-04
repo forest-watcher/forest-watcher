@@ -821,6 +821,16 @@ class MapComponent extends Component {
         zIndex={3}
       />
     ) : null;
+    const currentRouteStartElement = currentRouteLocations ? (
+      <MapView.Marker
+        key="currentRouteStartElement"
+        image={markerImage}
+        coordinate={currentRouteLocations[0]}
+        style={{ zIndex: 4 }}
+        anchor={{ x: 0.5, y: 0.5 }}
+        tracksViewChanges={false}
+      />
+    ) : null;
     const currentRouteLineElement = currentRouteLocations ? (
       <MapView.Polyline
         key="currentRouteLineElements"
@@ -990,6 +1000,7 @@ class MapComponent extends Component {
           {contextualRemoteLayerElement}
           {clustersElement}
           {compassLineElement}
+          {currentRouteStartElement}
           {currentRouteCornerElements}
           {currentRouteLineElement}
           {areaPolygonElement}
