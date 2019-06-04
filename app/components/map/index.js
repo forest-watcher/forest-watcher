@@ -679,7 +679,6 @@ class MapComponent extends Component {
 
   renderRouteTrackingButtonPanel() {
     const { lastPosition } = this.state;
-    const { routeDestination } = this.props;
 
     // To fix the missing signal text overflow rendering in reverse row
     // last to render will be on top of the others
@@ -691,12 +690,7 @@ class MapComponent extends Component {
         ) : (
           this.renderNoSignal()
         )}
-        <CircleButton
-          shouldFillContainer
-          onPress={routeDestination ? this.onStopTrackingPressed : this.onStartTrackingPressed}
-          light
-          icon={routeDestination ? stopTrackingIcon : startTrackingIcon}
-        />
+        <CircleButton shouldFillContainer onPress={this.onStopTrackingPressed} light icon={stopTrackingIcon} />
       </View>
     );
   }
@@ -913,7 +907,7 @@ class MapComponent extends Component {
         zIndex={20}
         tracksViewChanges={false}
       >
-        <Image style={[Theme.icon, styles.customLocationMarker]} source={newAlertIcon} />
+        <View style={[markerSize, markerBorder, styles.selectedMarkerIcon]} />
       </MapView.Marker>
     ) : null;
     const clustersElement =
