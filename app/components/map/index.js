@@ -74,7 +74,7 @@ class MapComponent extends Component {
   static options(passProps) {
     return {
       statusBar: {
-        style: 'dark'
+        style: Platform.select({ android: 'light', ios: 'dark' })
       },
       topBar: {
         background: {
