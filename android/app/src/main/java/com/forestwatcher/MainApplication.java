@@ -11,7 +11,6 @@ import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
-import com.forestwatcher.sensors.SensorManagerPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
@@ -89,7 +88,6 @@ public class MainApplication extends NavigationApplication implements ReactInsta
       new LottiePackage(),
       new RNSentryPackage(),
       new RNCWebViewPackage(),
-      new SensorManagerPackage(),
       new RNFirebasePackage(),
       new RNFirebaseAnalyticsPackage(),
       new RNSimpleCompassPackage(),
