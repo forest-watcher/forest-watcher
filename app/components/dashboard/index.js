@@ -7,6 +7,7 @@ import { Navigation } from 'react-native-navigation';
 import SafeArea from 'react-native-safe-area';
 
 import AreaList from 'containers/common/area-list';
+import RouteList from 'containers/common/route-list';
 import Row from 'components/common/row';
 import tracker from 'helpers/googleAnalytics';
 import i18n from 'locales';
@@ -143,6 +144,25 @@ class Dashboard extends PureComponent<Props> {
     }
   };
 
+  onRoutePress = (routeName: string) => {
+    // this.props.setSelectedAreaId(areaId);
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.RouteDetail',
+        passProps: {
+          routeName
+        },
+        options: {
+          topBar: {
+            title: {
+              text: routeName
+            }
+          }
+        }
+      }
+    });
+  };
+
   onPressReports = () => {
     Navigation.push(this.props.componentId, {
       component: {
@@ -179,7 +199,6 @@ class Dashboard extends PureComponent<Props> {
     return (
       <View style={styles.container} onStartShouldSetResponder={androidListener} onResponderRelease={androidHandler}>
         <StatusBar networkActivityIndicatorVisible={appSyncing} />
-        <Text style={styles.label}>{i18n.t('settings.yourAreas')}</Text>
         <ScrollView
           style={styles.containerScroll}
           onScroll={disablePristine}
@@ -193,7 +212,10 @@ class Dashboard extends PureComponent<Props> {
             scrollEnabled
           >
             <View>
+              <Text style={styles.label}>{i18n.t('settings.yourAreas')}</Text>
               <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
+              <Text style={styles.label}>Your Routes</Text>
+              <RouteList onRoutePress={this.onRoutePress} />
             </View>
           </View>
         </ScrollView>
