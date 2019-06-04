@@ -6,7 +6,7 @@ export type RouteState = {
 
 export type Route = {
   name: string,
-  date: number,
+  saveDate: number,
   difficulty: 'easy' | 'medium' | 'hard',
   destination: Location,
   language: string,
