@@ -419,14 +419,10 @@ class MapComponent extends Component {
 
   setLocationHeaderTitle = (formattedCoords, targetLocation, currentLocation) => {
     let headerText = i18n.t('dashboard.map');
-    let fontSize;
+    let fontSize = 16;
 
-    if (formattedCoords) {
-      if (targetLocation && currentLocation) {
-        headerText = `${formattedCoords}, ${getDistanceFormattedText(targetLocation, currentLocation, 30)}`;
-      }
-
-      fontSize = 16;
+    if (formattedCoords && targetLocation && currentLocation) {
+      headerText = `${formattedCoords}, ${getDistanceFormattedText(targetLocation, currentLocation, 30)}`;
     } else {
       fontSize = 18;
     }
@@ -458,6 +454,8 @@ class MapComponent extends Component {
     } else if (routeDestination) {
       const coordinateText = formatCoordsByFormat(routeDestination, coordinatesFormat);
       this.setLocationHeaderTitle(coordinateText, routeDestination, lastPosition);
+    } else {
+      this.setLocationHeaderTitle();
     }
   };
 
