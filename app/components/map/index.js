@@ -233,9 +233,9 @@ class MapComponent extends Component {
         if (error) {
           if (Platform.OS === 'android') {
             // todo: look at merging this permission request into the 'checkLocationStatus' function...
-            requestAndroidLocationPermissions(() => {
+            if (requestAndroidLocationPermissions) {
               this.geoLocate();
-            });
+            }
           }
           // todo: handle error.
           return;
