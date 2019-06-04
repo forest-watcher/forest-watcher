@@ -29,11 +29,11 @@ const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
 
 import {
   GFWLocationAuthorizedAlways,
-  GFWLocationAuthorizedInUse,
   GFWLocationUnauthorized,
   GFWOnLocationEvent,
   GFWOnHeadingEvent,
   checkLocationStatus,
+  deleteAllLocations,
   requestAndroidLocationPermissions,
   getCurrentLocation,
   getValidLocations,
@@ -106,7 +106,9 @@ class MapComponent extends Component {
     const { center } = props;
     const initialCoords = center || { lat: MAPS.lat, lon: MAPS.lng };
     // Google maps lon and lat are inverted
+    // TODO: Read in a saved route into the screen state.
     this.state = {
+      currentRouteLocations: [],
       lastPosition: null,
       hasCompass: false,
       compassLine: null,
@@ -128,6 +130,10 @@ class MapComponent extends Component {
     };
 
     this.updateLocationFromGeolocation = this.updateLocationFromGeolocation.bind(this);
+
+    // TODO: While we're building this UI, whenever this screen is entered it'll bin any previous locations.
+    // Once we've got save / delete logic built in, remove this!
+    deleteAllLocations(() => {});
   }
 
   navigationButtonPressed({ buttonId }) {
@@ -241,6 +247,15 @@ class MapComponent extends Component {
           return;
         }
         this.updateLocationFromGeolocation(latestLocation);
+
+        if (routeDestination) {
+          this.setState(prevState => {
+            [
+              ...prevState.currentRouteLocations,
+              { latitude: latestLocation.latitude, longitude: latestLocation.longitude, timestamp: latestLocation.time }
+            ];
+          });
+        }
       });
 
       emitter.on(GFWOnHeadingEvent, this.updateHeading);
@@ -648,7 +663,6 @@ class MapComponent extends Component {
     );
   };
 
-  // todo: merge this with the function below
   renderButtonPanelSelected() {
     const { lastPosition } = this.state;
     const { routeDestination } = this.props;
@@ -663,8 +677,10 @@ class MapComponent extends Component {
         ) : (
           this.renderNoSignal()
         )}
-        <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
-        {lastPosition ? (
+        {!routeDestination ? (
+          <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
+        ) : null}
+        {lastPosition || routeDestination ? (
           <CircleButton
             shouldFillContainer
             onPress={routeDestination ? this.onStopTrackingPressed : this.onStartTrackingPressed}
@@ -672,24 +688,6 @@ class MapComponent extends Component {
             icon={routeDestination ? stopTrackingIcon : startTrackingIcon}
           />
         ) : null}
-      </View>
-    );
-  }
-
-  renderRouteTrackingButtonPanel() {
-    const { lastPosition } = this.state;
-
-    // To fix the missing signal text overflow rendering in reverse row
-    // last to render will be on top of the others
-    return (
-      <View style={styles.buttonPanel}>
-        <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
-        {lastPosition ? (
-          <CircleButton shouldFillContainer onPress={this.fitPosition} light icon={myLocationIcon} />
-        ) : (
-          this.renderNoSignal()
-        )}
-        <CircleButton shouldFillContainer onPress={this.onStopTrackingPressed} light icon={stopTrackingIcon} />
       </View>
     );
   }
@@ -737,9 +735,7 @@ class MapComponent extends Component {
         <Image style={[styles.footerBg, { height: veilHeight }]} source={backgroundImage} />
       </View>,
       <FooterSafeAreaView key="footer" pointerEvents="box-none" style={styles.footer}>
-        {routeDestination
-          ? this.renderRouteTrackingButtonPanel()
-          : hasAlertsSelected || customReporting
+        {hasAlertsSelected || customReporting || routeDestination
           ? this.renderButtonPanelSelected()
           : this.renderButtonPanel()}
         <MapAttribution />
@@ -758,6 +754,7 @@ class MapComponent extends Component {
     const {
       lastPosition,
       compassLine,
+      currentRouteLocations,
       region,
       customReporting,
       selectedAlerts,
@@ -824,6 +821,28 @@ class MapComponent extends Component {
         zIndex={3}
       />
     ) : null;
+    const currentRouteLineElement = currentRouteLocations ? (
+      <MapView.Polyline
+        key="currentRouteLineElements"
+        coordinates={currentRouteLocations}
+        strokeColor={Theme.colors.color5}
+        strokeWidth={2}
+        zIndex={3}
+      />
+    ) : null;
+    const currentRouteCornerElements = currentRouteLocations
+      ? currentRouteLocations.map(location => (
+          <MapView.Marker
+            key={`currentRouteCorner-${location.timestamp}`}
+            coordinate={location}
+            anchor={{ x: 0.5, y: 0.5 }}
+            zIndex={3}
+            tracksViewChanges={false}
+          >
+            <View style={styles.routeVertex} />
+          </MapView.Marker>
+        ))
+      : null;
     const areaPolygonElement = areaCoordinates ? (
       <MapView.Polyline
         key="areaPolygonElement"
@@ -897,7 +916,6 @@ class MapComponent extends Component {
           ))
         : null;
 
-    // todo: ensure that this is shown correctly.
     const routeDestinationElement = routeDestination ? (
       <MapView.Marker
         key={`routeDestination`}
@@ -909,6 +927,7 @@ class MapComponent extends Component {
         <View style={[markerSize, markerBorder, styles.selectedMarkerIcon]} />
       </MapView.Marker>
     ) : null;
+
     const clustersElement =
       area && area.dataset ? (
         <Clusters
@@ -971,6 +990,8 @@ class MapComponent extends Component {
           {contextualRemoteLayerElement}
           {clustersElement}
           {compassLineElement}
+          {currentRouteCornerElements}
+          {currentRouteLineElement}
           {areaPolygonElement}
           {neighboursAlertsElement}
           {routeDestinationElement}

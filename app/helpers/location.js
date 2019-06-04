@@ -88,10 +88,17 @@ export function getCurrentLocation(completion) {
   });
 }
 
+/**
+ * getValidLocations - When called, attempts to find all of the valid locations within the BackgroundGeolocation database.
+ * This searches specifically for valid locations, as invalid ones are 'deleted' and should not be used.
+ *
+ * @param  {function}             completion A callback that'll be executed when the locations have been found.
+ * @param  {array<LocationPoint>} completion.locations An array of location placemarks, that were retrieved from the database.
+ * @param  {object}               completion.error An error that occurred while attempting to fetch locations.
+ */
 export function getValidLocations(completion) {
   BackgroundGeolocation.getValidLocations(
     locations => {
-      console.log(locations);
       const mappedLocations = locations.map(location => {
         return {
           latitude: location.latitude,
@@ -99,12 +106,24 @@ export function getValidLocations(completion) {
           timestamp: location.time
         };
       });
+      console.log(mappedLocations);
       completion(mappedLocations, null);
     },
     error => {
       completion(null, error);
     }
   );
+}
+
+/**
+ * deleteAllLocations - When called, 'deletes' all of the locations within the BackgroundGeolocation database.
+ * This doesn't actually delete them (as to keep the id unique) but instead marks them as invalid.
+ * This means that, when we request valid locations, we only get non-deleted ones.
+ *
+ * @param  {function} completion A callback that'll be execute when the locations have been 'deleted'.
+ */
+export function deleteAllLocations(completion) {
+  BackgroundGeolocation.deleteAllLocations(completion);
 }
 
 /**
