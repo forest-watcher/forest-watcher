@@ -256,7 +256,7 @@ class MapComponent extends Component {
         }
         this.updateLocationFromGeolocation(latestLocation);
 
-        if (routeDestination) {
+        if (this.isRouteTracking()) {
           this.setState(prevState => {
             [
               ...prevState.currentRouteLocations,
@@ -282,7 +282,7 @@ class MapComponent extends Component {
   }
 
   isRouteTracking = () => {
-    return !!this.props.routeDestination;
+    return !!this.props.activeRoute;
   };
 
   /**
@@ -347,6 +347,8 @@ class MapComponent extends Component {
         this.setState({
           currentRouteLocations: locations
         });
+
+        this.setHeaderTitle();
       }
     });
   };
