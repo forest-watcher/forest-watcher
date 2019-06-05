@@ -127,7 +127,7 @@ class MapComponent extends Component {
       customReporting: false,
       dragging: false,
       layoutHasForceRefreshed: false,
-      showStopTrackingDialog: false
+      renderBottomDialog: false
     };
 
     // TODO: While we're building this UI, whenever this screen is entered it'll bin any previous locations.
@@ -300,17 +300,31 @@ class MapComponent extends Component {
     });
   };
 
-  showStopTrackingDialog = () => {
-    this.setState({ showStopTrackingDialog: true });
+  onStopTrackingPressed = () => {
     this.geoLocate();
+    this.showBottomDialog();
   };
 
-  /**
-   * Opens Save Route
-   */
-  saveRoute = () => {
-    // todo mpf: move to Save Route Screen
-    // todo: handle deleting locations from database upon saving / deleting the route.
+  openSaveRouteScreen = () => {
+    this.closeBottomDialog();
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.SaveRoute'
+      }
+    });
+  };
+
+  showBottomDialog = () => {
+    this.setState({ renderBottomDialog: true });
+  };
+
+  closeBottomDialog = () => {
+    this.setState({ renderBottomDialog: false });
+  };
+
+  onStopAndDeleteRoute = () => {
+    this.closeBottomDialog();
+    // todo: delete route
   };
 
   /**
@@ -670,7 +684,7 @@ class MapComponent extends Component {
         {lastPosition || this.isRouteTracking() ? (
           <CircleButton
             shouldFillContainer
-            onPress={this.isRouteTracking() ? this.showStopTrackingDialog : this.onStartTrackingPressed}
+            onPress={this.isRouteTracking() ? this.onStopTrackingPressed : this.onStartTrackingPressed}
             light
             icon={this.isRouteTracking() ? stopTrackingIcon : startTrackingIcon}
           />
@@ -730,14 +744,17 @@ class MapComponent extends Component {
   }
 
   renderBottomDialog() {
-    return this.state.showStopTrackingDialog ? (
-      <BottomDialog route={this.props.activeRoute} closeDialog={this.closeStopTrackingDialog} />
+    return this.state.renderBottomDialog ? (
+      <BottomDialog
+        title={'Stop Route Tracking'}
+        closeDialog={this.closeBottomDialog}
+        buttons={[
+          { text: 'stop and save route', onPress: this.openSaveRouteScreen, style: 'positive' },
+          { text: 'stop and delete route', onPress: this.onStopAndDeleteRoute, style: 'negative' }
+        ]}
+      />
     ) : null;
   }
-
-  closeStopTrackingDialog = () => {
-    this.setState({ showStopTrackingDialog: false });
-  };
 
   onMoveShouldSetResponder = () => {
     // Hack to fix onPanDrag not working for iOS when scroll enabled
