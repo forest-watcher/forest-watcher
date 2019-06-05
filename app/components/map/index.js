@@ -270,7 +270,7 @@ class MapComponent extends Component {
   }
 
   isRouteTracking = () => {
-    return !!this.props.routeDestination;
+    return !!this.props.activeRoute;
   };
 
   /**
