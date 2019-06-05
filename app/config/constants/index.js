@@ -55,7 +55,10 @@ export const LOCATION_TRACKING = {
   interval: 10000,
   fastestInterval: 5000,
   activitiesInterval: 10000,
-  stopOnStillActivity: false
+  stopOnStillActivity: false,
+  notificationTitle: i18n.t('routes.notification.title'),
+  notificationText: i18n.t('routes.notification.message'),
+  notificationIconColor: Theme.colors.color5
 };
 
 export const TILE_SERVERS = {
