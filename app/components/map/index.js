@@ -228,20 +228,20 @@ class MapComponent extends Component {
    *
    * @param  {Route} activeRoute The route the user is currently tracking.
    */
-  async geoLocate() {
+  geoLocate() {
     // Remove any old emitters & stop tracking. We want to reset these to ensure the right functions are being called.
     emitter.off(GFWOnLocationEvent);
     emitter.off(GFWOnHeadingEvent);
     stopTrackingLocation();
     stopTrackingHeading();
 
-    checkLocationStatus(async result => {
+    checkLocationStatus(result => {
       if (result.authorization === GFWLocationUnauthorized) {
         // Todo: handle this.
         return;
       }
 
-      getCurrentLocation(async (latestLocation, error) => {
+      getCurrentLocation((latestLocation, error) => {
         if (error) {
           // todo: handle error.
           return;
