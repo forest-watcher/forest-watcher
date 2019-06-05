@@ -102,8 +102,6 @@ class MapComponent extends Component {
   constructor(props) {
     super(props);
     Navigation.events().bindComponent(this);
-    const { center } = props;
-    const initialCoords = center || { latitude: MAPS.lat, longitude: MAPS.lng };
     // Google maps lon and lat are inverted
     this.state = {
       currentRouteLocations: [],
@@ -113,8 +111,8 @@ class MapComponent extends Component {
       heading: null,
       noSignalOpacity: new Animated.Value(0.3),
       region: {
-        latitude: initialCoords.longitude,
-        longitude: initialCoords.latitude,
+        latitude: undefined,
+        longitude: undefined,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
@@ -1020,10 +1018,6 @@ class MapComponent extends Component {
 MapComponent.propTypes = {
   componentId: PropTypes.string.isRequired,
   createReport: PropTypes.func.isRequired,
-  center: PropTypes.shape({
-    latitude: PropTypes.number.isRequired,
-    longitude: PropTypes.number.isRequired
-  }),
   basemapLocalTilePath: PropTypes.string,
   ctxLayerLocalTilePath: PropTypes.string,
   areaCoordinates: PropTypes.array,
