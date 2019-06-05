@@ -259,7 +259,7 @@ class MapComponent extends Component {
   }
 
   isRouteTracking = () => {
-    return !!this.props.activeRoute;
+    return !!this.props.isTracking;
   };
 
   /**
@@ -314,7 +314,7 @@ class MapComponent extends Component {
   updateLocationFromGeolocation = throttle(location => {
     this.setState(prevState => ({
       lastPosition: location,
-      currentRouteLocations: this.isRouteTracking
+      currentRouteLocations: this.isRouteTracking()
         ? [...prevState.currentRouteLocations, location]
         : prevState.currentRouteLocations
     }));
@@ -437,7 +437,7 @@ class MapComponent extends Component {
 
   setHeaderTitle = () => {
     const { selectedAlerts, lastPosition } = this.state;
-    const { coordinatesFormat, activeRoute } = this.props;
+    const { coordinatesFormat, route } = this.props;
 
     // If we have selected alerts, and we're not currently tracking a route.
     if (selectedAlerts && selectedAlerts.length > 0 && !this.isRouteTracking()) {
@@ -449,8 +449,8 @@ class MapComponent extends Component {
       const coordinateText = formatCoordsByFormat(coordinates, coordinatesFormat);
       this.setLocationHeaderTitle(coordinateText, coordinates, lastPosition);
     } else if (this.isRouteTracking()) {
-      const coordinateText = formatCoordsByFormat(activeRoute.destination, coordinatesFormat);
-      this.setLocationHeaderTitle(coordinateText, activeRoute.destination, lastPosition);
+      const coordinateText = formatCoordsByFormat(route.destination, coordinatesFormat);
+      this.setLocationHeaderTitle(coordinateText, route.destination, lastPosition);
     } else {
       this.setLocationHeaderTitle();
     }
@@ -663,23 +663,6 @@ class MapComponent extends Component {
     }
   };
 
-  /**
-   * reconcileRouteDestination - Given two routes, determines which destination should be used.
-   * This allows the UI to show the destination for a current or previous route without needing to know what it's displaying.
-   *
-   * @param  {Route} currentRoute  The current route, if the user is tracking a route.
-   * @param  {Route} previousRoute The previous route, if the user is viewing a saved route.
-   */
-  reconcileRouteDestination = (currentRoute, previousRoute) => {
-    if (currentRoute) {
-      return currentRoute.destination;
-    } else if (previousRoute) {
-      return previousRoute.destination;
-    } else {
-      return null;
-    }
-  };
-
   renderButtonPanelSelected() {
     const { lastPosition } = this.state;
 
@@ -696,7 +679,7 @@ class MapComponent extends Component {
         {!this.isRouteTracking() ? (
           <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
         ) : null}
-        {(lastPosition || this.isRouteTracking()) && this.props.previousRoute == undefined ? (
+        {lastPosition || this.isRouteTracking() ? (
           <CircleButton
             shouldFillContainer
             onPress={this.isRouteTracking() ? this.onStopTrackingPressed : this.onStartTrackingPressed}
@@ -784,13 +767,12 @@ class MapComponent extends Component {
       contextualLayer,
       basemapLocalTilePath,
       isConnected,
-      activeRoute,
+      route,
       isOfflineMode,
-      ctxLayerLocalTilePath,
-      previousRoute
+      ctxLayerLocalTilePath
     } = this.props;
-    const routeLocations = this.reconcileRouteLocations(currentRouteLocations, previousRoute?.locations);
-    const routeDestination = this.reconcileRouteDestination(activeRoute, previousRoute);
+    const routeLocations = this.reconcileRouteLocations(currentRouteLocations, route?.locations);
+    const routeDestination = route?.destination;
     const showCompassLine = lastPosition && selectedAlerts && compassLine && !this.isRouteTracking();
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
     const isIOS = Platform.OS === 'ios';
@@ -1058,8 +1040,8 @@ MapComponent.propTypes = {
   }),
   coordinatesFormat: PropTypes.string.isRequired,
   setSelectedAreaId: PropTypes.func.isRequired,
-  activeRoute: PropTypes.object,
-  previousRoute: PropTypes.object,
+  route: PropTypes.object,
+  isTracking: PropTypes.bool.isRequired,
   onStartTrackingRoute: PropTypes.func.isRequired,
   onStopTrackingRoute: PropTypes.func.isRequired
 };

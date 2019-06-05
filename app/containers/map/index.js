@@ -22,7 +22,17 @@ function getAreaCoordinates(areaFeature) {
   }));
 }
 
-function mapStateToProps(state: State) {
+function reconcileRoutes(activeRoute, previousRoute) {
+  if (activeRoute) {
+    return activeRoute;
+  } else if (previousRoute) {
+    return previousRoute;
+  } else {
+    return null;
+  }
+}
+
+function mapStateToProps(state: State, ownProps: { previousRoute: Route }) {
   const area = getSelectedArea(state.areas.data, state.areas.selectedAreaId);
   let center = null;
   let areaCoordinates = null;
@@ -49,7 +59,8 @@ function mapStateToProps(state: State) {
     center,
     contextualLayer,
     areaCoordinates,
-    activeRoute: state.routes.activeRoute,
+    isTracking: !!state.routes.activeRoute,
+    route: reconcileRoutes(state.routes.activeRoute, ownProps.previousRoute),
     area: areaProps,
     isConnected: shouldBeConnected(state),
     isOfflineMode: state.app.offlineMode,
