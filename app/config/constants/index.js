@@ -48,8 +48,8 @@ export const MAPS = {
 // Defines the configuration for the BackgroundGeolocation module.
 // Detailed documentation & library defaults are available here: https://github.com/mauron85/react-native-background-geolocation#configureoptions-success-fail
 export const LOCATION_TRACKING = {
-  stationaryRadius: 20,
-  distanceFilter: 10,
+  stationaryRadius: 30,
+  distanceFilter: 20,
   startOnBoot: false,
   stopOnTerminate: true,
   interval: 10000,

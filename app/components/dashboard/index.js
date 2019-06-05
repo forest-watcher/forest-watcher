@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, ScrollView, RefreshControl, Platform, Text, StatusBar } from 'react-native';
+import { Alert, Platform, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
 import Config from 'react-native-config';
 import { Navigation } from 'react-native-navigation';
 import SafeArea from 'react-native-safe-area';
@@ -122,6 +122,11 @@ class Dashboard extends PureComponent<Props> {
   };
 
   onAreaPress = (areaId: string, name: string) => {
+    if (areaId && this.props.activeRoute && this.props.activeRoute?.areaId !== areaId) {
+      // TODO: Add options to view route, save route, delete route.
+      Alert.alert('Route tracking in progress', "You're already tracking a route in another area", [{ text: 'OK' }]);
+      return;
+    }
     if (areaId) {
       this.props.setSelectedAreaId(areaId);
       Navigation.push(this.props.componentId, {

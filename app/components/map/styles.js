@@ -84,6 +84,14 @@ export default StyleSheet.create({
     borderColor: 'rgba(255, 255, 255, 1)',
     backgroundColor: Theme.colors.color1
   },
+  routeVertex: {
+    borderColor: 'white',
+    borderWidth: 1,
+    backgroundColor: '#2e8dc7',
+    borderRadius: 5,
+    width: 10,
+    height: 10
+  },
   markerIconArea: {
     borderColor: 'rgba(255, 255, 255, 1)',
     backgroundColor: 'rgba(255, 255, 255, 0.9)'
