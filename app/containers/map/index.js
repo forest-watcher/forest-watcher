@@ -43,7 +43,11 @@ function mapStateToProps(state: State, ownProps: { previousRoute: Route }) {
     const geostore = area.geostore;
     const areaFeatures = (geostore && geostore.geojson && geostore.geojson.features[0]) || false;
     if (areaFeatures) {
-      center = new BoundingBox(areaFeatures).getCenter();
+      const mapCenter = new BoundingBox(areaFeatures).getCenter();
+      center = {
+        latitude: mapCenter.lat,
+        longitude: mapCenter.lng
+      };
       areaCoordinates = getAreaCoordinates(areaFeatures);
     }
     areaProps = {
