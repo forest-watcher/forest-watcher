@@ -64,14 +64,14 @@ class RouteDetail extends PureComponent<Props> {
   deleteRoute = () => {
     Alert.alert(i18n.t('routes.confirmDeleteTitle'), i18n.t('routes.confirmDeleteMessage'), [
       {
-        text: 'commonText.confirm',
+        text: i18n.t('commonText.confirm'),
         onPress: () => {
           this.props.deleteRoute();
           Navigation.pop(this.props.componentId);
         }
       },
       {
-        text: 'commonText.cancel',
+        text: i18n.t('commonText.cancel'),
         style: 'cancel'
       }
     ]);
@@ -79,6 +79,11 @@ class RouteDetail extends PureComponent<Props> {
 
   render() {
     const { route } = this.props;
+
+    if (!route) {
+      return null;
+    }
+
     // todo mpf use existing translations
     const firstLocation = route.locations[0];
     const lastLocation = route.locations[route.locations.length - 1];

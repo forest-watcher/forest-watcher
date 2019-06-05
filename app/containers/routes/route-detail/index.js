@@ -15,9 +15,11 @@ function mapStateToProps(state: State, ownProps: { routeId: string }) {
 function mapDispatchToProps(dispatch, ownProps: { routeId: string }) {
   return {
     deleteRoute: () => {
-      deleteRoutes({
-        id: ownProps.routeId
-      });
+      dispatch(
+        deleteRoutes({
+          id: ownProps.routeId
+        })
+      );
     }
   };
 }

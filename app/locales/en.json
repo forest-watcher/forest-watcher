@@ -301,7 +301,8 @@
         "title": "Settings",
         "unsafeLogout": "Your reports are not synced!",
         "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost.",
-        "yourAreas": "Your areas"
+        "yourAreas": "Your areas",
+        "yourRoutes": "Your routes"
     },
     "setupCountry": {
         "firstInstruction": "First, select your country of interest",

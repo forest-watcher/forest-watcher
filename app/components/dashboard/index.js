@@ -7,7 +7,7 @@ import { Navigation } from 'react-native-navigation';
 import SafeArea from 'react-native-safe-area';
 
 import AreaList from 'containers/common/area-list';
-import RouteList from 'containers/common/route-list';
+import RouteList from 'components/common/route-list';
 import Row from 'components/common/row';
 import tracker from 'helpers/googleAnalytics';
 import i18n from 'locales';
@@ -27,7 +27,8 @@ type Props = {
   setSelectedAreaId: string => void,
   setPristine: boolean => void,
   updateApp: () => void,
-  showNotConnectedNotification: () => void
+  showNotConnectedNotification: () => void,
+  routes: Array<Route>
 };
 
 class Dashboard extends PureComponent<Props> {
@@ -214,8 +215,12 @@ class Dashboard extends PureComponent<Props> {
             <View>
               <Text style={styles.label}>{i18n.t('settings.yourAreas')}</Text>
               <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
-              <Text style={styles.label}>Your Routes</Text>
-              <RouteList onRoutePress={this.onRoutePress} />
+              {this.props.routes.length > 0 && (
+                <>
+                  <Text style={styles.label}>{i18n.t('settings.yourRoutes')}</Text>
+                  <RouteList onRoutePress={this.onRoutePress} routes={this.props.routes} />
+                </>
+              )}
             </View>
           </View>
         </ScrollView>

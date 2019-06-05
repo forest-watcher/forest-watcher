@@ -117,6 +117,8 @@ const locationsMock2 = [
 ];
 
 const routeMock = {
+  id: 'doahfoasa',
+  areaId: 'aodaoa',
   name: 'ReduxMock',
   locations: locationsMock,
   date: 123123123,
@@ -124,6 +126,8 @@ const routeMock = {
   language: 'en-GB'
 };
 const routeMock2 = {
+  id: 'hellaldaldlaldal',
+  areaId: 'adada',
   name: 'ReduxMock2',
   locations: locationsMock2,
   date: 123123124,
@@ -154,10 +158,19 @@ export default function reducer(state: RouteState = initialState, action: RouteA
         activeRoute: undefined
       };
     case DELETE_ROUTE:
-      return {
-        ...state,
-        previousRoutes: state.previousRoutes.filter(route => route.areaId != action.payload.areaId && route.id !== action.payload.id)
-      };
+      if (action.payload.id) {
+        return {
+          ...state,
+          previousRoutes: state.previousRoutes.filter(route => route.id !== action.payload.id)
+        };
+      } else if (action.payload.areaId) {
+        return {
+          ...state,
+          previousRoutes: state.previousRoutes.filter(route => route.areaId != action.payload.areaId)
+        };
+      } else {
+        return state;
+      }
     default:
       return state;
   }
