@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { Alert, View, Text, ScrollView } from 'react-native';
 import moment from 'moment';
 import i18n from '../../../locales';
 import { Navigation } from 'react-native-navigation';
@@ -13,6 +13,7 @@ import ActionButton from '../../common/action-button';
 
 type Props = {
   componentId: string,
+  deleteRoute: () => void,
   route: Route
 };
 
@@ -57,8 +58,23 @@ class RouteDetail extends PureComponent<Props> {
     });
   };
 
+  /**
+   * Displays a confirmation before possibly deleting the route
+   */
   deleteRoute = () => {
-    // todo
+    Alert.alert(i18n.t('routes.confirmDeleteTitle'), i18n.t('routes.confirmDeleteMessage'), [
+      {
+        text: 'commonText.confirm',
+        onPress: () => {
+          this.props.deleteRoute();
+          Navigation.pop(this.props.componentId);
+        }
+      },
+      {
+        text: 'commonText.cancel',
+        style: 'cancel'
+      }
+    ]);
   };
 
   render() {

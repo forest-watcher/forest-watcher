@@ -144,13 +144,13 @@ class Dashboard extends PureComponent<Props> {
     }
   };
 
-  onRoutePress = (routeName: string) => {
+  onRoutePress = (routeId: string, routeName: string) => {
     // this.props.setSelectedAreaId(areaId);
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.RouteDetail',
         passProps: {
-          routeName
+          routeId
         },
         options: {
           topBar: {

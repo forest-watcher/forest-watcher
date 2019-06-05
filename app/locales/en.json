@@ -267,6 +267,8 @@
         "uploaded": "Uploaded"
     },
     "routes": {
+        "confirmDeleteTitle": "Delete route",
+        "confirmDeleteMessage": "Are you sure you want to delete this route?",
         "notification": {
             "title": "Route tracking in progress",
             "message": "Forest Watcher is recording the route you are taking to your destination"
