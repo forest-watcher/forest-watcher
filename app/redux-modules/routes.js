@@ -1,11 +1,10 @@
 // @flow
 import type { RouteState, RouteAction, Route } from 'types/routes.types';
 
-import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
-
 // Actions
-const SET_ROUTE_DESTINATION = 'app/SET_ROUTE_DESTINATION';
-const FINISH_AND_SAVE_ROUTE = 'app/FINISH_AND_SAVE_ROUTE';
+const DELETE_ROUTE = 'routes/DELETE_ROUTE';
+const SET_ROUTE_DESTINATION = 'routes/SET_ROUTE_DESTINATION';
+const FINISH_AND_SAVE_ROUTE = 'routes/FINISH_AND_SAVE_ROUTE';
 
 const locationsMock = [
   {
@@ -154,9 +153,21 @@ export default function reducer(state: RouteState = initialState, action: RouteA
         //previousRoutes: [...state.previousRoutes, action.payload],
         activeRoute: undefined
       };
+    case DELETE_ROUTE:
+      return {
+        ...state,
+        previousRoutes: state.previousRoutes.filter(route => route.areaId != action.payload.areaId && route.id !== action.payload.id)
+      };
     default:
       return state;
   }
+}
+
+export function deleteRoutes(criteria: RouteDeletionCriteria): RouteAction {
+  return {
+    type: DELETE_ROUTE,
+    payload: criteria
+  };
 }
 
 export function setRouteDestination(destination: Location, areaId: string): RouteAction {
