@@ -152,6 +152,14 @@ export function startTrackingLocation(requiredPermission, completion) {
 
     // todo: handle errors / other events.
 
+    // On Android the startForeground prop controls whether we show an ongoing notification (when true).
+    // Only do this if the requiredPermission indicates that the user wants to track location at ALL times.
+    if (Platform.OS === 'android') {
+      BackgroundGeolocation.configure({
+        startForeground: requiredPermission === BackgroundGeolocation.AUTHORIZED
+      });
+    }
+
     BackgroundGeolocation.start();
     completion(null);
   });

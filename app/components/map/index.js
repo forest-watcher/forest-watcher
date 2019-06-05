@@ -225,13 +225,13 @@ class MapComponent extends Component {
     stopTrackingLocation();
     stopTrackingHeading();
 
-    checkLocationStatus(result => {
+    checkLocationStatus(async result => {
       if (result.authorization === GFWLocationUnauthorized) {
         if (Platform.OS === 'android') {
           // todo: look at merging this permission request into the 'checkLocationStatus' function...
-          requestAndroidLocationPermissions(() => {
+          if (await requestAndroidLocationPermissions()) {
             this.geoLocate();
-          });
+          }
         }
         return;
       }
@@ -260,9 +260,12 @@ class MapComponent extends Component {
         emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
       }
 
-      startTrackingLocation(GFWLocationAuthorizedAlways, error => {
+      startTrackingLocation(
+        this.isRouteTracking() ? GFWLocationAuthorizedAlways : GFWLocationAuthorizedInUse,
+        error => {
         // todo: handle error if returned.
-      });
+        }
+      );
     });
   }
 
