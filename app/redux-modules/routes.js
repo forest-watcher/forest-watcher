@@ -145,7 +145,7 @@ export default function reducer(state: RouteState = initialState, action: RouteA
         ...state,
         activeRoute: {
           ...state.activeRoute,
-          destination: action.payload
+          ...action.payload
         }
       };
     case FINISH_AND_SAVE_ROUTE:
@@ -159,10 +159,13 @@ export default function reducer(state: RouteState = initialState, action: RouteA
   }
 }
 
-export function setRouteDestination(location: Location): RouteAction {
+export function setRouteDestination(destination: Location, areaId: string): RouteAction {
   return {
     type: SET_ROUTE_DESTINATION,
-    payload: location
+    payload: {
+      areaId: areaId,
+      destination: destination
+    }
   };
 }
 

@@ -289,7 +289,10 @@ class MapComponent extends Component {
         return;
       }
 
-      this.props.onStartTrackingRoute(this.state.selectedAlerts[this.state.selectedAlerts.length - 1]);
+      this.props.onStartTrackingRoute(
+        this.state.selectedAlerts[this.state.selectedAlerts.length - 1],
+        this.props.area.id
+      );
 
       this.geoLocate();
     });
