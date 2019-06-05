@@ -5,6 +5,7 @@ export type RouteState = {
 };
 
 export type Route = {
+  areaId: string,
   name: string,
   saveDate: number,
   difficulty: 'easy' | 'medium' | 'hard',
@@ -19,6 +20,8 @@ export type Location = {
 };
 
 export type LocationPoint = {
+  accuracy: number,
+  altitude: number,
   latitude: number,
   longitude: number,
   timestamp: number

@@ -82,8 +82,8 @@ function mapDispatchToProps(dispatch, { navigation }) {
     navigate: (routeName, params) => {
       navigation.navigate(routeName, params);
     },
-    onStartTrackingRoute: location => {
-      dispatch(setRouteDestination(location));
+    onStartTrackingRoute: (location, areaId) => {
+      dispatch(setRouteDestination(location, areaId));
     },
     onStopTrackingRoute: () => {
       // TODO: Look at calling the below with a full route once the user has decided to save.

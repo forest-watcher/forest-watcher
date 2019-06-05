@@ -140,17 +140,12 @@ const initialState: RouteState = {
 
 export default function reducer(state: RouteState = initialState, action: RouteAction) {
   switch (action.type) {
-    case PERSIST_REHYDRATE: {
-      // $FlowFixMe
-      const { route } = action.payload;
-      return { ...state, ...route };
-    }
     case SET_ROUTE_DESTINATION:
       return {
         ...state,
         activeRoute: {
           ...state.activeRoute,
-          destination: action.payload
+          ...action.payload
         }
       };
     case FINISH_AND_SAVE_ROUTE:
@@ -164,10 +159,13 @@ export default function reducer(state: RouteState = initialState, action: RouteA
   }
 }
 
-export function setRouteDestination(location: Location): RouteAction {
+export function setRouteDestination(destination: Location, areaId: string): RouteAction {
   return {
     type: SET_ROUTE_DESTINATION,
-    payload: location
+    payload: {
+      areaId: areaId,
+      destination: destination
+    }
   };
 }
 
