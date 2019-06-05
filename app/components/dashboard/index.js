@@ -220,7 +220,7 @@ class Dashboard extends PureComponent<Props> {
           </View>
         </ScrollView>
         <Row
-          style={[
+          rowStyle={[
             styles.row,
             {
               height: 80 + bottomSafeAreaInset
