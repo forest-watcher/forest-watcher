@@ -34,7 +34,6 @@ import {
   GFWOnHeadingEvent,
   checkLocationStatus,
   deleteAllLocations,
-  requestAndroidLocationPermissions,
   getCurrentLocation,
   getValidLocations,
   startTrackingLocation,
@@ -127,8 +126,6 @@ class MapComponent extends Component {
       dragging: false,
       layoutHasForceRefreshed: false
     };
-
-    this.updateLocationFromGeolocation = this.updateLocationFromGeolocation.bind(this);
 
     // TODO: While we're building this UI, whenever this screen is entered it'll bin any previous locations.
     // Once we've got save / delete logic built in, remove this!
@@ -238,48 +235,23 @@ class MapComponent extends Component {
 
     checkLocationStatus(result => {
       if (result.authorization === GFWLocationUnauthorized) {
-        if (Platform.OS === 'android') {
-          // todo: look at merging this permission request into the 'checkLocationStatus' function...
-          requestAndroidLocationPermissions(() => {
-            this.geoLocate();
-          });
-        }
+        // Todo: handle this.
         return;
       }
 
-      // todo: fix issue where on first view of map, after giving permission no location is given.
       getCurrentLocation(async (latestLocation, error) => {
         if (error) {
-          if (Platform.OS === 'android') {
-            // todo: look at merging this permission request into the 'checkLocationStatus' function...
-            if (await requestAndroidLocationPermissions()) {
-              this.geoLocate();
-            }
-          }
           // todo: handle error.
           return;
         }
-        this.updateLocationFromGeolocation(latestLocation);
 
-        if (this.isRouteTracking()) {
-          this.setState(prevState => {
-            [
-              ...prevState.currentRouteLocations,
-              { latitude: latestLocation.latitude, longitude: latestLocation.longitude, timestamp: latestLocation.time }
-            ];
-          });
-        }
+        this.updateLocationFromGeolocation(latestLocation);
       });
 
       emitter.on(GFWOnHeadingEvent, this.updateHeading);
       startTrackingHeading();
 
-      if (this.isRouteTracking()) {
-        emitter.on(GFWOnLocationEvent, this.handleRouteTrackingUpdate);
-      } else {
-        emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
-      }
-
+      emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
       startTrackingLocation(GFWLocationAuthorizedAlways, error => {
         // todo: handle error if returned.
       });
@@ -299,23 +271,20 @@ class MapComponent extends Component {
       // We need to have the GFWLocationAuthorizedAlways authorization level so we can track in the background!
       // todo: translations!
       if (result.authorization !== GFWLocationAuthorizedAlways) {
-        if (Platform.OS === 'android') {
-          requestAndroidLocationPermissions();
-        } else {
-          Alert.alert(
-            'Not authorized!',
-            `We need to access your location, even in the background, while you're on a route.`,
-            [
-              { text: 'OK' },
-              {
-                text: 'Open Settings',
-                onPress: () => {
-                  Linking.openURL('app-settings:');
-                }
+        Alert.alert(
+          'Not authorized!',
+          `We need to access your location, even in the background, while you're on a route.`,
+          [
+            { text: 'OK' },
+            {
+              text: 'Open Settings',
+              onPress: () => {
+                Linking.openURL('app-settings:');
               }
-            ]
-          );
-        }
+            }
+          ]
+        );
+
         return;
       }
 
@@ -340,14 +309,17 @@ class MapComponent extends Component {
   };
 
   /**
-   * handleRouteTrackingUpdate - Handles any location updates that arrive while the user is tracking a route.
-   * It will update the user's position on the map, and then save the user's locations to the redux state so they can be rendered on the map.
+   * updateLocationFromGeolocation - Handles any location updates that arrive while the user is on this screen.
    */
-  handleRouteTrackingUpdate = location => {
-    this.updateLocationFromGeolocation(location);
-    this.fetchRouteLocations();
+  updateLocationFromGeolocation = throttle(location => {
+    this.setState(prevState => ({
+      lastPosition: location,
+      currentRouteLocations: this.isRouteTracking
+        ? [...prevState.currentRouteLocations, location]
+        : prevState.currentRouteLocations
+    }));
     this.setHeaderTitle();
-  };
+  }, 300);
 
   fetchRouteLocations = () => {
     getValidLocations((locations, error) => {
@@ -363,18 +335,6 @@ class MapComponent extends Component {
       }
     });
   };
-
-  /**
-   * updateLocationFromGeolocation - Handles any location updates that arrive while the user is in 'passive' mode & is not actively tracking a route.
-   */
-  updateLocationFromGeolocation = throttle(location => {
-    this.setState({
-      lastPosition: {
-        latitude: location.latitude,
-        longitude: location.longitude
-      }
-    });
-  }, 300);
 
   updateHeading = throttle(heading => {
     this.setState(prevState => {

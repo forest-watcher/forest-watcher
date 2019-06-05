@@ -40,8 +40,20 @@ export function configureLocationFramework() {
  * @param {number}    completion.authorization Defines the current location permission status.
  */
 export function checkLocationStatus(completion) {
-  BackgroundGeolocation.checkStatus(completion, () => {
-    completion(false, false, BackgroundGeolocation.NOT_AUTHORIZED);
+  BackgroundGeolocation.checkStatus(completion, async () => {
+    if (Platform.OS === 'android') {
+      const androidPermission = await requestAndroidLocationPermissions();
+
+      if (androidPermission) {
+        BackgroundGeolocation.checkStatus(completion, () => {
+          completion(false, false, BackgroundGeolocation.NOT_AUTHORIZED);
+        });
+      } else {
+        completion(false, false, BackgroundGeolocation.NOT_AUTHORIZED);
+      }
+    } else {
+      completion(false, false, BackgroundGeolocation.NOT_AUTHORIZED);
+    }
   });
 }
 
@@ -50,7 +62,7 @@ export function checkLocationStatus(completion) {
  *
  * @param {function}  grantedCallback A callback that'll be executed if the user gives permission for us to access their location.
  */
-export async function requestAndroidLocationPermissions() {
+async function requestAndroidLocationPermissions() {
   const permissionResult = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
   return permissionResult === true || permissionResult === PermissionsAndroid.RESULTS.GRANTED;
 }
@@ -73,7 +85,7 @@ export function getCurrentLocation(completion) {
     // We've got authorization (or the user hasn't been asked yet) 🎉. Try and find the current location...
     BackgroundGeolocation.getCurrentLocation(
       location => {
-        completion(location, null);
+        completion(createCompactedLocation(location), null);
       },
       (code, message) => {
         completion(null, { code: code, message: message });
@@ -98,19 +110,30 @@ export function getValidLocations(completion) {
   BackgroundGeolocation.getValidLocations(
     locations => {
       const mappedLocations = locations.map(location => {
-        return {
-          latitude: location.latitude,
-          longitude: location.longitude,
-          timestamp: location.time
-        };
+        return createCompactedLocation(location);
       });
-      console.log(mappedLocations);
       completion(mappedLocations, null);
     },
     error => {
       completion(null, error);
     }
   );
+}
+
+/**
+ * createCompactedLocation - Returns a location object, with unneeded details (such as bearing, provider etc) removed.
+ *
+ * @param  {object} location A location object, returned from BackgroundGeolocation.
+ * @return {LocationPoint}   A LocationPoint object generated from the given location
+ */
+function createCompactedLocation(location) {
+  return {
+    accuracy: location.accuracy,
+    altitude: location.altitude,
+    latitude: location.latitude,
+    longitude: location.longitude,
+    timestamp: location.time
+  };
 }
 
 /**
@@ -158,14 +181,14 @@ export function startTrackingLocation(requiredPermission, completion) {
     // At this point, we should have the correct authorization.
     BackgroundGeolocation.on('location', location => {
       BackgroundGeolocation.startTask(taskKey => {
-        saveLocationUpdate(location);
+        emitLocationUpdate(location);
         BackgroundGeolocation.endTask(taskKey);
       });
     });
 
     BackgroundGeolocation.on('stationary', location => {
       BackgroundGeolocation.startTask(taskKey => {
-        saveLocationUpdate(location);
+        emitLocationUpdate(location);
         BackgroundGeolocation.endTask(taskKey);
       });
     });
@@ -177,8 +200,8 @@ export function startTrackingLocation(requiredPermission, completion) {
   });
 }
 
-function saveLocationUpdate(location) {
-  emitter.emit(GFWOnLocationEvent, location);
+function emitLocationUpdate(location) {
+  emitter.emit(GFWOnLocationEvent, createCompactedLocation(location));
 }
 
 /**
@@ -189,8 +212,7 @@ function saveLocationUpdate(location) {
  */
 export function stopTrackingLocation() {
   BackgroundGeolocation.stop();
-
-  // todo: remove event listeners
+  BackgroundGeolocation.removeAllListeners();
 }
 
 /**
