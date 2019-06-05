@@ -62,6 +62,7 @@ const createReportIcon = require('assets/createReport.png');
 const addLocationIcon = require('assets/add_location.png');
 const newAlertIcon = require('assets/new-alert.png');
 const closeIcon = require('assets/close_gray.png');
+const noGPSIcon = require('assets/gpsOff.png');
 
 class MapComponent extends Component {
   margin = Platform.OS === 'ios' ? 50 : 100;
@@ -673,9 +674,7 @@ class MapComponent extends Component {
         <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
         {lastPosition ? (
           <CircleButton shouldFillContainer onPress={this.fitPosition} light icon={myLocationIcon} />
-        ) : (
-          this.renderNoSignal()
-        )}
+        ) : null}
         {!this.isRouteTracking() ? (
           <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
         ) : null}
@@ -701,27 +700,26 @@ class MapComponent extends Component {
         <CircleButton shouldFillContainer onPress={this.onCustomReportingPress} icon={addLocationIcon} />
         {lastPosition ? (
           <CircleButton shouldFillContainer onPress={this.fitPosition} light icon={myLocationIcon} />
-        ) : (
-          this.renderNoSignal()
-        )}
+        ) : null}
       </View>
     );
   }
 
-  renderNoSignal() {
+  renderNoGPSBanner() {
     return (
-      <View pointerEvents="box-none" style={styles.signalNotice}>
-        <View style={styles.geoLocationContainer}>
-          <Image style={styles.marker} source={markerCompassRedImage} />
-          <Animated.View style={[styles.geoLocation, { opacity: this.state.noSignalOpacity }]} />
+      <View style={styles.noGPSBanner}>
+        <View style={styles.noGPSContainer}>
+          <Image style={styles.noGPSImage} source={noGPSIcon} />
+          <View style={styles.noGPSTextContainer}>
+            <Text style={styles.noGPSText}>{i18n.t('alerts.noGPS')}</Text>
+          </View>
         </View>
-        <Text style={styles.signalNoticeText}>{i18n.t('alerts.noGPS')}</Text>
       </View>
     );
   }
 
   renderMapFooter() {
-    const { selectedAlerts, neighbours, customReporting } = this.state;
+    const { selectedAlerts, neighbours, customReporting, lastPosition } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
 
     const hasNeighbours = neighbours && neighbours.length > 0;
@@ -733,6 +731,7 @@ class MapComponent extends Component {
         <Image style={[styles.footerBg, { height: veilHeight }]} source={backgroundImage} />
       </View>,
       <FooterSafeAreaView key="footer" pointerEvents="box-none" style={styles.footer}>
+        {!lastPosition ? this.renderNoGPSBanner() : null}
         {hasAlertsSelected || customReporting || this.isRouteTracking()
           ? this.renderButtonPanelSelected()
           : this.renderButtonPanel()}
