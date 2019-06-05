@@ -19,6 +19,8 @@ export type Location = {
 };
 
 export type LocationPoint = {
+  accuracy: number,
+  altitude: number,
   latitude: number,
   longitude: number,
   timestamp: number
