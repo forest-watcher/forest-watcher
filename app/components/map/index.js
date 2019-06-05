@@ -14,6 +14,7 @@ import moment from 'moment';
 import MapView from 'react-native-maps';
 import CircleButton from 'components/common/circle-button';
 import MapAttribution from 'components/map/map-attribution';
+import BottomDialog from 'components/map/bottom-dialog';
 import Clusters from 'containers/map/clusters';
 import { formatCoordsByFormat, getDistanceFormattedText, getMapZoom, getNeighboursSelected } from 'helpers/map';
 import tracker from 'helpers/googleAnalytics';
@@ -125,7 +126,8 @@ class MapComponent extends Component {
       mapZoom: 2,
       customReporting: false,
       dragging: false,
-      layoutHasForceRefreshed: false
+      layoutHasForceRefreshed: false,
+      showStopTrackingDialog: false
     };
 
     // TODO: While we're building this UI, whenever this screen is entered it'll bin any previous locations.
@@ -298,14 +300,16 @@ class MapComponent extends Component {
     });
   };
 
-  /**
-   * onStopTrackingRoute - When pressed, updates redux to state we're no longer tracking a route & changes event listeners.
-   */
-  onStopTrackingPressed = () => {
-    this.props.onStopTrackingRoute();
+  showStopTrackingDialog = () => {
+    this.setState({ showStopTrackingDialog: true });
     this.geoLocate();
+  };
 
-    // todo: add end route UI.
+  /**
+   * Opens Save Route
+   */
+  saveRoute = () => {
+    // todo mpf: move to Save Route Screen
     // todo: handle deleting locations from database upon saving / deleting the route.
   };
 
@@ -666,7 +670,7 @@ class MapComponent extends Component {
         {lastPosition || this.isRouteTracking() ? (
           <CircleButton
             shouldFillContainer
-            onPress={this.isRouteTracking() ? this.onStopTrackingPressed : this.onStartTrackingPressed}
+            onPress={this.isRouteTracking() ? this.showStopTrackingDialog : this.onStartTrackingPressed}
             light
             icon={this.isRouteTracking() ? stopTrackingIcon : startTrackingIcon}
           />
@@ -724,6 +728,16 @@ class MapComponent extends Component {
       </FooterSafeAreaView>
     ];
   }
+
+  renderBottomDialog() {
+    return this.state.showStopTrackingDialog ? (
+      <BottomDialog route={this.props.activeRoute} closeDialog={this.closeStopTrackingDialog} />
+    ) : null;
+  }
+
+  closeStopTrackingDialog = () => {
+    this.setState({ showStopTrackingDialog: false });
+  };
 
   onMoveShouldSetResponder = () => {
     // Hack to fix onPanDrag not working for iOS when scroll enabled
@@ -999,6 +1013,7 @@ class MapComponent extends Component {
         </MapView>
         {customReportingElement}
         {this.renderMapFooter()}
+        {this.renderBottomDialog()}
       </View>
     );
   }
