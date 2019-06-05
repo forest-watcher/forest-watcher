@@ -4,6 +4,8 @@
         "noGPS": "No GPS"
     },
     "areaDetail": {
+        "confirmDeleteWithRoutesTitle": "Delete area with routes",
+        "confirmDeleteWithRoutesMessage": "If you delete this area, you will no longer be able to access its saved routes. Delete?",
         "delete": "Delete this area",
         "noAlerts": "No alerts for this area"
     },
