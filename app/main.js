@@ -70,9 +70,10 @@ export default class App {
           !locationStatus.locationServicesEnabled ||
           locationStatus.authorization !== GFWLocationAuthorizedAlways)
       ) {
+        // TODO: add logic to restart / save / delete - for now just show the settings.
         Alert.alert(
-          i18n.t('routes.insufficientPermissionsDialogTitle'),
-          i18n.t('routes.insufficientPermissionsDialogMessage'),
+          i18n.t('routes.backgroundErrorDialogTitle'),
+          i18n.t('routes.backgroundErrorDialogMessage'),
           [
             { text: i18n.t('commonText.ok') },
             {

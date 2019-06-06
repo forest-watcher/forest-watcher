@@ -280,7 +280,9 @@
         "insufficientPermissionsDialogTitle": "Unable to track route",
         "insufficientPermissionsDialogMessage": "We need background location permissions to be able to track your route.",
         "insufficientPermissionsDialogOpenAppSettings": "Check permissions",
-        "insufficientPermissionsDialogOpenDeviceSettings": "Check location settings"
+        "insufficientPermissionsDialogOpenDeviceSettings": "Check location settings",
+        "backgroundErrorDialogTitle": "Something went wrong while you were away",
+        "backgroundErrorDialogMessage": "The device has stopped monitoring location updates. What would you like to do?"
     },
     "settings": {
         "1MonthAgo": "1 month ago",
