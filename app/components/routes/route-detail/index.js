@@ -83,8 +83,9 @@ class RouteDetail extends PureComponent<Props> {
       routeData.push({ label: ['Location'], value: [locationStart, locationEnd] });
     }
     routeData.push(
-      { label: [i18n.t('commonText.date')], value: [moment(route.date).format('YYYY-MM-DD')] },
+      { label: [i18n.t('commonText.date')], value: [moment(route.endDate).format('YYYY-MM-DD')] },
       { label: ['Difficulty'], value: [route.difficulty], canEdit: true },
+      // todo: add distance and duration values
       { label: [i18n.t('commonText.language')], value: [route.language] }
     );
 

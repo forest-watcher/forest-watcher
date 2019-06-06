@@ -7,7 +7,8 @@ export type RouteState = {
 export type Route = {
   areaId: string,
   name: string,
-  saveDate: number,
+  startDate: number,
+  endDate: number,
   difficulty: 'easy' | 'medium' | 'hard',
   destination: Location,
   language: string,

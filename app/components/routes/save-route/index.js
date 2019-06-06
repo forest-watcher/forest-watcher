@@ -64,7 +64,7 @@ class SaveRoute extends PureComponent<Props> {
     this.props.updateActiveRoute({
       id: date,
       name: this.state.routeSaveName,
-      saveDate: date,
+      endDate: date,
       difficulty: this.state.difficulty,
       locations
     });

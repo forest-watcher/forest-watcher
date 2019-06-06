@@ -85,7 +85,8 @@ const routeMock = {
     longitude: -1.872882866
   },
   locations: locationsMock,
-  date: 123123123,
+  startDate: 123123123,
+  endDate: 123173123,
   difficulty: 'easy',
   language: 'en-GB'
 };
@@ -96,7 +97,8 @@ const routeMock2 = {
     longitude: -1.872882866
   },
   locations: locationsMock2,
-  date: 123123124,
+  startDate: 123123124,
+  endDate: 123173123,
   difficulty: 'hard',
   language: 'en-GB'
 };
@@ -133,7 +135,8 @@ export function setRouteDestination(destination: Location, areaId: string): Rout
     type: UPDATE_ACTIVE_ROUTE,
     payload: {
       areaId: areaId,
-      destination: destination
+      destination: destination,
+      startDate: Date()
     }
   };
 }
