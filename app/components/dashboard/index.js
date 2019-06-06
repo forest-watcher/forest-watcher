@@ -147,18 +147,19 @@ class Dashboard extends PureComponent<Props> {
 
   onRoutePress = (routeId: string, routeName: string) => {
     // this.props.setSelectedAreaId(areaId);
+    if (this.props.activeRoute) {
+      // TODO: Add options to view route, save route, delete route.
+      Alert.alert('Route tracking in progress', "You cannot view routes while you're tracking a new route", [
+        { text: 'OK' }
+      ]);
+      return;
+    }
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.RouteDetail',
         passProps: {
-          routeId
-        },
-        options: {
-          topBar: {
-            title: {
-              text: routeName
-            }
-          }
+          routeId,
+          routeName
         }
       }
     });

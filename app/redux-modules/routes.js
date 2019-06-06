@@ -8,66 +8,29 @@ const FINISH_AND_SAVE_ROUTE = 'routes/FINISH_AND_SAVE_ROUTE';
 
 const locationsMock = [
   {
-    isFromMockProvider: true,
-    speed: 0.16595615446567535,
     longitude: -1.9038149583965769,
-    altitude: 45.72404098510742,
     latitude: 50.723844868152916,
-    time: 1559301014492,
-    accuracy: 2.5674021244049072,
-    provider: 'gps'
+    timestamp: 1559301014492
   },
   {
-    provider: 'network',
-    id: 227,
-    accuracy: 3.618929386138916,
-    locationProvider: 0,
-    mockLocationsEnabled: false,
-    time: 1559301017547,
+    timestamp: 1559301017547,
     latitude: 50.72372814244796,
-    altitude: 46.55546569824219,
-    isFromMockProvider: true,
-    longitude: -1.9039320183728654,
-    speed: 0.26691338419914246
+    longitude: -1.9039320183728654
   },
   {
-    provider: 'network',
-    id: 227,
-    accuracy: 3.618929386138916,
-    locationProvider: 0,
-    mockLocationsEnabled: false,
-    time: 1559301017547,
+    timestamp: 1559301017548,
     latitude: 50.72372814244796,
-    altitude: 46.55546569824219,
-    isFromMockProvider: true,
-    longitude: -1.9039320183728654,
-    speed: 0.26691338419914246
+    longitude: -1.9039320183728654
   },
   {
-    provider: 'gps',
-    id: 228,
-    accuracy: 3.659508228302002,
-    locationProvider: 0,
-    mockLocationsEnabled: false,
-    time: 1559301020640,
+    timestamp: 1559301020640,
     latitude: 50.72384538743944,
-    altitude: 46.62886047363281,
-    isFromMockProvider: true,
-    longitude: -1.9038152601701193,
-    speed: 0.18818020820617676
+    longitude: -1.9038152601701193
   },
   {
-    provider: 'gps',
-    id: 228,
-    accuracy: 3.659508228302002,
-    locationProvider: 0,
-    mockLocationsEnabled: false,
-    time: 1559301020640,
+    timestamp: 1559301020641,
     latitude: 50.72384538743944,
-    altitude: 46.62886047363281,
-    isFromMockProvider: true,
-    longitude: -1.9038152601701193,
-    speed: 0.18818020820617676
+    longitude: -1.9038152601701193
   }
 ];
 const locationsMock2 = [
@@ -120,6 +83,10 @@ const routeMock = {
   id: 'doahfoasa',
   areaId: 'aodaoa',
   name: 'ReduxMock',
+  destination: {
+    latitude: 50.753056503,
+    longitude: -1.872882866
+  },
   locations: locationsMock,
   date: 123123123,
   difficulty: 'easy',
@@ -129,6 +96,10 @@ const routeMock2 = {
   id: 'hellaldaldlaldal',
   areaId: 'adada',
   name: 'ReduxMock2',
+  destination: {
+    latitude: 50.753056503,
+    longitude: -1.872882866
+  },
   locations: locationsMock2,
   date: 123123124,
   difficulty: 'hard',

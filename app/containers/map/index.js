@@ -13,8 +13,6 @@ import { shouldBeConnected } from 'helpers/app';
 import { getSelectedArea, activeDataset } from 'helpers/area';
 import Map from 'components/map';
 
-const BoundingBox = require('boundingbox');
-
 function getAreaCoordinates(areaFeature) {
   return areaFeature.geometry.coordinates[0].map(coordinate => ({
     longitude: coordinate[0],
@@ -22,9 +20,18 @@ function getAreaCoordinates(areaFeature) {
   }));
 }
 
-function mapStateToProps(state: State) {
+function reconcileRoutes(activeRoute, previousRoute) {
+  if (activeRoute) {
+    return activeRoute;
+  } else if (previousRoute) {
+    return previousRoute;
+  } else {
+    return null;
+  }
+}
+
+function mapStateToProps(state: State, ownProps: { previousRoute: Route }) {
   const area = getSelectedArea(state.areas.data, state.areas.selectedAreaId);
-  let center = null;
   let areaCoordinates = null;
   let dataset = null;
   let areaProps = null;
@@ -33,7 +40,6 @@ function mapStateToProps(state: State) {
     const geostore = area.geostore;
     const areaFeatures = (geostore && geostore.geojson && geostore.geojson.features[0]) || false;
     if (areaFeatures) {
-      center = new BoundingBox(areaFeatures).getCenter();
       areaCoordinates = getAreaCoordinates(areaFeatures);
     }
     areaProps = {
@@ -46,10 +52,10 @@ function mapStateToProps(state: State) {
   const { cache } = state.layers;
   const contextualLayer = getContextualLayer(state.layers);
   return {
-    center,
     contextualLayer,
     areaCoordinates,
-    activeRoute: state.routes.activeRoute,
+    isTracking: !!state.routes.activeRoute,
+    route: reconcileRoutes(state.routes.activeRoute, ownProps.previousRoute),
     area: areaProps,
     isConnected: shouldBeConnected(state),
     isOfflineMode: state.app.offlineMode,
