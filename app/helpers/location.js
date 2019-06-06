@@ -37,21 +37,16 @@ async function configureLocationFramework(configuration) {
  * @param {boolean}   completion.locationServicesEnabled Defines if location services are currently enabled or not.
  * @param {number}    completion.authorization Defines the current location permission status.
  */
-export function checkLocationStatus(completion) {
-  BackgroundGeolocation.checkStatus(completion, async () => {
-    if (Platform.OS === 'android') {
-      const androidPermission = await requestAndroidLocationPermissions();
-
-      if (androidPermission) {
-        BackgroundGeolocation.checkStatus(completion, () => {
-          completion(false, false, BackgroundGeolocation.NOT_AUTHORIZED);
-        });
-      } else {
-        completion(false, false, BackgroundGeolocation.NOT_AUTHORIZED);
+export async function checkLocationStatus() {
+  return new Promise((resolve, reject) => {
+    BackgroundGeolocation.checkStatus(
+      (isRunning, locationServicesEnabled, authorizationStatus) => {
+        resolve(isRunning, locationServicesEnabled, authorizationStatus);
+      },
+      err => {
+        resolve(false, false, BackgroundGeolocation.NOT_AUTHORIZED);
       }
-    } else {
-      completion(false, false, BackgroundGeolocation.NOT_AUTHORIZED);
-    }
+    );
   });
 }
 
@@ -72,28 +67,28 @@ async function requestAndroidLocationPermissions() {
  * @param  {object} completion.location The location that has been returned.
  * @param  {object} completion.error The error that has been returned while fetching a location.
  */
-export function getCurrentLocation(completion) {
-  checkLocationStatus(result => {
-    if (!result.locationServicesEnabled && result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
-      // If location services are disabled and the authorization is explicitally denied, return an error.
-      completion(null, { code: 1, message: 'Permissions denied' });
-      return;
-    }
+export async function getCurrentLocation(completion) {
+  const result = await checkLocationStatus();
 
-    // We've got authorization (or the user hasn't been asked yet) 🎉. Try and find the current location...
-    BackgroundGeolocation.getCurrentLocation(
-      location => {
-        completion(createCompactedLocation(location), null);
-      },
-      (code, message) => {
-        completion(null, { code: code, message: message });
-      },
-      {
-        timeout: 30000,
-        enableHighAccuracy: true
-      }
-    );
-  });
+  if (!result.locationServicesEnabled && result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
+    // If location services are disabled and the authorization is explicitally denied, return an error.
+    completion(null, { code: 1, message: 'Permissions denied' });
+    return;
+  }
+
+  // We've got authorization (or the user hasn't been asked yet) 🎉. Try and find the current location...
+  BackgroundGeolocation.getCurrentLocation(
+    location => {
+      completion(createCompactedLocation(location), null);
+    },
+    (code, message) => {
+      completion(null, { code: code, message: message });
+    },
+    {
+      timeout: 30000,
+      enableHighAccuracy: true
+    }
+  );
 }
 
 /**
@@ -155,63 +150,66 @@ export function deleteAllLocations(completion) {
  * @param  {function} completion        A callback that'll be executed on either receiving an error, or upon successfully starting.
  * @param  {object}   completion.error  Defines an error if one occurred. If location observing started, this'll be null.
  */
-export function startTrackingLocation(requiredPermission, completion) {
-  checkLocationStatus(result => {
-    if (!result.locationServicesEnabled && result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
-      // If location services are disabled and the authorization is explicitally denied, return an error.
-      completion({ code: 1, message: 'Permissions denied' });
-      return;
-    }
+export async function startTrackingLocation(requiredPermission) {
+  const result = await checkLocationStatus();
 
-    // Here, make sure that the result authorization matches the required permission.
-    // Also, handle being given higher access than expected.
-    if (
-      result.authorization !== requiredPermission &&
-      !(
-        result.authorization === BackgroundGeolocation.AUTHORIZED &&
-        requiredPermission === BackgroundGeolocation.AUTHORIZED_FOREGROUND
-      )
-    ) {
-      completion({ code: 1, message: 'Incorrect permission given' });
+  if (!result.locationServicesEnabled && result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
+    const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
+    // If location services are disabled and the authorization is explicitally denied, return an error.
+    if (!isResolved) {
+      throw new Error({ code: 1, message: 'Permissions denied ' });
+    }
+  }
+
+  // Here, make sure that the result authorization matches the required permission.
+  // Also, handle being given higher access than expected.
+  if (
+    result.authorization !== requiredPermission &&
+    !(
+      result.authorization === BackgroundGeolocation.AUTHORIZED &&
+      requiredPermission === BackgroundGeolocation.AUTHORIZED_FOREGROUND
+    )
+  ) {
+    const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
+    if (!isResolved) {
+      throw new Error({ code: 1, message: 'Incorrect permission given' });
+    }
+  }
+
   // On Android the startForeground prop controls whether we show an ongoing notification (when true).
   // Only do this if the requiredPermission indicates that the user wants to track location at ALL times.
   if (Platform.OS === 'android') {
     await configureLocationFramework({
       startForeground: requiredPermission === BackgroundGeolocation.AUTHORIZED
     });
-  }
 
+    // On Android if we are already running then there's no need to start the tracker again, so just return
+    if (result.isRunning) {
       return;
     }
+  } else {
+    // On iOS always stop the tracker and restart it to ensure permission changes are respected
+    stopTrackingLocation();
+  }
 
-    // At this point, we should have the correct authorization.
-    BackgroundGeolocation.on('location', location => {
-      BackgroundGeolocation.startTask(taskKey => {
-        emitLocationUpdate(location);
-        BackgroundGeolocation.endTask(taskKey);
-      });
+  // At this point, we should have the correct authorization.
+  BackgroundGeolocation.on('location', location => {
+    BackgroundGeolocation.startTask(taskKey => {
+      emitLocationUpdate(location);
+      BackgroundGeolocation.endTask(taskKey);
     });
-
-    BackgroundGeolocation.on('stationary', location => {
-      BackgroundGeolocation.startTask(taskKey => {
-        emitLocationUpdate(location);
-        BackgroundGeolocation.endTask(taskKey);
-      });
-    });
-
-    // todo: handle errors / other events.
-
-    // On Android the startForeground prop controls whether we show an ongoing notification (when true).
-    // Only do this if the requiredPermission indicates that the user wants to track location at ALL times.
-    if (Platform.OS === 'android') {
-      BackgroundGeolocation.configure({
-        startForeground: requiredPermission === BackgroundGeolocation.AUTHORIZED
-      });
-    }
-
-    BackgroundGeolocation.start();
-    completion(null);
   });
+
+  BackgroundGeolocation.on('stationary', location => {
+    BackgroundGeolocation.startTask(taskKey => {
+      emitLocationUpdate(location);
+      BackgroundGeolocation.endTask(taskKey);
+    });
+  });
+
+  // todo: handle errors / other events.
+
+  BackgroundGeolocation.start();
 }
 
 function emitLocationUpdate(location) {
