@@ -111,14 +111,8 @@ class AreaDetail extends Component<Props, State> {
       component: {
         name: 'ForestWatcher.RouteDetail',
         passProps: {
-          routeId
-        },
-        options: {
-          topBar: {
-            title: {
-              text: routeName
-            }
-          }
+          routeId,
+          routeName
         }
       }
     });
