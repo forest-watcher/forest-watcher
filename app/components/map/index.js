@@ -38,8 +38,12 @@ import {
   GFWLocationAuthorizedInUse,
   GFWOnLocationEvent,
   GFWOnHeadingEvent,
+  GFWOnErrorEvent,
+  GFWErrorPermission,
+  GFWErrorLocation,
   showAppSettings,
   showLocationSettings,
+  getCurrentLocation,
   startTrackingLocation,
   stopTrackingLocation,
   startTrackingHeading,
@@ -146,8 +150,35 @@ class MapComponent extends Component {
 
     emitter.on(GFWOnHeadingEvent, this.updateHeading);
     emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
-    this.geoLocate();
+
+    // We fetch the current location, so that we do not have to wait for a location update and can be provided a location when the user enters the screen.
+    getCurrentLocation((location, error) => {
+      if (error) {
+        this.onLocationUpdateError(error);
+        return;
+      }
+
+      if (location) {
+        this.updateLocationFromGeolocation(location);
+      }
+    });
+
+    this.geoLocate().catch(e => {
+      this.onLocationUpdateError(e);
+    });
   }
+
+  onLocationUpdateError = error => {
+    if (error.code === GFWErrorPermission) {
+      // TODO: The user has declined location permissions - the no GPS banner should be updated to state this.
+    } else if (error.code === GFWErrorLocation) {
+      // handle location error.
+      // TODO: The banner could be used to show this too...
+      Alert.alert(i18n.t('routes.locationErrorDialogTitle'), i18n.t('routes.locationErrorDialogMessage'), [
+        { text: i18n.t('commonText.ok') }
+      ]);
+    }
+  };
 
   componentDidAppear() {
     const { setCanDisplayAlerts, canDisplayAlerts } = this.props;
@@ -193,6 +224,7 @@ class MapComponent extends Component {
     // Do remove the emitter listeners here, as we don't want this screen to receive anything while it's non-existent!
     emitter.off(GFWOnLocationEvent, this.updateLocationFromGeolocation);
     emitter.off(GFWOnHeadingEvent);
+    emitter.off(GFWOnErrorEvent, this.onLocationUpdateError);
     stopTrackingHeading();
 
     this.props.setSelectedAreaId('');
@@ -233,6 +265,8 @@ class MapComponent extends Component {
         this.state.selectedAlerts[this.state.selectedAlerts.length - 1],
         this.props.area.id
       );
+
+      emitter.on(GFWOnErrorEvent, this.onLocationUpdateError);
     } catch (err) {
       Alert.alert(
         i18n.t('routes.insufficientPermissionsDialogTitle'),
@@ -250,7 +284,7 @@ class MapComponent extends Component {
                 onPress: showLocationSettings
               }
             ],
-            ios: []
+            ios: [{}]
           })
         ]
       );
