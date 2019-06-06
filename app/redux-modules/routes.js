@@ -2,9 +2,9 @@
 import type { RouteState, RouteAction, Route } from 'types/routes.types';
 
 // Actions
-const DELETE_ROUTE = 'routes/DELETE_ROUTE';
-const SET_ROUTE_DESTINATION = 'routes/SET_ROUTE_DESTINATION';
+const UPDATE_ACTIVE_ROUTE = 'routes/UPDATE_ACTIVE_ROUTE';
 const FINISH_AND_SAVE_ROUTE = 'routes/FINISH_AND_SAVE_ROUTE';
+const DELETE_ROUTE = 'routes/DELETE_ROUTE';
 
 const locationsMock = [
   {
@@ -114,7 +114,7 @@ const initialState: RouteState = {
 
 export default function reducer(state: RouteState = initialState, action: RouteAction) {
   switch (action.type) {
-    case SET_ROUTE_DESTINATION:
+    case UPDATE_ACTIVE_ROUTE:
       return {
         ...state,
         activeRoute: {
@@ -125,7 +125,7 @@ export default function reducer(state: RouteState = initialState, action: RouteA
     case FINISH_AND_SAVE_ROUTE:
       return {
         ...state,
-        //previousRoutes: [...state.previousRoutes, action.payload],
+        previousRoutes: [...state.previousRoutes, state.activeRoute],
         activeRoute: undefined
       };
     case DELETE_ROUTE:
@@ -156,7 +156,7 @@ export function deleteRoutes(criteria: RouteDeletionCriteria): RouteAction {
 
 export function setRouteDestination(destination: Location, areaId: string): RouteAction {
   return {
-    type: SET_ROUTE_DESTINATION,
+    type: UPDATE_ACTIVE_ROUTE,
     payload: {
       areaId: areaId,
       destination: destination
@@ -164,20 +164,16 @@ export function setRouteDestination(destination: Location, areaId: string): Rout
   };
 }
 
-/*export function createRouteDummy(): RouteAction {
+export function updateActiveRoute(route: Route): RouteAction {
   return {
-    type: CREATE_ROUTE,
+    type: UPDATE_ACTIVE_ROUTE,
     payload: {
-      name: 'Test Route 1',
-      locations: [],
-      date: 123123123,
-      difficulty: 'easy',
-      language: 'en-GB'
+      ...route
     }
   };
-}*/
+}
 
-export function finishAndSaveRoute(route: Route): RouteAction {
+export function finishAndSaveRoute(): RouteAction {
   return {
     type: FINISH_AND_SAVE_ROUTE
   };

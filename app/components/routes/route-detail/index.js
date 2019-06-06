@@ -3,17 +3,20 @@
 import React, { PureComponent } from 'react';
 import { Alert, View, ScrollView } from 'react-native';
 import moment from 'moment';
-import i18n from '../../../locales';
+import i18n from 'locales';
 import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
 import AnswerComponent from 'components/form/answer/answer';
 import type { Route } from 'types/routes.types';
-import ActionButton from '../../common/action-button';
+
+import ActionButton from 'components/common/action-button';
+import { formatCoordsByFormat } from 'helpers/map';
 import RoutePreviewImage from '../preview-image';
 
 type Props = {
   componentId: string,
+  coordinatesFormat: string,
   deleteRoute: () => void,
   setSelectedAreaId: func,
   route: Route
@@ -87,24 +90,26 @@ class RouteDetail extends PureComponent<Props> {
   };
 
   render() {
-    const { route } = this.props;
+    const { coordinatesFormat, route } = this.props;
 
     if (!route) {
       return null;
     }
 
-    // todo mpf use existing translations
-    const firstLocation = route.locations[0];
-    const lastLocation = route.locations[route.locations.length - 1];
-    const locationStart = `Start: ${firstLocation.latitude.toFixed(4)}, ${firstLocation.longitude.toFixed(4)}`;
-    const locationEnd = `End: ${lastLocation.latitude.toFixed(4)}, ${lastLocation.longitude.toFixed(4)}`;
-    const routeData = [
-      { label: [i18n.t('commonText.name')], value: [route.name], canEdit: true },
-      { label: ['Location'], value: [locationStart, locationEnd] },
+    const showLocations = route.locations?.length;
+    let routeData = [{ label: [i18n.t('commonText.name')], value: [route.name], canEdit: true }];
+    if (showLocations) {
+      const firstLocation = route.locations[0];
+      const lastLocation = route.locations.length > 1 ? route.locations?.[route.locations.length - 1] : firstLocation;
+      const locationStart = `Start: ${formatCoordsByFormat(firstLocation, coordinatesFormat)}`;
+      const locationEnd = `End: ${formatCoordsByFormat(lastLocation, coordinatesFormat)}`;
+      routeData.push({ label: ['Location'], value: [locationStart, locationEnd] });
+    }
+    routeData.push(
       { label: [i18n.t('commonText.date')], value: [moment(route.date).format('YYYY-MM-DD')] },
       { label: ['Difficulty'], value: [route.difficulty], canEdit: true },
       { label: [i18n.t('commonText.language')], value: [route.language] }
-    ];
+    );
 
     return (
       <ScrollView>
@@ -118,9 +123,11 @@ class RouteDetail extends PureComponent<Props> {
         />
         <View style={styles.answersContainer}>
           <View style={styles.listContainer}>
-            {routeData.map((data, i) => (
-              <AnswerComponent question={data.label} answers={data.value} key={i} readOnly={!data.canEdit} />
-            ))}
+            {routeData.map((data, i) =>
+              data.value?.[0] ? (
+                <AnswerComponent question={data.label} answers={data.value} key={i} readOnly={!data.canEdit} />
+              ) : null
+            )}
           </View>
         </View>
         <ActionButton

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Animated, Dimensions, Easing, Image, Platform, Text, View } from 'react-native';
+import { Alert, BackHandler, Dimensions, Image, Platform, Text, View } from 'react-native';
 
 import { REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
@@ -14,6 +14,7 @@ import moment from 'moment';
 import MapView from 'react-native-maps';
 import CircleButton from 'components/common/circle-button';
 import MapAttribution from 'components/map/map-attribution';
+import BottomDialog from 'components/map/bottom-dialog';
 import NoGPSBanner from 'components/map/noGPSBanner';
 import Clusters from 'containers/map/clusters';
 import Basemap from 'containers/map/basemap';
@@ -81,14 +82,17 @@ class MapComponent extends Component {
           color: 'transparent',
           translucent: true
         },
-        backButton: {
-          icon: backButtonImage,
-          color: Theme.fontColors.white
-        },
         drawBehind: true,
         title: {
           color: Theme.fontColors.white
         },
+        leftButtons: [
+          {
+            id: 'backButton',
+            icon: backButtonImage,
+            color: Theme.fontColors.white
+          }
+        ],
         rightButtons: [
           {
             color: Theme.fontColors.white,
@@ -120,7 +124,8 @@ class MapComponent extends Component {
       mapZoom: 2,
       customReporting: false,
       dragging: false,
-      layoutHasForceRefreshed: false
+      layoutHasForceRefreshed: false,
+      renderBottomDialog: false
     };
 
     // TODO: While we're building this UI, whenever this screen is entered it'll bin any previous locations.
@@ -131,10 +136,13 @@ class MapComponent extends Component {
   navigationButtonPressed({ buttonId }) {
     if (buttonId === 'settings') {
       this.onSettingsPress();
+    } else if (buttonId === 'backButton') {
+      this.handleBackPress();
     }
   }
 
   componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     tracker.trackScreenView('Map');
 
     emitter.on(GFWOnHeadingEvent, this.updateHeading);
@@ -177,6 +185,7 @@ class MapComponent extends Component {
   }
 
   componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
     // If we're currently tracking a location, don't stop watching for updates!
     if (!this.isRouteTracking()) {
       stopTrackingLocation();
@@ -189,6 +198,15 @@ class MapComponent extends Component {
 
     this.props.setSelectedAreaId('');
   }
+
+  handleBackPress = () => {
+    if (this.isRouteTracking()) {
+      this.state.renderBottomDialog ? this.closeBottomDialog() : this.showBottomDialog();
+    } else {
+      Navigation.pop(this.props.componentId);
+    }
+    return true;
+  };
 
   /**
    * geoLocate - Resets the location / heading event listeners, calling specific callbacks depending on whether we're tracking a route or not.
@@ -240,15 +258,32 @@ class MapComponent extends Component {
     }
   };
 
-  /**
-   * onStopTrackingRoute - When pressed, updates redux to state we're no longer tracking a route & changes event listeners.
-   */
   onStopTrackingPressed = () => {
-    this.props.onStopTrackingRoute();
     this.geoLocate(false);
+    this.showBottomDialog();
+  };
 
-    // todo: add end route UI.
-    // todo: handle deleting locations from database upon saving / deleting the route.
+  openSaveRouteScreen = () => {
+    this.closeBottomDialog();
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.SaveRoute'
+      }
+    });
+  };
+
+  showBottomDialog = () => {
+    this.setState({ renderBottomDialog: true });
+  };
+
+  closeBottomDialog = () => {
+    this.setState({ renderBottomDialog: false });
+  };
+
+  onStopAndDeleteRoute = () => {
+    this.closeBottomDialog();
+    // todo: delete route
+    Navigation.pop(this.props.componentId);
   };
 
   /**
@@ -632,6 +667,19 @@ class MapComponent extends Component {
     ];
   }
 
+  renderBottomDialog() {
+    return this.state.renderBottomDialog ? (
+      <BottomDialog
+        title={'Stop Route Tracking'}
+        closeDialog={this.closeBottomDialog}
+        buttons={[
+          { text: 'stop and save route', onPress: this.openSaveRouteScreen, style: 'positive' },
+          { text: 'stop and delete route', onPress: this.onStopAndDeleteRoute, style: 'negative' }
+        ]}
+      />
+    ) : null;
+  }
+
   onMoveShouldSetResponder = () => {
     // Hack to fix onPanDrag not working for iOS when scroll enabled
     // https://github.com/react-community/react-native-maps/blob/master/docs/mapview.md
@@ -843,6 +891,7 @@ class MapComponent extends Component {
         </MapView>
         {customReportingElement}
         {this.renderMapFooter()}
+        {this.renderBottomDialog()}
       </View>
     );
   }
@@ -868,8 +917,7 @@ MapComponent.propTypes = {
   setSelectedAreaId: PropTypes.func.isRequired,
   route: PropTypes.object,
   isTracking: PropTypes.bool.isRequired,
-  onStartTrackingRoute: PropTypes.func.isRequired,
-  onStopTrackingRoute: PropTypes.func.isRequired
+  onStartTrackingRoute: PropTypes.func.isRequired
 };
 
 export default MapComponent;
