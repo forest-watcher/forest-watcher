@@ -1,0 +1,137 @@
+// @flow
+
+import React, { PureComponent } from 'react';
+import MapView from 'react-native-maps';
+import { View } from 'react-native';
+var emitter = require('tiny-emitter/instance');
+
+import styles from '../styles';
+import Theme from '../../../config/theme';
+import { getValidLocations, GFWOnLocationEvent } from 'helpers/location';
+import throttle from 'lodash/throttle';
+
+type Props = {
+  isTracking: boolean,
+  markerBorder: number,
+  markerSize: number,
+  route: Route
+};
+
+const markerImage = require('assets/marker.png');
+
+export default class RouteMarkers extends PureComponent<Props> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentRouteLocations: []
+    };
+
+    // If we're tracking a route, fetch any of the route locations from the database and display them.
+    // This means that any locations we received while in the background will be displayed.
+    if (props.isTracking) {
+      this.fetchRouteLocations();
+    }
+  }
+
+  componentDidMount() {
+    emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
+  }
+
+  componentWillUnmount() {
+    emitter.off(GFWOnLocationEvent, this.updateLocationFromGeolocation);
+  }
+
+  fetchRouteLocations = () => {
+    getValidLocations((locations, error) => {
+      if (error) {
+        // todo: handle error
+        return;
+      }
+
+      if (locations) {
+        this.setState({
+          currentRouteLocations: locations
+        });
+      }
+    });
+  };
+
+  /**
+   * reconcileRouteLocations - Given two arrays of locations, determines which should be used.
+   * This allows the UI to show locations for a current or previous route without needing to know what it's displaying.
+   *
+   * @param  {array<Location>} currentRouteLocations  Locations for a current route, if the user is tracking a route.
+   * @param  {array<Location>} previousRouteLocations Locations for a previous route, if the user is viewing a saved route.
+   */
+  reconcileRouteLocations = (currentRouteLocations, previousRouteLocations) => {
+    if (currentRouteLocations && currentRouteLocations?.length > 0) {
+      return currentRouteLocations;
+    } else if (previousRouteLocations && previousRouteLocations?.length > 0) {
+      return previousRouteLocations;
+    } else {
+      return null;
+    }
+  };
+
+  /**
+   * updateLocationFromGeolocation - Handles any location updates that arrive while the user is on this screen.
+   */
+  updateLocationFromGeolocation = throttle(location => {
+    this.setState(prevState => ({
+      currentRouteLocations: this.props.isTracking
+        ? [...prevState.currentRouteLocations, location]
+        : prevState.currentRouteLocations
+    }));
+  }, 300);
+
+  render() {
+    const routeLocations = this.reconcileRouteLocations(this.state.currentRouteLocations, this.props.route?.locations);
+    return (
+      <React.Fragment>
+        {routeLocations ? (
+          <MapView.Marker
+            key="currentRouteStartElement"
+            image={markerImage}
+            coordinate={routeLocations[0]}
+            style={{ zIndex: 4 }}
+            anchor={{ x: 0.5, y: 0.5 }}
+            tracksViewChanges={false}
+          />
+        ) : null}
+        {routeLocations ? (
+          <MapView.Polyline
+            key="currentRouteLineElements"
+            coordinates={routeLocations}
+            strokeColor={Theme.colors.color5}
+            strokeWidth={2}
+            zIndex={3}
+          />
+        ) : null}
+        {routeLocations
+          ? routeLocations.map(location => (
+              <MapView.Marker
+                key={`currentRouteCorner-${location.timestamp}`}
+                coordinate={location}
+                anchor={{ x: 0.5, y: 0.5 }}
+                zIndex={3}
+                tracksViewChanges={false}
+              >
+                <View style={styles.routeVertex} />
+              </MapView.Marker>
+            ))
+          : null}
+        {this.props.route?.destination ? (
+          <MapView.Marker
+            key={`routeDestination`}
+            coordinate={this.props.route?.destination}
+            anchor={{ x: 0.5, y: 0.5 }}
+            zIndex={20}
+            tracksViewChanges={false}
+          >
+            <View style={[this.props.markerSize, this.props.markerBorder, styles.selectedMarkerIcon]} />
+          </MapView.Marker>
+        ) : null}
+      </React.Fragment>
+    );
+  }
+}

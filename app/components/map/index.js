@@ -15,6 +15,7 @@ import MapView from 'react-native-maps';
 import CircleButton from 'components/common/circle-button';
 import MapAttribution from 'components/map/map-attribution';
 import Clusters from 'containers/map/clusters';
+import RouteMarkers from './route';
 import { formatCoordsByFormat, getDistanceFormattedText, getMapZoom, getNeighboursSelected } from 'helpers/map';
 import tracker from 'helpers/googleAnalytics';
 import clusterGenerator from 'helpers/clusters-generator';
@@ -34,12 +35,12 @@ import {
   GFWOnHeadingEvent,
   showAppSettings,
   showLocationSettings,
-  getValidLocations,
   startTrackingLocation,
   stopTrackingLocation,
   startTrackingHeading,
   stopTrackingHeading
 } from 'helpers/location';
+
 var emitter = require('tiny-emitter/instance');
 
 const { width, height } = Dimensions.get('window');
@@ -102,7 +103,6 @@ class MapComponent extends Component {
     super(props);
     Navigation.events().bindComponent(this);
     this.state = {
-      currentRouteLocations: [],
       lastPosition: null,
       hasCompass: false,
       compassLine: null,
@@ -126,12 +126,6 @@ class MapComponent extends Component {
     // TODO: While we're building this UI, whenever this screen is entered it'll bin any previous locations.
     // Once we've got save / delete logic built in, remove this!
     //deleteAllLocations(() => {});
-
-    // If we're tracking a route, fetch any of the route locations from the database and display them.
-    // This means that any locations we received while in the background will be displayed.
-    if (this.isRouteTracking()) {
-      this.fetchRouteLocations();
-    }
   }
 
   navigationButtonPressed({ buttonId }) {
@@ -286,28 +280,10 @@ class MapComponent extends Component {
    */
   updateLocationFromGeolocation = throttle(location => {
     this.setState(prevState => ({
-      lastPosition: location,
-      currentRouteLocations: this.isRouteTracking()
-        ? [...prevState.currentRouteLocations, location]
-        : prevState.currentRouteLocations
+      lastPosition: location
     }));
     this.setHeaderTitle();
   }, 300);
-
-  fetchRouteLocations = () => {
-    getValidLocations((locations, error) => {
-      if (error) {
-        // todo: handle error
-        return;
-      }
-
-      if (locations) {
-        this.setState({
-          currentRouteLocations: locations
-        });
-      }
-    });
-  };
 
   updateHeading = throttle(heading => {
     this.setState(prevState => {
@@ -619,23 +595,6 @@ class MapComponent extends Component {
     );
   };
 
-  /**
-   * reconcileRouteLocations - Given two arrays of locations, determines which should be used.
-   * This allows the UI to show locations for a current or previous route without needing to know what it's displaying.
-   *
-   * @param  {array<Location>} currentRouteLocations  Locations for a current route, if the user is tracking a route.
-   * @param  {array<Location>} previousRouteLocations Locations for a previous route, if the user is viewing a saved route.
-   */
-  reconcileRouteLocations = (currentRouteLocations, previousRouteLocations) => {
-    if (currentRouteLocations && currentRouteLocations?.length > 0) {
-      return currentRouteLocations;
-    } else if (previousRouteLocations && previousRouteLocations?.length > 0) {
-      return previousRouteLocations;
-    } else {
-      return null;
-    }
-  };
-
   renderButtonPanelSelected() {
     const { lastPosition } = this.state;
 
@@ -723,7 +682,6 @@ class MapComponent extends Component {
     const {
       lastPosition,
       compassLine,
-      currentRouteLocations,
       region,
       customReporting,
       selectedAlerts,
@@ -742,8 +700,6 @@ class MapComponent extends Component {
       isOfflineMode,
       ctxLayerLocalTilePath
     } = this.props;
-    const routeLocations = this.reconcileRouteLocations(currentRouteLocations, route?.locations);
-    const routeDestination = route?.destination;
     const showCompassLine = lastPosition && selectedAlerts && compassLine && !this.isRouteTracking();
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
     const isIOS = Platform.OS === 'ios';
@@ -791,38 +747,6 @@ class MapComponent extends Component {
         zIndex={3}
       />
     ) : null;
-    const currentRouteStartElement = routeLocations ? (
-      <MapView.Marker
-        key="currentRouteStartElement"
-        image={markerImage}
-        coordinate={routeLocations[0]}
-        style={{ zIndex: 4 }}
-        anchor={{ x: 0.5, y: 0.5 }}
-        tracksViewChanges={false}
-      />
-    ) : null;
-    const currentRouteLineElement = routeLocations ? (
-      <MapView.Polyline
-        key="currentRouteLineElements"
-        coordinates={routeLocations}
-        strokeColor={Theme.colors.color5}
-        strokeWidth={2}
-        zIndex={3}
-      />
-    ) : null;
-    const currentRouteCornerElements = routeLocations
-      ? routeLocations.map(location => (
-          <MapView.Marker
-            key={`currentRouteCorner-${location.timestamp}`}
-            coordinate={location}
-            anchor={{ x: 0.5, y: 0.5 }}
-            zIndex={3}
-            tracksViewChanges={false}
-          >
-            <View style={styles.routeVertex} />
-          </MapView.Marker>
-        ))
-      : null;
     const areaPolygonElement = areaCoordinates ? (
       <MapView.Polyline
         key="areaPolygonElement"
@@ -897,17 +821,14 @@ class MapComponent extends Component {
         : null;
 
     // todo: ensure that this is shown correctly.
-    const routeDestinationElement = routeDestination ? (
-      <MapView.Marker
-        key={`routeDestination`}
-        coordinate={routeDestination}
-        anchor={{ x: 0.5, y: 0.5 }}
-        zIndex={20}
-        tracksViewChanges={false}
-      >
-        <View style={[markerSize, markerBorder, styles.selectedMarkerIcon]} />
-      </MapView.Marker>
-    ) : null;
+    const routeElement = (
+      <RouteMarkers
+        isTracking={this.isRouteTracking()}
+        markerBorder={markerBorder}
+        markerSize={markerSize}
+        route={route}
+      />
+    );
 
     const clustersElement =
       area && area.dataset ? (
@@ -970,12 +891,9 @@ class MapComponent extends Component {
           {contextualRemoteLayerElement}
           {clustersElement}
           {compassLineElement}
-          {currentRouteStartElement}
-          {currentRouteCornerElements}
-          {currentRouteLineElement}
+          {routeElement}
           {areaPolygonElement}
           {neighboursAlertsElement}
-          {routeDestinationElement}
           {selectedAlertsElement}
           {userPositionElement}
           {compassElement}
