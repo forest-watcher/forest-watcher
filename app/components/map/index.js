@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Animated, Dimensions, Easing, Image, Linking, Platform, Text, View } from 'react-native';
+import { Alert, Animated, Dimensions, Easing, Image, Platform, Text, View } from 'react-native';
 
 import { MAPS, REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
@@ -30,7 +30,6 @@ const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
 import {
   GFWLocationAuthorizedAlways,
   GFWLocationAuthorizedInUse,
-  GFWLocationUnauthorized,
   GFWOnLocationEvent,
   GFWOnHeadingEvent,
   showAppSettings,
