@@ -2,8 +2,9 @@
 import type { RouteState, RouteAction, Route } from 'types/routes.types';
 
 // Actions
-const UPDATE_ACTIVE_ROUTE = 'app/UPDATE_ACTIVE_ROUTE';
-const FINISH_AND_SAVE_ROUTE = 'app/FINISH_AND_SAVE_ROUTE';
+const UPDATE_ACTIVE_ROUTE = 'routes/UPDATE_ACTIVE_ROUTE';
+const FINISH_AND_SAVE_ROUTE = 'routes/FINISH_AND_SAVE_ROUTE';
+const DELETE_ROUTE = 'routes/DELETE_ROUTE';
 
 const locationsMock = [
   {
@@ -79,6 +80,8 @@ const locationsMock2 = [
 ];
 
 const routeMock = {
+  id: 'doahfoasa',
+  areaId: 'aodaoa',
   name: 'ReduxMock',
   destination: {
     latitude: 50.753056503,
@@ -91,6 +94,8 @@ const routeMock = {
   language: 'en-GB'
 };
 const routeMock2 = {
+  id: 'hellaldaldlaldal',
+  areaId: 'adada',
   name: 'ReduxMock2',
   destination: {
     latitude: 50.753056503,
@@ -125,9 +130,30 @@ export default function reducer(state: RouteState = initialState, action: RouteA
         previousRoutes: [...state.previousRoutes, state.activeRoute],
         activeRoute: undefined
       };
+    case DELETE_ROUTE:
+      if (action.payload.id) {
+        return {
+          ...state,
+          previousRoutes: state.previousRoutes.filter(route => route.id !== action.payload.id)
+        };
+      } else if (action.payload.areaId) {
+        return {
+          ...state,
+          previousRoutes: state.previousRoutes.filter(route => route.areaId != action.payload.areaId)
+        };
+      } else {
+        return state;
+      }
     default:
       return state;
   }
+}
+
+export function deleteRoutes(criteria: RouteDeletionCriteria): RouteAction {
+  return {
+    type: DELETE_ROUTE,
+    payload: criteria
+  };
 }
 
 export function setRouteDestination(destination: Location, areaId: string): RouteAction {
