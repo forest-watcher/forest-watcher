@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, Animated, Dimensions, Easing, Image, Platform, Text, View } from 'react-native';
 
-import { MAPS, REPORTS } from 'config/constants';
+import { REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
@@ -15,6 +15,7 @@ import MapView from 'react-native-maps';
 import CircleButton from 'components/common/circle-button';
 import MapAttribution from 'components/map/map-attribution';
 import Clusters from 'containers/map/clusters';
+import Basemap from 'containers/map/basemap';
 import RouteMarkers from './route';
 import { formatCoordsByFormat, getDistanceFormattedText, getMapZoom, getNeighboursSelected } from 'helpers/map';
 import tracker from 'helpers/googleAnalytics';
@@ -694,7 +695,6 @@ class MapComponent extends Component {
       areaCoordinates,
       area,
       contextualLayer,
-      basemapLocalTilePath,
       isConnected,
       route,
       isOfflineMode,
@@ -713,18 +713,7 @@ class MapComponent extends Component {
     const markerBorder = { borderWidth: (markerSize.width / 18) * 4 };
 
     // Map elements
-    const basemapLocalLayerElement = basemapLocalTilePath ? (
-      <MapView.LocalTile
-        key="localBasemapLayerElementL"
-        pathTemplate={basemapLocalTilePath}
-        zIndex={-2}
-        maxZoom={12}
-        tileSize={256}
-      />
-    ) : null;
-    const basemapRemoteLayerElement = !isOfflineMode ? (
-      <MapView.UrlTile key="basemapLayerElement" urlTemplate={MAPS.basemap} zIndex={-1} />
-    ) : null;
+
     const contextualLocalLayerElement = ctxLayerLocalTilePath ? (
       <MapView.LocalTile
         key={`${ctxLayerKey}_local`}
@@ -820,16 +809,6 @@ class MapComponent extends Component {
           ))
         : null;
 
-    // todo: ensure that this is shown correctly.
-    const routeElement = (
-      <RouteMarkers
-        isTracking={this.isRouteTracking()}
-        markerBorder={markerBorder}
-        markerSize={markerSize}
-        route={route}
-      />
-    );
-
     const clustersElement =
       area && area.dataset ? (
         <Clusters
@@ -885,13 +864,17 @@ class MapComponent extends Component {
           onRegionChange={this.onRegionChange}
           onRegionChangeComplete={this.onRegionChangeComplete}
         >
-          {basemapLocalLayerElement}
-          {basemapRemoteLayerElement}
+          <Basemap areaId={area.id} />
           {contextualLocalLayerElement}
           {contextualRemoteLayerElement}
           {clustersElement}
           {compassLineElement}
-          {routeElement}
+          <RouteMarkers
+            isTracking={this.isRouteTracking()}
+            markerBorder={markerBorder}
+            markerSize={markerSize}
+            route={route}
+          />
           {areaPolygonElement}
           {neighboursAlertsElement}
           {selectedAlertsElement}
@@ -908,7 +891,6 @@ class MapComponent extends Component {
 MapComponent.propTypes = {
   componentId: PropTypes.string.isRequired,
   createReport: PropTypes.func.isRequired,
-  basemapLocalTilePath: PropTypes.string,
   ctxLayerLocalTilePath: PropTypes.string,
   areaCoordinates: PropTypes.array,
   isConnected: PropTypes.bool.isRequired,
