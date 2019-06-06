@@ -165,14 +165,12 @@ function createCompactedLocation(location) {
 }
 
 /**
- * deleteAllLocations - When called, 'deletes' all of the locations within the BackgroundGeolocation database.
- * This doesn't actually delete them (as to keep the id unique) but instead marks them as invalid.
- * This means that, when we request valid locations, we only get non-deleted ones.
- *
- * @param  {function} completion A callback that'll be execute when the locations have been 'deleted'.
+ * Wrapper function around BackgroundGeolocation.deleteAllLocations that turns it from callback-based to promise-based
  */
-export function deleteAllLocations(completion) {
-  BackgroundGeolocation.deleteAllLocations(completion);
+export async function deleteAllLocations() {
+  return new Promise((resolve, reject) => {
+    BackgroundGeolocation.deleteAllLocations(resolve, reject);
+  });
 }
 
 /**

@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setSelectedAreaId } from 'redux-modules/areas';
 import { createReport } from 'redux-modules/reports';
-import { finishAndSaveRoute, setRouteDestination } from 'redux-modules/routes';
+import { discardActiveRoute, setRouteDestination } from 'redux-modules/routes';
 import { setCanDisplayAlerts, setActiveAlerts } from 'redux-modules/alerts';
 import tracker from 'helpers/googleAnalytics';
 import { getContextualLayer } from 'helpers/map';
@@ -91,10 +91,8 @@ function mapDispatchToProps(dispatch, { navigation }) {
     onStartTrackingRoute: (location, areaId) => {
       dispatch(setRouteDestination(location, areaId));
     },
-    onStopTrackingRoute: () => {
-      // TODO: Look at calling the below with a full route once the user has decided to save.
-      // Currently, we call it just to reset the active route.
-      dispatch(finishAndSaveRoute());
+    onCancelTrackingRoute: () => {
+      dispatch(discardActiveRoute());
     }
   };
 }

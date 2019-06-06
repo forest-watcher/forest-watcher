@@ -41,6 +41,17 @@ export default class RouteMarkers extends PureComponent<Props> {
     emitter.off(GFWOnLocationEvent, this.updateLocationFromGeolocation);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.isTracking && !this.props.isTracking) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        currentRouteLocations: []
+      });
+    } else if (!prevProps.isTracking && this.props.isTracking) {
+      this.fetchRouteLocations();
+    }
+  }
+
   fetchRouteLocations = () => {
     getValidLocations((locations, error) => {
       if (error) {
