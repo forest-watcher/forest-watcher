@@ -1,16 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  Alert,
-  BackHandler,
-  Dimensions,
-  Image,
-  LayoutAnimation,
-  Platform,
-  Text,
-  View
-} from 'react-native';
+import { Alert, BackHandler, Dimensions, Image, LayoutAnimation, Platform, Text, View } from 'react-native';
 
 import { REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
@@ -51,7 +42,8 @@ import {
   startTrackingLocation,
   stopTrackingLocation,
   startTrackingHeading,
-  stopTrackingHeading
+  stopTrackingHeading,
+  deleteAllLocations
 } from 'helpers/location';
 
 var emitter = require('tiny-emitter/instance');
@@ -297,10 +289,14 @@ class MapComponent extends Component {
     Alert.alert(i18n.t('routes.confirmDeleteTitle'), i18n.t('routes.confirmDeleteMessage'), [
       {
         text: i18n.t('commonText.confirm'),
-        onPress: () => {
-          this.props.onCancelTrackingRoute();
-          this.closeBottomDialog();
-          this.geoLocate(false);
+        onPress: async () => {
+          try {
+            this.props.onCancelTrackingRoute();
+            this.closeBottomDialog();
+            await deleteAllLocations();
+          } finally {
+            this.geoLocate(false);
+          }
         }
       },
       {
@@ -712,15 +708,7 @@ class MapComponent extends Component {
   };
 
   render() {
-    const {
-      lastPosition,
-      compassLine,
-      customReporting,
-      selectedAlerts,
-      neighbours,
-      heading,
-      markers
-    } = this.state;
+    const { lastPosition, compassLine, customReporting, selectedAlerts, neighbours, heading, markers } = this.state;
 
     const {
       areaCoordinates,
