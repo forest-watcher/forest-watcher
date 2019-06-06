@@ -3,10 +3,10 @@ import type { State } from 'types/store.types';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setSelectedAreaId } from 'redux-modules/areas';
 
 import RouteDetail from 'components/routes/route-detail';
 import { deleteRoutes } from '../../../redux-modules/routes';
+import { setSelectedAreaId } from '../../../redux-modules/areas';
 
 function mapStateToProps(state: State, ownProps: { routeId: string }) {
   return {
@@ -16,6 +16,12 @@ function mapStateToProps(state: State, ownProps: { routeId: string }) {
 
 function mapDispatchToProps(dispatch, ownProps: { routeId: string }) {
   return {
+    ...bindActionCreators(
+      {
+        setSelectedAreaId
+      },
+      dispatch
+    ),
     deleteRoute: () => {
       dispatch(
         deleteRoutes({
@@ -24,15 +30,6 @@ function mapDispatchToProps(dispatch, ownProps: { routeId: string }) {
       );
     }
   };
-}
-
-function mapDispatchToProps(dispatch: *) {
-  return bindActionCreators(
-    {
-      setSelectedAreaId
-    },
-    dispatch
-  );
 }
 
 export default connect(
