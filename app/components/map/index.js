@@ -81,14 +81,17 @@ class MapComponent extends Component {
           color: 'transparent',
           translucent: true
         },
-        backButton: {
-          icon: backButtonImage,
-          color: Theme.fontColors.white
-        },
         drawBehind: true,
         title: {
           color: Theme.fontColors.white
         },
+        leftButtons: [
+          {
+            id: 'backButton',
+            icon: backButtonImage,
+            color: Theme.fontColors.white
+          }
+        ],
         rightButtons: [
           {
             color: Theme.fontColors.white,
@@ -144,6 +147,12 @@ class MapComponent extends Component {
   navigationButtonPressed({ buttonId }) {
     if (buttonId === 'settings') {
       this.onSettingsPress();
+    } else if (buttonId === 'backButton') {
+      if (this.isRouteTracking()) {
+        this.showBottomDialog();
+      } else {
+        Navigation.pop(this.props.componentId);
+      }
     }
   }
 
