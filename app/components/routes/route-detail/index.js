@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import moment from 'moment';
 import i18n from '../../../locales';
 import { Navigation } from 'react-native-navigation';
@@ -10,6 +10,7 @@ import styles from './styles';
 import AnswerComponent from 'components/form/answer/answer';
 import type { Route } from 'types/routes.types';
 import ActionButton from '../../common/action-button';
+import RoutePreviewImage from '../preview-image';
 
 type Props = {
   componentId: string,
@@ -86,6 +87,7 @@ class RouteDetail extends PureComponent<Props> {
 
     return (
       <ScrollView>
+        <RoutePreviewImage style={styles.headerImage} route={route} />
         <ActionButton
           style={styles.actionButton}
           onPress={this.openRouteOnMap}
@@ -95,7 +97,6 @@ class RouteDetail extends PureComponent<Props> {
         />
         <View style={styles.answersContainer}>
           <View style={styles.listContainer}>
-            <Text style={styles.listTitle}>Route Details</Text>
             {routeData.map((data, i) => (
               <AnswerComponent question={data.label} answers={data.value} key={i} readOnly={!data.canEdit} />
             ))}
