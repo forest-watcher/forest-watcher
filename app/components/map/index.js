@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Animated, Dimensions, Easing, Image, Linking, Platform, Text, View } from 'react-native';
+import { Alert, Animated, BackHandler, Dimensions, Easing, Image, Linking, Platform, Text, View } from 'react-native';
 
 import { MAPS, REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
@@ -148,15 +148,12 @@ class MapComponent extends Component {
     if (buttonId === 'settings') {
       this.onSettingsPress();
     } else if (buttonId === 'backButton') {
-      if (this.isRouteTracking()) {
-        this.showBottomDialog();
-      } else {
-        Navigation.pop(this.props.componentId);
-      }
+      this.handleBackPress();
     }
   }
 
   componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     tracker.trackScreenView('Map');
 
     this.animateNoSignal();
@@ -198,6 +195,7 @@ class MapComponent extends Component {
   }
 
   componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
     // If we're currently tracking a location, don't stop watching for updates!
     if (!this.isRouteTracking()) {
       stopTrackingLocation();
@@ -210,6 +208,15 @@ class MapComponent extends Component {
 
     this.props.setSelectedAreaId('');
   }
+
+  handleBackPress = () => {
+    if (this.isRouteTracking()) {
+      this.showBottomDialog();
+    } else {
+      Navigation.pop(this.props.componentId);
+    }
+    return true;
+  };
 
   /**
    * animateNoSignal - Fades the no signal element in and out.
@@ -334,6 +341,7 @@ class MapComponent extends Component {
   onStopAndDeleteRoute = () => {
     this.closeBottomDialog();
     // todo: delete route
+    Navigation.pop(this.props.componentId);
   };
 
   /**
