@@ -3,16 +3,18 @@
 import React, { PureComponent } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import moment from 'moment';
-import i18n from '../../../locales';
+import i18n from 'locales';
 import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
 import AnswerComponent from 'components/form/answer/answer';
 import type { Route } from 'types/routes.types';
-import ActionButton from '../../common/action-button';
+import ActionButton from 'components/common/action-button';
+import { formatCoordsByFormat } from 'helpers/map';
 
 type Props = {
   componentId: string,
+  coordinatesFormat: string,
   setSelectedAreaId: func,
   route: Route
 };
@@ -70,14 +72,14 @@ class RouteDetail extends PureComponent<Props> {
   };
 
   render() {
-    const { route } = this.props;
+    const { coordinatesFormat, route } = this.props;
     const showLocations = route.locations?.length;
     let routeData = [{ label: [i18n.t('commonText.name')], value: [route.name], canEdit: true }];
     if (showLocations) {
       const firstLocation = route.locations[0];
       const lastLocation = route.locations.length > 1 ? route.locations?.[route.locations.length - 1] : firstLocation;
-      const locationStart = `Start: ${firstLocation.latitude.toFixed(4)}, ${firstLocation.longitude.toFixed(4)}`;
-      const locationEnd = `End: ${lastLocation.latitude.toFixed(4)}, ${lastLocation.longitude.toFixed(4)}`;
+      const locationStart = `Start: ${formatCoordsByFormat(firstLocation, coordinatesFormat)}`;
+      const locationEnd = `End: ${formatCoordsByFormat(lastLocation, coordinatesFormat)}`;
       routeData.push({ label: ['Location'], value: [locationStart, locationEnd] });
     }
     routeData.push(

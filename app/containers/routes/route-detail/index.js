@@ -9,6 +9,7 @@ import RouteDetail from 'components/routes/route-detail';
 
 function mapStateToProps(state: State, ownProps: { routeName: string }) {
   return {
+    coordinatesFormat: state.app.coordinatesFormat,
     route: state.routes.previousRoutes.find(routeData => routeData.name === ownProps.routeName)
   };
 }
