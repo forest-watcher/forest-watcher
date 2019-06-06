@@ -316,12 +316,12 @@ class MapComponent extends Component {
 
   showBottomDialog = () => {
     this.setState({ renderBottomDialog: true });
-    LayoutAnimation.configureNext();
+    LayoutAnimation.easeInEaseOut();
   };
 
   closeBottomDialog = () => {
     this.setState({ renderBottomDialog: false });
-    LayoutAnimation.configureNext();
+    LayoutAnimation.easeInEaseOut();
   };
 
   onStopAndDeleteRoute = () => {
