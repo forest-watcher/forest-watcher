@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, ScrollView } from 'react-native';
+import { Alert, View, ScrollView } from 'react-native';
 import moment from 'moment';
 import i18n from '../../../locales';
 import { Navigation } from 'react-native-navigation';
@@ -14,6 +14,7 @@ import RoutePreviewImage from '../preview-image';
 
 type Props = {
   componentId: string,
+  deleteRoute: () => void,
   setSelectedAreaId: func,
   route: Route
 };
@@ -66,12 +67,32 @@ class RouteDetail extends PureComponent<Props> {
     });
   };
 
+  /**
+   * Displays a confirmation before possibly deleting the route
+   */
   deleteRoute = () => {
-    // todo
+    Alert.alert(i18n.t('routes.confirmDeleteTitle'), i18n.t('routes.confirmDeleteMessage'), [
+      {
+        text: i18n.t('commonText.confirm'),
+        onPress: () => {
+          this.props.deleteRoute();
+          Navigation.pop(this.props.componentId);
+        }
+      },
+      {
+        text: i18n.t('commonText.cancel'),
+        style: 'cancel'
+      }
+    ]);
   };
 
   render() {
     const { route } = this.props;
+
+    if (!route) {
+      return null;
+    }
+
     // todo mpf use existing translations
     const firstLocation = route.locations[0];
     const lastLocation = route.locations[route.locations.length - 1];

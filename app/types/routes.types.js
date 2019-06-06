@@ -5,6 +5,7 @@ export type RouteState = {
 };
 
 export type Route = {
+  id: string,
   areaId: string,
   name: string,
   saveDate: number,
@@ -27,7 +28,13 @@ export type LocationPoint = {
   timestamp: number
 };
 
-export type RouteAction = setRouteDestination | finishAndSaveRoute;
+export type RouteDeletionCriteria = {
+  id: string,
+  areaId: string
+};
 
-type setRouteDestination = { type: 'app/SET_ROUTE_DESTINATION', payload: Location };
-type finishAndSaveRoute = { type: 'app/FINISH_AND_SAVE_ROUTE', payload: Route };
+export type RouteAction = setRouteDestination | finishAndSaveRoute | deleteRouteAction;
+
+type deleteRouteAction = { type: 'routes/DELETE_ROUTE', payload: RouteDeletionCriteria };
+type setRouteDestination = { type: 'routes/SET_ROUTE_DESTINATION', payload: Location };
+type finishAndSaveRoute = { type: 'routes/FINISH_AND_SAVE_ROUTE', payload: Route };
