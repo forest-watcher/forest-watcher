@@ -167,7 +167,7 @@ function createCompactedLocation(location) {
 /**
  * Wrapper function around BackgroundGeolocation.deleteAllLocations that turns it from callback-based to promise-based
  */
-export async function deleteAllLocations(completion) {
+export async function deleteAllLocations() {
   return new Promise((resolve, reject) => {
     BackgroundGeolocation.deleteAllLocations(resolve, reject);
   });

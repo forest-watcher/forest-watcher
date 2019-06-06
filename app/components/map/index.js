@@ -129,10 +129,6 @@ class MapComponent extends Component {
       layoutHasForceRefreshed: false,
       renderBottomDialog: false
     };
-
-    // TODO: While we're building this UI, whenever this screen is entered it'll bin any previous locations.
-    // Once we've got save / delete logic built in, remove this!
-    //deleteAllLocations(() => {});
   }
 
   navigationButtonPressed({ buttonId }) {
