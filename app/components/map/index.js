@@ -209,7 +209,7 @@ class MapComponent extends Component {
 
   handleBackPress = () => {
     if (this.isRouteTracking()) {
-      this.showBottomDialog();
+      this.state.renderBottomDialog ? this.closeBottomDialog() : this.showBottomDialog();
     } else {
       Navigation.pop(this.props.componentId);
     }

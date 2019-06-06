@@ -7,6 +7,7 @@ import { Navigation } from 'react-native-navigation';
 import styles from './styles';
 import ActionButton from 'components/common/action-button';
 import InputText from 'components/common/text-input';
+import { getValidLocations, stopTrackingLocation } from 'helpers/location';
 
 type Props = {
   componentId: string,
@@ -42,9 +43,30 @@ class SaveRoute extends PureComponent<Props> {
     this.setState({ difficulty: newDifficulty });
   };
 
-  saveRoute = () => {
-    this.props.updateActiveRoute({ name: this.state.routeSaveName, difficulty: this.state.difficulty });
+  onSaveRoutePressed = () => {
+    stopTrackingLocation();
+    // todo: show loading screen
+    getValidLocations((locations, error) => {
+      if (error) {
+        // todo: handle error
+        return;
+      }
+
+      if (locations) {
+        this.saveRoute(locations);
+      }
+    });
+  };
+
+  saveRoute = locations => {
+    // todo: save route id and saveDate
+    this.props.updateActiveRoute({
+      name: this.state.routeSaveName,
+      difficulty: this.state.difficulty,
+      locations
+    });
     this.props.finishAndSaveRoute();
+    // todo: close loading screen
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.Map'
@@ -75,7 +97,7 @@ class SaveRoute extends PureComponent<Props> {
         </Picker>
         <ActionButton
           style={styles.actionButton}
-          onPress={this.saveRoute}
+          onPress={this.onSaveRoutePressed}
           text={'Save Route'.toUpperCase()}
           short
           noIcon
