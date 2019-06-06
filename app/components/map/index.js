@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Alert, BackHandler, Dimensions, Image, LayoutAnimation, Platform, Text, View } from 'react-native';
+import { Sentry } from 'react-native-sentry';
 
 import { REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
@@ -290,6 +291,9 @@ class MapComponent extends Component {
             this.props.onCancelTrackingRoute();
             this.closeBottomDialog();
             await deleteAllLocations();
+          } catch (err) {
+            console.warn('Error when discarding route', err);
+            Sentry.captureException(err);
           } finally {
             this.geoLocate(false);
           }
