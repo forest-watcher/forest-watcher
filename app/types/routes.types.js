@@ -33,8 +33,8 @@ export type RouteDeletionCriteria = {
   areaId: string
 };
 
-export type RouteAction = setRouteDestination | finishAndSaveRoute | deleteRouteAction;
+export type RouteAction = updateActiveRoute | finishAndSaveRoute | deleteRouteAction;
 
+type updateActiveRoute = { type: 'routes/UPDATE_ACTIVE_ROUTE', payload: Route };
+type finishAndSaveRoute = { type: 'routes/FINISH_AND_SAVE_ROUTE' };
 type deleteRouteAction = { type: 'routes/DELETE_ROUTE', payload: RouteDeletionCriteria };
-type setRouteDestination = { type: 'routes/SET_ROUTE_DESTINATION', payload: Location };
-type finishAndSaveRoute = { type: 'routes/FINISH_AND_SAVE_ROUTE', payload: Route };

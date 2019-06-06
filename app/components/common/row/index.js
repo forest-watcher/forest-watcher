@@ -25,7 +25,7 @@ function Row(props) {
       underlayColor="transparent"
       onPress={onPress}
     >
-      <View style={[props.style, styles.row, props.rowStyle]}>
+      <View style={[styles.row, props.rowStyle]}>
         <View style={styles.title}>{props.children}</View>
         {hasCustomSwitch && (
           <CustomSwitch
@@ -42,7 +42,6 @@ function Row(props) {
 }
 
 Row.propTypes = {
-  style: ViewPropTypes.style,
   children: PropTypes.node,
   value: PropTypes.bool,
   onValueChange: PropTypes.func,
