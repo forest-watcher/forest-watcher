@@ -15,8 +15,12 @@ function RouteList(props) {
   return (
     <View>
       {routes.map(route => (
-        <View key={`${route.name}-route-list`} style={styles.container}>
-          <TouchableHighlight activeOpacity={0.5} underlayColor="transparent" onPress={() => onRoutePress(route.name)}>
+        <View key={`${route.id}-route-list`} style={styles.container}>
+          <TouchableHighlight
+            activeOpacity={0.5}
+            underlayColor="transparent"
+            onPress={() => onRoutePress(route.id, route.name)}
+          >
             <View style={styles.item}>
               <View style={styles.imageContainer}>
                 {route.image ? <FastImage style={styles.image} source={{ uri: route.image }} /> : null}
