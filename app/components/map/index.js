@@ -12,6 +12,7 @@ import deburr from 'lodash/deburr';
 import moment from 'moment';
 
 import MapView from 'react-native-maps';
+import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
 import CircleButton from 'components/common/circle-button';
 import MapAttribution from 'components/map/map-attribution';
 import Clusters from 'containers/map/clusters';
@@ -232,6 +233,7 @@ class MapComponent extends Component {
   async geoLocate(trackWhenInBackground = this.isRouteTracking()) {
     // These start methods will stop any previously running trackers if necessary
     startTrackingHeading();
+
     await startTrackingLocation(trackWhenInBackground ? GFWLocationAuthorizedAlways : GFWLocationAuthorizedInUse);
   }
 
@@ -244,34 +246,47 @@ class MapComponent extends Component {
    * If the user has not given 'always' location permissions, an alert is shown.
    */
   onStartTrackingPressed = async () => {
-    const result = await checkLocationStatus();
+    try {
+      await this.geoLocate(true);
 
-    // We need to have the GFWLocationAuthorizedAlways authorization level so we can track in the background!
-    // todo: translations!
-    if (Platform.OS === 'ios' && result.authorization !== GFWLocationAuthorizedAlways) {
-      Alert.alert(
-        'Not authorized!',
-        `We need to access your location, even in the background, while you're on a route.`,
-        [
-          { text: 'OK' },
+      this.props.onStartTrackingRoute(
+        this.state.selectedAlerts[this.state.selectedAlerts.length - 1],
+        this.props.area.id
+      );
+    } catch (err) {
+      const errorDialogTitle = i18n.t('routes.insufficientPermissionsDialogTitle');
+      const errorDialogMessage = i18n.t('routes.insufficientPermissionsDialogMessage');
+      const continueButton = i18n.t('commonText.ok');
+      const checkPermissionsButton = i18n.t('routes.insufficientPermissionsDialogOpenAppSettings');
+      const checkLocationSettingsButton = i18n.t('routes.insufficientPermissionsDialogOpenDeviceSettings');
+      if (Platform.OS === 'ios') {
+        Alert.alert(errorDialogTitle, errorDialogMessage, [
+          { text: continueButton },
           {
-            text: 'Open Settings',
+            text: checkPermissionsButton,
             onPress: () => {
               Linking.openURL('app-settings:');
             }
           }
-        ]
-      );
-
-      return;
+        ]);
+      } else if (Platform.OS === 'android') {
+        Alert.alert(errorDialogTitle, errorDialogMessage, [
+          { text: continueButton },
+          {
+            text: checkPermissionsButton,
+            onPress: () => {
+              BackgroundGeolocation.showAppSettings();
+            }
+          },
+          {
+            text: checkLocationSettingsButton,
+            onPress: () => {
+              BackgroundGeolocation.showLocationSettings();
+            }
+          }
+        ]);
+      }
     }
-
-    this.props.onStartTrackingRoute(
-      this.state.selectedAlerts[this.state.selectedAlerts.length - 1],
-      this.props.area.id
-    );
-
-    this.geoLocate(true);
   };
 
   /**
@@ -639,14 +654,12 @@ class MapComponent extends Component {
         {!this.isRouteTracking() ? (
           <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
         ) : null}
-        {lastPosition || this.isRouteTracking() ? (
-          <CircleButton
-            shouldFillContainer
-            onPress={this.isRouteTracking() ? this.onStopTrackingPressed : this.onStartTrackingPressed}
-            light
-            icon={this.isRouteTracking() ? stopTrackingIcon : startTrackingIcon}
-          />
-        ) : null}
+        <CircleButton
+          shouldFillContainer
+          onPress={this.isRouteTracking() ? this.onStopTrackingPressed : this.onStartTrackingPressed}
+          light
+          icon={this.isRouteTracking() ? stopTrackingIcon : startTrackingIcon}
+        />
       </View>
     );
   }
