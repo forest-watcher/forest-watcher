@@ -32,53 +32,12 @@ export default StyleSheet.create({
     height: 48,
     width: 48
   },
-  signalNotice: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    overflow: 'visible'
-  },
   offlineNotice: {
     position: 'absolute',
     top: 20,
     right: 0,
     color: 'red',
     margin: 16
-  },
-  signalNoticeText: {
-    fontWeight: '400',
-    fontStyle: 'italic',
-    fontFamily: Theme.font,
-    fontSize: 15,
-    color: Theme.fontColors.white,
-    marginLeft: 8,
-    backgroundColor: 'transparent',
-    position: 'absolute',
-    width: 80,
-    top: 14,
-    left: 32,
-    zIndex: 5
-  },
-  geoLocationContainer: {
-    width: 48,
-    height: 48,
-    position: 'relative',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  geoLocation: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: Theme.colors.color7,
-    opacity: 0.5,
-    position: 'absolute',
-    top: 0
-  },
-  marker: {
-    width: 18,
-    height: 19,
-    zIndex: 2,
-    resizeMode: 'contain'
   },
   selectedMarkerIcon: {
     borderColor: 'rgba(255, 255, 255, 1)',

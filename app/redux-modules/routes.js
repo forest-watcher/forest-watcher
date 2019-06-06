@@ -3,9 +3,9 @@ import type { RouteState, RouteAction, Route } from 'types/routes.types';
 
 // Actions
 const DISCARD_ACTIVE_ROUTE = 'routes/DISCARD_ACTIVE_ROUTE';
-const UPDATE_ACTIVE_ROUTE = 'routes/UPDATE_ACTIVE_ROUTE';
 const DELETE_ROUTE = 'routes/DELETE_ROUTE';
 const FINISH_AND_SAVE_ROUTE = 'routes/FINISH_AND_SAVE_ROUTE';
+const UPDATE_ACTIVE_ROUTE = 'routes/UPDATE_ACTIVE_ROUTE';
 
 const locationsMock = [
   {

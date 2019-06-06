@@ -34,14 +34,12 @@ export type RouteDeletionCriteria = {
 };
 
 export type RouteAction =
-  | setRouteDestination
   | finishAndSaveRoute
   | deleteRouteAction
   | updateActiveRoute
   | discardActiveRoute;
 
-type deleteRouteAction = { type: 'routes/DELETE_ROUTE', payload: RouteDeletionCriteria };
-type setRouteDestination = { type: 'routes/SET_ROUTE_DESTINATION', payload: Location };
 type updateActiveRoute = { type: 'routes/UPDATE_ACTIVE_ROUTE', payload: Route };
 type finishAndSaveRoute = { type: 'routes/FINISH_AND_SAVE_ROUTE' };
+type deleteRouteAction = { type: 'routes/DELETE_ROUTE', payload: RouteDeletionCriteria };
 type discardActiveRoute = { type: 'routes/DISCARD_ACTIVE_ROUTE' };

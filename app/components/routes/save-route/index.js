@@ -8,6 +8,7 @@ import styles from './styles';
 import ActionButton from 'components/common/action-button';
 import InputText from 'components/common/text-input';
 import { getValidLocations, stopTrackingLocation } from 'helpers/location';
+import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
 
 type Props = {
   componentId: string,
@@ -59,19 +60,18 @@ class SaveRoute extends PureComponent<Props> {
   };
 
   saveRoute = locations => {
-    // todo: save route id and saveDate
+    const date = Date.now();
     this.props.updateActiveRoute({
+      id: date,
       name: this.state.routeSaveName,
+      saveDate: date,
       difficulty: this.state.difficulty,
       locations
     });
     this.props.finishAndSaveRoute();
     // todo: close loading screen
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: 'ForestWatcher.Map'
-      }
-    });
+    BackgroundGeolocation.deleteAllLocations(); // todo: handle error
+    Navigation.pop(this.props.componentId);
   };
 
   render() {

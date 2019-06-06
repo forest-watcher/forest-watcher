@@ -1,18 +1,22 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { Alert, View, Text, ScrollView } from 'react-native';
+import { Alert, View, ScrollView } from 'react-native';
 import moment from 'moment';
-import i18n from '../../../locales';
+import i18n from 'locales';
 import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
 import AnswerComponent from 'components/form/answer/answer';
 import type { Route } from 'types/routes.types';
-import ActionButton from '../../common/action-button';
+
+import ActionButton from 'components/common/action-button';
+import { formatCoordsByFormat } from 'helpers/map';
+import RoutePreviewImage from '../preview-image';
 
 type Props = {
   componentId: string,
+  coordinatesFormat: string,
   deleteRoute: () => void,
   setSelectedAreaId: func,
   route: Route
@@ -86,7 +90,7 @@ class RouteDetail extends PureComponent<Props> {
   };
 
   render() {
-    const { route } = this.props;
+    const { coordinatesFormat, route } = this.props;
 
     if (!route) {
       return null;
@@ -99,8 +103,8 @@ class RouteDetail extends PureComponent<Props> {
     if (showLocations) {
       const firstLocation = route.locations[0];
       const lastLocation = route.locations.length > 1 ? route.locations?.[route.locations.length - 1] : firstLocation;
-      const locationStart = `Start: ${firstLocation.latitude.toFixed(4)}, ${firstLocation.longitude.toFixed(4)}`;
-      const locationEnd = `End: ${lastLocation.latitude.toFixed(4)}, ${lastLocation.longitude.toFixed(4)}`;
+      const locationStart = `Start: ${formatCoordsByFormat(firstLocation, coordinatesFormat)}`;
+      const locationEnd = `End: ${formatCoordsByFormat(lastLocation, coordinatesFormat)}`;
       routeData.push({ label: ['Location'], value: [locationStart, locationEnd] });
     }
 
@@ -112,6 +116,7 @@ class RouteDetail extends PureComponent<Props> {
 
     return (
       <ScrollView>
+        <RoutePreviewImage style={styles.headerImage} route={route} />
         <ActionButton
           style={styles.actionButton}
           onPress={this.openRouteOnMap}
@@ -121,10 +126,11 @@ class RouteDetail extends PureComponent<Props> {
         />
         <View style={styles.answersContainer}>
           <View style={styles.listContainer}>
-            <Text style={styles.listTitle}>Route Details</Text>
-            {routeData.map((data, i) => (
-              <AnswerComponent question={data.label} answers={data.value} key={i} readOnly={!data.canEdit} />
-            ))}
+            {routeData.map((data, i) =>
+              data.value?.[0] ? (
+                <AnswerComponent question={data.label} answers={data.value} key={i} readOnly={!data.canEdit} />
+              ) : null
+            )}
           </View>
         </View>
         <ActionButton

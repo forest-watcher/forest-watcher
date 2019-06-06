@@ -3,13 +3,14 @@ import type { State } from 'types/store.types';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import RouteDetail from 'components/routes/route-detail';
+
 import { deleteRoutes } from '../../../redux-modules/routes';
 import { setSelectedAreaId } from '../../../redux-modules/areas';
 
 function mapStateToProps(state: State, ownProps: { routeId: string }) {
   return {
+    coordinatesFormat: state.app.coordinatesFormat,
     route: state.routes.previousRoutes.find(routeData => routeData.id === ownProps.routeId)
   };
 }
