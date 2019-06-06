@@ -24,7 +24,7 @@ export default class RoutePreviewImage extends PureComponent<Props> {
       return null;
     }
 
-    route.locations.forEach(location => {
+    [...route.locations, route.destination].forEach(location => {
       if (location.latitude < minLatitude) {
         minLatitude = location.latitude;
       }
