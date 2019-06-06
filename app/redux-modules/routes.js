@@ -5,6 +5,7 @@ import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 // Actions
 const SET_ROUTE_DESTINATION = 'app/SET_ROUTE_DESTINATION';
+const UPDATE_ACTIVE_ROUTE = 'app/UPDATE_ACTIVE_ROUTE';
 const FINISH_AND_SAVE_ROUTE = 'app/FINISH_AND_SAVE_ROUTE';
 
 const locationsMock = [
@@ -148,10 +149,18 @@ export default function reducer(state: RouteState = initialState, action: RouteA
           ...action.payload
         }
       };
+    case UPDATE_ACTIVE_ROUTE:
+      return {
+        ...state,
+        activeRoute: {
+          ...state.activeRoute,
+          ...action.payload
+        }
+      };
     case FINISH_AND_SAVE_ROUTE:
       return {
         ...state,
-        //previousRoutes: [...state.previousRoutes, action.payload],
+        previousRoutes: [...state.previousRoutes, state.activeRoute],
         activeRoute: undefined
       };
     default:
@@ -182,7 +191,16 @@ export function setRouteDestination(destination: Location, areaId: string): Rout
   };
 }*/
 
-export function finishAndSaveRoute(route: Route): RouteAction {
+export function updateActiveRoute(route: Route): RouteAction {
+  return {
+    type: UPDATE_ACTIVE_ROUTE,
+    payload: {
+      route: route
+    }
+  };
+}
+
+export function finishAndSaveRoute(): RouteAction {
   return {
     type: FINISH_AND_SAVE_ROUTE
   };

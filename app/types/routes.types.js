@@ -30,4 +30,4 @@ export type LocationPoint = {
 export type RouteAction = setRouteDestination | finishAndSaveRoute;
 
 type setRouteDestination = { type: 'app/SET_ROUTE_DESTINATION', payload: Location };
-type finishAndSaveRoute = { type: 'app/FINISH_AND_SAVE_ROUTE', payload: Route };
+type finishAndSaveRoute = { type: 'app/FINISH_AND_SAVE_ROUTE' };
