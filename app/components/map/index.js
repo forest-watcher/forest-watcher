@@ -150,6 +150,9 @@ class MapComponent extends Component {
     tracker.trackScreenView('Map');
 
     this.animateNoSignal();
+
+    emitter.on(GFWOnHeadingEvent, this.updateHeading);
+    emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
     this.geoLocate();
   }
 
@@ -229,9 +232,6 @@ class MapComponent extends Component {
    * @param  {Route} activeRoute The route the user is currently tracking.
    */
   geoLocate() {
-    // Remove any old emitters & stop tracking. We want to reset these to ensure the right functions are being called.
-    emitter.off(GFWOnLocationEvent);
-    emitter.off(GFWOnHeadingEvent);
     stopTrackingLocation();
     stopTrackingHeading();
 
@@ -250,10 +250,8 @@ class MapComponent extends Component {
         this.updateLocationFromGeolocation(latestLocation);
       });
 
-      emitter.on(GFWOnHeadingEvent, this.updateHeading);
       startTrackingHeading();
 
-      emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
       startTrackingLocation(
         this.isRouteTracking() ? GFWLocationAuthorizedAlways : GFWLocationAuthorizedInUse,
         error => {
