@@ -31,7 +31,7 @@ const codePushOptions = {
 export default class App {
   constructor() {
     this.store = null;
-    this.currentAppState = "background";
+    this.currentAppState = 'background';
 
     AppState.addEventListener('change', this._handleAppStateChange);
   }
@@ -58,6 +58,11 @@ export default class App {
   }
 
   _handleAppStateChange = async nextAppState => {
+    // As this can be called before the store is initialised, ensure we have a store before continuing.
+    if (!this.store) {
+      return;
+    }
+
     if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active') {
       const locationStatus = await checkLocationStatus();
       if (
@@ -67,26 +72,22 @@ export default class App {
           locationStatus.authorization !== GFWLocationAuthorizedAlways)
       ) {
         // TODO: add logic to restart / save / delete - for now just show the settings.
-        Alert.alert(
-          i18n.t('routes.backgroundErrorDialogTitle'),
-          i18n.t('routes.backgroundErrorDialogMessage'),
-          [
-            { text: i18n.t('commonText.ok') },
-            {
-              text: i18n.t('routes.insufficientPermissionsDialogOpenAppSettings'),
-              onPress: showAppSettings
-            },
-            ...Platform.select({
-              android: [
-                {
-                  text: i18n.t('routes.insufficientPermissionsDialogOpenDeviceSettings'),
-                  onPress: showLocationSettings
-                }
-              ],
-              ios: [{}]
-            })
-          ]
-        );
+        Alert.alert(i18n.t('routes.backgroundErrorDialogTitle'), i18n.t('routes.backgroundErrorDialogMessage'), [
+          { text: i18n.t('commonText.ok') },
+          {
+            text: i18n.t('routes.insufficientPermissionsDialogOpenAppSettings'),
+            onPress: showAppSettings
+          },
+          ...Platform.select({
+            android: [
+              {
+                text: i18n.t('routes.insufficientPermissionsDialogOpenDeviceSettings'),
+                onPress: showLocationSettings
+              }
+            ],
+            ios: [{}]
+          })
+        ]);
       }
     }
 
