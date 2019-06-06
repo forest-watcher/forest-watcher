@@ -34,6 +34,7 @@
         "next": "Next",
         "noImage": "No image",
         "offlineModeIsOn": "You are in offline mode",
+        "ok": "OK",
         "oops": "Oops!",
         "reportedPosition": "Reported Position",
         "retry": "Retry",
@@ -270,7 +271,11 @@
         "notification": {
             "title": "Route tracking in progress",
             "message": "Forest Watcher is recording the route you are taking to your destination"
-        }
+        },
+        "insufficientPermissionsDialogTitle": "Unable to track route",
+        "insufficientPermissionsDialogMessage": "We need background location permissions to be able to track your route.",
+        "insufficientPermissionsDialogOpenAppSettings": "Check permissions",
+        "insufficientPermissionsDialogOpenDeviceSettings": "Check location settings"
     },
     "settings": {
         "1MonthAgo": "1 month ago",

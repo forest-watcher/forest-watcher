@@ -7,7 +7,7 @@ import { registerScreens } from 'screens';
 import createStore from 'store';
 import { setupCrashLogging } from './crashes';
 
-import { configureLocationFramework } from 'helpers/location';
+import { initialiseLocationFramework } from 'helpers/location';
 
 // Disable ios warnings
 // console.disableYellowBox = true;
@@ -65,7 +65,7 @@ export default class App {
     const store = createStore(async () => {
       this.store = store;
       registerScreens(store, Provider);
-      configureLocationFramework();
+      initialiseLocationFramework();
       this.configureCodePush();
       createStore.runSagas();
       await this.launchRoot();
