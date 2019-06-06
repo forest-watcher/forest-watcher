@@ -29,6 +29,12 @@ async function configureLocationFramework(configuration) {
   });
 }
 
+async function getConfiguration() {
+  return new Promise((resolve, reject) => {
+    BackgroundGeolocation.getConfig(resolve, reject);
+  });
+}
+
 /**
  * checkLocationStatus - When called, checks the status of BackgroundGeolocation.
  *
@@ -179,12 +185,16 @@ export async function startTrackingLocation(requiredPermission) {
   // On Android the startForeground prop controls whether we show an ongoing notification (when true).
   // Only do this if the requiredPermission indicates that the user wants to track location at ALL times.
   if (Platform.OS === 'android') {
-    await configureLocationFramework({
-      startForeground: requiredPermission === BackgroundGeolocation.AUTHORIZED
-    });
+    const requiredForegroundStatus = requiredPermission === BackgroundGeolocation.AUTHORIZED;
+    const configuration = await getConfiguration();
 
-    // On Android if we are already running then there's no need to start the tracker again, so just return
-    if (result.isRunning) {
+    if (configuration.startForeground !== requiredForegroundStatus) {
+      stopTrackingLocation();
+      await configureLocationFramework({
+        startForeground: requiredForegroundStatus
+      });
+      // On Android if we are already running then there's no need to start the tracker again, so just return
+    } else if (result.isRunning) {
       return;
     }
   } else {
