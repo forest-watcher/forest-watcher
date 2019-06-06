@@ -14,6 +14,7 @@ import moment from 'moment';
 import MapView from 'react-native-maps';
 import CircleButton from 'components/common/circle-button';
 import MapAttribution from 'components/map/map-attribution';
+import NoGPSBanner from 'components/map/noGPSBanner';
 import Clusters from 'containers/map/clusters';
 import { formatCoordsByFormat, getDistanceFormattedText, getMapZoom, getNeighboursSelected } from 'helpers/map';
 import tracker from 'helpers/googleAnalytics';
@@ -51,7 +52,6 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const backButtonImage = require('assets/back.png');
 const markerImage = require('assets/marker.png');
-const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
 const settingsBlackIcon = require('assets/settings_black.png');
@@ -62,7 +62,6 @@ const createReportIcon = require('assets/createReport.png');
 const addLocationIcon = require('assets/add_location.png');
 const newAlertIcon = require('assets/new-alert.png');
 const closeIcon = require('assets/close_gray.png');
-const noGPSIcon = require('assets/gpsOff.png');
 
 class MapComponent extends Component {
   margin = Platform.OS === 'ios' ? 50 : 100;
@@ -705,19 +704,6 @@ class MapComponent extends Component {
     );
   }
 
-  renderNoGPSBanner() {
-    return (
-      <View style={styles.noGPSBanner}>
-        <View style={styles.noGPSContainer}>
-          <Image style={styles.noGPSImage} source={noGPSIcon} />
-          <View style={styles.noGPSTextContainer}>
-            <Text style={styles.noGPSText}>{i18n.t('alerts.noGPS')}</Text>
-          </View>
-        </View>
-      </View>
-    );
-  }
-
   renderMapFooter() {
     const { selectedAlerts, neighbours, customReporting, lastPosition } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
@@ -731,7 +717,7 @@ class MapComponent extends Component {
         <Image style={[styles.footerBg, { height: veilHeight }]} source={backgroundImage} />
       </View>,
       <FooterSafeAreaView key="footer" pointerEvents="box-none" style={styles.footer}>
-        {!lastPosition ? this.renderNoGPSBanner() : null}
+        {!lastPosition ? <NoGPSBanner /> : null}
         {hasAlertsSelected || customReporting || this.isRouteTracking()
           ? this.renderButtonPanelSelected()
           : this.renderButtonPanel()}
