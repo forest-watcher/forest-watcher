@@ -11,6 +11,7 @@ import { GET_ALERTS_COMMIT } from 'redux-modules/alerts';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 import tracker from 'helpers/googleAnalytics';
+import { deleteRoutes } from './routes';
 
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
 export const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
@@ -291,6 +292,11 @@ export function updateDate(areaId: string, datasetSlug: string, date: { startDat
 export function deleteArea(areaId: string) {
   return async (dispatch: Dispatch, state: GetState) => {
     const area = getAreaById(state().areas.data, areaId);
+    dispatch(
+      deleteRoutes({
+        areaId: areaId
+      })
+    );
     if (area) {
       const url = `${Config.API_URL}/area/${area.id}`;
       dispatch({

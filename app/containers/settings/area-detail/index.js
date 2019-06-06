@@ -11,7 +11,8 @@ function mapStateToProps(state: State, { id }) {
   const area = state.areas.data.find(areaData => areaData.id === id);
   return {
     area,
-    isConnected: shouldBeConnected(state)
+    isConnected: shouldBeConnected(state),
+    routes: (state.routes.previousRoutes ?? []).filter(route => route.areaId === id)
   };
 }
 

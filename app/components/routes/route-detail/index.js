@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { Alert, View, Text, ScrollView } from 'react-native';
 import moment from 'moment';
 import i18n from '../../../locales';
 import { Navigation } from 'react-native-navigation';
@@ -13,6 +13,7 @@ import ActionButton from '../../common/action-button';
 
 type Props = {
   componentId: string,
+  deleteRoute: () => void,
   setSelectedAreaId: func,
   route: Route
 };
@@ -65,14 +66,36 @@ class RouteDetail extends PureComponent<Props> {
     });
   };
 
+  /**
+   * Displays a confirmation before possibly deleting the route
+   */
   deleteRoute = () => {
-    // todo
+    Alert.alert(i18n.t('routes.confirmDeleteTitle'), i18n.t('routes.confirmDeleteMessage'), [
+      {
+        text: i18n.t('commonText.confirm'),
+        onPress: () => {
+          this.props.deleteRoute();
+          Navigation.pop(this.props.componentId);
+        }
+      },
+      {
+        text: i18n.t('commonText.cancel'),
+        style: 'cancel'
+      }
+    ]);
   };
 
   render() {
     const { route } = this.props;
+
+    if (!route) {
+      return null;
+    }
+
+    // todo mpf use existing translations
+    const routeData = [{ label: [i18n.t('commonText.name')], value: [route.name], canEdit: true }];
+
     const showLocations = route.locations?.length;
-    let routeData = [{ label: [i18n.t('commonText.name')], value: [route.name], canEdit: true }];
     if (showLocations) {
       const firstLocation = route.locations[0];
       const lastLocation = route.locations.length > 1 ? route.locations?.[route.locations.length - 1] : firstLocation;
@@ -80,6 +103,7 @@ class RouteDetail extends PureComponent<Props> {
       const locationEnd = `End: ${lastLocation.latitude.toFixed(4)}, ${lastLocation.longitude.toFixed(4)}`;
       routeData.push({ label: ['Location'], value: [locationStart, locationEnd] });
     }
+
     routeData.push(
       { label: [i18n.t('commonText.date')], value: [moment(route.date).format('YYYY-MM-DD')] },
       { label: ['Difficulty'], value: [route.difficulty], canEdit: true },
