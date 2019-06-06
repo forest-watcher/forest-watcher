@@ -19,15 +19,7 @@ export const GFWOnHeadingEvent = 'gfw_onheading_event';
 export function configureLocationFramework() {
   BackgroundGeolocation.configure({
     desiredAccuracy: BackgroundGeolocation.HIGH_ACCURACY,
-    stationaryRadius: LOCATION_TRACKING.stationaryRadius,
-    distanceFilter: LOCATION_TRACKING.distanceFilter,
-    startOnBoot: LOCATION_TRACKING.startOnBoot,
-    stopOnTerminate: LOCATION_TRACKING.stopOnTerminate,
-    locationProvider: BackgroundGeolocation.DISTANCE_FILTER_PROVIDER,
-    interval: LOCATION_TRACKING.interval,
-    fastestInterval: LOCATION_TRACKING.fastestInterval,
-    activitiesInterval: LOCATION_TRACKING.activitiesInterval,
-    stopOnStillActivity: LOCATION_TRACKING.stopOnStillActivity
+    ...LOCATION_TRACKING
   });
 }
 
@@ -194,6 +186,14 @@ export function startTrackingLocation(requiredPermission, completion) {
     });
 
     // todo: handle errors / other events.
+
+    // On Android the startForeground prop controls whether we show an ongoing notification (when true).
+    // Only do this if the requiredPermission indicates that the user wants to track location at ALL times.
+    if (Platform.OS === 'android') {
+      BackgroundGeolocation.configure({
+        startForeground: requiredPermission === BackgroundGeolocation.AUTHORIZED
+      });
+    }
 
     BackgroundGeolocation.start();
     completion(null);

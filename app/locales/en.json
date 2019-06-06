@@ -266,6 +266,12 @@
         "upload": "Upload",
         "uploaded": "Uploaded"
     },
+    "routes": {
+        "notification": {
+            "title": "Route tracking in progress",
+            "message": "Forest Watcher is recording the route you are taking to your destination"
+        }
+    },
     "settings": {
         "1MonthAgo": "1 month ago",
         "1yearAgo": "1 year ago",

@@ -20,40 +20,58 @@ const codePushOptions = {
   installMode: codePush.InstallMode.ON_NEXT_RESUME
 };
 
-function setCodePush() {
-  const codepushEnable = !__DEV__;
-  if (codepushEnable) {
-    codePush.sync(codePushOptions);
-  }
-}
-
-const app = async () => {
-  if (!__DEV__) {
-    await setupCrashLogging();
+export default class App {
+  constructor() {
+    this.store = null;
   }
 
-  const store = createStore(startApp);
+  configureCodePush() {
+    const codepushEnable = !__DEV__;
+    if (codepushEnable) {
+      codePush.sync(codePushOptions);
+    }
+  }
 
-  async function startApp() {
-    registerScreens(store, Provider);
-    const state = store.getState();
+  async launchRoot() {
+    await Navigation.setDefaultOptions({
+      ...Theme.navigator.styles
+    });
+
+    const state = this.store.getState();
     let screen = 'ForestWatcher.Home';
     if (state.user.loggedIn && state.app.synced) {
       screen = 'ForestWatcher.Dashboard';
     }
 
-    await Navigation.setDefaultOptions({
-      ...Theme.navigator.styles
-    });
-
-    configureLocationFramework();
-
     await launchAppRoot(screen);
-    setCodePush();
-
-    createStore.runSagas();
   }
-};
+
+  /**
+   * Performs one-time setup tasks needed to launch the application
+   *
+   * If called further times it will only setup the UI
+   */
+  async setupApp() {
+    // If we've already setup the app then store will be non-null, and we just need to launch a UI root
+    if (this.store) {
+      this.launchRoot();
+      return;
+    }
+
+    if (!__DEV__) {
+      await setupCrashLogging();
+    }
+
+    const store = createStore(async () => {
+      this.store = store;
+      registerScreens(store, Provider);
+      configureLocationFramework();
+      this.configureCodePush();
+      createStore.runSagas();
+      await this.launchRoot();
+    });
+  }
+}
 
 export function launchAppRoot(screen) {
   return Navigation.setRoot({
@@ -80,5 +98,3 @@ export function launchAppRoot(screen) {
     }
   });
 }
-
-export default app;
