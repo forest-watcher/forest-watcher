@@ -98,9 +98,11 @@ class RouteDetail extends PureComponent<Props> {
         <View style={styles.answersContainer}>
           <View style={styles.listContainer}>
             <Text style={styles.listTitle}>Route Details</Text>
-            {routeData.map((data, i) => (
-              <AnswerComponent question={data.label} answers={data.value} key={i} readOnly={!data.canEdit} />
-            ))}
+            {routeData.map((data, i) =>
+              data.value?.[0] ? (
+                <AnswerComponent question={data.label} answers={data.value} key={i} readOnly={!data.canEdit} />
+              ) : null
+            )}
           </View>
         </View>
         <ActionButton
