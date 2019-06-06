@@ -63,18 +63,20 @@ class RouteDetail extends PureComponent<Props> {
 
   render() {
     const { route } = this.props;
-    // todo mpf use existing translations
-    const firstLocation = route.locations[0];
-    const lastLocation = route.locations[route.locations.length - 1];
-    const locationStart = `Start: ${firstLocation.latitude.toFixed(4)}, ${firstLocation.longitude.toFixed(4)}`;
-    const locationEnd = `End: ${lastLocation.latitude.toFixed(4)}, ${lastLocation.longitude.toFixed(4)}`;
-    const routeData = [
-      { label: [i18n.t('commonText.name')], value: [route.name], canEdit: true },
-      { label: ['Location'], value: [locationStart, locationEnd] },
+    const showLocations = route.locations?.length;
+    let routeData = [{ label: [i18n.t('commonText.name')], value: [route.name], canEdit: true }];
+    if (showLocations) {
+      const firstLocation = route.locations[0];
+      const lastLocation = route.locations.length > 1 ? route.locations?.[route.locations.length - 1] : firstLocation;
+      const locationStart = `Start: ${firstLocation.latitude.toFixed(4)}, ${firstLocation.longitude.toFixed(4)}`;
+      const locationEnd = `End: ${lastLocation.latitude.toFixed(4)}, ${lastLocation.longitude.toFixed(4)}`;
+      routeData.push({ label: ['Location'], value: [locationStart, locationEnd] });
+    }
+    routeData.push(
       { label: [i18n.t('commonText.date')], value: [moment(route.date).format('YYYY-MM-DD')] },
       { label: ['Difficulty'], value: [route.difficulty], canEdit: true },
       { label: [i18n.t('commonText.language')], value: [route.language] }
-    ];
+    );
 
     return (
       <ScrollView>

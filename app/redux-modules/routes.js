@@ -195,7 +195,7 @@ export function updateActiveRoute(route: Route): RouteAction {
   return {
     type: UPDATE_ACTIVE_ROUTE,
     payload: {
-      route: route
+      ...route
     }
   };
 }
