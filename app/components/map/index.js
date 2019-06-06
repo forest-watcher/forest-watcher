@@ -12,7 +12,6 @@ import deburr from 'lodash/deburr';
 import moment from 'moment';
 
 import MapView from 'react-native-maps';
-import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
 import CircleButton from 'components/common/circle-button';
 import MapAttribution from 'components/map/map-attribution';
 import Clusters from 'containers/map/clusters';
@@ -34,9 +33,8 @@ import {
   GFWLocationUnauthorized,
   GFWOnLocationEvent,
   GFWOnHeadingEvent,
-  checkLocationStatus,
-  deleteAllLocations,
-  getCurrentLocation,
+  showAppSettings,
+  showLocationSettings,
   getValidLocations,
   startTrackingLocation,
   stopTrackingLocation,
@@ -254,38 +252,26 @@ class MapComponent extends Component {
         this.props.area.id
       );
     } catch (err) {
-      const errorDialogTitle = i18n.t('routes.insufficientPermissionsDialogTitle');
-      const errorDialogMessage = i18n.t('routes.insufficientPermissionsDialogMessage');
-      const continueButton = i18n.t('commonText.ok');
-      const checkPermissionsButton = i18n.t('routes.insufficientPermissionsDialogOpenAppSettings');
-      const checkLocationSettingsButton = i18n.t('routes.insufficientPermissionsDialogOpenDeviceSettings');
-      if (Platform.OS === 'ios') {
-        Alert.alert(errorDialogTitle, errorDialogMessage, [
-          { text: continueButton },
+      Alert.alert(
+        i18n.t('routes.insufficientPermissionsDialogTitle'),
+        i18n.t('routes.insufficientPermissionsDialogMessage'),
+        [
+          { text: i18n.t('commonText.ok') },
           {
-            text: checkPermissionsButton,
-            onPress: () => {
-              Linking.openURL('app-settings:');
-            }
-          }
-        ]);
-      } else if (Platform.OS === 'android') {
-        Alert.alert(errorDialogTitle, errorDialogMessage, [
-          { text: continueButton },
-          {
-            text: checkPermissionsButton,
-            onPress: () => {
-              BackgroundGeolocation.showAppSettings();
-            }
+            text: i18n.t('routes.insufficientPermissionsDialogOpenAppSettings'),
+            onPress: showAppSettings
           },
-          {
-            text: checkLocationSettingsButton,
-            onPress: () => {
-              BackgroundGeolocation.showLocationSettings();
-            }
-          }
-        ]);
-      }
+          ...Platform.select({
+            android: [
+              {
+                text: i18n.t('routes.insufficientPermissionsDialogOpenDeviceSettings'),
+                onPress: showLocationSettings
+              }
+            ],
+            ios: []
+          })
+        ]
+      );
     }
   };
 

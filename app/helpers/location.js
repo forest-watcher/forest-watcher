@@ -1,6 +1,6 @@
 import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
 import RNSimpleCompass from 'react-native-simple-compass';
-import { PermissionsAndroid, Platform } from 'react-native';
+import { Linking, PermissionsAndroid, Platform } from 'react-native';
 
 var emitter = require('tiny-emitter/instance');
 
@@ -45,6 +45,26 @@ async function getConfiguration() {
   return new Promise((resolve, reject) => {
     BackgroundGeolocation.getConfig(resolve, reject);
   });
+}
+
+/**
+ * Wrapper function that just called the same method in BackgroundGeolocation
+ */
+export function showLocationSettings() {
+  if (Platform.OS === 'android') {
+    BackgroundGeolocation.showLocationSettings();
+  }
+}
+
+/**
+ * Wrapper function that just called the same method in BackgroundGeolocation
+ */
+export function showAppSettings() {
+  if (Platform.OS === 'android') {
+    BackgroundGeolocation.showAppSettings();
+  } else if (Platform.OS === 'ios') {
+    Linking.openURL('app-settings:');
+  }
 }
 
 /**
