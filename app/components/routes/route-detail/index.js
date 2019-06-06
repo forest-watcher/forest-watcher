@@ -1,18 +1,15 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, Text, ScrollView, Platform } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import moment from 'moment';
 import i18n from '../../../locales';
 import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
 import AnswerComponent from 'components/form/answer/answer';
-import Basemap from 'containers/map/basemap';
-import RouteMarkers from 'components/map/route';
 import type { Route } from 'types/routes.types';
 import ActionButton from '../../common/action-button';
-import MapView from 'react-native-maps';
 import RoutePreviewImage from '../preview-image';
 
 type Props = {
