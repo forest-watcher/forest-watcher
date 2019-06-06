@@ -58,6 +58,11 @@ export default class App {
   }
 
   _handleAppStateChange = async nextAppState => {
+    // As this can be called before the store is initialised, ensure we have a store before continuing.
+    if (!this.store) {
+      return;
+    }
+
     // TODO: fix for Android
     if (Platform.OS === 'ios' && this.currentAppState.match(/inactive|background/) && nextAppState === 'active') {
       const locationStatus = await checkLocationStatus();
