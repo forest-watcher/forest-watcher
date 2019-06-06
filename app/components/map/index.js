@@ -30,6 +30,7 @@ const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
 
 import {
   GFWLocationAuthorizedAlways,
+  GFWLocationAuthorizedInUse,
   GFWLocationUnauthorized,
   GFWOnLocationEvent,
   GFWOnHeadingEvent,
@@ -73,7 +74,7 @@ class MapComponent extends Component {
   static options(passProps) {
     return {
       statusBar: {
-        style: 'dark'
+        style: Platform.select({ android: 'light', ios: 'dark' })
       },
       topBar: {
         background: {
@@ -102,9 +103,6 @@ class MapComponent extends Component {
   constructor(props) {
     super(props);
     Navigation.events().bindComponent(this);
-    const { center } = props;
-    const initialCoords = center || { latitude: MAPS.lat, longitude: MAPS.lng };
-    // Google maps lon and lat are inverted
     this.state = {
       currentRouteLocations: [],
       lastPosition: null,
@@ -112,8 +110,8 @@ class MapComponent extends Component {
       compassLine: null,
       heading: null,
       region: {
-        latitude: initialCoords.longitude,
-        longitude: initialCoords.latitude,
+        latitude: undefined, // These are undefined, as when the map is ready it'll move the map to focus on the area.
+        longitude: undefined,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
@@ -202,7 +200,7 @@ class MapComponent extends Component {
    *
    * @param  {Route} activeRoute The route the user is currently tracking.
    */
-  async geoLocate() {
+  geoLocate() {
     // Remove any old emitters & stop tracking. We want to reset these to ensure the right functions are being called.
     emitter.off(GFWOnLocationEvent);
     emitter.off(GFWOnHeadingEvent);
@@ -215,7 +213,7 @@ class MapComponent extends Component {
         return;
       }
 
-      getCurrentLocation(async (latestLocation, error) => {
+      getCurrentLocation((latestLocation, error) => {
         if (error) {
           // todo: handle error.
           return;
@@ -228,9 +226,12 @@ class MapComponent extends Component {
       startTrackingHeading();
 
       emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
-      startTrackingLocation(GFWLocationAuthorizedAlways, error => {
-        // todo: handle error if returned.
-      });
+      startTrackingLocation(
+        this.isRouteTracking() ? GFWLocationAuthorizedAlways : GFWLocationAuthorizedInUse,
+        error => {
+          // todo: handle error if returned.
+        }
+      );
     });
   }
 
@@ -981,10 +982,6 @@ class MapComponent extends Component {
 MapComponent.propTypes = {
   componentId: PropTypes.string.isRequired,
   createReport: PropTypes.func.isRequired,
-  center: PropTypes.shape({
-    latitude: PropTypes.number.isRequired,
-    longitude: PropTypes.number.isRequired
-  }),
   basemapLocalTilePath: PropTypes.string,
   ctxLayerLocalTilePath: PropTypes.string,
   areaCoordinates: PropTypes.array,
