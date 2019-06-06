@@ -13,6 +13,11 @@ export const GFWOnLocationEvent = 'gfw_onlocation_event';
 export const GFWOnStationaryEvent = 'gfw_onstationary_event';
 export const GFWOnHeadingEvent = 'gfw_onheading_event';
 
+/**
+ * Initialises BackgroundGeolocation with sensible defaults for the usage of GFW tracking
+ *
+ * @return {Promise}
+ */
 export async function initialiseLocationFramework() {
   return configureLocationFramework({
     desiredAccuracy: BackgroundGeolocation.HIGH_ACCURACY,
@@ -21,7 +26,9 @@ export async function initialiseLocationFramework() {
 }
 
 /**
- * configureLocationFramework - Configures the BackgroundGeolocation framework.
+ * Wrapper function around BackgroundGeolocation.configure that turns it from callback-based to promise-based
+ *
+ * @return {Promise}
  */
 async function configureLocationFramework(configuration) {
   return new Promise((resolve, reject) => {
@@ -29,6 +36,11 @@ async function configureLocationFramework(configuration) {
   });
 }
 
+/**
+ * Wrapper function around BackgroundGeolocation.getConfig that turns it from callback-based to promise-based
+ *
+ * @return {Promise}
+ */
 async function getConfiguration() {
   return new Promise((resolve, reject) => {
     BackgroundGeolocation.getConfig(resolve, reject);
@@ -36,12 +48,9 @@ async function getConfiguration() {
 }
 
 /**
- * checkLocationStatus - When called, checks the status of BackgroundGeolocation.
+ * Wrapper function around BackgroundGeolocation.checkLocationStatus that turns it from callback-based to promise-based
  *
- * @param {function}  completion A callback that'll be called with the below parameters.
- * @param {boolean}   completion.isRunning Defines if we're currently monitoring location updates.
- * @param {boolean}   completion.locationServicesEnabled Defines if location services are currently enabled or not.
- * @param {number}    completion.authorization Defines the current location permission status.
+ * @return {Promise}
  */
 export async function checkLocationStatus() {
   return new Promise((resolve, reject) => {
@@ -153,8 +162,9 @@ export function deleteAllLocations(completion) {
  *
  * @param  {number}   requiredPermission   The required permission that we need.
  *    For example, while listening on the map screen we only need while in use, but while route tracking we need always.
- * @param  {function} completion        A callback that'll be executed on either receiving an error, or upon successfully starting.
- * @param  {object}   completion.error  Defines an error if one occurred. If location observing started, this'll be null.
+ * @return {Promise}
+ *  Resolves if location tracking was started successfully, rejects if it could not obtain sufficient permissions or
+ *  location is disabled
  */
 export async function startTrackingLocation(requiredPermission) {
   const result = await checkLocationStatus();
