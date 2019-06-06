@@ -2,7 +2,6 @@
 
 import React, { PureComponent } from 'react';
 import { Image, Text, TouchableHighlight, View } from 'react-native';
-import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
 import ActionButton from 'components/common/action-button';

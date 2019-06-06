@@ -96,8 +96,10 @@ class RouteDetail extends PureComponent<Props> {
       return null;
     }
 
+    // todo mpf use existing translations
+    const routeData = [{ label: [i18n.t('commonText.name')], value: [route.name], canEdit: true }];
+
     const showLocations = route.locations?.length;
-    let routeData = [{ label: [i18n.t('commonText.name')], value: [route.name], canEdit: true }];
     if (showLocations) {
       const firstLocation = route.locations[0];
       const lastLocation = route.locations.length > 1 ? route.locations?.[route.locations.length - 1] : firstLocation;
@@ -105,6 +107,7 @@ class RouteDetail extends PureComponent<Props> {
       const locationEnd = `End: ${formatCoordsByFormat(lastLocation, coordinatesFormat)}`;
       routeData.push({ label: ['Location'], value: [locationStart, locationEnd] });
     }
+
     routeData.push(
       { label: [i18n.t('commonText.date')], value: [moment(route.endDate).format('YYYY-MM-DD')] },
       { label: ['Difficulty'], value: [route.difficulty], canEdit: true },

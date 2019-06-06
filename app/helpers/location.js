@@ -12,6 +12,11 @@ export const GFWLocationUnauthorized = BackgroundGeolocation.NOT_AUTHORIZED;
 export const GFWOnLocationEvent = 'gfw_onlocation_event';
 export const GFWOnStationaryEvent = 'gfw_onstationary_event';
 export const GFWOnHeadingEvent = 'gfw_onheading_event';
+export const GFWOnErrorEvent = 'gfw_onerror_event';
+
+// These error codes can be found in an enum in /node_modules/@mauron85/react-native-background-geolocation/ios/common/BackgroundGeolocation/MAURProviderDelegate.h
+export const GFWErrorPermission = 1000;
+export const GFWErrorLocation = 1003;
 
 /**
  * Initialises BackgroundGeolocation with sensible defaults for the usage of GFW tracking
@@ -105,7 +110,7 @@ async function requestAndroidLocationPermissions() {
 export async function getCurrentLocation(completion) {
   const result = await checkLocationStatus();
 
-  if (!result.locationServicesEnabled && result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
+  if (!result.locationServicesEnabled || result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
     // If location services are disabled and the authorization is explicitally denied, return an error.
     completion(null, { code: 1, message: 'Permissions denied' });
     return;
@@ -165,14 +170,12 @@ function createCompactedLocation(location) {
 }
 
 /**
- * deleteAllLocations - When called, 'deletes' all of the locations within the BackgroundGeolocation database.
- * This doesn't actually delete them (as to keep the id unique) but instead marks them as invalid.
- * This means that, when we request valid locations, we only get non-deleted ones.
- *
- * @param  {function} completion A callback that'll be execute when the locations have been 'deleted'.
+ * Wrapper function around BackgroundGeolocation.deleteAllLocations that turns it from callback-based to promise-based
  */
-export function deleteAllLocations(completion) {
-  BackgroundGeolocation.deleteAllLocations(completion);
+export async function deleteAllLocations() {
+  return new Promise((resolve, reject) => {
+    BackgroundGeolocation.deleteAllLocations(resolve, reject);
+  });
 }
 
 /**
@@ -189,11 +192,11 @@ export function deleteAllLocations(completion) {
 export async function startTrackingLocation(requiredPermission) {
   const result = await checkLocationStatus();
 
-  if (!result.locationServicesEnabled && result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
+  if (!result.locationServicesEnabled || result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
     const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
     // If location services are disabled and the authorization is explicitally denied, return an error.
     if (!isResolved) {
-      throw new Error({ code: 1, message: 'Permissions denied ' });
+      throw { code: 1000, message: 'Permissions denied' };
     }
   }
 
@@ -208,7 +211,7 @@ export async function startTrackingLocation(requiredPermission) {
   ) {
     const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
     if (!isResolved) {
-      throw new Error({ code: 1, message: 'Incorrect permission given' });
+      throw { code: 1000, message: 'Incorrect permission given' };
     }
   }
 
@@ -247,7 +250,11 @@ export async function startTrackingLocation(requiredPermission) {
     });
   });
 
-  // todo: handle errors / other events.
+  BackgroundGeolocation.on('error', error => {
+    BackgroundGeolocation.startTask(taskKey => {
+      emitter.emit(GFWOnErrorEvent, { error });
+    });
+  });
 
   BackgroundGeolocation.start();
 }

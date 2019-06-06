@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, BackHandler, Dimensions, Image, Platform, Text, View } from 'react-native';
+
+import { Alert, BackHandler, Dimensions, Image, LayoutAnimation, Platform, Text, View } from 'react-native';
+import { Sentry } from 'react-native-sentry';
 
 import { REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
@@ -36,12 +38,17 @@ import {
   GFWLocationAuthorizedInUse,
   GFWOnLocationEvent,
   GFWOnHeadingEvent,
+  GFWOnErrorEvent,
+  GFWErrorPermission,
+  GFWErrorLocation,
   showAppSettings,
   showLocationSettings,
+  getCurrentLocation,
   startTrackingLocation,
   stopTrackingLocation,
   startTrackingHeading,
-  stopTrackingHeading
+  stopTrackingHeading,
+  deleteAllLocations
 } from 'helpers/location';
 
 var emitter = require('tiny-emitter/instance');
@@ -127,10 +134,6 @@ class MapComponent extends Component {
       layoutHasForceRefreshed: false,
       renderBottomDialog: false
     };
-
-    // TODO: While we're building this UI, whenever this screen is entered it'll bin any previous locations.
-    // Once we've got save / delete logic built in, remove this!
-    //deleteAllLocations(() => {});
   }
 
   navigationButtonPressed({ buttonId }) {
@@ -147,8 +150,35 @@ class MapComponent extends Component {
 
     emitter.on(GFWOnHeadingEvent, this.updateHeading);
     emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
-    this.geoLocate();
+
+    // We fetch the current location, so that we do not have to wait for a location update and can be provided a location when the user enters the screen.
+    getCurrentLocation((location, error) => {
+      if (error) {
+        this.onLocationUpdateError(error);
+        return;
+      }
+
+      if (location) {
+        this.updateLocationFromGeolocation(location);
+      }
+    });
+
+    this.geoLocate().catch(e => {
+      this.onLocationUpdateError(e);
+    });
   }
+
+  onLocationUpdateError = error => {
+    if (error.code === GFWErrorPermission) {
+      // TODO: The user has declined location permissions - the no GPS banner should be updated to state this.
+    } else if (error.code === GFWErrorLocation) {
+      // handle location error.
+      // TODO: The banner could be used to show this too...
+      Alert.alert(i18n.t('routes.locationErrorDialogTitle'), i18n.t('routes.locationErrorDialogMessage'), [
+        { text: i18n.t('commonText.ok') }
+      ]);
+    }
+  };
 
   componentDidAppear() {
     const { setCanDisplayAlerts, canDisplayAlerts } = this.props;
@@ -194,6 +224,7 @@ class MapComponent extends Component {
     // Do remove the emitter listeners here, as we don't want this screen to receive anything while it's non-existent!
     emitter.off(GFWOnLocationEvent, this.updateLocationFromGeolocation);
     emitter.off(GFWOnHeadingEvent);
+    emitter.off(GFWOnErrorEvent, this.onLocationUpdateError);
     stopTrackingHeading();
 
     this.props.setSelectedAreaId('');
@@ -234,6 +265,8 @@ class MapComponent extends Component {
         this.state.selectedAlerts[this.state.selectedAlerts.length - 1],
         this.props.area.id
       );
+
+      emitter.on(GFWOnErrorEvent, this.onLocationUpdateError);
     } catch (err) {
       Alert.alert(
         i18n.t('routes.insufficientPermissionsDialogTitle'),
@@ -251,7 +284,7 @@ class MapComponent extends Component {
                 onPress: showLocationSettings
               }
             ],
-            ios: []
+            ios: [{}]
           })
         ]
       );
@@ -259,7 +292,8 @@ class MapComponent extends Component {
   };
 
   onStopTrackingPressed = () => {
-    this.geoLocate(false);
+    // This doesn't immediately stop tracking - it will give the user the choice of saving and deleting and only stop
+    // tracking once they have finalised one of those actions
     this.showBottomDialog();
   };
 
@@ -274,16 +308,36 @@ class MapComponent extends Component {
 
   showBottomDialog = () => {
     this.setState({ renderBottomDialog: true });
+    LayoutAnimation.easeInEaseOut();
   };
 
   closeBottomDialog = () => {
     this.setState({ renderBottomDialog: false });
+    LayoutAnimation.easeInEaseOut();
   };
 
   onStopAndDeleteRoute = () => {
-    this.closeBottomDialog();
-    // todo: delete route
-    Navigation.pop(this.props.componentId);
+    Alert.alert(i18n.t('routes.confirmDeleteTitle'), i18n.t('routes.confirmDeleteMessage'), [
+      {
+        text: i18n.t('commonText.confirm'),
+        onPress: async () => {
+          try {
+            this.props.onCancelTrackingRoute();
+            this.closeBottomDialog();
+            await deleteAllLocations();
+          } catch (err) {
+            console.warn('Error when discarding route', err);
+            Sentry.captureException(err);
+          } finally {
+            this.geoLocate(false);
+          }
+        }
+      },
+      {
+        text: i18n.t('commonText.cancel'),
+        style: 'cancel'
+      }
+    ]);
   };
 
   /**
@@ -688,16 +742,7 @@ class MapComponent extends Component {
   };
 
   render() {
-    const {
-      lastPosition,
-      compassLine,
-      region,
-      customReporting,
-      selectedAlerts,
-      neighbours,
-      heading,
-      markers
-    } = this.state;
+    const { lastPosition, compassLine, customReporting, selectedAlerts, neighbours, heading, markers } = this.state;
 
     const {
       areaCoordinates,
@@ -917,7 +962,8 @@ MapComponent.propTypes = {
   setSelectedAreaId: PropTypes.func.isRequired,
   route: PropTypes.object,
   isTracking: PropTypes.bool.isRequired,
-  onStartTrackingRoute: PropTypes.func.isRequired
+  onStartTrackingRoute: PropTypes.func.isRequired,
+  onCancelTrackingRoute: PropTypes.func.isRequired
 };
 
 export default MapComponent;

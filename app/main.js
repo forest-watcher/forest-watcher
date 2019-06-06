@@ -1,13 +1,21 @@
 // eslint-disable-next-line import/default
 import codePush from 'react-native-code-push';
+import { Alert, AppState, Platform } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
 import Theme from 'config/theme';
 import { registerScreens } from 'screens';
 import createStore from 'store';
 import { setupCrashLogging } from './crashes';
+import i18n from 'locales';
 
-import { initialiseLocationFramework } from 'helpers/location';
+import {
+  GFWLocationAuthorizedAlways,
+  initialiseLocationFramework,
+  checkLocationStatus,
+  showAppSettings,
+  showLocationSettings
+} from 'helpers/location';
 
 // Disable ios warnings
 // console.disableYellowBox = true;
@@ -23,6 +31,9 @@ const codePushOptions = {
 export default class App {
   constructor() {
     this.store = null;
+    this.currentAppState = 'background';
+
+    AppState.addEventListener('change', this._handleAppStateChange);
   }
 
   configureCodePush() {
@@ -45,6 +56,44 @@ export default class App {
 
     await launchAppRoot(screen);
   }
+
+  _handleAppStateChange = async nextAppState => {
+    // As this can be called before the store is initialised, ensure we have a store before continuing.
+    if (!this.store) {
+      return;
+    }
+
+    // TODO: fix for Android
+    if (Platform.OS === 'ios' && this.currentAppState.match(/inactive|background/) && nextAppState === 'active') {
+      const locationStatus = await checkLocationStatus();
+      if (
+        this.store.getState().routes.activeRoute &&
+        (!locationStatus.isRunning ||
+          !locationStatus.locationServicesEnabled ||
+          locationStatus.authorization !== GFWLocationAuthorizedAlways)
+      ) {
+        // TODO: add logic to restart / save / delete - for now just show the settings.
+        Alert.alert(i18n.t('routes.backgroundErrorDialogTitle'), i18n.t('routes.backgroundErrorDialogMessage'), [
+          { text: i18n.t('commonText.ok') },
+          {
+            text: i18n.t('routes.insufficientPermissionsDialogOpenAppSettings'),
+            onPress: showAppSettings
+          },
+          ...Platform.select({
+            android: [
+              {
+                text: i18n.t('routes.insufficientPermissionsDialogOpenDeviceSettings'),
+                onPress: showLocationSettings
+              }
+            ],
+            ios: [{}]
+          })
+        ]);
+      }
+    }
+
+    this.currentAppState = nextAppState;
+  };
 
   /**
    * Performs one-time setup tasks needed to launch the application
