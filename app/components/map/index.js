@@ -102,7 +102,6 @@ class MapComponent extends Component {
   constructor(props) {
     super(props);
     Navigation.events().bindComponent(this);
-    // Google maps lon and lat are inverted
     this.state = {
       currentRouteLocations: [],
       lastPosition: null,
@@ -111,7 +110,7 @@ class MapComponent extends Component {
       heading: null,
       noSignalOpacity: new Animated.Value(0.3),
       region: {
-        latitude: undefined,
+        latitude: undefined, // These are undefined, as when the map is ready it'll move the map to focus on the area.
         longitude: undefined,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
