@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Animated, Dimensions, Easing, Image, Linking, Platform, Text, View } from 'react-native';
+import { Alert, Animated, Dimensions, Easing, Image, Platform, Text, View } from 'react-native';
 
 import { MAPS, REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
@@ -31,12 +31,10 @@ const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
 import {
   GFWLocationAuthorizedAlways,
   GFWLocationAuthorizedInUse,
-  GFWLocationUnauthorized,
   GFWOnLocationEvent,
   GFWOnHeadingEvent,
-  checkLocationStatus,
-  deleteAllLocations,
-  getCurrentLocation,
+  showAppSettings,
+  showLocationSettings,
   getValidLocations,
   startTrackingLocation,
   stopTrackingLocation,
@@ -144,6 +142,8 @@ class MapComponent extends Component {
   componentDidMount() {
     tracker.trackScreenView('Map');
 
+    emitter.on(GFWOnHeadingEvent, this.updateHeading);
+    emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
     this.geoLocate();
   }
 
@@ -197,42 +197,12 @@ class MapComponent extends Component {
 
   /**
    * geoLocate - Resets the location / heading event listeners, calling specific callbacks depending on whether we're tracking a route or not.
-   *
-   * @param  {Route} activeRoute The route the user is currently tracking.
    */
-  geoLocate() {
-    // Remove any old emitters & stop tracking. We want to reset these to ensure the right functions are being called.
-    emitter.off(GFWOnLocationEvent);
-    emitter.off(GFWOnHeadingEvent);
-    stopTrackingLocation();
-    stopTrackingHeading();
+  async geoLocate(trackWhenInBackground = this.isRouteTracking()) {
+    // These start methods will stop any previously running trackers if necessary
+    startTrackingHeading();
 
-    checkLocationStatus(result => {
-      if (result.authorization === GFWLocationUnauthorized) {
-        // Todo: handle this.
-        return;
-      }
-
-      getCurrentLocation((latestLocation, error) => {
-        if (error) {
-          // todo: handle error.
-          return;
-        }
-
-        this.updateLocationFromGeolocation(latestLocation);
-      });
-
-      emitter.on(GFWOnHeadingEvent, this.updateHeading);
-      startTrackingHeading();
-
-      emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
-      startTrackingLocation(
-        this.isRouteTracking() ? GFWLocationAuthorizedAlways : GFWLocationAuthorizedInUse,
-        error => {
-          // todo: handle error if returned.
-        }
-      );
-    });
+    await startTrackingLocation(trackWhenInBackground ? GFWLocationAuthorizedAlways : GFWLocationAuthorizedInUse);
   }
 
   isRouteTracking = () => {
@@ -243,35 +213,36 @@ class MapComponent extends Component {
    * onStartTrackingPressed - When pressed, updates redux with the location we're routing to & changes event listeners.
    * If the user has not given 'always' location permissions, an alert is shown.
    */
-  onStartTrackingPressed = () => {
-    checkLocationStatus(result => {
-      // We need to have the GFWLocationAuthorizedAlways authorization level so we can track in the background!
-      // todo: translations!
-      if (result.authorization !== GFWLocationAuthorizedAlways) {
-        Alert.alert(
-          'Not authorized!',
-          `We need to access your location, even in the background, while you're on a route.`,
-          [
-            { text: 'OK' },
-            {
-              text: 'Open Settings',
-              onPress: () => {
-                Linking.openURL('app-settings:');
-              }
-            }
-          ]
-        );
-
-        return;
-      }
+  onStartTrackingPressed = async () => {
+    try {
+      await this.geoLocate(true);
 
       this.props.onStartTrackingRoute(
         this.state.selectedAlerts[this.state.selectedAlerts.length - 1],
         this.props.area.id
       );
-
-      this.geoLocate();
-    });
+    } catch (err) {
+      Alert.alert(
+        i18n.t('routes.insufficientPermissionsDialogTitle'),
+        i18n.t('routes.insufficientPermissionsDialogMessage'),
+        [
+          { text: i18n.t('commonText.ok') },
+          {
+            text: i18n.t('routes.insufficientPermissionsDialogOpenAppSettings'),
+            onPress: showAppSettings
+          },
+          ...Platform.select({
+            android: [
+              {
+                text: i18n.t('routes.insufficientPermissionsDialogOpenDeviceSettings'),
+                onPress: showLocationSettings
+              }
+            ],
+            ios: []
+          })
+        ]
+      );
+    }
   };
 
   /**
@@ -279,7 +250,7 @@ class MapComponent extends Component {
    */
   onStopTrackingPressed = () => {
     this.props.onStopTrackingRoute();
-    this.geoLocate();
+    this.geoLocate(false);
 
     // todo: add end route UI.
     // todo: handle deleting locations from database upon saving / deleting the route.
@@ -654,14 +625,12 @@ class MapComponent extends Component {
         {!this.isRouteTracking() ? (
           <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
         ) : null}
-        {lastPosition || this.isRouteTracking() ? (
-          <CircleButton
-            shouldFillContainer
-            onPress={this.isRouteTracking() ? this.onStopTrackingPressed : this.onStartTrackingPressed}
-            light
-            icon={this.isRouteTracking() ? stopTrackingIcon : startTrackingIcon}
-          />
-        ) : null}
+        <CircleButton
+          shouldFillContainer
+          onPress={this.isRouteTracking() ? this.onStopTrackingPressed : this.onStartTrackingPressed}
+          light
+          icon={this.isRouteTracking() ? stopTrackingIcon : startTrackingIcon}
+        />
       </View>
     );
   }
@@ -948,7 +917,6 @@ class MapComponent extends Component {
           mapType="none"
           minZoomLevel={2}
           maxZoomLevel={18}
-          initialRegion={region}
           showsCompass
           rotateEnabled
           moveOnMarkerPress={false}
