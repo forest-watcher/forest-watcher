@@ -147,6 +147,7 @@ class MapComponent extends Component {
     emitter.on(GFWOnHeadingEvent, this.updateHeading);
     emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
 
+    // We fetch the current location, so that we do not have to wait for a location update and can be provided a location when the user enters the screen.
     getCurrentLocation((location, error) => {
       if (error) {
         this.onLocationUpdateError(error);
@@ -174,25 +175,10 @@ typedef NS_ENUM(NSInteger, MAURBGErrorCode) {
 */
   onLocationUpdateError = error => {
     if (error.code === 1000) {
-      Alert.alert(i18n.t('routes.declinedPermissionDialogTitle'), i18n.t('routes.declinedPermissionDialogMessage'), [
-        { text: i18n.t('commonText.ok') },
-        {
-          text: i18n.t('routes.insufficientPermissionsDialogOpenAppSettings'),
-          onPress: showAppSettings
-        },
-        ...Platform.select({
-          android: [
-            {
-              text: i18n.t('routes.insufficientPermissionsDialogOpenDeviceSettings'),
-              onPress: showLocationSettings
-            }
-          ],
-          ios: [{}]
-        })
-      ]);
+      // TODO: The user has declined location permissions - the no GPS banner should be updated to state this.
     } else if (error.code === 1003) {
       // handle location error.
-      Alert.alert(i18n.t('routes.unknownErrorDialogTitle'), i18n.t('routes.locationErrorDialogMessage'), [
+      Alert.alert(i18n.t('routes.locationErrorDialogTitle'), i18n.t('routes.locationErrorDialogMessage'), [
         { text: i18n.t('commonText.ok') }
       ]);
     }

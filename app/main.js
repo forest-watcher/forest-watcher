@@ -31,7 +31,9 @@ const codePushOptions = {
 export default class App {
   constructor() {
     this.store = null;
-    this.currentAppState = null;
+    this.currentAppState = "background";
+
+    AppState.addEventListener('change', this._handleAppStateChange);
   }
 
   configureCodePush() {
@@ -52,16 +54,10 @@ export default class App {
       screen = 'ForestWatcher.Dashboard';
     }
 
-    AppState.addEventListener('change', this._handleAppStateChange);
-
     await launchAppRoot(screen);
   }
 
   _handleAppStateChange = async nextAppState => {
-    if (this.currentAppState === null) {
-      this.currentAppState = nextAppState;
-    }
-
     if (this.currentAppState.match(/inactive|background/) && nextAppState === 'active') {
       const locationStatus = await checkLocationStatus();
       if (
