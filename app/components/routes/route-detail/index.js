@@ -109,8 +109,13 @@ class RouteDetail extends PureComponent<Props> {
     }
 
     routeData.push(
-      { label: [i18n.t('commonText.date')], value: [moment(route.date).format('YYYY-MM-DD')] },
+      { label: [i18n.t('commonText.date')], value: [moment(route.endDate).format('YYYY-MM-DD')] },
       { label: ['Difficulty'], value: [route.difficulty], canEdit: true },
+      // todo: add distance values
+      {
+        label: [i18n.t('commonText.duration')],
+        value: [moment.duration(moment(route.endDate).diff(moment(route.startDate))).humanize()] // todo: format this correctly to be days, hours, minutes.
+      },
       { label: [i18n.t('commonText.language')], value: [route.language] }
     );
 

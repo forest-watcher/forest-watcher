@@ -65,7 +65,8 @@ export function setRouteDestination(destination: Location, areaId: string): Rout
     type: UPDATE_ACTIVE_ROUTE,
     payload: {
       areaId: areaId,
-      destination: destination
+      destination: destination,
+      startDate: Date.now()
     }
   };
 }
