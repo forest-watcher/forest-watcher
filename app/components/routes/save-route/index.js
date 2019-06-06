@@ -7,8 +7,7 @@ import { Navigation } from 'react-native-navigation';
 import styles from './styles';
 import ActionButton from 'components/common/action-button';
 import InputText from 'components/common/text-input';
-import { getValidLocations, stopTrackingLocation } from 'helpers/location';
-import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
+import { deleteAllLocations, getValidLocations, stopTrackingLocation } from 'helpers/location';
 
 type Props = {
   componentId: string,
@@ -69,8 +68,7 @@ class SaveRoute extends PureComponent<Props> {
       locations
     });
     this.props.finishAndSaveRoute();
-    // todo: close loading screen
-    BackgroundGeolocation.deleteAllLocations(); // todo: handle error
+    deleteAllLocations();
     Navigation.pop(this.props.componentId);
   };
 
@@ -97,8 +95,9 @@ class SaveRoute extends PureComponent<Props> {
         </Picker>
         <ActionButton
           style={styles.actionButton}
-          onPress={this.onSaveRoutePressed}
+          onPress={this.state.routeSaveName.length > 0 ? this.onSaveRoutePressed : null}
           text={'Save Route'.toUpperCase()}
+          disabled={this.state.routeSaveName.length === 0}
           short
           noIcon
         />
