@@ -2,6 +2,8 @@
 import type { State } from 'types/store.types';
 
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { setSelectedAreaId } from 'redux-modules/areas';
 
 import RouteDetail from 'components/routes/route-detail';
 
@@ -11,7 +13,16 @@ function mapStateToProps(state: State, ownProps: { routeName: string }) {
   };
 }
 
+function mapDispatchToProps(dispatch: *) {
+  return bindActionCreators(
+    {
+      setSelectedAreaId
+    },
+    dispatch
+  );
+}
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(RouteDetail);

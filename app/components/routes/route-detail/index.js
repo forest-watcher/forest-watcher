@@ -13,6 +13,7 @@ import ActionButton from '../../common/action-button';
 
 type Props = {
   componentId: string,
+  setSelectedAreaId: func,
   route: Route
 };
 
@@ -20,6 +21,9 @@ class RouteDetail extends PureComponent<Props> {
   static options(passProps) {
     return {
       topBar: {
+        title: {
+          text: passProps.routeName
+        },
         rightButtons: [
           {
             id: 'share',
@@ -42,7 +46,8 @@ class RouteDetail extends PureComponent<Props> {
   }
 
   openRouteOnMap = () => {
-    // this.props.setSelectedAreaId(0);
+    // Testing against a mocked route? You must provide your own area id here!
+    this.props.setSelectedAreaId(this.props.route.areaId);
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.Map',
@@ -52,6 +57,9 @@ class RouteDetail extends PureComponent<Props> {
               text: this.props.route.name
             }
           }
+        },
+        passProps: {
+          previousRoute: this.props.route
         }
       }
     });
