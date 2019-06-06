@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Animated, BackHandler, Dimensions, Easing, Image, Platform, Text, View } from 'react-native';
+import {
+  Alert,
+  Animated,
+  BackHandler,
+  Dimensions,
+  Easing,
+  Image,
+  LayoutAnimation,
+  Platform,
+  Text,
+  View
+} from 'react-native';
 
 import { MAPS, REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
@@ -289,7 +300,8 @@ class MapComponent extends Component {
   };
 
   onStopTrackingPressed = () => {
-    this.geoLocate(false);
+    // This doesn't immediately stop tracking - it will give the user the choice of saving and deleting and only stop
+    // tracking once they have finalised one of those actions
     this.showBottomDialog();
   };
 
@@ -304,16 +316,29 @@ class MapComponent extends Component {
 
   showBottomDialog = () => {
     this.setState({ renderBottomDialog: true });
+    LayoutAnimation.configureNext();
   };
 
   closeBottomDialog = () => {
     this.setState({ renderBottomDialog: false });
+    LayoutAnimation.configureNext();
   };
 
   onStopAndDeleteRoute = () => {
-    this.closeBottomDialog();
-    // todo: delete route
-    Navigation.pop(this.props.componentId);
+    Alert.alert(i18n.t('routes.confirmDeleteTitle'), i18n.t('routes.confirmDeleteMessage'), [
+      {
+        text: i18n.t('commonText.confirm'),
+        onPress: () => {
+          this.props.onCancelTrackingRoute();
+          this.closeBottomDialog();
+          this.geoLocate(false);
+        }
+      },
+      {
+        text: i18n.t('commonText.cancel'),
+        style: 'cancel'
+      }
+    ]);
   };
 
   /**
@@ -772,7 +797,6 @@ class MapComponent extends Component {
       lastPosition,
       compassLine,
       currentRouteLocations,
-      region,
       customReporting,
       selectedAlerts,
       neighbours,
@@ -1058,7 +1082,7 @@ MapComponent.propTypes = {
   route: PropTypes.object,
   isTracking: PropTypes.bool.isRequired,
   onStartTrackingRoute: PropTypes.func.isRequired,
-  onStopTrackingRoute: PropTypes.func.isRequired
+  onCancelTrackingRoute: PropTypes.func.isRequired
 };
 
 export default MapComponent;

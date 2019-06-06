@@ -2,6 +2,7 @@
 import type { RouteState, RouteAction, Route } from 'types/routes.types';
 
 // Actions
+const DISCARD_ACTIVE_ROUTE = 'routes/DISCARD_ACTIVE_ROUTE';
 const UPDATE_ACTIVE_ROUTE = 'routes/UPDATE_ACTIVE_ROUTE';
 const DELETE_ROUTE = 'routes/DELETE_ROUTE';
 const FINISH_AND_SAVE_ROUTE = 'routes/FINISH_AND_SAVE_ROUTE';
@@ -114,6 +115,11 @@ const initialState: RouteState = {
 
 export default function reducer(state: RouteState = initialState, action: RouteAction) {
   switch (action.type) {
+    case DISCARD_ACTIVE_ROUTE:
+      return {
+        ...state,
+        activeRoute: null
+      };
     case UPDATE_ACTIVE_ROUTE:
       return {
         ...state,
@@ -170,6 +176,12 @@ export function updateActiveRoute(route: Route): RouteAction {
     payload: {
       ...route
     }
+  };
+}
+
+export function discardActiveRoute(): RouteAction {
+  return {
+    type: DISCARD_ACTIVE_ROUTE
   };
 }
 
