@@ -66,7 +66,7 @@ export function setRouteDestination(destination: Location, areaId: string): Rout
     payload: {
       areaId: areaId,
       destination: destination,
-      startDate: Date()
+      startDate: Date.now()
     }
   };
 }
