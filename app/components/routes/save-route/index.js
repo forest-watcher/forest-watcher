@@ -67,11 +67,7 @@ class SaveRoute extends PureComponent<Props> {
     });
     this.props.finishAndSaveRoute();
     // todo: close loading screen
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: 'ForestWatcher.Map'
-      }
-    });
+    Navigation.pop(this.props.componentId);
   };
 
   render() {
