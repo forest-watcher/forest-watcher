@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, BackHandler, Dimensions, Image, Platform, Text, View } from 'react-native';
+
+import { Alert, BackHandler, Dimensions, Image, LayoutAnimation, Platform, Text, View } from 'react-native';
+import { Sentry } from 'react-native-sentry';
 
 import { REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
@@ -45,7 +47,8 @@ import {
   startTrackingLocation,
   stopTrackingLocation,
   startTrackingHeading,
-  stopTrackingHeading
+  stopTrackingHeading,
+  deleteAllLocations
 } from 'helpers/location';
 
 var emitter = require('tiny-emitter/instance');
@@ -289,7 +292,8 @@ class MapComponent extends Component {
   };
 
   onStopTrackingPressed = () => {
-    this.geoLocate(false);
+    // This doesn't immediately stop tracking - it will give the user the choice of saving and deleting and only stop
+    // tracking once they have finalised one of those actions
     this.showBottomDialog();
   };
 
@@ -304,16 +308,36 @@ class MapComponent extends Component {
 
   showBottomDialog = () => {
     this.setState({ renderBottomDialog: true });
+    LayoutAnimation.easeInEaseOut();
   };
 
   closeBottomDialog = () => {
     this.setState({ renderBottomDialog: false });
+    LayoutAnimation.easeInEaseOut();
   };
 
   onStopAndDeleteRoute = () => {
-    this.closeBottomDialog();
-    // todo: delete route
-    Navigation.pop(this.props.componentId);
+    Alert.alert(i18n.t('routes.confirmDeleteTitle'), i18n.t('routes.confirmDeleteMessage'), [
+      {
+        text: i18n.t('commonText.confirm'),
+        onPress: async () => {
+          try {
+            this.props.onCancelTrackingRoute();
+            this.closeBottomDialog();
+            await deleteAllLocations();
+          } catch (err) {
+            console.warn('Error when discarding route', err);
+            Sentry.captureException(err);
+          } finally {
+            this.geoLocate(false);
+          }
+        }
+      },
+      {
+        text: i18n.t('commonText.cancel'),
+        style: 'cancel'
+      }
+    ]);
   };
 
   /**
@@ -718,16 +742,7 @@ class MapComponent extends Component {
   };
 
   render() {
-    const {
-      lastPosition,
-      compassLine,
-      region,
-      customReporting,
-      selectedAlerts,
-      neighbours,
-      heading,
-      markers
-    } = this.state;
+    const { lastPosition, compassLine, customReporting, selectedAlerts, neighbours, heading, markers } = this.state;
 
     const {
       areaCoordinates,
@@ -947,7 +962,8 @@ MapComponent.propTypes = {
   setSelectedAreaId: PropTypes.func.isRequired,
   route: PropTypes.object,
   isTracking: PropTypes.bool.isRequired,
-  onStartTrackingRoute: PropTypes.func.isRequired
+  onStartTrackingRoute: PropTypes.func.isRequired,
+  onCancelTrackingRoute: PropTypes.func.isRequired
 };
 
 export default MapComponent;
