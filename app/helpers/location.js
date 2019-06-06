@@ -12,6 +12,7 @@ export const GFWLocationUnauthorized = BackgroundGeolocation.NOT_AUTHORIZED;
 export const GFWOnLocationEvent = 'gfw_onlocation_event';
 export const GFWOnStationaryEvent = 'gfw_onstationary_event';
 export const GFWOnHeadingEvent = 'gfw_onheading_event';
+export const GFWOnErrorEvent = 'gfw_onerror_event';
 
 /**
  * Initialises BackgroundGeolocation with sensible defaults for the usage of GFW tracking
@@ -189,11 +190,11 @@ export function deleteAllLocations(completion) {
 export async function startTrackingLocation(requiredPermission) {
   const result = await checkLocationStatus();
 
-  if (!result.locationServicesEnabled && result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
+  if (result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
     const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
     // If location services are disabled and the authorization is explicitally denied, return an error.
     if (!isResolved) {
-      throw new Error({ code: 1, message: 'Permissions denied ' });
+      throw { code: 1000, message: 'Permissions denied' };
     }
   }
 
@@ -208,7 +209,7 @@ export async function startTrackingLocation(requiredPermission) {
   ) {
     const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
     if (!isResolved) {
-      throw new Error({ code: 1, message: 'Incorrect permission given' });
+      throw { code: 1000, message: 'Incorrect permission given' };
     }
   }
 
@@ -247,7 +248,11 @@ export async function startTrackingLocation(requiredPermission) {
     });
   });
 
-  // todo: handle errors / other events.
+  BackgroundGeolocation.on('error', error => {
+    BackgroundGeolocation.startTask(taskKey => {
+      emitter.emit(GFWOnErrorEvent, { error });
+    });
+  });
 
   BackgroundGeolocation.start();
 }

@@ -33,8 +33,10 @@ import {
   GFWLocationAuthorizedInUse,
   GFWOnLocationEvent,
   GFWOnHeadingEvent,
+  GFWOnErrorEvent,
   showAppSettings,
   showLocationSettings,
+  getCurrentLocation,
   getValidLocations,
   startTrackingLocation,
   stopTrackingLocation,
@@ -144,8 +146,57 @@ class MapComponent extends Component {
 
     emitter.on(GFWOnHeadingEvent, this.updateHeading);
     emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
-    this.geoLocate();
+
+    getCurrentLocation((location, error) => {
+      if (error) {
+        this.onLocationUpdateError(error);
+        return;
+      }
+
+      if (location) {
+        this.updateLocationFromGeolocation(location);
+      }
+    });
+
+    this.geoLocate().catch(e => {
+      this.onLocationUpdateError(e);
+    });
   }
+
+  /*
+
+typedef NS_ENUM(NSInteger, MAURBGErrorCode) {
+  MAURBGPermissionDenied = 1000,
+  MAURBGConfigureError   = 1002,
+  MAURBGServiceError     = 1003,
+};
+
+*/
+  onLocationUpdateError = error => {
+    if (error.code === 1000) {
+      Alert.alert(i18n.t('routes.declinedPermissionDialogTitle'), i18n.t('routes.declinedPermissionDialogMessage'), [
+        { text: i18n.t('commonText.ok') },
+        {
+          text: i18n.t('routes.insufficientPermissionsDialogOpenAppSettings'),
+          onPress: showAppSettings
+        },
+        ...Platform.select({
+          android: [
+            {
+              text: i18n.t('routes.insufficientPermissionsDialogOpenDeviceSettings'),
+              onPress: showLocationSettings
+            }
+          ],
+          ios: [{}]
+        })
+      ]);
+    } else if (error.code === 1003) {
+      // handle location error.
+      Alert.alert(i18n.t('routes.unknownErrorDialogTitle'), i18n.t('routes.locationErrorDialogMessage'), [
+        { text: i18n.t('commonText.ok') }
+      ]);
+    }
+  };
 
   componentDidAppear() {
     const { setCanDisplayAlerts, canDisplayAlerts } = this.props;
@@ -190,6 +241,7 @@ class MapComponent extends Component {
     // Do remove the emitter listeners here, as we don't want this screen to receive anything while it's non-existent!
     emitter.off(GFWOnLocationEvent, this.updateLocationFromGeolocation);
     emitter.off(GFWOnHeadingEvent);
+    emitter.off(GFWOnErrorEvent, this.onLocationUpdateError);
     stopTrackingHeading();
 
     this.props.setSelectedAreaId('');
@@ -221,6 +273,8 @@ class MapComponent extends Component {
         this.state.selectedAlerts[this.state.selectedAlerts.length - 1],
         this.props.area.id
       );
+
+      emitter.on(GFWOnErrorEvent, this.onLocationUpdateError);
     } catch (err) {
       Alert.alert(
         i18n.t('routes.insufficientPermissionsDialogTitle'),
@@ -238,7 +292,7 @@ class MapComponent extends Component {
                 onPress: showLocationSettings
               }
             ],
-            ios: []
+            ios: [{}]
           })
         ]
       );
