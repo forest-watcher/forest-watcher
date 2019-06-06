@@ -14,6 +14,7 @@ import moment from 'moment';
 import MapView from 'react-native-maps';
 import CircleButton from 'components/common/circle-button';
 import MapAttribution from 'components/map/map-attribution';
+import NoGPSBanner from 'components/map/noGPSBanner';
 import Clusters from 'containers/map/clusters';
 import { formatCoordsByFormat, getDistanceFormattedText, getMapZoom, getNeighboursSelected } from 'helpers/map';
 import tracker from 'helpers/googleAnalytics';
@@ -50,7 +51,6 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const backButtonImage = require('assets/back.png');
 const markerImage = require('assets/marker.png');
-const markerCompassRedImage = require('assets/compass_circle_red.png');
 const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
 const settingsBlackIcon = require('assets/settings_black.png');
@@ -107,7 +107,6 @@ class MapComponent extends Component {
       hasCompass: false,
       compassLine: null,
       heading: null,
-      noSignalOpacity: new Animated.Value(0.3),
       region: {
         latitude: undefined, // These are undefined, as when the map is ready it'll move the map to focus on the area.
         longitude: undefined,
@@ -142,8 +141,6 @@ class MapComponent extends Component {
 
   componentDidMount() {
     tracker.trackScreenView('Map');
-
-    this.animateNoSignal();
 
     emitter.on(GFWOnHeadingEvent, this.updateHeading);
     emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
@@ -196,28 +193,6 @@ class MapComponent extends Component {
     stopTrackingHeading();
 
     this.props.setSelectedAreaId('');
-  }
-
-  /**
-   * animateNoSignal - Fades the no signal element in and out.
-   */
-  animateNoSignal() {
-    Animated.sequence([
-      Animated.timing(this.state.noSignalOpacity, {
-        toValue: 0.4,
-        easing: Easing.in(Easing.quad),
-        duration: 800
-      }),
-      Animated.timing(this.state.noSignalOpacity, {
-        toValue: 0.15,
-        easing: Easing.out(Easing.quad),
-        duration: 1000
-      })
-    ]).start(event => {
-      if (event.finished) {
-        this.animateNoSignal();
-      }
-    });
   }
 
   /**
@@ -646,9 +621,7 @@ class MapComponent extends Component {
         <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
         {lastPosition ? (
           <CircleButton shouldFillContainer onPress={this.fitPosition} light icon={myLocationIcon} />
-        ) : (
-          this.renderNoSignal()
-        )}
+        ) : null}
         {!this.isRouteTracking() ? (
           <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
         ) : null}
@@ -672,27 +645,13 @@ class MapComponent extends Component {
         <CircleButton shouldFillContainer onPress={this.onCustomReportingPress} icon={addLocationIcon} />
         {lastPosition ? (
           <CircleButton shouldFillContainer onPress={this.fitPosition} light icon={myLocationIcon} />
-        ) : (
-          this.renderNoSignal()
-        )}
-      </View>
-    );
-  }
-
-  renderNoSignal() {
-    return (
-      <View pointerEvents="box-none" style={styles.signalNotice}>
-        <View style={styles.geoLocationContainer}>
-          <Image style={styles.marker} source={markerCompassRedImage} />
-          <Animated.View style={[styles.geoLocation, { opacity: this.state.noSignalOpacity }]} />
-        </View>
-        <Text style={styles.signalNoticeText}>{i18n.t('alerts.noGPS')}</Text>
+        ) : null}
       </View>
     );
   }
 
   renderMapFooter() {
-    const { selectedAlerts, neighbours, customReporting } = this.state;
+    const { selectedAlerts, neighbours, customReporting, lastPosition } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
 
     const hasNeighbours = neighbours && neighbours.length > 0;
@@ -704,6 +663,7 @@ class MapComponent extends Component {
         <Image style={[styles.footerBg, { height: veilHeight }]} source={backgroundImage} />
       </View>,
       <FooterSafeAreaView key="footer" pointerEvents="box-none" style={styles.footer}>
+        {!lastPosition ? <NoGPSBanner /> : null}
         {hasAlertsSelected || customReporting || this.isRouteTracking()
           ? this.renderButtonPanelSelected()
           : this.renderButtonPanel()}
