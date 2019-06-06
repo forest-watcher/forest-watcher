@@ -2,7 +2,6 @@
 import type { RouteState, RouteAction, Route } from 'types/routes.types';
 
 // Actions
-const SET_ROUTE_DESTINATION = 'app/SET_ROUTE_DESTINATION';
 const UPDATE_ACTIVE_ROUTE = 'app/UPDATE_ACTIVE_ROUTE';
 const FINISH_AND_SAVE_ROUTE = 'app/FINISH_AND_SAVE_ROUTE';
 
@@ -110,14 +109,6 @@ const initialState: RouteState = {
 
 export default function reducer(state: RouteState = initialState, action: RouteAction) {
   switch (action.type) {
-    case SET_ROUTE_DESTINATION:
-      return {
-        ...state,
-        activeRoute: {
-          ...state.activeRoute,
-          ...action.payload
-        }
-      };
     case UPDATE_ACTIVE_ROUTE:
       return {
         ...state,
@@ -139,26 +130,13 @@ export default function reducer(state: RouteState = initialState, action: RouteA
 
 export function setRouteDestination(destination: Location, areaId: string): RouteAction {
   return {
-    type: SET_ROUTE_DESTINATION,
+    type: UPDATE_ACTIVE_ROUTE,
     payload: {
       areaId: areaId,
       destination: destination
     }
   };
 }
-
-/*export function createRouteDummy(): RouteAction {
-  return {
-    type: CREATE_ROUTE,
-    payload: {
-      name: 'Test Route 1',
-      locations: [],
-      date: 123123123,
-      difficulty: 'easy',
-      language: 'en-GB'
-    }
-  };
-}*/
 
 export function updateActiveRoute(route: Route): RouteAction {
   return {

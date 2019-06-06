@@ -27,7 +27,7 @@ export type LocationPoint = {
   timestamp: number
 };
 
-export type RouteAction = setRouteDestination | finishAndSaveRoute;
+export type RouteAction = updateActiveRoute | finishAndSaveRoute;
 
-type setRouteDestination = { type: 'app/SET_ROUTE_DESTINATION', payload: Location };
-type finishAndSaveRoute = { type: 'app/FINISH_AND_SAVE_ROUTE' };
+type updateActiveRoute = { type: 'route/UPDATE_ACTIVE_ROUTE', payload: Route };
+type finishAndSaveRoute = { type: 'route/FINISH_AND_SAVE_ROUTE' };
