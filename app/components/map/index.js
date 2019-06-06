@@ -111,7 +111,6 @@ class MapComponent extends Component {
       hasCompass: false,
       compassLine: null,
       heading: null,
-      noSignalOpacity: new Animated.Value(0.3),
       region: {
         latitude: initialCoords.longitude,
         longitude: initialCoords.latitude,
@@ -147,7 +146,6 @@ class MapComponent extends Component {
   componentDidMount() {
     tracker.trackScreenView('Map');
 
-    this.animateNoSignal();
     this.geoLocate();
   }
 
@@ -197,28 +195,6 @@ class MapComponent extends Component {
     stopTrackingHeading();
 
     this.props.setSelectedAreaId('');
-  }
-
-  /**
-   * animateNoSignal - Fades the no signal element in and out.
-   */
-  animateNoSignal() {
-    Animated.sequence([
-      Animated.timing(this.state.noSignalOpacity, {
-        toValue: 0.4,
-        easing: Easing.in(Easing.quad),
-        duration: 800
-      }),
-      Animated.timing(this.state.noSignalOpacity, {
-        toValue: 0.15,
-        easing: Easing.out(Easing.quad),
-        duration: 1000
-      })
-    ]).start(event => {
-      if (event.finished) {
-        this.animateNoSignal();
-      }
-    });
   }
 
   /**
