@@ -241,14 +241,6 @@ class MapComponent extends Component {
         return;
       }
 
-      getCurrentLocation((latestLocation, error) => {
-        if (error) {
-          // todo: handle error.
-          return;
-        }
-
-        this.updateLocationFromGeolocation(latestLocation);
-      });
 
       startTrackingHeading();
 
