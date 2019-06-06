@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { Alert, View, ScrollView } from 'react-native';
 import moment from 'moment';
 import i18n from 'locales';
 import { Navigation } from 'react-native-navigation';
@@ -9,12 +9,15 @@ import { Navigation } from 'react-native-navigation';
 import styles from './styles';
 import AnswerComponent from 'components/form/answer/answer';
 import type { Route } from 'types/routes.types';
+
 import ActionButton from 'components/common/action-button';
 import { formatCoordsByFormat } from 'helpers/map';
+import RoutePreviewImage from '../preview-image';
 
 type Props = {
   componentId: string,
   coordinatesFormat: string,
+  deleteRoute: () => void,
   setSelectedAreaId: func,
   route: Route
 };
@@ -67,12 +70,32 @@ class RouteDetail extends PureComponent<Props> {
     });
   };
 
+  /**
+   * Displays a confirmation before possibly deleting the route
+   */
   deleteRoute = () => {
-    // todo
+    Alert.alert(i18n.t('routes.confirmDeleteTitle'), i18n.t('routes.confirmDeleteMessage'), [
+      {
+        text: i18n.t('commonText.confirm'),
+        onPress: () => {
+          this.props.deleteRoute();
+          Navigation.pop(this.props.componentId);
+        }
+      },
+      {
+        text: i18n.t('commonText.cancel'),
+        style: 'cancel'
+      }
+    ]);
   };
 
   render() {
     const { coordinatesFormat, route } = this.props;
+
+    if (!route) {
+      return null;
+    }
+
     const showLocations = route.locations?.length;
     let routeData = [{ label: [i18n.t('commonText.name')], value: [route.name], canEdit: true }];
     if (showLocations) {
@@ -90,6 +113,7 @@ class RouteDetail extends PureComponent<Props> {
 
     return (
       <ScrollView>
+        <RoutePreviewImage style={styles.headerImage} route={route} />
         <ActionButton
           style={styles.actionButton}
           onPress={this.openRouteOnMap}
@@ -99,7 +123,6 @@ class RouteDetail extends PureComponent<Props> {
         />
         <View style={styles.answersContainer}>
           <View style={styles.listContainer}>
-            <Text style={styles.listTitle}>Route Details</Text>
             {routeData.map((data, i) =>
               data.value?.[0] ? (
                 <AnswerComponent question={data.label} answers={data.value} key={i} readOnly={!data.canEdit} />

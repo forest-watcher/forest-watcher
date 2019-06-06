@@ -48,7 +48,7 @@ export default StyleSheet.create({
     marginHorizontal: 32
   },
   listContainer: {
-    marginTop: 24,
+    marginTop: 8,
     marginBottom: 8
   },
   listContainerFirst: {
@@ -62,5 +62,9 @@ export default StyleSheet.create({
     marginLeft: Theme.margin.left,
     marginRight: 18,
     marginBottom: 8
+  },
+  headerImage: {
+    alignSelf: 'stretch',
+    height: 164
   }
 });
