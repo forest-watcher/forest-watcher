@@ -14,6 +14,10 @@ export const GFWOnStationaryEvent = 'gfw_onstationary_event';
 export const GFWOnHeadingEvent = 'gfw_onheading_event';
 export const GFWOnErrorEvent = 'gfw_onerror_event';
 
+// These error codes can be found in an enum in /node_modules/@mauron85/react-native-background-geolocation/ios/common/BackgroundGeolocation/MAURProviderDelegate.h
+export const GFWErrorPermission = 1000;
+export const GFWErrorLocation = 1003;
+
 /**
  * Initialises BackgroundGeolocation with sensible defaults for the usage of GFW tracking
  *

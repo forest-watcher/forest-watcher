@@ -37,6 +37,8 @@ import {
   GFWOnLocationEvent,
   GFWOnHeadingEvent,
   GFWOnErrorEvent,
+  GFWErrorPermission,
+  GFWErrorLocation,
   showAppSettings,
   showLocationSettings,
   getCurrentLocation,
@@ -129,10 +131,6 @@ class MapComponent extends Component {
       layoutHasForceRefreshed: false,
       renderBottomDialog: false
     };
-
-    // TODO: While we're building this UI, whenever this screen is entered it'll bin any previous locations.
-    // Once we've got save / delete logic built in, remove this!
-    //deleteAllLocations(() => {});
   }
 
   navigationButtonPressed({ buttonId }) {
@@ -167,20 +165,12 @@ class MapComponent extends Component {
     });
   }
 
-  /*
-
-typedef NS_ENUM(NSInteger, MAURBGErrorCode) {
-  MAURBGPermissionDenied = 1000,
-  MAURBGConfigureError   = 1002,
-  MAURBGServiceError     = 1003,
-};
-
-*/
   onLocationUpdateError = error => {
-    if (error.code === 1000) {
+    if (error.code === GFWErrorPermission) {
       // TODO: The user has declined location permissions - the no GPS banner should be updated to state this.
-    } else if (error.code === 1003) {
+    } else if (error.code === GFWErrorLocation) {
       // handle location error.
+      // TODO: The banner could be used to show this too...
       Alert.alert(i18n.t('routes.locationErrorDialogTitle'), i18n.t('routes.locationErrorDialogMessage'), [
         { text: i18n.t('commonText.ok') }
       ]);
