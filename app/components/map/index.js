@@ -29,6 +29,7 @@ const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
 
 import {
   GFWLocationAuthorizedAlways,
+  GFWLocationAuthorizedInUse,
   GFWLocationUnauthorized,
   GFWOnLocationEvent,
   GFWOnHeadingEvent,
@@ -73,7 +74,7 @@ class MapComponent extends Component {
   static options(passProps) {
     return {
       statusBar: {
-        style: 'dark'
+        style: Platform.select({ android: 'light', ios: 'dark' })
       },
       topBar: {
         background: {
@@ -227,7 +228,7 @@ class MapComponent extends Component {
    *
    * @param  {Route} activeRoute The route the user is currently tracking.
    */
-  async geoLocate() {
+  geoLocate() {
     // Remove any old emitters & stop tracking. We want to reset these to ensure the right functions are being called.
     emitter.off(GFWOnLocationEvent);
     emitter.off(GFWOnHeadingEvent);
@@ -240,7 +241,7 @@ class MapComponent extends Component {
         return;
       }
 
-      getCurrentLocation(async (latestLocation, error) => {
+      getCurrentLocation((latestLocation, error) => {
         if (error) {
           // todo: handle error.
           return;
@@ -253,9 +254,12 @@ class MapComponent extends Component {
       startTrackingHeading();
 
       emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
-      startTrackingLocation(GFWLocationAuthorizedAlways, error => {
-        // todo: handle error if returned.
-      });
+      startTrackingLocation(
+        this.isRouteTracking() ? GFWLocationAuthorizedAlways : GFWLocationAuthorizedInUse,
+        error => {
+          // todo: handle error if returned.
+        }
+      );
     });
   }
 
