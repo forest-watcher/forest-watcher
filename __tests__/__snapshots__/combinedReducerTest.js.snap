@@ -1886,6 +1886,10 @@ Object {
     "syncing": false,
     "templates": Object {},
   },
+  "routes": Object {
+    "activeRoute": undefined,
+    "previousRoutes": Array [],
+  },
   "setup": Object {
     "area": Object {
       "geojson": null,
@@ -3796,6 +3800,10 @@ Object {
     "synced": false,
     "syncing": false,
     "templates": Object {},
+  },
+  "routes": Object {
+    "activeRoute": undefined,
+    "previousRoutes": Array [],
   },
   "setup": Object {
     "area": Object {
