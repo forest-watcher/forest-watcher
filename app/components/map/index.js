@@ -987,7 +987,6 @@ class MapComponent extends Component {
           mapType="none"
           minZoomLevel={2}
           maxZoomLevel={18}
-          initialRegion={region}
           showsCompass
           rotateEnabled
           moveOnMarkerPress={false}
