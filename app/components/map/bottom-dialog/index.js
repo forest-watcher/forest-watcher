@@ -10,7 +10,7 @@ import { withSafeArea } from 'react-native-safe-area';
 import Row from 'components/common/row';
 const closeImage = require('assets/close_gray.png');
 
-const SafeAreaView = withSafeArea(View, 'margin', 'bottom');
+const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
 
 type Props = {
   title: string,
