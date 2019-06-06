@@ -106,7 +106,7 @@ async function requestAndroidLocationPermissions() {
 export async function getCurrentLocation(completion) {
   const result = await checkLocationStatus();
 
-  if (!result.locationServicesEnabled && result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
+  if (!result.locationServicesEnabled || result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
     // If location services are disabled and the authorization is explicitally denied, return an error.
     completion(null, { code: 1, message: 'Permissions denied' });
     return;
@@ -190,7 +190,7 @@ export function deleteAllLocations(completion) {
 export async function startTrackingLocation(requiredPermission) {
   const result = await checkLocationStatus();
 
-  if (result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
+  if (!result.locationServicesEnabled || result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
     const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
     // If location services are disabled and the authorization is explicitally denied, return an error.
     if (!isResolved) {
