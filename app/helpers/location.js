@@ -13,13 +13,19 @@ export const GFWOnLocationEvent = 'gfw_onlocation_event';
 export const GFWOnStationaryEvent = 'gfw_onstationary_event';
 export const GFWOnHeadingEvent = 'gfw_onheading_event';
 
+export async function initialiseLocationFramework() {
+  return configureLocationFramework({
+    desiredAccuracy: BackgroundGeolocation.HIGH_ACCURACY,
+    ...LOCATION_TRACKING
+  });
+}
+
 /**
  * configureLocationFramework - Configures the BackgroundGeolocation framework.
  */
-export function configureLocationFramework() {
-  BackgroundGeolocation.configure({
-    desiredAccuracy: BackgroundGeolocation.HIGH_ACCURACY,
-    ...LOCATION_TRACKING
+async function configureLocationFramework(configuration) {
+  return new Promise((resolve, reject) => {
+    BackgroundGeolocation.configure(configuration, resolve, resolve);
   });
 }
 
@@ -167,6 +173,14 @@ export function startTrackingLocation(requiredPermission, completion) {
       )
     ) {
       completion({ code: 1, message: 'Incorrect permission given' });
+  // On Android the startForeground prop controls whether we show an ongoing notification (when true).
+  // Only do this if the requiredPermission indicates that the user wants to track location at ALL times.
+  if (Platform.OS === 'android') {
+    await configureLocationFramework({
+      startForeground: requiredPermission === BackgroundGeolocation.AUTHORIZED
+    });
+  }
+
       return;
     }
 
