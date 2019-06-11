@@ -20,5 +20,9 @@ export default StyleSheet.create({
   },
   actionButton: {
     marginVertical: 24
+  },
+  headerImage: {
+    alignSelf: 'stretch',
+    height: 164
   }
 });
