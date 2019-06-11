@@ -28,26 +28,9 @@ class RouteDetail extends PureComponent<Props> {
       topBar: {
         title: {
           text: passProps.routeName
-        },
-        rightButtons: [
-          {
-            id: 'share',
-            text: 'Share'
-          }
-        ]
+        }
       }
     };
-  }
-
-  constructor(props: Props) {
-    super(props);
-    Navigation.events().bindComponent(this);
-  }
-
-  navigationButtonPressed({ buttonId }) {
-    if (buttonId === 'share') {
-      // todo share route
-    }
   }
 
   openRouteOnMap = () => {
