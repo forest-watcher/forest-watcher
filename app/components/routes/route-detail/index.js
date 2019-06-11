@@ -11,7 +11,7 @@ import AnswerComponent from 'components/form/answer/answer';
 import type { Route } from 'types/routes.types';
 
 import ActionButton from 'components/common/action-button';
-import { formatCoordsByFormat } from 'helpers/map';
+import { formatCoordsByFormat, formatDistance, getDistanceOfPolyline } from 'helpers/map';
 import RoutePreviewImage from '../preview-image';
 
 type Props = {
@@ -109,12 +109,14 @@ class RouteDetail extends PureComponent<Props> {
       )}`;
       const locationEnd = `${i18n.t('routes.locationEnd')}${formatCoordsByFormat(lastLocation, coordinatesFormat)}`;
       routeData.push({ label: [i18n.t('routes.location')], value: [locationStart, locationEnd] });
+
+      const routeDistance = getDistanceOfPolyline(route.locations);
+      routeData.push({ label: [i18n.t('routes.distance')], value: [formatDistance(routeDistance, 1, false)] });
     }
 
     routeData.push(
       { label: [i18n.t('commonText.date')], value: [moment(route.endDate).format('ll')] },
       { label: [i18n.t('routes.difficulty')], value: [route.difficulty], canEdit: true },
-      { label: [i18n.t('routes.distance')], value: [route.difficulty] },
       {
         label: [i18n.t('routes.duration')],
         value: [moment.duration(moment(route.endDate).diff(moment(route.startDate))).humanize()] // todo: format this correctly to be days, hours, minutes.

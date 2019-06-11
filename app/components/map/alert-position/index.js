@@ -3,7 +3,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import { formatCoordsByFormat, getDistanceFormattedText } from 'helpers/map';
+import { formatCoordsByFormat, formatDistance, getDistanceOfLine } from 'helpers/map';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
 
 import styles from './styles';
@@ -28,7 +28,8 @@ function AlertPosition(props: Props) {
       positionText += text;
     }
 
-    distanceText = getDistanceFormattedText(alertSelected, { longitude: longitude, latitude: latitude }, kmThreshold);
+    const distance = getDistanceOfLine(alertSelected, { longitude: longitude, latitude: latitude });
+    distanceText = formatDistance(distance, kmThreshold);
   }
 
   return (
