@@ -25,6 +25,7 @@ function ActionButton(props) {
     props.disabled ? styles.disabled : '',
     props.error ? styles.error : '',
     props.delete ? styles.error : '',
+    props.transparent ? styles.transparent : '',
     props.style
   ];
 
@@ -43,7 +44,8 @@ function ActionButton(props) {
     props.left ? styles.buttonTextLeft : '',
     props.disabled ? styles.buttonTextDisabled : '',
     props.error ? styles.buttonTextError : '',
-    props.delete ? styles.buttonTextError : ''
+    props.delete ? styles.buttonTextError : '',
+    props.transparent ? { color: props.delete ? Theme.colors.color7 : Theme.background.secondary } : ''
   ];
 
   const arrowIconStyles = [Theme.icon, props.short ? styles.shortIcon : ''];
@@ -120,7 +122,8 @@ ActionButton.propTypes = {
   onPress: PropTypes.func.isRequired,
   noIcon: PropTypes.bool,
   main: PropTypes.bool,
-  monochrome: PropTypes.bool
+  monochrome: PropTypes.bool,
+  transparent: PropTypes.bool
 };
 
 export default ActionButton;
