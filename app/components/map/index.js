@@ -740,12 +740,16 @@ class MapComponent extends Component {
                 {
                   text: 'continue route tracking',
                   onPress: () => Navigation.pop(this.props.componentId),
-                  style: 'positive'
+                  buttonProps: {}
                 }
               ]
             : []),
-          { text: 'stop and save route', onPress: this.openSaveRouteScreen, style: 'positive' },
-          { text: 'stop and delete route', onPress: this.onStopAndDeleteRoute, style: 'negative' }
+          { text: 'stop and save route', onPress: this.openSaveRouteScreen, buttonProps: { transparent: true } },
+          {
+            text: 'stop and delete route',
+            onPress: this.onStopAndDeleteRoute,
+            buttonProps: { delete: true, transparent: true }
+          }
         ]}
       />
     ) : null;

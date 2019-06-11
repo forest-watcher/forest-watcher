@@ -14,7 +14,7 @@ const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
 type Props = {
   title: string,
   closeDialog: () => void,
-  buttons: [{ text: string, onPress: () => void, style: 'main' | 'positive' | 'negative' }]
+  buttons: [{ text: string, onPress: () => void, buttonProps: * }]
 };
 
 class BottomDialog extends PureComponent<Props> {
@@ -43,7 +43,7 @@ class BottomDialog extends PureComponent<Props> {
               text={button.text.toUpperCase()}
               short
               noIcon
-              delete={button.style == 'negative'}
+              {...button.buttonProps}
             />
           ))}
         </View>
