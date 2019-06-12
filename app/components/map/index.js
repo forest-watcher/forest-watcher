@@ -151,21 +151,7 @@ class MapComponent extends Component {
     emitter.on(GFWOnHeadingEvent, this.updateHeading);
     emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
 
-    // We fetch the current location, so that we do not have to wait for a location update and can be provided a location when the user enters the screen.
-    getCurrentLocation((location, error) => {
-      if (error) {
-        this.onLocationUpdateError(error);
-        return;
-      }
-
-      if (location) {
-        this.updateLocationFromGeolocation(location);
-      }
-    });
-
-    this.geoLocate().catch(e => {
-      this.onLocationUpdateError(e);
-    });
+    this.geoLocate();
   }
 
   onLocationUpdateError = error => {
@@ -244,9 +230,22 @@ class MapComponent extends Component {
    */
   async geoLocate(trackWhenInBackground = this.isRouteTracking()) {
     // These start methods will stop any previously running trackers if necessary
-    startTrackingHeading();
+    try {
+      startTrackingHeading();
+    } catch (err) {
+      // continue without tracking heading...
+      console.warn('3SC', 'Could not start tracking heading...', err);
+      Sentry.captureException(err);
+    }
 
-    await startTrackingLocation(trackWhenInBackground ? GFWLocationAuthorizedAlways : GFWLocationAuthorizedInUse);
+    try {
+      await startTrackingLocation(trackWhenInBackground ? GFWLocationAuthorizedAlways : GFWLocationAuthorizedInUse);
+    } catch (err) {
+      console.warn('3SC', 'Could not start tracking location...', err);
+      this.onLocationUpdateError(err);
+      Sentry.captureException(err);
+      throw err;
+    }
   }
 
   isRouteTracking = () => {
