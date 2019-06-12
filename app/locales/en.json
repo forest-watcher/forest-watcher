@@ -285,10 +285,10 @@
         "insufficientPermissionsDialogOpenAppSettings": "Check permissions",
         "insufficientPermissionsDialogOpenDeviceSettings": "Check location settings",
         "location": "Location",
-        "locationEnd": "End: ",
+        "locationEnd": "End:",
         "locationErrorDialogTitle": "Error retrieving location",
         "locationErrorDialogMessage": "Something went wrong while accessing your location",
-        "locationStart": "Start: ",
+        "locationStart": "Start:",
         "notification": {
             "title": "Route tracking in progress",
             "message": "Forest Watcher is recording the route you are taking to your destination"

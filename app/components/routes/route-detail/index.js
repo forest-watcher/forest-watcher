@@ -103,11 +103,11 @@ class RouteDetail extends PureComponent<Props> {
     if (showLocations) {
       const firstLocation = route.locations[0];
       const lastLocation = route.locations.length > 1 ? route.locations?.[route.locations.length - 1] : firstLocation;
-      const locationStart = `${i18n.t('routes.locationStart')}${formatCoordsByFormat(
+      const locationStart = `${i18n.t('routes.locationStart')} ${formatCoordsByFormat(
         firstLocation,
         coordinatesFormat
       )}`;
-      const locationEnd = `${i18n.t('routes.locationEnd')}${formatCoordsByFormat(lastLocation, coordinatesFormat)}`;
+      const locationEnd = `${i18n.t('routes.locationEnd')} ${formatCoordsByFormat(lastLocation, coordinatesFormat)}`;
       routeData.push({ label: [i18n.t('routes.location')], value: [locationStart, locationEnd] });
 
       const routeDistance = getDistanceOfPolyline(route.locations);
