@@ -24,8 +24,7 @@ export default StyleSheet.create({
   },
   answersContainer: {
     backgroundColor: Theme.background.main,
-    flex: 1,
-    paddingTop: 8
+    flex: 1
   },
   answersText: {
     fontFamily: Theme.font,
@@ -44,12 +43,8 @@ export default StyleSheet.create({
     paddingBottom: 32
   },
   actionButton: {
-    marginVertical: 8,
+    marginVertical: 16,
     marginHorizontal: 32
-  },
-  listContainer: {
-    marginTop: 8,
-    marginBottom: 8
   },
   listContainerFirst: {
     marginTop: 0

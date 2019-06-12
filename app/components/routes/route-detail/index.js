@@ -185,22 +185,22 @@ class RouteDetail extends PureComponent<Props> {
           onPress={this.openRouteOnMap}
           text={i18n.t('routes.viewOnMap').toUpperCase()}
           short
-          light
+          dark
+          transparent
+          noIcon
         />
         <View style={styles.answersContainer}>
-          <View style={styles.listContainer}>
-            {routeData.map((data, i) =>
-              data.value?.[0] ? (
-                <AnswerComponent
-                  question={data.label}
-                  answers={data.value}
-                  key={i}
-                  readOnly={!data.onEditPress}
-                  onEditPress={data.onEditPress}
-                />
-              ) : null
-            )}
-          </View>
+          {routeData.map((data, i) =>
+            data.value?.[0] ? (
+              <AnswerComponent
+                question={data.label}
+                answers={data.value}
+                key={i}
+                readOnly={!data.onEditPress}
+                onEditPress={data.onEditPress}
+              />
+            ) : null
+          )}
         </View>
         <ActionButton
           style={styles.actionButton}
@@ -208,6 +208,7 @@ class RouteDetail extends PureComponent<Props> {
           text={i18n.t('routes.delete').toUpperCase()}
           short
           delete
+          transparent
         />
       </ScrollView>
     );
