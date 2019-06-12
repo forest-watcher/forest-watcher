@@ -28,9 +28,11 @@
         "date": "Date",
         "error": "Error",
         "finish": "Finish",
+        "kilometers": "km",
         "kmAway": "km away",
         "language": "Language",
         "loading": "Loading",
+        "meters": "m",
         "metersAway": "m away",
         "name": "Name",
         "next": "Next",
@@ -270,20 +272,28 @@
         "uploaded": "Uploaded"
     },
     "routes": {
+        "backgroundErrorDialogTitle": "Something went wrong while you were away",
+        "backgroundErrorDialogMessage": "The device has stopped monitoring location updates. What would you like to do?",
         "confirmDeleteTitle": "Delete route",
         "confirmDeleteMessage": "Are you sure you want to delete this route?",
-        "notification": {
-            "title": "Route tracking in progress",
-            "message": "Forest Watcher is recording the route you are taking to your destination"
-        },
-        "locationErrorDialogTitle": "Error retrieving location",
-        "locationErrorDialogMessage": "Something went wrong while accessing your location",
+        "delete": "Delete Route",
+        "difficulty": "Difficulty",
+        "distance": "Distance",
+        "duration": "Time Taken",
         "insufficientPermissionsDialogTitle": "Unable to track route",
         "insufficientPermissionsDialogMessage": "We need background location permissions to be able to track your route.",
         "insufficientPermissionsDialogOpenAppSettings": "Check permissions",
         "insufficientPermissionsDialogOpenDeviceSettings": "Check location settings",
-        "backgroundErrorDialogTitle": "Something went wrong while you were away",
-        "backgroundErrorDialogMessage": "The device has stopped monitoring location updates. What would you like to do?"
+        "location": "Location",
+        "locationEnd": "End:",
+        "locationErrorDialogTitle": "Error retrieving location",
+        "locationErrorDialogMessage": "Something went wrong while accessing your location",
+        "locationStart": "Start:",
+        "notification": {
+            "title": "Route tracking in progress",
+            "message": "Forest Watcher is recording the route you are taking to your destination"
+        },
+        "viewOnMap": "View Route on Map"
     },
     "settings": {
         "1MonthAgo": "1 month ago",
