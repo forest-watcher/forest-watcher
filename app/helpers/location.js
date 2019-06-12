@@ -205,7 +205,6 @@ export async function deleteAllLocations() {
 export async function startTrackingLocation(requiredPermission) {
   const result = await checkLocationStatus();
 
-
   if (!result.locationServicesEnabled) {
     throw { code: GFWErrorLocation, message: 'Location disabled' };
   }
@@ -277,8 +276,6 @@ export async function startTrackingLocation(requiredPermission) {
   });
 
   try {
-    await deleteAllLocations();
-
     // Send an initial location update when tracking is started - this will actually obtain a location fix if there is not one cached
     const initialLocationUpdate = mostRecentLocation ?? (await getCurrentLocation());
     if (initialLocationUpdate) {
