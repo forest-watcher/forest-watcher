@@ -166,7 +166,11 @@ class RouteDetail extends PureComponent<Props> {
 
     routeData.push(
       { label: [i18n.t('commonText.date')], value: [moment(route.endDate).format('ll')] },
-      { label: [i18n.t('routes.difficulty')], value: [route.difficulty], canEdit: true },
+      {
+        label: [i18n.t('routes.difficulty')],
+        value: [i18n.t(`routes.difficultyLevels.${route.difficulty}`)],
+        onEditPress: this.onEditDifficultyPress
+      },
       {
         label: [i18n.t('routes.duration')],
         value: [moment.duration(moment(route.endDate).diff(moment(route.startDate))).humanize()] // todo: format this correctly to be days, hours, minutes.
