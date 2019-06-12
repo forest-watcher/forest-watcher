@@ -57,7 +57,7 @@ export default class RoutePreviewImage extends PureComponent<Props> {
           }}
         >
           <Basemap areaId={route.areaId} />
-          <RouteMarkers isTracking={false} markerBorder={5} markerSize={5} route={route} />
+          <RouteMarkers isTracking={false} route={route} />
         </MapView>
       </View>
     );

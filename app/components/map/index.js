@@ -924,8 +924,6 @@ class MapComponent extends Component {
           {compassLineElement}
           <RouteMarkers
             isTracking={this.isRouteTracking()}
-            markerBorder={markerBorder}
-            markerSize={markerSize}
             route={route}
           />
           {areaPolygonElement}
