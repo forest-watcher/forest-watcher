@@ -8,9 +8,11 @@ import styles from './styles';
 import ActionButton from 'components/common/action-button';
 import InputText from 'components/common/text-input';
 import { deleteAllLocations, getValidLocations, stopTrackingLocation } from 'helpers/location';
+import RoutePreviewImage from '../preview-image';
 
 type Props = {
   componentId: string,
+  route: Route,
   updateActiveRoute: () => void,
   finishAndSaveRoute: () => void
 };
@@ -29,43 +31,56 @@ class SaveRoute extends PureComponent<Props> {
   constructor(props: Props) {
     super(props);
     Navigation.events().bindComponent(this);
+
+    const date = Date.now();
     this.state = {
-      routeSaveName: '',
-      difficulty: 'easy'
+      route: {
+        id: date,
+        endDate: date,
+        name: '',
+        difficulty: 'easy',
+        locations: []
+      }
     };
   }
 
+  componentDidMount() {
+    getValidLocations((locations, error) => {
+      if (error) {
+        return;
+      }
+
+      this.setState(state => ({
+        route: {
+          ...state.route,
+          locations: locations ?? []
+        }
+      }));
+    });
+  }
+
   changeRouteSaveName = newRouteSaveName => {
-    this.setState({ routeSaveName: newRouteSaveName });
+    this.setState(state => ({
+      route: {
+        ...state.route,
+        name: newRouteSaveName
+      }
+    }));
   };
 
   changeRouteDifficulty = newDifficulty => {
-    this.setState({ difficulty: newDifficulty });
+    this.setState(state => ({
+      route: {
+        ...state.route,
+        difficulty: newDifficulty
+      }
+    }));
   };
 
   onSaveRoutePressed = () => {
     stopTrackingLocation();
-    // todo: show loading screen
-    getValidLocations((locations, error) => {
-      if (error) {
-        // todo: handle error
-        return;
-      }
-
-      if (locations) {
-        this.saveRoute(locations);
-      }
-    });
-  };
-
-  saveRoute = locations => {
-    const date = Date.now();
     this.props.updateActiveRoute({
-      id: date,
-      name: this.state.routeSaveName,
-      endDate: date,
-      difficulty: this.state.difficulty,
-      locations
+      ...this.state.route
     });
     this.props.finishAndSaveRoute();
     deleteAllLocations();
@@ -73,17 +88,24 @@ class SaveRoute extends PureComponent<Props> {
   };
 
   render() {
+    if (!this.props.route) {
+      return null;
+    }
+
     return (
       <ScrollView style={styles.container}>
-        <Text style={styles.headingText}>{'Route Name'.toUpperCase()}</Text>
-        <InputText
-          value={this.state.routeSaveName}
-          placeholder={'Route Name'}
-          onChangeText={this.changeRouteSaveName}
+        <RoutePreviewImage
+          style={styles.headerImage}
+          route={{
+            ...this.props.route,
+            ...this.state.route
+          }}
         />
+        <Text style={styles.headingText}>{'Route Name'.toUpperCase()}</Text>
+        <InputText value={this.state.route.name} placeholder={'Route Name'} onChangeText={this.changeRouteSaveName} />
         <Text style={styles.headingText}>{'Difficulty'.toUpperCase()}</Text>
         <Picker
-          selectedValue={this.state.difficulty}
+          selectedValue={this.state.route.difficulty}
           onValueChange={this.changeRouteDifficulty}
           style={styles.picker}
           itemStyle={{ height: 72 }} // Only for iOS
@@ -95,9 +117,9 @@ class SaveRoute extends PureComponent<Props> {
         </Picker>
         <ActionButton
           style={styles.actionButton}
-          onPress={this.state.routeSaveName.length > 0 ? this.onSaveRoutePressed : null}
+          onPress={this.state.route.name.length > 0 ? this.onSaveRoutePressed : null}
           text={'Save Route'.toUpperCase()}
-          disabled={this.state.routeSaveName.length === 0}
+          disabled={this.state.route.name.length === 0}
           short
           noIcon
         />
