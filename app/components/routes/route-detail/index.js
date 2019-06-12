@@ -127,16 +127,16 @@ class RouteDetail extends PureComponent<Props> {
           onPress={this.openRouteOnMap}
           text={'View Route On Map'.toUpperCase()}
           short
-          light
+          dark
+          transparent
+          noIcon
         />
         <View style={styles.answersContainer}>
-          <View style={styles.listContainer}>
-            {routeData.map((data, i) =>
-              data.value?.[0] ? (
-                <AnswerComponent question={data.label} answers={data.value} key={i} readOnly={!data.canEdit} />
-              ) : null
-            )}
-          </View>
+          {routeData.map((data, i) =>
+            data.value?.[0] ? (
+              <AnswerComponent question={data.label} answers={data.value} key={i} readOnly={!data.canEdit} />
+            ) : null
+          )}
         </View>
         <ActionButton
           style={styles.actionButton}
@@ -144,6 +144,7 @@ class RouteDetail extends PureComponent<Props> {
           text={'Delete Route'.toUpperCase()}
           short
           delete
+          transparent
         />
       </ScrollView>
     );

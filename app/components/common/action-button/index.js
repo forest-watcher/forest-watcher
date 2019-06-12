@@ -21,6 +21,7 @@ function ActionButton(props) {
     styles.container,
     props.monochrome ? styles.light : '',
     props.left ? styles.left : '',
+    props.dark ? styles.dark : '',
     props.light ? styles.light : '',
     props.disabled ? styles.disabled : '',
     props.error ? styles.error : '',
@@ -41,18 +42,21 @@ function ActionButton(props) {
     props.main ? styles.buttonTextMain : '',
     props.monochrome ? styles.buttonTextMonochrome : '',
     props.light ? styles.buttonTextLight : '',
+    props.dark ? styles.buttonTextLight : '',
     props.left ? styles.buttonTextLeft : '',
     props.disabled ? styles.buttonTextDisabled : '',
     props.error ? styles.buttonTextError : '',
     props.delete ? styles.buttonTextError : '',
-    props.transparent ? { color: props.delete ? Theme.colors.color7 : Theme.background.secondary } : ''
+    props.transparent
+      ? { color: props.delete ? Theme.colors.color7 : props.light || props.dark ? '' : Theme.background.secondary }
+      : ''
   ];
 
   const arrowIconStyles = [Theme.icon, props.short ? styles.shortIcon : ''];
 
   let arrowIcon = nextIconWhite;
-  let underlayColor = Theme.background.secondary;
-  if (props.light) {
+  let underlayColor = Platform.select({ android: Theme.background.white, ios: Theme.background.secondary });
+  if (props.light || props.dark) {
     underlayColor = Theme.background.white;
     arrowIcon = nextIcon;
   }
@@ -75,7 +79,7 @@ function ActionButton(props) {
       })}
       onPress={onButtonPress}
       background={Platform.select({
-        android: TouchableNativeFeedback.Ripple(props.light ? Theme.background.secondary : Theme.background.white),
+        android: TouchableNativeFeedback.Ripple(underlayColor),
         ios: undefined
       })}
       activeOpacity={0.8}
@@ -111,6 +115,7 @@ ActionButton.defaultProps = {
 
 ActionButton.propTypes = {
   light: PropTypes.bool,
+  dark: PropTypes.bool,
   style: PropTypes.any,
   left: PropTypes.bool,
   disabled: PropTypes.bool,

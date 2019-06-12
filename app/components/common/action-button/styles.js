@@ -13,6 +13,10 @@ export default StyleSheet.create({
     width: Theme.icon.width,
     marginRight: 12
   },
+  dark: {
+    backgroundColor: Theme.colors.color6,
+    borderColor: Theme.colors.color6
+  },
   light: {
     backgroundColor: Theme.background.white,
     borderColor: Theme.background.white
