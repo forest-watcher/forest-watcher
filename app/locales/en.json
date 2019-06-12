@@ -277,8 +277,6 @@
             "title": "Route tracking in progress",
             "message": "Forest Watcher is recording the route you are taking to your destination"
         },
-        "locationErrorDialogTitle": "Error retrieving location",
-        "locationErrorDialogMessage": "Something went wrong while accessing your location",
         "insufficientPermissionsDialogTitle": "Unable to track route",
         "insufficientPermissionsDialogMessage": "We need background location permissions to be able to track your route.",
         "insufficientPermissionsDialogOpenAppSettings": "Check permissions",
