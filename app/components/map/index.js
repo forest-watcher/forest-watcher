@@ -17,13 +17,14 @@ import MapView from 'react-native-maps';
 import CircleButton from 'components/common/circle-button';
 import MapAttribution from 'components/map/map-attribution';
 import BottomDialog from 'components/map/bottom-dialog';
-import NoGPSBanner from 'components/map/noGPSBanner';
+import LocationErrorBanner from 'components/map/locationErrorBanner';
 import Clusters from 'containers/map/clusters';
 import Basemap from 'containers/map/basemap';
 import RouteMarkers from './route';
 import { formatCoordsByFormat, formatDistance, getDistanceOfLine, getMapZoom, getNeighboursSelected } from 'helpers/map';
 import tracker from 'helpers/googleAnalytics';
 import clusterGenerator from 'helpers/clusters-generator';
+import { LOCATION_TRACKING } from 'config/constants';
 import Theme from 'config/theme';
 import i18n from 'locales';
 import styles from './styles';
@@ -39,11 +40,9 @@ import {
   GFWOnLocationEvent,
   GFWOnHeadingEvent,
   GFWOnErrorEvent,
-  GFWErrorPermission,
-  GFWErrorLocation,
+  GFWErrorLocationStale,
   showAppSettings,
   showLocationSettings,
-  getCurrentLocation,
   startTrackingLocation,
   stopTrackingLocation,
   startTrackingHeading,
@@ -62,6 +61,14 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN = 0;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_EXITING = 1;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_STOPPING = 2;
+
+/**
+ * Elapsed time in milliseconds after which we should consider the most recent location "stale", presumably because we
+ * were unable to obtain a GPS fix
+ *
+ * @type {number}
+ */
+const STALE_LOCATION_THRESHOLD = LOCATION_TRACKING.interval * 3;
 
 const backButtonImage = require('assets/back.png');
 const markerImage = require('assets/marker.png');
@@ -136,7 +143,8 @@ class MapComponent extends Component {
       customReporting: false,
       dragging: false,
       layoutHasForceRefreshed: false,
-      routeTrackingDialogState: ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN
+      routeTrackingDialogState: ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN,
+      locationError: null
     };
   }
 
@@ -156,18 +164,27 @@ class MapComponent extends Component {
     emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
 
     this.geoLocate();
+
+    this.staleLocationTimer = setInterval(() => {
+      this.setState(state => {
+        if (
+          !state.locationError &&
+          state.location &&
+          Date.now() - state.location.timestamp < STALE_LOCATION_THRESHOLD
+        ) {
+          return {
+            locationError: GFWErrorLocationStale
+          };
+        }
+        return {};
+      });
+    }, 1000);
   }
 
   onLocationUpdateError = error => {
-    if (error.code === GFWErrorPermission) {
-      // TODO: The user has declined location permissions - the no GPS banner should be updated to state this.
-    } else if (error.code === GFWErrorLocation) {
-      // handle location error.
-      // TODO: The banner could be used to show this too...
-      Alert.alert(i18n.t('routes.locationErrorDialogTitle'), i18n.t('routes.locationErrorDialogMessage'), [
-        { text: i18n.t('commonText.ok') }
-      ]);
-    }
+    this.setState({
+      locationError: error.code
+    });
   };
 
   componentDidAppear() {
@@ -210,6 +227,8 @@ class MapComponent extends Component {
     if (!this.isRouteTracking()) {
       stopTrackingLocation();
     }
+
+    clearInterval(this.staleLocationTimer);
 
     // Do remove the emitter listeners here, as we don't want this screen to receive anything while it's non-existent!
     emitter.off(GFWOnLocationEvent, this.updateLocationFromGeolocation);
@@ -351,9 +370,10 @@ class MapComponent extends Component {
    * updateLocationFromGeolocation - Handles any location updates that arrive while the user is on this screen.
    */
   updateLocationFromGeolocation = throttle(location => {
-    this.setState(prevState => ({
-      lastPosition: location
-    }));
+    this.setState({
+      lastPosition: location,
+      locationError: null
+    });
     this.setHeaderTitle();
   }, 300);
 
@@ -669,37 +689,49 @@ class MapComponent extends Component {
   };
 
   renderButtonPanelSelected() {
-    const { lastPosition } = this.state;
+    const { lastPosition, locationError } = this.state;
 
     // To fix the missing signal text overflow rendering in reverse row
     // last to render will be on top of the others
     return (
-      <View style={styles.buttonPanel}>
-        <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
-        {lastPosition ? (
-          <CircleButton shouldFillContainer onPress={this.fitPosition} light icon={myLocationIcon} />
-        ) : null}
-        {!this.isRouteTracking() ? (
-          <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
-        ) : null}
-        <CircleButton
-          shouldFillContainer
-          onPress={this.isRouteTracking() ? this.onStopTrackingPressed : this.onStartTrackingPressed}
-          light
-          icon={this.isRouteTracking() ? stopTrackingIcon : startTrackingIcon}
+      <React.Fragment>
+        <LocationErrorBanner
+          style={{ margin: 16 }}
+          locationError={locationError}
+          mostRecentLocationTime={lastPosition?.timestamp}
         />
-      </View>
+        <View style={styles.buttonPanel}>
+          <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
+          {lastPosition ? (
+            <CircleButton shouldFillContainer onPress={this.fitPosition} light icon={myLocationIcon} />
+          ) : null}
+          {!this.isRouteTracking() ? (
+            <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
+          ) : null}
+          <CircleButton
+            shouldFillContainer
+            onPress={this.isRouteTracking() ? this.onStopTrackingPressed : this.onStartTrackingPressed}
+            light
+            icon={this.isRouteTracking() ? stopTrackingIcon : startTrackingIcon}
+          />
+        </View>
+      </React.Fragment>
     );
   }
 
   renderButtonPanel() {
-    const { lastPosition } = this.state;
+    const { lastPosition, locationError } = this.state;
 
     // To fix the missing signal text overflow rendering in reverse row
     // last to render will be on top of the others
     return (
       <View style={styles.buttonPanel}>
         <CircleButton shouldFillContainer onPress={this.onCustomReportingPress} icon={addLocationIcon} />
+        <LocationErrorBanner
+          style={{ marginRight: 16, marginLeft: lastPosition ? 16 : 0 }}
+          locationError={locationError}
+          mostRecentLocationTime={lastPosition?.timestamp}
+        />
         {lastPosition ? (
           <CircleButton shouldFillContainer onPress={this.fitPosition} light icon={myLocationIcon} />
         ) : null}
@@ -720,7 +752,6 @@ class MapComponent extends Component {
         <Image style={[styles.footerBg, { height: veilHeight }]} source={backgroundImage} />
       </View>,
       <FooterSafeAreaView key="footer" pointerEvents="box-none" style={styles.footer}>
-        {!lastPosition ? <NoGPSBanner /> : null}
         {hasAlertsSelected || customReporting || this.isRouteTracking()
           ? this.renderButtonPanelSelected()
           : this.renderButtonPanel()}
