@@ -1,5 +1,6 @@
 // @flow
 import type { RouteState, RouteAction, Route } from 'types/routes.types';
+import { deleteAllLocations } from '../helpers/location';
 
 // Actions
 const DISCARD_ACTIVE_ROUTE = 'routes/DISCARD_ACTIVE_ROUTE';
@@ -74,6 +75,7 @@ export function deleteRoutes(criteria: RouteDeletionCriteria): RouteAction {
 }
 
 export function setRouteDestination(destination: Location, areaId: string): RouteAction {
+  deleteAllLocations();
   return {
     type: UPDATE_ACTIVE_ROUTE,
     payload: {

@@ -350,7 +350,6 @@ class MapComponent extends Component {
           try {
             this.props.onCancelTrackingRoute();
             this.closeBottomDialog();
-            await deleteAllLocations();
           } catch (err) {
             console.warn('Error when discarding route', err);
             Sentry.captureException(err);
