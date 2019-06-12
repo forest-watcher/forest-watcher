@@ -84,7 +84,6 @@ class SaveRoute extends PureComponent<Props> {
       ...this.state.route
     });
     this.props.finishAndSaveRoute();
-    deleteAllLocations();
     Navigation.pop(this.props.componentId);
   };
 

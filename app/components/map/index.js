@@ -350,7 +350,6 @@ class MapComponent extends Component {
           try {
             this.props.onCancelTrackingRoute();
             this.closeBottomDialog();
-            await deleteAllLocations();
           } catch (err) {
             console.warn('Error when discarding route', err);
             Sentry.captureException(err);
@@ -740,7 +739,7 @@ class MapComponent extends Component {
   }
 
   renderMapFooter() {
-    const { selectedAlerts, neighbours, customReporting, lastPosition } = this.state;
+    const { selectedAlerts, neighbours, customReporting } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
 
     const hasNeighbours = neighbours && neighbours.length > 0;
