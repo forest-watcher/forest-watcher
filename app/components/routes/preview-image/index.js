@@ -52,8 +52,8 @@ export default class RoutePreviewImage extends PureComponent<Props> {
           initialRegion={{
             latitude: minLatitude + (maxLatitude - minLatitude) / 2,
             longitude: minLongitude + (maxLongitude - minLongitude) / 2,
-            latitudeDelta: (maxLatitude - minLatitude) * 1.1,
-            longitudeDelta: (maxLongitude - minLongitude) * 1.1
+            latitudeDelta: (maxLatitude - minLatitude) * 2,
+            longitudeDelta: (maxLongitude - minLongitude) * 2
           }}
         >
           <Basemap areaId={route.areaId} />
