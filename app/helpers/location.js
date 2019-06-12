@@ -1,6 +1,7 @@
 import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
 import RNSimpleCompass from 'react-native-simple-compass';
 import { Linking, PermissionsAndroid, Platform } from 'react-native';
+import { Sentry } from 'react-native-sentry';
 
 var emitter = require('tiny-emitter/instance');
 
@@ -17,6 +18,11 @@ export const GFWOnErrorEvent = 'gfw_onerror_event';
 // These error codes can be found in an enum in /node_modules/@mauron85/react-native-background-geolocation/ios/common/BackgroundGeolocation/MAURProviderDelegate.h
 export const GFWErrorPermission = 1000;
 export const GFWErrorLocation = 1003;
+
+/**
+ * Cache the most recent received location so that we can instantly send a fix to new subscribers
+ */
+let mostRecentLocation = null;
 
 /**
  * Initialises BackgroundGeolocation with sensible defaults for the usage of GFW tracking
@@ -101,34 +107,36 @@ async function requestAndroidLocationPermissions() {
 }
 
 /**
- * getCurrentLocation - When called, asks BackgroundGeolocation for the user's current location.
- *
- * @param  {function} completion A callback function, that will be called upon either a location being found, or an error being returned.
- * @param  {object} completion.location The location that has been returned.
- * @param  {object} completion.error The error that has been returned while fetching a location.
+ * Wrapper function around BackgroundGeolocation.getCurrentLocation that turns it from callback-based to promise-based
  */
-export async function getCurrentLocation(completion) {
+export async function getCurrentLocation() {
   const result = await checkLocationStatus();
 
   if (!result.locationServicesEnabled || result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
+    const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
     // If location services are disabled and the authorization is explicitally denied, return an error.
-    completion(null, { code: 1, message: 'Permissions denied' });
-    return;
+    if (!isResolved) {
+      throw { code: 1000, message: 'Permissions denied' };
+    }
   }
 
-  // We've got authorization (or the user hasn't been asked yet) 🎉. Try and find the current location...
-  BackgroundGeolocation.getCurrentLocation(
-    location => {
-      completion(createCompactedLocation(location), null);
-    },
-    (code, message) => {
-      completion(null, { code: code, message: message });
-    },
-    {
-      timeout: 30000,
-      enableHighAccuracy: true
-    }
-  );
+  return new Promise((resolve, reject) => {
+    // We've got authorization (or the user hasn't been asked yet) 🎉. Try and find the current location...
+    BackgroundGeolocation.getCurrentLocation(
+      location => {
+        mostRecentLocation = location;
+        resolve(location);
+      },
+      (code, message) => {
+        reject(new Error({ code: code, message: message }));
+      },
+      {
+        timeout: 10000, // ten seconds
+        maximumAge: 1000 * 60 * 60, // one hour
+        enableHighAccuracy: false
+      }
+    );
+  });
 }
 
 /**
@@ -237,6 +245,7 @@ export async function startTrackingLocation(requiredPermission) {
 
   // At this point, we should have the correct authorization.
   BackgroundGeolocation.on('location', location => {
+    mostRecentLocation = location;
     BackgroundGeolocation.startTask(taskKey => {
       emitLocationUpdate(location);
       BackgroundGeolocation.endTask(taskKey);
@@ -244,6 +253,7 @@ export async function startTrackingLocation(requiredPermission) {
   });
 
   BackgroundGeolocation.on('stationary', location => {
+    mostRecentLocation = location;
     BackgroundGeolocation.startTask(taskKey => {
       emitLocationUpdate(location);
       BackgroundGeolocation.endTask(taskKey);
@@ -255,6 +265,19 @@ export async function startTrackingLocation(requiredPermission) {
       emitter.emit(GFWOnErrorEvent, { error });
     });
   });
+
+  try {
+    await deleteAllLocations();
+
+    // Send an initial location update when tracking is started - this will actually obtain a location fix if there is not one cached
+    const initialLocationUpdate = mostRecentLocation ?? (await getCurrentLocation());
+    if (initialLocationUpdate) {
+      emitLocationUpdate(initialLocationUpdate);
+    }
+  } catch (err) {
+    console.warn('3SC', 'Unexpected failure prior to starting geolocation tracking... continuing...', err);
+    Sentry.captureException(err);
+  }
 
   BackgroundGeolocation.start();
 }
