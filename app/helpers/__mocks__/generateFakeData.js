@@ -71,15 +71,16 @@ export function createFakeReport(template, lang, overrides = {}) {
   return {
     reportName: faker.random.uuid(),
     area: {
+      name: faker.address.city(),
       templateId: template.Id
     },
     userPosition: `${faker.address.latitude()},${faker.address.longitude()}`,
-    clickedPosition: [
+    clickedPosition: `[
       {
-        lat: faker.address.latitude(),
-        lng: faker.address.longitude()
+        "lat": ${faker.address.latitude()},
+        "lon": ${faker.address.longitude()}
       }
-    ],
+    ]`,
     index: 0,
     status: faker.random.arrayElement(['draft', 'complete', 'uploaded']),
     date: faker.date.past(),
