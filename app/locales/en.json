@@ -1,6 +1,7 @@
 {
     "alerts": {
         "alertSystems": "Alert systems",
+        "locationDisabled": "Location disabled",
         "noGPS": "No GPS"
     },
     "areaDetail": {
