@@ -19,6 +19,11 @@ export const GFWErrorPermission = 1000;
 export const GFWErrorLocation = 1003;
 
 /**
+ * Cache the most recent received location so that we can instantly send a fix to new subscribers
+ */
+let mostRecentLocation = null;
+
+/**
  * Initialises BackgroundGeolocation with sensible defaults for the usage of GFW tracking
  *
  * @return {Promise}
@@ -237,6 +242,7 @@ export async function startTrackingLocation(requiredPermission) {
 
   // At this point, we should have the correct authorization.
   BackgroundGeolocation.on('location', location => {
+    mostRecentLocation = location;
     BackgroundGeolocation.startTask(taskKey => {
       emitLocationUpdate(location);
       BackgroundGeolocation.endTask(taskKey);
@@ -244,6 +250,7 @@ export async function startTrackingLocation(requiredPermission) {
   });
 
   BackgroundGeolocation.on('stationary', location => {
+    mostRecentLocation = location;
     BackgroundGeolocation.startTask(taskKey => {
       emitLocationUpdate(location);
       BackgroundGeolocation.endTask(taskKey);
@@ -256,7 +263,14 @@ export async function startTrackingLocation(requiredPermission) {
     });
   });
 
-  BackgroundGeolocation.start();
+  try {
+    await deleteAllLocations();
+  } finally {
+    BackgroundGeolocation.start();
+    if (mostRecentLocation) {
+      emitLocationUpdate(mostRecentLocation);
+    }
+  }
 }
 
 function emitLocationUpdate(location) {
