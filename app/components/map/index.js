@@ -21,7 +21,7 @@ import LocationErrorBanner from 'components/map/locationErrorBanner';
 import Clusters from 'containers/map/clusters';
 import Basemap from 'containers/map/basemap';
 import RouteMarkers from './route';
-import { formatCoordsByFormat, getDistanceFormattedText, getMapZoom, getNeighboursSelected } from 'helpers/map';
+import { formatCoordsByFormat, formatDistance, getDistanceOfLine, getMapZoom, getNeighboursSelected } from 'helpers/map';
 import tracker from 'helpers/googleAnalytics';
 import clusterGenerator from 'helpers/clusters-generator';
 import { LOCATION_TRACKING } from 'config/constants';
@@ -452,7 +452,8 @@ class MapComponent extends Component {
     let fontSize = 16;
 
     if (formattedCoords && targetLocation && currentLocation) {
-      headerText = `${formattedCoords}, ${getDistanceFormattedText(targetLocation, currentLocation, 30)}`;
+      const distance = getDistanceOfLine(targetLocation, currentLocation);
+      headerText = `${formattedCoords}, ${formatDistance(distance)}`;
     } else {
       fontSize = 18;
     }
