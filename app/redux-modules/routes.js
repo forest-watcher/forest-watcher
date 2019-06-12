@@ -6,6 +6,7 @@ const DISCARD_ACTIVE_ROUTE = 'routes/DISCARD_ACTIVE_ROUTE';
 const DELETE_ROUTE = 'routes/DELETE_ROUTE';
 const FINISH_AND_SAVE_ROUTE = 'routes/FINISH_AND_SAVE_ROUTE';
 const UPDATE_ACTIVE_ROUTE = 'routes/UPDATE_ACTIVE_ROUTE';
+const UPDATE_SAVED_ROUTE = 'routes/UPDATE_SAVED_ROUTE';
 
 // Reducer
 const initialState: RouteState = {
@@ -27,6 +28,18 @@ export default function reducer(state: RouteState = initialState, action: RouteA
           ...state.activeRoute,
           ...action.payload
         }
+      };
+    case UPDATE_SAVED_ROUTE:
+      return {
+        ...state,
+        previousRoutes: state.previousRoutes.map(route =>
+          route.id === action.payload.id
+            ? {
+                ...route,
+                ...action.payload
+              }
+            : route
+        )
       };
     case FINISH_AND_SAVE_ROUTE:
       return {
@@ -80,6 +93,14 @@ export function updateActiveRoute(route: Route): RouteAction {
   };
 }
 
+export function updateSavedRoute(route: Route): RouteAction {
+  return {
+    type: UPDATE_SAVED_ROUTE,
+    payload: {
+      ...route
+    }
+  };
+}
 export function discardActiveRoute(): RouteAction {
   return {
     type: DISCARD_ACTIVE_ROUTE

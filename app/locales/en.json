@@ -279,6 +279,11 @@
         "confirmDeleteMessage": "Are you sure you want to delete this route?",
         "delete": "Delete Route",
         "difficulty": "Difficulty",
+        "difficultyLevels": {
+            "easy": "Easy",
+            "medium": "Medium",
+            "hard": "Hard"
+        },
         "distance": "Distance",
         "duration": "Time Taken",
         "insufficientPermissionsDialogTitle": "Unable to track route",

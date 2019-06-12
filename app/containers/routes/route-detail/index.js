@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import RouteDetail from 'components/routes/route-detail';
 
-import { deleteRoutes } from '../../../redux-modules/routes';
+import { deleteRoutes, updateSavedRoute } from '../../../redux-modules/routes';
 import { setSelectedAreaId } from '../../../redux-modules/areas';
 
 function mapStateToProps(state: State, ownProps: { routeId: string }) {
@@ -26,6 +26,14 @@ function mapDispatchToProps(dispatch, ownProps: { routeId: string }) {
     deleteRoute: () => {
       dispatch(
         deleteRoutes({
+          id: ownProps.routeId
+        })
+      );
+    },
+    updateRoute: updatedFields => {
+      dispatch(
+        updateSavedRoute({
+          ...updatedFields,
           id: ownProps.routeId
         })
       );
