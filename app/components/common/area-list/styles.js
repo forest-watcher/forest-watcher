@@ -7,7 +7,6 @@ export default StyleSheet.create({
   },
   item: {
     paddingRight: 10,
-    height: 128,
     borderBottomColor: Theme.borderColors.main,
     borderBottomWidth: 2,
     backgroundColor: Theme.background.white,
@@ -27,7 +26,8 @@ export default StyleSheet.create({
   },
   titleContainer: {
     flex: 1,
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    marginVertical: 16
   },
   title: {
     fontFamily: Theme.font,
@@ -35,5 +35,13 @@ export default StyleSheet.create({
     fontSize: 17,
     fontWeight: '400',
     marginLeft: 16
+  },
+  subtitle: {
+    fontFamily: Theme.font,
+    color: Theme.fontColors.light,
+    fontSize: 15,
+    fontWeight: '400',
+    marginLeft: 16,
+    marginTop: 8
   }
 });
