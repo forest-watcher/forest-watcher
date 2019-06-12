@@ -11,7 +11,7 @@ import AnswerComponent from 'components/form/answer/answer';
 import type { Route } from 'types/routes.types';
 
 import ActionButton from 'components/common/action-button';
-import { formatCoordsByFormat } from 'helpers/map';
+import { formatCoordsByFormat, formatDistance, getDistanceOfPolyline } from 'helpers/map';
 import RoutePreviewImage from '../preview-image';
 
 type Props = {
@@ -28,26 +28,9 @@ class RouteDetail extends PureComponent<Props> {
       topBar: {
         title: {
           text: passProps.routeName
-        },
-        rightButtons: [
-          {
-            id: 'share',
-            text: 'Share'
-          }
-        ]
+        }
       }
     };
-  }
-
-  constructor(props: Props) {
-    super(props);
-    Navigation.events().bindComponent(this);
-  }
-
-  navigationButtonPressed({ buttonId }) {
-    if (buttonId === 'share') {
-      // todo share route
-    }
   }
 
   openRouteOnMap = () => {
@@ -103,20 +86,24 @@ class RouteDetail extends PureComponent<Props> {
     if (showLocations) {
       const firstLocation = route.locations[0];
       const lastLocation = route.locations.length > 1 ? route.locations?.[route.locations.length - 1] : firstLocation;
-      const locationStart = `Start: ${formatCoordsByFormat(firstLocation, coordinatesFormat)}`;
-      const locationEnd = `End: ${formatCoordsByFormat(lastLocation, coordinatesFormat)}`;
-      routeData.push({ label: ['Location'], value: [locationStart, locationEnd] });
+      const locationStart = `${i18n.t('routes.locationStart')} ${formatCoordsByFormat(
+        firstLocation,
+        coordinatesFormat
+      )}`;
+      const locationEnd = `${i18n.t('routes.locationEnd')} ${formatCoordsByFormat(lastLocation, coordinatesFormat)}`;
+      routeData.push({ label: [i18n.t('routes.location')], value: [locationStart, locationEnd] });
+
+      const routeDistance = getDistanceOfPolyline(route.locations);
+      routeData.push({ label: [i18n.t('routes.distance')], value: [formatDistance(routeDistance, 1, false)] });
     }
 
     routeData.push(
-      { label: [i18n.t('commonText.date')], value: [moment(route.endDate).format('YYYY-MM-DD')] },
-      { label: ['Difficulty'], value: [route.difficulty], canEdit: true },
-      // todo: add distance values
+      { label: [i18n.t('commonText.date')], value: [moment(route.endDate).format('ll')] },
+      { label: [i18n.t('routes.difficulty')], value: [route.difficulty], canEdit: true },
       {
-        label: [i18n.t('commonText.duration')],
+        label: [i18n.t('routes.duration')],
         value: [moment.duration(moment(route.endDate).diff(moment(route.startDate))).humanize()] // todo: format this correctly to be days, hours, minutes.
-      },
-      { label: [i18n.t('commonText.language')], value: [route.language] }
+      }
     );
 
     return (
@@ -125,7 +112,7 @@ class RouteDetail extends PureComponent<Props> {
         <ActionButton
           style={styles.actionButton}
           onPress={this.openRouteOnMap}
-          text={'View Route On Map'.toUpperCase()}
+          text={i18n.t('routes.viewOnMap').toUpperCase()}
           short
           light
         />
@@ -141,7 +128,7 @@ class RouteDetail extends PureComponent<Props> {
         <ActionButton
           style={styles.actionButton}
           onPress={this.deleteRoute}
-          text={'Delete Route'.toUpperCase()}
+          text={i18n.t('routes.delete').toUpperCase()}
           short
           delete
         />

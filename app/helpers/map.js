@@ -139,22 +139,64 @@ export function getNeighboursSelected(selectedAlerts, markers) {
   return neighbours;
 }
 
-function getDistance(endLocation, startLocation) {
+/**
+ * Calculates the distance in metres between two points
+ *
+ * @param endLocation.latitude
+ * @param endLocation.longitude
+ * @param startLocation.latitude
+ * @param startLocation.longitude
+ * @return {number}
+ *  Distance in metres
+ */
+export function getDistanceOfLine(endLocation, startLocation) {
   return (
     geokdbush.distance(endLocation.longitude, endLocation.latitude, startLocation.longitude, startLocation.latitude) *
     1000
   );
 }
 
-export function getDistanceFormattedText(endLocation, startLocation, thresholdBeforeKm) {
-  let metresDistance = getDistance(endLocation, startLocation);
-  let distance = metresDistance.toFixed(0);
+/**
+ * Calculates the total distance in metres by summing the distance between each successive pair of points
+ *
+ * @param locations.latitude
+ * @param locations.longitude
+ * @return {number}
+ *  Total distance in metres
+ */
+export function getDistanceOfPolyline(locations) {
+  let cumulativeDistance = 0;
 
-  let distanceText = `${distance} ${i18n.t('commonText.metersAway')}`;
+  if (locations.length < 2) {
+    return cumulativeDistance;
+  }
 
-  if (thresholdBeforeKm && metresDistance >= thresholdBeforeKm * 1000) {
-    distance = (metresDistance / 1000).toFixed(1); // in Kilometers
-    distanceText = `${distance} ${i18n.t('commonText.kmAway')}`;
+  let prevLocation = locations[0];
+
+  locations.splice(0, 1).forEach(location => {
+    cumulativeDistance += getDistanceOfLine(location, prevLocation);
+    prevLocation = location;
+  });
+
+  return cumulativeDistance;
+}
+
+/**
+ * Formats the provided distance in either metres or kilometres as a localised string
+ *
+ * @param distance
+ *  Distance in metres
+ * @param thresholdBeforeKm
+ * @return {string}
+ */
+export function formatDistance(distance, thresholdBeforeKm = 1, relativeToUser = true) {
+  let distanceText = `${distance.toFixed(0)} ${
+    relativeToUser ? i18n.t('commonText.metersAway') : i18n.t('commonText.meters')
+  }`;
+
+  if (thresholdBeforeKm && distance >= thresholdBeforeKm * 1000) {
+    distance = (distance / 1000).toFixed(1); // in Kilometers
+    distanceText = `${distance} ${relativeToUser ? i18n.t('commonText.kmAway') : i18n.t('commonText.kilometers')}`;
   }
 
   return distanceText;
