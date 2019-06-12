@@ -113,11 +113,15 @@ async function requestAndroidLocationPermissions() {
 export async function getCurrentLocation() {
   const result = await checkLocationStatus();
 
-  if (!result.locationServicesEnabled || result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
+  if (!result.locationServicesEnabled) {
+    throw { code: GFWErrorLocation, message: 'Location disabled' };
+  }
+
+  if (result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
     const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
     // If location services are disabled and the authorization is explicitally denied, return an error.
     if (!isResolved) {
-      throw { code: 1000, message: 'Permissions denied' };
+      throw { code: GFWErrorPermission, message: 'Permissions denied' };
     }
   }
 
@@ -201,11 +205,16 @@ export async function deleteAllLocations() {
 export async function startTrackingLocation(requiredPermission) {
   const result = await checkLocationStatus();
 
-  if (!result.locationServicesEnabled || result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
+
+  if (!result.locationServicesEnabled) {
+    throw { code: GFWErrorLocation, message: 'Location disabled' };
+  }
+
+  if (result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
     const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
     // If location services are disabled and the authorization is explicitally denied, return an error.
     if (!isResolved) {
-      throw { code: 1000, message: 'Permissions denied' };
+      throw { code: GFWErrorPermission, message: 'Permissions denied' };
     }
   }
 
@@ -220,7 +229,7 @@ export async function startTrackingLocation(requiredPermission) {
   ) {
     const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
     if (!isResolved) {
-      throw { code: 1000, message: 'Incorrect permission given' };
+      throw { code: GFWErrorPermission, message: 'Incorrect permission given' };
     }
   }
 
