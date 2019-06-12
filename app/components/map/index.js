@@ -66,6 +66,10 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
  */
 const STALE_LOCATION_THRESHOLD = LOCATION_TRACKING.interval * 3;
 
+const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN = 0;
+const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_EXITING = 1;
+const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_STOPPING = 2;
+
 const backButtonImage = require('assets/back.png');
 const markerImage = require('assets/marker.png');
 const compassImage = require('assets/compass_direction.png');
@@ -139,8 +143,8 @@ class MapComponent extends Component {
       customReporting: false,
       dragging: false,
       layoutHasForceRefreshed: false,
-      renderBottomDialog: false,
-      locationError: null
+      locationError: null,
+      routeTrackingDialogState: ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN
     };
   }
 
@@ -237,7 +241,7 @@ class MapComponent extends Component {
 
   handleBackPress = () => {
     if (this.isRouteTracking()) {
-      this.state.renderBottomDialog ? this.closeBottomDialog() : this.showBottomDialog();
+      this.state.routeTrackingDialogState ? this.closeBottomDialog() : this.showBottomDialog(true);
     } else {
       Navigation.pop(this.props.componentId);
     }
@@ -312,7 +316,7 @@ class MapComponent extends Component {
   onStopTrackingPressed = () => {
     // This doesn't immediately stop tracking - it will give the user the choice of saving and deleting and only stop
     // tracking once they have finalised one of those actions
-    this.showBottomDialog();
+    this.showBottomDialog(false);
   };
 
   openSaveRouteScreen = () => {
@@ -324,13 +328,17 @@ class MapComponent extends Component {
     });
   };
 
-  showBottomDialog = () => {
-    this.setState({ renderBottomDialog: true });
+  showBottomDialog = (isExiting = false) => {
+    this.setState({
+      routeTrackingDialogState: isExiting
+        ? ROUTE_TRACKING_BOTTOM_DIALOG_STATE_EXITING
+        : ROUTE_TRACKING_BOTTOM_DIALOG_STATE_STOPPING
+    });
     LayoutAnimation.easeInEaseOut();
   };
 
   closeBottomDialog = () => {
-    this.setState({ renderBottomDialog: false });
+    this.setState({ routeTrackingDialogState: ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN });
     LayoutAnimation.easeInEaseOut();
   };
 
@@ -732,7 +740,7 @@ class MapComponent extends Component {
   }
 
   renderMapFooter() {
-    const { selectedAlerts, neighbours, customReporting, lastPosition } = this.state;
+    const { selectedAlerts, neighbours, customReporting } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
 
     const hasNeighbours = neighbours && neighbours.length > 0;
@@ -752,14 +760,27 @@ class MapComponent extends Component {
     ];
   }
 
-  renderBottomDialog() {
-    return this.state.renderBottomDialog ? (
+  renderRouteTrackingDialog() {
+    return this.state.routeTrackingDialogState !== ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN ? (
       <BottomDialog
         title={'Stop Route Tracking'}
         closeDialog={this.closeBottomDialog}
         buttons={[
-          { text: 'stop and save route', onPress: this.openSaveRouteScreen, style: 'positive' },
-          { text: 'stop and delete route', onPress: this.onStopAndDeleteRoute, style: 'negative' }
+          ...(this.state.routeTrackingDialogState === ROUTE_TRACKING_BOTTOM_DIALOG_STATE_EXITING
+            ? [
+                {
+                  text: 'continue route tracking',
+                  onPress: () => Navigation.pop(this.props.componentId),
+                  buttonProps: {}
+                }
+              ]
+            : []),
+          { text: 'stop and save route', onPress: this.openSaveRouteScreen, buttonProps: { transparent: true } },
+          {
+            text: 'stop and delete route',
+            onPress: this.onStopAndDeleteRoute,
+            buttonProps: { delete: true, transparent: true }
+          }
         ]}
       />
     ) : null;
@@ -967,7 +988,7 @@ class MapComponent extends Component {
         </MapView>
         {customReportingElement}
         {this.renderMapFooter()}
-        {this.renderBottomDialog()}
+        {this.renderRouteTrackingDialog()}
       </View>
     );
   }
