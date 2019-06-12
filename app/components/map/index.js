@@ -665,21 +665,24 @@ class MapComponent extends Component {
     // To fix the missing signal text overflow rendering in reverse row
     // last to render will be on top of the others
     return (
-      <View style={styles.buttonPanel}>
-        <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
-        {lastPosition ? (
-          <CircleButton shouldFillContainer onPress={this.fitPosition} light icon={myLocationIcon} />
-        ) : null}
-        {!this.isRouteTracking() ? (
-          <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
-        ) : null}
-        <CircleButton
-          shouldFillContainer
-          onPress={this.isRouteTracking() ? this.onStopTrackingPressed : this.onStartTrackingPressed}
-          light
-          icon={this.isRouteTracking() ? stopTrackingIcon : startTrackingIcon}
-        />
-      </View>
+      <React.Fragment>
+        {!lastPosition ? <NoGPSBanner style={{ margin: 16 }} /> : null}
+        <View style={styles.buttonPanel}>
+          <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
+          {lastPosition ? (
+            <CircleButton shouldFillContainer onPress={this.fitPosition} light icon={myLocationIcon} />
+          ) : null}
+          {!this.isRouteTracking() ? (
+            <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
+          ) : null}
+          <CircleButton
+            shouldFillContainer
+            onPress={this.isRouteTracking() ? this.onStopTrackingPressed : this.onStartTrackingPressed}
+            light
+            icon={this.isRouteTracking() ? stopTrackingIcon : startTrackingIcon}
+          />
+        </View>
+      </React.Fragment>
     );
   }
 
@@ -691,6 +694,7 @@ class MapComponent extends Component {
     return (
       <View style={styles.buttonPanel}>
         <CircleButton shouldFillContainer onPress={this.onCustomReportingPress} icon={addLocationIcon} />
+        {!lastPosition ? <NoGPSBanner style={{ marginRight: 16 }} /> : null}
         {lastPosition ? (
           <CircleButton shouldFillContainer onPress={this.fitPosition} light icon={myLocationIcon} />
         ) : null}
@@ -711,7 +715,6 @@ class MapComponent extends Component {
         <Image style={[styles.footerBg, { height: veilHeight }]} source={backgroundImage} />
       </View>,
       <FooterSafeAreaView key="footer" pointerEvents="box-none" style={styles.footer}>
-        {!lastPosition ? <NoGPSBanner /> : null}
         {hasAlertsSelected || customReporting || this.isRouteTracking()
           ? this.renderButtonPanelSelected()
           : this.renderButtonPanel()}

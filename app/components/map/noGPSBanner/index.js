@@ -9,7 +9,7 @@ const noGPSIcon = require('assets/gpsOff.png');
 export default class NoGPSBanner extends Component {
   render() {
     return (
-      <View style={styles.noGPSBanner}>
+      <View style={[styles.noGPSBanner, this.props.style]}>
         <View style={styles.noGPSContainer}>
           <Image style={styles.noGPSImage} source={noGPSIcon} />
           <View style={styles.noGPSTextContainer}>

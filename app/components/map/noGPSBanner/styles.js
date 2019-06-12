@@ -3,10 +3,9 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   noGPSBanner: {
+    flex: 1,
     flexDirection: 'row',
     borderRadius: 6,
-    marginBottom: 16,
-    marginHorizontal: 16,
     backgroundColor: '#878787'
   },
   noGPSContainer: {
