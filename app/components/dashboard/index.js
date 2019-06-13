@@ -4,7 +4,6 @@ import React, { PureComponent } from 'react';
 import { Alert, Platform, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
 import Config from 'react-native-config';
 import { Navigation } from 'react-native-navigation';
-import SafeArea from 'react-native-safe-area';
 
 import AreaList from 'containers/common/area-list';
 import RouteList from 'components/common/route-list';
@@ -70,15 +69,6 @@ class Dashboard extends PureComponent<Props> {
     if (this.props.refreshing && !this.props.appSyncing) {
       this.props.setAreasRefreshing(false);
     }
-
-    // Determine the current insets. This is so, for the page indictator view,
-    // we can add additional padding to ensure the white background is extended
-    // beyond the safe area.
-    SafeArea.getSafeAreaInsetsForRootView().then(result => {
-      this.setState(state => ({
-        bottomSafeAreaInset: result.safeAreaInsets.bottom
-      }));
-    });
 
     // Can remove when this is fixed: https://github.com/wix/react-native-navigation/issues/4432
     if (Platform.OS === 'android') {
@@ -187,7 +177,6 @@ class Dashboard extends PureComponent<Props> {
   };
 
   render() {
-    const bottomSafeAreaInset = this.state?.bottomSafeAreaInset || 0;
     const { pristine, refreshing, appSyncing } = this.props;
     const isIOS = Platform.OS === 'ios';
     // we remove the event handler to improve performance
@@ -202,7 +191,6 @@ class Dashboard extends PureComponent<Props> {
       <View style={styles.container} onStartShouldSetResponder={androidListener} onResponderRelease={androidHandler}>
         <StatusBar networkActivityIndicatorVisible={appSyncing} />
         <ScrollView
-          style={styles.containerScroll}
           onScroll={disablePristine}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />}
         >
@@ -225,15 +213,7 @@ class Dashboard extends PureComponent<Props> {
             </View>
           </View>
         </ScrollView>
-        <Row
-          rowStyle={[
-            styles.row,
-            {
-              height: 80 + bottomSafeAreaInset
-            }
-          ]}
-          action={this.reportsAction}
-        >
+        <Row action={this.reportsAction}>
           <Text style={styles.textMyReports}>{i18n.t('dashboard.myReports')}</Text>
         </Row>
       </View>
