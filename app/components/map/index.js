@@ -64,6 +64,10 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 5;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
+const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN = 0;
+const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_EXITING = 1;
+const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_STOPPING = 2;
+
 /**
  * Elapsed time in milliseconds after which we should consider the most recent location "stale", presumably because we
  * were unable to obtain a GPS fix
@@ -71,10 +75,6 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
  * @type {number}
  */
 const STALE_LOCATION_THRESHOLD = LOCATION_TRACKING.interval * 3;
-
-const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN = 0;
-const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_EXITING = 1;
-const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_STOPPING = 2;
 
 const backButtonImage = require('assets/back.png');
 const markerImage = require('assets/marker.png');
@@ -149,8 +149,8 @@ class MapComponent extends Component {
       customReporting: false,
       dragging: false,
       layoutHasForceRefreshed: false,
-      locationError: null,
-      routeTrackingDialogState: ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN
+      routeTrackingDialogState: ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN,
+      locationError: null
     };
   }
 
