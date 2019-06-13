@@ -128,9 +128,28 @@ class RouteDetail extends PureComponent<Props> {
         newName = text;
       }
     } else {
-      newName = new Promise((resolve, reject) => {
-        AlertIOS.prompt(title, message, text => resolve(text), undefined, placeholder);
-      });
+      try {
+        newName = await new Promise((resolve, reject) => {
+          AlertIOS.prompt(
+            title,
+            message,
+            [
+              {
+                text: i18n.t('commonText.cancel'),
+                onPress: () => reject(),
+                style: 'cancel'
+              },
+              {
+                text: i18n.t('commonText.ok'),
+                onPress: text => resolve(text)
+              }
+            ],
+            'plain-text'
+          );
+        });
+      } catch {
+        return;
+      }
     }
 
     if (!!newName && newName !== placeholder) {
