@@ -8,6 +8,7 @@ import styles from './styles';
 import ActionButton from 'components/common/action-button';
 import InputText from 'components/common/text-input';
 import { deleteAllLocations, getValidLocations, stopTrackingLocation } from 'helpers/location';
+import i18n from 'locales';
 import RoutePreviewImage from '../preview-image';
 
 type Props = {
@@ -83,7 +84,6 @@ class SaveRoute extends PureComponent<Props> {
       ...this.state.route
     });
     this.props.finishAndSaveRoute();
-    deleteAllLocations();
     Navigation.pop(this.props.componentId);
   };
 
@@ -101,9 +101,13 @@ class SaveRoute extends PureComponent<Props> {
             ...this.state.route
           }}
         />
-        <Text style={styles.headingText}>{'Route Name'.toUpperCase()}</Text>
-        <InputText value={this.state.route.name} placeholder={'Route Name'} onChangeText={this.changeRouteSaveName} />
-        <Text style={styles.headingText}>{'Difficulty'.toUpperCase()}</Text>
+        <Text style={styles.headingText}>{i18n.t('commonText.name').toUpperCase()}</Text>
+        <InputText
+          value={this.state.route.name}
+          placeholder={i18n.t('commonText.name')}
+          onChangeText={this.changeRouteSaveName}
+        />
+        <Text style={styles.headingText}>{i18n.t('routes.difficulty').toUpperCase()}</Text>
         <Picker
           selectedValue={this.state.route.difficulty}
           onValueChange={this.changeRouteDifficulty}
@@ -111,9 +115,9 @@ class SaveRoute extends PureComponent<Props> {
           itemStyle={{ height: 72 }} // Only for iOS
           mode="dropdown" // Only for Android
         >
-          <Picker.Item label={'easy'} value={'easy'} style={styles.pickerItem} />
-          <Picker.Item label={'medium'} value={'medium'} style={styles.pickerItem} />
-          <Picker.Item label={'hard'} value={'hard'} style={styles.pickerItem} />
+          <Picker.Item label={i18n.t('routes.difficultyLevels.easy')} value={'easy'} style={styles.pickerItem} />
+          <Picker.Item label={i18n.t('routes.difficultyLevels.medium')} value={'medium'} style={styles.pickerItem} />
+          <Picker.Item label={i18n.t('routes.difficultyLevels.hard')} value={'hard'} style={styles.pickerItem} />
         </Picker>
         <ActionButton
           style={styles.actionButton}

@@ -1,6 +1,7 @@
 {
     "alerts": {
         "alertSystems": "Alert systems",
+        "locationDisabled": "Location disabled",
         "noGPS": "No GPS"
     },
     "areaDetail": {
@@ -273,12 +274,17 @@
         "uploaded": "Uploaded"
     },
     "routes": {
-        "backgroundErrorDialogTitle": "Something went wrong while you were away",
-        "backgroundErrorDialogMessage": "The device has stopped monitoring location updates. What would you like to do?",
+        "backgroundErrorDialogTitle": "Route tracking paused",
+        "backgroundErrorDialogMessage": "Please check your location settings and app permissions to resume route tracking.",
         "confirmDeleteTitle": "Delete route",
         "confirmDeleteMessage": "Are you sure you want to delete this route?",
         "delete": "Delete Route",
         "difficulty": "Difficulty",
+        "difficultyLevels": {
+            "easy": "Easy",
+            "medium": "Medium",
+            "hard": "Hard"
+        },
         "distance": "Distance",
         "duration": "Time Taken",
         "insufficientPermissionsDialogTitle": "Unable to track route",
@@ -294,6 +300,10 @@
             "title": "Route tracking in progress",
             "message": "Forest Watcher is recording the route you are taking to your destination"
         },
+        "resumeTrackingDialogTitle": "Resume route tracking",
+        "resumeTrackingDialogMessage": "You have an unfinished route. Would you like to resume it?",
+        "resumeTrackingDialogPositiveButton": "Resume route",
+        "resumeTrackingDialogNegativeButton": "Delete route",
         "viewOnMap": "View Route on Map"
     },
     "settings": {
