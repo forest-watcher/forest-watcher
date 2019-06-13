@@ -21,7 +21,13 @@ import LocationErrorBanner from 'components/map/locationErrorBanner';
 import Clusters from 'containers/map/clusters';
 import Basemap from 'containers/map/basemap';
 import RouteMarkers from './route';
-import { formatCoordsByFormat, formatDistance, getDistanceOfLine, getMapZoom, getNeighboursSelected } from 'helpers/map';
+import {
+  formatCoordsByFormat,
+  formatDistance,
+  getDistanceOfLine,
+  getMapZoom,
+  getNeighboursSelected
+} from 'helpers/map';
 import tracker from 'helpers/googleAnalytics';
 import clusterGenerator from 'helpers/clusters-generator';
 import { LOCATION_TRACKING } from 'config/constants';
@@ -973,10 +979,7 @@ class MapComponent extends Component {
           {contextualRemoteLayerElement}
           {clustersElement}
           {compassLineElement}
-          <RouteMarkers
-            isTracking={this.isRouteTracking()}
-            route={route}
-          />
+          <RouteMarkers isTracking={this.isRouteTracking()} route={route} />
           {areaPolygonElement}
           {neighboursAlertsElement}
           {selectedAlertsElement}
