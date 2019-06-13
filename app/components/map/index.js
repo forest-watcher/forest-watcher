@@ -170,7 +170,7 @@ class MapComponent extends Component {
         if (
           !state.locationError &&
           state.location &&
-          Date.now() - state.location.timestamp < STALE_LOCATION_THRESHOLD
+          Date.now() - state.location.timestamp > STALE_LOCATION_THRESHOLD
         ) {
           return {
             locationError: GFWErrorLocationStale
