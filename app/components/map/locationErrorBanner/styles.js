@@ -2,14 +2,13 @@ import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  noGPSBanner: {
+  locationErrorBanner: {
+    flex: 1,
     flexDirection: 'row',
     borderRadius: 6,
-    marginBottom: 16,
-    marginHorizontal: 16,
     backgroundColor: '#878787'
   },
-  noGPSContainer: {
+  locationErrorContainer: {
     alignItems: 'center',
     backgroundColor: 'white',
     borderBottomRightRadius: 6,
@@ -22,16 +21,16 @@ export default StyleSheet.create({
     overflow: 'hidden',
     paddingVertical: 16
   },
-  noGPSImage: {
+  locationErrorImage: {
     height: 25,
     width: 25
   },
-  noGPSTextContainer: {
+  locationErrorTextContainer: {
     alignItems: 'center',
     flex: 1,
     justifyContent: 'flex-start'
   },
-  noGPSText: {
+  locationErrorText: {
     fontWeight: 'normal',
     fontFamily: Theme.font,
     fontSize: 18,
