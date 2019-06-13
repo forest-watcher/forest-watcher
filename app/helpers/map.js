@@ -173,7 +173,7 @@ export function getDistanceOfPolyline(locations) {
 
   let prevLocation = locations[0];
 
-  locations.splice(0, 1).forEach(location => {
+  locations.slice(1).forEach(location => {
     cumulativeDistance += getDistanceOfLine(location, prevLocation);
     prevLocation = location;
   });
