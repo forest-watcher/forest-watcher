@@ -12,8 +12,6 @@ import throttle from 'lodash/throttle';
 
 type Props = {
   isTracking: boolean,
-  markerBorder: number,
-  markerSize: number,
   route: Route
 };
 
@@ -139,7 +137,7 @@ export default class RouteMarkers extends PureComponent<Props> {
             zIndex={20}
             tracksViewChanges={false}
           >
-            <View style={[this.props.markerSize, this.props.markerBorder, styles.selectedMarkerIcon]} />
+            <View style={[{ height: 18, width: 18, borderWidth: 3 }, styles.selectedMarkerIcon]} />
           </MapView.Marker>
         ) : null}
       </React.Fragment>
