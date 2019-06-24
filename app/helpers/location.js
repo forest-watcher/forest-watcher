@@ -10,7 +10,7 @@ import { LOCATION_TRACKING } from 'config/constants';
 export const GFWLocationAuthorizedAlways = BackgroundGeolocation.AUTHORIZED;
 export const GFWLocationAuthorizedInUse = BackgroundGeolocation.AUTHORIZED_FOREGROUND;
 export const GFWLocationUnauthorized = BackgroundGeolocation.NOT_AUTHORIZED;
-export const GFWLocationUndetermined = 99; // This is not fixed within BackgroundGeolocation and may change...
+export const GFWLocationUndetermined = 99; // This is a fixed constant within BackgroundGeolocation, but not exposed to JS!
 export const GFWOnLocationEvent = 'gfw_onlocation_event';
 export const GFWOnStationaryEvent = 'gfw_onstationary_event';
 export const GFWOnHeadingEvent = 'gfw_onheading_event';
