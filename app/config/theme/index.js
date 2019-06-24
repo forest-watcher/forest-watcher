@@ -11,7 +11,8 @@ export const colors = {
   color7: '#f15656',
   colorGlad: '#ff6699',
   colorViirs: '#ED4602',
-  colorRecent: '#e9bd15'
+  colorRecent: '#e9bd15',
+  colorBlueTransparent: '#4780D480'
 };
 
 const config = {
@@ -29,7 +30,8 @@ const config = {
     color7: colors.color7,
     colorGlad: colors.colorGlad,
     colorViirs: colors.colorViirs,
-    colorRecent: colors.colorRecent
+    colorRecent: colors.colorRecent,
+    colorBlueTransparent: colors.colorBlueTransparent
   },
   font: 'firasansot',
   fontColors: {

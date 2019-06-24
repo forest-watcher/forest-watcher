@@ -140,6 +140,16 @@ export default class RouteMarkers extends PureComponent<Props> {
             <View style={[{ height: 18, width: 18, borderWidth: 3 }, styles.selectedMarkerIcon]} />
           </MapView.Marker>
         ) : null}
+        {routeLocations && this.props.route?.destination ? (
+          <MapView.Polyline
+            key="compassLineElement"
+            lineDashPattern={[1, 2]}
+            coordinates={[routeLocations[routeLocations.length - 1], this.props.route?.destination]}
+            strokeColor={Theme.colors.colorBlueTransparent}
+            strokeWidth={2}
+            zIndex={3}
+          />
+        ) : null}
       </React.Fragment>
     );
   }
