@@ -112,7 +112,7 @@ export default class RouteMarkers extends PureComponent<Props> {
             key="currentRouteLineElements"
             coordinates={routeLocations}
             strokeColor={Theme.colors.color5}
-            strokeWidth={2}
+            strokeWidth={3}
             zIndex={3}
           />
         ) : null}
@@ -142,11 +142,10 @@ export default class RouteMarkers extends PureComponent<Props> {
         ) : null}
         {routeLocations && this.props.route?.destination ? (
           <MapView.Polyline
-            key="compassLineElement"
-            lineDashPattern={[1, 2]}
+            key="destinationLineElement"
             coordinates={[routeLocations[routeLocations.length - 1], this.props.route?.destination]}
-            strokeColor={Theme.colors.colorBlueTransparent}
-            strokeWidth={2}
+            strokeColor={Theme.colors.colorLightBlue}
+            strokeWidth={3}
             zIndex={3}
           />
         ) : null}

@@ -12,7 +12,7 @@ export const colors = {
   colorGlad: '#ff6699',
   colorViirs: '#ED4602',
   colorRecent: '#e9bd15',
-  colorBlueTransparent: '#4780D480'
+  colorLightBlue: '#ACC6D5'
 };
 
 const config = {
@@ -31,7 +31,7 @@ const config = {
     colorGlad: colors.colorGlad,
     colorViirs: colors.colorViirs,
     colorRecent: colors.colorRecent,
-    colorBlueTransparent: colors.colorBlueTransparent
+    colorLightBlue: colors.colorLightBlue
   },
   font: 'firasansot',
   fontColors: {
@@ -78,7 +78,7 @@ const config = {
     fillSelected: 'rgba(255, 255, 255, 0.5)',
     fillInvalid: 'rgba(241, 86, 86, 0.5)',
     stroke: '#97be32',
-    strokeWidth: 2,
+    strokeWidth: 3,
     strokeSelected: '#FFFFFF'
   },
   navigator: {
