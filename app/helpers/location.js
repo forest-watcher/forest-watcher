@@ -10,6 +10,7 @@ import { LOCATION_TRACKING } from 'config/constants';
 export const GFWLocationAuthorizedAlways = BackgroundGeolocation.AUTHORIZED;
 export const GFWLocationAuthorizedInUse = BackgroundGeolocation.AUTHORIZED_FOREGROUND;
 export const GFWLocationUnauthorized = BackgroundGeolocation.NOT_AUTHORIZED;
+export const GFWLocationUndetermined = 99; // This is not fixed within BackgroundGeolocation and may change...
 export const GFWOnLocationEvent = 'gfw_onlocation_event';
 export const GFWOnStationaryEvent = 'gfw_onstationary_event';
 export const GFWOnHeadingEvent = 'gfw_onheading_event';
@@ -91,7 +92,7 @@ export async function checkLocationStatus() {
         resolve(isRunning, locationServicesEnabled, authorizationStatus);
       },
       err => {
-        resolve(false, false, BackgroundGeolocation.NOT_AUTHORIZED);
+        resolve(false, false, GFWLocationUnauthorized);
       }
     );
   });
@@ -117,7 +118,7 @@ export async function getCurrentLocation() {
     throw { code: GFWErrorLocation, message: 'Location disabled' };
   }
 
-  if (result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
+  if (result.authorization === GFWLocationUnauthorized) {
     const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
     // If location services are disabled and the authorization is explicitally denied, return an error.
     if (!isResolved) {
@@ -209,7 +210,7 @@ export async function startTrackingLocation(requiredPermission) {
     throw { code: GFWErrorLocation, message: 'Location disabled' };
   }
 
-  if (result.authorization === BackgroundGeolocation.NOT_AUTHORIZED) {
+  if (result.authorization === GFWLocationUnauthorized) {
     const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
     // If location services are disabled and the authorization is explicitally denied, return an error.
     if (!isResolved) {
@@ -219,12 +220,12 @@ export async function startTrackingLocation(requiredPermission) {
 
   // Here, make sure that the result authorization matches the required permission.
   // Also, handle being given higher access than expected.
+  // We also must ensure that if the location permission is undetermined, we continue beyond this
+  // as otherwise the user is never prompted for their location!
   if (
     result.authorization !== requiredPermission &&
-    !(
-      result.authorization === BackgroundGeolocation.AUTHORIZED &&
-      requiredPermission === BackgroundGeolocation.AUTHORIZED_FOREGROUND
-    )
+    !(result.authorization === GFWLocationAuthorizedAlways && requiredPermission === GFWLocationAuthorizedInUse) &&
+    result.authorization !== GFWLocationUndetermined
   ) {
     const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
     if (!isResolved) {
@@ -235,7 +236,7 @@ export async function startTrackingLocation(requiredPermission) {
   // On Android the startForeground prop controls whether we show an ongoing notification (when true).
   // Only do this if the requiredPermission indicates that the user wants to track location at ALL times.
   if (Platform.OS === 'android') {
-    const requiredForegroundStatus = requiredPermission === BackgroundGeolocation.AUTHORIZED;
+    const requiredForegroundStatus = requiredPermission === GFWLocationAuthorizedAlways;
     const configuration = await getConfiguration();
 
     if (configuration.startForeground !== requiredForegroundStatus) {
