@@ -122,14 +122,7 @@ class Dashboard extends PureComponent<Props> {
       this.props.setSelectedAreaId(areaId);
       Navigation.push(this.props.componentId, {
         component: {
-          name: 'ForestWatcher.Map',
-          options: {
-            topBar: {
-              title: {
-                text: name
-              }
-            }
-          }
+          name: 'ForestWatcher.Map'
         }
       });
     }

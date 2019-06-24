@@ -108,7 +108,8 @@ class MapComponent extends Component {
         },
         drawBehind: true,
         title: {
-          color: Theme.fontColors.white
+          color: Theme.fontColors.white,
+          text: i18n.t('dashboard.map')
         },
         leftButtons: [
           {
@@ -212,10 +213,6 @@ class MapComponent extends Component {
           this.updateSelectedArea();
         }
       }
-    }
-
-    if (this.state.selectedAlerts !== prevState.selectedAlerts && !this.isRouteTracking()) {
-      this.setHeaderTitle();
     }
 
     const updateCompassLine = [
@@ -379,7 +376,6 @@ class MapComponent extends Component {
       lastPosition: location,
       locationError: null
     });
-    this.setHeaderTitle();
   }, 300);
 
   updateHeading = throttle(heading => {
@@ -458,49 +454,6 @@ class MapComponent extends Component {
       }
       return state;
     });
-  };
-
-  setLocationHeaderTitle = (formattedCoords, targetLocation, currentLocation) => {
-    let headerText = i18n.t('dashboard.map');
-    let fontSize = 16;
-
-    if (formattedCoords && targetLocation && currentLocation) {
-      const distance = getDistanceOfLine(targetLocation, currentLocation);
-      headerText = `${formattedCoords}, ${formatDistance(distance)}`;
-    } else {
-      fontSize = 18;
-    }
-
-    Navigation.mergeOptions(this.props.componentId, {
-      topBar: {
-        title: {
-          color: Theme.fontColors.white,
-          fontSize: fontSize,
-          text: headerText
-        }
-      }
-    });
-  };
-
-  setHeaderTitle = () => {
-    const { selectedAlerts, lastPosition } = this.state;
-    const { coordinatesFormat, route } = this.props;
-
-    // If we have selected alerts, and we're not currently tracking a route.
-    if (selectedAlerts && selectedAlerts.length > 0 && !this.isRouteTracking()) {
-      const last = selectedAlerts.length - 1;
-      const coordinates = {
-        latitude: selectedAlerts[last].latitude,
-        longitude: selectedAlerts[last].longitude
-      };
-      const coordinateText = formatCoordsByFormat(coordinates, coordinatesFormat);
-      this.setLocationHeaderTitle(coordinateText, coordinates, lastPosition);
-    } else if (this.isRouteTracking()) {
-      const coordinateText = formatCoordsByFormat(route.destination, coordinatesFormat);
-      this.setLocationHeaderTitle(coordinateText, route.destination, lastPosition);
-    } else {
-      this.setLocationHeaderTitle();
-    }
   };
 
   getMarkerSize() {
@@ -602,18 +555,6 @@ class MapComponent extends Component {
     });
   };
 
-  onRegionChange = region => {
-    if (this.state.customReporting && !this.isRouteTracking()) {
-      Navigation.mergeOptions(this.props.componentId, {
-        topBar: {
-          title: {
-            text: formatCoordsByFormat(region, this.props.coordinatesFormat)
-          }
-        }
-      });
-    }
-  };
-
   onRegionChangeComplete = region => {
     const mapZoom = getMapZoom(region);
 
@@ -691,6 +632,44 @@ class MapComponent extends Component {
         }
       }
     );
+  };
+
+  /**
+   * getCoordinateAndDistanceText - Returns the location and distance text.
+   */
+  getCoordinateAndDistanceText = () => {
+    const getCoordinateText = (formattedCoords, targetLocation, currentLocation) => {
+      if (formattedCoords && targetLocation && currentLocation) {
+        const distance = getDistanceOfLine(targetLocation, currentLocation);
+
+        return `${i18n.t('map.pinLocation')} ${formattedCoords}\n${i18n.t('map.pinDistance')} ${formatDistance(
+          distance
+        )}`;
+      }
+
+      return '';
+    };
+
+    const { selectedAlerts, lastPosition } = this.state;
+    const { coordinatesFormat, route } = this.props;
+
+    if (this.isRouteTracking()) {
+      // Show the destination coordinates.
+      const coordinateText = formatCoordsByFormat(route.destination, coordinatesFormat);
+      return getCoordinateText(coordinateText, route.destination, lastPosition);
+    } else if (selectedAlerts && selectedAlerts.length > 0) {
+      // Show the selected alert coordinate.
+      const last = selectedAlerts.length - 1;
+      const coordinates = {
+        latitude: selectedAlerts[last].latitude,
+        longitude: selectedAlerts[last].longitude
+      };
+      const coordinateText = formatCoordsByFormat(coordinates, coordinatesFormat);
+      return getCoordinateText(coordinateText, coordinates, lastPosition);
+    } else {
+      // Show nothing!
+      return '';
+    }
   };
 
   renderButtonPanelSelected() {
@@ -949,13 +928,14 @@ class MapComponent extends Component {
       <View style={containerStyle} onMoveShouldSetResponder={this.onMoveShouldSetResponder}>
         <View pointerEvents="none" style={styles.header}>
           <Image style={styles.headerBg} source={backgroundImage} />
-          {!isConnected && (
-            <SafeAreaView>
+          <SafeAreaView>
+            {!isConnected && (
               <Text style={styles.offlineNotice}>
                 {isOfflineMode ? i18n.t('settings.offlineMode') : i18n.t('commonText.connectionRequiredTitle')}
               </Text>
-            </SafeAreaView>
-          )}
+            )}
+            <Text style={styles.coordinateText}>{this.getCoordinateAndDistanceText()}</Text>
+          </SafeAreaView>
         </View>
         <MapView
           ref={ref => {
@@ -971,7 +951,6 @@ class MapComponent extends Component {
           rotateEnabled
           moveOnMarkerPress={false}
           onMapReady={this.onMapReady}
-          onRegionChange={this.onRegionChange}
           onRegionChangeComplete={this.onRegionChangeComplete}
         >
           <Basemap areaId={area.id} />
