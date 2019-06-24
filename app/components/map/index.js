@@ -135,7 +135,6 @@ class MapComponent extends Component {
     this.state = {
       lastPosition: null,
       hasCompass: false,
-      compassLine: null,
       heading: null,
       region: {
         latitude: undefined, // These are undefined, as when the map is ready it'll move the map to focus on the area.
@@ -213,14 +212,6 @@ class MapComponent extends Component {
           this.updateSelectedArea();
         }
       }
-    }
-
-    const updateCompassLine = [
-      this.state.lastPosition !== prevState.lastPosition,
-      this.state.selectedAlerts !== prevState.selectedAlerts
-    ];
-    if (updateCompassLine.includes(true)) {
-      this.setCompassLine();
     }
   }
 
@@ -437,23 +428,6 @@ class MapComponent extends Component {
         layoutHasForceRefreshed: true
       });
     }
-  };
-
-  setCompassLine = () => {
-    this.setState(prevState => {
-      const state = {};
-      if (prevState.selectedAlerts && prevState.selectedAlerts.length > 0 && prevState.lastPosition) {
-        const last = prevState.selectedAlerts.length - 1;
-        // extract not needed props
-        // eslint-disable-next-line no-unused-vars
-        const { accuracy, altitude, speed, course, ...rest } = prevState.lastPosition;
-        state.compassLine = [{ ...rest }, { ...prevState.selectedAlerts[last] }];
-      }
-      if (prevState.compassLine !== null && prevState.selectedAlerts.length === 0) {
-        state.compassLine = null;
-      }
-      return state;
-    });
   };
 
   getMarkerSize() {
@@ -778,7 +752,7 @@ class MapComponent extends Component {
   };
 
   render() {
-    const { lastPosition, compassLine, customReporting, selectedAlerts, neighbours, heading, markers } = this.state;
+    const { lastPosition, customReporting, selectedAlerts, neighbours, heading, markers } = this.state;
 
     const {
       areaCoordinates,
@@ -789,7 +763,7 @@ class MapComponent extends Component {
       isOfflineMode,
       ctxLayerLocalTilePath
     } = this.props;
-    const showCompassLine = lastPosition && selectedAlerts && compassLine && !this.isRouteTracking();
+    const showCompassLine = lastPosition && selectedAlerts.length > 0 && !this.isRouteTracking();
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
     const isIOS = Platform.OS === 'ios';
     const ctxLayerKey =
@@ -819,7 +793,7 @@ class MapComponent extends Component {
     const compassLineElement = showCompassLine ? (
       <MapView.Polyline
         key="compassLineElement"
-        coordinates={compassLine}
+        coordinates={[lastPosition, selectedAlerts[selectedAlerts.length - 1]]}
         strokeColor={Theme.colors.color5}
         strokeWidth={2}
         zIndex={3}
