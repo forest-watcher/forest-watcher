@@ -638,13 +638,15 @@ class MapComponent extends Component {
    * getCoordinateAndDistanceText - Returns the location and distance text.
    */
   getCoordinateAndDistanceText = () => {
-    const getCoordinateText = (formattedCoords, targetLocation, currentLocation) => {
-      if (formattedCoords && targetLocation && currentLocation) {
+    const getCoordinateText = (targetLocation, currentLocation) => {
+      const { coordinatesFormat } = this.props;
+
+      if (targetLocation && currentLocation) {
         const distance = getDistanceOfLine(targetLocation, currentLocation);
 
-        return `${i18n.t('map.pinLocation')} ${formattedCoords}\n${i18n.t('map.pinDistance')} ${formatDistance(
-          distance
-        )}`;
+        return `${i18n.t('map.pinLocation')} ${formatCoordsByFormat(targetLocation, coordinatesFormat)}\n${i18n.t(
+          'map.pinDistance'
+        )} ${formatDistance(distance)}`;
       }
 
       return '';
@@ -655,8 +657,7 @@ class MapComponent extends Component {
 
     if (this.isRouteTracking()) {
       // Show the destination coordinates.
-      const coordinateText = formatCoordsByFormat(route.destination, coordinatesFormat);
-      return getCoordinateText(coordinateText, route.destination, lastPosition);
+      return getCoordinateText(route.destination, lastPosition);
     } else if (selectedAlerts && selectedAlerts.length > 0) {
       // Show the selected alert coordinate.
       const last = selectedAlerts.length - 1;
@@ -664,8 +665,7 @@ class MapComponent extends Component {
         latitude: selectedAlerts[last].latitude,
         longitude: selectedAlerts[last].longitude
       };
-      const coordinateText = formatCoordsByFormat(coordinates, coordinatesFormat);
-      return getCoordinateText(coordinateText, coordinates, lastPosition);
+      return getCoordinateText(coordinates, lastPosition);
     } else {
       // Show nothing!
       return '';
