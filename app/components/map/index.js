@@ -842,7 +842,7 @@ class MapComponent extends Component {
         key="compassLineElement"
         coordinates={compassLine}
         strokeColor={Theme.colors.color5}
-        strokeWidth={2}
+        strokeWidth={3}
         zIndex={3}
       />
     ) : null;
@@ -851,7 +851,7 @@ class MapComponent extends Component {
         key="areaPolygonElement"
         coordinates={areaCoordinates}
         strokeColor={Theme.colors.color1}
-        strokeWidth={2}
+        strokeWidth={3}
         zIndex={3}
       />
     ) : null;
