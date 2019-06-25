@@ -39,6 +39,17 @@ export default StyleSheet.create({
     color: 'red',
     margin: 16
   },
+  coordinateText: {
+    color: 'white',
+    fontSize: 16,
+    justifyContent: 'center',
+    left: 0,
+    paddingHorizontal: 20,
+    position: 'absolute',
+    right: 0,
+    textAlign: 'center',
+    top: 45
+  },
   selectedMarkerIcon: {
     borderColor: 'rgba(255, 255, 255, 1)',
     backgroundColor: Theme.colors.color1
@@ -65,7 +76,7 @@ export default StyleSheet.create({
   },
   headerBg: {
     width: Theme.screen.width,
-    height: 132,
+    height: 160,
     resizeMode: 'stretch',
     position: 'absolute',
     top: 0
