@@ -22,8 +22,7 @@ function mapStateToProps(state: State) {
     activeRoute: state.routes.activeRoute,
     refreshing: state.areas.refreshing,
     pristine: state.app.pristineCacheTooltip,
-    needsUpdate: areasOutdated && !appSyncing && isConnected && loggedIn,
-    routes: state.routes.previousRoutes ?? []
+    needsUpdate: areasOutdated && !appSyncing && isConnected && loggedIn
   };
 }
 
