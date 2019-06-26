@@ -508,7 +508,7 @@ class MapComponent extends Component {
         lat: alert.latitude,
         lon: alert.longitude
       }));
-    } else if (this.isRouteTracking()) {
+    } else if (this.isRouteTracking() && lastPosition) {
       latLng = [
         {
           lat: lastPosition.latitude,
