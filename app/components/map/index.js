@@ -380,6 +380,11 @@ class MapComponent extends Component {
   }, 450);
 
   onCustomReportingPress = () => {
+    // If the region's latitude & longitude aren't set, we shouldn't enter custom reporting mode!
+    if (!(this.state.region.latitude && this.state.region.longitude)) {
+      return;
+    }
+
     this.setState(prevState => ({
       customReporting: true,
       selectedAlerts: [prevState.region]
@@ -496,13 +501,22 @@ class MapComponent extends Component {
   createReport = selectedAlerts => {
     this.props.setCanDisplayAlerts(false);
     const { area } = this.props;
+    const { lastPosition } = this.state;
     let latLng = [];
     if (selectedAlerts && selectedAlerts.length > 0) {
       latLng = selectedAlerts.map(alert => ({
         lat: alert.latitude,
         lon: alert.longitude
       }));
+    } else if (this.isRouteTracking() && lastPosition) {
+      latLng = [
+        {
+          lat: lastPosition.latitude,
+          lon: lastPosition.longitude
+        }
+      ];
     }
+
     const userLatLng =
       this.state.lastPosition && `${this.state.lastPosition.latitude},${this.state.lastPosition.longitude}`;
     const reportedDataset = area.dataset ? `-${area.dataset.name}` : '';
@@ -857,7 +871,7 @@ class MapComponent extends Component {
           ))
         : null;
     const selectedAlertsElement =
-      hasAlertsSelected && !customReporting && !this.isRouteTracking()
+      hasAlertsSelected && (!customReporting || this.isRouteTracking())
         ? selectedAlerts.map((alert, i) => (
             <MapView.Marker
               key={`selectedAlertsElement-${i}-${keyRand}`}
