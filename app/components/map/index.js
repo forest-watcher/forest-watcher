@@ -932,7 +932,7 @@ class MapComponent extends Component {
           {contextualRemoteLayerElement}
           {clustersElement}
           {compassLineElement}
-          <RouteMarkers isTracking={this.isRouteTracking()} route={route} />
+          <RouteMarkers isTracking={this.isRouteTracking()} route={route} lastPosition={lastPosition} />
           {areaPolygonElement}
           {neighboursAlertsElement}
           {selectedAlertsElement}
