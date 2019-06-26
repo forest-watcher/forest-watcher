@@ -508,9 +508,7 @@ class MapComponent extends Component {
         lat: alert.latitude,
         lon: alert.longitude
       }));
-    }
-
-    if (this.isRouteTracking()) {
+    } else if (this.isRouteTracking()) {
       latLng = [
         {
           lat: lastPosition.latitude,
@@ -873,7 +871,7 @@ class MapComponent extends Component {
           ))
         : null;
     const selectedAlertsElement =
-      hasAlertsSelected && !customReporting && !this.isRouteTracking()
+      hasAlertsSelected && ((!customReporting && !this.isRouteTracking()) || this.isRouteTracking())
         ? selectedAlerts.map((alert, i) => (
             <MapView.Marker
               key={`selectedAlertsElement-${i}-${keyRand}`}
