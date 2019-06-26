@@ -871,7 +871,7 @@ class MapComponent extends Component {
           ))
         : null;
     const selectedAlertsElement =
-      hasAlertsSelected && ((!customReporting && !this.isRouteTracking()) || this.isRouteTracking())
+      hasAlertsSelected && (!customReporting || this.isRouteTracking())
         ? selectedAlerts.map((alert, i) => (
             <MapView.Marker
               key={`selectedAlertsElement-${i}-${keyRand}`}
