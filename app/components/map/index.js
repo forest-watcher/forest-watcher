@@ -501,6 +501,7 @@ class MapComponent extends Component {
   createReport = selectedAlerts => {
     this.props.setCanDisplayAlerts(false);
     const { area } = this.props;
+    const { lastPosition } = this.state;
     let latLng = [];
     if (selectedAlerts && selectedAlerts.length > 0) {
       latLng = selectedAlerts.map(alert => ({
@@ -508,6 +509,16 @@ class MapComponent extends Component {
         lon: alert.longitude
       }));
     }
+
+    if (this.isRouteTracking()) {
+      latLng = [
+        {
+          lat: lastPosition.latitude,
+          lon: lastPosition.longitude
+        }
+      ];
+    }
+
     const userLatLng =
       this.state.lastPosition && `${this.state.lastPosition.latitude},${this.state.lastPosition.longitude}`;
     const reportedDataset = area.dataset ? `-${area.dataset.name}` : '';
