@@ -380,6 +380,11 @@ class MapComponent extends Component {
   }, 450);
 
   onCustomReportingPress = () => {
+    // If the region's latitude & longitude aren't set, we shouldn't enter custom reporting mode!
+    if (!(this.state.region.latitude && this.state.region.longitude)) {
+      return;
+    }
+
     this.setState(prevState => ({
       customReporting: true,
       selectedAlerts: [prevState.region]
