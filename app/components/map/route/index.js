@@ -12,7 +12,8 @@ import throttle from 'lodash/throttle';
 
 type Props = {
   isTracking: boolean,
-  route: Route
+  route: Route,
+  lastPosition: Location
 };
 
 const markerImage = require('assets/marker.png');
@@ -93,8 +94,28 @@ export default class RouteMarkers extends PureComponent<Props> {
     }));
   }, 300);
 
+  /**
+   * reconcileLastPosition - Given the user's last location fix, and the route locations, determines the user's last known location.
+   * This is as, when route tracking, we need to show the line immediately so we cannot wait for the first location update.
+   * However, when we're not route tracking, we won't have a last position to refer to!
+   *
+   * @param lastPosition    - The last position update, passed into this object as a prop.
+   * @param routeLocations  - The locations provided for this route.
+   */
+  reconcileLastPosition = (lastPosition, routeLocations) => {
+    if (lastPosition) {
+      return lastPosition;
+    } else if (routeLocations && routeLocations.length > 0) {
+      return routeLocations[routeLocations.length - 1];
+    } else {
+      return null;
+    }
+  };
+
   render() {
     const routeLocations = this.reconcileRouteLocations(this.state.currentRouteLocations, this.props.route?.locations);
+    const lastPosition = this.reconcileLastPosition(this.props.lastPosition, routeLocations);
+
     return (
       <React.Fragment>
         {routeLocations ? (
@@ -140,10 +161,10 @@ export default class RouteMarkers extends PureComponent<Props> {
             <View style={[{ height: 18, width: 18, borderWidth: 3 }, styles.selectedMarkerIcon]} />
           </MapView.Marker>
         ) : null}
-        {this.props.isTracking && routeLocations && this.props.route?.destination ? (
+        {this.props.isTracking && lastPosition && this.props.route?.destination ? (
           <MapView.Polyline
             key="destinationLineElement"
-            coordinates={[routeLocations[routeLocations.length - 1], this.props.route?.destination]}
+            coordinates={[lastPosition, this.props.route?.destination]}
             strokeColor={Theme.colors.colorLightBlue}
             strokeWidth={3}
             zIndex={3}
