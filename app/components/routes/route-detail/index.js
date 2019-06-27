@@ -12,6 +12,7 @@ import AnswerComponent from 'components/form/answer/answer';
 import type { Route } from 'types/routes.types';
 
 import ActionButton from 'components/common/action-button';
+import debounceUI from 'helpers/debounceUI';
 import { formatCoordsByFormat, formatDistance, getDistanceOfPolyline } from 'helpers/map';
 import RoutePreviewImage from '../preview-image';
 
@@ -35,7 +36,7 @@ class RouteDetail extends PureComponent<Props> {
     };
   }
 
-  openRouteOnMap = () => {
+  openRouteOnMap = debounceUI(() => {
     // Testing against a mocked route? You must provide your own area id here!
     this.props.setSelectedAreaId(this.props.route.areaId);
     Navigation.push(this.props.componentId, {
@@ -53,12 +54,12 @@ class RouteDetail extends PureComponent<Props> {
         }
       }
     });
-  };
+  });
 
   /**
    * Displays a confirmation before possibly deleting the route
    */
-  deleteRoute = () => {
+  deleteRoute = debounceUI(() => {
     Alert.alert(i18n.t('routes.confirmDeleteTitle'), i18n.t('routes.confirmDeleteMessage'), [
       {
         text: i18n.t('commonText.confirm'),
@@ -72,9 +73,9 @@ class RouteDetail extends PureComponent<Props> {
         style: 'cancel'
       }
     ]);
-  };
+  });
 
-  onEditDifficultyPress = async () => {
+  onEditDifficultyPress = debounceUI(async () => {
     const dialogTitle = i18n.t('routes.difficulty');
     const dialogItems = [
       { label: i18n.t('routes.difficultyLevels.easy'), value: 'easy' },
@@ -109,9 +110,9 @@ class RouteDetail extends PureComponent<Props> {
         dialogItemHandler(selectedItem.id);
       }
     }
-  };
+  });
 
-  onEditNamePress = async () => {
+  onEditNamePress = debounceUI(async () => {
     const title = i18n.t('commonText.name');
     const message = null;
     const placeholder = this.props.route.name ?? '';
@@ -157,7 +158,7 @@ class RouteDetail extends PureComponent<Props> {
         name: newName
       });
     }
-  };
+  });
 
   render() {
     const { coordinatesFormat, route } = this.props;
