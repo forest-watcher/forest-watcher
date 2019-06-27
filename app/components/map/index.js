@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Alert, BackHandler, Dimensions, Image, LayoutAnimation, Platform, Text, View } from 'react-native';
+import { Alert, AppState, BackHandler, Dimensions, Image, LayoutAnimation, Platform, Text, View } from 'react-native';
 import { Sentry } from 'react-native-sentry';
 
 import { REPORTS } from 'config/constants';
@@ -164,6 +164,8 @@ class MapComponent extends Component {
 
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+    AppState.addEventListener('change', this.handleAppStateChange);
+
     tracker.trackScreenView('Map');
 
     emitter.on(GFWOnHeadingEvent, this.updateHeading);
@@ -216,7 +218,9 @@ class MapComponent extends Component {
   }
 
   componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange);
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+
     // If we're currently tracking a location, don't stop watching for updates!
     if (!this.isRouteTracking()) {
       stopTrackingLocation();
@@ -232,6 +236,28 @@ class MapComponent extends Component {
 
     this.props.setSelectedAreaId('');
   }
+
+  /**
+   * Pause background location tracking while the map screen is backgrounded or inactive, UNLESS we are route tracking
+   *
+   * @param status
+   */
+  handleAppStateChange = status => {
+    if (!this.isRouteTracking()) {
+      switch (status) {
+        case 'background':
+        case 'inactive': {
+          stopTrackingLocation();
+          stopTrackingHeading();
+          break;
+        }
+        case 'active': {
+          this.geoLocate(false);
+          break;
+        }
+      }
+    }
+  };
 
   handleBackPress = () => {
     if (this.isRouteTracking()) {
