@@ -7,6 +7,7 @@ import RNFetchBlob from 'react-native-fetch-blob';
 import Row from 'components/common/row';
 import moment from 'moment';
 import i18n from 'locales';
+import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 import { colors } from 'config/theme';
@@ -163,7 +164,7 @@ class Reports extends PureComponent<Props> {
   /**
    * Handles an uploaded report row being selected.
    */
-  onClickNext = (reportName: string) =>
+  onClickNext = debounceUI((reportName: string) =>
     Navigation.showModal({
       stack: {
         children: [
@@ -178,12 +179,13 @@ class Reports extends PureComponent<Props> {
           }
         ]
       }
-    });
+    })
+  );
 
   /**
    * Handles a completed report row being selected.
    */
-  onClickUpload = (reportName: string) =>
+  onClickUpload = debounceUI((reportName: string) =>
     Navigation.showModal({
       stack: {
         children: [
@@ -199,7 +201,54 @@ class Reports extends PureComponent<Props> {
           }
         ]
       }
-    });
+    })
+  );
+
+  onClickDraft = debounceUI(reportName => {
+    const lastStep = this.props.getLastStep(reportName);
+    if (lastStep !== null) {
+      const title = i18n.t('report.title');
+      Navigation.showModal({
+        stack: {
+          children: [
+            {
+              component: {
+                name: 'ForestWatcher.NewReport',
+                passProps: {
+                  screen: 'ForestWatcher.NewReport',
+                  title,
+                  reportName,
+                  step: lastStep
+                },
+                options: {
+                  topBar: {
+                    title: {
+                      text: title
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      });
+    } else {
+      Navigation.showModal({
+        stack: {
+          children: [
+            {
+              component: {
+                name: 'ForestWatcher.Answers',
+                passProps: {
+                  reportName
+                }
+              }
+            }
+          ]
+        }
+      });
+    }
+  });
 
   /**
    * Handles the 'export <x> reports' button being tapped.
@@ -207,7 +256,7 @@ class Reports extends PureComponent<Props> {
    * @param  {Object} selectedReports A mapping of report titles to a boolean dictating whether they've been selected for export.
    * @param  {Array} userReports      The user's reports.
    */
-  onExportReportsTapped = (selectedReports, userReports) => {
+  onExportReportsTapped = debounceUI((selectedReports, userReports) => {
     // Merge the completed and uploaded reports that are available together, so we can find any selected reports to export them.
     const completeReports = userReports.complete || [];
     const mergedReports = completeReports.concat(userReports.uploaded);
@@ -244,7 +293,7 @@ class Reports extends PureComponent<Props> {
     this.setState({
       selectedForExport: {}
     });
-  };
+  });
 
   /**
    * getItems - Returns an array of rows, based on the report data provided.
@@ -311,54 +360,8 @@ class Reports extends PureComponent<Props> {
     return this.renderSection(i18n.t('report.uploaded'), uploaded, icon, callback);
   }
 
-  getDrafts(drafts, icon) {
-    const onActionPress = reportName => {
-      const lastStep = this.props.getLastStep(reportName);
-      if (lastStep !== null) {
-        const title = i18n.t('report.title');
-        Navigation.showModal({
-          stack: {
-            children: [
-              {
-                component: {
-                  name: 'ForestWatcher.NewReport',
-                  passProps: {
-                    screen: 'ForestWatcher.NewReport',
-                    title,
-                    reportName,
-                    step: lastStep
-                  },
-                  options: {
-                    topBar: {
-                      title: {
-                        text: title
-                      }
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        });
-      } else {
-        Navigation.showModal({
-          stack: {
-            children: [
-              {
-                component: {
-                  name: 'ForestWatcher.Answers',
-                  passProps: {
-                    reportName
-                  }
-                }
-              }
-            ]
-          }
-        });
-      }
-    };
-
-    return this.renderSection(i18n.t('report.drafts'), drafts, icon, onActionPress);
+  getDrafts(drafts, icon, callback) {
+    return this.renderSection(i18n.t('report.drafts'), drafts, icon, callback);
   }
 
   /**
@@ -376,7 +379,7 @@ class Reports extends PureComponent<Props> {
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
         {hasReports ? (
           <View style={styles.container}>
-            {draft && draft.length > 0 && !inExportMode && this.getDrafts(draft, editIcon)}
+            {draft && draft.length > 0 && !inExportMode && this.getDrafts(draft, editIcon, this.onClickDraft)}
             {complete &&
               complete.length > 0 &&
               this.getCompleted(complete, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickUpload)}

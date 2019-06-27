@@ -28,6 +28,7 @@ import {
   getMapZoom,
   getNeighboursSelected
 } from 'helpers/map';
+import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import clusterGenerator from 'helpers/clusters-generator';
 import { LOCATION_TRACKING } from 'config/constants';
@@ -52,8 +53,7 @@ import {
   startTrackingLocation,
   stopTrackingLocation,
   startTrackingHeading,
-  stopTrackingHeading,
-  deleteAllLocations
+  stopTrackingHeading
 } from 'helpers/location';
 
 var emitter = require('tiny-emitter/instance');
@@ -259,14 +259,14 @@ class MapComponent extends Component {
     }
   };
 
-  handleBackPress = () => {
+  handleBackPress = debounceUI(() => {
     if (this.isRouteTracking()) {
       this.state.routeTrackingDialogState ? this.closeBottomDialog() : this.showBottomDialog(true);
     } else {
       Navigation.pop(this.props.componentId);
     }
     return true;
-  };
+  });
 
   /**
    * geoLocate - Resets the location / heading event listeners, calling specific callbacks depending on whether we're tracking a route or not.
@@ -299,7 +299,7 @@ class MapComponent extends Component {
    * onStartTrackingPressed - When pressed, updates redux with the location we're routing to & changes event listeners.
    * If the user has not given 'always' location permissions, an alert is shown.
    */
-  onStartTrackingPressed = async () => {
+  onStartTrackingPressed = debounceUI(async () => {
     try {
       await this.geoLocate(true);
 
@@ -331,38 +331,38 @@ class MapComponent extends Component {
         ]
       );
     }
-  };
+  });
 
-  onStopTrackingPressed = () => {
+  onStopTrackingPressed = debounceUI(() => {
     // This doesn't immediately stop tracking - it will give the user the choice of saving and deleting and only stop
     // tracking once they have finalised one of those actions
     this.showBottomDialog(false);
-  };
+  });
 
-  openSaveRouteScreen = () => {
+  openSaveRouteScreen = debounceUI(() => {
     this.closeBottomDialog();
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.SaveRoute'
       }
     });
-  };
+  });
 
-  showBottomDialog = (isExiting = false) => {
+  showBottomDialog = debounceUI((isExiting = false) => {
     this.setState({
       routeTrackingDialogState: isExiting
         ? ROUTE_TRACKING_BOTTOM_DIALOG_STATE_EXITING
         : ROUTE_TRACKING_BOTTOM_DIALOG_STATE_STOPPING
     });
     LayoutAnimation.easeInEaseOut();
-  };
+  });
 
-  closeBottomDialog = () => {
+  closeBottomDialog = debounceUI(() => {
     this.setState({ routeTrackingDialogState: ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN });
     LayoutAnimation.easeInEaseOut();
-  };
+  });
 
-  onStopAndDeleteRoute = () => {
+  onStopAndDeleteRoute = debounceUI(() => {
     Alert.alert(i18n.t('routes.confirmDeleteTitle'), i18n.t('routes.confirmDeleteMessage'), [
       {
         text: i18n.t('commonText.confirm'),
@@ -383,7 +383,7 @@ class MapComponent extends Component {
         style: 'cancel'
       }
     ]);
-  };
+  });
 
   /**
    * updateLocationFromGeolocation - Handles any location updates that arrive while the user is on this screen.
@@ -405,7 +405,7 @@ class MapComponent extends Component {
     });
   }, 450);
 
-  onCustomReportingPress = () => {
+  onCustomReportingPress = debounceUI(() => {
     // If the region's latitude & longitude aren't set, we shouldn't enter custom reporting mode!
     if (!(this.state.region.latitude && this.state.region.longitude)) {
       return;
@@ -415,17 +415,17 @@ class MapComponent extends Component {
       customReporting: true,
       selectedAlerts: [prevState.region]
     }));
-  };
+  });
 
-  onSelectionCancelPress = () => {
+  onSelectionCancelPress = debounceUI(() => {
     this.setState({
       customReporting: false,
       selectedAlerts: [],
       neighbours: []
     });
-  };
+  });
 
-  onSettingsPress = () => {
+  onSettingsPress = debounceUI(() => {
     Navigation.mergeOptions(this.props.componentId, {
       sideMenu: {
         right: {
@@ -433,7 +433,7 @@ class MapComponent extends Component {
         }
       }
     });
-  };
+  });
 
   onMapReady = () => {
     this.forceRefreshLayout();
@@ -495,7 +495,7 @@ class MapComponent extends Component {
     }
   }, 300);
 
-  fitPosition = () => {
+  fitPosition = debounceUI(() => {
     const { lastPosition, selectedAlerts } = this.state;
     if (lastPosition) {
       const options = { edgePadding: { top: 150, right: 30, bottom: 210, left: 30 }, animated: true };
@@ -514,15 +514,15 @@ class MapComponent extends Component {
       }
       this.map.fitToCoordinates(coordinates, options);
     }
-  };
+  });
 
-  reportSelection = () => {
+  reportSelection = debounceUI(() => {
     this.createReport(this.state.selectedAlerts);
-  };
+  });
 
-  reportArea = () => {
+  reportArea = debounceUI(() => {
     this.createReport([...this.state.selectedAlerts, ...this.state.neighbours]);
-  };
+  });
 
   createReport = selectedAlerts => {
     this.props.setCanDisplayAlerts(false);
@@ -667,7 +667,7 @@ class MapComponent extends Component {
     };
 
     const { selectedAlerts, lastPosition } = this.state;
-    const { coordinatesFormat, route } = this.props;
+    const { route } = this.props;
 
     if (this.isRouteTracking()) {
       // Show the destination coordinates.
@@ -768,7 +768,7 @@ class MapComponent extends Component {
             ? [
                 {
                   text: 'continue route tracking',
-                  onPress: () => Navigation.pop(this.props.componentId),
+                  onPress: debounceUI(() => Navigation.pop(this.props.componentId)),
                   buttonProps: {}
                 }
               ]
