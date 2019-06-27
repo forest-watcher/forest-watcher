@@ -7,6 +7,7 @@ import { Navigation } from 'react-native-navigation';
 import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
 import i18n from 'locales';
+import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
@@ -34,7 +35,7 @@ class SetupOverview extends Component {
     tracker.trackScreenView('Overview Set Up');
   }
 
-  onNextPress = async () => {
+  onNextPress = debounceUI(async () => {
     const params = {
       area: {
         name: this.state.name,
@@ -50,7 +51,7 @@ class SetupOverview extends Component {
         name: 'ForestWatcher.Dashboard'
       }
     });
-  };
+  });
 
   textChange = name => {
     this.setState({ name });

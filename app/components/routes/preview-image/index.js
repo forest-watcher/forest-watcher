@@ -9,12 +9,13 @@ import RouteMarkers from 'components/map/route';
 import MapView from 'react-native-maps';
 
 type Props = {
-  route: Route
+  route: Route,
+  style: *
 };
 
 export default class RoutePreviewImage extends PureComponent<Props> {
   render() {
-    const { route, style, ...rest } = this.props;
+    const { route, style } = this.props;
     let minLatitude = Infinity;
     let maxLatitude = -Infinity;
     let minLongitude = Infinity;

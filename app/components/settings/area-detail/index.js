@@ -5,6 +5,7 @@ import type { Route } from 'types/routes.types';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, View, Image, ScrollView, Text, TextInput, TouchableHighlight } from 'react-native';
+import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import FastImage from 'react-native-fast-image';
 
@@ -91,7 +92,7 @@ class AreaDetail extends Component<Props, State> {
     this.setState({ name });
   };
 
-  onNameSubmit = (ev: SyntheticInputEvent<*>) => {
+  onNameSubmit = debounceUI((ev: SyntheticInputEvent<*>) => {
     const newName = ev.nativeEvent.text;
     const { name } = this.props.area;
     if (newName && newName !== name) {
@@ -104,9 +105,9 @@ class AreaDetail extends Component<Props, State> {
       this.props.updateArea(updatedArea);
       this.replaceRouteTitle(updatedArea.name);
     }
-  };
+  });
 
-  onRoutePress = (routeId: string, routeName: string) => {
+  onRoutePress = debounceUI((routeId: string, routeName: string) => {
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.RouteDetail',
@@ -116,7 +117,7 @@ class AreaDetail extends Component<Props, State> {
         }
       }
     });
-  };
+  });
 
   replaceRouteTitle = (title: string) => {
     Navigation.mergeOptions(this.props.componentId, {
@@ -128,7 +129,7 @@ class AreaDetail extends Component<Props, State> {
     });
   };
 
-  handleDeleteArea = () => {
+  handleDeleteArea = debounceUI(() => {
     if (this.props.routes.length > 0) {
       Alert.alert(
         i18n.t('areaDetail.confirmDeleteWithRoutesTitle'),
@@ -149,9 +150,9 @@ class AreaDetail extends Component<Props, State> {
     } else {
       this.confirmDeleteArea();
     }
-  };
+  });
 
-  confirmDeleteArea = () => {
+  confirmDeleteArea = debounceUI(() => {
     if (this.props.isConnected) {
       this.props.deleteArea(this.props.area.id);
       Navigation.pop(this.props.componentId);
@@ -165,7 +166,7 @@ class AreaDetail extends Component<Props, State> {
         }
       );
     }
-  };
+  });
 
   render() {
     const { area, disableDelete, routes } = this.props;

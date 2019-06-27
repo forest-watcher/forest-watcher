@@ -7,6 +7,7 @@ import { Navigation } from 'react-native-navigation';
 
 import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
+import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import i18n from 'locales';
 import styles from './styles';
@@ -25,7 +26,8 @@ type Props = {
   setSelectedAreaId: string => void,
   setPristine: boolean => void,
   updateApp: () => void,
-  showNotConnectedNotification: () => void
+  showNotConnectedNotification: () => void,
+  activeRoute: Route
 };
 
 class Dashboard extends PureComponent<Props> {
@@ -110,7 +112,7 @@ class Dashboard extends PureComponent<Props> {
     }
   };
 
-  onAreaPress = (areaId: string, name: string) => {
+  onAreaPress = debounceUI((areaId: string, name: string) => {
     if (areaId && this.props.activeRoute && this.props.activeRoute?.areaId !== areaId) {
       // TODO: Add options to view route, save route, delete route.
       Alert.alert('Route tracking in progress', "You're already tracking a route in another area", [{ text: 'OK' }]);
@@ -124,15 +126,15 @@ class Dashboard extends PureComponent<Props> {
         }
       });
     }
-  };
+  });
 
-  onPressReports = () => {
+  onPressReports = debounceUI(() => {
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.Reports'
       }
     });
-  };
+  });
 
   getPristine = (): boolean => this.props.pristine;
 
