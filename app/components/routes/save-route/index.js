@@ -47,7 +47,7 @@ class SaveRoute extends PureComponent<Props> {
 
   componentDidMount() {
     getValidLocations((locations, error) => {
-      if (!error) {
+      if (error) {
         return;
       }
 
