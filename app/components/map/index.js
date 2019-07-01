@@ -222,6 +222,16 @@ class MapComponent extends Component {
         }
       }
     }
+
+    if (prevState.lastPosition !== this.state.lastPosition) {
+      Navigation.mergeOptions(this.props.componentId, {
+        topBar: {
+          title: {
+            text: formatCoordsByFormat(this.state.lastPosition, this.props.coordinatesFormat)
+          }
+        }
+      });
+    }
   }
 
   componentWillUnmount() {
