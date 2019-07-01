@@ -44,9 +44,12 @@ export default class RoutePreviewImage extends PureComponent<Props> {
       <View style={{ ...style, overflow: 'hidden' }} pointerEvents={'none'}>
         <MapView
           style={{
-            alignSelf: 'stretch',
             bottom: -26,
-            flex: 1
+            flex: 1,
+            left: 0,
+            right: 0,
+            top: 0,
+            position: 'absolute'
           }}
           provider={MapView.PROVIDER_GOOGLE}
           mapType="none"
