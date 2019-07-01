@@ -36,7 +36,7 @@ import Theme from 'config/theme';
 import i18n from 'locales';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
-import { withSafeArea } from 'react-native-safe-area';
+import SafeArea, { withSafeArea } from 'react-native-safe-area';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
@@ -133,6 +133,7 @@ class MapComponent extends Component {
     super(props);
     Navigation.events().bindComponent(this);
     this.state = {
+      bottomSafeAreaInset: 0,
       lastPosition: null,
       hasCompass: false,
       heading: null,
@@ -152,6 +153,12 @@ class MapComponent extends Component {
       routeTrackingDialogState: ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN,
       locationError: null
     };
+
+    SafeArea.getSafeAreaInsetsForRootView().then(result => {
+      this.setState({
+        bottomSafeAreaInset: result.safeAreaInsets.bottom
+      });
+    });
   }
 
   navigationButtonPressed({ buttonId }) {
@@ -955,7 +962,10 @@ class MapComponent extends Component {
           ref={ref => {
             this.map = ref;
           }}
-          style={styles.map}
+          style={{
+            ...styles.map,
+            bottom: styles.map.bottom - this.state.bottomSafeAreaInset
+          }}
           provider={MapView.PROVIDER_GOOGLE}
           mapPadding={Platform.OS === 'android' ? { top: 40, bottom: 0, left: 0, right: 0 } : undefined}
           mapType="none"
