@@ -12,8 +12,8 @@ import throttle from 'lodash/throttle';
 
 type Props = {
   isTracking: boolean,
-  route: Route,
-  lastPosition: Location
+  lastPosition: Location,
+  route: Route
 };
 
 const markerImage = require('assets/marker.png');

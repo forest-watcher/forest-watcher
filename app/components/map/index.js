@@ -325,6 +325,11 @@ class MapComponent extends Component {
         this.props.area.id
       );
 
+      this.setState({
+        customReporting: false,
+        selectedAlerts: []
+      });
+
       emitter.on(GFWOnErrorEvent, this.onLocationUpdateError);
     } catch (err) {
       Alert.alert(
@@ -913,8 +918,7 @@ class MapComponent extends Component {
             </MapView.Marker>
           ))
         : null;
-    const selectedAlertsElement =
-      hasAlertsSelected && (!customReporting || this.isRouteTracking())
+    const selectedAlertsElement = hasAlertsSelected && !customReporting
         ? selectedAlerts.map((alert, i) => (
             <MapView.Marker
               key={`selectedAlertsElement-${i}-${keyRand}`}
@@ -941,8 +945,7 @@ class MapComponent extends Component {
         />
       ) : null;
 
-    const customReportingElement =
-      this.state.customReporting && !this.isRouteTracking() ? (
+    const customReportingElement = customReporting && !this.isRouteTracking() ? (
         <View
           pointerEvents="none"
           style={[styles.customLocationFixed, this.state.dragging ? styles.customLocationTransparent : '']}
@@ -992,7 +995,11 @@ class MapComponent extends Component {
           {contextualRemoteLayerElement}
           {clustersElement}
           {compassLineElement}
-          <RouteMarkers isTracking={this.isRouteTracking()} route={route} lastPosition={lastPosition} />
+          <RouteMarkers
+            isTracking={this.isRouteTracking()}
+            lastPosition={lastPosition}
+            route={route}
+          />
           {areaPolygonElement}
           {neighboursAlertsElement}
           {selectedAlertsElement}
