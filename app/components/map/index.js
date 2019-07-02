@@ -615,6 +615,10 @@ class MapComponent extends Component {
   };
 
   selectAlert = coordinate => {
+    if (this.isRouteTracking()) {
+      // Do not allow alerts to be selected while route tracking.
+      return;
+    }
     if (coordinate && !this.state.customReporting) {
       this.setState(prevState => ({
         neighbours: getNeighboursSelected([...prevState.selectedAlerts, coordinate], prevState.markers),
@@ -624,6 +628,11 @@ class MapComponent extends Component {
   };
 
   removeSelection = coordinate => {
+    if (this.isRouteTracking()) {
+      // Do not allow alerts to be deselected while route tracking.
+      return;
+    }
+
     this.setState(state => {
       let neighbours = [];
       if (state.selectedAlerts && state.selectedAlerts.length > 0) {
@@ -641,6 +650,11 @@ class MapComponent extends Component {
   };
 
   includeNeighbour = coordinate => {
+    if (this.isRouteTracking()) {
+      // Do not allow selection of neighbour alerts while route tracking.
+      return;
+    }
+
     this.setState(state => {
       const selectedAlerts = [...state.selectedAlerts, coordinate];
       const neighbours = getNeighboursSelected(selectedAlerts, state.markers);
@@ -913,8 +927,7 @@ class MapComponent extends Component {
             </MapView.Marker>
           ))
         : null;
-    const selectedAlertsElement =
-      hasAlertsSelected && (!customReporting || this.isRouteTracking())
+    const selectedAlertsElement = hasAlertsSelected && !customReporting
         ? selectedAlerts.map((alert, i) => (
             <MapView.Marker
               key={`selectedAlertsElement-${i}-${keyRand}`}
@@ -941,8 +954,7 @@ class MapComponent extends Component {
         />
       ) : null;
 
-    const customReportingElement =
-      this.state.customReporting && !this.isRouteTracking() ? (
+    const customReportingElement = customReporting && !this.isRouteTracking() ? (
         <View
           pointerEvents="none"
           style={[styles.customLocationFixed, this.state.dragging ? styles.customLocationTransparent : '']}
@@ -992,7 +1004,12 @@ class MapComponent extends Component {
           {contextualRemoteLayerElement}
           {clustersElement}
           {compassLineElement}
-          <RouteMarkers isTracking={this.isRouteTracking()} route={route} lastPosition={lastPosition} />
+          <RouteMarkers
+            isTracking={this.isRouteTracking()}
+            lastPosition={lastPosition}
+            route={route}
+            showDestinationMarker={customReporting || !hasAlertsSelected}
+          />
           {areaPolygonElement}
           {neighboursAlertsElement}
           {selectedAlertsElement}
