@@ -227,8 +227,8 @@
     "map": {
         "alerts": "Alerts",
         "ctxLayers": "Contextual layers",
-        "pinDistance": "Pin Distance:",
-        "pinLocation": "Pin Location:",
+        "destination": "Destination:",
+        "distance": "Distance:",
         "recent": "Recent",
         "reported": "Reported"
     },
