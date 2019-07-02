@@ -325,6 +325,11 @@ class MapComponent extends Component {
         this.props.area.id
       );
 
+      this.setState({
+        customReporting: false,
+        selectedAlerts: []
+      });
+
       emitter.on(GFWOnErrorEvent, this.onLocationUpdateError);
     } catch (err) {
       Alert.alert(
@@ -615,10 +620,6 @@ class MapComponent extends Component {
   };
 
   selectAlert = coordinate => {
-    if (this.isRouteTracking()) {
-      // Do not allow alerts to be selected while route tracking.
-      return;
-    }
     if (coordinate && !this.state.customReporting) {
       this.setState(prevState => ({
         neighbours: getNeighboursSelected([...prevState.selectedAlerts, coordinate], prevState.markers),
@@ -628,11 +629,6 @@ class MapComponent extends Component {
   };
 
   removeSelection = coordinate => {
-    if (this.isRouteTracking()) {
-      // Do not allow alerts to be deselected while route tracking.
-      return;
-    }
-
     this.setState(state => {
       let neighbours = [];
       if (state.selectedAlerts && state.selectedAlerts.length > 0) {
@@ -650,11 +646,6 @@ class MapComponent extends Component {
   };
 
   includeNeighbour = coordinate => {
-    if (this.isRouteTracking()) {
-      // Do not allow selection of neighbour alerts while route tracking.
-      return;
-    }
-
     this.setState(state => {
       const selectedAlerts = [...state.selectedAlerts, coordinate];
       const neighbours = getNeighboursSelected(selectedAlerts, state.markers);
@@ -1008,7 +999,6 @@ class MapComponent extends Component {
             isTracking={this.isRouteTracking()}
             lastPosition={lastPosition}
             route={route}
-            showDestinationMarker={customReporting || !hasAlertsSelected}
           />
           {areaPolygonElement}
           {neighboursAlertsElement}

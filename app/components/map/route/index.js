@@ -13,8 +13,7 @@ import throttle from 'lodash/throttle';
 type Props = {
   isTracking: boolean,
   lastPosition: Location,
-  route: Route,
-  showDestinationMarker: boolean
+  route: Route
 };
 
 const markerImage = require('assets/marker.png');
@@ -151,7 +150,7 @@ export default class RouteMarkers extends PureComponent<Props> {
               </MapView.Marker>
             ))
           : null}
-        {this.props.route?.destination && this.props.showDestinationMarker ? (
+        {this.props.route?.destination ? (
           <MapView.Marker
             key={`routeDestination`}
             coordinate={this.props.route?.destination}
