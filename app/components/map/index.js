@@ -675,8 +675,8 @@ class MapComponent extends Component {
       if (targetLocation && currentLocation) {
         const distance = getDistanceOfLine(targetLocation, currentLocation);
 
-        return `${i18n.t('map.pinLocation')} ${formatCoordsByFormat(targetLocation, coordinatesFormat)}\n${i18n.t(
-          'map.pinDistance'
+        return `${i18n.t('map.destination')} ${formatCoordsByFormat(targetLocation, coordinatesFormat)}\n${i18n.t(
+          'routes.distance'
         )} ${formatDistance(distance)}`;
       }
 
