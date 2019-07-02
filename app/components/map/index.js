@@ -676,7 +676,7 @@ class MapComponent extends Component {
         const distance = getDistanceOfLine(targetLocation, currentLocation);
 
         return `${i18n.t('map.destination')} ${formatCoordsByFormat(targetLocation, coordinatesFormat)}\n${i18n.t(
-          'routes.distance'
+          'map.distance'
         )} ${formatDistance(distance)}`;
       }
 
