@@ -709,6 +709,7 @@ class MapComponent extends Component {
     const { customReporting, lastPosition, locationError, selectedAlerts } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
     const canReport = hasAlertsSelected || customReporting;
+    const isRouteTracking = this.isRouteTracking();
 
     // To fix the missing signal text overflow rendering in reverse row
     // last to render will be on top of the others
@@ -731,12 +732,14 @@ class MapComponent extends Component {
           {canReport ? (
             <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
           ) : null}
-          <CircleButton
-            shouldFillContainer
-            onPress={this.isRouteTracking() ? this.onStopTrackingPressed : this.onStartTrackingPressed}
-            light
-            icon={this.isRouteTracking() ? stopTrackingIcon : startTrackingIcon}
-          />
+          {isRouteTracking || canReport ? (
+            <CircleButton
+              shouldFillContainer
+              onPress={this.isRouteTracking() ? this.onStopTrackingPressed : this.onStartTrackingPressed}
+              light
+              icon={this.isRouteTracking() ? stopTrackingIcon : startTrackingIcon}
+            />
+          ) : null}
         </View>
       </React.Fragment>
     );
