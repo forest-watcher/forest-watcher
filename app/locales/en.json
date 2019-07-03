@@ -306,6 +306,13 @@
         "resumeTrackingDialogMessage": "You have an unfinished route. Would you like to resume it?",
         "resumeTrackingDialogPositiveButton": "Resume route",
         "resumeTrackingDialogNegativeButton": "Delete route",
+        "save": "Save Route",
+        "stopRouteTrackingPanelTitle": "Stop Route Tracking",
+        "stopRouteTrackingPanelContinueOption": "Continue route tracking",
+        "stopRouteTrackingPanelSaveOption": "Stop and save route",
+        "stopRouteTrackingPanelDeleteOption": "Stop and delete route",
+        "trackingInProgressErrorTitle": "Route tracking in progress",
+        "trackingInProgressErrorMessage": "You're already tracking a route in another area",
         "viewOnMap": "View Route on Map"
     },
     "settings": {

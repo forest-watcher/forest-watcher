@@ -23,7 +23,7 @@ class SaveRoute extends PureComponent<Props> {
     return {
       topBar: {
         title: {
-          text: 'Save Route'
+          text: i18n.t('routes.save')
         }
       }
     };
@@ -122,7 +122,7 @@ class SaveRoute extends PureComponent<Props> {
         <ActionButton
           style={styles.actionButton}
           onPress={this.state.route.name.length > 0 ? this.onSaveRoutePressed : null}
-          text={'Save Route'.toUpperCase()}
+          text={i18n.t('routes.save').toUpperCase()}
           disabled={this.state.route.name.length === 0}
           short
           noIcon

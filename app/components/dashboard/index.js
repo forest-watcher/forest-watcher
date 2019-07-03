@@ -115,7 +115,9 @@ class Dashboard extends PureComponent<Props> {
   onAreaPress = debounceUI((areaId: string, name: string) => {
     if (areaId && this.props.activeRoute && this.props.activeRoute?.areaId !== areaId) {
       // TODO: Add options to view route, save route, delete route.
-      Alert.alert('Route tracking in progress', "You're already tracking a route in another area", [{ text: 'OK' }]);
+      Alert.alert(i18n.t('routes.trackingInProgressErrorTitle'), i18n.t('routes.trackingInProgressErrorMessage'), [
+        { text: i18n.t('commonText.ok') }
+      ]);
       return;
     }
     if (areaId) {
