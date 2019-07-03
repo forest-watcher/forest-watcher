@@ -767,21 +767,25 @@ class MapComponent extends Component {
   renderRouteTrackingDialog() {
     return this.state.routeTrackingDialogState !== ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN ? (
       <BottomDialog
-        title={'Stop Route Tracking'}
+        title={i18n.t('routes.stopRouteTrackingPanelTitle')}
         closeDialog={this.closeBottomDialog}
         buttons={[
           ...(this.state.routeTrackingDialogState === ROUTE_TRACKING_BOTTOM_DIALOG_STATE_EXITING
             ? [
                 {
-                  text: 'continue route tracking',
+                  text: i18n.t('routes.stopRouteTrackingPanelContinueOption'),
                   onPress: debounceUI(() => Navigation.pop(this.props.componentId)),
                   buttonProps: {}
                 }
               ]
             : []),
-          { text: 'stop and save route', onPress: this.openSaveRouteScreen, buttonProps: { transparent: true } },
           {
-            text: 'stop and delete route',
+            text: i18n.t('routes.stopRouteTrackingPanelSaveOption'),
+            onPress: this.openSaveRouteScreen,
+            buttonProps: { transparent: true }
+          },
+          {
+            text: i18n.t('routes.stopRouteTrackingPanelDeleteOption'),
             onPress: this.onStopAndDeleteRoute,
             buttonProps: { delete: true, transparent: true }
           }
