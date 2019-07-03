@@ -325,10 +325,7 @@ class MapComponent extends Component {
         this.props.area.id
       );
 
-      this.setState({
-        customReporting: false,
-        selectedAlerts: []
-      });
+      this.onSelectionCancelPress();
 
       emitter.on(GFWOnErrorEvent, this.onLocationUpdateError);
     } catch (err) {
@@ -708,8 +705,10 @@ class MapComponent extends Component {
     }
   };
 
-  renderButtonPanelSelected() {
-    const { lastPosition, locationError } = this.state;
+  renderButtonPanel() {
+    const { customReporting, lastPosition, locationError, selectedAlerts } = this.state;
+    const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
+    const canReport = hasAlertsSelected || customReporting;
 
     // To fix the missing signal text overflow rendering in reverse row
     // last to render will be on top of the others
@@ -721,11 +720,15 @@ class MapComponent extends Component {
           mostRecentLocationTime={lastPosition?.timestamp}
         />
         <View style={styles.buttonPanel}>
-          <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
+          {canReport ? (
+            <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
+          ) : (
+            <CircleButton shouldFillContainer onPress={this.onCustomReportingPress} icon={addLocationIcon} />
+          )}
           {lastPosition ? (
             <CircleButton shouldFillContainer onPress={this.fitPosition} light icon={myLocationIcon} />
           ) : null}
-          {!this.isRouteTracking() ? (
+          {canReport ? (
             <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
           ) : null}
           <CircleButton
@@ -739,28 +742,8 @@ class MapComponent extends Component {
     );
   }
 
-  renderButtonPanel() {
-    const { lastPosition, locationError } = this.state;
-
-    // To fix the missing signal text overflow rendering in reverse row
-    // last to render will be on top of the others
-    return (
-      <View style={styles.buttonPanel}>
-        <CircleButton shouldFillContainer onPress={this.onCustomReportingPress} icon={addLocationIcon} />
-        <LocationErrorBanner
-          style={{ marginRight: 16, marginLeft: lastPosition ? 16 : 0 }}
-          locationError={locationError}
-          mostRecentLocationTime={lastPosition?.timestamp}
-        />
-        {lastPosition ? (
-          <CircleButton shouldFillContainer onPress={this.fitPosition} light icon={myLocationIcon} />
-        ) : null}
-      </View>
-    );
-  }
-
   renderMapFooter() {
-    const { selectedAlerts, neighbours, customReporting } = this.state;
+    const { selectedAlerts, neighbours } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
 
     const hasNeighbours = neighbours && neighbours.length > 0;
@@ -772,9 +755,7 @@ class MapComponent extends Component {
         <Image style={[styles.footerBg, { height: veilHeight }]} source={backgroundImage} />
       </View>,
       <FooterSafeAreaView key="footer" pointerEvents="box-none" style={styles.footer}>
-        {hasAlertsSelected || customReporting || this.isRouteTracking()
-          ? this.renderButtonPanelSelected()
-          : this.renderButtonPanel()}
+        {this.renderButtonPanel()}
         <MapAttribution />
       </FooterSafeAreaView>
     ];
@@ -825,8 +806,8 @@ class MapComponent extends Component {
       isOfflineMode,
       ctxLayerLocalTilePath
     } = this.props;
-    const showCompassLine = lastPosition && selectedAlerts.length > 0 && !this.isRouteTracking();
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
+    const showCompassLine = lastPosition && hasAlertsSelected;
     const isIOS = Platform.OS === 'ios';
     const ctxLayerKey =
       isIOS && contextualLayer ? `contextualLayerElement-${contextualLayer.name}` : 'contextualLayerElement';
@@ -918,7 +899,8 @@ class MapComponent extends Component {
             </MapView.Marker>
           ))
         : null;
-    const selectedAlertsElement = hasAlertsSelected && !customReporting
+    const selectedAlertsElement =
+      hasAlertsSelected && !customReporting
         ? selectedAlerts.map((alert, i) => (
             <MapView.Marker
               key={`selectedAlertsElement-${i}-${keyRand}`}
@@ -945,14 +927,14 @@ class MapComponent extends Component {
         />
       ) : null;
 
-    const customReportingElement = customReporting && !this.isRouteTracking() ? (
-        <View
-          pointerEvents="none"
-          style={[styles.customLocationFixed, this.state.dragging ? styles.customLocationTransparent : '']}
-        >
-          <Image style={[Theme.icon, styles.customLocationMarker]} source={newAlertIcon} />
-        </View>
-      ) : null;
+    const customReportingElement = customReporting ? (
+      <View
+        pointerEvents="none"
+        style={[styles.customLocationFixed, this.state.dragging ? styles.customLocationTransparent : '']}
+      >
+        <Image style={[Theme.icon, styles.customLocationMarker]} source={newAlertIcon} />
+      </View>
+    ) : null;
 
     const containerStyle = this.state.layoutHasForceRefreshed
       ? [styles.container, styles.forceRefresh]
@@ -995,11 +977,7 @@ class MapComponent extends Component {
           {contextualRemoteLayerElement}
           {clustersElement}
           {compassLineElement}
-          <RouteMarkers
-            isTracking={this.isRouteTracking()}
-            lastPosition={lastPosition}
-            route={route}
-          />
+          <RouteMarkers isTracking={this.isRouteTracking()} lastPosition={lastPosition} route={route} />
           {areaPolygonElement}
           {neighboursAlertsElement}
           {selectedAlertsElement}
