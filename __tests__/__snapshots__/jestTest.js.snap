@@ -24,7 +24,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": true,
-  "version": "1.7.1",
+  "version": "1.7.2",
 }
 `;
 
@@ -36,7 +36,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.7.1",
+  "version": "1.7.2",
 }
 `;
 
@@ -48,7 +48,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": true,
-  "version": "1.7.1",
+  "version": "1.7.2",
 }
 `;
 
@@ -60,7 +60,7 @@ Object {
   "offlineMode": true,
   "pristineCacheTooltip": true,
   "synced": true,
-  "version": "1.7.1",
+  "version": "1.7.2",
 }
 `;
 

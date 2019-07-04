@@ -31,7 +31,8 @@ const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
 const geoViewport = require('@mapbox/geo-viewport');
 
-const { RNLocation: Location, SensorManager } = require('NativeModules');
+import RNLocation from 'react-native-location';
+const { SensorManager } = require('NativeModules');
 
 const { width, height } = Dimensions.get('window');
 
@@ -139,7 +140,8 @@ class MapComponent extends Component {
       neighbours: [],
       mapZoom: 2,
       customReporting: false,
-      dragging: false
+      dragging: false,
+      layoutHasForceRefreshed: false
     };
   }
 
@@ -188,18 +190,11 @@ class MapComponent extends Component {
   }
 
   componentWillUnmount() {
-    if (this.eventLocation) {
-      this.eventLocation.remove();
-    }
-
-    if (this.eventOrientation) {
-      this.eventOrientation.remove();
-    }
-
     if (Platform.OS === 'ios') {
       StatusBar.setBarStyle('default');
-      Location.stopUpdatingLocation();
-      Location.stopUpdatingHeading();
+      // Deregister event listeners.
+      this.eventLocation();
+      this.eventOrientation();
     } else if (Platform.OS === 'android') {
       if (this.geolocationWatchId !== null) {
         navigator.geolocation.clearWatch(this.geolocationWatchId);
@@ -236,11 +231,29 @@ class MapComponent extends Component {
   };
 
   onMapReady = () => {
+    this.forceRefreshLayout();
     if (this.props.areaCoordinates) {
       requestAnimationFrame(() => this.map.fitToCoordinates(this.props.areaCoordinates, this.FIT_OPTIONS));
     }
     this.props.setActiveAlerts();
     this.updateMarkers();
+  };
+
+  /**
+   * Makes the compass usable. The mapPadding property of the MapView by default clips/crops the map views instead
+   * of applying the padding and pushing them inwards.
+   *
+   * This method forces the map view to redraw/layout after the padding has been applied and fixes the problem.
+   * GitHub Issues:
+   * https://github.com/react-native-community/react-native-maps/issues/2336
+   * https://github.com/react-native-community/react-native-maps/issues/1033
+   */
+  forceRefreshLayout = () => {
+    if (!this.state.layoutHasForceRefreshed) {
+      this.setState({
+        layoutHasForceRefreshed: true
+      });
+    }
   };
 
   setCompassLine = () => {
@@ -410,6 +423,10 @@ class MapComponent extends Component {
 
     const hasPermissions = await requestLocationPermissions();
 
+    if (!hasPermissions) {
+      return;
+    }
+
     const updateLocationFromGeolocation = throttle(location => {
       const coords = typeof location.coords !== 'undefined' ? location.coords : location;
       this.setState({
@@ -419,6 +436,10 @@ class MapComponent extends Component {
         }
       });
     }, 300);
+
+    const updateHeadingFromGeolocation = throttle(heading => {
+      this.setState(updateHeading(heading.heading));
+    }, 450);
 
     const updateHeading = heading => prevState => {
       const state = {
@@ -438,18 +459,23 @@ class MapComponent extends Component {
     });
 
     if (Platform.OS === 'ios') {
-      Location.startUpdatingLocation();
+      RNLocation.getLatestLocation({ timeout: 60000 }).then(latestLocation => {
+        updateLocationFromGeolocation(latestLocation);
+      });
+      this.eventLocation = RNLocation.subscribeToLocationUpdates(locations => {
+        const location = locations[0];
+        updateLocationFromGeolocation(location);
+      });
 
-      this.eventLocation = DeviceEventEmitter.addListener('locationUpdated', updateLocationFromGeolocation);
-
-      Location.startUpdatingHeading();
-      this.eventOrientation = DeviceEventEmitter.addListener(
-        'headingUpdated',
-        throttle(data => {
-          this.setState(updateHeading(data.heading));
-        }, 450)
-      );
+      this.eventOrientation = RNLocation.subscribeToHeadingUpdates(heading => {
+        updateHeadingFromGeolocation(heading);
+      });
     } else {
+      navigator.geolocation.getCurrentPosition(updateLocationFromGeolocation, error => console.info(error), {
+        enableHighAccuracy: true,
+        timeout: 30000
+      });
+
       this.geolocationWatchId = navigator.geolocation.watchPosition(
         updateLocationFromGeolocation,
         error => console.info(error),
@@ -703,7 +729,8 @@ class MapComponent extends Component {
         tileSize={256}
       />
     ) : null;
-    const contextualRemoteLayerElement = (contextualLayer && !isOfflineMode) ? ( // eslint-disable-line
+    const contextualRemoteLayerElement =
+      contextualLayer && !isOfflineMode ? ( // eslint-disable-line
         <MapView.UrlTile key={ctxLayerKey} urlTemplate={contextualLayer.url} zIndex={2} />
       ) : null;
     const compassLineElement = showCompassLine ? (
@@ -724,15 +751,18 @@ class MapComponent extends Component {
         zIndex={3}
       />
     ) : null;
+
+    // In the userPositionElement, if we do not track view changes on iOS the position marker will not render.
+    // However, on Android it needs to be set to false as to resolve memory leaks. In the future, we need to revisit this and hopefully we can remove it altogether.
     const userPositionElement = lastPosition ? (
       <MapView.Marker.Animated
         key="userPositionElement"
         image={markerImage}
         coordinate={lastPosition}
-        style={{ zIndex: 3 }}
+        style={{ zIndex: 10 }}
         anchor={{ x: 0.5, y: 0.5 }}
         pointerEvents={'none'}
-        tracksViewChanges={false}
+        tracksViewChanges={Platform.OS === 'ios' ? true : false}
       />
     ) : null;
     const compassElement =
@@ -740,7 +770,7 @@ class MapComponent extends Component {
         <MapView.Marker
           key="compassElement"
           coordinate={lastPosition}
-          zIndex={3}
+          zIndex={11}
           anchor={{ x: 0.5, y: 0.5 }}
           pointerEvents={'none'}
         >
@@ -804,8 +834,13 @@ class MapComponent extends Component {
         <Image style={[Theme.icon, styles.customLocationMarker]} source={newAlertIcon} />
       </View>
     ) : null;
+
+    const containerStyle = this.state.layoutHasForceRefreshed
+      ? [styles.container, styles.forceRefresh]
+      : styles.container;
+
     return (
-      <View style={styles.container} onMoveShouldSetResponder={this.onMoveShouldSetResponder}>
+      <View style={containerStyle} onMoveShouldSetResponder={this.onMoveShouldSetResponder}>
         <View pointerEvents="none" style={styles.header}>
           <Image style={styles.headerBg} source={backgroundImage} />
           {!isConnected && (
@@ -822,6 +857,7 @@ class MapComponent extends Component {
           }}
           style={styles.map}
           provider={MapView.PROVIDER_GOOGLE}
+          mapPadding={Platform.OS === 'android' ? { top: 40, bottom: 0, left: 0, right: 0 } : undefined}
           mapType="none"
           minZoomLevel={2}
           maxZoomLevel={18}
@@ -840,10 +876,10 @@ class MapComponent extends Component {
           {clustersElement}
           {compassLineElement}
           {areaPolygonElement}
-          {userPositionElement}
-          {compassElement}
           {neighboursAlertsElement}
           {selectedAlertsElement}
+          {userPositionElement}
+          {compassElement}
         </MapView>
         {customReportingElement}
         {this.renderMapFooter()}
