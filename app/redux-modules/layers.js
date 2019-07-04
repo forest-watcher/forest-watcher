@@ -15,6 +15,8 @@ import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import type { Area } from 'types/areas.types';
 
+import tracker from 'helpers/googleAnalytics';
+
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
 const GET_LAYERS_COMMIT = 'layers/GET_LAYERS_COMMIT';
 const GET_LAYERS_ROLLBACK = 'layers/GET_LAYERS_ROLLBACK';
@@ -264,10 +266,24 @@ export function getUserLayers() {
 }
 
 export function setActiveContextualLayer(layerId: string, value: boolean) {
-  return (dispatch: Dispatch, state: GetState) => {
+  return (dispatch: Dispatch, getState: GetState) => {
     let activeLayer = null;
-    if (layerId !== state().layers.activeLayer && value) {
+    const state = getState();
+    const currentActiveLayerId = state.layers.activeLayer;
+    const currentActiveLayer = state.layers.data?.find(layerData => layerData.id === currentActiveLayerId);
+    if (!value) {
+      if (currentActiveLayer) {
+        tracker.trackLayerToggledEvent(currentActiveLayer.name, false);
+      }
+    } else if (layerId !== currentActiveLayerId) {
+      if (currentActiveLayer) {
+        tracker.trackLayerToggledEvent(currentActiveLayer.name, false);
+      }
       activeLayer = layerId;
+      const nextActiveLayer = state.layers.data?.find(layerData => layerData.id === layerId);
+      if (nextActiveLayer) {
+        tracker.trackLayerToggledEvent(nextActiveLayer.name, true);
+      }
     }
     return dispatch({ type: SET_ACTIVE_LAYER, payload: activeLayer });
   };

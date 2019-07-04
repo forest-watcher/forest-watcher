@@ -237,6 +237,18 @@
         "drafts": "Drafts",
         "empty": "No report submitted, please go to the map and report a point or group of points!",
         "emptyPicture": "Empty",
+        "export": {
+            "navBarButtonText": "Export",
+            "noneSelected": "No reports selected",
+            "oneReport": "Export %{count} report...",
+            "manyReports": "Export %{count} reports...",
+            "title": "Export report",
+            "description": "How would you like to export this report?",
+            "option": {
+                "asCSV": "Export as CSV..."
+            },
+            "successful": "Exporting reports succeeded!"
+        },
         "here": "Report here",
         "input": "Please, answer the question",
         "inputRadio": "Choose one option to continue",
@@ -251,6 +263,7 @@
         "selected": "Report selected",
         "title": "Report",
         "toReport": "Report",
+        "upload": "Upload",
         "uploaded": "Uploaded"
     },
     "settings": {

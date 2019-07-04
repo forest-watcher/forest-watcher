@@ -2,6 +2,7 @@
 
 import type { Question, ReportsState, Template, Answer } from 'types/reports.types';
 import i18n from 'locales';
+import flatMap from 'lodash/flatMap';
 
 export const getBtnTextByType = (type: string) => {
   switch (type) {
@@ -16,6 +17,9 @@ export const getBtnTextByType = (type: string) => {
   }
 };
 
+/**
+ * Converts a question into a form where irrelevant information and languages are stripped
+ */
 export const parseQuestion = (step: { question: Question, template: Template }, deviceLang: ?string) => {
   const { question, template } = step;
   const lang = template.languages.includes(deviceLang) ? deviceLang : template.defaultLanguage;
@@ -80,3 +84,60 @@ export const isQuestionAnswered = (answer: Answer) => {
   if (!answer) return false;
   return answer.value !== '';
 };
+
+function getAnswerValues(question, answer) {
+  if (typeof answer === 'undefined') return undefined;
+  const simpleTypeInputs = ['number', 'text', 'point', 'blob'];
+  let value = Array.isArray(answer.value) ? answer.value : [answer.value];
+  if (!simpleTypeInputs.includes(question.type)) {
+    value = question.values.filter(item => value.includes(item.value)).map(item => item.label);
+  }
+  return { ...answer, value };
+}
+
+/**
+ * Converts a template into a form where irrelevant information and languages are stripped
+ */
+export function mapFormToQuestions(template: Template, deviceLang: ?string) {
+  return flatMap(template.questions, question => {
+    const parsedQuestion = parseQuestion({ template, question }, deviceLang);
+    if (parsedQuestion.childQuestion) {
+      const parsedChildQuestion = {
+        ...parsedQuestion.childQuestion,
+        order: parsedQuestion.order
+      };
+      return [parsedQuestion, parsedChildQuestion];
+    }
+    return parsedQuestion;
+  }).reduce((acc, question) => ({ ...acc, [question.name]: question }), {});
+}
+
+/**
+ * Converts a report into a form where irrelevant information and languages are stripped
+ */
+export function mapFormToAnsweredQuestions(answers: Array<Answer>, template: Template, deviceLang: ?string) {
+  const questions = mapFormToQuestions(template, deviceLang);
+  return flatMap(answers, answer => {
+    const question = questions[answer.questionName];
+    const answeredQuestion = {
+      question,
+      answer: getAnswerValues(question, answer)
+    };
+
+    const hasChild = answer.child && answer.child !== null;
+    const childMatchCondition =
+      hasChild && question.childQuestion && answer.value === question.childQuestion.conditionalValue;
+    if (childMatchCondition) {
+      const childQuestion = questions[answer.child.questionName];
+      return [
+        answeredQuestion,
+        {
+          question: childQuestion,
+          answer: getAnswerValues(childQuestion, answer.child)
+        }
+      ];
+    }
+
+    return answeredQuestion;
+  });
+}

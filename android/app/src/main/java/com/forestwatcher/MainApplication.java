@@ -1,6 +1,7 @@
 package com.forestwatcher;
 
 import android.content.Intent;
+import com.aakashns.reactnativedialogs.ReactNativeDialogsPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
@@ -12,7 +13,6 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.forestwatcher.sensors.SensorManagerPackage;
-import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.imagepicker.ImagePickerPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.microsoft.codepush.react.CodePush;
@@ -24,6 +24,8 @@ import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.reactnativenavigation.react.ReactGateway;
 import com.rnziparchive.RNZipArchivePackage;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import io.realm.react.RealmReactPackage;
 import io.sentry.RNSentryPackage;
 
@@ -65,9 +67,9 @@ public class MainApplication extends NavigationApplication implements ReactInsta
     // Add additional packages you require here
     // No need to add RnnPackage and MainReactPackage
     return Arrays.<ReactPackage>asList(
-      new GoogleAnalyticsBridgePackage(),
       new RNFetchBlobPackage(),
       new ReactNativeConfigPackage(),
+      new ReactNativeDialogsPackage(),
       new MapsPackage(),
       new RNI18nPackage(),
       new RealmReactPackage(),
@@ -86,7 +88,9 @@ public class MainApplication extends NavigationApplication implements ReactInsta
       new LottiePackage(),
       new RNSentryPackage(),
       new RNCWebViewPackage(),
-      new SensorManagerPackage()
+      new SensorManagerPackage(),
+      new RNFirebasePackage(),
+      new RNFirebaseAnalyticsPackage()
     );
   }
 

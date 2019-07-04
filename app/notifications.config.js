@@ -5,7 +5,12 @@ import i18n from 'locales';
 import { UPLOAD_REPORT_COMMIT, UPLOAD_REPORT_ROLLBACK } from 'redux-modules/reports';
 import { SAVE_AREA_ROLLBACK } from 'redux-modules/areas';
 import { GET_ALERTS_COMMIT } from 'redux-modules/alerts';
-import { SHOW_CONNECTION_REQUIRED, UPDATE_APP, SHOW_OFFLINE_MODE_IS_ON } from 'redux-modules/app';
+import {
+  SHOW_CONNECTION_REQUIRED,
+  UPDATE_APP,
+  SHOW_OFFLINE_MODE_IS_ON,
+  EXPORT_REPORTS_SUCCESSFUL
+} from 'redux-modules/app';
 import { Types } from 'components/toast-notification';
 
 export default {
@@ -37,5 +42,9 @@ export default {
   },
   [UPDATE_APP]: {
     text: i18n.t('sync.gettingLatestAlerts')
+  },
+  [EXPORT_REPORTS_SUCCESSFUL]: {
+    type: Types.success,
+    text: i18n.t('report.export.successful')
   }
 };

@@ -11,6 +11,8 @@ import ProgressBar from 'react-native-progress/Bar';
 import Theme from 'config/theme';
 import styles from './styles';
 
+import tracker from 'helpers/googleAnalytics';
+
 const downloadIcon = require('assets/download.png');
 const refreshIcon = require('assets/refresh.png');
 const downloadedIcon = require('assets/downloaded.png');
@@ -65,6 +67,14 @@ class AreaCache extends PureComponent<Props, State> {
         { text: 'OK', onPress: this.resetCacheStatus },
         { text: i18n.t('commonText.retry'), onPress: this.onRetry }
       ]);
+    }
+
+    if (prevProps.cacheStatus.progress === 0 && this.props.cacheStatus.progress > 0) {
+      tracker.trackAreaDownloadStartedEvent();
+    }
+
+    if (this.props.pendingCache === 0 && prevProps.pendingCache > 0) {
+      tracker.trackAreaDownloadEndedEvent(!this.props.cacheStatus.error);
     }
   }
 

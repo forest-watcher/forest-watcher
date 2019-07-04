@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import <CodePush/CodePush.h>
 #import "AppAuth.h"
+#import <Firebase.h>
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -36,6 +37,7 @@
   NSString *apiUrl = [ReactNativeConfig envFor:@"GOOGLE_MAPS_API_KEY"];
 
   [GMSServices provideAPIKey:apiUrl];
+  [FIRApp configure];
 
 #ifdef DEBUG
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];

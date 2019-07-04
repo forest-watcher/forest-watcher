@@ -110,8 +110,8 @@ android {
         applicationId "com.forestwatcher"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 24
-        versionName "1.7.2"
+        versionCode 25
+        versionName "1.8.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -179,7 +179,6 @@ android {
         main.java.srcDirs += '../../node_modules/react-native-fast-image/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-fbsdk/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-fetch-blob/android/src/main/java'
-        main.java.srcDirs += '../../node_modules/react-native-google-analytics-bridge/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-i18n/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-maps/lib/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-sentry/android/src/main/java'
@@ -212,6 +211,9 @@ dependencies {
     // react-native-code-push
     implementation 'com.nimbusds:nimbus-jose-jwt:5.1'
 
+    // react-native-dialogs
+    implementation project(':react-native-dialogs')
+
     // react-native-fast-image
     implementation("com.github.bumptech.glide:glide:${rootProject.ext.glideVersion}") {
         exclude group: "com.android.support", module: "glide"
@@ -228,15 +230,16 @@ dependencies {
     // react-native-fbsdk
     implementation('com.facebook.android:facebook-android-sdk:4.35.0')
 
-    // react-native-google-analytics-bridge
-    implementation 'com.google.android.gms:play-services-analytics:16.0.5'
+    // react-native-firebase
+    implementation project(':react-native-firebase')
+    implementation "com.google.android.gms:play-services-base:16.1.0"
+    implementation "com.google.firebase:firebase-core:16.0.8"
 
     // react-native-image-picker
     implementation project(':react-native-image-picker')
 
     // react-native-maps
-    implementation "com.google.android.gms:play-services-base:16.0.1"
-    implementation "com.google.android.gms:play-services-maps:16.0.0"
+    implementation "com.google.android.gms:play-services-maps:16.1.0"
     implementation "com.google.maps.android:android-maps-utils:0.5"
 
     // react-native-navigation
@@ -259,3 +262,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply plugin: 'com.google.gms.google-services'
+com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true

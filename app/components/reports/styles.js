@@ -52,6 +52,23 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     color: Theme.fontColors.light
   },
+  exportButton: {
+    justifyContent: 'center',
+    paddingVertical: 10
+  },
+  exportButtonContainer: {
+    backgroundColor: 'white',
+    borderTopWidth: 5
+  },
+  exportTitle: {
+    fontSize: 17,
+    fontWeight: '400',
+    fontFamily: Theme.font,
+    paddingVertical: 20,
+    color: Theme.fontColors.light,
+    alignSelf: 'center',
+    alignContent: 'center'
+  },
   listItem: {
     maxWidth: 288
   },
