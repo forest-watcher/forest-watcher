@@ -18,6 +18,7 @@
     "ios": "react-native run-ios",
     "release:android": "cd android && ./gradlew assembleRelease",
     "release:ios": "react-native run-ios --configuration Release",
+    "release:upstream": "git merge --squash --allow-unrelated-histories --strategy recursive -Xtheirs",
     "postinstall:ios": "cd node_modules/react-native; exec ./scripts/ios-install-third-party.sh; cd third-party/glog-0.3.4; exec ./configure; cd ../../../..",
     "test": "jest --forceExit --detectOpenHandles",
     "test:ci": "jest --forceExit --detectOpenHandles --ci --coverage",
