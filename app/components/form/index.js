@@ -4,6 +4,7 @@ import type { Question, Answer } from 'types/reports.types';
 import React, { Component } from 'react';
 import i18n from 'locales';
 import { Platform, View } from 'react-native';
+import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import styles from 'components/form/styles';
 import ActionButton from 'components/common/action-button';
@@ -70,12 +71,12 @@ class Form extends Component<Props> {
     return this.props.answer !== nextProps.answer;
   }
 
-  onChange = answer => {
+  onChange = debounceUI(answer => {
     const { setReportAnswer, reportName, updateOnly } = this.props;
     setReportAnswer(reportName, answer, updateOnly);
-  };
+  });
 
-  onSubmit = () => {
+  onSubmit = debounceUI(() => {
     const {
       componentId,
       reportName,
@@ -114,7 +115,7 @@ class Form extends Component<Props> {
         });
       }
     }
-  };
+  });
 
   getNext(question, questionAnswered, text) {
     const disabled = question.required && !questionAnswered;

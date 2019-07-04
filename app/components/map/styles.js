@@ -32,57 +32,35 @@ export default StyleSheet.create({
     height: 48,
     width: 48
   },
-  signalNotice: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    overflow: 'visible'
-  },
   offlineNotice: {
     position: 'absolute',
-    top: 0,
+    top: 20,
     right: 0,
     color: 'red',
     margin: 16
   },
-  signalNoticeText: {
-    fontWeight: '400',
-    fontStyle: 'italic',
-    fontFamily: Theme.font,
-    fontSize: 15,
-    color: Theme.fontColors.white,
-    marginLeft: 8,
-    backgroundColor: 'transparent',
-    position: 'absolute',
-    width: 80,
-    top: 14,
-    left: 32,
-    zIndex: 5
-  },
-  geoLocationContainer: {
-    width: 48,
-    height: 48,
-    position: 'relative',
+  coordinateText: {
+    color: 'white',
+    fontSize: 16,
     justifyContent: 'center',
-    alignItems: 'center'
-  },
-  geoLocation: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: Theme.colors.color7,
-    opacity: 0.5,
+    left: 0,
+    paddingHorizontal: 20,
     position: 'absolute',
-    top: 0
-  },
-  marker: {
-    width: 18,
-    height: 19,
-    zIndex: 2,
-    resizeMode: 'contain'
+    right: 0,
+    textAlign: 'center',
+    top: 45
   },
   selectedMarkerIcon: {
     borderColor: 'rgba(255, 255, 255, 1)',
     backgroundColor: Theme.colors.color1
+  },
+  routeVertex: {
+    borderColor: 'white',
+    borderWidth: 1,
+    backgroundColor: '#2e8dc7',
+    borderRadius: 5,
+    width: 10,
+    height: 10
   },
   markerIconArea: {
     borderColor: 'rgba(255, 255, 255, 1)',
@@ -98,7 +76,7 @@ export default StyleSheet.create({
   },
   headerBg: {
     width: Theme.screen.width,
-    height: 132,
+    height: 160,
     resizeMode: 'stretch',
     position: 'absolute',
     top: 0
@@ -107,8 +85,7 @@ export default StyleSheet.create({
     flexDirection: 'row-reverse', // See jsx comment to understand better
     alignItems: 'flex-end',
     justifyContent: 'space-between',
-    marginLeft: 8,
-    marginRight: 8,
+    marginHorizontal: 16,
     marginBottom: 16,
     paddingBottom: 16
   },

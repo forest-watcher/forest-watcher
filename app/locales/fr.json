@@ -1,9 +1,12 @@
 {
     "alerts": {
         "alertSystems": "Systèmes d'Alerte",
+        "locationDisabled": "Localisation désactivée",
         "noGPS": "No GPS"
     },
     "areaDetail": {
+        "confirmDeleteWithRoutesTitle": "Supprimer les zones avec trajet",
+        "confirmDeleteWithRoutesMessage": "Si vous supprimez cette zone, vous ne pourrez plus accéder à ses trajets sauvegardés. La supprimer ?",
         "delete": "Supprimer cette zone",
         "noAlerts": "Aucune alerte dans cette zone"
     },
@@ -26,14 +29,17 @@
         "date": "Date",
         "error": "Erreur",
         "finish": "Terminer",
+        "kilometers": "km",
         "kmAway": "Km de distance",
         "language": "Langue",
         "loading": "Chargement",
+        "meters": "m",
         "metersAway": "m d'ici",
         "name": "Nom",
         "next": "Suivant",
         "noImage": "Aucune image",
         "offlineModeIsOn": "Vous êtes en mode hors ligne",
+        "ok": "OK",
         "oops": "Oops!",
         "reportedPosition": "Position signalée",
         "retry": "Réessayez",
@@ -206,7 +212,7 @@
         "treeCoverLoss2015": "Perte de couvert forestier (2015)",
         "treeCoverLoss2016": "Perte de couvert forestier (2016)",
         "treeCoverLoss2017": "Perte de couvert forestier (2017)",
-        "treeCoverLoss2018": "Perte de couvert forestier (2018)",
+        "treeCoverLoss2018": "Perte de la couvert forestier (2018)",
         "woodFiber": "Fibre de bois"
     },
     "login": {
@@ -221,6 +227,8 @@
     "map": {
         "alerts": "Notifications",
         "ctxLayers": "Couches contextuels",
+        "destination": "Destination :",
+        "distance": "Distance :",
         "recent": "Récent",
         "reported": "Notifié"
     },
@@ -267,6 +275,46 @@
         "upload": "Charger",
         "uploaded": "Sauvegardé"
     },
+    "routes": {
+        "backgroundErrorDialogTitle": "Suivi du trajet mis en pause",
+        "backgroundErrorDialogMessage": "Veuillez vérifier vos paramètres de localisation et les autorisations de votre appli pour reprendre le suivi du trajet.",
+        "confirmDeleteTitle": "Supprimer le trajet",
+        "confirmDeleteMessage": "Êtes-vous sûr(e) de vouloir supprimer ce trajet ?",
+        "delete": "Supprimer le trajet",
+        "difficulty": "Difficulté",
+        "difficultyLevels": {
+            "easy": "Facile",
+            "medium": "Moyenne",
+            "hard": "Difficile"
+        },
+        "distance": "Distance",
+        "duration": "Temps écoulé",
+        "insufficientPermissionsDialogTitle": "Incapable de suivre le trajet",
+        "insufficientPermissionsDialogMessage": "Nous avons besoin de l'autorisation de localisation en tâche de fond pour pouvoir suivre votre trajet.",
+        "insufficientPermissionsDialogOpenAppSettings": "Vérifier les autorisations",
+        "insufficientPermissionsDialogOpenDeviceSettings": "Vérifier les paramètres de localisation",
+        "location": "Localisation",
+        "locationEnd": "Fin",
+        "locationErrorDialogTitle": "Erreur lors de la récupération de la localisation",
+        "locationErrorDialogMessage": "Un incident est survenu lors de l'accès à votre localisation",
+        "locationStart": "Début :",
+        "notification": {
+            "title": "Suivi de trajet en cours",
+            "message": "Forest Watcher enregistre le trajet que vous utilisez vers votre destination"
+        },
+        "resumeTrackingDialogTitle": "Reprendre le suivi du trajet",
+        "resumeTrackingDialogMessage": "Vous avez un trajet inachevé. Voulez-vous le reprendre ?",
+        "resumeTrackingDialogPositiveButton": "Reprendre le trajet",
+        "resumeTrackingDialogNegativeButton": "Supprimer le trajet",
+        "save": "Sauvegarder le trajet",
+        "stopRouteTrackingPanelTitle": "Arrêter le suivi de trajet",
+        "stopRouteTrackingPanelContinueOption": "Continuer le suivi de trajet",
+        "stopRouteTrackingPanelSaveOption": "Arrêter et sauvegarder le trajet",
+        "stopRouteTrackingPanelDeleteOption": "Arrêter et supprimer le trajet",
+        "trackingInProgressErrorTitle": "Suivie de trajet en cours",
+        "trackingInProgressErrorMessage": "Vous suivez déjà un trajet dans une autre zone",
+        "viewOnMap": "Voir le trajet sur la carte"
+    },
     "settings": {
         "1MonthAgo": "Le mois dernier",
         "1yearAgo": "L'année dernière",
@@ -294,7 +342,8 @@
         "title": "Paramètres",
         "unsafeLogout": "Vos rapports ne sont pas synchronisés !",
         "unsavedDataLost": "Si vous procédez à la déconnexion, toutes vos données non enregistrées seront perdues.",
-        "yourAreas": "Vos zones"
+        "yourAreas": "Vos zones",
+        "yourRoutes": "Vos trajets"
     },
     "setupCountry": {
         "firstInstruction": "Tout d'abord, sélectionnez le pays qui vous intéresse",

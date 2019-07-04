@@ -1,15 +1,18 @@
 // @flow
 import type { Area } from 'types/areas.types';
+import type { Route } from 'types/routes.types';
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, View, Image, ScrollView, Text, TextInput, TouchableHighlight } from 'react-native';
+import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import FastImage from 'react-native-fast-image';
 
 import i18n from 'locales';
 import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
+import RouteList from 'components/common/route-list';
 import AlertSystem from 'containers/settings/area-detail/alert-system';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
@@ -30,7 +33,8 @@ type Props = {
   isConnected: boolean,
   componentId: string,
   area: Area,
-  disableDelete: boolean
+  disableDelete: boolean,
+  routes: Array<Route>
 };
 
 class AreaDetail extends Component<Props, State> {
@@ -88,7 +92,7 @@ class AreaDetail extends Component<Props, State> {
     this.setState({ name });
   };
 
-  onNameSubmit = (ev: SyntheticInputEvent<*>) => {
+  onNameSubmit = debounceUI((ev: SyntheticInputEvent<*>) => {
     const newName = ev.nativeEvent.text;
     const { name } = this.props.area;
     if (newName && newName !== name) {
@@ -101,7 +105,19 @@ class AreaDetail extends Component<Props, State> {
       this.props.updateArea(updatedArea);
       this.replaceRouteTitle(updatedArea.name);
     }
-  };
+  });
+
+  onRoutePress = debounceUI((routeId: string, routeName: string) => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.RouteDetail',
+        passProps: {
+          routeId,
+          routeName
+        }
+      }
+    });
+  });
 
   replaceRouteTitle = (title: string) => {
     Navigation.mergeOptions(this.props.componentId, {
@@ -113,7 +129,30 @@ class AreaDetail extends Component<Props, State> {
     });
   };
 
-  handleDeleteArea = () => {
+  handleDeleteArea = debounceUI(() => {
+    if (this.props.routes.length > 0) {
+      Alert.alert(
+        i18n.t('areaDetail.confirmDeleteWithRoutesTitle'),
+        i18n.t('areaDetail.confirmDeleteWithRoutesMessage'),
+        [
+          {
+            text: i18n.t('commonText.confirm'),
+            onPress: () => {
+              this.confirmDeleteArea();
+            }
+          },
+          {
+            text: i18n.t('commonText.cancel'),
+            style: 'cancel'
+          }
+        ]
+      );
+    } else {
+      this.confirmDeleteArea();
+    }
+  });
+
+  confirmDeleteArea = debounceUI(() => {
     if (this.props.isConnected) {
       this.props.deleteArea(this.props.area.id);
       Navigation.pop(this.props.componentId);
@@ -127,10 +166,10 @@ class AreaDetail extends Component<Props, State> {
         }
       );
     }
-  };
+  });
 
   render() {
-    const { area, disableDelete } = this.props;
+    const { area, disableDelete, routes } = this.props;
 
     if (!area) return null;
     return (
@@ -179,6 +218,12 @@ class AreaDetail extends Component<Props, State> {
             <Text style={styles.title}>{i18n.t('alerts.alertSystems')}</Text>
             <AlertSystem areaId={area.id} />
           </View>
+          {routes.length > 0 && (
+            <View style={styles.row}>
+              <Text style={styles.title}>{i18n.t('settings.yourRoutes')}</Text>
+              <RouteList routes={routes} onRoutePress={this.onRoutePress} />
+            </View>
+          )}
           {!disableDelete && (
             <View style={styles.buttonContainer}>
               <ActionButton onPress={this.handleDeleteArea} delete text={i18n.t('areaDetail.delete')} />

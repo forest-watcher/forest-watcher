@@ -16,7 +16,7 @@ Object {
     "offlineMode": false,
     "pristineCacheTooltip": true,
     "synced": false,
-    "version": "1.8.1",
+    "version": "1.9.0",
   },
   "areas": Object {
     "data": Array [],
@@ -1885,6 +1885,10 @@ Object {
     "synced": false,
     "syncing": false,
     "templates": Object {},
+  },
+  "routes": Object {
+    "activeRoute": undefined,
+    "previousRoutes": Array [],
   },
   "setup": Object {
     "area": Object {
@@ -1927,7 +1931,7 @@ Object {
     "offlineMode": false,
     "pristineCacheTooltip": true,
     "synced": false,
-    "version": "1.8.1",
+    "version": "1.9.0",
   },
   "areas": Object {
     "data": Array [],
@@ -3796,6 +3800,10 @@ Object {
     "synced": false,
     "syncing": false,
     "templates": Object {},
+  },
+  "routes": Object {
+    "activeRoute": undefined,
+    "previousRoutes": Array [],
   },
   "setup": Object {
     "area": Object {

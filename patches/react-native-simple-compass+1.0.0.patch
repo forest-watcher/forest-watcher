@@ -1,0 +1,12 @@
+diff --git a/node_modules/react-native-simple-compass/android/src/main/java/com/reactlibrary/RNSimpleCompassPackage.java b/node_modules/react-native-simple-compass/android/src/main/java/com/reactlibrary/RNSimpleCompassPackage.java
+index 2124131..49ec55f 100644
+--- a/node_modules/react-native-simple-compass/android/src/main/java/com/reactlibrary/RNSimpleCompassPackage.java
++++ b/node_modules/react-native-simple-compass/android/src/main/java/com/reactlibrary/RNSimpleCompassPackage.java
+@@ -16,7 +16,6 @@ public class RNSimpleCompassPackage implements ReactPackage {
+       return Arrays.<NativeModule>asList(new RNSimpleCompassModule(reactContext));
+     }
+ 
+-    @Override
+     public List<Class<? extends JavaScriptModule>> createJSModules() {
+       return Collections.emptyList();
+     }

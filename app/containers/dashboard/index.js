@@ -19,6 +19,7 @@ function mapStateToProps(state: State) {
     appSyncing,
     isConnected,
     areasOutdated,
+    activeRoute: state.routes.activeRoute,
     refreshing: state.areas.refreshing,
     pristine: state.app.pristineCacheTooltip,
     needsUpdate: areasOutdated && !appSyncing && isConnected && loggedIn
