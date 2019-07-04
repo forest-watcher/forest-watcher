@@ -1,9 +1,12 @@
 {
     "alerts": {
         "alertSystems": "Sistema de alertas",
+        "locationDisabled": "Ubicación deshabilitada",
         "noGPS": "Sin GPS"
     },
     "areaDetail": {
+        "confirmDeleteWithRoutesTitle": "Eliminar las áreas con rutas",
+        "confirmDeleteWithRoutesMessage": "Si elimina esta área, ya no podrá acceder a sus rutas guardadas. ¿Desea continuar con la eliminación?",
         "delete": "Elimina esta area",
         "noAlerts": "No hay alertas para este area"
     },
@@ -26,14 +29,17 @@
         "date": "Fecha",
         "error": "Error",
         "finish": "Terminar",
+        "kilometers": "km",
         "kmAway": "Km de distancia",
         "language": "Idioma",
         "loading": "Cargando",
+        "meters": "m",
         "metersAway": "m de distancia",
         "name": "Nombre",
         "next": "Siguiente",
         "noImage": "Sin imagen",
         "offlineModeIsOn": "Estás en modo sin conexión",
+        "ok": "ACEPTAR",
         "oops": "Oops!",
         "reportedPosition": "Posición del reporte",
         "retry": "Reintentar",
@@ -221,6 +227,8 @@
     "map": {
         "alerts": "Alertas",
         "ctxLayers": "Capas de contexto",
+        "destination": "Destino:",
+        "distance": "Distancia:",
         "recent": "Recientes",
         "reported": "Reportado"
     },
@@ -267,6 +275,46 @@
         "upload": "Cargar",
         "uploaded": "Subido"
     },
+    "routes": {
+        "backgroundErrorDialogTitle": "Seguimiento de la ruta pausado",
+        "backgroundErrorDialogMessage": "Compruebe los ajustes de su ubicación y los permisos de la aplicación para reanudar el seguimiento de las rutas.",
+        "confirmDeleteTitle": "Eliminar ruta",
+        "confirmDeleteMessage": "¿Está seguro de que desea eliminar esta ruta?",
+        "delete": "Eliminar ruta",
+        "difficulty": "Dificultad",
+        "difficultyLevels": {
+            "easy": "Fácil",
+            "medium": "Media",
+            "hard": "Difícil"
+        },
+        "distance": "Distancia",
+        "duration": "Tiempo tomado",
+        "insufficientPermissionsDialogTitle": "No se puede realizar un seguimiento de la ruta",
+        "insufficientPermissionsDialogMessage": "Necesitamos los permisos de la ubicación en segundo plano para poder realizar un seguimiento a su ruta.",
+        "insufficientPermissionsDialogOpenAppSettings": "Compruebe los permisos",
+        "insufficientPermissionsDialogOpenDeviceSettings": "Compruebe los ajustes de la ubicación",
+        "location": "Ubicación",
+        "locationEnd": "Finalización:",
+        "locationErrorDialogTitle": "Ocurrió un error al recuperar la ubicación",
+        "locationErrorDialogMessage": "Ocurrió un error al acceder a su ubicación",
+        "locationStart": "Comienzo:",
+        "notification": {
+            "title": "Seguimiento de la ruta en progreso",
+            "message": "Forest Watcher está registrando la ruta hacia su destino"
+        },
+        "resumeTrackingDialogTitle": "Reanudar el seguimiento de la ruta",
+        "resumeTrackingDialogMessage": "Tiene una ruta sin terminar. ¿Le gustaría reanudarla?",
+        "resumeTrackingDialogPositiveButton": "Reanudar ruta",
+        "resumeTrackingDialogNegativeButton": "Eliminar ruta",
+        "save": "Guardar ruta",
+        "stopRouteTrackingPanelTitle": "Detener el seguimiento de la ruta",
+        "stopRouteTrackingPanelContinueOption": "Continuar el seguimiento de la ruta",
+        "stopRouteTrackingPanelSaveOption": "Detener y guardar ruta",
+        "stopRouteTrackingPanelDeleteOption": "Detener y eliminar la ruta",
+        "trackingInProgressErrorTitle": "Seguimiento de la ruta en progreso",
+        "trackingInProgressErrorMessage": "Ya está siguiendo una ruta en otra área",
+        "viewOnMap": "Ver la ruta en el mapa"
+    },
     "settings": {
         "1MonthAgo": "Hace 1 mes",
         "1yearAgo": "Hace 1 año",
@@ -294,7 +342,8 @@
         "title": "Ajustes",
         "unsafeLogout": "Tus reportes no están sincronizados!",
         "unsavedDataLost": "Si continúas con el cierre de sesión, todos tus datos se perderán.",
-        "yourAreas": "Tus áreas"
+        "yourAreas": "Tus áreas",
+        "yourRoutes": "Sus rutas"
     },
     "setupCountry": {
         "firstInstruction": "Primero, selecciona tu país de interés",

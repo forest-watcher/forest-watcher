@@ -1,9 +1,12 @@
 {
     "alerts": {
         "alertSystems": "Sistem peringatan",
+        "locationDisabled": "Lokasi dinonaktifkan",
         "noGPS": "Tidak GPS"
     },
     "areaDetail": {
+        "confirmDeleteWithRoutesTitle": "Hapus wilayah dengan rute",
+        "confirmDeleteWithRoutesMessage": "Jika Anda menghapus wilayah ini, Anda takkan dapat mengakses rute yang telah disimpan untuknya. Hapus?",
         "delete": "Hapus area ini",
         "noAlerts": "Tidak ada peringatan untuk area ini"
     },
@@ -26,14 +29,17 @@
         "date": "Tanggal",
         "error": "Eror",
         "finish": "Selesai",
+        "kilometers": "km",
         "kmAway": "km jauhnya",
         "language": "Bahasa",
         "loading": "Pemuatan",
+        "meters": "m",
         "metersAway": "m lagi",
         "name": "Nama",
         "next": "Lanjut",
         "noImage": "Tidak ada gambar",
         "offlineModeIsOn": "Anda berada dalam mode luring",
+        "ok": "Oke",
         "oops": "Oops!",
         "reportedPosition": "Posisi Terlapor",
         "retry": "Coba lagi",
@@ -221,6 +227,8 @@
     "map": {
         "alerts": "Sistem Peringatan",
         "ctxLayers": "Lapisan kontekstual",
+        "destination": "Destinasi:",
+        "distance": "Jarak:",
         "recent": "Terbaru",
         "reported": "Dilaporkan"
     },
@@ -267,6 +275,46 @@
         "upload": "Unggah",
         "uploaded": "Terunggah"
     },
+    "routes": {
+        "backgroundErrorDialogTitle": "Pelacakan rute dijeda",
+        "backgroundErrorDialogMessage": "Silakan periksa pengaturan lokasi dan izin aplikasi untuk melanjutkan pelacakan rute.",
+        "confirmDeleteTitle": "Hapus rute",
+        "confirmDeleteMessage": "Anda yakin ingin menghapus rute ini?",
+        "delete": "Hapus Rute",
+        "difficulty": "Tingkat Kesulitan",
+        "difficultyLevels": {
+            "easy": "Mudah",
+            "medium": "Sedang",
+            "hard": "Sulit"
+        },
+        "distance": "Jarak",
+        "duration": "Waktu Terpakai",
+        "insufficientPermissionsDialogTitle": "Tidak dapat melacak rute",
+        "insufficientPermissionsDialogMessage": "Kami membutuhkan izin lokasi di latar belakang agar dapat melacak rute Anda.",
+        "insufficientPermissionsDialogOpenAppSettings": "Periksa izin",
+        "insufficientPermissionsDialogOpenDeviceSettings": "Periksa pengaturan lokasi",
+        "location": "Lokasi",
+        "locationEnd": "Selesai:",
+        "locationErrorDialogTitle": "Gagal menerima lokasi",
+        "locationErrorDialogMessage": "Terjadi kesalahan saat mengakses lokasi Anda",
+        "locationStart": "Mulai:",
+        "notification": {
+            "title": "Rute sedang dilacak",
+            "message": "Forest Watcher sedang merekam rute yang Anda ambil menuju destinasi Anda"
+        },
+        "resumeTrackingDialogTitle": "Lanjutkan pelacakan rute",
+        "resumeTrackingDialogMessage": "Anda punya rute yang belum diselesaikan. Lanjutkan rute ini?",
+        "resumeTrackingDialogPositiveButton": "Lanjutkan rute",
+        "resumeTrackingDialogNegativeButton": "Hapus rute",
+        "save": "Simpan Rute",
+        "stopRouteTrackingPanelTitle": "Hentikan Pelacakan Rute",
+        "stopRouteTrackingPanelContinueOption": "Lanjutkan pelacakan rute",
+        "stopRouteTrackingPanelSaveOption": "Hentikan dan simpan rute",
+        "stopRouteTrackingPanelDeleteOption": "Hentikan dan hapus rute",
+        "trackingInProgressErrorTitle": "Rute sedang dilacak",
+        "trackingInProgressErrorMessage": "Anda sedang melacak rute di wilayah lain",
+        "viewOnMap": "Tampilkan Rute di Peta"
+    },
     "settings": {
         "1MonthAgo": "1 bulan yang lalu",
         "1yearAgo": "1 tahun yang lalu",
@@ -294,7 +342,8 @@
         "title": "Pengaturan",
         "unsafeLogout": "Laporan Anda belum disinkronkan!",
         "unsavedDataLost": "Apabila Anda keluar, semua data yang belum disimpan akan hilang.",
-        "yourAreas": "Area Anda"
+        "yourAreas": "Area Anda",
+        "yourRoutes": "Rute Anda"
     },
     "setupCountry": {
         "firstInstruction": "Pertama, pilih negara yang diinginkan",
