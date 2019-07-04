@@ -278,7 +278,7 @@ class DrawAreas extends Component {
               coordinates={coordinates}
               fillColor={valid ? Theme.polygon.fill : Theme.polygon.fillInvalid}
               strokeColor={Theme.polygon.strokeSelected}
-              strokeWidth={coordinates.length >= 3 ? 2 : 0}
+              strokeWidth={coordinates.length >= 3 ? 3 : 0}
               zIndex={0}
             />
           )}
@@ -287,7 +287,7 @@ class DrawAreas extends Component {
               key={'line'}
               coordinates={markers}
               strokeColor={Theme.polygon.strokeSelected}
-              strokeWidth={2}
+              strokeWidth={3}
               zIndex={2}
             />
           )}

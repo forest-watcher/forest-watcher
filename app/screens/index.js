@@ -22,6 +22,8 @@ import RightDrawer from 'components/right-drawer';
 import ErrorLightbox from 'components/error-lightbox';
 import Walkthrough from 'components/walkthrough';
 import ToastNotification from 'components/toast-notification';
+import RouteDetail from '../containers/routes/route-detail';
+import SaveRoute from '../containers/routes/save-route';
 
 export function registerScreens(store, Provider) {
   Navigation.registerComponentWithRedux('ForestWatcher.Home', () => Home, Provider, store);
@@ -46,6 +48,8 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponentWithRedux('ForestWatcher.RightDrawer', () => RightDrawer, Provider, store);
   Navigation.registerComponentWithRedux('ForestWatcher.ErrorLightbox', () => ErrorLightbox, Provider, store);
   Navigation.registerComponentWithRedux('ForestWatcher.ToastNotification', () => ToastNotification, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.RouteDetail', () => RouteDetail, Provider, store);
+  Navigation.registerComponentWithRedux('ForestWatcher.SaveRoute', () => SaveRoute, Provider, store);
 }
 
 export default registerScreens;

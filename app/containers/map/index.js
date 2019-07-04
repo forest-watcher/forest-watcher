@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setSelectedAreaId } from 'redux-modules/areas';
 import { createReport } from 'redux-modules/reports';
+import { discardActiveRoute, setRouteDestination } from 'redux-modules/routes';
 import { setCanDisplayAlerts, setActiveAlerts } from 'redux-modules/alerts';
 import tracker from 'helpers/googleAnalytics';
 import { getContextualLayer } from 'helpers/map';
@@ -12,18 +13,39 @@ import { shouldBeConnected } from 'helpers/app';
 import { getSelectedArea, activeDataset } from 'helpers/area';
 import Map from 'components/map';
 
-const BoundingBox = require('boundingbox');
-
 function getAreaCoordinates(areaFeature) {
-  return areaFeature.geometry.coordinates[0].map(coordinate => ({
-    longitude: coordinate[0],
-    latitude: coordinate[1]
-  }));
+  switch (areaFeature.geometry.type) {
+    case 'MultiPolygon': {
+      // When KML files are uploaded in the webapp they are always turned into MultiPolygons even if that multi polygon
+      // only consists of a single polygon - just take the first polygon
+      return areaFeature.geometry.coordinates[0][0].map(coordinate => ({
+        longitude: coordinate[0],
+        latitude: coordinate[1]
+      }));
+    }
+    case 'Polygon':
+    default: {
+      // Handle anything we don't recognise as a Polygon
+      return areaFeature.geometry.coordinates[0].map(coordinate => ({
+        longitude: coordinate[0],
+        latitude: coordinate[1]
+      }));
+    }
+  }
 }
 
-function mapStateToProps(state: State) {
+function reconcileRoutes(activeRoute, previousRoute) {
+  if (activeRoute) {
+    return activeRoute;
+  } else if (previousRoute) {
+    return previousRoute;
+  } else {
+    return null;
+  }
+}
+
+function mapStateToProps(state: State, ownProps: { previousRoute: Route }) {
   const area = getSelectedArea(state.areas.data, state.areas.selectedAreaId);
-  let center = null;
   let areaCoordinates = null;
   let dataset = null;
   let areaProps = null;
@@ -32,7 +54,6 @@ function mapStateToProps(state: State) {
     const geostore = area.geostore;
     const areaFeatures = (geostore && geostore.geojson && geostore.geojson.features[0]) || false;
     if (areaFeatures) {
-      center = new BoundingBox(areaFeatures).getCenter();
       areaCoordinates = getAreaCoordinates(areaFeatures);
     }
     areaProps = {
@@ -45,9 +66,10 @@ function mapStateToProps(state: State) {
   const { cache } = state.layers;
   const contextualLayer = getContextualLayer(state.layers);
   return {
-    center,
     contextualLayer,
     areaCoordinates,
+    isTracking: !!state.routes.activeRoute,
+    route: reconcileRoutes(state.routes.activeRoute, ownProps.previousRoute),
     area: areaProps,
     isConnected: shouldBeConnected(state),
     isOfflineMode: state.app.offlineMode,
@@ -79,6 +101,12 @@ function mapDispatchToProps(dispatch, { navigation }) {
     },
     navigate: (routeName, params) => {
       navigation.navigate(routeName, params);
+    },
+    onStartTrackingRoute: (location, areaId) => {
+      dispatch(setRouteDestination(location, areaId));
+    },
+    onCancelTrackingRoute: () => {
+      dispatch(discardActiveRoute());
     }
   };
 }

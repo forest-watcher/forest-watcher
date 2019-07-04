@@ -10,11 +10,11 @@ import Config from 'react-native-config';
 import Theme from 'config/theme';
 import i18n from 'locales';
 import { getVersionName } from 'helpers/app';
+import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import { getLanguage } from 'helpers/language';
 
 import { launchAppRoot } from 'main';
-import { throttle } from 'lodash';
 import moment from 'moment';
 const parseUrl = require('url-parse');
 
@@ -54,14 +54,6 @@ type State = {
   webViewCurrenUrl: string,
   socialNetwork: ?string
 };
-
-/**
- * Interval in milliseconds after a button is pressed during which further presses should be suppressed, in order to
- * prevent duplicate button presses.
- *
- * @type {number}
- */
-const BUTTON_THROTTLE_INTERVAL_MS = 1000;
 
 class Login extends PureComponent<Props, State> {
   static options(passProps) {
@@ -141,7 +133,7 @@ class Login extends PureComponent<Props, State> {
     }
   };
 
-  onPress(socialNetwork: string) {
+  onPress = debounceUI((socialNetwork: string) => {
     this.setState({ socialNetwork });
 
     const provider = {
@@ -151,7 +143,7 @@ class Login extends PureComponent<Props, State> {
     }[socialNetwork];
 
     provider(socialNetwork);
-  }
+  });
 
   onNavigationStateChange = (navState: { url: string, title: string }) => {
     this.setState({
@@ -238,7 +230,7 @@ class Login extends PureComponent<Props, State> {
             <Text style={styles.buttonsLabel}>{i18n.t('login.introductionText')}</Text>
             <TouchableHighlight
               style={[styles.button, styles.buttonFacebook]}
-              onPress={throttle(() => this.onPress('facebook'), BUTTON_THROTTLE_INTERVAL_MS)}
+              onPress={() => this.onPress('facebook')}
               activeOpacity={0.8}
               underlayColor={Theme.socialNetworks.facebook}
               disabled={this.props.loading}
@@ -251,7 +243,7 @@ class Login extends PureComponent<Props, State> {
             </TouchableHighlight>
             <TouchableHighlight
               style={[styles.button, styles.buttonTwitter]}
-              onPress={throttle(() => this.onPress('twitter'), BUTTON_THROTTLE_INTERVAL_MS)}
+              onPress={() => this.onPress('twitter')}
               activeOpacity={0.8}
               underlayColor={Theme.socialNetworks.twitter}
               disabled={this.props.loading}
@@ -264,7 +256,7 @@ class Login extends PureComponent<Props, State> {
             </TouchableHighlight>
             <TouchableHighlight
               style={[styles.button, styles.buttonGoogle]}
-              onPress={throttle(() => this.onPress('google'), BUTTON_THROTTLE_INTERVAL_MS)}
+              onPress={() => this.onPress('google')}
               activeOpacity={0.8}
               underlayColor={Theme.socialNetworks.google}
               disabled={this.props.loading}

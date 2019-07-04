@@ -28,7 +28,6 @@
 
 ; Ignore broken libs
 .*node_modules/react-native-gps/.*
-.*node_modules/react-native-location/.*
 .*node_modules/jsonlint-lines/.*
 
 ; IGNORE CHECKING TYPES BUT NOT IGNORE THE RESOLVER

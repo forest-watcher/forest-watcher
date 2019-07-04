@@ -8,6 +8,7 @@ import SearchSelector from 'components/common/search-selector';
 import ActionButton from 'components/common/action-button';
 import Theme from 'config/theme';
 import i18n from 'locales';
+import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 import { launchAppRoot } from '../../../main';
@@ -81,7 +82,7 @@ class SetupCountry extends Component {
     return { label: '', id: iso };
   }
 
-  onNextPress = () => {
+  onNextPress = debounceUI(() => {
     const { componentId, setupCountry, countries, user } = this.props;
     if (!(setupCountry && setupCountry.iso) && user.country) {
       const currentCountry = this.getCurrentCountry(countries, user.country);
@@ -92,7 +93,7 @@ class SetupCountry extends Component {
         name: 'ForestWatcher.SetupBoundaries'
       }
     });
-  };
+  });
 
   render() {
     const { user, countries, setupCountry, setSetupCountry } = this.props;

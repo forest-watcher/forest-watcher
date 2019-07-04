@@ -12,6 +12,7 @@ import Theme from 'config/theme';
 import CoordinatesDropdown from 'containers/settings/coordinates-dropdown';
 import Row from 'components/common/row';
 import { getVersionName } from 'helpers/app';
+import debounceUI from 'helpers/debounceUI';
 
 import { launchAppRoot } from 'main';
 import i18n from 'locales';
@@ -97,7 +98,7 @@ class Settings extends Component<Props> {
     }
   }
 
-  onAreaPress = (areaId: string, name: string) => {
+  onAreaPress = debounceUI((areaId: string, name: string) => {
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.AreaDetail',
@@ -113,9 +114,9 @@ class Settings extends Component<Props> {
         }
       }
     });
-  };
+  });
 
-  onLogoutPress = () => {
+  onLogoutPress = debounceUI(() => {
     const { logout, isUnsafeLogout } = this.props;
     const proceedWithLogout = () => {
       logout();
@@ -130,9 +131,9 @@ class Settings extends Component<Props> {
         }
       ]);
     } else proceedWithLogout();
-  };
+  });
 
-  onPressAddArea = () => {
+  onPressAddArea = debounceUI(() => {
     const { offlineMode } = this.props;
 
     if (offlineMode) {
@@ -145,9 +146,9 @@ class Settings extends Component<Props> {
         name: 'ForestWatcher.SetupCountry'
       }
     });
-  };
+  });
 
-  handleStaticLinks = (section: string, text: string) => {
+  handleStaticLinks = debounceUI((section: string, text: string) => {
     Navigation.push(this.props.componentId, {
       component: {
         name: section,
@@ -160,7 +161,7 @@ class Settings extends Component<Props> {
         }
       }
     });
-  };
+  });
 
   render() {
     const { areas, setOfflineMode, offlineMode } = this.props;
