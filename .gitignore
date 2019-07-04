@@ -87,3 +87,4 @@ google-services.json
 .env
 .env.android*
 .env.ios*
+GoogleService-Info.plist
