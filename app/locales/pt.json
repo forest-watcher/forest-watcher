@@ -1,9 +1,12 @@
 {
     "alerts": {
         "alertSystems": "Sistemas de alertas",
+        "locationDisabled": "Localização desativada",
         "noGPS": "Sem GPS"
     },
     "areaDetail": {
+        "confirmDeleteWithRoutesTitle": "Eliminar área com rotas",
+        "confirmDeleteWithRoutesMessage": "Se eliminar esta área, deixará de conseguir aceder às rotas que foram guardadas, relativas a esta área. Eliminar?",
         "delete": "Excluir esta área",
         "noAlerts": "Não há alertas para esta área"
     },
@@ -26,14 +29,17 @@
         "date": "Data",
         "error": "Erro",
         "finish": "Terminar",
+        "kilometers": "km",
         "kmAway": "Km de distância",
         "language": "Língua",
         "loading": "Carregando",
+        "meters": "m",
         "metersAway": "m de distância",
         "name": "Nome",
         "next": "Próximo",
         "noImage": "Sem imagem",
         "offlineModeIsOn": "Está em modo offline",
+        "ok": "OK",
         "oops": "Oops!",
         "reportedPosition": "Localização reportada",
         "retry": "Tentar novamente",
@@ -221,6 +227,8 @@
     "map": {
         "alerts": "Alertas",
         "ctxLayers": "Camadas contextuais",
+        "destination": "Destino:",
+        "distance": "Distância:",
         "recent": "Recentes",
         "reported": "Relatados"
     },
@@ -267,6 +275,46 @@
         "upload": "Carregar",
         "uploaded": "Carregado"
     },
+    "routes": {
+        "backgroundErrorDialogTitle": "A monitorização da rota foi colocada em pausa",
+        "backgroundErrorDialogMessage": "Por favor, verifique as suas definições de localização e permissões da aplicação para retomar a monitorização da rota.",
+        "confirmDeleteTitle": "Eliminar rota",
+        "confirmDeleteMessage": "Tem a certeza de que quer eliminar esta rota?",
+        "delete": "Eliminar rota",
+        "difficulty": "Dificuldade",
+        "difficultyLevels": {
+            "easy": "Fácil",
+            "medium": "Médio",
+            "hard": "Difícil"
+        },
+        "distance": "Distância",
+        "duration": "Tempo gasto",
+        "insufficientPermissionsDialogTitle": "Não é possível monitorizar a rota",
+        "insufficientPermissionsDialogMessage": "Para conseguirmos monitorizar a sua rota, necessitamos de permissões para aceder à sua localização em segundo plano.",
+        "insufficientPermissionsDialogOpenAppSettings": "Verificar permissões",
+        "insufficientPermissionsDialogOpenDeviceSettings": "Verificar as definições de localização",
+        "location": "Localização",
+        "locationEnd": "Fim:",
+        "locationErrorDialogTitle": "Ocorreu um erro ao obter a localização",
+        "locationErrorDialogMessage": "Ocorreu um erro ao tentar aceder à sua localização",
+        "locationStart": "Início:",
+        "notification": {
+            "title": "A rota está a ser monitorizada",
+            "message": "A Forest Watcher está a gravar a rota que está a seguir até ao seu destino"
+        },
+        "resumeTrackingDialogTitle": "Retomar a monitorização de rota",
+        "resumeTrackingDialogMessage": "Existe uma rota que ainda não foi concluída. Gostaria de retomá-la?",
+        "resumeTrackingDialogPositiveButton": "Retomar rota",
+        "resumeTrackingDialogNegativeButton": "Eliminar rota",
+        "save": "Guardar rota",
+        "stopRouteTrackingPanelTitle": "Parar a monitorização da rota",
+        "stopRouteTrackingPanelContinueOption": "Continuar a monitorização de rota",
+        "stopRouteTrackingPanelSaveOption": "Parar e guardar rota",
+        "stopRouteTrackingPanelDeleteOption": "Parar e eliminar rota",
+        "trackingInProgressErrorTitle": "A rota está a ser monitorizada",
+        "trackingInProgressErrorMessage": "Já está a monitorizar uma rota numa área diferente",
+        "viewOnMap": "Visualizar rota no mapa"
+    },
     "settings": {
         "1MonthAgo": "1 mês atrás",
         "1yearAgo": "1 ano atrás",
@@ -294,7 +342,8 @@
         "title": "Configurações",
         "unsafeLogout": "Os seus relatórios não estão sincronizados!",
         "unsavedDataLost": "Se prosseguir com o encerramento de sessão, irá perder todos os seus dados não guardados.",
-        "yourAreas": "Suas áreas"
+        "yourAreas": "Suas áreas",
+        "yourRoutes": "As suas rotas"
     },
     "setupCountry": {
         "firstInstruction": "Primeiro, escolha o seu país de interesse",

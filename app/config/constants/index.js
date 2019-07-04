@@ -45,6 +45,22 @@ export const MAPS = {
   ]
 };
 
+// Defines the configuration for the BackgroundGeolocation module.
+// Detailed documentation & library defaults are available here: https://github.com/mauron85/react-native-background-geolocation#configureoptions-success-fail
+export const LOCATION_TRACKING = {
+  stationaryRadius: 30,
+  distanceFilter: 20,
+  startOnBoot: false,
+  stopOnTerminate: true,
+  interval: 10000,
+  fastestInterval: 5000,
+  activitiesInterval: 10000,
+  stopOnStillActivity: false,
+  notificationTitle: i18n.t('routes.notification.title'),
+  notificationText: i18n.t('routes.notification.message'),
+  notificationIconColor: Theme.colors.color5
+};
+
 export const TILE_SERVERS = {
   glad: 'http://wri-tiles.s3.amazonaws.com/glad_prod/tiles'
 };

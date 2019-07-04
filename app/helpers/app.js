@@ -1,7 +1,4 @@
 // @flow
-import { PermissionsAndroid, Platform } from 'react-native';
-import RNLocation from 'react-native-location';
-
 import type { State } from 'types/store.types';
 
 import { STATUS } from 'config/constants/index';
@@ -17,26 +14,6 @@ export function isUnsafeLogout(state: State) {
   return Object.values(list)
     .map(report => report.status)
     .some(hasReportsToUpload);
-}
-
-export function requestLocationPermissions() {
-  if (Platform.OS === 'ios') {
-    RNLocation.configure({
-      desiredAccuracy: {
-        ios: 'best'
-      },
-      interval: 5000
-    });
-    RNLocation.requestPermission({
-      ios: 'whenInUse'
-    });
-    return Promise.resolve(true);
-  } else if (Platform.OS === 'android') {
-    return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION).then(
-      result => result === true || result === PermissionsAndroid.RESULTS.GRANTED
-    );
-  }
-  return Promise.reject('Unsupported platform');
 }
 
 export function shouldBeConnected(state: State) {

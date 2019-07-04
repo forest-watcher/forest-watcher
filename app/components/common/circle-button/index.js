@@ -33,16 +33,18 @@ function ButtonCircle(props) {
 
   return (
     <TouchableHighlight style={btnStyles} onPress={onButtonPress} activeOpacity={0.8} underlayColor={underlayColor}>
-      {props.icon && <Image style={Theme.icon} source={props.icon} />}
+      {props.icon && <Image style={props.shouldFillContainer ? Theme.largeIcon : Theme.icon} source={props.icon} />}
     </TouchableHighlight>
   );
 }
 
 ButtonCircle.defaultProps = {
-  disabled: false
+  disabled: false,
+  shouldFillContainer: false
 };
 
 ButtonCircle.propTypes = {
+  shouldFillContainer: PropTypes.bool,
   red: PropTypes.bool,
   light: PropTypes.bool,
   style: PropTypes.node,

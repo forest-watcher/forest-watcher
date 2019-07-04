@@ -1,14 +1,13 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, ScrollView, RefreshControl, Platform, Text, StatusBar } from 'react-native';
+import { Alert, Platform, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
 import Config from 'react-native-config';
 import { Navigation } from 'react-native-navigation';
-import SafeArea from 'react-native-safe-area';
 
-import { requestLocationPermissions } from 'helpers/app';
 import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
+import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import i18n from 'locales';
 import styles from './styles';
@@ -27,7 +26,8 @@ type Props = {
   setSelectedAreaId: string => void,
   setPristine: boolean => void,
   updateApp: () => void,
-  showNotConnectedNotification: () => void
+  showNotConnectedNotification: () => void,
+  activeRoute: Route
 };
 
 class Dashboard extends PureComponent<Props> {
@@ -64,21 +64,11 @@ class Dashboard extends PureComponent<Props> {
   }
 
   componentDidMount() {
-    requestLocationPermissions();
     tracker.trackScreenView('Home - Dashboard');
     this.checkNeedsUpdate();
     if (this.props.refreshing && !this.props.appSyncing) {
       this.props.setAreasRefreshing(false);
     }
-
-    // Determine the current insets. This is so, for the page indictator view,
-    // we can add additional padding to ensure the white background is extended
-    // beyond the safe area.
-    SafeArea.getSafeAreaInsetsForRootView().then(result => {
-      this.setState(state => ({
-        bottomSafeAreaInset: result.safeAreaInsets.bottom
-      }));
-    });
 
     // Can remove when this is fixed: https://github.com/wix/react-native-navigation/issues/4432
     if (Platform.OS === 'android') {
@@ -122,31 +112,31 @@ class Dashboard extends PureComponent<Props> {
     }
   };
 
-  onAreaPress = (areaId: string, name: string) => {
+  onAreaPress = debounceUI((areaId: string, name: string) => {
+    if (areaId && this.props.activeRoute && this.props.activeRoute?.areaId !== areaId) {
+      // TODO: Add options to view route, save route, delete route.
+      Alert.alert(i18n.t('routes.trackingInProgressErrorTitle'), i18n.t('routes.trackingInProgressErrorMessage'), [
+        { text: i18n.t('commonText.ok') }
+      ]);
+      return;
+    }
     if (areaId) {
       this.props.setSelectedAreaId(areaId);
       Navigation.push(this.props.componentId, {
         component: {
-          name: 'ForestWatcher.Map',
-          options: {
-            topBar: {
-              title: {
-                text: name
-              }
-            }
-          }
+          name: 'ForestWatcher.Map'
         }
       });
     }
-  };
+  });
 
-  onPressReports = () => {
+  onPressReports = debounceUI(() => {
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.Reports'
       }
     });
-  };
+  });
 
   getPristine = (): boolean => this.props.pristine;
 
@@ -162,7 +152,6 @@ class Dashboard extends PureComponent<Props> {
   };
 
   render() {
-    const bottomSafeAreaInset = this.state?.bottomSafeAreaInset || 0;
     const { pristine, refreshing, appSyncing } = this.props;
     const isIOS = Platform.OS === 'ios';
     // we remove the event handler to improve performance
@@ -176,9 +165,7 @@ class Dashboard extends PureComponent<Props> {
     return (
       <View style={styles.container} onStartShouldSetResponder={androidListener} onResponderRelease={androidHandler}>
         <StatusBar networkActivityIndicatorVisible={appSyncing} />
-        <Text style={styles.label}>{i18n.t('settings.yourAreas')}</Text>
         <ScrollView
-          style={styles.containerScroll}
           onScroll={disablePristine}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />}
         >
@@ -190,19 +177,12 @@ class Dashboard extends PureComponent<Props> {
             scrollEnabled
           >
             <View>
+              <Text style={styles.label}>{i18n.t('settings.yourAreas')}</Text>
               <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
             </View>
           </View>
         </ScrollView>
-        <Row
-          style={[
-            styles.row,
-            {
-              height: 80 + bottomSafeAreaInset
-            }
-          ]}
-          action={this.reportsAction}
-        >
+        <Row action={this.reportsAction}>
           <Text style={styles.textMyReports}>{i18n.t('dashboard.myReports')}</Text>
         </Row>
       </View>

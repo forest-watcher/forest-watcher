@@ -4,8 +4,8 @@ import { View, Image, TouchableOpacity, Text } from 'react-native';
 
 import i18n from 'locales';
 import Theme from 'config/theme';
+import debounceUI from 'helpers/debounceUI';
 import capitalize from 'lodash/capitalize';
-import throttle from 'lodash/throttle';
 import StepsSlider from 'components/common/steps-slider';
 import Hyperlink from 'react-native-hyperlink';
 import { Navigation } from 'react-native-navigation';
@@ -85,11 +85,11 @@ class Walkthrough extends PureComponent {
     });
   }
 
-  onPressBack = throttle(() => {
+  onPressBack = debounceUI(() => {
     this.setState(prevState => ({ page: prevState.page - 1 }));
-  }, 300);
+  });
 
-  onPressNext = throttle(() => {
+  onPressNext = debounceUI(() => {
     const { page } = this.state;
 
     if (page + 1 < SLIDES.length) {
@@ -97,7 +97,7 @@ class Walkthrough extends PureComponent {
     } else {
       this.goToLogin();
     }
-  }, 300);
+  });
 
   onChangeTab = ({ i: newPage }) => {
     if (newPage > this.state.page) {
@@ -107,7 +107,7 @@ class Walkthrough extends PureComponent {
     }
   };
 
-  goToLogin = throttle(() => {
+  goToLogin = debounceUI(() => {
     Navigation.setStackRoot(this.props.componentId, {
       component: {
         name: 'ForestWatcher.Login',
@@ -123,7 +123,7 @@ class Walkthrough extends PureComponent {
         }
       }
     });
-  }, 1000);
+  });
 
   render() {
     const { page, bottomSafeAreaInset } = this.state;

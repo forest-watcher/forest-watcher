@@ -4,6 +4,8 @@ import { StyleSheet, Platform } from 'react-native';
 export default StyleSheet.create({
   container: {
     borderRadius: 32,
+    borderWidth: 2,
+    borderColor: Theme.background.secondary,
     backgroundColor: Theme.background.secondary,
     overflow: 'hidden'
   },
@@ -11,14 +13,24 @@ export default StyleSheet.create({
     width: Theme.icon.width,
     marginRight: 12
   },
+  dark: {
+    backgroundColor: Theme.colors.color6,
+    borderColor: Theme.colors.color6
+  },
   light: {
-    backgroundColor: Theme.background.white
+    backgroundColor: Theme.background.white,
+    borderColor: Theme.background.white
   },
   disabled: {
-    backgroundColor: Theme.colors.color6
+    backgroundColor: Theme.colors.color6,
+    borderColor: Theme.colors.color6
   },
   error: {
-    backgroundColor: Theme.colors.color7
+    backgroundColor: Theme.colors.color7,
+    borderColor: Theme.colors.color7
+  },
+  transparent: {
+    backgroundColor: 'transparent'
   },
   button: {
     height: 64,
