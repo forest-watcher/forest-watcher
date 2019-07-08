@@ -1,8 +1,8 @@
 package com.forestwatcher;
 
-import com.aakashns.reactnativedialogs.ReactNativeDialogsPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
+import com.aakashns.reactnativedialogs.ReactNativeDialogsPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
@@ -11,6 +11,7 @@ import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.forestwatcher.intents.IntentsPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
@@ -91,7 +92,8 @@ public class MainApplication extends NavigationApplication implements ReactInsta
       new RNFirebasePackage(),
       new RNFirebaseAnalyticsPackage(),
       new RNSimpleCompassPackage(),
-      new BackgroundGeolocationPackage()
+      new BackgroundGeolocationPackage(),
+      new IntentsPackage()
     );
   }
 
