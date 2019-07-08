@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { Platform, View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { NativeModules, Platform, View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import RNFetchBlob from 'react-native-fetch-blob';
 
 import Row from 'components/common/row';
@@ -256,7 +256,7 @@ class Reports extends PureComponent<Props> {
    * @param  {Object} selectedReports A mapping of report titles to a boolean dictating whether they've been selected for export.
    * @param  {Array} userReports      The user's reports.
    */
-  onExportReportsTapped = debounceUI((selectedReports, userReports) => {
+  onExportReportsTapped = debounceUI(async (selectedReports, userReports) => {
     // Merge the completed and uploaded reports that are available together, so we can find any selected reports to export them.
     const completeReports = userReports.complete || [];
     const mergedReports = completeReports.concat(userReports.uploaded);
@@ -275,7 +275,7 @@ class Reports extends PureComponent<Props> {
       reportsToExport.push(selectedReport);
     });
 
-    exportReports(
+    await exportReports(
       reportsToExport,
       this.props.templates,
       this.props.appLanguage,
@@ -293,6 +293,10 @@ class Reports extends PureComponent<Props> {
     this.setState({
       selectedForExport: {}
     });
+
+    if (Platform.OS === 'android') {
+      NativeModules.Intents.launchDownloadsDirectory();
+    }
   });
 
   /**

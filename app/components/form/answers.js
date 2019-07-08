@@ -2,7 +2,7 @@
 import type { Answer, Question } from 'types/reports.types';
 
 import React, { PureComponent } from 'react';
-import { ActionSheetIOS, View, Text, ScrollView, Platform } from 'react-native';
+import { ActionSheetIOS, NativeModules, Platform, View, Text, ScrollView } from 'react-native';
 import DialogAndroid from 'react-native-dialogs';
 import { Navigation } from 'react-native-navigation';
 import i18n from 'locales';
@@ -74,11 +74,14 @@ class Answers extends PureComponent<Props> {
       const title = i18n.t('report.export.title');
       const message = i18n.t('report.export.description');
       const options = [i18n.t('report.export.option.asCSV')];
-      const buttonHandler = idx => {
+      const buttonHandler = async idx => {
         switch (idx) {
           case 0: {
-            this.props.exportReport();
+            await this.props.exportReport();
             this.props.showExportReportsSuccessfulNotification();
+            if (Platform.OS === 'android') {
+              NativeModules.Intents.launchDownloadsDirectory();
+            }
             break;
           }
           case 1: {
