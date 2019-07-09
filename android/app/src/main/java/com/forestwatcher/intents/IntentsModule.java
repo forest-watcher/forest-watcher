@@ -1,7 +1,9 @@
 package com.forestwatcher.intents;
 
 import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
@@ -13,6 +15,11 @@ import java.io.File;
 
 public class IntentsModule extends ReactContextBaseJavaModule
 {
+	/**
+	 * Identify whether or not the currently running device is manufactured by Samsung
+	 *
+	 * @return
+	 */
 	private static boolean isSamsung()
 	{
 		String manufacturer = Build.MANUFACTURER;
@@ -39,26 +46,41 @@ public class IntentsModule extends ReactContextBaseJavaModule
 		return "Intents";
 	}
 
+	/**
+	 * Attempts to launch the device's downloads directory
+	 * <p>
+	 * Samsung devices don't integrate with the standard intents and so are handled differently.
+	 */
 	@ReactMethod
 	public void launchDownloadsDirectory()
 	{
-		try
+		final Context context = getReactApplicationContext();
+		final PackageManager packageManager = context.getPackageManager();
+		Intent intent = null;
+
+		if (isSamsung())
 		{
-			if (isSamsung())
+			intent = packageManager.getLaunchIntentForPackage("com.sec.android.app.myfiles");
+			if (intent != null)
 			{
-				Intent intent = getReactApplicationContext().getPackageManager().getLaunchIntentForPackage("com.sec.android.app.myfiles");
 				intent.setAction("samsung.myfiles.intent.action.LAUNCH_MY_FILES");
 				intent.putExtra("samsung.myfiles.intent.extra.START_PATH", getDownloadsFile().getPath());
-				getReactApplicationContext().startActivity(intent);
 			}
 		}
-		catch (Exception ex)
+
+		if (intent == null || intent.resolveActivity(packageManager) == null)
 		{
-			Log.e("3SC", "Could not launch Samsung download manager", ex);
-			// continue and try and use the default manager
+			intent = new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS);
 		}
 
-		getReactApplicationContext().startActivity(new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS));
+		if (intent.resolveActivity(packageManager) != null)
+		{
+			context.startActivity(intent);
+		}
+		else
+		{
+			Log.w("3SC", "No intent found to launch downloads app");
+		}
 	}
 
 	@ReactMethod
