@@ -26,8 +26,8 @@ function mapStateToProps(state: State, ownProps: { reportName: string, readOnly:
   const answers = report && report.answers;
 
   return {
-    exportReport: () =>
-      exportReports(
+    exportReport: async () =>
+      await exportReports(
         [report],
         { [report?.area?.templateId]: template },
         templateLang,
