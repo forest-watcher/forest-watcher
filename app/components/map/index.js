@@ -85,6 +85,7 @@ const startTrackingIcon = require('assets/startTracking.png');
 const stopTrackingIcon = require('assets/stopTracking.png');
 const myLocationIcon = require('assets/my_location.png');
 const createReportIcon = require('assets/createReport.png');
+const reportAreaIcon = require('assets/report_area.png');
 const addLocationIcon = require('assets/add_location.png');
 const newAlertIcon = require('assets/new-alert.png');
 const closeIcon = require('assets/close_gray.png');
@@ -619,37 +620,37 @@ class MapComponent extends Component {
   selectAlert = coordinate => {
     if (coordinate && !this.state.customReporting) {
       this.setState(prevState => ({
-        neighbours: getNeighboursSelected([...prevState.selectedAlerts, coordinate], prevState.markers),
-        selectedAlerts: [...prevState.selectedAlerts, coordinate]
+          neighbours: getNeighboursSelected([...prevState.selectedAlerts, coordinate], prevState.markers),
+          selectedAlerts: [...prevState.selectedAlerts, coordinate]
       }));
     }
   };
 
   removeSelection = coordinate => {
     this.setState(state => {
-      let neighbours = [];
-      if (state.selectedAlerts && state.selectedAlerts.length > 0) {
-        const selectedAlerts = state.selectedAlerts.filter(
-          alert => alert.latitude !== coordinate.latitude || alert.longitude !== coordinate.longitude
-        );
-        neighbours = selectedAlerts.length > 0 ? getNeighboursSelected(selectedAlerts, state.markers) : [];
-        return {
-          neighbours,
-          selectedAlerts
-        };
-      }
-      return { selectedAlerts: [] };
+        let neighbours = [];
+        if (state.selectedAlerts && state.selectedAlerts.length > 0) {
+          const selectedAlerts = state.selectedAlerts.filter(
+            alert => alert.latitude !== coordinate.latitude || alert.longitude !== coordinate.longitude
+          );
+          neighbours = selectedAlerts.length > 0 ? getNeighboursSelected(selectedAlerts, state.markers) : [];
+          return {
+            neighbours,
+            selectedAlerts
+          };
+        }
+        return { selectedAlerts: [] };
     });
   };
 
   includeNeighbour = coordinate => {
     this.setState(state => {
-      const selectedAlerts = [...state.selectedAlerts, coordinate];
-      const neighbours = getNeighboursSelected(selectedAlerts, state.markers);
-      return {
-        neighbours,
-        selectedAlerts
-      };
+        const selectedAlerts = [...state.selectedAlerts, coordinate];
+        const neighbours = getNeighboursSelected(selectedAlerts, state.markers);
+        return {
+          neighbours,
+          selectedAlerts
+        };
     });
   };
 
@@ -706,8 +707,9 @@ class MapComponent extends Component {
   };
 
   renderButtonPanel() {
-    const { customReporting, lastPosition, locationError, selectedAlerts } = this.state;
+    const { customReporting, lastPosition, locationError, neighbours, selectedAlerts } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
+    const hasNeighbours = neighbours && neighbours.length > 0;
     const canReport = hasAlertsSelected || customReporting;
     const isRouteTracking = this.isRouteTracking();
 
@@ -722,7 +724,12 @@ class MapComponent extends Component {
         />
         <View style={styles.buttonPanel}>
           {canReport ? (
-            <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
+            <React.Fragment>
+              <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
+              {hasNeighbours && (
+                <CircleButton shouldFillContainer onPress={this.reportArea} icon={reportAreaIcon} />
+              )}
+            </React.Fragment>
           ) : (
             <CircleButton shouldFillContainer onPress={this.onCustomReportingPress} icon={addLocationIcon} />
           )}
