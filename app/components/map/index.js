@@ -85,6 +85,7 @@ const startTrackingIcon = require('assets/startTracking.png');
 const stopTrackingIcon = require('assets/stopTracking.png');
 const myLocationIcon = require('assets/my_location.png');
 const createReportIcon = require('assets/createReport.png');
+const reportAreaIcon = require('assets/report_area.png');
 const addLocationIcon = require('assets/add_location.png');
 const newAlertIcon = require('assets/new-alert.png');
 const closeIcon = require('assets/close_gray.png');
@@ -706,8 +707,9 @@ class MapComponent extends Component {
   };
 
   renderButtonPanel() {
-    const { customReporting, lastPosition, locationError, selectedAlerts } = this.state;
+    const { customReporting, lastPosition, locationError, neighbours, selectedAlerts } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
+    const hasNeighbours = neighbours && neighbours.length > 0;
     const canReport = hasAlertsSelected || customReporting;
     const isRouteTracking = this.isRouteTracking();
 
@@ -722,7 +724,10 @@ class MapComponent extends Component {
         />
         <View style={styles.buttonPanel}>
           {canReport ? (
-            <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
+            <React.Fragment>
+              <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
+              {hasNeighbours && <CircleButton shouldFillContainer onPress={this.reportArea} icon={reportAreaIcon} />}
+            </React.Fragment>
           ) : (
             <CircleButton shouldFillContainer onPress={this.onCustomReportingPress} icon={addLocationIcon} />
           )}
