@@ -71,6 +71,7 @@ class Walkthrough extends PureComponent {
   };
 
   state = {
+    bottomSafeAreaInset: 0,
     page: 0
   };
 

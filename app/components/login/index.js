@@ -79,6 +79,7 @@ class Login extends PureComponent<Props, State> {
     super(props);
 
     this.state = {
+      topSafeAreaInset: 0,
       webviewVisible: false,
       webViewUrl: '',
       webViewCurrenUrl: '',

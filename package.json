@@ -68,6 +68,7 @@
     "react-native-navigation": "2.26.0",
     "react-native-progress": "3.6.0",
     "react-native-safe-area": "0.5.1",
+    "react-native-scrollable-tab-view": "0.10.0",
     "react-native-sentry": "0.43.2",
     "react-native-simple-compass": "1.0.0",
     "react-native-snap-carousel": "3.8.0",
