@@ -118,11 +118,6 @@ android {
         ]
         missingDimensionStrategy "RNN.reactNativeVersion", rootProject.ext.reactNativeNavigationFlavor
     }
-    /*
-     * See if this can be removed when the dependencies have been upgraded and sanitised
-     *
-     * It's needed to workaround an issue with lottie-react-native
-     */
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
