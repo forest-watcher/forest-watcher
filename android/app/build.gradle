@@ -226,7 +226,7 @@ dependencies {
     }
 
     // react-native-fbsdk
-    implementation('com.facebook.android:facebook-android-sdk:4.35.0')
+    implementation('com.facebook.android:facebook-android-sdk:5.2.0')
 
     // react-native-firebase
     implementation project(':react-native-firebase')
