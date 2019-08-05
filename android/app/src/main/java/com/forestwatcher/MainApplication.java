@@ -18,12 +18,13 @@ import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.microsoft.codepush.react.ReactInstanceHolder;
 import com.psykar.cookiemanager.CookieManagerPackage;
-import com.reactlibrary.RNAppAuthPackage;
 import com.reactlibrary.RNSimpleCompassPackage;
+import com.reactnativecommunity.viewpager.RNCViewPagerPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.reactnativenavigation.react.ReactGateway;
+import com.rnappauth.RNAppAuthPackage;
 import com.rnziparchive.RNZipArchivePackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
@@ -88,6 +89,7 @@ public class MainApplication extends NavigationApplication implements ReactInsta
       new FastImageViewPackage(),
       new LottiePackage(),
       new RNSentryPackage(),
+      new RNCViewPagerPackage(),
       new RNCWebViewPackage(),
       new RNFirebasePackage(),
       new RNFirebaseAnalyticsPackage(),
