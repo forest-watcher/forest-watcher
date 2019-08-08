@@ -86,11 +86,11 @@ class Walkthrough extends PureComponent {
     });
   }
 
-  onPressBack = debounceUI(() => {
+  onPressBack = () => {
     this.setState(prevState => ({ page: prevState.page - 1 }));
-  });
+  };
 
-  onPressNext = debounceUI(() => {
+  onPressNext = () => {
     const { page } = this.state;
 
     if (page + 1 < SLIDES.length) {
@@ -98,7 +98,7 @@ class Walkthrough extends PureComponent {
     } else {
       this.goToLogin();
     }
-  });
+  };
 
   onChangeTab = ({ i: newPage }) => {
     if (newPage > this.state.page) {
