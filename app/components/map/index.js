@@ -130,6 +130,21 @@ class MapComponent extends Component {
     };
   }
 
+  /**
+   * The AppState listener for this component is responsible for stopping location tracking if it's not needed while
+   * the app is backgrounded, and resuming it when foregrounded.
+   *
+   * However, a quirk of Android is that the location permissions dialog puts the app into the background while it is
+   * visible. This caused an issue where starting location tracking would trigger a permissions dialog. If the user
+   * clicked deny, the user would re-enter the foreground, location tracking would be started again, which would in
+   * turn prompt the user again.
+   *
+   * We can workaround this by temporarily disabling the app state listener while location tracking is being setup.
+   * Because only Android is affected we only do this on that platform.
+   */
+  isStartingGeolocation = false;
+  isGeolocationPausedInBackground = false;
+
   constructor(props) {
     super(props);
     Navigation.events().bindComponent(this);
@@ -261,16 +276,20 @@ class MapComponent extends Component {
    * @param status
    */
   handleAppStateChange = status => {
-    if (!this.isRouteTracking()) {
+    if (!this.isRouteTracking() && !this.isStartingGeolocation) {
       switch (status) {
         case 'background':
         case 'inactive': {
           stopTrackingLocation();
           stopTrackingHeading();
+          this.isGeolocationPausedInBackground = true;
           break;
         }
         case 'active': {
-          this.geoLocate(false);
+          if (this.isGeolocationPausedInBackground) {
+            this.geoLocate(false);
+          }
+          this.isGeolocationPausedInBackground = false;
           break;
         }
       }
@@ -299,6 +318,9 @@ class MapComponent extends Component {
       Sentry.captureException(err);
     }
 
+    // See documentation for this variable declaration for explanation
+    this.isStartingGeolocation = Platform.OS === 'android';
+
     try {
       await startTrackingLocation(trackWhenInBackground ? GFWLocationAuthorizedAlways : GFWLocationAuthorizedInUse);
     } catch (err) {
@@ -306,6 +328,8 @@ class MapComponent extends Component {
       this.onLocationUpdateError(err);
       Sentry.captureException(err);
       throw err;
+    } finally {
+      this.isStartingGeolocation = false;
     }
   }
 
