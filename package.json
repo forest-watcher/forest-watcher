@@ -90,7 +90,6 @@
     "babel-eslint": "10.0.1",
     "babel-jest": "23.4.2",
     "babel-plugin-module-resolver": "3.1.1",
-    "code-push-cli": "2.1.9",
     "dotenv": "6.1.0",
     "eslint": "5.9.0",
     "eslint-config-prettier": "3.3.0",
