@@ -23,9 +23,7 @@
     "test:ci": "jest --forceExit --detectOpenHandles --ci --coverage",
     "test:watch": "jest --watch",
     "lint": "node_modules/.bin/eslint ./app/",
-    "lint:ci": "node_modules/.bin/eslint ./app/ -o reports/lint.html -f html",
-    "codepush:release:android": "code-push release-react forest-watcher-android-client android -k private.pem",
-    "codepush:release:ios": "code-push release-react forest-watcher-ios-client ios -k private.pem"
+    "lint:ci": "node_modules/.bin/eslint ./app/ -o reports/lint.html -f html"
   },
   "dependencies": {
     "@mapbox/geo-viewport": "0.4.0",
@@ -50,7 +48,6 @@
     "react": "16.8.3",
     "react-native": "0.59.10",
     "react-native-app-auth": "4.4.0",
-    "react-native-code-push": "5.6.0",
     "react-native-config": "0.11.7",
     "react-native-cookies": "3.3.0",
     "react-native-datepicker": "1.7.2",

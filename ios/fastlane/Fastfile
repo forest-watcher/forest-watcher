@@ -14,25 +14,6 @@ IPA_PATH="./ForestWatcher.ipa"
 default_platform(:ios)
 
 platform :ios do
-  desc "Submit a new beta build to app center"
-  lane :beta do
-    increment_build_number(xcodeproj: "ForestWatcher.xcodeproj")
-    cocoapods()
-    gym(export_method: "ad-hoc")
-    appcenter_upload(
-      api_token: ENV["APPCENTER_API_TOKEN"],
-      owner_name: ENV["APPCENTER_OWNER_NAME"],
-      app_name: "ForestWatcher-iOS",
-      ipa: IPA_PATH
-    )
-    notification(
-      title: "iOS beta",
-      subtitle: "Finished and uploaded to app center",
-      message: "Click to review it",
-      open: "https://appcenter.ms/users/forestwatchervizz/apps/ForestWatcher-iOS/distribute/releases"
-    )
-  end
-
   desc "Deploy a new version to the Apple Store"
   lane :deploy do
     increment_build_number(xcodeproj: "ForestWatcher.xcodeproj")

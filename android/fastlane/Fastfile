@@ -14,26 +14,6 @@ APK_PATH="./app/build/outputs/apk/release/app-release.apk"
 default_platform(:android)
 
 platform :android do
-  desc "Submit a new beta build to appCenter"
-  lane :beta do
-    increment_version_code(
-      gradle_file_path: "app/build.gradle"
-    )
-    gradle(task: "clean assembleRelease")
-    appcenter_upload(
-      api_token: ENV["APPCENTER_API_TOKEN"],
-      owner_name: ENV["APPCENTER_OWNER_NAME"],
-      app_name: "ForestWatcher-Android",
-      apk: APK_PATH
-    )
-    notification(
-      title: "Android beta",
-      subtitle: "Finished and uploaded to app center",
-      message: "Click to review it",
-      open: "https://appcenter.ms/users/forestwatchervizz/apps/ForestWatcher-Android/distribute/releases"
-    )
-  end
-
   desc "Deploy a new version to the Google Play"
   lane :deploy do
     increment_version_code(

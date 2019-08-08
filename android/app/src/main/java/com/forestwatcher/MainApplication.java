@@ -15,8 +15,6 @@ import com.forestwatcher.intents.IntentsPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
-import com.microsoft.codepush.react.CodePush;
-import com.microsoft.codepush.react.ReactInstanceHolder;
 import com.psykar.cookiemanager.CookieManagerPackage;
 import com.reactlibrary.RNSimpleCompassPackage;
 import com.reactnativecommunity.viewpager.RNCViewPagerPackage;
@@ -43,7 +41,7 @@ public class MainApplication extends NavigationApplication implements ReactInsta
     ReactNativeHost host = new NavigationReactNativeHost(this, isDebug(), createAdditionalReactPackages()) {
       @Override
       protected String getJSBundleFile() {
-          return CodePush.getJSBundleFile();
+          return CodePush.getJSBundleFile(); // TODO: An Android-y person needs to remove this 😄
       }
 
       @Override
@@ -78,12 +76,6 @@ public class MainApplication extends NavigationApplication implements ReactInsta
       new RNZipArchivePackage(),
       new CookieManagerPackage(),
       new ImagePickerPackage(),
-      new CodePush(
-        BuildConfig.CODEPUSH_DEPLOY_KEY,
-        getApplicationContext(),
-        isDebug(),
-        R.string.CODEPUSH_RELEASE_PUBLIC_KEY
-      ),
       new RNAppAuthPackage(),
       new FBSDKPackage(mCallbackManager),
       new FastImageViewPackage(),
@@ -107,6 +99,6 @@ public class MainApplication extends NavigationApplication implements ReactInsta
   @Override
   public ReactInstanceManager getReactInstanceManager() {
       // CodePush must be told how to find React Native instance
-    return getReactNativeHost().getReactInstanceManager();
+    return getReactNativeHost().getReactInstanceManager(); // TODO: An Android-y person may need to look at the above comment?
   }
 }

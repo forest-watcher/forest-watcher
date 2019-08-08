@@ -38,9 +38,6 @@ target 'ForestWatcher' do
   # react-native-sentry dependency.
   pod 'SentryReactNative', :path => '../node_modules/react-native-sentry'
 
-  # react-native-code-push dependency.
-  pod 'CodePush', :path => '../node_modules/react-native-code-push'
-
   # magic post-install script that'll fix up some broken dependencies.
   post_install do |installer|
     installer.pods_project.targets.each do |target|

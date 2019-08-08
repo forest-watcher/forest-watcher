@@ -1,11 +1,5 @@
 PODS:
   - AppAuth (0.95.1)
-  - Base64 (1.1.2)
-  - CodePush (5.6.0):
-    - Base64 (~> 1.1)
-    - JWT (~> 3.0.0-beta.7)
-    - React
-    - SSZipArchive (~> 2.1)
   - FBSDKCoreKit (5.0.0):
     - FBSDKCoreKit/Basics (= 5.0.0)
     - FBSDKCoreKit/Core (= 5.0.0)
@@ -82,8 +76,6 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.2.4):
     - GoogleUtilities/Logger
-  - JWT (3.0.0-beta.11):
-    - Base64 (~> 1.1.2)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
@@ -130,12 +122,10 @@ PODS:
   - SentryReactNative (0.43.2):
     - React
     - Sentry (~> 4.1.3)
-  - SSZipArchive (2.2.2)
   - yoga (0.59.10.React)
 
 DEPENDENCIES:
   - AppAuth (= 0.95.1)
-  - CodePush (from `../node_modules/react-native-code-push`)
   - FBSDKCoreKit (= 5.0.0)
   - FBSDKLoginKit (= 5.0.0)
   - FBSDKShareKit (= 5.0.0)
@@ -155,7 +145,6 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AppAuth
-    - Base64
     - FBSDKCoreKit
     - FBSDKLoginKit
     - FBSDKShareKit
@@ -167,14 +156,10 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleMaps
     - GoogleUtilities
-    - JWT
     - nanopb
     - Sentry
-    - SSZipArchive
 
 EXTERNAL SOURCES:
-  CodePush:
-    :path: "../node_modules/react-native-code-push"
   React:
     :path: "../node_modules/react-native"
   react-native-fbsdk:
@@ -196,8 +181,6 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AppAuth: cd34aac431e5c77c46ec7f03935377faa8c5808b
-  Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
-  CodePush: f6b348759cdc42c734d9c3a46ceb2997c270b12e
   FBSDKCoreKit: ba361d4a9d4dc29ff218822b849b22d4f869c7bb
   FBSDKLoginKit: c6d0dc187bd076e370dffa10f7fc8a3562a6892c
   FBSDKShareKit: edf3450bf82ce0c626b31943f370d3729082746d
@@ -209,7 +192,6 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: a35a645835bae31b6bdc0576396bc23908f12a22
   GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
   GoogleUtilities: 64b5e3982b1b01bda26712affd5c523ef32563cf
-  JWT: 05028b9624591bba9681bb57df2c5f95fa258bad
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   React: 1d605e098d69bdf08960787f3446f0a9dc2e2ccf
   react-native-fbsdk: 73370971d27ac3c73716e9431093e1a4388289cc
@@ -220,9 +202,8 @@ SPEC CHECKSUMS:
   ReactNativeNavigation: 20522060de61b1c293ec50681a6aa11488596286
   Sentry: 4e8a17b61ddd116f89536cc81d567fdee1ebca96
   SentryReactNative: fc630be25b30c1a494b478ba1fa38f761cc6da20
-  SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
   yoga: 128daf064cacaede0c3bb27424b6b4c71052e6cd
 
-PODFILE CHECKSUM: 72b1ea9f8428fcb51c3574b5f8b57bb590c8a676
+PODFILE CHECKSUM: 3bdbd20394daf525cf36543f1b39ccfe99638c31
 
 COCOAPODS: 1.5.3
