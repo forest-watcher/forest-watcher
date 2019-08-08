@@ -1,7 +1,5 @@
 # Env
 private/
-ios/ForestWatcher/AppCenter-Config.plist
-android/app/src/main/assets/appcenter-config.json
 
 # OSX
 #

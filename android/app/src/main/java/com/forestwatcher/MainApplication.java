@@ -15,8 +15,6 @@ import com.forestwatcher.intents.IntentsPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
-import com.microsoft.codepush.react.CodePush;
-import com.microsoft.codepush.react.ReactInstanceHolder;
 import com.psykar.cookiemanager.CookieManagerPackage;
 import com.reactlibrary.RNSimpleCompassPackage;
 import com.reactnativecommunity.viewpager.RNCViewPagerPackage;
@@ -34,18 +32,13 @@ import io.sentry.RNSentryPackage;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainApplication extends NavigationApplication implements ReactInstanceHolder {
+public class MainApplication extends NavigationApplication {
 
   private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
 
   @Override
   protected ReactGateway createReactGateway() {
     ReactNativeHost host = new NavigationReactNativeHost(this, isDebug(), createAdditionalReactPackages()) {
-      @Override
-      protected String getJSBundleFile() {
-          return CodePush.getJSBundleFile();
-      }
-
       @Override
       protected String getJSMainModuleName() {
           return "index";
@@ -78,12 +71,6 @@ public class MainApplication extends NavigationApplication implements ReactInsta
       new RNZipArchivePackage(),
       new CookieManagerPackage(),
       new ImagePickerPackage(),
-      new CodePush(
-        BuildConfig.CODEPUSH_DEPLOY_KEY,
-        getApplicationContext(),
-        isDebug(),
-        R.string.CODEPUSH_RELEASE_PUBLIC_KEY
-      ),
       new RNAppAuthPackage(),
       new FBSDKPackage(mCallbackManager),
       new FastImageViewPackage(),
@@ -102,11 +89,5 @@ public class MainApplication extends NavigationApplication implements ReactInsta
   @Override
   public List<ReactPackage> createAdditionalReactPackages() {
     return getPackages();
-  }
-
-  @Override
-  public ReactInstanceManager getReactInstanceManager() {
-      // CodePush must be told how to find React Native instance
-    return getReactNativeHost().getReactInstanceManager();
   }
 }

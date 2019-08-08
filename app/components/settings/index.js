@@ -74,18 +74,12 @@ class Settings extends Component<Props> {
     ];
 
     this.state = {
-      versionName: ''
+      versionName: getVersionName()
     };
   }
 
   componentDidMount() {
     tracker.trackScreenView('Settings');
-
-    getVersionName().then(name => {
-      this.setState({
-        versionName: name
-      });
-    });
   }
 
   UNSAFE_componentWillReceiveProps(props: Props) {

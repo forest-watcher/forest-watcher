@@ -1,8 +1,0 @@
-- Add recent alerts colour
-- Add go to user location button.
-- Revamped UI in the map. Removes areas carousel, includes are config in the sidebar.
-- Improved Network detection.
-- Adds offline mode to settings.
-- Improves way to make custom alert reporting.
-- Adds no connection animation.
-- Review translations

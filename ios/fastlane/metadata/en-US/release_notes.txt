@@ -1,5 +1,0 @@
-- Reporting improved.
-- Ability to remove reports.
-- Invite users without a my_gfw account to create one with webpage link.
-- Update terms and conditions.
-- Review translations for missing contextual layers.
