@@ -62,7 +62,6 @@ android/app/libs
 # Cocoapods
 #
 Pods/
-ios/Podfile.lock
 ios/.gems
 ios/ForestWatcher.ipa
 ios/ForestWatcher.app.dSYM.zip

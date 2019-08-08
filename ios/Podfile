@@ -7,23 +7,24 @@ target 'ForestWatcher' do
 
   pod 'AppAuth', '0.95.1'
 
-  # Facebook SDK versions fixed to 4.38.0 to fix https://github.com/facebook/react-native-fbsdk/issues/433.
-  # This is where login fails on testflight / live builds, but works on dev builds. When fixed, feel free to remove these fixed versions.
-  pod 'FBSDKCoreKit', '4.38.0'
-  pod 'FBSDKLoginKit', '4.38.0'
-  pod 'FBSDKShareKit', '4.38.0'
+  # react-native-fbsdk dependencies.
+  pod 'FBSDKCoreKit', '5.0.0'
+  pod 'FBSDKLoginKit', '5.0.0'
+  pod 'FBSDKShareKit', '5.0.0'
 
-  pod 'Firebase/Core', '5.15.0'
+  pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
+
+  pod 'Firebase/Core', '6.3.0'
 
   # pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
 
-  ## react-native-maps dependencies.
+  # react-native-maps dependencies.
   pod 'react-native-maps', path: '../node_modules/react-native-maps'
   pod 'react-native-google-maps', path: '../node_modules/react-native-maps'
   pod 'GoogleMaps'
   pod 'Google-Maps-iOS-Utils'
 
-  ## React dependencies, added so that various projects which don't use header search paths can still function correctly.
+  # React dependencies, added so that various projects which don't use header search paths can still function correctly.
   pod 'React', path: '../node_modules/react-native', subspecs: [
     'RCTImage'
   ]
@@ -31,11 +32,16 @@ target 'ForestWatcher' do
   pod 'react-native-safe-area', :path => '../node_modules/react-native-safe-area'
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
-  ## react-native-navigation dependencies.
+  # react-native-navigation dependencies.
   pod 'ReactNativeNavigation', :path => '../node_modules/react-native-navigation'
 
+  # react-native-sentry dependency.
   pod 'SentryReactNative', :path => '../node_modules/react-native-sentry'
 
+  # react-native-code-push dependency.
+  pod 'CodePush', :path => '../node_modules/react-native-code-push'
+
+  # magic post-install script that'll fix up some broken dependencies.
   post_install do |installer|
     installer.pods_project.targets.each do |target|
       if target.name == 'react-native-google-maps'
