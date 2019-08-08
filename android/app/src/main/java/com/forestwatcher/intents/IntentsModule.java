@@ -92,6 +92,7 @@ public class IntentsModule extends ReactContextBaseJavaModule
 	{
 		Intent intent = new Intent(Intent.ACTION_MAIN);
 		intent.addCategory(Intent.CATEGORY_APP_EMAIL);
+		intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
 		getReactApplicationContext().startActivity(Intent.createChooser(intent, "Select e-mail app"));
 	}
 }
