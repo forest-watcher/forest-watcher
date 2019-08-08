@@ -287,7 +287,7 @@ class MapComponent extends Component {
         }
         case 'active': {
           if (this.isGeolocationPausedInBackground) {
-          this.geoLocate(false);
+            this.geoLocate(false);
           }
           this.isGeolocationPausedInBackground = false;
           break;
@@ -319,7 +319,7 @@ class MapComponent extends Component {
     }
 
     // See documentation for this variable declaration for explanation
-    this.isStartingGeolocation = Platform.OS === "android";
+    this.isStartingGeolocation = Platform.OS === 'android';
 
     try {
       await startTrackingLocation(trackWhenInBackground ? GFWLocationAuthorizedAlways : GFWLocationAuthorizedInUse);
