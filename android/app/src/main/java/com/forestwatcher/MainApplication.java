@@ -32,18 +32,13 @@ import io.sentry.RNSentryPackage;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainApplication extends NavigationApplication implements ReactInstanceHolder {
+public class MainApplication extends NavigationApplication {
 
   private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
 
   @Override
   protected ReactGateway createReactGateway() {
     ReactNativeHost host = new NavigationReactNativeHost(this, isDebug(), createAdditionalReactPackages()) {
-      @Override
-      protected String getJSBundleFile() {
-          return CodePush.getJSBundleFile(); // TODO: An Android-y person needs to remove this 😄
-      }
-
       @Override
       protected String getJSMainModuleName() {
           return "index";
@@ -94,11 +89,5 @@ public class MainApplication extends NavigationApplication implements ReactInsta
   @Override
   public List<ReactPackage> createAdditionalReactPackages() {
     return getPackages();
-  }
-
-  @Override
-  public ReactInstanceManager getReactInstanceManager() {
-      // CodePush must be told how to find React Native instance
-    return getReactNativeHost().getReactInstanceManager(); // TODO: An Android-y person may need to look at the above comment?
   }
 }
