@@ -41,6 +41,7 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		981CBEE722FD6BC00066F321 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 981CBEE122FD6B9C0066F321 /* libRNI18n.a */; };
 		981CBEE822FD6C440066F321 /* libRNCookieManagerIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 328B67BD1FDEEA4A006D994E /* libRNCookieManagerIOS.a */; };
+		981CBF6622FD88BB0066F321 /* libRNAppAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE0024E2206564A90050C1A7 /* libRNAppAuth.a */; };
 		9859C0E0221DB02B003429E7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9859C0A5221DB02B003429E7 /* CoreLocation.framework */; };
 		989413A8224E6D29008CAE32 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 989413A7224E6D29008CAE32 /* GoogleService-Info.plist */; };
 		98B1DF6821932067002426DC /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC1FA19BF67424591686AF2 /* libz.tbd */; };
@@ -569,6 +570,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				981CBF6622FD88BB0066F321 /* libRNAppAuth.a in Frameworks */,
 				981CBEE822FD6C440066F321 /* libRNCookieManagerIOS.a in Frameworks */,
 				981CBEE722FD6BC00066F321 /* libRNI18n.a in Frameworks */,
 				9859C0E0221DB02B003429E7 /* CoreLocation.framework in Frameworks */,
