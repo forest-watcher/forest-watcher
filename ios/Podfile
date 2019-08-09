@@ -21,8 +21,8 @@ target 'ForestWatcher' do
   # react-native-maps dependencies.
   pod 'react-native-maps', path: '../node_modules/react-native-maps'
   pod 'react-native-google-maps', path: '../node_modules/react-native-maps'
-  pod 'GoogleMaps'
-  pod 'Google-Maps-iOS-Utils'
+  pod 'GoogleMaps', '2.5.0'
+  pod 'Google-Maps-iOS-Utils', '2.1.0'
 
   # React dependencies, added so that various projects which don't use header search paths can still function correctly.
   pod 'React', path: '../node_modules/react-native', subspecs: [
