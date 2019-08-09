@@ -2,34 +2,53 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 platform :ios, '10.0'
 
-# https://github.com/airbnb/react-native-maps/issues/718#issuecomment-295585410
+# Important Note!:
+#   In the future (React Native 0.60.x), React Native will support building with cocoapods, and use of `use_frameworks!`.
+#   At the moment, it doesn't quite work, the Google Maps and Firebase dependencies both then fail to compile.
+#
+#   At the next React Native upgrade, after moving the framework references to here, try re-enabling the options
+#   below and add `, :binary => true` to pods to precompile them.
+#   You may need to reference https://github.com/facebook/react-native/issues/25349 for some workarounds.
+#   Some libraries both here & in package.lock may need updating too.
+#
+#   If precompiling the frameworks does work, then remove the pods folder from .gitignore & commit the pre-compiled frameworks.
+#   Then, CI build time should start to decrease ✨
+#plugin 'cocoapods-binary'
+#use_frameworks!
+
 target 'ForestWatcher' do
 
-  pod 'AppAuth', '0.95.1'
+  # react-native-app-auth dependency.
+  pod 'AppAuth', '0.95.1' # fixed as 1.0.0 was not supported. would be worth revisiting at the next React Native upgrade.
 
   # react-native-fbsdk dependencies.
   pod 'FBSDKCoreKit', '5.0.0'
   pod 'FBSDKLoginKit', '5.0.0'
   pod 'FBSDKShareKit', '5.0.0'
-
   pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
 
-  pod 'Firebase/Core', '6.3.0'
-
-  # pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
+  # react-native-firebase dependency.
+  pod 'Firebase/Core', '6.3.0' # fixed as required by react-native-firebase.
 
   # react-native-maps dependencies.
+  # NOTE: Having issues with linking AirMaps?
+  # https://github.com/react-native-community/react-native-maps/issues/718#issuecomment-295585410 may be helpful.
   pod 'react-native-maps', path: '../node_modules/react-native-maps'
   pod 'react-native-google-maps', path: '../node_modules/react-native-maps'
   pod 'GoogleMaps', '2.5.0'
   pod 'Google-Maps-iOS-Utils', '2.1.0'
 
   # React dependencies, added so that various projects which don't use header search paths can still function correctly.
+  # In the post-install step, these are actually removed as to not conflict with the Xcode version of them.
   pod 'React', path: '../node_modules/react-native', subspecs: [
     'RCTImage'
   ]
   pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+
+  # react-native-safe-area dependency.
   pod 'react-native-safe-area', :path => '../node_modules/react-native-safe-area'
+
+  # react-native-webview dependency.
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
   # react-native-navigation dependencies.
@@ -38,26 +57,33 @@ target 'ForestWatcher' do
   # react-native-sentry dependency.
   pod 'SentryReactNative', :path => '../node_modules/react-native-sentry'
 
-  # magic post-install script that'll fix up some broken dependencies.
+  # react-native-i18n dependency.
   pod 'RNI18n', :path => '../node_modules/react-native-i18n'
 
+  # magic post-install script that'll fix up some broken dependencies.
   post_install do |installer|
     installer.pods_project.targets.each do |target|
+      # react-native-google-maps requires this.
+      # https://github.com/facebook/react-native/issues/25349 details this - it can maybe be removed after the next React Native upgrade.
       if target.name == 'react-native-google-maps'
         target.build_configurations.each do |config|
           config.build_settings['CLANG_ENABLE_MODULES'] = 'No'
         end
       end
+
       # If the target's name is React or yoga, remove it from the project.
       # This means that the pods which don't correctly add header search paths still get their search paths,
       # while also ensuring that we don't have duplicated targets.
+      
+      # NOTE: This can probably be removed at the next React Native upgrade,
+      # when these modules are only being linked in this file & not in Xcode.
       targets_to_ignore = %w(React yoga)
 
       if targets_to_ignore.include? target.name
         target.remove_from_project
       end
 
-      # Set some magic build settings on each of the remaining targets.
+      # Set some magic build settings on each of the remaining targets to silence warnings.
       target.build_configurations.each do |config|
         config.build_settings['CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF'] = 'NO'
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '10.0'
