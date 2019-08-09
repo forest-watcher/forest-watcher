@@ -109,7 +109,8 @@ class Answers extends PureComponent<Props> {
         );
       } else if (Platform.OS === 'android') {
         const { selectedItem } = await DialogAndroid.showPicker(title, message, {
-          items: options.map((item, idx) => ({ label: item, id: idx }))
+          items: options.map((item, idx) => ({ label: item, id: idx })),
+          positiveText: i18n.t('commonText.cancel')
         });
         if (selectedItem) {
           buttonHandler(selectedItem.id);

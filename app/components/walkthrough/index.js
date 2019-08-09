@@ -86,11 +86,11 @@ class Walkthrough extends PureComponent {
     });
   }
 
-  onPressBack = debounceUI(() => {
+  onPressBack = () => {
     this.setState(prevState => ({ page: prevState.page - 1 }));
-  });
+  };
 
-  onPressNext = debounceUI(() => {
+  onPressNext = () => {
     const { page } = this.state;
 
     if (page + 1 < SLIDES.length) {
@@ -98,7 +98,7 @@ class Walkthrough extends PureComponent {
     } else {
       this.goToLogin();
     }
-  });
+  };
 
   onChangeTab = ({ i: newPage }) => {
     if (newPage > this.state.page) {
@@ -173,7 +173,6 @@ class Walkthrough extends PureComponent {
                 )}
               </View>
             ))}
-            <View>{/* This view is required to force the slider to navigate to login on the last slide */}</View>
           </StepsSlider>
           <View style={[styles.footer, { justifyContent: footerJustifyContent, marginBottom: bottomSafeAreaInset }]}>
             {page > 0 && ( // Buttons are placed here because inside the StepsSlider the events wont trigger
