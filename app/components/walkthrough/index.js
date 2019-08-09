@@ -173,6 +173,7 @@ class Walkthrough extends PureComponent {
                 )}
               </View>
             ))}
+            <View>{/* This view is required to force the slider to navigate to login on the last slide */}</View>
           </StepsSlider>
           <View style={[styles.footer, { justifyContent: footerJustifyContent, marginBottom: bottomSafeAreaInset }]}>
             {page > 0 && ( // Buttons are placed here because inside the StepsSlider the events wont trigger
