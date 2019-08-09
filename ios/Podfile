@@ -39,6 +39,8 @@ target 'ForestWatcher' do
   pod 'SentryReactNative', :path => '../node_modules/react-native-sentry'
 
   # magic post-install script that'll fix up some broken dependencies.
+  pod 'RNI18n', :path => '../node_modules/react-native-i18n'
+
   post_install do |installer|
     installer.pods_project.targets.each do |target|
       if target.name == 'react-native-google-maps'

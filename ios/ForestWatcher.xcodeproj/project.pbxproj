@@ -39,6 +39,8 @@
 		5728E0BA95ED4530B75240CA /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D4F624D14DF49A4BF4873B3 /* libRNFetchBlob.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		981CBEE722FD6BC00066F321 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 981CBEE122FD6B9C0066F321 /* libRNI18n.a */; };
+		981CBEE822FD6C440066F321 /* libRNCookieManagerIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 328B67BD1FDEEA4A006D994E /* libRNCookieManagerIOS.a */; };
 		9859C0E0221DB02B003429E7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9859C0A5221DB02B003429E7 /* CoreLocation.framework */; };
 		989413A8224E6D29008CAE32 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 989413A7224E6D29008CAE32 /* GoogleService-Info.plist */; };
 		98B1DF6821932067002426DC /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC1FA19BF67424591686AF2 /* libz.tbd */; };
@@ -234,20 +236,6 @@
 			remoteGlobalIDString = EB2648DF1C7BE17A00B8F155;
 			remoteInfo = ReactNativeConfig;
 		};
-		328B67581FDEE97F006D994E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F9B10266C3A943979E94327F /* RNI18n.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNI18n;
-		};
-		328B675A1FDEE97F006D994E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F9B10266C3A943979E94327F /* RNI18n.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6476C4051EEAA69700B10F51;
-			remoteInfo = "RNI18n-tvOS";
-		};
 		328B67BC1FDEEA4A006D994E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 07B7E5BF26F94948A1260D45 /* RNCookieManagerIOS.xcodeproj */;
@@ -395,6 +383,20 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNSimpleCompass;
 		};
+		981CBEE022FD6B9C0066F321 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 981CBEA822FD6B9C0066F321 /* RNI18n.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNI18n;
+		};
+		981CBEE222FD6B9C0066F321 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 981CBEA822FD6B9C0066F321 /* RNI18n.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6476C4051EEAA69700B10F51;
+			remoteInfo = "RNI18n-tvOS";
+		};
 		98224D2422FC4F2A00D2BAE7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BEF8102C2075273500EA64C3 /* RCTFBSDK.xcodeproj */;
@@ -526,6 +528,7 @@
 		7CC1FA19BF67424591686AF2 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		7EF6A30059A74EEC8745DC44 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		981CBEA822FD6B9C0066F321 /* RNI18n.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNI18n.xcodeproj; path = "../node_modules/react-native-i18n/ios/RNI18n.xcodeproj"; sourceTree = "<group>"; };
 		9859C0A5221DB02B003429E7 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		989413A7224E6D29008CAE32 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		98A5EE2521AC2AC00079AF2A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -552,7 +555,6 @@
 		EBAC25D618AF41158F76551B /* libRCTBackgroundGeolocation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTBackgroundGeolocation.a; sourceTree = "<group>"; };
 		F4C18D7C777D4D279B8ACDAA /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 		F6A3AEC1B0088431E92A6B3B /* Pods-ForestWatcher.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForestWatcher.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher.debug.xcconfig"; sourceTree = "<group>"; };
-		F9B10266C3A943979E94327F /* RNI18n.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNI18n.xcodeproj; path = "../node_modules/react-native-i18n/ios/RNI18n.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -567,6 +569,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				981CBEE822FD6C440066F321 /* libRNCookieManagerIOS.a in Frameworks */,
+				981CBEE722FD6BC00066F321 /* libRNI18n.a in Frameworks */,
 				9859C0E0221DB02B003429E7 /* CoreLocation.framework in Frameworks */,
 				32CB16A9208A59C00036D050 /* libLottieReactNative.a in Frameworks */,
 				320246882089E6DE00BFFA31 /* libFastImage.a in Frameworks */,
@@ -761,15 +765,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		328B67541FDEE97F006D994E /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				328B67591FDEE97F006D994E /* libRNI18n.a */,
-				328B675B1FDEE97F006D994E /* libRNI18n-tvOS.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		328B67B91FDEEA49006D994E /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -891,12 +886,12 @@
 				7EF6A30059A74EEC8745DC44 /* RNFetchBlob.xcodeproj */,
 				7B3F9961BFAB483781F05B72 /* RealmReact.xcodeproj */,
 				3F87F1F834674C6A87F5820A /* RNZipArchive.xcodeproj */,
-				F9B10266C3A943979E94327F /* RNI18n.xcodeproj */,
 				07B7E5BF26F94948A1260D45 /* RNCookieManagerIOS.xcodeproj */,
 				DE58CD73E5C4463A8F78063D /* ReactNativeConfig.xcodeproj */,
 				E0DCCAF571BA4E58BE7D0459 /* RNAppAuth.xcodeproj */,
 				436835AF2FAA419E9E2D1801 /* RCTBackgroundGeolocation.xcodeproj */,
 				2ADC075F68DE4B4E8EE0F3FB /* RNSimpleCompass.xcodeproj */,
+				981CBEA822FD6B9C0066F321 /* RNI18n.xcodeproj */,
 				A6E9AB271B3F4C0E94A2A896 /* RNFirebase.xcodeproj */,
 			);
 			name = Libraries;
@@ -948,6 +943,15 @@
 			isa = PBXGroup;
 			children = (
 				9815401B228EC10D0016156F /* libRNSimpleCompass.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		981CBEA922FD6B9C0066F321 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				981CBEE122FD6B9C0066F321 /* libRNI18n.a */,
+				981CBEE322FD6B9C0066F321 /* libRNI18n-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1184,8 +1188,8 @@
 					ProjectRef = A6E9AB271B3F4C0E94A2A896 /* RNFirebase.xcodeproj */;
 				},
 				{
-					ProductGroup = 328B67541FDEE97F006D994E /* Products */;
-					ProjectRef = F9B10266C3A943979E94327F /* RNI18n.xcodeproj */;
+					ProductGroup = 981CBEA922FD6B9C0066F321 /* Products */;
+					ProjectRef = 981CBEA822FD6B9C0066F321 /* RNI18n.xcodeproj */;
 				},
 				{
 					ProductGroup = BEE19B631F2A5E0100777F63 /* Products */;
@@ -1384,20 +1388,6 @@
 			remoteRef = 32711EBB20690C6E0062DBE0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		328B67591FDEE97F006D994E /* libRNI18n.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNI18n.a;
-			remoteRef = 328B67581FDEE97F006D994E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		328B675B1FDEE97F006D994E /* libRNI18n-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libRNI18n-tvOS.a";
-			remoteRef = 328B675A1FDEE97F006D994E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		328B67BD1FDEEA4A006D994E /* libRNCookieManagerIOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1536,6 +1526,20 @@
 			fileType = archive.ar;
 			path = libRNSimpleCompass.a;
 			remoteRef = 9815401A228EC10D0016156F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		981CBEE122FD6B9C0066F321 /* libRNI18n.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNI18n.a;
+			remoteRef = 981CBEE022FD6B9C0066F321 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		981CBEE322FD6B9C0066F321 /* libRNI18n-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRNI18n-tvOS.a";
+			remoteRef = 981CBEE222FD6B9C0066F321 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		98224D2522FC4F2A00D2BAE7 /* libRCTFBSDK.a */ = {
@@ -1838,7 +1842,6 @@
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-zip-archive/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-i18n/ios",
 					"$(SRCROOT)/../node_modules/react-native-cookies/ios/RNCookieManagerIOS",
 					"$(SRCROOT)/../../../ios/Pods/Headers/Public",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
@@ -1894,7 +1897,6 @@
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-zip-archive/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-i18n/ios",
 					"$(SRCROOT)/../node_modules/react-native-cookies/ios/RNCookieManagerIOS",
 					"$(SRCROOT)/../../../ios/Pods/Headers/Public",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
