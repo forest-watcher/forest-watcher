@@ -13,6 +13,8 @@ import com.facebook.react.bridge.ReactMethod;
 
 import java.io.File;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 public class IntentsModule extends ReactContextBaseJavaModule
 {
 	/**
@@ -73,6 +75,8 @@ public class IntentsModule extends ReactContextBaseJavaModule
 			intent = new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS);
 		}
 
+		intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+
 		if (intent.resolveActivity(packageManager) != null)
 		{
 			context.startActivity(intent);
@@ -88,6 +92,7 @@ public class IntentsModule extends ReactContextBaseJavaModule
 	{
 		Intent intent = new Intent(Intent.ACTION_MAIN);
 		intent.addCategory(Intent.CATEGORY_APP_EMAIL);
+		intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
 		getReactApplicationContext().startActivity(Intent.createChooser(intent, "Select e-mail app"));
 	}
 }

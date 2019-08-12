@@ -1,7 +1,0 @@
- In this release:
-
-- Updated basemap to use Mapbox basemap;
-- Caching basemaps now fetchs only data up to level 12;
-- Map uses level 12 cached images for higher zoom levels, when no internet connection is available;
-- "Make available offline" will show only once, until after is used;
-- Fixed order of screenshots on walk-through.

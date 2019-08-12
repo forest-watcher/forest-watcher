@@ -79,11 +79,12 @@ class Login extends PureComponent<Props, State> {
     super(props);
 
     this.state = {
+      topSafeAreaInset: 0,
       webviewVisible: false,
       webViewUrl: '',
       webViewCurrenUrl: '',
       socialNetwork: null,
-      versionName: ''
+      versionName: getVersionName()
     };
   }
 
@@ -97,12 +98,6 @@ class Login extends PureComponent<Props, State> {
       this.setState(state => ({
         topSafeAreaInset: result.safeAreaInsets.top
       }));
-    });
-
-    getVersionName().then(name => {
-      this.setState({
-        versionName: name
-      });
     });
   }
 

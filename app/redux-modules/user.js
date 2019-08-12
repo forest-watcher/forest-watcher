@@ -140,7 +140,7 @@ export function facebookLogin() {
   return async (dispatch: Dispatch) => {
     try {
       dispatch({ type: SET_LOGIN_LOADING, payload: true });
-      const result = await LoginManager.logInWithReadPermissions(oAuth.facebook);
+      const result = await LoginManager.logInWithPermissions(oAuth.facebook);
       if (!result.isCancelled) {
         try {
           const user = await AccessToken.getCurrentAccessToken();
