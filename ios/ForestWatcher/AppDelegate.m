@@ -8,7 +8,6 @@
  */
 
 #import "AppDelegate.h"
-#import <CodePush/CodePush.h>
 #import "AppAuth.h"
 #import <Firebase.h>
 
@@ -29,48 +28,47 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [[FBSDKApplicationDelegate sharedInstance] application:application
-                             didFinishLaunchingWithOptions:launchOptions];
-    NSURL *jsCodeLocation;
-
+  [[FBSDKApplicationDelegate sharedInstance] application:application
+                           didFinishLaunchingWithOptions:launchOptions];
+  
   // Google Maps API Key
   NSString *apiUrl = [ReactNativeConfig envFor:@"GOOGLE_MAPS_API_KEY"];
-
+  
+  // Firebase Config
   [GMSServices provideAPIKey:apiUrl];
   [FIRApp configure];
-
-#ifdef DEBUG
-  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-#else
-  jsCodeLocation = [CodePush bundleURL];
-#endif
-
+  
+  // Setting the window bounds / colour.
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   self.window.backgroundColor = [UIColor whiteColor];
-
+  
+  // Launching the React Native JS app! ✨
+  NSURL *jsCodeLocation = [self sourceURL];
   [ReactNativeNavigation bootstrap:jsCodeLocation launchOptions:launchOptions];
   
   [RNSentry installWithRootView:[ReactNativeNavigation getBridge]];
-
+  
   return YES;
 }
 
-- (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation {
+- (NSURL *)sourceURL
+{
+#if DEBUG
+  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+#else
+  return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+#endif
+}
 
-    BOOL handled = [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                                  openURL:url
-                                                        sourceApplication:sourceApplication
-                                                               annotation:annotation
-                    ];
-    // Add any custom logic here.
-    if ([_currentAuthorizationFlow resumeAuthorizationFlowWithURL:url]) {
-      _currentAuthorizationFlow = nil;
-      return YES;
-    }
-    return handled;
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *, id> *) options {
+  BOOL handled = [[FBSDKApplicationDelegate sharedInstance]application:app openURL:url options:options];
+
+  // Add any custom logic here.
+  if ([self.authorizationFlowManagerDelegate resumeExternalUserAgentFlowWithURL:url]) {
+    return YES;
+  }
+  
+  return handled;
 }
 
 @end

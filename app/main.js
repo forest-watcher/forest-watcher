@@ -1,5 +1,3 @@
-// eslint-disable-next-line import/default
-import codePush from 'react-native-code-push';
 import { Alert, AppState, Platform } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
@@ -25,23 +23,11 @@ import { discardActiveRoute } from './redux-modules/routes';
 // Show request in chrome network tool
 // GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
-const codePushOptions = {
-  checkFrequency: codePush.CheckFrequency.MANUAL,
-  installMode: codePush.InstallMode.ON_NEXT_RESUME
-};
-
 export default class App {
   constructor() {
     this.store = null;
     this.currentAppState = 'background';
     AppState.addEventListener('change', this._handleAppStateChange);
-  }
-
-  configureCodePush() {
-    const codepushEnable = !__DEV__;
-    if (codepushEnable) {
-      codePush.sync(codePushOptions);
-    }
   }
 
   async launchRoot() {
@@ -155,7 +141,6 @@ export default class App {
       this.store = store;
       registerScreens(store, Provider);
       initialiseLocationFramework();
-      this.configureCodePush();
       createStore.runSagas();
       await this.launchRoot();
     });

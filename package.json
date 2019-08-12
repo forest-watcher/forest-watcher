@@ -19,14 +19,11 @@
     "release:android": "cd android && ./gradlew assembleRelease",
     "release:ios": "react-native run-ios --configuration Release",
     "release:upstream": "git merge --squash --allow-unrelated-histories --strategy recursive -Xtheirs",
-    "postinstall:ios": "cd node_modules/react-native; exec ./scripts/ios-install-third-party.sh; cd third-party/glog-0.3.4; exec ./configure; cd ../../../..",
     "test": "jest --forceExit --detectOpenHandles",
     "test:ci": "jest --forceExit --detectOpenHandles --ci --coverage",
     "test:watch": "jest --watch",
     "lint": "node_modules/.bin/eslint ./app/",
-    "lint:ci": "node_modules/.bin/eslint ./app/ -o reports/lint.html -f html",
-    "codepush:release:android": "code-push release-react forest-watcher-android-client android -k private.pem",
-    "codepush:release:ios": "code-push release-react forest-watcher-ios-client ios -k private.pem"
+    "lint:ci": "node_modules/.bin/eslint ./app/ -o reports/lint.html -f html"
   },
   "dependencies": {
     "@mapbox/geo-viewport": "0.4.0",
@@ -51,7 +48,6 @@
     "react": "16.8.3",
     "react-native": "0.59.10",
     "react-native-app-auth": "4.4.0",
-    "react-native-code-push": "5.6.1",
     "react-native-config": "0.11.7",
     "react-native-cookies": "3.3.0",
     "react-native-datepicker": "1.7.2",
@@ -94,7 +90,6 @@
     "babel-eslint": "10.0.1",
     "babel-jest": "23.4.2",
     "babel-plugin-module-resolver": "3.1.1",
-    "code-push-cli": "2.1.9",
     "dotenv": "6.1.0",
     "eslint": "5.9.0",
     "eslint-config-prettier": "3.3.0",

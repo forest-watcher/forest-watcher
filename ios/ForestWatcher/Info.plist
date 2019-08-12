@@ -61,12 +61,6 @@
     </array>
     <key>CFBundleVersion</key>
     <string>6</string>
-    <key>CodePushDeploymentKey</key>
-    <string>__RN_CONFIG_CODEPUSH_DEPLOY_KEY</string>
-    <key>CodePushPublicKey</key>
-    <string>-----BEGIN PUBLIC KEY-----
-__RN_CONFIG_CODEPUSH_RELEASE_PUBLIC_KEY
------END PUBLIC KEY-----</string>
     <key>FacebookAppID</key>
     <string>__RN_CONFIG_LOGIN_FACEBOOK_APP_ID</string>
     <key>FacebookDisplayName</key>
