@@ -9,7 +9,9 @@ import styles from './styles';
 const SafeAreaView = withSafeArea(View, 'margin', 'bottom');
 
 class StepsSlider extends PureComponent {
-  state = {};
+  state = {
+    bottomSafeAreaInset: 0
+  };
 
   componentDidMount() {
     SafeArea.getSafeAreaInsetsForRootView().then(result => {

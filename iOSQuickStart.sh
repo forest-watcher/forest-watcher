@@ -6,9 +6,6 @@ rm -rf "node_modules"
 # Install the node modules.
 yarn install
 
-# Run the iOS postinstall script to install some other dependencies.
-yarn postinstall:ios
-
 # Go to the iOS folder to do iOS things.
 cd "ios"
 

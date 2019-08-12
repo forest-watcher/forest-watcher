@@ -1,7 +1,5 @@
 # Env
 private/
-ios/ForestWatcher/AppCenter-Config.plist
-android/app/src/main/assets/appcenter-config.json
 
 # OSX
 #
@@ -62,7 +60,6 @@ android/app/libs
 # Cocoapods
 #
 Pods/
-ios/Podfile.lock
 ios/.gems
 ios/ForestWatcher.ipa
 ios/ForestWatcher.app.dSYM.zip

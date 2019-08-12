@@ -85,6 +85,7 @@ const startTrackingIcon = require('assets/startTracking.png');
 const stopTrackingIcon = require('assets/stopTracking.png');
 const myLocationIcon = require('assets/my_location.png');
 const createReportIcon = require('assets/createReport.png');
+const reportAreaIcon = require('assets/report_area.png');
 const addLocationIcon = require('assets/add_location.png');
 const newAlertIcon = require('assets/new-alert.png');
 const closeIcon = require('assets/close_gray.png');
@@ -128,6 +129,21 @@ class MapComponent extends Component {
       }
     };
   }
+
+  /**
+   * The AppState listener for this component is responsible for stopping location tracking if it's not needed while
+   * the app is backgrounded, and resuming it when foregrounded.
+   *
+   * However, a quirk of Android is that the location permissions dialog puts the app into the background while it is
+   * visible. This caused an issue where starting location tracking would trigger a permissions dialog. If the user
+   * clicked deny, the user would re-enter the foreground, location tracking would be started again, which would in
+   * turn prompt the user again.
+   *
+   * We can workaround this by temporarily disabling the app state listener while location tracking is being setup.
+   * Because only Android is affected we only do this on that platform.
+   */
+  isStartingGeolocation = false;
+  isGeolocationPausedInBackground = false;
 
   constructor(props) {
     super(props);
@@ -260,16 +276,20 @@ class MapComponent extends Component {
    * @param status
    */
   handleAppStateChange = status => {
-    if (!this.isRouteTracking()) {
+    if (!this.isRouteTracking() && !this.isStartingGeolocation) {
       switch (status) {
         case 'background':
         case 'inactive': {
           stopTrackingLocation();
           stopTrackingHeading();
+          this.isGeolocationPausedInBackground = true;
           break;
         }
         case 'active': {
-          this.geoLocate(false);
+          if (this.isGeolocationPausedInBackground) {
+            this.geoLocate(false);
+          }
+          this.isGeolocationPausedInBackground = false;
           break;
         }
       }
@@ -298,6 +318,9 @@ class MapComponent extends Component {
       Sentry.captureException(err);
     }
 
+    // See documentation for this variable declaration for explanation
+    this.isStartingGeolocation = Platform.OS === 'android';
+
     try {
       await startTrackingLocation(trackWhenInBackground ? GFWLocationAuthorizedAlways : GFWLocationAuthorizedInUse);
     } catch (err) {
@@ -305,6 +328,8 @@ class MapComponent extends Component {
       this.onLocationUpdateError(err);
       Sentry.captureException(err);
       throw err;
+    } finally {
+      this.isStartingGeolocation = false;
     }
   }
 
@@ -706,8 +731,9 @@ class MapComponent extends Component {
   };
 
   renderButtonPanel() {
-    const { customReporting, lastPosition, locationError, selectedAlerts } = this.state;
+    const { customReporting, lastPosition, locationError, neighbours, selectedAlerts } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
+    const hasNeighbours = neighbours && neighbours.length > 0;
     const canReport = hasAlertsSelected || customReporting;
     const isRouteTracking = this.isRouteTracking();
 
@@ -722,7 +748,10 @@ class MapComponent extends Component {
         />
         <View style={styles.buttonPanel}>
           {canReport ? (
-            <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
+            <React.Fragment>
+              <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
+              {hasNeighbours && <CircleButton shouldFillContainer onPress={this.reportArea} icon={reportAreaIcon} />}
+            </React.Fragment>
           ) : (
             <CircleButton shouldFillContainer onPress={this.onCustomReportingPress} icon={addLocationIcon} />
           )}
