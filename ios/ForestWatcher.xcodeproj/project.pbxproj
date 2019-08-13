@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -39,7 +38,6 @@
 		5728E0BA95ED4530B75240CA /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D4F624D14DF49A4BF4873B3 /* libRNFetchBlob.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		981CBEE722FD6BC00066F321 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 981CBEE122FD6B9C0066F321 /* libRNI18n.a */; };
 		981CBEE822FD6C440066F321 /* libRNCookieManagerIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 328B67BD1FDEEA4A006D994E /* libRNCookieManagerIOS.a */; };
 		981CBF6622FD88BB0066F321 /* libRNAppAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE0024E2206564A90050C1A7 /* libRNAppAuth.a */; };
 		9859C0E0221DB02B003429E7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9859C0A5221DB02B003429E7 /* CoreLocation.framework */; };
@@ -384,20 +382,6 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNSimpleCompass;
 		};
-		981CBEE022FD6B9C0066F321 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 981CBEA822FD6B9C0066F321 /* RNI18n.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNI18n;
-		};
-		981CBEE222FD6B9C0066F321 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 981CBEA822FD6B9C0066F321 /* RNI18n.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6476C4051EEAA69700B10F51;
-			remoteInfo = "RNI18n-tvOS";
-		};
 		98224D2422FC4F2A00D2BAE7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BEF8102C2075273500EA64C3 /* RCTFBSDK.xcodeproj */;
@@ -529,7 +513,6 @@
 		7CC1FA19BF67424591686AF2 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		7EF6A30059A74EEC8745DC44 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		981CBEA822FD6B9C0066F321 /* RNI18n.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNI18n.xcodeproj; path = "../node_modules/react-native-i18n/ios/RNI18n.xcodeproj"; sourceTree = "<group>"; };
 		9859C0A5221DB02B003429E7 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		989413A7224E6D29008CAE32 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		98A5EE2521AC2AC00079AF2A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -572,7 +555,6 @@
 			files = (
 				981CBF6622FD88BB0066F321 /* libRNAppAuth.a in Frameworks */,
 				981CBEE822FD6C440066F321 /* libRNCookieManagerIOS.a in Frameworks */,
-				981CBEE722FD6BC00066F321 /* libRNI18n.a in Frameworks */,
 				9859C0E0221DB02B003429E7 /* CoreLocation.framework in Frameworks */,
 				32CB16A9208A59C00036D050 /* libLottieReactNative.a in Frameworks */,
 				320246882089E6DE00BFFA31 /* libFastImage.a in Frameworks */,
@@ -893,7 +875,6 @@
 				E0DCCAF571BA4E58BE7D0459 /* RNAppAuth.xcodeproj */,
 				436835AF2FAA419E9E2D1801 /* RCTBackgroundGeolocation.xcodeproj */,
 				2ADC075F68DE4B4E8EE0F3FB /* RNSimpleCompass.xcodeproj */,
-				981CBEA822FD6B9C0066F321 /* RNI18n.xcodeproj */,
 				A6E9AB271B3F4C0E94A2A896 /* RNFirebase.xcodeproj */,
 			);
 			name = Libraries;
@@ -945,15 +926,6 @@
 			isa = PBXGroup;
 			children = (
 				9815401B228EC10D0016156F /* libRNSimpleCompass.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		981CBEA922FD6B9C0066F321 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				981CBEE122FD6B9C0066F321 /* libRNI18n.a */,
-				981CBEE322FD6B9C0066F321 /* libRNI18n-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1188,10 +1160,6 @@
 				{
 					ProductGroup = 98224D5922FC4F2C00D2BAE7 /* Products */;
 					ProjectRef = A6E9AB271B3F4C0E94A2A896 /* RNFirebase.xcodeproj */;
-				},
-				{
-					ProductGroup = 981CBEA922FD6B9C0066F321 /* Products */;
-					ProjectRef = 981CBEA822FD6B9C0066F321 /* RNI18n.xcodeproj */;
 				},
 				{
 					ProductGroup = BEE19B631F2A5E0100777F63 /* Products */;
@@ -1530,13 +1498,6 @@
 			remoteRef = 9815401A228EC10D0016156F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		981CBEE122FD6B9C0066F321 /* libRNI18n.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNI18n.a;
-			remoteRef = 981CBEE022FD6B9C0066F321 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		981CBEE322FD6B9C0066F321 /* libRNI18n-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1680,7 +1641,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher-resources.sh",
 				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 			);
@@ -1691,7 +1652,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		ACBAAC00B3FD465CA6F51300 /* Upload Debug Symbols to Sentry */ = {

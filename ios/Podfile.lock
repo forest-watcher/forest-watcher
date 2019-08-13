@@ -114,7 +114,9 @@ PODS:
     - React/RCTNetwork
   - React/RCTNetwork (0.59.10):
     - React/Core
-  - ReactNativeNavigation (2.26.0):
+  - ReactNativeNavigation (2.26.5):
+    - React
+  - RNI18n (2.0.15):
     - React
   - Sentry (4.1.3):
     - Sentry/Core (= 4.1.3)
@@ -139,6 +141,7 @@ DEPENDENCIES:
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React/RCTImage (from `../node_modules/react-native`)
   - ReactNativeNavigation (from `../node_modules/react-native-navigation`)
+  - RNI18n (from `../node_modules/react-native-i18n`)
   - SentryReactNative (from `../node_modules/react-native-sentry`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -174,6 +177,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-webview"
   ReactNativeNavigation:
     :path: "../node_modules/react-native-navigation"
+  RNI18n:
+    :path: "../node_modules/react-native-i18n"
   SentryReactNative:
     :path: "../node_modules/react-native-sentry"
   yoga:
@@ -199,11 +204,12 @@ SPEC CHECKSUMS:
   react-native-maps: 5a3de82c153db99e5ac939cb2ed576f245514016
   react-native-safe-area: e8230b0017d76c00de6b01e2412dcf86b127c6a3
   react-native-webview: f3e28b48461c78db833f727feec08b13285e7b61
-  ReactNativeNavigation: 1af5bd7a505161e506df6564f8ffd565ce468999
+  ReactNativeNavigation: 52e621f6dd7b4d363dc90c747ea8761017d53958
+  RNI18n: e2f7e76389fcc6e84f2c8733ea89b92502351fd8
   Sentry: 4e8a17b61ddd116f89536cc81d567fdee1ebca96
   SentryReactNative: 07237139c00366ea2e75ae3e5c566e7a71c27a90
   yoga: 684513b14b03201579ba3cee20218c9d1298b0cc
 
-PODFILE CHECKSUM: 16388f1980f2aa3abab01318ddcc0ac3b2fbfd7c
+PODFILE CHECKSUM: a54d5f19ab48ffb773d6616c6256effae7e632c6
 
 COCOAPODS: 1.7.5

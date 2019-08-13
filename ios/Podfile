@@ -74,7 +74,7 @@ target 'ForestWatcher' do
       # If the target's name is React or yoga, remove it from the project.
       # This means that the pods which don't correctly add header search paths still get their search paths,
       # while also ensuring that we don't have duplicated targets.
-      
+
       # NOTE: This can probably be removed at the next React Native upgrade,
       # when these modules are only being linked in this file & not in Xcode.
       targets_to_ignore = %w(React yoga)
