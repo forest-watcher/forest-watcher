@@ -6,7 +6,7 @@ export default StyleSheet.create({
     flex: 1
   },
   captureLabel: {
-    right: 8,
+    alignSelf: 'center',
     fontSize: 21,
     fontWeight: '400',
     fontFamily: Theme.font,
