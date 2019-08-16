@@ -190,9 +190,11 @@ export function logout(socialNetworkFallback: string) {
     const { oAuthToken: tokenToRevoke, socialNetwork } = state().user;
     dispatch({ type: LOGOUT_REQUEST });
     dispatch({ type: RESET_STATE });
-    await CookieManager.clearAll();
-    const social = socialNetwork || socialNetworkFallback;
+
     try {
+      await CookieManager.clearAll();
+
+      const social = socialNetwork || socialNetworkFallback;
       switch (social) {
         case 'google': {
           if (tokenToRevoke) {
@@ -206,10 +208,10 @@ export function logout(socialNetworkFallback: string) {
         default:
           break;
       }
+      return dispatch({ type: SET_LOGIN_STATUS, payload: true });
     } catch (e) {
       console.error(e);
-      dispatch({ type: SET_LOGIN_STATUS, payload: false });
+      return dispatch({ type: SET_LOGIN_STATUS, payload: false });
     }
-    return dispatch({ type: SET_LOGIN_STATUS, payload: true });
   };
 }
