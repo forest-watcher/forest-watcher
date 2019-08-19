@@ -5,7 +5,7 @@ import App from './app/main';
 
 // Enable animations on Android
 if (Platform.OS === 'android') {
-  UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+  UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(false);
 }
 
 const app = new App();
