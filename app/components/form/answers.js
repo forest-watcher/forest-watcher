@@ -2,7 +2,7 @@
 import type { Answer, Question } from 'types/reports.types';
 
 import React, { PureComponent } from 'react';
-import { ActionSheetIOS, View, Text, ScrollView, Platform } from 'react-native';
+import { ActionSheetIOS, NativeModules, Platform, View, Text, ScrollView } from 'react-native';
 import DialogAndroid from 'react-native-dialogs';
 import { Navigation } from 'react-native-navigation';
 import i18n from 'locales';
@@ -13,7 +13,6 @@ import ImageCarousel from 'components/common/image-carousel';
 import tracker, { REPORT_OUTCOME_CANCELLED, REPORT_OUTCOME_COMPLETED } from 'helpers/googleAnalytics';
 import withDraft from './withDraft';
 import styles from './styles';
-import { Navigation } from 'react-native-navigation';
 
 const deleteIcon = require('assets/delete_red.png');
 const exportIcon = require('assets/upload.png');
@@ -75,11 +74,14 @@ class Answers extends PureComponent<Props> {
       const title = i18n.t('report.export.title');
       const message = i18n.t('report.export.description');
       const options = [i18n.t('report.export.option.asCSV')];
-      const buttonHandler = idx => {
+      const buttonHandler = async idx => {
         switch (idx) {
           case 0: {
-            this.props.exportReport();
+            await this.props.exportReport();
             this.props.showExportReportsSuccessfulNotification();
+            if (Platform.OS === 'android') {
+              NativeModules.Intents.launchDownloadsDirectory();
+            }
             break;
           }
           case 1: {
@@ -107,7 +109,8 @@ class Answers extends PureComponent<Props> {
         );
       } else if (Platform.OS === 'android') {
         const { selectedItem } = await DialogAndroid.showPicker(title, message, {
-          items: options.map((item, idx) => ({ label: item, id: idx }))
+          items: options.map((item, idx) => ({ label: item, id: idx })),
+          positiveText: i18n.t('commonText.cancel')
         });
         if (selectedItem) {
           buttonHandler(selectedItem.id);
@@ -119,6 +122,7 @@ class Answers extends PureComponent<Props> {
       Navigation.dismissModal(this.props.componentId);
       tracker.trackReportFlowEndedEvent(REPORT_OUTCOME_CANCELLED);
     }
+  }
 
   onUploadRequested = () => {
     if (!this.props.isConnected) {

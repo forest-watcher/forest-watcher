@@ -15,6 +15,13 @@ export default StyleSheet.create({
   center: {
     justifyContent: 'center'
   },
+  map: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height: 2,
+    width: 2
+  },
   textContainer: {
     flexDirection: 'column',
     alignItems: 'center',

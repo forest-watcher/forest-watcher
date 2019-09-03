@@ -4,9 +4,7 @@ import React, { PureComponent } from 'react';
 import { Alert, Platform, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
 import Config from 'react-native-config';
 import { Navigation } from 'react-native-navigation';
-import SafeArea from 'react-native-safe-area';
 
-import { requestLocationPermissions } from 'helpers/app';
 import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
 import debounceUI from 'helpers/debounceUI';
@@ -154,7 +152,6 @@ class Dashboard extends PureComponent<Props> {
   };
 
   render() {
-    const bottomSafeAreaInset = this.state?.bottomSafeAreaInset || 0;
     const { pristine, refreshing, appSyncing } = this.props;
     const isIOS = Platform.OS === 'ios';
     // we remove the event handler to improve performance

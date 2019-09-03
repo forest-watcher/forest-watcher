@@ -88,4 +88,4 @@ module.name_mapper='^redux-modules\/\(.*\)$' -> '<PROJECT_ROOT>/app/redux-module
 module.name_mapper='^types\/\(.*\)$' -> '<PROJECT_ROOT>/app/types/\1'
 
 [version]
-^0.78.0
+^0.92.0

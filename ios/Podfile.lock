@@ -1,0 +1,215 @@
+PODS:
+  - AppAuth (0.95.1)
+  - FBSDKCoreKit (5.0.0):
+    - FBSDKCoreKit/Basics (= 5.0.0)
+    - FBSDKCoreKit/Core (= 5.0.0)
+  - FBSDKCoreKit/Basics (5.0.0)
+  - FBSDKCoreKit/Core (5.0.0):
+    - FBSDKCoreKit/Basics
+  - FBSDKLoginKit (5.0.0):
+    - FBSDKCoreKit (= 5.0.0)
+  - FBSDKShareKit (5.0.0):
+    - FBSDKCoreKit (= 5.0.0)
+  - Firebase/Core (6.3.0):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics (= 6.0.2)
+  - Firebase/CoreOnly (6.3.0):
+    - FirebaseCore (= 6.0.3)
+  - FirebaseAnalytics (6.0.2):
+    - FirebaseCore (~> 6.0)
+    - FirebaseInstanceID (~> 4.2)
+    - GoogleAppMeasurement (= 6.0.2)
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
+    - GoogleUtilities/MethodSwizzler (~> 6.0)
+    - GoogleUtilities/Network (~> 6.0)
+    - "GoogleUtilities/NSData+zlib (~> 6.0)"
+    - nanopb (~> 0.3)
+  - FirebaseCore (6.0.3):
+    - GoogleUtilities/Environment (~> 6.0)
+    - GoogleUtilities/Logger (~> 6.0)
+  - FirebaseInstanceID (4.2.3):
+    - FirebaseCore (~> 6.0)
+    - GoogleUtilities/Environment (~> 6.0)
+    - GoogleUtilities/UserDefaults (~> 6.0)
+  - Google-Maps-iOS-Utils (2.1.0):
+    - Google-Maps-iOS-Utils/Clustering (= 2.1.0)
+    - Google-Maps-iOS-Utils/Geometry (= 2.1.0)
+    - Google-Maps-iOS-Utils/Heatmap (= 2.1.0)
+    - Google-Maps-iOS-Utils/QuadTree (= 2.1.0)
+    - GoogleMaps
+  - Google-Maps-iOS-Utils/Clustering (2.1.0):
+    - Google-Maps-iOS-Utils/QuadTree
+    - GoogleMaps
+  - Google-Maps-iOS-Utils/Geometry (2.1.0):
+    - GoogleMaps
+  - Google-Maps-iOS-Utils/Heatmap (2.1.0):
+    - Google-Maps-iOS-Utils/QuadTree
+    - GoogleMaps
+  - Google-Maps-iOS-Utils/QuadTree (2.1.0):
+    - GoogleMaps
+  - GoogleAppMeasurement (6.0.2):
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
+    - GoogleUtilities/MethodSwizzler (~> 6.0)
+    - GoogleUtilities/Network (~> 6.0)
+    - "GoogleUtilities/NSData+zlib (~> 6.0)"
+    - nanopb (~> 0.3)
+  - GoogleMaps (2.5.0):
+    - GoogleMaps/Maps (= 2.5.0)
+  - GoogleMaps/Base (2.5.0)
+  - GoogleMaps/Maps (2.5.0):
+    - GoogleMaps/Base
+  - GoogleUtilities/AppDelegateSwizzler (6.2.4):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (6.2.4)
+  - GoogleUtilities/Logger (6.2.4):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/MethodSwizzler (6.2.4):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/Network (6.2.4):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (6.2.4)"
+  - GoogleUtilities/Reachability (6.2.4):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (6.2.4):
+    - GoogleUtilities/Logger
+  - nanopb (0.3.901):
+    - nanopb/decode (= 0.3.901)
+    - nanopb/encode (= 0.3.901)
+  - nanopb/decode (0.3.901)
+  - nanopb/encode (0.3.901)
+  - React (0.59.10):
+    - React/Core (= 0.59.10)
+  - react-native-fbsdk (0.10.0):
+    - React
+    - react-native-fbsdk/Core (= 0.10.0)
+    - react-native-fbsdk/Login (= 0.10.0)
+    - react-native-fbsdk/Share (= 0.10.0)
+  - react-native-fbsdk/Core (0.10.0):
+    - FBSDKCoreKit (~> 5.0.0)
+    - React
+  - react-native-fbsdk/Login (0.10.0):
+    - FBSDKLoginKit (~> 5.0.0)
+    - React
+  - react-native-fbsdk/Share (0.10.0):
+    - FBSDKShareKit (~> 5.0.0)
+    - React
+  - react-native-google-maps (0.22.1):
+    - Google-Maps-iOS-Utils (= 2.1.0)
+    - GoogleMaps (= 2.5.0)
+    - React
+  - react-native-maps (0.22.1):
+    - React
+  - react-native-safe-area (0.5.1):
+    - React
+  - react-native-webview (5.8.1):
+    - React
+  - React/Core (0.59.10):
+    - yoga (= 0.59.10.React)
+  - React/RCTImage (0.59.10):
+    - React/Core
+    - React/RCTNetwork
+  - React/RCTNetwork (0.59.10):
+    - React/Core
+  - ReactNativeNavigation (2.26.5):
+    - React
+  - RNI18n (2.0.15):
+    - React
+  - Sentry (4.1.3):
+    - Sentry/Core (= 4.1.3)
+  - Sentry/Core (4.1.3)
+  - SentryReactNative (0.43.2):
+    - React
+    - Sentry (~> 4.1.3)
+  - yoga (0.59.10.React)
+
+DEPENDENCIES:
+  - AppAuth (= 0.95.1)
+  - FBSDKCoreKit (= 5.0.0)
+  - FBSDKLoginKit (= 5.0.0)
+  - FBSDKShareKit (= 5.0.0)
+  - Firebase/Core (= 6.3.0)
+  - Google-Maps-iOS-Utils (= 2.1.0)
+  - GoogleMaps (= 2.5.0)
+  - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
+  - react-native-google-maps (from `../node_modules/react-native-maps`)
+  - react-native-maps (from `../node_modules/react-native-maps`)
+  - react-native-safe-area (from `../node_modules/react-native-safe-area`)
+  - react-native-webview (from `../node_modules/react-native-webview`)
+  - React/RCTImage (from `../node_modules/react-native`)
+  - ReactNativeNavigation (from `../node_modules/react-native-navigation`)
+  - RNI18n (from `../node_modules/react-native-i18n`)
+  - SentryReactNative (from `../node_modules/react-native-sentry`)
+  - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AppAuth
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - FBSDKShareKit
+    - Firebase
+    - FirebaseAnalytics
+    - FirebaseCore
+    - FirebaseInstanceID
+    - Google-Maps-iOS-Utils
+    - GoogleAppMeasurement
+    - GoogleMaps
+    - GoogleUtilities
+    - nanopb
+    - Sentry
+
+EXTERNAL SOURCES:
+  React:
+    :path: "../node_modules/react-native"
+  react-native-fbsdk:
+    :path: "../node_modules/react-native-fbsdk"
+  react-native-google-maps:
+    :path: "../node_modules/react-native-maps"
+  react-native-maps:
+    :path: "../node_modules/react-native-maps"
+  react-native-safe-area:
+    :path: "../node_modules/react-native-safe-area"
+  react-native-webview:
+    :path: "../node_modules/react-native-webview"
+  ReactNativeNavigation:
+    :path: "../node_modules/react-native-navigation"
+  RNI18n:
+    :path: "../node_modules/react-native-i18n"
+  SentryReactNative:
+    :path: "../node_modules/react-native-sentry"
+  yoga:
+    :path: "../node_modules/react-native/ReactCommon/yoga"
+
+SPEC CHECKSUMS:
+  AppAuth: cd34aac431e5c77c46ec7f03935377faa8c5808b
+  FBSDKCoreKit: ba361d4a9d4dc29ff218822b849b22d4f869c7bb
+  FBSDKLoginKit: c6d0dc187bd076e370dffa10f7fc8a3562a6892c
+  FBSDKShareKit: edf3450bf82ce0c626b31943f370d3729082746d
+  Firebase: 8432d732974498afd5987e9001a05f90f1a3d625
+  FirebaseAnalytics: 470ddab7253b21ad5a40bebd4a9903d7ae19386a
+  FirebaseCore: 68f8a7f50cdae542715d4e86afa37c4067217dcb
+  FirebaseInstanceID: 8b42755db950682e7de0d167bc6fb26a57b244af
+  Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
+  GoogleAppMeasurement: a35a645835bae31b6bdc0576396bc23908f12a22
+  GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
+  GoogleUtilities: 64b5e3982b1b01bda26712affd5c523ef32563cf
+  nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  React: 36d0768f9e93be2473b37e7fa64f92c1d5341eef
+  react-native-fbsdk: bc1d3e321e8a710feaf8763d747707972d6c4299
+  react-native-google-maps: 06d7adbb45aafbad5fd151f9e6f6856f546d7f58
+  react-native-maps: 5a3de82c153db99e5ac939cb2ed576f245514016
+  react-native-safe-area: e8230b0017d76c00de6b01e2412dcf86b127c6a3
+  react-native-webview: f3e28b48461c78db833f727feec08b13285e7b61
+  ReactNativeNavigation: 52e621f6dd7b4d363dc90c747ea8761017d53958
+  RNI18n: e2f7e76389fcc6e84f2c8733ea89b92502351fd8
+  Sentry: 4e8a17b61ddd116f89536cc81d567fdee1ebca96
+  SentryReactNative: 07237139c00366ea2e75ae3e5c566e7a71c27a90
+  yoga: 684513b14b03201579ba3cee20218c9d1298b0cc
+
+PODFILE CHECKSUM: a54d5f19ab48ffb773d6616c6256effae7e632c6
+
+COCOAPODS: 1.7.5
