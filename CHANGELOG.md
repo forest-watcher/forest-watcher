@@ -1,5 +1,31 @@
 # Forest Watcher Changelog
 
+## [v1.9.1]
+- Upgrade to RN v59.10 to support 64 bit Android in line with Play Store requirements.
+- Removed obsolete fastlane files
+- Removes codepush which was unused and complicating upgrade
+- Display export directory on Android after user exports a report
+- Added "Report cluster" button back in
+- Fixed issues causing by camera dialog immediately displaying when creating a report
+- Fixed Google Maps not functioning if user enters offline mode before it is given the opportunity to register
+- Fixed location permission dialog occasionally showing repeatedly on some Android versions
+- Fixed onboarding buttons not working consistently
+
+## [v1.9.0]
+- Added route tracking
+- Debounce button presses to prevent duplicate screen pushes
+
+## [v1.8.1]
+- Added metadata to exported reports to align with web implementation
+- Added Tree Cover Loss 2018 layer
+
+## [v1.8.0]
+- Migrated from Google Analytics to Firebase Analytics due to sunsetting of GA for mobile
+- Added ability to export reports to CSV
+
+## [v1.7.2]
+- Fixed compass not displaying due to react-native-maps quirk
+
 ## [v1.7.1]
 - Fixed crash when creating a report for an area with no datasets
 - Changed Android activity launchMode to prevent hanging when attempting to launch a second app instance
