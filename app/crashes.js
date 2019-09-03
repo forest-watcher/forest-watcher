@@ -18,8 +18,7 @@ export async function setupCrashLogging() {
     // ---------------------------------
   }).install();
 
-  const versionName = await getVersionName();
-  Sentry.setVersion(versionName);
+  Sentry.setVersion(getVersionName());
 
   // set a callback after an event was successfully sentry
   // its only guaranteed that this event contains `event_id` & `level`

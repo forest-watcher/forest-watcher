@@ -5,9 +5,6 @@ import { STATUS } from 'config/constants/index';
 
 import { version } from 'package.json';
 
-// eslint-disable-next-line import/default
-import codePush from 'react-native-code-push';
-
 export function isUnsafeLogout(state: State) {
   const { list } = state.reports;
   const hasReportsToUpload = type => type === STATUS.complete || type === STATUS.draft;
@@ -22,10 +19,5 @@ export function shouldBeConnected(state: State) {
 }
 
 export function getVersionName() {
-  return codePush.getUpdateMetadata().then(update => {
-    if (update) {
-      return `v${version}-codepush_${update.label}`;
-    }
-    return `v${version}`;
-  });
+  return `v${version}`;
 }

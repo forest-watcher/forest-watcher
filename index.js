@@ -3,9 +3,9 @@ import { Navigation } from 'react-native-navigation';
 
 import App from './app/main';
 
-// Enable animations on Android
+// Don't enable animation support on Android, as it was causing strange UI issues (see https://3sidedcube.atlassian.net/browse/GFW-370)
 if (Platform.OS === 'android') {
-  UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+  UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(false);
 }
 
 const app = new App();

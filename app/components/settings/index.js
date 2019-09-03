@@ -74,18 +74,12 @@ class Settings extends Component<Props> {
     ];
 
     this.state = {
-      versionName: ''
+      versionName: getVersionName()
     };
   }
 
   componentDidMount() {
     tracker.trackScreenView('Settings');
-
-    getVersionName().then(name => {
-      this.setState({
-        versionName: name
-      });
-    });
   }
 
   UNSAFE_componentWillReceiveProps(props: Props) {
@@ -120,7 +114,7 @@ class Settings extends Component<Props> {
     const { logout, isUnsafeLogout } = this.props;
     const proceedWithLogout = () => {
       logout();
-      launchAppRoot('ForestWatcher.Home');
+      launchAppRoot('ForestWatcher.Walkthrough');
     };
     if (isUnsafeLogout) {
       Alert.alert(i18n.t('settings.unsafeLogout'), i18n.t('settings.unsavedDataLost'), [
