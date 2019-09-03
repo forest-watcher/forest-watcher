@@ -21,13 +21,11 @@ type Props = {
 };
 
 class ImageBlobInput extends Component<Props> {
-  componentDidMount() {
-    const imagePath = this.props.answer.value;
-    if (!imagePath) {
-      this.launchCamera();
-    }
-  }
-
+  /**
+   * launchCamera - when called, launches the platform specific UI to ask for a photo.
+   * This photo can be taken while the app is running, or can be fetched from the library.
+   * If the user does not want to continue, they can also press cancel.
+   */
   launchCamera = () => {
     const options = {
       mediaType: 'photo',
@@ -44,6 +42,7 @@ class ImageBlobInput extends Component<Props> {
         cameraRoll: true
       }
     };
+
     ImagePicker.showImagePicker(options, response => {
       if (response.error) {
         Alert.alert(i18n.t('commonText.error'), response.error, [{ text: 'OK' }]);
