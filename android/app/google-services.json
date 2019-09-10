@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "354420233841",
+    "firebase_url": "https://gfw-forest-watch.firebaseio.com",
+    "project_id": "gfw-forest-watch",
+    "storage_bucket": "gfw-forest-watch.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:354420233841:android:d917a4f85fdc544f",
+        "android_client_info": {
+          "package_name": "com.forestwatcher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "354420233841-kapq9uoejin6bqje3gtskcmg1nmqnlel.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.forestwatcher",
+            "certificate_hash": "62b26c6918757cbfe1f236397d2b1cf42e19629d"
+          }
+        },
+        {
+          "client_id": "354420233841-g29sgpfj9e2eevppdcnojd82d321odsi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDposJkRKZH3LUEqCq5J2Z7dbzycAibDtA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "354420233841-g29sgpfj9e2eevppdcnojd82d321odsi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
