@@ -6,6 +6,7 @@ import { Sentry } from 'react-native-sentry';
 var emitter = require('tiny-emitter/instance');
 
 import { LOCATION_TRACKING } from 'config/constants';
+import FWError from 'helpers/fwError';
 
 export const GFWLocationAuthorizedAlways = BackgroundGeolocation.AUTHORIZED;
 export const GFWLocationAuthorizedInUse = BackgroundGeolocation.AUTHORIZED_FOREGROUND;
@@ -115,14 +116,14 @@ export async function getCurrentLocation() {
   const result = await checkLocationStatus();
 
   if (!result.locationServicesEnabled) {
-    throw { code: GFWErrorLocation, message: 'Location disabled' };
+    throw new FWError({ code: GFWErrorLocation, message: 'Location disabled' });
   }
 
   if (result.authorization === GFWLocationUnauthorized) {
     const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
     // If location services are disabled and the authorization is explicitally denied, return an error.
     if (!isResolved) {
-      throw { code: GFWErrorPermission, message: 'Permissions denied' };
+      throw new FWError({ code: GFWErrorPermission, message: 'Permissions denied' });
     }
   }
 
@@ -134,7 +135,7 @@ export async function getCurrentLocation() {
         resolve(location);
       },
       (code, message) => {
-        reject(new Error({ code: code, message: message }));
+        reject(new FWError({ code, message }));
       },
       {
         timeout: 10000, // ten seconds
@@ -207,14 +208,14 @@ export async function startTrackingLocation(requiredPermission) {
   const result = await checkLocationStatus();
 
   if (!result.locationServicesEnabled) {
-    throw { code: GFWErrorLocation, message: 'Location disabled' };
+    throw new FWError({ code: GFWErrorLocation, message: 'Location disabled' });
   }
 
   if (result.authorization === GFWLocationUnauthorized) {
     const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
     // If location services are disabled and the authorization is explicitally denied, return an error.
     if (!isResolved) {
-      throw { code: GFWErrorPermission, message: 'Permissions denied' };
+      throw new FWError({ code: GFWErrorPermission, message: 'Permissions denied' });
     }
   }
 
@@ -229,7 +230,7 @@ export async function startTrackingLocation(requiredPermission) {
   ) {
     const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
     if (!isResolved) {
-      throw { code: GFWErrorPermission, message: 'Incorrect permission given' };
+      throw new FWError({ code: GFWErrorPermission, message: 'Incorrect permission given' });
     }
   }
 
