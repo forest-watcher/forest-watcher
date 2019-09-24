@@ -194,12 +194,14 @@
           ]
         }
       ],
+      "no-throw-literal": "error",
       "no-unused-vars": [
         "warn",
         {
           "args": "none"
         }
       ],
+      "prefer-promise-reject-errors": "error",
       "prettier/prettier": "warn",
       "react/default-props-match-prop-types": [
         "warn",
