@@ -12,7 +12,7 @@ Object {
   "app": Object {
     "actions": Array [],
     "coordinatesFormat": "decimal",
-    "language": null,
+    "language": "en",
     "offlineMode": false,
     "pristineCacheTooltip": true,
     "synced": false,
@@ -1927,7 +1927,7 @@ Object {
   "app": Object {
     "actions": Array [],
     "coordinatesFormat": "decimal",
-    "language": null,
+    "language": "en",
     "offlineMode": false,
     "pristineCacheTooltip": true,
     "synced": false,
