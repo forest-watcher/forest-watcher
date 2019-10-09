@@ -137,7 +137,7 @@ class RouteDetail extends PureComponent<Props> {
             [
               {
                 text: i18n.t('commonText.cancel'),
-                onPress: () => reject(),
+                onPress: () => reject(new Error()),
                 style: 'cancel'
               },
               {
