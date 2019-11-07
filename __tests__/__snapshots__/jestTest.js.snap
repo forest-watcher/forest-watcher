@@ -20,11 +20,11 @@ exports[`Redux Reducers - Unit Tests snapshot redux reducer action test 1`] = `
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
-  "language": null,
+  "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": true,
-  "version": "1.9.1",
+  "version": "1.9.2",
 }
 `;
 
@@ -32,11 +32,11 @@ exports[`Redux Reducers - Unit Tests snapshot redux reducer initial state test 1
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
-  "language": null,
+  "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.1",
+  "version": "1.9.2",
 }
 `;
 
@@ -44,11 +44,11 @@ exports[`Redux Reducers - Unit Tests snapshot redux reducer multiple action test
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
-  "language": null,
+  "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": true,
-  "version": "1.9.1",
+  "version": "1.9.2",
 }
 `;
 
@@ -56,11 +56,11 @@ exports[`Redux Reducers - Unit Tests snapshot redux reducer multiple action test
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
-  "language": null,
+  "language": "en",
   "offlineMode": true,
   "pristineCacheTooltip": true,
   "synced": true,
-  "version": "1.9.1",
+  "version": "1.9.2",
 }
 `;
 

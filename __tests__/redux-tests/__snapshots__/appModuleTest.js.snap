@@ -4,11 +4,11 @@ exports[`Redux App Module Initial reducer state 1`] = `
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
-  "language": null,
+  "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.1",
+  "version": "1.9.2",
 }
 `;
 
@@ -56,11 +56,11 @@ exports[`Redux App Module Redux Snapshot Thunk Actions showNotConnectedNotificat
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
-  "language": null,
+  "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.1",
+  "version": "1.9.2",
 }
 `;
 
@@ -77,11 +77,11 @@ exports[`Redux App Module Redux Snapshot Thunk Actions showNotConnectedNotificat
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
-  "language": null,
+  "language": "en",
   "offlineMode": true,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.1",
+  "version": "1.9.2",
 }
 `;
 
@@ -97,11 +97,11 @@ exports[`Redux App Module Redux Snapshot Thunk Actions showNotConnectedNotificat
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
-  "language": null,
+  "language": "en",
   "offlineMode": true,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.1",
+  "version": "1.9.2",
 }
 `;
 
@@ -139,11 +139,11 @@ Object {
     undefined,
   ],
   "coordinatesFormat": "decimal",
-  "language": null,
+  "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.1",
+  "version": "1.9.2",
 }
 `;
 
@@ -158,11 +158,11 @@ exports[`Redux App Module Simple Actions: snapshot and reducer test setAppSynced
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
-  "language": null,
+  "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": true,
-  "version": "1.9.1",
+  "version": "1.9.2",
 }
 `;
 
@@ -177,11 +177,11 @@ exports[`Redux App Module Simple Actions: snapshot and reducer test setAppSynced
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
-  "language": null,
+  "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.1",
+  "version": "1.9.2",
 }
 `;
 
@@ -196,11 +196,11 @@ exports[`Redux App Module Simple Actions: snapshot and reducer test setCoordinat
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
-  "language": null,
+  "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.1",
+  "version": "1.9.2",
 }
 `;
 
@@ -215,11 +215,11 @@ exports[`Redux App Module Simple Actions: snapshot and reducer test setCoordinat
 Object {
   "actions": Array [],
   "coordinatesFormat": "degrees",
-  "language": null,
+  "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.1",
+  "version": "1.9.2",
 }
 `;
 
@@ -234,11 +234,11 @@ exports[`Redux App Module Simple Actions: snapshot and reducer test setOfflineMo
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
-  "language": null,
+  "language": "en",
   "offlineMode": true,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.1",
+  "version": "1.9.2",
 }
 `;
 
@@ -253,11 +253,11 @@ exports[`Redux App Module Simple Actions: snapshot and reducer test setOfflineMo
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
-  "language": null,
+  "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.1",
+  "version": "1.9.2",
 }
 `;
 
@@ -272,11 +272,11 @@ exports[`Redux App Module Simple Actions: snapshot and reducer test setPristineC
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
-  "language": null,
+  "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.1",
+  "version": "1.9.2",
 }
 `;
 
@@ -291,11 +291,11 @@ exports[`Redux App Module Simple Actions: snapshot and reducer test setPristineC
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
-  "language": null,
+  "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": false,
   "synced": false,
-  "version": "1.9.1",
+  "version": "1.9.2",
 }
 `;
 
@@ -309,10 +309,10 @@ exports[`Redux App Module Simple Actions: snapshot and reducer test updateApp 2`
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
-  "language": null,
+  "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.1",
+  "version": "1.9.2",
 }
 `;

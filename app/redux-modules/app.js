@@ -31,7 +31,7 @@ const initialState = {
   version,
   actions: [],
   synced: false,
-  language: null,
+  language: getLanguage(),
   offlineMode: false,
   pristineCacheTooltip: true,
   coordinatesFormat: COORDINATES_FORMATS.decimal.value
@@ -59,7 +59,10 @@ export default function reducer(state: AppState = initialState, action: AppActio
       return { ...state, actions };
     }
     case LOGOUT_REQUEST:
-      return initialState;
+      return {
+        ...initialState,
+        language: state.language
+      };
     default:
       return state;
   }

@@ -12,11 +12,11 @@ Object {
   "app": Object {
     "actions": Array [],
     "coordinatesFormat": "decimal",
-    "language": null,
+    "language": "en",
     "offlineMode": false,
     "pristineCacheTooltip": true,
     "synced": false,
-    "version": "1.9.1",
+    "version": "1.9.2",
   },
   "areas": Object {
     "data": Array [],
@@ -1927,11 +1927,11 @@ Object {
   "app": Object {
     "actions": Array [],
     "coordinatesFormat": "decimal",
-    "language": null,
+    "language": "en",
     "offlineMode": false,
     "pristineCacheTooltip": true,
     "synced": false,
-    "version": "1.9.1",
+    "version": "1.9.2",
   },
   "areas": Object {
     "data": Array [],
