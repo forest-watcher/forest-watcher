@@ -1,5 +1,8 @@
 # Forest Watcher Changelog
 
+## [v1.9.2]
+- Fixed app language not being specified after logging out and starting onboarding again
+
 ## [v1.9.1]
 - Upgrade to RN v59.10 to support 64 bit Android in line with Play Store requirements.
 - Removed obsolete fastlane files
