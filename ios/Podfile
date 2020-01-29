@@ -1,31 +1,7 @@
-source 'https://github.com/CocoaPods/Specs.git'
-
-platform :ios, '10.0'
-
-# Important Note!:
-#   In the future (React Native 0.60.x), React Native will support building with cocoapods, and use of `use_frameworks!`.
-#   At the moment, it doesn't quite work, the Google Maps and Firebase dependencies both then fail to compile.
-#
-#   At the next React Native upgrade, after moving the framework references to here, try re-enabling the options
-#   below and add `, :binary => true` to pods to precompile them.
-#   You may need to reference https://github.com/facebook/react-native/issues/25349 for some workarounds.
-#   Some libraries both here & in package.lock may need updating too.
-#
-#   If precompiling the frameworks does work, then remove the pods folder from .gitignore & commit the pre-compiled frameworks.
-#   Then, CI build time should start to decrease ✨
-#plugin 'cocoapods-binary'
-#use_frameworks!
+platform :ios, '9.0'
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
 target 'ForestWatcher' do
-
-  # react-native-app-auth dependency.
-  pod 'AppAuth', '0.95.1' # fixed as 1.0.0 was not supported. would be worth revisiting at the next React Native upgrade.
-
-  # react-native-fbsdk dependencies.
-  pod 'FBSDKCoreKit', '5.0.0'
-  pod 'FBSDKLoginKit', '5.0.0'
-  pod 'FBSDKShareKit', '5.0.0'
-  pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
 
   # react-native-firebase dependency.
   pod 'Firebase/Core', '6.3.0' # fixed as required by react-native-firebase.
@@ -37,13 +13,39 @@ target 'ForestWatcher' do
   pod 'react-native-google-maps', path: '../node_modules/react-native-maps'
   pod 'GoogleMaps', '2.5.0'
   pod 'Google-Maps-iOS-Utils', '2.1.0'
+  pod 'react-native-simple-compass', :path => '../node_modules/react-native-simple-compass'
 
-  # React dependencies, added so that various projects which don't use header search paths can still function correctly.
-  # In the post-install step, these are actually removed as to not conflict with the Xcode version of them.
-  pod 'React', path: '../node_modules/react-native', subspecs: [
-    'RCTImage'
-  ]
-  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+  # Pods for ForestWatcher
+  pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
+  pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
+  pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
+  pod 'RCTTypeSafety', :path => "../node_modules/react-native/Libraries/TypeSafety"
+  pod 'React', :path => '../node_modules/react-native/'
+  pod 'React-Core', :path => '../node_modules/react-native/'
+  pod 'React-CoreModules', :path => '../node_modules/react-native/React/CoreModules'
+  pod 'React-Core/DevSupport', :path => '../node_modules/react-native/'
+  pod 'React-RCTActionSheet', :path => '../node_modules/react-native/Libraries/ActionSheetIOS'
+  pod 'React-RCTAnimation', :path => '../node_modules/react-native/Libraries/NativeAnimation'
+  pod 'React-RCTBlob', :path => '../node_modules/react-native/Libraries/Blob'
+  pod 'React-RCTImage', :path => '../node_modules/react-native/Libraries/Image'
+  pod 'React-RCTLinking', :path => '../node_modules/react-native/Libraries/LinkingIOS'
+  pod 'React-RCTNetwork', :path => '../node_modules/react-native/Libraries/Network'
+  pod 'React-RCTSettings', :path => '../node_modules/react-native/Libraries/Settings'
+  pod 'React-RCTText', :path => '../node_modules/react-native/Libraries/Text'
+  pod 'React-RCTVibration', :path => '../node_modules/react-native/Libraries/Vibration'
+  pod 'React-Core/RCTWebSocket', :path => '../node_modules/react-native/'
+  
+  pod 'React-cxxreact', :path => '../node_modules/react-native/ReactCommon/cxxreact'
+  pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi'
+  pod 'React-jsiexecutor', :path => '../node_modules/react-native/ReactCommon/jsiexecutor'
+  pod 'React-jsinspector', :path => '../node_modules/react-native/ReactCommon/jsinspector'
+  pod 'ReactCommon/jscallinvoker', :path => "../node_modules/react-native/ReactCommon"
+  pod 'ReactCommon/turbomodule/core', :path => "../node_modules/react-native/ReactCommon"
+  pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+
+  pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
+  pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
+  pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
   # react-native-safe-area dependency.
   pod 'react-native-safe-area', :path => '../node_modules/react-native-safe-area'
@@ -63,6 +65,7 @@ target 'ForestWatcher' do
   # magic post-install script that'll fix up some broken dependencies.
   post_install do |installer|
     installer.pods_project.targets.each do |target|
+
       # react-native-google-maps requires this.
       # https://github.com/facebook/react-native/issues/25349 details this - it can maybe be removed after the next React Native upgrade.
       if target.name == 'react-native-google-maps'
@@ -83,11 +86,13 @@ target 'ForestWatcher' do
         target.remove_from_project
       end
 
-      # Set some magic build settings on each of the remaining targets to silence warnings.
+    # Set some magic build settings on each of the remaining targets to silence warnings.
       target.build_configurations.each do |config|
         config.build_settings['CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF'] = 'NO'
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '10.0'
       end
     end
   end
+
+  use_native_modules!
 end
