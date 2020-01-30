@@ -29,17 +29,9 @@
 		98CF896321B5811B00500B2F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98CF896521B5811B00500B2F /* InfoPlist.strings */; };
 		B1E4BA0223E2DCEB00A7BC85 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B1E4BA0123E2DCEB00A7BC85 /* Config.xcconfig */; };
 		BB98AB00E5404C26AF5C1D38 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4C18D7C777D4D279B8ACDAA /* libRNFirebase.a */; };
-		F2A06E03282E46DB9CE8FA9A /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8111E20D7A84341B125D6AB /* libRealmReact.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		32A240821F0A46B3008E6455 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7B3F9961BFAB483781F05B72 /* RealmReact.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F60690131CA2766F0003FB26;
-			remoteInfo = RealmReact;
-		};
 		32CB1661208A59870036D050 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 32CB1654208A59870036D050 /* Lottie.xcodeproj */;
@@ -120,7 +112,6 @@
 		56ADFC001E4DC28800820294 /* firasansot_italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = firasansot_italic.otf; path = Fonts/firasansot_italic.otf; sourceTree = "<group>"; };
 		5D4F624D14DF49A4BF4873B3 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 		6E8A7CAFCE0440FBAA399033 /* SafariServices.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
-		7B3F9961BFAB483781F05B72 /* RealmReact.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RealmReact.xcodeproj; path = "../node_modules/realm/react-native/ios/RealmReact.xcodeproj"; sourceTree = "<group>"; };
 		7CC1FA19BF67424591686AF2 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		9859C0A5221DB02B003429E7 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		989413A7224E6D29008CAE32 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -155,7 +146,6 @@
 				98B1DF6821932067002426DC /* libz.tbd in Frameworks */,
 				42AC781C1E5F36A200A6C0E4 /* libsqlite3.0.tbd in Frameworks */,
 				32E52032208B4560006E6400 /* Lottie.framework in Frameworks */,
-				F2A06E03282E46DB9CE8FA9A /* libRealmReact.a in Frameworks */,
 				2A57A6A2A7194B1FB107C502 /* libc++.tbd in Frameworks */,
 				124989C1D3AC4F4EB5473E00 /* SafariServices.framework in Frameworks */,
 				5178971FFF8F46658E8D3678 /* SystemConfiguration.framework in Frameworks */,
@@ -197,14 +187,6 @@
 				F4C18D7C777D4D279B8ACDAA /* libRNFirebase.a */,
 			);
 			name = "Recovered References";
-			sourceTree = "<group>";
-		};
-		32A2405C1F0A46B3008E6455 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				32A240831F0A46B3008E6455 /* libRealmReact.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		32CB1655208A59870036D050 /* Products */ = {
@@ -259,7 +241,6 @@
 			isa = PBXGroup;
 			children = (
 				32CB1654208A59870036D050 /* Lottie.xcodeproj */,
-				7B3F9961BFAB483781F05B72 /* RealmReact.xcodeproj */,
 				A6E9AB271B3F4C0E94A2A896 /* RNFirebase.xcodeproj */,
 			);
 			name = Libraries;
@@ -379,10 +360,6 @@
 					ProjectRef = 32CB1654208A59870036D050 /* Lottie.xcodeproj */;
 				},
 				{
-					ProductGroup = 32A2405C1F0A46B3008E6455 /* Products */;
-					ProjectRef = 7B3F9961BFAB483781F05B72 /* RealmReact.xcodeproj */;
-				},
-				{
 					ProductGroup = 98224D5922FC4F2C00D2BAE7 /* Products */;
 					ProjectRef = A6E9AB271B3F4C0E94A2A896 /* RNFirebase.xcodeproj */;
 				},
@@ -395,13 +372,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		32A240831F0A46B3008E6455 /* libRealmReact.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRealmReact.a;
-			remoteRef = 32A240821F0A46B3008E6455 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		32CB1662208A59870036D050 /* Lottie.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;

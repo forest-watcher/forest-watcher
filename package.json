@@ -72,7 +72,7 @@
     "react-native-webview": "5.8.1",
     "react-native-zip-archive": "4.1.2",
     "react-redux": "5.1.1",
-    "realm": "2.29.1",
+    "realm": "3.6.0",
     "redux": "4.0.1",
     "redux-devtools-extension": "2.13.6",
     "redux-saga": "0.16.2",
