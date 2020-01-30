@@ -358,8 +358,6 @@ PODS:
     - React
   - rn-fetch-blob (0.12.0):
     - React-Core
-  - RNCViewpager (1.1.7):
-    - React
   - RNFirebase (5.5.6):
     - Firebase/Core
     - React
@@ -437,7 +435,6 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeNavigation (from `../node_modules/react-native-navigation`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
-  - "RNCViewpager (from `../node_modules/@react-native-community/viewpager`)"
   - RNFirebase (from `../node_modules/react-native-firebase/ios`)
   - RNI18n (from `../node_modules/react-native-i18n`)
   - RNZipArchive (from `../node_modules/react-native-zip-archive`)
@@ -547,8 +544,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-navigation"
   rn-fetch-blob:
     :path: "../node_modules/rn-fetch-blob"
-  RNCViewpager:
-    :path: "../node_modules/@react-native-community/viewpager"
   RNFirebase:
     :path: "../node_modules/react-native-firebase/ios"
   RNI18n:
@@ -617,7 +612,6 @@ SPEC CHECKSUMS:
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   ReactNativeNavigation: 52e621f6dd7b4d363dc90c747ea8761017d53958
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
-  RNCViewpager: d11d720f0c6fbd2024788d09108a9f7abb1fac5a
   RNFirebase: ac0de8b24c6f91ae9459575491ed6a77327619c6
   RNI18n: e2f7e76389fcc6e84f2c8733ea89b92502351fd8
   RNZipArchive: 2179f7a0755905d68a3b0f2d9332796cca1e7aa4
