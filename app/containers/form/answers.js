@@ -4,7 +4,7 @@ import type { State } from 'types/store.types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Platform } from 'react-native';
-import RNFetchBlob from 'react-native-fetch-blob';
+import RNFetchBlob from 'rn-fetch-blob';
 
 import { showNotConnectedNotification, showExportReportsSuccessfulNotification } from 'redux-modules/app';
 import { saveReport, uploadReport, deleteReport, setReportAnswer } from 'redux-modules/reports';

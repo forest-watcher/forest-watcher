@@ -79,3 +79,6 @@ realm-object-server/io\.realm\.object-server-utility/metadata/
 reports/**
 
 .env
+
+# react-native-config codegen
+ios/tmp.xcconfig

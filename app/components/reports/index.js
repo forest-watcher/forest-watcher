@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import { NativeModules, Platform, View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import RNFetchBlob from 'react-native-fetch-blob';
+import RNFetchBlob from 'rn-fetch-blob';
 
 import Row from 'components/common/row';
 import moment from 'moment';
