@@ -1227,6 +1227,13 @@
     wcwidth "^1.0.1"
     ws "^1.1.0"
 
+"@react-native-community/cookies@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@react-native-community/cookies/-/cookies-2.0.3.tgz#274e7d14ec0bd9b3ed9b0d96e8b0fdaddf103883"
+  integrity sha512-jjIPvBsGHHuz/kUEu3cx2ZBYzhmueGhrk/17jp1M19Dpl1qNzdeR2+piry3fUrdqTtZ0rCA07gLx+SpFF3c3ZQ==
+  dependencies:
+    invariant "^2.2.4"
+
 "@react-native-community/netinfo@5.3.3":
   version "5.3.3"
   resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-5.3.3.tgz#2e627456d83c1d75d4c43ab6cef70fe125b9691d"
@@ -4368,7 +4375,7 @@ inquirer@^6.4.1:
     strip-ansi "^5.1.0"
     through "^2.3.6"
 
-invariant@*, invariant@2.2.4, invariant@^2.1.0, invariant@^2.2.2, invariant@^2.2.4:
+invariant@*, invariant@2.2.4, invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -7178,13 +7185,6 @@ react-native-config@0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-0.12.0.tgz#910e52226b60e0c9f2b648772eea2a93f8701751"
   integrity sha512-lC8QOZCGCXgFh74uWSVGMaChg+Qf2BScWzVd9C4yrFnfxrHSFyIekqOOq/sjE8Uu2ifgxZmSiK1Z8EEi78AmQA==
-
-react-native-cookies@3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/react-native-cookies/-/react-native-cookies-3.3.0.tgz#527f65eb2d8a7a000107706bb11beb57f511e701"
-  integrity sha512-GobKo8Kvyuif6ROj6rDAjQJpCSLazcZl6AgZb1z7ldB9FrMtetQzXvIehS0QcwbpnXWyJzXJaY0yrlDjFz+NaA==
-  dependencies:
-    invariant "^2.1.0"
 
 react-native-datepicker@1.7.2:
   version "1.7.2"

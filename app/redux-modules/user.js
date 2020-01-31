@@ -8,7 +8,7 @@ import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import Config from 'react-native-config';
 import oAuth from 'config/oAuth';
 
-const CookieManager = require('react-native-cookies');
+const CookieManager = require('@react-native-community/cookies');
 
 // Actions
 const GET_USER_REQUEST = 'user/GET_USER_REQUEST';
