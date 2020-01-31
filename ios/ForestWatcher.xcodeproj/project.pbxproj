@@ -99,8 +99,6 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ForestWatcher/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ForestWatcher/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ForestWatcher/main.m; sourceTree = "<group>"; };
-		21DAFAF673A54569B81DC361 /* libRNZipArchive.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNZipArchive.a; sourceTree = "<group>"; };
-		273D43849ADA4B9789A06E01 /* libRNSimpleCompass.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSimpleCompass.a; sourceTree = "<group>"; };
 		32CB1654208A59870036D050 /* Lottie.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lottie.xcodeproj; path = "../node_modules/lottie-ios/Lottie.xcodeproj"; sourceTree = "<group>"; };
 		32E7465A3A548E56AED21060 /* Pods-ForestWatcher.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForestWatcher.release.xcconfig"; path = "Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher.release.xcconfig"; sourceTree = "<group>"; };
 		42AC781B1E5F36A200A6C0E4 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
@@ -110,7 +108,6 @@
 		564A88C61E3A415B008BA75C /* firasansot_medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = firasansot_medium.ttf; path = Fonts/firasansot_medium.ttf; sourceTree = "<group>"; };
 		564A88C71E3A415B008BA75C /* firasansot_regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = firasansot_regular.ttf; path = Fonts/firasansot_regular.ttf; sourceTree = "<group>"; };
 		56ADFC001E4DC28800820294 /* firasansot_italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = firasansot_italic.otf; path = Fonts/firasansot_italic.otf; sourceTree = "<group>"; };
-		5D4F624D14DF49A4BF4873B3 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 		6E8A7CAFCE0440FBAA399033 /* SafariServices.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		7CC1FA19BF67424591686AF2 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		9859C0A5221DB02B003429E7 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -126,13 +123,10 @@
 		98CF896721B5811E00500B2F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		98CF896821B5811F00500B2F /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		98CF896921B5811F00500B2F /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		A28DC2A5220D42359951057B /* libReactNativeConfig.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeConfig.a; sourceTree = "<group>"; };
 		A6E9AB271B3F4C0E94A2A896 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
 		B1E4BA0123E2DCEB00A7BC85 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		DAE567D09F6983E55C4F5406 /* libPods-ForestWatcher.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ForestWatcher.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFD632EF65604568B651A931 /* AddressBook.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
-		E8111E20D7A84341B125D6AB /* libRealmReact.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRealmReact.a; sourceTree = "<group>"; };
-		EBAC25D618AF41158F76551B /* libRCTBackgroundGeolocation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTBackgroundGeolocation.a; sourceTree = "<group>"; };
 		F4C18D7C777D4D279B8ACDAA /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 		F6A3AEC1B0088431E92A6B3B /* Pods-ForestWatcher.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForestWatcher.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -175,20 +169,6 @@
 			name = ForestWatcher;
 			sourceTree = "<group>";
 		};
-		326270761F74FDFB007511AC /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				A28DC2A5220D42359951057B /* libReactNativeConfig.a */,
-				5D4F624D14DF49A4BF4873B3 /* libRNFetchBlob.a */,
-				E8111E20D7A84341B125D6AB /* libRealmReact.a */,
-				21DAFAF673A54569B81DC361 /* libRNZipArchive.a */,
-				EBAC25D618AF41158F76551B /* libRCTBackgroundGeolocation.a */,
-				273D43849ADA4B9789A06E01 /* libRNSimpleCompass.a */,
-				F4C18D7C777D4D279B8ACDAA /* libRNFirebase.a */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		32CB1655208A59870036D050 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -207,6 +187,7 @@
 				98A5EE8521AC2DBF0079AF2A /* UIKit.framework */,
 				98A5EE2521AC2AC00079AF2A /* MapKit.framework */,
 				42AC781B1E5F36A200A6C0E4 /* libsqlite3.0.tbd */,
+				F4C18D7C777D4D279B8ACDAA /* libRNFirebase.a */,
 				01DAAFC2547C467BA03F1D7A /* libc++.tbd */,
 				7CC1FA19BF67424591686AF2 /* libz.tbd */,
 				6E8A7CAFCE0440FBAA399033 /* SafariServices.framework */,
@@ -254,7 +235,6 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				45A6AD05F54FD09326DA9BF6 /* Frameworks */,
-				326270761F74FDFB007511AC /* Recovered References */,
 				5DEF68E765BC5ED4E211584D /* Pods */,
 			);
 			indentWidth = 2;
