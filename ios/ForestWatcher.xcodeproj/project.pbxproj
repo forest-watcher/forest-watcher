@@ -290,7 +290,6 @@
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
-				B1E4BA0923E2DD3B00A7BC85 /* Create RNConfig Config File */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				32E52070208B4560006E6400 /* Embed Frameworks */,
 				5F7D7882DDFFCD0ED23EF858 /* [CP] Copy Pods Resources */,
@@ -494,24 +493,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym\n";
-		};
-		B1E4BA0923E2DD3B00A7BC85 /* Create RNConfig Config File */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Create RNConfig Config File";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../node_modules/react-native-config/ios/ReactNativeConfig/BuildXCConfig.rb\" \"${SRCROOT}/..\" \"${SRCROOT}/tmp.xcconfig\"\n";
 		};
 		B1E4BA1523E2E1D500A7BC85 /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
