@@ -36,44 +36,42 @@ export default StyleSheet.create({
     marginBottom: 16,
     borderRadius: 32,
     justifyContent: 'center',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    paddingHorizontal: 22
+  },
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  buttonTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   iconArrow: {
     width: 10,
-    height: 18,
-    position: 'absolute',
-    right: 24,
-    top: 3
+    height: 18
   },
   buttonFacebook: {
     backgroundColor: Theme.socialNetworks.facebook
   },
   iconFacebook: {
-    width: 12,
-    height: 21,
-    position: 'absolute',
-    left: 24,
-    top: 2
+    width: 23,
+    height: 21
   },
   buttonTwitter: {
     backgroundColor: Theme.socialNetworks.twitter
   },
   iconTwitter: {
     width: 23,
-    height: 20,
-    position: 'absolute',
-    left: 20,
-    top: 4
+    height: 20
   },
   buttonGoogle: {
     backgroundColor: Theme.socialNetworks.google
   },
   iconGoogle: {
-    width: 21,
-    height: 21,
-    position: 'absolute',
-    left: 20,
-    top: 3
+    width: 23,
+    height: 21
   },
   buttonCountry: {
     backgroundColor: Theme.colors.color3,
@@ -84,7 +82,7 @@ export default StyleSheet.create({
     color: Theme.fontColors.white,
     fontSize: 17,
     fontWeight: '400',
-    marginLeft: 56
+    marginLeft: 18
   },
   buttonTextCountry: {
     marginLeft: 24

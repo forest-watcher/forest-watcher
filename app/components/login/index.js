@@ -235,9 +235,11 @@ class Login extends PureComponent<Props, State> {
               underlayColor={Theme.socialNetworks.facebook}
               disabled={this.props.loading}
             >
-              <View>
-                <Image style={styles.iconFacebook} source={facebookIcon} />
-                <Text style={styles.buttonText}>{i18n.t('login.facebookTitle')}</Text>
+              <View style={styles.buttonContent}>
+                <View style={styles.buttonTitleContainer}>
+                  <Image resizeMode={'contain'} style={styles.iconFacebook} source={facebookIcon} />
+                  <Text style={styles.buttonText}>{i18n.t('login.facebookTitle')}</Text>
+                </View>
                 <Image style={styles.iconArrow} source={nextIcon} />
               </View>
             </TouchableHighlight>
@@ -248,9 +250,11 @@ class Login extends PureComponent<Props, State> {
               underlayColor={Theme.socialNetworks.twitter}
               disabled={this.props.loading}
             >
-              <View>
-                <Image style={styles.iconTwitter} source={twitterIcon} />
-                <Text style={styles.buttonText}>{i18n.t('login.twitterTitle')}</Text>
+              <View style={styles.buttonContent}>
+                <View style={styles.buttonTitleContainer}>
+                  <Image resizeMode={'contain'} style={styles.iconTwitter} source={twitterIcon} />
+                  <Text style={styles.buttonText}>{i18n.t('login.twitterTitle')}</Text>
+                </View>
                 <Image style={styles.iconArrow} source={nextIcon} />
               </View>
             </TouchableHighlight>
@@ -261,9 +265,11 @@ class Login extends PureComponent<Props, State> {
               underlayColor={Theme.socialNetworks.google}
               disabled={this.props.loading}
             >
-              <View>
-                <Image style={styles.iconGoogle} source={googleIcon} />
-                <Text style={styles.buttonText}>{i18n.t('login.googleTitle')}</Text>
+              <View style={styles.buttonContent}>
+                <View style={styles.buttonTitleContainer}>
+                  <Image resizeMode={'contain'} style={styles.iconGoogle} source={googleIcon} />
+                  <Text style={styles.buttonText}>{i18n.t('login.googleTitle')}</Text>
+                </View>
                 <Image style={styles.iconArrow} source={nextIcon} />
               </View>
             </TouchableHighlight>
