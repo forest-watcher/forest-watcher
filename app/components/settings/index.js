@@ -114,7 +114,7 @@ class Settings extends Component<Props> {
     const { logout, isUnsafeLogout } = this.props;
     const proceedWithLogout = () => {
       logout();
-      launchAppRoot('ForestWatcher.Walkthrough');
+      launchAppRoot('ForestWatcher.Login');
     };
     if (isUnsafeLogout) {
       Alert.alert(i18n.t('settings.unsafeLogout'), i18n.t('settings.unsavedDataLost'), [

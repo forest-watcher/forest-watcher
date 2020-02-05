@@ -75,7 +75,7 @@ class Home extends Component<Props> {
     } else {
       Navigation.setStackRoot(componentId, {
         component: {
-          name: 'ForestWatcher.Walkthrough'
+          name: 'ForestWatcher.Login'
         }
       });
     }
