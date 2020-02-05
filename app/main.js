@@ -36,7 +36,7 @@ export default class App {
     });
 
     const state = this.store.getState();
-    let screen = 'ForestWatcher.Login';
+    let screen = 'ForestWatcher.Home';
     if (state.user.loggedIn && state.app.synced) {
       screen = 'ForestWatcher.Dashboard';
     }
