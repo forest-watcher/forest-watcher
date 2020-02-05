@@ -55,10 +55,13 @@
         "searchPlaceholder": "Search for a country"
     },
     "dashboard": {
+        "areas": "Areas",
         "downloadFailed": "Download failed",
         "makeAvailableOffline": "Make available offline",
         "map": "Map",
-        "myReports": "My reports"
+        "reports": "Reports",
+        "routes": "Routes",
+        "settings": "Settings"
     },
     "datasets": {
         "umd_as_it_happens": "Deforestation (GLAD)",
