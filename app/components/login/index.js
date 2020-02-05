@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { Alert, View, Text, TouchableHighlight, Image, ActivityIndicator, SafeAreaView } from 'react-native';
+import { Alert, View, Text, TouchableHighlight, Image, ImageBackground, ActivityIndicator } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 import SafeArea from 'react-native-safe-area';
@@ -14,6 +14,10 @@ import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import { getLanguage } from 'helpers/language';
 
+import { withSafeArea } from 'react-native-safe-area';
+const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
+const WebViewSafeAreaView = withSafeArea(View, 'padding', 'top');
+
 import { launchAppRoot } from 'main';
 import moment from 'moment';
 const parseUrl = require('url-parse');
@@ -25,6 +29,7 @@ import 'moment/locale/id';
 
 import styles from './styles';
 
+const headerImage = require('assets/login_bg.jpg');
 const logoIcon = require('assets/logo_dark.png');
 const facebookIcon = require('assets/facebook_white.png');
 const twitterIcon = require('assets/twitter_white.png');
@@ -179,7 +184,7 @@ class Login extends PureComponent<Props, State> {
 
   renderWebview() {
     return (
-      <View style={{ flex: 1 }}>
+      <WebViewSafeAreaView style={{ flex: 1 }}>
         <View
           style={[
             styles.webViewHeader,
@@ -209,17 +214,17 @@ class Login extends PureComponent<Props, State> {
           onNavigationStateChange={this.onNavigationStateChange}
           startInLoadingState
         />
-      </View>
+      </WebViewSafeAreaView>
     );
   }
 
   renderSignInPage() {
     return (
-      <View>
+      <View style={styles.signInContainer}>
         {this.props.loading && Login.renderLoading()}
-        <View style={styles.intro}>
-          <Image style={styles.logo} source={logoIcon} />
-        </View>
+        <ImageBackground  resizeMode="cover" style={styles.intro} source={headerImage}>
+          <Image source={logoIcon} />
+        </ImageBackground>
         <View style={styles.bottomContainer}>
           <View style={styles.buttons}>
             <Text style={styles.buttonsLabel}>{i18n.t('login.introductionText')}</Text>
@@ -263,18 +268,19 @@ class Login extends PureComponent<Props, State> {
               </View>
             </TouchableHighlight>
           </View>
-          <Text style={styles.versionText}>{this.state.versionName}</Text>
         </View>
+        <Text style={styles.versionText}>{this.state.versionName}</Text>
       </View>
     );
   }
 
   render() {
+    const ContentView = this.state.webviewVisible ? View : SafeAreaView;
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <ContentView style={{ flex: 1 }}>
         {this.state.webviewVisible && this.renderWebview()}
         {!this.state.webviewVisible && this.renderSignInPage()}
-      </SafeAreaView>
+      </ContentView>
     );
   }
 }

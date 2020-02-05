@@ -7,15 +7,12 @@ export default StyleSheet.create({
     flex: 1
   },
   intro: {
-    alignItems: 'center'
-  },
-  logo: {
-    width: 108,
-    height: 112,
-    marginTop: 80
+    alignItems: 'center',
+    paddingVertical: 26
   },
   bottomContainer: {
-    justifyContent: 'space-between'
+    justifyContent: 'center',
+    flexGrow: 1
   },
   buttons: {
     marginTop: 70
@@ -25,7 +22,8 @@ export default StyleSheet.create({
     color: Theme.fontColors.light,
     fontSize: 17,
     fontWeight: '400',
-    marginLeft: Theme.margin.left,
+    marginBottom: 24,
+    textAlign: "center",
     ...Platform.select({
       android: {
         marginBottom: 8
@@ -33,10 +31,9 @@ export default StyleSheet.create({
     })
   },
   button: {
-    height: 64,
-    marginLeft: 8,
-    marginRight: 8,
-    marginBottom: 8,
+    height: 56,
+    marginHorizontal: 24,
+    marginBottom: 16,
     borderRadius: 32,
     justifyContent: 'center',
     overflow: 'hidden'
@@ -46,7 +43,7 @@ export default StyleSheet.create({
     height: 18,
     position: 'absolute',
     right: 24,
-    top: 2
+    top: 3
   },
   buttonFacebook: {
     backgroundColor: Theme.socialNetworks.facebook
@@ -92,6 +89,9 @@ export default StyleSheet.create({
   buttonTextCountry: {
     marginLeft: 24
   },
+  signInContainer: {
+    flexGrow: 1
+  },
   webViewHeader: {
     flexDirection: 'row',
     alignItems: 'flex-end',
@@ -134,6 +134,7 @@ export default StyleSheet.create({
     backgroundColor: Theme.colors.color4,
     fontSize: 15,
     fontWeight: '400',
+    flex: 1,
     paddingTop: 4,
     paddingBottom: 4,
     paddingLeft: 10,
@@ -159,7 +160,7 @@ export default StyleSheet.create({
     backgroundColor: 'transparent',
     left: 0,
     right: 0,
-    top: 192,
+    top: 272,
     bottom: 0,
     position: 'absolute',
     zIndex: 5
