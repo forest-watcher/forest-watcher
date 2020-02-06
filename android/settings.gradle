@@ -3,6 +3,7 @@ rootProject.name = 'forest-watcher-android-client'
 include ':app',
 		':@mauron85_react-native-background-geolocation',
 		':@mauron85_react-native-background-geolocation-common',
+		':@react-native-community_async-storage',
 		':@react-native-community_viewpager',
 		':react-native-dialogs',
 		':react-native-firebase',
@@ -15,6 +16,7 @@ include ':app',
 project(':realm').projectDir = new File(rootProject.projectDir, '../node_modules/realm/android')
 project(':@mauron85_react-native-background-geolocation').projectDir = new File(rootProject.projectDir, '../node_modules/@mauron85/react-native-background-geolocation/android/lib')
 project(':@mauron85_react-native-background-geolocation-common').projectDir = new File(rootProject.projectDir, '../node_modules/@mauron85/react-native-background-geolocation/android/common')
+project(':@react-native-community_async-storage').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/async-storage/android')
 project(':@react-native-community_viewpager').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/viewpager/android')
 project(':react-native-dialogs').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-dialogs/android')
 project(':react-native-firebase').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-firebase/android')
