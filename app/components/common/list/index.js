@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, ScrollView, Image, TouchableHighlight, Text, Platform, TouchableNativeFeedback } from 'react-native';
-import FastImage from 'react-native-fast-image';
 
 import Theme from 'config/theme';
 import styles from './styles';
@@ -42,7 +41,7 @@ function List(props) {
             style={props.bigSeparation ? [styles.container, styles.containerBigSeparation] : [styles.container]}
           >
             <View style={data.text ? styles.containerImageText : styles.containerOnlyImage}>
-              {data.image && <FastImage style={styles.imageList} source={data.image} resizeMode={'contain'} />}
+              {data.image && <Image style={styles.imageList} source={data.image} resizeMode={'contain'} />}
               {data.text && <Text style={styles.text}>{data.text}</Text>}
             </View>
             <Image style={styles.nextIcon} source={nextImage} />
