@@ -14,7 +14,7 @@ const icons = {};
 function ActionButton(props) {
   function onButtonPress() {
     if (!props.disabled) {
-      props.onPress();
+      props.onPress?.();
     }
   }
   const containerStyles = [
@@ -58,7 +58,7 @@ function ActionButton(props) {
 
   let arrowIcon = nextIconWhite;
   let underlayColor = Platform.select({ android: Theme.background.white, ios: Theme.background.secondary });
-  if (props.light || props.dark) {
+  if (props.light || props.dark || props.secondary) {
     underlayColor = Theme.background.white;
     arrowIcon = nextIcon;
   }
