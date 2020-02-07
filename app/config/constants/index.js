@@ -58,7 +58,7 @@ export const LOCATION_TRACKING = {
   stopOnStillActivity: false,
   notificationTitle: i18n.t('routes.notification.title'),
   notificationText: i18n.t('routes.notification.message'),
-  notificationIconColor: Theme.colors.color5
+  notificationIconColor: Theme.colors.white
 };
 
 export const TILE_SERVERS = {
@@ -123,22 +123,22 @@ export const LAYERSi18n = {
 };
 
 export const ALERTS_COLOR = {
-  [DATASETS.GLAD]: Theme.colors.colorGlad,
-  [DATASETS.VIIRS]: Theme.colors.colorViirs
+  [DATASETS.GLAD]: Theme.colors.glad,
+  [DATASETS.VIIRS]: Theme.colors.viirs
 };
 
 export const ALERTS_LEGEND = {
   [DATASETS.GLAD]: [
     {
       label: i18n.t('map.recent'),
-      color: `rgba(${hexToRgb(Theme.colors.colorRecent)}, 0.8)`
+      color: `rgba(${hexToRgb(Theme.colors.recent)}, 0.8)`
     }
   ],
   [DATASETS.VIIRS]: [],
   common: [
     {
       label: i18n.t('map.reported'),
-      color: `rgba(${hexToRgb(Theme.colors.color1)}, 0.8)`
+      color: `rgba(${hexToRgb(Theme.colors.turtleGreen)}, 0.8)`
     }
   ]
 };

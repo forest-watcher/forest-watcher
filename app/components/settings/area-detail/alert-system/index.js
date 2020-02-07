@@ -33,7 +33,7 @@ class AlertSystem extends React.PureComponent<Props> {
   static renderLoadingState() {
     return (
       <View style={styles.loader}>
-        <ActivityIndicator color={Theme.colors.color1} style={{ height: 80 }} size="large" />
+        <ActivityIndicator color={Theme.colors.turtleGreen} style={{ height: 80 }} size="large" />
       </View>
     );
   }

@@ -12,12 +12,7 @@ export default StyleSheet.create({
     height: Theme.screen.height
   },
   label: {
-    marginLeft: 16,
-    marginBottom: 8,
-    fontSize: 17,
-    color: Theme.fontColors.light,
-    fontFamily: Theme.font,
-    fontWeight: '400'
+    ...Theme.sectionHeaderText
   },
   list: {
     flex: 1,

@@ -48,7 +48,7 @@ function ActionButton(props) {
     props.error ? styles.buttonTextError : '',
     props.delete ? styles.buttonTextError : '',
     props.transparent
-      ? { color: props.delete ? Theme.colors.color7 : props.light || props.dark ? '' : Theme.background.secondary }
+      ? { color: props.delete ? Theme.colors.carnation : props.light || props.dark ? '' : Theme.background.secondary }
       : ''
   ];
 
@@ -63,8 +63,8 @@ function ActionButton(props) {
   if (props.monochrome) {
     arrowIcon = nextIcon;
   }
-  if (props.disabled) underlayColor = Theme.colors.color6;
-  if (props.error || props.delete) underlayColor = Theme.colors.color7;
+  if (props.disabled) underlayColor = Theme.colors.veryLightPinkTwo;
+  if (props.error || props.delete) underlayColor = Theme.colors.carnation;
 
   const Touchable = Platform.select({
     android: TouchableNativeFeedback,

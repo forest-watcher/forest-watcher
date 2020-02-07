@@ -56,7 +56,7 @@ class SetupCountry extends Component {
   renderLoading() {
     return (
       <View style={[styles.container, styles.center]}>
-        <ActivityIndicator color={Theme.colors.color1} style={{ height: 80 }} size={'large'} />
+        <ActivityIndicator color={Theme.colors.turtleGreen} style={{ height: 80 }} size={'large'} />
       </View>
     );
   }

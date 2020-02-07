@@ -14,20 +14,20 @@ export default StyleSheet.create({
     marginRight: 12
   },
   dark: {
-    backgroundColor: Theme.colors.color6,
-    borderColor: Theme.colors.color6
+    backgroundColor: Theme.colors.veryLightPinkTwo,
+    borderColor: Theme.colors.veryLightPinkTwo
   },
   light: {
     backgroundColor: Theme.background.white,
     borderColor: Theme.background.white
   },
   disabled: {
-    backgroundColor: Theme.colors.color6,
-    borderColor: Theme.colors.color6
+    backgroundColor: Theme.colors.veryLightPinkTwo,
+    borderColor: Theme.colors.veryLightPinkTwo
   },
   error: {
-    backgroundColor: Theme.colors.color7,
-    borderColor: Theme.colors.color7
+    backgroundColor: Theme.colors.carnation,
+    borderColor: Theme.colors.carnation
   },
   transparent: {
     backgroundColor: 'transparent'

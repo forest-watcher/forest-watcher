@@ -45,7 +45,7 @@ class AreaDetail extends Component<Props, State> {
           {
             id: 'deleteArea',
             icon: deleteIcon,
-            color: Theme.colors.color1
+            color: Theme.colors.turtleGreen
           }
         ]
       }
@@ -202,7 +202,7 @@ class AreaDetail extends Component<Props, State> {
                   onSubmitEditing={this.onNameSubmit}
                   onBlur={this.onNameSubmit}
                   underlineColorAndroid="transparent"
-                  selectionColor={Theme.colors.color1}
+                  selectionColor={Theme.colors.turtleGreen}
                   placeholderTextColor={Theme.fontColors.light}
                 />
               </View>

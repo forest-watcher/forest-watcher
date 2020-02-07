@@ -38,7 +38,7 @@ function InputNumber(props: Props) {
           onChangeText={handleChange}
           placeholder={props.question.defaultValue}
           underlineColorAndroid="transparent"
-          selectionColor={Theme.colors.color1}
+          selectionColor={Theme.colors.turtleGreen}
           placeholderTextColor={Theme.fontColors.light}
         />
       </View>

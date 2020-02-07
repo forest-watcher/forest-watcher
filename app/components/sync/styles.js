@@ -28,13 +28,13 @@ export default StyleSheet.create({
     justifyContent: 'center'
   },
   title: {
-    color: Theme.colors.color1,
+    color: Theme.colors.turtleGreen,
     fontSize: 21,
     textAlign: 'center',
     marginTop: 66
   },
   subtitle: {
-    color: Theme.colors.color3,
+    color: Theme.colors.grey,
     marginTop: 18,
     marginBottom: 25,
     maxWidth: 300,
