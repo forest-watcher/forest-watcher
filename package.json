@@ -50,6 +50,7 @@
     "prop-types": "15.7.2",
     "react": "16.9.0",
     "react-native": "0.61.5",
+    "react-native-actions-sheet": "0.1.9",
     "react-native-app-auth": "5.0.0",
     "react-native-config": "0.12.0",
     "react-native-datepicker": "1.7.2",

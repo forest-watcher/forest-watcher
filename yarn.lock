@@ -7168,6 +7168,11 @@ react-lifecycles-compat@^3.0.0:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-native-actions-sheet@^0.1.9:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/react-native-actions-sheet/-/react-native-actions-sheet-0.1.9.tgz#03409456a5d793a2ff36482b754270880a936d32"
+  integrity sha512-MYioZKkvNJr53Z0jGHK5MIuvXjptGmbzRgfqT16bgIyFjE2Wm0DK962K9c5s8bcfrRmeE+lJ+LV+nUQw6dRimQ==
+
 react-native-app-auth@5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/react-native-app-auth/-/react-native-app-auth-5.0.0.tgz#77e1fc5738b53fad7cb4f31c6f73a3246d43b2a8"

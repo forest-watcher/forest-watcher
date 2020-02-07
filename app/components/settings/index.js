@@ -134,9 +134,7 @@ class Settings extends Component<Props> {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          <Text style={styles.label}>{i18n.t('settings.loggedIn')}</Text>
-
-          <View style={styles.user}>
+          <Row style={styles.user}>
             {hasUserData ? (
               <View style={styles.info}>
                 <Text style={styles.name}>{this.props.user.fullName}</Text>
@@ -160,11 +158,9 @@ class Settings extends Component<Props> {
             <TouchableHighlight activeOpacity={0.5} underlayColor="transparent" onPress={this.onLogoutPress}>
               <Text style={styles.logout}>{i18n.t('settings.logOut')}</Text>
             </TouchableHighlight>
-          </View>
-
-          <View style={styles.coordinates}>
-            <CoordinatesDropdown />
-          </View>
+          </Row>
+          <Text style={styles.label}>{i18n.t('settings.coordinatesFormat')}</Text>
+          <CoordinatesDropdown/>
           <View style={styles.offlineMode}>
             <Row value={offlineMode} onValueChange={setOfflineMode}>
               <Text style={[styles.label, { marginLeft: 0 }]}>{i18n.t('settings.offlineMode')}</Text>

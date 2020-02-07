@@ -18,27 +18,13 @@ export default StyleSheet.create({
     paddingBottom: 30
   },
   label: {
-    fontFamily: Theme.font,
-    color: Theme.fontColors.light,
-    fontSize: 17,
-    fontWeight: '400',
-    marginLeft: Theme.margin.left,
-    ...Platform.select({
-      android: {
-        marginBottom: 6
-      }
-    })
+    ...Theme.sectionHeaderText
   },
   user: {
-    height: 72,
-    paddingLeft: Theme.margin.left,
-    paddingRight: Theme.margin.right,
-    backgroundColor: Theme.colors.white,
-    borderBottomColor: Theme.borderColors.main,
-    borderBottomWidth: 2,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    flex: 1
   },
   info: {
     width: '66%'
@@ -74,16 +60,6 @@ export default StyleSheet.create({
     fontWeight: '500',
     marginTop: 2,
     marginRight: 10
-  },
-  coordinates: {
-    height: 72,
-    paddingLeft: Theme.margin.left,
-    paddingRight: Theme.margin.right,
-    borderBottomColor: Theme.borderColors.main,
-    borderBottomWidth: 2,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
   },
   offlineMode: {
     width: Theme.screen.width,

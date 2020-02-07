@@ -26,7 +26,7 @@ function Row(props) {
       onPress={onPress}
     >
       <View style={[styles.row, props.rowStyle]}>
-        <View>{props.children}</View>
+        <View style={props.style}>{props.children}</View>
         {hasCustomSwitch && (
           <CustomSwitch
             value={props.value}
