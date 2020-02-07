@@ -24,6 +24,7 @@ function ActionButton(props) {
     props.dark ? styles.dark : '',
     props.light ? styles.light : '',
     props.disabled ? styles.disabled : '',
+    props.secondary ? styles.secondary : '',
     props.error ? styles.error : '',
     props.delete ? styles.error : '',
     props.transparent ? styles.transparent : '',
@@ -47,6 +48,7 @@ function ActionButton(props) {
     props.disabled ? styles.buttonTextDisabled : '',
     props.error ? styles.buttonTextError : '',
     props.delete ? styles.buttonTextError : '',
+    props.secondary ? styles.buttonTextSecondary : '',
     props.transparent
       ? { color: props.delete ? Theme.colors.carnation : props.light || props.dark ? '' : Theme.background.secondary }
       : ''
@@ -97,7 +99,7 @@ function ActionButton(props) {
             <Image style={Theme.icon} source={icons[props.icon]} />
           </View>
         )}
-        {props.text && <Text style={textStyles}>{props.text.toUpperCase()}</Text>}
+        {props.text && <Text style={textStyles}>{props.text}</Text>}
         {!(props.disabled || props.delete || props.noIcon) && (
           <View style={styles.iconContainer}>
             <Image style={arrowIconStyles} source={arrowIcon} />
@@ -120,6 +122,7 @@ ActionButton.propTypes = {
   left: PropTypes.bool,
   disabled: PropTypes.bool,
   delete: PropTypes.bool,
+  secondary: PropTypes.bool,
   short: PropTypes.bool,
   error: PropTypes.bool,
   icon: PropTypes.string,

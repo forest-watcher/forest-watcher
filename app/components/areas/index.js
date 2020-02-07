@@ -132,6 +132,7 @@ class Areas extends Component<Props> {
         <BottomTray>
           <ActionButton
             noIcon
+            secondary
             text={i18n.t('areas.share')}
           />
         </BottomTray>
