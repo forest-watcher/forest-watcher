@@ -72,6 +72,9 @@
         "umd_as_it_happens": "Deforestation (GLAD)",
         "viirs": "Fires (VIIRS)"
     },
+    "dropdown": {
+        "done": "Done"
+    },
     "faq": {
         "eighthQuestion": {
             "title": "What does the satellite imagery basemap show?"

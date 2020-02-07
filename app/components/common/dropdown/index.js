@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Picker } from 'react-native';
+import { View, Text, TouchableOpacity, Picker } from 'react-native';
 
 import ActionSheet from 'react-native-actions-sheet';
 import Row from 'components/common/row';
 import styles from './styles';
 
+import { withSafeArea } from "react-native-safe-area";
+
+import i18n from 'locales';
+
+const SafeAreaView = withSafeArea(View, 'padding', 'bottom')
 const nextIcon = require('assets/next.png');
 
 type Props = {
@@ -27,15 +32,24 @@ class Dropdown extends Component<Props> {
       callback: this.onShowActionSheet.bind(this),
       icon: nextIcon
     }
+
+    this.onDismissActionSheet = this.onDismissActionSheet.bind(this);
+  }
+
+  onDismissActionSheet() {
+    this.actionSheet?.setModalVisible(false);
+  }
+
+  onSelectedOption(value) {
+    this.props.onValueChange(value);
   }
 
   onShowActionSheet() {
-    console.log("Action sheet is!", this.actionSheet);
     this.actionSheet?.setModalVisible();
   }
 
   render() {  
-    const { description, label, selectedValue, options, onValueChange } = this.props;
+    const { description, label, selectedValue, options } = this.props;
     // const onValueChangeHandler = value => {
     //   if (value !== selectedValue) {
     //     onValueChange(value);
@@ -57,6 +71,33 @@ class Dropdown extends Component<Props> {
                   <Text style={styles.smallLabel}>{description}</Text>
                 )}
               </View>
+              <TouchableOpacity 
+                onPress={this.onDismissActionSheet}
+                style={styles.doneButtonContainer}
+              >
+                <Text style={styles.doneLabel}>{i18n.t('dropdown.done')}</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.pickerContent}>
+              {options.map((option, i) => (
+                <Row 
+                  action={{
+                    callback: this.onSelectedOption.bind(this, option.value)
+                  }}
+                  key={option.value + i} 
+                  rowStyle={styles.optionRow}
+                  style={styles.optionRowContainer}
+                >
+                  <View style={[styles.switch, option.value == selectedValue ? styles.switchOn : ' ']}>
+                    {option.value == selectedValue && (
+                      <View style={styles.switchInterior}/>
+                    )}
+                  </View>
+                  <Text style={styles.smallLabel}>
+                    {option.label}
+                  </Text>
+                </Row>
+              ))}
             </View>
           </View>
         </ActionSheet>
