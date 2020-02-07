@@ -72,7 +72,6 @@ public class MainApplication extends NavigationApplication {
       new CookieManagerPackage(),
       new ImagePickerPackage(),
       new RNAppAuthPackage(),
-      // new FBSDKPackage(mCallbackManager),
       new FBSDKPackage(),
       new LottiePackage(),
       new RNSentryPackage(),
