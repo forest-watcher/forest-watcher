@@ -24,13 +24,11 @@ const plusIcon = require('assets/plus.png');
 type Props = {
   user: any,
   loggedIn: boolean, // eslint-disable-line
-  areas: Array<Area>,
   componentId: string,
   logout: () => void,
   isUnsafeLogout: boolean,
   setOfflineMode: () => void,
   offlineMode: boolean,
-  showNotConnectedNotification: () => void
 };
 
 class Settings extends Component<Props> {
@@ -92,24 +90,6 @@ class Settings extends Component<Props> {
     }
   }
 
-  onAreaPress = debounceUI((areaId: string, name: string) => {
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: 'ForestWatcher.AreaDetail',
-        passProps: {
-          id: areaId
-        },
-        options: {
-          topBar: {
-            title: {
-              text: name
-            }
-          }
-        }
-      }
-    });
-  });
-
   onLogoutPress = debounceUI(() => {
     const { logout, isUnsafeLogout } = this.props;
     const proceedWithLogout = () => {
@@ -125,21 +105,6 @@ class Settings extends Component<Props> {
         }
       ]);
     } else proceedWithLogout();
-  });
-
-  onPressAddArea = debounceUI(() => {
-    const { offlineMode } = this.props;
-
-    if (offlineMode) {
-      this.props.showNotConnectedNotification();
-      return;
-    }
-
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: 'ForestWatcher.SetupCountry'
-      }
-    });
   });
 
   handleStaticLinks = debounceUI((section: string, text: string) => {
@@ -205,20 +170,6 @@ class Settings extends Component<Props> {
               <Text style={[styles.label, { marginLeft: 0 }]}>{i18n.t('settings.offlineMode')}</Text>
             </Row>
           </View>
-
-          {areas && areas.length ? (
-            <View style={styles.areas}>
-              <Text style={styles.label}>{i18n.t('settings.yourAreas')}</Text>
-              <AreaList onAreaPress={(areaId, name) => this.onAreaPress(areaId, name)} />
-            </View>
-          ) : null}
-          <TouchableHighlight activeOpacity={0.5} underlayColor="transparent" onPress={this.onPressAddArea}>
-            <View style={styles.addButton}>
-              <Image style={[Theme.icon, styles.addButtonIcon]} source={plusIcon} />
-              <Text style={styles.addButtonText}>{i18n.t('settings.addArea').toUpperCase()}</Text>
-            </View>
-          </TouchableHighlight>
-
           <View style={styles.aboutSection}>
             <Text style={styles.label}>{i18n.t('settings.aboutApp')}</Text>
             <List content={this.aboutSections} bigSeparation={false}>

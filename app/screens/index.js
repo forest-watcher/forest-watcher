@@ -12,7 +12,7 @@ import Settings from 'containers/settings';
 import ContactUs from 'components/settings/contact-us';
 import Reports from 'containers/reports';
 import NewReport from 'containers/form/form';
-import AreaDetail from 'containers/settings/area-detail';
+import AreaDetail from 'containers/areas/area-detail';
 import Partners from 'components/settings/partners';
 import TermsAndConditions from 'components/settings/terms-and-conditions';
 import FaqList from 'components/settings/faq';

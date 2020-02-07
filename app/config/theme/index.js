@@ -24,15 +24,6 @@ const fontColors = {
 
 const fontName = 'firasansot';
 
-const fontColors = {
-  main: colors.color1,
-  secondary: colors.color2,
-  light: colors.color3,
-  white: colors.color5
-};
-
-const fontName = 'firasansot';
-
 const config = {
   screen: {
     width: screen.width,

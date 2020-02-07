@@ -13,7 +13,7 @@ import i18n from 'locales';
 import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
 import RouteList from 'components/common/route-list';
-import AlertSystem from 'containers/settings/area-detail/alert-system';
+import AlertSystem from 'containers/areas/area-detail/alert-system';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
 import { withSafeArea } from 'react-native-safe-area';

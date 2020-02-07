@@ -4,7 +4,7 @@ import React from 'react';
 import { ActivityIndicator, View, Text } from 'react-native';
 import Row from 'components/common/row';
 import { ALERTS_COLOR } from 'config/constants';
-import DatasetOptions from 'components/settings/area-detail/alert-system/dataset-options';
+import DatasetOptions from 'components/areas/area-detail/alert-system/dataset-options';
 
 import i18n from 'locales';
 import Theme from 'config/theme';
