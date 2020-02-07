@@ -61,7 +61,7 @@ class Reports extends PureComponent<Props> {
     return {
       topBar: {
         title: {
-          text: i18n.t('dashboard.myReports')
+          text: i18n.t('dashboard.reports')
         }
       }
     };

@@ -15,6 +15,15 @@ export const colors = {
   colorLightBlue: '#ACC6D5'
 };
 
+const fontColors = {
+  main: colors.color1,
+  secondary: colors.color2,
+  light: colors.color3,
+  white: colors.color5
+};
+
+const fontName = 'firasansot';
+
 const config = {
   screen: {
     width: screen.width,
@@ -33,13 +42,8 @@ const config = {
     colorRecent: colors.colorRecent,
     colorLightBlue: colors.colorLightBlue
   },
-  font: 'firasansot',
-  fontColors: {
-    main: colors.color1,
-    secondary: colors.color2,
-    light: colors.color3,
-    white: colors.color5
-  },
+  font: fontName,
+  fontColors: fontColors,
   background: {
     main: colors.color4,
     secondary: colors.color1,
@@ -114,7 +118,15 @@ const config = {
           color: colors.color1
         },
         title: {
-          color: colors.color1
+          color: fontColors.secondary,
+          fontFamily: fontName,
+          fontWeight: 'regular'
+        },
+        largeTitle: {
+          fontSize: 32,
+          color: fontColors.secondary,
+          fontFamily: fontName,
+          fontWeight: 'regular'
         },
         visible: true
       }
@@ -125,6 +137,23 @@ const config = {
   },
   linkSecondary: {
     color: colors.color3
+  },
+  tableRow: {
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderBottomWidth: 1,
+    borderBottomColor: colors.color6,
+    paddingVertical: 22,
+    paddingHorizontal: 20,
+    marginBottom: 25,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  tableRowText: {
+    fontWeight: '400',
+    fontSize: 17,
+    fontFamily: fontName,
+    color: fontColors.secondary
   }
 };
 
