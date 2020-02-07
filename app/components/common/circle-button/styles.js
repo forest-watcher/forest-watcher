@@ -17,9 +17,9 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.gray
   },
   red: {
-    backgroundColor: Theme.colors.color7
+    backgroundColor: Theme.colors.carnation
   },
   disabled: {
-    backgroundColor: Theme.colors.color6
+    backgroundColor: Theme.colors.veryLightPinkTwo
   }
 });

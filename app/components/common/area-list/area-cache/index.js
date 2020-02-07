@@ -173,7 +173,7 @@ class AreaCache extends PureComponent<Props, State> {
           progress={cacheStatus.progress}
           width={Theme.screen.width}
           height={4}
-          color={Theme.colors.color1}
+          color={Theme.colors.turtleGreen}
           borderRadius={0}
           borderColor="transparent"
         />

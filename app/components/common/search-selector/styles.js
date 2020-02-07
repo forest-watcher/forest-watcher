@@ -6,8 +6,8 @@ export default StyleSheet.create({
     height: 64,
     paddingLeft: Theme.margin.left,
     paddingRight: Theme.margin.right,
-    backgroundColor: Theme.colors.color5,
-    borderColor: Theme.colors.color6,
+    backgroundColor: Theme.colors.white,
+    borderColor: Theme.colors.veryLightPinkTwo,
     borderWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -27,7 +27,7 @@ export default StyleSheet.create({
   search: {
     paddingTop: 8,
     height: 88,
-    backgroundColor: Theme.colors.color5,
+    backgroundColor: Theme.colors.white,
     borderBottomColor: Theme.borderColors.main,
     borderBottomWidth: 2,
     position: 'relative'

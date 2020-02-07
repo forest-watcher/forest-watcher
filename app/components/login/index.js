@@ -68,7 +68,7 @@ class Login extends PureComponent<Props, State> {
   static renderLoading() {
     return (
       <View style={[styles.loaderContainer, styles.loader]}>
-        <ActivityIndicator color={Theme.colors.color1} style={{ height: 80 }} size="large" />
+        <ActivityIndicator color={Theme.colors.turtleGreen} style={{ height: 80 }} size="large" />
       </View>
     );
   }

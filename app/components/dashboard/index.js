@@ -51,6 +51,8 @@ class Dashboard extends PureComponent<Props> {
     return false;
   }
 
+  areasAction: { callback: () => void, icon: any };
+
   reportsAction: { callback: () => void, icon: any };
 
   settingsAction: { callback: () => void, icon: any };
@@ -58,6 +60,11 @@ class Dashboard extends PureComponent<Props> {
   constructor(props: Props) {
     super(props);
     Navigation.events().bindComponent(this);
+
+    this.areasAction = {
+      callback: this.onPressAreas,
+      icon: nextIcon
+    }
 
     this.reportsAction = {
       callback: this.onPressReports,
@@ -108,6 +115,14 @@ class Dashboard extends PureComponent<Props> {
       showNotConnectedNotification();
     }
   };
+
+  onPressAreas = debounceUI(() => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.Areas'
+      }
+    });
+  });
 
   onPressReports = debounceUI(() => {
     Navigation.push(this.props.componentId, {
@@ -163,7 +178,7 @@ class Dashboard extends PureComponent<Props> {
             contentContainerStyle={styles.listContent}
             scrollEnabled
           >
-            <Row>
+            <Row action={this.areasAction}>
               <View style={styles.tableRowContent}>
                 <Image source={areasIcon}/>
                 <Text style={styles.tableRowText}>{i18n.t('dashboard.areas')}</Text>

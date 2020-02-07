@@ -414,7 +414,7 @@ class Reports extends PureComponent<Props> {
             style={[
               styles.exportButtonContainer,
               {
-                borderTopColor: totalToExport > 0 ? colors.color1 : colors.color3
+                borderTopColor: totalToExport > 0 ? colors.turtleGreen : colors.grey
               }
             ]}
           >

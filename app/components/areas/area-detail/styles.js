@@ -46,7 +46,7 @@ export default StyleSheet.create({
     height: 64,
     paddingLeft: Theme.margin.left,
     paddingRight: Theme.margin.right,
-    backgroundColor: Theme.colors.color5,
+    backgroundColor: Theme.colors.white,
     borderBottomColor: Theme.borderColors.main,
     borderBottomWidth: 2,
     flexDirection: 'row',

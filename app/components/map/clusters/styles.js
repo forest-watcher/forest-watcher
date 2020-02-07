@@ -10,32 +10,32 @@ export default StyleSheet.create({
     width: 40,
     height: 40,
     alignItems: 'center',
-    backgroundColor: Theme.colors.color1
+    backgroundColor: Theme.colors.turtleGreen
   },
   [`${DATASETS.GLAD}Color`]: {
-    backgroundColor: Theme.colors.colorGlad
+    backgroundColor: Theme.colors.glad
   },
   [`${DATASETS.VIIRS}Color`]: {
-    backgroundColor: Theme.colors.colorViirs
+    backgroundColor: Theme.colors.viirs
   },
   recentColor: {
-    backgroundColor: Theme.colors.colorRecent
+    backgroundColor: Theme.colors.recent
   },
   [`${DATASETS.GLAD}ColorAlert`]: {
-    backgroundColor: `rgba(${hexToRgb(Theme.colors.colorGlad)}, 0.7)`
+    backgroundColor: `rgba(${hexToRgb(Theme.colors.glad)}, 0.7)`
   },
   [`${DATASETS.VIIRS}ColorAlert`]: {
-    backgroundColor: `rgba(${hexToRgb(Theme.colors.colorViirs)}, 0.7)`
+    backgroundColor: `rgba(${hexToRgb(Theme.colors.viirs)}, 0.7)`
   },
   recentColorAlert: {
-    backgroundColor: `rgba(${hexToRgb(Theme.colors.colorRecent)}, 0.7)`
+    backgroundColor: `rgba(${hexToRgb(Theme.colors.recent)}, 0.7)`
   },
   number: {
-    color: Theme.colors.color5,
+    color: Theme.colors.white,
     fontSize: 13,
     marginTop: 10
   },
   reportedColor: {
-    backgroundColor: `rgba(${hexToRgb(Theme.colors.color1)}, 0.8)`
+    backgroundColor: `rgba(${hexToRgb(Theme.colors.turtleGreen)}, 0.8)`
   }
 });

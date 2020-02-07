@@ -4,7 +4,7 @@ import React from 'react';
 import { ActivityIndicator, View, Text } from 'react-native';
 import Row from 'components/common/row';
 import { ALERTS_COLOR } from 'config/constants';
-import DatasetOptions from 'components/settings/area-detail/alert-system/dataset-options';
+import DatasetOptions from 'components/areas/area-detail/alert-system/dataset-options';
 
 import i18n from 'locales';
 import Theme from 'config/theme';
@@ -33,7 +33,7 @@ class AlertSystem extends React.PureComponent<Props> {
   static renderLoadingState() {
     return (
       <View style={styles.loader}>
-        <ActivityIndicator color={Theme.colors.color1} style={{ height: 80 }} size="large" />
+        <ActivityIndicator color={Theme.colors.turtleGreen} style={{ height: 80 }} size="large" />
       </View>
     );
   }

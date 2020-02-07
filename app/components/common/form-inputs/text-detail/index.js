@@ -76,7 +76,7 @@ class InputTextDetail extends Component<Props, State> {
               onChangeText={this.onChange}
               placeholder={question.label}
               underlineColorAndroid="transparent"
-              selectionColor={Theme.colors.color1}
+              selectionColor={Theme.colors.turtleGreen}
               placeholderTextColor={Theme.fontColors.light}
             />
           )}

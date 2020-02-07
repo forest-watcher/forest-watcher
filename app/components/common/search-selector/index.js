@@ -81,7 +81,7 @@ class SearchSelector extends Component {
                 underlineColorAndroid="transparent"
                 style={styles.searchInput}
                 placeholderTextColor={Theme.fontColors.light}
-                selectionColor={Theme.colors.color1}
+                selectionColor={Theme.colors.turtleGreen}
                 onChangeText={this.onFilterChange}
               />
               <TouchableHighlight

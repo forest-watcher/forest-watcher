@@ -5,36 +5,47 @@ export default StyleSheet.create({
   container: {
     marginBottom: 26
   },
+  disclosureIndicator: {
+    marginHorizontal: 24
+  },
   item: {
-    paddingRight: 10,
     borderBottomColor: Theme.borderColors.main,
     borderBottomWidth: 2,
     backgroundColor: Theme.background.white,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    position: 'relative'
+    alignItems: 'stretch',
+    justifyContent: 'space-between'
   },
   imageContainer: {
-    width: 128,
-    height: 126,
+    aspectRatio: 1,
     backgroundColor: Theme.background.modal
   },
   image: {
-    width: 128,
-    height: 126
+    aspectRatio: 1,
+    overflow: 'hidden'
   },
-  titleContainer: {
+  nameContainer: {
+    borderBottomWidth: 1,
+    borderBottomColor: Theme.colors.veryLightPink,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 26
+  },
+  contentContainer: {
     flex: 1,
-    alignItems: 'flex-start',
-    marginVertical: 16
+    alignItems: 'stretch',
+    marginLeft: 16
   },
   title: {
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
     fontSize: 17,
-    fontWeight: '400',
-    marginLeft: 16
+    fontWeight: '400'
+  },
+  settingsButton: {
+    alignSelf: 'flex-start',
+    marginVertical: 10,
+    marginRight: 12
   },
   subtitle: {
     fontFamily: Theme.font,

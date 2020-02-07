@@ -17,7 +17,7 @@ function InputText(props) {
         onChangeText={props.onChangeText}
         placeholder={props.placeholder}
         underlineColorAndroid="transparent"
-        selectionColor={Theme.colors.color1}
+        selectionColor={Theme.colors.turtleGreen}
         placeholderTextColor={Theme.fontColors.light}
       />
     </View>
