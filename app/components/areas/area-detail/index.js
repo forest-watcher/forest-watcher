@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import { Alert, View, Image, ScrollView, Text, TextInput, TouchableHighlight } from 'react-native';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
-import FastImage from 'react-native-fast-image';
 
 import i18n from 'locales';
 import Theme from 'config/theme';
@@ -211,7 +210,7 @@ class AreaDetail extends Component<Props, State> {
           <View style={styles.row}>
             <Text style={styles.title}>{i18n.t('commonText.boundaries')}</Text>
             <View style={styles.imageContainer}>
-              <FastImage style={styles.image} source={{ uri: area.image }} />
+              <Image style={styles.image} source={{ uri: area.image }} />
             </View>
           </View>
           <View style={styles.row}>

@@ -81,8 +81,11 @@ import com.android.build.OutputFile
 
 project.ext.react = [
     entryFile: "index.js",
-    inputExcludes: ["ios/**", "__tests__/**", "bundle_out/**", "__mocks__/**", "realm-object-server/**"]
+    inputExcludes: ["ios/**", "__tests__/**", "bundle_out/**", "__mocks__/**", "realm-object-server/**"],
+    enableHermes: false,  // clean and rebuild if changing
 ]
+
+def enableHermes = project.ext.react.get("enableHermes", false)
 
 apply from: "../../node_modules/react-native/react.gradle"
 apply from: "../../node_modules/react-native-sentry/sentry.gradle"
@@ -161,13 +164,13 @@ android {
         }
     }
     sourceSets {
+        main.java.srcDirs += '../../node_modules/@react-native-community/cookies/android/src/main/java'
+        main.java.srcDirs += '../../node_modules/@react-native-community/netinfo/android/src/main/java'
         main.java.srcDirs += '../../node_modules/lottie-react-native/src/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-app-auth/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-config/android/src/main/java'
-        main.java.srcDirs += '../../node_modules/react-native-cookies/android/src/main/java'
-        main.java.srcDirs += '../../node_modules/react-native-fast-image/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-fbsdk/android/src/main/java'
-        main.java.srcDirs += '../../node_modules/react-native-fetch-blob/android/src/main/java'
+        main.java.srcDirs += '../../node_modules/rn-fetch-blob/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-i18n/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-maps/lib/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-sentry/android/src/main/java'
@@ -191,6 +194,15 @@ dependencies {
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
+    // React Native upgrade >0.60
+    if (enableHermes) {
+        def hermesPath = "../../node_modules/hermes-engine/android/"
+        debugImplementation files(hermesPath + "hermes-debug.aar")
+        releaseImplementation files(hermesPath + "hermes-release.aar")
+    } else {
+        implementation 'org.webkit:android-jsc:+'
+    }
+
     // lottie-react-native
     implementation 'com.airbnb.android:lottie:2.5.5'
 
@@ -202,19 +214,6 @@ dependencies {
 
     // react-native-dialogs
     implementation project(':react-native-dialogs')
-
-    // react-native-fast-image
-    implementation("com.github.bumptech.glide:glide:${rootProject.ext.glideVersion}") {
-        exclude group: "com.android.support", module: "glide"
-    }
-    implementation("com.github.bumptech.glide:annotations:${rootProject.ext.glideVersion}") {
-        exclude group: "com.android.support", module: "annotations"
-    }
-    annotationProcessor "com.github.bumptech.glide:compiler:${rootProject.ext.glideVersion}"
-    implementation("com.github.bumptech.glide:okhttp3-integration:${rootProject.ext.glideVersion}") {
-        exclude group: "com.android.support", module: "okhttp3-integration"
-        exclude group: "com.android.support", module: "glide-parent"
-    }
 
     // react-native-fbsdk
     implementation('com.facebook.android:facebook-android-sdk:5.2.0')
@@ -237,8 +236,11 @@ dependencies {
     // react-native-sentry
     implementation 'io.sentry:sentry-android:1.7.23'
 
-    // react-native-viewpager
+    // react-native-community/viewpager
     implementation project(':@react-native-community_viewpager')
+
+    // @react-native-community/async-storage
+    implementation project(':@react-native-community_async-storage')
 
     // react-native-webview
     implementation project(':react-native-webview')
@@ -248,6 +250,10 @@ dependencies {
 
     // realm
     implementation project(':realm')
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '5.4'
 }
 
 // Run this once to be able to run the application with BUCK

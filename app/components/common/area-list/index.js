@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Image, Text, TouchableHighlight, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
 
 import Theme from 'config/theme';
 
@@ -26,7 +25,7 @@ function AreaList(props) {
           >
             <View style={styles.item}>
               <View style={styles.imageContainer}>
-                {area.image ? <FastImage style={styles.image} source={{ uri: area.image }} /> : null}
+                {area.image ? <Image style={styles.image} source={{ uri: area.image }} /> : null}
               </View>
               <View style={styles.contentContainer}>
                 <View style={styles.nameContainer}>

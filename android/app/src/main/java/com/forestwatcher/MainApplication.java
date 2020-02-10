@@ -5,9 +5,7 @@ import com.RNFetchBlob.RNFetchBlobPackage;
 import com.aakashns.reactnativedialogs.ReactNativeDialogsPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.airbnb.android.react.maps.MapsPackage;
-import com.dylanvann.fastimage.FastImageViewPackage;
 import com.facebook.CallbackManager;
-import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
@@ -15,8 +13,10 @@ import com.forestwatcher.intents.IntentsPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
-import com.psykar.cookiemanager.CookieManagerPackage;
 import com.reactlibrary.RNSimpleCompassPackage;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
+import com.reactnativecommunity.cookies.CookieManagerPackage;
+import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.reactnativecommunity.viewpager.RNCViewPagerPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.reactnativenavigation.NavigationApplication;
@@ -72,8 +72,7 @@ public class MainApplication extends NavigationApplication {
       new CookieManagerPackage(),
       new ImagePickerPackage(),
       new RNAppAuthPackage(),
-      new FBSDKPackage(mCallbackManager),
-      new FastImageViewPackage(),
+      new FBSDKPackage(),
       new LottiePackage(),
       new RNSentryPackage(),
       new RNCViewPagerPackage(),
@@ -82,7 +81,9 @@ public class MainApplication extends NavigationApplication {
       new RNFirebaseAnalyticsPackage(),
       new RNSimpleCompassPackage(),
       new BackgroundGeolocationPackage(),
-      new IntentsPackage()
+      new IntentsPackage(),
+      new AsyncStoragePackage(),
+      new NetInfoPackage()
     );
   }
 
