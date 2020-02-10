@@ -65,6 +65,7 @@
     "react-native-navigation": "3.7.0",
     "react-native-progress": "3.6.0",
     "react-native-safe-area": "0.5.1",
+    "react-native-safe-area-context": "0.7.2",
     "react-native-scrollable-tab-view": "1.0.0",
     "react-native-sentry": "0.43.2",
     "react-native-simple-compass": "https://github.com/cjrorvik/react-native-simple-compass.git",

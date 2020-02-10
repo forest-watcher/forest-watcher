@@ -6,11 +6,11 @@ import ActionSheet from 'react-native-actions-sheet';
 import Row from 'components/common/row';
 import styles from './styles';
 
-import { withSafeArea } from "react-native-safe-area";
+import { SafeAreaConsumer } from 'react-native-safe-area-context';
 
 import i18n from 'locales';
 
-const SafeAreaView = withSafeArea(View, 'padding', 'bottom')
+
 const nextIcon = require('assets/next.png');
 
 type Props = {
@@ -50,11 +50,6 @@ class Dropdown extends Component<Props> {
 
   render() {  
     const { description, label, selectedValue, options } = this.props;
-    // const onValueChangeHandler = value => {
-    //   if (value !== selectedValue) {
-    //     onValueChange(value);
-    //   }
-    // };
     return (
       <Row 
         action={this.showActionSheetAction}
@@ -63,43 +58,47 @@ class Dropdown extends Component<Props> {
         <ActionSheet 
           ref={ref => { this.actionSheet = ref }}
         >
-          <View>
-            <View style={styles.pickerHeader}>
-              <View>
-                <Text style={styles.label}>{label}</Text>
-                {description && (
-                  <Text style={styles.smallLabel}>{description}</Text>
-                )}
-              </View>
-              <TouchableOpacity 
-                onPress={this.onDismissActionSheet}
-                style={styles.doneButtonContainer}
-              >
-                <Text style={styles.doneLabel}>{i18n.t('dropdown.done')}</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.pickerContent}>
-              {options.map((option, i) => (
-                <Row 
-                  action={{
-                    callback: this.onSelectedOption.bind(this, option.value)
-                  }}
-                  key={option.value + i} 
-                  rowStyle={styles.optionRow}
-                  style={styles.optionRowContainer}
-                >
-                  <View style={[styles.switch, option.value == selectedValue ? styles.switchOn : ' ']}>
-                    {option.value == selectedValue && (
-                      <View style={styles.switchInterior}/>
+          <SafeAreaConsumer>
+            {insets => (
+              <View style={{marginBottom: insets.bottom}}>
+                <View style={styles.pickerHeader}>
+                  <View>
+                    <Text style={styles.label}>{label}</Text>
+                    {description && (
+                      <Text style={styles.smallLabel}>{description}</Text>
                     )}
                   </View>
-                  <Text style={styles.smallLabel}>
-                    {option.label}
-                  </Text>
-                </Row>
-              ))}
-            </View>
-          </View>
+                  <TouchableOpacity 
+                    onPress={this.onDismissActionSheet}
+                    style={styles.doneButtonContainer}
+                  >
+                    <Text style={styles.doneLabel}>{i18n.t('dropdown.done')}</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.pickerContent}>
+                  {options.map((option, i) => (
+                    <Row 
+                      action={{
+                        callback: this.onSelectedOption.bind(this, option.value)
+                      }}
+                      key={option.value + i} 
+                      rowStyle={styles.optionRow}
+                      style={styles.optionRowContainer}
+                    >
+                      <View style={[styles.switch, option.value == selectedValue ? styles.switchOn : ' ']}>
+                        {option.value == selectedValue && (
+                          <View style={styles.switchInterior}/>
+                        )}
+                      </View>
+                      <Text style={styles.smallLabel}>
+                        {option.label}
+                      </Text>
+                    </Row>
+                  ))}
+                </View>
+              </View>
+            )}
+          </SafeAreaConsumer>
         </ActionSheet>
       </Row>
     );
