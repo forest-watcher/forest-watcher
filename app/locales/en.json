@@ -4,6 +4,11 @@
         "locationDisabled": "Location disabled",
         "noGPS": "No GPS"
     },
+    "areas": {
+        "myAreas": "My Areas",
+        "share": "Share Areas",
+        "title": "Areas"
+    },
     "areaDetail": {
         "confirmDeleteWithRoutesTitle": "Delete area with routes",
         "confirmDeleteWithRoutesMessage": "If you delete this area, you will no longer be able to access its saved routes. Delete?",
@@ -55,10 +60,13 @@
         "searchPlaceholder": "Search for a country"
     },
     "dashboard": {
+        "areas": "Areas",
         "downloadFailed": "Download failed",
         "makeAvailableOffline": "Make available offline",
         "map": "Map",
-        "myReports": "My reports"
+        "reports": "Reports",
+        "routes": "Routes",
+        "settings": "Settings"
     },
     "datasets": {
         "umd_as_it_happens": "Deforestation (GLAD)",

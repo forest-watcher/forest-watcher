@@ -12,21 +12,11 @@ export default StyleSheet.create({
     height: Theme.screen.height
   },
   label: {
-    marginLeft: 16,
-    marginBottom: 8,
-    fontSize: 17,
-    color: Theme.fontColors.light,
-    fontFamily: Theme.font,
-    fontWeight: '400'
-  },
-  textMyReports: {
-    fontWeight: '400',
-    fontSize: 17,
-    fontFamily: Theme.font,
-    color: Theme.fontColors.secondary
+    ...Theme.sectionHeaderText
   },
   list: {
-    flex: 1
+    flex: 1,
+    paddingTop: 76
   },
   listContent: {
     paddingTop: 10,
@@ -42,6 +32,14 @@ export default StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 16
+  },
+  tableRowContent: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  tableRowText: {
+    marginLeft: 24,
+    ...Theme.tableRowText
   },
   iconSettings: {
     position: 'absolute',

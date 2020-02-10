@@ -48,7 +48,7 @@ class InputTextCustom extends React.PureComponent<Props, State> {
             onChangeText={this.onChange}
             placeholder={question.defaultValue}
             underlineColorAndroid="transparent"
-            selectionColor={Theme.colors.color1}
+            selectionColor={Theme.colors.turtleGreen}
             placeholderTextColor={Theme.fontColors.light}
           />
         </View>

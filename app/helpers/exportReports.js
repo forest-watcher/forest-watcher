@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 const { parse } = require('json2csv');
 import { PermissionsAndroid, Platform } from 'react-native';
-import RNFetchBlob from 'react-native-fetch-blob';
+import RNFetchBlob from 'rn-fetch-blob';
 
 var moment = require('moment');
 

@@ -4,7 +4,7 @@ import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import i18n from 'locales';
 import Row from 'components/common/row';
-import AlertSystem from 'containers/settings/area-detail/alert-system';
+import AlertSystem from 'containers/areas/area-detail/alert-system';
 import styles from './styles';
 
 const getLayerName = name => (name.match(/^layers\./) !== null ? i18n.t(name) : name);

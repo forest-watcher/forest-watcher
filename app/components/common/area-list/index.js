@@ -5,13 +5,14 @@ import FastImage from 'react-native-fast-image';
 
 import Theme from 'config/theme';
 
+import SettingsButton from 'components/common/settings-button';
 import AreaCache from 'containers/common/area-list/area-cache';
 import styles from './styles';
 
 const nextIcon = require('assets/next.png');
 
 function AreaList(props) {
-  const { areas, onAreaPress, showCache, pristine } = props;
+  const { areas, onAreaPress, onAreaSettingsPress, showCache, pristine } = props;
   if (!areas) return null;
 
   return (
@@ -27,13 +28,18 @@ function AreaList(props) {
               <View style={styles.imageContainer}>
                 {area.image ? <FastImage style={styles.image} source={{ uri: area.image }} /> : null}
               </View>
-              <View style={styles.titleContainer}>
-                <Text style={styles.title} numberOfLines={2}>
-                  {' '}
-                  {area.name}{' '}
-                </Text>
+              <View style={styles.contentContainer}>
+                <View style={styles.nameContainer}>
+                  <Text style={styles.title} numberOfLines={2}>
+                    {area.name}
+                  </Text>
+                  <Image style={[Theme.icon, styles.disclosureIndicator]} source={nextIcon} />
+                </View>
+                <SettingsButton 
+                  onPress={() => onAreaSettingsPress(area.id, area.name)}
+                  style={styles.settingsButton}
+                />
               </View>
-              <Image style={Theme.icon} source={nextIcon} />
             </View>
           </TouchableHighlight>
           {showCache && <AreaCache areaId={area.id} showTooltip={index === 0 && pristine} />}
@@ -52,6 +58,7 @@ AreaList.propTypes = {
     })
   ),
   onAreaPress: PropTypes.func,
+  onAreaSettingsPress: PropTypes.func,
   showCache: PropTypes.bool,
   pristine: PropTypes.bool
 };

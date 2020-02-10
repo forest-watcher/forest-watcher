@@ -35,7 +35,7 @@ export default StyleSheet.create({
   row: {
     paddingLeft: Theme.margin.left,
     paddingRight: Theme.margin.right,
-    backgroundColor: Theme.colors.color5,
+    backgroundColor: Theme.colors.white,
     borderBottomColor: Theme.borderColors.main,
     borderBottomWidth: 2,
     flexDirection: 'column',
@@ -44,7 +44,7 @@ export default StyleSheet.create({
   },
   legendContainer: {
     width: '100%',
-    backgroundColor: Theme.colors.color5,
+    backgroundColor: Theme.colors.white,
     flexDirection: 'row',
     paddingBottom: 8
   },
@@ -52,6 +52,6 @@ export default StyleSheet.create({
     marginRight: 24
   },
   nested: {
-    backgroundColor: Theme.colors.color4
+    backgroundColor: Theme.colors.veryLightPink
   }
 });

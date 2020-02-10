@@ -873,7 +873,7 @@ class MapComponent extends Component {
       <MapView.Polyline
         key="compassLineElement"
         coordinates={[lastPosition, selectedAlerts[selectedAlerts.length - 1]]}
-        strokeColor={Theme.colors.color5}
+        strokeColor={Theme.colors.white}
         strokeWidth={3}
         zIndex={3}
       />
@@ -882,7 +882,7 @@ class MapComponent extends Component {
       <MapView.Polyline
         key="areaPolygonElement"
         coordinates={areaCoordinates}
-        strokeColor={Theme.colors.color1}
+        strokeColor={Theme.colors.turtleGreen}
         strokeWidth={3}
         zIndex={3}
       />

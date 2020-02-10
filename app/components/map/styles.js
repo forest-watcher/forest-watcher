@@ -52,7 +52,7 @@ export default StyleSheet.create({
   },
   selectedMarkerIcon: {
     borderColor: 'rgba(255, 255, 255, 1)',
-    backgroundColor: Theme.colors.color1
+    backgroundColor: Theme.colors.turtleGreen
   },
   routeVertex: {
     borderColor: 'white',

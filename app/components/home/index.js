@@ -75,7 +75,7 @@ class Home extends Component<Props> {
     } else {
       Navigation.setStackRoot(componentId, {
         component: {
-          name: 'ForestWatcher.Walkthrough'
+          name: 'ForestWatcher.Login'
         }
       });
     }
@@ -106,7 +106,7 @@ class Home extends Component<Props> {
   render() {
     return (
       <View style={[styles.mainContainer, styles.center]}>
-        <ActivityIndicator color={Theme.colors.color1} style={{ height: 80 }} size="large" />
+        <ActivityIndicator color={Theme.colors.turtleGreen} style={{ height: 80 }} size="large" />
       </View>
     );
   }

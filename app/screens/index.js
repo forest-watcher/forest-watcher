@@ -1,5 +1,6 @@
 import { Navigation } from 'react-native-navigation';
 
+import Areas from 'containers/areas';
 import Home from 'containers/home';
 import Login from 'containers/login';
 import SetupBoundaries from 'containers/setup/boundaries';
@@ -11,7 +12,7 @@ import Settings from 'containers/settings';
 import ContactUs from 'components/settings/contact-us';
 import Reports from 'containers/reports';
 import NewReport from 'containers/form/form';
-import AreaDetail from 'containers/settings/area-detail';
+import AreaDetail from 'containers/areas/area-detail';
 import Partners from 'components/settings/partners';
 import TermsAndConditions from 'components/settings/terms-and-conditions';
 import FaqList from 'components/settings/faq';
@@ -20,15 +21,14 @@ import Sync from 'containers/sync';
 import Answers from 'containers/form/answers';
 import RightDrawer from 'components/right-drawer';
 import ErrorLightbox from 'components/error-lightbox';
-import Walkthrough from 'components/walkthrough';
 import ToastNotification from 'components/toast-notification';
 import RouteDetail from '../containers/routes/route-detail';
 import SaveRoute from '../containers/routes/save-route';
 
 export function registerScreens(store, Provider) {
+  Navigation.registerComponentWithRedux('ForestWatcher.Areas', () => Areas, Provider, store);
   Navigation.registerComponentWithRedux('ForestWatcher.Home', () => Home, Provider, store);
   Navigation.registerComponentWithRedux('ForestWatcher.Login', () => Login, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.Walkthrough', () => Walkthrough, Provider, store);
   Navigation.registerComponentWithRedux('ForestWatcher.SetupBoundaries', () => SetupBoundaries, Provider, store);
   Navigation.registerComponentWithRedux('ForestWatcher.SetupCountry', () => SetupCountry, Provider, store);
   Navigation.registerComponentWithRedux('ForestWatcher.SetupOverview', () => SetupOverview, Provider, store);

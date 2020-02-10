@@ -32,9 +32,9 @@ class SetupBoundaries extends Component<Props> {
           translucent: true
         },
         backButton: {
-          color: Theme.colors.color5
+          color: Theme.colors.white
         },
-        buttonColor: Theme.colors.color5,
+        buttonColor: Theme.colors.white,
         drawBehind: true,
         rightButtons: [
           {
@@ -43,7 +43,7 @@ class SetupBoundaries extends Component<Props> {
           }
         ],
         title: {
-          color: Theme.colors.color5,
+          color: Theme.colors.white,
           text: i18n.t('commonText.setup')
         }
       }

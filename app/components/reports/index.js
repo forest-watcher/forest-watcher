@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import { NativeModules, Platform, View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import RNFetchBlob from 'react-native-fetch-blob';
+import RNFetchBlob from 'rn-fetch-blob';
 
 import Row from 'components/common/row';
 import moment from 'moment';
@@ -61,7 +61,7 @@ class Reports extends PureComponent<Props> {
     return {
       topBar: {
         title: {
-          text: i18n.t('dashboard.myReports')
+          text: i18n.t('dashboard.reports')
         }
       }
     };
@@ -414,7 +414,7 @@ class Reports extends PureComponent<Props> {
             style={[
               styles.exportButtonContainer,
               {
-                borderTopColor: totalToExport > 0 ? colors.color1 : colors.color3
+                borderTopColor: totalToExport > 0 ? colors.turtleGreen : colors.grey
               }
             ]}
           >

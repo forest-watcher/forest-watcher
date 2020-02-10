@@ -17,7 +17,7 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.white,
     flexDirection: 'column',
     width: Theme.screen.width,
-    shadowColor: Theme.colors.color2,
+    shadowColor: Theme.colors.greyishBrown,
     shadowRadius: 5,
     shadowOffset: { height: 2 },
     shadowOpacity: 0.4

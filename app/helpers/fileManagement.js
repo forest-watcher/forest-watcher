@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import RNFetchBlob from 'react-native-fetch-blob';
+import RNFetchBlob from 'rn-fetch-blob';
 
 global.Buffer = global.Buffer || require('buffer').Buffer; // eslint-disable-line
 

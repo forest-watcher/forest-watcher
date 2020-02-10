@@ -37,11 +37,11 @@ export default StyleSheet.create({
   alertLegend: {
     width: 24,
     height: 24,
-    backgroundColor: `rgba(${hexToRgb(Theme.colors.color1)}, 0.8)`,
+    backgroundColor: `rgba(${hexToRgb(Theme.colors.turtleGreen)}, 0.8)`,
     marginRight: 16
   },
   alertLegendRecent: {
-    backgroundColor: `rgba(${hexToRgb(Theme.colors.colorRecent)}, 0.8)`
+    backgroundColor: `rgba(${hexToRgb(Theme.colors.recent)}, 0.8)`
   },
   sidebarLabel: {
     fontFamily: Theme.font,

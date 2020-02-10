@@ -90,7 +90,7 @@ class SetupOverview extends Component {
                 onFocus={this.props.onTextFocus}
                 onBlur={this.props.onTextBlur}
                 underlineColorAndroid="transparent"
-                selectionColor={Theme.colors.color1}
+                selectionColor={Theme.colors.turtleGreen}
                 placeholderTextColor={Theme.fontColors.light}
               />
               <Image style={Theme.icon} source={editImage} onPress={() => this.input.focus()} />

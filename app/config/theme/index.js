@@ -2,18 +2,27 @@ import { Dimensions, Platform } from 'react-native';
 
 const screen = Dimensions.get('window');
 export const colors = {
-  color1: '#97be32',
-  color2: '#555555',
-  color3: '#8a8a8a',
-  color4: '#f2f2f2',
-  color5: '#ffffff',
-  color6: '#dcdcdc',
-  color7: '#f15656',
-  colorGlad: '#ff6699',
-  colorViirs: '#ED4602',
-  colorRecent: '#e9bd15',
-  colorLightBlue: '#ACC6D5'
+  turtleGreen: '#97be43',
+  greyishBrown: '#555555',
+  grey: '#8a8a8a',
+  veryLightPink: '#f2f2f2',
+  white: '#ffffff',
+  veryLightPinkTwo: '#dcdcdc',
+  carnation: '#f15656',
+  glad: '#ff6699',
+  viirs: '#ED4602',
+  recent: '#e9bd15',
+  lightBlue: '#ACC6D5'
 };
+
+const fontColors = {
+  main: colors.turtleGreen,
+  secondary: colors.greyishBrown,
+  light: colors.grey,
+  white: colors.white
+};
+
+const fontName = 'firasansot';
 
 const config = {
   screen: {
@@ -21,36 +30,31 @@ const config = {
     height: screen.height
   },
   colors: {
-    color1: colors.color1,
-    color2: colors.color2,
-    color3: colors.color3,
-    color4: colors.color4,
-    color5: colors.color5,
-    color6: colors.color6,
-    color7: colors.color7,
-    colorGlad: colors.colorGlad,
-    colorViirs: colors.colorViirs,
-    colorRecent: colors.colorRecent,
-    colorLightBlue: colors.colorLightBlue
+    turtleGreen: colors.turtleGreen,
+    greyishBrown: colors.greyishBrown,
+    grey: colors.grey,
+    veryLightPink: colors.veryLightPink,
+    white: colors.white,
+    veryLightPinkTwo: colors.veryLightPinkTwo,
+    carnation: colors.carnation,
+    glad: colors.glad,
+    viirs: colors.viirs,
+    recent: colors.recent,
+    lightBlue: colors.lightBlue
   },
-  font: 'firasansot',
-  fontColors: {
-    main: colors.color1,
-    secondary: colors.color2,
-    light: colors.color3,
-    white: colors.color5
-  },
+  font: fontName,
+  fontColors: fontColors,
   background: {
-    main: colors.color4,
-    secondary: colors.color1,
-    white: colors.color5,
-    gray: colors.color6,
-    red: colors.color7,
+    main: colors.veryLightPink,
+    secondary: colors.turtleGreen,
+    white: colors.white,
+    gray: colors.veryLightPinkTwo,
+    red: colors.carnation,
     modal: 'rgba(0, 0, 0, 0.4)'
   },
   borderColors: {
-    main: colors.color6,
-    secondary: colors.color1
+    main: colors.veryLightPinkTwo,
+    secondary: colors.turtleGreen
   },
   margin: {
     left: 24,
@@ -84,7 +88,7 @@ const config = {
   navigator: {
     styles: {
       layout: {
-        backgroundColor: colors.color4,
+        backgroundColor: colors.veryLightPink,
         orientation: 'portrait'
       },
       sideMenu: {
@@ -105,26 +109,59 @@ const config = {
           color: 'transparent'
         },
         backButton: {
-          color: colors.color1
+          color: colors.turtleGreen
         },
-        buttonColor: colors.color1,
+        buttonColor: colors.turtleGreen,
         elevation: 0,
         noBorder: true,
         subtitle: {
-          color: colors.color1
+          color: colors.turtleGreen
         },
         title: {
-          color: colors.color1
+          color: fontColors.secondary,
+          fontFamily: fontName,
+          fontWeight: 'regular'
+        },
+        largeTitle: {
+          fontSize: 32,
+          color: fontColors.secondary,
+          fontFamily: fontName,
+          fontWeight: 'regular'
         },
         visible: true
       }
     }
   },
   link: {
-    color: colors.color1
+    color: colors.turtleGreen
   },
   linkSecondary: {
-    color: colors.color3
+    color: colors.grey
+  },
+  sectionHeaderText: {
+    marginLeft: 16,
+    marginBottom: 8,
+    fontSize: 17,
+    color: fontColors.secondary,
+    fontFamily: fontName,
+    fontWeight: '400'
+  },
+  tableRow: {
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderBottomWidth: 1,
+    borderBottomColor: colors.veryLightPinkTwo,
+    paddingVertical: 22,
+    paddingHorizontal: 20,
+    marginBottom: 25,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  tableRowText: {
+    fontWeight: '400',
+    fontSize: 17,
+    fontFamily: fontName,
+    color: fontColors.secondary
   }
 };
 

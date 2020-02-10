@@ -79,7 +79,7 @@ export default StyleSheet.create({
     top: 3
   },
   buttonCountry: {
-    backgroundColor: Theme.colors.color3,
+    backgroundColor: Theme.colors.grey,
     height: 48
   },
   buttonText: {
@@ -100,7 +100,7 @@ export default StyleSheet.create({
     paddingBottom: 10,
     backgroundColor: Theme.background.white,
     borderBottomWidth: 1,
-    borderBottomColor: Theme.colors.color6,
+    borderBottomColor: Theme.colors.veryLightPinkTwo,
     ...Platform.select({
       ios: {
         zIndex: 1
@@ -131,7 +131,7 @@ export default StyleSheet.create({
     height: 32,
     fontFamily: Theme.font,
     color: Theme.fontColors.light,
-    backgroundColor: Theme.colors.color4,
+    backgroundColor: Theme.colors.veryLightPink,
     fontSize: 15,
     fontWeight: '400',
     paddingTop: 4,
