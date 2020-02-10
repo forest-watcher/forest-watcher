@@ -24,7 +24,7 @@
     "test:watch": "jest --watch",
     "lint": "node_modules/.bin/eslint ./app/",
     "lint:ci": "node_modules/.bin/eslint ./app/ -o reports/lint.html -f html",
-    "postinstall": "node node_modules/realm/scripts/download-realm.js ios --sync --force; npx jetify"
+    "postinstall": "node node_modules/realm/scripts/download-realm.js ios --sync --force; yarn jetify"
   },
   "dependencies": {
     "@mapbox/geo-viewport": "0.4.0",
