@@ -169,5 +169,8 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     color: Theme.fontColors.light,
     fontSize: 14
+  },
+  rowLabel: {
+    ...Theme.tableRowText
   }
 });

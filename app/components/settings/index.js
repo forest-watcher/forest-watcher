@@ -4,8 +4,6 @@ import { View, Text, TouchableHighlight, ScrollView, Image, Alert } from 'react-
 import { Navigation } from 'react-native-navigation';
 import Hyperlink from 'react-native-hyperlink';
 
-import type { Area } from 'types/areas.types';
-
 import List from 'components/common/list';
 import AreaList from 'containers/common/area-list';
 import Theme from 'config/theme';
@@ -81,7 +79,7 @@ class Settings extends Component<Props> {
   }
 
   UNSAFE_componentWillReceiveProps(props: Props) {
-    if (props.areas.length === 0 && props.loggedIn) {
+    if (props.loggedIn) {
       Navigation.push(this.props.componentId, {
         component: {
           name: 'ForestWatcher.SetupCountry'
@@ -123,7 +121,7 @@ class Settings extends Component<Props> {
   });
 
   render() {
-    const { areas, setOfflineMode, offlineMode } = this.props;
+    const { setOfflineMode, offlineMode } = this.props;
     const hasUserData = this.props.user.fullName && this.props.user.email;
 
     return (
@@ -163,7 +161,7 @@ class Settings extends Component<Props> {
           <CoordinatesDropdown/>
           <View style={styles.offlineMode}>
             <Row value={offlineMode} onValueChange={setOfflineMode}>
-              <Text style={[styles.label, { marginLeft: 0 }]}>{i18n.t('settings.offlineMode')}</Text>
+              <Text style={[styles.rowLabel, { marginLeft: 0 }]}>{i18n.t('settings.offlineMode')}</Text>
             </Row>
           </View>
           <View style={styles.aboutSection}>
