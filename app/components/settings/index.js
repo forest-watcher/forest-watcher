@@ -78,16 +78,6 @@ class Settings extends Component<Props> {
     tracker.trackScreenView('Settings');
   }
 
-  UNSAFE_componentWillReceiveProps(props: Props) {
-    if (props.loggedIn) {
-      Navigation.push(this.props.componentId, {
-        component: {
-          name: 'ForestWatcher.SetupCountry'
-        }
-      });
-    }
-  }
-
   onLogoutPress = debounceUI(() => {
     const { logout, isUnsafeLogout } = this.props;
     const proceedWithLogout = () => {
