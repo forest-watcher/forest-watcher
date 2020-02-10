@@ -5,6 +5,7 @@ include ':app',
 		':@mauron85_react-native-background-geolocation-common',
 		':@react-native-community_async-storage',
 		':@react-native-community_viewpager',
+		':@react-native-mapbox-gl_maps',
 		':react-native-dialogs',
 		':react-native-firebase',
 		':react-native-image-picker',
@@ -18,6 +19,7 @@ project(':@mauron85_react-native-background-geolocation').projectDir = new File(
 project(':@mauron85_react-native-background-geolocation-common').projectDir = new File(rootProject.projectDir, '../node_modules/@mauron85/react-native-background-geolocation/android/common')
 project(':@react-native-community_async-storage').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/async-storage/android')
 project(':@react-native-community_viewpager').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/viewpager/android')
+project(':@react-native-mapbox-gl_maps').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-mapbox-gl/maps/android/rctmgl')
 project(':react-native-dialogs').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-dialogs/android')
 project(':react-native-firebase').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-firebase/android')
 project(':react-native-image-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-picker/android')

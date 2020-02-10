@@ -62,6 +62,9 @@ target 'ForestWatcher' do
   # react-native-i18n dependency.
   pod 'RNI18n', :path => '../node_modules/react-native-i18n'
 
+  # react-native-mapbox-gl dependency.
+  pod 'react-native-mapbox-gl', :path => '../node_modules/@react-native-mapbox-gl/maps'
+
   # magic post-install script that'll fix up some broken dependencies.
   post_install do |installer|
     installer.pods_project.targets.each do |target|
