@@ -233,9 +233,6 @@ dependencies {
     // react-native-background-geolocation
     implementation project(':@mauron85_react-native-background-geolocation')
 
-    // react-native-dialogs
-    implementation project(':react-native-dialogs')
-
     // react-native-fbsdk
     implementation('com.facebook.android:facebook-android-sdk:5.2.0')
 

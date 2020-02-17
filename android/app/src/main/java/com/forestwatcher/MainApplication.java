@@ -2,7 +2,6 @@ package com.forestwatcher;
 
 import android.content.Context;
 import com.RNFetchBlob.RNFetchBlobPackage;
-import com.aakashns.reactnativedialogs.ReactNativeDialogsPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.facebook.CallbackManager;
 import com.facebook.react.ReactNativeHost;
@@ -71,7 +70,6 @@ public class MainApplication extends NavigationApplication {
     return Arrays.<ReactPackage>asList(
       new RNFetchBlobPackage(),
       new ReactNativeConfigPackage(),
-      new ReactNativeDialogsPackage(),
       new RNZipArchivePackage(),
       new CookieManagerPackage(),
       new ImagePickerPackage(),
