@@ -23,8 +23,7 @@
     "test:ci": "jest --forceExit --detectOpenHandles --ci --coverage",
     "test:watch": "jest --watch",
     "lint": "node_modules/.bin/eslint ./app/",
-    "lint:ci": "node_modules/.bin/eslint ./app/ -o reports/lint.html -f html",
-    "postinstall": "node node_modules/realm/scripts/download-realm.js ios --sync --force"
+    "lint:ci": "node_modules/.bin/eslint ./app/ -o reports/lint.html -f html"
   },
   "dependencies": {
     "@mapbox/geo-viewport": "0.4.0",
@@ -73,7 +72,6 @@
     "react-native-webview": "5.8.1",
     "react-native-zip-archive": "4.1.2",
     "react-redux": "5.1.1",
-    "realm": "3.6.0",
     "redux": "4.0.1",
     "redux-devtools-extension": "2.13.6",
     "redux-saga": "0.16.2",

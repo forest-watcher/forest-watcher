@@ -27,7 +27,6 @@ import com.rnappauth.RNAppAuthPackage;
 import com.rnziparchive.RNZipArchivePackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
-import io.realm.react.RealmReactPackage;
 import io.sentry.RNSentryPackage;
 
 import java.lang.reflect.InvocationTargetException;
@@ -75,7 +74,6 @@ public class MainApplication extends NavigationApplication {
       new ReactNativeConfigPackage(),
       new ReactNativeDialogsPackage(),
       new MapsPackage(),
-      new RealmReactPackage(),
       new RNZipArchivePackage(),
       new CookieManagerPackage(),
       new ImagePickerPackage(),
