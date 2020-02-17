@@ -241,8 +241,6 @@ dependencies {
     implementation "com.google.android.gms:play-services-base:16.1.0"
     implementation "com.google.firebase:firebase-core:16.0.9"
 
-    // react-native-image-picker
-    implementation project(':react-native-image-picker')
     // react-native-navigation
     implementation project(':react-native-navigation')
 

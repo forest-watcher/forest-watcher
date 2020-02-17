@@ -9,7 +9,6 @@ import com.facebook.react.ReactPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.soloader.SoLoader;
 import com.forestwatcher.intents.IntentsPackage;
-import com.imagepicker.ImagePickerPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
 import com.reactlibrary.RNSimpleCompassPackage;
@@ -72,7 +71,6 @@ public class MainApplication extends NavigationApplication {
       new ReactNativeConfigPackage(),
       new RNZipArchivePackage(),
       new CookieManagerPackage(),
-      new ImagePickerPackage(),
       new RNAppAuthPackage(),
       new FBSDKPackage(),
       new LottiePackage(),
