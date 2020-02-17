@@ -194,7 +194,6 @@ android {
         main.java.srcDirs += '../../node_modules/react-native-config/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-fbsdk/android/src/main/java'
         main.java.srcDirs += '../../node_modules/rn-fetch-blob/android/src/main/java'
-        main.java.srcDirs += '../../node_modules/react-native-maps/lib/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-sentry/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-simple-compass/android/src/main/java'
     }
@@ -247,11 +246,6 @@ dependencies {
 
     // react-native-image-picker
     implementation project(':react-native-image-picker')
-
-    // react-native-maps
-    implementation "com.google.android.gms:play-services-maps:16.1.0"
-    implementation "com.google.maps.android:android-maps-utils:0.5"
-
     // react-native-navigation
     implementation project(':react-native-navigation')
 
