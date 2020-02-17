@@ -162,6 +162,7 @@
       "react-native/react-native": true
     },
     "extends": [
+      "@react-native-community",
       "eslint:recommended",
       "plugin:flowtype/recommended",
       "plugin:import/errors",
