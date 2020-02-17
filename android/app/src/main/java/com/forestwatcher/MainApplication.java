@@ -12,7 +12,6 @@ import com.forestwatcher.intents.IntentsPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
 import com.reactlibrary.RNSimpleCompassPackage;
-import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.cookies.CookieManagerPackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.reactnativecommunity.viewpager.RNCViewPagerPackage;
@@ -82,7 +81,6 @@ public class MainApplication extends NavigationApplication {
       new RNSimpleCompassPackage(),
       new BackgroundGeolocationPackage(),
       new IntentsPackage(),
-      new AsyncStoragePackage(),
       new NetInfoPackage()
     );
   }

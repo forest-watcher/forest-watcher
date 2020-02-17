@@ -250,9 +250,6 @@ dependencies {
     // react-native-community/viewpager
     implementation project(':@react-native-community_viewpager')
 
-    // @react-native-community/async-storage
-    implementation project(':@react-native-community_async-storage')
-
     // react-native-webview
     implementation project(':react-native-webview')
 
