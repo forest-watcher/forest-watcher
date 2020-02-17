@@ -250,9 +250,6 @@ dependencies {
     // react-native-community/viewpager
     implementation project(':@react-native-community_viewpager')
 
-    // react-native-webview
-    implementation project(':react-native-webview')
-
     // react-native-zip-archive
     implementation project(':react-native-zip-archive')
 }

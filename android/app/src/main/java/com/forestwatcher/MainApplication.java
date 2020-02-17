@@ -15,7 +15,6 @@ import com.reactlibrary.RNSimpleCompassPackage;
 import com.reactnativecommunity.cookies.CookieManagerPackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.reactnativecommunity.viewpager.RNCViewPagerPackage;
-import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.reactnativenavigation.react.ReactGateway;
@@ -75,7 +74,6 @@ public class MainApplication extends NavigationApplication {
       new LottiePackage(),
       new RNSentryPackage(),
       new RNCViewPagerPackage(),
-      new RNCWebViewPackage(),
       new RNFirebasePackage(),
       new RNFirebaseAnalyticsPackage(),
       new RNSimpleCompassPackage(),
