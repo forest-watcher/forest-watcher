@@ -195,7 +195,6 @@ android {
         main.java.srcDirs += '../../node_modules/react-native-config/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-fbsdk/android/src/main/java'
         main.java.srcDirs += '../../node_modules/rn-fetch-blob/android/src/main/java'
-        main.java.srcDirs += '../../node_modules/react-native-i18n/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-maps/lib/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-sentry/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-simple-compass/android/src/main/java'

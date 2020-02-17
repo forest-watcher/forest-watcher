@@ -1,7 +1,6 @@
 package com.forestwatcher;
 
 import android.content.Context;
-import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.aakashns.reactnativedialogs.ReactNativeDialogsPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
@@ -76,7 +75,6 @@ public class MainApplication extends NavigationApplication {
       new ReactNativeConfigPackage(),
       new ReactNativeDialogsPackage(),
       new MapsPackage(),
-      new RNI18nPackage(),
       new RealmReactPackage(),
       new RNZipArchivePackage(),
       new CookieManagerPackage(),
