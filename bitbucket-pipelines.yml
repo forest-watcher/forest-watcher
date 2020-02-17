@@ -1,0 +1,7 @@
+image: node:8.12.0
+pipelines:
+  default:
+    - step:
+        script:
+          - yarn
+          - yarn lint
