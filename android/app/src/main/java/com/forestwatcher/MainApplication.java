@@ -20,8 +20,6 @@ import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.reactnativenavigation.react.ReactGateway;
 import com.rnappauth.RNAppAuthPackage;
 import com.rnziparchive.RNZipArchivePackage;
-import io.invertase.firebase.RNFirebasePackage;
-import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import io.sentry.RNSentryPackage;
 
 import java.lang.reflect.InvocationTargetException;
@@ -74,8 +72,6 @@ public class MainApplication extends NavigationApplication {
       new LottiePackage(),
       new RNSentryPackage(),
       new RNCViewPagerPackage(),
-      new RNFirebasePackage(),
-      new RNFirebaseAnalyticsPackage(),
       new RNSimpleCompassPackage(),
       new BackgroundGeolocationPackage(),
       new IntentsPackage(),

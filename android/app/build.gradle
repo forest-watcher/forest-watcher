@@ -226,6 +226,7 @@ dependencies {
 
     // lottie-react-native
     implementation 'com.airbnb.android:lottie:2.5.5'
+    implementation "com.google.android.gms:play-services-base:17.1.0"
 
     // react-native-app-auth
     implementation "net.openid:appauth:0.7.1"
@@ -235,11 +236,6 @@ dependencies {
 
     // react-native-fbsdk
     implementation('com.facebook.android:facebook-android-sdk:5.2.0')
-
-    // react-native-firebase
-    implementation project(':react-native-firebase')
-    implementation "com.google.android.gms:play-services-base:16.1.0"
-    implementation "com.google.firebase:firebase-core:16.0.9"
 
     // react-native-navigation
     implementation project(':react-native-navigation')
