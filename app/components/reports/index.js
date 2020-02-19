@@ -15,6 +15,9 @@ import { Navigation } from 'react-native-navigation';
 import { withSafeArea } from 'react-native-safe-area';
 import exportReports from 'helpers/exportReports';
 
+import ActionButton from 'components/common/action-button';
+import BottomTray from 'components/common/bottom-tray';
+
 const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
 
 const editIcon = require('assets/edit.png');
@@ -74,6 +77,8 @@ class Reports extends PureComponent<Props> {
     this.state = {
       selectedForExport: {}
     };
+
+    this.onClickShare = this.onClickShare.bind(this);
   }
 
   componentDidMount() {
@@ -123,21 +128,7 @@ class Reports extends PureComponent<Props> {
 
   navigationButtonPressed({ buttonId }) {
     if (buttonId === KEY_EXPORT_START) {
-      this.setExportButtonTo(BUTTON_EXPORT_CANCEL);
-
-      // Merge together the completed and uploaded reports.
-      const completedReports = this.props.reports.complete || [];
-      const mergedReports = completedReports.concat(this.props.reports.uploaded);
-
-      // Create an object that'll contain the 'selected' state for each report.
-      let exportData = {};
-      mergedReports.forEach(report => {
-        exportData[report.title] = false;
-      });
-
-      this.setState({
-        selectedForExport: exportData
-      });
+      
     } else if (buttonId === KEY_EXPORT_CANCEL) {
       // Reset the export button, and clear out the 'selectedForExport' state.
       this.setExportButtonTo(BUTTON_EXPORT_START);
@@ -146,6 +137,25 @@ class Reports extends PureComponent<Props> {
         selectedForExport: {}
       });
     }
+  }
+
+  onClickShare() {
+
+    this.setExportButtonTo(BUTTON_EXPORT_CANCEL);
+
+    // Merge together the completed and uploaded reports.
+    const completedReports = this.props.reports.complete || [];
+    const mergedReports = completedReports.concat(this.props.reports.uploaded);
+
+    // Create an object that'll contain the 'selected' state for each report.
+    let exportData = {};
+    mergedReports.forEach(report => {
+      exportData[report.title] = false;
+    });
+
+    this.setState({
+      selectedForExport: exportData
+    });
   }
 
   /**
@@ -409,31 +419,30 @@ class Reports extends PureComponent<Props> {
       /* View necessary to fix the swipe back on wix navigation */
       <View style={styles.container}>
         {this.renderReportsScrollView(this.props.reports, inExportMode)}
+        {!inExportMode && (
+          <BottomTray>
+            <ActionButton
+              noIcon
+              onPress={this.onClickShare}
+              secondary
+              text={i18n.t('report.share')}
+            />
+          </BottomTray>
+        )}
         {inExportMode && (
-          <SafeAreaView
-            style={[
-              styles.exportButtonContainer,
-              {
-                borderTopColor: totalToExport > 0 ? colors.turtleGreen : colors.grey
-              }
-            ]}
-          >
-            <TouchableOpacity
-              style={styles.exportButton}
+          <BottomTray>
+            <ActionButton
               disabled={totalToExport === 0}
-              onPress={() => {
-                this.onExportReportsTapped(this.state.selectedForExport, this.props.reports);
-              }}
-            >
-              <Text style={styles.exportTitle}>
-                {totalToExport > 0
+              text={totalToExport > 0
                   ? totalToExport == 1
                     ? i18n.t('report.export.oneReport', { count: 1 })
                     : i18n.t('report.export.manyReports', { count: totalToExport })
                   : i18n.t('report.export.noneSelected')}
-              </Text>
-            </TouchableOpacity>
-          </SafeAreaView>
+              onPress={() => {
+                this.onExportReportsTapped(this.state.selectedForExport, this.props.reports);
+              }}
+            />
+          </BottomTray>
         )}
       </View>
     );
