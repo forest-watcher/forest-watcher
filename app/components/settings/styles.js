@@ -20,11 +20,23 @@ export default StyleSheet.create({
   label: {
     ...Theme.sectionHeaderText
   },
+  noMarginsRow: {
+    marginBottom: 0
+  },
   user: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     flex: 1
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flex: 1
+  },
+  rowIcon: {
+    marginRight: 26
   },
   info: {
     width: '66%'
@@ -171,6 +183,7 @@ export default StyleSheet.create({
     fontSize: 14
   },
   rowLabel: {
-    ...Theme.tableRowText
+    ...Theme.tableRowText,
+    flex: 1
   }
 });

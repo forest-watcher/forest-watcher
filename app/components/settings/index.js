@@ -17,7 +17,10 @@ import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
+const layersIcon = require('assets/contextualLayers.png');
+const nextIcon = require('assets/next.png');
 const plusIcon = require('assets/plus.png');
+const shareIcon = require('assets/share.png');
 
 type Props = {
   user: any,
@@ -39,6 +42,10 @@ export default class Settings extends Component<Props> {
       }
     };
   }
+
+  shareAction: { callback: () => void, icon: any };
+
+  customLayersAction: { callback: () => void, icon: any };
 
   constructor() {
     super();
@@ -69,9 +76,27 @@ export default class Settings extends Component<Props> {
       }
     ];
 
+    this.shareAction = {
+      callback: this.onPressShare,
+      icon: nextIcon
+    }
+
+    this.customLayersAction = {
+      callback: this.onPressCustomLayers,
+      icon: nextIcon
+    };
+
     this.state = {
       versionName: getVersionName()
     };
+  }
+
+  onPressShare() {
+
+  }
+
+  onPressCustomLayers() {
+
   }
 
   componentDidMount() {
@@ -154,6 +179,14 @@ export default class Settings extends Component<Props> {
               <Text style={[styles.rowLabel, { marginLeft: 0 }]}>{i18n.t('settings.offlineMode')}</Text>
             </Row>
           </View>
+          <Row action={this.customLayersAction} rowStyle={styles.noMarginsRow} style={styles.row}>
+            <Image style={styles.rowIcon} source={layersIcon}/>
+            <Text style={styles.rowLabel}>{i18n.t('settings.customLayers')}</Text>
+          </Row>
+          <Row action={this.shareAction} rowStyle={styles.noMarginsRow} style={styles.row}>
+            <Image style={styles.rowIcon} source={shareIcon}/>
+            <Text style={styles.rowLabel}>{i18n.t('settings.shareData')}</Text>
+          </Row>
           <View style={styles.aboutSection}>
             <Text style={styles.label}>{i18n.t('settings.aboutApp')}</Text>
             <List content={this.aboutSections} bigSeparation={false}>

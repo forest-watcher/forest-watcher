@@ -346,6 +346,7 @@
         "coordinatesFormat": "Coordinates Format",
         "coordinatesUtm": "UTM",
         "coordinatesDescription": "Select a format you would like to display",
+        "customLayers": "Custom Layers",
         "logOut": "Log Out",
         "offlineMode": "Offline Mode",
         "oneWeekAgo": "One week ago",
@@ -354,7 +355,8 @@
         "unsafeLogout": "Your reports are not synced!",
         "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost.",
         "yourAreas": "Your areas",
-        "yourRoutes": "Your routes"
+        "yourRoutes": "Your routes",
+        "shareData": "Share All App Data"
     },
     "setupCountry": {
         "firstInstruction": "First, select your country of interest",

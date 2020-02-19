@@ -33,7 +33,7 @@ function List(props) {
             ios: undefined
           })}
           onPress={() => onPress(data)}
-          activeOpacity={1}
+          activeOpacity={0.5}
           underlayColor="transparent"
         >
           <View
