@@ -72,6 +72,9 @@
         "umd_as_it_happens": "Deforestation (GLAD)",
         "viirs": "Fires (VIIRS)"
     },
+    "dropdown": {
+        "done": "Done"
+    },
     "faq": {
         "eighthQuestion": {
             "title": "What does the satellite imagery basemap show?"
@@ -342,8 +345,9 @@
         "coordinatesDegrees": "Degrees",
         "coordinatesFormat": "Coordinates Format",
         "coordinatesUtm": "UTM",
-        "logOut": "LOG OUT",
-        "loggedIn": "You’re are logged in as",
+        "coordinatesDescription": "Select a format you would like to display",
+        "customLayers": "Custom Layers",
+        "logOut": "Log Out",
         "offlineMode": "Offline Mode",
         "oneWeekAgo": "One week ago",
         "timeFrame": "Time Frame",
@@ -351,7 +355,8 @@
         "unsafeLogout": "Your reports are not synced!",
         "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost.",
         "yourAreas": "Your areas",
-        "yourRoutes": "Your routes"
+        "yourRoutes": "Your routes",
+        "shareData": "Share All App Data"
     },
     "setupCountry": {
         "firstInstruction": "First, select your country of interest",

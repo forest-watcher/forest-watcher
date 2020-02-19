@@ -7450,6 +7450,11 @@ react-lifecycles-compat@^3.0.0:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-native-actions-sheet@0.1.9:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/react-native-actions-sheet/-/react-native-actions-sheet-0.1.9.tgz#03409456a5d793a2ff36482b754270880a936d32"
+  integrity sha512-MYioZKkvNJr53Z0jGHK5MIuvXjptGmbzRgfqT16bgIyFjE2Wm0DK962K9c5s8bcfrRmeE+lJ+LV+nUQw6dRimQ==
+
 react-native-app-auth@5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/react-native-app-auth/-/react-native-app-auth-5.0.0.tgz#77e1fc5738b53fad7cb4f31c6f73a3246d43b2a8"
@@ -7550,6 +7555,11 @@ react-native-progress@3.6.0:
   integrity sha512-zzTe595xaaskyfR5OzaGrU4O0R+YkgdEw+EspgGD7wh8Hu0fs6ue3xLW+HEbTjOCn62pCRivwi3NxbpWNBCC7Q==
   dependencies:
     prop-types "^15.7.2"
+
+react-native-safe-area-context@^0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-0.7.2.tgz#bec7f339eb1fd52716fd0ebe4ccc12645c7385ee"
+  integrity sha512-xdPFBt7usIKa4QYxRzNWFKeMbukRltFOAoFK0mqURm7wzxWH9Kg0rPyGzXXdgmAFTrT7Nz98h7Pc9/9Ue0TSJQ==
 
 react-native-safe-area@0.5.1:
   version "0.5.1"

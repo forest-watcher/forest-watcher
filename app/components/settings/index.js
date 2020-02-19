@@ -4,8 +4,6 @@ import { View, Text, TouchableHighlight, ScrollView, Image, Alert } from 'react-
 import { Navigation } from 'react-native-navigation';
 import Hyperlink from 'react-native-hyperlink';
 
-import type { Area } from 'types/areas.types';
-
 import List from 'components/common/list';
 import AreaList from 'containers/common/area-list';
 import Theme from 'config/theme';
@@ -19,7 +17,10 @@ import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
+const layersIcon = require('assets/contextualLayers.png');
+const nextIcon = require('assets/next.png');
 const plusIcon = require('assets/plus.png');
+const shareIcon = require('assets/share.png');
 
 type Props = {
   user: any,
@@ -31,7 +32,7 @@ type Props = {
   offlineMode: boolean,
 };
 
-class Settings extends Component<Props> {
+export default class Settings extends Component<Props> {
   static options(passProps) {
     return {
       topBar: {
@@ -41,6 +42,10 @@ class Settings extends Component<Props> {
       }
     };
   }
+
+  shareAction: { callback: () => void, icon: any };
+
+  customLayersAction: { callback: () => void, icon: any };
 
   constructor() {
     super();
@@ -71,23 +76,31 @@ class Settings extends Component<Props> {
       }
     ];
 
+    this.shareAction = {
+      callback: this.onPressShare,
+      icon: nextIcon
+    }
+
+    this.customLayersAction = {
+      callback: this.onPressCustomLayers,
+      icon: nextIcon
+    };
+
     this.state = {
       versionName: getVersionName()
     };
   }
 
-  componentDidMount() {
-    tracker.trackScreenView('Settings');
+  onPressShare() {
+
   }
 
-  UNSAFE_componentWillReceiveProps(props: Props) {
-    if (props.areas.length === 0 && props.loggedIn) {
-      Navigation.push(this.props.componentId, {
-        component: {
-          name: 'ForestWatcher.SetupCountry'
-        }
-      });
-    }
+  onPressCustomLayers() {
+
+  }
+
+  componentDidMount() {
+    tracker.trackScreenView('Settings');
   }
 
   onLogoutPress = debounceUI(() => {
@@ -123,7 +136,7 @@ class Settings extends Component<Props> {
   });
 
   render() {
-    const { areas, setOfflineMode, offlineMode } = this.props;
+    const { setOfflineMode, offlineMode } = this.props;
     const hasUserData = this.props.user.fullName && this.props.user.email;
 
     return (
@@ -134,9 +147,7 @@ class Settings extends Component<Props> {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          <Text style={styles.label}>{i18n.t('settings.loggedIn')}</Text>
-
-          <View style={styles.user}>
+          <Row style={styles.user}>
             {hasUserData ? (
               <View style={styles.info}>
                 <Text style={styles.name}>{this.props.user.fullName}</Text>
@@ -160,16 +171,22 @@ class Settings extends Component<Props> {
             <TouchableHighlight activeOpacity={0.5} underlayColor="transparent" onPress={this.onLogoutPress}>
               <Text style={styles.logout}>{i18n.t('settings.logOut')}</Text>
             </TouchableHighlight>
-          </View>
-
-          <View style={styles.coordinates}>
-            <CoordinatesDropdown />
-          </View>
+          </Row>
+          <Text style={styles.label}>{i18n.t('settings.coordinatesFormat')}</Text>
+          <CoordinatesDropdown/>
           <View style={styles.offlineMode}>
             <Row value={offlineMode} onValueChange={setOfflineMode}>
-              <Text style={[styles.label, { marginLeft: 0 }]}>{i18n.t('settings.offlineMode')}</Text>
+              <Text style={[styles.rowLabel, { marginLeft: 0 }]}>{i18n.t('settings.offlineMode')}</Text>
             </Row>
           </View>
+          <Row action={this.customLayersAction} rowStyle={styles.noMarginsRow} style={styles.row}>
+            <Image style={styles.rowIcon} source={layersIcon}/>
+            <Text style={styles.rowLabel}>{i18n.t('settings.customLayers')}</Text>
+          </Row>
+          <Row action={this.shareAction} rowStyle={styles.noMarginsRow} style={styles.row}>
+            <Image style={styles.rowIcon} source={shareIcon}/>
+            <Text style={styles.rowLabel}>{i18n.t('settings.shareData')}</Text>
+          </Row>
           <View style={styles.aboutSection}>
             <Text style={styles.label}>{i18n.t('settings.aboutApp')}</Text>
             <List content={this.aboutSections} bigSeparation={false}>
@@ -185,5 +202,3 @@ class Settings extends Component<Props> {
     );
   }
 }
-
-export default Settings;
