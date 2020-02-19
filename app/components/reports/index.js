@@ -252,27 +252,33 @@ class Reports extends PureComponent<Props> {
       }
 
       let icon = image;
+      let position = 'center';
 
       // Here, if we're currently in export mode, override the icon to show either the checkbox on or off image.
       if (this.state.selectedForExport?.[item.title] === true) {
         icon = checkboxOn;
+        position = 'top';
       } else if (this.state.selectedForExport?.[item.title] === false) {
         icon = checkboxOff;
+        position = 'top';
       }
 
-      const dateParsed = moment(item.date).fromNow();
+      const dateParsed = moment(item.date).format('YYYY-MM-DD - HH:mm:ss');
+      const timeSinceParsed = moment(item.date).fromNow();
       const action = {
-        icon: icon,
+        icon,
         callback: () => {
           onPress(item.title);
-        }
+        },
+        position
       };
       return (
-        <Row key={index + item.title} rowStyle={{ height: 120 }} action={action}>
+        <Row key={index + item.title} action={action}>
           <View style={styles.listItem}>
             <Text style={styles.itemTitle}>{item.title}</Text>
             <Text style={styles.itemText}>{positionParsed}</Text>
             <Text style={styles.itemText}>{dateParsed}</Text>
+            <Text style={styles.itemText}>{timeSinceParsed}</Text>
           </View>
         </Row>
       );
@@ -314,7 +320,7 @@ class Reports extends PureComponent<Props> {
     const hasReports = !!complete.length || !!draft.length || !!uploaded.length;
 
     return (
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
         {hasReports ? (
           <View style={styles.container}>
             {draft && draft.length > 0 && !inExportMode && this.getDrafts(draft, editIcon, this.onClickDraft)}
@@ -339,6 +345,9 @@ class Reports extends PureComponent<Props> {
     const inExportMode = Object.keys(this.state.selectedForExport).length > 0;
     const totalToExport = Object.values(this.state.selectedForExport).filter(row => row === true).length;
 
+    const { complete, draft, uploaded } = this.props.reports;
+    const totalReports = complete.length + draft.length + uploaded.length;
+
     return (
       /* View necessary to fix the swipe back on wix navigation */
       <View style={styles.container}>
@@ -357,15 +366,33 @@ class Reports extends PureComponent<Props> {
               });
             }
           }}
+          onToggleAllSelected={(selectAll) => {
+            // Merge together the completed and uploaded reports.
+            const completedReports = this.props.reports.complete || [];
+            const mergedReports = completedReports.concat(this.props.reports.uploaded);
+
+            // Create an object that'll contain the 'selected' state for each report.
+            let exportData = {};
+            mergedReports.forEach(report => {
+              exportData[report.title] = selectAll;
+            });
+
+            this.setState({
+              selectedForExport: exportData
+            });
+          }}
           ref={ref => {
             this.shareSheet = ref;
           }}
+          selected={totalToExport}
+          selectAllCountText={totalReports > 0 ? i18n.t('report.export.oneReport', { count: 1 }) : i18n.t('report.export.manyReports', { count: 1 })}
           shareButtonDisabledTitle={i18n.t('report.share')}
           shareButtonEnabledTitle={totalToExport > 0
                   ? totalToExport == 1
-                    ? i18n.t('report.export.oneReport', { count: 1 })
-                    : i18n.t('report.export.manyReports', { count: totalToExport })
+                    ? i18n.t('report.export.oneReportAction', { count: 1 })
+                    : i18n.t('report.export.manyReportsAction', { count: totalToExport })
                   : i18n.t('report.export.noneSelected')}
+          total={totalReports}
         >
           {this.renderReportsScrollView(this.props.reports, inExportMode)}
         </ShareSheet>

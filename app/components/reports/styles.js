@@ -23,6 +23,9 @@ export default StyleSheet.create({
   containerFull: {
     marginTop: 0
   },
+  contentContainer: {
+    paddingTop: 44
+  },
   listContainer: {
     flex: 1,
     marginBottom: 24

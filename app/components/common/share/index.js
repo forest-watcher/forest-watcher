@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
 import i18n from 'locales';
-import { View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import styles from './styles';
 
 import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
+import Row from 'components/common/row';
 
 import { Navigation } from 'react-native-navigation';
 
@@ -15,9 +16,13 @@ type Props = {
   enabled: boolean,
   onShare: () => void,
   onSharingToggled?: (sharing: boolean) => void,
+  onToggleAllSelected?: (all: boolean) => void,
+  selectAllCountText: string,
   shareButtonDisabledTitle: string,
   shareButtonEnabledTitle: string,
-  shareEnabled: boolean
+  shareEnabled: boolean,
+  total: number,
+  selected: number
 };
 
 const KEY_EXPORT_DONE = 'key_export_done';
@@ -60,6 +65,11 @@ export default class ShareSelector extends Component<Props> {
     this.props.onSharingToggled?.(true);
   }
 
+  onToggleAllSelected = () => {
+    const allSelected = this.props.total === this.props.selected;
+    this.props.onToggleAllSelected?.(!allSelected)
+  }
+
   setDoneButtonVisible = (visible) => {
     if (!this.props.componentId) {
       return;
@@ -74,11 +84,20 @@ export default class ShareSelector extends Component<Props> {
   render() {  
 
     const { sharing } = this.state;
+    const allSelected = this.props.total === this.props.selected;
 
     return (
       <View
         style={[this.props.style, styles.container]}
       >
+        {sharing && (
+          <Row rowStyle={styles.header} style={styles.headerContent}>
+            <Text style={styles.rowText}>{this.props.selectAllCountText}</Text>
+            <TouchableOpacity onPress={this.onToggleAllSelected}>
+              <Text style={styles.buttonText}>{allSelected ? i18n.t('commonText.deselectAll') : i18n.t('commonText.selectAll')}</Text>
+            </TouchableOpacity>
+          </Row>
+        )}
         {this.props.children}
         <BottomTray>
           <ActionButton

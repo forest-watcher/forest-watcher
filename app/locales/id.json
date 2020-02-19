@@ -249,8 +249,8 @@
         "export": {
             "navBarButtonText": "Ekspor",
             "noneSelected": "Tak ada laporan yang dipilih",
-            "oneReport": "Ekspor %{count} laporan...",
-            "manyReports": "Ekspor %{count} laporan...",
+            "oneReportAction": "Ekspor %{count} laporan...",
+            "manyReportsAction": "Ekspor %{count} laporan...",
             "title": "Ekspor laporan",
             "description": "Bagaimana Anda ingin mengekspor laporan ini?",
             "option": {

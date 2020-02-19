@@ -32,6 +32,7 @@
         "connectionRequiredTitle": "No connection",
         "crashFeedback": "Something went wrong. We're working on getting this fixed as soon as we can.",
         "date": "Date",
+        "deselectAll": "Deselect All",
         "done": "Done",
         "error": "Error",
         "finish": "Finish",
@@ -50,6 +51,7 @@
         "reportedPosition": "Reported Position",
         "retry": "Retry",
         "saving": "Saving",
+        "selectAll": "Select All",
         "send": "Send",
         "setup": "Set up",
         "userPosition": "User Position"
@@ -261,8 +263,10 @@
         "export": {
             "navBarButtonText": "Export",
             "noneSelected": "No reports selected",
-            "oneReport": "Export %{count} report...",
-            "manyReports": "Export %{count} reports...",
+            "oneReport": "%{count} Report",
+            "oneReportAction": "Export %{count} report...",
+            "manyReports": "%{count} Reports",
+            "manyReportsAction": "Export %{count} reports...",
             "title": "Export report",
             "description": "How would you like to export this report?",
             "option": {
