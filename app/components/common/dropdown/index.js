@@ -77,7 +77,7 @@ export default class Dropdown extends Component<Props> {
                   {options.map((option, i) => (
                     <Row 
                       action={{
-                        callback: this.onSelectedOption.bind(option.value)
+                        callback: this.onSelectedOption.bind(this, option.value)
                       }}
                       key={option.value + i} 
                       rowStyle={styles.optionRow}
