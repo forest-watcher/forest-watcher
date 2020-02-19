@@ -29,7 +29,7 @@ type Props = {
   offlineMode: boolean,
 };
 
-class Settings extends Component<Props> {
+export default class Settings extends Component<Props> {
   static options(passProps) {
     return {
       topBar: {
@@ -169,5 +169,3 @@ class Settings extends Component<Props> {
     );
   }
 }
-
-export default Settings;

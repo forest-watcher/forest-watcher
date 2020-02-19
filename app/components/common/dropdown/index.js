@@ -21,7 +21,7 @@ type Props = {
   options: Array<{ label: string, value: string }>
 };
 
-class Dropdown extends Component<Props> {
+export default class Dropdown extends Component<Props> {
 
   showActionSheetAction: { callback: () => void, icon: any };
 
@@ -29,22 +29,20 @@ class Dropdown extends Component<Props> {
     super(props);
 
     this.showActionSheetAction = {
-      callback: this.onShowActionSheet.bind(this),
+      callback: this.onShowActionSheet,
       icon: nextIcon
     }
-
-    this.onDismissActionSheet = this.onDismissActionSheet.bind(this);
   }
 
-  onDismissActionSheet() {
+  onDismissActionSheet = () => {
     this.actionSheet?.setModalVisible(false);
   }
 
-  onSelectedOption(value) {
+  onSelectedOption = (value) => {
     this.props.onValueChange(value);
   }
 
-  onShowActionSheet() {
+  onShowActionSheet = () => {
     this.actionSheet?.setModalVisible();
   }
 
@@ -79,7 +77,7 @@ class Dropdown extends Component<Props> {
                   {options.map((option, i) => (
                     <Row 
                       action={{
-                        callback: this.onSelectedOption.bind(this, option.value)
+                        callback: this.onSelectedOption.bind(option.value)
                       }}
                       key={option.value + i} 
                       rowStyle={styles.optionRow}
@@ -104,5 +102,3 @@ class Dropdown extends Component<Props> {
     );
   }
 }
-
-export default Dropdown;
