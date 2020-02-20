@@ -39,7 +39,7 @@ export type Template = {
 };
 
 export type Report = {
-  name: string,
+  reportName: string,
   area: Area,
   userPosition: string,
   clickedPosition: string,

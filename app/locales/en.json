@@ -274,6 +274,8 @@
             },
             "successful": "Exporting reports succeeded!"
         },
+        "viirs": "Fire Report",
+        "glad": "Deforestation Report",
         "here": "Report here",
         "input": "Please, answer the question",
         "inputRadio": "Choose one option to continue",

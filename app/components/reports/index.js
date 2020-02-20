@@ -14,6 +14,7 @@ import { colors } from 'config/theme';
 import { Navigation } from 'react-native-navigation';
 import { withSafeArea } from 'react-native-safe-area';
 import exportReports from 'helpers/exportReports';
+import { readableNameForReport } from 'helpers/reports';
 
 import ShareSheet from 'components/common/share';
 
@@ -265,6 +266,7 @@ class Reports extends PureComponent<Props> {
 
       const dateParsed = moment(item.date).format('YYYY-MM-DD - HH:mm:ss');
       const timeSinceParsed = moment(item.date).fromNow();
+      const title = readableNameForReport(item);
       const action = {
         icon,
         callback: () => {
@@ -275,7 +277,7 @@ class Reports extends PureComponent<Props> {
       return (
         <Row key={index + item.title} action={action}>
           <View style={styles.listItem}>
-            <Text style={styles.itemTitle}>{item.title}</Text>
+            <Text style={styles.itemTitle}>{title}</Text>
             <Text style={styles.itemText}>{positionParsed}</Text>
             <Text style={styles.itemText}>{dateParsed}</Text>
             <Text style={styles.itemText}>{timeSinceParsed}</Text>
