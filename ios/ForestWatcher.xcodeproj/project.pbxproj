@@ -244,6 +244,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ForestWatcher" */;
 			buildPhases = (
+				B195147C23FED17200AEE693 /* Generate Tmp XCConfig */,
 				545C73DF8ED53C595077D845 /* [CP] Check Pods Manifest.lock */,
 				B1E4BA1523E2E1D500A7BC85 /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
@@ -441,6 +442,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym\n";
+		};
+		B195147C23FED17200AEE693 /* Generate Tmp XCConfig */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Tmp XCConfig";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../node_modules/react-native-config/ios/ReactNativeConfig/BuildXCConfig.rb\" \"${SRCROOT}/..\" \"${SRCROOT}/tmp.xcconfig\"\n";
 		};
 		B1E4BA1523E2E1D500A7BC85 /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
