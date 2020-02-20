@@ -14,7 +14,7 @@ import { colors } from 'config/theme';
 import { Navigation } from 'react-native-navigation';
 import { withSafeArea } from 'react-native-safe-area';
 import exportReports from 'helpers/exportReports';
-import { readableNameForReport } from 'helpers/reports';
+import { readableNameForReportName } from 'helpers/reports';
 
 import ShareSheet from 'components/common/share';
 
@@ -224,7 +224,7 @@ class Reports extends PureComponent<Props> {
 
     // Show 'export successful' notification, and reset export state to reset UI.
     this.props.showExportReportsSuccessfulNotification();
-    this.shareSheet?.setSharing(false);
+    this.shareSheet?.setSharing?.(false);
     this.setState({
       selectedForExport: {}
     });
@@ -233,6 +233,32 @@ class Reports extends PureComponent<Props> {
       NativeModules.Intents.launchDownloadsDirectory();
     }
   });
+
+  setAllSelected = (selected: boolean) => {
+    // Merge together the completed and uploaded reports.
+    const completedReports = this.props.reports.complete || [];
+    const mergedReports = completedReports.concat(this.props.reports.uploaded);
+
+    // Create an object that'll contain the 'selected' state for each report.
+    let exportData = {};
+    mergedReports.forEach(report => {
+      exportData[report.title] = selected;
+    });
+
+    this.setState({
+      selectedForExport: exportData
+    });
+  }
+
+  setSharing = (sharing: boolean) => {
+    if (sharing) {
+      this.onClickShare();
+    } else {
+      this.setState({
+        selectedForExport: {}
+      });
+    }
+  }
 
   /**
    * getItems - Returns an array of rows, based on the report data provided.
@@ -266,7 +292,7 @@ class Reports extends PureComponent<Props> {
 
       const dateParsed = moment(item.date).format('YYYY-MM-DD - HH:mm:ss');
       const timeSinceParsed = moment(item.date).fromNow();
-      const title = readableNameForReport(item);
+      const title = readableNameForReportName(item.reportName);
       const action = {
         icon,
         callback: () => {
@@ -359,35 +385,13 @@ class Reports extends PureComponent<Props> {
           onShare={() => {
             this.onExportReportsTapped(this.state.selectedForExport, this.props.reports);
           }}
-          onSharingToggled={(sharing) => {
-            if (sharing) {
-              this.onClickShare();
-            } else {
-              this.setState({
-                selectedForExport: {}
-              });
-            }
-          }}
-          onToggleAllSelected={(selectAll) => {
-            // Merge together the completed and uploaded reports.
-            const completedReports = this.props.reports.complete || [];
-            const mergedReports = completedReports.concat(this.props.reports.uploaded);
-
-            // Create an object that'll contain the 'selected' state for each report.
-            let exportData = {};
-            mergedReports.forEach(report => {
-              exportData[report.title] = selectAll;
-            });
-
-            this.setState({
-              selectedForExport: exportData
-            });
-          }}
+          onSharingToggled={this.setSharing}
+          onToggleAllSelected={this.setAllSelected}
           ref={ref => {
             this.shareSheet = ref;
           }}
           selected={totalToExport}
-          selectAllCountText={totalReports > 0 ? i18n.t('report.export.oneReport', { count: 1 }) : i18n.t('report.export.manyReports', { count: 1 })}
+          selectAllCountText={totalReports > 1 ? i18n.t('report.export.manyReports', { count: totalReports }) : i18n.t('report.export.oneReport', { count: 1 })}
           shareButtonDisabledTitle={i18n.t('report.share')}
           shareButtonEnabledTitle={totalToExport > 0
                   ? totalToExport == 1
