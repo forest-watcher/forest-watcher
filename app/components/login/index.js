@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { Alert, View, Text, TouchableHighlight, Image, ActivityIndicator, SafeAreaView } from 'react-native';
+import { Alert, View, Text, TouchableHighlight, Image, ImageBackground, ActivityIndicator } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 import SafeArea from 'react-native-safe-area';
@@ -14,6 +14,10 @@ import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import { getLanguage } from 'helpers/language';
 
+import { withSafeArea } from 'react-native-safe-area';
+const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
+const WebViewSafeAreaView = withSafeArea(View, 'padding', 'top');
+
 import { launchAppRoot } from 'main';
 import moment from 'moment';
 const parseUrl = require('url-parse');
@@ -25,6 +29,7 @@ import 'moment/locale/id';
 
 import styles from './styles';
 
+const headerImage = require('assets/login_bg.jpg');
 const logoIcon = require('assets/logo_dark.png');
 const facebookIcon = require('assets/facebook_white.png');
 const twitterIcon = require('assets/twitter_white.png');
@@ -179,7 +184,7 @@ class Login extends PureComponent<Props, State> {
 
   renderWebview() {
     return (
-      <View style={{ flex: 1 }}>
+      <WebViewSafeAreaView style={{ flex: 1 }}>
         <View
           style={[
             styles.webViewHeader,
@@ -209,17 +214,17 @@ class Login extends PureComponent<Props, State> {
           onNavigationStateChange={this.onNavigationStateChange}
           startInLoadingState
         />
-      </View>
+      </WebViewSafeAreaView>
     );
   }
 
   renderSignInPage() {
     return (
-      <View>
+      <View style={styles.signInContainer}>
         {this.props.loading && Login.renderLoading()}
-        <View style={styles.intro}>
-          <Image style={styles.logo} source={logoIcon} />
-        </View>
+        <ImageBackground  resizeMode="cover" style={styles.intro} source={headerImage}>
+          <Image source={logoIcon} />
+        </ImageBackground>
         <View style={styles.bottomContainer}>
           <View style={styles.buttons}>
             <Text style={styles.buttonsLabel}>{i18n.t('login.introductionText')}</Text>
@@ -230,9 +235,11 @@ class Login extends PureComponent<Props, State> {
               underlayColor={Theme.socialNetworks.facebook}
               disabled={this.props.loading}
             >
-              <View>
-                <Image style={styles.iconFacebook} source={facebookIcon} />
-                <Text style={styles.buttonText}>{i18n.t('login.facebookTitle')}</Text>
+              <View style={styles.buttonContent}>
+                <View style={styles.buttonTitleContainer}>
+                  <Image resizeMode={'contain'} style={styles.iconFacebook} source={facebookIcon} />
+                  <Text style={styles.buttonText}>{i18n.t('login.facebookTitle')}</Text>
+                </View>
                 <Image style={styles.iconArrow} source={nextIcon} />
               </View>
             </TouchableHighlight>
@@ -243,9 +250,11 @@ class Login extends PureComponent<Props, State> {
               underlayColor={Theme.socialNetworks.twitter}
               disabled={this.props.loading}
             >
-              <View>
-                <Image style={styles.iconTwitter} source={twitterIcon} />
-                <Text style={styles.buttonText}>{i18n.t('login.twitterTitle')}</Text>
+              <View style={styles.buttonContent}>
+                <View style={styles.buttonTitleContainer}>
+                  <Image resizeMode={'contain'} style={styles.iconTwitter} source={twitterIcon} />
+                  <Text style={styles.buttonText}>{i18n.t('login.twitterTitle')}</Text>
+                </View>
                 <Image style={styles.iconArrow} source={nextIcon} />
               </View>
             </TouchableHighlight>
@@ -256,25 +265,28 @@ class Login extends PureComponent<Props, State> {
               underlayColor={Theme.socialNetworks.google}
               disabled={this.props.loading}
             >
-              <View>
-                <Image style={styles.iconGoogle} source={googleIcon} />
-                <Text style={styles.buttonText}>{i18n.t('login.googleTitle')}</Text>
+              <View style={styles.buttonContent}>
+                <View style={styles.buttonTitleContainer}>
+                  <Image resizeMode={'contain'} style={styles.iconGoogle} source={googleIcon} />
+                  <Text style={styles.buttonText}>{i18n.t('login.googleTitle')}</Text>
+                </View>
                 <Image style={styles.iconArrow} source={nextIcon} />
               </View>
             </TouchableHighlight>
           </View>
-          <Text style={styles.versionText}>{this.state.versionName}</Text>
         </View>
+        <Text style={styles.versionText}>{this.state.versionName}</Text>
       </View>
     );
   }
 
   render() {
+    const ContentView = this.state.webviewVisible ? View : SafeAreaView;
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <ContentView style={{ flex: 1 }}>
         {this.state.webviewVisible && this.renderWebview()}
         {!this.state.webviewVisible && this.renderSignInPage()}
-      </SafeAreaView>
+      </ContentView>
     );
   }
 }
