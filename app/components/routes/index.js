@@ -204,15 +204,31 @@ export default class Routes extends PureComponent<Props> {
   };
 
   /**
-   * getItems - Returns an array of rows, based on the route data provided.
+   * Sorts oroutes in descending date order
    *
-   * @param  {Array} data <Route>  An array of reports.
+   * @param {Array} routes <Route> An array of routes
+   * @return {Array} The routes, but sorted...
+   */
+  sortedRoutes(routes: Array<Route>) {
+    let sorted = [...routes];
+    sorted.sort((a, b) => {
+      if (a.date > b.date) return -1;
+      if (a.date < b.date) return +1;
+      return 0;
+    });
+    return sorted;
+  }
+
+  /**
+   * renderItems - Returns an array of rows, based on the route data provided.
+   *
+   * @param  {Array} data <Route>  An array of routes.
    * @param  {any} image                The action image.
    * @param  {void} onPress             The action callback.
    * @return {Array}                    An array of route rows.
    */
-  getItems(data: Array<Route>, image: any, onPress: string => void) {
-    return data.map((item, index) => {
+  renderItems(data: Array<Route>, image: any, onPress: string => void) {
+    return this.sortedRoutes(data).map((item, index) => {
       
       const routeDistance = getDistanceOfPolyline(item.locations);
       const dateText = moment(item.endDate).format('ll');
@@ -244,7 +260,7 @@ export default class Routes extends PureComponent<Props> {
         <View style={styles.listHeader}>
           <Text style={styles.listTitle}>{title}</Text>
         </View>
-        {this.getItems(...options)}
+        {this.renderItems(...options)}
       </View>
     );
   }
