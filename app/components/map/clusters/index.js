@@ -29,7 +29,9 @@ class Clusters extends PureComponent<Props> {
   markerAnchor = { x: 0.5, y: 0.5 };
 
   render() {
-    if (!this.props.markers) return null;
+    if (!this.props.markers) {
+      return null;
+    }
     return (
       <React.Fragment>
         {this.props.markers.map((marker, index) => {

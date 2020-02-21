@@ -32,7 +32,9 @@ function parseCoordinates(coordinates) {
 }
 
 function getGoogleMapsCoordinates(coordinates) {
-  if (!coordinates) return [];
+  if (!coordinates) {
+    return [];
+  }
   return coordinates.map(cordinate => ({
     latitude: cordinate[1],
     longitude: cordinate[0]

@@ -63,7 +63,6 @@ export default class Routes extends PureComponent<Props> {
   }
 
   onClickShare() {
-
     const routes = this.props.routes || [];
 
     // Create an object that'll contain the 'selected' state for each route.
@@ -136,8 +135,7 @@ export default class Routes extends PureComponent<Props> {
    *
    * @param  {Object} selectedRoutes A mapping of route identifiers to a boolean dictating whether they've been selected for export.
    */
-  onExportRoutesTapped = debounceUI(async (selectedRoutes) => {
-
+  onExportRoutesTapped = debounceUI(async selectedRoutes => {
     let routes = this.props.routes || [];
     let routesToExport = [];
 
@@ -148,11 +146,11 @@ export default class Routes extends PureComponent<Props> {
         return;
       }
 
-      const selectedRoute = routes.find(route => (route.areaId + route.id) === key);
+      const selectedRoute = routes.find(route => route.areaId + route.id === key);
       routesToExport.push(selectedRoute);
     });
 
-    console.log("Export routes", routesToExport);
+    console.log('Export routes', routesToExport);
 
     // await exportReports(
     //   reportsToExport,
@@ -179,7 +177,6 @@ export default class Routes extends PureComponent<Props> {
   });
 
   setAllSelected = (selected: boolean) => {
-
     const mergedRoutes = this.props.routes || [];
 
     // Create an object that'll contain the 'selected' state for each route.
@@ -212,8 +209,12 @@ export default class Routes extends PureComponent<Props> {
   sortedRoutes(routes: Array<Route>) {
     let sorted = [...routes];
     sorted.sort((a, b) => {
-      if (a.date > b.date) return -1;
-      if (a.date < b.date) return +1;
+      if (a.date > b.date) {
+        return -1;
+      }
+      if (a.date < b.date) {
+        return +1;
+      }
       return 0;
     });
     return sorted;
@@ -229,11 +230,10 @@ export default class Routes extends PureComponent<Props> {
    */
   renderItems(data: Array<Route>, image: any, onPress: string => void) {
     return this.sortedRoutes(data).map((item, index) => {
-      
       const routeDistance = getDistanceOfPolyline(item.locations);
       const dateText = moment(item.endDate).format('ll');
       const distanceText = formatDistance(routeDistance, 1, false);
-      const subtitle = dateText + ", " + distanceText;
+      const subtitle = dateText + ', ' + distanceText;
       // const action = {
       //   icon,
       //   callback: () => {
@@ -245,7 +245,9 @@ export default class Routes extends PureComponent<Props> {
       return (
         <VerticalSplitRow
           onSettingsPress={this.onClickRouteSettings.bind(this, item)}
-          onPress={() => { onPress(item) }}
+          onPress={() => {
+            onPress(item);
+          }}
           title={item.name}
           subtitle={subtitle}
           selected={this.state.selectedForExport[item.areaId + item.id]}
@@ -276,10 +278,22 @@ export default class Routes extends PureComponent<Props> {
     const hasRoutes = !!routes.length;
 
     return (
-      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
         {hasRoutes ? (
           <View style={styles.container}>
-            {routes && routes.length > 0 && this.renderSection(i18n.t('routes.myRoutes'), routes, nextIcon, inExportMode ? this.onRouteSelectedForExport : this.onClickRoute)}
+            {routes &&
+              routes.length > 0 &&
+              this.renderSection(
+                i18n.t('routes.myRoutes'),
+                routes,
+                nextIcon,
+                inExportMode ? this.onRouteSelectedForExport : this.onClickRoute
+              )}
           </View>
         ) : (
           <View style={styles.containerEmpty}>
@@ -312,13 +326,19 @@ export default class Routes extends PureComponent<Props> {
             this.shareSheet = ref;
           }}
           selected={totalToExport}
-          selectAllCountText={totalRoutes > 1 ? i18n.t('routes.export.manyRoutes', { count: totalRoutes }) : i18n.t('routes.export.oneRoute', { count: 1 })}
+          selectAllCountText={
+            totalRoutes > 1
+              ? i18n.t('routes.export.manyRoutes', { count: totalRoutes })
+              : i18n.t('routes.export.oneRoute', { count: 1 })
+          }
           shareButtonDisabledTitle={i18n.t('routes.share')}
-          shareButtonEnabledTitle={totalToExport > 0
-                  ? totalToExport == 1
-                    ? i18n.t('routes.export.oneRouteAction', { count: 1 })
-                    : i18n.t('routes.export.manyRoutesAction', { count: totalToExport })
-                  : i18n.t('routes.export.noneSelected')}
+          shareButtonEnabledTitle={
+            totalToExport > 0
+              ? totalToExport == 1
+                ? i18n.t('routes.export.oneRouteAction', { count: 1 })
+                : i18n.t('routes.export.manyRoutesAction', { count: totalToExport })
+              : i18n.t('routes.export.noneSelected')
+          }
           total={totalRoutes}
         >
           {this.renderRoutesScrollView(this.props.routes, inExportMode)}

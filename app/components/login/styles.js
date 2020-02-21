@@ -23,7 +23,7 @@ export default StyleSheet.create({
     fontSize: 17,
     fontWeight: '400',
     marginBottom: 24,
-    textAlign: "center",
+    textAlign: 'center',
     ...Platform.select({
       android: {
         marginBottom: 8

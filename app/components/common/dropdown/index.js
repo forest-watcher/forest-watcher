@@ -10,11 +10,10 @@ import { SafeAreaConsumer } from 'react-native-safe-area-context';
 
 import i18n from 'locales';
 
-
 const nextIcon = require('assets/next.png');
 
 type Props = {
-  description:? string,
+  description: ?string,
   label: string,
   selectedValue: string,
   onValueChange: string => Void,
@@ -22,7 +21,6 @@ type Props = {
 };
 
 export default class Dropdown extends Component<Props> {
-
   showActionSheetAction: { callback: () => void, icon: any };
 
   constructor(props: Props) {
@@ -31,70 +29,62 @@ export default class Dropdown extends Component<Props> {
     this.showActionSheetAction = {
       callback: this.onShowActionSheet,
       icon: nextIcon
-    }
+    };
   }
 
   onDismissActionSheet = () => {
     this.actionSheet?.setModalVisible(false);
-  }
+  };
 
-  onSelectedOption = (value) => {
+  onSelectedOption = value => {
     this.props.onValueChange(value);
-  }
+  };
 
   onShowActionSheet = () => {
     this.actionSheet?.setModalVisible();
-  }
+  };
 
-  render() {  
+  render() {
     const { description, label, selectedValue, options } = this.props;
-    const selectedLabel = options.find(option => {
-      return option.value === selectedValue;
-    }).label ?? selectedValue
+    const selectedLabel =
+      options.find(option => {
+        return option.value === selectedValue;
+      }).label ?? selectedValue;
     return (
-      <Row 
-        action={this.showActionSheetAction}
-      >
-        {label && (<Text style={styles.label}>{label}</Text>)}
+      <Row action={this.showActionSheetAction}>
+        {label && <Text style={styles.label}>{label}</Text>}
         <Text style={styles.label}>{selectedLabel.charAt(0).toUpperCase() + selectedLabel.substring(1)}</Text>
-        <ActionSheet 
-          ref={ref => { this.actionSheet = ref }}
+        <ActionSheet
+          ref={ref => {
+            this.actionSheet = ref;
+          }}
         >
           <SafeAreaConsumer>
             {insets => (
-              <View style={{marginBottom: insets.bottom}}>
+              <View style={{ marginBottom: insets.bottom }}>
                 <View style={styles.pickerHeader}>
                   <View>
                     <Text style={styles.label}>{label}</Text>
-                    {description && (
-                      <Text style={styles.smallLabel}>{description}</Text>
-                    )}
+                    {description && <Text style={styles.smallLabel}>{description}</Text>}
                   </View>
-                  <TouchableOpacity 
-                    onPress={this.onDismissActionSheet}
-                    style={styles.doneButtonContainer}
-                  >
+                  <TouchableOpacity onPress={this.onDismissActionSheet} style={styles.doneButtonContainer}>
                     <Text style={styles.doneLabel}>{i18n.t('dropdown.done')}</Text>
                   </TouchableOpacity>
                 </View>
                 <View style={styles.pickerContent}>
                   {options.map((option, i) => (
-                    <Row 
+                    <Row
                       action={{
                         callback: this.onSelectedOption.bind(this, option.value)
                       }}
-                      key={option.value + i} 
+                      key={option.value + i}
                       rowStyle={styles.optionRow}
                       style={styles.optionRowContainer}
                     >
                       <View style={[styles.switch, option.value == selectedValue ? styles.switchOn : ' ']}>
-                        {option.value == selectedValue && (
-                          <View style={styles.switchInterior}/>
-                        )}
+                        {option.value == selectedValue && <View style={styles.switchInterior} />}
                       </View>
-                      <Text style={styles.smallLabel}>
-                        {option.label}
-                      </Text>
+                      <Text style={styles.smallLabel}>{option.label}</Text>
                     </Row>
                   ))}
                 </View>

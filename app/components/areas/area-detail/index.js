@@ -200,7 +200,9 @@ class AreaDetail extends Component<Props, State> {
   render() {
     const { area, disableDelete, routes } = this.props;
 
-    if (!area) return null;
+    if (!area) {
+      return null;
+    }
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView
@@ -254,7 +256,7 @@ class AreaDetail extends Component<Props, State> {
                 const routeDistance = getDistanceOfPolyline(route.locations);
                 const dateText = moment(route.endDate).format('ll');
                 const distanceText = formatDistance(routeDistance, 1, false);
-                const subtitle = dateText + ", " + distanceText;
+                const subtitle = dateText + ', ' + distanceText;
                 // const action = {
                 //   icon,
                 //   callback: () => {

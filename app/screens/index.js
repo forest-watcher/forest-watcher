@@ -31,7 +31,7 @@ import SaveRoute from '../containers/routes/save-route';
 function registerComponent(name, Screen, Provider, store) {
   Navigation.registerComponent(
     name,
-    () => (props) => (
+    () => props => (
       <Provider store={store}>
         <SafeAreaProvider>
           <Screen {...props} />
@@ -57,7 +57,7 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.NewReport', NewReport, Provider, store);
   registerComponent('ForestWatcher.AreaDetail', AreaDetail, Provider, store);
   registerComponent('ForestWatcher.Partners', Partners, Provider, store);
-  registerComponent('ForestWatcher.TermsAndConditions',  TermsAndConditions, Provider, store);
+  registerComponent('ForestWatcher.TermsAndConditions', TermsAndConditions, Provider, store);
   registerComponent('ForestWatcher.FaqList', FaqList, Provider, store);
   registerComponent('ForestWatcher.FaqDetail', FaqDetail, Provider, store);
   registerComponent('ForestWatcher.Sync', Sync, Provider, store);

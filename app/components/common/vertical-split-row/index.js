@@ -11,28 +11,26 @@ const checkboxOff = require('assets/checkbox_off.png');
 const checkboxOn = require('assets/checkbox_on.png');
 
 type Props = {
-  imageSrc:? string,
+  imageSrc: ?string,
   onPress: void => void,
   onSettingsPress: void => void,
-  selected:? boolean,
-  subtitle:? string,
+  selected: ?boolean,
+  subtitle: ?string,
   title: string
 };
 
 export default class VerticalSplitRow extends Component<Props> {
-
   render() {
-
     const { selected } = this.props;
-    const icon = selected != null ? (selected ? checkboxOn : checkboxOff) : nextIcon; 
+    const icon = selected != null ? (selected ? checkboxOn : checkboxOff) : nextIcon;
 
     return (
       <TouchableHighlight
         activeOpacity={0.5}
         underlayColor="transparent"
         onPress={this.props.onPress}
-        key={this.props.key}    
-      >            
+        key={this.props.key}
+      >
         <View style={styles.item}>
           <View style={styles.imageContainer}>
             {this.props.imageSrc ? <Image style={styles.image} source={{ uri: this.props.imageSrc }} /> : null}
@@ -43,21 +41,14 @@ export default class VerticalSplitRow extends Component<Props> {
                 <Text style={styles.title} numberOfLines={2}>
                   {this.props.title}
                 </Text>
-                {!!this.props.subtitle && (
-                  <Text style={styles.subtitle}>
-                    {this.props.subtitle}
-                  </Text>
-                )}
+                {!!this.props.subtitle && <Text style={styles.subtitle}>{this.props.subtitle}</Text>}
               </View>
               <Image style={[Theme.icon, styles.disclosureIndicator]} source={icon} />
             </View>
-            <SettingsButton 
-              onPress={this.props.onSettingsPress}
-              style={styles.settingsButton}
-            />
+            <SettingsButton onPress={this.props.onSettingsPress} style={styles.settingsButton} />
           </View>
         </View>
       </TouchableHighlight>
-    )
+    );
   }
 }

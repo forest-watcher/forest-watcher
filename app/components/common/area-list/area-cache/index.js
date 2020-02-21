@@ -102,7 +102,9 @@ class AreaCache extends PureComponent<Props, State> {
   onRetry = () => {
     this.resetCacheStatus();
     const action = this.getCacheAreaAction();
-    if (action) action();
+    if (action) {
+      action();
+    }
   };
 
   onRefresh = () => {
@@ -117,17 +119,27 @@ class AreaCache extends PureComponent<Props, State> {
   getCacheAreaAction = () => {
     const { cacheStatus, isOfflineMode } = this.props;
     const { canRefresh } = this.state;
-    if (isOfflineMode) return this.onOfflinePress;
-    if (!cacheStatus.completed) return this.onDownload;
-    if (canRefresh && cacheStatus.completed) return this.onRefresh;
+    if (isOfflineMode) {
+      return this.onOfflinePress;
+    }
+    if (!cacheStatus.completed) {
+      return this.onDownload;
+    }
+    if (canRefresh && cacheStatus.completed) {
+      return this.onRefresh;
+    }
     return null;
   };
 
   getCacheAreaIcon = () => {
     const { cacheStatus } = this.props;
     const { canRefresh } = this.state;
-    if (!cacheStatus.completed) return downloadIcon;
-    if (!canRefresh) return downloadedIcon;
+    if (!cacheStatus.completed) {
+      return downloadIcon;
+    }
+    if (!canRefresh) {
+      return downloadedIcon;
+    }
     return refreshIcon;
   };
 
@@ -179,7 +191,9 @@ class AreaCache extends PureComponent<Props, State> {
         />
       </View>
     );
-    if ((cacheStatus.requested && !cacheStatus.completed) || checkingConnectivity) return progressBar;
+    if ((cacheStatus.requested && !cacheStatus.completed) || checkingConnectivity) {
+      return progressBar;
+    }
     return cacheButton;
   }
 }

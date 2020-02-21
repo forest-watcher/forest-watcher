@@ -84,7 +84,9 @@ export function pointsToGeoJSON(points: Array<Alert>, slug: string) {
 }
 
 export function getContextualLayer(layers) {
-  if (!layers.activeLayer) return null;
+  if (!layers.activeLayer) {
+    return null;
+  }
   return layers.data.find(layer => layer.id === layers.activeLayer);
 }
 
@@ -103,7 +105,9 @@ export function formatCoordsByFormat(coordinates: Coordinates, format: Coordinat
 }
 
 export function getMapZoom(region) {
-  if (!region.longitude || !region.latitude) return 0;
+  if (!region.longitude || !region.latitude) {
+    return 0;
+  }
   const bounds = [
     region.longitude - region.longitudeDelta / 2.5,
     region.latitude - region.latitudeDelta / 2.5,
@@ -115,7 +119,9 @@ export function getMapZoom(region) {
 }
 
 function pointsFromCluster(cluster) {
-  if (!cluster || !cluster.length > 0) return [];
+  if (!cluster || !cluster.length > 0) {
+    return [];
+  }
   return cluster
     .filter(marker => marker.properties.point_count === undefined)
     .map(feature => ({

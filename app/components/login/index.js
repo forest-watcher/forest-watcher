@@ -107,7 +107,9 @@ class Login extends PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (this.props.loggedIn) this.onLoggedIn();
+    if (this.props.loggedIn) {
+      this.onLoggedIn();
+    }
 
     if (prevProps.logSuccess !== this.props.logSuccess) {
       this.ensureLogout();
@@ -222,7 +224,7 @@ class Login extends PureComponent<Props, State> {
     return (
       <View style={styles.signInContainer}>
         {this.props.loading && Login.renderLoading()}
-        <ImageBackground  resizeMode="cover" style={styles.intro} source={headerImage}>
+        <ImageBackground resizeMode="cover" style={styles.intro} source={headerImage}>
           <Image source={logoIcon} />
         </ImageBackground>
         <View style={styles.bottomContainer}>

@@ -35,21 +35,20 @@ const BUTTON_EXPORT_DONE = [
 ];
 
 export default class ShareSelector extends Component<Props> {
-
   constructor(props) {
     super(props);
     this.state = {
       sharing: false
-    }
+    };
     Navigation.events().bindComponent(this);
   }
 
-  setSharing = (sharing) => {
+  setSharing = sharing => {
     this.setDoneButtonVisible(sharing);
     this.setState({
       sharing
-    })
-  }
+    });
+  };
 
   navigationButtonPressed({ buttonId }) {
     if (buttonId === KEY_EXPORT_DONE) {
@@ -63,14 +62,14 @@ export default class ShareSelector extends Component<Props> {
     this.setSharing(true);
     // Call this separately so we don't end up with recursion if someone calls `setSharing` by referencing this component
     this.props.onSharingToggled?.(true);
-  }
+  };
 
   onToggleAllSelected = () => {
     const allSelected = this.props.total === this.props.selected;
-    this.props.onToggleAllSelected?.(!allSelected)
-  }
+    this.props.onToggleAllSelected?.(!allSelected);
+  };
 
-  setDoneButtonVisible = (visible) => {
+  setDoneButtonVisible = visible => {
     if (!this.props.componentId) {
       return;
     }
@@ -79,22 +78,21 @@ export default class ShareSelector extends Component<Props> {
         rightButtons: visible ? BUTTON_EXPORT_DONE : []
       }
     });
-  }
+  };
 
-  render() {  
-
+  render() {
     const { sharing } = this.state;
     const allSelected = this.props.total === this.props.selected;
 
     return (
-      <View
-        style={[this.props.style, styles.container]}
-      >
+      <View style={[this.props.style, styles.container]}>
         {sharing && (
           <Row rowStyle={styles.header} style={styles.headerContent}>
             <Text style={styles.rowText}>{this.props.selectAllCountText}</Text>
             <TouchableOpacity onPress={this.onToggleAllSelected}>
-              <Text style={styles.buttonText}>{allSelected ? i18n.t('commonText.deselectAll') : i18n.t('commonText.selectAll')}</Text>
+              <Text style={styles.buttonText}>
+                {allSelected ? i18n.t('commonText.deselectAll') : i18n.t('commonText.selectAll')}
+              </Text>
             </TouchableOpacity>
           </Row>
         )}
@@ -109,6 +107,6 @@ export default class ShareSelector extends Component<Props> {
           />
         </BottomTray>
       </View>
-    )
+    );
   }
 }

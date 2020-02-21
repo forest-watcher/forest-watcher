@@ -8,7 +8,9 @@ import styles from './styles';
 
 function AreaList(props) {
   const { areas, onAreaPress, onAreaSettingsPress, showCache, pristine } = props;
-  if (!areas) return null;
+  if (!areas) {
+    return null;
+  }
 
   return (
     <View>

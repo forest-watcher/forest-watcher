@@ -66,7 +66,7 @@ class Dashboard extends PureComponent<Props> {
     this.areasAction = {
       callback: this.onPressAreas,
       icon: nextIcon
-    }
+    };
 
     this.reportsAction = {
       callback: this.onPressReports,
@@ -76,7 +76,7 @@ class Dashboard extends PureComponent<Props> {
     this.routesAction = {
       callback: this.onPressRoutes,
       icon: nextIcon
-    }
+    };
 
     this.settingsAction = {
       callback: this.onPressSettings,
@@ -113,7 +113,9 @@ class Dashboard extends PureComponent<Props> {
 
   onRefresh = () => {
     const { isConnected, appSyncing, updateApp, setAreasRefreshing, showNotConnectedNotification } = this.props;
-    if (appSyncing) return;
+    if (appSyncing) {
+      return;
+    }
 
     if (isConnected) {
       setAreasRefreshing(true);
@@ -144,8 +146,8 @@ class Dashboard extends PureComponent<Props> {
       component: {
         name: 'ForestWatcher.Routes'
       }
-    })
-  })
+    });
+  });
 
   onPressSettings = debounceUI(() => {
     Navigation.push(this.props.componentId, {
@@ -153,7 +155,7 @@ class Dashboard extends PureComponent<Props> {
         name: 'ForestWatcher.Settings'
       }
     });
-  })
+  });
 
   getPristine = (): boolean => this.props.pristine;
 
@@ -195,25 +197,25 @@ class Dashboard extends PureComponent<Props> {
           >
             <Row action={this.areasAction}>
               <View style={styles.tableRowContent}>
-                <Image source={areasIcon}/>
+                <Image source={areasIcon} />
                 <Text style={styles.tableRowText}>{i18n.t('dashboard.areas')}</Text>
               </View>
             </Row>
             <Row action={this.routesAction}>
               <View style={styles.tableRowContent}>
-                <Image source={routesIcon}/>
+                <Image source={routesIcon} />
                 <Text style={styles.tableRowText}>{i18n.t('dashboard.routes')}</Text>
               </View>
             </Row>
             <Row action={this.reportsAction}>
               <View style={styles.tableRowContent}>
-                <Image source={reportsIcon}/>
+                <Image source={reportsIcon} />
                 <Text style={styles.tableRowText}>{i18n.t('dashboard.reports')}</Text>
               </View>
             </Row>
             <Row action={this.settingsAction}>
               <View style={styles.tableRowContent}>
-                <Image source={settingsIcon}/>
+                <Image source={settingsIcon} />
                 <Text style={styles.tableRowText}>{i18n.t('dashboard.settings')}</Text>
               </View>
             </Row>

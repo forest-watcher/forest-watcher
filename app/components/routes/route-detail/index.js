@@ -28,7 +28,6 @@ type Props = {
 };
 
 export default class RouteDetail extends PureComponent<Props> {
-
   static options(passProps) {
     return {
       topBar: {

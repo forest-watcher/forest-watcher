@@ -35,7 +35,12 @@ function Row(props) {
             onValueChange={props.onValueChange}
           />
         )}
-        {props.action && <Image style={[Theme.icon, props.action.position === 'top' ? styles.topIcon : {}]} source={props.action.icon} />}
+        {props.action && (
+          <Image
+            style={[Theme.icon, props.action.position === 'top' ? styles.topIcon : {}]}
+            source={props.action.icon}
+          />
+        )}
       </View>
     </Touchable>
   );

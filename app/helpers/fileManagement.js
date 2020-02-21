@@ -63,7 +63,9 @@ export async function storeImage(url, imageDir = false) {
 }
 
 export async function removeFolder(folder) {
-  if (!folder) return false;
+  if (!folder) {
+    return false;
+  }
   const path = `${RNFetchBlob.fs.dirs.DocumentDir}/${folder}`;
   await RNFetchBlob.fs.unlink(path);
   return true;
