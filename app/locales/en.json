@@ -308,6 +308,13 @@
         },
         "distance": "Distance",
         "duration": "Time Taken",
+        "export": {
+            "oneRoute": "%{count} Route",
+            "oneRouteAction": "Export %{count} route...",
+            "manyRoutes": "%{count} Routes",
+            "manyRoutesAction": "Export %{count} routes...",
+            "noneSelected": "No routes selected"
+        },
         "insufficientPermissionsDialogTitle": "Unable to track route",
         "insufficientPermissionsDialogMessage": "We need background location permissions to be able to track your route.",
         "insufficientPermissionsDialogOpenAppSettings": "Check permissions",
@@ -317,6 +324,7 @@
         "locationErrorDialogTitle": "Error retrieving location",
         "locationErrorDialogMessage": "Something went wrong while accessing your location",
         "locationStart": "Start:",
+        "myRoutes": "My Routes", 
         "notification": {
             "title": "Route tracking in progress",
             "message": "Forest Watcher is recording the route you are taking to your destination"
@@ -326,6 +334,7 @@
         "resumeTrackingDialogPositiveButton": "Resume route",
         "resumeTrackingDialogNegativeButton": "Delete route",
         "save": "Save Route",
+        "share": "Share Routes",
         "stopRouteTrackingPanelTitle": "Stop Route Tracking",
         "stopRouteTrackingPanelContinueOption": "Continue route tracking",
         "stopRouteTrackingPanelSaveOption": "Stop and save route",

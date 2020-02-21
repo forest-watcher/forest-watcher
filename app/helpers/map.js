@@ -190,13 +190,13 @@ export function getDistanceOfPolyline(locations) {
  * @return {string}
  */
 export function formatDistance(distance, thresholdBeforeKm = 1, relativeToUser = true) {
-  let distanceText = `${distance.toFixed(0)} ${
+  let distanceText = `${distance.toFixed(0)}${
     relativeToUser ? i18n.t('commonText.metersAway') : i18n.t('commonText.meters')
   }`;
 
   if (thresholdBeforeKm && distance >= thresholdBeforeKm * 1000) {
     distance = (distance / 1000).toFixed(1); // in Kilometers
-    distanceText = `${distance} ${relativeToUser ? i18n.t('commonText.kmAway') : i18n.t('commonText.kilometers')}`;
+    distanceText = `${distance}${relativeToUser ? i18n.t('commonText.kmAway') : i18n.t('commonText.kilometers')}`;
   }
 
   return distanceText;

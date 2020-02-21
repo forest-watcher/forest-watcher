@@ -53,6 +53,7 @@ class AlertSystem extends React.PureComponent<Props> {
             <View key={i}>
               <Row
                 value={dataset.active}
+                rowStyle={{marginBottom: 0}}
                 switchColorOn={showLegend && ALERTS_COLOR[dataset.slug]}
                 onValueChange={value => setAreaDatasetStatus(id, dataset.slug, value)}
               >

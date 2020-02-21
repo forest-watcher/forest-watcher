@@ -48,11 +48,15 @@ export default class Dropdown extends Component<Props> {
 
   render() {  
     const { description, label, selectedValue, options } = this.props;
+    const selectedLabel = options.find(option => {
+      return option.value === selectedValue;
+    }).label ?? selectedValue
     return (
       <Row 
         action={this.showActionSheetAction}
       >
-        <Text style={styles.label}>{selectedValue.charAt(0).toUpperCase() + selectedValue.substring(1)}</Text>
+        {label && (<Text style={styles.label}>{label}</Text>)}
+        <Text style={styles.label}>{selectedLabel.charAt(0).toUpperCase() + selectedLabel.substring(1)}</Text>
         <ActionSheet 
           ref={ref => { this.actionSheet = ref }}
         >

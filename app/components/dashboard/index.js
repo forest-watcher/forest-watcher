@@ -55,6 +55,8 @@ class Dashboard extends PureComponent<Props> {
 
   reportsAction: { callback: () => void, icon: any };
 
+  routesAction: { callback: () => void, icon: any };
+
   settingsAction: { callback: () => void, icon: any };
 
   constructor(props: Props) {
@@ -70,6 +72,11 @@ class Dashboard extends PureComponent<Props> {
       callback: this.onPressReports,
       icon: nextIcon
     };
+
+    this.routesAction = {
+      callback: this.onPressRoutes,
+      icon: nextIcon
+    }
 
     this.settingsAction = {
       callback: this.onPressSettings,
@@ -132,6 +139,14 @@ class Dashboard extends PureComponent<Props> {
     });
   });
 
+  onPressRoutes = debounceUI(() => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.Routes'
+      }
+    })
+  })
+
   onPressSettings = debounceUI(() => {
     Navigation.push(this.props.componentId, {
       component: {
@@ -184,7 +199,7 @@ class Dashboard extends PureComponent<Props> {
                 <Text style={styles.tableRowText}>{i18n.t('dashboard.areas')}</Text>
               </View>
             </Row>
-            <Row>
+            <Row action={this.routesAction}>
               <View style={styles.tableRowContent}>
                 <Image source={routesIcon}/>
                 <Text style={styles.tableRowText}>{i18n.t('dashboard.routes')}</Text>

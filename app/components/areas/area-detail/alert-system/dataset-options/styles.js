@@ -33,14 +33,12 @@ export default StyleSheet.create({
     fontWeight: '800'
   },
   row: {
-    paddingLeft: Theme.margin.left,
-    paddingRight: Theme.margin.right,
     backgroundColor: Theme.colors.white,
     borderBottomColor: Theme.borderColors.main,
     borderBottomWidth: 2,
     flexDirection: 'column',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'stretch'
   },
   legendContainer: {
     width: '100%',

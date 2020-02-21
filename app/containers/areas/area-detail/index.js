@@ -3,7 +3,7 @@ import type { State } from 'types/store.types';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { updateArea, deleteArea } from 'redux-modules/areas';
+import { updateArea, deleteArea, setSelectedAreaId } from 'redux-modules/areas';
 import { shouldBeConnected } from 'helpers/app';
 import AreaDetail from 'components/areas/area-detail';
 
@@ -20,7 +20,8 @@ function mapDispatchToProps(dispatch: *) {
   return bindActionCreators(
     {
       updateArea,
-      deleteArea
+      deleteArea,
+      setSelectedAreaId
     },
     dispatch
   );
