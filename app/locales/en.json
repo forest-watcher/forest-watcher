@@ -32,6 +32,8 @@
         "connectionRequiredTitle": "No connection",
         "crashFeedback": "Something went wrong. We're working on getting this fixed as soon as we can.",
         "date": "Date",
+        "deselectAll": "Deselect All",
+        "done": "Done",
         "error": "Error",
         "finish": "Finish",
         "kilometers": "km",
@@ -49,6 +51,7 @@
         "reportedPosition": "Reported Position",
         "retry": "Retry",
         "saving": "Saving",
+        "selectAll": "Select All",
         "send": "Send",
         "setup": "Set up",
         "userPosition": "User Position"
@@ -260,8 +263,10 @@
         "export": {
             "navBarButtonText": "Export",
             "noneSelected": "No reports selected",
-            "oneReport": "Export %{count} report...",
-            "manyReports": "Export %{count} reports...",
+            "oneReport": "%{count} Report",
+            "oneReportAction": "Export %{count} report...",
+            "manyReports": "%{count} Reports",
+            "manyReportsAction": "Export %{count} reports...",
             "title": "Export report",
             "description": "How would you like to export this report?",
             "option": {
@@ -269,6 +274,7 @@
             },
             "successful": "Exporting reports succeeded!"
         },
+        "glad": "Deforestation Report",
         "here": "Report here",
         "input": "Please, answer the question",
         "inputRadio": "Choose one option to continue",
@@ -281,10 +287,12 @@
         "saveLaterDescription": "It will appear as a draft in the reports section",
         "saveLaterTitle": "Save for later",
         "selected": "Report selected",
+        "share": "Share Reports",
         "title": "Report",
         "toReport": "Report",
         "upload": "Upload",
-        "uploaded": "Uploaded"
+        "uploaded": "Uploaded",
+        "viirs": "Fire Report"
     },
     "routes": {
         "backgroundErrorDialogTitle": "Route tracking paused",

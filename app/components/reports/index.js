@@ -14,6 +14,9 @@ import { colors } from 'config/theme';
 import { Navigation } from 'react-native-navigation';
 import { withSafeArea } from 'react-native-safe-area';
 import exportReports from 'helpers/exportReports';
+import { readableNameForReportName } from 'helpers/reports';
+
+import ShareSheet from 'components/common/share';
 
 const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
 
@@ -37,25 +40,6 @@ type Props = {
   showExportReportsSuccessfulNotification: () => void
 };
 
-const KEY_EXPORT_START = 'key_export_start';
-const KEY_EXPORT_CANCEL = 'key_export_cancel';
-
-const BUTTON_EXPORT_START = [
-  {
-    id: KEY_EXPORT_START,
-    text: i18n.t('report.export.navBarButtonText')
-  }
-];
-
-const BUTTON_EXPORT_CANCEL = [
-  {
-    id: KEY_EXPORT_CANCEL,
-    text: i18n.t('commonText.cancel')
-  }
-];
-
-const BUTTON_EXPORT_EMPTY = [];
-
 class Reports extends PureComponent<Props> {
   static options(passProps) {
     return {
@@ -74,78 +58,29 @@ class Reports extends PureComponent<Props> {
     this.state = {
       selectedForExport: {}
     };
+
+    this.onClickShare = this.onClickShare.bind(this);
   }
 
   componentDidMount() {
     tracker.trackScreenView('My Reports');
-
-    Navigation.events().bindComponent(this);
-
-    // If we've got reports that can be exported, show the export button.
-    const exportButton =
-      this.props.reports.complete?.length > 0 || this.props.reports.uploaded?.length > 0
-        ? BUTTON_EXPORT_START
-        : BUTTON_EXPORT_EMPTY;
-    this.setExportButtonTo(exportButton);
   }
 
-  componentDidUpdate(prevProps) {
-    if (Object.keys(this.state.selectedForExport).length > 0) {
-      // Do not change the button state, if we're in export mode!
-      return;
-    }
+  onClickShare() {
 
-    const { draft, complete, uploaded } = this.props.reports;
+    // Merge together the completed and uploaded reports.
+    const completedReports = this.props.reports.complete || [];
+    const mergedReports = completedReports.concat(this.props.reports.uploaded);
 
-    const hasExportableReports = complete.length + uploaded.length > 0;
-    const hadExportableReports = prevProps.reports.complete.length + prevProps.reports.uploaded.length > 0;
-
-    if (hasExportableReports === hadExportableReports) {
-      // Do not change the button state, as there's been no change that needs an update.
-      return;
-    }
-
-    this.setExportButtonTo(complete.length + uploaded.length > 0 ? BUTTON_EXPORT_START : BUTTON_EXPORT_EMPTY);
-  }
-
-  /**
-   * setExportButtonTo - Changes the 'export' nav bar button to the provided state.
-   *
-   * @param  {object} buttonState The new button object that should be shown in the nav bar.
-   */
-  setExportButtonTo(buttonState) {
-    Navigation.mergeOptions(this.props.componentId, {
-      topBar: {
-        rightButtons: buttonState
-      }
+    // Create an object that'll contain the 'selected' state for each report.
+    let exportData = {};
+    mergedReports.forEach(report => {
+      exportData[report.title] = false;
     });
-  }
 
-  navigationButtonPressed({ buttonId }) {
-    if (buttonId === KEY_EXPORT_START) {
-      this.setExportButtonTo(BUTTON_EXPORT_CANCEL);
-
-      // Merge together the completed and uploaded reports.
-      const completedReports = this.props.reports.complete || [];
-      const mergedReports = completedReports.concat(this.props.reports.uploaded);
-
-      // Create an object that'll contain the 'selected' state for each report.
-      let exportData = {};
-      mergedReports.forEach(report => {
-        exportData[report.title] = false;
-      });
-
-      this.setState({
-        selectedForExport: exportData
-      });
-    } else if (buttonId === KEY_EXPORT_CANCEL) {
-      // Reset the export button, and clear out the 'selectedForExport' state.
-      this.setExportButtonTo(BUTTON_EXPORT_START);
-
-      this.setState({
-        selectedForExport: {}
-      });
-    }
+    this.setState({
+      selectedForExport: exportData
+    });
   }
 
   /**
@@ -289,7 +224,7 @@ class Reports extends PureComponent<Props> {
 
     // Show 'export successful' notification, and reset export state to reset UI.
     this.props.showExportReportsSuccessfulNotification();
-    this.setExportButtonTo(BUTTON_EXPORT_START);
+    this.shareSheet?.setSharing?.(false);
     this.setState({
       selectedForExport: {}
     });
@@ -298,6 +233,32 @@ class Reports extends PureComponent<Props> {
       NativeModules.Intents.launchDownloadsDirectory();
     }
   });
+
+  setAllSelected = (selected: boolean) => {
+    // Merge together the completed and uploaded reports.
+    const completedReports = this.props.reports.complete || [];
+    const mergedReports = completedReports.concat(this.props.reports.uploaded);
+
+    // Create an object that'll contain the 'selected' state for each report.
+    let exportData = {};
+    mergedReports.forEach(report => {
+      exportData[report.title] = selected;
+    });
+
+    this.setState({
+      selectedForExport: exportData
+    });
+  }
+
+  setSharing = (sharing: boolean) => {
+    if (sharing) {
+      this.onClickShare();
+    } else {
+      this.setState({
+        selectedForExport: {}
+      });
+    }
+  }
 
   /**
    * getItems - Returns an array of rows, based on the report data provided.
@@ -318,27 +279,34 @@ class Reports extends PureComponent<Props> {
       }
 
       let icon = image;
+      let position = 'center';
 
       // Here, if we're currently in export mode, override the icon to show either the checkbox on or off image.
       if (this.state.selectedForExport?.[item.title] === true) {
         icon = checkboxOn;
+        position = 'top';
       } else if (this.state.selectedForExport?.[item.title] === false) {
         icon = checkboxOff;
+        position = 'top';
       }
 
-      const dateParsed = moment(item.date).fromNow();
+      const dateParsed = moment(item.date).format('YYYY-MM-DD - HH:mm:ss');
+      const timeSinceParsed = moment(item.date).fromNow();
+      const title = readableNameForReportName(item.reportName);
       const action = {
-        icon: icon,
+        icon,
         callback: () => {
           onPress(item.title);
-        }
+        },
+        position
       };
       return (
-        <Row key={index + item.title} rowStyle={{ height: 120 }} action={action}>
+        <Row key={index + item.title} action={action}>
           <View style={styles.listItem}>
-            <Text style={styles.itemTitle}>{item.title}</Text>
+            <Text style={styles.itemTitle}>{title}</Text>
             <Text style={styles.itemText}>{positionParsed}</Text>
             <Text style={styles.itemText}>{dateParsed}</Text>
+            <Text style={styles.itemText}>{timeSinceParsed}</Text>
           </View>
         </Row>
       );
@@ -380,7 +348,7 @@ class Reports extends PureComponent<Props> {
     const hasReports = !!complete.length || !!draft.length || !!uploaded.length;
 
     return (
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
         {hasReports ? (
           <View style={styles.container}>
             {draft && draft.length > 0 && !inExportMode && this.getDrafts(draft, editIcon, this.onClickDraft)}
@@ -405,36 +373,35 @@ class Reports extends PureComponent<Props> {
     const inExportMode = Object.keys(this.state.selectedForExport).length > 0;
     const totalToExport = Object.values(this.state.selectedForExport).filter(row => row === true).length;
 
+    const { complete, draft, uploaded } = this.props.reports;
+    const totalReports = complete.length + draft.length + uploaded.length;
+
     return (
       /* View necessary to fix the swipe back on wix navigation */
       <View style={styles.container}>
-        {this.renderReportsScrollView(this.props.reports, inExportMode)}
-        {inExportMode && (
-          <SafeAreaView
-            style={[
-              styles.exportButtonContainer,
-              {
-                borderTopColor: totalToExport > 0 ? colors.turtleGreen : colors.grey
-              }
-            ]}
-          >
-            <TouchableOpacity
-              style={styles.exportButton}
-              disabled={totalToExport === 0}
-              onPress={() => {
-                this.onExportReportsTapped(this.state.selectedForExport, this.props.reports);
-              }}
-            >
-              <Text style={styles.exportTitle}>
-                {totalToExport > 0
+        <ShareSheet
+          componentId={this.props.componentId}
+          enabled={totalToExport > 0}
+          onShare={() => {
+            this.onExportReportsTapped(this.state.selectedForExport, this.props.reports);
+          }}
+          onSharingToggled={this.setSharing}
+          onToggleAllSelected={this.setAllSelected}
+          ref={ref => {
+            this.shareSheet = ref;
+          }}
+          selected={totalToExport}
+          selectAllCountText={totalReports > 1 ? i18n.t('report.export.manyReports', { count: totalReports }) : i18n.t('report.export.oneReport', { count: 1 })}
+          shareButtonDisabledTitle={i18n.t('report.share')}
+          shareButtonEnabledTitle={totalToExport > 0
                   ? totalToExport == 1
-                    ? i18n.t('report.export.oneReport', { count: 1 })
-                    : i18n.t('report.export.manyReports', { count: totalToExport })
+                    ? i18n.t('report.export.oneReportAction', { count: 1 })
+                    : i18n.t('report.export.manyReportsAction', { count: totalToExport })
                   : i18n.t('report.export.noneSelected')}
-              </Text>
-            </TouchableOpacity>
-          </SafeAreaView>
-        )}
+          total={totalReports}
+        >
+          {this.renderReportsScrollView(this.props.reports, inExportMode)}
+        </ShareSheet>
       </View>
     );
   }

@@ -28,7 +28,6 @@
 		98B1DF6821932067002426DC /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC1FA19BF67424591686AF2 /* libz.tbd */; };
 		98CF896321B5811B00500B2F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98CF896521B5811B00500B2F /* InfoPlist.strings */; };
 		B1E4BA0223E2DCEB00A7BC85 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B1E4BA0123E2DCEB00A7BC85 /* Config.xcconfig */; };
-		BB98AB00E5404C26AF5C1D38 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4C18D7C777D4D279B8ACDAA /* libRNFirebase.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,13 +65,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 62CA59B71E3C173B002D7188;
 			remoteInfo = Lottie_iOS;
-		};
-		98224D5C22FC4F2C00D2BAE7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A6E9AB271B3F4C0E94A2A896 /* RNFirebase.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNFirebase;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -123,11 +115,9 @@
 		98CF896721B5811E00500B2F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		98CF896821B5811F00500B2F /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		98CF896921B5811F00500B2F /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		A6E9AB271B3F4C0E94A2A896 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
 		B1E4BA0123E2DCEB00A7BC85 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		DAE567D09F6983E55C4F5406 /* libPods-ForestWatcher.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ForestWatcher.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFD632EF65604568B651A931 /* AddressBook.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
-		F4C18D7C777D4D279B8ACDAA /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 		F6A3AEC1B0088431E92A6B3B /* Pods-ForestWatcher.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForestWatcher.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,7 +135,6 @@
 				5178971FFF8F46658E8D3678 /* SystemConfiguration.framework in Frameworks */,
 				307BBD714FA74881854E01D9 /* AddressBook.framework in Frameworks */,
 				39B88051DA58D94B6EF37FB8 /* libPods-ForestWatcher.a in Frameworks */,
-				BB98AB00E5404C26AF5C1D38 /* libRNFirebase.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,7 +176,6 @@
 				98A5EE8521AC2DBF0079AF2A /* UIKit.framework */,
 				98A5EE2521AC2AC00079AF2A /* MapKit.framework */,
 				42AC781B1E5F36A200A6C0E4 /* libsqlite3.0.tbd */,
-				F4C18D7C777D4D279B8ACDAA /* libRNFirebase.a */,
 				01DAAFC2547C467BA03F1D7A /* libc++.tbd */,
 				7CC1FA19BF67424591686AF2 /* libz.tbd */,
 				6E8A7CAFCE0440FBAA399033 /* SafariServices.framework */,
@@ -222,7 +210,6 @@
 			isa = PBXGroup;
 			children = (
 				32CB1654208A59870036D050 /* Lottie.xcodeproj */,
-				A6E9AB271B3F4C0E94A2A896 /* RNFirebase.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -250,14 +237,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		98224D5922FC4F2C00D2BAE7 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				98224D5D22FC4F2C00D2BAE7 /* libRNFirebase.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -265,6 +244,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ForestWatcher" */;
 			buildPhases = (
+				B195147C23FED17200AEE693 /* Generate Tmp XCConfig */,
 				545C73DF8ED53C595077D845 /* [CP] Check Pods Manifest.lock */,
 				B1E4BA1523E2E1D500A7BC85 /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
@@ -338,10 +318,6 @@
 					ProductGroup = 32CB1655208A59870036D050 /* Products */;
 					ProjectRef = 32CB1654208A59870036D050 /* Lottie.xcodeproj */;
 				},
-				{
-					ProductGroup = 98224D5922FC4F2C00D2BAE7 /* Products */;
-					ProjectRef = A6E9AB271B3F4C0E94A2A896 /* RNFirebase.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -377,13 +353,6 @@
 			fileType = archive.ar;
 			path = libLottie.a;
 			remoteRef = 32CB1667208A59870036D050 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		98224D5D22FC4F2C00D2BAE7 /* libRNFirebase.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNFirebase.a;
-			remoteRef = 98224D5C22FC4F2C00D2BAE7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -473,6 +442,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym\n";
+		};
+		B195147C23FED17200AEE693 /* Generate Tmp XCConfig */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Tmp XCConfig";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../node_modules/react-native-config/ios/ReactNativeConfig/BuildXCConfig.rb\" \"${SRCROOT}/..\" \"${SRCROOT}/tmp.xcconfig\"\n";
 		};
 		B1E4BA1523E2E1D500A7BC85 /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
