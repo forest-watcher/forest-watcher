@@ -328,7 +328,9 @@ function getAreaById(areas, areaId) {
 }
 
 function getLayerById(layers, layerId) {
-  if (!layers) return null;
+  if (!layers) {
+    return null;
+  }
   const layer = layers.find(layerData => layerData.id === layerId);
   return layer ? { ...layer } : null;
 }
@@ -400,7 +402,9 @@ export function cacheAreaLayer(areaId: string, layerId: string) {
 export function syncLayers() {
   return (dispatch: Dispatch, state: GetState) => {
     const { synced, syncing } = state().layers;
-    if (!synced && !syncing) dispatch(getUserLayers());
+    if (!synced && !syncing) {
+      dispatch(getUserLayers());
+    }
   };
 }
 
@@ -497,7 +501,9 @@ function updateAreaProgress(
   layersProgress: LayersProgress = {},
   layerCount: number = 1
 ) {
-  if (!areaId || typeof areaId !== 'string') throw new TypeError('AreaId is not a valid string');
+  if (!areaId || typeof areaId !== 'string') {
+    throw new TypeError('AreaId is not a valid string');
+  }
   const areaCacheStatus = cacheStatus[areaId];
   const areaLayersProgress = Object.values(layersProgress[areaId]);
   const newProgress = areaLayersProgress.reduce((acc, next) => acc + parseFloat(next), 0) / layerCount;

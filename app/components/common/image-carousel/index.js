@@ -33,7 +33,9 @@ class ImageCarousel extends PureComponent {
     const label = readOnly ? i18n.t('report.emptyPicture') : i18n.t('report.addPicture');
     const icon = !readOnly && plusIcon;
     const getAction = image => {
-      if (!readOnly) return () => add(image.questionNumber);
+      if (!readOnly) {
+        return () => add(image.questionNumber);
+      }
       return undefined;
     };
 

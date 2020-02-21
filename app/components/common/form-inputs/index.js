@@ -7,7 +7,9 @@ import Blob from './blob';
 import Number from './number';
 
 function FormField(props) {
-  if (!props.question) return null;
+  if (!props.question) {
+    return null;
+  }
 
   switch (props.question.type) {
     case 'text':

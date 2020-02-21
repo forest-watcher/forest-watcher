@@ -85,12 +85,16 @@ export const getNextStep = (step: {
 };
 
 export const isQuestionAnswered = (answer: Answer) => {
-  if (!answer) return false;
+  if (!answer) {
+    return false;
+  }
   return answer.value !== '';
 };
 
 function getAnswerValues(question, answer) {
-  if (typeof answer === 'undefined') return undefined;
+  if (typeof answer === 'undefined') {
+    return undefined;
+  }
   const simpleTypeInputs = ['number', 'text', 'point', 'blob'];
   let value = Array.isArray(answer.value) ? answer.value : [answer.value];
   if (!simpleTypeInputs.includes(question.type)) {
@@ -171,7 +175,9 @@ export const REPORT_METADATA_FIELDS = [
  *  An array of objects, with each object having a unique id, a human-readable label, and an array of values
  */
 export function mapReportToMetadata(report: Report, language) {
-  if (!report) return [];
+  if (!report) {
+    return [];
+  }
 
   const {
     area: { dataset = {} }

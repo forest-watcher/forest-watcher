@@ -67,7 +67,6 @@ class Reports extends PureComponent<Props> {
   }
 
   onClickShare() {
-
     // Merge together the completed and uploaded reports.
     const completedReports = this.props.reports.complete || [];
     const mergedReports = completedReports.concat(this.props.reports.uploaded);
@@ -248,7 +247,7 @@ class Reports extends PureComponent<Props> {
     this.setState({
       selectedForExport: exportData
     });
-  }
+  };
 
   setSharing = (sharing: boolean) => {
     if (sharing) {
@@ -258,7 +257,7 @@ class Reports extends PureComponent<Props> {
         selectedForExport: {}
       });
     }
-  }
+  };
 
   /**
    * getItems - Returns an array of rows, based on the report data provided.
@@ -348,7 +347,12 @@ class Reports extends PureComponent<Props> {
     const hasReports = !!complete.length || !!draft.length || !!uploaded.length;
 
     return (
-      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
         {hasReports ? (
           <View style={styles.container}>
             {draft && draft.length > 0 && !inExportMode && this.getDrafts(draft, editIcon, this.onClickDraft)}
@@ -391,13 +395,19 @@ class Reports extends PureComponent<Props> {
             this.shareSheet = ref;
           }}
           selected={totalToExport}
-          selectAllCountText={totalReports > 1 ? i18n.t('report.export.manyReports', { count: totalReports }) : i18n.t('report.export.oneReport', { count: 1 })}
+          selectAllCountText={
+            totalReports > 1
+              ? i18n.t('report.export.manyReports', { count: totalReports })
+              : i18n.t('report.export.oneReport', { count: 1 })
+          }
           shareButtonDisabledTitle={i18n.t('report.share')}
-          shareButtonEnabledTitle={totalToExport > 0
-                  ? totalToExport == 1
-                    ? i18n.t('report.export.oneReportAction', { count: 1 })
-                    : i18n.t('report.export.manyReportsAction', { count: totalToExport })
-                  : i18n.t('report.export.noneSelected')}
+          shareButtonEnabledTitle={
+            totalToExport > 0
+              ? totalToExport == 1
+                ? i18n.t('report.export.oneReportAction', { count: 1 })
+                : i18n.t('report.export.manyReportsAction', { count: totalToExport })
+              : i18n.t('report.export.noneSelected')
+          }
           total={totalReports}
         >
           {this.renderReportsScrollView(this.props.reports, inExportMode)}

@@ -18,7 +18,9 @@ export default function effect({ url, headers, errorCode, deserialize = true, ..
     return defaultEffect(req, action)
       .then(data => (canDeserialize(data) ? new JSONAPIDeserializer(deserializeOptions).deserialize(data) : data))
       .catch(err => {
-        if (errorCode) return Promise.reject(new FWError({ message: err, status: errorCode }));
+        if (errorCode) {
+          return Promise.reject(new FWError({ message: err, status: errorCode }));
+        }
         throw err;
       });
   }

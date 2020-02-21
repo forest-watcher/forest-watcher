@@ -91,7 +91,9 @@ export function getUser(): UserAction {
 export function syncUser() {
   return (dispatch: Dispatch, state: GetState) => {
     const { user } = state();
-    if (!user.synced && !user.syncing) dispatch(getUser());
+    if (!user.synced && !user.syncing) {
+      dispatch(getUser());
+    }
   };
 }
 
@@ -103,7 +105,9 @@ export function googleLogin() {
       try {
         const response = await fetch(`${Config.API_AUTH}/auth/google/token?access_token=${user.accessToken}`);
         dispatch({ type: SET_LOGIN_LOADING, payload: false });
-        if (!response.ok) throw new Error(response.status);
+        if (!response.ok) {
+          throw new Error(response.status);
+        }
         const data = await response.json();
         dispatch({
           type: SET_LOGIN_AUTH,
@@ -146,7 +150,9 @@ export function facebookLogin() {
           const user = await AccessToken.getCurrentAccessToken();
           const response = await fetch(`${Config.API_AUTH}/auth/facebook/token?access_token=${user.accessToken}`);
           dispatch({ type: SET_LOGIN_LOADING, payload: false });
-          if (!response.ok) throw new Error(response.status);
+          if (!response.ok) {
+            throw new Error(response.status);
+          }
           const data = await response.json();
           dispatch({
             type: SET_LOGIN_AUTH,
