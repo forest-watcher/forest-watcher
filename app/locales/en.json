@@ -274,7 +274,6 @@
             },
             "successful": "Exporting reports succeeded!"
         },
-        "viirs": "Fire Report",
         "glad": "Deforestation Report",
         "here": "Report here",
         "input": "Please, answer the question",
@@ -292,7 +291,8 @@
         "title": "Report",
         "toReport": "Report",
         "upload": "Upload",
-        "uploaded": "Uploaded"
+        "uploaded": "Uploaded",
+        "viirs": "Fire Report"
     },
     "routes": {
         "backgroundErrorDialogTitle": "Route tracking paused",
