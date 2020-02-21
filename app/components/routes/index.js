@@ -232,6 +232,7 @@ export default class Routes extends PureComponent<Props> {
           onPress={() => { onPress(item) }}
           title={item.name}
           subtitle={subtitle}
+          selected={this.state.selectedForExport[item.areaId + item.id]}
         />
       );
     });

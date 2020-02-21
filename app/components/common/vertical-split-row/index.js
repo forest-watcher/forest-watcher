@@ -7,11 +7,14 @@ import Theme from 'config/theme';
 import SettingsButton from 'components/common/settings-button';
 
 const nextIcon = require('assets/next.png');
+const checkboxOff = require('assets/checkbox_off.png');
+const checkboxOn = require('assets/checkbox_on.png');
 
 type Props = {
   imageSrc:? string,
   onPress: void => void,
   onSettingsPress: void => void,
+  selected:? boolean,
   subtitle:? string,
   title: string
 };
@@ -19,6 +22,10 @@ type Props = {
 export default class VerticalSplitRow extends Component<Props> {
 
   render() {
+
+    const { selected } = this.props;
+    const icon = selected != null ? (selected ? checkboxOn : checkboxOff) : nextIcon; 
+
     return (
       <TouchableHighlight
         activeOpacity={0.5}
@@ -42,7 +49,7 @@ export default class VerticalSplitRow extends Component<Props> {
                   </Text>
                 )}
               </View>
-              <Image style={[Theme.icon, styles.disclosureIndicator]} source={nextIcon} />
+              <Image style={[Theme.icon, styles.disclosureIndicator]} source={icon} />
             </View>
             <SettingsButton 
               onPress={this.props.onSettingsPress}
