@@ -152,7 +152,7 @@ export default class RouteMarkers extends PureComponent<Props> {
           : null}
         {this.props.route?.destination ? (
           <MapView.Marker
-            key={`routeDestination`}
+            key={'routeDestination'}
             coordinate={this.props.route?.destination}
             anchor={{ x: 0.5, y: 0.5 }}
             zIndex={20}

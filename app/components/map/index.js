@@ -430,7 +430,9 @@ class MapComponent extends Component {
       const state = {
         heading: parseInt(heading, 10)
       };
-      if (!prevState.hasCompass) state.hasCompass = true;
+      if (!prevState.hasCompass) {
+        state.hasCompass = true;
+      }
       return state;
     });
   }, 450);
@@ -677,7 +679,9 @@ class MapComponent extends Component {
 
     const hasNeighbours = neighbours && neighbours.length > 0;
     let veilHeight = 120;
-    if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
+    if (hasAlertsSelected) {
+      veilHeight = hasNeighbours ? 260 : 180;
+    }
 
     return [
       <View key="bg" pointerEvents="none" style={[styles.footerBGContainer, { height: veilHeight }]}>

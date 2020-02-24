@@ -7,15 +7,12 @@ export default StyleSheet.create({
     flex: 1
   },
   intro: {
-    alignItems: 'center'
-  },
-  logo: {
-    width: 108,
-    height: 112,
-    marginTop: 80
+    alignItems: 'center',
+    paddingVertical: 26
   },
   bottomContainer: {
-    justifyContent: 'space-between'
+    justifyContent: 'center',
+    flexGrow: 1
   },
   buttons: {
     marginTop: 70
@@ -25,7 +22,8 @@ export default StyleSheet.create({
     color: Theme.fontColors.light,
     fontSize: 17,
     fontWeight: '400',
-    marginLeft: Theme.margin.left,
+    marginBottom: 24,
+    textAlign: 'center',
     ...Platform.select({
       android: {
         marginBottom: 8
@@ -33,50 +31,47 @@ export default StyleSheet.create({
     })
   },
   button: {
-    height: 64,
-    marginLeft: 8,
-    marginRight: 8,
-    marginBottom: 8,
+    height: 56,
+    marginHorizontal: 24,
+    marginBottom: 16,
     borderRadius: 32,
     justifyContent: 'center',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    paddingHorizontal: 22
+  },
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  buttonTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   iconArrow: {
     width: 10,
-    height: 18,
-    position: 'absolute',
-    right: 24,
-    top: 2
+    height: 18
   },
   buttonFacebook: {
     backgroundColor: Theme.socialNetworks.facebook
   },
   iconFacebook: {
-    width: 12,
-    height: 21,
-    position: 'absolute',
-    left: 24,
-    top: 2
+    width: 23,
+    height: 21
   },
   buttonTwitter: {
     backgroundColor: Theme.socialNetworks.twitter
   },
   iconTwitter: {
     width: 23,
-    height: 20,
-    position: 'absolute',
-    left: 20,
-    top: 4
+    height: 20
   },
   buttonGoogle: {
     backgroundColor: Theme.socialNetworks.google
   },
   iconGoogle: {
-    width: 21,
-    height: 21,
-    position: 'absolute',
-    left: 20,
-    top: 3
+    width: 23,
+    height: 21
   },
   buttonCountry: {
     backgroundColor: Theme.colors.grey,
@@ -87,10 +82,13 @@ export default StyleSheet.create({
     color: Theme.fontColors.white,
     fontSize: 17,
     fontWeight: '400',
-    marginLeft: 56
+    marginLeft: 18
   },
   buttonTextCountry: {
     marginLeft: 24
+  },
+  signInContainer: {
+    flexGrow: 1
   },
   webViewHeader: {
     flexDirection: 'row',
@@ -134,6 +132,7 @@ export default StyleSheet.create({
     backgroundColor: Theme.colors.veryLightPink,
     fontSize: 15,
     fontWeight: '400',
+    flex: 1,
     paddingTop: 4,
     paddingBottom: 4,
     paddingLeft: 10,
@@ -159,7 +158,7 @@ export default StyleSheet.create({
     backgroundColor: 'transparent',
     left: 0,
     right: 0,
-    top: 192,
+    top: 272,
     bottom: 0,
     position: 'absolute',
     zIndex: 5

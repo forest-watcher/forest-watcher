@@ -43,8 +43,7 @@ export default StyleSheet.create({
   },
 
   nextIcon: {
-    width: 8,
-    height: 16,
-    marginRight: 24
+    marginRight: 24,
+    ...Theme.icon
   }
 });

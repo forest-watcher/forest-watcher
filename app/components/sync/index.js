@@ -84,7 +84,9 @@ class Sync extends Component<Props> {
 
   getAction() {
     const { criticalSyncError, retrySync } = this.props;
-    if (!criticalSyncError) return null;
+    if (!criticalSyncError) {
+      return null;
+    }
     return (
       <ActionButton
         monochrome
@@ -99,7 +101,9 @@ class Sync extends Component<Props> {
   render() {
     const { isConnected, syncFinished, criticalSyncError } = this.props;
     let animationSource = noConnectionAnimation;
-    if (isConnected && !criticalSyncError) animationSource = syncFinished ? loadedAnimation : rangerAnimation;
+    if (isConnected && !criticalSyncError) {
+      animationSource = syncFinished ? loadedAnimation : rangerAnimation;
+    }
 
     return (
       <View style={[styles.mainContainer, styles.center]}>

@@ -33,7 +33,9 @@ const initialState = {
 };
 
 function orderQuestions(questions) {
-  if (!questions || !questions.length) return [];
+  if (!questions || !questions.length) {
+    return [];
+  }
   return questions.sort((a, b) => parseInt(a.order, 10) - parseInt(b.order, 10));
 }
 
@@ -303,6 +305,8 @@ export function uploadReport(reportName: string) {
 export function syncReports() {
   return (dispatch: Dispatch, state: GetState) => {
     const { reports } = state();
-    if (!reports.synced && !reports.syncing) dispatch(getDefaultReport());
+    if (!reports.synced && !reports.syncing) {
+      dispatch(getDefaultReport());
+    }
   };
 }

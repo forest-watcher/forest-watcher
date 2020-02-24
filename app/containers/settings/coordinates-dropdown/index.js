@@ -8,6 +8,7 @@ import Dropdown from 'components/common/dropdown';
 
 function mapStateToProps(state) {
   return {
+    description: i18n.t('settings.coordinatesDescription'),
     label: i18n.t('settings.coordinatesFormat'),
     selectedValue: state.app.coordinatesFormat,
     options: Object.values(COORDINATES_FORMATS)

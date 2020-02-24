@@ -9,13 +9,17 @@ import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 
 import i18n from 'i18next';
+import moment from 'moment';
 import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
-import RouteList from 'components/common/route-list';
 import AlertSystem from 'containers/areas/area-detail/alert-system';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
 import { withSafeArea } from 'react-native-safe-area';
+
+import VerticalSplitRow from 'components/common/vertical-split-row';
+
+import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
 const editIcon = require('assets/edit.png');
@@ -33,7 +37,8 @@ type Props = {
   componentId: string,
   area: Area,
   disableDelete: boolean,
-  routes: Array<Route>
+  routes: Array<Route>,
+  setSelectedAreaId: (areaId: string) => void
 };
 
 class AreaDetail extends Component<Props, State> {
@@ -106,14 +111,39 @@ class AreaDetail extends Component<Props, State> {
     }
   });
 
-  onRoutePress = debounceUI((routeId: string, routeName: string) => {
+  onRoutePress = debounceUI((route: Route) => {
+    this.props.setSelectedAreaId(route.areaId);
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'ForestWatcher.RouteDetail',
+        name: 'ForestWatcher.Map',
+        options: {
+          topBar: {
+            title: {
+              text: route.name
+            }
+          }
+        },
         passProps: {
-          routeId,
-          routeName
+          previousRoute: route
         }
+      }
+    });
+  });
+
+  onRouteSettingsPress = debounceUI((route: Route) => {
+    Navigation.showModal({
+      stack: {
+        children: [
+          {
+            component: {
+              name: 'ForestWatcher.RouteDetail',
+              passProps: {
+                routeId: route.id,
+                routeName: route.name
+              }
+            }
+          }
+        ]
       }
     });
   });
@@ -170,7 +200,9 @@ class AreaDetail extends Component<Props, State> {
   render() {
     const { area, disableDelete, routes } = this.props;
 
-    if (!area) return null;
+    if (!area) {
+      return null;
+    }
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView
@@ -220,7 +252,28 @@ class AreaDetail extends Component<Props, State> {
           {routes.length > 0 && (
             <View style={styles.row}>
               <Text style={styles.title}>{i18n.t('settings.yourRoutes')}</Text>
-              <RouteList routes={routes} onRoutePress={this.onRoutePress} />
+              {routes.map(route => {
+                const routeDistance = getDistanceOfPolyline(route.locations);
+                const dateText = moment(route.endDate).format('ll');
+                const distanceText = formatDistance(routeDistance, 1, false);
+                const subtitle = dateText + ', ' + distanceText;
+                // const action = {
+                //   icon,
+                //   callback: () => {
+                //     onPress(item.title);
+                //   },
+                //   position
+                // };
+
+                return (
+                  <VerticalSplitRow
+                    onSettingsPress={this.onRouteSettingsPress.bind(this, route)}
+                    onPress={this.onRoutePress.bind(this, route)}
+                    title={route.name}
+                    subtitle={subtitle}
+                  />
+                );
+              })}
             </View>
           )}
           {!disableDelete && (

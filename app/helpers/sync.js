@@ -2,7 +2,9 @@
 import type { State } from 'types/store.types';
 
 export function getActionsTodoCount(pendingData: Object) {
-  if (!pendingData || typeof pendingData !== 'object') return 0;
+  if (!pendingData || typeof pendingData !== 'object') {
+    return 0;
+  }
   return Object.keys(pendingData).reduce(
     (acc, next) =>
       acc +

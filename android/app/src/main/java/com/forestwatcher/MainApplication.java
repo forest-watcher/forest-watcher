@@ -23,6 +23,7 @@ import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.reactnativenavigation.react.ReactGateway;
 import com.rnappauth.RNAppAuthPackage;
 import com.rnziparchive.RNZipArchivePackage;
+import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 import io.invertase.firebase.analytics.ReactNativeFirebaseAnalyticsPackage;
 import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
 import io.sentry.RNSentryPackage;
@@ -80,7 +81,8 @@ public class MainApplication extends NavigationApplication {
       new RNFetchBlobPackage(),
       new RNLocalizePackage(),
       new RNSentryPackage(),
-      new RNZipArchivePackage()
+      new RNZipArchivePackage(),
+      new SafeAreaContextPackage()
     );
   }
 

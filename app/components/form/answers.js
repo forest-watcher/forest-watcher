@@ -175,7 +175,9 @@ class Answers extends PureComponent<Props> {
       value: ''
     };
     setReportAnswer(reportName, answer, true);
-    if (image.required) this.onEdit(image.order);
+    if (image.required) {
+      this.onEdit(image.order);
+    }
   };
 
   handleDeleteArea = () => {
