@@ -10,7 +10,6 @@ import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.soloader.SoLoader;
 import com.forestwatcher.intents.IntentsPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
-import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
 import com.reactlibrary.RNSimpleCompassPackage;
 import com.reactnativecommunity.cookies.CookieManagerPackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
@@ -69,7 +68,6 @@ public class MainApplication extends NavigationApplication {
       new LottiePackage(),
       new RNSentryPackage(),
       new RNSimpleCompassPackage(),
-      new BackgroundGeolocationPackage(),
       new IntentsPackage(),
       new NetInfoPackage()
     );
