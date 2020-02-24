@@ -31,7 +31,6 @@
     "@mauron85/react-native-background-geolocation": "0.6.3",
     "@react-native-community/async-storage": "1.8.0",
     "@react-native-community/cookies": "2.0.3",
-    "@react-native-community/netinfo": "5.5.1",
     "@react-native-firebase/analytics": "6.3.4",
     "@react-native-firebase/app": "6.3.4",
     "@redux-offline/redux-offline": "2.5.2-native.3",

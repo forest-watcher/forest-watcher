@@ -16,7 +16,6 @@ import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
 import com.reactcommunity.rnlocalize.RNLocalizePackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.cookies.CookieManagerPackage;
-import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
@@ -75,7 +74,6 @@ public class MainApplication extends NavigationApplication {
       new ImagePickerPackage(),
       new IntentsPackage(),
       new MapsPackage(),
-      new NetInfoPackage(),
       new ReactNativeConfigPackage(),
       new ReactNativeDialogsPackage(),
       new ReactNativeFirebaseAnalyticsPackage(),
