@@ -101,6 +101,45 @@ class Dashboard extends PureComponent<Props> {
     }
   }
 
+  componentWillUnmount() {
+    // Not mandatory
+    if (this.navigationEventListener) {
+      this.navigationEventListener.remove();
+    }
+  }
+
+  componentDidAppear() {
+    Navigation.showModal({
+      component: {
+        name: 'ForestWatcher.Welcome',
+        options: {
+          // animations: {
+          //   showModal: {
+          //     waitForRender: true,
+          //     // Works on Android but not iOS
+          //     alpha: {
+          //       from: 0,
+          //       to: 1,
+          //       duration: 250
+          //     },
+          //     // Only works on iOS
+          //     content: {
+          //       alpha: {
+          //         from: 0,
+          //         to: 1,
+          //         duration: 250
+          //       }
+          //     }
+          //   }
+          // },
+          layout: { backgroundColor: 'rgba(0,0,0,0.8)' },
+          screenBackgroundColor: 'rgba(0,0,0,0.8)',
+          modalPresentationStyle: 'overCurrentContext'
+        }
+      }
+    })
+  }
+
   componentDidDisappear() {
     const { pristine, setPristine, refreshing, setAreasRefreshing } = this.props;
     if (pristine) {

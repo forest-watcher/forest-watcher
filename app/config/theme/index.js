@@ -85,6 +85,22 @@ const config = {
     strokeWidth: 3,
     strokeSelected: '#FFFFFF'
   },
+  modalContainer: {
+    flexShrink: 1,
+    backgroundColor: colors.veryLightPink,
+    borderRadius: 7,
+    marginHorizontal: 8,
+    marginVertical: 16,
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    shadowColor: colors.greyishBrown,
+    shadowRadius: 4,
+    shadowOffset: {
+      width: 0,
+      height: -3
+    },
+    shadowOpacity: 0.1
+  },
   navigator: {
     styles: {
       layout: {
@@ -145,6 +161,12 @@ const config = {
     color: fontColors.secondary,
     fontFamily: fontName,
     fontWeight: '400'
+  },
+  text: {
+    fontWeight: '400',
+    fontSize: 17,
+    fontFamily: fontName,
+    color: fontColors.secondary
   },
   tableRow: {
     alignItems: 'center',
