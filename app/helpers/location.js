@@ -1,5 +1,4 @@
 import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
-import RNSimpleCompass from 'react-native-simple-compass';
 import { Linking, PermissionsAndroid, Platform } from 'react-native';
 import { Sentry } from 'react-native-sentry';
 
@@ -312,9 +311,7 @@ export function stopTrackingLocation() {
  * @warning This will only emit a GFWOnHeadingEvent when the heading has changed by 3 or more degrees.
  */
 export function startTrackingHeading() {
-  RNSimpleCompass.start(3, degree => {
-    emitter.emit(GFWOnHeadingEvent, degree);
-  });
+  console.warn('3SC', 'Need to re-implement startTrackingHeading');
 }
 
 /**
@@ -324,5 +321,5 @@ export function startTrackingHeading() {
  * @warning It is the responsibility of the implementing app to deregister any emitter listeners within the main app.
  */
 export function stopTrackingHeading() {
-  RNSimpleCompass.stop();
+  console.warn('3SC', 'Need to re-implement stopTrackingHeading');
 }

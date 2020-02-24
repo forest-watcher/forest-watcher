@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import Theme from 'config/theme';
 import { registerScreens } from 'screens';
 import createStore from 'store';
-import { setupCrashLogging } from './crashes';
+//import { setupCrashLogging } from './crashes';
 import i18n from 'locales';
 
 import {
@@ -134,7 +134,7 @@ export default class App {
     }
 
     if (!__DEV__) {
-      await setupCrashLogging();
+      //await setupCrashLogging();
     }
 
     const store = createStore(async () => {

@@ -2,21 +2,29 @@ package com.forestwatcher;
 
 import android.content.Context;
 import com.RNFetchBlob.RNFetchBlobPackage;
-import com.airbnb.android.react.lottie.LottiePackage;
+import com.aakashns.reactnativedialogs.ReactNativeDialogsPackage;
+import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.CallbackManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.soloader.SoLoader;
 import com.forestwatcher.intents.IntentsPackage;
+import com.imagepicker.ImagePickerPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
-import com.reactlibrary.RNSimpleCompassPackage;
+import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
+import com.reactcommunity.rnlocalize.RNLocalizePackage;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.cookies.CookieManagerPackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.reactnativenavigation.react.ReactGateway;
 import com.rnappauth.RNAppAuthPackage;
+import com.rnziparchive.RNZipArchivePackage;
+import io.invertase.firebase.analytics.ReactNativeFirebaseAnalyticsPackage;
+import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
 import io.sentry.RNSentryPackage;
 
 import java.lang.reflect.InvocationTargetException;
@@ -60,16 +68,24 @@ public class MainApplication extends NavigationApplication {
     // Add additional packages you require here
     // No need to add RnnPackage and MainReactPackage
     return Arrays.<ReactPackage>asList(
-      new RNFetchBlobPackage(),
-      new ReactNativeConfigPackage(),
+      new AsyncStoragePackage(),
+      new BackgroundGeolocationPackage(),
       new CookieManagerPackage(),
-      new RNAppAuthPackage(),
       new FBSDKPackage(),
-      new LottiePackage(),
-      new RNSentryPackage(),
-      new RNSimpleCompassPackage(),
+      new ImagePickerPackage(),
       new IntentsPackage(),
-      new NetInfoPackage()
+      new MapsPackage(),
+      new NetInfoPackage(),
+      new ReactNativeConfigPackage(),
+      new ReactNativeDialogsPackage(),
+      new ReactNativeFirebaseAnalyticsPackage(),
+      new ReactNativeFirebaseAppPackage(),
+      new RNAppAuthPackage(),
+      new RNCWebViewPackage(),
+      new RNFetchBlobPackage(),
+      new RNLocalizePackage(),
+      new RNSentryPackage(),
+      new RNZipArchivePackage()
     );
   }
 

@@ -47,3 +47,5 @@ export const setI18nConfig = () => {
     }
   });
 };
+
+export default i18n;
