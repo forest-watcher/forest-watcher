@@ -3,6 +3,7 @@ package com.forestwatcher;
 import android.content.Context;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.aakashns.reactnativedialogs.ReactNativeDialogsPackage;
+import com.airbnb.android.react.lottie.LottiePackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -67,6 +68,7 @@ public class MainApplication extends NavigationApplication {
       new FBSDKPackage(),
       new ImagePickerPackage(),
       new IntentsPackage(),
+      new LottiePackage(),
       new MapsPackage(),
       new NetInfoPackage(),
       new ReactNativeConfigPackage(),
