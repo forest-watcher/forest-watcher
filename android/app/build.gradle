@@ -188,7 +188,6 @@ android {
     }
     sourceSets {
         main.java.srcDirs += '../../node_modules/@react-native-community/cookies/android/src/main/java'
-        main.java.srcDirs += '../../node_modules/react-native-app-auth/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-config/android/src/main/java'
         main.java.srcDirs += '../../node_modules/react-native-fbsdk/android/src/main/java'
         main.java.srcDirs += '../../node_modules/rn-fetch-blob/android/src/main/java'
@@ -221,9 +220,6 @@ dependencies {
     }
 
     implementation "com.google.android.gms:play-services-base:17.1.0"
-
-    // react-native-app-auth
-    implementation "net.openid:appauth:0.7.1"
 
     // react-native-background-geolocation
     implementation project(':@mauron85_react-native-background-geolocation')
