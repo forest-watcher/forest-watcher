@@ -1,19 +1,12 @@
 // @flow
 import React, { Component } from 'react';
-import { View, Text, TouchableHighlight, ScrollView, Image, Alert } from 'react-native';
+import { View, Text, ScrollView, Image } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import Hyperlink from 'react-native-hyperlink';
 
-import List from 'components/common/list';
-import AreaList from 'containers/common/area-list';
-import Theme from 'config/theme';
-import CoordinatesDropdown from 'containers/settings/coordinates-dropdown';
 import Row from 'components/common/row';
-import { getVersionName } from 'helpers/app';
 import { formatBytes } from 'helpers/data';
 import debounceUI from 'helpers/debounceUI';
 
-import { launchAppRoot } from 'main';
 import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
@@ -21,7 +14,6 @@ import styles from './styles';
 const baseMapsIcon = require('assets/basemap.png');
 const layersIcon = require('assets/contextualLayers.png');
 const nextIcon = require('assets/next.png');
-const plusIcon = require('assets/plus.png');
 
 type Props = {
   componentId: string
@@ -48,7 +40,7 @@ export default class CustomComponents extends Component<Props> {
     this.basemapsAction = {
       callback: this.onPressBasemaps,
       icon: nextIcon
-    }
+    };
 
     this.contextualLayersAction = {
       callback: this.onPressContextualLayers,
@@ -56,13 +48,9 @@ export default class CustomComponents extends Component<Props> {
     };
   }
 
-  onPressBasemaps = () => {
+  onPressBasemaps = () => {};
 
-  };
-
-  onPressContextualLayers = () => {
-
-  };
+  onPressContextualLayers = () => {};
 
   componentDidMount() {
     tracker.trackScreenView('Custom Components');
