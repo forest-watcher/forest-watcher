@@ -19,7 +19,6 @@ import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.reactnativenavigation.react.ReactGateway;
 import com.rnappauth.RNAppAuthPackage;
-import com.rnziparchive.RNZipArchivePackage;
 import io.sentry.RNSentryPackage;
 
 import java.lang.reflect.InvocationTargetException;
@@ -65,7 +64,6 @@ public class MainApplication extends NavigationApplication {
     return Arrays.<ReactPackage>asList(
       new RNFetchBlobPackage(),
       new ReactNativeConfigPackage(),
-      new RNZipArchivePackage(),
       new CookieManagerPackage(),
       new RNAppAuthPackage(),
       new FBSDKPackage(),

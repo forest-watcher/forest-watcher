@@ -245,9 +245,6 @@ dependencies {
 
     // react-native-community/viewpager
     implementation project(':@react-native-community_viewpager')
-
-    // react-native-zip-archive
-    implementation project(':react-native-zip-archive')
 }
 
 // Run this once to be able to run the application with BUCK
