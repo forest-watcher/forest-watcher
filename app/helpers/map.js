@@ -201,3 +201,33 @@ export function formatDistance(distance, thresholdBeforeKm = 1, relativeToUser =
 
   return distanceText;
 }
+
+/**
+ * returns bounding box for any given polygon (lat,lng array)
+ * @param polygon [{latitude: *, longitude: *}, ...]
+ * @returns {{sw: [*, *], ne: [*, *]}}
+ */
+export function getPolygonBoundingBox(polygon) {
+  let bounds = {},
+    latitude,
+    longitude;
+
+  if (polygon.length === 0) {
+    return undefined;
+  }
+
+  for (let i = 0; i < polygon.length; i++) {
+    longitude = polygon[i].latitude;
+    latitude = polygon[i].longitude;
+    bounds.longMin = bounds.longMin < longitude ? bounds.longMin : longitude;
+    bounds.longMax = bounds.longMax > longitude ? bounds.longMax : longitude;
+    bounds.latMin = bounds.latMin < latitude ? bounds.latMin : latitude;
+    bounds.latMax = bounds.latMax > latitude ? bounds.latMax : latitude;
+  }
+
+  let boundingBox = {
+    ne: [bounds.latMin, bounds.longMin],
+    sw: [bounds.latMax, bounds.longMax]
+  };
+  return boundingBox;
+}
