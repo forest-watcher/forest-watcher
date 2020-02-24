@@ -5,7 +5,7 @@ import Theme from 'config/theme';
 import { registerScreens } from 'screens';
 import createStore from 'store';
 //import { setupCrashLogging } from './crashes';
-import i18n from 'locales';
+import i18n, { setI18nConfig } from 'locales';
 
 import {
   GFWLocationAuthorizedAlways,
@@ -31,6 +31,8 @@ export default class App {
   }
 
   async launchRoot() {
+    setI18nConfig();
+
     await Navigation.setDefaultOptions({
       ...Theme.navigator.styles
     });

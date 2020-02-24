@@ -8,7 +8,7 @@ import { Alert, View, Image, ScrollView, Text, TextInput, TouchableHighlight } f
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 
-import i18n from 'locales';
+import i18n from 'i18next';
 import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
 import RouteList from 'components/common/route-list';

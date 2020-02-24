@@ -9,7 +9,7 @@ import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
-import i18n from 'locales';
+import i18n from 'i18next';
 import styles from './styles';
 
 const settingsIcon = require('assets/settings.png');

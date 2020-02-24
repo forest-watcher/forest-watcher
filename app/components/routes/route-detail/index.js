@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { ActionSheetIOS, Alert, AlertIOS, Platform, View, ScrollView } from 'react-native';
 import moment from 'moment';
-import i18n from 'locales';
+import i18n from 'i18next';
 import DialogAndroid from 'react-native-dialogs';
 import { Navigation } from 'react-native-navigation';
 

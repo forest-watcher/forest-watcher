@@ -5,7 +5,7 @@ import type { Question, Report, ReportsState, Template, Answer } from 'types/rep
 import moment from 'moment';
 
 import { REPORTS } from 'config/constants';
-import i18n from 'locales';
+import i18n from 'i18next';
 import flatMap from 'lodash/flatMap';
 
 export const getBtnTextByType = (type: string) => {

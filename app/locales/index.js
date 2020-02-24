@@ -17,11 +17,11 @@ export const setI18nConfig = () => {
   // Lazy requires of each language available in the app.
   // When there's more languages available, add them in here & if the device is in the right language, it should automatically use those strings ✨
   const translationPaths = {
-    en: () => require('./en.json'),
-    es: () => require('./es.json'),
-    fr: () => require('./fr.json'),
-    id: () => require('./id.json'),
-    pt: () => require('./pt.json')
+    en: () => ({ translation: require('./en.json') }),
+    es: () => ({ translation: require('./es.json') }),
+    fr: () => ({ translation: require('./fr.json') }),
+    id: () => ({ translation: require('./id.json') }),
+    pt: () => ({ translation: require('./pt.json') })
   };
 
   // Determine the best language based on the supported locales defined in translationPaths, falling back to EN if none better are available.
@@ -31,6 +31,7 @@ export const setI18nConfig = () => {
   // Tell react-native if this is a right-to-left language.
   I18nManager.forceRTL(isRTL);
 
+  console.log("3SC", Object.keys(translationPaths), languageTag, translationPaths.en());
   // Configure i18n, with the chosen translations & locale.
   i18n.init({
     fallbackLng: 'en',
@@ -47,5 +48,3 @@ export const setI18nConfig = () => {
     }
   });
 };
-
-export default i18n;

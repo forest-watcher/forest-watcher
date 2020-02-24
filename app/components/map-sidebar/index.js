@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
-import i18n from 'locales';
+import i18n from 'i18next';
 import Row from 'components/common/row';
 import AlertSystem from 'containers/areas/area-detail/alert-system';
 import styles from './styles';

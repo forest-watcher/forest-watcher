@@ -1,6 +1,6 @@
 // @flow
 import type { State } from 'types/store.types';
-import i18n from 'locales';
+import i18n from 'i18next';
 
 import { UPLOAD_REPORT_COMMIT, UPLOAD_REPORT_ROLLBACK } from 'redux-modules/reports';
 import { SAVE_AREA_ROLLBACK } from 'redux-modules/areas';

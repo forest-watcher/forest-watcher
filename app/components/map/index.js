@@ -24,7 +24,7 @@ import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import { LOCATION_TRACKING } from 'config/constants';
 import Theme from 'config/theme';
-import i18n from 'locales';
+import i18n from 'i18next';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';

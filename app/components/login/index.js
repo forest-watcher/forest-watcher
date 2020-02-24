@@ -8,7 +8,7 @@ import SafeArea from 'react-native-safe-area';
 import Config from 'react-native-config';
 
 import Theme from 'config/theme';
-import i18n from 'locales';
+import i18n from 'i18next';
 import { getVersionName } from 'helpers/app';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';

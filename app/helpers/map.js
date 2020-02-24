@@ -5,7 +5,7 @@ import { COORDINATES_FORMATS, GLAD_RECENT_RANGE, DATASETS } from 'config/constan
 import UtmLatLng from 'utm-latlng';
 import formatcoords from 'formatcoords';
 import moment from 'moment';
-import i18n from 'locales';
+import i18n from 'i18next';
 import type { Coordinates, CoordinatesFormat, Alert } from 'types/common.types';
 
 const kdbush = require('kdbush');
