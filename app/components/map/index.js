@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Alert, AppState, BackHandler, Dimensions, Image, LayoutAnimation, Platform, Text, View } from 'react-native';
-import { Sentry } from 'react-native-sentry';
+import * as Sentry from '@sentry/react-native';
 
 import { REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';

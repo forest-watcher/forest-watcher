@@ -4,7 +4,6 @@ import android.content.Context;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.aakashns.reactnativedialogs.ReactNativeDialogsPackage;
 import com.airbnb.android.react.maps.MapsPackage;
-import com.facebook.CallbackManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
@@ -16,6 +15,7 @@ import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
 import com.reactcommunity.rnlocalize.RNLocalizePackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.cookies.CookieManagerPackage;
+import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
@@ -31,8 +31,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends NavigationApplication {
-
-  private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
 
   @Override
   public void onCreate() {
@@ -53,10 +51,6 @@ public class MainApplication extends NavigationApplication {
     return new ReactGateway(this, isDebug(), host);
   }
 
-  protected static CallbackManager getCallbackManager() {
-    return mCallbackManager;
-  }
-
   @Override
   public boolean isDebug() {
     // Make sure you are using BuildConfig from your own application
@@ -74,6 +68,7 @@ public class MainApplication extends NavigationApplication {
       new ImagePickerPackage(),
       new IntentsPackage(),
       new MapsPackage(),
+      new NetInfoPackage(),
       new ReactNativeConfigPackage(),
       new ReactNativeDialogsPackage(),
       new ReactNativeFirebaseAnalyticsPackage(),

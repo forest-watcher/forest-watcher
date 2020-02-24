@@ -1,5 +1,5 @@
 import Config from 'react-native-config';
-import { Sentry, SentryLog } from 'react-native-sentry';
+import * as Sentry from '@sentry/react-native';
 import { getVersionName } from './helpers/app';
 
 // disable stacktrace merging
