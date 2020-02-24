@@ -242,9 +242,6 @@ dependencies {
 
     // react-native-sentry
     implementation 'io.sentry:sentry-android:1.7.23'
-
-    // react-native-community/viewpager
-    implementation project(':@react-native-community_viewpager')
 }
 
 // Run this once to be able to run the application with BUCK
