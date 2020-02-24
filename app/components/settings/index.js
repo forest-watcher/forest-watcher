@@ -95,9 +95,13 @@ export default class Settings extends Component<Props> {
 
   }
 
-  onPressCustomLayers() {
-
-  }
+  onPressCustomLayers = debounceUI( () => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.CustomComponents'
+      }
+    });
+  });
 
   componentDidMount() {
     tracker.trackScreenView('Settings');
