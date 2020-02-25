@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { StatusBar, View, Text } from 'react-native';
 import i18n from 'locales';
 import LottieView from 'lottie-react-native';
-import MapView from 'react-native-maps';
 import ActionButton from 'components/common/action-button';
 import styles from './styles';
 
@@ -108,17 +107,6 @@ class Sync extends Component<Props> {
     return (
       <View style={[styles.mainContainer, styles.center]}>
         <StatusBar networkActivityIndicatorVisible />
-        {/*
-         * Google Maps must verify its API token over the internet before it can be used.
-         * This is done automatically the first time a map is displayed.
-         * However, if a GFW user were to download an offline tileset without ever opening the map, they would find that
-         * any map views they view would fail to work once offline, because Google Maps has not verified its token.
-         * For that reason we use this workaround where we show an invisible mapView on this screen (a point at which
-         * the user has connection) to ensure Google Maps is verified.
-         * Ultimately, this is caused by Google Maps not really being geared for total offline use, and we can remove
-         * this workaround when/if we switch to a pure Mapbox implementation.
-         */}
-        <MapView style={styles.map} provider={MapView.PROVIDER_GOOGLE} mapType="none" />
         <LottieView
           style={styles.animation}
           loop={!syncFinished}

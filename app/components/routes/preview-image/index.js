@@ -4,7 +4,6 @@ import type { Route } from 'types/routes.types';
 
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
-import Basemap from 'containers/map/basemap';
 import RouteMarkers from 'components/map/route';
 import MapView from 'react-native-maps';
 
@@ -58,7 +57,6 @@ export default class RoutePreviewImage extends PureComponent<Props> {
             longitudeDelta: (maxLongitude - minLongitude) * 2
           }}
         >
-          <Basemap areaId={route.areaId} />
           <RouteMarkers isTracking={false} route={route} />
         </MapView>
       </View>

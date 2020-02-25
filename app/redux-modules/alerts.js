@@ -6,7 +6,6 @@ import Config from 'react-native-config';
 import moment from 'moment';
 import { initDb, read } from 'helpers/database';
 import CONSTANTS from 'config/constants';
-import clusterGenerator from 'helpers/clusters-generator';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
@@ -69,7 +68,6 @@ export default function reducer(state: AlertsState = initialState, action: Alert
       const queue = state.queue.filter(item => item !== alertId);
       if (action.payload) {
         saveAlertsToDb(area.id, datasetSlug, action.payload, range);
-        clusterGenerator.clear();
       }
       return { ...state, queue, cache };
     }
@@ -80,7 +78,6 @@ export default function reducer(state: AlertsState = initialState, action: Alert
     }
     case LOGOUT_REQUEST: {
       resetAlertsDb();
-      clusterGenerator.clear();
       return initialState;
     }
     default:

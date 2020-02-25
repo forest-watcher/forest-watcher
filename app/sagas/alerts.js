@@ -2,12 +2,10 @@
 import type { State } from 'types/store.types';
 
 import { put, takeEvery, select, all, fork } from 'redux-saga/effects';
-import { getAreaAlerts, SET_ACTIVE_ALERTS } from 'redux-modules/alerts';
+import { getAreaAlerts } from 'redux-modules/alerts';
 import { GET_AREAS_COMMIT, SAVE_AREA_COMMIT } from 'redux-modules/areas';
 import { AREAS as areasConstants } from 'config/constants';
 import moment from 'moment/moment';
-import clusterGenerator from 'helpers/clusters-generator';
-import { getSelectedArea, activeDataset } from 'helpers/area';
 
 function* syncAlertDatasets({ area, cache }): Generator<*, *, *> {
   yield all(
@@ -48,18 +46,4 @@ export function* getAlertsOnAreaCreation(): Generator<*, *, *> {
   }
 
   yield takeEvery(SAVE_AREA_COMMIT, readSaveAreaPayload);
-}
-
-export function* setActiveAlerts(): Generator<*, *, *> {
-  function* updateClusters() {
-    const area = yield select(({ areas }: State) => getSelectedArea(areas.data, areas.selectedAreaId));
-    const canDisplay = yield select(({ alerts }) => alerts.canDisplayAlerts);
-    const dataset = activeDataset(area);
-
-    if (dataset && canDisplay) {
-      clusterGenerator.update(area.id, dataset.slug, dataset.startDate);
-    }
-  }
-
-  yield takeEvery(SET_ACTIVE_ALERTS, updateClusters);
 }
