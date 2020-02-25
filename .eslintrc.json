@@ -1,0 +1,150 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "jest": true,
+    "node": true,
+    "react-native/react-native": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:flowtype/recommended",
+    "plugin:import/errors",
+    "plugin:prettier/recommended",
+    "plugin:promise/recommended",
+    "plugin:react/all",
+    "plugin:react-native/all",
+    "prettier/react"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "plugins": [
+    "babel",
+    "flowtype",
+    "import",
+    "prettier",
+    "promise",
+    "react",
+    "react-native"
+  ],
+  "rules": {
+    "array-callback-return": "warn",
+    "babel/no-unused-expressions": "error",
+    "consistent-return": "warn",
+    "no-console": [
+      "error",
+      {
+        "allow": [
+          "warn",
+          "error",
+          "info"
+        ]
+      }
+    ],
+    "no-duplicate-imports": "warn",
+    "no-throw-literal": "error",
+    "no-unused-vars": [
+      "warn",
+      {
+        "args": "none"
+      }
+    ],
+    "no-var": "warn",
+    "no-warning-comments": "off",
+    "prefer-const": "warn",
+    "prefer-promise-reject-errors": "warn",
+    "prettier/prettier": "warn",
+    "promise/catch-or-return": "off",
+    "react/default-props-match-prop-types": [
+      "warn",
+      {
+        "allowRequiredDefaults": true
+      }
+    ],
+    "react/destructuring-assignment": "off",
+    "react/display-name": "off",
+    "react/forbid-component-props": "off",
+    "react/forbid-prop-types": "off",
+    "react/jsx-boolean-value": [
+      "off",
+      "always"
+    ],
+    "react/jsx-curly-brace-presence": "off",
+    "react/jsx-handler-names": "off",
+    "react/jsx-indent": "off",
+    "react/jsx-filename-extension": "off",
+    "react/jsx-key": "warn",
+    "react/jsx-max-depth": "off",
+    "react/jsx-max-props-per-line": "off",
+    "react/jsx-no-bind": "off",
+    "react/jsx-no-literals": [
+      "error",
+      {
+        "noStrings": true,
+        "allowedStrings": [
+          ",",
+          ":",
+          "%",
+          "|",
+          "/",
+          "-"
+        ]
+      }
+    ],
+    "react/jsx-sort-default-props": "warn",
+    "react/jsx-sort-props": [
+      "off",
+      {
+        "reservedFirst": true
+      }
+    ],
+    "react/no-array-index-key": "off",
+    "react/no-set-state": "off",
+    "react/no-string-refs": "off",
+    "react/no-unsafe": "warn",
+    "react/prefer-stateless-function": "off",
+    "react/prop-types": "warn",
+    "react/require-default-props": "off",
+    "react/require-optimization": "off",
+    "react/sort-comp": "off",
+    "react/sort-prop-types": "off",
+    "react-native/no-color-literals": "off",
+    "react-native/no-inline-styles": "warn",
+    "react-native/no-raw-text": "off",
+    "react-native/no-unused-styles": "warn",
+    "react-native/sort-styles": "off",
+    "react-native/split-platform-components": "off",
+    "require-await": "warn"
+  },
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": true
+    },
+    "import/resolver": {
+      "babel-module": {},
+      "node": {
+        "extensions": [
+          ".android.js",
+          ".ios.js",
+          ".js",
+          ".jsx"
+        ],
+        "moduleDirectory": [
+          "node_modules",
+          "app"
+        ]
+      }
+    },
+    "react": {
+      "version": "detect"
+    }
+  }
+}

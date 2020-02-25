@@ -10,7 +10,6 @@
     "clear:modules": "rm -rf node_modules",
     "clear": "yarn run clear:cache && yarn run clear:modules && yarn install",
     "prepare": "patch-package",
-    "precommit": "lint-staged",
     "transifex:extract": "i18next-scanner --config ./app/locales/extract.config.js './app/**/*.{js,jsx}'",
     "transifex:push": "node transifex/transifex-push.js",
     "transifex:pull": "node transifex/transifex-pull.js",
@@ -88,28 +87,27 @@
     "@babel/core": "^7.6.2",
     "@babel/preset-flow": "7.0.0",
     "@babel/runtime": "^7.6.2",
-    "@react-native-community/eslint-config": "0.0.7",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.0.1",
     "babel-jest": "24.9.0",
     "babel-plugin-module-resolver": "3.1.1",
     "dotenv": "6.1.0",
     "eslint": "6.5.1",
-    "eslint-config-prettier": "3.3.0",
+    "eslint-config-prettier": "6.10.0",
     "eslint-import-resolver-babel-module": "5.0.0-beta.1",
-    "eslint-plugin-flowtype": "3.2.0",
-    "eslint-plugin-import": "2.14.0",
-    "eslint-plugin-jsx-a11y": "6.1.2",
-    "eslint-plugin-prettier": "3.0.0",
-    "eslint-plugin-react": "7.11.1",
-    "eslint-plugin-react-native": "3.5.0",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-flowtype": "^4.3.0",
+    "eslint-plugin-import": "2.20.1",
+    "eslint-plugin-prettier": "3.1.2",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-react": "7.18.3",
+    "eslint-plugin-react-native": "3.8.1",
     "faker": "^4.1.0",
     "flow-bin": "0.78.0",
     "i18next-scanner": "2.7.0",
     "jest": "^24.9.0",
     "jest-fetch-mock": "1.7.4",
     "jest-html-reporter": "2.4.2",
-    "lint-staged": "8.1.0",
     "metro-react-native-babel-preset": "^0.56.0",
     "node-fetch": "2.3.0",
     "patch-package": "6.1.2",
@@ -147,120 +145,5 @@
     "tabWidth": 2,
     "trailingComma": "none",
     "useTabs": false
-  },
-  "lint-staged": {
-    "app/**/*.js": [
-      "eslint"
-    ]
-  },
-  "eslintConfig": {
-    "env": {
-      "browser": true,
-      "commonjs": true,
-      "es6": true,
-      "jest": true,
-      "node": true,
-      "react-native/react-native": true
-    },
-    "extends": [
-      "@react-native-community",
-      "eslint:recommended",
-      "plugin:flowtype/recommended",
-      "plugin:import/errors",
-      "plugin:prettier/recommended",
-      "plugin:react/all",
-      "plugin:react-native/all",
-      "prettier/react"
-    ],
-    "parser": "babel-eslint",
-    "parserOptions": {
-      "ecmaVersion": 2017,
-      "ecmaFeatures": {
-        "experimentalObjectRestSpread": true,
-        "jsx": true
-      },
-      "sourceType": "module"
-    },
-    "plugins": [
-      "flowtype",
-      "prettier",
-      "react",
-      "react-native"
-    ],
-    "rules": {
-      "no-console": [
-        "error",
-        {
-          "allow": [
-            "warn",
-            "error",
-            "info"
-          ]
-        }
-      ],
-      "no-throw-literal": "error",
-      "no-unused-vars": [
-        "warn",
-        {
-          "args": "none"
-        }
-      ],
-      "prefer-promise-reject-errors": "error",
-      "prettier/prettier": "warn",
-      "react/default-props-match-prop-types": [
-        "warn",
-        {
-          "allowRequiredDefaults": true
-        }
-      ],
-      "react/destructuring-assignment": "off",
-      "react/display-name": "warn",
-      "react/forbid-component-props": "off",
-      "react/forbid-prop-types": "off",
-      "react/jsx-boolean-value": [
-        "off",
-        "always"
-      ],
-      "react/jsx-curly-brace-presence": "off",
-      "react/jsx-handler-names": "off",
-      "react/jsx-indent": "off",
-      "react/jsx-filename-extension": "off",
-      "react/jsx-max-depth": "off",
-      "react/jsx-max-props-per-line": "off",
-      "react/jsx-no-bind": "off",
-      "react/jsx-no-literals": "off",
-      "react/jsx-sort-default-props": "warn",
-      "react/jsx-sort-props": "off",
-      "react/no-array-index-key": "off",
-      "react/no-set-state": "off",
-      "react/no-unsafe": "warn",
-      "react/prefer-stateless-function": "off",
-      "react/prop-types": "warn",
-      "react/require-default-props": "off",
-      "react/require-optimization": "off",
-      "react/sort-comp": "off",
-      "react/sort-prop-types": "off",
-      "react-native/no-color-literals": "off",
-      "react-native/no-inline-styles": "off",
-      "react-native/split-platform-components": "off"
-    },
-    "settings": {
-      "import/resolver": {
-        "babel-module": {},
-        "node": {
-          "extensions": [
-            ".js",
-            ".jsx"
-          ],
-          "moduleDirectory": [
-            "node_modules",
-            "app"
-          ]
-        }
-      },
-      "flowtype": {
-        "onlyFilesWithFlowAnnotation": true
-      }
-    }
   }
 }
