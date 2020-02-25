@@ -218,9 +218,6 @@ dependencies {
 
     implementation "com.google.android.gms:play-services-base:17.1.0"
 
-    // react-native-background-geolocation
-    implementation project(':@mauron85_react-native-background-geolocation')
-
     // react-native-navigation
     implementation project(':react-native-navigation')
 }

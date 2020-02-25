@@ -1,0 +1,88 @@
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/@mauron85_react-native-background-geolocation-common.iml b/node_modules/@mauron85/react-native-background-geolocation/android/common/@mauron85_react-native-background-geolocation-common.iml
+new file mode 100644
+index 0000000..401d1ba
+--- /dev/null
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/@mauron85_react-native-background-geolocation-common.iml
+@@ -0,0 +1,29 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module version="4">
++  <component name="FacetManager">
++    <facet type="android-gradle" name="Android-Gradle">
++      <configuration>
++        <option name="GRADLE_PROJECT_PATH" value=":@mauron85_react-native-background-geolocation-common" />
++        <option name="LAST_SUCCESSFUL_SYNC_AGP_VERSION" />
++        <option name="LAST_KNOWN_AGP_VERSION" value="3.5.3" />
++      </configuration>
++    </facet>
++    <facet type="android" name="Android">
++      <configuration>
++        <option name="SELECTED_BUILD_VARIANT" value="debug" />
++        <option name="ASSEMBLE_TASK_NAME" value="assembleDebug" />
++        <option name="COMPILE_JAVA_TASK_NAME" value="compileDebugSources" />
++        <afterSyncTasks>
++          <task>generateDebugSources</task>
++        </afterSyncTasks>
++        <option name="ALLOW_USER_CONFIGURATION" value="false" />
++        <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
++        <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
++        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/src/main/res" />
++        <option name="TEST_RES_FOLDERS_RELATIVE_PATH" value="" />
++        <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
++        <option name="PROJECT_TYPE" value="1" />
++      </configuration>
++    </facet>
++  </component>
++</module>
+\ No newline at end of file
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/VERSIONS.gradle b/node_modules/@mauron85/react-native-background-geolocation/android/common/VERSIONS.gradle
+index 61f0865..6b75511 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/VERSIONS.gradle
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/VERSIONS.gradle
+@@ -21,11 +21,6 @@ def RESOURCE_PREFIX = "mauron85_bgloc_"
+ ext {
+     getApplicationId = { ->
+         def applicationId = "com.marianhello.app"
+-        if (findProject('..:app') != null) {
+-            applicationId = project('..:app').android.defaultConfig.applicationId
+-        } else if (findProject(':app') != null) {
+-            applicationId = project(':app').android.defaultConfig.applicationId
+-        }
+         if (rootProject.hasProperty('applicationId')) {
+             applicationId = rootProject.applicationId
+         }
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/mauron85_react-native-background-geolocation.iml b/node_modules/@mauron85/react-native-background-geolocation/android/lib/mauron85_react-native-background-geolocation.iml
+new file mode 100644
+index 0000000..13f4e53
+--- /dev/null
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/lib/mauron85_react-native-background-geolocation.iml
+@@ -0,0 +1,29 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module version="4">
++  <component name="FacetManager">
++    <facet type="android-gradle" name="Android-Gradle">
++      <configuration>
++        <option name="GRADLE_PROJECT_PATH" value=":mauron85_react-native-background-geolocation" />
++        <option name="LAST_SUCCESSFUL_SYNC_AGP_VERSION" />
++        <option name="LAST_KNOWN_AGP_VERSION" value="3.5.3" />
++      </configuration>
++    </facet>
++    <facet type="android" name="Android">
++      <configuration>
++        <option name="SELECTED_BUILD_VARIANT" value="debug" />
++        <option name="ASSEMBLE_TASK_NAME" value="assembleDebug" />
++        <option name="COMPILE_JAVA_TASK_NAME" value="compileDebugSources" />
++        <afterSyncTasks>
++          <task>generateDebugSources</task>
++        </afterSyncTasks>
++        <option name="ALLOW_USER_CONFIGURATION" value="false" />
++        <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
++        <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
++        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/src/main/res" />
++        <option name="TEST_RES_FOLDERS_RELATIVE_PATH" value="" />
++        <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
++        <option name="PROJECT_TYPE" value="1" />
++      </configuration>
++    </facet>
++  </component>
++</module>
+\ No newline at end of file
