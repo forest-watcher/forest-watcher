@@ -16,6 +16,8 @@ import {
   startTrackingLocation
 } from 'helpers/location';
 import { discardActiveRoute } from './redux-modules/routes';
+import Config from 'react-native-config';
+import MapboxGL from '@react-native-mapbox-gl/maps';
 
 // Disable ios warnings
 // console.disableYellowBox = true;
@@ -141,6 +143,7 @@ export default class App {
       this.store = store;
       registerScreens(store, Provider);
       initialiseLocationFramework();
+      MapboxGL.setAccessToken(Config.MAPBOX_TOKEN);
       createStore.runSagas();
       await this.launchRoot();
     });
