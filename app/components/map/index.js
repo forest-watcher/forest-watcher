@@ -144,7 +144,7 @@ class MapComponent extends Component {
     Navigation.events().bindComponent(this);
     this.state = {
       bottomSafeAreaInset: 0,
-      lastPosition: null,
+      userLocation: null,
       hasCompass: false,
       heading: null,
       region: {
@@ -234,11 +234,11 @@ class MapComponent extends Component {
       }
     }
 
-    if (prevState.lastPosition !== this.state.lastPosition) {
+    if (prevState.userLocation !== this.state.userLocation) {
       Navigation.mergeOptions(this.props.componentId, {
         topBar: {
           title: {
-            text: formatCoordsByFormat(this.state.lastPosition, this.props.coordinatesFormat)
+            text: formatCoordsByFormat(this.state.userLocation, this.props.coordinatesFormat)
           }
         }
       });
@@ -429,7 +429,7 @@ class MapComponent extends Component {
    */
   updateLocationFromGeolocation = throttle(location => {
     this.setState({
-      lastPosition: location,
+      userLocation: location,
       locationError: null
     });
   }, 300);
@@ -478,11 +478,11 @@ class MapComponent extends Component {
 
   // Zoom map to user location
   zoomToUserLocation = debounceUI(() => {
-    const { lastPosition } = this.state;
-    if (lastPosition) {
+    const { userLocation } = this.state;
+    if (userLocation) {
       // todo: do we want to includes selected alert on zoomToUserLocation?
       this.mapCamera.setCamera({
-        centerCoordinate: [lastPosition.longitude, lastPosition.latitude],
+        centerCoordinate: [userLocation.longitude, userLocation.latitude],
         zoomLevel: 16,
         animationDuration: 2000
       });
@@ -500,24 +500,24 @@ class MapComponent extends Component {
   createReport = selectedAlerts => {
     this.props.setCanDisplayAlerts(false);
     const { area } = this.props;
-    const { lastPosition } = this.state;
+    const { userLocation } = this.state;
     let latLng = [];
     if (selectedAlerts && selectedAlerts.length > 0) {
       latLng = selectedAlerts.map(alert => ({
         lat: alert.latitude,
         lon: alert.longitude
       }));
-    } else if (this.isRouteTracking() && lastPosition) {
+    } else if (this.isRouteTracking() && userLocation) {
       latLng = [
         {
-          lat: lastPosition.latitude,
-          lon: lastPosition.longitude
+          lat: userLocation.latitude,
+          lon: userLocation.longitude
         }
       ];
     }
 
     const userLatLng =
-      this.state.lastPosition && `${this.state.lastPosition.latitude},${this.state.lastPosition.longitude}`;
+      this.state.userLocation && `${this.state.userLocation.latitude},${this.state.userLocation.longitude}`;
     const reportedDataset = area.dataset ? `-${area.dataset.name}` : '';
     const areaName = toUpper(kebabCase(deburr(area.name)));
     const reportName = `${areaName}${reportedDataset}-REPORT--${moment().format('YYYY-MM-DDTHH:mm:ss')}`;
@@ -573,7 +573,7 @@ class MapComponent extends Component {
   };
 
   renderButtonPanel() {
-    const { customReporting, lastPosition, locationError, neighbours, selectedAlerts } = this.state;
+    const { customReporting, userLocation, locationError, neighbours, selectedAlerts } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
     const hasNeighbours = neighbours && neighbours.length > 0;
     const canReport = hasAlertsSelected || customReporting;
@@ -586,7 +586,7 @@ class MapComponent extends Component {
         <LocationErrorBanner
           style={{ margin: 16 }}
           locationError={locationError}
-          mostRecentLocationTime={lastPosition?.timestamp}
+          mostRecentLocationTime={userLocation?.timestamp}
         />
         <View style={styles.buttonPanel}>
           {canReport ? (
@@ -597,7 +597,7 @@ class MapComponent extends Component {
           ) : (
             <CircleButton shouldFillContainer onPress={this.onCustomReportingPress} icon={addLocationIcon} />
           )}
-          {lastPosition ? (
+          {userLocation ? (
             <CircleButton shouldFillContainer onPress={this.zoomToUserLocation} light icon={myLocationIcon} />
           ) : null}
           {canReport ? (
@@ -668,12 +668,12 @@ class MapComponent extends Component {
   }
 
   render() {
-    const { customReporting, selectedAlerts, lastPosition } = this.state;
+    const { customReporting, selectedAlerts, userLocation } = this.state;
     const { isConnected, isOfflineMode, route, coordinatesFormat } = this.props;
 
     let coordinateAndDistanceText = getCoordinateAndDistanceText(
       selectedAlerts,
-      lastPosition,
+      userLocation,
       route,
       coordinatesFormat,
       this.isRouteTracking()
