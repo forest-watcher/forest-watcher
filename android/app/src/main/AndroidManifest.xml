@@ -29,7 +29,7 @@
     android:label="@string/APP_NAME"
     android:theme="@style/AppTheme"
     android:largeHeap="true"
-    tools:replace="android:label">
+    tools:replace="android:appComponentFactory,android:label">
     <activity
       android:name=".MainActivity"
       android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
