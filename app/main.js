@@ -4,8 +4,9 @@ import { Provider } from 'react-redux';
 import Theme from 'config/theme';
 import { registerScreens } from 'screens';
 import createStore from 'store';
-//import { setupCrashLogging } from './crashes';
-import i18n, { setI18nConfig } from 'locales';
+import { setupCrashLogging } from './crashes';
+import { setI18nConfig } from 'locales';
+import i18n from 'i18next';
 
 import {
   GFWLocationAuthorizedAlways,
