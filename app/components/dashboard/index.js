@@ -21,6 +21,7 @@ const routesIcon = require('assets/routes.png');
 type Props = {
   componentId: string,
   setAreasRefreshing: boolean => void,
+  hasSeenWelcomeScreen: boolean,
   isConnected: boolean,
   needsUpdate: boolean,
   appSyncing: boolean,
@@ -28,6 +29,7 @@ type Props = {
   pristine: boolean,
   setSelectedAreaId: string => void,
   setPristine: boolean => void,
+  setWelcomeScreenSeen: boolean => void,
   updateApp: () => void,
   showNotConnectedNotification: () => void,
   activeRoute: Route
@@ -99,6 +101,8 @@ class Dashboard extends PureComponent<Props> {
         }
       });
     }
+
+    this.showWelcomeScreenIfNecessary();
   }
 
   componentWillUnmount() {
@@ -109,36 +113,44 @@ class Dashboard extends PureComponent<Props> {
   }
 
   componentDidAppear() {
-    Navigation.showModal({
-      component: {
-        name: 'ForestWatcher.Welcome',
-        options: {
-          // animations: {
-          //   showModal: {
-          //     waitForRender: true,
-          //     // Works on Android but not iOS
-          //     alpha: {
-          //       from: 0,
-          //       to: 1,
-          //       duration: 250
-          //     },
-          //     // Only works on iOS
-          //     content: {
-          //       alpha: {
-          //         from: 0,
-          //         to: 1,
-          //         duration: 250
-          //       }
-          //     }
-          //   }
-          // },
-          layout: { backgroundColor: 'rgba(0,0,0,0.8)' },
-          screenBackgroundColor: 'rgba(0,0,0,0.8)',
-          modalPresentationStyle: 'overCurrentContext'
-        }
-      }
-    })
+    this.showWelcomeScreenIfNecessary();
   }
+
+  showWelcomeScreenIfNecessary = debounceUI(() => {
+    const { hasSeenWelcomeScreen } = this.props;
+    if (!hasSeenWelcomeScreen) {
+      this.props.setWelcomeScreenSeen(true);
+      Navigation.showModal({
+        component: {
+          name: 'ForestWatcher.Welcome',
+          options: {
+            // animations: {
+            //   showModal: {
+            //     waitForRender: true,
+            //     // Works on Android but not iOS
+            //     alpha: {
+            //       from: 0,
+            //       to: 1,
+            //       duration: 250
+            //     },
+            //     // Only works on iOS
+            //     content: {
+            //       alpha: {
+            //         from: 0,
+            //         to: 1,
+            //         duration: 250
+            //       }
+            //     }
+            //   }
+            // },
+            layout: { backgroundColor: 'rgba(0,0,0,0.8)' },
+            screenBackgroundColor: 'rgba(0,0,0,0.8)',
+            modalPresentationStyle: 'overCurrentContext'
+          }
+        }
+      });
+    }
+  });
 
   componentDidDisappear() {
     const { pristine, setPristine, refreshing, setAreasRefreshing } = this.props;

@@ -14,10 +14,6 @@ import ActionButton from 'components/common/action-button';
 import { withSafeArea } from 'react-native-safe-area';
 const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
 
-// const baseMapsIcon = require('assets/basemap.png');
-// const layersIcon = require('assets/contextualLayers.png');
-// const nextIcon = require('assets/next.png');
-
 const UPDATE_ITEMS = [
   {
     icon: require('assets/shareAndroid.png'),
@@ -79,13 +75,11 @@ const WELCOME_ITEMS = [
 type Props = {
   componentId: string,
   isAppUpdate: boolean,
-  setWelcomeScreenSeen: boolean => void
 };
 
 export default class Welcome extends Component<Props> {
 
   onContinue = () => {
-    this.props.setWelcomeScreenSeen(true);
     Navigation.dismissModal(this.props.componentId);
   };
 

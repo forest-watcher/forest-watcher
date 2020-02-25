@@ -4,7 +4,6 @@ import type { State } from 'types/store.types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Welcome from 'components/welcome';
-import { setWelcomeScreenSeen } from 'redux-modules/app';
 
 function mapStateToProps(state: State) {
   return {
@@ -14,9 +13,7 @@ function mapStateToProps(state: State) {
 
 function mapDispatchToProps(dispatch: *) {
   return bindActionCreators(
-    {
-      setWelcomeScreenSeen
-    },
+    { },
     dispatch
   );
 }
