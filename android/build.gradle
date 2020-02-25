@@ -2,7 +2,6 @@
 
 buildscript {
     ext {
-        applicationId = "com.forestwatcher"
         buildToolsVersion = "28.0.3"
         minSdkVersion = 21
         compileSdkVersion = 28
