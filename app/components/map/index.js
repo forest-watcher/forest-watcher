@@ -18,8 +18,6 @@ import BottomDialog from 'components/map/bottom-dialog';
 import LocationErrorBanner from 'components/map/locationErrorBanner';
 import {
   formatCoordsByFormat,
-  formatDistance,
-  getDistanceOfLine,
   getMapZoom,
   getPolygonBoundingBox
 } from 'helpers/map';
@@ -48,7 +46,8 @@ import {
   startTrackingLocation,
   stopTrackingLocation,
   startTrackingHeading,
-  stopTrackingHeading
+  stopTrackingHeading,
+  getCoordinateAndDistanceText
 } from 'helpers/location';
 
 var emitter = require('tiny-emitter/instance');
@@ -573,44 +572,6 @@ class MapComponent extends Component {
     );
   };
 
-  /**
-   * getCoordinateAndDistanceText - Returns the location and distance text.
-   */
-  getCoordinateAndDistanceText = () => {
-    const getCoordinateText = (targetLocation, currentLocation) => {
-      const { coordinatesFormat } = this.props;
-
-      if (targetLocation && currentLocation) {
-        const distance = getDistanceOfLine(targetLocation, currentLocation);
-
-        return `${i18n.t('map.destination')} ${formatCoordsByFormat(targetLocation, coordinatesFormat)}\n${i18n.t(
-          'map.distance'
-        )} ${formatDistance(distance)}`;
-      }
-
-      return '';
-    };
-
-    const { selectedAlerts, lastPosition } = this.state;
-    const { route } = this.props;
-
-    if (this.isRouteTracking()) {
-      // Show the destination coordinates.
-      return getCoordinateText(route.destination, lastPosition);
-    } else if (selectedAlerts && selectedAlerts.length > 0) {
-      // Show the selected alert coordinate.
-      const last = selectedAlerts.length - 1;
-      const coordinates = {
-        latitude: selectedAlerts[last].latitude,
-        longitude: selectedAlerts[last].longitude
-      };
-      return getCoordinateText(coordinates, lastPosition);
-    } else {
-      // Show nothing!
-      return '';
-    }
-  };
-
   renderButtonPanel() {
     const { customReporting, lastPosition, locationError, neighbours, selectedAlerts } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
@@ -707,8 +668,16 @@ class MapComponent extends Component {
   }
 
   render() {
-    const { customReporting } = this.state;
-    const { isConnected, isOfflineMode } = this.props;
+    const { customReporting, selectedAlerts, lastPosition } = this.state;
+    const { isConnected, isOfflineMode, route, coordinatesFormat } = this.props;
+
+    let coordinateAndDistanceText = getCoordinateAndDistanceText(
+      selectedAlerts,
+      lastPosition,
+      route,
+      coordinatesFormat,
+      this.isRouteTracking()
+    );
 
     // Map elements
     const customReportingElement = customReporting ? (
@@ -747,7 +716,7 @@ class MapComponent extends Component {
                 {isOfflineMode ? i18n.t('settings.offlineMode') : i18n.t('commonText.connectionRequiredTitle')}
               </Text>
             )}
-            <Text style={styles.coordinateText}>{this.getCoordinateAndDistanceText()}</Text>
+            <Text style={styles.coordinateText}>{coordinateAndDistanceText}</Text>
           </SafeAreaView>
         </View>
         <MapboxGL.MapView style={{ flex: 1 }} styleURL={MapboxGL.StyleURL.SatelliteStreet}>

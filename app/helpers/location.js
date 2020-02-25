@@ -7,6 +7,8 @@ var emitter = require('tiny-emitter/instance');
 
 import { LOCATION_TRACKING } from 'config/constants';
 import FWError from 'helpers/fwError';
+import { formatCoordsByFormat, formatDistance, getDistanceOfLine } from 'helpers/map';
+import i18n from 'locales';
 
 export const GFWLocationAuthorizedAlways = BackgroundGeolocation.AUTHORIZED;
 export const GFWLocationAuthorizedInUse = BackgroundGeolocation.AUTHORIZED_FOREGROUND;
@@ -326,3 +328,36 @@ export function startTrackingHeading() {
 export function stopTrackingHeading() {
   RNSimpleCompass.stop();
 }
+
+/**
+ * getCoordinateAndDistanceText - Returns the location and distance text.
+ */
+export function getCoordinateAndDistanceText(selectedAlerts, lastPosition, route, coordinatesFormat, isRouteTracking) {
+  if (isRouteTracking) {
+    // Show the destination coordinates.
+    return getCoordinateText(route.destination, lastPosition, coordinatesFormat);
+  } else if (selectedAlerts && selectedAlerts.length > 0) {
+    // Show the selected alert coordinate.
+    const last = selectedAlerts.length - 1;
+    const coordinates = {
+      latitude: selectedAlerts[last].latitude,
+      longitude: selectedAlerts[last].longitude
+    };
+    return getCoordinateText(coordinates, lastPosition, coordinatesFormat);
+  } else {
+    // Show nothing!
+    return '';
+  }
+}
+
+function getCoordinateText(targetLocation, currentLocation, coordinatesFormat) {
+  if (targetLocation && currentLocation) {
+    const distance = getDistanceOfLine(targetLocation, currentLocation);
+
+    return `${i18n.t('map.destination')} ${formatCoordsByFormat(targetLocation, coordinatesFormat)}\n${i18n.t(
+      'map.distance'
+    )} ${formatDistance(distance)}`;
+  }
+
+  return '';
+};
