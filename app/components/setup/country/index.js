@@ -7,7 +7,7 @@ import { withSafeArea } from 'react-native-safe-area';
 import SearchSelector from 'components/common/search-selector';
 import ActionButton from 'components/common/action-button';
 import Theme from 'config/theme';
-import i18n from 'locales';
+import i18n from 'i18next';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';

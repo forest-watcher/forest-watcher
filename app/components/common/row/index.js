@@ -26,7 +26,7 @@ function Row(props) {
       onPress={onPress}
     >
       <View style={[styles.row, props.rowStyle]}>
-        <View>{props.children}</View>
+        <View style={props.style}>{props.children}</View>
         {hasCustomSwitch && (
           <CustomSwitch
             value={props.value}
@@ -35,7 +35,12 @@ function Row(props) {
             onValueChange={props.onValueChange}
           />
         )}
-        {props.action && <Image style={Theme.icon} source={props.action.icon} />}
+        {props.action && (
+          <Image
+            style={[Theme.icon, props.action.position === 'top' ? styles.topIcon : {}]}
+            source={props.action.icon}
+          />
+        )}
       </View>
     </Touchable>
   );
@@ -47,7 +52,8 @@ Row.propTypes = {
   onValueChange: PropTypes.func,
   action: PropTypes.shape({
     callback: PropTypes.func.isRequired,
-    icon: PropTypes.any
+    icon: PropTypes.any,
+    position: PropTypes.oneOf(['top', 'center'])
   }),
   opacity: PropTypes.number,
   rowStyle: PropTypes.any,

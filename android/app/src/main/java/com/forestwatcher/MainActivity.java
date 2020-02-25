@@ -37,8 +37,6 @@ public class MainActivity extends NavigationActivity implements ProviderInstalle
 			// onPostResume.
 			retryProviderInstall = true;
 		}
-
-		MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
 	}
 
 	/**

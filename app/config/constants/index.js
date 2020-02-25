@@ -1,10 +1,10 @@
 import Config from 'react-native-config';
-import i18n from 'locales';
+import i18n from 'i18next';
 import Theme from 'config/theme';
 import { hexToRgb } from 'helpers/utils';
 
 export const AREAS = {
-  maxSize: 1500000000, // square meters
+  maxSize: 20000000000, // square meters
   alertRange: {
     // days from to get data
     viirs: 7,

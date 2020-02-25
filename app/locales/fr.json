@@ -249,8 +249,8 @@
         "export": {
             "navBarButtonText": "Exporter",
             "noneSelected": "Aucun rapport sélectionné",
-            "oneReport": "Exporter %{count} rapport...",
-            "manyReports": "Exporter %{count} rapports...",
+            "oneReportAction": "Exporter %{count} rapport...",
+            "manyReportsAction": "Exporter %{count} rapports...",
             "title": "Exporter le rapport",
             "description": "Comment souhaitez-vous exporter ce rapport ?",
             "option": {

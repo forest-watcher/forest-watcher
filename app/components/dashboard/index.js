@@ -9,7 +9,7 @@ import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
-import i18n from 'locales';
+import i18n from 'i18next';
 import styles from './styles';
 
 const settingsIcon = require('assets/settings.png');
@@ -55,6 +55,8 @@ class Dashboard extends PureComponent<Props> {
 
   reportsAction: { callback: () => void, icon: any };
 
+  routesAction: { callback: () => void, icon: any };
+
   settingsAction: { callback: () => void, icon: any };
 
   constructor(props: Props) {
@@ -64,10 +66,15 @@ class Dashboard extends PureComponent<Props> {
     this.areasAction = {
       callback: this.onPressAreas,
       icon: nextIcon
-    }
+    };
 
     this.reportsAction = {
       callback: this.onPressReports,
+      icon: nextIcon
+    };
+
+    this.routesAction = {
+      callback: this.onPressRoutes,
       icon: nextIcon
     };
 
@@ -106,7 +113,9 @@ class Dashboard extends PureComponent<Props> {
 
   onRefresh = () => {
     const { isConnected, appSyncing, updateApp, setAreasRefreshing, showNotConnectedNotification } = this.props;
-    if (appSyncing) return;
+    if (appSyncing) {
+      return;
+    }
 
     if (isConnected) {
       setAreasRefreshing(true);
@@ -132,13 +141,21 @@ class Dashboard extends PureComponent<Props> {
     });
   });
 
+  onPressRoutes = debounceUI(() => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.Routes'
+      }
+    });
+  });
+
   onPressSettings = debounceUI(() => {
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.Settings'
       }
     });
-  })
+  });
 
   getPristine = (): boolean => this.props.pristine;
 
@@ -180,25 +197,25 @@ class Dashboard extends PureComponent<Props> {
           >
             <Row action={this.areasAction}>
               <View style={styles.tableRowContent}>
-                <Image source={areasIcon}/>
+                <Image source={areasIcon} />
                 <Text style={styles.tableRowText}>{i18n.t('dashboard.areas')}</Text>
               </View>
             </Row>
-            <Row>
+            <Row action={this.routesAction}>
               <View style={styles.tableRowContent}>
-                <Image source={routesIcon}/>
+                <Image source={routesIcon} />
                 <Text style={styles.tableRowText}>{i18n.t('dashboard.routes')}</Text>
               </View>
             </Row>
             <Row action={this.reportsAction}>
               <View style={styles.tableRowContent}>
-                <Image source={reportsIcon}/>
+                <Image source={reportsIcon} />
                 <Text style={styles.tableRowText}>{i18n.t('dashboard.reports')}</Text>
               </View>
             </Row>
             <Row action={this.settingsAction}>
               <View style={styles.tableRowContent}>
-                <Image source={settingsIcon}/>
+                <Image source={settingsIcon} />
                 <Text style={styles.tableRowText}>{i18n.t('dashboard.settings')}</Text>
               </View>
             </Row>

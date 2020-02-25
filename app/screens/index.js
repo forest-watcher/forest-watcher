@@ -1,4 +1,6 @@
+import React from 'react';
 import { Navigation } from 'react-native-navigation';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import Areas from 'containers/areas';
 import Home from 'containers/home';
@@ -11,6 +13,7 @@ import Map from 'containers/map';
 import Settings from 'containers/settings';
 import ContactUs from 'components/settings/contact-us';
 import Reports from 'containers/reports';
+import Routes from 'containers/routes';
 import NewReport from 'containers/form/form';
 import AreaDetail from 'containers/areas/area-detail';
 import Partners from 'components/settings/partners';
@@ -25,31 +28,46 @@ import ToastNotification from 'components/toast-notification';
 import RouteDetail from '../containers/routes/route-detail';
 import SaveRoute from '../containers/routes/save-route';
 
+function registerComponent(name, Screen, Provider, store) {
+  Navigation.registerComponent(
+    name,
+    () => props => (
+      <Provider store={store}>
+        <SafeAreaProvider>
+          <Screen {...props} />
+        </SafeAreaProvider>
+      </Provider>
+    ),
+    () => Screen
+  );
+}
+
 export function registerScreens(store, Provider) {
-  Navigation.registerComponentWithRedux('ForestWatcher.Areas', () => Areas, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.Home', () => Home, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.Login', () => Login, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.SetupBoundaries', () => SetupBoundaries, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.SetupCountry', () => SetupCountry, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.SetupOverview', () => SetupOverview, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.Dashboard', () => Dashboard, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.Map', () => Map, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.Settings', () => Settings, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.ContactUs', () => ContactUs, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.Reports', () => Reports, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.NewReport', () => NewReport, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.AreaDetail', () => AreaDetail, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.Partners', () => Partners, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.TermsAndConditions', () => TermsAndConditions, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.FaqList', () => FaqList, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.FaqDetail', () => FaqDetail, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.Sync', () => Sync, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.Answers', () => Answers, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.RightDrawer', () => RightDrawer, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.ErrorLightbox', () => ErrorLightbox, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.ToastNotification', () => ToastNotification, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.RouteDetail', () => RouteDetail, Provider, store);
-  Navigation.registerComponentWithRedux('ForestWatcher.SaveRoute', () => SaveRoute, Provider, store);
+  registerComponent('ForestWatcher.Areas', Areas, Provider, store);
+  registerComponent('ForestWatcher.Home', Home, Provider, store);
+  registerComponent('ForestWatcher.Login', Login, Provider, store);
+  registerComponent('ForestWatcher.SetupBoundaries', SetupBoundaries, Provider, store);
+  registerComponent('ForestWatcher.SetupCountry', SetupCountry, Provider, store);
+  registerComponent('ForestWatcher.SetupOverview', SetupOverview, Provider, store);
+  registerComponent('ForestWatcher.Dashboard', Dashboard, Provider, store);
+  registerComponent('ForestWatcher.Map', Map, Provider, store);
+  registerComponent('ForestWatcher.Settings', Settings, Provider, store);
+  registerComponent('ForestWatcher.ContactUs', ContactUs, Provider, store);
+  registerComponent('ForestWatcher.Reports', Reports, Provider, store);
+  registerComponent('ForestWatcher.NewReport', NewReport, Provider, store);
+  registerComponent('ForestWatcher.AreaDetail', AreaDetail, Provider, store);
+  registerComponent('ForestWatcher.Partners', Partners, Provider, store);
+  registerComponent('ForestWatcher.TermsAndConditions', TermsAndConditions, Provider, store);
+  registerComponent('ForestWatcher.FaqList', FaqList, Provider, store);
+  registerComponent('ForestWatcher.FaqDetail', FaqDetail, Provider, store);
+  registerComponent('ForestWatcher.Sync', Sync, Provider, store);
+  registerComponent('ForestWatcher.Answers', Answers, Provider, store);
+  registerComponent('ForestWatcher.RightDrawer', RightDrawer, Provider, store);
+  registerComponent('ForestWatcher.ErrorLightbox', ErrorLightbox, Provider, store);
+  registerComponent('ForestWatcher.ToastNotification', ToastNotification, Provider, store);
+  registerComponent('ForestWatcher.Routes', Routes, Provider, store);
+  registerComponent('ForestWatcher.RouteDetail', RouteDetail, Provider, store);
+  registerComponent('ForestWatcher.SaveRoute', SaveRoute, Provider, store);
 }
 
 export default registerScreens;

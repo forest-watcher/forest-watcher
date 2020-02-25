@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, ScrollView, Text, Linking } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
 
-import i18n from 'locales';
+import i18n from 'i18next';
 import List from 'components/common/list';
 import styles from './styles';
 

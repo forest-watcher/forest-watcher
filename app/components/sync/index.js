@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { StatusBar, View, Text } from 'react-native';
-import i18n from 'locales';
+import i18n from 'i18next';
 import LottieView from 'lottie-react-native';
 import MapView from 'react-native-maps';
 import ActionButton from 'components/common/action-button';
@@ -84,7 +84,9 @@ class Sync extends Component<Props> {
 
   getAction() {
     const { criticalSyncError, retrySync } = this.props;
-    if (!criticalSyncError) return null;
+    if (!criticalSyncError) {
+      return null;
+    }
     return (
       <ActionButton
         monochrome
@@ -99,7 +101,9 @@ class Sync extends Component<Props> {
   render() {
     const { isConnected, syncFinished, criticalSyncError } = this.props;
     let animationSource = noConnectionAnimation;
-    if (isConnected && !criticalSyncError) animationSource = syncFinished ? loadedAnimation : rangerAnimation;
+    if (isConnected && !criticalSyncError) {
+      animationSource = syncFinished ? loadedAnimation : rangerAnimation;
+    }
 
     return (
       <View style={[styles.mainContainer, styles.center]}>

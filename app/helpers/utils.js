@@ -1,5 +1,7 @@
 export function hexToRgb(hex) {
-  if (!hex) return '';
+  if (!hex) {
+    return '';
+  }
 
   let hexValue = hex;
   const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;

@@ -6,7 +6,7 @@ import { TouchableHighlight, View, Alert, Image, Text } from 'react-native';
 import Config from 'react-native-config';
 import checkConnectivity from 'helpers/networking';
 
-import i18n from 'locales';
+import i18n from 'i18next';
 import ProgressBar from 'react-native-progress/Bar';
 import Theme from 'config/theme';
 import styles from './styles';
@@ -102,7 +102,9 @@ class AreaCache extends PureComponent<Props, State> {
   onRetry = () => {
     this.resetCacheStatus();
     const action = this.getCacheAreaAction();
-    if (action) action();
+    if (action) {
+      action();
+    }
   };
 
   onRefresh = () => {
@@ -117,17 +119,27 @@ class AreaCache extends PureComponent<Props, State> {
   getCacheAreaAction = () => {
     const { cacheStatus, isOfflineMode } = this.props;
     const { canRefresh } = this.state;
-    if (isOfflineMode) return this.onOfflinePress;
-    if (!cacheStatus.completed) return this.onDownload;
-    if (canRefresh && cacheStatus.completed) return this.onRefresh;
+    if (isOfflineMode) {
+      return this.onOfflinePress;
+    }
+    if (!cacheStatus.completed) {
+      return this.onDownload;
+    }
+    if (canRefresh && cacheStatus.completed) {
+      return this.onRefresh;
+    }
     return null;
   };
 
   getCacheAreaIcon = () => {
     const { cacheStatus } = this.props;
     const { canRefresh } = this.state;
-    if (!cacheStatus.completed) return downloadIcon;
-    if (!canRefresh) return downloadedIcon;
+    if (!cacheStatus.completed) {
+      return downloadIcon;
+    }
+    if (!canRefresh) {
+      return downloadedIcon;
+    }
     return refreshIcon;
   };
 
@@ -179,7 +191,9 @@ class AreaCache extends PureComponent<Props, State> {
         />
       </View>
     );
-    if ((cacheStatus.requested && !cacheStatus.completed) || checkingConnectivity) return progressBar;
+    if ((cacheStatus.requested && !cacheStatus.completed) || checkingConnectivity) {
+      return progressBar;
+    }
     return cacheButton;
   }
 }

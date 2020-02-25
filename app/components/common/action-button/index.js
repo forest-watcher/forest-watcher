@@ -65,8 +65,12 @@ function ActionButton(props) {
   if (props.monochrome) {
     arrowIcon = nextIcon;
   }
-  if (props.disabled) underlayColor = Theme.colors.veryLightPinkTwo;
-  if (props.error || props.delete) underlayColor = Theme.colors.carnation;
+  if (props.disabled) {
+    underlayColor = Theme.colors.veryLightPinkTwo;
+  }
+  if (props.error || props.delete) {
+    underlayColor = Theme.colors.carnation;
+  }
 
   const Touchable = Platform.select({
     android: TouchableNativeFeedback,

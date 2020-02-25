@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Alert, AppState, BackHandler, Dimensions, Image, LayoutAnimation, Platform, Text, View } from 'react-native';
-import { Sentry } from 'react-native-sentry';
+import * as Sentry from '@sentry/react-native';
 
 import { REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
-import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import toUpper from 'lodash/toUpper';
 import kebabCase from 'lodash/kebabCase';
@@ -18,22 +17,14 @@ import CircleButton from 'components/common/circle-button';
 import MapAttribution from 'components/map/map-attribution';
 import BottomDialog from 'components/map/bottom-dialog';
 import LocationErrorBanner from 'components/map/locationErrorBanner';
-import Clusters from 'containers/map/clusters';
 import Basemap from 'containers/map/basemap';
 import RouteMarkers from './route';
-import {
-  formatCoordsByFormat,
-  formatDistance,
-  getDistanceOfLine,
-  getMapZoom,
-  getNeighboursSelected
-} from 'helpers/map';
+import { formatCoordsByFormat, formatDistance, getDistanceOfLine, getMapZoom } from 'helpers/map';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
-import clusterGenerator from 'helpers/clusters-generator';
 import { LOCATION_TRACKING } from 'config/constants';
 import Theme from 'config/theme';
-import i18n from 'locales';
+import i18n from 'i18next';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
@@ -159,10 +150,6 @@ class MapComponent extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
-      markers: [],
-      selectedAlerts: [],
-      neighbours: [],
-      mapZoom: 2,
       customReporting: false,
       dragging: false,
       layoutHasForceRefreshed: false,
@@ -232,7 +219,6 @@ class MapComponent extends Component {
       const datasetChanged = !isEqual(area.dataset, prevProps.area.dataset);
       if (differentArea || datasetChanged) {
         setActiveAlerts();
-        this.updateMarkers();
         if (differentArea) {
           this.updateSelectedArea();
         }
@@ -444,7 +430,9 @@ class MapComponent extends Component {
       const state = {
         heading: parseInt(heading, 10)
       };
-      if (!prevState.hasCompass) state.hasCompass = true;
+      if (!prevState.hasCompass) {
+        state.hasCompass = true;
+      }
       return state;
     });
   }, 450);
@@ -485,7 +473,6 @@ class MapComponent extends Component {
       requestAnimationFrame(() => this.map.fitToCoordinates(this.props.areaCoordinates, this.FIT_OPTIONS));
     }
     this.props.setActiveAlerts();
-    this.updateMarkers();
   };
 
   /**
@@ -504,40 +491,6 @@ class MapComponent extends Component {
       });
     }
   };
-
-  getMarkerSize() {
-    const { mapZoom } = this.state;
-    const expandClusterZoomLevel = 15;
-    const initialMarkerSize = 18;
-
-    const scale = mapZoom - expandClusterZoomLevel;
-    const rescaleFactor = mapZoom <= expandClusterZoomLevel ? 1 : scale;
-    const size = initialMarkerSize * rescaleFactor;
-    return { height: size, width: size };
-  }
-
-  updateMarkers = debounce((clean = false) => {
-    const { region, mapZoom } = this.state;
-    const bbox = [
-      region.longitude - region.longitudeDelta / 2,
-      region.latitude - region.latitudeDelta / 2,
-      region.longitude + region.longitudeDelta / 2,
-      region.latitude + region.latitudeDelta / 2
-    ];
-    const clusters = clusterGenerator.clusters && clusterGenerator.clusters.getClusters(bbox, mapZoom);
-    const markers = clusters || [];
-    markers.activeMarkersId = markers.length > 0 ? bbox.join('_') + mapZoom : '';
-
-    if (clean) {
-      this.setState({
-        markers,
-        selectedAlerts: [],
-        neighbours: []
-      });
-    } else {
-      this.setState({ markers });
-    }
-  }, 300);
 
   fitPosition = debounceUI(() => {
     const { lastPosition, selectedAlerts } = this.state;
@@ -616,66 +569,12 @@ class MapComponent extends Component {
   onRegionChangeComplete = region => {
     const mapZoom = getMapZoom(region);
 
-    this.setState(
-      prevState => ({
-        region,
-        mapZoom,
-        selectedAlerts: prevState.customReporting && prevState.dragging ? [region] : prevState.selectedAlerts,
-        dragging: false
-      }),
-      () => {
-        this.updateMarkers();
-      }
-    );
-  };
-
-  zoomTo = (coordinates, id) => {
-    // We substract one so there's always some margin
-    const zoomScale = clusterGenerator.clusters.getClusterExpansionZoom(id) - 1;
-    const zoomCoordinates = {
-      latitude: coordinates.latitude,
-      longitude: coordinates.longitude,
-      latitudeDelta: this.state.region.latitudeDelta / zoomScale,
-      longitudeDelta: this.state.region.longitudeDelta / zoomScale
-    };
-    this.map.animateToRegion(zoomCoordinates);
-  };
-
-  selectAlert = coordinate => {
-    if (coordinate && !this.state.customReporting) {
-      this.setState(prevState => ({
-        neighbours: getNeighboursSelected([...prevState.selectedAlerts, coordinate], prevState.markers),
-        selectedAlerts: [...prevState.selectedAlerts, coordinate]
-      }));
-    }
-  };
-
-  removeSelection = coordinate => {
-    this.setState(state => {
-      let neighbours = [];
-      if (state.selectedAlerts && state.selectedAlerts.length > 0) {
-        const selectedAlerts = state.selectedAlerts.filter(
-          alert => alert.latitude !== coordinate.latitude || alert.longitude !== coordinate.longitude
-        );
-        neighbours = selectedAlerts.length > 0 ? getNeighboursSelected(selectedAlerts, state.markers) : [];
-        return {
-          neighbours,
-          selectedAlerts
-        };
-      }
-      return { selectedAlerts: [] };
-    });
-  };
-
-  includeNeighbour = coordinate => {
-    this.setState(state => {
-      const selectedAlerts = [...state.selectedAlerts, coordinate];
-      const neighbours = getNeighboursSelected(selectedAlerts, state.markers);
-      return {
-        neighbours,
-        selectedAlerts
-      };
-    });
+    this.setState(prevState => ({
+      region,
+      mapZoom,
+      selectedAlerts: prevState.customReporting && prevState.dragging ? [region] : prevState.selectedAlerts,
+      dragging: false
+    }));
   };
 
   updateSelectedArea = () => {
@@ -780,7 +679,9 @@ class MapComponent extends Component {
 
     const hasNeighbours = neighbours && neighbours.length > 0;
     let veilHeight = 120;
-    if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
+    if (hasAlertsSelected) {
+      veilHeight = hasNeighbours ? 260 : 180;
+    }
 
     return [
       <View key="bg" pointerEvents="none" style={[styles.footerBGContainer, { height: veilHeight }]}>
@@ -831,7 +732,7 @@ class MapComponent extends Component {
   };
 
   render() {
-    const { lastPosition, customReporting, selectedAlerts, neighbours, heading, markers } = this.state;
+    const { lastPosition, customReporting, heading } = this.state;
 
     const {
       areaCoordinates,
@@ -842,17 +743,9 @@ class MapComponent extends Component {
       isOfflineMode,
       ctxLayerLocalTilePath
     } = this.props;
-    const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
-    const showCompassLine = lastPosition && hasAlertsSelected;
     const isIOS = Platform.OS === 'ios';
     const ctxLayerKey =
       isIOS && contextualLayer ? `contextualLayerElement-${contextualLayer.name}` : 'contextualLayerElement';
-    const keyRand = isIOS ? Math.floor(Math.random() * 100 + 1) : '';
-    const clustersKey = markers
-      ? `clustersElement-${clusterGenerator.activeClusterId}_${markers.activeMarkersId}`
-      : 'clustersElement';
-    const markerSize = this.getMarkerSize();
-    const markerBorder = { borderWidth: (markerSize.width / 18) * 4 };
 
     // Map elements
 
@@ -869,15 +762,6 @@ class MapComponent extends Component {
       contextualLayer && !isOfflineMode ? ( // eslint-disable-line
         <MapView.UrlTile key={ctxLayerKey} urlTemplate={contextualLayer.url} zIndex={2} />
       ) : null;
-    const compassLineElement = showCompassLine ? (
-      <MapView.Polyline
-        key="compassLineElement"
-        coordinates={[lastPosition, selectedAlerts[selectedAlerts.length - 1]]}
-        strokeColor={Theme.colors.white}
-        strokeWidth={3}
-        zIndex={3}
-      />
-    ) : null;
     const areaPolygonElement = areaCoordinates ? (
       <MapView.Polyline
         key="areaPolygonElement"
@@ -919,48 +803,6 @@ class MapComponent extends Component {
             source={compassImage}
           />
         </MapView.Marker>
-      ) : null;
-    const neighboursAlertsElement =
-      neighbours && neighbours.length > 0
-        ? neighbours.map((neighbour, i) => (
-            <MapView.Marker
-              key={`neighboursAlertsElement-${i}-${keyRand}`}
-              coordinate={neighbour}
-              anchor={{ x: 0.5, y: 0.5 }}
-              onPress={() => this.includeNeighbour(neighbour)}
-              zIndex={10}
-              tracksViewChanges={false}
-            >
-              <View style={[markerSize, markerBorder, styles.markerIconArea]} />
-            </MapView.Marker>
-          ))
-        : null;
-    const selectedAlertsElement =
-      hasAlertsSelected && !customReporting
-        ? selectedAlerts.map((alert, i) => (
-            <MapView.Marker
-              key={`selectedAlertsElement-${i}-${keyRand}`}
-              coordinate={alert}
-              anchor={{ x: 0.5, y: 0.5 }}
-              onPress={() => this.removeSelection(alert)}
-              zIndex={20}
-              tracksViewChanges={false}
-            >
-              <View style={[markerSize, markerBorder, styles.selectedMarkerIcon]} />
-            </MapView.Marker>
-          ))
-        : null;
-
-    const clustersElement =
-      area && area.dataset ? (
-        <Clusters
-          key={clustersKey}
-          markers={markers}
-          selectAlert={this.selectAlert}
-          zoomTo={this.zoomTo}
-          datasetSlug={area.dataset.slug}
-          markerSize={markerSize}
-        />
       ) : null;
 
     const customReportingElement = customReporting ? (
@@ -1011,12 +853,8 @@ class MapComponent extends Component {
           <Basemap areaId={area.id} />
           {contextualLocalLayerElement}
           {contextualRemoteLayerElement}
-          {clustersElement}
-          {compassLineElement}
           <RouteMarkers isTracking={this.isRouteTracking()} lastPosition={lastPosition} route={route} />
           {areaPolygonElement}
-          {neighboursAlertsElement}
-          {selectedAlertsElement}
           {userPositionElement}
           {compassElement}
         </MapView>

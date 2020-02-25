@@ -29,7 +29,9 @@ function ButtonCircle(props) {
   if (props.gray) {
     underlayColor = Theme.background.gray;
   }
-  if (props.disabled) underlayColor = Theme.colors.veryLightPinkTwo;
+  if (props.disabled) {
+    underlayColor = Theme.colors.veryLightPinkTwo;
+  }
 
   return (
     <TouchableHighlight style={btnStyles} onPress={onButtonPress} activeOpacity={0.8} underlayColor={underlayColor}>

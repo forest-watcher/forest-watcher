@@ -6,7 +6,7 @@ import Row from 'components/common/row';
 import { ALERTS_COLOR } from 'config/constants';
 import DatasetOptions from 'components/areas/area-detail/alert-system/dataset-options';
 
-import i18n from 'locales';
+import i18n from 'i18next';
 import Theme from 'config/theme';
 import styles from './styles';
 
@@ -42,7 +42,9 @@ class AlertSystem extends React.PureComponent<Props> {
     const { setAreaDatasetStatus, updateDate, area, showLegend } = this.props;
     const { datasets, id } = area || {};
 
-    if (!datasets) return AlertSystem.renderLoadingState();
+    if (!datasets) {
+      return AlertSystem.renderLoadingState();
+    }
     if (typeof datasets === 'undefined' || datasets.length === 0) {
       return AlertSystem.renderNoAlerts();
     }
@@ -53,6 +55,7 @@ class AlertSystem extends React.PureComponent<Props> {
             <View key={i}>
               <Row
                 value={dataset.active}
+                rowStyle={{ marginBottom: 0 }}
                 switchColorOn={showLegend && ALERTS_COLOR[dataset.slug]}
                 onValueChange={value => setAreaDatasetStatus(id, dataset.slug, value)}
               >

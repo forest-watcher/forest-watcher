@@ -32,6 +32,8 @@
         "connectionRequiredTitle": "No connection",
         "crashFeedback": "Something went wrong. We're working on getting this fixed as soon as we can.",
         "date": "Date",
+        "deselectAll": "Deselect All",
+        "done": "Done",
         "error": "Error",
         "finish": "Finish",
         "kilometers": "km",
@@ -49,6 +51,7 @@
         "reportedPosition": "Reported Position",
         "retry": "Retry",
         "saving": "Saving",
+        "selectAll": "Select All",
         "send": "Send",
         "setup": "Set up",
         "userPosition": "User Position"
@@ -71,6 +74,9 @@
     "datasets": {
         "umd_as_it_happens": "Deforestation (GLAD)",
         "viirs": "Fires (VIIRS)"
+    },
+    "dropdown": {
+        "done": "Done"
     },
     "faq": {
         "eighthQuestion": {
@@ -257,8 +263,10 @@
         "export": {
             "navBarButtonText": "Export",
             "noneSelected": "No reports selected",
-            "oneReport": "Export %{count} report...",
-            "manyReports": "Export %{count} reports...",
+            "oneReport": "%{count} Report",
+            "oneReportAction": "Export %{count} report...",
+            "manyReports": "%{count} Reports",
+            "manyReportsAction": "Export %{count} reports...",
             "title": "Export report",
             "description": "How would you like to export this report?",
             "option": {
@@ -266,6 +274,7 @@
             },
             "successful": "Exporting reports succeeded!"
         },
+        "glad": "Deforestation Report",
         "here": "Report here",
         "input": "Please, answer the question",
         "inputRadio": "Choose one option to continue",
@@ -278,10 +287,12 @@
         "saveLaterDescription": "It will appear as a draft in the reports section",
         "saveLaterTitle": "Save for later",
         "selected": "Report selected",
+        "share": "Share Reports",
         "title": "Report",
         "toReport": "Report",
         "upload": "Upload",
-        "uploaded": "Uploaded"
+        "uploaded": "Uploaded",
+        "viirs": "Fire Report"
     },
     "routes": {
         "backgroundErrorDialogTitle": "Route tracking paused",
@@ -297,6 +308,13 @@
         },
         "distance": "Distance",
         "duration": "Time Taken",
+        "export": {
+            "oneRoute": "%{count} Route",
+            "oneRouteAction": "Export %{count} route...",
+            "manyRoutes": "%{count} Routes",
+            "manyRoutesAction": "Export %{count} routes...",
+            "noneSelected": "No routes selected"
+        },
         "insufficientPermissionsDialogTitle": "Unable to track route",
         "insufficientPermissionsDialogMessage": "We need background location permissions to be able to track your route.",
         "insufficientPermissionsDialogOpenAppSettings": "Check permissions",
@@ -306,6 +324,7 @@
         "locationErrorDialogTitle": "Error retrieving location",
         "locationErrorDialogMessage": "Something went wrong while accessing your location",
         "locationStart": "Start:",
+        "myRoutes": "My Routes", 
         "notification": {
             "title": "Route tracking in progress",
             "message": "Forest Watcher is recording the route you are taking to your destination"
@@ -315,6 +334,7 @@
         "resumeTrackingDialogPositiveButton": "Resume route",
         "resumeTrackingDialogNegativeButton": "Delete route",
         "save": "Save Route",
+        "share": "Share Routes",
         "stopRouteTrackingPanelTitle": "Stop Route Tracking",
         "stopRouteTrackingPanelContinueOption": "Continue route tracking",
         "stopRouteTrackingPanelSaveOption": "Stop and save route",
@@ -342,8 +362,9 @@
         "coordinatesDegrees": "Degrees",
         "coordinatesFormat": "Coordinates Format",
         "coordinatesUtm": "UTM",
-        "logOut": "LOG OUT",
-        "loggedIn": "You’re are logged in as",
+        "coordinatesDescription": "Select a format you would like to display",
+        "customLayers": "Custom Layers",
+        "logOut": "Log Out",
         "offlineMode": "Offline Mode",
         "oneWeekAgo": "One week ago",
         "timeFrame": "Time Frame",
@@ -351,7 +372,8 @@
         "unsafeLogout": "Your reports are not synced!",
         "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost.",
         "yourAreas": "Your areas",
-        "yourRoutes": "Your routes"
+        "yourRoutes": "Your routes",
+        "shareData": "Share All App Data"
     },
     "setupCountry": {
         "firstInstruction": "First, select your country of interest",

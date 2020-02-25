@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: Theme.background.main,
     position: 'relative'
   },
@@ -22,6 +22,9 @@ export default StyleSheet.create({
   },
   containerFull: {
     marginTop: 0
+  },
+  contentContainer: {
+    paddingTop: 44
   },
   listContainer: {
     flex: 1,

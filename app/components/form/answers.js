@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { ActionSheetIOS, NativeModules, Platform, View, Text, ScrollView } from 'react-native';
 import DialogAndroid from 'react-native-dialogs';
 import { Navigation } from 'react-native-navigation';
-import i18n from 'locales';
+import i18n from 'i18next';
 
 import ActionButton from 'components/common/action-button';
 import AnswerComponent from 'components/form/answer/answer';
@@ -175,7 +175,9 @@ class Answers extends PureComponent<Props> {
       value: ''
     };
     setReportAnswer(reportName, answer, true);
-    if (image.required) this.onEdit(image.order);
+    if (image.required) {
+      this.onEdit(image.order);
+    }
   };
 
   handleDeleteArea = () => {

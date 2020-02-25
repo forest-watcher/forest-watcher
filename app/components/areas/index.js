@@ -11,7 +11,7 @@ import BottomTray from 'components/common/bottom-tray';
 import debounceUI from 'helpers/debounceUI';
 
 import { launchAppRoot } from 'main';
-import i18n from 'locales';
+import i18n from 'i18next';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
@@ -83,7 +83,7 @@ class Areas extends Component<Props> {
   });
 
   onAreaPress = debounceUI((areaId: string, name: string) => {
-     if (areaId) {
+    if (areaId) {
       this.props.setSelectedAreaId(areaId);
       Navigation.push(this.props.componentId, {
         component: {
@@ -122,19 +122,15 @@ class Areas extends Component<Props> {
           {areas && areas.length ? (
             <View style={styles.areas}>
               <Text style={styles.label}>{i18n.t('areas.myAreas')}</Text>
-              <AreaList 
-                onAreaPress={(areaId, name) => this.onAreaPress(areaId, name)} 
+              <AreaList
+                onAreaPress={(areaId, name) => this.onAreaPress(areaId, name)}
                 onAreaSettingsPress={(areaId, name) => this.onAreaSettingsPress(areaId, name)}
               />
             </View>
           ) : null}
         </ScrollView>
         <BottomTray>
-          <ActionButton
-            noIcon
-            secondary
-            text={i18n.t('areas.share')}
-          />
+          <ActionButton noIcon secondary text={i18n.t('areas.share')} />
         </BottomTray>
       </View>
     );
