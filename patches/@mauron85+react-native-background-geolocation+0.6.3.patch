@@ -1,0 +1,18 @@
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/react-native.config.js b/node_modules/@mauron85/react-native-background-geolocation/react-native.config.js
+index 34f3aba..7be35b6 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/react-native.config.js
++++ b/node_modules/@mauron85/react-native-background-geolocation/react-native.config.js
+@@ -1,13 +1,2 @@
+ module.exports = {
+-    dependency: {
+-        platforms: {
+-            android: {
+-                sourceDir: "./android/lib"
+-            }
+-        },
+-        hooks: {
+-            postlink: "node ./node_modules/@mauron85/react-native-background-geolocation/scripts/postlink.js",
+-            postunlink: "node ./node_modules/@mauron85/react-native-background-geolocation/scripts/postunlink.js"
+-        }
+-    }
+ };
