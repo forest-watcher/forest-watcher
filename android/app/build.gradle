@@ -205,8 +205,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation "androidx.annotation:annotation:1.1.0"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     // React Native upgrade >0.60
@@ -219,6 +218,8 @@ dependencies {
     }
 
     implementation "com.google.android.gms:play-services-base:17.1.0"
+
+    implementation project(':@mauron85_react-native-background-geolocation')
 
     // react-native-navigation
     implementation project(':react-native-navigation')
