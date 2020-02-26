@@ -12,7 +12,7 @@ import com.facebook.soloader.SoLoader;
 import com.forestwatcher.intents.IntentsPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
-import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
+//import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
 import com.reactcommunity.rnlocalize.RNLocalizePackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.cookies.CookieManagerPackage;
@@ -64,7 +64,7 @@ public class MainApplication extends NavigationApplication {
     // No need to add RnnPackage and MainReactPackage
     return Arrays.<ReactPackage>asList(
       new AsyncStoragePackage(),
-      new BackgroundGeolocationPackage(),
+      //new BackgroundGeolocationPackage(),
       new CookieManagerPackage(),
       new FBSDKPackage(),
       new ImagePickerPackage(),

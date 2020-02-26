@@ -1,3 +1,9 @@
 module.exports = {
-  dependencies: {}
+  dependencies: {
+    '@mauron85/react-native-background-geolocation': {
+      platforms: {
+        android: null // disable Android platform, other platforms will still autolink if provided
+      }
+    }
+  }
 };
