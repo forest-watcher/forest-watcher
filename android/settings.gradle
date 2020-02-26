@@ -4,8 +4,10 @@ apply from: file("../node_modules/@react-native-community/cli-platform-android/n
 include ':app'
 include ':@mauron85_react-native-background-geolocation'
 include ':@mauron85_react-native-background-geolocation-common'
+include ':react-native-config'
 include ':react-native-navigation'
 
 project(':@mauron85_react-native-background-geolocation').projectDir = new File(rootProject.projectDir, '../node_modules/@mauron85/react-native-background-geolocation/android/lib')
 project(':@mauron85_react-native-background-geolocation-common').projectDir = new File(rootProject.projectDir, '../node_modules/@mauron85/react-native-background-geolocation/android/common')
+project(':react-native-config').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-config/android')
 project(':react-native-navigation').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-navigation/lib/android/app/')
