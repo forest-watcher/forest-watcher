@@ -13,6 +13,7 @@ import com.facebook.soloader.SoLoader;
 import com.forestwatcher.intents.IntentsPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
+import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
 import com.reactcommunity.rnlocalize.RNLocalizePackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.cookies.CookieManagerPackage;
@@ -32,8 +33,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 
-//import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
-
 public class MainApplication extends NavigationApplication {
 
   private final ReactNativeHost mReactNativeHost = new NavigationReactNativeHost(this)
@@ -51,7 +50,7 @@ public class MainApplication extends NavigationApplication {
       // Packages that cannot be autolinked yet can be added manually here, for example:
       packages.addAll(Arrays.<ReactPackage>asList(
           new AsyncStoragePackage(),
-          //new BackgroundGeolocationPackage(),
+          new BackgroundGeolocationPackage(),
           new CookieManagerPackage(),
           new FBSDKPackage(),
           new ImagePickerPackage(),
