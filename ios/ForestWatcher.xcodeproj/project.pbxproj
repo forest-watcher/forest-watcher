@@ -27,6 +27,7 @@
 		989413A8224E6D29008CAE32 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 989413A7224E6D29008CAE32 /* GoogleService-Info.plist */; };
 		98B1DF6821932067002426DC /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC1FA19BF67424591686AF2 /* libz.tbd */; };
 		98CF896321B5811B00500B2F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98CF896521B5811B00500B2F /* InfoPlist.strings */; };
+		B12581D32406D01B00137B30 /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12581D22406D01B00137B30 /* Dummy.swift */; };
 		B1E4BA0223E2DCEB00A7BC85 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B1E4BA0123E2DCEB00A7BC85 /* Config.xcconfig */; };
 /* End PBXBuildFile section */
 
@@ -63,8 +64,15 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 32CB1654208A59870036D050 /* Lottie.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 62CA59B71E3C173B002D7188;
+			remoteGlobalIDString = 486E83B1220A317C007CD915;
 			remoteInfo = Lottie_iOS;
+		};
+		B12581D82406D01B00137B30 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 32CB1654208A59870036D050 /* Lottie.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 486E8675220A3751007CD915;
+			remoteInfo = LottieLibraryMacOS;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -115,6 +123,8 @@
 		98CF896721B5811E00500B2F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		98CF896821B5811F00500B2F /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		98CF896921B5811F00500B2F /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B12581D12406D01A00137B30 /* ForestWatcher-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ForestWatcher-Bridging-Header.h"; sourceTree = "<group>"; };
+		B12581D22406D01B00137B30 /* Dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dummy.swift; sourceTree = "<group>"; };
 		B1E4BA0123E2DCEB00A7BC85 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		DAE567D09F6983E55C4F5406 /* libPods-ForestWatcher.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ForestWatcher.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFD632EF65604568B651A931 /* AddressBook.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -149,11 +159,13 @@
 				562101E31E1ABE00000A266F /* ForestWatcher.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
+				B12581D22406D01B00137B30 /* Dummy.swift */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				98CF896521B5811B00500B2F /* InfoPlist.strings */,
+				B12581D12406D01A00137B30 /* ForestWatcher-Bridging-Header.h */,
 			);
 			name = ForestWatcher;
 			sourceTree = "<group>";
@@ -162,9 +174,10 @@
 			isa = PBXGroup;
 			children = (
 				32CB1662208A59870036D050 /* Lottie.framework */,
-				32CB1664208A59870036D050 /* Lottie.framework */,
 				32CB1666208A59870036D050 /* Lottie.framework */,
+				32CB1664208A59870036D050 /* Lottie.framework */,
 				32CB1668208A59870036D050 /* libLottie.a */,
+				B12581D92406D01B00137B30 /* libLottie.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -278,6 +291,7 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = MEXRL59E77;
+						LastSwiftMigration = 1130;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -355,6 +369,13 @@
 			fileType = archive.ar;
 			path = libLottie.a;
 			remoteRef = 32CB1667208A59870036D050 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B12581D92406D01B00137B30 /* libLottie.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libLottie.a;
+			remoteRef = B12581D82406D01B00137B30 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -530,6 +551,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				B12581D32406D01B00137B30 /* Dummy.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -580,6 +602,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_WARNINGS = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -625,6 +648,9 @@
 				STRIP_INSTALLED_PRODUCT = YES;
 				STRIP_STYLE = all;
 				STRIP_SWIFT_SYMBOLS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "ForestWatcher-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -635,6 +661,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_WARNINGS = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -680,6 +707,8 @@
 				STRIP_INSTALLED_PRODUCT = YES;
 				STRIP_STYLE = all;
 				STRIP_SWIFT_SYMBOLS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "ForestWatcher-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
