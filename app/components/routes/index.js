@@ -166,10 +166,10 @@ export default class Routes extends PureComponent<Props> {
 
     // // Show 'export successful' notification, and reset export state to reset UI.
     // this.props.showExportReportsSuccessfulNotification();
-    // this.shareSheet?.setSharing?.(false);
-    // this.setState({
-    //   selectedForExport: {}
-    // });
+    this.shareSheet?.setSharing?.(false);
+    this.setState({
+      selectedForExport: {}
+    });
 
     // if (Platform.OS === 'android') {
     //   NativeModules.Intents.launchDownloadsDirectory();
