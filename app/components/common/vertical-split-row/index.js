@@ -23,6 +23,7 @@ export default class VerticalSplitRow extends Component<Props> {
   render() {
     const { selected } = this.props;
     const icon = selected != null ? (selected ? checkboxOn : checkboxOff) : nextIcon;
+    const inShareMode = selected === true || selected === false;
 
     return (
       <TouchableHighlight
@@ -45,7 +46,7 @@ export default class VerticalSplitRow extends Component<Props> {
               </View>
               <Image style={[Theme.icon, styles.disclosureIndicator]} source={icon} />
             </View>
-            <SettingsButton onPress={this.props.onSettingsPress} style={styles.settingsButton} />
+            <SettingsButton disabled={inShareMode} onPress={this.props.onSettingsPress} style={styles.settingsButton} />
           </View>
         </View>
       </TouchableHighlight>
