@@ -13,7 +13,7 @@ import com.facebook.soloader.SoLoader;
 import com.forestwatcher.intents.IntentsPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
-import com.mapbox.rctmgl.RCTMGLPackage
+import com.mapbox.rctmgl.RCTMGLPackage;
 import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
 import com.reactcommunity.rnlocalize.RNLocalizePackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;

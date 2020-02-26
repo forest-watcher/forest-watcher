@@ -31,7 +31,6 @@ import {
 } from 'helpers/map';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
-import clusterGenerator from 'helpers/clusters-generator';
 import { LOCATION_TRACKING } from 'config/constants';
 import Theme from 'config/theme';
 import i18n from 'i18next';
@@ -529,7 +528,7 @@ class MapComponent extends Component {
       region.longitude + region.longitudeDelta / 2,
       region.latitude + region.latitudeDelta / 2
     ];
-    const clusters = clusterGenerator.clusters && clusterGenerator.clusters.getClusters(bbox, mapZoom);
+    const clusters = null;
     const markers = clusters || [];
     markers.activeMarkersId = markers.length > 0 ? bbox.join('_') + mapZoom : '';
 
@@ -628,7 +627,7 @@ class MapComponent extends Component {
 
   zoomTo = (coordinates, id) => {
     // We substract one so there's always some margin
-    const zoomScale = clusterGenerator.clusters.getClusterExpansionZoom(id) - 1;
+    const zoomScale = 1.0;
     const zoomCoordinates = {
       latitude: coordinates.latitude,
       longitude: coordinates.longitude,
@@ -847,9 +846,7 @@ class MapComponent extends Component {
     const ctxLayerKey =
       isIOS && contextualLayer ? `contextualLayerElement-${contextualLayer.name}` : 'contextualLayerElement';
     const keyRand = isIOS ? Math.floor(Math.random() * 100 + 1) : '';
-    const clustersKey = markers
-      ? `clustersElement-${clusterGenerator.activeClusterId}_${markers.activeMarkersId}`
-      : 'clustersElement';
+    const clustersKey = 'obsolete';
     const markerSize = this.getMarkerSize();
     const markerBorder = { borderWidth: (markerSize.width / 18) * 4 };
 
