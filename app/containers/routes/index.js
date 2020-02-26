@@ -15,7 +15,7 @@ function mapStateToProps(state: State) {
   return {
     appLanguage: state.app.language,
     isConnected: shouldBeConnected(state),
-    routes: state.routes.previousRoutes,
+    routes: state.routes.previousRoutes
   };
 }
 

@@ -972,10 +972,9 @@ class MapComponent extends Component {
       ? [styles.container, styles.forceRefresh]
       : styles.container;
 
-    const userLocationElement =
-        <MapboxGL.UserLocation visible={true} />;
+    const userLocationElement = <MapboxGL.UserLocation visible={true} />;
 
-    const mapCameraElement =
+    const mapCameraElement = (
       <MapboxGL.Camera
         ref={ref => {
           this.mapCamera = ref;
@@ -983,7 +982,8 @@ class MapComponent extends Component {
         // centerCoordinate={areaCoordinates || undefined}
         bounds={this.state.mapCameraBounds}
         animationDuration={0}
-      />;
+      />
+    );
 
     return (
       <View style={containerStyle} onMoveShouldSetResponder={this.onMoveShouldSetResponder}>
