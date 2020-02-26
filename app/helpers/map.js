@@ -66,23 +66,6 @@ export function isDateRecent(date: number) {
   return moment().diff(moment(date), measure) <= range;
 }
 
-export function pointsToGeoJSON(points: Array<Alert>, slug: string) {
-  return {
-    type: 'MapCollection',
-    features: points.map(value => ({
-      type: 'Map',
-      properties: {
-        date: value.date,
-        isRecent: slug === DATASETS.GLAD ? isDateRecent(value.date) : false
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [value.long, value.lat]
-      }
-    }))
-  };
-}
-
 export function getContextualLayer(layers) {
   if (!layers.activeLayer) {
     return null;
