@@ -137,7 +137,7 @@ export default class App {
     }
 
     if (!__DEV__) {
-      //await setupCrashLogging();
+      await setupCrashLogging();
     }
 
     const store = createStore(async () => {
