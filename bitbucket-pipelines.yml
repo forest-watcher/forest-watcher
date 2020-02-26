@@ -5,3 +5,4 @@ pipelines:
         script:
           - yarn
           - yarn lint
+          - yarn test
