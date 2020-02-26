@@ -13,7 +13,7 @@
     "plugin:import/errors",
     "plugin:prettier/recommended",
     "plugin:promise/recommended",
-    "plugin:react/all",
+    "plugin:react/recommended",
     "plugin:react-native/all",
     "prettier/react"
   ],
@@ -69,53 +69,9 @@
         "allowRequiredDefaults": true
       }
     ],
-    "react/destructuring-assignment": "off",
     "react/display-name": "off",
-    "react/forbid-component-props": "off",
-    "react/forbid-prop-types": "off",
-    "react/jsx-boolean-value": [
-      "off",
-      "always"
-    ],
-    "react/jsx-curly-brace-presence": "off",
-    "react/jsx-handler-names": "off",
-    "react/jsx-indent": "off",
-    "react/jsx-filename-extension": "off",
-    "react/jsx-key": "warn",
-    "react/jsx-max-depth": "off",
-    "react/jsx-max-props-per-line": "off",
-    "react/jsx-no-bind": "off",
-    "react/jsx-no-literals": [
-      "error",
-      {
-        "noStrings": true,
-        "allowedStrings": [
-          ",",
-          ":",
-          "%",
-          "|",
-          "/",
-          "-"
-        ]
-      }
-    ],
-    "react/jsx-sort-default-props": "warn",
-    "react/jsx-sort-props": [
-      "off",
-      {
-        "reservedFirst": true
-      }
-    ],
-    "react/no-array-index-key": "off",
-    "react/no-set-state": "off",
     "react/no-string-refs": "off",
     "react/no-unsafe": "warn",
-    "react/prefer-stateless-function": "off",
-    "react/prop-types": "warn",
-    "react/require-default-props": "off",
-    "react/require-optimization": "off",
-    "react/sort-comp": "off",
-    "react/sort-prop-types": "off",
     "react-native/no-color-literals": "off",
     "react-native/no-inline-styles": "warn",
     "react-native/no-raw-text": "off",
