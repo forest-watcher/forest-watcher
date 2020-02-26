@@ -5,6 +5,7 @@ import com.RNFetchBlob.RNFetchBlobPackage;
 import com.aakashns.reactnativedialogs.ReactNativeDialogsPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.airbnb.android.react.maps.MapsPackage;
+import com.facebook.react.PackageList;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
@@ -12,7 +13,6 @@ import com.facebook.soloader.SoLoader;
 import com.forestwatcher.intents.IntentsPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
-//import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
 import com.reactcommunity.rnlocalize.RNLocalizePackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.cookies.CookieManagerPackage;
@@ -32,63 +32,65 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 
+//import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
+
 public class MainApplication extends NavigationApplication {
+
+  private final ReactNativeHost mReactNativeHost = new NavigationReactNativeHost(this)
+  {
+    @Override
+    public boolean getUseDeveloperSupport()
+    {
+      return BuildConfig.DEBUG;
+    }
+
+    @Override
+    protected List<ReactPackage> getPackages()
+    {
+      @SuppressWarnings("UnnecessaryLocalVariable") List<ReactPackage> packages = new PackageList(this).getPackages();
+      // Packages that cannot be autolinked yet can be added manually here, for example:
+      packages.addAll(Arrays.<ReactPackage>asList(
+          new AsyncStoragePackage(),
+          //new BackgroundGeolocationPackage(),
+          new CookieManagerPackage(),
+          new FBSDKPackage(),
+          new ImagePickerPackage(),
+          new IntentsPackage(),
+          new LottiePackage(),
+          new MapsPackage(),
+          new NetInfoPackage(),
+          new ReactNativeConfigPackage(),
+          new ReactNativeDialogsPackage(),
+          new ReactNativeFirebaseAnalyticsPackage(),
+          new ReactNativeFirebaseAppPackage(),
+          new RNAppAuthPackage(),
+          new RNCWebViewPackage(),
+          new RNFetchBlobPackage(),
+          new RNLocalizePackage(),
+          new RNSentryPackage(),
+          new RNZipArchivePackage(),
+          new SafeAreaContextPackage()
+      ));
+      return packages;
+    }
+
+    @Override
+    protected String getJSMainModuleName()
+    {
+      return "index";
+    }
+  };
+
+  @Override
+  public ReactNativeHost getReactNativeHost() {
+    return mReactNativeHost;
+  }
 
   @Override
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
-  }
-
-  @Override
-  protected ReactGateway createReactGateway() {
-    ReactNativeHost host = new NavigationReactNativeHost(this, isDebug(), createAdditionalReactPackages()) {
-      @Override
-      protected String getJSMainModuleName() {
-          return "index";
-      }
-    };
-
-    return new ReactGateway(this, isDebug(), host);
-  }
-
-  @Override
-  public boolean isDebug() {
-    // Make sure you are using BuildConfig from your own application
-    return BuildConfig.DEBUG;
-  }
-
-  protected List<ReactPackage> getPackages() {
-    // Add additional packages you require here
-    // No need to add RnnPackage and MainReactPackage
-    return Arrays.<ReactPackage>asList(
-      new AsyncStoragePackage(),
-      //new BackgroundGeolocationPackage(),
-      new CookieManagerPackage(),
-      new FBSDKPackage(),
-      new ImagePickerPackage(),
-      new IntentsPackage(),
-      new LottiePackage(),
-      new MapsPackage(),
-      new NetInfoPackage(),
-      new ReactNativeConfigPackage(),
-      new ReactNativeDialogsPackage(),
-      new ReactNativeFirebaseAnalyticsPackage(),
-      new ReactNativeFirebaseAppPackage(),
-      new RNAppAuthPackage(),
-      new RNCWebViewPackage(),
-      new RNFetchBlobPackage(),
-      new RNLocalizePackage(),
-      new RNSentryPackage(),
-      new RNZipArchivePackage(),
-      new SafeAreaContextPackage()
-    );
-  }
-
-  @Override
-  public List<ReactPackage> createAdditionalReactPackages() {
-    return getPackages();
   }
 
   /**

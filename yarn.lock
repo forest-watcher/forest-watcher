@@ -6817,10 +6817,10 @@ react-native-maps@0.26.1:
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.26.1.tgz#6ec316259b38d259c8974448d894bd7a23101da4"
   integrity sha512-p4VTB8YB5ZmOmDRCUpoHZkm05amZwhIo04AJMBbB9+JAR2PNNfpo0vceoWX0Mag4wnePkdzPomeWMplr/wimTg==
 
-react-native-navigation@3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-3.7.0.tgz#cc0469d391e0e2bb2496d5a9853e036e7ec8ed11"
-  integrity sha512-MVJi95+P0zuaR+8M3VJzBr85rzebWUqYQpEaFI0yHeN3EsyyRTRYZZj5rUpOFVD3LI0P+b8pR4wI1rYakheMlg==
+react-native-navigation@6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-6.0.1.tgz#633adaf8a919352aacd44ab0e434bc7c9910ffc2"
+  integrity sha512-K0AWin7EE0fTMXdixXegbfIepYc3fdshjatzx3hrorkpoQDjKk2b9BMhwMKpOBT/tBMI8ZS9oXM6Nk5UqZnJqA==
   dependencies:
     hoist-non-react-statics "3.x.x"
     lodash "4.17.x"
