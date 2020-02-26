@@ -18,5 +18,6 @@ export function formatBytes(bytes: number) {
     'commonText.fileSizes.teraBytes',
   ]
 
-  return i18n.t(localisationKeys[digitGroup], { size: value.toFixed(1) })
+  // Don't show decimal places for non-integer bytes
+  return i18n.t(localisationKeys[digitGroup], { size: value.toFixed(digitGroup == 0 ? 0 : 1) })
 }
