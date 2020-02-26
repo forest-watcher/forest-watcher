@@ -6,6 +6,7 @@ import * as Sentry from '@sentry/react-native';
 
 import { REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import toUpper from 'lodash/toUpper';
 import kebabCase from 'lodash/kebabCase';
@@ -17,9 +18,17 @@ import CircleButton from 'components/common/circle-button';
 import MapAttribution from 'components/map/map-attribution';
 import BottomDialog from 'components/map/bottom-dialog';
 import LocationErrorBanner from 'components/map/locationErrorBanner';
+import Clusters from 'containers/map/clusters';
 import Basemap from 'containers/map/basemap';
 import RouteMarkers from './route';
-import { formatCoordsByFormat, formatDistance, getDistanceOfLine, getMapZoom } from 'helpers/map';
+import {
+  formatCoordsByFormat,
+  formatDistance,
+  getDistanceOfLine,
+  getMapZoom,
+  getNeighboursSelected,
+  getPolygonBoundingBox
+} from 'helpers/map';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import { LOCATION_TRACKING } from 'config/constants';
@@ -28,6 +37,7 @@ import i18n from 'i18next';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
+import MapboxGL from '@react-native-mapbox-gl/maps';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
@@ -150,11 +160,16 @@ class MapComponent extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
+      markers: [],
+      selectedAlerts: [],
+      neighbours: [],
+      mapZoom: 2,
       customReporting: false,
       dragging: false,
       layoutHasForceRefreshed: false,
       routeTrackingDialogState: ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN,
-      locationError: null
+      locationError: null,
+      mapCameraBounds: getPolygonBoundingBox(props.areaCoordinates)
     };
 
     SafeArea.getSafeAreaInsetsForRootView().then(result => {
@@ -219,6 +234,7 @@ class MapComponent extends Component {
       const datasetChanged = !isEqual(area.dataset, prevProps.area.dataset);
       if (differentArea || datasetChanged) {
         setActiveAlerts();
+        this.updateMarkers();
         if (differentArea) {
           this.updateSelectedArea();
         }
@@ -473,6 +489,7 @@ class MapComponent extends Component {
       requestAnimationFrame(() => this.map.fitToCoordinates(this.props.areaCoordinates, this.FIT_OPTIONS));
     }
     this.props.setActiveAlerts();
+    this.updateMarkers();
   };
 
   /**
@@ -492,24 +509,50 @@ class MapComponent extends Component {
     }
   };
 
-  fitPosition = debounceUI(() => {
-    const { lastPosition, selectedAlerts } = this.state;
+  getMarkerSize() {
+    const { mapZoom } = this.state;
+    const expandClusterZoomLevel = 15;
+    const initialMarkerSize = 18;
+
+    const scale = mapZoom - expandClusterZoomLevel;
+    const rescaleFactor = mapZoom <= expandClusterZoomLevel ? 1 : scale;
+    const size = initialMarkerSize * rescaleFactor;
+    return { height: size, width: size };
+  }
+
+  updateMarkers = debounce((clean = false) => {
+    const { region, mapZoom } = this.state;
+    const bbox = [
+      region.longitude - region.longitudeDelta / 2,
+      region.latitude - region.latitudeDelta / 2,
+      region.longitude + region.longitudeDelta / 2,
+      region.latitude + region.latitudeDelta / 2
+    ];
+    const clusters = null;
+    const markers = clusters || [];
+    markers.activeMarkersId = markers.length > 0 ? bbox.join('_') + mapZoom : '';
+
+    if (clean) {
+      this.setState({
+        markers,
+        selectedAlerts: [],
+        neighbours: []
+      });
+    } else {
+      this.setState({ markers });
+    }
+  }, 300);
+
+  // Zoom map to user location
+  zoomToUserLocation = debounceUI(() => {
+    const { lastPosition } = this.state;
     if (lastPosition) {
-      const options = { edgePadding: { top: 150, right: 30, bottom: 210, left: 30 }, animated: true };
-      const coordinates = [lastPosition];
-      if (selectedAlerts.length) {
-        let selected = selectedAlerts[selectedAlerts.length - 1];
-        if (this.state.customReporting) {
-          selected = selectedAlerts[0];
-          const oposite = {
-            latitude: selected.latitude - lastPosition.latitude + selected.latitude,
-            longitude: selected.longitude - lastPosition.longitude + selected.longitude
-          };
-          coordinates.push(oposite);
-        }
-        coordinates.push(selected);
-      }
-      this.map.fitToCoordinates(coordinates, options);
+      // todo: do we want to includes selected alert on zoomToUserLocation?
+      this.mapCamera.setCamera({
+        centerCoordinate: [lastPosition.longitude, lastPosition.latitude],
+        zoomLevel: 16,
+        animationDuration: 2000
+      });
     }
   });
 
@@ -569,12 +612,66 @@ class MapComponent extends Component {
   onRegionChangeComplete = region => {
     const mapZoom = getMapZoom(region);
 
-    this.setState(prevState => ({
-      region,
-      mapZoom,
-      selectedAlerts: prevState.customReporting && prevState.dragging ? [region] : prevState.selectedAlerts,
-      dragging: false
-    }));
+    this.setState(
+      prevState => ({
+        region,
+        mapZoom,
+        selectedAlerts: prevState.customReporting && prevState.dragging ? [region] : prevState.selectedAlerts,
+        dragging: false
+      }),
+      () => {
+        this.updateMarkers();
+      }
+    );
+  };
+
+  zoomTo = (coordinates, id) => {
+    // We substract one so there's always some margin
+    const zoomScale = 1.0;
+    const zoomCoordinates = {
+      latitude: coordinates.latitude,
+      longitude: coordinates.longitude,
+      latitudeDelta: this.state.region.latitudeDelta / zoomScale,
+      longitudeDelta: this.state.region.longitudeDelta / zoomScale
+    };
+    this.map.animateToRegion(zoomCoordinates);
+  };
+
+  selectAlert = coordinate => {
+    if (coordinate && !this.state.customReporting) {
+      this.setState(prevState => ({
+        neighbours: getNeighboursSelected([...prevState.selectedAlerts, coordinate], prevState.markers),
+        selectedAlerts: [...prevState.selectedAlerts, coordinate]
+      }));
+    }
+  };
+
+  removeSelection = coordinate => {
+    this.setState(state => {
+      let neighbours = [];
+      if (state.selectedAlerts && state.selectedAlerts.length > 0) {
+        const selectedAlerts = state.selectedAlerts.filter(
+          alert => alert.latitude !== coordinate.latitude || alert.longitude !== coordinate.longitude
+        );
+        neighbours = selectedAlerts.length > 0 ? getNeighboursSelected(selectedAlerts, state.markers) : [];
+        return {
+          neighbours,
+          selectedAlerts
+        };
+      }
+      return { selectedAlerts: [] };
+    });
+  };
+
+  includeNeighbour = coordinate => {
+    this.setState(state => {
+      const selectedAlerts = [...state.selectedAlerts, coordinate];
+      const neighbours = getNeighboursSelected(selectedAlerts, state.markers);
+      return {
+        neighbours,
+        selectedAlerts
+      };
+    });
   };
 
   updateSelectedArea = () => {
@@ -655,7 +752,7 @@ class MapComponent extends Component {
             <CircleButton shouldFillContainer onPress={this.onCustomReportingPress} icon={addLocationIcon} />
           )}
           {lastPosition ? (
-            <CircleButton shouldFillContainer onPress={this.fitPosition} light icon={myLocationIcon} />
+            <CircleButton shouldFillContainer onPress={this.zoomToUserLocation} light icon={myLocationIcon} />
           ) : null}
           {canReport ? (
             <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
@@ -732,7 +829,7 @@ class MapComponent extends Component {
   };
 
   render() {
-    const { lastPosition, customReporting, heading } = this.state;
+    const { lastPosition, customReporting, selectedAlerts, neighbours, heading, markers } = this.state;
 
     const {
       areaCoordinates,
@@ -743,9 +840,15 @@ class MapComponent extends Component {
       isOfflineMode,
       ctxLayerLocalTilePath
     } = this.props;
+    const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
+    const showCompassLine = lastPosition && hasAlertsSelected;
     const isIOS = Platform.OS === 'ios';
     const ctxLayerKey =
       isIOS && contextualLayer ? `contextualLayerElement-${contextualLayer.name}` : 'contextualLayerElement';
+    const keyRand = isIOS ? Math.floor(Math.random() * 100 + 1) : '';
+    const clustersKey = 'obsolete';
+    const markerSize = this.getMarkerSize();
+    const markerBorder = { borderWidth: (markerSize.width / 18) * 4 };
 
     // Map elements
 
@@ -762,6 +865,15 @@ class MapComponent extends Component {
       contextualLayer && !isOfflineMode ? ( // eslint-disable-line
         <MapView.UrlTile key={ctxLayerKey} urlTemplate={contextualLayer.url} zIndex={2} />
       ) : null;
+    const compassLineElement = showCompassLine ? (
+      <MapView.Polyline
+        key="compassLineElement"
+        coordinates={[lastPosition, selectedAlerts[selectedAlerts.length - 1]]}
+        strokeColor={Theme.colors.white}
+        strokeWidth={3}
+        zIndex={3}
+      />
+    ) : null;
     const areaPolygonElement = areaCoordinates ? (
       <MapView.Polyline
         key="areaPolygonElement"
@@ -804,6 +916,48 @@ class MapComponent extends Component {
           />
         </MapView.Marker>
       ) : null;
+    const neighboursAlertsElement =
+      neighbours && neighbours.length > 0
+        ? neighbours.map((neighbour, i) => (
+            <MapView.Marker
+              key={`neighboursAlertsElement-${i}-${keyRand}`}
+              coordinate={neighbour}
+              anchor={{ x: 0.5, y: 0.5 }}
+              onPress={() => this.includeNeighbour(neighbour)}
+              zIndex={10}
+              tracksViewChanges={false}
+            >
+              <View style={[markerSize, markerBorder, styles.markerIconArea]} />
+            </MapView.Marker>
+          ))
+        : null;
+    const selectedAlertsElement =
+      hasAlertsSelected && !customReporting
+        ? selectedAlerts.map((alert, i) => (
+            <MapView.Marker
+              key={`selectedAlertsElement-${i}-${keyRand}`}
+              coordinate={alert}
+              anchor={{ x: 0.5, y: 0.5 }}
+              onPress={() => this.removeSelection(alert)}
+              zIndex={20}
+              tracksViewChanges={false}
+            >
+              <View style={[markerSize, markerBorder, styles.selectedMarkerIcon]} />
+            </MapView.Marker>
+          ))
+        : null;
+
+    const clustersElement =
+      area && area.dataset ? (
+        <Clusters
+          key={clustersKey}
+          markers={markers}
+          selectAlert={this.selectAlert}
+          zoomTo={this.zoomTo}
+          datasetSlug={area.dataset.slug}
+          markerSize={markerSize}
+        />
+      ) : null;
 
     const customReportingElement = customReporting ? (
       <View
@@ -818,6 +972,19 @@ class MapComponent extends Component {
       ? [styles.container, styles.forceRefresh]
       : styles.container;
 
+    const userLocationElement = <MapboxGL.UserLocation visible={true} />;
+
+    const mapCameraElement = (
+      <MapboxGL.Camera
+        ref={ref => {
+          this.mapCamera = ref;
+        }}
+        // centerCoordinate={areaCoordinates || undefined}
+        bounds={this.state.mapCameraBounds}
+        animationDuration={0}
+      />
+    );
+
     return (
       <View style={containerStyle} onMoveShouldSetResponder={this.onMoveShouldSetResponder}>
         <View pointerEvents="none" style={styles.header}>
@@ -831,6 +998,7 @@ class MapComponent extends Component {
             <Text style={styles.coordinateText}>{this.getCoordinateAndDistanceText()}</Text>
           </SafeAreaView>
         </View>
+        {/*
         <MapView
           ref={ref => {
             this.map = ref;
@@ -853,11 +1021,20 @@ class MapComponent extends Component {
           <Basemap areaId={area.id} />
           {contextualLocalLayerElement}
           {contextualRemoteLayerElement}
+          {clustersElement}
+          {compassLineElement}
           <RouteMarkers isTracking={this.isRouteTracking()} lastPosition={lastPosition} route={route} />
           {areaPolygonElement}
+          {neighboursAlertsElement}
+          {selectedAlertsElement}
           {userPositionElement}
           {compassElement}
         </MapView>
+        */}
+        <MapboxGL.MapView style={{ flex: 1 }} styleURL={MapboxGL.StyleURL.SatelliteStreet}>
+          {userLocationElement}
+          {mapCameraElement}
+        </MapboxGL.MapView>
         {customReportingElement}
         {this.renderMapFooter()}
         {this.renderRouteTrackingDialog()}
