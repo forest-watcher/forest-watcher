@@ -13,6 +13,7 @@ import com.facebook.soloader.SoLoader;
 import com.forestwatcher.intents.IntentsPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
+import com.mapbox.rctmgl.RCTMGLPackage
 import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
 import com.reactcommunity.rnlocalize.RNLocalizePackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
@@ -62,6 +63,7 @@ public class MainApplication extends NavigationApplication {
           new ReactNativeDialogsPackage(),
           new ReactNativeFirebaseAnalyticsPackage(),
           new ReactNativeFirebaseAppPackage(),
+          new RCTMGLPackage(),
           new RNAppAuthPackage(),
           new RNCWebViewPackage(),
           new RNFetchBlobPackage(),
