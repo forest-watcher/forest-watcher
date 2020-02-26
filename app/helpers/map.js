@@ -1,12 +1,12 @@
 // @flow
 
 import { Dimensions } from 'react-native';
-import { COORDINATES_FORMATS, GLAD_RECENT_RANGE, DATASETS } from 'config/constants';
+import { COORDINATES_FORMATS, GLAD_RECENT_RANGE } from 'config/constants';
 import UtmLatLng from 'utm-latlng';
 import formatcoords from 'formatcoords';
 import moment from 'moment';
 import i18n from 'i18next';
-import type { Coordinates, CoordinatesFormat, Alert } from 'types/common.types';
+import type { Coordinates, CoordinatesFormat } from 'types/common.types';
 
 const kdbush = require('kdbush');
 const geokdbush = require('geokdbush');
@@ -197,9 +197,9 @@ export function formatDistance(distance, thresholdBeforeKm = 1, relativeToUser =
  * @returns {{sw: [*, *], ne: [*, *]}}
  */
 export function getPolygonBoundingBox(polygon) {
-  let bounds = {},
-    latitude,
-    longitude;
+  const bounds = {};
+  let latitude;
+  let longitude;
 
   if (polygon.length === 0) {
     return undefined;

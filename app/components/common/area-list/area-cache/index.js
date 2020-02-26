@@ -96,6 +96,7 @@ class AreaCache extends PureComponent<Props, State> {
 
       const { areaId, downloadAreaById } = this.props;
       downloadAreaById(areaId);
+      return;
     });
   };
 

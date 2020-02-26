@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 
 import { View, Text, TouchableHighlight, Image } from 'react-native';
@@ -11,10 +13,10 @@ const checkboxOff = require('assets/checkbox_off.png');
 const checkboxOn = require('assets/checkbox_on.png');
 
 type Props = {
-  imageSrc: ?string,
+  imageSrc?: ?string,
   onPress: void => void,
   onSettingsPress: void => void,
-  selected: ?boolean,
+  selected?: ?boolean,
   subtitle: ?string,
   title: string
 };
@@ -25,12 +27,7 @@ export default class VerticalSplitRow extends Component<Props> {
     const icon = selected != null ? (selected ? checkboxOn : checkboxOff) : nextIcon;
 
     return (
-      <TouchableHighlight
-        activeOpacity={0.5}
-        underlayColor="transparent"
-        onPress={this.props.onPress}
-        key={this.props.key}
-      >
+      <TouchableHighlight activeOpacity={0.5} underlayColor="transparent" onPress={this.props.onPress}>
         <View style={styles.item}>
           <View style={styles.imageContainer}>
             {this.props.imageSrc ? <Image style={styles.image} source={{ uri: this.props.imageSrc }} /> : null}

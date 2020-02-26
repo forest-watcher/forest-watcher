@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { View, Text, ScrollView, Image } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import type { Area } from 'types/areas.types';
@@ -10,7 +10,6 @@ import AreaList from 'containers/common/area-list';
 import BottomTray from 'components/common/bottom-tray';
 import debounceUI from 'helpers/debounceUI';
 
-import { launchAppRoot } from 'main';
 import i18n from 'i18next';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
@@ -130,7 +129,7 @@ class Areas extends Component<Props> {
           ) : null}
         </ScrollView>
         <BottomTray>
-          <ActionButton noIcon secondary text={i18n.t('areas.share')} />
+          <ActionButton noIcon secondary text={i18n.t('areas.share')} onPress={() => {}} />
         </BottomTray>
       </View>
     );

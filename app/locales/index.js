@@ -31,7 +31,6 @@ export const setI18nConfig = () => {
   // Tell react-native if this is a right-to-left language.
   I18nManager.forceRTL(isRTL);
 
-  console.log('3SC', Object.keys(translationPaths), languageTag, translationPaths.en());
   // Configure i18n, with the chosen translations & locale.
   i18n.init({
     fallbackLng: 'en',
