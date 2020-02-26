@@ -37,10 +37,10 @@
         "error": "Error",
         "fileSizes": {
             "bytes": "%{size} bytes",
-            "kiloBytes": "%{size} kb",
-            "megaBytes": "%{size} mb",
-            "gigaBytes": "%{size} gb",
-            "teraBytes": "%{size} tb"
+            "kiloBytes": "%{size} kB",
+            "megaBytes": "%{size} MB",
+            "gigaBytes": "%{size} GB",
+            "teraBytes": "%{size} TB"
         },
         "finish": "Finish",
         "kilometers": "km",
