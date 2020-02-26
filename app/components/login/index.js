@@ -201,7 +201,7 @@ class Login extends PureComponent<Props, State> {
           >
             <Text style={styles.webViewButtonCloseText}>x</Text>
           </TouchableHighlight>
-          <Text style={[styles.webViewUrl]} ellipsizeMode="tail" numberOfLines={1}>
+          <Text style={styles.webViewUrl} ellipsizeMode="tail" numberOfLines={1}>
             {this.state.webViewCurrenUrl}
           </Text>
         </View>

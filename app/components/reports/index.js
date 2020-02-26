@@ -72,7 +72,7 @@ class Reports extends PureComponent<Props> {
     const mergedReports = completedReports.concat(this.props.reports.uploaded);
 
     // Create an object that'll contain the 'selected' state for each report.
-    let exportData = {};
+    const exportData = {};
     mergedReports.forEach(report => {
       exportData[report.title] = false;
     });
@@ -195,7 +195,7 @@ class Reports extends PureComponent<Props> {
     const completeReports = userReports.complete || [];
     const mergedReports = completeReports.concat(userReports.uploaded);
 
-    let reportsToExport = [];
+    const reportsToExport = [];
 
     // Iterate through the selected reports. If the report has been marked to export, find the full report object.
     Object.keys(selectedReports).forEach(key => {
@@ -239,7 +239,7 @@ class Reports extends PureComponent<Props> {
     const mergedReports = completedReports.concat(this.props.reports.uploaded);
 
     // Create an object that'll contain the 'selected' state for each report.
-    let exportData = {};
+    const exportData = {};
     mergedReports.forEach(report => {
       exportData[report.title] = selected;
     });

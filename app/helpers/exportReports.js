@@ -6,7 +6,7 @@ const { parse } = require('json2csv');
 import { PermissionsAndroid, Platform } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
-var moment = require('moment');
+const moment = require('moment');
 
 export const ExportMethod = {
   CSV: 0,
@@ -56,7 +56,7 @@ export default async function exportReports(
   const exportDirectory = `${dir}/Reports/${formattedDateTime}`;
 
   // For every CSV string (one per template), get the template's name & save the CSV string to a file!
-  let exportedFilePaths = Object.keys(csvStrings).map(key => {
+  const exportedFilePaths = Object.keys(csvStrings).map(key => {
     const csvString = csvStrings[key];
     const templateName = templates?.[key]?.['name']?.[lang] || templates?.[key]?.defaultLanguage;
 

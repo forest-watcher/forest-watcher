@@ -20,7 +20,7 @@ class SettingsButton extends Component<Props> {
       ios: TouchableHighlight
     });
 
-    let underlayColor = this.props.underlayColor ?? Theme.background.secondary;
+    const underlayColor = this.props.underlayColor ?? Theme.background.secondary;
 
     return (
       <Touchable

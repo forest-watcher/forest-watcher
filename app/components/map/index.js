@@ -57,7 +57,7 @@ import {
   stopTrackingHeading
 } from 'helpers/location';
 
-var emitter = require('tiny-emitter/instance');
+const emitter = require('tiny-emitter/instance');
 
 const { width, height } = Dimensions.get('window');
 

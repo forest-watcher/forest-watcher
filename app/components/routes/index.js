@@ -66,7 +66,7 @@ export default class Routes extends PureComponent<Props> {
     const routes = this.props.routes || [];
 
     // Create an object that'll contain the 'selected' state for each route.
-    let exportData = {};
+    const exportData = {};
     routes.forEach(route => {
       exportData[route.areaId + route.id] = false;
     });
@@ -136,8 +136,8 @@ export default class Routes extends PureComponent<Props> {
    * @param  {Object} selectedRoutes A mapping of route identifiers to a boolean dictating whether they've been selected for export.
    */
   onExportRoutesTapped = debounceUI(async selectedRoutes => {
-    let routes = this.props.routes || [];
-    let routesToExport = [];
+    const routes = this.props.routes || [];
+    const routesToExport = [];
 
     // Iterate through the selected reports. If the route has been marked to export, find the full route object.
     Object.keys(selectedRoutes).forEach(key => {
@@ -180,7 +180,7 @@ export default class Routes extends PureComponent<Props> {
     const mergedRoutes = this.props.routes || [];
 
     // Create an object that'll contain the 'selected' state for each route.
-    let exportData = {};
+    const exportData = {};
     mergedRoutes.forEach(route => {
       exportData[route.areaId + route.id] = selected;
     });
@@ -207,7 +207,7 @@ export default class Routes extends PureComponent<Props> {
    * @return {Array} The routes, but sorted...
    */
   sortedRoutes(routes: Array<Route>) {
-    let sorted = [...routes];
+    const sorted = [...routes];
     sorted.sort((a, b) => {
       if (a.date > b.date) {
         return -1;

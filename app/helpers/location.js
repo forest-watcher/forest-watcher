@@ -2,7 +2,7 @@ import BackgroundGeolocation from '@mauron85/react-native-background-geolocation
 import { Linking, PermissionsAndroid, Platform } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 
-var emitter = require('tiny-emitter/instance');
+const emitter = require('tiny-emitter/instance');
 
 import { LOCATION_TRACKING } from 'config/constants';
 import FWError from 'helpers/fwError';

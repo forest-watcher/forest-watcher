@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import MapView from 'react-native-maps';
 import { View } from 'react-native';
-var emitter = require('tiny-emitter/instance');
+const emitter = require('tiny-emitter/instance');
 
 import styles from '../styles';
 import Theme from '../../../config/theme';

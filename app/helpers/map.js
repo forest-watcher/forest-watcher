@@ -214,7 +214,7 @@ export function getPolygonBoundingBox(polygon) {
     bounds.latMax = bounds.latMax > latitude ? bounds.latMax : latitude;
   }
 
-  let boundingBox = {
+  const boundingBox = {
     ne: [bounds.latMin, bounds.longMin],
     sw: [bounds.latMax, bounds.longMax]
   };
