@@ -7,25 +7,22 @@ import {
   createFakeReport,
   createFakeTemplate
 } from '../__mocks__/generateFakeData';
+import { setI18nConfig } from 'locales';
 
 const faker = require('faker');
 
 describe('report export', () => {
+  beforeAll(() => {
+    setI18nConfig();
+  });
+
   it('renderReportGroupAsCsv outputs correct metafield headers', () => {
     const languages = createFakeLanguages(3);
     const template = createFakeTemplate({ languages: languages, questions: [] });
     const deviceLang = faker.random.arrayElement(languages);
     const csv = renderReportGroupAsCsv([], template, deviceLang);
     expect(csv).toEqual(
-      [
-        'commonText.name',
-        'commonText.area',
-        'commonText.date',
-        'commonText.language',
-        'commonText.userPosition',
-        'commonText.reportedPosition',
-        'commonText.alert'
-      ]
+      ['Name', 'Area', 'Date', 'Language', 'User Position', 'Reported Position', 'Alert']
         .map(text => `"${text}"`)
         .join(',')
     );

@@ -43,28 +43,13 @@ export default class Routes extends PureComponent<Props> {
 
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
     this.state = {
-      selectedForExport: {}
+      inShareMode: false,
+      selectedForExport: []
     };
-
-    this.onClickShare = this.onClickShare.bind(this);
   }
 
   componentDidMount() {
     tracker.trackScreenView('My Routes');
-  }
-
-  onClickShare() {
-    const routes = this.props.routes || [];
-
-    // Create an object that'll contain the 'selected' state for each route.
-    const exportData = {};
-    routes.forEach(route => {
-      exportData[route.areaId + route.id] = false;
-    });
-
-    this.setState({
-      selectedForExport: exportData
-    });
   }
 
   /**
@@ -72,12 +57,19 @@ export default class Routes extends PureComponent<Props> {
    * Will swap the state for the specified row, to show in the UI if it has been selected or not.
    */
   onRouteSelectedForExport = route => {
-    this.setState(state => ({
-      selectedForExport: {
-        ...state.selectedForExport,
-        [route.areaId + route.id]: !state.selectedForExport[route.areaId + route.id]
+    this.setState(state => {
+      if (state.selectedForExport.includes(route.areaId + route.id)) {
+        return {
+          selectedForExport: [...state.selectedForExport].filter(id => route.areaId + route.id != id)
+        };
+      } else {
+        const selected = [...state.selectedForExport];
+        selected.push(route.areaId + route.id);
+        return {
+          selectedForExport: selected
+        };
       }
-    }));
+    });
   };
 
   /**
@@ -127,19 +119,12 @@ export default class Routes extends PureComponent<Props> {
    * @param  {Object} selectedRoutes A mapping of route identifiers to a boolean dictating whether they've been selected for export.
    */
   onExportRoutesTapped = debounceUI(selectedRoutes => {
-    const routes = this.props.routes || [];
-    const routesToExport = [];
+    //const routes = this.props.routes || [];
 
     // Iterate through the selected reports. If the route has been marked to export, find the full route object.
-    Object.keys(selectedRoutes).forEach(key => {
-      const routeIsSelected = selectedRoutes[key];
-      if (!routeIsSelected) {
-        return;
-      }
-
-      const selectedRoute = routes.find(route => route.areaId + route.id === key);
-      routesToExport.push(selectedRoute);
-    });
+    //const routesToExport = selectedRoutes.map(key => {
+    //  return routes.find(route => route.areaId + route.id === key);
+    //});
 
     // await exportReports(
     //   reportsToExport,
@@ -155,10 +140,10 @@ export default class Routes extends PureComponent<Props> {
 
     // // Show 'export successful' notification, and reset export state to reset UI.
     // this.props.showExportReportsSuccessfulNotification();
-    // this.shareSheet?.setSharing?.(false);
-    // this.setState({
-    //   selectedForExport: {}
-    // });
+    this.shareSheet?.setSharing?.(false);
+    this.setState({
+      inShareMode: false
+    });
 
     // if (Platform.OS === 'android') {
     //   NativeModules.Intents.launchDownloadsDirectory();
@@ -166,27 +151,17 @@ export default class Routes extends PureComponent<Props> {
   });
 
   setAllSelected = (selected: boolean) => {
-    const mergedRoutes = this.props.routes || [];
-
-    // Create an object that'll contain the 'selected' state for each route.
-    const exportData = {};
-    mergedRoutes.forEach(route => {
-      exportData[route.areaId + route.id] = selected;
-    });
-
     this.setState({
-      selectedForExport: exportData
+      selectedForExport: selected ? this.props.routes.map(route => route.areaId + route.id) : []
     });
   };
 
   setSharing = (sharing: boolean) => {
-    if (sharing) {
-      this.onClickShare();
-    } else {
-      this.setState({
-        selectedForExport: {}
-      });
-    }
+    // Can set selectedForExport to [] either way as we want to start sharing again with none selected
+    this.setState({
+      inShareMode: sharing,
+      selectedForExport: []
+    });
   };
 
   /**
@@ -241,7 +216,7 @@ export default class Routes extends PureComponent<Props> {
           }}
           title={item.name}
           subtitle={subtitle}
-          selected={this.state.selectedForExport[combinedId]}
+          selected={this.state.inShareMode ? this.state.selectedForExport.includes(combinedId) : null}
         />
       );
     });
@@ -297,9 +272,7 @@ export default class Routes extends PureComponent<Props> {
 
   render() {
     // Determine if we're in export mode, and how many routes have been selected to export.
-    const inExportMode = Object.keys(this.state.selectedForExport).length > 0;
-    const totalToExport = Object.values(this.state.selectedForExport).filter(row => row === true).length;
-
+    const totalToExport = this.state.selectedForExport.length;
     const totalRoutes = this.props.routes.length;
 
     return (
@@ -332,7 +305,7 @@ export default class Routes extends PureComponent<Props> {
           }
           total={totalRoutes}
         >
-          {this.renderRoutesScrollView(this.props.routes, inExportMode)}
+          {this.renderRoutesScrollView(this.props.routes, this.state.inShareMode)}
         </ShareSheet>
       </View>
     );

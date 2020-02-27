@@ -15,6 +15,9 @@ export default StyleSheet.create({
     backgroundColor: Theme.colors.white,
     flexDirection: 'row'
   },
+  disabled: {
+    opacity: 0.6
+  },
   text: {
     color: Theme.fontColors.secondary,
     fontWeight: '400',
