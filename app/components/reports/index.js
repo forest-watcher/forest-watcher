@@ -56,30 +56,13 @@ class Reports extends PureComponent<Props> {
 
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
     this.state = {
-      selectedForExport: {}
+      inShareMode: false,
+      selectedForExport: []
     };
-
-    this.onClickShare = this.onClickShare.bind(this);
   }
 
   componentDidMount() {
     tracker.trackScreenView('My Reports');
-  }
-
-  onClickShare() {
-    // Merge together the completed and uploaded reports.
-    const completedReports = this.props.reports.complete || [];
-    const mergedReports = completedReports.concat(this.props.reports.uploaded);
-
-    // Create an object that'll contain the 'selected' state for each report.
-    let exportData = {};
-    mergedReports.forEach(report => {
-      exportData[report.title] = false;
-    });
-
-    this.setState({
-      selectedForExport: exportData
-    });
   }
 
   /**
@@ -87,12 +70,20 @@ class Reports extends PureComponent<Props> {
    * Will swap the state for the specified row, to show in the UI if it has been selected or not.
    */
   onReportSelectedForExport = title => {
-    this.setState(state => ({
-      selectedForExport: {
-        ...state.selectedForExport,
-        [title]: !state.selectedForExport[title]
+
+    this.setState((state) => {
+      if (state.selectedForExport.includes(title)) {
+        return {
+          selectedForExport: [...state.selectedForExport].filter(id => {title != id})
+        }
+      } else {
+        let selected = [...state.selectedForExport];
+        selected.push(title);
+        return {
+          selectedForExport: selected
+        }
       }
-    }));
+    });
   };
 
   /**
@@ -187,7 +178,7 @@ class Reports extends PureComponent<Props> {
   /**
    * Handles the 'export <x> reports' button being tapped.
    *
-   * @param  {Object} selectedReports A mapping of report titles to a boolean dictating whether they've been selected for export.
+   * @param  {Array} selectedReports A list of report titles dictating whether they've been selected for export.
    * @param  {Array} userReports      The user's reports.
    */
   onExportReportsTapped = debounceUI(async (selectedReports, userReports) => {
@@ -195,18 +186,8 @@ class Reports extends PureComponent<Props> {
     const completeReports = userReports.complete || [];
     const mergedReports = completeReports.concat(userReports.uploaded);
 
-    let reportsToExport = [];
-
-    // Iterate through the selected reports. If the report has been marked to export, find the full report object.
-    Object.keys(selectedReports).forEach(key => {
-      const reportIsSelected = selectedReports[key];
-      if (!reportIsSelected) {
-        return;
-      }
-
-      const selectedReport = mergedReports.find(report => report.title === key);
-
-      reportsToExport.push(selectedReport);
+    const reportsToExport = selectedReports.map(key => {
+      return mergedReports.find(report => report.title === key);
     });
 
     await exportReports(
@@ -225,7 +206,8 @@ class Reports extends PureComponent<Props> {
     this.props.showExportReportsSuccessfulNotification();
     this.shareSheet?.setSharing?.(false);
     this.setState({
-      selectedForExport: {}
+      selectedForExport: [],
+      inShareMode: false
     });
 
     if (Platform.OS === 'android') {
@@ -237,26 +219,17 @@ class Reports extends PureComponent<Props> {
     // Merge together the completed and uploaded reports.
     const completedReports = this.props.reports.complete || [];
     const mergedReports = completedReports.concat(this.props.reports.uploaded);
-
-    // Create an object that'll contain the 'selected' state for each report.
-    let exportData = {};
-    mergedReports.forEach(report => {
-      exportData[report.title] = selected;
-    });
-
     this.setState({
-      selectedForExport: exportData
+      selectedForExport: selected ? mergedReports.map(report => report.title) : []
     });
   };
 
   setSharing = (sharing: boolean) => {
-    if (sharing) {
-      this.onClickShare();
-    } else {
-      this.setState({
-        selectedForExport: {}
-      });
-    }
+    // Can set selectedForExport to [] either way as we want to start sharing again with none selected
+    this.setState({
+      inShareMode: sharing,
+      selectedForExport: []
+    });
   };
 
   /**
@@ -281,10 +254,10 @@ class Reports extends PureComponent<Props> {
       let position = 'center';
 
       // Here, if we're currently in export mode, override the icon to show either the checkbox on or off image.
-      if (this.state.selectedForExport?.[item.title] === true) {
+      if (this.state.inShareMode && this.state.selectedForExport.includes(item.title)) {
         icon = checkboxOn;
         position = 'top';
-      } else if (this.state.selectedForExport?.[item.title] === false) {
+      } else if (this.state.inShareMode) {
         icon = checkboxOff;
         position = 'top';
       }
@@ -374,11 +347,10 @@ class Reports extends PureComponent<Props> {
 
   render() {
     // Determine if we're in export mode, and how many reports have been selected to export.
-    const inExportMode = Object.keys(this.state.selectedForExport).length > 0;
-    const totalToExport = Object.values(this.state.selectedForExport).filter(row => row === true).length;
+    const totalToExport = this.state.selectedForExport.length;
 
-    const { complete, draft, uploaded } = this.props.reports;
-    const totalReports = complete.length + draft.length + uploaded.length;
+    const { complete, uploaded } = this.props.reports;
+    const totalReports = complete.length + uploaded.length;
 
     return (
       /* View necessary to fix the swipe back on wix navigation */
@@ -410,7 +382,7 @@ class Reports extends PureComponent<Props> {
           }
           total={totalReports}
         >
-          {this.renderReportsScrollView(this.props.reports, inExportMode)}
+          {this.renderReportsScrollView(this.props.reports, this.state.inShareMode)}
         </ShareSheet>
       </View>
     );

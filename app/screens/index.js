@@ -3,6 +3,7 @@ import { Navigation } from 'react-native-navigation';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import Areas from 'containers/areas';
+import CustomComponents from 'components/settings/custom-components';
 import Home from 'containers/home';
 import Login from 'containers/login';
 import SetupBoundaries from 'containers/setup/boundaries';
@@ -44,6 +45,7 @@ function registerComponent(name, Screen, Provider, store) {
 
 export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.Areas', Areas, Provider, store);
+  registerComponent('ForestWatcher.CustomComponents', CustomComponents, Provider, store);
   registerComponent('ForestWatcher.Home', Home, Provider, store);
   registerComponent('ForestWatcher.Login', Login, Provider, store);
   registerComponent('ForestWatcher.SetupBoundaries', SetupBoundaries, Provider, store);
