@@ -35,7 +35,7 @@ class SetupOverview extends Component {
     tracker.trackScreenView('Overview Set Up');
   }
 
-  onNextPress = debounceUI(async () => {
+  onNextPress = debounceUI(() => {
     const params = {
       area: {
         name: this.state.name,

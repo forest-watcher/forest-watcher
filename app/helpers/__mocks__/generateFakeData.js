@@ -94,7 +94,7 @@ export function createFakeAnswers(template, lang) {
 }
 
 export function createFakeAnswer(question, lang) {
-  let value = createFakeAnswerValue(question, lang);
+  const value = createFakeAnswerValue(question, lang);
 
   return {
     questionName: question.name,

@@ -267,6 +267,7 @@ class AreaDetail extends Component<Props, State> {
 
                 return (
                   <VerticalSplitRow
+                    key={route.id}
                     onSettingsPress={this.onRouteSettingsPress.bind(this, route)}
                     onPress={this.onRoutePress.bind(this, route)}
                     title={route.name}

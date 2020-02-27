@@ -1,7 +1,9 @@
 // @flow
 
+import type { Template } from 'types/reports.types';
+
 import React, { PureComponent } from 'react';
-import { NativeModules, Platform, View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { NativeModules, Platform, View, Text, ScrollView } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import Row from 'components/common/row';
@@ -10,15 +12,11 @@ import i18n from 'i18next';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
-import { colors } from 'config/theme';
 import { Navigation } from 'react-native-navigation';
-import { withSafeArea } from 'react-native-safe-area';
 import exportReports from 'helpers/exportReports';
 import { readableNameForReportName } from 'helpers/reports';
 
 import ShareSheet from 'components/common/share';
-
-const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
 
 const editIcon = require('assets/edit.png');
 const nextIcon = require('assets/next.png');
@@ -31,11 +29,16 @@ type ReportItem = {
 };
 
 type Props = {
+  componentId: string,
   reports: {
     draft: Array<ReportItem>,
     uploaded: Array<ReportItem>,
     complete: Array<ReportItem>
   },
+  templates: {
+    [string]: Template
+  },
+  appLanguage: string,
   getLastStep: string => number,
   showExportReportsSuccessfulNotification: () => void
 };
@@ -72,7 +75,7 @@ class Reports extends PureComponent<Props> {
     const mergedReports = completedReports.concat(this.props.reports.uploaded);
 
     // Create an object that'll contain the 'selected' state for each report.
-    let exportData = {};
+    const exportData = {};
     mergedReports.forEach(report => {
       exportData[report.title] = false;
     });
@@ -195,7 +198,7 @@ class Reports extends PureComponent<Props> {
     const completeReports = userReports.complete || [];
     const mergedReports = completeReports.concat(userReports.uploaded);
 
-    let reportsToExport = [];
+    const reportsToExport = [];
 
     // Iterate through the selected reports. If the report has been marked to export, find the full report object.
     Object.keys(selectedReports).forEach(key => {
@@ -239,7 +242,7 @@ class Reports extends PureComponent<Props> {
     const mergedReports = completedReports.concat(this.props.reports.uploaded);
 
     // Create an object that'll contain the 'selected' state for each report.
-    let exportData = {};
+    const exportData = {};
     mergedReports.forEach(report => {
       exportData[report.title] = selected;
     });

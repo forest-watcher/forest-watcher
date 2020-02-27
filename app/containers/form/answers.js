@@ -10,10 +10,8 @@ import { showNotConnectedNotification, showExportReportsSuccessfulNotification }
 import { saveReport, uploadReport, deleteReport, setReportAnswer } from 'redux-modules/reports';
 import { setActiveAlerts } from 'redux-modules/alerts';
 
-import { mapReportToMetadata } from 'helpers/forms';
-
 import { shouldBeConnected } from 'helpers/app';
-import { getTemplate, mapFormToAnsweredQuestions } from 'helpers/forms';
+import { getTemplate, mapFormToAnsweredQuestions, mapReportToMetadata } from 'helpers/forms';
 import exportReports from 'helpers/exportReports';
 import Answers from 'components/form/answers';
 

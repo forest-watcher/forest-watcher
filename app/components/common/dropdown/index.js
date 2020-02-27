@@ -1,6 +1,7 @@
+// @flow
+
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { View, Text, TouchableOpacity, Picker } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 import ActionSheet from 'react-native-actions-sheet';
 import Row from 'components/common/row';
@@ -16,7 +17,7 @@ type Props = {
   description: ?string,
   label: string,
   selectedValue: string,
-  onValueChange: string => Void,
+  onValueChange: string => void,
   options: Array<{ label: string, value: string }>
 };
 

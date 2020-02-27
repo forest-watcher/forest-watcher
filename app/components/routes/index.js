@@ -1,20 +1,15 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { NativeModules, Platform, View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import RNFetchBlob from 'rn-fetch-blob';
+import { View, Text, ScrollView } from 'react-native';
 
-import Row from 'components/common/row';
 import moment from 'moment';
 import i18n from 'i18next';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
-import { colors } from 'config/theme';
 import { Navigation } from 'react-native-navigation';
-import { withSafeArea } from 'react-native-safe-area';
 // import exportReports from 'helpers/exportReports';
-import { readableNameForReportName } from 'helpers/reports';
 
 import type { Route } from 'types/routes.types';
 
@@ -23,14 +18,10 @@ import VerticalSplitRow from 'components/common/vertical-split-row';
 
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
 
-const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
-
-const editIcon = require('assets/edit.png');
 const nextIcon = require('assets/next.png');
-const checkboxOff = require('assets/checkbox_off.png');
-const checkboxOn = require('assets/checkbox_on.png');
 
 type Props = {
+  componentId: string,
   routes: Array<Route>,
   setSelectedAreaId: (areaId: string) => void,
   showExportReportsSuccessfulNotification: () => void
@@ -66,7 +57,7 @@ export default class Routes extends PureComponent<Props> {
     const routes = this.props.routes || [];
 
     // Create an object that'll contain the 'selected' state for each route.
-    let exportData = {};
+    const exportData = {};
     routes.forEach(route => {
       exportData[route.areaId + route.id] = false;
     });
@@ -135,9 +126,9 @@ export default class Routes extends PureComponent<Props> {
    *
    * @param  {Object} selectedRoutes A mapping of route identifiers to a boolean dictating whether they've been selected for export.
    */
-  onExportRoutesTapped = debounceUI(async selectedRoutes => {
-    let routes = this.props.routes || [];
-    let routesToExport = [];
+  onExportRoutesTapped = debounceUI(selectedRoutes => {
+    const routes = this.props.routes || [];
+    const routesToExport = [];
 
     // Iterate through the selected reports. If the route has been marked to export, find the full route object.
     Object.keys(selectedRoutes).forEach(key => {
@@ -149,8 +140,6 @@ export default class Routes extends PureComponent<Props> {
       const selectedRoute = routes.find(route => route.areaId + route.id === key);
       routesToExport.push(selectedRoute);
     });
-
-    console.log('Export routes', routesToExport);
 
     // await exportReports(
     //   reportsToExport,
@@ -180,7 +169,7 @@ export default class Routes extends PureComponent<Props> {
     const mergedRoutes = this.props.routes || [];
 
     // Create an object that'll contain the 'selected' state for each route.
-    let exportData = {};
+    const exportData = {};
     mergedRoutes.forEach(route => {
       exportData[route.areaId + route.id] = selected;
     });
@@ -207,7 +196,7 @@ export default class Routes extends PureComponent<Props> {
    * @return {Array} The routes, but sorted...
    */
   sortedRoutes(routes: Array<Route>) {
-    let sorted = [...routes];
+    const sorted = [...routes];
     sorted.sort((a, b) => {
       if (a.date > b.date) {
         return -1;
@@ -242,15 +231,17 @@ export default class Routes extends PureComponent<Props> {
       //   position
       // };
 
+      const combinedId = item.areaId + item.id;
       return (
         <VerticalSplitRow
+          key={combinedId}
           onSettingsPress={this.onClickRouteSettings.bind(this, item)}
           onPress={() => {
             onPress(item);
           }}
           title={item.name}
           subtitle={subtitle}
-          selected={this.state.selectedForExport[item.areaId + item.id]}
+          selected={this.state.selectedForExport[combinedId]}
         />
       );
     });

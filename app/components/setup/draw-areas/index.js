@@ -128,7 +128,7 @@ class DrawAreas extends Component {
     }
   };
 
-  onNextPress = async () => {
+  onNextPress = () => {
     const { coordinates } = this.state.shape;
     if (coordinates && coordinates.length > 1) {
       this.setState({ loading: true });

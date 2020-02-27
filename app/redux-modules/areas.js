@@ -173,7 +173,7 @@ export function getAreas(): AreasAction {
 }
 
 export function updateArea(area: Area) {
-  return async (dispatch: Dispatch, state: GetState) => {
+  return (dispatch: Dispatch, state: GetState) => {
     const url = `${Config.API_URL}/area/${area.id}`;
     const originalArea = getAreaById(state().areas.data, area.id);
     const headers = { 'content-type': 'multipart/form-data' };
@@ -244,7 +244,7 @@ export function saveArea(params: { snapshot: string, area: CountryArea }): Areas
 }
 
 export function setAreaDatasetStatus(areaId: string, datasetSlug: string, status: boolean) {
-  return async (dispatch: Dispatch, state: GetState) => {
+  return (dispatch: Dispatch, state: GetState) => {
     const area = getAreaById(state().areas.data, areaId);
     if (area) {
       const datasets = area.datasets.map(item => {
@@ -269,7 +269,7 @@ export function setAreaDatasetStatus(areaId: string, datasetSlug: string, status
 }
 
 export function updateDate(areaId: string, datasetSlug: string, date: { startDate: number }) {
-  return async (dispatch: Dispatch, state: GetState) => {
+  return (dispatch: Dispatch, state: GetState) => {
     const area = getAreaById(state().areas.data, areaId);
     const dateKeys = Object.keys(date) || [];
     if (area) {
@@ -290,7 +290,7 @@ export function updateDate(areaId: string, datasetSlug: string, date: { startDat
 }
 
 export function deleteArea(areaId: string) {
-  return async (dispatch: Dispatch, state: GetState) => {
+  return (dispatch: Dispatch, state: GetState) => {
     const area = getAreaById(state().areas.data, areaId);
     dispatch(
       deleteRoutes({
@@ -315,7 +315,7 @@ export function deleteArea(areaId: string) {
 }
 
 export function syncAreas() {
-  return async (dispatch: Dispatch, state: GetState) => {
+  return (dispatch: Dispatch, state: GetState) => {
     const { loggedIn } = state().user;
     const { synced, syncing } = state().areas;
     if (!synced && !syncing && loggedIn) {
