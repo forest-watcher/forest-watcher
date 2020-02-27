@@ -1,20 +1,15 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { NativeModules, Platform, View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import RNFetchBlob from 'rn-fetch-blob';
+import { View, Text, ScrollView } from 'react-native';
 
-import Row from 'components/common/row';
 import moment from 'moment';
-import i18n from 'locales';
+import i18n from 'i18next';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
-import { colors } from 'config/theme';
 import { Navigation } from 'react-native-navigation';
-import { withSafeArea } from 'react-native-safe-area';
 // import exportReports from 'helpers/exportReports';
-import { readableNameForReportName } from 'helpers/reports';
 
 import type { Route } from 'types/routes.types';
 
@@ -23,14 +18,10 @@ import VerticalSplitRow from 'components/common/vertical-split-row';
 
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
 
-const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
-
-const editIcon = require('assets/edit.png');
 const nextIcon = require('assets/next.png');
-const checkboxOff = require('assets/checkbox_off.png');
-const checkboxOn = require('assets/checkbox_on.png');
 
 type Props = {
+  componentId: string,
   routes: Array<Route>,
   setSelectedAreaId: (areaId: string) => void,
   showExportReportsSuccessfulNotification: () => void
@@ -66,17 +57,17 @@ export default class Routes extends PureComponent<Props> {
    * Will swap the state for the specified row, to show in the UI if it has been selected or not.
    */
   onRouteSelectedForExport = route => {
-    this.setState((state) => {
+    this.setState(state => {
       if (state.selectedForExport.includes(route.areaId + route.id)) {
         return {
-          selectedForExport: [...state.selectedForExport].filter(id => {route.areaId + route.id != id})
-        }
+          selectedForExport: [...state.selectedForExport].filter(id => route.areaId + route.id != id)
+        };
       } else {
-        let selected = [...state.selectedForExport];
+        const selected = [...state.selectedForExport];
         selected.push(route.areaId + route.id);
         return {
           selectedForExport: selected
-        }
+        };
       }
     });
   };
@@ -127,15 +118,13 @@ export default class Routes extends PureComponent<Props> {
    *
    * @param  {Object} selectedRoutes A mapping of route identifiers to a boolean dictating whether they've been selected for export.
    */
-  onExportRoutesTapped = debounceUI(async selectedRoutes => {
-    let routes = this.props.routes || [];
+  onExportRoutesTapped = debounceUI(selectedRoutes => {
+    //const routes = this.props.routes || [];
 
     // Iterate through the selected reports. If the route has been marked to export, find the full route object.
-    const routesToExport = selectedRoutes.map(key => {
-      return routes.find(route => route.areaId + route.id === key);
-    });
-
-    console.log('Export routes', routesToExport);
+    //const routesToExport = selectedRoutes.map(key => {
+    //  return routes.find(route => route.areaId + route.id === key);
+    //});
 
     // await exportReports(
     //   reportsToExport,
@@ -182,7 +171,7 @@ export default class Routes extends PureComponent<Props> {
    * @return {Array} The routes, but sorted...
    */
   sortedRoutes(routes: Array<Route>) {
-    let sorted = [...routes];
+    const sorted = [...routes];
     sorted.sort((a, b) => {
       if (a.date > b.date) {
         return -1;
@@ -217,15 +206,17 @@ export default class Routes extends PureComponent<Props> {
       //   position
       // };
 
+      const combinedId = item.areaId + item.id;
       return (
         <VerticalSplitRow
+          key={combinedId}
           onSettingsPress={this.onClickRouteSettings.bind(this, item)}
           onPress={() => {
             onPress(item);
           }}
           title={item.name}
           subtitle={subtitle}
-          selected={this.state.inShareMode ? this.state.selectedForExport.includes(item.areaId + item.id) : null}
+          selected={this.state.inShareMode ? this.state.selectedForExport.includes(combinedId) : null}
         />
       );
     });

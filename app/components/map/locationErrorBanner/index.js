@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Image, Text, View } from 'react-native';
 
-import i18n from 'locales';
+import i18n from 'i18next';
 import styles from './styles';
 
 const locationErrorIcon = require('assets/gpsOff.png');

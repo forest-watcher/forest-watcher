@@ -3,7 +3,6 @@ import type { State } from 'types/store.types';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getNextStep } from 'helpers/forms';
 import { setSelectedAreaId } from 'redux-modules/areas';
 import { shouldBeConnected } from 'helpers/app';
 
@@ -15,7 +14,7 @@ function mapStateToProps(state: State) {
   return {
     appLanguage: state.app.language,
     isConnected: shouldBeConnected(state),
-    routes: state.routes.previousRoutes,
+    routes: state.routes.previousRoutes
   };
 }
 

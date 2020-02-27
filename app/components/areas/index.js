@@ -1,17 +1,14 @@
 // @flow
 import React, { Component } from 'react';
-import { View, Text, ScrollView, Image } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import type { Area } from 'types/areas.types';
 
-import ActionButton from 'components/common/action-button';
 import AreaList from 'containers/common/area-list';
-import BottomTray from 'components/common/bottom-tray';
 import debounceUI from 'helpers/debounceUI';
 
-import { launchAppRoot } from 'main';
-import i18n from 'locales';
+import i18n from 'i18next';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
@@ -76,17 +73,17 @@ class Areas extends Component<Props> {
    * Will swap the state for the specified row, to show in the UI if it has been selected or not.
    */
   onAreaSelectedForExport = areaId => {
-    this.setState((state) => {
+    this.setState(state => {
       if (state.selectedForExport.includes(areaId)) {
         return {
-          selectedForExport: [...state.selectedForExport].filter(id => {areaId != id})
-        }
+          selectedForExport: [...state.selectedForExport].filter(id => areaId != id)
+        };
       } else {
-        let selected = [...state.selectedForExport];
+        const selected = [...state.selectedForExport];
         selected.push(areaId);
         return {
           selectedForExport: selected
-        }
+        };
       }
     });
   };
@@ -96,16 +93,14 @@ class Areas extends Component<Props> {
    *
    * @param  {Array} selectedAreas An array of area identifiers that have been selected for export.
    */
-  onExportAreasTapped = debounceUI(async selectedAreas => {
-    let areas = this.props.areas || [];
+  onExportAreasTapped = debounceUI(selectedAreas => {
+    //const areas = this.props.areas || [];
 
     // Iterate through the selected reports. If the area has been marked to export, find the full area object.
-    const areasToExport = selectedAreas.map(areaId => {
-      const selectedArea = areas.find(area => area.id === areaId);
-      return selectedArea;
-    });
-
-    console.log('Export areas', areasToExport);
+    //const areasToExport = selectedAreas.map(areaId => {
+    //  const selectedArea = areas.find(area => area.id === areaId);
+    //  return selectedArea;
+    //});
 
     // await exportReports(
     //   reportsToExport,
@@ -128,10 +123,12 @@ class Areas extends Component<Props> {
     });
     Navigation.mergeOptions(this.props.componentId, {
       topBar: {
-        rightButtons: [{
-          id: 'addArea',
-          icon: plusIcon
-        }]
+        rightButtons: [
+          {
+            id: 'addArea',
+            icon: plusIcon
+          }
+        ]
       }
     });
 
@@ -191,7 +188,6 @@ class Areas extends Component<Props> {
   };
 
   setSharing = (sharing: boolean) => {
-
     this.setState({
       inShareMode: sharing
     });
@@ -202,10 +198,12 @@ class Areas extends Component<Props> {
       });
       Navigation.mergeOptions(this.props.componentId, {
         topBar: {
-          rightButtons: [{
-            id: 'addArea',
-            icon: plusIcon
-          }]
+          rightButtons: [
+            {
+              id: 'addArea',
+              icon: plusIcon
+            }
+          ]
         }
       });
     }

@@ -2,7 +2,7 @@
 import type { Question, Answer } from 'types/reports.types';
 
 import React, { Component } from 'react';
-import i18n from 'locales';
+import i18n from 'i18next';
 import { Platform, View } from 'react-native';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';

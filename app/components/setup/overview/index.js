@@ -6,7 +6,7 @@ import { Navigation } from 'react-native-navigation';
 
 import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
-import i18n from 'locales';
+import i18n from 'i18next';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
@@ -35,7 +35,7 @@ class SetupOverview extends Component {
     tracker.trackScreenView('Overview Set Up');
   }
 
-  onNextPress = debounceUI(async () => {
+  onNextPress = debounceUI(() => {
     const params = {
       area: {
         name: this.state.name,

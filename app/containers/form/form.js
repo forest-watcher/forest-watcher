@@ -1,7 +1,7 @@
 // @flow
 import type { State } from 'types/store.types';
 import { bindActionCreators } from 'redux';
-import i18n from 'locales';
+import i18n from 'i18next';
 import { connect } from 'react-redux';
 import { getTemplate, getNextStep, parseQuestion, getBtnTextByType, isQuestionAnswered } from 'helpers/forms';
 import { setReportAnswer } from 'redux-modules/reports';

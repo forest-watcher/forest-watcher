@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { StatusBar, View, Text } from 'react-native';
-import i18n from 'locales';
+import i18n from 'i18next';
 import LottieView from 'lottie-react-native';
 import MapView from 'react-native-maps';
 import ActionButton from 'components/common/action-button';
