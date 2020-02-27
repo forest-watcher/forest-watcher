@@ -62,6 +62,7 @@
     "react-native-datepicker": "1.7.2",
     "react-native-dialogs": "1.1.0",
     "react-native-fbsdk": "1.1.1",
+    "react-native-fs": "2.16.6",
     "react-native-hyperlink": "0.0.14",
     "react-native-image-picker": "2.3.0",
     "react-native-keyboard-aware-scroll-view": "0.8.0",
