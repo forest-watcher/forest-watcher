@@ -16,7 +16,7 @@ export const BUNDLE_FORMAT_VERSION: number = 1;
 /**
  * Extension of the final bundle
  */
-export const BUNDLE_FILE_EXTENSION: string = '.gfw.zip';
+export const BUNDLE_FILE_EXTENSION: string = '.gfw.bundle';
 
 /**
  * Directory on the device where the bundle will be prepared

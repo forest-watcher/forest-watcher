@@ -2,6 +2,7 @@
 import type { Dispatch, State } from 'types/store.types';
 
 import { connect } from 'react-redux';
+import RNShare from 'react-native-share';
 import { setSelectedAreaId } from 'redux-modules/areas';
 import { showNotConnectedNotification } from 'redux-modules/app';
 
@@ -19,15 +20,19 @@ function mapDispatchToProps(dispatch: Dispatch) {
   return {
     exportAreas: (ids: Array<string>) => {
       // todo: turn this into a proper action creator
-      dispatch((dispatch, getState) => {
+      dispatch(async (dispatch, getState) => {
         const state = getState();
-        exportBundle(
+        const outputFile = await exportBundle(
           {
             areaIds: ids,
             reportIds: []
           },
           state
         );
+        await RNShare.open({
+          saveToFiles: true,
+          url: `file://${outputFile}`
+        });
       });
     },
     setSelectedAreaId: (id: string) => {
