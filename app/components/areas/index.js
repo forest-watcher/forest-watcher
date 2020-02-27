@@ -49,7 +49,8 @@ class Areas extends Component<Props> {
     this.navigationEventListener = Navigation.events().bindComponent(this);
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
     this.state = {
-      selectedForExport: {}
+      selectedForExport: [],
+      inShareMode: false
     };
   }
 
@@ -70,51 +71,38 @@ class Areas extends Component<Props> {
     }
   }
 
-  onClickShare() {
-    const areas = this.props.areas || [];
-
-    // Create an object that'll contain the 'selected' state for each area.
-    let exportData = {};
-    areas.forEach(area => {
-      exportData[area.id] = false;
-    });
-
-    this.setState({
-      selectedForExport: exportData
-    });
-  }
-
   /**
    * Handles the area row being selected while in export mode.
    * Will swap the state for the specified row, to show in the UI if it has been selected or not.
    */
   onAreaSelectedForExport = areaId => {
-    this.setState(state => ({
-      selectedForExport: {
-        ...state.selectedForExport,
-        [areaId]: !state.selectedForExport[areaId]
+    this.setState((state) => {
+      if (state.selectedForExport.includes(areaId)) {
+        return {
+          selectedForExport: [...state.selectedForExport].filter(id => {areaId != id})
+        }
+      } else {
+        let selected = [...state.selectedForExport];
+        selected.push(areaId);
+        return {
+          selectedForExport: selected
+        }
       }
-    }));
+    }
   };
 
   /**
    * Handles the 'export <x> areas' button being tapped.
    *
-   * @param  {Object} selectedAreas A mapping of area identifiers to a boolean dictating whether they've been selected for export.
+   * @param  {Array} selectedAreas An array of area identifiers that have been selected for export.
    */
   onExportAreasTapped = debounceUI(async selectedAreas => {
     let areas = this.props.areas || [];
-    let areasToExport = [];
 
     // Iterate through the selected reports. If the area has been marked to export, find the full area object.
-    Object.keys(selectedAreas).forEach(key => {
-      const areaIsSelected = selectedAreas[key];
-      if (!areaIsSelected) {
-        return;
-      }
-
-      const selectedArea = areas.find(area => area.id === key);
-      areasToExport.push(selectedArea);
+    const areasToExport = selectedAreas.map(areaId => {
+      const selectedArea = areas.find(area => area.id === areaId);
+      return selectedArea;
     });
 
     console.log('Export areas', areasToExport);
@@ -135,7 +123,8 @@ class Areas extends Component<Props> {
     // this.props.showExportReportsSuccessfulNotification();
     this.shareSheet?.setSharing?.(false);
     this.setState({
-      selectedForExport: {}
+      inShareMode: false,
+      selectedForExport: []
     });
     Navigation.mergeOptions(this.props.componentId, {
       topBar: {
@@ -196,25 +185,20 @@ class Areas extends Component<Props> {
   });
 
   setAllSelected = (selected: boolean) => {
-    const areas = this.props.areas || [];
-
-    // Create an object that'll contain the 'selected' state for each area.
-    let exportData = {};
-    areas.forEach(area => {
-      exportData[area.id] = selected;
-    });
-
     this.setState({
-      selectedForExport: exportData
+      selectedForExport: selected ? this.props.areas.map(area => area.id) : []
     });
   };
 
   setSharing = (sharing: boolean) => {
-    if (sharing) {
-      this.onClickShare();
-    } else {
+
+    this.setState({
+      inShareMode: sharing
+    });
+
+    if (!sharing) {
       this.setState({
-        selectedForExport: {}
+        selectedForExport: []
       });
       Navigation.mergeOptions(this.props.componentId, {
         topBar: {
@@ -230,8 +214,7 @@ class Areas extends Component<Props> {
   render() {
     const { areas } = this.props;
     // Determine if we're in export mode, and how many areas have been selected to export.
-    const inExportMode = Object.keys(this.state.selectedForExport).length > 0;
-    const totalToExport = Object.values(this.state.selectedForExport).filter(row => row === true).length;
+    const totalToExport = this.state.selectedForExport.length;
     const totalAreas = areas.length;
 
     return (
@@ -274,7 +257,7 @@ class Areas extends Component<Props> {
                 <Text style={styles.label}>{i18n.t('areas.myAreas')}</Text>
                 <AreaList
                   onAreaPress={(areaId, name) => {
-                    if (inExportMode) {
+                    if (this.state.inShareMode) {
                       this.onAreaSelectedForExport(areaId);
                     } else {
                       this.onAreaPress(areaId, name);
