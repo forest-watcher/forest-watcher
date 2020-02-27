@@ -23,6 +23,9 @@
     "test:watch": "jest --watch",
     "lint": "node_modules/.bin/eslint ./app/",
     "lint:ci": "node_modules/.bin/eslint ./app/ -o reports/lint.html -f html",
+    "flow": "flow check",
+    "flow:ci": "flow check",
+    "flow:update-lib-types": "flow-typed install --ignoreDeps dev",
     "postinstall": "yarn jetify"
   },
   "dependencies": {
@@ -103,7 +106,8 @@
     "eslint-plugin-react": "7.18.3",
     "eslint-plugin-react-native": "3.8.1",
     "faker": "^4.1.0",
-    "flow-bin": "0.78.0",
+    "flow-bin": "0.105.2",
+    "flow-typed": "^3.0.0",
     "i18next-scanner": "2.7.0",
     "jest": "^24.9.0",
     "jest-fetch-mock": "1.7.4",
