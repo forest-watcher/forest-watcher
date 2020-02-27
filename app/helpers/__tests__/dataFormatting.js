@@ -1,6 +1,11 @@
 import { formatBytes } from '../data';
+import { setI18nConfig } from 'locales';
 
 describe('data formatting', () => {
+  beforeAll(() => {
+    setI18nConfig();
+  });
+
   it('rounds bytes up correctly to nearest integer', () => {
     const formatted = formatBytes(12.7);
     expect(formatted).toEqual('13 bytes');

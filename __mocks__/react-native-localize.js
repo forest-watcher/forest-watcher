@@ -5,3 +5,10 @@ export function getLocales() {
     }
   ];
 }
+
+export function findBestAvailableLanguage() {
+  return {
+    languageTag: 'en',
+    isRTL: false
+  };
+}
