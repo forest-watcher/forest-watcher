@@ -35,6 +35,13 @@
         "deselectAll": "Deselect All",
         "done": "Done",
         "error": "Error",
+        "fileSizes": {
+            "bytes": "%{size} bytes",
+            "kiloBytes": "%{size} kB",
+            "megaBytes": "%{size} MB",
+            "gigaBytes": "%{size} GB",
+            "teraBytes": "%{size} TB"
+        },
         "finish": "Finish",
         "kilometers": "km",
         "kmAway": "km away",
@@ -364,6 +371,11 @@
         "coordinatesUtm": "UTM",
         "coordinatesDescription": "Select a format you would like to display",
         "customLayers": "Custom Layers",
+        "customComponents": {
+            "baseMaps": "Basemaps",
+            "contextualLayers": "Contextual Layers",
+            "title": "Custom Components"
+        },
         "logOut": "Log Out",
         "offlineMode": "Offline Mode",
         "oneWeekAgo": "One week ago",
