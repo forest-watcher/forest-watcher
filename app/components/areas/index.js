@@ -16,16 +16,22 @@ import ShareSheet from 'components/common/share';
 
 const plusIcon = require('assets/add.png');
 
-type Props = {
-  areas: Array<Area>,
-  componentId: string,
-  setSelectedAreaId: () => void,
-  showNotConnectedNotification: () => void,
-  offlineMode: boolean
-};
+type Props = {|
+  +areas: Array<Area>,
+  +componentId: string,
+  +exportAreas: (ids: Array<string>) => void,
+  +offlineMode: boolean,
+  +setSelectedAreaId: (id: string) => void,
+  +showNotConnectedNotification: () => void
+|};
 
-class Areas extends Component<Props> {
-  static options(passProps) {
+type State = {|
+  selectedForExport: Array<string>,
+  inShareMode: boolean
+|};
+
+class Areas extends Component<Props, State> {
+  static options(passProps: {}) {
     return {
       topBar: {
         title: {
@@ -41,9 +47,11 @@ class Areas extends Component<Props> {
     };
   }
 
-  constructor(props) {
+  shareSheet: any;
+
+  constructor(props: Props) {
     super(props);
-    this.navigationEventListener = Navigation.events().bindComponent(this);
+    Navigation.events().bindComponent(this);
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
     this.state = {
       selectedForExport: [],
@@ -55,14 +63,7 @@ class Areas extends Component<Props> {
     tracker.trackScreenView('Areas');
   }
 
-  componentWillUnmount() {
-    // Not mandatory
-    if (this.navigationEventListener) {
-      this.navigationEventListener.remove();
-    }
-  }
-
-  navigationButtonPressed({ buttonId }) {
+  navigationButtonPressed({ buttonId }: any) {
     if (buttonId === 'addArea') {
       this.onPressAddArea();
     }
@@ -72,7 +73,7 @@ class Areas extends Component<Props> {
    * Handles the area row being selected while in export mode.
    * Will swap the state for the specified row, to show in the UI if it has been selected or not.
    */
-  onAreaSelectedForExport = areaId => {
+  onAreaSelectedForExport = (areaId: string) => {
     this.setState(state => {
       if (state.selectedForExport.includes(areaId)) {
         return {
@@ -94,47 +95,9 @@ class Areas extends Component<Props> {
    * @param  {Array} selectedAreas An array of area identifiers that have been selected for export.
    */
   onExportAreasTapped = debounceUI(selectedAreas => {
-    //const areas = this.props.areas || [];
-
-    // Iterate through the selected reports. If the area has been marked to export, find the full area object.
-    //const areasToExport = selectedAreas.map(areaId => {
-    //  const selectedArea = areas.find(area => area.id === areaId);
-    //  return selectedArea;
-    //});
-
-    // await exportReports(
-    //   reportsToExport,
-    //   this.props.templates,
-    //   this.props.appLanguage,
-    //   Platform.select({
-    //     android: RNFetchBlob.fs.dirs.DownloadDir,
-    //     ios: RNFetchBlob.fs.dirs.DocumentDir
-    //   })
-    // );
-
-    // // TODO: Handle errors returned from export function.
-
-    // // Show 'export successful' notification, and reset export state to reset UI.
-    // this.props.showExportReportsSuccessfulNotification();
+    this.props.exportAreas(selectedAreas);
     this.shareSheet?.setSharing?.(false);
-    this.setState({
-      inShareMode: false,
-      selectedForExport: []
-    });
-    Navigation.mergeOptions(this.props.componentId, {
-      topBar: {
-        rightButtons: [
-          {
-            id: 'addArea',
-            icon: plusIcon
-          }
-        ]
-      }
-    });
-
-    // if (Platform.OS === 'android') {
-    //   NativeModules.Intents.launchDownloadsDirectory();
-    // }
+    this.setSharing(false);
   });
 
   onAreaSettingsPress = debounceUI((areaId: string, name: string) => {

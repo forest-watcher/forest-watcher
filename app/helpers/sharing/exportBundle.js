@@ -76,7 +76,10 @@ export async function stageBundle(request: ExportBundleRequest, appState: State)
 
 async function writeBundle(bundle: SharingBundle, outputPath: string): Promise<string> {
   const outputFile = `${outputPath}/${BUNDLE_DATA_FILE_NAME}`;
+  await RNFS.mkdir(outputPath);
+
   const outputData = JSON.stringify(bundle);
   await RNFS.writeFile(outputFile, outputData);
+
   return outputFile;
 }
