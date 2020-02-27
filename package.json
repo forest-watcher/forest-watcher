@@ -33,7 +33,7 @@
     "@react-native-community/async-storage": "1.7.1",
     "@react-native-community/cookies": "2.0.3",
     "@react-native-community/netinfo": "5.3.3",
-    "@react-native-mapbox-gl/maps": "7.2.0",
+    "@react-native-mapbox-gl/maps": "7.0.8",
     "@redux-offline/redux-offline": "2.5.2-native.3",
     "boundingbox": "0.1.2",
     "buffer": "5.2.1",

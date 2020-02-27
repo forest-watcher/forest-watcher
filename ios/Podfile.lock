@@ -311,6 +311,8 @@ PODS:
     - React
   - react-native-image-picker (0.28.1):
     - React
+  - react-native-mapbox-gl (7.0.8):
+    - React
   - react-native-maps (0.22.1):
     - React
   - react-native-netinfo (5.3.3):
@@ -423,6 +425,7 @@ DEPENDENCIES:
   - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
   - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - "react-native-mapbox-gl (from `../node_modules/@react-native-mapbox-gl/maps`)"
   - react-native-maps (from `../node_modules/react-native-maps`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-safe-area (from `../node_modules/react-native-safe-area`)
@@ -519,6 +522,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-maps"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-mapbox-gl:
+    :path: "../node_modules/@react-native-mapbox-gl/maps"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
   react-native-netinfo:
@@ -611,6 +616,7 @@ SPEC CHECKSUMS:
   react-native-fbsdk: b94a83971c496a35803f38b921aec6d637ba07b5
   react-native-google-maps: 06d7adbb45aafbad5fd151f9e6f6856f546d7f58
   react-native-image-picker: fd93361c666f397bdf72f9c6c23f13d2685b9173
+  react-native-mapbox-gl: fcd88e2bf0ddea552b0209cc2770a5ac2b9c9910
   react-native-maps: 5a3de82c153db99e5ac939cb2ed576f245514016
   react-native-netinfo: 8884d510fe67349940b4399c01db3e3591c922aa
   react-native-safe-area: e8230b0017d76c00de6b01e2412dcf86b127c6a3
@@ -639,6 +645,6 @@ SPEC CHECKSUMS:
   SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 9d13b57c0680d3364b47aad9c5a2abdfe97dc779
+PODFILE CHECKSUM: 5d54eeda1e7dae5db265fdf29160df9b6efd8ea1
 
 COCOAPODS: 1.6.1
