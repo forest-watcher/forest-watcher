@@ -1,10 +1,9 @@
 module.exports = {
   dependencies: {
-    'react-native-simple-compass': {
+    '@mauron85/react-native-background-geolocation': {
       platforms: {
-        android: null, // disable Android platform, other platforms will still autolink if provided
-        ios: null
-      },
+        android: null // disable Android platform, other platforms will still autolink if provided
+      }
     }
-  },
+  }
 };

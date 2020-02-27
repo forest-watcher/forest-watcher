@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Alert, AppState, BackHandler, Dimensions, Image, LayoutAnimation, Platform, Text, View } from 'react-native';
-import { Sentry } from 'react-native-sentry';
+import * as Sentry from '@sentry/react-native';
 
-import { REPORTS } from 'config/constants';
+import { LOCATION_TRACKING, REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import isEqual from 'lodash/isEqual';
 import toUpper from 'lodash/toUpper';
@@ -20,7 +20,7 @@ import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import { LOCATION_TRACKING } from 'config/constants';
 import Theme from 'config/theme';
-import i18n from 'locales';
+import i18n from 'i18next';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
@@ -46,7 +46,7 @@ import {
   coordsObjectToArray
 } from 'helpers/location';
 
-var emitter = require('tiny-emitter/instance');
+const emitter = require('tiny-emitter/instance');
 
 const { width, height } = Dimensions.get('window');
 
@@ -67,8 +67,8 @@ const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_STOPPING = 2;
 const STALE_LOCATION_THRESHOLD = LOCATION_TRACKING.interval * 3;
 
 const backButtonImage = require('assets/back.png');
-const markerImage = require('assets/marker.png');
-const compassImage = require('assets/compass_direction.png');
+// const markerImage = require('assets/marker.png');
+// const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
 const settingsBlackIcon = require('assets/settings_black.png');
 const startTrackingIcon = require('assets/startTracking.png');
@@ -165,7 +165,7 @@ class MapComponent extends Component {
     };
 
     SafeArea.getSafeAreaInsetsForRootView().then(result => {
-      this.setState({
+      return this.setState({
         bottomSafeAreaInset: result.safeAreaInsets.bottom
       });
     });
@@ -292,7 +292,11 @@ class MapComponent extends Component {
 
   handleBackPress = debounceUI(() => {
     if (this.isRouteTracking()) {
-      this.state.routeTrackingDialogState ? this.closeBottomDialog() : this.showBottomDialog(true);
+      if (this.state.routeTrackingDialogState) {
+        this.closeBottomDialog();
+      } else {
+        this.showBottomDialog(true);
+      }
     } else {
       Navigation.pop(this.props.componentId);
     }
@@ -409,7 +413,7 @@ class MapComponent extends Component {
     Alert.alert(i18n.t('routes.confirmDeleteTitle'), i18n.t('routes.confirmDeleteMessage'), [
       {
         text: i18n.t('commonText.confirm'),
-        onPress: async () => {
+        onPress: () => {
           try {
             this.props.onCancelTrackingRoute();
             this.closeBottomDialog();

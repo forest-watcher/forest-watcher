@@ -1,11 +1,13 @@
-import React, { Component } from 'react';
+// @flow
+
+import React, { Component, type ElementConfig } from 'react';
 
 import { View, Text, TouchableHighlight, TouchableNativeFeedback, Image, Platform } from 'react-native';
 import styles from './styles';
 import Theme from 'config/theme';
 
 type Props = {
-  disabled?: boolean,
+  ...ElementConfig<typeof TouchableHighlight>,
   title?: string
 };
 
@@ -20,11 +22,11 @@ class SettingsButton extends Component<Props> {
       ios: TouchableHighlight
     });
 
-    let underlayColor = this.props.underlayColor ?? Theme.background.secondary;
+    const underlayColor = this.props.underlayColor ?? Theme.background.secondary;
 
     return (
       <Touchable
-        style={[styles.container, this.props.style]}
+        style={[styles.container, this.props.style, this.props.disabled ? styles.disabled : {}]}
         onPress={onPress}
         background={Platform.select({
           android: TouchableNativeFeedback.Ripple(underlayColor),

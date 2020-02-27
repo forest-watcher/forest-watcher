@@ -15,7 +15,7 @@ class StepsSlider extends PureComponent {
 
   componentDidMount() {
     SafeArea.getSafeAreaInsetsForRootView().then(result => {
-      this.setState({
+      return this.setState({
         bottomSafeAreaInset: result.safeAreaInsets.bottom
       });
     });

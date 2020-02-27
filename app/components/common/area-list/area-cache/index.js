@@ -6,7 +6,7 @@ import { TouchableHighlight, View, Alert, Image, Text } from 'react-native';
 import Config from 'react-native-config';
 import checkConnectivity from 'helpers/networking';
 
-import i18n from 'locales';
+import i18n from 'i18next';
 import ProgressBar from 'react-native-progress/Bar';
 import Theme from 'config/theme';
 import styles from './styles';
@@ -96,6 +96,7 @@ class AreaCache extends PureComponent<Props, State> {
 
       const { areaId, downloadAreaById } = this.props;
       downloadAreaById(areaId);
+      return;
     });
   };
 

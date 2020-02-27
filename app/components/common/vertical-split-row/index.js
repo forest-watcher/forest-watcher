@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 
 import { View, Text, TouchableHighlight, Image } from 'react-native';
@@ -11,11 +13,11 @@ const checkboxOff = require('assets/checkbox_off.png');
 const checkboxOn = require('assets/checkbox_on.png');
 
 type Props = {
-  imageSrc: ?string,
+  imageSrc?: ?string,
   onPress: void => void,
   onSettingsPress: void => void,
-  selected: ?boolean,
-  subtitle: ?string,
+  selected?: ?boolean,
+  subtitle?: ?string,
   title: string
 };
 
@@ -23,14 +25,10 @@ export default class VerticalSplitRow extends Component<Props> {
   render() {
     const { selected } = this.props;
     const icon = selected != null ? (selected ? checkboxOn : checkboxOff) : nextIcon;
+    const inShareMode = selected === true || selected === false;
 
     return (
-      <TouchableHighlight
-        activeOpacity={0.5}
-        underlayColor="transparent"
-        onPress={this.props.onPress}
-        key={this.props.key}
-      >
+      <TouchableHighlight activeOpacity={0.5} underlayColor="transparent" onPress={this.props.onPress}>
         <View style={styles.item}>
           <View style={styles.imageContainer}>
             {this.props.imageSrc ? <Image style={styles.image} source={{ uri: this.props.imageSrc }} /> : null}
@@ -45,7 +43,7 @@ export default class VerticalSplitRow extends Component<Props> {
               </View>
               <Image style={[Theme.icon, styles.disclosureIndicator]} source={icon} />
             </View>
-            <SettingsButton onPress={this.props.onSettingsPress} style={styles.settingsButton} />
+            <SettingsButton disabled={inShareMode} onPress={this.props.onSettingsPress} style={styles.settingsButton} />
           </View>
         </View>
       </TouchableHighlight>

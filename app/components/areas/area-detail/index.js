@@ -8,7 +8,7 @@ import { Alert, View, Image, ScrollView, Text, TextInput, TouchableHighlight } f
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 
-import i18n from 'locales';
+import i18n from 'i18next';
 import moment from 'moment';
 import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
@@ -267,6 +267,7 @@ class AreaDetail extends Component<Props, State> {
 
                 return (
                   <VerticalSplitRow
+                    key={route.id}
                     onSettingsPress={this.onRouteSettingsPress.bind(this, route)}
                     onPress={this.onRoutePress.bind(this, route)}
                     title={route.name}

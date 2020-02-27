@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import Hyperlink from 'react-native-hyperlink';
 import tracker from 'helpers/googleAnalytics';
 
-import i18n from 'locales';
+import i18n from 'i18next';
 import Theme from 'config/theme';
 import styles from './styles';
 

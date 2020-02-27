@@ -4,7 +4,7 @@ import Theme from 'config/theme';
 import Carousel from 'react-native-snap-carousel';
 import ImageCard from 'components/common/image-card';
 import ActionCard from 'components/common/action-card';
-import i18n from 'locales';
+import i18n from 'i18next';
 
 const plusIcon = require('assets/plus.png');
 

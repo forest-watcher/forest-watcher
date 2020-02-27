@@ -3,17 +3,12 @@ import type { AlertsState, AlertsAction } from 'types/alerts.types';
 import type { Area } from 'types/areas.types';
 
 import Config from 'react-native-config';
-import moment from 'moment';
-import { initDb, read } from 'helpers/database';
-import CONSTANTS from 'config/constants';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { UPLOAD_REPORT_REQUEST } from 'redux-modules/reports';
 import { RETRY_SYNC } from 'redux-modules/app';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
-
-const d3Dsv = require('d3-dsv');
 
 const SET_CAN_DISPLAY_ALERTS = 'alerts/SET_CAN_DISPLAY_ALERTS';
 export const SET_ACTIVE_ALERTS = 'alerts/SET_ACTIVE_ALERTS';
@@ -57,7 +52,7 @@ export default function reducer(state: AlertsState = initialState, action: Alert
       return { ...state, queue };
     }
     case GET_ALERTS_COMMIT: {
-      const { area, datasetSlug, range, alertId } = action.meta;
+      const { area, datasetSlug, alertId } = action.meta;
       const cache = {
         ...state.cache,
         [datasetSlug]: {
@@ -66,9 +61,6 @@ export default function reducer(state: AlertsState = initialState, action: Alert
         }
       };
       const queue = state.queue.filter(item => item !== alertId);
-      if (action.payload) {
-        saveAlertsToDb(area.id, datasetSlug, action.payload, range);
-      }
       return { ...state, queue, cache };
     }
     case GET_ALERTS_ROLLBACK: {
@@ -77,57 +69,11 @@ export default function reducer(state: AlertsState = initialState, action: Alert
       return { ...state, queue, syncError: true };
     }
     case LOGOUT_REQUEST: {
-      resetAlertsDb();
       return initialState;
     }
     default:
       return state;
   }
-}
-
-export function saveAlertsToDb(areaId: string, slug: string, alerts: string, range: number) {
-  if (alerts && alerts.length > 0) {
-    const realm = initDb();
-    if (range) {
-      const daysFromRange =
-        CONSTANTS.areas.alertRange[slug] - range > 0 ? CONSTANTS.areas.alertRange[slug] - range : range; // just in case we are more outdated than a year
-      const oldAlertsRange = moment()
-        .subtract(daysFromRange, 'days')
-        .valueOf();
-      const existingAlerts = read(realm, 'Alert').filtered(
-        `areaId = '${areaId}' AND slug = '${slug}' AND date < '${oldAlertsRange}'`
-      );
-      if (existingAlerts.length > 0) {
-        try {
-          realm.write(() => {
-            realm.delete(existingAlerts);
-          });
-        } catch (e) {
-          console.warn('Error cleaning db', e);
-        }
-      }
-    }
-    const alertsArray = d3Dsv.csvParse(alerts);
-    realm.write(() => {
-      alertsArray.forEach(alert => {
-        realm.create('Alert', {
-          slug,
-          areaId,
-          date: parseInt(alert.date, 10),
-          lat: parseFloat(alert.lat),
-          long: parseFloat(alert.lon)
-        });
-      });
-    });
-  }
-}
-
-export function resetAlertsDb() {
-  const realm = initDb();
-  realm.write(() => {
-    const allAlerts = realm.objects('Alert');
-    realm.delete(allAlerts);
-  });
 }
 
 // Action Creators

@@ -48,9 +48,9 @@ class InputTextDetail extends Component<Props, State> {
     }
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    if (this.props.visible !== nextProps.visible) {
-      this.setVisibility(nextProps.visible);
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.visible !== prevProps.visible) {
+      this.setVisibility(this.props.visible);
     }
   }
 

@@ -4,17 +4,16 @@ import React, { PureComponent } from 'react';
 import { Alert, View, Text, TouchableHighlight, Image, ImageBackground, ActivityIndicator } from 'react-native';
 import { WebView } from 'react-native-webview';
 
-import SafeArea from 'react-native-safe-area';
+import SafeArea, { withSafeArea } from 'react-native-safe-area';
 import Config from 'react-native-config';
 
 import Theme from 'config/theme';
-import i18n from 'locales';
+import i18n from 'i18next';
 import { getVersionName } from 'helpers/app';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import { getLanguage } from 'helpers/language';
 
-import { withSafeArea } from 'react-native-safe-area';
 const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
 const WebViewSafeAreaView = withSafeArea(View, 'padding', 'top');
 
@@ -100,7 +99,7 @@ class Login extends PureComponent<Props, State> {
     // we can add additional padding to ensure the white background is extended
     // beyond the safe area.
     SafeArea.getSafeAreaInsetsForRootView().then(result => {
-      this.setState(state => ({
+      return this.setState(state => ({
         topSafeAreaInset: result.safeAreaInsets.top
       }));
     });
@@ -201,7 +200,7 @@ class Login extends PureComponent<Props, State> {
           >
             <Text style={styles.webViewButtonCloseText}>x</Text>
           </TouchableHighlight>
-          <Text style={[styles.webViewUrl]} ellipsizeMode="tail" numberOfLines={1}>
+          <Text style={styles.webViewUrl} ellipsizeMode="tail" numberOfLines={1}>
             {this.state.webViewCurrenUrl}
           </Text>
         </View>
