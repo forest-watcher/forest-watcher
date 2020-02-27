@@ -1,13 +1,12 @@
+// @flow
+import type { Area } from 'types/areas.types';
+
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { View } from 'react-native';
 
 import VerticalSplitRow from 'components/common/vertical-split-row';
 import AreaCache from 'containers/common/area-list/area-cache';
 import styles from './styles';
-
-import type { Area } from 'types/areas.types';
-
 
 type Props = {
   areas: Array<Area>,
@@ -20,9 +19,7 @@ type Props = {
 };
 
 export default class AreaList extends Component<Props> {
-
   render() {
-
     const { areas, onAreaPress, onAreaSettingsPress, showCache, pristine } = this.props;
     if (!areas) {
       return null;

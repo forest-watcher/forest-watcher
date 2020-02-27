@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { NativeModules, Platform, View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { NativeModules, Platform, View, Text, ScrollView } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import Row from 'components/common/row';
@@ -10,15 +10,12 @@ import i18n from 'i18next';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
-import { colors } from 'config/theme';
 import { Navigation } from 'react-native-navigation';
-import { withSafeArea } from 'react-native-safe-area';
 import exportReports from 'helpers/exportReports';
 import { readableNameForReportName } from 'helpers/reports';
 
 import ShareSheet from 'components/common/share';
-
-const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
+import type { Template } from 'types/reports.types';
 
 const editIcon = require('assets/edit.png');
 const nextIcon = require('assets/next.png');
@@ -31,11 +28,16 @@ type ReportItem = {
 };
 
 type Props = {
+  componentId: string,
   reports: {
     draft: Array<ReportItem>,
     uploaded: Array<ReportItem>,
     complete: Array<ReportItem>
   },
+  templates: {
+    [string]: Template
+  },
+  appLanguage: string,
   getLastStep: string => number,
   showExportReportsSuccessfulNotification: () => void
 };
@@ -70,18 +72,17 @@ class Reports extends PureComponent<Props> {
    * Will swap the state for the specified row, to show in the UI if it has been selected or not.
    */
   onReportSelectedForExport = title => {
-
-    this.setState((state) => {
+    this.setState(state => {
       if (state.selectedForExport.includes(title)) {
         return {
-          selectedForExport: [...state.selectedForExport].filter(id => {title != id})
-        }
+          selectedForExport: [...state.selectedForExport].filter(id => title != id)
+        };
       } else {
-        let selected = [...state.selectedForExport];
+        const selected = [...state.selectedForExport];
         selected.push(title);
         return {
           selectedForExport: selected
-        }
+        };
       }
     });
   };

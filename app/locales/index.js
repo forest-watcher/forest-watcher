@@ -31,12 +31,13 @@ export const setI18nConfig = () => {
   // Tell react-native if this is a right-to-left language.
   I18nManager.forceRTL(isRTL);
 
-  console.log('3SC', Object.keys(translationPaths), languageTag, translationPaths.en());
   // Configure i18n, with the chosen translations & locale.
   i18n.init({
     fallbackLng: 'en',
     interpolation: {
-      escapeValue: false // react already safes from xss
+      escapeValue: false, // react already safes from xss
+      prefix: '%{',
+      suffix: '}'
     },
     lng: languageTag,
     resources: {

@@ -1,3 +1,5 @@
+// @flow
+import type { Question } from 'types/reports.types';
 import React from 'react';
 import Text from './text';
 import Radio from './radio';
@@ -6,7 +8,7 @@ import Date from './date';
 import Blob from './blob';
 import Number from './number';
 
-function FormField(props) {
+function FormField(props: { question: Question }) {
   if (!props.question) {
     return null;
   }

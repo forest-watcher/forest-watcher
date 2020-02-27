@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+// @flow
+
+import React, { Component, type ElementConfig } from 'react';
 
 import i18n from 'i18next';
 import { Text, TouchableOpacity, View } from 'react-native';
@@ -11,7 +13,7 @@ import Row from 'components/common/row';
 import { Navigation } from 'react-native-navigation';
 
 type Props = {
-  children: Array<any>,
+  ...ElementConfig<typeof View>,
   componentId?: string,
   enabled: boolean,
   onShare: () => void,
@@ -20,7 +22,7 @@ type Props = {
   selectAllCountText: string,
   shareButtonDisabledTitle: string,
   shareButtonEnabledTitle: string,
-  shareEnabled: boolean,
+  shareEnabled?: boolean,
   total: number,
   selected: number
 };

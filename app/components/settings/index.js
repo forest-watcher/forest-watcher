@@ -5,7 +5,6 @@ import { Navigation } from 'react-native-navigation';
 import Hyperlink from 'react-native-hyperlink';
 
 import List from 'components/common/list';
-import AreaList from 'containers/common/area-list';
 import Theme from 'config/theme';
 import CoordinatesDropdown from 'containers/settings/coordinates-dropdown';
 import Row from 'components/common/row';
@@ -19,7 +18,6 @@ import styles from './styles';
 
 const layersIcon = require('assets/contextualLayers.png');
 const nextIcon = require('assets/next.png');
-const plusIcon = require('assets/plus.png');
 const shareIcon = require('assets/share.png');
 
 type Props = {
@@ -91,9 +89,7 @@ export default class Settings extends Component<Props> {
     };
   }
 
-  onPressShare() {}
-
-  onPressCustomLayers = debounceUI( () => {
+  onPressCustomLayers = debounceUI(() => {
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.CustomComponents'
