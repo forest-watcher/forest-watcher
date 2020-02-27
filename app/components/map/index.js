@@ -16,7 +16,7 @@ import CircleButton from 'components/common/circle-button';
 import MapAttribution from 'components/map/map-attribution';
 import BottomDialog from 'components/map/bottom-dialog';
 import LocationErrorBanner from 'components/map/locationErrorBanner';
-import { formatCoordsByFormat, getMapZoom, getPolygonBoundingBox } from 'helpers/map';
+import { formatCoordsByFormat, getPolygonBoundingBox } from 'helpers/map';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import { LOCATION_TRACKING } from 'config/constants';
@@ -43,7 +43,8 @@ import {
   stopTrackingLocation,
   startTrackingHeading,
   stopTrackingHeading,
-  getCoordinateAndDistanceText
+  getCoordinateAndDistanceText,
+  coordsObjectToArray
 } from 'helpers/location';
 
 var emitter = require('tiny-emitter/instance');
@@ -450,7 +451,6 @@ class MapComponent extends Component {
     });
   }, 450);
 
-
   onCustomReportingPress = debounceUI(() => {
     this.setState(prevState => ({
       customReporting: true
@@ -552,6 +552,27 @@ class MapComponent extends Component {
           this.map.fitToCoordinates(this.props.areaCoordinates, this.FIT_OPTIONS);
         }
       }
+    );
+  };
+
+  // Draw line from user location to destination
+  destinationLine = () => {
+    const { center, userLocation, customReporting } = this.state;
+    if (!customReporting) {
+      return null;
+    }
+    const line = MapboxGL.geoUtils.makeLineString([coordsObjectToArray(userLocation), center]);
+    return (
+      <MapboxGL.ShapeSource id="destLine" shape={line}>
+        <MapboxGL.LineLayer
+          id="destLineLayer"
+          style={{
+            lineColor: 'white',
+            lineWidth: 3,
+            lineOpacity: 0.8
+          }}
+        />
+      </MapboxGL.ShapeSource>
     );
   };
 
@@ -710,6 +731,7 @@ class MapComponent extends Component {
         >
           {userLocationElement}
           {mapCameraElement}
+          {this.destinationLine()}
           {/*mpf todo area polygon*/}
           {/*mpf todo compass line*/}
           {/*mpf todo route markers*/}

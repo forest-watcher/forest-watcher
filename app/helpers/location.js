@@ -339,16 +339,11 @@ export function getCoordinateAndDistanceText(
   coordinatesFormat,
   isRouteTracking
 ) {
-  console.log('mpf aaahhhh: ', isRouteTracking, destinationCoordinates);
   if (isRouteTracking) {
     // Show the destination coordinates.
     return getCoordinateText(route.destination, lastPosition, coordinatesFormat);
   } else if (destinationCoordinates) {
-    const coordinates = {
-      latitude: destinationCoordinates[1],
-      longitude: destinationCoordinates[0]
-    };
-    return getCoordinateText(coordinates, lastPosition, coordinatesFormat);
+    return getCoordinateText(coordsArrayToObject(destinationCoordinates), lastPosition, coordinatesFormat);
   } else {
     // Show nothing!
     return '';
@@ -365,4 +360,13 @@ function getCoordinateText(targetLocation, currentLocation, coordinatesFormat) {
   }
 
   return '';
-};
+}
+
+// [1, 2] -> {latitude: 2, longitude: 1}
+export function coordsArrayToObject(coord) {
+  return {latitude: coord[1], longitude: coord[0]};
+}
+// {latitude: 2, longitude: 1} -> [1, 2]
+export function coordsObjectToArray(coord) {
+  return [coord.longitude, coord.latitude];
+}

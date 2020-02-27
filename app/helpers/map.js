@@ -7,6 +7,7 @@ import formatcoords from 'formatcoords';
 import moment from 'moment';
 import i18n from 'locales';
 import type { Coordinates, CoordinatesFormat, Alert } from 'types/common.types';
+import { coordsArrayToObject } from 'helpers/location';
 
 const kdbush = require('kdbush');
 const geokdbush = require('geokdbush');
@@ -127,10 +128,7 @@ function pointsFromCluster(cluster) {
   }
   return cluster
     .filter(marker => marker.properties.point_count === undefined)
-    .map(feature => ({
-      longitude: feature.geometry.coordinates[0],
-      latitude: feature.geometry.coordinates[1]
-    }));
+    .map(feature => coordsArrayToObject(feature));
 }
 
 export function getNeighboursSelected(selectedAlerts, markers) {

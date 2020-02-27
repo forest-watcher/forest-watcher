@@ -13,6 +13,7 @@ import Theme from 'config/theme';
 import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
+import { coordsArrayToObject } from 'helpers/location';
 
 const geojsonArea = require('@mapbox/geojson-area');
 
@@ -35,10 +36,7 @@ function getGoogleMapsCoordinates(coordinates) {
   if (!coordinates) {
     return [];
   }
-  return coordinates.map(cordinate => ({
-    latitude: cordinate[1],
-    longitude: cordinate[0]
-  }));
+  return coordinates.map(coordinate => coordsArrayToObject(coordinate));
 }
 
 function getGeoJson(coordinates) {
