@@ -13,7 +13,6 @@ import deburr from 'lodash/deburr';
 import moment from 'moment';
 
 import CircleButton from 'components/common/circle-button';
-import MapAttribution from 'components/map/map-attribution';
 import BottomDialog from 'components/map/bottom-dialog';
 import LocationErrorBanner from 'components/map/locationErrorBanner';
 import { formatCoordsByFormat, getPolygonBoundingBox } from 'helpers/map';
@@ -576,6 +575,24 @@ class MapComponent extends Component {
     );
   };
 
+  // Draw area polygon
+  areaOutline = () => {
+    const coords = this.props.areaCoordinates.map(coord => coordsObjectToArray(coord));
+    const line = MapboxGL.geoUtils.makeLineString(coords);
+    return (
+      <MapboxGL.ShapeSource id="areaOutline" shape={line}>
+        <MapboxGL.LineLayer
+          id="areaOutlineLayer"
+          style={{
+            lineColor: Theme.colors.turtleGreen,
+            lineWidth: 3,
+            lineOpacity: 0.8
+          }}
+        />
+      </MapboxGL.ShapeSource>
+    );
+  };
+
   renderButtonPanel() {
     const { customReporting, userLocation, locationError, neighbours, selectedAlerts } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
@@ -636,7 +653,6 @@ class MapComponent extends Component {
       </View>,
       <FooterSafeAreaView key="footer" pointerEvents="box-none" style={styles.footer}>
         {this.renderButtonPanel()}
-        <MapAttribution />
       </FooterSafeAreaView>
     ];
   }
@@ -698,7 +714,6 @@ class MapComponent extends Component {
         ref={ref => {
           this.mapCamera = ref;
         }}
-        // centerCoordinate={areaCoordinates || undefined}
         bounds={this.state.mapCameraBounds}
         animationDuration={0}
       />
@@ -731,9 +746,8 @@ class MapComponent extends Component {
         >
           {userLocationElement}
           {mapCameraElement}
+          {this.areaOutline()}
           {this.destinationLine()}
-          {/*mpf todo area polygon*/}
-          {/*mpf todo compass line*/}
           {/*mpf todo route markers*/}
         </MapboxGL.MapView>
         {customReportingMarker}

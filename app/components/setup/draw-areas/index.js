@@ -8,7 +8,6 @@ import gpsi from 'geojson-polygon-self-intersections';
 import { storeImage } from 'helpers/fileManagement';
 
 import ActionButton from 'components/common/action-button';
-import MapAttribution from 'components/map/map-attribution';
 import Theme from 'config/theme';
 import i18n from 'locales';
 import tracker from 'helpers/googleAnalytics';
@@ -165,7 +164,6 @@ class DrawAreas extends Component {
       return (
         <View pointerEvents="none" style={[styles.actionButton, withPadding]}>
           <Text style={styles.footerTitle}>{i18n.t('setupDrawAreas.tapInstruction')}</Text>
-          <MapAttribution />
         </View>
       );
     }
