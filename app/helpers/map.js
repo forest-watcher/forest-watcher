@@ -76,7 +76,8 @@ export function getContextualLayer(layers) {
 
 export function formatCoordsByFormat(coordinates: Coordinates, format: CoordinatesFormat) {
   const { latitude, longitude } = coordinates;
-  if (!latitude || !longitude) {
+  // return if coordinates are not numbers
+  if (!isNaN(Number.parseFloat(latitude)) || !isNaN(Number.parseFloat(longitude))) {
     return '';
   }
   if (format === COORDINATES_FORMATS.utm.value) {

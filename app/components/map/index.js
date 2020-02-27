@@ -391,7 +391,7 @@ class MapComponent extends Component {
 
   async onRegionDidChange() {
     const center = await this.map.getCenter();
-    this.setState({ center });
+    this.setState({ center, dragging: false });
   }
 
   showBottomDialog = debounceUI((isExiting = false) => {
@@ -558,7 +558,7 @@ class MapComponent extends Component {
   };
 
   // Draw line from user location to destination
-  destinationLine = () => {
+  renderDestinationLine = () => {
     const { center, userLocation, customReporting } = this.state;
     if (!customReporting) {
       return null;
@@ -579,7 +579,7 @@ class MapComponent extends Component {
   };
 
   // Draw area polygon
-  areaOutline = () => {
+  renderAreaOutline = () => {
     const coords = this.props.areaCoordinates.map(coord => coordsObjectToArray(coord));
     const line = MapboxGL.geoUtils.makeLineString(coords);
     return (
@@ -749,9 +749,9 @@ class MapComponent extends Component {
         >
           {userLocationElement}
           {mapCameraElement}
-          {this.areaOutline()}
-          {this.destinationLine()}
           {/*mpf todo route markers*/}
+          {this.renderAreaOutline()}
+          {this.renderDestinationLine()}
         </MapboxGL.MapView>
         {customReportingMarker}
         {this.renderMapFooter()}

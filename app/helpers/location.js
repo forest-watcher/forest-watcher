@@ -361,9 +361,9 @@ function getCoordinateText(targetLocation, currentLocation, coordinatesFormat) {
 
 // [1, 2] -> {latitude: 2, longitude: 1}
 export function coordsArrayToObject(coord) {
-  return { latitude: coord[1], longitude: coord[0] };
+  return { latitude: coord?.[1], longitude: coord?.[0] };
 }
 // {latitude: 2, longitude: 1} -> [1, 2]
 export function coordsObjectToArray(coord) {
-  return [coord.longitude, coord.latitude];
+  return [coord?.longitude, coord?.latitude];
 }
