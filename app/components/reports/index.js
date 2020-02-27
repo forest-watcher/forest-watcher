@@ -56,6 +56,7 @@ class Reports extends PureComponent<Props> {
 
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
     this.state = {
+      inShareMode: false,
       selectedForExport: []
     };
   }
@@ -348,8 +349,8 @@ class Reports extends PureComponent<Props> {
     // Determine if we're in export mode, and how many reports have been selected to export.
     const totalToExport = this.state.selectedForExport.length;
 
-    const { complete, draft, uploaded } = this.props.reports;
-    const totalReports = complete.length + draft.length + uploaded.length;
+    const { complete, uploaded } = this.props.reports;
+    const totalReports = complete.length + uploaded.length;
 
     return (
       /* View necessary to fix the swipe back on wix navigation */
