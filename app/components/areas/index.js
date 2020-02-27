@@ -88,7 +88,7 @@ class Areas extends Component<Props> {
           selectedForExport: selected
         }
       }
-    }
+    });
   };
 
   /**
@@ -265,6 +265,7 @@ class Areas extends Component<Props> {
                   }}
                   onAreaSettingsPress={(areaId, name) => this.onAreaSettingsPress(areaId, name)}
                   selectionState={this.state.selectedForExport}
+                  sharing={this.state.inShareMode}
                 />
               </View>
             ) : null}

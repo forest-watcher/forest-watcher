@@ -13,7 +13,7 @@ type Props = {
   areas: Array<Area>,
   onAreaPress: (areaId: string, name: string) => void,
   onAreaSettingsPress: (areaId: string, name: string) => void,
-  selectionState?: { [string]: boolean },
+  selectionState?: Array<string>,
   sharing?: boolean,
   showCache?: boolean,
   pristine?: boolean
@@ -36,7 +36,7 @@ export default class AreaList extends Component<Props> {
               onPress={() => onAreaPress(area.id, area.name)}
               onSettingsPress={() => onAreaSettingsPress(area.id, area.name)}
               imageSrc={area.image}
-              selected={this.props.selectionState?.[area.id]}
+              selected={this.props.sharing ? this.props.selectionState?.includes?.(area.id) : null}
               title={area.name}
             />
             {showCache && <AreaCache areaId={area.id} showTooltip={index === 0 && pristine} />}
