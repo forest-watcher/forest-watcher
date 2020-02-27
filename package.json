@@ -23,8 +23,8 @@
     "test:watch": "jest --watch",
     "lint": "node_modules/.bin/eslint ./app/",
     "lint:ci": "node_modules/.bin/eslint ./app/ -o reports/lint.html -f html",
-    "flow": "flow check",
-    "flow:ci": "flow check",
+    "flow": "flow check --show-all-errors",
+    "flow:ci": "flow check --show-all-errors",
     "flow:update-lib-types": "flow-typed install --ignoreDeps dev",
     "postinstall": "yarn jetify"
   },
