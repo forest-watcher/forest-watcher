@@ -1,10 +1,11 @@
-import { REPORT_METADATA_FIELDS, mapFormToAnsweredQuestions, mapFormToQuestions, mapReportToMetadata } from './forms';
+import { mapFormToAnsweredQuestions, mapFormToQuestions, mapReportToMetadata } from './forms';
 
 import _ from 'lodash';
 
 const { parse } = require('json2csv');
 import { PermissionsAndroid, Platform } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
+import i18n from 'i18next';
 
 const moment = require('moment');
 
@@ -128,7 +129,15 @@ export function renderReportsAsCsv(reports, templates, lang) {
 export function renderReportGroupAsCsv(reports, template, lang, outputMetadata = true) {
   // Define columns based on the metadata returned by mapReportToMetadata. These are passed as config to json2csv.
   // Each label represents the column header, and value is a function to calculate the value of each cell
-  const metadataFields = REPORT_METADATA_FIELDS.map(field => ({
+  const metadataFields = [
+    { id: 'name', label: i18n.t('commonText.name') },
+    { id: 'areaName', label: i18n.t('commonText.area') },
+    { id: 'date', label: i18n.t('commonText.date') },
+    { id: 'language', label: i18n.t('commonText.language') },
+    { id: 'userPosition', label: i18n.t('commonText.userPosition') },
+    { id: 'clickedPosition', label: i18n.t('commonText.reportedPosition') },
+    { id: 'dataset', label: i18n.t('commonText.alert') }
+  ].map(field => ({
     label: field.label,
     value: reportData => reportData.metadata?.find(item => item.id === field.id)?.value?.join?.(', ')
   }));

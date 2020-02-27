@@ -17,7 +17,15 @@ describe('report export', () => {
     const deviceLang = faker.random.arrayElement(languages);
     const csv = renderReportGroupAsCsv([], template, deviceLang);
     expect(csv).toEqual(
-      ['Name', 'Area', 'Date', 'Language', 'User Position', 'Reported Position', 'Alert']
+      [
+        'commonText.name',
+        'commonText.area',
+        'commonText.date',
+        'commonText.language',
+        'commonText.userPosition',
+        'commonText.reportedPosition',
+        'commonText.alert'
+      ]
         .map(text => `"${text}"`)
         .join(',')
     );
