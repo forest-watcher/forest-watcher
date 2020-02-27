@@ -12,6 +12,8 @@ import tracker from 'helpers/googleAnalytics';
 import i18n from 'locales';
 import styles from './styles';
 
+import Callout from 'components/common/callout';
+
 const settingsIcon = require('assets/settings.png');
 const nextIcon = require('assets/next.png');
 const areasIcon = require('assets/areas.png');
@@ -195,6 +197,16 @@ class Dashboard extends PureComponent<Props> {
             contentContainerStyle={styles.listContent}
             scrollEnabled
           >
+            <Callout above>
+              <View
+                style={{
+                  backgroundColor: 'red',
+                  marginLeft: 356,
+                  width: 44,
+                  height: 44
+                }}
+              />
+            </Callout>
             <Row action={this.areasAction}>
               <View style={styles.tableRowContent}>
                 <Image source={areasIcon} />

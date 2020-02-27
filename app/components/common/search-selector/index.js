@@ -55,7 +55,7 @@ class SearchSelector extends Component {
       this.props.selected && this.props.selected.label ? this.props.selected.label : this.props.placeholder;
 
     return (
-      <View>
+      <View onLayout={this.props.onLayout}>
         <TouchableHighlight
           onPress={() => this.setListVisibility(true)}
           activeOpacity={0.5}

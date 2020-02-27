@@ -6,6 +6,7 @@ import { withSafeArea } from 'react-native-safe-area';
 
 import SearchSelector from 'components/common/search-selector';
 import ActionButton from 'components/common/action-button';
+import Callout from 'components/common/callout';
 import Theme from 'config/theme';
 import i18n from 'locales';
 import debounceUI from 'helpers/debounceUI';
@@ -111,12 +112,18 @@ class SetupCountry extends Component {
 
           <View style={styles.selector}>
             <Text style={styles.selectorLabel}>{i18n.t('setupCountry.firstInstruction')}</Text>
-            <SearchSelector
-              selected={this.getCountrySelected(countries, iso)}
-              onOptionSelected={setSetupCountry}
-              data={countries}
-              placeholder={i18n.t('countries.searchPlaceholder')}
-            />
+            <Callout>
+              <SearchSelector
+                selected={this.getCountrySelected(countries, iso)}
+                onOptionSelected={setSetupCountry}
+                data={countries}
+                placeholder={i18n.t('countries.searchPlaceholder')}
+              />
+            </Callout>
+            <Text style={styles.selectorLabel}>{i18n.t('setupCountry.firstInstruction')}</Text>
+            <Text style={styles.selectorLabel}>{i18n.t('setupCountry.firstInstruction')}</Text>
+            <Text style={styles.selectorLabel}>{i18n.t('setupCountry.firstInstruction')}</Text>
+            <Text style={styles.selectorLabel}>{i18n.t('setupCountry.firstInstruction')}</Text>
           </View>
 
           <ActionButton

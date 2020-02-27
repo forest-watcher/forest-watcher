@@ -380,6 +380,8 @@ PODS:
     - React
   - RNI18n (2.0.15):
     - React
+  - RNSVG (11.0.1):
+    - React
   - RNZipArchive (4.1.2):
     - React
     - RNZipArchive/Core (= 4.1.2)
@@ -449,6 +451,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNFirebase (from `../node_modules/react-native-firebase/ios`)
   - RNI18n (from `../node_modules/react-native-i18n`)
+  - RNSVG (from `../node_modules/react-native-svg`)
   - RNZipArchive (from `../node_modules/react-native-zip-archive`)
   - SentryReactNative (from `../node_modules/react-native-sentry`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -568,6 +571,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-firebase/ios"
   RNI18n:
     :path: "../node_modules/react-native-i18n"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   RNZipArchive:
     :path: "../node_modules/react-native-zip-archive"
   SentryReactNative:
@@ -639,6 +644,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 44395cb9c7c1523104c2b499eb426ef7aff82bca
   RNFirebase: ac0de8b24c6f91ae9459575491ed6a77327619c6
   RNI18n: e2f7e76389fcc6e84f2c8733ea89b92502351fd8
+  RNSVG: 67f1f12dae2cef6ed59a42cae74a6b8f5a9e7b46
   RNZipArchive: 2179f7a0755905d68a3b0f2d9332796cca1e7aa4
   Sentry: 4e8a17b61ddd116f89536cc81d567fdee1ebca96
   SentryReactNative: 07237139c00366ea2e75ae3e5c566e7a71c27a90
