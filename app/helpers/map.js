@@ -92,6 +92,9 @@ export function getContextualLayer(layers) {
 
 export function formatCoordsByFormat(coordinates: Coordinates, format: CoordinatesFormat) {
   const { latitude, longitude } = coordinates;
+  if (!latitude || !longitude) {
+    return '';
+  }
   if (format === COORDINATES_FORMATS.utm.value) {
     const utm = new UtmLatLng();
     const utmCoords = utm.convertLatLngToUtm(latitude, longitude, 0);

@@ -16,11 +16,7 @@ import CircleButton from 'components/common/circle-button';
 import MapAttribution from 'components/map/map-attribution';
 import BottomDialog from 'components/map/bottom-dialog';
 import LocationErrorBanner from 'components/map/locationErrorBanner';
-import {
-  formatCoordsByFormat,
-  getMapZoom,
-  getPolygonBoundingBox
-} from 'helpers/map';
+import { formatCoordsByFormat, getMapZoom, getPolygonBoundingBox } from 'helpers/map';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import { LOCATION_TRACKING } from 'config/constants';
@@ -142,6 +138,8 @@ class MapComponent extends Component {
   constructor(props) {
     super(props);
     Navigation.events().bindComponent(this);
+    this.onRegionDidChange = this.onRegionDidChange.bind(this);
+
     this.state = {
       bottomSafeAreaInset: 0,
       userLocation: null,
@@ -162,7 +160,8 @@ class MapComponent extends Component {
       layoutHasForceRefreshed: false,
       routeTrackingDialogState: ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN,
       locationError: null,
-      mapCameraBounds: getPolygonBoundingBox(props.areaCoordinates)
+      mapCameraBounds: getPolygonBoundingBox(props.areaCoordinates),
+      center: null
     };
 
     SafeArea.getSafeAreaInsetsForRootView().then(result => {
@@ -387,6 +386,11 @@ class MapComponent extends Component {
     });
   });
 
+  async onRegionDidChange() {
+    const center = await this.map.getCenter();
+    this.setState({ center });
+  }
+
   showBottomDialog = debounceUI((isExiting = false) => {
     this.setState({
       routeTrackingDialogState: isExiting
@@ -446,15 +450,10 @@ class MapComponent extends Component {
     });
   }, 450);
 
-  onCustomReportingPress = debounceUI(() => {
-    // If the region's latitude & longitude aren't set, we shouldn't enter custom reporting mode!
-    if (!(this.state.region.latitude && this.state.region.longitude)) {
-      return;
-    }
 
+  onCustomReportingPress = debounceUI(() => {
     this.setState(prevState => ({
-      customReporting: true,
-      selectedAlerts: [prevState.region]
+      customReporting: true
     }));
   });
 
@@ -540,22 +539,6 @@ class MapComponent extends Component {
         ]
       }
     });
-  };
-
-  // todo reimplement onMapDragging functionality
-  onRegionChangeComplete = region => {
-    const mapZoom = getMapZoom(region);
-
-    this.setState(
-      prevState => ({
-        region,
-        mapZoom,
-        dragging: false
-      }),
-      () => {
-        this.updateMarkers();
-      }
-    );
   };
 
   updateSelectedArea = () => {
@@ -668,19 +651,15 @@ class MapComponent extends Component {
   }
 
   render() {
-    const { customReporting, selectedAlerts, userLocation } = this.state;
+    const { customReporting, userLocation, center } = this.state;
     const { isConnected, isOfflineMode, route, coordinatesFormat } = this.props;
 
-    let coordinateAndDistanceText = getCoordinateAndDistanceText(
-      selectedAlerts,
-      userLocation,
-      route,
-      coordinatesFormat,
-      this.isRouteTracking()
-    );
+    let coordinateAndDistanceText = customReporting
+      ? getCoordinateAndDistanceText(center, userLocation, route, coordinatesFormat, this.isRouteTracking())
+      : '';
 
     // Map elements
-    const customReportingElement = customReporting ? (
+    const customReportingMarker = customReporting ? (
       <View
         pointerEvents="none"
         style={[styles.customLocationFixed, this.state.dragging ? styles.customLocationTransparent : '']}
@@ -689,14 +668,11 @@ class MapComponent extends Component {
       </View>
     ) : null;
 
-    const containerStyle = this.state.layoutHasForceRefreshed
-      ? [styles.container, styles.forceRefresh]
-      : styles.container;
+    // Displays user location circle on map
+    const userLocationElement = <MapboxGL.UserLocation visible={true} />;
 
-    const userLocationElement =
-        <MapboxGL.UserLocation visible={true} />;
-
-    const mapCameraElement =
+    // Controls view of map (location / zoom)
+    const mapCameraElement = (
       <MapboxGL.Camera
         ref={ref => {
           this.mapCamera = ref;
@@ -704,7 +680,12 @@ class MapComponent extends Component {
         // centerCoordinate={areaCoordinates || undefined}
         bounds={this.state.mapCameraBounds}
         animationDuration={0}
-      />;
+      />
+    );
+
+    const containerStyle = this.state.layoutHasForceRefreshed
+      ? [styles.container, styles.forceRefresh]
+      : styles.container;
 
     return (
       <View style={containerStyle} onMoveShouldSetResponder={this.onMoveShouldSetResponder}>
@@ -719,14 +700,21 @@ class MapComponent extends Component {
             <Text style={styles.coordinateText}>{coordinateAndDistanceText}</Text>
           </SafeAreaView>
         </View>
-        <MapboxGL.MapView style={{ flex: 1 }} styleURL={MapboxGL.StyleURL.SatelliteStreet}>
+        <MapboxGL.MapView
+          ref={ref => {
+            this.map = ref;
+          }}
+          style={{ flex: 1 }}
+          styleURL={MapboxGL.StyleURL.SatelliteStreet}
+          onRegionDidChange={this.onRegionDidChange}
+        >
           {userLocationElement}
           {mapCameraElement}
           {/*mpf todo area polygon*/}
           {/*mpf todo compass line*/}
           {/*mpf todo route markers*/}
         </MapboxGL.MapView>
-        {customReportingElement}
+        {customReportingMarker}
         {this.renderMapFooter()}
         {this.renderRouteTrackingDialog()}
       </View>

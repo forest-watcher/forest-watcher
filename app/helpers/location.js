@@ -332,16 +332,21 @@ export function stopTrackingHeading() {
 /**
  * getCoordinateAndDistanceText - Returns the location and distance text.
  */
-export function getCoordinateAndDistanceText(selectedAlerts, lastPosition, route, coordinatesFormat, isRouteTracking) {
+export function getCoordinateAndDistanceText(
+  destinationCoordinates,
+  lastPosition,
+  route,
+  coordinatesFormat,
+  isRouteTracking
+) {
+  console.log('mpf aaahhhh: ', isRouteTracking, destinationCoordinates);
   if (isRouteTracking) {
     // Show the destination coordinates.
     return getCoordinateText(route.destination, lastPosition, coordinatesFormat);
-  } else if (selectedAlerts && selectedAlerts.length > 0) {
-    // Show the selected alert coordinate.
-    const last = selectedAlerts.length - 1;
+  } else if (destinationCoordinates) {
     const coordinates = {
-      latitude: selectedAlerts[last].latitude,
-      longitude: selectedAlerts[last].longitude
+      latitude: destinationCoordinates[1],
+      longitude: destinationCoordinates[0]
     };
     return getCoordinateText(coordinates, lastPosition, coordinatesFormat);
   } else {
