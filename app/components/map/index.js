@@ -18,7 +18,6 @@ import LocationErrorBanner from 'components/map/locationErrorBanner';
 import { formatCoordsByFormat, getPolygonBoundingBox } from 'helpers/map';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
-import { LOCATION_TRACKING } from 'config/constants';
 import Theme from 'config/theme';
 import i18n from 'i18next';
 import styles from './styles';
@@ -695,7 +694,7 @@ class MapComponent extends Component {
     const { customReporting, userLocation, center } = this.state;
     const { isConnected, isOfflineMode, route, coordinatesFormat } = this.props;
 
-    let coordinateAndDistanceText = customReporting
+    const coordinateAndDistanceText = customReporting
       ? getCoordinateAndDistanceText(center, userLocation, route, coordinatesFormat, this.isRouteTracking())
       : '';
 

@@ -7,7 +7,7 @@ const emitter = require('tiny-emitter/instance');
 import { LOCATION_TRACKING } from 'config/constants';
 import FWError from 'helpers/fwError';
 import { formatCoordsByFormat, formatDistance, getDistanceOfLine } from 'helpers/map';
-import i18n from 'locales';
+import i18n from 'i18next';
 
 export const GFWLocationAuthorizedAlways = BackgroundGeolocation.AUTHORIZED;
 export const GFWLocationAuthorizedInUse = BackgroundGeolocation.AUTHORIZED_FOREGROUND;
@@ -361,7 +361,7 @@ function getCoordinateText(targetLocation, currentLocation, coordinatesFormat) {
 
 // [1, 2] -> {latitude: 2, longitude: 1}
 export function coordsArrayToObject(coord) {
-  return {latitude: coord[1], longitude: coord[0]};
+  return { latitude: coord[1], longitude: coord[0] };
 }
 // {latitude: 2, longitude: 1} -> [1, 2]
 export function coordsObjectToArray(coord) {
