@@ -6,6 +6,6 @@ export default StyleSheet.create({
     ...Theme.tableRow
   },
   topIcon: {
-  	alignSelf: 'flex-start'
+    alignSelf: 'flex-start'
   }
 });

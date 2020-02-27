@@ -12,6 +12,7 @@ import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.forestwatcher.intents.IntentsPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
+import com.mapbox.rctmgl.RCTMGLPackage;
 import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
 import com.reactlibrary.RNSimpleCompassPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
@@ -83,7 +84,8 @@ public class MainApplication extends NavigationApplication {
       new BackgroundGeolocationPackage(),
       new IntentsPackage(),
       new AsyncStoragePackage(),
-      new NetInfoPackage()
+      new NetInfoPackage(),
+      new RCTMGLPackage()
     );
   }
 

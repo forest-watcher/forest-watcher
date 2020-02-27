@@ -26,7 +26,8 @@ import {
   formatDistance,
   getDistanceOfLine,
   getMapZoom,
-  getNeighboursSelected
+  getNeighboursSelected,
+  getPolygonBoundingBox
 } from 'helpers/map';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
@@ -37,6 +38,7 @@ import i18n from 'locales';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
+import MapboxGL from '@react-native-mapbox-gl/maps';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
@@ -167,7 +169,8 @@ class MapComponent extends Component {
       dragging: false,
       layoutHasForceRefreshed: false,
       routeTrackingDialogState: ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN,
-      locationError: null
+      locationError: null,
+      mapCameraBounds: getPolygonBoundingBox(props.areaCoordinates)
     };
 
     SafeArea.getSafeAreaInsetsForRootView().then(result => {
@@ -444,7 +447,9 @@ class MapComponent extends Component {
       const state = {
         heading: parseInt(heading, 10)
       };
-      if (!prevState.hasCompass) state.hasCompass = true;
+      if (!prevState.hasCompass) {
+        state.hasCompass = true;
+      }
       return state;
     });
   }, 450);
@@ -539,24 +544,16 @@ class MapComponent extends Component {
     }
   }, 300);
 
-  fitPosition = debounceUI(() => {
-    const { lastPosition, selectedAlerts } = this.state;
+  // Zoom map to user location
+  zoomToUserLocation = debounceUI(() => {
+    const { lastPosition } = this.state;
     if (lastPosition) {
-      const options = { edgePadding: { top: 150, right: 30, bottom: 210, left: 30 }, animated: true };
-      const coordinates = [lastPosition];
-      if (selectedAlerts.length) {
-        let selected = selectedAlerts[selectedAlerts.length - 1];
-        if (this.state.customReporting) {
-          selected = selectedAlerts[0];
-          const oposite = {
-            latitude: selected.latitude - lastPosition.latitude + selected.latitude,
-            longitude: selected.longitude - lastPosition.longitude + selected.longitude
-          };
-          coordinates.push(oposite);
-        }
-        coordinates.push(selected);
-      }
-      this.map.fitToCoordinates(coordinates, options);
+      // todo: do we want to includes selected alert on zoomToUserLocation?
+      this.mapCamera.setCamera({
+        centerCoordinate: [lastPosition.longitude, lastPosition.latitude],
+        zoomLevel: 16,
+        animationDuration: 2000
+      });
     }
   });
 
@@ -756,7 +753,7 @@ class MapComponent extends Component {
             <CircleButton shouldFillContainer onPress={this.onCustomReportingPress} icon={addLocationIcon} />
           )}
           {lastPosition ? (
-            <CircleButton shouldFillContainer onPress={this.fitPosition} light icon={myLocationIcon} />
+            <CircleButton shouldFillContainer onPress={this.zoomToUserLocation} light icon={myLocationIcon} />
           ) : null}
           {canReport ? (
             <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
@@ -780,7 +777,9 @@ class MapComponent extends Component {
 
     const hasNeighbours = neighbours && neighbours.length > 0;
     let veilHeight = 120;
-    if (hasAlertsSelected) veilHeight = hasNeighbours ? 260 : 180;
+    if (hasAlertsSelected) {
+      veilHeight = hasNeighbours ? 260 : 180;
+    }
 
     return [
       <View key="bg" pointerEvents="none" style={[styles.footerBGContainer, { height: veilHeight }]}>
@@ -976,6 +975,19 @@ class MapComponent extends Component {
       ? [styles.container, styles.forceRefresh]
       : styles.container;
 
+    const userLocationElement =
+        <MapboxGL.UserLocation visible={true} />;
+
+    const mapCameraElement =
+      <MapboxGL.Camera
+        ref={ref => {
+          this.mapCamera = ref;
+        }}
+        // centerCoordinate={areaCoordinates || undefined}
+        bounds={this.state.mapCameraBounds}
+        animationDuration={0}
+      />;
+
     return (
       <View style={containerStyle} onMoveShouldSetResponder={this.onMoveShouldSetResponder}>
         <View pointerEvents="none" style={styles.header}>
@@ -989,6 +1001,7 @@ class MapComponent extends Component {
             <Text style={styles.coordinateText}>{this.getCoordinateAndDistanceText()}</Text>
           </SafeAreaView>
         </View>
+        {/*
         <MapView
           ref={ref => {
             this.map = ref;
@@ -1020,6 +1033,11 @@ class MapComponent extends Component {
           {userPositionElement}
           {compassElement}
         </MapView>
+        */}
+        <MapboxGL.MapView style={{ flex: 1 }} styleURL={MapboxGL.StyleURL.SatelliteStreet}>
+          {userLocationElement}
+          {mapCameraElement}
+        </MapboxGL.MapView>
         {customReportingElement}
         {this.renderMapFooter()}
         {this.renderRouteTrackingDialog()}

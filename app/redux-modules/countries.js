@@ -62,6 +62,8 @@ function getCountries(): CountriesAction {
 export function syncCountries() {
   return (dispatch: Dispatch, state: GetState) => {
     const { countries } = state();
-    if (!countries.synced && !countries.syncing) dispatch(getCountries());
+    if (!countries.synced && !countries.syncing) {
+      dispatch(getCountries());
+    }
   };
 }

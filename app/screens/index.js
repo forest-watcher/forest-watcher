@@ -14,6 +14,7 @@ import Map from 'containers/map';
 import Settings from 'containers/settings';
 import ContactUs from 'components/settings/contact-us';
 import Reports from 'containers/reports';
+import Routes from 'containers/routes';
 import NewReport from 'containers/form/form';
 import AreaDetail from 'containers/areas/area-detail';
 import Partners from 'components/settings/partners';
@@ -31,7 +32,7 @@ import SaveRoute from '../containers/routes/save-route';
 function registerComponent(name, Screen, Provider, store) {
   Navigation.registerComponent(
     name,
-    () => (props) => (
+    () => props => (
       <Provider store={store}>
         <SafeAreaProvider>
           <Screen {...props} />
@@ -58,7 +59,7 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.NewReport', NewReport, Provider, store);
   registerComponent('ForestWatcher.AreaDetail', AreaDetail, Provider, store);
   registerComponent('ForestWatcher.Partners', Partners, Provider, store);
-  registerComponent('ForestWatcher.TermsAndConditions',  TermsAndConditions, Provider, store);
+  registerComponent('ForestWatcher.TermsAndConditions', TermsAndConditions, Provider, store);
   registerComponent('ForestWatcher.FaqList', FaqList, Provider, store);
   registerComponent('ForestWatcher.FaqDetail', FaqDetail, Provider, store);
   registerComponent('ForestWatcher.Sync', Sync, Provider, store);
@@ -66,6 +67,7 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.RightDrawer', RightDrawer, Provider, store);
   registerComponent('ForestWatcher.ErrorLightbox', ErrorLightbox, Provider, store);
   registerComponent('ForestWatcher.ToastNotification', ToastNotification, Provider, store);
+  registerComponent('ForestWatcher.Routes', Routes, Provider, store);
   registerComponent('ForestWatcher.RouteDetail', RouteDetail, Provider, store);
   registerComponent('ForestWatcher.SaveRoute', SaveRoute, Provider, store);
 }

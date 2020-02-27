@@ -42,7 +42,9 @@ class AlertSystem extends React.PureComponent<Props> {
     const { setAreaDatasetStatus, updateDate, area, showLegend } = this.props;
     const { datasets, id } = area || {};
 
-    if (!datasets) return AlertSystem.renderLoadingState();
+    if (!datasets) {
+      return AlertSystem.renderLoadingState();
+    }
     if (typeof datasets === 'undefined' || datasets.length === 0) {
       return AlertSystem.renderNoAlerts();
     }
@@ -53,6 +55,7 @@ class AlertSystem extends React.PureComponent<Props> {
             <View key={i}>
               <Row
                 value={dataset.active}
+                rowStyle={{ marginBottom: 0 }}
                 switchColorOn={showLegend && ALERTS_COLOR[dataset.slug]}
                 onValueChange={value => setAreaDatasetStatus(id, dataset.slug, value)}
               >

@@ -16,6 +16,8 @@ import debounceUI from 'helpers/debounceUI';
 import { formatCoordsByFormat, formatDistance, getDistanceOfPolyline } from 'helpers/map';
 import RoutePreviewImage from '../preview-image';
 
+const closeIcon = require('assets/close.png');
+
 type Props = {
   componentId: string,
   coordinatesFormat: string,
@@ -25,15 +27,40 @@ type Props = {
   route: Route
 };
 
-class RouteDetail extends PureComponent<Props> {
+export default class RouteDetail extends PureComponent<Props> {
   static options(passProps) {
     return {
       topBar: {
         title: {
           text: passProps.routeName
-        }
+        },
+        leftButtons: [
+          {
+            id: 'backButton',
+            text: i18n.t('commonText.cancel'),
+            icon: Platform.select({
+              android: closeIcon
+            })
+          }
+        ]
       }
     };
+  }
+
+  constructor(props: Props) {
+    super(props);
+    Navigation.events().bindComponent(this);
+  }
+
+  /**
+   * navigationButtonPressed - Handles events from the back button on the modal nav bar.
+   *
+   * @param  {type} { buttonId } The component ID for the button.
+   */
+  navigationButtonPressed({ buttonId }) {
+    if (buttonId === 'backButton') {
+      Navigation.dismissModal(this.props.componentId);
+    }
   }
 
   openRouteOnMap = debounceUI(() => {
@@ -65,7 +92,7 @@ class RouteDetail extends PureComponent<Props> {
         text: i18n.t('commonText.confirm'),
         onPress: () => {
           this.props.deleteRoute();
-          Navigation.pop(this.props.componentId);
+          Navigation.dismissModal(this.props.componentId);
         }
       },
       {
@@ -234,5 +261,3 @@ class RouteDetail extends PureComponent<Props> {
     );
   }
 }
-
-export default RouteDetail;

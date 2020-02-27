@@ -11,7 +11,9 @@ const nextIcon = require('assets/next.png');
 
 function RouteList(props) {
   const { routes, onRoutePress } = props;
-  if (!routes) return null;
+  if (!routes) {
+    return null;
+  }
 
   return (
     <View>

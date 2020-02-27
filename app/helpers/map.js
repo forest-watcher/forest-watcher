@@ -84,7 +84,9 @@ export function pointsToGeoJSON(points: Array<Alert>, slug: string) {
 }
 
 export function getContextualLayer(layers) {
-  if (!layers.activeLayer) return null;
+  if (!layers.activeLayer) {
+    return null;
+  }
   return layers.data.find(layer => layer.id === layers.activeLayer);
 }
 
@@ -103,7 +105,9 @@ export function formatCoordsByFormat(coordinates: Coordinates, format: Coordinat
 }
 
 export function getMapZoom(region) {
-  if (!region.longitude || !region.latitude) return 0;
+  if (!region.longitude || !region.latitude) {
+    return 0;
+  }
   const bounds = [
     region.longitude - region.longitudeDelta / 2.5,
     region.latitude - region.latitudeDelta / 2.5,
@@ -115,7 +119,9 @@ export function getMapZoom(region) {
 }
 
 function pointsFromCluster(cluster) {
-  if (!cluster || !cluster.length > 0) return [];
+  if (!cluster || !cluster.length > 0) {
+    return [];
+  }
   return cluster
     .filter(marker => marker.properties.point_count === undefined)
     .map(feature => ({
@@ -190,14 +196,44 @@ export function getDistanceOfPolyline(locations) {
  * @return {string}
  */
 export function formatDistance(distance, thresholdBeforeKm = 1, relativeToUser = true) {
-  let distanceText = `${distance.toFixed(0)} ${
+  let distanceText = `${distance.toFixed(0)}${
     relativeToUser ? i18n.t('commonText.metersAway') : i18n.t('commonText.meters')
   }`;
 
   if (thresholdBeforeKm && distance >= thresholdBeforeKm * 1000) {
     distance = (distance / 1000).toFixed(1); // in Kilometers
-    distanceText = `${distance} ${relativeToUser ? i18n.t('commonText.kmAway') : i18n.t('commonText.kilometers')}`;
+    distanceText = `${distance}${relativeToUser ? i18n.t('commonText.kmAway') : i18n.t('commonText.kilometers')}`;
   }
 
   return distanceText;
+}
+
+/**
+ * returns bounding box for any given polygon (lat,lng array)
+ * @param polygon [{latitude: *, longitude: *}, ...]
+ * @returns {{sw: [*, *], ne: [*, *]}}
+ */
+export function getPolygonBoundingBox(polygon) {
+  let bounds = {},
+    latitude,
+    longitude;
+
+  if (polygon.length === 0) {
+    return undefined;
+  }
+
+  for (let i = 0; i < polygon.length; i++) {
+    longitude = polygon[i].latitude;
+    latitude = polygon[i].longitude;
+    bounds.longMin = bounds.longMin < longitude ? bounds.longMin : longitude;
+    bounds.longMax = bounds.longMax > longitude ? bounds.longMax : longitude;
+    bounds.latMin = bounds.latMin < latitude ? bounds.latMin : latitude;
+    bounds.latMax = bounds.latMax > latitude ? bounds.latMax : latitude;
+  }
+
+  let boundingBox = {
+    ne: [bounds.latMin, bounds.longMin],
+    sw: [bounds.latMax, bounds.longMax]
+  };
+  return boundingBox;
 }

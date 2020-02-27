@@ -29,7 +29,7 @@ type Props = {
   logout: () => void,
   isUnsafeLogout: boolean,
   setOfflineMode: () => void,
-  offlineMode: boolean,
+  offlineMode: boolean
 };
 
 export default class Settings extends Component<Props> {
@@ -79,7 +79,7 @@ export default class Settings extends Component<Props> {
     this.shareAction = {
       callback: this.onPressShare,
       icon: nextIcon
-    }
+    };
 
     this.customLayersAction = {
       callback: this.onPressCustomLayers,
@@ -91,9 +91,7 @@ export default class Settings extends Component<Props> {
     };
   }
 
-  onPressShare() {
-
-  }
+  onPressShare() {}
 
   onPressCustomLayers = debounceUI( () => {
     Navigation.push(this.props.componentId, {
@@ -102,6 +100,10 @@ export default class Settings extends Component<Props> {
       }
     });
   });
+
+  onPressShare() {}
+
+  onPressCustomLayers() {}
 
   componentDidMount() {
     tracker.trackScreenView('Settings');
@@ -121,7 +123,9 @@ export default class Settings extends Component<Props> {
           style: 'cancel'
         }
       ]);
-    } else proceedWithLogout();
+    } else {
+      proceedWithLogout();
+    }
   });
 
   handleStaticLinks = debounceUI((section: string, text: string) => {
@@ -177,18 +181,18 @@ export default class Settings extends Component<Props> {
             </TouchableHighlight>
           </Row>
           <Text style={styles.label}>{i18n.t('settings.coordinatesFormat')}</Text>
-          <CoordinatesDropdown/>
+          <CoordinatesDropdown />
           <View style={styles.offlineMode}>
             <Row value={offlineMode} onValueChange={setOfflineMode}>
               <Text style={[styles.rowLabel, { marginLeft: 0 }]}>{i18n.t('settings.offlineMode')}</Text>
             </Row>
           </View>
           <Row action={this.customLayersAction} rowStyle={styles.noMarginsRow} style={styles.row}>
-            <Image style={styles.rowIcon} source={layersIcon}/>
+            <Image style={styles.rowIcon} source={layersIcon} />
             <Text style={styles.rowLabel}>{i18n.t('settings.customLayers')}</Text>
           </Row>
           <Row action={this.shareAction} rowStyle={styles.noMarginsRow} style={styles.row}>
-            <Image style={styles.rowIcon} source={shareIcon}/>
+            <Image style={styles.rowIcon} source={shareIcon} />
             <Text style={styles.rowLabel}>{i18n.t('settings.shareData')}</Text>
           </Row>
           <View style={styles.aboutSection}>

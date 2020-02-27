@@ -4,7 +4,7 @@ import Theme from 'config/theme';
 import { hexToRgb } from 'helpers/utils';
 
 export const AREAS = {
-  maxSize: 1500000000, // square meters
+  maxSize: 20000000000, // square meters
   alertRange: {
     // days from to get data
     viirs: 7,

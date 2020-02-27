@@ -12,7 +12,9 @@ const searchImage = require('assets/search.png');
 const closeImage = require('assets/close.png');
 
 function getFilteredData(data, filter) {
-  if (!filter) return data;
+  if (!filter) {
+    return data;
+  }
   const filterUpper = deburr(filter.toUpperCase());
   return data.filter(item => deburr(item.name.toUpperCase()).indexOf(filterUpper) > -1);
 }
