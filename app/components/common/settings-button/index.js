@@ -26,7 +26,7 @@ class SettingsButton extends Component<Props> {
 
     return (
       <Touchable
-        style={[styles.container, this.props.style]}
+        style={[styles.container, this.props.style, this.props.disabled ? styles.disabled : {}]}
         onPress={onPress}
         background={Platform.select({
           android: TouchableNativeFeedback.Ripple(underlayColor),

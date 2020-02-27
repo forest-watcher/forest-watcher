@@ -35,7 +35,9 @@ export const setI18nConfig = () => {
   i18n.init({
     fallbackLng: 'en',
     interpolation: {
-      escapeValue: false // react already safes from xss
+      escapeValue: false, // react already safes from xss
+      prefix: '%{',
+      suffix: '}'
     },
     lng: languageTag,
     resources: {

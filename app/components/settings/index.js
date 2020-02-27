@@ -89,6 +89,14 @@ export default class Settings extends Component<Props> {
     };
   }
 
+  onPressCustomLayers = debounceUI(() => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.CustomComponents'
+      }
+    });
+  });
+
   onPressShare() {}
 
   onPressCustomLayers() {}
