@@ -565,7 +565,7 @@ class MapComponent extends Component {
 
   renderRoutePath = () => {
     const coords = this.props.route?.locations?.map(coord => coordsObjectToArray(coord));
-    if (!coords) {
+    if (!coords || coords.length < 2) {
       return null;
     }
     const line = MapboxGL.geoUtils.makeLineString(coords);

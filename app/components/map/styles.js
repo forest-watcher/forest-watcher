@@ -173,12 +173,14 @@ export const mapboxStyles = {
     circleColor: Theme.colors.turtleGreen
   },
   destinationLine: {
-    lineColor: 'white',
+    lineColor: Theme.colors.white,
     lineWidth: 3,
     lineOpacity: 0.8
   },
   areaOutline: {
     lineColor: Theme.colors.turtleGreen,
+    lineCap: MapboxGL.LineJoin.Round,
+    lineJoin: MapboxGL.LineJoin.Round,
     lineWidth: 3,
     lineOpacity: 0.8
   }
