@@ -77,7 +77,7 @@ export function getContextualLayer(layers) {
 export function formatCoordsByFormat(coordinates: Coordinates, format: CoordinatesFormat) {
   const { latitude, longitude } = coordinates;
   // return if coordinates are not numbers
-  if (!isNaN(Number.parseFloat(latitude)) || !isNaN(Number.parseFloat(longitude))) {
+  if (isNaN(Number.parseFloat(latitude)) || isNaN(Number.parseFloat(longitude))) {
     return '';
   }
   if (format === COORDINATES_FORMATS.utm.value) {
@@ -85,7 +85,7 @@ export function formatCoordsByFormat(coordinates: Coordinates, format: Coordinat
     const utmCoords = utm.convertLatLngToUtm(latitude, longitude, 0);
     return `${utmCoords.ZoneNumber} ${utmCoords.ZoneLetter}, ${utmCoords.Easting} E ${utmCoords.Northing} N`;
   } else if (format === COORDINATES_FORMATS.decimal.value) {
-    return `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+    return `${latitude?.toFixed(4)}, ${longitude?.toFixed(4)}`;
   } else {
     // Not utm, not decimal... has to be degrees
     return formatcoords(latitude, longitude).format('FFf', { latLonSeparator: ', ', decimalPlaces: 2 });
@@ -203,7 +203,7 @@ export function getPolygonBoundingBox(polygon) {
   let latitude;
   let longitude;
 
-  if (polygon.length === 0) {
+  if (polygon && polygon.length === 0) {
     return undefined;
   }
 

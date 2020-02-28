@@ -580,7 +580,7 @@ class MapComponent extends Component {
 
   // Draw area polygon
   renderAreaOutline = () => {
-    const coords = this.props.areaCoordinates.map(coord => coordsObjectToArray(coord));
+    const coords = this.props.areaCoordinates?.map(coord => coordsObjectToArray(coord));
     const line = MapboxGL.geoUtils.makeLineString(coords);
     return (
       <MapboxGL.ShapeSource id="areaOutline" shape={line}>

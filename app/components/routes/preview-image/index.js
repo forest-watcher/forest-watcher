@@ -20,11 +20,14 @@ export default class RoutePreviewImage extends PureComponent<Props> {
     let minLongitude = Infinity;
     let maxLongitude = -Infinity;
 
-    if (!route.locations) {
+    if (!route.locations || route.locations.length === 0) {
       return null;
     }
 
     [...route.locations, route.destination].forEach(location => {
+      if (isNaN(Number.parseFloat(location.latitude)) || isNaN(Number.parseFloat(location.longitude))) {
+        return;
+      }
       if (location.latitude < minLatitude) {
         minLatitude = location.latitude;
       }
