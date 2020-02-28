@@ -7,10 +7,7 @@ PODS:
   - AppAuth/Core (1.2.0)
   - AppAuth/ExternalUserAgent (1.2.0)
   - boost-for-react-native (1.63.0)
-  - Crashlytics (3.14.0):
-    - Fabric (~> 1.10.2)
   - DoubleConversion (1.1.6)
-  - Fabric (1.10.2)
   - FBLazyVector (0.61.5)
   - FBReactNativeSpec (0.61.5):
     - Folly (= 2018.10.22.00)
@@ -33,23 +30,32 @@ PODS:
     - FBSDKShareKit/Share (= 5.8.0)
   - FBSDKShareKit/Share (5.8.0):
     - FBSDKCoreKit (~> 5.0)
-  - Firebase/Core (6.3.0):
+  - Firebase/Core (6.13.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 6.0.2)
-  - Firebase/CoreOnly (6.3.0):
-    - FirebaseCore (= 6.0.3)
-  - FirebaseAnalytics (6.0.2):
-    - FirebaseCore (~> 6.0)
+    - FirebaseAnalytics (= 6.1.6)
+  - Firebase/CoreOnly (6.13.0):
+    - FirebaseCore (= 6.4.0)
+  - FirebaseAnalytics (6.1.6):
+    - FirebaseCore (~> 6.4)
     - FirebaseInstanceID (~> 4.2)
-    - GoogleAppMeasurement (= 6.0.2)
+    - GoogleAppMeasurement (= 6.1.6)
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
-    - nanopb (~> 0.3)
-  - FirebaseCore (6.0.3):
-    - GoogleUtilities/Environment (~> 6.0)
-    - GoogleUtilities/Logger (~> 6.0)
+    - nanopb (= 0.3.9011)
+  - FirebaseCore (6.4.0):
+    - FirebaseCoreDiagnostics (~> 1.0)
+    - FirebaseCoreDiagnosticsInterop (~> 1.0)
+    - GoogleUtilities/Environment (~> 6.2)
+    - GoogleUtilities/Logger (~> 6.2)
+  - FirebaseCoreDiagnostics (1.2.1):
+    - FirebaseCoreDiagnosticsInterop (~> 1.2)
+    - GoogleDataTransportCCTSupport (~> 1.3)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GoogleUtilities/Logger (~> 6.5)
+    - nanopb (~> 0.3.901)
+  - FirebaseCoreDiagnosticsInterop (1.2.0)
   - FirebaseInstanceID (4.2.7):
     - FirebaseCore (~> 6.0)
     - GoogleUtilities/Environment (~> 6.0)
@@ -63,9 +69,6 @@ PODS:
     - boost-for-react-native
     - DoubleConversion
     - glog
-  - GCDWebServer (3.5.3):
-    - GCDWebServer/Core (= 3.5.3)
-  - GCDWebServer/Core (3.5.3)
   - glog (0.3.5)
   - Google-Maps-iOS-Utils (2.1.0):
     - Google-Maps-iOS-Utils/Clustering (= 2.1.0)
@@ -83,16 +86,20 @@ PODS:
     - GoogleMaps
   - Google-Maps-iOS-Utils/QuadTree (2.1.0):
     - GoogleMaps
-  - GoogleAppMeasurement (6.0.2):
+  - GoogleAppMeasurement (6.1.6):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
-    - nanopb (~> 0.3)
-  - GoogleMaps (2.5.0):
-    - GoogleMaps/Maps (= 2.5.0)
-  - GoogleMaps/Base (2.5.0)
-  - GoogleMaps/Maps (2.5.0):
+    - nanopb (= 0.3.9011)
+  - GoogleDataTransport (4.0.1)
+  - GoogleDataTransportCCTSupport (1.4.1):
+    - GoogleDataTransport (~> 4.0)
+    - nanopb (~> 0.3.901)
+  - GoogleMaps (3.2.0):
+    - GoogleMaps/Maps (= 3.2.0)
+  - GoogleMaps/Base (3.2.0)
+  - GoogleMaps/Maps (3.2.0):
     - GoogleMaps/Base
   - GoogleUtilities/AppDelegateSwizzler (6.5.1):
     - GoogleUtilities/Environment
@@ -112,9 +119,9 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.5.1):
     - GoogleUtilities/Logger
-  - lottie-ios (2.5.0)
-  - lottie-react-native (2.5.10):
-    - lottie-ios
+  - lottie-ios (3.1.6)
+  - lottie-react-native (3.3.2):
+    - lottie-ios (~> 3.1.3)
     - React
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
@@ -284,7 +291,7 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
   - React-jsinspector (0.61.5)
-  - react-native-app-auth (5.0.0):
+  - react-native-app-auth (5.0.2):
     - AppAuth (= 1.2.0)
     - React
   - react-native-config (0.12.0):
@@ -305,23 +312,23 @@ PODS:
   - react-native-fbsdk/Share (1.1.1):
     - FBSDKShareKit (= 5.8)
     - React
-  - react-native-google-maps (0.22.1):
+  - react-native-google-maps (0.26.1):
     - Google-Maps-iOS-Utils (= 2.1.0)
-    - GoogleMaps (= 2.5.0)
+    - GoogleMaps (= 3.2.0)
     - React
-  - react-native-image-picker (0.28.1):
+  - react-native-image-picker (2.3.0):
     - React
-  - react-native-maps (0.22.1):
+  - react-native-mapbox-gl (7.0.8):
     - React
-  - react-native-netinfo (5.3.3):
+  - react-native-maps (0.26.1):
+    - React
+  - react-native-netinfo (5.5.1):
     - React
   - react-native-safe-area (0.5.1):
     - React
   - react-native-safe-area-context (0.7.2):
     - React
-  - react-native-simple-compass (1.0.0):
-    - React
-  - react-native-webview (5.8.1):
+  - react-native-webview (8.1.0):
     - React
   - React-RCTActionSheet (0.61.5):
     - React-Core/RCTActionSheetHeaders (= 0.61.5)
@@ -358,39 +365,36 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
     - ReactCommon/jscallinvoker (= 0.61.5)
-  - ReactNativeNavigation (3.7.0):
+  - ReactNativeNavigation (6.0.1):
     - React
-  - RealmJS (3.6.0):
-    - GCDWebServer
-    - React
+    - React-RCTImage
+    - React-RCTText
   - rn-fetch-blob (0.12.0):
     - React-Core
-  - RNCAsyncStorage (1.7.1):
+  - RNCAsyncStorage (1.8.0):
     - React
-  - RNFirebase (5.5.6):
-    - Firebase/Core
+  - RNFBAnalytics (6.3.4):
+    - Firebase/Core (~> 6.13.0)
     - React
-    - RNFirebase/Crashlytics (= 5.5.6)
-  - RNFirebase/Crashlytics (5.5.6):
-    - Crashlytics
-    - Fabric
-    - Firebase/Core
+    - RNFBApp
+  - RNFBApp (6.3.4):
+    - Firebase/Core (~> 6.13.0)
     - React
-  - RNI18n (2.0.15):
+  - RNLocalize (1.3.3):
     - React
-  - RNZipArchive (4.1.2):
+  - RNSentry (1.3.2):
     - React
-    - RNZipArchive/Core (= 4.1.2)
+    - Sentry (~> 4.4.0)
+  - RNZipArchive (5.0.1):
+    - React
+    - RNZipArchive/Core (= 5.0.1)
     - SSZipArchive (= 2.2.2)
-  - RNZipArchive/Core (4.1.2):
+  - RNZipArchive/Core (5.0.1):
     - React
     - SSZipArchive (= 2.2.2)
-  - Sentry (4.1.3):
-    - Sentry/Core (= 4.1.3)
-  - Sentry/Core (4.1.3)
-  - SentryReactNative (0.43.2):
-    - React
-    - Sentry (~> 4.1.3)
+  - Sentry (4.4.3):
+    - Sentry/Core (= 4.4.3)
+  - Sentry/Core (4.4.3)
   - SSZipArchive (2.2.2)
   - Yoga (1.14.0)
 
@@ -399,11 +403,10 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
-  - Firebase/Core (= 6.3.0)
+  - Firebase/Core (= 6.13.0)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - Google-Maps-iOS-Utils (= 2.1.0)
-  - GoogleMaps (= 2.5.0)
   - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
@@ -423,11 +426,11 @@ DEPENDENCIES:
   - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
   - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - "react-native-mapbox-gl (from `../node_modules/@react-native-mapbox-gl/maps`)"
   - react-native-maps (from `../node_modules/react-native-maps`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-safe-area (from `../node_modules/react-native-safe-area`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
-  - react-native-simple-compass (from `../node_modules/react-native-simple-compass`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -441,31 +444,32 @@ DEPENDENCIES:
   - ReactCommon/jscallinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeNavigation (from `../node_modules/react-native-navigation`)
-  - RealmJS (from `../node_modules/realm`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
-  - RNFirebase (from `../node_modules/react-native-firebase/ios`)
-  - RNI18n (from `../node_modules/react-native-i18n`)
+  - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
+  - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
+  - RNLocalize (from `../node_modules/react-native-localize`)
+  - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNZipArchive (from `../node_modules/react-native-zip-archive`)
-  - SentryReactNative (from `../node_modules/react-native-sentry`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AppAuth
     - boost-for-react-native
-    - Crashlytics
-    - Fabric
     - FBSDKCoreKit
     - FBSDKLoginKit
     - FBSDKShareKit
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
+    - FirebaseCoreDiagnostics
+    - FirebaseCoreDiagnosticsInterop
     - FirebaseInstanceID
-    - GCDWebServer
     - Google-Maps-iOS-Utils
     - GoogleAppMeasurement
+    - GoogleDataTransport
+    - GoogleDataTransportCCTSupport
     - GoogleMaps
     - GoogleUtilities
     - nanopb
@@ -519,6 +523,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-maps"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-mapbox-gl:
+    :path: "../node_modules/@react-native-mapbox-gl/maps"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
   react-native-netinfo:
@@ -527,8 +533,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-safe-area"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
-  react-native-simple-compass:
-    :path: "../node_modules/react-native-simple-compass"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-RCTActionSheet:
@@ -553,20 +557,20 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   ReactNativeNavigation:
     :path: "../node_modules/react-native-navigation"
-  RealmJS:
-    :path: "../node_modules/realm"
   rn-fetch-blob:
     :path: "../node_modules/rn-fetch-blob"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
-  RNFirebase:
-    :path: "../node_modules/react-native-firebase/ios"
-  RNI18n:
-    :path: "../node_modules/react-native-i18n"
+  RNFBAnalytics:
+    :path: "../node_modules/@react-native-firebase/analytics"
+  RNFBApp:
+    :path: "../node_modules/@react-native-firebase/app"
+  RNLocalize:
+    :path: "../node_modules/react-native-localize"
+  RNSentry:
+    :path: "../node_modules/@sentry/react-native"
   RNZipArchive:
     :path: "../node_modules/react-native-zip-archive"
-  SentryReactNative:
-    :path: "../node_modules/react-native-sentry"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -574,27 +578,28 @@ SPEC CHECKSUMS:
   "@mauron85_react-native-background-geolocation": fa34ab82e94212be16ef6e75c32bcb707b0a1524
   AppAuth: bce82c76043657c99d91e7882e8a9e1a93650cd4
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
-  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   FBLazyVector: aaeaf388755e4f29cd74acbc9e3b8da6d807c37f
   FBReactNativeSpec: 118d0d177724c2d67f08a59136eb29ef5943ec75
   FBSDKCoreKit: e7dcac0aabcfb09d0166998edd95fe3b05a0ce5d
   FBSDKLoginKit: 1b0cf04df0370b37404213157b060d6666ede814
   FBSDKShareKit: abc29e1bb4f9f59f679adf1ae191006d68455f96
-  Firebase: 8432d732974498afd5987e9001a05f90f1a3d625
-  FirebaseAnalytics: 470ddab7253b21ad5a40bebd4a9903d7ae19386a
-  FirebaseCore: 68f8a7f50cdae542715d4e86afa37c4067217dcb
+  Firebase: 458d109512200d1aca2e1b9b6cf7d68a869a4a46
+  FirebaseAnalytics: 45f36d9c429fc91d206283900ab75390cd05ee8a
+  FirebaseCore: 307ea2508df730c5865334e41965bd9ea344b0e5
+  FirebaseCoreDiagnostics: 2109d10c35e8289b1ee6cabf44d9ffb055620194
+  FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
   FirebaseInstanceID: ebd2ea79ee38db0cb5f5167b17a0d387e1cc7b6e
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
-  GCDWebServer: c0ab22c73e1b84f358d1e2f74bf6afd1c60829f2
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
-  GoogleAppMeasurement: a35a645835bae31b6bdc0576396bc23908f12a22
-  GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
+  GoogleAppMeasurement: dfe55efa543e899d906309eaaac6ca26d249862f
+  GoogleDataTransport: 653963cf5be60fb59cf051e070f0836fdc305f81
+  GoogleDataTransportCCTSupport: 84e4d4bbab642f2e9d83ee65d78aca2b5527d314
+  GoogleMaps: 5046d7edfe381c1a0b20fdaf293915a375c3122b
   GoogleUtilities: 06eb53bb579efe7099152735900dd04bf09e7275
-  lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
-  lottie-react-native: 589b0df6fcae154b46d96e7dd5b36c29e8be970e
+  lottie-ios: d0415b048a01909fced8bbd4bcbc8bcc37c93593
+  lottie-react-native: 4c10f3ee16a18baf827fe722f9bf6c7cbc34a3b5
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
   RCTTypeSafety: 9aa1b91d7f9310fc6eadc3cf95126ffe818af320
@@ -605,18 +610,18 @@ SPEC CHECKSUMS:
   React-jsi: cb2cd74d7ccf4cffb071a46833613edc79cdf8f7
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
-  react-native-app-auth: 8c449657316913fc6b0a83c2bda80e3737eea1bc
+  react-native-app-auth: 4c68449fc2134de4db18b0247844770a7a958146
   react-native-config: f2c2ae45625a068c35681a16b9bfb1ca58b0adc7
   react-native-cookies: a16310bb64240b95dd9531de2b19c267f76fc320
   react-native-fbsdk: b94a83971c496a35803f38b921aec6d637ba07b5
-  react-native-google-maps: 06d7adbb45aafbad5fd151f9e6f6856f546d7f58
-  react-native-image-picker: fd93361c666f397bdf72f9c6c23f13d2685b9173
-  react-native-maps: 5a3de82c153db99e5ac939cb2ed576f245514016
-  react-native-netinfo: 8884d510fe67349940b4399c01db3e3591c922aa
+  react-native-google-maps: 2e2e697dab576abd5809d78cd74e775865b62bf7
+  react-native-image-picker: c8a4faf0e75ef3619f215463394388f1c222236b
+  react-native-mapbox-gl: fcd88e2bf0ddea552b0209cc2770a5ac2b9c9910
+  react-native-maps: 6e499eee4eabf422ba8b6f94e993cc768bf35153
+  react-native-netinfo: 3bf235d94cc291cf0673ad9fd9eaae82f84ed8a9
   react-native-safe-area: e8230b0017d76c00de6b01e2412dcf86b127c6a3
   react-native-safe-area-context: 4b3d1b9ebb040a4814a222703e7434b20c95fcf5
-  react-native-simple-compass: 2cd09f4e5dbb7a594c2f0d9f85d035e93c9fccca
-  react-native-webview: f3e28b48461c78db833f727feec08b13285e7b61
+  react-native-webview: 88d83b4df2e792cfc36c952b1c496e2ac01cf0b8
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
   React-RCTBlob: d89293cc0236d9cb0933d85e430b0bbe81ad1d72
@@ -627,18 +632,18 @@ SPEC CHECKSUMS:
   React-RCTText: 9ccc88273e9a3aacff5094d2175a605efa854dbe
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
-  ReactNativeNavigation: bed6f504aa1a4dadd151503bf99d0ef96d06847f
-  RealmJS: ccaef6c07181c21bbafc227f184bc32065f6b27a
+  ReactNativeNavigation: 33657becf06c9c3a805ecb50dce8010fb887a1bb
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
-  RNCAsyncStorage: 44395cb9c7c1523104c2b499eb426ef7aff82bca
-  RNFirebase: ac0de8b24c6f91ae9459575491ed6a77327619c6
-  RNI18n: e2f7e76389fcc6e84f2c8733ea89b92502351fd8
-  RNZipArchive: 2179f7a0755905d68a3b0f2d9332796cca1e7aa4
-  Sentry: 4e8a17b61ddd116f89536cc81d567fdee1ebca96
-  SentryReactNative: 07237139c00366ea2e75ae3e5c566e7a71c27a90
+  RNCAsyncStorage: 5d83b49070d41fd72906a116c5e7bdac4ea3a814
+  RNFBAnalytics: b8bad44e6653af73219b1a7af24bf3452cb02c1b
+  RNFBApp: 7d4006751de8bb5cafa2e8d2e7d94ee250df81db
+  RNLocalize: a734b53c45e77acd3ffb78b92e63bb4d6cd13257
+  RNSentry: 2ec85f3e314c6a650b1c51b30ff764b6103ed7e2
+  RNZipArchive: 87111bb6130a38edd68c8d2059d46ac94d53ffe4
+  Sentry: 14bdd673870e8cf64932b149fad5bbbf39a9b390
   SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 9d13b57c0680d3364b47aad9c5a2abdfe97dc779
+PODFILE CHECKSUM: 5c73bb821cf75ae5731f2d9a4b826f90552c9b08
 
 COCOAPODS: 1.6.1

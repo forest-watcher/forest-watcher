@@ -1,4 +1,5 @@
-import firebase from 'react-native-firebase';
+import firebase from '@react-native-firebase/app';
+import '@react-native-firebase/analytics';
 
 // Hardcoded event names
 const PREDEFINED_EVENT_LEVEL_START = 'level_start';

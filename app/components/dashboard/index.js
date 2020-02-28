@@ -1,15 +1,14 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { Alert, Image, Platform, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
+import { Image, Platform, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
 import Config from 'react-native-config';
 import { Navigation } from 'react-native-navigation';
 
-import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
-import i18n from 'locales';
+import i18n from 'i18next';
 import styles from './styles';
 
 const settingsIcon = require('assets/settings.png');

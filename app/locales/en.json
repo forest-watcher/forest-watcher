@@ -5,6 +5,19 @@
         "noGPS": "No GPS"
     },
     "areas": {
+        "export": {
+            "noneSelected": "No areas selected",
+            "oneArea": "%{count} Area",
+            "oneAreaAction": "Export %{count} areas...",
+            "manyAreas": "%{count} Areas",
+            "manyAreasAction": "Export %{count} areas...",
+            "title": "Export area",
+            "description": "How would you like to export this area?",
+            "option": {
+                "asCSV": "Export as CSV..."
+            },
+            "successful": "Exporting areas succeeded!"
+        },
         "myAreas": "My Areas",
         "share": "Share Areas",
         "title": "Areas"
@@ -36,6 +49,13 @@
         "deselectAll": "Deselect All",
         "done": "Done",
         "error": "Error",
+        "fileSizes": {
+            "bytes": "%{size} bytes",
+            "kiloBytes": "%{size} kB",
+            "megaBytes": "%{size} MB",
+            "gigaBytes": "%{size} GB",
+            "teraBytes": "%{size} TB"
+        },
         "finish": "Finish",
         "kilometers": "km",
         "kmAway": "km away",
@@ -365,6 +385,11 @@
         "coordinatesUtm": "UTM",
         "coordinatesDescription": "Select a format you would like to display",
         "customLayers": "Custom Layers",
+        "customComponents": {
+            "baseMaps": "Basemaps",
+            "contextualLayers": "Contextual Layers",
+            "title": "Custom Components"
+        },
         "logOut": "Log Out",
         "offlineMode": "Offline Mode",
         "oneWeekAgo": "One week ago",

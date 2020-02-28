@@ -1,26 +1,9 @@
 rootProject.name = 'forest-watcher-android-client'
+apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 
-include ':app',
-		':@mauron85_react-native-background-geolocation',
-		':@mauron85_react-native-background-geolocation-common',
-		':@react-native-community_async-storage',
-		':@react-native-community_viewpager',
-		':react-native-dialogs',
-		':react-native-firebase',
-		':react-native-image-picker',
-		':react-native-navigation',
-		':react-native-webview',
-		':react-native-zip-archive',
-		':realm'
+include ':app'
+include ':@mauron85_react-native-background-geolocation'
+include ':@mauron85_react-native-background-geolocation-common'
 
-project(':realm').projectDir = new File(rootProject.projectDir, '../node_modules/realm/android')
 project(':@mauron85_react-native-background-geolocation').projectDir = new File(rootProject.projectDir, '../node_modules/@mauron85/react-native-background-geolocation/android/lib')
 project(':@mauron85_react-native-background-geolocation-common').projectDir = new File(rootProject.projectDir, '../node_modules/@mauron85/react-native-background-geolocation/android/common')
-project(':@react-native-community_async-storage').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/async-storage/android')
-project(':@react-native-community_viewpager').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/viewpager/android')
-project(':react-native-dialogs').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-dialogs/android')
-project(':react-native-firebase').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-firebase/android')
-project(':react-native-image-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-picker/android')
-project(':react-native-navigation').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-navigation/lib/android/app/')
-project(':react-native-webview').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-webview/android')
-project(':react-native-zip-archive').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-zip-archive/android')

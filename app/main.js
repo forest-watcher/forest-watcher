@@ -5,7 +5,8 @@ import Theme from 'config/theme';
 import { registerScreens } from 'screens';
 import createStore from 'store';
 import { setupCrashLogging } from './crashes';
-import i18n from 'locales';
+import { setI18nConfig } from 'locales';
+import i18n from 'i18next';
 
 import {
   GFWLocationAuthorizedAlways,
@@ -16,6 +17,8 @@ import {
   startTrackingLocation
 } from 'helpers/location';
 import { discardActiveRoute } from './redux-modules/routes';
+import Config from 'react-native-config';
+import MapboxGL from '@react-native-mapbox-gl/maps';
 
 // Disable ios warnings
 // console.disableYellowBox = true;
@@ -31,6 +34,8 @@ export default class App {
   }
 
   async launchRoot() {
+    setI18nConfig();
+
     await Navigation.setDefaultOptions({
       ...Theme.navigator.styles
     });
@@ -141,6 +146,7 @@ export default class App {
       this.store = store;
       registerScreens(store, Provider);
       initialiseLocationFramework();
+      MapboxGL.setAccessToken(Config.MAPBOX_TOKEN);
       createStore.runSagas();
       await this.launchRoot();
     });

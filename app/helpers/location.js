@@ -1,9 +1,8 @@
 import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
-import RNSimpleCompass from 'react-native-simple-compass';
 import { Linking, PermissionsAndroid, Platform } from 'react-native';
-import { Sentry } from 'react-native-sentry';
+import * as Sentry from '@sentry/react-native';
 
-var emitter = require('tiny-emitter/instance');
+const emitter = require('tiny-emitter/instance');
 
 import { LOCATION_TRACKING } from 'config/constants';
 import FWError from 'helpers/fwError';
@@ -33,7 +32,7 @@ let mostRecentLocation = null;
  * @return {Promise}
  */
 export async function initialiseLocationFramework() {
-  return configureLocationFramework({
+  return await configureLocationFramework({
     desiredAccuracy: BackgroundGeolocation.HIGH_ACCURACY,
     ...LOCATION_TRACKING
   });
@@ -45,7 +44,7 @@ export async function initialiseLocationFramework() {
  * @return {Promise}
  */
 async function configureLocationFramework(configuration) {
-  return new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     BackgroundGeolocation.configure(configuration, resolve, resolve);
   });
 }
@@ -56,7 +55,7 @@ async function configureLocationFramework(configuration) {
  * @return {Promise}
  */
 async function getConfiguration() {
-  return new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     BackgroundGeolocation.getConfig(resolve, reject);
   });
 }
@@ -87,7 +86,7 @@ export function showAppSettings() {
  * @return {Promise}
  */
 export async function checkLocationStatus() {
-  return new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     BackgroundGeolocation.checkStatus(
       (isRunning, locationServicesEnabled, authorizationStatus) => {
         resolve(isRunning, locationServicesEnabled, authorizationStatus);
@@ -188,7 +187,7 @@ function createCompactedLocation(location) {
  * Wrapper function around BackgroundGeolocation.deleteAllLocations that turns it from callback-based to promise-based
  */
 export async function deleteAllLocations() {
-  return new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     BackgroundGeolocation.deleteAllLocations(resolve, reject);
   });
 }
@@ -312,9 +311,7 @@ export function stopTrackingLocation() {
  * @warning This will only emit a GFWOnHeadingEvent when the heading has changed by 3 or more degrees.
  */
 export function startTrackingHeading() {
-  RNSimpleCompass.start(3, degree => {
-    emitter.emit(GFWOnHeadingEvent, degree);
-  });
+  console.warn('3SC', 'Need to re-implement startTrackingHeading');
 }
 
 /**
@@ -324,5 +321,5 @@ export function startTrackingHeading() {
  * @warning It is the responsibility of the implementing app to deregister any emitter listeners within the main app.
  */
 export function stopTrackingHeading() {
-  RNSimpleCompass.stop();
+  console.warn('3SC', 'Need to re-implement stopTrackingHeading');
 }

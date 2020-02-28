@@ -29,7 +29,8 @@
     android:label="@string/APP_NAME"
     android:theme="@style/AppTheme"
     android:largeHeap="true"
-    tools:replace="android:label">
+    android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+    tools:replace="android:label,android:appComponentFactory">
     <activity
       android:name=".MainActivity"
       android:configChanges="keyboard|keyboardHidden|orientation|screenSize"

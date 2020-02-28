@@ -8,7 +8,7 @@ import styles from './styles';
 import ActionButton from 'components/common/action-button';
 import InputText from 'components/common/text-input';
 import { getValidLocations, stopTrackingLocation } from 'helpers/location';
-import i18n from 'locales';
+import i18n from 'i18next';
 import RoutePreviewImage from '../preview-image';
 
 type Props = {

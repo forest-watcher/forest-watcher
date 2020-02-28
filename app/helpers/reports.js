@@ -1,4 +1,6 @@
-import i18n from 'locales';
+// @flow
+
+import i18n from 'i18next';
 
 const reportNameRegex = /-([A-Z]+)-REPORT--\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d/g;
 

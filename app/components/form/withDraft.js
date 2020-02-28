@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Alert } from 'react-native';
 
 import CONSTANTS from 'config/constants';
-import i18n from 'locales';
+import i18n from 'i18next';
 import { Navigation } from 'react-native-navigation';
 import tracker, { REPORT_OUTCOME_SAVED } from '../../helpers/googleAnalytics';
 

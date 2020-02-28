@@ -3,7 +3,7 @@ import type { Dataset } from 'types/areas.types';
 
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import i18n from 'locales';
+import i18n from 'i18next';
 
 import { DATASETS, ALERTS_LEGEND } from 'config/constants/index';
 import Alertlegend from 'components/common/alert-legend';

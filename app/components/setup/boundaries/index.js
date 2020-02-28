@@ -8,7 +8,7 @@ import { Image, View } from 'react-native';
 
 import DrawAreas from 'components/setup/draw-areas';
 import Theme from 'config/theme';
-import i18n from 'locales';
+import i18n from 'i18next';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
 
