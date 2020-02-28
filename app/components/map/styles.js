@@ -30,7 +30,8 @@ export default StyleSheet.create({
   },
   customLocationMarker: {
     height: 48,
-    width: 48
+    width: 48,
+    bottom: 24
   },
   offlineNotice: {
     position: 'absolute',

@@ -12,24 +12,19 @@ import { getContextualLayer } from 'helpers/map';
 import { shouldBeConnected } from 'helpers/app';
 import { getSelectedArea, activeDataset } from 'helpers/area';
 import Map from 'components/map';
+import { coordsArrayToObject } from 'helpers/location';
 
 function getAreaCoordinates(areaFeature) {
   switch (areaFeature.geometry.type) {
     case 'MultiPolygon': {
       // When KML files are uploaded in the webapp they are always turned into MultiPolygons even if that multi polygon
       // only consists of a single polygon - just take the first polygon
-      return areaFeature.geometry.coordinates[0][0].map(coordinate => ({
-        longitude: coordinate[0],
-        latitude: coordinate[1]
-      }));
+      return areaFeature.geometry.coordinates[0][0].map(coordinate => coordsArrayToObject(coordinate));
     }
     case 'Polygon':
     default: {
       // Handle anything we don't recognise as a Polygon
-      return areaFeature.geometry.coordinates[0].map(coordinate => ({
-        longitude: coordinate[0],
-        latitude: coordinate[1]
-      }));
+      return areaFeature.geometry.coordinates[0].map(coordinate => coordsArrayToObject(coordinate));
     }
   }
 }
