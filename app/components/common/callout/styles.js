@@ -16,7 +16,7 @@ export default StyleSheet.create({
     shadowRadius: 4,
     shadowColor: 'black',
     shadowOpacity: 0.2,
-    shadowOffset: {width: 0, height: 0}
+    shadowOffset: { width: 0, height: 0 }
   },
   titleText: {
     ...Theme.text,

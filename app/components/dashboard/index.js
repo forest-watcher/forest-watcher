@@ -11,8 +11,6 @@ import tracker from 'helpers/googleAnalytics';
 import i18n from 'i18next';
 import styles from './styles';
 
-import Callout from 'components/common/callout';
-
 const settingsIcon = require('assets/settings.png');
 const nextIcon = require('assets/next.png');
 const areasIcon = require('assets/areas.png');

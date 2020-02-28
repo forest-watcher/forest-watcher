@@ -24,7 +24,15 @@ type Props = {
 
 export default class AreaList extends Component<Props> {
   render() {
-    const { areas, downloadCalloutVisible, onAreaDownloadPress, onAreaPress, onAreaSettingsPress, showCache, pristine } = this.props;
+    const {
+      areas,
+      downloadCalloutVisible,
+      onAreaDownloadPress,
+      onAreaPress,
+      onAreaSettingsPress,
+      showCache,
+      pristine
+    } = this.props;
     if (!areas) {
       return null;
     }

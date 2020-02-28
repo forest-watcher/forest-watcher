@@ -46,11 +46,8 @@ export default class VerticalSplitRow extends Component<Props> {
                 title={this.props.downloadCalloutTitle}
                 visible={this.props.downloadCalloutVisible}
               >
-                <TouchableOpacity
-                  onPress={this.props.onDownloadPress}
-                  style={styles.downloadButton}
-                >
-                  <Image source={downloadIcon}/>
+                <TouchableOpacity onPress={this.props.onDownloadPress} style={styles.downloadButton}>
+                  <Image source={downloadIcon} />
                 </TouchableOpacity>
               </Callout>
             )}
