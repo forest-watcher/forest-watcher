@@ -131,7 +131,7 @@ export function setWelcomeScreenSeen(seen: boolean): AppAction {
   return {
     type: SET_WELCOME_SEEN,
     payload: seen
-  }
+  };
 }
 
 export function setPristineCacheTooltip(pristine: boolean): AppAction {

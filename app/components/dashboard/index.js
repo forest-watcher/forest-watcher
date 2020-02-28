@@ -117,7 +117,7 @@ class Dashboard extends PureComponent<Props> {
 
   showWelcomeScreenIfNecessary = debounceUI(() => {
     const { hasSeenWelcomeScreen } = this.props;
-    // if (!hasSeenWelcomeScreen) {
+    if (!hasSeenWelcomeScreen) {
       this.props.setWelcomeScreenSeen(true);
       Navigation.showModal({
         component: {
@@ -128,7 +128,7 @@ class Dashboard extends PureComponent<Props> {
           }
         }
       });
-    // }
+    }
   });
 
   componentDidDisappear() {

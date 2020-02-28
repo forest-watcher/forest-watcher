@@ -4,7 +4,12 @@ import type { State } from 'types/store.types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Dashboard from 'components/dashboard';
-import { updateApp, setPristineCacheTooltip, showNotConnectedNotification, setWelcomeScreenSeen } from 'redux-modules/app';
+import {
+  updateApp,
+  setPristineCacheTooltip,
+  showNotConnectedNotification,
+  setWelcomeScreenSeen
+} from 'redux-modules/app';
 import { createReport } from 'redux-modules/reports';
 import { setAreasRefreshing, setSelectedAreaId } from 'redux-modules/areas';
 import { isOutdated } from 'helpers/date';

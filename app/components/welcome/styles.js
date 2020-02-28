@@ -9,7 +9,7 @@ export default StyleSheet.create({
   },
   contentContainer: {
     ...Theme.modalContainer,
-    alignItems: 'stretch',
+    alignItems: 'stretch'
   },
   itemBodyText: {
     ...Theme.text,
