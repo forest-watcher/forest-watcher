@@ -15,56 +15,56 @@ const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
 const UPDATE_ITEMS = [
   {
     icon: require('assets/shareAndroid.png'),
-    titleKey: 'whatsNew.share.title',
-    bodyKey: 'whatsNew.share.body'
+    title: () => i18n.t('whatsNew.share.title'),
+    body: () => i18n.t('whatsNew.share.body')
   },
   {
     icon: require('assets/contextualLayers.png'),
-    titleKey: 'whatsNew.layers.title',
-    bodyKey: 'whatsNew.layers.body'
+    title: () => i18n.t('whatsNew.layers.title'),
+    body: () => i18n.t('whatsNew.layers.body')
   },
   {
     icon: require('assets/deforestation.png'),
-    titleKey: 'whatsNew.deforestationAlerts.title',
-    bodyKey: 'whatsNew.deforestationAlerts.body'
+    title: () => i18n.t('whatsNew.deforestationAlerts.title'),
+    body: () => i18n.t('whatsNew.deforestationAlerts.body')
   },
   {
     icon: require('assets/subscription.png'),
-    titleKey: 'whatsNew.subscriptions.title',
-    bodyKey: 'whatsNew.subscriptions.body'
+    title: () => i18n.t('whatsNew.subscriptions.title'),
+    body: () => i18n.t('whatsNew.subscriptions.body')
   },
   {
     icon: require('assets/areas.png'),
-    titleKey: 'whatsNew.areaSize.title',
-    bodyKey: 'whatsNew.areaSize.body'
+    title: () => i18n.t('whatsNew.areaSize.title'),
+    body: () => i18n.t('whatsNew.areaSize.body')
   }
 ];
 
 const WELCOME_ITEMS = [
   {
     icon: require('assets/deforestation.png'),
-    titleKey: 'welcome.deforestationAlerts.title',
-    bodyKey: 'welcome.deforestationAlerts.body'
+    title: () => i18n.t('welcome.deforestationAlerts.title'),
+    body: () => i18n.t('welcome.deforestationAlerts.body')
   },
   {
     icon: require('assets/reports.png'),
-    titleKey: 'welcome.reports.title',
-    bodyKey: 'welcome.reports.body'
+    title: () => i18n.t('welcome.reports.title'),
+    body: () => i18n.t('welcome.reports.body')
   },
   {
     icon: require('assets/routes.png'),
-    titleKey: 'welcome.routes.title',
-    bodyKey: 'welcome.routes.body'
+    title: () => i18n.t('welcome.routes.title'),
+    body: () => i18n.t('welcome.routes.body')
   },
   {
     icon: require('assets/contextualLayers.png'),
-    titleKey: 'welcome.layers.title',
-    bodyKey: 'welcome.layers.body'
+    title: () => i18n.t('welcome.layers.title'),
+    body: () => i18n.t('welcome.layers.body')
   },
   {
     icon: require('assets/shareAndroid.png'),
-    titleKey: 'welcome.share.title',
-    bodyKey: 'welcome.share.body'
+    title: () => i18n.t('welcome.share.title'),
+    body: () => i18n.t('welcome.share.body')
   }
 ];
 
@@ -101,8 +101,8 @@ export default class Welcome extends Component<Props> {
                 <View key={index} style={styles.itemContainer}>
                   <Image style={styles.itemIcon} source={item.icon} />
                   <View style={styles.itemContentContainer}>
-                    <Text style={styles.itemTitleText}>{i18n.t(item.titleKey)}</Text>
-                    <Text style={styles.itemBodyText}>{i18n.t(item.bodyKey)}</Text>
+                    <Text style={styles.itemTitleText}>{item.title()}</Text>
+                    <Text style={styles.itemBodyText}>{item.body()}</Text>
                   </View>
                 </View>
               );
