@@ -554,7 +554,15 @@ class MapComponent extends Component {
     );
   };
 
-  // Draw area polygon
+  renderRoute = () => {
+    return (
+      <>
+        {this.renderRoutePath()}
+        {this.renderRouteEnds()}
+      </>
+    );
+  };
+
   renderRoutePath = () => {
     const coords = this.props.route?.locations?.map(coord => coordsObjectToArray(coord));
     if (!coords) {
@@ -775,8 +783,7 @@ class MapComponent extends Component {
           {mapCameraElement}
           {this.renderAreaOutline()}
           {this.renderDestinationLine()}
-          {this.renderRoutePath()}
-          {this.renderRouteEnds()}
+          {this.renderRoute()}
         </MapboxGL.MapView>
         {customReportingMarker}
         {this.renderMapFooter()}
