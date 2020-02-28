@@ -117,38 +117,18 @@ class Dashboard extends PureComponent<Props> {
 
   showWelcomeScreenIfNecessary = debounceUI(() => {
     const { hasSeenWelcomeScreen } = this.props;
-    if (!hasSeenWelcomeScreen) {
+    // if (!hasSeenWelcomeScreen) {
       this.props.setWelcomeScreenSeen(true);
       Navigation.showModal({
         component: {
           name: 'ForestWatcher.Welcome',
           options: {
-            // animations: {
-            //   showModal: {
-            //     waitForRender: true,
-            //     // Works on Android but not iOS
-            //     alpha: {
-            //       from: 0,
-            //       to: 1,
-            //       duration: 250
-            //     },
-            //     // Only works on iOS
-            //     content: {
-            //       alpha: {
-            //         from: 0,
-            //         to: 1,
-            //         duration: 250
-            //       }
-            //     }
-            //   }
-            // },
-            layout: { backgroundColor: 'rgba(0,0,0,0.8)' },
-            screenBackgroundColor: 'rgba(0,0,0,0.8)',
-            modalPresentationStyle: 'overCurrentContext'
+            layout: { componentBackgroundColor: 'rgba(0,0,0,0.8)' },
+            modalPresentationStyle: 'overFullScreen'
           }
         }
       });
-    }
+    // }
   });
 
   componentDidDisappear() {

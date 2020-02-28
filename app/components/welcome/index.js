@@ -5,7 +5,7 @@ import { Navigation } from 'react-native-navigation';
 
 import debounceUI from 'helpers/debounceUI';
 
-import i18n from 'locales';
+import i18n from 'i18next';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
@@ -17,28 +17,28 @@ const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
 const UPDATE_ITEMS = [
   {
     icon: require('assets/shareAndroid.png'),
-    title: i18n.t('whatsNew.share.title'),
-    body: i18n.t('whatsNew.share.body')
+    titleKey: 'whatsNew.share.title',
+    bodyKey:  'whatsNew.share.body'
   },
   {
     icon: require('assets/contextualLayers.png'),
-    title: i18n.t('whatsNew.layers.title'),
-    body: i18n.t('whatsNew.layers.body')
+    titleKey: 'whatsNew.layers.title',
+    bodyKey:  'whatsNew.layers.body'
   },
   {
     icon: require('assets/deforestation.png'),
-    title: i18n.t('whatsNew.deforestationAlerts.title'),
-    body: i18n.t('whatsNew.deforestationAlerts.body')
+    titleKey: 'whatsNew.deforestationAlerts.title',
+    bodyKey:  'whatsNew.deforestationAlerts.body'
   },
   {
     icon: require('assets/subscription.png'),
-    title: i18n.t('whatsNew.subscriptions.title'),
-    body: i18n.t('whatsNew.subscriptions.body')
+    titleKey: 'whatsNew.subscriptions.title',
+    bodyKey:  'whatsNew.subscriptions.body'
   },
   {
     icon: require('assets/areas.png'),
-    title: i18n.t('whatsNew.areaSize.title'),
-    body: i18n.t('whatsNew.areaSize.body')
+    titleKey: 'whatsNew.areaSize.title',
+    bodyKey:  'whatsNew.areaSize.body'
   },
   
 ]
@@ -46,28 +46,28 @@ const UPDATE_ITEMS = [
 const WELCOME_ITEMS = [
   {
     icon: require('assets/deforestation.png'),
-    title: i18n.t('welcome.deforestationAlerts.title'),
-    body: i18n.t('welcome.deforestationAlerts.body')
+    titleKey: 'welcome.deforestationAlerts.title',
+    bodyKey:  'welcome.deforestationAlerts.body'
   },
   {
     icon: require('assets/reports.png'),
-    title: i18n.t('welcome.reports.title'),
-    body: i18n.t('welcome.reports.body')
+    titleKey: 'welcome.reports.title',
+    bodyKey:  'welcome.reports.body'
   },
   {
     icon: require('assets/routes.png'),
-    title: i18n.t('welcome.routes.title'),
-    body: i18n.t('welcome.routes.body')
+    titleKey: 'welcome.routes.title',
+    bodyKey:  'welcome.routes.body'
   },
   {
     icon: require('assets/contextualLayers.png'),
-    title: i18n.t('welcome.layers.title'),
-    body: i18n.t('welcome.layers.body')
+    titleKey: 'welcome.layers.title',
+    bodyKey:  'welcome.layers.body'
   },
   {
     icon: require('assets/shareAndroid.png'),
-    title: i18n.t('welcome.share.title'),
-    body: i18n.t('welcome.share.body')
+    titleKey: 'welcome.share.title',
+    bodyKey:  'welcome.share.body'
   }
 ]
 
@@ -106,8 +106,8 @@ export default class Welcome extends Component<Props> {
                 <View key={index} style={styles.itemContainer}>
                   <Image style={styles.itemIcon} source={item.icon}/>
                   <View style={styles.itemContentContainer}>
-                    <Text style={styles.itemTitleText}>{item.title}</Text>
-                    <Text style={styles.itemBodyText}>{item.body}</Text>
+                    <Text style={styles.itemTitleText}>{i18n.t(item.titleKey)}</Text>
+                    <Text style={styles.itemBodyText}>{i18n.t(item.bodyKey)}</Text>
                   </View>
                 </View>
               )

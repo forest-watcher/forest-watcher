@@ -45,7 +45,7 @@ export default function reducer(state: AppState = initialState, action: AppActio
       // $FlowFixMe
       const { app } = action.payload;
       const language = getLanguage();
-      const isUpdate = app.version != undefined && app.version != null && app.version != version;
+      const isUpdate = app?.version != undefined && app?.version != null && app?.version != version;
       return { ...state, ...app, language, version, isUpdate };
     }
     case SET_OFFLINE_MODE:
