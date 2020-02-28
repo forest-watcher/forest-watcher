@@ -8,11 +8,11 @@ import gpsi from 'geojson-polygon-self-intersections';
 import { storeImage } from 'helpers/fileManagement';
 
 import ActionButton from 'components/common/action-button';
-import MapAttribution from 'components/map/map-attribution';
 import Theme from 'config/theme';
 import i18n from 'i18next';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
+import { coordsArrayToObject } from 'helpers/location';
 
 const geojsonArea = require('@mapbox/geojson-area');
 
@@ -35,10 +35,7 @@ function getGoogleMapsCoordinates(coordinates) {
   if (!coordinates) {
     return [];
   }
-  return coordinates.map(cordinate => ({
-    latitude: cordinate[1],
-    longitude: cordinate[0]
-  }));
+  return coordinates.map(coordinate => coordsArrayToObject(coordinate));
 }
 
 function getGeoJson(coordinates) {
@@ -167,7 +164,6 @@ class DrawAreas extends Component {
       return (
         <View pointerEvents="none" style={[styles.actionButton, withPadding]}>
           <Text style={styles.footerTitle}>{i18n.t('setupDrawAreas.tapInstruction')}</Text>
-          <MapAttribution />
         </View>
       );
     }
