@@ -45,6 +45,7 @@ import {
   coordsObjectToArray,
   coordsArrayToObject
 } from 'helpers/location';
+import RouteMarkers from 'components/map/route';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -554,55 +555,6 @@ class MapComponent extends Component {
     );
   };
 
-  renderRoute = () => {
-    return (
-      <>
-        {this.renderRoutePath()}
-        {this.renderRouteEnds()}
-      </>
-    );
-  };
-
-  renderRoutePath = () => {
-    const coords = this.props.route?.locations?.map(coord => coordsObjectToArray(coord));
-    if (!coords || coords.length < 2) {
-      return null;
-    }
-    const line = MapboxGL.geoUtils.makeLineString(coords);
-    return (
-      <MapboxGL.ShapeSource id="route" shape={line}>
-        <MapboxGL.LineLayer id="routeLineLayer" style={mapboxStyles.routeLineLayer} />
-        <MapboxGL.CircleLayer key="routeCircleOuter" id="routeCircleOuter" style={mapboxStyles.routeOuterCircle} />
-        <MapboxGL.CircleLayer key="routeCircleInner" id="routeCircleInner" style={mapboxStyles.routeInnerCircle} />
-      </MapboxGL.ShapeSource>
-    );
-  };
-
-  renderRouteEnds = () => {
-    const locations = this.props.route?.locations;
-    const count = locations?.length;
-    const start = count > 0 ? locations[0] : null;
-    const end = count > 1 ? locations[count - 1] : null;
-    const startSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(start)) : null;
-    const endSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(end)) : null;
-    return (
-      <>
-        {start && (
-          <MapboxGL.ShapeSource id="routeStart" shape={startSource}>
-            <MapboxGL.CircleLayer key="routeStartInner" id="routeStartOuter" style={mapboxStyles.routeStartOuter} />
-            <MapboxGL.CircleLayer key="routeStartOuter" id="routeStartInner" style={mapboxStyles.routeStartInner} />
-          </MapboxGL.ShapeSource>
-        )}
-        {end && (
-          <MapboxGL.ShapeSource id="routeEnd" shape={endSource}>
-            <MapboxGL.CircleLayer key="routeEndInner" id="routeEndOuter" style={mapboxStyles.routeEndOuter} />
-            <MapboxGL.CircleLayer key="routeEndInner" id="routeEndInner" style={mapboxStyles.routeEndInner} />
-          </MapboxGL.ShapeSource>
-        )}
-      </>
-    );
-  };
-
   // Draw line from user location to destination
   renderDestinationLine = () => {
     const { destinationCoords, userLocation, customReporting } = this.state;
@@ -783,7 +735,7 @@ class MapComponent extends Component {
           {mapCameraElement}
           {this.renderAreaOutline()}
           {this.renderDestinationLine()}
-          {this.renderRoute()}
+          <RouteMarkers isTracking={this.isRouteTracking()} lastPosition={userLocation} route={route} />
         </MapboxGL.MapView>
         {customReportingMarker}
         {this.renderMapFooter()}
