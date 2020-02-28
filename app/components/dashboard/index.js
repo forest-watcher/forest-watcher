@@ -101,17 +101,14 @@ class Dashboard extends PureComponent<Props> {
       });
     }
 
+    // This is called both here and componentDidAppear because componentDidAppear isn't called when setting
+    // the app root using RNN
     this.showWelcomeScreenIfNecessary();
   }
 
-  componentWillUnmount() {
-    // Not mandatory
-    if (this.navigationEventListener) {
-      this.navigationEventListener.remove();
-    }
-  }
-
   componentDidAppear() {
+    // This is called both here and componentDidAppear because componentDidAppear isn't called when setting
+    // the app root using RNN
     this.showWelcomeScreenIfNecessary();
   }
 
