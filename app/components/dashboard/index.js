@@ -197,22 +197,18 @@ class Dashboard extends PureComponent<Props> {
             contentContainerStyle={styles.listContent}
             scrollEnabled
           >
-            <Callout above>
-              <View
-                style={{
-                  backgroundColor: 'red',
-                  marginLeft: 356,
-                  width: 44,
-                  height: 44
-                }}
-              />
+            <Callout
+              body={i18n.t('countries.tooltip.body')}
+              offset={-24}
+              title={i18n.t('countries.tooltip.title')}
+            >
+              <Row action={this.areasAction}>
+                <View style={styles.tableRowContent}>
+                  <Image source={areasIcon} />
+                  <Text style={styles.tableRowText}>{i18n.t('dashboard.areas')}</Text>
+                </View>
+              </Row>
             </Callout>
-            <Row action={this.areasAction}>
-              <View style={styles.tableRowContent}>
-                <Image source={areasIcon} />
-                <Text style={styles.tableRowText}>{i18n.t('dashboard.areas')}</Text>
-              </View>
-            </Row>
             <Row action={this.routesAction}>
               <View style={styles.tableRowContent}>
                 <Image source={routesIcon} />

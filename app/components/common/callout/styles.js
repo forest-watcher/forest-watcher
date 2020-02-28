@@ -17,5 +17,17 @@ export default StyleSheet.create({
     shadowColor: 'black',
     shadowOpacity: 0.2,
     shadowOffset: {width: 0, height: 0}
+  },
+  titleText: {
+    ...Theme.text,
+    color: 'white',
+    fontSize: 20,
+    textAlign: 'center'
+  },
+  bodyText: {
+    ...Theme.text,
+    color: 'white',
+    fontSize: 16,
+    textAlign: 'center'
   }
 });

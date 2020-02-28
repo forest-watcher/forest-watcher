@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Dimensions, View, Text } from 'react-native';
+import { Dimensions, View, StyleSheet, Text } from 'react-native';
 import styles, { arrowWidth } from './styles';
 import { withSafeArea } from 'react-native-safe-area';
 import Theme from 'config/theme';
@@ -11,8 +11,11 @@ const SafeAreaView = withSafeArea(View, 'margin', 'bottom');
 
 type Props = {
   above?: boolean,
+  offset?: number,
+  body: string,
   containerWidth?: number,
   margin?: number,
+  title: string,
   width?: number
 };
 
@@ -79,6 +82,7 @@ export default class Callout extends Component<Props> {
       }
     )
 
+    const offset = this.props.offset != null ? this.props.offset : 0;
     const containerWidth = this.props.containerWidth != null ? this.props.containerWidth : SCREEN_WIDTH;
     const margin = this.props.margin != null ? this.props.margin : DEFAULT_MARGIN;
     const width = this.props.width != null ? this.props.width : 196;
@@ -90,7 +94,9 @@ export default class Callout extends Component<Props> {
     const left = Math.min(Math.max((childCenterX - width/2), margin), containerWidth - width - margin);
 
     const arrowLeft = Math.min(Math.max(10+arrowWidth, childCenterX - left), width - (10+arrowWidth));
-    const top = this.props.above ? -(this.state.layout != null ? this.state.layout.height : 0) : this.state.childLayout.y + this.state.childLayout.height;
+    const top = this.props.above ? -((this.state.layout != null ? this.state.layout.height : 0) + offset) : childLayout.y + childLayout.height + offset;
+
+    const childStyle = StyleSheet.flatten(onlyChild.props.style || {});
 
     return (
       <View style={{zIndex: 10000}}>
@@ -114,8 +120,8 @@ export default class Callout extends Component<Props> {
                 this.props.style
               ]}
             >
-              <Text>Hello Callout!</Text>
-              <Text>{`x: ${this.state.childLayout.x}, y: ${this.state.childLayout.y}, width: ${this.state.childLayout.width}, height: ${this.state.childLayout.height}`}</Text>
+              <Text style={styles.titleText}>{this.props.title}</Text>
+              <Text style={styles.bodyText}>{this.props.body}</Text>
             </View>
             {this.renderArrow(arrowLeft)}
           </View>

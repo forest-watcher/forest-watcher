@@ -80,7 +80,11 @@
         "description": "Questions or feedback? Email mailto:forestwatcher@wri.org"
     },
     "countries": {
-        "searchPlaceholder": "Search for a country"
+        "searchPlaceholder": "Search for a country",
+        "tooltip": {
+            "title": "Get Started",
+            "body": "Add an area that you would like to receive alerts for"
+        }
     },
     "dashboard": {
         "areas": "Areas",
