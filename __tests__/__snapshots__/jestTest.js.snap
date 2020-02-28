@@ -20,6 +20,7 @@ exports[`Redux Reducers - Unit Tests snapshot redux reducer action test 1`] = `
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
@@ -32,6 +33,7 @@ exports[`Redux Reducers - Unit Tests snapshot redux reducer initial state test 1
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
@@ -44,6 +46,7 @@ exports[`Redux Reducers - Unit Tests snapshot redux reducer multiple action test
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
@@ -56,6 +59,7 @@ exports[`Redux Reducers - Unit Tests snapshot redux reducer multiple action test
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
   "offlineMode": true,
   "pristineCacheTooltip": true,

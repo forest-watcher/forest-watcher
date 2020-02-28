@@ -461,7 +461,7 @@
     "welcome": {
         "deforestationAlerts": {
             "body": "See GLAD deforestation and VIIRS fire alerts for locations worldwide",
-            "title": "View Deforestation Alerts",
+            "title": "View Deforestation Alerts"
         },
         "layers": {
             "body": "Display custom layers or base maps for more effective monitoring",
@@ -487,7 +487,7 @@
             "title": "Monitor Larger Areas"
         },
         "deforestationAlerts": {
-            "title": "2019 Deforestation Data",
+            "title": "2019 Deforestation Data"
         },
         "layers": {
             "body": "Add layers from Global Forest Watch or your own for more effective monitoring",

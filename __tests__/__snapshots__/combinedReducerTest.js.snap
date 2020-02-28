@@ -12,6 +12,7 @@ Object {
   "app": Object {
     "actions": Array [],
     "coordinatesFormat": "decimal",
+    "hasSeenWelcomeScreen": false,
     "language": "en",
     "offlineMode": false,
     "pristineCacheTooltip": true,
@@ -1927,6 +1928,7 @@ Object {
   "app": Object {
     "actions": Array [],
     "coordinatesFormat": "decimal",
+    "hasSeenWelcomeScreen": false,
     "language": "en",
     "offlineMode": false,
     "pristineCacheTooltip": true,

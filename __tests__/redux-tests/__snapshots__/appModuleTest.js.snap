@@ -4,6 +4,7 @@ exports[`Redux App Module Initial reducer state 1`] = `
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
@@ -56,6 +57,7 @@ exports[`Redux App Module Redux Snapshot Thunk Actions showNotConnectedNotificat
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
@@ -77,6 +79,7 @@ exports[`Redux App Module Redux Snapshot Thunk Actions showNotConnectedNotificat
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
   "offlineMode": true,
   "pristineCacheTooltip": true,
@@ -97,6 +100,7 @@ exports[`Redux App Module Redux Snapshot Thunk Actions showNotConnectedNotificat
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
   "offlineMode": true,
   "pristineCacheTooltip": true,
@@ -139,6 +143,7 @@ Object {
     undefined,
   ],
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
@@ -158,6 +163,7 @@ exports[`Redux App Module Simple Actions: snapshot and reducer test setAppSynced
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
@@ -177,6 +183,7 @@ exports[`Redux App Module Simple Actions: snapshot and reducer test setAppSynced
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
@@ -196,6 +203,7 @@ exports[`Redux App Module Simple Actions: snapshot and reducer test setCoordinat
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
@@ -215,6 +223,7 @@ exports[`Redux App Module Simple Actions: snapshot and reducer test setCoordinat
 Object {
   "actions": Array [],
   "coordinatesFormat": "degrees",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
@@ -234,6 +243,7 @@ exports[`Redux App Module Simple Actions: snapshot and reducer test setOfflineMo
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
   "offlineMode": true,
   "pristineCacheTooltip": true,
@@ -253,6 +263,7 @@ exports[`Redux App Module Simple Actions: snapshot and reducer test setOfflineMo
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
@@ -272,6 +283,7 @@ exports[`Redux App Module Simple Actions: snapshot and reducer test setPristineC
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
@@ -291,6 +303,7 @@ exports[`Redux App Module Simple Actions: snapshot and reducer test setPristineC
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": false,
@@ -309,6 +322,7 @@ exports[`Redux App Module Simple Actions: snapshot and reducer test updateApp 2`
 Object {
   "actions": Array [],
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
   "offlineMode": false,
   "pristineCacheTooltip": true,
