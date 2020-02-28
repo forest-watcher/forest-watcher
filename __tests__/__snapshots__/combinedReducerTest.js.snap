@@ -11,6 +11,8 @@ Object {
   },
   "app": Object {
     "actions": Array [],
+    "areaCountryTooltipSeen": false,
+    "areaDownloadTooltipSeen": false,
     "coordinatesFormat": "decimal",
     "language": "en",
     "offlineMode": false,
@@ -1926,6 +1928,8 @@ Object {
   },
   "app": Object {
     "actions": Array [],
+    "areaCountryTooltipSeen": false,
+    "areaDownloadTooltipSeen": false,
     "coordinatesFormat": "decimal",
     "language": "en",
     "offlineMode": false,
