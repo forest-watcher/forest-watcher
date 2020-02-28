@@ -12,12 +12,16 @@ export type AppState = {
   pristineCacheTooltip: boolean,
   version: string,
   actions: Array<AnyAction>,
+  areaCountryTooltipSeen: boolean,
+  areaDownloadTooltipSeen: boolean,
   offlineMode: boolean
 };
 
 export type AppAction =
   | SetLanguage
   | SetOfflineMode
+  | SetAreaCountryTooltipSeen
+  | SetAreaDownloadTooltipSeen
   | SetAppSynced
   | SetCoordinatesFormat
   | SetPristineCacheTooltip
@@ -28,6 +32,8 @@ export type AppAction =
 
 export type SetOfflineMode = { type: 'app/SET_OFFLINE_MODE', payload: boolean };
 export type SetLanguage = { type: 'app/SET_LANGUAGE', payload: string };
+export type SetAreaCountryTooltipSeen = { type: 'app/SET_AREA_COUNTRY_TOOLTIP_SEEN', payload: boolean };
+export type SetAreaDownloadTooltipSeen = { type: 'app/SET_AREA_DOWNLOAD_TOOLTIP_SEEN', payload: boolean };
 export type SetAppSynced = { type: 'app/SET_APP_SYNCED', payload: boolean };
 export type SetCoordinatesFormat = { type: 'app/SET_COORDINATES_FORMAT', payload: CoordinatesValue };
 export type SetPristineCacheTooltip = { type: 'app/SET_PRISTINE_CACHE_TOOLTIP', payload: boolean };

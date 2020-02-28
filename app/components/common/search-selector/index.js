@@ -40,6 +40,9 @@ class SearchSelector extends Component {
   }
 
   setListVisibility(status) {
+    if (status) {
+      this.props.onFocus?.()
+    }
     this.setState({ showList: status });
   }
 
@@ -127,6 +130,7 @@ SearchSelector.propTypes = {
   }).isRequired,
   placeholder: PropTypes.string.isRequired,
   onOptionSelected: PropTypes.func.isRequired,
+  onFocus: PropTypes.func,
   data: PropTypes.array.isRequired
 };
 

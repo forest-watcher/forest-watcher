@@ -112,20 +112,22 @@ class SetupCountry extends Component {
 
           <View style={styles.selector}>
             <Text style={styles.selectorLabel}>{i18n.t('setupCountry.firstInstruction')}</Text>
-            <Callout>
+            <Callout
+              body={i18n.t('setupCountry.tooltip.body')}
+              title={i18n.t('setupCountry.tooltip.title')}
+              visible={!this.props.areaCountryTooltipSeen}
+            >
               <SearchSelector
                 selected={this.getCountrySelected(countries, iso)}
+                onFocus={() => {
+                  this.props.setAreaCountryTooltipSeen(true);
+                }}
                 onOptionSelected={setSetupCountry}
                 data={countries}
                 placeholder={i18n.t('countries.searchPlaceholder')}
               />
             </Callout>
-            <Text style={styles.selectorLabel}>{i18n.t('setupCountry.firstInstruction')}</Text>
-            <Text style={styles.selectorLabel}>{i18n.t('setupCountry.firstInstruction')}</Text>
-            <Text style={styles.selectorLabel}>{i18n.t('setupCountry.firstInstruction')}</Text>
-            <Text style={styles.selectorLabel}>{i18n.t('setupCountry.firstInstruction')}</Text>
           </View>
-
           <ActionButton
             style={styles.buttonPos}
             disabled={!iso}
@@ -140,10 +142,12 @@ class SetupCountry extends Component {
 }
 
 SetupCountry.propTypes = {
+  areaCountryTooltipSeen: PropTypes.bool,
   logout: PropTypes.func,
   user: PropTypes.any,
   setupCountry: PropTypes.any,
   countries: PropTypes.any,
+  setAreaCountryTooltipSeen: PropTypes.func.isRequired,
   setSetupCountry: PropTypes.func.isRequired,
   componentId: PropTypes.string.isRequired
 };

@@ -2,18 +2,25 @@
 
 import React, { Component } from 'react';
 
-import { View, Text, TouchableHighlight, Image } from 'react-native';
+import { View, Text, TouchableHighlight, TouchableOpacity, Image } from 'react-native';
 import styles from './styles';
 import Theme from 'config/theme';
 
 import SettingsButton from 'components/common/settings-button';
+import Callout from 'components/common/callout';
 
 const nextIcon = require('assets/next.png');
 const checkboxOff = require('assets/checkbox_off.png');
 const checkboxOn = require('assets/checkbox_on.png');
+const downloadIcon = require('assets/download.png');
 
 type Props = {
+  downloadCalloutBody?: ?boolean,
+  downloadCalloutVisible?: ?boolean,
+  downloadCalloutTitle?: ?string,
+  downloadVisible?: ?boolean,
   imageSrc?: ?string,
+  onDownloadPress: void => void,
   onPress: void => void,
   onSettingsPress: void => void,
   selected?: ?boolean,
@@ -23,7 +30,7 @@ type Props = {
 
 export default class VerticalSplitRow extends Component<Props> {
   render() {
-    const { selected } = this.props;
+    const { selected, downloadVisible } = this.props;
     const icon = selected != null ? (selected ? checkboxOn : checkboxOff) : nextIcon;
     const inShareMode = selected === true || selected === false;
 
@@ -32,6 +39,21 @@ export default class VerticalSplitRow extends Component<Props> {
         <View style={styles.item}>
           <View style={styles.imageContainer}>
             {this.props.imageSrc ? <Image style={styles.image} source={{ uri: this.props.imageSrc }} /> : null}
+            {downloadVisible && (
+              <Callout
+                body={this.props.downloadCalloutBody}
+                offset={4}
+                title={this.props.downloadCalloutTitle}
+                visible={this.props.downloadCalloutVisible}
+              >
+                <TouchableOpacity
+                  onPress={this.props.onDownloadPress}
+                  style={styles.downloadButton}
+                >
+                  <Image source={downloadIcon}/>
+                </TouchableOpacity>
+              </Callout>
+            )}
           </View>
           <View style={styles.contentContainer}>
             <View style={styles.nameContainer}>

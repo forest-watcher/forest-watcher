@@ -20,6 +20,10 @@
         },
         "myAreas": "My Areas",
         "share": "Share Areas",
+        "tooltip": {
+            "title": "Make Areas Available Offline",
+            "body": "View alerts and map layers without internet"
+        },
         "title": "Areas"
     },
     "areaDetail": {
@@ -80,11 +84,7 @@
         "description": "Questions or feedback? Email mailto:forestwatcher@wri.org"
     },
     "countries": {
-        "searchPlaceholder": "Search for a country",
-        "tooltip": {
-            "title": "Get Started",
-            "body": "Add an area that you would like to receive alerts for"
-        }
+        "searchPlaceholder": "Search for a country"
     },
     "dashboard": {
         "areas": "Areas",
@@ -407,6 +407,10 @@
     "setupCountry": {
         "firstInstruction": "First, select your country of interest",
         "secondWelcomeText": "please set up an area",
+        "tooltip": {
+            "title": "Get Started",
+            "body": "Add an area that you would like to receive alerts for"
+        },
         "welcomeText": "Hi"
     },
     "setupDrawAreas": {

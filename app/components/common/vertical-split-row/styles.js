@@ -5,6 +5,11 @@ export default StyleSheet.create({
   disclosureIndicator: {
     marginHorizontal: 24
   },
+  downloadButton: {
+    bottom: 12,
+    left: 12,
+    position: 'absolute'
+  },
   item: {
     borderBottomColor: Theme.borderColors.main,
     borderBottomWidth: 2,

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Dimensions, View, StyleSheet, Text } from 'react-native';
+import { Animated, Dimensions, View, StyleSheet, Text } from 'react-native';
 import styles, { arrowWidth } from './styles';
 import { withSafeArea } from 'react-native-safe-area';
 import Theme from 'config/theme';
@@ -16,6 +16,7 @@ type Props = {
   containerWidth?: number,
   margin?: number,
   title: string,
+  visible: boolean,
   width?: number
 };
 
@@ -31,7 +32,8 @@ export default class Callout extends Component<Props> {
     super(props);
     this.state = {
       childLayout: null,
-      layout: null
+      layout: null,
+      opacity: new Animated.Value(props.visible ? 1 : 0)
     }
   }
 
@@ -47,6 +49,30 @@ export default class Callout extends Component<Props> {
         layout: event.nativeEvent.layout
       });
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+
+    const isVisible = this.props.visible;
+    const shouldBeVisible = nextProps.visible;
+
+    if (isVisible && !shouldBeVisible) {
+      Animated.timing(this.state.opacity, {
+        toValue: 0,
+        delay: 0,
+        duration: 200
+      }).start();
+    }
+
+    if (!isVisible && shouldBeVisible) {
+      Animated.timing(this.state.opacity, {
+        toValue: 1,
+        delay: 0,
+        duration: 200
+      }).start();
+    }
+
+    return true;
   }
 
   renderArrow(left: number) {
@@ -102,10 +128,10 @@ export default class Callout extends Component<Props> {
       <View style={{zIndex: 10000}}>
         {LayoutChild}
         {this.state.childLayout && (
-          <View
+          <Animated.View
             onLayout={this.onLayout}
             style={{
-              opacity: this.state.layout != null ? 1 : 0,
+              opacity: this.state.layout != null ? this.state.opacity : 0,
               position: 'absolute',
               top,
               left,
@@ -124,7 +150,7 @@ export default class Callout extends Component<Props> {
               <Text style={styles.bodyText}>{this.props.body}</Text>
             </View>
             {this.renderArrow(arrowLeft)}
-          </View>
+          </Animated.View>
         )}
       </View>
     );
