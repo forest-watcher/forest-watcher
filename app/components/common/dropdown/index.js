@@ -1,6 +1,7 @@
+// @flow
+
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { View, Text, TouchableOpacity, Picker } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 import ActionSheet from 'react-native-actions-sheet';
 import Row from 'components/common/row';
@@ -8,7 +9,7 @@ import styles from './styles';
 
 import { SafeAreaConsumer } from 'react-native-safe-area-context';
 
-import i18n from 'locales';
+import i18n from 'i18next';
 
 const nextIcon = require('assets/next.png');
 
@@ -16,7 +17,7 @@ type Props = {
   description: ?string,
   label: string,
   selectedValue: string,
-  onValueChange: string => Void,
+  onValueChange: string => void,
   options: Array<{ label: string, value: string }>
 };
 

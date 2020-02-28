@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Alert } from 'react-native';
-import i18n from 'locales';
+import i18n from 'i18next';
 
 class ErrorLightbox extends Component {
   static propTypes = {

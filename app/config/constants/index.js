@@ -1,5 +1,5 @@
 import Config from 'react-native-config';
-import i18n from 'locales';
+import i18n from 'i18next';
 import Theme from 'config/theme';
 import { hexToRgb } from 'helpers/utils';
 

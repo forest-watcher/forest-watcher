@@ -10,7 +10,7 @@ import { storeImage } from 'helpers/fileManagement';
 import ActionButton from 'components/common/action-button';
 import MapAttribution from 'components/map/map-attribution';
 import Theme from 'config/theme';
-import i18n from 'locales';
+import i18n from 'i18next';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
@@ -128,7 +128,7 @@ class DrawAreas extends Component {
     }
   };
 
-  onNextPress = async () => {
+  onNextPress = () => {
     const { coordinates } = this.state.shape;
     if (coordinates && coordinates.length > 1) {
       this.setState({ loading: true });

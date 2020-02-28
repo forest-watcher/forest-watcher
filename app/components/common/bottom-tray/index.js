@@ -1,12 +1,15 @@
-import React, { Component } from 'react';
+// @flow
 
+import React, { Component, type ElementConfig } from 'react';
 import { View } from 'react-native';
 import styles from './styles';
 import { withSafeArea } from 'react-native-safe-area';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'bottom');
 
-type Props = {};
+type Props = {
+  ...ElementConfig<typeof View>
+};
 
 class BottomTray extends Component<Props> {
   render() {

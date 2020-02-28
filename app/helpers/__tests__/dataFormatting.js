@@ -1,7 +1,10 @@
 import { formatBytes } from '../data';
-
+import { setI18nConfig } from 'locales';
 
 describe('data formatting', () => {
+  beforeAll(() => {
+    setI18nConfig();
+  });
 
   it('rounds bytes up correctly to nearest integer', () => {
     const formatted = formatBytes(12.7);
@@ -19,12 +22,12 @@ describe('data formatting', () => {
   });
 
   it('handles non-integer values correctly', () => {
-    const formatted = formatBytes(12.3*1024);
+    const formatted = formatBytes(12.3 * 1024);
     expect(formatted).toEqual('12.3 kB');
   });
 
   it('converts exact integer above bytes to 1 decimal place', () => {
-    const formatted = formatBytes(15*1024);
+    const formatted = formatBytes(15 * 1024);
     expect(formatted).toEqual('15.0 kB');
   });
 
@@ -34,17 +37,17 @@ describe('data formatting', () => {
   });
 
   it('rounds values correctly up from larger than x.x5', () => {
-    const formatted = formatBytes(1.56*1024);
+    const formatted = formatBytes(1.56 * 1024);
     expect(formatted).toEqual('1.6 kB');
   });
 
   it('rounds values correctly down from less than x.x5', () => {
-    const formatted = formatBytes(1.44*1024);
+    const formatted = formatBytes(1.44 * 1024);
     expect(formatted).toEqual('1.4 kB');
   });
 
   it('rounds values correctly up from x.x5', () => {
-    const formatted = formatBytes(1.55*1024);
+    const formatted = formatBytes(1.55 * 1024);
     expect(formatted).toEqual('1.6 kB');
   });
 

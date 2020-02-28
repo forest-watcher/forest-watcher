@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import { Text, View, Image, TouchableHighlight, Alert } from 'react-native';
 
 import ImageCard from 'components/common/image-card';
-import i18n from 'locales';
+import i18n from 'i18next';
 import Theme from 'config/theme';
 import CONSTANTS from 'config/constants';
 

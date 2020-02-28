@@ -1,12 +1,12 @@
 // @flow
 
 import { Dimensions } from 'react-native';
-import { COORDINATES_FORMATS, GLAD_RECENT_RANGE, DATASETS } from 'config/constants';
+import { COORDINATES_FORMATS, GLAD_RECENT_RANGE } from 'config/constants';
 import UtmLatLng from 'utm-latlng';
 import formatcoords from 'formatcoords';
 import moment from 'moment';
-import i18n from 'locales';
-import type { Coordinates, CoordinatesFormat, Alert } from 'types/common.types';
+import i18n from 'i18next';
+import type { Coordinates, CoordinatesFormat } from 'types/common.types';
 
 const kdbush = require('kdbush');
 const geokdbush = require('geokdbush');
@@ -64,23 +64,6 @@ export function getAllNeighbours(firstPoint: Coordinates, points: Coordinates, d
 export function isDateRecent(date: number) {
   const { measure, range } = GLAD_RECENT_RANGE;
   return moment().diff(moment(date), measure) <= range;
-}
-
-export function pointsToGeoJSON(points: Array<Alert>, slug: string) {
-  return {
-    type: 'MapCollection',
-    features: points.map(value => ({
-      type: 'Map',
-      properties: {
-        date: value.date,
-        isRecent: slug === DATASETS.GLAD ? isDateRecent(value.date) : false
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [value.long, value.lat]
-      }
-    }))
-  };
 }
 
 export function getContextualLayer(layers) {
@@ -214,9 +197,9 @@ export function formatDistance(distance, thresholdBeforeKm = 1, relativeToUser =
  * @returns {{sw: [*, *], ne: [*, *]}}
  */
 export function getPolygonBoundingBox(polygon) {
-  let bounds = {},
-    latitude,
-    longitude;
+  const bounds = {};
+  let latitude;
+  let longitude;
 
   if (polygon.length === 0) {
     return undefined;
@@ -231,7 +214,7 @@ export function getPolygonBoundingBox(polygon) {
     bounds.latMax = bounds.latMax > latitude ? bounds.latMax : latitude;
   }
 
-  let boundingBox = {
+  const boundingBox = {
     ne: [bounds.latMin, bounds.longMin],
     sw: [bounds.latMax, bounds.longMax]
   };

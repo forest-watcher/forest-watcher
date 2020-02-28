@@ -6,7 +6,7 @@ import Row from 'components/common/row';
 import { ALERTS_COLOR } from 'config/constants';
 import DatasetOptions from 'components/areas/area-detail/alert-system/dataset-options';
 
-import i18n from 'locales';
+import i18n from 'i18next';
 import Theme from 'config/theme';
 import styles from './styles';
 

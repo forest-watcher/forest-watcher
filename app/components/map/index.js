@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Alert, AppState, BackHandler, Dimensions, Image, LayoutAnimation, Platform, Text, View } from 'react-native';
-import { Sentry } from 'react-native-sentry';
+import * as Sentry from '@sentry/react-native';
 
-import { REPORTS } from 'config/constants';
+import { LOCATION_TRACKING, REPORTS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
@@ -13,14 +13,10 @@ import kebabCase from 'lodash/kebabCase';
 import deburr from 'lodash/deburr';
 import moment from 'moment';
 
-import MapView from 'react-native-maps';
 import CircleButton from 'components/common/circle-button';
 import MapAttribution from 'components/map/map-attribution';
 import BottomDialog from 'components/map/bottom-dialog';
 import LocationErrorBanner from 'components/map/locationErrorBanner';
-import Clusters from 'containers/map/clusters';
-import Basemap from 'containers/map/basemap';
-import RouteMarkers from './route';
 import {
   formatCoordsByFormat,
   formatDistance,
@@ -31,10 +27,9 @@ import {
 } from 'helpers/map';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
-import clusterGenerator from 'helpers/clusters-generator';
-import { LOCATION_TRACKING } from 'config/constants';
+
 import Theme from 'config/theme';
-import i18n from 'locales';
+import i18n from 'i18next';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
@@ -58,7 +53,7 @@ import {
   stopTrackingHeading
 } from 'helpers/location';
 
-var emitter = require('tiny-emitter/instance');
+const emitter = require('tiny-emitter/instance');
 
 const { width, height } = Dimensions.get('window');
 
@@ -79,8 +74,6 @@ const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_STOPPING = 2;
 const STALE_LOCATION_THRESHOLD = LOCATION_TRACKING.interval * 3;
 
 const backButtonImage = require('assets/back.png');
-const markerImage = require('assets/marker.png');
-const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
 const settingsBlackIcon = require('assets/settings_black.png');
 const startTrackingIcon = require('assets/startTracking.png');
@@ -174,7 +167,7 @@ class MapComponent extends Component {
     };
 
     SafeArea.getSafeAreaInsetsForRootView().then(result => {
-      this.setState({
+      return this.setState({
         bottomSafeAreaInset: result.safeAreaInsets.bottom
       });
     });
@@ -301,7 +294,11 @@ class MapComponent extends Component {
 
   handleBackPress = debounceUI(() => {
     if (this.isRouteTracking()) {
-      this.state.routeTrackingDialogState ? this.closeBottomDialog() : this.showBottomDialog(true);
+      if (this.state.routeTrackingDialogState) {
+        this.closeBottomDialog();
+      } else {
+        this.showBottomDialog(true);
+      }
     } else {
       Navigation.pop(this.props.componentId);
     }
@@ -413,7 +410,7 @@ class MapComponent extends Component {
     Alert.alert(i18n.t('routes.confirmDeleteTitle'), i18n.t('routes.confirmDeleteMessage'), [
       {
         text: i18n.t('commonText.confirm'),
-        onPress: async () => {
+        onPress: () => {
           try {
             this.props.onCancelTrackingRoute();
             this.closeBottomDialog();
@@ -529,7 +526,7 @@ class MapComponent extends Component {
       region.longitude + region.longitudeDelta / 2,
       region.latitude + region.latitudeDelta / 2
     ];
-    const clusters = clusterGenerator.clusters && clusterGenerator.clusters.getClusters(bbox, mapZoom);
+    const clusters = null;
     const markers = clusters || [];
     markers.activeMarkersId = markers.length > 0 ? bbox.join('_') + mapZoom : '';
 
@@ -628,7 +625,7 @@ class MapComponent extends Component {
 
   zoomTo = (coordinates, id) => {
     // We substract one so there's always some margin
-    const zoomScale = clusterGenerator.clusters.getClusterExpansionZoom(id) - 1;
+    const zoomScale = 1.0;
     const zoomCoordinates = {
       latitude: coordinates.latitude,
       longitude: coordinates.longitude,
@@ -830,137 +827,9 @@ class MapComponent extends Component {
   };
 
   render() {
-    const { lastPosition, customReporting, selectedAlerts, neighbours, heading, markers } = this.state;
+    const { customReporting } = this.state;
 
-    const {
-      areaCoordinates,
-      area,
-      contextualLayer,
-      isConnected,
-      route,
-      isOfflineMode,
-      ctxLayerLocalTilePath
-    } = this.props;
-    const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
-    const showCompassLine = lastPosition && hasAlertsSelected;
-    const isIOS = Platform.OS === 'ios';
-    const ctxLayerKey =
-      isIOS && contextualLayer ? `contextualLayerElement-${contextualLayer.name}` : 'contextualLayerElement';
-    const keyRand = isIOS ? Math.floor(Math.random() * 100 + 1) : '';
-    const clustersKey = markers
-      ? `clustersElement-${clusterGenerator.activeClusterId}_${markers.activeMarkersId}`
-      : 'clustersElement';
-    const markerSize = this.getMarkerSize();
-    const markerBorder = { borderWidth: (markerSize.width / 18) * 4 };
-
-    // Map elements
-
-    const contextualLocalLayerElement = ctxLayerLocalTilePath ? (
-      <MapView.LocalTile
-        key={`${ctxLayerKey}_local`}
-        pathTemplate={ctxLayerLocalTilePath}
-        zIndex={1}
-        maxZoom={12}
-        tileSize={256}
-      />
-    ) : null;
-    const contextualRemoteLayerElement =
-      contextualLayer && !isOfflineMode ? ( // eslint-disable-line
-        <MapView.UrlTile key={ctxLayerKey} urlTemplate={contextualLayer.url} zIndex={2} />
-      ) : null;
-    const compassLineElement = showCompassLine ? (
-      <MapView.Polyline
-        key="compassLineElement"
-        coordinates={[lastPosition, selectedAlerts[selectedAlerts.length - 1]]}
-        strokeColor={Theme.colors.white}
-        strokeWidth={3}
-        zIndex={3}
-      />
-    ) : null;
-    const areaPolygonElement = areaCoordinates ? (
-      <MapView.Polyline
-        key="areaPolygonElement"
-        coordinates={areaCoordinates}
-        strokeColor={Theme.colors.turtleGreen}
-        strokeWidth={3}
-        zIndex={3}
-      />
-    ) : null;
-
-    // In the userPositionElement, if we do not track view changes on iOS the position marker will not render.
-    // However, on Android it needs to be set to false as to resolve memory leaks. In the future, we need to revisit this and hopefully we can remove it altogether.
-    const userPositionElement = lastPosition ? (
-      <MapView.Marker.Animated
-        key="userPositionElement"
-        image={markerImage}
-        coordinate={lastPosition}
-        style={{ zIndex: 10 }}
-        anchor={{ x: 0.5, y: 0.5 }}
-        pointerEvents={'none'}
-        tracksViewChanges={Platform.OS === 'ios' ? true : false}
-      />
-    ) : null;
-    const compassElement =
-      lastPosition && heading !== null ? (
-        <MapView.Marker
-          key="compassElement"
-          coordinate={lastPosition}
-          zIndex={11}
-          anchor={{ x: 0.5, y: 0.5 }}
-          pointerEvents={'none'}
-        >
-          <Image
-            style={{
-              width: 94,
-              height: 94,
-              transform: [{ rotate: `${heading || '0'}deg` }]
-            }}
-            source={compassImage}
-          />
-        </MapView.Marker>
-      ) : null;
-    const neighboursAlertsElement =
-      neighbours && neighbours.length > 0
-        ? neighbours.map((neighbour, i) => (
-            <MapView.Marker
-              key={`neighboursAlertsElement-${i}-${keyRand}`}
-              coordinate={neighbour}
-              anchor={{ x: 0.5, y: 0.5 }}
-              onPress={() => this.includeNeighbour(neighbour)}
-              zIndex={10}
-              tracksViewChanges={false}
-            >
-              <View style={[markerSize, markerBorder, styles.markerIconArea]} />
-            </MapView.Marker>
-          ))
-        : null;
-    const selectedAlertsElement =
-      hasAlertsSelected && !customReporting
-        ? selectedAlerts.map((alert, i) => (
-            <MapView.Marker
-              key={`selectedAlertsElement-${i}-${keyRand}`}
-              coordinate={alert}
-              anchor={{ x: 0.5, y: 0.5 }}
-              onPress={() => this.removeSelection(alert)}
-              zIndex={20}
-              tracksViewChanges={false}
-            >
-              <View style={[markerSize, markerBorder, styles.selectedMarkerIcon]} />
-            </MapView.Marker>
-          ))
-        : null;
-
-    const clustersElement =
-      area && area.dataset ? (
-        <Clusters
-          key={clustersKey}
-          markers={markers}
-          selectAlert={this.selectAlert}
-          zoomTo={this.zoomTo}
-          datasetSlug={area.dataset.slug}
-          markerSize={markerSize}
-        />
-      ) : null;
+    const { isConnected, isOfflineMode } = this.props;
 
     const customReportingElement = customReporting ? (
       <View
@@ -975,10 +844,9 @@ class MapComponent extends Component {
       ? [styles.container, styles.forceRefresh]
       : styles.container;
 
-    const userLocationElement =
-        <MapboxGL.UserLocation visible={true} />;
+    const userLocationElement = <MapboxGL.UserLocation visible={true} />;
 
-    const mapCameraElement =
+    const mapCameraElement = (
       <MapboxGL.Camera
         ref={ref => {
           this.mapCamera = ref;
@@ -986,7 +854,8 @@ class MapComponent extends Component {
         // centerCoordinate={areaCoordinates || undefined}
         bounds={this.state.mapCameraBounds}
         animationDuration={0}
-      />;
+      />
+    );
 
     return (
       <View style={containerStyle} onMoveShouldSetResponder={this.onMoveShouldSetResponder}>

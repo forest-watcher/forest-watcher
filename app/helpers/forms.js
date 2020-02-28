@@ -5,7 +5,7 @@ import type { Question, Report, ReportsState, Template, Answer } from 'types/rep
 import moment from 'moment';
 
 import { REPORTS } from 'config/constants';
-import i18n from 'locales';
+import i18n from 'i18next';
 import flatMap from 'lodash/flatMap';
 
 export const getBtnTextByType = (type: string) => {
@@ -149,19 +149,6 @@ export function mapFormToAnsweredQuestions(answers: Array<Answer>, template: Tem
     return answeredQuestion;
   });
 }
-
-/**
- * Constant array defining metadata fields returned by the mapReportsToMetadata.
- */
-export const REPORT_METADATA_FIELDS = [
-  { id: 'name', label: i18n.t('commonText.name') },
-  { id: 'areaName', label: i18n.t('commonText.area') },
-  { id: 'date', label: i18n.t('commonText.date') },
-  { id: 'language', label: i18n.t('commonText.language') },
-  { id: 'userPosition', label: i18n.t('commonText.userPosition') },
-  { id: 'clickedPosition', label: i18n.t('commonText.reportedPosition') },
-  { id: 'dataset', label: i18n.t('commonText.alert') }
-];
 
 /**
  * Creates and returns an array of structured metadata relating to the provided report

@@ -1,13 +1,11 @@
 // @flow
 import React, { Component } from 'react';
 import { View, Text, ScrollView, Image } from 'react-native';
-import { Navigation } from 'react-native-navigation';
 
 import Row from 'components/common/row';
 import { formatBytes } from 'helpers/data';
-import debounceUI from 'helpers/debounceUI';
 
-import i18n from 'locales';
+import i18n from 'i18next';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
@@ -66,14 +64,14 @@ export default class CustomComponents extends Component<Props> {
           showsHorizontalScrollIndicator={false}
         >
           <Row action={this.basemapsAction} rowStyle={styles.row} style={styles.rowContainer}>
-            <Image style={styles.rowIcon} source={baseMapsIcon}/>
+            <Image style={styles.rowIcon} source={baseMapsIcon} />
             <View>
               <Text style={styles.rowLabel}>{i18n.t('settings.customComponents.baseMaps')}</Text>
               <Text style={styles.rowSublabel}>{formatBytes(5162124)}</Text>
             </View>
           </Row>
           <Row action={this.contextualLayersAction} rowStyle={styles.row} style={styles.rowContainer}>
-            <Image style={styles.rowIcon} source={layersIcon}/>
+            <Image style={styles.rowIcon} source={layersIcon} />
             <View>
               <Text style={styles.rowLabel}>{i18n.t('settings.customComponents.contextualLayers')}</Text>
               <Text style={styles.rowSublabel}>{formatBytes(2316122)}</Text>
