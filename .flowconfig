@@ -15,6 +15,10 @@ node_modules/warning/.*
 ; Flow doesn't support platforms
 .*/Libraries/Utilities/LoadingView.js
 
+; Ignore react-native-keyboard-aware-scroll-view
+.*/node_modules/react-native-image-picker/.*
+.*/node_modules/react-native-keyboard-aware-scroll-view/.*
+
 [untyped]
 .*/node_modules/@react-native-community/cli/.*/.*
 
@@ -39,6 +43,15 @@ munge_underscores=true
 module.name_mapper='^react-native$' -> '<PROJECT_ROOT>/node_modules/react-native/Libraries/react-native/react-native-implementation'
 module.name_mapper='^react-native/\(.*\)$' -> '<PROJECT_ROOT>/node_modules/react-native/\1'
 module.name_mapper='^[./a-zA-Z0-9$_-]+\.\(bmp\|gif\|jpg\|jpeg\|png\|psd\|svg\|webp\|m4v\|mov\|mp4\|mpeg\|mpg\|webm\|aac\|aiff\|caf\|m4a\|mp3\|wav\|html\|pdf\)$' -> '<PROJECT_ROOT>/node_modules/react-native/Libraries/Image/RelativeImageStub'
+
+; aliases support
+module.name_mapper='^assets\/\(.*\)$' -> '<PROJECT_ROOT>/app/assets/\1'
+module.name_mapper='^components\/\(.*\)$' -> '<PROJECT_ROOT>/app/components/\1'
+module.name_mapper='^containers\/\(.*\)$' -> '<PROJECT_ROOT>/app/containers/\1'
+module.name_mapper='^config\/\(.*\)$' -> '<PROJECT_ROOT>/app/config/\1'
+module.name_mapper='^helpers\/\(.*\)$' -> '<PROJECT_ROOT>/app/helpers/\1'
+module.name_mapper='^redux-modules\/\(.*\)$' -> '<PROJECT_ROOT>/app/redux-modules/\1'
+module.name_mapper='^types\/\(.*\)$' -> '<PROJECT_ROOT>/app/types/\1'
 
 suppress_type=$FlowIssue
 suppress_type=$FlowFixMe
