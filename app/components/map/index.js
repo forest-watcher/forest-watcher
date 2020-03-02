@@ -683,7 +683,7 @@ class MapComponent extends Component {
       : '';
 
     // Map elements
-    const customReportingMarker = customReporting ? (
+    const renderCustomReportingMarker = customReporting ? (
       <View
         pointerEvents="none"
         style={[styles.customLocationFixed, this.state.dragging ? styles.customLocationTransparent : '']}
@@ -693,10 +693,10 @@ class MapComponent extends Component {
     ) : null;
 
     // Displays user location circle on map
-    const userLocationElement = <MapboxGL.UserLocation visible={true} />;
+    const renderUserLocation = <MapboxGL.UserLocation visible={true} />;
 
     // Controls view of map (location / zoom)
-    const mapCameraElement = (
+    const renderMapCamera = (
       <MapboxGL.Camera
         ref={ref => {
           this.mapCamera = ref;
@@ -731,13 +731,13 @@ class MapComponent extends Component {
           styleURL={MapboxGL.StyleURL.SatelliteStreet}
           onRegionDidChange={this.onRegionDidChange}
         >
-          {userLocationElement}
-          {mapCameraElement}
+          {renderUserLocation}
+          {renderMapCamera}
           {this.renderAreaOutline()}
           {this.renderDestinationLine()}
-          <RouteMarkers isTracking={this.isRouteTracking()} lastPosition={userLocation} route={route} />
+          <RouteMarkers isTracking={this.isRouteTracking()} userLocation={userLocation} route={route} />
         </MapboxGL.MapView>
-        {customReportingMarker}
+        {renderCustomReportingMarker}
         {this.renderMapFooter()}
         {this.renderRouteTrackingDialog()}
       </View>
