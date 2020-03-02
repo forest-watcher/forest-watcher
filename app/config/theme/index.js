@@ -148,6 +148,12 @@ const config = {
     fontFamily: fontName,
     fontWeight: '400'
   },
+  text: {
+    fontWeight: '400',
+    fontSize: 17,
+    fontFamily: fontName,
+    color: fontColors.secondary
+  },
   tableRow: {
     alignItems: 'center',
     backgroundColor: 'white',

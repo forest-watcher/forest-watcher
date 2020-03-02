@@ -17,8 +17,10 @@ import ShareSheet from 'components/common/share';
 const plusIcon = require('assets/add.png');
 
 type Props = {
+  areaDownloadTooltipSeen: boolean,
   areas: Array<Area>,
   componentId: string,
+  setAreaDownloadTooltipSeen: (seen: boolean) => void,
   setSelectedAreaId: () => void,
   showNotConnectedNotification: () => void,
   offlineMode: boolean
@@ -254,6 +256,11 @@ class Areas extends Component<Props> {
               <View style={styles.areas}>
                 <Text style={styles.label}>{i18n.t('areas.myAreas')}</Text>
                 <AreaList
+                  downloadCalloutVisible={!this.props.areaDownloadTooltipSeen}
+                  onAreaDownloadPress={(areaId, name) => {
+                    this.props.setAreaDownloadTooltipSeen(true);
+                    // todo: Handle download too!
+                  }}
                   onAreaPress={(areaId, name) => {
                     if (this.state.inShareMode) {
                       this.onAreaSelectedForExport(areaId);

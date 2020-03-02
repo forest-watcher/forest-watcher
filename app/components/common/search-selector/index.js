@@ -40,6 +40,9 @@ class SearchSelector extends Component {
   }
 
   setListVisibility(status) {
+    if (status) {
+      this.props.onFocus?.();
+    }
     this.setState({ showList: status });
   }
 
@@ -55,7 +58,7 @@ class SearchSelector extends Component {
       this.props.selected && this.props.selected.label ? this.props.selected.label : this.props.placeholder;
 
     return (
-      <View>
+      <View onLayout={this.props.onLayout}>
         <TouchableHighlight
           onPress={() => this.setListVisibility(true)}
           activeOpacity={0.5}
@@ -127,6 +130,8 @@ SearchSelector.propTypes = {
   }).isRequired,
   placeholder: PropTypes.string.isRequired,
   onOptionSelected: PropTypes.func.isRequired,
+  onFocus: PropTypes.func,
+  onLayout: PropTypes.func,
   data: PropTypes.array.isRequired
 };
 

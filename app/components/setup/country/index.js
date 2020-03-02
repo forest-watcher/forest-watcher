@@ -6,6 +6,7 @@ import { withSafeArea } from 'react-native-safe-area';
 
 import SearchSelector from 'components/common/search-selector';
 import ActionButton from 'components/common/action-button';
+import Callout from 'components/common/callout';
 import Theme from 'config/theme';
 import i18n from 'i18next';
 import debounceUI from 'helpers/debounceUI';
@@ -111,14 +112,22 @@ class SetupCountry extends Component {
 
           <View style={styles.selector}>
             <Text style={styles.selectorLabel}>{i18n.t('setupCountry.firstInstruction')}</Text>
-            <SearchSelector
-              selected={this.getCountrySelected(countries, iso)}
-              onOptionSelected={setSetupCountry}
-              data={countries}
-              placeholder={i18n.t('countries.searchPlaceholder')}
-            />
+            <Callout
+              body={i18n.t('setupCountry.tooltip.body')}
+              title={i18n.t('setupCountry.tooltip.title')}
+              visible={!this.props.areaCountryTooltipSeen}
+            >
+              <SearchSelector
+                selected={this.getCountrySelected(countries, iso)}
+                onFocus={() => {
+                  this.props.setAreaCountryTooltipSeen(true);
+                }}
+                onOptionSelected={setSetupCountry}
+                data={countries}
+                placeholder={i18n.t('countries.searchPlaceholder')}
+              />
+            </Callout>
           </View>
-
           <ActionButton
             style={styles.buttonPos}
             disabled={!iso}
@@ -133,10 +142,12 @@ class SetupCountry extends Component {
 }
 
 SetupCountry.propTypes = {
+  areaCountryTooltipSeen: PropTypes.bool,
   logout: PropTypes.func,
   user: PropTypes.any,
   setupCountry: PropTypes.any,
   countries: PropTypes.any,
+  setAreaCountryTooltipSeen: PropTypes.func.isRequired,
   setSetupCountry: PropTypes.func.isRequired,
   componentId: PropTypes.string.isRequired
 };

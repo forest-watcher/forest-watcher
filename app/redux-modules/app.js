@@ -18,6 +18,8 @@ import takeRight from 'lodash/takeRight';
 const SET_OFFLINE_MODE = 'app/SET_OFFLINE_MODE';
 export const SET_APP_SYNCED = 'app/SET_APP_SYNCED';
 export const RETRY_SYNC = 'app/RETRY_SYNC';
+const SET_AREA_COUNTRY_TOOLTIP_SEEN = 'app/SET_AREA_COUNTRY_TOOLTIP_SEEN';
+const SET_AREA_DOWNLOAD_TOOLTIP_SEEN = 'app/SET_AREA_DOWNLOAD_TOOLTIP_SEEN';
 const SET_COORDINATES_FORMAT = 'app/SET_COORDINATES_FORMAT';
 const SET_PRISTINE_CACHE_TOOLTIP = 'app/SET_PRISTINE_CACHE_TOOLTIP';
 export const SAVE_LAST_ACTIONS = 'app/SAVE_LAST_ACTIONS';
@@ -30,6 +32,8 @@ export const EXPORT_REPORTS_SUCCESSFUL = 'app/EXPORT_REPORTS_SUCCESSFUL';
 const initialState = {
   version,
   actions: [],
+  areaCountryTooltipSeen: false,
+  areaDownloadTooltipSeen: false,
   synced: false,
   language: getLanguage(),
   offlineMode: false,
@@ -49,6 +53,10 @@ export default function reducer(state: AppState = initialState, action: AppActio
       return { ...state, offlineMode: action.payload };
     case SET_APP_SYNCED:
       return { ...state, synced: action.payload };
+    case SET_AREA_COUNTRY_TOOLTIP_SEEN:
+      return { ...state, areaCountryTooltipSeen: action.payload };
+    case SET_AREA_DOWNLOAD_TOOLTIP_SEEN:
+      return { ...state, areaDownloadTooltipSeen: action.payload };
     case SET_COORDINATES_FORMAT:
       return { ...state, coordinatesFormat: action.payload };
     case SET_PRISTINE_CACHE_TOOLTIP:
@@ -126,6 +134,20 @@ export function setPristineCacheTooltip(pristine: boolean): AppAction {
   return {
     type: SET_PRISTINE_CACHE_TOOLTIP,
     payload: pristine
+  };
+}
+
+export function setAreaCountryTooltipSeen(seen: boolean): AppAction {
+  return {
+    type: SET_AREA_COUNTRY_TOOLTIP_SEEN,
+    payload: seen
+  };
+}
+
+export function setAreaDownloadTooltipSeen(seen: boolean): AppAction {
+  return {
+    type: SET_AREA_DOWNLOAD_TOOLTIP_SEEN,
+    payload: seen
   };
 }
 

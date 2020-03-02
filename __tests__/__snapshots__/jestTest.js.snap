@@ -19,6 +19,8 @@ exports[`Redux Actions - Unit Tests snapshot redux action thunk test 1`] = `[Fun
 exports[`Redux Reducers - Unit Tests snapshot redux reducer action test 1`] = `
 Object {
   "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
   "language": "en",
   "offlineMode": false,
@@ -31,6 +33,8 @@ Object {
 exports[`Redux Reducers - Unit Tests snapshot redux reducer initial state test 1`] = `
 Object {
   "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
   "language": "en",
   "offlineMode": false,
@@ -43,6 +47,8 @@ Object {
 exports[`Redux Reducers - Unit Tests snapshot redux reducer multiple action test 1`] = `
 Object {
   "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
   "language": "en",
   "offlineMode": false,
@@ -55,6 +61,8 @@ Object {
 exports[`Redux Reducers - Unit Tests snapshot redux reducer multiple action test 2`] = `
 Object {
   "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
   "language": "en",
   "offlineMode": true,
