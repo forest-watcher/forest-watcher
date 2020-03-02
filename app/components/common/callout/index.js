@@ -21,6 +21,7 @@ type Props = {
 };
 
 const DEFAULT_MARGIN = 12;
+const DEFAULT_WIDTH = 196;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 const ARROW_SVG_PATH_UP = 'M0 12 L0 10 C2 10 6 0 8 0 S14 10 16 10 L16 12';
@@ -105,7 +106,7 @@ export default class Callout extends Component<Props> {
     const offset = this.props.offset != null ? this.props.offset : 0;
     const containerWidth = this.props.containerWidth != null ? this.props.containerWidth : SCREEN_WIDTH;
     const margin = this.props.margin != null ? this.props.margin : DEFAULT_MARGIN;
-    const width = this.props.width != null ? this.props.width : 196;
+    const width = this.props.width != null ? this.props.width : DEFAULT_WIDTH;
     // Callout should remain at left edge of screen until it's attached view's center x is more than half the width
     // of the callout across the screen, then it should move with it to keep the arrow centered until it
     // meets the far end of the screen...
