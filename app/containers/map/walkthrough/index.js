@@ -9,9 +9,7 @@ import { setMapWalkthroughSeen } from 'redux-modules/app';
 import MapWalkthrough from 'components/map/walkthrough';
 
 function mapStateToProps(state: State) {
-  return {
-    
-  };
+  return {};
 }
 
 function mapDispatchToProps(dispatch: *) {

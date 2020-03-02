@@ -34,7 +34,13 @@ function ButtonCircle(props) {
   }
 
   return (
-    <TouchableHighlight onLayout={props.onLayout} style={[btnStyles, props.style]} onPress={onButtonPress} activeOpacity={0.8} underlayColor={underlayColor}>
+    <TouchableHighlight
+      onLayout={props.onLayout}
+      style={[btnStyles, props.style]}
+      onPress={onButtonPress}
+      activeOpacity={0.8}
+      underlayColor={underlayColor}
+    >
       {props.icon && <Image style={props.shouldFillContainer ? Theme.largeIcon : Theme.icon} source={props.icon} />}
     </TouchableHighlight>
   );

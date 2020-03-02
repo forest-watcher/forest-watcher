@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   attribution: {
-    opacity: 0, // Hide it so our button is still placed correctly but we don't show this UI
+    opacity: 0 // Hide it so our button is still placed correctly but we don't show this UI
   },
   bodyText: {
     ...Theme.text,

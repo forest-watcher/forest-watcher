@@ -227,9 +227,9 @@ class MapComponent extends Component {
               component: {
                 name: 'ForestWatcher.MapWalkthrough',
                 options: {
-                  layout: { 
+                  layout: {
                     backgroundColor: 'transparent',
-                    componentBackgroundColor: 'rgba(0,0,0,0.74)' 
+                    componentBackgroundColor: 'rgba(0,0,0,0.74)'
                   },
                   screenBackgroundColor: 'rgba(0,0,0,0.74)',
                   modalPresentationStyle: 'overFullScreen'
@@ -953,6 +953,7 @@ MapComponent.propTypes = {
     url: PropTypes.string.isRequired
   }),
   coordinatesFormat: PropTypes.string.isRequired,
+  mapWalkthroughSeen: PropTypes.bool.isRequired,
   setSelectedAreaId: PropTypes.func.isRequired,
   route: PropTypes.object,
   isTracking: PropTypes.bool.isRequired,

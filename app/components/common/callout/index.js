@@ -118,8 +118,6 @@ export default class Callout extends Component<Props> {
       ? -((this.state.layout != null ? this.state.layout.height : 0) + offset)
       : childLayout.y + childLayout.height + offset;
 
-    console.log("Child Layout", childLayout, childCenterX);
-
     return (
       <React.Fragment>
         {LayoutChild}
