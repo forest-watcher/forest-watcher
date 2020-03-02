@@ -18,7 +18,8 @@ const reportsAndRoutesImage = require('assets/phoneMapIPhone.png');
 const settingsBlackIcon = require('assets/settings_black.png');
 
 type Props = {
-  componentId: string
+  componentId: string,
+  setMapWalkthroughSeen: (seen: boolean) => void
 };
 
 export default class MapWalkthrough extends Component<Props> {
@@ -139,6 +140,7 @@ export default class MapWalkthrough extends Component<Props> {
         });
       break;
       case 2:
+        this.props.setMapWalkthroughSeen(true);
         Navigation.dismissModal(this.props.componentId);
       break;
     }

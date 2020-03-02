@@ -15,7 +15,7 @@ import Settings from 'containers/settings';
 import ContactUs from 'components/settings/contact-us';
 import Reports from 'containers/reports';
 import Routes from 'containers/routes';
-import MapWalkthrough from 'components/map/walkthrough';
+import MapWalkthrough from 'containers/map/walkthrough';
 import NewReport from 'containers/form/form';
 import AreaDetail from 'containers/areas/area-detail';
 import Partners from 'components/settings/partners';

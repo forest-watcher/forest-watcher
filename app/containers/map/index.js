@@ -76,7 +76,8 @@ function mapStateToProps(state: State, ownProps: { previousRoute: Route }) {
     coordinatesFormat: state.app.coordinatesFormat,
     canDisplayAlerts: state.alerts.canDisplayAlerts,
     basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',
-    ctxLayerLocalTilePath: area && cache[state.layers.activeLayer] ? cache[state.layers.activeLayer][area.id] : ''
+    ctxLayerLocalTilePath: area && cache[state.layers.activeLayer] ? cache[state.layers.activeLayer][area.id] : '',
+    mapWalkthroughSeen: state.app.mapWalkthroughSeen
   };
 }
 

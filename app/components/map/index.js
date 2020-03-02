@@ -215,29 +215,31 @@ class MapComponent extends Component {
   };
 
   componentDidAppear() {
-    const { setCanDisplayAlerts, canDisplayAlerts } = this.props;
+    const { setCanDisplayAlerts, canDisplayAlerts, mapWalkthroughSeen } = this.props;
     if (!canDisplayAlerts) {
       setCanDisplayAlerts(true);
     }
-    Navigation.showModal({
-      stack: {
-        children: [
-          {
-            component: {
-              name: 'ForestWatcher.MapWalkthrough',
-              options: {
-                layout: { 
-                  backgroundColor: 'transparent',
-                  componentBackgroundColor: 'rgba(0,0,0,0.74)' 
-                },
-                screenBackgroundColor: 'rgba(0,0,0,0.74)',
-                modalPresentationStyle: 'overFullScreen'
+    if (!mapWalkthroughSeen) {
+      Navigation.showModal({
+        stack: {
+          children: [
+            {
+              component: {
+                name: 'ForestWatcher.MapWalkthrough',
+                options: {
+                  layout: { 
+                    backgroundColor: 'transparent',
+                    componentBackgroundColor: 'rgba(0,0,0,0.74)' 
+                  },
+                  screenBackgroundColor: 'rgba(0,0,0,0.74)',
+                  modalPresentationStyle: 'overFullScreen'
+                }
               }
             }
-          }
-        ]
-      }
-    });
+          ]
+        }
+      });
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
