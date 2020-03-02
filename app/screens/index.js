@@ -15,6 +15,7 @@ import Settings from 'containers/settings';
 import ContactUs from 'components/settings/contact-us';
 import Reports from 'containers/reports';
 import Routes from 'containers/routes';
+import MapWalkthrough from 'components/map/walkthrough';
 import NewReport from 'containers/form/form';
 import AreaDetail from 'containers/areas/area-detail';
 import Partners from 'components/settings/partners';
@@ -53,6 +54,7 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.SetupOverview', SetupOverview, Provider, store);
   registerComponent('ForestWatcher.Dashboard', Dashboard, Provider, store);
   registerComponent('ForestWatcher.Map', Map, Provider, store);
+  registerComponent('ForestWatcher.MapWalkthrough', MapWalkthrough, Provider, store);
   registerComponent('ForestWatcher.Settings', Settings, Provider, store);
   registerComponent('ForestWatcher.ContactUs', ContactUs, Provider, store);
   registerComponent('ForestWatcher.Reports', Reports, Provider, store);

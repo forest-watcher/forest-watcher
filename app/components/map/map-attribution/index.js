@@ -1,16 +1,26 @@
-import React from 'react';
-import { View, Text, Image } from 'react-native';
+// @flow
+
+import React, { Component } from 'react';
+import { View, StyleSheet, Text, Image } from 'react-native';
 import styles from './styles';
 
 const mapboxImage = require('assets/mapbox.png');
 
-function MapAttribution() {
-  return (
-    <View style={[styles.attributionContainer, styles.footerZIndex]} pointerEvents="box-none">
-      <Image source={mapboxImage} />
-      <Text style={styles.attributionText}>{' © Mapbox © OpenStreetMap'}</Text>
-    </View>
-  );
-}
+type ViewProps = React.ElementProps<typeof View>;
+type ViewStyleProp = $PropertyType<ViewProps, 'style'>;
 
-export default MapAttribution;
+type Props = {
+  style?: ?ViewStyleProp
+};
+
+export default class MapAttribution extends Component<Props> {
+
+	render() {
+    return (
+      <View style={[styles.attributionContainer, styles.footerZIndex, this.props.style]} pointerEvents="box-none">
+        <Image source={mapboxImage} />
+        <Text style={styles.attributionText}>{' © Mapbox © OpenStreetMap'}</Text>
+      </View>
+    );
+	}
+}

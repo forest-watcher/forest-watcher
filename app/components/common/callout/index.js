@@ -118,8 +118,10 @@ export default class Callout extends Component<Props> {
       ? -((this.state.layout != null ? this.state.layout.height : 0) + offset)
       : childLayout.y + childLayout.height + offset;
 
+    console.log("Child Layout", childLayout, childCenterX);
+
     return (
-      <View style={{ zIndex: 10000 }}>
+      <React.Fragment>
         {LayoutChild}
         {this.state.childLayout && (
           <Animated.View
@@ -130,7 +132,8 @@ export default class Callout extends Component<Props> {
               top,
               left,
               width,
-              flexDirection: this.props.above ? 'column' : 'column-reverse'
+              flexDirection: this.props.above ? 'column' : 'column-reverse',
+              zIndex: 10000
             }}
           >
             <View style={[styles.container, styles.shadow]}>
@@ -140,7 +143,7 @@ export default class Callout extends Component<Props> {
             {this.renderArrow(arrowLeft)}
           </Animated.View>
         )}
-      </View>
+      </React.Fragment>
     );
   }
 }
