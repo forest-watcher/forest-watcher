@@ -20,7 +20,7 @@ import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import Theme from 'config/theme';
 import i18n from 'i18next';
-import styles from './styles';
+import styles, { mapboxStyles } from './styles';
 import { Navigation } from 'react-native-navigation';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
 import MapboxGL from '@react-native-mapbox-gl/maps';
@@ -42,8 +42,10 @@ import {
   startTrackingHeading,
   stopTrackingHeading,
   getCoordinateAndDistanceText,
-  coordsObjectToArray
+  coordsObjectToArray,
+  coordsArrayToObject
 } from 'helpers/location';
+import RouteMarkers from 'components/map/route';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -160,7 +162,7 @@ class MapComponent extends Component {
       routeTrackingDialogState: ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN,
       locationError: null,
       mapCameraBounds: getPolygonBoundingBox(props.areaCoordinates),
-      center: null
+      destinationCoords: null
     };
 
     SafeArea.getSafeAreaInsetsForRootView().then(result => {
@@ -341,11 +343,7 @@ class MapComponent extends Component {
   onStartTrackingPressed = debounceUI(async () => {
     try {
       await this.geoLocate(true);
-
-      this.props.onStartTrackingRoute(
-        this.state.selectedAlerts[this.state.selectedAlerts.length - 1],
-        this.props.area.id
-      );
+      this.props.onStartTrackingRoute(coordsArrayToObject(this.state.destinationCoords), this.props.area.id);
 
       this.onSelectionCancelPress();
 
@@ -390,8 +388,8 @@ class MapComponent extends Component {
   });
 
   async onRegionDidChange() {
-    const center = await this.map.getCenter();
-    this.setState({ center, dragging: false });
+    const destinationCoords = await this.map.getCenter();
+    this.setState({ destinationCoords, dragging: false });
   }
 
   showBottomDialog = debounceUI((isExiting = false) => {
@@ -559,21 +557,14 @@ class MapComponent extends Component {
 
   // Draw line from user location to destination
   renderDestinationLine = () => {
-    const { center, userLocation, customReporting } = this.state;
+    const { destinationCoords, userLocation, customReporting } = this.state;
     if (!customReporting) {
       return null;
     }
-    const line = MapboxGL.geoUtils.makeLineString([coordsObjectToArray(userLocation), center]);
+    const line = MapboxGL.geoUtils.makeLineString([coordsObjectToArray(userLocation), destinationCoords]);
     return (
       <MapboxGL.ShapeSource id="destLine" shape={line}>
-        <MapboxGL.LineLayer
-          id="destLineLayer"
-          style={{
-            lineColor: 'white',
-            lineWidth: 3,
-            lineOpacity: 0.8
-          }}
-        />
+        <MapboxGL.LineLayer id="destLineLayer" style={mapboxStyles.destinationLine} />
       </MapboxGL.ShapeSource>
     );
   };
@@ -584,14 +575,7 @@ class MapComponent extends Component {
     const line = MapboxGL.geoUtils.makeLineString(coords);
     return (
       <MapboxGL.ShapeSource id="areaOutline" shape={line}>
-        <MapboxGL.LineLayer
-          id="areaOutlineLayer"
-          style={{
-            lineColor: Theme.colors.turtleGreen,
-            lineWidth: 3,
-            lineOpacity: 0.8
-          }}
-        />
+        <MapboxGL.LineLayer id="areaOutlineLayer" style={mapboxStyles.areaOutline} />
       </MapboxGL.ShapeSource>
     );
   };
@@ -608,7 +592,7 @@ class MapComponent extends Component {
     return (
       <React.Fragment>
         <LocationErrorBanner
-          style={{ margin: 16 }}
+          style={styles.locationErrorBanner}
           locationError={locationError}
           mostRecentLocationTime={userLocation?.timestamp}
         />
@@ -691,11 +675,11 @@ class MapComponent extends Component {
   }
 
   render() {
-    const { customReporting, userLocation, center } = this.state;
+    const { customReporting, userLocation, destinationCoords } = this.state;
     const { isConnected, isOfflineMode, route, coordinatesFormat } = this.props;
 
     const coordinateAndDistanceText = customReporting
-      ? getCoordinateAndDistanceText(center, userLocation, route, coordinatesFormat, this.isRouteTracking())
+      ? getCoordinateAndDistanceText(destinationCoords, userLocation, route, coordinatesFormat, this.isRouteTracking())
       : '';
 
     // Map elements
@@ -743,15 +727,15 @@ class MapComponent extends Component {
           ref={ref => {
             this.map = ref;
           }}
-          style={{ flex: 1 }}
+          style={styles.mapView}
           styleURL={MapboxGL.StyleURL.SatelliteStreet}
           onRegionDidChange={this.onRegionDidChange}
         >
           {userLocationElement}
           {mapCameraElement}
-          {/*mpf todo route markers*/}
           {this.renderAreaOutline()}
           {this.renderDestinationLine()}
+          <RouteMarkers isTracking={this.isRouteTracking()} lastPosition={userLocation} route={route} />
         </MapboxGL.MapView>
         {customReportingMarker}
         {this.renderMapFooter()}

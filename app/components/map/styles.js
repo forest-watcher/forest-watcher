@@ -1,19 +1,14 @@
 import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
+import MapboxGL from "@react-native-mapbox-gl/maps";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#EDEAE2'
   },
-  map: {
-    zIndex: 0,
-    flex: 1,
-    position: 'absolute',
-    right: 0,
-    left: 0,
-    bottom: -26,
-    top: 0
+  mapView: {
+    flex: 1
   },
   customLocationFixed: {
     position: 'absolute',
@@ -58,7 +53,7 @@ export default StyleSheet.create({
   routeVertex: {
     borderColor: 'white',
     borderWidth: 1,
-    backgroundColor: '#2e8dc7',
+    backgroundColor: Theme.colors.blue,
     borderRadius: 5,
     width: 10,
     height: 10
@@ -140,5 +135,23 @@ export default StyleSheet.create({
   forceRefresh: {
     marginTop: -1,
     paddingTop: 1
+  },
+  locationErrorBanner: {
+    margin: 16
   }
 });
+
+export const mapboxStyles = {
+  destinationLine: {
+    lineColor: Theme.colors.white,
+    lineWidth: 3,
+    lineOpacity: 0.8
+  },
+  areaOutline: {
+    lineColor: Theme.colors.turtleGreen,
+    lineCap: MapboxGL.LineJoin.Round,
+    lineJoin: MapboxGL.LineJoin.Round,
+    lineWidth: 3,
+    lineOpacity: 0.8
+  }
+};
