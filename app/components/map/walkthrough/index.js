@@ -86,7 +86,13 @@ export default class MapWalkthrough extends Component<Props> {
     );
   }
 
+  /**
+   * Renders a dummy navigation bar for placement of the Callout which tracks the settings nav button
+   */
   renderDummyNav() {
+    // Render a dummy navigation bar, in order to try and place the callout arrow directly on the system
+    // navigation bar item. We can't get the frame of the button seemingly from react-native-navigation
+    // so this is a necessarily hacky bit of UI unfortunately.
     return (
       <NavSafeAreaView style={styles.navContainer}>
         <Callout
@@ -126,7 +132,7 @@ export default class MapWalkthrough extends Component<Props> {
           delay: 0,
           duration: 200
         }).start();
-        // Show this as it's the only way to guarantee this lines up with the button below
+        // Show this as it's the only way to guarantee this lines up with the button in the screen below
         Navigation.mergeOptions(this.props.componentId, {
           topBar: {
             rightButtons: [
