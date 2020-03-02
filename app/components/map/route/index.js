@@ -6,15 +6,14 @@ const emitter = require('tiny-emitter/instance');
 import { mapboxStyles } from './styles';
 import { coordsObjectToArray, getValidLocations, GFWOnLocationEvent } from 'helpers/location';
 import throttle from 'lodash/throttle';
-import MapboxGL from "@react-native-mapbox-gl/maps";
+import MapboxGL from '@react-native-mapbox-gl/maps';
+import type { Route } from 'types/routes.types';
 
 type Props = {
   isTracking: boolean,
   userLocation: Location,
   route: Route
 };
-
-const markerImage = require('assets/marker.png');
 
 export default class RouteMarkers extends PureComponent<Props> {
   constructor(props) {

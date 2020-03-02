@@ -42,7 +42,7 @@ const config = {
     viirs: colors.viirs,
     recent: colors.recent,
     lightBlue: colors.lightBlue,
-    blue: colors.blue,
+    blue: colors.blue
   },
   font: fontName,
   fontColors: fontColors,

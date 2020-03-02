@@ -1,6 +1,6 @@
 import Theme from 'config/theme';
-import MapboxGL from "@react-native-mapbox-gl/maps";
-const markerImage = require('assets/plus.png')
+import MapboxGL from '@react-native-mapbox-gl/maps';
+const markerImage = require('assets/plus.png');
 
 export const mapboxStyles = {
   routeLineLayer: {
