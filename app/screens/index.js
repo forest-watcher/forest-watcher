@@ -28,6 +28,7 @@ import ErrorLightbox from 'components/error-lightbox';
 import ToastNotification from 'components/toast-notification';
 import RouteDetail from '../containers/routes/route-detail';
 import SaveRoute from '../containers/routes/save-route';
+import Welcome from '../containers/welcome';
 
 function registerComponent(name, Screen, Provider, store) {
   Navigation.registerComponent(
@@ -70,6 +71,7 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.Routes', Routes, Provider, store);
   registerComponent('ForestWatcher.RouteDetail', RouteDetail, Provider, store);
   registerComponent('ForestWatcher.SaveRoute', SaveRoute, Provider, store);
+  registerComponent('ForestWatcher.Welcome', Welcome, Provider, store);
 }
 
 export default registerScreens;

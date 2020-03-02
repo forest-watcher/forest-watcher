@@ -20,6 +20,7 @@ const routesIcon = require('assets/routes.png');
 type Props = {
   componentId: string,
   setAreasRefreshing: boolean => void,
+  hasSeenWelcomeScreen: boolean,
   isConnected: boolean,
   needsUpdate: boolean,
   appSyncing: boolean,
@@ -27,6 +28,7 @@ type Props = {
   pristine: boolean,
   setSelectedAreaId: string => void,
   setPristine: boolean => void,
+  setWelcomeScreenSeen: boolean => void,
   updateApp: () => void,
   showNotConnectedNotification: () => void,
   activeRoute: Route
@@ -98,7 +100,33 @@ class Dashboard extends PureComponent<Props> {
         }
       });
     }
+
+    // This is called both here and componentDidAppear because componentDidAppear isn't called when setting
+    // the app root using RNN
+    this.showWelcomeScreenIfNecessary();
   }
+
+  componentDidAppear() {
+    // This is called both here and componentDidAppear because componentDidAppear isn't called when setting
+    // the app root using RNN
+    this.showWelcomeScreenIfNecessary();
+  }
+
+  showWelcomeScreenIfNecessary = debounceUI(() => {
+    const { hasSeenWelcomeScreen } = this.props;
+    if (!hasSeenWelcomeScreen) {
+      this.props.setWelcomeScreenSeen(true);
+      Navigation.showModal({
+        component: {
+          name: 'ForestWatcher.Welcome',
+          options: {
+            layout: { componentBackgroundColor: 'rgba(0,0,0,0.8)' },
+            modalPresentationStyle: 'overFullScreen'
+          }
+        }
+      });
+    }
+  });
 
   componentDidDisappear() {
     const { pristine, setPristine, refreshing, setAreasRefreshing } = this.props;
