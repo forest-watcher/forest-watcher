@@ -259,7 +259,7 @@ class Areas extends Component<Props> {
                   downloadCalloutVisible={!this.props.areaDownloadTooltipSeen}
                   onAreaDownloadPress={(areaId, name) => {
                     this.props.setAreaDownloadTooltipSeen(true);
-                    // Handle download too!
+                    // todo: Handle download too!
                   }}
                   onAreaPress={(areaId, name) => {
                     if (this.state.inShareMode) {

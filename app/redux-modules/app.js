@@ -23,6 +23,7 @@ const SET_AREA_DOWNLOAD_TOOLTIP_SEEN = 'app/SET_AREA_DOWNLOAD_TOOLTIP_SEEN';
 const SET_COORDINATES_FORMAT = 'app/SET_COORDINATES_FORMAT';
 const SET_MAP_WALKTHROUGH_SEEN = 'app/SET_MAP_WALKTHROUGH_SEEN';
 const SET_PRISTINE_CACHE_TOOLTIP = 'app/SET_PRISTINE_CACHE_TOOLTIP';
+const SET_WELCOME_SEEN = 'app/SET_WELCOME_SEEN';
 export const SAVE_LAST_ACTIONS = 'app/SAVE_LAST_ACTIONS';
 export const SHOW_OFFLINE_MODE_IS_ON = 'app/SHOW_OFFLINE_MODE_IS_ON';
 export const SHOW_CONNECTION_REQUIRED = 'app/SHOW_CONNECTION_REQUIRED';
@@ -40,7 +41,8 @@ const initialState = {
   language: getLanguage(),
   offlineMode: false,
   pristineCacheTooltip: true,
-  coordinatesFormat: COORDINATES_FORMATS.decimal.value
+  coordinatesFormat: COORDINATES_FORMATS.decimal.value,
+  hasSeenWelcomeScreen: false
 };
 
 export default function reducer(state: AppState = initialState, action: AppAction) {
@@ -49,7 +51,8 @@ export default function reducer(state: AppState = initialState, action: AppActio
       // $FlowFixMe
       const { app } = action.payload;
       const language = getLanguage();
-      return { ...state, ...app, language, version };
+      const isUpdate = app?.version !== undefined && app?.version !== null && app?.version !== version;
+      return { ...state, ...app, language, version, isUpdate };
     }
     case SET_OFFLINE_MODE:
       return { ...state, offlineMode: action.payload };
@@ -65,6 +68,8 @@ export default function reducer(state: AppState = initialState, action: AppActio
       return { ...state, mapWalkthroughSeen: action.payload };
     case SET_PRISTINE_CACHE_TOOLTIP:
       return { ...state, pristineCacheTooltip: action.payload };
+    case SET_WELCOME_SEEN:
+      return { ...state, hasSeenWelcomeScreen: action.payload };
     case SAVE_LAST_ACTIONS: {
       // Save the last actions to send to the report
       const actions = [...takeRight(state.actions, ACTIONS_SAVED_TO_REPORT), action.payload];
@@ -131,6 +136,13 @@ export function setCoordinatesFormat(format: CoordinatesValue): AppAction {
   return {
     type: SET_COORDINATES_FORMAT,
     payload: format
+  };
+}
+
+export function setWelcomeScreenSeen(seen: boolean): AppAction {
+  return {
+    type: SET_WELCOME_SEEN,
+    payload: seen
   };
 }
 

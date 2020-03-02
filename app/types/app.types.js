@@ -9,6 +9,7 @@ export type AppState = {
   language: ?string,
   synced: false,
   coordinatesFormat: CoordinatesValue,
+  hasSeenWelcomeScreen: boolean,
   pristineCacheTooltip: boolean,
   version: string,
   actions: Array<AnyAction>,
@@ -24,6 +25,7 @@ export type AppAction =
   | SetAreaCountryTooltipSeen
   | SetAreaDownloadTooltipSeen
   | SetAppSynced
+  | SetHasSeenWelcomeScreen
   | SetCoordinatesFormat
   | SetPristineCacheTooltip
   | SetMapWalkthroughSeen
@@ -37,6 +39,7 @@ export type SetLanguage = { type: 'app/SET_LANGUAGE', payload: string };
 export type SetAreaCountryTooltipSeen = { type: 'app/SET_AREA_COUNTRY_TOOLTIP_SEEN', payload: boolean };
 export type SetAreaDownloadTooltipSeen = { type: 'app/SET_AREA_DOWNLOAD_TOOLTIP_SEEN', payload: boolean };
 export type SetAppSynced = { type: 'app/SET_APP_SYNCED', payload: boolean };
+export type SetHasSeenWelcomeScreen = { type: 'app/SET_WELCOME_SEEN', payload: boolean };
 export type SetCoordinatesFormat = { type: 'app/SET_COORDINATES_FORMAT', payload: CoordinatesValue };
 export type SetPristineCacheTooltip = { type: 'app/SET_PRISTINE_CACHE_TOOLTIP', payload: boolean };
 export type SetMapWalkthroughSeen = { type: 'app/SET_MAP_WALKTHROUGH_SEEN', payload: boolean };

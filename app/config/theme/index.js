@@ -12,7 +12,8 @@ export const colors = {
   glad: '#ff6699',
   viirs: '#ED4602',
   recent: '#e9bd15',
-  lightBlue: '#ACC6D5'
+  lightBlue: '#ACC6D5',
+  blue: '#2e8dc7'
 };
 
 const fontColors = {
@@ -40,7 +41,8 @@ const config = {
     glad: colors.glad,
     viirs: colors.viirs,
     recent: colors.recent,
-    lightBlue: colors.lightBlue
+    lightBlue: colors.lightBlue,
+    blue: colors.blue,
   },
   font: fontName,
   fontColors: fontColors,
@@ -84,6 +86,22 @@ const config = {
     stroke: '#97be32',
     strokeWidth: 3,
     strokeSelected: '#FFFFFF'
+  },
+  modalContainer: {
+    flexShrink: 1,
+    backgroundColor: colors.veryLightPink,
+    borderRadius: 7,
+    marginHorizontal: 8,
+    marginVertical: 16,
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    shadowColor: colors.greyishBrown,
+    shadowRadius: 4,
+    shadowOffset: {
+      width: 0,
+      height: -3
+    },
+    shadowOpacity: 0.1
   },
   navigator: {
     styles: {

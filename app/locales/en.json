@@ -47,6 +47,7 @@
         "confirm": "Confirm",
         "connectionRequired": "You need an internet connection to complete this action",
         "connectionRequiredTitle": "No connection",
+        "continue": "Continue",
         "crashFeedback": "Something went wrong. We're working on getting this fixed as soon as we can.",
         "date": "Date",
         "deselectAll": "Deselect All",
@@ -476,5 +477,57 @@
         "title": {
             "slide1": "Welcome to Forest Watcher"
         }
+    },
+    "welcome": {
+        "deforestationAlerts": {
+            "body": "See GLAD deforestation and VIIRS fire alerts for locations worldwide",
+            "title": "View Deforestation Alerts"
+        },
+        "layers": {
+            "body": "Display custom layers or base maps for more effective monitoring",
+            "title": "Customise Map Layers"
+        },
+        "share": {
+            "body": "Share areas, routes, layers and more for improved team coordination",
+            "title": "Share Content"
+        },
+        "reports": {
+            "body": "Report on what you find on the ground through text and voice recording",
+            "title": "Create Reports"
+        },
+        "routes": {
+            "body": "Easier navigation to alert areas to be investigated",
+            "title": "Record Routes"
+        },
+        "title": "Welcome to Forest Watcher"
+    },
+    "whatsNew": {
+        "areaSize": {
+            "body": "The maximum area size has increased to 20000 sqkm",
+            "title": "Monitor Larger Areas"
+        },
+        "deforestationAlerts": {
+            "title": "2019 Deforestation Data"
+        },
+        "layers": {
+            "body": "Add layers from Global Forest Watch or your own for more effective monitoring",
+            "title": "Custom Map Layers"
+        },
+        "share": {
+            "body": "Share areas, routes, layers and more for improved team coordination",
+            "title": "Share Content"
+        },
+        "subscriptions": {
+            "title": "View GFW Subscriptions"
+        },
+        "reports": {
+            "body": "Report on what you find on the ground through text and voice recording",
+            "title": "Create Reports"
+        },
+        "routes": {
+            "body": "Easier navigation to alert areas to be investigated",
+            "title": "Record Routes"
+        },
+        "title": "New in This Version"
     }
 }

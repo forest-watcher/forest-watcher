@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { Animated, Image, View, Text } from 'react-native';
 
 import CircleButton from 'components/common/circle-button';
-import MapAttribution from 'components/map/map-attribution';
 
 import { Navigation } from 'react-native-navigation';
 import styles from './styles';
@@ -112,7 +111,6 @@ export default class MapWalkthrough extends Component<Props> {
     return (
       <FooterSafeAreaView key="footer" pointerEvents="box-none" style={styles.footer}>
         {this.renderButtonPanel()}
-        <MapAttribution style={styles.attribution} />
       </FooterSafeAreaView>
     );
   }
