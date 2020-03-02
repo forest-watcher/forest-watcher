@@ -6,6 +6,8 @@ const emitter = require('tiny-emitter/instance');
 
 import { LOCATION_TRACKING } from 'config/constants';
 import FWError from 'helpers/fwError';
+import { formatCoordsByFormat, formatDistance, getDistanceOfLine } from 'helpers/map';
+import i18n from 'i18next';
 
 export const GFWLocationAuthorizedAlways = BackgroundGeolocation.AUTHORIZED;
 export const GFWLocationAuthorizedInUse = BackgroundGeolocation.AUTHORIZED_FOREGROUND;
@@ -322,4 +324,46 @@ export function startTrackingHeading() {
  */
 export function stopTrackingHeading() {
   console.warn('3SC', 'Need to re-implement stopTrackingHeading');
+}
+
+/**
+ * getCoordinateAndDistanceText - Returns the location and distance text.
+ */
+export function getCoordinateAndDistanceText(
+  destinationCoordinates,
+  lastPosition,
+  route,
+  coordinatesFormat,
+  isRouteTracking
+) {
+  if (isRouteTracking) {
+    // Show the destination coordinates.
+    return getCoordinateText(route.destination, lastPosition, coordinatesFormat);
+  } else if (destinationCoordinates) {
+    return getCoordinateText(coordsArrayToObject(destinationCoordinates), lastPosition, coordinatesFormat);
+  } else {
+    // Show nothing!
+    return '';
+  }
+}
+
+function getCoordinateText(targetLocation, currentLocation, coordinatesFormat) {
+  if (targetLocation && currentLocation) {
+    const distance = getDistanceOfLine(targetLocation, currentLocation);
+
+    return `${i18n.t('map.destination')} ${formatCoordsByFormat(targetLocation, coordinatesFormat)}\n${i18n.t(
+      'map.distance'
+    )} ${formatDistance(distance)}`;
+  }
+
+  return '';
+}
+
+// [1, 2] -> {latitude: 2, longitude: 1}
+export function coordsArrayToObject(coord) {
+  return { latitude: coord?.[1], longitude: coord?.[0] };
+}
+// {latitude: 2, longitude: 1} -> [1, 2]
+export function coordsObjectToArray(coord) {
+  return [coord?.longitude, coord?.latitude];
 }

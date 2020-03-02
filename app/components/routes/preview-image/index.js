@@ -4,7 +4,6 @@ import type { Route } from 'types/routes.types';
 
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
-import Basemap from 'containers/map/basemap';
 import RouteMarkers from 'components/map/route';
 import MapView from 'react-native-maps';
 
@@ -21,11 +20,14 @@ export default class RoutePreviewImage extends PureComponent<Props> {
     let minLongitude = Infinity;
     let maxLongitude = -Infinity;
 
-    if (!route.locations) {
+    if (!route.locations || route.locations.length === 0) {
       return null;
     }
 
     [...route.locations, route.destination].forEach(location => {
+      if (isNaN(Number.parseFloat(location.latitude)) || isNaN(Number.parseFloat(location.longitude))) {
+        return;
+      }
       if (location.latitude < minLatitude) {
         minLatitude = location.latitude;
       }
@@ -58,7 +60,6 @@ export default class RoutePreviewImage extends PureComponent<Props> {
             longitudeDelta: (maxLongitude - minLongitude) * 2
           }}
         >
-          <Basemap areaId={route.areaId} />
           <RouteMarkers isTracking={false} route={route} />
         </MapView>
       </View>

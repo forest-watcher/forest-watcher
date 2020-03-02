@@ -12,7 +12,8 @@ export const colors = {
   glad: '#ff6699',
   viirs: '#ED4602',
   recent: '#e9bd15',
-  lightBlue: '#ACC6D5'
+  lightBlue: '#ACC6D5',
+  blue: '#2e8dc7'
 };
 
 const fontColors = {
@@ -40,7 +41,8 @@ const config = {
     glad: colors.glad,
     viirs: colors.viirs,
     recent: colors.recent,
-    lightBlue: colors.lightBlue
+    lightBlue: colors.lightBlue,
+    blue: colors.blue,
   },
   font: fontName,
   fontColors: fontColors,

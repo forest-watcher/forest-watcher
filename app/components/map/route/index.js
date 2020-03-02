@@ -1,14 +1,12 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import MapView from 'react-native-maps';
-import { View } from 'react-native';
 const emitter = require('tiny-emitter/instance');
 
-import styles from '../styles';
-import Theme from '../../../config/theme';
-import { getValidLocations, GFWOnLocationEvent } from 'helpers/location';
+import { mapboxStyles } from './styles';
+import { coordsObjectToArray, getValidLocations, GFWOnLocationEvent } from 'helpers/location';
 import throttle from 'lodash/throttle';
+import MapboxGL from "@react-native-mapbox-gl/maps";
 
 type Props = {
   isTracking: boolean,
@@ -42,7 +40,6 @@ export default class RouteMarkers extends PureComponent<Props> {
 
   componentDidUpdate(prevProps) {
     if (prevProps.isTracking && !this.props.isTracking) {
-      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         currentRouteLocations: []
       });
@@ -112,64 +109,55 @@ export default class RouteMarkers extends PureComponent<Props> {
     }
   };
 
+  renderRoutePath = routeLocations => {
+    const coords = routeLocations?.map(coord => coordsObjectToArray(coord));
+    if (!coords || coords.length < 2) {
+      return null;
+    }
+    const line = MapboxGL.geoUtils.makeLineString(coords);
+    return (
+      <MapboxGL.ShapeSource id="route" shape={line}>
+        <MapboxGL.LineLayer id="routeLineLayer" style={mapboxStyles.routeLineLayer} />
+        <MapboxGL.CircleLayer key="routeCircleOuter" id="routeCircleOuter" style={mapboxStyles.routeOuterCircle} />
+        <MapboxGL.CircleLayer key="routeCircleInner" id="routeCircleInner" style={mapboxStyles.routeInnerCircle} />
+      </MapboxGL.ShapeSource>
+    );
+  };
+
+  renderRouteEnds = routeLocations => {
+    const count = routeLocations?.length;
+    const start = count > 0 ? routeLocations[0] : null;
+    const end = count > 1 ? routeLocations[count - 1] : null;
+    const startSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(start)) : null;
+    const endSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(end)) : null;
+    return (
+      <React.Fragment>
+        {start && (
+          <MapboxGL.ShapeSource id="routeStart" shape={startSource}>
+            <MapboxGL.CircleLayer key="routeStartInner" id="routeStartOuter" style={mapboxStyles.routeStartOuter} />
+            <MapboxGL.CircleLayer key="routeStartOuter" id="routeStartInner" style={mapboxStyles.routeStartInner} />
+          </MapboxGL.ShapeSource>
+        )}
+        {end && (
+          <MapboxGL.ShapeSource id="routeEnd" shape={endSource}>
+            <MapboxGL.CircleLayer key="routeEndOuter" id="routeEndOuter" style={mapboxStyles.routeEndOuter} />
+            <MapboxGL.CircleLayer key="routeEndInner" id="routeEndInner" style={mapboxStyles.routeEndInner} />
+          </MapboxGL.ShapeSource>
+        )}
+      </React.Fragment>
+    );
+  };
+
   render() {
     const routeLocations = this.reconcileRouteLocations(this.state.currentRouteLocations, this.props.route?.locations);
     const lastPosition = this.reconcileLastPosition(this.props.lastPosition, routeLocations);
 
     return (
       <React.Fragment>
-        {routeLocations ? (
-          <MapView.Marker
-            key="currentRouteStartElement"
-            image={markerImage}
-            coordinate={routeLocations[0]}
-            style={{ zIndex: 4 }}
-            anchor={{ x: 0.5, y: 0.5 }}
-            tracksViewChanges={false}
-          />
-        ) : null}
-        {routeLocations ? (
-          <MapView.Polyline
-            key="currentRouteLineElements"
-            coordinates={routeLocations}
-            strokeColor={Theme.colors.white}
-            strokeWidth={3}
-            zIndex={3}
-          />
-        ) : null}
-        {routeLocations
-          ? routeLocations.map(location => (
-              <MapView.Marker
-                key={`currentRouteCorner-${location.timestamp}`}
-                coordinate={location}
-                anchor={{ x: 0.5, y: 0.5 }}
-                zIndex={3}
-                tracksViewChanges={false}
-              >
-                <View style={styles.routeVertex} />
-              </MapView.Marker>
-            ))
-          : null}
-        {this.props.route?.destination ? (
-          <MapView.Marker
-            key={'routeDestination'}
-            coordinate={this.props.route?.destination}
-            anchor={{ x: 0.5, y: 0.5 }}
-            zIndex={20}
-            tracksViewChanges={false}
-          >
-            <View style={[{ height: 18, width: 18, borderWidth: 3 }, styles.selectedMarkerIcon]} />
-          </MapView.Marker>
-        ) : null}
-        {this.props.isTracking && lastPosition && this.props.route?.destination ? (
-          <MapView.Polyline
-            key="destinationLineElement"
-            coordinates={[lastPosition, this.props.route?.destination]}
-            strokeColor={Theme.colors.lightBlue}
-            strokeWidth={3}
-            zIndex={3}
-          />
-        ) : null}
+        {this.renderRoutePath(routeLocations)}
+        {this.renderRouteEnds(routeLocations)}
+        {/* todo: route destination marker*/}
+        {/* todo: route destination line*/}
       </React.Fragment>
     );
   }

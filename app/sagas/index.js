@@ -1,11 +1,10 @@
 import { all, fork } from 'redux-saga/effects';
 import { logLastActions, updateApp } from './app';
-import { getAlertsOnAreasCommit, getAlertsOnAreaCreation, setActiveAlerts } from './alerts';
+import { getAlertsOnAreasCommit, getAlertsOnAreaCreation } from './alerts';
 import { reportNotifications } from './notifications';
 import { resetSetupOnAreaCreation } from './areas';
 
 const sagas = [
-  setActiveAlerts,
   getAlertsOnAreasCommit,
   getAlertsOnAreaCreation,
   reportNotifications,

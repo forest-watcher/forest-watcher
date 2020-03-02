@@ -7,6 +7,7 @@ import formatcoords from 'formatcoords';
 import moment from 'moment';
 import i18n from 'i18next';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
+import { coordsArrayToObject } from 'helpers/location';
 
 const kdbush = require('kdbush');
 const geokdbush = require('geokdbush');
@@ -75,12 +76,16 @@ export function getContextualLayer(layers) {
 
 export function formatCoordsByFormat(coordinates: Coordinates, format: CoordinatesFormat) {
   const { latitude, longitude } = coordinates;
+  // return if coordinates are not numbers
+  if (isNaN(Number.parseFloat(latitude)) || isNaN(Number.parseFloat(longitude))) {
+    return '';
+  }
   if (format === COORDINATES_FORMATS.utm.value) {
     const utm = new UtmLatLng();
     const utmCoords = utm.convertLatLngToUtm(latitude, longitude, 0);
     return `${utmCoords.ZoneNumber} ${utmCoords.ZoneLetter}, ${utmCoords.Easting} E ${utmCoords.Northing} N`;
   } else if (format === COORDINATES_FORMATS.decimal.value) {
-    return `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+    return `${latitude?.toFixed(4)}, ${longitude?.toFixed(4)}`;
   } else {
     // Not utm, not decimal... has to be degrees
     return formatcoords(latitude, longitude).format('FFf', { latLonSeparator: ', ', decimalPlaces: 2 });
@@ -107,10 +112,7 @@ function pointsFromCluster(cluster) {
   }
   return cluster
     .filter(marker => marker.properties.point_count === undefined)
-    .map(feature => ({
-      longitude: feature.geometry.coordinates[0],
-      latitude: feature.geometry.coordinates[1]
-    }));
+    .map(feature => coordsArrayToObject(feature));
 }
 
 export function getNeighboursSelected(selectedAlerts, markers) {
@@ -201,7 +203,7 @@ export function getPolygonBoundingBox(polygon) {
   let latitude;
   let longitude;
 
-  if (polygon.length === 0) {
+  if (polygon && polygon.length === 0) {
     return undefined;
   }
 
