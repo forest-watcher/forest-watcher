@@ -202,7 +202,7 @@ export function getPolygonBoundingBox(polygon) {
   let latitude;
   let longitude;
 
-  if (polygon && polygon.length === 0) {
+  if (!polygon || polygon.length === 0) {
     return undefined;
   }
 

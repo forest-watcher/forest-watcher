@@ -377,3 +377,22 @@ export function isValidLatLng(location) {
 export function isValidLatLngArray(location) {
   return !isNaN(Number.parseFloat(location[1])) && !isNaN(Number.parseFloat(location[0]));
 }
+
+// removes locations with the same position as the previous location in the route
+export function removeDuplicateLocations(locations) {
+  if (!locations) {
+    return null;
+  }
+  let prevLat = null;
+  let prevLong = null;
+  const newLocations = [];
+  for (let i = 0; i < locations.length; i++) {
+    const location = locations[i];
+    if (locations.latitude !== prevLat || locations.longitude !== prevLong) {
+      newLocations.push(location);
+      prevLat = location.latitude;
+      prevLong = location.longitude;
+    }
+  }
+  return newLocations;
+}

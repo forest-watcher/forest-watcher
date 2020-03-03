@@ -229,7 +229,6 @@ class MapComponent extends Component {
       const datasetChanged = !isEqual(area.dataset, prevProps.area.dataset);
       if (differentArea || datasetChanged) {
         setActiveAlerts();
-        this.updateMarkers();
         if (differentArea) {
           this.updateSelectedArea();
         }
@@ -579,6 +578,9 @@ class MapComponent extends Component {
   // Draw area polygon
   renderAreaOutline = () => {
     const coords = this.props.areaCoordinates?.map(coord => coordsObjectToArray(coord));
+    if (!coords || coords.length < 2) {
+      return null;
+    }
     const line = MapboxGL.geoUtils.makeLineString(coords);
     return (
       <MapboxGL.ShapeSource id="areaOutline" shape={line}>
