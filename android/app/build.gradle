@@ -217,6 +217,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-base:17.1.0"
 
     implementation project(':@mauron85_react-native-background-geolocation')
+    implementation project(':react-native-safe-area-context')
 }
 
 // Run this once to be able to run the application with BUCK
