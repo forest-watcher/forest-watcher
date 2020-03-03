@@ -43,7 +43,9 @@ import {
   stopTrackingHeading,
   getCoordinateAndDistanceText,
   coordsObjectToArray,
-  coordsArrayToObject
+  coordsArrayToObject,
+  isValidLatLng,
+  isValidLatLngArray
 } from 'helpers/location';
 import RouteMarkers from 'components/map/route';
 
@@ -579,10 +581,15 @@ class MapComponent extends Component {
   // Draw line from user location to destination
   renderDestinationLine = () => {
     const { destinationCoords, userLocation, customReporting } = this.state;
-    if (!customReporting) {
+    if (!customReporting || !destinationCoords || !userLocation) {
       return null;
     }
-    const line = MapboxGL.geoUtils.makeLineString([coordsObjectToArray(userLocation), destinationCoords]);
+    const bothValidLocations = isValidLatLngArray(destinationCoords) && isValidLatLng(userLocation);
+
+    let line = null;
+    if (bothValidLocations) {
+      line = MapboxGL.geoUtils.makeLineString([coordsObjectToArray(userLocation), destinationCoords]);
+    }
     return (
       <MapboxGL.ShapeSource id="destLine" shape={line}>
         <MapboxGL.LineLayer id="destLineLayer" style={mapboxStyles.destinationLine} />
