@@ -1,5 +1,6 @@
 import Theme from 'config/theme';
-import MapboxGL from "@react-native-mapbox-gl/maps";
+import MapboxGL from '@react-native-mapbox-gl/maps';
+const markerImage = require('assets/plus.png');
 
 export const mapboxStyles = {
   routeLineLayer: {
@@ -31,5 +32,14 @@ export const mapboxStyles = {
   routeEndInner: {
     circleRadius: 8,
     circleColor: Theme.colors.turtleGreen
+  },
+  destinationLine: {
+    lineColor: Theme.colors.lightBlue,
+    lineWidth: 3,
+    lineOpacity: 0.8
+  },
+  routeDestinationMarker: {
+    iconImage: markerImage,
+    iconAllowOverlap: true
   }
 };

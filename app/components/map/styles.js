@@ -1,6 +1,6 @@
 import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
-import MapboxGL from "@react-native-mapbox-gl/maps";
+import MapboxGL from '@react-native-mapbox-gl/maps';
 
 export default StyleSheet.create({
   container: {

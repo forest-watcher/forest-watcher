@@ -6,6 +6,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import RouteMarkers from 'components/map/route';
 import MapView from 'react-native-maps';
+import { isValidLatLng } from 'helpers/location';
 
 type Props = {
   route: Route,
@@ -25,7 +26,7 @@ export default class RoutePreviewImage extends PureComponent<Props> {
     }
 
     [...route.locations, route.destination].forEach(location => {
-      if (isNaN(Number.parseFloat(location.latitude)) || isNaN(Number.parseFloat(location.longitude))) {
+      if (!isValidLatLng(location)) {
         return;
       }
       if (location.latitude < minLatitude) {

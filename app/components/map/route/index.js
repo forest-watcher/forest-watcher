@@ -4,17 +4,16 @@ import React, { PureComponent } from 'react';
 const emitter = require('tiny-emitter/instance');
 
 import { mapboxStyles } from './styles';
-import { coordsObjectToArray, getValidLocations, GFWOnLocationEvent } from 'helpers/location';
+import { coordsObjectToArray, getValidLocations, GFWOnLocationEvent, isValidLatLng } from 'helpers/location';
 import throttle from 'lodash/throttle';
-import MapboxGL from "@react-native-mapbox-gl/maps";
+import MapboxGL from '@react-native-mapbox-gl/maps';
+import type { Route } from 'types/routes.types';
 
 type Props = {
   isTracking: boolean,
-  lastPosition: Location,
+  userLocation: Location,
   route: Route
 };
-
-const markerImage = require('assets/marker.png');
 
 export default class RouteMarkers extends PureComponent<Props> {
   constructor(props) {
@@ -92,16 +91,16 @@ export default class RouteMarkers extends PureComponent<Props> {
   }, 300);
 
   /**
-   * reconcileLastPosition - Given the user's last location fix, and the route locations, determines the user's last known location.
+   * reconcileUserLocation - Given the user's last location fix, and the route locations, determines the user's last known location.
    * This is as, when route tracking, we need to show the line immediately so we cannot wait for the first location update.
    * However, when we're not route tracking, we won't have a last position to refer to!
    *
-   * @param lastPosition    - The last position update, passed into this object as a prop.
+   * @param userLocation    - The last position update, passed into this object as a prop.
    * @param routeLocations  - The locations provided for this route.
    */
-  reconcileLastPosition = (lastPosition, routeLocations) => {
-    if (lastPosition) {
-      return lastPosition;
+  reconcileUserLocation = (userLocation, routeLocations) => {
+    if (userLocation) {
+      return userLocation;
     } else if (routeLocations && routeLocations.length > 0) {
       return routeLocations[routeLocations.length - 1];
     } else {
@@ -109,18 +108,53 @@ export default class RouteMarkers extends PureComponent<Props> {
     }
   };
 
+  // Draw line from user location to destination
+  renderDestinationLine = (destination, userLocation) => {
+    if (!destination || !userLocation) {
+      return null;
+    }
+    const validDestLocation = isValidLatLng(destination);
+    const bothValidLocations = validDestLocation && isValidLatLng(userLocation);
+
+    const routeDestination = MapboxGL.geoUtils.makePoint(coordsObjectToArray(destination));
+    let line = null;
+    if (bothValidLocations) {
+      line = MapboxGL.geoUtils.makeLineString([coordsObjectToArray(userLocation), coordsObjectToArray(destination)]);
+    }
+
+    return (
+      <React.Fragment>
+        {bothValidLocations && (
+          <MapboxGL.ShapeSource id="routeDestLine" shape={line}>
+            <MapboxGL.LineLayer id="routeDestLineLayer" style={mapboxStyles.destinationLine} />
+          </MapboxGL.ShapeSource>
+        )}
+        {validDestLocation && (
+          <MapboxGL.ShapeSource id="routeDest" shape={routeDestination}>
+            <MapboxGL.SymbolLayer id="routeDestMarker" style={mapboxStyles.routeDestinationMarker} />
+          </MapboxGL.ShapeSource>
+        )}
+      </React.Fragment>
+    );
+  };
+
   renderRoutePath = routeLocations => {
     const coords = routeLocations?.map(coord => coordsObjectToArray(coord));
+    // Ignore first and last location markers, as those are drawn in renderRouteEnds method.
     if (!coords || coords.length < 2) {
       return null;
     }
     const line = MapboxGL.geoUtils.makeLineString(coords);
     return (
-      <MapboxGL.ShapeSource id="route" shape={line}>
-        <MapboxGL.LineLayer id="routeLineLayer" style={mapboxStyles.routeLineLayer} />
-        <MapboxGL.CircleLayer key="routeCircleOuter" id="routeCircleOuter" style={mapboxStyles.routeOuterCircle} />
-        <MapboxGL.CircleLayer key="routeCircleInner" id="routeCircleInner" style={mapboxStyles.routeInnerCircle} />
-      </MapboxGL.ShapeSource>
+      <React.Fragment>
+        <MapboxGL.ShapeSource id="route" shape={line}>
+          <MapboxGL.LineLayer id="routeLineLayer" style={mapboxStyles.routeLineLayer} />
+        </MapboxGL.ShapeSource>
+        <MapboxGL.ShapeSource id="route" shape={line}>
+          <MapboxGL.CircleLayer key="routeCircleOuter" id="routeCircleOuter" style={mapboxStyles.routeOuterCircle} />
+          <MapboxGL.CircleLayer key="routeCircleInner" id="routeCircleInner" style={mapboxStyles.routeInnerCircle} />
+        </MapboxGL.ShapeSource>
+      </React.Fragment>
     );
   };
 
@@ -150,14 +184,13 @@ export default class RouteMarkers extends PureComponent<Props> {
 
   render() {
     const routeLocations = this.reconcileRouteLocations(this.state.currentRouteLocations, this.props.route?.locations);
-    const lastPosition = this.reconcileLastPosition(this.props.lastPosition, routeLocations);
+    const userLocation = this.reconcileUserLocation(this.props.userLocation, routeLocations);
 
     return (
       <React.Fragment>
         {this.renderRoutePath(routeLocations)}
         {this.renderRouteEnds(routeLocations)}
-        {/* todo: route destination marker*/}
-        {/* todo: route destination line*/}
+        {this.props.isTracking && this.renderDestinationLine(this.props.route?.destination, userLocation)}
       </React.Fragment>
     );
   }

@@ -10,6 +10,7 @@ import InputText from 'components/common/text-input';
 import { getValidLocations, stopTrackingLocation } from 'helpers/location';
 import i18n from 'i18next';
 import RoutePreviewImage from '../preview-image';
+import type { Route } from 'types/routes.types';
 
 type Props = {
   componentId: string,
