@@ -9,6 +9,7 @@ import com.forestwatcher.intents.IntentsPackage;
 import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
+import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -31,6 +32,7 @@ public class MainApplication extends NavigationApplication {
       // Packages that cannot be autolinked yet can be added manually here, for example:
       packages.addAll(Arrays.<ReactPackage>asList(
           new BackgroundGeolocationPackage(),
+          new SafeAreaContextPackage(),
           new IntentsPackage()
       ));
       return packages;
