@@ -3,6 +3,8 @@
 import React, { PureComponent } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 
+import Theme from 'config/theme';
+
 import moment from 'moment';
 import i18n from 'i18next';
 import debounceUI from 'helpers/debounceUI';
@@ -17,8 +19,12 @@ import ShareSheet from 'components/common/share';
 import VerticalSplitRow from 'components/common/vertical-split-row';
 
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
+import { routeSVGProperties } from 'helpers/routeSVG';
 
 const nextIcon = require('assets/next.png');
+const routeMapBackground = require('assets/routeMapBackground.png');
+
+import Svg, { Path, Circle } from 'react-native-svg';
 
 type Props = {
   componentId: string,
@@ -206,6 +212,10 @@ export default class Routes extends PureComponent<Props> {
       //   position
       // };
 
+      const svgProperties = routeSVGProperties(item.locations, 100);
+
+            console.log("Render item", svgProperties);
+
       const combinedId = item.areaId + item.id;
       return (
         <VerticalSplitRow
@@ -214,6 +224,40 @@ export default class Routes extends PureComponent<Props> {
           onPress={() => {
             onPress(item);
           }}
+          renderImageChildren={() => {
+            if (!svgProperties) {
+              return null;
+            }
+            return (
+              <View style={styles.routeContainer}>
+                <Svg style={{ bacgkroundColor: 'red' }} height="100" width="100" viewBox="-16 -16 132 132">
+                  <Path
+                    d={svgProperties?.path}
+                    fill={'transparent'}
+                    stroke={Theme.colors.white}
+                    strokeWidth="7"
+                  />
+                  <Circle
+                    cx={svgProperties.firstPoint?.x}
+                    cy={svgProperties.firstPoint?.y}
+                    r="8"
+                    strokeWidth="8"
+                    stroke={Theme.colors.white}
+                    fill={'rgba(220, 220, 220, 1)'}
+                  />
+                  <Circle
+                    cx={svgProperties.lastPoint?.x}
+                    cy={svgProperties.lastPoint?.y}
+                    r="8"
+                    strokeWidth="8"
+                    stroke={Theme.colors.white}
+                    fill={'rgba(220, 220, 220, 1)'}
+                  />
+                </Svg>
+              </View>
+            )
+          }}
+          imageSrc={routeMapBackground}
           title={item.name}
           subtitle={subtitle}
           selected={this.state.inShareMode ? this.state.selectedForExport.includes(combinedId) : null}

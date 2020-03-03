@@ -74,5 +74,10 @@ export default StyleSheet.create({
   },
   listItem: {
     maxWidth: 288
+  },
+  routeContainer: {
+    ...StyleSheet.absoluteFill,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });

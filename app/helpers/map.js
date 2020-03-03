@@ -207,17 +207,17 @@ export function getPolygonBoundingBox(polygon) {
   }
 
   for (let i = 0; i < polygon.length; i++) {
-    longitude = polygon[i].latitude;
-    latitude = polygon[i].longitude;
-    bounds.longMin = bounds.longMin < longitude ? bounds.longMin : longitude;
-    bounds.longMax = bounds.longMax > longitude ? bounds.longMax : longitude;
-    bounds.latMin = bounds.latMin < latitude ? bounds.latMin : latitude;
-    bounds.latMax = bounds.latMax > latitude ? bounds.latMax : latitude;
+    latitude = polygon[i].latitude;
+    longitude = polygon[i].longitude;
+    bounds.longMin = Math.min(isNaN(bounds.longMin) ? longitude : bounds.longMin, longitude);
+    bounds.longMax = Math.max(isNaN(bounds.longMax) ? longitude : bounds.longMax, longitude);
+    bounds.latMin = Math.min(isNaN(bounds.latMin) ? latitude : bounds.latMin, latitude);
+    bounds.latMax = Math.max(isNaN(bounds.latMax) ? latitude : bounds.latMax, latitude);
   }
 
   const boundingBox = {
-    ne: [bounds.latMin, bounds.longMin],
-    sw: [bounds.latMax, bounds.longMax]
+    ne: [bounds.longMax, bounds.latMax],
+    sw: [bounds.longMin, bounds.latMin]
   };
   return boundingBox;
 }
