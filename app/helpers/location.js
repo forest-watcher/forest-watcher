@@ -367,3 +367,8 @@ export function coordsArrayToObject(coord) {
 export function coordsObjectToArray(coord) {
   return [coord?.longitude, coord?.latitude];
 }
+
+// returns true for valid lat lng values
+export function isValidLatLng(location) {
+  return !isNaN(Number.parseFloat(location.latitude)) && !isNaN(Number.parseFloat(location.longitude));
+}

@@ -7,7 +7,7 @@ import formatcoords from 'formatcoords';
 import moment from 'moment';
 import i18n from 'i18next';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
-import { coordsArrayToObject } from 'helpers/location';
+import { coordsArrayToObject, isValidLatLng } from 'helpers/location';
 
 const kdbush = require('kdbush');
 const geokdbush = require('geokdbush');
@@ -75,11 +75,10 @@ export function getContextualLayer(layers) {
 }
 
 export function formatCoordsByFormat(coordinates: Coordinates, format: CoordinatesFormat) {
-  const { latitude, longitude } = coordinates;
-  // return if coordinates are not numbers
-  if (isNaN(Number.parseFloat(latitude)) || isNaN(Number.parseFloat(longitude))) {
+  if (!isValidLatLng(coordinates)) {
     return '';
   }
+  const { latitude, longitude } = coordinates;
   if (format === COORDINATES_FORMATS.utm.value) {
     const utm = new UtmLatLng();
     const utmCoords = utm.convertLatLngToUtm(latitude, longitude, 0);

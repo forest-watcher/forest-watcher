@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 const emitter = require('tiny-emitter/instance');
 
 import { mapboxStyles } from './styles';
-import { coordsObjectToArray, getValidLocations, GFWOnLocationEvent } from 'helpers/location';
+import { coordsObjectToArray, getValidLocations, GFWOnLocationEvent, isValidLatLng } from 'helpers/location';
 import throttle from 'lodash/throttle';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import type { Route } from 'types/routes.types';
@@ -113,37 +113,48 @@ export default class RouteMarkers extends PureComponent<Props> {
     if (!destination || !userLocation) {
       return null;
     }
-    // todo NaN check
-    const line = MapboxGL.geoUtils.makeLineString([
-      coordsObjectToArray(userLocation),
-      coordsObjectToArray(destination)
-    ]);
+    const validDestLocation = isValidLatLng(destination);
+    const bothValidLocations = validDestLocation && isValidLatLng(userLocation);
+
     const routeDestination = MapboxGL.geoUtils.makePoint(coordsObjectToArray(destination));
+    let line = null;
+    if (bothValidLocations) {
+      line = MapboxGL.geoUtils.makeLineString([coordsObjectToArray(userLocation), coordsObjectToArray(destination)]);
+    }
 
     return (
       <React.Fragment>
-        <MapboxGL.ShapeSource id="routeDestLine" shape={line}>
-          <MapboxGL.LineLayer id="routeDestLineLayer" style={mapboxStyles.destinationLine} />
-        </MapboxGL.ShapeSource>
-        <MapboxGL.ShapeSource id="routeDest" shape={routeDestination}>
-          <MapboxGL.SymbolLayer id="routeDestMarker" style={mapboxStyles.routeDestinationMarker} />
-        </MapboxGL.ShapeSource>
+        {bothValidLocations && (
+          <MapboxGL.ShapeSource id="routeDestLine" shape={line}>
+            <MapboxGL.LineLayer id="routeDestLineLayer" style={mapboxStyles.destinationLine} />
+          </MapboxGL.ShapeSource>
+        )}
+        {validDestLocation && (
+          <MapboxGL.ShapeSource id="routeDest" shape={routeDestination}>
+            <MapboxGL.SymbolLayer id="routeDestMarker" style={mapboxStyles.routeDestinationMarker} />
+          </MapboxGL.ShapeSource>
+        )}
       </React.Fragment>
     );
   };
 
   renderRoutePath = routeLocations => {
     const coords = routeLocations?.map(coord => coordsObjectToArray(coord));
+    // Ignore first and last location markers, as those are drawn in renderRouteEnds method.
     if (!coords || coords.length < 2) {
       return null;
     }
     const line = MapboxGL.geoUtils.makeLineString(coords);
     return (
-      <MapboxGL.ShapeSource id="route" shape={line}>
-        <MapboxGL.LineLayer id="routeLineLayer" style={mapboxStyles.routeLineLayer} />
-        <MapboxGL.CircleLayer key="routeCircleOuter" id="routeCircleOuter" style={mapboxStyles.routeOuterCircle} />
-        <MapboxGL.CircleLayer key="routeCircleInner" id="routeCircleInner" style={mapboxStyles.routeInnerCircle} />
-      </MapboxGL.ShapeSource>
+      <React.Fragment>
+        <MapboxGL.ShapeSource id="route" shape={line}>
+          <MapboxGL.LineLayer id="routeLineLayer" style={mapboxStyles.routeLineLayer} />
+        </MapboxGL.ShapeSource>
+        <MapboxGL.ShapeSource id="route" shape={line}>
+          <MapboxGL.CircleLayer key="routeCircleOuter" id="routeCircleOuter" style={mapboxStyles.routeOuterCircle} />
+          <MapboxGL.CircleLayer key="routeCircleInner" id="routeCircleInner" style={mapboxStyles.routeInnerCircle} />
+        </MapboxGL.ShapeSource>
+      </React.Fragment>
     );
   };
 
