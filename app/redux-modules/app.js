@@ -21,6 +21,7 @@ export const RETRY_SYNC = 'app/RETRY_SYNC';
 const SET_AREA_COUNTRY_TOOLTIP_SEEN = 'app/SET_AREA_COUNTRY_TOOLTIP_SEEN';
 const SET_AREA_DOWNLOAD_TOOLTIP_SEEN = 'app/SET_AREA_DOWNLOAD_TOOLTIP_SEEN';
 const SET_COORDINATES_FORMAT = 'app/SET_COORDINATES_FORMAT';
+const SET_MAP_WALKTHROUGH_SEEN = 'app/SET_MAP_WALKTHROUGH_SEEN';
 const SET_PRISTINE_CACHE_TOOLTIP = 'app/SET_PRISTINE_CACHE_TOOLTIP';
 const SET_WELCOME_SEEN = 'app/SET_WELCOME_SEEN';
 export const SAVE_LAST_ACTIONS = 'app/SAVE_LAST_ACTIONS';
@@ -35,6 +36,7 @@ const initialState = {
   actions: [],
   areaCountryTooltipSeen: false,
   areaDownloadTooltipSeen: false,
+  mapWalkthroughSeen: false,
   synced: false,
   language: getLanguage(),
   offlineMode: false,
@@ -62,6 +64,8 @@ export default function reducer(state: AppState = initialState, action: AppActio
       return { ...state, areaDownloadTooltipSeen: action.payload };
     case SET_COORDINATES_FORMAT:
       return { ...state, coordinatesFormat: action.payload };
+    case SET_MAP_WALKTHROUGH_SEEN:
+      return { ...state, mapWalkthroughSeen: action.payload };
     case SET_PRISTINE_CACHE_TOOLTIP:
       return { ...state, pristineCacheTooltip: action.payload };
     case SET_WELCOME_SEEN:
@@ -159,6 +163,13 @@ export function setAreaCountryTooltipSeen(seen: boolean): AppAction {
 export function setAreaDownloadTooltipSeen(seen: boolean): AppAction {
   return {
     type: SET_AREA_DOWNLOAD_TOOLTIP_SEEN,
+    payload: seen
+  };
+}
+
+export function setMapWalkthroughSeen(seen: boolean): AppAction {
+  return {
+    type: SET_MAP_WALKTHROUGH_SEEN,
     payload: seen
   };
 }

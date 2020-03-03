@@ -269,7 +269,19 @@
         "destination": "Destination:",
         "distance": "Distance:",
         "recent": "Recent",
-        "reported": "Reported"
+        "reported": "Reported",
+        "reportsAndRoutes": {
+            "body": "Routes and Reports can also be created by tapping any alerts on the map",
+            "title": "Reports and Routes"
+        },
+        "reportsTooltip": {
+            "body": "Routes and Reports can be created by dropping a pin",
+            "title": "Reports and Routes"
+        },
+        "settingsTooltip": {
+            "body": "Show the layers and data relevant to you",
+            "title": "Customise Map Display"
+        }
     },
     "partners": {
         "description": "Forest Watcher is created in collaboration between World Resources Institute’s Global Forest Watch Program, Vizzuality, and the Jane Goodall Institute.",

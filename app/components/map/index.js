@@ -214,9 +214,30 @@ class MapComponent extends Component {
   };
 
   componentDidAppear() {
-    const { setCanDisplayAlerts, canDisplayAlerts } = this.props;
+    const { setCanDisplayAlerts, canDisplayAlerts, mapWalkthroughSeen } = this.props;
     if (!canDisplayAlerts) {
       setCanDisplayAlerts(true);
+    }
+    if (!mapWalkthroughSeen) {
+      Navigation.showModal({
+        stack: {
+          children: [
+            {
+              component: {
+                name: 'ForestWatcher.MapWalkthrough',
+                options: {
+                  layout: {
+                    backgroundColor: 'transparent',
+                    componentBackgroundColor: 'rgba(0,0,0,0.74)'
+                  },
+                  screenBackgroundColor: 'rgba(0,0,0,0.74)',
+                  modalPresentationStyle: 'overFullScreen'
+                }
+              }
+            }
+          ]
+        }
+      });
     }
   }
 
@@ -762,6 +783,7 @@ MapComponent.propTypes = {
     url: PropTypes.string.isRequired
   }),
   coordinatesFormat: PropTypes.string.isRequired,
+  mapWalkthroughSeen: PropTypes.bool.isRequired,
   setSelectedAreaId: PropTypes.func.isRequired,
   route: PropTypes.object,
   isTracking: PropTypes.bool.isRequired,
