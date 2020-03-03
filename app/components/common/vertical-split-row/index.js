@@ -23,7 +23,7 @@ type Props = {
   onDownloadPress: void => void,
   onPress: void => void,
   onSettingsPress: void => void,
-  renderImageChildren?: ?void => React.Node, 
+  renderImageChildren?: (?void) => React.Node,
   selected?: ?boolean,
   subtitle?: ?string,
   title: string
@@ -40,10 +40,10 @@ export default class VerticalSplitRow extends Component<Props> {
         <View style={styles.item}>
           <View style={styles.imageContainer}>
             {this.props.imageSrc && (
-              <ImageBackground 
-                resizeMode="cover" 
-                style={styles.image} 
-                source={typeof this.props.imageSrc === "string" ? { uri: this.props.imageSrc } : this.props.imageSrc} 
+              <ImageBackground
+                resizeMode="cover"
+                style={styles.image}
+                source={typeof this.props.imageSrc === 'string' ? { uri: this.props.imageSrc } : this.props.imageSrc}
               >
                 {this.props.renderImageChildren && this.props.renderImageChildren()}
               </ImageBackground>
@@ -56,7 +56,7 @@ export default class VerticalSplitRow extends Component<Props> {
                 visible={this.props.downloadCalloutVisible}
               >
                 <TouchableOpacity onPress={this.props.onDownloadPress} style={styles.downloadButton}>
-                  <Image source={downloadIcon}/>
+                  <Image source={downloadIcon} />
                 </TouchableOpacity>
               </Callout>
             )}

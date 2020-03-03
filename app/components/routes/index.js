@@ -200,21 +200,13 @@ export default class Routes extends PureComponent<Props> {
    */
   renderItems(data: Array<Route>, image: any, onPress: string => void) {
     return this.sortedRoutes(data).map((item, index) => {
+      
       const routeDistance = getDistanceOfPolyline(item.locations);
       const dateText = moment(item.endDate).format('ll');
       const distanceText = formatDistance(routeDistance, 1, false);
       const subtitle = dateText + ', ' + distanceText;
-      // const action = {
-      //   icon,
-      //   callback: () => {
-      //     onPress(item.title);
-      //   },
-      //   position
-      // };
 
       const svgProperties = routeSVGProperties(item.locations, 100);
-
-            console.log("Render item", svgProperties);
 
       const combinedId = item.areaId + item.id;
       return (
@@ -231,12 +223,7 @@ export default class Routes extends PureComponent<Props> {
             return (
               <View style={styles.routeContainer}>
                 <Svg style={{ bacgkroundColor: 'red' }} height="100" width="100" viewBox="-16 -16 132 132">
-                  <Path
-                    d={svgProperties?.path}
-                    fill={'transparent'}
-                    stroke={Theme.colors.white}
-                    strokeWidth="7"
-                  />
+                  <Path d={svgProperties?.path} fill={'transparent'} stroke={Theme.colors.white} strokeWidth="7" />
                   <Circle
                     cx={svgProperties.firstPoint?.x}
                     cy={svgProperties.firstPoint?.y}
@@ -255,7 +242,7 @@ export default class Routes extends PureComponent<Props> {
                   />
                 </Svg>
               </View>
-            )
+            );
           }}
           imageSrc={routeMapBackground}
           title={item.name}

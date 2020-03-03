@@ -5,8 +5,8 @@ import { getPolygonBoundingBox } from 'helpers/map';
 const Re = 6.3781e6;
 
 function degToRadians(degrees: number): number {
-  var pi = Math.PI;
-  return degrees * (pi/180);
+  const pi = Math.PI;
+  return degrees * (pi / 180);
 }
 
 /**
@@ -16,27 +16,29 @@ function degToRadians(degrees: number): number {
  * @param bbox {object} bbox The original lat/lng bounding box
  * @return {object} The new bounding box as cartesian sw.x, sw.y, ne.x, ne.y
  */
-function toCartesianSquareBoundingBox(bbox: {sw: Array<number>, ne: Array<number>}): {sw: {x: number, y: number}, ne: {x: number, y: number}} {
-
+function toCartesianSquareBoundingBox(bbox: {
+  sw: Array<number>,
+  ne: Array<number>
+}): { sw: { x: number, y: number }, ne: { x: number, y: number } } {
   // Make sure original object has enough length to get both lat and lng for all bounding points
   if (bbox.ne?.length < 2 || bbox.sw?.length < 2) {
     return null;
   }
 
   // Get central lat and take cosine for use in conversion to x/y
-  const centerLat = (bbox.ne[1] + bbox.sw[1])/2;
+  const centerLat = (bbox.ne[1] + bbox.sw[1]) / 2;
   const cosCenterLat = Math.cos(degToRadians(centerLat));
 
   // Convert original bbox points to x/y
   const neCartesian = {
     x: Re * bbox.ne[0] * cosCenterLat,
     y: Re * bbox.ne[1]
-  }
+  };
 
   const swCartesian = {
     x: Re * bbox.sw[0] * cosCenterLat,
     y: Re * bbox.sw[1]
-  }
+  };
 
   // Get width and height of cartesian bounding box
   const bboxWidth = Math.abs(neCartesian.x - swCartesian.x);
@@ -45,30 +47,30 @@ function toCartesianSquareBoundingBox(bbox: {sw: Array<number>, ne: Array<number
   // If the original box is wider than it is tall
   if (bboxWidth > bboxHeight) {
     // Offset return value from the centerY of the original box, by it's width (longer of two sides)
-    const centerY = swCartesian.y + bboxHeight/2;
+    const centerY = swCartesian.y + bboxHeight / 2;
     return {
       sw: {
         x: swCartesian.x,
-        y: centerY - bboxWidth/2
+        y: centerY - bboxWidth / 2
       },
       ne: {
         x: neCartesian.x,
-        y: centerY + bboxWidth/2
+        y: centerY + bboxWidth / 2
       }
-    }
+    };
   } else {
     // Offset return value from the centerX of the original box, by it's width (longer of two sides)
-    const centerX = swCartesian.x + bboxWidth/2;
+    const centerX = swCartesian.x + bboxWidth / 2;
     return {
       sw: {
-        x: centerX - bboxHeight/2,
+        x: centerX - bboxHeight / 2,
         y: swCartesian.y
       },
       ne: {
-        x: centerX + bboxHeight/2,
+        x: centerX + bboxHeight / 2,
         y: neCartesian.y
       }
-    }
+    };
   }
 }
 
@@ -78,7 +80,10 @@ function toCartesianSquareBoundingBox(bbox: {sw: Array<number>, ne: Array<number
  * @param {array<LocationPoint} routePoints An array of location points to use to generate the SVG line
  * @param {number} size The size of the SVG
  */
-export function routeSVGProperties(routePoints: Array<LocationPoint>, size: number): ?{path: string, firstPoint: {x: number, y: number}, lastPoint: {x: number, y: number}} {
+export function routeSVGProperties(
+  routePoints: Array<LocationPoint>,
+  size: number
+): ?{ path: string, firstPoint: { x: number, y: number }, lastPoint: { x: number, y: number } } {
   if (routePoints.length < 1) {
     return null;
   }
@@ -86,28 +91,29 @@ export function routeSVGProperties(routePoints: Array<LocationPoint>, size: numb
   const bbox = toCartesianSquareBoundingBox(latLngBbox);
 
   // Get the center latitude for calculation of cartesian points in the route
-  const centerLat = (latLngBbox.ne[1] + latLngBbox.sw[1])/2;
+  const centerLat = (latLngBbox.ne[1] + latLngBbox.sw[1]) / 2;
   // Take this to use as a constant when converting lng/lat to x/y
   const cosCenterLat = Math.cos(degToRadians(centerLat));
 
   const bboxWidth = Math.abs(bbox.ne.x - bbox.sw.x);
 
-  let svgString = "";
-  let firstPoint = {
-    x: "0", y: "0"
-  }
-  let lastPoint = {
-    x: "0", y: "0"
-  }
-
+  let svgString = '';
+  const firstPoint = {
+    x: '0',
+    y: '0'
+  };
+  const lastPoint = {
+    x: '0',
+    y: '0'
+  };
 
   routePoints.forEach((point, index) => {
     // Convert to cartesian
     const x = Re * point.longitude * cosCenterLat;
     const y = Re * point.latitude;
     // Get the points relative to the bounding box, which we need for drawing
-    const relativeX = (x - bbox.sw.x)/bboxWidth * size;
-    const relativeY = size - (y - bbox.sw.y)/bboxWidth * size;
+    const relativeX = ((x - bbox.sw.x) / bboxWidth) * size;
+    const relativeY = size - ((y - bbox.sw.y) / bboxWidth) * size;
 
     // Move to first point
     if (index === 0) {
@@ -124,5 +130,5 @@ export function routeSVGProperties(routePoints: Array<LocationPoint>, size: numb
     }
   });
 
-  return {path: svgString, firstPoint, lastPoint};
-} 
+  return { path: svgString, firstPoint, lastPoint };
+}
