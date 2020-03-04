@@ -2,7 +2,10 @@
 import type { LocationPoint } from 'types/routes.types';
 import { getPolygonBoundingBox } from 'helpers/map';
 
-const Re = 6.3781e6;
+/**
+ * Earth's radius in metres
+ */
+const EARTH_RADIUS = 6.3781e6;
 
 function degToRadians(degrees: number): number {
   const pi = Math.PI;
@@ -31,13 +34,13 @@ function toCartesianSquareBoundingBox(bbox: {
 
   // Convert original bbox points to x/y
   const neCartesian = {
-    x: Re * bbox.ne[0] * cosCenterLat,
-    y: Re * bbox.ne[1]
+    x: EARTH_RADIUS * bbox.ne[0] * cosCenterLat,
+    y: EARTH_RADIUS * bbox.ne[1]
   };
 
   const swCartesian = {
-    x: Re * bbox.sw[0] * cosCenterLat,
-    y: Re * bbox.sw[1]
+    x: EARTH_RADIUS * bbox.sw[0] * cosCenterLat,
+    y: EARTH_RADIUS * bbox.sw[1]
   };
 
   // Get width and height of cartesian bounding box
@@ -109,8 +112,8 @@ export function routeSVGProperties(
 
   routePoints.forEach((point, index) => {
     // Convert to cartesian
-    const x = Re * point.longitude * cosCenterLat;
-    const y = Re * point.latitude;
+    const x = EARTH_RADIUS * point.longitude * cosCenterLat;
+    const y = EARTH_RADIUS * point.latitude;
     // Get the points relative to the bounding box, which we need for drawing
     const relativeX = ((x - bbox.sw.x) / bboxWidth) * size;
     const relativeY = size - ((y - bbox.sw.y) / bboxWidth) * size;

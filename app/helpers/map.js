@@ -9,6 +9,8 @@ import i18n from 'i18next';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
 import { coordsArrayToObject, isValidLatLng } from 'helpers/location';
 
+import _ from 'lodash';
+
 const kdbush = require('kdbush');
 const geokdbush = require('geokdbush');
 const geoViewport = require('@mapbox/geo-viewport');
@@ -198,26 +200,13 @@ export function formatDistance(distance, thresholdBeforeKm = 1, relativeToUser =
  * @returns {{sw: [*, *], ne: [*, *]}}
  */
 export function getPolygonBoundingBox(polygon) {
-  const bounds = {};
-  let latitude;
-  let longitude;
 
   if (polygon && polygon.length === 0) {
     return undefined;
   }
 
-  for (let i = 0; i < polygon.length; i++) {
-    latitude = polygon[i].latitude;
-    longitude = polygon[i].longitude;
-    bounds.longMin = Math.min(isNaN(bounds.longMin) ? longitude : bounds.longMin, longitude);
-    bounds.longMax = Math.max(isNaN(bounds.longMax) ? longitude : bounds.longMax, longitude);
-    bounds.latMin = Math.min(isNaN(bounds.latMin) ? latitude : bounds.latMin, latitude);
-    bounds.latMax = Math.max(isNaN(bounds.latMax) ? latitude : bounds.latMax, latitude);
-  }
-
-  const boundingBox = {
-    ne: [bounds.longMax, bounds.latMax],
-    sw: [bounds.longMin, bounds.latMin]
+  return {
+    ne: [_.maxBy(polygon, x => x.longitude).longitude, _.maxBy(polygon, x => x.latitude).latitude],
+    sw: [_.minBy(polygon, x => x.longitude).longitude, _.minBy(polygon, x => x.latitude).latitude]
   };
-  return boundingBox;
 }
