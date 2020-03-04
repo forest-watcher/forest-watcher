@@ -70,12 +70,14 @@ export default class ShareSelector extends Component<Props> {
     }
     Navigation.mergeOptions(this.props.componentId, {
       topBar: {
-        rightButtons: visible ? [
-          {
-            id: KEY_EXPORT_DONE,
-            text: i18n.t('commonText.done')
-          }
-        ] : []
+        rightButtons: visible
+          ? [
+              {
+                id: KEY_EXPORT_DONE,
+                text: i18n.t('commonText.done')
+              }
+            ]
+          : []
       }
     });
   };
