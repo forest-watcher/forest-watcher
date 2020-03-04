@@ -224,22 +224,46 @@ export default class Routes extends PureComponent<Props> {
               <View style={styles.routeContainer}>
                 <Svg style={{ bacgkroundColor: 'red' }} height="100" width="100" viewBox="-16 -16 132 132">
                   <Path d={svgProperties?.path} fill={'transparent'} stroke={Theme.colors.white} strokeWidth="7" />
-                  <Circle
-                    cx={svgProperties.firstPoint?.x}
-                    cy={svgProperties.firstPoint?.y}
-                    r="8"
-                    strokeWidth="8"
-                    stroke={Theme.colors.white}
-                    fill={'rgba(220, 220, 220, 1)'}
-                  />
-                  <Circle
-                    cx={svgProperties.lastPoint?.x}
-                    cy={svgProperties.lastPoint?.y}
-                    r="8"
-                    strokeWidth="8"
-                    stroke={Theme.colors.white}
-                    fill={'rgba(220, 220, 220, 1)'}
-                  />
+                  {svgProperties.firstPoint && (
+                    <React.Fragment>
+                      <Circle
+                        cx={svgProperties.firstPoint.x}
+                        cy={svgProperties.firstPoint.y}
+                        r="14"
+                        strokeWidth="4"
+                        stroke={'rgba(0, 0, 0, 0.06)'}
+                        fill={'transparent'}
+                      />
+                      <Circle
+                        cx={svgProperties.firstPoint.x}
+                        cy={svgProperties.firstPoint.y}
+                        r="8"
+                        strokeWidth="8"
+                        stroke={Theme.colors.white}
+                        fill={'rgba(220, 220, 220, 1)'}
+                      />
+                    </React.Fragment>
+                  )}
+                  {svgProperties.lastPoint && (
+                    <React.Fragment>
+                      <Circle
+                        cx={svgProperties.lastPoint.x}
+                        cy={svgProperties.lastPoint.y}
+                        r="14"
+                        strokeWidth="4"
+                        stroke={'rgba(0, 0, 0, 0.06)'}
+                        fill={'transparent'}
+                      />
+                      <Circle
+                        cx={svgProperties.lastPoint.x}
+                        cy={svgProperties.lastPoint.y}
+                        r="8"
+                        strokeWidth="8"
+                        stroke={Theme.colors.white}
+                        fill={'rgba(220, 220, 220, 1)'}
+                      />
+                    </React.Fragment>
+                  )}
                 </Svg>
               </View>
             );
