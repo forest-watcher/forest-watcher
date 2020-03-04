@@ -12,7 +12,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 
@@ -68,7 +68,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 
@@ -93,7 +93,7 @@ Object {
   "offlineMode": true,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 
@@ -117,7 +117,7 @@ Object {
   "offlineMode": true,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 
@@ -163,7 +163,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 
@@ -186,7 +186,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": true,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 
@@ -209,7 +209,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 
@@ -232,7 +232,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 
@@ -255,7 +255,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 
@@ -278,7 +278,7 @@ Object {
   "offlineMode": true,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 
@@ -301,7 +301,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 
@@ -324,7 +324,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 
@@ -347,7 +347,7 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": false,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 
@@ -369,6 +369,6 @@ Object {
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
