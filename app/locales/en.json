@@ -5,6 +5,11 @@
         "noGPS": "No GPS"
     },
     "areas": {
+        "empty": {
+            "action": "App FAQs",
+            "body": "Tap the ‘+’ icon to set up an area where you want to access alerts. You can also import an area.",
+            "title": "No Areas Monitored"
+        },
         "export": {
             "noneSelected": "No areas selected",
             "oneArea": "%{count} Area",
@@ -295,7 +300,11 @@
         "datePlaceholder": "Select date",
         "delete": "Delete this report",
         "drafts": "Drafts",
-        "empty": "No report submitted, please go to the map and report a point or group of points!",
+        "empty": {
+            "action": "App FAQs",
+            "body": "Reports you create and imported reports will appear here",
+            "title": "No Reports"
+        },
         "emptyPicture": "Empty",
         "export": {
             "navBarButtonText": "Export",
@@ -345,6 +354,11 @@
         },
         "distance": "Distance",
         "duration": "Time Taken",
+        "empty": {
+            "action": "App FAQs",
+            "body": "Routes you record and imported routes will appear here",
+            "title": "No Routes"
+        },
         "export": {
             "oneRoute": "%{count} Route",
             "oneRouteAction": "Export %{count} route...",

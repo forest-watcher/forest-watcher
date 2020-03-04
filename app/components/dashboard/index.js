@@ -228,16 +228,16 @@ class Dashboard extends PureComponent<Props> {
                 <Text style={styles.tableRowText}>{i18n.t('dashboard.areas')}</Text>
               </View>
             </Row>
-            <Row action={this.routesAction}>
-              <View style={styles.tableRowContent}>
-                <Image source={routesIcon} />
-                <Text style={styles.tableRowText}>{i18n.t('dashboard.routes')}</Text>
-              </View>
-            </Row>
             <Row action={this.reportsAction}>
               <View style={styles.tableRowContent}>
                 <Image source={reportsIcon} />
                 <Text style={styles.tableRowText}>{i18n.t('dashboard.reports')}</Text>
+              </View>
+            </Row>
+            <Row action={this.routesAction}>
+              <View style={styles.tableRowContent}>
+                <Image source={routesIcon} />
+                <Text style={styles.tableRowText}>{i18n.t('dashboard.routes')}</Text>
               </View>
             </Row>
             <Row action={this.settingsAction}>

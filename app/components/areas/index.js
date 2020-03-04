@@ -12,9 +12,12 @@ import i18n from 'i18next';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
+import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
 
 const plusIcon = require('assets/add.png');
+const emptyIcon = require('assets/areasEmpty.png');
+
 
 type Props = {
   areaDownloadTooltipSeen: boolean,
@@ -69,6 +72,11 @@ class Areas extends Component<Props> {
       this.onPressAddArea();
     }
   }
+
+  onFrequentlyAskedQuestionsPress = () => {
+    //TODO: Push App FAQs
+    console.log("Push FAQ");
+  };
 
   /**
    * Handles the area row being selected while in export mode.
@@ -217,6 +225,8 @@ class Areas extends Component<Props> {
     const totalToExport = this.state.selectedForExport.length;
     const totalAreas = areas.length;
 
+    const hasAreas = areas && areas.length > 0;
+
     return (
       <View style={styles.container}>
         <ShareSheet
@@ -246,35 +256,47 @@ class Areas extends Component<Props> {
           }
           total={totalAreas}
         >
-          <ScrollView
-            style={styles.list}
-            contentContainerStyle={styles.listContent}
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-          >
-            {areas && areas.length ? (
-              <View style={styles.areas}>
-                <Text style={styles.label}>{i18n.t('areas.myAreas')}</Text>
-                <AreaList
-                  downloadCalloutVisible={!this.props.areaDownloadTooltipSeen}
-                  onAreaDownloadPress={(areaId, name) => {
-                    this.props.setAreaDownloadTooltipSeen(true);
-                    // todo: Handle download too!
-                  }}
-                  onAreaPress={(areaId, name) => {
-                    if (this.state.inShareMode) {
-                      this.onAreaSelectedForExport(areaId);
-                    } else {
-                      this.onAreaPress(areaId, name);
-                    }
-                  }}
-                  onAreaSettingsPress={(areaId, name) => this.onAreaSettingsPress(areaId, name)}
-                  selectionState={this.state.selectedForExport}
-                  sharing={this.state.inShareMode}
-                />
-              </View>
-            ) : null}
-          </ScrollView>
+          {hasAreas ? (
+            <ScrollView
+              style={styles.list}
+              contentContainerStyle={styles.listContent}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+            > 
+              {areas && areas.length ? (
+                <View style={styles.areas}>
+                  <Text style={styles.label}>{i18n.t('areas.myAreas')}</Text>
+                  <AreaList
+                    downloadCalloutVisible={!this.props.areaDownloadTooltipSeen}
+                    onAreaDownloadPress={(areaId, name) => {
+                      this.props.setAreaDownloadTooltipSeen(true);
+                      // todo: Handle download too!
+                    }}
+                    onAreaPress={(areaId, name) => {
+                      if (this.state.inShareMode) {
+                        this.onAreaSelectedForExport(areaId);
+                      } else {
+                        this.onAreaPress(areaId, name);
+                      }
+                    }}
+                    onAreaSettingsPress={(areaId, name) => this.onAreaSettingsPress(areaId, name)}
+                    selectionState={this.state.selectedForExport}
+                    sharing={this.state.inShareMode}
+                  />
+                </View>
+              ) : null}
+            </ScrollView>
+          ) : (
+            <View style={styles.containerEmpty}>
+              <EmptyState
+                actionTitle={i18n.t('areas.empty.action')}
+                body={i18n.t('areas.empty.body')}
+                icon={emptyIcon}
+                onActionPress={this.onFrequentlyAskedQuestionsPress}
+                title={i18n.t('areas.empty.title')}
+              />
+            </View>
+          )}
         </ShareSheet>
       </View>
     );

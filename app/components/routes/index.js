@@ -11,6 +11,8 @@ import styles from './styles';
 import { Navigation } from 'react-native-navigation';
 // import exportReports from 'helpers/exportReports';
 
+import EmptyState from 'components/common/empty-state';
+
 import type { Route } from 'types/routes.types';
 
 import ShareSheet from 'components/common/share';
@@ -19,6 +21,7 @@ import VerticalSplitRow from 'components/common/vertical-split-row';
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
 
 const nextIcon = require('assets/next.png');
+const emptyIcon = require('assets/routesEmpty.png');
 
 type Props = {
   componentId: string,
@@ -51,6 +54,11 @@ export default class Routes extends PureComponent<Props> {
   componentDidMount() {
     tracker.trackScreenView('My Routes');
   }
+
+  onFrequentlyAskedQuestionsPress = () => {
+    //TODO: Push App FAQs
+    console.log("Push FAQ");
+  };
 
   /**
    * Handles the route row being selected while in export mode.
@@ -234,14 +242,28 @@ export default class Routes extends PureComponent<Props> {
   }
 
   /**
-   * renderRoutesScrollView - Renders a list of routes.
+   * renderRoutes - Renders a list of routes.
    *
    * @param  {array} routes      An array of routes.
    * @param  {bool} inExportMode  Whether the user is in export mode or not. If in export mode, a different callback will be used.
    * @return {ScrollView}         A ScrollView element with all content rendered to it.
    */
-  renderRoutesScrollView(routes, inExportMode) {
+  renderRoutes(routes, inExportMode) {
     const hasRoutes = !!routes.length;
+
+    if (!hasRoutes) {
+      return (
+        <View style={styles.containerEmpty}>
+          <EmptyState
+            actionTitle={i18n.t('routes.empty.action')}
+            body={i18n.t('routes.empty.body')}
+            onActionPress={this.onFrequentlyAskedQuestionsPress}
+            icon={emptyIcon}
+            title={i18n.t('routes.empty.title')}
+          />
+        </View>
+      )
+    }
 
     return (
       <ScrollView
@@ -250,22 +272,16 @@ export default class Routes extends PureComponent<Props> {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        {hasRoutes ? (
-          <View style={styles.container}>
-            {routes &&
-              routes.length > 0 &&
-              this.renderSection(
-                i18n.t('routes.myRoutes'),
-                routes,
-                nextIcon,
-                inExportMode ? this.onRouteSelectedForExport : this.onClickRoute
-              )}
-          </View>
-        ) : (
-          <View style={styles.containerEmpty}>
-            <Text style={styles.emptyTitle}>{i18n.t('routes.empty')}</Text>
-          </View>
-        )}
+        <View style={styles.container}>
+          {routes &&
+            routes.length > 0 &&
+            this.renderSection(
+              i18n.t('routes.myRoutes'),
+              routes,
+              nextIcon,
+              inExportMode ? this.onRouteSelectedForExport : this.onClickRoute
+            )}
+        </View>
       </ScrollView>
     );
   }
@@ -305,7 +321,7 @@ export default class Routes extends PureComponent<Props> {
           }
           total={totalRoutes}
         >
-          {this.renderRoutesScrollView(this.props.routes, this.state.inShareMode)}
+          {this.renderRoutes(this.props.routes, this.state.inShareMode)}
         </ShareSheet>
       </View>
     );
