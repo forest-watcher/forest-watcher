@@ -11,7 +11,12 @@ function mapStateToProps(state) {
     description: i18n.t('settings.coordinatesDescription'),
     label: i18n.t('settings.coordinatesFormat'),
     selectedValue: state.app.coordinatesFormat,
-    options: Object.values(COORDINATES_FORMATS)
+    options: Object.values(COORDINATES_FORMATS).map(coordinateFormat => {
+      return {
+        label: i18n.t(coordinateFormat.labelKey),
+        value: coordinateFormat.value
+      }
+    })
   };
 }
 
