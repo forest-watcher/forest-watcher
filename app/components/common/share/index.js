@@ -29,13 +29,6 @@ type Props = {
 
 const KEY_EXPORT_DONE = 'key_export_done';
 
-const BUTTON_EXPORT_DONE = [
-  {
-    id: KEY_EXPORT_DONE,
-    text: i18n.t('commonText.done')
-  }
-];
-
 export default class ShareSelector extends Component<Props> {
   constructor(props) {
     super(props);
@@ -77,7 +70,12 @@ export default class ShareSelector extends Component<Props> {
     }
     Navigation.mergeOptions(this.props.componentId, {
       topBar: {
-        rightButtons: visible ? BUTTON_EXPORT_DONE : []
+        rightButtons: visible ? [
+          {
+            id: KEY_EXPORT_DONE,
+            text: i18n.t('commonText.done')
+          }
+        ] : []
       }
     });
   };
