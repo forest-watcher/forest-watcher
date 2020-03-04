@@ -1,4 +1,4 @@
-import { Dimensions, Platform } from 'react-native';
+import { Dimensions, Platform, TouchableHighlight, TouchableNativeFeedback } from 'react-native';
 
 const screen = Dimensions.get('window');
 export const colors = {
@@ -23,7 +23,10 @@ const fontColors = {
   white: colors.white
 };
 
-const fontName = 'firasansot';
+const fontName = Platform.select({
+  ios: 'firasansot',
+  android: 'firasansot_regular'
+});
 
 const config = {
   screen: {
