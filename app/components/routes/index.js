@@ -216,6 +216,7 @@ export default class Routes extends PureComponent<Props> {
           onPress={() => {
             onPress(item);
           }}
+          style={styles.row}
           renderImageChildren={() => {
             if (!svgProperties) {
               return null;

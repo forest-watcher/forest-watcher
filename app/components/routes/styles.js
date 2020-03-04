@@ -79,5 +79,8 @@ export default StyleSheet.create({
     ...StyleSheet.absoluteFill,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  row: {
+    marginBottom: 25
   }
 });

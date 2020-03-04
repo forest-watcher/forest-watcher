@@ -36,7 +36,7 @@ export default class VerticalSplitRow extends Component<Props> {
     const inShareMode = selected === true || selected === false;
 
     return (
-      <TouchableHighlight activeOpacity={0.5} underlayColor="transparent" onPress={this.props.onPress}>
+      <TouchableHighlight activeOpacity={0.5} underlayColor="transparent" onPress={this.props.onPress} style={this.props.style}>
         <View style={styles.item}>
           <View style={styles.imageContainer}>
             {this.props.imageSrc && (
