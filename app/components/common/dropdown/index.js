@@ -48,14 +48,16 @@ export default class Dropdown extends Component<Props> {
   render() {
     const { description, label, selectedValue, options } = this.props;
     const selectedLabel =
-      options.map(option => {
-        return {
-          ...option,
-          label: i18n.t(option.labelKey)
-        }
-      }).find(option => {
-        return option.value === selectedValue;
-      }).label ?? selectedValue;
+      options
+        .map(option => {
+          return {
+            ...option,
+            label: i18n.t(option.labelKey)
+          };
+        })
+        .find(option => {
+          return option.value === selectedValue;
+        }).label ?? selectedValue;
     return (
       <Row action={this.showActionSheetAction}>
         {label && <Text style={styles.label}>{label}</Text>}
