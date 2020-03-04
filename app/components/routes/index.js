@@ -195,7 +195,6 @@ export default class Routes extends PureComponent<Props> {
    * @param <Route> route The route to render a path for
    */
   renderRoutePath = (route: Route) => {
-
     const svgProperties = routeSVGProperties(route.locations, 100);
 
     if (!svgProperties) {
@@ -249,7 +248,7 @@ export default class Routes extends PureComponent<Props> {
         </Svg>
       </View>
     );
-  }
+  };
 
   /**
    * renderItems - Returns an array of rows, based on the route data provided.
@@ -261,7 +260,6 @@ export default class Routes extends PureComponent<Props> {
    */
   renderItems(data: Array<Route>, image: any, onPress: string => void) {
     return this.sortedRoutes(data).map((item, index) => {
-      
       const routeDistance = getDistanceOfPolyline(item.locations);
       const dateText = moment(item.endDate).format('ll');
       const distanceText = formatDistance(routeDistance, 1, false);

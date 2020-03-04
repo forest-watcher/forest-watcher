@@ -14,6 +14,9 @@ const checkboxOff = require('assets/checkbox_off.png');
 const checkboxOn = require('assets/checkbox_on.png');
 const downloadIcon = require('assets/download.png');
 
+type ViewProps = React.ElementProps<typeof View>;
+type ViewStyleProp = $PropertyType<ViewProps, 'style'>;
+
 type Props = {
   downloadCalloutBody?: ?boolean,
   downloadCalloutVisible?: ?boolean,
@@ -25,6 +28,7 @@ type Props = {
   onSettingsPress: void => void,
   renderImageChildren?: (?void) => React.Node,
   selected?: ?boolean,
+  style?: ?ViewStyleProp,
   subtitle?: ?string,
   title: string
 };
@@ -36,7 +40,12 @@ export default class VerticalSplitRow extends Component<Props> {
     const inShareMode = selected === true || selected === false;
 
     return (
-      <TouchableHighlight activeOpacity={0.5} underlayColor="transparent" onPress={this.props.onPress} style={this.props.style}>
+      <TouchableHighlight
+        activeOpacity={0.5}
+        underlayColor="transparent"
+        onPress={this.props.onPress}
+        style={this.props.style}
+      >
         <View style={styles.item}>
           <View style={styles.imageContainer}>
             {this.props.imageSrc && (
