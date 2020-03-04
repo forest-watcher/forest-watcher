@@ -74,7 +74,8 @@ export default class ShareSelector extends Component<Props> {
           ? [
               {
                 id: KEY_EXPORT_DONE,
-                text: i18n.t('commonText.done')
+                text: i18n.t('commonText.done'),
+                ...styles.topBarTextButton
               }
             ]
           : []
