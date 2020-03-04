@@ -18,7 +18,7 @@ type Props = {
   label: string,
   selectedValue: string,
   onValueChange: string => void,
-  options: Array<{ label: string, value: string }>
+  options: Array<{ labelKey: string, value: string }>
 };
 
 export default class Dropdown extends Component<Props> {
@@ -48,7 +48,12 @@ export default class Dropdown extends Component<Props> {
   render() {
     const { description, label, selectedValue, options } = this.props;
     const selectedLabel =
-      options.find(option => {
+      options.map(option => {
+        return {
+          ...option,
+          label: i18n.t(option.labelKey)
+        }
+      }).find(option => {
         return option.value === selectedValue;
       }).label ?? selectedValue;
     return (
@@ -85,7 +90,7 @@ export default class Dropdown extends Component<Props> {
                       <View style={[styles.switch, option.value == selectedValue ? styles.switchOn : ' ']}>
                         {option.value == selectedValue && <View style={styles.switchInterior} />}
                       </View>
-                      <Text style={styles.smallLabel}>{option.label}</Text>
+                      <Text style={styles.smallLabel}>{i18n.t(option.labelKey)}</Text>
                     </Row>
                   ))}
                 </View>
