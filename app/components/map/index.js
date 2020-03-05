@@ -172,8 +172,6 @@ class MapComponent extends Component {
         bottomSafeAreaInset: result.safeAreaInsets.bottom
       });
     });
-
-    this.showMapWalkthrough();
   }
 
   navigationButtonPressed({ buttonId }) {
@@ -209,6 +207,13 @@ class MapComponent extends Component {
         return {};
       });
     }, 1000);
+
+    const { setCanDisplayAlerts, canDisplayAlerts } = this.props;
+    if (!canDisplayAlerts) {
+      setCanDisplayAlerts(true);
+    }
+
+    this.showMapWalkthrough();
   }
 
   onLocationUpdateError = error => {
@@ -218,11 +223,7 @@ class MapComponent extends Component {
   };
 
   showMapWalkthrough = () => {
-    const { setCanDisplayAlerts, canDisplayAlerts, mapWalkthroughSeen } = this.props;
-    if (!canDisplayAlerts) {
-      setCanDisplayAlerts(true);
-    }
-    if (!mapWalkthroughSeen) {
+    if (!this.props.mapWalkthroughSeen) {
       Navigation.showModal({
         stack: {
           children: [
