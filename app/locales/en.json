@@ -109,6 +109,45 @@
         "done": "Done"
     },
     "faq": {
+        "categories": {
+            "about": {
+                "title": "About Forest Watcher",
+                "question1": {
+                    "content": {
+                        "description": {
+                            "text1": "Forest Watcher is a mobile application designed to allow easy, offline access to data about forest change from Global Forest Watch http://www.globalforestwatch.org/.",
+                            "text2": "Global Forest Watch (GFW) is a dynamic online forest monitoring and alert system that empowers people everywhere to better manage forests. GFW brings together satellite technology, cloud computing, and open data to provide timely information about forests to communities around the world.",
+                            "text3": "Forest Watcher puts valuable information from GFW directly into the hands of people monitoring forests on the ground. Forest Watcher allows anyone to see deforestation and fire alerts on a mobile device, navigate to the location of the alert offline, and collect information and photos about what they find.",
+                            "text4": "This app provides an affordable and easy-to-use solution to: quickly identify areas for forest patrols or field investigations; collect evidence about forest changes from the ground; use data collected to make evidence-based management and conservation decisions; and validate remote sensing products in the field.",
+                            "text5": "Specifically, this app allows users to: "
+                        },
+                        "orderList": {
+                            "text1": "Upload or draw custom area(s) of interest for analysis",
+                            "text2": "Download various satellite-based forest change and other contextual data (e.g. near real-time deforestation alerts, protected areas, and intact forest landscapes)  onto any mobile device",
+                            "text3": "Upload your own datasets",
+                            "text4": "Investigate alerts in the field and collect information (including GPS points and photos) through customizable forms",
+                            "text5": "Review, analyze, and download data collected with the app"
+                        }
+                    },
+                    "title": "What is Forest Watcher?"
+                }
+            },
+            "alertsAndData": {
+                "title": "Alerts and Data in Forest Watcher"
+            },
+            "features": {
+                "title": "Features and Functionality"
+            },
+            "help": {
+                "title": "Help and How to Contact Us"
+            },
+            "inTheField": {
+                "title": "Using Forest Watcher in the Field"
+            },
+            "sectionHeader": "Categories",
+            "questionCountPlural": "%{count} Questions",
+            "questionCountSingular": "1 Question"
+        },
         "eighthQuestion": {
             "title": "What does the satellite imagery basemap show?"
         },
