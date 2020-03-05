@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Platform } from 'react-native';
 
 import ActionSheet from 'react-native-actions-sheet';
 import Row from 'components/common/row';
@@ -68,36 +68,42 @@ export default class Dropdown extends Component<Props> {
           }}
         >
           <SafeAreaConsumer>
-            {insets => (
-              <View style={{ marginBottom: insets.bottom }}>
-                <View style={styles.pickerHeader}>
-                  <View>
-                    <Text style={styles.label}>{label}</Text>
-                    {description && <Text style={styles.smallLabel}>{description}</Text>}
+            {insets => {
+              const dropdownContainerStyle = Platform.select({
+                android: { marginBottom: insets.top },
+                ios: { marginBottom: insets.bottom }
+              });
+              return (
+                <View style={dropdownContainerStyle}>
+                  <View style={styles.pickerHeader}>
+                    <View>
+                      <Text style={styles.label}>{label}</Text>
+                      {description && <Text style={styles.smallLabel}>{description}</Text>}
+                    </View>
+                    <TouchableOpacity onPress={this.onDismissActionSheet} style={styles.doneButtonContainer}>
+                      <Text style={styles.doneLabel}>{i18n.t('dropdown.done')}</Text>
+                    </TouchableOpacity>
                   </View>
-                  <TouchableOpacity onPress={this.onDismissActionSheet} style={styles.doneButtonContainer}>
-                    <Text style={styles.doneLabel}>{i18n.t('dropdown.done')}</Text>
-                  </TouchableOpacity>
+                  <View style={styles.pickerContent}>
+                    {options.map((option, i) => (
+                      <Row
+                        action={{
+                          callback: this.onSelectedOption.bind(this, option.value)
+                        }}
+                        key={option.value + i}
+                        rowStyle={styles.optionRow}
+                        style={styles.optionRowContainer}
+                      >
+                        <View style={[styles.switch, option.value == selectedValue ? styles.switchOn : ' ']}>
+                          {option.value == selectedValue && <View style={styles.switchInterior} />}
+                        </View>
+                        <Text style={styles.smallLabel}>{i18n.t(option.labelKey)}</Text>
+                      </Row>
+                    ))}
+                  </View>
                 </View>
-                <View style={styles.pickerContent}>
-                  {options.map((option, i) => (
-                    <Row
-                      action={{
-                        callback: this.onSelectedOption.bind(this, option.value)
-                      }}
-                      key={option.value + i}
-                      rowStyle={styles.optionRow}
-                      style={styles.optionRowContainer}
-                    >
-                      <View style={[styles.switch, option.value == selectedValue ? styles.switchOn : ' ']}>
-                        {option.value == selectedValue && <View style={styles.switchInterior} />}
-                      </View>
-                      <Text style={styles.smallLabel}>{i18n.t(option.labelKey)}</Text>
-                    </Row>
-                  ))}
-                </View>
-              </View>
-            )}
+              );
+            }}
           </SafeAreaConsumer>
         </ActionSheet>
       </Row>
