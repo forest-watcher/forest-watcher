@@ -116,9 +116,6 @@
             "questionCountPlural": "%{count} Questions",
             "questionCountSingular": "1 Question"
         },
-        "eighthQuestion": {
-            "title": "Apa yang ditunjukkan peta basis citra satelit?"
-        },
         "fifthQuestion": {
             "content": {
                 "description": {

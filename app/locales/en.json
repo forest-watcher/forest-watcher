@@ -160,17 +160,6 @@
             "questionCountPlural": "%{count} Questions",
             "questionCountSingular": "1 Question"
         },
-        "eighthQuestion": {
-            "title": "What does the satellite imagery basemap show?"
-        },
-        "eleventhQuestion": {
-            "content": {
-                "description": {
-                    "text": "Contact us with feedback or questions by emailing mailto:forestwatcher@wri.org."
-                }
-            },
-            "title": "How do I get support?"
-        },
         "fifthQuestion": {
             "content": {
                 "description": {
