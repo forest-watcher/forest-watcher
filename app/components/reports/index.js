@@ -277,12 +277,8 @@ class Reports extends PureComponent<Props> {
         <Row key={index + item.title} action={action}>
           <View style={styles.listItem}>
             <Text style={styles.itemTitle}>{title}</Text>
-            {item.area?.name && (
-              <Text style={styles.itemText}>{item.area.name}</Text>
-            )}
-            {item.position && (
-              <Text style={styles.itemText}>{positionParsed}</Text>
-            )}
+            {item.area?.name && <Text style={styles.itemText}>{item.area.name}</Text>}
+            {item.position && <Text style={styles.itemText}>{positionParsed}</Text>}
             <Text style={styles.itemText}>{dateParsed}</Text>
             <Text style={styles.itemText}>{timeSinceParsed}</Text>
           </View>

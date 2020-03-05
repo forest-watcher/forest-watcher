@@ -2,7 +2,6 @@
 
 import i18n from 'i18next';
 
-
 /**
  * Converts a report name, to a readable, localised string
  * @param {string} reportName - The report name to convert
