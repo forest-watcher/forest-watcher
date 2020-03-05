@@ -139,19 +139,12 @@ export default class FaqCategories extends Component<Props> {
       {
         icon: helpIcon,
         title: i18n.t('faq.categories.help.title'),
-        questions: [
-          
-        ]
+        questions: i18n.t('faq.categories.help.questions', { returnObjects: true })
       },
       {
         icon: aboutIcon,
         title: i18n.t('faq.categories.about.title'),
-        questions: [
-          {
-            title: i18n.t('faq.categories.about.question1.title'),
-            content: i18n.t('faq.categories.about.question1.content')
-          }
-        ]
+        questions: i18n.t('faq.categories.about.questions', { returnObjects: true })
       }
     ]
   }
