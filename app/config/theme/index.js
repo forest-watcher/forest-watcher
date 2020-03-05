@@ -23,7 +23,10 @@ const fontColors = {
   white: colors.white
 };
 
-const fontName = 'firasansot';
+const fontName = Platform.select({
+  ios: 'firasansot',
+  android: 'firasansot_regular'
+});
 
 const config = {
   screen: {
