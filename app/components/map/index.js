@@ -740,11 +740,11 @@ class MapComponent extends Component {
           styleURL={MapboxGL.StyleURL.SatelliteStreet}
           onRegionDidChange={this.onRegionDidChange}
         >
-          {renderUserLocation}
           {renderMapCamera}
           {this.renderAreaOutline()}
           {this.renderDestinationLine()}
           <RouteMarkers isTracking={this.isRouteTracking()} userLocation={userLocation} route={route} />
+          {renderUserLocation}
         </MapboxGL.MapView>
         {renderCustomReportingMarker}
         {this.renderMapFooter()}
