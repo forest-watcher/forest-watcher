@@ -87,18 +87,129 @@
                             }
                         },
                         "title": "Apa itu Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Forest Watcher pertama kali dikembangkan oleh Jane Goodall Institute (JGI), Google, Touchlab dan Global Forest Watch. Pemantau hutan desa, penjaga hutan kawasan lindung dan masyarakat lokal yang bekerja dengan Jane Goodall Institute memerlukan akses data satelit terkini untuk pemantauan hutan; Namun, akses internet terbatas di daerah terpencil tempat mereka bekerja. Tanpa informasi ini, pemantau hutan bisa kehilangan aktivitas deforestasi yang terjadi di luar rute patroli mereka. JGI, GFW, Touchlab, Vizzualitas dan Google membuat Forest Watcher untuk mengaktifkan akses ke data GFW secara luring saat berada di lapangan."
+                            }
+                        },
+                        "title": "Mengapa Anda membuat Forest Watcher?"
                     }
                 ]
             },
             "alertsAndData": {
-                "title": "Alerts and Data in Forest Watcher"
+                "title": "Alerts and Data in Forest Watcher",
+                "questions": [
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Setiap kumpulan data perubahan hutan telah melalui pengujian ilmiah yang ketat dan memiliki batasan yang unik. Misalnya, lansiran GLAD dievaluasi di Peru memiliki 13,5 persen kesalahan positif (sebuah lansiran muncul dalam data yang tidak ada di lapangan) dan 33 persen kesalahan negatif (ada perubahan yang diobservasipada lapangan yang tidak muncul sebagai lansiran dalam data). Ini berarti bahwa sekitar 87 persen lansiran GLAD mewakili peristiwa perubahan hutan. Tingkat kesalahan negatif yang lebih tinggi berarti lansiran tersebut merupakan perkiraan konservatif cakupan kehilangan pohon. Ini membantu meminimalkan kemungkinan pengguna menghabiskan sumber daya dalam menyelidiki lansiran yang tidak mewakili perubahan hutan yang sebenarnya.",
+                                "text2": "Pengguna juga harus ingat bahwa lansiran GLAD mendeteksi semua cakupan kehilangan pohon, terlepas dari apakah itu disebabkan oleh manusia (seperti melalui penebangan) atau kejadian alami (seperti tanah longsor). Selain itu, lansiran tidak membedakan antara cakupan pohon alami dan tutupan pohon yang ditanami. Untuk informasi lengkap tentang setiap kumpulan data, kunjungi www.globalforestwatch.org.",
+                                "text3": "Penilaian data VIIRS menemukan tingkat kesalahan positif mendekati 0 untuk sebagian besar wilayah, dengan maksimum 1,2 persen di wilayah yang dinilai, sebagian besar terkait dengan sunglint di atas atap reflektif. Tingkat kelalaian tidak dinilai. VIIRS tidak bisa mendeteksi kebakaran yang terlalu kecil atau terlalu dingin (umumnya lebih dingin dari 700 K atau lebih kecil dari 100 meter persegi). Kelalaian dapat juga terjadi saat kebakaran dimulai dan berakhir di antara jalur layang satelit, atau saat kebakaran dikaburkan oleh awan, asap tebal, atau kanopi pohon."
+                            }
+                        },
+                        "title": "Seberapa akuratnya lansiran?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Ada tiga kumpulan data standar dari Global Forest Watch yang disediakan di Forest Watcher:"
+                            },
+                            "footerText": "Untuk informasi lebih rinci tentang setiap kumpulan data, kunjungi http://data.globalforestwatch.org/.",
+                            "orderList": {
+                                "text1": "Lansiran Kebakaran Aktif VIIRS: Diproduksi oleh NASA, diperbaharui setiap hari dengan resolusi 375 meter. Ini menunjukkan lokasi dugaan kebakaran seminggu terakhir.",
+                                "text2": "Lansiran GLAD: Diproduksi oleh Laboratorium Global Land Analysis & Discovery (GLAD) Universitas Maryland, diperbaharui tiap minggu dengan resolusi 30 meter. Ini menunjukkan Anda dimana kawasan hutan mungkin telah berubah minggu demi minggu.",
+                                "text3": "Cakupan Kehilangan Pohon Tahunan: Juga diproduksi oleh lab GLAD, diperbaharui tiap tahun dengan resolusi 30 meter. Ini menunjukkan Anda tahun ke tahun di mana kawasan hutan telah berubah. Saat ini data hanya tersedia sebagai lapisan data kontekstual: Anda tidak akan dapat membuat laporan yang terkait dengan lansiran kehilangan tahunan, walaupun Anda masih dapat membuat laporan untuk lokasi tersebut dengan menekan layar di lokasi kehilangan atau penambahan hutan."
+                            }
+                        },
+                        "title": "Kumpulan data apa saja yang tersedia dan dari mana asalnya?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Citra yang ditampilkan di peta basis satelit diperbarui lebih jarang daripada data lansiran. Dengan demikian, Anda mungkin melihat lansiran perubahan hutan untuk area yang tampak utuh seperti hutan di peta satelit. Mengunjungi lansiran GLAD di lapangan adalah cara terbaik untuk memverifikasi perubahan di lapangan."
+                            }
+                        },
+                        "title": "Mengapa saya melihat lansiran GLAD tapi tidak ada perubahan pada peta citra satelit?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Ya, Anda dapat mengunggah dan menambahkan kumpulan data Anda ke aplikasi menggunakan situs Desktop Forest Watcher. Dengan menggunakan situs Desktop, Anda akan menghubungkan layanan ubin web ke Forest Watcher melalui URL. Informasi lebih lanjut tersedia di situs Desktop."
+                            }
+                        },
+                        "title": "Dapatkah saya menambahkan lapisan data saya sendiri ke dalam Forest Watcher?"
+                    }
+                ]
             },
             "features": {
-                "title": "Features and Functionality"
+                "title": "Features and Functionality",
+                "questions": [
+                     {
+                        "content": {
+                            "description": {
+                                "text": "Forest Watcher menampilkan data mengenai perubahan hutan di \"Area Minat\", atau area yang Anda monitor. Anda dapat menentukan Area Minat di menu pengaturan. Jika Anda adalah anggota dari tim, Anda mungkin sudah memiliki area yang disiapkan untuk Anda, yang dapat Anda unggah ke aplikasi. Aplikasi ini kemudian akan secara otomatis mengunduh data perubahan hutan untuk area tersebut dan memperbarui lansiran penggundulan hutan dan peringatan kebakaran terbaru saat Anda terhubung ke Internet. Setelah Anda mengunduh data relevan ke perangkat seluler Anda, Anda dapat membawa aplikasi secara luring ke lapangan. Forest Watcher akan mengarahkan lansiran terdekat dengan menggunakan GPS internal telepon. Setelah sampai pada lansiran, Anda dapat mengisi laporan tentang apa yang Anda temukan dan menambahkan foto."
+                            }
+                        },
+                        "title": "Bagaimana cara kerja Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Forest Watcher Desktop adalah antarmuka desktop daring tambahan untuk aplikasi seluler, yang dapat digunakan untuk mengelola area minat, membuat kerangka laporan baru, mengkonfigurasi tim pengguna, dan meninjau dan mengunduh laporan yang dikirimkan melalui aplikasi. Antarmuka desktop ditujukan untuk administrator dan pengelola tim, sehingga mereka dapat menyiapkan aplikasi untuk digunakan tim mereka. Untuk informasi lebih lanjut tentang Forest Watcher Desktop, klik di sini"
+                            }
+                        },
+                        "title": "Apa itu Forest Watcher Desktop?"
+                    }
+                ]
             },
             "help": {
                 "title": "Help and How to Contact Us",
                 "questions": [
+                    {
+                        "content": {
+                            "orderListLetters": {
+                                "order1": {
+                                    "description": "Jika Anda tidak melihat lansiran pada Area Minat Anda, periksa globalforestwatch.org untuk melihat apakah ada data untuk lokasi dan jangka waktu yang Anda pilih. Jika tidak ada lansiran GLAD atau VIIRS terbaru, maka tidak ada aktivitas perubahan hutan baru-baru ini. Pertimbangkan untuk menggunakan lapisan kontekstual Peralihan Pohon Tahunan untuk menemukan lansiran lama, yang masih dapat menginformasikan investigasi atau kunjungan lapangan.",
+                                    "text": "Saya tidak melihat data lansiran"
+                                },
+                                "order2": {
+                                    "description": "Jika aplikasi bertabrakan, buka sekali lagi. Jika bertabrakan berkali-kali, kirim surel ke mailto:forestwatcher@wri.org dan sertakan informasi tentang model perangkat Anda dan apa yang Anda lakukan di aplikasi saat bertabrakan.",
+                                    "text": "Aplikasi bertabrakan"
+                                },
+                                "order3": {
+                                    "description": "Fitur lokasi dan navigasi di Forest Watcher bergantung pada GPS internal perangkat Anda. Pertama, periksa apakah GPS (sering disebut \"layanan lokasi\") diaktifkan di pengaturan perangkat seluler Anda. Jika masih tidak berhasil, kirim surel ke mailto:forestwatcher@wri.org memberi tahu kami model perangkat apa yang Anda gunakan.",
+                                    "text": "Saya tidak bisa melihat kompas/lokasi saya"
+                                },
+                                "order4": {
+                                    "description": "Beberapa perangkat yang hanya memiliki kamera depan mungkin tidak kompatibel dengan kamera dalam formulir laporan. Sebagai gantinya Anda dapat mengambil foto di aplikasi kamera Anda, dan menggunakan fungsi unggah dalam laporan di Forest Watcher untuk menambahkan foto dari perpustakaan Anda ke laporan.",
+                                    "text": "Saya tidak dapat mengambil foto di aplikasi"
+                                },
+                                "order5": {
+                                    "description": "Anda mungkin tidak dapat selalu menyelesaikan laporan tepat pada terjadinya lansiran. Anda bisa mulai menulis laporan, menyimpannya, dan kembali lagi nanti saat Anda kembali ke markas Anda. Anda juga dapat mengambil gambar hanya dengan menggunakan kamera perangkat Anda, lalu isi laporannya nanti: Anda dapat melampirkan gambar ke laporan Anda.",
+                                    "text": "Saya ingin melengkapi laporan nanti"
+                                },
+                                "order6": {
+                                    "description": "Saat pertama kali menyiapkan Forest Watcher di perangkat seluler Anda, aplikasi perlu mengunduh banyak data agar berfungsi secara luring. Anda mungkin perlu menunggu sekitar 5 menit agar semua data bisa dimuat dengan benar. Hal ini normal. Jika Anda memiliki koneksi internet yang lemah atau lambat, ini bisa membuat unduhan memakan waktu lebih lama. Jaga agar aplikasi tetap terbuka agar unduhan selesai. Setelah persiapan awal, data lansiran baru akan diunduh setiap kali Anda menghubungkan perangkat Anda ke internet - waktu pengunduhan akan bervariasi tergantung pada berapa banyak lansiran yang telah terjadi. Pembaruan ini akan berada pada skala Kilobyte, di mana unduhan awal kemungkinan akan menjadi beberapa Megabyte.",
+                                    "text": "Lansiran lambat dimuat"
+                                },
+                                "order7": {
+                                    "description": "Saat ini Anda hanya dapat melihat satu kumpulan data sekaligus untuk setiap Area Minat. Kumpulan data yang Anda cari untuk setiap Area Minat dikontrol menggunakan menu pengaturan. Jika Anda ingin melihat semua data kebakaran dan kehilangan hutan untuk tempat yang sama, Anda perlu membuat dua Area Minat untuk lokasi yang sama dan mengatur masing-masing untuk mengunduh kumpulan yang berbeda.",
+                                    "text": "Saya ingin melihat lansiran GLAD dan VIIRS untuk Area Minat yang sama"
+                                },
+                                "order8": {
+                                    "description": "Forest Watcher memiliki banyak data dan dapat menghabiskan banyak memori di perangkat Anda, tergantung pada seberapa banyak Area yang Anda minati, seberapa besar jumlahnya dan berapa banyak lansiran yang ada di setiap perangkat. Kami merekomendasikan penyimpanan internal yang dimiliki minimal 16GB di perangkat Anda, sehingga Anda dapat menggunakan aplikasi Anda yang lain dan juga Forest Watcher: Forest Watcher tidak memerlukan semua penyimpanan ini. Semakin sedikit, semakin kecil area minat yang Anda siapkan di aplikasi, semakin sedikit data yang perlu diunduh ke perangkat Anda.",
+                                    "text": "Saya kehabisan memori di perangkat saya"
+                                },
+                                "order9": {
+                                    "description": "Anda dapat menggunakan Forest Watcher Desktop untuk membuat template formulir khusus yang dapat digunakan tim Anda saat mengumpulkan data. Anda juga dapat menambahkan catatan di bagian akhir formulir jika Anda memiliki observasi yang ingin Anda buat.",
+                                    "text": "Saya ingin mengumpulkan data khusus"
+                                }
+                            }
+                        },
+                        "title": "Apa yang harus saya lakukan jika:"
+                    },
                     {
                         "content": {
                             "description": {
@@ -115,113 +226,6 @@
             "sectionHeader": "Categories",
             "questionCountPlural": "%{count} Questions",
             "questionCountSingular": "1 Question"
-        },
-        "fifthQuestion": {
-            "content": {
-                "description": {
-                    "text1": "Setiap kumpulan data perubahan hutan telah melalui pengujian ilmiah yang ketat dan memiliki batasan yang unik. Misalnya, lansiran GLAD dievaluasi di Peru memiliki 13,5 persen kesalahan positif (sebuah lansiran muncul dalam data yang tidak ada di lapangan) dan 33 persen kesalahan negatif (ada perubahan yang diobservasipada lapangan yang tidak muncul sebagai lansiran dalam data). Ini berarti bahwa sekitar 87 persen lansiran GLAD mewakili peristiwa perubahan hutan. Tingkat kesalahan negatif yang lebih tinggi berarti lansiran tersebut merupakan perkiraan konservatif cakupan kehilangan pohon. Ini membantu meminimalkan kemungkinan pengguna menghabiskan sumber daya dalam menyelidiki lansiran yang tidak mewakili perubahan hutan yang sebenarnya.",
-                    "text2": "Pengguna juga harus ingat bahwa lansiran GLAD mendeteksi semua cakupan kehilangan pohon, terlepas dari apakah itu disebabkan oleh manusia (seperti melalui penebangan) atau kejadian alami (seperti tanah longsor). Selain itu, lansiran tidak membedakan antara cakupan pohon alami dan tutupan pohon yang ditanami. Untuk informasi lengkap tentang setiap kumpulan data, kunjungi www.globalforestwatch.org.",
-                    "text3": "Penilaian data VIIRS menemukan tingkat kesalahan positif mendekati 0 untuk sebagian besar wilayah, dengan maksimum 1,2 persen di wilayah yang dinilai, sebagian besar terkait dengan sunglint di atas atap reflektif. Tingkat kelalaian tidak dinilai. VIIRS tidak bisa mendeteksi kebakaran yang terlalu kecil atau terlalu dingin (umumnya lebih dingin dari 700 K atau lebih kecil dari 100 meter persegi). Kelalaian dapat juga terjadi saat kebakaran dimulai dan berakhir di antara jalur layang satelit, atau saat kebakaran dikaburkan oleh awan, asap tebal, atau kanopi pohon."
-                }
-            },
-            "title": "Seberapa akuratnya lansiran?"
-        },
-        "fourthQuestion": {
-            "content": {
-                "description": {
-                    "text": "Ada tiga kumpulan data standar dari Global Forest Watch yang disediakan di Forest Watcher:"
-                },
-                "footerText": "Untuk informasi lebih rinci tentang setiap kumpulan data, kunjungi http://data.globalforestwatch.org/.",
-                "orderList": {
-                    "text1": "Lansiran Kebakaran Aktif VIIRS: Diproduksi oleh NASA, diperbaharui setiap hari dengan resolusi 375 meter. Ini menunjukkan lokasi dugaan kebakaran seminggu terakhir.",
-                    "text2": "Lansiran GLAD: Diproduksi oleh Laboratorium Global Land Analysis & Discovery (GLAD) Universitas Maryland, diperbaharui tiap minggu dengan resolusi 30 meter. Ini menunjukkan Anda dimana kawasan hutan mungkin telah berubah minggu demi minggu.",
-                    "text3": "Cakupan Kehilangan Pohon Tahunan: Juga diproduksi oleh lab GLAD, diperbaharui tiap tahun dengan resolusi 30 meter. Ini menunjukkan Anda tahun ke tahun di mana kawasan hutan telah berubah. Saat ini data hanya tersedia sebagai lapisan data kontekstual: Anda tidak akan dapat membuat laporan yang terkait dengan lansiran kehilangan tahunan, walaupun Anda masih dapat membuat laporan untuk lokasi tersebut dengan menekan layar di lokasi kehilangan atau penambahan hutan."
-                }
-            },
-            "title": "Kumpulan data apa saja yang tersedia dan dari mana asalnya?"
-        },
-        "ninethQuestion": {
-            "content": {
-                "description": {
-                    "text": "Citra yang ditampilkan di peta basis satelit diperbarui lebih jarang daripada data lansiran. Dengan demikian, Anda mungkin melihat lansiran perubahan hutan untuk area yang tampak utuh seperti hutan di peta satelit. Mengunjungi lansiran GLAD di lapangan adalah cara terbaik untuk memverifikasi perubahan di lapangan."
-                }
-            },
-            "title": "Mengapa saya melihat lansiran GLAD tapi tidak ada perubahan pada peta citra satelit?"
-        },
-        "secondQuestion": {
-            "content": {
-                "description": {
-                    "text": "Forest Watcher pertama kali dikembangkan oleh Jane Goodall Institute (JGI), Google, Touchlab dan Global Forest Watch. Pemantau hutan desa, penjaga hutan kawasan lindung dan masyarakat lokal yang bekerja dengan Jane Goodall Institute memerlukan akses data satelit terkini untuk pemantauan hutan; Namun, akses internet terbatas di daerah terpencil tempat mereka bekerja. Tanpa informasi ini, pemantau hutan bisa kehilangan aktivitas deforestasi yang terjadi di luar rute patroli mereka. JGI, GFW, Touchlab, Vizzualitas dan Google membuat Forest Watcher untuk mengaktifkan akses ke data GFW secara luring saat berada di lapangan."
-                }
-            },
-            "title": "Mengapa Anda membuat Forest Watcher?"
-        },
-        "seventhQuestion": {
-            "content": {
-                "description": {
-                    "text": "Forest Watcher Desktop adalah antarmuka desktop daring tambahan untuk aplikasi seluler, yang dapat digunakan untuk mengelola area minat, membuat kerangka laporan baru, mengkonfigurasi tim pengguna, dan meninjau dan mengunduh laporan yang dikirimkan melalui aplikasi. Antarmuka desktop ditujukan untuk administrator dan pengelola tim, sehingga mereka dapat menyiapkan aplikasi untuk digunakan tim mereka. Untuk informasi lebih lanjut tentang Forest Watcher Desktop, klik di sini"
-                }
-            },
-            "title": "Apa itu Forest Watcher Desktop?"
-        },
-        "sixthQuestion": {
-            "content": {
-                "description": {
-                    "text": "Ya, Anda dapat mengunggah dan menambahkan kumpulan data Anda ke aplikasi menggunakan situs Desktop Forest Watcher. Dengan menggunakan situs Desktop, Anda akan menghubungkan layanan ubin web ke Forest Watcher melalui URL. Informasi lebih lanjut tersedia di situs Desktop."
-                }
-            },
-            "title": "Dapatkah saya menambahkan lapisan data saya sendiri ke dalam Forest Watcher?"
-        },
-        "tenthQuestion": {
-            "content": {
-                "orderListLetters": {
-                    "order1": {
-                        "description": "Jika Anda tidak melihat lansiran pada Area Minat Anda, periksa globalforestwatch.org untuk melihat apakah ada data untuk lokasi dan jangka waktu yang Anda pilih. Jika tidak ada lansiran GLAD atau VIIRS terbaru, maka tidak ada aktivitas perubahan hutan baru-baru ini. Pertimbangkan untuk menggunakan lapisan kontekstual Peralihan Pohon Tahunan untuk menemukan lansiran lama, yang masih dapat menginformasikan investigasi atau kunjungan lapangan.",
-                        "text": "Saya tidak melihat data lansiran"
-                    },
-                    "order2": {
-                        "description": "Jika aplikasi bertabrakan, buka sekali lagi. Jika bertabrakan berkali-kali, kirim surel ke mailto:forestwatcher@wri.org dan sertakan informasi tentang model perangkat Anda dan apa yang Anda lakukan di aplikasi saat bertabrakan.",
-                        "text": "Aplikasi bertabrakan"
-                    },
-                    "order3": {
-                        "description": "Fitur lokasi dan navigasi di Forest Watcher bergantung pada GPS internal perangkat Anda. Pertama, periksa apakah GPS (sering disebut \"layanan lokasi\") diaktifkan di pengaturan perangkat seluler Anda. Jika masih tidak berhasil, kirim surel ke mailto:forestwatcher@wri.org memberi tahu kami model perangkat apa yang Anda gunakan.",
-                        "text": "Saya tidak bisa melihat kompas/lokasi saya"
-                    },
-                    "order4": {
-                        "description": "Beberapa perangkat yang hanya memiliki kamera depan mungkin tidak kompatibel dengan kamera dalam formulir laporan. Sebagai gantinya Anda dapat mengambil foto di aplikasi kamera Anda, dan menggunakan fungsi unggah dalam laporan di Forest Watcher untuk menambahkan foto dari perpustakaan Anda ke laporan.",
-                        "text": "Saya tidak dapat mengambil foto di aplikasi"
-                    },
-                    "order5": {
-                        "description": "Anda mungkin tidak dapat selalu menyelesaikan laporan tepat pada terjadinya lansiran. Anda bisa mulai menulis laporan, menyimpannya, dan kembali lagi nanti saat Anda kembali ke markas Anda. Anda juga dapat mengambil gambar hanya dengan menggunakan kamera perangkat Anda, lalu isi laporannya nanti: Anda dapat melampirkan gambar ke laporan Anda.",
-                        "text": "Saya ingin melengkapi laporan nanti"
-                    },
-                    "order6": {
-                        "description": "Saat pertama kali menyiapkan Forest Watcher di perangkat seluler Anda, aplikasi perlu mengunduh banyak data agar berfungsi secara luring. Anda mungkin perlu menunggu sekitar 5 menit agar semua data bisa dimuat dengan benar. Hal ini normal. Jika Anda memiliki koneksi internet yang lemah atau lambat, ini bisa membuat unduhan memakan waktu lebih lama. Jaga agar aplikasi tetap terbuka agar unduhan selesai. Setelah persiapan awal, data lansiran baru akan diunduh setiap kali Anda menghubungkan perangkat Anda ke internet - waktu pengunduhan akan bervariasi tergantung pada berapa banyak lansiran yang telah terjadi. Pembaruan ini akan berada pada skala Kilobyte, di mana unduhan awal kemungkinan akan menjadi beberapa Megabyte.",
-                        "text": "Lansiran lambat dimuat"
-                    },
-                    "order7": {
-                        "description": "Saat ini Anda hanya dapat melihat satu kumpulan data sekaligus untuk setiap Area Minat. Kumpulan data yang Anda cari untuk setiap Area Minat dikontrol menggunakan menu pengaturan. Jika Anda ingin melihat semua data kebakaran dan kehilangan hutan untuk tempat yang sama, Anda perlu membuat dua Area Minat untuk lokasi yang sama dan mengatur masing-masing untuk mengunduh kumpulan yang berbeda.",
-                        "text": "Saya ingin melihat lansiran GLAD dan VIIRS untuk Area Minat yang sama"
-                    },
-                    "order8": {
-                        "description": "Forest Watcher memiliki banyak data dan dapat menghabiskan banyak memori di perangkat Anda, tergantung pada seberapa banyak Area yang Anda minati, seberapa besar jumlahnya dan berapa banyak lansiran yang ada di setiap perangkat. Kami merekomendasikan penyimpanan internal yang dimiliki minimal 16GB di perangkat Anda, sehingga Anda dapat menggunakan aplikasi Anda yang lain dan juga Forest Watcher: Forest Watcher tidak memerlukan semua penyimpanan ini. Semakin sedikit, semakin kecil area minat yang Anda siapkan di aplikasi, semakin sedikit data yang perlu diunduh ke perangkat Anda.",
-                        "text": "Saya kehabisan memori di perangkat saya"
-                    },
-                    "order9": {
-                        "description": "Anda dapat menggunakan Forest Watcher Desktop untuk membuat template formulir khusus yang dapat digunakan tim Anda saat mengumpulkan data. Anda juga dapat menambahkan catatan di bagian akhir formulir jika Anda memiliki observasi yang ingin Anda buat.",
-                        "text": "Saya ingin mengumpulkan data khusus"
-                    }
-                }
-            },
-            "title": "Apa yang harus saya lakukan jika:"
-        },
-        "thirdQuestion": {
-            "content": {
-                "description": {
-                    "text": "Forest Watcher menampilkan data mengenai perubahan hutan di \"Area Minat\", atau area yang Anda monitor. Anda dapat menentukan Area Minat di menu pengaturan. Jika Anda adalah anggota dari tim, Anda mungkin sudah memiliki area yang disiapkan untuk Anda, yang dapat Anda unggah ke aplikasi. Aplikasi ini kemudian akan secara otomatis mengunduh data perubahan hutan untuk area tersebut dan memperbarui lansiran penggundulan hutan dan peringatan kebakaran terbaru saat Anda terhubung ke Internet. Setelah Anda mengunduh data relevan ke perangkat seluler Anda, Anda dapat membawa aplikasi secara luring ke lapangan. Forest Watcher akan mengarahkan lansiran terdekat dengan menggunakan GPS internal telepon. Setelah sampai pada lansiran, Anda dapat mengisi laporan tentang apa yang Anda temukan dan menambahkan foto."
-                }
-            },
-            "title": "Bagaimana cara kerja Forest Watcher?"
         }
     },
     "layers": {

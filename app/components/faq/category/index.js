@@ -61,6 +61,8 @@ export default class FaqCategory extends Component<Props> {
                   icon: nextIcon
                 }}
                 key={index}
+                rowStyle={{marginBottom: 0}}
+                style={{flex: 1}}
               >
                 <Text style={styles.rowTitleLabel}>{question.title}</Text>
               </Row>

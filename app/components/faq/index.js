@@ -118,23 +118,17 @@ export default class FaqCategories extends Component<Props> {
       {
         icon: featuresIcon,
         title: i18n.t('faq.categories.features.title'),
-        questions: [
-
-        ]
+        questions: i18n.t('faq.categories.features.questions', { returnObjects: true })
       },
       {
         icon: alertsIcon,
         title: i18n.t('faq.categories.alertsAndData.title'),
-        questions: [
-          
-        ]
+        questions: i18n.t('faq.categories.alertsAndData.questions', { returnObjects: true })
       },
       {
         icon: inTheFieldIcon,
         title: i18n.t('faq.categories.inTheField.title'),
-        questions: [
-          
-        ]
+        questions: i18n.t('faq.categories.inTheField.questions', { returnObjects: true })
       },
       {
         icon: helpIcon,

@@ -87,18 +87,129 @@
                             }
                         },
                         "title": "O que é a Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "O Forest Watcher foi desenvolvido pelo Jane Goodall Institute (JGI), a Google, a Touchlab e o Global Forest Watch. Monitores de florestas rurais, guardas-florestais de zonas protegidas e comunidades locais que estão a trabalhar em conjunto com o Jane Goodall Institute precisam de aceder a dados de satélite atualizados para monitorizarem as florestas; no entanto, o acesso à internet é limitado nas zonas remotas em que trabalham. Sem estas informações, os monitores de florestas poderão perder atividade de desflorestação que esteja a ocorrer fora das suas rotas de patrulha. O JGI, GFW, Touchlab, Vizzuality e a Google criaram o Forest Watcher para possibilitar o acesso a dados GFW offline enquanto estão em patrulha."
+                            }
+                        },
+                        "title": "Porque é que decidiram criar a Forest Watcher?"
                     }
                 ]
             },
             "alertsAndData": {
-                "title": "Alerts and Data in Forest Watcher"
+                "title": "Alerts and Data in Forest Watcher",
+                "questions": [
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Cada base de dados de mudanças na floresta foi submetido a testes científicos rigorosos e tem um conjunto único de limitações. Por exemplo, os alertas GLAD foram avaliados no Peru como tendo 13,5 % de falsos positivos (um alerta apareceu nos dados quando não havia nada no terreno) e 33 % de falsos negativos (foram observadas alterações no terreno que não apareceram como alertas nos dados). Isto significa que cerca de 87 % dos alertas GLAD representam mudanças na floresta. Uma taxa mais alta de falsos negativos significa que os alertas são uma estimativa conservadora da perda de cobertura das árvores. Isto ajuda a minimizar a probabilidade de os utilizadores gastarem recursos a investigar alertas que não representam alterações na floresta.",
+                                "text2": "Os utilizadores devem ter em conta que os alertas GLAD detetam todas as perdas de cobertura das árvores, independentemente do facto de serem causadas por humanos (através de desflorestação) ou por causas naturais (através de deslizamentos de terras). Além disso, os alertas não distinguem entre cobertura de árvores naturais e a de árvores plantadas. Para informações detalhadas sobre cada base de dados, visite www.globalforestwatch.org.",
+                                "text3": "Uma avaliação dos dados do VIIRS demonstrou que a taxa de falsos positivos é de aproximadamente 0 para a maioria das regiões, com um máximo de 1,2 por cento nas regiões avaliadas, associado principalmente ao \"sunglint\" nos telhados que refletem a luz solar. A taxa de omissões não foi avaliada. O VIIRS não consegue detetar fogos que sejam de menores dimensões ou com temperaturas demasiado baixas (geralmente com temperaturas abaixo dos 700 K e dimensões inferiores a 100 metros quadrados). Também podem ocorrer omissões nos casos em que os fogos começam e acabam nos períodos entre as passagens do satélite, ou quando os fogos estão encobertos pelas nuvens, por fumo denso ou pelos dosséis das árvores."
+                            }
+                        },
+                        "title": "Quão precisos são os alertas?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Existem três conjuntos de dados predefinidos, obtidos a partir do Global Forest Watch, fornecidos com a Forest Watcher:"
+                            },
+                            "footerText": "Para obter informações mais detalhadas sobre cada conjunto de dados, por favor visite http://data.globalforestwatch.org/.",
+                            "orderList": {
+                                "text1": "Alertas de Incêndio Ativo VIIRS: Produzidos pela NASA e atualizados todos os dias a uma resolução de 375 metros. Isto mostra a localização de suspeitas de incêndios na semana passada.",
+                                "text2": "Alertas GLAD: produzidos pelo Laboratório Global Land Analysis & Discovery (GLAD) da Universidade de Maryland e atualizados semanalmente numa resolução de 30 metros. Estes alertas mostram-lhe, semana a semana, onde pode ter havido alterações na área de floresta.",
+                                "text3": "Perda anual da cobertura arbórea: informação que também é produzida pelo laboratório GLAD e atualizada anualmente numa resolução de 30 metros. Estes dados revelam, de ano para ano, onde é que existiram alterações na área florestal. De momento os dados só estão disponíveis como uma camada contextual de dados: não poderá criar um relatório relacionado com um alerta de perdas anuais, embora seja possível criar um relatório para uma determinada localização se tocar, sobre o ecrã, no local onde existiram ganhos ou perdas de floresta."
+                            }
+                        },
+                        "title": "Que conjuntos de dados estão disponíveis e qual é a sua origem?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Imagens mostradas no mapa base de satélite são atualizadas com menos frequência que os dados de alerta. Como tal, pode detetar alertas de mudança da floresta em zonas que aparecem como floresta intacta no mapa base de satélite. Visitar os alertas GLAD no campo é a melhor forma de verificar as mudanças no terreno."
+                            }
+                        },
+                        "title": "Por que vejo um alerta GLAD mas não vejo alteração ao mapa base das imagens de satélite?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Sim, pode fazer o upload dos seus próprios conjuntos de dados e adicioná-los à aplicação usando o sítio Forest Watcher Desktop. Usando o sítio Desktop, poderá ligar um serviço web de disponibilização de blocos de mapas à Forest Watcher através de um URL. Estão disponíveis mais informações no sítio Desktop."
+                            }
+                        },
+                        "title": "Posso adicionar as minhas próprias camadas de dados na Forest Watcher?"
+                    }
+                ]
             },
             "features": {
-                "title": "Features and Functionality"
+                "title": "Features and Functionality",
+                "questions": [
+                    {
+                        "content": {
+                            "description": {
+                                "text": "A Forest Watcher exibe dados sobre as alterações na floresta em \"Áreas de Interesse\" ou áreas que pretenda monitorizar. Pode definir Áreas de Interesse no menu das definições. Se fizer parte de uma equipa, poderá ter já um conjunto de áreas definidas para si e que pode carregar na aplicação. A aplicação fará depois o download automático de dados sobre as alterações da floresta nessas áreas e atualizará a informação, sempre que estiver ligado à Internet, com os alertas mais recentes de fogos e desmatamento. Depois de fazer o download dos dados relevantes para o seu dispositivo móvel, pode usar a aplicação no terreno em modo offline. A Forest Watcher conseguirá direcioná-lo para os alertas existentes nas imediações da área em que estiver usando o GPS interno do seu telefone. Quando tiver chegado a um local de alerta, poderá preencher um relatório sobre o que encontra e adicionar fotografias."
+                            }
+                        },
+                        "title": "Como funciona a Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "O Forest Watcher Desktop é o interface para desktop e utilização online que complementa a aplicação móvel. Pode ser usado para gerir áreas de interesse, criar novos modelos de relatório, configurar uma equipa de utilizadores, rever e fazer o download dos relatórios submetidos através da aplicação. O interface para desktop destina-se a administradores e coordenadores de equipa, permitindo-lhes configurar a aplicação para uso das suas equipas. Para mais informações sobre o Forest Watcher Desktop, clique aqui"
+                            }
+                        },
+                        "title": "O que é o Forest Watcher Desktop?"
+                    }
+                ]
             },
             "help": {
                 "title": "Help and How to Contact Us",
                 "questions": [
+                    {
+                        "content": {
+                            "orderListLetters": {
+                                "order1": {
+                                    "description": "Se não vir quaisquer alertas na sua Área de Interesse, vá até globalforestwatch.org e verifique se existem dados para essa localização e para o período de tempo que escolheu. Se não existem alertas GLAD ou VIIRS recentes, significa que não existiu atividade recente relacionada com alterações na floresta. Considere usar a camada de dados contextuais da Alteração Anual da Cobertura Arbórea para encontrar alertas de perdas mais antigos que ainda poderão fornecer informações relevantes para uma investigação ou visita de campo.",
+                                    "text": "Não vejo nenhuns dados de alerta"
+                                },
+                                "order2": {
+                                    "description": "Se a aplicação falhar, abra-a novamente. Se falhar diversas vezes, por favor envie um email para mailto:forestwatcher@wri.org e inclua informação acerca do modelo do seu dispositivo juntamente com uma descrição do que estava a fazer na aplicação quando esta falhou.",
+                                    "text": "A aplicação falha"
+                                },
+                                "order3": {
+                                    "description": "As funcionalidades de localização e navegação no Forest Watcher dependem do GPS interno do seu dispositivo. Primeiro, verifique se o GPS (também referido como \"serviços de localização\") está ativado nas definições do seu dispositivo móvel. Se ainda não funcionar, envie um e-mail para mailto:forestwatcher@wri.org a dizer-nos o modelo do dispositivo que está a usar.",
+                                    "text": "Não consigo ver a bússola/a minha localização"
+                                },
+                                "order4": {
+                                    "description": "Alguns dispositivos que têm apenas câmaras frontais poderão não ser compatíveis com a câmara no formulário do relatório. Em vez disso, pode tirar uma foto na sua aplicação de câmara e usar a função carregar no relatório do Forest Watcher para adicionar uma foto da sua biblioteca ao relatório.",
+                                    "text": "Não consigo tirar uma fotografia na aplicação"
+                                },
+                                "order5": {
+                                    "description": "Nem sempre poderá conseguir concluir um relatório na cena do alerta. Pode começar a escrever um relatório, guardá-lo e voltar a ele quando regressar à base. Pode também tirar uma fotografia usando a câmara do seu dispositivo e preencher o relatório depois: pode anexar a imagem ao seu relatório.",
+                                    "text": "Desejo concluir um relatório mais tarde"
+                                },
+                                "order6": {
+                                    "description": "Quando configurar pela primeira vez a Forest Watcher no seu dispositivo móvel, a aplicação necessitará de fazer o download de uma grande quantidade de dados para poder funcionar offline. Poderá ter de esperar cerca de 5 minutos até que todos os dados tenham sido devidamente carregados. Isto é normal. Se tiver uma ligação à Internet lenta ou instável, o download poderá demorar mais tempo. Mantenha a aplicação aberta para permitir que o download seja concluído com sucesso. Depois da configuração inicial, serão descarregados novos dados de alerta sempre que o seu dispositivo estiver ligado à Internet - o tempo de download será variável e dependerá da quantidade de alertas que tenham ocorrido entretanto. O tamanho destas atualizações será de apenas alguns Kilobytes, enquanto o download inicial será provavelmente de alguns Megabytes.",
+                                    "text": "Os alertas são lentos a carregar"
+                                },
+                                "order7": {
+                                    "description": "Atualmente pode ver apenas uma base de dados de cada vez para cada Área de Interesse. A base de dados que vê para cada Área de Interesse é controlada usando o menu de definições. Se deseja ver dados de incêndios e de desflorestação do mesmo local, terá de criar duas Áreas de Interesse para a mesma localização e definir cada uma delas para descarregar as bases de dados diferentes.",
+                                    "text": "Quero ver os alertas GLAD e os dados do VIIRS para a mesma Área de Interesse"
+                                },
+                                "order8": {
+                                    "description": "A aplicação Forest Watcher contém uma grande quantidade de dados e poderá ocupar uma boa parte da memória do seu dispositivo, dependendo do número de Áreas de Interesse que tiver, da sua dimensão e de quantos alertas existem em cada área. Recomendamos que tenha, pelo menos, 16 GB de armazenamento interno no seu dispositivo para poder usar outras aplicações, para além da Forest Watcher: a Forest Watcher não precisará de todo este espaço de armazenamento. Quanto menor for o número e a dimensão das áreas de interesse que define na aplicação, menor será a quantidade de dados que necessita de descarregar para o seu dispositivo.",
+                                    "text": "Fiquei sem memória no meu dispositivo"
+                                },
+                                "order9": {
+                                    "description": "Pode usar o Forest Watcher Desktop para criar um modelo de formulário personalizado para ser usado pela sua equipa aquando da recolha de dados. Pode também adicionar notas na secção final do formulário se tiver algumas observações a fazer.",
+                                    "text": "Quero recolher dados personalizados"
+                                }
+                            }
+                        },
+                        "title": "O que devo fazer se:"
+                    },
                     {
                         "content": {
                             "description": {
@@ -115,113 +226,6 @@
             "sectionHeader": "Categories",
             "questionCountPlural": "%{count} Questions",
             "questionCountSingular": "1 Question"
-        },
-        "fifthQuestion": {
-            "content": {
-                "description": {
-                    "text1": "Cada base de dados de mudanças na floresta foi submetido a testes científicos rigorosos e tem um conjunto único de limitações. Por exemplo, os alertas GLAD foram avaliados no Peru como tendo 13,5 % de falsos positivos (um alerta apareceu nos dados quando não havia nada no terreno) e 33 % de falsos negativos (foram observadas alterações no terreno que não apareceram como alertas nos dados). Isto significa que cerca de 87 % dos alertas GLAD representam mudanças na floresta. Uma taxa mais alta de falsos negativos significa que os alertas são uma estimativa conservadora da perda de cobertura das árvores. Isto ajuda a minimizar a probabilidade de os utilizadores gastarem recursos a investigar alertas que não representam alterações na floresta.",
-                    "text2": "Os utilizadores devem ter em conta que os alertas GLAD detetam todas as perdas de cobertura das árvores, independentemente do facto de serem causadas por humanos (através de desflorestação) ou por causas naturais (através de deslizamentos de terras). Além disso, os alertas não distinguem entre cobertura de árvores naturais e a de árvores plantadas. Para informações detalhadas sobre cada base de dados, visite www.globalforestwatch.org.",
-                    "text3": "Uma avaliação dos dados do VIIRS demonstrou que a taxa de falsos positivos é de aproximadamente 0 para a maioria das regiões, com um máximo de 1,2 por cento nas regiões avaliadas, associado principalmente ao \"sunglint\" nos telhados que refletem a luz solar. A taxa de omissões não foi avaliada. O VIIRS não consegue detetar fogos que sejam de menores dimensões ou com temperaturas demasiado baixas (geralmente com temperaturas abaixo dos 700 K e dimensões inferiores a 100 metros quadrados). Também podem ocorrer omissões nos casos em que os fogos começam e acabam nos períodos entre as passagens do satélite, ou quando os fogos estão encobertos pelas nuvens, por fumo denso ou pelos dosséis das árvores."
-                }
-            },
-            "title": "Quão precisos são os alertas?"
-        },
-        "fourthQuestion": {
-            "content": {
-                "description": {
-                    "text": "Existem três conjuntos de dados predefinidos, obtidos a partir do Global Forest Watch, fornecidos com a Forest Watcher:"
-                },
-                "footerText": "Para obter informações mais detalhadas sobre cada conjunto de dados, por favor visite http://data.globalforestwatch.org/.",
-                "orderList": {
-                    "text1": "Alertas de Incêndio Ativo VIIRS: Produzidos pela NASA e atualizados todos os dias a uma resolução de 375 metros. Isto mostra a localização de suspeitas de incêndios na semana passada.",
-                    "text2": "Alertas GLAD: produzidos pelo Laboratório Global Land Analysis & Discovery (GLAD) da Universidade de Maryland e atualizados semanalmente numa resolução de 30 metros. Estes alertas mostram-lhe, semana a semana, onde pode ter havido alterações na área de floresta.",
-                    "text3": "Perda anual da cobertura arbórea: informação que também é produzida pelo laboratório GLAD e atualizada anualmente numa resolução de 30 metros. Estes dados revelam, de ano para ano, onde é que existiram alterações na área florestal. De momento os dados só estão disponíveis como uma camada contextual de dados: não poderá criar um relatório relacionado com um alerta de perdas anuais, embora seja possível criar um relatório para uma determinada localização se tocar, sobre o ecrã, no local onde existiram ganhos ou perdas de floresta."
-                }
-            },
-            "title": "Que conjuntos de dados estão disponíveis e qual é a sua origem?"
-        },
-        "ninethQuestion": {
-            "content": {
-                "description": {
-                    "text": "Imagens mostradas no mapa base de satélite são atualizadas com menos frequência que os dados de alerta. Como tal, pode detetar alertas de mudança da floresta em zonas que aparecem como floresta intacta no mapa base de satélite. Visitar os alertas GLAD no campo é a melhor forma de verificar as mudanças no terreno."
-                }
-            },
-            "title": "Por que vejo um alerta GLAD mas não vejo alteração ao mapa base das imagens de satélite?"
-        },
-        "secondQuestion": {
-            "content": {
-                "description": {
-                    "text": "O Forest Watcher foi desenvolvido pelo Jane Goodall Institute (JGI), a Google, a Touchlab e o Global Forest Watch. Monitores de florestas rurais, guardas-florestais de zonas protegidas e comunidades locais que estão a trabalhar em conjunto com o Jane Goodall Institute precisam de aceder a dados de satélite atualizados para monitorizarem as florestas; no entanto, o acesso à internet é limitado nas zonas remotas em que trabalham. Sem estas informações, os monitores de florestas poderão perder atividade de desflorestação que esteja a ocorrer fora das suas rotas de patrulha. O JGI, GFW, Touchlab, Vizzuality e a Google criaram o Forest Watcher para possibilitar o acesso a dados GFW offline enquanto estão em patrulha."
-                }
-            },
-            "title": "Porque é que decidiram criar a Forest Watcher?"
-        },
-        "seventhQuestion": {
-            "content": {
-                "description": {
-                    "text": "O Forest Watcher Desktop é o interface para desktop e utilização online que complementa a aplicação móvel. Pode ser usado para gerir áreas de interesse, criar novos modelos de relatório, configurar uma equipa de utilizadores, rever e fazer o download dos relatórios submetidos através da aplicação. O interface para desktop destina-se a administradores e coordenadores de equipa, permitindo-lhes configurar a aplicação para uso das suas equipas. Para mais informações sobre o Forest Watcher Desktop, clique aqui"
-                }
-            },
-            "title": "O que é o Forest Watcher Desktop?"
-        },
-        "sixthQuestion": {
-            "content": {
-                "description": {
-                    "text": "Sim, pode fazer o upload dos seus próprios conjuntos de dados e adicioná-los à aplicação usando o sítio Forest Watcher Desktop. Usando o sítio Desktop, poderá ligar um serviço web de disponibilização de blocos de mapas à Forest Watcher através de um URL. Estão disponíveis mais informações no sítio Desktop."
-                }
-            },
-            "title": "Posso adicionar as minhas próprias camadas de dados na Forest Watcher?"
-        },
-        "tenthQuestion": {
-            "content": {
-                "orderListLetters": {
-                    "order1": {
-                        "description": "Se não vir quaisquer alertas na sua Área de Interesse, vá até globalforestwatch.org e verifique se existem dados para essa localização e para o período de tempo que escolheu. Se não existem alertas GLAD ou VIIRS recentes, significa que não existiu atividade recente relacionada com alterações na floresta. Considere usar a camada de dados contextuais da Alteração Anual da Cobertura Arbórea para encontrar alertas de perdas mais antigos que ainda poderão fornecer informações relevantes para uma investigação ou visita de campo.",
-                        "text": "Não vejo nenhuns dados de alerta"
-                    },
-                    "order2": {
-                        "description": "Se a aplicação falhar, abra-a novamente. Se falhar diversas vezes, por favor envie um email para mailto:forestwatcher@wri.org e inclua informação acerca do modelo do seu dispositivo juntamente com uma descrição do que estava a fazer na aplicação quando esta falhou.",
-                        "text": "A aplicação falha"
-                    },
-                    "order3": {
-                        "description": "As funcionalidades de localização e navegação no Forest Watcher dependem do GPS interno do seu dispositivo. Primeiro, verifique se o GPS (também referido como \"serviços de localização\") está ativado nas definições do seu dispositivo móvel. Se ainda não funcionar, envie um e-mail para mailto:forestwatcher@wri.org a dizer-nos o modelo do dispositivo que está a usar.",
-                        "text": "Não consigo ver a bússola/a minha localização"
-                    },
-                    "order4": {
-                        "description": "Alguns dispositivos que têm apenas câmaras frontais poderão não ser compatíveis com a câmara no formulário do relatório. Em vez disso, pode tirar uma foto na sua aplicação de câmara e usar a função carregar no relatório do Forest Watcher para adicionar uma foto da sua biblioteca ao relatório.",
-                        "text": "Não consigo tirar uma fotografia na aplicação"
-                    },
-                    "order5": {
-                        "description": "Nem sempre poderá conseguir concluir um relatório na cena do alerta. Pode começar a escrever um relatório, guardá-lo e voltar a ele quando regressar à base. Pode também tirar uma fotografia usando a câmara do seu dispositivo e preencher o relatório depois: pode anexar a imagem ao seu relatório.",
-                        "text": "Desejo concluir um relatório mais tarde"
-                    },
-                    "order6": {
-                        "description": "Quando configurar pela primeira vez a Forest Watcher no seu dispositivo móvel, a aplicação necessitará de fazer o download de uma grande quantidade de dados para poder funcionar offline. Poderá ter de esperar cerca de 5 minutos até que todos os dados tenham sido devidamente carregados. Isto é normal. Se tiver uma ligação à Internet lenta ou instável, o download poderá demorar mais tempo. Mantenha a aplicação aberta para permitir que o download seja concluído com sucesso. Depois da configuração inicial, serão descarregados novos dados de alerta sempre que o seu dispositivo estiver ligado à Internet - o tempo de download será variável e dependerá da quantidade de alertas que tenham ocorrido entretanto. O tamanho destas atualizações será de apenas alguns Kilobytes, enquanto o download inicial será provavelmente de alguns Megabytes.",
-                        "text": "Os alertas são lentos a carregar"
-                    },
-                    "order7": {
-                        "description": "Atualmente pode ver apenas uma base de dados de cada vez para cada Área de Interesse. A base de dados que vê para cada Área de Interesse é controlada usando o menu de definições. Se deseja ver dados de incêndios e de desflorestação do mesmo local, terá de criar duas Áreas de Interesse para a mesma localização e definir cada uma delas para descarregar as bases de dados diferentes.",
-                        "text": "Quero ver os alertas GLAD e os dados do VIIRS para a mesma Área de Interesse"
-                    },
-                    "order8": {
-                        "description": "A aplicação Forest Watcher contém uma grande quantidade de dados e poderá ocupar uma boa parte da memória do seu dispositivo, dependendo do número de Áreas de Interesse que tiver, da sua dimensão e de quantos alertas existem em cada área. Recomendamos que tenha, pelo menos, 16 GB de armazenamento interno no seu dispositivo para poder usar outras aplicações, para além da Forest Watcher: a Forest Watcher não precisará de todo este espaço de armazenamento. Quanto menor for o número e a dimensão das áreas de interesse que define na aplicação, menor será a quantidade de dados que necessita de descarregar para o seu dispositivo.",
-                        "text": "Fiquei sem memória no meu dispositivo"
-                    },
-                    "order9": {
-                        "description": "Pode usar o Forest Watcher Desktop para criar um modelo de formulário personalizado para ser usado pela sua equipa aquando da recolha de dados. Pode também adicionar notas na secção final do formulário se tiver algumas observações a fazer.",
-                        "text": "Quero recolher dados personalizados"
-                    }
-                }
-            },
-            "title": "O que devo fazer se:"
-        },
-        "thirdQuestion": {
-            "content": {
-                "description": {
-                    "text": "A Forest Watcher exibe dados sobre as alterações na floresta em \"Áreas de Interesse\" ou áreas que pretenda monitorizar. Pode definir Áreas de Interesse no menu das definições. Se fizer parte de uma equipa, poderá ter já um conjunto de áreas definidas para si e que pode carregar na aplicação. A aplicação fará depois o download automático de dados sobre as alterações da floresta nessas áreas e atualizará a informação, sempre que estiver ligado à Internet, com os alertas mais recentes de fogos e desmatamento. Depois de fazer o download dos dados relevantes para o seu dispositivo móvel, pode usar a aplicação no terreno em modo offline. A Forest Watcher conseguirá direcioná-lo para os alertas existentes nas imediações da área em que estiver usando o GPS interno do seu telefone. Quando tiver chegado a um local de alerta, poderá preencher um relatório sobre o que encontra e adicionar fotografias."
-                }
-            },
-            "title": "Como funciona a Forest Watcher?"
         }
     },
     "layers": {
