@@ -207,6 +207,13 @@ class MapComponent extends Component {
         return {};
       });
     }, 1000);
+
+    const { setCanDisplayAlerts, canDisplayAlerts } = this.props;
+    if (!canDisplayAlerts) {
+      setCanDisplayAlerts(true);
+    }
+
+    this.showMapWalkthrough();
   }
 
   onLocationUpdateError = error => {
@@ -215,12 +222,8 @@ class MapComponent extends Component {
     });
   };
 
-  componentDidAppear() {
-    const { setCanDisplayAlerts, canDisplayAlerts, mapWalkthroughSeen } = this.props;
-    if (!canDisplayAlerts) {
-      setCanDisplayAlerts(true);
-    }
-    if (!mapWalkthroughSeen) {
+  showMapWalkthrough = () => {
+    if (!this.props.mapWalkthroughSeen) {
       Navigation.showModal({
         stack: {
           children: [
@@ -241,7 +244,7 @@ class MapComponent extends Component {
         }
       });
     }
-  }
+  };
 
   componentDidUpdate(prevProps, prevState) {
     const { area, setActiveAlerts } = this.props;
