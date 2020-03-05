@@ -172,6 +172,8 @@ class MapComponent extends Component {
         bottomSafeAreaInset: result.safeAreaInsets.bottom
       });
     });
+
+    this.showMapWalkthrough();
   }
 
   navigationButtonPressed({ buttonId }) {
@@ -215,7 +217,7 @@ class MapComponent extends Component {
     });
   };
 
-  componentDidAppear() {
+  showMapWalkthrough = () => {
     const { setCanDisplayAlerts, canDisplayAlerts, mapWalkthroughSeen } = this.props;
     if (!canDisplayAlerts) {
       setCanDisplayAlerts(true);
@@ -241,7 +243,7 @@ class MapComponent extends Component {
         }
       });
     }
-  }
+  };
 
   componentDidUpdate(prevProps, prevState) {
     const { area, setActiveAlerts } = this.props;
