@@ -22,5 +22,11 @@ export default StyleSheet.create({
   },
   rowText: {
     ...Theme.tableRowText
+  },
+  topBarTextButton: {
+    fontSize: 16,
+    fontFamily: Theme.font,
+    color: Theme.colors.turtleGreen,
+    backgroundColor: Theme.background.main
   }
 });
