@@ -31,14 +31,15 @@ import RouteDetail from '../containers/routes/route-detail';
 import SaveRoute from '../containers/routes/save-route';
 import Welcome from '../containers/welcome';
 
-function registerComponent(name, Screen, Provider, store) {
+function registerComponent(name, Screen, Provider, store, wrapInSafeAreaProvider = true) {
+  const Wrapper = wrapInSafeAreaProvider ? SafeAreaProvider : React.Fragment;
   Navigation.registerComponent(
     name,
     () => props => (
       <Provider store={store}>
-        <SafeAreaProvider>
+        <Wrapper>
           <Screen {...props} />
-        </SafeAreaProvider>
+        </Wrapper>
       </Provider>
     ),
     () => Screen
@@ -69,7 +70,7 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.Answers', Answers, Provider, store);
   registerComponent('ForestWatcher.RightDrawer', RightDrawer, Provider, store);
   registerComponent('ForestWatcher.ErrorLightbox', ErrorLightbox, Provider, store);
-  registerComponent('ForestWatcher.ToastNotification', ToastNotification, Provider, store);
+  registerComponent('ForestWatcher.ToastNotification', ToastNotification, Provider, store, false);
   registerComponent('ForestWatcher.Routes', Routes, Provider, store);
   registerComponent('ForestWatcher.RouteDetail', RouteDetail, Provider, store);
   registerComponent('ForestWatcher.SaveRoute', SaveRoute, Provider, store);
