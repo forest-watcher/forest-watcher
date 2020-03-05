@@ -31,6 +31,15 @@ import RouteDetail from '../containers/routes/route-detail';
 import SaveRoute from '../containers/routes/save-route';
 import Welcome from '../containers/welcome';
 
+/**
+ * Registers a component with React Native Navigation
+ *
+ * @param {string} name The name of the screen
+ * @param {Object} Screen The component to register
+ * @param {Object} Provider A provider component to wrap the screen in
+ * @param {Object} store The redux store to give to the provider
+ * @param {boolean} wrapInSafeAreaProvider Allows you to disable wrapping in safe area provider. This is useful as for example wrapping in safe area provider breaks RNN overlay's `interceptTouchOutside`
+ */
 function registerComponent(name, Screen, Provider, store, wrapInSafeAreaProvider = true) {
   const Wrapper = wrapInSafeAreaProvider ? SafeAreaProvider : React.Fragment;
   Navigation.registerComponent(

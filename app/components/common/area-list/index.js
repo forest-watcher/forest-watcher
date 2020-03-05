@@ -40,7 +40,10 @@ export default class AreaList extends Component<Props> {
     return (
       <View>
         {areas.map((area, index) => (
-          <View key={`${area.id}-area-list`} style={[styles.container, index === 0 && downloadCalloutVisible ? {zIndex: 10000} : {zIndex: index}]}>
+          <View
+            key={`${area.id}-area-list`}
+            style={[styles.container, index === 0 && downloadCalloutVisible ? { zIndex: 10000 } : { zIndex: index }]}
+          >
             <VerticalSplitRow
               downloadCalloutBody={i18n.t('areas.tooltip.body')}
               downloadCalloutVisible={index === 0 && downloadCalloutVisible}
