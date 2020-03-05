@@ -65,16 +65,59 @@
         "viirs": "Incêndios (VIIRS)"
     },
     "faq": {
+        "categories": {
+            "about": {
+                "title": "About Forest Watcher",
+                "questions": [
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "A Forest Watcher é uma aplicação móvel concebida para facilitar o acesso, mesmo quando está offline, aos dados sobre as alterações na floresta recolhidos através do Global Forest Watch http://www.globalforestwatch.org/.",
+                                "text2": "O Global Forest Watch (GFW) é um sistema online dinâmico de alerta e monitorização de florestas que permite que as pessoas por todo o lado giram melhor as florestas. O GFW junta tecnologia de satélites, computação em nuvem e dados abertos para fornecer informações oportunas sobre florestas a comunidades por todo o mundo.",
+                                "text3": "A Forest Watcher coloca a informação valiosa do GFW diretamente nas mãos das pessoas que monitorizam as florestas no terreno. A Forest Watcher permite que qualquer pessoa veja alertas de fogo e desmatamento num dispositivo móvel, navegue até ao local do alerta em modo offline e recolha informações e fotografias sobre aquilo que encontra.",
+                                "text4": "Esta aplicação proporciona uma solução barata e fácil para: identificar rapidamente áreas para patrulhas de florestas ou investigações no terreno; recolher provas de alterações na floresta no terreno; usar dados recolhidos para tomas decisões de gestão e conservação baseadas em provas; e validar produtos de deteção remota no terreno.",
+                                "text5": "Especificamente, esta aplicação permite aos utilizadores:"
+                            },
+                            "orderList": {
+                                "text1": "Carregar ou desenhar área(s) personalizada(s) de interesse para análise",
+                                "text2": "Faça o download de diversos dados sobre as alterações na área florestal, com base em imagens de satélite, e de outros dados contextuais (p. ex., alertas de desmatamento praticamente em tempo real, áreas protegidas e paisagens intactas de floresta) para qualquer dispositivo móvel.",
+                                "text3": "Faça o upload dos seus próprios conjuntos de dados",
+                                "text4": "Investigue alertas no terreno e recolha informação (incluindo pontos GPS e fotografias) através de formulários personalizáveis",
+                                "text5": "Rever, analisar e fazer o download de dados recolhidos com a aplicação"
+                            }
+                        },
+                        "title": "O que é a Forest Watcher?"
+                    }
+                ]
+            },
+            "alertsAndData": {
+                "title": "Alerts and Data in Forest Watcher"
+            },
+            "features": {
+                "title": "Features and Functionality"
+            },
+            "help": {
+                "title": "Help and How to Contact Us",
+                "questions": [
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Entre em contacto connosco e envie as suas sugestões ou perguntas através do email mailto:forestwatcher@wri.org."
+                            }
+                        },
+                        "title": "Como é que posso obter ajuda?"
+                    }
+                ]
+            },
+            "inTheField": {
+                "title": "Using Forest Watcher in the Field"
+            },
+            "sectionHeader": "Categories",
+            "questionCountPlural": "%{count} Questions",
+            "questionCountSingular": "1 Question"
+        },
         "eighthQuestion": {
             "title": "O que mostra o mapa de base com imagens de satélite?"
-        },
-        "eleventhQuestion": {
-            "content": {
-                "description": {
-                    "text": "Entre em contacto connosco e envie as suas sugestões ou perguntas através do email mailto:forestwatcher@wri.org."
-                }
-            },
-            "title": "Como é que posso obter ajuda?"
         },
         "fifthQuestion": {
             "content": {
@@ -85,25 +128,6 @@
                 }
             },
             "title": "Quão precisos são os alertas?"
-        },
-        "firstQuestion": {
-            "content": {
-                "description": {
-                    "text1": "A Forest Watcher é uma aplicação móvel concebida para facilitar o acesso, mesmo quando está offline, aos dados sobre as alterações na floresta recolhidos através do Global Forest Watch http://www.globalforestwatch.org/.",
-                    "text2": "O Global Forest Watch (GFW) é um sistema online dinâmico de alerta e monitorização de florestas que permite que as pessoas por todo o lado giram melhor as florestas. O GFW junta tecnologia de satélites, computação em nuvem e dados abertos para fornecer informações oportunas sobre florestas a comunidades por todo o mundo.",
-                    "text3": "A Forest Watcher coloca a informação valiosa do GFW diretamente nas mãos das pessoas que monitorizam as florestas no terreno. A Forest Watcher permite que qualquer pessoa veja alertas de fogo e desmatamento num dispositivo móvel, navegue até ao local do alerta em modo offline e recolha informações e fotografias sobre aquilo que encontra.",
-                    "text4": "Esta aplicação proporciona uma solução barata e fácil para: identificar rapidamente áreas para patrulhas de florestas ou investigações no terreno; recolher provas de alterações na floresta no terreno; usar dados recolhidos para tomas decisões de gestão e conservação baseadas em provas; e validar produtos de deteção remota no terreno.",
-                    "text5": "Especificamente, esta aplicação permite aos utilizadores:"
-                },
-                "orderList": {
-                    "text1": "Carregar ou desenhar área(s) personalizada(s) de interesse para análise",
-                    "text2": "Faça o download de diversos dados sobre as alterações na área florestal, com base em imagens de satélite, e de outros dados contextuais (p. ex., alertas de desmatamento praticamente em tempo real, áreas protegidas e paisagens intactas de floresta) para qualquer dispositivo móvel.",
-                    "text3": "Faça o upload dos seus próprios conjuntos de dados",
-                    "text4": "Investigue alertas no terreno e recolha informação (incluindo pontos GPS e fotografias) através de formulários personalizáveis",
-                    "text5": "Rever, analisar e fazer o download de dados recolhidos com a aplicação"
-                }
-            },
-            "title": "O que é a Forest Watcher?"
         },
         "fourthQuestion": {
             "content": {

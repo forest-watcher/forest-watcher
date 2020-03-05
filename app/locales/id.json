@@ -65,16 +65,59 @@
         "viirs": "Kebakaran (VIIRS)"
     },
     "faq": {
+        "categories": {
+            "about": {
+                "title": "About Forest Watcher",
+                "questions": [
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Forest Watcher adalah aplikasi seluler yang dirancang untuk memudahkan akses luring terhadap data tentang perubahan hutan dari Global Forest Watch http://www.globalforestwatch.org/.",
+                                "text2": "Global Forest Watch (GFW) adalah sistem pemantauan dan lansiran hutan daring dinamis yang memberdayakan orang di mana pun untuk mengelola hutan dengan lebih baik. GFW menyatukan teknologi satelit, komputasi awan, dan data terbuka untuk memberikan informasi yang tepat waktu mengenai hutan kepada masyarakat di seluruh dunia.",
+                                "text3": "Forest Watcher menaruh informasi berharga dari GFW langsung ke tangan orang-orang yang memantau hutan di lapangan. Forest Watcher mengizinkan seseorang untuk melihat penggundulan hutan dan peringatan kebakaran pada perangkat seluler, navigasi ke lokasi lansiran secara luring, dan mengumpulkan informasi dan foto tentang apa yang mereka temukan.",
+                                "text4": "Aplikasi ini menyediakan solusi yang terjangkau dan mudah digunakan untuk: dengan cepat mengidentifikasi area untuk patroli hutan atau investigasi lapangan; mengumpulkan bukti tentang perubahan hutan dari permukaan; menggunakan data yang dikumpulkan untuk membuat manajemen berbasis bukti dan keputusan konservasi; dan memvalidasi produk penginderaan jarak jauh di lapangan.",
+                                "text5": "Secara spesifik, aplikasi ini memungkinkan pengguna untuk:"
+                            },
+                            "orderList": {
+                                "text1": "Unggah atau buat area kustom yang diminati untuk dianalisis",
+                                "text2": "Unduh berbagai perubahan hutan berbasis satelit dan data kontekstual lainnya (Misal: lansiran deforestasi, kawasan lindung, dan lanskap hutan utuh mendekati waktu nyata) ke perangkat seluler mana saja",
+                                "text3": "Unggah kumpulan data Anda sendiri",
+                                "text4": "Investigasi lansiran di lapangan dan kumpulkan informasi (termasuk titik dan foto GPS) melalui formulir yang dapat disesuaikan",
+                                "text5": "Tinjau, analisis, dan unduh data yang dikumpulkan dengan aplikasi"
+                            }
+                        },
+                        "title": "Apa itu Forest Watcher?"
+                    }
+                ]
+            },
+            "alertsAndData": {
+                "title": "Alerts and Data in Forest Watcher"
+            },
+            "features": {
+                "title": "Features and Functionality"
+            },
+            "help": {
+                "title": "Help and How to Contact Us",
+                "questions": [
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Hubungi kami dengan umpan balik atau pertanyaan melalui surel ke mailto:forestwatcher@wri.org."
+                            }
+                        },
+                        "title": "Bagaimana saya mendapatkan bantuan?"
+                    }
+                ]
+            },
+            "inTheField": {
+                "title": "Using Forest Watcher in the Field"
+            },
+            "sectionHeader": "Categories",
+            "questionCountPlural": "%{count} Questions",
+            "questionCountSingular": "1 Question"
+        },
         "eighthQuestion": {
             "title": "Apa yang ditunjukkan peta basis citra satelit?"
-        },
-        "eleventhQuestion": {
-            "content": {
-                "description": {
-                    "text": "Hubungi kami dengan umpan balik atau pertanyaan melalui surel ke mailto:forestwatcher@wri.org."
-                }
-            },
-            "title": "Bagaimana saya mendapatkan bantuan?"
         },
         "fifthQuestion": {
             "content": {
@@ -85,25 +128,6 @@
                 }
             },
             "title": "Seberapa akuratnya lansiran?"
-        },
-        "firstQuestion": {
-            "content": {
-                "description": {
-                    "text1": "Forest Watcher adalah aplikasi seluler yang dirancang untuk memudahkan akses luring terhadap data tentang perubahan hutan dari Global Forest Watch http://www.globalforestwatch.org/.",
-                    "text2": "Global Forest Watch (GFW) adalah sistem pemantauan dan lansiran hutan daring dinamis yang memberdayakan orang di mana pun untuk mengelola hutan dengan lebih baik. GFW menyatukan teknologi satelit, komputasi awan, dan data terbuka untuk memberikan informasi yang tepat waktu mengenai hutan kepada masyarakat di seluruh dunia.",
-                    "text3": "Forest Watcher menaruh informasi berharga dari GFW langsung ke tangan orang-orang yang memantau hutan di lapangan. Forest Watcher mengizinkan seseorang untuk melihat penggundulan hutan dan peringatan kebakaran pada perangkat seluler, navigasi ke lokasi lansiran secara luring, dan mengumpulkan informasi dan foto tentang apa yang mereka temukan.",
-                    "text4": "Aplikasi ini menyediakan solusi yang terjangkau dan mudah digunakan untuk: dengan cepat mengidentifikasi area untuk patroli hutan atau investigasi lapangan; mengumpulkan bukti tentang perubahan hutan dari permukaan; menggunakan data yang dikumpulkan untuk membuat manajemen berbasis bukti dan keputusan konservasi; dan memvalidasi produk penginderaan jarak jauh di lapangan.",
-                    "text5": "Secara spesifik, aplikasi ini memungkinkan pengguna untuk:"
-                },
-                "orderList": {
-                    "text1": "Unggah atau buat area kustom yang diminati untuk dianalisis",
-                    "text2": "Unduh berbagai perubahan hutan berbasis satelit dan data kontekstual lainnya (Misal: lansiran deforestasi, kawasan lindung, dan lanskap hutan utuh mendekati waktu nyata) ke perangkat seluler mana saja",
-                    "text3": "Unggah kumpulan data Anda sendiri",
-                    "text4": "Investigasi lansiran di lapangan dan kumpulkan informasi (termasuk titik dan foto GPS) melalui formulir yang dapat disesuaikan",
-                    "text5": "Tinjau, analisis, dan unduh data yang dikumpulkan dengan aplikasi"
-                }
-            },
-            "title": "Apa itu Forest Watcher?"
         },
         "fourthQuestion": {
             "content": {
