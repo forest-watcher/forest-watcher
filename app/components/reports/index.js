@@ -219,8 +219,11 @@ class Reports extends PureComponent<Props> {
   });
 
   onFrequentlyAskedQuestionsPress = () => {
-    //TODO: Push App FAQs
-    console.log("Push FAQ");
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.FaqCategories'
+      }
+    });
   };
 
   setAllSelected = (selected: boolean) => {
@@ -338,7 +341,7 @@ class Reports extends PureComponent<Props> {
             title={i18n.t('report.empty.title')}
           />
         </View>
-      )
+      );
     }
 
     return (

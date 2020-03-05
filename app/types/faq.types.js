@@ -7,13 +7,13 @@ export type FAQCategory = {
 };
 
 export type FAQQuestion = {
-	title: string,
-	content: FAQQuestionContent
-}
+  title: string,
+  content: FAQQuestionContent
+};
 
 export type FAQQuestionContent = {
-	description?: ?{ [string]: string },
-	orderList?: ?{ [string]: string },
-	orderListLetters?: ?{ [string]: { [string]: { description: string, text: string }} }
-	footerText?: ?string
-}
+  description?: ?{ [string]: string },
+  orderList?: ?{ [string]: string },
+  orderListLetters?: ?{ [string]: { [string]: { description: string, text: string } } },
+  footerText?: ?string
+};

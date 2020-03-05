@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { View, ScrollView, Text } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
 
@@ -20,7 +19,6 @@ type Props = {
 };
 
 export default class FaqCategory extends Component<Props> {
-
   componentDidMount() {
     tracker.trackScreenView('FaqCategory');
   }
@@ -51,22 +49,22 @@ export default class FaqCategory extends Component<Props> {
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
-        > 
+        >
           <Text style={styles.label}>{i18n.t('faq.category.sectionHeader')}</Text>
           {this.props.category.questions.map((question, index) => {
             return (
-              <Row 
+              <Row
                 action={{
                   callback: this.handleStaticLinks.bind(this, question),
                   icon: nextIcon
                 }}
                 key={index}
-                rowStyle={{marginBottom: 0}}
-                style={{flex: 1}}
+                rowStyle={{ marginBottom: 0 }}
+                style={{ flex: 1 }}
               >
                 <Text style={styles.rowTitleLabel}>{question.title}</Text>
               </Row>
-            )
+            );
           })}
         </ScrollView>
       </View>

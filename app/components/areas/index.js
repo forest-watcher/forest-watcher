@@ -18,7 +18,6 @@ import ShareSheet from 'components/common/share';
 const plusIcon = require('assets/add.png');
 const emptyIcon = require('assets/areasEmpty.png');
 
-
 type Props = {
   areaDownloadTooltipSeen: boolean,
   areas: Array<Area>,
@@ -74,8 +73,11 @@ class Areas extends Component<Props> {
   }
 
   onFrequentlyAskedQuestionsPress = () => {
-    //TODO: Push App FAQs
-    console.log("Push FAQ");
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.FaqCategories'
+      }
+    });
   };
 
   /**
@@ -262,7 +264,7 @@ class Areas extends Component<Props> {
               contentContainerStyle={styles.listContent}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
-            > 
+            >
               {areas && areas.length ? (
                 <View style={styles.areas}>
                   <Text style={styles.label}>{i18n.t('areas.myAreas')}</Text>

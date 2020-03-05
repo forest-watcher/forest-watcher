@@ -268,6 +268,7 @@
                 "title": "Using Forest Watcher in the Field"
             },
             "sectionHeader": "Categories",
+            "title": "FAQs",
             "questionCountPlural": "%{count} Questions",
             "questionCountSingular": "1 Question"
         }
@@ -429,7 +430,7 @@
         "72hAgo": "72 hours ago",
         "aboutApp": "About this app",
         "aboutContactUs": "Contact Us",
-        "aboutFAQ": "FAQ",
+        "aboutFAQ": "FAQs",
         "aboutPartners": "Partners",
         "aboutTerms": "Terms and Conditions",
         "addArea": "ADD AREA",

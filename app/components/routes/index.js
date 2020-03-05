@@ -56,8 +56,11 @@ export default class Routes extends PureComponent<Props> {
   }
 
   onFrequentlyAskedQuestionsPress = () => {
-    //TODO: Push App FAQs
-    console.log("Push FAQ");
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.FaqCategories'
+      }
+    });
   };
 
   /**
@@ -262,7 +265,7 @@ export default class Routes extends PureComponent<Props> {
             title={i18n.t('routes.empty.title')}
           />
         </View>
-      )
+      );
     }
 
     return (
