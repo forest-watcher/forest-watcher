@@ -150,15 +150,15 @@ export const GLAD_RECENT_RANGE = {
 
 export const COORDINATES_FORMATS = {
   decimal: {
-    label: i18n.t('settings.coordinatesDecimal'),
+    labelKey: 'settings.coordinatesDecimal',
     value: 'decimal'
   },
   degrees: {
-    label: i18n.t('settings.coordinatesDegrees'),
+    labelKey: 'settings.coordinatesDegrees',
     value: 'degrees'
   },
   utm: {
-    label: i18n.t('settings.coordinatesUtm'),
+    labelKey: 'settings.coordinatesUtm',
     value: 'utm'
   }
 };
