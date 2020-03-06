@@ -252,7 +252,14 @@ class Reports extends PureComponent<Props> {
       }
 
       let icon = image;
-      let position = 'top';
+      let position = 'center';
+
+      // Here, if we're currently in export mode, override the icon to show either the checkbox on or off image.
+      if (this.state.inShareMode && this.state.selectedForExport.includes(item.title)) {
+        icon = checkboxOn;
+      } else if (this.state.inShareMode) {
+        icon = checkboxOff;
+      }
 
       const dateParsed = moment(item.date).format('YYYY-MM-DD - HH:mm:ss');
       const timeSinceParsed = moment(item.date).fromNow();
