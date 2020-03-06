@@ -141,13 +141,11 @@ const config = {
         title: {
           color: fontColors.secondary,
           fontFamily: fontName,
-          fontWeight: 'regular'
         },
         largeTitle: {
-          fontSize: 32,
+          fontSize: 24,
           color: fontColors.secondary,
           fontFamily: fontName,
-          fontWeight: 'regular'
         },
         visible: true
       }
