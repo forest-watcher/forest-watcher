@@ -396,7 +396,6 @@ class Reports extends PureComponent<Props> {
                 : i18n.t('report.export.manyReportsAction', { count: totalToExport })
               : i18n.t('report.export.noneSelected')
           }
-          total={totalReports}
         >
           {this.renderReportsScrollView(this.props.reports, this.state.inShareMode)}
         </ShareSheet>
