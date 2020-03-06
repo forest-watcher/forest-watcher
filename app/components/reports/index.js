@@ -252,16 +252,7 @@ class Reports extends PureComponent<Props> {
       }
 
       let icon = image;
-      let position = 'center';
-
-      // Here, if we're currently in export mode, override the icon to show either the checkbox on or off image.
-      if (this.state.inShareMode && this.state.selectedForExport.includes(item.title)) {
-        icon = checkboxOn;
-        position = 'top';
-      } else if (this.state.inShareMode) {
-        icon = checkboxOff;
-        position = 'top';
-      }
+      let position = 'top';
 
       const dateParsed = moment(item.date).format('YYYY-MM-DD - HH:mm:ss');
       const timeSinceParsed = moment(item.date).fromNow();
@@ -274,7 +265,7 @@ class Reports extends PureComponent<Props> {
         position
       };
       return (
-        <Row key={index + item.title} action={action}>
+        <Row key={index + item.title} action={action} >
           <View style={styles.listItem}>
             <Text style={styles.itemTitle}>{title}</Text>
             {item.area?.name && <Text style={styles.itemText}>{item.area.name}</Text>}
@@ -290,9 +281,7 @@ class Reports extends PureComponent<Props> {
   renderSection(title: string, ...options: [Array<ReportItem>, any, (string) => void]) {
     return (
       <View style={styles.listContainer}>
-        <View style={styles.listHeader}>
-          <Text style={styles.listTitle}>{title}</Text>
-        </View>
+        <Text style={styles.listTitle}>{title}</Text>
         {this.getItems(...options)}
       </View>
     );
