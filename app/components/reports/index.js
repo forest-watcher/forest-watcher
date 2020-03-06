@@ -14,10 +14,12 @@ import { Navigation } from 'react-native-navigation';
 import exportReports from 'helpers/exportReports';
 import { readableNameForReportName } from 'helpers/reports';
 
+import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
 import type { Template } from 'types/reports.types';
 
 const editIcon = require('assets/edit.png');
+const emptyIcon = require('assets/reportsEmpty.png');
 const nextIcon = require('assets/next.png');
 const checkboxOff = require('assets/checkbox_off.png');
 const checkboxOn = require('assets/checkbox_on.png');
@@ -216,6 +218,14 @@ class Reports extends PureComponent<Props> {
     }
   });
 
+  onFrequentlyAskedQuestionsPress = () => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.FaqCategories'
+      }
+    });
+  };
+
   setAllSelected = (selected: boolean) => {
     // Merge together the completed and uploaded reports.
     const completedReports = this.props.reports.complete || [];
@@ -234,14 +244,14 @@ class Reports extends PureComponent<Props> {
   };
 
   /**
-   * getItems - Returns an array of rows, based on the report data provided.
+   * renderReports - Returns an array of rows, based on the report data provided.
    *
    * @param  {Array} data <ReportItem>  An array of reports.
    * @param  {any} image                The action image.
    * @param  {void} onPress             The action callback.
    * @return {Array}                    An array of report rows.
    */
-  getItems(data: Array<ReportItem>, image: any, onPress: string => void) {
+  renderReports(data: Array<ReportItem>, image: any, onPress: string => void) {
     return data.map((item, index) => {
       let positionParsed = '';
       if (item.position) {
@@ -289,7 +299,7 @@ class Reports extends PureComponent<Props> {
     return (
       <View style={styles.listContainer}>
         <Text style={styles.listTitle}>{title}</Text>
-        {this.getItems(...options)}
+        {this.renderReports(...options)}
       </View>
     );
   }
@@ -317,6 +327,20 @@ class Reports extends PureComponent<Props> {
     const { complete, draft, uploaded } = reports;
     const hasReports = !!complete.length || !!draft.length || !!uploaded.length;
 
+    if (!hasReports) {
+      return (
+        <View style={styles.containerEmpty}>
+          <EmptyState
+            actionTitle={i18n.t('report.empty.action')}
+            body={i18n.t('report.empty.body')}
+            onActionPress={this.onFrequentlyAskedQuestionsPress}
+            icon={emptyIcon}
+            title={i18n.t('report.empty.title')}
+          />
+        </View>
+      );
+    }
+
     return (
       <ScrollView
         style={styles.container}
@@ -324,21 +348,15 @@ class Reports extends PureComponent<Props> {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        {hasReports ? (
-          <View style={styles.container}>
-            {draft && draft.length > 0 && !inExportMode && this.getDrafts(draft, editIcon, this.onClickDraft)}
-            {complete &&
-              complete.length > 0 &&
-              this.getCompleted(complete, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickUpload)}
-            {uploaded &&
-              uploaded.length > 0 &&
-              this.getUploaded(uploaded, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickNext)}
-          </View>
-        ) : (
-          <View style={styles.containerEmpty}>
-            <Text style={styles.emptyTitle}>{i18n.t('report.empty')}</Text>
-          </View>
-        )}
+        <View style={styles.container}>
+          {draft && draft.length > 0 && !inExportMode && this.getDrafts(draft, editIcon, this.onClickDraft)}
+          {complete &&
+            complete.length > 0 &&
+            this.getCompleted(complete, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickUpload)}
+          {uploaded &&
+            uploaded.length > 0 &&
+            this.getUploaded(uploaded, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickNext)}
+        </View>
       </ScrollView>
     );
   }
