@@ -14,10 +14,12 @@ import { Navigation } from 'react-native-navigation';
 import exportReports from 'helpers/exportReports';
 import { readableNameForReportName } from 'helpers/reports';
 
+import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
 import type { Template } from 'types/reports.types';
 
 const editIcon = require('assets/edit.png');
+const emptyIcon = require('assets/reportsEmpty.png');
 const nextIcon = require('assets/next.png');
 const checkboxOff = require('assets/checkbox_off.png');
 const checkboxOn = require('assets/checkbox_on.png');
@@ -216,6 +218,14 @@ class Reports extends PureComponent<Props> {
     }
   });
 
+  onFrequentlyAskedQuestionsPress = () => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.FaqCategories'
+      }
+    });
+  };
+
   setAllSelected = (selected: boolean) => {
     // Merge together the completed and uploaded reports.
     const completedReports = this.props.reports.complete || [];
@@ -234,14 +244,14 @@ class Reports extends PureComponent<Props> {
   };
 
   /**
-   * getItems - Returns an array of rows, based on the report data provided.
+   * renderReports - Returns an array of rows, based on the report data provided.
    *
    * @param  {Array} data <ReportItem>  An array of reports.
    * @param  {any} image                The action image.
    * @param  {void} onPress             The action callback.
    * @return {Array}                    An array of report rows.
    */
-  getItems(data: Array<ReportItem>, image: any, onPress: string => void) {
+  renderReports(data: Array<ReportItem>, image: any, onPress: string => void) {
     return data.map((item, index) => {
       let positionParsed = '';
       if (item.position) {
@@ -257,10 +267,8 @@ class Reports extends PureComponent<Props> {
       // Here, if we're currently in export mode, override the icon to show either the checkbox on or off image.
       if (this.state.inShareMode && this.state.selectedForExport.includes(item.title)) {
         icon = checkboxOn;
-        position = 'top';
       } else if (this.state.inShareMode) {
         icon = checkboxOff;
-        position = 'top';
       }
 
       const dateParsed = moment(item.date).format('YYYY-MM-DD - HH:mm:ss');
@@ -274,10 +282,11 @@ class Reports extends PureComponent<Props> {
         position
       };
       return (
-        <Row key={index + item.title} action={action}>
+        <Row key={index + item.title} action={action} >
           <View style={styles.listItem}>
             <Text style={styles.itemTitle}>{title}</Text>
-            <Text style={styles.itemText}>{positionParsed}</Text>
+            {item.area?.name && <Text style={styles.itemText}>{item.area.name}</Text>}
+            {item.position && <Text style={styles.itemText}>{positionParsed}</Text>}
             <Text style={styles.itemText}>{dateParsed}</Text>
             <Text style={styles.itemText}>{timeSinceParsed}</Text>
           </View>
@@ -289,10 +298,8 @@ class Reports extends PureComponent<Props> {
   renderSection(title: string, ...options: [Array<ReportItem>, any, (string) => void]) {
     return (
       <View style={styles.listContainer}>
-        <View style={styles.listHeader}>
-          <Text style={styles.listTitle}>{title}</Text>
-        </View>
-        {this.getItems(...options)}
+        <Text style={styles.listTitle}>{title}</Text>
+        {this.renderReports(...options)}
       </View>
     );
   }
@@ -320,6 +327,20 @@ class Reports extends PureComponent<Props> {
     const { complete, draft, uploaded } = reports;
     const hasReports = !!complete.length || !!draft.length || !!uploaded.length;
 
+    if (!hasReports) {
+      return (
+        <View style={styles.containerEmpty}>
+          <EmptyState
+            actionTitle={i18n.t('report.empty.action')}
+            body={i18n.t('report.empty.body')}
+            onActionPress={this.onFrequentlyAskedQuestionsPress}
+            icon={emptyIcon}
+            title={i18n.t('report.empty.title')}
+          />
+        </View>
+      );
+    }
+
     return (
       <ScrollView
         style={styles.container}
@@ -327,21 +348,15 @@ class Reports extends PureComponent<Props> {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        {hasReports ? (
-          <View style={styles.container}>
-            {draft && draft.length > 0 && !inExportMode && this.getDrafts(draft, editIcon, this.onClickDraft)}
-            {complete &&
-              complete.length > 0 &&
-              this.getCompleted(complete, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickUpload)}
-            {uploaded &&
-              uploaded.length > 0 &&
-              this.getUploaded(uploaded, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickNext)}
-          </View>
-        ) : (
-          <View style={styles.containerEmpty}>
-            <Text style={styles.emptyTitle}>{i18n.t('report.empty')}</Text>
-          </View>
-        )}
+        <View style={styles.container}>
+          {draft && draft.length > 0 && !inExportMode && this.getDrafts(draft, editIcon, this.onClickDraft)}
+          {complete &&
+            complete.length > 0 &&
+            this.getCompleted(complete, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickUpload)}
+          {uploaded &&
+            uploaded.length > 0 &&
+            this.getUploaded(uploaded, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickNext)}
+        </View>
       </ScrollView>
     );
   }
@@ -381,7 +396,6 @@ class Reports extends PureComponent<Props> {
                 : i18n.t('report.export.manyReportsAction', { count: totalToExport })
               : i18n.t('report.export.noneSelected')
           }
-          total={totalReports}
         >
           {this.renderReportsScrollView(this.props.reports, this.state.inShareMode)}
         </ShareSheet>

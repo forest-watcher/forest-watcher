@@ -6,6 +6,11 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: Theme.background.main
   },
+  containerEmpty: {
+    flex: 1,
+    backgroundColor: Theme.background.main,
+    justifyContent: 'space-around'
+  },
   center: {
     alignItems: 'center',
     justifyContent: 'center'

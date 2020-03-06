@@ -7,11 +7,14 @@ export default StyleSheet.create({
   },
   content: {
     alignItems: 'center',
+    alignSelf: 'flex-start',
+    marginTop: 10,
+    marginBottom: 10,
     borderColor: Theme.colors.veryLightPinkTwo,
     borderRadius: 20,
     borderWidth: 1,
     paddingHorizontal: 8,
-    paddingVertical: 2,
+    paddingVertical: 4,
     backgroundColor: Theme.colors.white,
     flexDirection: 'row'
   },
