@@ -40,10 +40,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between'
   },
   listTitle: {
-    fontSize: 17,
-    fontWeight: '400',
-    fontFamily: Theme.font,
-    color: Theme.fontColors.light
+    ...Theme.sectionHeaderText
   },
   emptyTitle: {
     flex: 1,
@@ -76,18 +73,11 @@ export default StyleSheet.create({
     maxWidth: 288
   },
   itemTitle: {
-    paddingTop: 1,
-    fontSize: 17,
-    lineHeight: 20,
-    fontWeight: '400',
-    fontFamily: Theme.font,
-    color: Theme.fontColors.secondary
+    ...Theme.tableRowText,
+    fontSize: 16
   },
   itemText: {
-    fontSize: 17,
-    lineHeight: 24,
-    fontWeight: '400',
-    fontFamily: Theme.font,
-    color: Theme.fontColors.light
+    ...Theme.tableRowText,
+    fontSize: 12
   }
 });
