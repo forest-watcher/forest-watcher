@@ -6,11 +6,6 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: Theme.background.main
   },
-  containerEmpty: {
-    flex: 1,
-    backgroundColor: Theme.background.main,
-    justifyContent: 'space-around'
-  },
   center: {
     alignItems: 'center',
     justifyContent: 'center'
@@ -22,7 +17,25 @@ export default StyleSheet.create({
     flex: 1
   },
   listContent: {
-    paddingTop: 10,
+    paddingTop: 30,
     paddingBottom: 30
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1
+  },
+  rowSubtitleLabel: {
+    ...Theme.tableRowText,
+    flex: 1,
+    fontSize: 12
+  },
+  rowTitleLabel: {
+    ...Theme.tableRowText,
+    flex: 1,
+    fontSize: 16
+  },
+  rowIcon: {
+    marginRight: 24
   }
 });

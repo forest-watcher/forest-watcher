@@ -6,15 +6,6 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: Theme.background.main
   },
-  containerEmpty: {
-    flex: 1,
-    backgroundColor: Theme.background.main,
-    justifyContent: 'space-around'
-  },
-  center: {
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
   label: {
     ...Theme.sectionHeaderText
   },
@@ -22,7 +13,12 @@ export default StyleSheet.create({
     flex: 1
   },
   listContent: {
-    paddingTop: 10,
+    paddingTop: 30,
     paddingBottom: 30
+  },
+  rowTitleLabel: {
+    ...Theme.tableRowText,
+    flex: 1,
+    fontSize: 16
   }
 });

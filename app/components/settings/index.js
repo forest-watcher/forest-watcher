@@ -63,7 +63,7 @@ export default class Settings extends Component<Props> {
       {
         text: i18n.t('settings.aboutFAQ'),
         image: null,
-        section: 'ForestWatcher.FaqList',
+        section: 'ForestWatcher.FaqCategories',
         functionOnPress: this.handleStaticLinks
       },
       {
