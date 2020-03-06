@@ -322,7 +322,6 @@ export default class Routes extends PureComponent<Props> {
                 : i18n.t('routes.export.manyRoutesAction', { count: totalToExport })
               : i18n.t('routes.export.noneSelected')
           }
-          total={totalRoutes}
         >
           {this.renderRoutes(this.props.routes, this.state.inShareMode)}
         </ShareSheet>

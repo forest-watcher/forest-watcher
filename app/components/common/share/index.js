@@ -23,7 +23,6 @@ type Props = {
   shareButtonDisabledTitle: string,
   shareButtonEnabledTitle: string,
   shareEnabled?: boolean,
-  total: number,
   selected: number
 };
 
@@ -60,8 +59,8 @@ export default class ShareSelector extends Component<Props> {
   };
 
   onToggleAllSelected = () => {
-    const allSelected = this.props.total === this.props.selected;
-    this.props.onToggleAllSelected?.(!allSelected);
+    const anySelected = this.props.selected > 0;
+    this.props.onToggleAllSelected?.(!anySelected);
   };
 
   setDoneButtonVisible = visible => {
@@ -85,7 +84,6 @@ export default class ShareSelector extends Component<Props> {
 
   render() {
     const { sharing } = this.state;
-    const allSelected = this.props.total === this.props.selected;
 
     return (
       <View style={[this.props.style, styles.container]}>
@@ -94,7 +92,7 @@ export default class ShareSelector extends Component<Props> {
             <Text style={styles.rowText}>{this.props.selectAllCountText}</Text>
             <TouchableOpacity onPress={this.onToggleAllSelected}>
               <Text style={styles.buttonText}>
-                {allSelected ? i18n.t('commonText.deselectAll') : i18n.t('commonText.selectAll')}
+                {this.props.selected > 0 ? i18n.t('commonText.deselectAll') : i18n.t('commonText.selectAll')}
               </Text>
             </TouchableOpacity>
           </Row>

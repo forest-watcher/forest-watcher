@@ -256,7 +256,6 @@ class Areas extends Component<Props> {
                 : i18n.t('areas.export.manyAreasAction', { count: totalToExport })
               : i18n.t('areas.export.noneSelected')
           }
-          total={totalAreas}
         >
           {hasAreas ? (
             <ScrollView
