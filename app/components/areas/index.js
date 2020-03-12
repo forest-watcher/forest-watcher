@@ -200,6 +200,10 @@ class Areas extends Component<Props> {
   };
 
   setSharing = (sharing: boolean) => {
+
+    // If the user taps ANYWHERE set the area download tooltip as seen
+    this.props.setAreaDownloadTooltipSeen(true);
+
     this.setState({
       inShareMode: sharing
     });
@@ -230,9 +234,21 @@ class Areas extends Component<Props> {
     const hasAreas = areas && areas.length > 0;
 
     return (
-      <View style={styles.container}>
+      <View 
+        onStartShouldSetResponder={event => {
+          // If the user taps ANYWHERE set the area download tooltip as seen
+          event.persist();
+          this.props.setAreaDownloadTooltipSeen(true);
+        }} 
+        style={styles.container}
+      >
         <ShareSheet
           componentId={this.props.componentId}
+          onStartShouldSetResponder={event => {
+            // If the user taps ANYWHERE set the area download tooltip as seen
+            event.persist();
+            this.props.setAreaDownloadTooltipSeen(true);
+          }} 
           shareButtonDisabledTitle={i18n.t('areas.share')}
           enabled={totalToExport > 0}
           onShare={() => {
@@ -274,13 +290,17 @@ class Areas extends Component<Props> {
                       // todo: Handle download too!
                     }}
                     onAreaPress={(areaId, name) => {
+                      this.props.setAreaDownloadTooltipSeen(true);
                       if (this.state.inShareMode) {
                         this.onAreaSelectedForExport(areaId);
                       } else {
                         this.onAreaPress(areaId, name);
                       }
                     }}
-                    onAreaSettingsPress={(areaId, name) => this.onAreaSettingsPress(areaId, name)}
+                    onAreaSettingsPress={(areaId, name) => {
+                      this.props.setAreaDownloadTooltipSeen(true);
+                      this.onAreaSettingsPress(areaId, name)
+                    }}
                     selectionState={this.state.selectedForExport}
                     sharing={this.state.inShareMode}
                   />
