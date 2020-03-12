@@ -3,14 +3,6 @@ import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
   view: {
-    ...Platform.select({
-      android: {
-        paddingTop: 16
-      },
-      ios: {
-        paddingTop: 32
-      }
-    }),
     paddingLeft: 16,
     paddingRight: 16,
     paddingBottom: 16,
@@ -21,6 +13,16 @@ export default StyleSheet.create({
     shadowRadius: 5,
     shadowOffset: { height: 2 },
     shadowOpacity: 0.4
+  },
+  internalView: {
+    ...Platform.select({
+      android: {
+        paddingTop: 16
+      },
+      ios: {
+        paddingTop: 32
+      }
+    })
   },
   text: {
     fontFamily: Theme.font,
