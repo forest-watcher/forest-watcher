@@ -25,21 +25,23 @@ class SettingsButton extends Component<Props> {
     const underlayColor = this.props.underlayColor ?? Theme.background.secondary;
 
     return (
-      <Touchable
-        style={[styles.container, this.props.style]}
-        onPress={onPress}
-        background={Platform.select({
-          android: TouchableNativeFeedback.Ripple(underlayColor),
-          ios: undefined
-        })}
-        activeOpacity={0.8}
-        disabled={this.props.disabled}
-      >
-        <View style={[styles.content, this.props.disabled ? styles.disabled : {}]}>
-          <Image source={settingsCogIcon} />
-          <Text style={styles.text}>{this.props.title ?? 'Settings'}</Text>
-        </View>
-      </Touchable>
+      <View style={styles.margins}>
+        <Touchable
+          style={[styles.container, this.props.style]}
+          onPress={onPress}
+          background={Platform.select({
+            android: TouchableNativeFeedback.Ripple(underlayColor),
+            ios: undefined
+          })}
+          activeOpacity={0.8}
+          disabled={this.props.disabled}
+        >
+          <View style={[styles.content, this.props.disabled ? styles.disabled : {}]}>
+            <Image source={settingsCogIcon} />
+            <Text style={styles.text}>{this.props.title ?? 'Settings'}</Text>
+          </View>
+        </Touchable>
+      </View>
     );
   }
 }
