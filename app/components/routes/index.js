@@ -3,6 +3,8 @@
 import React, { PureComponent } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 
+import Theme from 'config/theme';
+
 import moment from 'moment';
 import i18n from 'i18next';
 import debounceUI from 'helpers/debounceUI';
@@ -19,9 +21,13 @@ import ShareSheet from 'components/common/share';
 import VerticalSplitRow from 'components/common/vertical-split-row';
 
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
+import { routeSVGProperties } from 'helpers/routeSVG';
 
 const nextIcon = require('assets/next.png');
 const emptyIcon = require('assets/routesEmpty.png');
+const routeMapBackground = require('assets/routeMapBackground.png');
+
+import Svg, { Path, Circle } from 'react-native-svg';
 
 type Props = {
   componentId: string,
@@ -196,6 +202,66 @@ export default class Routes extends PureComponent<Props> {
   }
 
   /**
+   * Renders a component for the route's path to be shown on the row
+   * @param <Route> route The route to render a path for
+   */
+  renderRoutePath = (route: Route) => {
+    const svgProperties = routeSVGProperties(route.locations, 100);
+
+    if (!svgProperties) {
+      return null;
+    }
+
+    return (
+      <View style={styles.routeContainer}>
+        <Svg style={{ bacgkroundColor: 'red' }} height="100" width="100" viewBox="-16 -16 132 132">
+          <Path d={svgProperties?.path} fill={'transparent'} stroke={Theme.colors.white} strokeWidth="7" />
+          {svgProperties.firstPoint && (
+            <React.Fragment>
+              <Circle
+                cx={svgProperties.firstPoint.x}
+                cy={svgProperties.firstPoint.y}
+                r="14"
+                strokeWidth="4"
+                stroke={'rgba(0, 0, 0, 0.06)'}
+                fill={'transparent'}
+              />
+              <Circle
+                cx={svgProperties.firstPoint.x}
+                cy={svgProperties.firstPoint.y}
+                r="8"
+                strokeWidth="8"
+                stroke={Theme.colors.white}
+                fill={'rgba(220, 220, 220, 1)'}
+              />
+            </React.Fragment>
+          )}
+          {svgProperties.lastPoint && (
+            <React.Fragment>
+              <Circle
+                cx={svgProperties.lastPoint.x}
+                cy={svgProperties.lastPoint.y}
+                r="14"
+                strokeWidth="4"
+                stroke={'rgba(0, 0, 0, 0.06)'}
+                fill={'transparent'}
+              />
+              <Circle
+                cx={svgProperties.lastPoint.x}
+                cy={svgProperties.lastPoint.y}
+                r="8"
+                strokeWidth="8"
+                stroke={Theme.colors.white}
+                fill={'rgba(220, 220, 220, 1)'}
+              />
+            </React.Fragment>
+          )}
+        </Svg>
+      </View>
+    );
+  };
+
+  /**
    * renderItems - Returns an array of rows, based on the route data provided.
    *
    * @param  {Array} data <Route>  An array of routes.
@@ -209,15 +275,9 @@ export default class Routes extends PureComponent<Props> {
       const dateText = moment(item.endDate).format('ll');
       const distanceText = formatDistance(routeDistance, 1, false);
       const subtitle = dateText + ', ' + distanceText;
-      // const action = {
-      //   icon,
-      //   callback: () => {
-      //     onPress(item.title);
-      //   },
-      //   position
-      // };
 
       const combinedId = item.areaId + item.id;
+
       return (
         <VerticalSplitRow
           key={combinedId}
@@ -225,6 +285,9 @@ export default class Routes extends PureComponent<Props> {
           onPress={() => {
             onPress(item);
           }}
+          style={styles.row}
+          renderImageChildren={this.renderRoutePath.bind(this, item)}
+          imageSrc={routeMapBackground}
           title={item.name}
           subtitle={subtitle}
           selected={this.state.inShareMode ? this.state.selectedForExport.includes(combinedId) : null}

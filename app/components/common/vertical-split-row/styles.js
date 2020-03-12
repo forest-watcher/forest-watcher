@@ -19,12 +19,16 @@ export default StyleSheet.create({
     justifyContent: 'space-between'
   },
   imageContainer: {
+    alignItems: 'stretch',
     aspectRatio: 1,
-    backgroundColor: Theme.background.modal
+    backgroundColor: Theme.background.modal,
+    flexDirection: 'row'
   },
   image: {
     aspectRatio: 1,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    width: undefined, // Required to make `require()` image scale
+    height: undefined // Required to make `require()` image scale
   },
   nameContainer: {
     borderBottomWidth: 1,
