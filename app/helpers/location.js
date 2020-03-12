@@ -8,6 +8,7 @@ import { LOCATION_TRACKING } from 'config/constants';
 import FWError from 'helpers/fwError';
 import { formatCoordsByFormat, formatDistance, getDistanceOfLine } from 'helpers/map';
 import i18n from 'i18next';
+import _ from 'lodash';
 
 export const GFWLocationAuthorizedAlways = BackgroundGeolocation.AUTHORIZED;
 export const GFWLocationAuthorizedInUse = BackgroundGeolocation.AUTHORIZED_FOREGROUND;
@@ -383,16 +384,10 @@ export function removeDuplicateLocations(locations) {
   if (!locations) {
     return null;
   }
-  let prevLat = null;
-  let prevLong = null;
-  const newLocations = [];
-  for (let i = 0; i < locations.length; i++) {
-    const location = locations[i];
-    if (locations.latitude !== prevLat || locations.longitude !== prevLong) {
-      newLocations.push(location);
-      prevLat = location.latitude;
-      prevLong = location.longitude;
-    }
-  }
-  return newLocations;
+  _.reject(locations, function(location, i) {
+    return (
+      i > 0 && locations[i - 1].latitude === location.latitude && locations[i - 1].longitude === location.longitude
+    );
+  });
+  return locations;
 }
