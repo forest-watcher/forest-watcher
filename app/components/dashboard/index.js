@@ -121,7 +121,7 @@ class Dashboard extends PureComponent<Props> {
           name: 'ForestWatcher.Welcome',
           options: {
             layout: { componentBackgroundColor: 'rgba(0,0,0,0.8)' },
-            modalPresentationStyle: 'overFullScreen'
+            modalPresentationStyle: 'overCurrentContext'
           }
         }
       });

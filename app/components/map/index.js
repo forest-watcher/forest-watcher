@@ -236,7 +236,7 @@ class MapComponent extends Component {
                     componentBackgroundColor: 'rgba(0,0,0,0.74)'
                   },
                   screenBackgroundColor: 'rgba(0,0,0,0.74)',
-                  modalPresentationStyle: 'overFullScreen'
+                  modalPresentationStyle: 'overCurrentContext'
                 }
               }
             }
