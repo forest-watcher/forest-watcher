@@ -136,8 +136,8 @@ android {
         applicationId "com.forestwatcher"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 29
-        versionName "1.9.2"
+        versionCode 30
+        versionName "2.0.0"
         resValue "string", "build_config_package", "com.forestwatcher"
         manifestPlaceholders = [
             'appAuthRedirectScheme': project.env.get("LOGIN_GOOGLE_REDIRECT_SCHEMA")
