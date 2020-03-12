@@ -28,14 +28,8 @@ export default class FaqCategory extends Component<Props> {
       component: {
         name: 'ForestWatcher.FaqDetail',
         passProps: {
-          contentFaq: question.content
-        },
-        options: {
-          topBar: {
-            title: {
-              text: question.title
-            }
-          }
+          contentFaq: question.content,
+          title: question.title
         }
       }
     });
@@ -50,7 +44,7 @@ export default class FaqCategory extends Component<Props> {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          <Text style={styles.label}>{i18n.t('faq.category.sectionHeader')}</Text>
+          <Text style={styles.label}>{this.props.category.title}</Text>
           {this.props.category.questions.map((question, index) => {
             return (
               <Row
