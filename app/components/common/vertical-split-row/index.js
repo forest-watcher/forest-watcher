@@ -48,7 +48,7 @@ export default class VerticalSplitRow extends Component<Props> {
       >
         <View style={styles.item}>
           <View style={styles.imageContainer}>
-            {this.props.imageSrc && (
+            {!!this.props.imageSrc && (
               <ImageBackground
                 resizeMode="cover"
                 style={styles.image}
