@@ -253,7 +253,6 @@ class MapComponent extends Component {
       const datasetChanged = !isEqual(area.dataset, prevProps.area.dataset);
       if (differentArea || datasetChanged) {
         setActiveAlerts();
-        this.updateMarkers();
         if (differentArea) {
           this.updateSelectedArea();
         }
@@ -603,6 +602,9 @@ class MapComponent extends Component {
   // Draw area polygon
   renderAreaOutline = () => {
     const coords = this.props.areaCoordinates?.map(coord => coordsObjectToArray(coord));
+    if (!coords || coords.length < 2) {
+      return null;
+    }
     const line = MapboxGL.geoUtils.makeLineString(coords);
     return (
       <MapboxGL.ShapeSource id="areaOutline" shape={line}>
@@ -762,11 +764,11 @@ class MapComponent extends Component {
           styleURL={MapboxGL.StyleURL.SatelliteStreet}
           onRegionDidChange={this.onRegionDidChange}
         >
-          {renderUserLocation}
           {renderMapCamera}
           {this.renderAreaOutline()}
           {this.renderDestinationLine()}
           <RouteMarkers isTracking={this.isRouteTracking()} userLocation={userLocation} route={route} />
+          {renderUserLocation}
         </MapboxGL.MapView>
         {renderCustomReportingMarker}
         {this.renderMapFooter()}
