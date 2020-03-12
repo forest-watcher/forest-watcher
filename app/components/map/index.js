@@ -207,6 +207,13 @@ class MapComponent extends Component {
         return {};
       });
     }, 1000);
+
+    const { setCanDisplayAlerts, canDisplayAlerts } = this.props;
+    if (!canDisplayAlerts) {
+      setCanDisplayAlerts(true);
+    }
+
+    this.showMapWalkthrough();
   }
 
   onLocationUpdateError = error => {
@@ -215,12 +222,29 @@ class MapComponent extends Component {
     });
   };
 
-  componentDidAppear() {
-    const { setCanDisplayAlerts, canDisplayAlerts } = this.props;
-    if (!canDisplayAlerts) {
-      setCanDisplayAlerts(true);
+  showMapWalkthrough = () => {
+    if (!this.props.mapWalkthroughSeen) {
+      Navigation.showModal({
+        stack: {
+          children: [
+            {
+              component: {
+                name: 'ForestWatcher.MapWalkthrough',
+                options: {
+                  layout: {
+                    backgroundColor: 'transparent',
+                    componentBackgroundColor: 'rgba(0,0,0,0.74)'
+                  },
+                  screenBackgroundColor: 'rgba(0,0,0,0.74)',
+                  modalPresentationStyle: 'overCurrentContext'
+                }
+              }
+            }
+          ]
+        }
+      });
     }
-  }
+  };
 
   componentDidUpdate(prevProps, prevState) {
     const { area, setActiveAlerts } = this.props;
@@ -771,6 +795,7 @@ MapComponent.propTypes = {
     url: PropTypes.string.isRequired
   }),
   coordinatesFormat: PropTypes.string.isRequired,
+  mapWalkthroughSeen: PropTypes.bool.isRequired,
   setSelectedAreaId: PropTypes.func.isRequired,
   route: PropTypes.object,
   isTracking: PropTypes.bool.isRequired,

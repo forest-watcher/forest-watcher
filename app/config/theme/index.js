@@ -23,7 +23,10 @@ const fontColors = {
   white: colors.white
 };
 
-const fontName = 'firasansot';
+const fontName = Platform.select({
+  ios: 'firasansot',
+  android: 'firasansot_regular'
+});
 
 const config = {
   screen: {
@@ -87,6 +90,22 @@ const config = {
     strokeWidth: 3,
     strokeSelected: '#FFFFFF'
   },
+  modalContainer: {
+    flexShrink: 1,
+    backgroundColor: colors.veryLightPink,
+    borderRadius: 7,
+    marginHorizontal: 8,
+    marginVertical: 16,
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    shadowColor: colors.greyishBrown,
+    shadowRadius: 4,
+    shadowOffset: {
+      width: 0,
+      height: -3
+    },
+    shadowOpacity: 0.1
+  },
   navigator: {
     styles: {
       layout: {
@@ -122,13 +141,11 @@ const config = {
         title: {
           color: fontColors.secondary,
           fontFamily: fontName,
-          fontWeight: 'regular'
         },
         largeTitle: {
-          fontSize: 32,
+          fontSize: 24,
           color: fontColors.secondary,
           fontFamily: fontName,
-          fontWeight: 'regular'
         },
         visible: true
       }
@@ -147,6 +164,12 @@ const config = {
     color: fontColors.secondary,
     fontFamily: fontName,
     fontWeight: '400'
+  },
+  text: {
+    fontWeight: '400',
+    fontSize: 17,
+    fontFamily: fontName,
+    color: fontColors.secondary
   },
   tableRow: {
     alignItems: 'center',

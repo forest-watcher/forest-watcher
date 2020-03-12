@@ -19,48 +19,64 @@ exports[`Redux Actions - Unit Tests snapshot redux action thunk test 1`] = `[Fun
 exports[`Redux Reducers - Unit Tests snapshot redux reducer action test 1`] = `
 Object {
   "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": true,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 
 exports[`Redux Reducers - Unit Tests snapshot redux reducer initial state test 1`] = `
 Object {
   "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 
 exports[`Redux Reducers - Unit Tests snapshot redux reducer multiple action test 1`] = `
 Object {
   "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
   "synced": true,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 
 exports[`Redux Reducers - Unit Tests snapshot redux reducer multiple action test 2`] = `
 Object {
   "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
+  "hasSeenWelcomeScreen": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": true,
   "pristineCacheTooltip": true,
   "synced": true,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 

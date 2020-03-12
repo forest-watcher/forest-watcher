@@ -385,6 +385,8 @@ PODS:
   - RNSentry (1.3.2):
     - React
     - Sentry (~> 4.4.0)
+  - RNSVG (11.0.1):
+    - React
   - RNZipArchive (5.0.1):
     - React
     - RNZipArchive/Core (= 5.0.1)
@@ -450,6 +452,7 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - RNLocalize (from `../node_modules/react-native-localize`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
+  - RNSVG (from `../node_modules/react-native-svg`)
   - RNZipArchive (from `../node_modules/react-native-zip-archive`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -569,6 +572,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-localize"
   RNSentry:
     :path: "../node_modules/@sentry/react-native"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   RNZipArchive:
     :path: "../node_modules/react-native-zip-archive"
   Yoga:
@@ -639,6 +644,7 @@ SPEC CHECKSUMS:
   RNFBApp: 7d4006751de8bb5cafa2e8d2e7d94ee250df81db
   RNLocalize: a734b53c45e77acd3ffb78b92e63bb4d6cd13257
   RNSentry: 2ec85f3e314c6a650b1c51b30ff764b6103ed7e2
+  RNSVG: 67f1f12dae2cef6ed59a42cae74a6b8f5a9e7b46
   RNZipArchive: 87111bb6130a38edd68c8d2059d46ac94d53ffe4
   Sentry: 14bdd673870e8cf64932b149fad5bbbf39a9b390
   SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23

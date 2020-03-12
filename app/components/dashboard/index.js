@@ -20,6 +20,7 @@ const routesIcon = require('assets/routes.png');
 type Props = {
   componentId: string,
   setAreasRefreshing: boolean => void,
+  hasSeenWelcomeScreen: boolean,
   isConnected: boolean,
   needsUpdate: boolean,
   appSyncing: boolean,
@@ -27,6 +28,7 @@ type Props = {
   pristine: boolean,
   setSelectedAreaId: string => void,
   setPristine: boolean => void,
+  setWelcomeScreenSeen: boolean => void,
   updateApp: () => void,
   showNotConnectedNotification: () => void,
   activeRoute: Route
@@ -37,7 +39,8 @@ class Dashboard extends PureComponent<Props> {
     return {
       topBar: {
         title: {
-          text: Config.APP_NAME
+          text: i18n.t('commonText.appName'),
+          fontSize: Platform.OS === 'android' ? 24 : undefined
         },
         largeTitle: {
           visible: true
@@ -98,7 +101,33 @@ class Dashboard extends PureComponent<Props> {
         }
       });
     }
+
+    // This is called both here and componentDidAppear because componentDidAppear isn't called when setting
+    // the app root using RNN
+    this.showWelcomeScreenIfNecessary();
   }
+
+  componentDidAppear() {
+    // This is called both here and componentDidAppear because componentDidAppear isn't called when setting
+    // the app root using RNN
+    this.showWelcomeScreenIfNecessary();
+  }
+
+  showWelcomeScreenIfNecessary = debounceUI(() => {
+    const { hasSeenWelcomeScreen } = this.props;
+    if (!hasSeenWelcomeScreen) {
+      this.props.setWelcomeScreenSeen(true);
+      Navigation.showModal({
+        component: {
+          name: 'ForestWatcher.Welcome',
+          options: {
+            layout: { componentBackgroundColor: 'rgba(0,0,0,0.8)' },
+            modalPresentationStyle: 'overCurrentContext'
+          }
+        }
+      });
+    }
+  });
 
   componentDidDisappear() {
     const { pristine, setPristine, refreshing, setAreasRefreshing } = this.props;
@@ -200,16 +229,16 @@ class Dashboard extends PureComponent<Props> {
                 <Text style={styles.tableRowText}>{i18n.t('dashboard.areas')}</Text>
               </View>
             </Row>
-            <Row action={this.routesAction}>
-              <View style={styles.tableRowContent}>
-                <Image source={routesIcon} />
-                <Text style={styles.tableRowText}>{i18n.t('dashboard.routes')}</Text>
-              </View>
-            </Row>
             <Row action={this.reportsAction}>
               <View style={styles.tableRowContent}>
                 <Image source={reportsIcon} />
                 <Text style={styles.tableRowText}>{i18n.t('dashboard.reports')}</Text>
+              </View>
+            </Row>
+            <Row action={this.routesAction}>
+              <View style={styles.tableRowContent}>
+                <Image source={routesIcon} />
+                <Text style={styles.tableRowText}>{i18n.t('dashboard.routes')}</Text>
               </View>
             </Row>
             <Row action={this.settingsAction}>

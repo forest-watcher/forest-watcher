@@ -26,7 +26,7 @@ class SettingsButton extends Component<Props> {
 
     return (
       <Touchable
-        style={[styles.container, this.props.style, this.props.disabled ? styles.disabled : {}]}
+        style={[styles.container, this.props.style]}
         onPress={onPress}
         background={Platform.select({
           android: TouchableNativeFeedback.Ripple(underlayColor),
@@ -35,8 +35,8 @@ class SettingsButton extends Component<Props> {
         activeOpacity={0.8}
         disabled={this.props.disabled}
       >
-        <View style={styles.content}>
-          <Image style={styles.icon} source={settingsCogIcon} />
+        <View style={[styles.content, this.props.disabled ? styles.disabled : {}]}>
+          <Image source={settingsCogIcon} />
           <Text style={styles.text}>{this.props.title ?? 'Settings'}</Text>
         </View>
       </Touchable>
