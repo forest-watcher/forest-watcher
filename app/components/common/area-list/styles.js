@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    marginBottom: 26
+    marginBottom: 76,
+    marginTop: -50
   }
 });
