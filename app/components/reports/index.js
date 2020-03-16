@@ -262,7 +262,7 @@ class Reports extends PureComponent<Props> {
       }
 
       let icon = image;
-      let position = 'center';
+      const position = 'center';
 
       // Here, if we're currently in export mode, override the icon to show either the checkbox on or off image.
       if (this.state.inShareMode && this.state.selectedForExport.includes(item.title)) {
@@ -282,7 +282,7 @@ class Reports extends PureComponent<Props> {
         position
       };
       return (
-        <Row key={index + item.title} action={action} >
+        <Row key={index + item.title} action={action}>
           <View style={styles.listItem}>
             <Text style={styles.itemTitle}>{title}</Text>
             {item.area?.name && <Text style={styles.itemText}>{item.area.name}</Text>}

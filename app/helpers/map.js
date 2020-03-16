@@ -200,7 +200,6 @@ export function formatDistance(distance, thresholdBeforeKm = 1, relativeToUser =
  * @returns {{sw: [*, *], ne: [*, *]}}
  */
 export function getPolygonBoundingBox(polygon) {
-
   if (!polygon || polygon.length === 0) {
     return undefined;
   }

@@ -2,7 +2,6 @@
 
 import React, { PureComponent } from 'react';
 import { Image, Platform, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
-import Config from 'react-native-config';
 import { Navigation } from 'react-native-navigation';
 
 import Row from 'components/common/row';

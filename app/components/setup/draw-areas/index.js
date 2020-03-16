@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Image, Text, TouchableHighlight, Platform } from 'react-native';
+import { View, Image, Text, TouchableHighlight } from 'react-native';
 
 import { MAPS, AREAS } from 'config/constants';
 import { storeImage } from 'helpers/fileManagement';
@@ -13,15 +13,13 @@ import i18n from 'i18next';
 import tracker from 'helpers/googleAnalytics';
 import styles, { mapboxStyles } from './styles';
 import { coordsArrayToObject } from 'helpers/location';
-import MapboxGL from "@react-native-mapbox-gl/maps";
+import MapboxGL from '@react-native-mapbox-gl/maps';
 
 const geojsonArea = require('@mapbox/geojson-area');
 
 const edgePadding = { top: 180, right: 85, bottom: 180, left: 85 };
 
 const footerBackgroundImage = require('assets/map_bg_gradient.png');
-const markerImage = require('assets/circle.png');
-const markerRedImage = require('assets/circle_red.png');
 const undoImage = require('assets/undo.png');
 
 function getGoogleMapsCoordinates(coordinates) {
@@ -103,11 +101,11 @@ class DrawAreas extends Component {
     const { markerLocations } = this.state;
     if (markerLocations && markerLocations.length > 1) {
       this.setState({ loading: true });
-      const snapshotPadding =
+      /*const snapshotPadding =
         Platform.OS === 'ios'
           ? { top: 280, right: 80, bottom: 360, left: 80 }
           : { top: 560, right: 160, bottom: 720, left: 160 };
-      /*this.map.fitToCoordinates(markerLocations, {
+      this.map.fitToCoordinates(markerLocations, {
         edgePadding: snapshotPadding,
         animated: true
       });*/
@@ -247,11 +245,13 @@ class DrawAreas extends Component {
     );
 
     const { markerLocations } = this.state;
+    /*
     const { contextualLayer } = this.props;
     const ctxLayerKey =
       Platform.OS === 'ios' && contextualLayer
         ? `contextualLayerElement-${contextualLayer.name}`
         : 'contextualLayerElement';
+    */
 
     return (
       <View style={styles.container}>
