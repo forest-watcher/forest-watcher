@@ -3,16 +3,17 @@ import PropTypes from 'prop-types';
 import { View, Image, Text, TouchableHighlight, Platform } from 'react-native';
 
 import { MAPS, AREAS } from 'config/constants';
-import MapView from 'react-native-maps';
-import gpsi from 'geojson-polygon-self-intersections';
 import { storeImage } from 'helpers/fileManagement';
+import kinks from '@turf/kinks';
+import { polygon } from '@turf/helpers';
 
 import ActionButton from 'components/common/action-button';
 import Theme from 'config/theme';
 import i18n from 'i18next';
 import tracker from 'helpers/googleAnalytics';
-import styles from './styles';
+import styles, { mapboxStyles } from './styles';
 import { coordsArrayToObject } from 'helpers/location';
+import MapboxGL from "@react-native-mapbox-gl/maps";
 
 const geojsonArea = require('@mapbox/geojson-area');
 
@@ -23,14 +24,6 @@ const markerImage = require('assets/circle.png');
 const markerRedImage = require('assets/circle_red.png');
 const undoImage = require('assets/undo.png');
 
-function parseCoordinates(coordinates) {
-  return coordinates.map(cordinate => ({
-    key: cordinate.key,
-    latitude: cordinate.latitude,
-    longitude: cordinate.longitude
-  }));
-}
-
 function getGoogleMapsCoordinates(coordinates) {
   if (!coordinates) {
     return [];
@@ -38,28 +31,15 @@ function getGoogleMapsCoordinates(coordinates) {
   return coordinates.map(coordinate => coordsArrayToObject(coordinate));
 }
 
-function getGeoJson(coordinates) {
-  const firstGeo = [coordinates[0].longitude, coordinates[0].latitude];
-  const geoCordinates = coordinates.map(item => [item.longitude, item.latitude]);
-  geoCordinates.push(firstGeo);
-  return {
-    type: 'Polygon',
-    coordinates: [geoCordinates]
-  };
-}
-
 class DrawAreas extends Component {
   constructor(props) {
     super(props);
     this.nextPress = false;
-    this.mapReady = false;
     this.state = {
       valid: true,
       huge: false,
       loading: false,
-      shape: {
-        coordinates: getGoogleMapsCoordinates(props.coordinates)
-      }
+      markerLocations: []
     };
   }
 
@@ -67,77 +47,78 @@ class DrawAreas extends Component {
     tracker.trackScreenView('Draw Areas');
   }
 
-  onMapReady = () => {
-    this.mapReady = true;
-  };
-
   onRegionChangeComplete = async () => {
     if (this.nextPress) {
-      const { coordinates } = this.state.shape;
+      // const { coordinates } = this.state.shape;
       const snapshot = await this.takeSnapshot();
       const url = snapshot.uri ? snapshot.uri : snapshot;
       const storedUrl = await storeImage(url);
-      const geojson = getGeoJson(coordinates);
+      // const geojson = getGeoJson(coordinates);
       this.setState({ loading: false });
-      this.props.onDrawAreaFinish({ geojson }, storedUrl);
+      this.props.onDrawAreaFinish(/*{ geojson }*/ null, storedUrl);
       this.nextPress = false;
     }
   };
 
-  onMapPress = e => {
-    const { coordinate } = e.nativeEvent;
-    if (this.mapReady && coordinate) {
-      const { shape, valid } = this.state;
-      const coords = [
-        ...shape.coordinates,
-        {
-          ...coordinate,
-          key: `${coordinate.latitude}-${coordinate.longitude}`
-        }
-      ];
-      const geo = getGeoJson(coords);
-      let isValid = valid;
-      let isHuge = false;
+  // returns true if path intersects itself
+  isValidAreaPolygon = markerLocations => {
+    const polygonLocations = [...markerLocations, markerLocations[0]];
+    const lineString = MapboxGL.geoUtils.makeLineString(polygonLocations);
+    const intersectionsGeoJson = kinks(lineString);
+    const intersections = intersectionsGeoJson?.features?.length;
+    return !intersections;
+  };
 
-      if (coords.length >= 3) {
-        const intersects = gpsi({
-          type: 'Feature',
-          geometry: geo
-        });
+  // returns true if area is larger than max size
+  isHugeAreaPolygon = markerLocations => {
+    const polygonLocations = [...markerLocations, markerLocations[0]];
+    const polygon2 = polygon([polygonLocations]);
+    const areaSize2 = geojsonArea.geometry(polygon2?.geometry);
+    return areaSize2 > AREAS.maxSize;
+  };
 
-        if (intersects && intersects.geometry && intersects.geometry.coordinates.length > 0) {
-          isValid = false;
-        }
-        const area = geojsonArea.geometry(geo);
-        if (area > AREAS.maxSize) {
-          isHuge = true;
-        }
-      }
-
+  updateMarkerLocations = markerLocations => {
+    if (markerLocations.length < 3) {
       this.setState({
-        shape: {
-          ...shape,
-          coordinates: coords
-        },
-        valid: isValid,
-        huge: isHuge
+        markerLocations: markerLocations,
+        huge: false
       });
+      return;
     }
+    const valid = this.isValidAreaPolygon(markerLocations);
+    const huge = this.isHugeAreaPolygon(markerLocations);
+    this.setState({
+      markerLocations,
+      valid,
+      huge
+    });
+  };
+
+  onMapPress = event => {
+    const { geometry } = event;
+    this.updateMarkerLocations([...this.state.markerLocations, geometry?.coordinates]);
   };
 
   onNextPress = () => {
-    const { coordinates } = this.state.shape;
-    if (coordinates && coordinates.length > 1) {
+    const { markerLocations } = this.state;
+    if (markerLocations && markerLocations.length > 1) {
       this.setState({ loading: true });
       const snapshotPadding =
         Platform.OS === 'ios'
           ? { top: 280, right: 80, bottom: 360, left: 80 }
           : { top: 560, right: 160, bottom: 720, left: 160 };
-      this.map.fitToCoordinates(coordinates, {
+      /*this.map.fitToCoordinates(markerLocations, {
         edgePadding: snapshotPadding,
         animated: true
-      });
+      });*/
       this.nextPress = true;
+      // const snapshot = await this.takeSnapshot();
+      // const url = snapshot.uri ? snapshot.uri : snapshot;
+      // const storedUrl = await storeImage(url);
+      // const geojson = getGeoJson(coordinates);
+      this.setState({ loading: false });
+      this.props.onDrawAreaFinish(/*{ geojson }*/ null, null);
+      this.nextPress = false;
     }
   };
 
@@ -157,9 +138,9 @@ class DrawAreas extends Component {
   };
 
   getLegend() {
-    const finished = this.state.shape.coordinates.length >= 3;
+    const finished = this.state.markerLocations.length >= 3;
     if (!finished) {
-      const withPadding = this.state.shape.coordinates.length >= 1 ? styles.actionButtonWithPadding : null;
+      const withPadding = this.state.markerLocations.length >= 1 ? styles.actionButtonWithPadding : null;
 
       return (
         <View pointerEvents="none" style={[styles.actionButton, withPadding]}>
@@ -205,33 +186,8 @@ class DrawAreas extends Component {
     });
   };
 
-  undoShape = () => {
-    const { shape, valid } = this.state;
-    let isValid = valid;
-    let isHuge = false;
-    const coordinates = shape.coordinates.slice(0, -1);
-
-    if (coordinates.length >= 3) {
-      const intersects = gpsi({
-        type: 'Feature',
-        geometry: getGeoJson(coordinates)
-      });
-
-      isValid = intersects && intersects.geometry && intersects.geometry.coordinates.length === 0;
-      const area = geojsonArea.geometry(getGeoJson(coordinates));
-      if (area > AREAS.maxSize) {
-        isHuge = true;
-      }
-    }
-
-    this.setState({
-      shape: {
-        ...shape,
-        coordinates
-      },
-      valid: isValid,
-      huge: isHuge
-    });
+  undoLastPoint = () => {
+    this.updateMarkerLocations(this.state.markerLocations.slice(0, -1));
   };
 
   takeSnapshot() {
@@ -242,11 +198,56 @@ class DrawAreas extends Component {
     });
   }
 
+  renderNewAreaOutline = coords => {
+    if (!coords || coords.length === 0) {
+      return null;
+    }
+    let markersShape = null;
+    if (coords.length > 1) {
+      markersShape = MapboxGL.geoUtils.makeLineString(coords);
+    } else if (coords.length === 1) {
+      markersShape = MapboxGL.geoUtils.makePoint(coords[0]);
+    }
+    return (
+      <React.Fragment>
+        <MapboxGL.ShapeSource id="route" shape={markersShape}>
+          <MapboxGL.CircleLayer id="routeCircleOuter" style={mapboxStyles.routeOuterCircle} />
+          <MapboxGL.CircleLayer id="routeCircleInner" style={mapboxStyles.routeInnerCircle} />
+          {coords.length > 1 && <MapboxGL.LineLayer id="outlineLineLayer" style={mapboxStyles.routeLineLayer} />}
+        </MapboxGL.ShapeSource>
+      </React.Fragment>
+    );
+  };
+
+  renderPolygon = coords => {
+    if (!this.state.valid || !coords || coords.length < 3) {
+      return null;
+    }
+    coords = [...coords, coords[0]];
+    const polygonShape = polygon([coords]);
+    return (
+      <React.Fragment>
+        <MapboxGL.ShapeSource id="newAreaPolygon" shape={polygonShape}>
+          <MapboxGL.FillLayer id="newAreaPolygonFill" style={mapboxStyles.areaFill} />
+        </MapboxGL.ShapeSource>
+      </React.Fragment>
+    );
+  };
+
   render() {
-    const { valid, shape } = this.state;
+    // Controls view of map (location / zoom)
+    const renderMapCamera = (
+      <MapboxGL.Camera
+        ref={ref => {
+          this.mapCamera = ref;
+        }}
+        // bounds={this.state.mapCameraBounds}
+        animationDuration={0}
+      />
+    );
+
+    const { markerLocations } = this.state;
     const { contextualLayer } = this.props;
-    const { coordinates } = shape;
-    const markers = parseCoordinates(coordinates);
     const ctxLayerKey =
       Platform.OS === 'ios' && contextualLayer
         ? `contextualLayerElement-${contextualLayer.name}`
@@ -254,60 +255,27 @@ class DrawAreas extends Component {
 
     return (
       <View style={styles.container}>
-        <MapView
+        <MapboxGL.MapView
           ref={ref => {
             this.map = ref;
           }}
-          style={styles.map}
-          provider={MapView.PROVIDER_GOOGLE}
-          mapType="none"
-          rotateEnabled={false}
-          onMapReady={this.onMapReady}
-          onRegionChangeComplete={this.onRegionChangeComplete}
+          style={styles.mapView}
+          styleURL={MapboxGL.StyleURL.SatelliteStreet}
           onPress={this.onMapPress}
-          moveOnMarkerPress={false}
-          onLayout={this.onLayout}
         >
-          <MapView.UrlTile key="basemapLayerElement" urlTemplate={MAPS.basemap} zIndex={-1} />
-          {contextualLayer && <MapView.UrlTile key={ctxLayerKey} urlTemplate={contextualLayer.url} zIndex={1} />}
-          {coordinates.length > 0 && (
-            <MapView.Polygon
-              key={coordinates.length}
-              coordinates={coordinates}
-              fillColor={valid ? Theme.polygon.fill : Theme.polygon.fillInvalid}
-              strokeColor={Theme.polygon.strokeSelected}
-              strokeWidth={coordinates.length >= 3 ? 3 : 0}
-              zIndex={0}
-            />
-          )}
-          {markers.length > 0 && coordinates.length > 1 && (
-            <MapView.Polyline
-              key={'line'}
-              coordinates={markers}
-              strokeColor={Theme.polygon.strokeSelected}
-              strokeWidth={3}
-              zIndex={2}
-            />
-          )}
-          {markers.length >= 0 &&
-            markers.map(marker => {
-              const image = valid ? markerImage : markerRedImage;
-              return (
-                <MapView.Marker.Animated key={marker.key + valid} coordinate={marker} anchor={{ x: 0.5, y: 0.5 }}>
-                  <Image style={{ width: 10, height: 10 }} source={image} />
-                </MapView.Marker.Animated>
-              );
-            })}
-        </MapView>
+          {renderMapCamera}
+          {this.renderNewAreaOutline(markerLocations)}
+          {this.renderPolygon(markerLocations)}
+        </MapboxGL.MapView>
         <View pointerEvents="box-none" style={styles.footer}>
           <Image style={styles.footerBg} source={footerBackgroundImage} />
           <View pointerEvents="box-none" style={styles.footerButton}>
-            {shape.coordinates.length >= 1 && (
+            {markerLocations.length > 0 && (
               <TouchableHighlight
                 style={styles.undoButton}
                 activeOpacity={0.8}
                 underlayColor={Theme.background.white}
-                onPress={this.undoShape}
+                onPress={this.undoLastPoint}
               >
                 <Image style={{ width: 21, height: 9 }} source={undoImage} />
               </TouchableHighlight>
