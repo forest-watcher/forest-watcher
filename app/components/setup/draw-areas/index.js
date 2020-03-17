@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Image, Text, TouchableHighlight } from 'react-native';
 
-import { AREAS } from 'config/constants';
+import { AREAS, MAPS } from 'config/constants';
 import { storeImage } from 'helpers/fileManagement';
 import kinks from '@turf/kinks';
 import { polygon } from '@turf/helpers';
@@ -57,7 +57,7 @@ class DrawAreas extends Component {
       return undefined;
     }
     coordinates = coordinates.map(coordinate => coordsArrayToObject(coordinate));
-    return getPolygonBoundingBox(coordinates);
+    return { ...MAPS.smallPadding, ...getPolygonBoundingBox(coordinates) };
   };
 
   // returns true if path intersects itself
