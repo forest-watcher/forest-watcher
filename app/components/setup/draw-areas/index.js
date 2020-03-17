@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Image, Text, TouchableHighlight } from 'react-native';
 
-import { MAPS, AREAS } from 'config/constants';
+import { AREAS } from 'config/constants';
 import { storeImage } from 'helpers/fileManagement';
 import kinks from '@turf/kinks';
 import { polygon } from '@turf/helpers';
@@ -14,20 +14,12 @@ import tracker from 'helpers/googleAnalytics';
 import styles, { mapboxStyles } from './styles';
 import { coordsArrayToObject } from 'helpers/location';
 import MapboxGL from '@react-native-mapbox-gl/maps';
+import { getPolygonBoundingBox } from 'helpers/map';
 
 const geojsonArea = require('@mapbox/geojson-area');
 
-const edgePadding = { top: 180, right: 85, bottom: 180, left: 85 };
-
 const footerBackgroundImage = require('assets/map_bg_gradient.png');
 const undoImage = require('assets/undo.png');
-
-function getGoogleMapsCoordinates(coordinates) {
-  if (!coordinates) {
-    return [];
-  }
-  return coordinates.map(coordinate => coordsArrayToObject(coordinate));
-}
 
 class DrawAreas extends Component {
   constructor(props) {
@@ -37,6 +29,7 @@ class DrawAreas extends Component {
       valid: true,
       huge: false,
       loading: false,
+      mapCameraBounds: this.getCountryBoundingBox(),
       markerLocations: []
     };
   }
@@ -56,6 +49,15 @@ class DrawAreas extends Component {
       this.props.onDrawAreaFinish(/*{ geojson }*/ null, storedUrl);
       this.nextPress = false;
     }
+  };
+
+  getCountryBoundingBox = () => {
+    let coordinates = this.props.country?.bbox?.coordinates?.[0];
+    if (!coordinates) {
+      return undefined;
+    }
+    coordinates = coordinates.map(coordinate => coordsArrayToObject(coordinate));
+    return getPolygonBoundingBox(coordinates);
   };
 
   // returns true if path intersects itself
@@ -118,21 +120,6 @@ class DrawAreas extends Component {
       this.props.onDrawAreaFinish(/*{ geojson }*/ null, null);
       this.nextPress = false;
     }
-  };
-
-  onLayout = () => {
-    let boundaries = getGoogleMapsCoordinates(MAPS.bbox.coordinates[0]);
-    const { coordinates } = this.state.shape;
-    if (coordinates && coordinates.length > 1) {
-      boundaries = coordinates;
-    } else if (this.props.country && this.props.country.bbox) {
-      boundaries = getGoogleMapsCoordinates(this.props.country.bbox.coordinates[0]);
-    }
-
-    this.map.fitToCoordinates(boundaries, {
-      edgePadding,
-      animated: true
-    });
   };
 
   getLegend() {
@@ -239,7 +226,7 @@ class DrawAreas extends Component {
         ref={ref => {
           this.mapCamera = ref;
         }}
-        // bounds={this.state.mapCameraBounds}
+        bounds={this.state.mapCameraBounds}
         animationDuration={0}
       />
     );
