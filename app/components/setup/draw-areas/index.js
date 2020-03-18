@@ -104,10 +104,7 @@ class DrawAreas extends Component {
       this.setState({ nextPress: true });
       const polygonLocations = [...markerLocations, markerLocations[0]];
       const coordinates = polygonLocations.map(coordinate => coordsArrayToObject(coordinate));
-      const snapshotPadding =
-        Platform.OS === 'ios'
-          ? { paddingTop: 280, paddingRight: 80, paddingBottom: 360, paddingLeft: 80 }
-          : { paddingTop: 560, paddingRight: 160, paddingBottom: 720, paddingLeft: 160 };
+      const snapshotPadding = { paddingTop: 250, paddingBottom: 250, paddingLeft: 100, paddingRight: 100 };
       const bounds = getPolygonBoundingBox(coordinates);
       const cameraConfig = {
         ...bounds,
