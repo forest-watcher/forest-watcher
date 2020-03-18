@@ -174,14 +174,6 @@ class DrawAreas extends Component {
     this.updateMarkerLocations(this.state.markerLocations.slice(0, -1));
   };
 
-  takeSnapshot() {
-    return this.map.takeSnapshot({
-      format: 'jpg',
-      quality: 0.8,
-      result: 'file'
-    });
-  }
-
   renderNewAreaOutline = coords => {
     if (!coords || coords.length === 0) {
       return null;
@@ -195,9 +187,9 @@ class DrawAreas extends Component {
     return (
       <React.Fragment>
         <MapboxGL.ShapeSource id="route" shape={markersShape}>
-          <MapboxGL.CircleLayer id="routeCircleOuter" style={mapboxStyles.routeOuterCircle} />
-          <MapboxGL.CircleLayer id="routeCircleInner" style={mapboxStyles.routeInnerCircle} />
-          {coords.length > 1 && <MapboxGL.LineLayer id="outlineLineLayer" style={mapboxStyles.routeLineLayer} />}
+          <MapboxGL.CircleLayer id="routeCircleOuter" style={mapboxStyles.pointOuterCircle} />
+          <MapboxGL.CircleLayer id="routeCircleInner" style={mapboxStyles.pointInnerCircle} />
+          {coords.length > 1 && <MapboxGL.LineLayer id="outlineLineLayer" style={mapboxStyles.areaOutlineLayer} />}
         </MapboxGL.ShapeSource>
       </React.Fragment>
     );

@@ -75,39 +75,18 @@ export const mapboxStyles = {
     fillColor: Theme.polygon.fill,
     fillAntialias: false
   },
-  routeLineLayer: {
+  areaOutlineLayer: {
     lineColor: Theme.colors.white,
-    lineCap: MapboxGL.LineJoin.Round,
+    lineCap: MapboxGL.LineJoin.Butt,
     lineJoin: MapboxGL.LineJoin.Round,
-    lineWidth: 4
+    lineWidth: 2
   },
-  routeOuterCircle: {
-    circleRadius: 7,
-    circleColor: Theme.colors.white
-  },
-  routeInnerCircle: {
+  pointOuterCircle: {
     circleRadius: 5,
-    circleColor: Theme.colors.blue
-  },
-  routeStartOuter: {
-    circleRadius: 13,
     circleColor: Theme.colors.white
   },
-  routeStartInner: {
-    circleRadius: 8,
+  pointInnerCircle: {
+    circleRadius: 3,
     circleColor: Theme.colors.turtleGreen
-  },
-  routeEndOuter: {
-    circleRadius: 13,
-    circleColor: Theme.colors.white
-  },
-  routeEndInner: {
-    circleRadius: 8,
-    circleColor: Theme.colors.turtleGreen
-  },
-  destinationLine: {
-    lineColor: Theme.colors.lightBlue,
-    lineWidth: 3,
-    lineOpacity: 0.8
   }
 };
