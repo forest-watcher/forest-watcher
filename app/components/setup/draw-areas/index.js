@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Image, Text, TouchableHighlight } from 'react-native';
+import { View, Image, Text, TouchableHighlight, Platform } from 'react-native';
 
 import { AREAS, MAPS } from 'config/constants';
-import { storeImage } from 'helpers/fileManagement';
 import kinks from '@turf/kinks';
 import { polygon } from '@turf/helpers';
 
@@ -24,11 +23,11 @@ const undoImage = require('assets/undo.png');
 class DrawAreas extends Component {
   constructor(props) {
     super(props);
-    this.nextPress = false;
     this.state = {
       valid: true,
       huge: false,
       loading: false,
+      nextPress: false,
       mapCameraBounds: this.getCountryBoundingBox(),
       markerLocations: []
     };
@@ -38,16 +37,19 @@ class DrawAreas extends Component {
     tracker.trackScreenView('Draw Areas');
   }
 
-  onRegionChangeComplete = async () => {
-    if (this.nextPress) {
-      // const { coordinates } = this.state.shape;
-      const snapshot = await this.takeSnapshot();
-      const url = snapshot.uri ? snapshot.uri : snapshot;
-      const storedUrl = await storeImage(url);
-      // const geojson = getGeoJson(coordinates);
+  onRegionDidChange = async () => {
+    if (this.state.nextPress) {
+      const { markerLocations } = this.state;
+      const uri = await this.map.takeSnap(true);
+      const polygonLocations = [...markerLocations, markerLocations[0]];
+      const coordinates = polygonLocations.map(coordinate => coordsArrayToObject(coordinate));
+      const geojson = polygon([coordinates]);
+      // this line is because this project isn't using the (correct) geojson that mapbox provides.
+      geojson.coordinates = geojson?.geometry?.coordinates;
+      geojson.geometry = undefined;
       this.setState({ loading: false });
-      this.props.onDrawAreaFinish(/*{ geojson }*/ null, storedUrl);
-      this.nextPress = false;
+      this.props.onDrawAreaFinish({ geojson }, uri);
+      this.setState({ nextPress: false });
     }
   };
 
@@ -101,24 +103,21 @@ class DrawAreas extends Component {
 
   onNextPress = () => {
     const { markerLocations } = this.state;
-    if (markerLocations && markerLocations.length > 1) {
-      this.setState({ loading: true });
-      /*const snapshotPadding =
+    if (markerLocations && markerLocations.length > 2) {
+      this.setState({ nextPress: true });
+      const polygonLocations = [...markerLocations, markerLocations[0]];
+      const coordinates = polygonLocations.map(coordinate => coordsArrayToObject(coordinate));
+      const snapshotPadding =
         Platform.OS === 'ios'
-          ? { top: 280, right: 80, bottom: 360, left: 80 }
-          : { top: 560, right: 160, bottom: 720, left: 160 };
-      this.map.fitToCoordinates(markerLocations, {
-        edgePadding: snapshotPadding,
-        animated: true
-      });*/
-      this.nextPress = true;
-      // const snapshot = await this.takeSnapshot();
-      // const url = snapshot.uri ? snapshot.uri : snapshot;
-      // const storedUrl = await storeImage(url);
-      // const geojson = getGeoJson(coordinates);
-      this.setState({ loading: false });
-      this.props.onDrawAreaFinish(/*{ geojson }*/ null, null);
-      this.nextPress = false;
+          ? { paddingTop: 280, paddingRight: 80, paddingBottom: 360, paddingLeft: 80 }
+          : { paddingTop: 560, paddingRight: 160, paddingBottom: 720, paddingLeft: 160 };
+      const bounds = getPolygonBoundingBox(coordinates);
+      const cameraConfig = {
+        ...bounds,
+        ...snapshotPadding
+      };
+      this.mapCamera.setCamera({ bounds: cameraConfig });
+      this.setState({ loading: true });
     }
   };
 
@@ -231,7 +230,7 @@ class DrawAreas extends Component {
       />
     );
 
-    const { markerLocations } = this.state;
+    const { markerLocations, nextPress } = this.state;
     /*
     const { contextualLayer } = this.props;
     const ctxLayerKey =
@@ -249,6 +248,10 @@ class DrawAreas extends Component {
           style={styles.mapView}
           styleURL={MapboxGL.StyleURL.SatelliteStreet}
           onPress={this.onMapPress}
+          onRegionDidChange={this.onRegionDidChange}
+          scrollEnabled={!nextPress /* Disable map moving while taking area snapshot image */}
+          zoomEnabled={!nextPress}
+          rotateEnabled={!nextPress}
         >
           {renderMapCamera}
           {this.renderNewAreaOutline(markerLocations)}
