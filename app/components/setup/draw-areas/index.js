@@ -42,11 +42,8 @@ class DrawAreas extends Component {
       const { markerLocations } = this.state;
       const uri = await this.map.takeSnap(true);
       const polygonLocations = [...markerLocations, markerLocations[0]];
-      const coordinates = polygonLocations.map(coordinate => coordsArrayToObject(coordinate));
-      const geojson = polygon([coordinates]);
-      // this line is because this project isn't using the (correct) geojson that mapbox provides.
-      geojson.coordinates = geojson?.geometry?.coordinates;
-      geojson.geometry = undefined;
+      // this is not "correct" GeoJson, but it is what the backend accepts
+      const geojson = { type: 'Polygon', coordinates: [polygonLocations] };
       this.setState({ loading: false });
       this.props.onDrawAreaFinish({ geojson }, uri);
       this.setState({ nextPress: false });
