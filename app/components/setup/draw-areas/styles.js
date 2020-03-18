@@ -77,7 +77,7 @@ export const mapboxStyles = {
   },
   areaOutlineLayer: {
     lineColor: Theme.colors.white,
-    lineCap: MapboxGL.LineJoin.Butt,
+    lineCap: MapboxGL.LineJoin.Round,
     lineJoin: MapboxGL.LineJoin.Round,
     lineWidth: 2
   },
