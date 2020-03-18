@@ -83,7 +83,7 @@ export default class Callout extends Component<Props> {
           marginTop: this.props.above ? -2 : 2
         }}
       >
-        <Svg style={{ bacgkroundColor: 'red' }} height="12" width="16">
+        <Svg height="12" width="16">
           <Path
             d={this.props.above ? ARROW_SVG_PATH_DOWN : ARROW_SVG_PATH_UP}
             fill={Theme.colors.turtleGreen}
