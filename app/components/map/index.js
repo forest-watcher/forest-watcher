@@ -223,7 +223,7 @@ class MapComponent extends Component {
   };
 
   showMapWalkthrough = () => {
-    // if (!this.props.mapWalkthroughSeen) {
+    if (!this.props.mapWalkthroughSeen) {
       Navigation.showModal({
         stack: {
           children: [
@@ -243,7 +243,7 @@ class MapComponent extends Component {
           ]
         }
       });
-    // }
+    }
   };
 
   componentDidUpdate(prevProps, prevState) {
