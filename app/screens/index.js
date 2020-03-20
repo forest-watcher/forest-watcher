@@ -3,7 +3,7 @@ import { Navigation } from 'react-native-navigation';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import Areas from 'containers/areas';
-import ContextualLayers from 'components/settings/contextual-layers';
+import ContextualLayers from 'containers/settings/contextual-layers';
 import Home from 'containers/home';
 import Login from 'containers/login';
 import SetupBoundaries from 'containers/setup/boundaries';

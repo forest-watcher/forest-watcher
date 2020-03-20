@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 
 import { importContextualLayer } from 'redux-modules/layers';
 
-import ContextualLayers from 'components/settings';
+import ContextualLayers from 'components/settings/contextual-layers';
 
 function mapStateToProps(state: State) {
   return {

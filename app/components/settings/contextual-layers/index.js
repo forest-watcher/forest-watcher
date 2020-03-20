@@ -147,12 +147,7 @@ class Layers extends Component<Props> {
         })
       });
 
-      this.props.
-
-      console.log(
-        "Selected file",
-        res
-      );
+      this.props.importContextualLayer(res);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         // User cancelled the picker, exit any dialogs or menus and move on
