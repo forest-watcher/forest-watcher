@@ -6841,6 +6841,11 @@ react-native-dialogs@1.1.0:
   resolved "https://registry.yarnpkg.com/react-native-dialogs/-/react-native-dialogs-1.1.0.tgz#8f7ee7f9d96574fc878fb7c1be101611fb4af517"
   integrity sha512-clnxO0nMyML/6+G5dja3Yt34gPxegLY2OHTwb8BwYTEvQ2UhRKR49Uq91XqU0q6g7Ur9DiYxC0tqV3rcZWUrjQ==
 
+react-native-document-picker@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-document-picker/-/react-native-document-picker-3.3.0.tgz#dc0172c6a0adf290cca0cbb8f4e8e1ea2e6bdd3c"
+  integrity sha512-h/O8USFx1TWQT7Sx5Qj1OVpADabHawckVPDrEiGUf6qCJF2h5kKZs3ZuxZe7wHSZX4LgQE0agZqagQUK+HLIVQ==
+
 react-native-fbsdk@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/react-native-fbsdk/-/react-native-fbsdk-1.1.1.tgz#91a787a046bc90d29907a2269321191cd301517c"

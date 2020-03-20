@@ -322,6 +322,10 @@ function downloadAllLayers(config: { area: Area, layerId: string, layerUrl: stri
   );
 }
 
+export async function importContextualLayer(url) {
+  console.log("Layer url", url);
+}
+
 function getAreaById(areas, areaId) {
   const area = areas.find(areaData => areaData.id === areaId);
   return area ? { ...area } : null;

@@ -1,0 +1,28 @@
+// @flow
+import type { State } from 'types/store.types';
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { importContextualLayer } from 'redux-modules/layers';
+
+import ContextualLayers from 'components/settings';
+
+function mapStateToProps(state: State) {
+  return {
+    
+  };
+}
+
+const mapDispatchToProps = (dispatch: *) =>
+  bindActionCreators(
+    {
+      importContextualLayer
+    },
+    dispatch
+  );
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ContextualLayers);
