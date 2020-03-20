@@ -45,7 +45,7 @@ export default class FaqCategory extends Component<Props> {
           showsHorizontalScrollIndicator={false}
         >
           <Text style={styles.label}>{this.props.category.title}</Text>
-          {this.props.category.questions.map((question, index) => {
+          {this.props.category.questions && this.props.category.questions.map((question, index) => {
             return (
               <Row
                 action={{
