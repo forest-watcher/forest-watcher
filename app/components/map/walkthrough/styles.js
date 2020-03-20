@@ -46,6 +46,11 @@ export default StyleSheet.create({
     right: 0,
     height: 44
   },
+  reportsAndRoutesParent: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'transparent'
+  },
   reportsAndRoutesContainer: {
     alignItems: 'center',
     backgroundColor: Theme.colors.turtleGreen,
