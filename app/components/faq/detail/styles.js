@@ -76,6 +76,10 @@ export default StyleSheet.create({
       }
     })
   },
+  faqTitle: {
+    ...Theme.text,
+    fontSize: 24
+  },
   faqTextNone: {
     display: 'none'
   }
