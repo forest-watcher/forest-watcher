@@ -180,9 +180,9 @@ class DrawAreas extends Component {
     }
     return (
       <React.Fragment>
-        <MapboxGL.ShapeSource id="route" shape={markersShape}>
-          <MapboxGL.CircleLayer id="routeCircleOuter" style={mapboxStyles.pointOuterCircle} />
-          <MapboxGL.CircleLayer id="routeCircleInner" style={mapboxStyles.pointInnerCircle} />
+        <MapboxGL.ShapeSource id="newAreaMarkers" shape={markersShape}>
+          <MapboxGL.CircleLayer id="newAreaMarkerOuter" style={mapboxStyles.pointOuterCircle} />
+          <MapboxGL.CircleLayer id="newAreaMarkerInner" style={mapboxStyles.pointInnerCircle} />
           {coords.length > 1 && <MapboxGL.LineLayer id="outlineLineLayer" style={mapboxStyles.areaOutlineLayer} />}
         </MapboxGL.ShapeSource>
       </React.Fragment>
