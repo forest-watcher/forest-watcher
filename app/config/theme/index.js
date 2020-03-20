@@ -145,6 +145,7 @@ const config = {
         title: {
           color: fontColors.secondary,
           fontFamily: fontName,
+          fontSize: 20
         },
         largeTitle: {
           fontSize: 24,
