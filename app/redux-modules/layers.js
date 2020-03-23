@@ -253,8 +253,9 @@ export default function reducer(state: LayersState = initialState, action: Layer
       return { ...state, cacheStatus: newCacheStatus };
     }
     case IMPORT_LAYER_COMMIT: {
-      console.log("Import commit", action.payload);
-      return { ...state };
+      let importedLayers = [...state.imported];
+      importedLayers.push(action.payload);
+      return { ...state, importingLayer: null, importError: null, imported: importedLayers };
     }
     case IMPORT_LAYER_REQUEST: {
       return { ...state, importingLayer: action.payload, importError: null };
@@ -344,9 +345,9 @@ function downloadAllLayers(config: { area: Area, layerId: string, layerUrl: stri
   );
 }
 
-export async function importContextualLayer(file: File) {
+export function importContextualLayer(file: File) {
 
-  return async (dipatch: Dispatch, state: GetState) => {
+  return async (dispatch: Dispatch, state: GetState) => {
 
     const fileName = file.uri.substring(file.uri.lastIndexOf('/') + 1);
 
