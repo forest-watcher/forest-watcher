@@ -85,7 +85,7 @@ export default class Settings extends Component<Props> {
     this.basemapsAction = {
       callback: this.onPressBasemaps,
       icon: nextIcon
-    }
+    };
 
     this.contextualLayersAction = {
       callback: this.onPressContextualLayers,
@@ -105,7 +105,7 @@ export default class Settings extends Component<Props> {
     });
   });
 
-  onPressBasemaps() { }
+  onPressBasemaps() {}
 
   onPressShare() {}
 

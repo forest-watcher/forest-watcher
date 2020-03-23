@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, ScrollView, Platform } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import debounceUI from 'helpers/debounceUI';
@@ -196,7 +196,7 @@ class Layers extends Component<Props> {
     const totalLayers = 0;
 
     //todo: add this back in once we have redux state for layers!
-    const hasLayers = false;//layers && layers.length > 0;
+    const hasLayers = false; //layers && layers.length > 0;
 
     return (
       <View style={styles.container}>
@@ -232,9 +232,7 @@ class Layers extends Component<Props> {
               contentContainerStyle={styles.listContent}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
-            >
-              
-            </ScrollView>
+            />
           ) : (
             <View style={styles.containerEmpty}>
               <EmptyState

@@ -18,7 +18,7 @@ import type { File } from 'types/file.types';
 
 import tracker from 'helpers/googleAnalytics';
 
-var RNFS = require('react-native-fs');
+const RNFS = require('react-native-fs');
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
 const GET_LAYERS_COMMIT = 'layers/GET_LAYERS_COMMIT';
@@ -36,7 +36,7 @@ const IMPORT_LAYER_REQUEST = 'layers/IMPORT_LAYER_REQUEST';
 const IMPORT_LAYER_COMMIT = 'layers/IMPORT_LAYER_COMMIT';
 const IMPORT_LAYER_ROLLBACK = 'layers/IMPORT_LAYER_ROLLBACK';
 
-const IMPORTED_LAYERS_DIRECTORY = 'imported layers'
+const IMPORTED_LAYERS_DIRECTORY = 'imported layers';
 
 // Reducer
 const initialState = {
@@ -253,7 +253,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
       return { ...state, cacheStatus: newCacheStatus };
     }
     case IMPORT_LAYER_COMMIT: {
-      let importedLayers = [...state.imported];
+      const importedLayers = [...state.imported];
       importedLayers.push(action.payload);
       return { ...state, importingLayer: null, importError: null, imported: importedLayers };
     }
@@ -346,9 +346,7 @@ function downloadAllLayers(config: { area: Area, layerId: string, layerUrl: stri
 }
 
 export function importContextualLayer(file: File) {
-
   return async (dispatch: Dispatch, state: GetState) => {
-
     const fileName = file.uri.substring(file.uri.lastIndexOf('/') + 1);
 
     dispatch({ type: IMPORT_LAYER_REQUEST, payload: file.uri });
@@ -357,23 +355,25 @@ export function importContextualLayer(file: File) {
     RNFS.unlink(RNFS.DocumentDirectoryPath + '/' + IMPORTED_LAYERS_DIRECTORY + '/' + fileName);
 
     switch (file.type) {
-      case "application/json":
-      case "application/geo+json":
-        var directory = RNFS.DocumentDirectoryPath + '/' + IMPORTED_LAYERS_DIRECTORY;
-        var path = directory + '/' + fileName;
+      case 'application/json':
+      case 'application/geo+json':
+        const directory = RNFS.DocumentDirectoryPath + '/' + IMPORTED_LAYERS_DIRECTORY;
+        const path = directory + '/' + fileName;
         try {
           await RNFS.mkdir(directory, {
             NSURLIsExcludedFromBackupKey: false // Allow this to be saved to iCloud backup!
-          })
+          });
           await RNFS.copyFile(file.uri, path);
-          dispatch({ type: IMPORT_LAYER_COMMIT, payload: {...file, uri: path, name: fileName} })
-        } catch(err) {
+          dispatch({ type: IMPORT_LAYER_COMMIT, payload: { ...file, uri: path, name: fileName } });
+        } catch (err) {
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
         }
+        break;
       default:
-      //todo: Add support for other file types! These need converting to geojson before saving.
+        //todo: Add support for other file types! These need converting to geojson before saving.
+        break;
     }
-  }
+  };
 }
 
 function getAreaById(areas, areaId) {
