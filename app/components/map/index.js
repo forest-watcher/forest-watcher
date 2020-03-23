@@ -70,10 +70,8 @@ const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_STOPPING = 2;
 const STALE_LOCATION_THRESHOLD = LOCATION_TRACKING.interval * 3;
 
 const backButtonImage = require('assets/back.png');
-// const markerImage = require('assets/marker.png');
-// const compassImage = require('assets/compass_direction.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
-const settingsBlackIcon = require('assets/settings_black.png');
+const mapSettingsIcon = require('assets/map_settings.png');
 const startTrackingIcon = require('assets/startTracking.png');
 const stopTrackingIcon = require('assets/stopTracking.png');
 const myLocationIcon = require('assets/my_location.png');
@@ -114,9 +112,8 @@ class MapComponent extends Component {
         ],
         rightButtons: [
           {
-            color: Theme.fontColors.white,
             id: 'settings',
-            icon: settingsBlackIcon
+            icon: mapSettingsIcon
           }
         ]
       }
