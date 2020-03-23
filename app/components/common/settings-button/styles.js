@@ -8,8 +8,6 @@ export default StyleSheet.create({
   content: {
     alignItems: 'center',
     alignSelf: 'flex-start',
-    marginTop: 10,
-    marginBottom: 10,
     borderColor: Theme.colors.veryLightPinkTwo,
     borderRadius: 20,
     borderWidth: 1,
@@ -20,6 +18,10 @@ export default StyleSheet.create({
   },
   disabled: {
     opacity: 0.6
+  },
+  margins: {
+    marginTop: 10,
+    marginBottom: 10
   },
   text: {
     color: Theme.fontColors.secondary,

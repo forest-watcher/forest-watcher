@@ -179,6 +179,12 @@ class Areas extends Component<Props> {
   });
 
   onPressAddArea = debounceUI(() => {
+
+    if (!this.props.areaDownloadTooltipSeen) {
+      this.props.setAreaDownloadTooltipSeen(true);
+      return;
+    }
+
     const { offlineMode } = this.props;
 
     if (offlineMode) {
@@ -200,6 +206,9 @@ class Areas extends Component<Props> {
   };
 
   setSharing = (sharing: boolean) => {
+    // If the user taps ANYWHERE set the area download tooltip as seen
+    this.props.setAreaDownloadTooltipSeen(true);
+
     this.setState({
       inShareMode: sharing
     });
@@ -230,9 +239,22 @@ class Areas extends Component<Props> {
     const hasAreas = areas && areas.length > 0;
 
     return (
-      <View style={styles.container}>
+      <View
+        onStartShouldSetResponder={event => {
+          // If the user taps ANYWHERE set the area download tooltip as seen
+          event.persist();
+          this.props.setAreaDownloadTooltipSeen(true);
+        }}
+        style={styles.container}
+      >
         <ShareSheet
+          disabled={!this.props.areaDownloadTooltipSeen}
           componentId={this.props.componentId}
+          onStartShouldSetResponder={event => {
+            // If the user taps ANYWHERE set the area download tooltip as seen
+            event.persist();
+            this.props.setAreaDownloadTooltipSeen(true);
+          }}
           shareButtonDisabledTitle={i18n.t('areas.share')}
           enabled={totalToExport > 0}
           onShare={() => {
@@ -251,7 +273,7 @@ class Areas extends Component<Props> {
           }
           shareButtonEnabledTitle={
             totalToExport > 0
-              ? totalToExport == 1
+              ? totalToExport === 1
                 ? i18n.t('areas.export.oneAreaAction', { count: 1 })
                 : i18n.t('areas.export.manyAreasAction', { count: totalToExport })
               : i18n.t('areas.export.noneSelected')
@@ -259,6 +281,11 @@ class Areas extends Component<Props> {
         >
           {hasAreas ? (
             <ScrollView
+              onStartShouldSetResponder={event => {
+                // If the user taps ANYWHERE set the area download tooltip as seen
+                event.persist();
+                this.props.setAreaDownloadTooltipSeen(true);
+              }}
               style={styles.list}
               contentContainerStyle={styles.listContent}
               showsVerticalScrollIndicator={false}
@@ -280,7 +307,9 @@ class Areas extends Component<Props> {
                         this.onAreaPress(areaId, name);
                       }
                     }}
-                    onAreaSettingsPress={(areaId, name) => this.onAreaSettingsPress(areaId, name)}
+                    onAreaSettingsPress={(areaId, name) => {
+                      this.onAreaSettingsPress(areaId, name);
+                    }}
                     selectionState={this.state.selectedForExport}
                     sharing={this.state.inShareMode}
                   />
