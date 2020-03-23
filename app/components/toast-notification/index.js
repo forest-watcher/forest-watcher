@@ -5,6 +5,11 @@ import { View, Text } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import styles from './styles';
 
+import { withSafeArea } from 'react-native-safe-area';
+
+import i18n from 'i18next';
+
+const SafeAreaView = withSafeArea(View, 'padding', 'top');
 const Timer = require('react-native-timer');
 
 type Props = {
@@ -41,9 +46,11 @@ class ToastNotification extends PureComponent<Props> {
   render() {
     const { type, text } = this.props;
     return (
-      <View style={[styles.view, styles[type]]}>
-        <Text style={[styles.text, styles[`${type}Text`]]}>{text}</Text>
-      </View>
+      <SafeAreaView style={[styles.view, styles[type]]}>
+        <View style={styles.internalView}>
+          <Text style={[styles.text, styles[`${type}Text`]]}>{text}</Text>
+        </View>
+      </SafeAreaView>
     );
   }
 }
@@ -56,11 +63,11 @@ export const Types: { disable: string, error: string, success: string } = {
 
 export function showNotification(notification: {
   type?: string,
-  text: string,
+  textKey: string,
   clearPrevious?: boolean,
   time?: number
 }) {
-  const { type, text, clearPrevious = true, time = 2 } = notification;
+  const { type, textKey, clearPrevious = true, time = 2 } = notification;
   if (clearPrevious) {
     //Navigation.dismissInAppNotification();
   }
@@ -69,8 +76,18 @@ export function showNotification(notification: {
       name: 'ForestWatcher.ToastNotification',
       passProps: {
         type,
-        text,
+        text: i18n.t(textKey),
         autoDismissTimerMillis: time * 1000
+      },
+      options: {
+        layout: {
+          backgroundColor: 'transparent',
+          componentBackgroundColor: 'transparent'
+        },
+        modalPresentationStyle: 'overCurrentContext',
+        overlay: {
+          interceptTouchOutside: false
+        }
       }
     }
   });

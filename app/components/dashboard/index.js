@@ -39,7 +39,7 @@ class Dashboard extends PureComponent<Props> {
       topBar: {
         title: {
           text: i18n.t('commonText.appName'),
-          fontSize: Platform.OS === 'android' ? 24 : undefined
+          fontSize: Platform.OS === 'android' ? 24 : 20
         },
         largeTitle: {
           visible: true

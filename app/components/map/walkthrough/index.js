@@ -52,11 +52,13 @@ export default class MapWalkthrough extends Component<Props> {
 
   renderReportsAndRoutesOverlay() {
     return (
-      <Animated.View style={[styles.reportsAndRoutesContainer, { opacity: this.state.step1Opacity }]}>
-        <Text style={styles.titleText}>{i18n.t('map.reportsAndRoutes.title')}</Text>
-        <Text style={styles.bodyText}>{i18n.t('map.reportsAndRoutes.body')}</Text>
-        <Image style={styles.image} source={reportsAndRoutesImage} />
-      </Animated.View>
+      <View style={styles.reportsAndRoutesParent}>
+        <Animated.View style={[styles.reportsAndRoutesContainer, { opacity: this.state.step1Opacity }]}>
+          <Text style={styles.titleText}>{i18n.t('map.reportsAndRoutes.title')}</Text>
+          <Text style={styles.bodyText}>{i18n.t('map.reportsAndRoutes.body')}</Text>
+          <Image style={styles.image} source={reportsAndRoutesImage} />
+        </Animated.View>
+      </View>
     );
   }
 
