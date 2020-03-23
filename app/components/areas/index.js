@@ -179,6 +179,12 @@ class Areas extends Component<Props> {
   });
 
   onPressAddArea = debounceUI(() => {
+
+    if (!this.props.areaDownloadTooltipSeen) {
+      this.props.setAreaDownloadTooltipSeen(true);
+      return;
+    }
+
     const { offlineMode } = this.props;
 
     if (offlineMode) {
@@ -242,6 +248,7 @@ class Areas extends Component<Props> {
         style={styles.container}
       >
         <ShareSheet
+          disabled={!this.props.areaDownloadTooltipSeen}
           componentId={this.props.componentId}
           onStartShouldSetResponder={event => {
             // If the user taps ANYWHERE set the area download tooltip as seen
@@ -274,6 +281,11 @@ class Areas extends Component<Props> {
         >
           {hasAreas ? (
             <ScrollView
+              onStartShouldSetResponder={event => {
+                // If the user taps ANYWHERE set the area download tooltip as seen
+                event.persist();
+                this.props.setAreaDownloadTooltipSeen(true);
+              }}
               style={styles.list}
               contentContainerStyle={styles.listContent}
               showsVerticalScrollIndicator={false}
@@ -289,7 +301,6 @@ class Areas extends Component<Props> {
                       // todo: Handle download too!
                     }}
                     onAreaPress={(areaId, name) => {
-                      this.props.setAreaDownloadTooltipSeen(true);
                       if (this.state.inShareMode) {
                         this.onAreaSelectedForExport(areaId);
                       } else {
@@ -297,7 +308,6 @@ class Areas extends Component<Props> {
                       }
                     }}
                     onAreaSettingsPress={(areaId, name) => {
-                      this.props.setAreaDownloadTooltipSeen(true);
                       this.onAreaSettingsPress(areaId, name);
                     }}
                     selectionState={this.state.selectedForExport}
