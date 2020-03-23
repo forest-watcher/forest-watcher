@@ -78,7 +78,12 @@ export default function reducer(state: AppState = initialState, action: AppActio
     case LOGOUT_REQUEST:
       return {
         ...initialState,
-        language: state.language
+        language: state.language, 
+        // These should only be shown once per install, not when you re-login
+        areaCountryTooltipSeen: state.areaCountryTooltipSeen,
+        areaDownloadTooltipSeen: state.areaDownloadTooltipSeen,
+        mapWalkthroughSeen: state.mapWalkthroughSeen,
+        hasSeenWelcomeScreen: state.hasSeenWelcomeScreen
       };
     default:
       return state;

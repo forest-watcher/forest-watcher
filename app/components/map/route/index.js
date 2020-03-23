@@ -4,7 +4,13 @@ import React, { PureComponent } from 'react';
 const emitter = require('tiny-emitter/instance');
 
 import { mapboxStyles } from './styles';
-import { coordsObjectToArray, getValidLocations, GFWOnLocationEvent, isValidLatLng } from 'helpers/location';
+import {
+  coordsObjectToArray,
+  getValidLocations,
+  GFWOnLocationEvent,
+  isValidLatLng,
+  removeDuplicateLocations
+} from 'helpers/location';
 import throttle from 'lodash/throttle';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import type { Route } from 'types/routes.types';
@@ -140,20 +146,29 @@ export default class RouteMarkers extends PureComponent<Props> {
 
   renderRoutePath = routeLocations => {
     const coords = routeLocations?.map(coord => coordsObjectToArray(coord));
-    // Ignore first and last location markers, as those are drawn in renderRouteEnds method.
     if (!coords || coords.length < 2) {
       return null;
     }
     const line = MapboxGL.geoUtils.makeLineString(coords);
+    // Ignore first and last location markers, as those are drawn in renderRouteEnds method.
+    const markers = coords.slice(1, -1);
+    let markersShape = null;
+    if (markers.length > 1) {
+      markersShape = MapboxGL.geoUtils.makeLineString(markers);
+    } else if (coords.length === 1) {
+      markersShape = MapboxGL.geoUtils.makePoint(markers);
+    }
     return (
       <React.Fragment>
         <MapboxGL.ShapeSource id="route" shape={line}>
           <MapboxGL.LineLayer id="routeLineLayer" style={mapboxStyles.routeLineLayer} />
         </MapboxGL.ShapeSource>
-        <MapboxGL.ShapeSource id="route" shape={line}>
-          <MapboxGL.CircleLayer key="routeCircleOuter" id="routeCircleOuter" style={mapboxStyles.routeOuterCircle} />
-          <MapboxGL.CircleLayer key="routeCircleInner" id="routeCircleInner" style={mapboxStyles.routeInnerCircle} />
-        </MapboxGL.ShapeSource>
+        {markers.length > 0 && (
+          <MapboxGL.ShapeSource id="route" shape={markersShape}>
+            <MapboxGL.CircleLayer key="routeCircleOuter" id="routeCircleOuter" style={mapboxStyles.routeOuterCircle} />
+            <MapboxGL.CircleLayer key="routeCircleInner" id="routeCircleInner" style={mapboxStyles.routeInnerCircle} />
+          </MapboxGL.ShapeSource>
+        )}
       </React.Fragment>
     );
   };
@@ -183,9 +198,12 @@ export default class RouteMarkers extends PureComponent<Props> {
   };
 
   render() {
-    const routeLocations = this.reconcileRouteLocations(this.state.currentRouteLocations, this.props.route?.locations);
+    let routeLocations = this.reconcileRouteLocations(this.state.currentRouteLocations, this.props.route?.locations);
+    routeLocations = removeDuplicateLocations(routeLocations);
     const userLocation = this.reconcileUserLocation(this.props.userLocation, routeLocations);
-
+    if (!routeLocations) {
+      return null;
+    }
     return (
       <React.Fragment>
         {this.renderRoutePath(routeLocations)}

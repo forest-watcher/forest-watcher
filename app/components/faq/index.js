@@ -74,13 +74,6 @@ export default class FaqCategories extends Component<Props> {
         name: 'ForestWatcher.FaqCategory',
         passProps: {
           category
-        },
-        options: {
-          topBar: {
-            title: {
-              text: category.title
-            }
-          }
         }
       }
     });

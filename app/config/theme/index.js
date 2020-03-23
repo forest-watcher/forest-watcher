@@ -1,5 +1,7 @@
 import { Dimensions, Platform } from 'react-native';
 
+const backIcon = require('assets/backButton.png');
+
 const screen = Dimensions.get('window');
 export const colors = {
   turtleGreen: '#97be43',
@@ -130,7 +132,9 @@ const config = {
           color: 'transparent'
         },
         backButton: {
-          color: colors.turtleGreen
+          color: colors.greyishBrown,
+          icon: backIcon,
+          title: ''
         },
         buttonColor: colors.turtleGreen,
         elevation: 0,
@@ -141,6 +145,7 @@ const config = {
         title: {
           color: fontColors.secondary,
           fontFamily: fontName,
+          fontSize: 20
         },
         largeTitle: {
           fontSize: 24,

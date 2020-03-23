@@ -39,7 +39,8 @@ class Dashboard extends PureComponent<Props> {
     return {
       topBar: {
         title: {
-          text: Config.APP_NAME
+          text: i18n.t('commonText.appName'),
+          fontSize: Platform.OS === 'android' ? 24 : 20
         },
         largeTitle: {
           visible: true
@@ -121,7 +122,7 @@ class Dashboard extends PureComponent<Props> {
           name: 'ForestWatcher.Welcome',
           options: {
             layout: { componentBackgroundColor: 'rgba(0,0,0,0.8)' },
-            modalPresentationStyle: 'overFullScreen'
+            modalPresentationStyle: 'overCurrentContext'
           }
         }
       });

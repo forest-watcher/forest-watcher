@@ -8,6 +8,7 @@ import { LOCATION_TRACKING } from 'config/constants';
 import FWError from 'helpers/fwError';
 import { formatCoordsByFormat, formatDistance, getDistanceOfLine } from 'helpers/map';
 import i18n from 'i18next';
+import _ from 'lodash';
 
 export const GFWLocationAuthorizedAlways = BackgroundGeolocation.AUTHORIZED;
 export const GFWLocationAuthorizedInUse = BackgroundGeolocation.AUTHORIZED_FOREGROUND;
@@ -376,4 +377,17 @@ export function isValidLatLng(location) {
 // returns true for valid lat lng array: [50.00, -1.00]
 export function isValidLatLngArray(location) {
   return !isNaN(Number.parseFloat(location[1])) && !isNaN(Number.parseFloat(location[0]));
+}
+
+// removes locations with the same position as the previous location in the route
+export function removeDuplicateLocations(locations) {
+  if (!locations) {
+    return null;
+  }
+  _.reject(locations, function(location, i) {
+    return (
+      i > 0 && locations[i - 1].latitude === location.latitude && locations[i - 1].longitude === location.longitude
+    );
+  });
+  return locations;
 }
