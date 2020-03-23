@@ -142,7 +142,7 @@ class Layers extends Component<Props> {
       // todo: Find Android types (have to be mime types)
       const res = await DocumentPicker.pick({
         type: Platform.select({
-          android: [],
+          android: ['application/json', 'application/geo+json'],
           ios: ['public.geojson', 'public.json']
         })
       });
