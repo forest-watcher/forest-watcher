@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Image, Text, TouchableHighlight, Platform } from 'react-native';
+import { Dimensions, View, Image, Text, TouchableHighlight, Platform } from 'react-native';
 
 import { AREAS, MAPS } from 'config/constants';
 import kinks from '@turf/kinks';
@@ -19,6 +19,9 @@ const geojsonArea = require('@mapbox/geojson-area');
 
 const footerBackgroundImage = require('assets/map_bg_gradient.png');
 const undoImage = require('assets/undo.png');
+
+const windowSize = Dimensions.get('window');
+const screenshotPadding = 100;
 
 class DrawAreas extends Component {
   constructor(props) {
@@ -104,7 +107,12 @@ class DrawAreas extends Component {
       this.setState({ nextPress: true });
       const polygonLocations = [...markerLocations, markerLocations[0]];
       const coordinates = polygonLocations.map(coordinate => coordsArrayToObject(coordinate));
-      const snapshotPadding = { paddingTop: 250, paddingBottom: 250, paddingLeft: 100, paddingRight: 100 };
+      // We want to aim for a zoom level that has equal horizontal and vertical padding irrespective of the device's aspect ratio
+      // Because the screenshot is taken from the whole screen we need to do some maths!
+      const width = windowSize.width - screenshotPadding * 2;
+      // Good job I did A-Level maths! Just solve for verticalPadding...
+      const verticalPadding = (windowSize.height - width) / 2;
+      const snapshotPadding = { paddingTop: verticalPadding, paddingBottom: verticalPadding, paddingLeft: screenshotPadding, paddingRight: screenshotPadding };
       const bounds = getPolygonBoundingBox(coordinates);
       const cameraConfig = {
         ...bounds,
