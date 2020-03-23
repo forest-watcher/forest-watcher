@@ -88,9 +88,9 @@ const config = {
     fill: 'rgba(151, 190, 49, 0.5)',
     fillSelected: 'rgba(255, 255, 255, 0.5)',
     fillInvalid: 'rgba(241, 86, 86, 0.5)',
-    stroke: '#97be32',
+    stroke: colors.turtleGreen,
     strokeWidth: 3,
-    strokeSelected: '#FFFFFF'
+    strokeSelected: colors.white
   },
   modalContainer: {
     flexShrink: 1,
@@ -150,7 +150,7 @@ const config = {
         largeTitle: {
           fontSize: 24,
           color: fontColors.secondary,
-          fontFamily: fontName,
+          fontFamily: fontName
         },
         visible: true
       }
