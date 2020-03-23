@@ -3,6 +3,8 @@ import { Dimensions, Platform } from 'react-native';
 const backIcon = require('assets/backButton.png');
 
 const screen = Dimensions.get('window');
+export const isSmallScreen = screen.width <= 320;
+
 export const colors = {
   turtleGreen: '#97be43',
   greyishBrown: '#555555',
@@ -183,7 +185,7 @@ const config = {
     borderBottomColor: colors.veryLightPinkTwo,
     paddingVertical: 22,
     paddingHorizontal: 20,
-    marginBottom: 25,
+    marginBottom: isSmallScreen ? 12 : 24,
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
