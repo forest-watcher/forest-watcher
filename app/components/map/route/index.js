@@ -154,17 +154,24 @@ export default class RouteMarkers extends PureComponent<Props> {
     const markers = coords.slice(1, -1);
     let markersShape = null;
     if (markers.length > 1) {
-      markersShape = MapboxGL.geoUtils.makeLineString(markers);
-    } else if (coords.length === 1) {
-      markersShape = MapboxGL.geoUtils.makePoint(markers);
+      markersShape = MapboxGL.geoUtils.makeFeature({ type: 'MultiPoint', coordinates: markers });
+    } else if (markers.length === 1) {
+      markersShape = MapboxGL.geoUtils.makeFeature({ type: 'Point', coordinates: markers[0] });
     }
     return (
       <React.Fragment>
-        <MapboxGL.ShapeSource id="route" shape={line}>
+        <MapboxGL.ShapeSource id="routeLine" shape={line}>
           <MapboxGL.LineLayer id="routeLineLayer" style={mapboxStyles.routeLineLayer} />
         </MapboxGL.ShapeSource>
-        {markers.length > 0 && (
-          <MapboxGL.ShapeSource id="route" shape={markersShape}>
+        {/* Mapbox doesnt like to use the same ShapeSource with different shape types supplied*/}
+        {markers.length === 1 && (
+          <MapboxGL.ShapeSource id="routeMarker" shape={markersShape}>
+            <MapboxGL.CircleLayer key="routeCircleOuter" id="routeCircleOuter" style={mapboxStyles.routeOuterCircle} />
+            <MapboxGL.CircleLayer key="routeCircleInner" id="routeCircleInner" style={mapboxStyles.routeInnerCircle} />
+          </MapboxGL.ShapeSource>
+        )}
+        {markers.length > 1 && (
+          <MapboxGL.ShapeSource id="routeMarkers" shape={markersShape}>
             <MapboxGL.CircleLayer key="routeCircleOuter" id="routeCircleOuter" style={mapboxStyles.routeOuterCircle} />
             <MapboxGL.CircleLayer key="routeCircleInner" id="routeCircleInner" style={mapboxStyles.routeInnerCircle} />
           </MapboxGL.ShapeSource>
