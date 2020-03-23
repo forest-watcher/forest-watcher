@@ -172,6 +172,9 @@ class DrawAreas extends Component {
     if (!coords || coords.length === 0) {
       return null;
     }
+    let outlineCoords = [...coords, coords[0]];
+    let outlineShape = MapboxGL.geoUtils.makeLineString(outlineCoords);
+
     let markersShape = null;
     if (coords.length > 1) {
       markersShape = MapboxGL.geoUtils.makeLineString(coords);
@@ -183,8 +186,12 @@ class DrawAreas extends Component {
         <MapboxGL.ShapeSource id="newAreaMarkers" shape={markersShape}>
           <MapboxGL.CircleLayer id="newAreaMarkerOuter" style={mapboxStyles.pointOuterCircle} />
           <MapboxGL.CircleLayer id="newAreaMarkerInner" style={mapboxStyles.pointInnerCircle} />
-          {coords.length > 1 && <MapboxGL.LineLayer id="outlineLineLayer" style={mapboxStyles.areaOutlineLayer} />}
         </MapboxGL.ShapeSource>
+        {coords.length > 1 && (
+          <MapboxGL.ShapeSource id="newAreaOutline" shape={outlineShape}>
+            <MapboxGL.LineLayer id="outlineLineLayer" style={mapboxStyles.areaOutlineLayer} />
+          </MapboxGL.ShapeSource>
+        )}
       </React.Fragment>
     );
   };
