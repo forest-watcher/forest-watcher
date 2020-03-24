@@ -25,12 +25,12 @@ import FaqCategory from 'components/faq/category';
 import FaqDetail from 'components/faq/detail';
 import Sync from 'containers/sync';
 import Answers from 'containers/form/answers';
-import RightDrawer from 'components/right-drawer';
 import ErrorLightbox from 'components/error-lightbox';
 import ToastNotification from 'components/toast-notification';
 import RouteDetail from '../containers/routes/route-detail';
 import SaveRoute from '../containers/routes/save-route';
 import Welcome from '../containers/welcome';
+import MapSidebar from 'containers/map-sidebar';
 
 /**
  * Registers a component with React Native Navigation
@@ -79,7 +79,7 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.FaqDetail', FaqDetail, Provider, store);
   registerComponent('ForestWatcher.Sync', Sync, Provider, store);
   registerComponent('ForestWatcher.Answers', Answers, Provider, store);
-  registerComponent('ForestWatcher.RightDrawer', RightDrawer, Provider, store);
+  registerComponent('ForestWatcher.MapLayersDrawer', MapSidebar, Provider, store);
   registerComponent('ForestWatcher.ErrorLightbox', ErrorLightbox, Provider, store);
   registerComponent('ForestWatcher.ToastNotification', ToastNotification, Provider, store, false);
   registerComponent('ForestWatcher.Routes', Routes, Provider, store);

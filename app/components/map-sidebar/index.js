@@ -2,12 +2,9 @@
 
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
-import i18n from 'i18next';
-import Row from 'components/common/row';
-import AlertSystem from 'containers/areas/area-detail/alert-system';
 import styles from './styles';
-
-const getLayerName = name => (name.match(/^layers\./) !== null ? i18n.t(name) : name);
+import VerticalSplitRow from 'components/common/vertical-split-row';
+import SettingsButton from 'components/common/settings-button';
 
 type Props = {
   areaId: string,
@@ -17,29 +14,55 @@ type Props = {
 };
 
 const MapSidebar = (props: Props) => {
-  const { layers, activeLayer, onLayerToggle, areaId } = props;
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.body} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-        {areaId && (
-          <View style={styles.legendContainer}>
-            <Text style={styles.contextualLayersTitle}>{i18n.t('map.alerts')}</Text>
-            <AlertSystem areaId={areaId} showLegend />
-          </View>
-        )}
-        <View style={styles.contextualLayersContainer}>
-          <Text style={styles.contextualLayersTitle}>{i18n.t('map.ctxLayers')}</Text>
-          {layers.map(layer => (
-            <Row
-              key={layer.id}
-              value={layer.id === activeLayer}
-              onValueChange={value => onLayerToggle(layer.id, value)}
-            >
-              <Text style={styles.sidebarLabel}>{getLayerName(layer.name)}</Text>
-            </Row>
-          ))}
-        </View>
+      <ScrollView
+        style={styles.list}
+        contentContainerStyle={styles.listContent}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
+        <Text style={styles.heading}>Layers</Text>
+        <VerticalSplitRow
+          onPress={() => {}}
+          title={'Alerts'}
+          settingsTitle={'omg'}
+          hideDivider={true}
+          selected={true}
+          style={styles.rowContainer}
+          hideImage
+        />
+        <VerticalSplitRow
+          onPress={() => {}}
+          title={'Routes'}
+          settingsTitle={'All'}
+          hideDivider={true}
+          selected={true}
+          style={styles.rowContainer}
+          hideImage
+        />
+        <VerticalSplitRow
+          onPress={() => {}}
+          title={'Reports'}
+          settingsTitle={'All'}
+          hideDivider={true}
+          selected={true}
+          style={styles.rowContainer}
+          hideImage
+        />
+        <VerticalSplitRow
+          onPress={() => {}}
+          title={'Contextual Layers'}
+          settingsTitle={'All'}
+          hideDivider={true}
+          selected={true}
+          style={styles.rowContainer}
+          hideImage
+        />
       </ScrollView>
+      <View style={styles.basemapContainer}>
+        <SettingsButton title={'Basemap'} />
+      </View>
     </View>
   );
 };

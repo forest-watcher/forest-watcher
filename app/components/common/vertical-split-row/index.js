@@ -22,12 +22,15 @@ type Props = {
   downloadCalloutVisible?: ?boolean,
   downloadCalloutTitle?: ?string,
   downloadVisible?: ?boolean,
+  hideDivider?: ?boolean,
+  hideImage?: ?boolean,
   imageSrc?: ?string | ?number,
-  onDownloadPress: void => void,
+  onDownloadPress?: void => void,
   onPress: void => void,
-  onSettingsPress: void => void,
+  onSettingsPress?: void => void,
   renderImageChildren?: (?void) => React.Node,
   selected?: ?boolean,
+  settingsTitle?: ?string,
   style?: ?ViewStyleProp,
   subtitle?: ?string,
   title: string
@@ -48,31 +51,33 @@ export default class VerticalSplitRow extends Component<Props> {
         style={this.props.style}
       >
         <View style={styles.item}>
-          <View style={styles.imageContainer}>
-            {!!this.props.imageSrc && (
-              <ImageBackground
-                resizeMode="cover"
-                style={styles.image}
-                source={typeof this.props.imageSrc === 'string' ? { uri: this.props.imageSrc } : this.props.imageSrc}
-              >
-                {this.props.renderImageChildren && this.props.renderImageChildren()}
-              </ImageBackground>
-            )}
-            {downloadVisible && (
-              <Callout
-                body={this.props.downloadCalloutBody}
-                offset={4}
-                title={this.props.downloadCalloutTitle}
-                visible={this.props.downloadCalloutVisible}
-              >
-                <TouchableOpacity onPress={this.props.onDownloadPress} style={styles.downloadButton}>
-                  <Image source={downloadIcon} />
-                </TouchableOpacity>
-              </Callout>
-            )}
-          </View>
+          {!this.props.hideImage && (
+            <View style={styles.imageContainer}>
+              {!!this.props.imageSrc && (
+                <ImageBackground
+                  resizeMode="cover"
+                  style={styles.image}
+                  source={typeof this.props.imageSrc === 'string' ? { uri: this.props.imageSrc } : this.props.imageSrc}
+                >
+                  {this.props.renderImageChildren && this.props.renderImageChildren()}
+                </ImageBackground>
+              )}
+              {downloadVisible && (
+                <Callout
+                  body={this.props.downloadCalloutBody}
+                  offset={4}
+                  title={this.props.downloadCalloutTitle}
+                  visible={this.props.downloadCalloutVisible}
+                >
+                  <TouchableOpacity onPress={this.props.onDownloadPress} style={styles.downloadButton}>
+                    <Image source={downloadIcon} />
+                  </TouchableOpacity>
+                </Callout>
+              )}
+            </View>
+          )}
           <View style={styles.contentContainer}>
-            <View style={styles.nameContainer}>
+            <View style={[styles.nameContainer, !this.props.hideDivider ? styles.bottomBorder : {}]}>
               <View>
                 <Text style={styles.title} numberOfLines={2}>
                   {this.props.title}
@@ -81,7 +86,12 @@ export default class VerticalSplitRow extends Component<Props> {
               </View>
               <Image style={[Theme.icon, styles.disclosureIndicator]} source={icon} />
             </View>
-            <SettingsButton disabled={inShareMode || this.props.onSettingsPress == null} onPress={this.props.onSettingsPress} style={styles.settingsButton} />
+            <SettingsButton
+              title={this.props.settingsTitle}
+              disabled={inShareMode || this.props.onSettingsPress == null}
+              onPress={this.props.onSettingsPress}
+              style={styles.settingsButton}
+            />
           </View>
         </View>
       </TouchableHighlight>

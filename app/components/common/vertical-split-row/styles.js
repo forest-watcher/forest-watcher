@@ -10,6 +10,10 @@ export default StyleSheet.create({
     left: 12,
     position: 'absolute'
   },
+  bottomBorder: {
+    borderBottomWidth: 1,
+    borderBottomColor: Theme.colors.veryLightPink
+  },
   item: {
     borderBottomColor: Theme.borderColors.main,
     borderBottomWidth: 2,
@@ -31,8 +35,6 @@ export default StyleSheet.create({
     height: undefined // Required to make `require()` image scale
   },
   nameContainer: {
-    borderBottomWidth: 1,
-    borderBottomColor: Theme.colors.veryLightPink,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 26
@@ -40,7 +42,7 @@ export default StyleSheet.create({
   contentContainer: {
     flex: 1,
     alignItems: 'stretch',
-    marginLeft: 16
+    marginLeft: 24
   },
   title: {
     fontFamily: Theme.font,

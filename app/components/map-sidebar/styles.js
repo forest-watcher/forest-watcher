@@ -1,51 +1,35 @@
 import Theme from 'config/theme';
 import { Platform, StyleSheet } from 'react-native';
-import { hexToRgb } from 'helpers/utils';
 
 export default StyleSheet.create({
+  basemapContainer: {
+    justifyContent: 'flex-end',
+    backgroundColor: Theme.colors.white,
+    paddingLeft: 24,
+    paddingTop: 6,
+    paddingBottom: 6
+  },
   container: {
     flex: 1,
-    ...Platform.select({
-      ios: {
-        width: 300
-      }
-    }),
+    width: Platform.OS === 'ios' ? 300 : undefined,
     backgroundColor: Theme.background.main,
-    flexDirection: 'column',
     borderLeftColor: Theme.borderColors.main,
     borderLeftWidth: 2
   },
-  body: {
-    marginTop: 40
+  heading: {
+    ...Theme.sectionHeaderText,
+    marginLeft: 32,
+    marginTop: 32,
+    marginBottom: 40
   },
-  legendContainer: {
-    marginBottom: 32
+  list: {
+    flex: 1
   },
-  contextualLayersTitle: {
-    fontSize: 16,
-    color: Theme.fontColors.light,
-    fontFamily: Theme.font,
-    marginLeft: Theme.margin.left,
-    marginBottom: 8
+  listContent: {
+    paddingTop: 10,
+    paddingBottom: 10
   },
-  alertContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  alertLegend: {
-    width: 24,
-    height: 24,
-    backgroundColor: `rgba(${hexToRgb(Theme.colors.turtleGreen)}, 0.8)`,
-    marginRight: 16
-  },
-  alertLegendRecent: {
-    backgroundColor: `rgba(${hexToRgb(Theme.colors.recent)}, 0.8)`
-  },
-  sidebarLabel: {
-    fontFamily: Theme.font,
-    color: Theme.fontColors.secondary,
-    fontSize: 17
+  rowContainer: {
+    marginBottom: 12
   }
 });
