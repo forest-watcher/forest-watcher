@@ -292,7 +292,7 @@ class Areas extends Component<Props> {
               showsHorizontalScrollIndicator={false}
             >
               {areas && areas.length ? (
-                <View style={styles.areas}>
+                <View>
                   <Text style={styles.label}>{i18n.t('areas.myAreas')}</Text>
                   <AreaList
                     downloadCalloutVisible={!this.props.areaDownloadTooltipSeen}
