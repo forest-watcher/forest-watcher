@@ -380,10 +380,10 @@ export function importContextualLayer(file: File) {
       case 'application/gpx+xml':
         try {
           // Change destination file path extension!
-          const newName = fileName.replace(/\.[^/.]+$/, ".geojson");
+          const newName = fileName.replace(/\.[^/.]+$/, '.geojson');
           const path = directory + '/' + newName;
           // Read from file so we can convert to GeoJSON
-          let fileContents = await RNFS.readFile(file.uri);
+          const fileContents = await RNFS.readFile(file.uri);
           // Parse XML from file string
           const parser = new DOMParser();
           const xmlDoc = parser.parseFromString(fileContents);
@@ -391,10 +391,14 @@ export function importContextualLayer(file: File) {
           const geoJSON = togeojson.gpx(xmlDoc, { styles: true });
           // Write the new data to the app's storage
           await RNFS.writeFile(path, JSON.stringify(geoJSON));
-          dispatch({ type: IMPORT_LAYER_COMMIT, payload: { ...file, type: "application/geo+json", uri: path, name: newName } });
+          dispatch({
+            type: IMPORT_LAYER_COMMIT,
+            payload: { ...file, type: 'application/geo+json', uri: path, name: newName }
+          });
         } catch (err) {
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
         }
+        break;
       default:
         //todo: Add support for other file types! These need converting to geojson before saving.
         break;
