@@ -87,7 +87,7 @@ export function routeSVGProperties(
   routePoints: Array<LocationPoint>,
   size: number
 ): ?{ path: string, firstPoint: { x: string, y: string }, lastPoint: { x: string, y: string } } {
-  if (routePoints.length < 1) {
+  if (routePoints.length < 2) {
     return null;
   }
   const latLngBbox = getPolygonBoundingBox(routePoints);
