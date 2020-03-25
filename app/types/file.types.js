@@ -1,7 +1,8 @@
 // @flow
 
 export type File = {
-  icon: *,
-  title: string,
-  questions: Array<FAQQuestion>
+  uri: string,
+  type: string,
+  name: string,
+  size: string
 };

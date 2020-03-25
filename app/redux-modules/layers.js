@@ -352,9 +352,10 @@ export function importContextualLayer(file: File) {
     dispatch({ type: IMPORT_LAYER_REQUEST, payload: file.uri });
 
     //TODO: remove, this is just for testing!
-    RNFS.unlink(RNFS.DocumentDirectoryPath + '/' + IMPORTED_LAYERS_DIRECTORY + '/' + fileName);
+    //await RNFS.unlink(RNFS.DocumentDirectoryPath + '/' + IMPORTED_LAYERS_DIRECTORY + '/' + fileName)
 
     switch (file.type) {
+      case 'text/plain':
       case 'application/json':
       case 'application/geo+json':
         const directory = RNFS.DocumentDirectoryPath + '/' + IMPORTED_LAYERS_DIRECTORY;
