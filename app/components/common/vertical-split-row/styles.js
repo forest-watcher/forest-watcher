@@ -19,14 +19,14 @@ export default StyleSheet.create({
     alignItems: 'stretch'
   },
   imageContainer: {
+    minWidth: isSmallScreen ? 104 : 128,
     flexShrink: 1,
     alignItems: 'stretch',
-    aspectRatio: 1,
     backgroundColor: Theme.background.modal,
     flexDirection: 'row'
   },
   image: {
-    aspectRatio: 1,
+    flex: 1,
     overflow: 'hidden',
     width: undefined, // Required to make `require()` image scale
     height: undefined // Required to make `require()` image scale
@@ -52,7 +52,7 @@ export default StyleSheet.create({
     flex: 1,
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
-    fontSize: 17,
+    fontSize: isSmallScreen ? 16 : 17,
     fontWeight: '400'
   },
   settingsButton: {
@@ -64,7 +64,7 @@ export default StyleSheet.create({
     flex: 1,
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
-    fontSize: 15,
+    fontSize: isSmallScreen ? 12 : 15,
     fontWeight: '400',
     marginTop: isSmallScreen ? 0 : 2
   }

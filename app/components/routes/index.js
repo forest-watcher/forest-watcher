@@ -233,6 +233,7 @@ export default class Routes extends PureComponent<Props> {
 
       return (
         <VerticalSplitRow
+          backgroundImageResizeMode={"repeat"}
           key={combinedId}
           onSettingsPress={this.onClickRouteSettings.bind(this, item)}
           onPress={() => {

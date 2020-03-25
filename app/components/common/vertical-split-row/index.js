@@ -30,7 +30,8 @@ type Props = {
   selected?: ?boolean,
   style?: ?ViewStyleProp,
   subtitle?: ?string,
-  title: string
+  title: string,
+  backgroundImageResizeMode?: ?string
 };
 
 export default class VerticalSplitRow extends Component<Props> {
@@ -51,7 +52,7 @@ export default class VerticalSplitRow extends Component<Props> {
           <View style={styles.imageContainer}>
             {!!this.props.imageSrc && (
               <ImageBackground
-                resizeMode="cover"
+                resizeMode={this.props.backgroundImageResizeMode || "cover"}
                 style={styles.image}
                 source={typeof this.props.imageSrc === 'string' ? { uri: this.props.imageSrc } : this.props.imageSrc}
               >
@@ -74,7 +75,7 @@ export default class VerticalSplitRow extends Component<Props> {
           <View style={styles.contentContainer}>
             <View style={styles.nameContainer}>
               <View style={styles.titleContainer}>
-                <Text style={styles.title} numberOfLines={2}>
+                <Text style={styles.title}>
                   {this.props.title} 
                 </Text>
                 <Image style={styles.disclosureIndicator} source={icon} />
