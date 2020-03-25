@@ -35,7 +35,7 @@ export default StyleSheet.create({
     flex: 1,
     borderBottomWidth: 1,
     borderBottomColor: Theme.colors.veryLightPink,
-    paddingVertical: isSmallScreen ? 14 : 24
+    paddingVertical: isSmallScreen ? 12 : 24
   },
   titleContainer: {
     alignItems: 'center',
@@ -57,7 +57,7 @@ export default StyleSheet.create({
   },
   settingsButton: {
     alignSelf: 'flex-start',
-    marginVertical: isSmallScreen ? 4 : 10,
+    marginVertical: isSmallScreen ? 0 : 6,
     marginRight: 12
   },
   subtitle: {
