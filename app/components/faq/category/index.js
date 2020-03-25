@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { View, ScrollView, Text } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
 
-import i18n from 'i18next';
 import Row from 'components/common/row';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
@@ -45,21 +44,22 @@ export default class FaqCategory extends Component<Props> {
           showsHorizontalScrollIndicator={false}
         >
           <Text style={styles.label}>{this.props.category.title}</Text>
-          {this.props.category.questions && this.props.category.questions.map((question, index) => {
-            return (
-              <Row
-                action={{
-                  callback: this.handleStaticLinks.bind(this, question),
-                  icon: nextIcon
-                }}
-                key={index}
-                rowStyle={{ marginBottom: 0 }}
-                style={{ flex: 1 }}
-              >
-                <Text style={styles.rowTitleLabel}>{question.title}</Text>
-              </Row>
-            );
-          })}
+          {this.props.category.questions &&
+            this.props.category.questions.map((question, index) => {
+              return (
+                <Row
+                  action={{
+                    callback: this.handleStaticLinks.bind(this, question),
+                    icon: nextIcon
+                  }}
+                  key={index}
+                  rowStyle={{ marginBottom: 0 }}
+                  style={{ flex: 1 }}
+                >
+                  <Text style={styles.rowTitleLabel}>{question.title}</Text>
+                </Row>
+              );
+            })}
         </ScrollView>
       </View>
     );

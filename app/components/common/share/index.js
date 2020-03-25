@@ -87,7 +87,10 @@ export default class ShareSelector extends Component<Props> {
     const { sharing } = this.state;
 
     return (
-      <View onStartShouldSetResponder={this.props.onStartShouldSetResponder} style={[this.props.style, styles.container]}>
+      <View
+        onStartShouldSetResponder={this.props.onStartShouldSetResponder}
+        style={[this.props.style, styles.container]}
+      >
         {sharing && (
           <Row rowStyle={styles.header} style={styles.headerContent}>
             <Text style={styles.rowText}>{this.props.selectAllCountText}</Text>
@@ -103,7 +106,7 @@ export default class ShareSelector extends Component<Props> {
           <ActionButton
             disabled={this.props.disabled || (!this.props.enabled && sharing)}
             noIcon
-            onPress={this.props.disabled ? null : (sharing ? this.props.onShare : this.onClickShare)}
+            onPress={this.props.disabled ? null : sharing ? this.props.onShare : this.onClickShare}
             secondary={!sharing}
             text={sharing ? this.props.shareButtonEnabledTitle : this.props.shareButtonDisabledTitle}
           />

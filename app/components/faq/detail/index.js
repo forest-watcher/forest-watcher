@@ -17,12 +17,7 @@ function FaqDetail(props) {
         showsHorizontalScrollIndicator={false}
       >
         <View style={styles.faq}>
-
-          {props.title && (
-            <Text style={styles.faqTitle}>
-              {props.title}
-            </Text>
-          )}
+          {props.title && <Text style={styles.faqTitle}>{props.title}</Text>}
 
           {description &&
             Object.values(description).map((text, key) => (

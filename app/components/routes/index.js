@@ -214,7 +214,7 @@ export default class Routes extends PureComponent<Props> {
 
     return (
       <View style={styles.routeContainer}>
-        <Svg style={{ bacgkroundColor: 'red' }} height="100" width="100" viewBox="-16 -16 132 132">
+        <Svg height="100" width="100" viewBox="-16 -16 132 132">
           <Path d={svgProperties?.path} fill={'transparent'} stroke={Theme.colors.white} strokeWidth="7" />
           {svgProperties.firstPoint && (
             <React.Fragment>

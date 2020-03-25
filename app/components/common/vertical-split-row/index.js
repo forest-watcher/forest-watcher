@@ -81,7 +81,11 @@ export default class VerticalSplitRow extends Component<Props> {
               </View>
               <Image style={[Theme.icon, styles.disclosureIndicator]} source={icon} />
             </View>
-            <SettingsButton disabled={inShareMode || this.props.onSettingsPress == null} onPress={this.props.onSettingsPress} style={styles.settingsButton} />
+            <SettingsButton
+              disabled={inShareMode || this.props.onSettingsPress == null}
+              onPress={this.props.onSettingsPress}
+              style={styles.settingsButton}
+            />
           </View>
         </View>
       </TouchableHighlight>
