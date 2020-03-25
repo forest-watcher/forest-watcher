@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Dimensions, View, Image, Text, TouchableHighlight, Platform } from 'react-native';
+import { Dimensions, View, Image, Text, TouchableHighlight } from 'react-native';
 
 import { AREAS, MAPS } from 'config/constants';
 import kinks from '@turf/kinks';
@@ -112,7 +112,12 @@ class DrawAreas extends Component {
       const width = windowSize.width - screenshotPadding * 2;
       // Good job I did A-Level maths! Just solve for verticalPadding...
       const verticalPadding = (windowSize.height - width) / 2;
-      const snapshotPadding = { paddingTop: verticalPadding, paddingBottom: verticalPadding, paddingLeft: screenshotPadding, paddingRight: screenshotPadding };
+      const snapshotPadding = {
+        paddingTop: verticalPadding,
+        paddingBottom: verticalPadding,
+        paddingLeft: screenshotPadding,
+        paddingRight: screenshotPadding
+      };
       const bounds = getPolygonBoundingBox(coordinates);
       const cameraConfig = {
         ...bounds,
@@ -180,8 +185,8 @@ class DrawAreas extends Component {
     if (!coords || coords.length === 0) {
       return null;
     }
-    let outlineCoords = [...coords, coords[0]];
-    let outlineShape = MapboxGL.geoUtils.makeLineString(outlineCoords);
+    const outlineCoords = [...coords, coords[0]];
+    const outlineShape = MapboxGL.geoUtils.makeLineString(outlineCoords);
 
     let markersShape = null;
     if (coords.length > 1) {

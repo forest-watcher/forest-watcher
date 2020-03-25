@@ -14,8 +14,11 @@ import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import type { Area } from 'types/areas.types';
+import type { File } from 'types/file.types';
 
 import tracker from 'helpers/googleAnalytics';
+
+const RNFS = require('react-native-fs');
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
 const GET_LAYERS_COMMIT = 'layers/GET_LAYERS_COMMIT';
@@ -29,6 +32,12 @@ const SET_CACHE_STATUS = 'layer/SET_CACHE_STATUS';
 export const INVALIDATE_CACHE = 'layer/INVALIDATE_CACHE';
 const UPDATE_PROGRESS = 'layer/UPDATE_PROGRESS';
 
+const IMPORT_LAYER_REQUEST = 'layers/IMPORT_LAYER_REQUEST';
+const IMPORT_LAYER_COMMIT = 'layers/IMPORT_LAYER_COMMIT';
+const IMPORT_LAYER_ROLLBACK = 'layers/IMPORT_LAYER_ROLLBACK';
+
+const IMPORTED_LAYERS_DIRECTORY = 'imported layers';
+
 // Reducer
 const initialState = {
   data: [],
@@ -39,7 +48,10 @@ const initialState = {
   layersProgress: {}, // saves the progress relative to each area's layer
   cacheStatus: {}, // status of the current area cache
   cache: {}, // save the layers path for each area
-  pendingCache: {} // key value with layer => areaId to cache
+  pendingCache: {}, // key value with layer => areaId to cache
+  importError: null,
+  imported: [],
+  importingLayer: null // file path for layer which is being imported
 };
 
 export default function reducer(state: LayersState = initialState, action: LayersAction) {
@@ -240,6 +252,17 @@ export default function reducer(state: LayersState = initialState, action: Layer
       const newCacheStatus = updateCacheAreaStatus(cacheStatus, area);
       return { ...state, cacheStatus: newCacheStatus };
     }
+    case IMPORT_LAYER_COMMIT: {
+      const importedLayers = [...state.imported];
+      importedLayers.push(action.payload);
+      return { ...state, importingLayer: null, importError: null, imported: importedLayers };
+    }
+    case IMPORT_LAYER_REQUEST: {
+      return { ...state, importingLayer: action.payload, importError: null };
+    }
+    case IMPORT_LAYER_ROLLBACK: {
+      return { ...state, importingLayer: null, importError: action.payload };
+    }
     case LOGOUT_REQUEST:
       removeFolder(CONSTANTS.files.tiles).then(console.info('Folder removed successfully'));
       return initialState;
@@ -320,6 +343,39 @@ function downloadAllLayers(config: { area: Area, layerId: string, layerUrl: stri
       return downloadLayer(layerConfig, dispatch);
     })
   );
+}
+
+export function importContextualLayer(file: File) {
+  return async (dispatch: Dispatch, state: GetState) => {
+    const fileName = file.uri.substring(file.uri.lastIndexOf('/') + 1);
+
+    dispatch({ type: IMPORT_LAYER_REQUEST, payload: file.uri });
+
+    //TODO: remove, this is just for testing!
+    //await RNFS.unlink(RNFS.DocumentDirectoryPath + '/' + IMPORTED_LAYERS_DIRECTORY + '/' + fileName)
+
+    switch (file.type) {
+      case 'text/plain':
+      case 'application/json':
+      case 'application/geo+json': {
+        const directory = RNFS.DocumentDirectoryPath + '/' + IMPORTED_LAYERS_DIRECTORY;
+        const path = directory + '/' + fileName;
+        try {
+          await RNFS.mkdir(directory, {
+            NSURLIsExcludedFromBackupKey: false // Allow this to be saved to iCloud backup!
+          });
+          await RNFS.copyFile(file.uri, path);
+          dispatch({ type: IMPORT_LAYER_COMMIT, payload: { ...file, uri: path, name: fileName } });
+        } catch (err) {
+          dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
+        }
+        break;
+      }
+      default:
+        //todo: Add support for other file types! These need converting to geojson before saving.
+        break;
+    }
+  };
 }
 
 function getAreaById(areas, areaId) {

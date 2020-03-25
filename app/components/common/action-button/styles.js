@@ -89,7 +89,7 @@ export default StyleSheet.create({
   },
   buttonTextDisabled: {
     color: Theme.fontColors.light,
-    marginLeft: 0,
+    marginLeft: 0
   },
   buttonTextError: {
     color: Theme.fontColors.white,

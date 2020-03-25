@@ -19,6 +19,7 @@ import styles from './styles';
 const layersIcon = require('assets/contextualLayers.png');
 const nextIcon = require('assets/next.png');
 const shareIcon = require('assets/share.png');
+const baseMapsIcon = require('assets/basemap.png');
 
 type Props = {
   user: any,
@@ -43,7 +44,9 @@ export default class Settings extends Component<Props> {
 
   shareAction: { callback: () => void, icon: any };
 
-  customLayersAction: { callback: () => void, icon: any };
+  contextualLayersAction: { callback: () => void, icon: any };
+
+  basemapsAction: { callback: () => void, icon: any };
 
   constructor() {
     super();
@@ -79,8 +82,13 @@ export default class Settings extends Component<Props> {
       icon: nextIcon
     };
 
-    this.customLayersAction = {
-      callback: this.onPressCustomLayers,
+    this.basemapsAction = {
+      callback: this.onPressBasemaps,
+      icon: nextIcon
+    };
+
+    this.contextualLayersAction = {
+      callback: this.onPressContextualLayers,
       icon: nextIcon
     };
 
@@ -89,17 +97,17 @@ export default class Settings extends Component<Props> {
     };
   }
 
-  onPressCustomLayers = debounceUI(() => {
+  onPressContextualLayers = debounceUI(() => {
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'ForestWatcher.CustomComponents'
+        name: 'ForestWatcher.ContextualLayers'
       }
     });
   });
 
-  onPressShare() {}
+  onPressBasemaps() {}
 
-  onPressCustomLayers() {}
+  onPressShare() {}
 
   componentDidMount() {
     tracker.trackScreenView('Settings');
@@ -183,9 +191,13 @@ export default class Settings extends Component<Props> {
               <Text style={[styles.rowLabel, { marginLeft: 0 }]}>{i18n.t('settings.offlineMode')}</Text>
             </Row>
           </View>
-          <Row action={this.customLayersAction} rowStyle={styles.noMarginsRow} style={styles.row}>
+          <Row action={this.basemapsAction} rowStyle={styles.noMarginsRow} style={styles.row}>
+            <Image style={styles.rowIcon} source={baseMapsIcon} />
+            <Text style={styles.rowLabel}>{i18n.t('settings.baseMaps')}</Text>
+          </Row>
+          <Row action={this.contextualLayersAction} rowStyle={styles.noMarginsRow} style={styles.row}>
             <Image style={styles.rowIcon} source={layersIcon} />
-            <Text style={styles.rowLabel}>{i18n.t('settings.customLayers')}</Text>
+            <Text style={styles.rowLabel}>{i18n.t('settings.contextualLayers')}</Text>
           </Row>
           <Row action={this.shareAction} rowStyle={styles.noMarginsRow} style={styles.row}>
             <Image style={styles.rowIcon} source={shareIcon} />

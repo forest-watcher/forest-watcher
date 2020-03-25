@@ -179,7 +179,6 @@ class Areas extends Component<Props> {
   });
 
   onPressAddArea = debounceUI(() => {
-
     if (!this.props.areaDownloadTooltipSeen) {
       this.props.setAreaDownloadTooltipSeen(true);
       return;
