@@ -32,7 +32,8 @@ const MapSidebar = (props: Props) => {
           selected={true}
           style={styles.rowContainer}
           hideImage
-          smallerHorizontalPadding
+          smallerVerticalPadding
+          largerLeftPadding
         />
         <VerticalSplitRow
           onPress={() => {}}
@@ -42,6 +43,8 @@ const MapSidebar = (props: Props) => {
           selected={true}
           style={styles.rowContainer}
           hideImage
+          smallerVerticalPadding
+          largerLeftPadding
         />
         <VerticalSplitRow
           onPress={() => {}}
@@ -51,6 +54,8 @@ const MapSidebar = (props: Props) => {
           selected={true}
           style={styles.rowContainer}
           hideImage
+          smallerVerticalPadding
+          largerLeftPadding
         />
         <VerticalSplitRow
           onPress={() => {}}
@@ -60,6 +65,8 @@ const MapSidebar = (props: Props) => {
           selected={true}
           style={styles.rowContainer}
           hideImage
+          smallerVerticalPadding
+          largerLeftPadding
         />
       </ScrollView>
       <View style={styles.basemapContainer}>

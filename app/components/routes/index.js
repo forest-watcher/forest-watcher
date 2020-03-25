@@ -236,6 +236,7 @@ export default class Routes extends PureComponent<Props> {
           title={item.name}
           subtitle={subtitle}
           selected={this.state.inShareMode ? this.state.selectedForExport.includes(combinedId) : null}
+          largerLeftPadding
         />
       );
     });

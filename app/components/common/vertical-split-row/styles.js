@@ -48,7 +48,7 @@ export default StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
     alignItems: 'stretch',
-    marginLeft: isSmallScreen ? 12 : 16 // todo mpf: sometimes margin needs to be 24
+    marginLeft: isSmallScreen ? 12 : 16
   },
   title: {
     flex: 1,
@@ -61,6 +61,9 @@ export default StyleSheet.create({
     alignSelf: 'flex-start',
     marginVertical: isSmallScreen ? 0 : 6,
     marginRight: 12
+  },
+  largerLeftPadding: {
+    marginLeft: isSmallScreen ? 12 : 24
   },
   smallerVerticalPadding: {
     paddingVertical: isSmallScreen ? 8 : 16

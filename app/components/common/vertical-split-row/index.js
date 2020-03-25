@@ -24,6 +24,7 @@ type Props = {
   hideDivider?: ?boolean,
   hideImage?: ?boolean,
   imageSrc?: ?string | ?number,
+  largerLeftPadding?: ?boolean,
   onDownloadPress?: void => void,
   onPress: void => void,
   onSettingsPress?: void => void,
@@ -77,7 +78,7 @@ export default class VerticalSplitRow extends Component<Props> {
               )}
             </View>
           )}
-          <View style={styles.contentContainer}>
+          <View style={[styles.contentContainer, this.props.largerLeftPadding ? styles.largerLeftPadding : {}]}>
             <View
               style={[
                 styles.nameContainer,
