@@ -357,7 +357,7 @@ export function importContextualLayer(file: File) {
     switch (file.type) {
       case 'text/plain':
       case 'application/json':
-      case 'application/geo+json':
+      case 'application/geo+json': {
         const directory = RNFS.DocumentDirectoryPath + '/' + IMPORTED_LAYERS_DIRECTORY;
         const path = directory + '/' + fileName;
         try {
@@ -370,6 +370,7 @@ export function importContextualLayer(file: File) {
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
         }
         break;
+      }
       default:
         //todo: Add support for other file types! These need converting to geojson before saving.
         break;
