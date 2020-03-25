@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import Theme, { isSmallScreen } from 'config/theme';
+import Theme from 'config/theme';
 import styles from './styles';
 
 import type { Route } from 'types/routes.types';
