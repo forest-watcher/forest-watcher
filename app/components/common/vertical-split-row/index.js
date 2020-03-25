@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 
 import { View, Text, TouchableHighlight, TouchableOpacity, Image, ImageBackground } from 'react-native';
 import styles from './styles';
-import Theme from 'config/theme';
 
 import SettingsButton from 'components/common/settings-button';
 import Callout from 'components/common/callout';
@@ -30,7 +29,8 @@ type Props = {
   selected?: ?boolean,
   style?: ?ViewStyleProp,
   subtitle?: ?string,
-  title: string
+  title: string,
+  backgroundImageResizeMode?: ?string
 };
 
 export default class VerticalSplitRow extends Component<Props> {
@@ -51,7 +51,7 @@ export default class VerticalSplitRow extends Component<Props> {
           <View style={styles.imageContainer}>
             {!!this.props.imageSrc && (
               <ImageBackground
-                resizeMode="cover"
+                resizeMode={this.props.backgroundImageResizeMode || 'cover'}
                 style={styles.image}
                 source={typeof this.props.imageSrc === 'string' ? { uri: this.props.imageSrc } : this.props.imageSrc}
               >
@@ -73,13 +73,13 @@ export default class VerticalSplitRow extends Component<Props> {
           </View>
           <View style={styles.contentContainer}>
             <View style={styles.nameContainer}>
-              <View>
-                <Text style={styles.title} numberOfLines={2}>
+              <View style={styles.titleContainer}>
+                <Text numberOfLines={2} style={styles.title}>
                   {this.props.title}
                 </Text>
-                {!!this.props.subtitle && <Text style={styles.subtitle}>{this.props.subtitle}</Text>}
+                <Image style={styles.disclosureIndicator} source={icon} />
               </View>
-              <Image style={[Theme.icon, styles.disclosureIndicator]} source={icon} />
+              {!!this.props.subtitle && <Text style={styles.subtitle}>{this.props.subtitle}</Text>}
             </View>
             <SettingsButton
               disabled={inShareMode || this.props.onSettingsPress == null}

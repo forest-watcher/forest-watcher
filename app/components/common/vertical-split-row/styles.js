@@ -1,9 +1,9 @@
-import Theme from 'config/theme';
+import Theme, { isSmallScreen } from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   disclosureIndicator: {
-    marginHorizontal: 24
+    marginHorizontal: isSmallScreen ? 12 : 24
   },
   downloadButton: {
     bottom: 12,
@@ -11,53 +11,61 @@ export default StyleSheet.create({
     position: 'absolute'
   },
   item: {
+    flexGrow: 1,
     borderBottomColor: Theme.borderColors.main,
     borderBottomWidth: 2,
     backgroundColor: Theme.background.white,
     flexDirection: 'row',
-    alignItems: 'stretch',
-    justifyContent: 'space-between'
+    alignItems: 'stretch'
   },
   imageContainer: {
+    minWidth: isSmallScreen ? 104 : 128,
+    flexShrink: 1,
     alignItems: 'stretch',
-    aspectRatio: 1,
     backgroundColor: Theme.background.modal,
     flexDirection: 'row'
   },
   image: {
-    aspectRatio: 1,
+    flex: 1,
     overflow: 'hidden',
     width: undefined, // Required to make `require()` image scale
     height: undefined // Required to make `require()` image scale
   },
   nameContainer: {
+    flex: 1,
     borderBottomWidth: 1,
     borderBottomColor: Theme.colors.veryLightPink,
+    paddingVertical: isSmallScreen ? 12 : 24
+  },
+  titleContainer: {
+    alignItems: 'center',
+    flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 26
+    justifyContent: 'space-between'
   },
   contentContainer: {
-    flex: 1,
+    flexGrow: 1,
     alignItems: 'stretch',
-    marginLeft: 16
+    marginLeft: isSmallScreen ? 12 : 16
   },
   title: {
+    flex: 1,
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
-    fontSize: 17,
+    fontSize: isSmallScreen ? 16 : 17,
     fontWeight: '400'
   },
   settingsButton: {
     alignSelf: 'flex-start',
-    marginVertical: 10,
+    marginVertical: isSmallScreen ? 0 : 6,
     marginRight: 12
   },
   subtitle: {
+    flex: 1,
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
-    fontSize: 15,
+    fontSize: isSmallScreen ? 12 : 15,
     fontWeight: '400',
-    marginTop: 2
+    marginTop: isSmallScreen ? 0 : 2
   }
 });
