@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { ActionSheetIOS, Alert, AlertIOS, Platform, View, ScrollView } from 'react-native';
+import { ActionSheetIOS, Alert, AlertIOS, Dimensions, Platform, View, ScrollView } from 'react-native';
 import moment from 'moment';
 import i18n from 'i18next';
 import DialogAndroid from 'react-native-dialogs';
@@ -17,6 +17,7 @@ import { formatCoordsByFormat, formatDistance, getDistanceOfPolyline } from 'hel
 import RoutePreviewImage from '../preview-image';
 
 const closeIcon = require('assets/close.png');
+const screenDimensions = Dimensions.get('screen');
 
 type Props = {
   componentId: string,
@@ -226,7 +227,7 @@ export default class RouteDetail extends PureComponent<Props> {
 
     return (
       <ScrollView>
-        <RoutePreviewImage style={styles.headerImage} route={route} />
+        <RoutePreviewImage aspectRatio={0.5} width={screenDimensions.width} style={styles.headerImage} route={route} />
         <ActionButton
           style={styles.actionButton}
           onPress={this.openRouteOnMap}

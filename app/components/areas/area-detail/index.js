@@ -10,7 +10,7 @@ import tracker from 'helpers/googleAnalytics';
 
 import i18n from 'i18next';
 import moment from 'moment';
-import Theme from 'config/theme';
+import Theme, { isSmallScreen } from 'config/theme';
 import ActionButton from 'components/common/action-button';
 import AlertSystem from 'containers/areas/area-detail/alert-system';
 import styles from './styles';
@@ -21,6 +21,8 @@ import VerticalSplitRow from 'components/common/vertical-split-row';
 import RoutePath from 'components/common/route-path';
 
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
+
+const RoutePreviewSize = isSmallScreen ? 86 : 122;
 
 const routeMapBackground = require('assets/routeMapBackground.png');
 const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
@@ -275,7 +277,7 @@ class AreaDetail extends Component<Props, State> {
                     onPress={this.onRoutePress.bind(this, route)}
                     title={route.name}
                     renderImageChildren={() => {
-                      return <RoutePath route={route} />;
+                      return <RoutePath route={route} size={RoutePreviewSize} />;
                     }}
                     imageSrc={routeMapBackground}
                     subtitle={subtitle}
