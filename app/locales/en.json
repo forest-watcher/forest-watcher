@@ -441,12 +441,8 @@
         "coordinatesFormat": "Coordinates Format",
         "coordinatesUtm": "UTM",
         "coordinatesDescription": "Select a format you would like to display",
-        "customLayers": "Custom Layers",
-        "customComponents": {
-            "baseMaps": "Basemaps",
-            "contextualLayers": "Contextual Layers",
-            "title": "Custom Components"
-        },
+        "baseMaps": "Basemaps",
+        "contextualLayers": "Contextual Layers",
         "logOut": "Log Out",
         "offlineMode": "Offline Mode",
         "oneWeekAgo": "One week ago",
