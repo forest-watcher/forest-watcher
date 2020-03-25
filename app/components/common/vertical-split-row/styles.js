@@ -55,6 +55,9 @@ export default StyleSheet.create({
     marginVertical: 10,
     marginRight: 12
   },
+  smallerHorizontalPadding: {
+    paddingVertical: 16
+  },
   subtitle: {
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,

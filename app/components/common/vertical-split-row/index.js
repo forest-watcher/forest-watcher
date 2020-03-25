@@ -31,6 +31,7 @@ type Props = {
   renderImageChildren?: (?void) => React.Node,
   selected?: ?boolean,
   settingsTitle?: ?string,
+  smallerHorizontalPadding?: ?boolean,
   style?: ?ViewStyleProp,
   subtitle?: ?string,
   title: string
@@ -77,7 +78,13 @@ export default class VerticalSplitRow extends Component<Props> {
             </View>
           )}
           <View style={styles.contentContainer}>
-            <View style={[styles.nameContainer, !this.props.hideDivider ? styles.bottomBorder : {}]}>
+            <View
+              style={[
+                styles.nameContainer,
+                !this.props.hideDivider ? styles.bottomBorder : {},
+                this.props.smallerHorizontalPadding ? styles.smallerHorizontalPadding : {}
+              ]}
+            >
               <View>
                 <Text style={styles.title} numberOfLines={2}>
                   {this.props.title}

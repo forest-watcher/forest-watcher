@@ -5,6 +5,7 @@ import { View, Text, ScrollView } from 'react-native';
 import styles from './styles';
 import VerticalSplitRow from 'components/common/vertical-split-row';
 import SettingsButton from 'components/common/settings-button';
+import i18n from 'i18next';
 
 type Props = {
   areaId: string,
@@ -25,43 +26,44 @@ const MapSidebar = (props: Props) => {
         <Text style={styles.heading}>Layers</Text>
         <VerticalSplitRow
           onPress={() => {}}
-          title={'Alerts'}
+          title={i18n.t('map.layerSettings.Alerts')}
           settingsTitle={'omg'}
           hideDivider={true}
           selected={true}
           style={styles.rowContainer}
           hideImage
+          smallerHorizontalPadding
         />
         <VerticalSplitRow
           onPress={() => {}}
-          title={'Routes'}
+          title={i18n.t('map.layerSettings.Routes')}
           settingsTitle={'All'}
-          hideDivider={true}
+          hideDivider={false}
           selected={true}
           style={styles.rowContainer}
           hideImage
         />
         <VerticalSplitRow
           onPress={() => {}}
-          title={'Reports'}
+          title={i18n.t('map.layerSettings.Reports')}
           settingsTitle={'All'}
-          hideDivider={true}
+          hideDivider={false}
           selected={true}
           style={styles.rowContainer}
           hideImage
         />
         <VerticalSplitRow
           onPress={() => {}}
-          title={'Contextual Layers'}
+          title={i18n.t('map.layerSettings.Reports')}
           settingsTitle={'All'}
-          hideDivider={true}
+          hideDivider={false}
           selected={true}
           style={styles.rowContainer}
           hideImage
         />
       </ScrollView>
       <View style={styles.basemapContainer}>
-        <SettingsButton title={'Basemap'} />
+        <SettingsButton title={i18n.t('map.layerSettings.Basemap')} />
       </View>
     </View>
   );

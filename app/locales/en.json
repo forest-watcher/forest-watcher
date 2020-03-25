@@ -314,6 +314,13 @@
         "settingsTooltip": {
             "body": "Show the layers and data relevant to you",
             "title": "Customise Map Display"
+        },
+        "layerSettings": {
+            "alerts": "Alerts",
+            "routes": "Routes",
+            "reports": "Reports",
+            "contextualLayers": "Contextual Layers",
+            "basemap": "Basemap"
         }
     },
     "partners": {
