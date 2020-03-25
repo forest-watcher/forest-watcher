@@ -62,8 +62,8 @@ export default StyleSheet.create({
     marginVertical: isSmallScreen ? 0 : 6,
     marginRight: 12
   },
-  smallerHorizontalPadding: {
-    paddingVertical: 16
+  smallerVerticalPadding: {
+    paddingVertical: isSmallScreen ? 8 : 16
   },
   subtitle: {
     flex: 1,

@@ -139,7 +139,7 @@ export default class MapWalkthrough extends Component<Props> {
               {
                 color: 'white',
                 id: 'settings',
-                icon: settingsBlackIcon
+                icon: mapSettingsIcon
               }
             ]
           }

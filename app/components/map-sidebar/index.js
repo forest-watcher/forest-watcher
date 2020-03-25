@@ -26,9 +26,9 @@ const MapSidebar = (props: Props) => {
         <Text style={styles.heading}>Layers</Text>
         <VerticalSplitRow
           onPress={() => {}}
-          title={i18n.t('map.layerSettings.Alerts')}
+          title={i18n.t('map.layerSettings.alerts')}
           settingsTitle={'omg'}
-          hideDivider={true}
+          hideDivider
           selected={true}
           style={styles.rowContainer}
           hideImage
@@ -36,34 +36,34 @@ const MapSidebar = (props: Props) => {
         />
         <VerticalSplitRow
           onPress={() => {}}
-          title={i18n.t('map.layerSettings.Routes')}
+          title={i18n.t('map.layerSettings.routes')}
           settingsTitle={'All'}
-          hideDivider={false}
+          hideDivider
           selected={true}
           style={styles.rowContainer}
           hideImage
         />
         <VerticalSplitRow
           onPress={() => {}}
-          title={i18n.t('map.layerSettings.Reports')}
+          title={i18n.t('map.layerSettings.reports')}
           settingsTitle={'All'}
-          hideDivider={false}
+          hideDivider
           selected={true}
           style={styles.rowContainer}
           hideImage
         />
         <VerticalSplitRow
           onPress={() => {}}
-          title={i18n.t('map.layerSettings.Reports')}
+          title={i18n.t('map.layerSettings.contextualLayers')}
           settingsTitle={'All'}
-          hideDivider={false}
+          hideDivider
           selected={true}
           style={styles.rowContainer}
           hideImage
         />
       </ScrollView>
       <View style={styles.basemapContainer}>
-        <SettingsButton title={i18n.t('map.layerSettings.Basemap')} />
+        <SettingsButton title={i18n.t('map.layerSettings.basemap')} />
       </View>
     </View>
   );
