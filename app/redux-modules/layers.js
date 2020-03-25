@@ -18,6 +18,7 @@ import type { File } from 'types/file.types';
 
 import tracker from 'helpers/googleAnalytics';
 
+const togeojson = require('@mapbox/togeojson');
 const RNFS = require('react-native-fs');
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
@@ -370,6 +371,8 @@ export function importContextualLayer(file: File) {
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
         }
         break;
+      case 'application/gpx':
+
       default:
         //todo: Add support for other file types! These need converting to geojson before saving.
         break;
