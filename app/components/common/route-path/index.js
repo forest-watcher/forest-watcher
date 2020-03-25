@@ -3,27 +3,24 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import Theme from 'config/theme';
+import Theme, { isSmallScreen } from 'config/theme';
 import styles from './styles';
 
 import type { Route } from 'types/routes.types';
 
 import { routeSVGProperties } from 'helpers/routeSVG';
 
-import { isSmallScreen } from 'config/theme';
-
 import Svg, { Path, Circle } from 'react-native-svg';
 
-const RoutePreviewSize = isSmallScreen ? 64 : 100
+const RoutePreviewSize = isSmallScreen ? 64 : 100;
 
 type Props = {
-  route: Route,
+  route: Route
 };
 
 export default class RoutePath extends PureComponent<Props> {
-
   render() {
-  	const { route } = this.props;
+    const { route } = this.props;
     const svgProperties = routeSVGProperties(route.locations, RoutePreviewSize);
 
     if (!svgProperties) {
@@ -32,8 +29,19 @@ export default class RoutePath extends PureComponent<Props> {
 
     return (
       <View style={styles.container}>
-        <Svg style={{ bacgkroundColor: 'red' }} height={`${RoutePreviewSize}`} width={`${RoutePreviewSize}`} viewBox={`-16 -16 ${RoutePreviewSize + 36} ${RoutePreviewSize + 36}`}>
-          <Path d={svgProperties?.path} strokeLinejoin={'round'} fill={'transparent'} stroke={Theme.colors.white} strokeWidth="7" />
+        <Svg
+          style={{ bacgkroundColor: 'red' }}
+          height={`${RoutePreviewSize}`}
+          width={`${RoutePreviewSize}`}
+          viewBox={`-16 -16 ${RoutePreviewSize + 36} ${RoutePreviewSize + 36}`}
+        >
+          <Path
+            d={svgProperties?.path}
+            strokeLinejoin={'round'}
+            fill={'transparent'}
+            stroke={Theme.colors.white}
+            strokeWidth="7"
+          />
           {svgProperties.firstPoint && (
             <React.Fragment>
               <Circle
@@ -77,5 +85,5 @@ export default class RoutePath extends PureComponent<Props> {
         </Svg>
       </View>
     );
-  };
+  }
 }

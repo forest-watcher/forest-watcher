@@ -269,12 +269,14 @@ class AreaDetail extends Component<Props, State> {
 
                 return (
                   <VerticalSplitRow
-                    backgroundImageResizeMode={"repeat"}
+                    backgroundImageResizeMode={'repeat'}
                     key={route.id}
                     onSettingsPress={this.onRouteSettingsPress.bind(this, route)}
                     onPress={this.onRoutePress.bind(this, route)}
                     title={route.name}
-                    renderImageChildren={() => {return <RoutePath route={route}/>}}
+                    renderImageChildren={() => {
+                      return <RoutePath route={route} />;
+                    }}
                     imageSrc={routeMapBackground}
                     subtitle={subtitle}
                   />
