@@ -75,7 +75,7 @@ export default class VerticalSplitRow extends Component<Props> {
           <View style={styles.contentContainer}>
             <View style={styles.nameContainer}>
               <View style={styles.titleContainer}>
-                <Text style={styles.title}>
+                <Text numberOfLines={2} style={styles.title}>
                   {this.props.title} 
                 </Text>
                 <Image style={styles.disclosureIndicator} source={icon} />
