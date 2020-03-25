@@ -18,9 +18,11 @@ import { Navigation } from 'react-native-navigation';
 import { withSafeArea } from 'react-native-safe-area';
 
 import VerticalSplitRow from 'components/common/vertical-split-row';
+import RoutePath from 'components/common/route-path';
 
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
 
+const routeMapBackground = require('assets/routeMapBackground.png');
 const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
 const editIcon = require('assets/edit.png');
 const deleteIcon = require('assets/delete_white.png');
@@ -271,6 +273,8 @@ class AreaDetail extends Component<Props, State> {
                     onSettingsPress={this.onRouteSettingsPress.bind(this, route)}
                     onPress={this.onRoutePress.bind(this, route)}
                     title={route.name}
+                    renderImageChildren={() => {return <RoutePath route={route}/>}}
+                    imageSrc={routeMapBackground}
                     subtitle={subtitle}
                   />
                 );

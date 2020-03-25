@@ -14,6 +14,7 @@ import { Navigation } from 'react-native-navigation';
 // import exportReports from 'helpers/exportReports';
 
 import EmptyState from 'components/common/empty-state';
+import RoutePath from 'components/common/route-path';
 
 import type { Route } from 'types/routes.types';
 
@@ -210,59 +211,7 @@ export default class Routes extends PureComponent<Props> {
    * @param <Route> route The route to render a path for
    */
   renderRoutePath = (route: Route) => {
-    const svgProperties = routeSVGProperties(route.locations, RoutePreviewSize);
-
-    if (!svgProperties) {
-      return null;
-    }
-
-    return (
-      <View style={styles.routeContainer}>
-        <Svg style={{ bacgkroundColor: 'red' }} height={`${RoutePreviewSize}`} width={`${RoutePreviewSize}`} viewBox={`-16 -16 ${RoutePreviewSize + 36} ${RoutePreviewSize + 36}`}>
-          <Path d={svgProperties?.path} strokeLinejoin={'round'} fill={'transparent'} stroke={Theme.colors.white} strokeWidth="7" />
-          {svgProperties.firstPoint && (
-            <React.Fragment>
-              <Circle
-                cx={svgProperties.firstPoint.x}
-                cy={svgProperties.firstPoint.y}
-                r="14"
-                strokeWidth="4"
-                stroke={'rgba(0, 0, 0, 0.06)'}
-                fill={'transparent'}
-              />
-              <Circle
-                cx={svgProperties.firstPoint.x}
-                cy={svgProperties.firstPoint.y}
-                r="8"
-                strokeWidth="8"
-                stroke={Theme.colors.white}
-                fill={'rgba(220, 220, 220, 1)'}
-              />
-            </React.Fragment>
-          )}
-          {svgProperties.lastPoint && (
-            <React.Fragment>
-              <Circle
-                cx={svgProperties.lastPoint.x}
-                cy={svgProperties.lastPoint.y}
-                r="14"
-                strokeWidth="4"
-                stroke={'rgba(0, 0, 0, 0.06)'}
-                fill={'transparent'}
-              />
-              <Circle
-                cx={svgProperties.lastPoint.x}
-                cy={svgProperties.lastPoint.y}
-                r="8"
-                strokeWidth="8"
-                stroke={Theme.colors.white}
-                fill={'rgba(220, 220, 220, 1)'}
-              />
-            </React.Fragment>
-          )}
-        </Svg>
-      </View>
-    );
+    return <RoutePath route={route}/>
   };
 
   /**
