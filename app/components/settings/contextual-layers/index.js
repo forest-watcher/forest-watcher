@@ -142,7 +142,7 @@ class Layers extends Component<Props> {
       const res = await DocumentPicker.pick({
         type: Platform.select({
           android: [DocumentPicker.types.plainText],
-          ios: ['public.geojson', 'public.json']
+          ios: ['public.geojson', 'public.json', 'public.gpx']
         })
       });
 
