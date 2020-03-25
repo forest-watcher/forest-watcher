@@ -73,13 +73,13 @@ export default class VerticalSplitRow extends Component<Props> {
           </View>
           <View style={styles.contentContainer}>
             <View style={styles.nameContainer}>
-              <View>
+              <View style={styles.titleContainer}>
                 <Text style={styles.title} numberOfLines={2}>
-                  {this.props.title}
+                  {this.props.title} 
                 </Text>
-                {!!this.props.subtitle && <Text style={styles.subtitle}>{this.props.subtitle}</Text>}
+                <Image style={styles.disclosureIndicator} source={icon} />
               </View>
-              <Image style={[Theme.icon, styles.disclosureIndicator]} source={icon} />
+               {!!this.props.subtitle && <Text style={styles.subtitle}>{this.props.subtitle}</Text>}
             </View>
             <SettingsButton disabled={inShareMode || this.props.onSettingsPress == null} onPress={this.props.onSettingsPress} style={styles.settingsButton} />
           </View>

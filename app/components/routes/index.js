@@ -23,11 +23,15 @@ import VerticalSplitRow from 'components/common/vertical-split-row';
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
 import { routeSVGProperties } from 'helpers/routeSVG';
 
+import { isSmallScreen } from 'config/theme';
+
 const nextIcon = require('assets/next.png');
 const emptyIcon = require('assets/routesEmpty.png');
 const routeMapBackground = require('assets/routeMapBackground.png');
 
 import Svg, { Path, Circle } from 'react-native-svg';
+
+const RoutePreviewSize = isSmallScreen ? 64 : 100
 
 type Props = {
   componentId: string,
@@ -206,7 +210,7 @@ export default class Routes extends PureComponent<Props> {
    * @param <Route> route The route to render a path for
    */
   renderRoutePath = (route: Route) => {
-    const svgProperties = routeSVGProperties(route.locations, 100);
+    const svgProperties = routeSVGProperties(route.locations, RoutePreviewSize);
 
     if (!svgProperties) {
       return null;
@@ -214,8 +218,8 @@ export default class Routes extends PureComponent<Props> {
 
     return (
       <View style={styles.routeContainer}>
-        <Svg style={{ bacgkroundColor: 'red' }} height="100" width="100" viewBox="-16 -16 132 132">
-          <Path d={svgProperties?.path} fill={'transparent'} stroke={Theme.colors.white} strokeWidth="7" />
+        <Svg style={{ bacgkroundColor: 'red' }} height={`${RoutePreviewSize}`} width={`${RoutePreviewSize}`} viewBox={`-16 -16 ${RoutePreviewSize + 36} ${RoutePreviewSize + 36}`}>
+          <Path d={svgProperties?.path} strokeLinejoin={'round'} fill={'transparent'} stroke={Theme.colors.white} strokeWidth="7" />
           {svgProperties.firstPoint && (
             <React.Fragment>
               <Circle
@@ -288,7 +292,7 @@ export default class Routes extends PureComponent<Props> {
           style={styles.row}
           renderImageChildren={this.renderRoutePath.bind(this, item)}
           imageSrc={routeMapBackground}
-          title={item.name}
+          title={item.name + item.name + item.name}
           subtitle={subtitle}
           selected={this.state.inShareMode ? this.state.selectedForExport.includes(combinedId) : null}
         />
