@@ -17,6 +17,8 @@ function FaqDetail(props) {
         showsHorizontalScrollIndicator={false}
       >
         <View style={styles.faq}>
+          {props.title && <Text style={styles.faqTitle}>{props.title}</Text>}
+
           {description &&
             Object.values(description).map((text, key) => (
               <Hyperlink
@@ -83,7 +85,8 @@ function FaqDetail(props) {
 }
 
 FaqDetail.propTypes = {
-  contentFaq: PropTypes.any
+  contentFaq: PropTypes.any,
+  title: PropTypes.string.isRequired
 };
 
 export default FaqDetail;

@@ -3,9 +3,7 @@
 import type { Route } from 'types/routes.types';
 
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
-import RouteMarkers from 'components/map/route';
-import MapView from 'react-native-maps';
+import { View, Text } from 'react-native';
 import { isValidLatLng } from 'helpers/location';
 
 type Props = {
@@ -45,24 +43,7 @@ export default class RoutePreviewImage extends PureComponent<Props> {
 
     return (
       <View style={{ ...style, overflow: 'hidden' }} pointerEvents={'none'}>
-        <MapView
-          style={{
-            alignSelf: 'stretch',
-            flex: 1,
-            marginBottom: -26
-          }}
-          provider={MapView.PROVIDER_GOOGLE}
-          mapType="none"
-          loadingEnabled={true}
-          initialRegion={{
-            latitude: minLatitude + (maxLatitude - minLatitude) / 2,
-            longitude: minLongitude + (maxLongitude - minLongitude) / 2,
-            latitudeDelta: (maxLatitude - minLatitude) * 2,
-            longitudeDelta: (maxLongitude - minLongitude) * 2
-          }}
-        >
-          <RouteMarkers isTracking={false} route={route} />
-        </MapView>
+        <Text>*TODO Route Preview*</Text>
       </View>
     );
   }

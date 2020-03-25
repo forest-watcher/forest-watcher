@@ -2,7 +2,6 @@
 
 import React, { PureComponent } from 'react';
 import { Image, Platform, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
-import Config from 'react-native-config';
 import { Navigation } from 'react-native-navigation';
 
 import Row from 'components/common/row';
@@ -40,7 +39,7 @@ class Dashboard extends PureComponent<Props> {
       topBar: {
         title: {
           text: i18n.t('commonText.appName'),
-          fontSize: Platform.OS === 'android' ? 24 : undefined
+          fontSize: Platform.OS === 'android' ? 24 : 20
         },
         largeTitle: {
           visible: true
@@ -213,6 +212,7 @@ class Dashboard extends PureComponent<Props> {
       <View style={styles.container} onStartShouldSetResponder={androidListener} onResponderRelease={androidHandler}>
         <StatusBar networkActivityIndicatorVisible={appSyncing} />
         <ScrollView
+          alwaysBounceVertical={false}
           onScroll={disablePristine}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />}
         >

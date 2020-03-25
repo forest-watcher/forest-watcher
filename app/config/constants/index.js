@@ -24,18 +24,12 @@ const prodBasemap = `https://api.mapbox.com/styles/v1/forestwatcher/cj512vh3m0yt
   Config.MAPBOX_TOKEN
 }`;
 export const MAPS = {
-  lat: 27.56864,
-  lng: -33.461281,
-  basemap: __DEV__ ? devBasemap : prodBasemap,
-  bbox: {
-    type: 'Polygon',
-    coordinates: [
-      [-147.65625, -51.8357775204525],
-      [-147.65625, 70.959697166864],
-      [159.9609375, 70.959697166864],
-      [159.9609375, -51.8357775204525],
-      [-147.65625, -51.8357775204525]
-    ]
+  basemap: __DEV__ ? devBasemap : prodBasemap, // todo mpf
+  smallPadding: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 20,
+    paddingBottom: 20
   },
   cacheZoom: [
     {

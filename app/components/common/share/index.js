@@ -16,6 +16,7 @@ type Props = {
   ...ElementConfig<typeof View>,
   componentId?: string,
   enabled: boolean,
+  disabled?: ?boolean,
   onShare: () => void,
   onSharingToggled?: (sharing: boolean) => void,
   onToggleAllSelected?: (all: boolean) => void,
@@ -86,7 +87,10 @@ export default class ShareSelector extends Component<Props> {
     const { sharing } = this.state;
 
     return (
-      <View style={[this.props.style, styles.container]}>
+      <View
+        onStartShouldSetResponder={this.props.onStartShouldSetResponder}
+        style={[this.props.style, styles.container]}
+      >
         {sharing && (
           <Row rowStyle={styles.header} style={styles.headerContent}>
             <Text style={styles.rowText}>{this.props.selectAllCountText}</Text>
@@ -100,9 +104,9 @@ export default class ShareSelector extends Component<Props> {
         {this.props.children}
         <BottomTray>
           <ActionButton
-            disabled={!this.props.enabled && sharing}
+            disabled={this.props.disabled || (!this.props.enabled && sharing)}
             noIcon
-            onPress={sharing ? this.props.onShare : this.onClickShare}
+            onPress={this.props.disabled ? null : sharing ? this.props.onShare : this.onClickShare}
             secondary={!sharing}
             text={sharing ? this.props.shareButtonEnabledTitle : this.props.shareButtonDisabledTitle}
           />

@@ -1,6 +1,10 @@
 import { Dimensions, Platform } from 'react-native';
 
+const backIcon = require('assets/backButton.png');
+
 const screen = Dimensions.get('window');
+export const isSmallScreen = screen.width <= 320;
+
 export const colors = {
   turtleGreen: '#97be43',
   greyishBrown: '#555555',
@@ -86,9 +90,9 @@ const config = {
     fill: 'rgba(151, 190, 49, 0.5)',
     fillSelected: 'rgba(255, 255, 255, 0.5)',
     fillInvalid: 'rgba(241, 86, 86, 0.5)',
-    stroke: '#97be32',
+    stroke: colors.turtleGreen,
     strokeWidth: 3,
-    strokeSelected: '#FFFFFF'
+    strokeSelected: colors.white
   },
   modalContainer: {
     flexShrink: 1,
@@ -130,7 +134,9 @@ const config = {
           color: 'transparent'
         },
         backButton: {
-          color: colors.turtleGreen
+          color: colors.greyishBrown,
+          icon: backIcon,
+          title: ''
         },
         buttonColor: colors.turtleGreen,
         elevation: 0,
@@ -140,7 +146,8 @@ const config = {
         },
         title: {
           color: fontColors.secondary,
-          fontFamily: fontName
+          fontFamily: fontName,
+          fontSize: 20
         },
         largeTitle: {
           fontSize: 24,
@@ -178,7 +185,7 @@ const config = {
     borderBottomColor: colors.veryLightPinkTwo,
     paddingVertical: 22,
     paddingHorizontal: 20,
-    marginBottom: 25,
+    marginBottom: isSmallScreen ? 12 : 24,
     flexDirection: 'row',
     justifyContent: 'space-between'
   },

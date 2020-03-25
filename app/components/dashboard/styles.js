@@ -1,4 +1,4 @@
-import Theme from 'config/theme';
+import Theme, { isSmallScreen } from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
@@ -16,7 +16,7 @@ export default StyleSheet.create({
   },
   list: {
     flex: 1,
-    paddingTop: 76
+    paddingTop: isSmallScreen ? 28 : 76
   },
   listContent: {
     paddingTop: 10,

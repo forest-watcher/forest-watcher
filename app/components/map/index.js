@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Alert, AppState, BackHandler, Dimensions, Image, LayoutAnimation, Platform, Text, View } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 
-import { LOCATION_TRACKING, REPORTS } from 'config/constants';
+import { LOCATION_TRACKING, REPORTS, MAPS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import isEqual from 'lodash/isEqual';
 import toUpper from 'lodash/toUpper';
@@ -163,7 +163,7 @@ class MapComponent extends Component {
       layoutHasForceRefreshed: false,
       routeTrackingDialogState: ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN,
       locationError: null,
-      mapCameraBounds: getPolygonBoundingBox(props.areaCoordinates),
+      mapCameraBounds: this.getMapCameraBounds(),
       destinationCoords: null
     };
 
@@ -215,6 +215,13 @@ class MapComponent extends Component {
 
     this.showMapWalkthrough();
   }
+
+  // called on startup to set initial camera position
+  getMapCameraBounds = () => {
+    const { route, areaCoordinates } = this.props;
+    const bounds = getPolygonBoundingBox(route?.locations?.length ? route.locations : areaCoordinates);
+    return { ...bounds, ...MAPS.smallPadding };
+  };
 
   onLocationUpdateError = error => {
     this.setState({
@@ -504,7 +511,6 @@ class MapComponent extends Component {
   zoomToUserLocation = debounceUI(() => {
     const { userLocation } = this.state;
     if (userLocation) {
-      // todo: do we want to includes selected alert on zoomToUserLocation?
       this.mapCamera.setCamera({
         centerCoordinate: [userLocation.longitude, userLocation.latitude],
         zoomLevel: 16,

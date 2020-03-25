@@ -42,6 +42,7 @@ export default class VerticalSplitRow extends Component<Props> {
     return (
       <TouchableHighlight
         activeOpacity={0.5}
+        disabled={this.props.onPress == null}
         underlayColor="transparent"
         onPress={this.props.onPress}
         style={this.props.style}
@@ -80,7 +81,11 @@ export default class VerticalSplitRow extends Component<Props> {
               </View>
               <Image style={[Theme.icon, styles.disclosureIndicator]} source={icon} />
             </View>
-            <SettingsButton disabled={inShareMode} onPress={this.props.onSettingsPress} style={styles.settingsButton} />
+            <SettingsButton
+              disabled={inShareMode || this.props.onSettingsPress == null}
+              onPress={this.props.onSettingsPress}
+              style={styles.settingsButton}
+            />
           </View>
         </View>
       </TouchableHighlight>
