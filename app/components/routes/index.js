@@ -292,7 +292,7 @@ export default class Routes extends PureComponent<Props> {
           style={styles.row}
           renderImageChildren={this.renderRoutePath.bind(this, item)}
           imageSrc={routeMapBackground}
-          title={item.name + item.name + item.name}
+          title={item.name}
           subtitle={subtitle}
           selected={this.state.inShareMode ? this.state.selectedForExport.includes(combinedId) : null}
         />
