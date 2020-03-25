@@ -139,10 +139,9 @@ class Layers extends Component<Props> {
 
   onPressAddLayer = debounceUI(async function() {
     try {
-      // todo: Find Android types (have to be mime types)
       const res = await DocumentPicker.pick({
         type: Platform.select({
-          android: ['application/json', 'application/geo+json'],
+          android: [DocumentPicker.types.plainText],
           ios: ['public.geojson', 'public.json']
         })
       });
