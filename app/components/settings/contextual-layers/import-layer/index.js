@@ -11,11 +11,13 @@ import InputText from 'components/common/text-input';
 import i18n from 'i18next';
 import type { File } from 'types/file.types';
 
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+
 type Props = {
   componentId: string,
   file: File,
   importContextualLayer: (file: File, fileName: string) => void,
-  importingFile: ?string
+  importError: ?*
 };
 
 class ImportLayer extends PureComponent<Props> {
@@ -51,7 +53,7 @@ class ImportLayer extends PureComponent<Props> {
       this.props.importContextualLayer(this.state.file);
       Navigation.pop(this.props.componentId);
     } catch (err) {
-      //todo: Show error!
+      
     }
   };
 
@@ -62,7 +64,11 @@ class ImportLayer extends PureComponent<Props> {
 
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.contentContainer}>
+        <ScrollView 
+          scrollEnabled={false}
+          keyboardShouldPersistTaps='handled'
+          style={styles.contentContainer}
+        >
           <View style={styles.listHeader}>
             <Text style={styles.listTitle}>{this.props.file.fileName}</Text>
           </View>
@@ -71,16 +77,30 @@ class ImportLayer extends PureComponent<Props> {
             placeholder={i18n.t('commonText.fileName')}
             onChangeText={this.onFileNameChange}
           />
+          {!!this.props.importError && (
+            <View style={styles.errorContainer}>
+              <Text style={[styles.listTitle, styles.error]}>{i18n.t('importLayer.error')}</Text>
+            </View>
+          )}
         </ScrollView>
-        <BottomTray>
+        <BottomTray
+          requiresSafeAreaView={!this.state.keyboardVisible}
+        >
           <ActionButton
-            onPress={this.state.file.name && this.state.file.name.length > 0 && this.state.file.name.length <= 40 ? this.onImportPressed : null}
+            onPress={!!this.props.importError && this.state.file.name && this.state.file.name.length > 0 && this.state.file.name.length <= 40 ? this.onImportPressed : null}
             text={i18n.t('importLayer.save').toUpperCase()}
-            disabled={!this.state.file.name || this.state.file.name.length === 0 || this.state.file.name.length > 40}
+            disabled={this.props.importError || !this.state.file.name || this.state.file.name.length === 0 || this.state.file.name.length > 40}
             short
             noIcon
           />
         </BottomTray>
+        <KeyboardSpacer 
+          onToggle={(visible) => {
+            this.setState({
+              keyboardVisible: visible
+            })
+          }}
+        />
       </View>
     );
   }

@@ -277,6 +277,7 @@
         }
     },
     "importLayer": {
+        "error": "Failed to import layer, please make sure you are selecting the correct file type and the contents of the file matches the specification then try again.",
         "save": "Import Layer",
         "title": "Layer Name"
     },

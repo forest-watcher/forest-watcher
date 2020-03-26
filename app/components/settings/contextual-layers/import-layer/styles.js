@@ -17,6 +17,18 @@ export default StyleSheet.create({
     paddingTop: 12,
     flex: 1,
   },
+  error: {
+    color: Theme.colors.carnation
+  },
+  errorContainer: {
+    flex: 1,
+    marginLeft: Theme.margin.left,
+    marginRight: 18,
+    paddingVertical: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
   listHeader: {
     flex: 1,
     marginLeft: Theme.margin.left,
