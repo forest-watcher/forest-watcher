@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Platform } from 'react-native';
 
 import moment from 'moment';
 import i18n from 'i18next';
@@ -227,7 +227,7 @@ export default class Routes extends PureComponent<Props> {
 
       return (
         <VerticalSplitRow
-          backgroundImageResizeMode={'repeat'}
+          backgroundImageResizeMode={Platform.OS === 'ios' ? 'repeat' : 'cover'}
           key={combinedId}
           onSettingsPress={this.onClickRouteSettings.bind(this, item)}
           onPress={() => {
