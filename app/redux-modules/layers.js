@@ -359,7 +359,10 @@ export function importContextualLayer(file: File) {
 
     // Set these up as constants
     const directory = RNFS.DocumentDirectoryPath + '/' + IMPORTED_LAYERS_DIRECTORY;
-    const fileExtension = fileName.split('.').pop().toLowerCase();
+    const fileExtension = fileName
+      .split('.')
+      .pop()
+      .toLowerCase();
 
     switch (fileExtension) {
       case 'json':
