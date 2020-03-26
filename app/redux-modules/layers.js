@@ -17,8 +17,9 @@ import type { Area } from 'types/areas.types';
 import type { File } from 'types/file.types';
 
 import tracker from 'helpers/googleAnalytics';
+import { Platform } from 'react-native';
 
-var DOMParser = require('xmldom').DOMParser;
+const DOMParser = require('xmldom').DOMParser;
 
 const togeojson = require('@mapbox/togeojson');
 const RNFS = require('react-native-fs');
@@ -350,7 +351,10 @@ function downloadAllLayers(config: { area: Area, layerId: string, layerUrl: stri
 
 export function importContextualLayer(file: File) {
   return async (dispatch: Dispatch, state: GetState) => {
-    const fileName = file.uri.substring(file.uri.lastIndexOf('/') + 1);
+    const fileName = Platform.select({
+      android: file.name,
+      ios: file.uri.substring(file.uri.lastIndexOf('/') + 1)
+    });
 
     dispatch({ type: IMPORT_LAYER_REQUEST, payload: file.uri });
 
@@ -393,6 +397,10 @@ export function importContextualLayer(file: File) {
           const xmlDoc = parser.parseFromString(fileContents);
           // Convert to GeoJSON using mapbox's library!
           const geoJSON = togeojson.gpx(xmlDoc, { styles: true });
+          // Make the directory for saving files to, if this is already present this won't error according to docs
+          await RNFS.mkdir(directory, {
+            NSURLIsExcludedFromBackupKey: false // Allow this to be saved to iCloud backup!
+          });
           // Write the new data to the app's storage
           await RNFS.writeFile(path, JSON.stringify(geoJSON));
           dispatch({
