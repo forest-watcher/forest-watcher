@@ -102,9 +102,7 @@ export default class ShareSelector extends Component<Props> {
           </Row>
         )}
         {this.props.children}
-        <BottomTray
-          requiresSafeAreaView={true}
-        >
+        <BottomTray requiresSafeAreaView={true}>
           <ActionButton
             disabled={this.props.disabled || (!this.props.enabled && sharing)}
             noIcon

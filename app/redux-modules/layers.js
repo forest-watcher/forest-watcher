@@ -18,7 +18,7 @@ import type { File } from 'types/file.types';
 
 import tracker from 'helpers/googleAnalytics';
 
-var DOMParser = require('xmldom').DOMParser;
+const DOMParser = require('xmldom').DOMParser;
 
 const togeojson = require('@mapbox/togeojson');
 const RNFS = require('react-native-fs');
@@ -348,7 +348,7 @@ function downloadAllLayers(config: { area: Area, layerId: string, layerUrl: stri
   );
 }
 
-export function importContextualLayer(file: File) {
+export async function importContextualLayer(file: File) {
   return async (dispatch: Dispatch, state: GetState) => {
     const fileName = file.uri.substring(file.uri.lastIndexOf('/') + 1);
 

@@ -15,6 +15,7 @@ import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 type Props = {
   componentId: string,
+  existingLayers: Array<File>,
   file: File,
   importContextualLayer: (file: File, fileName: string) => void,
   importError: ?*
@@ -50,10 +51,10 @@ class ImportLayer extends PureComponent<Props> {
 
   onImportPressed = async () => {
     try {
-      this.props.importContextualLayer(this.state.file);
+      await this.props.importContextualLayer(this.state.file);
       Navigation.pop(this.props.componentId);
     } catch (err) {
-      
+      console.warn(err);
     }
   };
 
@@ -62,13 +63,15 @@ class ImportLayer extends PureComponent<Props> {
       return null;
     }
 
+    const matchingFile = this.props.existingLayers.find(layer => {
+      return layer.name === this.state.file.name;
+    });
+
+    const nameAlreadyTaken = !!matchingFile;
+
     return (
       <View style={styles.container}>
-        <ScrollView 
-          scrollEnabled={false}
-          keyboardShouldPersistTaps='handled'
-          style={styles.contentContainer}
-        >
+        <ScrollView scrollEnabled={false} keyboardShouldPersistTaps="handled" style={styles.contentContainer}>
           <View style={styles.listHeader}>
             <Text style={styles.listTitle}>{this.props.file.fileName}</Text>
           </View>
@@ -77,28 +80,45 @@ class ImportLayer extends PureComponent<Props> {
             placeholder={i18n.t('commonText.fileName')}
             onChangeText={this.onFileNameChange}
           />
+          {nameAlreadyTaken && (
+            <View style={styles.errorContainer}>
+              <Text style={[styles.listTitle, styles.error]}>{i18n.t('importLayer.uniqueNameError')}</Text>
+            </View>
+          )}
           {!!this.props.importError && (
             <View style={styles.errorContainer}>
               <Text style={[styles.listTitle, styles.error]}>{i18n.t('importLayer.error')}</Text>
             </View>
           )}
         </ScrollView>
-        <BottomTray
-          requiresSafeAreaView={!this.state.keyboardVisible}
-        >
+        <BottomTray requiresSafeAreaView={!this.state.keyboardVisible}>
           <ActionButton
-            onPress={!!this.props.importError && this.state.file.name && this.state.file.name.length > 0 && this.state.file.name.length <= 40 ? this.onImportPressed : null}
+            onPress={
+              !!this.props.importError &&
+              !nameAlreadyTaken &&
+              this.state.file.name &&
+              this.state.file.name.length > 0 &&
+              this.state.file.name.length <= 40
+                ? this.onImportPressed
+                : null
+            }
             text={i18n.t('importLayer.save').toUpperCase()}
-            disabled={this.props.importError || !this.state.file.name || this.state.file.name.length === 0 || this.state.file.name.length > 40}
+            disabled={
+              nameAlreadyTaken ||
+              this.props.importError ||
+              !this.state.file.name ||
+              this.state.file.name.length === 0 ||
+              this.state.file.name.length > 40
+            }
             short
             noIcon
           />
         </BottomTray>
-        <KeyboardSpacer 
-          onToggle={(visible) => {
+        <KeyboardSpacer
+          onToggle={visible => {
             this.setState({
               keyboardVisible: visible
-            })
+            });
           }}
         />
       </View>

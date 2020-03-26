@@ -12,10 +12,10 @@ export default StyleSheet.create({
   container: {
     backgroundColor: Theme.background.main,
     flex: 1
-  }, 
+  },
   contentContainer: {
     paddingTop: 12,
-    flex: 1,
+    flex: 1
   },
   error: {
     color: Theme.colors.carnation

@@ -10,7 +10,8 @@ import ImportLayer from 'components/settings/contextual-layers/import-layer';
 
 function mapStateToProps(state: State) {
   return {
-  	importError: state.layers.importError
+    existingLayers: state.layers.imported,
+    importError: state.layers.importError
   };
 }
 

@@ -14,8 +14,7 @@ type Props = {
 
 class BottomTray extends Component<Props> {
   render() {
-
-  	const ViewComponent = this.props.requiresSafeAreaView ? SafeAreaView : View;
+    const ViewComponent = this.props.requiresSafeAreaView ? SafeAreaView : View;
 
     return (
       <View style={[styles.container, this.props.style]}>

@@ -9,8 +9,6 @@ import i18n from 'i18next';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
-import type { File } from 'types/file.types';
-
 import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
 
@@ -20,7 +18,7 @@ const emptyIcon = require('assets/layersEmpty.png');
 import DocumentPicker from 'react-native-document-picker';
 
 type Props = {
-  componentId: string,
+  componentId: string
 };
 
 class Layers extends Component<Props> {
