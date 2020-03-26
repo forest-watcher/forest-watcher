@@ -94,7 +94,7 @@ class ImportLayer extends PureComponent<Props> {
         <BottomTray requiresSafeAreaView={!this.state.keyboardVisible}>
           <ActionButton
             onPress={
-              !!this.props.importError &&
+              !this.props.importError &&
               !nameAlreadyTaken &&
               this.state.file.name &&
               this.state.file.name.length > 0 &&
@@ -105,7 +105,7 @@ class ImportLayer extends PureComponent<Props> {
             text={i18n.t('importLayer.save').toUpperCase()}
             disabled={
               nameAlreadyTaken ||
-              this.props.importError ||
+              !!this.props.importError ||
               !this.state.file.name ||
               this.state.file.name.length === 0 ||
               this.state.file.name.length > 40

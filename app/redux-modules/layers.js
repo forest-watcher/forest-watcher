@@ -348,7 +348,7 @@ function downloadAllLayers(config: { area: Area, layerId: string, layerUrl: stri
   );
 }
 
-export async function importContextualLayer(file: File) {
+export function importContextualLayer(file: File) {
   return async (dispatch: Dispatch, state: GetState) => {
     const fileName = file.uri.substring(file.uri.lastIndexOf('/') + 1);
 
