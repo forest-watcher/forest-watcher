@@ -6,12 +6,14 @@ import styles from './styles';
 import VerticalSplitRow from 'components/common/vertical-split-row';
 import SettingsButton from 'components/common/settings-button';
 import i18n from 'i18next';
+import type { LayerSettingsState } from 'types/layerSettings.types';
 
 type Props = {
-  areaId: string,
-  layers: Array<{ id: string, name: string }>,
-  onLayerToggle: (id: string, value: boolean) => void, // eslint-disable-line
-  activeLayer: string
+  layerSettings: LayerSettingsState,
+  toggleAlertsLayer: () => void,
+  toggleRoutesLayer: () => void,
+  toggleReportsLayer: () => void,
+  toggleContextualLayersLayer: () => void
 };
 
 const MapSidebar = (props: Props) => {
@@ -23,47 +25,51 @@ const MapSidebar = (props: Props) => {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        <Text style={styles.heading}>Layers</Text>
+        <Text style={styles.heading}>{i18n.t('map.layerSettings.layersHeading')}</Text>
         <VerticalSplitRow
-          onPress={() => {}}
+          onPress={props.toggleAlertsLayer}
+          onSettingsPress={() => {}}
           title={i18n.t('map.layerSettings.alerts')}
           settingsTitle={'omg'}
-          hideDivider
-          selected={true}
+          selected={props.layerSettings.alerts.layerIsActive}
           style={styles.rowContainer}
+          hideDivider
           hideImage
           smallerVerticalPadding
           largerLeftPadding
         />
         <VerticalSplitRow
-          onPress={() => {}}
+          onPress={props.toggleRoutesLayer}
+          onSettingsPress={() => {}}
           title={i18n.t('map.layerSettings.routes')}
           settingsTitle={'All'}
-          hideDivider
-          selected={true}
+          selected={props.layerSettings.routes.layerIsActive}
           style={styles.rowContainer}
+          hideDivider
           hideImage
           smallerVerticalPadding
           largerLeftPadding
         />
         <VerticalSplitRow
-          onPress={() => {}}
+          onPress={props.toggleReportsLayer}
+          onSettingsPress={() => {}}
           title={i18n.t('map.layerSettings.reports')}
           settingsTitle={'All'}
-          hideDivider
-          selected={true}
+          selected={props.layerSettings.reports.layerIsActive}
           style={styles.rowContainer}
+          hideDivider
           hideImage
           smallerVerticalPadding
           largerLeftPadding
         />
         <VerticalSplitRow
-          onPress={() => {}}
+          onPress={props.toggleContextualLayersLayer}
+          onSettingsPress={() => {}}
           title={i18n.t('map.layerSettings.contextualLayers')}
           settingsTitle={'All'}
-          hideDivider
-          selected={true}
+          selected={props.layerSettings.contextualLayers.layerIsActive}
           style={styles.rowContainer}
+          hideDivider
           hideImage
           smallerVerticalPadding
           largerLeftPadding

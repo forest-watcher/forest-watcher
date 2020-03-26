@@ -17,6 +17,7 @@ type ViewProps = React.ElementProps<typeof View>;
 type ViewStyleProp = $PropertyType<ViewProps, 'style'>;
 
 type Props = {
+  disableSettingsButton?: ?string | ?boolean,
   downloadCalloutBody?: ?boolean,
   downloadCalloutVisible?: ?boolean,
   downloadCalloutTitle?: ?string,
@@ -42,7 +43,6 @@ export default class VerticalSplitRow extends Component<Props> {
   render() {
     const { selected, downloadVisible } = this.props;
     const icon = selected != null ? (selected ? checkboxOn : checkboxOff) : nextIcon;
-    const inShareMode = selected === true || selected === false;
 
     return (
       <TouchableHighlight
@@ -96,7 +96,7 @@ export default class VerticalSplitRow extends Component<Props> {
             </View>
             <SettingsButton
               title={this.props.settingsTitle}
-              disabled={inShareMode || this.props.onSettingsPress == null}
+              disabled={this.props.disableSettingsButton || this.props.onSettingsPress == null}
               onPress={this.props.onSettingsPress}
               style={styles.settingsButton}
             />

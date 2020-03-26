@@ -3,24 +3,27 @@ import type { State } from 'types/store.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setActiveContextualLayer } from 'redux-modules/layers';
 import MapSidebar from 'components/map-sidebar';
-import { getSelectedArea } from 'helpers/area';
+import {
+  toggleAlertsLayer,
+  toggleRoutesLayer,
+  toggleReportsLayer,
+  toggleContextualLayersLayer
+} from 'redux-modules/layerSettings';
 
 function mapStateToProps(state: State) {
-  const area = getSelectedArea(state.areas.data, state.areas.selectedAreaId);
-
   return {
-    areaId: area && area.id,
-    layers: state.layers.data,
-    activeLayer: state.layers.activeLayer
+    layerSettings: state.layerSettings
   };
 }
 
 const mapDispatchToProps = (dispatch: *) =>
   bindActionCreators(
     {
-      onLayerToggle: setActiveContextualLayer
+      toggleAlertsLayer,
+      toggleRoutesLayer,
+      toggleReportsLayer,
+      toggleContextualLayersLayer
     },
     dispatch
   );

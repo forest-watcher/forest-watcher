@@ -316,6 +316,7 @@
             "title": "Customise Map Display"
         },
         "layerSettings": {
+            "layersHeading": "Layers",
             "alerts": "Alerts",
             "routes": "Routes",
             "reports": "Reports",
