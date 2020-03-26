@@ -7,7 +7,10 @@ const TOGGLE_ROUTES_LAYER = 'layerSettings/TOGGLE_ROUTES_LAYER';
 const TOGGLE_REPORTS_LAYER = 'layerSettings/TOGGLE_REPORTS_LAYER';
 const TOGGLE_CONTEXTUAL_LAYERS_LAYER = 'layerSettings/TOGGLE_CONTEXTUAL_LAYERS_LAYER';
 
-const DEFAULT_BASEMAP = ""; // TODO
+const TOGGLE_MY_REPORTS_LAYER = 'layerSettings/TOGGLE_MY_REPORTS_LAYER';
+const TOGGLE_IMPORTED_REPORTS_LAYER = 'layerSettings/TOGGLE_IMPORTED_REPORTS_LAYER';
+
+const DEFAULT_BASEMAP = ''; // TODO
 
 // Reducer
 const initialState = {
@@ -78,6 +81,24 @@ export default function reducer(state: LayerSettingsState = initialState, action
         }
       };
     }
+    case TOGGLE_MY_REPORTS_LAYER: {
+      return {
+        ...state,
+        reports: {
+          ...state.reports,
+          myReportsActive: !state.reports.myReportsActive
+        }
+      };
+    }
+    case TOGGLE_IMPORTED_REPORTS_LAYER: {
+      return {
+        ...state,
+        reports: {
+          ...state.reports,
+          importedReportsActive: !state.reports.importedReportsActive
+        }
+      };
+    }
     default:
       return state;
   }
@@ -104,5 +125,17 @@ export function toggleReportsLayer(): LayerSettingsAction {
 export function toggleContextualLayersLayer(): LayerSettingsAction {
   return {
     type: TOGGLE_CONTEXTUAL_LAYERS_LAYER
+  };
+}
+
+export function toggleMyReportsLayer(): LayerSettingsAction {
+  return {
+    type: TOGGLE_MY_REPORTS_LAYER
+  };
+}
+
+export function toggleImportedReportsLayer(): LayerSettingsAction {
+  return {
+    type: TOGGLE_IMPORTED_REPORTS_LAYER
   };
 }

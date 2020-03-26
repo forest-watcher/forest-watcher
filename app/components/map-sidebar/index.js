@@ -11,6 +11,7 @@ import debounceUI from 'helpers/debounceUI';
 import { Navigation } from 'react-native-navigation';
 
 type Props = {
+  componentId: string,
   layerSettings: LayerSettingsState,
   toggleAlertsLayer: () => void,
   toggleRoutesLayer: () => void,
@@ -120,7 +121,7 @@ class MapSidebar extends PureComponent<Props> {
           />
         </ScrollView>
         <View style={styles.basemapContainer}>
-          <SettingsButton title={i18n.t('map.layerSettings.basemap')}/>
+          <SettingsButton title={i18n.t('map.layerSettings.basemap')} />
         </View>
       </View>
     );

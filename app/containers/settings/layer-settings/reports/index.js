@@ -3,27 +3,20 @@ import type { State } from 'types/store.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {
-  toggleAlertsLayer,
-  toggleRoutesLayer,
-  toggleReportsLayer,
-  toggleContextualLayersLayer
-} from 'redux-modules/layerSettings';
+import { toggleMyReportsLayer, toggleImportedReportsLayer } from 'redux-modules/layerSettings';
 import ReportLayerSettings from 'components/settings/layer-settings/reports';
 
 function mapStateToProps(state: State) {
   return {
-    layerSettings: state.layerSettings
+    reportsLayerSettings: state.layerSettings.reports
   };
 }
 
 const mapDispatchToProps = (dispatch: *) =>
   bindActionCreators(
     {
-      toggleAlertsLayer,
-      toggleRoutesLayer,
-      toggleReportsLayer,
-      toggleContextualLayersLayer
+      toggleMyReportsLayer,
+      toggleImportedReportsLayer
     },
     dispatch
   );

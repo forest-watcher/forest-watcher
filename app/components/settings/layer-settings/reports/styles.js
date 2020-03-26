@@ -2,13 +2,6 @@ import Theme from 'config/theme';
 import { Platform, StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  basemapContainer: {
-    justifyContent: 'flex-end',
-    backgroundColor: Theme.colors.white,
-    paddingLeft: 24,
-    paddingTop: 6,
-    paddingBottom: 6
-  },
   container: {
     flex: 1,
     width: Platform.OS === 'ios' ? 300 : undefined,
@@ -31,5 +24,11 @@ export default StyleSheet.create({
   },
   rowContainer: {
     marginBottom: 12
+  },
+  topBarTextButton: {
+    fontSize: 16,
+    fontFamily: Theme.font,
+    color: Theme.colors.turtleGreen,
+    backgroundColor: Theme.background.main
   }
 });
