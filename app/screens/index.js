@@ -31,6 +31,7 @@ import RouteDetail from '../containers/routes/route-detail';
 import SaveRoute from '../containers/routes/save-route';
 import Welcome from '../containers/welcome';
 import MapSidebar from 'containers/map-sidebar';
+import ReportLayerSettings from 'containers/settings/layer-settings/reports';
 
 /**
  * Registers a component with React Native Navigation
@@ -86,6 +87,7 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.RouteDetail', RouteDetail, Provider, store);
   registerComponent('ForestWatcher.SaveRoute', SaveRoute, Provider, store);
   registerComponent('ForestWatcher.Welcome', Welcome, Provider, store);
+  registerComponent('ForestWatcher.ReportLayerSettings', ReportLayerSettings, Provider, store);
 }
 
 export default registerScreens;
