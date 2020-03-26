@@ -18,7 +18,7 @@ import type { File } from 'types/file.types';
 
 import tracker from 'helpers/googleAnalytics';
 
-window.DOMParser = require('xmldom').DOMParser;
+var DOMParser = require('xmldom').DOMParser;
 
 const togeojson = require('@mapbox/togeojson');
 const RNFS = require('react-native-fs');
