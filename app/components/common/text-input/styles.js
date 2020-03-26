@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   inputContainer: {
     flex: 1,
-    height: 64,
+    paddingVertical: 20,
     paddingLeft: Theme.margin.left,
     paddingRight: Theme.margin.right,
     borderBottomColor: Theme.borderColors.main,
@@ -13,6 +13,7 @@ export default StyleSheet.create({
     marginTop: 8
   },
   input: {
+    fontFamily: Theme.font,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',

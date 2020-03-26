@@ -69,6 +69,7 @@
     "react-native-hyperlink": "0.0.14",
     "react-native-image-picker": "2.3.0",
     "react-native-keyboard-aware-scroll-view": "0.8.0",
+    "react-native-keyboard-spacer": "0.4.1",
     "react-native-localize": "1.3.3",
     "react-native-navigation": "6.0.1",
     "react-native-progress": "3.6.0",
