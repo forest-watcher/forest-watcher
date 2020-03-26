@@ -58,6 +58,7 @@
         "deselectAll": "Deselect All",
         "done": "Done",
         "error": "Error",
+        "fileName": "File name",
         "fileSizes": {
             "bytes": "%{size} bytes",
             "kiloBytes": "%{size} kB",
@@ -274,6 +275,10 @@
             "questionCountPlural": "%{count} Questions",
             "questionCountSingular": "1 Question"
         }
+    },
+    "importLayer": {
+        "save": "Import Layer",
+        "title": "Layer Name"
     },
     "layers": {
         "managedForests": "Managed Forest",

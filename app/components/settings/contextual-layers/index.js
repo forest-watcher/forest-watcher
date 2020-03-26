@@ -21,7 +21,6 @@ import DocumentPicker from 'react-native-document-picker';
 
 type Props = {
   componentId: string,
-  importContextualLayer: (file: File) => void
 };
 
 class Layers extends Component<Props> {
@@ -145,8 +144,18 @@ class Layers extends Component<Props> {
           ios: ['public.geojson', 'public.json', 'public.gpx']
         })
       });
-
-      this.props.importContextualLayer(res);
+      Navigation.push(this.props.componentId, {
+        component: {
+          name: 'ForestWatcher.ImportLayer',
+          passProps: {
+            file: {
+              ...res,
+              fileName: res.name, // Slightly tweak the res to reformat `name` -> `fileName` as we keep these seperate
+              name: null
+            }
+          }
+        }
+      });
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         // User cancelled the picker, exit any dialogs or menus and move on

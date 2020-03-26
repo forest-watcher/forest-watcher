@@ -375,7 +375,7 @@ export function importContextualLayer(file: File) {
           });
           // Copy the file to the app's storage
           await RNFS.copyFile(file.uri, path);
-          dispatch({ type: IMPORT_LAYER_COMMIT, payload: { ...file, uri: path, name: fileName } });
+          dispatch({ type: IMPORT_LAYER_COMMIT, payload: { ...file, uri: path, fileName: fileName } });
         } catch (err) {
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
         }
@@ -397,7 +397,7 @@ export function importContextualLayer(file: File) {
           await RNFS.writeFile(path, JSON.stringify(geoJSON));
           dispatch({
             type: IMPORT_LAYER_COMMIT,
-            payload: { ...file, type: 'application/geo+json', uri: path, name: newName }
+            payload: { ...file, type: 'application/geo+json', uri: path, fileName: newName }
           });
         } catch (err) {
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
