@@ -366,7 +366,7 @@ export function importContextualLayer(file: File) {
 
     switch (fileExtension) {
       case 'json':
-      case 'geojson':
+      case 'geojson': {
         try {
           // Make the directory for saving files to, if this is already present this won't error according to docs
           const path = directory + '/' + fileName;
@@ -380,7 +380,8 @@ export function importContextualLayer(file: File) {
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
         }
         break;
-      case 'gpx':
+      }
+      case 'gpx': {
         try {
           // Change destination file path extension!
           const newName = fileName.replace(/\.[^/.]+$/, '.geojson');
@@ -402,6 +403,7 @@ export function importContextualLayer(file: File) {
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
         }
         break;
+      }
       default:
         //todo: Add support for other file types! These need converting to geojson before saving.
         break;

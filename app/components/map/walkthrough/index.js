@@ -16,7 +16,7 @@ const NavSafeAreaView = withSafeArea(View, 'margin', 'top');
 
 const addLocationIcon = require('assets/add_location.png');
 const reportsAndRoutesImage = require('assets/phoneMapIPhone.png');
-const settingsBlackIcon = require('assets/settings_black.png');
+const mapSettingsIcon = require('assets/map_settings.png');
 
 type Props = {
   componentId: string,
@@ -103,7 +103,7 @@ export default class MapWalkthrough extends Component<Props> {
           width={280}
           offset={10}
         >
-          <Image source={settingsBlackIcon} style={{ opacity: 0 }} />
+          <Image source={mapSettingsIcon} style={{ opacity: 0 }} />
         </Callout>
       </NavSafeAreaView>
     );
@@ -139,7 +139,7 @@ export default class MapWalkthrough extends Component<Props> {
               {
                 color: 'white',
                 id: 'settings',
-                icon: settingsBlackIcon
+                icon: mapSettingsIcon
               }
             ]
           }
