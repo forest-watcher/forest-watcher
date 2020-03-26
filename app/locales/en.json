@@ -83,6 +83,7 @@
         "saving": "Saving",
         "selectAll": "Select All",
         "send": "Send",
+        "settings": "Settings",
         "setup": "Set up",
         "userPosition": "User Position"
     },
@@ -313,6 +314,13 @@
         "settingsTooltip": {
             "body": "Show the layers and data relevant to you",
             "title": "Customise Map Display"
+        },
+        "layerSettings": {
+            "alerts": "Alerts",
+            "routes": "Routes",
+            "reports": "Reports",
+            "contextualLayers": "Contextual Layers",
+            "basemap": "Basemap"
         }
     },
     "partners": {
@@ -402,7 +410,7 @@
         "locationErrorDialogTitle": "Error retrieving location",
         "locationErrorDialogMessage": "Something went wrong while accessing your location",
         "locationStart": "Start:",
-        "myRoutes": "My Routes", 
+        "myRoutes": "My Routes",
         "notification": {
             "title": "Route tracking in progress",
             "message": "Forest Watcher is recording the route you are taking to your destination"

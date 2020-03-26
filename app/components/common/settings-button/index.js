@@ -5,6 +5,7 @@ import React, { Component, type ElementConfig } from 'react';
 import { View, Text, TouchableHighlight, TouchableNativeFeedback, Image, Platform } from 'react-native';
 import styles from './styles';
 import Theme from 'config/theme';
+import i18n from 'i18next';
 
 type Props = {
   ...ElementConfig<typeof TouchableHighlight>,
@@ -38,7 +39,7 @@ class SettingsButton extends Component<Props> {
         >
           <View style={[styles.content, this.props.disabled ? styles.disabled : {}]}>
             <Image source={settingsCogIcon} />
-            <Text style={styles.text}>{this.props.title ?? 'Settings'}</Text>
+            <Text style={styles.text}>{this.props.title ?? i18n.t('commonText.settings')}</Text>
           </View>
         </Touchable>
       </View>

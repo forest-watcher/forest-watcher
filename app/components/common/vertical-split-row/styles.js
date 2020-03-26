@@ -10,6 +10,10 @@ export default StyleSheet.create({
     left: 12,
     position: 'absolute'
   },
+  bottomBorder: {
+    borderBottomWidth: 1,
+    borderBottomColor: Theme.colors.veryLightPink
+  },
   item: {
     flexGrow: 1,
     borderBottomColor: Theme.borderColors.main,
@@ -33,8 +37,6 @@ export default StyleSheet.create({
   },
   nameContainer: {
     flex: 1,
-    borderBottomWidth: 1,
-    borderBottomColor: Theme.colors.veryLightPink,
     paddingVertical: isSmallScreen ? 12 : 24
   },
   titleContainer: {
@@ -59,6 +61,12 @@ export default StyleSheet.create({
     alignSelf: 'flex-start',
     marginVertical: isSmallScreen ? 0 : 6,
     marginRight: 12
+  },
+  largerLeftPadding: {
+    marginLeft: isSmallScreen ? 12 : 24
+  },
+  smallerVerticalPadding: {
+    paddingVertical: isSmallScreen ? 8 : 16
   },
   subtitle: {
     flex: 1,
