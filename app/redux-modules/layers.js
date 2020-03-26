@@ -359,11 +359,11 @@ export function importContextualLayer(file: File) {
 
     // Set these up as constants
     const directory = RNFS.DocumentDirectoryPath + '/' + IMPORTED_LAYERS_DIRECTORY;
+    const fileExtension = fileName.split('.').pop().toLowerCase();
 
-    switch (file.type) {
-      case 'text/plain':
-      case 'application/json':
-      case 'application/geo+json':
+    switch (fileExtension) {
+      case 'json':
+      case 'geojson':
         try {
           // Make the directory for saving files to, if this is already present this won't error according to docs
           const path = directory + '/' + fileName;
@@ -377,7 +377,7 @@ export function importContextualLayer(file: File) {
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
         }
         break;
-      case 'application/gpx+xml':
+      case 'gpx':
         try {
           // Change destination file path extension!
           const newName = fileName.replace(/\.[^/.]+$/, '.geojson');
