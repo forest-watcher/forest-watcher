@@ -89,7 +89,7 @@
     "tiny-emitter": "2.1.0",
     "url-parse": "1.4.4",
     "utm-latlng": "1.0.5",
-    "xmldom": "^0.3.0"
+    "xmldom": "0.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
