@@ -9,7 +9,9 @@ import { importContextualLayer } from 'redux-modules/layers';
 import ContextualLayers from 'components/settings/contextual-layers';
 
 function mapStateToProps(state: State) {
-  return {};
+  return {
+  	importedLayers: state.layers.imported
+  };
 }
 
 const mapDispatchToProps = (dispatch: *) =>
