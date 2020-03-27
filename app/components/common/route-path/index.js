@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import Theme, { isSmallScreen } from 'config/theme';
+import Theme from 'config/theme';
 import styles from './styles';
 
 import type { Route } from 'types/routes.types';
@@ -12,16 +12,15 @@ import { routeSVGProperties } from 'helpers/routeSVG';
 
 import Svg, { Path, Circle } from 'react-native-svg';
 
-const RoutePreviewSize = isSmallScreen ? 64 : 100;
-
 type Props = {
-  route: Route
+  route: Route,
+  size: number
 };
 
 export default class RoutePath extends PureComponent<Props> {
   render() {
-    const { route } = this.props;
-    const svgProperties = routeSVGProperties(route.locations, RoutePreviewSize);
+    const { route, size } = this.props;
+    const svgProperties = routeSVGProperties(route.locations, size - 36);
 
     if (!svgProperties) {
       return null;
@@ -31,9 +30,9 @@ export default class RoutePath extends PureComponent<Props> {
       <View style={styles.container}>
         <Svg
           style={{ bacgkroundColor: 'red' }}
-          height={`${RoutePreviewSize}`}
-          width={`${RoutePreviewSize}`}
-          viewBox={`-16 -16 ${RoutePreviewSize + 36} ${RoutePreviewSize + 36}`}
+          height={`${size - 36}`}
+          width={`${size - 36}`}
+          viewBox={`-16 -16 ${size} ${size}`}
         >
           <Path
             d={svgProperties?.path}

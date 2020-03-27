@@ -3,6 +3,7 @@
 export type File = {
   uri: string,
   type: string,
-  name: string,
-  size: string
+  fileName: string,
+  size: string,
+  name?: ?string
 };

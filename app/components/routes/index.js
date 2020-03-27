@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Platform } from 'react-native';
 
 import moment from 'moment';
 import i18n from 'i18next';
@@ -20,10 +20,13 @@ import ShareSheet from 'components/common/share';
 import VerticalSplitRow from 'components/common/vertical-split-row';
 
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
+import { isSmallScreen } from 'config/theme';
 
 const nextIcon = require('assets/next.png');
 const emptyIcon = require('assets/routesEmpty.png');
 const routeMapBackground = require('assets/routeMapBackground.png');
+
+const RoutePreviewSize = isSmallScreen ? 86 : 122;
 
 type Props = {
   componentId: string,
@@ -202,7 +205,7 @@ export default class Routes extends PureComponent<Props> {
    * @param <Route> route The route to render a path for
    */
   renderRoutePath = (route: Route) => {
-    return <RoutePath route={route} />;
+    return <RoutePath size={RoutePreviewSize} route={route} />;
   };
 
   /**
@@ -224,7 +227,7 @@ export default class Routes extends PureComponent<Props> {
 
       return (
         <VerticalSplitRow
-          backgroundImageResizeMode={'repeat'}
+          backgroundImageResizeMode={Platform.OS === 'ios' ? 'repeat' : 'cover'}
           key={combinedId}
           onSettingsPress={this.onClickRouteSettings.bind(this, item)}
           onPress={() => {
