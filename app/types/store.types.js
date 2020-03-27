@@ -12,6 +12,7 @@ import type { AreasAction, AreasState } from 'types/areas.types';
 import type { AlertsAction, AlertsState } from 'types/alerts.types';
 import type { LayersAction, LayersState } from 'types/layers.types';
 import type { RouteAction, RouteState } from 'types/routes.types';
+import type { LayerSettingsAction, LayerSettingsState } from 'types/layerSettings.types';
 
 export type Action =
   | UserAction
@@ -22,6 +23,7 @@ export type Action =
   | AreasAction
   | AlertsAction
   | LayersAction
+  | LayerSettingsAction
   | RouteAction;
 
 export type State = {
@@ -34,6 +36,7 @@ export type State = {
   reports: ReportsState,
   alerts: AlertsState,
   layers: LayersState,
+  layerSettings: LayerSettingsState,
   routes: RouteState
 };
 

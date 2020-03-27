@@ -49,6 +49,7 @@
         "area": "Area",
         "boundaries": "Boundaries",
         "cancel": "Cancel",
+        "clear": "Clear",
         "confirm": "Confirm",
         "connectionRequired": "You need an internet connection to complete this action",
         "connectionRequiredTitle": "No connection",
@@ -342,11 +343,16 @@
             "title": "Customise Map Display"
         },
         "layerSettings": {
+            "layersHeading": "Layers",
             "alerts": "Alerts",
             "routes": "Routes",
             "reports": "Reports",
             "contextualLayers": "Contextual Layers",
-            "basemap": "Basemap"
+            "basemap": "Basemap",
+            "report": "Report",
+            "myReports": "My Reports",
+            "importedReports": "Imported Reports",
+            "manageReports": "Manage Reports"
         }
     },
     "partners": {

@@ -51,6 +51,7 @@ export default class AreaList extends Component<Props> {
               downloadVisible={true}
               onDownloadPress={() => onAreaDownloadPress?.(area.id, area.name)}
               onPress={downloadCalloutVisible ? null : () => onAreaPress(area.id, area.name)}
+              disableSettingsButton={this.props.sharing}
               onSettingsPress={downloadCalloutVisible ? null : () => onAreaSettingsPress(area.id, area.name)}
               imageSrc={area.image}
               selected={this.props.sharing ? this.props.selectionState?.includes?.(area.id) : null}

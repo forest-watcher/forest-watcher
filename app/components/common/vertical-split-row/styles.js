@@ -35,6 +35,23 @@ export default StyleSheet.create({
     width: undefined, // Required to make `require()` image scale
     height: undefined // Required to make `require()` image scale
   },
+  legendContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  legendColor: {
+    width: 14,
+    height: 14,
+    marginTop: 10,
+    marginBottom: 10,
+    marginRight: 6
+  },
+  legendTitle: {
+    fontFamily: Theme.font,
+    color: Theme.fontColors.secondary,
+    fontSize: 12,
+    fontWeight: '400'
+  },
   nameContainer: {
     flex: 1,
     paddingVertical: isSmallScreen ? 12 : 24
