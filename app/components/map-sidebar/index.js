@@ -61,6 +61,10 @@ class MapSidebar extends PureComponent<Props> {
     this.pushScreen('ForestWatcher.ReportLayerSettings');
   });
 
+  openContextualLayersLayerSettings = debounceUI(() => {
+    this.pushScreen('ForestWatcher.ContextualLayersLayerSettings');
+  });
+
   render() {
     return (
       <View style={styles.container}>
@@ -109,7 +113,7 @@ class MapSidebar extends PureComponent<Props> {
           />
           <VerticalSplitRow
             onPress={this.props.toggleContextualLayersLayer}
-            onSettingsPress={() => {}}
+            onSettingsPress={this.openContextualLayersLayerSettings}
             title={i18n.t('map.layerSettings.contextualLayers')}
             settingsTitle={'All'}
             selected={this.props.layerSettings.contextualLayers.layerIsActive}
