@@ -60,8 +60,11 @@ class ImportLayer extends PureComponent<Props> {
 
   nameValidity = () => {
 
-    if (!this.state.name) { 
-      return false
+    if (!this.state.file.name) { 
+      return {
+        valid: false,
+        alreadyTaken: false
+      }
     }
 
     const matchingFile = this.props.existingLayers.find(layer => {
@@ -109,14 +112,12 @@ class ImportLayer extends PureComponent<Props> {
         <BottomTray requiresSafeAreaView={!this.state.keyboardVisible}>
           <ActionButton
             onPress={
-              !this.props.importError &&
               nameValidity.valid
                 ? this.onImportPressed
                 : null
             }
             text={i18n.t('importLayer.save').toUpperCase()}
             disabled={
-              !!this.props.importError ||
               !nameValidity.valid
             }
             short
