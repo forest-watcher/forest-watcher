@@ -58,9 +58,10 @@ class ImportLayer extends PureComponent<Props> {
     }
   };
 
-  render() {
-    if (!this.state.file) {
-      return null;
+  nameIsValid = () => {
+
+    if (!this.state.name) { 
+      return false
     }
 
     const matchingFile = this.props.existingLayers.find(layer => {
@@ -68,6 +69,19 @@ class ImportLayer extends PureComponent<Props> {
     });
 
     const nameAlreadyTaken = !!matchingFile;
+
+    return !nameAlreadyTaken 
+      && this.state.file.name.length > 0
+      && this.state.file.name.length <= 40;
+  }
+
+  render() {
+
+    if (!this.state.file) {
+      return null;
+    }
+
+    const nameIsValid = this.nameIsValid();
 
     return (
       <View style={styles.container}>
@@ -95,20 +109,14 @@ class ImportLayer extends PureComponent<Props> {
           <ActionButton
             onPress={
               !this.props.importError &&
-              !nameAlreadyTaken &&
-              this.state.file.name &&
-              this.state.file.name.length > 0 &&
-              this.state.file.name.length <= 40
+              nameIsValid
                 ? this.onImportPressed
                 : null
             }
             text={i18n.t('importLayer.save').toUpperCase()}
             disabled={
-              nameAlreadyTaken ||
               !!this.props.importError ||
-              !this.state.file.name ||
-              this.state.file.name.length === 0 ||
-              this.state.file.name.length > 40
+              !nameIsValid
             }
             short
             noIcon
