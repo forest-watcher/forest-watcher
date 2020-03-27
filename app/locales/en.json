@@ -333,7 +333,13 @@
             "report": "Report",
             "myReports": "My Reports",
             "importedReports": "Imported Reports",
-            "manageReports": "Manage Reports"
+            "manageReports": "Manage Reports",
+            "reportSettings": {
+                "showingNoReports": "Showing No Reports",
+                "showingMyReports": "Showing My Reports",
+                "showingImportedReports": "Showing Imported Reports",
+                "showingAllReports": "Showing All Reports"
+            }
         }
     },
     "partners": {
