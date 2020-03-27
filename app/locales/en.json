@@ -352,6 +352,7 @@
             "report": "Report",
             "myReports": "My Reports",
             "importedReports": "Imported Reports",
+            "manageContextualLayers": "Manage Contextual Layers",
             "manageReports": "Manage Reports"
         }
     },

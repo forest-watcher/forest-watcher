@@ -65,7 +65,7 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
 
   render() {
 
-    const { importedLayers } = this.props;
+    const { importedContextualLayers } = this.props;
 
     return (
       <View style={styles.container}>
@@ -75,10 +75,10 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          {importedLayers.length > 0 && this.renderImportedLayers()}
+          {importedContextualLayers.length > 0 && this.renderImportedLayers()}
         </ScrollView>
-        <BottomTray>
-          <ActionButton onPress={() => {}} text={i18n.t('map.layerSettings.manageReports')} transparent noIcon />
+        <BottomTray requiresSafeAreaView>
+          <ActionButton onPress={() => {}} text={i18n.t('map.layerSettings.manageContextualLayers')} transparent noIcon />
         </BottomTray>
       </View>
     );
