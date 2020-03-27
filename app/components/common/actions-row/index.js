@@ -1,5 +1,6 @@
+//@flow
+
 import React, { Component, type ElementConfig } from 'react';
-import PropTypes from 'prop-types';
 import { View, TouchableHighlight, Image, Platform, TouchableNativeFeedback } from 'react-native';
 
 import Theme from 'config/theme';
@@ -7,7 +8,7 @@ import styles from './styles';
 
 type Action = {
   icon: string | number,
-  onPress: (void) => void
+  onPress: void => void
 };
 
 type Props = {
@@ -17,9 +18,7 @@ type Props = {
 };
 
 class ActionsRow extends Component<Props> {
-
   render() {
-
     const Touchable = Platform.select({
       android: TouchableNativeFeedback,
       ios: TouchableHighlight
@@ -27,7 +26,7 @@ class ActionsRow extends Component<Props> {
 
     return (
       <Touchable
-        activeOpacity={this.props.onPress ? props.opacity || 0.5 : 1}
+        activeOpacity={this.props.onPress ? this.props.opacity || 0.5 : 1}
         background={Platform.select({
           android: TouchableNativeFeedback.Ripple(Theme.background.gray),
           ios: undefined
@@ -36,7 +35,7 @@ class ActionsRow extends Component<Props> {
         onPress={this.props.onPress}
       >
         <View style={[styles.row, this.props.rowStyle]}>
-           {!!this.props.imageSrc && (
+          {!!this.props.imageSrc && (
             <Image
               resizeMode={'cover'}
               style={styles.image}
@@ -44,11 +43,7 @@ class ActionsRow extends Component<Props> {
             />
           )}
           <View style={[styles.content, this.props.style]}>{this.props.children}</View>
-          {this.props.actions && this.props.actions.length > 0 && (
-            <View>
-
-            </View>
-          )}
+          {this.props.actions && this.props.actions.length > 0 && <View />}
         </View>
       </Touchable>
     );

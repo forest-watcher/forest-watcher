@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Image, View, ScrollView, Platform, Text } from 'react-native';
+import { View, ScrollView, Platform, Text } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import debounceUI from 'helpers/debounceUI';
@@ -19,7 +19,6 @@ import { formatBytes } from 'helpers/data';
 const plusIcon = require('assets/add.png');
 const emptyIcon = require('assets/layersEmpty.png');
 const layerPlaceholder = require('assets/layerPlaceholder.png');
-
 
 type Props = {
   componentId: string,
@@ -202,22 +201,18 @@ class Layers extends Component<Props> {
     return (
       <View>
         <View style={styles.listHeader}>
-          <Text style={styles.listTitle}>
-            {i18n.t('contextualLayers.imported')}
-          </Text>
+          <Text style={styles.listTitle}>{i18n.t('contextualLayers.imported')}</Text>
         </View>
         {importedLayers.map((layerFile, index) => {
           return (
             <ActionsRow style={styles.rowContent} imageSrc={layerPlaceholder} key={index}>
               <Text style={styles.rowLabel}>{layerFile.name}</Text>
-              {layerFile.size != null && (
-                <Text style={styles.rowLabel}>{formatBytes(layerFile.size)}</Text>
-              )}
+              {layerFile.size != null && <Text style={styles.rowLabel}>{formatBytes(layerFile.size)}</Text>}
             </ActionsRow>
-          )
+          );
         })}
       </View>
-    )
+    );
   };
 
   render() {

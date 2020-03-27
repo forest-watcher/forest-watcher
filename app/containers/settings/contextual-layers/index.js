@@ -8,7 +8,7 @@ import ContextualLayers from 'components/settings/contextual-layers';
 
 function mapStateToProps(state: State) {
   return {
-  	importedLayers: state.layers.imported
+    importedLayers: state.layers.imported
   };
 }
 
