@@ -26,6 +26,18 @@
       <key>CFBundleTypeIconFiles</key>
       <array/>
       <key>CFBundleTypeName</key>
+      <string>GPX</string>
+      <key>LSHandlerRank</key>
+      <string>Owner</string>
+      <key>LSItemContentTypes</key>
+      <array>
+        <string>public.gpx</string>
+      </array>
+    </dict>
+    <dict>
+      <key>CFBundleTypeIconFiles</key>
+      <array/>
+      <key>CFBundleTypeName</key>
       <string>GeoJSON</string>
       <key>LSItemContentTypes</key>
       <array>
@@ -182,6 +194,25 @@
         <string>kml</string>
         <key>public.mime-type</key>
         <string>application/vnd.google-earth.kml+xml</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>UTTypeConformsTo</key>
+      <array>
+        <string>public.xml</string>
+      </array>
+      <key>UTTypeDescription</key>
+      <string>GPX</string>
+      <key>UTTypeIconFiles</key>
+      <array/>
+      <key>UTTypeIdentifier</key>
+      <string>public.gpx</string>
+      <key>UTTypeTagSpecification</key>
+      <dict>
+        <key>public.filename-extension</key>
+        <string>gpx</string>
+        <key>public.mime-type</key>
+        <string>application/gpx+xml</string>
       </dict>
     </dict>
     <dict>

@@ -9,8 +9,6 @@ import i18n from 'i18next';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
-import type { File } from 'types/file.types';
-
 import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
 
@@ -20,8 +18,7 @@ const emptyIcon = require('assets/layersEmpty.png');
 import DocumentPicker from 'react-native-document-picker';
 
 type Props = {
-  componentId: string,
-  importContextualLayer: (file: File) => void
+  componentId: string
 };
 
 class Layers extends Component<Props> {
@@ -141,12 +138,22 @@ class Layers extends Component<Props> {
     try {
       const res = await DocumentPicker.pick({
         type: Platform.select({
-          android: [DocumentPicker.types.plainText],
-          ios: ['public.geojson', 'public.json']
+          android: [DocumentPicker.types.plainText, 'application/gpx'],
+          ios: ['public.geojson', 'public.json', 'public.gpx']
         })
       });
-
-      this.props.importContextualLayer(res);
+      Navigation.push(this.props.componentId, {
+        component: {
+          name: 'ForestWatcher.ImportLayer',
+          passProps: {
+            file: {
+              ...res,
+              fileName: res.name, // Slightly tweak the res to reformat `name` -> `fileName` as we keep these seperate
+              name: null
+            }
+          }
+        }
+      });
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         // User cancelled the picker, exit any dialogs or menus and move on
