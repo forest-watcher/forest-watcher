@@ -58,10 +58,13 @@ class ImportLayer extends PureComponent<Props> {
     }
   };
 
-  nameIsValid = () => {
+  nameValidity = () => {
 
-    if (!this.state.name) { 
-      return false
+    if (!this.state.file.name) { 
+      return {
+        valid: false,
+        alreadyTaken: false
+      }
     }
 
     const matchingFile = this.props.existingLayers.find(layer => {
@@ -70,9 +73,10 @@ class ImportLayer extends PureComponent<Props> {
 
     const nameAlreadyTaken = !!matchingFile;
 
-    return !nameAlreadyTaken 
-      && this.state.file.name.length > 0
-      && this.state.file.name.length <= 40;
+    return {
+      valid: !nameAlreadyTaken && this.state.file.name.length > 0 && this.state.file.name.length <= 40,
+      alreadyTaken: nameAlreadyTaken
+    }
   }
 
   render() {
@@ -81,7 +85,7 @@ class ImportLayer extends PureComponent<Props> {
       return null;
     }
 
-    const nameIsValid = this.nameIsValid();
+    const nameValidity = this.nameValidity();
 
     return (
       <View style={styles.container}>
@@ -94,7 +98,7 @@ class ImportLayer extends PureComponent<Props> {
             placeholder={i18n.t('commonText.fileName')}
             onChangeText={this.onFileNameChange}
           />
-          {nameAlreadyTaken && (
+          {nameValidity.alreadyTaken && (
             <View style={styles.errorContainer}>
               <Text style={[styles.listTitle, styles.error]}>{i18n.t('importLayer.uniqueNameError')}</Text>
             </View>
@@ -108,15 +112,13 @@ class ImportLayer extends PureComponent<Props> {
         <BottomTray requiresSafeAreaView={!this.state.keyboardVisible}>
           <ActionButton
             onPress={
-              !this.props.importError &&
-              nameIsValid
+              nameValidity.valid
                 ? this.onImportPressed
                 : null
             }
             text={i18n.t('importLayer.save').toUpperCase()}
             disabled={
-              !!this.props.importError ||
-              !nameIsValid
+              !nameValidity.valid
             }
             short
             noIcon
