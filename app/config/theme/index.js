@@ -49,7 +49,9 @@ const config = {
     viirs: colors.viirs,
     recent: colors.recent,
     lightBlue: colors.lightBlue,
-    blue: colors.blue
+    blue: colors.blue,
+    report: colors.turtleGreen,
+    importedReport: '#52d0c4'
   },
   font: fontName,
   fontColors: fontColors,

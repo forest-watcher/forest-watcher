@@ -16,7 +16,13 @@ const downloadIcon = require('assets/download.png');
 type ViewProps = React.ElementProps<typeof View>;
 type ViewStyleProp = $PropertyType<ViewProps, 'style'>;
 
+type Legend = {
+  color: string,
+  title: string
+};
+
 type Props = {
+  disableSettingsButton?: ?string | ?boolean,
   downloadCalloutBody?: ?boolean,
   downloadCalloutVisible?: ?boolean,
   downloadCalloutTitle?: ?string,
@@ -25,6 +31,7 @@ type Props = {
   hideImage?: ?boolean,
   imageSrc?: ?string | ?number,
   largerLeftPadding?: ?boolean,
+  legend?: ?Legend,
   onDownloadPress?: void => void,
   onPress: void => void,
   onSettingsPress?: void => void,
@@ -42,7 +49,6 @@ export default class VerticalSplitRow extends Component<Props> {
   render() {
     const { selected, downloadVisible } = this.props;
     const icon = selected != null ? (selected ? checkboxOn : checkboxOff) : nextIcon;
-    const inShareMode = selected === true || selected === false;
 
     return (
       <TouchableHighlight
@@ -94,12 +100,26 @@ export default class VerticalSplitRow extends Component<Props> {
               </View>
               {!!this.props.subtitle && <Text style={styles.subtitle}>{this.props.subtitle}</Text>}
             </View>
-            <SettingsButton
-              title={this.props.settingsTitle}
-              disabled={inShareMode || this.props.onSettingsPress == null}
-              onPress={this.props.onSettingsPress}
-              style={styles.settingsButton}
-            />
+            {(this.props.settingsTitle || this.props.onSettingsPress) && (
+              <SettingsButton
+                title={this.props.settingsTitle}
+                disabled={this.props.disableSettingsButton || this.props.onSettingsPress == null}
+                onPress={this.props.onSettingsPress}
+                style={styles.settingsButton}
+              />
+            )}
+            {this.props.legend?.length && (
+              <View style={styles.legendContainer}>
+                {this.props.legend?.map(item => {
+                  return (
+                    <React.Fragment>
+                      <View style={[styles.legendColor, { backgroundColor: item.color }]} />
+                      <Text style={styles.legendTitle}>{item.title}</Text>
+                    </React.Fragment>
+                  );
+                })}
+              </View>
+            )}
           </View>
         </View>
       </TouchableHighlight>
