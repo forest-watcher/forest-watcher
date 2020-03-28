@@ -3,20 +3,20 @@ import type { State } from 'types/store.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { toggleMyReportsLayer, toggleImportedReportsLayer } from 'redux-modules/layerSettings';
 import BasemapLayerSettings from 'components/settings/layer-settings/basemap';
+import { selectActiveBasemap } from 'redux-modules/layerSettings';
 
 function mapStateToProps(state: State) {
   return {
-    reportsLayerSettings: state.layerSettings.reports
+    basemaps: state.basemaps,
+    activeBasemapId: state.layerSettings.basemap.activeBasemapId
   };
 }
 
 const mapDispatchToProps = (dispatch: *) =>
   bindActionCreators(
     {
-      toggleMyReportsLayer,
-      toggleImportedReportsLayer
+      selectActiveBasemap
     },
     dispatch
   );

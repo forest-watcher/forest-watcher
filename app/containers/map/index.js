@@ -13,6 +13,7 @@ import { shouldBeConnected } from 'helpers/app';
 import { getSelectedArea, activeDataset } from 'helpers/area';
 import Map from 'components/map';
 import { coordsArrayToObject } from 'helpers/location';
+import { getActiveBasemap } from 'redux-modules/layerSettings';
 
 function getAreaCoordinates(areaFeature) {
   switch (areaFeature.geometry.type) {
@@ -58,9 +59,12 @@ function mapStateToProps(state: State, ownProps: { previousRoute: Route }) {
       templateId: area.templateId || 'default'
     };
   }
+  const basemap = getActiveBasemap(state);
   const { cache } = state.layers;
   const contextualLayer = getContextualLayer(state.layers);
+
   return {
+    basemap,
     contextualLayer,
     areaCoordinates,
     isTracking: !!state.routes.activeRoute,

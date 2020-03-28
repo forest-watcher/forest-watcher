@@ -1,5 +1,7 @@
 // @flow
 import type { LayerSettingsState, LayerSettingsAction } from 'types/layerSettings.types';
+import type { BasemapsAction } from 'types/basemaps.types';
+import { DEFAULT_BASEMAP } from 'redux-modules/basemaps';
 
 // Actions
 const TOGGLE_ALERTS_LAYER = 'layerSettings/TOGGLE_ALERTS_LAYER';
@@ -10,7 +12,7 @@ const TOGGLE_CONTEXTUAL_LAYERS_LAYER = 'layerSettings/TOGGLE_CONTEXTUAL_LAYERS_L
 const TOGGLE_MY_REPORTS_LAYER = 'layerSettings/TOGGLE_MY_REPORTS_LAYER';
 const TOGGLE_IMPORTED_REPORTS_LAYER = 'layerSettings/TOGGLE_IMPORTED_REPORTS_LAYER';
 
-const DEFAULT_BASEMAP = ''; // TODO
+const SELECT_ACTIVE_BASEMAP = 'basemaps/SELECT_ACTIVE_BASEMAP';
 
 // Reducer
 const initialState = {
@@ -30,7 +32,7 @@ const initialState = {
     activeRouteIds: []
   },
   reports: {
-    layerIsActive: false, // todo becomes false if other two are false
+    layerIsActive: false,
     myReportsActive: false,
     importedReportsActive: false
   },
@@ -39,7 +41,7 @@ const initialState = {
     activeContextualLayerIds: []
   },
   basemap: {
-    activeBasemapId: DEFAULT_BASEMAP
+    activeBasemapId: DEFAULT_BASEMAP.id
   }
 };
 
@@ -99,6 +101,9 @@ export default function reducer(state: LayerSettingsState = initialState, action
         }
       };
     }
+    case SELECT_ACTIVE_BASEMAP: {
+      return { ...state, basemap: { activeBasemapId: action.payload.basemapId } };
+    }
     default:
       return state;
   }
@@ -138,4 +143,19 @@ export function toggleImportedReportsLayer(): LayerSettingsAction {
   return {
     type: TOGGLE_IMPORTED_REPORTS_LAYER
   };
+}
+
+export function selectActiveBasemap(basemapId: string): BasemapsAction {
+  return {
+    type: SELECT_ACTIVE_BASEMAP,
+    payload: {
+      basemapId
+    }
+  };
+}
+
+export function getActiveBasemap(state) {
+  const activeBasemapId = state.layerSettings.basemap.activeBasemapId;
+  const allBasemaps = [...state.basemaps.gfwBasemaps, ...state.basemaps.importedBasemaps];
+  return allBasemaps.find(item => item.id === activeBasemapId);
 }

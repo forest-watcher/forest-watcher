@@ -1,25 +1,19 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 import styles from './styles';
 import VerticalSplitRow from 'components/common/vertical-split-row';
 import i18n from 'i18next';
-import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import { Navigation } from 'react-native-navigation';
-
-type ReportsLayerSettingsType = {
-  layerIsActive: boolean,
-  myReportsActive: boolean,
-  importedReportsActive: boolean
-};
+import type { BasemapsState } from 'types/basemaps.types';
 
 type Props = {
-  reportsLayerSettings: ReportsLayerSettingsType,
-  toggleMyReportsLayer: () => void,
-  toggleImportedReportsLayer: () => void
+  basemaps: BasemapsState,
+  activeBasemapId: string,
+  selectActiveBasemap: string => {}
 };
 
 class BasemapLayerSettings extends PureComponent<Props> {
@@ -27,15 +21,8 @@ class BasemapLayerSettings extends PureComponent<Props> {
     return {
       topBar: {
         title: {
-          text: i18n.t('map.layerSettings.basemap')
-        },
-        rightButtons: [
-          {
-            id: 'clear',
-            text: i18n.t('commonText.clear'),
-            ...styles.topBarTextButton
-          }
-        ]
+          text: i18n.t('map.layerSettings.basemaps')
+        }
       }
     };
   }
@@ -51,13 +38,8 @@ class BasemapLayerSettings extends PureComponent<Props> {
     }
   }
 
-  clearAllOptions = () => {
-    if (this.props.reportsLayerSettings.myReportsActive) {
-      this.props.toggleMyReportsLayer();
-    }
-    if (this.props.reportsLayerSettings.importedReportsActive) {
-      this.props.toggleImportedReportsLayer();
-    }
+  selectBasemap = basemap => {
+    this.props.selectActiveBasemap(basemap.id);
   };
 
   render() {
@@ -69,29 +51,41 @@ class BasemapLayerSettings extends PureComponent<Props> {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          <VerticalSplitRow
-            title={i18n.t('map.layerSettings.myReports')}
-            selected={this.props.reportsLayerSettings.myReportsActive}
-            onPress={this.props.toggleMyReportsLayer}
-            legend={[{ title: i18n.t('map.layerSettings.report'), color: Theme.colors.report }]}
-            style={styles.rowContainer}
-            hideImage
-            smallerVerticalPadding
-            largerLeftPadding
-          />
-          <VerticalSplitRow
-            title={i18n.t('map.layerSettings.importedReports')}
-            selected={this.props.reportsLayerSettings.importedReportsActive}
-            onPress={this.props.toggleImportedReportsLayer}
-            legend={[{ title: i18n.t('map.layerSettings.report'), color: Theme.colors.importedReport }]}
-            style={styles.rowContainer}
-            hideImage
-            smallerVerticalPadding
-            largerLeftPadding
-          />
+          <Text style={styles.heading}>{i18n.t('map.layerSettings.gfwBasemaps')}</Text>
+          {this.props.basemaps.gfwBasemaps.map(basemap => {
+            return (
+              <VerticalSplitRow
+                key={basemap.id}
+                style={styles.rowContainer}
+                onPress={() => {
+                  this.selectBasemap(basemap);
+                }}
+                title={basemap.name}
+                selected={this.props.activeBasemapId === basemap.id}
+                hideImage
+              />
+            );
+          })}
+          {this.props.basemaps.importedBasemaps.length > 0 && (
+            <Text style={styles.heading}>{i18n.t('map.layerSettings.importedBasemaps')}</Text>
+          )}
+          {this.props.basemaps.importedBasemaps.map(basemap => {
+            return (
+              <VerticalSplitRow
+                key={basemap.id}
+                style={styles.rowContainer}
+                onPress={() => {
+                  this.selectBasemap(basemap);
+                }}
+                title={basemap.name}
+                selected={this.props.activeBasemapId === basemap.id}
+                hideImage
+              />
+            );
+          })}
         </ScrollView>
-        <BottomTray>
-          <ActionButton onPress={() => {}} text={i18n.t('map.layerSettings.manageReports')} transparent noIcon />
+        <BottomTray requiresSafeAreaView>
+          <ActionButton onPress={() => {}} text={i18n.t('map.layerSettings.manageBasemaps')} transparent noIcon />
         </BottomTray>
       </View>
     );

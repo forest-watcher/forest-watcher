@@ -23,7 +23,7 @@ export default StyleSheet.create({
     paddingBottom: 10
   },
   rowContainer: {
-    marginBottom: 12
+    marginBottom: 18
   },
   topBarTextButton: {
     fontSize: 16,

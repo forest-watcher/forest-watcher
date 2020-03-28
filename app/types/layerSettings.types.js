@@ -34,9 +34,16 @@ export type LayerSettingsAction =
   | ToggleAlertsLayer
   | ToggleRoutesLayer
   | ToggleReportsLayer
-  | ToggleContextualLayersLayer;
+  | ToggleContextualLayersLayer
+  | SelectActiveBasemap;
 
 export type ToggleAlertsLayer = { type: 'layerSettings/TOGGLE_ALERTS_LAYER' };
 export type ToggleRoutesLayer = { type: 'layerSettings/TOGGLE_ROUTES_LAYER' };
 export type ToggleReportsLayer = { type: 'layerSettings/TOGGLE_REPORTS_LAYER' };
 export type ToggleContextualLayersLayer = { type: 'layerSettings/TOGGLE_CONTEXTUAL_LAYERS_LAYER' };
+export type SelectActiveBasemap = {
+  type: 'basemaps/SELECT_ACTIVE_BASEMAP',
+  payload: {
+    basemapId: string
+  }
+};

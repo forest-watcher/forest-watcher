@@ -333,7 +333,10 @@
             "report": "Report",
             "myReports": "My Reports",
             "importedReports": "Imported Reports",
-            "manageReports": "Manage Reports"
+            "manageReports": "Manage Reports",
+            "basemaps": "Basemaps",
+            "gfwBasemaps": "GFW Basemaps",
+            "importedBasemaps": "Imported Basemaps"
         }
     },
     "partners": {

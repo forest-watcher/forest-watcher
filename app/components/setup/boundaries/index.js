@@ -6,11 +6,11 @@ import type { ContextualLayer } from 'types/layers.types';
 import React, { Component } from 'react';
 import { Image, View } from 'react-native';
 
-import DrawAreas from 'components/setup/draw-areas';
 import Theme from 'config/theme';
 import i18n from 'i18next';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
+import DrawAreas from 'containers/setup/draw-areas';
 
 const layersIcon = require('assets/layers.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
@@ -60,7 +60,14 @@ class SetupBoundaries extends Component<Props> {
       Navigation.mergeOptions(this.props.componentId, {
         sideMenu: {
           right: {
-            visible: true
+            visible: true,
+            component: {
+              passProps: {
+                // https://github.com/wix/react-native-navigation/issues/3635
+                // Pass componentId so drawer can push screens
+                componentId: this.props.componentId
+              }
+            }
           }
         }
       });
