@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, ScrollView, Text } from 'react-native';
+import { Image, View, ScrollView, Text } from 'react-native';
 import styles from './styles';
 import VerticalSplitRow from 'components/common/vertical-split-row';
 import i18n from 'i18next';
@@ -26,7 +26,6 @@ type ContextualLayersLayerSettingsType = {
 };
 
 type Props = {
-  activeContextualLayerIds: Array<string>,
   contextualLayersLayerSettings: ContextualLayersLayerSettingsType,
   importedContextualLayers: Array<File>,
   toggleContextualLayersLayer: () => void
@@ -66,7 +65,8 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
   };
 
   renderImportedLayers = () => {
-    const { activeContextualLayerIds, importedContextualLayers } = this.props;
+    const { contextualLayersLayerSettings, importedContextualLayers } = this.props;
+    console.log("Props", this.props);
     return (
       <View>
         <View style={styles.listHeader}>
@@ -75,10 +75,16 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
         {importedContextualLayers.map((layerFile, index) => {
           // Imported files are uniquely identifiable by name, as we ensure this when importing!
           // May need to adjust when are shared...
-          const selected = activeContextualLayerIds.includes(layerFile.name);
+          const selected = contextualLayersLayerSettings.activeContextualLayerIds.includes(layerFile.name);
           return (
-            <ActionsRow style={styles.rowContent} imageSrc={layerPlaceholder} key={index}>
+            <ActionsRow 
+              style={styles.rowContent} 
+              imageSrc={layerPlaceholder} 
+              onPress={null}
+              key={index}
+            >
               <Text style={styles.rowLabel}>{layerFile.name}</Text>
+              <Image source={selected ? checkboxOn : checkboxOff}/>
             </ActionsRow>
           );
         })}

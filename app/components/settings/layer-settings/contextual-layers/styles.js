@@ -48,7 +48,9 @@ export default StyleSheet.create({
   rowContent: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingRight: 0
   },
   rowLabel: {
     flexShrink: 1,

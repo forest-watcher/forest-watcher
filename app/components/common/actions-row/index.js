@@ -13,6 +13,7 @@ type Action = {
 
 type Props = {
   actions?: ?Array<Action>,
+  onPress?: ?(void => void),
   imageSrc?: ?string | ?number,
   ...ElementConfig<typeof View>
 };
