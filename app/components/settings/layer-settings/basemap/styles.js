@@ -11,9 +11,9 @@ export default StyleSheet.create({
   },
   heading: {
     ...Theme.sectionHeaderText,
-    marginLeft: 32,
-    marginTop: 32,
-    marginBottom: 40
+    marginLeft: 24,
+    marginTop: 24,
+    marginBottom: 12
   },
   list: {
     flex: 1
