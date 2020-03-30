@@ -293,6 +293,8 @@ PODS:
   - react-native-fbsdk/Share (1.1.1):
     - FBSDKShareKit (= 5.8)
     - React
+  - react-native-get-random-values (1.3.1):
+    - React
   - react-native-image-picker (2.3.0):
     - React
   - react-native-mapbox-gl (7.0.8):
@@ -403,6 +405,7 @@ DEPENDENCIES:
   - "react-native-cookies (from `../node_modules/@react-native-community/cookies/ios`)"
   - react-native-document-picker (from `../node_modules/react-native-document-picker`)
   - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
+  - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - "react-native-mapbox-gl (from `../node_modules/@react-native-mapbox-gl/maps`)"
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
@@ -498,6 +501,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-document-picker"
   react-native-fbsdk:
     :path: "../node_modules/react-native-fbsdk"
+  react-native-get-random-values:
+    :path: "../node_modules/react-native-get-random-values"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-mapbox-gl:
@@ -592,6 +597,7 @@ SPEC CHECKSUMS:
   react-native-cookies: a16310bb64240b95dd9531de2b19c267f76fc320
   react-native-document-picker: 0573c02d742d4bef38a5d16b5f039754cfa69888
   react-native-fbsdk: b94a83971c496a35803f38b921aec6d637ba07b5
+  react-native-get-random-values: 148a42f97f2ce180a52d219144e83c278d4fe24b
   react-native-image-picker: c8a4faf0e75ef3619f215463394388f1c222236b
   react-native-mapbox-gl: fcd88e2bf0ddea552b0209cc2770a5ac2b9c9910
   react-native-netinfo: 3bf235d94cc291cf0673ad9fd9eaae82f84ed8a9
