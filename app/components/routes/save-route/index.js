@@ -98,8 +98,8 @@ class SaveRoute extends PureComponent<Props> {
     return (
       <ScrollView style={styles.container}>
         <RoutePreviewImage
-          aspectRatio={0.5} 
-          width={screenDimensions.width} 
+          aspectRatio={0.5}
+          width={screenDimensions.width}
           style={styles.headerImage}
           route={{
             ...this.props.route,
@@ -136,13 +136,5 @@ class SaveRoute extends PureComponent<Props> {
     );
   }
 }
-/*
-label: PropTypes.string.isRequired,
-  selectedValue: PropTypes.any.isRequired,
-  onValueChange: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.any.isRequired
- */
+
 export default SaveRoute;
