@@ -4,6 +4,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import Areas from 'containers/areas';
 import ContextualLayers from 'containers/settings/contextual-layers';
+import ContextualLayersLayerSettings from 'containers/settings/layer-settings/contextual-layers';
 import ImportLayer from 'containers/settings/contextual-layers/import-layer';
 import Home from 'containers/home';
 import Login from 'containers/login';
@@ -61,6 +62,7 @@ function registerComponent(name, Screen, Provider, store, wrapInSafeAreaProvider
 export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.Areas', Areas, Provider, store);
   registerComponent('ForestWatcher.ContextualLayers', ContextualLayers, Provider, store);
+  registerComponent('ForestWatcher.ContextualLayersLayerSettings', ContextualLayersLayerSettings, Provider, store);
   registerComponent('ForestWatcher.Home', Home, Provider, store);
   registerComponent('ForestWatcher.ImportLayer', ImportLayer, Provider, store);
   registerComponent('ForestWatcher.Login', Login, Provider, store);

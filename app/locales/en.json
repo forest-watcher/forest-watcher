@@ -343,6 +343,7 @@
             "title": "Customise Map Display"
         },
         "layerSettings": {
+            "customLayers": "Custom Layers",
             "layersHeading": "Layers",
             "alerts": "Alerts",
             "routes": "Routes",
@@ -352,6 +353,7 @@
             "report": "Report",
             "myReports": "My Reports",
             "importedReports": "Imported Reports",
+            "manageContextualLayers": "Manage Contextual Layers",
             "manageReports": "Manage Reports"
         }
     },
