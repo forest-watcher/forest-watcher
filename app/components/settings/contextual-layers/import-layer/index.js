@@ -58,9 +58,12 @@ class ImportLayer extends PureComponent<Props> {
     }
   };
 
-  render() {
-    if (!this.state.file) {
-      return null;
+  nameValidity = () => {
+    if (!this.state.file.name) {
+      return {
+        valid: false,
+        alreadyTaken: false
+      };
     }
 
     const matchingFile = this.props.existingLayers.find(layer => {
@@ -68,6 +71,19 @@ class ImportLayer extends PureComponent<Props> {
     });
 
     const nameAlreadyTaken = !!matchingFile;
+
+    return {
+      valid: !nameAlreadyTaken && this.state.file.name.length > 0 && this.state.file.name.length <= 40,
+      alreadyTaken: nameAlreadyTaken
+    };
+  };
+
+  render() {
+    if (!this.state.file) {
+      return null;
+    }
+
+    const nameValidity = this.nameValidity();
 
     return (
       <View style={styles.container}>
@@ -80,7 +96,7 @@ class ImportLayer extends PureComponent<Props> {
             placeholder={i18n.t('commonText.fileName')}
             onChangeText={this.onFileNameChange}
           />
-          {nameAlreadyTaken && (
+          {nameValidity.alreadyTaken && (
             <View style={styles.errorContainer}>
               <Text style={[styles.listTitle, styles.error]}>{i18n.t('importLayer.uniqueNameError')}</Text>
             </View>
@@ -93,23 +109,9 @@ class ImportLayer extends PureComponent<Props> {
         </ScrollView>
         <BottomTray requiresSafeAreaView={!this.state.keyboardVisible}>
           <ActionButton
-            onPress={
-              !this.props.importError &&
-              !nameAlreadyTaken &&
-              this.state.file.name &&
-              this.state.file.name.length > 0 &&
-              this.state.file.name.length <= 40
-                ? this.onImportPressed
-                : null
-            }
+            onPress={nameValidity.valid ? this.onImportPressed : null}
             text={i18n.t('importLayer.save').toUpperCase()}
-            disabled={
-              nameAlreadyTaken ||
-              !!this.props.importError ||
-              !this.state.file.name ||
-              this.state.file.name.length === 0 ||
-              this.state.file.name.length > 40
-            }
+            disabled={!nameValidity.valid}
             short
             noIcon
           />

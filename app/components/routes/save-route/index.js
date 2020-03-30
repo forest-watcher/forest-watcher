@@ -98,8 +98,8 @@ class SaveRoute extends PureComponent<Props> {
     return (
       <ScrollView style={styles.container}>
         <RoutePreviewImage
-          aspectRatio={0.5} 
-          width={screenDimensions.width} 
+          aspectRatio={0.5}
+          width={screenDimensions.width}
           style={styles.headerImage}
           route={{
             ...this.props.route,
