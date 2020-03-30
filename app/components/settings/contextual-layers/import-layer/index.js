@@ -18,7 +18,8 @@ type Props = {
   existingLayers: Array<File>,
   file: File,
   importContextualLayer: (file: File, fileName: string) => void,
-  importError: ?*
+  importError: ?*,
+  importingLayer: ?string 
 };
 
 class ImportLayer extends PureComponent<Props> {
@@ -67,7 +68,12 @@ class ImportLayer extends PureComponent<Props> {
     }
 
     const matchingFile = this.props.existingLayers.find(layer => {
-      return layer.name === this.state.file.name;
+      // We also make sure we're not conflicting with ourself here...
+      // Because the file is added before the screen disappears if we don't make
+      // sure the "matches" id is different to the currently adding files id
+      // then the duplicate name message is shown as the screen is dismissing on iOS
+      return layer.name === this.state.file.name
+              && layer.id !== this.state.file.id;
     });
 
     const nameAlreadyTaken = !!matchingFile;
@@ -111,7 +117,7 @@ class ImportLayer extends PureComponent<Props> {
           <ActionButton
             onPress={nameValidity.valid ? this.onImportPressed : null}
             text={i18n.t('importLayer.save').toUpperCase()}
-            disabled={!nameValidity.valid}
+            disabled={!nameValidity.valid || !!this.props.importingLayer}
             short
             noIcon
           />

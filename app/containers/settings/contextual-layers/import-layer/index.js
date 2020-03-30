@@ -11,7 +11,8 @@ import ImportLayer from 'components/settings/contextual-layers/import-layer';
 function mapStateToProps(state: State) {
   return {
     existingLayers: state.layers.imported,
-    importError: state.layers.importError
+    importError: state.layers.importError,
+    importingLayer: state.layers.importingLayer
   };
 }
 
