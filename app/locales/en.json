@@ -354,7 +354,13 @@
             "myReports": "My Reports",
             "importedReports": "Imported Reports",
             "manageContextualLayers": "Manage Contextual Layers",
-            "manageReports": "Manage Reports"
+            "manageReports": "Manage Reports",
+            "reportSettings": {
+                "showingNoReports": "Showing No Reports",
+                "showingMyReports": "Showing My Reports",
+                "showingImportedReports": "Showing Imported Reports",
+                "showingAllReports": "Showing All Reports"
+            }
         }
     },
     "partners": {

@@ -84,6 +84,23 @@ class MapSidebar extends PureComponent<Props> {
     this.pushScreen('ForestWatcher.ContextualLayersLayerSettings');
   });
 
+  getReportSettingsTitle = () => {
+    const { myReportsActive, importedReportsActive } = this.props.layerSettings.reports;
+    if (myReportsActive) {
+      return i18n.t(
+        importedReportsActive
+          ? 'map.layerSettings.reportSettings.showingAllReports'
+          : 'map.layerSettings.reportSettings.showingMyReports'
+      );
+    } else {
+      return i18n.t(
+        importedReportsActive
+          ? 'map.layerSettings.reportSettings.showingImportedReports'
+          : 'map.layerSettings.reportSettings.showingNoReports'
+      );
+    }
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -122,7 +139,7 @@ class MapSidebar extends PureComponent<Props> {
             onPress={this.props.toggleReportsLayer}
             onSettingsPress={this.openReportLayerSettings}
             title={i18n.t('map.layerSettings.reports')}
-            settingsTitle={'All'}
+            settingsTitle={this.getReportSettingsTitle()}
             selected={this.props.layerSettings.reports.layerIsActive}
             style={styles.rowContainer}
             hideDivider
