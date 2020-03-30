@@ -39,6 +39,7 @@ class MapSidebar extends PureComponent<Props> {
 
   componentDidDisappear() {
     if (Platform.OS === 'ios' && this.awaitingPushComponentName) {
+      this.awaitingPushComponentName = null;
       Navigation.push(this.state.componentId, {
         component: {
           name: this.awaitingPushComponentName
