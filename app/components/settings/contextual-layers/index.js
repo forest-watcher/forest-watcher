@@ -20,6 +20,8 @@ const plusIcon = require('assets/add.png');
 const emptyIcon = require('assets/layersEmpty.png');
 const layerPlaceholder = require('assets/layerPlaceholder.png');
 
+import generatedUniqueId from 'helpers/uniqueId';
+
 type Props = {
   componentId: string,
   importedLayers: Array<File>
@@ -152,7 +154,8 @@ class Layers extends Component<Props> {
           passProps: {
             file: {
               ...res,
-              fileName: res.name, // Slightly tweak the res to reformat `name` -> `fileName` as we keep these seperate
+              fileName: res.name, // Slightly tweak the res to reformat `name` -> `fileName` as we keep these seperate,
+              id: generatedUniqueId(),
               name: null
             }
           }

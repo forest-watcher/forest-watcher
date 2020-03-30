@@ -72,14 +72,12 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
           <Text style={styles.listTitle}>{i18n.t('map.layerSettings.customLayers')}</Text>
         </View>
         {importedContextualLayers.map((layerFile, index) => {
-          // Imported files are uniquely identifiable by name, as we ensure this when importing!
-          // May need to adjust when are shared...
-          const selected = contextualLayersLayerSettings.activeContextualLayerIds.includes(layerFile.name);
+          const selected = contextualLayersLayerSettings.activeContextualLayerIds.includes(layerFile.id);
           return (
             <ActionsRow
               style={styles.rowContent}
               imageSrc={layerPlaceholder}
-              onPress={this.setContextualLayerShowing.bind(this, layerFile.name, selected ? false : true)}
+              onPress={this.setContextualLayerShowing.bind(this, layerFile.id, selected ? false : true)}
               key={index}
             >
               <Text style={styles.rowLabel}>{layerFile.name}</Text>
