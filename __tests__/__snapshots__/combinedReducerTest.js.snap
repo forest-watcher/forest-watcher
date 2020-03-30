@@ -31,6 +31,59 @@ Object {
     "synced": false,
     "syncing": false,
   },
+  "basemaps": Object {
+    "gfwBasemaps": Array [
+      Object {
+        "id": "mapbox://styles/mapbox/streets-v11",
+        "isMapboxStyle": true,
+        "name": "Street",
+        "styleURL": "mapbox://styles/mapbox/streets-v11",
+      },
+      Object {
+        "id": "mapbox://styles/mapbox/dark-v10",
+        "isMapboxStyle": true,
+        "name": "Dark",
+        "styleURL": "mapbox://styles/mapbox/dark-v10",
+      },
+      Object {
+        "id": "mapbox://styles/mapbox/light-v10",
+        "isMapboxStyle": true,
+        "name": "Light",
+        "styleURL": "mapbox://styles/mapbox/light-v10",
+      },
+      Object {
+        "id": "mapbox://styles/mapbox/outdoors-v11",
+        "isMapboxStyle": true,
+        "name": "Outdoors",
+        "styleURL": "mapbox://styles/mapbox/outdoors-v11",
+      },
+      Object {
+        "id": "mapbox://styles/mapbox/satellite-v9",
+        "isMapboxStyle": true,
+        "name": "Satellite",
+        "styleURL": "mapbox://styles/mapbox/satellite-v9",
+      },
+      Object {
+        "id": "mapbox://styles/mapbox/satellite-streets-v11",
+        "isMapboxStyle": true,
+        "name": "SatelliteStreet",
+        "styleURL": "mapbox://styles/mapbox/satellite-streets-v11",
+      },
+      Object {
+        "id": "mapbox://styles/mapbox/navigation-preview-day-v4",
+        "isMapboxStyle": true,
+        "name": "TrafficDay",
+        "styleURL": "mapbox://styles/mapbox/navigation-preview-day-v4",
+      },
+      Object {
+        "id": "mapbox://styles/mapbox/navigation-preview-night-v4",
+        "isMapboxStyle": true,
+        "name": "TrafficNight",
+        "styleURL": "mapbox://styles/mapbox/navigation-preview-night-v4",
+      },
+    ],
+    "importedBasemaps": Array [],
+  },
   "countries": Object {
     "data": Array [
       Object {
@@ -1886,7 +1939,7 @@ Object {
       },
     },
     "basemap": Object {
-      "activeBasemapId": "",
+      "activeBasemapId": "mapbox://styles/mapbox/streets-v11",
     },
     "contextualLayers": Object {
       "activeContextualLayerIds": Array [],
@@ -1982,6 +2035,59 @@ Object {
     "synced": false,
     "syncing": false,
   },
+  "basemaps": Object {
+    "gfwBasemaps": Array [
+      Object {
+        "id": "mapbox://styles/mapbox/streets-v11",
+        "isMapboxStyle": true,
+        "name": "Street",
+        "styleURL": "mapbox://styles/mapbox/streets-v11",
+      },
+      Object {
+        "id": "mapbox://styles/mapbox/dark-v10",
+        "isMapboxStyle": true,
+        "name": "Dark",
+        "styleURL": "mapbox://styles/mapbox/dark-v10",
+      },
+      Object {
+        "id": "mapbox://styles/mapbox/light-v10",
+        "isMapboxStyle": true,
+        "name": "Light",
+        "styleURL": "mapbox://styles/mapbox/light-v10",
+      },
+      Object {
+        "id": "mapbox://styles/mapbox/outdoors-v11",
+        "isMapboxStyle": true,
+        "name": "Outdoors",
+        "styleURL": "mapbox://styles/mapbox/outdoors-v11",
+      },
+      Object {
+        "id": "mapbox://styles/mapbox/satellite-v9",
+        "isMapboxStyle": true,
+        "name": "Satellite",
+        "styleURL": "mapbox://styles/mapbox/satellite-v9",
+      },
+      Object {
+        "id": "mapbox://styles/mapbox/satellite-streets-v11",
+        "isMapboxStyle": true,
+        "name": "SatelliteStreet",
+        "styleURL": "mapbox://styles/mapbox/satellite-streets-v11",
+      },
+      Object {
+        "id": "mapbox://styles/mapbox/navigation-preview-day-v4",
+        "isMapboxStyle": true,
+        "name": "TrafficDay",
+        "styleURL": "mapbox://styles/mapbox/navigation-preview-day-v4",
+      },
+      Object {
+        "id": "mapbox://styles/mapbox/navigation-preview-night-v4",
+        "isMapboxStyle": true,
+        "name": "TrafficNight",
+        "styleURL": "mapbox://styles/mapbox/navigation-preview-night-v4",
+      },
+    ],
+    "importedBasemaps": Array [],
+  },
   "countries": Object {
     "data": Array [
       Object {
@@ -3837,7 +3943,7 @@ Object {
       },
     },
     "basemap": Object {
-      "activeBasemapId": "",
+      "activeBasemapId": "mapbox://styles/mapbox/streets-v11",
     },
     "contextualLayers": Object {
       "activeContextualLayerIds": Array [],
