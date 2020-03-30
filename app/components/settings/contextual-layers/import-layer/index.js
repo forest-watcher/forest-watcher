@@ -59,12 +59,11 @@ class ImportLayer extends PureComponent<Props> {
   };
 
   nameValidity = () => {
-
-    if (!this.state.file.name) { 
+    if (!this.state.file.name) {
       return {
         valid: false,
         alreadyTaken: false
-      }
+      };
     }
 
     const matchingFile = this.props.existingLayers.find(layer => {
@@ -76,11 +75,10 @@ class ImportLayer extends PureComponent<Props> {
     return {
       valid: !nameAlreadyTaken && this.state.file.name.length > 0 && this.state.file.name.length <= 40,
       alreadyTaken: nameAlreadyTaken
-    }
-  }
+    };
+  };
 
   render() {
-
     if (!this.state.file) {
       return null;
     }
@@ -111,15 +109,9 @@ class ImportLayer extends PureComponent<Props> {
         </ScrollView>
         <BottomTray requiresSafeAreaView={!this.state.keyboardVisible}>
           <ActionButton
-            onPress={
-              nameValidity.valid
-                ? this.onImportPressed
-                : null
-            }
+            onPress={nameValidity.valid ? this.onImportPressed : null}
             text={i18n.t('importLayer.save').toUpperCase()}
-            disabled={
-              !nameValidity.valid
-            }
+            disabled={!nameValidity.valid}
             short
             noIcon
           />

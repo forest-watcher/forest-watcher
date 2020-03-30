@@ -52,7 +52,7 @@ class MapSidebar extends PureComponent<Props> {
       return;
     }
 
-    if (Platform.OS === "ios") {
+    if (Platform.OS === 'ios') {
       this.awaitingPushComponentName = componentName;
     }
 
@@ -66,7 +66,7 @@ class MapSidebar extends PureComponent<Props> {
     });
 
     // On iOS we need to wait until `mergeOptions event is seen!`
-    if (Platform.OS === "android") {
+    if (Platform.OS === 'android') {
       // push new screen using map screen's componentId
       Navigation.push(this.state.componentId, {
         component: {

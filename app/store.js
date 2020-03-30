@@ -11,7 +11,7 @@ import { reactotronRedux } from 'reactotron-redux'; // eslint-disable-line
 import { rootSaga } from 'sagas';
 
 if (__DEV__) {
-  Reactotron.configure()
+  Reactotron.configure({ host: '192.168.1.229' })
     .use(reactotronRedux())
     .use(sagaPlugin())
     .use(trackGlobalErrors())

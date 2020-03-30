@@ -343,6 +343,7 @@
             "title": "Customise Map Display"
         },
         "layerSettings": {
+            "customLayers": "Custom Layers",
             "layersHeading": "Layers",
             "alerts": "Alerts",
             "routes": "Routes",

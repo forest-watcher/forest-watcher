@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ContextualLayersLayerSettings from 'components/settings/layer-settings/contextual-layers';
 
-import { toggleContextualLayersLayer } from 'redux-modules/layerSettings';
+import { clearEnabledContextualLayers, setContextualLayerShowing } from 'redux-modules/layerSettings';
 
 function mapStateToProps(state: State) {
   return {
@@ -17,7 +17,8 @@ function mapStateToProps(state: State) {
 const mapDispatchToProps = (dispatch: *) =>
   bindActionCreators(
     {
-      toggleContextualLayersLayer
+      clearEnabledContextualLayers,
+      setContextualLayerShowing
     },
     dispatch
   );

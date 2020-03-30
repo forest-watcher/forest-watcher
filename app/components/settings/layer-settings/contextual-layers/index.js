@@ -3,15 +3,11 @@
 import React, { PureComponent } from 'react';
 import { Image, View, ScrollView, Text } from 'react-native';
 import styles from './styles';
-import VerticalSplitRow from 'components/common/vertical-split-row';
 import i18n from 'i18next';
-import Theme from 'config/theme';
 import ActionsRow from 'components/common/actions-row';
 import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import { Navigation } from 'react-native-navigation';
-
-import { formatBytes } from 'helpers/data';
 
 import type { File } from 'types/file.types';
 
@@ -21,14 +17,14 @@ const checkboxOn = require('assets/checkbox_on.png');
 
 type ContextualLayersLayerSettingsType = {
   layerIsActive: boolean,
-  myReportsActive: boolean,
-  importedReportsActive: boolean
+  activeContextualLayerIds: Array<string>
 };
 
 type Props = {
+  clearEnabledContextualLayers: void => void,
   contextualLayersLayerSettings: ContextualLayersLayerSettingsType,
   importedContextualLayers: Array<File>,
-  toggleContextualLayersLayer: () => void
+  setContextualLayerShowing: (layerId: string, showing: boolean) => void
 };
 
 class ContextualLayersLayerSettings extends PureComponent<Props> {
@@ -60,13 +56,16 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
     }
   }
 
+  setContextualLayerShowing = (layerId: string, showing: boolean) => {
+    this.props.setContextualLayerShowing(layerId, showing);
+  };
+
   clearAllOptions = () => {
-    
+    this.props.clearEnabledContextualLayers();
   };
 
   renderImportedLayers = () => {
     const { contextualLayersLayerSettings, importedContextualLayers } = this.props;
-    console.log("Props", this.props);
     return (
       <View>
         <View style={styles.listHeader}>
@@ -77,23 +76,22 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
           // May need to adjust when are shared...
           const selected = contextualLayersLayerSettings.activeContextualLayerIds.includes(layerFile.name);
           return (
-            <ActionsRow 
-              style={styles.rowContent} 
-              imageSrc={layerPlaceholder} 
-              onPress={null}
+            <ActionsRow
+              style={styles.rowContent}
+              imageSrc={layerPlaceholder}
+              onPress={this.setContextualLayerShowing.bind(this, layerFile.name, selected ? false : true)}
               key={index}
             >
               <Text style={styles.rowLabel}>{layerFile.name}</Text>
-              <Image source={selected ? checkboxOn : checkboxOff}/>
+              <Image source={selected ? checkboxOn : checkboxOff} />
             </ActionsRow>
           );
         })}
       </View>
     );
-  }
+  };
 
   render() {
-
     const { importedContextualLayers } = this.props;
 
     return (
@@ -107,7 +105,12 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
           {importedContextualLayers.length > 0 && this.renderImportedLayers()}
         </ScrollView>
         <BottomTray requiresSafeAreaView>
-          <ActionButton onPress={() => {}} text={i18n.t('map.layerSettings.manageContextualLayers')} transparent noIcon />
+          <ActionButton
+            onPress={() => {}}
+            text={i18n.t('map.layerSettings.manageContextualLayers')}
+            transparent
+            noIcon
+          />
         </BottomTray>
       </View>
     );
