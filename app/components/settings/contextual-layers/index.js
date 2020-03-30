@@ -17,6 +17,8 @@ const emptyIcon = require('assets/layersEmpty.png');
 
 import DocumentPicker from 'react-native-document-picker';
 
+import generatedUniqueId from 'helpers/uniqueId';
+
 type Props = {
   componentId: string
 };
@@ -148,7 +150,8 @@ class Layers extends Component<Props> {
           passProps: {
             file: {
               ...res,
-              fileName: res.name, // Slightly tweak the res to reformat `name` -> `fileName` as we keep these seperate
+              fileName: res.name, // Slightly tweak the res to reformat `name` -> `fileName` as we keep these seperate,
+              id: generatedUniqueId(),
               name: null
             }
           }
