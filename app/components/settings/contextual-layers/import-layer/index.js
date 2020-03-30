@@ -18,7 +18,8 @@ type Props = {
   existingLayers: Array<File>,
   file: File,
   importContextualLayer: (file: File, fileName: string) => void,
-  importError: ?*
+  importError: ?*,
+  importingLayer: ?string 
 };
 
 class ImportLayer extends PureComponent<Props> {
@@ -111,7 +112,7 @@ class ImportLayer extends PureComponent<Props> {
           <ActionButton
             onPress={nameValidity.valid ? this.onImportPressed : null}
             text={i18n.t('importLayer.save').toUpperCase()}
-            disabled={!nameValidity.valid}
+            disabled={!nameValidity.valid || !!this.props.importingLayer}
             short
             noIcon
           />
