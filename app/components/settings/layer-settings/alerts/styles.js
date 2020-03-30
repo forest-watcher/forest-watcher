@@ -11,9 +11,9 @@ export default StyleSheet.create({
   },
   heading: {
     ...Theme.sectionHeaderText,
-    marginLeft: 32,
-    marginTop: 32,
-    marginBottom: 40
+    marginLeft: 24,
+    marginTop: 24,
+    marginBottom: 12
   },
   list: {
     flex: 1
@@ -25,10 +25,25 @@ export default StyleSheet.create({
   rowContainer: {
     marginBottom: 12
   },
+  selectRowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+    paddingVertical: 12
+  },
   topBarTextButton: {
     fontSize: 16,
     fontFamily: Theme.font,
     color: Theme.colors.turtleGreen,
     backgroundColor: Theme.background.main
+  },
+  bodyText: {
+    ...Theme.text,
+    fontSize: 12,
+    opacity: 0.6
+  },
+  smallLabel: {
+    ...Theme.text,
+    fontSize: 12
   }
 });
