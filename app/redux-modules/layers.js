@@ -352,7 +352,7 @@ function downloadAllLayers(config: { area: Area, layerId: string, layerUrl: stri
 export function importContextualLayer(file: File) {
   return async (dispatch: Dispatch, state: GetState) => {
     const fileName = Platform.select({
-      android: file.name,
+      android: file.fileName,
       ios: file.uri.substring(file.uri.lastIndexOf('/') + 1)
     });
 
