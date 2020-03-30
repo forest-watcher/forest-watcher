@@ -336,7 +336,13 @@
             "manageReports": "Manage Reports",
             "basemaps": "Basemaps",
             "gfwBasemaps": "GFW Basemaps",
-            "importedBasemaps": "Imported Basemaps"
+            "importedBasemaps": "Imported Basemaps",
+            "reportSettings": {
+                "showingNoReports": "Showing No Reports",
+                "showingMyReports": "Showing My Reports",
+                "showingImportedReports": "Showing Imported Reports",
+                "showingAllReports": "Showing All Reports"
+            }
         }
     },
     "partners": {
