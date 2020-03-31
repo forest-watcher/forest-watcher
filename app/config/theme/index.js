@@ -17,7 +17,9 @@ export const colors = {
   viirs: '#ED4602',
   recent: '#e9bd15',
   lightBlue: '#ACC6D5',
-  blue: '#2e8dc7'
+  blue: '#2e8dc7',
+  purple: '#5e4fc3',
+  cyan: '#52d0c4'
 };
 
 const fontColors = {
@@ -51,7 +53,8 @@ const config = {
     lightBlue: colors.lightBlue,
     blue: colors.blue,
     report: colors.turtleGreen,
-    importedReport: '#52d0c4'
+    importedReport: colors.cyan,
+    viirsReported: colors.purple
   },
   font: fontName,
   fontColors: fontColors,

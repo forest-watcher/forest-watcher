@@ -43,6 +43,18 @@ const gladTimeFrameOptions: Options = GLAD_TIME_FRAME_VALUES.map(value => {
   };
 });
 
+const VIIRS_TIME_FRAME_VALUES = [1, 2, 6, 12];
+
+const viirsTimeFrameOptions: Options = VIIRS_TIME_FRAME_VALUES.map(value => {
+  return {
+    value,
+    labelKey: i18n.t(
+      value === 1 ? 'map.layerSettings.alertSettings.oneDay' : 'map.layerSettings.alertSettings.manyDays',
+      { count: value }
+    )
+  };
+});
+
 class AlertLayerSettings extends PureComponent<Props> {
   static options(passProps) {
     return {
@@ -86,18 +98,24 @@ class AlertLayerSettings extends PureComponent<Props> {
   };
 
   onViirsAlertsTimeFrameChanged = value => {
-    const timeFrame = Number.valueOf(value);
-    this.props.setGladAlertsTimeFrame(timeFrame);
-  };
+    this.props.setViirsAlertsTimeFrame(value);
+  }
 
   render() {
-    const { timeFrame } = this.props.alertLayerSettings.glad;
     const alertsString = i18n.t('map.layerSettings.alerts');
-    const showingDescription = i18n.t(
-      timeFrame === 1
+    const gladTimeFrame = this.props.alertLayerSettings.glad.timeFrame;
+    const gladShowingDescription = i18n.t(
+      gladTimeFrame === 1
         ? 'map.layerSettings.alertSettings.showingOneMonth'
         : 'map.layerSettings.alertSettings.showingManyMonths',
-      { count: timeFrame, type: alertsString }
+      { count: gladTimeFrame, type: alertsString }
+    );
+    const viirsTimeFrame = this.props.alertLayerSettings.viirs.timeFrame;
+    const viirsShowingDescription = i18n.t(
+      viirsTimeFrame === 1
+        ? 'map.layerSettings.alertSettings.showingOneDay'
+        : 'map.layerSettings.alertSettings.showingManyDays',
+      { count: viirsTimeFrame, type: alertsString }
     );
 
     return (
@@ -126,15 +144,42 @@ class AlertLayerSettings extends PureComponent<Props> {
           />
           <View style={styles.selectRowContainer}>
             <Text style={styles.smallLabel}>{i18n.t(`map.layerSettings.alertSettings.timeFrame`)}</Text>
-            <Text style={styles.bodyText}>{showingDescription}</Text>
+            <Text style={styles.bodyText}>{gladShowingDescription}</Text>
           </View>
           <Dropdown
             label={i18n.t(`map.layerSettings.alertSettings.timeFrame`)}
-            description={i18n.t(`map.layerSettings.alertSettings.timeFrameDesc`)}
+            description={i18n.t(`map.layerSettings.alertSettings.timeFrameDescMonths`)}
             hideLabel
-            selectedValue={timeFrame}
+            selectedValue={gladTimeFrame}
             onValueChange={this.onGladAlertsTimeFrameChanged}
             options={gladTimeFrameOptions}
+          />
+          <Text style={styles.heading}>{i18n.t('map.layerSettings.alertSettings.fires')}</Text>
+          <VerticalSplitRow
+            title={i18n.t('map.layerSettings.alertSettings.viirs')}
+            selected={this.props.alertLayerSettings.viirs.active}
+            onPress={this.props.toggleViirsAlerts}
+            legend={[
+              { title: i18n.t('map.layerSettings.alertSettings.alert'), color: Theme.colors.viirs },
+              { title: i18n.t('map.layerSettings.alertSettings.reportedOn'), color: Theme.colors.viirsReported }
+            ]}
+            style={styles.rowContainer}
+            hideImage
+            hideDivider
+            smallerVerticalPadding
+            largerLeftPadding
+          />
+          <View style={styles.selectRowContainer}>
+            <Text style={styles.smallLabel}>{i18n.t(`map.layerSettings.alertSettings.timeFrame`)}</Text>
+            <Text style={styles.bodyText}>{viirsShowingDescription}</Text>
+          </View>
+          <Dropdown
+            label={i18n.t(`map.layerSettings.alertSettings.timeFrame`)}
+            description={i18n.t(`map.layerSettings.alertSettings.timeFrameDescDays`)}
+            hideLabel
+            selectedValue={viirsTimeFrame}
+            onValueChange={this.onViirsAlertsTimeFrameChanged}
+            options={viirsTimeFrameOptions}
           />
         </ScrollView>
       </View>
