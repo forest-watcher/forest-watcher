@@ -77,8 +77,24 @@ class MapSidebar extends PureComponent<Props> {
     }
   };
 
-  openReportLayerSettings = debounceUI(() => {
-    this.pushScreen('ForestWatcher.ReportLayerSettings');
+  openAlertsLayerSettings = debounceUI(() => {
+    this.pushScreen('ForestWatcher.AlertsLayerSettings');
+  });
+
+  openRoutesLayerSettings = debounceUI(() => {
+    this.pushScreen('ForestWatcher.RoutesLayerSettings');
+  });
+
+  openReportsLayerSettings = debounceUI(() => {
+    this.pushScreen('ForestWatcher.ReportsLayerSettings');
+  });
+
+  openContextualLayersLayerSettings = debounceUI(() => {
+    this.pushScreen('ForestWatcher.ContextualLayersLayerSettings');
+  });
+
+  openBasemapLayerSettings = debounceUI(() => {
+    this.pushScreen('ForestWatcher.BasemapLayerSettings');
   });
 
   openContextualLayersLayerSettings = debounceUI(() => {
@@ -114,7 +130,7 @@ class MapSidebar extends PureComponent<Props> {
           <Text style={styles.heading}>{i18n.t('map.layerSettings.layersHeading')}</Text>
           <VerticalSplitRow
             onPress={this.props.toggleAlertsLayer}
-            onSettingsPress={() => {}}
+            onSettingsPress={this.openAlertsLayerSettings}
             title={i18n.t('map.layerSettings.alerts')}
             settingsTitle={'omg'}
             selected={this.props.layerSettings.alerts.layerIsActive}
@@ -126,7 +142,7 @@ class MapSidebar extends PureComponent<Props> {
           />
           <VerticalSplitRow
             onPress={this.props.toggleRoutesLayer}
-            onSettingsPress={() => {}}
+            onSettingsPress={this.openRoutesLayerSettings}
             title={i18n.t('map.layerSettings.routes')}
             settingsTitle={'All'}
             selected={this.props.layerSettings.routes.layerIsActive}
@@ -138,7 +154,7 @@ class MapSidebar extends PureComponent<Props> {
           />
           <VerticalSplitRow
             onPress={this.props.toggleReportsLayer}
-            onSettingsPress={this.openReportLayerSettings}
+            onSettingsPress={this.openReportsLayerSettings}
             title={i18n.t('map.layerSettings.reports')}
             settingsTitle={this.getReportSettingsTitle()}
             selected={this.props.layerSettings.reports.layerIsActive}
@@ -162,7 +178,7 @@ class MapSidebar extends PureComponent<Props> {
           />
         </ScrollView>
         <View style={styles.basemapContainer}>
-          <SettingsButton title={i18n.t('map.layerSettings.basemap')} />
+          <SettingsButton title={i18n.t('map.layerSettings.basemap')} onPress={this.openBasemapLayerSettings} />
         </View>
       </View>
     );

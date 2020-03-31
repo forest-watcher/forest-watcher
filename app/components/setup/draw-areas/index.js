@@ -252,7 +252,7 @@ class DrawAreas extends Component {
             this.map = ref;
           }}
           style={styles.mapView}
-          styleURL={MapboxGL.StyleURL.SatelliteStreet}
+          styleURL={this.props.basemap.styleURL}
           onPress={this.onMapPress}
           onRegionDidChange={this.onRegionDidChange}
           scrollEnabled={!nextPress /* Disable map moving while taking area snapshot image */}
@@ -285,6 +285,7 @@ class DrawAreas extends Component {
 }
 
 DrawAreas.propTypes = {
+  basemap: PropTypes.object.isRequired,
   coordinates: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
   country: PropTypes.shape({
     iso: PropTypes.string.isRequired,

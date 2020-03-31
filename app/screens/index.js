@@ -4,7 +4,6 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import Areas from 'containers/areas';
 import ContextualLayers from 'containers/settings/contextual-layers';
-import ContextualLayersLayerSettings from 'containers/settings/layer-settings/contextual-layers';
 import ImportLayer from 'containers/settings/contextual-layers/import-layer';
 import Home from 'containers/home';
 import Login from 'containers/login';
@@ -34,6 +33,10 @@ import SaveRoute from '../containers/routes/save-route';
 import Welcome from '../containers/welcome';
 import MapSidebar from 'containers/map-sidebar';
 import ReportLayerSettings from 'containers/settings/layer-settings/reports';
+import AlertLayerSettings from 'containers/settings/layer-settings/alerts';
+import RoutesLayerSettings from 'containers/settings/layer-settings/routes';
+import ContextualLayersLayerSettings from 'containers/settings/layer-settings/contextual-layers';
+import BasemapLayerSettings from 'containers/settings/layer-settings/basemap';
 
 /**
  * Registers a component with React Native Navigation
@@ -62,7 +65,6 @@ function registerComponent(name, Screen, Provider, store, wrapInSafeAreaProvider
 export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.Areas', Areas, Provider, store);
   registerComponent('ForestWatcher.ContextualLayers', ContextualLayers, Provider, store);
-  registerComponent('ForestWatcher.ContextualLayersLayerSettings', ContextualLayersLayerSettings, Provider, store);
   registerComponent('ForestWatcher.Home', Home, Provider, store);
   registerComponent('ForestWatcher.ImportLayer', ImportLayer, Provider, store);
   registerComponent('ForestWatcher.Login', Login, Provider, store);
@@ -91,7 +93,11 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.RouteDetail', RouteDetail, Provider, store);
   registerComponent('ForestWatcher.SaveRoute', SaveRoute, Provider, store);
   registerComponent('ForestWatcher.Welcome', Welcome, Provider, store);
-  registerComponent('ForestWatcher.ReportLayerSettings', ReportLayerSettings, Provider, store);
+  registerComponent('ForestWatcher.AlertsLayerSettings', AlertLayerSettings, Provider, store);
+  registerComponent('ForestWatcher.RoutesLayerSettings', RoutesLayerSettings, Provider, store);
+  registerComponent('ForestWatcher.ReportsLayerSettings', ReportLayerSettings, Provider, store);
+  registerComponent('ForestWatcher.ContextualLayersLayerSettings', ContextualLayersLayerSettings, Provider, store);
+  registerComponent('ForestWatcher.BasemapLayerSettings', BasemapLayerSettings, Provider, store);
 }
 
 export default registerScreens;

@@ -355,6 +355,9 @@
             "importedReports": "Imported Reports",
             "manageContextualLayers": "Manage Contextual Layers",
             "manageReports": "Manage Reports",
+            "basemaps": "Basemaps",
+            "gfwBasemaps": "GFW Basemaps",
+            "importedBasemaps": "Imported Basemaps",
             "reportSettings": {
                 "showingNoReports": "Showing No Reports",
                 "showingMyReports": "Showing My Reports",

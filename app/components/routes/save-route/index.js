@@ -136,13 +136,5 @@ class SaveRoute extends PureComponent<Props> {
     );
   }
 }
-/*
-label: PropTypes.string.isRequired,
-  selectedValue: PropTypes.any.isRequired,
-  onValueChange: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.any.isRequired
- */
+
 export default SaveRoute;

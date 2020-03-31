@@ -13,11 +13,13 @@ import type { AlertsAction, AlertsState } from 'types/alerts.types';
 import type { LayersAction, LayersState } from 'types/layers.types';
 import type { RouteAction, RouteState } from 'types/routes.types';
 import type { LayerSettingsAction, LayerSettingsState } from 'types/layerSettings.types';
+import type { BasemapsAction, BasemapsState } from 'types/basemaps.types';
 
 export type Action =
   | UserAction
   | ReportsAction
   | AppAction
+  | BasemapsAction
   | CountriesAction
   | SetupAction
   | AreasAction
@@ -30,6 +32,7 @@ export type State = {
   app: AppState,
   user: UserState,
   areas: AreasState,
+  basemaps: BasemapsState,
   offline: OfflineState,
   countries: CountriesState,
   setup: SetupState,

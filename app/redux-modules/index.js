@@ -1,5 +1,6 @@
 export { default as app } from './app';
 export { default as alerts } from './alerts';
+export { default as basemaps } from './basemaps';
 export { default as user } from './user';
 export { default as countries } from './countries';
 export { default as setup } from './setup';

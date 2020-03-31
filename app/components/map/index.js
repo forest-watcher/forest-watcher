@@ -1,5 +1,5 @@
+// @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import { Alert, AppState, BackHandler, Dimensions, Image, LayoutAnimation, Platform, Text, View } from 'react-native';
 import * as Sentry from '@sentry/react-native';
@@ -48,6 +48,8 @@ import {
   isValidLatLngArray
 } from 'helpers/location';
 import RouteMarkers from 'components/map/route';
+import type { Basemap } from 'types/basemaps.types';
+import type { Route } from 'types/routes.types';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -81,7 +83,33 @@ const addLocationIcon = require('assets/add_location.png');
 const newAlertIcon = require('assets/new-alert.png');
 const closeIcon = require('assets/close_gray.png');
 
-class MapComponent extends Component {
+type Props = {
+  basemap: Basemap,
+  componentId: string,
+  createReport: Object => {},
+  ctxLayerLocalTilePath?: string,
+  areaCoordinates: [number, number],
+  isConnected: boolean,
+  isOfflineMode: boolean,
+  setCanDisplayAlerts: boolean => {},
+  canDisplayAlerts: boolean,
+  area: Object,
+  setActiveAlerts: () => {},
+  contextualLayer: {
+    id?: ?string,
+    name?: ?string,
+    url: string
+  },
+  coordinatesFormat: string,
+  mapWalkthroughSeen: boolean,
+  setSelectedAreaId: () => {},
+  route: Route,
+  isTracking: boolean,
+  onStartTrackingRoute: () => {},
+  onCancelTrackingRoute: () => {}
+};
+
+class MapComponent extends Component<Props> {
   margin = Platform.OS === 'ios' ? 50 : 100;
   FIT_OPTIONS = {
     edgePadding: { top: this.margin, right: this.margin, bottom: this.margin, left: this.margin },
@@ -771,7 +799,7 @@ class MapComponent extends Component {
             this.map = ref;
           }}
           style={styles.mapView}
-          styleURL={MapboxGL.StyleURL.SatelliteStreet}
+          styleURL={this.props.basemap.styleURL}
           onRegionDidChange={this.onRegionDidChange}
         >
           {renderMapCamera}
@@ -787,30 +815,5 @@ class MapComponent extends Component {
     );
   }
 }
-
-MapComponent.propTypes = {
-  componentId: PropTypes.string.isRequired,
-  createReport: PropTypes.func.isRequired,
-  ctxLayerLocalTilePath: PropTypes.string,
-  areaCoordinates: PropTypes.array,
-  isConnected: PropTypes.bool.isRequired,
-  isOfflineMode: PropTypes.bool.isRequired,
-  setCanDisplayAlerts: PropTypes.func.isRequired,
-  canDisplayAlerts: PropTypes.bool.isRequired,
-  area: PropTypes.object.isRequired,
-  setActiveAlerts: PropTypes.func.isRequired,
-  contextualLayer: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    url: PropTypes.string.isRequired
-  }),
-  coordinatesFormat: PropTypes.string.isRequired,
-  mapWalkthroughSeen: PropTypes.bool.isRequired,
-  setSelectedAreaId: PropTypes.func.isRequired,
-  route: PropTypes.object,
-  isTracking: PropTypes.bool.isRequired,
-  onStartTrackingRoute: PropTypes.func.isRequired,
-  onCancelTrackingRoute: PropTypes.func.isRequired
-};
 
 export default MapComponent;
