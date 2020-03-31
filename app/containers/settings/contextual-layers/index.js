@@ -7,7 +7,9 @@ import { bindActionCreators } from 'redux';
 import ContextualLayers from 'components/settings/contextual-layers';
 
 function mapStateToProps(state: State) {
-  return {};
+  return {
+    importedLayers: state.layers.imported
+  };
 }
 
 const mapDispatchToProps = (dispatch: *) => bindActionCreators({}, dispatch);

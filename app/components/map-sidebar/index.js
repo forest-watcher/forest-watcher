@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { Platform, View, Text, ScrollView } from 'react-native';
 import styles from './styles';
 import VerticalSplitRow from 'components/common/vertical-split-row';
 import SettingsButton from 'components/common/settings-button';
@@ -37,10 +37,26 @@ class MapSidebar extends PureComponent<Props> {
     });
   }
 
+  componentDidDisappear() {
+    if (Platform.OS === 'ios' && this.awaitingPushComponentName) {
+      this.awaitingPushComponentName = null;
+      Navigation.push(this.state.componentId, {
+        component: {
+          name: this.awaitingPushComponentName
+        }
+      });
+    }
+  }
+
   pushScreen = componentName => {
     if (!this.state.componentId) {
       return;
     }
+
+    if (Platform.OS === 'ios') {
+      this.awaitingPushComponentName = componentName;
+    }
+
     // close layers drawer
     Navigation.mergeOptions(this.props.componentId, {
       sideMenu: {
@@ -49,12 +65,16 @@ class MapSidebar extends PureComponent<Props> {
         }
       }
     });
-    // push new screen using map screen's componentId
-    Navigation.push(this.state.componentId, {
-      component: {
-        name: componentName
-      }
-    });
+
+    // On iOS we need to wait until `mergeOptions event is seen!`
+    if (Platform.OS === 'android') {
+      // push new screen using map screen's componentId
+      Navigation.push(this.state.componentId, {
+        component: {
+          name: componentName
+        }
+      });
+    }
   };
 
   openAlertsLayerSettings = debounceUI(() => {
@@ -75,6 +95,10 @@ class MapSidebar extends PureComponent<Props> {
 
   openBasemapLayerSettings = debounceUI(() => {
     this.pushScreen('ForestWatcher.BasemapLayerSettings');
+  });
+
+  openContextualLayersLayerSettings = debounceUI(() => {
+    this.pushScreen('ForestWatcher.ContextualLayersLayerSettings');
   });
 
   getReportSettingsTitle = () => {

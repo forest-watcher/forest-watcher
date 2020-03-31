@@ -1,6 +1,7 @@
 // @flow
 import type { LayerSettingsState, LayerSettingsAction } from 'types/layerSettings.types';
 import { DEFAULT_BASEMAP } from 'redux-modules/basemaps';
+import remove from 'lodash/remove';
 
 // Actions
 const TOGGLE_ALERTS_LAYER = 'layerSettings/TOGGLE_ALERTS_LAYER';
@@ -17,6 +18,9 @@ const SET_GLAD_ALERTS_TIME_FRAME = 'layerSettings/SET_GLAD_ALERTS_TIME_FRAME';
 const SET_VIIRS_ALERTS_TIME_FRAME = 'layerSettings/SET_VIIRS_ALERTS_TIME_FRAME';
 
 const SELECT_ACTIVE_BASEMAP = 'layerSettings/SELECT_ACTIVE_BASEMAP';
+
+const SET_CONTEXTUAL_LAYER_SHOWING = 'layerSettings/SET_CONTEXTUAL_LAYER_SHOWING';
+const CLEAR_ENABLED_CONTEXTUAL_LAYERS = 'layerSettings/CLEAR_ENABLED_CONTEXTUAL_LAYERS';
 
 // Reducer
 const initialState = {
@@ -156,9 +160,51 @@ export default function reducer(state: LayerSettingsState = initialState, action
     case SELECT_ACTIVE_BASEMAP: {
       return { ...state, basemap: { activeBasemapId: action.payload.basemapId } };
     }
+    case SET_CONTEXTUAL_LAYER_SHOWING: {
+      const activeContextualLayerIds = [...state.contextualLayers.activeContextualLayerIds];
+      if (action.payload.showing && !activeContextualLayerIds.includes(action.payload.layerId)) {
+        activeContextualLayerIds.push(action.payload.layerId);
+      } else if (!action.payload.showing) {
+        remove(activeContextualLayerIds, layerId => {
+          return layerId === action.payload.layerId;
+        });
+      }
+      return {
+        ...state,
+        contextualLayers: {
+          ...state.contextualLayers,
+          activeContextualLayerIds
+        }
+      };
+    }
+    case CLEAR_ENABLED_CONTEXTUAL_LAYERS: {
+      return {
+        ...state,
+        contextualLayers: {
+          ...state.contextualLayers,
+          activeContextualLayerIds: []
+        }
+      };
+    }
     default:
       return state;
   }
+}
+
+export function clearEnabledContextualLayers() {
+  return {
+    type: CLEAR_ENABLED_CONTEXTUAL_LAYERS
+  };
+}
+
+export function setContextualLayerShowing(layerId: string, showing: boolean) {
+  return {
+    type: SET_CONTEXTUAL_LAYER_SHOWING,
+    payload: {
+      layerId,
+      showing
+    }
+  };
 }
 
 export function toggleAlertsLayer(): LayerSettingsAction {

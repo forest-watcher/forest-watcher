@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { View, ScrollView, Platform } from 'react-native';
+import { View, ScrollView, Platform, Text } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import debounceUI from 'helpers/debounceUI';
@@ -11,14 +11,20 @@ import styles from './styles';
 
 import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
+import ActionsRow from 'components/common/actions-row';
+import DocumentPicker from 'react-native-document-picker';
+
+import { formatBytes } from 'helpers/data';
 
 const plusIcon = require('assets/add.png');
 const emptyIcon = require('assets/layersEmpty.png');
+const layerPlaceholder = require('assets/layerPlaceholder.png');
 
-import DocumentPicker from 'react-native-document-picker';
+import generatedUniqueId from 'helpers/uniqueId';
 
 type Props = {
-  componentId: string
+  componentId: string,
+  importedLayers: Array<File>
 };
 
 class Layers extends Component<Props> {
@@ -148,7 +154,8 @@ class Layers extends Component<Props> {
           passProps: {
             file: {
               ...res,
-              fileName: res.name, // Slightly tweak the res to reformat `name` -> `fileName` as we keep these seperate
+              fileName: res.name, // Slightly tweak the res to reformat `name` -> `fileName` as we keep these seperate,
+              id: generatedUniqueId(),
               name: null
             }
           }
@@ -192,23 +199,42 @@ class Layers extends Component<Props> {
     }
   };
 
+  renderImportedLayers = () => {
+    const { importedLayers } = this.props;
+    return (
+      <View>
+        <View style={styles.listHeader}>
+          <Text style={styles.listTitle}>{i18n.t('contextualLayers.imported')}</Text>
+        </View>
+        {importedLayers.map((layerFile, index) => {
+          return (
+            <ActionsRow style={styles.rowContent} imageSrc={layerPlaceholder} key={index}>
+              <Text style={styles.rowLabel}>{layerFile.name}</Text>
+              {layerFile.size != null && <Text style={styles.rowLabel}>{formatBytes(layerFile.size)}</Text>}
+            </ActionsRow>
+          );
+        })}
+      </View>
+    );
+  };
+
   render() {
     //todo: add this back in once we have redux state for layers!
-    // const { layers } = this.props;
+    const { importedLayers } = this.props;
     // Determine if we're in export mode, and how many layers have been selected to export.
     const totalToExport = this.state.selectedForExport.length;
 
     //todo: add this back in once we have redux state for layers!
-    const totalLayers = 0;
+    const totalLayers = importedLayers.length;
 
     //todo: add this back in once we have redux state for layers!
-    const hasLayers = false; //layers && layers.length > 0;
+    const hasLayers = importedLayers.length > 0; //layers && layers.length > 0;
 
     return (
       <View style={styles.container}>
         <ShareSheet
           componentId={this.props.componentId}
-          shareButtonDisabledTitle={i18n.t('layers.share')}
+          shareButtonDisabledTitle={i18n.t('contextualLayers.share')}
           enabled={totalToExport > 0}
           onShare={() => {
             this.onExportLayersTapped(this.state.selectedForExport);
@@ -221,15 +247,15 @@ class Layers extends Component<Props> {
           selected={totalToExport}
           selectAllCountText={
             totalLayers > 1
-              ? i18n.t('layers.export.manyLayers', { count: totalLayers })
-              : i18n.t('layers.export.oneLayer', { count: 1 })
+              ? i18n.t('contextualLayers.export.manyLayers', { count: totalLayers })
+              : i18n.t('contextualLayers.export.oneLayer', { count: 1 })
           }
           shareButtonEnabledTitle={
             totalToExport > 0
               ? totalToExport == 1
-                ? i18n.t('layers.export.oneLayerAction', { count: 1 })
-                : i18n.t('layers.export.manyLayersAction', { count: totalToExport })
-              : i18n.t('layers.export.noneSelected')
+                ? i18n.t('contextualLayers.export.oneLayerAction', { count: 1 })
+                : i18n.t('contextualLayers.export.manyLayersAction', { count: totalToExport })
+              : i18n.t('contextualLayers.export.noneSelected')
           }
         >
           {hasLayers ? (
@@ -238,15 +264,17 @@ class Layers extends Component<Props> {
               contentContainerStyle={styles.listContent}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
-            />
+            >
+              {this.renderImportedLayers()}
+            </ScrollView>
           ) : (
             <View style={styles.containerEmpty}>
               <EmptyState
-                actionTitle={i18n.t('layers.empty.action')}
-                body={i18n.t('layers.empty.body')}
+                actionTitle={i18n.t('contextualLayers.empty.action')}
+                body={i18n.t('contextualLayers.empty.body')}
                 icon={emptyIcon}
                 onActionPress={this.onFrequentlyAskedQuestionsPress}
-                title={i18n.t('layers.empty.title')}
+                title={i18n.t('contextualLayers.empty.title')}
               />
             </View>
           )}

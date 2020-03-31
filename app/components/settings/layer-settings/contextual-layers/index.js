@@ -1,25 +1,30 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, ScrollView } from 'react-native';
+import { Image, View, ScrollView, Text } from 'react-native';
 import styles from './styles';
-import VerticalSplitRow from 'components/common/vertical-split-row';
 import i18n from 'i18next';
-import Theme from 'config/theme';
+import ActionsRow from 'components/common/actions-row';
 import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import { Navigation } from 'react-native-navigation';
 
-type ReportsLayerSettingsType = {
+import type { File } from 'types/file.types';
+
+const layerPlaceholder = require('assets/layerPlaceholder.png');
+const checkboxOff = require('assets/checkbox_off.png');
+const checkboxOn = require('assets/checkbox_on.png');
+
+type ContextualLayersLayerSettingsType = {
   layerIsActive: boolean,
-  myReportsActive: boolean,
-  importedReportsActive: boolean
+  activeContextualLayerIds: Array<string>
 };
 
 type Props = {
-  reportsLayerSettings: ReportsLayerSettingsType,
-  toggleMyReportsLayer: () => void,
-  toggleImportedReportsLayer: () => void
+  clearEnabledContextualLayers: void => void,
+  contextualLayersLayerSettings: ContextualLayersLayerSettingsType,
+  importedContextualLayers: Array<File>,
+  setContextualLayerShowing: (layerId: string, showing: boolean) => void
 };
 
 class ContextualLayersLayerSettings extends PureComponent<Props> {
@@ -51,16 +56,42 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
     }
   }
 
+  setContextualLayerShowing = (layerId: string, showing: boolean) => {
+    this.props.setContextualLayerShowing(layerId, showing);
+  };
+
   clearAllOptions = () => {
-    if (this.props.reportsLayerSettings.myReportsActive) {
-      this.props.toggleMyReportsLayer();
-    }
-    if (this.props.reportsLayerSettings.importedReportsActive) {
-      this.props.toggleImportedReportsLayer();
-    }
+    this.props.clearEnabledContextualLayers();
+  };
+
+  renderImportedLayers = () => {
+    const { contextualLayersLayerSettings, importedContextualLayers } = this.props;
+    return (
+      <View>
+        <View style={styles.listHeader}>
+          <Text style={styles.listTitle}>{i18n.t('map.layerSettings.customLayers')}</Text>
+        </View>
+        {importedContextualLayers.map((layerFile, index) => {
+          const selected = contextualLayersLayerSettings.activeContextualLayerIds.includes(layerFile.id);
+          return (
+            <ActionsRow
+              style={styles.rowContent}
+              imageSrc={layerPlaceholder}
+              onPress={this.setContextualLayerShowing.bind(this, layerFile.id, selected ? false : true)}
+              key={index}
+            >
+              <Text style={styles.rowLabel}>{layerFile.name}</Text>
+              <Image source={selected ? checkboxOn : checkboxOff} />
+            </ActionsRow>
+          );
+        })}
+      </View>
+    );
   };
 
   render() {
+    const { importedContextualLayers } = this.props;
+
     return (
       <View style={styles.container}>
         <ScrollView
@@ -69,29 +100,15 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          <VerticalSplitRow
-            title={i18n.t('map.layerSettings.myReports')}
-            selected={this.props.reportsLayerSettings.myReportsActive}
-            onPress={this.props.toggleMyReportsLayer}
-            legend={[{ title: i18n.t('map.layerSettings.report'), color: Theme.colors.report }]}
-            style={styles.rowContainer}
-            hideImage
-            smallerVerticalPadding
-            largerLeftPadding
-          />
-          <VerticalSplitRow
-            title={i18n.t('map.layerSettings.importedReports')}
-            selected={this.props.reportsLayerSettings.importedReportsActive}
-            onPress={this.props.toggleImportedReportsLayer}
-            legend={[{ title: i18n.t('map.layerSettings.report'), color: Theme.colors.importedReport }]}
-            style={styles.rowContainer}
-            hideImage
-            smallerVerticalPadding
-            largerLeftPadding
-          />
+          {importedContextualLayers.length > 0 && this.renderImportedLayers()}
         </ScrollView>
-        <BottomTray>
-          <ActionButton onPress={() => {}} text={i18n.t('map.layerSettings.manageReports')} transparent noIcon />
+        <BottomTray requiresSafeAreaView>
+          <ActionButton
+            onPress={() => {}}
+            text={i18n.t('map.layerSettings.manageContextualLayers')}
+            transparent
+            noIcon
+          />
         </BottomTray>
       </View>
     );
