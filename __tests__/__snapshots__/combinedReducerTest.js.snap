@@ -1930,12 +1930,12 @@ Object {
     "alerts": Object {
       "glad": Object {
         "active": false,
-        "timeframeMonths": 1,
+        "timeFrame": 1,
       },
       "layerIsActive": true,
       "viirs": Object {
         "active": false,
-        "timeframeMonths": 1,
+        "timeFrame": 1,
       },
     },
     "basemap": Object {
@@ -3934,12 +3934,12 @@ Object {
     "alerts": Object {
       "glad": Object {
         "active": false,
-        "timeframeMonths": 1,
+        "timeFrame": 1,
       },
       "layerIsActive": true,
       "viirs": Object {
         "active": false,
-        "timeframeMonths": 1,
+        "timeFrame": 1,
       },
     },
     "basemap": Object {
