@@ -10,6 +10,9 @@ import type { LayerSettingsState } from 'types/layerSettings.types';
 import debounceUI from 'helpers/debounceUI';
 import { Navigation } from 'react-native-navigation';
 
+import { withSafeArea } from 'react-native-safe-area';
+const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
+
 type Props = {
   componentId: string,
   activeBasemapName: string,
@@ -206,9 +209,9 @@ class MapSidebar extends PureComponent<Props> {
             largerLeftPadding
           />
         </ScrollView>
-        <View style={styles.basemapContainer}>
+        <SafeAreaView style={styles.basemapContainer}>
           <SettingsButton title={this.getBasemapsTitle()} onPress={this.openBasemapLayerSettings} />
-        </View>
+        </SafeAreaView>
       </View>
     );
   }

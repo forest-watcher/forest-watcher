@@ -3,7 +3,8 @@ import { Platform, StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   basemapContainer: {
-    justifyContent: 'flex-end',
+    alignItems: 'flex-start',
+    justifyContent: Platform.OS === 'android' ? 'flex-end' : 'flex-start',
     backgroundColor: Theme.colors.white,
     paddingLeft: 24,
     paddingTop: 6,
