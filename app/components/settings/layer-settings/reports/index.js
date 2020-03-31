@@ -90,7 +90,7 @@ class ReportLayerSettings extends PureComponent<Props> {
             largerLeftPadding
           />
         </ScrollView>
-        <BottomTray>
+        <BottomTray requiresSafeAreaView>
           <ActionButton onPress={() => {}} text={i18n.t('map.layerSettings.manageReports')} transparent noIcon />
         </BottomTray>
       </View>

@@ -31,12 +31,15 @@ export type LayerSettingsState = {
 };
 
 export type LayerSettingsAction =
+  | ClearEnabledContextualLayers
+  | SetContextualLayerShowing
   | ToggleAlertsLayer
   | ToggleRoutesLayer
   | ToggleReportsLayer
   | ToggleContextualLayersLayer
   | SelectActiveBasemap;
 
+export type ClearEnabledContextualLayers = { type: 'layerSettings/CLEAR_ENABLED_CONTEXTUAL_LAYERS' };
 export type ToggleAlertsLayer = { type: 'layerSettings/TOGGLE_ALERTS_LAYER' };
 export type ToggleRoutesLayer = { type: 'layerSettings/TOGGLE_ROUTES_LAYER' };
 export type ToggleReportsLayer = { type: 'layerSettings/TOGGLE_REPORTS_LAYER' };
@@ -45,5 +48,12 @@ export type SelectActiveBasemap = {
   type: 'basemaps/SELECT_ACTIVE_BASEMAP',
   payload: {
     basemapId: string
+  }
+};
+export type SetContextualLayerShowing = {
+  type: 'layerSettings/SET_CONTEXTUAL_LAYER_SHOWING',
+  payload: {
+    layerId: string,
+    showing: boolean
   }
 };

@@ -18,7 +18,8 @@ type Props = {
   existingLayers: Array<File>,
   file: File,
   importContextualLayer: (file: File, fileName: string) => void,
-  importError: ?*
+  importError: ?*,
+  importingLayer: ?string 
 };
 
 class ImportLayer extends PureComponent<Props> {
@@ -58,16 +59,37 @@ class ImportLayer extends PureComponent<Props> {
     }
   };
 
+  nameValidity = () => {
+    if (!this.state.file.name) {
+      return {
+        valid: false,
+        alreadyTaken: false
+      };
+    }
+
+    const matchingFile = this.props.existingLayers.find(layer => {
+      // We also make sure we're not conflicting with ourself here...
+      // Because the file is added before the screen disappears if we don't make
+      // sure the "matches" id is different to the currently adding files id
+      // then the duplicate name message is shown as the screen is dismissing on iOS
+      return layer.name === this.state.file.name
+              && layer.id !== this.state.file.id;
+    });
+
+    const nameAlreadyTaken = !!matchingFile;
+
+    return {
+      valid: !nameAlreadyTaken && this.state.file.name.length > 0 && this.state.file.name.length <= 40,
+      alreadyTaken: nameAlreadyTaken
+    };
+  };
+
   render() {
     if (!this.state.file) {
       return null;
     }
 
-    const matchingFile = this.props.existingLayers.find(layer => {
-      return layer.name === this.state.file.name;
-    });
-
-    const nameAlreadyTaken = !!matchingFile;
+    const nameValidity = this.nameValidity();
 
     return (
       <View style={styles.container}>
@@ -80,7 +102,7 @@ class ImportLayer extends PureComponent<Props> {
             placeholder={i18n.t('commonText.fileName')}
             onChangeText={this.onFileNameChange}
           />
-          {nameAlreadyTaken && (
+          {nameValidity.alreadyTaken && (
             <View style={styles.errorContainer}>
               <Text style={[styles.listTitle, styles.error]}>{i18n.t('importLayer.uniqueNameError')}</Text>
             </View>
@@ -93,23 +115,9 @@ class ImportLayer extends PureComponent<Props> {
         </ScrollView>
         <BottomTray requiresSafeAreaView={!this.state.keyboardVisible}>
           <ActionButton
-            onPress={
-              !this.props.importError &&
-              !nameAlreadyTaken &&
-              this.state.file.name &&
-              this.state.file.name.length > 0 &&
-              this.state.file.name.length <= 40
-                ? this.onImportPressed
-                : null
-            }
+            onPress={nameValidity.valid ? this.onImportPressed : null}
             text={i18n.t('importLayer.save').toUpperCase()}
-            disabled={
-              nameAlreadyTaken ||
-              !!this.props.importError ||
-              !this.state.file.name ||
-              this.state.file.name.length === 0 ||
-              this.state.file.name.length > 40
-            }
+            disabled={!nameValidity.valid || !!this.props.importingLayer}
             short
             noIcon
           />

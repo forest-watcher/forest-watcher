@@ -3,20 +3,21 @@ import type { State } from 'types/store.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { toggleMyReportsLayer, toggleImportedReportsLayer } from 'redux-modules/layerSettings';
 import ContextualLayersLayerSettings from 'components/settings/layer-settings/contextual-layers';
+import { clearEnabledContextualLayers, setContextualLayerShowing } from 'redux-modules/layerSettings';
 
 function mapStateToProps(state: State) {
   return {
-    reportsLayerSettings: state.layerSettings.reports
+    contextualLayersLayerSettings: state.layerSettings.contextualLayers,
+    importedContextualLayers: state.layers.imported
   };
 }
 
 const mapDispatchToProps = (dispatch: *) =>
   bindActionCreators(
     {
-      toggleMyReportsLayer,
-      toggleImportedReportsLayer
+      clearEnabledContextualLayers,
+      setContextualLayerShowing
     },
     dispatch
   );
