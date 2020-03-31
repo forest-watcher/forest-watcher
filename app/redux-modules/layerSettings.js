@@ -284,6 +284,9 @@ export function selectActiveBasemap(basemapId: string): LayerSettingsAction {
 
 export function getActiveBasemap(state) {
   const activeBasemapId = state.layerSettings.basemap.activeBasemapId;
+  if (!activeBasemapId) {
+    return DEFAULT_BASEMAP;
+  }
   const allBasemaps = [...state.basemaps.gfwBasemaps, ...state.basemaps.importedBasemaps];
   return allBasemaps.find(item => item.id === activeBasemapId);
 }
