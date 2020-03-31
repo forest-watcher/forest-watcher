@@ -376,13 +376,24 @@
                 "showingOneMonth": "Showing %{type} from the past month",
                 "showingManyMonths": "Showing %{type} from the past %{count} months",
                 "showingOneDay": "Showing %{type} from the past day",
-                "showingManyDays": "Showing %{type} from the past %{count} days"
+                "showingManyDays": "Showing %{type} from the past %{count} days",
+                "showingAlerts": "Showing: %{alerts}",
+                "noAlerts": "No Alerts"
+            },
+            "routeSettings": {
+                "showingRoutes": "Showing: %{count} routes"
             },
             "reportSettings": {
                 "showingNoReports": "Showing No Reports",
                 "showingMyReports": "Showing My Reports",
                 "showingImportedReports": "Showing Imported Reports",
                 "showingAllReports": "Showing All Reports"
+            },
+            "contextualLayersSettings": {
+                "showingContextualLayers": "Showing: %{count} Contextual Layers"
+            },
+            "basemapSettings": {
+                "showingBasemap": "Basemap: %{basemap}"
             }
         }
     },

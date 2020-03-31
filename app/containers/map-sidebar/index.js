@@ -8,12 +8,15 @@ import {
   toggleAlertsLayer,
   toggleRoutesLayer,
   toggleReportsLayer,
-  toggleContextualLayersLayer
+  toggleContextualLayersLayer,
+  getActiveBasemap
 } from 'redux-modules/layerSettings';
 
 function mapStateToProps(state: State) {
+  const activeBasemapName = getActiveBasemap(state).name;
   return {
-    layerSettings: state.layerSettings
+    layerSettings: state.layerSettings,
+    activeBasemapName
   };
 }
 
