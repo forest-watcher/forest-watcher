@@ -32,28 +32,7 @@ type Props = {
 type Options = Array<{ labelKey: string, value: string }>;
 
 const GLAD_TIME_FRAME_VALUES = [1, 2, 6, 12];
-
-const gladTimeFrameOptions: Options = GLAD_TIME_FRAME_VALUES.map(value => {
-  return {
-    value,
-    labelKey: i18n.t(
-      value === 1 ? 'map.layerSettings.alertSettings.oneMonth' : 'map.layerSettings.alertSettings.manyMonths',
-      { count: value }
-    )
-  };
-});
-
 const VIIRS_TIME_FRAME_VALUES = [1, 2, 6, 12];
-
-const viirsTimeFrameOptions: Options = VIIRS_TIME_FRAME_VALUES.map(value => {
-  return {
-    value,
-    labelKey: i18n.t(
-      value === 1 ? 'map.layerSettings.alertSettings.oneDay' : 'map.layerSettings.alertSettings.manyDays',
-      { count: value }
-    )
-  };
-});
 
 class AlertLayerSettings extends PureComponent<Props> {
   static options(passProps) {
@@ -99,7 +78,31 @@ class AlertLayerSettings extends PureComponent<Props> {
 
   onViirsAlertsTimeFrameChanged = value => {
     this.props.setViirsAlertsTimeFrame(value);
-  }
+  };
+
+  getGladTimeFrameOptions: Options = () => {
+    return GLAD_TIME_FRAME_VALUES.map(value => {
+      return {
+        value,
+        labelKey: i18n.t(
+          value === 1 ? 'map.layerSettings.alertSettings.oneMonth' : 'map.layerSettings.alertSettings.manyMonths',
+          { count: value }
+        )
+      };
+    });
+  };
+
+  getViirsTimeFrameOptions: Options = () => {
+    return VIIRS_TIME_FRAME_VALUES.map(value => {
+      return {
+        value,
+        labelKey: i18n.t(
+          value === 1 ? 'map.layerSettings.alertSettings.oneDay' : 'map.layerSettings.alertSettings.manyDays',
+          { count: value }
+        )
+      };
+    });
+  };
 
   render() {
     const alertsString = i18n.t('map.layerSettings.alerts');
@@ -152,7 +155,7 @@ class AlertLayerSettings extends PureComponent<Props> {
             hideLabel
             selectedValue={gladTimeFrame}
             onValueChange={this.onGladAlertsTimeFrameChanged}
-            options={gladTimeFrameOptions}
+            options={this.getGladTimeFrameOptions()}
           />
           <Text style={styles.heading}>{i18n.t('map.layerSettings.alertSettings.fires')}</Text>
           <VerticalSplitRow
@@ -179,7 +182,7 @@ class AlertLayerSettings extends PureComponent<Props> {
             hideLabel
             selectedValue={viirsTimeFrame}
             onValueChange={this.onViirsAlertsTimeFrameChanged}
-            options={viirsTimeFrameOptions}
+            options={this.getViirsTimeFrameOptions()}
           />
         </ScrollView>
       </View>

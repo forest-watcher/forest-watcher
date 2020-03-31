@@ -358,6 +358,7 @@
             "basemaps": "Basemaps",
             "gfwBasemaps": "GFW Basemaps",
             "importedBasemaps": "Imported Basemaps",
+            "manageBasemaps": "Manage Basemaps",
             "alertSettings": {
                 "deforestation": "Deforestation",
                 "glad": "GLAD",
