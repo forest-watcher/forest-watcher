@@ -1,13 +1,9 @@
 import Theme from 'config/theme';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
-    width: Platform.OS === 'ios' ? 300 : undefined,
-    backgroundColor: Theme.background.main,
-    borderLeftColor: Theme.borderColors.main,
-    borderLeftWidth: 2
+    flex: 1
   },
   heading: {
     ...Theme.sectionHeaderText,

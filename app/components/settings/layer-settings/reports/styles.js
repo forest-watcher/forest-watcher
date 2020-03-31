@@ -3,16 +3,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: Theme.background.main,
-    borderLeftColor: Theme.borderColors.main,
-    borderLeftWidth: 2
-  },
-  heading: {
-    ...Theme.sectionHeaderText,
-    marginLeft: 32,
-    marginTop: 32,
-    marginBottom: 40
+    flex: 1
   },
   list: {
     flex: 1
