@@ -63,6 +63,7 @@ class BasemapLayerSettings extends PureComponent<Props> {
                 title={basemap.name}
                 selected={this.props.activeBasemapId === basemap.id}
                 hideImage
+                useRadioIcon
               />
             );
           })}
@@ -80,6 +81,7 @@ class BasemapLayerSettings extends PureComponent<Props> {
                 title={basemap.name}
                 selected={this.props.activeBasemapId === basemap.id}
                 hideImage
+                useRadioIcon
               />
             );
           })}

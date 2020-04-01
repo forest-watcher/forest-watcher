@@ -11,6 +11,7 @@ import Callout from 'components/common/callout';
 const nextIcon = require('assets/next.png');
 const checkboxOff = require('assets/checkbox_off.png');
 const checkboxOn = require('assets/checkbox_on.png');
+const radioOn = require('assets/radio_button.png');
 const downloadIcon = require('assets/download.png');
 
 type ViewProps = React.ElementProps<typeof View>;
@@ -35,6 +36,7 @@ type Props = {
   onDownloadPress?: void => void,
   onPress: void => void,
   onSettingsPress?: void => void,
+  useRadioIcon?: ?boolean,
   renderImageChildren?: (?void) => React.Node,
   selected?: ?boolean,
   settingsTitle?: ?string,
@@ -47,8 +49,13 @@ type Props = {
 
 export default class VerticalSplitRow extends Component<Props> {
   render() {
-    const { selected, downloadVisible } = this.props;
-    const icon = selected != null ? (selected ? checkboxOn : checkboxOff) : nextIcon;
+    const { selected, downloadVisible, useRadioIcon } = this.props;
+    let icon = nextIcon;
+    if (selected === false) {
+      icon = checkboxOff;
+    } else if (selected === true) {
+      icon = useRadioIcon ? radioOn : checkboxOn;
+    }
 
     return (
       <TouchableHighlight
