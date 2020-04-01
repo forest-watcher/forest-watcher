@@ -33,7 +33,7 @@ export default class RouteDetail extends PureComponent<Props> {
     return {
       topBar: {
         title: {
-          text: passProps.routeName
+          text: passProps.route.name
         },
         leftButtons: [
           {

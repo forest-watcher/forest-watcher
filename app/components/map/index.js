@@ -191,10 +191,12 @@ class MapComponent extends Component<Props> {
       locationError: null,
       mapCameraBounds: this.getMapCameraBounds(),
       destinationCoords: null,
-      infoBanner: {
+      infoBannerProps: {
         show: false,
         title: '',
         subtitle: '',
+        type: '',
+        featureId: ''
       }
     };
 
@@ -658,7 +660,7 @@ class MapComponent extends Component<Props> {
   };
 
   renderButtonPanel() {
-    const { customReporting, userLocation, locationError, neighbours, selectedAlerts, infoBanner } = this.state;
+    const { customReporting, userLocation, locationError, neighbours, selectedAlerts, infoBannerProps } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
     const hasNeighbours = neighbours && neighbours.length > 0;
     const canReport = hasAlertsSelected || customReporting;
@@ -673,9 +675,7 @@ class MapComponent extends Component<Props> {
           locationError={locationError}
           mostRecentLocationTime={userLocation?.timestamp}
         />
-        {infoBanner.show && (
-          <InfoBanner style={styles.infoBanner} title={infoBanner?.title} subtitle={infoBanner?.subtitle} />
-        )}
+        {infoBannerProps.show && <InfoBanner style={styles.infoBanner} {...infoBannerProps} />}
         <View style={styles.buttonPanel}>
           {canReport ? (
             <React.Fragment>
@@ -757,24 +757,28 @@ class MapComponent extends Component<Props> {
   onMapPress = () => {
     // hide info banner
     this.setState({
-      infoBanner: {
+      infoBannerProps: {
         show: false,
         title: '',
-        subtitle: ''
+        subtitle: '',
+        type: '',
+        featureId: ''
       }
     });
   };
 
   onShapeSourcePressed = e => {
     // show info banner with feature details
-    const { endDate, name } = e?.nativeEvent?.payload?.properties;
+    const { endDate, name, type, featureId } = e?.nativeEvent?.payload?.properties;
     const dateAgo = moment(endDate).fromNow();
     if (endDate && name) {
       this.setState({
-        infoBanner: {
+        infoBannerProps: {
           show: true,
           title: name,
-          subtitle: dateAgo
+          subtitle: dateAgo,
+          type,
+          featureId
         }
       });
     }

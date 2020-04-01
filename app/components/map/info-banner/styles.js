@@ -18,7 +18,8 @@ export default StyleSheet.create({
     flex: 1
   },
   title: {
-    ...Theme.text
+    ...Theme.text,
+    marginBottom: 6
   },
   subtitle: {
     ...Theme.text,

@@ -142,8 +142,7 @@ class AreaDetail extends Component<Props, State> {
             component: {
               name: 'ForestWatcher.RouteDetail',
               passProps: {
-                routeId: route.id,
-                routeName: route.name
+                routeId: route.id
               }
             }
           }

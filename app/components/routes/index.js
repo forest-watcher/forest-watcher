@@ -119,8 +119,7 @@ export default class Routes extends PureComponent<Props> {
             component: {
               name: 'ForestWatcher.RouteDetail',
               passProps: {
-                routeId: route.id,
-                routeName: route.name
+                routeId: route.id
               }
             }
           }
