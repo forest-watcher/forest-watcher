@@ -18,7 +18,7 @@ type Props = {
 };
 
 export default class InfoBanner extends Component<Props> {
-  openRoute = routeId => {
+  openRoute = (routeId, routeName) => {
     Navigation.showModal({
       stack: {
         children: [
@@ -26,7 +26,8 @@ export default class InfoBanner extends Component<Props> {
             component: {
               name: 'ForestWatcher.RouteDetail',
               passProps: {
-                routeId: routeId
+                routeId,
+                routeName
               }
             }
           }
@@ -37,7 +38,7 @@ export default class InfoBanner extends Component<Props> {
 
   onPress = debounceUI(() => {
     if (this.props.type === 'route') {
-      this.openRoute(this.props.featureId);
+      this.openRoute(this.props.featureId, this.props.title);
     }
   });
 

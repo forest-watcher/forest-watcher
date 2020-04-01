@@ -150,8 +150,12 @@ export default class RouteMarkers extends PureComponent<Props> {
     if (!coords || coords.length < 2) {
       return null;
     }
-    const { name, endDate, id } = this.props.route;
-    const properties = { name, endDate, type: 'route', featureId: id };
+    let properties = {};
+    if (this.props.route?.id) {
+      // This will be false before the route has been saved
+      const { name, endDate, id } = this.props.route;
+      properties = { name, endDate, type: 'route', featureId: id };
+    }
     const line = MapboxGL.geoUtils.makeLineString(coords, properties);
     // Ignore first and last location markers, as those are drawn in renderRouteEnds method.
     const markers = coords.slice(1, -1);
