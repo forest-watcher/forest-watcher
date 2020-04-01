@@ -18,7 +18,8 @@ import type { Route } from 'types/routes.types';
 type Props = {
   isTracking: boolean,
   userLocation: Location,
-  route: Route
+  route: Route,
+  onShapeSourcePressed?: () => void
 };
 
 export default class RouteMarkers extends PureComponent<Props> {
@@ -149,7 +150,9 @@ export default class RouteMarkers extends PureComponent<Props> {
     if (!coords || coords.length < 2) {
       return null;
     }
-    const line = MapboxGL.geoUtils.makeLineString(coords);
+    const { name, endDate } = this.props.route;
+    const properties = { name, endDate };
+    const line = MapboxGL.geoUtils.makeLineString(coords, properties);
     // Ignore first and last location markers, as those are drawn in renderRouteEnds method.
     const markers = coords.slice(1, -1);
     let markersShape = null;
@@ -158,9 +161,10 @@ export default class RouteMarkers extends PureComponent<Props> {
     } else if (markers.length === 1) {
       markersShape = MapboxGL.geoUtils.makeFeature({ type: 'Point', coordinates: markers[0] });
     }
+    const onPress = this.props.onShapeSourcePressed || null;
     return (
       <React.Fragment>
-        <MapboxGL.ShapeSource id="routeLine" shape={line}>
+        <MapboxGL.ShapeSource onPress={onPress} id="routeLine" shape={line}>
           <MapboxGL.LineLayer id="routeLineLayer" style={mapboxStyles.routeLineLayer} />
         </MapboxGL.ShapeSource>
         {/* Mapbox doesnt like to use the same ShapeSource with different shape types supplied*/}
