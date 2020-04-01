@@ -18,7 +18,8 @@ type Props = {
   label: string,
   selectedValue: string,
   onValueChange: string => void,
-  options: Array<{ labelKey: string, value: string }>
+  options: Array<{ labelKey: string, value: string }>,
+  hideLabel?: boolean
 };
 
 export default class Dropdown extends Component<Props> {
@@ -60,7 +61,7 @@ export default class Dropdown extends Component<Props> {
         }).label ?? selectedValue;
     return (
       <Row action={this.showActionSheetAction}>
-        {label && <Text style={styles.label}>{label}</Text>}
+        {label && !this.props.hideLabel && <Text style={styles.label}>{label}</Text>}
         <Text style={styles.label}>{selectedLabel.charAt(0).toUpperCase() + selectedLabel.substring(1)}</Text>
         <ActionSheet
           ref={ref => {

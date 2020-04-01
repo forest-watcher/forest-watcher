@@ -17,11 +17,11 @@ export type LayerSettingsState = {
     layerIsActive: boolean,
     glad: {
       active: boolean,
-      timeframeMonths: number
+      timeFrame: number
     },
     viirs: {
       active: boolean,
-      timeframeMonths: number
+      timeFrame: number
     }
   },
   contextualLayers: {
@@ -37,6 +37,10 @@ export type LayerSettingsAction =
   | ToggleRoutesLayer
   | ToggleReportsLayer
   | ToggleContextualLayersLayer
+  | ToggleGladAlerts
+  | ToggleViirsAlerts
+  | SetGladAlertsTimeFrame
+  | SetViirsAlertsTimeFrame
   | SelectActiveBasemap;
 
 export type ClearEnabledContextualLayers = { type: 'layerSettings/CLEAR_ENABLED_CONTEXTUAL_LAYERS' };
@@ -44,8 +48,22 @@ export type ToggleAlertsLayer = { type: 'layerSettings/TOGGLE_ALERTS_LAYER' };
 export type ToggleRoutesLayer = { type: 'layerSettings/TOGGLE_ROUTES_LAYER' };
 export type ToggleReportsLayer = { type: 'layerSettings/TOGGLE_REPORTS_LAYER' };
 export type ToggleContextualLayersLayer = { type: 'layerSettings/TOGGLE_CONTEXTUAL_LAYERS_LAYER' };
+export type ToggleGladAlerts = { type: 'layerSettings/TOGGLE_GLAD_ALERTS' };
+export type ToggleViirsAlerts = { type: 'layerSettings/TOGGLE_VIIRS_ALERTS' };
+export type SetGladAlertsTimeFrame = {
+  type: 'layerSettings/SET_GLAD_ALERTS_TIME_FRAME',
+  payload: {
+    timeFrame: number
+  }
+};
+export type SetViirsAlertsTimeFrame = {
+  type: 'layerSettings/SET_VIIRS_ALERTS_TIME_FRAME',
+  payload: {
+    timeFrame: number
+  }
+};
 export type SelectActiveBasemap = {
-  type: 'basemaps/SELECT_ACTIVE_BASEMAP',
+  type: 'layerSettings/SELECT_ACTIVE_BASEMAP',
   payload: {
     basemapId: string
   }

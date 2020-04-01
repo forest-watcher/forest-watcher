@@ -10,8 +10,12 @@ import type { LayerSettingsState } from 'types/layerSettings.types';
 import debounceUI from 'helpers/debounceUI';
 import { Navigation } from 'react-native-navigation';
 
+import { withSafeArea } from 'react-native-safe-area';
+const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
+
 type Props = {
   componentId: string,
+  activeBasemapName: string,
   layerSettings: LayerSettingsState,
   toggleAlertsLayer: () => void,
   toggleRoutesLayer: () => void,
@@ -39,12 +43,12 @@ class MapSidebar extends PureComponent<Props> {
 
   componentDidDisappear() {
     if (Platform.OS === 'ios' && this.awaitingPushComponentName) {
-      this.awaitingPushComponentName = null;
       Navigation.push(this.state.componentId, {
         component: {
           name: this.awaitingPushComponentName
         }
       });
+      this.awaitingPushComponentName = null;
     }
   }
 
@@ -97,9 +101,28 @@ class MapSidebar extends PureComponent<Props> {
     this.pushScreen('ForestWatcher.BasemapLayerSettings');
   });
 
-  openContextualLayersLayerSettings = debounceUI(() => {
-    this.pushScreen('ForestWatcher.ContextualLayersLayerSettings');
-  });
+  getAlertsSettingsTitle = () => {
+    const { glad, viirs } = this.props.layerSettings.alerts;
+    let alerts;
+    if (glad.active) {
+      alerts = i18n.t('map.layerSettings.alertSettings.glad');
+      if (viirs.active) {
+        alerts += ', ' + i18n.t('map.layerSettings.alertSettings.viirs');
+      }
+    } else {
+      if (viirs.active) {
+        alerts = i18n.t('map.layerSettings.alertSettings.viirs');
+      } else {
+        alerts = i18n.t('map.layerSettings.alertSettings.noAlerts');
+      }
+    }
+    return i18n.t('map.layerSettings.alertSettings.showingAlerts', { alerts });
+  };
+
+  getRoutesSettingsTitle = () => {
+    const count = this.props.layerSettings.routes.activeRouteIds.length;
+    return i18n.t('map.layerSettings.routeSettings.showingRoutes', { count });
+  };
 
   getReportSettingsTitle = () => {
     const { myReportsActive, importedReportsActive } = this.props.layerSettings.reports;
@@ -118,6 +141,15 @@ class MapSidebar extends PureComponent<Props> {
     }
   };
 
+  getContextualLayersSettingsTitle = () => {
+    const count = this.props.layerSettings.contextualLayers.activeContextualLayerIds.length;
+    return i18n.t('map.layerSettings.contextualLayersSettings.showingContextualLayers', { count });
+  };
+
+  getBasemapsTitle = () => {
+    return i18n.t('map.layerSettings.basemapSettings.showingBasemap', { basemap: this.props.activeBasemapName });
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -132,7 +164,7 @@ class MapSidebar extends PureComponent<Props> {
             onPress={this.props.toggleAlertsLayer}
             onSettingsPress={this.openAlertsLayerSettings}
             title={i18n.t('map.layerSettings.alerts')}
-            settingsTitle={'omg'}
+            settingsTitle={this.getAlertsSettingsTitle()}
             selected={this.props.layerSettings.alerts.layerIsActive}
             style={styles.rowContainer}
             hideDivider
@@ -144,7 +176,7 @@ class MapSidebar extends PureComponent<Props> {
             onPress={this.props.toggleRoutesLayer}
             onSettingsPress={this.openRoutesLayerSettings}
             title={i18n.t('map.layerSettings.routes')}
-            settingsTitle={'All'}
+            settingsTitle={this.getRoutesSettingsTitle()}
             selected={this.props.layerSettings.routes.layerIsActive}
             style={styles.rowContainer}
             hideDivider
@@ -168,7 +200,7 @@ class MapSidebar extends PureComponent<Props> {
             onPress={this.props.toggleContextualLayersLayer}
             onSettingsPress={this.openContextualLayersLayerSettings}
             title={i18n.t('map.layerSettings.contextualLayers')}
-            settingsTitle={'All'}
+            settingsTitle={this.getContextualLayersSettingsTitle()}
             selected={this.props.layerSettings.contextualLayers.layerIsActive}
             style={styles.rowContainer}
             hideDivider
@@ -177,9 +209,9 @@ class MapSidebar extends PureComponent<Props> {
             largerLeftPadding
           />
         </ScrollView>
-        <View style={styles.basemapContainer}>
-          <SettingsButton title={i18n.t('map.layerSettings.basemap')} onPress={this.openBasemapLayerSettings} />
-        </View>
+        <SafeAreaView style={styles.basemapContainer}>
+          <SettingsButton title={this.getBasemapsTitle()} onPress={this.openBasemapLayerSettings} />
+        </SafeAreaView>
       </View>
     );
   }

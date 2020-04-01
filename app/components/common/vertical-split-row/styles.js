@@ -50,7 +50,8 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
     fontSize: 12,
-    fontWeight: '400'
+    fontWeight: '400',
+    marginRight: 20
   },
   nameContainer: {
     flex: 1,

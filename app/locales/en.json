@@ -358,11 +358,43 @@
             "basemaps": "Basemaps",
             "gfwBasemaps": "GFW Basemaps",
             "importedBasemaps": "Imported Basemaps",
+            "manageBasemaps": "Manage Basemaps",
+            "alertSettings": {
+                "deforestation": "Deforestation",
+                "glad": "GLAD",
+                "fires": "Fires",
+                "viirs": "VIIRS",
+                "alert": "Alert",
+                "recent": "Recent",
+                "reportedOn": "Reported On",
+                "timeFrame": "Time Frame",
+                "timeFrameDescMonths": "Select the amount of months",
+                "timeFrameDescDays": "Select the amount of days",
+                "oneMonth": "%{count} month",
+                "manyMonths": "%{count} months",
+                "oneDay": "%{count} day",
+                "manyDays": "%{count} days",
+                "showingOneMonth": "Showing %{type} from the past month",
+                "showingManyMonths": "Showing %{type} from the past %{count} months",
+                "showingOneDay": "Showing %{type} from the past day",
+                "showingManyDays": "Showing %{type} from the past %{count} days",
+                "showingAlerts": "Showing: %{alerts}",
+                "noAlerts": "No Alerts"
+            },
+            "routeSettings": {
+                "showingRoutes": "Showing: %{count} routes"
+            },
             "reportSettings": {
                 "showingNoReports": "Showing No Reports",
                 "showingMyReports": "Showing My Reports",
                 "showingImportedReports": "Showing Imported Reports",
                 "showingAllReports": "Showing All Reports"
+            },
+            "contextualLayersSettings": {
+                "showingContextualLayers": "Showing: %{count} Contextual Layers"
+            },
+            "basemapSettings": {
+                "showingBasemap": "Basemap: %{basemap}"
             }
         }
     },

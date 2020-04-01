@@ -13,7 +13,6 @@ function mapStateToProps(state: State) {
     hasAreas: !!state.areas.data.length,
     isAppSynced: state.app.synced,
     loggedIn: state.user.loggedIn,
-    token: state.user.token,
     actionsPending: getTotalActionsPending(state)
   };
 }
