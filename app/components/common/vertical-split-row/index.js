@@ -31,6 +31,7 @@ type Props = {
   hideDivider?: ?boolean,
   hideImage?: ?boolean,
   imageSrc?: ?string | ?number,
+  largeImage? : ?boolean,
   largerLeftPadding?: ?boolean,
   legend?: ?Legend,
   onDownloadPress?: void => void,
@@ -67,7 +68,7 @@ export default class VerticalSplitRow extends Component<Props> {
       >
         <View style={styles.item}>
           {!this.props.hideImage && (
-            <View style={styles.imageContainer}>
+            <View style={[styles.imageContainer, this.props.largeImage ? styles.largeImageContainer : {}]}>
               {!!this.props.imageSrc && (
                 <ImageBackground
                   resizeMode={this.props.backgroundImageResizeMode || 'cover'}
