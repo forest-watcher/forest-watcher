@@ -1,3 +1,4 @@
+import Config from 'react-native-config';
 import i18n from 'i18next';
 import Theme from 'config/theme';
 import { hexToRgb } from 'helpers/utils';
@@ -18,7 +19,12 @@ export const STORAGE = {
   }
 };
 
+const devBasemap = 'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const prodBasemap = `https://api.mapbox.com/styles/v1/forestwatcher/cj512vh3m0yth2rn62y69uoek/tiles/256/{z}/{x}/{y}?access_token=${
+  Config.MAPBOX_TOKEN
+}`;
 export const MAPS = {
+  basemap: __DEV__ ? devBasemap : prodBasemap,
   smallPadding: {
     paddingLeft: 20,
     paddingRight: 20,
