@@ -31,7 +31,7 @@ type Props = {
   hideDivider?: ?boolean,
   hideImage?: ?boolean,
   imageSrc?: ?string | ?number,
-  largeImage? : ?boolean,
+  largeImage?: ?boolean,
   largerLeftPadding?: ?boolean,
   legend?: ?Legend,
   onDownloadPress?: void => void,

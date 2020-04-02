@@ -19,6 +19,7 @@ export default StyleSheet.create({
     paddingBottom: 10
   },
   rowContainer: {
-    marginBottom: 18
+    marginBottom: 18,
+    height: 94 // extra 2 for bottomBorder in Row component
   }
 });
