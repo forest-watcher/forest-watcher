@@ -7,14 +7,10 @@ const ADD_BASEMAP = 'basemaps/ADD_BASEMAP';
 
 // Constants
 const allDefaultMapboxStyles = [
-  [MapboxGL.StyleURL.Street, 'Street'],
-  [MapboxGL.StyleURL.Dark, 'Dark'],
   [MapboxGL.StyleURL.Light, 'Light'],
-  [MapboxGL.StyleURL.Outdoors, 'Outdoors'],
-  [MapboxGL.StyleURL.Satellite, 'Satellite'],
-  [MapboxGL.StyleURL.SatelliteStreet, 'SatelliteStreet'],
-  [MapboxGL.StyleURL.TrafficDay, 'TrafficDay'],
-  [MapboxGL.StyleURL.TrafficNight, 'TrafficNight']
+  [MapboxGL.StyleURL.Dark, 'Dark'],
+  [MapboxGL.StyleURL.Street, 'Street'],
+  [MapboxGL.StyleURL.Satellite, 'Satellite']
 ];
 
 const mapboxBasemaps: Array<Basemap> = allDefaultMapboxStyles.map(style => {
