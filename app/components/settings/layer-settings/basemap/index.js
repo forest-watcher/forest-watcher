@@ -11,6 +11,7 @@ import { Navigation } from 'react-native-navigation';
 import type { BasemapsState } from 'types/basemaps.types';
 
 type Props = {
+  featureId: string,
   basemaps: BasemapsState,
   activeBasemapId: string,
   selectActiveBasemap: string => {}
@@ -39,7 +40,7 @@ class BasemapLayerSettings extends PureComponent<Props> {
   }
 
   selectBasemap = basemap => {
-    this.props.selectActiveBasemap(basemap.id);
+    this.props.selectActiveBasemap(this.props.featureId, basemap.id);
   };
 
   render() {

@@ -2,6 +2,7 @@
 import type { LayerSettingsState, LayerSettingsAction } from 'types/layerSettings.types';
 import { DEFAULT_BASEMAP } from 'redux-modules/basemaps';
 import remove from 'lodash/remove';
+import type { Dispatch, GetState } from 'types/store.types';
 
 // Actions
 const TOGGLE_ALERTS_LAYER = 'layerSettings/TOGGLE_ALERTS_LAYER';
@@ -23,7 +24,7 @@ const SET_CONTEXTUAL_LAYER_SHOWING = 'layerSettings/SET_CONTEXTUAL_LAYER_SHOWING
 const CLEAR_ENABLED_CONTEXTUAL_LAYERS = 'layerSettings/CLEAR_ENABLED_CONTEXTUAL_LAYERS';
 
 // Reducer
-const initialState = {
+export const DEFAULT_LAYER_SETTINGS = {
   alerts: {
     layerIsActive: true,
     glad: {
@@ -53,70 +54,107 @@ const initialState = {
   }
 };
 
-export default function reducer(state: LayerSettingsState = initialState, action: LayerSettingsAction): SetupState {
+const initialState = {};
+
+export default function reducer(
+  state: LayerSettingsState = initialState,
+  action: LayerSettingsAction
+): LayerSettingsState {
+  const featureId: string = action.payload?.featureId;
+  if (!featureId) {
+    // All actions require the featureId, this will be the ID of the area or route we want to change the layer settings for.
+    return state;
+  }
+  if (!state[featureId]) {
+    // if this feature had no custom layer settings, we duplicate the default,
+    // and then apply the changes of the action
+    state = { ...state, [featureId]: DEFAULT_LAYER_SETTINGS };
+  }
+
   switch (action.type) {
     case TOGGLE_ALERTS_LAYER: {
       return {
         ...state,
-        alerts: {
-          ...state.alerts,
-          layerIsActive: !state.alerts.layerIsActive
+        [featureId]: {
+          ...state[featureId],
+          alerts: {
+            ...state[featureId].alerts,
+            layerIsActive: !state[featureId].alerts.layerIsActive
+          }
         }
       };
     }
     case TOGGLE_ROUTES_LAYER: {
       return {
         ...state,
-        routes: {
-          ...state.routes,
-          layerIsActive: !state.routes.layerIsActive
+        [featureId]: {
+          ...state[featureId],
+          routes: {
+            ...state[featureId].routes,
+            layerIsActive: !state[featureId].routes.layerIsActive
+          }
         }
       };
     }
     case TOGGLE_REPORTS_LAYER: {
       return {
         ...state,
-        reports: {
-          ...state.reports,
-          layerIsActive: !state.reports.layerIsActive
+        [featureId]: {
+          ...state[featureId],
+          reports: {
+            ...state[featureId].reports,
+            layerIsActive: !state[featureId].reports.layerIsActive
+          }
         }
       };
     }
     case TOGGLE_CONTEXTUAL_LAYERS_LAYER: {
       return {
         ...state,
-        contextualLayers: {
-          ...state.contextualLayers,
-          layerIsActive: !state.contextualLayers.layerIsActive
+        [featureId]: {
+          ...state[featureId],
+          contextualLayers: {
+            ...state[featureId].contextualLayers,
+            layerIsActive: !state[featureId].contextualLayers.layerIsActive
+          }
         }
       };
     }
     case TOGGLE_MY_REPORTS_LAYER: {
       return {
         ...state,
-        reports: {
-          ...state.reports,
-          myReportsActive: !state.reports.myReportsActive
+        [featureId]: {
+          ...state[featureId],
+          reports: {
+            ...state[featureId].reports,
+            myReportsActive: !state[featureId].reports.myReportsActive
+          }
         }
       };
     }
     case TOGGLE_IMPORTED_REPORTS_LAYER: {
       return {
         ...state,
-        reports: {
-          ...state.reports,
-          importedReportsActive: !state.reports.importedReportsActive
+        [featureId]: {
+          ...state[featureId],
+          reports: {
+            ...state[featureId].reports,
+            importedReportsActive: !state[featureId].reports.importedReportsActive
+          }
         }
       };
     }
     case TOGGLE_GLAD_ALERTS: {
       return {
         ...state,
-        alerts: {
-          ...state.alerts,
-          glad: {
-            ...state.alerts.glad,
-            active: !state.alerts.glad.active
+        [featureId]: {
+          ...state[featureId],
+          alerts: {
+            ...state[featureId].alerts,
+            glad: {
+              ...state[featureId].alerts.glad,
+              active: !state[featureId].alerts.glad.active
+            }
           }
         }
       };
@@ -124,11 +162,14 @@ export default function reducer(state: LayerSettingsState = initialState, action
     case TOGGLE_VIIRS_ALERTS: {
       return {
         ...state,
-        alerts: {
-          ...state.alerts,
-          viirs: {
-            ...state.alerts.viirs,
-            active: !state.alerts.viirs.active
+        [featureId]: {
+          ...state[featureId],
+          alerts: {
+            ...state[featureId].alerts,
+            viirs: {
+              ...state[featureId].alerts.viirs,
+              active: !state[featureId].alerts.viirs.active
+            }
           }
         }
       };
@@ -136,11 +177,14 @@ export default function reducer(state: LayerSettingsState = initialState, action
     case SET_GLAD_ALERTS_TIME_FRAME: {
       return {
         ...state,
-        alerts: {
-          ...state.alerts,
-          glad: {
-            ...state.alerts.glad,
-            timeFrame: action.payload.timeFrame
+        [featureId]: {
+          ...state[featureId],
+          alerts: {
+            ...state[featureId].alerts,
+            glad: {
+              ...state[featureId].alerts.glad,
+              timeFrame: action[featureId].payload.timeFrame
+            }
           }
         }
       };
@@ -148,20 +192,31 @@ export default function reducer(state: LayerSettingsState = initialState, action
     case SET_VIIRS_ALERTS_TIME_FRAME: {
       return {
         ...state,
-        alerts: {
-          ...state.alerts,
-          viirs: {
-            ...state.alerts.viirs,
-            timeFrame: action.payload.timeFrame
+        [featureId]: {
+          ...state[featureId],
+          alerts: {
+            ...state[featureId].alerts,
+            viirs: {
+              ...state[featureId].alerts.viirs,
+              timeFrame: action[featureId].payload.timeFrame
+            }
           }
         }
       };
     }
     case SELECT_ACTIVE_BASEMAP: {
-      return { ...state, basemap: { activeBasemapId: action.payload.basemapId } };
+      return {
+        ...state,
+        [featureId]: {
+          ...state[featureId],
+          basemap: {
+            activeBasemapId: action.payload.basemapId
+          }
+        }
+      };
     }
     case SET_CONTEXTUAL_LAYER_SHOWING: {
-      const activeContextualLayerIds = [...state.contextualLayers.activeContextualLayerIds];
+      const activeContextualLayerIds = [...state[featureId].contextualLayers.activeContextualLayerIds];
       if (action.payload.showing && !activeContextualLayerIds.includes(action.payload.layerId)) {
         activeContextualLayerIds.push(action.payload.layerId);
       } else if (!action.payload.showing) {
@@ -171,18 +226,24 @@ export default function reducer(state: LayerSettingsState = initialState, action
       }
       return {
         ...state,
-        contextualLayers: {
-          ...state.contextualLayers,
-          activeContextualLayerIds
+        [featureId]: {
+          ...state[featureId],
+          contextualLayers: {
+            ...state[featureId].contextualLayers,
+            activeContextualLayerIds
+          }
         }
       };
     }
     case CLEAR_ENABLED_CONTEXTUAL_LAYERS: {
       return {
         ...state,
-        contextualLayers: {
-          ...state.contextualLayers,
-          activeContextualLayerIds: []
+        [featureId]: {
+          ...state[featureId],
+          contextualLayers: {
+            ...state[featureId].contextualLayers,
+            activeContextualLayerIds: []
+          }
         }
       };
     }
@@ -191,102 +252,136 @@ export default function reducer(state: LayerSettingsState = initialState, action
   }
 }
 
-export function clearEnabledContextualLayers() {
+export function clearEnabledContextualLayers(featureId: string) {
   return {
-    type: CLEAR_ENABLED_CONTEXTUAL_LAYERS
+    type: CLEAR_ENABLED_CONTEXTUAL_LAYERS,
+    payload: {
+      featureId
+    }
   };
 }
 
-export function setContextualLayerShowing(layerId: string, showing: boolean) {
+export function setContextualLayerShowing(featureId: string, layerId: string, showing: boolean) {
   return {
     type: SET_CONTEXTUAL_LAYER_SHOWING,
     payload: {
+      featureId,
       layerId,
       showing
     }
   };
 }
 
-export function toggleAlertsLayer(): LayerSettingsAction {
+export function toggleAlertsLayer(featureId: string): LayerSettingsAction {
   return {
-    type: TOGGLE_ALERTS_LAYER
+    type: TOGGLE_ALERTS_LAYER,
+    payload: {
+      featureId
+    }
   };
 }
 
-export function toggleRoutesLayer(): LayerSettingsAction {
+export function toggleRoutesLayer(featureId: string): LayerSettingsAction {
   return {
-    type: TOGGLE_ROUTES_LAYER
+    type: TOGGLE_ROUTES_LAYER,
+    payload: {
+      featureId
+    }
   };
 }
 
-export function toggleReportsLayer(): LayerSettingsAction {
+export function toggleReportsLayer(featureId: string): LayerSettingsAction {
   return {
-    type: TOGGLE_REPORTS_LAYER
+    type: TOGGLE_REPORTS_LAYER,
+    payload: {
+      featureId
+    }
   };
 }
 
-export function toggleContextualLayersLayer(): LayerSettingsAction {
+export function toggleContextualLayersLayer(featureId: string): LayerSettingsAction {
   return {
-    type: TOGGLE_CONTEXTUAL_LAYERS_LAYER
+    type: TOGGLE_CONTEXTUAL_LAYERS_LAYER,
+    payload: {
+      featureId
+    }
   };
 }
 
-export function toggleMyReportsLayer(): LayerSettingsAction {
+export function toggleMyReportsLayer(featureId: string): LayerSettingsAction {
   return {
-    type: TOGGLE_MY_REPORTS_LAYER
+    type: TOGGLE_MY_REPORTS_LAYER,
+    payload: {
+      featureId
+    }
   };
 }
 
-export function toggleImportedReportsLayer(): LayerSettingsAction {
+export function toggleImportedReportsLayer(featureId: string): LayerSettingsAction {
   return {
-    type: TOGGLE_IMPORTED_REPORTS_LAYER
+    type: TOGGLE_IMPORTED_REPORTS_LAYER,
+    payload: {
+      featureId
+    }
   };
 }
 
-export function toggleGladAlerts(): LayerSettingsAction {
+export function toggleGladAlerts(featureId: string): LayerSettingsAction {
   return {
-    type: TOGGLE_GLAD_ALERTS
+    type: TOGGLE_GLAD_ALERTS,
+    payload: {
+      featureId
+    }
   };
 }
 
-export function toggleViirsAlerts(): LayerSettingsAction {
+export function toggleViirsAlerts(featureId: string): LayerSettingsAction {
   return {
-    type: TOGGLE_VIIRS_ALERTS
+    type: TOGGLE_VIIRS_ALERTS,
+    payload: {
+      featureId
+    }
   };
 }
 
-export function setGladAlertsTimeFrame(timeFrame: number): LayerSettingsAction {
+export function setGladAlertsTimeFrame(featureId: string, timeFrame: number): LayerSettingsAction {
   return {
     type: SET_GLAD_ALERTS_TIME_FRAME,
     payload: {
+      featureId,
       timeFrame
     }
   };
 }
 
-export function setViirsAlertsTimeFrame(timeFrame: number): LayerSettingsAction {
+export function setViirsAlertsTimeFrame(featureId: string, timeFrame: number): LayerSettingsAction {
   return {
     type: SET_VIIRS_ALERTS_TIME_FRAME,
     payload: {
+      featureId,
       timeFrame
     }
   };
 }
 
-export function selectActiveBasemap(basemapId: string): LayerSettingsAction {
+export function selectActiveBasemap(featureId: string, basemapId: string): LayerSettingsAction {
   return {
     type: SELECT_ACTIVE_BASEMAP,
     payload: {
+      featureId,
       basemapId
     }
   };
 }
 
-export function getActiveBasemap(state) {
-  const activeBasemapId = state.layerSettings.basemap.activeBasemapId;
-  if (!activeBasemapId) {
-    return DEFAULT_BASEMAP;
-  }
-  const allBasemaps = [...state.basemaps.gfwBasemaps, ...state.basemaps.importedBasemaps];
-  return allBasemaps.find(item => item.id === activeBasemapId);
+export function getActiveBasemap(featureId: string) {
+  return (dispatch: Dispatch, getState: GetState) => {
+    const state = getState();
+    const activeBasemapId = state.layerSettings?.[featureId]?.basemap?.activeBasemapId;
+    if (!activeBasemapId) {
+      return DEFAULT_BASEMAP;
+    }
+    const allBasemaps = [...state.basemaps.gfwBasemaps, ...state.basemaps.importedBasemaps];
+    return allBasemaps.find(item => item.id === activeBasemapId);
+  };
 }

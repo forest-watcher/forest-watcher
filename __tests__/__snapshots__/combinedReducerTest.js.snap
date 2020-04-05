@@ -1926,35 +1926,7 @@ Object {
     "migrated": true,
     "oldData": Object {},
   },
-  "layerSettings": Object {
-    "alerts": Object {
-      "glad": Object {
-        "active": false,
-        "timeFrame": 1,
-      },
-      "layerIsActive": true,
-      "viirs": Object {
-        "active": false,
-        "timeFrame": 1,
-      },
-    },
-    "basemap": Object {
-      "activeBasemapId": "mapbox://styles/mapbox/streets-v11",
-    },
-    "contextualLayers": Object {
-      "activeContextualLayerIds": Array [],
-      "layerIsActive": false,
-    },
-    "reports": Object {
-      "importedReportsActive": false,
-      "layerIsActive": false,
-      "myReportsActive": false,
-    },
-    "routes": Object {
-      "activeRouteIds": Array [],
-      "layerIsActive": false,
-    },
-  },
+  "layerSettings": Object {},
   "layers": Object {
     "activeLayer": null,
     "cache": Object {},
@@ -3930,35 +3902,7 @@ Object {
     "migrated": true,
     "oldData": Object {},
   },
-  "layerSettings": Object {
-    "alerts": Object {
-      "glad": Object {
-        "active": false,
-        "timeFrame": 1,
-      },
-      "layerIsActive": true,
-      "viirs": Object {
-        "active": false,
-        "timeFrame": 1,
-      },
-    },
-    "basemap": Object {
-      "activeBasemapId": "mapbox://styles/mapbox/streets-v11",
-    },
-    "contextualLayers": Object {
-      "activeContextualLayerIds": Array [],
-      "layerIsActive": false,
-    },
-    "reports": Object {
-      "importedReportsActive": false,
-      "layerIsActive": false,
-      "myReportsActive": false,
-    },
-    "routes": Object {
-      "activeRouteIds": Array [],
-      "layerIsActive": false,
-    },
-  },
+  "layerSettings": Object {},
   "layers": Object {
     "activeLayer": null,
     "cache": Object {},
