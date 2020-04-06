@@ -18,7 +18,8 @@ import type { Route } from 'types/routes.types';
 type Props = {
   isTracking: boolean,
   userLocation: Location,
-  route: Route
+  route: Route,
+  onShapeSourcePressed?: () => void
 };
 
 export default class RouteMarkers extends PureComponent<Props> {
@@ -149,7 +150,13 @@ export default class RouteMarkers extends PureComponent<Props> {
     if (!coords || coords.length < 2) {
       return null;
     }
-    const line = MapboxGL.geoUtils.makeLineString(coords);
+    let properties = {};
+    if (this.props.route?.id) {
+      // This will be false before the route has been saved
+      const { name, endDate, id } = this.props.route;
+      properties = { name, endDate, type: 'route', featureId: id };
+    }
+    const line = MapboxGL.geoUtils.makeLineString(coords, properties);
     // Ignore first and last location markers, as those are drawn in renderRouteEnds method.
     const markers = coords.slice(1, -1);
     let markersShape = null;
@@ -158,9 +165,10 @@ export default class RouteMarkers extends PureComponent<Props> {
     } else if (markers.length === 1) {
       markersShape = MapboxGL.geoUtils.makeFeature({ type: 'Point', coordinates: markers[0] });
     }
+    const onPress = this.props.onShapeSourcePressed || null;
     return (
       <React.Fragment>
-        <MapboxGL.ShapeSource id="routeLine" shape={line}>
+        <MapboxGL.ShapeSource onPress={onPress} id="routeLine" shape={line}>
           <MapboxGL.LineLayer id="routeLineLayer" style={mapboxStyles.routeLineLayer} />
         </MapboxGL.ShapeSource>
         {/* Mapbox doesnt like to use the same ShapeSource with different shape types supplied*/}
@@ -184,18 +192,25 @@ export default class RouteMarkers extends PureComponent<Props> {
     const count = routeLocations?.length;
     const start = count > 0 ? routeLocations[0] : null;
     const end = count > 1 ? routeLocations[count - 1] : null;
-    const startSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(start)) : null;
-    const endSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(end)) : null;
+    let properties = {};
+    if (this.props.route?.id) {
+      // This will be false before the route has been saved
+      const { name, endDate, id } = this.props.route;
+      properties = { name, endDate, type: 'route', featureId: id };
+    }
+    const startSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(start), properties) : null;
+    const endSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(end), properties) : null;
+    const onPress = this.props.onShapeSourcePressed || null;
     return (
       <React.Fragment>
         {start && (
-          <MapboxGL.ShapeSource id="routeStart" shape={startSource}>
+          <MapboxGL.ShapeSource onPress={onPress} id="routeStart" shape={startSource}>
             <MapboxGL.CircleLayer key="routeStartInner" id="routeStartOuter" style={mapboxStyles.routeStartOuter} />
             <MapboxGL.CircleLayer key="routeStartOuter" id="routeStartInner" style={mapboxStyles.routeStartInner} />
           </MapboxGL.ShapeSource>
         )}
         {end && (
-          <MapboxGL.ShapeSource id="routeEnd" shape={endSource}>
+          <MapboxGL.ShapeSource onPress={onPress} id="routeEnd" shape={endSource}>
             <MapboxGL.CircleLayer key="routeEndOuter" id="routeEndOuter" style={mapboxStyles.routeEndOuter} />
             <MapboxGL.CircleLayer key="routeEndInner" id="routeEndInner" style={mapboxStyles.routeEndInner} />
           </MapboxGL.ShapeSource>
