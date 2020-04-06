@@ -23,7 +23,7 @@ export default StyleSheet.create({
     paddingLeft: 4,
     paddingRight: 12,
     ...Theme.tableRowText,
-    fontSize: 12,
+    fontSize: 12
   },
   fileTypeContainer: {
     flexDirection: 'row',

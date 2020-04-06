@@ -1,27 +1,19 @@
 // @flow
 import React, { Component } from 'react';
-import { View, ScrollView, Platform, Text } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-
 import debounceUI from 'helpers/debounceUI';
-
 import i18n from 'i18next';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
-
 import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
 import ActionsRow from 'components/common/actions-row';
-import DocumentPicker from 'react-native-document-picker';
-
 import { formatBytes } from 'helpers/data';
 
 const plusIcon = require('assets/add.png');
 const emptyIcon = require('assets/layersEmpty.png');
 const layerPlaceholder = require('assets/layerPlaceholder.png');
-
-import generatedUniqueId from 'helpers/uniqueId';
-
 
 type Props = {
   componentId: string,

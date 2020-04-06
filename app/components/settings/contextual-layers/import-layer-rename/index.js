@@ -72,8 +72,7 @@ class ImportLayerRename extends PureComponent<Props> {
       // Because the file is added before the screen disappears if we don't make
       // sure the "matches" id is different to the currently adding files id
       // then the duplicate name message is shown as the screen is dismissing on iOS
-      return layer.name === this.state.file.name
-              && layer.id !== this.state.file.id;
+      return layer.name === this.state.file.name && layer.id !== this.state.file.id;
     });
 
     const nameAlreadyTaken = !!matchingFile;

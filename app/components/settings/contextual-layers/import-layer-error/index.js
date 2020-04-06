@@ -52,13 +52,22 @@ export default class ImportLayerError extends Component<Props> {
       <SafeAreaView style={styles.container}>
         <View style={styles.contentContainer}>
           <Text style={styles.titleText}>{i18n.t('importLayer.fileTypeNotSupported')}</Text>
-          <Text style={styles.fileName}>'{this.props.fileName}'</Text>
+          <Text style={styles.fileName}>
+            {"'"}
+            {this.props.fileName}
+            {"'"}
+          </Text>
           <Text style={styles.description}>{i18n.t('importLayer.fileTypeNotSupportedDesc')}</Text>
           <Text style={styles.fileTypesDescription}>{i18n.t('importLayer.supportedFileTypesInclude')}</Text>
           <View style={styles.acceptedFileTypes}>
             {ACCEPTED_FILE_TYPES.map(fileType => this.renderFileTypeComponent(fileType))}
           </View>
-          <ActionButton onPress={this.onPressChooseAnother} secondary noIcon text={i18n.t('importLayer.chooseAnother')} />
+          <ActionButton
+            onPress={this.onPressChooseAnother}
+            secondary
+            noIcon
+            text={i18n.t('importLayer.chooseAnother')}
+          />
           <Text style={styles.actionText} onPress={this.onPressCancel}>
             {i18n.t('commonText.cancel')}
           </Text>

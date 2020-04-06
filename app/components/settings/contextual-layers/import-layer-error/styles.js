@@ -24,7 +24,7 @@ export default StyleSheet.create({
   fileTypesDescription: {
     paddingBottom: 8,
     ...Theme.tableRowText,
-    fontSize: 12,
+    fontSize: 12
   },
   acceptedFileTypes: {
     flexWrap: 'wrap',
