@@ -22,8 +22,6 @@ const layerPlaceholder = require('assets/layerPlaceholder.png');
 
 import generatedUniqueId from 'helpers/uniqueId';
 
-const ACCEPTED_FILE_TYPES = ['json', 'geojson', 'topojson', 'gpx', 'shp', 'kmz', 'kml'];
-const TODO_FILE_TYPES = ['topojson', 'shp', 'kmz', 'kml']; // todo remove when finished implementation
 
 type Props = {
   componentId: string,
@@ -143,58 +141,13 @@ class Layers extends Component<Props> {
     // }
   });
 
-  onPressAddLayer = debounceUI(async () => {
-    try {
-      const res = await DocumentPicker.pick([DocumentPicker.types.allFiles]);
-      const validFile = this.verifyImportedFile(res);
-      if (!validFile) {
-        return;
+  onPressAddLayer = debounceUI(() => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.ImportLayerType'
       }
-      Navigation.push(this.props.componentId, {
-        component: {
-          name: 'ForestWatcher.ImportLayer',
-          passProps: {
-            file: {
-              ...res,
-              fileName: res.name, // Slightly tweak the res to reformat `name` -> `fileName` as we keep these seperate,
-              id: generatedUniqueId(),
-              name: null
-            }
-          }
-        }
-      });
-    } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        // User cancelled the picker, exit any dialogs or menus and move on
-      } else {
-        throw err;
-      }
-    }
+    });
   });
-
-  verifyImportedFile = file => {
-    const fileExtension = file.name
-      .split('.')
-      .pop()
-      .toLowerCase();
-    if (TODO_FILE_TYPES.includes(fileExtension)) {
-      // todo remove this when importing implementation finished
-      alert('File type: ' + fileExtension + ' implementation has not yet been finished');
-      return false;
-    }
-    if (!ACCEPTED_FILE_TYPES.includes(fileExtension)) {
-      alert(
-        'Error: ' +
-          fileExtension +
-          ' is not a supported file type.' +
-          '\n\nOnly these file types are supported: .json, .geojson, .topojson, .gpx, .shp, .kmz, .kml.' +
-          '\n\nAlso new designs coming soon™️'
-      );
-      return false;
-    } else {
-      return true;
-    }
-  };
 
   setAllSelected = (selected: boolean) => {
     // todo: Add back in once we have redux state for layers

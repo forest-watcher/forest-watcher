@@ -300,7 +300,12 @@
         "uniqueNameError": "You have already given a layer this name, please choose a different name or delete the existing layer.",
         "error": "Failed to import layer, please make sure you are selecting the correct file type and the contents of the file matches the specification then try again.",
         "save": "Import Layer",
-        "title": "Layer Name"
+        "title": "Layer Name",
+        "chooseContextualLayerType": "Choose contextual layer type",
+        "addGFWLayer": "Add Global Forest Watch Layer",
+        "customContextualLayer": "Custom Contextual Layer",
+        "supportedFileTypesInclude": "Supported file types include:",
+        "customLayerFAQs": "Custom Layer FAQs"
     },
     "layers": {
         "managedForests": "Managed Forest",
