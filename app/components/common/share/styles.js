@@ -13,7 +13,7 @@ export default StyleSheet.create({
     borderTopColor: Theme.colors.veryLightPinkTwo,
     borderTopWidth: 1,
     marginBottom: 0,
-    marginTop: 12
+    marginTop: 24
   },
   headerContent: {
     flexDirection: 'row',
