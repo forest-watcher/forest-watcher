@@ -15,7 +15,7 @@ import generatedUniqueId from 'helpers/uniqueId';
 const nextIcon = require('assets/next.png');
 const fileIcon = require('assets/fileIcon.png');
 
-const ACCEPTED_FILE_TYPES = ['json', 'geojson', 'topojson', 'gpx', 'shp', 'kmz', 'kml'];
+export const ACCEPTED_FILE_TYPES = ['json', 'geojson', 'topojson', 'gpx', 'shp', 'kmz', 'kml'];
 const TODO_FILE_TYPES = ['topojson', 'shp', 'kmz', 'kml']; // todo remove when finished implementation
 
 type Props = {
@@ -80,23 +80,36 @@ class ImportLayerType extends PureComponent<Props> {
       .split('.')
       .pop()
       .toLowerCase();
-    if (TODO_FILE_TYPES.includes(fileExtension)) {
-      // todo remove this when importing implementation finished
-      alert('File type: ' + fileExtension + ' implementation has not yet been finished');
+    if (!ACCEPTED_FILE_TYPES.includes(fileExtension) || TODO_FILE_TYPES.includes(fileExtension)) {
+      this.showModal(file.name);
       return false;
     }
-    if (!ACCEPTED_FILE_TYPES.includes(fileExtension)) {
-      alert(
-        'Error: ' +
-          fileExtension +
-          ' is not a supported file type.' +
-          '\n\nOnly these file types are supported: .json, .geojson, .topojson, .gpx, .shp, .kmz, .kml.' +
-          '\n\nAlso new designs coming soon™️'
-      );
-      return false;
-    } else {
-      return true;
-    }
+    return true;
+  };
+
+  showModal = fileName => {
+    Navigation.showModal({
+      stack: {
+        children: [
+          {
+            component: {
+              name: 'ForestWatcher.ImportLayerError',
+              passProps: {
+                fileName,
+                onRetry: this.importCustomContextualLayer
+              },
+              options: {
+                layout: {
+                  backgroundColor: 'transparent',
+                  componentBackgroundColor: 'rgba(0,0,0,0.8)'
+                },
+                screenBackgroundColor: 'rgba(0,0,0,0.8)'
+              }
+            }
+          }
+        ]
+      }
+    });
   };
 
   onImportPressed = async () => {

@@ -38,6 +38,7 @@ import AlertLayerSettings from 'containers/settings/layer-settings/alerts';
 import RoutesLayerSettings from 'containers/settings/layer-settings/routes';
 import ContextualLayersLayerSettings from 'containers/settings/layer-settings/contextual-layers';
 import BasemapLayerSettings from 'containers/settings/layer-settings/basemap';
+import ImportLayerError from 'components/settings/contextual-layers/import-layer-error';
 
 /**
  * Registers a component with React Native Navigation
@@ -100,6 +101,7 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.ReportsLayerSettings', ReportLayerSettings, Provider, store);
   registerComponent('ForestWatcher.ContextualLayersLayerSettings', ContextualLayersLayerSettings, Provider, store);
   registerComponent('ForestWatcher.BasemapLayerSettings', BasemapLayerSettings, Provider, store);
+  registerComponent('ForestWatcher.ImportLayerError', ImportLayerError, Provider, store);
 }
 
 export default registerScreens;

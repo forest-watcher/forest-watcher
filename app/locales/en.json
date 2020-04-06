@@ -305,7 +305,10 @@
         "addGFWLayer": "Add Global Forest Watch Layer",
         "customContextualLayer": "Custom Contextual Layer",
         "supportedFileTypesInclude": "Supported file types include:",
-        "customLayerFAQs": "Custom Layer FAQs"
+        "customLayerFAQs": "Custom Layer FAQs",
+        "fileTypeNotSupported": "File Type Not Supported",
+        "fileTypeNotSupportedDesc": "is not a supported file type for contextual layers.",
+        "chooseAnother": "Choose Another"
     },
     "layers": {
         "managedForests": "Managed Forest",
