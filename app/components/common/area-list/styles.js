@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   rowContainer: {
@@ -7,7 +7,7 @@ export default StyleSheet.create({
     marginTop: -50
   },
   row: {
-    height: 130 // extra 2 for bottomBorder in Row component
+    height: Platform.OS === "android" ? 130 : undefined // extra 2 for bottomBorder in Row component
   },
   container: {
     marginTop: 50
