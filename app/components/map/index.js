@@ -1,7 +1,18 @@
 // @flow
 import React, { Component } from 'react';
 
-import { Alert, AppState, BackHandler, Dimensions, Image, LayoutAnimation, Platform, Text, View } from 'react-native';
+import {
+  Animated,
+  Alert,
+  AppState,
+  BackHandler,
+  Dimensions,
+  Image,
+  LayoutAnimation,
+  Platform,
+  Text,
+  View
+} from 'react-native';
 import * as Sentry from '@sentry/react-native';
 
 import { LOCATION_TRACKING, REPORTS, MAPS } from 'config/constants';
@@ -63,6 +74,8 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN = 0;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_EXITING = 1;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_STOPPING = 2;
+
+const DISMISSED_INFO_BANNER_POSTIION = 200;
 
 /**
  * Elapsed time in milliseconds after which we should consider the most recent location "stale", presumably because we
@@ -191,8 +204,8 @@ class MapComponent extends Component<Props> {
       locationError: null,
       mapCameraBounds: this.getMapCameraBounds(),
       destinationCoords: null,
+      animatedPosition: new Animated.Value(DISMISSED_INFO_BANNER_POSTIION),
       infoBannerProps: {
-        show: false,
         title: '',
         subtitle: '',
         type: '',
@@ -675,7 +688,9 @@ class MapComponent extends Component<Props> {
           locationError={locationError}
           mostRecentLocationTime={userLocation?.timestamp}
         />
-        {infoBannerProps.show && <InfoBanner style={styles.infoBanner} {...infoBannerProps} />}
+        <Animated.View style={{transform: [{translateY: this.state.animatedPosition}] }}>
+          <InfoBanner style={styles.infoBanner} {...infoBannerProps} />
+        </Animated.View>
         <View style={styles.buttonPanel}>
           {canReport ? (
             <React.Fragment>
@@ -758,13 +773,19 @@ class MapComponent extends Component<Props> {
     // hide info banner
     this.setState({
       infoBannerProps: {
-        show: false,
         title: '',
         subtitle: '',
         type: '',
         featureId: ''
       }
     });
+    // dismiss info banner
+    Animated.spring(this.state.animatedPosition, {
+      toValue: DISMISSED_INFO_BANNER_POSTIION,
+      velocity: 3,
+      tension: 2,
+      friction: 8
+    }).start();
   };
 
   onShapeSourcePressed = e => {
@@ -774,13 +795,19 @@ class MapComponent extends Component<Props> {
     if (endDate && name) {
       this.setState({
         infoBannerProps: {
-          show: true,
           title: name,
           subtitle: dateAgo,
           type,
           featureId
         }
       });
+      // show info banner
+      Animated.spring(this.state.animatedPosition, {
+        toValue: 0,
+        velocity: 3,
+        tension: 2,
+        friction: 8
+      }).start();
     }
   };
 
