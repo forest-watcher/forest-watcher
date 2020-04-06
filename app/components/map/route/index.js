@@ -192,18 +192,25 @@ export default class RouteMarkers extends PureComponent<Props> {
     const count = routeLocations?.length;
     const start = count > 0 ? routeLocations[0] : null;
     const end = count > 1 ? routeLocations[count - 1] : null;
-    const startSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(start)) : null;
-    const endSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(end)) : null;
+    let properties = {};
+    if (this.props.route?.id) {
+      // This will be false before the route has been saved
+      const { name, endDate, id } = this.props.route;
+      properties = { name, endDate, type: 'route', featureId: id };
+    }
+    const startSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(start), properties) : null;
+    const endSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(end), properties) : null;
+    const onPress = this.props.onShapeSourcePressed || null;
     return (
       <React.Fragment>
         {start && (
-          <MapboxGL.ShapeSource id="routeStart" shape={startSource}>
+          <MapboxGL.ShapeSource onPress={onPress} id="routeStart" shape={startSource}>
             <MapboxGL.CircleLayer key="routeStartInner" id="routeStartOuter" style={mapboxStyles.routeStartOuter} />
             <MapboxGL.CircleLayer key="routeStartOuter" id="routeStartInner" style={mapboxStyles.routeStartInner} />
           </MapboxGL.ShapeSource>
         )}
         {end && (
-          <MapboxGL.ShapeSource id="routeEnd" shape={endSource}>
+          <MapboxGL.ShapeSource onPress={onPress} id="routeEnd" shape={endSource}>
             <MapboxGL.CircleLayer key="routeEndOuter" id="routeEndOuter" style={mapboxStyles.routeEndOuter} />
             <MapboxGL.CircleLayer key="routeEndInner" id="routeEndInner" style={mapboxStyles.routeEndInner} />
           </MapboxGL.ShapeSource>
