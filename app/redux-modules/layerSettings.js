@@ -18,6 +18,8 @@ const TOGGLE_VIIRS_ALERTS = 'layerSettings/TOGGLE_VIIRS_ALERTS';
 const SET_GLAD_ALERTS_TIME_FRAME = 'layerSettings/SET_GLAD_ALERTS_TIME_FRAME';
 const SET_VIIRS_ALERTS_TIME_FRAME = 'layerSettings/SET_VIIRS_ALERTS_TIME_FRAME';
 
+const COPY_LAYER_SETTINGS = 'layerSettings/COPY_LAYER_SETTINGS';
+
 const SELECT_ACTIVE_BASEMAP = 'layerSettings/SELECT_ACTIVE_BASEMAP';
 
 const SET_CONTEXTUAL_LAYER_SHOWING = 'layerSettings/SET_CONTEXTUAL_LAYER_SHOWING';
@@ -215,6 +217,12 @@ export default function reducer(
         }
       };
     }
+    case COPY_LAYER_SETTINGS: {
+      return {
+        ...state,
+        [featureId]: state[action.payload.copyFromFeatureId]
+      };
+    }
     case SET_CONTEXTUAL_LAYER_SHOWING: {
       const activeContextualLayerIds = [...state[featureId].contextualLayers.activeContextualLayerIds];
       if (action.payload.showing && !activeContextualLayerIds.includes(action.payload.layerId)) {
@@ -370,6 +378,17 @@ export function selectActiveBasemap(featureId: string, basemapId: string): Layer
     payload: {
       featureId,
       basemapId
+    }
+  };
+}
+
+// Used to copy an Area's layer settings to a new Route, when the route is created.
+export function copyLayerSettings(copyFromFeatureId: string, copyToFeatureId: string): LayerSettingsAction {
+  return {
+    type: COPY_LAYER_SETTINGS,
+    payload: {
+      copyFromFeatureId,
+      featureId: copyToFeatureId
     }
   };
 }

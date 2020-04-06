@@ -1,5 +1,5 @@
 // @flow
-import type { RouteState, RouteAction, Route } from 'types/routes.types';
+import type { RouteState, RouteAction, Route, RouteDeletionCriteria } from 'types/routes.types';
 import { deleteAllLocations } from '../helpers/location';
 
 // Actions

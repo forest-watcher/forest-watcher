@@ -58,6 +58,7 @@ export type LayerSettingsAction =
   | ToggleViirsAlerts
   | SetGladAlertsTimeFrame
   | SetViirsAlertsTimeFrame
+  | CopyLayerSettings
   | SelectActiveBasemap;
 
 export type ClearEnabledContextualLayers = {
@@ -121,6 +122,13 @@ export type SelectActiveBasemap = {
   payload: {
     featureId: string,
     basemapId: string
+  }
+};
+export type CopyLayerSettings = {
+  type: 'layerSettings/COPY_LAYER_SETTINGS',
+  payload: {
+    copyFromFeatureId: string,
+    featureId: string
   }
 };
 export type SetContextualLayerShowing = {
