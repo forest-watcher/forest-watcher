@@ -522,10 +522,13 @@ class MapComponent extends Component<Props> {
     });
   });
 
+  getFeatureId = () => {
+    return this.props.route?.id || this.props.area.id;
+  };
+
   onSettingsPress = debounceUI(() => {
     // If route has been opened, that is the current layer settings feature ID,
     // otherwise use the area ID
-    const featureId = this.props.route?.id || this.props.area.id;
     Navigation.mergeOptions(this.props.componentId, {
       sideMenu: {
         right: {
@@ -535,7 +538,7 @@ class MapComponent extends Component<Props> {
               // https://github.com/wix/react-native-navigation/issues/3635
               // Pass componentId so drawer can push screens
               componentId: this.props.componentId,
-              featureId
+              featureId: this.getFeatureId()
             }
           }
         }
@@ -751,10 +754,9 @@ class MapComponent extends Component<Props> {
 
   render() {
     const { customReporting, userLocation, destinationCoords } = this.state;
-    const { area, isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap } = this.props;
+    const { isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap } = this.props;
 
-    const featureId = route?.id || area.id;
-    const basemap = getActiveBasemap(featureId);
+    const basemap = getActiveBasemap(this.getFeatureId());
 
     const coordinateAndDistanceText = customReporting
       ? getCoordinateAndDistanceText(destinationCoords, userLocation, route, coordinatesFormat, this.isRouteTracking())
