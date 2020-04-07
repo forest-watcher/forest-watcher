@@ -695,7 +695,7 @@ class MapComponent extends Component<Props> {
           locationError={locationError}
           mostRecentLocationTime={userLocation?.timestamp}
         />
-        <Animated.View style={{transform: [{translateY: this.state.animatedPosition}] }}>
+        <Animated.View style={{ transform: [{ translateY: this.state.animatedPosition }] }}>
           <InfoBanner style={styles.infoBanner} {...infoBannerProps} />
         </Animated.View>
         <View style={styles.buttonPanel}>

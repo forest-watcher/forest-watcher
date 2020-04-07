@@ -1,4 +1,4 @@
-import Theme from 'config/theme';
+import Theme, { isSmallScreen } from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
@@ -42,9 +42,15 @@ export default StyleSheet.create({
     paddingRight: 0
   },
   rowLabel: {
-    flexShrink: 1,
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
     fontSize: 12
+  },
+  title: {
+    fontFamily: Theme.font,
+    color: Theme.fontColors.secondary,
+    fontSize: isSmallScreen ? 16 : 17,
+    fontWeight: '400',
+    marginBottom: 4
   }
 });

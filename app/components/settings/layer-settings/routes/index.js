@@ -10,6 +10,8 @@ import { Navigation } from 'react-native-navigation';
 import type { Route } from 'types/routes.types';
 import ActionsRow from 'components/common/actions-row';
 import RoutePreviewImage from 'components/routes/preview-image';
+import moment from 'moment';
+import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
 
 const screenDimensions = Dimensions.get('screen');
 
@@ -81,6 +83,9 @@ class RoutesLayerSettings extends PureComponent<Props> {
         </View>
         {routes.map(route => {
           const selected = this.props.routesLayerSettings.activeRouteIds.includes(route.id);
+          const date = moment(route.endDate).format('ll');
+          const routeDistance = getDistanceOfPolyline(route.locations);
+          const distance = formatDistance(routeDistance, 1, false);
           return (
             <ActionsRow
               style={styles.rowContent}
@@ -95,7 +100,10 @@ class RoutesLayerSettings extends PureComponent<Props> {
                 />
               )}
             >
-              <Text style={styles.rowLabel}>{route.name}</Text>
+              <View>
+                <Text style={styles.title}>{route.name}</Text>
+                <Text style={styles.rowLabel}>{`${date}, ${distance}`}</Text>
+              </View>
               <Image source={selected ? checkboxOn : checkboxOff} />
             </ActionsRow>
           );
