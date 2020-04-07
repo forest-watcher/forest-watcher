@@ -82,7 +82,8 @@ class RoutesLayerSettings extends PureComponent<Props> {
           <Text style={styles.listTitle}>{i18n.t(headingLocalisation)}</Text>
         </View>
         {routes.map(route => {
-          const selected = this.props.routesLayerSettings.activeRouteIds.includes(route.id);
+          const alwaysActive = route.id === this.props.featureId;
+          const selected = alwaysActive ? true : this.props.routesLayerSettings.activeRouteIds.includes(route.id);
           const date = moment(route.endDate).format('ll');
           const routeDistance = getDistanceOfPolyline(route.locations);
           const distance = formatDistance(routeDistance, 1, false);

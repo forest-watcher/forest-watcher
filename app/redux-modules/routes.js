@@ -120,8 +120,9 @@ export function finishAndSaveRoute(): RouteAction {
 export function getRoutesById(routeIds): RouteAction {
   return (dispatch: Dispatch, getState: GetState) => {
     const state = getState();
-    return state.routes.previousRoutes.filter(route => routeIds.includes(route.id));
-    // todo mpf concat imported routes
+    return [...state.routes.previousRoutes, ...state.routes.importedRoutes].filter(route =>
+      routeIds.includes(route.id)
+    );
   };
 }
 
