@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
+    backgroundColor: Theme.background.main,
     flex: 1
   },
   heading: {
@@ -19,6 +20,7 @@ export default StyleSheet.create({
     paddingBottom: 10
   },
   rowContainer: {
-    marginBottom: 18
+    marginBottom: 18,
+    height: 94 // extra 2 for bottomBorder in Row component
   }
 });

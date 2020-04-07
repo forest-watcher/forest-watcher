@@ -50,6 +50,7 @@ import {
 import RouteMarkers from 'components/map/route';
 import type { Basemap } from 'types/basemaps.types';
 import type { Route } from 'types/routes.types';
+import InfoBanner from 'components/map/info-banner';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -189,7 +190,14 @@ class MapComponent extends Component<Props> {
       routeTrackingDialogState: ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN,
       locationError: null,
       mapCameraBounds: this.getMapCameraBounds(),
-      destinationCoords: null
+      destinationCoords: null,
+      infoBannerProps: {
+        show: false,
+        title: '',
+        subtitle: '',
+        type: '',
+        featureId: ''
+      }
     };
 
     SafeArea.getSafeAreaInsetsForRootView().then(result => {
@@ -659,7 +667,7 @@ class MapComponent extends Component<Props> {
   };
 
   renderButtonPanel() {
-    const { customReporting, userLocation, locationError, neighbours, selectedAlerts } = this.state;
+    const { customReporting, userLocation, locationError, neighbours, selectedAlerts, infoBannerProps } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
     const hasNeighbours = neighbours && neighbours.length > 0;
     const canReport = hasAlertsSelected || customReporting;
@@ -674,6 +682,7 @@ class MapComponent extends Component<Props> {
           locationError={locationError}
           mostRecentLocationTime={userLocation?.timestamp}
         />
+        {infoBannerProps.show && <InfoBanner style={styles.infoBanner} {...infoBannerProps} />}
         <View style={styles.buttonPanel}>
           {canReport ? (
             <React.Fragment>
@@ -752,6 +761,36 @@ class MapComponent extends Component<Props> {
     ) : null;
   }
 
+  onMapPress = () => {
+    // hide info banner
+    this.setState({
+      infoBannerProps: {
+        show: false,
+        title: '',
+        subtitle: '',
+        type: '',
+        featureId: ''
+      }
+    });
+  };
+
+  onShapeSourcePressed = e => {
+    // show info banner with feature details
+    const { endDate, name, type, featureId } = e?.nativeEvent?.payload?.properties;
+    const dateAgo = moment(endDate).fromNow();
+    if (endDate && name) {
+      this.setState({
+        infoBannerProps: {
+          show: true,
+          title: name,
+          subtitle: dateAgo,
+          type,
+          featureId
+        }
+      });
+    }
+  };
+
   render() {
     const { customReporting, userLocation, destinationCoords } = this.state;
     const { isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap } = this.props;
@@ -810,11 +849,17 @@ class MapComponent extends Component<Props> {
           style={styles.mapView}
           styleURL={basemap.styleURL}
           onRegionDidChange={this.onRegionDidChange}
+          onPress={this.onMapPress}
         >
           {renderMapCamera}
           {this.renderAreaOutline()}
           {this.renderDestinationLine()}
-          <RouteMarkers isTracking={this.isRouteTracking()} userLocation={userLocation} route={route} />
+          <RouteMarkers
+            isTracking={this.isRouteTracking()}
+            userLocation={userLocation}
+            route={route}
+            onShapeSourcePressed={this.onShapeSourcePressed}
+          />
           {renderUserLocation}
         </MapboxGL.MapView>
         {renderCustomReportingMarker}

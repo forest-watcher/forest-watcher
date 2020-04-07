@@ -56,7 +56,9 @@ export default class AreaList extends Component<Props> {
               imageSrc={area.image}
               selected={this.props.sharing ? this.props.selectionState?.includes?.(area.id) : null}
               title={area.name}
+              style={styles.rowContainer}
               largerLeftPadding
+              largeImage
             />
             {showCache && <AreaCache areaId={area.id} showTooltip={index === 0 && pristine} />}
           </View>

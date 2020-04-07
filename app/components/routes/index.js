@@ -241,6 +241,7 @@ export default class Routes extends PureComponent<Props> {
           disableSettingsButton={this.state.inShareMode}
           selected={this.state.inShareMode ? this.state.selectedForExport.includes(combinedId) : null}
           largerLeftPadding
+          largeImage
         />
       );
     });

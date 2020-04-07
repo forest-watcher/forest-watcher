@@ -10,6 +10,8 @@ import BottomTray from 'components/common/bottom-tray';
 import { Navigation } from 'react-native-navigation';
 import type { BasemapsState } from 'types/basemaps.types';
 
+const basemapPlaceholder = require('assets/basemap_placeholder.png');
+
 type Props = {
   featureId: string,
   basemaps: BasemapsState,
@@ -63,7 +65,8 @@ class BasemapLayerSettings extends PureComponent<Props> {
                 }}
                 title={basemap.name}
                 selected={this.props.activeBasemapId === basemap.id}
-                hideImage
+                imageSrc={basemap.image || basemapPlaceholder}
+                useRadioIcon
               />
             );
           })}
@@ -81,6 +84,7 @@ class BasemapLayerSettings extends PureComponent<Props> {
                 title={basemap.name}
                 selected={this.props.activeBasemapId === basemap.id}
                 hideImage
+                useRadioIcon
               />
             );
           })}

@@ -282,6 +282,7 @@ class AreaDetail extends Component<Props, State> {
                     imageSrc={routeMapBackground}
                     subtitle={subtitle}
                     largerLeftPadding
+                    largeImage
                   />
                 );
               })}
