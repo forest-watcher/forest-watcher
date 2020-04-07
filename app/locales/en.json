@@ -358,7 +358,9 @@
             "basemaps": "Basemaps",
             "gfwBasemaps": "GFW Basemaps",
             "importedBasemaps": "Imported Basemaps",
-            "manageBasemaps": "Manage Basemaps",
+            "myRoutes": "My Routes",
+            "importedRoutes": "Imported Routes",
+            "manageRoutes": "Manage Routes",
             "alertSettings": {
                 "deforestation": "Deforestation",
                 "glad": "GLAD",
