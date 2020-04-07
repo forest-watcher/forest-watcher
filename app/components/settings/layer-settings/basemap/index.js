@@ -13,6 +13,7 @@ import type { BasemapsState } from 'types/basemaps.types';
 const basemapPlaceholder = require('assets/basemap_placeholder.png');
 
 type Props = {
+  featureId: string,
   basemaps: BasemapsState,
   activeBasemapId: string,
   selectActiveBasemap: string => {}
@@ -41,7 +42,7 @@ class BasemapLayerSettings extends PureComponent<Props> {
   }
 
   selectBasemap = basemap => {
-    this.props.selectActiveBasemap(basemap.id);
+    this.props.selectActiveBasemap(this.props.featureId, basemap.id);
   };
 
   render() {

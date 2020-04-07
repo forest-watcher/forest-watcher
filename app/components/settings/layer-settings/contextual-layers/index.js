@@ -21,10 +21,11 @@ type ContextualLayersLayerSettingsType = {
 };
 
 type Props = {
+  featureId: string,
   clearEnabledContextualLayers: void => void,
   contextualLayersLayerSettings: ContextualLayersLayerSettingsType,
   importedContextualLayers: Array<File>,
-  setContextualLayerShowing: (layerId: string, showing: boolean) => void
+  setContextualLayerShowing: (featureId: string, layerId: string, showing: boolean) => void
 };
 
 class ContextualLayersLayerSettings extends PureComponent<Props> {
@@ -57,11 +58,11 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
   }
 
   setContextualLayerShowing = (layerId: string, showing: boolean) => {
-    this.props.setContextualLayerShowing(layerId, showing);
+    this.props.setContextualLayerShowing(this.props.featureId, layerId, showing);
   };
 
   clearAllOptions = () => {
-    this.props.clearEnabledContextualLayers();
+    this.props.clearEnabledContextualLayers(this.props.featureId);
   };
 
   renderImportedLayers = () => {
@@ -77,7 +78,7 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
             <ActionsRow
               style={styles.rowContent}
               imageSrc={layerPlaceholder}
-              onPress={this.setContextualLayerShowing.bind(this, layerFile.id, selected ? false : true)}
+              onPress={this.setContextualLayerShowing.bind(this, layerFile.id, !selected)}
               key={index}
             >
               <Text style={styles.rowLabel}>{layerFile.name}</Text>

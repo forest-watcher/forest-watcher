@@ -4,11 +4,17 @@ import type { State } from 'types/store.types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ContextualLayersLayerSettings from 'components/settings/layer-settings/contextual-layers';
-import { clearEnabledContextualLayers, setContextualLayerShowing } from 'redux-modules/layerSettings';
+import {
+  clearEnabledContextualLayers,
+  DEFAULT_LAYER_SETTINGS,
+  setContextualLayerShowing
+} from 'redux-modules/layerSettings';
 
-function mapStateToProps(state: State) {
+function mapStateToProps(state: State, ownProps) {
   return {
-    contextualLayersLayerSettings: state.layerSettings.contextualLayers,
+    featureId: ownProps.featureId,
+    contextualLayersLayerSettings:
+      state.layerSettings?.[ownProps.featureId]?.contextualLayers || DEFAULT_LAYER_SETTINGS.contextualLayers,
     importedContextualLayers: state.layers.imported
   };
 }

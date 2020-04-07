@@ -22,6 +22,9 @@ const layerPlaceholder = require('assets/layerPlaceholder.png');
 
 import generatedUniqueId from 'helpers/uniqueId';
 
+const ACCEPTED_FILE_TYPES = ['json', 'geojson', 'topojson', 'gpx', 'shp', 'kmz', 'kml'];
+const TODO_FILE_TYPES = ['topojson', 'shp', 'kmz', 'kml']; // todo remove when finished implementation
+
 type Props = {
   componentId: string,
   importedLayers: Array<File>
@@ -140,14 +143,13 @@ class Layers extends Component<Props> {
     // }
   });
 
-  onPressAddLayer = debounceUI(async function() {
+  onPressAddLayer = debounceUI(async () => {
     try {
-      const res = await DocumentPicker.pick({
-        type: Platform.select({
-          android: [DocumentPicker.types.plainText, 'application/gpx'],
-          ios: ['public.geojson', 'public.json', 'public.gpx']
-        })
-      });
+      const res = await DocumentPicker.pick([DocumentPicker.types.allFiles]);
+      const validFile = this.verifyImportedFile(res);
+      if (!validFile) {
+        return;
+      }
       Navigation.push(this.props.componentId, {
         component: {
           name: 'ForestWatcher.ImportLayer',
@@ -169,6 +171,30 @@ class Layers extends Component<Props> {
       }
     }
   });
+
+  verifyImportedFile = file => {
+    const fileExtension = file.name
+      .split('.')
+      .pop()
+      .toLowerCase();
+    if (TODO_FILE_TYPES.includes(fileExtension)) {
+      // todo remove this when importing implementation finished
+      alert('File type: ' + fileExtension + ' implementation has not yet been finished');
+      return false;
+    }
+    if (!ACCEPTED_FILE_TYPES.includes(fileExtension)) {
+      alert(
+        'Error: ' +
+          fileExtension +
+          ' is not a supported file type.' +
+          '\n\nOnly these file types are supported: .json, .geojson, .topojson, .gpx, .shp, .kmz, .kml.' +
+          '\n\nAlso new designs coming soon™️'
+      );
+      return false;
+    } else {
+      return true;
+    }
+  };
 
   setAllSelected = (selected: boolean) => {
     // todo: Add back in once we have redux state for layers

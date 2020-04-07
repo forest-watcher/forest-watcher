@@ -83,9 +83,7 @@ class SaveRoute extends PureComponent<Props> {
 
   onSaveRoutePressed = () => {
     stopTrackingLocation();
-    this.props.updateActiveRoute({
-      ...this.state.route
-    });
+    this.props.updateActiveRoute(this.state.route, this.props.route.areaId);
     this.props.finishAndSaveRoute();
     Navigation.pop(this.props.componentId);
   };

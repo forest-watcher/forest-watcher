@@ -85,7 +85,6 @@ const newAlertIcon = require('assets/new-alert.png');
 const closeIcon = require('assets/close_gray.png');
 
 type Props = {
-  basemap: Basemap,
   componentId: string,
   createReport: Object => {},
   ctxLayerLocalTilePath?: string,
@@ -107,7 +106,8 @@ type Props = {
   route: Route,
   isTracking: boolean,
   onStartTrackingRoute: () => {},
-  onCancelTrackingRoute: () => {}
+  onCancelTrackingRoute: () => {},
+  getActiveBasemap: () => Basemap
 };
 
 class MapComponent extends Component<Props> {
@@ -530,7 +530,13 @@ class MapComponent extends Component<Props> {
     });
   });
 
+  getFeatureId = () => {
+    return this.props.route?.id || this.props.area.id;
+  };
+
   onSettingsPress = debounceUI(() => {
+    // If route has been opened, that is the current layer settings feature ID,
+    // otherwise use the area ID
     Navigation.mergeOptions(this.props.componentId, {
       sideMenu: {
         right: {
@@ -539,7 +545,8 @@ class MapComponent extends Component<Props> {
             passProps: {
               // https://github.com/wix/react-native-navigation/issues/3635
               // Pass componentId so drawer can push screens
-              componentId: this.props.componentId
+              componentId: this.props.componentId,
+              featureId: this.getFeatureId()
             }
           }
         }
@@ -786,7 +793,9 @@ class MapComponent extends Component<Props> {
 
   render() {
     const { customReporting, userLocation, destinationCoords } = this.state;
-    const { isConnected, isOfflineMode, route, coordinatesFormat } = this.props;
+    const { isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap } = this.props;
+
+    const basemap = getActiveBasemap(this.getFeatureId());
 
     const coordinateAndDistanceText = customReporting
       ? getCoordinateAndDistanceText(destinationCoords, userLocation, route, coordinatesFormat, this.isRouteTracking())
@@ -838,7 +847,7 @@ class MapComponent extends Component<Props> {
             this.map = ref;
           }}
           style={styles.mapView}
-          styleURL={this.props.basemap.styleURL}
+          styleURL={basemap.styleURL}
           onRegionDidChange={this.onRegionDidChange}
           onPress={this.onMapPress}
         >

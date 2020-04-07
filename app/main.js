@@ -171,7 +171,6 @@ export function launchAppRoot(screen) {
         right: {
           component: {
             name: 'ForestWatcher.MapLayersDrawer',
-            passProps: {}
           }
         }
       }

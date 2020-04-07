@@ -9,20 +9,21 @@ import {
   toggleRoutesLayer,
   toggleReportsLayer,
   toggleContextualLayersLayer,
-  getActiveBasemap
+  getActiveBasemap,
+  DEFAULT_LAYER_SETTINGS
 } from 'redux-modules/layerSettings';
 
 function mapStateToProps(state: State) {
-  const activeBasemapName = getActiveBasemap(state).name;
   return {
-    layerSettings: state.layerSettings,
-    activeBasemapName
+    allLayerSettings: state.layerSettings,
+    defaultLayerSettings: DEFAULT_LAYER_SETTINGS
   };
 }
 
 const mapDispatchToProps = (dispatch: *) =>
   bindActionCreators(
     {
+      getActiveBasemap,
       toggleAlertsLayer,
       toggleRoutesLayer,
       toggleReportsLayer,

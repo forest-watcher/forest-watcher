@@ -120,7 +120,7 @@ export default class VerticalSplitRow extends Component<Props> {
               <View style={styles.legendContainer}>
                 {this.props.legend?.map(item => {
                   return (
-                    <React.Fragment>
+                    <React.Fragment key={item.title}>
                       <View style={[styles.legendColor, { backgroundColor: item.color }]} />
                       <Text style={styles.legendTitle}>{item.title}</Text>
                     </React.Fragment>
