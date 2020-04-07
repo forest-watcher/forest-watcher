@@ -770,15 +770,6 @@ class MapComponent extends Component<Props> {
   }
 
   onMapPress = () => {
-    // hide info banner
-    this.setState({
-      infoBannerProps: {
-        title: '',
-        subtitle: '',
-        type: '',
-        featureId: ''
-      }
-    });
     // dismiss info banner
     Animated.spring(this.state.animatedPosition, {
       toValue: DISMISSED_INFO_BANNER_POSTIION,
