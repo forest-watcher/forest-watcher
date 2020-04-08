@@ -3,12 +3,7 @@ import type { State } from 'types/store.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {
-  DEFAULT_LAYER_SETTINGS,
-  deselectAllRoutes,
-  selectAllRoutes,
-  toggleRouteSelected
-} from 'redux-modules/layerSettings';
+import { DEFAULT_LAYER_SETTINGS, deselectAllRoutes, toggleRouteSelected } from 'redux-modules/layerSettings';
 import RoutesLayerSettings from 'components/settings/layer-settings/routes';
 import { getAllRouteIds } from 'redux-modules/routes';
 
@@ -25,14 +20,13 @@ const mapDispatchToProps = (dispatch: *) => {
   return {
     ...bindActionCreators(
       {
-        toggleRouteSelected,
         deselectAllRoutes
       },
       dispatch
     ),
-    selectAllRoutes: (featureId: string) => {
+    toggleRouteSelected: (featureId: string, routeId: string) => {
       const allRouteIds = dispatch(getAllRouteIds());
-      dispatch(selectAllRoutes(featureId, allRouteIds));
+      dispatch(toggleRouteSelected(featureId, routeId, allRouteIds));
     }
   };
 };

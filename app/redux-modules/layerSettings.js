@@ -3,7 +3,6 @@ import type { LayerSettingsState, LayerSettingsAction } from 'types/layerSetting
 import { DEFAULT_BASEMAP } from 'redux-modules/basemaps';
 import remove from 'lodash/remove';
 import type { Dispatch, GetState } from 'types/store.types';
-import type { RouteAction } from 'types/routes.types';
 
 // Actions
 const TOGGLE_ALERTS_LAYER = 'layerSettings/TOGGLE_ALERTS_LAYER';
@@ -26,7 +25,6 @@ const SELECT_ACTIVE_BASEMAP = 'layerSettings/SELECT_ACTIVE_BASEMAP';
 const SET_CONTEXTUAL_LAYER_SHOWING = 'layerSettings/SET_CONTEXTUAL_LAYER_SHOWING';
 const CLEAR_ENABLED_CONTEXTUAL_LAYERS = 'layerSettings/CLEAR_ENABLED_CONTEXTUAL_LAYERS';
 
-const SELECT_ALL_ROUTES = 'layerSettings/SELECT_ALL_ROUTES';
 const DESELECT_ALL_ROUTES = 'layerSettings/DESELECT_ALL_ROUTES';
 const TOGGLE_ROUTE_SELECTED = 'layerSettings/TOGGLE_ROUTE_SELECTED';
 
@@ -44,6 +42,7 @@ export const DEFAULT_LAYER_SETTINGS = {
     }
   },
   routes: {
+    showAll: true,
     layerIsActive: false,
     activeRouteIds: []
   },
@@ -262,29 +261,23 @@ export default function reducer(
     }
     case TOGGLE_ROUTE_SELECTED: {
       const { activeRouteIds } = state[featureId].routes;
-      const { routeId } = action.payload;
+      let { showAll } = state[featureId].routes;
+      const { routeId, allRouteIds } = action.payload;
       let newActiveRouteIds;
-      if (!activeRouteIds.includes(routeId)) {
+      if (!activeRouteIds.includes(routeId) && !showAll) {
         // select route
         newActiveRouteIds = [...activeRouteIds, routeId];
+        if (newActiveRouteIds.length === allRouteIds.length) {
+          showAll = true;
+        }
       } else {
         // deselect route
-        newActiveRouteIds = activeRouteIds.filter(id => id !== routeId);
-      }
-      return {
-        ...state,
-        [featureId]: {
-          ...state[featureId],
-          routes: {
-            ...state[featureId].routes,
-            activeRouteIds: newActiveRouteIds
-          }
+        if (state[featureId].routes.showAll) {
+          newActiveRouteIds = allRouteIds.filter(id => id !== routeId);
+          showAll = false;
+        } else {
+          newActiveRouteIds = activeRouteIds.filter(id => id !== routeId);
         }
-      };
-    }
-    case SELECT_ALL_ROUTES: {
-      if (!action.payload.allRouteIds?.length) {
-        return state;
       }
       return {
         ...state,
@@ -292,7 +285,8 @@ export default function reducer(
           ...state[featureId],
           routes: {
             ...state[featureId].routes,
-            activeRouteIds: action.payload.allRouteIds
+            activeRouteIds: newActiveRouteIds,
+            showAll
           }
         }
       };
@@ -334,16 +328,6 @@ export function setContextualLayerShowing(featureId: string, layerId: string, sh
   };
 }
 
-export function selectAllRoutes(featureId: string, allRouteIds: Array<string>) {
-  return {
-    type: SELECT_ALL_ROUTES,
-    payload: {
-      featureId,
-      allRouteIds
-    }
-  };
-}
-
 export function deselectAllRoutes(featureId: string) {
   return {
     type: DESELECT_ALL_ROUTES,
@@ -353,12 +337,13 @@ export function deselectAllRoutes(featureId: string) {
   };
 }
 
-export function toggleRouteSelected(featureId: string, routeId: string) {
+export function toggleRouteSelected(featureId: string, routeId: string, allRouteIds: Array<string>) {
   return {
     type: TOGGLE_ROUTE_SELECTED,
     payload: {
       featureId,
-      routeId
+      routeId,
+      allRouteIds
     }
   };
 }
@@ -485,12 +470,5 @@ export function getActiveBasemap(featureId: string) {
     }
     const allBasemaps = [...state.basemaps.gfwBasemaps, ...state.basemaps.importedBasemaps];
     return allBasemaps.find(item => item.id === activeBasemapId);
-  };
-}
-
-export function isShowingAllRoutes(featureId: string): RouteAction {
-  return (dispatch: Dispatch, getState: GetState) => {
-    const state = getState();
-    return state[featureId].routes.activeRouteIds.length === state[featureId].routes.activeRouteIds.length;
   };
 }

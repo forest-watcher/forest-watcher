@@ -19,6 +19,7 @@ const checkboxOff = require('assets/checkbox_off.png');
 const checkboxOn = require('assets/checkbox_on.png');
 
 type RoutesLayerSettingsType = {
+  showAll: boolean,
   layerIsActive: boolean,
   activeRouteIds: Array<string>
 };
@@ -71,10 +72,6 @@ class RoutesLayerSettings extends PureComponent<Props> {
     this.props.deselectAllRoutes(this.props.featureId);
   };
 
-  selectAllRoutes = () => {
-    this.props.selectAllRoutes(this.props.featureId);
-  };
-
   renderRoutes = (routes, headingLocalisation) => {
     return (
       <View>
@@ -82,8 +79,9 @@ class RoutesLayerSettings extends PureComponent<Props> {
           <Text style={styles.listTitle}>{i18n.t(headingLocalisation)}</Text>
         </View>
         {routes.map(route => {
+          const { showAll, activeRouteIds } = this.props.routesLayerSettings;
           const alwaysActive = route.id === this.props.featureId;
-          const selected = alwaysActive ? true : this.props.routesLayerSettings.activeRouteIds.includes(route.id);
+          const selected = showAll || alwaysActive ? true : activeRouteIds.includes(route.id);
           const date = moment(route.endDate).format('ll');
           const routeDistance = getDistanceOfPolyline(route.locations);
           const distance = formatDistance(routeDistance, 1, false);

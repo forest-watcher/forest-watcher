@@ -27,6 +27,7 @@ export type LayerSettings = {
     activeBasemapId: string
   },
   routes: {
+    showAll: boolean,
     layerIsActive: boolean,
     activeRouteIds: Array<string>
   },
@@ -59,6 +60,8 @@ export type LayerSettingsAction =
   | SetGladAlertsTimeFrame
   | SetViirsAlertsTimeFrame
   | CopyLayerSettings
+  | DeselectAllRoutes
+  | ToggleRouteSelected
   | SelectActiveBasemap;
 
 export type ClearEnabledContextualLayers = {
@@ -137,5 +140,19 @@ export type SetContextualLayerShowing = {
     featureId: string,
     layerId: string,
     showing: boolean
+  }
+};
+export type DeselectAllRoutes = {
+  type: 'layerSettings/DESELECT_ALL_ROUTES',
+  payload: {
+    featureId: string
+  }
+};
+export type ToggleRouteSelected = {
+  type: 'layerSettings/TOGGLE_ROUTE_SELECTED',
+  payload: {
+    featureId: string,
+    routeId: string,
+    allRouteIds: Array<string>
   }
 };
