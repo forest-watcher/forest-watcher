@@ -21,6 +21,7 @@ const emptyIcon = require('assets/areasEmpty.png');
 type Props = {
   areaDownloadTooltipSeen: boolean,
   areas: Array<Area>,
+  initialiseAreaLayerSettings: (string, string) => void,
   componentId: string,
   setAreaDownloadTooltipSeen: (seen: boolean) => void,
   setSelectedAreaId: () => void,
@@ -170,6 +171,7 @@ class Areas extends Component<Props> {
   onAreaPress = debounceUI((areaId: string, name: string) => {
     if (areaId) {
       this.props.setSelectedAreaId(areaId);
+      this.props.initialiseAreaLayerSettings(areaId, areaId);
       Navigation.push(this.props.componentId, {
         component: {
           name: 'ForestWatcher.Map'

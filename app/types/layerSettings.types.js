@@ -33,6 +33,7 @@ export type LayerSettings = {
   },
   alerts: {
     layerIsActive: boolean,
+    initialised: boolean,
     glad: {
       active: boolean,
       timeFrame: number
@@ -55,6 +56,7 @@ export type LayerSettingsAction =
   | ToggleRoutesLayer
   | ToggleReportsLayer
   | ToggleContextualLayersLayer
+  | InitialiseAlerts
   | ToggleGladAlerts
   | ToggleViirsAlerts
   | SetGladAlertsTimeFrame
@@ -92,6 +94,14 @@ export type ToggleContextualLayersLayer = {
   type: 'layerSettings/TOGGLE_CONTEXTUAL_LAYERS_LAYER',
   payload: {
     featureId: string
+  }
+};
+export type InitialiseAlerts = {
+  type: 'layerSettings/INITIALISE_ALERTS',
+  payload: {
+    featureId: string,
+    showGlad: boolean,
+    showViirs: boolean
   }
 };
 export type ToggleGladAlerts = {

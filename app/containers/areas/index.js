@@ -7,6 +7,7 @@ import { setSelectedAreaId } from 'redux-modules/areas';
 import { setAreaDownloadTooltipSeen, showNotConnectedNotification } from 'redux-modules/app';
 
 import Areas from 'components/areas';
+import { initialiseAreaLayerSettings } from 'redux-modules/layerSettings';
 
 function mapStateToProps(state: State) {
   return {
@@ -19,6 +20,7 @@ function mapStateToProps(state: State) {
 function mapDispatchToProps(dispatch: *) {
   return bindActionCreators(
     {
+      initialiseAreaLayerSettings,
       setAreaDownloadTooltipSeen,
       setSelectedAreaId,
       showNotConnectedNotification

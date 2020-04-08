@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { updateArea, deleteArea, setSelectedAreaId } from 'redux-modules/areas';
 import { shouldBeConnected } from 'helpers/app';
 import AreaDetail from 'components/areas/area-detail';
+import { initialiseAreaLayerSettings } from 'redux-modules/layerSettings';
 
 function mapStateToProps(state: State, { id }) {
   const area = state.areas.data.find(areaData => areaData.id === id);
@@ -21,6 +22,7 @@ function mapDispatchToProps(dispatch: *) {
     {
       updateArea,
       deleteArea,
+      initialiseAreaLayerSettings,
       setSelectedAreaId
     },
     dispatch

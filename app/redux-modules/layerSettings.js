@@ -3,6 +3,8 @@ import type { LayerSettingsState, LayerSettingsAction } from 'types/layerSetting
 import { DEFAULT_BASEMAP } from 'redux-modules/basemaps';
 import remove from 'lodash/remove';
 import type { Dispatch, GetState } from 'types/store.types';
+import type { Area } from 'types/areas.types';
+import { DATASETS } from 'config/constants';
 
 // Actions
 const TOGGLE_ALERTS_LAYER = 'layerSettings/TOGGLE_ALERTS_LAYER';
@@ -13,6 +15,7 @@ const TOGGLE_CONTEXTUAL_LAYERS_LAYER = 'layerSettings/TOGGLE_CONTEXTUAL_LAYERS_L
 const TOGGLE_MY_REPORTS_LAYER = 'layerSettings/TOGGLE_MY_REPORTS_LAYER';
 const TOGGLE_IMPORTED_REPORTS_LAYER = 'layerSettings/TOGGLE_IMPORTED_REPORTS_LAYER';
 
+const INITIALISE_ALERTS = 'layerSettings/INITIALISE_ALERTS';
 const TOGGLE_GLAD_ALERTS = 'layerSettings/TOGGLE_GLAD_ALERTS';
 const TOGGLE_VIIRS_ALERTS = 'layerSettings/TOGGLE_VIIRS_ALERTS';
 const SET_GLAD_ALERTS_TIME_FRAME = 'layerSettings/SET_GLAD_ALERTS_TIME_FRAME';
@@ -32,6 +35,8 @@ const TOGGLE_ROUTE_SELECTED = 'layerSettings/TOGGLE_ROUTE_SELECTED';
 export const DEFAULT_LAYER_SETTINGS = {
   alerts: {
     layerIsActive: true,
+    // alert types need to be made active depending on which alert types are available for the area
+    initialised: false,
     glad: {
       active: false,
       timeFrame: 1
@@ -146,6 +151,26 @@ export default function reducer(
           reports: {
             ...state[featureId].reports,
             importedReportsActive: !state[featureId].reports.importedReportsActive
+          }
+        }
+      };
+    }
+    case INITIALISE_ALERTS: {
+      return {
+        ...state,
+        [featureId]: {
+          ...state[featureId],
+          alerts: {
+            ...state[featureId].alerts,
+            initialised: true,
+            glad: {
+              ...state[featureId].alerts.glad,
+              active: action.payload.showGlad
+            },
+            viirs: {
+              ...state[featureId].alerts.viirs,
+              active: action.payload.showViirs
+            }
           }
         }
       };
@@ -402,6 +427,17 @@ export function toggleImportedReportsLayer(featureId: string): LayerSettingsActi
   };
 }
 
+export function initialiseAlerts(featureId: string, showGlad: boolean, showViirs: boolean): LayerSettingsAction {
+  return {
+    type: INITIALISE_ALERTS,
+    payload: {
+      featureId,
+      showGlad,
+      showViirs
+    }
+  };
+}
+
 export function toggleGladAlerts(featureId: string): LayerSettingsAction {
   return {
     type: TOGGLE_GLAD_ALERTS,
@@ -470,5 +506,24 @@ export function getActiveBasemap(featureId: string) {
     }
     const allBasemaps = [...state.basemaps.gfwBasemaps, ...state.basemaps.importedBasemaps];
     return allBasemaps.find(item => item.id === activeBasemapId);
+  };
+}
+
+// This should be called whenever opening a feature (area / route) on the map screen.
+export function initialiseAreaLayerSettings(featureId: string, areaId: string) {
+  return (dispatch: Dispatch, getState: GetState) => {
+    const { layerSettings, areas } = getState();
+    const featureLayerSettings = layerSettings[featureId] || DEFAULT_LAYER_SETTINGS;
+    if (featureLayerSettings.alerts.initialised) {
+      return;
+    }
+    // Alert types need to be initialised for area, depending on available alert types
+    const area: Area = areas.data.find(area => area.id === areaId);
+    const areaDatasets = area.datasets.map(dataset => dataset.slug);
+    const hasGladAlerts = areaDatasets.includes(DATASETS.GLAD);
+    const hasViirsAlerts = areaDatasets.includes(DATASETS.VIIRS);
+    const showGlad = hasGladAlerts;
+    const showViirs = hasViirsAlerts && !hasGladAlerts;
+    dispatch(initialiseAlerts(featureId, showGlad, showViirs));
   };
 }
