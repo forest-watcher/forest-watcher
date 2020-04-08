@@ -49,8 +49,8 @@ export const DEFAULT_LAYER_SETTINGS = {
   },
   reports: {
     layerIsActive: false,
-    myReportsActive: false,
-    importedReportsActive: false
+    myReportsActive: true,
+    importedReportsActive: true
   },
   contextualLayers: {
     layerIsActive: false,
