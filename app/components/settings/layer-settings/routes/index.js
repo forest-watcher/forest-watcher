@@ -94,9 +94,9 @@ class RoutesLayerSettings extends PureComponent<Props> {
               key={route.id}
               renderCustomImage={() => (
                 <RoutePreviewImage
-                  aspectRatio={0.5}
+                  aspectRatio={0.3}
                   width={screenDimensions.width}
-                  style={{ flex: 1, width: 98, height: 98, alignSelf: 'stretch' }}
+                  style={{ flex: 1, maxWidth: 98, alignSelf: 'stretch' }}
                   route={route}
                 />
               )}

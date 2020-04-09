@@ -35,7 +35,6 @@ export default StyleSheet.create({
     color: Theme.fontColors.light
   },
   rowContent: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
