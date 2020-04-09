@@ -11,7 +11,8 @@ import {
   LayoutAnimation,
   Platform,
   Text,
-  View
+  View,
+  PanResponder
 } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 
@@ -217,6 +218,26 @@ class MapComponent extends Component<Props> {
       return this.setState({
         bottomSafeAreaInset: result.safeAreaInsets.bottom
       });
+    });
+
+    // Add swipe down to dismiss on info banner component
+    this.panResponder = PanResponder.create({
+      onMoveShouldSetPanResponder: (evt, gestureState) => true,
+      onPanResponderMove: (event, gestureState) => {
+        this.state.animatedPosition.setValue(Math.max(0, 0 + gestureState.dy));
+      },
+      onPanResponderGrant: (event, gestureState) => {
+        this.state.animatedPosition.setValue(Math.max(0, 0 + gestureState.dy));
+      },
+      onPanResponderRelease: (e, gesture) => {
+        const shouldOpen = gesture.vy <= 0;
+        Animated.spring(this.state.animatedPosition, {
+          toValue: shouldOpen ? 0 : 200,
+          velocity: gesture.vy,
+          tension: 2,
+          friction: 8
+        }).start();
+      }
     });
   }
 
@@ -695,7 +716,10 @@ class MapComponent extends Component<Props> {
           locationError={locationError}
           mostRecentLocationTime={userLocation?.timestamp}
         />
-        <Animated.View style={{transform: [{translateY: this.state.animatedPosition}] }}>
+        <Animated.View
+          style={{ transform: [{ translateY: this.state.animatedPosition }] }}
+          {...this.panResponder.panHandlers}
+        >
           <InfoBanner style={styles.infoBanner} {...infoBannerProps} />
         </Animated.View>
         <View style={styles.buttonPanel}>
