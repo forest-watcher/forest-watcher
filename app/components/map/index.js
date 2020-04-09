@@ -667,7 +667,11 @@ class MapComponent extends Component<Props> {
                 sourceID={"imported_layer_" + layerFile.id}
               />
               <MapboxGL.LineLayer id={"imported_layer_line_" + layerFile.id} style={mapboxStyles.areaOutline} />
-              <MapboxGL.FillLayer id={"imported_layer_fill_" + layerFile.id} style={{fillColor: 'red', fillOpacity: 0.2}} />
+              <MapboxGL.FillLayer 
+                filter={["match", ["geometry-type"], ["LineString", "MultiLineString"], false, true]} 
+                id={"imported_layer_fill_" + layerFile.id} 
+                style={{fillColor: 'red', fillOpacity: 0.2}} 
+              />
             </MapboxGL.ShapeSource>
           )
         })}
