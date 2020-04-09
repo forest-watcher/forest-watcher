@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 
 import SaveRoute from 'components/routes/save-route';
 import { finishAndSaveRoute, updateActiveRoute } from 'redux-modules/routes';
+import { copyLayerSettings } from 'redux-modules/layerSettings';
+import type { Route } from 'types/routes.types';
 
 function mapStateToProps(state: State) {
   return {
@@ -14,8 +16,9 @@ function mapStateToProps(state: State) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateActiveRoute: route => {
+    updateActiveRoute: (route: Route, areaId: string) => {
       dispatch(updateActiveRoute(route));
+      dispatch(copyLayerSettings(areaId, route.id));
     },
     finishAndSaveRoute: () => {
       dispatch(finishAndSaveRoute());

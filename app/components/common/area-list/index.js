@@ -38,11 +38,11 @@ export default class AreaList extends Component<Props> {
     }
 
     return (
-      <View>
+      <View style={styles.container}>
         {areas.map((area, index) => (
           <View
             key={`${area.id}-area-list`}
-            style={[styles.container, index === 0 && downloadCalloutVisible ? { zIndex: 10000 } : { zIndex: index }]}
+            style={[styles.rowContainer, index === 0 && downloadCalloutVisible ? { zIndex: 10000 } : { zIndex: index }]}
           >
             <VerticalSplitRow
               downloadCalloutBody={i18n.t('areas.tooltip.body')}
@@ -56,7 +56,9 @@ export default class AreaList extends Component<Props> {
               imageSrc={area.image}
               selected={this.props.sharing ? this.props.selectionState?.includes?.(area.id) : null}
               title={area.name}
+              style={styles.row}
               largerLeftPadding
+              largeImage
             />
             {showCache && <AreaCache areaId={area.id} showTooltip={index === 0 && pristine} />}
           </View>

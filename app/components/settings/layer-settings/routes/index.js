@@ -3,21 +3,19 @@
 import React, { PureComponent } from 'react';
 import { View, ScrollView } from 'react-native';
 import styles from './styles';
-import VerticalSplitRow from 'components/common/vertical-split-row';
 import i18n from 'i18next';
-import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import { Navigation } from 'react-native-navigation';
 
-type ReportsLayerSettingsType = {
+type RoutesLayerSettingsType = {
   layerIsActive: boolean,
-  myReportsActive: boolean,
-  importedReportsActive: boolean
+  activeRouteIds: Array<string>
 };
 
 type Props = {
-  reportsLayerSettings: ReportsLayerSettingsType,
+  featureId: string,
+  routesLayerSettings: RoutesLayerSettingsType,
   toggleMyReportsLayer: () => void,
   toggleImportedReportsLayer: () => void
 };
@@ -51,14 +49,7 @@ class RoutesLayerSettings extends PureComponent<Props> {
     }
   }
 
-  clearAllOptions = () => {
-    if (this.props.reportsLayerSettings.myReportsActive) {
-      this.props.toggleMyReportsLayer();
-    }
-    if (this.props.reportsLayerSettings.importedReportsActive) {
-      this.props.toggleImportedReportsLayer();
-    }
-  };
+  clearAllOptions = () => {};
 
   render() {
     return (
@@ -68,28 +59,7 @@ class RoutesLayerSettings extends PureComponent<Props> {
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
-        >
-          <VerticalSplitRow
-            title={i18n.t('map.layerSettings.myReports')}
-            selected={this.props.reportsLayerSettings.myReportsActive}
-            onPress={this.props.toggleMyReportsLayer}
-            legend={[{ title: i18n.t('map.layerSettings.report'), color: Theme.colors.report }]}
-            style={styles.rowContainer}
-            hideImage
-            smallerVerticalPadding
-            largerLeftPadding
-          />
-          <VerticalSplitRow
-            title={i18n.t('map.layerSettings.importedReports')}
-            selected={this.props.reportsLayerSettings.importedReportsActive}
-            onPress={this.props.toggleImportedReportsLayer}
-            legend={[{ title: i18n.t('map.layerSettings.report'), color: Theme.colors.importedReport }]}
-            style={styles.rowContainer}
-            hideImage
-            smallerVerticalPadding
-            largerLeftPadding
-          />
-        </ScrollView>
+        />
         <BottomTray>
           <ActionButton onPress={() => {}} text={i18n.t('map.layerSettings.manageReports')} transparent noIcon />
         </BottomTray>

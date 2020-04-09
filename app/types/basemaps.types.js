@@ -3,7 +3,8 @@ export type Basemap = {
   isMapboxStyle: boolean,
   styleURL?: string,
   id: string,
-  name: string
+  name: string,
+  image: number
 };
 
 export type BasemapsState = {

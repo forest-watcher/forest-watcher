@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import DrawAreas from 'components/setup/draw-areas';
 
 function mapStateToProps(state: State) {
-  const basemap = getActiveBasemap(state);
+  const basemap = getActiveBasemap('newAreaFeatureId');
   return {
     basemap
   };

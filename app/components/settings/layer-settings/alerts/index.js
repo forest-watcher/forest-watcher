@@ -22,6 +22,7 @@ type AlertLayerSettingsType = {
 };
 
 type Props = {
+  featureId: string,
   alertLayerSettings: AlertLayerSettingsType,
   toggleGladAlerts: () => void,
   toggleViirsAlerts: () => void,
@@ -64,20 +65,20 @@ class AlertLayerSettings extends PureComponent<Props> {
   }
 
   clearAllOptions = () => {
-    if (this.props.alertLayerSettings.glad.active) {
-      this.props.toggleGladAlerts();
+    if (this.props.alertLayerSettings?.glad?.active) {
+      this.props.toggleGladAlerts(this.props.featureId);
     }
-    if (this.props.alertLayerSettings.viirs.active) {
-      this.props.toggleViirsAlerts();
+    if (this.props.alertLayerSettings?.viirs?.active) {
+      this.props.toggleViirsAlerts(this.props.featureId);
     }
   };
 
   onGladAlertsTimeFrameChanged = value => {
-    this.props.setGladAlertsTimeFrame(value);
+    this.props.setGladAlertsTimeFrame(this.props.featureId, value);
   };
 
   onViirsAlertsTimeFrameChanged = value => {
-    this.props.setViirsAlertsTimeFrame(value);
+    this.props.setViirsAlertsTimeFrame(this.props.featureId, value);
   };
 
   getGladTimeFrameOptions: Options = () => {
@@ -133,7 +134,7 @@ class AlertLayerSettings extends PureComponent<Props> {
           <VerticalSplitRow
             title={i18n.t('map.layerSettings.alertSettings.glad')}
             selected={this.props.alertLayerSettings.glad.active}
-            onPress={this.props.toggleGladAlerts}
+            onPress={() => this.props.toggleGladAlerts(this.props.featureId)}
             legend={[
               { title: i18n.t('map.layerSettings.alertSettings.alert'), color: Theme.colors.glad },
               { title: i18n.t('map.layerSettings.alertSettings.recent'), color: Theme.colors.recent },
@@ -161,7 +162,7 @@ class AlertLayerSettings extends PureComponent<Props> {
           <VerticalSplitRow
             title={i18n.t('map.layerSettings.alertSettings.viirs')}
             selected={this.props.alertLayerSettings.viirs.active}
-            onPress={this.props.toggleViirsAlerts}
+            onPress={() => this.props.toggleViirsAlerts(this.props.featureId)}
             legend={[
               { title: i18n.t('map.layerSettings.alertSettings.alert'), color: Theme.colors.viirs },
               { title: i18n.t('map.layerSettings.alertSettings.reportedOn'), color: Theme.colors.viirsReported }

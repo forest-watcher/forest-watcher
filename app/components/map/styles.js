@@ -138,6 +138,9 @@ export default StyleSheet.create({
   },
   locationErrorBanner: {
     margin: 16
+  },
+  infoBanner: {
+    margin: 16
   }
 });
 

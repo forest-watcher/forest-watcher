@@ -96,7 +96,7 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.RouteDetail', RouteDetail, Provider, store);
   registerComponent('ForestWatcher.SaveRoute', SaveRoute, Provider, store);
   registerComponent('ForestWatcher.Welcome', Welcome, Provider, store);
-  registerComponent('ForestWatcher.AlertsLayerSettings', AlertLayerSettings, Provider, store);
+  registerComponent('ForestWatcher.AlertLayerSettings', AlertLayerSettings, Provider, store);
   registerComponent('ForestWatcher.RoutesLayerSettings', RoutesLayerSettings, Provider, store);
   registerComponent('ForestWatcher.ReportsLayerSettings', ReportLayerSettings, Provider, store);
   registerComponent('ForestWatcher.ContextualLayersLayerSettings', ContextualLayersLayerSettings, Provider, store);

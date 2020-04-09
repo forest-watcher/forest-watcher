@@ -23,11 +23,14 @@ export default StyleSheet.create({
     alignItems: 'stretch'
   },
   imageContainer: {
-    minWidth: isSmallScreen ? 104 : 128,
+    minWidth: isSmallScreen ? 69 : 92,
     flexShrink: 1,
     alignItems: 'stretch',
     backgroundColor: Theme.background.modal,
     flexDirection: 'row'
+  },
+  largeImageContainer: {
+    minWidth: isSmallScreen ? 104 : 128
   },
   image: {
     flex: 1,

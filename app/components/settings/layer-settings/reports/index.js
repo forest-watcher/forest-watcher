@@ -17,6 +17,7 @@ type ReportsLayerSettingsType = {
 };
 
 type Props = {
+  featureId: string,
   reportsLayerSettings: ReportsLayerSettingsType,
   toggleMyReportsLayer: () => void,
   toggleImportedReportsLayer: () => void
@@ -53,10 +54,10 @@ class ReportLayerSettings extends PureComponent<Props> {
 
   clearAllOptions = () => {
     if (this.props.reportsLayerSettings.myReportsActive) {
-      this.props.toggleMyReportsLayer();
+      this.props.toggleMyReportsLayer(this.props.featureId);
     }
     if (this.props.reportsLayerSettings.importedReportsActive) {
-      this.props.toggleImportedReportsLayer();
+      this.props.toggleImportedReportsLayer(this.props.featureId);
     }
   };
 
@@ -72,7 +73,7 @@ class ReportLayerSettings extends PureComponent<Props> {
           <VerticalSplitRow
             title={i18n.t('map.layerSettings.myReports')}
             selected={this.props.reportsLayerSettings.myReportsActive}
-            onPress={this.props.toggleMyReportsLayer}
+            onPress={() => this.props.toggleMyReportsLayer(this.props.featureId)}
             legend={[{ title: i18n.t('map.layerSettings.report'), color: Theme.colors.report }]}
             style={styles.rowContainer}
             hideImage
@@ -82,7 +83,7 @@ class ReportLayerSettings extends PureComponent<Props> {
           <VerticalSplitRow
             title={i18n.t('map.layerSettings.importedReports')}
             selected={this.props.reportsLayerSettings.importedReportsActive}
-            onPress={this.props.toggleImportedReportsLayer}
+            onPress={() => this.props.toggleImportedReportsLayer(this.props.featureId)}
             legend={[{ title: i18n.t('map.layerSettings.report'), color: Theme.colors.importedReport }]}
             style={styles.rowContainer}
             hideImage

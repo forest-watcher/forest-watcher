@@ -24,7 +24,7 @@ const prodBasemap = `https://api.mapbox.com/styles/v1/forestwatcher/cj512vh3m0yt
   Config.MAPBOX_TOKEN
 }`;
 export const MAPS = {
-  basemap: __DEV__ ? devBasemap : prodBasemap, // todo mpf
+  basemap: __DEV__ ? devBasemap : prodBasemap,
   smallPadding: {
     paddingLeft: 20,
     paddingRight: 20,

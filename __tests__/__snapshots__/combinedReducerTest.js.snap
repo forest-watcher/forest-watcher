@@ -34,52 +34,40 @@ Object {
   "basemaps": Object {
     "gfwBasemaps": Array [
       Object {
-        "id": "mapbox://styles/mapbox/streets-v11",
-        "isMapboxStyle": true,
-        "name": "Street",
-        "styleURL": "mapbox://styles/mapbox/streets-v11",
-      },
-      Object {
-        "id": "mapbox://styles/mapbox/dark-v10",
-        "isMapboxStyle": true,
-        "name": "Dark",
-        "styleURL": "mapbox://styles/mapbox/dark-v10",
-      },
-      Object {
         "id": "mapbox://styles/mapbox/light-v10",
+        "image": Object {
+          "testUri": "../../../app/assets/basemap_light.png",
+        },
         "isMapboxStyle": true,
         "name": "Light",
         "styleURL": "mapbox://styles/mapbox/light-v10",
       },
       Object {
-        "id": "mapbox://styles/mapbox/outdoors-v11",
+        "id": "mapbox://styles/mapbox/dark-v10",
+        "image": Object {
+          "testUri": "../../../app/assets/basemap_dark.png",
+        },
         "isMapboxStyle": true,
-        "name": "Outdoors",
-        "styleURL": "mapbox://styles/mapbox/outdoors-v11",
+        "name": "Dark",
+        "styleURL": "mapbox://styles/mapbox/dark-v10",
+      },
+      Object {
+        "id": "mapbox://styles/mapbox/streets-v11",
+        "image": Object {
+          "testUri": "../../../app/assets/basemap_street.png",
+        },
+        "isMapboxStyle": true,
+        "name": "Street",
+        "styleURL": "mapbox://styles/mapbox/streets-v11",
       },
       Object {
         "id": "mapbox://styles/mapbox/satellite-v9",
+        "image": Object {
+          "testUri": "../../../app/assets/basemap_satellite.png",
+        },
         "isMapboxStyle": true,
         "name": "Satellite",
         "styleURL": "mapbox://styles/mapbox/satellite-v9",
-      },
-      Object {
-        "id": "mapbox://styles/mapbox/satellite-streets-v11",
-        "isMapboxStyle": true,
-        "name": "SatelliteStreet",
-        "styleURL": "mapbox://styles/mapbox/satellite-streets-v11",
-      },
-      Object {
-        "id": "mapbox://styles/mapbox/navigation-preview-day-v4",
-        "isMapboxStyle": true,
-        "name": "TrafficDay",
-        "styleURL": "mapbox://styles/mapbox/navigation-preview-day-v4",
-      },
-      Object {
-        "id": "mapbox://styles/mapbox/navigation-preview-night-v4",
-        "isMapboxStyle": true,
-        "name": "TrafficNight",
-        "styleURL": "mapbox://styles/mapbox/navigation-preview-night-v4",
       },
     ],
     "importedBasemaps": Array [],
@@ -1926,35 +1914,7 @@ Object {
     "migrated": true,
     "oldData": Object {},
   },
-  "layerSettings": Object {
-    "alerts": Object {
-      "glad": Object {
-        "active": false,
-        "timeFrame": 1,
-      },
-      "layerIsActive": true,
-      "viirs": Object {
-        "active": false,
-        "timeFrame": 1,
-      },
-    },
-    "basemap": Object {
-      "activeBasemapId": "mapbox://styles/mapbox/streets-v11",
-    },
-    "contextualLayers": Object {
-      "activeContextualLayerIds": Array [],
-      "layerIsActive": false,
-    },
-    "reports": Object {
-      "importedReportsActive": false,
-      "layerIsActive": false,
-      "myReportsActive": false,
-    },
-    "routes": Object {
-      "activeRouteIds": Array [],
-      "layerIsActive": false,
-    },
-  },
+  "layerSettings": Object {},
   "layers": Object {
     "activeLayer": null,
     "cache": Object {},
@@ -2038,52 +1998,40 @@ Object {
   "basemaps": Object {
     "gfwBasemaps": Array [
       Object {
-        "id": "mapbox://styles/mapbox/streets-v11",
-        "isMapboxStyle": true,
-        "name": "Street",
-        "styleURL": "mapbox://styles/mapbox/streets-v11",
-      },
-      Object {
-        "id": "mapbox://styles/mapbox/dark-v10",
-        "isMapboxStyle": true,
-        "name": "Dark",
-        "styleURL": "mapbox://styles/mapbox/dark-v10",
-      },
-      Object {
         "id": "mapbox://styles/mapbox/light-v10",
+        "image": Object {
+          "testUri": "../../../app/assets/basemap_light.png",
+        },
         "isMapboxStyle": true,
         "name": "Light",
         "styleURL": "mapbox://styles/mapbox/light-v10",
       },
       Object {
-        "id": "mapbox://styles/mapbox/outdoors-v11",
+        "id": "mapbox://styles/mapbox/dark-v10",
+        "image": Object {
+          "testUri": "../../../app/assets/basemap_dark.png",
+        },
         "isMapboxStyle": true,
-        "name": "Outdoors",
-        "styleURL": "mapbox://styles/mapbox/outdoors-v11",
+        "name": "Dark",
+        "styleURL": "mapbox://styles/mapbox/dark-v10",
+      },
+      Object {
+        "id": "mapbox://styles/mapbox/streets-v11",
+        "image": Object {
+          "testUri": "../../../app/assets/basemap_street.png",
+        },
+        "isMapboxStyle": true,
+        "name": "Street",
+        "styleURL": "mapbox://styles/mapbox/streets-v11",
       },
       Object {
         "id": "mapbox://styles/mapbox/satellite-v9",
+        "image": Object {
+          "testUri": "../../../app/assets/basemap_satellite.png",
+        },
         "isMapboxStyle": true,
         "name": "Satellite",
         "styleURL": "mapbox://styles/mapbox/satellite-v9",
-      },
-      Object {
-        "id": "mapbox://styles/mapbox/satellite-streets-v11",
-        "isMapboxStyle": true,
-        "name": "SatelliteStreet",
-        "styleURL": "mapbox://styles/mapbox/satellite-streets-v11",
-      },
-      Object {
-        "id": "mapbox://styles/mapbox/navigation-preview-day-v4",
-        "isMapboxStyle": true,
-        "name": "TrafficDay",
-        "styleURL": "mapbox://styles/mapbox/navigation-preview-day-v4",
-      },
-      Object {
-        "id": "mapbox://styles/mapbox/navigation-preview-night-v4",
-        "isMapboxStyle": true,
-        "name": "TrafficNight",
-        "styleURL": "mapbox://styles/mapbox/navigation-preview-night-v4",
       },
     ],
     "importedBasemaps": Array [],
@@ -3930,35 +3878,7 @@ Object {
     "migrated": true,
     "oldData": Object {},
   },
-  "layerSettings": Object {
-    "alerts": Object {
-      "glad": Object {
-        "active": false,
-        "timeFrame": 1,
-      },
-      "layerIsActive": true,
-      "viirs": Object {
-        "active": false,
-        "timeFrame": 1,
-      },
-    },
-    "basemap": Object {
-      "activeBasemapId": "mapbox://styles/mapbox/streets-v11",
-    },
-    "contextualLayers": Object {
-      "activeContextualLayerIds": Array [],
-      "layerIsActive": false,
-    },
-    "reports": Object {
-      "importedReportsActive": false,
-      "layerIsActive": false,
-      "myReportsActive": false,
-    },
-    "routes": Object {
-      "activeRouteIds": Array [],
-      "layerIsActive": false,
-    },
-  },
+  "layerSettings": Object {},
   "layers": Object {
     "activeLayer": null,
     "cache": Object {},

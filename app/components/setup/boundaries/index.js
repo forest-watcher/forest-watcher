@@ -65,7 +65,8 @@ class SetupBoundaries extends Component<Props> {
               passProps: {
                 // https://github.com/wix/react-native-navigation/issues/3635
                 // Pass componentId so drawer can push screens
-                componentId: this.props.componentId
+                componentId: this.props.componentId,
+                featureId: 'newAreaFeatureId'
               }
             }
           }

@@ -1,7 +1,18 @@
 // @flow
 import React, { Component } from 'react';
 
-import { Alert, AppState, BackHandler, Dimensions, Image, LayoutAnimation, Platform, Text, View } from 'react-native';
+import {
+  Animated,
+  Alert,
+  AppState,
+  BackHandler,
+  Dimensions,
+  Image,
+  LayoutAnimation,
+  Platform,
+  Text,
+  View
+} from 'react-native';
 import * as Sentry from '@sentry/react-native';
 
 import { LOCATION_TRACKING, REPORTS, MAPS } from 'config/constants';
@@ -50,6 +61,7 @@ import {
 import RouteMarkers from 'components/map/route';
 import type { Basemap } from 'types/basemaps.types';
 import type { Route } from 'types/routes.types';
+import InfoBanner from 'components/map/info-banner';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -62,6 +74,8 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN = 0;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_EXITING = 1;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_STOPPING = 2;
+
+const DISMISSED_INFO_BANNER_POSTIION = 200;
 
 /**
  * Elapsed time in milliseconds after which we should consider the most recent location "stale", presumably because we
@@ -84,7 +98,6 @@ const newAlertIcon = require('assets/new-alert.png');
 const closeIcon = require('assets/close_gray.png');
 
 type Props = {
-  basemap: Basemap,
   componentId: string,
   createReport: Object => {},
   ctxLayerLocalTilePath?: string,
@@ -106,7 +119,8 @@ type Props = {
   route: Route,
   isTracking: boolean,
   onStartTrackingRoute: () => {},
-  onCancelTrackingRoute: () => {}
+  onCancelTrackingRoute: () => {},
+  getActiveBasemap: () => Basemap
 };
 
 class MapComponent extends Component<Props> {
@@ -189,7 +203,14 @@ class MapComponent extends Component<Props> {
       routeTrackingDialogState: ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN,
       locationError: null,
       mapCameraBounds: this.getMapCameraBounds(),
-      destinationCoords: null
+      destinationCoords: null,
+      animatedPosition: new Animated.Value(DISMISSED_INFO_BANNER_POSTIION),
+      infoBannerProps: {
+        title: '',
+        subtitle: '',
+        type: '',
+        featureId: ''
+      }
     };
 
     SafeArea.getSafeAreaInsetsForRootView().then(result => {
@@ -522,7 +543,13 @@ class MapComponent extends Component<Props> {
     });
   });
 
+  getFeatureId = () => {
+    return this.props.route?.id || this.props.area.id;
+  };
+
   onSettingsPress = debounceUI(() => {
+    // If route has been opened, that is the current layer settings feature ID,
+    // otherwise use the area ID
     Navigation.mergeOptions(this.props.componentId, {
       sideMenu: {
         right: {
@@ -531,7 +558,8 @@ class MapComponent extends Component<Props> {
             passProps: {
               // https://github.com/wix/react-native-navigation/issues/3635
               // Pass componentId so drawer can push screens
-              componentId: this.props.componentId
+              componentId: this.props.componentId,
+              featureId: this.getFeatureId()
             }
           }
         }
@@ -652,7 +680,7 @@ class MapComponent extends Component<Props> {
   };
 
   renderButtonPanel() {
-    const { customReporting, userLocation, locationError, neighbours, selectedAlerts } = this.state;
+    const { customReporting, userLocation, locationError, neighbours, selectedAlerts, infoBannerProps } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
     const hasNeighbours = neighbours && neighbours.length > 0;
     const canReport = hasAlertsSelected || customReporting;
@@ -667,6 +695,9 @@ class MapComponent extends Component<Props> {
           locationError={locationError}
           mostRecentLocationTime={userLocation?.timestamp}
         />
+        <Animated.View style={{transform: [{translateY: this.state.animatedPosition}] }}>
+          <InfoBanner style={styles.infoBanner} {...infoBannerProps} />
+        </Animated.View>
         <View style={styles.buttonPanel}>
           {canReport ? (
             <React.Fragment>
@@ -745,9 +776,44 @@ class MapComponent extends Component<Props> {
     ) : null;
   }
 
+  onMapPress = () => {
+    // dismiss info banner
+    Animated.spring(this.state.animatedPosition, {
+      toValue: DISMISSED_INFO_BANNER_POSTIION,
+      velocity: 3,
+      tension: 2,
+      friction: 8
+    }).start();
+  };
+
+  onShapeSourcePressed = e => {
+    // show info banner with feature details
+    const { endDate, name, type, featureId } = e?.nativeEvent?.payload?.properties;
+    const dateAgo = moment(endDate).fromNow();
+    if (endDate && name) {
+      this.setState({
+        infoBannerProps: {
+          title: name,
+          subtitle: dateAgo,
+          type,
+          featureId
+        }
+      });
+      // show info banner
+      Animated.spring(this.state.animatedPosition, {
+        toValue: 0,
+        velocity: 3,
+        tension: 2,
+        friction: 8
+      }).start();
+    }
+  };
+
   render() {
     const { customReporting, userLocation, destinationCoords } = this.state;
-    const { isConnected, isOfflineMode, route, coordinatesFormat } = this.props;
+    const { isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap } = this.props;
+
+    const basemap = getActiveBasemap(this.getFeatureId());
 
     const coordinateAndDistanceText = customReporting
       ? getCoordinateAndDistanceText(destinationCoords, userLocation, route, coordinatesFormat, this.isRouteTracking())
@@ -799,13 +865,19 @@ class MapComponent extends Component<Props> {
             this.map = ref;
           }}
           style={styles.mapView}
-          styleURL={this.props.basemap.styleURL}
+          styleURL={basemap.styleURL}
           onRegionDidChange={this.onRegionDidChange}
+          onPress={this.onMapPress}
         >
           {renderMapCamera}
           {this.renderAreaOutline()}
           {this.renderDestinationLine()}
-          <RouteMarkers isTracking={this.isRouteTracking()} userLocation={userLocation} route={route} />
+          <RouteMarkers
+            isTracking={this.isRouteTracking()}
+            userLocation={userLocation}
+            route={route}
+            onShapeSourcePressed={this.onShapeSourcePressed}
+          />
           {renderUserLocation}
         </MapboxGL.MapView>
         {renderCustomReportingMarker}
