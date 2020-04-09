@@ -666,11 +666,11 @@ class MapComponent extends Component<Props> {
                 id={"imported_layer_symbol_" + layerFile.id}
                 sourceID={"imported_layer_" + layerFile.id}
               />
-              <MapboxGL.LineLayer id={"imported_layer_line_" + layerFile.id} style={mapboxStyles.areaOutline} />
+              <MapboxGL.LineLayer id={"imported_layer_line_" + layerFile.id} style={mapboxStyles.geoJsonStyleSpec}/>
               <MapboxGL.FillLayer 
                 filter={["match", ["geometry-type"], ["LineString", "MultiLineString"], false, true]} 
-                id={"imported_layer_fill_" + layerFile.id} 
-                style={{fillColor: 'red', fillOpacity: 0.2}} 
+                id={"imported_layer_fill_" + layerFile.id}
+                style={mapboxStyles.geoJsonStyleSpec}
               />
             </MapboxGL.ShapeSource>
           )
