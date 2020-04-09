@@ -3,11 +3,25 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 const markerImage = require('assets/plus.png');
 
 export const mapboxStyles = {
+  visible: {
+    visibility: 'visible'
+  },
+  invisible: {
+    visibility: 'none'
+  },
   routeLineLayer: {
     lineColor: Theme.colors.white,
     lineCap: MapboxGL.LineJoin.Round,
     lineJoin: MapboxGL.LineJoin.Round,
     lineWidth: 4
+  },
+  routeLineShadow: {
+    lineColor: Theme.colors.black,
+    lineCap: MapboxGL.LineJoin.Round,
+    lineJoin: MapboxGL.LineJoin.Round,
+    lineOpacity: 0.6,
+    lineWidth: 20,
+    lineBlur: 40
   },
   routeOuterCircle: {
     circleRadius: 7,
@@ -32,6 +46,12 @@ export const mapboxStyles = {
   routeEndInner: {
     circleRadius: 8,
     circleColor: Theme.colors.turtleGreen
+  },
+  routeEndsShadow: {
+    circleRadius: 20,
+    circleBlur: 1,
+    circleColor: Theme.colors.black,
+    circleOpacity: 0.6
   },
   destinationLine: {
     lineColor: Theme.colors.lightBlue,

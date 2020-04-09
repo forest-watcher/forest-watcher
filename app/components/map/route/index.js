@@ -19,6 +19,7 @@ type Props = {
   isTracking: boolean,
   userLocation: Location,
   route: Route,
+  active: boolean, // if route has been tapped on - emphasise ui
   onShapeSourcePressed?: () => void
 };
 
@@ -170,10 +171,14 @@ export default class RouteMarkers extends PureComponent<Props> {
     } else if (markers.length === 1) {
       markersShape = MapboxGL.geoUtils.makeFeature({ type: 'Point', coordinates: markers[0] });
     }
+    const visibility = this.props.active ? mapboxStyles.visible : mapboxStyles.invisible;
+    const shadowStyle = { ...mapboxStyles.routeLineShadow, ...visibility };
+
     const onPress = this.props.onShapeSourcePressed || null;
     return (
       <React.Fragment>
         <MapboxGL.ShapeSource onPress={onPress} id={this.key('routeLine')} shape={line}>
+          <MapboxGL.LineLayer id={this.key('routeLineShadow')} style={shadowStyle} />
           <MapboxGL.LineLayer id={this.key('routeLineLayer')} style={mapboxStyles.routeLineLayer} />
         </MapboxGL.ShapeSource>
         {/* Mapbox doesnt like to use the same ShapeSource with different shape types supplied*/}
@@ -222,10 +227,18 @@ export default class RouteMarkers extends PureComponent<Props> {
     const startSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(start), properties) : null;
     const endSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(end), properties) : null;
     const onPress = this.props.onShapeSourcePressed || null;
+    const visibility = this.props.active ? mapboxStyles.visible : mapboxStyles.invisible;
+    const shadowStyle = { ...mapboxStyles.routeEndsShadow, ...visibility };
     return (
       <React.Fragment>
         {start && (
           <MapboxGL.ShapeSource onPress={onPress} id={this.key('routeStart')} shape={startSource}>
+            <MapboxGL.CircleLayer
+              key={this.key('routeStartShadow')}
+              id={this.key('routeStartShadow')}
+              style={shadowStyle}
+              belowLayerID={this.key('routeLineShadow')}
+            />
             <MapboxGL.CircleLayer
               key={this.key('routeStartInner')}
               id={this.key('routeStartOuter')}
@@ -240,6 +253,12 @@ export default class RouteMarkers extends PureComponent<Props> {
         )}
         {end && (
           <MapboxGL.ShapeSource onPress={onPress} id={this.key('routeEnd')} shape={endSource}>
+            <MapboxGL.CircleLayer
+              key={this.key('routeEndShadow')}
+              id={this.key('routeEndShadow')}
+              style={shadowStyle}
+              belowLayerID={this.key('routeLineShadow')}
+            />
             <MapboxGL.CircleLayer
               key={this.key('routeEndOuter')}
               id={this.key('routeEndOuter')}

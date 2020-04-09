@@ -209,6 +209,7 @@ class MapComponent extends Component<Props> {
       mapCameraBounds: this.getMapCameraBounds(),
       destinationCoords: null,
       animatedPosition: new Animated.Value(DISMISSED_INFO_BANNER_POSTIION),
+      infoBannerShowing: false,
       infoBannerProps: {
         title: '',
         subtitle: '',
@@ -240,6 +241,16 @@ class MapComponent extends Component<Props> {
           tension: 2,
           friction: 8
         }).start();
+      }
+    });
+
+    // Controlling if a route is active relies on this animation value listener
+    this.state.animatedPosition.addListener(({ value }) => {
+      const { infoBannerShowing } = this.state;
+      if (value < DISMISSED_INFO_BANNER_POSTIION / 2 && !infoBannerShowing) {
+        this.setState({ infoBannerShowing: true });
+      } else if (value >= DISMISSED_INFO_BANNER_POSTIION / 2 && infoBannerShowing) {
+        this.setState({ infoBannerShowing: false });
       }
     });
   }
@@ -683,10 +694,15 @@ class MapComponent extends Component<Props> {
           isTracking={false}
           userLocation={null}
           route={route}
+          active={this.isRouteActive(route.id)}
           onShapeSourcePressed={this.onShapeSourcePressed}
         />
       );
     });
+  };
+
+  isRouteActive = routeId => {
+    return this.state.infoBannerShowing && this.state.infoBannerProps.featureId === routeId;
   };
 
   // Draw line from user location to destination
@@ -856,7 +872,7 @@ class MapComponent extends Component<Props> {
   };
 
   render() {
-    const { customReporting, userLocation, destinationCoords } = this.state;
+    const { customReporting, userLocation, destinationCoords, infoBannerProps } = this.state;
     const { isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap, layerSettings } = this.props;
 
     const basemap = getActiveBasemap(this.getFeatureId());
@@ -919,12 +935,15 @@ class MapComponent extends Component<Props> {
           {this.renderAreaOutline()}
           {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
           {this.renderDestinationLine()}
-          <RouteMarkers
-            isTracking={this.isRouteTracking()}
-            userLocation={userLocation}
-            route={route}
-            onShapeSourcePressed={this.onShapeSourcePressed}
-          />
+          {route?.id && (
+            <RouteMarkers
+              isTracking={this.isRouteTracking()}
+              userLocation={userLocation}
+              route={route}
+              active={this.isRouteActive(route?.id)}
+              onShapeSourcePressed={this.onShapeSourcePressed}
+            />
+          )}
           {renderUserLocation}
         </MapboxGL.MapView>
         {renderCustomReportingMarker}
