@@ -103,6 +103,7 @@ class ImportLayerType extends PureComponent<Props> {
                   backgroundColor: 'transparent',
                   componentBackgroundColor: 'rgba(0,0,0,0.8)'
                 },
+                modalPresentationStyle: 'overCurrentContext',
                 screenBackgroundColor: 'rgba(0,0,0,0.8)'
               }
             }
