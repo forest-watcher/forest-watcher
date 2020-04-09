@@ -63,6 +63,7 @@ import RouteMarkers from 'components/map/route';
 import type { Basemap } from 'types/basemaps.types';
 import type { Route } from 'types/routes.types';
 import InfoBanner from 'components/map/info-banner';
+import type { LayerSettings } from 'types/layerSettings.types';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -118,10 +119,12 @@ type Props = {
   mapWalkthroughSeen: boolean,
   setSelectedAreaId: () => {},
   route: Route,
+  layerSettings: LayerSettings,
   isTracking: boolean,
   onStartTrackingRoute: () => {},
   onCancelTrackingRoute: () => {},
-  getActiveBasemap: () => Basemap
+  getActiveBasemap: () => Basemap,
+  getRoutesById: string => Array<Route>
 };
 
 class MapComponent extends Component<Props> {
@@ -667,6 +670,25 @@ class MapComponent extends Component<Props> {
     );
   };
 
+  // Renders all active routes in layer settings
+  renderAllRoutes = () => {
+    let routeIds = this.props.layerSettings.routes.activeRouteIds;
+    // this is already being rendered as it is the selected feature
+    routeIds = routeIds.filter(routeId => routeId !== this.getFeatureId());
+    const routes = this.props.getRoutesById(routeIds);
+    return routes.map(route => {
+      return (
+        <RouteMarkers
+          key={route.id}
+          isTracking={false}
+          userLocation={null}
+          route={route}
+          onShapeSourcePressed={this.onShapeSourcePressed}
+        />
+      );
+    });
+  };
+
   // Draw line from user location to destination
   renderDestinationLine = () => {
     const { destinationCoords, userLocation, customReporting } = this.state;
@@ -835,7 +857,7 @@ class MapComponent extends Component<Props> {
 
   render() {
     const { customReporting, userLocation, destinationCoords } = this.state;
-    const { isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap } = this.props;
+    const { isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap, layerSettings } = this.props;
 
     const basemap = getActiveBasemap(this.getFeatureId());
 
@@ -895,6 +917,7 @@ class MapComponent extends Component<Props> {
         >
           {renderMapCamera}
           {this.renderAreaOutline()}
+          {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
           {this.renderDestinationLine()}
           <RouteMarkers
             isTracking={this.isRouteTracking()}

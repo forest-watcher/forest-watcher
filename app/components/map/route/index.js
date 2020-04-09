@@ -115,6 +115,11 @@ export default class RouteMarkers extends PureComponent<Props> {
     }
   };
 
+  // It seems mapbox is ridiculously picky with unique key/id names, when displaying multiple routes on the map
+  key = keyName => {
+    return keyName + this.props.route.id;
+  };
+
   // Draw line from user location to destination
   renderDestinationLine = (destination, userLocation) => {
     if (!destination || !userLocation) {
@@ -132,13 +137,13 @@ export default class RouteMarkers extends PureComponent<Props> {
     return (
       <React.Fragment>
         {bothValidLocations && (
-          <MapboxGL.ShapeSource id="routeDestLine" shape={line}>
-            <MapboxGL.LineLayer id="routeDestLineLayer" style={mapboxStyles.destinationLine} />
+          <MapboxGL.ShapeSource id={this.key('routeDestLine')} shape={line}>
+            <MapboxGL.LineLayer id={this.key('routeDestLineLayer')} style={mapboxStyles.destinationLine} />
           </MapboxGL.ShapeSource>
         )}
         {validDestLocation && (
-          <MapboxGL.ShapeSource id="routeDest" shape={routeDestination}>
-            <MapboxGL.SymbolLayer id="routeDestMarker" style={mapboxStyles.routeDestinationMarker} />
+          <MapboxGL.ShapeSource id={this.key('routeDest')} shape={routeDestination}>
+            <MapboxGL.SymbolLayer id={this.key('routeDestMarker')} style={mapboxStyles.routeDestinationMarker} />
           </MapboxGL.ShapeSource>
         )}
       </React.Fragment>
@@ -168,20 +173,36 @@ export default class RouteMarkers extends PureComponent<Props> {
     const onPress = this.props.onShapeSourcePressed || null;
     return (
       <React.Fragment>
-        <MapboxGL.ShapeSource onPress={onPress} id="routeLine" shape={line}>
-          <MapboxGL.LineLayer id="routeLineLayer" style={mapboxStyles.routeLineLayer} />
+        <MapboxGL.ShapeSource onPress={onPress} id={this.key('routeLine')} shape={line}>
+          <MapboxGL.LineLayer id={this.key('routeLineLayer')} style={mapboxStyles.routeLineLayer} />
         </MapboxGL.ShapeSource>
         {/* Mapbox doesnt like to use the same ShapeSource with different shape types supplied*/}
         {markers.length === 1 && (
-          <MapboxGL.ShapeSource id="routeMarker" shape={markersShape}>
-            <MapboxGL.CircleLayer key="routeCircleOuter" id="routeCircleOuter" style={mapboxStyles.routeOuterCircle} />
-            <MapboxGL.CircleLayer key="routeCircleInner" id="routeCircleInner" style={mapboxStyles.routeInnerCircle} />
+          <MapboxGL.ShapeSource id={this.key('routeMarker')} shape={markersShape}>
+            <MapboxGL.CircleLayer
+              key={this.key('routeCircleOuter')}
+              id={this.key('routeCircleOuter')}
+              style={mapboxStyles.routeOuterCircle}
+            />
+            <MapboxGL.CircleLayer
+              key={this.key('routeCircleInner')}
+              id={this.key('routeCircleInner')}
+              style={mapboxStyles.routeInnerCircle}
+            />
           </MapboxGL.ShapeSource>
         )}
         {markers.length > 1 && (
-          <MapboxGL.ShapeSource id="routeMarkers" shape={markersShape}>
-            <MapboxGL.CircleLayer key="routeCircleOuter" id="routeCircleOuter" style={mapboxStyles.routeOuterCircle} />
-            <MapboxGL.CircleLayer key="routeCircleInner" id="routeCircleInner" style={mapboxStyles.routeInnerCircle} />
+          <MapboxGL.ShapeSource id={this.key('routeMarkers')} shape={markersShape}>
+            <MapboxGL.CircleLayer
+              key={this.key('routeCircleOuter')}
+              id={this.key('routeCircleOuter')}
+              style={mapboxStyles.routeOuterCircle}
+            />
+            <MapboxGL.CircleLayer
+              key={this.key('routeCircleInner')}
+              id={this.key('routeCircleInner')}
+              style={mapboxStyles.routeInnerCircle}
+            />
           </MapboxGL.ShapeSource>
         )}
       </React.Fragment>
@@ -204,15 +225,31 @@ export default class RouteMarkers extends PureComponent<Props> {
     return (
       <React.Fragment>
         {start && (
-          <MapboxGL.ShapeSource onPress={onPress} id="routeStart" shape={startSource}>
-            <MapboxGL.CircleLayer key="routeStartInner" id="routeStartOuter" style={mapboxStyles.routeStartOuter} />
-            <MapboxGL.CircleLayer key="routeStartOuter" id="routeStartInner" style={mapboxStyles.routeStartInner} />
+          <MapboxGL.ShapeSource onPress={onPress} id={this.key('routeStart')} shape={startSource}>
+            <MapboxGL.CircleLayer
+              key={this.key('routeStartInner')}
+              id={this.key('routeStartOuter')}
+              style={mapboxStyles.routeStartOuter}
+            />
+            <MapboxGL.CircleLayer
+              key={this.key('routeStartOuter')}
+              id={this.key('routeStartInner')}
+              style={mapboxStyles.routeStartInner}
+            />
           </MapboxGL.ShapeSource>
         )}
         {end && (
-          <MapboxGL.ShapeSource onPress={onPress} id="routeEnd" shape={endSource}>
-            <MapboxGL.CircleLayer key="routeEndOuter" id="routeEndOuter" style={mapboxStyles.routeEndOuter} />
-            <MapboxGL.CircleLayer key="routeEndInner" id="routeEndInner" style={mapboxStyles.routeEndInner} />
+          <MapboxGL.ShapeSource onPress={onPress} id={this.key('routeEnd')} shape={endSource}>
+            <MapboxGL.CircleLayer
+              key={this.key('routeEndOuter')}
+              id={this.key('routeEndOuter')}
+              style={mapboxStyles.routeEndOuter}
+            />
+            <MapboxGL.CircleLayer
+              key={this.key('routeEndInner')}
+              id={this.key('routeEndInner')}
+              style={mapboxStyles.routeEndInner}
+            />
           </MapboxGL.ShapeSource>
         )}
       </React.Fragment>

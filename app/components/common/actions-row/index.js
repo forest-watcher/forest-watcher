@@ -15,6 +15,7 @@ type Props = {
   actions?: ?Array<Action>,
   onPress?: ?(void) => void,
   imageSrc?: ?string | ?number,
+  renderCustomImage?: any,
   ...ElementConfig<typeof View>
 };
 
@@ -36,6 +37,7 @@ class ActionsRow extends Component<Props> {
         onPress={this.props.onPress}
       >
         <View style={[styles.row, this.props.rowStyle]}>
+          {this.props.renderCustomImage && this.props.renderCustomImage()}
           {!!this.props.imageSrc && (
             <Image
               resizeMode={'cover'}
