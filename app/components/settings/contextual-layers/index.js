@@ -16,6 +16,8 @@ import DocumentPicker from 'react-native-document-picker';
 
 import { formatBytes } from 'helpers/data';
 
+import type { ContextualLayer } from 'types/layers.types';
+
 const plusIcon = require('assets/add.png');
 const emptyIcon = require('assets/layersEmpty.png');
 const layerPlaceholder = require('assets/layerPlaceholder.png');
@@ -26,6 +28,7 @@ const ACCEPTED_FILE_TYPES = ['json', 'geojson', 'topojson', 'gpx', 'shp', 'kmz',
 const TODO_FILE_TYPES = ['topojson', 'shp', 'kmz', 'kml']; // todo remove when finished implementation
 
 type Props = {
+  baseApiLayers: ?Array<ContextualLayer>,
   componentId: string,
   importedLayers: Array<File>
 };
@@ -225,8 +228,33 @@ class Layers extends Component<Props> {
     }
   };
 
+  renderGFWLayers = () => {
+    const { baseApiLayers } = this.props;
+    if (baseApiLayers.length == 0) {
+      return null;
+    }
+    return (
+      <View>
+        <View style={styles.listHeader}>
+          <Text style={styles.listTitle}>{i18n.t('contextualLayers.gfw')}</Text>
+        </View>
+        {baseApiLayers.map((layerFile, index) => {
+          return (
+            <ActionsRow style={styles.rowContent} imageSrc={layerPlaceholder} key={index}>
+            <Text style={styles.rowLabel}>{i18n.t(layerFile.name)}</Text>
+              {layerFile.size != null && <Text style={styles.rowLabel}>{formatBytes(layerFile.size)}</Text>}
+            </ActionsRow>
+          );
+        })}
+      </View>
+    )
+  };
+
   renderImportedLayers = () => {
     const { importedLayers } = this.props;
+    if (importedLayers.length == 0) {
+      return null;
+    }
     return (
       <View>
         <View style={styles.listHeader}>
@@ -246,15 +274,15 @@ class Layers extends Component<Props> {
 
   render() {
     //todo: add this back in once we have redux state for layers!
-    const { importedLayers } = this.props;
+    const { baseApiLayers, importedLayers } = this.props;
     // Determine if we're in export mode, and how many layers have been selected to export.
     const totalToExport = this.state.selectedForExport.length;
 
     //todo: add this back in once we have redux state for layers!
-    const totalLayers = importedLayers.length;
+    const totalLayers = importedLayers.length + baseApiLayers.length;
 
     //todo: add this back in once we have redux state for layers!
-    const hasLayers = importedLayers.length > 0; //layers && layers.length > 0;
+    const hasLayers = totalLayers > 0;
 
     return (
       <View style={styles.container}>
@@ -291,6 +319,7 @@ class Layers extends Component<Props> {
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
             >
+              {this.renderGFWLayers()}
               {this.renderImportedLayers()}
             </ScrollView>
           ) : (
