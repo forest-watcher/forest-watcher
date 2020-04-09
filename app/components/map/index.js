@@ -36,6 +36,8 @@ import { Navigation } from 'react-native-navigation';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
+import { toFileUri } from 'helpers/fileURI';
+
 const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
 
@@ -61,6 +63,7 @@ import {
 import RouteMarkers from 'components/map/route';
 import type { Basemap } from 'types/basemaps.types';
 import type { Route } from 'types/routes.types';
+import type { File } from 'types/file.types';
 import InfoBanner from 'components/map/info-banner';
 
 const emitter = require('tiny-emitter/instance');
@@ -102,6 +105,7 @@ type Props = {
   createReport: Object => {},
   ctxLayerLocalTilePath?: string,
   areaCoordinates: [number, number],
+  getImportedContextualLayersById: (Array<string>) => Array<File>,
   isConnected: boolean,
   isOfflineMode: boolean,
   setCanDisplayAlerts: boolean => {},
@@ -646,6 +650,31 @@ class MapComponent extends Component<Props> {
     );
   };
 
+  // Renders all active imported contextual layers in settings
+  renderImportedContextualLayers = () => {
+    let layerIds = this.props.layerSettings.contextualLayers.activeContextualLayerIds;
+    const layerFiles = this.props.getImportedContextualLayersById(layerIds);
+    return (
+      <React.Fragment>
+        {layerFiles.map(layerFile => {
+          return (
+            <MapboxGL.ShapeSource 
+              id={"imported_layer_" + layerFile.id}
+              url={toFileUri(layerFile.uri)}
+            >
+              <MapboxGL.SymbolLayer 
+                id={"imported_layer_symbol_" + layerFile.id}
+                sourceID={"imported_layer_" + layerFile.id}
+              />
+              <MapboxGL.LineLayer id={"imported_layer_line_" + layerFile.id} style={mapboxStyles.areaOutline} />
+              <MapboxGL.FillLayer id={"imported_layer_fill_" + layerFile.id} style={{fillColor: 'red', fillOpacity: 0.2}} />
+            </MapboxGL.ShapeSource>
+          )
+        })}
+      </React.Fragment>
+    );
+  }
+
   // Draw line from user location to destination
   renderDestinationLine = () => {
     const { destinationCoords, userLocation, customReporting } = this.state;
@@ -811,7 +840,7 @@ class MapComponent extends Component<Props> {
 
   render() {
     const { customReporting, userLocation, destinationCoords } = this.state;
-    const { isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap } = this.props;
+    const { isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap, layerSettings } = this.props;
 
     const basemap = getActiveBasemap(this.getFeatureId());
 
@@ -871,6 +900,11 @@ class MapComponent extends Component<Props> {
         >
           {renderMapCamera}
           {this.renderAreaOutline()}
+          {layerSettings.contextualLayers.layerIsActive && (
+            <React.Fragment>
+              {this.renderImportedContextualLayers()}
+            </React.Fragment>
+          )}
           {this.renderDestinationLine()}
           <RouteMarkers
             isTracking={this.isRouteTracking()}
