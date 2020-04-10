@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { View, ScrollView, Platform, Text } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import debounceUI from 'helpers/debounceUI';

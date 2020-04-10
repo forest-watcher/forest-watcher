@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setSelectedAreaId } from 'redux-modules/areas';
 import { createReport } from 'redux-modules/reports';
-import { discardActiveRoute, setRouteDestination } from 'redux-modules/routes';
+import { discardActiveRoute, getRoutesById, setRouteDestination } from 'redux-modules/routes';
 import { setCanDisplayAlerts, setActiveAlerts } from 'redux-modules/alerts';
 import tracker from 'helpers/googleAnalytics';
 import { getContextualLayer } from 'helpers/map';
@@ -13,7 +13,7 @@ import { shouldBeConnected } from 'helpers/app';
 import { getSelectedArea, activeDataset } from 'helpers/area';
 import Map from 'components/map';
 import { coordsArrayToObject } from 'helpers/location';
-import { getActiveBasemap } from 'redux-modules/layerSettings';
+import { DEFAULT_LAYER_SETTINGS, getActiveBasemap } from 'redux-modules/layerSettings';
 import type { Route } from 'types/routes.types';
 
 function getAreaCoordinates(areaFeature) {
@@ -62,13 +62,18 @@ function mapStateToProps(state: State, ownProps: { previousRoute: Route }) {
   }
   const { cache } = state.layers;
   const contextualLayer = getContextualLayer(state.layers);
+  const route = reconcileRoutes(state.routes.activeRoute, ownProps.previousRoute);
+
+  const featureId = route?.id || area.id;
+  const layerSettings = state.layerSettings[featureId] || DEFAULT_LAYER_SETTINGS;
 
   return {
     contextualLayer,
     areaCoordinates,
     isTracking: !!state.routes.activeRoute,
-    route: reconcileRoutes(state.routes.activeRoute, ownProps.previousRoute),
+    route,
     area: areaProps,
+    layerSettings,
     isConnected: shouldBeConnected(state),
     isOfflineMode: state.app.offlineMode,
     coordinatesFormat: state.app.coordinatesFormat,
@@ -107,6 +112,9 @@ function mapDispatchToProps(dispatch, { navigation }) {
     },
     onCancelTrackingRoute: () => {
       dispatch(discardActiveRoute());
+    },
+    getRoutesById: routeIds => {
+      return dispatch(getRoutesById(routeIds));
     }
   };
 }
