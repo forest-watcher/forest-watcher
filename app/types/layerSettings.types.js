@@ -27,11 +27,13 @@ export type LayerSettings = {
     activeBasemapId: string
   },
   routes: {
+    showAll: boolean,
     layerIsActive: boolean,
     activeRouteIds: Array<string>
   },
   alerts: {
     layerIsActive: boolean,
+    initialised: boolean,
     glad: {
       active: boolean,
       timeFrame: number
@@ -54,11 +56,14 @@ export type LayerSettingsAction =
   | ToggleRoutesLayer
   | ToggleReportsLayer
   | ToggleContextualLayersLayer
+  | InitialiseAlerts
   | ToggleGladAlerts
   | ToggleViirsAlerts
   | SetGladAlertsTimeFrame
   | SetViirsAlertsTimeFrame
   | CopyLayerSettings
+  | DeselectAllRoutes
+  | ToggleRouteSelected
   | SelectActiveBasemap;
 
 export type ClearEnabledContextualLayers = {
@@ -89,6 +94,14 @@ export type ToggleContextualLayersLayer = {
   type: 'layerSettings/TOGGLE_CONTEXTUAL_LAYERS_LAYER',
   payload: {
     featureId: string
+  }
+};
+export type InitialiseAlerts = {
+  type: 'layerSettings/INITIALISE_ALERTS',
+  payload: {
+    featureId: string,
+    showGlad: boolean,
+    showViirs: boolean
   }
 };
 export type ToggleGladAlerts = {
@@ -137,5 +150,19 @@ export type SetContextualLayerShowing = {
     featureId: string,
     layerId: string,
     showing: boolean
+  }
+};
+export type DeselectAllRoutes = {
+  type: 'layerSettings/DESELECT_ALL_ROUTES',
+  payload: {
+    featureId: string
+  }
+};
+export type ToggleRouteSelected = {
+  type: 'layerSettings/TOGGLE_ROUTE_SELECTED',
+  payload: {
+    featureId: string,
+    routeId: string,
+    allRouteIds: Array<string>
   }
 };

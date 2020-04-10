@@ -3,7 +3,8 @@ import type { LayerSettingsState, LayerSettingsAction } from 'types/layerSetting
 import { DEFAULT_BASEMAP } from 'redux-modules/basemaps';
 import remove from 'lodash/remove';
 import type { Dispatch, GetState } from 'types/store.types';
-import type { RouteAction } from 'types/routes.types';
+import type { Area } from 'types/areas.types';
+import { DATASETS } from 'config/constants';
 
 // Actions
 const TOGGLE_ALERTS_LAYER = 'layerSettings/TOGGLE_ALERTS_LAYER';
@@ -14,6 +15,7 @@ const TOGGLE_CONTEXTUAL_LAYERS_LAYER = 'layerSettings/TOGGLE_CONTEXTUAL_LAYERS_L
 const TOGGLE_MY_REPORTS_LAYER = 'layerSettings/TOGGLE_MY_REPORTS_LAYER';
 const TOGGLE_IMPORTED_REPORTS_LAYER = 'layerSettings/TOGGLE_IMPORTED_REPORTS_LAYER';
 
+const INITIALISE_ALERTS = 'layerSettings/INITIALISE_ALERTS';
 const TOGGLE_GLAD_ALERTS = 'layerSettings/TOGGLE_GLAD_ALERTS';
 const TOGGLE_VIIRS_ALERTS = 'layerSettings/TOGGLE_VIIRS_ALERTS';
 const SET_GLAD_ALERTS_TIME_FRAME = 'layerSettings/SET_GLAD_ALERTS_TIME_FRAME';
@@ -26,7 +28,6 @@ const SELECT_ACTIVE_BASEMAP = 'layerSettings/SELECT_ACTIVE_BASEMAP';
 const SET_CONTEXTUAL_LAYER_SHOWING = 'layerSettings/SET_CONTEXTUAL_LAYER_SHOWING';
 const CLEAR_ENABLED_CONTEXTUAL_LAYERS = 'layerSettings/CLEAR_ENABLED_CONTEXTUAL_LAYERS';
 
-const SELECT_ALL_ROUTES = 'layerSettings/SELECT_ALL_ROUTES';
 const DESELECT_ALL_ROUTES = 'layerSettings/DESELECT_ALL_ROUTES';
 const TOGGLE_ROUTE_SELECTED = 'layerSettings/TOGGLE_ROUTE_SELECTED';
 
@@ -34,6 +35,8 @@ const TOGGLE_ROUTE_SELECTED = 'layerSettings/TOGGLE_ROUTE_SELECTED';
 export const DEFAULT_LAYER_SETTINGS = {
   alerts: {
     layerIsActive: true,
+    // alert types need to be made active depending on which alert types are available for the area
+    initialised: false,
     glad: {
       active: false,
       timeFrame: 1
@@ -44,13 +47,14 @@ export const DEFAULT_LAYER_SETTINGS = {
     }
   },
   routes: {
+    showAll: true,
     layerIsActive: false,
     activeRouteIds: []
   },
   reports: {
     layerIsActive: false,
-    myReportsActive: false,
-    importedReportsActive: false
+    myReportsActive: true,
+    importedReportsActive: true
   },
   contextualLayers: {
     layerIsActive: false,
@@ -147,6 +151,26 @@ export default function reducer(
           reports: {
             ...state[featureId].reports,
             importedReportsActive: !state[featureId].reports.importedReportsActive
+          }
+        }
+      };
+    }
+    case INITIALISE_ALERTS: {
+      return {
+        ...state,
+        [featureId]: {
+          ...state[featureId],
+          alerts: {
+            ...state[featureId].alerts,
+            initialised: true,
+            glad: {
+              ...state[featureId].alerts.glad,
+              active: action.payload.showGlad
+            },
+            viirs: {
+              ...state[featureId].alerts.viirs,
+              active: action.payload.showViirs
+            }
           }
         }
       };
@@ -262,29 +286,23 @@ export default function reducer(
     }
     case TOGGLE_ROUTE_SELECTED: {
       const { activeRouteIds } = state[featureId].routes;
-      const { routeId } = action.payload;
+      let { showAll } = state[featureId].routes;
+      const { routeId, allRouteIds } = action.payload;
       let newActiveRouteIds;
-      if (!activeRouteIds.includes(routeId)) {
+      if (!activeRouteIds.includes(routeId) && !showAll) {
         // select route
         newActiveRouteIds = [...activeRouteIds, routeId];
+        if (newActiveRouteIds.length === allRouteIds.length) {
+          showAll = true;
+        }
       } else {
         // deselect route
-        newActiveRouteIds = activeRouteIds.filter(id => id !== routeId);
-      }
-      return {
-        ...state,
-        [featureId]: {
-          ...state[featureId],
-          routes: {
-            ...state[featureId].routes,
-            activeRouteIds: newActiveRouteIds
-          }
+        if (state[featureId].routes.showAll) {
+          newActiveRouteIds = allRouteIds.filter(id => id !== routeId);
+          showAll = false;
+        } else {
+          newActiveRouteIds = activeRouteIds.filter(id => id !== routeId);
         }
-      };
-    }
-    case SELECT_ALL_ROUTES: {
-      if (!action.payload.allRouteIds?.length) {
-        return state;
       }
       return {
         ...state,
@@ -292,7 +310,8 @@ export default function reducer(
           ...state[featureId],
           routes: {
             ...state[featureId].routes,
-            activeRouteIds: action.payload.allRouteIds
+            activeRouteIds: newActiveRouteIds,
+            showAll
           }
         }
       };
@@ -334,16 +353,6 @@ export function setContextualLayerShowing(featureId: string, layerId: string, sh
   };
 }
 
-export function selectAllRoutes(featureId: string, allRouteIds: Array<string>) {
-  return {
-    type: SELECT_ALL_ROUTES,
-    payload: {
-      featureId,
-      allRouteIds
-    }
-  };
-}
-
 export function deselectAllRoutes(featureId: string) {
   return {
     type: DESELECT_ALL_ROUTES,
@@ -353,12 +362,13 @@ export function deselectAllRoutes(featureId: string) {
   };
 }
 
-export function toggleRouteSelected(featureId: string, routeId: string) {
+export function toggleRouteSelected(featureId: string, routeId: string, allRouteIds: Array<string>) {
   return {
     type: TOGGLE_ROUTE_SELECTED,
     payload: {
       featureId,
-      routeId
+      routeId,
+      allRouteIds
     }
   };
 }
@@ -413,6 +423,17 @@ export function toggleImportedReportsLayer(featureId: string): LayerSettingsActi
     type: TOGGLE_IMPORTED_REPORTS_LAYER,
     payload: {
       featureId
+    }
+  };
+}
+
+export function initialiseAlerts(featureId: string, showGlad: boolean, showViirs: boolean): LayerSettingsAction {
+  return {
+    type: INITIALISE_ALERTS,
+    payload: {
+      featureId,
+      showGlad,
+      showViirs
     }
   };
 }
@@ -488,9 +509,21 @@ export function getActiveBasemap(featureId: string) {
   };
 }
 
-export function isShowingAllRoutes(featureId: string): RouteAction {
+// This should be called whenever opening a feature (area / route) on the map screen.
+export function initialiseAreaLayerSettings(featureId: string, areaId: string) {
   return (dispatch: Dispatch, getState: GetState) => {
-    const state = getState();
-    return state[featureId].routes.activeRouteIds.length === state[featureId].routes.activeRouteIds.length;
+    const { layerSettings, areas } = getState();
+    const featureLayerSettings = layerSettings[featureId] || DEFAULT_LAYER_SETTINGS;
+    if (featureLayerSettings.alerts.initialised) {
+      return;
+    }
+    // Alert types need to be initialised for area, depending on available alert types
+    const area: Area = areas.data.find(area => area.id === areaId);
+    const areaDatasets = area.datasets.map(dataset => dataset.slug);
+    const hasGladAlerts = areaDatasets.includes(DATASETS.GLAD);
+    const hasViirsAlerts = areaDatasets.includes(DATASETS.VIIRS);
+    const showGlad = hasGladAlerts;
+    const showViirs = hasViirsAlerts && !hasGladAlerts;
+    dispatch(initialiseAlerts(featureId, showGlad, showViirs));
   };
 }

@@ -34,6 +34,15 @@ Object {
   "basemaps": Object {
     "gfwBasemaps": Array [
       Object {
+        "id": "mapbox://styles/mapbox/satellite-v9",
+        "image": Object {
+          "testUri": "../../../app/assets/basemap_satellite.png",
+        },
+        "isMapboxStyle": true,
+        "name": "Satellite",
+        "styleURL": "mapbox://styles/mapbox/satellite-v9",
+      },
+      Object {
         "id": "mapbox://styles/mapbox/light-v10",
         "image": Object {
           "testUri": "../../../app/assets/basemap_light.png",
@@ -59,15 +68,6 @@ Object {
         "isMapboxStyle": true,
         "name": "Street",
         "styleURL": "mapbox://styles/mapbox/streets-v11",
-      },
-      Object {
-        "id": "mapbox://styles/mapbox/satellite-v9",
-        "image": Object {
-          "testUri": "../../../app/assets/basemap_satellite.png",
-        },
-        "isMapboxStyle": true,
-        "name": "Satellite",
-        "styleURL": "mapbox://styles/mapbox/satellite-v9",
       },
     ],
     "importedBasemaps": Array [],
@@ -1999,6 +1999,15 @@ Object {
   "basemaps": Object {
     "gfwBasemaps": Array [
       Object {
+        "id": "mapbox://styles/mapbox/satellite-v9",
+        "image": Object {
+          "testUri": "../../../app/assets/basemap_satellite.png",
+        },
+        "isMapboxStyle": true,
+        "name": "Satellite",
+        "styleURL": "mapbox://styles/mapbox/satellite-v9",
+      },
+      Object {
         "id": "mapbox://styles/mapbox/light-v10",
         "image": Object {
           "testUri": "../../../app/assets/basemap_light.png",
@@ -2024,15 +2033,6 @@ Object {
         "isMapboxStyle": true,
         "name": "Street",
         "styleURL": "mapbox://styles/mapbox/streets-v11",
-      },
-      Object {
-        "id": "mapbox://styles/mapbox/satellite-v9",
-        "image": Object {
-          "testUri": "../../../app/assets/basemap_satellite.png",
-        },
-        "isMapboxStyle": true,
-        "name": "Satellite",
-        "styleURL": "mapbox://styles/mapbox/satellite-v9",
       },
     ],
     "importedBasemaps": Array [],

@@ -384,7 +384,8 @@
                 "noAlerts": "No Alerts"
             },
             "routeSettings": {
-                "showingRoutes": "Showing: %{count} routes"
+                "showingRoutes": "Showing: %{count} Routes",
+                "showingAllRoutes": "Showing: All Routes"
             },
             "reportSettings": {
                 "showingNoReports": "Showing No Reports",
