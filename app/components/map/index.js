@@ -694,14 +694,14 @@ class MapComponent extends Component<Props> {
           isTracking={false}
           userLocation={null}
           route={route}
-          active={this.isRouteActive(route.id)}
+          selected={this.isRouteSelected(route.id)}
           onShapeSourcePressed={this.onShapeSourcePressed}
         />
       );
     });
   };
 
-  isRouteActive = routeId => {
+  isRouteSelected = routeId => {
     return this.state.infoBannerShowing && this.state.infoBannerProps.featureId === routeId;
   };
 
@@ -940,7 +940,7 @@ class MapComponent extends Component<Props> {
               isTracking={this.isRouteTracking()}
               userLocation={userLocation}
               route={route}
-              active={this.isRouteActive(route?.id)}
+              selected={this.isRouteSelected(route?.id)}
               onShapeSourcePressed={this.onShapeSourcePressed}
             />
           )}

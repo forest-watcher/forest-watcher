@@ -15,6 +15,9 @@ export const mapboxStyles = {
     lineJoin: MapboxGL.LineJoin.Round,
     lineWidth: 4
   },
+  routeLineLayerSelected: {
+    lineWidth: 7
+  },
   routeLineShadow: {
     lineColor: Theme.colors.black,
     lineCap: MapboxGL.LineJoin.Round,
@@ -31,21 +34,21 @@ export const mapboxStyles = {
     circleRadius: 5,
     circleColor: Theme.colors.blue
   },
-  routeStartOuter: {
-    circleRadius: 13,
+  routeEndsInner: {
+    circleRadius: 7,
+    circleColor: Theme.colors.turtleGreen
+  },
+  routeEndsOuter: {
+    circleRadius: 10,
     circleColor: Theme.colors.white
   },
-  routeStartInner: {
+  routeEndsInnerSelected: {
     circleRadius: 8,
     circleColor: Theme.colors.turtleGreen
   },
-  routeEndOuter: {
-    circleRadius: 13,
+  routeEndsOuterSelected: {
+    circleRadius: 12,
     circleColor: Theme.colors.white
-  },
-  routeEndInner: {
-    circleRadius: 8,
-    circleColor: Theme.colors.turtleGreen
   },
   routeEndsShadow: {
     circleRadius: 20,
