@@ -35,6 +35,7 @@ import styles, { mapboxStyles } from './styles';
 import { Navigation } from 'react-native-navigation';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
 import MapboxGL from '@react-native-mapbox-gl/maps';
+import type { Alert as AlertType } from 'types/alerts.types';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
@@ -118,6 +119,8 @@ type Props = {
   mapWalkthroughSeen: boolean,
   setSelectedAreaId: () => {},
   route: Route,
+  gladAlerts: Array<AlertType>,
+  viirsAlerts: Array<AlertType>,
   layerSettings: LayerSettings,
   isTracking: boolean,
   onStartTrackingRoute: () => {},

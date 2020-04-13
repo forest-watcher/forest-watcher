@@ -5,13 +5,25 @@ import type { LogoutRequest } from 'types/user.types';
 import type { RetrySync } from 'types/app.types';
 import type { UploadReportRequest } from 'types/reports.types';
 
+export type Alert = {
+  long: number,
+  lat: number,
+  date: number
+};
+
 export type AlertsState = {
   cache: {
     viirs?: {
-      [string]: string
+      [areaId: string]: {
+        lastUpdated: number,
+        alerts: Array<Alert>
+      }
     },
     umd_as_it_happens?: {
-      [string]: string
+      [areaId: string]: {
+        lastUpdated: number,
+        lastUpdated: Array<Alert>
+      }
     }
   },
   reported: Array<string>,

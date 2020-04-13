@@ -9,6 +9,7 @@ import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { UPLOAD_REPORT_REQUEST } from 'redux-modules/reports';
 import { RETRY_SYNC } from 'redux-modules/app';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
+import { parseAlerts } from 'helpers/alertsParse';
 
 const SET_CAN_DISPLAY_ALERTS = 'alerts/SET_CAN_DISPLAY_ALERTS';
 export const SET_ACTIVE_ALERTS = 'alerts/SET_ACTIVE_ALERTS';
@@ -52,12 +53,16 @@ export default function reducer(state: AlertsState = initialState, action: Alert
       return { ...state, queue };
     }
     case GET_ALERTS_COMMIT: {
+      const alerts = parseAlerts(action.payload);
       const { area, datasetSlug, alertId } = action.meta;
       const cache = {
         ...state.cache,
         [datasetSlug]: {
           ...state.cache[datasetSlug],
-          [area.id]: Date.now()
+          [area.id]: {
+            lastUpdated: Date.now(),
+            alerts
+          }
         }
       };
       const queue = state.queue.filter(item => item !== alertId);

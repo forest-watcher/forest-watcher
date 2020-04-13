@@ -15,9 +15,9 @@ function* syncAlertDatasets({ area, cache }): Generator<*, *, *> {
         const [slug, defaultRange] = entry;
         let range = defaultRange;
         // Get the last cache date and request only that new data
-        if (cache[slug] && cache[slug][area.id]) {
+        if (cache?.[slug]?.[area.id]?.lastUpdated) {
           const now = moment();
-          const lastCache = moment(cache[slug][area.id]);
+          const lastCache = moment(cache[slug][area.id]?.lastUpdated);
           const daysFromLastCache = now.diff(lastCache, 'days');
           if (daysFromLastCache >= 0) {
             range = (daysFromLastCache: number);
