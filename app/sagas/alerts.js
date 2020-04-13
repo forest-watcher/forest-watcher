@@ -7,23 +7,24 @@ import { GET_AREAS_COMMIT, SAVE_AREA_COMMIT } from 'redux-modules/areas';
 import { AREAS as areasConstants } from 'config/constants';
 import moment from 'moment/moment';
 
-function* syncAlertDatasets({ area, cache }): Generator<*, *, *> {
+function* syncAlertDatasets({ area, alertsData }): Generator<*, *, *> {
   yield all(
     Object.entries(areasConstants.alertRange)
       // $FlowFixMe
       .map((entry: [string, number]) => {
-        const [slug, defaultRange] = entry;
+        const [dataset, defaultRange] = entry;
         let range = defaultRange;
         // Get the last cache date and request only that new data
-        if (cache?.[slug]?.[area.id]?.lastUpdated) {
+        const lastUpdated = alertsData?.[area.id]?.[dataset]?.lastUpdated;
+        if (lastUpdated) {
           const now = moment();
-          const lastCache = moment(cache[slug][area.id]?.lastUpdated);
+          const lastCache = moment(lastUpdated);
           const daysFromLastCache = now.diff(lastCache, 'days');
           if (daysFromLastCache >= 0) {
             range = (daysFromLastCache: number);
           }
         }
-        return put(getAreaAlerts(area, slug, range));
+        return put(getAreaAlerts(area, dataset, range));
       })
   );
 }
@@ -31,9 +32,9 @@ function* syncAlertDatasets({ area, cache }): Generator<*, *, *> {
 export function* getAlertsOnAreasCommit(): Generator<*, *, *> {
   function* syncAlertsSaga(): Generator<*, *, *> {
     const areas = yield select((state: State) => state.areas.data);
-    const cache = yield select((state: State) => state.alerts.cache);
+    const data = yield select((state: State) => state.alerts.data);
 
-    yield all(areas.map(area => fork(syncAlertDatasets, { area, cache })));
+    yield all(areas.map(area => fork(syncAlertDatasets, { area, data })));
   }
 
   yield takeEvery(GET_AREAS_COMMIT, syncAlertsSaga);
@@ -41,8 +42,8 @@ export function* getAlertsOnAreasCommit(): Generator<*, *, *> {
 
 export function* getAlertsOnAreaCreation(): Generator<*, *, *> {
   function* readSaveAreaPayload(action): Generator<*, *, *> {
-    const cache = yield select((state: State) => state.alerts.cache);
-    yield fork(syncAlertDatasets, { area: action.payload, cache });
+    const data = yield select((state: State) => state.alerts.data);
+    yield fork(syncAlertDatasets, { area: action.payload, data });
   }
 
   yield takeEvery(SAVE_AREA_COMMIT, readSaveAreaPayload);

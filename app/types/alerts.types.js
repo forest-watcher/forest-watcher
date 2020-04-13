@@ -12,17 +12,15 @@ export type Alert = {
 };
 
 export type AlertsState = {
-  cache: {
-    viirs?: {
-      [areaId: string]: {
+  data: {
+    [areaId: string]: {
+      viirs: {
         lastUpdated: number,
         alerts: Array<Alert>
-      }
-    },
-    umd_as_it_happens?: {
-      [areaId: string]: {
+      },
+      umd_as_it_happens: {
         lastUpdated: number,
-        lastUpdated: Array<Alert>
+        alerts: Array<Alert>
       }
     }
   },

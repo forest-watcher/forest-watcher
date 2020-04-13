@@ -19,7 +19,7 @@ const GET_ALERTS_ROLLBACK = 'alerts/GET_ALERTS_ROLLBACK';
 
 // Reducer
 const initialState = {
-  cache: {},
+  data: {},
   reported: [],
   canDisplayAlerts: true,
   syncError: false,
@@ -55,18 +55,18 @@ export default function reducer(state: AlertsState = initialState, action: Alert
     case GET_ALERTS_COMMIT: {
       const alerts = parseAlerts(action.payload);
       const { area, datasetSlug, alertId } = action.meta;
-      const cache = {
-        ...state.cache,
-        [datasetSlug]: {
-          ...state.cache[datasetSlug],
-          [area.id]: {
+      const data = {
+        ...state.data,
+        [area.id]: {
+          ...state.data[area.id],
+          [datasetSlug]: {
             lastUpdated: Date.now(),
             alerts
           }
         }
       };
       const queue = state.queue.filter(item => item !== alertId);
-      return { ...state, queue, cache };
+      return { ...state, queue, data };
     }
     case GET_ALERTS_ROLLBACK: {
       const { alertId } = action.meta;
