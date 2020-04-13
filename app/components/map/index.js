@@ -96,7 +96,7 @@ const myLocationIcon = require('assets/my_location.png');
 const createReportIcon = require('assets/createReport.png');
 const reportAreaIcon = require('assets/report_area.png');
 const addLocationIcon = require('assets/add_location.png');
-const newAlertIcon = require('assets/new-alert.png');
+const routeDestinationMarker = require('assets/routeDestinationMarker.png');
 const closeIcon = require('assets/close_gray.png');
 
 type Props = {
@@ -835,6 +835,27 @@ class MapComponent extends Component<Props> {
   };
 
   render() {
+    if (!this.props.area?.id) {
+      Navigation.pop(this.props.componentId);
+      return null;
+    }
+    const gladAlertFeatures = this.props.gladAlerts?.map((alert: AlertType) =>
+      MapboxGL.geoUtils.makePoint([alert.lon, alert.lat])
+    );
+    const gladAlertsFeatureCollection = MapboxGL.geoUtils.makeFeatureCollection(gladAlertFeatures);
+    const renderGladAlerts = (
+      <MapboxGL.ShapeSource id={'alertSource'} cluster clusterRadius={40} shape={gladAlertsFeatureCollection}>
+        <MapboxGL.SymbolLayer id="pointCount" style={mapboxStyles.clusterCount} />
+        <MapboxGL.CircleLayer
+          id="clusteredPoints"
+          belowLayerID="pointCount"
+          filter={['has', 'point_count']}
+          style={mapboxStyles.clusteredPoints}
+        />
+        <MapboxGL.SymbolLayer id="alert" filter={['!has', 'point_count']} style={mapboxStyles.alert} />
+      </MapboxGL.ShapeSource>
+    );
+
     const { customReporting, userLocation, destinationCoords } = this.state;
     const { isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap, layerSettings } = this.props;
 
@@ -850,7 +871,7 @@ class MapComponent extends Component<Props> {
         pointerEvents="none"
         style={[styles.customLocationFixed, this.state.dragging ? styles.customLocationTransparent : '']}
       >
-        <Image style={[Theme.icon, styles.customLocationMarker]} source={newAlertIcon} />
+        <Image style={[Theme.icon, styles.customLocationMarker]} source={routeDestinationMarker} />
       </View>
     ) : null;
 
@@ -898,6 +919,7 @@ class MapComponent extends Component<Props> {
           {this.renderAreaOutline()}
           {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
           {this.renderDestinationLine()}
+          {renderGladAlerts}
           <RouteMarkers
             isTracking={this.isRouteTracking()}
             userLocation={userLocation}

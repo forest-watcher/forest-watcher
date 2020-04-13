@@ -1,6 +1,7 @@
 import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
+const routeDestinationMarker = require('assets/routeDestinationMarker.png');
 
 export default StyleSheet.create({
   container: {
@@ -156,5 +157,24 @@ export const mapboxStyles = {
     lineJoin: MapboxGL.LineJoin.Round,
     lineWidth: 3,
     lineOpacity: 0.8
+  },
+  alert: {
+    iconImage: routeDestinationMarker,
+    iconAllowOverlap: true,
+    iconOpacity: 0.85,
+    iconSize: 2
+  },
+  clusteredPoints: {
+    circlePitchAlignment: 'map',
+    circleColor: Theme.colors.turtleGreen,
+    circleRadius: 20,  // this should be half the cluster radius in the styles
+    circleOpacity: 0.85,
+    circleStrokeWidth: 2,
+    circleStrokeColor: 'white'
+  },
+  clusterCount: {
+    textField: '{point_count}',
+    textSize: 15,
+    textPitchAlignment: 'map'
   }
 };
