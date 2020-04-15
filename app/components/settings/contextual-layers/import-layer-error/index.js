@@ -38,8 +38,8 @@ export default class ImportLayerError extends Component<Props> {
     );
   };
 
-  onPressChooseAnother = () => {
-    Navigation.dismissModal(this.props.componentId);
+  onPressChooseAnother = async () => {
+    await Navigation.dismissModal(this.props.componentId);
     this.props.onRetry();
   };
 
