@@ -58,5 +58,8 @@ export default StyleSheet.create({
   },
   dropdownRow: {
     paddingHorizontal: 24
+  },
+  inactiveDropdownRow: {
+    opacity: 0.2
   }
 });
