@@ -652,33 +652,31 @@ class MapComponent extends Component<Props> {
 
   // Renders all active imported contextual layers in settings
   renderImportedContextualLayers = () => {
-    let layerIds = this.props.layerSettings.contextualLayers.activeContextualLayerIds;
+    const layerIds = this.props.layerSettings.contextualLayers.activeContextualLayerIds;
     const layerFiles = this.props.getImportedContextualLayersById(layerIds);
+    console.log('Layer files', layerFiles);
     return (
       <React.Fragment>
         {layerFiles.map(layerFile => {
           return (
-            <MapboxGL.ShapeSource 
-              id={"imported_layer_" + layerFile.id}
-              url={toFileUri(layerFile.uri)}
-            >
-              <MapboxGL.SymbolLayer 
-                id={"imported_layer_symbol_" + layerFile.id}
-                sourceID={"imported_layer_" + layerFile.id}
+            <MapboxGL.ShapeSource id={'imported_layer_' + layerFile.id} url={toFileUri(layerFile.uri)}>
+              <MapboxGL.SymbolLayer
+                id={'imported_layer_symbol_' + layerFile.id}
+                sourceID={'imported_layer_' + layerFile.id}
                 style={mapboxStyles.icon}
               />
-              <MapboxGL.LineLayer id={"imported_layer_line_" + layerFile.id} style={mapboxStyles.geoJsonStyleSpec}/>
-              <MapboxGL.FillLayer 
-                filter={["match", ["geometry-type"], ["LineString", "MultiLineString"], false, true]} 
-                id={"imported_layer_fill_" + layerFile.id}
+              <MapboxGL.LineLayer id={'imported_layer_line_' + layerFile.id} style={mapboxStyles.geoJsonStyleSpec} />
+              <MapboxGL.FillLayer
+                filter={['match', ['geometry-type'], ['LineString', 'MultiLineString'], false, true]}
+                id={'imported_layer_fill_' + layerFile.id}
                 style={mapboxStyles.geoJsonStyleSpec}
               />
             </MapboxGL.ShapeSource>
-          )
+          );
         })}
       </React.Fragment>
     );
-  }
+  };
 
   // Draw line from user location to destination
   renderDestinationLine = () => {
@@ -729,7 +727,7 @@ class MapComponent extends Component<Props> {
           locationError={locationError}
           mostRecentLocationTime={userLocation?.timestamp}
         />
-        <Animated.View style={{transform: [{translateY: this.state.animatedPosition}] }}>
+        <Animated.View style={{ transform: [{ translateY: this.state.animatedPosition }] }}>
           <InfoBanner style={styles.infoBanner} {...infoBannerProps} />
         </Animated.View>
         <View style={styles.buttonPanel}>
@@ -849,6 +847,8 @@ class MapComponent extends Component<Props> {
 
     const basemap = getActiveBasemap(this.getFeatureId());
 
+    console.log('Layer settings', layerSettings);
+
     const coordinateAndDistanceText = customReporting
       ? getCoordinateAndDistanceText(destinationCoords, userLocation, route, coordinatesFormat, this.isRouteTracking())
       : '';
@@ -906,9 +906,7 @@ class MapComponent extends Component<Props> {
           {renderMapCamera}
           {this.renderAreaOutline()}
           {layerSettings.contextualLayers.layerIsActive && (
-            <React.Fragment>
-              {this.renderImportedContextualLayers()}
-            </React.Fragment>
+            <React.Fragment>{this.renderImportedContextualLayers()}</React.Fragment>
           )}
           {this.renderDestinationLine()}
           <RouteMarkers

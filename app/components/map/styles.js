@@ -160,33 +160,13 @@ export const mapboxStyles = {
     lineOpacity: 0.8
   },
   icon: {
-    iconImage: defaultPin,
+    iconImage: defaultPin
   },
   geoJsonStyleSpec: {
-    'fillColor': [
-      'case', 
-      ['has', 'fill'], ['get', 'fill'],
-      Theme.colors.turtleGreen
-    ],
-    'fillOpacity': [
-      'case', 
-      ['has', 'fill-opacity'], ['get', 'fill-opacity'],
-      0.6
-    ],
-    'lineColor': [
-      'case', 
-      ['has', 'stroke'], ['get', 'stroke'],
-      Theme.colors.turtleGreen
-    ],
-    'lineWidth': [
-      'case', 
-      ['has', 'stroke-width'], ['get', 'stroke-width'],
-      3
-    ],
-    'lineOpacity': [
-      'case', 
-      ['has', 'stroke-opacity'], ['get', 'stroke-opacity'],
-      0.8
-    ]
+    fillColor: ['case', ['has', 'fill'], ['get', 'fill'], Theme.colors.turtleGreen],
+    fillOpacity: ['case', ['has', 'fill-opacity'], ['get', 'fill-opacity'], 0.6],
+    lineColor: ['case', ['has', 'stroke'], ['get', 'stroke'], Theme.colors.turtleGreen],
+    lineWidth: ['case', ['has', 'stroke-width'], ['get', 'stroke-width'], 3],
+    lineOpacity: ['case', ['has', 'stroke-opacity'], ['get', 'stroke-opacity'], 0.8]
   }
 };
