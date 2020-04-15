@@ -5,8 +5,14 @@ import type { DeleteAreaCommit, Area } from 'types/areas.types';
 import type { File } from 'types/./file.types';
 
 export type ContextualLayer = {
+  createdAt?: ?string,
+  enabled?: ?boolean,
   id: string,
+  isPublic?: ?boolean,
   name: string,
+  owner?: ?{
+    type: string
+  },
   url: string
 };
 
