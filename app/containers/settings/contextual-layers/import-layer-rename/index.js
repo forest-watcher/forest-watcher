@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 
 import { importContextualLayer } from 'redux-modules/layers';
 
-import ImportLayer from 'components/settings/contextual-layers/import-layer';
+import ImportLayerRename from 'components/settings/contextual-layers/import-layer-rename';
 
 function mapStateToProps(state: State) {
   return {
@@ -27,4 +27,4 @@ const mapDispatchToProps = (dispatch: *) =>
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ImportLayer);
+)(ImportLayerRename);
