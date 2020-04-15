@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 
-import { LOCATION_TRACKING, REPORTS, MAPS } from 'config/constants';
+import { LOCATION_TRACKING, REPORTS, MAPS, DATASETS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import isEqual from 'lodash/isEqual';
 import toUpper from 'lodash/toUpper';
@@ -97,6 +97,7 @@ const createReportIcon = require('assets/createReport.png');
 const reportAreaIcon = require('assets/report_area.png');
 const addLocationIcon = require('assets/add_location.png');
 const routeDestinationMarker = require('assets/routeDestinationMarker.png');
+const selectedAlert = require('assets/selectedAlertMapIcon.png');
 const closeIcon = require('assets/close_gray.png');
 
 type Props = {
@@ -652,6 +653,35 @@ class MapComponent extends Component<Props> {
     );
   };
 
+  renderAlerts = (alerts: Array<AlertType>, alertType: string) => {
+    const gladAlertFeatures = alerts?.map((alert: AlertType) => MapboxGL.geoUtils.makePoint([alert.lon, alert.lat]));
+    const gladAlertsFeatureCollection = MapboxGL.geoUtils.makeFeatureCollection(gladAlertFeatures);
+    const viirsAlertType = alertType === DATASETS.VIIRS; // if false, use GLAD alert Styles
+    const alertIcon = viirsAlertType ? selectedAlert : selectedAlert;
+    const circleColor = viirsAlertType ? Theme.colors.viirs : Theme.colors.turtleGreen;
+    return (
+      <MapboxGL.ShapeSource
+        id={alertType + 'alertSource'}
+        cluster
+        clusterRadius={40}
+        shape={gladAlertsFeatureCollection}
+      >
+        <MapboxGL.SymbolLayer id={alertType + 'pointCount'} style={mapboxStyles.clusterCount} />
+        <MapboxGL.CircleLayer
+          id={alertType + 'clusteredPoints'}
+          belowLayerID={alertType + 'pointCount'}
+          filter={['has', 'point_count']}
+          style={{ ...mapboxStyles.clusteredPoints, circleColor }}
+        />
+        <MapboxGL.SymbolLayer
+          id={alertType + 'alertLayer'}
+          filter={['!has', 'point_count']}
+          style={{ ...mapboxStyles.alert, iconImage: alertIcon }}
+        />
+      </MapboxGL.ShapeSource>
+    );
+  };
+
   // Renders all active routes in layer settings
   renderAllRoutes = () => {
     let routeIds = this.props.layerSettings.routes.activeRouteIds;
@@ -839,22 +869,6 @@ class MapComponent extends Component<Props> {
       Navigation.pop(this.props.componentId);
       return null;
     }
-    const gladAlertFeatures = this.props.gladAlerts?.map((alert: AlertType) =>
-      MapboxGL.geoUtils.makePoint([alert.lon, alert.lat])
-    );
-    const gladAlertsFeatureCollection = MapboxGL.geoUtils.makeFeatureCollection(gladAlertFeatures);
-    const renderGladAlerts = (
-      <MapboxGL.ShapeSource id={'alertSource'} cluster clusterRadius={40} shape={gladAlertsFeatureCollection}>
-        <MapboxGL.SymbolLayer id="pointCount" style={mapboxStyles.clusterCount} />
-        <MapboxGL.CircleLayer
-          id="clusteredPoints"
-          belowLayerID="pointCount"
-          filter={['has', 'point_count']}
-          style={mapboxStyles.clusteredPoints}
-        />
-        <MapboxGL.SymbolLayer id="alert" filter={['!has', 'point_count']} style={mapboxStyles.alert} />
-      </MapboxGL.ShapeSource>
-    );
 
     const { customReporting, userLocation, destinationCoords } = this.state;
     const { isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap, layerSettings } = this.props;
@@ -884,6 +898,7 @@ class MapComponent extends Component<Props> {
         ref={ref => {
           this.mapCamera = ref;
         }}
+        maxZoomLevel={19}
         bounds={this.state.mapCameraBounds}
         animationDuration={0}
       />
@@ -919,7 +934,8 @@ class MapComponent extends Component<Props> {
           {this.renderAreaOutline()}
           {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
           {this.renderDestinationLine()}
-          {renderGladAlerts}
+          {this.renderAlerts(this.props.gladAlerts, DATASETS.GLAD)}
+          {this.renderAlerts(this.props.viirsAlerts, DATASETS.VIIRS)}
           <RouteMarkers
             isTracking={this.isRouteTracking()}
             userLocation={userLocation}
