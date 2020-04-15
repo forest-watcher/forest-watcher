@@ -34,40 +34,40 @@ Object {
   "basemaps": Object {
     "gfwBasemaps": Array [
       Object {
-        "id": "mapbox://styles/mapbox/satellite-v9",
+        "id": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
         "image": Object {
-          "testUri": "../../../app/assets/basemap_satellite.png",
+          "testUri": "../../../app/assets/basemap_default.png",
         },
         "isMapboxStyle": true,
-        "name": "Satellite",
-        "styleURL": "mapbox://styles/mapbox/satellite-v9",
+        "name": "Default",
+        "styleURL": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
       },
       Object {
-        "id": "mapbox://styles/mapbox/light-v10",
-        "image": Object {
-          "testUri": "../../../app/assets/basemap_light.png",
-        },
-        "isMapboxStyle": true,
-        "name": "Light",
-        "styleURL": "mapbox://styles/mapbox/light-v10",
-      },
-      Object {
-        "id": "mapbox://styles/mapbox/dark-v10",
+        "id": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
         "image": Object {
           "testUri": "../../../app/assets/basemap_dark.png",
         },
         "isMapboxStyle": true,
         "name": "Dark",
-        "styleURL": "mapbox://styles/mapbox/dark-v10",
+        "styleURL": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
       },
       Object {
-        "id": "mapbox://styles/mapbox/streets-v11",
+        "id": "mapbox://styles/resourcewatch/cjww89e5j08o91cmjsbrd47qt?fresh=true",
         "image": Object {
-          "testUri": "../../../app/assets/basemap_street.png",
+          "testUri": "../../../app/assets/basemap_satellite.png",
         },
         "isMapboxStyle": true,
-        "name": "Street",
-        "styleURL": "mapbox://styles/mapbox/streets-v11",
+        "name": "Satellite",
+        "styleURL": "mapbox://styles/resourcewatch/cjww89e5j08o91cmjsbrd47qt?fresh=true",
+      },
+      Object {
+        "id": "mapbox://styles/resourcewatch/cjww8drml27wc1cn3mk2872h9?fresh=true",
+        "image": Object {
+          "testUri": "../../../app/assets/basemap_landsat.png",
+        },
+        "isMapboxStyle": true,
+        "name": "Landsat",
+        "styleURL": "mapbox://styles/resourcewatch/cjww8drml27wc1cn3mk2872h9?fresh=true",
       },
     ],
     "importedBasemaps": Array [],
@@ -1999,40 +1999,40 @@ Object {
   "basemaps": Object {
     "gfwBasemaps": Array [
       Object {
-        "id": "mapbox://styles/mapbox/satellite-v9",
+        "id": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
         "image": Object {
-          "testUri": "../../../app/assets/basemap_satellite.png",
+          "testUri": "../../../app/assets/basemap_default.png",
         },
         "isMapboxStyle": true,
-        "name": "Satellite",
-        "styleURL": "mapbox://styles/mapbox/satellite-v9",
+        "name": "Default",
+        "styleURL": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
       },
       Object {
-        "id": "mapbox://styles/mapbox/light-v10",
-        "image": Object {
-          "testUri": "../../../app/assets/basemap_light.png",
-        },
-        "isMapboxStyle": true,
-        "name": "Light",
-        "styleURL": "mapbox://styles/mapbox/light-v10",
-      },
-      Object {
-        "id": "mapbox://styles/mapbox/dark-v10",
+        "id": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
         "image": Object {
           "testUri": "../../../app/assets/basemap_dark.png",
         },
         "isMapboxStyle": true,
         "name": "Dark",
-        "styleURL": "mapbox://styles/mapbox/dark-v10",
+        "styleURL": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
       },
       Object {
-        "id": "mapbox://styles/mapbox/streets-v11",
+        "id": "mapbox://styles/resourcewatch/cjww89e5j08o91cmjsbrd47qt?fresh=true",
         "image": Object {
-          "testUri": "../../../app/assets/basemap_street.png",
+          "testUri": "../../../app/assets/basemap_satellite.png",
         },
         "isMapboxStyle": true,
-        "name": "Street",
-        "styleURL": "mapbox://styles/mapbox/streets-v11",
+        "name": "Satellite",
+        "styleURL": "mapbox://styles/resourcewatch/cjww89e5j08o91cmjsbrd47qt?fresh=true",
+      },
+      Object {
+        "id": "mapbox://styles/resourcewatch/cjww8drml27wc1cn3mk2872h9?fresh=true",
+        "image": Object {
+          "testUri": "../../../app/assets/basemap_landsat.png",
+        },
+        "isMapboxStyle": true,
+        "name": "Landsat",
+        "styleURL": "mapbox://styles/resourcewatch/cjww8drml27wc1cn3mk2872h9?fresh=true",
       },
     ],
     "importedBasemaps": Array [],
