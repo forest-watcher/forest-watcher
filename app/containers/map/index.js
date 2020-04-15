@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setSelectedAreaId } from 'redux-modules/areas';
 import { createReport } from 'redux-modules/reports';
-import { discardActiveRoute, setRouteDestination } from 'redux-modules/routes';
+import { discardActiveRoute, getRoutesById, setRouteDestination } from 'redux-modules/routes';
 import { setCanDisplayAlerts, setActiveAlerts } from 'redux-modules/alerts';
 import { getImportedContextualLayersById } from 'redux-modules/layers';
 import tracker from 'helpers/googleAnalytics';
@@ -63,6 +63,10 @@ function mapStateToProps(state: State, ownProps: { previousRoute: Route }) {
   }
   const { cache } = state.layers;
   const contextualLayer = getContextualLayer(state.layers);
+  const route = reconcileRoutes(state.routes.activeRoute, ownProps.previousRoute);
+
+  const featureId = route?.id || area.id;
+  const layerSettings = state.layerSettings[featureId] || DEFAULT_LAYER_SETTINGS;
 
   const route = reconcileRoutes(state.routes.activeRoute, ownProps.previousRoute);
   const featureId = route?.id || area?.id;
@@ -72,7 +76,7 @@ function mapStateToProps(state: State, ownProps: { previousRoute: Route }) {
     contextualLayer,
     areaCoordinates,
     isTracking: !!state.routes.activeRoute,
-    route: reconcileRoutes(state.routes.activeRoute, ownProps.previousRoute),
+    route,
     area: areaProps,
     layerSettings,
     isConnected: shouldBeConnected(state),
@@ -116,6 +120,9 @@ function mapDispatchToProps(dispatch, { navigation }) {
     },
     onCancelTrackingRoute: () => {
       dispatch(discardActiveRoute());
+    },
+    getRoutesById: routeIds => {
+      return dispatch(getRoutesById(routeIds));
     }
   };
 }

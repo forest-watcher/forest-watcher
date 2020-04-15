@@ -133,6 +133,9 @@ class MapSidebar extends PureComponent<Props> {
   };
 
   getRoutesSettingsTitle = layerSettings => {
+    if (layerSettings.routes.showAll) {
+      return i18n.t('map.layerSettings.routeSettings.showingAllRoutes');
+    }
     const count = layerSettings.routes.activeRouteIds.length;
     return i18n.t('map.layerSettings.routeSettings.showingRoutes', { count });
   };

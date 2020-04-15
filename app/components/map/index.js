@@ -65,6 +65,7 @@ import type { Basemap } from 'types/basemaps.types';
 import type { Route } from 'types/routes.types';
 import type { File } from 'types/file.types';
 import InfoBanner from 'components/map/info-banner';
+import type { LayerSettings } from 'types/layerSettings.types';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -121,10 +122,12 @@ type Props = {
   mapWalkthroughSeen: boolean,
   setSelectedAreaId: () => {},
   route: Route,
+  layerSettings: LayerSettings,
   isTracking: boolean,
   onStartTrackingRoute: () => {},
   onCancelTrackingRoute: () => {},
-  getActiveBasemap: () => Basemap
+  getActiveBasemap: () => Basemap,
+  getRoutesById: string => Array<Route>
 };
 
 class MapComponent extends Component<Props> {
@@ -650,6 +653,25 @@ class MapComponent extends Component<Props> {
     );
   };
 
+  // Renders all active routes in layer settings
+  renderAllRoutes = () => {
+    let routeIds = this.props.layerSettings.routes.activeRouteIds;
+    // this is already being rendered as it is the selected feature
+    routeIds = routeIds.filter(routeId => routeId !== this.getFeatureId());
+    const routes = this.props.getRoutesById(routeIds);
+    return routes.map(route => {
+      return (
+        <RouteMarkers
+          key={route.id}
+          isTracking={false}
+          userLocation={null}
+          route={route}
+          onShapeSourcePressed={this.onShapeSourcePressed}
+        />
+      );
+    });
+  };
+
   // Renders all active imported contextual layers in settings
   renderImportedContextualLayers = () => {
     const layerIds = this.props.layerSettings.contextualLayers.activeContextualLayerIds;
@@ -905,6 +927,7 @@ class MapComponent extends Component<Props> {
         >
           {renderMapCamera}
           {this.renderAreaOutline()}
+          {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
           {layerSettings.contextualLayers.layerIsActive && (
             <React.Fragment>{this.renderImportedContextualLayers()}</React.Fragment>
           )}

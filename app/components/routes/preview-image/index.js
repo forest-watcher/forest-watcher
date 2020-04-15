@@ -3,7 +3,7 @@
 import type { Route } from 'types/routes.types';
 
 import React, { PureComponent } from 'react';
-import { View, ImageBackground } from 'react-native';
+import { View, ImageBackground, Platform } from 'react-native';
 
 import RoutePath from 'components/common/route-path';
 
@@ -24,7 +24,11 @@ export default class RoutePreviewImage extends PureComponent<Props> {
     const height = width * aspectRatio;
     return (
       <View style={{ ...style, height, overflow: 'hidden' }} pointerEvents={'none'}>
-        <ImageBackground style={styles.image} resizeMode={'repeat'} source={routeMapBackground}>
+        <ImageBackground
+          style={styles.image}
+          resizeMode={Platform.OS === 'ios' ? 'repeat' : 'cover'}
+          source={routeMapBackground}
+        >
           <RoutePath size={height - 12} route={route} />
         </ImageBackground>
       </View>

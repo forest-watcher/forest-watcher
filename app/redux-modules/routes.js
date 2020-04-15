@@ -1,6 +1,7 @@
 // @flow
 import type { RouteState, RouteAction, Route, RouteDeletionCriteria } from 'types/routes.types';
 import { deleteAllLocations } from '../helpers/location';
+import type { Dispatch, GetState } from 'types/store.types';
 
 // Actions
 const DISCARD_ACTIVE_ROUTE = 'routes/DISCARD_ACTIVE_ROUTE';
@@ -12,7 +13,8 @@ const UPDATE_SAVED_ROUTE = 'routes/UPDATE_SAVED_ROUTE';
 // Reducer
 const initialState: RouteState = {
   activeRoute: undefined,
-  previousRoutes: []
+  previousRoutes: [],
+  importedRoutes: []
 };
 
 export default function reducer(state: RouteState = initialState, action: RouteAction) {
@@ -112,5 +114,21 @@ export function discardActiveRoute(): RouteAction {
 export function finishAndSaveRoute(): RouteAction {
   return {
     type: FINISH_AND_SAVE_ROUTE
+  };
+}
+
+export function getRoutesById(routeIds): RouteAction {
+  return (dispatch: Dispatch, getState: GetState) => {
+    const state = getState();
+    return [...state.routes.previousRoutes, ...state.routes.importedRoutes].filter(route =>
+      routeIds.includes(route.id)
+    );
+  };
+}
+
+export function getAllRouteIds(): RouteAction {
+  return (dispatch: Dispatch, getState: GetState) => {
+    const state = getState();
+    return [...state.routes.previousRoutes, ...state.routes.importedRoutes].map(item => item.id);
   };
 }
