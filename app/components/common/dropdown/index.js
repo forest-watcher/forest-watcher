@@ -60,7 +60,7 @@ export default class Dropdown extends Component<Props> {
           return option.value === selectedValue;
         }).label ?? selectedValue;
     return (
-      <Row action={this.showActionSheetAction}>
+      <Row action={this.showActionSheetAction} rowStyle={styles.dropdownRow}>
         {label && !this.props.hideLabel && <Text style={styles.label}>{label}</Text>}
         <Text style={styles.label}>{selectedLabel.charAt(0).toUpperCase() + selectedLabel.substring(1)}</Text>
         <ActionSheet
@@ -85,7 +85,7 @@ export default class Dropdown extends Component<Props> {
                       <Text style={styles.doneLabel}>{i18n.t('dropdown.done')}</Text>
                     </TouchableOpacity>
                   </View>
-                  <View style={styles.pickerContent}>
+                  <View>
                     {options.map((option, i) => (
                       <Row
                         action={{

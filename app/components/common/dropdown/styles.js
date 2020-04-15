@@ -55,5 +55,8 @@ export default StyleSheet.create({
     paddingBottom: 16,
     paddingHorizontal: 24,
     paddingTop: 24
+  },
+  dropdownRow: {
+    paddingHorizontal: 24
   }
 });
