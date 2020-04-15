@@ -160,7 +160,8 @@ export const mapboxStyles = {
     lineOpacity: 0.8
   },
   icon: {
-    iconImage: defaultPin
+    iconImage: defaultPin,
+    iconAllowOverlap: true
   },
   geoJsonStyleSpec: {
     fillColor: ['case', ['has', 'fill'], ['get', 'fill'], Theme.colors.turtleGreen],
