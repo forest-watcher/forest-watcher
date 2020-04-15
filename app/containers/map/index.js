@@ -68,10 +68,6 @@ function mapStateToProps(state: State, ownProps: { previousRoute: Route }) {
   const featureId = route?.id || area.id;
   const layerSettings = state.layerSettings[featureId] || DEFAULT_LAYER_SETTINGS;
 
-  const route = reconcileRoutes(state.routes.activeRoute, ownProps.previousRoute);
-  const featureId = route?.id || area?.id;
-  const layerSettings = state.layerSettings[featureId] || DEFAULT_LAYER_SETTINGS;
-
   return {
     contextualLayer,
     areaCoordinates,

@@ -676,12 +676,15 @@ class MapComponent extends Component<Props> {
   renderImportedContextualLayers = () => {
     const layerIds = this.props.layerSettings.contextualLayers.activeContextualLayerIds;
     const layerFiles = this.props.getImportedContextualLayersById(layerIds);
-    console.log('Layer files', layerFiles);
     return (
       <React.Fragment>
         {layerFiles.map(layerFile => {
           return (
-            <MapboxGL.ShapeSource id={'imported_layer_' + layerFile.id} url={toFileUri(layerFile.uri)}>
+            <MapboxGL.ShapeSource
+              key={layerFile.id}
+              id={'imported_layer_' + layerFile.id}
+              url={toFileUri(layerFile.uri)}
+            >
               <MapboxGL.SymbolLayer
                 id={'imported_layer_symbol_' + layerFile.id}
                 sourceID={'imported_layer_' + layerFile.id}
@@ -868,8 +871,6 @@ class MapComponent extends Component<Props> {
     const { isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap, layerSettings } = this.props;
 
     const basemap = getActiveBasemap(this.getFeatureId());
-
-    console.log('Layer settings', layerSettings);
 
     const coordinateAndDistanceText = customReporting
       ? getCoordinateAndDistanceText(destinationCoords, userLocation, route, coordinatesFormat, this.isRouteTracking())

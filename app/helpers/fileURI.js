@@ -5,7 +5,6 @@
  * url methods (In iOS's case "file:///uri")
  */
 export function toFileUri(uri: string) {
-  const formatted = uri;
   if (!uri.startsWith('file:///')) {
     // Sometimes files are given to us like /var/mobile/Containers/Data/Application/
     if (uri.startsWith('/')) {
