@@ -2,6 +2,8 @@ import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
+const defaultPin = require('/assets/defaultPin.png');
+
 export default StyleSheet.create({
   container: {
     flex: 1,
@@ -156,5 +158,16 @@ export const mapboxStyles = {
     lineJoin: MapboxGL.LineJoin.Round,
     lineWidth: 3,
     lineOpacity: 0.8
+  },
+  icon: {
+    iconImage: defaultPin,
+    iconAllowOverlap: true
+  },
+  geoJsonStyleSpec: {
+    fillColor: ['case', ['has', 'fill'], ['get', 'fill'], Theme.colors.turtleGreen],
+    fillOpacity: ['case', ['has', 'fill-opacity'], ['get', 'fill-opacity'], 0.6],
+    lineColor: ['case', ['has', 'stroke'], ['get', 'stroke'], Theme.colors.turtleGreen],
+    lineWidth: ['case', ['has', 'stroke-width'], ['get', 'stroke-width'], 3],
+    lineOpacity: ['case', ['has', 'stroke-opacity'], ['get', 'stroke-opacity'], 0.8]
   }
 };
