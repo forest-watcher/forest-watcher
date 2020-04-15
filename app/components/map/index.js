@@ -665,6 +665,7 @@ class MapComponent extends Component<Props> {
               <MapboxGL.SymbolLayer 
                 id={"imported_layer_symbol_" + layerFile.id}
                 sourceID={"imported_layer_" + layerFile.id}
+                style={mapboxStyles.icon}
               />
               <MapboxGL.LineLayer id={"imported_layer_line_" + layerFile.id} style={mapboxStyles.geoJsonStyleSpec}/>
               <MapboxGL.FillLayer 
