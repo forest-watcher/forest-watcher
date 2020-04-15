@@ -9,7 +9,9 @@ export default StyleSheet.create({
     color: Theme.fontColors.main,
     fontFamily: Theme.font,
     fontSize: 16,
-    fontWeight: '500'
+    fontWeight: '500',
+    paddingVertical: 8,
+    paddingHorizontal: 16
   },
   label: {
     ...Theme.tableRowText
