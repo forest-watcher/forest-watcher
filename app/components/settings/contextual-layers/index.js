@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { View, ScrollView, Platform, Text } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import debounceUI from 'helpers/debounceUI';
@@ -241,13 +241,13 @@ class Layers extends Component<Props> {
         {baseApiLayers.map((layerFile, index) => {
           return (
             <ActionsRow style={styles.rowContent} imageSrc={layerPlaceholder} key={index}>
-            <Text style={styles.rowLabel}>{i18n.t(layerFile.name)}</Text>
+              <Text style={styles.rowLabel}>{i18n.t(layerFile.name)}</Text>
               {layerFile.size != null && <Text style={styles.rowLabel}>{formatBytes(layerFile.size)}</Text>}
             </ActionsRow>
           );
         })}
       </View>
-    )
+    );
   };
 
   renderImportedLayers = () => {
