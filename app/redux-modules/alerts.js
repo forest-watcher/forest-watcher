@@ -58,7 +58,7 @@ export default function reducer(state: AlertsState = initialState, action: Alert
       const data = {
         ...state.data,
         [area.id]: {
-          ...state.data[area.id],
+          ...(state.data[area.id] ?? {}),
           [datasetSlug]: {
             lastUpdated: Date.now(),
             alerts
