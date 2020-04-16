@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { View, ScrollView, Text } from 'react-native';
+import { View, ScrollView, Share, Text } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import debounceUI from 'helpers/debounceUI';
 import i18n from 'i18next';
@@ -173,6 +173,14 @@ class Layers extends Component<Props> {
     }
   };
 
+  shareLayer = (file) => {
+    Share.share({
+        message:
+          'Sharing file',
+        url: file.uri
+      });
+  }
+
   renderGFWLayers = () => {
     const { baseApiLayers } = this.props;
     if (baseApiLayers.length == 0) {
@@ -207,7 +215,7 @@ class Layers extends Component<Props> {
         </View>
         {importedLayers.map((layerFile, index) => {
           return (
-            <ActionsRow style={styles.rowContent} imageSrc={layerPlaceholder} key={index}>
+            <ActionsRow onPress={this.shareLayer.bind(this, layerFile)} style={styles.rowContent} imageSrc={layerPlaceholder} key={index}>
               <Text style={styles.rowLabel}>{layerFile.name}</Text>
               {layerFile.size != null && <Text style={styles.rowLabel}>{formatBytes(layerFile.size)}</Text>}
             </ActionsRow>

@@ -21,7 +21,7 @@ import { Platform } from 'react-native';
 
 const DOMParser = require('xmldom').DOMParser;
 
-const togeojson = require('@mapbox/togeojson');
+const togeojson = require('@tmcw/togeojson');
 const RNFS = require('react-native-fs');
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
@@ -373,13 +373,14 @@ export function importContextualLayer(file: File) {
       case 'geojson': {
         try {
           // Make the directory for saving files to, if this is already present this won't error according to docs
-          const path = directory + '/' + fileName;
+          const fullPath = directory + '/' + fileName;
+          const relativePath = '/' + IMPORTED_LAYERS_DIRECTORY + '/' + fileName; 
           await RNFS.mkdir(directory, {
             NSURLIsExcludedFromBackupKey: false // Allow this to be saved to iCloud backup!
           });
           // Copy the file to the app's storage
-          await RNFS.copyFile(file.uri, path);
-          dispatch({ type: IMPORT_LAYER_COMMIT, payload: { ...file, uri: path, fileName: fileName } });
+          await RNFS.copyFile(file.uri, fullPath);
+          dispatch({ type: IMPORT_LAYER_COMMIT, payload: { ...file, uri: fullPath, path: relativePath, fileName: fileName } });
         } catch (err) {
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
         }
@@ -388,12 +389,13 @@ export function importContextualLayer(file: File) {
       case 'kml':
       case 'gpx': {
         try {
-          await writeToDiskAsGeoJSON(file, fileName, fileExtension, directory)
+          const result = await writeToDiskAsGeoJSON(file, fileName, fileExtension, directory)
           dispatch({
             type: IMPORT_LAYER_COMMIT,
-            payload: { ...file, type: 'application/geo+json', uri: path, fileName: newName }
+            payload: { ...file, type: 'application/geo+json', ...result }
           });
         } catch (err) {
+          console.log("Failed to import file", err);
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
         }
         break;
@@ -411,6 +413,7 @@ export function importContextualLayer(file: File) {
 async function writeToDiskAsGeoJSON(file: File, fileName: string, extension: string, directory: string) {
   // Change destination file path extension!
   const newName = fileName.replace(/\.[^/.]+$/, '.geojson');
+  const relativePath = '/' + IMPORTED_LAYERS_DIRECTORY + '/' + newName; 
   const path = directory + '/' + newName;
   // Read from file so we can convert to GeoJSON
   const fileContents = await RNFS.readFile(file.uri);
@@ -418,13 +421,15 @@ async function writeToDiskAsGeoJSON(file: File, fileName: string, extension: str
   const parser = new DOMParser();
   const xmlDoc = parser.parseFromString(fileContents);
   // Convert to GeoJSON using mapbox's library!
-  const geoJSON = fileExtension === 'gpx' ? togeojson.gpx(xmlDoc, { styles: true }) : togeojson.kml(xmlDoc, { styles: true });
+  const geoJSON = extension === 'gpx' ? togeojson.gpx(xmlDoc, { styles: true }) : togeojson.kml(xmlDoc, { styles: true });
   // Make the directory for saving files to, if this is already present this won't error according to docs
   await RNFS.mkdir(directory, {
     NSURLIsExcludedFromBackupKey: false // Allow this to be saved to iCloud backup!
   });
   // Write the new data to the app's storage
   await RNFS.writeFile(path, JSON.stringify(geoJSON));
+
+  return {uri: path, path: relativePath, fileName: newName};
 }
 
 function getAreaById(areas, areaId) {

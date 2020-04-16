@@ -683,7 +683,7 @@ class MapComponent extends Component<Props> {
             <MapboxGL.ShapeSource
               key={layerFile.id}
               id={'imported_layer_' + layerFile.id}
-              url={toFileUri(layerFile.uri)}
+              url={toFileUri(layerFile.path)}
             >
               <MapboxGL.SymbolLayer
                 id={'imported_layer_symbol_' + layerFile.id}

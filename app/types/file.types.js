@@ -2,7 +2,8 @@
 
 export type File = {
   id: string,
-  uri: string,
+  uri?: ?string,
+  path: string,
   type: string,
   fileName: string,
   size: string,
