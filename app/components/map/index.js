@@ -67,6 +67,7 @@ import type { Route } from 'types/routes.types';
 import type { File } from 'types/file.types';
 import InfoBanner from 'components/map/info-banner';
 import type { LayerSettings } from 'types/layerSettings.types';
+import Alerts from 'containers/map/alerts';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -124,8 +125,6 @@ type Props = {
   mapWalkthroughSeen: boolean,
   setSelectedAreaId: () => {},
   route: Route,
-  gladAlerts: Array<AlertType>,
-  viirsAlerts: Array<AlertType>,
   layerSettings: LayerSettings,
   isTracking: boolean,
   onStartTrackingRoute: () => {},
@@ -968,8 +967,7 @@ class MapComponent extends Component<Props> {
             <React.Fragment>{this.renderImportedContextualLayers()}</React.Fragment>
           )}
           {this.renderDestinationLine()}
-          {this.renderAlerts(this.props.gladAlerts, DATASETS.GLAD)}
-          {this.renderAlerts(this.props.viirsAlerts, DATASETS.VIIRS)}
+          <Alerts featureId={this.getFeatureId} areaId={this.props.area.id} />
           <RouteMarkers
             isTracking={this.isRouteTracking()}
             userLocation={userLocation}

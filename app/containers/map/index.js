@@ -65,9 +65,6 @@ function mapStateToProps(state: State, ownProps: { previousRoute: Route }) {
   const contextualLayer = getContextualLayer(state.layers);
   const route = reconcileRoutes(state.routes.activeRoute, ownProps.previousRoute);
 
-  const gladAlerts = state.alerts.data[(area?.id)]?.umd_as_it_happens?.alerts;
-  const viirsAlerts = state.alerts.data[(area?.id)]?.viirs?.alerts;
-
   const featureId = route?.id || area?.id || '';
   const layerSettings = state.layerSettings[featureId] || DEFAULT_LAYER_SETTINGS;
 
@@ -77,8 +74,6 @@ function mapStateToProps(state: State, ownProps: { previousRoute: Route }) {
     isTracking: !!state.routes.activeRoute,
     route,
     area: areaProps,
-    gladAlerts,
-    viirsAlerts,
     layerSettings,
     isConnected: shouldBeConnected(state),
     isOfflineMode: state.app.offlineMode,
