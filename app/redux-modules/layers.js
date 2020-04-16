@@ -385,24 +385,10 @@ export function importContextualLayer(file: File) {
         }
         break;
       }
+      case 'kml':
       case 'gpx': {
         try {
-          // Change destination file path extension!
-          const newName = fileName.replace(/\.[^/.]+$/, '.geojson');
-          const path = directory + '/' + newName;
-          // Read from file so we can convert to GeoJSON
-          const fileContents = await RNFS.readFile(file.uri);
-          // Parse XML from file string
-          const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(fileContents);
-          // Convert to GeoJSON using mapbox's library!
-          const geoJSON = togeojson.gpx(xmlDoc, { styles: true });
-          // Make the directory for saving files to, if this is already present this won't error according to docs
-          await RNFS.mkdir(directory, {
-            NSURLIsExcludedFromBackupKey: false // Allow this to be saved to iCloud backup!
-          });
-          // Write the new data to the app's storage
-          await RNFS.writeFile(path, JSON.stringify(geoJSON));
+          await writeToDiskAsGeoJSON(file, fileName, fileExtension, directory)
           dispatch({
             type: IMPORT_LAYER_COMMIT,
             payload: { ...file, type: 'application/geo+json', uri: path, fileName: newName }
@@ -412,11 +398,33 @@ export function importContextualLayer(file: File) {
         }
         break;
       }
+      case 'kmz': {
+
+      }
       default:
         //todo: Add support for other file types! These need converting to geojson before saving.
         break;
     }
   };
+}
+
+async function writeToDiskAsGeoJSON(file: File, fileName: string, extension: string, directory: string) {
+  // Change destination file path extension!
+  const newName = fileName.replace(/\.[^/.]+$/, '.geojson');
+  const path = directory + '/' + newName;
+  // Read from file so we can convert to GeoJSON
+  const fileContents = await RNFS.readFile(file.uri);
+  // Parse XML from file string
+  const parser = new DOMParser();
+  const xmlDoc = parser.parseFromString(fileContents);
+  // Convert to GeoJSON using mapbox's library!
+  const geoJSON = fileExtension === 'gpx' ? togeojson.gpx(xmlDoc, { styles: true }) : togeojson.kml(xmlDoc, { styles: true });
+  // Make the directory for saving files to, if this is already present this won't error according to docs
+  await RNFS.mkdir(directory, {
+    NSURLIsExcludedFromBackupKey: false // Allow this to be saved to iCloud backup!
+  });
+  // Write the new data to the app's storage
+  await RNFS.writeFile(path, JSON.stringify(geoJSON));
 }
 
 function getAreaById(areas, areaId) {

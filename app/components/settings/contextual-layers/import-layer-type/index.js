@@ -16,7 +16,7 @@ const nextIcon = require('assets/next.png');
 const fileIcon = require('assets/fileIcon.png');
 
 export const ACCEPTED_FILE_TYPES = ['json', 'geojson', 'topojson', 'gpx', 'shp', 'kmz', 'kml'];
-const TODO_FILE_TYPES = ['topojson', 'shp', 'kmz', 'kml']; // todo remove when finished implementation
+const TODO_FILE_TYPES = ['topojson', 'shp', 'kmz']; // todo remove when finished implementation
 
 type Props = {
   componentId: string,
