@@ -52,7 +52,10 @@ class MapSidebar extends PureComponent<Props> {
     if (Platform.OS === 'ios' && this.awaitingPushComponentName) {
       Navigation.push(this.state.componentId, {
         component: {
-          name: this.awaitingPushComponentName
+          name: this.awaitingPushComponentName,
+          passProps: {
+            featureId: this.state.featureId
+          }
         }
       });
       this.awaitingPushComponentName = null;

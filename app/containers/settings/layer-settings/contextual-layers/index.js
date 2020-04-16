@@ -12,6 +12,7 @@ import {
 
 function mapStateToProps(state: State, ownProps) {
   return {
+    baseApiLayers: state.layers.data || [],
     featureId: ownProps.featureId,
     contextualLayersLayerSettings:
       state.layerSettings?.[ownProps.featureId]?.contextualLayers || DEFAULT_LAYER_SETTINGS.contextualLayers,
