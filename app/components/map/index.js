@@ -658,18 +658,13 @@ class MapComponent extends Component<Props> {
   };
 
   renderAlerts = (alerts: Array<AlertType>, alertType: string) => {
-    const gladAlertFeatures = alerts?.map((alert: AlertType) => MapboxGL.geoUtils.makePoint([alert.lon, alert.lat]));
-    const gladAlertsFeatureCollection = MapboxGL.geoUtils.makeFeatureCollection(gladAlertFeatures);
+    const alertFeatures = alerts?.map((alert: AlertType) => MapboxGL.geoUtils.makePoint([alert.lon, alert.lat]));
+    const alertsFeatureCollection = MapboxGL.geoUtils.makeFeatureCollection(alertFeatures);
     const viirsAlertType = alertType === DATASETS.VIIRS; // if false, use GLAD alert Styles
     const alertIcon = viirsAlertType ? selectedAlert : selectedAlert;
     const circleColor = viirsAlertType ? Theme.colors.viirs : Theme.colors.turtleGreen;
     return (
-      <MapboxGL.ShapeSource
-        id={alertType + 'alertSource'}
-        cluster
-        clusterRadius={40}
-        shape={gladAlertsFeatureCollection}
-      >
+      <MapboxGL.ShapeSource id={alertType + 'alertSource'} cluster clusterRadius={40} shape={alertsFeatureCollection}>
         <MapboxGL.SymbolLayer id={alertType + 'pointCount'} style={mapboxStyles.clusterCount} />
         <MapboxGL.CircleLayer
           id={alertType + 'clusteredPoints'}
@@ -901,6 +896,7 @@ class MapComponent extends Component<Props> {
 
   render() {
     if (!this.props.area?.id) {
+      // This is so that react native fast refresh doesnt crash the app.
       Navigation.pop(this.props.componentId);
       return null;
     }
