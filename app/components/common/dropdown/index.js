@@ -19,7 +19,7 @@ type Props = {
   selectedValue: string,
   onValueChange: string => void,
   options: Array<{ labelKey: string, value: string }>,
-  inActive?: ?boolean,
+  inactive?: ?boolean,
   hideLabel?: boolean
 };
 
@@ -60,9 +60,9 @@ export default class Dropdown extends Component<Props> {
         .find(option => {
           return option.value === selectedValue;
         }).label ?? selectedValue;
-    const rowStyle = [styles.dropdownRow, this.props.inActive ? styles.inactiveDropdownRow : {}];
+    const rowStyle = [styles.dropdownRow, this.props.inactive ? styles.inactiveDropdownRow : {}];
     return (
-      <Row action={!this.props.inActive && this.showActionSheetAction} rowStyle={rowStyle}>
+      <Row action={!this.props.inactive && this.showActionSheetAction} rowStyle={rowStyle}>
         {label && !this.props.hideLabel && <Text style={styles.label}>{label}</Text>}
         <Text style={styles.label}>{selectedLabel.charAt(0).toUpperCase() + selectedLabel.substring(1)}</Text>
         <ActionSheet

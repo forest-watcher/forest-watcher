@@ -168,7 +168,7 @@ class AlertLayerSettings extends PureComponent<Props> {
                 selectedValue={gladTimeFrame}
                 onValueChange={this.onGladAlertsTimeFrameChanged}
                 options={this.getGladTimeFrameOptions()}
-                inActive={!gladActive}
+                inactive={!gladActive}
               />
             </React.Fragment>
           )}
@@ -200,7 +200,7 @@ class AlertLayerSettings extends PureComponent<Props> {
                 selectedValue={viirsTimeFrame}
                 onValueChange={this.onViirsAlertsTimeFrameChanged}
                 options={this.getViirsTimeFrameOptions()}
-                inActive={!viirsActive}
+                inactive={!viirsActive}
               />
             </React.Fragment>
           )}
