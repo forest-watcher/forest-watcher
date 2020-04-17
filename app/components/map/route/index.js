@@ -19,6 +19,7 @@ type Props = {
   isTracking: boolean,
   userLocation: Location,
   route: Route,
+  selected?: ?boolean, // if route has been tapped on - emphasise ui
   onShapeSourcePressed?: () => void
 };
 
@@ -170,11 +171,20 @@ export default class RouteMarkers extends PureComponent<Props> {
     } else if (markers.length === 1) {
       markersShape = MapboxGL.geoUtils.makeFeature({ type: 'Point', coordinates: markers[0] });
     }
+    const { selected } = this.props;
+    const visibility = selected ? mapboxStyles.visible : mapboxStyles.invisible;
+    const shadowStyle = { ...mapboxStyles.routeLineShadow, ...visibility };
+    const routeLineStyle = {
+      ...mapboxStyles.routeLineLayer,
+      ...(selected ? mapboxStyles.routeLineLayerSelected : {})
+    };
+
     const onPress = this.props.onShapeSourcePressed || null;
     return (
       <React.Fragment>
         <MapboxGL.ShapeSource onPress={onPress} id={this.key('routeLine')} shape={line}>
-          <MapboxGL.LineLayer id={this.key('routeLineLayer')} style={mapboxStyles.routeLineLayer} />
+          <MapboxGL.LineLayer id={this.key('routeLineShadow')} style={shadowStyle} />
+          <MapboxGL.LineLayer id={this.key('routeLineLayer')} style={routeLineStyle} />
         </MapboxGL.ShapeSource>
         {/* Mapbox doesnt like to use the same ShapeSource with different shape types supplied*/}
         {markers.length === 1 && (
@@ -222,33 +232,49 @@ export default class RouteMarkers extends PureComponent<Props> {
     const startSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(start), properties) : null;
     const endSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(end), properties) : null;
     const onPress = this.props.onShapeSourcePressed || null;
+    const visibility = this.props.selected ? mapboxStyles.visible : mapboxStyles.invisible;
+    const shadowStyle = { ...mapboxStyles.routeEndsShadow, ...visibility };
+    const routeEndsInnerStyle = this.props.selected ? mapboxStyles.routeEndsInnerSelected : mapboxStyles.routeEndsInner;
+    const routeEndsOuterStyle = this.props.selected ? mapboxStyles.routeEndsOuterSelected : mapboxStyles.routeEndsOuter;
     return (
       <React.Fragment>
         {start && (
           <MapboxGL.ShapeSource onPress={onPress} id={this.key('routeStart')} shape={startSource}>
             <MapboxGL.CircleLayer
-              key={this.key('routeStartInner')}
-              id={this.key('routeStartOuter')}
-              style={mapboxStyles.routeStartOuter}
+              key={this.key('routeStartShadow')}
+              id={this.key('routeStartShadow')}
+              style={shadowStyle}
+              belowLayerID={this.key('routeLineShadow')}
             />
             <MapboxGL.CircleLayer
               key={this.key('routeStartOuter')}
+              id={this.key('routeStartOuter')}
+              style={routeEndsOuterStyle}
+            />
+            <MapboxGL.CircleLayer
+              key={this.key('routeStartInner')}
               id={this.key('routeStartInner')}
-              style={mapboxStyles.routeStartInner}
+              style={routeEndsInnerStyle}
             />
           </MapboxGL.ShapeSource>
         )}
         {end && (
           <MapboxGL.ShapeSource onPress={onPress} id={this.key('routeEnd')} shape={endSource}>
             <MapboxGL.CircleLayer
+              key={this.key('routeEndShadow')}
+              id={this.key('routeEndShadow')}
+              style={shadowStyle}
+              belowLayerID={this.key('routeLineShadow')}
+            />
+            <MapboxGL.CircleLayer
               key={this.key('routeEndOuter')}
               id={this.key('routeEndOuter')}
-              style={mapboxStyles.routeEndOuter}
+              style={routeEndsOuterStyle}
             />
             <MapboxGL.CircleLayer
               key={this.key('routeEndInner')}
               id={this.key('routeEndInner')}
-              style={mapboxStyles.routeEndInner}
+              style={routeEndsInnerStyle}
             />
           </MapboxGL.ShapeSource>
         )}
