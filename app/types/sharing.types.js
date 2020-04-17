@@ -7,7 +7,6 @@ import type { Report } from 'types/reports.types';
  */
 export type ExportBundleRequest = {|
   areaIds: Array<string>,
-  baseDirectory: string,
   reportIds: Array<string>
 |};
 
@@ -29,7 +28,6 @@ export type SharingBundle = {|
 |};
 
 export type UnpackedSharingBundle = {|
-  baseDirectory: string,
-  bundleFile: string,
-  bundle: SharingBundle
+  path: string,
+  data: SharingBundle
 |};

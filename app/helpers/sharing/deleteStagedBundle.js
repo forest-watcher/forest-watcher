@@ -1,7 +1,7 @@
 // @flow
 
 import type { UnpackedSharingBundle } from 'types/sharing.types';
-import FWError from 'helpers/fwError';
+import RNFS from 'react-native-fs';
 
 /**
  * Completely clears the staged bundle from disk
@@ -9,5 +9,5 @@ import FWError from 'helpers/fwError';
  * @param bundle - The staged bundle to clear
  */
 export default function deleteStagedBundle(bundle: UnpackedSharingBundle): Promise<void> {
-  throw new FWError('Not yet implemented');
+  return RNFS.unlink(bundle.path);
 }

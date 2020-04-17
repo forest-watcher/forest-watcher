@@ -44,7 +44,24 @@ export type State = {
 };
 
 export type Store = ReduxStore<State, Action>;
-export type Thunk<A> = ((Dispatch, GetState) => Promise<void> | void) => A;
+export type Thunk<T> = (dispatch: Dispatch, getState: GetState) => T;
 
 export type GetState = () => State;
-export type Dispatch = ReduxDispatch<Action> & Thunk<Action>;
+
+export type DispatchThunk = <T>(action: Thunk<T>) => T;
+export type Dispatch = ReduxDispatch<Action> & DispatchThunk;
+
+/**
+ * Properties sent through to a connected component.
+ *
+ * Taken from https://engineering.wework.com/adventures-in-static-typing-react-redux-flow-oh-my-284c5f74adac
+ */
+type ExtractReturn<Fn> = $Call<<T>((...Iterable<any>) => T) => T, Fn>;
+type ReduxProps<M, D> = $ReadOnly<{|
+  ...ExtractReturn<M>,
+  ...ExtractReturn<D>
+|}>;
+export type ComponentProps<OP, MSP, MDP> = {|
+  ...OP,
+  ...ReduxProps<MSP, MDP>
+|};
