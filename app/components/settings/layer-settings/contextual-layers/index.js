@@ -9,6 +9,7 @@ import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import { Navigation } from 'react-native-navigation';
 
+import type { ContextualLayer } from 'types/layers.types';
 import type { File } from 'types/file.types';
 
 const layerPlaceholder = require('assets/layerPlaceholder.png');
@@ -21,6 +22,7 @@ type ContextualLayersLayerSettingsType = {
 };
 
 type Props = {
+  baseApiLayers: ?Array<ContextualLayer>,
   featureId: string,
   clearEnabledContextualLayers: void => void,
   contextualLayersLayerSettings: ContextualLayersLayerSettingsType,
@@ -65,6 +67,31 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
     this.props.clearEnabledContextualLayers(this.props.featureId);
   };
 
+  renderGFWLayers = () => {
+    const { baseApiLayers, contextualLayersLayerSettings } = this.props;
+    return (
+      <View>
+        <View style={styles.listHeader}>
+          <Text style={styles.listTitle}>{i18n.t('map.layerSettings.gfwLayers')}</Text>
+        </View>
+        {baseApiLayers.map((layer, index) => {
+          const selected = contextualLayersLayerSettings.activeContextualLayerIds.includes(layer.id);
+          return (
+            <ActionsRow
+              style={styles.rowContent}
+              imageSrc={layerPlaceholder}
+              onPress={this.setContextualLayerShowing.bind(this, layer.id, !selected)}
+              key={index}
+            >
+              <Text style={styles.rowLabel}>{i18n.t(layer.name)}</Text>
+              <Image source={selected ? checkboxOn : checkboxOff} />
+            </ActionsRow>
+          );
+        })}
+      </View>
+    );
+  };
+
   renderImportedLayers = () => {
     const { contextualLayersLayerSettings, importedContextualLayers } = this.props;
     return (
@@ -91,7 +118,7 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
   };
 
   render() {
-    const { importedContextualLayers } = this.props;
+    const { baseApiLayers, importedContextualLayers } = this.props;
 
     return (
       <View style={styles.container}>
@@ -101,6 +128,7 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
+          {baseApiLayers.length > 0 && this.renderGFWLayers()}
           {importedContextualLayers.length > 0 && this.renderImportedLayers()}
         </ScrollView>
         <BottomTray requiresSafeAreaView>

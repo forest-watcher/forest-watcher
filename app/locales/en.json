@@ -107,6 +107,7 @@
             "manyLayersAction": "Export %{count} layers...",
             "successful": "Exporting layers succeeded!"
         },
+        "gfw": "GFW Layers",
         "imported": "Custom Layers",
         "title": "Manage Contextual Layers",
         "share": "Share"
@@ -300,7 +301,15 @@
         "uniqueNameError": "You have already given a layer this name, please choose a different name or delete the existing layer.",
         "error": "Failed to import layer, please make sure you are selecting the correct file type and the contents of the file matches the specification then try again.",
         "save": "Import Layer",
-        "title": "Layer Name"
+        "title": "Layer Name",
+        "chooseContextualLayerType": "Choose contextual layer type",
+        "addGFWLayer": "Add Global Forest Watch Layer",
+        "customContextualLayer": "Custom Contextual Layer",
+        "supportedFileTypesInclude": "Supported file types include:",
+        "customLayerFAQs": "Custom Layer FAQs",
+        "fileTypeNotSupported": "File Type Not Supported",
+        "fileTypeNotSupportedDesc": "is not a supported file type for contextual layers.",
+        "chooseAnother": "Choose Another"
     },
     "layers": {
         "managedForests": "Managed Forest",
@@ -343,9 +352,10 @@
             "title": "Customise Map Display"
         },
         "layerSettings": {
-            "customLayers": "Custom Layers",
-            "layersHeading": "Layers",
             "alerts": "Alerts",
+            "customLayers": "Custom Layers",
+            "gfwLayers": "GFW Layers",
+            "layersHeading": "Layers",
             "routes": "Routes",
             "reports": "Reports",
             "contextualLayers": "Contextual Layers",
@@ -384,7 +394,8 @@
                 "noAlerts": "No Alerts"
             },
             "routeSettings": {
-                "showingRoutes": "Showing: %{count} routes"
+                "showingRoutes": "Showing: %{count} Routes",
+                "showingAllRoutes": "Showing: All Routes"
             },
             "reportSettings": {
                 "showingNoReports": "Showing No Reports",

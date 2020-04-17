@@ -9,6 +9,7 @@ import { shouldBeConnected } from 'helpers/app';
 import { showExportReportsSuccessfulNotification } from 'redux-modules/app';
 
 import Routes from 'components/routes';
+import { initialiseAreaLayerSettings } from 'redux-modules/layerSettings';
 
 function mapStateToProps(state: State) {
   return {
@@ -21,6 +22,7 @@ function mapStateToProps(state: State) {
 function mapDispatchToProps(dispatch: *) {
   return bindActionCreators(
     {
+      initialiseAreaLayerSettings,
       setSelectedAreaId,
       showExportReportsSuccessfulNotification
     },

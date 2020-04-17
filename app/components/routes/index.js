@@ -31,6 +31,7 @@ const RoutePreviewSize = isSmallScreen ? 86 : 122;
 type Props = {
   componentId: string,
   routes: Array<Route>,
+  initialiseAreaLayerSettings: (string, string) => void,
   setSelectedAreaId: (areaId: string) => void,
   showExportReportsSuccessfulNotification: () => void
 };
@@ -94,6 +95,7 @@ export default class Routes extends PureComponent<Props> {
   onClickRoute = debounceUI((route: Route) => {
     // Testing against a mocked route? You must provide your own area id here!
     this.props.setSelectedAreaId(route.areaId);
+    this.props.initialiseAreaLayerSettings(route.id, route.areaId);
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.Map',

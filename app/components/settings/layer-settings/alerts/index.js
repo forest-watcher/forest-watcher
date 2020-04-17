@@ -8,6 +8,8 @@ import i18n from 'i18next';
 import Theme from 'config/theme';
 import { Navigation } from 'react-native-navigation';
 import Dropdown from 'components/common/dropdown';
+import type { Area } from 'types/areas.types';
+import { DATASETS } from 'config/constants';
 
 type AlertLayerSettingsType = {
   layerIsActive: boolean,
@@ -23,6 +25,7 @@ type AlertLayerSettingsType = {
 
 type Props = {
   featureId: string,
+  area: Area,
   alertLayerSettings: AlertLayerSettingsType,
   toggleGladAlerts: () => void,
   toggleViirsAlerts: () => void,
@@ -106,6 +109,10 @@ class AlertLayerSettings extends PureComponent<Props> {
   };
 
   render() {
+    const areaDatasets = this.props.area.datasets.map(dataset => dataset.slug);
+    const showViirs = areaDatasets.includes(DATASETS.VIIRS);
+    const showGlad = areaDatasets.includes(DATASETS.GLAD);
+
     const alertsString = i18n.t('map.layerSettings.alerts');
     const gladTimeFrame = this.props.alertLayerSettings.glad.timeFrame;
     const gladShowingDescription = i18n.t(
@@ -130,61 +137,69 @@ class AlertLayerSettings extends PureComponent<Props> {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          <Text style={styles.heading}>{i18n.t('map.layerSettings.alertSettings.deforestation')}</Text>
-          <VerticalSplitRow
-            title={i18n.t('map.layerSettings.alertSettings.glad')}
-            selected={this.props.alertLayerSettings.glad.active}
-            onPress={() => this.props.toggleGladAlerts(this.props.featureId)}
-            legend={[
-              { title: i18n.t('map.layerSettings.alertSettings.alert'), color: Theme.colors.glad },
-              { title: i18n.t('map.layerSettings.alertSettings.recent'), color: Theme.colors.recent },
-              { title: i18n.t('map.layerSettings.alertSettings.reportedOn'), color: Theme.colors.report }
-            ]}
-            style={styles.rowContainer}
-            hideImage
-            hideDivider
-            smallerVerticalPadding
-            largerLeftPadding
-          />
-          <View style={styles.selectRowContainer}>
-            <Text style={styles.smallLabel}>{i18n.t(`map.layerSettings.alertSettings.timeFrame`)}</Text>
-            <Text style={styles.bodyText}>{gladShowingDescription}</Text>
-          </View>
-          <Dropdown
-            label={i18n.t(`map.layerSettings.alertSettings.timeFrame`)}
-            description={i18n.t(`map.layerSettings.alertSettings.timeFrameDescMonths`)}
-            hideLabel
-            selectedValue={gladTimeFrame}
-            onValueChange={this.onGladAlertsTimeFrameChanged}
-            options={this.getGladTimeFrameOptions()}
-          />
-          <Text style={styles.heading}>{i18n.t('map.layerSettings.alertSettings.fires')}</Text>
-          <VerticalSplitRow
-            title={i18n.t('map.layerSettings.alertSettings.viirs')}
-            selected={this.props.alertLayerSettings.viirs.active}
-            onPress={() => this.props.toggleViirsAlerts(this.props.featureId)}
-            legend={[
-              { title: i18n.t('map.layerSettings.alertSettings.alert'), color: Theme.colors.viirs },
-              { title: i18n.t('map.layerSettings.alertSettings.reportedOn'), color: Theme.colors.viirsReported }
-            ]}
-            style={styles.rowContainer}
-            hideImage
-            hideDivider
-            smallerVerticalPadding
-            largerLeftPadding
-          />
-          <View style={styles.selectRowContainer}>
-            <Text style={styles.smallLabel}>{i18n.t(`map.layerSettings.alertSettings.timeFrame`)}</Text>
-            <Text style={styles.bodyText}>{viirsShowingDescription}</Text>
-          </View>
-          <Dropdown
-            label={i18n.t(`map.layerSettings.alertSettings.timeFrame`)}
-            description={i18n.t(`map.layerSettings.alertSettings.timeFrameDescDays`)}
-            hideLabel
-            selectedValue={viirsTimeFrame}
-            onValueChange={this.onViirsAlertsTimeFrameChanged}
-            options={this.getViirsTimeFrameOptions()}
-          />
+          {showGlad && (
+            <React.Fragment>
+              <Text style={styles.heading}>{i18n.t('map.layerSettings.alertSettings.deforestation')}</Text>
+              <VerticalSplitRow
+                title={i18n.t('map.layerSettings.alertSettings.glad')}
+                selected={this.props.alertLayerSettings.glad.active}
+                onPress={() => this.props.toggleGladAlerts(this.props.featureId)}
+                legend={[
+                  { title: i18n.t('map.layerSettings.alertSettings.alert'), color: Theme.colors.glad },
+                  { title: i18n.t('map.layerSettings.alertSettings.recent'), color: Theme.colors.recent },
+                  { title: i18n.t('map.layerSettings.alertSettings.reportedOn'), color: Theme.colors.report }
+                ]}
+                style={styles.rowContainer}
+                hideImage
+                hideDivider
+                smallerVerticalPadding
+                largerLeftPadding
+              />
+              <View style={styles.selectRowContainer}>
+                <Text style={styles.smallLabel}>{i18n.t(`map.layerSettings.alertSettings.timeFrame`)}</Text>
+                <Text style={styles.bodyText}>{gladShowingDescription}</Text>
+              </View>
+              <Dropdown
+                label={i18n.t(`map.layerSettings.alertSettings.timeFrame`)}
+                description={i18n.t(`map.layerSettings.alertSettings.timeFrameDescMonths`)}
+                hideLabel
+                selectedValue={gladTimeFrame}
+                onValueChange={this.onGladAlertsTimeFrameChanged}
+                options={this.getGladTimeFrameOptions()}
+              />
+            </React.Fragment>
+          )}
+          {showViirs && (
+            <React.Fragment>
+              <Text style={styles.heading}>{i18n.t('map.layerSettings.alertSettings.fires')}</Text>
+              <VerticalSplitRow
+                title={i18n.t('map.layerSettings.alertSettings.viirs')}
+                selected={this.props.alertLayerSettings.viirs.active}
+                onPress={() => this.props.toggleViirsAlerts(this.props.featureId)}
+                legend={[
+                  { title: i18n.t('map.layerSettings.alertSettings.alert'), color: Theme.colors.viirs },
+                  { title: i18n.t('map.layerSettings.alertSettings.reportedOn'), color: Theme.colors.viirsReported }
+                ]}
+                style={styles.rowContainer}
+                hideImage
+                hideDivider
+                smallerVerticalPadding
+                largerLeftPadding
+              />
+              <View style={styles.selectRowContainer}>
+                <Text style={styles.smallLabel}>{i18n.t(`map.layerSettings.alertSettings.timeFrame`)}</Text>
+                <Text style={styles.bodyText}>{viirsShowingDescription}</Text>
+              </View>
+              <Dropdown
+                label={i18n.t(`map.layerSettings.alertSettings.timeFrame`)}
+                description={i18n.t(`map.layerSettings.alertSettings.timeFrameDescDays`)}
+                hideLabel
+                selectedValue={viirsTimeFrame}
+                onValueChange={this.onViirsAlertsTimeFrameChanged}
+                options={this.getViirsTimeFrameOptions()}
+              />
+            </React.Fragment>
+          )}
         </ScrollView>
       </View>
     );

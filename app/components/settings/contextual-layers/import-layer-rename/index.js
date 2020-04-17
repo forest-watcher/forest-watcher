@@ -22,7 +22,7 @@ type Props = {
   importingLayer: ?string
 };
 
-class ImportLayer extends PureComponent<Props> {
+class ImportLayerRename extends PureComponent<Props> {
   static options(passProps) {
     return {
       topBar: {
@@ -133,4 +133,4 @@ class ImportLayer extends PureComponent<Props> {
   }
 }
 
-export default ImportLayer;
+export default ImportLayerRename;

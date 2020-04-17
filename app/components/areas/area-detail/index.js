@@ -3,7 +3,6 @@ import type { Area } from 'types/areas.types';
 import type { Route } from 'types/routes.types';
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Alert, View, Image, ScrollView, Text, TextInput, TouchableHighlight } from 'react-native';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
@@ -42,6 +41,7 @@ type Props = {
   area: Area,
   disableDelete: boolean,
   routes: Array<Route>,
+  initialiseAreaLayerSettings: (string, string) => void,
   setSelectedAreaId: (areaId: string) => void
 };
 
@@ -59,19 +59,6 @@ class AreaDetail extends Component<Props, State> {
       }
     };
   }
-
-  static defaultProps = {
-    disableDelete: false
-  };
-
-  static propTypes = {
-    updateArea: PropTypes.func,
-    deleteArea: PropTypes.func,
-    isConnected: PropTypes.bool.isRequired,
-    componentId: PropTypes.string,
-    area: PropTypes.object,
-    disableDelete: PropTypes.bool.isRequired
-  };
 
   constructor(props: Props) {
     super(props);
@@ -117,6 +104,7 @@ class AreaDetail extends Component<Props, State> {
 
   onRoutePress = debounceUI((route: Route) => {
     this.props.setSelectedAreaId(route.areaId);
+    this.props.initialiseAreaLayerSettings(route.id, route.areaId);
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.Map',

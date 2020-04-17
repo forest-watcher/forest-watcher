@@ -52,7 +52,10 @@ class MapSidebar extends PureComponent<Props> {
     if (Platform.OS === 'ios' && this.awaitingPushComponentName) {
       Navigation.push(this.state.componentId, {
         component: {
-          name: this.awaitingPushComponentName
+          name: this.awaitingPushComponentName,
+          passProps: {
+            featureId: this.state.featureId
+          }
         }
       });
       this.awaitingPushComponentName = null;
@@ -130,6 +133,9 @@ class MapSidebar extends PureComponent<Props> {
   };
 
   getRoutesSettingsTitle = layerSettings => {
+    if (layerSettings.routes.showAll) {
+      return i18n.t('map.layerSettings.routeSettings.showingAllRoutes');
+    }
     const count = layerSettings.routes.activeRouteIds.length;
     return i18n.t('map.layerSettings.routeSettings.showingRoutes', { count });
   };

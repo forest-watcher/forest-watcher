@@ -588,6 +588,15 @@ export function resetCacheStatus(areaId: string) {
   };
 }
 
+export function getImportedContextualLayersById(layerIds: Array<string>) {
+  return (dispatch: Dispatch, getState: GetState) => {
+    const state = getState();
+    return [...state.layers.imported].filter(layer => {
+      return layerIds.includes(layer.id);
+    });
+  };
+}
+
 function getLayersWithBasemap(layers) {
   return [{ id: 'basemap' }, ...layers];
 }
