@@ -460,13 +460,13 @@ async function writeToDiskAsGeoJSON(file: File, fileName: string, extension: str
   const xmlDoc = parser.parseFromString(fileContents);
   // Convert to GeoJSON using mapbox's library!
   const geoJSON = extension === 'gpx' ? togeojson.gpx(xmlDoc, { styles: true }) : togeojson.kml(xmlDoc, { styles: true });
-  const cleanGeoJSON = cleanGeoJSON(geoJSON);
+  const cleanedGeoJSON = cleanGeoJSON(geoJSON);
   // Make the directory for saving files to, if this is already present this won't error according to docs
   await RNFS.mkdir(directory, {
     NSURLIsExcludedFromBackupKey: false // Allow this to be saved to iCloud backup!
   });
   // Write the new data to the app's storage
-  await RNFS.writeFile(path, JSON.stringify(cleanGeoJSON));
+  await RNFS.writeFile(path, JSON.stringify(cleanedGeoJSON));
 
   return {uri: path, path: relativePath, fileName: newName};
 }
