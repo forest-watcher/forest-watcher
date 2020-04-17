@@ -13,7 +13,7 @@ export default StyleSheet.create({
     borderTopColor: Theme.colors.veryLightPinkTwo,
     borderTopWidth: 1,
     marginBottom: 0,
-    marginTop: 12
+    marginTop: 24
   },
   headerContent: {
     flexDirection: 'row',
@@ -22,5 +22,11 @@ export default StyleSheet.create({
   },
   rowText: {
     ...Theme.tableRowText
+  },
+  topBarTextButton: {
+    fontSize: 16,
+    fontFamily: Theme.font,
+    color: Theme.colors.turtleGreen,
+    backgroundColor: Theme.background.main
   }
 });

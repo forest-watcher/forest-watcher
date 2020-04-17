@@ -12,22 +12,27 @@ import i18n from 'i18next';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
+import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
 
 const plusIcon = require('assets/add.png');
+const emptyIcon = require('assets/areasEmpty.png');
 
 type Props = {|
+  +areaDownloadTooltipSeen: boolean,
   +areas: Array<Area>,
+  +initialiseAreaLayerSettings: (string, string) => void,
   +componentId: string,
   +exportAreas: (ids: Array<string>) => void,
-  +offlineMode: boolean,
+  +setAreaDownloadTooltipSeen: (seen: boolean) => void,
   +setSelectedAreaId: (id: string) => void,
-  +showNotConnectedNotification: () => void
+  +showNotConnectedNotification: () => void,
+  +offlineMode: boolean
 |};
 
 type State = {|
-  selectedForExport: Array<string>,
-  inShareMode: boolean
+  +selectedForExport: Array<string>,
+  +inShareMode: boolean
 |};
 
 class Areas extends Component<Props, State> {
@@ -68,6 +73,14 @@ class Areas extends Component<Props, State> {
       this.onPressAddArea();
     }
   }
+
+  onFrequentlyAskedQuestionsPress = () => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.FaqCategories'
+      }
+    });
+  };
 
   /**
    * Handles the area row being selected while in export mode.
@@ -121,6 +134,7 @@ class Areas extends Component<Props, State> {
   onAreaPress = debounceUI((areaId: string, name: string) => {
     if (areaId) {
       this.props.setSelectedAreaId(areaId);
+      this.props.initialiseAreaLayerSettings(areaId, areaId);
       Navigation.push(this.props.componentId, {
         component: {
           name: 'ForestWatcher.Map'
@@ -130,6 +144,11 @@ class Areas extends Component<Props, State> {
   });
 
   onPressAddArea = debounceUI(() => {
+    if (!this.props.areaDownloadTooltipSeen) {
+      this.props.setAreaDownloadTooltipSeen(true);
+      return;
+    }
+
     const { offlineMode } = this.props;
 
     if (offlineMode) {
@@ -151,6 +170,9 @@ class Areas extends Component<Props, State> {
   };
 
   setSharing = (sharing: boolean) => {
+    // If the user taps ANYWHERE set the area download tooltip as seen
+    this.props.setAreaDownloadTooltipSeen(true);
+
     this.setState({
       inShareMode: sharing
     });
@@ -178,10 +200,25 @@ class Areas extends Component<Props, State> {
     const totalToExport = this.state.selectedForExport.length;
     const totalAreas = areas.length;
 
+    const hasAreas = areas && areas.length > 0;
+
     return (
-      <View style={styles.container}>
+      <View
+        onStartShouldSetResponder={event => {
+          // If the user taps ANYWHERE set the area download tooltip as seen
+          event.persist();
+          this.props.setAreaDownloadTooltipSeen(true);
+        }}
+        style={styles.container}
+      >
         <ShareSheet
+          disabled={!this.props.areaDownloadTooltipSeen}
           componentId={this.props.componentId}
+          onStartShouldSetResponder={event => {
+            // If the user taps ANYWHERE set the area download tooltip as seen
+            event.persist();
+            this.props.setAreaDownloadTooltipSeen(true);
+          }}
           shareButtonDisabledTitle={i18n.t('areas.share')}
           enabled={totalToExport > 0}
           onShare={() => {
@@ -200,37 +237,60 @@ class Areas extends Component<Props, State> {
           }
           shareButtonEnabledTitle={
             totalToExport > 0
-              ? totalToExport == 1
+              ? totalToExport === 1
                 ? i18n.t('areas.export.oneAreaAction', { count: 1 })
                 : i18n.t('areas.export.manyAreasAction', { count: totalToExport })
               : i18n.t('areas.export.noneSelected')
           }
-          total={totalAreas}
         >
-          <ScrollView
-            style={styles.list}
-            contentContainerStyle={styles.listContent}
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-          >
-            {areas && areas.length ? (
-              <View style={styles.areas}>
-                <Text style={styles.label}>{i18n.t('areas.myAreas')}</Text>
-                <AreaList
-                  onAreaPress={(areaId, name) => {
-                    if (this.state.inShareMode) {
-                      this.onAreaSelectedForExport(areaId);
-                    } else {
-                      this.onAreaPress(areaId, name);
-                    }
-                  }}
-                  onAreaSettingsPress={(areaId, name) => this.onAreaSettingsPress(areaId, name)}
-                  selectionState={this.state.selectedForExport}
-                  sharing={this.state.inShareMode}
-                />
-              </View>
-            ) : null}
-          </ScrollView>
+          {hasAreas ? (
+            <ScrollView
+              onStartShouldSetResponder={event => {
+                // If the user taps ANYWHERE set the area download tooltip as seen
+                event.persist();
+                this.props.setAreaDownloadTooltipSeen(true);
+              }}
+              style={styles.list}
+              contentContainerStyle={styles.listContent}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+            >
+              {areas && areas.length ? (
+                <View>
+                  <Text style={styles.label}>{i18n.t('areas.myAreas')}</Text>
+                  <AreaList
+                    downloadCalloutVisible={!this.props.areaDownloadTooltipSeen}
+                    onAreaDownloadPress={(areaId, name) => {
+                      this.props.setAreaDownloadTooltipSeen(true);
+                      // todo: Handle download too!
+                    }}
+                    onAreaPress={(areaId, name) => {
+                      if (this.state.inShareMode) {
+                        this.onAreaSelectedForExport(areaId);
+                      } else {
+                        this.onAreaPress(areaId, name);
+                      }
+                    }}
+                    onAreaSettingsPress={(areaId, name) => {
+                      this.onAreaSettingsPress(areaId, name);
+                    }}
+                    selectionState={this.state.selectedForExport}
+                    sharing={this.state.inShareMode}
+                  />
+                </View>
+              ) : null}
+            </ScrollView>
+          ) : (
+            <View style={styles.containerEmpty}>
+              <EmptyState
+                actionTitle={i18n.t('areas.empty.action')}
+                body={i18n.t('areas.empty.body')}
+                icon={emptyIcon}
+                onActionPress={this.onFrequentlyAskedQuestionsPress}
+                title={i18n.t('areas.empty.title')}
+              />
+            </View>
+          )}
         </ShareSheet>
       </View>
     );

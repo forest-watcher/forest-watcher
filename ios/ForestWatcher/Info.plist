@@ -8,6 +8,43 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>Forest Watcher</string>
+	<key>CFBundleDocumentTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleTypeIconFiles</key>
+      <array/>
+      <key>CFBundleTypeName</key>
+      <string>KML</string>
+      <key>LSHandlerRank</key>
+      <string>Owner</string>
+      <key>LSItemContentTypes</key>
+      <array>
+        <string>com.google.earth.kml</string>
+      </array>
+    </dict>
+    <dict>
+      <key>CFBundleTypeIconFiles</key>
+      <array/>
+      <key>CFBundleTypeName</key>
+      <string>GPX</string>
+      <key>LSHandlerRank</key>
+      <string>Owner</string>
+      <key>LSItemContentTypes</key>
+      <array>
+        <string>public.gpx</string>
+      </array>
+    </dict>
+    <dict>
+      <key>CFBundleTypeIconFiles</key>
+      <array/>
+      <key>CFBundleTypeName</key>
+      <string>GeoJSON</string>
+      <key>LSItemContentTypes</key>
+      <array>
+        <string>public.geojson</string>
+      </array>
+    </dict>
+  </array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -27,7 +64,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.9.1</string>
+	<string>2.0.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -138,5 +175,65 @@
 	<string>Light</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UTImportedTypeDeclarations</key>
+  <array>
+    <dict>
+      <key>UTTypeConformsTo</key>
+      <array>
+        <string>public.xml</string>
+      </array>
+      <key>UTTypeDescription</key>
+      <string>KML</string>
+      <key>UTTypeIconFiles</key>
+      <array/>
+      <key>UTTypeIdentifier</key>
+      <string>com.google.earth.kml</string>
+      <key>UTTypeTagSpecification</key>
+      <dict>
+        <key>public.filename-extension</key>
+        <string>kml</string>
+        <key>public.mime-type</key>
+        <string>application/vnd.google-earth.kml+xml</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>UTTypeConformsTo</key>
+      <array>
+        <string>public.xml</string>
+      </array>
+      <key>UTTypeDescription</key>
+      <string>GPX</string>
+      <key>UTTypeIconFiles</key>
+      <array/>
+      <key>UTTypeIdentifier</key>
+      <string>public.gpx</string>
+      <key>UTTypeTagSpecification</key>
+      <dict>
+        <key>public.filename-extension</key>
+        <string>gpx</string>
+        <key>public.mime-type</key>
+        <string>application/gpx+xml</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>UTTypeConformsTo</key>
+      <array>
+        <string>public.json</string>
+      </array>
+      <key>UTTypeDescription</key>
+      <string>GeoJSON</string>
+      <key>UTTypeIconFiles</key>
+      <array/>
+      <key>UTTypeIdentifier</key>
+      <string>public.geojson</string>
+      <key>UTTypeTagSpecification</key>
+      <dict>
+        <key>public.filename-extension</key>
+        <string>geojson</string>
+        <key>public.mime-type</key>
+        <string>application/geo+json</string>
+      </dict>
+    </dict>
+  </array>
 </dict>
 </plist>

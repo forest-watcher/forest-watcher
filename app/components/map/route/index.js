@@ -1,22 +1,26 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import MapView from 'react-native-maps';
-import { View } from 'react-native';
 const emitter = require('tiny-emitter/instance');
 
-import styles from '../styles';
-import Theme from '../../../config/theme';
-import { getValidLocations, GFWOnLocationEvent } from 'helpers/location';
+import { mapboxStyles } from './styles';
+import {
+  coordsObjectToArray,
+  getValidLocations,
+  GFWOnLocationEvent,
+  isValidLatLng,
+  removeDuplicateLocations
+} from 'helpers/location';
 import throttle from 'lodash/throttle';
+import MapboxGL from '@react-native-mapbox-gl/maps';
+import type { Route } from 'types/routes.types';
 
 type Props = {
   isTracking: boolean,
-  lastPosition: Location,
-  route: Route
+  userLocation: Location,
+  route: Route,
+  onShapeSourcePressed?: () => void
 };
-
-const markerImage = require('assets/marker.png');
 
 export default class RouteMarkers extends PureComponent<Props> {
   constructor(props) {
@@ -42,7 +46,6 @@ export default class RouteMarkers extends PureComponent<Props> {
 
   componentDidUpdate(prevProps) {
     if (prevProps.isTracking && !this.props.isTracking) {
-      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         currentRouteLocations: []
       });
@@ -95,16 +98,16 @@ export default class RouteMarkers extends PureComponent<Props> {
   }, 300);
 
   /**
-   * reconcileLastPosition - Given the user's last location fix, and the route locations, determines the user's last known location.
+   * reconcileUserLocation - Given the user's last location fix, and the route locations, determines the user's last known location.
    * This is as, when route tracking, we need to show the line immediately so we cannot wait for the first location update.
    * However, when we're not route tracking, we won't have a last position to refer to!
    *
-   * @param lastPosition    - The last position update, passed into this object as a prop.
+   * @param userLocation    - The last position update, passed into this object as a prop.
    * @param routeLocations  - The locations provided for this route.
    */
-  reconcileLastPosition = (lastPosition, routeLocations) => {
-    if (lastPosition) {
-      return lastPosition;
+  reconcileUserLocation = (userLocation, routeLocations) => {
+    if (userLocation) {
+      return userLocation;
     } else if (routeLocations && routeLocations.length > 0) {
       return routeLocations[routeLocations.length - 1];
     } else {
@@ -112,64 +115,159 @@ export default class RouteMarkers extends PureComponent<Props> {
     }
   };
 
-  render() {
-    const routeLocations = this.reconcileRouteLocations(this.state.currentRouteLocations, this.props.route?.locations);
-    const lastPosition = this.reconcileLastPosition(this.props.lastPosition, routeLocations);
+  // It seems mapbox is ridiculously picky with unique key/id names, when displaying multiple routes on the map
+  key = keyName => {
+    return keyName + this.props.route.id;
+  };
+
+  // Draw line from user location to destination
+  renderDestinationLine = (destination, userLocation) => {
+    if (!destination || !userLocation) {
+      return null;
+    }
+    const validDestLocation = isValidLatLng(destination);
+    const bothValidLocations = validDestLocation && isValidLatLng(userLocation);
+
+    const routeDestination = MapboxGL.geoUtils.makePoint(coordsObjectToArray(destination));
+    let line = null;
+    if (bothValidLocations) {
+      line = MapboxGL.geoUtils.makeLineString([coordsObjectToArray(userLocation), coordsObjectToArray(destination)]);
+    }
 
     return (
       <React.Fragment>
-        {routeLocations ? (
-          <MapView.Marker
-            key="currentRouteStartElement"
-            image={markerImage}
-            coordinate={routeLocations[0]}
-            style={{ zIndex: 4 }}
-            anchor={{ x: 0.5, y: 0.5 }}
-            tracksViewChanges={false}
-          />
-        ) : null}
-        {routeLocations ? (
-          <MapView.Polyline
-            key="currentRouteLineElements"
-            coordinates={routeLocations}
-            strokeColor={Theme.colors.white}
-            strokeWidth={3}
-            zIndex={3}
-          />
-        ) : null}
-        {routeLocations
-          ? routeLocations.map(location => (
-              <MapView.Marker
-                key={`currentRouteCorner-${location.timestamp}`}
-                coordinate={location}
-                anchor={{ x: 0.5, y: 0.5 }}
-                zIndex={3}
-                tracksViewChanges={false}
-              >
-                <View style={styles.routeVertex} />
-              </MapView.Marker>
-            ))
-          : null}
-        {this.props.route?.destination ? (
-          <MapView.Marker
-            key={'routeDestination'}
-            coordinate={this.props.route?.destination}
-            anchor={{ x: 0.5, y: 0.5 }}
-            zIndex={20}
-            tracksViewChanges={false}
-          >
-            <View style={[{ height: 18, width: 18, borderWidth: 3 }, styles.selectedMarkerIcon]} />
-          </MapView.Marker>
-        ) : null}
-        {this.props.isTracking && lastPosition && this.props.route?.destination ? (
-          <MapView.Polyline
-            key="destinationLineElement"
-            coordinates={[lastPosition, this.props.route?.destination]}
-            strokeColor={Theme.colors.lightBlue}
-            strokeWidth={3}
-            zIndex={3}
-          />
-        ) : null}
+        {bothValidLocations && (
+          <MapboxGL.ShapeSource id={this.key('routeDestLine')} shape={line}>
+            <MapboxGL.LineLayer id={this.key('routeDestLineLayer')} style={mapboxStyles.destinationLine} />
+          </MapboxGL.ShapeSource>
+        )}
+        {validDestLocation && (
+          <MapboxGL.ShapeSource id={this.key('routeDest')} shape={routeDestination}>
+            <MapboxGL.SymbolLayer id={this.key('routeDestMarker')} style={mapboxStyles.routeDestinationMarker} />
+          </MapboxGL.ShapeSource>
+        )}
+      </React.Fragment>
+    );
+  };
+
+  renderRoutePath = routeLocations => {
+    const coords = routeLocations?.map(coord => coordsObjectToArray(coord));
+    if (!coords || coords.length < 2) {
+      return null;
+    }
+    let properties = {};
+    if (this.props.route?.id) {
+      // This will be false before the route has been saved
+      const { name, endDate, id } = this.props.route;
+      properties = { name, endDate, type: 'route', featureId: id };
+    }
+    const line = MapboxGL.geoUtils.makeLineString(coords, properties);
+    // Ignore first and last location markers, as those are drawn in renderRouteEnds method.
+    const markers = coords.slice(1, -1);
+    let markersShape = null;
+    if (markers.length > 1) {
+      markersShape = MapboxGL.geoUtils.makeFeature({ type: 'MultiPoint', coordinates: markers });
+    } else if (markers.length === 1) {
+      markersShape = MapboxGL.geoUtils.makeFeature({ type: 'Point', coordinates: markers[0] });
+    }
+    const onPress = this.props.onShapeSourcePressed || null;
+    return (
+      <React.Fragment>
+        <MapboxGL.ShapeSource onPress={onPress} id={this.key('routeLine')} shape={line}>
+          <MapboxGL.LineLayer id={this.key('routeLineLayer')} style={mapboxStyles.routeLineLayer} />
+        </MapboxGL.ShapeSource>
+        {/* Mapbox doesnt like to use the same ShapeSource with different shape types supplied*/}
+        {markers.length === 1 && (
+          <MapboxGL.ShapeSource id={this.key('routeMarker')} shape={markersShape}>
+            <MapboxGL.CircleLayer
+              key={this.key('routeCircleOuter')}
+              id={this.key('routeCircleOuter')}
+              style={mapboxStyles.routeOuterCircle}
+            />
+            <MapboxGL.CircleLayer
+              key={this.key('routeCircleInner')}
+              id={this.key('routeCircleInner')}
+              style={mapboxStyles.routeInnerCircle}
+            />
+          </MapboxGL.ShapeSource>
+        )}
+        {markers.length > 1 && (
+          <MapboxGL.ShapeSource id={this.key('routeMarkers')} shape={markersShape}>
+            <MapboxGL.CircleLayer
+              key={this.key('routeCircleOuter')}
+              id={this.key('routeCircleOuter')}
+              style={mapboxStyles.routeOuterCircle}
+            />
+            <MapboxGL.CircleLayer
+              key={this.key('routeCircleInner')}
+              id={this.key('routeCircleInner')}
+              style={mapboxStyles.routeInnerCircle}
+            />
+          </MapboxGL.ShapeSource>
+        )}
+      </React.Fragment>
+    );
+  };
+
+  renderRouteEnds = routeLocations => {
+    const count = routeLocations?.length;
+    const start = count > 0 ? routeLocations[0] : null;
+    const end = count > 1 ? routeLocations[count - 1] : null;
+    let properties = {};
+    if (this.props.route?.id) {
+      // This will be false before the route has been saved
+      const { name, endDate, id } = this.props.route;
+      properties = { name, endDate, type: 'route', featureId: id };
+    }
+    const startSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(start), properties) : null;
+    const endSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(end), properties) : null;
+    const onPress = this.props.onShapeSourcePressed || null;
+    return (
+      <React.Fragment>
+        {start && (
+          <MapboxGL.ShapeSource onPress={onPress} id={this.key('routeStart')} shape={startSource}>
+            <MapboxGL.CircleLayer
+              key={this.key('routeStartInner')}
+              id={this.key('routeStartOuter')}
+              style={mapboxStyles.routeStartOuter}
+            />
+            <MapboxGL.CircleLayer
+              key={this.key('routeStartOuter')}
+              id={this.key('routeStartInner')}
+              style={mapboxStyles.routeStartInner}
+            />
+          </MapboxGL.ShapeSource>
+        )}
+        {end && (
+          <MapboxGL.ShapeSource onPress={onPress} id={this.key('routeEnd')} shape={endSource}>
+            <MapboxGL.CircleLayer
+              key={this.key('routeEndOuter')}
+              id={this.key('routeEndOuter')}
+              style={mapboxStyles.routeEndOuter}
+            />
+            <MapboxGL.CircleLayer
+              key={this.key('routeEndInner')}
+              id={this.key('routeEndInner')}
+              style={mapboxStyles.routeEndInner}
+            />
+          </MapboxGL.ShapeSource>
+        )}
+      </React.Fragment>
+    );
+  };
+
+  render() {
+    let routeLocations = this.reconcileRouteLocations(this.state.currentRouteLocations, this.props.route?.locations);
+    routeLocations = removeDuplicateLocations(routeLocations);
+    const userLocation = this.reconcileUserLocation(this.props.userLocation, routeLocations);
+    if (!routeLocations) {
+      return null;
+    }
+    return (
+      <React.Fragment>
+        {this.renderRoutePath(routeLocations)}
+        {this.renderRouteEnds(routeLocations)}
+        {this.props.isTracking && this.renderDestinationLine(this.props.route?.destination, userLocation)}
       </React.Fragment>
     );
   }

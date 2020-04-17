@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Platform } from 'react-native';
 
 import moment from 'moment';
 import i18n from 'i18next';
@@ -11,18 +11,27 @@ import styles from './styles';
 import { Navigation } from 'react-native-navigation';
 // import exportReports from 'helpers/exportReports';
 
+import EmptyState from 'components/common/empty-state';
+import RoutePath from 'components/common/route-path';
+
 import type { Route } from 'types/routes.types';
 
 import ShareSheet from 'components/common/share';
 import VerticalSplitRow from 'components/common/vertical-split-row';
 
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
+import { isSmallScreen } from 'config/theme';
 
 const nextIcon = require('assets/next.png');
+const emptyIcon = require('assets/routesEmpty.png');
+const routeMapBackground = require('assets/routeMapBackground.png');
+
+const RoutePreviewSize = isSmallScreen ? 86 : 122;
 
 type Props = {
   componentId: string,
   routes: Array<Route>,
+  initialiseAreaLayerSettings: (string, string) => void,
   setSelectedAreaId: (areaId: string) => void,
   showExportReportsSuccessfulNotification: () => void
 };
@@ -52,6 +61,14 @@ export default class Routes extends PureComponent<Props> {
     tracker.trackScreenView('My Routes');
   }
 
+  onFrequentlyAskedQuestionsPress = () => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.FaqCategories'
+      }
+    });
+  };
+
   /**
    * Handles the route row being selected while in export mode.
    * Will swap the state for the specified row, to show in the UI if it has been selected or not.
@@ -78,6 +95,7 @@ export default class Routes extends PureComponent<Props> {
   onClickRoute = debounceUI((route: Route) => {
     // Testing against a mocked route? You must provide your own area id here!
     this.props.setSelectedAreaId(route.areaId);
+    this.props.initialiseAreaLayerSettings(route.id, route.areaId);
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.Map',
@@ -185,6 +203,14 @@ export default class Routes extends PureComponent<Props> {
   }
 
   /**
+   * Renders a component for the route's path to be shown on the row
+   * @param <Route> route The route to render a path for
+   */
+  renderRoutePath = (route: Route) => {
+    return <RoutePath size={RoutePreviewSize} route={route} />;
+  };
+
+  /**
    * renderItems - Returns an array of rows, based on the route data provided.
    *
    * @param  {Array} data <Route>  An array of routes.
@@ -198,25 +224,26 @@ export default class Routes extends PureComponent<Props> {
       const dateText = moment(item.endDate).format('ll');
       const distanceText = formatDistance(routeDistance, 1, false);
       const subtitle = dateText + ', ' + distanceText;
-      // const action = {
-      //   icon,
-      //   callback: () => {
-      //     onPress(item.title);
-      //   },
-      //   position
-      // };
 
       const combinedId = item.areaId + item.id;
+
       return (
         <VerticalSplitRow
+          backgroundImageResizeMode={Platform.OS === 'ios' ? 'repeat' : 'cover'}
           key={combinedId}
           onSettingsPress={this.onClickRouteSettings.bind(this, item)}
           onPress={() => {
             onPress(item);
           }}
+          style={styles.row}
+          renderImageChildren={this.renderRoutePath.bind(this, item)}
+          imageSrc={routeMapBackground}
           title={item.name}
           subtitle={subtitle}
+          disableSettingsButton={this.state.inShareMode}
           selected={this.state.inShareMode ? this.state.selectedForExport.includes(combinedId) : null}
+          largerLeftPadding
+          largeImage
         />
       );
     });
@@ -234,14 +261,28 @@ export default class Routes extends PureComponent<Props> {
   }
 
   /**
-   * renderRoutesScrollView - Renders a list of routes.
+   * renderRoutes - Renders a list of routes.
    *
    * @param  {array} routes      An array of routes.
    * @param  {bool} inExportMode  Whether the user is in export mode or not. If in export mode, a different callback will be used.
    * @return {ScrollView}         A ScrollView element with all content rendered to it.
    */
-  renderRoutesScrollView(routes, inExportMode) {
+  renderRoutes(routes, inExportMode) {
     const hasRoutes = !!routes.length;
+
+    if (!hasRoutes) {
+      return (
+        <View style={styles.containerEmpty}>
+          <EmptyState
+            actionTitle={i18n.t('routes.empty.action')}
+            body={i18n.t('routes.empty.body')}
+            onActionPress={this.onFrequentlyAskedQuestionsPress}
+            icon={emptyIcon}
+            title={i18n.t('routes.empty.title')}
+          />
+        </View>
+      );
+    }
 
     return (
       <ScrollView
@@ -250,22 +291,16 @@ export default class Routes extends PureComponent<Props> {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        {hasRoutes ? (
-          <View style={styles.container}>
-            {routes &&
-              routes.length > 0 &&
-              this.renderSection(
-                i18n.t('routes.myRoutes'),
-                routes,
-                nextIcon,
-                inExportMode ? this.onRouteSelectedForExport : this.onClickRoute
-              )}
-          </View>
-        ) : (
-          <View style={styles.containerEmpty}>
-            <Text style={styles.emptyTitle}>{i18n.t('routes.empty')}</Text>
-          </View>
-        )}
+        <View style={styles.container}>
+          {routes &&
+            routes.length > 0 &&
+            this.renderSection(
+              i18n.t('routes.myRoutes'),
+              routes,
+              nextIcon,
+              inExportMode ? this.onRouteSelectedForExport : this.onClickRoute
+            )}
+        </View>
       </ScrollView>
     );
   }
@@ -303,9 +338,8 @@ export default class Routes extends PureComponent<Props> {
                 : i18n.t('routes.export.manyRoutesAction', { count: totalToExport })
               : i18n.t('routes.export.noneSelected')
           }
-          total={totalRoutes}
         >
-          {this.renderRoutesScrollView(this.props.routes, this.state.inShareMode)}
+          {this.renderRoutes(this.props.routes, this.state.inShareMode)}
         </ShareSheet>
       </View>
     );

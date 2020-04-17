@@ -1,6 +1,10 @@
 import { Dimensions, Platform } from 'react-native';
 
+const backIcon = require('assets/backButton.png');
+
 const screen = Dimensions.get('window');
+export const isSmallScreen = screen.width <= 320;
+
 export const colors = {
   turtleGreen: '#97be43',
   greyishBrown: '#555555',
@@ -12,7 +16,10 @@ export const colors = {
   glad: '#ff6699',
   viirs: '#ED4602',
   recent: '#e9bd15',
-  lightBlue: '#ACC6D5'
+  lightBlue: '#ACC6D5',
+  blue: '#2e8dc7',
+  purple: '#5e4fc3',
+  cyan: '#52d0c4'
 };
 
 const fontColors = {
@@ -22,7 +29,10 @@ const fontColors = {
   white: colors.white
 };
 
-const fontName = 'firasansot';
+const fontName = Platform.select({
+  ios: 'firasansot',
+  android: 'firasansot_regular'
+});
 
 const config = {
   screen: {
@@ -40,7 +50,11 @@ const config = {
     glad: colors.glad,
     viirs: colors.viirs,
     recent: colors.recent,
-    lightBlue: colors.lightBlue
+    lightBlue: colors.lightBlue,
+    blue: colors.blue,
+    report: colors.turtleGreen,
+    importedReport: colors.cyan,
+    viirsReported: colors.purple
   },
   font: fontName,
   fontColors: fontColors,
@@ -81,9 +95,25 @@ const config = {
     fill: 'rgba(151, 190, 49, 0.5)',
     fillSelected: 'rgba(255, 255, 255, 0.5)',
     fillInvalid: 'rgba(241, 86, 86, 0.5)',
-    stroke: '#97be32',
+    stroke: colors.turtleGreen,
     strokeWidth: 3,
-    strokeSelected: '#FFFFFF'
+    strokeSelected: colors.white
+  },
+  modalContainer: {
+    flexShrink: 1,
+    backgroundColor: colors.veryLightPink,
+    borderRadius: 7,
+    marginHorizontal: 8,
+    marginVertical: 16,
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    shadowColor: colors.greyishBrown,
+    shadowRadius: 4,
+    shadowOffset: {
+      width: 0,
+      height: -3
+    },
+    shadowOpacity: 0.1
   },
   navigator: {
     styles: {
@@ -109,7 +139,9 @@ const config = {
           color: 'transparent'
         },
         backButton: {
-          color: colors.turtleGreen
+          color: colors.greyishBrown,
+          icon: backIcon,
+          title: ''
         },
         buttonColor: colors.turtleGreen,
         elevation: 0,
@@ -120,13 +152,12 @@ const config = {
         title: {
           color: fontColors.secondary,
           fontFamily: fontName,
-          fontWeight: 'regular'
+          fontSize: 20
         },
         largeTitle: {
-          fontSize: 32,
+          fontSize: 24,
           color: fontColors.secondary,
-          fontFamily: fontName,
-          fontWeight: 'regular'
+          fontFamily: fontName
         },
         visible: true
       }
@@ -146,6 +177,12 @@ const config = {
     fontFamily: fontName,
     fontWeight: '400'
   },
+  text: {
+    fontWeight: '400',
+    fontSize: 17,
+    fontFamily: fontName,
+    color: fontColors.secondary
+  },
   tableRow: {
     alignItems: 'center',
     backgroundColor: 'white',
@@ -153,7 +190,7 @@ const config = {
     borderBottomColor: colors.veryLightPinkTwo,
     paddingVertical: 22,
     paddingHorizontal: 20,
-    marginBottom: 25,
+    marginBottom: isSmallScreen ? 12 : 24,
     flexDirection: 'row',
     justifyContent: 'space-between'
   },

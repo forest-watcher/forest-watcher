@@ -1,16 +1,22 @@
 // @flow
-import type { Dispatch, State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { connect } from 'react-redux';
 import RNShare from 'react-native-share';
 import { setSelectedAreaId } from 'redux-modules/areas';
-import { showNotConnectedNotification } from 'redux-modules/app';
+import { setAreaDownloadTooltipSeen, showNotConnectedNotification } from 'redux-modules/app';
 
 import Areas from 'components/areas';
 import exportBundle from 'helpers/sharing/exportBundle';
+import { initialiseAreaLayerSettings } from 'redux-modules/layerSettings';
 
-function mapStateToProps(state: State) {
+type OwnProps = {|
+  +componentId: string
+|};
+
+function mapStateToProps(state: State, props: OwnProps) {
   return {
+    areaDownloadTooltipSeen: state.app.areaDownloadTooltipSeen,
     areas: state.areas.data,
     offlineMode: state.app.offlineMode
   };
@@ -35,6 +41,12 @@ function mapDispatchToProps(dispatch: Dispatch) {
         });
       });
     },
+    initialiseAreaLayerSettings: (featureId: string, areaId: string) => {
+      dispatch(initialiseAreaLayerSettings(featureId, areaId));
+    },
+    setAreaDownloadTooltipSeen: (seen: boolean) => {
+      dispatch(setAreaDownloadTooltipSeen(seen));
+    },
     setSelectedAreaId: (id: string) => {
       dispatch(setSelectedAreaId(id));
     },
@@ -44,7 +56,13 @@ function mapDispatchToProps(dispatch: Dispatch) {
   };
 }
 
-export default connect(
+/**
+ * Properties sent through to a connected component.
+ *
+ * Taken from https://engineering.wework.com/adventures-in-static-typing-react-redux-flow-oh-my-284c5f74adac
+ */
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(Areas);

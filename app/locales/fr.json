@@ -65,142 +65,168 @@
         "viirs": "Les feus (VIIRS)"
     },
     "faq": {
-        "eighthQuestion": {
-            "title": "Que montre la carte de base de l'imagerie satellitaire ?"
-        },
-        "eleventhQuestion": {
-            "content": {
-                "description": {
-                    "text": "Contactez-nous avec vos commentaires ou questions en envoyant un e-mail à : forestwatcher@wri.org."
-                }
-            },
-            "title": "Comment puis-je obtenir de l'assistance ?"
-        },
-        "fifthQuestion": {
-            "content": {
-                "description": {
-                    "text1": "Chaque jeu de données sur les changements forestiers a été soumis à des tests scientifiques rigoureux et a un ensemble de limites bien précis. Par exemple, les évaluations des alertes GLAD au Pérou donnent 13,5 % de faux positifs (le fait qu'une alerte apparaisse dans les données alors qu'il n'y a pas eu de changement sur le terrain) et 33 % de faux négatifs (le fait qu'il y ait eu des changements observés sur le terrain qui n'ont pas été affichés comme alertes dans les données). Cela signifie qu'environ 87 pour cent des alertes GLAD représentent des événements de changement forestier. Le taux de faux négatifs, plus élevé, signifie que les alertes constituent une estimation prudente de la perte de couverture arborée. Cela permet de minimiser la probabilité que les utilisateurs dépensent en ressources pour enquêter sur des alertes qui ne représentent pas des changements forestiers réels.",
-                    "text2": "Les utilisateurs doivent également garder à l'esprit que les alertes GLAD détectent toutes les pertes de couverture arborée, peu importe si elles sont causées par des humains (par exemple à travers l'exploitation forestière) ou par la nature (par exemple un glissement de terrain). De plus, les alertes ne différencient pas entre couverture arborée naturelle et couverture arborée plantée. Pour obtenir des informations complètes sur chaque jeu de données, veuillez visiter www.globalforestwatch.org.",
-                    "text3": "Une évaluation des données VIIRS a révélé que le taux de faux positifs était proche de 0 pour la plupart des régions, avec un maximum de 1,2 pour cent dans les régions évaluées, qui est dû principalement à la lumière solaire sur les toits réfléchissants. Le taux d'omission n'a pas été évalué. Le VIIRS ne peut pas détecter les feux de forêt trop petits ou trop timides (généralement ceux dont la puissance est inférieure à 700 K ou l'étendue est inférieure à 100 mètres carrés). Des omissions peuvent également avoir lieu lorsque les feux commencent et se terminent entre les passages des satellites, ou lorsque les feux sont obscurcis par la couverture nuageuse, une fumée dense ou par la canopée des arbres."
-                }
-            },
-            "title": "Quel est le niveau de précision des alertes ?"
-        },
-        "firstQuestion": {
-            "content": {
-                "description": {
-                    "text1": "Forest Watcher est une application mobile conçue pour permettre un accès facile et hors ligne aux données sur le changement forestier de Global Forest Watch http://www.globalforestwatch.org/.",
-                    "text2": "Global Forest Watch (GFW) est un système dynamique de suivi et d'alerte forestiers en ligne qui permet aux gens partout dans le monde de mieux gérer les forêts. GFW regroupe la technologie satellitaire, l'informatique sur le nuage et les données ouvertes pour fournir aux communautés dans le monde des informations en temps opportun sur les forêts.",
-                    "text3": "Forest Watcher met des informations précieuses de GFW directement à la disposition des chargés de suivi des forêts sur le terrain. Forest Watcher permet à quiconque de voir des alertes de déforestation et de feux de forêts sur un appareil mobile, de se rendre à l'emplacement de l'alerte en étant hors ligne et de recueillir des informations et des photos sur ce qu'ils trouvent.",
-                    "text4": "Cette application fournit une solution abordable et simple pour : identifier rapidement les zones nécessitant des patrouilles forestières ou des enquêtes de terrain, recueillir des preuves de changements forestiers sur le terrain, utiliser les données collectées pour prendre des décisions factuelles de gestion et de conservation et valider les produits de télédétection sur le terrain.",
-                    "text5": "Plus précisément, cette application permet aux utilisateurs de :"
-                },
-                "orderList": {
-                    "text1": "Mettez en ligne ou dessinez des centre(s) d'intérêt personnalisés pour des analyses",
-                    "text2": "Téléchargez différentes données satellitaires sur les changements forestiers et d'autres données contextuelles (par exemple les alertes en temps quasi réel sur la déforestation, les zones protégées et les paysages forestiers intacts) sur n'importe quel appareil mobile",
-                    "text3": "Mettez en ligne vos propres jeux de données",
-                    "text4": "Enquêtez sur les alertes sur le terrain et collectez des informations (notamment les points GPS et les photos) à travers des formulaires personnalisables",
-                    "text5": "Examinez, analysez et téléchargez les données collectées avec l'application"
-                }
-            },
-            "title": "Qu'est-ce que Forest Watcher ?"
-        },
-        "fourthQuestion": {
-            "content": {
-                "description": {
-                    "text": "Il existe trois jeux de données de Global Forest Watch qui sont fournis par défaut dans Forest Watcher :"
-                },
-                "footerText": "Pour plus d'informations sur chaque jeu de données, visitez http://data.globalforestwatch.org/.",
-                "orderList": {
-                    "text1": "Les alertes VIIRS de feux de forêts actifs : Produites par la NASA, mises à jour quotidiennement à 375 mètres de résolution. Elles vous montrent les emplacements où des feux de forêts ont été soupçonnés la semaine dernière.",
-                    "text2": "Les alertes GLAD : Produites par le Laboratoire mondial d'analyse et de découverte de terres (GLAD) de l'Université du Maryland, mises à jour chaque semaine à une résolution de 30 mètres. Elles vous montrent semaine par semaine les endroits où la zone forestière pourrait avoir changé.",
-                    "text3": "Perte annuelle de la couverture arborée : Également produite par le laboratoire GLAD, mise à jour annuellement à une résolution de 30 mètres. Elle vous montre année par année les endroits où la zone forestière a changé. Actuellement, ces données ne sont disponibles que sous forme de couche de données contextuelle : vous ne pourrez pas créer un rapport lié à une alerte de perte annuelle, quoique vous puissiez néanmoins créer un rapport pour cet emplacement en appuyant sur l'écran à l'emplacement de la perte ou du gain forestier."
-                }
-            },
-            "title": "Quels types de jeux de données sont disponibles et d'où proviennent-ils ?"
-        },
-        "ninethQuestion": {
-            "content": {
-                "description": {
-                    "text": "Les images présentées sur la carte de base du satellite sont mises à jour moins fréquemment que les données d'alerte. Ainsi, vous pouvez remarquer des alertes de changement forestier pour les zones qui apparaissent comme forêt intacte sur la carte de base du satellite. Visiter les endroits signalés par les alertes GLAD est la meilleure façon de vérifier les changements sur le terrain."
-                }
-            },
-            "title": "Pourquoi est-ce que je vois une alerte GLAD mais aucun changement sur la carte de base de l'imagerie satellitaire ?"
-        },
-        "secondQuestion": {
-            "content": {
-                "description": {
-                    "text": "Au départ, Forest Watcher a été mis au point par Jane Goodall Institute (JGI), Google, Touchlab et Global Forest Watch. Les chargés de suivi des forêts des villages, les gardes des zones protégées et les communautés locales qui travaillent avec le Jane Goodall Institute avaient besoin d'accéder à des données satellitaires à jour pour le suivi des forêts ; mais l'accès à Internet est limité dans les régions éloignées où ils travaillent. Sans ces informations, les chargés de suivi des forêts pourraient manquer les activités de déforestation qui se produisent en dehors de leurs itinéraires de patrouille. JGI, GFW, Touchlab, Vizzuality et Google ont créé Forest Watcher pour permettre l'accès aux données GFW hors ligne en étant sur le terrain."
-                }
-            },
-            "title": "Pourquoi avez-vous créé Forest Watcher ?"
-        },
-        "seventhQuestion": {
-            "content": {
-                "description": {
-                    "text": "Forest Watcher Desktop est l'interface de bureau en ligne complémentaire à l'application mobile, qui peut être utilisée pour gérer les Centres d'intérêt, créer de nouvelles formes de rapport, configurer une équipe d'utilisateurs, examiner et télécharger les rapports soumis via l'application. L'interface de bureau est destinée aux administrateurs et aux gestionnaires d'équipe afin qu'ils puissent configurer l'application à utiliser par leur équipe. Pour plus d'informations sur Forest Watcher Desktop, cliquez ici"
-                }
-            },
-            "title": "Qu'est-ce que Forest Watcher Desktop ?"
-        },
-        "sixthQuestion": {
-            "content": {
-                "description": {
-                    "text": "Oui, vous pouvez mettre en ligne et ajouter vos propres jeux de données à l'application en utilisant la version web de Forest Watcher. À l'aide de la version web, vous lieriez un service de mosaïque Web à Forest Watcher via une URL. Plus d'informations sont disponibles sur la version web."
-                }
-            },
-            "title": "Puis-je ajouter mes propres couches de données dans Forest Watcher ?"
-        },
-        "tenthQuestion": {
-            "content": {
-                "orderListLetters": {
-                    "order1": {
-                        "description": "Si vous ne voyez aucune alerte dans votre Centre d'intérêt, visitez globalforestwatch.org pour voir si des données existent pour cet emplacement et la période que vous avez choisis. S'il n'y a pas d'alertes GLAD ou VIIRS récentes, cela signifie qu'il n'y a eu aucun changement forestier récemment. Envisagez d'utiliser la couche contextuelle Variation annuelle de la couverture arborée pour chercher d'anciennes alertes de perte forestière, qui pourraient également éclairer les acteurs d'une enquête ou d'une visite sur le terrain.",
-                        "text": "Je ne vois aucune donnée d'alerte"
+        "categories": {
+            "about": {
+                "title": "About Forest Watcher",
+                "questions": [
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Forest Watcher est une application mobile conçue pour permettre un accès facile et hors ligne aux données sur le changement forestier de Global Forest Watch http://www.globalforestwatch.org/.",
+                                "text2": "Global Forest Watch (GFW) est un système dynamique de suivi et d'alerte forestiers en ligne qui permet aux gens partout dans le monde de mieux gérer les forêts. GFW regroupe la technologie satellitaire, l'informatique sur le nuage et les données ouvertes pour fournir aux communautés dans le monde des informations en temps opportun sur les forêts.",
+                                "text3": "Forest Watcher met des informations précieuses de GFW directement à la disposition des chargés de suivi des forêts sur le terrain. Forest Watcher permet à quiconque de voir des alertes de déforestation et de feux de forêts sur un appareil mobile, de se rendre à l'emplacement de l'alerte en étant hors ligne et de recueillir des informations et des photos sur ce qu'ils trouvent.",
+                                "text4": "Cette application fournit une solution abordable et simple pour : identifier rapidement les zones nécessitant des patrouilles forestières ou des enquêtes de terrain, recueillir des preuves de changements forestiers sur le terrain, utiliser les données collectées pour prendre des décisions factuelles de gestion et de conservation et valider les produits de télédétection sur le terrain.",
+                                "text5": "Plus précisément, cette application permet aux utilisateurs de :"
+                            },
+                            "orderList": {
+                                "text1": "Mettez en ligne ou dessinez des centre(s) d'intérêt personnalisés pour des analyses",
+                                "text2": "Téléchargez différentes données satellitaires sur les changements forestiers et d'autres données contextuelles (par exemple les alertes en temps quasi réel sur la déforestation, les zones protégées et les paysages forestiers intacts) sur n'importe quel appareil mobile",
+                                "text3": "Mettez en ligne vos propres jeux de données",
+                                "text4": "Enquêtez sur les alertes sur le terrain et collectez des informations (notamment les points GPS et les photos) à travers des formulaires personnalisables",
+                                "text5": "Examinez, analysez et téléchargez les données collectées avec l'application"
+                            }
+                        },
+                        "title": "Qu'est-ce que Forest Watcher ?"
                     },
-                    "order2": {
-                        "description": "Si l'application se bloque, ouvrez-la à nouveau. Si elle se bloque plusieurs fois, veuillez envoyer un e-mail à mailto:forestwatcher@wri.org en fournissant des informations sur le modèle de votre appareil et ce que vous faisiez dans l'application lorsqu'elle s'est bloquée.",
-                        "text": "L'application se bloque"
-                    },
-                    "order3": {
-                        "description": "Les fonctions de localisation et de navigation de Forest Watcher s'appuient sur le GPS interne de votre appareil. Tout d'abord, vérifiez que le GPS (souvent appelé « services de localisation ») est activé dans les paramètres de votre appareil mobile. Si ça ne fonctionne toujours pas, veuillez envoyer un e-mail à mailto:forestwatcher@wri.org en nous indiquant le modèle de périphérique que vous utilisez.",
-                        "text": "Je ne vois pas la boussole ou mon emplacement"
-                    },
-                    "order4": {
-                        "description": "Certains appareils qui n'ont que des caméras face avant peuvent ne pas être compatibles avec la caméra du formulaire de rapport. Vous pouvez plutôt prendre une photo sur votre application de caméra et utiliser la fonction de mise en ligne du rapport dans Forest Watcher pour ajouter une photo de votre bibliothèque au rapport.",
-                        "text": "Je ne peux pas prendre une photo dans l'application"
-                    },
-                    "order5": {
-                        "description": "Il se peut que vous ne puissiez pas toujours finir d'écrire un rapport en étant sur les lieux signalés par une alerte. Vous pouvez commencer à écrire un rapport, l'enregistrer et y revenir plus tard lorsque vous êtes de retour dans votre base. Vous pouvez également prendre une photo en utilisant votre appareil photo, puis remplir le rapport plus tard : vous pouvez joindre l'image à votre rapport.",
-                        "text": "Je souhaite remplir un rapport plus tard"
-                    },
-                    "order6": {
-                        "description": "Lorsque vous configurez Forest Watcher pour la première fois sur votre appareil mobile, l'application devra télécharger beaucoup de données pour fonctionner hors ligne. Vous devrez peut-être attendre environ 5 minutes pour que toutes les données soient chargées correctement. C'est normal. Si vous avez une connexion Internet faible ou lente, cela peut rendre le téléchargement plus long. Gardez l'application ouverte pour permettre au téléchargement d'arriver à terme. Après la configuration initiale, de nouvelles données d'alerte seront téléchargées chaque fois que vous connectez votre appareil à Internet - le temps de téléchargement varie selon le nombre d'alertes. La taille de ces mises à jour sera à l'échelle de kilooctets, tandis que le téléchargement initial prendra probablement quelques mégaoctets.",
-                        "text": "Les alertes se chargent lentement"
-                    },
-                    "order7": {
-                        "description": "Pour le moment, vous ne pouvez afficher qu'un seul jeu de données à la fois pour chaque Centre d'intérêt. Le jeu de données que vous consultez pour chaque Centre d'intérêt est contrôlé à l'aide du menu des paramètres. Si vous souhaitez consulter à la fois les données sur les feux de forêt et les données sur la déforestation pour le même emplacement, vous devrez créer deux Centres d'intérêt pour ce même emplacement et configurer chacune d'entre elles pour télécharger les différents jeux de données.",
-                        "text": "Je veux voir les alertes GLAD et VIIRS pour le même Centre d'intérêt"
-                    },
-                    "order8": {
-                        "description": "Forest Watcher contient un grand nombre de données et peut prendre beaucoup d'espace mémoire sur votre appareil en fonction du nombre de Centres d'intérêt que vous avez, de leur taille et du nombre d'alertes contenues dans chacun de ces Centres d'intérêt. Nous vous recommandons d'avoir au moins 16 Go de stockage interne sur votre appareil, de sorte que vous puissiez utiliser les autres applications ainsi que Forest Watcher : Forest Watcher n'aura pas besoin de tout cet espace de stockage. Plus les Centres d'intérêt que vous configurez dans l'application sont de petite taille et moins nombreuses, plus la taille des données à télécharger sur votre appareil sera réduite.",
-                        "text": "La mémoire de mon appareil est saturée"
-                    },
-                    "order9": {
-                        "description": "Vous pouvez utiliser Forest Watcher Desktop pour créer un modèle de formulaire personnalisé à utiliser par votre équipe lors de la collecte des données. Vous pouvez également ajouter des notes dans la section finale du formulaire si vous avez des observations que vous souhaitez faire.",
-                        "text": "Je souhaite collecter des données personnalisées"
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Au départ, Forest Watcher a été mis au point par Jane Goodall Institute (JGI), Google, Touchlab et Global Forest Watch. Les chargés de suivi des forêts des villages, les gardes des zones protégées et les communautés locales qui travaillent avec le Jane Goodall Institute avaient besoin d'accéder à des données satellitaires à jour pour le suivi des forêts ; mais l'accès à Internet est limité dans les régions éloignées où ils travaillent. Sans ces informations, les chargés de suivi des forêts pourraient manquer les activités de déforestation qui se produisent en dehors de leurs itinéraires de patrouille. JGI, GFW, Touchlab, Vizzuality et Google ont créé Forest Watcher pour permettre l'accès aux données GFW hors ligne en étant sur le terrain."
+                            }
+                        },
+                        "title": "Pourquoi avez-vous créé Forest Watcher ?"
                     }
-                }
+                ]
             },
-            "title": "Que dois-je faire si :"
-        },
-        "thirdQuestion": {
-            "content": {
-                "description": {
-                    "text": "Forest Watcher affiche les données sur le changement forestier dans des « Centres d'intérêt » ou zones que vous suivez. Vous pouvez définir des Centres d'intérêt dans le menu des paramètres. Si vous faites partie d'une équipe, vous pouvez avoir des zones déjà configurées pour vous et que vous pouvez mettre en ligne sur l'application. L'application téléchargera automatiquement les données de changement forestier pour ces zones et les mettra à jour avec les dernières alertes de feux de forêts et de déforestation lorsque vous êtes connecté à Internet. Une fois que vous téléchargez les données nécessaires sur votre appareil mobile, vous pouvez aller sur le terrain avec l'application hors ligne. Forest Watcher vous indiquera les zones d'alerte qui sont à proximité en utilisant le GPS interne du téléphone. Lorsque vous arrivez dans la zone d'alerte, vous pouvez remplir un rapport sur ce que vous avez trouvé et ajouter des photos."
-                }
+            "alertsAndData": {
+                "title": "Alerts and Data in Forest Watcher",
+                "questions": [
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Chaque jeu de données sur les changements forestiers a été soumis à des tests scientifiques rigoureux et a un ensemble de limites bien précis. Par exemple, les évaluations des alertes GLAD au Pérou donnent 13,5 % de faux positifs (le fait qu'une alerte apparaisse dans les données alors qu'il n'y a pas eu de changement sur le terrain) et 33 % de faux négatifs (le fait qu'il y ait eu des changements observés sur le terrain qui n'ont pas été affichés comme alertes dans les données). Cela signifie qu'environ 87 pour cent des alertes GLAD représentent des événements de changement forestier. Le taux de faux négatifs, plus élevé, signifie que les alertes constituent une estimation prudente de la perte de couverture arborée. Cela permet de minimiser la probabilité que les utilisateurs dépensent en ressources pour enquêter sur des alertes qui ne représentent pas des changements forestiers réels.",
+                                "text2": "Les utilisateurs doivent également garder à l'esprit que les alertes GLAD détectent toutes les pertes de couverture arborée, peu importe si elles sont causées par des humains (par exemple à travers l'exploitation forestière) ou par la nature (par exemple un glissement de terrain). De plus, les alertes ne différencient pas entre couverture arborée naturelle et couverture arborée plantée. Pour obtenir des informations complètes sur chaque jeu de données, veuillez visiter www.globalforestwatch.org.",
+                                "text3": "Une évaluation des données VIIRS a révélé que le taux de faux positifs était proche de 0 pour la plupart des régions, avec un maximum de 1,2 pour cent dans les régions évaluées, qui est dû principalement à la lumière solaire sur les toits réfléchissants. Le taux d'omission n'a pas été évalué. Le VIIRS ne peut pas détecter les feux de forêt trop petits ou trop timides (généralement ceux dont la puissance est inférieure à 700 K ou l'étendue est inférieure à 100 mètres carrés). Des omissions peuvent également avoir lieu lorsque les feux commencent et se terminent entre les passages des satellites, ou lorsque les feux sont obscurcis par la couverture nuageuse, une fumée dense ou par la canopée des arbres."
+                            }
+                        },
+                        "title": "Quel est le niveau de précision des alertes ?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Il existe trois jeux de données de Global Forest Watch qui sont fournis par défaut dans Forest Watcher :"
+                            },
+                            "footerText": "Pour plus d'informations sur chaque jeu de données, visitez http://data.globalforestwatch.org/.",
+                            "orderList": {
+                                "text1": "Les alertes VIIRS de feux de forêts actifs : Produites par la NASA, mises à jour quotidiennement à 375 mètres de résolution. Elles vous montrent les emplacements où des feux de forêts ont été soupçonnés la semaine dernière.",
+                                "text2": "Les alertes GLAD : Produites par le Laboratoire mondial d'analyse et de découverte de terres (GLAD) de l'Université du Maryland, mises à jour chaque semaine à une résolution de 30 mètres. Elles vous montrent semaine par semaine les endroits où la zone forestière pourrait avoir changé.",
+                                "text3": "Perte annuelle de la couverture arborée : Également produite par le laboratoire GLAD, mise à jour annuellement à une résolution de 30 mètres. Elle vous montre année par année les endroits où la zone forestière a changé. Actuellement, ces données ne sont disponibles que sous forme de couche de données contextuelle : vous ne pourrez pas créer un rapport lié à une alerte de perte annuelle, quoique vous puissiez néanmoins créer un rapport pour cet emplacement en appuyant sur l'écran à l'emplacement de la perte ou du gain forestier."
+                            }
+                        },
+                        "title": "Quels types de jeux de données sont disponibles et d'où proviennent-ils ?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Les images présentées sur la carte de base du satellite sont mises à jour moins fréquemment que les données d'alerte. Ainsi, vous pouvez remarquer des alertes de changement forestier pour les zones qui apparaissent comme forêt intacte sur la carte de base du satellite. Visiter les endroits signalés par les alertes GLAD est la meilleure façon de vérifier les changements sur le terrain."
+                            }
+                        },
+                        "title": "Pourquoi est-ce que je vois une alerte GLAD mais aucun changement sur la carte de base de l'imagerie satellitaire ?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Oui, vous pouvez mettre en ligne et ajouter vos propres jeux de données à l'application en utilisant la version web de Forest Watcher. À l'aide de la version web, vous lieriez un service de mosaïque Web à Forest Watcher via une URL. Plus d'informations sont disponibles sur la version web."
+                            }
+                        },
+                        "title": "Puis-je ajouter mes propres couches de données dans Forest Watcher ?"
+                    }
+                ]
             },
-            "title": "Comment fonctionne Forest Watcher ?"
+            "features": {
+                "title": "Features and Functionality",
+                "questions": [
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Forest Watcher affiche les données sur le changement forestier dans des « Centres d'intérêt » ou zones que vous suivez. Vous pouvez définir des Centres d'intérêt dans le menu des paramètres. Si vous faites partie d'une équipe, vous pouvez avoir des zones déjà configurées pour vous et que vous pouvez mettre en ligne sur l'application. L'application téléchargera automatiquement les données de changement forestier pour ces zones et les mettra à jour avec les dernières alertes de feux de forêts et de déforestation lorsque vous êtes connecté à Internet. Une fois que vous téléchargez les données nécessaires sur votre appareil mobile, vous pouvez aller sur le terrain avec l'application hors ligne. Forest Watcher vous indiquera les zones d'alerte qui sont à proximité en utilisant le GPS interne du téléphone. Lorsque vous arrivez dans la zone d'alerte, vous pouvez remplir un rapport sur ce que vous avez trouvé et ajouter des photos."
+                            }
+                        },
+                        "title": "Comment fonctionne Forest Watcher ?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Forest Watcher Desktop est l'interface de bureau en ligne complémentaire à l'application mobile, qui peut être utilisée pour gérer les Centres d'intérêt, créer de nouvelles formes de rapport, configurer une équipe d'utilisateurs, examiner et télécharger les rapports soumis via l'application. L'interface de bureau est destinée aux administrateurs et aux gestionnaires d'équipe afin qu'ils puissent configurer l'application à utiliser par leur équipe. Pour plus d'informations sur Forest Watcher Desktop, cliquez ici"
+                            }
+                        },
+                        "title": "Qu'est-ce que Forest Watcher Desktop ?"
+                    }
+                ]
+            },
+            "help": {
+                "title": "Help and How to Contact Us",
+                "questions": [
+                    {
+                        "content": {
+                            "orderListLetters": {
+                                "order1": {
+                                    "description": "Si vous ne voyez aucune alerte dans votre Centre d'intérêt, visitez globalforestwatch.org pour voir si des données existent pour cet emplacement et la période que vous avez choisis. S'il n'y a pas d'alertes GLAD ou VIIRS récentes, cela signifie qu'il n'y a eu aucun changement forestier récemment. Envisagez d'utiliser la couche contextuelle Variation annuelle de la couverture arborée pour chercher d'anciennes alertes de perte forestière, qui pourraient également éclairer les acteurs d'une enquête ou d'une visite sur le terrain.",
+                                    "text": "Je ne vois aucune donnée d'alerte"
+                                },
+                                "order2": {
+                                    "description": "Si l'application se bloque, ouvrez-la à nouveau. Si elle se bloque plusieurs fois, veuillez envoyer un e-mail à mailto:forestwatcher@wri.org en fournissant des informations sur le modèle de votre appareil et ce que vous faisiez dans l'application lorsqu'elle s'est bloquée.",
+                                    "text": "L'application se bloque"
+                                },
+                                "order3": {
+                                    "description": "Les fonctions de localisation et de navigation de Forest Watcher s'appuient sur le GPS interne de votre appareil. Tout d'abord, vérifiez que le GPS (souvent appelé « services de localisation ») est activé dans les paramètres de votre appareil mobile. Si ça ne fonctionne toujours pas, veuillez envoyer un e-mail à mailto:forestwatcher@wri.org en nous indiquant le modèle de périphérique que vous utilisez.",
+                                    "text": "Je ne vois pas la boussole ou mon emplacement"
+                                },
+                                "order4": {
+                                    "description": "Certains appareils qui n'ont que des caméras face avant peuvent ne pas être compatibles avec la caméra du formulaire de rapport. Vous pouvez plutôt prendre une photo sur votre application de caméra et utiliser la fonction de mise en ligne du rapport dans Forest Watcher pour ajouter une photo de votre bibliothèque au rapport.",
+                                    "text": "Je ne peux pas prendre une photo dans l'application"
+                                },
+                                "order5": {
+                                    "description": "Il se peut que vous ne puissiez pas toujours finir d'écrire un rapport en étant sur les lieux signalés par une alerte. Vous pouvez commencer à écrire un rapport, l'enregistrer et y revenir plus tard lorsque vous êtes de retour dans votre base. Vous pouvez également prendre une photo en utilisant votre appareil photo, puis remplir le rapport plus tard : vous pouvez joindre l'image à votre rapport.",
+                                    "text": "Je souhaite remplir un rapport plus tard"
+                                },
+                                "order6": {
+                                    "description": "Lorsque vous configurez Forest Watcher pour la première fois sur votre appareil mobile, l'application devra télécharger beaucoup de données pour fonctionner hors ligne. Vous devrez peut-être attendre environ 5 minutes pour que toutes les données soient chargées correctement. C'est normal. Si vous avez une connexion Internet faible ou lente, cela peut rendre le téléchargement plus long. Gardez l'application ouverte pour permettre au téléchargement d'arriver à terme. Après la configuration initiale, de nouvelles données d'alerte seront téléchargées chaque fois que vous connectez votre appareil à Internet - le temps de téléchargement varie selon le nombre d'alertes. La taille de ces mises à jour sera à l'échelle de kilooctets, tandis que le téléchargement initial prendra probablement quelques mégaoctets.",
+                                    "text": "Les alertes se chargent lentement"
+                                },
+                                "order7": {
+                                    "description": "Pour le moment, vous ne pouvez afficher qu'un seul jeu de données à la fois pour chaque Centre d'intérêt. Le jeu de données que vous consultez pour chaque Centre d'intérêt est contrôlé à l'aide du menu des paramètres. Si vous souhaitez consulter à la fois les données sur les feux de forêt et les données sur la déforestation pour le même emplacement, vous devrez créer deux Centres d'intérêt pour ce même emplacement et configurer chacune d'entre elles pour télécharger les différents jeux de données.",
+                                    "text": "Je veux voir les alertes GLAD et VIIRS pour le même Centre d'intérêt"
+                                },
+                                "order8": {
+                                    "description": "Forest Watcher contient un grand nombre de données et peut prendre beaucoup d'espace mémoire sur votre appareil en fonction du nombre de Centres d'intérêt que vous avez, de leur taille et du nombre d'alertes contenues dans chacun de ces Centres d'intérêt. Nous vous recommandons d'avoir au moins 16 Go de stockage interne sur votre appareil, de sorte que vous puissiez utiliser les autres applications ainsi que Forest Watcher : Forest Watcher n'aura pas besoin de tout cet espace de stockage. Plus les Centres d'intérêt que vous configurez dans l'application sont de petite taille et moins nombreuses, plus la taille des données à télécharger sur votre appareil sera réduite.",
+                                    "text": "La mémoire de mon appareil est saturée"
+                                },
+                                "order9": {
+                                    "description": "Vous pouvez utiliser Forest Watcher Desktop pour créer un modèle de formulaire personnalisé à utiliser par votre équipe lors de la collecte des données. Vous pouvez également ajouter des notes dans la section finale du formulaire si vous avez des observations que vous souhaitez faire.",
+                                    "text": "Je souhaite collecter des données personnalisées"
+                                }
+                            }
+                        },
+                        "title": "Que dois-je faire si :"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Contactez-nous avec vos commentaires ou questions en envoyant un e-mail à : forestwatcher@wri.org."
+                            }
+                        },
+                        "title": "Comment puis-je obtenir de l'assistance ?"
+                    }
+                ]
+            },
+            "inTheField": {
+                "title": "Using Forest Watcher in the Field",
+                "questions": []
+            },
+            "sectionHeader": "Categories",
+            "questionCountPlural": "%{count} Questions",
+            "questionCountSingular": "1 Question"
         }
     },
     "layers": {

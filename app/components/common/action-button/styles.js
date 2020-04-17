@@ -89,9 +89,7 @@ export default StyleSheet.create({
   },
   buttonTextDisabled: {
     color: Theme.fontColors.light,
-    fontWeight: '400',
-    marginLeft: 0,
-    fontStyle: 'italic'
+    marginLeft: 0
   },
   buttonTextError: {
     color: Theme.fontColors.white,

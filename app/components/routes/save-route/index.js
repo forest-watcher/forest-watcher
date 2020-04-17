@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { Text, ScrollView, Picker } from 'react-native';
+import { Dimensions, Text, ScrollView, Picker } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
@@ -10,6 +10,9 @@ import InputText from 'components/common/text-input';
 import { getValidLocations, stopTrackingLocation } from 'helpers/location';
 import i18n from 'i18next';
 import RoutePreviewImage from '../preview-image';
+import type { Route } from 'types/routes.types';
+
+const screenDimensions = Dimensions.get('screen');
 
 type Props = {
   componentId: string,
@@ -80,9 +83,7 @@ class SaveRoute extends PureComponent<Props> {
 
   onSaveRoutePressed = () => {
     stopTrackingLocation();
-    this.props.updateActiveRoute({
-      ...this.state.route
-    });
+    this.props.updateActiveRoute(this.state.route, this.props.route.areaId);
     this.props.finishAndSaveRoute();
     Navigation.pop(this.props.componentId);
   };
@@ -95,6 +96,8 @@ class SaveRoute extends PureComponent<Props> {
     return (
       <ScrollView style={styles.container}>
         <RoutePreviewImage
+          aspectRatio={0.5}
+          width={screenDimensions.width}
           style={styles.headerImage}
           route={{
             ...this.props.route,
@@ -131,13 +134,5 @@ class SaveRoute extends PureComponent<Props> {
     );
   }
 }
-/*
-label: PropTypes.string.isRequired,
-  selectedValue: PropTypes.any.isRequired,
-  onValueChange: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.any.isRequired
- */
+
 export default SaveRoute;

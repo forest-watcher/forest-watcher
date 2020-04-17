@@ -3,64 +3,34 @@
 import type { Route } from 'types/routes.types';
 
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
-import Basemap from 'containers/map/basemap';
-import RouteMarkers from 'components/map/route';
-import MapView from 'react-native-maps';
+import { View, ImageBackground, Platform } from 'react-native';
+
+import RoutePath from 'components/common/route-path';
+
+import styles from './styles';
+
+const routeMapBackground = require('assets/routeMapBackground.png');
 
 type Props = {
   route: Route,
-  style: *
+  style: *,
+  aspectRatio: number,
+  width: number
 };
 
 export default class RoutePreviewImage extends PureComponent<Props> {
   render() {
-    const { route, style } = this.props;
-    let minLatitude = Infinity;
-    let maxLatitude = -Infinity;
-    let minLongitude = Infinity;
-    let maxLongitude = -Infinity;
-
-    if (!route.locations) {
-      return null;
-    }
-
-    [...route.locations, route.destination].forEach(location => {
-      if (location.latitude < minLatitude) {
-        minLatitude = location.latitude;
-      }
-      if (location.latitude > maxLatitude) {
-        maxLatitude = location.latitude;
-      }
-      if (location.longitude < minLongitude) {
-        minLongitude = location.longitude;
-      }
-      if (location.longitude > maxLongitude) {
-        maxLongitude = location.longitude;
-      }
-    });
-
+    const { aspectRatio, width, route, style } = this.props;
+    const height = width * aspectRatio;
     return (
-      <View style={{ ...style, overflow: 'hidden' }} pointerEvents={'none'}>
-        <MapView
-          style={{
-            alignSelf: 'stretch',
-            flex: 1,
-            marginBottom: -26
-          }}
-          provider={MapView.PROVIDER_GOOGLE}
-          mapType="none"
-          loadingEnabled={true}
-          initialRegion={{
-            latitude: minLatitude + (maxLatitude - minLatitude) / 2,
-            longitude: minLongitude + (maxLongitude - minLongitude) / 2,
-            latitudeDelta: (maxLatitude - minLatitude) * 2,
-            longitudeDelta: (maxLongitude - minLongitude) * 2
-          }}
+      <View style={{ ...style, height, overflow: 'hidden' }} pointerEvents={'none'}>
+        <ImageBackground
+          style={styles.image}
+          resizeMode={Platform.OS === 'ios' ? 'repeat' : 'cover'}
+          source={routeMapBackground}
         >
-          <Basemap areaId={route.areaId} />
-          <RouteMarkers isTracking={false} route={route} />
-        </MapView>
+          <RoutePath size={height - 12} route={route} />
+        </ImageBackground>
       </View>
     );
   }

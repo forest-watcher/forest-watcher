@@ -1,19 +1,16 @@
 import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
+import MapboxGL from '@react-native-mapbox-gl/maps';
+
+const defaultPin = require('/assets/defaultPin.png');
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#EDEAE2'
   },
-  map: {
-    zIndex: 0,
-    flex: 1,
-    position: 'absolute',
-    right: 0,
-    left: 0,
-    bottom: -26,
-    top: 0
+  mapView: {
+    flex: 1
   },
   customLocationFixed: {
     position: 'absolute',
@@ -30,7 +27,8 @@ export default StyleSheet.create({
   },
   customLocationMarker: {
     height: 48,
-    width: 48
+    width: 48,
+    bottom: 24
   },
   offlineNotice: {
     position: 'absolute',
@@ -57,7 +55,7 @@ export default StyleSheet.create({
   routeVertex: {
     borderColor: 'white',
     borderWidth: 1,
-    backgroundColor: '#2e8dc7',
+    backgroundColor: Theme.colors.blue,
     borderRadius: 5,
     width: 10,
     height: 10
@@ -139,5 +137,37 @@ export default StyleSheet.create({
   forceRefresh: {
     marginTop: -1,
     paddingTop: 1
+  },
+  locationErrorBanner: {
+    margin: 16
+  },
+  infoBanner: {
+    margin: 16
   }
 });
+
+export const mapboxStyles = {
+  destinationLine: {
+    lineColor: Theme.colors.white,
+    lineWidth: 3,
+    lineOpacity: 0.8
+  },
+  areaOutline: {
+    lineColor: Theme.colors.turtleGreen,
+    lineCap: MapboxGL.LineJoin.Round,
+    lineJoin: MapboxGL.LineJoin.Round,
+    lineWidth: 3,
+    lineOpacity: 0.8
+  },
+  icon: {
+    iconImage: defaultPin,
+    iconAllowOverlap: true
+  },
+  geoJsonStyleSpec: {
+    fillColor: ['case', ['has', 'fill'], ['get', 'fill'], Theme.colors.turtleGreen],
+    fillOpacity: ['case', ['has', 'fill-opacity'], ['get', 'fill-opacity'], 0.6],
+    lineColor: ['case', ['has', 'stroke'], ['get', 'stroke'], Theme.colors.turtleGreen],
+    lineWidth: ['case', ['has', 'stroke-width'], ['get', 'stroke-width'], 3],
+    lineOpacity: ['case', ['has', 'stroke-opacity'], ['get', 'stroke-opacity'], 0.8]
+  }
+};

@@ -17,8 +17,6 @@
 #import "ReactNativeConfig.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
-@import GoogleMaps;
-
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -30,7 +28,6 @@
   NSString *apiUrl = [ReactNativeConfig envFor:@"GOOGLE_MAPS_API_KEY"];
   
   // Firebase Config
-  [GMSServices provideAPIKey:apiUrl];
   [FIRApp configure];
   
   // Setting the window bounds / colour.
@@ -63,5 +60,11 @@
   
   return handled;
 }
+
+#if RCT_DEV
+- (BOOL)bridge:(RCTBridge *)bridge didNotFindModule:(NSString *)moduleName {
+  return YES;
+}
+#endif
 
 @end

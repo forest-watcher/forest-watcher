@@ -8,14 +8,17 @@ import { withSafeArea } from 'react-native-safe-area';
 const SafeAreaView = withSafeArea(View, 'margin', 'bottom');
 
 type Props = {
-  ...ElementConfig<typeof View>
+  ...ElementConfig<typeof View>,
+  requiresSafeAreaView: boolean
 };
 
 class BottomTray extends Component<Props> {
   render() {
+    const ViewComponent = this.props.requiresSafeAreaView ? SafeAreaView : View;
+
     return (
       <View style={[styles.container, this.props.style]}>
-        <SafeAreaView>{this.props.children}</SafeAreaView>
+        <ViewComponent>{this.props.children}</ViewComponent>
       </View>
     );
   }

@@ -1,54 +1,100 @@
-import Theme from 'config/theme';
+import Theme, { isSmallScreen } from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   disclosureIndicator: {
-    marginHorizontal: 24
+    marginHorizontal: isSmallScreen ? 12 : 24
+  },
+  downloadButton: {
+    bottom: 12,
+    left: 12,
+    position: 'absolute'
+  },
+  bottomBorder: {
+    borderBottomWidth: 1,
+    borderBottomColor: Theme.colors.veryLightPink
   },
   item: {
+    flexGrow: 1,
     borderBottomColor: Theme.borderColors.main,
     borderBottomWidth: 2,
     backgroundColor: Theme.background.white,
     flexDirection: 'row',
-    alignItems: 'stretch',
-    justifyContent: 'space-between'
+    alignItems: 'stretch'
   },
   imageContainer: {
-    aspectRatio: 1,
-    backgroundColor: Theme.background.modal
+    minWidth: isSmallScreen ? 69 : 92,
+    flexShrink: 1,
+    alignItems: 'stretch',
+    backgroundColor: Theme.background.modal,
+    flexDirection: 'row'
+  },
+  largeImageContainer: {
+    minWidth: isSmallScreen ? 104 : 128
   },
   image: {
-    aspectRatio: 1,
-    overflow: 'hidden'
-  },
-  nameContainer: {
-    borderBottomWidth: 1,
-    borderBottomColor: Theme.colors.veryLightPink,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 26
-  },
-  contentContainer: {
     flex: 1,
-    alignItems: 'stretch',
-    marginLeft: 16
+    overflow: 'hidden',
+    width: undefined, // Required to make `require()` image scale
+    height: undefined // Required to make `require()` image scale
   },
-  title: {
+  legendContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  legendColor: {
+    width: 14,
+    height: 14,
+    marginTop: 10,
+    marginBottom: 10,
+    marginRight: 6
+  },
+  legendTitle: {
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
-    fontSize: 17,
+    fontSize: 12,
+    fontWeight: '400',
+    marginRight: 20
+  },
+  nameContainer: {
+    flex: 1,
+    paddingVertical: isSmallScreen ? 12 : 24
+  },
+  titleContainer: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  contentContainer: {
+    flexGrow: 1,
+    alignItems: 'stretch',
+    marginLeft: isSmallScreen ? 12 : 16
+  },
+  title: {
+    flex: 1,
+    fontFamily: Theme.font,
+    color: Theme.fontColors.secondary,
+    fontSize: isSmallScreen ? 16 : 17,
     fontWeight: '400'
   },
   settingsButton: {
     alignSelf: 'flex-start',
-    marginVertical: 10,
+    marginVertical: isSmallScreen ? 0 : 6,
     marginRight: 12
   },
+  largerLeftPadding: {
+    marginLeft: isSmallScreen ? 12 : 24
+  },
+  smallerVerticalPadding: {
+    paddingVertical: isSmallScreen ? 8 : 16
+  },
   subtitle: {
+    flex: 1,
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
-    fontSize: 15,
+    fontSize: isSmallScreen ? 12 : 15,
     fontWeight: '400',
-    marginTop: 2
+    marginTop: isSmallScreen ? 0 : 2
   }
 });

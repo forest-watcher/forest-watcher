@@ -18,8 +18,12 @@ import takeRight from 'lodash/takeRight';
 const SET_OFFLINE_MODE = 'app/SET_OFFLINE_MODE';
 export const SET_APP_SYNCED = 'app/SET_APP_SYNCED';
 export const RETRY_SYNC = 'app/RETRY_SYNC';
+const SET_AREA_COUNTRY_TOOLTIP_SEEN = 'app/SET_AREA_COUNTRY_TOOLTIP_SEEN';
+const SET_AREA_DOWNLOAD_TOOLTIP_SEEN = 'app/SET_AREA_DOWNLOAD_TOOLTIP_SEEN';
 const SET_COORDINATES_FORMAT = 'app/SET_COORDINATES_FORMAT';
+const SET_MAP_WALKTHROUGH_SEEN = 'app/SET_MAP_WALKTHROUGH_SEEN';
 const SET_PRISTINE_CACHE_TOOLTIP = 'app/SET_PRISTINE_CACHE_TOOLTIP';
+const SET_WELCOME_SEEN = 'app/SET_WELCOME_SEEN';
 export const SAVE_LAST_ACTIONS = 'app/SAVE_LAST_ACTIONS';
 export const SHOW_OFFLINE_MODE_IS_ON = 'app/SHOW_OFFLINE_MODE_IS_ON';
 export const SHOW_CONNECTION_REQUIRED = 'app/SHOW_CONNECTION_REQUIRED';
@@ -30,11 +34,15 @@ export const EXPORT_REPORTS_SUCCESSFUL = 'app/EXPORT_REPORTS_SUCCESSFUL';
 const initialState = {
   version,
   actions: [],
+  areaCountryTooltipSeen: false,
+  areaDownloadTooltipSeen: false,
+  mapWalkthroughSeen: false,
   synced: false,
   language: getLanguage(),
   offlineMode: false,
   pristineCacheTooltip: true,
-  coordinatesFormat: COORDINATES_FORMATS.decimal.value
+  coordinatesFormat: COORDINATES_FORMATS.decimal.value,
+  hasSeenWelcomeScreen: false
 };
 
 export default function reducer(state: AppState = initialState, action: AppAction) {
@@ -43,16 +51,25 @@ export default function reducer(state: AppState = initialState, action: AppActio
       // $FlowFixMe
       const { app } = action.payload;
       const language = getLanguage();
-      return { ...state, ...app, language, version };
+      const isUpdate = app?.version !== undefined && app?.version !== null && app?.version !== version;
+      return { ...state, ...app, language, version, isUpdate };
     }
     case SET_OFFLINE_MODE:
       return { ...state, offlineMode: action.payload };
     case SET_APP_SYNCED:
       return { ...state, synced: action.payload };
+    case SET_AREA_COUNTRY_TOOLTIP_SEEN:
+      return { ...state, areaCountryTooltipSeen: action.payload };
+    case SET_AREA_DOWNLOAD_TOOLTIP_SEEN:
+      return { ...state, areaDownloadTooltipSeen: action.payload };
     case SET_COORDINATES_FORMAT:
       return { ...state, coordinatesFormat: action.payload };
+    case SET_MAP_WALKTHROUGH_SEEN:
+      return { ...state, mapWalkthroughSeen: action.payload };
     case SET_PRISTINE_CACHE_TOOLTIP:
       return { ...state, pristineCacheTooltip: action.payload };
+    case SET_WELCOME_SEEN:
+      return { ...state, hasSeenWelcomeScreen: action.payload };
     case SAVE_LAST_ACTIONS: {
       // Save the last actions to send to the report
       const actions = [...takeRight(state.actions, ACTIONS_SAVED_TO_REPORT), action.payload];
@@ -61,7 +78,12 @@ export default function reducer(state: AppState = initialState, action: AppActio
     case LOGOUT_REQUEST:
       return {
         ...initialState,
-        language: state.language
+        language: state.language,
+        // These should only be shown once per install, not when you re-login
+        areaCountryTooltipSeen: state.areaCountryTooltipSeen,
+        areaDownloadTooltipSeen: state.areaDownloadTooltipSeen,
+        mapWalkthroughSeen: state.mapWalkthroughSeen,
+        hasSeenWelcomeScreen: state.hasSeenWelcomeScreen
       };
     default:
       return state;
@@ -122,10 +144,38 @@ export function setCoordinatesFormat(format: CoordinatesValue): AppAction {
   };
 }
 
+export function setWelcomeScreenSeen(seen: boolean): AppAction {
+  return {
+    type: SET_WELCOME_SEEN,
+    payload: seen
+  };
+}
+
 export function setPristineCacheTooltip(pristine: boolean): AppAction {
   return {
     type: SET_PRISTINE_CACHE_TOOLTIP,
     payload: pristine
+  };
+}
+
+export function setAreaCountryTooltipSeen(seen: boolean): AppAction {
+  return {
+    type: SET_AREA_COUNTRY_TOOLTIP_SEEN,
+    payload: seen
+  };
+}
+
+export function setAreaDownloadTooltipSeen(seen: boolean): AppAction {
+  return {
+    type: SET_AREA_DOWNLOAD_TOOLTIP_SEEN,
+    payload: seen
+  };
+}
+
+export function setMapWalkthroughSeen(seen: boolean): AppAction {
+  return {
+    type: SET_MAP_WALKTHROUGH_SEEN,
+    payload: seen
   };
 }
 

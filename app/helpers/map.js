@@ -7,6 +7,9 @@ import formatcoords from 'formatcoords';
 import moment from 'moment';
 import i18n from 'i18next';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
+import { coordsArrayToObject, isValidLatLng } from 'helpers/location';
+
+import _ from 'lodash';
 
 const kdbush = require('kdbush');
 const geokdbush = require('geokdbush');
@@ -74,13 +77,16 @@ export function getContextualLayer(layers) {
 }
 
 export function formatCoordsByFormat(coordinates: Coordinates, format: CoordinatesFormat) {
+  if (!isValidLatLng(coordinates)) {
+    return '';
+  }
   const { latitude, longitude } = coordinates;
   if (format === COORDINATES_FORMATS.utm.value) {
     const utm = new UtmLatLng();
     const utmCoords = utm.convertLatLngToUtm(latitude, longitude, 0);
     return `${utmCoords.ZoneNumber} ${utmCoords.ZoneLetter}, ${utmCoords.Easting} E ${utmCoords.Northing} N`;
   } else if (format === COORDINATES_FORMATS.decimal.value) {
-    return `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+    return `${latitude?.toFixed(4)}, ${longitude?.toFixed(4)}`;
   } else {
     // Not utm, not decimal... has to be degrees
     return formatcoords(latitude, longitude).format('FFf', { latLonSeparator: ', ', decimalPlaces: 2 });
@@ -107,10 +113,7 @@ function pointsFromCluster(cluster) {
   }
   return cluster
     .filter(marker => marker.properties.point_count === undefined)
-    .map(feature => ({
-      longitude: feature.geometry.coordinates[0],
-      latitude: feature.geometry.coordinates[1]
-    }));
+    .map(feature => coordsArrayToObject(feature));
 }
 
 export function getNeighboursSelected(selectedAlerts, markers) {
@@ -197,26 +200,12 @@ export function formatDistance(distance, thresholdBeforeKm = 1, relativeToUser =
  * @returns {{sw: [*, *], ne: [*, *]}}
  */
 export function getPolygonBoundingBox(polygon) {
-  const bounds = {};
-  let latitude;
-  let longitude;
-
-  if (polygon.length === 0) {
+  if (!polygon || polygon.length === 0) {
     return undefined;
   }
 
-  for (let i = 0; i < polygon.length; i++) {
-    longitude = polygon[i].latitude;
-    latitude = polygon[i].longitude;
-    bounds.longMin = bounds.longMin < longitude ? bounds.longMin : longitude;
-    bounds.longMax = bounds.longMax > longitude ? bounds.longMax : longitude;
-    bounds.latMin = bounds.latMin < latitude ? bounds.latMin : latitude;
-    bounds.latMax = bounds.latMax > latitude ? bounds.latMax : latitude;
-  }
-
-  const boundingBox = {
-    ne: [bounds.latMin, bounds.longMin],
-    sw: [bounds.latMax, bounds.longMax]
+  return {
+    ne: [_.maxBy(polygon, x => x.longitude).longitude, _.maxBy(polygon, x => x.latitude).latitude],
+    sw: [_.minBy(polygon, x => x.longitude).longitude, _.minBy(polygon, x => x.latitude).latitude]
   };
-  return boundingBox;
 }

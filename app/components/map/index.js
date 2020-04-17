@@ -1,12 +1,22 @@
+// @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
-import { Alert, AppState, BackHandler, Dimensions, Image, LayoutAnimation, Platform, Text, View } from 'react-native';
+import {
+  Animated,
+  Alert,
+  AppState,
+  BackHandler,
+  Dimensions,
+  Image,
+  LayoutAnimation,
+  Platform,
+  Text,
+  View
+} from 'react-native';
 import * as Sentry from '@sentry/react-native';
 
-import { LOCATION_TRACKING, REPORTS } from 'config/constants';
+import { LOCATION_TRACKING, REPORTS, MAPS } from 'config/constants';
 import throttle from 'lodash/throttle';
-import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import toUpper from 'lodash/toUpper';
 import kebabCase from 'lodash/kebabCase';
@@ -14,26 +24,19 @@ import deburr from 'lodash/deburr';
 import moment from 'moment';
 
 import CircleButton from 'components/common/circle-button';
-import MapAttribution from 'components/map/map-attribution';
 import BottomDialog from 'components/map/bottom-dialog';
 import LocationErrorBanner from 'components/map/locationErrorBanner';
-import {
-  formatCoordsByFormat,
-  formatDistance,
-  getDistanceOfLine,
-  getMapZoom,
-  getNeighboursSelected,
-  getPolygonBoundingBox
-} from 'helpers/map';
+import { formatCoordsByFormat, getPolygonBoundingBox } from 'helpers/map';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
-
 import Theme from 'config/theme';
 import i18n from 'i18next';
-import styles from './styles';
+import styles, { mapboxStyles } from './styles';
 import { Navigation } from 'react-native-navigation';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
 import MapboxGL from '@react-native-mapbox-gl/maps';
+
+import { toFileUri } from 'helpers/fileURI';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
@@ -50,8 +53,19 @@ import {
   startTrackingLocation,
   stopTrackingLocation,
   startTrackingHeading,
-  stopTrackingHeading
+  stopTrackingHeading,
+  getCoordinateAndDistanceText,
+  coordsObjectToArray,
+  coordsArrayToObject,
+  isValidLatLng,
+  isValidLatLngArray
 } from 'helpers/location';
+import RouteMarkers from 'components/map/route';
+import type { Basemap } from 'types/basemaps.types';
+import type { Route } from 'types/routes.types';
+import type { File } from 'types/file.types';
+import InfoBanner from 'components/map/info-banner';
+import type { LayerSettings } from 'types/layerSettings.types';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -65,6 +79,8 @@ const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN = 0;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_EXITING = 1;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_STOPPING = 2;
 
+const DISMISSED_INFO_BANNER_POSTIION = 200;
+
 /**
  * Elapsed time in milliseconds after which we should consider the most recent location "stale", presumably because we
  * were unable to obtain a GPS fix
@@ -75,7 +91,7 @@ const STALE_LOCATION_THRESHOLD = LOCATION_TRACKING.interval * 3;
 
 const backButtonImage = require('assets/back.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
-const settingsBlackIcon = require('assets/settings_black.png');
+const mapSettingsIcon = require('assets/map_settings.png');
 const startTrackingIcon = require('assets/startTracking.png');
 const stopTrackingIcon = require('assets/stopTracking.png');
 const myLocationIcon = require('assets/my_location.png');
@@ -85,7 +101,36 @@ const addLocationIcon = require('assets/add_location.png');
 const newAlertIcon = require('assets/new-alert.png');
 const closeIcon = require('assets/close_gray.png');
 
-class MapComponent extends Component {
+type Props = {
+  componentId: string,
+  createReport: Object => {},
+  ctxLayerLocalTilePath?: string,
+  areaCoordinates: [number, number],
+  getImportedContextualLayersById: (Array<string>) => Array<File>,
+  isConnected: boolean,
+  isOfflineMode: boolean,
+  setCanDisplayAlerts: boolean => {},
+  canDisplayAlerts: boolean,
+  area: Object,
+  setActiveAlerts: () => {},
+  contextualLayer: {
+    id?: ?string,
+    name?: ?string,
+    url: string
+  },
+  coordinatesFormat: string,
+  mapWalkthroughSeen: boolean,
+  setSelectedAreaId: () => {},
+  route: Route,
+  layerSettings: LayerSettings,
+  isTracking: boolean,
+  onStartTrackingRoute: () => {},
+  onCancelTrackingRoute: () => {},
+  getActiveBasemap: () => Basemap,
+  getRoutesById: string => Array<Route>
+};
+
+class MapComponent extends Component<Props> {
   margin = Platform.OS === 'ios' ? 50 : 100;
   FIT_OPTIONS = {
     edgePadding: { top: this.margin, right: this.margin, bottom: this.margin, left: this.margin },
@@ -116,9 +161,8 @@ class MapComponent extends Component {
         ],
         rightButtons: [
           {
-            color: Theme.fontColors.white,
             id: 'settings',
-            icon: settingsBlackIcon
+            icon: mapSettingsIcon
           }
         ]
       }
@@ -143,9 +187,11 @@ class MapComponent extends Component {
   constructor(props) {
     super(props);
     Navigation.events().bindComponent(this);
+    this.onRegionDidChange = this.onRegionDidChange.bind(this);
+
     this.state = {
       bottomSafeAreaInset: 0,
-      lastPosition: null,
+      userLocation: null,
       hasCompass: false,
       heading: null,
       region: {
@@ -163,7 +209,15 @@ class MapComponent extends Component {
       layoutHasForceRefreshed: false,
       routeTrackingDialogState: ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN,
       locationError: null,
-      mapCameraBounds: getPolygonBoundingBox(props.areaCoordinates)
+      mapCameraBounds: this.getMapCameraBounds(),
+      destinationCoords: null,
+      animatedPosition: new Animated.Value(DISMISSED_INFO_BANNER_POSTIION),
+      infoBannerProps: {
+        title: '',
+        subtitle: '',
+        type: '',
+        featureId: ''
+      }
     };
 
     SafeArea.getSafeAreaInsetsForRootView().then(result => {
@@ -206,7 +260,21 @@ class MapComponent extends Component {
         return {};
       });
     }, 1000);
+
+    const { setCanDisplayAlerts, canDisplayAlerts } = this.props;
+    if (!canDisplayAlerts) {
+      setCanDisplayAlerts(true);
+    }
+
+    this.showMapWalkthrough();
   }
+
+  // called on startup to set initial camera position
+  getMapCameraBounds = () => {
+    const { route, areaCoordinates } = this.props;
+    const bounds = getPolygonBoundingBox(route?.locations?.length ? route.locations : areaCoordinates);
+    return { ...bounds, ...MAPS.smallPadding };
+  };
 
   onLocationUpdateError = error => {
     this.setState({
@@ -214,12 +282,29 @@ class MapComponent extends Component {
     });
   };
 
-  componentDidAppear() {
-    const { setCanDisplayAlerts, canDisplayAlerts } = this.props;
-    if (!canDisplayAlerts) {
-      setCanDisplayAlerts(true);
+  showMapWalkthrough = () => {
+    if (!this.props.mapWalkthroughSeen) {
+      Navigation.showModal({
+        stack: {
+          children: [
+            {
+              component: {
+                name: 'ForestWatcher.MapWalkthrough',
+                options: {
+                  layout: {
+                    backgroundColor: 'transparent',
+                    componentBackgroundColor: 'rgba(0,0,0,0.74)'
+                  },
+                  screenBackgroundColor: 'rgba(0,0,0,0.74)',
+                  modalPresentationStyle: 'overCurrentContext'
+                }
+              }
+            }
+          ]
+        }
+      });
     }
-  }
+  };
 
   componentDidUpdate(prevProps, prevState) {
     const { area, setActiveAlerts } = this.props;
@@ -228,18 +313,17 @@ class MapComponent extends Component {
       const datasetChanged = !isEqual(area.dataset, prevProps.area.dataset);
       if (differentArea || datasetChanged) {
         setActiveAlerts();
-        this.updateMarkers();
         if (differentArea) {
           this.updateSelectedArea();
         }
       }
     }
 
-    if (prevState.lastPosition !== this.state.lastPosition) {
+    if (prevState.userLocation !== this.state.userLocation) {
       Navigation.mergeOptions(this.props.componentId, {
         topBar: {
           title: {
-            text: formatCoordsByFormat(this.state.lastPosition, this.props.coordinatesFormat)
+            text: formatCoordsByFormat(this.state.userLocation, this.props.coordinatesFormat)
           }
         }
       });
@@ -344,11 +428,7 @@ class MapComponent extends Component {
   onStartTrackingPressed = debounceUI(async () => {
     try {
       await this.geoLocate(true);
-
-      this.props.onStartTrackingRoute(
-        this.state.selectedAlerts[this.state.selectedAlerts.length - 1],
-        this.props.area.id
-      );
+      this.props.onStartTrackingRoute(coordsArrayToObject(this.state.destinationCoords), this.props.area.id);
 
       this.onSelectionCancelPress();
 
@@ -392,6 +472,11 @@ class MapComponent extends Component {
     });
   });
 
+  async onRegionDidChange() {
+    const destinationCoords = await this.map.getCenter();
+    this.setState({ destinationCoords, dragging: false });
+  }
+
   showBottomDialog = debounceUI((isExiting = false) => {
     this.setState({
       routeTrackingDialogState: isExiting
@@ -434,7 +519,7 @@ class MapComponent extends Component {
    */
   updateLocationFromGeolocation = throttle(location => {
     this.setState({
-      lastPosition: location,
+      userLocation: location,
       locationError: null
     });
   }, 300);
@@ -452,14 +537,8 @@ class MapComponent extends Component {
   }, 450);
 
   onCustomReportingPress = debounceUI(() => {
-    // If the region's latitude & longitude aren't set, we shouldn't enter custom reporting mode!
-    if (!(this.state.region.latitude && this.state.region.longitude)) {
-      return;
-    }
-
     this.setState(prevState => ({
-      customReporting: true,
-      selectedAlerts: [prevState.region]
+      customReporting: true
     }));
   });
 
@@ -471,83 +550,36 @@ class MapComponent extends Component {
     });
   });
 
+  getFeatureId = () => {
+    return this.props.route?.id || this.props.area.id;
+  };
+
   onSettingsPress = debounceUI(() => {
+    // If route has been opened, that is the current layer settings feature ID,
+    // otherwise use the area ID
     Navigation.mergeOptions(this.props.componentId, {
       sideMenu: {
         right: {
-          visible: true
+          visible: true,
+          component: {
+            passProps: {
+              // https://github.com/wix/react-native-navigation/issues/3635
+              // Pass componentId so drawer can push screens
+              componentId: this.props.componentId,
+              featureId: this.getFeatureId()
+            }
+          }
         }
       }
     });
   });
 
-  onMapReady = () => {
-    this.forceRefreshLayout();
-    if (this.props.areaCoordinates) {
-      requestAnimationFrame(() => this.map.fitToCoordinates(this.props.areaCoordinates, this.FIT_OPTIONS));
-    }
-    this.props.setActiveAlerts();
-    this.updateMarkers();
-  };
-
-  /**
-   * Makes the compass usable. The mapPadding property of the MapView by default clips/crops the map views instead
-   * of applying the padding and pushing them inwards.
-   *
-   * This method forces the map view to redraw/layout after the padding has been applied and fixes the problem.
-   * GitHub Issues:
-   * https://github.com/react-native-community/react-native-maps/issues/2336
-   * https://github.com/react-native-community/react-native-maps/issues/1033
-   */
-  forceRefreshLayout = () => {
-    if (!this.state.layoutHasForceRefreshed) {
-      this.setState({
-        layoutHasForceRefreshed: true
-      });
-    }
-  };
-
-  getMarkerSize() {
-    const { mapZoom } = this.state;
-    const expandClusterZoomLevel = 15;
-    const initialMarkerSize = 18;
-
-    const scale = mapZoom - expandClusterZoomLevel;
-    const rescaleFactor = mapZoom <= expandClusterZoomLevel ? 1 : scale;
-    const size = initialMarkerSize * rescaleFactor;
-    return { height: size, width: size };
-  }
-
-  updateMarkers = debounce((clean = false) => {
-    const { region, mapZoom } = this.state;
-    const bbox = [
-      region.longitude - region.longitudeDelta / 2,
-      region.latitude - region.latitudeDelta / 2,
-      region.longitude + region.longitudeDelta / 2,
-      region.latitude + region.latitudeDelta / 2
-    ];
-    const clusters = null;
-    const markers = clusters || [];
-    markers.activeMarkersId = markers.length > 0 ? bbox.join('_') + mapZoom : '';
-
-    if (clean) {
-      this.setState({
-        markers,
-        selectedAlerts: [],
-        neighbours: []
-      });
-    } else {
-      this.setState({ markers });
-    }
-  }, 300);
-
   // Zoom map to user location
   zoomToUserLocation = debounceUI(() => {
-    const { lastPosition } = this.state;
-    if (lastPosition) {
-      // todo: do we want to includes selected alert on zoomToUserLocation?
+    const { userLocation } = this.state;
+    if (userLocation) {
       this.mapCamera.setCamera({
-        centerCoordinate: [lastPosition.longitude, lastPosition.latitude],
+        centerCoordinate: [userLocation.longitude, userLocation.latitude],
         zoomLevel: 16,
         animationDuration: 2000
       });
@@ -565,24 +597,24 @@ class MapComponent extends Component {
   createReport = selectedAlerts => {
     this.props.setCanDisplayAlerts(false);
     const { area } = this.props;
-    const { lastPosition } = this.state;
+    const { userLocation } = this.state;
     let latLng = [];
     if (selectedAlerts && selectedAlerts.length > 0) {
       latLng = selectedAlerts.map(alert => ({
         lat: alert.latitude,
         lon: alert.longitude
       }));
-    } else if (this.isRouteTracking() && lastPosition) {
+    } else if (this.isRouteTracking() && userLocation) {
       latLng = [
         {
-          lat: lastPosition.latitude,
-          lon: lastPosition.longitude
+          lat: userLocation.latitude,
+          lon: userLocation.longitude
         }
       ];
     }
 
     const userLatLng =
-      this.state.lastPosition && `${this.state.lastPosition.latitude},${this.state.lastPosition.longitude}`;
+      this.state.userLocation && `${this.state.userLocation.latitude},${this.state.userLocation.longitude}`;
     const reportedDataset = area.dataset ? `-${area.dataset.name}` : '';
     const areaName = toUpper(kebabCase(deburr(area.name)));
     const reportName = `${areaName}${reportedDataset}-REPORT--${moment().format('YYYY-MM-DDTHH:mm:ss')}`;
@@ -607,71 +639,6 @@ class MapComponent extends Component {
     });
   };
 
-  onRegionChangeComplete = region => {
-    const mapZoom = getMapZoom(region);
-
-    this.setState(
-      prevState => ({
-        region,
-        mapZoom,
-        selectedAlerts: prevState.customReporting && prevState.dragging ? [region] : prevState.selectedAlerts,
-        dragging: false
-      }),
-      () => {
-        this.updateMarkers();
-      }
-    );
-  };
-
-  zoomTo = (coordinates, id) => {
-    // We substract one so there's always some margin
-    const zoomScale = 1.0;
-    const zoomCoordinates = {
-      latitude: coordinates.latitude,
-      longitude: coordinates.longitude,
-      latitudeDelta: this.state.region.latitudeDelta / zoomScale,
-      longitudeDelta: this.state.region.longitudeDelta / zoomScale
-    };
-    this.map.animateToRegion(zoomCoordinates);
-  };
-
-  selectAlert = coordinate => {
-    if (coordinate && !this.state.customReporting) {
-      this.setState(prevState => ({
-        neighbours: getNeighboursSelected([...prevState.selectedAlerts, coordinate], prevState.markers),
-        selectedAlerts: [...prevState.selectedAlerts, coordinate]
-      }));
-    }
-  };
-
-  removeSelection = coordinate => {
-    this.setState(state => {
-      let neighbours = [];
-      if (state.selectedAlerts && state.selectedAlerts.length > 0) {
-        const selectedAlerts = state.selectedAlerts.filter(
-          alert => alert.latitude !== coordinate.latitude || alert.longitude !== coordinate.longitude
-        );
-        neighbours = selectedAlerts.length > 0 ? getNeighboursSelected(selectedAlerts, state.markers) : [];
-        return {
-          neighbours,
-          selectedAlerts
-        };
-      }
-      return { selectedAlerts: [] };
-    });
-  };
-
-  includeNeighbour = coordinate => {
-    this.setState(state => {
-      const selectedAlerts = [...state.selectedAlerts, coordinate];
-      const neighbours = getNeighboursSelected(selectedAlerts, state.markers);
-      return {
-        neighbours,
-        selectedAlerts
-      };
-    });
-  };
-
   updateSelectedArea = () => {
     this.setState(
       {
@@ -686,46 +653,91 @@ class MapComponent extends Component {
     );
   };
 
-  /**
-   * getCoordinateAndDistanceText - Returns the location and distance text.
-   */
-  getCoordinateAndDistanceText = () => {
-    const getCoordinateText = (targetLocation, currentLocation) => {
-      const { coordinatesFormat } = this.props;
+  // Renders all active routes in layer settings
+  renderAllRoutes = () => {
+    let routeIds = this.props.layerSettings.routes.activeRouteIds;
+    // this is already being rendered as it is the selected feature
+    routeIds = routeIds.filter(routeId => routeId !== this.getFeatureId());
+    const routes = this.props.getRoutesById(routeIds);
+    return routes.map(route => {
+      return (
+        <RouteMarkers
+          key={route.id}
+          isTracking={false}
+          userLocation={null}
+          route={route}
+          onShapeSourcePressed={this.onShapeSourcePressed}
+        />
+      );
+    });
+  };
 
-      if (targetLocation && currentLocation) {
-        const distance = getDistanceOfLine(targetLocation, currentLocation);
+  // Renders all active imported contextual layers in settings
+  renderImportedContextualLayers = () => {
+    const layerIds = this.props.layerSettings.contextualLayers.activeContextualLayerIds;
+    const layerFiles = this.props.getImportedContextualLayersById(layerIds);
+    return (
+      <React.Fragment>
+        {layerFiles.map(layerFile => {
+          return (
+            <MapboxGL.ShapeSource
+              key={layerFile.id}
+              id={'imported_layer_' + layerFile.id}
+              url={toFileUri(layerFile.uri)}
+            >
+              <MapboxGL.SymbolLayer
+                id={'imported_layer_symbol_' + layerFile.id}
+                sourceID={'imported_layer_' + layerFile.id}
+                style={mapboxStyles.icon}
+              />
+              <MapboxGL.LineLayer id={'imported_layer_line_' + layerFile.id} style={mapboxStyles.geoJsonStyleSpec} />
+              <MapboxGL.FillLayer
+                filter={['match', ['geometry-type'], ['LineString', 'MultiLineString'], false, true]}
+                id={'imported_layer_fill_' + layerFile.id}
+                style={mapboxStyles.geoJsonStyleSpec}
+              />
+            </MapboxGL.ShapeSource>
+          );
+        })}
+      </React.Fragment>
+    );
+  };
 
-        return `${i18n.t('map.destination')} ${formatCoordsByFormat(targetLocation, coordinatesFormat)}\n${i18n.t(
-          'map.distance'
-        )} ${formatDistance(distance)}`;
-      }
-
-      return '';
-    };
-
-    const { selectedAlerts, lastPosition } = this.state;
-    const { route } = this.props;
-
-    if (this.isRouteTracking()) {
-      // Show the destination coordinates.
-      return getCoordinateText(route.destination, lastPosition);
-    } else if (selectedAlerts && selectedAlerts.length > 0) {
-      // Show the selected alert coordinate.
-      const last = selectedAlerts.length - 1;
-      const coordinates = {
-        latitude: selectedAlerts[last].latitude,
-        longitude: selectedAlerts[last].longitude
-      };
-      return getCoordinateText(coordinates, lastPosition);
-    } else {
-      // Show nothing!
-      return '';
+  // Draw line from user location to destination
+  renderDestinationLine = () => {
+    const { destinationCoords, userLocation, customReporting } = this.state;
+    if (!customReporting || !destinationCoords || !userLocation) {
+      return null;
     }
+    const bothValidLocations = isValidLatLngArray(destinationCoords) && isValidLatLng(userLocation);
+
+    let line = null;
+    if (bothValidLocations) {
+      line = MapboxGL.geoUtils.makeLineString([coordsObjectToArray(userLocation), destinationCoords]);
+    }
+    return (
+      <MapboxGL.ShapeSource id="destLine" shape={line}>
+        <MapboxGL.LineLayer id="destLineLayer" style={mapboxStyles.destinationLine} />
+      </MapboxGL.ShapeSource>
+    );
+  };
+
+  // Draw area polygon
+  renderAreaOutline = () => {
+    const coords = this.props.areaCoordinates?.map(coord => coordsObjectToArray(coord));
+    if (!coords || coords.length < 2) {
+      return null;
+    }
+    const line = MapboxGL.geoUtils.makeLineString(coords);
+    return (
+      <MapboxGL.ShapeSource id="areaOutline" shape={line}>
+        <MapboxGL.LineLayer id="areaOutlineLayer" style={mapboxStyles.areaOutline} />
+      </MapboxGL.ShapeSource>
+    );
   };
 
   renderButtonPanel() {
-    const { customReporting, lastPosition, locationError, neighbours, selectedAlerts } = this.state;
+    const { customReporting, userLocation, locationError, neighbours, selectedAlerts, infoBannerProps } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
     const hasNeighbours = neighbours && neighbours.length > 0;
     const canReport = hasAlertsSelected || customReporting;
@@ -736,10 +748,13 @@ class MapComponent extends Component {
     return (
       <React.Fragment>
         <LocationErrorBanner
-          style={{ margin: 16 }}
+          style={styles.locationErrorBanner}
           locationError={locationError}
-          mostRecentLocationTime={lastPosition?.timestamp}
+          mostRecentLocationTime={userLocation?.timestamp}
         />
+        <Animated.View style={{ transform: [{ translateY: this.state.animatedPosition }] }}>
+          <InfoBanner style={styles.infoBanner} {...infoBannerProps} />
+        </Animated.View>
         <View style={styles.buttonPanel}>
           {canReport ? (
             <React.Fragment>
@@ -749,7 +764,7 @@ class MapComponent extends Component {
           ) : (
             <CircleButton shouldFillContainer onPress={this.onCustomReportingPress} icon={addLocationIcon} />
           )}
-          {lastPosition ? (
+          {userLocation ? (
             <CircleButton shouldFillContainer onPress={this.zoomToUserLocation} light icon={myLocationIcon} />
           ) : null}
           {canReport ? (
@@ -784,7 +799,6 @@ class MapComponent extends Component {
       </View>,
       <FooterSafeAreaView key="footer" pointerEvents="box-none" style={styles.footer}>
         {this.renderButtonPanel()}
-        <MapAttribution />
       </FooterSafeAreaView>
     ];
   }
@@ -819,19 +833,51 @@ class MapComponent extends Component {
     ) : null;
   }
 
-  onMoveShouldSetResponder = () => {
-    // Hack to fix onPanDrag not working for iOS when scroll enabled
-    // https://github.com/react-community/react-native-maps/blob/master/docs/mapview.md
-    this.setState({ dragging: true });
-    return false;
+  onMapPress = () => {
+    // dismiss info banner
+    Animated.spring(this.state.animatedPosition, {
+      toValue: DISMISSED_INFO_BANNER_POSTIION,
+      velocity: 3,
+      tension: 2,
+      friction: 8
+    }).start();
+  };
+
+  onShapeSourcePressed = e => {
+    // show info banner with feature details
+    const { endDate, name, type, featureId } = e?.nativeEvent?.payload?.properties;
+    const dateAgo = moment(endDate).fromNow();
+    if (endDate && name) {
+      this.setState({
+        infoBannerProps: {
+          title: name,
+          subtitle: dateAgo,
+          type,
+          featureId
+        }
+      });
+      // show info banner
+      Animated.spring(this.state.animatedPosition, {
+        toValue: 0,
+        velocity: 3,
+        tension: 2,
+        friction: 8
+      }).start();
+    }
   };
 
   render() {
-    const { customReporting } = this.state;
+    const { customReporting, userLocation, destinationCoords } = this.state;
+    const { isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap, layerSettings } = this.props;
 
-    const { isConnected, isOfflineMode } = this.props;
+    const basemap = getActiveBasemap(this.getFeatureId());
 
-    const customReportingElement = customReporting ? (
+    const coordinateAndDistanceText = customReporting
+      ? getCoordinateAndDistanceText(destinationCoords, userLocation, route, coordinatesFormat, this.isRouteTracking())
+      : '';
+
+    // Map elements
+    const renderCustomReportingMarker = customReporting ? (
       <View
         pointerEvents="none"
         style={[styles.customLocationFixed, this.state.dragging ? styles.customLocationTransparent : '']}
@@ -840,22 +886,23 @@ class MapComponent extends Component {
       </View>
     ) : null;
 
-    const containerStyle = this.state.layoutHasForceRefreshed
-      ? [styles.container, styles.forceRefresh]
-      : styles.container;
+    // Displays user location circle on map
+    const renderUserLocation = <MapboxGL.UserLocation visible={true} />;
 
-    const userLocationElement = <MapboxGL.UserLocation visible={true} />;
-
-    const mapCameraElement = (
+    // Controls view of map (location / zoom)
+    const renderMapCamera = (
       <MapboxGL.Camera
         ref={ref => {
           this.mapCamera = ref;
         }}
-        // centerCoordinate={areaCoordinates || undefined}
         bounds={this.state.mapCameraBounds}
         animationDuration={0}
       />
     );
+
+    const containerStyle = this.state.layoutHasForceRefreshed
+      ? [styles.container, styles.forceRefresh]
+      : styles.container;
 
     return (
       <View style={containerStyle} onMoveShouldSetResponder={this.onMoveShouldSetResponder}>
@@ -867,76 +914,39 @@ class MapComponent extends Component {
                 {isOfflineMode ? i18n.t('settings.offlineMode') : i18n.t('commonText.connectionRequiredTitle')}
               </Text>
             )}
-            <Text style={styles.coordinateText}>{this.getCoordinateAndDistanceText()}</Text>
+            <Text style={styles.coordinateText}>{coordinateAndDistanceText}</Text>
           </SafeAreaView>
         </View>
-        {/*
-        <MapView
+        <MapboxGL.MapView
           ref={ref => {
             this.map = ref;
           }}
-          style={{
-            ...styles.map,
-            bottom: styles.map.bottom - this.state.bottomSafeAreaInset
-          }}
-          provider={MapView.PROVIDER_GOOGLE}
-          mapPadding={Platform.OS === 'android' ? { top: 40, bottom: 0, left: 0, right: 0 } : undefined}
-          mapType="none"
-          minZoomLevel={2}
-          maxZoomLevel={18}
-          showsCompass
-          rotateEnabled
-          moveOnMarkerPress={false}
-          onMapReady={this.onMapReady}
-          onRegionChangeComplete={this.onRegionChangeComplete}
+          style={styles.mapView}
+          styleURL={basemap.styleURL}
+          onRegionDidChange={this.onRegionDidChange}
+          onPress={this.onMapPress}
         >
-          <Basemap areaId={area.id} />
-          {contextualLocalLayerElement}
-          {contextualRemoteLayerElement}
-          {clustersElement}
-          {compassLineElement}
-          <RouteMarkers isTracking={this.isRouteTracking()} lastPosition={lastPosition} route={route} />
-          {areaPolygonElement}
-          {neighboursAlertsElement}
-          {selectedAlertsElement}
-          {userPositionElement}
-          {compassElement}
-        </MapView>
-        */}
-        <MapboxGL.MapView style={{ flex: 1 }} styleURL={MapboxGL.StyleURL.SatelliteStreet}>
-          {userLocationElement}
-          {mapCameraElement}
+          {renderMapCamera}
+          {this.renderAreaOutline()}
+          {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
+          {layerSettings.contextualLayers.layerIsActive && (
+            <React.Fragment>{this.renderImportedContextualLayers()}</React.Fragment>
+          )}
+          {this.renderDestinationLine()}
+          <RouteMarkers
+            isTracking={this.isRouteTracking()}
+            userLocation={userLocation}
+            route={route}
+            onShapeSourcePressed={this.onShapeSourcePressed}
+          />
+          {renderUserLocation}
         </MapboxGL.MapView>
-        {customReportingElement}
+        {renderCustomReportingMarker}
         {this.renderMapFooter()}
         {this.renderRouteTrackingDialog()}
       </View>
     );
   }
 }
-
-MapComponent.propTypes = {
-  componentId: PropTypes.string.isRequired,
-  createReport: PropTypes.func.isRequired,
-  ctxLayerLocalTilePath: PropTypes.string,
-  areaCoordinates: PropTypes.array,
-  isConnected: PropTypes.bool.isRequired,
-  isOfflineMode: PropTypes.bool.isRequired,
-  setCanDisplayAlerts: PropTypes.func.isRequired,
-  canDisplayAlerts: PropTypes.bool.isRequired,
-  area: PropTypes.object.isRequired,
-  setActiveAlerts: PropTypes.func.isRequired,
-  contextualLayer: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    url: PropTypes.string.isRequired
-  }),
-  coordinatesFormat: PropTypes.string.isRequired,
-  setSelectedAreaId: PropTypes.func.isRequired,
-  route: PropTypes.object,
-  isTracking: PropTypes.bool.isRequired,
-  onStartTrackingRoute: PropTypes.func.isRequired,
-  onCancelTrackingRoute: PropTypes.func.isRequired
-};
 
 export default MapComponent;

@@ -2,10 +2,17 @@
 
 import type { OfflineMeta } from 'types/offline.types';
 import type { DeleteAreaCommit, Area } from 'types/areas.types';
+import type { File } from 'types/./file.types';
 
 export type ContextualLayer = {
+  createdAt?: ?string,
+  enabled?: ?boolean,
   id: string,
+  isPublic?: ?boolean,
   name: string,
+  owner?: ?{
+    type: string
+  },
   url: string
 };
 
@@ -18,7 +25,10 @@ export type LayersState = {
   layersProgress: LayersProgress,
   cacheStatus: LayersCacheStatus,
   cache: LayersCache,
-  pendingCache: LayersPendingCache
+  pendingCache: LayersPendingCache,
+  importError: {},
+  imported: Array<File>,
+  importingLayer: string
 };
 
 export type LayersProgress = {

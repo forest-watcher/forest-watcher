@@ -3,14 +3,13 @@ import type { Area } from 'types/areas.types';
 import type { Route } from 'types/routes.types';
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Alert, View, Image, ScrollView, Text, TextInput, TouchableHighlight } from 'react-native';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 
 import i18n from 'i18next';
 import moment from 'moment';
-import Theme from 'config/theme';
+import Theme, { isSmallScreen } from 'config/theme';
 import ActionButton from 'components/common/action-button';
 import AlertSystem from 'containers/areas/area-detail/alert-system';
 import styles from './styles';
@@ -18,9 +17,13 @@ import { Navigation } from 'react-native-navigation';
 import { withSafeArea } from 'react-native-safe-area';
 
 import VerticalSplitRow from 'components/common/vertical-split-row';
+import RoutePath from 'components/common/route-path';
 
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
 
+const RoutePreviewSize = isSmallScreen ? 86 : 122;
+
+const routeMapBackground = require('assets/routeMapBackground.png');
 const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
 const editIcon = require('assets/edit.png');
 const deleteIcon = require('assets/delete_white.png');
@@ -38,6 +41,7 @@ type Props = {
   area: Area,
   disableDelete: boolean,
   routes: Array<Route>,
+  initialiseAreaLayerSettings: (string, string) => void,
   setSelectedAreaId: (areaId: string) => void
 };
 
@@ -55,19 +59,6 @@ class AreaDetail extends Component<Props, State> {
       }
     };
   }
-
-  static defaultProps = {
-    disableDelete: false
-  };
-
-  static propTypes = {
-    updateArea: PropTypes.func,
-    deleteArea: PropTypes.func,
-    isConnected: PropTypes.bool.isRequired,
-    componentId: PropTypes.string,
-    area: PropTypes.object,
-    disableDelete: PropTypes.bool.isRequired
-  };
 
   constructor(props: Props) {
     super(props);
@@ -113,6 +104,7 @@ class AreaDetail extends Component<Props, State> {
 
   onRoutePress = debounceUI((route: Route) => {
     this.props.setSelectedAreaId(route.areaId);
+    this.props.initialiseAreaLayerSettings(route.id, route.areaId);
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.Map',
@@ -267,11 +259,18 @@ class AreaDetail extends Component<Props, State> {
 
                 return (
                   <VerticalSplitRow
+                    backgroundImageResizeMode={'repeat'}
                     key={route.id}
                     onSettingsPress={this.onRouteSettingsPress.bind(this, route)}
                     onPress={this.onRoutePress.bind(this, route)}
                     title={route.name}
+                    renderImageChildren={() => {
+                      return <RoutePath route={route} size={RoutePreviewSize} />;
+                    }}
+                    imageSrc={routeMapBackground}
                     subtitle={subtitle}
+                    largerLeftPadding
+                    largeImage
                   />
                 );
               })}

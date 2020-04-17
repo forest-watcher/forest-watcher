@@ -170,8 +170,7 @@ export function launchAppRoot(screen) {
         },
         right: {
           component: {
-            name: 'ForestWatcher.RightDrawer',
-            passProps: {}
+            name: 'ForestWatcher.MapLayersDrawer'
           }
         }
       }
