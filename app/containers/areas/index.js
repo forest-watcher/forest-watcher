@@ -56,11 +56,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
   };
 }
 
-/**
- * Properties sent through to a connected component.
- *
- * Taken from https://engineering.wework.com/adventures-in-static-typing-react-redux-flow-oh-my-284c5f74adac
- */
 type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
 export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
