@@ -349,8 +349,15 @@ function downloadAllLayers(config: { area: Area, layerId: string, layerUrl: stri
   );
 }
 
-export function importContextualLayer(file: File) {
+export function importContextualLayer(layerFile: File) {
   return async (dispatch: Dispatch, state: GetState) => {
+
+    // We have to decode the file URI because iOS file manager doesn't like encoded uris!
+    const file = {
+      ...layerFile,
+      uri: decodeURI(layerFile.uri)
+    }
+
     const fileName = Platform.select({
       android: file.fileName,
       ios: file.uri.substring(file.uri.lastIndexOf('/') + 1)
@@ -381,7 +388,7 @@ export function importContextualLayer(file: File) {
           // Read from file so we can remove null geometries
           const fileContents = await RNFS.readFile(file.uri);
           const geojson = JSON.parse(fileContents);
-          removeNullGeometries(geojson);
+          cleanGeoJSON(geojson);
           // Write the new data to the app's storage
           await RNFS.writeFile(path, JSON.stringify(geojson));
           dispatch({ type: IMPORT_LAYER_COMMIT, payload: { ...file, uri: fullPath, path: relativePath, fileName: fileName } });
@@ -404,7 +411,25 @@ export function importContextualLayer(file: File) {
         break;
       }
       case 'kmz': {
-
+        let tempZipPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '.zip');
+        try {
+          await RNFS.copyFile(file.uri, tempZipPath);
+          let tempPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '');
+          await unzip(tempZipPath, tempPath);
+          const result = await writeToDiskAsGeoJSON({...file, uri: tempPath + '/doc.kml'}, fileName, 'kml', directory);
+          await RNFS.unlink(tempPath);
+          dispatch({
+            type: IMPORT_LAYER_COMMIT,
+            payload: { ...file, type: 'application/geo+json', ...result }
+          });
+          RNFS.unlink(tempZipPath);
+        } catch (err) {
+          console.log("Failed to import kmz", err);
+          // Fire and forget!
+          RNFS.unlink(tempZipPath);
+          dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
+        }
+        break;
       }
       default:
         //todo: Add support for other file types! These need converting to geojson before saving.
@@ -435,7 +460,7 @@ async function writeToDiskAsGeoJSON(file: File, fileName: string, extension: str
   const xmlDoc = parser.parseFromString(fileContents);
   // Convert to GeoJSON using mapbox's library!
   const geoJSON = extension === 'gpx' ? togeojson.gpx(xmlDoc, { styles: true }) : togeojson.kml(xmlDoc, { styles: true });
-  const cleanGeoJSON = removeNullGeometries(geoJSON);
+  const cleanGeoJSON = cleanGeoJSON(geoJSON);
   // Make the directory for saving files to, if this is already present this won't error according to docs
   await RNFS.mkdir(directory, {
     NSURLIsExcludedFromBackupKey: false // Allow this to be saved to iCloud backup!
@@ -446,19 +471,62 @@ async function writeToDiskAsGeoJSON(file: File, fileName: string, extension: str
   return {uri: path, path: relativePath, fileName: newName};
 }
 
+// Delete elements from object with null value
+function removeNulls(obj) {
+  var isArray = obj instanceof Array;
+  for (var k in obj) {
+    if (obj[k] === null) isArray ? obj.splice(k, 1) : delete obj[k];
+    else if (typeof obj[k] == "object") removeNulls(obj[k]);
+    if (isArray && obj.length == k) removeNulls(obj);
+  }
+  return obj;
+}
+
 /**
- * Removes any `features` from a GeoJSON file with `FeatureCollection` as the root object that have null geometries
+ * Removes any `features` from a GeoJSON file with `FeatureCollection` as the root object that have null geometries,
+ * cleans out any `null` in `coordinates` arrays
  *
  * @param {Object} geojson The GeoJSON to remove null geometries from
  * @returns {Object} validated GeoJSON
  */
-function removeNullGeometries(geojson)  {
+function cleanGeoJSON(geojson)  {
   if (geojson?.type === "FeatureCollection" && !!geojson.features) {
     return {
       ...geojson,
       features: geojson.features.filter(feature => {
         return !!feature.geometry;
+      }).map(feature => {
+        if (!feature.geometry) {
+          return feature;
+        };
+        return {
+          ...feature,
+          geometry: {
+            ...feature.geometry,
+            coordinates: removeNulls(feature.geometry.coordinates)
+          }
+        }
       })
+    }
+  } else if (geojson?.type === "Feature" && !!geojson.geometry) {
+    return {
+      ...geojson,
+      geometry: {
+        ...geojson.geometry,
+        coordinates: removeNulls(geojson.geometry.coordinates)
+      }
+    }
+  } else if (geojson?.type === "GeometryCollection" && !!geojson.geometries) {
+    return {
+      ...geojson,
+      geometries: geojson.geometries.map(geometry => {
+        return cleanGeoJSON(geometry);
+      })
+    }
+  } else if (!!geojson.coordinates) {
+    return {
+      ...geojson,
+      coordinates: removeNulls(geojson.coordinates)
     }
   }
   return geojson;
