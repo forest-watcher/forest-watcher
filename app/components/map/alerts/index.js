@@ -7,6 +7,7 @@ import { mapboxStyles } from './styles';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import type { Alert } from 'types/alerts.types';
 import { DATASETS } from 'config/constants';
+import i18n from "i18next";
 
 const selectedAlert = require('assets/alertMapIcons/selectedAlertMapIcon.png');
 
@@ -14,18 +15,30 @@ type Props = {
   featureId: string,
   areaId: string,
   gladAlerts: Array<Alert>,
-  viirsAlerts: Array<Alert>
+  viirsAlerts: Array<Alert>,
+  onShapeSourcePressed?: () => void
 };
 
 export default class Alerts extends Component<Props> {
   renderAlerts = (alerts: Array<Alert>, alertType: string) => {
-    const alertFeatures = alerts?.map((alert: Alert) => MapboxGL.geoUtils.makePoint([alert.lon, alert.lat]));
+    const alertFeatures = alerts?.map((alert: Alert) => {
+      const alertName = alertType === DATASETS.VIIRS ? i18n.t('map.viirsAlert') : i18n.t('map.gladAlert')
+      const properties = { date: alert.date, type: 'alert', name: alertName };
+      return MapboxGL.geoUtils.makePoint([alert.lon, alert.lat], properties);
+    });
     const alertsFeatureCollection = MapboxGL.geoUtils.makeFeatureCollection(alertFeatures);
     const viirsAlertType = alertType === DATASETS.VIIRS; // if false, use GLAD alert Styles
     const alertIcon = viirsAlertType ? selectedAlert : selectedAlert;
     const circleColor = viirsAlertType ? Theme.colors.viirs : Theme.colors.turtleGreen;
+    const onPress = this.props.onShapeSourcePressed || null;
     return (
-      <MapboxGL.ShapeSource id={alertType + 'alertSource'} cluster clusterRadius={40} shape={alertsFeatureCollection}>
+      <MapboxGL.ShapeSource
+        id={alertType + 'alertSource'}
+        cluster
+        clusterRadius={40}
+        shape={alertsFeatureCollection}
+        onPress={onPress}
+      >
         <MapboxGL.SymbolLayer id={alertType + 'pointCount'} style={mapboxStyles.clusterCount} />
         <MapboxGL.CircleLayer
           id={alertType + 'clusteredPoints'}

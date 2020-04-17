@@ -872,9 +872,9 @@ class MapComponent extends Component<Props> {
 
   onShapeSourcePressed = e => {
     // show info banner with feature details
-    const { endDate, name, type, featureId } = e?.nativeEvent?.payload?.properties;
-    const dateAgo = moment(endDate).fromNow();
-    if (endDate && name) {
+    const { date, name, type, featureId } = e?.nativeEvent?.payload?.properties;
+    const dateAgo = moment(date).fromNow();
+    if (date && name) {
       this.setState({
         infoBannerProps: {
           title: name,
@@ -967,7 +967,11 @@ class MapComponent extends Component<Props> {
             <React.Fragment>{this.renderImportedContextualLayers()}</React.Fragment>
           )}
           {this.renderDestinationLine()}
-          <Alerts featureId={this.getFeatureId} areaId={this.props.area.id} />
+          <Alerts
+            featureId={this.getFeatureId}
+            areaId={this.props.area.id}
+            onShapeSourcePressed={this.onShapeSourcePressed}
+          />
           <RouteMarkers
             isTracking={this.isRouteTracking()}
             userLocation={userLocation}
