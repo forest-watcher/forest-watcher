@@ -378,8 +378,12 @@ export function importContextualLayer(file: File) {
           await RNFS.mkdir(directory, {
             NSURLIsExcludedFromBackupKey: false // Allow this to be saved to iCloud backup!
           });
-          // Copy the file to the app's storage
-          await RNFS.copyFile(file.uri, fullPath);
+          // Read from file so we can remove null geometries
+          const fileContents = await RNFS.readFile(file.uri);
+          const geojson = JSON.parse(fileContents);
+          removeNullGeometries(geojson);
+          // Write the new data to the app's storage
+          await RNFS.writeFile(path, JSON.stringify(geojson));
           dispatch({ type: IMPORT_LAYER_COMMIT, payload: { ...file, uri: fullPath, path: relativePath, fileName: fileName } });
         } catch (err) {
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
@@ -395,7 +399,6 @@ export function importContextualLayer(file: File) {
             payload: { ...file, type: 'application/geo+json', ...result }
           });
         } catch (err) {
-          console.log("Failed to import file", err);
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
         }
         break;
@@ -410,6 +413,16 @@ export function importContextualLayer(file: File) {
   };
 }
 
+/**
+ * Converts a file to GeoJSON and writes it to disk in the directory provided
+ *
+ * @param {File} file The file to read and conver to GeoJSON
+ * @param {string} fileName The name of the file to write to, this will have it's extension replaced with .geojson
+ * @param {string} extension The file extension of the file, this will be used to provide the correct conversion function
+ * @param {string} directory The directory to save the file to
+ *
+ * @returns {Object} A partial `File` object with the written files uri, path and fileName
+ */
 async function writeToDiskAsGeoJSON(file: File, fileName: string, extension: string, directory: string) {
   // Change destination file path extension!
   const newName = fileName.replace(/\.[^/.]+$/, '.geojson');
@@ -422,15 +435,34 @@ async function writeToDiskAsGeoJSON(file: File, fileName: string, extension: str
   const xmlDoc = parser.parseFromString(fileContents);
   // Convert to GeoJSON using mapbox's library!
   const geoJSON = extension === 'gpx' ? togeojson.gpx(xmlDoc, { styles: true }) : togeojson.kml(xmlDoc, { styles: true });
+  const cleanGeoJSON = removeNullGeometries(geoJSON);
   // Make the directory for saving files to, if this is already present this won't error according to docs
   await RNFS.mkdir(directory, {
     NSURLIsExcludedFromBackupKey: false // Allow this to be saved to iCloud backup!
   });
   // Write the new data to the app's storage
-  await RNFS.writeFile(path, JSON.stringify(geoJSON));
+  await RNFS.writeFile(path, JSON.stringify(cleanGeoJSON));
 
   return {uri: path, path: relativePath, fileName: newName};
 }
+
+/**
+ * Removes any `features` from a GeoJSON file with `FeatureCollection` as the root object that have null geometries
+ *
+ * @param {Object} geojson The GeoJSON to remove null geometries from
+ * @returns {Object} validated GeoJSON
+ */
+function removeNullGeometries(geojson)  {
+  if (geojson?.type === "FeatureCollection" && !!geojson.features) {
+    return {
+      ...geojson,
+      features: geojson.features.filter(feature => {
+        return !!feature.geometry;
+      })
+    }
+  }
+  return geojson;
+} 
 
 function getAreaById(areas, areaId) {
   const area = areas.find(areaData => areaData.id === areaId);
