@@ -8,7 +8,7 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 import type { Alert } from 'types/alerts.types';
 import { DATASETS } from 'config/constants';
 
-const selectedAlert = require('assets/selectedAlertMapIcon.png');
+const selectedAlert = require('assets/alertMapIcons/selectedAlertMapIcon.png');
 
 type Props = {
   featureId: string,

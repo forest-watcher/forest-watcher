@@ -101,7 +101,7 @@ const createReportIcon = require('assets/createReport.png');
 const reportAreaIcon = require('assets/report_area.png');
 const addLocationIcon = require('assets/add_location.png');
 const routeDestinationMarker = require('assets/routeDestinationMarker.png');
-const selectedAlert = require('assets/selectedAlertMapIcon.png');
+const selectedAlert = require('assets/alertMapIcons/selectedAlertMapIcon.png');
 const closeIcon = require('assets/close_gray.png');
 
 type Props = {
