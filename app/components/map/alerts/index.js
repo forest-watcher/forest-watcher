@@ -7,9 +7,7 @@ import { mapboxStyles } from './styles';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import type { Alert } from 'types/alerts.types';
 import { DATASETS } from 'config/constants';
-import i18n from "i18next";
-
-const selectedAlert = require('assets/alertMapIcons/selectedAlertMapIcon.png');
+import i18n from 'i18next';
 
 type Props = {
   featureId: string,
@@ -20,15 +18,24 @@ type Props = {
 };
 
 export default class Alerts extends Component<Props> {
+  getAlertIcon = (viirsAlertType: boolean) => {
+    return viirsAlertType ? 'viirs' : 'glad';
+  };
+
   renderAlerts = (alerts: Array<Alert>, alertType: string) => {
+    const viirsAlertType = alertType === DATASETS.VIIRS; // if false, use GLAD alert Styles
     const alertFeatures = alerts?.map((alert: Alert) => {
-      const alertName = alertType === DATASETS.VIIRS ? i18n.t('map.viirsAlert') : i18n.t('map.gladAlert')
-      const properties = { date: alert.date, type: 'alert', name: alertName };
+      const alertName = viirsAlertType ? i18n.t('map.viirsAlert') : i18n.t('map.gladAlert');
+      const properties = {
+        icon: this.getAlertIcon(viirsAlertType),
+        date: alert.date,
+        type: 'alert',
+        name: alertName,
+        reported: false
+      };
       return MapboxGL.geoUtils.makePoint([alert.lon, alert.lat], properties);
     });
     const alertsFeatureCollection = MapboxGL.geoUtils.makeFeatureCollection(alertFeatures);
-    const viirsAlertType = alertType === DATASETS.VIIRS; // if false, use GLAD alert Styles
-    const alertIcon = viirsAlertType ? selectedAlert : selectedAlert;
     const circleColor = viirsAlertType ? Theme.colors.viirs : Theme.colors.turtleGreen;
     const onPress = this.props.onShapeSourcePressed || null;
     return (
@@ -49,7 +56,7 @@ export default class Alerts extends Component<Props> {
         <MapboxGL.SymbolLayer
           id={alertType + 'alertLayer'}
           filter={['!has', 'point_count']}
-          style={{ ...mapboxStyles.alert, iconImage: alertIcon }}
+          style={mapboxStyles.alert}
         />
       </MapboxGL.ShapeSource>
     );
@@ -58,6 +65,22 @@ export default class Alerts extends Component<Props> {
   render() {
     return (
       <View>
+        <MapboxGL.Images
+          images={{
+            // Add all images to map so we cn dynamically change the icon for alerts
+            glad: require('assets/alertMapIcons/gladAlertMapIcon.png'),
+            gladSelected: require('assets/alertMapIcons/gladSelectedAlertMapIcon.png'),
+            gladRecent: require('assets/alertMapIcons/gladRecentAlertMapIcon.png'),
+            gladRecentSelected: require('assets/alertMapIcons/gladRecentSelectedAlertMapIcon.png'),
+            gladReported: require('assets/alertMapIcons/gladReportedAlertMapIcon.png'),
+            gladReportedSelected: require('assets/alertMapIcons/gladReportedSelectedAlertMapIcon.png'),
+            viirs: require('assets/alertMapIcons/viirsAlertMapIcon.png'),
+            viirsSelected: require('assets/alertMapIcons/viirsSelectedAlertMapIcon.png'),
+            viirsReported: require('assets/alertMapIcons/viirsReportedAlertMapIcon.png'),
+            viirsReportedSelected: require('assets/alertMapIcons/viirsReportedSelectedAlertMapIcon.png'),
+            selected: require('assets/alertMapIcons/selectedAlertMapIcon.png')
+          }}
+        />
         {this.renderAlerts(this.props.gladAlerts, DATASETS.GLAD)}
         {this.renderAlerts(this.props.viirsAlerts, DATASETS.VIIRS)}
       </View>

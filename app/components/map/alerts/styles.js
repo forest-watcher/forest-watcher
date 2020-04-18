@@ -3,6 +3,7 @@ export const mapboxStyles = {
   alert: {
     iconAllowOverlap: true,
     iconSize: ['interpolate', ['exponential', 2], ['zoom'], 16, 0.8325, 19, 6.67],
+    iconImage: ['get', 'icon'],
     iconOpacity: 0.5
   },
   clusteredPoints: {
@@ -16,5 +17,5 @@ export const mapboxStyles = {
     textField: '{point_count}',
     textSize: 15,
     textPitchAlignment: 'map'
-  },
+  }
 };
