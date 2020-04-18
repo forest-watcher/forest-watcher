@@ -9,6 +9,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { unzip } from 'react-native-zip-archive';
 import { getActionsTodoCount } from 'helpers/sync';
 import { removeFolder } from 'helpers/fileManagement';
+import { isEmpty, removeNulls } from 'helpers/utils';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
@@ -388,9 +389,9 @@ export function importContextualLayer(layerFile: File) {
           // Read from file so we can remove null geometries
           const fileContents = await RNFS.readFile(file.uri);
           const geojson = JSON.parse(fileContents);
-          cleanGeoJSON(geojson);
+          const cleanedGeoJSON = cleanGeoJSON(geojson);
           // Write the new data to the app's storage
-          await RNFS.writeFile(path, JSON.stringify(geojson));
+          await RNFS.writeFile(path, JSON.stringify(cleanedGeoJSON));
           dispatch({ type: IMPORT_LAYER_COMMIT, payload: { ...file, uri: fullPath, path: relativePath, fileName: fileName } });
         } catch (err) {
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
@@ -471,17 +472,6 @@ async function writeToDiskAsGeoJSON(file: File, fileName: string, extension: str
   return {uri: path, path: relativePath, fileName: newName};
 }
 
-// Delete elements from object with null value
-function removeNulls(obj) {
-  var isArray = obj instanceof Array;
-  for (var k in obj) {
-    if (obj[k] === null) isArray ? obj.splice(k, 1) : delete obj[k];
-    else if (typeof obj[k] == "object") removeNulls(obj[k]);
-    if (isArray && obj.length == k) removeNulls(obj);
-  }
-  return obj;
-}
-
 /**
  * Removes any `features` from a GeoJSON file with `FeatureCollection` as the root object that have null geometries,
  * cleans out any `null` in `coordinates` arrays
@@ -490,15 +480,13 @@ function removeNulls(obj) {
  * @returns {Object} validated GeoJSON
  */
 function cleanGeoJSON(geojson)  {
+
   if (geojson?.type === "FeatureCollection" && !!geojson.features) {
     return {
       ...geojson,
       features: geojson.features.filter(feature => {
-        return !!feature.geometry;
+        return !!feature.geometry && !isEmpty(feature.geometry.coordinates);
       }).map(feature => {
-        if (!feature.geometry) {
-          return feature;
-        };
         return {
           ...feature,
           geometry: {
