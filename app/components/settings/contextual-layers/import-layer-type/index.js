@@ -1,4 +1,3 @@
-
 import React, { PureComponent } from 'react';
 import { Text, ScrollView, View, Image } from 'react-native';
 import { Navigation } from 'react-native-navigation';
@@ -48,7 +47,7 @@ class ImportLayerType extends PureComponent<Props> {
   importCustomContextualLayer = debounceUI(async () => {
     try {
       const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.allFiles, "public.item"]
+        type: [DocumentPicker.types.allFiles, 'public.item']
       });
       const validFile = this.verifyImportedFile(res);
       if (!validFile) {

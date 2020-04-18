@@ -352,12 +352,11 @@ function downloadAllLayers(config: { area: Area, layerId: string, layerUrl: stri
 
 export function importContextualLayer(layerFile: File) {
   return async (dispatch: Dispatch, state: GetState) => {
-
     // We have to decode the file URI because iOS file manager doesn't like encoded uris!
     const file = {
       ...layerFile,
       uri: decodeURI(layerFile.uri)
-    }
+    };
 
     const fileName = Platform.select({
       android: file.fileName,
@@ -382,7 +381,7 @@ export function importContextualLayer(layerFile: File) {
         try {
           // Make the directory for saving files to, if this is already present this won't error according to docs
           const fullPath = directory + '/' + fileName;
-          const relativePath = '/' + IMPORTED_LAYERS_DIRECTORY + '/' + fileName; 
+          const relativePath = '/' + IMPORTED_LAYERS_DIRECTORY + '/' + fileName;
           await RNFS.mkdir(directory, {
             NSURLIsExcludedFromBackupKey: false // Allow this to be saved to iCloud backup!
           });
@@ -391,8 +390,11 @@ export function importContextualLayer(layerFile: File) {
           const geojson = JSON.parse(fileContents);
           const cleanedGeoJSON = cleanGeoJSON(geojson);
           // Write the new data to the app's storage
-          await RNFS.writeFile(path, JSON.stringify(cleanedGeoJSON));
-          dispatch({ type: IMPORT_LAYER_COMMIT, payload: { ...file, uri: fullPath, path: relativePath, fileName: fileName } });
+          await RNFS.writeFile(fullPath, JSON.stringify(cleanedGeoJSON));
+          dispatch({
+            type: IMPORT_LAYER_COMMIT,
+            payload: { ...file, uri: fullPath, path: relativePath, fileName: fileName }
+          });
         } catch (err) {
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
         }
@@ -401,7 +403,7 @@ export function importContextualLayer(layerFile: File) {
       case 'kml':
       case 'gpx': {
         try {
-          const result = await writeToDiskAsGeoJSON(file, fileName, fileExtension, directory)
+          const result = await writeToDiskAsGeoJSON(file, fileName, fileExtension, directory);
           dispatch({
             type: IMPORT_LAYER_COMMIT,
             payload: { ...file, type: 'application/geo+json', ...result }
@@ -412,12 +414,17 @@ export function importContextualLayer(layerFile: File) {
         break;
       }
       case 'kmz': {
-        let tempZipPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '.zip');
+        const tempZipPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '.zip');
         try {
           await RNFS.copyFile(file.uri, tempZipPath);
-          let tempPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '');
+          const tempPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '');
           await unzip(tempZipPath, tempPath);
-          const result = await writeToDiskAsGeoJSON({...file, uri: tempPath + '/doc.kml'}, fileName, 'kml', directory);
+          const result = await writeToDiskAsGeoJSON(
+            { ...file, uri: tempPath + '/doc.kml' },
+            fileName,
+            'kml',
+            directory
+          );
           await RNFS.unlink(tempPath);
           dispatch({
             type: IMPORT_LAYER_COMMIT,
@@ -425,7 +432,6 @@ export function importContextualLayer(layerFile: File) {
           });
           RNFS.unlink(tempZipPath);
         } catch (err) {
-          console.log("Failed to import kmz", err);
           // Fire and forget!
           RNFS.unlink(tempZipPath);
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
@@ -452,7 +458,7 @@ export function importContextualLayer(layerFile: File) {
 async function writeToDiskAsGeoJSON(file: File, fileName: string, extension: string, directory: string) {
   // Change destination file path extension!
   const newName = fileName.replace(/\.[^/.]+$/, '.geojson');
-  const relativePath = '/' + IMPORTED_LAYERS_DIRECTORY + '/' + newName; 
+  const relativePath = '/' + IMPORTED_LAYERS_DIRECTORY + '/' + newName;
   const path = directory + '/' + newName;
   // Read from file so we can convert to GeoJSON
   const fileContents = await RNFS.readFile(file.uri);
@@ -460,7 +466,8 @@ async function writeToDiskAsGeoJSON(file: File, fileName: string, extension: str
   const parser = new DOMParser();
   const xmlDoc = parser.parseFromString(fileContents);
   // Convert to GeoJSON using mapbox's library!
-  const geoJSON = extension === 'gpx' ? togeojson.gpx(xmlDoc, { styles: true }) : togeojson.kml(xmlDoc, { styles: true });
+  const geoJSON =
+    extension === 'gpx' ? togeojson.gpx(xmlDoc, { styles: true }) : togeojson.kml(xmlDoc, { styles: true });
   const cleanedGeoJSON = cleanGeoJSON(geoJSON);
   // Make the directory for saving files to, if this is already present this won't error according to docs
   await RNFS.mkdir(directory, {
@@ -469,7 +476,7 @@ async function writeToDiskAsGeoJSON(file: File, fileName: string, extension: str
   // Write the new data to the app's storage
   await RNFS.writeFile(path, JSON.stringify(cleanedGeoJSON));
 
-  return {uri: path, path: relativePath, fileName: newName};
+  return { uri: path, path: relativePath, fileName: newName };
 }
 
 /**
@@ -479,46 +486,47 @@ async function writeToDiskAsGeoJSON(file: File, fileName: string, extension: str
  * @param {Object} geojson The GeoJSON to remove null geometries from
  * @returns {Object} validated GeoJSON
  */
-function cleanGeoJSON(geojson)  {
-
-  if (geojson?.type === "FeatureCollection" && !!geojson.features) {
+function cleanGeoJSON(geojson) {
+  if (geojson?.type === 'FeatureCollection' && !!geojson.features) {
     return {
       ...geojson,
-      features: geojson.features.filter(feature => {
-        return !!feature.geometry && !isEmpty(feature.geometry.coordinates);
-      }).map(feature => {
-        return {
-          ...feature,
-          geometry: {
-            ...feature.geometry,
-            coordinates: removeNulls(feature.geometry.coordinates)
-          }
-        }
-      })
-    }
-  } else if (geojson?.type === "Feature" && !!geojson.geometry) {
+      features: geojson.features
+        .filter(feature => {
+          return !!feature.geometry && !isEmpty(feature.geometry.coordinates);
+        })
+        .map(feature => {
+          return {
+            ...feature,
+            geometry: {
+              ...feature.geometry,
+              coordinates: removeNulls(feature.geometry.coordinates)
+            }
+          };
+        })
+    };
+  } else if (geojson?.type === 'Feature' && !!geojson.geometry) {
     return {
       ...geojson,
       geometry: {
         ...geojson.geometry,
         coordinates: removeNulls(geojson.geometry.coordinates)
       }
-    }
-  } else if (geojson?.type === "GeometryCollection" && !!geojson.geometries) {
+    };
+  } else if (geojson?.type === 'GeometryCollection' && !!geojson.geometries) {
     return {
       ...geojson,
       geometries: geojson.geometries.map(geometry => {
         return cleanGeoJSON(geometry);
       })
-    }
-  } else if (!!geojson.coordinates) {
+    };
+  } else if (geojson.coordinates) {
     return {
       ...geojson,
       coordinates: removeNulls(geojson.coordinates)
-    }
+    };
   }
   return geojson;
-} 
+}
 
 function getAreaById(areas, areaId) {
   const area = areas.find(areaData => areaData.id === areaId);

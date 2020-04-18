@@ -19,21 +19,19 @@ export function hexToRgb(hex) {
  * @param {Object|Array} obj The object to remove nulls from
  */
 export function removeNulls(obj) {
-  return function prune(current) {
-
-    _.forOwn(current, function (value, key) {
+  return (function prune(current) {
+    _.forOwn(current, function(value, key) {
       if (_.isUndefined(value) || _.isNull(value) || _.isNaN(value)) {
         delete current[key];
       }
       if (_.isObject(value)) prune(value);
     });
 
-    // remove any leftover undefined values from the delete 
+    // remove any leftover undefined values from the delete
     // operation on an array
     if (_.isArray(current)) _.pull(current, undefined);
     return current;
-
-  }(_.cloneDeep(obj));  // Do not modify the original object, create a clone instead
+  })(_.cloneDeep(obj)); // Do not modify the original object, create a clone instead
 }
 
 /**
@@ -42,11 +40,11 @@ export function removeNulls(obj) {
  * @param {Object|Array} obj The object to check if empty
  */
 export function isEmpty(obj) {
-  if(_.isObject(obj)) {
-    if (Object.keys(obj).length === 0) return true
-    return _.every(_.map(obj, v => isEmpty(v)))
-  } else if(_.isString(obj)) {
-    return !obj.length
+  if (_.isObject(obj)) {
+    if (Object.keys(obj).length === 0) return true;
+    return _.every(_.map(obj, v => isEmpty(v)));
+  } else if (_.isString(obj)) {
+    return !obj.length;
   }
   return _.isNull(obj) || _.isUndefined(obj) || _.isNaN(obj);
 }
