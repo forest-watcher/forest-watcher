@@ -8,12 +8,26 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 import type { Alert } from 'types/alerts.types';
 import { DATASETS } from 'config/constants';
 import i18n from 'i18next';
+import moment from 'moment';
+
+type AlertLayerSettingsType = {
+  layerIsActive: boolean,
+  glad: {
+    active: boolean,
+    timeFrame: number
+  },
+  viirs: {
+    active: boolean,
+    timeFrame: number
+  }
+};
 
 type Props = {
   featureId: string,
   areaId: string,
   gladAlerts: Array<Alert>,
   viirsAlerts: Array<Alert>,
+  alertLayerSettings: AlertLayerSettingsType,
   onShapeSourcePressed?: () => void
 };
 
@@ -24,7 +38,16 @@ export default class Alerts extends Component<Props> {
 
   renderAlerts = (alerts: Array<Alert>, alertType: string) => {
     const viirsAlertType = alertType === DATASETS.VIIRS; // if false, use GLAD alert Styles
-    const alertFeatures = alerts?.map((alert: Alert) => {
+    const { alertLayerSettings } = this.props;
+    const { active, timeFrame } = viirsAlertType ? alertLayerSettings.viirs : alertLayerSettings.glad;
+    if (!active || !alerts?.length) {
+      return null;
+    }
+    const alertDateStart = moment()
+      .subtract(timeFrame, viirsAlertType ? 'days' : 'months')
+      .valueOf();
+    const alertsToDisplay = alerts.filter(alert => alert.date >= alertDateStart);
+    const alertFeatures = alertsToDisplay?.map((alert: Alert) => {
       const alertName = viirsAlertType ? i18n.t('map.viirsAlert') : i18n.t('map.gladAlert');
       const properties = {
         icon: this.getAlertIcon(viirsAlertType),
@@ -63,6 +86,9 @@ export default class Alerts extends Component<Props> {
   };
 
   render() {
+    if (!this.props.alertLayerSettings.layerIsActive) {
+      return null;
+    }
     return (
       <View>
         <MapboxGL.Images

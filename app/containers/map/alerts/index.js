@@ -11,12 +11,12 @@ function mapStateToProps(state: State, ownProps: { featureId: string, areaId: st
   const gladAlerts = state.alerts.data[areaId]?.umd_as_it_happens?.alerts;
   const viirsAlerts = state.alerts.data[areaId]?.viirs?.alerts;
 
-  const layerSettings = state.layerSettings[featureId] || DEFAULT_LAYER_SETTINGS;
+  const alertLayerSettings = state.layerSettings?.[featureId]?.alerts || DEFAULT_LAYER_SETTINGS.alerts;
 
   return {
     gladAlerts,
     viirsAlerts,
-    layerSettings
+    alertLayerSettings
   };
 }
 

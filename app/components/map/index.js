@@ -968,7 +968,7 @@ class MapComponent extends Component<Props> {
           )}
           {this.renderDestinationLine()}
           <Alerts
-            featureId={this.getFeatureId}
+            featureId={this.getFeatureId()}
             areaId={this.props.area.id}
             onShapeSourcePressed={this.onShapeSourcePressed}
           />
