@@ -870,9 +870,27 @@ class MapComponent extends Component<Props> {
     }).start();
   };
 
+  onClusterPress = async coords => {
+    this.onMapPress();
+    const zoom = await this.map.getZoom();
+    // zoom towards zoom level 17, where there are no more clusters
+    const zoomTo = zoom > 15 ? 17.5 : (zoom + 20) / 2;
+    if (coords && zoom) {
+      this.mapCamera.setCamera({
+        centerCoordinate: coords,
+        zoomLevel: zoomTo,
+        animationDuration: 2000
+      });
+    }
+  };
+
   onShapeSourcePressed = e => {
     // show info banner with feature details
-    const { date, name, type, featureId } = e?.nativeEvent?.payload?.properties;
+    const { date, name, type, featureId, cluster } = e?.nativeEvent?.payload?.properties;
+    if (cluster) {
+      this.onClusterPress(e?.nativeEvent?.payload?.geometry?.coordinates);
+      return;
+    }
     const dateAgo = moment(date).fromNow();
     if (date && name) {
       this.setState({
