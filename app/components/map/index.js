@@ -215,6 +215,7 @@ class MapComponent extends Component<Props> {
       mapCameraBounds: this.getMapCameraBounds(),
       destinationCoords: null,
       animatedPosition: new Animated.Value(DISMISSED_INFO_BANNER_POSTIION),
+      infoBannerShowing: false,
       infoBannerProps: {
         title: '',
         subtitle: '',
@@ -669,10 +670,15 @@ class MapComponent extends Component<Props> {
           isTracking={false}
           userLocation={null}
           route={route}
+          selected={this.isRouteSelected(route.id)}
           onShapeSourcePressed={this.onShapeSourcePressed}
         />
       );
     });
+  };
+
+  isRouteSelected = routeId => {
+    return this.state.infoBannerShowing && this.state.infoBannerProps.featureId === routeId;
   };
 
   // Renders all active imported contextual layers in settings
@@ -966,12 +972,15 @@ class MapComponent extends Component<Props> {
             areaId={this.props.area.id}
             onShapeSourcePressed={this.onShapeSourcePressed}
           />
-          <RouteMarkers
-            isTracking={this.isRouteTracking()}
-            userLocation={userLocation}
-            route={route}
-            onShapeSourcePressed={this.onShapeSourcePressed}
-          />
+          {route?.id && (
+            <RouteMarkers
+              isTracking={this.isRouteTracking()}
+              userLocation={userLocation}
+              route={route}
+              selected={this.isRouteSelected(route?.id)}
+              onShapeSourcePressed={this.onShapeSourcePressed}
+            />
+          )}
           {renderUserLocation}
         </MapboxGL.MapView>
         {renderCustomReportingMarker}
