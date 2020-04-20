@@ -9,6 +9,8 @@ import { setAreaDownloadTooltipSeen, showNotConnectedNotification } from 'redux-
 import Areas from 'components/areas';
 import exportBundle from 'helpers/sharing/exportBundle';
 import { initialiseAreaLayerSettings } from 'redux-modules/layerSettings';
+import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
+import shareBundle from 'helpers/sharing/shareBundle';
 
 type OwnProps = {|
   +componentId: string
@@ -24,22 +26,13 @@ function mapStateToProps(state: State, props: OwnProps) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
-    exportAreas: (ids: Array<string>) => {
-      // todo: turn this into a proper action creator
-      dispatch(async (dispatch, getState) => {
-        const state = getState();
-        const outputFile = await exportBundle(
-          {
-            areaIds: ids,
-            reportIds: []
-          },
-          state
-        );
-        await RNShare.open({
-          saveToFiles: true,
-          url: `file://${outputFile}`
-        });
-      });
+    exportAreas: async (ids: Array<string>) => {
+      const outputPath = await dispatch(
+        exportBundleFromRedux({
+          areaIds: ids
+        })
+      );
+      await shareBundle(outputPath);
     },
     initialiseAreaLayerSettings: (featureId: string, areaId: string) => {
       dispatch(initialiseAreaLayerSettings(featureId, areaId));

@@ -1,6 +1,6 @@
 // @flow
 export type RouteState = {
-  activeRoute: Route,
+  activeRoute: ?Route,
   previousRoutes: Array<Route>,
   importedRoutes: Array<Route>
 };
