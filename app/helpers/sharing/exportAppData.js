@@ -34,8 +34,8 @@ export default function exportAppData(appState: State, request: ExportBundleRequ
    *
    * Likewise, for alerts, we will include any alerts intersecting an area polygon
    */
-  const areaRegions = []; // TODO
-  const routeRegions = [];
+  const areaRegions = []; // TODO: Filter by region in a forthcoming PR
+  const routeRegions = []; // TODO: Filter by region in a forthcoming PR
   const regions = [...areaRegions, ...routeRegions];
   const alerts = exportAlerts(appState.alerts, areaRegions);
   const basemaps = exportBasemaps(appState.basemaps, request.basemapIds, regions);
@@ -56,7 +56,7 @@ export default function exportAppData(appState: State, request: ExportBundleRequ
  * Extracts any alerts from state intersecting the specified geographic regions
  */
 function exportAlerts(alertsState: AlertsState, regions: Array<any>): Array<Alert> {
-  // TODO
+  // TODO: Filter by region in a forthcoming PR
   return [];
 }
 
@@ -71,16 +71,17 @@ function exportAreas(areasState: AreasState, areaIds: Array<string>): Array<Area
  * Extracts any basemap info from state for basemaps matching the specified IDs, OR intersecting any of the given regions
  */
 function exportBasemaps(basemapsState: BasemapsState, basemapIds: Array<string>, regions: Array<any>): Array<Basemap> {
-  // TODO
-  return [];
+  // TODO: Filter by region in a forthcoming PR
+  const allBasemaps = [...basemapsState.gfwBasemaps, ...basemapsState.importedBasemaps];
+  return allBasemaps.filter(basemap => basemapIds.includes(basemap.id));
 }
 
 /**
  * Extracts any layer info from state for layers matching the specified IDs, OR intersecting any of the given regions
  */
 function exportLayers(layersState: LayersState, layerIds: Array<string>, regions: Array<any>): Array<ContextualLayer> {
-  // TODO
-  return [];
+  // TODO: Filter by region in a forthcoming PR
+  return layersState.data.filter(layer => layerIds.includes(layer.id));
 }
 
 /**
