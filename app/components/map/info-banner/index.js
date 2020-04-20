@@ -62,7 +62,7 @@ export default class InfoBanner extends Component<Props> {
             <Text style={styles.title}>{this.props.title || ''}</Text>
             <Text style={styles.subtitle}>{this.props.subtitle || ''}</Text>
           </View>
-          <Image source={rightArrow} />
+          {this.props.type === 'route' && <Image source={rightArrow} />}
         </View>
       </Touchable>
     );
