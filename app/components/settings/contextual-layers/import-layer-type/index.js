@@ -1,3 +1,4 @@
+// @flow
 import React, { PureComponent } from 'react';
 import { Text, ScrollView, View, Image } from 'react-native';
 import { Navigation } from 'react-native-navigation';
