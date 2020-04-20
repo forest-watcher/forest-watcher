@@ -6,16 +6,16 @@ const togeojson = require('@tmcw/togeojson');
 /**
  * Converts topojson to GeoJSON
  *
- * @param {Object} topojson - The topojson to convert to geojson
- * @param {string} topojson.type - The topojson type string
- * @param {Object} topojson.objects - The topojson objects
+ * @param {Object} json - The topojson to convert to geojson
+ * @param {string} json.type - The topojson type string
+ * @param {Object} json.objects - The topojson objects
  *
  * @returns {Object} A valid GeoJSON object, as a `FeatureCollection`
  */
-function convertTopoJSON(topojson) {
+function convertTopoJSON(json) {
 	let features = [];
-	Object.keys(topojson.objects).forEach(objectKey => {
-		const feature = topojson.feature(topojson, objectKey);
+	Object.keys(json.objects).forEach(objectKey => {
+		const feature = topojson.feature(json, objectKey);
 		switch (feature.type) {
 			case "Feature": {
 				// A `null` geometry object is mapped to a feature with null geometry, but there's no point in having this in GeoJSON

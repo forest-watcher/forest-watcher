@@ -377,6 +377,7 @@ export function importContextualLayer(layerFile: File) {
 
     switch (fileExtension) {
       case 'json':
+      case 'topojson':
       case 'geojson': {
         try {
           // Make the directory for saving files to, if this is already present this won't error according to docs
@@ -390,7 +391,6 @@ export function importContextualLayer(layerFile: File) {
           let geojson = JSON.parse(fileContents);
 
           if (geojson.type === "Topology" && !!geojson.objects) {
-            console.log("Converting topojson to GeoJSON");
             geojson = togeojson.topojson(geojson);
           }
 

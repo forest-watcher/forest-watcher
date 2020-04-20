@@ -46,6 +46,18 @@
 				<string>public.geojson</string>
 			</array>
 		</dict>
+    <dict>
+      <key>CFBundleTypeIconFiles</key>
+      <array/>
+      <key>CFBundleTypeName</key>
+      <string>TopoJSON</string>
+      <key>LSHandlerRank</key>
+      <string>Owner</string>
+      <key>LSItemContentTypes</key>
+      <array>
+        <string>public.topojson</string>
+      </array>
+    </dict>
 		<dict>
 			<key>CFBundleTypeIconFiles</key>
 			<array/>
@@ -267,6 +279,25 @@
 				<string>application/geo+json</string>
 			</dict>
 		</dict>
+    <dict>
+      <key>UTTypeConformsTo</key>
+      <array>
+        <string>public.json</string>
+      </array>
+      <key>UTTypeDescription</key>
+      <string>TopoJSON</string>
+      <key>UTTypeIconFiles</key>
+      <array/>
+      <key>UTTypeIdentifier</key>
+      <string>public.topojson</string>
+      <key>UTTypeTagSpecification</key>
+      <dict>
+        <key>public.filename-extension</key>
+        <string>topojson</string>
+        <key>public.mime-type</key>
+        <string>application/json</string>
+      </dict>
+    </dict>
 	</array>
 </dict>
 </plist>
