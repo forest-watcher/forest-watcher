@@ -32,7 +32,16 @@ type Props = {
 };
 
 export default class Alerts extends Component<Props> {
-  getAlertIcon = (viirsAlertType: boolean) => {
+  getAlertIcon = (viirsAlertType: boolean, date: number) => {
+    if (
+      !viirsAlertType &&
+      date >
+        moment()
+          .subtract(7, 'days')
+          .valueOf()
+    ) {
+      return 'gladRecent';
+    }
     return viirsAlertType ? 'viirs' : 'glad';
   };
 
@@ -50,7 +59,7 @@ export default class Alerts extends Component<Props> {
     const alertFeatures = alertsToDisplay.map((alert: Alert) => {
       const alertName = viirsAlertType ? i18n.t('map.viirsAlert') : i18n.t('map.gladAlert');
       const properties = {
-        icon: this.getAlertIcon(viirsAlertType),
+        icon: this.getAlertIcon(viirsAlertType, alert.date),
         date: alert.date,
         type: 'alert',
         name: alertName,
