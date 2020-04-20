@@ -87,7 +87,7 @@ export default class Alerts extends Component<Props> {
         />
         <MapboxGL.SymbolLayer
           id={alertType + 'alertLayer'}
-          filter={['!has', 'point_count']}
+          filter={['!', ['has', 'point_count']]}
           style={mapboxStyles.alert}
         />
       </MapboxGL.ShapeSource>
