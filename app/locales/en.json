@@ -439,7 +439,8 @@
             "title": "Export report",
             "description": "How would you like to export this report?",
             "option": {
-                "asCSV": "Export as CSV..."
+                "asCSV": "Export as CSV...",
+                "asSharingBundle": "Export as sharing bundle..."
             },
             "successful": "Exporting reports succeeded!"
         },

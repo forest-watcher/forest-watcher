@@ -17,6 +17,7 @@ import { readableNameForReportName } from 'helpers/reports';
 import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
 import type { Template } from 'types/reports.types';
+import displayExportReportDialog from 'helpers/sharing/displayExportReportDialog';
 
 const editIcon = require('assets/edit.png');
 const emptyIcon = require('assets/reportsEmpty.png');
@@ -25,27 +26,33 @@ const checkboxOff = require('assets/checkbox_off.png');
 const checkboxOn = require('assets/checkbox_on.png');
 
 type ReportItem = {
-  title: string,
-  date: string
+  +title: string,
+  +date: string
 };
 
-type Props = {
-  componentId: string,
-  reports: {
-    draft: Array<ReportItem>,
-    uploaded: Array<ReportItem>,
-    complete: Array<ReportItem>
+type Props = {|
+  +componentId: string,
+  +exportReportsAsBundle: (ids: Array<string>) => Promise<void>,
+  +reports: {|
+    +draft: Array<ReportItem>,
+    +uploaded: Array<ReportItem>,
+    +complete: Array<ReportItem>
+  |},
+  +templates: {
+    +[string]: Template
   },
-  templates: {
-    [string]: Template
-  },
-  appLanguage: string,
-  getLastStep: string => number,
-  showExportReportsSuccessfulNotification: () => void
-};
+  +appLanguage: ?string,
+  +getLastStep: string => ?number,
+  +showExportReportsSuccessfulNotification: () => void
+|};
 
-class Reports extends PureComponent<Props> {
-  static options(passProps) {
+type State = {|
+  +selectedForExport: Array<string>,
+  +inShareMode: boolean
+|};
+
+class Reports extends PureComponent<Props, State> {
+  static options(passProps: {}) {
     return {
       topBar: {
         title: {
@@ -55,7 +62,9 @@ class Reports extends PureComponent<Props> {
     };
   }
 
-  constructor(props) {
+  shareSheet: any;
+
+  constructor(props: Props) {
     super(props);
 
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
@@ -73,7 +82,7 @@ class Reports extends PureComponent<Props> {
    * Handles the report row being selected while in export mode.
    * Will swap the state for the specified row, to show in the UI if it has been selected or not.
    */
-  onReportSelectedForExport = title => {
+  onReportSelectedForExport = (title: string) => {
     this.setState(state => {
       if (state.selectedForExport.includes(title)) {
         return {
@@ -182,12 +191,38 @@ class Reports extends PureComponent<Props> {
    * Handles the 'export <x> reports' button being tapped.
    *
    * @param  {Array} selectedReports A list of report titles dictating whether they've been selected for export.
-   * @param  {Array} userReports      The user's reports.
    */
-  onExportReportsTapped = debounceUI(async (selectedReports, userReports) => {
+  onExportReportsTapped = debounceUI(async selectedReports => {
+    const buttonHandler = async idx => {
+      switch (idx) {
+        case 0: {
+          await this.props.exportReportsAsBundle(selectedReports);
+          break;
+        }
+        case 1: {
+          await this.exportReportsAsCsv(selectedReports);
+          break;
+        }
+      }
+
+      // Show 'export successful' notification, and reset export state to reset UI.
+      this.props.showExportReportsSuccessfulNotification();
+      this.shareSheet?.setSharing?.(false);
+      this.setState({
+        selectedForExport: [],
+        inShareMode: false
+      });
+
+      if (Platform.OS === 'android') {
+        NativeModules.Intents.launchDownloadsDirectory();
+      }
+    };
+    await displayExportReportDialog(false, buttonHandler);
+  });
+
+  exportReportsAsCsv = async (selectedReports: Array<string>) => {
     // Merge the completed and uploaded reports that are available together, so we can find any selected reports to export them.
-    const completeReports = userReports.complete || [];
-    const mergedReports = completeReports.concat(userReports.uploaded);
+    const mergedReports = [...(this.props.reports.complete ?? []), ...(this.props.reports.uploaded ?? [])];
 
     const reportsToExport = selectedReports.map(key => {
       return mergedReports.find(report => report.title === key);
@@ -202,21 +237,7 @@ class Reports extends PureComponent<Props> {
         ios: RNFetchBlob.fs.dirs.DocumentDir
       })
     );
-
-    // TODO: Handle errors returned from export function.
-
-    // Show 'export successful' notification, and reset export state to reset UI.
-    this.props.showExportReportsSuccessfulNotification();
-    this.shareSheet?.setSharing?.(false);
-    this.setState({
-      selectedForExport: [],
-      inShareMode: false
-    });
-
-    if (Platform.OS === 'android') {
-      NativeModules.Intents.launchDownloadsDirectory();
-    }
-  });
+  };
 
   onFrequentlyAskedQuestionsPress = () => {
     Navigation.push(this.props.componentId, {
@@ -304,27 +325,26 @@ class Reports extends PureComponent<Props> {
     );
   }
 
-  getCompleted(completed, icon, callback) {
+  getCompleted(completed: Array<ReportItem>, icon: any, callback: string => void) {
     return this.renderSection(i18n.t('report.completed'), completed, icon, callback);
   }
 
-  getUploaded(uploaded, icon, callback) {
+  getUploaded(uploaded: Array<ReportItem>, icon: any, callback: string => void) {
     return this.renderSection(i18n.t('report.uploaded'), uploaded, icon, callback);
   }
 
-  getDrafts(drafts, icon, callback) {
+  getDrafts(drafts: Array<ReportItem>, icon: any, callback: string => void) {
     return this.renderSection(i18n.t('report.drafts'), drafts, icon, callback);
   }
 
   /**
    * renderReportsScrollView - Renders a list of reports.
    *
-   * @param  {array} reports      An array of reports.
    * @param  {bool} inExportMode  Whether the user is in export mode or not. If in export mode, a different callback will be used.
    * @return {ScrollView}         A ScrollView element with all content rendered to it.
    */
-  renderReportsScrollView(reports, inExportMode) {
-    const { complete, draft, uploaded } = reports;
+  renderReportsScrollView(inExportMode: boolean) {
+    const { complete, draft, uploaded } = this.props.reports;
     const hasReports = !!complete.length || !!draft.length || !!uploaded.length;
 
     if (!hasReports) {
@@ -375,7 +395,7 @@ class Reports extends PureComponent<Props> {
           componentId={this.props.componentId}
           enabled={totalToExport > 0}
           onShare={() => {
-            this.onExportReportsTapped(this.state.selectedForExport, this.props.reports);
+            this.onExportReportsTapped(this.state.selectedForExport);
           }}
           onSharingToggled={this.setSharing}
           onToggleAllSelected={this.setAllSelected}
@@ -397,7 +417,7 @@ class Reports extends PureComponent<Props> {
               : i18n.t('report.export.noneSelected')
           }
         >
-          {this.renderReportsScrollView(this.props.reports, this.state.inShareMode)}
+          {this.renderReportsScrollView(this.state.inShareMode)}
         </ShareSheet>
       </View>
     );

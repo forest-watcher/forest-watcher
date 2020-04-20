@@ -1,7 +1,7 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
+import type { Answer, Report } from 'types/reports.types';
 
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Platform } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -14,8 +14,15 @@ import { shouldBeConnected } from 'helpers/app';
 import { getTemplate, mapFormToAnsweredQuestions, mapReportToMetadata } from 'helpers/forms';
 import exportReports from 'helpers/exportReports';
 import Answers from 'components/form/answers';
+import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
+import shareBundle from 'helpers/sharing/shareBundle';
 
-function mapStateToProps(state: State, ownProps: { reportName: string, readOnly: boolean }) {
+type OwnProps = {|
+  reportName: string,
+  readOnly: boolean
+|};
+
+function mapStateToProps(state: State, ownProps: OwnProps) {
   const { reportName, readOnly } = ownProps;
   const { reports, app } = state;
   const template = getTemplate(reports, reportName);
@@ -41,21 +48,42 @@ function mapStateToProps(state: State, ownProps: { reportName: string, readOnly:
   };
 }
 
-const mapDispatchToProps = (dispatch: *) =>
-  bindActionCreators(
-    {
-      saveReport,
-      deleteReport,
-      uploadReport,
-      setReportAnswer,
-      setActiveAlerts,
-      showNotConnectedNotification,
-      showExportReportsSuccessfulNotification
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
+  return {
+    deleteReport: () => {
+      dispatch(deleteReport(ownProps.reportName));
     },
-    dispatch
-  );
+    exportReportAsBundle: async (ids: Array<string>) => {
+      const outputPath = await dispatch(
+        exportBundleFromRedux({
+          reportIds: [ownProps.reportName]
+        })
+      );
+      await shareBundle(outputPath);
+    },
+    saveReport: (name: string, data: Report) => {
+      dispatch(saveReport(name, data));
+    },
+    setActiveAlerts: () => {
+      dispatch(setActiveAlerts());
+    },
+    setReportAnswer: (answer: Answer, updateOnly: boolean) => {
+      dispatch(setReportAnswer(ownProps.reportName, answer, updateOnly));
+    },
+    showExportReportsSuccessfulNotification: () => {
+      dispatch(showExportReportsSuccessfulNotification());
+    },
+    showNotConnectedNotification: () => {
+      dispatch(showNotConnectedNotification());
+    },
+    uploadReport: () => {
+      dispatch(uploadReport(ownProps.reportName));
+    }
+  };
+};
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(Answers);
