@@ -23,7 +23,8 @@ type Props = {
   file: File,
   importContextualLayer: (file: File, fileName: string) => void,
   importError: ?*,
-  importingLayer: ?string
+  importingLayer: ?string,
+  popToComponentId?: ?string
 };
 
 class ImportLayerType extends PureComponent<Props> {
@@ -63,7 +64,8 @@ class ImportLayerType extends PureComponent<Props> {
               fileName: res.name, // Slightly tweak the res to reformat `name` -> `fileName` as we keep these seperate,
               id: generatedUniqueId(),
               name: null
-            }
+            },
+            popToComponentId: this.props.popToComponentId
           }
         }
       });

@@ -139,7 +139,10 @@ class Layers extends Component<Props> {
   onPressAddLayer = debounceUI(() => {
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'ForestWatcher.ImportLayerType'
+        name: 'ForestWatcher.ImportLayerType',
+        passProps: {
+          popToComponentId: this.props.componentId
+        }
       }
     });
   });
