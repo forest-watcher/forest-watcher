@@ -89,6 +89,7 @@
     "redux-thunk": "2.3.0",
     "rn-fetch-blob": "0.12.0",
     "tiny-emitter": "2.1.0",
+    "topojson-client": "3.1.0",
     "url-parse": "1.4.4",
     "utm-latlng": "1.0.5",
     "uuid": "7.0.2",
