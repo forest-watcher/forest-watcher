@@ -8,8 +8,8 @@ import Alerts from 'components/map/alerts';
 
 function mapStateToProps(state: State, ownProps: { featureId: string, areaId: string }) {
   const { featureId, areaId } = ownProps;
-  const gladAlerts = state.alerts.data[areaId]?.umd_as_it_happens?.alerts;
-  const viirsAlerts = state.alerts.data[areaId]?.viirs?.alerts;
+  const gladAlerts = state.alerts.data[areaId]?.umd_as_it_happens?.alerts ?? [];
+  const viirsAlerts = state.alerts.data[areaId]?.viirs?.alerts ?? [];
 
   const alertLayerSettings = state.layerSettings?.[featureId]?.alerts || DEFAULT_LAYER_SETTINGS.alerts;
 

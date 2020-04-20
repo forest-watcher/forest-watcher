@@ -656,30 +656,6 @@ class MapComponent extends Component<Props> {
     );
   };
 
-  renderAlerts = (alerts: Array<AlertType>, alertType: string) => {
-    const alertFeatures = alerts?.map((alert: AlertType) => MapboxGL.geoUtils.makePoint([alert.lon, alert.lat]));
-    const alertsFeatureCollection = MapboxGL.geoUtils.makeFeatureCollection(alertFeatures);
-    const viirsAlertType = alertType === DATASETS.VIIRS; // if false, use GLAD alert Styles
-    const alertIcon = viirsAlertType ? selectedAlert : selectedAlert;
-    const circleColor = viirsAlertType ? Theme.colors.viirs : Theme.colors.turtleGreen;
-    return (
-      <MapboxGL.ShapeSource id={alertType + 'alertSource'} cluster clusterRadius={40} shape={alertsFeatureCollection}>
-        <MapboxGL.SymbolLayer id={alertType + 'pointCount'} style={mapboxStyles.clusterCount} />
-        <MapboxGL.CircleLayer
-          id={alertType + 'clusteredPoints'}
-          belowLayerID={alertType + 'pointCount'}
-          filter={['has', 'point_count']}
-          style={{ ...mapboxStyles.clusteredPoints, circleColor }}
-        />
-        <MapboxGL.SymbolLayer
-          id={alertType + 'alertLayer'}
-          filter={['!has', 'point_count']}
-          style={{ ...mapboxStyles.alert, iconImage: alertIcon }}
-        />
-      </MapboxGL.ShapeSource>
-    );
-  };
-
   // Renders all active routes in layer settings
   renderAllRoutes = () => {
     let routeIds = this.props.layerSettings.routes.activeRouteIds;

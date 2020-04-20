@@ -47,7 +47,7 @@ export default class Alerts extends Component<Props> {
       .subtract(timeFrame, viirsAlertType ? 'days' : 'months')
       .valueOf();
     const alertsToDisplay = alerts.filter(alert => alert.date >= alertDateStart);
-    const alertFeatures = alertsToDisplay?.map((alert: Alert) => {
+    const alertFeatures = alertsToDisplay.map((alert: Alert) => {
       const alertName = viirsAlertType ? i18n.t('map.viirsAlert') : i18n.t('map.gladAlert');
       const properties = {
         icon: this.getAlertIcon(viirsAlertType),
@@ -59,7 +59,7 @@ export default class Alerts extends Component<Props> {
       return MapboxGL.geoUtils.makePoint([alert.lon, alert.lat], properties);
     });
     const alertsFeatureCollection = MapboxGL.geoUtils.makeFeatureCollection(alertFeatures);
-    const circleColor = viirsAlertType ? Theme.colors.viirs : Theme.colors.turtleGreen;
+    const circleColor = viirsAlertType ? Theme.colors.viirs : Theme.colors.glad;
     const onPress = this.props.onShapeSourcePressed || null;
     return (
       <MapboxGL.ShapeSource
