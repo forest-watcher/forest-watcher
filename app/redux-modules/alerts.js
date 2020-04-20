@@ -9,6 +9,7 @@ import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { UPLOAD_REPORT_REQUEST } from 'redux-modules/reports';
 import { RETRY_SYNC } from 'redux-modules/app';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
+import { parseAlerts } from 'helpers/alertsParse';
 
 const SET_CAN_DISPLAY_ALERTS = 'alerts/SET_CAN_DISPLAY_ALERTS';
 export const SET_ACTIVE_ALERTS = 'alerts/SET_ACTIVE_ALERTS';
@@ -18,7 +19,7 @@ const GET_ALERTS_ROLLBACK = 'alerts/GET_ALERTS_ROLLBACK';
 
 // Reducer
 const initialState = {
-  cache: {},
+  data: {},
   reported: [],
   canDisplayAlerts: true,
   syncError: false,
@@ -52,16 +53,20 @@ export default function reducer(state: AlertsState = initialState, action: Alert
       return { ...state, queue };
     }
     case GET_ALERTS_COMMIT: {
+      const alerts = parseAlerts(action.payload);
       const { area, datasetSlug, alertId } = action.meta;
-      const cache = {
-        ...state.cache,
-        [datasetSlug]: {
-          ...state.cache[datasetSlug],
-          [area.id]: Date.now()
+      const data = {
+        ...state.data,
+        [area.id]: {
+          ...(state.data[area.id] ?? {}),
+          [datasetSlug]: {
+            lastUpdated: Date.now(),
+            alerts
+          }
         }
       };
       const queue = state.queue.filter(item => item !== alertId);
-      return { ...state, queue, cache };
+      return { ...state, queue, data };
     }
     case GET_ALERTS_ROLLBACK: {
       const { alertId } = action.meta;

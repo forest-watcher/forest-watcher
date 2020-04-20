@@ -9,7 +9,9 @@ export default StyleSheet.create({
     color: Theme.fontColors.main,
     fontFamily: Theme.font,
     fontSize: 16,
-    fontWeight: '500'
+    fontWeight: '500',
+    paddingVertical: 8,
+    paddingHorizontal: 16
   },
   label: {
     ...Theme.tableRowText
@@ -53,5 +55,11 @@ export default StyleSheet.create({
     paddingBottom: 16,
     paddingHorizontal: 24,
     paddingTop: 24
+  },
+  dropdownRow: {
+    paddingHorizontal: 24
+  },
+  inactiveDropdownRow: {
+    opacity: 0.2
   }
 });

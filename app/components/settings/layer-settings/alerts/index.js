@@ -128,6 +128,8 @@ class AlertLayerSettings extends PureComponent<Props> {
         : 'map.layerSettings.alertSettings.showingManyDays',
       { count: viirsTimeFrame, type: alertsString }
     );
+    const gladActive = this.props.alertLayerSettings.glad.active;
+    const viirsActive = this.props.alertLayerSettings.viirs.active;
 
     return (
       <View style={styles.container}>
@@ -142,7 +144,7 @@ class AlertLayerSettings extends PureComponent<Props> {
               <Text style={styles.heading}>{i18n.t('map.layerSettings.alertSettings.deforestation')}</Text>
               <VerticalSplitRow
                 title={i18n.t('map.layerSettings.alertSettings.glad')}
-                selected={this.props.alertLayerSettings.glad.active}
+                selected={gladActive}
                 onPress={() => this.props.toggleGladAlerts(this.props.featureId)}
                 legend={[
                   { title: i18n.t('map.layerSettings.alertSettings.alert'), color: Theme.colors.glad },
@@ -157,7 +159,7 @@ class AlertLayerSettings extends PureComponent<Props> {
               />
               <View style={styles.selectRowContainer}>
                 <Text style={styles.smallLabel}>{i18n.t(`map.layerSettings.alertSettings.timeFrame`)}</Text>
-                <Text style={styles.bodyText}>{gladShowingDescription}</Text>
+                {gladActive && <Text style={styles.bodyText}>{gladShowingDescription}</Text>}
               </View>
               <Dropdown
                 label={i18n.t(`map.layerSettings.alertSettings.timeFrame`)}
@@ -166,6 +168,7 @@ class AlertLayerSettings extends PureComponent<Props> {
                 selectedValue={gladTimeFrame}
                 onValueChange={this.onGladAlertsTimeFrameChanged}
                 options={this.getGladTimeFrameOptions()}
+                inactive={!gladActive}
               />
             </React.Fragment>
           )}
@@ -174,7 +177,7 @@ class AlertLayerSettings extends PureComponent<Props> {
               <Text style={styles.heading}>{i18n.t('map.layerSettings.alertSettings.fires')}</Text>
               <VerticalSplitRow
                 title={i18n.t('map.layerSettings.alertSettings.viirs')}
-                selected={this.props.alertLayerSettings.viirs.active}
+                selected={viirsActive}
                 onPress={() => this.props.toggleViirsAlerts(this.props.featureId)}
                 legend={[
                   { title: i18n.t('map.layerSettings.alertSettings.alert'), color: Theme.colors.viirs },
@@ -188,7 +191,7 @@ class AlertLayerSettings extends PureComponent<Props> {
               />
               <View style={styles.selectRowContainer}>
                 <Text style={styles.smallLabel}>{i18n.t(`map.layerSettings.alertSettings.timeFrame`)}</Text>
-                <Text style={styles.bodyText}>{viirsShowingDescription}</Text>
+                {viirsActive && <Text style={styles.bodyText}>{viirsShowingDescription}</Text>}
               </View>
               <Dropdown
                 label={i18n.t(`map.layerSettings.alertSettings.timeFrame`)}
@@ -197,6 +200,7 @@ class AlertLayerSettings extends PureComponent<Props> {
                 selectedValue={viirsTimeFrame}
                 onValueChange={this.onViirsAlertsTimeFrameChanged}
                 options={this.getViirsTimeFrameOptions()}
+                inactive={!viirsActive}
               />
             </React.Fragment>
           )}
