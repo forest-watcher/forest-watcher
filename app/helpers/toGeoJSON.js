@@ -1,6 +1,6 @@
 // @flow
 
-import * as topojson from "topojson-client";
+import * as topojson from 'topojson-client';
 const togeojson = require('@tmcw/togeojson');
 
 /**
@@ -13,37 +13,37 @@ const togeojson = require('@tmcw/togeojson');
  * @returns {Object} A valid GeoJSON object, as a `FeatureCollection`
  */
 function convertTopoJSON(json) {
-	let features = [];
-	Object.keys(json.objects).forEach(objectKey => {
-		const feature = topojson.feature(json, objectKey);
-		switch (feature.type) {
-			case "Feature": {
-				// A `null` geometry object is mapped to a feature with null geometry, but there's no point in having this in GeoJSON
-				if (!feature.geometry) {
-					break;
-				}
-				features.push(feature);
-				break;
-			}
-			case "FeatureCollection": {
-				const validFeatures = feature.features.filter(feature => {
-					// A `null` geometry object is mapped to a feature with null geometry, but there's no point in having this in GeoJSON
-					return !!feature.geometry;
-				});
-				features = features.concat(validFeatures);
-				break;
-			}
-			default:
-	        break;
-		}
-	});
-	return {
-		type: "FeatureCollection",
-		features
-	}
+  let features = [];
+  Object.keys(json.objects).forEach(objectKey => {
+    const feature = topojson.feature(json, objectKey);
+    switch (feature.type) {
+      case 'Feature': {
+        // A `null` geometry object is mapped to a feature with null geometry, but there's no point in having this in GeoJSON
+        if (!feature.geometry) {
+          break;
+        }
+        features.push(feature);
+        break;
+      }
+      case 'FeatureCollection': {
+        const validFeatures = feature.features.filter(feature => {
+          // A `null` geometry object is mapped to a feature with null geometry, but there's no point in having this in GeoJSON
+          return !!feature.geometry;
+        });
+        features = features.concat(validFeatures);
+        break;
+      }
+      default:
+        break;
+    }
+  });
+  return {
+    type: 'FeatureCollection',
+    features
+  };
 }
 
 export default {
-	...togeojson,
-	topojson: convertTopoJSON
-}
+  ...togeojson,
+  topojson: convertTopoJSON
+};

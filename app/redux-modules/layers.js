@@ -390,7 +390,7 @@ export function importContextualLayer(layerFile: File) {
           const fileContents = await RNFS.readFile(file.uri);
           let geojson = JSON.parse(fileContents);
 
-          if (geojson.type === "Topology" && !!geojson.objects) {
+          if (geojson.type === 'Topology' && !!geojson.objects) {
             geojson = togeojson.topojson(geojson);
           }
 
