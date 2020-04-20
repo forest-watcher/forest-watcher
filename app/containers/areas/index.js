@@ -2,12 +2,10 @@
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { connect } from 'react-redux';
-import RNShare from 'react-native-share';
 import { setSelectedAreaId } from 'redux-modules/areas';
 import { setAreaDownloadTooltipSeen, showNotConnectedNotification } from 'redux-modules/app';
 
 import Areas from 'components/areas';
-import exportBundle from 'helpers/sharing/exportBundle';
 import { initialiseAreaLayerSettings } from 'redux-modules/layerSettings';
 import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
 import shareBundle from 'helpers/sharing/shareBundle';

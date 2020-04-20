@@ -23,7 +23,7 @@ type Props = {|
   +areas: Array<Area>,
   +initialiseAreaLayerSettings: (string, string) => void,
   +componentId: string,
-  +exportAreas: (ids: Array<string>) => void,
+  +exportAreas: (ids: Array<string>) => Promise<void>,
   +setAreaDownloadTooltipSeen: (seen: boolean) => void,
   +setSelectedAreaId: (id: string) => void,
   +showNotConnectedNotification: () => void,
@@ -108,6 +108,7 @@ class Areas extends Component<Props, State> {
    * @param  {Array} selectedAreas An array of area identifiers that have been selected for export.
    */
   onExportAreasTapped = debounceUI(selectedAreas => {
+    // TODO: Loading screen while the async function below executed
     this.props.exportAreas(selectedAreas);
     this.shareSheet?.setSharing?.(false);
     this.setSharing(false);
