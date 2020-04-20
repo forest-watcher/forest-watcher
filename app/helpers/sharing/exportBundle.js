@@ -5,7 +5,8 @@ import RNFS from 'react-native-fs';
 import { zip } from 'react-native-zip-archive';
 
 import deleteStagedBundle from 'helpers/sharing/deleteStagedBundle';
-import exportAppData from 'helpers/sharing/exportAppData';
+import exportAppData, { exportBasemaps, exportLayers } from 'helpers/sharing/exportAppData';
+import exportLayerManifest from 'helpers/sharing/exportLayerManifest';
 
 /**
  * Extension of the final bundle
@@ -28,8 +29,15 @@ export const BUNDLE_DATA_FILE_NAME: string = 'bundle.json';
  * @param request - The request defining which data should be exported
  */
 export default async function exportBundle(appState: State, request: ExportBundleRequest): Promise<string> {
-  const bundleData = exportAppData(appState, request);
-  const stagedBundle = await stageBundle(bundleData);
+  const explicitBundleData = exportAppData(appState, request);
+  const layerManifest = exportLayerManifest(request, explicitBundleData.areas, explicitBundleData.routes);
+  const finalBundleData = {
+    ...explicitBundleData,
+    basemaps: exportBasemaps(appState.basemaps, Object.keys(layerManifest.basemaps)),
+    layers: exportLayers(appState.layers, Object.keys(layerManifest.layers))
+  };
+
+  const stagedBundle = await stageBundle(finalBundleData);
   const bundleFile = await packageBundle(stagedBundle);
   deleteStagedBundle(stagedBundle);
   return bundleFile;

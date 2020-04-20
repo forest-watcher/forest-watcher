@@ -1,4 +1,5 @@
 // @flow
+import type { BBox2d } from '@turf/helpers';
 import type { Template } from 'types/reports.types';
 import type { RetrySync } from 'types/app.types';
 import type { GetAreaAlertsCommit } from 'types/alerts.types';
@@ -11,7 +12,7 @@ export type Geostore = {
   hash: string,
   provider: Object,
   areaHa: number,
-  bbox: [number, number, number, number],
+  bbox: BBox2d,
   lock: boolean,
   info: Object,
   id: string

@@ -50,6 +50,25 @@ export type ImportBundleResult = {|
   // TODO
 |};
 
+export type LayerFile = {|
+  /**
+   * All URIs are relative to the root storage path of their layer store
+   */
+  uri: string
+|};
+
+/**
+ * Manifest of files relating to basemaps and contextual layers
+ */
+export type LayerManifest = {|
+  basemaps: {
+    [basemapId: string]: Array<LayerFile>
+  },
+  layers: {
+    [layerId: string]: Array<LayerFile>
+  }
+|};
+
 /**
  * Type representing a sharing bundle that can be serialised in order to be exported, and then serialised for import
  * into another app
@@ -60,6 +79,7 @@ export type SharingBundle = {|
   areas: Array<Area>,
   basemaps: Array<Basemap>,
   layers: Array<ContextualLayer>,
+  manifest: LayerManifest,
   reports: Array<Report>,
   routes: Array<Route>
 |};
