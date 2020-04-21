@@ -48,7 +48,7 @@ export default StyleSheet.create({
     paddingRight: Theme.margin.right,
     backgroundColor: Theme.colors.white,
     borderBottomColor: Theme.borderColors.main,
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
