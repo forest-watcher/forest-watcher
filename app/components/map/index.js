@@ -123,12 +123,12 @@ type Props = {
   mapWalkthroughSeen: boolean,
   setSelectedAreaId: () => {},
   route: Route,
+  allRouteIds: Array<string>,
   layerSettings: LayerSettings,
   isTracking: boolean,
   onStartTrackingRoute: () => {},
   onCancelTrackingRoute: () => {},
   getActiveBasemap: () => Basemap,
-  getAllRouteIds: () => Array<Route>,
   getRoutesById: string => Array<Route>
 };
 
@@ -659,7 +659,7 @@ class MapComponent extends Component<Props> {
   // Renders all active routes in layer settings
   renderAllRoutes = () => {
     const { activeRouteIds, showAll } = this.props.layerSettings.routes;
-    let routeIds = showAll ? this.props.getAllRouteIds() : activeRouteIds;
+    let routeIds = showAll ? this.props.allRouteIds : activeRouteIds;
     // this is already being rendered as it is the selected feature
     routeIds = routeIds.filter(routeId => routeId !== this.getFeatureId());
     const routes = this.props.getRoutesById(routeIds);
