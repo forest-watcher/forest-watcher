@@ -1,23 +1,23 @@
 // @flow
 import type { LayersState, LayersAction, LayersCacheStatus, LayersProgress } from 'types/layers.types';
 import type { Dispatch, GetState, State } from 'types/store.types';
+import type { Area } from 'types/areas.types';
+import type { File } from 'types/file.types';
+import type { LayerType } from 'helpers/layer-store/layerFilePaths';
 
 import Config from 'react-native-config';
 import omit from 'lodash/omit';
 import CONSTANTS from 'config/constants';
-import RNFetchBlob from 'rn-fetch-blob';
-import { unzip } from 'react-native-zip-archive';
 import { getActionsTodoCount } from 'helpers/sync';
-import { removeFolder } from 'helpers/fileManagement';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
-import type { Area } from 'types/areas.types';
-import type { File } from 'types/file.types';
 
 import tracker from 'helpers/googleAnalytics';
 import { Platform } from 'react-native';
+import { storeTilesFromUrl } from 'helpers/layer-store/storeLayerFiles';
+import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
 const DOMParser = require('xmldom').DOMParser;
 
@@ -156,9 +156,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
           [layerId]: omit(cache[layerId], [area.id])
         };
       });
-      removeFolder(`${CONSTANTS.files.tiles}/${area.id}`).then(() =>
-        console.info(`Area ${area.id} cache deleted successfully`)
-      );
+      // TODO: Delete tiles after layer is deleted
       return { ...state, cache, cacheStatus, layersProgress };
     }
     case UPDATE_PROGRESS: {
@@ -268,7 +266,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
       return { ...state, importingLayer: null, importError: action.payload };
     }
     case LOGOUT_REQUEST:
-      removeFolder(CONSTANTS.files.tiles).then(console.info('Folder removed successfully'));
+      deleteLayerFiles().then(console.info('Folder removed successfully'));
       return initialState;
     default:
       return state;
@@ -316,35 +314,31 @@ export function setActiveContextualLayer(layerId: string, value: boolean) {
   };
 }
 
-async function downloadLayer(config, dispatch: Dispatch) {
+async function downloadLayer(layerType: LayerType, config, dispatch: Dispatch): Promise<string> {
   const { area, layerId, layerUrl, zoom } = config;
-  const url = `${Config.API_URL}/download-tiles/${area.geostore.id}/${zoom.start}/${
-    zoom.end
-  }?layerUrl=${layerUrl}&useExtension=false`;
-  const res = await RNFetchBlob.config({ fileCache: true })
-    .fetch('GET', encodeURI(url))
-    .progress((received, total) => {
+  return await storeTilesFromUrl(
+    layerType,
+    layerId,
+    layerUrl,
+    area.geostore?.id,
+    [zoom.start, zoom.end],
+    (received, total) => {
       const progress = received / total;
       dispatch({ type: UPDATE_PROGRESS, payload: { areaId: area.id, progress, layerId } });
-    });
-  const statusCode = res.info().status;
-  if (statusCode >= 200 && statusCode < 400 && res.path()) {
-    const downloadPath = res.path();
-    const tilesPath = `${CONSTANTS.files.tiles}/${area.id}/${layerId}`;
-    const targetPath = `${RNFetchBlob.fs.dirs.DocumentDir}/${tilesPath}`;
-    await unzip(downloadPath, targetPath);
-    res.flush(); // remove from the cache
-    return `${tilesPath}/{z}x{x}x{y}`;
-  }
-  throw new Error(`Fetch blob error ${statusCode}`);
+    }
+  );
 }
 
-function downloadAllLayers(config: { area: Area, layerId: string, layerUrl: string }, dispatch: Dispatch) {
+function downloadAllLayers(
+  layerType: LayerType,
+  config: { area: Area, layerId: string, layerUrl: string },
+  dispatch: Dispatch
+) {
   const { cacheZoom } = CONSTANTS.maps;
   return Promise.all(
     cacheZoom.map(cacheLevel => {
       const layerConfig = { ...config, zoom: cacheLevel };
-      return downloadLayer(layerConfig, dispatch);
+      return downloadLayer(layerType, layerConfig, dispatch);
     })
   );
 }
@@ -447,7 +441,7 @@ export function cacheAreaBasemap(areaId: string) {
         layerUrl: layer.url
       };
 
-      downloadAllLayers(downloadConfig, dispatch)
+      downloadAllLayers('basemap', downloadConfig, dispatch)
         .then(payload =>
           dispatch({
             payload,
@@ -477,7 +471,7 @@ export function cacheAreaLayer(areaId: string, layerId: string) {
         layerId: layer.id,
         layerUrl: layer.url
       };
-      downloadAllLayers(downloadConfig, dispatch)
+      downloadAllLayers('contextual_layer', downloadConfig, dispatch)
         .then(payload =>
           dispatch({
             payload,

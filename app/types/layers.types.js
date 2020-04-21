@@ -20,15 +20,15 @@ export type LayersState = {
   data: Array<ContextualLayer>,
   synced: boolean,
   syncing: boolean,
-  activeLayer: ?boolean,
+  activeLayer: ?string,
   syncDate: number,
   layersProgress: LayersProgress,
   cacheStatus: LayersCacheStatus,
   cache: LayersCache,
   pendingCache: LayersPendingCache,
-  importError: {},
+  importError: ?Error,
   imported: Array<File>,
-  importingLayer: string
+  importingLayer: ?string
 };
 
 export type LayersProgress = {
