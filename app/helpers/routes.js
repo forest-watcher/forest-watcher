@@ -1,10 +1,11 @@
 // @flow
 
 import type { Route } from 'types/routes.types';
-import turf, { type BBox2d } from '@turf/helpers';
+import turfBbox from '@turf/bbox';
+import { type BBox2d, lineString as turfLineString } from '@turf/helpers';
 
 export function bbox(route: Route): BBox2d {
   const routePoints = [...route.locations, route.destination];
-  const lineString = turf.lineString(routePoints.map(item => [item.longitude, item.latitude]));
-  return turf.bbox(lineString);
+  const lineString = turfLineString(routePoints.map(item => [item.longitude, item.latitude]));
+  return turfBbox(lineString);
 }
