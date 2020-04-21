@@ -9,6 +9,8 @@ import type { ContextualLayer, LayersState } from 'types/layers.types';
 import type { Route, RouteState } from 'types/routes.types';
 import type { AlertsState } from 'types/alerts.types';
 import type { Alert } from 'types/common.types';
+import type { BBox2d, Feature, Polygon } from '@turf/helpers';
+import bboxPolygon from '@turf/bbox-polygon';
 
 /**
  * Version number of the bundles created using the functions in this file
@@ -25,21 +27,15 @@ export const APP_DATA_FORMAT_VERSION: number = 1;
  */
 export default function exportAppData(appState: State, request: ExportBundleRequest): SharingBundle {
   const areas = exportAreas(appState.areas, request.areaIds);
+  const basemaps = exportBasemaps(appState.basemaps, request.basemapIds);
+  const layers = exportLayers(appState.layers, request.layerIds);
   const reports = exportReports(appState.reports, request.reportIds);
   const routes = exportRoutes(appState.routes, request.routeIds);
 
-  /**
-   * If any routes or areas have been included above, then we will also include any basemaps or layers intersecting
-   * the polygons associated with those entities.
-   *
-   * Likewise, for alerts, we will include any alerts intersecting an area polygon
-   */
-  const areaRegions = []; // TODO: Filter by region in a forthcoming PR
-  const routeRegions = []; // TODO: Filter by region in a forthcoming PR
-  const regions = [...areaRegions, ...routeRegions];
+  // Also include any alerts that intersect the areas
+  const areaBBoxes: Array<BBox2d> = areas.map(area => area.geostore?.bbox).filter(Boolean);
+  const areaRegions = areaBBoxes.map(areaBBox => bboxPolygon(areaBBox));
   const alerts = exportAlerts(appState.alerts, areaRegions);
-  const basemaps = exportBasemaps(appState.basemaps, request.basemapIds, regions);
-  const layers = exportLayers(appState.layers, request.layerIds, regions);
 
   return {
     version: APP_DATA_FORMAT_VERSION,
@@ -47,6 +43,7 @@ export default function exportAppData(appState: State, request: ExportBundleRequ
     areas: areas,
     basemaps: basemaps,
     layers: layers,
+    manifest: { basemaps: {}, layers: {} },
     reports: reports,
     routes: routes
   };
@@ -55,7 +52,7 @@ export default function exportAppData(appState: State, request: ExportBundleRequ
 /**
  * Extracts any alerts from state intersecting the specified geographic regions
  */
-function exportAlerts(alertsState: AlertsState, regions: Array<any>): Array<Alert> {
+function exportAlerts(alertsState: AlertsState, regions: Array<Feature<Polygon>>): Array<Alert> {
   // TODO: Filter by region in a forthcoming PR
   return [];
 }
@@ -70,8 +67,7 @@ function exportAreas(areasState: AreasState, areaIds: Array<string>): Array<Area
 /**
  * Extracts any basemap info from state for basemaps matching the specified IDs, OR intersecting any of the given regions
  */
-function exportBasemaps(basemapsState: BasemapsState, basemapIds: Array<string>, regions: Array<any>): Array<Basemap> {
-  // TODO: Filter by region in a forthcoming PR
+export function exportBasemaps(basemapsState: BasemapsState, basemapIds: Array<string>): Array<Basemap> {
   const allBasemaps = [...basemapsState.gfwBasemaps, ...basemapsState.importedBasemaps];
   return allBasemaps.filter(basemap => basemapIds.includes(basemap.id));
 }
@@ -79,8 +75,7 @@ function exportBasemaps(basemapsState: BasemapsState, basemapIds: Array<string>,
 /**
  * Extracts any layer info from state for layers matching the specified IDs, OR intersecting any of the given regions
  */
-function exportLayers(layersState: LayersState, layerIds: Array<string>, regions: Array<any>): Array<ContextualLayer> {
-  // TODO: Filter by region in a forthcoming PR
+export function exportLayers(layersState: LayersState, layerIds: Array<string>): Array<ContextualLayer> {
   return layersState.data.filter(layer => layerIds.includes(layer.id));
 }
 
