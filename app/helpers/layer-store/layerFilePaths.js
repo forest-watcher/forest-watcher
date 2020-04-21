@@ -7,7 +7,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 
 export type LayerType = 'basemap' | 'contextual_layer';
 
-const LAYER_ROOT_DIR = `${RNFetchBlob.fs.dirs.DocumentDir}/${CONSTANTS.files.tiles}`;
+export const LAYER_ROOT_DIR = `${RNFetchBlob.fs.dirs.DocumentDir}/${CONSTANTS.files.tiles}`;
 
 /**
  * Delimiter used to separate x, y, and z from a tile filename, e.g. 4x13x7.png

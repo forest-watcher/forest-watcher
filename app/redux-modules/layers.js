@@ -1,23 +1,23 @@
 // @flow
 import type { LayersState, LayersAction, LayersCacheStatus, LayersProgress } from 'types/layers.types';
 import type { Dispatch, GetState, State } from 'types/store.types';
+import type { Area } from 'types/areas.types';
+import type { File } from 'types/file.types';
+import type { LayerType } from 'helpers/layer-store/layerFilePaths';
 
 import Config from 'react-native-config';
 import omit from 'lodash/omit';
 import CONSTANTS from 'config/constants';
 import { getActionsTodoCount } from 'helpers/sync';
-import { removeFolder } from 'helpers/fileManagement';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
-import type { Area } from 'types/areas.types';
-import type { File } from 'types/file.types';
 
 import tracker from 'helpers/googleAnalytics';
 import { Platform } from 'react-native';
 import { storeTilesFromUrl } from 'helpers/layer-store/storeLayerFiles';
-import type { LayerType } from 'helpers/layer-store/layerFilePaths';
+import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
 const DOMParser = require('xmldom').DOMParser;
 
@@ -156,9 +156,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
           [layerId]: omit(cache[layerId], [area.id])
         };
       });
-      removeFolder(`${CONSTANTS.files.tiles}/${area.id}`).then(() =>
-        console.info(`Area ${area.id} cache deleted successfully`)
-      );
+      // TODO: Delete tiles after layer is deleted
       return { ...state, cache, cacheStatus, layersProgress };
     }
     case UPDATE_PROGRESS: {
@@ -268,7 +266,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
       return { ...state, importingLayer: null, importError: action.payload };
     }
     case LOGOUT_REQUEST:
-      removeFolder(CONSTANTS.files.tiles).then(console.info('Folder removed successfully'));
+      deleteLayerFiles().then(console.info('Folder removed successfully'));
       return initialState;
     default:
       return state;
