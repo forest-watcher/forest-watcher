@@ -1,8 +1,9 @@
 // @flow
 import type { Dispatch } from 'types/store.types';
-import type { UnpackedSharingBundle } from 'types/sharing.types';
+import type { ImportBundleResult, UnpackedSharingBundle } from 'types/sharing.types';
 import FWError from 'helpers/fwError';
 import deleteStagedBundle from 'helpers/sharing/deleteStagedBundle';
+import { SAVE_AREA_COMMIT } from 'redux-modules/areas';
 
 /**
  * Imports a FW sharing bundle into the app
@@ -28,7 +29,16 @@ function checkBundleCompatibility(version: number) {
  * @param dispatch - Redux dispatch function used to emit actions to add data to the app
  */
 export function importStagedBundle(bundle: UnpackedSharingBundle, dispatch: Dispatch): Promise<ImportBundleResult> {
-  checkBundleCompatibility(bundle.bundle.version);
+  checkBundleCompatibility(bundle.data.version);
+
+  bundle.data.areas.forEach(area => {
+    // TODO: Handle area with same ID in reducer??
+    dispatch({
+      type: SAVE_AREA_COMMIT,
+      payload: area
+    });
+  });
+
   throw new FWError('Not yet implemented');
 }
 

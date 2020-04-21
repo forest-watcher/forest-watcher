@@ -2,7 +2,7 @@
 
 import type { OfflineMeta } from 'types/offline.types';
 import type { DeleteAreaCommit, Area } from 'types/areas.types';
-import type { File } from 'types/./file.types';
+import type { File } from 'types/file.types';
 
 export type ContextualLayer = {
   createdAt?: ?string,

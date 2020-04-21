@@ -28,16 +28,22 @@ const routeMapBackground = require('assets/routeMapBackground.png');
 
 const RoutePreviewSize = isSmallScreen ? 86 : 122;
 
-type Props = {
-  componentId: string,
-  routes: Array<Route>,
-  initialiseAreaLayerSettings: (string, string) => void,
-  setSelectedAreaId: (areaId: string) => void,
-  showExportReportsSuccessfulNotification: () => void
-};
+type Props = {|
+  +componentId: string,
+  +exportRoutes: (ids: Array<string>) => Promise<void>,
+  +routes: Array<Route>,
+  +initialiseAreaLayerSettings: (string, string) => void,
+  +setSelectedAreaId: (areaId: string) => void,
+  +showExportReportsSuccessfulNotification: () => void
+|};
 
-export default class Routes extends PureComponent<Props> {
-  static options(passProps) {
+type State = {|
+  +selectedForExport: Array<string>,
+  +inShareMode: boolean
+|};
+
+export default class Routes extends PureComponent<Props, State> {
+  static options(passProps: {}) {
     return {
       topBar: {
         title: {
@@ -47,7 +53,9 @@ export default class Routes extends PureComponent<Props> {
     };
   }
 
-  constructor(props) {
+  shareSheet: any;
+
+  constructor(props: Props) {
     super(props);
 
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
@@ -73,7 +81,7 @@ export default class Routes extends PureComponent<Props> {
    * Handles the route row being selected while in export mode.
    * Will swap the state for the specified row, to show in the UI if it has been selected or not.
    */
-  onRouteSelectedForExport = route => {
+  onRouteSelectedForExport = (route: Route) => {
     this.setState(state => {
       if (state.selectedForExport.includes(route.areaId + route.id)) {
         return {
@@ -137,35 +145,10 @@ export default class Routes extends PureComponent<Props> {
    * @param  {Object} selectedRoutes A mapping of route identifiers to a boolean dictating whether they've been selected for export.
    */
   onExportRoutesTapped = debounceUI(selectedRoutes => {
-    //const routes = this.props.routes || [];
-
-    // Iterate through the selected reports. If the route has been marked to export, find the full route object.
-    //const routesToExport = selectedRoutes.map(key => {
-    //  return routes.find(route => route.areaId + route.id === key);
-    //});
-
-    // await exportReports(
-    //   reportsToExport,
-    //   this.props.templates,
-    //   this.props.appLanguage,
-    //   Platform.select({
-    //     android: RNFetchBlob.fs.dirs.DownloadDir,
-    //     ios: RNFetchBlob.fs.dirs.DocumentDir
-    //   })
-    // );
-
-    // // TODO: Handle errors returned from export function.
-
-    // // Show 'export successful' notification, and reset export state to reset UI.
-    // this.props.showExportReportsSuccessfulNotification();
+    // TODO: Loading screen while the async function below executed
+    this.props.exportRoutes(selectedRoutes);
     this.shareSheet?.setSharing?.(false);
-    this.setState({
-      inShareMode: false
-    });
-
-    // if (Platform.OS === 'android') {
-    //   NativeModules.Intents.launchDownloadsDirectory();
-    // }
+    this.setSharing(false);
   });
 
   setAllSelected = (selected: boolean) => {
@@ -267,7 +250,7 @@ export default class Routes extends PureComponent<Props> {
    * @param  {bool} inExportMode  Whether the user is in export mode or not. If in export mode, a different callback will be used.
    * @return {ScrollView}         A ScrollView element with all content rendered to it.
    */
-  renderRoutes(routes, inExportMode) {
+  renderRoutes(routes: Array<Route>, inExportMode: boolean) {
     const hasRoutes = !!routes.length;
 
     if (!hasRoutes) {

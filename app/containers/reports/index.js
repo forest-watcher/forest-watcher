@@ -1,13 +1,13 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { getNextStep } from 'helpers/forms';
-import { shouldBeConnected } from 'helpers/app';
 import { showExportReportsSuccessfulNotification } from 'redux-modules/app';
 
 import Reports from 'components/reports';
+import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
+import shareBundle from 'helpers/sharing/shareBundle';
 
 function getReports(reports) {
   const data = {
@@ -44,10 +44,13 @@ function sortReports(reports) {
   return sorted;
 }
 
+type OwnProps = {|
+  +componentId: string
+|};
+
 function mapStateToProps(state: State) {
   return {
     appLanguage: state.app.language,
-    isConnected: shouldBeConnected(state),
     templates: state.reports.templates,
     reports: getReports(state.reports.list),
     getLastStep: formName => {
@@ -66,16 +69,24 @@ function mapStateToProps(state: State) {
   };
 }
 
-function mapDispatchToProps(dispatch: *) {
-  return bindActionCreators(
-    {
-      showExportReportsSuccessfulNotification
+function mapDispatchToProps(dispatch: Dispatch) {
+  return {
+    exportReportsAsBundle: async (ids: Array<string>) => {
+      const outputPath = await dispatch(
+        exportBundleFromRedux({
+          reportIds: ids
+        })
+      );
+      await shareBundle(outputPath);
     },
-    dispatch
-  );
+    showExportReportsSuccessfulNotification: () => {
+      dispatch(showExportReportsSuccessfulNotification());
+    }
+  };
 }
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(Reports);

@@ -1,4 +1,7 @@
 // @flow
+
+import type { File } from 'types/file.types';
+
 import React, { Component } from 'react';
 import { View, ScrollView, Share, Text } from 'react-native';
 import { Navigation } from 'react-native-navigation';
@@ -17,14 +20,20 @@ const plusIcon = require('assets/add.png');
 const emptyIcon = require('assets/layersEmpty.png');
 const layerPlaceholder = require('assets/layerPlaceholder.png');
 
-type Props = {
-  baseApiLayers: ?Array<ContextualLayer>,
-  componentId: string,
-  importedLayers: Array<File>
-};
+type Props = {|
+  +baseApiLayers: Array<ContextualLayer>,
+  +componentId: string,
+  +exportLayers: (ids: Array<string>) => Promise<void>,
+  +importedLayers: Array<File>
+|};
 
-class Layers extends Component<Props> {
-  static options(passProps) {
+type State = {|
+  +selectedForExport: Array<string>,
+  +inShareMode: boolean
+|};
+
+class Layers extends Component<Props, State> {
+  static options(passProps: {}) {
     return {
       topBar: {
         title: {
@@ -40,9 +49,10 @@ class Layers extends Component<Props> {
     };
   }
 
-  constructor(props) {
+  shareSheet: any;
+
+  constructor(props: Props) {
     super(props);
-    this.navigationEventListener = Navigation.events().bindComponent(this);
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
     this.state = {
       selectedForExport: [],
@@ -54,14 +64,7 @@ class Layers extends Component<Props> {
     tracker.trackScreenView('Layers');
   }
 
-  componentWillUnmount() {
-    // Not mandatory
-    if (this.navigationEventListener) {
-      this.navigationEventListener.remove();
-    }
-  }
-
-  navigationButtonPressed({ buttonId }) {
+  navigationButtonPressed({ buttonId }: any) {
     if (buttonId === 'addLayer') {
       this.onPressAddLayer();
     }
@@ -71,7 +74,7 @@ class Layers extends Component<Props> {
    * Handles the layer row being selected while in export mode.
    * Will swap the state for the specified row, to show in the UI if it has been selected or not.
    */
-  onLayerSelectedForExport = layerId => {
+  onLayerSelectedForExport = (layerId: string) => {
     this.setState(state => {
       if (state.selectedForExport.includes(layerId)) {
         return {
@@ -93,47 +96,10 @@ class Layers extends Component<Props> {
    * @param  {Array} selectedLayers An array of layer identifiers that have been selected for export.
    */
   onExportLayersTapped = debounceUI(selectedLayers => {
-    //const layers = this.props.layers || [];
-
-    // Iterate through the selected reports. If the layer has been marked to export, find the full layer object.
-    //const layersToExport = selectedLayers.map(layerId => {
-    //  const selectedLayer = layers.find(layer => layer.id === layerId);
-    //  return selectedLayer;
-    //});
-
-    // await exportReports(
-    //   reportsToExport,
-    //   this.props.templates,
-    //   this.props.appLanguage,
-    //   Platform.select({
-    //     android: RNFetchBlob.fs.dirs.DownloadDir,
-    //     ios: RNFetchBlob.fs.dirs.DocumentDir
-    //   })
-    // );
-
-    // // TODO: Handle errors returned from export function.
-
-    // // Show 'export successful' notification, and reset export state to reset UI.
-    // this.props.showExportReportsSuccessfulNotification();
+    // TODO: Loading screen while the async function below executed
+    this.props.exportLayers(selectedLayers);
     this.shareSheet?.setSharing?.(false);
-    this.setState({
-      inShareMode: false,
-      selectedForExport: []
-    });
-    Navigation.mergeOptions(this.props.componentId, {
-      topBar: {
-        rightButtons: [
-          {
-            id: 'addLayer',
-            icon: plusIcon
-          }
-        ]
-      }
-    });
-
-    // if (Platform.OS === 'android') {
-    //   NativeModules.Intents.launchDownloadsDirectory();
-    // }
+    this.setSharing(false);
   });
 
   onPressAddLayer = debounceUI(() => {
@@ -288,7 +254,7 @@ class Layers extends Component<Props> {
                 actionTitle={i18n.t('contextualLayers.empty.action')}
                 body={i18n.t('contextualLayers.empty.body')}
                 icon={emptyIcon}
-                onActionPress={this.onFrequentlyAskedQuestionsPress}
+                onActionPress={() => {}}
                 title={i18n.t('contextualLayers.empty.title')}
               />
             </View>

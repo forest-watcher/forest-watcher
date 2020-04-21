@@ -1,36 +1,50 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { setSelectedAreaId } from 'redux-modules/areas';
-import { shouldBeConnected } from 'helpers/app';
 
 import { showExportReportsSuccessfulNotification } from 'redux-modules/app';
 
 import Routes from 'components/routes';
 import { initialiseAreaLayerSettings } from 'redux-modules/layerSettings';
+import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
+import shareBundle from 'helpers/sharing/shareBundle';
+
+type OwnProps = {|
+  +componentId: string
+|};
 
 function mapStateToProps(state: State) {
   return {
-    appLanguage: state.app.language,
-    isConnected: shouldBeConnected(state),
     routes: state.routes.previousRoutes
   };
 }
 
-function mapDispatchToProps(dispatch: *) {
-  return bindActionCreators(
-    {
-      initialiseAreaLayerSettings,
-      setSelectedAreaId,
-      showExportReportsSuccessfulNotification
+function mapDispatchToProps(dispatch: Dispatch) {
+  return {
+    exportRoutes: async (ids: Array<string>) => {
+      const outputPath = await dispatch(
+        exportBundleFromRedux({
+          routeIds: ids
+        })
+      );
+      await shareBundle(outputPath);
     },
-    dispatch
-  );
+    initialiseAreaLayerSettings: (featureId: string, areaId: string) => {
+      dispatch(initialiseAreaLayerSettings(featureId, areaId));
+    },
+    setSelectedAreaId: (id: string) => {
+      dispatch(setSelectedAreaId(id));
+    },
+    showExportReportsSuccessfulNotification: () => {
+      dispatch(showExportReportsSuccessfulNotification());
+    }
+  };
 }
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(Routes);

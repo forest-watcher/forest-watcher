@@ -5,13 +5,7 @@ import RNFS from 'react-native-fs';
 import { zip } from 'react-native-zip-archive';
 
 import deleteStagedBundle from 'helpers/sharing/deleteStagedBundle';
-
-/**
- * Version number of the bundles created using the functions in this file
- *
- * Should be incremented whenever the format changes
- */
-export const BUNDLE_FORMAT_VERSION: number = 1;
+import exportAppData from 'helpers/sharing/exportAppData';
 
 /**
  * Extension of the final bundle
@@ -33,8 +27,9 @@ export const BUNDLE_DATA_FILE_NAME: string = 'bundle.json';
  *
  * @param request - The request defining which data should be exported
  */
-export default async function exportBundle(request: ExportBundleRequest, appState: State): Promise<string> {
-  const stagedBundle = await stageBundle(request, appState);
+export default async function exportBundle(appState: State, request: ExportBundleRequest): Promise<string> {
+  const bundleData = exportAppData(appState, request);
+  const stagedBundle = await stageBundle(bundleData);
   const bundleFile = await packageBundle(stagedBundle);
   deleteStagedBundle(stagedBundle);
   return bundleFile;
@@ -55,31 +50,14 @@ export async function packageBundle(bundle: UnpackedSharingBundle): Promise<stri
  *
  * @param request - The request defining which data should be exported
  */
-export async function stageBundle(request: ExportBundleRequest, appState: State): Promise<UnpackedSharingBundle> {
-  const areaIds = request.areaIds;
-  const areas = areaIds.map(id => appState.areas.data.find(area => area.id === id)).filter(Boolean);
-
+export async function stageBundle(bundle: SharingBundle): Promise<UnpackedSharingBundle> {
   const outputPath = `${BUNDLE_DEFAULT_STAGING_DIR}/bundle-${Date.now().toString()}`;
-
-  const bundle: SharingBundle = {
-    version: BUNDLE_FORMAT_VERSION,
-    areas: areas,
-    reports: []
-  };
-  await writeBundle(bundle, outputPath);
-
+  const outputFile = `${outputPath}/${BUNDLE_DATA_FILE_NAME}`;
+  const outputData = JSON.stringify(bundle);
+  await RNFS.mkdir(outputPath);
+  await RNFS.writeFile(outputFile, outputData);
   return {
     path: outputPath,
     data: bundle
   };
-}
-
-async function writeBundle(bundle: SharingBundle, outputPath: string): Promise<string> {
-  const outputFile = `${outputPath}/${BUNDLE_DATA_FILE_NAME}`;
-  await RNFS.mkdir(outputPath);
-
-  const outputData = JSON.stringify(bundle);
-  await RNFS.writeFile(outputFile, outputData);
-
-  return outputFile;
 }
