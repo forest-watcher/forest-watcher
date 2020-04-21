@@ -388,7 +388,7 @@ export function importContextualLayer(layerFile: File) {
           });
           // Read from file so we can remove null geometries
           const fileContents = await RNFS.readFile(file.uri);
-          let geojson = JSON.parse(fileContents + "}}");
+          let geojson = JSON.parse(fileContents);
 
           if (geojson.type === 'Topology' && !!geojson.objects) {
             geojson = togeojson.topojson(geojson);
