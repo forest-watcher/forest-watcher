@@ -243,31 +243,6 @@ export function saveArea(params: { snapshot: string, area: CountryArea }): Areas
   };
 }
 
-export function setAreaDatasetStatus(areaId: string, datasetSlug: string, status: boolean) {
-  return (dispatch: Dispatch, state: GetState) => {
-    const area = getAreaById(state().areas.data, areaId);
-    if (area) {
-      const datasets = area.datasets.map(item => {
-        if (item.slug !== datasetSlug) {
-          if (status === true) {
-            if (item.active) {
-              tracker.trackLayerToggledEvent(item.slug, false);
-            }
-            return {
-              ...item,
-              active: false
-            };
-          }
-          return item;
-        }
-        return { ...item, active: status };
-      });
-      tracker.trackLayerToggledEvent(datasetSlug, status);
-      dispatch(updateArea({ ...area, datasets }));
-    }
-  };
-}
-
 export function updateDate(areaId: string, datasetSlug: string, date: { startDate: number }) {
   return (dispatch: Dispatch, state: GetState) => {
     const area = getAreaById(state().areas.data, areaId);

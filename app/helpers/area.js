@@ -9,20 +9,9 @@ export function getSelectedArea(areas: Array<Area>, selectedId: string): ?Area {
 }
 
 export function activeDataset(area: Area): ?Dataset {
-  if (!area || area.datasets === undefined) {
+  if (!area?.datasets) {
     return null;
   }
-  const enabledDataset = area.datasets.find(d => d.active === true);
-  if (typeof enabledDataset !== 'undefined') {
-    return { ...enabledDataset };
-  }
-  return null;
-}
-
-export function enabledDatasetName(area: Area): ?string {
-  if (!area.datasets) {
-    return null;
-  }
-  const enabledDataset = activeDataset(area);
-  return enabledDataset ? enabledDataset.name : null;
+  const enabledDataset = area.datasets.find(Boolean);
+  return enabledDataset;
 }
