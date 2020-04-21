@@ -20,9 +20,9 @@ import type { File } from 'types/file.types';
 import tracker from 'helpers/googleAnalytics';
 import { Platform } from 'react-native';
 
-const DOMParser = require('xmldom').DOMParser;
+import togeojson from 'helpers/toGeoJSON';
 
-const togeojson = require('@tmcw/togeojson');
+const DOMParser = require('xmldom').DOMParser;
 const RNFS = require('react-native-fs');
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
@@ -377,6 +377,7 @@ export function importContextualLayer(layerFile: File) {
 
     switch (fileExtension) {
       case 'json':
+      case 'topojson':
       case 'geojson': {
         try {
           // Make the directory for saving files to, if this is already present this won't error according to docs
@@ -387,7 +388,12 @@ export function importContextualLayer(layerFile: File) {
           });
           // Read from file so we can remove null geometries
           const fileContents = await RNFS.readFile(file.uri);
-          const geojson = JSON.parse(fileContents);
+          let geojson = JSON.parse(fileContents);
+
+          if (geojson.type === 'Topology' && !!geojson.objects) {
+            geojson = togeojson.topojson(geojson);
+          }
+
           const cleanedGeoJSON = cleanGeoJSON(geojson);
           // Write the new data to the app's storage
           await RNFS.writeFile(fullPath, JSON.stringify(cleanedGeoJSON));
