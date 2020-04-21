@@ -14,19 +14,32 @@ export const LAYER_ROOT_DIR = `${RNFetchBlob.fs.dirs.DocumentDir}/${CONSTANTS.fi
  */
 const TILE_FILE_PART_DELIMITER = 'x';
 
+/**
+ * Constructs the storage path used for the layer of the specified type and ID
+ */
 export function pathForLayer(type: LayerType, id: string): string {
   const path = pathForLayerType(type);
   return `${path}/${id}`;
 }
 
+/**
+ * Constructs the storage path used for layers of the specified type
+ */
 export function pathForLayerType(type: LayerType): string {
   return `${LAYER_ROOT_DIR}/${type}`;
 }
 
+/**
+ * Modified the path so it is relative to the root storage for layers
+ */
 export function pathWithoutRoot(path: string): string {
   return path.replace(LAYER_ROOT_DIR, '');
 }
 
+/**
+ * Given a filename representing a quadtree tile (i.e. {z}x{x}x{y}), extracts the GeoJson polygon associated with that
+ * tile
+ */
 export function tileFileNameToPolygon(fileName: string): Feature<Polygon> {
   const splitExt = fileName.split('.');
   const name = splitExt[0];
