@@ -1,9 +1,11 @@
 // @flow
 
 import type { LayerFile, LayerFilesById } from 'types/sharing.types';
-import _ from 'lodash';
+import type { FeatureCollection, Polygon } from '@turf/helpers';
 
-import turf, { type FeatureCollection, type Polygon } from '@turf/helpers';
+import _ from 'lodash';
+import intersect from '@turf/intersect';
+
 import {
   type LayerType,
   pathForLayer,
@@ -69,7 +71,7 @@ async function listLayerFilesForRegion(
   }
 
   return layerFiles.filter(layerFile =>
-    region.features.some(feature => layerFile.polygon && !!turf.intersect(layerFile.polygon, feature))
+    region.features.some(feature => layerFile.polygon && !!intersect(layerFile.polygon, feature))
   );
 }
 

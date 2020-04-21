@@ -263,7 +263,6 @@ class Areas extends Component<Props, State> {
                     downloadCalloutVisible={!this.props.areaDownloadTooltipSeen}
                     onAreaDownloadPress={(areaId, name) => {
                       this.props.setAreaDownloadTooltipSeen(true);
-                      // todo: Handle download too!
                     }}
                     onAreaPress={(areaId, name) => {
                       if (this.state.inShareMode) {
@@ -277,6 +276,7 @@ class Areas extends Component<Props, State> {
                     }}
                     selectionState={this.state.selectedForExport}
                     sharing={this.state.inShareMode}
+                    showCache={true}
                   />
                 </View>
               ) : null}

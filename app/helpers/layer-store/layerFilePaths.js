@@ -31,6 +31,7 @@ export function tileFileNameToPolygon(fileName: string): Feature<Polygon> {
   const splitExt = fileName.split('.');
   const name = splitExt[0];
   const nameParts = name.split(TILE_FILE_PART_DELIMITER);
-  const tile = nameParts.slice(0, 3).map(part => parseInt(part));
-  return tilebelt.tileToGeoJSON(tile);
+  const tileZXY = nameParts.slice(0, 3).map(part => parseInt(part)); // tiles are stored in ZXY order
+  const tileXYZ = [tileZXY[1], tileZXY[2], tileZXY[0]];
+  return tilebelt.tileToGeoJSON(tileXYZ);
 }
