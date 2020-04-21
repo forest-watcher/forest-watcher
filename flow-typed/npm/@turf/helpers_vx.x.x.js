@@ -97,8 +97,6 @@ declare module '@turf/helpers' {
   }
 
   declare module.exports: {
-    bbox: GeoJSONObject => BBox2d,
-    bboxPolygon: (BBox, ?{| properties: Properties, id: Id |}) => Feature<Polygon>,
     lineString: (Array<[number, number]>) => LineString
   };
 }

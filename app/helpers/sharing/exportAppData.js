@@ -9,7 +9,8 @@ import type { ContextualLayer, LayersState } from 'types/layers.types';
 import type { Route, RouteState } from 'types/routes.types';
 import type { AlertsState } from 'types/alerts.types';
 import type { Alert } from 'types/common.types';
-import turf, { type BBox2d, type Feature, type Polygon } from '@turf/helpers';
+import type { BBox2d, Feature, Polygon } from '@turf/helpers';
+import bboxPolygon from '@turf/bbox-polygon';
 
 /**
  * Version number of the bundles created using the functions in this file
@@ -33,7 +34,7 @@ export default function exportAppData(appState: State, request: ExportBundleRequ
 
   // Also include any alerts that intersect the areas
   const areaBBoxes: Array<BBox2d> = areas.map(area => area.geostore?.bbox).filter(Boolean);
-  const areaRegions = areaBBoxes.map(areaBBox => turf.bboxPolygon(areaBBox));
+  const areaRegions = areaBBoxes.map(areaBBox => bboxPolygon(areaBBox));
   const alerts = exportAlerts(appState.alerts, areaRegions);
 
   return {

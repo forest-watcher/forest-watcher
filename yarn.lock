@@ -1261,6 +1261,21 @@
     "@turf/helpers" "6.x"
     "@turf/invariant" "6.x"
 
+"@turf/bbox-polygon@6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@turf/bbox-polygon/-/bbox-polygon-6.0.1.tgz#ae0fbb14558831fb34538aae089a23d3336c6379"
+  integrity sha512-f6BK6GOzUNjmJeOYHklk/5LNcQMQbo51gvAM10dTM5IqzKP01KM5bgV88uOKfSZB0HRQVpaRV1tgXk2bg5cPRg==
+  dependencies:
+    "@turf/helpers" "6.x"
+
+"@turf/bbox@6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@turf/bbox/-/bbox-6.0.1.tgz#b966075771475940ee1c16be2a12cf389e6e923a"
+  integrity sha512-EGgaRLettBG25Iyx7VyUINsPpVj1x3nFQFiGS3ER8KCI1MximzNLsam3eXRabqQDjyAKyAE1bJ4EZEpGvspQxw==
+  dependencies:
+    "@turf/helpers" "6.x"
+    "@turf/meta" "6.x"
+
 "@turf/bearing@6.x":
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/@turf/bearing/-/bearing-6.0.1.tgz#8da5d17092e571f170cde7bfb2e5b0d74923c92d"
@@ -1301,6 +1316,13 @@
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@turf/kinks/-/kinks-6.0.0.tgz#dde4f10f6e1ec18dc25a5d2d5dbe09aa994e9904"
   integrity sha512-X2xk3+Sr9aeu51t1vBa7Iwowvjxcbl5fePLIo/dDOU4j5WeFoqGCto+DdEHQcC3y8HVUin4i8GaHVaM9sVTphg==
+  dependencies:
+    "@turf/helpers" "6.x"
+
+"@turf/meta@6.x":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@turf/meta/-/meta-6.0.2.tgz#eb92951126d24a613ac1b7b99d733fcc20fd30cf"
+  integrity sha512-VA7HJkx7qF1l3+GNGkDVn2oXy4+QoLP6LktXAaZKjuT1JI0YESat7quUkbCMy4zP9lAUuvS4YMslLyTtr919FA==
   dependencies:
     "@turf/helpers" "6.x"
 

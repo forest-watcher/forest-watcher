@@ -3,10 +3,11 @@
 import type { ExportBundleRequest, LayerManifest } from 'types/sharing.types';
 import type { Area } from 'types/areas.types';
 import type { Route } from 'types/routes.types';
+import type { BBox2d } from '@turf/helpers';
 
-import turf, { type BBox2d } from '@turf/helpers';
+import bboxPolygon from '@turf/bbox-polygon';
 import queryLayerFiles from 'helpers/layer-store/queryLayerFiles';
-import { bbox } from 'helpers/routes';
+import { bbox as routeBbox } from 'helpers/routes';
 
 /**
  * Constructs a layer manifest, comprising all layer files for layers that were either explicitly requested in the
@@ -24,9 +25,9 @@ export default function exportLayerManifest(
   // Next, for any basemap / layer that HASN'T been explicitly requested, but that intersects an explicitly requested
   // route or area, request the files that lie within the intersection
   const areaBBoxes: Array<BBox2d> = areas.map(area => area.geostore?.bbox).filter(Boolean);
-  const routeBBoxes: Array<BBox2d> = routes.map(route => bbox(route));
+  const routeBBoxes: Array<BBox2d> = routes.map(route => routeBbox(route));
   const bboxes = [...areaBBoxes, ...routeBBoxes];
-  const regions = bboxes.map(areaBBox => turf.bboxPolygon(areaBBox));
+  const regions = bboxes.map(areaBBox => bboxPolygon(areaBBox));
   const implicitlyRequestedBasemaps = queryLayerFiles({
     whitelist: [],
     blacklist: request.basemapIds,
