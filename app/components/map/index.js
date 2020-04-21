@@ -99,7 +99,7 @@ const myLocationIcon = require('assets/my_location.png');
 const createReportIcon = require('assets/createReport.png');
 const reportAreaIcon = require('assets/report_area.png');
 const addLocationIcon = require('assets/add_location.png');
-const routeDestinationMarker = require('assets/routeDestinationMarker.png');
+const customReportingMarker = require('assets/custom-reporting-marker.png');
 const closeIcon = require('assets/close_gray.png');
 
 type Props = {
@@ -123,6 +123,7 @@ type Props = {
   mapWalkthroughSeen: boolean,
   setSelectedAreaId: () => {},
   route: Route,
+  allRouteIds: Array<string>,
   layerSettings: LayerSettings,
   isTracking: boolean,
   onStartTrackingRoute: () => {},
@@ -657,7 +658,8 @@ class MapComponent extends Component<Props> {
 
   // Renders all active routes in layer settings
   renderAllRoutes = () => {
-    let routeIds = this.props.layerSettings.routes.activeRouteIds;
+    const { activeRouteIds, showAll } = this.props.layerSettings.routes;
+    let routeIds = showAll ? this.props.allRouteIds : activeRouteIds;
     // this is already being rendered as it is the selected feature
     routeIds = routeIds.filter(routeId => routeId !== this.getFeatureId());
     const routes = this.props.getRoutesById(routeIds);
@@ -914,7 +916,7 @@ class MapComponent extends Component<Props> {
         pointerEvents="none"
         style={[styles.customLocationFixed, this.state.dragging ? styles.customLocationTransparent : '']}
       >
-        <Image style={[Theme.icon, styles.customLocationMarker]} source={routeDestinationMarker} />
+        <Image style={[Theme.icon, styles.customLocationMarker]} source={customReportingMarker} />
       </View>
     ) : null;
 
@@ -971,15 +973,13 @@ class MapComponent extends Component<Props> {
             areaId={this.props.area.id}
             onShapeSourcePressed={this.onShapeSourcePressed}
           />
-          {route?.id && (
-            <RouteMarkers
-              isTracking={this.isRouteTracking()}
-              userLocation={userLocation}
-              route={route}
-              selected={this.isRouteSelected(route?.id)}
-              onShapeSourcePressed={this.onShapeSourcePressed}
-            />
-          )}
+          <RouteMarkers
+            isTracking={this.isRouteTracking()}
+            userLocation={userLocation}
+            route={route}
+            selected={this.isRouteSelected(route?.id)}
+            onShapeSourcePressed={this.onShapeSourcePressed}
+          />
           {renderUserLocation}
         </MapboxGL.MapView>
         {renderCustomReportingMarker}

@@ -1,6 +1,6 @@
 import Theme from 'config/theme';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-const markerImage = require('assets/plus.png');
+const routeDestinationMarker = require('assets/routeDestinationMarker.png');
 
 export const mapboxStyles = {
   visible: {
@@ -62,7 +62,7 @@ export const mapboxStyles = {
     lineOpacity: 0.8
   },
   routeDestinationMarker: {
-    iconImage: markerImage,
+    iconImage: routeDestinationMarker,
     iconAllowOverlap: true
   }
 };
