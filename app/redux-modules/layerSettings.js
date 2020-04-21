@@ -214,7 +214,7 @@ export default function reducer(
             ...state[featureId].alerts,
             glad: {
               ...state[featureId].alerts.glad,
-              timeFrame: action[featureId].payload.timeFrame
+              timeFrame: action.payload.timeFrame
             }
           }
         }
@@ -229,7 +229,7 @@ export default function reducer(
             ...state[featureId].alerts,
             viirs: {
               ...state[featureId].alerts.viirs,
-              timeFrame: action[featureId].payload.timeFrame
+              timeFrame: action.payload.timeFrame
             }
           }
         }

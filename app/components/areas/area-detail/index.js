@@ -11,7 +11,6 @@ import i18n from 'i18next';
 import moment from 'moment';
 import Theme, { isSmallScreen } from 'config/theme';
 import ActionButton from 'components/common/action-button';
-import AlertSystem from 'containers/areas/area-detail/alert-system';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
 import { withSafeArea } from 'react-native-safe-area';
@@ -236,10 +235,6 @@ class AreaDetail extends Component<Props, State> {
             <View style={styles.imageContainer}>
               <Image style={styles.image} source={{ uri: area.image }} />
             </View>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.title}>{i18n.t('alerts.alertSystems')}</Text>
-            <AlertSystem areaId={area.id} />
           </View>
           {routes.length > 0 && (
             <View style={styles.row}>

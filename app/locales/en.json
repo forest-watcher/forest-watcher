@@ -339,6 +339,8 @@
         "distance": "Distance:",
         "recent": "Recent",
         "reported": "Reported",
+        "gladAlert": "GLAD alert",
+        "viirsAlert": "VIIRS alert",
         "reportsAndRoutes": {
             "body": "Routes and Reports can also be created by tapping any alerts on the map",
             "title": "Reports and Routes"
@@ -365,12 +367,14 @@
             "importedReports": "Imported Reports",
             "manageContextualLayers": "Manage Contextual Layers",
             "manageReports": "Manage Reports",
+            "manageBasemaps": "Manage Basemaps",
             "basemaps": "Basemaps",
             "gfwBasemaps": "GFW Basemaps",
             "importedBasemaps": "Imported Basemaps",
             "myRoutes": "My Routes",
             "importedRoutes": "Imported Routes",
             "manageRoutes": "Manage Routes",
+            "showing": "Showing: %{description}",
             "alertSettings": {
                 "deforestation": "Deforestation",
                 "glad": "GLAD",
@@ -390,21 +394,20 @@
                 "showingManyMonths": "Showing %{type} from the past %{count} months",
                 "showingOneDay": "Showing %{type} from the past day",
                 "showingManyDays": "Showing %{type} from the past %{count} days",
-                "showingAlerts": "Showing: %{alerts}",
                 "noAlerts": "No Alerts"
             },
             "routeSettings": {
-                "showingRoutes": "Showing: %{count} Routes",
-                "showingAllRoutes": "Showing: All Routes"
+                "showingRoutes": "%{count} Routes",
+                "showingAllRoutes": "All Routes"
             },
             "reportSettings": {
-                "showingNoReports": "Showing No Reports",
-                "showingMyReports": "Showing My Reports",
-                "showingImportedReports": "Showing Imported Reports",
-                "showingAllReports": "Showing All Reports"
+                "showingNoReports": "No Reports",
+                "showingMyReports": "My Reports",
+                "showingImportedReports": "Imported Reports",
+                "showingAllReports": "All Reports"
             },
             "contextualLayersSettings": {
-                "showingContextualLayers": "Showing: %{count} Contextual Layers"
+                "showingContextualLayers": "%{count} Contextual Layers"
             },
             "basemapSettings": {
                 "showingBasemap": "Basemap: %{basemap}"

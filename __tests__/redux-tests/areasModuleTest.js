@@ -95,24 +95,6 @@ describe('Redux Areas Module', () => {
       expect(store.getActions()).toMatchSnapshot();
     });
 
-    it('setAreaDatasetStatus with area', () => {
-      const mockDatasets = [
-        { slug: 'datasetSlugMock1', name: 'nameMock' },
-        { slug: 'datasetSlugMock2', name: 'nameMock' },
-        { slug: 'datasetSlugMock3', name: 'nameMock' }
-      ];
-      const mockArea = {
-        name: 'nameMock',
-        id: 'areaIDMock',
-        application: 'applicationMock', // used to test that all fields are included in payload
-        datasets: mockDatasets
-      };
-      store = configuredStore({ ...initialStoreState, areas: { data: [mockArea] } });
-      store.dispatch(setAreaDatasetStatus('areaIDMock', 'datasetSlugMock1', true));
-      store.dispatch(setAreaDatasetStatus('areaIDMock', 'datasetSlugMock1', false));
-      expect(store.getActions()).toMatchSnapshot();
-    });
-
     it('updateDate with area', () => {
       const mockDatasets = [
         { slug: 'datasetSlugMock1', name: 'nameMock', startDate: 890 },

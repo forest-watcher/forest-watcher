@@ -3,7 +3,7 @@
 import type { File } from 'types/file.types';
 
 import React, { Component } from 'react';
-import { View, ScrollView, Text } from 'react-native';
+import { View, ScrollView, Share, Text } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import debounceUI from 'helpers/debounceUI';
 import i18n from 'i18next';
@@ -105,7 +105,10 @@ class Layers extends Component<Props, State> {
   onPressAddLayer = debounceUI(() => {
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'ForestWatcher.ImportLayerType'
+        name: 'ForestWatcher.ImportLayerType',
+        passProps: {
+          popToComponentId: this.props.componentId
+        }
       }
     });
   });
@@ -137,6 +140,13 @@ class Layers extends Component<Props, State> {
         }
       });
     }
+  };
+
+  shareLayer = file => {
+    Share.share({
+      message: 'Sharing file',
+      url: file.uri
+    });
   };
 
   renderGFWLayers = () => {
@@ -173,7 +183,12 @@ class Layers extends Component<Props, State> {
         </View>
         {importedLayers.map((layerFile, index) => {
           return (
-            <ActionsRow style={styles.rowContent} imageSrc={layerPlaceholder} key={index}>
+            <ActionsRow
+              onPress={this.shareLayer.bind(this, layerFile)}
+              style={styles.rowContent}
+              imageSrc={layerPlaceholder}
+              key={index}
+            >
               <Text style={styles.rowLabel}>{layerFile.name}</Text>
               {layerFile.size != null && <Text style={styles.rowLabel}>{formatBytes(layerFile.size)}</Text>}
             </ActionsRow>

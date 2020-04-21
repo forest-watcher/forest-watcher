@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 
-import { LOCATION_TRACKING, REPORTS, MAPS } from 'config/constants';
+import { LOCATION_TRACKING, REPORTS, MAPS, DATASETS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import isEqual from 'lodash/isEqual';
 import toUpper from 'lodash/toUpper';
@@ -35,6 +35,7 @@ import styles, { mapboxStyles } from './styles';
 import { Navigation } from 'react-native-navigation';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
 import MapboxGL from '@react-native-mapbox-gl/maps';
+import type { Alert as AlertType } from 'types/alerts.types';
 
 import { toFileUri } from 'helpers/fileURI';
 
@@ -66,6 +67,7 @@ import type { Route } from 'types/routes.types';
 import type { File } from 'types/file.types';
 import InfoBanner from 'components/map/info-banner';
 import type { LayerSettings } from 'types/layerSettings.types';
+import Alerts from 'containers/map/alerts';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -98,7 +100,8 @@ const myLocationIcon = require('assets/my_location.png');
 const createReportIcon = require('assets/createReport.png');
 const reportAreaIcon = require('assets/report_area.png');
 const addLocationIcon = require('assets/add_location.png');
-const newAlertIcon = require('assets/new-alert.png');
+const routeDestinationMarker = require('assets/routeDestinationMarker.png');
+const selectedAlert = require('assets/alertMapIcons/selectedAlertMapIcon.png');
 const closeIcon = require('assets/close_gray.png');
 
 type Props = {
@@ -689,9 +692,10 @@ class MapComponent extends Component<Props> {
             <MapboxGL.ShapeSource
               key={layerFile.id}
               id={'imported_layer_' + layerFile.id}
-              url={toFileUri(layerFile.uri)}
+              url={toFileUri(layerFile.path)}
             >
               <MapboxGL.SymbolLayer
+                filter={['match', ['geometry-type'], ['Point', 'MultiPoint'], true, false]}
                 id={'imported_layer_symbol_' + layerFile.id}
                 sourceID={'imported_layer_' + layerFile.id}
                 style={mapboxStyles.icon}
@@ -849,11 +853,29 @@ class MapComponent extends Component<Props> {
     }).start();
   };
 
+  onClusterPress = async coords => {
+    this.onMapPress();
+    const zoom = await this.map.getZoom();
+    // zoom towards zoom level 17, where there are no more clusters
+    const zoomTo = zoom > 15 ? 17.5 : (zoom + 20) / 2;
+    if (coords && zoom) {
+      this.mapCamera.setCamera({
+        centerCoordinate: coords,
+        zoomLevel: zoomTo,
+        animationDuration: 2000
+      });
+    }
+  };
+
   onShapeSourcePressed = e => {
     // show info banner with feature details
-    const { endDate, name, type, featureId } = e?.nativeEvent?.payload?.properties;
-    const dateAgo = moment(endDate).fromNow();
-    if (endDate && name) {
+    const { date, name, type, featureId, cluster } = e?.nativeEvent?.payload?.properties;
+    if (cluster) {
+      this.onClusterPress(e?.nativeEvent?.payload?.geometry?.coordinates);
+      return;
+    }
+    const dateAgo = moment(date).fromNow();
+    if (date && name) {
       this.setState({
         infoBannerProps: {
           title: name,
@@ -873,7 +895,13 @@ class MapComponent extends Component<Props> {
   };
 
   render() {
-    const { customReporting, userLocation, destinationCoords, infoBannerProps } = this.state;
+    if (!this.props.area?.id) {
+      // This is so that react native fast refresh doesnt crash the app.
+      Navigation.pop(this.props.componentId);
+      return null;
+    }
+
+    const { customReporting, userLocation, destinationCoords } = this.state;
     const { isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap, layerSettings } = this.props;
 
     const basemap = getActiveBasemap(this.getFeatureId());
@@ -888,7 +916,7 @@ class MapComponent extends Component<Props> {
         pointerEvents="none"
         style={[styles.customLocationFixed, this.state.dragging ? styles.customLocationTransparent : '']}
       >
-        <Image style={[Theme.icon, styles.customLocationMarker]} source={newAlertIcon} />
+        <Image style={[Theme.icon, styles.customLocationMarker]} source={routeDestinationMarker} />
       </View>
     ) : null;
 
@@ -901,6 +929,7 @@ class MapComponent extends Component<Props> {
         ref={ref => {
           this.mapCamera = ref;
         }}
+        maxZoomLevel={19}
         bounds={this.state.mapCameraBounds}
         animationDuration={0}
       />
@@ -939,6 +968,11 @@ class MapComponent extends Component<Props> {
             <React.Fragment>{this.renderImportedContextualLayers()}</React.Fragment>
           )}
           {this.renderDestinationLine()}
+          <Alerts
+            featureId={this.getFeatureId()}
+            areaId={this.props.area.id}
+            onShapeSourcePressed={this.onShapeSourcePressed}
+          />
           {route?.id && (
             <RouteMarkers
               isTracking={this.isRouteTracking()}

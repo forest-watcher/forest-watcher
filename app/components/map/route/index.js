@@ -151,18 +151,22 @@ export default class RouteMarkers extends PureComponent<Props> {
     );
   };
 
+  getRouteProperties = () => {
+    let properties = {};
+    if (this.props.route?.id) {
+      // This will be false before the route has been saved
+      const { name, endDate, id } = this.props.route;
+      properties = { name, date: endDate, type: 'route', featureId: id };
+    }
+    return properties;
+  };
+
   renderRoutePath = routeLocations => {
     const coords = routeLocations?.map(coord => coordsObjectToArray(coord));
     if (!coords || coords.length < 2) {
       return null;
     }
-    let properties = {};
-    if (this.props.route?.id) {
-      // This will be false before the route has been saved
-      const { name, endDate, id } = this.props.route;
-      properties = { name, endDate, type: 'route', featureId: id };
-    }
-    const line = MapboxGL.geoUtils.makeLineString(coords, properties);
+    const line = MapboxGL.geoUtils.makeLineString(coords, this.getRouteProperties());
     // Ignore first and last location markers, as those are drawn in renderRouteEnds method.
     const markers = coords.slice(1, -1);
     let markersShape = null;
@@ -223,12 +227,7 @@ export default class RouteMarkers extends PureComponent<Props> {
     const count = routeLocations?.length;
     const start = count > 0 ? routeLocations[0] : null;
     const end = count > 1 ? routeLocations[count - 1] : null;
-    let properties = {};
-    if (this.props.route?.id) {
-      // This will be false before the route has been saved
-      const { name, endDate, id } = this.props.route;
-      properties = { name, endDate, type: 'route', featureId: id };
-    }
+    const properties = this.getRouteProperties();
     const startSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(start), properties) : null;
     const endSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(end), properties) : null;
     const onPress = this.props.onShapeSourcePressed || null;

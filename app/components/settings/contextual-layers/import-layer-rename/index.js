@@ -19,7 +19,8 @@ type Props = {
   file: File,
   importContextualLayer: (file: File, fileName: string) => void,
   importError: ?*,
-  importingLayer: ?string
+  importingLayer: ?string,
+  popToComponentId?: ?string
 };
 
 class ImportLayerRename extends PureComponent<Props> {
@@ -53,7 +54,11 @@ class ImportLayerRename extends PureComponent<Props> {
   onImportPressed = async () => {
     try {
       await this.props.importContextualLayer(this.state.file);
-      Navigation.pop(this.props.componentId);
+      if (this.props.popToComponentId) {
+        Navigation.popTo(this.props.popToComponentId);
+      } else {
+        Navigation.pop(this.props.componentId);
+      }
     } catch (err) {
       console.warn(err);
     }
