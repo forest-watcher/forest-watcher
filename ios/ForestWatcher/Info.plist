@@ -9,42 +9,68 @@
 	<key>CFBundleDisplayName</key>
 	<string>Forest Watcher</string>
 	<key>CFBundleDocumentTypes</key>
-  <array>
+	<array>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array/>
+			<key>CFBundleTypeName</key>
+			<string>KML</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.google.earth.kml</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array/>
+			<key>CFBundleTypeName</key>
+			<string>GPX</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.gpx</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array/>
+			<key>CFBundleTypeName</key>
+			<string>GeoJSON</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.geojson</string>
+			</array>
+		</dict>
     <dict>
       <key>CFBundleTypeIconFiles</key>
       <array/>
       <key>CFBundleTypeName</key>
-      <string>KML</string>
+      <string>TopoJSON</string>
       <key>LSHandlerRank</key>
       <string>Owner</string>
       <key>LSItemContentTypes</key>
       <array>
-        <string>com.google.earth.kml</string>
+        <string>public.topojson</string>
       </array>
     </dict>
-    <dict>
-      <key>CFBundleTypeIconFiles</key>
-      <array/>
-      <key>CFBundleTypeName</key>
-      <string>GPX</string>
-      <key>LSHandlerRank</key>
-      <string>Owner</string>
-      <key>LSItemContentTypes</key>
-      <array>
-        <string>public.gpx</string>
-      </array>
-    </dict>
-    <dict>
-      <key>CFBundleTypeIconFiles</key>
-      <array/>
-      <key>CFBundleTypeName</key>
-      <string>GeoJSON</string>
-      <key>LSItemContentTypes</key>
-      <array>
-        <string>public.geojson</string>
-      </array>
-    </dict>
-  </array>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array/>
+			<key>CFBundleTypeName</key>
+			<string>KMZ</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.google.earth.kmz</string>
+        <string>com.pkware.zip-archive</string>
+			</array>
+		</dict>
+		<dict/>
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -176,64 +202,102 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>UTImportedTypeDeclarations</key>
-  <array>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.xml</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>KML</string>
+			<key>UTTypeIconFiles</key>
+			<array/>
+			<key>UTTypeIdentifier</key>
+			<string>com.google.earth.kml</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<string>kml</string>
+				<key>public.mime-type</key>
+				<string>application/vnd.google-earth.kml+xml</string>
+			</dict>
+		</dict>
     <dict>
       <key>UTTypeConformsTo</key>
       <array>
-        <string>public.xml</string>
+        <string>public.archive</string>
       </array>
       <key>UTTypeDescription</key>
-      <string>KML</string>
+      <string>KMZ</string>
       <key>UTTypeIconFiles</key>
       <array/>
       <key>UTTypeIdentifier</key>
-      <string>com.google.earth.kml</string>
+      <string>com.google.earth.kmz</string>
       <key>UTTypeTagSpecification</key>
       <dict>
         <key>public.filename-extension</key>
-        <string>kml</string>
+        <string>kmz</string>
         <key>public.mime-type</key>
-        <string>application/vnd.google-earth.kml+xml</string>
+        <string>application/zip</string>
       </dict>
     </dict>
-    <dict>
-      <key>UTTypeConformsTo</key>
-      <array>
-        <string>public.xml</string>
-      </array>
-      <key>UTTypeDescription</key>
-      <string>GPX</string>
-      <key>UTTypeIconFiles</key>
-      <array/>
-      <key>UTTypeIdentifier</key>
-      <string>public.gpx</string>
-      <key>UTTypeTagSpecification</key>
-      <dict>
-        <key>public.filename-extension</key>
-        <string>gpx</string>
-        <key>public.mime-type</key>
-        <string>application/gpx+xml</string>
-      </dict>
-    </dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.xml</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>GPX</string>
+			<key>UTTypeIconFiles</key>
+			<array/>
+			<key>UTTypeIdentifier</key>
+			<string>public.gpx</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<string>gpx</string>
+				<key>public.mime-type</key>
+				<string>application/gpx+xml</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.json</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>GeoJSON</string>
+			<key>UTTypeIconFiles</key>
+			<array/>
+			<key>UTTypeIdentifier</key>
+			<string>public.geojson</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<string>geojson</string>
+				<key>public.mime-type</key>
+				<string>application/geo+json</string>
+			</dict>
+		</dict>
     <dict>
       <key>UTTypeConformsTo</key>
       <array>
         <string>public.json</string>
       </array>
       <key>UTTypeDescription</key>
-      <string>GeoJSON</string>
+      <string>TopoJSON</string>
       <key>UTTypeIconFiles</key>
       <array/>
       <key>UTTypeIdentifier</key>
-      <string>public.geojson</string>
+      <string>public.topojson</string>
       <key>UTTypeTagSpecification</key>
       <dict>
         <key>public.filename-extension</key>
-        <string>geojson</string>
+        <string>topojson</string>
         <key>public.mime-type</key>
-        <string>application/geo+json</string>
+        <string>application/json</string>
       </dict>
     </dict>
-  </array>
+	</array>
 </dict>
 </plist>

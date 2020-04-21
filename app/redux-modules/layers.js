@@ -9,6 +9,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { unzip } from 'react-native-zip-archive';
 import { getActionsTodoCount } from 'helpers/sync';
 import { removeFolder } from 'helpers/fileManagement';
+import { isEmpty, removeNulls } from 'helpers/utils';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
@@ -19,9 +20,9 @@ import type { File } from 'types/file.types';
 import tracker from 'helpers/googleAnalytics';
 import { Platform } from 'react-native';
 
-const DOMParser = require('xmldom').DOMParser;
+import togeojson from 'helpers/toGeoJSON';
 
-const togeojson = require('@mapbox/togeojson');
+const DOMParser = require('xmldom').DOMParser;
 const RNFS = require('react-native-fs');
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
@@ -349,8 +350,14 @@ function downloadAllLayers(config: { area: Area, layerId: string, layerUrl: stri
   );
 }
 
-export function importContextualLayer(file: File) {
+export function importContextualLayer(layerFile: File) {
   return async (dispatch: Dispatch, state: GetState) => {
+    // We have to decode the file URI because iOS file manager doesn't like encoded uris!
+    const file = {
+      ...layerFile,
+      uri: decodeURI(layerFile.uri)
+    };
+
     const fileName = Platform.select({
       android: file.fileName,
       ios: file.uri.substring(file.uri.lastIndexOf('/') + 1)
@@ -370,44 +377,69 @@ export function importContextualLayer(file: File) {
 
     switch (fileExtension) {
       case 'json':
+      case 'topojson':
       case 'geojson': {
         try {
           // Make the directory for saving files to, if this is already present this won't error according to docs
-          const path = directory + '/' + fileName;
+          const fullPath = directory + '/' + fileName;
+          const relativePath = '/' + IMPORTED_LAYERS_DIRECTORY + '/' + fileName;
           await RNFS.mkdir(directory, {
             NSURLIsExcludedFromBackupKey: false // Allow this to be saved to iCloud backup!
           });
-          // Copy the file to the app's storage
-          await RNFS.copyFile(file.uri, path);
-          dispatch({ type: IMPORT_LAYER_COMMIT, payload: { ...file, uri: path, fileName: fileName } });
+          // Read from file so we can remove null geometries
+          const fileContents = await RNFS.readFile(file.uri);
+          let geojson = JSON.parse(fileContents);
+
+          if (geojson.type === 'Topology' && !!geojson.objects) {
+            geojson = togeojson.topojson(geojson);
+          }
+
+          const cleanedGeoJSON = cleanGeoJSON(geojson);
+          // Write the new data to the app's storage
+          await RNFS.writeFile(fullPath, JSON.stringify(cleanedGeoJSON));
+          dispatch({
+            type: IMPORT_LAYER_COMMIT,
+            payload: { ...file, uri: fullPath, path: relativePath, fileName: fileName }
+          });
         } catch (err) {
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
         }
         break;
       }
+      case 'kml':
       case 'gpx': {
         try {
-          // Change destination file path extension!
-          const newName = fileName.replace(/\.[^/.]+$/, '.geojson');
-          const path = directory + '/' + newName;
-          // Read from file so we can convert to GeoJSON
-          const fileContents = await RNFS.readFile(file.uri);
-          // Parse XML from file string
-          const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(fileContents);
-          // Convert to GeoJSON using mapbox's library!
-          const geoJSON = togeojson.gpx(xmlDoc, { styles: true });
-          // Make the directory for saving files to, if this is already present this won't error according to docs
-          await RNFS.mkdir(directory, {
-            NSURLIsExcludedFromBackupKey: false // Allow this to be saved to iCloud backup!
-          });
-          // Write the new data to the app's storage
-          await RNFS.writeFile(path, JSON.stringify(geoJSON));
+          const result = await writeToDiskAsGeoJSON(file, fileName, fileExtension, directory);
           dispatch({
             type: IMPORT_LAYER_COMMIT,
-            payload: { ...file, type: 'application/geo+json', uri: path, fileName: newName }
+            payload: { ...file, type: 'application/geo+json', ...result }
           });
         } catch (err) {
+          dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
+        }
+        break;
+      }
+      case 'kmz': {
+        const tempZipPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '.zip');
+        try {
+          await RNFS.copyFile(file.uri, tempZipPath);
+          const tempPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '');
+          await unzip(tempZipPath, tempPath);
+          const result = await writeToDiskAsGeoJSON(
+            { ...file, uri: tempPath + '/doc.kml' },
+            fileName,
+            'kml',
+            directory
+          );
+          await RNFS.unlink(tempPath);
+          dispatch({
+            type: IMPORT_LAYER_COMMIT,
+            payload: { ...file, type: 'application/geo+json', ...result }
+          });
+          RNFS.unlink(tempZipPath);
+        } catch (err) {
+          // Fire and forget!
+          RNFS.unlink(tempZipPath);
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
         }
         break;
@@ -417,6 +449,89 @@ export function importContextualLayer(file: File) {
         break;
     }
   };
+}
+
+/**
+ * Converts a file to GeoJSON and writes it to disk in the directory provided
+ *
+ * @param {File} file The file to read and conver to GeoJSON
+ * @param {string} fileName The name of the file to write to, this will have it's extension replaced with .geojson
+ * @param {string} extension The file extension of the file, this will be used to provide the correct conversion function
+ * @param {string} directory The directory to save the file to
+ *
+ * @returns {Object} A partial `File` object with the written files uri, path and fileName
+ */
+async function writeToDiskAsGeoJSON(file: File, fileName: string, extension: string, directory: string) {
+  // Change destination file path extension!
+  const newName = fileName.replace(/\.[^/.]+$/, '.geojson');
+  const relativePath = '/' + IMPORTED_LAYERS_DIRECTORY + '/' + newName;
+  const path = directory + '/' + newName;
+  // Read from file so we can convert to GeoJSON
+  const fileContents = await RNFS.readFile(file.uri);
+  // Parse XML from file string
+  const parser = new DOMParser();
+  const xmlDoc = parser.parseFromString(fileContents);
+  // Convert to GeoJSON using mapbox's library!
+  const geoJSON =
+    extension === 'gpx' ? togeojson.gpx(xmlDoc, { styles: true }) : togeojson.kml(xmlDoc, { styles: true });
+  const cleanedGeoJSON = cleanGeoJSON(geoJSON);
+  // Make the directory for saving files to, if this is already present this won't error according to docs
+  await RNFS.mkdir(directory, {
+    NSURLIsExcludedFromBackupKey: false // Allow this to be saved to iCloud backup!
+  });
+  // Write the new data to the app's storage
+  await RNFS.writeFile(path, JSON.stringify(cleanedGeoJSON));
+
+  return { uri: path, path: relativePath, fileName: newName };
+}
+
+/**
+ * Removes any `features` from a GeoJSON file with `FeatureCollection` as the root object that have null geometries,
+ * cleans out any `null` in `coordinates` arrays
+ *
+ * @param {Object} geojson The GeoJSON to remove null geometries from
+ * @returns {Object} validated GeoJSON
+ */
+function cleanGeoJSON(geojson) {
+  if (geojson?.type === 'FeatureCollection' && !!geojson.features) {
+    return {
+      ...geojson,
+      features: geojson.features
+        .filter(feature => {
+          return !!feature.geometry && !isEmpty(feature.geometry.coordinates);
+        })
+        .map(feature => {
+          return {
+            ...feature,
+            geometry: {
+              ...feature.geometry,
+              coordinates: removeNulls(feature.geometry.coordinates)
+            }
+          };
+        })
+    };
+  } else if (geojson?.type === 'Feature' && !!geojson.geometry) {
+    return {
+      ...geojson,
+      geometry: {
+        ...geojson.geometry,
+        coordinates: removeNulls(geojson.geometry.coordinates)
+      }
+    };
+  } else if (geojson?.type === 'GeometryCollection' && !!geojson.geometries) {
+    return {
+      ...geojson,
+      geometries: geojson.geometries.map(geometry => {
+        return cleanGeoJSON(geometry);
+      })
+    };
+  } else if (geojson.coordinates) {
+    return {
+      ...geojson,
+      coordinates: removeNulls(geojson.coordinates)
+    };
+  }
+  return geojson;
 }
 
 function getAreaById(areas, areaId) {

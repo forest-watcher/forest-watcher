@@ -1,5 +1,4 @@
 // @flow
-
 import React, { PureComponent } from 'react';
 import { Text, ScrollView, View, Image } from 'react-native';
 import { Navigation } from 'react-native-navigation';
@@ -16,7 +15,7 @@ const nextIcon = require('assets/next.png');
 const fileIcon = require('assets/fileIcon.png');
 
 export const ACCEPTED_FILE_TYPES = ['json', 'geojson', 'topojson', 'gpx', 'shp', 'kmz', 'kml'];
-const TODO_FILE_TYPES = ['topojson', 'shp', 'kmz', 'kml']; // todo remove when finished implementation
+const TODO_FILE_TYPES = ['shp']; // todo remove when finished implementation
 
 type Props = {
   componentId: string,
@@ -24,7 +23,8 @@ type Props = {
   file: File,
   importContextualLayer: (file: File, fileName: string) => void,
   importError: ?*,
-  importingLayer: ?string
+  importingLayer: ?string,
+  popToComponentId?: ?string
 };
 
 class ImportLayerType extends PureComponent<Props> {
@@ -48,7 +48,9 @@ class ImportLayerType extends PureComponent<Props> {
 
   importCustomContextualLayer = debounceUI(async () => {
     try {
-      const res = await DocumentPicker.pick([DocumentPicker.types.allFiles]);
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.allFiles, 'public.item']
+      });
       const validFile = this.verifyImportedFile(res);
       if (!validFile) {
         return;
@@ -62,7 +64,8 @@ class ImportLayerType extends PureComponent<Props> {
               fileName: res.name, // Slightly tweak the res to reformat `name` -> `fileName` as we keep these seperate,
               id: generatedUniqueId(),
               name: null
-            }
+            },
+            popToComponentId: this.props.popToComponentId
           }
         }
       });
