@@ -4,7 +4,7 @@ import type { State } from 'types/store.types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { importContextualLayer } from 'redux-modules/layers';
+import { clearImportContextualLayerState, importContextualLayer } from 'redux-modules/layers';
 
 import ImportLayerRename from 'components/settings/contextual-layers/import-layer-rename';
 
@@ -19,7 +19,8 @@ function mapStateToProps(state: State) {
 const mapDispatchToProps = (dispatch: *) =>
   bindActionCreators(
     {
-      importContextualLayer
+      importContextualLayer,
+      clearImportContextualLayerState
     },
     dispatch
   );

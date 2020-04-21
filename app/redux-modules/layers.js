@@ -40,6 +40,7 @@ const UPDATE_PROGRESS = 'layer/UPDATE_PROGRESS';
 
 const IMPORT_LAYER_REQUEST = 'layers/IMPORT_LAYER_REQUEST';
 const IMPORT_LAYER_COMMIT = 'layers/IMPORT_LAYER_COMMIT';
+const IMPORT_LAYER_CLEAR = 'layers/IMPORT_LAYER_CLEAR';
 const IMPORT_LAYER_ROLLBACK = 'layers/IMPORT_LAYER_ROLLBACK';
 
 const IMPORTED_LAYERS_DIRECTORY = 'imported layers';
@@ -256,6 +257,9 @@ export default function reducer(state: LayersState = initialState, action: Layer
       const newCacheStatus = updateCacheAreaStatus(cacheStatus, area);
       return { ...state, cacheStatus: newCacheStatus };
     }
+    case IMPORT_LAYER_CLEAR: {
+      return { ...state, importingLayer: null, importError: null };
+    }
     case IMPORT_LAYER_COMMIT: {
       const importedLayers = [...state.imported];
       importedLayers.push(action.payload);
@@ -345,6 +349,12 @@ function downloadAllLayers(
   );
 }
 
+export function clearImportContextualLayerState() {
+  return {
+    type: IMPORT_LAYER_CLEAR
+  }
+}
+
 export function importContextualLayer(layerFile: File) {
   return async (dispatch: Dispatch, state: GetState) => {
     // We have to decode the file URI because iOS file manager doesn't like encoded uris!
@@ -398,6 +408,7 @@ export function importContextualLayer(layerFile: File) {
           });
         } catch (err) {
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
+          throw err;
         }
         break;
       }
@@ -411,6 +422,7 @@ export function importContextualLayer(layerFile: File) {
           });
         } catch (err) {
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
+          throw err;
         }
         break;
       }
@@ -431,11 +443,12 @@ export function importContextualLayer(layerFile: File) {
             type: IMPORT_LAYER_COMMIT,
             payload: { ...file, type: 'application/geo+json', ...result }
           });
-          RNFS.unlink(tempZipPath);
         } catch (err) {
           // Fire and forget!
-          RNFS.unlink(tempZipPath);
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
+          throw err;
+        } finally {
+          RNFS.unlink(tempZipPath);
         }
         break;
       }

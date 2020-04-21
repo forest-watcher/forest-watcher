@@ -14,6 +14,7 @@ import type { File } from 'types/file.types';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 type Props = {
+  clearImportContextualLayerState: (void) => void,
   componentId: string,
   existingLayers: Array<File>,
   file: File,
@@ -36,6 +37,7 @@ class ImportLayerRename extends PureComponent<Props> {
 
   constructor(props: Props) {
     super(props);
+    this.props.clearImportContextualLayerState();
     Navigation.events().bindComponent(this);
     this.state = {
       file: this.props.file

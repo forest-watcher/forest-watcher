@@ -53,6 +53,7 @@ class Layers extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
+    Navigation.events().bindComponent(this);
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
     this.state = {
       selectedForExport: [],
