@@ -30,7 +30,7 @@ export const BUNDLE_DATA_FILE_NAME: string = 'bundle.json';
  */
 export default async function exportBundle(appState: State, request: ExportBundleRequest): Promise<string> {
   const explicitBundleData = exportAppData(appState, request);
-  const layerManifest = exportLayerManifest(request, explicitBundleData.areas, explicitBundleData.routes);
+  const layerManifest = await exportLayerManifest(request, explicitBundleData.areas, explicitBundleData.routes);
   const finalBundleData = {
     ...explicitBundleData,
     basemaps: exportBasemaps(appState.basemaps, Object.keys(layerManifest.basemaps)),
@@ -61,9 +61,18 @@ export async function packageBundle(bundle: UnpackedSharingBundle): Promise<stri
 export async function stageBundle(bundle: SharingBundle): Promise<UnpackedSharingBundle> {
   const outputPath = `${BUNDLE_DEFAULT_STAGING_DIR}/bundle-${Date.now().toString()}`;
   const outputFile = `${outputPath}/${BUNDLE_DATA_FILE_NAME}`;
-  const outputData = JSON.stringify(bundle);
+
   await RNFS.mkdir(outputPath);
+
+  // Copy across all associated files in the manifest
+   bundle.manifest.basemaps;
+
+
+  const outputData = JSON.stringify(bundle);
+
+  // Create the staging directory and write the bundle data file
   await RNFS.writeFile(outputFile, outputData);
+
   return {
     path: outputPath,
     data: bundle

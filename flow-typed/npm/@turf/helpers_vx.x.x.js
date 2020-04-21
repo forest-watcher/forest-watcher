@@ -97,6 +97,7 @@ declare module '@turf/helpers' {
   }
 
   declare module.exports: {
+    featureCollection: <T>(Array<Feature<T>>) => FeatureCollection<T>,
     lineString: (Array<[number, number]>) => LineString
   };
 }

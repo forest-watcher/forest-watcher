@@ -5,6 +5,7 @@ import type { Route } from 'types/routes.types';
 import type { Basemap } from 'types/basemaps.types';
 import type { ContextualLayer } from 'types/layers.types';
 import type { Alert } from 'types/common.types';
+import type { Feature, Polygon } from '@turf/helpers';
 
 /**
  * Type representing a request to create a SharingBundle using a subset of the user's local data
@@ -54,19 +55,24 @@ export type LayerFile = {|
   /**
    * All URIs are relative to the root storage path of their layer store
    */
-  uri: string
+  uri: string,
+
+  /**
+   * If the file represents a geographic extent, then this holds the boundaries of that extent
+   */
+  polygon?: ?Feature<Polygon>
 |};
+
+export type LayerFilesById = {
+  [id: string]: Array<LayerFile>
+};
 
 /**
  * Manifest of files relating to basemaps and contextual layers
  */
 export type LayerManifest = {|
-  basemaps: {
-    [basemapId: string]: Array<LayerFile>
-  },
-  layers: {
-    [layerId: string]: Array<LayerFile>
-  }
+  basemaps: LayerFilesById,
+  layers: LayerFilesById
 |};
 
 /**
