@@ -39,6 +39,7 @@ const UPDATE_PROGRESS = 'layer/UPDATE_PROGRESS';
 
 const IMPORT_LAYER_REQUEST = 'layers/IMPORT_LAYER_REQUEST';
 const IMPORT_LAYER_COMMIT = 'layers/IMPORT_LAYER_COMMIT';
+const IMPORT_LAYER_CLEAR = 'layers/IMPORT_LAYER_CLEAR';
 const IMPORT_LAYER_ROLLBACK = 'layers/IMPORT_LAYER_ROLLBACK';
 
 const IMPORTED_LAYERS_DIRECTORY = 'imported layers';
@@ -257,6 +258,9 @@ export default function reducer(state: LayersState = initialState, action: Layer
       const newCacheStatus = updateCacheAreaStatus(cacheStatus, area);
       return { ...state, cacheStatus: newCacheStatus };
     }
+    case IMPORT_LAYER_CLEAR: {
+      return { ...state, importingLayer: null, importError: null };
+    }
     case IMPORT_LAYER_COMMIT: {
       const importedLayers = [...state.imported];
       importedLayers.push(action.payload);
@@ -348,6 +352,12 @@ function downloadAllLayers(config: { area: Area, layerId: string, layerUrl: stri
       return downloadLayer(layerConfig, dispatch);
     })
   );
+}
+
+export function clearImportContextualLayerState() {
+  return {
+    type: IMPORT_LAYER_CLEAR
+  }
 }
 
 export function importContextualLayer(layerFile: File) {
