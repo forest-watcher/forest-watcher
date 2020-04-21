@@ -7,12 +7,14 @@ import RNFetchBlob from 'rn-fetch-blob';
 
 export type LayerType = 'basemap' | 'contextual_layer';
 
-export const LAYER_ROOT_DIR = `${RNFetchBlob.fs.dirs.DocumentDir}/${CONSTANTS.files.tiles}`;
-
 /**
  * Delimiter used to separate x, y, and z from a tile filename, e.g. 4x13x7.png
  */
 const TILE_FILE_PART_DELIMITER = 'x';
+
+export function layerRootDir() {
+  return `${RNFetchBlob.fs.dirs.DocumentDir}/${CONSTANTS.files.tiles}`;
+}
 
 /**
  * Constructs the storage path used for the layer of the specified type and ID
@@ -26,14 +28,14 @@ export function pathForLayer(type: LayerType, id: string): string {
  * Constructs the storage path used for layers of the specified type
  */
 export function pathForLayerType(type: LayerType): string {
-  return `${LAYER_ROOT_DIR}/${type}`;
+  return `${layerRootDir()}/${type}`;
 }
 
 /**
  * Modified the path so it is relative to the root storage for layers
  */
 export function pathWithoutRoot(path: string): string {
-  return path.replace(LAYER_ROOT_DIR, '');
+  return path.replace(layerRootDir(), '');
 }
 
 /**
