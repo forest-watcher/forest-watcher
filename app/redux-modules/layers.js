@@ -388,7 +388,7 @@ export function importContextualLayer(layerFile: File) {
           });
           // Read from file so we can remove null geometries
           const fileContents = await RNFS.readFile(file.uri);
-          let geojson = JSON.parse(fileContents);
+          let geojson = JSON.parse(fileContents + "}}");
 
           if (geojson.type === 'Topology' && !!geojson.objects) {
             geojson = togeojson.topojson(geojson);
@@ -403,6 +403,7 @@ export function importContextualLayer(layerFile: File) {
           });
         } catch (err) {
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
+          throw err;
         }
         break;
       }
@@ -416,6 +417,7 @@ export function importContextualLayer(layerFile: File) {
           });
         } catch (err) {
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
+          throw err;
         }
         break;
       }
@@ -436,11 +438,12 @@ export function importContextualLayer(layerFile: File) {
             type: IMPORT_LAYER_COMMIT,
             payload: { ...file, type: 'application/geo+json', ...result }
           });
-          RNFS.unlink(tempZipPath);
         } catch (err) {
           // Fire and forget!
-          RNFS.unlink(tempZipPath);
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
+          throw err;
+        } finally {
+          RNFS.unlink(tempZipPath);
         }
         break;
       }
