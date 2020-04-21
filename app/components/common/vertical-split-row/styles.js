@@ -23,7 +23,7 @@ export default StyleSheet.create({
     alignItems: 'stretch'
   },
   imageContainer: {
-    minWidth: isSmallScreen ? 69 : 92,
+    minWidth: 92,
     flexShrink: 1,
     alignItems: 'stretch',
     backgroundColor: Theme.background.modal,
