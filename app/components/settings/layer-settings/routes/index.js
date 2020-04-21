@@ -25,6 +25,7 @@ type RoutesLayerSettingsType = {
 };
 
 type Props = {
+  componentId: string,
   featureId: string,
   myRoutes: Array<Route>,
   importedRoutes: Array<Route>,
@@ -72,6 +73,14 @@ class RoutesLayerSettings extends PureComponent<Props> {
     this.props.deselectAllRoutes(this.props.featureId);
   };
 
+  onPressManageRoutes = () => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.Routes'
+      }
+    });
+  };
+
   renderRoutes = (routes, headingLocalisation) => {
     return (
       <View>
@@ -94,7 +103,7 @@ class RoutesLayerSettings extends PureComponent<Props> {
                 <RoutePreviewImage
                   aspectRatio={0.3}
                   width={screenDimensions.width}
-                  style={{ flex: 1, maxWidth: 98, alignSelf: 'stretch' }}
+                  style={{ flex: 1, maxWidth: 109, alignSelf: 'stretch' }}
                   route={route}
                 />
               )}
@@ -125,7 +134,12 @@ class RoutesLayerSettings extends PureComponent<Props> {
           {importedRoutes.length > 0 && this.renderRoutes(importedRoutes, 'map.layerSettings.importedRoutes')}
         </ScrollView>
         <BottomTray requiresSafeAreaView>
-          <ActionButton onPress={() => {}} text={i18n.t('map.layerSettings.manageRoutes')} transparent noIcon />
+          <ActionButton
+            onPress={this.onPressManageRoutes}
+            text={i18n.t('map.layerSettings.manageRoutes')}
+            transparent
+            noIcon
+          />
         </BottomTray>
       </View>
     );

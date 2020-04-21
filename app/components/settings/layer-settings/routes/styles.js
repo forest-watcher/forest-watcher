@@ -23,7 +23,7 @@ export default StyleSheet.create({
     flex: 1,
     marginLeft: Theme.margin.left,
     marginRight: 18,
-    paddingBottom: 8,
+    paddingBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between'
@@ -38,6 +38,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingLeft: isSmallScreen ? 20 : 28,
     paddingRight: 0
   },
   rowLabel: {
