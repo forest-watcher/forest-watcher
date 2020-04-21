@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 
-import { LOCATION_TRACKING, REPORTS, MAPS, DATASETS } from 'config/constants';
+import { LOCATION_TRACKING, REPORTS, MAPS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import isEqual from 'lodash/isEqual';
 import toUpper from 'lodash/toUpper';
@@ -35,7 +35,6 @@ import styles, { mapboxStyles } from './styles';
 import { Navigation } from 'react-native-navigation';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import type { Alert as AlertType } from 'types/alerts.types';
 
 import { toFileUri } from 'helpers/fileURI';
 
@@ -101,7 +100,6 @@ const createReportIcon = require('assets/createReport.png');
 const reportAreaIcon = require('assets/report_area.png');
 const addLocationIcon = require('assets/add_location.png');
 const routeDestinationMarker = require('assets/routeDestinationMarker.png');
-const selectedAlert = require('assets/alertMapIcons/selectedAlertMapIcon.png');
 const closeIcon = require('assets/close_gray.png');
 
 type Props = {
