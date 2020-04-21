@@ -323,6 +323,7 @@ export default function reducer(
           ...state[featureId],
           routes: {
             ...state[featureId].routes,
+            showAll: false,
             activeRouteIds: []
           }
         }
