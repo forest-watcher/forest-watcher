@@ -6,6 +6,7 @@ import type { File } from 'types/file.types';
 import type { LayerType } from 'helpers/layer-store/layerFilePaths';
 
 import Config from 'react-native-config';
+import { unzip } from 'react-native-zip-archive';
 import omit from 'lodash/omit';
 import CONSTANTS from 'config/constants';
 import { getActionsTodoCount } from 'helpers/sync';
