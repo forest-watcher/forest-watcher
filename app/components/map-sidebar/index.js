@@ -115,7 +115,7 @@ class MapSidebar extends PureComponent<Props> {
   });
 
   getAlertsSettingsTitle = layerSettings => {
-    const { glad, viirs } = layerSettings.alerts;
+    const { glad, viirs, layerIsActive } = layerSettings.alerts;
     let alerts;
     if (glad.active) {
       alerts = i18n.t('map.layerSettings.alertSettings.glad');
@@ -129,37 +129,59 @@ class MapSidebar extends PureComponent<Props> {
         alerts = i18n.t('map.layerSettings.alertSettings.noAlerts');
       }
     }
-    return i18n.t('map.layerSettings.alertSettings.showingAlerts', { alerts });
+    if (layerIsActive) {
+      return i18n.t('map.layerSettings.showing', { description: alerts });
+    }
+    return alerts;
   };
 
   getRoutesSettingsTitle = layerSettings => {
-    if (layerSettings.routes.showAll) {
-      return i18n.t('map.layerSettings.routeSettings.showingAllRoutes');
+    const { showAll, activeRouteIds, layerIsActive } = layerSettings.routes;
+    let description;
+    if (showAll) {
+      description = i18n.t('map.layerSettings.routeSettings.showingAllRoutes');
+    } else {
+      const count = activeRouteIds.length;
+      description = i18n.t('map.layerSettings.routeSettings.showingRoutes', { count });
     }
-    const count = layerSettings.routes.activeRouteIds.length;
-    return i18n.t('map.layerSettings.routeSettings.showingRoutes', { count });
+
+    if (layerIsActive) {
+      return i18n.t('map.layerSettings.showing', { description });
+    }
+    return description;
   };
 
   getReportSettingsTitle = layerSettings => {
-    const { myReportsActive, importedReportsActive } = layerSettings.reports;
+    const { myReportsActive, importedReportsActive, layerIsActive } = layerSettings.reports;
+    let description;
     if (myReportsActive) {
-      return i18n.t(
+      description = i18n.t(
         importedReportsActive
           ? 'map.layerSettings.reportSettings.showingAllReports'
           : 'map.layerSettings.reportSettings.showingMyReports'
       );
     } else {
-      return i18n.t(
+      description = i18n.t(
         importedReportsActive
           ? 'map.layerSettings.reportSettings.showingImportedReports'
           : 'map.layerSettings.reportSettings.showingNoReports'
       );
     }
+
+    if (layerIsActive) {
+      return i18n.t('map.layerSettings.showing', { description });
+    }
+    return description;
   };
 
   getContextualLayersSettingsTitle = layerSettings => {
-    const count = layerSettings.contextualLayers.activeContextualLayerIds.length;
-    return i18n.t('map.layerSettings.contextualLayersSettings.showingContextualLayers', { count });
+    const { activeContextualLayerIds, layerIsActive } = layerSettings.contextualLayers;
+    const count = activeContextualLayerIds.length;
+    const description = i18n.t('map.layerSettings.contextualLayersSettings.showingContextualLayers', { count });
+    if (layerIsActive) {
+      return i18n.t('map.layerSettings.showing', { description });
+    }
+    return description;
   };
 
   getBasemapsTitle = () => {
@@ -186,6 +208,7 @@ class MapSidebar extends PureComponent<Props> {
             title={i18n.t('map.layerSettings.alerts')}
             settingsTitle={this.getAlertsSettingsTitle(layerSettings)}
             selected={layerSettings.alerts.layerIsActive}
+            disableSettingsButton={!layerSettings.alerts.layerIsActive}
             style={styles.rowContainer}
             hideDivider
             hideImage
@@ -198,6 +221,7 @@ class MapSidebar extends PureComponent<Props> {
             title={i18n.t('map.layerSettings.routes')}
             settingsTitle={this.getRoutesSettingsTitle(layerSettings)}
             selected={layerSettings.routes.layerIsActive}
+            disableSettingsButton={!layerSettings.routes.layerIsActive}
             style={styles.rowContainer}
             hideDivider
             hideImage
@@ -210,6 +234,7 @@ class MapSidebar extends PureComponent<Props> {
             title={i18n.t('map.layerSettings.reports')}
             settingsTitle={this.getReportSettingsTitle(layerSettings)}
             selected={layerSettings.reports.layerIsActive}
+            disableSettingsButton={!layerSettings.reports.layerIsActive}
             style={styles.rowContainer}
             hideDivider
             hideImage
@@ -222,6 +247,7 @@ class MapSidebar extends PureComponent<Props> {
             title={i18n.t('map.layerSettings.contextualLayers')}
             settingsTitle={this.getContextualLayersSettingsTitle(layerSettings)}
             selected={layerSettings.contextualLayers.layerIsActive}
+            disableSettingsButton={!layerSettings.contextualLayers.layerIsActive}
             style={styles.rowContainer}
             hideDivider
             hideImage
