@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 
-import { LOCATION_TRACKING, REPORTS, MAPS, DATASETS } from 'config/constants';
+import { LOCATION_TRACKING, REPORTS, MAPS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import isEqual from 'lodash/isEqual';
 import toUpper from 'lodash/toUpper';
@@ -35,7 +35,6 @@ import styles, { mapboxStyles } from './styles';
 import { Navigation } from 'react-native-navigation';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import type { Alert as AlertType } from 'types/alerts.types';
 
 import { toFileUri } from 'helpers/fileURI';
 
@@ -100,8 +99,7 @@ const myLocationIcon = require('assets/my_location.png');
 const createReportIcon = require('assets/createReport.png');
 const reportAreaIcon = require('assets/report_area.png');
 const addLocationIcon = require('assets/add_location.png');
-const routeDestinationMarker = require('assets/routeDestinationMarker.png');
-const selectedAlert = require('assets/alertMapIcons/selectedAlertMapIcon.png');
+const customReportingMarker = require('assets/custom-reporting-marker.png');
 const closeIcon = require('assets/close_gray.png');
 
 type Props = {
@@ -130,6 +128,7 @@ type Props = {
   onStartTrackingRoute: () => {},
   onCancelTrackingRoute: () => {},
   getActiveBasemap: () => Basemap,
+  getAllRouteIds: () => Array<Route>,
   getRoutesById: string => Array<Route>
 };
 
@@ -659,7 +658,8 @@ class MapComponent extends Component<Props> {
 
   // Renders all active routes in layer settings
   renderAllRoutes = () => {
-    let routeIds = this.props.layerSettings.routes.activeRouteIds;
+    const { activeRouteIds, showAll } = this.props.layerSettings.routes;
+    let routeIds = showAll ? this.props.getAllRouteIds() : activeRouteIds;
     // this is already being rendered as it is the selected feature
     routeIds = routeIds.filter(routeId => routeId !== this.getFeatureId());
     const routes = this.props.getRoutesById(routeIds);
@@ -916,7 +916,7 @@ class MapComponent extends Component<Props> {
         pointerEvents="none"
         style={[styles.customLocationFixed, this.state.dragging ? styles.customLocationTransparent : '']}
       >
-        <Image style={[Theme.icon, styles.customLocationMarker]} source={routeDestinationMarker} />
+        <Image style={[Theme.icon, styles.customLocationMarker]} source={customReportingMarker} />
       </View>
     ) : null;
 
@@ -973,15 +973,13 @@ class MapComponent extends Component<Props> {
             areaId={this.props.area.id}
             onShapeSourcePressed={this.onShapeSourcePressed}
           />
-          {route?.id && (
-            <RouteMarkers
-              isTracking={this.isRouteTracking()}
-              userLocation={userLocation}
-              route={route}
-              selected={this.isRouteSelected(route?.id)}
-              onShapeSourcePressed={this.onShapeSourcePressed}
-            />
-          )}
+          <RouteMarkers
+            isTracking={this.isRouteTracking()}
+            userLocation={userLocation}
+            route={route}
+            selected={this.isRouteSelected(route?.id)}
+            onShapeSourcePressed={this.onShapeSourcePressed}
+          />
           {renderUserLocation}
         </MapboxGL.MapView>
         {renderCustomReportingMarker}
