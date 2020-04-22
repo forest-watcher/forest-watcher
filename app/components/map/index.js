@@ -134,10 +134,6 @@ type Props = {
 
 class MapComponent extends Component<Props> {
   margin = Platform.OS === 'ios' ? 50 : 100;
-  FIT_OPTIONS = {
-    edgePadding: { top: this.margin, right: this.margin, bottom: this.margin, left: this.margin },
-    animated: false
-  };
 
   static options(passProps) {
     return {
@@ -643,17 +639,11 @@ class MapComponent extends Component<Props> {
   };
 
   updateSelectedArea = () => {
-    this.setState(
-      {
-        neighbours: [],
-        selectedAlerts: []
-      },
-      () => {
-        if (this.map && this.props.areaCoordinates) {
-          this.map.fitToCoordinates(this.props.areaCoordinates, this.FIT_OPTIONS);
-        }
-      }
-    );
+    this.setState({
+      mapCameraBounds: this.getMapCameraBounds(),
+      neighbours: [],
+      selectedAlerts: []
+    });
   };
 
   // Renders all active routes in layer settings
@@ -845,6 +835,7 @@ class MapComponent extends Component<Props> {
 
   onMapPress = () => {
     // dismiss info banner
+    this.setState({ infoBannerShowing: false });
     Animated.spring(this.state.animatedPosition, {
       toValue: DISMISSED_INFO_BANNER_POSTIION,
       velocity: 3,
@@ -877,6 +868,7 @@ class MapComponent extends Component<Props> {
     const dateAgo = moment(date).fromNow();
     if (date && name) {
       this.setState({
+        infoBannerShowing: true,
         infoBannerProps: {
           title: name,
           subtitle: dateAgo,
