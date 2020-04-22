@@ -148,7 +148,7 @@ export default StyleSheet.create({
   },
   aboutList: {
     borderBottomColor: Theme.borderColors.main,
-    borderBottomWidth: 2
+    borderBottomWidth: 1
   },
   aboutListItem: {
     height: 64,

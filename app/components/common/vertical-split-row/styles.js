@@ -17,7 +17,7 @@ export default StyleSheet.create({
   item: {
     flexGrow: 1,
     borderBottomColor: Theme.borderColors.main,
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     backgroundColor: Theme.background.white,
     flexDirection: 'row',
     alignItems: 'stretch'

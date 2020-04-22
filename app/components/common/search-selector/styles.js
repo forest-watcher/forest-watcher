@@ -29,7 +29,7 @@ export default StyleSheet.create({
     height: 88,
     backgroundColor: Theme.colors.white,
     borderBottomColor: Theme.borderColors.main,
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     position: 'relative'
   },
   closeIcon: {
