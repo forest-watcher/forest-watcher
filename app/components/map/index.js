@@ -67,6 +67,7 @@ import type { File } from 'types/file.types';
 import InfoBanner from 'components/map/info-banner';
 import type { LayerSettings } from 'types/layerSettings.types';
 import Alerts from 'containers/map/alerts';
+import { formatInfoBannerDate } from 'helpers/date';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -876,13 +877,12 @@ class MapComponent extends Component<Props> {
       this.onClusterPress(e?.nativeEvent?.payload?.geometry?.coordinates);
       return;
     }
-    const dateAgo = moment(date).fromNow();
     if (date && name) {
       this.setState({
         infoBannerShowing: true,
         infoBannerProps: {
           title: name,
-          subtitle: dateAgo,
+          subtitle: formatInfoBannerDate(date, type),
           type,
           featureId
         }
