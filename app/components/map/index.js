@@ -376,6 +376,7 @@ class MapComponent extends Component<Props> {
   };
 
   handleBackPress = debounceUI(() => {
+    this.dismissInfoBanner();
     if (this.isRouteTracking()) {
       if (this.state.routeTrackingDialogState) {
         this.closeBottomDialog();
@@ -425,6 +426,7 @@ class MapComponent extends Component<Props> {
    * If the user has not given 'always' location permissions, an alert is shown.
    */
   onStartTrackingPressed = debounceUI(async () => {
+    this.dismissInfoBanner();
     try {
       await this.geoLocate(true);
       this.props.onStartTrackingRoute(coordsArrayToObject(this.state.destinationCoords), this.props.area.id);
@@ -457,6 +459,7 @@ class MapComponent extends Component<Props> {
   });
 
   onStopTrackingPressed = debounceUI(() => {
+    this.dismissInfoBanner();
     // This doesn't immediately stop tracking - it will give the user the choice of saving and deleting and only stop
     // tracking once they have finalised one of those actions
     this.showBottomDialog(false);
@@ -495,6 +498,7 @@ class MapComponent extends Component<Props> {
       {
         text: i18n.t('commonText.confirm'),
         onPress: () => {
+          this.dismissInfoBanner();
           try {
             this.props.onCancelTrackingRoute();
             this.closeBottomDialog();
@@ -536,12 +540,14 @@ class MapComponent extends Component<Props> {
   }, 450);
 
   onCustomReportingPress = debounceUI(() => {
+    this.dismissInfoBanner();
     this.setState(prevState => ({
       customReporting: true
     }));
   });
 
   onSelectionCancelPress = debounceUI(() => {
+    this.dismissInfoBanner();
     this.setState({
       customReporting: false,
       selectedAlerts: [],
@@ -554,6 +560,7 @@ class MapComponent extends Component<Props> {
   };
 
   onSettingsPress = debounceUI(() => {
+    this.dismissInfoBanner();
     // If route has been opened, that is the current layer settings feature ID,
     // otherwise use the area ID
     Navigation.mergeOptions(this.props.componentId, {
@@ -575,6 +582,7 @@ class MapComponent extends Component<Props> {
 
   // Zoom map to user location
   zoomToUserLocation = debounceUI(() => {
+    this.dismissInfoBanner();
     const { userLocation } = this.state;
     if (userLocation) {
       this.mapCamera.setCamera({
@@ -586,10 +594,13 @@ class MapComponent extends Component<Props> {
   });
 
   reportSelection = debounceUI(() => {
+    this.dismissInfoBanner();
     this.createReport(this.state.selectedAlerts);
   });
 
   reportArea = debounceUI(() => {
+    this.dismissInfoBanner();
+    this.dismissInfoBanner();
     this.createReport([...this.state.selectedAlerts, ...this.state.neighbours]);
   });
 
@@ -833,7 +844,7 @@ class MapComponent extends Component<Props> {
     ) : null;
   }
 
-  onMapPress = () => {
+  dismissInfoBanner = () => {
     // dismiss info banner
     this.setState({ infoBannerShowing: false });
     Animated.spring(this.state.animatedPosition, {
@@ -845,7 +856,7 @@ class MapComponent extends Component<Props> {
   };
 
   onClusterPress = async coords => {
-    this.onMapPress();
+    this.dismissInfoBanner();
     const zoom = await this.map.getZoom();
     // zoom towards zoom level 17, where there are no more clusters
     const zoomTo = zoom > 15 ? 17.5 : (zoom + 20) / 2;
@@ -951,7 +962,7 @@ class MapComponent extends Component<Props> {
           style={styles.mapView}
           styleURL={basemap.styleURL}
           onRegionDidChange={this.onRegionDidChange}
-          onPress={this.onMapPress}
+          onPress={this.dismissInfoBanner}
         >
           {renderMapCamera}
           {this.renderAreaOutline()}
