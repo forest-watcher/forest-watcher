@@ -19,10 +19,11 @@ export default StyleSheet.create({
   },
   title: {
     ...Theme.text,
-    marginBottom: 6
+    lineHeight: 24
   },
   subtitle: {
     ...Theme.text,
+    lineHeight: 16,
     fontSize: 12
   }
 });
