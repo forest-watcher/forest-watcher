@@ -601,7 +601,6 @@ class MapComponent extends Component<Props> {
 
   reportArea = debounceUI(() => {
     this.dismissInfoBanner();
-    this.dismissInfoBanner();
     this.createReport([...this.state.selectedAlerts, ...this.state.neighbours]);
   });
 
