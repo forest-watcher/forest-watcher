@@ -139,10 +139,12 @@ export default StyleSheet.create({
     paddingTop: 1
   },
   locationErrorBanner: {
-    margin: 16
+    marginHorizontal: 25,
+    marginBottom: -64 // shows as same position as infoBanner
   },
   infoBanner: {
-    margin: 16
+    marginHorizontal: 25,
+    marginBottom: 39
   }
 });
 
