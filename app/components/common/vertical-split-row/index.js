@@ -24,6 +24,7 @@ type Legend = {
 
 type Props = {
   disableSettingsButton?: ?string | ?boolean,
+  disableStyleSettingsButton?: boolean,
   downloadCalloutBody?: ?boolean,
   downloadCalloutVisible?: ?boolean,
   downloadCalloutTitle?: ?string,
@@ -111,6 +112,7 @@ export default class VerticalSplitRow extends Component<Props> {
             {(this.props.settingsTitle || this.props.onSettingsPress) && (
               <SettingsButton
                 title={this.props.settingsTitle}
+                disabledStyle={this.props.disableStyleSettingsButton}
                 disabled={this.props.disableSettingsButton || this.props.onSettingsPress == null}
                 onPress={this.props.onSettingsPress}
                 style={styles.settingsButton}
