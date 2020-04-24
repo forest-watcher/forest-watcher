@@ -1,5 +1,5 @@
 // @flow
-import type { Area, GetAreasCommit } from 'types/areas.types';
+import type { Dataset, GetAreasCommit } from 'types/areas.types';
 import type { LogoutRequest } from 'types/user.types';
 import type { OfflineMeta } from 'types/offline.types';
 
@@ -40,13 +40,20 @@ export type Template = {
 
 export type Report = {
   reportName: string,
-  area: Area,
+  area: ReportArea,
   userPosition: string,
   clickedPosition: string,
   index: number,
   status: 'draft' | 'complete' | 'uploaded',
   date: string,
   answers: Array<Answer>
+};
+
+export type ReportArea = {
+  id: string,
+  name: string,
+  datasets: Array<Dataset>,
+  templateId: string
 };
 
 export type ReportsState = {

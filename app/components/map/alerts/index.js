@@ -24,7 +24,6 @@ type AlertLayerSettingsType = {
 
 type Props = {
   featureId: string,
-  areaId: string,
   gladAlerts: Array<Alert>,
   viirsAlerts: Array<Alert>,
   alertLayerSettings: AlertLayerSettingsType,

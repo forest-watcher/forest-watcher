@@ -68,6 +68,7 @@ import InfoBanner from 'components/map/info-banner';
 import type { LayerSettings } from 'types/layerSettings.types';
 import Alerts from 'containers/map/alerts';
 import { formatInfoBannerDate } from 'helpers/date';
+import Reports from 'containers/map/reports';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -975,6 +976,7 @@ class MapComponent extends Component<Props> {
             areaId={this.props.area.id}
             onShapeSourcePressed={this.onShapeSourcePressed}
           />
+          <Reports featureId={this.getFeatureId()} onShapeSourcePressed={this.onShapeSourcePressed} />
           <RouteMarkers
             isTracking={this.isRouteTracking()}
             userLocation={userLocation}
