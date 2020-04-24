@@ -1,6 +1,6 @@
 // @flow
 import moment from 'moment';
-import i18n from "i18next";
+import i18n from 'i18next';
 
 // By default we assume the alerts will be outdate after 1 day
 export function isOutdated(date: number, days: number = 1) {
