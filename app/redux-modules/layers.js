@@ -22,6 +22,7 @@ import { storeTilesFromUrl } from 'helpers/layer-store/storeLayerFiles';
 import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
 import togeojson from 'helpers/toGeoJSON';
+import shapefile from 'shpjs';
 
 const DOMParser = require('xmldom').DOMParser;
 const RNFS = require('react-native-fs');
@@ -380,6 +381,8 @@ export function importContextualLayer(layerFile: File) {
       .pop()
       .toLowerCase();
 
+    console.log("Importing", file, fileExtension, fileName);
+
     switch (fileExtension) {
       case 'json':
       case 'topojson':
@@ -452,6 +455,22 @@ export function importContextualLayer(layerFile: File) {
         }
         break;
       }
+      case 'shp': {
+        try {
+          console.log("Importing Shapefile");
+          const geoJSON = await shapefile(file.uri.replace(/\.[^/.]+$/, ''));
+          console.log("Imported as GeoJSON", geoJSON);
+          const result = await writeGeoJSONToDisk(geoJSON, fileName, directory);
+          dispatch({
+            type: IMPORT_LAYER_COMMIT,
+            payload: { ...file, type: 'application/geo+json', ...result }
+          });
+        } catch (err) {
+          dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
+          throw err;
+        }
+        break;
+      }
       default:
         //todo: Add support for other file types! These need converting to geojson before saving.
         break;
@@ -462,7 +481,7 @@ export function importContextualLayer(layerFile: File) {
 /**
  * Converts a file to GeoJSON and writes it to disk in the directory provided
  *
- * @param {File} file The file to read and conver to GeoJSON
+ * @param {File} file The file to read and convert to GeoJSON
  * @param {string} fileName The name of the file to write to, this will have it's extension replaced with .geojson
  * @param {string} extension The file extension of the file, this will be used to provide the correct conversion function
  * @param {string} directory The directory to save the file to
@@ -470,10 +489,6 @@ export function importContextualLayer(layerFile: File) {
  * @returns {Object} A partial `File` object with the written files uri, path and fileName
  */
 async function writeToDiskAsGeoJSON(file: File, fileName: string, extension: string, directory: string) {
-  // Change destination file path extension!
-  const newName = fileName.replace(/\.[^/.]+$/, '.geojson');
-  const relativePath = '/' + IMPORTED_LAYERS_DIRECTORY + '/' + newName;
-  const path = directory + '/' + newName;
   // Read from file so we can convert to GeoJSON
   const fileContents = await RNFS.readFile(file.uri);
   // Parse XML from file string
@@ -482,6 +497,24 @@ async function writeToDiskAsGeoJSON(file: File, fileName: string, extension: str
   // Convert to GeoJSON using mapbox's library!
   const geoJSON =
     extension === 'gpx' ? togeojson.gpx(xmlDoc, { styles: true }) : togeojson.kml(xmlDoc, { styles: true });
+  
+  const saveResponse = await writeGeoJSONToDisk(geoJSON, file, fileName, directory);
+  return saveResponse;
+}
+
+/**
+ * Cleans and writes a GeoJSON object to disk in the directory provided
+ *
+ * @param {Object} geoJSON The GeoJSON object to save to disk
+ * @param {string} fileName The original file name of the file 
+ * @param {string} directory The directory to save the file to
+ */
+async function writeGeoJSONToDisk(geoJSON: Object, fileName: string, directory: string) {
+  // Change destination file path extension!
+  const newName = fileName.replace(/\.[^/.]+$/, '.geojson');
+  const relativePath = '/' + IMPORTED_LAYERS_DIRECTORY + '/' + newName;
+  const path = directory + '/' + newName;
+
   const cleanedGeoJSON = cleanGeoJSON(geoJSON);
   // Make the directory for saving files to, if this is already present this won't error according to docs
   await RNFS.mkdir(directory, {
