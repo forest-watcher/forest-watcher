@@ -77,7 +77,7 @@ export default class Routes extends PureComponent<Props, State> {
     const currentFetchId = generateUniqueID();
     this.fetchId = currentFetchId;
     this.setState({
-      bundleSize: fileSize
+      bundleSize: undefined
     });
     const manifest = await exportLayerManifest(
       {
