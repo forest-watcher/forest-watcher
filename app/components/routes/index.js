@@ -87,10 +87,10 @@ export default class Routes extends PureComponent<Props, State> {
         reportIds: [],
         routeIds
       },
+      [],
       this.props.routes.filter(route => {
         return routeIds.includes(route.id);
-      }),
-      []
+      })
     );
     const fileSize = manifestBundleSize(manifest);
     if (this.fetchId == currentFetchId) {
