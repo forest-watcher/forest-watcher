@@ -208,7 +208,7 @@ class MapSidebar extends PureComponent<Props> {
             title={i18n.t('map.layerSettings.alerts')}
             settingsTitle={this.getAlertsSettingsTitle(layerSettings)}
             selected={layerSettings.alerts.layerIsActive}
-            disableSettingsButton={!layerSettings.alerts.layerIsActive}
+            disableStyleSettingsButton={!layerSettings.alerts.layerIsActive}
             style={styles.rowContainer}
             hideDivider
             hideImage
@@ -221,7 +221,7 @@ class MapSidebar extends PureComponent<Props> {
             title={i18n.t('map.layerSettings.routes')}
             settingsTitle={this.getRoutesSettingsTitle(layerSettings)}
             selected={layerSettings.routes.layerIsActive}
-            disableSettingsButton={!layerSettings.routes.layerIsActive}
+            disableStyleSettingsButton={!layerSettings.routes.layerIsActive}
             style={styles.rowContainer}
             hideDivider
             hideImage
@@ -234,7 +234,7 @@ class MapSidebar extends PureComponent<Props> {
             title={i18n.t('map.layerSettings.reports')}
             settingsTitle={this.getReportSettingsTitle(layerSettings)}
             selected={layerSettings.reports.layerIsActive}
-            disableSettingsButton={!layerSettings.reports.layerIsActive}
+            disableStyleSettingsButton={!layerSettings.reports.layerIsActive}
             style={styles.rowContainer}
             hideDivider
             hideImage
@@ -247,7 +247,7 @@ class MapSidebar extends PureComponent<Props> {
             title={i18n.t('map.layerSettings.contextualLayers')}
             settingsTitle={this.getContextualLayersSettingsTitle(layerSettings)}
             selected={layerSettings.contextualLayers.layerIsActive}
-            disableSettingsButton={!layerSettings.contextualLayers.layerIsActive}
+            disableStyleSettingsButton={!layerSettings.contextualLayers.layerIsActive}
             style={styles.rowContainer}
             hideDivider
             hideImage

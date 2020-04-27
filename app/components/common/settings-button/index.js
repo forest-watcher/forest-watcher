@@ -9,6 +9,8 @@ import i18n from 'i18next';
 
 type Props = {
   ...ElementConfig<typeof TouchableHighlight>,
+  // greyed out state is used to reinforce that something is not currently visible on the map, but the button is not disabled!
+  disabledStyle?: boolean,
   title?: string
 };
 
@@ -37,7 +39,7 @@ class SettingsButton extends Component<Props> {
           activeOpacity={0.8}
           disabled={this.props.disabled}
         >
-          <View style={[styles.content, this.props.disabled ? styles.disabled : {}]}>
+          <View style={[styles.content, this.props.disabled || this.props.disabledStyle ? styles.disabled : {}]}>
             <Image source={settingsCogIcon} />
             <Text style={styles.text}>{this.props.title ?? i18n.t('commonText.settings')}</Text>
           </View>
