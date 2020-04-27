@@ -112,7 +112,7 @@ class Areas extends Component<Props, State> {
         bundleSize: fileSize
       });
     }
-  }
+  };
 
   /**
    * Handles the area row being selected while in export mode.
@@ -121,7 +121,7 @@ class Areas extends Component<Props, State> {
   onAreaSelectedForExport = (areaId: string) => {
     this.setState(state => {
       if (state.selectedForExport.includes(areaId)) {
-        let selectedForExport = [...state.selectedForExport].filter(id => areaId != id);
+        const selectedForExport = [...state.selectedForExport].filter(id => areaId != id);
         this.fetchExportSize(selectedForExport);
         return {
           selectedForExport
@@ -275,7 +275,12 @@ class Areas extends Component<Props, State> {
           }
           shareButtonEnabledTitle={
             totalToExport > 0
-              ? i18n.t('areas.export.areaSizeAction', { bundleSize: this.state.bundleSize !== undefined ? formatBytes(this.state.bundleSize) : i18n.t('commonText.calculating') })
+              ? i18n.t('areas.export.areaSizeAction', {
+                  bundleSize:
+                    this.state.bundleSize !== undefined
+                      ? formatBytes(this.state.bundleSize)
+                      : i18n.t('commonText.calculating')
+                })
               : i18n.t('areas.export.noneSelected')
           }
         >

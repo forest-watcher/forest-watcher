@@ -352,7 +352,7 @@ function downloadAllLayers(
 export function clearImportContextualLayerState() {
   return {
     type: IMPORT_LAYER_CLEAR
-  }
+  };
 }
 
 export function importContextualLayer(layerFile: File) {
