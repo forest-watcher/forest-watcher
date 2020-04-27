@@ -494,7 +494,8 @@
             "oneRouteAction": "Export %{count} route...",
             "manyRoutes": "%{count} Routes",
             "manyRoutesAction": "Export %{count} routes...",
-            "noneSelected": "No routes selected"
+            "noneSelected": "No routes selected",
+            "routeSizeAction": "Export Routes (%{bundleSize})"
         },
         "insufficientPermissionsDialogTitle": "Unable to track route",
         "insufficientPermissionsDialogMessage": "We need background location permissions to be able to track your route.",

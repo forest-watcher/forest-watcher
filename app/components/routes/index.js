@@ -9,7 +9,6 @@ import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
-// import exportReports from 'helpers/exportReports';
 
 import EmptyState from 'components/common/empty-state';
 import RoutePath from 'components/common/route-path';
@@ -21,6 +20,11 @@ import VerticalSplitRow from 'components/common/vertical-split-row';
 
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
 import { isSmallScreen } from 'config/theme';
+
+import exportLayerManifest from 'helpers/sharing/exportLayerManifest';
+import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
+import generateUniqueID from 'helpers/uniqueId';
+import { formatBytes } from 'helpers/data';
 
 const nextIcon = require('assets/next.png');
 const emptyIcon = require('assets/routesEmpty.png');
@@ -69,6 +73,33 @@ export default class Routes extends PureComponent<Props, State> {
     tracker.trackScreenView('My Routes');
   }
 
+  fetchExportSize = async (routeIds: Array<string>) => {
+    const currentFetchId = generateUniqueID();
+    this.fetchId = currentFetchId;
+    this.setState({
+      bundleSize: fileSize
+    });
+    const manifest = await exportLayerManifest(
+      {
+        areaIds: [],
+        basemapIds: [],
+        layerIds: [],
+        reportIds: [],
+        routeIds
+      },
+      this.props.routes.filter(route => {
+        return routeIds.includes(route.id);
+      }),
+      []
+    );
+    const fileSize = manifestBundleSize(manifest);
+    if (this.fetchId == currentFetchId) {
+      this.setState({
+        bundleSize: fileSize
+      });
+    }
+  };
+
   onFrequentlyAskedQuestionsPress = () => {
     Navigation.push(this.props.componentId, {
       component: {
@@ -84,12 +115,15 @@ export default class Routes extends PureComponent<Props, State> {
   onRouteSelectedForExport = (route: Route) => {
     this.setState(state => {
       if (state.selectedForExport.includes(route.areaId + route.id)) {
+        const selectedForExport = [...state.selectedForExport].filter(id => route.areaId + route.id != id);
+        this.fetchExportSize(selectedForExport);
         return {
-          selectedForExport: [...state.selectedForExport].filter(id => route.areaId + route.id != id)
+          selectedForExport
         };
       } else {
         const selected = [...state.selectedForExport];
         selected.push(route.areaId + route.id);
+        this.fetchExportSize(selected);
         return {
           selectedForExport: selected
         };
@@ -152,8 +186,10 @@ export default class Routes extends PureComponent<Props, State> {
   });
 
   setAllSelected = (selected: boolean) => {
+    const selectedForExport = selected ? this.props.routes.map(route => route.areaId + route.id) : [];
+    this.fetchExportSize(selectedForExport);
     this.setState({
-      selectedForExport: selected ? this.props.routes.map(route => route.areaId + route.id) : []
+      selectedForExport 
     });
   };
 
@@ -316,9 +352,12 @@ export default class Routes extends PureComponent<Props, State> {
           shareButtonDisabledTitle={i18n.t('routes.share')}
           shareButtonEnabledTitle={
             totalToExport > 0
-              ? totalToExport == 1
-                ? i18n.t('routes.export.oneRouteAction', { count: 1 })
-                : i18n.t('routes.export.manyRoutesAction', { count: totalToExport })
+              ? i18n.t('routes.export.routeSizeAction', {
+                  bundleSize:
+                    this.state.bundleSize !== undefined
+                      ? formatBytes(this.state.bundleSize)
+                      : i18n.t('commonText.calculating')
+                })
               : i18n.t('routes.export.noneSelected')
           }
         >
