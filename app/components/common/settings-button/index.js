@@ -9,6 +9,7 @@ import i18n from 'i18next';
 
 type Props = {
   ...ElementConfig<typeof TouchableHighlight>,
+  // greyed out state is used to reinforce that something is not currently visible on the map, but the button is not disabled!
   disabledStyle?: boolean,
   title?: string
 };
