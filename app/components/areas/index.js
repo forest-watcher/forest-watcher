@@ -90,6 +90,9 @@ class Areas extends Component<Props, State> {
   fetchExportSize = async (areaIds: Array<string>) => {
     const currentFetchId = generateUniqueID();
     this.fetchId = currentFetchId;
+    this.setState({
+      bundleSize: fileSize
+    });
     const manifest = await exportLayerManifest(
       {
         areaIds,
@@ -107,7 +110,7 @@ class Areas extends Component<Props, State> {
     if (this.fetchId == currentFetchId) {
       this.setState({
         bundleSize: fileSize
-      })
+      });
     }
   }
 
@@ -272,7 +275,7 @@ class Areas extends Component<Props, State> {
           }
           shareButtonEnabledTitle={
             totalToExport > 0
-              ? i18n.t('areas.export.areaSizeAction', { bundleSize: this.state.bundleSize !== undefined ? formatBytes(this.state.bundleSize) : "..." })
+              ? i18n.t('areas.export.areaSizeAction', { bundleSize: this.state.bundleSize !== undefined ? formatBytes(this.state.bundleSize) : i18n.t('commonText.calculating') })
               : i18n.t('areas.export.noneSelected')
           }
         >

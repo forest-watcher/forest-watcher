@@ -48,6 +48,7 @@
         "appName": "Forest Watcher",
         "area": "Area",
         "boundaries": "Boundaries",
+        "calculating": "Calculating",
         "cancel": "Cancel",
         "clear": "Clear",
         "confirm": "Confirm",
