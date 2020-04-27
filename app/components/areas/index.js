@@ -15,6 +15,11 @@ import styles from './styles';
 import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
 
+import exportLayerManifest from 'helpers/sharing/exportLayerManifest';
+import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
+import generateUniqueID from 'helpers/uniqueId';
+import { formatBytes } from 'helpers/data';
+
 const plusIcon = require('assets/add.png');
 const emptyIcon = require('assets/areasEmpty.png');
 
@@ -82,6 +87,30 @@ class Areas extends Component<Props, State> {
     });
   };
 
+  fetchExportSize = async (areaIds: Array<string>) => {
+    const currentFetchId = generateUniqueID();
+    this.fetchId = currentFetchId;
+    const manifest = await exportLayerManifest(
+      {
+        areaIds,
+        basemapIds: [],
+        layerIds: [],
+        reportIds: [],
+        routeIds: []
+      },
+      this.props.areas.filter(area => {
+        return areaIds.includes(area.id);
+      }),
+      []
+    );
+    const fileSize = manifestBundleSize(manifest);
+    if (this.fetchId == currentFetchId) {
+      this.setState({
+        bundleSize: fileSize
+      })
+    }
+  }
+
   /**
    * Handles the area row being selected while in export mode.
    * Will swap the state for the specified row, to show in the UI if it has been selected or not.
@@ -89,14 +118,17 @@ class Areas extends Component<Props, State> {
   onAreaSelectedForExport = (areaId: string) => {
     this.setState(state => {
       if (state.selectedForExport.includes(areaId)) {
+        let selectedForExport = [...state.selectedForExport].filter(id => areaId != id);
+        this.fetchExportSize(selectedForExport);
         return {
-          selectedForExport: [...state.selectedForExport].filter(id => areaId != id)
+          selectedForExport
         };
       } else {
-        const selected = [...state.selectedForExport];
-        selected.push(areaId);
+        const selectedForExport = [...state.selectedForExport];
+        selectedForExport.push(areaId);
+        this.fetchExportSize(selectedForExport);
         return {
-          selectedForExport: selected
+          selectedForExport: selectedForExport
         };
       }
     });
@@ -165,8 +197,10 @@ class Areas extends Component<Props, State> {
   });
 
   setAllSelected = (selected: boolean) => {
+    const selectedForExport = selected ? this.props.areas.map(area => area.id) : [];
+    this.fetchExportSize(selectedForExport);
     this.setState({
-      selectedForExport: selected ? this.props.areas.map(area => area.id) : []
+      selectedForExport
     });
   };
 
@@ -238,9 +272,7 @@ class Areas extends Component<Props, State> {
           }
           shareButtonEnabledTitle={
             totalToExport > 0
-              ? totalToExport === 1
-                ? i18n.t('areas.export.oneAreaAction', { count: 1 })
-                : i18n.t('areas.export.manyAreasAction', { count: totalToExport })
+              ? i18n.t('areas.export.areaSizeAction', { bundleSize: this.state.bundleSize !== undefined ? formatBytes(this.state.bundleSize) : "..." })
               : i18n.t('areas.export.noneSelected')
           }
         >

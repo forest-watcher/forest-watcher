@@ -13,7 +13,7 @@
         "export": {
             "noneSelected": "No areas selected",
             "oneArea": "%{count} Area",
-            "oneAreaAction": "Export %{count} areas...",
+            "areaSizeAction": "Export Areas (%{bundleSize})",
             "manyAreas": "%{count} Areas",
             "manyAreasAction": "Export %{count} areas...",
             "title": "Export area",
