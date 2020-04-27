@@ -91,7 +91,7 @@ class Areas extends Component<Props, State> {
     const currentFetchId = generateUniqueID();
     this.fetchId = currentFetchId;
     this.setState({
-      bundleSize: fileSize
+      bundleSize: undefined
     });
     const manifest = await exportLayerManifest(
       {
