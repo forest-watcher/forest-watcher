@@ -189,7 +189,7 @@ export default class Routes extends PureComponent<Props, State> {
     const selectedForExport = selected ? this.props.routes.map(route => route.areaId + route.id) : [];
     this.fetchExportSize(selectedForExport);
     this.setState({
-      selectedForExport 
+      selectedForExport
     });
   };
 
