@@ -859,12 +859,10 @@ class MapComponent extends Component<Props> {
   onClusterPress = async coords => {
     this.dismissInfoBanner();
     const zoom = await this.map.getZoom();
-    // zoom towards zoom level 17, where there are no more clusters
-    const zoomTo = zoom > 15 ? 17.5 : (zoom + 20) / 2;
     if (coords && zoom) {
       this.mapCamera.setCamera({
         centerCoordinate: coords,
-        zoomLevel: zoomTo,
+        zoomLevel: zoom + 3,
         animationDuration: 2000
       });
     }
