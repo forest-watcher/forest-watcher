@@ -963,6 +963,7 @@ class MapComponent extends Component<Props> {
           styleURL={basemap.styleURL}
           onRegionDidChange={this.onRegionDidChange}
           onPress={this.dismissInfoBanner}
+          compassViewMargins={{ x: 5, y: 50 }}
         >
           {renderMapCamera}
           {this.renderAreaOutline()}
