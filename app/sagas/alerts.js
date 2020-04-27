@@ -7,34 +7,32 @@ import { GET_AREAS_COMMIT, SAVE_AREA_COMMIT } from 'redux-modules/areas';
 import { AREAS as areasConstants } from 'config/constants';
 import moment from 'moment/moment';
 
-function* syncAlertDatasets({ area, alertsData }): Generator<*, *, *> {
+function* syncAlertDatasets({ area, cache }): Generator<*, *, *> {
   yield all(
     Object.entries(areasConstants.alertRange)
       // $FlowFixMe
       .map((entry: [string, number]) => {
-        const [dataset, defaultRange] = entry;
+        const [slug, defaultRange] = entry;
         let range = defaultRange;
         // Get the last cache date and request only that new data
-        const lastUpdated = alertsData?.[area.id]?.[dataset]?.lastUpdated;
-        if (lastUpdated) {
+        if (cache[slug] && cache[slug][area.id]) {
           const now = moment();
-          const lastCache = moment(lastUpdated);
+          const lastCache = moment(cache[slug][area.id]);
           const daysFromLastCache = now.diff(lastCache, 'days');
           if (daysFromLastCache >= 0) {
             range = (daysFromLastCache: number);
           }
         }
-        return put(getAreaAlerts(area, dataset, range));
+        return put(getAreaAlerts(area, slug, range));
       })
   );
 }
 
 export function* getAlertsOnAreasCommit(): Generator<*, *, *> {
   function* syncAlertsSaga(): Generator<*, *, *> {
-    const areas = yield select((state: State) => state.areas.data);
-    const data = yield select((state: State) => state.alerts.data);
+    const cache = yield select((state: State) => state.alerts.cache);
 
-    yield all(areas.map(area => fork(syncAlertDatasets, { area, data })));
+    yield all(areas.map(area => fork(syncAlertDatasets, { area, cache })));
   }
 
   yield takeEvery(GET_AREAS_COMMIT, syncAlertsSaga);
