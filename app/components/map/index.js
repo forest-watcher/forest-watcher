@@ -274,8 +274,7 @@ class MapComponent extends Component<Props> {
     this.showMapWalkthrough();
 
     CompassHeading.start(3, degree => {
-      console.log('mpf degree: ', degree);
-      this.setState({userBearing: degree})
+      this.setState({ userBearing: degree });
     });
   }
 
