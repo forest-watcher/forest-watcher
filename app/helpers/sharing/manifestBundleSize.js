@@ -7,7 +7,14 @@ import type { LayerManifest } from 'types/sharing.types';
  */
 export default function manifestBundleSize(manifest: LayerManifest): number {
   let size = 0;
-  Object.values({ ...manifest.basemaps, ...manifest.layers }).forEach(file => {
+  const basemapFiles = Object.values(manifest.basemaps).flatMap(element => {
+    return element;
+  });
+  const layerFiles = Object.values(manifest.layers).flatMap(element => {
+    return element;
+  });
+  const allFiles = basemapFiles.concat(layerFiles);
+  allFiles.forEach(file => {
     if (file.filesize) {
       const fileSize = parseInt(file.filesize);
       if (!isNaN(fileSize)) {
