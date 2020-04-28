@@ -24,7 +24,7 @@ type ContextualLayersLayerSettingsType = {
 type Props = {
   baseApiLayers: ?Array<ContextualLayer>,
   featureId: string,
-  clearEnabledContextualLayers: void => void,
+  clearEnabledContextualLayers: () => void,
   contextualLayersLayerSettings: ContextualLayersLayerSettingsType,
   importedContextualLayers: Array<File>,
   setContextualLayerShowing: (featureId: string, layerId: string, showing: boolean) => void
