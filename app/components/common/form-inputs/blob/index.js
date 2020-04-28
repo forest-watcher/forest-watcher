@@ -11,7 +11,8 @@ import CONSTANTS from 'config/constants';
 
 import styles from './styles';
 
-const ImagePicker = require('react-native-image-picker');
+import ImagePicker from 'react-native-image-picker';
+
 const cameraAddIcon = require('assets/camera_add.png');
 const deleteIcon = require('assets/delete_red.png');
 

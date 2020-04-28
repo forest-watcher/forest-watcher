@@ -42,6 +42,7 @@ type Props = {|
 |};
 
 type State = {|
+  +bundleSize: number | typeof undefined,
   +selectedForExport: Array<string>,
   +inShareMode: boolean
 |};
@@ -90,7 +91,8 @@ export default class Routes extends PureComponent<Props, State> {
       [],
       this.props.routes.filter(route => {
         return routeIds.includes(route.id);
-      })
+      }),
+      []
     );
     const fileSize = manifestBundleSize(manifest);
     if (this.fetchId == currentFetchId) {
@@ -196,6 +198,7 @@ export default class Routes extends PureComponent<Props, State> {
   setSharing = (sharing: boolean) => {
     // Can set selectedForExport to [] either way as we want to start sharing again with none selected
     this.setState({
+      bundleSize: undefined,
       inShareMode: sharing,
       selectedForExport: []
     });
