@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, View, Text, Image, StatusBar, TouchableHighlight } from 'react-native';
+import { Modal, Platform, View, Text, Image, StatusBar, TouchableHighlight } from 'react-native';
 
 import Theme from 'config/theme';
 import styles from './styles';
@@ -14,12 +14,12 @@ class MapModal extends Component {
   }
 
   componentWillUnmount() {
-    StatusBar.setBarStyle('default');
+    StatusBar.setBarStyle(Platform.OS === 'ios' ? 'dark-content' : 'default');
   }
 
   close() {
     this.props.onClosePress();
-    StatusBar.setBarStyle('default');
+    StatusBar.setBarStyle(Platform.OS === 'ios' ? 'dark-content' : 'default');
   }
 
   render() {
