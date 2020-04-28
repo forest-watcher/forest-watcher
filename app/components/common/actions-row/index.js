@@ -8,7 +8,7 @@ import styles from './styles';
 
 type Action = {
   icon: string | number,
-  onPress: void => void
+  onPress: () => void
 };
 
 type Props = {
