@@ -104,6 +104,7 @@ const createReportIcon = require('assets/createReport.png');
 const reportAreaIcon = require('assets/report_area.png');
 const addLocationIcon = require('assets/add_location.png');
 const customReportingMarker = require('assets/custom-reporting-marker.png');
+const userLocationBearing = require('assets/userLocationBearing.png');
 const closeIcon = require('assets/close_gray.png');
 
 type Props = {
@@ -357,6 +358,8 @@ class MapComponent extends Component<Props> {
     stopTrackingHeading();
 
     this.props.setSelectedAreaId('');
+
+    CompassHeading.stop();
   }
 
   /**
@@ -931,11 +934,14 @@ class MapComponent extends Component<Props> {
 
     // Displays user location circle on map
     const renderUserLocation = (
-      <MapboxGL.UserLocation renderMode={'custom'} visible={true}>
+      <MapboxGL.UserLocation renderMode={'custom'}>
         <MapboxGL.SymbolLayer
           id={'custom-user-symbol'}
           style={{
-            iconImage: customReportingMarker,
+            iconImage: userLocationBearing,
+            iconAnchor: 'bottom',
+            // center of image should be the center of the user location circle
+            iconOffset: [0, 10],
             iconRotationAlignment: 'map',
             iconRotate: this.state.userBearing
           }}
