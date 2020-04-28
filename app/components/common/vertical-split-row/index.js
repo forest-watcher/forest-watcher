@@ -2,11 +2,12 @@
 
 import React, { Component } from 'react';
 
-import { View, Text, TouchableHighlight, TouchableOpacity, Image, ImageBackground } from 'react-native';
+import { View, Text, TouchableHighlight, TouchableOpacity, Image, ImageBackground, Platform, TouchableNativeFeedback } from 'react-native';
 import styles from './styles';
 
 import SettingsButton from 'components/common/settings-button';
 import Callout from 'components/common/callout';
+import Theme from 'config/theme';
 
 const nextIcon = require('assets/next.png');
 const checkboxOff = require('assets/checkbox_off.png');
@@ -36,7 +37,8 @@ type Props = {
   largerLeftPadding?: ?boolean,
   legend?: ?Legend,
   onDownloadPress?: void => void,
-  onPress: void => void,
+  onPress?: void => void,
+  onIconPress?: void => void,
   onSettingsPress?: void => void,
   useRadioIcon?: ?boolean,
   renderImageChildren?: (?void) => React.Node,
@@ -50,8 +52,7 @@ type Props = {
 };
 
 export default class VerticalSplitRow extends Component<Props> {
-  render() {
-    const { selected, downloadVisible, useRadioIcon } = this.props;
+  renderIcon = (selected, useRadioIcon, onIconPress) => {
     let icon = nextIcon;
     if (selected === false) {
       icon = checkboxOff;
@@ -59,10 +60,32 @@ export default class VerticalSplitRow extends Component<Props> {
       icon = useRadioIcon ? radioOn : checkboxOn;
     }
 
+    if (!onIconPress) {
+      return <Image style={styles.disclosureIndicator} source={icon} />;
+    }
+    const Touchable = Platform.select({
+      android: TouchableNativeFeedback,
+      ios: TouchableHighlight
+    });
+    return (
+      <Touchable
+        onPress={onIconPress}
+        background={Platform.select({
+          android: TouchableNativeFeedback.Ripple(Theme.background.secondary),
+          ios: undefined
+        })}
+        activeOpacity={0.8}
+      >
+        <Image style={styles.disclosureIndicator} source={icon} />
+      </Touchable>
+    );
+  };
+
+  render() {
     return (
       <TouchableHighlight
         activeOpacity={0.5}
-        disabled={this.props.onPress == null}
+        disabled={this.props.onPress === null && this.props.onIconPress === null}
         underlayColor="transparent"
         onPress={this.props.onPress}
         style={this.props.style}
@@ -79,7 +102,7 @@ export default class VerticalSplitRow extends Component<Props> {
                   {this.props.renderImageChildren && this.props.renderImageChildren()}
                 </ImageBackground>
               )}
-              {downloadVisible && (
+              {this.props.downloadVisible && (
                 <Callout
                   body={this.props.downloadCalloutBody}
                   offset={4}
@@ -105,7 +128,7 @@ export default class VerticalSplitRow extends Component<Props> {
                 <Text numberOfLines={2} style={styles.title}>
                   {this.props.title}
                 </Text>
-                <Image style={styles.disclosureIndicator} source={icon} />
+                {this.renderIcon(this.props.selected, this.props.useRadioIcon, this.props.onIconPress)}
               </View>
               {!!this.props.subtitle && <Text style={styles.subtitle}>{this.props.subtitle}</Text>}
             </View>

@@ -203,7 +203,7 @@ class MapSidebar extends PureComponent<Props> {
         >
           <Text style={styles.heading}>{i18n.t('map.layerSettings.layersHeading')}</Text>
           <VerticalSplitRow
-            onPress={() => this.props.toggleAlertsLayer(featureId)}
+            onIconPress={() => this.props.toggleAlertsLayer(featureId)}
             onSettingsPress={this.openAlertLayerSettings}
             title={i18n.t('map.layerSettings.alerts')}
             settingsTitle={this.getAlertsSettingsTitle(layerSettings)}
@@ -216,7 +216,7 @@ class MapSidebar extends PureComponent<Props> {
             largerLeftPadding
           />
           <VerticalSplitRow
-            onPress={() => this.props.toggleRoutesLayer(featureId)}
+            onIconPress={() => this.props.toggleRoutesLayer(featureId)}
             onSettingsPress={this.openRoutesLayerSettings}
             title={i18n.t('map.layerSettings.routes')}
             settingsTitle={this.getRoutesSettingsTitle(layerSettings)}
@@ -229,7 +229,7 @@ class MapSidebar extends PureComponent<Props> {
             largerLeftPadding
           />
           <VerticalSplitRow
-            onPress={() => this.props.toggleReportsLayer(featureId)}
+            onIconPress={() => this.props.toggleReportsLayer(featureId)}
             onSettingsPress={this.openReportsLayerSettings}
             title={i18n.t('map.layerSettings.reports')}
             settingsTitle={this.getReportSettingsTitle(layerSettings)}
@@ -242,7 +242,7 @@ class MapSidebar extends PureComponent<Props> {
             largerLeftPadding
           />
           <VerticalSplitRow
-            onPress={() => this.props.toggleContextualLayersLayer(featureId)}
+            onIconPress={() => this.props.toggleContextualLayersLayer(featureId)}
             onSettingsPress={this.openContextualLayersLayerSettings}
             title={i18n.t('map.layerSettings.contextualLayers')}
             settingsTitle={this.getContextualLayersSettingsTitle(layerSettings)}
