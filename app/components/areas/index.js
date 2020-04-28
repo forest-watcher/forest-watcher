@@ -36,6 +36,7 @@ type Props = {|
 |};
 
 type State = {|
+  +bundleSize: number | typeof undefined,
   +selectedForExport: Array<string>,
   +inShareMode: boolean
 |};
@@ -57,6 +58,7 @@ class Areas extends Component<Props, State> {
     };
   }
 
+  fetchId: ?string;
   shareSheet: any;
 
   constructor(props: Props) {
@@ -64,6 +66,7 @@ class Areas extends Component<Props, State> {
     Navigation.events().bindComponent(this);
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
     this.state = {
+      bundleSize: undefined,
       selectedForExport: [],
       inShareMode: false
     };
@@ -107,7 +110,7 @@ class Areas extends Component<Props, State> {
       []
     );
     const fileSize = manifestBundleSize(manifest);
-    if (this.fetchId == currentFetchId) {
+    if (this.fetchId === currentFetchId) {
       this.setState({
         bundleSize: fileSize
       });
@@ -121,7 +124,7 @@ class Areas extends Component<Props, State> {
   onAreaSelectedForExport = (areaId: string) => {
     this.setState(state => {
       if (state.selectedForExport.includes(areaId)) {
-        const selectedForExport = [...state.selectedForExport].filter(id => areaId != id);
+        const selectedForExport = [...state.selectedForExport].filter(id => areaId !== id);
         this.fetchExportSize(selectedForExport);
         return {
           selectedForExport
@@ -145,7 +148,9 @@ class Areas extends Component<Props, State> {
   onExportAreasTapped = debounceUI(selectedAreas => {
     // TODO: Loading screen while the async function below executed
     this.props.exportAreas(selectedAreas);
-    this.shareSheet?.setSharing?.(false);
+    if (this.shareSheet) {
+      this.shareSheet.setSharing(false);
+    }
     this.setSharing(false);
   });
 
@@ -246,6 +251,7 @@ class Areas extends Component<Props, State> {
           // If the user taps ANYWHERE set the area download tooltip as seen
           event.persist();
           this.props.setAreaDownloadTooltipSeen(true);
+          return false;
         }}
         style={styles.container}
       >
@@ -256,6 +262,7 @@ class Areas extends Component<Props, State> {
             // If the user taps ANYWHERE set the area download tooltip as seen
             event.persist();
             this.props.setAreaDownloadTooltipSeen(true);
+            return false;
           }}
           shareButtonDisabledTitle={i18n.t('areas.share')}
           enabled={totalToExport > 0}
@@ -290,6 +297,7 @@ class Areas extends Component<Props, State> {
                 // If the user taps ANYWHERE set the area download tooltip as seen
                 event.persist();
                 this.props.setAreaDownloadTooltipSeen(true);
+                return false;
               }}
               style={styles.list}
               contentContainerStyle={styles.listContent}
