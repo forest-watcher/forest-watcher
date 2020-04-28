@@ -107,6 +107,7 @@ class Areas extends Component<Props, State> {
       this.props.areas.filter(area => {
         return areaIds.includes(area.id);
       }),
+      [],
       []
     );
     const fileSize = manifestBundleSize(manifest);
@@ -217,6 +218,7 @@ class Areas extends Component<Props, State> {
     this.props.setAreaDownloadTooltipSeen(true);
 
     this.setState({
+      bundleSize: undefined,
       inShareMode: sharing
     });
 

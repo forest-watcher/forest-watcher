@@ -439,15 +439,14 @@
             "navBarButtonText": "Export",
             "noneSelected": "No reports selected",
             "oneReport": "%{count} Report",
-            "oneReportAction": "Export %{count} report...",
             "manyReports": "%{count} Reports",
-            "manyReportsAction": "Export %{count} reports...",
             "title": "Export report",
             "description": "How would you like to export this report?",
             "option": {
                 "asCSV": "Export as CSV...",
                 "asSharingBundle": "Export as sharing bundle..."
             },
+            "reportSizeAction": "Export Reports (%{bundleSize})",
             "successful": "Exporting reports succeeded!"
         },
         "glad": "Deforestation Report",

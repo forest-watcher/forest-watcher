@@ -39,7 +39,8 @@ export const BUNDLE_DATA_FILE_NAME: string = 'bundle.json';
  */
 export default async function exportBundle(appState: State, request: ExportBundleRequest): Promise<string> {
   const explicitBundleData = exportAppData(appState, request);
-  const layerManifest = await exportLayerManifest(request, explicitBundleData.areas, explicitBundleData.routes);
+  //TODO: Add in explicitBundleData.reports?
+  const layerManifest = await exportLayerManifest(request, explicitBundleData.areas, explicitBundleData.routes, []);
   const finalBundleData = {
     ...explicitBundleData,
     basemaps: exportBasemaps(appState.basemaps, Object.keys(layerManifest.basemaps)),
