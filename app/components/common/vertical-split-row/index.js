@@ -38,8 +38,8 @@ type Props = {
   legend?: ?Legend,
   onDownloadPress?: void => void,
   onPress?: void => void,
-  onIconPress?: void => void,
-  onSettingsPress?: void => void,
+  onIconPress?: () => void,
+  onSettingsPress?: () => void,
   useRadioIcon?: ?boolean,
   renderImageChildren?: (?void) => React.Node,
   selected?: ?boolean,
@@ -85,7 +85,7 @@ export default class VerticalSplitRow extends Component<Props> {
     return (
       <TouchableHighlight
         activeOpacity={0.5}
-        disabled={this.props.onPress === null && this.props.onIconPress === null}
+        disabled={!this.props.onPress && !this.props.onIconPress}
         underlayColor="transparent"
         onPress={this.props.onPress}
         style={this.props.style}
