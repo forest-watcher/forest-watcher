@@ -66,6 +66,7 @@
     "react-native": "0.61.5",
     "react-native-actions-sheet": "0.1.9",
     "react-native-app-auth": "5.0.2",
+    "react-native-compass-heading": "1.0.0",
     "react-native-config": "0.12.0",
     "react-native-datepicker": "1.7.2",
     "react-native-dialogs": "1.1.0",

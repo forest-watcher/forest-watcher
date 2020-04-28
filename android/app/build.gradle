@@ -200,6 +200,7 @@ android {
  *      it is common for libraries to be slow to update their play services and support library versions, leading to conflicts
  */
 dependencies {
+    implementation project(':react-native-compass-heading')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation 'androidx.appcompat:appcompat:1.1.0'

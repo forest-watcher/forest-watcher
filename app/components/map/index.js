@@ -69,10 +69,8 @@ import type { LayerSettings } from 'types/layerSettings.types';
 import Alerts from 'containers/map/alerts';
 import { formatInfoBannerDate } from 'helpers/date';
 import Reports from 'containers/map/reports';
-
-import {
-  initialWindowSafeAreaInsets
-} from 'react-native-safe-area-context';
+import CompassHeading from 'react-native-compass-heading';
+import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -216,6 +214,7 @@ class MapComponent extends Component<Props> {
       mapCameraBounds: this.getMapCameraBounds(),
       destinationCoords: null,
       animatedPosition: new Animated.Value(DISMISSED_INFO_BANNER_POSTIION),
+      userBearing: 100,
       infoBannerShowing: false,
       infoBannerProps: {
         title: '',
@@ -272,6 +271,11 @@ class MapComponent extends Component<Props> {
     }
 
     this.showMapWalkthrough();
+
+    CompassHeading.start(3, degree => {
+      console.log('mpf degree: ', degree);
+      this.setState({userBearing: degree})
+    });
   }
 
   // called on startup to set initial camera position
@@ -926,7 +930,18 @@ class MapComponent extends Component<Props> {
     ) : null;
 
     // Displays user location circle on map
-    const renderUserLocation = <MapboxGL.UserLocation visible={true} />;
+    const renderUserLocation = (
+      <MapboxGL.UserLocation renderMode={'custom'} visible={true}>
+        <MapboxGL.SymbolLayer
+          id={'custom-user-symbol'}
+          style={{
+            iconImage: customReportingMarker,
+            iconRotationAlignment: 'map',
+            iconRotate: this.state.userBearing
+          }}
+        />
+      </MapboxGL.UserLocation>
+    );
 
     // Controls view of map (location / zoom)
     const renderMapCamera = (

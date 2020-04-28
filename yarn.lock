@@ -6894,6 +6894,11 @@ react-native-base64@0.0.2:
   resolved "https://registry.yarnpkg.com/react-native-base64/-/react-native-base64-0.0.2.tgz#c28463c2c6779ac3ec5fdd12979ebc8c5f9b410a"
   integrity sha512-Fu/J1a2y0X22EJDWqJR2oEa1fpP4gTFjYxk8ElJdt1Yak3HOXmFJ7EohLVHU2DaQkgmKfw8qb7u/48gpzveRbg==
 
+react-native-compass-heading@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-compass-heading/-/react-native-compass-heading-1.0.0.tgz#f87a64fc9779ddc44af008ed001597b696c1af70"
+  integrity sha512-UwloS2NHsgPvCVIQmrKDT+kS3d+KMwwa+rinVv5vKxpLceDadmTtU9Wa8Wm9r3MUXIKqTkOhOXjnFSyVydcY2Q==
+
 react-native-config@0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-0.12.0.tgz#910e52226b60e0c9f2b648772eea2a93f8701751"
