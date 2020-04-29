@@ -40,7 +40,7 @@ class ActionsRow extends Component<Props> {
       >
         <View style={[styles.row, this.props.rowStyle]}>
           {this.props.renderCustomImage && this.props.renderCustomImage()}
-          {this.props.imageSrc !== null ? (
+          {this.props.imageSrc != null ? (
             <Image
               resizeMode={'cover'}
               style={styles.image}
