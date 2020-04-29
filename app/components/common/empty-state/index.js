@@ -9,7 +9,7 @@ type Props = {
   actionTitle: string,
   body: string,
   icon: *,
-  onActionPress: void => void,
+  onActionPress: () => void,
   title: string
 };
 

@@ -6916,10 +6916,10 @@ react-native-document-picker@3.3.0:
   resolved "https://registry.yarnpkg.com/react-native-document-picker/-/react-native-document-picker-3.3.0.tgz#dc0172c6a0adf290cca0cbb8f4e8e1ea2e6bdd3c"
   integrity sha512-h/O8USFx1TWQT7Sx5Qj1OVpADabHawckVPDrEiGUf6qCJF2h5kKZs3ZuxZe7wHSZX4LgQE0agZqagQUK+HLIVQ==
 
-react-native-fbsdk@1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/react-native-fbsdk/-/react-native-fbsdk-1.1.1.tgz#91a787a046bc90d29907a2269321191cd301517c"
-  integrity sha512-1hlOeQ8rXOYXd7/XKvKXKOsURxHi4EbHWCZO1aIWQWO6pdyK1i/56KuC9KDTGo8TjNTFfA/2H5vJCG040gI75Q==
+react-native-fbsdk@1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-fbsdk/-/react-native-fbsdk-1.1.2.tgz#4264903add869d05b84ef55ade9ff720c2957781"
+  integrity sha512-Sp+oja868QVsB5vpEFbwZkEcCJOSBuZgh7UGJzUhaoTCs/zwSUHA6b4QichM7GiTxtQyKfT/F31DtvLj2N/qAQ==
 
 react-native-fs@2.16.6:
   version "2.16.6"
