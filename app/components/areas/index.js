@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
-import { Navigation } from 'react-native-navigation';
+import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 
 import type { Area } from 'types/areas.types';
 
@@ -76,7 +76,7 @@ class Areas extends Component<Props, State> {
     tracker.trackScreenView('Areas');
   }
 
-  navigationButtonPressed({ buttonId }: any) {
+  navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {
     if (buttonId === 'addArea') {
       this.onPressAddArea();
     }

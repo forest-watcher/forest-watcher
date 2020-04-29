@@ -8,7 +8,7 @@ import i18n from 'i18next';
 import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
-import { Navigation } from 'react-native-navigation';
+import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 
 type ReportsLayerSettingsType = {
   layerIsActive: boolean,
@@ -24,7 +24,7 @@ type Props = {
 };
 
 class ReportLayerSettings extends PureComponent<Props> {
-  static options(passProps) {
+  static options(passProps: Props) {
     return {
       topBar: {
         title: {
@@ -41,12 +41,12 @@ class ReportLayerSettings extends PureComponent<Props> {
     };
   }
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     Navigation.events().bindComponent(this);
   }
 
-  navigationButtonPressed({ buttonId }) {
+  navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {
     if (buttonId === 'clear') {
       this.clearAllOptions();
     }

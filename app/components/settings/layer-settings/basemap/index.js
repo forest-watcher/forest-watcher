@@ -7,8 +7,8 @@ import VerticalSplitRow from 'components/common/vertical-split-row';
 import i18n from 'i18next';
 import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
-import { Navigation } from 'react-native-navigation';
-import type { BasemapsState } from 'types/basemaps.types';
+import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
+import type { Basemap, BasemapsState } from 'types/basemaps.types';
 
 const basemapPlaceholder = require('assets/basemap_placeholder.png');
 
@@ -16,11 +16,11 @@ type Props = {
   featureId: string,
   basemaps: BasemapsState,
   activeBasemapId: string,
-  selectActiveBasemap: string => {}
+  selectActiveBasemap: (string, string) => {}
 };
 
 class BasemapLayerSettings extends PureComponent<Props> {
-  static options(passProps) {
+  static options(passProps: Props) {
     return {
       topBar: {
         title: {
@@ -30,18 +30,18 @@ class BasemapLayerSettings extends PureComponent<Props> {
     };
   }
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     Navigation.events().bindComponent(this);
   }
 
-  navigationButtonPressed({ buttonId }) {
+  navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {
     if (buttonId === 'clear') {
-      this.clearAllOptions();
+      this.clearAllOptions(); // TODO: this doesn't exist?
     }
   }
 
-  selectBasemap = basemap => {
+  selectBasemap = (basemap: Basemap) => {
     this.props.selectActiveBasemap(this.props.featureId, basemap.id);
   };
 

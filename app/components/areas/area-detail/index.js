@@ -12,7 +12,7 @@ import moment from 'moment';
 import Theme, { isSmallScreen } from 'config/theme';
 import ActionButton from 'components/common/action-button';
 import styles from './styles';
-import { Navigation } from 'react-native-navigation';
+import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import { withSafeArea } from 'react-native-safe-area';
 
 import VerticalSplitRow from 'components/common/vertical-split-row';
@@ -45,7 +45,7 @@ type Props = {
 };
 
 class AreaDetail extends Component<Props, State> {
-  static options(passProps) {
+  static options(passProps: Props) {
     return {
       topBar: {
         rightButtons: [
@@ -72,7 +72,7 @@ class AreaDetail extends Component<Props, State> {
     tracker.trackScreenView('AreaDetail');
   }
 
-  navigationButtonPressed({ buttonId }) {
+  navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {
     if (buttonId === 'deleteArea') {
       this.handleDeleteArea();
     }

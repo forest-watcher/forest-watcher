@@ -5,10 +5,11 @@ import { ActionSheetIOS, Alert, AlertIOS, Dimensions, Platform, View, ScrollView
 import moment from 'moment';
 import i18n from 'i18next';
 import DialogAndroid from 'react-native-dialogs';
-import { Navigation } from 'react-native-navigation';
+import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 
 import styles from './styles';
 import AnswerComponent from 'components/form/answer/answer';
+import type { CoordinatesFormat } from 'types/common.types';
 import type { Route } from 'types/routes.types';
 
 import ActionButton from 'components/common/action-button';
@@ -21,7 +22,7 @@ const screenDimensions = Dimensions.get('screen');
 
 type Props = {
   componentId: string,
-  coordinatesFormat: string,
+  coordinatesFormat: CoordinatesFormat,
   deleteRoute: () => void,
   updateRoute: Route => void,
   setSelectedAreaId: func,
@@ -29,7 +30,7 @@ type Props = {
 };
 
 export default class RouteDetail extends PureComponent<Props> {
-  static options(passProps) {
+  static options(passProps: Props) {
     return {
       topBar: {
         title: {
@@ -58,7 +59,7 @@ export default class RouteDetail extends PureComponent<Props> {
    *
    * @param  {type} { buttonId } The component ID for the button.
    */
-  navigationButtonPressed({ buttonId }) {
+  navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {
     if (buttonId === 'backButton') {
       Navigation.dismissModal(this.props.componentId);
     }

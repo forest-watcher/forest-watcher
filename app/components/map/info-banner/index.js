@@ -14,11 +14,11 @@ type Props = {
   subtitle: string,
   type: string,
   featureId: string,
-  style: *
+  style: any
 };
 
 export default class InfoBanner extends Component<Props> {
-  openRoute = (routeId, routeName) => {
+  openRoute = (routeId: string, routeName: string) => {
     Navigation.showModal({
       stack: {
         children: [

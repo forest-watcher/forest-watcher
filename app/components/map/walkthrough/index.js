@@ -5,7 +5,7 @@ import { Animated, Image, View, Text } from 'react-native';
 
 import CircleButton from 'components/common/circle-button';
 
-import { Navigation } from 'react-native-navigation';
+import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import styles from './styles';
 import Callout from 'components/common/callout';
 import i18n from 'i18next';
@@ -35,7 +35,7 @@ export default class MapWalkthrough extends Component<Props> {
     };
   }
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     Navigation.events().bindComponent(this);
     this.state = {
@@ -44,7 +44,7 @@ export default class MapWalkthrough extends Component<Props> {
     };
   }
 
-  navigationButtonPressed({ buttonId }) {
+  navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {
     if (buttonId === 'settings') {
       this.onPress();
     }

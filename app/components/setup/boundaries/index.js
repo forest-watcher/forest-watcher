@@ -9,7 +9,7 @@ import { Image, View } from 'react-native';
 import Theme from 'config/theme';
 import i18n from 'i18next';
 import styles from './styles';
-import { Navigation } from 'react-native-navigation';
+import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import DrawAreas from 'containers/setup/draw-areas';
 
 const layersIcon = require('assets/layers.png');
@@ -24,7 +24,7 @@ type Props = {
 };
 
 class SetupBoundaries extends Component<Props> {
-  static options(passProps) {
+  static options(passProps: Props) {
     return {
       topBar: {
         background: {
@@ -55,7 +55,7 @@ class SetupBoundaries extends Component<Props> {
     Navigation.events().bindComponent(this);
   }
 
-  navigationButtonPressed({ buttonId }) {
+  navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {
     if (buttonId === 'contextual_layers') {
       Navigation.mergeOptions(this.props.componentId, {
         sideMenu: {

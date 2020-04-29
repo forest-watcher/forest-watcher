@@ -32,7 +32,7 @@ import tracker from 'helpers/googleAnalytics';
 import Theme from 'config/theme';
 import i18n from 'i18next';
 import styles, { mapboxStyles } from './styles';
-import { Navigation } from 'react-native-navigation';
+import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
@@ -70,9 +70,7 @@ import Alerts from 'containers/map/alerts';
 import { formatInfoBannerDate } from 'helpers/date';
 import Reports from 'containers/map/reports';
 
-import {
-  initialWindowSafeAreaInsets
-} from 'react-native-safe-area-context';
+import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -141,7 +139,7 @@ type Props = {
 class MapComponent extends Component<Props> {
   margin = Platform.OS === 'ios' ? 50 : 100;
 
-  static options(passProps) {
+  static options(passProps: Props) {
     return {
       statusBar: {
         style: Platform.select({ android: 'light', ios: 'dark' })
@@ -232,7 +230,7 @@ class MapComponent extends Component<Props> {
     });
   }
 
-  navigationButtonPressed({ buttonId }) {
+  navigationButtonPressed({ buttonId }: { buttonId: NavigationButtonPressedEvent }) {
     if (buttonId === 'settings') {
       this.onSettingsPress();
     } else if (buttonId === 'backButton') {

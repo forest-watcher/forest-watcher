@@ -4,7 +4,7 @@ import type { File } from 'types/file.types';
 
 import React, { Component } from 'react';
 import { View, ScrollView, Share, Text } from 'react-native';
-import { Navigation } from 'react-native-navigation';
+import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import debounceUI from 'helpers/debounceUI';
 import i18n from 'i18next';
 import tracker from 'helpers/googleAnalytics';
@@ -65,7 +65,7 @@ class Layers extends Component<Props, State> {
     tracker.trackScreenView('Layers');
   }
 
-  navigationButtonPressed({ buttonId }: any) {
+  navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {
     if (buttonId === 'addLayer') {
       this.onPressAddLayer();
     }
@@ -143,7 +143,7 @@ class Layers extends Component<Props, State> {
     }
   };
 
-  shareLayer = file => {
+  shareLayer = (file: File) => {
     Share.share({
       message: 'Sharing file',
       url: file.uri

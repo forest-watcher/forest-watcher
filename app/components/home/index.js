@@ -17,7 +17,7 @@ type Props = {
 };
 
 class Home extends Component<Props> {
-  static options(passProps) {
+  static options(passProps: Props) {
     return {
       topBar: {
         drawBehind: true,

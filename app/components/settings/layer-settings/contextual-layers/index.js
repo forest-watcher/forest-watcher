@@ -7,7 +7,7 @@ import i18n from 'i18next';
 import ActionsRow from 'components/common/actions-row';
 import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
-import { Navigation } from 'react-native-navigation';
+import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 
 import type { ContextualLayer } from 'types/layers.types';
 import type { File } from 'types/file.types';
@@ -31,7 +31,7 @@ type Props = {
 };
 
 class ContextualLayersLayerSettings extends PureComponent<Props> {
-  static options(passProps) {
+  static options(passProps: Props) {
     return {
       topBar: {
         title: {
@@ -48,12 +48,12 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
     };
   }
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     Navigation.events().bindComponent(this);
   }
 
-  navigationButtonPressed({ buttonId }) {
+  navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {
     if (buttonId === 'clear') {
       this.clearAllOptions();
     }

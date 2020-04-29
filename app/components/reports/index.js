@@ -68,6 +68,7 @@ class Reports extends PureComponent<Props, State> {
     };
   }
 
+  fetchId: ?string;
   shareSheet: any;
 
   constructor(props: Props) {
@@ -316,7 +317,7 @@ class Reports extends PureComponent<Props, State> {
    * @return {Array}                    An array of report rows.
    */
   renderReports(data: Array<ReportItem>, image: any, onPress: string => void) {
-    return data.map((item, index) => {
+    return data.map((item: ReportItem, index: number) => {
       let positionParsed = '';
       if (item.position) {
         const latLng = item.position.split(',');

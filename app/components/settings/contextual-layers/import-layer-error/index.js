@@ -18,7 +18,7 @@ type Props = {
 };
 
 export default class ImportLayerError extends Component<Props> {
-  static options(passProps) {
+  static options(passProps: Props) {
     return {
       topBar: {
         drawBehind: true,
