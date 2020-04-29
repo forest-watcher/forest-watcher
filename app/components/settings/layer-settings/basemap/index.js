@@ -30,17 +30,6 @@ class BasemapLayerSettings extends PureComponent<Props> {
     };
   }
 
-  constructor(props: Props) {
-    super(props);
-    Navigation.events().bindComponent(this);
-  }
-
-  navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {
-    if (buttonId === 'clear') {
-      this.clearAllOptions(); // TODO: this doesn't exist?
-    }
-  }
-
   selectBasemap = (basemap: Basemap) => {
     this.props.selectActiveBasemap(this.props.featureId, basemap.id);
   };
