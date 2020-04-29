@@ -23,8 +23,13 @@ type Props = {
   setMapWalkthroughSeen: (seen: boolean) => void
 };
 
-export default class MapWalkthrough extends Component<Props> {
-  static options(passProps) {
+type State = {
+  step1Opacity: any,
+  step: number
+};
+
+export default class MapWalkthrough extends Component<Props, State> {
+  static options(passProps: Props) {
     return {
       topBar: {
         drawBehind: true,
@@ -34,6 +39,8 @@ export default class MapWalkthrough extends Component<Props> {
       }
     };
   }
+
+  static animationDuration = 200;
 
   constructor(props: Props) {
     super(props);
@@ -123,14 +130,16 @@ export default class MapWalkthrough extends Component<Props> {
         Animated.timing(this.state.step1Opacity, {
           toValue: 1,
           delay: 0,
-          duration: 200
+          duration: MapWalkthrough.animationDuration,
+          useNativeDriver: true
         }).start();
         break;
       case 1:
         Animated.timing(this.state.step1Opacity, {
           toValue: 0,
           delay: 0,
-          duration: 200
+          duration: MapWalkthrough.animationDuration,
+          useNativeDriver: true
         }).start();
         // Show this as it's the only way to guarantee this lines up with the button in the screen below
         Navigation.mergeOptions(this.props.componentId, {
@@ -154,6 +163,8 @@ export default class MapWalkthrough extends Component<Props> {
     this.setState({
       step: this.state.step + 1
     });
+
+    return true;
   };
 
   render() {

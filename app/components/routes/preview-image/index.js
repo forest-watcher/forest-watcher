@@ -13,7 +13,7 @@ const routeMapBackground = require('assets/routeMapBackground.png');
 
 type Props = {
   route: Route,
-  style: *,
+  style: any,
   aspectRatio: number,
   width: number
 };

@@ -19,8 +19,8 @@ type ReportsLayerSettingsType = {
 type Props = {
   featureId: string,
   reportsLayerSettings: ReportsLayerSettingsType,
-  toggleMyReportsLayer: () => void,
-  toggleImportedReportsLayer: () => void
+  toggleMyReportsLayer: string => void,
+  toggleImportedReportsLayer: string => void
 };
 
 class ReportLayerSettings extends PureComponent<Props> {

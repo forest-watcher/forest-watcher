@@ -45,7 +45,7 @@ export default class RouteMarkers extends PureComponent<Props> {
     emitter.off(GFWOnLocationEvent, this.updateLocationFromGeolocation);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (prevProps.isTracking && !this.props.isTracking) {
       this.setState({
         currentRouteLocations: []
@@ -117,7 +117,7 @@ export default class RouteMarkers extends PureComponent<Props> {
   };
 
   // It seems mapbox is ridiculously picky with unique key/id names, when displaying multiple routes on the map
-  key = keyName => {
+  key = (keyName: string) => {
     return keyName + (this.props.route?.id || 'route_in_progress');
   };
 

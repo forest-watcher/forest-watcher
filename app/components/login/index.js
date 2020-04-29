@@ -17,7 +17,7 @@ import { getLanguage } from 'helpers/language';
 const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
 const WebViewSafeAreaView = withSafeArea(View, 'padding', 'top');
 
-import { launchAppRoot } from 'main';
+import { launchAppRoot } from '../../main';
 import moment from 'moment';
 const parseUrl = require('url-parse');
 
@@ -53,14 +53,16 @@ type Props = {
 };
 
 type State = {
+  topSafeAreaInset: ?number,
   webviewVisible: boolean,
   webViewUrl: string,
-  webViewCurrenUrl: string,
-  socialNetwork: ?string
+  webViewCurrentUrl: string,
+  socialNetwork: ?string,
+  versionName: string
 };
 
 class Login extends PureComponent<Props, State> {
-  static options(passProps) {
+  static options(passProps: Props) {
     return {
       topBar: {
         drawBehind: true,
@@ -86,7 +88,7 @@ class Login extends PureComponent<Props, State> {
       topSafeAreaInset: 0,
       webviewVisible: false,
       webViewUrl: '',
-      webViewCurrenUrl: '',
+      webViewCurrentUrl: '',
       socialNetwork: null,
       versionName: getVersionName()
     };
@@ -120,7 +122,7 @@ class Login extends PureComponent<Props, State> {
   };
 
   onLoadEnd = () => {
-    const parsedUrl = parseUrl(this.state.webViewCurrenUrl, true);
+    const parsedUrl = parseUrl(this.state.webViewCurrentUrl, true);
     if (
       parsedUrl.origin == Config.API_AUTH &&
       parsedUrl.pathname == Config.API_AUTH_CALLBACK_PATH &&
@@ -148,7 +150,7 @@ class Login extends PureComponent<Props, State> {
 
   onNavigationStateChange = (navState: { url: string, title: string }) => {
     this.setState({
-      webViewCurrenUrl: navState.url
+      webViewCurrentUrl: navState.url
     });
   };
 
@@ -189,7 +191,7 @@ class Login extends PureComponent<Props, State> {
         <View
           style={[
             styles.webViewHeader,
-            { marginTop: -this.state.topSafeAreaInset, height: 40 + this.state.topSafeAreaInset }
+            { marginTop: -(this.state.topSafeAreaInset ?? 0), height: 40 + (this.state.topSafeAreaInset ?? 0) }
           ]}
         >
           <TouchableHighlight
@@ -201,7 +203,7 @@ class Login extends PureComponent<Props, State> {
             <Text style={styles.webViewButtonCloseText}>x</Text>
           </TouchableHighlight>
           <Text style={styles.webViewUrl} ellipsizeMode="tail" numberOfLines={1}>
-            {this.state.webViewCurrenUrl}
+            {this.state.webViewCurrentUrl}
           </Text>
         </View>
         <WebView

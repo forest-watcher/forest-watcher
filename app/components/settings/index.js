@@ -11,7 +11,7 @@ import Row from 'components/common/row';
 import { getVersionName } from 'helpers/app';
 import debounceUI from 'helpers/debounceUI';
 
-import { launchAppRoot } from 'main';
+import { launchAppRoot } from '../../main';
 import i18n from 'i18next';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
@@ -31,8 +31,19 @@ type Props = {
   offlineMode: boolean
 };
 
-export default class Settings extends Component<Props> {
-  static options(passProps) {
+type State = {
+  versionName: string
+};
+
+type AboutSection = {
+  text: string,
+  image: ?any,
+  section: string,
+  functionOnPress: (string, string) => void
+};
+
+export default class Settings extends Component<Props, State> {
+  static options(passProps: Props) {
     return {
       topBar: {
         title: {
@@ -42,6 +53,7 @@ export default class Settings extends Component<Props> {
     };
   }
 
+  aboutSections: Array<AboutSection>;
   shareAction: { callback: () => void, icon: any };
 
   contextualLayersAction: { callback: () => void, icon: any };
