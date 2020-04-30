@@ -19,7 +19,7 @@ type Props = {
 };
 
 class Sync extends Component<Props> {
-  static options(passProps: Props) {
+  static options(passProps: {}) {
     return {
       topBar: {
         drawBehind: true,

@@ -139,7 +139,7 @@ type Props = {
 class MapComponent extends Component<Props> {
   margin = Platform.OS === 'ios' ? 50 : 100;
 
-  static options(passProps: Props) {
+  static options(passProps: {}) {
     return {
       statusBar: {
         style: Platform.select({ android: 'light', ios: 'dark' })

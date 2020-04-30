@@ -39,7 +39,7 @@ const GLAD_TIME_FRAME_VALUES = [1, 2, 6, 12];
 const VIIRS_TIME_FRAME_VALUES = [1, 2, 6, 12];
 
 class AlertLayerSettings extends PureComponent<Props> {
-  static options(passProps: Props) {
+  static options(passProps: {}) {
     return {
       topBar: {
         title: {

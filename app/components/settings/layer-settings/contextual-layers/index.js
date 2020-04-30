@@ -31,7 +31,7 @@ type Props = {
 };
 
 class ContextualLayersLayerSettings extends PureComponent<Props> {
-  static options(passProps: Props) {
+  static options(passProps: {}) {
     return {
       topBar: {
         title: {

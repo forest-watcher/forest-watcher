@@ -24,7 +24,7 @@ type Props = {
 };
 
 class ReportLayerSettings extends PureComponent<Props> {
-  static options(passProps: Props) {
+  static options(passProps: {}) {
     return {
       topBar: {
         title: {

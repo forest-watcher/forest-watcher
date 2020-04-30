@@ -43,7 +43,7 @@ type AboutSection = {
 };
 
 export default class Settings extends Component<Props, State> {
-  static options(passProps: Props) {
+  static options(passProps: {}) {
     return {
       topBar: {
         title: {

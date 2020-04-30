@@ -62,7 +62,7 @@ type State = {
 };
 
 class Login extends PureComponent<Props, State> {
-  static options(passProps: Props) {
+  static options(passProps: {}) {
     return {
       topBar: {
         drawBehind: true,

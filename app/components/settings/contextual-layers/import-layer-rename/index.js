@@ -30,7 +30,7 @@ type State = {
 };
 
 class ImportLayerRename extends PureComponent<Props, State> {
-  static options(passProps: Props) {
+  static options(passProps: {}) {
     return {
       topBar: {
         title: {

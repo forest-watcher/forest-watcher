@@ -24,7 +24,7 @@ type Props = {
 };
 
 class SetupBoundaries extends Component<Props> {
-  static options(passProps: Props) {
+  static options(passProps: {}) {
     return {
       topBar: {
         background: {

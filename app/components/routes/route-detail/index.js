@@ -29,8 +29,12 @@ type Props = {
   route: Route
 };
 
+type RNNProps = {
+  routeName: string
+};
+
 export default class RouteDetail extends PureComponent<Props> {
-  static options(passProps: Props) {
+  static options(passProps: RNNProps) {
     return {
       topBar: {
         title: {

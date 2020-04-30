@@ -29,7 +29,7 @@ type State = {
 };
 
 export default class MapWalkthrough extends Component<Props, State> {
-  static options(passProps: Props) {
+  static options(passProps: {}) {
     return {
       topBar: {
         drawBehind: true,
