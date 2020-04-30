@@ -9,6 +9,8 @@ import type {
 } from 'types/sharing.types';
 
 import _ from 'lodash';
+
+// $FlowFixMe
 import RNFS from 'react-native-fs';
 import { zip } from 'react-native-zip-archive';
 
