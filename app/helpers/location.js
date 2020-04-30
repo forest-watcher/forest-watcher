@@ -9,7 +9,7 @@ import FWError from 'helpers/fwError';
 import { formatCoordsByFormat, formatDistance, getDistanceOfLine } from 'helpers/map';
 import i18n from 'i18next';
 import _ from 'lodash';
-import CompassHeading from "react-native-compass-heading";
+import CompassHeading from 'react-native-compass-heading';
 
 export const GFWLocationAuthorizedAlways = BackgroundGeolocation.AUTHORIZED;
 export const GFWLocationAuthorizedInUse = BackgroundGeolocation.AUTHORIZED_FOREGROUND;
