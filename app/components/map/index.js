@@ -69,7 +69,6 @@ import type { LayerSettings } from 'types/layerSettings.types';
 import Alerts from 'containers/map/alerts';
 import { formatInfoBannerDate } from 'helpers/date';
 import Reports from 'containers/map/reports';
-import CompassHeading from 'react-native-compass-heading';
 import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
 
 const emitter = require('tiny-emitter/instance');
@@ -104,7 +103,8 @@ const createReportIcon = require('assets/createReport.png');
 const reportAreaIcon = require('assets/report_area.png');
 const addLocationIcon = require('assets/add_location.png');
 const customReportingMarker = require('assets/custom-reporting-marker.png');
-const userLocationBearing = require('assets/userLocationBearing.png');
+const userLocationBearingImage = require('assets/userLocationBearing.png');
+const userLocationImage = require('assets/userLocation.png');
 const closeIcon = require('assets/close_gray.png');
 
 type Props = {
@@ -195,7 +195,6 @@ class MapComponent extends Component<Props> {
     this.state = {
       bottomSafeAreaInset: 0,
       userLocation: null,
-      hasCompass: false,
       heading: null,
       region: {
         latitude: undefined, // These are undefined, as when the map is ready it'll move the map to focus on the area.
@@ -215,7 +214,6 @@ class MapComponent extends Component<Props> {
       mapCameraBounds: this.getMapCameraBounds(),
       destinationCoords: null,
       animatedPosition: new Animated.Value(DISMISSED_INFO_BANNER_POSTIION),
-      userBearing: 100,
       infoBannerShowing: false,
       infoBannerProps: {
         title: '',
@@ -272,10 +270,6 @@ class MapComponent extends Component<Props> {
     }
 
     this.showMapWalkthrough();
-
-    CompassHeading.start(3, degree => {
-      this.setState({ userBearing: degree });
-    });
   }
 
   // called on startup to set initial camera position
@@ -352,13 +346,11 @@ class MapComponent extends Component<Props> {
 
     // Do remove the emitter listeners here, as we don't want this screen to receive anything while it's non-existent!
     emitter.off(GFWOnLocationEvent, this.updateLocationFromGeolocation);
-    emitter.off(GFWOnHeadingEvent);
+    emitter.off(GFWOnHeadingEvent, this.updateHeading);
     emitter.off(GFWOnErrorEvent, this.onLocationUpdateError);
     stopTrackingHeading();
 
     this.props.setSelectedAreaId('');
-
-    CompassHeading.stop();
   }
 
   /**
@@ -540,16 +532,8 @@ class MapComponent extends Component<Props> {
   }, 300);
 
   updateHeading = throttle(heading => {
-    this.setState(prevState => {
-      const state = {
-        heading: parseInt(heading, 10)
-      };
-      if (!prevState.hasCompass) {
-        state.hasCompass = true;
-      }
-      return state;
-    });
-  }, 450);
+    this.setState({ heading: parseInt(heading) });
+  }, 150);
 
   onCustomReportingPress = debounceUI(() => {
     this.dismissInfoBanner();
@@ -722,6 +706,28 @@ class MapComponent extends Component<Props> {
           );
         })}
       </React.Fragment>
+    );
+  };
+
+  // Displays user location circle with direction heading on map
+  renderUserLocation = () => {
+    const userLocationStyle =
+      this.state.heading != null
+        ? {
+            iconImage: userLocationBearingImage,
+            // center of image should be the center of the user location circle
+            iconOffset: [0, 10],
+            iconAnchor: 'bottom',
+            iconRotationAlignment: 'map',
+            iconRotate: this.state.heading ?? 180
+          }
+        : {
+            iconImage: userLocationImage
+          };
+    return (
+      <MapboxGL.UserLocation renderMode="custom">
+        <MapboxGL.SymbolLayer id="userLocation" style={userLocationStyle} />
+      </MapboxGL.UserLocation>
     );
   };
 
@@ -931,23 +937,6 @@ class MapComponent extends Component<Props> {
       </View>
     ) : null;
 
-    // Displays user location circle on map
-    const renderUserLocation = (
-      <MapboxGL.UserLocation renderMode={'custom'}>
-        <MapboxGL.SymbolLayer
-          id={'custom-user-symbol'}
-          style={{
-            iconImage: userLocationBearing,
-            iconAnchor: 'bottom',
-            // center of image should be the center of the user location circle
-            iconOffset: [0, 10],
-            iconRotationAlignment: 'map',
-            iconRotate: this.state.userBearing
-          }}
-        />
-      </MapboxGL.UserLocation>
-    );
-
     // Controls view of map (location / zoom)
     const renderMapCamera = (
       <MapboxGL.Camera
@@ -1007,7 +996,7 @@ class MapComponent extends Component<Props> {
             selected={this.isRouteSelected(route?.id)}
             onShapeSourcePressed={this.onShapeSourcePressed}
           />
-          {renderUserLocation}
+          {this.renderUserLocation()}
         </MapboxGL.MapView>
         {renderCustomReportingMarker}
         {this.renderMapFooter()}

@@ -9,6 +9,7 @@ import FWError from 'helpers/fwError';
 import { formatCoordsByFormat, formatDistance, getDistanceOfLine } from 'helpers/map';
 import i18n from 'i18next';
 import _ from 'lodash';
+import CompassHeading from "react-native-compass-heading";
 
 export const GFWLocationAuthorizedAlways = BackgroundGeolocation.AUTHORIZED;
 export const GFWLocationAuthorizedInUse = BackgroundGeolocation.AUTHORIZED_FOREGROUND;
@@ -314,7 +315,9 @@ export function stopTrackingLocation() {
  * @warning This will only emit a GFWOnHeadingEvent when the heading has changed by 3 or more degrees.
  */
 export function startTrackingHeading() {
-  console.warn('3SC', 'Need to re-implement startTrackingHeading');
+  CompassHeading.start(3, degree => {
+    emitter.emit(GFWOnHeadingEvent, degree);
+  });
 }
 
 /**
@@ -324,7 +327,7 @@ export function startTrackingHeading() {
  * @warning It is the responsibility of the implementing app to deregister any emitter listeners within the main app.
  */
 export function stopTrackingHeading() {
-  console.warn('3SC', 'Need to re-implement stopTrackingHeading');
+  CompassHeading.stop();
 }
 
 /**
