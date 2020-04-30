@@ -1,5 +1,5 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { connect } from 'react-redux';
 
@@ -12,7 +12,8 @@ function mapStateToProps(state: State) {
   };
 }
 
-export default connect(
+type PassedProps = ComponentProps<{}, typeof mapStateToProps, *>;
+export default connect<PassedProps, {}, _, _, State, Dispatch>(
   mapStateToProps,
   null
 )(AreaList);
