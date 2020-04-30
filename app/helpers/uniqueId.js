@@ -1,3 +1,4 @@
+// @flow
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -6,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
  *
  * @return {String}
  */
-export default function generateUniqueID() {
-  const guid = uuidv4();
+export default function generateUniqueID(): string {
+  const guid: string = uuidv4();
   return guid;
 }
