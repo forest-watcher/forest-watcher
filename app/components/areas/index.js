@@ -20,6 +20,8 @@ import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
 import { formatBytes } from 'helpers/data';
 
+import Theme from 'config/theme';
+
 const plusIcon = require('assets/add.png');
 const emptyIcon = require('assets/areasEmpty.png');
 
@@ -45,6 +47,9 @@ class Areas extends Component<Props, State> {
   static options(passProps: {}) {
     return {
       topBar: {
+        background: {
+          color: Theme.colors.veryLightPink
+        },
         title: {
           text: i18n.t('areas.title')
         },

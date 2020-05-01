@@ -7,6 +7,8 @@ import i18n from 'i18next';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
+import Theme from 'config/theme';
+
 import Row from 'components/common/row';
 
 const featuresIcon = require('assets/faqFeatures.png');
@@ -23,9 +25,12 @@ type Props = {
 };
 
 export default class FaqCategories extends Component<Props> {
-  static options(passProps) {
+  static options(passProps: {}) {
     return {
       topBar: {
+        background: {
+          color: Theme.colors.veryLightPink
+        },
         title: {
           text: i18n.t('faq.categories.title')
         }

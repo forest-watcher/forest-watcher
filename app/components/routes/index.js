@@ -19,7 +19,7 @@ import ShareSheet from 'components/common/share';
 import VerticalSplitRow from 'components/common/vertical-split-row';
 
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
-import { isSmallScreen } from 'config/theme';
+import Theme, { isSmallScreen } from 'config/theme';
 
 import exportLayerManifest from 'helpers/sharing/exportLayerManifest';
 import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
@@ -51,6 +51,9 @@ export default class Routes extends PureComponent<Props, State> {
   static options(passProps: {}) {
     return {
       topBar: {
+        background: {
+          color: Theme.colors.veryLightPink
+        },
         title: {
           text: i18n.t('dashboard.routes')
         }

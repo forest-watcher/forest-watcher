@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import Hyperlink from 'react-native-hyperlink';
 import { View, Text } from 'react-native';
@@ -7,7 +9,16 @@ import i18n from 'i18next';
 import Theme from 'config/theme';
 import styles from './styles';
 
-class ContactUs extends Component {
+class ContactUs extends Component<{}> {
+  static options(passProps: {}) {
+    return {
+      topBar: {
+        background: {
+          color: Theme.colors.veryLightPink
+        }
+      }
+    };
+  }
   componentDidMount() {
     tracker.trackScreenView('ContactUs');
   }

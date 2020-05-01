@@ -21,6 +21,9 @@ class SetupCountry extends Component {
   static options(passProps) {
     return {
       topBar: {
+        background: {
+          color: Theme.colors.veryLightPink
+        },
         leftButtons: passProps.goBackDisabled
           ? [
               {
