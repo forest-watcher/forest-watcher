@@ -39,7 +39,8 @@ export default class Reports extends Component<Props> {
       date: moment(report.date),
       type: 'report',
       name: i18n.t('map.layerSettings.report'),
-      imported: report.imported
+      imported: report.imported,
+      featureId: report.title
     };
     const position = report.userPosition
       .split(',')

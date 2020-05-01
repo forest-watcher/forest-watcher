@@ -70,6 +70,10 @@ import Alerts from 'components/map/alerts';
 import { formatInfoBannerDate } from 'helpers/date';
 import Reports from 'containers/map/reports';
 
+import {
+  initialWindowSafeAreaInsets
+} from 'react-native-safe-area-context';
+
 const emitter = require('tiny-emitter/instance');
 
 const { width, height } = Dimensions.get('window');
@@ -82,7 +86,7 @@ const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN = 0;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_EXITING = 1;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_STOPPING = 2;
 
-const DISMISSED_INFO_BANNER_POSTIION = 200;
+const DISMISSED_INFO_BANNER_POSTIION = 200 + initialWindowSafeAreaInsets.bottom;
 
 /**
  * Elapsed time in milliseconds after which we should consider the most recent location "stale", presumably because we

@@ -1,5 +1,6 @@
 export const mapboxStyles = {
   alert: {
+    iconRotationAlignment: 'map',
     iconAllowOverlap: true,
     iconSize: ['interpolate', ['exponential', 2], ['zoom'], 16, 0.8325, 19, 6.67],
     iconImage: ['get', 'icon'],
