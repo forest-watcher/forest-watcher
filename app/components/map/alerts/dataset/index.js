@@ -12,10 +12,12 @@ import queryAlerts from 'helpers/alert-store/queryAlerts';
 import generateUniqueID from 'helpers/uniqueId';
 
 type Props = {|
+  +areaId?: ?string,
   +isActive: boolean,
   +onPress?: ?() => any,
   +slug: 'umd_as_it_happens' | 'viirs',
-  +timeframe: number
+  +timeframe: number,
+  +timeframeUnit: 'days' | 'months'
 |};
 
 type State = {|
@@ -43,14 +45,16 @@ export default class AlertDataset extends Component<Props, State> {
     if (
       this.props.slug !== prevProps.slug ||
       this.props.isActive !== prevProps.isActive ||
-      this.props.timeframe !== prevProps.timeframe
+      this.props.timeframe !== prevProps.timeframe ||
+      this.props.timeframeUnit !== prevProps.timeframeUnit ||
+      this.props.areaId !== prevProps.areaId
     ) {
       this._refreshAlerts();
     }
   }
 
   _refreshAlerts = async () => {
-    const { isActive, slug, timeframe } = this.props;
+    const { areaId, isActive, slug, timeframe, timeframeUnit } = this.props;
 
     // Reset the data in state before retrieving the updated data
     this.setState(state => ({
@@ -64,7 +68,12 @@ export default class AlertDataset extends Component<Props, State> {
     try {
       const requestId = generateUniqueID();
       this.activeRequestId = requestId;
-      const alerts = await queryAlerts({ dataset: slug, daysAgoMax: timeframe, distinctLocations: true });
+      const alerts = await queryAlerts({
+        areaId: areaId ?? undefined,
+        dataset: slug,
+        timeAgo: { max: timeframe, unit: timeframeUnit },
+        distinctLocations: true
+      });
       if (requestId === this.activeRequestId) {
         this.setState(state => ({
           alerts

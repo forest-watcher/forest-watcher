@@ -6,8 +6,7 @@ import { initDb } from 'helpers/alert-store/database';
 export type AlertsQuery = {|
   +areaId?: string,
   +dataset?: string,
-  +daysAgoMin?: number,
-  +daysAgoMax?: number,
+  +timeAgo?: { min?: number, max?: number, unit: string },
 
   /**
    * Flag indicating whether we should remove alerts corresponding to the same location
@@ -36,7 +35,7 @@ export default function queryAlerts(query: AlertsQuery): Promise<Array<Alert>> {
  * Synchronous method of the above, because Realm works synchronously
  */
 export function queryAlertsSync(query: AlertsQuery): Array<Alert> {
-  const { areaId, dataset, daysAgoMin, daysAgoMax, distinctLocations } = query;
+  const { areaId, dataset, timeAgo, distinctLocations } = query;
   const db = initDb();
 
   const predicateParts = [];
@@ -49,18 +48,17 @@ export function queryAlertsSync(query: AlertsQuery): Array<Alert> {
     predicateParts.push(`slug = '${dataset}'`);
   }
 
-  if (daysAgoMax !== undefined) {
-    const date = moment()
-      .subtract(daysAgoMax, 'day')
-      .valueOf();
-    predicateParts.push(`date > '${date}'`);
-  }
-
-  if (daysAgoMin !== undefined) {
-    const date = moment()
-      .subtract(daysAgoMin, 'day')
-      .valueOf();
-    predicateParts.push(`date < '${date}'`);
+  if (timeAgo) {
+    const units = timeAgo.unit;
+    const now = moment();
+    if (timeAgo.max !== undefined) {
+      const date = now.subtract(timeAgo.max, units).valueOf();
+      predicateParts.push(`date > '${date}'`);
+    }
+    if (timeAgo.min !== undefined) {
+      const date = now.subtract(timeAgo.min, units).valueOf();
+      predicateParts.push(`date < '${date}'`);
+    }
   }
 
   const predicateString = predicateParts.join(' AND ') || 'TRUEPREDICATE';

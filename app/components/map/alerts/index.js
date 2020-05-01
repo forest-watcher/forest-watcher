@@ -19,6 +19,7 @@ type AlertLayerSettingsType = {
 
 type Props = {|
   +alertLayerSettings: AlertLayerSettingsType,
+  +areaId?: ?string,
   +onShapeSourcePressed?: () => void
 |};
 
@@ -51,14 +52,18 @@ export default class Alerts extends Component<Props> {
         />
         <AlertDataset
           slug={'viirs'}
+          areaId={this.props.areaId}
           isActive={this.props.alertLayerSettings.viirs.active}
           timeframe={this.props.alertLayerSettings.viirs.timeFrame}
+          timeframeUnit={'days'}
           onPress={this.props.onShapeSourcePressed}
         />
         <AlertDataset
           slug={'umd_as_it_happens'}
+          areaId={this.props.areaId}
           isActive={this.props.alertLayerSettings.glad.active}
           timeframe={this.props.alertLayerSettings.glad.timeFrame}
+          timeframeUnit={'months'}
           onPress={this.props.onShapeSourcePressed}
         />
       </View>

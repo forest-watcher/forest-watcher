@@ -34,7 +34,7 @@ export function storeAlertsFromCsvSync(areaId: string, slug: string, alerts: str
         deleteAlertsSync({
           areaId: areaId,
           dataset: slug,
-          daysAgoMin: daysFromRange
+          timeAgo: { min: daysFromRange, unit: 'days' }
         });
       } catch (e) {
         console.warn('Error cleaning db', e);
