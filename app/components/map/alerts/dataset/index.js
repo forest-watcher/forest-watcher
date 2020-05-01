@@ -22,6 +22,9 @@ type State = {|
   +alerts: Array<Alert>
 |};
 
+/**
+ * Displays the alerts corresponding to the specified dataset and other criteria
+ */
 export default class AlertDataset extends Component<Props, State> {
   activeRequestId: ?string;
 

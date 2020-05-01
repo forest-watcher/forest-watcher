@@ -5,10 +5,15 @@ import CONSTANTS from 'config/constants';
 import { deleteAlertsSync } from 'helpers/alert-store/deleteAlerts';
 const d3Dsv = require('d3-dsv');
 
-export default function storeAlerts(areaId: string, slug: string, alerts: string, range: number): Promise<void> {
+/**
+ * Asynchronously parse the CSV blob and store it into the database
+ *
+ * This is intended to parse CSV in the format returned by the fw-alerts endpoint
+ */
+export default function storeAlertsFromCsv(areaId: string, slug: string, alerts: string, range: number): Promise<void> {
   return new Promise((resolve, reject) => {
     try {
-      storeAlertsSync(areaId, slug, alerts, range);
+      storeAlertsFromCsvSync(areaId, slug, alerts, range);
       resolve();
     } catch (err) {
       reject(err);
@@ -16,7 +21,10 @@ export default function storeAlerts(areaId: string, slug: string, alerts: string
   });
 }
 
-export function storeAlertsSync(areaId: string, slug: string, alerts: string, range: number) {
+/**
+ * Synchronous method of the above, because Realm works synchronously
+ */
+export function storeAlertsFromCsvSync(areaId: string, slug: string, alerts: string, range: number) {
   if (alerts && alerts.length > 0) {
     const realm = initDb();
     if (range) {

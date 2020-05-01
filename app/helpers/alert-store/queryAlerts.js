@@ -8,9 +8,19 @@ export type AlertsQuery = {|
   +dataset?: string,
   +daysAgoMin?: number,
   +daysAgoMax?: number,
+
+  /**
+   * Flag indicating whether we should remove alerts corresponding to the same location
+   *
+   * For instance, if we're querying alerts to display on a map then it doesn't make sense to have two alerts in the
+   * same geographic coordinate
+   */
   +distinctLocations?: boolean
 |};
 
+/**
+ * Asynchronously performs the specified alerts query
+ */
 export default function queryAlerts(query: AlertsQuery): Promise<Array<Alert>> {
   return new Promise((resolve, reject) => {
     try {
@@ -22,6 +32,9 @@ export default function queryAlerts(query: AlertsQuery): Promise<Array<Alert>> {
   });
 }
 
+/**
+ * Synchronous method of the above, because Realm works synchronously
+ */
 export function queryAlertsSync(query: AlertsQuery): Array<Alert> {
   const { areaId, dataset, daysAgoMin, daysAgoMax, distinctLocations } = query;
   const db = initDb();
@@ -50,7 +63,6 @@ export function queryAlertsSync(query: AlertsQuery): Array<Alert> {
     predicateParts.push(`date < '${date}'`);
   }
 
-  console.warn('3SC', 'queryAlerts', predicateParts);
   const predicateString = predicateParts.join(' AND ') || 'TRUEPREDICATE';
   const queryParts = [predicateString, 'SORT(date DESC)'];
 

@@ -10,7 +10,7 @@ import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { UPLOAD_REPORT_REQUEST } from 'redux-modules/reports';
 import { RETRY_SYNC } from 'redux-modules/app';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
-import storeAlerts from 'helpers/alert-store/storeAlerts';
+import storeAlertsFromCsv from 'helpers/alert-store/storeAlertsFromCsv';
 import deleteAlerts from 'helpers/alert-store/deleteAlerts';
 
 const SET_CAN_DISPLAY_ALERTS = 'alerts/SET_CAN_DISPLAY_ALERTS';
@@ -66,7 +66,7 @@ export default function reducer(state: AlertsState = initialState, action: Alert
       const queue: Array<string> = state.queue.filter(item => item !== alertId);
 
       if (action.payload) {
-        storeAlerts(area.id, datasetSlug, action.payload, range);
+        storeAlertsFromCsv(area.id, datasetSlug, action.payload, range);
       }
       return { ...state, queue, cache };
     }
