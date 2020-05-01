@@ -30,8 +30,8 @@ function* syncAlertDatasets({ area, cache }): Generator<*, *, *> {
 
 export function* getAlertsOnAreasCommit(): Generator<*, *, *> {
   function* syncAlertsSaga(): Generator<*, *, *> {
+    const areas = yield select((state: State) => state.areas.data);
     const cache = yield select((state: State) => state.alerts.cache);
-
     yield all(areas.map(area => fork(syncAlertDatasets, { area, cache })));
   }
 
@@ -40,8 +40,8 @@ export function* getAlertsOnAreasCommit(): Generator<*, *, *> {
 
 export function* getAlertsOnAreaCreation(): Generator<*, *, *> {
   function* readSaveAreaPayload(action): Generator<*, *, *> {
-    const data = yield select((state: State) => state.alerts.data);
-    yield fork(syncAlertDatasets, { area: action.payload, data });
+    const cache = yield select((state: State) => state.alerts.cache);
+    yield fork(syncAlertDatasets, { area: action.payload, cache });
   }
 
   yield takeEvery(SAVE_AREA_COMMIT, readSaveAreaPayload);

@@ -1,30 +1,35 @@
 // @flow
 
-import { initDb, read } from 'helpers/alert-store/database';
+import { initDb } from 'helpers/alert-store/database';
 import CONSTANTS from 'config/constants';
-import moment from 'moment';
+import { deleteAlertsSync } from 'helpers/alert-store/deleteAlerts';
 const d3Dsv = require('d3-dsv');
 
-export default function storeAlerts(areaId: string, slug: string, alerts: string, range: number) {
+export default function storeAlerts(areaId: string, slug: string, alerts: string, range: number): Promise<void> {
+  return new Promise((resolve, reject) => {
+    try {
+      storeAlertsSync(areaId, slug, alerts, range);
+      resolve();
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
+export function storeAlertsSync(areaId: string, slug: string, alerts: string, range: number) {
   if (alerts && alerts.length > 0) {
     const realm = initDb();
     if (range) {
       const daysFromRange =
         CONSTANTS.areas.alertRange[slug] - range > 0 ? CONSTANTS.areas.alertRange[slug] - range : range; // just in case we are more outdated than a year
-      const oldAlertsRange = moment()
-        .subtract(daysFromRange, 'days')
-        .valueOf();
-      const existingAlerts = read(realm, 'Alert').filtered(
-        `areaId = '${areaId}' AND slug = '${slug}' AND date < '${oldAlertsRange}'`
-      );
-      if (existingAlerts.length > 0) {
-        try {
-          realm.write(() => {
-            realm.delete(existingAlerts);
-          });
-        } catch (e) {
-          console.warn('Error cleaning db', e);
-        }
+      try {
+        deleteAlertsSync({
+          areaId: areaId,
+          dataset: slug,
+          daysAgoMin: daysFromRange
+        });
+      } catch (e) {
+        console.warn('Error cleaning db', e);
       }
     }
     const alertsArray = d3Dsv.csvParse(alerts);

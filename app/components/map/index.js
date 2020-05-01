@@ -66,7 +66,7 @@ import type { Route } from 'types/routes.types';
 import type { File } from 'types/file.types';
 import InfoBanner from 'components/map/info-banner';
 import type { LayerSettings } from 'types/layerSettings.types';
-import Alerts from 'containers/map/alerts';
+import Alerts from 'components/map/alerts';
 import { formatInfoBannerDate } from 'helpers/date';
 import Reports from 'containers/map/reports';
 
@@ -971,8 +971,7 @@ class MapComponent extends Component<Props> {
           )}
           {this.renderDestinationLine()}
           <Alerts
-            featureId={this.getFeatureId()}
-            areaId={this.props.area.id}
+            alertLayerSettings={this.props.layerSettings.alerts}
             onShapeSourcePressed={this.onShapeSourcePressed}
           />
           <Reports featureId={this.getFeatureId()} onShapeSourcePressed={this.onShapeSourcePressed} />
