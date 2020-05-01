@@ -891,6 +891,11 @@ class MapComponent extends Component<Props> {
           onRegionDidChange={this.onRegionDidChange}
           onPress={this.onMapPress}
         >
+          {basemap.tileUrl && (
+            <MapboxGL.RasterSource id="basemapTiles" url={basemap.tileUrl}>
+              <MapboxGL.RasterLayer id="basemapTileLayer" />
+            </MapboxGL.RasterSource>
+          )}
           {renderMapCamera}
           {this.renderAreaOutline()}
           {layerSettings.routes.layerIsActive && this.renderAllRoutes()}

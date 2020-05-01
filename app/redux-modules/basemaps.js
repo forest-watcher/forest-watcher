@@ -15,12 +15,14 @@ const allDefaultMapboxStyles = [
   [
     'mapbox://styles/resourcewatch/cjww89e5j08o91cmjsbrd47qt?fresh=true',
     'Satellite',
-    require('assets/basemap_satellite.png')
+    require('assets/basemap_satellite.png'),
+    'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}'
   ],
   [
     'mapbox://styles/resourcewatch/cjww8drml27wc1cn3mk2872h9?fresh=true',
     'Landsat',
-    require('assets/basemap_landsat.png')
+    require('assets/basemap_landsat.png'),
+    'https://production-api.globalforestwatch.org/v2/landsat-tiles/2017/{z}/{x}/{y}'
   ]
 ];
 
@@ -30,7 +32,8 @@ const mapboxBasemaps: Array<Basemap> = allDefaultMapboxStyles.map(style => {
     styleURL: style[0],
     id: style[0],
     name: style[1],
-    image: style[2]
+    image: style[2],
+    tileUrl: style.length > 3 ? style[3] : undefined
   };
 });
 
