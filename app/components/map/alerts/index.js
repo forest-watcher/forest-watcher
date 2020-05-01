@@ -53,12 +53,14 @@ export default class Alerts extends Component<Props> {
           slug={'viirs'}
           isActive={this.props.alertLayerSettings.viirs.active}
           timeframe={this.props.alertLayerSettings.viirs.timeFrame}
+          timeframeUnit={'days'}
           onPress={this.props.onShapeSourcePressed}
         />
         <AlertDataset
           slug={'umd_as_it_happens'}
           isActive={this.props.alertLayerSettings.glad.active}
           timeframe={this.props.alertLayerSettings.glad.timeFrame}
+          timeframeUnit={'months'}
           onPress={this.props.onShapeSourcePressed}
         />
       </View>

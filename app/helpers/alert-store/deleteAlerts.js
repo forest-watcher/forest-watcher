@@ -6,7 +6,7 @@ import { type AlertsQuery, queryAlertsSync } from 'helpers/alert-store/queryAler
 /**
  * Asynchronously performs the specified query and then deletes the returned alerts
  */
-export default function deleteAlerts(query: AlertsQuery): Promise<void> {
+export default function deleteAlerts(query?: AlertsQuery = Object.freeze({})): Promise<void> {
   return new Promise((resolve, reject) => {
     try {
       deleteAlertsSync(query);
@@ -20,7 +20,7 @@ export default function deleteAlerts(query: AlertsQuery): Promise<void> {
 /**
  * Synchronous method of the above, because Realm works synchronously
  */
-export function deleteAlertsSync(query: AlertsQuery) {
+export function deleteAlertsSync(query?: AlertsQuery = Object.freeze({})) {
   const realm = initDb();
   const alerts = queryAlertsSync(query);
 
