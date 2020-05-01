@@ -22,7 +22,7 @@ import displayExportReportDialog from 'helpers/sharing/displayExportReportDialog
 import exportLayerManifest from 'helpers/sharing/exportLayerManifest';
 import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
-import { formatBytes } from 'helpers/data';
+import { getShareButtonText } from 'helpers/sharing/utils';
 
 const editIcon = require('assets/edit.png');
 const emptyIcon = require('assets/reportsEmpty.png');
@@ -451,17 +451,8 @@ class Reports extends PureComponent<Props, State> {
               ? i18n.t('report.export.manyReports', { count: totalReports })
               : i18n.t('report.export.oneReport', { count: 1 })
           }
-          shareButtonDisabledTitle={i18n.t('report.share')}
-          shareButtonEnabledTitle={
-            totalToExport > 0
-              ? i18n.t('report.export.reportSizeAction', {
-                  bundleSize:
-                    this.state.bundleSize !== undefined
-                      ? formatBytes(this.state.bundleSize)
-                      : i18n.t('commonText.calculating')
-                })
-              : i18n.t('report.export.noneSelected')
-          }
+          shareButtonDisabledTitle={i18n.t('sharing.title', { type: 'Report' })}
+          shareButtonEnabledTitle={getShareButtonText('Report', totalToExport, this.state.bundleSize)}
         >
           {this.renderReportsScrollView(this.state.inShareMode)}
         </ShareSheet>

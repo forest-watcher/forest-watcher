@@ -18,7 +18,7 @@ import ShareSheet from 'components/common/share';
 import exportLayerManifest from 'helpers/sharing/exportLayerManifest';
 import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
-import { formatBytes } from 'helpers/data';
+import { getShareButtonText } from 'helpers/sharing/utils';
 
 const plusIcon = require('assets/add.png');
 const emptyIcon = require('assets/areasEmpty.png');
@@ -266,7 +266,6 @@ class Areas extends Component<Props, State> {
             this.props.setAreaDownloadTooltipSeen(true);
             return false;
           }}
-          shareButtonDisabledTitle={i18n.t('areas.share')}
           enabled={totalToExport > 0}
           onShare={() => {
             this.onExportAreasTapped(this.state.selectedForExport);
@@ -282,16 +281,8 @@ class Areas extends Component<Props, State> {
               ? i18n.t('areas.export.manyAreas', { count: totalAreas })
               : i18n.t('areas.export.oneArea', { count: 1 })
           }
-          shareButtonEnabledTitle={
-            totalToExport > 0
-              ? i18n.t('areas.export.areaSizeAction', {
-                  bundleSize:
-                    this.state.bundleSize !== undefined
-                      ? formatBytes(this.state.bundleSize)
-                      : i18n.t('commonText.calculating')
-                })
-              : i18n.t('areas.export.noneSelected')
-          }
+          shareButtonDisabledTitle={i18n.t('sharing.title', { type: 'Area' })}
+          shareButtonEnabledTitle={getShareButtonText('Area', totalToExport, this.state.bundleSize)}
         >
           {hasAreas ? (
             <ScrollView

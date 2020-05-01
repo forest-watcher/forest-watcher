@@ -24,7 +24,7 @@ import { isSmallScreen } from 'config/theme';
 import exportLayerManifest from 'helpers/sharing/exportLayerManifest';
 import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
-import { formatBytes } from 'helpers/data';
+import { getShareButtonText } from 'helpers/sharing/utils';
 
 const nextIcon = require('assets/next.png');
 const emptyIcon = require('assets/routesEmpty.png');
@@ -327,31 +327,6 @@ export default class Routes extends PureComponent<Props, State> {
     );
   }
 
-  /**
-   * getShareButtonText - given the total number of routes to share, returns the
-   * text that should be shown in the button.
-   *
-   * @param {number} totalToShare the amount of routes that should be shared.
-   * @param {?number} bundleSize the size of the shareable bundle.
-   *
-   * @returns {string}
-   */
-  getShareButtonText = (totalToShare: number, bundleSize: ?number): string => {
-    if (totalToShare === 0) {
-      return i18n.t('routes.sharing.noneSelected');
-    }
-
-    let transifexKey = 'routes.sharing.multipleRoutes';
-
-    if (totalToShare === 1) {
-      transifexKey = 'routes.sharing.oneRoute';
-    }
-
-    return i18n.t(transifexKey, {
-      bundleSize: bundleSize !== undefined ? formatBytes(bundleSize) : i18n.t('commonText.calculating')
-    });
-  };
-
   render() {
     // Determine if we're in export mode, and how many routes have been selected to export.
     const totalToExport = this.state.selectedForExport.length;
@@ -377,8 +352,8 @@ export default class Routes extends PureComponent<Props, State> {
               ? i18n.t('routes.export.manyRoutes', { count: totalRoutes })
               : i18n.t('routes.export.oneRoute', { count: 1 })
           }
-          shareButtonDisabledTitle={i18n.t('routes.sharing.title')}
-          shareButtonEnabledTitle={this.getShareButtonText(totalToExport, this.state.bundleSize)}
+          shareButtonDisabledTitle={i18n.t('sharing.title', { type: 'Route' })}
+          shareButtonEnabledTitle={getShareButtonText('Route', totalToExport, this.state.bundleSize)}
         >
           {this.renderRoutes(this.props.routes, this.state.inShareMode)}
         </ShareSheet>
