@@ -9,6 +9,7 @@ import type { Alert } from 'types/alerts.types';
 import { DATASETS } from 'config/constants';
 import i18n from 'i18next';
 import moment from 'moment';
+import { featureCollection, point } from '@turf/helpers';
 
 type AlertLayerSettingsType = {
   layerIsActive: boolean,
@@ -64,9 +65,9 @@ export default class Alerts extends Component<Props> {
         name: alertName,
         reported: false
       };
-      return MapboxGL.geoUtils.makePoint([alert.lon, alert.lat], properties);
+      return point([alert.lon, alert.lat], properties);
     });
-    const alertsFeatureCollection = MapboxGL.geoUtils.makeFeatureCollection(alertFeatures);
+    const alertsFeatureCollection = featureCollection(alertFeatures);
     const circleColor = viirsAlertType ? Theme.colors.viirs : Theme.colors.glad;
     const onPress = this.props.onShapeSourcePressed || null;
     return (

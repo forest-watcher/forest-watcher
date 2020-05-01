@@ -70,6 +70,7 @@ import Alerts from 'containers/map/alerts';
 import { formatInfoBannerDate } from 'helpers/date';
 import Reports from 'containers/map/reports';
 import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
+import { lineString } from '@turf/helpers';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -741,7 +742,7 @@ class MapComponent extends Component<Props> {
 
     let line = null;
     if (bothValidLocations) {
-      line = MapboxGL.geoUtils.makeLineString([coordsObjectToArray(userLocation), destinationCoords]);
+      line = lineString([coordsObjectToArray(userLocation), destinationCoords]);
     }
     return (
       <MapboxGL.ShapeSource id="destLine" shape={line}>
@@ -756,7 +757,7 @@ class MapComponent extends Component<Props> {
     if (!coords || coords.length < 2) {
       return null;
     }
-    const line = MapboxGL.geoUtils.makeLineString(coords);
+    const line = lineString(coords);
     return (
       <MapboxGL.ShapeSource id="areaOutline" shape={line}>
         <MapboxGL.LineLayer id="areaOutlineLayer" style={mapboxStyles.areaOutline} />
