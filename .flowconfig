@@ -18,6 +18,8 @@ node_modules/warning/.*
 ; Ignore react-native-keyboard-aware-scroll-view
 .*/node_modules/react-native-image-picker/.*
 .*/node_modules/react-native-keyboard-aware-scroll-view/.*
+.*/node_modules/react-native-safe-area/.*
+.*/node_modules/react-native-fs/.*
 
 [untyped]
 .*/node_modules/@react-native-community/cli/.*/.*

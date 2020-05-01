@@ -7,7 +7,7 @@ import i18n from 'i18next';
  * @param {number} bytes - The byte count to format
  * @return {string} A localised, readable version of the byte count
  */
-export function formatBytes(bytes: number) {
+export function formatBytes(bytes: number): string {
   const digitGroup = bytes < 1 ? 0 : Math.floor(Math.log10(bytes) / Math.log10(1024));
   const value = bytes / Math.pow(1024, digitGroup);
 

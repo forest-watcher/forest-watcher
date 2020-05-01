@@ -1,4 +1,10 @@
+// @flow
+
+import type { Location, ServiceStatus } from '@mauron85/react-native-background-geolocation';
 import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
+
+import type { Coordinates, CoordinatesFormat } from 'types/common.types';
+import type { LocationPoint, Route } from 'types/routes.types';
 import { Linking, PermissionsAndroid, Platform } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 
@@ -34,7 +40,7 @@ let mostRecentLocation = null;
  *
  * @return {Promise}
  */
-export async function initialiseLocationFramework() {
+export async function initialiseLocationFramework(): Promise<void> {
   return await configureLocationFramework({
     desiredAccuracy: BackgroundGeolocation.HIGH_ACCURACY,
     ...LOCATION_TRACKING
@@ -46,7 +52,7 @@ export async function initialiseLocationFramework() {
  *
  * @return {Promise}
  */
-async function configureLocationFramework(configuration) {
+async function configureLocationFramework(configuration): Promise<void> {
   return await new Promise((resolve, reject) => {
     BackgroundGeolocation.configure(configuration, resolve, resolve);
   });
@@ -57,7 +63,7 @@ async function configureLocationFramework(configuration) {
  *
  * @return {Promise}
  */
-async function getConfiguration() {
+async function getConfiguration(): Promise<void> {
   return await new Promise((resolve, reject) => {
     BackgroundGeolocation.getConfig(resolve, reject);
   });
@@ -88,7 +94,7 @@ export function showAppSettings() {
  *
  * @return {Promise}
  */
-export async function checkLocationStatus() {
+export async function checkLocationStatus(): Promise<ServiceStatus> {
   return await new Promise((resolve, reject) => {
     BackgroundGeolocation.checkStatus(
       (isRunning, locationServicesEnabled, authorizationStatus) => {
@@ -106,7 +112,7 @@ export async function checkLocationStatus() {
  *
  * @param {function}  grantedCallback A callback that'll be executed if the user gives permission for us to access their location.
  */
-async function requestAndroidLocationPermissions() {
+async function requestAndroidLocationPermissions(): Promise<boolean> {
   const permissionResult = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
   return permissionResult === true || permissionResult === PermissionsAndroid.RESULTS.GRANTED;
 }
@@ -114,7 +120,7 @@ async function requestAndroidLocationPermissions() {
 /**
  * Wrapper function around BackgroundGeolocation.getCurrentLocation that turns it from callback-based to promise-based
  */
-export async function getCurrentLocation() {
+export async function getCurrentLocation(): Promise<Location> {
   const result = await checkLocationStatus();
 
   if (!result.locationServicesEnabled) {
@@ -156,7 +162,7 @@ export async function getCurrentLocation() {
  * @param  {array<LocationPoint>} completion.locations An array of location placemarks, that were retrieved from the database.
  * @param  {object}               completion.error An error that occurred while attempting to fetch locations.
  */
-export function getValidLocations(completion) {
+export function getValidLocations(completion: (?Array<Location>, ?Error) => void) {
   BackgroundGeolocation.getValidLocations(
     locations => {
       const mappedLocations = locations.map(location => {
@@ -176,7 +182,7 @@ export function getValidLocations(completion) {
  * @param  {object} location A location object, returned from BackgroundGeolocation.
  * @return {LocationPoint}   A LocationPoint object generated from the given location
  */
-function createCompactedLocation(location) {
+function createCompactedLocation(location: Location): LocationPoint {
   return {
     accuracy: location.accuracy,
     altitude: location.altitude,
@@ -189,7 +195,7 @@ function createCompactedLocation(location) {
 /**
  * Wrapper function around BackgroundGeolocation.deleteAllLocations that turns it from callback-based to promise-based
  */
-export async function deleteAllLocations() {
+export async function deleteAllLocations(): Promise<void> {
   return await new Promise((resolve, reject) => {
     BackgroundGeolocation.deleteAllLocations(resolve, reject);
   });
@@ -206,7 +212,7 @@ export async function deleteAllLocations() {
  *  Resolves if location tracking was started successfully, rejects if it could not obtain sufficient permissions or
  *  location is disabled
  */
-export async function startTrackingLocation(requiredPermission) {
+export async function startTrackingLocation(requiredPermission: number) {
   const result = await checkLocationStatus();
 
   if (!result.locationServicesEnabled) {
@@ -293,7 +299,7 @@ export async function startTrackingLocation(requiredPermission) {
   BackgroundGeolocation.start();
 }
 
-function emitLocationUpdate(location) {
+function emitLocationUpdate(location: Location) {
   emitter.emit(GFWOnLocationEvent, createCompactedLocation(location));
 }
 
@@ -331,11 +337,11 @@ export function stopTrackingHeading() {
  * getCoordinateAndDistanceText - Returns the location and distance text.
  */
 export function getCoordinateAndDistanceText(
-  destinationCoordinates,
-  lastPosition,
-  route,
-  coordinatesFormat,
-  isRouteTracking
+  destinationCoordinates: Array<number>,
+  lastPosition: ?Coordinates,
+  route: Route,
+  coordinatesFormat: CoordinatesFormat,
+  isRouteTracking: boolean
 ) {
   if (isRouteTracking) {
     // Show the destination coordinates.
@@ -348,7 +354,11 @@ export function getCoordinateAndDistanceText(
   }
 }
 
-function getCoordinateText(targetLocation, currentLocation, coordinatesFormat) {
+function getCoordinateText(
+  targetLocation: ?Coordinates,
+  currentLocation: ?Coordinates,
+  coordinatesFormat: CoordinatesFormat
+) {
   if (targetLocation && currentLocation) {
     const distance = getDistanceOfLine(targetLocation, currentLocation);
 
@@ -361,26 +371,26 @@ function getCoordinateText(targetLocation, currentLocation, coordinatesFormat) {
 }
 
 // [1, 2] -> {latitude: 2, longitude: 1}
-export function coordsArrayToObject(coord) {
+export function coordsArrayToObject(coord: ?Array<number>) {
   return { latitude: coord?.[1], longitude: coord?.[0] };
 }
 // {latitude: 2, longitude: 1} -> [1, 2]
-export function coordsObjectToArray(coord) {
+export function coordsObjectToArray(coord: ?Coordinates) {
   return [coord?.longitude, coord?.latitude];
 }
 
 // returns true for valid lat lng values: { latitude: -1.00, longitude: 50.00 }
-export function isValidLatLng(location) {
+export function isValidLatLng(location: { latitude: string, longitude: string }) {
   return !isNaN(Number.parseFloat(location.latitude)) && !isNaN(Number.parseFloat(location.longitude));
 }
 
 // returns true for valid lat lng array: [50.00, -1.00]
-export function isValidLatLngArray(location) {
+export function isValidLatLngArray(location: Array<string>) {
   return !isNaN(Number.parseFloat(location[1])) && !isNaN(Number.parseFloat(location[0]));
 }
 
 // removes locations with the same position as the previous location in the route
-export function removeDuplicateLocations(locations) {
+export function removeDuplicateLocations(locations: ?Array<Location>) {
   if (!locations) {
     return null;
   }

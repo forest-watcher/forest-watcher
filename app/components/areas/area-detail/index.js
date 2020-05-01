@@ -1,6 +1,7 @@
 // @flow
 import type { Area } from 'types/areas.types';
 import type { Route } from 'types/routes.types';
+import type { Dispatch, GetState } from 'types/store.types';
 
 import React, { Component } from 'react';
 import { Alert, View, Image, ScrollView, Text, TextInput, TouchableHighlight } from 'react-native';
@@ -86,7 +87,9 @@ class AreaDetail extends Component<Props, State> {
     this.setState({ name });
   };
 
+  // $FlowFixMe
   onNameSubmit = debounceUI((ev: SyntheticInputEvent<*>) => {
+    // $FlowFixMe
     const newName = ev.nativeEvent.text;
     const { name } = this.props.area;
     if (newName && newName !== name) {

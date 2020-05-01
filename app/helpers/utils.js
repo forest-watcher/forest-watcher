@@ -1,6 +1,10 @@
+// @flow
+
 import _ from 'lodash';
 
-export function hexToRgb(hex) {
+type ObjectOrArray = Object | Array<any>;
+
+export function hexToRgb(hex: string): string {
   if (!hex) {
     return '';
   }
@@ -18,7 +22,7 @@ export function hexToRgb(hex) {
  *
  * @param {Object|Array} obj The object to remove nulls from
  */
-export function removeNulls(obj) {
+export function removeNulls(obj: ObjectOrArray): ObjectOrArray {
   return (function prune(current) {
     _.forOwn(current, function(value, key) {
       if (_.isUndefined(value) || _.isNull(value) || _.isNaN(value)) {
@@ -39,8 +43,9 @@ export function removeNulls(obj) {
  *
  * @param {Object|Array} obj The object to check if empty
  */
-export function isEmpty(obj) {
+export function isEmpty(obj: ObjectOrArray): ObjectOrArray {
   if (_.isObject(obj)) {
+    // $FlowFixMe
     if (Object.keys(obj).length === 0) return true;
     return _.every(_.map(obj, v => isEmpty(v)));
   } else if (_.isString(obj)) {

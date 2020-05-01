@@ -11,7 +11,7 @@ const reportNameRegex = /-([A-Z]+)-REPORT--\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d/;
  * @param {string} reportName - The report name to convert
  * @return {string} A localised, readable version of the string
  */
-export function readableNameForReportName(reportName: string) {
+export function readableNameForReportName(reportName: string): string {
   const result = reportName.match(reportNameRegex);
   if (!result || result.length < 2) {
     return reportName;

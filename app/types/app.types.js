@@ -32,7 +32,8 @@ export type AppAction =
   | SaveLastActions
   | ShowConnectionRequired
   | ShowOfflineModeIsOn
-  | LogoutRequest;
+  | LogoutRequest
+  | ShowExportReportsSuccessfulNotification;
 
 export type SetOfflineMode = { type: 'app/SET_OFFLINE_MODE', payload: boolean };
 export type SetLanguage = { type: 'app/SET_LANGUAGE', payload: string };
@@ -47,3 +48,4 @@ export type SaveLastActions = { type: 'app/SAVE_LAST_ACTIONS', payload: AnyActio
 export type RetrySync = { type: 'app/RETRY_SYNC' };
 export type ShowConnectionRequired = { type: 'app/SHOW_CONNECTION_REQUIRED' };
 export type ShowOfflineModeIsOn = { type: 'app/SHOW_OFFLINE_MODE_IS_ON' };
+export type ShowExportReportsSuccessfulNotification = { type: 'app/EXPORT_REPORTS_SUCCESSFUL' };
