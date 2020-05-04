@@ -155,7 +155,8 @@ export default class AlertDataset extends Component<Props, State> {
       <MapboxGL.ShapeSource
         id={slug + 'alertSource'}
         cluster
-        clusterRadius={40}
+        clusterRadius={120}
+        clusterMaxZoomLevel={15}
         shape={this.state.alertsFeatures}
         onPress={onPress}
       >
