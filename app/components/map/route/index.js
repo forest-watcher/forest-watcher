@@ -14,6 +14,7 @@ import {
 import throttle from 'lodash/throttle';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import type { Route } from 'types/routes.types';
+import { feature, lineString, point } from '@turf/helpers';
 
 type Props = {
   isTracking: boolean,
@@ -129,10 +130,10 @@ export default class RouteMarkers extends PureComponent<Props> {
     const validDestLocation = isValidLatLng(destination);
     const bothValidLocations = validDestLocation && isValidLatLng(userLocation);
 
-    const routeDestination = MapboxGL.geoUtils.makePoint(coordsObjectToArray(destination));
+    const routeDestination = point(coordsObjectToArray(destination));
     let line = null;
     if (bothValidLocations) {
-      line = MapboxGL.geoUtils.makeLineString([coordsObjectToArray(userLocation), coordsObjectToArray(destination)]);
+      line = lineString([coordsObjectToArray(userLocation), coordsObjectToArray(destination)]);
     }
 
     return (
@@ -166,14 +167,14 @@ export default class RouteMarkers extends PureComponent<Props> {
     if (!coords || coords.length < 2) {
       return null;
     }
-    const line = MapboxGL.geoUtils.makeLineString(coords, this.getRouteProperties());
+    const line = lineString(coords, this.getRouteProperties());
     // Ignore first and last location markers, as those are drawn in renderRouteEnds method.
     const markers = coords.slice(1, -1);
     let markersShape = null;
     if (markers.length > 1) {
-      markersShape = MapboxGL.geoUtils.makeFeature({ type: 'MultiPoint', coordinates: markers });
+      markersShape = feature({ type: 'MultiPoint', coordinates: markers });
     } else if (markers.length === 1) {
-      markersShape = MapboxGL.geoUtils.makeFeature({ type: 'Point', coordinates: markers[0] });
+      markersShape = feature({ type: 'Point', coordinates: markers[0] });
     }
     const { selected } = this.props;
     const visibility = selected ? mapboxStyles.visible : mapboxStyles.invisible;
@@ -228,8 +229,8 @@ export default class RouteMarkers extends PureComponent<Props> {
     const start = count > 0 ? routeLocations[0] : null;
     const end = count > 1 ? routeLocations[count - 1] : null;
     const properties = this.getRouteProperties();
-    const startSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(start), properties) : null;
-    const endSource = start ? MapboxGL.geoUtils.makePoint(coordsObjectToArray(end), properties) : null;
+    const startSource = start ? point(coordsObjectToArray(start), properties) : null;
+    const endSource = start ? point(coordsObjectToArray(end), properties) : null;
     const onPress = this.props.onShapeSourcePressed || null;
     const visibility = this.props.selected ? mapboxStyles.visible : mapboxStyles.invisible;
     const shadowStyle = { ...mapboxStyles.routeEndsShadow, ...visibility };

@@ -9,6 +9,7 @@ import i18n from 'i18next';
 import moment from 'moment';
 import type { FormattedReport, FormattedReports } from 'containers/reports';
 import { REPORTS } from 'config/constants';
+import { featureCollection, point } from '@turf/helpers';
 
 type ReportLayerSettings = {
   layerIsActive: false,
@@ -46,7 +47,7 @@ export default class Reports extends Component<Props> {
       .split(',')
       .reverse()
       .map(a => Number(a));
-    return MapboxGL.geoUtils.makePoint(position, properties);
+    return point(position, properties);
   };
 
   renderReports = (reports: Array<FormattedReport>, imported: boolean) => {
@@ -56,7 +57,7 @@ export default class Reports extends Component<Props> {
     // remove reports with no location
     reports = reports.filter(report => report.userPosition !== REPORTS.noGpsPosition);
     const reportFeatureCollection = reports
-      ? MapboxGL.geoUtils.makeFeatureCollection(reports.map(this.reportToFeature))
+      ? featureCollection(reports.map(this.reportToFeature))
       : null;
     const circleColor = imported ? Theme.colors.importedReport : Theme.colors.report;
     const onPress = this.props.onShapeSourcePressed || null;
