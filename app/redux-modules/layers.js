@@ -6,7 +6,7 @@ import type { File } from 'types/file.types';
 import type { LayerType } from 'helpers/layer-store/layerFilePaths';
 
 import Config from 'react-native-config';
-import { unzip } from 'react-native-zip-archive';
+import { unzip } from 'helpers/unzip';
 import omit from 'lodash/omit';
 import CONSTANTS from 'config/constants';
 import { getActionsTodoCount } from 'helpers/sync';
@@ -353,7 +353,7 @@ function downloadAllLayers(
 export function clearImportContextualLayerState() {
   return {
     type: IMPORT_LAYER_CLEAR
-  }
+  };
 }
 
 export function importContextualLayer(layerFile: File) {
@@ -380,8 +380,6 @@ export function importContextualLayer(layerFile: File) {
       .split('.')
       .pop()
       .toLowerCase();
-
-    console.log("Importing", file, fileExtension, fileName);
 
     switch (fileExtension) {
       case 'json':
@@ -434,9 +432,9 @@ export function importContextualLayer(layerFile: File) {
         try {
           await RNFS.copyFile(file.uri, tempZipPath);
           const tempPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '');
-          await unzip(tempZipPath, tempPath);
+          const location = await unzip(tempZipPath, tempPath);
           const result = await writeToDiskAsGeoJSON(
-            { ...file, uri: tempPath + '/doc.kml' },
+            { ...file, uri: location + '/doc.kml' },
             fileName,
             'kml',
             directory
@@ -455,19 +453,45 @@ export function importContextualLayer(layerFile: File) {
         }
         break;
       }
-      case 'shp': {
+      case 'zip': {
+        // Unzip the file ourself, as the shapefile library uses a node module which is only supported in browsers
+        const tempZipPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '.zip');
         try {
-          console.log("Importing Shapefile");
-          const geoJSON = await shapefile(file.uri.replace(/\.[^/.]+$/, ''));
-          console.log("Imported as GeoJSON", geoJSON);
+          await RNFS.copyFile(file.uri, tempZipPath);
+          const extensionLessFileName = fileName.replace(/\.[^/.]+$/, '');
+          const tempPath = RNFS.TemporaryDirectoryPath + extensionLessFileName;
+          // Use the response here in-case it unzips strangely (Have seen this myself: Simon)
+          const unzippedPath = await unzip(tempZipPath, tempPath);
+
+          // Add trailing slash, otherwise we read the directory itself!
+          const shapeFileContents = await RNFS.readDir(unzippedPath);
+
+          // Get the name of the shapefile, as this isn't always the file name of the zip file itself
+          const shapeFile = shapeFileContents.find(res => {
+            return res.path.endsWith('.shp');
+          });
+
+          if (!shapeFile) {
+            throw new Error('Zip file does not contain a file with extension .shp');
+          }
+          const shapeFileName = shapeFile.name.replace(/\.[^/.]+$/, '');
+          // We send the file path in here without the .shp extension as the library adds this itself
+          const geoJSON = await shapefile(unzippedPath + '/' + shapeFileName);
           const result = await writeGeoJSONToDisk(geoJSON, fileName, directory);
+
+          await RNFS.unlink(unzippedPath);
+
           dispatch({
             type: IMPORT_LAYER_COMMIT,
             payload: { ...file, type: 'application/geo+json', ...result }
           });
         } catch (err) {
+          // Fire and forget!
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
           throw err;
+        } finally {
+          RNFS.unlink(tempZipPath.replace(/\.[^/.]+$/, ''));
+          RNFS.unlink(tempZipPath);
         }
         break;
       }
@@ -497,7 +521,7 @@ async function writeToDiskAsGeoJSON(file: File, fileName: string, extension: str
   // Convert to GeoJSON using mapbox's library!
   const geoJSON =
     extension === 'gpx' ? togeojson.gpx(xmlDoc, { styles: true }) : togeojson.kml(xmlDoc, { styles: true });
-  
+
   const saveResponse = await writeGeoJSONToDisk(geoJSON, file, fileName, directory);
   return saveResponse;
 }
@@ -506,7 +530,7 @@ async function writeToDiskAsGeoJSON(file: File, fileName: string, extension: str
  * Cleans and writes a GeoJSON object to disk in the directory provided
  *
  * @param {Object} geoJSON The GeoJSON object to save to disk
- * @param {string} fileName The original file name of the file 
+ * @param {string} fileName The original file name of the file
  * @param {string} directory The directory to save the file to
  */
 async function writeGeoJSONToDisk(geoJSON: Object, fileName: string, directory: string) {

@@ -14,7 +14,7 @@ import type { File } from 'types/file.types';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 type Props = {
-  clearImportContextualLayerState: (void) => void,
+  clearImportContextualLayerState: void => void,
   componentId: string,
   existingLayers: Array<File>,
   file: File,

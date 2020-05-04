@@ -14,7 +14,7 @@ import generatedUniqueId from 'helpers/uniqueId';
 const nextIcon = require('assets/next.png');
 const fileIcon = require('assets/fileIcon.png');
 
-export const ACCEPTED_FILE_TYPES = ['json', 'geojson', 'topojson', 'gpx', 'shp', 'kmz', 'kml'];
+export const ACCEPTED_FILE_TYPES = ['json', 'geojson', 'topojson', 'gpx', 'zip', 'kmz', 'kml'];
 
 type Props = {
   componentId: string,
