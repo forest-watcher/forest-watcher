@@ -46,7 +46,7 @@ export default class AlertDataset extends Component<Props, State> {
     const now = moment();
     this.datasets = {
       umd_as_it_happens: {
-        recencyThreshold: now.subtract(777, 'days').valueOf(),
+        recencyThreshold: now.subtract(7, 'days').valueOf(),
         name: i18n.t('map.gladAlert')
       },
       viirs: {
