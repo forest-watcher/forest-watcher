@@ -44,10 +44,16 @@ export default async function queryLayerFiles(
  */
 async function listLayerFiles(type: LayerType, id: string): Promise<Array<LayerFile>> {
   const path = pathForLayer(type, id);
+  // Check exists, otherwise the readDir throws on iOS
+  const exists = await RNFS.exists(path);
+  if (!exists) {
+    return [];
+  }
   const children = await RNFS.readDir(path);
   return children
     .filter(child => child.isFile())
     .map(file => ({
+      filesize: file.size,
       uri: file.path,
       polygon: tileFileNameToPolygon(file.name)
     }));
@@ -80,6 +86,11 @@ async function listLayerFilesForRegion(
  */
 async function listLayerIds(type: LayerType): Promise<Array<string>> {
   const path = pathForLayerType(type);
+  // Check exists, otherwise the readDir throws on iOS
+  const exists = await RNFS.exists(path);
+  if (!exists) {
+    return [];
+  }
   const children = await RNFS.readDir(path);
   return children.filter(child => child.isDirectory()).map(dir => dir.name);
 }

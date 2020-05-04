@@ -142,7 +142,12 @@ class MapSidebar extends PureComponent<Props> {
       description = i18n.t('map.layerSettings.routeSettings.showingAllRoutes');
     } else {
       const count = activeRouteIds.length;
-      description = i18n.t('map.layerSettings.routeSettings.showingRoutes', { count });
+      description = i18n.t(
+        count === 1
+          ? 'map.layerSettings.routeSettings.showingOneRoute'
+          : 'map.layerSettings.routeSettings.showingManyRoutes',
+        { count }
+      );
     }
 
     if (layerIsActive) {
@@ -177,7 +182,12 @@ class MapSidebar extends PureComponent<Props> {
   getContextualLayersSettingsTitle = layerSettings => {
     const { activeContextualLayerIds, layerIsActive } = layerSettings.contextualLayers;
     const count = activeContextualLayerIds.length;
-    const description = i18n.t('map.layerSettings.contextualLayersSettings.showingContextualLayers', { count });
+    const description = i18n.t(
+      count === 1
+        ? 'map.layerSettings.contextualLayersSettings.showingOneContextualLayer'
+        : 'map.layerSettings.contextualLayersSettings.showingManyContextualLayers',
+      { count }
+    );
     if (layerIsActive) {
       return i18n.t('map.layerSettings.showing', { description });
     }
@@ -203,12 +213,12 @@ class MapSidebar extends PureComponent<Props> {
         >
           <Text style={styles.heading}>{i18n.t('map.layerSettings.layersHeading')}</Text>
           <VerticalSplitRow
-            onPress={() => this.props.toggleAlertsLayer(featureId)}
+            onIconPress={() => this.props.toggleAlertsLayer(featureId)}
             onSettingsPress={this.openAlertLayerSettings}
             title={i18n.t('map.layerSettings.alerts')}
             settingsTitle={this.getAlertsSettingsTitle(layerSettings)}
             selected={layerSettings.alerts.layerIsActive}
-            disableSettingsButton={!layerSettings.alerts.layerIsActive}
+            disableStyleSettingsButton={!layerSettings.alerts.layerIsActive}
             style={styles.rowContainer}
             hideDivider
             hideImage
@@ -216,12 +226,12 @@ class MapSidebar extends PureComponent<Props> {
             largerLeftPadding
           />
           <VerticalSplitRow
-            onPress={() => this.props.toggleRoutesLayer(featureId)}
+            onIconPress={() => this.props.toggleRoutesLayer(featureId)}
             onSettingsPress={this.openRoutesLayerSettings}
             title={i18n.t('map.layerSettings.routes')}
             settingsTitle={this.getRoutesSettingsTitle(layerSettings)}
             selected={layerSettings.routes.layerIsActive}
-            disableSettingsButton={!layerSettings.routes.layerIsActive}
+            disableStyleSettingsButton={!layerSettings.routes.layerIsActive}
             style={styles.rowContainer}
             hideDivider
             hideImage
@@ -229,12 +239,12 @@ class MapSidebar extends PureComponent<Props> {
             largerLeftPadding
           />
           <VerticalSplitRow
-            onPress={() => this.props.toggleReportsLayer(featureId)}
+            onIconPress={() => this.props.toggleReportsLayer(featureId)}
             onSettingsPress={this.openReportsLayerSettings}
             title={i18n.t('map.layerSettings.reports')}
             settingsTitle={this.getReportSettingsTitle(layerSettings)}
             selected={layerSettings.reports.layerIsActive}
-            disableSettingsButton={!layerSettings.reports.layerIsActive}
+            disableStyleSettingsButton={!layerSettings.reports.layerIsActive}
             style={styles.rowContainer}
             hideDivider
             hideImage
@@ -242,12 +252,12 @@ class MapSidebar extends PureComponent<Props> {
             largerLeftPadding
           />
           <VerticalSplitRow
-            onPress={() => this.props.toggleContextualLayersLayer(featureId)}
+            onIconPress={() => this.props.toggleContextualLayersLayer(featureId)}
             onSettingsPress={this.openContextualLayersLayerSettings}
             title={i18n.t('map.layerSettings.contextualLayers')}
             settingsTitle={this.getContextualLayersSettingsTitle(layerSettings)}
             selected={layerSettings.contextualLayers.layerIsActive}
-            disableSettingsButton={!layerSettings.contextualLayers.layerIsActive}
+            disableStyleSettingsButton={!layerSettings.contextualLayers.layerIsActive}
             style={styles.rowContainer}
             hideDivider
             hideImage

@@ -15,6 +15,13 @@ import styles from './styles';
 import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
 
+import exportLayerManifest from 'helpers/sharing/exportLayerManifest';
+import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
+import generateUniqueID from 'helpers/uniqueId';
+import { formatBytes } from 'helpers/data';
+
+import Theme from 'config/theme';
+
 const plusIcon = require('assets/add.png');
 const emptyIcon = require('assets/areasEmpty.png');
 
@@ -31,6 +38,7 @@ type Props = {|
 |};
 
 type State = {|
+  +bundleSize: number | typeof undefined,
   +selectedForExport: Array<string>,
   +inShareMode: boolean
 |};
@@ -39,6 +47,9 @@ class Areas extends Component<Props, State> {
   static options(passProps: {}) {
     return {
       topBar: {
+        background: {
+          color: Theme.colors.veryLightPink
+        },
         title: {
           text: i18n.t('areas.title')
         },
@@ -52,6 +63,7 @@ class Areas extends Component<Props, State> {
     };
   }
 
+  fetchId: ?string;
   shareSheet: any;
 
   constructor(props: Props) {
@@ -59,6 +71,7 @@ class Areas extends Component<Props, State> {
     Navigation.events().bindComponent(this);
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
     this.state = {
+      bundleSize: undefined,
       selectedForExport: [],
       inShareMode: false
     };
@@ -82,6 +95,34 @@ class Areas extends Component<Props, State> {
     });
   };
 
+  fetchExportSize = async (areaIds: Array<string>) => {
+    const currentFetchId = generateUniqueID();
+    this.fetchId = currentFetchId;
+    this.setState({
+      bundleSize: undefined
+    });
+    const manifest = await exportLayerManifest(
+      {
+        areaIds,
+        basemapIds: [],
+        layerIds: [],
+        reportIds: [],
+        routeIds: []
+      },
+      this.props.areas.filter(area => {
+        return areaIds.includes(area.id);
+      }),
+      [],
+      []
+    );
+    const fileSize = manifestBundleSize(manifest);
+    if (this.fetchId === currentFetchId) {
+      this.setState({
+        bundleSize: fileSize
+      });
+    }
+  };
+
   /**
    * Handles the area row being selected while in export mode.
    * Will swap the state for the specified row, to show in the UI if it has been selected or not.
@@ -89,14 +130,17 @@ class Areas extends Component<Props, State> {
   onAreaSelectedForExport = (areaId: string) => {
     this.setState(state => {
       if (state.selectedForExport.includes(areaId)) {
+        const selectedForExport = [...state.selectedForExport].filter(id => areaId !== id);
+        this.fetchExportSize(selectedForExport);
         return {
-          selectedForExport: [...state.selectedForExport].filter(id => areaId != id)
+          selectedForExport
         };
       } else {
-        const selected = [...state.selectedForExport];
-        selected.push(areaId);
+        const selectedForExport = [...state.selectedForExport];
+        selectedForExport.push(areaId);
+        this.fetchExportSize(selectedForExport);
         return {
-          selectedForExport: selected
+          selectedForExport: selectedForExport
         };
       }
     });
@@ -110,7 +154,9 @@ class Areas extends Component<Props, State> {
   onExportAreasTapped = debounceUI(selectedAreas => {
     // TODO: Loading screen while the async function below executed
     this.props.exportAreas(selectedAreas);
-    this.shareSheet?.setSharing?.(false);
+    if (this.shareSheet) {
+      this.shareSheet.setSharing(false);
+    }
     this.setSharing(false);
   });
 
@@ -165,8 +211,10 @@ class Areas extends Component<Props, State> {
   });
 
   setAllSelected = (selected: boolean) => {
+    const selectedForExport = selected ? this.props.areas.map(area => area.id) : [];
+    this.fetchExportSize(selectedForExport);
     this.setState({
-      selectedForExport: selected ? this.props.areas.map(area => area.id) : []
+      selectedForExport
     });
   };
 
@@ -175,6 +223,7 @@ class Areas extends Component<Props, State> {
     this.props.setAreaDownloadTooltipSeen(true);
 
     this.setState({
+      bundleSize: undefined,
       inShareMode: sharing
     });
 
@@ -209,6 +258,7 @@ class Areas extends Component<Props, State> {
           // If the user taps ANYWHERE set the area download tooltip as seen
           event.persist();
           this.props.setAreaDownloadTooltipSeen(true);
+          return false;
         }}
         style={styles.container}
       >
@@ -219,6 +269,7 @@ class Areas extends Component<Props, State> {
             // If the user taps ANYWHERE set the area download tooltip as seen
             event.persist();
             this.props.setAreaDownloadTooltipSeen(true);
+            return false;
           }}
           shareButtonDisabledTitle={i18n.t('areas.share')}
           enabled={totalToExport > 0}
@@ -238,9 +289,12 @@ class Areas extends Component<Props, State> {
           }
           shareButtonEnabledTitle={
             totalToExport > 0
-              ? totalToExport === 1
-                ? i18n.t('areas.export.oneAreaAction', { count: 1 })
-                : i18n.t('areas.export.manyAreasAction', { count: totalToExport })
+              ? i18n.t('areas.export.areaSizeAction', {
+                  bundleSize:
+                    this.state.bundleSize !== undefined
+                      ? formatBytes(this.state.bundleSize)
+                      : i18n.t('commonText.calculating')
+                })
               : i18n.t('areas.export.noneSelected')
           }
         >
@@ -250,6 +304,7 @@ class Areas extends Component<Props, State> {
                 // If the user taps ANYWHERE set the area download tooltip as seen
                 event.persist();
                 this.props.setAreaDownloadTooltipSeen(true);
+                return false;
               }}
               style={styles.list}
               contentContainerStyle={styles.listContent}

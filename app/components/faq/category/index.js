@@ -8,6 +8,8 @@ import Row from 'components/common/row';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
 
+import Theme from 'config/theme';
+
 const nextIcon = require('assets/next.png');
 
 import type { FAQCategory, FAQQuestion } from 'types/faq.types';
@@ -18,6 +20,15 @@ type Props = {
 };
 
 export default class FaqCategory extends Component<Props> {
+  static options(passProps: {}) {
+    return {
+      topBar: {
+        background: {
+          color: Theme.colors.veryLightPink
+        }
+      }
+    };
+  }
   componentDidMount() {
     tracker.trackScreenView('FaqCategory');
   }

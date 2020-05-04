@@ -3,6 +3,7 @@
 import type { ExportBundleRequest, LayerManifest } from 'types/sharing.types';
 import type { Area } from 'types/areas.types';
 import type { Route } from 'types/routes.types';
+import type { Report } from 'types/reports.types';
 
 import bboxPolygon from '@turf/bbox-polygon';
 import { type BBox2d, featureCollection } from '@turf/helpers';
@@ -18,7 +19,8 @@ import { pathWithoutRoot } from 'helpers/layer-store/layerFilePaths';
 export default async function exportLayerManifest(
   request: ExportBundleRequest,
   areas: Array<Area>,
-  routes: Array<Route>
+  routes: Array<Route>,
+  reports: Array<Report>
 ): Promise<LayerManifest> {
   // First query ALL the files for any basemap / layer that has been explicitly requested
   const explicitlyRequestedBasemaps =

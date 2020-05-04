@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import { View, ScrollView, Text, Linking } from 'react-native';
 import tracker from 'helpers/googleAnalytics';
@@ -6,6 +8,8 @@ import i18n from 'i18next';
 import List from 'components/common/list';
 import styles from './styles';
 
+import Theme from 'config/theme';
+
 const tscLogo = require('assets/3sc_logo.jpeg');
 const wriLogo = require('assets/wri_logo.png');
 const jgiLogo = require('assets/jgi_logo.png');
@@ -13,6 +17,15 @@ const gfwLogo = require('assets/gfw_logo.png');
 const vizzualityLogo = require('assets/vizzuality_logo.png');
 
 class Partners extends Component {
+  static options(passProps: {}) {
+    return {
+      topBar: {
+        background: {
+          color: Theme.colors.veryLightPink
+        }
+      }
+    };
+  }
   constructor() {
     super();
     this.partners = [

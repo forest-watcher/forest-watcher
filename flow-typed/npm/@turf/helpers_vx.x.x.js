@@ -98,7 +98,9 @@ declare module '@turf/helpers' {
 
   declare module.exports: {
     featureCollection: <T>(Array<Feature<T>>) => FeatureCollection<T>,
-    lineString: (Array<[number, number]>) => LineString
+    lineString: (coordinates: Array<[number, number]>) => Feature<LineString>,
+    point: (coordinates: [number, number], properties?: Properties) => Feature<Point>,
+    polygon: (coordinates: Array<Array<[number, number]>>, properties?: Properties) => Feature<Polygon>
   };
 }
 

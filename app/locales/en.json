@@ -13,7 +13,7 @@
         "export": {
             "noneSelected": "No areas selected",
             "oneArea": "%{count} Area",
-            "oneAreaAction": "Export %{count} areas...",
+            "areaSizeAction": "Export Areas (%{bundleSize})",
             "manyAreas": "%{count} Areas",
             "manyAreasAction": "Export %{count} areas...",
             "title": "Export area",
@@ -48,6 +48,7 @@
         "appName": "Forest Watcher",
         "area": "Area",
         "boundaries": "Boundaries",
+        "calculating": "Calculating",
         "cancel": "Cancel",
         "clear": "Clear",
         "confirm": "Confirm",
@@ -399,7 +400,8 @@
                 "noAlerts": "No Alerts"
             },
             "routeSettings": {
-                "showingRoutes": "%{count} Routes",
+                "showingOneRoute": "%{count} Route",
+                "showingManyRoutes": "%{count} Routes",
                 "showingAllRoutes": "All Routes"
             },
             "reportSettings": {
@@ -409,7 +411,8 @@
                 "showingAllReports": "All Reports"
             },
             "contextualLayersSettings": {
-                "showingContextualLayers": "%{count} Contextual Layers"
+                "showingOneContextualLayer": "%{count} Contextual Layer",
+                "showingManyContextualLayers": "%{count} Contextual Layers"
             },
             "basemapSettings": {
                 "showingBasemap": "Basemap: %{basemap}"
@@ -438,15 +441,14 @@
             "navBarButtonText": "Export",
             "noneSelected": "No reports selected",
             "oneReport": "%{count} Report",
-            "oneReportAction": "Export %{count} report...",
             "manyReports": "%{count} Reports",
-            "manyReportsAction": "Export %{count} reports...",
             "title": "Export report",
             "description": "How would you like to export this report?",
             "option": {
                 "asCSV": "Export as CSV...",
                 "asSharingBundle": "Export as sharing bundle..."
             },
+            "reportSizeAction": "Export Reports (%{bundleSize})",
             "successful": "Exporting reports succeeded!"
         },
         "glad": "Deforestation Report",
@@ -493,7 +495,8 @@
             "oneRouteAction": "Export %{count} route...",
             "manyRoutes": "%{count} Routes",
             "manyRoutesAction": "Export %{count} routes...",
-            "noneSelected": "No routes selected"
+            "noneSelected": "No routes selected",
+            "routeSizeAction": "Export Routes (%{bundleSize})"
         },
         "insufficientPermissionsDialogTitle": "Unable to track route",
         "insufficientPermissionsDialogMessage": "We need background location permissions to be able to track your route.",
@@ -515,6 +518,12 @@
         "resumeTrackingDialogNegativeButton": "Delete route",
         "save": "Save Route",
         "share": "Share Routes",
+        "sharing": {
+            "title": "Share Routes",
+            "noneSelected": "No routes selected",
+            "oneRoute": "Share Route (%{bundleSize})",
+            "multipleRoutes": "Share Routes (%{bundleSize})"
+        },
         "stopRouteTrackingPanelTitle": "Stop Route Tracking",
         "stopRouteTrackingPanelContinueOption": "Continue route tracking",
         "stopRouteTrackingPanelSaveOption": "Stop and save route",

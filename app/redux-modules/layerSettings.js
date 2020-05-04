@@ -506,7 +506,8 @@ export function getActiveBasemap(featureId: string) {
       return DEFAULT_BASEMAP;
     }
     const allBasemaps = [...state.basemaps.gfwBasemaps, ...state.basemaps.importedBasemaps];
-    return allBasemaps.find(item => item.id === activeBasemapId);
+    const basemap = allBasemaps.find(item => item.id === activeBasemapId);
+    return basemap ?? DEFAULT_BASEMAP;
   };
 }
 

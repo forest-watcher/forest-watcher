@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setSelectedAreaId } from 'redux-modules/areas';
 import { createReport } from 'redux-modules/reports';
-import { discardActiveRoute, getAllRouteIds, getRoutesById, setRouteDestination } from 'redux-modules/routes';
+import { discardActiveRoute, getRoutesById, setRouteDestination } from 'redux-modules/routes';
 import { setCanDisplayAlerts, setActiveAlerts } from 'redux-modules/alerts';
 import { getImportedContextualLayersById } from 'redux-modules/layers';
 import tracker from 'helpers/googleAnalytics';

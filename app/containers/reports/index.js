@@ -8,8 +8,20 @@ import { showExportReportsSuccessfulNotification } from 'redux-modules/app';
 import Reports from 'components/reports';
 import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
 import shareBundle from 'helpers/sharing/shareBundle';
+import type { Report } from 'types/reports.types';
 
-function getReports(reports) {
+export type FormattedReport = Report & {
+  title: string,
+  imported: boolean
+};
+
+export type FormattedReports = {
+  draft?: FormattedReport,
+  complete?: FormattedReport,
+  uploaded?: FormattedReport
+};
+
+export function getReports(reports, areas, userId): FormattedReports {
   const data = {
     draft: [],
     complete: [],
@@ -20,6 +32,7 @@ function getReports(reports) {
     if (data[report.status]) {
       data[report.status].push({
         ...report,
+        imported: isImported(report.area?.id, areas, userId),
         title: key
       });
     }
@@ -27,19 +40,18 @@ function getReports(reports) {
   return sortReports(data);
 }
 
+function isImported(reportAreaId, areas, userId) {
+  if (!reportAreaId) {
+    return true;
+  }
+  const reportArea = areas.find(area => area.id === reportAreaId);
+  return !(reportArea?.userId && reportArea.userId === userId);
+}
+
 function sortReports(reports) {
   const sorted = {};
   Object.keys(reports).forEach(status => {
-    const section = reports[status].sort((a, b) => {
-      if (a.date > b.date) {
-        return -1;
-      }
-      if (a.date < b.date) {
-        return +1;
-      }
-      return 0;
-    });
-    sorted[status] = section;
+    sorted[status] = reports[status].sort((a, b) => b.date - a.date);
   });
   return sorted;
 }
@@ -52,7 +64,7 @@ function mapStateToProps(state: State) {
   return {
     appLanguage: state.app.language,
     templates: state.reports.templates,
-    reports: getReports(state.reports.list),
+    reports: getReports(state.reports.list, state.areas.data, state.user.data.id),
     getLastStep: formName => {
       const answers = state.reports.list[formName].answers;
       if (answers && answers.length) {

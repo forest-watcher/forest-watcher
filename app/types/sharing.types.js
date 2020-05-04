@@ -58,6 +58,11 @@ export type LayerFile = {|
   uri: string,
 
   /**
+   * Size in bytes of the file
+   */
+  filesize: string,
+
+  /**
    * If the file represents a geographic extent, then this holds the boundaries of that extent
    */
   polygon?: ?Feature<Polygon>

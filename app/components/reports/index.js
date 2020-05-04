@@ -19,6 +19,13 @@ import ShareSheet from 'components/common/share';
 import type { Template } from 'types/reports.types';
 import displayExportReportDialog from 'helpers/sharing/displayExportReportDialog';
 
+import exportLayerManifest from 'helpers/sharing/exportLayerManifest';
+import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
+import generateUniqueID from 'helpers/uniqueId';
+import { formatBytes } from 'helpers/data';
+
+import Theme from 'config/theme';
+
 const editIcon = require('assets/edit.png');
 const emptyIcon = require('assets/reportsEmpty.png');
 const nextIcon = require('assets/next.png');
@@ -47,6 +54,7 @@ type Props = {|
 |};
 
 type State = {|
+  +bundleSize: number | typeof undefined,
   +selectedForExport: Array<string>,
   +inShareMode: boolean
 |};
@@ -55,6 +63,9 @@ class Reports extends PureComponent<Props, State> {
   static options(passProps: {}) {
     return {
       topBar: {
+        background: {
+          color: Theme.colors.veryLightPink
+        },
         title: {
           text: i18n.t('dashboard.reports')
         }
@@ -69,6 +80,7 @@ class Reports extends PureComponent<Props, State> {
 
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
     this.state = {
+      bundleSize: undefined,
       inShareMode: false,
       selectedForExport: []
     };
@@ -78,6 +90,36 @@ class Reports extends PureComponent<Props, State> {
     tracker.trackScreenView('My Reports');
   }
 
+  fetchExportSize = async (reportIds: Array<string>) => {
+    const currentFetchId = generateUniqueID();
+    const completedReports = this.props.reports.complete || [];
+    const mergedReports = completedReports.concat(this.props.reports.uploaded);
+    this.fetchId = currentFetchId;
+    this.setState({
+      bundleSize: undefined
+    });
+    const manifest = await exportLayerManifest(
+      {
+        areaIds: [],
+        basemapIds: [],
+        layerIds: [],
+        reportIds,
+        routeIds: []
+      },
+      [],
+      [],
+      mergedReports.filter(report => {
+        return reportIds.includes(report.title);
+      })
+    );
+    const fileSize = manifestBundleSize(manifest);
+    if (this.fetchId == currentFetchId) {
+      this.setState({
+        bundleSize: fileSize
+      });
+    }
+  };
+
   /**
    * Handles the report row being selected while in export mode.
    * Will swap the state for the specified row, to show in the UI if it has been selected or not.
@@ -85,12 +127,15 @@ class Reports extends PureComponent<Props, State> {
   onReportSelectedForExport = (title: string) => {
     this.setState(state => {
       if (state.selectedForExport.includes(title)) {
+        const selectedForExport = [...state.selectedForExport].filter(id => title != id);
+        this.fetchExportSize(selectedForExport);
         return {
-          selectedForExport: [...state.selectedForExport].filter(id => title != id)
+          selectedForExport
         };
       } else {
         const selected = [...state.selectedForExport];
         selected.push(title);
+        this.fetchExportSize(selected);
         return {
           selectedForExport: selected
         };
@@ -251,8 +296,10 @@ class Reports extends PureComponent<Props, State> {
     // Merge together the completed and uploaded reports.
     const completedReports = this.props.reports.complete || [];
     const mergedReports = completedReports.concat(this.props.reports.uploaded);
+    const selectedForExport = selected ? mergedReports.map(report => report.title) : [];
+    this.fetchExportSize(selectedForExport);
     this.setState({
-      selectedForExport: selected ? mergedReports.map(report => report.title) : []
+      selectedForExport
     });
   };
 
@@ -260,7 +307,8 @@ class Reports extends PureComponent<Props, State> {
     // Can set selectedForExport to [] either way as we want to start sharing again with none selected
     this.setState({
       inShareMode: sharing,
-      selectedForExport: []
+      selectedForExport: [],
+      bundleSize: undefined
     });
   };
 
@@ -411,9 +459,12 @@ class Reports extends PureComponent<Props, State> {
           shareButtonDisabledTitle={i18n.t('report.share')}
           shareButtonEnabledTitle={
             totalToExport > 0
-              ? totalToExport == 1
-                ? i18n.t('report.export.oneReportAction', { count: 1 })
-                : i18n.t('report.export.manyReportsAction', { count: totalToExport })
+              ? i18n.t('report.export.reportSizeAction', {
+                  bundleSize:
+                    this.state.bundleSize !== undefined
+                      ? formatBytes(this.state.bundleSize)
+                      : i18n.t('commonText.calculating')
+                })
               : i18n.t('report.export.noneSelected')
           }
         >

@@ -433,8 +433,17 @@ export function importContextualLayer(layerFile: File) {
           await RNFS.copyFile(file.uri, tempZipPath);
           const tempPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '');
           const location = await unzip(tempZipPath, tempPath);
+            // Don't need to check if folder exists because unzip will have created it
+            const files = await RNFS.readDir(location);
+            const mainFile = files.find(file => {
+                                        return file.name.endsWith('.kml');
+                                        });
+            if (!mainFile) {
+                throw new Error('Invalid KMZ bundle, missing a root .kml file');
+            }
+            // Get the files of the expanded zip
           const result = await writeToDiskAsGeoJSON(
-            { ...file, uri: location + '/doc.kml' },
+                                                    { ...file, uri: location + '/' + mainFile.name },
             fileName,
             'kml',
             directory
