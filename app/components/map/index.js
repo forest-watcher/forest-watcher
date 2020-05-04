@@ -197,7 +197,7 @@ class MapComponent extends Component<Props> {
       bottomSafeAreaInset: 0,
       userLocation: null,
       heading: null,
-      hasHeadingReading: false,
+      hasHeadingReadingFromCompass: false,
       region: {
         latitude: undefined, // These are undefined, as when the map is ready it'll move the map to focus on the area.
         longitude: undefined,
@@ -536,8 +536,8 @@ class MapComponent extends Component<Props> {
   updateHeading = throttle((heading, isFromGps = false) => {
     if (!isFromGps) {
       // Use heading reading from sensor if we are getting that data
-      this.setState({ heading: parseInt(heading), hasHeadingReading: true });
-    } else if (!this.state.hasHeadingReading) {
+      this.setState({ heading: parseInt(heading), hasHeadingReadingFromCompass: true });
+    } else if (!this.state.hasHeadingReadingFromCompass) {
       // Otherwise use gps reading, provided by mapbox
       this.setState({ heading: parseInt(heading) });
     }
