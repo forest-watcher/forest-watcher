@@ -23,7 +23,7 @@ import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
 import togeojson from 'helpers/toGeoJSON';
 import shapefile from 'shpjs';
-import RNFetchBlob from 'rn-fetch-blob'
+import RNFetchBlob from 'rn-fetch-blob';
 
 const DOMParser = require('xmldom').DOMParser;
 const RNFS = require('react-native-fs');
@@ -433,17 +433,17 @@ export function importContextualLayer(layerFile: File) {
           await RNFS.copyFile(file.uri, tempZipPath);
           const tempPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '');
           const location = await unzip(tempZipPath, tempPath);
-            // Don't need to check if folder exists because unzip will have created it
-            const files = await RNFS.readDir(location);
-            const mainFile = files.find(file => {
-                                        return file.name.endsWith('.kml');
-                                        });
-            if (!mainFile) {
-                throw new Error('Invalid KMZ bundle, missing a root .kml file');
-            }
-            // Get the files of the expanded zip
+          // Don't need to check if folder exists because unzip will have created it
+          const files = await RNFS.readDir(location);
+          const mainFile = files.find(file => {
+            return file.name.endsWith('.kml');
+          });
+          if (!mainFile) {
+            throw new Error('Invalid KMZ bundle, missing a root .kml file');
+          }
+          // Get the files of the expanded zip
           const result = await writeToDiskAsGeoJSON(
-                                                    { ...file, uri: location + '/' + mainFile.name },
+            { ...file, uri: location + '/' + mainFile.name },
             fileName,
             'kml',
             directory
