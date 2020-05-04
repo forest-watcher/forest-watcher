@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import Theme from 'config/theme';
 import { mapboxStyles } from './styles';
 import MapboxGL from '@react-native-mapbox-gl/maps';
+import { type FeatureCollection, type Point, featureCollection, point } from '@turf/helpers';
 import i18n from 'i18next';
 import moment from 'moment';
 import queryAlerts from 'helpers/alert-store/queryAlerts';
@@ -21,7 +22,7 @@ type Props = {|
 |};
 
 type State = {|
-  +alerts: Array<Alert>
+  +alertsFeatures: FeatureCollection<Point>
 |};
 
 /**
@@ -29,11 +30,29 @@ type State = {|
  */
 export default class AlertDataset extends Component<Props, State> {
   activeRequestId: ?string;
+  datasets: {
+    [string]: {
+      recencyThreshold: number,
+      name: string
+    }
+  };
 
   constructor(props: Props) {
     super(props);
     this.state = {
-      alerts: []
+      alertsFeatures: featureCollection([])
+    };
+
+    const now = moment();
+    this.datasets = {
+      umd_as_it_happens: {
+        recencyThreshold: now.subtract(7, 'days').valueOf(),
+        name: i18n.t('map.gladAlert')
+      },
+      viirs: {
+        recencyThreshold: now.subtract(0, 'days').valueOf(),
+        name: i18n.t('map.viirsAlert')
+      }
     };
   }
 
@@ -57,9 +76,9 @@ export default class AlertDataset extends Component<Props, State> {
     const { areaId, isActive, slug, timeframe, timeframeUnit } = this.props;
 
     // Reset the data in state before retrieving the updated data
-    this.setState(state => ({
-      alerts: []
-    }));
+    this.setState({
+      alertsFeatures: featureCollection([])
+    });
 
     if (!isActive) {
       return;
@@ -74,24 +93,25 @@ export default class AlertDataset extends Component<Props, State> {
         timeAgo: { max: timeframe, unit: timeframeUnit },
         distinctLocations: true
       });
-      if (requestId === this.activeRequestId) {
-        this.setState(state => ({
-          alerts
-        }));
+      const alertFeatures = this._createFeaturesForAlerts(alerts);
+
+      if (requestId !== this.activeRequestId) {
+        return;
       }
+
+      this.setState({
+        alertsFeatures: alertFeatures
+      });
     } catch (err) {
       console.warn(err);
     }
   };
 
-  _getAlertProperties = (alert: Alert, alertName: string) => {
+  _getAlertProperties = (alert: Alert) => {
+    const alertName = this.datasets[alert.slug]?.name;
     switch (alert.slug) {
       case 'umd_as_it_happens': {
-        const isRecent =
-          alert.date >
-          moment()
-            .subtract(7, 'days')
-            .valueOf();
+        const isRecent = alert.date > this.datasets[alert.slug].recencyThreshold;
         return {
           icon: isRecent ? 'gladRecent' : 'glad',
           date: alert.date,
@@ -113,29 +133,31 @@ export default class AlertDataset extends Component<Props, State> {
     }
   };
 
+  _createFeaturesForAlerts = (alerts: Array<Alert>) => {
+    const alertFeatures = alerts.map((alert: Alert) => {
+      const properties = this._getAlertProperties(alert);
+      return point([alert.long, alert.lat], properties);
+    });
+    return featureCollection(alertFeatures);
+  };
+
   render() {
     const { isActive, onPress, slug } = this.props;
-    const { alerts } = this.state;
 
     const viirsAlertType = slug === 'viirs';
 
-    if (!isActive || !alerts?.length) {
+    if (!isActive || !this.state.alertsFeatures) {
       return null;
     }
 
-    const alertName = viirsAlertType ? i18n.t('map.viirsAlert') : i18n.t('map.gladAlert');
-    const alertFeatures = alerts.map((alert: Alert) => {
-      const properties = this._getAlertProperties(alert, alertName);
-      return MapboxGL.geoUtils.makePoint([alert.long, alert.lat], properties);
-    });
-    const alertsFeatureCollection = MapboxGL.geoUtils.makeFeatureCollection(alertFeatures);
     const circleColor = viirsAlertType ? Theme.colors.viirs : Theme.colors.glad;
     return (
       <MapboxGL.ShapeSource
         id={slug + 'alertSource'}
         cluster
-        clusterRadius={40}
-        shape={alertsFeatureCollection}
+        clusterRadius={120}
+        clusterMaxZoomLevel={15}
+        shape={this.state.alertsFeatures}
         onPress={onPress}
       >
         <MapboxGL.SymbolLayer id={slug + 'pointCount'} style={mapboxStyles.clusterCount} />
