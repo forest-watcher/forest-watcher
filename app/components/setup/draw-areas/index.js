@@ -65,8 +65,8 @@ class DrawAreas extends Component {
   // returns true if path intersects itself
   isValidAreaPolygon = markerLocations => {
     const polygonLocations = [...markerLocations, markerLocations[0]];
-    const lineString = lineString(polygonLocations);
-    const intersectionsGeoJson = kinks(lineString);
+    const polygonPerimeter = lineString(polygonLocations);
+    const intersectionsGeoJson = kinks(polygonPerimeter);
     const intersections = intersectionsGeoJson?.features?.length;
     return !intersections;
   };
