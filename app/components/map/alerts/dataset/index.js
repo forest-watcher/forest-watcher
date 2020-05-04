@@ -57,7 +57,7 @@ export default class AlertDataset extends Component<Props, State> {
   }
 
   componentDidMount() {
-    this._refreshAlerts();
+    this._loadAlertsFromDb();
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -68,11 +68,15 @@ export default class AlertDataset extends Component<Props, State> {
       this.props.timeframeUnit !== prevProps.timeframeUnit ||
       this.props.areaId !== prevProps.areaId
     ) {
-      this._refreshAlerts();
+      this._loadAlertsFromDb();
     }
   }
 
-  _refreshAlerts = async () => {
+  /**
+   * Updates component state so that it holds the alerts from the local DB matching the constraints imposed by the
+   * component props
+   */
+  _loadAlertsFromDb = async () => {
     const { areaId, isActive, slug, timeframe, timeframeUnit } = this.props;
 
     // Reset the data in state before retrieving the updated data
