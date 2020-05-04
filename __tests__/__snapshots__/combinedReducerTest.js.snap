@@ -3,8 +3,8 @@
 exports[`async actions Test retrySync on initial state 1`] = `
 Object {
   "alerts": Object {
+    "cache": Object {},
     "canDisplayAlerts": true,
-    "data": Object {},
     "queue": Array [],
     "reported": Array [],
     "syncError": false,
@@ -1972,8 +1972,8 @@ Object {
 exports[`async actions Tests redux initial state and handles unknown action 1`] = `
 Object {
   "alerts": Object {
+    "cache": Object {},
     "canDisplayAlerts": true,
-    "data": Object {},
     "queue": Array [],
     "reported": Array [],
     "syncError": false,
