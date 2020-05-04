@@ -11,9 +11,7 @@ export const mapboxStyles = {
   clusteredPoints: {
     circlePitchAlignment: 'map',
     circleRadius: 20,
-    circleOpacity: 0.85,
-    circleStrokeWidth: 2,
-    circleStrokeColor: 'white'
+    circleOpacity: 0.85
   },
   clusterCount: {
     textColor: Theme.colors.white,
