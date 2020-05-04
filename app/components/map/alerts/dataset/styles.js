@@ -10,7 +10,7 @@ export const mapboxStyles = {
   },
   clusteredPoints: {
     circlePitchAlignment: 'map',
-    circleRadius: 20, // this should be half the cluster radius in the styles
+    circleRadius: 20,
     circleOpacity: 0.85,
     circleStrokeWidth: 2,
     circleStrokeColor: 'white'
