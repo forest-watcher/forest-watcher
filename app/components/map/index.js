@@ -70,6 +70,7 @@ import Alerts from 'containers/map/alerts';
 import { formatInfoBannerDate } from 'helpers/date';
 import Reports from 'containers/map/reports';
 import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
+import { lineString } from '@turf/helpers';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -196,6 +197,7 @@ class MapComponent extends Component<Props> {
       bottomSafeAreaInset: 0,
       userLocation: null,
       heading: null,
+      hasHeadingReadingFromCompass: false,
       region: {
         latitude: undefined, // These are undefined, as when the map is ready it'll move the map to focus on the area.
         longitude: undefined,
@@ -531,15 +533,19 @@ class MapComponent extends Component<Props> {
     });
   }, 300);
 
-  updateHeading = throttle(heading => {
-    this.setState({ heading: parseInt(heading) });
+  updateHeading = throttle((heading, isFromGps = false) => {
+    if (!isFromGps) {
+      // Use heading reading from sensor if we are getting that data
+      this.setState({ heading: parseInt(heading), hasHeadingReadingFromCompass: true });
+    } else if (!this.state.hasHeadingReadingFromCompass) {
+      // Otherwise use gps reading, provided by mapbox
+      this.setState({ heading: parseInt(heading) });
+    }
   }, 50);
 
   onCustomReportingPress = debounceUI(() => {
     this.dismissInfoBanner();
-    this.setState(prevState => ({
-      customReporting: true
-    }));
+    this.setState({ customReporting: true });
   });
 
   onSelectionCancelPress = debounceUI(() => {
@@ -725,7 +731,7 @@ class MapComponent extends Component<Props> {
             iconImage: userLocationImage
           };
     return (
-      <MapboxGL.UserLocation renderMode="custom">
+      <MapboxGL.UserLocation onUpdate={location => this.updateHeading(location.coords.heading, true)} renderMode="custom">
         <MapboxGL.SymbolLayer id="userLocation" style={userLocationStyle} />
       </MapboxGL.UserLocation>
     );
@@ -741,7 +747,7 @@ class MapComponent extends Component<Props> {
 
     let line = null;
     if (bothValidLocations) {
-      line = MapboxGL.geoUtils.makeLineString([coordsObjectToArray(userLocation), destinationCoords]);
+      line = lineString([coordsObjectToArray(userLocation), destinationCoords]);
     }
     return (
       <MapboxGL.ShapeSource id="destLine" shape={line}>
@@ -756,7 +762,7 @@ class MapComponent extends Component<Props> {
     if (!coords || coords.length < 2) {
       return null;
     }
-    const line = MapboxGL.geoUtils.makeLineString(coords);
+    const line = lineString(coords);
     return (
       <MapboxGL.ShapeSource id="areaOutline" shape={line}>
         <MapboxGL.LineLayer id="areaOutlineLayer" style={mapboxStyles.areaOutline} />
