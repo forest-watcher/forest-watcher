@@ -2,7 +2,16 @@
 
 import React, { Component } from 'react';
 
-import { View, Text, TouchableHighlight, TouchableOpacity, Image, ImageBackground, Platform, TouchableNativeFeedback } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableHighlight,
+  TouchableOpacity,
+  Image,
+  ImageBackground,
+  Platform,
+  TouchableNativeFeedback
+} from 'react-native';
 import styles from './styles';
 
 import SettingsButton from 'components/common/settings-button';
@@ -73,6 +82,10 @@ export default class VerticalSplitRow extends Component<Props> {
         background={Platform.select({
           android: TouchableNativeFeedback.Ripple(Theme.background.secondary),
           ios: undefined
+        })}
+        underlayColor={Platform.select({
+          android: undefined,
+          ios: 'white'
         })}
         activeOpacity={0.8}
       >
