@@ -20,6 +20,8 @@ const plusIcon = require('assets/add.png');
 const emptyIcon = require('assets/layersEmpty.png');
 const layerPlaceholder = require('assets/layerPlaceholder.png');
 
+import Theme from 'config/theme';
+
 type Props = {|
   +baseApiLayers: Array<ContextualLayer>,
   +componentId: string,
@@ -36,6 +38,9 @@ class Layers extends Component<Props, State> {
   static options(passProps: {}) {
     return {
       topBar: {
+        background: {
+          color: Theme.colors.veryLightPink
+        },
         title: {
           text: i18n.t('contextualLayers.title')
         },

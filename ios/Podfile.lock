@@ -281,18 +281,18 @@ PODS:
     - React
   - react-native-document-picker (3.3.0):
     - React
-  - react-native-fbsdk (1.1.1):
+  - react-native-fbsdk (1.1.2):
     - React
-    - react-native-fbsdk/Core (= 1.1.1)
-    - react-native-fbsdk/Login (= 1.1.1)
-    - react-native-fbsdk/Share (= 1.1.1)
-  - react-native-fbsdk/Core (1.1.1):
+    - react-native-fbsdk/Core (= 1.1.2)
+    - react-native-fbsdk/Login (= 1.1.2)
+    - react-native-fbsdk/Share (= 1.1.2)
+  - react-native-fbsdk/Core (1.1.2):
     - FBSDKCoreKit (= 5.8)
     - React
-  - react-native-fbsdk/Login (1.1.1):
+  - react-native-fbsdk/Login (1.1.2):
     - FBSDKLoginKit (= 5.8)
     - React
-  - react-native-fbsdk/Share (1.1.1):
+  - react-native-fbsdk/Share (1.1.2):
     - FBSDKShareKit (= 5.8)
     - React
   - react-native-get-random-values (1.3.1):
@@ -441,7 +441,7 @@ DEPENDENCIES:
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - AppAuth
     - boost-for-react-native
     - FBSDKCoreKit
@@ -588,8 +588,8 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 061fe7d9b476710e3cd8ea51e8e07d8b67c2b420
   GoogleDataTransportCCTSupport: 0f39025e8cf51f168711bd3fb773938d7e62ddb5
   GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
-  lottie-ios: d0415b048a01909fced8bbd4bcbc8bcc37c93593
-  lottie-react-native: 4c10f3ee16a18baf827fe722f9bf6c7cbc34a3b5
+  lottie-ios: 85ce835dd8c53e02509f20729fc7d6a4e6645a0a
+  lottie-react-native: 2a1a82bb326ae51331a5520de0cf706733c6db69
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
@@ -605,7 +605,7 @@ SPEC CHECKSUMS:
   react-native-config: f2c2ae45625a068c35681a16b9bfb1ca58b0adc7
   react-native-cookies: a16310bb64240b95dd9531de2b19c267f76fc320
   react-native-document-picker: 0573c02d742d4bef38a5d16b5f039754cfa69888
-  react-native-fbsdk: b94a83971c496a35803f38b921aec6d637ba07b5
+  react-native-fbsdk: c35d42169e64aaf66f01713c1e18d0674f7f6519
   react-native-get-random-values: 148a42f97f2ce180a52d219144e83c278d4fe24b
   react-native-image-picker: c8a4faf0e75ef3619f215463394388f1c222236b
   react-native-mapbox-gl: fcd88e2bf0ddea552b0209cc2770a5ac2b9c9910
@@ -640,4 +640,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 772be44c1830f1633dae89ba867abb3331a49c44
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.8.4
