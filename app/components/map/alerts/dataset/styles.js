@@ -1,3 +1,5 @@
+import Theme from 'config/theme';
+
 export const mapboxStyles = {
   alert: {
     iconRotationAlignment: 'map',
@@ -14,8 +16,9 @@ export const mapboxStyles = {
     circleStrokeColor: 'white'
   },
   clusterCount: {
+    textColor: Theme.colors.white,
     textField: '{point_count}',
-    textSize: 15,
+    textSize: 12,
     textPitchAlignment: 'map'
   }
 };
