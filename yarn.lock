@@ -1123,16 +1123,18 @@
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
-"@react-native-mapbox-gl/maps@7.0.8":
-  version "7.0.8"
-  resolved "https://registry.yarnpkg.com/@react-native-mapbox-gl/maps/-/maps-7.0.8.tgz#f2d4ee09a889d1c62217c20ea29743f8ce0f886e"
-  integrity sha512-6LCvTx0ZJwaySjxlOtf4zUKHkMXOGCTANDBLtGoxZtrYdcvJNfd/rtSyR7c/0amljZEhxN0u1k0Q8hkNkxOgHg==
+"@react-native-mapbox-gl/maps@8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@react-native-mapbox-gl/maps/-/maps-8.0.0.tgz#505e1f790d7694cacb79d2d46956ece15b5f6537"
+  integrity sha512-anOYwSpqFG2JyY8d9uxYH01cBUIo1/osXlC7hD5LJTC6x8nUPpn7/k7TGjH7kgrCtYxpqXI1G7nWPYUwyA1j/w==
   dependencies:
     "@mapbox/geo-viewport" ">= 0.4.0"
     "@turf/along" ">= 4.0.0 <7.0.0"
     "@turf/distance" ">= 4.0.0 <7.0.0"
     "@turf/helpers" ">= 4.6.0 <7.0.0"
-    underscore "^1.8.3"
+    "@turf/length" ">= 4.6.0 <7.0.0"
+    "@turf/nearest-point-on-line" ">= 4.0.0 <7.0.0"
+    debounce "^1.2.0"
 
 "@redux-offline/redux-offline@2.5.2-native.3":
   version "2.5.2-native.3"
@@ -1278,7 +1280,7 @@
   dependencies:
     "@turf/helpers" "6.x"
 
-"@turf/bbox@6.0.1":
+"@turf/bbox@*", "@turf/bbox@6.0.1":
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/@turf/bbox/-/bbox-6.0.1.tgz#b966075771475940ee1c16be2a12cf389e6e923a"
   integrity sha512-EGgaRLettBG25Iyx7VyUINsPpVj1x3nFQFiGS3ER8KCI1MximzNLsam3eXRabqQDjyAKyAE1bJ4EZEpGvspQxw==
@@ -1338,12 +1340,54 @@
   dependencies:
     "@turf/helpers" "6.x"
 
+"@turf/length@>= 4.6.0 <7.0.0":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@turf/length/-/length-6.0.2.tgz#22d91a6d0174e862a3614865613f1aceb1162dac"
+  integrity sha512-nyfXMowVtX2dICEG7u7EGC2SMaauVUWIMc9eWQrEauNA/9aw+7wbiuip4GPBoyeXEUUekF0EOjJn5aB9Zc8CzA==
+  dependencies:
+    "@turf/distance" "6.x"
+    "@turf/helpers" "6.x"
+    "@turf/meta" "6.x"
+
+"@turf/line-intersect@6.x":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@turf/line-intersect/-/line-intersect-6.0.2.tgz#b45b7a4e7e08c39a0e4e91099580ed377ef7335f"
+  integrity sha512-pfL/lBu7ukBPdTjvSCmcNUzZ83V4R95htwqs5NqU8zeS4R+5KTwacbrOYKztjpmHBwUmPEIIpSbqkUoD0Fp7kg==
+  dependencies:
+    "@turf/helpers" "6.x"
+    "@turf/invariant" "6.x"
+    "@turf/line-segment" "6.x"
+    "@turf/meta" "6.x"
+    geojson-rbush "3.x"
+
+"@turf/line-segment@6.x":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@turf/line-segment/-/line-segment-6.0.2.tgz#e280bcde70d28b694028ec1623dc406c928e59b6"
+  integrity sha512-8AkzDHoNw3X68y115josal+lvdAi4b2P1K0YNTKGyLRBaUhPXVSuMBpMd53FRF1hYEb9UJgMbugF9ZE7m5L6zg==
+  dependencies:
+    "@turf/helpers" "6.x"
+    "@turf/invariant" "6.x"
+    "@turf/meta" "6.x"
+
 "@turf/meta@6.x":
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/@turf/meta/-/meta-6.0.2.tgz#eb92951126d24a613ac1b7b99d733fcc20fd30cf"
   integrity sha512-VA7HJkx7qF1l3+GNGkDVn2oXy4+QoLP6LktXAaZKjuT1JI0YESat7quUkbCMy4zP9lAUuvS4YMslLyTtr919FA==
   dependencies:
     "@turf/helpers" "6.x"
+
+"@turf/nearest-point-on-line@>= 4.0.0 <7.0.0":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@turf/nearest-point-on-line/-/nearest-point-on-line-6.0.2.tgz#4b2c1177595d9a1743af76905a9013ced03bc0dc"
+  integrity sha512-re9tSEwYyG1EMo4ObXXAKYVhkMVANPIIJQ1V/J1lKcNfHVc1pYmd3D5jkTNBh+oriI9VL4PVML3eqYE+Zcg0mg==
+  dependencies:
+    "@turf/bearing" "6.x"
+    "@turf/destination" "6.x"
+    "@turf/distance" "6.x"
+    "@turf/helpers" "6.x"
+    "@turf/invariant" "6.x"
+    "@turf/line-intersect" "6.x"
+    "@turf/meta" "6.x"
 
 "@types/babel__core@^7.1.0":
   version "7.1.6"
@@ -2721,6 +2765,11 @@ dayjs@^1.8.15:
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.21.tgz#98299185b72b9b679f31c7ed987b63923c961552"
   integrity sha512-1kbWK0hziklUHkGgiKr7xm59KwAg/K3Tp7H/8X+f58DnNCwY3pKYjOCJpIlVs125FRBukGVZdKZojC073D0IeQ==
 
+debounce@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.2.0.tgz#44a540abc0ea9943018dc0eaa95cce87f65cd131"
+  integrity sha512-mYtLl1xfZLi1m4RtQYlZgJUNQjl4ZxVnHzIR8nLLgi4q1YT8o/WM+MK/f8yfcc9s5Ir5zRaPZyZU6xs1Syoocg==
+
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.9:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
@@ -3839,6 +3888,16 @@ geojson-bounds@*:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/geojson-bounds/-/geojson-bounds-1.0.2.tgz#c4f6e64223b8c919436707fe1acfabe93145b986"
   integrity sha512-VTVisOF00DPgIl5xodFx5xyt2XPMXsz2CIAAxFMAtXbrOJjz2gwgzkGQtLEQuuSztn4plIy3Cgravc3QTu9S/A==
+
+geojson-rbush@3.x:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/geojson-rbush/-/geojson-rbush-3.1.2.tgz#577d6ec70ba986d4e60b741f1df5147faeb82c97"
+  integrity sha512-grkfdg3HIeTjwTfiJe5FT8+fGU3fABCc+vRJDBwdQz9kkLF0Sbif2gs2JUzjewwgmnvLGy9fInySDeADoNuk7w==
+  dependencies:
+    "@turf/bbox" "*"
+    "@turf/helpers" "6.x"
+    "@turf/meta" "6.x"
+    rbush "^2.0.0"
 
 geokdbush@1.1.0:
   version "1.1.0"
@@ -6809,6 +6868,11 @@ querystringify@^2.0.0:
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.1.1.tgz#60e5a5fd64a7f8bfa4d2ab2ed6fdf4c85bad154e"
   integrity sha512-w7fLxIRCRT7U8Qu53jQnJyPkYZIaR4n5151KMfcJlO/A9397Wxb1amJvROTK6TOnp7PfoAmg/qXiNHI+08jRfA==
 
+quickselect@^1.0.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/quickselect/-/quickselect-1.1.1.tgz#852e412ce418f237ad5b660d70cffac647ae94c2"
+  integrity sha512-qN0Gqdw4c4KGPsBOQafj6yj/PA6c/L63f6CaZ/DCF/xF4Esu3jVmKLUDYxghFx8Kb/O7y9tI7x2RjTSXwdK1iQ==
+
 r2@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/r2/-/r2-2.0.1.tgz#94cd802ecfce9a622549c8182032d8e4a2b2e612"
@@ -6834,6 +6898,13 @@ range-parser@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
   integrity sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==
+
+rbush@^2.0.0:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/rbush/-/rbush-2.0.2.tgz#bb6005c2731b7ba1d5a9a035772927d16a614605"
+  integrity sha512-XBOuALcTm+O/H8G90b6pzu6nX6v2zCKiFG4BJho8a+bY6AER6t8uQUZdi5bomQc0AprCWhEGa7ncAbbRap0bRA==
+  dependencies:
+    quickselect "^1.0.1"
 
 rc@^1.0.1, rc@^1.1.6:
   version "1.2.8"
@@ -6893,6 +6964,11 @@ react-native-base64@0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/react-native-base64/-/react-native-base64-0.0.2.tgz#c28463c2c6779ac3ec5fdd12979ebc8c5f9b410a"
   integrity sha512-Fu/J1a2y0X22EJDWqJR2oEa1fpP4gTFjYxk8ElJdt1Yak3HOXmFJ7EohLVHU2DaQkgmKfw8qb7u/48gpzveRbg==
+
+react-native-compass-heading@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-compass-heading/-/react-native-compass-heading-1.0.0.tgz#f87a64fc9779ddc44af008ed001597b696c1af70"
+  integrity sha512-UwloS2NHsgPvCVIQmrKDT+kS3d+KMwwa+rinVv5vKxpLceDadmTtU9Wa8Wm9r3MUXIKqTkOhOXjnFSyVydcY2Q==
 
 react-native-config@0.12.0:
   version "0.12.0"
@@ -8502,11 +8578,6 @@ unc-path-regex@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/unc-path-regex/-/unc-path-regex-0.1.2.tgz#e73dd3d7b0d7c5ed86fbac6b0ae7d8c6a69d50fa"
   integrity sha1-5z3T17DXxe2G+6xrCufYxqadUPo=
-
-underscore@^1.8.3:
-  version "1.9.2"
-  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.9.2.tgz#0c8d6f536d6f378a5af264a72f7bec50feb7cf2f"
-  integrity sha512-D39qtimx0c1fI3ya1Lnhk3E9nONswSKhnffBI0gME9C99fYOkNi04xs8K6pePLhvl1frbDemkaBQ5ikWllR2HQ==
 
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"

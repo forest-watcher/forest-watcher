@@ -4,7 +4,7 @@ import { Dimensions, View, Image, Text, TouchableHighlight } from 'react-native'
 
 import { AREAS, MAPS } from 'config/constants';
 import kinks from '@turf/kinks';
-import { polygon } from '@turf/helpers';
+import { lineString, point, polygon } from '@turf/helpers';
 
 import ActionButton from 'components/common/action-button';
 import Theme from 'config/theme';
@@ -65,7 +65,7 @@ class DrawAreas extends Component {
   // returns true if path intersects itself
   isValidAreaPolygon = markerLocations => {
     const polygonLocations = [...markerLocations, markerLocations[0]];
-    const lineString = MapboxGL.geoUtils.makeLineString(polygonLocations);
+    const lineString = lineString(polygonLocations);
     const intersectionsGeoJson = kinks(lineString);
     const intersections = intersectionsGeoJson?.features?.length;
     return !intersections;
@@ -186,13 +186,13 @@ class DrawAreas extends Component {
       return null;
     }
     const outlineCoords = [...coords, coords[0]];
-    const outlineShape = MapboxGL.geoUtils.makeLineString(outlineCoords);
+    const outlineShape = lineString(outlineCoords);
 
     let markersShape = null;
     if (coords.length > 1) {
-      markersShape = MapboxGL.geoUtils.makeLineString(coords);
+      markersShape = lineString(coords);
     } else if (coords.length === 1) {
-      markersShape = MapboxGL.geoUtils.makePoint(coords[0]);
+      markersShape = point(coords[0]);
     }
     return (
       <React.Fragment>
