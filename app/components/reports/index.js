@@ -24,6 +24,8 @@ import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
 import { formatBytes } from 'helpers/data';
 
+import Theme from 'config/theme';
+
 const editIcon = require('assets/edit.png');
 const emptyIcon = require('assets/reportsEmpty.png');
 const nextIcon = require('assets/next.png');
@@ -61,6 +63,9 @@ class Reports extends PureComponent<Props, State> {
   static options(passProps: {}) {
     return {
       topBar: {
+        background: {
+          color: Theme.colors.veryLightPink
+        },
         title: {
           text: i18n.t('dashboard.reports')
         }

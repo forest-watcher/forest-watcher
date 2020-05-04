@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import Hyperlink from 'react-native-hyperlink';
@@ -8,6 +10,15 @@ import Theme from 'config/theme';
 import styles from './styles';
 
 class TermsAndConditions extends Component {
+  static options(passProps: {}) {
+    return {
+      topBar: {
+        background: {
+          color: Theme.colors.veryLightPink
+        }
+      }
+    };
+  }
   componentDidMount() {
     tracker.trackScreenView('TermsAndConditions');
   }
