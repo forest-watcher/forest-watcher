@@ -541,7 +541,7 @@ class MapComponent extends Component<Props> {
       // Otherwise use gps reading, provided by mapbox
       this.setState({ heading: parseInt(heading) });
     }
-  }, 150);
+  }, 50);
 
   onCustomReportingPress = debounceUI(() => {
     this.dismissInfoBanner();

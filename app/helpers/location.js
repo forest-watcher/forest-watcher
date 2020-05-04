@@ -315,7 +315,7 @@ export function stopTrackingLocation() {
  * @warning This will only emit a GFWOnHeadingEvent when the heading has changed by 3 or more degrees.
  */
 export function startTrackingHeading() {
-  CompassHeading.start(3, degree => {
+  CompassHeading.start(2, degree => {
     emitter.emit(GFWOnHeadingEvent, degree);
   });
 }
