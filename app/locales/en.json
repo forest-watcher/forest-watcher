@@ -516,6 +516,12 @@
         "resumeTrackingDialogNegativeButton": "Delete route",
         "save": "Save Route",
         "share": "Share Routes",
+        "sharing": {
+            "title": "Share Routes",
+            "noneSelected": "No routes selected",
+            "oneRoute": "Share Route (%{bundleSize})",
+            "multipleRoutes": "Share Routes (%{bundleSize})"
+        },
         "stopRouteTrackingPanelTitle": "Stop Route Tracking",
         "stopRouteTrackingPanelContinueOption": "Continue route tracking",
         "stopRouteTrackingPanelSaveOption": "Stop and save route",
