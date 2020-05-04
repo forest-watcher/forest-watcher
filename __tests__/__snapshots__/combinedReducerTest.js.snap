@@ -41,7 +41,7 @@ Object {
         "isMapboxStyle": true,
         "name": "Default",
         "styleURL": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
-        "tileUrl": undefined,
+        "tileUrl": null,
       },
       Object {
         "id": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
@@ -51,7 +51,7 @@ Object {
         "isMapboxStyle": true,
         "name": "Dark",
         "styleURL": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
-        "tileUrl": undefined,
+        "tileUrl": null,
       },
       Object {
         "id": "mapbox://styles/resourcewatch/cjww89e5j08o91cmjsbrd47qt?fresh=true",
@@ -2010,7 +2010,7 @@ Object {
         "isMapboxStyle": true,
         "name": "Default",
         "styleURL": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
-        "tileUrl": undefined,
+        "tileUrl": null,
       },
       Object {
         "id": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
@@ -2020,7 +2020,7 @@ Object {
         "isMapboxStyle": true,
         "name": "Dark",
         "styleURL": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
-        "tileUrl": undefined,
+        "tileUrl": null,
       },
       Object {
         "id": "mapbox://styles/resourcewatch/cjww89e5j08o91cmjsbrd47qt?fresh=true",
