@@ -1,5 +1,13 @@
 apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
+apply plugin: "com.browserstack.gradle"
+
+browserStackConfig {
+    username = "sidedcube1"
+    accessKey = "SV6R1N8qzxod54SiX2ds"
+    devices = ['Google Pixel-7.1']
+}
+
 
 project.ext.envConfigFiles = [
     debug: ".env.android",
