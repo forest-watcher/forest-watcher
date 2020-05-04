@@ -533,7 +533,7 @@ class MapComponent extends Component<Props> {
 
   updateHeading = throttle(heading => {
     this.setState({ heading: parseInt(heading) });
-  }, 150);
+  }, 50);
 
   onCustomReportingPress = debounceUI(() => {
     this.dismissInfoBanner();
