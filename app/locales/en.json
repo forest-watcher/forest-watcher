@@ -400,7 +400,8 @@
                 "noAlerts": "No Alerts"
             },
             "routeSettings": {
-                "showingRoutes": "%{count} Routes",
+                "showingOneRoute": "%{count} Route",
+                "showingManyRoutes": "%{count} Routes",
                 "showingAllRoutes": "All Routes"
             },
             "reportSettings": {
@@ -410,7 +411,8 @@
                 "showingAllReports": "All Reports"
             },
             "contextualLayersSettings": {
-                "showingContextualLayers": "%{count} Contextual Layers"
+                "showingOneContextualLayer": "%{count} Contextual Layer",
+                "showingManyContextualLayers": "%{count} Contextual Layers"
             },
             "basemapSettings": {
                 "showingBasemap": "Basemap: %{basemap}"
