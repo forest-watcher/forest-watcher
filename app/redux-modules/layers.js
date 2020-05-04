@@ -23,6 +23,7 @@ import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
 import togeojson from 'helpers/toGeoJSON';
 import shapefile from 'shpjs';
+import RNFetchBlob from 'rn-fetch-blob'
 
 const DOMParser = require('xmldom').DOMParser;
 const RNFS = require('react-native-fs');
@@ -400,12 +401,11 @@ export function importContextualLayer(layerFile: File) {
             geojson = togeojson.topojson(geojson);
           }
 
-          const cleanedGeoJSON = cleanGeoJSON(geojson);
-          // Write the new data to the app's storage
-          await RNFS.writeFile(fullPath, JSON.stringify(cleanedGeoJSON));
+          const result = await writeGeoJSONToDisk(geojson, fileName, directory);
+
           dispatch({
             type: IMPORT_LAYER_COMMIT,
-            payload: { ...file, uri: fullPath, path: relativePath, fileName: fileName }
+            payload: { ...file, type: 'application/geo+json', ...result }
           });
         } catch (err) {
           dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
@@ -553,8 +553,9 @@ async function writeGeoJSONToDisk(geoJSON: Object, fileName: string, directory: 
   await RNFS.mkdir(directory, {
     NSURLIsExcludedFromBackupKey: false // Allow this to be saved to iCloud backup!
   });
-  // Write the new data to the app's storage
-  await RNFS.writeFile(path, JSON.stringify(cleanedGeoJSON));
+  // Write the new data to the app's storage we use RNFetchBlob here because RNFS seemed to be having
+  // issues with writing large files crashing the app (Possibly due to it encoding the data it saves in the JS layer)
+  await RNFetchBlob.fs.writeFile(path, JSON.stringify(cleanedGeoJSON));
 
   return { uri: path, path: relativePath, fileName: newName };
 }
