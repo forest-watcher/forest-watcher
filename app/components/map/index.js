@@ -534,6 +534,9 @@ class MapComponent extends Component<Props> {
   }, 300);
 
   updateHeading = throttle((heading, isFromGps = false) => {
+    if (!heading) {
+      return;
+    }
     if (!isFromGps) {
       // Use heading reading from sensor if we are getting that data
       this.setState({ heading: parseInt(heading), hasHeadingReadingFromCompass: true });
@@ -731,7 +734,10 @@ class MapComponent extends Component<Props> {
             iconImage: userLocationImage
           };
     return (
-      <MapboxGL.UserLocation onUpdate={location => this.updateHeading(location.coords.heading, true)} renderMode="custom">
+      <MapboxGL.UserLocation
+        onUpdate={location => this.updateHeading(location?.coords?.heading, true)}
+        renderMode="custom"
+      >
         <MapboxGL.SymbolLayer id="userLocation" style={userLocationStyle} />
       </MapboxGL.UserLocation>
     );
