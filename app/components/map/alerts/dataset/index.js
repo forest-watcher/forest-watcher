@@ -66,7 +66,8 @@ export default class AlertDataset extends Component<Props, State> {
       this.props.isActive !== prevProps.isActive ||
       this.props.timeframe !== prevProps.timeframe ||
       this.props.timeframeUnit !== prevProps.timeframeUnit ||
-      this.props.areaId !== prevProps.areaId
+      this.props.areaId !== prevProps.areaId ||
+      this.props.reportedAlerts !== prevProps.reportedAlerts
     ) {
       this._loadAlertsFromDb();
     }
