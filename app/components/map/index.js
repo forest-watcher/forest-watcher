@@ -988,11 +988,6 @@ class MapComponent extends Component<Props> {
           onPress={this.dismissInfoBanner}
           compassViewMargins={{ x: 5, y: 50 }}
         >
-          {basemap.tileUrl && (
-            <MapboxGL.RasterSource id="basemapTiles" url={basemap.tileUrl}>
-              <MapboxGL.RasterLayer id="basemapTileLayer" />
-            </MapboxGL.RasterSource>
-          )}
           {renderMapCamera}
           {this.renderAreaOutline()}
           {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
