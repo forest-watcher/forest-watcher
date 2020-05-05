@@ -482,8 +482,11 @@ export function importContextualLayer(layerFile: File) {
             throw new Error('Zip file does not contain a file with extension .shp');
           }
           const shapeFileData = await readBinaryFile(shapeFilePath);
+
+          const projectionFilePath = shapeFileContents.find(path => path.endsWith('.prj'));
+          const projectionFileData = projectionFilePath ? await readBinaryFile(projectionFilePath) : null;
           // We send the file path in here without the .shp extension as the library adds this itself
-          const polygons = await shapefile.parseShp(shapeFileData);
+          const polygons = await shapefile.parseShp(shapeFileData, projectionFileData);
           const features = featureCollection(polygons.map(polygon => feature(polygon)));
           const result = await writeGeoJSONToDisk(features, fileName, directory);
 
