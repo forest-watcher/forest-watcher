@@ -246,6 +246,7 @@ class Areas extends Component<Props, State> {
     const totalAreas = areas.length;
 
     const hasAreas = areas && areas.length > 0;
+    const sharingType = i18n.t('sharing.type.areas');
 
     return (
       <View
@@ -281,8 +282,8 @@ class Areas extends Component<Props, State> {
               ? i18n.t('areas.export.manyAreas', { count: totalAreas })
               : i18n.t('areas.export.oneArea', { count: 1 })
           }
-          shareButtonDisabledTitle={i18n.t('sharing.title', { type: 'Area' })}
-          shareButtonEnabledTitle={getShareButtonText('Area', totalToExport, this.state.bundleSize)}
+          shareButtonDisabledTitle={i18n.t('sharing.title', { type: sharingType })}
+          shareButtonEnabledTitle={getShareButtonText(sharingType, totalToExport, this.state.bundleSize)}
         >
           {hasAreas ? (
             <ScrollView

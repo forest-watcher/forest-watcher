@@ -7,6 +7,7 @@ import { formatBytes } from 'helpers/data';
  * getShareButtonText - given the total number of routes to share, returns the
  * text that should be shown in the button.
  *
+ * @param type pre-localised sharing type string
  * @param {number} totalToShare the amount of routes that should be shared.
  * @param {?number} bundleSize the size of the shareable bundle.
  *

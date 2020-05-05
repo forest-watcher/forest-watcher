@@ -331,6 +331,7 @@ export default class Routes extends PureComponent<Props, State> {
     // Determine if we're in export mode, and how many routes have been selected to export.
     const totalToExport = this.state.selectedForExport.length;
     const totalRoutes = this.props.routes.length;
+    const sharingType = i18n.t('sharing.type.routes');
 
     return (
       /* View necessary to fix the swipe back on wix navigation */
@@ -352,8 +353,8 @@ export default class Routes extends PureComponent<Props, State> {
               ? i18n.t('routes.export.manyRoutes', { count: totalRoutes })
               : i18n.t('routes.export.oneRoute', { count: 1 })
           }
-          shareButtonDisabledTitle={i18n.t('sharing.title', { type: 'Route' })}
-          shareButtonEnabledTitle={getShareButtonText('Route', totalToExport, this.state.bundleSize)}
+          shareButtonDisabledTitle={i18n.t('sharing.title', { type: sharingType })}
+          shareButtonEnabledTitle={getShareButtonText(sharingType, totalToExport, this.state.bundleSize)}
         >
           {this.renderRoutes(this.props.routes, this.state.inShareMode)}
         </ShareSheet>

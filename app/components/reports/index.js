@@ -430,6 +430,7 @@ class Reports extends PureComponent<Props, State> {
 
     const { complete, uploaded } = this.props.reports;
     const totalReports = complete.length + uploaded.length;
+    const sharingType = i18n.t('sharing.type.reports');
 
     return (
       /* View necessary to fix the swipe back on wix navigation */
@@ -451,8 +452,8 @@ class Reports extends PureComponent<Props, State> {
               ? i18n.t('report.export.manyReports', { count: totalReports })
               : i18n.t('report.export.oneReport', { count: 1 })
           }
-          shareButtonDisabledTitle={i18n.t('sharing.title', { type: 'Report' })}
-          shareButtonEnabledTitle={getShareButtonText('Report', totalToExport, this.state.bundleSize)}
+          shareButtonDisabledTitle={i18n.t('sharing.title', { type: sharingType })}
+          shareButtonEnabledTitle={getShareButtonText(sharingType, totalToExport, this.state.bundleSize)}
         >
           {this.renderReportsScrollView(this.state.inShareMode)}
         </ShareSheet>
