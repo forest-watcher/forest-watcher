@@ -6,7 +6,7 @@ import type { File } from 'types/file.types';
 import type { LayerType } from 'helpers/layer-store/layerFilePaths';
 
 import Config from 'react-native-config';
-import { unzip } from 'helpers/unzip';
+import { unzip } from 'react-native-zip-archive';
 import omit from 'lodash/omit';
 import CONSTANTS from 'config/constants';
 import { getActionsTodoCount } from 'helpers/sync';
@@ -24,6 +24,8 @@ import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 import togeojson from 'helpers/toGeoJSON';
 import shapefile from 'shpjs';
 import RNFetchBlob from 'rn-fetch-blob';
+import { listRecursive, readBinaryFile } from 'helpers/fileManagement';
+import { feature, featureCollection } from '@turf/helpers';
 
 const DOMParser = require('xmldom').DOMParser;
 const RNFS = require('react-native-fs');
@@ -434,10 +436,8 @@ export function importContextualLayer(layerFile: File) {
           const tempPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '');
           const location = await unzip(tempZipPath, tempPath);
           // Don't need to check if folder exists because unzip will have created it
-          const files = await RNFS.readDir(location);
-          const mainFile = files.find(file => {
-            return file.name.endsWith('.kml');
-          });
+          const files = await listRecursive(location);
+          const mainFile = files.find(file => file.name.endsWith('.kml'));
           if (!mainFile) {
             throw new Error('Invalid KMZ bundle, missing a root .kml file');
           }
@@ -473,20 +473,19 @@ export function importContextualLayer(layerFile: File) {
           const unzippedPath = await unzip(tempZipPath, tempPath);
 
           // Add trailing slash, otherwise we read the directory itself!
-          const shapeFileContents = await RNFS.readDir(unzippedPath);
+          const shapeFileContents = await listRecursive(unzippedPath);
 
           // Get the name of the shapefile, as this isn't always the file name of the zip file itself
-          const shapeFile = shapeFileContents.find(res => {
-            return res.path.endsWith('.shp');
-          });
+          const shapeFilePath = shapeFileContents.find(path => path.endsWith('.shp'));
 
-          if (!shapeFile) {
+          if (!shapeFilePath) {
             throw new Error('Zip file does not contain a file with extension .shp');
           }
-          const shapeFileName = shapeFile.name.replace(/\.[^/.]+$/, '');
+          const shapeFileData = await readBinaryFile(shapeFilePath);
           // We send the file path in here without the .shp extension as the library adds this itself
-          const geoJSON = await shapefile(unzippedPath + '/' + shapeFileName);
-          const result = await writeGeoJSONToDisk(geoJSON, fileName, directory);
+          const polygons = await shapefile.parseShp(shapeFileData);
+          const features = featureCollection(polygons.map(polygon => feature(polygon)));
+          const result = await writeGeoJSONToDisk(features, fileName, directory);
 
           await RNFS.unlink(unzippedPath);
 
