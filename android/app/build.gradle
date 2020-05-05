@@ -4,8 +4,7 @@ apply plugin: "com.browserstack.gradle"
 
 browserStackConfig {
     username = "sidedcube1"
-    accessKey = "SV6R1N8qzxod54SiX2ds"
-    devices = ['Google Pixel-7.1']
+    // Add BROWSERSTACK_ACCESS_KEY to your environment
 }
 
 
@@ -147,6 +146,7 @@ android {
         versionCode 30
         versionName "2.0.0"
         resValue "string", "build_config_package", "com.forestwatcher"
+        archivesBaseName = "$applicationId-v$versionName-$versionCode"
         manifestPlaceholders = [
             'appAuthRedirectScheme': project.env.get("LOGIN_GOOGLE_REDIRECT_SCHEMA")
         ]
