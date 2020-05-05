@@ -117,6 +117,7 @@ type Props = {
   isConnected: boolean,
   isOfflineMode: boolean,
   setCanDisplayAlerts: boolean => {},
+  reportedAlerts: Array<string>,
   canDisplayAlerts: boolean,
   area: Object,
   setActiveAlerts: () => {},
@@ -904,6 +905,7 @@ class MapComponent extends Component<Props> {
       return;
     }
     if (date && name) {
+      console.log('mpf alertLocationString: ', name);
       this.setState({
         infoBannerShowing: true,
         infoBannerProps: {
@@ -998,6 +1000,7 @@ class MapComponent extends Component<Props> {
           <Alerts
             alertLayerSettings={this.props.layerSettings.alerts}
             areaId={this.props.area?.id}
+            reportedAlerts={this.props.reportedAlerts}
             onShapeSourcePressed={this.onShapeSourcePressed}
           />
           <Reports featureId={this.getFeatureId()} onShapeSourcePressed={this.onShapeSourcePressed} />

@@ -17,6 +17,7 @@ type Props = {|
   +isActive: boolean,
   +onPress?: ?() => any,
   +slug: 'umd_as_it_happens' | 'viirs',
+  +reportedAlerts: Array<string>,
   +timeframe: number,
   +timeframeUnit: 'days' | 'months'
 |};
@@ -45,12 +46,11 @@ export default class AlertDataset extends Component<Props, State> {
 
     const now = moment();
     this.datasets = {
+      gladRecencyThreshold: now.subtract(7, 'days').valueOf(),
       umd_as_it_happens: {
-        recencyThreshold: now.subtract(7, 'days').valueOf(),
         name: i18n.t('map.gladAlert')
       },
       viirs: {
-        recencyThreshold: now.subtract(0, 'days').valueOf(),
         name: i18n.t('map.viirsAlert')
       }
     };
@@ -78,7 +78,7 @@ export default class AlertDataset extends Component<Props, State> {
    */
   _loadAlertsFromDb = async () => {
     const { areaId, isActive, slug, timeframe, timeframeUnit } = this.props;
-
+    console.log('mpf timeframe: ', timeframe, timeframeUnit);
     // Reset the data in state before retrieving the updated data
     this.setState({
       alertsFeatures: featureCollection([])
@@ -113,28 +113,29 @@ export default class AlertDataset extends Component<Props, State> {
 
   _getAlertProperties = (alert: Alert) => {
     const alertName = this.datasets[alert.slug]?.name;
-    switch (alert.slug) {
-      case 'umd_as_it_happens': {
-        const isRecent = alert.date > this.datasets[alert.slug].recencyThreshold;
-        return {
-          icon: isRecent ? 'gladRecent' : 'glad',
-          date: alert.date,
-          type: 'alert',
-          name: alertName,
-          reported: false
-        };
-      }
-      case 'viirs':
-      default: {
-        return {
-          icon: 'viirs',
-          date: alert.date,
-          type: 'alert',
-          name: alertName,
-          reported: false
-        };
-      }
+    const reported = this.props.reportedAlerts.includes(`${alert.long}${alert.lat}`);
+    const isViirsAlert = alert.slug === 'viirs';
+    const isRecent = isViirsAlert ? false : alert.date > this.datasets.gladRecencyThreshold;
+    return {
+      icon: this._getAlertIcon(alert.slug, isRecent, reported),
+      date: alert.date,
+      type: 'alert',
+      name: alertName,
+      reported
+    };
+  };
+
+  _getAlertIcon = (dataset: string, recent: boolean, reported: boolean, selected: boolean) => {
+    let alertIcon = dataset === 'umd_as_it_happens' ? 'glad' : 'viirs';
+    if (recent) {
+      alertIcon += 'Recent';
+    } else if (reported) {
+      alertIcon += 'Reported';
     }
+    if (selected) {
+      alertIcon += 'Selected';
+    }
+    return alertIcon;
   };
 
   _createFeaturesForAlerts = (alerts: Array<Alert>) => {
