@@ -34,7 +34,8 @@ export default class AlertDataset extends Component<Props, State> {
   datasets: {
     [string]: {
       recencyThreshold: number,
-      name: string
+      name: string,
+      iconPrefix: string
     }
   };
 
@@ -48,10 +49,12 @@ export default class AlertDataset extends Component<Props, State> {
     this.datasets = {
       gladRecencyThreshold: now.subtract(7, 'days').valueOf(),
       umd_as_it_happens: {
-        name: i18n.t('map.gladAlert')
+        name: i18n.t('map.gladAlert'),
+        iconPrefix: 'glad'
       },
       viirs: {
-        name: i18n.t('map.viirsAlert')
+        name: i18n.t('map.viirsAlert'),
+        iconPrefix: 'viirs'
       }
     };
   }
@@ -113,30 +116,33 @@ export default class AlertDataset extends Component<Props, State> {
   };
 
   _getAlertProperties = (alert: Alert) => {
-    const alertName = this.datasets[alert.slug]?.name;
+    const { name, iconPrefix } = this.datasets[alert.slug] ?? {};
     const reported = this.props.reportedAlerts.includes(`${alert.long}${alert.lat}`);
     const isViirsAlert = alert.slug === 'viirs';
     const isRecent = isViirsAlert ? false : alert.date > this.datasets.gladRecencyThreshold;
+    const iconSuffix = this._getAlertIconSuffix(isRecent, reported, false);
+    const icon = `${iconPrefix}${iconSuffix}`;
     return {
-      icon: this._getAlertIcon(alert.slug, isRecent, reported),
+      icon,
       date: alert.date,
       type: 'alert',
-      name: alertName,
+      name,
       reported
     };
   };
 
-  _getAlertIcon = (dataset: string, recent: boolean, reported: boolean, selected: boolean) => {
-    let alertIcon = dataset === 'umd_as_it_happens' ? 'glad' : 'viirs';
-    if (recent) {
-      alertIcon += 'Recent';
-    } else if (reported) {
-      alertIcon += 'Reported';
+  _getAlertIconSuffix = (recent: boolean, reported: boolean, selected: boolean) => {
+    let suffix = '';
+    if (reported) {
+      suffix += 'Reported';
+    } else if (recent) {
+      suffix += 'Recent';
     }
+
     if (selected) {
-      alertIcon += 'Selected';
+      suffix += 'Selected';
     }
-    return alertIcon;
+    return suffix;
   };
 
   _createFeaturesForAlerts = (alerts: Array<Alert>) => {
