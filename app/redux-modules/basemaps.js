@@ -1,6 +1,5 @@
 // @flow
 import type { Basemap, BasemapsAction, BasemapsState } from 'types/basemaps.types';
-import MapboxGL from '@react-native-mapbox-gl/maps';
 
 // Actions
 const ADD_BASEMAP = 'basemaps/ADD_BASEMAP';
