@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import AlertDataset from 'components/map/alerts/dataset';
+import type { Alert } from 'types/common.types';
 
 type AlertLayerSettingsType = {
   layerIsActive: boolean,
@@ -21,6 +22,7 @@ type Props = {|
   +alertLayerSettings: AlertLayerSettingsType,
   +areaId?: ?string,
   +reportedAlerts: Array<string>,
+  +selectedAlerts: Array<Alert>,
   +onShapeSourcePressed?: () => void
 |};
 
@@ -59,6 +61,7 @@ export default class Alerts extends Component<Props> {
           timeframeUnit={'days'}
           onPress={this.props.onShapeSourcePressed}
           reportedAlerts={this.props.reportedAlerts}
+          selectedAlerts={this.props.selectedAlerts}
         />
         <AlertDataset
           slug={'umd_as_it_happens'}
@@ -68,6 +71,7 @@ export default class Alerts extends Component<Props> {
           timeframeUnit={'months'}
           onPress={this.props.onShapeSourcePressed}
           reportedAlerts={this.props.reportedAlerts}
+          selectedAlerts={this.props.selectedAlerts}
         />
       </View>
     );

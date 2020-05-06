@@ -899,21 +899,43 @@ class MapComponent extends Component<Props> {
 
   onShapeSourcePressed = e => {
     // show info banner with feature details
-    const { date, name, type, featureId, cluster } = e?.nativeEvent?.payload?.properties;
+    const { date, name, type, featureId, cluster, lat, long } = e?.nativeEvent?.payload?.properties;
     if (cluster) {
       this.onClusterPress(e?.nativeEvent?.payload?.geometry?.coordinates);
       return;
     }
     if (date && name) {
-      this.setState({
-        infoBannerShowing: true,
-        infoBannerProps: {
-          title: name,
-          subtitle: formatInfoBannerDate(date, type),
-          type,
-          featureId
+      let selectedAlert;
+      if (type === 'alert') {
+        // need to pass these as strings as they are rounded in onShapeSourcePressed method.
+        selectedAlert = { lat: Number(lat), long: Number(long) };
+      }
+      this.setState(prevState => {
+        const isAlert = alert => alert.lat === selectedAlert.lat && alert.long === selectedAlert.long;
+        let selectedAlerts = prevState.selectedAlerts;
+        if (selectedAlert) {
+          if (selectedAlerts.find(isAlert)) {
+            // Deselect alert(s) at exact same location as alert that user pressed on
+            selectedAlerts = selectedAlerts.filter(
+              alert => !(alert.lat === selectedAlert.lat && alert.long === selectedAlert.long)
+            );
+          } else {
+            // Add user pressed alert to selected alerts
+            selectedAlerts = [...selectedAlerts, selectedAlert];
+          }
         }
+        return {
+          selectedAlerts,
+          infoBannerShowing: true,
+          infoBannerProps: {
+            title: name,
+            subtitle: formatInfoBannerDate(date, type),
+            type,
+            featureId
+          }
+        };
       });
+
       // show info banner
       Animated.spring(this.state.animatedPosition, {
         toValue: 0,
@@ -1000,6 +1022,7 @@ class MapComponent extends Component<Props> {
             alertLayerSettings={this.props.layerSettings.alerts}
             areaId={this.props.area?.id}
             reportedAlerts={this.props.reportedAlerts}
+            selectedAlerts={this.state.selectedAlerts}
             onShapeSourcePressed={this.onShapeSourcePressed}
           />
           <Reports featureId={this.getFeatureId()} onShapeSourcePressed={this.onShapeSourcePressed} />

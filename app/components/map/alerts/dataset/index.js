@@ -28,6 +28,7 @@ type Props = {|
   +onPress?: ?() => any,
   +slug: 'umd_as_it_happens' | 'viirs',
   +reportedAlerts: Array<string>,
+  +selectedAlerts: Array<string>,
   +timeframe: number,
   +timeframeUnit: 'days' | 'months'
 |};
@@ -35,6 +36,7 @@ type Props = {|
 type State = {|
   +recentAlerts: FeatureCollection<Point>,
   +reportedAlerts: FeatureCollection<Point>,
+  +selectedAlerts: FeatureCollection<Point>,
   +otherAlerts: FeatureCollection<Point>
 |};
 
@@ -80,7 +82,8 @@ export default class AlertDataset extends PureComponent<Props, State> {
       this.props.timeframe !== prevProps.timeframe ||
       this.props.timeframeUnit !== prevProps.timeframeUnit ||
       this.props.areaId !== prevProps.areaId ||
-      this.props.reportedAlerts !== prevProps.reportedAlerts
+      this.props.reportedAlerts !== prevProps.reportedAlerts ||
+      this.props.selectedAlerts !== prevProps.selectedAlerts
     ) {
       this._loadAlertsFromDb();
     }
@@ -131,30 +134,50 @@ export default class AlertDataset extends PureComponent<Props, State> {
     const { name, recencyTimestamp, iconPrefix } = this.datasets[alert.slug];
     const reported = this.props.reportedAlerts.includes(`${alert.long}${alert.lat}`);
     const isRecent = alert.date > recencyTimestamp;
-    const iconSuffix = this._getAlertIconSuffix(isRecent, reported, false);
-    const icon = `${iconPrefix}${iconSuffix}`;
+    const selected = this._isAlertSelected(alert);
+    const alertInClusterSelected = false;
+    const icon = this._getAlertIconName(iconPrefix, isRecent, reported, alertInClusterSelected, selected);
     return {
+      // need to pass these as strings as they are rounded in onShapeSourcePressed method.
+      lat: '' + alert.lat,
+      long: '' + alert.long,
       icon,
       date: alert.date,
       type: 'alert',
       name,
       reported,
+      selected,
       clusterId: reported ? 'reported' : isRecent ? 'recent' : 'other'
     };
   };
 
-  _getAlertIconSuffix = (recent: boolean, reported: boolean, selected: boolean) => {
-    let suffix = '';
+  _isAlertSelected = (alertToCheck: Alert) => {
+    return !!this.props.selectedAlerts.find(
+      alert => alert.lat === alertToCheck.lat && alert.long === alertToCheck.long
+    );
+  };
+
+  _getAlertIconName = (
+    iconPrefix: string,
+    recent: boolean,
+    reported: boolean,
+    alertInClusterSelected: boolean,
+    selected: boolean
+  ) => {
+    if (selected) {
+      return 'selected';
+    }
+    let iconName = iconPrefix;
     if (reported) {
-      suffix += 'Reported';
+      iconName += 'Reported';
     } else if (recent) {
-      suffix += 'Recent';
+      iconName += 'Recent';
     }
 
     if (selected) {
-      suffix += 'Selected';
+      iconName += 'Selected';
     }
-    return suffix;
+    return iconName;
   };
 
   _createFeaturesForAlerts = (alerts: Array<Alert>): State => {
