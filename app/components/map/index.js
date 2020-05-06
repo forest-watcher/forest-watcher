@@ -66,11 +66,11 @@ import type { Route } from 'types/routes.types';
 import type { File } from 'types/file.types';
 import InfoBanner from 'components/map/info-banner';
 import type { LayerSettings } from 'types/layerSettings.types';
-import Alerts from 'containers/map/alerts';
+import Alerts from 'components/map/alerts';
 import { formatInfoBannerDate } from 'helpers/date';
 import Reports from 'containers/map/reports';
-
 import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
+import { lineString } from '@turf/helpers';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -104,6 +104,8 @@ const createReportIcon = require('assets/createReport.png');
 const reportAreaIcon = require('assets/report_area.png');
 const addLocationIcon = require('assets/add_location.png');
 const customReportingMarker = require('assets/custom-reporting-marker.png');
+const userLocationBearingImage = require('assets/userLocationBearing.png');
+const userLocationImage = require('assets/userLocation.png');
 const closeIcon = require('assets/close_gray.png');
 
 type Props = {
@@ -194,8 +196,8 @@ class MapComponent extends Component<Props> {
     this.state = {
       bottomSafeAreaInset: 0,
       userLocation: null,
-      hasCompass: false,
       heading: null,
+      hasHeadingReadingFromCompass: false,
       region: {
         latitude: undefined, // These are undefined, as when the map is ready it'll move the map to focus on the area.
         longitude: undefined,
@@ -346,7 +348,7 @@ class MapComponent extends Component<Props> {
 
     // Do remove the emitter listeners here, as we don't want this screen to receive anything while it's non-existent!
     emitter.off(GFWOnLocationEvent, this.updateLocationFromGeolocation);
-    emitter.off(GFWOnHeadingEvent);
+    emitter.off(GFWOnHeadingEvent, this.updateHeading);
     emitter.off(GFWOnErrorEvent, this.onLocationUpdateError);
     stopTrackingHeading();
 
@@ -531,23 +533,22 @@ class MapComponent extends Component<Props> {
     });
   }, 300);
 
-  updateHeading = throttle(heading => {
-    this.setState(prevState => {
-      const state = {
-        heading: parseInt(heading, 10)
-      };
-      if (!prevState.hasCompass) {
-        state.hasCompass = true;
-      }
-      return state;
-    });
-  }, 450);
+  updateHeading = throttle((heading, isFromGps = false) => {
+    if (!heading) {
+      return;
+    }
+    if (!isFromGps) {
+      // Use heading reading from sensor if we are getting that data
+      this.setState({ heading: parseInt(heading), hasHeadingReadingFromCompass: true });
+    } else if (!this.state.hasHeadingReadingFromCompass) {
+      // Otherwise use gps reading, provided by mapbox
+      this.setState({ heading: parseInt(heading) });
+    }
+  }, 50);
 
   onCustomReportingPress = debounceUI(() => {
     this.dismissInfoBanner();
-    this.setState(prevState => ({
-      customReporting: true
-    }));
+    this.setState({ customReporting: true });
   });
 
   onSelectionCancelPress = debounceUI(() => {
@@ -717,6 +718,31 @@ class MapComponent extends Component<Props> {
     );
   };
 
+  // Displays user location circle with direction heading on map
+  renderUserLocation = () => {
+    const userLocationStyle =
+      this.state.heading != null
+        ? {
+            iconImage: userLocationBearingImage,
+            // center of image should be the center of the user location circle
+            iconOffset: [0, 10],
+            iconAnchor: 'bottom',
+            iconRotationAlignment: 'map',
+            iconRotate: this.state.heading ?? 180
+          }
+        : {
+            iconImage: userLocationImage
+          };
+    return (
+      <MapboxGL.UserLocation
+        onUpdate={location => this.updateHeading(location?.coords?.heading, true)}
+        renderMode="custom"
+      >
+        <MapboxGL.SymbolLayer id="userLocation" style={userLocationStyle} />
+      </MapboxGL.UserLocation>
+    );
+  };
+
   // Draw line from user location to destination
   renderDestinationLine = () => {
     const { destinationCoords, userLocation, customReporting } = this.state;
@@ -727,7 +753,7 @@ class MapComponent extends Component<Props> {
 
     let line = null;
     if (bothValidLocations) {
-      line = MapboxGL.geoUtils.makeLineString([coordsObjectToArray(userLocation), destinationCoords]);
+      line = lineString([coordsObjectToArray(userLocation), destinationCoords]);
     }
     return (
       <MapboxGL.ShapeSource id="destLine" shape={line}>
@@ -742,7 +768,7 @@ class MapComponent extends Component<Props> {
     if (!coords || coords.length < 2) {
       return null;
     }
-    const line = MapboxGL.geoUtils.makeLineString(coords);
+    const line = lineString(coords);
     return (
       <MapboxGL.ShapeSource id="areaOutline" shape={line}>
         <MapboxGL.LineLayer id="areaOutlineLayer" style={mapboxStyles.areaOutline} />
@@ -923,9 +949,6 @@ class MapComponent extends Component<Props> {
       </View>
     ) : null;
 
-    // Displays user location circle on map
-    const renderUserLocation = <MapboxGL.UserLocation visible={true} />;
-
     // Controls view of map (location / zoom)
     const renderMapCamera = (
       <MapboxGL.Camera
@@ -973,8 +996,8 @@ class MapComponent extends Component<Props> {
           )}
           {this.renderDestinationLine()}
           <Alerts
-            featureId={this.getFeatureId()}
-            areaId={this.props.area.id}
+            alertLayerSettings={this.props.layerSettings.alerts}
+            areaId={this.props.area?.id}
             onShapeSourcePressed={this.onShapeSourcePressed}
           />
           <Reports featureId={this.getFeatureId()} onShapeSourcePressed={this.onShapeSourcePressed} />
@@ -985,7 +1008,7 @@ class MapComponent extends Component<Props> {
             selected={this.isRouteSelected(route?.id)}
             onShapeSourcePressed={this.onShapeSourcePressed}
           />
-          {renderUserLocation}
+          {this.renderUserLocation()}
         </MapboxGL.MapView>
         {renderCustomReportingMarker}
         {this.renderMapFooter()}

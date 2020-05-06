@@ -46,6 +46,9 @@ export default class Settings extends Component<Props, State> {
   static options(passProps: {}) {
     return {
       topBar: {
+        background: {
+          color: Theme.colors.veryLightPink
+        },
         title: {
           text: i18n.t('settings.title')
         }

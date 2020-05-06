@@ -2,8 +2,8 @@
 
 exports[`Redux Alerts Module Initial reducer state 1`] = `
 Object {
+  "cache": Object {},
   "canDisplayAlerts": true,
-  "data": Object {},
   "queue": Array [],
   "reported": Array [],
   "syncError": false,
@@ -47,8 +47,8 @@ Object {
 
 exports[`Redux Alerts Module Simple Actions: snapshot and reducer test getAreaAlerts 2`] = `
 Object {
+  "cache": Object {},
   "canDisplayAlerts": true,
-  "data": Object {},
   "queue": Array [
     "areaID_datasetSlugMock",
   ],
@@ -65,8 +65,8 @@ Object {
 
 exports[`Redux Alerts Module Simple Actions: snapshot and reducer test setActiveAlerts 2`] = `
 Object {
+  "cache": Object {},
   "canDisplayAlerts": true,
-  "data": Object {},
   "queue": Array [],
   "reported": Array [],
   "syncError": false,
@@ -82,8 +82,8 @@ Object {
 
 exports[`Redux Alerts Module Simple Actions: snapshot and reducer test setCanDisplayAlerts 2`] = `
 Object {
+  "cache": Object {},
   "canDisplayAlerts": true,
-  "data": Object {},
   "queue": Array [],
   "reported": Array [],
   "syncError": false,
@@ -99,8 +99,8 @@ Object {
 
 exports[`Redux Alerts Module Simple Actions: snapshot and reducer test setCanDisplayAlerts 4`] = `
 Object {
+  "cache": Object {},
   "canDisplayAlerts": false,
-  "data": Object {},
   "queue": Array [],
   "reported": Array [],
   "syncError": false,

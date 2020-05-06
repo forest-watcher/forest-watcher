@@ -400,7 +400,8 @@
                 "noAlerts": "No Alerts"
             },
             "routeSettings": {
-                "showingRoutes": "%{count} Routes",
+                "showingOneRoute": "%{count} Route",
+                "showingManyRoutes": "%{count} Routes",
                 "showingAllRoutes": "All Routes"
             },
             "reportSettings": {
@@ -410,7 +411,8 @@
                 "showingAllReports": "All Reports"
             },
             "contextualLayersSettings": {
-                "showingContextualLayers": "%{count} Contextual Layers"
+                "showingOneContextualLayer": "%{count} Contextual Layer",
+                "showingManyContextualLayers": "%{count} Contextual Layers"
             },
             "basemapSettings": {
                 "showingBasemap": "Basemap: %{basemap}"
@@ -579,6 +581,17 @@
     "setupOverview": {
         "areaName": "Name the area",
         "placeholder": "Enter a name"
+    },
+    "sharing": {
+        "title": "Share %{type}",
+        "noneSelected": "No %{type} Selected",
+        "one": "Share %{type} (%{bundleSize})",
+        "multiple": "Share %{type} (%{bundleSize})",
+        "type": {
+            "areas": "Areas",
+            "routes": "Routes",
+            "reports": "Reports"
+        }
     },
     "sync": {
         "alertsUpdated": "Your areas are up to date",

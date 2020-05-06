@@ -22,7 +22,9 @@ import displayExportReportDialog from 'helpers/sharing/displayExportReportDialog
 import exportLayerManifest from 'helpers/sharing/exportLayerManifest';
 import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
-import { formatBytes } from 'helpers/data';
+import { getShareButtonText } from 'helpers/sharing/utils';
+
+import Theme from 'config/theme';
 
 const editIcon = require('assets/edit.png');
 const emptyIcon = require('assets/reportsEmpty.png');
@@ -61,6 +63,9 @@ class Reports extends PureComponent<Props, State> {
   static options(passProps: {}) {
     return {
       topBar: {
+        background: {
+          color: Theme.colors.veryLightPink
+        },
         title: {
           text: i18n.t('dashboard.reports')
         }
@@ -431,6 +436,7 @@ class Reports extends PureComponent<Props, State> {
 
     const { complete, uploaded } = this.props.reports;
     const totalReports = complete.length + uploaded.length;
+    const sharingType = i18n.t('sharing.type.reports');
 
     return (
       /* View necessary to fix the swipe back on wix navigation */
@@ -452,17 +458,8 @@ class Reports extends PureComponent<Props, State> {
               ? i18n.t('report.export.manyReports', { count: totalReports })
               : i18n.t('report.export.oneReport', { count: 1 })
           }
-          shareButtonDisabledTitle={i18n.t('report.share')}
-          shareButtonEnabledTitle={
-            totalToExport > 0
-              ? i18n.t('report.export.reportSizeAction', {
-                  bundleSize:
-                    this.state.bundleSize !== undefined
-                      ? formatBytes(this.state.bundleSize)
-                      : i18n.t('commonText.calculating')
-                })
-              : i18n.t('report.export.noneSelected')
-          }
+          shareButtonDisabledTitle={i18n.t('sharing.title', { type: sharingType })}
+          shareButtonEnabledTitle={getShareButtonText(sharingType, totalToExport, this.state.bundleSize)}
         >
           {this.renderReportsScrollView(this.state.inShareMode)}
         </ShareSheet>

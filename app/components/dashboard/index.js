@@ -215,7 +215,6 @@ class Dashboard extends PureComponent<Props> {
         <StatusBar networkActivityIndicatorVisible={appSyncing} />
         <ScrollView
           contentInsetAdjustmentBehavior={'always'}
-          alwaysBounceVertical={false}
           onScroll={disablePristine}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />}
         >

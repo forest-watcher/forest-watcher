@@ -151,7 +151,12 @@ class MapSidebar extends PureComponent<Props, State> {
       description = i18n.t('map.layerSettings.routeSettings.showingAllRoutes');
     } else {
       const count = activeRouteIds.length;
-      description = i18n.t('map.layerSettings.routeSettings.showingRoutes', { count });
+      description = i18n.t(
+        count === 1
+          ? 'map.layerSettings.routeSettings.showingOneRoute'
+          : 'map.layerSettings.routeSettings.showingManyRoutes',
+        { count }
+      );
     }
 
     if (layerIsActive) {
@@ -186,7 +191,12 @@ class MapSidebar extends PureComponent<Props, State> {
   getContextualLayersSettingsTitle = (layerSettings: LayerSettings) => {
     const { activeContextualLayerIds, layerIsActive } = layerSettings.contextualLayers;
     const count = activeContextualLayerIds.length;
-    const description = i18n.t('map.layerSettings.contextualLayersSettings.showingContextualLayers', { count });
+    const description = i18n.t(
+      count === 1
+        ? 'map.layerSettings.contextualLayersSettings.showingOneContextualLayer'
+        : 'map.layerSettings.contextualLayersSettings.showingManyContextualLayers',
+      { count }
+    );
     if (layerIsActive) {
       return i18n.t('map.layerSettings.showing', { description });
     }

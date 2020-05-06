@@ -36,9 +36,29 @@ export default class InfoBanner extends Component<Props> {
     });
   };
 
+  openReport = reportName => {
+    Navigation.showModal({
+      stack: {
+        children: [
+          {
+            component: {
+              name: 'ForestWatcher.Answers',
+              passProps: {
+                reportName,
+                readOnly: true
+              }
+            }
+          }
+        ]
+      }
+    });
+  };
+
   onPress = debounceUI(() => {
     if (this.props.type === 'route') {
       this.openRoute(this.props.featureId, this.props.title);
+    } else if (this.props.type === 'report') {
+      this.openReport(this.props.featureId);
     }
   });
 
@@ -47,6 +67,7 @@ export default class InfoBanner extends Component<Props> {
       android: TouchableNativeFeedback,
       ios: TouchableHighlight
     });
+    const showRightArrow = this.props.type === 'route' || this.props.type === 'report';
 
     return (
       <Touchable
@@ -62,7 +83,7 @@ export default class InfoBanner extends Component<Props> {
             <Text style={styles.title}>{this.props.title || ''}</Text>
             <Text style={styles.subtitle}>{this.props.subtitle || ''}</Text>
           </View>
-          {this.props.type === 'route' && <Image source={rightArrow} />}
+          {showRightArrow && <Image source={rightArrow} />}
         </View>
       </Touchable>
     );

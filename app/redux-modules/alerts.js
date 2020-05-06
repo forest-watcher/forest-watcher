@@ -1,6 +1,7 @@
 // @flow
 import type { AlertsState, AlertsAction } from 'types/alerts.types';
 import type { Area } from 'types/areas.types';
+import type { PersistRehydrate } from 'types/offline.types';
 
 import Config from 'react-native-config';
 
@@ -9,7 +10,8 @@ import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { UPLOAD_REPORT_REQUEST } from 'redux-modules/reports';
 import { RETRY_SYNC } from 'redux-modules/app';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
-import { parseAlerts } from 'helpers/alertsParse';
+import storeAlertsFromCsv from 'helpers/alert-store/storeAlertsFromCsv';
+import deleteAlerts from 'helpers/alert-store/deleteAlerts';
 
 const SET_CAN_DISPLAY_ALERTS = 'alerts/SET_CAN_DISPLAY_ALERTS';
 export const SET_ACTIVE_ALERTS = 'alerts/SET_ACTIVE_ALERTS';
@@ -19,7 +21,7 @@ const GET_ALERTS_ROLLBACK = 'alerts/GET_ALERTS_ROLLBACK';
 
 // Reducer
 const initialState = {
-  data: {},
+  cache: {},
   reported: [],
   canDisplayAlerts: true,
   syncError: false,
@@ -29,7 +31,7 @@ const initialState = {
 export default function reducer(state: AlertsState = initialState, action: AlertsAction) {
   switch (action.type) {
     case PERSIST_REHYDRATE: {
-      const { alerts } = action.payload;
+      const { alerts } = (action: PersistRehydrate).payload;
       return { ...state, ...alerts, syncError: false };
     }
     case RETRY_SYNC: {
@@ -53,27 +55,28 @@ export default function reducer(state: AlertsState = initialState, action: Alert
       return { ...state, queue };
     }
     case GET_ALERTS_COMMIT: {
-      const alerts = parseAlerts(action.payload);
-      const { area, datasetSlug, alertId } = action.meta;
-      const data = {
-        ...state.data,
-        [area.id]: {
-          ...(state.data[area.id] ?? {}),
-          [datasetSlug]: {
-            lastUpdated: Date.now(),
-            alerts
-          }
+      const { area, datasetSlug, range, alertId } = action.meta;
+      const cache = {
+        ...state.cache,
+        [datasetSlug]: {
+          ...state.cache[datasetSlug],
+          [area.id]: Date.now()
         }
       };
-      const queue = state.queue.filter(item => item !== alertId);
-      return { ...state, queue, data };
+      const queue: Array<string> = state.queue.filter(item => item !== alertId);
+
+      if (action.payload) {
+        storeAlertsFromCsv(area.id, datasetSlug, action.payload, range);
+      }
+      return { ...state, queue, cache };
     }
     case GET_ALERTS_ROLLBACK: {
       const { alertId } = action.meta;
-      const queue = state.queue.filter(item => item !== alertId);
+      const queue: Array<string> = state.queue.filter(item => item !== alertId);
       return { ...state, queue, syncError: true };
     }
     case LOGOUT_REQUEST: {
+      deleteAlerts();
       return initialState;
     }
     default:
