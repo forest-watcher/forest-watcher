@@ -11,7 +11,7 @@ import Row from 'components/common/row';
 import { getVersionName } from 'helpers/app';
 import debounceUI from 'helpers/debounceUI';
 
-import { launchAppRoot } from '../../main';
+import { launchAppRoot } from 'main';
 import i18n from 'i18next';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';

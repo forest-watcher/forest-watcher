@@ -17,7 +17,7 @@ import { getLanguage } from 'helpers/language';
 const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
 const WebViewSafeAreaView = withSafeArea(View, 'padding', 'top');
 
-import { launchAppRoot } from '../../main';
+import { launchAppRoot } from 'main';
 import moment from 'moment';
 const parseUrl = require('url-parse');
 
