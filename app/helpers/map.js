@@ -8,6 +8,8 @@ import moment from 'moment';
 import i18n from 'i18next';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
 import { coordsArrayToObject, isValidLatLng } from 'helpers/location';
+import { isEmpty, removeNulls } from 'helpers/utils';
+import { AllGeoJSON } from '@turf/helpers';
 
 import _ from 'lodash';
 
@@ -62,6 +64,55 @@ export function getAllNeighbours(firstPoint: Coordinates, points: Coordinates, d
     neighbours.shift();
   }
   return neighbours;
+}
+
+/**
+ * Removes any `features` from a GeoJSON file with `FeatureCollection` as the root object that have null geometries,
+ * cleans out any `null` in `coordinates` arrays
+ *
+ * @param {Object} geojson The GeoJSON to remove null geometries from
+ * @returns {Object} validated GeoJSON
+ */
+export function cleanGeoJSON(geojson: AllGeoJSON): AllGeoJSON {
+  if (geojson?.type === 'FeatureCollection' && !!geojson.features) {
+    return {
+      ...geojson,
+      features: geojson.features
+        .filter(feature => {
+          return !!feature.geometry && !isEmpty(feature.geometry.coordinates);
+        })
+        .map(feature => {
+          return {
+            ...feature,
+            geometry: {
+              ...feature.geometry,
+              coordinates: removeNulls(feature.geometry.coordinates)
+            }
+          };
+        })
+    };
+  } else if (geojson?.type === 'Feature' && !!geojson.geometry) {
+    return {
+      ...geojson,
+      geometry: {
+        ...geojson.geometry,
+        coordinates: removeNulls(geojson.geometry.coordinates)
+      }
+    };
+  } else if (geojson?.type === 'GeometryCollection' && !!geojson.geometries) {
+    return {
+      ...geojson,
+      geometries: geojson.geometries.map(geometry => {
+        return cleanGeoJSON(geometry);
+      })
+    };
+  } else if (geojson.coordinates) {
+    return {
+      ...geojson,
+      coordinates: removeNulls(geojson.coordinates)
+    };
+  }
+  return geojson;
 }
 
 export function isDateRecent(date: number) {
