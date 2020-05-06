@@ -114,7 +114,7 @@ class Reports extends PureComponent<Props, State> {
       })
     );
     const fileSize = manifestBundleSize(manifest);
-    if (this.fetchId == currentFetchId) {
+    if (this.fetchId === currentFetchId) {
       this.setState({
         bundleSize: fileSize
       });
@@ -128,7 +128,7 @@ class Reports extends PureComponent<Props, State> {
   onReportSelectedForExport = (title: string) => {
     this.setState(state => {
       if (state.selectedForExport.includes(title)) {
-        const selectedForExport = [...state.selectedForExport].filter(id => title != id);
+        const selectedForExport = [...state.selectedForExport].filter(id => title !== id);
         this.fetchExportSize(selectedForExport);
         return {
           selectedForExport

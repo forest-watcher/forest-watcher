@@ -124,8 +124,8 @@ class Login extends PureComponent<Props, State> {
   onLoadEnd = () => {
     const parsedUrl = parseUrl(this.state.webViewCurrentUrl, true);
     if (
-      parsedUrl.origin == Config.API_AUTH &&
-      parsedUrl.pathname == Config.API_AUTH_CALLBACK_PATH &&
+      parsedUrl.origin === Config.API_AUTH &&
+      parsedUrl.pathname === Config.API_AUTH_CALLBACK_PATH &&
       parsedUrl.query?.token
     ) {
       this.props.setLoginAuth({

@@ -56,9 +56,7 @@ export default class Reports extends Component<Props> {
     }
     // remove reports with no location
     reports = reports.filter(report => report.userPosition !== REPORTS.noGpsPosition);
-    const reportFeatureCollection = reports
-      ? featureCollection(reports.map(this.reportToFeature))
-      : null;
+    const reportFeatureCollection = reports ? featureCollection(reports.map(this.reportToFeature)) : null;
     const circleColor = imported ? Theme.colors.importedReport : Theme.colors.report;
     const onPress = this.props.onShapeSourcePressed || null;
     const key = imported ? 'importedReport' : 'myReport';
