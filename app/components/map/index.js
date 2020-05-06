@@ -133,7 +133,7 @@ type Props = {
   allRouteIds: Array<string>,
   layerSettings: LayerSettings,
   isTracking: boolean,
-  onStartTrackingRoute: () => {},
+  onStartTrackingRoute: (location: { latitude: number, longitude: number }, areaId: string) => {},
   onCancelTrackingRoute: () => {},
   getActiveBasemap: () => Basemap,
   getRoutesById: string => Array<Route>
@@ -215,7 +215,8 @@ class MapComponent extends Component<Props> {
       routeTrackingDialogState: ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN,
       locationError: null,
       mapCameraBounds: this.getMapCameraBounds(),
-      destinationCoords: null,
+      mapCenterCoords: null,
+      routeDestination: null,
       animatedPosition: new Animated.Value(DISMISSED_INFO_BANNER_POSTIION),
       infoBannerShowing: false,
       infoBannerProps: {
@@ -436,7 +437,8 @@ class MapComponent extends Component<Props> {
     this.dismissInfoBanner();
     try {
       await this.geoLocate(true);
-      this.props.onStartTrackingRoute(coordsArrayToObject(this.state.destinationCoords), this.props.area.id);
+      this.updateRouteDestination();
+      this.props.onStartTrackingRoute(coordsArrayToObject(this.state.routeDestination), this.props.area.id);
 
       this.onSelectionCancelPress();
 
@@ -470,7 +472,21 @@ class MapComponent extends Component<Props> {
     // This doesn't immediately stop tracking - it will give the user the choice of saving and deleting and only stop
     // tracking once they have finalised one of those actions
     this.showBottomDialog(false);
+    this.setState({ routeDestination: null });
   });
+
+  // Used when starting a new route
+  updateRouteDestination = () => {
+    let routeDestination;
+    if (this.state.selectedAlerts?.length) {
+      const lastSelectedAlert = this.state.selectedAlerts[this.state.selectedAlerts.length - 1];
+      routeDestination = [lastSelectedAlert.long, lastSelectedAlert.lat];
+    }
+    if (!routeDestination) {
+      routeDestination = this.state.mapCenterCoords;
+    }
+    this.setState({ routeDestination });
+  };
 
   openSaveRouteScreen = debounceUI(() => {
     this.closeBottomDialog();
@@ -482,8 +498,8 @@ class MapComponent extends Component<Props> {
   });
 
   async onRegionDidChange() {
-    const destinationCoords = await this.map.getCenter();
-    this.setState({ destinationCoords, dragging: false });
+    const mapCenterCoords = await this.map.getCenter();
+    this.setState({ mapCenterCoords, dragging: false });
   }
 
   showBottomDialog = debounceUI((isExiting = false) => {
@@ -616,8 +632,8 @@ class MapComponent extends Component<Props> {
     let latLng = [];
     if (selectedAlerts && selectedAlerts.length > 0) {
       latLng = selectedAlerts.map(alert => ({
-        lat: alert.latitude,
-        lon: alert.longitude
+        lat: alert.lat,
+        lon: alert.long
       }));
     } else if (this.isRouteTracking() && userLocation) {
       latLng = [
@@ -746,15 +762,15 @@ class MapComponent extends Component<Props> {
 
   // Draw line from user location to destination
   renderDestinationLine = () => {
-    const { destinationCoords, userLocation, customReporting } = this.state;
-    if (!customReporting || !destinationCoords || !userLocation) {
+    const { routeDestination, userLocation, customReporting } = this.state;
+    if (!customReporting || !routeDestination || !userLocation) {
       return null;
     }
-    const bothValidLocations = isValidLatLngArray(destinationCoords) && isValidLatLng(userLocation);
+    const bothValidLocations = isValidLatLngArray(routeDestination) && isValidLatLng(userLocation);
 
     let line = null;
     if (bothValidLocations) {
-      line = lineString([coordsObjectToArray(userLocation), destinationCoords]);
+      line = lineString([coordsObjectToArray(userLocation), routeDestination]);
     }
     return (
       <MapboxGL.ShapeSource id="destLine" shape={line}>
@@ -953,13 +969,13 @@ class MapComponent extends Component<Props> {
       return null;
     }
 
-    const { customReporting, userLocation, destinationCoords } = this.state;
+    const { customReporting, userLocation, mapCenterCoords } = this.state;
     const { isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap, layerSettings } = this.props;
 
     const basemap = getActiveBasemap(this.getFeatureId());
 
     const coordinateAndDistanceText = customReporting
-      ? getCoordinateAndDistanceText(destinationCoords, userLocation, route, coordinatesFormat, this.isRouteTracking())
+      ? getCoordinateAndDistanceText(mapCenterCoords, userLocation, route, coordinatesFormat, this.isRouteTracking())
       : '';
 
     // Map elements
