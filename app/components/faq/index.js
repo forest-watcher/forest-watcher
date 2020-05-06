@@ -23,7 +23,7 @@ type Props = {
 };
 
 export default class FaqCategories extends Component<Props> {
-  static options(passProps: Props) {
+  static options(passProps: {}) {
     return {
       topBar: {
         title: {

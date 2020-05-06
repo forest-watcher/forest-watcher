@@ -46,7 +46,7 @@ type Props = {
 };
 
 class AreaDetail extends Component<Props, State> {
-  static options(passProps: Props) {
+  static options(passProps: {}) {
     return {
       topBar: {
         rightButtons: [

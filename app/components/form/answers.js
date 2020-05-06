@@ -38,7 +38,7 @@ type Props = {
 const closeIcon = require('assets/close.png');
 
 class Answers extends PureComponent<Props> {
-  static options(passProps: Props) {
+  static options(passProps: {}) {
     return {
       topBar: {
         leftButtons: [
