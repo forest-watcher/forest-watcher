@@ -40,7 +40,7 @@ export const GFWBasemaps: Array<Basemap> = [
   }
 ];
 
-export const DEFAULT_BASEMAP = mapboxBasemaps[0];
+export const DEFAULT_BASEMAP = GFWBasemaps[0];
 
 // Reducer
 const initialState = {
