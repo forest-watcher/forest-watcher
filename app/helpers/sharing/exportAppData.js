@@ -12,6 +12,8 @@ import type { Alert } from 'types/common.types';
 import type { BBox2d, Feature, Polygon } from '@turf/helpers';
 import bboxPolygon from '@turf/bbox-polygon';
 
+import { GFWBasemaps } from 'redux-modules/basemaps';
+
 /**
  * Version number of the bundles created using the functions in this file
  *
@@ -68,7 +70,7 @@ function exportAreas(areasState: AreasState, areaIds: Array<string>): Array<Area
  * Extracts any basemap info from state for basemaps matching the specified IDs, OR intersecting any of the given regions
  */
 export function exportBasemaps(basemapsState: BasemapsState, basemapIds: Array<string>): Array<Basemap> {
-  const allBasemaps = [...basemapsState.gfwBasemaps, ...basemapsState.importedBasemaps];
+  const allBasemaps = [...GFWBasemaps, ...basemapsState.importedBasemaps];
   return allBasemaps.filter(basemap => basemapIds.includes(basemap.id));
 }
 

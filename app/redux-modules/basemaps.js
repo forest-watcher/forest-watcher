@@ -5,7 +5,7 @@ import type { Basemap, BasemapsAction, BasemapsState } from 'types/basemaps.type
 const ADD_BASEMAP = 'basemaps/ADD_BASEMAP';
 
 // Constants
-const mapboxBasemaps: Array<Basemap> = [
+export const GFWBasemaps: Array<Basemap> = [
   {
     isMapboxStyle: true,
     id: 'mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true',
@@ -44,7 +44,6 @@ export const DEFAULT_BASEMAP = mapboxBasemaps[0];
 
 // Reducer
 const initialState = {
-  gfwBasemaps: mapboxBasemaps,
   importedBasemaps: []
 };
 
