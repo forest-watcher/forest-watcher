@@ -1,5 +1,5 @@
 // @flow
-import type { Alert } from 'types/common.types';
+import type { Alert } from 'types/alerts.types';
 
 import React, { Component } from 'react';
 

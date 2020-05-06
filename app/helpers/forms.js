@@ -92,13 +92,14 @@ export const isQuestionAnswered = (answer: Answer): boolean => {
 };
 
 function getAnswerValues(question: Question, answer: ?Answer) {
-  if (typeof answer === 'undefined') {
+  if (answer == undefined) {
     return undefined;
   }
+
   const simpleTypeInputs = ['number', 'text', 'point', 'blob'];
   let value = Array.isArray(answer.value) ? answer.value : [answer.value];
   if (!simpleTypeInputs.includes(question.type)) {
-    value = question.values.filter(item => value.includes(item.value)).map(item => item.label);
+    value = question.values?.filter(item => value.includes(item.value)).map(item => item.label);
   }
   return { ...answer, value };
 }
