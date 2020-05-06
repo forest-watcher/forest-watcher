@@ -518,12 +518,6 @@
         "resumeTrackingDialogNegativeButton": "Delete route",
         "save": "Save Route",
         "share": "Share Routes",
-        "sharing": {
-            "title": "Share Routes",
-            "noneSelected": "No routes selected",
-            "oneRoute": "Share Route (%{bundleSize})",
-            "multipleRoutes": "Share Routes (%{bundleSize})"
-        },
         "stopRouteTrackingPanelTitle": "Stop Route Tracking",
         "stopRouteTrackingPanelContinueOption": "Continue route tracking",
         "stopRouteTrackingPanelSaveOption": "Stop and save route",
@@ -587,6 +581,17 @@
     "setupOverview": {
         "areaName": "Name the area",
         "placeholder": "Enter a name"
+    },
+    "sharing": {
+        "title": "Share %{type}",
+        "noneSelected": "No %{type} Selected",
+        "one": "Share %{type} (%{bundleSize})",
+        "multiple": "Share %{type} (%{bundleSize})",
+        "type": {
+            "areas": "Areas",
+            "routes": "Routes",
+            "reports": "Reports"
+        }
     },
     "sync": {
         "alertsUpdated": "Your areas are up to date",

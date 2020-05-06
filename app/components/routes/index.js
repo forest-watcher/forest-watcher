@@ -24,7 +24,7 @@ import Theme, { isSmallScreen } from 'config/theme';
 import exportLayerManifest from 'helpers/sharing/exportLayerManifest';
 import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
-import { formatBytes } from 'helpers/data';
+import { getShareButtonText } from 'helpers/sharing/utils';
 
 const nextIcon = require('assets/next.png');
 const emptyIcon = require('assets/routesEmpty.png');
@@ -61,6 +61,7 @@ export default class Routes extends PureComponent<Props, State> {
     };
   }
 
+  fetchId: ?string = null;
   shareSheet: any;
 
   constructor(props: Props) {
@@ -68,6 +69,7 @@ export default class Routes extends PureComponent<Props, State> {
 
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
     this.state = {
+      bundleSize: undefined,
       inShareMode: false,
       selectedForExport: []
     };
@@ -98,7 +100,7 @@ export default class Routes extends PureComponent<Props, State> {
       []
     );
     const fileSize = manifestBundleSize(manifest);
-    if (this.fetchId == currentFetchId) {
+    if (this.fetchId === currentFetchId) {
       this.setState({
         bundleSize: fileSize
       });
@@ -120,7 +122,7 @@ export default class Routes extends PureComponent<Props, State> {
   onRouteSelectedForExport = (route: Route) => {
     this.setState(state => {
       if (state.selectedForExport.includes(route.areaId + route.id)) {
-        const selectedForExport = [...state.selectedForExport].filter(id => route.areaId + route.id != id);
+        const selectedForExport = [...state.selectedForExport].filter(id => route.areaId + route.id !== id);
         this.fetchExportSize(selectedForExport);
         return {
           selectedForExport
@@ -330,35 +332,11 @@ export default class Routes extends PureComponent<Props, State> {
     );
   }
 
-  /**
-   * getShareButtonText - given the total number of routes to share, returns the
-   * text that should be shown in the button.
-   *
-   * @param {number} totalToShare the amount of routes that should be shared.
-   * @param {?number} bundleSize the size of the shareable bundle.
-   *
-   * @returns {string}
-   */
-  getShareButtonText = (totalToShare: number, bundleSize: ?number): string => {
-    if (totalToShare === 0) {
-      return i18n.t('routes.sharing.noneSelected');
-    }
-
-    let transifexKey = 'routes.sharing.multipleRoutes';
-
-    if (totalToShare === 1) {
-      transifexKey = 'routes.sharing.oneRoute';
-    }
-
-    return i18n.t(transifexKey, {
-      bundleSize: bundleSize !== undefined ? formatBytes(bundleSize) : i18n.t('commonText.calculating')
-    });
-  };
-
   render() {
     // Determine if we're in export mode, and how many routes have been selected to export.
     const totalToExport = this.state.selectedForExport.length;
     const totalRoutes = this.props.routes.length;
+    const sharingType = i18n.t('sharing.type.routes');
 
     return (
       /* View necessary to fix the swipe back on wix navigation */
@@ -380,8 +358,8 @@ export default class Routes extends PureComponent<Props, State> {
               ? i18n.t('routes.export.manyRoutes', { count: totalRoutes })
               : i18n.t('routes.export.oneRoute', { count: 1 })
           }
-          shareButtonDisabledTitle={i18n.t('routes.sharing.title')}
-          shareButtonEnabledTitle={this.getShareButtonText(totalToExport, this.state.bundleSize)}
+          shareButtonDisabledTitle={i18n.t('sharing.title', { type: sharingType })}
+          shareButtonEnabledTitle={getShareButtonText(sharingType, totalToExport, this.state.bundleSize)}
         >
           {this.renderRoutes(this.props.routes, this.state.inShareMode)}
         </ShareSheet>

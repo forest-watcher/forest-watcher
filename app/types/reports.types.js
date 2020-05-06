@@ -3,13 +3,16 @@ import type { Dataset, GetAreasCommit } from 'types/areas.types';
 import type { LogoutRequest } from 'types/user.types';
 import type { OfflineMeta } from 'types/offline.types';
 
+export type Metadata = { id: string, label: string, value: any };
+
 export type Question = {
   type: string,
   name: string,
   Id: string,
   conditions: Array<any>,
+  conditionalValue: ?number,
   childQuestions: Array<Question>,
-  childQuestion: Question,
+  childQuestion: ?Question,
   defaultValue: string,
   values?: Array<any>,
   order: number,
@@ -21,6 +24,10 @@ export type Answer = {
   questionName: string,
   value: any,
   child?: ?Answer
+};
+
+export type AnsweredQuestion = Question & {
+  answer: Answer
 };
 
 export type Template = {
@@ -56,13 +63,15 @@ export type ReportArea = {
   templateId: string
 };
 
+export type ReportsList = {
+  [string]: Report
+};
+
 export type ReportsState = {
   templates: {
     [string]: Template
   },
-  list: {
-    [string]: Report
-  },
+  list: ReportsList,
   synced: boolean,
   syncing: boolean
 };

@@ -5,13 +5,15 @@ export type RouteState = {
   importedRoutes: Array<Route>
 };
 
+export type RouteDifficulty = 'easy' | 'medium' | 'hard';
+
 export type Route = {
   id: string,
   areaId: string,
   name: string,
   startDate: number,
   endDate: number,
-  difficulty: 'easy' | 'medium' | 'hard',
+  difficulty: RouteDifficulty,
   destination: Location,
   language: string,
   locations: Array<LocationPoint>

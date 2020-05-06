@@ -1,5 +1,5 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 import { bindActionCreators } from 'redux';
 import i18n from 'i18next';
 import { connect } from 'react-redux';
@@ -8,7 +8,13 @@ import { setReportAnswer } from 'redux-modules/reports';
 
 import ReportForm from 'components/form';
 
-const mapStateToProps = (state: State, ownProps: { reportName: string, questionIndex: number, editMode: boolean }) => {
+type OwnProps = {|
+  reportName: string,
+  questionIndex: number,
+  editMode: boolean
+|};
+
+const mapStateToProps = (state: State, ownProps: OwnProps) => {
   const lang = state.app.language || 'en';
   const { reportName, questionIndex = 0, editMode } = ownProps;
   const { answers = [] } = state.reports.list[reportName] || {};
@@ -42,7 +48,7 @@ const mapStateToProps = (state: State, ownProps: { reportName: string, questionI
   };
 };
 
-const mapDispatchToProps = (dispatch: *) =>
+const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       setReportAnswer
@@ -50,7 +56,8 @@ const mapDispatchToProps = (dispatch: *) =>
     dispatch
   );
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(ReportForm);

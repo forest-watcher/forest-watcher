@@ -1,6 +1,7 @@
 // @flow
 import type { Area } from 'types/areas.types';
 import type { Route } from 'types/routes.types';
+import type { Dispatch, GetState } from 'types/store.types';
 
 import React, { Component } from 'react';
 import { Alert, View, Image, ScrollView, Text, TextInput, TouchableHighlight } from 'react-native';
@@ -12,7 +13,7 @@ import moment from 'moment';
 import Theme, { isSmallScreen } from 'config/theme';
 import ActionButton from 'components/common/action-button';
 import styles from './styles';
-import { Navigation } from 'react-native-navigation';
+import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import { withSafeArea } from 'react-native-safe-area';
 
 import VerticalSplitRow from 'components/common/vertical-split-row';
@@ -45,7 +46,7 @@ type Props = {
 };
 
 class AreaDetail extends Component<Props, State> {
-  static options(passProps) {
+  static options(passProps: {}) {
     return {
       topBar: {
         rightButtons: [
@@ -72,7 +73,7 @@ class AreaDetail extends Component<Props, State> {
     tracker.trackScreenView('AreaDetail');
   }
 
-  navigationButtonPressed({ buttonId }) {
+  navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {
     if (buttonId === 'deleteArea') {
       this.handleDeleteArea();
     }
@@ -86,7 +87,9 @@ class AreaDetail extends Component<Props, State> {
     this.setState({ name });
   };
 
+  // $FlowFixMe
   onNameSubmit = debounceUI((ev: SyntheticInputEvent<*>) => {
+    // $FlowFixMe
     const newName = ev.nativeEvent.text;
     const { name } = this.props.area;
     if (newName && newName !== name) {

@@ -31,8 +31,19 @@ type Props = {
   offlineMode: boolean
 };
 
-export default class Settings extends Component<Props> {
-  static options(passProps) {
+type State = {
+  versionName: string
+};
+
+type AboutSection = {
+  text: string,
+  image: ?any,
+  section: string,
+  functionOnPress: (string, string) => void
+};
+
+export default class Settings extends Component<Props, State> {
+  static options(passProps: {}) {
     return {
       topBar: {
         background: {
@@ -45,6 +56,7 @@ export default class Settings extends Component<Props> {
     };
   }
 
+  aboutSections: Array<AboutSection>;
   shareAction: { callback: () => void, icon: any };
 
   contextualLayersAction: { callback: () => void, icon: any };

@@ -22,7 +22,7 @@ import displayExportReportDialog from 'helpers/sharing/displayExportReportDialog
 import exportLayerManifest from 'helpers/sharing/exportLayerManifest';
 import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
-import { formatBytes } from 'helpers/data';
+import { getShareButtonText } from 'helpers/sharing/utils';
 
 import Theme from 'config/theme';
 
@@ -73,6 +73,7 @@ class Reports extends PureComponent<Props, State> {
     };
   }
 
+  fetchId: ?string;
   shareSheet: any;
 
   constructor(props: Props) {
@@ -113,7 +114,7 @@ class Reports extends PureComponent<Props, State> {
       })
     );
     const fileSize = manifestBundleSize(manifest);
-    if (this.fetchId == currentFetchId) {
+    if (this.fetchId === currentFetchId) {
       this.setState({
         bundleSize: fileSize
       });
@@ -127,7 +128,7 @@ class Reports extends PureComponent<Props, State> {
   onReportSelectedForExport = (title: string) => {
     this.setState(state => {
       if (state.selectedForExport.includes(title)) {
-        const selectedForExport = [...state.selectedForExport].filter(id => title != id);
+        const selectedForExport = [...state.selectedForExport].filter(id => title !== id);
         this.fetchExportSize(selectedForExport);
         return {
           selectedForExport
@@ -321,7 +322,7 @@ class Reports extends PureComponent<Props, State> {
    * @return {Array}                    An array of report rows.
    */
   renderReports(data: Array<ReportItem>, image: any, onPress: string => void) {
-    return data.map((item, index) => {
+    return data.map((item: ReportItem, index: number) => {
       let positionParsed = '';
       if (item.position) {
         const latLng = item.position.split(',');
@@ -435,6 +436,7 @@ class Reports extends PureComponent<Props, State> {
 
     const { complete, uploaded } = this.props.reports;
     const totalReports = complete.length + uploaded.length;
+    const sharingType = i18n.t('sharing.type.reports');
 
     return (
       /* View necessary to fix the swipe back on wix navigation */
@@ -456,17 +458,8 @@ class Reports extends PureComponent<Props, State> {
               ? i18n.t('report.export.manyReports', { count: totalReports })
               : i18n.t('report.export.oneReport', { count: 1 })
           }
-          shareButtonDisabledTitle={i18n.t('report.share')}
-          shareButtonEnabledTitle={
-            totalToExport > 0
-              ? i18n.t('report.export.reportSizeAction', {
-                  bundleSize:
-                    this.state.bundleSize !== undefined
-                      ? formatBytes(this.state.bundleSize)
-                      : i18n.t('commonText.calculating')
-                })
-              : i18n.t('report.export.noneSelected')
-          }
+          shareButtonDisabledTitle={i18n.t('sharing.title', { type: sharingType })}
+          shareButtonEnabledTitle={getShareButtonText(sharingType, totalToExport, this.state.bundleSize)}
         >
           {this.renderReportsScrollView(this.state.inShareMode)}
         </ShareSheet>

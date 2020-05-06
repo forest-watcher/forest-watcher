@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { Text, ScrollView, View } from 'react-native';
+import { Keyboard, Platform, Text, ScrollView, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
@@ -19,13 +19,18 @@ type Props = {
   existingLayers: Array<File>,
   file: File,
   importContextualLayer: (file: File, fileName: string) => void,
-  importError: ?*,
+  importError: ?Error,
   importingLayer: ?string,
   popToComponentId?: ?string
 };
 
-class ImportLayerRename extends PureComponent<Props> {
-  static options(passProps) {
+type State = {
+  file: File,
+  keyboardVisible: boolean
+};
+
+class ImportLayerRename extends PureComponent<Props, State> {
+  static options(passProps: {}) {
     return {
       topBar: {
         title: {
@@ -40,11 +45,12 @@ class ImportLayerRename extends PureComponent<Props> {
     this.props.clearImportContextualLayerState();
     Navigation.events().bindComponent(this);
     this.state = {
-      file: this.props.file
+      file: this.props.file,
+      keyboardVisible: false
     };
   }
 
-  onFileNameChange = newName => {
+  onFileNameChange = (newName: string) => {
     this.setState(state => ({
       file: {
         ...this.state.file,
@@ -55,6 +61,7 @@ class ImportLayerRename extends PureComponent<Props> {
 
   onImportPressed = async () => {
     try {
+      Keyboard.dismiss();
       await this.props.importContextualLayer(this.state.file);
       if (this.props.popToComponentId) {
         Navigation.popTo(this.props.popToComponentId);
@@ -128,13 +135,15 @@ class ImportLayerRename extends PureComponent<Props> {
             noIcon
           />
         </BottomTray>
-        <KeyboardSpacer
-          onToggle={visible => {
-            this.setState({
-              keyboardVisible: visible
-            });
-          }}
-        />
+        {Platform.OS === 'ios' && (
+          <KeyboardSpacer
+            onToggle={visible => {
+              this.setState({
+                keyboardVisible: visible
+              });
+            }}
+          />
+        )}
       </View>
     );
   }

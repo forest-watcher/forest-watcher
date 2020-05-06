@@ -6,7 +6,7 @@ import styles from './styles';
 import VerticalSplitRow from 'components/common/vertical-split-row';
 import i18n from 'i18next';
 import Theme from 'config/theme';
-import { Navigation } from 'react-native-navigation';
+import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import Dropdown from 'components/common/dropdown';
 import type { Area } from 'types/areas.types';
 import { DATASETS } from 'config/constants';
@@ -27,8 +27,8 @@ type Props = {
   featureId: string,
   area: Area,
   alertLayerSettings: AlertLayerSettingsType,
-  toggleGladAlerts: () => void,
-  toggleViirsAlerts: () => void,
+  toggleGladAlerts: string => void,
+  toggleViirsAlerts: string => void,
   setGladAlertsTimeFrame: () => void,
   setViirsAlertsTimeFrame: () => void
 };
@@ -39,7 +39,7 @@ const GLAD_TIME_FRAME_VALUES = [1, 2, 6, 12];
 const VIIRS_TIME_FRAME_VALUES = [1, 2, 6, 12];
 
 class AlertLayerSettings extends PureComponent<Props> {
-  static options(passProps) {
+  static options(passProps: {}) {
     return {
       topBar: {
         title: {
@@ -56,12 +56,12 @@ class AlertLayerSettings extends PureComponent<Props> {
     };
   }
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     Navigation.events().bindComponent(this);
   }
 
-  navigationButtonPressed({ buttonId }) {
+  navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {
     if (buttonId === 'clear') {
       this.clearAllOptions();
     }
