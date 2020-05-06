@@ -20,5 +20,5 @@ export function formatBytes(bytes: number): string {
   ];
 
   // Don't show decimal places for non-integer bytes
-  return i18n.t(localisationKeys[digitGroup], { size: value.toFixed(digitGroup == 0 ? 0 : 1) });
+  return i18n.t(localisationKeys[digitGroup], { size: value.toFixed(digitGroup === 0 ? 0 : 1) });
 }
