@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { Text, ScrollView, View } from 'react-native';
+import { Keyboard, Platform, Text, ScrollView, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
@@ -55,6 +55,7 @@ class ImportLayerRename extends PureComponent<Props> {
 
   onImportPressed = async () => {
     try {
+      Keyboard.dismiss();
       await this.props.importContextualLayer(this.state.file);
       if (this.props.popToComponentId) {
         Navigation.popTo(this.props.popToComponentId);
@@ -128,13 +129,15 @@ class ImportLayerRename extends PureComponent<Props> {
             noIcon
           />
         </BottomTray>
-        <KeyboardSpacer
-          onToggle={visible => {
-            this.setState({
-              keyboardVisible: visible
-            });
-          }}
-        />
+        {Platform.OS === 'ios' && (
+          <KeyboardSpacer
+            onToggle={visible => {
+              this.setState({
+                keyboardVisible: visible
+              });
+            }}
+          />
+        )}
       </View>
     );
   }
