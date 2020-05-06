@@ -416,7 +416,8 @@ export function importContextualLayer(layerFile: File) {
       case 'kml':
       case 'gpx': {
         try {
-          const result = await writeToDiskAsGeoJSON(file, fileName, fileExtension, directory);
+          const geoJSON = await convertToGeoJSON(file, fileName, fileExtension, directory);
+          const result = await writeGeoJSONToDisk(geoJSON, file, fileName, directory);
           dispatch({
             type: IMPORT_LAYER_COMMIT,
             payload: { ...file, type: 'application/geo+json', ...result }
@@ -441,13 +442,15 @@ export function importContextualLayer(layerFile: File) {
           if (!mainFile) {
             throw new Error('Invalid KMZ bundle, missing a root .kml file');
           }
-          // Get the files of the expanded zip
-          const result = await writeToDiskAsGeoJSON(
-            { ...file, uri: location + '/' + mainFile.name },
+          const newFile = { ...file, uri: location + '/' + mainFile.name };
+          const geoJSON = await convertToGeoJSON(
+            newFile,
             fileName,
             'kml',
             directory
-          );
+          )
+          // Get the files of the expanded zip
+          const result  = await writeGeoJSONToDisk(geoJSON, newFile, fileName, directory);
           await RNFS.unlink(tempPath);
           dispatch({
             type: IMPORT_LAYER_COMMIT,
@@ -512,16 +515,16 @@ export function importContextualLayer(layerFile: File) {
 }
 
 /**
- * Converts a file to GeoJSON and writes it to disk in the directory provided
+ * Converts a file to GeoJSON
  *
  * @param {File} file The file to read and convert to GeoJSON
  * @param {string} fileName The name of the file to write to, this will have it's extension replaced with .geojson
  * @param {string} extension The file extension of the file, this will be used to provide the correct conversion function
  * @param {string} directory The directory to save the file to
  *
- * @returns {Object} A partial `File` object with the written files uri, path and fileName
+ * @returns {Object} The converted GeoJSON
  */
-async function writeToDiskAsGeoJSON(file: File, fileName: string, extension: string, directory: string) {
+async function convertToGeoJSON(file: File, fileName: string, extension: string, directory: string) {
   // Read from file so we can convert to GeoJSON
   const fileContents = await RNFS.readFile(file.uri);
   // Parse XML from file string
@@ -531,8 +534,7 @@ async function writeToDiskAsGeoJSON(file: File, fileName: string, extension: str
   const geoJSON =
     extension === 'gpx' ? togeojson.gpx(xmlDoc, { styles: true }) : togeojson.kml(xmlDoc, { styles: true });
 
-  const saveResponse = await writeGeoJSONToDisk(geoJSON, file, fileName, directory);
-  return saveResponse;
+  return geoJSON;
 }
 
 /**
