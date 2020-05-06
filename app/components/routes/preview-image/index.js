@@ -1,5 +1,6 @@
 // @flow
 
+import type { ViewStyle } from 'types/reactElementStyles.types';
 import type { Route } from 'types/routes.types';
 
 import React, { PureComponent } from 'react';
@@ -13,7 +14,7 @@ const routeMapBackground = require('assets/routeMapBackground.png');
 
 type Props = {
   route: Route,
-  style: any,
+  style: ViewStyle,
   aspectRatio: number,
   width: number
 };
