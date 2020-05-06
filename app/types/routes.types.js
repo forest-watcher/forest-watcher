@@ -14,7 +14,7 @@ export type Route = {
   startDate: number,
   endDate: number,
   difficulty: RouteDifficulty,
-  destination: Location,
+  destination?: Location,
   language: string,
   locations: Array<LocationPoint>
 };
@@ -34,7 +34,7 @@ export type LocationPoint = {
 
 export type RouteDeletionCriteria = {
   id: string,
-  areaId: string
+  areaId?: string
 };
 
 export type RouteAction =
@@ -44,7 +44,10 @@ export type RouteAction =
   | updateSavedRoute
   | discardActiveRoute;
 
-type updateActiveRoute = { type: 'routes/UPDATE_ACTIVE_ROUTE', payload: Route };
+type updateActiveRoute = {
+  type: 'routes/UPDATE_ACTIVE_ROUTE',
+  payload: { areaId: string, destination: Location, startDate: number }
+};
 type updateSavedRoute = { type: 'routes/UPDATE_SAVED_ROUTE', payload: Route };
 type finishAndSaveRoute = { type: 'routes/FINISH_AND_SAVE_ROUTE' };
 type deleteRouteAction = { type: 'routes/DELETE_ROUTE', payload: RouteDeletionCriteria };

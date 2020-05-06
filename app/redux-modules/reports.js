@@ -1,6 +1,6 @@
 // @flow
 import type { Dispatch, GetState } from 'types/store.types';
-import type { ReportsState, ReportsAction, Report, Answer } from 'types/reports.types';
+import type { Question, ReportsState, ReportsAction, Report, Answer } from 'types/reports.types';
 import type { Area } from 'types/areas.types';
 import omit from 'lodash/omit';
 

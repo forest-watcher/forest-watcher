@@ -55,6 +55,8 @@ export type LayerSettingsAction =
   | ToggleAlertsLayer
   | ToggleRoutesLayer
   | ToggleReportsLayer
+  | ToggleMyReportsLayer
+  | ToggleImportedReportsLayer
   | ToggleContextualLayersLayer
   | InitialiseAlerts
   | ToggleGladAlerts
@@ -92,6 +94,18 @@ export type ToggleReportsLayer = {
 };
 export type ToggleContextualLayersLayer = {
   type: 'layerSettings/TOGGLE_CONTEXTUAL_LAYERS_LAYER',
+  payload: {
+    featureId: string
+  }
+};
+export type ToggleMyReportsLayer = {
+  type: 'layerSettings/TOGGLE_MY_REPORTS_LAYER',
+  payload: {
+    featureId: string
+  }
+};
+export type ToggleImportedReportsLayer = {
+  type: 'layerSettings/TOGGLE_IMPORTED_REPORTS_LAYER',
   payload: {
     featureId: string
   }

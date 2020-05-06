@@ -1,7 +1,7 @@
 // @flow
-import type { LayersState, LayersAction, LayersCacheStatus, LayersProgress } from 'types/layers.types';
+import type { ContextualLayer, LayersState, LayersAction, LayersCacheStatus, LayersProgress } from 'types/layers.types';
 import type { Dispatch, GetState, State } from 'types/store.types';
-import type { Area } from 'types/areas.types';
+import type { Area, AreasAction } from 'types/areas.types';
 import type { File } from 'types/file.types';
 import type { LayerType } from 'helpers/layer-store/layerFilePaths';
 
@@ -33,10 +33,10 @@ const SET_ACTIVE_LAYER = 'layers/SET_ACTIVE_LAYER';
 const DOWNLOAD_AREA = 'layers/DOWNLOAD_AREA';
 const CACHE_LAYER_REQUEST = 'layers/CACHE_LAYER_REQUEST';
 const CACHE_LAYER_COMMIT = 'layers/CACHE_LAYER_COMMIT';
-export const CACHE_LAYER_ROLLBACK = 'layer/CACHE_LAYER_ROLLBACK';
-const SET_CACHE_STATUS = 'layer/SET_CACHE_STATUS';
-export const INVALIDATE_CACHE = 'layer/INVALIDATE_CACHE';
-const UPDATE_PROGRESS = 'layer/UPDATE_PROGRESS';
+export const CACHE_LAYER_ROLLBACK = 'layers/CACHE_LAYER_ROLLBACK';
+const SET_CACHE_STATUS = 'layers/SET_CACHE_STATUS';
+export const INVALIDATE_CACHE = 'layers/INVALIDATE_CACHE';
+const UPDATE_PROGRESS = 'layers/UPDATE_PROGRESS';
 
 const IMPORT_LAYER_REQUEST = 'layers/IMPORT_LAYER_REQUEST';
 const IMPORT_LAYER_COMMIT = 'layers/IMPORT_LAYER_COMMIT';
@@ -61,7 +61,7 @@ const initialState = {
   importingLayer: null // file path for layer which is being imported
 };
 
-export default function reducer(state: LayersState = initialState, action: LayersAction) {
+export default function reducer(state: LayersState = initialState, action: LayersAction | AreasAction) {
   switch (action.type) {
     case PERSIST_REHYDRATE: {
       // $FlowFixMe
@@ -301,7 +301,9 @@ export function setActiveContextualLayer(layerId: string, value: boolean) {
     let activeLayer = null;
     const state = getState();
     const currentActiveLayerId = state.layers.activeLayer;
-    const currentActiveLayer = state.layers.data?.find(layerData => layerData.id === currentActiveLayerId);
+    const currentActiveLayer: ContextualLayer = state.layers.data?.find(
+      layerData => layerData.id === currentActiveLayerId
+    );
     if (!value) {
       if (currentActiveLayer) {
         tracker.trackLayerToggledEvent(currentActiveLayer.name, false);
@@ -311,7 +313,7 @@ export function setActiveContextualLayer(layerId: string, value: boolean) {
         tracker.trackLayerToggledEvent(currentActiveLayer.name, false);
       }
       activeLayer = layerId;
-      const nextActiveLayer = state.layers.data?.find(layerData => layerData.id === layerId);
+      const nextActiveLayer: ContextualLayer = state.layers.data?.find(layerData => layerData.id === layerId);
       if (nextActiveLayer) {
         tracker.trackLayerToggledEvent(nextActiveLayer.name, true);
       }
@@ -551,12 +553,12 @@ function cleanGeoJSON(geojson) {
   return geojson;
 }
 
-function getAreaById(areas, areaId) {
+function getAreaById(areas, areaId): ?Area {
   const area = areas.find(areaData => areaData.id === areaId);
   return area ? { ...area } : null;
 }
 
-function getLayerById(layers, layerId) {
+function getLayerById(layers, layerId): ?ContextualLayer {
   if (!layers) {
     return null;
   }
@@ -568,7 +570,7 @@ export function cacheAreaBasemap(areaId: string) {
   return (dispatch: Dispatch, state: GetState) => {
     const areas = state().areas.data;
     const area = getAreaById(areas, areaId);
-    const layer = {
+    const layer: ContextualLayer = {
       id: 'basemap',
       url: CONSTANTS.maps.basemap
     };
@@ -617,12 +619,12 @@ export function cacheAreaLayer(areaId: string, layerId: string) {
             type: CACHE_LAYER_COMMIT
           })
         )
-        .catch(() =>
+        .catch(() => {
           dispatch({
             meta: { area, layer },
             type: CACHE_LAYER_ROLLBACK
-          })
-        );
+          });
+        });
       dispatch({ type: CACHE_LAYER_REQUEST, payload: { area, layer } });
     }
   };
@@ -687,7 +689,7 @@ function getCacheStatusFromAreas(cacheStatus: LayersCacheStatus = {}, areas = []
   return areas.reduce((acc, next) => updateCacheAreaStatus(acc, next), cacheStatus);
 }
 
-function updateCacheAreaStatus(cacheStatus: LayersCacheStatus, area: Area) {
+function updateCacheAreaStatus(cacheStatus: LayersCacheStatus, area: { id: string }) {
   const progress = cacheStatus[area.id] ? cacheStatus[area.id].progress : 0;
   const error = cacheStatus[area.id] ? cacheStatus[area.id].error : false;
   return {

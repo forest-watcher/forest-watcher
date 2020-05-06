@@ -1,7 +1,7 @@
 // @flow
-import type { RouteState, RouteAction, Route, RouteDeletionCriteria } from 'types/routes.types';
+import type { Location, RouteState, RouteAction, Route, RouteDeletionCriteria } from 'types/routes.types';
 import { deleteAllLocations } from '../helpers/location';
-import type { Dispatch, GetState } from 'types/store.types';
+import type { Dispatch, GetState, Thunk } from 'types/store.types';
 
 // Actions
 const DISCARD_ACTIVE_ROUTE = 'routes/DISCARD_ACTIVE_ROUTE';
@@ -54,12 +54,12 @@ export default function reducer(state: RouteState = initialState, action: RouteA
       if (action.payload.id) {
         return {
           ...state,
-          previousRoutes: state.previousRoutes.filter(route => route.id !== action.payload.id)
+          previousRoutes: state.previousRoutes.filter((route: Route) => route.id !== action.payload.id)
         };
       } else if (action.payload.areaId) {
         return {
           ...state,
-          previousRoutes: state.previousRoutes.filter(route => route.areaId != action.payload.areaId)
+          previousRoutes: state.previousRoutes.filter((route: Route) => route.areaId != action.payload.areaId)
         };
       } else {
         return state;
@@ -117,7 +117,7 @@ export function finishAndSaveRoute(): RouteAction {
   };
 }
 
-export function getRoutesById(routeIds): RouteAction {
+export function getRoutesById(routeIds: Array<string>): Thunk<Route> {
   return (dispatch: Dispatch, getState: GetState) => {
     const state = getState();
     return [...state.routes.previousRoutes, ...state.routes.importedRoutes].filter(route =>
@@ -126,7 +126,7 @@ export function getRoutesById(routeIds): RouteAction {
   };
 }
 
-export function getAllRouteIds(): RouteAction {
+export function getAllRouteIds(): Thunk<string> {
   return (dispatch: Dispatch, getState: GetState) => {
     const state = getState();
     return [...state.routes.previousRoutes, ...state.routes.importedRoutes].map(item => item.id);

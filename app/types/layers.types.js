@@ -9,7 +9,7 @@ export type ContextualLayer = {
   enabled?: ?boolean,
   id: string,
   isPublic?: ?boolean,
-  name: string,
+  name?: string,
   owner?: ?{
     type: string
   },
@@ -64,7 +64,11 @@ export type LayersAction =
   | DownloadArea
   | InvalidateCache
   | SetCacheStatus
-  | DeleteAreaCommit;
+  | DeleteAreaCommit
+  | ImportLayerRequest
+  | ImportLayerCommit
+  | ImportLayerClear
+  | ImportLayerRollback;
 
 type GetLayersRequest = {
   type: 'layers/GET_LAYERS_REQUEST',
@@ -76,7 +80,7 @@ type GetLayersCommit = {
   meta: { areas: Array<Area> }
 };
 type GetLayersRollback = { type: 'layers/GET_LAYERS_ROLLBACK' };
-type SetActiveContextualLayer = { type: 'layers/SET_ACTIVE_LAYER', payload: string };
+type SetActiveContextualLayer = { type: 'layers/SET_ACTIVE_LAYER', payload: ?string };
 type UpdateProgress = {
   type: 'layers/UPDATE_PROGRESS',
   payload: {
@@ -104,3 +108,8 @@ type SetCacheStatus = {
   type: 'layers/SET_CACHE_STATUS',
   payload: LayersCacheStatus
 };
+
+type ImportLayerRequest = { type: 'layers/IMPORT_LAYER_REQUEST', payload: ?string };
+type ImportLayerCommit = { type: 'layers/IMPORT_LAYER_COMMIT', payload: File };
+type ImportLayerClear = { type: 'layers/IMPORT_LAYER_CLEAR' };
+type ImportLayerRollback = { type: 'layers/IMPORT_LAYER_ROLLBACK', payload: ?Error };
