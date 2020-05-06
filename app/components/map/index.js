@@ -905,7 +905,6 @@ class MapComponent extends Component<Props> {
       return;
     }
     if (date && name) {
-      console.log('mpf alertLocationString: ', name);
       this.setState({
         infoBannerShowing: true,
         infoBannerProps: {
