@@ -1,16 +1,26 @@
 // @flow
-import type { Alert } from 'types/common.types';
+import type { Alert, AlertDatasetConfig } from 'types/common.types';
 
 import React, { Component } from 'react';
 
-import Theme from 'config/theme';
 import { mapboxStyles } from './styles';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { type FeatureCollection, type Point, featureCollection, point } from '@turf/helpers';
 import i18n from 'i18next';
+import _ from 'lodash';
 import moment from 'moment';
 import queryAlerts from 'helpers/alert-store/queryAlerts';
 import generateUniqueID from 'helpers/uniqueId';
+import { DATASETS } from 'config/constants';
+
+type AlertProperties = {|
+  type: 'alert',
+  clusterId: 'reported' | 'recent' | 'other',
+  name: string,
+  date: number,
+  icon: string,
+  reported: boolean
+|};
 
 type Props = {|
   +areaId?: ?string,
@@ -23,7 +33,9 @@ type Props = {|
 |};
 
 type State = {|
-  +alertsFeatures: FeatureCollection<Point>
+  +recentAlerts: FeatureCollection<Point>,
+  +reportedAlerts: FeatureCollection<Point>,
+  +otherAlerts: FeatureCollection<Point>
 |};
 
 /**
@@ -32,31 +44,25 @@ type State = {|
 export default class AlertDataset extends Component<Props, State> {
   activeRequestId: ?string;
   datasets: {
-    [string]: {
-      recencyThreshold: number,
+    [string]: AlertDatasetConfig & {
       name: string,
-      iconPrefix: string
+      recencyTimestamp: number
     }
   };
 
   constructor(props: Props) {
     super(props);
     this.state = {
-      alertsFeatures: featureCollection([])
+      recentAlerts: featureCollection([]),
+      reportedAlerts: featureCollection([]),
+      otherAlerts: featureCollection([])
     };
 
     const now = moment();
-    this.datasets = {
-      gladRecencyThreshold: now.subtract(7, 'days').valueOf(),
-      umd_as_it_happens: {
-        name: i18n.t('map.gladAlert'),
-        iconPrefix: 'glad'
-      },
-      viirs: {
-        name: i18n.t('map.viirsAlert'),
-        iconPrefix: 'viirs'
-      }
-    };
+    this.datasets = _.mapValues(DATASETS, config => ({
+      name: i18n.t(config.nameKey),
+      recencyTimestamp: now.subtract(config.recencyThreshold, 'days').valueOf()
+    }));
   }
 
   componentDidMount() {
@@ -82,10 +88,12 @@ export default class AlertDataset extends Component<Props, State> {
    */
   _loadAlertsFromDb = async () => {
     const { areaId, isActive, slug, timeframe, timeframeUnit } = this.props;
-    console.log('mpf timeframe: ', timeframe, timeframeUnit);
+
     // Reset the data in state before retrieving the updated data
     this.setState({
-      alertsFeatures: featureCollection([])
+      recentAlerts: featureCollection([]),
+      reportedAlerts: featureCollection([]),
+      otherAlerts: featureCollection([])
     });
 
     if (!isActive) {
@@ -101,25 +109,24 @@ export default class AlertDataset extends Component<Props, State> {
         timeAgo: { max: timeframe, unit: timeframeUnit },
         distinctLocations: true
       });
-      const alertFeatures = this._createFeaturesForAlerts(alerts);
+      const updatedAlertState = this._createFeaturesForAlerts(alerts);
 
       if (requestId !== this.activeRequestId) {
         return;
       }
 
       this.setState({
-        alertsFeatures: alertFeatures
+        ...updatedAlertState
       });
     } catch (err) {
       console.warn(err);
     }
   };
 
-  _getAlertProperties = (alert: Alert) => {
-    const { name, iconPrefix } = this.datasets[alert.slug] ?? {};
+  _getAlertProperties = (alert: Alert): AlertProperties => {
+    const { name, recencyTimestamp, iconPrefix } = this.datasets[alert.slug];
     const reported = this.props.reportedAlerts.includes(`${alert.long}${alert.lat}`);
-    const isViirsAlert = alert.slug === 'viirs';
-    const isRecent = isViirsAlert ? false : alert.date > this.datasets.gladRecencyThreshold;
+    const isRecent = alert.date > recencyTimestamp;
     const iconSuffix = this._getAlertIconSuffix(isRecent, reported, false);
     const icon = `${iconPrefix}${iconSuffix}`;
     return {
@@ -127,7 +134,8 @@ export default class AlertDataset extends Component<Props, State> {
       date: alert.date,
       type: 'alert',
       name,
-      reported
+      reported,
+      clusterId: reported ? 'reported' : isRecent ? 'recent' : 'other'
     };
   };
 
@@ -145,46 +153,65 @@ export default class AlertDataset extends Component<Props, State> {
     return suffix;
   };
 
-  _createFeaturesForAlerts = (alerts: Array<Alert>) => {
+  _createFeaturesForAlerts = (alerts: Array<Alert>): State => {
     const alertFeatures = alerts.map((alert: Alert) => {
       const properties = this._getAlertProperties(alert);
       return point([alert.long, alert.lat], properties);
     });
-    return featureCollection(alertFeatures);
+    const alertsGroupedByCluster = _.groupBy(alertFeatures, feature => feature.properties?.['cluster']);
+    return {
+      recentAlerts: featureCollection(alertsGroupedByCluster.recent ?? []),
+      reportedAlerts: featureCollection(alertsGroupedByCluster.reported ?? []),
+      otherAlerts: featureCollection(alertsGroupedByCluster.other ?? [])
+    };
   };
 
   render() {
-    const { isActive, onPress, slug } = this.props;
+    const { isActive, slug } = this.props;
 
-    const viirsAlertType = slug === 'viirs';
-
-    if (!isActive || !this.state.alertsFeatures) {
+    if (!isActive) {
       return null;
     }
 
-    const circleColor = viirsAlertType ? Theme.colors.viirs : Theme.colors.glad;
+    const { recentAlerts, reportedAlerts, otherAlerts } = this.state;
+    const { color, colorReported, colorRecent } = this.datasets[slug] ?? {};
+
+    return (
+      <>
+        {this.renderCluster('reportedAlerts', colorReported, reportedAlerts)}
+        {this.renderCluster('recentAlerts', colorRecent, recentAlerts)}
+        {this.renderCluster('otherAlerts', color, otherAlerts)}
+      </>
+    );
+  }
+
+  renderCluster = (clusterName: string, clusterColor: any, alerts: FeatureCollection<Point>) => {
+    const idShapeSource = `${clusterName}Source`;
+    const idClusterCountSymbolLayer = `${clusterName}PointCount`;
+    const idClusterCircleLayer = `${clusterName}ClusteredPoints`;
+    const idAlertSymbolLayer = `${clusterName}AlertLayer`;
     return (
       <MapboxGL.ShapeSource
-        id={slug + 'alertSource'}
+        id={idShapeSource}
         cluster
         clusterRadius={120}
         clusterMaxZoomLevel={15}
-        shape={this.state.alertsFeatures}
-        onPress={onPress}
+        shape={alerts}
+        onPress={this.props.onPress}
       >
-        <MapboxGL.SymbolLayer id={slug + 'pointCount'} style={mapboxStyles.clusterCount} />
+        <MapboxGL.SymbolLayer id={idClusterCountSymbolLayer} style={mapboxStyles.clusterCount} />
         <MapboxGL.CircleLayer
-          id={slug + 'clusteredPoints'}
-          belowLayerID={slug + 'pointCount'}
+          id={idClusterCircleLayer}
+          belowLayerID={idClusterCountSymbolLayer}
           filter={['has', 'point_count']}
-          style={{ ...mapboxStyles.clusteredPoints, circleColor }}
+          style={{ ...mapboxStyles.clusteredPoints, circleColor: clusterColor }}
         />
         <MapboxGL.SymbolLayer
-          id={slug + 'alertLayer'}
+          id={idAlertSymbolLayer}
           filter={['!', ['has', 'point_count']]}
           style={mapboxStyles.alert}
         />
       </MapboxGL.ShapeSource>
     );
-  }
+  };
 }
