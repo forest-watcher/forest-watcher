@@ -155,7 +155,7 @@ exports[`Redux Layers Module Redux Snapshot Thunk Actions refreshAreaCacheById 1
 Array [
   Object {
     "payload": "areaIDMock",
-    "type": "layer/INVALIDATE_CACHE",
+    "type": "layers/INVALIDATE_CACHE",
   },
 ]
 `;
@@ -164,7 +164,7 @@ exports[`Redux Layers Module Redux Snapshot Thunk Actions refreshAreaCacheById 2
 Array [
   Object {
     "payload": "areaIDMock",
-    "type": "layer/INVALIDATE_CACHE",
+    "type": "layers/INVALIDATE_CACHE",
   },
   Object {
     "payload": Object {
@@ -197,7 +197,7 @@ Array [
   },
   Object {
     "payload": "areaIDMock1",
-    "type": "layer/INVALIDATE_CACHE",
+    "type": "layers/INVALIDATE_CACHE",
   },
 ]
 `;
@@ -213,7 +213,7 @@ Array [
         "requested": false,
       },
     },
-    "type": "layer/SET_CACHE_STATUS",
+    "type": "layers/SET_CACHE_STATUS",
   },
   Object {
     "payload": Object {
@@ -224,7 +224,7 @@ Array [
         "requested": false,
       },
     },
-    "type": "layer/SET_CACHE_STATUS",
+    "type": "layers/SET_CACHE_STATUS",
   },
 ]
 `;
@@ -240,7 +240,7 @@ Array [
         "requested": false,
       },
     },
-    "type": "layer/SET_CACHE_STATUS",
+    "type": "layers/SET_CACHE_STATUS",
   },
 ]
 `;
@@ -330,7 +330,7 @@ Array [
         "requested": false,
       },
     },
-    "type": "layer/SET_CACHE_STATUS",
+    "type": "layers/SET_CACHE_STATUS",
   },
 ]
 `;
