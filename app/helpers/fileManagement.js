@@ -20,12 +20,15 @@ if (typeof atob === 'undefined') {
 /**
  * List all the files under the specified directory and its subdirectories
  */
-export async function listRecursive(path: string, directoryBlacklist: Array<string> = ['__MACOSX']): Array<string> {
-  const files = [];
-  const childen = await RNFS.readDir(path);
+export async function listRecursive(
+  path: string,
+  directoryBlacklist: Array<string> = ['__MACOSX']
+): Promise<Array<string>> {
+  const files: Array<string> = [];
+  const children = await RNFS.readDir(path);
 
   // eslint-disable-next-line no-unused-vars
-  for (const child of childen) {
+  for (const child of children) {
     if (child.isDirectory()) {
       const isBlacklisted = directoryBlacklist.includes(child.name);
       if (!isBlacklisted) {
