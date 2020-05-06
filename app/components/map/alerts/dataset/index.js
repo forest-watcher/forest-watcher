@@ -1,7 +1,7 @@
 // @flow
 import type { Alert, AlertDatasetConfig } from 'types/common.types';
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import { mapboxStyles } from './styles';
 import MapboxGL from '@react-native-mapbox-gl/maps';
@@ -41,7 +41,7 @@ type State = {|
 /**
  * Displays the alerts corresponding to the specified dataset and other criteria
  */
-export default class AlertDataset extends Component<Props, State> {
+export default class AlertDataset extends PureComponent<Props, State> {
   activeRequestId: ?string;
   datasets: {
     [string]: AlertDatasetConfig & {
@@ -60,8 +60,12 @@ export default class AlertDataset extends Component<Props, State> {
 
     const now = moment();
     this.datasets = _.mapValues(DATASETS, config => ({
+      ...config,
       name: i18n.t(config.nameKey),
-      recencyTimestamp: now.subtract(config.recencyThreshold, 'days').valueOf()
+      recencyTimestamp: now
+        .clone()
+        .subtract(config.recencyThreshold, 'days')
+        .valueOf()
     }));
   }
 
@@ -158,7 +162,7 @@ export default class AlertDataset extends Component<Props, State> {
       const properties = this._getAlertProperties(alert);
       return point([alert.long, alert.lat], properties);
     });
-    const alertsGroupedByCluster = _.groupBy(alertFeatures, feature => feature.properties?.['cluster']);
+    const alertsGroupedByCluster = _.groupBy(alertFeatures, feature => feature.properties?.['clusterId']);
     return {
       recentAlerts: featureCollection(alertsGroupedByCluster.recent ?? []),
       reportedAlerts: featureCollection(alertsGroupedByCluster.reported ?? []),
@@ -178,9 +182,9 @@ export default class AlertDataset extends Component<Props, State> {
 
     return (
       <>
-        {this.renderCluster('reportedAlerts', colorReported, reportedAlerts)}
-        {this.renderCluster('recentAlerts', colorRecent, recentAlerts)}
-        {this.renderCluster('otherAlerts', color, otherAlerts)}
+        {this.renderCluster(`${slug}ReportedAlerts`, colorReported, reportedAlerts)}
+        {this.renderCluster(`${slug}RecentAlerts`, colorRecent, recentAlerts)}
+        {this.renderCluster(`${slug}OtherAlerts`, color, otherAlerts)}
       </>
     );
   }
@@ -190,6 +194,7 @@ export default class AlertDataset extends Component<Props, State> {
     const idClusterCountSymbolLayer = `${clusterName}PointCount`;
     const idClusterCircleLayer = `${clusterName}ClusteredPoints`;
     const idAlertSymbolLayer = `${clusterName}AlertLayer`;
+
     return (
       <MapboxGL.ShapeSource
         id={idShapeSource}
