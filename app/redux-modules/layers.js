@@ -464,7 +464,7 @@ export function importContextualLayer(layerFile: File) {
       }
       case 'zip': {
         // Unzip the file ourself, as the shapefile library uses a node module which is only supported in browsers
-        const tempZipPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '.zip');
+        const tempZipPath = RNFS.TemporaryDirectoryPath + fileName;
         try {
           await RNFS.copyFile(file.uri, tempZipPath);
           const extensionLessFileName = fileName.replace(/\.[^/.]+$/, '');
