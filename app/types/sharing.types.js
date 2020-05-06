@@ -1,10 +1,11 @@
 // @flow
 import type { Area } from 'types/areas.types';
+import type { Alert } from 'types/alerts.types';
 import type { Report } from 'types/reports.types';
 import type { Route } from 'types/routes.types';
 import type { Basemap } from 'types/basemaps.types';
 import type { ContextualLayer } from 'types/layers.types';
-import type { Alert } from 'types/common.types';
+
 import type { Feature, Polygon } from '@turf/helpers';
 
 /**

@@ -22,13 +22,17 @@ type Props = {
   existingLayers: Array<File>,
   file: File,
   importContextualLayer: (file: File, fileName: string) => void,
-  importError: ?*,
+  importError: ?Error,
   importingLayer: ?string,
   popToComponentId?: ?string
 };
 
-class ImportLayerType extends PureComponent<Props> {
-  static options(passProps) {
+type State = {
+  file: File
+};
+
+class ImportLayerType extends PureComponent<Props, State> {
+  static options(passProps: {}) {
     return {
       topBar: {
         title: {
@@ -78,7 +82,7 @@ class ImportLayerType extends PureComponent<Props> {
     }
   });
 
-  verifyImportedFile = file => {
+  verifyImportedFile = (file: File) => {
     const fileExtension = file.name
       .split('.')
       .pop()
@@ -90,7 +94,7 @@ class ImportLayerType extends PureComponent<Props> {
     return true;
   };
 
-  showModal = fileName => {
+  showModal = (fileName: string) => {
     Navigation.showModal({
       stack: {
         children: [

@@ -61,6 +61,7 @@ export default class Routes extends PureComponent<Props, State> {
     };
   }
 
+  fetchId: ?string = null;
   shareSheet: any;
 
   constructor(props: Props) {
@@ -68,6 +69,7 @@ export default class Routes extends PureComponent<Props, State> {
 
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
     this.state = {
+      bundleSize: undefined,
       inShareMode: false,
       selectedForExport: []
     };
@@ -98,7 +100,7 @@ export default class Routes extends PureComponent<Props, State> {
       []
     );
     const fileSize = manifestBundleSize(manifest);
-    if (this.fetchId == currentFetchId) {
+    if (this.fetchId === currentFetchId) {
       this.setState({
         bundleSize: fileSize
       });

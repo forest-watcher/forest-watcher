@@ -189,8 +189,6 @@ export function showNotConnectedNotification() {
   };
 }
 
-export function showExportReportsSuccessfulNotification() {
-  return (dispatch: Dispatch, getState: GetState) => {
-    return dispatch({ type: EXPORT_REPORTS_SUCCESSFUL });
-  };
+export function showExportReportsSuccessfulNotification(): AppAction {
+  return { type: EXPORT_REPORTS_SUCCESSFUL };
 }

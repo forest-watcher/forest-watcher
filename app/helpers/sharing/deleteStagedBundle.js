@@ -1,6 +1,8 @@
 // @flow
 
 import type { UnpackedSharingBundle } from 'types/sharing.types';
+
+// $FlowFixMe
 import RNFS from 'react-native-fs';
 
 /**
