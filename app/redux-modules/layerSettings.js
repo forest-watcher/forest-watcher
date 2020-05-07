@@ -1,6 +1,6 @@
 // @flow
 import type { LayerSettingsState, LayerSettingsAction } from 'types/layerSettings.types';
-import { DEFAULT_BASEMAP, GFWBasemaps } from 'redux-modules/basemaps';
+import { DEFAULT_BASEMAP, GFW_BASEMAPS } from 'config/constants';
 import remove from 'lodash/remove';
 import type { Dispatch, GetState } from 'types/store.types';
 import type { Area } from 'types/areas.types';
@@ -505,7 +505,7 @@ export function getActiveBasemap(featureId: string) {
     if (!activeBasemapId) {
       return DEFAULT_BASEMAP;
     }
-    const allBasemaps = [...GFWBasemaps, ...state.basemaps.importedBasemaps];
+    const allBasemaps = [...GFW_BASEMAPS, ...state.basemaps.importedBasemaps];
     const basemap = allBasemaps.find(item => item.id === activeBasemapId);
     return basemap ?? DEFAULT_BASEMAP;
   };
