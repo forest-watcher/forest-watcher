@@ -21,6 +21,7 @@ type Props = {|
   +alertLayerSettings: AlertLayerSettingsType,
   +areaId?: ?string,
   +featureId?: ?string,
+  +reportedAlerts: Array<string>,
   +onShapeSourcePressed?: () => void
 |};
 
@@ -58,6 +59,7 @@ export default class Alerts extends Component<Props> {
           timeframe={this.props.alertLayerSettings.viirs.timeFrame}
           timeframeUnit={'days'}
           onPress={this.props.onShapeSourcePressed}
+          reportedAlerts={this.props.reportedAlerts}
         />
         <AlertDataset
           slug={'umd_as_it_happens'}
@@ -66,6 +68,7 @@ export default class Alerts extends Component<Props> {
           timeframe={this.props.alertLayerSettings.glad.timeFrame}
           timeframeUnit={'months'}
           onPress={this.props.onShapeSourcePressed}
+          reportedAlerts={this.props.reportedAlerts}
         />
       </View>
     );

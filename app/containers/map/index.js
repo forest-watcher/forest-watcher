@@ -87,6 +87,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
     isOfflineMode: state.app.offlineMode,
     coordinatesFormat: state.app.coordinatesFormat,
     canDisplayAlerts: state.alerts.canDisplayAlerts,
+    reportedAlerts: state.alerts.reported,
     basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',
     ctxLayerLocalTilePath: area && cache[state.layers.activeLayer] ? cache[state.layers.activeLayer][area.id] : '',
     mapWalkthroughSeen: state.app.mapWalkthroughSeen

@@ -527,8 +527,8 @@ export function initialiseAreaLayerSettings(featureId: string, areaId: string) {
     }
 
     const areaDatasets = area.datasets.map(dataset => dataset.slug);
-    const hasGladAlerts = areaDatasets.includes(DATASETS.GLAD);
-    const hasViirsAlerts = areaDatasets.includes(DATASETS.VIIRS);
+    const hasGladAlerts = areaDatasets.includes(DATASETS.umd_as_it_happens.id);
+    const hasViirsAlerts = areaDatasets.includes(DATASETS.viirs.id);
     const showGlad = hasGladAlerts;
     const showViirs = hasViirsAlerts && !hasGladAlerts;
     dispatch(initialiseAlerts(featureId, showGlad, showViirs));
