@@ -1,7 +1,11 @@
+// @flow
+
 import Config from 'react-native-config';
 import i18n from 'i18next';
 import Theme from 'config/theme';
 import { hexToRgb } from 'helpers/utils';
+
+import type { Basemap } from 'types/basemaps.types';
 
 export const AREAS = {
   maxSize: 20000000000, // square meters
@@ -160,8 +164,47 @@ export const COORDINATES_FORMATS = {
 export const REDUCERS_SAVED_TO_REPORT = ['app', 'areas', 'layers'];
 export const ACTIONS_SAVED_TO_REPORT = 5;
 
+// Constants
+export const GFW_BASEMAPS: Array<Basemap> = [
+  {
+    isMapboxStyle: true,
+    id: 'mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true',
+    styleURL: 'mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true',
+    name: 'Default',
+    image: require('assets/basemap_default.png'),
+    tileUrl: null
+  },
+  {
+    isMapboxStyle: true,
+    id: 'mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true',
+    styleURL: 'mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true',
+    name: 'Dark',
+    image: require('assets/basemap_dark.png'),
+    tileUrl: null
+  },
+  {
+    isMapboxStyle: true,
+    id: 'mapbox://styles/resourcewatch/cjww89e5j08o91cmjsbrd47qt?fresh=true',
+    styleURL: 'mapbox://styles/resourcewatch/cjww89e5j08o91cmjsbrd47qt?fresh=true',
+    name: 'Satellite',
+    image: require('assets/basemap_satellite.png'),
+    tileUrl: 'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}'
+  },
+  {
+    isMapboxStyle: true,
+    id: 'mapbox://styles/resourcewatch/cjww8drml27wc1cn3mk2872h9?fresh=true',
+    styleURL: 'mapbox://styles/resourcewatch/cjww8drml27wc1cn3mk2872h9?fresh=true',
+    name: 'Landsat',
+    image: require('assets/basemap_landsat.png'),
+    tileUrl: 'https://production-api.globalforestwatch.org/v2/landsat-tiles/2017/{z}/{x}/{y}'
+  }
+];
+
+export const DEFAULT_BASEMAP = GFW_BASEMAPS[0];
+
 export default {
   areas: AREAS,
+  basemaps: GFW_BASEMAPS,
   storage: STORAGE,
   maps: MAPS,
   tileServers: TILE_SERVERS,

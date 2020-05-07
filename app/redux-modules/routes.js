@@ -59,7 +59,7 @@ export default function reducer(state: RouteState = initialState, action: RouteA
       } else if (action.payload.areaId) {
         return {
           ...state,
-          previousRoutes: state.previousRoutes.filter((route: Route) => route.areaId != action.payload.areaId)
+          previousRoutes: state.previousRoutes.filter((route: Route) => route.areaId !== action.payload.areaId)
         };
       } else {
         return state;

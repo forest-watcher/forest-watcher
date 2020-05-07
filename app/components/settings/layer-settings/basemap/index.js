@@ -10,6 +10,8 @@ import BottomTray from 'components/common/bottom-tray';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import type { Basemap, BasemapsState } from 'types/basemaps.types';
 
+import { GFW_BASEMAPS } from 'config/constants';
+
 const basemapPlaceholder = require('assets/basemap_placeholder.png');
 
 type Props = {
@@ -44,7 +46,7 @@ class BasemapLayerSettings extends PureComponent<Props> {
           showsHorizontalScrollIndicator={false}
         >
           <Text style={styles.heading}>{i18n.t('map.layerSettings.gfwBasemaps')}</Text>
-          {this.props.basemaps.gfwBasemaps.map(basemap => {
+          {GFW_BASEMAPS.map(basemap => {
             return (
               <VerticalSplitRow
                 key={basemap.id}

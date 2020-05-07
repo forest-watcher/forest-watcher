@@ -80,7 +80,7 @@ PODS:
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (= 0.3.9011)
-  - GoogleDataTransport (6.0.0)
+  - GoogleDataTransport (6.1.0)
   - GoogleDataTransportCCTSupport (3.0.0):
     - GoogleDataTransport (~> 6.0)
     - nanopb (~> 0.3.901)
@@ -467,7 +467,7 @@ DEPENDENCIES:
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - "@react-native-mapbox-gl-mapbox-static"
     - AppAuth
     - boost-for-react-native
@@ -621,11 +621,11 @@ SPEC CHECKSUMS:
   GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
   GoogleAppMeasurement: dfe55efa543e899d906309eaaac6ca26d249862f
-  GoogleDataTransport: 061fe7d9b476710e3cd8ea51e8e07d8b67c2b420
+  GoogleDataTransport: f6f8eba931df03ebd2232ff4645aa85f8f47b5ab
   GoogleDataTransportCCTSupport: 0f39025e8cf51f168711bd3fb773938d7e62ddb5
   GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
-  lottie-ios: 85ce835dd8c53e02509f20729fc7d6a4e6645a0a
-  lottie-react-native: 2a1a82bb326ae51331a5520de0cf706733c6db69
+  lottie-ios: d0415b048a01909fced8bbd4bcbc8bcc37c93593
+  lottie-react-native: 4c10f3ee16a18baf827fe722f9bf6c7cbc34a3b5
   Mapbox-iOS-SDK: 02590a60fe300810c55432219a0caaa1338fbafb
   MapboxMobileEvents: 2bc0ca2eedb627b73cf403258dce2b2fa98074a6
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
@@ -680,4 +680,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 772be44c1830f1633dae89ba867abb3331a49c44
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.6.1

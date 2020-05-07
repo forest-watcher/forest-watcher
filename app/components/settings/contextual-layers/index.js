@@ -84,7 +84,7 @@ class Layers extends Component<Props, State> {
     this.setState(state => {
       if (state.selectedForExport.includes(layerId)) {
         return {
-          selectedForExport: [...state.selectedForExport].filter(id => layerId != id)
+          selectedForExport: [...state.selectedForExport].filter(id => layerId !== id)
         };
       } else {
         const selected = [...state.selectedForExport];
@@ -157,7 +157,7 @@ class Layers extends Component<Props, State> {
 
   renderGFWLayers = () => {
     const { baseApiLayers } = this.props;
-    if (baseApiLayers.length == 0) {
+    if (baseApiLayers.length === 0) {
       return null;
     }
     return (
@@ -179,7 +179,7 @@ class Layers extends Component<Props, State> {
 
   renderImportedLayers = () => {
     const { importedLayers } = this.props;
-    if (importedLayers.length == 0) {
+    if (importedLayers.length === 0) {
       return null;
     }
     return (
@@ -238,7 +238,7 @@ class Layers extends Component<Props, State> {
           }
           shareButtonEnabledTitle={
             totalToExport > 0
-              ? totalToExport == 1
+              ? totalToExport === 1
                 ? i18n.t('contextualLayers.export.oneLayerAction', { count: 1 })
                 : i18n.t('contextualLayers.export.manyLayersAction', { count: totalToExport })
               : i18n.t('contextualLayers.export.noneSelected')
