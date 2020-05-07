@@ -1,7 +1,7 @@
 // @flow
 import type { ContextualLayer, LayersState, LayersAction, LayersCacheStatus, LayersProgress } from 'types/layers.types';
 import type { Dispatch, GetState, State } from 'types/store.types';
-import type { Area, AreasAction } from 'types/areas.types';
+import type { Area } from 'types/areas.types';
 import type { File } from 'types/file.types';
 import type { LayerType } from 'helpers/layer-store/layerFilePaths';
 
@@ -61,7 +61,7 @@ const initialState = {
   importingLayer: null // file path for layer which is being imported
 };
 
-export default function reducer(state: LayersState = initialState, action: LayersAction | AreasAction) {
+export default function reducer(state: LayersState = initialState, action: LayersAction) {
   switch (action.type) {
     case PERSIST_REHYDRATE: {
       // $FlowFixMe
@@ -301,7 +301,7 @@ export function setActiveContextualLayer(layerId: string, value: boolean) {
     let activeLayer = null;
     const state = getState();
     const currentActiveLayerId = state.layers.activeLayer;
-    const currentActiveLayer: ContextualLayer = state.layers.data?.find(
+    const currentActiveLayer: ?ContextualLayer = state.layers.data?.find(
       layerData => layerData.id === currentActiveLayerId
     );
     if (!value) {
@@ -313,7 +313,7 @@ export function setActiveContextualLayer(layerId: string, value: boolean) {
         tracker.trackLayerToggledEvent(currentActiveLayer.name, false);
       }
       activeLayer = layerId;
-      const nextActiveLayer: ContextualLayer = state.layers.data?.find(layerData => layerData.id === layerId);
+      const nextActiveLayer: ?ContextualLayer = state.layers.data?.find(layerData => layerData.id === layerId);
       if (nextActiveLayer) {
         tracker.trackLayerToggledEvent(nextActiveLayer.name, true);
       }

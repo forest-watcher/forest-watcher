@@ -35,7 +35,7 @@ export default function reducer(state: RouteState = initialState, action: RouteA
     case UPDATE_SAVED_ROUTE:
       return {
         ...state,
-        previousRoutes: state.previousRoutes.map(route =>
+        previousRoutes: state.previousRoutes.map((route: Route) =>
           route.id === action.payload.id
             ? {
                 ...route,
@@ -117,7 +117,7 @@ export function finishAndSaveRoute(): RouteAction {
   };
 }
 
-export function getRoutesById(routeIds: Array<string>): Thunk<Route> {
+export function getRoutesById(routeIds: Array<string>): Thunk<Array<Route>> {
   return (dispatch: Dispatch, getState: GetState) => {
     const state = getState();
     return [...state.routes.previousRoutes, ...state.routes.importedRoutes].filter(route =>
@@ -126,7 +126,7 @@ export function getRoutesById(routeIds: Array<string>): Thunk<Route> {
   };
 }
 
-export function getAllRouteIds(): Thunk<string> {
+export function getAllRouteIds(): Thunk<Array<string>> {
   return (dispatch: Dispatch, getState: GetState) => {
     const state = getState();
     return [...state.routes.previousRoutes, ...state.routes.importedRoutes].map(item => item.id);

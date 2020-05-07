@@ -92,7 +92,7 @@ export const isQuestionAnswered = (answer: Answer): boolean => {
 };
 
 function getAnswerValues(question: Question, answer: ?Answer) {
-  if (answer == undefined) {
+  if (!answer) {
     return undefined;
   }
 

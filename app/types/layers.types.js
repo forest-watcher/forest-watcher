@@ -1,7 +1,7 @@
 // @flow
 
 import type { OfflineMeta } from 'types/offline.types';
-import type { DeleteAreaCommit, Area } from 'types/areas.types';
+import type { DeleteAreaCommit, SaveAreaCommit, Area } from 'types/areas.types';
 import type { File } from 'types/file.types';
 
 export type ContextualLayer = {
@@ -68,7 +68,8 @@ export type LayersAction =
   | ImportLayerRequest
   | ImportLayerCommit
   | ImportLayerClear
-  | ImportLayerRollback;
+  | ImportLayerRollback
+  | SaveAreaCommit;
 
 type GetLayersRequest = {
   type: 'layers/GET_LAYERS_REQUEST',
