@@ -1,19 +1,20 @@
 // @flow
 import type { State } from 'types/store.types';
+import type { AlertDatasetConfig } from 'types/common.types';
 
 import { put, takeEvery, select, all, fork } from 'redux-saga/effects';
 import { getAreaAlerts } from 'redux-modules/alerts';
 import { GET_AREAS_COMMIT, SAVE_AREA_COMMIT } from 'redux-modules/areas';
-import { AREAS as areasConstants } from 'config/constants';
+import { DATASETS } from 'config/constants';
 import moment from 'moment/moment';
 
 function* syncAlertDatasets({ area, cache }): Generator<*, *, *> {
   yield all(
-    Object.entries(areasConstants.alertRange)
+    Object.entries(DATASETS)
       // $FlowFixMe
-      .map((entry: [string, number]) => {
-        const [slug, defaultRange] = entry;
-        let range = defaultRange;
+      .map((entry: [string, AlertDatasetConfig]) => {
+        const [slug, datasetConfig] = entry;
+        let range = datasetConfig.requestThreshold;
         // Get the last cache date and request only that new data
         if (cache[slug] && cache[slug][area.id]) {
           const now = moment();

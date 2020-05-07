@@ -1,20 +1,16 @@
 // @flow
+import type { AlertDatasetConfig } from 'types/common.types';
 
 import Config from 'react-native-config';
 import i18n from 'i18next';
 import Theme from 'config/theme';
-import { hexToRgb } from 'helpers/utils';
 
 import type { Basemap } from 'types/basemaps.types';
 
 export const AREAS = {
-  maxSize: 20000000000, // square meters
-  alertRange: {
-    // days from to get data
-    viirs: 7,
-    umd_as_it_happens: 365
-  }
+  maxSize: 20000000000 // square meters
 };
+
 export const STORAGE = {
   app: {
     setup: '@App:setup',
@@ -98,14 +94,31 @@ export const REACH = {
   NONE: ['none', 'unknown']
 };
 
-export const DATASETS = {
-  VIIRS: 'viirs',
-  GLAD: 'umd_as_it_happens'
-};
-
-export const DATASETSi18n = {
-  VIIRS: i18n.t('datasets.viirs'),
-  GLAD: i18n.t('datasets.umd_as_it_happens')
+export const DATASETS: { [slug: string]: AlertDatasetConfig } = {
+  umd_as_it_happens: {
+    id: 'umd_as_it_happens',
+    nameKey: 'map.gladAlert',
+    requestThreshold: 365,
+    recencyThreshold: 7,
+    filterThresholdOptions: [1, 2, 6, 12],
+    filterThresholdUnits: 'months',
+    iconPrefix: 'glad',
+    color: Theme.colors.glad,
+    colorRecent: Theme.colors.recent,
+    colorReported: Theme.colors.report
+  },
+  viirs: {
+    id: 'viirs',
+    nameKey: 'map.viirsAlert',
+    requestThreshold: 7,
+    recencyThreshold: 0,
+    filterThresholdOptions: [1, 2, 6, 12],
+    filterThresholdUnits: 'days',
+    iconPrefix: 'viirs',
+    color: Theme.colors.viirs,
+    colorRecent: Theme.colors.recent,
+    colorReported: Theme.colors.viirsReported
+  }
 };
 
 export const LAYERSi18n = {
@@ -118,27 +131,6 @@ export const LAYERSi18n = {
   treeCoverLoss2015: i18n.t('layers.treeCoverLoss2015'),
   treeCoverLoss2016: i18n.t('layers.treeCoverLoss2016'),
   treeCoverLoss2017: i18n.t('layers.treeCoverLoss2017')
-};
-
-export const ALERTS_COLOR = {
-  [DATASETS.GLAD]: Theme.colors.glad,
-  [DATASETS.VIIRS]: Theme.colors.viirs
-};
-
-export const ALERTS_LEGEND = {
-  [DATASETS.GLAD]: [
-    {
-      label: i18n.t('map.recent'),
-      color: `rgba(${hexToRgb(Theme.colors.recent)}, 0.8)`
-    }
-  ],
-  [DATASETS.VIIRS]: [],
-  common: [
-    {
-      label: i18n.t('map.reported'),
-      color: `rgba(${hexToRgb(Theme.colors.turtleGreen)}, 0.8)`
-    }
-  ]
 };
 
 export const GLAD_RECENT_RANGE = {
