@@ -5,6 +5,27 @@ import type { LogoutRequest } from 'types/user.types';
 import type { RetrySync } from 'types/app.types';
 import type { UploadReportRequest } from 'types/reports.types';
 
+export type Alert = {
+  areaId: string,
+  slug: string,
+  long: number,
+  lat: number,
+  date: number
+};
+
+export type AlertDatasetConfig = {
+  id: string,
+  nameKey: string,
+  requestThreshold: number, // days
+  recencyThreshold: number, // days
+  filterThresholdOptions: Array<number>,
+  filterThresholdUnits: 'days' | 'months',
+  iconPrefix: string,
+  color: string,
+  colorRecent: string,
+  colorReported: string
+};
+
 export type AlertsState = {
   cache: {
     viirs?: {

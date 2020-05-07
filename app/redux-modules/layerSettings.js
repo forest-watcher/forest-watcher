@@ -520,7 +520,12 @@ export function initialiseAreaLayerSettings(featureId: string, areaId: string) {
       return;
     }
     // Alert types need to be initialised for area, depending on available alert types
-    const area: Area = areas.data.find(area => area.id === areaId);
+    const area: ?Area = areas.data.find((area: Area) => area.id === areaId);
+
+    if (!area) {
+      return;
+    }
+
     const areaDatasets = area.datasets.map(dataset => dataset.slug);
     const hasGladAlerts = areaDatasets.includes(DATASETS.umd_as_it_happens.id);
     const hasViirsAlerts = areaDatasets.includes(DATASETS.viirs.id);

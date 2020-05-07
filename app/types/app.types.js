@@ -6,6 +6,7 @@ export type AnyAction = { type: string, payload: any, meta?: OfflineMeta };
 export type CoordinatesValue = 'decimal' | 'degrees';
 
 export type AppState = {
+  isUpdate: boolean,
   language: ?string,
   synced: false,
   coordinatesFormat: CoordinatesValue,

@@ -1,5 +1,5 @@
 // @flow
-import type { Dispatch, GetState } from 'types/store.types';
+import type { Dispatch, GetState, Thunk } from 'types/store.types';
 import type { UserState, UserAction } from 'types/user.types';
 
 import { PERSIST_REHYDRATE, RESET_STATE } from '@redux-offline/redux-offline/lib/constants';
@@ -147,7 +147,12 @@ export function facebookLogin() {
       const result = await LoginManager.logInWithPermissions(oAuth.facebook);
       if (!result.isCancelled) {
         try {
-          const user = await AccessToken.getCurrentAccessToken();
+          const user: ?AccessToken = await AccessToken.getCurrentAccessToken();
+
+          if (!user) {
+            throw new Error('No user returned by RNFBSDK');
+          }
+
           const response = await fetch(`${Config.API_AUTH}/auth/facebook/token?access_token=${user.accessToken}`);
           dispatch({ type: SET_LOGIN_LOADING, payload: false });
           if (!response.ok) {
@@ -191,7 +196,7 @@ export function setLoginAuth(details: { token: string, loggedIn: boolean, social
   };
 }
 
-export function logout(socialNetworkFallback: string) {
+export function logout(socialNetworkFallback: ?string) {
   return async (dispatch: Dispatch, state: GetState) => {
     const { oAuthToken: tokenToRevoke, socialNetwork } = state().user;
     dispatch({ type: LOGOUT_REQUEST });

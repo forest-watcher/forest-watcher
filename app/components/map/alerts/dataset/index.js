@@ -1,5 +1,5 @@
 // @flow
-import type { Alert, AlertDatasetConfig } from 'types/common.types';
+import type { Alert, AlertDatasetConfig } from 'types/alerts.types';
 
 import React, { PureComponent } from 'react';
 
