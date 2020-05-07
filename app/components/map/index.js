@@ -117,6 +117,7 @@ type Props = {
   isConnected: boolean,
   isOfflineMode: boolean,
   setCanDisplayAlerts: boolean => {},
+  reportedAlerts: Array<string>,
   canDisplayAlerts: boolean,
   area: Object,
   setActiveAlerts: () => {},
@@ -724,6 +725,7 @@ class MapComponent extends Component<Props> {
       this.state.heading != null
         ? {
             iconImage: userLocationBearingImage,
+            iconAllowOverlap: true,
             // center of image should be the center of the user location circle
             iconOffset: [0, 10],
             iconAnchor: 'bottom',
@@ -731,7 +733,8 @@ class MapComponent extends Component<Props> {
             iconRotate: this.state.heading ?? 180
           }
         : {
-            iconImage: userLocationImage
+            iconImage: userLocationImage,
+            iconAllowOverlap: true
           };
     return (
       <MapboxGL.UserLocation
@@ -1003,6 +1006,7 @@ class MapComponent extends Component<Props> {
           <Alerts
             alertLayerSettings={this.props.layerSettings.alerts}
             areaId={this.props.area?.id}
+            reportedAlerts={this.props.reportedAlerts}
             onShapeSourcePressed={this.onShapeSourcePressed}
           />
           <Reports featureId={this.getFeatureId()} onShapeSourcePressed={this.onShapeSourcePressed} />

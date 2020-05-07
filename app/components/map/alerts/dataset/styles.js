@@ -10,13 +10,16 @@ export const mapboxStyles = {
   },
   clusteredPoints: {
     circlePitchAlignment: 'map',
-    circleRadius: 20,
-    circleOpacity: 0.85
+    circleRadius: 20
   },
   clusterCount: {
     textColor: Theme.colors.white,
     textField: '{point_count}',
+    textAllowOverlap: true,
     textSize: 12,
     textPitchAlignment: 'map'
+  },
+  darkTextClusterCount: {
+    textColor: Theme.colors.greyishBrown
   }
 };
