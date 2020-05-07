@@ -4,7 +4,10 @@ import React, { PureComponent } from 'react';
 import { Image, Platform, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
+import type { AppAction } from 'types/app.types';
+import type { AreasAction } from 'types/areas.types';
 import type { Route } from 'types/routes.types';
+import type { Thunk } from 'types/store.types';
 
 import Row from 'components/common/row';
 import debounceUI from 'helpers/debounceUI';
@@ -20,19 +23,19 @@ const routesIcon = require('assets/routes.png');
 
 type Props = {
   componentId: string,
-  setAreasRefreshing: boolean => void,
+  setAreasRefreshing: boolean => AreasAction,
   hasSeenWelcomeScreen: boolean,
   isConnected: boolean,
   needsUpdate: boolean,
   appSyncing: boolean,
   refreshing: boolean,
   pristine: boolean,
-  setSelectedAreaId: string => void,
-  setPristine: boolean => void,
-  setWelcomeScreenSeen: boolean => void,
-  updateApp: () => void,
-  showNotConnectedNotification: () => void,
-  activeRoute: Route
+  setSelectedAreaId: string => AreasAction,
+  setPristine: boolean => AppAction,
+  setWelcomeScreenSeen: boolean => AppAction,
+  updateApp: () => AppAction,
+  showNotConnectedNotification: () => Thunk<void>,
+  activeRoute: ?Route
 };
 
 class Dashboard extends PureComponent<Props> {
