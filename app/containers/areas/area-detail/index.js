@@ -1,5 +1,5 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -8,8 +8,15 @@ import { shouldBeConnected } from 'helpers/app';
 import AreaDetail from 'components/areas/area-detail';
 import { initialiseAreaLayerSettings } from 'redux-modules/layerSettings';
 
-function mapStateToProps(state: State, { id }) {
+type OwnProps = {|
+  +componentId: string,
+  disableDelete: boolean,
+  id: string
+|};
+
+function mapStateToProps(state: State, { id }: OwnProps) {
   const area = state.areas.data.find(areaData => areaData.id === id);
+
   return {
     area,
     isConnected: shouldBeConnected(state),
@@ -17,7 +24,7 @@ function mapStateToProps(state: State, { id }) {
   };
 }
 
-function mapDispatchToProps(dispatch: *) {
+function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(
     {
       updateArea,
@@ -29,7 +36,8 @@ function mapDispatchToProps(dispatch: *) {
   );
 }
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(AreaDetail);
