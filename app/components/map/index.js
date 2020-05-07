@@ -725,6 +725,7 @@ class MapComponent extends Component<Props> {
       this.state.heading != null
         ? {
             iconImage: userLocationBearingImage,
+            iconAllowOverlap: true,
             // center of image should be the center of the user location circle
             iconOffset: [0, 10],
             iconAnchor: 'bottom',
@@ -732,7 +733,8 @@ class MapComponent extends Component<Props> {
             iconRotate: this.state.heading ?? 180
           }
         : {
-            iconImage: userLocationImage
+            iconImage: userLocationImage,
+            iconAllowOverlap: true
           };
     return (
       <MapboxGL.UserLocation

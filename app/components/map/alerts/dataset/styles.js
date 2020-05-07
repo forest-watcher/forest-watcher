@@ -15,6 +15,7 @@ export const mapboxStyles = {
   clusterCount: {
     textColor: Theme.colors.white,
     textField: '{point_count}',
+    textAllowOverlap: true,
     textSize: 12,
     textPitchAlignment: 'map'
   },
