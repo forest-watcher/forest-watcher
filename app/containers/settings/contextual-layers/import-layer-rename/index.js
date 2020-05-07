@@ -1,5 +1,6 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
+import type { File } from 'types/file.types';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -7,6 +8,11 @@ import { bindActionCreators } from 'redux';
 import { clearImportContextualLayerState, importContextualLayer } from 'redux-modules/layers';
 
 import ImportLayerRename from 'components/settings/contextual-layers/import-layer-rename';
+
+type OwnProps = {|
+  +componentId: string,
+  file: File
+|};
 
 function mapStateToProps(state: State) {
   return {
@@ -16,7 +22,7 @@ function mapStateToProps(state: State) {
   };
 }
 
-const mapDispatchToProps = (dispatch: *) =>
+const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       importContextualLayer,
@@ -25,7 +31,8 @@ const mapDispatchToProps = (dispatch: *) =>
     dispatch
   );
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(ImportLayerRename);

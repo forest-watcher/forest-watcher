@@ -1,5 +1,5 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -10,7 +10,12 @@ import {
   setContextualLayerShowing
 } from 'redux-modules/layerSettings';
 
-function mapStateToProps(state: State, ownProps) {
+type OwnProps = {|
+  +componentId: string,
+  featureId: string
+|};
+
+function mapStateToProps(state: State, ownProps: OwnProps) {
   return {
     baseApiLayers: state.layers.data || [],
     featureId: ownProps.featureId,
@@ -20,7 +25,7 @@ function mapStateToProps(state: State, ownProps) {
   };
 }
 
-const mapDispatchToProps = (dispatch: *) =>
+const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       clearEnabledContextualLayers,
@@ -29,7 +34,8 @@ const mapDispatchToProps = (dispatch: *) =>
     dispatch
   );
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(ContextualLayersLayerSettings);

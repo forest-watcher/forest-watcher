@@ -10,6 +10,7 @@ import BottomTray from 'components/common/bottom-tray';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 
 import type { ContextualLayer } from 'types/layers.types';
+import type { LayerSettingsAction } from 'types/layerSettings.types';
 import type { File } from 'types/file.types';
 
 const layerPlaceholder = require('assets/layerPlaceholder.png');
@@ -24,10 +25,10 @@ type ContextualLayersLayerSettingsType = {
 type Props = {
   baseApiLayers: ?Array<ContextualLayer>,
   featureId: string,
-  clearEnabledContextualLayers: string => void,
+  clearEnabledContextualLayers: string => LayerSettingsAction,
   contextualLayersLayerSettings: ContextualLayersLayerSettingsType,
   importedContextualLayers: Array<File>,
-  setContextualLayerShowing: (featureId: string, layerId: string, showing: boolean) => void
+  setContextualLayerShowing: (featureId: string, layerId: string, showing: boolean) => LayerSettingsAction
 };
 
 class ContextualLayersLayerSettings extends PureComponent<Props> {
@@ -74,7 +75,7 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
         <View style={styles.listHeader}>
           <Text style={styles.listTitle}>{i18n.t('map.layerSettings.gfwLayers')}</Text>
         </View>
-        {baseApiLayers.map((layer, index) => {
+        {baseApiLayers?.map((layer, index) => {
           const selected = contextualLayersLayerSettings.activeContextualLayerIds.includes(layer.id);
           return (
             <ActionsRow
@@ -128,7 +129,7 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          {baseApiLayers.length > 0 && this.renderGFWLayers()}
+          {(baseApiLayers?.length ?? 0) > 0 && this.renderGFWLayers()}
           {importedContextualLayers.length > 0 && this.renderImportedLayers()}
         </ScrollView>
         <BottomTray requiresSafeAreaView>

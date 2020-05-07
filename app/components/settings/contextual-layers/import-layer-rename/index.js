@@ -10,15 +10,17 @@ import BottomTray from 'components/common/bottom-tray';
 import InputText from 'components/common/text-input';
 import i18n from 'i18next';
 import type { File } from 'types/file.types';
+import type { LayersAction } from 'types/layers.types';
+import type { Thunk } from 'types/store.types';
 
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 type Props = {
-  clearImportContextualLayerState: () => void,
+  clearImportContextualLayerState: () => LayersAction,
   componentId: string,
   existingLayers: Array<File>,
   file: File,
-  importContextualLayer: (file: File, fileName: string) => void,
+  importContextualLayer: (layerFile: File) => Thunk<Promise<void>>,
   importError: ?Error,
   importingLayer: ?string,
   popToComponentId?: ?string

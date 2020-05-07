@@ -1,3 +1,6 @@
+// @flow
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setCoordinatesFormat } from 'redux-modules/app';
@@ -6,7 +9,9 @@ import i18n from 'i18next';
 
 import Dropdown from 'components/common/dropdown';
 
-function mapStateToProps(state) {
+type OwnProps = {||};
+
+function mapStateToProps(state: State) {
   return {
     description: i18n.t('settings.coordinatesDescription'),
     label: i18n.t('settings.coordinatesFormat'),
@@ -15,7 +20,7 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(
     {
       onValueChange: setCoordinatesFormat
@@ -24,7 +29,8 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(Dropdown);
