@@ -171,11 +171,9 @@ export default class AlertDataset extends PureComponent<Props, State> {
   };
 
   render() {
-    const { isActive, slug } = this.props;
-
-    if (!isActive) {
-      return null;
-    }
+    // As tempted as you may be to make this function conditionally return `null` based on the
+    // isActive prop, this causes issues with enabling/disabling alert types on iOS so please don't!
+    const { slug } = this.props;
 
     const { recentAlerts, reportedAlerts, otherAlerts } = this.state;
     const { color, colorReported, colorRecent } = this.datasets[slug] ?? {};
