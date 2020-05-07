@@ -1,5 +1,7 @@
 // @flow
 
+import type { Thunk } from 'types/store.types';
+import type { UserAction } from 'types/user.types';
 import React, { PureComponent } from 'react';
 import { Alert, View, Text, TouchableHighlight, Image, ImageBackground, ActivityIndicator } from 'react-native';
 import { WebView } from 'react-native-webview';
@@ -42,14 +44,14 @@ type Props = {
   loading: boolean,
   loggedIn: boolean,
   logSuccess: boolean,
-  logout: () => void,
-  facebookLogin: () => void,
-  googleLogin: () => void,
+  logout: (?string) => Thunk<void>,
+  facebookLogin: () => Thunk<Promise<void>>,
+  googleLogin: () => Thunk<Promise<void>>,
   setLoginAuth: ({
     token: string,
-    socialNetwork: ?string,
+    socialNetwork: string,
     loggedIn: boolean
-  }) => void
+  }) => UserAction
 };
 
 type State = {
