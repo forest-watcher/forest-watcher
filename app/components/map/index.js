@@ -101,7 +101,6 @@ const startTrackingIcon = require('assets/startTracking.png');
 const stopTrackingIcon = require('assets/stopTracking.png');
 const myLocationIcon = require('assets/my_location.png');
 const createReportIcon = require('assets/createReport.png');
-const reportAreaIcon = require('assets/report_area.png');
 const addLocationIcon = require('assets/add_location.png');
 const customReportingMarker = require('assets/custom-reporting-marker.png');
 const userLocationBearingImage = require('assets/userLocationBearing.png');
@@ -819,7 +818,7 @@ class MapComponent extends Component<Props> {
   renderMapFooter() {
     return [
       <View key="bg" pointerEvents="none" style={styles.footerBGContainer}>
-        <View style={{ height: 56, backgroundColor: 'rgba(0,0,0,0.3)' }} />
+        <View style={styles.buttonPanelTray} />
       </View>,
       <FooterSafeAreaView key="footer" pointerEvents="box-none" style={styles.footer}>
         {this.renderButtonPanel()}

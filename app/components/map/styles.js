@@ -100,6 +100,10 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
+  buttonPanelTray: {
+    height: 56,
+    backgroundColor: 'rgba(0,0,0,0.3)'
+  },
   btnMarginContainer: {
     marginTop: 8
   },
