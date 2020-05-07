@@ -1,4 +1,5 @@
 // @flow
+import type { Area } from 'types/areas.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { connect } from 'react-redux';
@@ -8,7 +9,7 @@ import { showExportReportsSuccessfulNotification } from 'redux-modules/app';
 import Reports from 'components/reports';
 import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
 import shareBundle from 'helpers/sharing/shareBundle';
-import type { Report } from 'types/reports.types';
+import type { Report, ReportsList } from 'types/reports.types';
 
 export type FormattedReport = Report & {
   title: string,
@@ -16,12 +17,12 @@ export type FormattedReport = Report & {
 };
 
 export type FormattedReports = {
-  draft?: FormattedReport,
-  complete?: FormattedReport,
-  uploaded?: FormattedReport
+  draft: Array<FormattedReport>,
+  complete: Array<FormattedReport>,
+  uploaded: Array<FormattedReport>
 };
 
-export function getReports(reports, areas, userId): FormattedReports {
+export function getReports(reports: ReportsList, areas: Array<Area>, userId: string): FormattedReports {
   const data = {
     draft: [],
     complete: [],
@@ -40,18 +41,18 @@ export function getReports(reports, areas, userId): FormattedReports {
   return sortReports(data);
 }
 
-function isImported(reportAreaId, areas, userId) {
+function isImported(reportAreaId: string, areas: Array<Area>, userId: string) {
   if (!reportAreaId) {
     return true;
   }
   const reportArea = areas.find(area => area.id === reportAreaId);
-  return !(reportArea?.userId && reportArea.userId === userId);
+  return !(reportArea?.userId === userId);
 }
 
-function sortReports(reports) {
+function sortReports(reports: FormattedReports) {
   const sorted = {};
   Object.keys(reports).forEach(status => {
-    sorted[status] = reports[status].sort((a, b) => b.date - a.date);
+    sorted[status] = reports[status].sort((a, b) => b.date - a.date); // todo: are report dates strings or numbers?
   });
   return sorted;
 }
