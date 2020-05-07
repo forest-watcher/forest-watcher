@@ -11,16 +11,16 @@ import type { FormattedReport, FormattedReports } from 'containers/reports';
 import { REPORTS } from 'config/constants';
 import { featureCollection, point } from '@turf/helpers';
 
-type ReportLayerSettings = {
-  layerIsActive: false,
-  myReportsActive: true,
-  importedReportsActive: true
+export type ReportLayerSettings = {
+  layerIsActive: boolean,
+  myReportsActive: boolean,
+  importedReportsActive: boolean
 };
 
 type Props = {
   featureId: string,
-  myReports: FormattedReports,
-  importedReports: FormattedReports,
+  myReports: Array<FormattedReport>,
+  importedReports: Array<FormattedReport>,
   reportLayerSettings: ReportLayerSettings,
   onShapeSourcePressed?: () => void
 };

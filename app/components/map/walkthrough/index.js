@@ -1,5 +1,5 @@
 // @flow
-
+import type { AppAction } from 'types/app.types';
 import React, { Component } from 'react';
 import { Animated, Image, View, Text } from 'react-native';
 
@@ -20,7 +20,7 @@ const mapSettingsIcon = require('assets/map_settings.png');
 
 type Props = {
   componentId: string,
-  setMapWalkthroughSeen: (seen: boolean) => void
+  setMapWalkthroughSeen: (seen: boolean) => AppAction
 };
 
 type State = {

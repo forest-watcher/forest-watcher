@@ -20,6 +20,7 @@ type AlertLayerSettingsType = {
 type Props = {|
   +alertLayerSettings: AlertLayerSettingsType,
   +areaId?: ?string,
+  +featureId?: ?string,
   +onShapeSourcePressed?: () => void
 |};
 
