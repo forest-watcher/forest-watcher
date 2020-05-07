@@ -60,7 +60,9 @@ export default class AreaList extends Component<Props> {
               largerLeftPadding
               largeImage
             />
-            {showCache && <AreaCache areaId={area.id} showTooltip={index === 0 && pristine} />}
+            {showCache && (
+              <AreaCache areaId={area.id} disabled={this.props.sharing} showTooltip={index === 0 && pristine} />
+            )}
           </View>
         ))}
       </View>

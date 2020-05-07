@@ -26,6 +26,7 @@ type Props = {
     error: boolean,
     completed: boolean
   },
+  disabled: boolean,
   resetCacheStatus: string => void,
   isOfflineMode: boolean,
   showTooltip: boolean,
@@ -34,6 +35,7 @@ type Props = {
   showNotConnectedNotification: () => void
 };
 type State = {
+  checkingConnectivity: boolean,
   indeterminate: boolean,
   canRefresh: boolean
 };
@@ -45,10 +47,12 @@ class AreaCache extends PureComponent<Props, State> {
       completed: false,
       requested: false,
       error: false
-    }
+    },
+    disabled: false
   };
 
   state = {
+    checkingConnectivity: false,
     indeterminate: this.props.cacheStatus.progress === 0,
     canRefresh: this.props.cacheStatus.completed
   };
@@ -154,7 +158,7 @@ class AreaCache extends PureComponent<Props, State> {
   };
 
   render() {
-    const { cacheStatus, showTooltip } = this.props;
+    const { cacheStatus, disabled, showTooltip } = this.props;
     const { indeterminate, checkingConnectivity } = this.state;
     const cacheAreaAction = this.getCacheAreaAction();
     const cacheButtonIcon = this.getCacheAreaIcon();
@@ -162,6 +166,7 @@ class AreaCache extends PureComponent<Props, State> {
     const cacheButton = (
       <View style={styles.cacheBtnContainer}>
         <TouchableHighlight
+          disabled={disabled}
           style={styles.cacheBtn}
           activeOpacity={1}
           underlayColor={Theme.background.secondary}

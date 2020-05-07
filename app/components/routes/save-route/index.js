@@ -22,7 +22,7 @@ type Props = {
 };
 
 class SaveRoute extends PureComponent<Props> {
-  static options(passProps) {
+  static options(passProps: {}) {
     return {
       topBar: {
         title: {

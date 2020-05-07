@@ -13,9 +13,11 @@ type Action = {
 
 type Props = {
   actions?: ?Array<Action>,
-  onPress?: ?(void) => void,
+  onPress?: ?() => void,
   imageSrc?: ?string | ?number,
+  opacity?: ?number,
   renderCustomImage?: any,
+  rowStyle?: any,
   ...ElementConfig<typeof View>
 };
 
@@ -28,7 +30,7 @@ class ActionsRow extends Component<Props> {
 
     return (
       <Touchable
-        activeOpacity={this.props.onPress ? this.props.opacity || 0.5 : 1}
+        activeOpacity={this.props.onPress ? this.props.opacity ?? 0.5 : 1}
         background={Platform.select({
           android: TouchableNativeFeedback.Ripple(Theme.background.gray),
           ios: undefined
@@ -38,13 +40,13 @@ class ActionsRow extends Component<Props> {
       >
         <View style={[styles.row, this.props.rowStyle]}>
           {this.props.renderCustomImage && this.props.renderCustomImage()}
-          {!!this.props.imageSrc && (
+          {this.props.imageSrc != null ? (
             <Image
               resizeMode={'cover'}
               style={styles.image}
               source={typeof this.props.imageSrc === 'string' ? { uri: this.props.imageSrc } : this.props.imageSrc}
             />
-          )}
+          ) : null}
           <View style={[styles.content, this.props.style]}>{this.props.children}</View>
           {this.props.actions && this.props.actions.length > 0 && <View />}
         </View>

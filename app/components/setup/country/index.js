@@ -12,7 +12,7 @@ import i18n from 'i18next';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
-import { launchAppRoot } from '../../../main';
+import { launchAppRoot } from 'main';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'bottom');
 const backIcon = require('assets/previous.png');

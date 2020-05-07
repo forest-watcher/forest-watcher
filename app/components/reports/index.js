@@ -73,6 +73,7 @@ class Reports extends PureComponent<Props, State> {
     };
   }
 
+  fetchId: ?string;
   shareSheet: any;
 
   constructor(props: Props) {
@@ -113,7 +114,7 @@ class Reports extends PureComponent<Props, State> {
       })
     );
     const fileSize = manifestBundleSize(manifest);
-    if (this.fetchId == currentFetchId) {
+    if (this.fetchId === currentFetchId) {
       this.setState({
         bundleSize: fileSize
       });
@@ -127,7 +128,7 @@ class Reports extends PureComponent<Props, State> {
   onReportSelectedForExport = (title: string) => {
     this.setState(state => {
       if (state.selectedForExport.includes(title)) {
-        const selectedForExport = [...state.selectedForExport].filter(id => title != id);
+        const selectedForExport = [...state.selectedForExport].filter(id => title !== id);
         this.fetchExportSize(selectedForExport);
         return {
           selectedForExport
@@ -321,7 +322,7 @@ class Reports extends PureComponent<Props, State> {
    * @return {Array}                    An array of report rows.
    */
   renderReports(data: Array<ReportItem>, image: any, onPress: string => void) {
-    return data.map((item, index) => {
+    return data.map((item: ReportItem, index: number) => {
       let positionParsed = '';
       if (item.position) {
         const latLng = item.position.split(',');

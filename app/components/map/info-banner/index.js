@@ -1,4 +1,5 @@
 // @flow
+import type { ViewStyle } from 'types/reactElementStyles.types';
 
 import React, { Component } from 'react';
 import { Image, Platform, Text, TouchableHighlight, TouchableNativeFeedback, View } from 'react-native';
@@ -14,11 +15,11 @@ type Props = {
   subtitle: string,
   type: string,
   featureId: string,
-  style: *
+  style: ViewStyle
 };
 
 export default class InfoBanner extends Component<Props> {
-  openRoute = (routeId, routeName) => {
+  openRoute = (routeId: string, routeName: string) => {
     Navigation.showModal({
       stack: {
         children: [
@@ -36,7 +37,7 @@ export default class InfoBanner extends Component<Props> {
     });
   };
 
-  openReport = reportName => {
+  openReport = (reportName: string) => {
     Navigation.showModal({
       stack: {
         children: [

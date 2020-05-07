@@ -4,6 +4,8 @@ import React, { PureComponent } from 'react';
 import { Image, Platform, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
+import type { Route } from 'types/routes.types';
+
 import Row from 'components/common/row';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
@@ -34,7 +36,7 @@ type Props = {
 };
 
 class Dashboard extends PureComponent<Props> {
-  static options(passProps) {
+  static options(passProps: {}) {
     return {
       topBar: {
         title: {

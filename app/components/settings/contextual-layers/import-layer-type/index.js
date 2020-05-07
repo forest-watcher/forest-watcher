@@ -14,21 +14,24 @@ import generatedUniqueId from 'helpers/uniqueId';
 const nextIcon = require('assets/next.png');
 const fileIcon = require('assets/fileIcon.png');
 
-export const ACCEPTED_FILE_TYPES = ['json', 'geojson', 'topojson', 'gpx', 'shp', 'kmz', 'kml'];
-const TODO_FILE_TYPES = ['shp']; // todo remove when finished implementation
+export const ACCEPTED_FILE_TYPES = ['json', 'geojson', 'topojson', 'gpx', 'zip', 'kmz', 'kml'];
 
 type Props = {
   componentId: string,
   existingLayers: Array<File>,
   file: File,
   importContextualLayer: (file: File, fileName: string) => void,
-  importError: ?*,
+  importError: ?Error,
   importingLayer: ?string,
   popToComponentId?: ?string
 };
 
-class ImportLayerType extends PureComponent<Props> {
-  static options(passProps) {
+type State = {
+  file: File
+};
+
+class ImportLayerType extends PureComponent<Props, State> {
+  static options(passProps: {}) {
     return {
       topBar: {
         title: {
@@ -78,19 +81,19 @@ class ImportLayerType extends PureComponent<Props> {
     }
   });
 
-  verifyImportedFile = file => {
+  verifyImportedFile = (file: File) => {
     const fileExtension = file.name
       .split('.')
       .pop()
       .toLowerCase();
-    if (!ACCEPTED_FILE_TYPES.includes(fileExtension) || TODO_FILE_TYPES.includes(fileExtension)) {
+    if (!ACCEPTED_FILE_TYPES.includes(fileExtension)) {
       this.showModal(file.name);
       return false;
     }
     return true;
   };
 
-  showModal = fileName => {
+  showModal = (fileName: string) => {
     Navigation.showModal({
       stack: {
         children: [

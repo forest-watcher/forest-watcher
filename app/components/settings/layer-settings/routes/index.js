@@ -6,7 +6,7 @@ import styles from './styles';
 import i18n from 'i18next';
 import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
-import { Navigation } from 'react-native-navigation';
+import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import type { Route } from 'types/routes.types';
 import ActionsRow from 'components/common/actions-row';
 import RoutePreviewImage from 'components/routes/preview-image';
@@ -37,7 +37,7 @@ type Props = {
 };
 
 class RoutesLayerSettings extends PureComponent<Props> {
-  static options(passProps) {
+  static options(passProps: {}) {
     return {
       topBar: {
         title: {
@@ -54,12 +54,12 @@ class RoutesLayerSettings extends PureComponent<Props> {
     };
   }
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     Navigation.events().bindComponent(this);
   }
 
-  navigationButtonPressed({ buttonId }) {
+  navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {
     if (buttonId === 'clear') {
       this.deselectAllRoutes();
     }
@@ -81,7 +81,7 @@ class RoutesLayerSettings extends PureComponent<Props> {
     });
   };
 
-  renderRoutes = (routes, headingLocalisation) => {
+  renderRoutes = (routes: Array<Route>, headingLocalisation: string) => {
     return (
       <View>
         <View style={styles.listHeader}>

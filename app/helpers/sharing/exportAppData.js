@@ -1,5 +1,6 @@
 // @flow
 
+import type { Alert, AlertsState } from 'types/alerts.types';
 import type { Area, AreasState } from 'types/areas.types';
 import type { Report, ReportsState } from 'types/reports.types';
 import type { ExportBundleRequest, SharingBundle } from 'types/sharing.types';
@@ -7,10 +8,10 @@ import type { State } from 'types/store.types';
 import type { Basemap, BasemapsState } from 'types/basemaps.types';
 import type { ContextualLayer, LayersState } from 'types/layers.types';
 import type { Route, RouteState } from 'types/routes.types';
-import type { AlertsState } from 'types/alerts.types';
-import type { Alert } from 'types/common.types';
 import type { BBox2d, Feature, Polygon } from '@turf/helpers';
 import bboxPolygon from '@turf/bbox-polygon';
+
+import { GFW_BASEMAPS } from 'config/constants';
 
 /**
  * Version number of the bundles created using the functions in this file
@@ -68,7 +69,7 @@ function exportAreas(areasState: AreasState, areaIds: Array<string>): Array<Area
  * Extracts any basemap info from state for basemaps matching the specified IDs, OR intersecting any of the given regions
  */
 export function exportBasemaps(basemapsState: BasemapsState, basemapIds: Array<string>): Array<Basemap> {
-  const allBasemaps = [...basemapsState.gfwBasemaps, ...basemapsState.importedBasemaps];
+  const allBasemaps = [...GFW_BASEMAPS, ...basemapsState.importedBasemaps];
   return allBasemaps.filter(basemap => basemapIds.includes(basemap.id));
 }
 

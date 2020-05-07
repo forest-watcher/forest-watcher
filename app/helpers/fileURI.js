@@ -1,12 +1,13 @@
 // @flow
 
+// $FlowFixMe
 const RNFS = require('react-native-fs');
 
 /**
  * Makes sure a given filepath is converted correctly to the format expected by each platform's
  * url methods (In iOS's case "file:///uri")
  */
-export function toFileUri(path: string) {
+export function toFileUri(path: string): string {
   let uri = RNFS.DocumentDirectoryPath + path;
 
   if (!uri.startsWith('file:///')) {
