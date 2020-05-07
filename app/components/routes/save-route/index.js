@@ -10,18 +10,22 @@ import InputText from 'components/common/text-input';
 import { getValidLocations, stopTrackingLocation } from 'helpers/location';
 import i18n from 'i18next';
 import RoutePreviewImage from '../preview-image';
-import type { Route } from 'types/routes.types';
+import type { Route, RouteDifficulty } from 'types/routes.types';
 
 const screenDimensions = Dimensions.get('screen');
 
 type Props = {
   componentId: string,
-  route: Route,
-  updateActiveRoute: () => void,
+  route: ?Route,
+  updateActiveRoute: (Route, string) => void,
   finishAndSaveRoute: () => void
 };
 
-class SaveRoute extends PureComponent<Props> {
+type State = {
+  route: Route
+};
+
+class SaveRoute extends PureComponent<Props, State> {
   static options(passProps: {}) {
     return {
       topBar: {
@@ -39,11 +43,14 @@ class SaveRoute extends PureComponent<Props> {
     const date = Date.now();
     this.state = {
       route: {
-        id: date,
+        id: date, // TODO: Should this be string or number?
+        areaId: '',
+        startDate: date,
         endDate: date,
         name: '',
         difficulty: 'easy',
-        locations: []
+        locations: [],
+        language: ''
       }
     };
   }
@@ -63,7 +70,7 @@ class SaveRoute extends PureComponent<Props> {
     });
   }
 
-  changeRouteSaveName = newRouteSaveName => {
+  changeRouteSaveName = (newRouteSaveName: string) => {
     this.setState(state => ({
       route: {
         ...state.route,
@@ -72,7 +79,7 @@ class SaveRoute extends PureComponent<Props> {
     }));
   };
 
-  changeRouteDifficulty = newDifficulty => {
+  changeRouteDifficulty = (newDifficulty: RouteDifficulty) => {
     this.setState(state => ({
       route: {
         ...state.route,
@@ -82,6 +89,10 @@ class SaveRoute extends PureComponent<Props> {
   };
 
   onSaveRoutePressed = () => {
+    if (!this.state.route) {
+      return;
+    }
+
     stopTrackingLocation();
     this.props.updateActiveRoute(this.state.route, this.props.route.areaId);
     this.props.finishAndSaveRoute();
