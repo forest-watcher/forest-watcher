@@ -1,7 +1,11 @@
+// @flow
+
 import Config from 'react-native-config';
 import i18n from 'i18next';
 import Theme from 'config/theme';
 import { hexToRgb } from 'helpers/utils';
+
+import type { Basemap } from 'types/basemaps.types';
 
 export const AREAS = {
   maxSize: 20000000000, // square meters
