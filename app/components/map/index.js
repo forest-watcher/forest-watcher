@@ -206,7 +206,6 @@ class MapComponent extends Component<Props> {
       },
       markers: [],
       selectedAlerts: [],
-      neighbours: [],
       mapZoom: 2,
       customReporting: false,
       dragging: false,
@@ -555,8 +554,7 @@ class MapComponent extends Component<Props> {
     this.dismissInfoBanner();
     this.setState({
       customReporting: false,
-      selectedAlerts: [],
-      neighbours: []
+      selectedAlerts: []
     });
   });
 
@@ -605,7 +603,7 @@ class MapComponent extends Component<Props> {
 
   reportArea = debounceUI(() => {
     this.dismissInfoBanner();
-    this.createReport([...this.state.selectedAlerts, ...this.state.neighbours]);
+    this.createReport([...this.state.selectedAlerts]);
   });
 
   createReport = selectedAlerts => {
@@ -656,7 +654,6 @@ class MapComponent extends Component<Props> {
   updateSelectedArea = () => {
     this.setState({
       mapCameraBounds: this.getMapCameraBounds(),
-      neighbours: [],
       selectedAlerts: []
     });
   };
@@ -777,9 +774,8 @@ class MapComponent extends Component<Props> {
   };
 
   renderButtonPanel() {
-    const { customReporting, userLocation, locationError, neighbours, selectedAlerts, infoBannerProps } = this.state;
+    const { customReporting, userLocation, locationError, selectedAlerts, infoBannerProps } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
-    const hasNeighbours = neighbours && neighbours.length > 0;
     const canReport = hasAlertsSelected || customReporting;
     const isRouteTracking = this.isRouteTracking();
 
@@ -797,10 +793,7 @@ class MapComponent extends Component<Props> {
         </Animated.View>
         <View style={styles.buttonPanel}>
           {canReport ? (
-            <React.Fragment>
-              <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
-              {hasNeighbours && <CircleButton shouldFillContainer onPress={this.reportArea} icon={reportAreaIcon} />}
-            </React.Fragment>
+            <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
           ) : (
             <CircleButton shouldFillContainer onPress={this.onCustomReportingPress} icon={addLocationIcon} />
           )}
@@ -824,18 +817,9 @@ class MapComponent extends Component<Props> {
   }
 
   renderMapFooter() {
-    const { selectedAlerts, neighbours } = this.state;
-    const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
-
-    const hasNeighbours = neighbours && neighbours.length > 0;
-    let veilHeight = 120;
-    if (hasAlertsSelected) {
-      veilHeight = hasNeighbours ? 260 : 180;
-    }
-
     return [
-      <View key="bg" pointerEvents="none" style={[styles.footerBGContainer, { height: veilHeight }]}>
-        <Image style={[styles.footerBg, { height: veilHeight }]} source={backgroundImage} />
+      <View key="bg" pointerEvents="none" style={styles.footerBGContainer}>
+        <View style={{ height: 56, backgroundColor: 'rgba(0,0,0,0.3)' }} />
       </View>,
       <FooterSafeAreaView key="footer" pointerEvents="box-none" style={styles.footer}>
         {this.renderButtonPanel()}
