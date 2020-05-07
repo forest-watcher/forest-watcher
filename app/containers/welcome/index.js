@@ -1,9 +1,13 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Welcome from 'components/welcome';
+
+type OwnProps = {|
+  +componentId: string
+|};
 
 function mapStateToProps(state: State) {
   return {
@@ -11,11 +15,12 @@ function mapStateToProps(state: State) {
   };
 }
 
-function mapDispatchToProps(dispatch: *) {
+function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators({}, dispatch);
 }
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(Welcome);
