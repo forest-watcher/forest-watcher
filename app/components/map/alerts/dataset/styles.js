@@ -17,5 +17,8 @@ export const mapboxStyles = {
     textField: '{point_count}',
     textSize: 12,
     textPitchAlignment: 'map'
+  },
+  darkTextClusterCount: {
+    textColor: Theme.colors.greyishBrown
   }
 };
