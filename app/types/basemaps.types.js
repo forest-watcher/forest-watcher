@@ -8,7 +8,6 @@ export type Basemap = {
 };
 
 export type BasemapsState = {
-  gfwBasemaps: Array<Basemap>,
   importedBasemaps: Array<Basemap>
 };
 
