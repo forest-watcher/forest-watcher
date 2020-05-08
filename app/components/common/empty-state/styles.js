@@ -20,7 +20,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'stretch',
     backgroundColor: Theme.colors.white,
-    paddingHorizontal: 72,
+    paddingHorizontal: 60,
     paddingVertical: 52
   },
   icon: {
