@@ -177,7 +177,7 @@ class MappingFiles extends Component<Props, State> {
   };
 
   renderGFWFiles = () => {
-    const { baseFiles } = this.props;
+    const { baseFiles, mappingFileType } = this.props;
     if (baseFiles.length === 0) {
       return null;
     }
@@ -190,7 +190,7 @@ class MappingFiles extends Component<Props, State> {
           return (
             <ActionsRow
               style={styles.rowContent}
-              imageSrc={file.image ?? icons[this.props.mappingFileType].placeholder}
+              imageSrc={file.image ?? icons[mappingFileType].placeholder}
               key={index}
             >
               <Text style={styles.rowLabel}>{i18n.t(file.name)}</Text>
@@ -203,9 +203,9 @@ class MappingFiles extends Component<Props, State> {
   };
 
   renderImportedFiles = () => {
-    const { importedFiles } = this.props;
+    const { importedFiles, mappingFileType } = this.props;
     if (importedFiles.length === 0) {
-      if (this.props.mappingFileType === 'baseMaps') {
+      if (mappingFileType === 'baseMaps') {
         return (
           <View>
             <View style={styles.listHeader}>
@@ -218,6 +218,7 @@ class MappingFiles extends Component<Props, State> {
 
       return null;
     }
+
     return (
       <View>
         <View style={styles.listHeader}>
@@ -228,7 +229,7 @@ class MappingFiles extends Component<Props, State> {
             <ActionsRow
               onPress={this.shareLayer.bind(this, file)}
               style={styles.rowContent}
-              imageSrc={icons[this.props.mappingFileType].placeholder}
+              imageSrc={icons[mappingFileType].placeholder}
               key={index}
             >
               <Text style={styles.rowLabel}>{file.name}</Text>
