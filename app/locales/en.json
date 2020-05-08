@@ -64,7 +64,7 @@
             "supportedFileTypesInclude": "Supported file types include:",
             "customFAQs": "Custom Basemap FAQs",
             "fileTypeNotSupported": "File Type Not Supported",
-            "fileTypeNotSupportedDesc": "is not a supported file type for basemaps layers.",
+            "fileTypeNotSupportedDesc": "is not a supported file type for basemaps.",
             "chooseAnother": "Choose Another"
         },
         "imported": "Custom Basemaps",
