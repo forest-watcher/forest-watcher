@@ -12,6 +12,7 @@ export default StyleSheet.create({
     ...Theme.text,
     color: Theme.fontColors.secondary,
     fontSize: 12,
+    marginTop: 8,
     marginBottom: 60,
     opacity: 0.6,
     textAlign: 'center'
