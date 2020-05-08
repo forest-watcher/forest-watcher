@@ -6,3 +6,5 @@ export type Coordinates = {
 };
 
 export type CoordinatesFormat = 'decimal' | 'degrees' | 'utm';
+
+export type MappingFileType = 'contextualLayers' | 'baseMaps';

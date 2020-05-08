@@ -1,5 +1,5 @@
 // @flow
-import type { AlertDatasetConfig } from 'types/common.types';
+import type { AlertDatasetConfig } from 'types/alerts.types';
 
 import Config from 'react-native-config';
 import i18n from 'i18next';
