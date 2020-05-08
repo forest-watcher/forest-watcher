@@ -3,7 +3,7 @@ import { Navigation } from 'react-native-navigation';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import Areas from 'containers/areas';
-import ContextualLayers from 'containers/settings/contextual-layers';
+import MappingFiles from 'containers/settings/mapping-files';
 import ImportLayerRename from 'containers/settings/contextual-layers/import-layer-rename';
 import ImportLayerType from 'components/settings/contextual-layers/import-layer-type';
 import Home from 'containers/home';
@@ -66,7 +66,7 @@ function registerComponent(name, Screen, Provider, store, wrapInSafeAreaProvider
 
 export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.Areas', Areas, Provider, store);
-  registerComponent('ForestWatcher.ContextualLayers', ContextualLayers, Provider, store);
+  registerComponent('ForestWatcher.MappingFiles', MappingFiles, Provider, store);
   registerComponent('ForestWatcher.Home', Home, Provider, store);
   registerComponent('ForestWatcher.ImportLayerRename', ImportLayerRename, Provider, store);
   registerComponent('ForestWatcher.ImportLayerType', ImportLayerType, Provider, store);

@@ -37,6 +37,26 @@
         "delete": "Delete this area",
         "noAlerts": "No alerts for this area"
     },
+    "baseMaps": {
+        "empty": {
+            "action": "App FAQs",
+            "body": "Tap the '+' icon to set up a custom basemap",
+            "title": "No Custom Basemaps"
+        },
+        "export": {
+            "navBarButtonText": "Export",
+            "noneSelected": "No basemaps selected",
+            "one": "%{count} Basemap",
+            "oneAction": "Export %{count} basemap...",
+            "many": "%{count} Basemaps",
+            "manyAction": "Export %{count} basemaps...",
+            "successful": "Exporting basemaps succeeded!"
+        },
+        "gfw": "GFW Basemaps",
+        "imported": "Custom Basemaps",
+        "title": "Manage Basemaps",
+        "share": "Share"
+    },
     "chooseImage": {
         "cancel": "Cancel",
         "chooseFromLibrary": "Choose from library",
@@ -102,10 +122,10 @@
         "export": {
             "navBarButtonText": "Export",
             "noneSelected": "No layers selected",
-            "oneLayer": "%{count} Layers",
-            "oneLayerAction": "Export %{count} layers...",
-            "manyLayers": "%{count} Layers",
-            "manyLayersAction": "Export %{count} layers...",
+            "one": "%{count} Layers",
+            "oneAction": "Export %{count} layers...",
+            "many": "%{count} Layers",
+            "manyAction": "Export %{count} layers...",
             "successful": "Exporting layers succeeded!"
         },
         "gfw": "GFW Layers",
