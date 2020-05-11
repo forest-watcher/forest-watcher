@@ -67,10 +67,8 @@ export default async function exportFileManifest(bundle: {
     ...explicitlyRequestedLayers,
     ...implicitlyRequestedLayers
   ];
-  const sanitisedLayerFiles = sanitiseLayerFilesForBundle(layerFiles);
-
   return {
-    layerFiles: sanitisedLayerFiles
+    layerFiles: layerFiles
   };
 }
 
@@ -78,7 +76,7 @@ export default async function exportFileManifest(bundle: {
  * Create a sanitised manifest that removes the path roots and polygons from each file. This sanitised manifest is suitable
  * for inclusion in an actual bundle, because its size is minimized and it makes no references to the origin device.
  */
-function sanitiseLayerFilesForBundle(files: Array<LayerFile>): Array<LayerFile> {
+export function sanitiseLayerFilesForBundle(files: Array<LayerFile>): Array<LayerFile> {
   return files.map(file => ({
     ...file,
     path: pathWithoutRoot(file.path),

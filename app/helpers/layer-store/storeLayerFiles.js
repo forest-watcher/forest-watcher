@@ -21,6 +21,8 @@ const RNFS = require('react-native-fs');
 
 /**
  * Store the specified geojson object into the layer store.
+ *
+ * // TODO: Split FeatureCollection and GeometryCollection into their constituent parts and store each part separately
  */
 export async function storeGeoJson(layerId: string, geojson: GeoJSONObject, name: string = 'data'): Promise<LayerFile> {
   const cleanedGeoJson = cleanGeoJSON(geojson);

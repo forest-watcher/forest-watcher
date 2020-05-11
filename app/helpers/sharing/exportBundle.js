@@ -9,7 +9,7 @@ import { zip } from 'react-native-zip-archive';
 
 import deleteStagedBundle from 'helpers/sharing/deleteStagedBundle';
 import exportAppData, { exportBasemaps, exportLayers } from 'helpers/sharing/exportAppData';
-import exportFileManifest from 'helpers/sharing/exportFileManifest';
+import exportFileManifest, { sanitiseLayerFilesForBundle } from 'helpers/sharing/exportFileManifest';
 import { storeLayerFiles } from 'helpers/layer-store/storeLayerFiles';
 
 /**
@@ -82,8 +82,15 @@ export async function stageBundle(bundle: SharingBundle): Promise<UnpackedSharin
   await storeLayerFiles(bundle.manifest.layerFiles, outputPath);
 
   // Write the bundle data file
+  const sanitisedBundle = {
+    ...bundle,
+    manifest: {
+      ...bundle.manifest,
+      layerFiles: sanitiseLayerFilesForBundle(bundle.manifest.layerFiles)
+    }
+  };
   const outputFile = `${outputPath}/${BUNDLE_DATA_FILE_NAME}`;
-  const outputData = JSON.stringify(bundle);
+  const outputData = JSON.stringify(sanitisedBundle);
   await RNFS.writeFile(outputFile, outputData);
 
   return {
