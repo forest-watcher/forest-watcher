@@ -53,6 +53,9 @@ export type LayersPendingCache = {
 };
 
 export type LayersAction =
+  | GetGFWLayersRequest
+  | GetGFWLayersCommit
+  | GetGFWLayersRollback
   | GetLayersRequest
   | GetLayersCommit
   | GetLayersRollback
@@ -70,6 +73,19 @@ export type LayersAction =
   | ImportLayerClear
   | ImportLayerRollback
   | SaveAreaCommit;
+
+type GetGFWLayersRequest = {
+  type: 'layers/GET_GFW_LAYERS_REQUEST',
+  meta: OfflineMeta
+};
+type GetGFWLayersCommit = {
+  type: 'layers/GET_GFW_LAYERS_COMMIT',
+  payload: *,
+  meta: { page: number }
+};
+type GetGFWLayersRollback = {
+  type: 'layers/GET_GFW_LAYERS_ROLLBACK'
+};
 
 type GetLayersRequest = {
   type: 'layers/GET_LAYERS_REQUEST',

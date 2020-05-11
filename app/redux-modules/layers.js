@@ -11,7 +11,7 @@ import omit from 'lodash/omit';
 import CONSTANTS from 'config/constants';
 import { getActionsTodoCount } from 'helpers/sync';
 import { cleanGeoJSON } from 'helpers/map';
-import { writeJSONToDisk } from 'helpers/fileManagement';
+import { writeJSONToDisk, listRecursive, readBinaryFile } from 'helpers/fileManagement';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
@@ -24,7 +24,6 @@ import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
 import togeojson from 'helpers/toGeoJSON';
 import shapefile from 'shpjs';
-import { listRecursive, readBinaryFile } from 'helpers/fileManagement';
 import { feature, featureCollection } from '@turf/helpers';
 
 const DOMParser = require('xmldom').DOMParser;
@@ -33,6 +32,9 @@ const RNFS = require('react-native-fs');
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
 const GET_LAYERS_COMMIT = 'layers/GET_LAYERS_COMMIT';
 const GET_LAYERS_ROLLBACK = 'layers/GET_LAYERS_ROLLBACK';
+const GET_GFW_LAYERS_REQUEST = 'layers/GET_GFW_LAYERS_REQUEST';
+const GET_GFW_LAYERS_COMMIT = 'layers/GET_GFW_LAYERS_COMMIT';
+const GET_GFW_LAYERS_ROLLBACK = 'layers/GET_GFW_LAYERS_ROLLBACK';
 const SET_ACTIVE_LAYER = 'layers/SET_ACTIVE_LAYER';
 const DOWNLOAD_AREA = 'layers/DOWNLOAD_AREA';
 const CACHE_LAYER_REQUEST = 'layers/CACHE_LAYER_REQUEST';
@@ -110,6 +112,16 @@ export default function reducer(state: LayersState = initialState, action: Layer
     }
     case GET_LAYERS_ROLLBACK: {
       return { ...state, syncing: false };
+    }
+    case GET_GFW_LAYERS_REQUEST: {
+      return { ...state, paginating: action.meta.page !== 0, syncing: true };
+    }
+    case GET_GFW_LAYERS_COMMIT: {
+      console.log("GET GFW LAYERS", action);
+      return { ...state, paginating: false, syncing: false };
+    }
+    case GET_GFW_LAYERS_ROLLBACK: {
+      return { ...state, syncing: false, paginating: false };
     }
     case DOWNLOAD_AREA: {
       const area = action.payload;
@@ -294,6 +306,27 @@ export function getUserLayers() {
           effect: { url },
           commit: { type: GET_LAYERS_COMMIT, meta: { areas } },
           rollback: { type: GET_LAYERS_ROLLBACK }
+        }
+      }
+    });
+  };
+}
+
+/**
+  Fetches GFW layers from the provided endpoint
+  @param {number} page - The page of the results to load: zero-based, page size is hard-coded to 10
+ */
+export function getGFWLayers(page: number = 0) {
+  return (dispatch: Dispatch, state: GetState) => {
+    const url = `${Config.LAYERS_API_URL}/layer?page[size]=10&page[number]=${page}`;
+    console.log("Get GFW Layers", url);
+    return dispatch({
+      type: GET_GFW_LAYERS_REQUEST,
+      meta: {
+        offline: {
+          effect: { url },
+          commit: { type: GET_GFW_LAYERS_COMMIT, meta: { page } },
+          rollback: { type: GET_GFW_LAYERS_ROLLBACK, meta: { page } }
         }
       }
     });

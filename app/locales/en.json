@@ -1,3 +1,4 @@
+
 {
     "alerts": {
         "alertSystems": "Alert systems",
@@ -310,7 +311,10 @@
         "customLayerFAQs": "Custom Layer FAQs",
         "fileTypeNotSupported": "File Type Not Supported",
         "fileTypeNotSupportedDesc": "is not a supported file type for contextual layers.",
-        "chooseAnother": "Choose Another"
+        "chooseAnother": "Choose Another",
+        "gfw": {
+            "title": "Add GFW Layers"
+        }
     },
     "layers": {
         "managedForests": "Managed Forest",

@@ -81,6 +81,14 @@ class ImportLayerType extends PureComponent<Props, State> {
     }
   });
 
+  importGFWLayer = debounceUI(() => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.GFWLayers'
+      }
+    });
+  });
+
   verifyImportedFile = (file: File) => {
     const fileExtension = file.name
       .split('.')
@@ -142,7 +150,7 @@ class ImportLayerType extends PureComponent<Props, State> {
   render() {
     const gfwLayerAction = {
       icon: nextIcon,
-      callback: () => {}
+      callback: this.importGFWLayer
     };
     const customContextualLayerAction = {
       icon: null,
