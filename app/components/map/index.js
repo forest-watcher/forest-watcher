@@ -105,7 +105,7 @@ const addLocationIcon = require('assets/add_location.png');
 const customReportingMarker = require('assets/custom-reporting-marker.png');
 const userLocationBearingImage = require('assets/userLocationBearing.png');
 const userLocationImage = require('assets/userLocation.png');
-const closeIcon = require('assets/close_gray.png');
+const cancelIcon = require('assets/cancel.png');
 
 type Props = {
   componentId: string,
@@ -800,7 +800,7 @@ class MapComponent extends Component<Props> {
             <CircleButton shouldFillContainer onPress={this.zoomToUserLocation} light icon={myLocationIcon} />
           ) : null}
           {canReport ? (
-            <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
+            <CircleButton shouldFillContainer onPress={this.onSelectionCancelPress} light icon={cancelIcon} />
           ) : null}
           {isRouteTracking || canReport ? (
             <CircleButton
