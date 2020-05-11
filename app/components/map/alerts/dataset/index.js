@@ -29,7 +29,7 @@ type Props = {|
   +onPress?: ?() => any,
   +slug: 'umd_as_it_happens' | 'viirs',
   +reportedAlerts: Array<string>,
-  +selectedAlerts: Array<string>,
+  +selectedAlerts: Array<Alert>,
   +timeframe: number,
   +timeframeUnit: 'days' | 'months'
 |};
@@ -37,7 +37,6 @@ type Props = {|
 type State = {|
   +recentAlerts: FeatureCollection<Point>,
   +reportedAlerts: FeatureCollection<Point>,
-  +selectedAlerts: FeatureCollection<Point>,
   +otherAlerts: FeatureCollection<Point>
 |};
 
