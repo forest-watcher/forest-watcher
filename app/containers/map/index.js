@@ -1,5 +1,8 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { Coordinates } from 'types/common.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
+import type { Location, Route } from 'types/routes.types';
+import type { BasicReport } from 'types/reports.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -15,9 +18,13 @@ import { getSelectedArea, activeDataset } from 'helpers/area';
 import Map from 'components/map';
 import { coordsArrayToObject } from 'helpers/location';
 import { DEFAULT_LAYER_SETTINGS, getActiveBasemap } from 'redux-modules/layerSettings';
-import type { Route } from 'types/routes.types';
 
-function getAreaCoordinates(areaFeature) {
+type OwnProps = {|
+  +componentId: string,
+  previousRoute: Route
+|};
+
+function getAreaCoordinates(areaFeature): Array<Coordinates> {
   switch (areaFeature.geometry.type) {
     case 'MultiPolygon': {
       // When KML files are uploaded in the webapp they are always turned into MultiPolygons even if that multi polygon
@@ -32,7 +39,7 @@ function getAreaCoordinates(areaFeature) {
   }
 }
 
-function reconcileRoutes(activeRoute, previousRoute) {
+function reconcileRoutes(activeRoute: ?Route, previousRoute: ?Route): ?Route {
   if (activeRoute) {
     return activeRoute;
   } else if (previousRoute) {
@@ -42,9 +49,9 @@ function reconcileRoutes(activeRoute, previousRoute) {
   }
 }
 
-function mapStateToProps(state: State, ownProps: { previousRoute: Route }) {
+function mapStateToProps(state: State, ownProps: OwnProps) {
   const area = getSelectedArea(state.areas.data, state.areas.selectedAreaId);
-  let areaCoordinates = null;
+  let areaCoordinates: ?Array<Coordinates> = null;
   let dataset = null;
   let areaProps = null;
   if (area) {
@@ -80,13 +87,14 @@ function mapStateToProps(state: State, ownProps: { previousRoute: Route }) {
     isOfflineMode: state.app.offlineMode,
     coordinatesFormat: state.app.coordinatesFormat,
     canDisplayAlerts: state.alerts.canDisplayAlerts,
+    reportedAlerts: state.alerts.reported,
     basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',
     ctxLayerLocalTilePath: area && cache[state.layers.activeLayer] ? cache[state.layers.activeLayer][area.id] : '',
     mapWalkthroughSeen: state.app.mapWalkthroughSeen
   };
 }
 
-function mapDispatchToProps(dispatch, { navigation }) {
+function mapDispatchToProps(dispatch: Dispatch) {
   return {
     ...bindActionCreators(
       {
@@ -97,10 +105,11 @@ function mapDispatchToProps(dispatch, { navigation }) {
       },
       dispatch
     ),
-    createReport: report => {
+    createReport: (report: BasicReport) => {
       dispatch(createReport(report));
       let numAlertsInReport = 0;
       if (report.latLng) {
+        // TODO: latLng is not in this report object. What is this for?!
         const parsedAlerts = JSON.parse(report.latLng);
         numAlertsInReport = parsedAlerts.length;
       }
@@ -109,22 +118,20 @@ function mapDispatchToProps(dispatch, { navigation }) {
     getImportedContextualLayersById: layerIds => {
       return dispatch(getImportedContextualLayersById(layerIds));
     },
-    navigate: (routeName, params) => {
-      navigation.navigate(routeName, params);
-    },
-    onStartTrackingRoute: (location, areaId) => {
+    onStartTrackingRoute: (location: Location, areaId: string) => {
       dispatch(setRouteDestination(location, areaId));
     },
     onCancelTrackingRoute: () => {
       dispatch(discardActiveRoute());
     },
-    getRoutesById: routeIds => {
+    getRoutesById: (routeIds: Array<string>) => {
       return dispatch(getRoutesById(routeIds));
     }
   };
 }
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(Map);

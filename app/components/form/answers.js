@@ -35,10 +35,18 @@ type Props = {
   showUploadButton: boolean
 };
 
+type Image = {
+  id: string,
+  name: string,
+  order: number,
+  required: boolean,
+  uri: any
+};
+
 const closeIcon = require('assets/close.png');
 
 class Answers extends PureComponent<Props> {
-  static options(passProps: {}) {
+  static options(passProps: { readOnly: boolean }) {
     return {
       topBar: {
         leftButtons: [
@@ -147,16 +155,16 @@ class Answers extends PureComponent<Props> {
     });
   };
 
-  onDeleteImage = (id, questionName, images) => {
-    const image = images.find(i => i.id === id);
+  onDeleteImage = (id, questionName, images: Array<Image>) => {
+    const image: ?Image = images.find(i => i.id === id);
     const { setReportAnswer } = this.props;
     const answer = {
       questionName,
       value: ''
     };
     setReportAnswer(answer, true);
-    if (image.required) {
-      this.onEdit(image.order);
+    if (image?.required) {
+      this.onEdit(image?.order);
     }
   };
 

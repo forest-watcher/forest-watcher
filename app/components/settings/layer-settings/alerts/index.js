@@ -36,9 +36,6 @@ type Props = {
 
 type Options = Array<{ labelKey: string, value: string }>;
 
-const GLAD_TIME_FRAME_VALUES = [1, 2, 6, 12];
-const VIIRS_TIME_FRAME_VALUES = [1, 2, 6, 12];
-
 class AlertLayerSettings extends PureComponent<Props> {
   static options(passProps: {}) {
     return {
@@ -86,7 +83,7 @@ class AlertLayerSettings extends PureComponent<Props> {
   };
 
   getGladTimeFrameOptions: Options = () => {
-    return GLAD_TIME_FRAME_VALUES.map(value => {
+    return DATASETS.umd_as_it_happens.filterThresholdOptions.map(value => {
       return {
         value,
         labelKey: i18n.t(
@@ -98,7 +95,7 @@ class AlertLayerSettings extends PureComponent<Props> {
   };
 
   getViirsTimeFrameOptions: Options = () => {
-    return VIIRS_TIME_FRAME_VALUES.map(value => {
+    return DATASETS.viirs.filterThresholdOptions.map(value => {
       return {
         value,
         labelKey: i18n.t(
@@ -111,8 +108,8 @@ class AlertLayerSettings extends PureComponent<Props> {
 
   render() {
     const areaDatasets = this.props.area.datasets.map(dataset => dataset.slug);
-    const showViirs = areaDatasets.includes(DATASETS.VIIRS);
-    const showGlad = areaDatasets.includes(DATASETS.GLAD);
+    const showViirs = areaDatasets.includes(DATASETS.viirs.id);
+    const showGlad = areaDatasets.includes(DATASETS.umd_as_it_happens.id);
 
     const alertsString = i18n.t('map.layerSettings.alerts');
     const gladTimeFrame = this.props.alertLayerSettings.glad.timeFrame;
