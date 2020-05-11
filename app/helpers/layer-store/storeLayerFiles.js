@@ -4,16 +4,42 @@ import type { LayerFile } from 'types/sharing.types';
 import Config from 'react-native-config';
 import RNFetchBlob from 'rn-fetch-blob';
 import { unzip } from 'react-native-zip-archive';
-import { layerRootDir, type LayerType, pathForLayer, pathForLayerFile } from 'helpers/layer-store/layerFilePaths';
+import {
+  fileNameForTile,
+  layerRootDir,
+  type LayerType,
+  pathForLayer,
+  pathForLayerFile
+} from 'helpers/layer-store/layerFilePaths';
+import { tilebelt } from '@mapbox/tilebelt';
+import turfBbox from '@turf/bbox';
+import { GeoJSONObject } from '@turf/helpers';
+import { writeJSONToDisk } from 'helpers/fileManagement';
+import { cleanGeoJSON } from 'helpers/map';
 
 const RNFS = require('react-native-fs');
+
+/**
+ * Store the specified geojson object into the layer store.
+ */
+export async function storeGeoJson(layerId: string, geojson: GeoJSONObject, name: string = 'data') {
+  const cleanedGeoJson = cleanGeoJSON(geojson);
+  const rootPath = pathForLayer('contextual_layer', layerId);
+  const bbox = turfBbox(cleanedGeoJson);
+  const tileXYZ = tilebelt.bboxToTile(bbox);
+  const tileDir = fileNameForTile(tileXYZ);
+  const path = `${rootPath}/${tileDir}`;
+  const fileName = `${name}.geojson`;
+  await writeJSONToDisk(cleanedGeoJson, fileName, path);
+}
 
 export async function storeLayerFiles(files: Array<LayerFile>, dir: string = layerRootDir()) {
   // eslint-disable-next-line no-unused-vars
   for (const file of files) {
     const destinationUri = pathForLayerFile(file, dir);
 
-    if (!file.subFiles) {
+    const subFiles = file.subFiles;
+    if (!subFiles) {
       const destinationPath = destinationUri
         .split('/')
         .slice(0, -1)
@@ -24,7 +50,7 @@ export async function storeLayerFiles(files: Array<LayerFile>, dir: string = lay
       await RNFS.mkdir(destinationUri);
 
       // eslint-disable-next-line no-unused-vars
-      for (const subFile of file.subFiles) {
+      for (const subFile of subFiles) {
         const subFileSourceUri = `${file.path}/${subFile}`;
         const subFileDestinationUri = `${destinationUri}/${subFile}`;
         await RNFS.copyFile(subFileSourceUri, subFileDestinationUri); // copy sequentially

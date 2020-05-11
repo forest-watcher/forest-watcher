@@ -10,8 +10,6 @@ import { unzip } from 'react-native-zip-archive';
 import omit from 'lodash/omit';
 import CONSTANTS from 'config/constants';
 import { getActionsTodoCount } from 'helpers/sync';
-import { cleanGeoJSON } from 'helpers/map';
-import { writeJSONToDisk } from 'helpers/fileManagement';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
@@ -19,13 +17,13 @@ import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 import tracker from 'helpers/googleAnalytics';
 import { Platform } from 'react-native';
-import { storeTilesFromUrl } from 'helpers/layer-store/storeLayerFiles';
+import { storeGeoJson, storeTilesFromUrl } from 'helpers/layer-store/storeLayerFiles';
 import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
 import togeojson from 'helpers/toGeoJSON';
 import shapefile from 'shpjs';
 import { listRecursive, readBinaryFile } from 'helpers/fileManagement';
-import { feature, featureCollection } from '@turf/helpers';
+import { featureCollection } from '@turf/helpers';
 
 const DOMParser = require('xmldom').DOMParser;
 const RNFS = require('react-native-fs');
@@ -410,8 +408,7 @@ export function importContextualLayer(layerFile: File) {
             geojson = togeojson.topojson(geojson);
           }
 
-          const cleanedGeoJSON = cleanGeoJSON(geojson);
-          await writeJSONToDisk(cleanedGeoJSON, finalFileName, directory);
+          await storeGeoJson(file.id, geojson);
 
           dispatch({
             type: IMPORT_LAYER_COMMIT,
@@ -427,8 +424,7 @@ export function importContextualLayer(layerFile: File) {
       case 'gpx': {
         try {
           const geoJSON = await convertToGeoJSON(file.uri, fileExtension);
-          const cleanedGeoJSON = cleanGeoJSON(geoJSON);
-          await writeJSONToDisk(cleanedGeoJSON, finalFileName, directory);
+          await storeGeoJson(file.id, geoJSON);
           dispatch({
             type: IMPORT_LAYER_COMMIT,
             payload: importedFile
@@ -452,8 +448,7 @@ export function importContextualLayer(layerFile: File) {
             throw new Error('Invalid KMZ bundle, missing a root .kml file');
           }
           const geoJSON = await convertToGeoJSON(location + '/' + mainFile.name, 'kml');
-          const cleanedGeoJSON = cleanGeoJSON(geoJSON);
-          await writeJSONToDisk(cleanedGeoJSON, finalFileName, directory);
+          await storeGeoJson(file.id, geoJSON);
           await RNFS.unlink(tempPath);
           dispatch({
             type: IMPORT_LAYER_COMMIT,
@@ -494,7 +489,7 @@ export function importContextualLayer(layerFile: File) {
           // We send the file path in here without the .shp extension as the library adds this itself
           const polygons = await shapefile.parseShp(shapeFileData, projectionFileData);
           const features = featureCollection(polygons.map(polygon => feature(polygon)));
-          await writeJSONToDisk(features, finalFileName, directory);
+          await storeGeoJson(file.id, features);
 
           await RNFS.unlink(unzippedPath);
 
