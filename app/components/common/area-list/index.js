@@ -37,18 +37,17 @@ export default class AreaList extends Component<Props> {
       return null;
     }
 
-    return (
-      <View style={styles.container}>
+    return <View style={styles.container}>
         {areas.map((area, index) => (
           <View
             key={`${area.id}-area-list`}
-            style={[styles.rowContainer, index === 0 && downloadCalloutVisible ? { zIndex: 10000 } : { zIndex: index }]}
+            style={[
+              styles.rowContainer,
+              index === 0 && downloadCalloutVisible ? { zIndex: 10000 } : { zIndex: index }
+            ]}
           >
             <VerticalSplitRow
-              downloadCalloutBody={i18n.t('areas.tooltip.body')}
-              downloadCalloutVisible={index === 0 && downloadCalloutVisible}
-              downloadCalloutTitle={i18n.t('areas.tooltip.title')}
-              downloadVisible={true}
+              downloadVisible={false}
               onDownloadPress={() => onAreaDownloadPress?.(area.id, area.name)}
               onPress={downloadCalloutVisible ? null : () => onAreaPress(area.id, area.name)}
               disableSettingsButton={this.props.sharing}
@@ -61,11 +60,14 @@ export default class AreaList extends Component<Props> {
               largeImage
             />
             {showCache && (
-              <AreaCache areaId={area.id} disabled={this.props.sharing} showTooltip={index === 0 && pristine} />
+              <AreaCache
+                areaId={area.id}
+                disabled={this.props.sharing}
+                showTooltip={index === 0 && downloadCalloutVisible}
+              />
             )}
           </View>
         ))}
-      </View>
-    );
+      </View>;
   }
 }
