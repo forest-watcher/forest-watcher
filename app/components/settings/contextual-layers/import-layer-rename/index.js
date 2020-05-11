@@ -19,13 +19,18 @@ type Props = {
   existingLayers: Array<File>,
   file: File,
   importContextualLayer: (file: File, fileName: string) => void,
-  importError: ?*,
+  importError: ?Error,
   importingLayer: ?string,
   popToComponentId?: ?string
 };
 
-class ImportLayerRename extends PureComponent<Props> {
-  static options(passProps) {
+type State = {
+  file: File,
+  keyboardVisible: boolean
+};
+
+class ImportLayerRename extends PureComponent<Props, State> {
+  static options(passProps: {}) {
     return {
       topBar: {
         title: {
@@ -40,11 +45,12 @@ class ImportLayerRename extends PureComponent<Props> {
     this.props.clearImportContextualLayerState();
     Navigation.events().bindComponent(this);
     this.state = {
-      file: this.props.file
+      file: this.props.file,
+      keyboardVisible: false
     };
   }
 
-  onFileNameChange = newName => {
+  onFileNameChange = (newName: string) => {
     this.setState(state => ({
       file: {
         ...this.state.file,

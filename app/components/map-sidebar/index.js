@@ -18,20 +18,29 @@ type Props = {
   activeBasemapName: string,
   allLayerSettings: { [featureId: string]: LayerSettings },
   defaultLayerSettings: LayerSettings,
-  getActiveBasemap: () => Basemap,
+  getActiveBasemap: string => Basemap,
   toggleAlertsLayer: () => void,
   toggleRoutesLayer: () => void,
   toggleReportsLayer: () => void,
   toggleContextualLayersLayer: () => void
 };
 
-class MapSidebar extends PureComponent<Props> {
+type State = {
+  componentId: ?string,
+  featureId: ?string
+};
+
+class MapSidebar extends PureComponent<Props, State> {
+  awaitingPushComponentName: ?string = null;
+
   constructor(props: Props) {
     super(props);
+
     this.state = {
       componentId: null,
       featureId: null
     };
+
     Navigation.events().bindComponent(this);
 
     Navigation.events().registerCommandListener((name, params) => {
@@ -62,7 +71,7 @@ class MapSidebar extends PureComponent<Props> {
     }
   }
 
-  pushScreen = componentName => {
+  pushScreen = (componentName: string) => {
     if (!this.state.componentId) {
       return;
     }
@@ -114,7 +123,7 @@ class MapSidebar extends PureComponent<Props> {
     this.pushScreen('ForestWatcher.BasemapLayerSettings');
   });
 
-  getAlertsSettingsTitle = layerSettings => {
+  getAlertsSettingsTitle = (layerSettings: LayerSettings) => {
     const { glad, viirs, layerIsActive } = layerSettings.alerts;
     let alerts;
     if (glad.active) {
@@ -135,7 +144,7 @@ class MapSidebar extends PureComponent<Props> {
     return alerts;
   };
 
-  getRoutesSettingsTitle = layerSettings => {
+  getRoutesSettingsTitle = (layerSettings: LayerSettings) => {
     const { showAll, activeRouteIds, layerIsActive } = layerSettings.routes;
     let description;
     if (showAll) {
@@ -156,7 +165,7 @@ class MapSidebar extends PureComponent<Props> {
     return description;
   };
 
-  getReportSettingsTitle = layerSettings => {
+  getReportSettingsTitle = (layerSettings: LayerSettings) => {
     const { myReportsActive, importedReportsActive, layerIsActive } = layerSettings.reports;
     let description;
     if (myReportsActive) {
@@ -179,7 +188,7 @@ class MapSidebar extends PureComponent<Props> {
     return description;
   };
 
-  getContextualLayersSettingsTitle = layerSettings => {
+  getContextualLayersSettingsTitle = (layerSettings: LayerSettings) => {
     const { activeContextualLayerIds, layerIsActive } = layerSettings.contextualLayers;
     const count = activeContextualLayerIds.length;
     const description = i18n.t(

@@ -1,5 +1,5 @@
 // @flow
-import type { Alert, AlertDatasetConfig } from 'types/common.types';
+import type { Alert, AlertDatasetConfig } from 'types/alerts.types';
 
 import React, { PureComponent } from 'react';
 
@@ -194,29 +194,37 @@ export default class AlertDataset extends PureComponent<Props, State> {
   };
 
   render() {
-    const { isActive, slug } = this.props;
-
-    if (!isActive) {
-      return null;
-    }
+    // As tempted as you may be to make this function conditionally return `null` based on the
+    // isActive prop, this causes issues with enabling/disabling alert types on iOS so please don't!
+    const { slug } = this.props;
 
     const { recentAlerts, reportedAlerts, otherAlerts } = this.state;
     const { color, colorReported, colorRecent } = this.datasets[slug] ?? {};
 
     return (
-      <>
+      <React.Fragment>
         {this.renderCluster(`${slug}ReportedAlerts`, colorReported, reportedAlerts)}
-        {this.renderCluster(`${slug}RecentAlerts`, colorRecent, recentAlerts)}
+        {this.renderCluster(`${slug}RecentAlerts`, colorRecent, recentAlerts, slug === 'umd_as_it_happens')}
         {this.renderCluster(`${slug}OtherAlerts`, color, otherAlerts)}
-      </>
+      </React.Fragment>
     );
   }
 
-  renderCluster = (clusterName: string, clusterColor: any, alerts: FeatureCollection<Point>) => {
+  renderCluster = (
+    clusterName: string,
+    clusterColor: any,
+    alerts: FeatureCollection<Point>,
+    darkTextOnCluster: boolean = false
+  ) => {
     const idShapeSource = `${clusterName}Source`;
     const idClusterCountSymbolLayer = `${clusterName}PointCount`;
     const idClusterCircleLayer = `${clusterName}ClusteredPoints`;
     const idAlertSymbolLayer = `${clusterName}AlertLayer`;
+
+    const clusterCountStyle = {
+      ...mapboxStyles.clusterCount,
+      ...(darkTextOnCluster ? mapboxStyles.darkTextClusterCount : {})
+    };
 
     return (
       <MapboxGL.ShapeSource
@@ -227,7 +235,7 @@ export default class AlertDataset extends PureComponent<Props, State> {
         shape={alerts}
         onPress={this.props.onPress}
       >
-        <MapboxGL.SymbolLayer id={idClusterCountSymbolLayer} style={mapboxStyles.clusterCount} />
+        <MapboxGL.SymbolLayer id={idClusterCountSymbolLayer} style={clusterCountStyle} />
         <MapboxGL.CircleLayer
           id={idClusterCircleLayer}
           belowLayerID={idClusterCountSymbolLayer}

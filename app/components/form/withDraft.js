@@ -24,7 +24,7 @@ function withDraft(WrappedComponent: any) {
   return class withDraftHOC extends WrappedComponent {
     static displayName = `HOC(${getDisplayName(WrappedComponent)})`;
 
-    static options(passProps) {
+    static options(passProps: {}) {
       const wrappedOptions = WrappedComponent.options(passProps);
       return {
         ...(wrappedOptions || {}),

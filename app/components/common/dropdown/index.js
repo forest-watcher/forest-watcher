@@ -97,8 +97,8 @@ export default class Dropdown extends Component<Props> {
                         rowStyle={styles.optionRow}
                         style={styles.optionRowContainer}
                       >
-                        <View style={[styles.switch, option.value == selectedValue ? styles.switchOn : ' ']}>
-                          {option.value == selectedValue && <View style={styles.switchInterior} />}
+                        <View style={[styles.switch, option.value === selectedValue ? styles.switchOn : ' ']}>
+                          {option.value === selectedValue && <View style={styles.switchInterior} />}
                         </View>
                         <Text style={styles.smallLabel}>{i18n.t(option.labelKey)}</Text>
                       </Row>

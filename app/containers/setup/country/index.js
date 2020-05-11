@@ -1,5 +1,5 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -10,6 +10,10 @@ import { setAreaCountryTooltipSeen } from 'redux-modules/app';
 
 import SetupCountry from 'components/setup/country';
 
+type OwnProps = {|
+  +componentId: string
+|};
+
 function mapStateToProps(state: State) {
   return {
     areaCountryTooltipSeen: state.app.areaCountryTooltipSeen,
@@ -19,7 +23,7 @@ function mapStateToProps(state: State) {
   };
 }
 
-function mapDispatchToProps(dispatch: *) {
+function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(
     {
       logout,
@@ -30,7 +34,8 @@ function mapDispatchToProps(dispatch: *) {
   );
 }
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(SetupCountry);

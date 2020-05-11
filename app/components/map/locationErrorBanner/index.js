@@ -1,4 +1,5 @@
 // @flow
+import type { ViewStyle } from 'types/reactElementStyles.types';
 
 import React, { Component } from 'react';
 import { Image, Text, View } from 'react-native';
@@ -12,7 +13,7 @@ import { GFWErrorPermission, GFWErrorLocation, GFWErrorLocationStale } from 'hel
 
 type Props = {
   locationError: GFWErrorLocation | GFWErrorPermission,
-  style: *
+  style: ViewStyle
 };
 
 export default class LocationErrorBanner extends Component<Props> {

@@ -1,6 +1,6 @@
 // @flow
 import type { Dispatch, GetState } from 'types/store.types';
-import type { CountriesState, CountriesAction } from 'types/countries.types';
+import type { Country, CountriesState, CountriesAction } from 'types/countries.types';
 
 import Config from 'react-native-config';
 import { getLanguage } from 'helpers/language';
@@ -26,7 +26,7 @@ export default function reducer(state: CountriesState = initialState, action: Co
     case GET_COUNTRIES_REQUEST:
       return { ...state, synced: false, syncing: true };
     case GET_COUNTRIES_COMMIT: {
-      const data = action.payload.data.filter(country => country.centroid !== null);
+      const data: Array<Country> = action.payload.data.filter(country => country.centroid !== null);
       return { ...state, data, synced: true, syncing: false };
     }
     case GET_COUNTRIES_ROLLBACK:

@@ -38,7 +38,7 @@ export default class FaqCategories extends Component<Props> {
     };
   }
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.categories = [
       {

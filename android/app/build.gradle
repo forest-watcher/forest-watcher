@@ -1,5 +1,12 @@
 apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
+apply plugin: "com.browserstack.gradle"
+
+browserStackConfig {
+    username = "sidedcube1"
+    // Add BROWSERSTACK_ACCESS_KEY to your environment
+}
+
 
 project.ext.envConfigFiles = [
     debug: ".env.android",
@@ -139,6 +146,7 @@ android {
         versionCode 30
         versionName "2.0.0"
         resValue "string", "build_config_package", "com.forestwatcher"
+        archivesBaseName = "$applicationId-v$versionName-$versionCode"
         manifestPlaceholders = [
             'appAuthRedirectScheme': project.env.get("LOGIN_GOOGLE_REDIRECT_SCHEMA")
         ]

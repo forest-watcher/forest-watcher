@@ -20,7 +20,7 @@ type Props = {
 };
 
 class ToastNotification extends PureComponent<Props> {
-  static options(passProps) {
+  static options(passProps: {}) {
     return {
       layout: {
         backgroundColor: 'transparent'

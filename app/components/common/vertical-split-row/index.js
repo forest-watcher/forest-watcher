@@ -46,9 +46,9 @@ type Props = {
   largerLeftPadding?: ?boolean,
   legend?: ?Legend,
   onDownloadPress?: () => void,
-  onPress?: () => void,
+  onPress?: ?() => void,
   onIconPress?: () => void,
-  onSettingsPress?: () => void,
+  onSettingsPress?: ?() => void,
   useRadioIcon?: ?boolean,
   renderImageChildren?: (?void) => React.Node,
   selected?: ?boolean,
@@ -61,7 +61,7 @@ type Props = {
 };
 
 export default class VerticalSplitRow extends Component<Props> {
-  renderIcon = (selected, useRadioIcon, onIconPress) => {
+  renderIcon = (selected: ?boolean, useRadioIcon: ?boolean, onIconPress: ?() => void) => {
     let icon = nextIcon;
     if (selected === false) {
       icon = checkboxOff;

@@ -19,10 +19,15 @@ function degToRadians(degrees: number): number {
  * @param bbox {object} bbox The original lat/lng bounding box
  * @return {object} The new bounding box as cartesian sw.x, sw.y, ne.x, ne.y
  */
-function toCartesianSquareBoundingBox(bbox: {
-  sw: Array<number>,
-  ne: Array<number>
-}): { sw: { x: number, y: number }, ne: { x: number, y: number } } {
+function toCartesianSquareBoundingBox(
+  bbox: ?{
+    sw: Array<number>,
+    ne: Array<number>
+  }
+): ?{ sw: { x: number, y: number }, ne: { x: number, y: number } } {
+  if (!bbox) {
+    return null;
+  }
   // Make sure original object has enough length to get both lat and lng for all bounding points
   if (bbox.ne?.length < 2 || bbox.sw?.length < 2) {
     return null;
@@ -92,6 +97,10 @@ export function routeSVGProperties(
   }
   const latLngBbox = getPolygonBoundingBox(routePoints);
   const bbox = toCartesianSquareBoundingBox(latLngBbox);
+
+  if (!bbox || !latLngBbox) {
+    return null;
+  }
 
   // Get the center latitude for calculation of cartesian points in the route
   const centerLat = (latLngBbox.ne[1] + latLngBbox.sw[1]) / 2;

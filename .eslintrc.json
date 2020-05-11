@@ -39,7 +39,7 @@
     "array-callback-return": "warn",
     "babel/no-unused-expressions": "error",
     "consistent-return": "warn",
-    "eqeqeq": "warn",
+    "eqeqeq": ["warn", "always", { "null": "ignore" }],
     "no-console": [
       "error",
       {
