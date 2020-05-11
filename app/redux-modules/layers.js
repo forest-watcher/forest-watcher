@@ -6,7 +6,6 @@ import type { File } from 'types/file.types';
 import type { LayerType } from 'helpers/layer-store/layerFilePaths';
 
 import Config from 'react-native-config';
-import { unzip } from 'react-native-zip-archive';
 import omit from 'lodash/omit';
 import CONSTANTS from 'config/constants';
 import { getActionsTodoCount } from 'helpers/sync';
@@ -16,17 +15,11 @@ import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 import tracker from 'helpers/googleAnalytics';
-import { Platform } from 'react-native';
-import { storeGeoJson, storeTilesFromUrl } from 'helpers/layer-store/storeLayerFiles';
+import { storeTilesFromUrl } from 'helpers/layer-store/storeLayerFiles';
 import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
-import togeojson from 'helpers/toGeoJSON';
-import shapefile from 'shpjs';
-import { listRecursive, readBinaryFile } from 'helpers/fileManagement';
-import { featureCollection } from '@turf/helpers';
-
-const DOMParser = require('xmldom').DOMParser;
-const RNFS = require('react-native-fs');
+import importLayerFile from 'helpers/layer-store/import/importLayerFile';
+import type { LayerFile } from 'types/sharing.types';
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
 const GET_LAYERS_COMMIT = 'layers/GET_LAYERS_COMMIT';
@@ -44,8 +37,6 @@ const IMPORT_LAYER_REQUEST = 'layers/IMPORT_LAYER_REQUEST';
 const IMPORT_LAYER_COMMIT = 'layers/IMPORT_LAYER_COMMIT';
 const IMPORT_LAYER_CLEAR = 'layers/IMPORT_LAYER_CLEAR';
 const IMPORT_LAYER_ROLLBACK = 'layers/IMPORT_LAYER_ROLLBACK';
-
-const IMPORTED_LAYERS_DIRECTORY = 'imported layers';
 
 // Reducer
 const initialState = {
@@ -265,13 +256,13 @@ export default function reducer(state: LayersState = initialState, action: Layer
     case IMPORT_LAYER_COMMIT: {
       const importedLayers = [...state.imported];
       importedLayers.push(action.payload);
-      return { ...state, importingLayer: null, importError: null, imported: importedLayers };
+      return { ...state, importingLayer: false, importError: null, imported: importedLayers };
     }
     case IMPORT_LAYER_REQUEST: {
-      return { ...state, importingLayer: action.payload, importError: null };
+      return { ...state, importingLayer: true, importError: null };
     }
     case IMPORT_LAYER_ROLLBACK: {
-      return { ...state, importingLayer: null, importError: action.payload };
+      return { ...state, importingLayer: false, importError: action.payload };
     }
     case LOGOUT_REQUEST:
       deleteLayerFiles().then(console.info('Folder removed successfully'));
@@ -361,180 +352,27 @@ export function clearImportContextualLayerState(): LayersAction {
 
 export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, state: GetState) => {
-    // We have to decode the file URI because iOS file manager doesn't like encoded uris!
-    const file = {
-      ...layerFile,
-      uri: decodeURI(layerFile.uri)
-    };
+    dispatch({ type: IMPORT_LAYER_REQUEST });
 
-    const fileName = Platform.select({
-      android: file.fileName,
-      ios: file.uri.substring(file.uri.lastIndexOf('/') + 1)
-    });
-    const finalFileName = fileName.replace(/\.[^/.]+$/, '.geojson');
-
-    dispatch({ type: IMPORT_LAYER_REQUEST, payload: file.uri });
-
-    //TODO: remove, this is just for testing!
-    // await RNFS.unlink(RNFS.DocumentDirectoryPath + '/' + IMPORTED_LAYERS_DIRECTORY + '/' + fileName)
-
-    // Set these up as constants
-    const relativePath = '/' + IMPORTED_LAYERS_DIRECTORY + '/' + finalFileName;
-    const directory = RNFS.DocumentDirectoryPath + '/' + IMPORTED_LAYERS_DIRECTORY;
-    const fileExtension = fileName
-      .split('.')
-      .pop()
-      .toLowerCase();
-
-    // The final file that will have been imported
-    const importedFile = {
-      ...file,
-      type: 'application/geo+json',
-      path: relativePath,
-      fileName: finalFileName
-    };
-
-    switch (fileExtension) {
-      case 'json':
-      case 'topojson':
-      case 'geojson': {
-        try {
-          await RNFS.mkdir(directory, {
-            NSURLIsExcludedFromBackupKey: false // Allow this to be saved to iCloud backup!
-          });
-          // Read from file so we can remove null geometries
-          const fileContents = await RNFS.readFile(file.uri);
-          let geojson = JSON.parse(fileContents);
-
-          if (geojson.type === 'Topology' && !!geojson.objects) {
-            geojson = togeojson.topojson(geojson);
-          }
-
-          await storeGeoJson(file.id, geojson);
-
-          dispatch({
-            type: IMPORT_LAYER_COMMIT,
-            payload: importedFile
-          });
-        } catch (err) {
-          dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
-          throw err;
-        }
-        break;
-      }
-      case 'kml':
-      case 'gpx': {
-        try {
-          const geoJSON = await convertToGeoJSON(file.uri, fileExtension);
-          await storeGeoJson(file.id, geoJSON);
-          dispatch({
-            type: IMPORT_LAYER_COMMIT,
-            payload: importedFile
-          });
-        } catch (err) {
-          dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
-          throw err;
-        }
-        break;
-      }
-      case 'kmz': {
-        const tempZipPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '.zip');
-        try {
-          await RNFS.copyFile(file.uri, tempZipPath);
-          const tempPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '');
-          const location = await unzip(tempZipPath, tempPath);
-          // Don't need to check if folder exists because unzip will have created it
-          const files = await listRecursive(location);
-          const mainFile = files.find(file => file.name.endsWith('.kml'));
-          if (!mainFile) {
-            throw new Error('Invalid KMZ bundle, missing a root .kml file');
-          }
-          const geoJSON = await convertToGeoJSON(location + '/' + mainFile.name, 'kml');
-          await storeGeoJson(file.id, geoJSON);
-          await RNFS.unlink(tempPath);
-          dispatch({
-            type: IMPORT_LAYER_COMMIT,
-            payload: importedFile
-          });
-        } catch (err) {
-          // Fire and forget!
-          dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
-          throw err;
-        } finally {
-          RNFS.unlink(tempZipPath);
-        }
-        break;
-      }
-      case 'zip': {
-        // Unzip the file ourself, as the shapefile library uses a node module which is only supported in browsers
-        const tempZipPath = RNFS.TemporaryDirectoryPath + fileName;
-        try {
-          await RNFS.copyFile(file.uri, tempZipPath);
-          const extensionLessFileName = fileName.replace(/\.[^/.]+$/, '');
-          const tempPath = RNFS.TemporaryDirectoryPath + extensionLessFileName;
-          // Use the response here in-case it unzips strangely (Have seen this myself: Simon)
-          const unzippedPath = await unzip(tempZipPath, tempPath);
-
-          // Add trailing slash, otherwise we read the directory itself!
-          const shapeFileContents = await listRecursive(unzippedPath);
-
-          // Get the name of the shapefile, as this isn't always the file name of the zip file itself
-          const shapeFilePath = shapeFileContents.find(path => path.endsWith('.shp'));
-
-          if (!shapeFilePath) {
-            throw new Error('Zip file does not contain a file with extension .shp');
-          }
-          const shapeFileData = await readBinaryFile(shapeFilePath);
-
-          const projectionFilePath = shapeFileContents.find(path => path.endsWith('.prj'));
-          const projectionFileData = projectionFilePath ? await readBinaryFile(projectionFilePath) : null;
-          // We send the file path in here without the .shp extension as the library adds this itself
-          const polygons = await shapefile.parseShp(shapeFileData, projectionFileData);
-          const features = featureCollection(polygons.map(polygon => feature(polygon)));
-          await storeGeoJson(file.id, features);
-
-          await RNFS.unlink(unzippedPath);
-
-          dispatch({
-            type: IMPORT_LAYER_COMMIT,
-            payload: importedFile
-          });
-        } catch (err) {
-          // Fire and forget!
-          dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
-          throw err;
-        } finally {
-          RNFS.unlink(tempZipPath.replace(/\.[^/.]+$/, ''));
-          RNFS.unlink(tempZipPath);
-        }
-        break;
-      }
-      default:
-        //todo: Add support for other file types! These need converting to geojson before saving.
-        break;
+    try {
+      const importedFile: LayerFile = await importLayerFile(layerFile);
+      const layerData: ContextualLayer = {
+        enabled: true,
+        id: layerFile.id,
+        isPublic: false,
+        name: layerFile.name,
+        url: `${importedFile.path}/${importedFile.subFiles[0]}`
+      };
+      dispatch({
+        type: IMPORT_LAYER_COMMIT,
+        payload: layerData
+      });
+    } catch (err) {
+      // Fire and forget!
+      dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
+      throw err;
     }
   };
-}
-
-/**
- * Converts a file to GeoJSON
- *
- * @param {string} file The file uri to read and convert to GeoJSON
- * @param {string} directory The directory to save the file to
- *
- * @returns {Object} The converted GeoJSON
- */
-async function convertToGeoJSON(uri: string, extension: string) {
-  // Read from file so we can convert to GeoJSON
-  const fileContents = await RNFS.readFile(uri);
-  // Parse XML from file string
-  const parser = new DOMParser();
-  const xmlDoc = parser.parseFromString(fileContents);
-  // Convert to GeoJSON using mapbox's library!
-  const geoJSON =
-    extension === 'gpx' ? togeojson.gpx(xmlDoc, { styles: true }) : togeojson.kml(xmlDoc, { styles: true });
-
-  return geoJSON;
 }
 
 function getAreaById(areas, areaId): ?Area {

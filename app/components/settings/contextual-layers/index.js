@@ -148,10 +148,10 @@ class Layers extends Component<Props, State> {
     }
   };
 
-  shareLayer = (file: File) => {
+  shareLayer = (file: ContextualLayer) => {
     Share.share({
       message: 'Sharing file',
-      url: file.uri
+      url: file.url
     });
   };
 

@@ -11,7 +11,7 @@ import {
   pathForLayer,
   pathForLayerFile
 } from 'helpers/layer-store/layerFilePaths';
-import { tilebelt } from '@mapbox/tilebelt';
+import tilebelt from '@mapbox/tilebelt';
 import turfBbox from '@turf/bbox';
 import { GeoJSONObject } from '@turf/helpers';
 import { writeJSONToDisk } from 'helpers/fileManagement';
@@ -22,7 +22,7 @@ const RNFS = require('react-native-fs');
 /**
  * Store the specified geojson object into the layer store.
  */
-export async function storeGeoJson(layerId: string, geojson: GeoJSONObject, name: string = 'data') {
+export async function storeGeoJson(layerId: string, geojson: GeoJSONObject, name: string = 'data'): Promise<LayerFile> {
   const cleanedGeoJson = cleanGeoJSON(geojson);
   const rootPath = pathForLayer('contextual_layer', layerId);
   const bbox = turfBbox(cleanedGeoJson);
@@ -31,6 +31,14 @@ export async function storeGeoJson(layerId: string, geojson: GeoJSONObject, name
   const path = `${rootPath}/${tileDir}`;
   const fileName = `${name}.geojson`;
   await writeJSONToDisk(cleanedGeoJson, fileName, path);
+  return {
+    path: path,
+    type: 'contextual_layer',
+    layerId: layerId,
+    tileXYZ: tileXYZ,
+    subFiles: [fileName],
+    size: 0
+  };
 }
 
 export async function storeLayerFiles(files: Array<LayerFile>, dir: string = layerRootDir()) {
