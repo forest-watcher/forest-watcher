@@ -12,6 +12,7 @@ import moment from 'moment';
 import queryAlerts from 'helpers/alert-store/queryAlerts';
 import generateUniqueID from 'helpers/uniqueId';
 import { DATASETS } from 'config/constants';
+import { getNeighboursSelected } from 'helpers/map';
 
 type AlertProperties = {|
   type: 'alert',
@@ -130,12 +131,12 @@ export default class AlertDataset extends PureComponent<Props, State> {
     }
   };
 
-  _getAlertProperties = (alert: Alert): AlertProperties => {
+  _getAlertProperties = (alert: Alert, selectedNeighbours: Array<Alert>): AlertProperties => {
     const { name, recencyTimestamp, iconPrefix } = this.datasets[alert.slug];
     const reported = this.props.reportedAlerts.includes(`${alert.long}${alert.lat}`);
     const isRecent = alert.date > recencyTimestamp;
     const selected = this._isAlertSelected(alert);
-    const alertInClusterSelected = false;
+    const alertInClusterSelected = selectedNeighbours.includes(alert);
     const icon = this._getAlertIconName(iconPrefix, isRecent, reported, alertInClusterSelected, selected);
     return {
       // need to pass these as strings as they are rounded in onShapeSourcePressed method.
@@ -174,15 +175,16 @@ export default class AlertDataset extends PureComponent<Props, State> {
       iconName += 'Recent';
     }
 
-    if (selected) {
+    if (alertInClusterSelected) {
       iconName += 'Selected';
     }
     return iconName;
   };
 
   _createFeaturesForAlerts = (alerts: Array<Alert>): State => {
+    const selectedNeighbours = getNeighboursSelected(this.props.selectedAlerts, alerts);
     const alertFeatures = alerts.map((alert: Alert) => {
-      const properties = this._getAlertProperties(alert);
+      const properties = this._getAlertProperties(alert, selectedNeighbours);
       return point([alert.long, alert.lat], properties);
     });
     const alertsGroupedByCluster = _.groupBy(alertFeatures, feature => feature.properties?.['clusterId']);
