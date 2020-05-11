@@ -1,5 +1,6 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { Route } from 'types/routes.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -8,14 +9,19 @@ import RouteDetail from 'components/routes/route-detail';
 import { deleteRoutes, updateSavedRoute } from '../../../redux-modules/routes';
 import { setSelectedAreaId } from '../../../redux-modules/areas';
 
-function mapStateToProps(state: State, ownProps: { routeId: string }) {
+type OwnProps = {|
+  +componentId: string,
+  routeId: string
+|};
+
+function mapStateToProps(state: State, ownProps: OwnProps) {
   return {
     coordinatesFormat: state.app.coordinatesFormat,
     route: state.routes.previousRoutes.find(routeData => routeData.id === ownProps.routeId)
   };
 }
 
-function mapDispatchToProps(dispatch, ownProps: { routeId: string }) {
+function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
   return {
     ...bindActionCreators(
       {
@@ -30,7 +36,7 @@ function mapDispatchToProps(dispatch, ownProps: { routeId: string }) {
         })
       );
     },
-    updateRoute: updatedFields => {
+    updateRoute: (updatedFields: Route) => {
       dispatch(
         updateSavedRoute({
           ...updatedFields,
@@ -41,7 +47,8 @@ function mapDispatchToProps(dispatch, ownProps: { routeId: string }) {
   };
 }
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(RouteDetail);

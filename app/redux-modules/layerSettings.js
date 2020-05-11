@@ -1,6 +1,6 @@
 // @flow
 import type { LayerSettingsState, LayerSettingsAction } from 'types/layerSettings.types';
-import { DEFAULT_BASEMAP } from 'redux-modules/basemaps';
+import { DEFAULT_BASEMAP, GFW_BASEMAPS } from 'config/constants';
 import remove from 'lodash/remove';
 import type { Dispatch, GetState } from 'types/store.types';
 import type { Area } from 'types/areas.types';
@@ -334,7 +334,7 @@ export default function reducer(
   }
 }
 
-export function clearEnabledContextualLayers(featureId: string) {
+export function clearEnabledContextualLayers(featureId: string): LayerSettingsAction {
   return {
     type: CLEAR_ENABLED_CONTEXTUAL_LAYERS,
     payload: {
@@ -343,7 +343,7 @@ export function clearEnabledContextualLayers(featureId: string) {
   };
 }
 
-export function setContextualLayerShowing(featureId: string, layerId: string, showing: boolean) {
+export function setContextualLayerShowing(featureId: string, layerId: string, showing: boolean): LayerSettingsAction {
   return {
     type: SET_CONTEXTUAL_LAYER_SHOWING,
     payload: {
@@ -354,7 +354,7 @@ export function setContextualLayerShowing(featureId: string, layerId: string, sh
   };
 }
 
-export function deselectAllRoutes(featureId: string) {
+export function deselectAllRoutes(featureId: string): LayerSettingsAction {
   return {
     type: DESELECT_ALL_ROUTES,
     payload: {
@@ -505,7 +505,7 @@ export function getActiveBasemap(featureId: string) {
     if (!activeBasemapId) {
       return DEFAULT_BASEMAP;
     }
-    const allBasemaps = [...state.basemaps.gfwBasemaps, ...state.basemaps.importedBasemaps];
+    const allBasemaps = [...GFW_BASEMAPS, ...state.basemaps.importedBasemaps];
     const basemap = allBasemaps.find(item => item.id === activeBasemapId);
     return basemap ?? DEFAULT_BASEMAP;
   };
@@ -520,7 +520,12 @@ export function initialiseAreaLayerSettings(featureId: string, areaId: string) {
       return;
     }
     // Alert types need to be initialised for area, depending on available alert types
-    const area: Area = areas.data.find(area => area.id === areaId);
+    const area: ?Area = areas.data.find((area: Area) => area.id === areaId);
+
+    if (!area) {
+      return;
+    }
+
     const areaDatasets = area.datasets.map(dataset => dataset.slug);
     const hasGladAlerts = areaDatasets.includes(DATASETS.GLAD);
     const hasViirsAlerts = areaDatasets.includes(DATASETS.VIIRS);

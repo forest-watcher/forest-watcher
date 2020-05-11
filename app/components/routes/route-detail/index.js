@@ -1,4 +1,5 @@
 // @flow
+import type { AreasAction } from 'types/areas.types';
 
 import React, { PureComponent } from 'react';
 import { ActionSheetIOS, Alert, AlertIOS, Dimensions, Platform, View, ScrollView } from 'react-native';
@@ -25,8 +26,8 @@ type Props = {
   coordinatesFormat: CoordinatesFormat,
   deleteRoute: () => void,
   updateRoute: Route => void,
-  setSelectedAreaId: func,
-  route: Route
+  setSelectedAreaId: string => AreasAction,
+  route: ?Route
 };
 
 type RNNProps = {

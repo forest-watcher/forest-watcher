@@ -28,7 +28,7 @@ const DELETE_AREA_ROLLBACK = 'areas/DELETE_AREA_ROLLBACK';
 const SET_SELECTED_AREA_ID = 'areas/SET_SELECTED_AREA_ID';
 
 // Helpers
-function getAreaById(areas: Array<Area>, areaId: string) {
+function getAreaById(areas: Array<Area>, areaId: ?string): ?Area {
   const area = areas.find(areaData => areaData.id === areaId);
   return area ? { ...area } : null;
 }
@@ -47,6 +47,7 @@ const initialState = {
 export default function reducer(state: AreasState = initialState, action: AreasAction) {
   switch (action.type) {
     case PERSIST_REHYDRATE: {
+      // $FlowFixMe
       const { areas } = action.payload;
       return { ...state, ...areas, syncError: false };
     }
@@ -74,7 +75,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     }
     case GET_ALERTS_COMMIT: {
       const area = action.meta.area;
-      const data = state.data.map(a => {
+      const data: Array<Area> = state.data.map((a: Area) => {
         if (a.id === area.id) {
           const datasets = a.datasets.map(dataset => {
             if (dataset.slug === action.meta.datasetSlug) {
@@ -104,7 +105,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     }
     case UPDATE_AREA_REQUEST: {
       const newArea = { ...action.payload };
-      const areas = state.data.map(area => {
+      const areas: Array<Area> = state.data.map(area => {
         if (area.id === newArea.id) {
           return { ...newArea };
         }
@@ -115,7 +116,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     case UPDATE_AREA_COMMIT: {
       // Not overwritting the geostore
       const { geostore, ...newArea } = action.payload; // eslint-disable-line
-      const data = state.data.map(area => {
+      const data: Array<Area> = state.data.map(area => {
         if (area.id === newArea.id) {
           return { ...area, ...newArea };
         }
@@ -125,7 +126,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     }
     case UPDATE_AREA_ROLLBACK: {
       const oldArea = action.meta;
-      const areas = state.data.map(area => {
+      const areas: Array<Area> = state.data.map(area => {
         if (area.id === oldArea.id) {
           return { ...oldArea };
         }
@@ -134,7 +135,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
       return { ...state, data: areas };
     }
     case DELETE_AREA_REQUEST: {
-      const data = state.data.filter(area => area.id !== action.payload.id);
+      const data: Array<Area> = state.data.filter((area: Area) => area.id !== action.payload.id);
       return { ...state, data, synced: false, syncing: true };
     }
     case DELETE_AREA_COMMIT: {
@@ -211,11 +212,12 @@ export function setAreasRefreshing(refreshing: boolean): AreasAction {
   };
 }
 
-export function saveArea(params: { snapshot: string, area: CountryArea }): AreasAction {
+export function saveArea(params: { datasets: Array<Dataset>, snapshot: string, area: CountryArea }): AreasAction {
   const url = `${Config.API_URL}/forest-watcher/area`;
   const headers = { 'content-type': 'multipart/form-data' };
   const body = new FormData();
   body.append('name', params.area.name);
+  // $FlowFixMe
   body.append('geojson', JSON.stringify(params.area.geojson));
 
   const image = {
@@ -263,15 +265,16 @@ export function updateDate(areaId: string, datasetSlug: string, date: { startDat
   };
 }
 
-export function deleteArea(areaId: string) {
+export function deleteArea(areaId: ?string) {
   return (dispatch: Dispatch, state: GetState) => {
     const area = getAreaById(state().areas.data, areaId);
-    dispatch(
-      deleteRoutes({
-        areaId: areaId
-      })
-    );
+
     if (area) {
+      dispatch(
+        deleteRoutes({
+          areaId: area.id
+        })
+      );
       const url = `${Config.API_URL}/area/${area.id}`;
       dispatch({
         type: DELETE_AREA_REQUEST,

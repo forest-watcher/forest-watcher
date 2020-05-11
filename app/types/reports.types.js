@@ -1,5 +1,5 @@
 // @flow
-import type { Dataset, GetAreasCommit } from 'types/areas.types';
+import type { Area, Dataset, GetAreasCommit } from 'types/areas.types';
 import type { LogoutRequest } from 'types/user.types';
 import type { OfflineMeta } from 'types/offline.types';
 
@@ -26,7 +26,8 @@ export type Answer = {
   child?: ?Answer
 };
 
-export type AnsweredQuestion = Question & {
+export type AnsweredQuestion = {
+  question: Question,
   answer: Answer
 };
 
@@ -54,6 +55,13 @@ export type Report = {
   status: 'draft' | 'complete' | 'uploaded',
   date: string,
   answers: Array<Answer>
+};
+
+export type BasicReport = {
+  reportName: string,
+  userPosition: [number, number],
+  clickedPosition: [number, number],
+  area: Area
 };
 
 export type ReportArea = {

@@ -44,7 +44,7 @@ type Props = {
   imageSrc?: ?string | ?number,
   largeImage?: ?boolean,
   largerLeftPadding?: ?boolean,
-  legend?: ?Legend,
+  legend?: ?Array<Legend>,
   onDownloadPress?: () => void,
   onPress?: ?() => void,
   onIconPress?: () => void,
@@ -106,7 +106,7 @@ export default class VerticalSplitRow extends Component<Props> {
         <View style={styles.item}>
           {!this.props.hideImage && (
             <View style={[styles.imageContainer, this.props.largeImage ? styles.largeImageContainer : {}]}>
-              {!!this.props.imageSrc && (
+              {this.props.imageSrc !== null ? (
                 <ImageBackground
                   resizeMode={this.props.backgroundImageResizeMode || 'cover'}
                   style={styles.image}
@@ -114,7 +114,7 @@ export default class VerticalSplitRow extends Component<Props> {
                 >
                   {this.props.renderImageChildren && this.props.renderImageChildren()}
                 </ImageBackground>
-              )}
+              ) : null}
               {this.props.downloadVisible && (
                 <Callout
                   body={this.props.downloadCalloutBody}
@@ -154,7 +154,7 @@ export default class VerticalSplitRow extends Component<Props> {
                 style={styles.settingsButton}
               />
             )}
-            {this.props.legend?.length && (
+            {this.props.legend?.length !== 0 && (
               <View style={styles.legendContainer}>
                 {this.props.legend?.map(item => {
                   return (

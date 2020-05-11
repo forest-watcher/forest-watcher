@@ -1,4 +1,6 @@
 // @flow
+import type { AppAction } from 'types/app.types';
+import type { Thunk } from 'types/store.types';
 import React, { Component } from 'react';
 import { View, Text, TouchableHighlight, ScrollView, Image, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
@@ -25,9 +27,9 @@ type Props = {
   user: any,
   loggedIn: boolean, // eslint-disable-line
   componentId: string,
-  logout: () => void,
+  logout: (?string) => Thunk<void>,
   isUnsafeLogout: boolean,
-  setOfflineMode: () => void,
+  setOfflineMode: boolean => AppAction,
   offlineMode: boolean
 };
 

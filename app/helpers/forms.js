@@ -92,13 +92,14 @@ export const isQuestionAnswered = (answer: Answer): boolean => {
 };
 
 function getAnswerValues(question: Question, answer: ?Answer) {
-  if (typeof answer === 'undefined') {
+  if (!answer) {
     return undefined;
   }
+
   const simpleTypeInputs = ['number', 'text', 'point', 'blob'];
   let value = Array.isArray(answer.value) ? answer.value : [answer.value];
   if (!simpleTypeInputs.includes(question.type)) {
-    value = question.values.filter(item => value.includes(item.value)).map(item => item.label);
+    value = question.values?.filter(item => value.includes(item.value)).map(item => item.label);
   }
   return { ...answer, value };
 }
@@ -128,10 +129,10 @@ export function mapFormToAnsweredQuestions(
   template: Template,
   deviceLang: ?string
 ): Array<AnsweredQuestion> {
-  const questions = mapFormToQuestions(template, deviceLang);
+  const questions: { [string]: Question } = mapFormToQuestions(template, deviceLang);
   return flatMap((answers: Array<Answer>), (answer: Answer) => {
     const question = questions[answer.questionName];
-    const answeredQuestion = {
+    const answeredQuestion: AnsweredQuestion = {
       question,
       answer: getAnswerValues(question, answer)
     };

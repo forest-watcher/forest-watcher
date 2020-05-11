@@ -15,6 +15,7 @@ Object {
     "areaDownloadTooltipSeen": false,
     "coordinatesFormat": "decimal",
     "hasSeenWelcomeScreen": false,
+    "isUpdate": false,
     "language": "en",
     "mapWalkthroughSeen": false,
     "offlineMode": false,
@@ -32,44 +33,6 @@ Object {
     "syncing": false,
   },
   "basemaps": Object {
-    "gfwBasemaps": Array [
-      Object {
-        "id": "mapbox://styles/mapbox/satellite-v9",
-        "image": Object {
-          "testUri": "../../../app/assets/basemap_satellite.png",
-        },
-        "isMapboxStyle": true,
-        "name": "Satellite",
-        "styleURL": "mapbox://styles/mapbox/satellite-v9",
-      },
-      Object {
-        "id": "mapbox://styles/mapbox/light-v10",
-        "image": Object {
-          "testUri": "../../../app/assets/basemap_light.png",
-        },
-        "isMapboxStyle": true,
-        "name": "Light",
-        "styleURL": "mapbox://styles/mapbox/light-v10",
-      },
-      Object {
-        "id": "mapbox://styles/mapbox/dark-v10",
-        "image": Object {
-          "testUri": "../../../app/assets/basemap_dark.png",
-        },
-        "isMapboxStyle": true,
-        "name": "Dark",
-        "styleURL": "mapbox://styles/mapbox/dark-v10",
-      },
-      Object {
-        "id": "mapbox://styles/mapbox/streets-v11",
-        "image": Object {
-          "testUri": "../../../app/assets/basemap_street.png",
-        },
-        "isMapboxStyle": true,
-        "name": "Street",
-        "styleURL": "mapbox://styles/mapbox/streets-v11",
-      },
-    ],
     "importedBasemaps": Array [],
   },
   "countries": Object {
@@ -1980,6 +1943,7 @@ Object {
     "areaDownloadTooltipSeen": false,
     "coordinatesFormat": "decimal",
     "hasSeenWelcomeScreen": false,
+    "isUpdate": false,
     "language": "en",
     "mapWalkthroughSeen": false,
     "offlineMode": false,
@@ -1997,44 +1961,6 @@ Object {
     "syncing": false,
   },
   "basemaps": Object {
-    "gfwBasemaps": Array [
-      Object {
-        "id": "mapbox://styles/mapbox/satellite-v9",
-        "image": Object {
-          "testUri": "../../../app/assets/basemap_satellite.png",
-        },
-        "isMapboxStyle": true,
-        "name": "Satellite",
-        "styleURL": "mapbox://styles/mapbox/satellite-v9",
-      },
-      Object {
-        "id": "mapbox://styles/mapbox/light-v10",
-        "image": Object {
-          "testUri": "../../../app/assets/basemap_light.png",
-        },
-        "isMapboxStyle": true,
-        "name": "Light",
-        "styleURL": "mapbox://styles/mapbox/light-v10",
-      },
-      Object {
-        "id": "mapbox://styles/mapbox/dark-v10",
-        "image": Object {
-          "testUri": "../../../app/assets/basemap_dark.png",
-        },
-        "isMapboxStyle": true,
-        "name": "Dark",
-        "styleURL": "mapbox://styles/mapbox/dark-v10",
-      },
-      Object {
-        "id": "mapbox://styles/mapbox/streets-v11",
-        "image": Object {
-          "testUri": "../../../app/assets/basemap_street.png",
-        },
-        "isMapboxStyle": true,
-        "name": "Street",
-        "styleURL": "mapbox://styles/mapbox/streets-v11",
-      },
-    ],
     "importedBasemaps": Array [],
   },
   "countries": Object {

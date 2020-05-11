@@ -1,5 +1,5 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 import type { LayersPendingCache } from 'types/layers.types';
 
 import { bindActionCreators } from 'redux';
@@ -8,13 +8,19 @@ import { downloadAreaById, resetCacheStatus, refreshAreaCacheById } from 'redux-
 import { showNotConnectedNotification } from 'redux-modules/app';
 import AreaCache from 'components/common/area-list/area-cache';
 
+type OwnProps = {|
+  +componentId: string,
+  +areaId: string,
+  +showTooltip: boolean
+|};
+
 const getAreaPendingCache = (areaId: string, pendingCache: LayersPendingCache) =>
   Object.values(pendingCache)
     // $FlowFixMe
     .map(areas => (typeof areas[areaId] !== 'undefined' ? 1 : 0))
     .reduce((acc, next) => acc + next, 0);
 
-function mapStateToProps(state: State, ownProps: { areaId: string }) {
+function mapStateToProps(state: State, ownProps: OwnProps) {
   const { areaId } = ownProps;
   const cacheStatus = state.layers.cacheStatus[areaId];
   return {
@@ -24,7 +30,7 @@ function mapStateToProps(state: State, ownProps: { areaId: string }) {
   };
 }
 
-const mapDispatchToProps = (dispatch: *) =>
+const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       downloadAreaById,
@@ -35,7 +41,8 @@ const mapDispatchToProps = (dispatch: *) =>
     dispatch
   );
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(AreaCache);

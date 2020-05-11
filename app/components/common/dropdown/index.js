@@ -1,5 +1,5 @@
 // @flow
-
+import type { AppAction } from 'types/app.types';
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Platform } from 'react-native';
 
@@ -13,17 +13,20 @@ import i18n from 'i18next';
 
 const nextIcon = require('assets/next.png');
 
+type Option = { labelKey: string, value: string };
+
 type Props = {
   description: ?string,
   label: string,
   selectedValue: string,
-  onValueChange: string => void,
-  options: Array<{ labelKey: string, value: string }>,
+  onValueChange: string => AppAction,
+  options: Array<Option>,
   inactive?: ?boolean,
   hideLabel?: boolean
 };
 
 export default class Dropdown extends Component<Props> {
+  actionSheet: ?ActionSheet;
   showActionSheetAction: { callback: () => void, icon: any };
 
   constructor(props: Props) {
@@ -39,7 +42,7 @@ export default class Dropdown extends Component<Props> {
     this.actionSheet?.setModalVisible(false);
   };
 
-  onSelectedOption = value => {
+  onSelectedOption = (value: string) => {
     this.props.onValueChange(value);
   };
 
@@ -51,15 +54,15 @@ export default class Dropdown extends Component<Props> {
     const { description, label, selectedValue, options } = this.props;
     const selectedLabel =
       options
-        .map(option => {
+        .map((option: Option) => {
           return {
             ...option,
             label: i18n.t(option.labelKey)
           };
         })
-        .find(option => {
+        .find((option: Option) => {
           return option.value === selectedValue;
-        }).label ?? selectedValue;
+        })?.label ?? selectedValue;
     const rowStyle = [styles.dropdownRow, this.props.inactive ? styles.inactiveDropdownRow : {}];
     return (
       <Row action={!this.props.inactive && this.showActionSheetAction} rowStyle={rowStyle}>

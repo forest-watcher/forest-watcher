@@ -1,5 +1,5 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -7,7 +7,12 @@ import { DEFAULT_LAYER_SETTINGS, deselectAllRoutes, toggleRouteSelected } from '
 import RoutesLayerSettings from 'components/settings/layer-settings/routes';
 import { getAllRouteIds } from 'redux-modules/routes';
 
-function mapStateToProps(state: State, ownProps) {
+type OwnProps = {|
+  +componentId: string,
+  featureId: string
+|};
+
+function mapStateToProps(state: State, ownProps: OwnProps) {
   return {
     featureId: ownProps.featureId,
     myRoutes: state.routes.previousRoutes,
@@ -16,7 +21,7 @@ function mapStateToProps(state: State, ownProps) {
   };
 }
 
-const mapDispatchToProps = (dispatch: *) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     ...bindActionCreators(
       {
@@ -31,7 +36,8 @@ const mapDispatchToProps = (dispatch: *) => {
   };
 };
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(RoutesLayerSettings);

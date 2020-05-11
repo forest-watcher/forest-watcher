@@ -1,7 +1,7 @@
 // @flow
-import type { Area } from 'types/areas.types';
+import type { Area, AreasAction } from 'types/areas.types';
 import type { Route } from 'types/routes.types';
-import type { Dispatch, GetState } from 'types/store.types';
+import type { Dispatch, GetState, Thunk } from 'types/store.types';
 
 import React, { Component } from 'react';
 import { Alert, View, Image, ScrollView, Text, TextInput, TouchableHighlight } from 'react-native';
@@ -29,20 +29,20 @@ const editIcon = require('assets/edit.png');
 const deleteIcon = require('assets/delete_white.png');
 
 type State = {
-  name: string,
+  name: ?string,
   editingName: boolean
 };
 
 type Props = {
-  updateArea: Area => void,
-  deleteArea: string => void,
+  updateArea: Area => Thunk<void>,
+  deleteArea: (?string) => Thunk<void>,
   isConnected: boolean,
   componentId: string,
-  area: Area,
+  area: ?Area,
   disableDelete: boolean,
   routes: Array<Route>,
-  initialiseAreaLayerSettings: (string, string) => void,
-  setSelectedAreaId: (areaId: string) => void
+  initialiseAreaLayerSettings: (string, string) => Thunk<void>,
+  setSelectedAreaId: (areaId: string) => AreasAction
 };
 
 class AreaDetail extends Component<Props, State> {
@@ -64,7 +64,7 @@ class AreaDetail extends Component<Props, State> {
     super(props);
     Navigation.events().bindComponent(this);
     this.state = {
-      name: props.area.name,
+      name: props.area?.name,
       editingName: false
     };
   }
@@ -91,7 +91,7 @@ class AreaDetail extends Component<Props, State> {
   onNameSubmit = debounceUI((ev: SyntheticInputEvent<*>) => {
     // $FlowFixMe
     const newName = ev.nativeEvent.text;
-    const { name } = this.props.area;
+    const name = this.props.area?.name;
     if (newName && newName !== name) {
       this.setState({
         name: newName,
@@ -222,7 +222,7 @@ class AreaDetail extends Component<Props, State> {
                   multiline={false}
                   style={styles.input}
                   autoCapitalize="none"
-                  value={this.state.name !== null ? this.state.name : this.props.area.name}
+                  value={this.state.name !== null ? this.state.name : this.props.area?.name}
                   onChangeText={this.onNameChange}
                   onSubmitEditing={this.onNameSubmit}
                   onBlur={this.onNameSubmit}

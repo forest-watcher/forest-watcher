@@ -1,4 +1,5 @@
 // @flow
+import type { Thunk } from 'types/store.types';
 import React, { PureComponent } from 'react';
 import { Text, ScrollView, View, Image } from 'react-native';
 import { Navigation } from 'react-native-navigation';
@@ -20,7 +21,7 @@ type Props = {
   componentId: string,
   existingLayers: Array<File>,
   file: File,
-  importContextualLayer: (file: File, fileName: string) => void,
+  importContextualLayer: (file: File) => Thunk<Promise<void>>,
   importError: ?Error,
   importingLayer: ?string,
   popToComponentId?: ?string
@@ -83,9 +84,9 @@ class ImportLayerType extends PureComponent<Props, State> {
 
   verifyImportedFile = (file: File) => {
     const fileExtension = file.name
-      .split('.')
-      .pop()
-      .toLowerCase();
+      ?.split('.')
+      ?.pop()
+      ?.toLowerCase();
     if (!ACCEPTED_FILE_TYPES.includes(fileExtension)) {
       this.showModal(file.name);
       return false;

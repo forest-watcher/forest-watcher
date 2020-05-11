@@ -1,12 +1,17 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import BasemapLayerSettings from 'components/settings/layer-settings/basemap';
 import { DEFAULT_LAYER_SETTINGS, selectActiveBasemap } from 'redux-modules/layerSettings';
 
-function mapStateToProps(state: State, ownProps) {
+type OwnProps = {|
+  +componentId: string,
+  featureId: string
+|};
+
+function mapStateToProps(state: State, ownProps: OwnProps) {
   return {
     featureId: ownProps.featureId,
     basemaps: state.basemaps,
@@ -16,7 +21,7 @@ function mapStateToProps(state: State, ownProps) {
   };
 }
 
-const mapDispatchToProps = (dispatch: *) =>
+const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       selectActiveBasemap
@@ -24,7 +29,8 @@ const mapDispatchToProps = (dispatch: *) =>
     dispatch
   );
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(BasemapLayerSettings);
