@@ -628,9 +628,16 @@ class MapComponent extends Component<Props> {
   createReport = selectedAlerts => {
     this.props.setCanDisplayAlerts(false);
     const { area } = this.props;
-    const { userLocation } = this.state;
+    const { userLocation, customReporting, mapCenterCoords } = this.state;
     let latLng = [];
-    if (selectedAlerts && selectedAlerts.length > 0) {
+    if (customReporting) {
+      latLng = [
+        {
+          lat: mapCenterCoords[1],
+          lon: mapCenterCoords[0]
+        }
+      ];
+    } else if (selectedAlerts && selectedAlerts.length > 0) {
       latLng = selectedAlerts.map(alert => ({
         lat: alert.lat,
         lon: alert.long

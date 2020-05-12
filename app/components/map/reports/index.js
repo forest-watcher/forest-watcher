@@ -43,10 +43,20 @@ export default class Reports extends Component<Props> {
       imported: report.imported,
       featureId: report.title
     };
-    const position = report.userPosition
-      .split(',')
-      .reverse()
-      .map(a => Number(a));
+    let position;
+    const clickedPosition = JSON.parse(report.clickedPosition);
+    if (clickedPosition?.length) {
+      const lastClickedPosition = clickedPosition[clickedPosition.length - 1];
+      if (lastClickedPosition.lon && lastClickedPosition.lat) {
+        position = [lastClickedPosition.lon, lastClickedPosition.lat];
+      }
+    }
+    if (!position) {
+      position = report.userPosition
+        .split(',')
+        .reverse()
+        .map(a => Number(a));
+    }
     return point(position, properties);
   };
 
