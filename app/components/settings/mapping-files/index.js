@@ -21,7 +21,7 @@ import styles from './styles';
 
 const plusIcon = require('assets/add.png');
 const icons = {
-  baseMaps: {
+  basemaps: {
     empty: require('assets/basemapEmpty.png'),
     placeholder: require('assets/basemap_placeholder.png')
   },
@@ -83,7 +83,7 @@ class MappingFiles extends Component<Props, State> {
   }
 
   componentDidMount() {
-    tracker.trackScreenView(this.props.mappingFileType === 'contextualLayers' ? 'Layers' : 'Base Maps');
+    tracker.trackScreenView(this.props.mappingFileType === 'contextualLayers' ? 'Layers' : 'Basemaps');
   }
 
   navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {
@@ -144,7 +144,7 @@ class MappingFiles extends Component<Props, State> {
   };
 
   setSharing = (sharing: boolean) => {
-    if (this.props.mappingFileType === 'baseMaps') {
+    if (this.props.mappingFileType === 'basemaps') {
       console.warn('3SC', 'Exporting basemaps is not yet supported');
       return;
     }
@@ -182,12 +182,12 @@ class MappingFiles extends Component<Props, State> {
         <View style={styles.listHeader}>
           <Text style={styles.listTitle}>{i18n.t(this.i18nKeyFor('gfw'))}</Text>
         </View>
-        {baseFiles.map((file, index) => {
+        {baseFiles.map(file => {
           return (
             <ActionsRow
               style={styles.rowContent}
               imageSrc={file.image ?? icons[mappingFileType].placeholder}
-              key={index}
+              key={file.id}
             >
               <Text style={styles.rowLabel}>{i18n.t(file.name)}</Text>
               {file.size != null && <Text style={styles.rowLabel}>{formatBytes(file.size)}</Text>}
@@ -201,7 +201,7 @@ class MappingFiles extends Component<Props, State> {
   renderImportedFiles = () => {
     const { importedFiles, mappingFileType } = this.props;
     if (importedFiles.length === 0) {
-      if (mappingFileType === 'baseMaps') {
+      if (mappingFileType === 'basemaps') {
         return (
           <View>
             <View style={styles.listHeader}>
@@ -282,7 +282,7 @@ class MappingFiles extends Component<Props, State> {
         <ShareSheet
           componentId={this.props.componentId}
           shareButtonDisabledTitle={i18n.t(this.i18nKeyFor('share'))}
-          disabled={mappingFileType === 'baseMaps'} // remove this once sharing work is completed
+          // disabled={mappingFileType === 'basemaps'} // remove this once sharing work is completed
           enabled={mappingFileType === 'contextualLayers' || totalToExport > 0}
           onShare={() => {
             this.onExportFilesTapped(this.state.selectedForExport);
