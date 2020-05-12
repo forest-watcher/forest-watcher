@@ -68,6 +68,7 @@
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.BROWSABLE" />
         <category android:name="android.intent.category.DEFAULT" />
+        <data android:scheme="content" android:host="*" android:pathPattern="..*\\.gfw\\.bundle" />
         <data android:scheme="file" android:host="*" android:pathPattern="..*\\.gfw\\.bundle" />
       </intent-filter>
       <intent-filter
@@ -81,6 +82,7 @@
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.BROWSABLE" />
         <category android:name="android.intent.category.DEFAULT" />
+        <data android:scheme="content" android:host="*" android:mimeType="*/*" android:pathPattern="..*\\.gfw\\.bundle" />
         <data android:scheme="file" android:host="*" android:mimeType="*/*" android:pathPattern="..*\\.gfw\\.bundle" />
       </intent-filter>
     </activity>
