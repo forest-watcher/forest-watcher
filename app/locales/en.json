@@ -53,6 +53,20 @@
             "successful": "Exporting basemaps succeeded!"
         },
         "gfw": "GFW Basemaps",
+        "import": {
+            "uniqueNameError": "You have already given a basemap this name, please choose a different name or delete the existing basemap.",
+            "error": "Failed to import basemap, please make sure you are selecting the correct file type and the contents of the file matches the specification then try again.",
+            "save": "Import Basemap",
+            "title": "Basemap Name",
+            "choose": "Choose basemap type",
+            "addGFW": "",
+            "custom": "Custom Basemap",
+            "supportedFileTypesInclude": "Supported file types include:",
+            "customFAQs": "Custom Basemap FAQs",
+            "fileTypeNotSupported": "File Type Not Supported",
+            "fileTypeNotSupportedDesc": "is not a supported file type for basemaps.",
+            "chooseAnother": "Choose Another"
+        },
         "imported": "Custom Basemaps",
         "title": "Manage Basemaps",
         "share": "Share"
@@ -127,6 +141,20 @@
             "many": "%{count} Layers",
             "manyAction": "Export %{count} layers...",
             "successful": "Exporting layers succeeded!"
+        },
+        "import": {
+            "uniqueNameError": "You have already given a layer this name, please choose a different name or delete the existing layer.",
+            "error": "Failed to import layer, please make sure you are selecting the correct file type and the contents of the file matches the specification then try again.",
+            "save": "Import Layer",
+            "title": "Layer Name",
+            "choose": "Choose contextual layer type",
+            "addGFW": "Add Global Forest Watch Layer",
+            "custom": "Custom Contextual Layer",
+            "supportedFileTypesInclude": "Supported file types include:",
+            "customFAQs": "Custom Layer FAQs",
+            "fileTypeNotSupported": "File Type Not Supported",
+            "fileTypeNotSupportedDesc": "is not a supported file type for contextual layers.",
+            "chooseAnother": "Choose Another"
         },
         "gfw": "GFW Layers",
         "imported": "Custom Layers",
@@ -317,20 +345,6 @@
             "questionCountPlural": "%{count} Questions",
             "questionCountSingular": "1 Question"
         }
-    },
-    "importLayer": {
-        "uniqueNameError": "You have already given a layer this name, please choose a different name or delete the existing layer.",
-        "error": "Failed to import layer, please make sure you are selecting the correct file type and the contents of the file matches the specification then try again.",
-        "save": "Import Layer",
-        "title": "Layer Name",
-        "chooseContextualLayerType": "Choose contextual layer type",
-        "addGFWLayer": "Add Global Forest Watch Layer",
-        "customContextualLayer": "Custom Contextual Layer",
-        "supportedFileTypesInclude": "Supported file types include:",
-        "customLayerFAQs": "Custom Layer FAQs",
-        "fileTypeNotSupported": "File Type Not Supported",
-        "fileTypeNotSupportedDesc": "is not a supported file type for contextual layers.",
-        "chooseAnother": "Choose Another"
     },
     "layers": {
         "managedForests": "Managed Forest",

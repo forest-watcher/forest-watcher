@@ -93,15 +93,11 @@ class MappingFiles extends Component<Props, State> {
   }
 
   onPressImportFile = debounceUI(() => {
-    if (this.props.mappingFileType === 'baseMaps') {
-      console.warn('3SC', 'Importing basemaps is not yet supported');
-      return;
-    }
-
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'ForestWatcher.ImportLayerType',
+        name: 'ForestWatcher.ImportMappingFileType',
         passProps: {
+          mappingFileType: this.props.mappingFileType,
           popToComponentId: this.props.componentId
         }
       }
