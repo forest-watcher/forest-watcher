@@ -7,26 +7,28 @@ import formatcoords from 'formatcoords';
 import moment from 'moment';
 import i18n from 'i18next';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
-import { coordsArrayToObject, isValidLatLng } from 'helpers/location';
+import { isValidLatLng } from 'helpers/location';
 import { isEmpty, removeNulls } from 'helpers/utils';
 import { AllGeoJSON } from '@turf/helpers';
-
 import _ from 'lodash';
 import type { Alert } from 'types/alerts.types';
-
-const kdbush = require('kdbush');
-const geokdbush = require('geokdbush');
-const geoViewport = require('@mapbox/geo-viewport');
+import type { AlertsIndex } from 'components/map/alerts/dataset';
+import geokdbush from 'geokdbush';
+import geoViewport from '@mapbox/geo-viewport';
 
 const { width, height } = Dimensions.get('window');
 
 // Use example
 // const firstPoint = { latitude: -3.097125, longitude: -45.600375 }
 // const points = [{ latitude: -2.337625, longitude: -46.940875 }]
-export function getAllNeighbours(firstPoint: Alert, points: Array<Alert>, distance: number = 0.03) {
+export function getAllNeighbours(
+  alertsIndex: AlertsIndex,
+  firstPoint: Alert,
+  points: Array<Alert>,
+  distance: number = 0.03
+) {
   // default distance 30m - alerts are about 27.5m apart on the map (39m diagonally)
   const neighbours: Array<Alert> = [];
-  const alertsIndex = kdbush(points, p => p.long, p => p.lat);
 
   function isIncluded(result: Alert) {
     for (let i = 0; i < neighbours.length; i++) {
@@ -151,16 +153,15 @@ export function getMapZoom(region) {
   return geoViewport.viewport(bounds, [width, height], 0, 18, 256).zoom || 0;
 }
 
-export function getNeighboursSelected(selectedAlerts, allAlerts) {
+export function getNeighboursSelected(alertsIndex: AlertsIndex, selectedAlerts: Array<Alert>, allAlerts: Array<Alert>) {
   let neighbours = [];
 
   selectedAlerts.forEach(alert => {
-    neighbours = [...neighbours, ...getAllNeighbours(alert, allAlerts)];
+    neighbours = [...neighbours, ...getAllNeighbours(alertsIndex, alert, allAlerts)];
   });
   // Remove duplicates
   neighbours = neighbours.filter(
-    (alert, index, self) =>
-      self.findIndex(t => t.lat === alert.lat && t.long === alert.long) === index
+    (alert, index, self) => self.findIndex(t => t.lat === alert.lat && t.long === alert.long) === index
   );
   return neighbours;
 }

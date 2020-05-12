@@ -13,6 +13,14 @@ import queryAlerts from 'helpers/alert-store/queryAlerts';
 import generateUniqueID from 'helpers/uniqueId';
 import { DATASETS } from 'config/constants';
 import { getNeighboursSelected } from 'helpers/map';
+import kdbush from 'kdbush';
+
+export type AlertsIndex = {|
+  +ids: Array<number>,
+  +coords: Array<number>,
+  +points: Array<Alert>,
+  +nodeSize: number
+|};
 
 type AlertProperties = {|
   type: 'alert',
@@ -57,7 +65,9 @@ export default class AlertDataset extends PureComponent<Props, State> {
     this.state = {
       recentAlerts: featureCollection([]),
       reportedAlerts: featureCollection([]),
-      otherAlerts: featureCollection([])
+      otherAlerts: featureCollection([]),
+      alertsIndex: {},
+      alertsFromDb: []
     };
 
     const now = moment();
@@ -81,11 +91,23 @@ export default class AlertDataset extends PureComponent<Props, State> {
       this.props.isActive !== prevProps.isActive ||
       this.props.timeframe !== prevProps.timeframe ||
       this.props.timeframeUnit !== prevProps.timeframeUnit ||
-      this.props.areaId !== prevProps.areaId ||
-      this.props.reportedAlerts !== prevProps.reportedAlerts ||
-      this.props.selectedAlerts !== prevProps.selectedAlerts
+      this.props.areaId !== prevProps.areaId
     ) {
       this._loadAlertsFromDb();
+    } else if (
+      this.props.selectedAlerts !== prevProps.selectedAlerts ||
+      this.props.reportedAlerts !== prevProps.reportedAlerts
+    ) {
+      if (this.state.alerts && this.state.alertsIndex?.nodeSize) {
+        // if alerts are already cached - only refresh alert properties
+        const updatedAlertState = this._createFeaturesForAlerts(this.state.alerts, this.state.alertsIndex);
+
+        this.setState({
+          ...updatedAlertState
+        });
+      } else {
+        this._loadAlertsFromDb();
+      }
     }
   }
 
@@ -110,20 +132,23 @@ export default class AlertDataset extends PureComponent<Props, State> {
     try {
       const requestId = generateUniqueID();
       this.activeRequestId = requestId;
-      const alerts = await queryAlerts({
+      const alertsFromDb = await queryAlerts({
         areaId: areaId ?? undefined,
         dataset: slug,
         timeAgo: { max: timeframe, unit: timeframeUnit },
         distinctLocations: true
       });
-      const updatedAlertState = this._createFeaturesForAlerts(alerts);
 
+      const alertsIndex: AlertsIndex = kdbush(alertsFromDb, p => p.long, p => p.lat);
+      const updatedAlertState = this._createFeaturesForAlerts(alertsFromDb, alertsIndex);
       if (requestId !== this.activeRequestId) {
         return;
       }
 
       this.setState({
-        ...updatedAlertState
+        alertsFromDb,
+        ...updatedAlertState,
+        alertsIndex: alertsIndex
       });
     } catch (err) {
       console.warn(err);
@@ -180,8 +205,8 @@ export default class AlertDataset extends PureComponent<Props, State> {
     return iconName;
   };
 
-  _createFeaturesForAlerts = (alerts: Array<Alert>): State => {
-    const selectedNeighbours = getNeighboursSelected(this.props.selectedAlerts, alerts);
+  _createFeaturesForAlerts = (alerts: Array<Alert>, alertsIndex: AlertsIndex): State => {
+    const selectedNeighbours = getNeighboursSelected(alertsIndex, this.props.selectedAlerts, alerts);
     const alertFeatures = alerts.map((alert: Alert) => {
       const properties = this._getAlertProperties(alert, selectedNeighbours);
       return point([alert.long, alert.lat], properties);

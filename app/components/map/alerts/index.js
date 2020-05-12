@@ -54,6 +54,7 @@ export default class Alerts extends Component<Props> {
           }}
         />
         <AlertDataset
+          key={'viirs'}
           slug={'viirs'}
           areaId={this.props.areaId}
           isActive={this.props.alertLayerSettings.viirs.active}
@@ -64,6 +65,7 @@ export default class Alerts extends Component<Props> {
           selectedAlerts={this.props.selectedAlerts}
         />
         <AlertDataset
+          key={'umd_as_it_happens'}
           slug={'umd_as_it_happens'}
           areaId={this.props.areaId}
           isActive={this.props.alertLayerSettings.glad.active}
