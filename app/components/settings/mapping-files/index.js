@@ -274,7 +274,6 @@ class MappingFiles extends Component<Props, State> {
         <ShareSheet
           componentId={this.props.componentId}
           shareButtonDisabledTitle={i18n.t(this.i18nKeyFor('share'))}
-          // disabled={mappingFileType === 'basemaps'} // remove this once sharing work is completed
           enabled={mappingFileType === 'contextualLayers' || totalToExport > 0}
           onShare={() => {
             this.onExportFilesTapped(this.state.selectedForExport);
