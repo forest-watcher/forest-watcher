@@ -1,9 +1,16 @@
 // @flow
 import type { Dispatch } from 'types/store.types';
 import type { ImportBundleResult, UnpackedSharingBundle } from 'types/sharing.types';
+
+import RNFS from 'react-native-fs';
+import { unzip } from 'react-native-zip-archive';
+
 import FWError from 'helpers/fwError';
+import createTemporaryStagingDirectory from 'helpers/sharing/createTemporaryStagingDirectory';
 import deleteStagedBundle from 'helpers/sharing/deleteStagedBundle';
-import { SAVE_AREA_COMMIT } from 'redux-modules/areas';
+import { BUNDLE_DATA_FILE_NAME } from 'helpers/sharing/exportBundle';
+import { APP_DATA_FORMAT_VERSION } from 'helpers/sharing/exportAppData';
+import importAppData from 'helpers/sharing/importAppData';
 
 /**
  * Imports a FW sharing bundle into the app
@@ -11,15 +18,21 @@ import { SAVE_AREA_COMMIT } from 'redux-modules/areas';
  * @param file - The file to import
  * @param dispatch - Redux dispatch function used to emit actions to add data to the app
  */
-export default async function importBundle(file: File, dispatch: Dispatch): Promise<ImportBundleResult> {
-  const unpackedBundle = await unpackBundle(file);
-  const importResult = await importStagedBundle(unpackedBundle, dispatch);
+export default async function importBundle(uri: string, dispatch: Dispatch): Promise<void> {
+  const unpackedBundle = await unpackBundle(uri);
+  await importStagedBundle(unpackedBundle, dispatch);
   deleteStagedBundle(unpackedBundle);
-  return importResult;
 }
 
 function checkBundleCompatibility(version: number) {
-  throw new FWError('Not yet implemented');
+  if (version > APP_DATA_FORMAT_VERSION) {
+    console.warn('3SC', 'Bundle created using a future app version, proceed with caution');
+    throw new FWError('Cannot read incompatible bundle version');
+  } else if (version < APP_DATA_FORMAT_VERSION) {
+    // For past versions we can either (i) migrate or (ii) fail
+    // Handle those decisions for each past version here
+    console.warn('3SC', 'Processing bundle created using an old format. We should explicitly handle this.');
+  }
 }
 
 /**
@@ -28,18 +41,9 @@ function checkBundleCompatibility(version: number) {
  * @param bundle - The bundle - already unpacked - whose data should be imported
  * @param dispatch - Redux dispatch function used to emit actions to add data to the app
  */
-export function importStagedBundle(bundle: UnpackedSharingBundle, dispatch: Dispatch): Promise<ImportBundleResult> {
+export function importStagedBundle(bundle: UnpackedSharingBundle, dispatch: Dispatch) {
   checkBundleCompatibility(bundle.data.version);
-
-  bundle.data.areas.forEach(area => {
-    // TODO: Handle area with same ID in reducer??
-    dispatch({
-      type: SAVE_AREA_COMMIT,
-      payload: area
-    });
-  });
-
-  throw new FWError('Not yet implemented');
+  importAppData(bundle.data, dispatch);
 }
 
 /**
@@ -47,6 +51,15 @@ export function importStagedBundle(bundle: UnpackedSharingBundle, dispatch: Disp
  *
  * @param file - The file to import
  */
-export function unpackBundle(file: File): Promise<UnpackedSharingBundle> {
-  throw new FWError('Not yet implemented');
+export async function unpackBundle(uri: string): Promise<UnpackedSharingBundle> {
+  const stagingDir = await createTemporaryStagingDirectory();
+  await unzip(uri, stagingDir);
+
+  const bundleDataUri = `${stagingDir}/${BUNDLE_DATA_FILE_NAME}`;
+  const fileContents = await RNFS.readFile(bundleDataUri);
+  const bundle = JSON.parse(fileContents);
+  return {
+    path: stagingDir,
+    data: bundle
+  };
 }
