@@ -1,7 +1,7 @@
 // @flow
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
-import { getGFWLayers } from 'redux-modules/layers';
+import { getGFWLayers } from 'redux-modules/gfwLayers';
 import { connect } from 'react-redux';
 
 import GFWLayers from 'components/settings/gfw-layers';

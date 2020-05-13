@@ -31,6 +31,13 @@ export type LayersState = {
   importingLayer: ?string
 };
 
+export type GFWLayersState = {
+  data: Array<*>,
+  fullyLoaded: boolean,
+  syncing: boolean,
+  paginating: boolean
+};
+
 export type LayersProgress = {
   [string]: { layerId: number }
 };
