@@ -1,17 +1,13 @@
 // @flow
 
-import type { LayerFile, LayerFilesById } from 'types/sharing.types';
+import type { LayerFile } from 'types/sharing.types';
 import type { FeatureCollection, Polygon } from '@turf/helpers';
 
 import _ from 'lodash';
 import intersect from '@turf/intersect';
 
-import {
-  type LayerType,
-  pathForLayer,
-  pathForLayerType,
-  tileFileNameToPolygon
-} from 'helpers/layer-store/layerFilePaths';
+import { type LayerType, pathForLayer, pathForLayerType, tileForFileName } from 'helpers/layer-store/layerFilePaths';
+import tilebelt from '@mapbox/tilebelt';
 
 // $FlowFixMe
 const RNFS = require('react-native-fs');
@@ -30,18 +26,21 @@ export default async function queryLayerFiles(
     blacklist: Array<string>,
     region?: ?FeatureCollection<Polygon>
   |}
-): Promise<LayerFilesById> {
+): Promise<Array<LayerFile>> {
   const actualWhitelist = query.whitelist.length > 0 ? query.whitelist : await listLayerIds(type);
   const idsToConsider = actualWhitelist.filter(id => !query.blacklist.includes(id));
   const listLayerFilePromises = idsToConsider.map(id =>
     query.region ? listLayerFilesForRegion(type, id, query.region) : listLayerFiles(type, id)
   );
   const layerFiles = await Promise.all(listLayerFilePromises);
-  return _.zipObject(idsToConsider, layerFiles);
+  return _.flatten(layerFiles);
 }
 
 /**
- * Lists all the layer files stored on disk for a particular layer ID
+ * Lists all the layer files stored on disk for a particular layer ID.
+ *
+ * For custom layers, only the enclosing tile directory is returned. For tile-based layers, the tile files themselves
+ * are returned.
  */
 async function listLayerFiles(type: LayerType, id: string): Promise<Array<LayerFile>> {
   const path = pathForLayer(type, id);
@@ -50,14 +49,30 @@ async function listLayerFiles(type: LayerType, id: string): Promise<Array<LayerF
   if (!exists) {
     return [];
   }
+
   const children = await RNFS.readDir(path);
-  return children
-    .filter(child => child.isFile())
-    .map(file => ({
-      filesize: file.size,
-      uri: file.path,
-      polygon: tileFileNameToPolygon(file.name)
-    }));
+  const layerFiles: Array<LayerFile> = [];
+
+  // eslint-disable-next-line no-unused-vars
+  for (const child of children) {
+    const tileXYZ = tileForFileName(child.name); // TODO: Ignore invalid names
+    const polygon = tilebelt.tileToGeoJSON(tileXYZ);
+    const isDir = child.isDirectory();
+    const grandchildren = isDir ? await RNFS.readDir(child.path) : []; // TODO: Do we need to recurse children?
+    const size = isDir ? _.sumBy(grandchildren, file => file.size ?? 0) : child.size;
+
+    layerFiles.push({
+      type: type,
+      layerId: id,
+      path: child.path,
+      tileXYZ: tileXYZ,
+      subFiles: isDir ? grandchildren.map(grandchild => grandchild.name) : null,
+      polygon: polygon,
+      size: parseInt(size)
+    });
+  }
+
+  return layerFiles;
 }
 
 /**
@@ -70,7 +85,6 @@ async function listLayerFilesForRegion(
   id: string,
   region: FeatureCollection<Polygon>
 ): Promise<Array<LayerFile>> {
-  // TODO: Handle other layer formats, currently this only handles tiles
   const layerFiles = await listLayerFiles(type, id);
 
   if (region.features.length === 0) {

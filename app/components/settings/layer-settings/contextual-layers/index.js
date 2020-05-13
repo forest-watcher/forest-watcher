@@ -11,7 +11,6 @@ import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigatio
 
 import type { ContextualLayer } from 'types/layers.types';
 import type { LayerSettingsAction } from 'types/layerSettings.types';
-import type { File } from 'types/file.types';
 
 const layerPlaceholder = require('assets/layerPlaceholder.png');
 const checkboxOff = require('assets/checkbox_off.png');
@@ -27,7 +26,7 @@ type Props = {
   featureId: string,
   clearEnabledContextualLayers: string => LayerSettingsAction,
   contextualLayersLayerSettings: ContextualLayersLayerSettingsType,
-  importedContextualLayers: Array<File>,
+  importedContextualLayers: Array<ContextualLayer>,
   setContextualLayerShowing: (featureId: string, layerId: string, showing: boolean) => LayerSettingsAction
 };
 

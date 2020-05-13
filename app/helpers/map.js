@@ -10,7 +10,7 @@ import type { Coordinates, CoordinatesFormat } from 'types/common.types';
 import type { LayersState, ContextualLayer } from 'types/layers.types';
 import { coordsArrayToObject, isValidLatLng } from 'helpers/location';
 import { isEmpty, removeNulls } from 'helpers/utils';
-import { AllGeoJSON } from '@turf/helpers';
+import { GeoJSONObject } from '@turf/helpers';
 
 import _ from 'lodash';
 
@@ -74,7 +74,7 @@ export function getAllNeighbours(firstPoint: Coordinates, points: Coordinates, d
  * @param {Object} geojson The GeoJSON to remove null geometries from
  * @returns {Object} validated GeoJSON
  */
-export function cleanGeoJSON(geojson: AllGeoJSON): AllGeoJSON {
+export function cleanGeoJSON(geojson: GeoJSONObject): GeoJSONObject {
   if (geojson?.type === 'FeatureCollection' && !!geojson.features) {
     return {
       ...geojson,

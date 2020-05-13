@@ -36,7 +36,7 @@ type Props = {|
   +baseFiles: Array<Basemap | ContextualLayer>,
   +componentId: string,
   +exportLayers: (ids: Array<string>) => Promise<void>,
-  +importedFiles: Array<File>,
+  +importedFiles: Array<ContextualLayer>,
   +mappingFileType: MappingFileType
 |};
 
@@ -160,10 +160,10 @@ class MappingFiles extends Component<Props, State> {
     }
   };
 
-  shareLayer = (file: File) => {
+  shareLayer = (file: ContextualLayer) => {
     Share.share({
       message: 'Sharing file',
-      url: file.uri
+      url: file.url
     });
   };
 

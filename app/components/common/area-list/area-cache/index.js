@@ -8,6 +8,7 @@ import Config from 'react-native-config';
 import checkConnectivity from 'helpers/networking';
 
 import i18n from 'i18next';
+import Callout from 'components/common/callout';
 import ProgressBar from 'react-native-progress/Bar';
 import Theme from 'config/theme';
 import styles from './styles';
@@ -165,25 +166,24 @@ class AreaCache extends PureComponent<Props, State> {
     const cacheButtonIcon = this.getCacheAreaIcon();
 
     const cacheButton = (
-      <View style={styles.cacheBtnContainer}>
-        <TouchableHighlight
-          disabled={disabled}
-          style={styles.cacheBtn}
-          activeOpacity={1}
-          underlayColor={Theme.background.secondary}
-          onPress={cacheAreaAction}
-        >
-          <Image style={Theme.icon} source={cacheButtonIcon} />
-        </TouchableHighlight>
-        {showTooltip && (
-          <View style={styles.cacheTooltipContainer}>
-            <View style={styles.cacheTooltipArrow} />
-            <View style={styles.cacheTooltip}>
-              <Text>{i18n.t('dashboard.makeAvailableOffline')}</Text>
-            </View>
-          </View>
-        )}
-      </View>
+      <Callout
+        body={i18n.t('areas.tooltip.body')}
+        offset={4}
+        title={i18n.t('areas.tooltip.title')}
+        visible={showTooltip}
+      >
+        <View style={styles.cacheBtnContainer}>
+          <TouchableHighlight
+            disabled={disabled}
+            style={styles.cacheBtn}
+            activeOpacity={1}
+            underlayColor={Theme.background.secondary}
+            onPress={cacheAreaAction}
+          >
+            <Image source={cacheButtonIcon} />
+          </TouchableHighlight>
+        </View>
+      </Callout>
     );
     const progressBar = (
       <View style={styles.progressBarContainer}>

@@ -15,7 +15,7 @@ import styles from './styles';
 import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
 
-import exportLayerManifest from 'helpers/sharing/exportLayerManifest';
+import exportFileManifest from 'helpers/sharing/exportFileManifest';
 import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
 import { getShareButtonText } from 'helpers/sharing/utils';
@@ -101,20 +101,9 @@ class Areas extends Component<Props, State> {
     this.setState({
       bundleSize: undefined
     });
-    const manifest = await exportLayerManifest(
-      {
-        areaIds,
-        basemapIds: [],
-        layerIds: [],
-        reportIds: [],
-        routeIds: []
-      },
-      this.props.areas.filter(area => {
-        return areaIds.includes(area.id);
-      }),
-      [],
-      []
-    );
+    const manifest = await exportFileManifest({
+      areas: this.props.areas.filter(area => areaIds.includes(area.id))
+    });
     const fileSize = manifestBundleSize(manifest);
     if (this.fetchId === currentFetchId) {
       this.setState({
@@ -128,22 +117,22 @@ class Areas extends Component<Props, State> {
    * Will swap the state for the specified row, to show in the UI if it has been selected or not.
    */
   onAreaSelectedForExport = (areaId: string) => {
-    this.setState(state => {
-      if (state.selectedForExport.includes(areaId)) {
-        const selectedForExport = [...state.selectedForExport].filter(id => areaId !== id);
-        this.fetchExportSize(selectedForExport);
-        return {
-          selectedForExport
-        };
-      } else {
-        const selectedForExport = [...state.selectedForExport];
-        selectedForExport.push(areaId);
-        this.fetchExportSize(selectedForExport);
-        return {
-          selectedForExport: selectedForExport
-        };
+    this.setState(
+      state => {
+        if (state.selectedForExport.includes(areaId)) {
+          return {
+            selectedForExport: [...state.selectedForExport].filter(id => areaId !== id)
+          };
+        } else {
+          return {
+            selectedForExport: [...state.selectedForExport, areaId]
+          };
+        }
+      },
+      () => {
+        this.fetchExportSize(this.state.selectedForExport);
       }
-    });
+    );
   };
 
   /**

@@ -2,7 +2,6 @@
 
 import type { OfflineMeta } from 'types/offline.types';
 import type { DeleteAreaCommit, SaveAreaCommit, Area } from 'types/areas.types';
-import type { File } from 'types/file.types';
 
 export type ContextualLayer = {
   createdAt?: ?string,
@@ -28,8 +27,8 @@ export type LayersState = {
   cache: LayersCache,
   pendingCache: LayersPendingCache,
   importError: ?Error,
-  imported: Array<File>,
-  importingLayer: ?string
+  imported: Array<ContextualLayer>,
+  importingLayer: boolean
 };
 
 export type LayersProgress = {
@@ -111,7 +110,7 @@ type SetCacheStatus = {
   payload: LayersCacheStatus
 };
 
-type ImportLayerRequest = { type: 'layers/IMPORT_LAYER_REQUEST', payload: ?string };
-type ImportLayerCommit = { type: 'layers/IMPORT_LAYER_COMMIT', payload: File };
+type ImportLayerRequest = { type: 'layers/IMPORT_LAYER_REQUEST' };
+type ImportLayerCommit = { type: 'layers/IMPORT_LAYER_COMMIT', payload: ContextualLayer };
 type ImportLayerClear = { type: 'layers/IMPORT_LAYER_CLEAR' };
 type ImportLayerRollback = { type: 'layers/IMPORT_LAYER_ROLLBACK', payload: ?Error };
