@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import AlertDataset from 'components/map/alerts/dataset';
+import type { Alert } from 'types/common.types';
 
 type AlertLayerSettingsType = {
   layerIsActive: boolean,
@@ -22,6 +23,7 @@ type Props = {|
   +areaId?: ?string,
   +featureId?: ?string,
   +reportedAlerts: Array<string>,
+  +selectedAlerts: Array<Alert>,
   +onShapeSourcePressed?: () => void
 |};
 
@@ -53,6 +55,7 @@ export default class Alerts extends Component<Props> {
           }}
         />
         <AlertDataset
+          key={'viirs'}
           slug={'viirs'}
           areaId={this.props.areaId}
           isActive={this.props.alertLayerSettings.viirs.active}
@@ -60,8 +63,10 @@ export default class Alerts extends Component<Props> {
           timeframeUnit={'days'}
           onPress={this.props.onShapeSourcePressed}
           reportedAlerts={this.props.reportedAlerts}
+          selectedAlerts={this.props.selectedAlerts}
         />
         <AlertDataset
+          key={'umd_as_it_happens'}
           slug={'umd_as_it_happens'}
           areaId={this.props.areaId}
           isActive={this.props.alertLayerSettings.glad.active}
@@ -69,6 +74,7 @@ export default class Alerts extends Component<Props> {
           timeframeUnit={'months'}
           onPress={this.props.onShapeSourcePressed}
           reportedAlerts={this.props.reportedAlerts}
+          selectedAlerts={this.props.selectedAlerts}
         />
       </View>
     );
