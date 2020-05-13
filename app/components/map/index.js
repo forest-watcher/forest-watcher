@@ -918,8 +918,7 @@ class MapComponent extends Component<Props, State> {
       toValue: DISMISSED_INFO_BANNER_POSTIION,
       velocity: 3,
       tension: 2,
-      friction: 8,
-      useNativeDriver: true
+      friction: 8
     }).start();
   };
 
@@ -957,8 +956,7 @@ class MapComponent extends Component<Props, State> {
         toValue: 0,
         velocity: 3,
         tension: 2,
-        friction: 8,
-        useNativeDriver: true
+        friction: 8
       }).start();
     }
   };
