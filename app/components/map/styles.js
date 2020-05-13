@@ -101,8 +101,7 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   buttonPanelTray: {
-    height: 56,
-    backgroundColor: 'rgba(0,0,0,0.3)'
+    height: 56
   },
   btnMarginContainer: {
     marginTop: 8
@@ -115,6 +114,7 @@ export default StyleSheet.create({
     position: 'absolute'
   },
   footerBGContainer: {
+    backgroundColor: 'rgba(0,0,0,0.3)',
     left: 0,
     right: 0,
     bottom: 0,

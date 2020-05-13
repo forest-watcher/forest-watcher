@@ -40,6 +40,7 @@ import { toFileUri } from 'helpers/fileURI';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
+const FooterBackgroundSafeAreaView = withSafeArea(View, 'padding', 'bottom');
 
 import {
   GFWLocationAuthorizedAlways,
@@ -817,9 +818,9 @@ class MapComponent extends Component<Props> {
 
   renderMapFooter() {
     return [
-      <View key="bg" pointerEvents="none" style={styles.footerBGContainer}>
+      <FooterBackgroundSafeAreaView key="bg" pointerEvents="none" style={styles.footerBGContainer}>
         <View style={styles.buttonPanelTray} />
-      </View>,
+      </FooterBackgroundSafeAreaView>,
       <FooterSafeAreaView key="footer" pointerEvents="box-none" style={styles.footer}>
         {this.renderButtonPanel()}
       </FooterSafeAreaView>
