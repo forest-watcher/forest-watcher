@@ -38,7 +38,7 @@ declare module '@turf/helpers' {
 
   declare interface GeoJSONObject {
     +type: string;
-    +bbox?: BBox;
+    +bbox?: ?BBox;
   }
 
   declare interface GeometryObject extends GeoJSONObject {
@@ -46,52 +46,52 @@ declare module '@turf/helpers' {
   }
 
   declare interface Geometry extends GeoJSONObject {
-    +coordinates: Position | Array<Position>;
+    +coordinates: Position | Array<Position> | Array<Array<Position>> | Array<Array<Array<Position>>>;
   }
 
-  declare interface Point extends GeometryObject {
+  declare interface Point extends Geometry {
     +type: 'Point';
     +coordinates: Position;
   }
 
-  declare interface MultiPoint extends GeometryObject {
+  declare interface MultiPoint extends Geometry {
     +type: 'MultiPoint';
     +coordinates: Array<Position>;
   }
 
-  declare interface LineString extends GeometryObject {
+  declare interface LineString extends Geometry {
     +type: 'LineString';
     +coordinates: Array<Position>;
   }
 
-  declare interface MultiLineString extends GeometryObject {
+  declare interface MultiLineString extends Geometry {
     +type: 'MultiLineString';
     +coordinates: Array<Array<Position>>;
   }
 
-  declare interface Polygon extends GeometryObject {
+  declare interface Polygon extends Geometry {
     +type: 'Polygon';
     +coordinates: Array<Array<Position>>;
   }
 
-  declare interface MultiPolygon extends GeometryObject {
+  declare interface MultiPolygon extends Geometry {
     +type: 'MultiPolygon';
     +coordinates: Array<Array<Array<Position>>>;
   }
 
   declare interface GeometryCollection extends GeometryObject {
     +type: 'GeometryCollection';
-    +geometries: Array<Point | LineString | Polygon | MultiPoint | MultiLineString | MultiPolygon>;
+    +geometries: Array<Geometries>;
   }
 
-  declare interface Feature<G = Geometry | GeometryCollection, P = Properties> extends GeoJSONObject {
+  declare interface Feature<G = GeometryObject, P = Properties> extends GeoJSONObject {
     +type: 'Feature';
     +geometry: G;
     +id?: Id;
     +properties: P;
   }
 
-  declare interface FeatureCollection<G = Geometry | GeometryCollection, P = Properties> extends GeoJSONObject {
+  declare interface FeatureCollection<G = GeometryObject, P = Properties> extends GeoJSONObject {
     +type: 'FeatureCollection';
     +features: Array<Feature<G, P>>;
   }

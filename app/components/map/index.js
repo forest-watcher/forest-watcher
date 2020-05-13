@@ -66,7 +66,6 @@ import type { AreasAction } from 'types/areas.types';
 import type { Basemap } from 'types/basemaps.types';
 import type { Coordinates } from 'types/common.types';
 import type { Location, Route } from 'types/routes.types';
-import type { File } from 'types/file.types';
 import type { Thunk } from 'types/store.types';
 import type { BasicReport } from 'types/reports.types';
 import InfoBanner from 'components/map/info-banner';
@@ -119,7 +118,7 @@ type Props = {
   createReport: BasicReport => void,
   ctxLayerLocalTilePath?: string,
   areaCoordinates: ?Array<Coordinates>,
-  getImportedContextualLayersById: (Array<string>) => Array<File>,
+  getImportedContextualLayersById: (Array<string>) => Array<ContextualLayer>, // TODO: This shouldn't be a function
   isConnected: boolean,
   isOfflineMode: boolean,
   setCanDisplayAlerts: boolean => AlertsAction,
@@ -137,8 +136,8 @@ type Props = {
   isTracking: boolean,
   onStartTrackingRoute: (location: Location, areaId: string) => void,
   onCancelTrackingRoute: () => void,
-  getActiveBasemap: string => Thunk<Basemap>,
-  getRoutesById: (routeIds: Array<string>) => Array<Route>
+  getActiveBasemap: string => Thunk<Basemap>, // TODO: This shouldn't be a function
+  getRoutesById: (routeIds: Array<string>) => Array<Route> // TODO: This shouldn't be a function
 };
 
 type State = {
@@ -733,7 +732,7 @@ class MapComponent extends Component<Props, State> {
             <MapboxGL.ShapeSource
               key={layerFile.id}
               id={'imported_layer_' + layerFile.id}
-              url={toFileUri(layerFile.path)}
+              url={toFileUri(layerFile.url)}
             >
               <MapboxGL.SymbolLayer
                 filter={['match', ['geometry-type'], ['Point', 'MultiPoint'], true, false]}

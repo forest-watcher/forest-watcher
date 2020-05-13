@@ -11,7 +11,7 @@ import InputText from 'components/common/text-input';
 import i18n from 'i18next';
 import type { MappingFileType } from 'types/common.types';
 import type { File } from 'types/file.types';
-import type { LayersAction } from 'types/layers.types';
+import type { ContextualLayer, LayersAction } from 'types/layers.types';
 import type { Thunk } from 'types/store.types';
 
 import KeyboardSpacer from 'react-native-keyboard-spacer';
@@ -19,7 +19,7 @@ import KeyboardSpacer from 'react-native-keyboard-spacer';
 type Props = {
   clearImportContextualLayerState: () => LayersAction,
   componentId: string,
-  existingLayers: Array<File>,
+  existingLayers: Array<ContextualLayer>,
   file: File,
   importContextualLayer: (layerFile: File) => Thunk<Promise<void>>,
   importError: ?Error,

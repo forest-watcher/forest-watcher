@@ -21,7 +21,7 @@ import VerticalSplitRow from 'components/common/vertical-split-row';
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
 import Theme, { isSmallScreen } from 'config/theme';
 
-import exportLayerManifest from 'helpers/sharing/exportLayerManifest';
+import exportFileManifest from 'helpers/sharing/exportFileManifest';
 import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
 import { getShareButtonText } from 'helpers/sharing/utils';
@@ -85,20 +85,9 @@ export default class Routes extends PureComponent<Props, State> {
     this.setState({
       bundleSize: undefined
     });
-    const manifest = await exportLayerManifest(
-      {
-        areaIds: [],
-        basemapIds: [],
-        layerIds: [],
-        reportIds: [],
-        routeIds
-      },
-      [],
-      this.props.routes.filter(route => {
-        return routeIds.includes(route.id);
-      }),
-      []
-    );
+    const manifest = await exportFileManifest({
+      routes: this.props.routes.filter(route => routeIds.includes(route.id))
+    });
     const fileSize = manifestBundleSize(manifest);
     if (this.fetchId === currentFetchId) {
       this.setState({
@@ -120,22 +109,22 @@ export default class Routes extends PureComponent<Props, State> {
    * Will swap the state for the specified row, to show in the UI if it has been selected or not.
    */
   onRouteSelectedForExport = (route: Route) => {
-    this.setState(state => {
-      if (state.selectedForExport.includes(route.areaId + route.id)) {
-        const selectedForExport = [...state.selectedForExport].filter(id => route.areaId + route.id !== id);
-        this.fetchExportSize(selectedForExport);
-        return {
-          selectedForExport
-        };
-      } else {
-        const selected = [...state.selectedForExport];
-        selected.push(route.areaId + route.id);
-        this.fetchExportSize(selected);
-        return {
-          selectedForExport: selected
-        };
+    this.setState(
+      state => {
+        if (state.selectedForExport.includes(route.areaId + route.id)) {
+          return {
+            selectedForExport: [...state.selectedForExport].filter(id => route.areaId + route.id !== id)
+          };
+        } else {
+          return {
+            selectedForExport: [...state.selectedForExport, route.areaId + route.id]
+          };
+        }
+      },
+      () => {
+        this.fetchExportSize(this.state.selectedForExport);
       }
-    });
+    );
   };
 
   /**
