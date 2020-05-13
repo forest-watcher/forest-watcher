@@ -6,6 +6,6 @@ export type File = {
   path: string,
   type: string,
   fileName: string,
-  size: string,
+  size: number,
   name?: ?string
 };

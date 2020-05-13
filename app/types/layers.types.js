@@ -14,6 +14,7 @@ export type ContextualLayer = {
     type: string
   },
   url: string
+  // $FlowToDo: Add size type here?
 };
 
 export type LayersState = {

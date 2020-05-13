@@ -1,4 +1,5 @@
 // @flow
+import type { MappingFileType } from 'types/common.types';
 import type { Thunk } from 'types/store.types';
 import React, { PureComponent } from 'react';
 import { Text, ScrollView, View, Image } from 'react-native';
@@ -8,14 +9,13 @@ import styles from './styles';
 import i18n from 'i18next';
 import type { File } from 'types/file.types';
 import Row from 'components/common/row';
+import { ACCEPTED_FILE_TYPES_BASEMAPS, ACCEPTED_FILE_TYPES_CONTEXTUAL_LAYERS } from 'config/constants';
 import Theme from 'config/theme';
 import debounceUI from 'helpers/debounceUI';
 import DocumentPicker from 'react-native-document-picker';
 import generatedUniqueId from 'helpers/uniqueId';
 const nextIcon = require('assets/next.png');
 const fileIcon = require('assets/fileIcon.png');
-
-export const ACCEPTED_FILE_TYPES = ['json', 'geojson', 'topojson', 'gpx', 'zip', 'kmz', 'kml'];
 
 type Props = {
   componentId: string,
@@ -24,6 +24,7 @@ type Props = {
   importContextualLayer: (file: File) => Thunk<Promise<void>>,
   importError: ?Error,
   importingLayer: ?string,
+  mappingFileType: MappingFileType,
   popToComponentId?: ?string
 };
 
@@ -31,12 +32,12 @@ type State = {
   file: File
 };
 
-class ImportLayerType extends PureComponent<Props, State> {
-  static options(passProps: {}) {
+class ImportMappingFileType extends PureComponent<Props, State> {
+  static options(passProps: { mappingFileType: MappingFileType }) {
     return {
       topBar: {
         title: {
-          text: i18n.t('importLayer.chooseContextualLayerType')
+          text: i18n.t(`${passProps.mappingFileType}.import.choose`)
         }
       }
     };
@@ -50,7 +51,17 @@ class ImportLayerType extends PureComponent<Props, State> {
     };
   }
 
-  importCustomContextualLayer = debounceUI(async () => {
+  acceptedFileTypes = (mappingFileType: MappingFileType = this.props.mappingFileType): Array<string> => {
+    return mappingFileType === 'contextualLayers'
+      ? ACCEPTED_FILE_TYPES_CONTEXTUAL_LAYERS
+      : ACCEPTED_FILE_TYPES_BASEMAPS;
+  };
+
+  i18nKeyFor(key: string): string {
+    return `${this.props.mappingFileType}.import.${key}`;
+  }
+
+  importMappingFile = debounceUI(async () => {
     try {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles, 'public.item']
@@ -61,7 +72,7 @@ class ImportLayerType extends PureComponent<Props, State> {
       }
       Navigation.push(this.props.componentId, {
         component: {
-          name: 'ForestWatcher.ImportLayerRename',
+          name: 'ForestWatcher.ImportMappingFileRename',
           passProps: {
             file: {
               ...res,
@@ -69,6 +80,7 @@ class ImportLayerType extends PureComponent<Props, State> {
               id: generatedUniqueId(),
               name: null
             },
+            mappingFileType: this.props.mappingFileType,
             popToComponentId: this.props.popToComponentId
           }
         }
@@ -87,23 +99,24 @@ class ImportLayerType extends PureComponent<Props, State> {
       ?.split('.')
       ?.pop()
       ?.toLowerCase();
-    if (!ACCEPTED_FILE_TYPES.includes(fileExtension)) {
-      this.showModal(file.name);
+    if (!this.acceptedFileTypes().includes(fileExtension)) {
+      this.showErrorModal(file.name);
       return false;
     }
     return true;
   };
 
-  showModal = (fileName: string) => {
+  showErrorModal = (fileName: string) => {
     Navigation.showModal({
       stack: {
         children: [
           {
             component: {
-              name: 'ForestWatcher.ImportLayerError',
+              name: 'ForestWatcher.ImportMappingFileError',
               passProps: {
                 fileName,
-                onRetry: this.importCustomContextualLayer
+                mappingFileType: this.props.mappingFileType,
+                onRetry: this.importMappingFile
               },
               options: {
                 layout: {
@@ -147,23 +160,32 @@ class ImportLayerType extends PureComponent<Props, State> {
     };
     const customContextualLayerAction = {
       icon: null,
-      callback: this.importCustomContextualLayer
+      callback: this.importMappingFile
     };
+
+    const { mappingFileType } = this.props;
+
     return (
       <View style={styles.container}>
         <ScrollView scrollEnabled={false} style={styles.contentContainer}>
-          <Row action={gfwLayerAction} rowStyle={styles.row}>
-            <Text style={styles.title}>{i18n.t('importLayer.addGFWLayer')}</Text>
-          </Row>
-          <Row action={customContextualLayerAction} rowStyle={styles.rowWithDescription}>
+          {mappingFileType === 'contextualLayers' ? (
+            <Row action={gfwLayerAction} rowStyle={styles.row}>
+              <Text style={styles.title}>{i18n.t(this.i18nKeyFor('addGFW'))}</Text>
+            </Row>
+          ) : null}
+          <Row
+            action={customContextualLayerAction}
+            style={{ flex: 1, alignSelf: 'stretch' }}
+            rowStyle={styles.rowWithDescription}
+          >
             <View style={styles.titleContainer}>
-              <Text style={styles.title}>{i18n.t('importLayer.customContextualLayer')}</Text>
+              <Text style={styles.title}>{i18n.t(this.i18nKeyFor('custom'))}</Text>
               <Image style={Theme.icon} source={nextIcon} />
             </View>
             <View>
-              <Text style={styles.description}>{i18n.t('importLayer.supportedFileTypesInclude')}</Text>
+              <Text style={styles.description}>{i18n.t(this.i18nKeyFor('supportedFileTypesInclude'))}</Text>
               <View style={styles.acceptedFileTypes}>
-                {ACCEPTED_FILE_TYPES.map(fileType => this.renderFileTypeComponent(fileType))}
+                {this.acceptedFileTypes().map(fileType => this.renderFileTypeComponent(fileType))}
               </View>
             </View>
           </Row>
@@ -173,4 +195,4 @@ class ImportLayerType extends PureComponent<Props, State> {
   }
 }
 
-export default ImportLayerType;
+export default ImportMappingFileType;

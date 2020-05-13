@@ -117,12 +117,24 @@ export default class Settings extends Component<Props, State> {
   onPressContextualLayers = debounceUI(() => {
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'ForestWatcher.ContextualLayers'
+        name: 'ForestWatcher.MappingFiles',
+        passProps: {
+          mappingFileType: 'contextualLayers'
+        }
       }
     });
   });
 
-  onPressBasemaps() {}
+  onPressBasemaps = debounceUI(() => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.MappingFiles',
+        passProps: {
+          mappingFileType: 'baseMaps'
+        }
+      }
+    });
+  });
 
   onPressShare() {}
 

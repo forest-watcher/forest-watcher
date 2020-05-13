@@ -1,5 +1,5 @@
 // @flow
-import type { AlertDatasetConfig } from 'types/common.types';
+import type { AlertDatasetConfig } from 'types/alerts.types';
 
 import Config from 'react-native-config';
 import i18n from 'i18next';
@@ -193,6 +193,9 @@ export const GFW_BASEMAPS: Array<Basemap> = [
 ];
 
 export const DEFAULT_BASEMAP = GFW_BASEMAPS[0];
+
+export const ACCEPTED_FILE_TYPES_CONTEXTUAL_LAYERS = ['json', 'geojson', 'topojson', 'gpx', 'zip', 'kmz', 'kml'];
+export const ACCEPTED_FILE_TYPES_BASEMAPS = ['mbtiles'];
 
 export default {
   areas: AREAS,
