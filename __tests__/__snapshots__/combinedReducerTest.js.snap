@@ -33,7 +33,9 @@ Object {
     "syncing": false,
   },
   "basemaps": Object {
+    "importError": null,
     "importedBasemaps": Array [],
+    "importing": false,
   },
   "countries": Object {
     "data": Array [
@@ -1885,7 +1887,7 @@ Object {
     "data": Array [],
     "importError": null,
     "imported": Array [],
-    "importingLayer": null,
+    "importingLayer": false,
     "layersProgress": Object {},
     "pendingCache": Object {},
     "syncDate": Any<Number>,
@@ -1961,7 +1963,9 @@ Object {
     "syncing": false,
   },
   "basemaps": Object {
+    "importError": null,
     "importedBasemaps": Array [],
+    "importing": false,
   },
   "countries": Object {
     "data": Array [
@@ -3813,7 +3817,7 @@ Object {
     "data": Array [],
     "importError": null,
     "imported": Array [],
-    "importingLayer": null,
+    "importingLayer": false,
     "layersProgress": Object {},
     "pendingCache": Object {},
     "syncDate": Any<Number>,
