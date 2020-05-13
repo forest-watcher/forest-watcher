@@ -1,5 +1,5 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -13,7 +13,12 @@ import {
 import AlertLayerSettings from 'components/settings/layer-settings/alerts';
 import { getSelectedArea } from 'helpers/area';
 
-function mapStateToProps(state: State, ownProps) {
+type OwnProps = {|
+  +componentId: string,
+  featureId: string
+|};
+
+function mapStateToProps(state: State, ownProps: OwnProps) {
   const area = getSelectedArea(state.areas.data, state.areas.selectedAreaId);
   return {
     featureId: ownProps.featureId,
@@ -22,7 +27,7 @@ function mapStateToProps(state: State, ownProps) {
   };
 }
 
-const mapDispatchToProps = (dispatch: *) =>
+const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       toggleGladAlerts,
@@ -33,7 +38,8 @@ const mapDispatchToProps = (dispatch: *) =>
     dispatch
   );
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(AlertLayerSettings);

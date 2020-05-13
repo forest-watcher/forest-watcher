@@ -7,21 +7,16 @@ import { DEFAULT_LAYER_SETTINGS } from 'redux-modules/layerSettings';
 import Alerts from 'components/map/alerts';
 
 type OwnProps = {|
-  +componentId: string,
-  featureId: string,
-  areaId: string
+  areaId: string,
+  featureId: string
 |};
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
-  const { featureId, areaId } = ownProps;
-  const gladAlerts = state.alerts.data[areaId]?.umd_as_it_happens?.alerts ?? [];
-  const viirsAlerts = state.alerts.data[areaId]?.viirs?.alerts ?? [];
+  const { featureId } = ownProps;
 
   const alertLayerSettings = state.layerSettings?.[featureId]?.alerts || DEFAULT_LAYER_SETTINGS.alerts;
 
   return {
-    gladAlerts,
-    viirsAlerts,
     alertLayerSettings
   };
 }

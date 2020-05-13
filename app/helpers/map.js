@@ -7,6 +7,7 @@ import formatcoords from 'formatcoords';
 import moment from 'moment';
 import i18n from 'i18next';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
+import type { LayersState, ContextualLayer } from 'types/layers.types';
 import { coordsArrayToObject, isValidLatLng } from 'helpers/location';
 import { isEmpty, removeNulls } from 'helpers/utils';
 import { AllGeoJSON } from '@turf/helpers';
@@ -120,7 +121,7 @@ export function isDateRecent(date: number) {
   return moment().diff(moment(date), measure) <= range;
 }
 
-export function getContextualLayer(layers) {
+export function getContextualLayer(layers: LayersState): ?ContextualLayer {
   if (!layers.activeLayer) {
     return null;
   }

@@ -1,5 +1,6 @@
 // @flow
-
+import type { AppAction } from 'types/app.types';
+import type { Thunk } from 'types/store.types';
 import React, { Component } from 'react';
 import { View, ActivityIndicator, InteractionManager } from 'react-native';
 import { Navigation } from 'react-native-navigation';
@@ -12,8 +13,8 @@ type Props = {
   componentId: string,
   hasAreas: boolean,
   actionsPending: number,
-  setAppSynced: boolean => void,
-  syncApp: () => void
+  setAppSynced: boolean => AppAction,
+  syncApp: () => Thunk<void>
 };
 
 class Home extends Component<Props> {

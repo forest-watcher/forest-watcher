@@ -1,6 +1,6 @@
 // @flow
 import type { ContextualLayer, LayersState, LayersAction, LayersCacheStatus, LayersProgress } from 'types/layers.types';
-import type { Dispatch, GetState, State } from 'types/store.types';
+import type { Dispatch, GetState, State, Thunk } from 'types/store.types';
 import type { Area } from 'types/areas.types';
 import type { File } from 'types/file.types';
 import type { LayerType } from 'helpers/layer-store/layerFilePaths';
@@ -355,13 +355,13 @@ function downloadAllLayers(
   );
 }
 
-export function clearImportContextualLayerState() {
+export function clearImportContextualLayerState(): LayersAction {
   return {
     type: IMPORT_LAYER_CLEAR
   };
 }
 
-export function importContextualLayer(layerFile: File) {
+export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, state: GetState) => {
     // We have to decode the file URI because iOS file manager doesn't like encoded uris!
     const file = {

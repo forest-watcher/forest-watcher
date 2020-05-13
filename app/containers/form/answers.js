@@ -26,7 +26,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
   const { reportName, readOnly } = ownProps;
   const { reports, app } = state;
   const template = getTemplate(reports, reportName);
-  const templateLang = template.languages.includes(app.language) ? app.language : template.defaultLanguage;
+  const templateLang: string = template.languages.includes(app.language) ? app.language : template.defaultLanguage;
   const report = reports.list[reportName];
   const answers = report && report.answers;
 

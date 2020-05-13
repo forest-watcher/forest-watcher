@@ -13,19 +13,23 @@ import {
 } from 'helpers/location';
 import throttle from 'lodash/throttle';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import type { Route } from 'types/routes.types';
+import type { LocationPoint, Route } from 'types/routes.types';
 import { feature, lineString, point } from '@turf/helpers';
 
 type Props = {
   isTracking: boolean,
-  userLocation: Location,
+  userLocation: Location, // TODO: Is this the right type?
   route: Route,
   selected?: ?boolean, // if route has been tapped on - emphasise ui
   onShapeSourcePressed?: () => void
 };
 
-export default class RouteMarkers extends PureComponent<Props> {
-  constructor(props) {
+type State = {
+  currentRouteLocations: Array<LocationPoint>
+};
+
+export default class RouteMarkers extends PureComponent<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       currentRouteLocations: []
@@ -78,8 +82,11 @@ export default class RouteMarkers extends PureComponent<Props> {
    * @param  {array<Location>} currentRouteLocations  Locations for a current route, if the user is tracking a route.
    * @param  {array<Location>} previousRouteLocations Locations for a previous route, if the user is viewing a saved route.
    */
-  reconcileRouteLocations = (currentRouteLocations, previousRouteLocations) => {
-    if (currentRouteLocations && currentRouteLocations?.length > 0) {
+  reconcileRouteLocations = (
+    currentRouteLocations: Array<LocationPoint>,
+    previousRouteLocations: ?Array<LocationPoint>
+  ) => {
+    if (currentRouteLocations.length > 0) {
       return currentRouteLocations;
     } else if (previousRouteLocations && previousRouteLocations?.length > 0) {
       return previousRouteLocations;
@@ -91,10 +98,10 @@ export default class RouteMarkers extends PureComponent<Props> {
   /**
    * updateLocationFromGeolocation - Handles any location updates that arrive while the user is on this screen.
    */
-  updateLocationFromGeolocation = throttle(location => {
+  updateLocationFromGeolocation = throttle((location: LocationPoint) => {
     this.setState(prevState => ({
       currentRouteLocations: this.props.isTracking
-        ? [...prevState.currentRouteLocations, location]
+        ? [...(prevState.currentRouteLocations ?? []), location]
         : prevState.currentRouteLocations
     }));
   }, 300);
@@ -107,7 +114,7 @@ export default class RouteMarkers extends PureComponent<Props> {
    * @param userLocation    - The last position update, passed into this object as a prop.
    * @param routeLocations  - The locations provided for this route.
    */
-  reconcileUserLocation = (userLocation, routeLocations) => {
+  reconcileUserLocation = (userLocation: ?Location, routeLocations: ?Array<Location>) => {
     if (userLocation) {
       return userLocation;
     } else if (routeLocations && routeLocations.length > 0) {
@@ -123,7 +130,7 @@ export default class RouteMarkers extends PureComponent<Props> {
   };
 
   // Draw line from user location to destination
-  renderDestinationLine = (destination, userLocation) => {
+  renderDestinationLine = (destination: ?LocationPoint, userLocation: ?LocationPoint) => {
     if (!destination || !userLocation) {
       return null;
     }
@@ -224,7 +231,7 @@ export default class RouteMarkers extends PureComponent<Props> {
     );
   };
 
-  renderRouteEnds = routeLocations => {
+  renderRouteEnds = (routeLocations: Array<LocationPoint>) => {
     const count = routeLocations?.length;
     const start = count > 0 ? routeLocations[0] : null;
     const end = count > 1 ? routeLocations[count - 1] : null;

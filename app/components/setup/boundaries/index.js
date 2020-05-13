@@ -1,5 +1,5 @@
 // @flow
-import type { CountryArea } from 'types/setup.types';
+import type { CountryArea, SetupAction } from 'types/setup.types';
 import type { Country } from 'types/countries.types';
 import type { ContextualLayer } from 'types/layers.types';
 
@@ -16,10 +16,10 @@ const layersIcon = require('assets/layers.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
 
 type Props = {
-  setSetupArea: ({ area: CountryArea, snapshot: string }) => void,
+  setSetupArea: ({ area: CountryArea, snapshot: string }) => SetupAction,
   coordinates: Array<Array<number>>,
-  setupCountry: Country,
-  contextualLayer: ContextualLayer,
+  setupCountry: ?Country,
+  contextualLayer: ?ContextualLayer,
   componentId: string
 };
 
