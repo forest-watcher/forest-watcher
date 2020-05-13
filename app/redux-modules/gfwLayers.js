@@ -29,11 +29,22 @@ export default function reducer(state: GFWLayersState = initialState, action: La
       };
     }
     case GET_GFW_LAYERS_REQUEST: {
-      return { ...state, paginating: action.meta.page !== 0, syncing: true };
+      return { ...state, paginating: action.meta.page !== 0, syncing: true, fullyLoaded: false };
     }
     case GET_GFW_LAYERS_COMMIT: {
-      console.log('GET GFW LAYERS', action);
-      return { ...state, paginating: false, syncing: false };
+      let data = [...state.data];
+      if (action.meta.page === 0) {
+        data = action.payload.data;
+      } else {
+        data.concat(action.payload.data);
+      }
+      return {
+        ...state,
+        data,
+        fullyLoaded: action.payload.meta['total-pages'] === action.meta.page + 1,
+        paginating: false,
+        syncing: false
+      };
     }
     case GET_GFW_LAYERS_ROLLBACK: {
       return { ...state, syncing: false, paginating: false };
@@ -61,7 +72,7 @@ export function getGFWLayers(page: number = 0, searchTerm?: ?string) {
       type: GET_GFW_LAYERS_REQUEST,
       meta: {
         offline: {
-          effect: { url },
+          effect: { url, deserialize: false },
           commit: { type: GET_GFW_LAYERS_COMMIT, meta: { page } },
           rollback: { type: GET_GFW_LAYERS_ROLLBACK, meta: { page } }
         }

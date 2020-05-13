@@ -87,7 +87,21 @@ type GetGFWLayersRequest = {
 };
 type GetGFWLayersCommit = {
   type: 'layers/GET_GFW_LAYERS_COMMIT',
-  payload: *,
+  payload: {
+    data: Array<*>,
+    links: {
+      first: string,
+      last: string,
+      self: string,
+      next: string,
+      prev: string
+    },
+    meta: {
+      'total-pages': number,
+      'total-items': number,
+      size: number
+    }
+  },
   meta: { page: number }
 };
 type GetGFWLayersRollback = {
