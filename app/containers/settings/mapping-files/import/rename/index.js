@@ -6,6 +6,7 @@ import type { File } from 'types/file.types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import { clearImportBasemapState, importBasemap } from 'redux-modules/basemaps';
 import { clearImportContextualLayerState, importContextualLayer } from 'redux-modules/layers';
 
 import ImportMappingFileRename from 'components/settings/mapping-files/import/rename';
@@ -16,18 +17,23 @@ type OwnProps = {|
   file: File
 |};
 
-function mapStateToProps(state: State) {
-  // TODO: When completing redux code, update these to use existing basemaps etc
+function mapStateToProps(state: State, ownProps: OwnProps) {
+  const imported = ownProps.mappingFileType === 'basemaps' ? state.basemaps.importedBasemaps : state.layers.imported;
+  const error = ownProps.mappingFileType === 'basemaps' ? state.basemaps.importError : state.layers.importError;
+  const importing = ownProps.mappingFileType === 'basemaps' ? state.basemaps.importing : state.layers.importingLayer;
+
   return {
-    existingLayers: state.layers.imported,
-    importError: state.layers.importError,
-    importingLayer: state.layers.importingLayer
+    existing: imported,
+    importError: error,
+    importing: importing
   };
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
+      importBasemap,
+      clearImportBasemapState,
       importContextualLayer,
       clearImportContextualLayerState
     },
