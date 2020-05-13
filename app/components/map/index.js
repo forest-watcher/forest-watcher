@@ -40,6 +40,7 @@ import { toFileUri } from 'helpers/fileURI';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
+const FooterBackgroundSafeAreaView = withSafeArea(View, 'padding', 'bottom');
 
 import {
   GFWLocationAuthorizedAlways,
@@ -106,12 +107,11 @@ const startTrackingIcon = require('assets/startTracking.png');
 const stopTrackingIcon = require('assets/stopTracking.png');
 const myLocationIcon = require('assets/my_location.png');
 const createReportIcon = require('assets/createReport.png');
-const reportAreaIcon = require('assets/report_area.png');
 const addLocationIcon = require('assets/add_location.png');
 const customReportingMarker = require('assets/custom-reporting-marker.png');
 const userLocationBearingImage = require('assets/userLocationBearing.png');
 const userLocationImage = require('assets/userLocation.png');
-const closeIcon = require('assets/close_gray.png');
+const cancelIcon = require('assets/cancel.png');
 
 type Props = {
   componentId: string,
@@ -241,7 +241,6 @@ class MapComponent extends Component<Props, State> {
         longitudeDelta: LONGITUDE_DELTA
       },
       selectedAlerts: [],
-      neighbours: [],
       mapZoom: 2,
       customReporting: false,
       dragging: false,
@@ -606,8 +605,7 @@ class MapComponent extends Component<Props, State> {
     this.dismissInfoBanner();
     this.setState({
       customReporting: false,
-      selectedAlerts: [],
-      neighbours: []
+      selectedAlerts: []
     });
   });
 
@@ -656,7 +654,7 @@ class MapComponent extends Component<Props, State> {
 
   reportArea = debounceUI(() => {
     this.dismissInfoBanner();
-    this.createReport([...this.state.selectedAlerts, ...this.state.neighbours]);
+    this.createReport([...this.state.selectedAlerts]);
   });
 
   createReport = (selectedAlerts: Array<Alert>) => {
@@ -714,7 +712,6 @@ class MapComponent extends Component<Props, State> {
   updateSelectedArea = () => {
     this.setState({
       mapCameraBounds: this.getMapCameraBounds(),
-      neighbours: [],
       selectedAlerts: []
     });
   };
@@ -837,9 +834,8 @@ class MapComponent extends Component<Props, State> {
   };
 
   renderButtonPanel() {
-    const { customReporting, userLocation, locationError, neighbours, selectedAlerts, infoBannerProps } = this.state;
+    const { customReporting, userLocation, locationError, selectedAlerts, infoBannerProps } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
-    const hasNeighbours = neighbours && neighbours.length > 0;
     const canReport = hasAlertsSelected || customReporting;
     const isRouteTracking = this.isRouteTracking();
 
@@ -857,10 +853,7 @@ class MapComponent extends Component<Props, State> {
         </Animated.View>
         <View style={styles.buttonPanel}>
           {canReport ? (
-            <React.Fragment>
-              <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
-              {hasNeighbours && <CircleButton shouldFillContainer onPress={this.reportArea} icon={reportAreaIcon} />}
-            </React.Fragment>
+            <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
           ) : (
             <CircleButton shouldFillContainer onPress={this.onCustomReportingPress} icon={addLocationIcon} />
           )}
@@ -868,7 +861,7 @@ class MapComponent extends Component<Props, State> {
             <CircleButton shouldFillContainer onPress={this.zoomToUserLocation} light icon={myLocationIcon} />
           ) : null}
           {canReport ? (
-            <CircleButton light icon={closeIcon} style={styles.btnLeft} onPress={this.onSelectionCancelPress} />
+            <CircleButton shouldFillContainer onPress={this.onSelectionCancelPress} light icon={cancelIcon} />
           ) : null}
           {isRouteTracking || canReport ? (
             <CircleButton
@@ -884,19 +877,10 @@ class MapComponent extends Component<Props, State> {
   }
 
   renderMapFooter() {
-    const { selectedAlerts, neighbours } = this.state;
-    const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
-
-    const hasNeighbours = neighbours && neighbours.length > 0;
-    let veilHeight = 120;
-    if (hasAlertsSelected) {
-      veilHeight = hasNeighbours ? 260 : 180;
-    }
-
     return [
-      <View key="bg" pointerEvents="none" style={[styles.footerBGContainer, { height: veilHeight }]}>
-        <Image style={[styles.footerBg, { height: veilHeight }]} source={backgroundImage} />
-      </View>,
+      <FooterBackgroundSafeAreaView key="bg" pointerEvents="none" style={styles.footerBGContainer}>
+        <View style={styles.buttonPanelTray} />
+      </FooterBackgroundSafeAreaView>,
       <FooterSafeAreaView key="footer" pointerEvents="box-none" style={styles.footer}>
         {this.renderButtonPanel()}
       </FooterSafeAreaView>
