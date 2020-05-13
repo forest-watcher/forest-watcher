@@ -1,7 +1,7 @@
 // @flow
 
 import { initDb } from 'helpers/alert-store/database';
-import CONSTANTS from 'config/constants';
+import { DATASETS } from 'config/constants';
 import { deleteAlertsSync } from 'helpers/alert-store/deleteAlerts';
 const d3Dsv = require('d3-dsv');
 
@@ -28,8 +28,9 @@ export function storeAlertsFromCsvSync(areaId: string, slug: string, alerts: str
   if (alerts && alerts.length > 0) {
     const realm = initDb();
     if (range) {
-      const daysFromRange =
-        CONSTANTS.areas.alertRange[slug] - range > 0 ? CONSTANTS.areas.alertRange[slug] - range : range; // just in case we are more outdated than a year
+      const requestThreshold = DATASETS[slug].requestThreshold;
+      // just in case we are more outdated than a year
+      const daysFromRange = requestThreshold - range > 0 ? requestThreshold - range : range;
       try {
         deleteAlertsSync({
           areaId: areaId,

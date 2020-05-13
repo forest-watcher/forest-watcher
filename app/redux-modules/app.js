@@ -1,5 +1,5 @@
 // @flow
-import type { Dispatch, GetState, Action } from 'types/store.types';
+import type { Dispatch, GetState, Action, Thunk, DispatchThunk } from 'types/store.types';
 import type { AppState, AppAction, CoordinatesValue } from 'types/app.types';
 
 // $FlowFixMe
@@ -33,6 +33,7 @@ export const EXPORT_REPORTS_SUCCESSFUL = 'app/EXPORT_REPORTS_SUCCESSFUL';
 // Reducer
 const initialState = {
   version,
+  isUpdate: false,
   actions: [],
   areaCountryTooltipSeen: false,
   areaDownloadTooltipSeen: false,
@@ -117,7 +118,7 @@ export function syncApp() {
   };
 }
 
-export function updateApp() {
+export function updateApp(): AppAction {
   return {
     type: UPDATE_APP
   };
@@ -179,13 +180,14 @@ export function setMapWalkthroughSeen(seen: boolean): AppAction {
   };
 }
 
-export function showNotConnectedNotification() {
+export function showNotConnectedNotification(): Thunk<void> {
   return (dispatch: Dispatch, getState: GetState) => {
     const { offlineMode } = getState().app;
     if (offlineMode) {
-      return dispatch({ type: SHOW_OFFLINE_MODE_IS_ON });
+      dispatch({ type: SHOW_OFFLINE_MODE_IS_ON });
+      return;
     }
-    return dispatch({ type: SHOW_CONNECTION_REQUIRED });
+    dispatch({ type: SHOW_CONNECTION_REQUIRED });
   };
 }
 

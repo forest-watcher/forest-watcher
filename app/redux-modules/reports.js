@@ -1,6 +1,6 @@
 // @flow
 import type { Dispatch, GetState } from 'types/store.types';
-import type { Question, ReportsState, ReportsAction, Report, Answer } from 'types/reports.types';
+import type { BasicReport, ReportsState, ReportsAction, Report, Answer } from 'types/reports.types';
 import type { Area } from 'types/areas.types';
 import omit from 'lodash/omit';
 
@@ -177,12 +177,7 @@ export function getDefaultReport(): ReportsAction {
   };
 }
 
-export function createReport(report: {
-  reportName: string,
-  userPosition: [number, number],
-  clickedPosition: [number, number],
-  area: Area
-}): ReportsAction {
+export function createReport(report: BasicReport): ReportsAction {
   const { reportName, userPosition, clickedPosition, area } = report;
   return {
     type: CREATE_REPORT,

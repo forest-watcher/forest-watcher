@@ -6,23 +6,23 @@ import styles from './styles';
 import VerticalSplitRow from 'components/common/vertical-split-row';
 import SettingsButton from 'components/common/settings-button';
 import i18n from 'i18next';
-import type { LayerSettings } from 'types/layerSettings.types';
+import type { LayerSettings, LayerSettingsAction } from 'types/layerSettings.types';
 import debounceUI from 'helpers/debounceUI';
 import { Navigation } from 'react-native-navigation';
 import { withSafeArea } from 'react-native-safe-area';
 import type { Basemap } from 'types/basemaps.types';
+import type { Thunk } from 'types/store.types';
 const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
 
 type Props = {
   componentId: string,
-  activeBasemapName: string,
   allLayerSettings: { [featureId: string]: LayerSettings },
   defaultLayerSettings: LayerSettings,
-  getActiveBasemap: string => Basemap,
-  toggleAlertsLayer: () => void,
-  toggleRoutesLayer: () => void,
-  toggleReportsLayer: () => void,
-  toggleContextualLayersLayer: () => void
+  getActiveBasemap: (?string) => Thunk<Basemap>,
+  toggleAlertsLayer: string => LayerSettingsAction,
+  toggleRoutesLayer: string => LayerSettingsAction,
+  toggleReportsLayer: string => LayerSettingsAction,
+  toggleContextualLayersLayer: string => LayerSettingsAction
 };
 
 type State = {
@@ -203,7 +203,10 @@ class MapSidebar extends PureComponent<Props, State> {
     return description;
   };
 
-  getBasemapsTitle = () => {
+  getBasemapsTitle = (): string => {
+    if (!this.state.featureId) {
+      return '';
+    }
     const basemap = this.props.getActiveBasemap(this.state.featureId);
     return i18n.t('map.layerSettings.basemapSettings.showingBasemap', { basemap: basemap.name });
   };

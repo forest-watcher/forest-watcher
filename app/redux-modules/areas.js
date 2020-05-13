@@ -28,7 +28,7 @@ const DELETE_AREA_ROLLBACK = 'areas/DELETE_AREA_ROLLBACK';
 const SET_SELECTED_AREA_ID = 'areas/SET_SELECTED_AREA_ID';
 
 // Helpers
-function getAreaById(areas: Array<Area>, areaId: string) {
+function getAreaById(areas: Array<Area>, areaId: ?string): ?Area {
   const area = areas.find(areaData => areaData.id === areaId);
   return area ? { ...area } : null;
 }
@@ -47,6 +47,7 @@ const initialState = {
 export default function reducer(state: AreasState = initialState, action: AreasAction) {
   switch (action.type) {
     case PERSIST_REHYDRATE: {
+      // $FlowFixMe
       const { areas } = action.payload;
       return { ...state, ...areas, syncError: false };
     }
@@ -216,6 +217,7 @@ export function saveArea(params: { datasets: Array<Dataset>, snapshot: string, a
   const headers = { 'content-type': 'multipart/form-data' };
   const body = new FormData();
   body.append('name', params.area.name);
+  // $FlowFixMe
   body.append('geojson', JSON.stringify(params.area.geojson));
 
   const image = {
@@ -263,15 +265,16 @@ export function updateDate(areaId: string, datasetSlug: string, date: { startDat
   };
 }
 
-export function deleteArea(areaId: string) {
+export function deleteArea(areaId: ?string) {
   return (dispatch: Dispatch, state: GetState) => {
     const area = getAreaById(state().areas.data, areaId);
-    dispatch(
-      deleteRoutes({
-        areaId: areaId
-      })
-    );
+
     if (area) {
+      dispatch(
+        deleteRoutes({
+          areaId: area.id
+        })
+      );
       const url = `${Config.API_URL}/area/${area.id}`;
       dispatch({
         type: DELETE_AREA_REQUEST,

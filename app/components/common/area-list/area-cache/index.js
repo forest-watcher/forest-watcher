@@ -1,5 +1,6 @@
 // @flow
-
+import type { AppAction } from 'types/app.types';
+import type { Thunk } from 'types/store.types';
 import React, { PureComponent } from 'react';
 import { TouchableHighlight, View, Alert, Image, Text } from 'react-native';
 
@@ -7,6 +8,7 @@ import Config from 'react-native-config';
 import checkConnectivity from 'helpers/networking';
 
 import i18n from 'i18next';
+import Callout from 'components/common/callout';
 import ProgressBar from 'react-native-progress/Bar';
 import Theme from 'config/theme';
 import styles from './styles';
@@ -19,7 +21,7 @@ const downloadedIcon = require('assets/downloaded.png');
 
 type Props = {
   areaId: string,
-  downloadAreaById: string => void,
+  downloadAreaById: string => Thunk<void>,
   cacheStatus: {
     requested: boolean,
     progress: number,
@@ -27,12 +29,12 @@ type Props = {
     completed: boolean
   },
   disabled: boolean,
-  resetCacheStatus: string => void,
+  resetCacheStatus: string => Thunk<void>,
   isOfflineMode: boolean,
   showTooltip: boolean,
-  refreshAreaCacheById: string => void,
+  refreshAreaCacheById: string => Thunk<void>,
   pendingCache: number,
-  showNotConnectedNotification: () => void
+  showNotConnectedNotification: () => Thunk<void>
 };
 type State = {
   checkingConnectivity: boolean,
@@ -164,25 +166,24 @@ class AreaCache extends PureComponent<Props, State> {
     const cacheButtonIcon = this.getCacheAreaIcon();
 
     const cacheButton = (
-      <View style={styles.cacheBtnContainer}>
-        <TouchableHighlight
-          disabled={disabled}
-          style={styles.cacheBtn}
-          activeOpacity={1}
-          underlayColor={Theme.background.secondary}
-          onPress={cacheAreaAction}
-        >
-          <Image style={Theme.icon} source={cacheButtonIcon} />
-        </TouchableHighlight>
-        {showTooltip && (
-          <View style={styles.cacheTooltipContainer}>
-            <View style={styles.cacheTooltipArrow} />
-            <View style={styles.cacheTooltip}>
-              <Text>{i18n.t('dashboard.makeAvailableOffline')}</Text>
-            </View>
-          </View>
-        )}
-      </View>
+      <Callout
+        body={i18n.t('areas.tooltip.body')}
+        offset={4}
+        title={i18n.t('areas.tooltip.title')}
+        visible={showTooltip}
+      >
+        <View style={styles.cacheBtnContainer}>
+          <TouchableHighlight
+            disabled={disabled}
+            style={styles.cacheBtn}
+            activeOpacity={1}
+            underlayColor={Theme.background.secondary}
+            onPress={cacheAreaAction}
+          >
+            <Image source={cacheButtonIcon} />
+          </TouchableHighlight>
+        </View>
+      </Callout>
     );
     const progressBar = (
       <View style={styles.progressBarContainer}>

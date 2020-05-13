@@ -1,14 +1,18 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { DEFAULT_LAYER_SETTINGS } from 'redux-modules/layerSettings';
-import Reports from 'components/map/reports';
-import { getReports } from 'containers/reports';
-import type { FormattedReport } from 'containers/reports';
+import Reports, { type ReportLayerSettings } from 'components/map/reports';
+import { getReports, type FormattedReport } from 'containers/reports';
 
-function mapStateToProps(state: State, ownProps: { featureId: string }) {
+type OwnProps = {|
+  +componentId: string,
+  featureId: string
+|};
+
+function mapStateToProps(state: State, ownProps: OwnProps) {
   const { featureId } = ownProps;
   const formattedReports = getReports(state.reports.list, state.areas.data, state.user.data.id);
   const allReports: Array<FormattedReport> = [
@@ -17,8 +21,9 @@ function mapStateToProps(state: State, ownProps: { featureId: string }) {
     ...formattedReports.uploaded
   ];
   const myReports = allReports.filter((report: FormattedReport) => !report.imported);
-  const importedReports = allReports.filter((report: FormattedReport) => report.imported);
-  const reportLayerSettings = state.layerSettings?.[featureId]?.reports || DEFAULT_LAYER_SETTINGS.reports;
+  const importedReports: Array<FormattedReport> = allReports.filter((report: FormattedReport) => report.imported);
+  const reportLayerSettings: ReportLayerSettings =
+    state.layerSettings?.[featureId]?.reports || DEFAULT_LAYER_SETTINGS.reports;
   return {
     myReports,
     importedReports,
@@ -26,11 +31,12 @@ function mapStateToProps(state: State, ownProps: { featureId: string }) {
   };
 }
 
-function mapDispatchToProps(dispatch: *) {
+function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators({}, dispatch);
 }
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(Reports);

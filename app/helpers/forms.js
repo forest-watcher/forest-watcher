@@ -129,10 +129,10 @@ export function mapFormToAnsweredQuestions(
   template: Template,
   deviceLang: ?string
 ): Array<AnsweredQuestion> {
-  const questions = mapFormToQuestions(template, deviceLang);
+  const questions: { [string]: Question } = mapFormToQuestions(template, deviceLang);
   return flatMap((answers: Array<Answer>), (answer: Answer) => {
     const question = questions[answer.questionName];
-    const answeredQuestion = {
+    const answeredQuestion: AnsweredQuestion = {
       question,
       answer: getAnswerValues(question, answer)
     };

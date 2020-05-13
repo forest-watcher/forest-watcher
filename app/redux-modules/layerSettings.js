@@ -334,7 +334,7 @@ export default function reducer(
   }
 }
 
-export function clearEnabledContextualLayers(featureId: string) {
+export function clearEnabledContextualLayers(featureId: string): LayerSettingsAction {
   return {
     type: CLEAR_ENABLED_CONTEXTUAL_LAYERS,
     payload: {
@@ -343,7 +343,7 @@ export function clearEnabledContextualLayers(featureId: string) {
   };
 }
 
-export function setContextualLayerShowing(featureId: string, layerId: string, showing: boolean) {
+export function setContextualLayerShowing(featureId: string, layerId: string, showing: boolean): LayerSettingsAction {
   return {
     type: SET_CONTEXTUAL_LAYER_SHOWING,
     payload: {
@@ -354,7 +354,7 @@ export function setContextualLayerShowing(featureId: string, layerId: string, sh
   };
 }
 
-export function deselectAllRoutes(featureId: string) {
+export function deselectAllRoutes(featureId: string): LayerSettingsAction {
   return {
     type: DESELECT_ALL_ROUTES,
     payload: {
@@ -498,8 +498,12 @@ export function copyLayerSettings(copyFromFeatureId: string, copyToFeatureId: st
   };
 }
 
-export function getActiveBasemap(featureId: string) {
+export function getActiveBasemap(featureId: ?string) {
   return (dispatch: Dispatch, getState: GetState) => {
+    if (!featureId) {
+      return DEFAULT_BASEMAP;
+    }
+
     const state = getState();
     const activeBasemapId = state.layerSettings?.[featureId]?.basemap?.activeBasemapId;
     if (!activeBasemapId) {

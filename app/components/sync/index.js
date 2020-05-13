@@ -1,5 +1,5 @@
 // @flow
-
+import type { Thunk } from 'types/store.types';
 import React, { Component } from 'react';
 import { StatusBar, View, Text } from 'react-native';
 import i18n from 'i18next';
@@ -15,7 +15,7 @@ type Props = {
   isConnected: boolean,
   criticalSyncError: boolean,
   syncFinished: boolean,
-  retrySync: () => void
+  retrySync: () => Thunk<void>
 };
 
 class Sync extends Component<Props> {

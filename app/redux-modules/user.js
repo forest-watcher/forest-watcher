@@ -196,7 +196,7 @@ export function setLoginAuth(details: { token: string, loggedIn: boolean, social
   };
 }
 
-export function logout(socialNetworkFallback: ?string) {
+export function logout(socialNetworkFallback: ?string): Thunk<void> {
   return async (dispatch: Dispatch, state: GetState) => {
     const { oAuthToken: tokenToRevoke, socialNetwork } = state().user;
     dispatch({ type: LOGOUT_REQUEST });
@@ -219,10 +219,10 @@ export function logout(socialNetworkFallback: ?string) {
         default:
           break;
       }
-      return dispatch({ type: SET_LOGIN_STATUS, payload: true });
+      dispatch({ type: SET_LOGIN_STATUS, payload: true });
     } catch (e) {
       console.error(e);
-      return dispatch({ type: SET_LOGIN_STATUS, payload: false });
+      dispatch({ type: SET_LOGIN_STATUS, payload: false });
     }
   };
 }

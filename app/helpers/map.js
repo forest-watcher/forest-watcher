@@ -7,9 +7,10 @@ import formatcoords from 'formatcoords';
 import moment from 'moment';
 import i18n from 'i18next';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
+import type { LayersState, ContextualLayer } from 'types/layers.types';
 import { isValidLatLng } from 'helpers/location';
 import { isEmpty, removeNulls } from 'helpers/utils';
-import { AllGeoJSON } from '@turf/helpers';
+import { GeoJSONObject } from '@turf/helpers';
 import _ from 'lodash';
 import type { Alert } from 'types/alerts.types';
 import type { AlertsIndex } from 'components/map/alerts/dataset';
@@ -68,7 +69,7 @@ export function getAllNeighbours(
  * @param {Object} geojson The GeoJSON to remove null geometries from
  * @returns {Object} validated GeoJSON
  */
-export function cleanGeoJSON(geojson: AllGeoJSON): AllGeoJSON {
+export function cleanGeoJSON(geojson: GeoJSONObject): GeoJSONObject {
   if (geojson?.type === 'FeatureCollection' && !!geojson.features) {
     return {
       ...geojson,
@@ -115,7 +116,7 @@ export function isDateRecent(date: number) {
   return moment().diff(moment(date), measure) <= range;
 }
 
-export function getContextualLayer(layers) {
+export function getContextualLayer(layers: LayersState): ?ContextualLayer {
   if (!layers.activeLayer) {
     return null;
   }
