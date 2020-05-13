@@ -25,7 +25,7 @@ type Props = {
 };
 
 type State = {
-  currentRouteLocations: ?Array<LocationPoint>
+  currentRouteLocations: Array<LocationPoint>
 };
 
 export default class RouteMarkers extends PureComponent<Props, State> {
@@ -83,10 +83,10 @@ export default class RouteMarkers extends PureComponent<Props, State> {
    * @param  {array<Location>} previousRouteLocations Locations for a previous route, if the user is viewing a saved route.
    */
   reconcileRouteLocations = (
-    currentRouteLocations: ?Array<LocationPoint>,
+    currentRouteLocations: Array<LocationPoint>,
     previousRouteLocations: ?Array<LocationPoint>
   ) => {
-    if (currentRouteLocations && currentRouteLocations?.length > 0) {
+    if (currentRouteLocations.length > 0) {
       return currentRouteLocations;
     } else if (previousRouteLocations && previousRouteLocations?.length > 0) {
       return previousRouteLocations;
@@ -130,7 +130,7 @@ export default class RouteMarkers extends PureComponent<Props, State> {
   };
 
   // Draw line from user location to destination
-  renderDestinationLine = (destination, userLocation) => {
+  renderDestinationLine = (destination: ?LocationPoint, userLocation: ?LocationPoint) => {
     if (!destination || !userLocation) {
       return null;
     }
