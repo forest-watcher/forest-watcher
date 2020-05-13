@@ -18,10 +18,11 @@ import tracker from 'helpers/googleAnalytics';
 import { formatBytes } from 'helpers/data';
 
 import styles from './styles';
+import MappingFileRow from 'components/settings/mapping-files/mapping-file-row';
 
 const plusIcon = require('assets/add.png');
 const icons = {
-  baseMaps: {
+  basemaps: {
     empty: require('assets/basemapEmpty.png'),
     placeholder: require('assets/basemap_placeholder.png')
   },
@@ -83,7 +84,7 @@ class MappingFiles extends Component<Props, State> {
   }
 
   componentDidMount() {
-    tracker.trackScreenView(this.props.mappingFileType === 'contextualLayers' ? 'Layers' : 'Base Maps');
+    tracker.trackScreenView(this.props.mappingFileType === 'contextualLayers' ? 'Layers' : 'Basemaps');
   }
 
   navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {
@@ -137,18 +138,12 @@ class MappingFiles extends Component<Props, State> {
   });
 
   setAllSelected = (selected: boolean) => {
-    // todo: Add back in once we have redux state for layers
-    // this.setState({
-    //   selectedForExport: selected ? this.props.layers.map(layer => layer.id) : []
-    // });
+    this.setState({
+      selectedForExport: selected ? this.props.baseFiles.map(layer => layer.id) : []
+    });
   };
 
   setSharing = (sharing: boolean) => {
-    if (this.props.mappingFileType === 'baseMaps') {
-      console.warn('3SC', 'Exporting basemaps is not yet supported');
-      return;
-    }
-
     this.setState({
       inShareMode: sharing
     });
@@ -174,24 +169,30 @@ class MappingFiles extends Component<Props, State> {
 
   renderGFWFiles = () => {
     const { baseFiles, mappingFileType } = this.props;
+    const { inShareMode } = this.state;
     if (baseFiles.length === 0) {
       return null;
     }
     return (
       <View>
-        <View style={styles.listHeader}>
-          <Text style={styles.listTitle}>{i18n.t(this.i18nKeyFor('gfw'))}</Text>
-        </View>
-        {baseFiles.map((file, index) => {
+        <Text style={styles.heading}>{i18n.t(this.i18nKeyFor('gfw'))}</Text>
+        {baseFiles.map(file => {
           return (
-            <ActionsRow
-              style={styles.rowContent}
-              imageSrc={file.image ?? icons[mappingFileType].placeholder}
-              key={index}
-            >
-              <Text style={styles.rowLabel}>{i18n.t(file.name)}</Text>
-              {file.size != null && <Text style={styles.rowLabel}>{formatBytes(file.size)}</Text>}
-            </ActionsRow>
+            <View key={file.id} style={styles.rowContainer}>
+              <MappingFileRow
+                onPress={() => {
+                  if (inShareMode) {
+                    this.onFileSelectedForExport(file.id);
+                  }
+                }}
+                onDownloadPress={() => {}}
+                style={styles.rowContent}
+                image={file.image ?? icons[mappingFileType].placeholder}
+                title={i18n.t(file.name)}
+                subtitle={'128 mb'}
+                selected={inShareMode ? this.state.selectedForExport.includes(file.id) : null}
+              />
+            </View>
           );
         })}
       </View>
@@ -201,12 +202,10 @@ class MappingFiles extends Component<Props, State> {
   renderImportedFiles = () => {
     const { importedFiles, mappingFileType } = this.props;
     if (importedFiles.length === 0) {
-      if (mappingFileType === 'baseMaps') {
+      if (mappingFileType === 'basemaps') {
         return (
           <View>
-            <View style={styles.listHeader}>
-              <Text style={styles.listTitle}>{i18n.t(this.i18nKeyFor('imported'))}</Text>
-            </View>
+            <Text style={styles.heading}>{i18n.t(this.i18nKeyFor('imported'))}</Text>
             {this.renderEmptyState()}
           </View>
         );
@@ -217,9 +216,7 @@ class MappingFiles extends Component<Props, State> {
 
     return (
       <View>
-        <View style={styles.listHeader}>
-          <Text style={styles.listTitle}>{i18n.t(this.i18nKeyFor('imported'))}</Text>
-        </View>
+        <Text style={styles.heading}>{i18n.t(this.i18nKeyFor('imported'))}</Text>
         {importedFiles.map((file, index) => {
           return (
             <ActionsRow
@@ -266,15 +263,10 @@ class MappingFiles extends Component<Props, State> {
   };
 
   render() {
-    //todo: add this back in once we have redux state for layers!
     const { baseFiles, importedFiles, mappingFileType } = this.props;
     // Determine if we're in export mode, and how many layers have been selected to export.
     const totalToExport = this.state.selectedForExport.length;
-
-    //todo: add this back in once we have redux state for layers!
     const totalFiles = importedFiles.length + baseFiles.length;
-
-    //todo: add this back in once we have redux state for layers!
     const hasFiles = totalFiles > 0;
 
     return (
@@ -282,7 +274,6 @@ class MappingFiles extends Component<Props, State> {
         <ShareSheet
           componentId={this.props.componentId}
           shareButtonDisabledTitle={i18n.t(this.i18nKeyFor('share'))}
-          disabled={mappingFileType === 'baseMaps'} // remove this once sharing work is completed
           enabled={mappingFileType === 'contextualLayers' || totalToExport > 0}
           onShare={() => {
             this.onExportFilesTapped(this.state.selectedForExport);

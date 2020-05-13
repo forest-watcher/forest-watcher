@@ -70,7 +70,7 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
   onImportPressed = async () => {
     try {
       Keyboard.dismiss();
-      if (this.props.mappingFileType === 'baseMaps') {
+      if (this.props.mappingFileType === 'basemaps') {
         console.warn('3SC', 'Importing basemaps is not yet redux-complete!');
         return;
       }

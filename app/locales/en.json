@@ -37,7 +37,7 @@
         "delete": "Delete this area",
         "noAlerts": "No alerts for this area"
     },
-    "baseMaps": {
+    "basemaps": {
         "empty": {
             "action": "App FAQs",
             "body": "Tap the '+' icon to set up a custom basemap",
@@ -580,7 +580,7 @@
         "coordinatesFormat": "Coordinates Format",
         "coordinatesUtm": "UTM",
         "coordinatesDescription": "Select a format you would like to display",
-        "baseMaps": "Basemaps",
+        "basemaps": "Basemaps",
         "contextualLayers": "Contextual Layers",
         "logOut": "Log Out",
         "offlineMode": "Offline Mode",
