@@ -19,9 +19,11 @@ import importAppData from 'helpers/sharing/importAppData';
  * @param dispatch - Redux dispatch function used to emit actions to add data to the app
  */
 export default async function importBundle(uri: string, dispatch: Dispatch): Promise<void> {
+  console.warn('3SC', 'Importing bundle...', uri);
   const unpackedBundle = await unpackBundle(uri);
-  await importStagedBundle(unpackedBundle, dispatch);
+  importStagedBundle(unpackedBundle, dispatch);
   deleteStagedBundle(unpackedBundle);
+  console.warn('3SC', 'Successfully unpacked bundle');
 }
 
 function checkBundleCompatibility(version: number) {
