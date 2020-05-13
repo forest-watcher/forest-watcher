@@ -64,7 +64,7 @@ export default function reducer(state: GFWLayersState = initialState, action: La
  */
 export function getGFWLayers(page: number = 0, searchTerm?: ?string) {
   return (dispatch: Dispatch, state: GetState) => {
-    let url = `${Config.LAYERS_API_URL}/layer?page[size]=10&page[number]=${page + 1}`;
+    let url = `${Config.LAYERS_API_URL}/layer?page[size]=10&page[number]=${page + 1}&app=gfw`;
     if (searchTerm) {
       url += `&name=${searchTerm}`;
     }
