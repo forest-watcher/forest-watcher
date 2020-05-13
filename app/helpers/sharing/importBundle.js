@@ -28,7 +28,6 @@ export default async function importBundle(uri: string, dispatch: Dispatch): Pro
 
 function checkBundleCompatibility(version: number) {
   if (version > APP_DATA_FORMAT_VERSION) {
-    console.warn('3SC', 'Bundle created using a future app version, proceed with caution');
     throw new FWError('Cannot read incompatible bundle version');
   } else if (version < APP_DATA_FORMAT_VERSION) {
     // For past versions we can either (i) migrate or (ii) fail
