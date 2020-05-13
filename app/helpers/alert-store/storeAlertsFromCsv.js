@@ -1,8 +1,8 @@
 // @flow
 
-import { initDb } from 'helpers/alert-store/database';
 import { DATASETS } from 'config/constants';
 import { deleteAlertsSync } from 'helpers/alert-store/deleteAlerts';
+import { storeAlertsSync } from 'helpers/alert-store/storeAlerts';
 const d3Dsv = require('d3-dsv');
 
 /**
@@ -26,7 +26,6 @@ export default function storeAlertsFromCsv(areaId: string, slug: string, alerts:
  */
 export function storeAlertsFromCsvSync(areaId: string, slug: string, alerts: string, range: number) {
   if (alerts && alerts.length > 0) {
-    const realm = initDb();
     if (range) {
       const requestThreshold = DATASETS[slug].requestThreshold;
       // just in case we are more outdated than a year
@@ -42,16 +41,14 @@ export function storeAlertsFromCsvSync(areaId: string, slug: string, alerts: str
       }
     }
     const alertsArray = d3Dsv.csvParse(alerts);
-    realm.write(() => {
-      alertsArray.forEach(alert => {
-        realm.create('Alert', {
-          slug,
-          areaId,
-          date: parseInt(alert.date, 10),
-          lat: parseFloat(alert.lat),
-          long: parseFloat(alert.lon)
-        });
-      });
-    });
+    storeAlertsSync(
+      alertsArray.map(alert => ({
+        slug,
+        areaId,
+        date: parseInt(alert.date, 10),
+        lat: parseFloat(alert.lat),
+        long: parseFloat(alert.lon)
+      }))
+    );
   }
 }

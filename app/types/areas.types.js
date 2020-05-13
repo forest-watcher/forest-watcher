@@ -46,6 +46,7 @@ export type Area = {
 
 export type AreasState = {
   data: Array<Area>,
+  imported: Array<Area>,
   selectedAreaId: string,
   synced: boolean,
   syncing: boolean,
@@ -71,6 +72,7 @@ export type AreasAction =
   | DeleteAreaRequest
   | DeleteAreaCommit
   | DeleteAreaRollback
+  | ImportArea
   | PersistRehydrate
   | LogoutRequest;
 
@@ -93,3 +95,4 @@ export type UpdateSelected = { type: 'areas/SET_SELECTED_AREA_ID', payload: stri
 export type DeleteAreaRequest = { type: 'areas/DELETE_AREA_REQUEST', payload: Area, meta: OfflineMeta };
 export type DeleteAreaCommit = { type: 'areas/DELETE_AREA_COMMIT', meta: { area: Area } };
 export type DeleteAreaRollback = { type: 'areas/DELETE_AREA_ROLLBACK', meta: { area: Area } };
+export type ImportArea = { type: 'areas/IMPORT_AREA', payload: Area };

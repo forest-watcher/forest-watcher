@@ -26,6 +26,7 @@ const DELETE_AREA_REQUEST = 'areas/DELETE_AREA_REQUEST';
 export const DELETE_AREA_COMMIT = 'areas/DELETE_AREA_COMMIT';
 const DELETE_AREA_ROLLBACK = 'areas/DELETE_AREA_ROLLBACK';
 const SET_SELECTED_AREA_ID = 'areas/SET_SELECTED_AREA_ID';
+export const IMPORT_AREA = 'areas/IMPORT_AREA';
 
 // Helpers
 function getAreaById(areas: Array<Area>, areaId: ?string): ?Area {
@@ -36,6 +37,7 @@ function getAreaById(areas: Array<Area>, areaId: ?string): ?Area {
 // Reducer
 const initialState = {
   data: [],
+  imported: [],
   selectedAreaId: '',
   synced: false,
   refreshing: false,
@@ -150,10 +152,25 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     case SET_SELECTED_AREA_ID: {
       return { ...state, selectedAreaId: action.payload };
     }
+    case IMPORT_AREA: {
+      const areaToImport = action.payload;
+      // Ignore the imported area if it already exists in either the user's areas or their imported areas
+      const possiblyPreexistingArea =
+        state.data.find(area => area.id === areaToImport.id) ??
+        state.imported.find(area => area.id === areaToImport.id);
+
+      if (possiblyPreexistingArea) {
+        return state;
+      }
+
+      return { ...state, imported: [...state.imported, areaToImport] };
+    }
     case LOGOUT_REQUEST: {
       return initialState;
     }
     default:
+      // eslint-disable-next-line babel/no-unused-expressions
+      (action.type: empty);
       return state;
   }
 }

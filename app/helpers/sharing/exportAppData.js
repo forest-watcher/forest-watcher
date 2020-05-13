@@ -35,6 +35,13 @@ export default function exportAppData(appState: State, request: ExportBundleRequ
   const reports = exportReports(appState.reports, request.reportIds);
   const routes = exportRoutes(appState.routes, request.routeIds);
 
+  console.log("3SC", "Exported alerts", alerts.length);
+  console.log("3SC", "Exported areas", areas.length);
+  console.log("3SC", "Exported basemaps", basemaps.length);
+  console.log("3SC", "Exported layers", layers.length);
+  console.log("3SC", "Exported reports", reports.length);
+  console.log("3SC", "Exported routes", routes.length);
+
   return {
     version: APP_DATA_FORMAT_VERSION,
     alerts: alerts,

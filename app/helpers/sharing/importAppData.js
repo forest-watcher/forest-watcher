@@ -8,6 +8,8 @@ import type { Route } from 'types/routes.types';
 import type { Report } from 'types/reports.types';
 import type { ContextualLayer } from 'types/layers.types';
 import type { Basemap } from 'types/basemaps.types';
+import { storeAlertsSync } from 'helpers/alert-store/storeAlerts';
+import { IMPORT_AREA } from 'redux-modules/areas';
 
 export default function importAppData(bundle: SharingBundle, dispatch: Dispatch) {
   importAlerts(bundle.alerts);
@@ -19,11 +21,18 @@ export default function importAppData(bundle: SharingBundle, dispatch: Dispatch)
 }
 
 function importAlerts(alerts: Array<Alert>) {
-  // TODO
+  console.log("3SC", "Importing alerts", alerts.length);
+  storeAlertsSync(alerts);
 }
 
 function importAreas(areas: Array<Area>, dispatch: Dispatch) {
-  // TODO
+  console.log("3SC", "Importing areas", areas.length);
+  areas.forEach(area => {
+    dispatch({
+      type: IMPORT_AREA,
+      payload: area
+    });
+  });
 }
 
 function importBasemaps(areas: Array<Basemap>, dispatch: Dispatch) {
