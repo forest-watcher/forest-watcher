@@ -23,6 +23,7 @@
             },
             "successful": "Exporting areas succeeded!"
         },
+        "importedAreas": "Imported Areas",
         "myAreas": "My Areas",
         "share": "Share Areas",
         "tooltip": {

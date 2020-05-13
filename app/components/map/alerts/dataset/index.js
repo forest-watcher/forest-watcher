@@ -90,7 +90,7 @@ export default class AlertDataset extends PureComponent<Props, State> {
    * Updates component state so that it holds the alerts from the local DB matching the constraints imposed by the
    * component props
    */
-  _loadAlertsFromDb = async () => {
+  _loadAlertsFromDb = () => {
     const { areaId, isActive, slug, timeframe, timeframeUnit } = this.props;
 
     // Reset the data in state before retrieving the updated data
@@ -107,7 +107,7 @@ export default class AlertDataset extends PureComponent<Props, State> {
     try {
       const requestId = generateUniqueID();
       this.activeRequestId = requestId;
-      const alerts = await queryAlerts({
+      const alerts = queryAlerts({
         areaId: areaId ?? undefined,
         dataset: slug,
         timeAgo: { max: timeframe, unit: timeframeUnit },

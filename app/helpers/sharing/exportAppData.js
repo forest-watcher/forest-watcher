@@ -12,7 +12,7 @@ import type { Route, RouteState } from 'types/routes.types';
 import _ from 'lodash';
 
 import { GFW_BASEMAPS } from 'config/constants';
-import { queryAlertsSync } from 'helpers/alert-store/queryAlerts';
+import queryAlerts from 'helpers/alert-store/queryAlerts';
 
 /**
  * Version number of the bundles created using the functions in this file
@@ -59,8 +59,9 @@ export default function exportAppData(appState: State, request: ExportBundleRequ
  */
 function exportAlerts(alertsState: AlertsState, areaIds: Array<string>): Array<Alert> {
   const resultsForEachArea: Array<Array<Alert>> = areaIds.map(areaId =>
-    queryAlertsSync({
-      areaId: areaId
+    queryAlerts({
+      areaId: areaId,
+      distinctLocations: true
     })
   );
   return _.flatten(resultsForEachArea);
