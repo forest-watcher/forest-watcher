@@ -157,7 +157,7 @@ type State = {
   customReporting: boolean,
   dragging: boolean,
   layoutHasForceRefreshed: boolean,
-  routeTrackingDialogState: number, // TODO: look at using enum typing?
+  routeTrackingDialogState: number,
   locationError: ?number,
   mapCameraBounds: any,
   destinationCoords: ?Position,
