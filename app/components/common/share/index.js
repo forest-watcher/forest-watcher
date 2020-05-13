@@ -10,7 +10,7 @@ import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import Row from 'components/common/row';
 
-import { Navigation } from 'react-native-navigation';
+import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 
 type Props = {
   ...ElementConfig<typeof View>,
@@ -27,10 +27,14 @@ type Props = {
   selected: number
 };
 
+type State = {|
+  sharing: boolean
+|};
+
 const KEY_EXPORT_DONE = 'key_export_done';
 
-export default class ShareSelector extends Component<Props> {
-  constructor(props) {
+export default class ShareSelector extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       sharing: false
@@ -38,14 +42,14 @@ export default class ShareSelector extends Component<Props> {
     Navigation.events().bindComponent(this);
   }
 
-  setSharing = sharing => {
+  setSharing = (sharing: boolean) => {
     this.setDoneButtonVisible(sharing);
     this.setState({
       sharing
     });
   };
 
-  navigationButtonPressed({ buttonId }) {
+  navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {
     if (buttonId === KEY_EXPORT_DONE) {
       this.setSharing(false);
       // Call this separately so we don't end up with recursion if someone calls `setSharing` by referencing this component
@@ -64,7 +68,7 @@ export default class ShareSelector extends Component<Props> {
     this.props.onToggleAllSelected?.(!anySelected);
   };
 
-  setDoneButtonVisible = visible => {
+  setDoneButtonVisible = (visible: boolean) => {
     if (!this.props.componentId) {
       return;
     }
