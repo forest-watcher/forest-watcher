@@ -1,4 +1,5 @@
 // @flow
+import type { Basemap, BasemapsState } from 'types/basemaps.types';
 
 import React, { PureComponent } from 'react';
 import { View, ScrollView, Text } from 'react-native';
@@ -7,8 +8,6 @@ import VerticalSplitRow from 'components/common/vertical-split-row';
 import i18n from 'i18next';
 import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
-import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
-import type { Basemap, BasemapsState } from 'types/basemaps.types';
 
 import { GFW_BASEMAPS } from 'config/constants';
 
