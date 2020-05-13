@@ -42,7 +42,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
     createReport: (report: BasicReport) => {
       dispatch(createReport(report));
     },
-    importBundle: (uri) => {
+    importBundle: uri => {
       importBundle(uri, dispatch);
     },
     setAreasRefreshing: (refreshing: boolean) => {

@@ -106,7 +106,6 @@ class Dashboard extends PureComponent<Props> {
 
     const deepLink: ?string = await Linking.getInitialURL();
     if (deepLink) {
-      console.warn('3SC', 'FW DEEP LINK', deepLink);
       this.props.importBundle(deepLink);
     }
 
