@@ -159,34 +159,34 @@ export const ACTIONS_SAVED_TO_REPORT = 5;
 // Constants
 export const GFW_BASEMAPS: Array<Basemap> = [
   {
-    isMapboxStyle: true,
+    isImported: false,
     id: 'mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true',
     styleURL: 'mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true',
-    name: 'Default',
+    name: 'default',
     image: require('assets/basemap_default.png'),
     tileUrl: null
   },
   {
-    isMapboxStyle: true,
+    isImported: false,
     id: 'mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true',
     styleURL: 'mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true',
-    name: 'Dark',
+    name: 'dark',
     image: require('assets/basemap_dark.png'),
     tileUrl: null
   },
   {
-    isMapboxStyle: true,
+    isImported: false,
     id: 'mapbox://styles/resourcewatch/cjww89e5j08o91cmjsbrd47qt?fresh=true',
     styleURL: 'mapbox://styles/resourcewatch/cjww89e5j08o91cmjsbrd47qt?fresh=true',
-    name: 'Satellite',
+    name: 'satellite',
     image: require('assets/basemap_satellite.png'),
     tileUrl: 'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}'
   },
   {
-    isMapboxStyle: true,
+    isImported: false,
     id: 'mapbox://styles/resourcewatch/cjww8drml27wc1cn3mk2872h9?fresh=true',
     styleURL: 'mapbox://styles/resourcewatch/cjww8drml27wc1cn3mk2872h9?fresh=true',
-    name: 'Landsat',
+    name: 'landsat',
     image: require('assets/basemap_landsat.png'),
     tileUrl: 'https://production-api.globalforestwatch.org/v2/landsat-tiles/2017/{z}/{x}/{y}'
   }

@@ -67,7 +67,7 @@ class BasemapLayerSettings extends PureComponent<Props> {
                 onPress={() => {
                   this.selectBasemap(basemap);
                 }}
-                title={basemap.name}
+                title={i18n.t(`basemaps.names.` + basemap.name)}
                 selected={this.props.activeBasemapId === basemap.id}
                 imageSrc={basemap.image || basemapPlaceholder}
                 useRadioIcon
