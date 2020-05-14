@@ -10,7 +10,7 @@ const d3Dsv = require('d3-dsv');
  *
  * This is intended to parse CSV in the format returned by the fw-alerts endpoint
  */
-export function storeAlertsFromCsv(areaId: string, slug: string, alerts: string, range: number) {
+export default function storeAlertsFromCsv(areaId: string, slug: string, alerts: string, range: number) {
   if (alerts && alerts.length > 0) {
     if (range) {
       const requestThreshold = DATASETS[slug].requestThreshold;
