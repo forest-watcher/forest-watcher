@@ -5,13 +5,13 @@ import type { Area } from 'types/areas.types';
 import type { SharingBundle } from 'types/sharing.types';
 import type { Dispatch } from 'types/store.types';
 import type { Route } from 'types/routes.types';
-import type { Report } from 'types/reports.types';
+import type { Report, Template } from 'types/reports.types';
 import type { ContextualLayer } from 'types/layers.types';
 import type { Basemap } from 'types/basemaps.types';
 import storeAlerts from 'helpers/alert-store/storeAlerts';
 import { SAVE_AREA_COMMIT } from 'redux-modules/areas';
 import { IMPORT_ROUTE } from 'redux-modules/routes';
-import { IMPORT_TEMPLATE } from 'redux-modules/reports';
+import { IMPORT_REPORT, IMPORT_TEMPLATE } from 'redux-modules/reports';
 
 export default function importAppData(bundle: SharingBundle, dispatch: Dispatch) {
   importAlerts(bundle.alerts);
@@ -46,8 +46,13 @@ function importLayers(areas: Array<ContextualLayer>, dispatch: Dispatch) {
   // TODO
 }
 
-function importReports(areas: Array<Report>, dispatch: Dispatch) {
-  // TODO
+function importReports(reports: Array<Report>, dispatch: Dispatch) {
+  reports.forEach(report => {
+    dispatch({
+      type: IMPORT_REPORT,
+      payload: { ...report, isImported: true }
+    });
+  });
 }
 
 function importRoutes(routes: Array<Route>, dispatch: Dispatch) {

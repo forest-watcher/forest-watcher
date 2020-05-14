@@ -97,6 +97,7 @@ export type CreateReport = {
   }
 };
 export type DeleteReport = { type: 'report/DELETE_REPORT', payload: { reportName: string } };
+export type ImportReport = { type: 'report/IMPORT_REPORT', payload: Report };
 export type ImportTemplate = { type: 'report/IMPORT_TEMPLATE', payload: Template };
 export type UpdateReport = { type: 'report/UPDATE_REPORT', payload: { name: string, data: Report } };
 export type SetReportAnswer = {
@@ -145,5 +146,6 @@ export type ReportsAction =
   | UploadReportCommit
   | UploadReportRollback
   | SetReportAnswer
+  | ImportReport
   | ImportTemplate
   | LogoutRequest;

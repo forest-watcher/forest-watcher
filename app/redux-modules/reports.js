@@ -1,11 +1,9 @@
 // @flow
 import type { Dispatch, GetState } from 'types/store.types';
 import type { BasicReport, ReportsState, ReportsAction, Report, Answer } from 'types/reports.types';
-import type { Area } from 'types/areas.types';
-import omit from 'lodash/omit';
 
+import _ from 'lodash';
 import Config from 'react-native-config';
-import merge from 'lodash/merge';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import CONSTANTS from 'config/constants';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
@@ -19,6 +17,7 @@ const GET_DEFAULT_TEMPLATE_ROLLBACK = 'report/GET_DEFAULT_TEMPLATE_ROLLBACK';
 const CREATE_REPORT = 'report/CREATE_REPORT';
 const UPDATE_REPORT = 'report/UPDATE_REPORT';
 const DELETE_REPORT = 'report/DELETE_REPORT';
+export const IMPORT_REPORT = 'report/IMPORT_REPORT';
 export const IMPORT_TEMPLATE = 'report/IMPORT_TEMPLATE';
 export const UPLOAD_REPORT_REQUEST = 'report/UPLOAD_REPORT_REQUEST';
 export const UPLOAD_REPORT_COMMIT = 'report/UPLOAD_REPORT_COMMIT';
@@ -58,7 +57,7 @@ export default function reducer(state: ReportsState = initialState, action: Repo
           }),
           {}
         );
-        return { ...reports, list: merge(answers, reports.list) };
+        return { ...reports, list: _.merge(answers, reports.list) };
       }
       return reports;
     }
@@ -84,7 +83,8 @@ export default function reducer(state: ReportsState = initialState, action: Repo
 
       // Merge in the templates retrieved from the areas
       action.payload
-        .filter(a => a.reportTemplate !== null)
+        .map(area => area.reportTemplate)
+        .filter(Boolean)
         .forEach(template => {
           templates[template.id] = {
             ...template,
@@ -96,7 +96,7 @@ export default function reducer(state: ReportsState = initialState, action: Repo
     }
     case IMPORT_TEMPLATE: {
       const templateId = action.payload.id;
-      if (state.templates[templateId]) {
+      if (state.templates[templateId] && !state.templates[templateId].isImported) {
         console.warn('3SC', `Ignore already existing template with ID ${templateId}`);
         return state;
       }
@@ -114,13 +114,24 @@ export default function reducer(state: ReportsState = initialState, action: Repo
     }
     case DELETE_REPORT: {
       const { reportName } = action.payload;
-      const list = omit(state.list, reportName);
+      const list = _.omit(state.list, reportName);
       return { ...state, list };
     }
     case UPDATE_REPORT: {
       const list = { ...state.list };
       list[action.payload.name] = { ...state.list[action.payload.name], ...action.payload.data };
       return { ...state, list };
+    }
+    case IMPORT_REPORT: {
+      const reportToImport = action.payload;
+      const reportId = reportToImport.reportName;
+
+      if (state.list[reportId] && !state.list[reportId].isImported) {
+        console.warn('3SC', `Ignore already existing report with ID ${reportId}`);
+        return state;
+      }
+
+      return { ...state, list: { ...state.list, [reportId]: reportToImport } };
     }
     case SET_REPORT_ANSWER: {
       const { reportName, answer, updateOnly } = action.payload;
