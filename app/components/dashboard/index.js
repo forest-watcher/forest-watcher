@@ -107,11 +107,21 @@ class Dashboard extends PureComponent<Props> {
     }
 
     const deepLink = await Linking.getInitialURL();
-    console.warn('3SC', 'FW DEEP LINK', deepLink);
+    this.handleOpenURL(deepLink);
+
+    if (Platform.OS === 'ios') {
+      Linking.addEventListener('url', this.handleOpenURL);
+    }
 
     // This is called both here and componentDidAppear because componentDidAppear isn't called when setting
     // the app root using RNN
     this.showWelcomeScreenIfNecessary();
+  }
+
+  handleOpenURL(url: ?string) {
+    if (url) {
+      console.warn('3SC', 'FW DEEP LINK', url);
+    }
   }
 
   componentDidAppear() {
