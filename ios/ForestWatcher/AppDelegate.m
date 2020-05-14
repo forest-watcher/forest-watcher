@@ -17,10 +17,27 @@
 #import "ReactNativeConfig.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
+#import "ForestWatcher-Swift.h"
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+  NSString *documentsDirectory = [paths objectAtIndex:0];
+  NSString *path = [documentsDirectory stringByAppendingString:@"/tiles/basemap/b7fd0441-8cea-4fc2-bea9-be59da4eeb7f/0x0x0/b7fd0441-8cea-4fc2-bea9-be59da4eeb7f.mbtiles"];
+  
+  // Note: Eventually, this will sit within the JS layer - on entering the map screen / selecting a new imported basemap we will prepare the selected basemap.
+  // We'll then start up the server on a given port, and then close the server on leaving the map screen / the app going into background.
+  // But until we have a module, we have this instead 👀
+  // To test this, you'll need to:
+  //  - Import a basemap (specifically with raster tiles for now!).
+  //  - Intercept the basemaps's unique identifier.
+  //  - Change the identifier in the path above, and below these comments.
+  //  - Change the identifier in the map screen URL.
+  [[RNMBTileServer shared] prepareWithBasemapId:@"b7fd0441-8cea-4fc2-bea9-be59da4eeb7f" basemapPath:path];
+  [[RNMBTileServer shared] startServerWithPort:54321];
+  
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
   
