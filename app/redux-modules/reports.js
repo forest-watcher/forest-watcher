@@ -259,7 +259,7 @@ export function uploadReport(reportName: string) {
     const language = app.language || '';
     const area = report.area;
     const dataset = area.dataset || {};
-    const template = getTemplate(reports, reportName);
+    const template = getTemplate(report, reports.templates);
 
     const form = new FormData();
     form.append('report', template.id);

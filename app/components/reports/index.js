@@ -96,7 +96,8 @@ class Reports extends PureComponent<Props, State> {
       bundleSize: undefined
     });
     const manifest = await exportFileManifest({
-      reports: mergedReports.filter(report => reportIds.includes(report.reportName))
+      reports: mergedReports.filter(report => reportIds.includes(report.reportName)),
+      templates: this.props.templates
     });
     const fileSize = manifestBundleSize(manifest);
     if (this.fetchId === currentFetchId) {

@@ -18,7 +18,7 @@ const mapStateToProps = (state: State, ownProps: OwnProps) => {
   const lang = state.app.language || 'en';
   const { reportName, questionIndex = 0, editMode } = ownProps;
   const { answers = [] } = state.reports.list[reportName] || {};
-  const template = getTemplate(state.reports, reportName);
+  const template = getTemplate(state.reports.list[reportName], state.reports.templates);
   const { questions = [] } = template;
 
   const question = parseQuestion({ template, question: questions[questionIndex] }, lang);

@@ -21,7 +21,7 @@ export default function importAppData(bundle: SharingBundle, dispatch: Dispatch)
   importRoutes(bundle.routes, dispatch);
 
   // Import templates before reports just in case, as the latter is dependent on the former
-  importTemplates(bundle.templates, dispatch);
+  importTemplates(Object.keys(bundle.templates).map(key => bundle.templates[key]), dispatch);
   importReports(bundle.reports, dispatch);
 }
 
