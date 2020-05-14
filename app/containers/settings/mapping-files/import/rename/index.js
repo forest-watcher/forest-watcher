@@ -29,13 +29,11 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
   };
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) =>
   bindActionCreators(
     {
-      importBasemap,
-      clearImportBasemapState,
-      importContextualLayer,
-      clearImportContextualLayerState
+      clearState: ownProps.mappingFileType === 'basemaps' ? clearImportBasemapState : clearImportContextualLayerState,
+      import: ownProps.mappingFileType === 'basemaps' ? importBasemap : importContextualLayer
     },
     dispatch
   );

@@ -2,13 +2,11 @@
 import type { Basemap, BasemapsAction, BasemapsState } from 'types/basemaps.types';
 import type { File } from 'types/file.types';
 import type { Dispatch, GetState, State, Thunk } from 'types/store.types';
-import type { BasemapFile } from 'types/sharing.types';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
-import { storeBasemap } from 'helpers/basemap-store/storeBasemapFiles';
-import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
+import { storeBasemap } from 'helpers/layer-store/import/importBasemapFile';
 
 // Actions
 const IMPORT_BASEMAP_REQUEST = 'basemaps/IMPORT_BASEMAP_REQUEST';
@@ -49,7 +47,6 @@ export default function reducer(state: BasemapsState = initialState, action: Bas
       return { ...state, importing: false, importError: action.payload };
     }
     case LOGOUT_REQUEST:
-      deleteLayerFiles().then(console.info('Folder removed successfully'));
       return initialState;
     default:
       return state;
@@ -67,7 +64,7 @@ export function importBasemap(basemapFile: File): Thunk<Promise<void>> {
     dispatch({ type: IMPORT_BASEMAP_REQUEST });
 
     try {
-      const importedFile: BasemapFile = await storeBasemap(basemapFile);
+      const importedFile: Basemap = await storeBasemap(basemapFile);
 
       dispatch({
         type: IMPORT_BASEMAP_COMMIT,

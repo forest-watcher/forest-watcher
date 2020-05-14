@@ -390,7 +390,7 @@ PODS:
   - RNSentry (1.3.2):
     - React
     - Sentry (~> 4.4.0)
-  - RNShare (3.0.0):
+  - RNShare (3.3.2):
     - React
   - RNSVG (11.0.1):
     - React
@@ -468,7 +468,7 @@ DEPENDENCIES:
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - "@react-native-mapbox-gl-mapbox-static"
     - AppAuth
     - boost-for-react-native
@@ -625,8 +625,8 @@ SPEC CHECKSUMS:
   GoogleDataTransport: f6f8eba931df03ebd2232ff4645aa85f8f47b5ab
   GoogleDataTransportCCTSupport: 0f39025e8cf51f168711bd3fb773938d7e62ddb5
   GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
-  lottie-ios: 85ce835dd8c53e02509f20729fc7d6a4e6645a0a
-  lottie-react-native: 2a1a82bb326ae51331a5520de0cf706733c6db69
+  lottie-ios: d0415b048a01909fced8bbd4bcbc8bcc37c93593
+  lottie-react-native: 4c10f3ee16a18baf827fe722f9bf6c7cbc34a3b5
   Mapbox-iOS-SDK: 02590a60fe300810c55432219a0caaa1338fbafb
   MapboxMobileEvents: 2bc0ca2eedb627b73cf403258dce2b2fa98074a6
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
@@ -672,7 +672,7 @@ SPEC CHECKSUMS:
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNLocalize: a734b53c45e77acd3ffb78b92e63bb4d6cd13257
   RNSentry: 2ec85f3e314c6a650b1c51b30ff764b6103ed7e2
-  RNShare: 0e19ddb0bf338b62702ce1d9e001ee14effa68a8
+  RNShare: bd6518701db274b8ba282b33620885f2225a5bcf
   RNSVG: 67f1f12dae2cef6ed59a42cae74a6b8f5a9e7b46
   RNZipArchive: ab51bc004a31657f34010254a9182014c6a81217
   Sentry: 14bdd673870e8cf64932b149fad5bbbf39a9b390
@@ -681,4 +681,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 6e0ed0feb31edd7ff8d3abaaaaa886e12f18c26e
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.6.1

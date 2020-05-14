@@ -14,7 +14,23 @@
 			<key>CFBundleTypeIconFiles</key>
 			<array/>
 			<key>CFBundleTypeName</key>
+			<string>GFWBundle</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.wri.forestwatcher.bundle</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array/>
+			<key>CFBundleTypeName</key>
 			<string>KML</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
 			<key>LSHandlerRank</key>
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
@@ -27,6 +43,8 @@
 			<array/>
 			<key>CFBundleTypeName</key>
 			<string>GPX</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
 			<key>LSHandlerRank</key>
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
@@ -39,6 +57,8 @@
 			<array/>
 			<key>CFBundleTypeName</key>
 			<string>GeoJSON</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
 			<key>LSHandlerRank</key>
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
@@ -51,6 +71,8 @@
 			<array/>
 			<key>CFBundleTypeName</key>
 			<string>TopoJSON</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
 			<key>LSHandlerRank</key>
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
@@ -59,12 +81,14 @@
 			</array>
 		</dict>
 		<dict>
-			<key>LSHandlerRank</key>
-			<string>Owner</string>
 			<key>CFBundleTypeIconFiles</key>
 			<array/>
 			<key>CFBundleTypeName</key>
 			<string>KMZ</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.google.earth.kmz</string>
@@ -145,7 +169,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
-	<true/>
+	<false/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -200,10 +224,36 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>UISupportsDocumentBrowser</key>
+	<true/>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.archive</string>
+        <string>public.data</string>
+        <string>public.content</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>GFW Bundle</string>
+			<key>UTTypeIconFiles</key>
+			<array/>
+			<key>UTTypeIdentifier</key>
+			<string>com.wri.forestwatcher.bundle</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>gfwbundle</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
 	<key>UTImportedTypeDeclarations</key>
 	<array>
 		<dict>
@@ -220,7 +270,9 @@
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
-				<string>kml</string>
+				<array>
+					<string>kml</string>
+				</array>
 				<key>public.mime-type</key>
 				<string>application/vnd.google-earth.kml+xml</string>
 			</dict>
@@ -229,6 +281,8 @@
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.archive</string>
+        <string>public.data</string>
+        <string>public.content</string>
 			</array>
 			<key>UTTypeDescription</key>
 			<string>KMZ</string>
@@ -239,7 +293,9 @@
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
-				<string>kmz</string>
+				<array>
+					<string>kmz</string>
+				</array>
 				<key>public.mime-type</key>
 				<string>application/zip</string>
 			</dict>
@@ -258,7 +314,9 @@
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
-				<string>gpx</string>
+				<array>
+					<string>gpx</string>
+				</array>
 				<key>public.mime-type</key>
 				<string>application/gpx+xml</string>
 			</dict>
@@ -277,7 +335,10 @@
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
-				<string>geojson</string>
+				<array>
+					<string>geojson</string>
+					<string>json</string>
+				</array>
 				<key>public.mime-type</key>
 				<string>application/geo+json</string>
 			</dict>
@@ -296,7 +357,10 @@
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
-				<string>topojson</string>
+				<array>
+					<string>topojson</string>
+					<string>json</string>
+				</array>
 				<key>public.mime-type</key>
 				<string>application/json</string>
 			</dict>
