@@ -10,7 +10,7 @@ index d965c54..9985d5a 100644
 +    implementation "net.lingala.zip4j:zip4j:2.5.2"
  }
 diff --git a/node_modules/react-native-zip-archive/android/src/main/java/com/rnziparchive/RNZipArchiveModule.java b/node_modules/react-native-zip-archive/android/src/main/java/com/rnziparchive/RNZipArchiveModule.java
-index 9571199..f2765cd 100644
+index 9571199..90db829 100644
 --- a/node_modules/react-native-zip-archive/android/src/main/java/com/rnziparchive/RNZipArchiveModule.java
 +++ b/node_modules/react-native-zip-archive/android/src/main/java/com/rnziparchive/RNZipArchiveModule.java
 @@ -1,9 +1,9 @@
@@ -176,7 +176,7 @@ index 9571199..f2765cd 100644
  
            File destDir = new File(destDirectory);
            if (!destDir.exists()) {
-@@ -146,23 +171,18 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
+@@ -146,37 +171,15 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
            // from inside the callback
            final long[] extractedBytes = {0};
            final int[] lastPercentage = {0};
@@ -190,43 +190,40 @@ index 9571199..f2765cd 100644
 -          } else {
 -            zipFile = new ZipFile(zipFilePath);
 -          }
-+          while ((localFileHeader = inputStream.getNextEntry()) != null) {
-+            if (localFileHeader.isDirectory()) continue;
- 
+-
 -          final Enumeration<? extends ZipEntry> entries = zipFile.entries();
 -          Log.d(TAG, "Zip has " + zipFile.size() + " entries");
 -          while (entries.hasMoreElements()) {
 -            final ZipEntry entry = entries.nextElement();
 -            if (entry.isDirectory()) continue;
-+            File fout = new File(destDirectory, localFileHeader.getFileName());
-+            try (OutputStream outputStream = new FileOutputStream(fout)) {
-+              while ((bytesRead = inputStream.read(readBuffer)) != -1) {
-+                outputStream.write(readBuffer, 0, bytesRead);
++          while ((localFileHeader = inputStream.getNextEntry()) != null) {
++            if (localFileHeader.isDirectory()) continue;
  
 -            StreamUtil.ProgressCallback cb = new StreamUtil.ProgressCallback() {
 -              @Override
 -              public void onCopyProgress(long bytesRead) {
-                 extractedBytes[0] += bytesRead;
+-                extractedBytes[0] += bytesRead;
++            File fout = new File(destDirectory, localFileHeader.getFileName());
  
-                 int lastTime = lastPercentage[0];
-@@ -174,45 +194,9 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
-                   updateProgress(extractedBytes[0], totalUncompressedBytes, zipFilePath);
-                 }
-               }
+-                int lastTime = lastPercentage[0];
+-                int percentDone = (int) ((double) extractedBytes[0] * 100 / (double) totalUncompressedBytes);
+-
+-                // update at most once per percent.
+-                if (percentDone > lastTime) {
+-                  lastPercentage[0] = percentDone;
+-                  updateProgress(extractedBytes[0], totalUncompressedBytes, zipFilePath);
+-                }
+-              }
 -            };
 -
 -            File fout = new File(destDirectory, entry.getName());
--            String canonicalPath = fout.getCanonicalPath();
--            String destDirCanonicalPath = (new File(destDirectory).getCanonicalPath()) + File.separator;
--
--            if (!canonicalPath.startsWith(destDirCanonicalPath)) {
--                 throw new SecurityException(String.format("Found Zip Path Traversal Vulnerability with %s", canonicalPath));
--            }
--            
--            if (!fout.exists()) {
--              //noinspection ResultOfMethodCallIgnored
--              (new File(fout.getParent())).mkdirs();
--            }
+             String canonicalPath = fout.getCanonicalPath();
+             String destDirCanonicalPath = (new File(destDirectory).getCanonicalPath()) + File.separator;
+ 
+@@ -188,31 +191,25 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
+               //noinspection ResultOfMethodCallIgnored
+               (new File(fout.getParent())).mkdirs();
+             }
 -            InputStream in = null;
 -            BufferedOutputStream Bout = null;
 -            try {
@@ -246,8 +243,22 @@ index 9571199..f2765cd 100644
 -                try {
 -                  Bout.close();
 -                } catch (Exception ignored) {
--                }
--              }
++
++            try (OutputStream outputStream = new FileOutputStream(fout)) {
++              while ((bytesRead = inputStream.read(readBuffer)) != -1) {
++                outputStream.write(readBuffer, 0, bytesRead);
++
++                extractedBytes[0] += bytesRead;
++
++                int lastTime = lastPercentage[0];
++                int percentDone = (int) ((double) extractedBytes[0] * 100 / (double) totalUncompressedBytes);
++
++                // update at most once per percent.
++                if (percentDone > lastTime) {
++                  lastPercentage[0] = percentDone;
++                  updateProgress(extractedBytes[0], totalUncompressedBytes, zipFilePath);
+                 }
+               }
              }
            }
  
@@ -255,7 +266,7 @@ index 9571199..f2765cd 100644
            updateProgress(1, 1, zipFilePath); // force 100%
            promise.resolve(destDirectory);
          } catch (Exception ex) {
-@@ -235,92 +219,7 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
+@@ -235,92 +232,7 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
     */
    @ReactMethod
    public void unzipAssets(final String assetsPath, final String destDirectory, final Promise promise) {
@@ -349,7 +360,7 @@ index 9571199..f2765cd 100644
    }
  
    @ReactMethod
-@@ -328,10 +227,10 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
+@@ -328,10 +240,10 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
      try{
  
        ZipParameters parameters = new ZipParameters();
@@ -363,7 +374,7 @@ index 9571199..f2765cd 100644
  
      } catch (Exception ex) {
        promise.reject(null, ex.getMessage());
-@@ -345,35 +244,34 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
+@@ -345,35 +257,34 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
      try{
  
        ZipParameters parameters = new ZipParameters();
@@ -408,7 +419,7 @@ index 9571199..f2765cd 100644
  
      } catch (Exception ex) {
        promise.reject(null, ex.getMessage());
-@@ -382,12 +280,16 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
+@@ -382,12 +293,16 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
  
    }
  
@@ -427,7 +438,7 @@ index 9571199..f2765cd 100644
  
            updateProgress(0, 100, destDirectory);
  
-@@ -402,12 +304,11 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
+@@ -402,12 +317,11 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
                List<File> files = Arrays.asList(f.listFiles());
  
                totalFiles = files.size();
@@ -445,7 +456,7 @@ index 9571199..f2765cd 100644
                  }
                  fileCounter += 1;
                  updateProgress(fileCounter, totalFiles, destDirectory);
-@@ -454,22 +355,11 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
+@@ -454,22 +368,11 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
     */
    private long getUncompressedSize(String zipFilePath, String charset) {
      long totalSize = 0;
