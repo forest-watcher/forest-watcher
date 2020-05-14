@@ -7,7 +7,7 @@ import type { BasemapFile } from 'types/sharing.types';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
-import { storeBasemap } from 'helpers/basemap-store/storeBasemapFiles';
+import { storeBasemap } from 'helpers/layer-store/import/importBasemapFile';
 import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
 // Actions
