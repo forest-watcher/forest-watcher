@@ -18,13 +18,11 @@ import type { Thunk } from 'types/store.types';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 type Props = {
-  clearImportBasemapState: () => BasemapsAction,
-  clearImportContextualLayerState: () => LayersAction,
+  clearState: () => BasemapsAction | LayersAction,
   componentId: string,
   existing: Array<Basemap | ContextualLayer>,
   file: File,
-  importBasemap: (basemapFile: File) => Thunk<Promise<void>>,
-  importContextualLayer: (layerFile: File) => Thunk<Promise<void>>,
+  import: (file: File) => Thunk<Promise<void>>,
   importError: ?Error,
   importing: boolean,
   mappingFileType: MappingFileType,
@@ -49,8 +47,7 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.props.clearImportContextualLayerState();
-    this.props.clearImportBasemapState();
+    this.props.clearState();
     Navigation.events().bindComponent(this);
     this.state = {
       file: this.props.file,
@@ -75,11 +72,7 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
     try {
       Keyboard.dismiss();
 
-      if (this.props.mappingFileType === 'basemaps') {
-        await this.props.importBasemap(this.state.file);
-      } else {
-        await this.props.importContextualLayer(this.state.file);
-      }
+      await this.props.import(this.state.file);
 
       if (this.props.popToComponentId) {
         Navigation.popTo(this.props.popToComponentId);
