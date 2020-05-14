@@ -1,4 +1,5 @@
 // @flow
+import type { Report } from 'types/reports.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { bindActionCreators } from 'redux';
@@ -18,7 +19,8 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
   const allReports: Array<Report> = [
     ...formattedReports.draft,
     ...formattedReports.complete,
-    ...formattedReports.uploaded
+    ...formattedReports.uploaded,
+    ...formattedReports.imported
   ];
   const myReports = allReports.filter((report: Report) => !report.isImported);
   const importedReports: Array<Report> = allReports.filter((report: Report) => report.isImported);

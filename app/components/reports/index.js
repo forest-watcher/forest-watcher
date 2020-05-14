@@ -86,7 +86,11 @@ class Reports extends PureComponent<Props, State> {
 
   fetchExportSize = async (reportIds: Array<string>) => {
     const currentFetchId = generateUniqueID();
-    const mergedReports: Array<Report> = [...this.props.reports.complete, ...this.props.reports.uploaded];
+    const mergedReports: Array<Report> = [
+      ...this.props.reports.complete,
+      ...this.props.reports.uploaded,
+      ...this.props.reports.imported
+    ];
     this.fetchId = currentFetchId;
     this.setState({
       bundleSize: undefined
@@ -249,12 +253,14 @@ class Reports extends PureComponent<Props, State> {
 
   exportReportsAsCsv = async (selectedReports: Array<string>) => {
     // Merge the completed and uploaded reports that are available together, so we can find any selected reports to export them.
-    const mergedReports = [...(this.props.reports.complete ?? []), ...(this.props.reports.uploaded ?? [])];
+    const mergedReports = [
+      ...this.props.reports.complete,
+      ...this.props.reports.uploaded,
+      ...this.props.reports.imported
+    ];
 
     const reportsToExport: Array<Report> = selectedReports
-      .map(key => {
-        return mergedReports.find(report => report.reportName === key);
-      })
+      .map(key => mergedReports.find(report => report.reportName === key))
       .filter(Boolean);
 
     await exportReports(
@@ -278,8 +284,11 @@ class Reports extends PureComponent<Props, State> {
 
   setAllSelected = (selected: boolean) => {
     // Merge together the completed and uploaded reports.
-    const completedReports = this.props.reports.complete || [];
-    const mergedReports = completedReports.concat(this.props.reports.uploaded);
+    const mergedReports = [
+      ...this.props.reports.complete,
+      ...this.props.reports.uploaded,
+      ...this.props.reports.imported
+    ];
     const selectedForExport = selected ? mergedReports.map(report => report.reportName) : [];
     this.fetchExportSize(selectedForExport);
     this.setState({
@@ -369,6 +378,10 @@ class Reports extends PureComponent<Props, State> {
     return this.renderSection(i18n.t('report.drafts'), drafts, icon, callback);
   }
 
+  getImported(imported: Array<Report>, icon: any, callback: string => void) {
+    return this.renderSection(i18n.t('report.imported'), imported, icon, callback);
+  }
+
   /**
    * renderReportsScrollView - Renders a list of reports.
    *
@@ -376,8 +389,8 @@ class Reports extends PureComponent<Props, State> {
    * @return {ScrollView}         A ScrollView element with all content rendered to it.
    */
   renderReportsScrollView(inExportMode: boolean) {
-    const { complete, draft, uploaded } = this.props.reports;
-    const hasReports = !!complete.length || !!draft.length || !!uploaded.length;
+    const { complete, draft, uploaded, imported } = this.props.reports;
+    const hasReports = !!complete.length || !!draft.length || !!uploaded.length || !!imported.length;
 
     if (!hasReports) {
       return (
@@ -408,6 +421,9 @@ class Reports extends PureComponent<Props, State> {
           {uploaded &&
             uploaded.length > 0 &&
             this.getUploaded(uploaded, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickNext)}
+          {imported &&
+            imported.length > 0 &&
+            this.getImported(imported, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickNext)}
         </View>
       </ScrollView>
     );
@@ -417,8 +433,8 @@ class Reports extends PureComponent<Props, State> {
     // Determine if we're in export mode, and how many reports have been selected to export.
     const totalToExport = this.state.selectedForExport.length;
 
-    const { complete, uploaded } = this.props.reports;
-    const totalReports = complete.length + uploaded.length;
+    const { complete, uploaded, imported } = this.props.reports;
+    const totalReports = complete.length + uploaded.length + imported.length;
     const sharingType = i18n.t('sharing.type.reports');
 
     return (

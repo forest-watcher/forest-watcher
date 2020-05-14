@@ -14,18 +14,22 @@ import shareBundle from 'helpers/sharing/shareBundle';
 export type GroupedReports = {
   draft: Array<Report>,
   complete: Array<Report>,
-  uploaded: Array<Report>
+  uploaded: Array<Report>,
+  imported: Array<Report>
 };
 
 export function getReports(reports: ReportsList, areas: Array<Area>, userId: string): GroupedReports {
   const data = {
     draft: [],
     complete: [],
-    uploaded: []
+    uploaded: [],
+    imported: []
   };
   Object.keys(reports).forEach(key => {
     const report = reports[key];
-    if (data[report.status]) {
+    if (report.isImported) {
+      data.imported.push(report);
+    } else if (data[report.status]) {
       data[report.status].push(report);
     }
   });
