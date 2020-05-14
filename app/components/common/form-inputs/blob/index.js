@@ -2,7 +2,8 @@
 import type { Answer } from 'types/reports.types';
 
 import React, { Component } from 'react';
-import { Text, View, Image, TouchableHighlight, Alert } from 'react-native';
+import { Platform, PermissionsAndroid, Text, View, Image, TouchableHighlight, Alert } from 'react-native';
+import Config from 'react-native-config';
 
 import ImageCard from 'components/common/image-card';
 import i18n from 'i18next';
@@ -39,8 +40,9 @@ class ImageBlobInput extends Component<Props> {
       storageOptions: {
         skipBackup: true,
         waitUntilSaved: true,
-        path: CONSTANTS.appName,
-        cameraRoll: true
+        path: Config.APP_NAME,
+        cameraRoll: true,
+        privateDirectory: true
       }
     };
 
