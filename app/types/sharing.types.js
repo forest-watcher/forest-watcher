@@ -86,11 +86,19 @@ export type LayerFile = {|
   polygon?: ?Feature<Polygon>
 |};
 
+export type ReportFile = {|
+  uri: string,
+  reportName: string,
+  answerIndex: number,
+  size: number
+|};
+
 /**
  * Manifest of files relating to basemaps and contextual layers
  */
 export type SharingBundleManifest = {|
-  layerFiles: Array<LayerFile>
+  layerFiles: Array<LayerFile>,
+  reportFiles: Array<ReportFile>
 |};
 
 /**

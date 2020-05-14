@@ -5,8 +5,10 @@ import cl.json.ShareApplication;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
+import com.facebook.react.modules.core.PermissionListener;
 import com.facebook.soloader.SoLoader;
 import com.forestwatcher.intents.IntentsPackage;
+import com.imagepicker.permissions.OnImagePickerPermissionsCallback;
 import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
@@ -16,8 +18,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainApplication extends NavigationApplication implements ShareApplication {
-
+public class MainApplication extends NavigationApplication implements ShareApplication, OnImagePickerPermissionsCallback {
   private final ReactNativeHost mReactNativeHost = new NavigationReactNativeHost(this)
   {
     @Override
@@ -45,6 +46,8 @@ public class MainApplication extends NavigationApplication implements ShareAppli
       return "index";
     }
   };
+
+  private PermissionListener listener;
 
   @Override
   public ReactNativeHost getReactNativeHost() {
@@ -87,5 +90,18 @@ public class MainApplication extends NavigationApplication implements ShareAppli
   @Override
   public String getFileProviderAuthority() {
     return BuildConfig.APPLICATION_ID + ".provider";
+  }
+
+  @Override
+  public void setPermissionListener(PermissionListener listener) {
+    this.listener = listener;
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    if (listener != null) {
+      listener.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
   }
 }

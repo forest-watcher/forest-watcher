@@ -5,12 +5,14 @@ import type { ExportBundleRequest, SharingBundle, UnpackedSharingBundle } from '
 import _ from 'lodash';
 import RNFS from 'react-native-fs';
 import { zip } from 'react-native-zip-archive';
+import RNFetchBlob from 'rn-fetch-blob';
 
 import deleteStagedBundle from 'helpers/sharing/deleteStagedBundle';
 import exportAppData, { exportBasemaps, exportLayers } from 'helpers/sharing/exportAppData';
 import exportFileManifest, { sanitiseLayerFilesForBundle } from 'helpers/sharing/exportFileManifest';
 import { storeLayerFiles } from 'helpers/layer-store/storeLayerFiles';
 import createTemporaryStagingDirectory from 'helpers/sharing/createTemporaryStagingDirectory';
+import { toFileUri } from 'helpers/fileURI';
 
 /**
  * Extension of the final bundle
@@ -72,8 +74,22 @@ export async function packageBundle(bundle: UnpackedSharingBundle): Promise<stri
 export async function stageBundle(bundle: SharingBundle): Promise<UnpackedSharingBundle> {
   const outputPath = await createTemporaryStagingDirectory();
 
-  // Stage manifest files and then clean the manifest for the bundle
+  // Stage layer files
   await storeLayerFiles(bundle.manifest.layerFiles, outputPath);
+
+  // Stage report files
+  // eslint-disable-next-line no-unused-vars
+  for (const file of bundle.manifest.reportFiles) {
+    try {
+      const sourceUri = file.uri;
+      const destinationDir = `${outputPath}/report/${file.reportName}/${file.answerIndex}`;
+      const destinationUri = `${destinationDir}/attachment.jpg`;
+      await RNFetchBlob.fs.mkdir(destinationDir);
+      await RNFetchBlob.fs.cp(sourceUri, destinationUri);
+    } catch (err) {
+      console.warn('3SC', `Failed to stage report attachment (${file.reportName}, ${file.answerIndex})`, err);
+    }
+  }
 
   // Write the bundle data file
   const sanitisedBundle = {

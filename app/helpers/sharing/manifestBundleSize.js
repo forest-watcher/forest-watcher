@@ -1,6 +1,6 @@
 // @flow
 
-import type { LayerFile, SharingBundleManifest } from 'types/sharing.types';
+import type { LayerFile, ReportFile, SharingBundleManifest } from 'types/sharing.types';
 
 /**
  * Returns a rough approximation of the export file size for a given export layer manifest
@@ -12,5 +12,10 @@ export default function manifestBundleSize(manifest: SharingBundleManifest): num
       size += file.size;
     }
   });
-  return size;
+  manifest.reportFiles.forEach((file: ReportFile) => {
+    if (!isNaN(file.size)) {
+      size += file.size;
+    }
+  });
+  return size + 1024;
 }
