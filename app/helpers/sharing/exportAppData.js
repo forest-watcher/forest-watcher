@@ -100,6 +100,5 @@ function exportReports(reportsState: ReportsState, reportIds: Array<string>): Ar
  * Extracts any routes from state with IDs matching those in routeIds
  */
 function exportRoutes(routesState: RouteState, routeIds: Array<string>): Array<Route> {
-  const allRoutes = [routesState.activeRoute, ...routesState.previousRoutes, ...routesState.importedRoutes];
-  return allRoutes.filter(route => route && routeIds.includes(route.id)).filter(Boolean);
+  return routesState.previousRoutes.filter(route => routeIds.includes(route.id + '')).filter(Boolean);
 }

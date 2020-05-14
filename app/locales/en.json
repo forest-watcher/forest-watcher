@@ -499,6 +499,7 @@
             "noneSelected": "No routes selected",
             "routeSizeAction": "Export Routes (%{bundleSize})"
         },
+        "importedRoutes": "Imported Routes",
         "insufficientPermissionsDialogTitle": "Unable to track route",
         "insufficientPermissionsDialogMessage": "We need background location permissions to be able to track your route.",
         "insufficientPermissionsDialogOpenAppSettings": "Check permissions",

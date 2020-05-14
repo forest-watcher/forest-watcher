@@ -10,6 +10,7 @@ import type { ContextualLayer } from 'types/layers.types';
 import type { Basemap } from 'types/basemaps.types';
 import storeAlerts from 'helpers/alert-store/storeAlerts';
 import { SAVE_AREA_COMMIT } from 'redux-modules/areas';
+import { IMPORT_ROUTE } from 'redux-modules/routes';
 
 export default function importAppData(bundle: SharingBundle, dispatch: Dispatch) {
   importAlerts(bundle.alerts);
@@ -46,5 +47,10 @@ function importReports(areas: Array<Report>, dispatch: Dispatch) {
 }
 
 function importRoutes(routes: Array<Route>, dispatch: Dispatch) {
-  // TODO
+  routes.forEach(route => {
+    dispatch({
+      type: IMPORT_ROUTE,
+      payload: { ...route, isImported: true }
+    });
+  });
 }

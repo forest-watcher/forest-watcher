@@ -1,8 +1,7 @@
 // @flow
 export type RouteState = {
   activeRoute: ?Route,
-  previousRoutes: Array<Route>,
-  importedRoutes: Array<Route>
+  previousRoutes: Array<Route>
 };
 
 export type RouteDifficulty = 'easy' | 'medium' | 'hard';
@@ -16,7 +15,8 @@ export type Route = {
   difficulty: RouteDifficulty,
   destination?: Location,
   language: string,
-  locations: Array<LocationPoint>
+  locations: Array<LocationPoint>,
+  isImported?: true
 };
 
 export type Location = {
@@ -38,17 +38,19 @@ export type RouteDeletionCriteria = {
 };
 
 export type RouteAction =
-  | finishAndSaveRoute
-  | deleteRouteAction
-  | updateActiveRoute
-  | updateSavedRoute
-  | discardActiveRoute;
+  | FinishAndSaveRoute
+  | DeleteRouteAction
+  | UpdateActiveRoute
+  | UpdateSavedRoute
+  | DiscardActiveRoute
+  | ImportRoute;
 
-type updateActiveRoute = {
+type UpdateActiveRoute = {
   type: 'routes/UPDATE_ACTIVE_ROUTE',
   payload: { areaId: string, destination: Location, startDate: number }
 };
-type updateSavedRoute = { type: 'routes/UPDATE_SAVED_ROUTE', payload: Route };
-type finishAndSaveRoute = { type: 'routes/FINISH_AND_SAVE_ROUTE' };
-type deleteRouteAction = { type: 'routes/DELETE_ROUTE', payload: RouteDeletionCriteria };
-type discardActiveRoute = { type: 'routes/DISCARD_ACTIVE_ROUTE' };
+type UpdateSavedRoute = { type: 'routes/UPDATE_SAVED_ROUTE', payload: Route };
+type FinishAndSaveRoute = { type: 'routes/FINISH_AND_SAVE_ROUTE' };
+type DeleteRouteAction = { type: 'routes/DELETE_ROUTE', payload: RouteDeletionCriteria };
+type DiscardActiveRoute = { type: 'routes/DISCARD_ACTIVE_ROUTE' };
+type ImportRoute = { type: 'routes/IMPORT_ROUTE', payload: Route };
