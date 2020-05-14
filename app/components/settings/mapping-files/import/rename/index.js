@@ -142,7 +142,7 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
         <BottomTray requiresSafeAreaView={!this.state.keyboardVisible}>
           <ActionButton
             onPress={nameValidity.valid ? this.onImportPressed : null}
-            text={i18n.t(this.i18nKeyFor('save')).toUpperCase()}
+            text={i18n.t(this.i18nKeyFor('save'))}
             disabled={!nameValidity.valid || !!this.props.importingLayer}
             short
             noIcon
