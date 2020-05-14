@@ -175,13 +175,14 @@ class ImportMappingFileType extends PureComponent<Props, State> {
           ) : null}
           <Row
             action={customContextualLayerAction}
-            style={{ flex: 1, alignSelf: 'stretch' }}
+            style={{ flex: 1, alignSelf: 'stretch'}}
             rowStyle={styles.rowWithDescription}
           >
             <View style={styles.titleContainer}>
               <Text style={styles.title}>{i18n.t(this.i18nKeyFor('custom'))}</Text>
-              <Image style={Theme.icon} source={nextIcon} />
+              <Image style={[Theme.icon, { marginRight: 0 }]} source={nextIcon} />
             </View>
+            <View style={styles.verticalSeparator} />
             <View>
               <Text style={styles.description}>{i18n.t(this.i18nKeyFor('supportedFileTypesInclude'))}</Text>
               <View style={styles.acceptedFileTypes}>
