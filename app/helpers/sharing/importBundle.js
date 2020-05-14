@@ -1,6 +1,6 @@
 // @flow
 import type { Dispatch } from 'types/store.types';
-import type { ImportBundleResult, UnpackedSharingBundle } from 'types/sharing.types';
+import type { UnpackedSharingBundle } from 'types/sharing.types';
 
 import RNFS from 'react-native-fs';
 import { unzip } from 'react-native-zip-archive';
