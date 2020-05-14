@@ -248,7 +248,6 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>gfwbundle</string>
-					<string>gfw.bundle</string>
 				</array>
 			</dict>
 		</dict>
