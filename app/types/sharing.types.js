@@ -105,7 +105,8 @@ export type SharingBundle = {|
   layers: Array<ContextualLayer>,
   manifest: SharingBundleManifest,
   reports: Array<Report>,
-  routes: Array<Route>
+  routes: Array<Route>,
+  templates: Array<Template>
 |};
 
 export type UnpackedSharingBundle = {|

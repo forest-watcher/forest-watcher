@@ -2,7 +2,7 @@
 
 import type { Alert, AlertsState } from 'types/alerts.types';
 import type { Area, AreasState } from 'types/areas.types';
-import type { Report, ReportsState } from 'types/reports.types';
+import type { Report, ReportsState, Template } from 'types/reports.types';
 import type { ExportBundleRequest, SharingBundle } from 'types/sharing.types';
 import type { State } from 'types/store.types';
 import type { Basemap, BasemapsState } from 'types/basemaps.types';
@@ -34,6 +34,7 @@ export default function exportAppData(appState: State, request: ExportBundleRequ
   const layers = exportLayers(appState.layers, request.layerIds);
   const reports = exportReports(appState.reports, request.reportIds);
   const routes = exportRoutes(appState.routes, request.routeIds);
+  const templates = exportTemplates(appState.reports, reports);
 
   return {
     version: APP_DATA_FORMAT_VERSION,
@@ -43,7 +44,8 @@ export default function exportAppData(appState: State, request: ExportBundleRequ
     layers: layers,
     manifest: { layerFiles: [] },
     reports: reports,
-    routes: routes
+    routes: routes,
+    templates: templates
   };
 }
 
@@ -94,4 +96,12 @@ function exportReports(reportsState: ReportsState, reportIds: Array<string>): Ar
  */
 function exportRoutes(routesState: RouteState, routeIds: Array<string>): Array<Route> {
   return routesState.previousRoutes.filter(route => routeIds.includes(route.id + '')).filter(Boolean);
+}
+
+/**
+ * Extracts any templates from state with IDs matching those in reportIds
+ */
+function exportTemplates(reportsState: ReportsState, reports: Array<Report>): Array<Template> {
+  const templateIds = _.uniq(reports.map(report => report.area?.templateId).filter(Boolean));
+  return templateIds.map(templateId => reportsState.templates[templateId]).filter(Boolean);
 }

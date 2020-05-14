@@ -19,6 +19,7 @@ const GET_DEFAULT_TEMPLATE_ROLLBACK = 'report/GET_DEFAULT_TEMPLATE_ROLLBACK';
 const CREATE_REPORT = 'report/CREATE_REPORT';
 const UPDATE_REPORT = 'report/UPDATE_REPORT';
 const DELETE_REPORT = 'report/DELETE_REPORT';
+export const IMPORT_TEMPLATE = 'report/IMPORT_TEMPLATE';
 export const UPLOAD_REPORT_REQUEST = 'report/UPLOAD_REPORT_REQUEST';
 export const UPLOAD_REPORT_COMMIT = 'report/UPLOAD_REPORT_COMMIT';
 export const UPLOAD_REPORT_ROLLBACK = 'report/UPLOAD_REPORT_ROLLBACK';
@@ -75,20 +76,37 @@ export default function reducer(state: ReportsState = initialState, action: Repo
     case GET_DEFAULT_TEMPLATE_ROLLBACK:
       return { ...state, syncing: false };
     case GET_AREAS_COMMIT: {
-      const templateDefault = state.templates.default || {};
-      const templates = action.payload
+      // Start with all the imported templates plus the default template
+      const templates = _.pickBy(state.templates, template => template.isImported);
+      if (state.templates.default) {
+        templates.default = state.templates.default;
+      }
+
+      // Merge in the templates retrieved from the areas
+      action.payload
         .filter(a => a.reportTemplate !== null)
-        .reduce(
-          (acc, { reportTemplate }) => ({
-            ...acc,
-            [reportTemplate.id]: {
-              ...reportTemplate,
-              questions: orderQuestions(reportTemplate.questions)
-            }
-          }),
-          { default: templateDefault }
-        );
+        .forEach(template => {
+          templates[template.id] = {
+            ...template,
+            questions: orderQuestions(template.questions)
+          };
+        });
+
       return { ...state, templates };
+    }
+    case IMPORT_TEMPLATE: {
+      const templateId = action.payload.id;
+      if (state.templates[templateId]) {
+        console.warn('3SC', `Ignore already existing template with ID ${templateId}`);
+        return state;
+      }
+      return {
+        ...state,
+        templates: {
+          ...state.templates,
+          [templateId]: action.payload
+        }
+      };
     }
     case CREATE_REPORT: {
       const list = { ...state.list, ...action.payload };
