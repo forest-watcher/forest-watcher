@@ -167,7 +167,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
 
     return (
       <View style={styles.container}>
-        <ScrollView scrollEnabled={false} style={styles.contentContainer}>
+        <ScrollView alwaysBounceVertical={false} style={styles.contentContainer}>
           {mappingFileType === 'contextualLayers' ? (
             <Row action={gfwLayerAction} rowStyle={styles.row}>
               <Text style={styles.title}>{i18n.t(this.i18nKeyFor('addGFW'))}</Text>

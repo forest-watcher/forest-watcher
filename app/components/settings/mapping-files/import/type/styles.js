@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   title: {
-    flexGrow: 1,
+    flex: 1,
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
     fontSize: isSmallScreen ? 16 : 17,
@@ -45,6 +45,7 @@ export default StyleSheet.create({
     paddingRight: 0
   },
   titleContainer: {
+    alignItems: 'center',
     flexGrow: 1,
     flexDirection: 'row',
     paddingBottom: 40
