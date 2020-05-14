@@ -11,10 +11,12 @@ import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigatio
 import type { Basemap, BasemapsState } from 'types/basemaps.types';
 
 import { GFW_BASEMAPS } from 'config/constants';
+import debounceUI from 'helpers/debounceUI';
 
 const basemapPlaceholder = require('assets/basemap_placeholder.png');
 
 type Props = {
+  componentId: string,
   featureId: string,
   basemaps: BasemapsState,
   activeBasemapId: string,
@@ -31,6 +33,17 @@ class BasemapLayerSettings extends PureComponent<Props> {
       }
     };
   }
+
+  onPressManageBasemap = debounceUI(() => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.MappingFiles',
+        passProps: {
+          mappingFileType: 'basemaps'
+        }
+      }
+    });
+  });
 
   selectBasemap = (basemap: Basemap) => {
     this.props.selectActiveBasemap(this.props.featureId, basemap.id);
@@ -81,7 +94,12 @@ class BasemapLayerSettings extends PureComponent<Props> {
           })}
         </ScrollView>
         <BottomTray requiresSafeAreaView>
-          <ActionButton onPress={() => {}} text={i18n.t('map.layerSettings.manageBasemaps')} transparent noIcon />
+          <ActionButton
+            onPress={this.onPressManageBasemap}
+            text={i18n.t('map.layerSettings.manageBasemaps')}
+            transparent
+            noIcon
+          />
         </BottomTray>
       </View>
     );
