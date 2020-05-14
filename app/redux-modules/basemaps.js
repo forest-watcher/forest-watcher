@@ -1,8 +1,7 @@
 // @flow
-import type { BasemapsAction, BasemapsState } from 'types/basemaps.types';
+import type { Basemap, BasemapsAction, BasemapsState } from 'types/basemaps.types';
 import type { File } from 'types/file.types';
 import type { Dispatch, GetState, State, Thunk } from 'types/store.types';
-import type { BasemapFile } from 'types/sharing.types';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
@@ -65,7 +64,7 @@ export function importBasemap(basemapFile: File): Thunk<Promise<void>> {
     dispatch({ type: IMPORT_BASEMAP_REQUEST });
 
     try {
-      const importedFile: BasemapFile = await storeBasemap(basemapFile);
+      const importedFile: Basemap = await storeBasemap(basemapFile);
 
       dispatch({
         type: IMPORT_BASEMAP_COMMIT,

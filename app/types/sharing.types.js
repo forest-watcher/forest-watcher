@@ -53,23 +53,6 @@ export type ImportBundleResult = {|
   // TODO
 |};
 
-/**
- * Type representing the basemap metadata object.
- */
-export type BasemapFile = {|
-  // Where the file is saved within the app's documents directory.
-  path: string,
-
-  // The unique identifier for this basemap.
-  basemapId: string,
-
-  // Te size of this basemap.
-  size: number,
-
-  // The given name of the basemap.
-  name: string
-|};
-
 export type LayerFile = {|
   path: string,
 

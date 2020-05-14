@@ -1,14 +1,18 @@
 // @flow
-import type { BasemapFile } from 'types/sharing.types';
 
 export type Basemap = {
-  isMapboxStyle: boolean,
+  isMapboxStyle?: boolean,
+  // The unique identifier for this basemap.
   id: string,
   styleURL?: string,
+  // The given name of the basemap.
   name: string,
-  image: number,
-  tileUrl: ?string,
-  size: ?number
+  image?: number,
+  tileUrl?: ?string,
+  // Where the file is saved within the app's documents directory.
+  path?: string,
+  // The size of this basemap on disk.
+  size?: number
 };
 
 export type BasemapsState = {
@@ -20,6 +24,6 @@ export type BasemapsState = {
 export type BasemapsAction = ImportBasemapRequest | ImportBasemapCommit | ImportBasemapClear | ImportBasemapRollback;
 
 export type ImportBasemapRequest = { type: 'basemaps/IMPORT_BASEMAP_REQUEST' };
-export type ImportBasemapCommit = { type: 'basemaps/IMPORT_BASEMAP_COMMIT', payload: BasemapFile };
+export type ImportBasemapCommit = { type: 'basemaps/IMPORT_BASEMAP_COMMIT', payload: Basemap };
 export type ImportBasemapClear = { type: 'basemaps/IMPORT_BASEMAP_CLEAR' };
 export type ImportBasemapRollback = { type: 'basemaps/IMPORT_BASEMAP_ROLLBACK', payload: ?Error };
