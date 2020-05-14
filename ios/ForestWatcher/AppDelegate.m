@@ -16,6 +16,7 @@
 #import <ReactNativeNavigation/ReactNativeNavigation.h>
 #import "ReactNativeConfig.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <React/RCTLinkingManager.h>
 
 @implementation AppDelegate
 
@@ -58,7 +59,7 @@
     return YES;
   }
   
-  return handled;
+  return handled || [RCTLinkingManager application:app openURL:url options:options];
 }
 
 #if RCT_DEV

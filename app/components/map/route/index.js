@@ -126,7 +126,7 @@ export default class RouteMarkers extends PureComponent<Props, State> {
 
   // It seems mapbox is ridiculously picky with unique key/id names, when displaying multiple routes on the map
   key = (keyName: string) => {
-    return keyName + (this.props.route?.id || 'route_in_progress');
+    return keyName + (this.props.route?.id || 'route_in_progress' + this.props.route?.startDate);
   };
 
   // Draw line from user location to destination

@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { Image, Platform, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
+import { Image, Linking, Platform, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import type { AppAction } from 'types/app.types';
@@ -90,7 +90,7 @@ class Dashboard extends PureComponent<Props> {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     tracker.trackScreenView('Home - Dashboard');
     this.checkNeedsUpdate();
     if (this.props.refreshing && !this.props.appSyncing) {
@@ -106,9 +106,22 @@ class Dashboard extends PureComponent<Props> {
       });
     }
 
+    const deepLink = await Linking.getInitialURL();
+    this.handleOpenURL(deepLink);
+
+    if (Platform.OS === 'ios') {
+      Linking.addEventListener('url', this.handleOpenURL);
+    }
+
     // This is called both here and componentDidAppear because componentDidAppear isn't called when setting
     // the app root using RNN
     this.showWelcomeScreenIfNecessary();
+  }
+
+  handleOpenURL(url: ?string) {
+    if (url) {
+      console.warn('3SC', 'FW DEEP LINK', url);
+    }
   }
 
   componentDidAppear() {
