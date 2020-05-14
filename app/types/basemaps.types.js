@@ -1,6 +1,6 @@
 // @flow
 export type Basemap = {
-  isMapboxStyle: boolean,
+  isImported: boolean,
   id: string,
   styleURL?: string,
   name: string,
