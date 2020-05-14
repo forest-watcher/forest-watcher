@@ -1054,11 +1054,20 @@ class MapComponent extends Component<Props, State> {
           onPress={this.dismissInfoBanner}
           compassViewMargins={{ x: 5, y: 50 }}
         >
-          {basemap.tileUrl && (
-            <MapboxGL.RasterSource id="basemapTiles" url={basemap.tileUrl}>
+          {
+            <MapboxGL.RasterSource
+              id="basemapTiles"
+              minZoomLevel={0}
+              maxZoomLevel={5}
+              tileSize={256}
+              tms={true}
+              tileUrlTemplates={[
+                'http://localhost:54321/gfwmbtiles/b7fd0441-8cea-4fc2-bea9-be59da4eeb7f.mbtiles?z={z}&x={x}&y={y}'
+              ]}
+            >
               <MapboxGL.RasterLayer id="basemapTileLayer" />
             </MapboxGL.RasterSource>
-          )}
+          }
           {renderMapCamera}
           {this.renderAreaOutline()}
           {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
