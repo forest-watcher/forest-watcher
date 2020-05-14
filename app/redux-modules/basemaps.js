@@ -1,14 +1,12 @@
 // @flow
-import type { Basemap, BasemapsAction, BasemapsState } from 'types/basemaps.types';
+import type { BasemapsAction, BasemapsState } from 'types/basemaps.types';
 import type { File } from 'types/file.types';
 import type { Dispatch, GetState, State, Thunk } from 'types/store.types';
 import type { BasemapFile } from 'types/sharing.types';
 
-import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 import { storeBasemap } from 'helpers/layer-store/import/importBasemapFile';
-import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
 // Actions
 const IMPORT_BASEMAP_REQUEST = 'basemaps/IMPORT_BASEMAP_REQUEST';
@@ -48,9 +46,6 @@ export default function reducer(state: BasemapsState = initialState, action: Bas
     case IMPORT_BASEMAP_ROLLBACK: {
       return { ...state, importing: false, importError: action.payload };
     }
-    case LOGOUT_REQUEST:
-      deleteLayerFiles().then(console.info('Folder removed successfully'));
-      return initialState;
     default:
       return state;
   }
