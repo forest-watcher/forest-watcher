@@ -271,7 +271,6 @@ export function deleteArea(areaId: ?string) {
     const area = getAreaById(state().areas.data, areaId);
 
     if (area) {
-
       // For imported areas, we don't need to do a network request
       // Use the same Redux actions to only apply the change locally
       if (area.isImported) {
