@@ -17,8 +17,6 @@ import { GeoJSONObject } from '@turf/helpers';
 import { writeJSONToDisk } from 'helpers/fileManagement';
 import { cleanGeoJSON } from 'helpers/map';
 
-const RNFS = require('react-native-fs');
-
 /**
  * Store the specified geojson object into the layer store.
  *
@@ -54,18 +52,26 @@ export async function storeLayerFiles(files: Array<LayerFile>, dir: string = lay
         .split('/')
         .slice(0, -1)
         .join('/');
-      await RNFS.mkdir(destinationPath);
-      await RNFS.copyFile(file.path, destinationUri); // copy sequentially
+
+      const dirExists = await RNFetchBlob.fs.exists(destinationPath);
+      if (!dirExists) {
+        await RNFetchBlob.fs.mkdir(destinationPath);
+      }
+      await RNFetchBlob.fs.cp(file.path, destinationUri); // copy sequentially
     } else {
-      await RNFS.mkdir(destinationUri);
+      const dirExists = await RNFetchBlob.fs.exists(destinationUri);
+      if (!dirExists) {
+        await RNFetchBlob.fs.mkdir(destinationUri);
+      }
 
       // eslint-disable-next-line no-unused-vars
       for (const subFile of subFiles) {
         const subFileSourceUri = `${file.path}/${subFile}`;
         const subFileDestinationUri = `${destinationUri}/${subFile}`;
-        await RNFS.copyFile(subFileSourceUri, subFileDestinationUri); // copy sequentially
+        await RNFetchBlob.fs.cp(subFileSourceUri, subFileDestinationUri); // copy sequentially
       }
     }
+    console.log('3SC', 'Import attachment', file);
   }
 }
 
