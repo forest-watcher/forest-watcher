@@ -18,7 +18,7 @@ type Props = {
   componentId: string,
   allLayerSettings: { [featureId: string]: LayerSettings },
   defaultLayerSettings: LayerSettings,
-  getActiveBasemap: string => Thunk<Basemap>,
+  getActiveBasemap: (?string) => Thunk<Basemap>,
   toggleAlertsLayer: string => LayerSettingsAction,
   toggleRoutesLayer: string => LayerSettingsAction,
   toggleReportsLayer: string => LayerSettingsAction,
@@ -207,8 +207,9 @@ class MapSidebar extends PureComponent<Props, State> {
     if (!this.state.featureId) {
       return '';
     }
-    const basemap = this.props.getActiveBasemap(this.state.featureId); // TODO: how should null featureIDs be handled?
-    return i18n.t('map.layerSettings.basemapSettings.showingBasemap', { basemap: basemap.name });
+    const basemap: Basemap = this.props.getActiveBasemap(this.state.featureId);
+    const basemapName = basemap.isImported ? basemap.name : i18n.t(`basemaps.names.` + basemap.name);
+    return i18n.t('map.layerSettings.basemapSettings.showingBasemap', { basemap: basemapName });
   };
 
   render() {

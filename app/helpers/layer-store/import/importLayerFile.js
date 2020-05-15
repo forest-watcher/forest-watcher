@@ -20,7 +20,7 @@ export default async function importLayerFile(layerFile: File): Promise<LayerFil
   // We have to decode the file URI because iOS file manager doesn't like encoded uris!
   const file = {
     ...layerFile,
-    uri: decodeURI(layerFile.uri)
+    uri: Platform.OS === 'android' ? layerFile.uri : decodeURI(layerFile.uri)
   };
 
   const fileName = Platform.select({
