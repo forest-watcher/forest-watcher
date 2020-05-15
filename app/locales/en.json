@@ -38,6 +38,12 @@
         "noAlerts": "No alerts for this area"
     },
     "basemaps": {
+        "names": {
+            "default": "Default",
+            "dark": "Dark",
+            "satellite": "Satellite",
+            "landsat": "Landsat"
+        },
         "empty": {
             "action": "App FAQs",
             "body": "Tap the '+' icon to set up a custom basemap",

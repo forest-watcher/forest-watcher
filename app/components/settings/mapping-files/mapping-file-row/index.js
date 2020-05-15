@@ -58,7 +58,8 @@ export default class MappingFileRow extends Component<Props> {
       <Touchable
         onPress={onPress}
         background={Platform.select({
-          android: TouchableNativeFeedback.Ripple(Theme.background.secondary),
+          // hide ripple as hitbox is wider than icon
+          android: TouchableNativeFeedback.Ripple('rgba(0, 0, 0, 0)'),
           ios: undefined
         })}
         underlayColor={Platform.select({

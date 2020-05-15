@@ -1,14 +1,16 @@
 // @flow
-
+import type { Basemap } from 'types/basemaps.types';
 import type { File } from 'types/file.types';
 import type { LayerFile } from 'types/sharing.types';
 import { Platform } from 'react-native';
 import togeojson from 'helpers/toGeoJSON';
+import { pathForLayerFile } from 'helpers/layer-store/layerFilePaths';
 import { storeGeoJson } from 'helpers/layer-store/storeLayerFiles';
 import { unzip } from 'react-native-zip-archive';
 import { listRecursive, readBinaryFile } from 'helpers/fileManagement';
 import shapefile from 'shpjs';
 import { feature, featureCollection } from '@turf/helpers';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const DOMParser = require('xmldom').DOMParser;
 const RNFS = require('react-native-fs');
@@ -35,6 +37,17 @@ export default async function importLayerFile(layerFile: File): Promise<LayerFil
     .toLowerCase();
 
   switch (fileExtension) {
+    case 'mbtiles': {
+      const size = 0; // TODO: This need to be added across both platforms.
+
+      const baseDirectory = `${pathForLayerFile({ ...file, type: 'basemap', layerId: file.id, tileXYZ: [0, 0, 0] })}`;
+      const path = `${baseDirectory}/${file.id}.mbtiles`;
+
+      await RNFS.mkdir(baseDirectory);
+      await RNFS.copyFile(file.uri, path);
+
+      return { path: path, id: file.id, size: size, name: file.name ?? '' };
+    }
     case 'json':
     case 'topojson':
     case 'geojson': {
