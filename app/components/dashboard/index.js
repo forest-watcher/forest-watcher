@@ -104,6 +104,12 @@ class Dashboard extends PureComponent<Props> {
       });
     }
 
+    Linking.addEventListener('url', link => {
+      if (link && link.url) {
+        this.props.importBundle(link.url);
+      }
+    });
+
     const deepLink: ?string = await Linking.getInitialURL();
     if (deepLink) {
       this.props.importBundle(deepLink);
