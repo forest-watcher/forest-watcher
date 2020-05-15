@@ -498,8 +498,12 @@ export function copyLayerSettings(copyFromFeatureId: string, copyToFeatureId: st
   };
 }
 
-export function getActiveBasemap(featureId: string) {
+export function getActiveBasemap(featureId: ?string) {
   return (dispatch: Dispatch, getState: GetState) => {
+    if (!featureId) {
+      return DEFAULT_BASEMAP;
+    }
+
     const state = getState();
     const activeBasemapId = state.layerSettings?.[featureId]?.basemap?.activeBasemapId;
     if (!activeBasemapId) {

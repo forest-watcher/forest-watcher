@@ -1,8 +1,8 @@
 // @flow
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
+import type { Area } from 'types/areas.types';
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { updateArea, deleteArea, setSelectedAreaId } from 'redux-modules/areas';
 import { shouldBeConnected } from 'helpers/app';
 import AreaDetail from 'components/areas/area-detail';
@@ -25,15 +25,20 @@ function mapStateToProps(state: State, { id }: OwnProps) {
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
-  return bindActionCreators(
-    {
-      updateArea,
-      deleteArea,
-      initialiseAreaLayerSettings,
-      setSelectedAreaId
+  return {
+    deleteArea: (areaId: ?string) => {
+      dispatch(deleteArea(areaId));
     },
-    dispatch
-  );
+    initialiseAreaLayerSettings: (featureId: string, areaId: string) => {
+      dispatch(initialiseAreaLayerSettings(featureId, areaId));
+    },
+    setSelectedAreaId: (id: string) => {
+      dispatch(setSelectedAreaId(id));
+    },
+    updateArea: (area: Area) => {
+      dispatch(updateArea(area));
+    }
+  };
 }
 
 type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
