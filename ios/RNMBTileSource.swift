@@ -68,9 +68,7 @@ enum MBTilesSourceError: Error {
     let minZoom = Int(getMetadata(fieldName: "minzoom") ?? "0")
     let maxZoom = Int(getMetadata(fieldName: "maxzoom") ?? "0")
     
-    // https://stackoverflow.com/a/42104538
-    let headerData = [UInt8](tileData)[0]
-    let format = getFormat(for: headerData)
+    let format = getMetadata(fieldName: "format")
     let isVector = try isVectorFormat(basedOn: format)
     
     let tileSize = getTileSize(basedOn: tileData)
@@ -78,19 +76,6 @@ enum MBTilesSourceError: Error {
     let layersJson = getMetadata(fieldName: "json")
     
     metadata = RNMBTileMetadata(minZoomLevel: minZoom ?? 0, maxZoomLevel: maxZoom ?? 0, isVector: isVector, tms: true, tileSize: tileSize, attribution: attribution, layersJson: layersJson)
-  }
-  
-  /// Determines the format of the basemap files.
-  /// - Parameter headerData: The first data byte from a tile object.
-  /// - Returns: The format of the basemap tile.
-  private func getFormat(for headerData: UInt8) -> String? {
-    if headerData == 0x89 {
-      return "png"
-    } else if headerData == 0xFF {
-      return "jpg"
-    } else {
-      return getMetadata(fieldName: "format")
-    }
   }
   
   /// Determines if the basemap uses vector or raster tiles. We use this in the basemap metadata, to tell the JS layer how to render the given tiles.
