@@ -1062,7 +1062,7 @@ class MapComponent extends Component<Props, State> {
               tileSize={256}
               tms={true}
               tileUrlTemplates={[
-                'http://localhost:54321/gfwmbtiles/b7fd0441-8cea-4fc2-bea9-be59da4eeb7f.mbtiles?z={z}&x={x}&y={y}'
+                'http://localhost:54321/gfwmbtiles/a12a1e41-06d1-40e3-9141-6a8a536d8213?z={z}&x={x}&y={y}'
               ]}
             >
               <MapboxGL.RasterLayer id="basemapTileLayer" />
