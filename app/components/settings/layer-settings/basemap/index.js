@@ -10,10 +10,12 @@ import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 
 import { GFW_BASEMAPS } from 'config/constants';
+import debounceUI from 'helpers/debounceUI';
 
 const basemapPlaceholder = require('assets/basemap_placeholder.png');
 
 type Props = {
+  componentId: string,
   featureId: string,
   basemaps: BasemapsState,
   activeBasemapId: string,
@@ -30,6 +32,17 @@ class BasemapLayerSettings extends PureComponent<Props> {
       }
     };
   }
+
+  onPressManageBasemap = debounceUI(() => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.MappingFiles',
+        passProps: {
+          mappingFileType: 'basemaps'
+        }
+      }
+    });
+  });
 
   selectBasemap = (basemap: Basemap) => {
     this.props.selectActiveBasemap(this.props.featureId, basemap.id);
@@ -53,7 +66,7 @@ class BasemapLayerSettings extends PureComponent<Props> {
                 onPress={() => {
                   this.selectBasemap(basemap);
                 }}
-                title={basemap.name}
+                title={i18n.t(`basemaps.names.` + basemap.name)}
                 selected={this.props.activeBasemapId === basemap.id}
                 imageSrc={basemap.image || basemapPlaceholder}
                 useRadioIcon
@@ -80,7 +93,12 @@ class BasemapLayerSettings extends PureComponent<Props> {
           })}
         </ScrollView>
         <BottomTray requiresSafeAreaView>
-          <ActionButton onPress={() => {}} text={i18n.t('map.layerSettings.manageBasemaps')} transparent noIcon />
+          <ActionButton
+            onPress={this.onPressManageBasemap}
+            text={i18n.t('map.layerSettings.manageBasemaps')}
+            transparent
+            noIcon
+          />
         </BottomTray>
       </View>
     );

@@ -11,6 +11,7 @@ import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigatio
 
 import type { ContextualLayer } from 'types/layers.types';
 import type { LayerSettingsAction } from 'types/layerSettings.types';
+import debounceUI from 'helpers/debounceUI';
 
 const layerPlaceholder = require('assets/layerPlaceholder.png');
 const checkboxOff = require('assets/checkbox_off.png');
@@ -23,6 +24,7 @@ type ContextualLayersLayerSettingsType = {
 
 type Props = {
   baseApiLayers: ?Array<ContextualLayer>,
+  componentId: string,
   featureId: string,
   clearEnabledContextualLayers: string => LayerSettingsAction,
   contextualLayersLayerSettings: ContextualLayersLayerSettingsType,
@@ -66,6 +68,17 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
   clearAllOptions = () => {
     this.props.clearEnabledContextualLayers(this.props.featureId);
   };
+
+  onPressManageContextualLayers = debounceUI(() => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.MappingFiles',
+        passProps: {
+          mappingFileType: 'contextualLayers'
+        }
+      }
+    });
+  });
 
   renderGFWLayers = () => {
     const { baseApiLayers, contextualLayersLayerSettings } = this.props;
@@ -133,7 +146,7 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
         </ScrollView>
         <BottomTray requiresSafeAreaView>
           <ActionButton
-            onPress={() => {}}
+            onPress={this.onPressManageContextualLayers}
             text={i18n.t('map.layerSettings.manageContextualLayers')}
             transparent
             noIcon
