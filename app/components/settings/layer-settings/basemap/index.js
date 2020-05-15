@@ -3,6 +3,7 @@ import type { Basemap, BasemapsState } from 'types/basemaps.types';
 
 import React, { PureComponent } from 'react';
 import { View, ScrollView, Text } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 import styles from './styles';
 import VerticalSplitRow from 'components/common/vertical-split-row';
 import i18n from 'i18next';
