@@ -13,6 +13,7 @@ import ActionsRow from 'components/common/actions-row';
 import RoutePreviewImage from 'components/routes/preview-image';
 import moment from 'moment';
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
+import debounceUI from 'helpers/debounceUI';
 
 const screenDimensions = Dimensions.get('screen');
 
@@ -72,13 +73,13 @@ class RoutesLayerSettings extends PureComponent<Props> {
     this.props.deselectAllRoutes(this.props.featureId);
   };
 
-  onPressManageRoutes = () => {
+  onPressManageRoutes = debounceUI(() => {
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.Routes'
       }
     });
-  };
+  });
 
   renderRoutes = (routes: Array<Route>, headingLocalisation: string) => {
     return (

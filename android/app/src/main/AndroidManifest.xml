@@ -56,6 +56,8 @@
         <category android:name="android.intent.category.BROWSABLE" />
         <category android:name="android.intent.category.DEFAULT" />
         <data android:mimeType="@string/SHARING_BUNDLE_MIME_TYPE" />
+        <data android:mimeType="application/zip" />
+        <data android:mimeType="application/x-zip" />
       </intent-filter>
       <intent-filter
         android:label="@string/APP_NAME"

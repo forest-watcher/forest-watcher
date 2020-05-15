@@ -1,7 +1,6 @@
 // @flow
-import type { Area, AreasAction } from 'types/areas.types';
+import type { Area } from 'types/areas.types';
 import type { Route } from 'types/routes.types';
-import type { Dispatch, GetState, Thunk } from 'types/store.types';
 
 import React, { Component } from 'react';
 import { Alert, View, Image, ScrollView, Text, TextInput, TouchableHighlight } from 'react-native';
@@ -34,15 +33,15 @@ type State = {
 };
 
 type Props = {
-  updateArea: Area => Thunk<void>,
-  deleteArea: (?string) => Thunk<void>,
+  updateArea: Area => void,
+  deleteArea: (?string) => void,
   isConnected: boolean,
   componentId: string,
   area: ?Area,
   disableDelete: boolean,
   routes: Array<Route>,
-  initialiseAreaLayerSettings: (string, string) => Thunk<void>,
-  setSelectedAreaId: (areaId: string) => AreasAction
+  initialiseAreaLayerSettings: (string, string) => void,
+  setSelectedAreaId: (areaId: string) => void
 };
 
 class AreaDetail extends Component<Props, State> {
@@ -177,7 +176,7 @@ class AreaDetail extends Component<Props, State> {
 
   confirmDeleteArea = debounceUI(() => {
     if (this.props.isConnected) {
-      this.props.deleteArea(this.props.area.id);
+      this.props.deleteArea(this.props.area?.id);
       Navigation.pop(this.props.componentId);
     } else {
       Alert.alert(
