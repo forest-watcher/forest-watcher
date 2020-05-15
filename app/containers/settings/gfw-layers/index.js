@@ -11,8 +11,15 @@ type OwnProps = {|
 |};
 
 function mapStateToProps(state: State) {
+  const isLoading = state.gfwLayers.syncing;
+  const isPaginating = state.gfwLayers.paginating;
   return {
-    
+    layers: state.gfwLayers.data,
+    loadedPage: state.gfwLayers.loadedPage,
+    isInitialLoad: isLoading && !isPaginating,
+    isPaginating: isPaginating,
+    fullyLoaded: state.gfwLayers.fullyLoaded,
+    totalLayers: state.gfwLayers.total
   };
 }
 

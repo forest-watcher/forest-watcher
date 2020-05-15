@@ -313,7 +313,8 @@
         "fileTypeNotSupportedDesc": "is not a supported file type for contextual layers.",
         "chooseAnother": "Choose Another",
         "gfw": {
-            "title": "Add GFW Layers"
+            "title": "Add GFW Layers",
+            "allLayers": "All GFW Layers (%{count})"
         }
     },
     "layers": {

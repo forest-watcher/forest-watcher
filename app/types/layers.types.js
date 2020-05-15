@@ -31,11 +31,34 @@ export type LayersState = {
   importingLayer: ?string
 };
 
+export type GFWContextualLayer = {
+  id: string,
+  type: string,
+  attributes: {
+    slug: string,
+    userId: string,
+    application: Array<string>,
+    name: string,
+    default: boolean,
+    dataset: string,
+    env: string,
+    provider: string,
+    iso: Array<string>,
+    description: ?string,
+    layerConfig: *,
+    legendConfig: *,
+    applicationConfig: *,
+    staticImageConfig: ?*
+  }
+}
+
 export type GFWLayersState = {
-  data: Array<*>,
+  data: Array<GFWContextualLayer>,
   fullyLoaded: boolean,
   syncing: boolean,
-  paginating: boolean
+  loadedPage: ?number,
+  paginating: boolean,
+  total: ?number
 };
 
 export type LayersProgress = {

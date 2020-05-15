@@ -14,6 +14,8 @@ const GET_GFW_LAYERS_ROLLBACK = 'layers/GET_GFW_LAYERS_ROLLBACK';
 // Reducer
 const initialState = {
   data: [],
+  loadedPage: null,
+  total: null,
   fullyLoaded: false,
   syncing: false,
   paginating: false
@@ -24,26 +26,35 @@ export default function reducer(state: GFWLayersState = initialState, action: La
     case PERSIST_REHYDRATE: {
       return {
         ...state,
+        loadedPage: null,
         synced: false,
-        syncing: false
+        syncing: false,
+        total: null
       };
     }
     case GET_GFW_LAYERS_REQUEST: {
-      return { ...state, paginating: action.meta.page !== 0, syncing: true, fullyLoaded: false };
+      return { 
+        ...state,
+        paginating: action.meta.offline.commit.meta.page !== 0,
+        syncing: true,
+        fullyLoaded: false
+      };
     }
     case GET_GFW_LAYERS_COMMIT: {
-      let data = [...state.data];
+      let data;
       if (action.meta.page === 0) {
         data = action.payload.data;
       } else {
-        data.concat(action.payload.data);
+        data = [...state.data, ...action.payload.data];
       }
       return {
         ...state,
         data,
         fullyLoaded: action.payload.meta['total-pages'] === action.meta.page + 1,
         paginating: false,
-        syncing: false
+        syncing: false,
+        loadedPage: action.meta.page,
+        total: action.payload.meta['total-items']
       };
     }
     case GET_GFW_LAYERS_ROLLBACK: {
@@ -64,7 +75,11 @@ export default function reducer(state: GFWLayersState = initialState, action: La
  */
 export function getGFWLayers(page: number = 0, searchTerm?: ?string) {
   return (dispatch: Dispatch, state: GetState) => {
-    let url = `${Config.LAYERS_API_URL}/layer?page[size]=10&page[number]=${page + 1}&app=gfw`;
+    // We don't provide a page size for the moment as we will be filtering locally
+    // and this could cause weird pagination if we don't load in as many results as possible.
+    // This may need re-visiting in the future, if GFW set us up our own app with only
+    // layers that we can guarantee we will be able to render, or give us beter filtering!
+    let url = `${Config.LAYERS_API_URL}/layer?page[size]=100&page[number]=${page + 1}&app=gfw`;
     if (searchTerm) {
       url += `&name=${searchTerm}`;
     }
