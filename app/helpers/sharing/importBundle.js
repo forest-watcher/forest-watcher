@@ -15,7 +15,7 @@ import importAppData from 'helpers/sharing/importAppData';
 /**
  * Imports a FW sharing bundle into the app
  *
- * @param file - The file to import
+ * @param uri - The file to import
  * @param dispatch - Redux dispatch function used to emit actions to add data to the app
  */
 export default async function importBundle(uri: string, dispatch: Dispatch): Promise<void> {
@@ -50,7 +50,7 @@ export function importStagedBundle(bundle: UnpackedSharingBundle, dispatch: Disp
 /**
  * Reads a FW sharing bundle, and extracts its contents into a directory where they can be imported
  *
- * @param file - The file to import
+ * @param uri - The file to import
  */
 export async function unpackBundle(uri: string): Promise<UnpackedSharingBundle> {
   const stagingDir = await createTemporaryStagingDirectory();
