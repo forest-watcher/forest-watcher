@@ -8,10 +8,9 @@ import java.io.PrintStream
 import java.lang.Exception
 import java.net.ServerSocket
 import java.net.Socket
-import kotlin.math.pow
 
 // Defines an interface for running a tile server locally.
-public object RNMBTileServer: Runnable {
+object RNMBTileServer: Runnable {
 
     // The currently active tile source. This must be set otherwise requests will fail.
     private var source: RNMBTileSource? = null
@@ -135,7 +134,7 @@ public object RNMBTileServer: Runnable {
     }
 
     private fun writeServerError(output: PrintStream) {
-        output.println("HTTP/1.0 500 Internal Server Error")
+        output.println("HTTP/1.0 404 File Not Found")
         output.flush()
     }
 
