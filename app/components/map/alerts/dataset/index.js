@@ -12,6 +12,15 @@ import moment from 'moment';
 import queryAlerts from 'helpers/alert-store/queryAlerts';
 import generateUniqueID from 'helpers/uniqueId';
 import { DATASETS } from 'config/constants';
+import { getNeighboursSelected } from 'helpers/map';
+import kdbush from 'kdbush';
+
+export type AlertsIndex = {|
+  +ids: Array<number>,
+  +coords: Array<number>,
+  +points: Array<Alert>,
+  +nodeSize: number
+|};
 
 type AlertProperties = {|
   type: 'alert',
@@ -28,6 +37,7 @@ type Props = {|
   +onPress?: ?() => any,
   +slug: 'umd_as_it_happens' | 'viirs',
   +reportedAlerts: Array<string>,
+  +selectedAlerts: Array<Alert>,
   +timeframe: number,
   +timeframeUnit: 'days' | 'months'
 |};
@@ -55,7 +65,9 @@ export default class AlertDataset extends PureComponent<Props, State> {
     this.state = {
       recentAlerts: featureCollection([]),
       reportedAlerts: featureCollection([]),
-      otherAlerts: featureCollection([])
+      otherAlerts: featureCollection([]),
+      alertsIndex: {},
+      alertsFromDb: []
     };
 
     const now = moment();
@@ -79,10 +91,23 @@ export default class AlertDataset extends PureComponent<Props, State> {
       this.props.isActive !== prevProps.isActive ||
       this.props.timeframe !== prevProps.timeframe ||
       this.props.timeframeUnit !== prevProps.timeframeUnit ||
-      this.props.areaId !== prevProps.areaId ||
-      this.props.reportedAlerts !== prevProps.reportedAlerts
+      this.props.areaId !== prevProps.areaId
     ) {
       this._loadAlertsFromDb();
+    } else if (
+      this.props.selectedAlerts !== prevProps.selectedAlerts ||
+      this.props.reportedAlerts !== prevProps.reportedAlerts
+    ) {
+      if (this.state.alertsFromDb && this.state.alertsIndex?.nodeSize) {
+        // if alerts are already cached - only refresh alert properties
+        const updatedAlertState = this._createFeaturesForAlerts(this.state.alertsFromDb, this.state.alertsIndex);
+
+        this.setState({
+          ...updatedAlertState
+        });
+      } else {
+        this._loadAlertsFromDb();
+      }
     }
   }
 
@@ -107,59 +132,83 @@ export default class AlertDataset extends PureComponent<Props, State> {
     try {
       const requestId = generateUniqueID();
       this.activeRequestId = requestId;
-      const alerts = queryAlerts({
+      const alertsFromDb = queryAlerts({
         areaId: areaId ?? undefined,
         dataset: slug,
         timeAgo: { max: timeframe, unit: timeframeUnit },
         distinctLocations: true
       });
-      const updatedAlertState = this._createFeaturesForAlerts(alerts);
 
+      const alertsIndex: AlertsIndex = kdbush(alertsFromDb, p => p.long, p => p.lat);
+      const updatedAlertState = this._createFeaturesForAlerts(alertsFromDb, alertsIndex);
       if (requestId !== this.activeRequestId) {
         return;
       }
 
       this.setState({
-        ...updatedAlertState
+        alertsFromDb,
+        ...updatedAlertState,
+        alertsIndex: alertsIndex
       });
     } catch (err) {
       console.warn(err);
     }
   };
 
-  _getAlertProperties = (alert: Alert): AlertProperties => {
+  _getAlertProperties = (alert: Alert, selectedNeighbours: Array<Alert>): AlertProperties => {
     const { name, recencyTimestamp, iconPrefix } = this.datasets[alert.slug];
     const reported = this.props.reportedAlerts.includes(`${alert.long}${alert.lat}`);
     const isRecent = alert.date > recencyTimestamp;
-    const iconSuffix = this._getAlertIconSuffix(isRecent, reported, false);
-    const icon = `${iconPrefix}${iconSuffix}`;
+    const selected = this._isAlertSelected(alert);
+    const alertInClusterSelected = selectedNeighbours.includes(alert);
+    const icon = this._getAlertIconName(iconPrefix, isRecent, reported, alertInClusterSelected, selected);
     return {
+      // need to pass these as strings as they are rounded in onShapeSourcePressed method.
+      lat: '' + alert.lat,
+      long: '' + alert.long,
       icon,
       date: alert.date,
       type: 'alert',
       name,
       reported,
+      selected,
       clusterId: reported ? 'reported' : isRecent ? 'recent' : 'other'
     };
   };
 
-  _getAlertIconSuffix = (recent: boolean, reported: boolean, selected: boolean) => {
-    let suffix = '';
-    if (reported) {
-      suffix += 'Reported';
-    } else if (recent) {
-      suffix += 'Recent';
-    }
-
-    if (selected) {
-      suffix += 'Selected';
-    }
-    return suffix;
+  _isAlertSelected = (alertToCheck: Alert) => {
+    return !!this.props.selectedAlerts.find(
+      alert => alert.lat === alertToCheck.lat && alert.long === alertToCheck.long
+    );
   };
 
-  _createFeaturesForAlerts = (alerts: Array<Alert>): State => {
+  _getAlertIconName = (
+    iconPrefix: string,
+    recent: boolean,
+    reported: boolean,
+    alertInClusterSelected: boolean,
+    selected: boolean
+  ) => {
+    if (selected) {
+      return 'selected';
+    }
+    let iconName = iconPrefix;
+    if (reported) {
+      iconName += 'Reported';
+    } else if (recent) {
+      iconName += 'Recent';
+    }
+
+    if (alertInClusterSelected) {
+      iconName += 'Selected';
+    }
+    return iconName;
+  };
+
+  _createFeaturesForAlerts = (alerts: Array<Alert>, alertsIndex: AlertsIndex): State => {
+    const selectedNeighbours = getNeighboursSelected(alertsIndex, this.props.selectedAlerts, alerts);
     const alertFeatures = alerts.map((alert: Alert) => {
-      const properties = this._getAlertProperties(alert);
+      const properties = this._getAlertProperties(alert, selectedNeighbours);
       return point([alert.long, alert.lat], properties);
     });
     const alertsGroupedByCluster = _.groupBy(alertFeatures, feature => feature.properties?.['clusterId']);

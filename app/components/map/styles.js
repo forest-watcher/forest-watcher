@@ -1,5 +1,5 @@
 import Theme from 'config/theme';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
 const defaultPin = require('/assets/defaultPin.png');
@@ -38,14 +38,19 @@ export default StyleSheet.create({
     margin: 16
   },
   coordinateText: {
+    fontFamily: Theme.font,
+    fontSize: 12,
+    textShadowColor: Theme.colors.greyishBrown,
+    textShadowOffset: { width: 0, height: 0.5 },
+    textShadowRadius: 1,
     color: 'white',
-    fontSize: 16,
-    justifyContent: 'center',
-    left: 0,
+    lineHeight: 16,
+    justifyContent: Platform.OS === 'ios' ? 'center' : undefined,
+    left: Platform.OS === 'ios' ? 0 : 52,
     paddingHorizontal: 20,
     position: 'absolute',
     right: 0,
-    textAlign: 'center',
+    textAlign: Platform.OS === 'ios' ? 'center' : undefined,
     top: 45
   },
   selectedMarkerIcon: {
@@ -83,7 +88,7 @@ export default StyleSheet.create({
     flexDirection: 'row-reverse', // See jsx comment to understand better
     alignItems: 'flex-end',
     justifyContent: 'space-between',
-    marginHorizontal: 16,
+    marginHorizontal: 24,
     marginBottom: 16,
     paddingBottom: 16
   },
@@ -94,6 +99,9 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  buttonPanelTray: {
+    height: 56
   },
   btnMarginContainer: {
     marginTop: 8
@@ -106,11 +114,11 @@ export default StyleSheet.create({
     position: 'absolute'
   },
   footerBGContainer: {
+    backgroundColor: 'rgba(0,0,0,0.3)',
     left: 0,
     right: 0,
     bottom: 0,
     zIndex: 3,
-    height: 100,
     position: 'absolute'
   },
   footerBg: {
@@ -126,9 +134,6 @@ export default StyleSheet.create({
   },
   btnReport: {
     flex: 1
-  },
-  btnLeft: {
-    marginRight: 8
   },
   hidden: {
     opacity: 0,

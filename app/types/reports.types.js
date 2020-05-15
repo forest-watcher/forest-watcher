@@ -62,7 +62,7 @@ export type Report = {
 export type BasicReport = {
   reportName: string,
   userPosition: [number, number],
-  clickedPosition: [number, number],
+  clickedPosition: [{ lat: number, lon: number }],
   area: Area
 };
 
