@@ -74,7 +74,7 @@ export async function readBinaryFile(path: string): Promise<Buffer> {
  * @param {string} fileName The file name to save the file as
  * @param {string} directory The directory to save the file to
  */
-export async function writeJSONToDisk(json: Object, fileName: string, directory: string): Promise {
+export async function writeJSONToDisk(json: Object, fileName: string, directory: string): Promise<void> {
   const path = directory + (directory.endsWith('/') ? '' : '/') + fileName;
   // Make the directory for saving files to, if this is already present this won't error according to docs
   await RNFS.mkdir(directory, {

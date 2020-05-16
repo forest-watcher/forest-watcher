@@ -31,6 +31,7 @@ const initialState = {
 export default function reducer(state: AlertsState = initialState, action: AlertsAction) {
   switch (action.type) {
     case PERSIST_REHYDRATE: {
+      // $FlowFixMe
       const { alerts } = (action: PersistRehydrate).payload;
       return { ...state, ...alerts, syncError: false };
     }

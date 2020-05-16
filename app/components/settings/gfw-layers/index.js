@@ -31,7 +31,7 @@ class GFWLayers extends PureComponent<Props, State> {
     return {
       topBar: {
         title: {
-          text: i18n.t('importLayer.gfw.title')
+          text: i18n.t('importGFWLayer.title')
         }
       }
     };
@@ -62,7 +62,7 @@ class GFWLayers extends PureComponent<Props, State> {
     }
     return (
       <View style={styles.listHeader}>
-        <Text style={styles.listTitle}>{i18n.t('importLayer.gfw.allLayers', { count: this.props.totalLayers })}</Text>
+        <Text style={styles.listTitle}>{i18n.t('importGFWLayer.allLayers', { count: this.props.totalLayers })}</Text>
       </View>
     );
   };

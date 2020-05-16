@@ -33,7 +33,7 @@ export type LocationPoint = {
 };
 
 export type RouteDeletionCriteria = {
-  id: string,
+  id?: string,
   areaId?: string
 };
 

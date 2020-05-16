@@ -1,23 +1,16 @@
 // @flow
 import type { State } from 'types/store.types';
-import type {
-  ExportBundleRequest,
-  LayerFile,
-  LayerManifest,
-  SharingBundle,
-  UnpackedSharingBundle
-} from 'types/sharing.types';
+import type { ExportBundleRequest, SharingBundle, UnpackedSharingBundle } from 'types/sharing.types';
 
 import _ from 'lodash';
-
 // $FlowFixMe
 import RNFS from 'react-native-fs';
 import { zip } from 'react-native-zip-archive';
 
 import deleteStagedBundle from 'helpers/sharing/deleteStagedBundle';
 import exportAppData, { exportBasemaps, exportLayers } from 'helpers/sharing/exportAppData';
-import exportLayerManifest, { sanitiseLayerManifest } from 'helpers/sharing/exportLayerManifest';
-import { pathWithoutRoot } from 'helpers/layer-store/layerFilePaths';
+import exportFileManifest, { sanitiseLayerFilesForBundle } from 'helpers/sharing/exportFileManifest';
+import { storeLayerFiles } from 'helpers/layer-store/storeLayerFiles';
 
 /**
  * Extension of the final bundle
@@ -41,13 +34,23 @@ export const BUNDLE_DATA_FILE_NAME: string = 'bundle.json';
  */
 export default async function exportBundle(appState: State, request: ExportBundleRequest): Promise<string> {
   const explicitBundleData = exportAppData(appState, request);
-  //TODO: Add in explicitBundleData.reports?
-  const layerManifest = await exportLayerManifest(request, explicitBundleData.areas, explicitBundleData.routes, []);
+  const fileManifest = await exportFileManifest({ ...explicitBundleData });
+
+  // The file manifest will now include some implicitly imported basemaps and layers, which we need to fetch the
+  // metadata for
+  const implicitlyIncludedBasemapIds: Array<string> = fileManifest.layerFiles
+    .filter(file => file.type === 'basemap')
+    .map(file => file.layerId);
+  const implicitlyIncludedLayerIds: Array<string> = fileManifest.layerFiles
+    .filter(file => file.type === 'contextual_layer')
+    .map(file => file.layerId);
+  const allBasemapIds: Array<string> = _.uniq([...request.basemapIds, ...implicitlyIncludedBasemapIds]);
+  const allLayerIds: Array<string> = _.uniq([...request.layerIds, ...implicitlyIncludedLayerIds]);
   const finalBundleData = {
     ...explicitBundleData,
-    basemaps: exportBasemaps(appState.basemaps, Object.keys(layerManifest.basemaps)),
-    layers: exportLayers(appState.layers, Object.keys(layerManifest.layers)),
-    manifest: layerManifest
+    basemaps: exportBasemaps(appState.basemaps, allBasemapIds),
+    layers: exportLayers(appState.layers, allLayerIds),
+    manifest: fileManifest
   };
 
   const stagedBundle = await stageBundle(finalBundleData);
@@ -76,14 +79,16 @@ export async function stageBundle(bundle: SharingBundle): Promise<UnpackedSharin
   await RNFS.mkdir(outputPath);
 
   // Stage manifest files and then clean the manifest for the bundle
-  await stageLayerManifest(outputPath, bundle.manifest);
-  const sanitisedManifest = sanitiseLayerManifest(bundle.manifest);
-  const sanitisedBundle = {
-    ...bundle,
-    manifest: sanitisedManifest
-  };
+  await storeLayerFiles(bundle.manifest.layerFiles, outputPath);
 
   // Write the bundle data file
+  const sanitisedBundle = {
+    ...bundle,
+    manifest: {
+      ...bundle.manifest,
+      layerFiles: sanitiseLayerFilesForBundle(bundle.manifest.layerFiles)
+    }
+  };
   const outputFile = `${outputPath}/${BUNDLE_DATA_FILE_NAME}`;
   const outputData = JSON.stringify(sanitisedBundle);
   await RNFS.writeFile(outputFile, outputData);
@@ -92,26 +97,4 @@ export async function stageBundle(bundle: SharingBundle): Promise<UnpackedSharin
     path: outputPath,
     data: bundle
   };
-}
-
-/**
- * Copy files referenced in a layer manifest across to the specified directory
- */
-export async function stageLayerManifest(outputPath: string, manifest: LayerManifest) {
-  // Copy across all associated files in the manifest into the staging directory
-  const allLayerFiles: Array<LayerFile> = [
-    ..._.flatten(Object.keys(manifest.basemaps).map(key => manifest.basemaps[key])),
-    ..._.flatten(Object.keys(manifest.layers).map(key => manifest.layers[key]))
-  ];
-
-  // eslint-disable-next-line no-unused-vars
-  for (const file of allLayerFiles) {
-    const destinationUri = `${outputPath}${pathWithoutRoot(file.uri)}`;
-    const destinationPath = destinationUri
-      .split('/')
-      .slice(0, -1)
-      .join('/');
-    await RNFS.mkdir(destinationPath);
-    await RNFS.copyFile(file.uri, destinationUri); // copy sequentially
-  }
 }

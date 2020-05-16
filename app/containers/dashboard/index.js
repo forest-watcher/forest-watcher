@@ -1,5 +1,5 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -14,6 +14,10 @@ import { createReport } from 'redux-modules/reports';
 import { setAreasRefreshing, setSelectedAreaId } from 'redux-modules/areas';
 import { isOutdated } from 'helpers/date';
 import { shouldBeConnected } from 'helpers/app';
+
+type OwnProps = {|
+  +componentId: string
+|};
 
 function mapStateToProps(state: State) {
   const areasOutdated = !state.areas.synced || isOutdated(state.areas.syncDate);
@@ -32,7 +36,7 @@ function mapStateToProps(state: State) {
   };
 }
 
-function mapDispatchToProps(dispatch: *) {
+function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(
     {
       updateApp,
@@ -47,7 +51,8 @@ function mapDispatchToProps(dispatch: *) {
   );
 }
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(Dashboard);

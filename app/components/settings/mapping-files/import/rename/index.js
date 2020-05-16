@@ -9,18 +9,22 @@ import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import InputText from 'components/common/text-input';
 import i18n from 'i18next';
+import type { MappingFileType } from 'types/common.types';
 import type { File } from 'types/file.types';
+import type { ContextualLayer, LayersAction } from 'types/layers.types';
+import type { Thunk } from 'types/store.types';
 
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 type Props = {
-  clearImportContextualLayerState: () => void,
+  clearImportContextualLayerState: () => LayersAction,
   componentId: string,
-  existingLayers: Array<File>,
+  existingLayers: Array<ContextualLayer>,
   file: File,
-  importContextualLayer: (file: File, fileName: string) => void,
+  importContextualLayer: (layerFile: File) => Thunk<Promise<void>>,
   importError: ?Error,
   importingLayer: ?string,
+  mappingFileType: MappingFileType,
   popToComponentId?: ?string
 };
 
@@ -29,12 +33,12 @@ type State = {
   keyboardVisible: boolean
 };
 
-class ImportLayerRename extends PureComponent<Props, State> {
-  static options(passProps: {}) {
+class ImportMappingFileRename extends PureComponent<Props, State> {
+  static options(passProps: { mappingFileType: MappingFileType }) {
     return {
       topBar: {
         title: {
-          text: i18n.t('importLayer.title')
+          text: i18n.t(`${passProps.mappingFileType}.import.title`)
         }
       }
     };
@@ -50,6 +54,10 @@ class ImportLayerRename extends PureComponent<Props, State> {
     };
   }
 
+  i18nKeyFor(key: string): string {
+    return `${this.props.mappingFileType}.import.${key}`;
+  }
+
   onFileNameChange = (newName: string) => {
     this.setState(state => ({
       file: {
@@ -62,6 +70,11 @@ class ImportLayerRename extends PureComponent<Props, State> {
   onImportPressed = async () => {
     try {
       Keyboard.dismiss();
+      if (this.props.mappingFileType === 'basemaps') {
+        console.warn('3SC', 'Importing basemaps is not yet redux-complete!');
+        return;
+      }
+
       await this.props.importContextualLayer(this.state.file);
       if (this.props.popToComponentId) {
         Navigation.popTo(this.props.popToComponentId);
@@ -117,19 +130,19 @@ class ImportLayerRename extends PureComponent<Props, State> {
           />
           {nameValidity.alreadyTaken && (
             <View style={styles.errorContainer}>
-              <Text style={[styles.listTitle, styles.error]}>{i18n.t('importLayer.uniqueNameError')}</Text>
+              <Text style={[styles.listTitle, styles.error]}>{i18n.t(this.i18nKeyFor('uniqueNameError'))}</Text>
             </View>
           )}
           {!!this.props.importError && (
             <View style={styles.errorContainer}>
-              <Text style={[styles.listTitle, styles.error]}>{i18n.t('importLayer.error')}</Text>
+              <Text style={[styles.listTitle, styles.error]}>{i18n.t(this.i18nKeyFor('error'))}</Text>
             </View>
           )}
         </ScrollView>
         <BottomTray requiresSafeAreaView={!this.state.keyboardVisible}>
           <ActionButton
             onPress={nameValidity.valid ? this.onImportPressed : null}
-            text={i18n.t('importLayer.save').toUpperCase()}
+            text={i18n.t(this.i18nKeyFor('save')).toUpperCase()}
             disabled={!nameValidity.valid || !!this.props.importingLayer}
             short
             noIcon
@@ -149,4 +162,4 @@ class ImportLayerRename extends PureComponent<Props, State> {
   }
 }
 
-export default ImportLayerRename;
+export default ImportMappingFileRename;

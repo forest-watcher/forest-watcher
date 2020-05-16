@@ -7,60 +7,56 @@ import formatcoords from 'formatcoords';
 import moment from 'moment';
 import i18n from 'i18next';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
-import { coordsArrayToObject, isValidLatLng } from 'helpers/location';
+import type { LayersState, ContextualLayer } from 'types/layers.types';
+import { isValidLatLng } from 'helpers/location';
 import { isEmpty, removeNulls } from 'helpers/utils';
-import { AllGeoJSON } from '@turf/helpers';
-
+import { GeoJSONObject } from '@turf/helpers';
 import _ from 'lodash';
-
-const kdbush = require('kdbush');
-const geokdbush = require('geokdbush');
-const geoViewport = require('@mapbox/geo-viewport');
+import type { Alert } from 'types/alerts.types';
+import type { AlertsIndex } from 'components/map/alerts/dataset';
+import geokdbush from 'geokdbush';
+import geoViewport from '@mapbox/geo-viewport';
 
 const { width, height } = Dimensions.get('window');
 
 // Use example
 // const firstPoint = { latitude: -3.097125, longitude: -45.600375 }
 // const points = [{ latitude: -2.337625, longitude: -46.940875 }]
-export function getAllNeighbours(firstPoint: Coordinates, points: Coordinates, distance: number = 0.03) {
-  // default distance 30m
-  const neighbours = [];
-  const index = kdbush(points, p => p.longitude, p => p.latitude);
+export function getAllNeighbours(
+  alertsIndex: AlertsIndex,
+  firstPoint: Alert,
+  points: Array<Alert>,
+  distance: number = 0.03
+) {
+  // default distance 30m - alerts are about 27.5m apart on the map (39m diagonally)
+  const neighbours: Array<Alert> = [];
 
-  function isIncluded(result) {
+  function isIncluded(result: Alert) {
     for (let i = 0; i < neighbours.length; i++) {
-      if (result.latitude === neighbours[i].latitude && result.longitude === neighbours[i].longitude) {
+      if (result.lat === neighbours[i].lat && result.long === neighbours[i].long) {
         return true;
       }
     }
     return false;
   }
 
-  function checkSiblings(results) {
+  function checkSiblings(results: Array<Alert>) {
     for (let i = 0; i < results.length; i++) {
       if (!isIncluded(results[i])) {
         neighbours.push(results[i]);
-        getNeighbours(results[i]); // eslint-disable-line
+        getNeighbours(results[i]);
       }
     }
   }
 
-  function getNeighbours(point) {
-    // 4 = max results when never should be bigger than 4
-    const data = geokdbush.around(index, point.longitude, point.latitude, 4, distance);
+  function getNeighbours(point: Alert) {
+    const data = geokdbush.around(alertsIndex, point.long, point.lat, 8, distance);
     checkSiblings(data);
   }
 
   getNeighbours(firstPoint);
   // return array of siblings without the point
-  if (
-    neighbours &&
-    neighbours.length &&
-    neighbours[0].latitude &&
-    neighbours[0].latitude === firstPoint.latitude &&
-    neighbours[0].longitude &&
-    neighbours[0].longitude === firstPoint.longitude
-  ) {
+  if (neighbours?.length && neighbours[0]?.lat === firstPoint.lat && neighbours[0]?.long === firstPoint.long) {
     neighbours.shift();
   }
   return neighbours;
@@ -73,7 +69,7 @@ export function getAllNeighbours(firstPoint: Coordinates, points: Coordinates, d
  * @param {Object} geojson The GeoJSON to remove null geometries from
  * @returns {Object} validated GeoJSON
  */
-export function cleanGeoJSON(geojson: AllGeoJSON): AllGeoJSON {
+export function cleanGeoJSON(geojson: GeoJSONObject): GeoJSONObject {
   if (geojson?.type === 'FeatureCollection' && !!geojson.features) {
     return {
       ...geojson,
@@ -120,7 +116,7 @@ export function isDateRecent(date: number) {
   return moment().diff(moment(date), measure) <= range;
 }
 
-export function getContextualLayer(layers) {
+export function getContextualLayer(layers: LayersState): ?ContextualLayer {
   if (!layers.activeLayer) {
     return null;
   }
@@ -158,26 +154,15 @@ export function getMapZoom(region) {
   return geoViewport.viewport(bounds, [width, height], 0, 18, 256).zoom || 0;
 }
 
-function pointsFromCluster(cluster) {
-  if (!cluster || !cluster.length > 0) {
-    return [];
-  }
-  return cluster
-    .filter(marker => marker.properties.point_count === undefined)
-    .map(feature => coordsArrayToObject(feature));
-}
-
-export function getNeighboursSelected(selectedAlerts, markers) {
+export function getNeighboursSelected(alertsIndex: AlertsIndex, selectedAlerts: Array<Alert>, allAlerts: Array<Alert>) {
   let neighbours = [];
-  const screenPoints = pointsFromCluster(markers);
 
   selectedAlerts.forEach(alert => {
-    neighbours = [...neighbours, ...getAllNeighbours(alert, screenPoints)];
+    neighbours = [...neighbours, ...getAllNeighbours(alertsIndex, alert, allAlerts)];
   });
   // Remove duplicates
   neighbours = neighbours.filter(
-    (alert, index, self) =>
-      self.findIndex(t => t.latitude === alert.latitude && t.longitude === alert.longitude) === index
+    (alert, index, self) => self.findIndex(t => t.lat === alert.lat && t.long === alert.long) === index
   );
   return neighbours;
 }
