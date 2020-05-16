@@ -37,14 +37,12 @@ export default class AreaList extends Component<Props> {
       return null;
     }
 
-    return <View style={styles.container}>
+    return (
+      <View style={styles.container}>
         {areas.map((area, index) => (
           <View
             key={`${area.id}-area-list`}
-            style={[
-              styles.rowContainer,
-              index === 0 && downloadCalloutVisible ? { zIndex: 10000 } : { zIndex: index }
-            ]}
+            style={[styles.rowContainer, index === 0 && downloadCalloutVisible ? { zIndex: 10000 } : { zIndex: index }]}
           >
             <VerticalSplitRow
               downloadVisible={false}
@@ -68,6 +66,7 @@ export default class AreaList extends Component<Props> {
             )}
           </View>
         ))}
-      </View>;
+      </View>
+    );
   }
 }

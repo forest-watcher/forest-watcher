@@ -1,18 +1,11 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { Text, ScrollView, View, FlatList } from 'react-native';
+import { Text, View, FlatList } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import styles from './styles';
 import i18n from 'i18next';
-import type { File } from 'types/file.types';
 import Row from 'components/common/row';
-import Theme from 'config/theme';
-import debounceUI from 'helpers/debounceUI';
-import DocumentPicker from 'react-native-document-picker';
-import generatedUniqueId from 'helpers/uniqueId';
-const nextIcon = require('assets/next.png');
-const fileIcon = require('assets/fileIcon.png');
 
 import type { GFWContextualLayer } from 'types/layers.types';
 
@@ -31,9 +24,9 @@ type Props = {
 
 type State = {
   searchTerm: ?string
-}
+};
 
-class GFWLayers extends PureComponent<Props, SearchTerm> {
+class GFWLayers extends PureComponent<Props, State> {
   static options(passProps: {}) {
     return {
       topBar: {
@@ -48,7 +41,7 @@ class GFWLayers extends PureComponent<Props, SearchTerm> {
     super(props);
     this.state = {
       searchTerm: null
-    }
+    };
     props.fetchLayers(0);
     Navigation.events().bindComponent(this);
   }
@@ -61,7 +54,7 @@ class GFWLayers extends PureComponent<Props, SearchTerm> {
       return;
     }
     this.props.fetchLayers(this.props.loadedPage + 1);
-  }
+  };
 
   renderHeader = () => {
     if (this.props.totalLayers === null) {
@@ -69,10 +62,10 @@ class GFWLayers extends PureComponent<Props, SearchTerm> {
     }
     return (
       <View style={styles.listHeader}>
-        <Text style={styles.listTitle}>{i18n.t('importLayer.gfw.allLayers', {count: this.props.totalLayers})}</Text>
+        <Text style={styles.listTitle}>{i18n.t('importLayer.gfw.allLayers', { count: this.props.totalLayers })}</Text>
       </View>
     );
-  }
+  };
 
   renderLayer = ({ item, index }) => {
     return (
@@ -85,7 +78,7 @@ class GFWLayers extends PureComponent<Props, SearchTerm> {
   render() {
     return (
       <View style={styles.container}>
-        <FlatList 
+        <FlatList
           style={{ width: '100%' }}
           keyExtractor={(item, index) => index.toString()}
           data={this.props.layers}
