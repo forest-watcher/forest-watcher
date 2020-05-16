@@ -178,7 +178,7 @@ class GFWLayers extends PureComponent<Props, State> {
           onEndReachedThreshold={0.5}
           onScroll={this.onScroll}
         />
-        <KeyboardSpacer/>
+        <KeyboardSpacer />
       </View>
     );
   }
