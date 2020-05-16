@@ -1,18 +1,20 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { Text, ScrollView, View, FlatList } from 'react-native';
+import { Image, Platform, TouchableOpacity, Text, TextInput, View, FlatList } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 import styles from './styles';
 import i18n from 'i18next';
 import type { File } from 'types/file.types';
 import Row from 'components/common/row';
-import Theme from 'config/theme';
-import debounceUI from 'helpers/debounceUI';
-import DocumentPicker from 'react-native-document-picker';
-import generatedUniqueId from 'helpers/uniqueId';
+
+import { debounce } from 'lodash';
+
 const nextIcon = require('assets/next.png');
-const fileIcon = require('assets/fileIcon.png');
+const clearImage = require('assets/clear.png');
+const searchImage = require('assets/search.png');
 
 import type { GFWContextualLayer } from 'types/layers.types';
 
@@ -20,7 +22,7 @@ export const ACCEPTED_FILE_TYPES = ['json', 'geojson', 'topojson', 'gpx', 'zip',
 
 type Props = {
   componentId: string,
-  fetchLayers: (page: number) => void,
+  fetchLayers: (page: number, searchTerm: ?string) => void,
   fullyLoaded: boolean,
   loadedPage: ?number,
   isInitialLoad: boolean,
@@ -30,10 +32,17 @@ type Props = {
 };
 
 type State = {
+  searchFocussed: boolean,
   searchTerm: ?string
 }
 
+type ReactObjRef<ElementType: React.ElementType> = { current: null | React.ElementRef<ElementType> };
+
 class GFWLayers extends PureComponent<Props, SearchTerm> {
+  textInput: ReactObjRef<TextInput>;
+
+  handleSearchDebounced: ?() => void;
+
   static options(passProps: {}) {
     return {
       topBar: {
@@ -47,11 +56,31 @@ class GFWLayers extends PureComponent<Props, SearchTerm> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      searchFocussed: false,
       searchTerm: null
-    }
+    };
     props.fetchLayers(0);
     Navigation.events().bindComponent(this);
+
+    this.handleSearchDebounced = debounce(function() {
+      this.props.fetchLayers(0, this.state.searchTerm);
+    }, 400);
   }
+
+  onClearSearch = () => {
+    this.setState({
+      searchTerm: null
+    });
+    this.props.fetchLayers(0, null);
+    this.textInput?.blur?.();
+  };
+
+  onSearchTermChange = text => {
+    this.setState({
+      searchTerm: text
+    });
+    this.handleSearchDebounced();
+  };
 
   paginate = () => {
     if (this.props.isPaginating || this.props.isInitialLoad || this.props.fullyLoaded) {
@@ -60,19 +89,38 @@ class GFWLayers extends PureComponent<Props, SearchTerm> {
     if (this.props.loadedPage === null) {
       return;
     }
-    this.props.fetchLayers(this.props.loadedPage + 1);
-  }
+    this.props.fetchLayers(this.props.loadedPage + 1, this.state.searchTerm);
+  };
 
   renderHeader = () => {
-    if (this.props.totalLayers === null) {
+    let headerString: ?string = null;
+
+    if (this.state.searchFocussed) {
+      if (this.state.searchTerm) {
+        if (this.props.layers.length) {
+          headerString = i18n.t('importLayer.gfw.results', {
+            count: this.props.layers.length,
+            searchTerm: this.state.searchTerm
+          });
+        } else {
+          headerString = i18n.t('importLayer.gfw.noResults', { searchTerm: this.state.searchTerm });
+        }
+      } else {
+        headerString = i18n.t('importLayer.gfw.searchHint');
+      }
+    } else if (this.props.totalLayers !== null) {
+      headerString = i18n.t('importLayer.gfw.allLayers', { count: this.props.totalLayers });
+    }
+
+    if (!headerString) {
       return null;
     }
     return (
       <View style={styles.listHeader}>
-        <Text style={styles.listTitle}>{i18n.t('importLayer.gfw.allLayers', {count: this.props.totalLayers})}</Text>
+        <Text style={styles.listTitle}>{headerString}</Text>
       </View>
     );
-  }
+  };
 
   renderLayer = ({ item, index }) => {
     return (
@@ -85,15 +133,40 @@ class GFWLayers extends PureComponent<Props, SearchTerm> {
   render() {
     return (
       <View style={styles.container}>
-        <FlatList 
+        <View style={styles.searchContainer}>
+          <TextInput
+            autofocus={false}
+            autoCapitalize="none"
+            autoCorrect={false}
+            value={this.state.searchTerm}
+            underlineColorAndroid="transparent"
+            placeholder={i18n.t('importLayer.gfw.searchPlaceholder')}
+            ref={ref => {
+              this.textInput = ref;
+            }}
+            style={styles.searchField}
+            onBlur={() => this.setState({ searchFocussed: false })}
+            onChangeText={this.onSearchTermChange}
+            onFocus={() => this.setState({ searchFocussed: true })}
+          />
+          {!this.state.searchFocussed && <Image source={searchImage} />}
+          {this.state.searchFocussed && this.state.searchTerm && (
+            <TouchableOpacity onPress={this.onClearSearch}>
+              <Image source={clearImage} />
+            </TouchableOpacity>
+          )}
+        </View>
+        <FlatList
           style={{ width: '100%' }}
           keyExtractor={(item, index) => index.toString()}
-          data={this.props.layers}
+          data={!this.state.searchFocussed || this.state.searchTerm ? this.props.layers : []}
+          keyboardShouldPersistTaps='handled'
           renderItem={this.renderLayer}
           ListHeaderComponent={this.renderHeader}
           onEndReached={this.paginate}
           onEndReachedThreshold={0.5}
         />
+        <KeyboardSpacer/>
       </View>
     );
   }

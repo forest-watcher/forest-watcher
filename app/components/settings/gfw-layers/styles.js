@@ -34,5 +34,18 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
     fontSize: 12
+  },
+  searchContainer: {
+    ...Theme.tableRow,
+    marginBottom: 9,
+    marginTop: 8,
+    paddingHorizontal: 24
+  },
+  searchField: {
+    flex: 1,
+    fontFamily: Theme.font,
+    fontSize: 17,
+    fontWeight: '400',
+    color: Theme.fontColors.secondary
   }
 });
