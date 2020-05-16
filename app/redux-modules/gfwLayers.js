@@ -33,7 +33,7 @@ export default function reducer(state: GFWLayersState = initialState, action: La
       };
     }
     case GET_GFW_LAYERS_REQUEST: {
-      return { 
+      return {
         ...state,
         paginating: action.meta.offline.commit.meta.page !== 0,
         syncing: true,

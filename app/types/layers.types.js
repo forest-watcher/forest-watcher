@@ -50,7 +50,7 @@ export type GFWContextualLayer = {
     applicationConfig: *,
     staticImageConfig: ?*
   }
-}
+};
 
 export type GFWLayersState = {
   data: Array<GFWContextualLayer>,

@@ -7,12 +7,10 @@ import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 import styles from './styles';
 import i18n from 'i18next';
-import type { File } from 'types/file.types';
 import Row from 'components/common/row';
 
 import { debounce } from 'lodash';
 
-const nextIcon = require('assets/next.png');
 const clearImage = require('assets/clear.png');
 const searchImage = require('assets/search.png');
 
@@ -35,11 +33,11 @@ type State = {
   scrolled: boolean,
   searchFocussed: boolean,
   searchTerm: ?string
-}
+};
 
 type ReactObjRef<ElementType: React.ElementType> = { current: null | React.ElementRef<ElementType> };
 
-class GFWLayers extends PureComponent<Props, SearchTerm> {
+class GFWLayers extends PureComponent<Props, State> {
   textInput: ReactObjRef<TextInput>;
 
   handleSearchDebounced: ?() => void;

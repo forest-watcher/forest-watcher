@@ -1876,6 +1876,14 @@ Object {
     "migrated": true,
     "oldData": Object {},
   },
+  "gfwLayers": Object {
+    "data": Array [],
+    "fullyLoaded": false,
+    "loadedPage": null,
+    "paginating": false,
+    "syncing": false,
+    "total": null,
+  },
   "layerSettings": Object {},
   "layers": Object {
     "activeLayer": null,
@@ -3802,6 +3810,14 @@ Object {
   "form": Object {
     "migrated": true,
     "oldData": Object {},
+  },
+  "gfwLayers": Object {
+    "data": Array [],
+    "fullyLoaded": false,
+    "loadedPage": null,
+    "paginating": false,
+    "syncing": false,
+    "total": null,
   },
   "layerSettings": Object {},
   "layers": Object {
