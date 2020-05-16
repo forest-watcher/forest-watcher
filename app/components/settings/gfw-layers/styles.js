@@ -1,4 +1,4 @@
-import Theme, { isSmallScreen } from 'config/theme';
+import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
@@ -37,9 +37,16 @@ export default StyleSheet.create({
   },
   searchContainer: {
     ...Theme.tableRow,
-    marginBottom: 9,
     marginTop: 8,
-    paddingHorizontal: 24
+    paddingHorizontal: 24,
+    marginBottom: 0
+  },
+  topContainer: {
+    paddingBottom: 9
+  },
+  topContainerScrolled: {
+    borderBottomWidth: 1,
+    borderBottomColor: Theme.colors.veryLightPinkTwo
   },
   searchField: {
     flex: 1,

@@ -32,6 +32,7 @@ type Props = {
 };
 
 type State = {
+  scrolled: boolean,
   searchFocussed: boolean,
   searchTerm: ?string
 }
@@ -92,6 +93,16 @@ class GFWLayers extends PureComponent<Props, SearchTerm> {
     this.props.fetchLayers(this.props.loadedPage + 1, this.state.searchTerm);
   };
 
+  onScroll = event => {
+    const contentOffset = event.nativeEvent.contentOffset.y;
+    const scrolled = contentOffset > 12;
+    if (scrolled !== this.state.scrolled) {
+      this.setState({
+        scrolled: scrolled
+      });
+    }
+  };
+
   renderHeader = () => {
     let headerString: ?string = null;
 
@@ -133,38 +144,41 @@ class GFWLayers extends PureComponent<Props, SearchTerm> {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.searchContainer}>
-          <TextInput
-            autofocus={false}
-            autoCapitalize="none"
-            autoCorrect={false}
-            value={this.state.searchTerm}
-            underlineColorAndroid="transparent"
-            placeholder={i18n.t('importLayer.gfw.searchPlaceholder')}
-            ref={ref => {
-              this.textInput = ref;
-            }}
-            style={styles.searchField}
-            onBlur={() => this.setState({ searchFocussed: false })}
-            onChangeText={this.onSearchTermChange}
-            onFocus={() => this.setState({ searchFocussed: true })}
-          />
-          {!this.state.searchFocussed && <Image source={searchImage} />}
-          {this.state.searchFocussed && this.state.searchTerm && (
-            <TouchableOpacity onPress={this.onClearSearch}>
-              <Image source={clearImage} />
-            </TouchableOpacity>
-          )}
+        <View style={[styles.topContainer, this.state.scrolled ? styles.topContainerScrolled : {}]}>
+          <View style={styles.searchContainer}>
+            <TextInput
+              autofocus={false}
+              autoCapitalize="none"
+              autoCorrect={false}
+              value={this.state.searchTerm}
+              underlineColorAndroid="transparent"
+              placeholder={i18n.t('importLayer.gfw.searchPlaceholder')}
+              ref={ref => {
+                this.textInput = ref;
+              }}
+              style={styles.searchField}
+              onBlur={() => this.setState({ searchFocussed: false })}
+              onChangeText={this.onSearchTermChange}
+              onFocus={() => this.setState({ searchFocussed: true })}
+            />
+            {!this.state.searchFocussed && <Image source={searchImage} />}
+            {this.state.searchFocussed && this.state.searchTerm && (
+              <TouchableOpacity onPress={this.onClearSearch}>
+                <Image source={clearImage} />
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
         <FlatList
           style={{ width: '100%' }}
           keyExtractor={(item, index) => index.toString()}
           data={!this.state.searchFocussed || this.state.searchTerm ? this.props.layers : []}
-          keyboardShouldPersistTaps='handled'
+          keyboardShouldPersistTaps="handled"
           renderItem={this.renderLayer}
           ListHeaderComponent={this.renderHeader}
           onEndReached={this.paginate}
           onEndReachedThreshold={0.5}
+          onScroll={this.onScroll}
         />
         <KeyboardSpacer/>
       </View>
