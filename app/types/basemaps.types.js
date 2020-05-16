@@ -1,10 +1,11 @@
 // @flow
 export type Basemap = {
-  isMapboxStyle: boolean,
-  styleURL?: string,
+  isImported: boolean,
   id: string,
+  styleURL?: string,
   name: string,
-  image: number
+  image: number,
+  tileUrl: ?string
 };
 
 export type BasemapsState = {

@@ -8,10 +8,12 @@ import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import type { Route } from 'types/routes.types';
+import type { LayerSettingActions } from 'types/layerSettings.types';
 import ActionsRow from 'components/common/actions-row';
 import RoutePreviewImage from 'components/routes/preview-image';
 import moment from 'moment';
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
+import debounceUI from 'helpers/debounceUI';
 
 const screenDimensions = Dimensions.get('screen');
 
@@ -31,9 +33,7 @@ type Props = {
   importedRoutes: Array<Route>,
   routesLayerSettings: RoutesLayerSettingsType,
   toggleRouteSelected: (string, string) => void,
-  deselectAllRoutes: string => void,
-  selectAllRoutes: string => void,
-  getAllRoutesWithIds: (Array<string>) => Array<Route>
+  deselectAllRoutes: string => LayerSettingActions
 };
 
 class RoutesLayerSettings extends PureComponent<Props> {
@@ -73,13 +73,13 @@ class RoutesLayerSettings extends PureComponent<Props> {
     this.props.deselectAllRoutes(this.props.featureId);
   };
 
-  onPressManageRoutes = () => {
+  onPressManageRoutes = debounceUI(() => {
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.Routes'
       }
     });
-  };
+  });
 
   renderRoutes = (routes: Array<Route>, headingLocalisation: string) => {
     return (

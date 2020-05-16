@@ -9,6 +9,7 @@ import Theme from 'config/theme';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import Dropdown from 'components/common/dropdown';
 import type { Area } from 'types/areas.types';
+import type { LayerSettingsAction } from 'types/layerSettings.types';
 import { DATASETS } from 'config/constants';
 
 type AlertLayerSettingsType = {
@@ -25,12 +26,12 @@ type AlertLayerSettingsType = {
 
 type Props = {
   featureId: string,
-  area: Area,
+  area: ?Area,
   alertLayerSettings: AlertLayerSettingsType,
-  toggleGladAlerts: string => void,
-  toggleViirsAlerts: string => void,
-  setGladAlertsTimeFrame: () => void,
-  setViirsAlertsTimeFrame: () => void
+  toggleGladAlerts: string => LayerSettingsAction,
+  toggleViirsAlerts: string => LayerSettingsAction,
+  setGladAlertsTimeFrame: (string, number) => LayerSettingsAction,
+  setViirsAlertsTimeFrame: (string, number) => LayerSettingsAction
 };
 
 type Options = Array<{ labelKey: string, value: string }>;

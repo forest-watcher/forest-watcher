@@ -10,7 +10,8 @@ import BottomTray from 'components/common/bottom-tray';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 
 import type { ContextualLayer } from 'types/layers.types';
-import type { File } from 'types/file.types';
+import type { LayerSettingsAction } from 'types/layerSettings.types';
+import debounceUI from 'helpers/debounceUI';
 
 const layerPlaceholder = require('assets/layerPlaceholder.png');
 const checkboxOff = require('assets/checkbox_off.png');
@@ -23,11 +24,12 @@ type ContextualLayersLayerSettingsType = {
 
 type Props = {
   baseApiLayers: ?Array<ContextualLayer>,
+  componentId: string,
   featureId: string,
-  clearEnabledContextualLayers: string => void,
+  clearEnabledContextualLayers: string => LayerSettingsAction,
   contextualLayersLayerSettings: ContextualLayersLayerSettingsType,
-  importedContextualLayers: Array<File>,
-  setContextualLayerShowing: (featureId: string, layerId: string, showing: boolean) => void
+  importedContextualLayers: Array<ContextualLayer>,
+  setContextualLayerShowing: (featureId: string, layerId: string, showing: boolean) => LayerSettingsAction
 };
 
 class ContextualLayersLayerSettings extends PureComponent<Props> {
@@ -67,6 +69,17 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
     this.props.clearEnabledContextualLayers(this.props.featureId);
   };
 
+  onPressManageContextualLayers = debounceUI(() => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.MappingFiles',
+        passProps: {
+          mappingFileType: 'contextualLayers'
+        }
+      }
+    });
+  });
+
   renderGFWLayers = () => {
     const { baseApiLayers, contextualLayersLayerSettings } = this.props;
     return (
@@ -74,7 +87,7 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
         <View style={styles.listHeader}>
           <Text style={styles.listTitle}>{i18n.t('map.layerSettings.gfwLayers')}</Text>
         </View>
-        {baseApiLayers.map((layer, index) => {
+        {baseApiLayers?.map((layer, index) => {
           const selected = contextualLayersLayerSettings.activeContextualLayerIds.includes(layer.id);
           return (
             <ActionsRow
@@ -128,12 +141,12 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          {baseApiLayers.length > 0 && this.renderGFWLayers()}
+          {(baseApiLayers?.length ?? 0) > 0 && this.renderGFWLayers()}
           {importedContextualLayers.length > 0 && this.renderImportedLayers()}
         </ScrollView>
         <BottomTray requiresSafeAreaView>
           <ActionButton
-            onPress={() => {}}
+            onPress={this.onPressManageContextualLayers}
             text={i18n.t('map.layerSettings.manageContextualLayers')}
             transparent
             noIcon

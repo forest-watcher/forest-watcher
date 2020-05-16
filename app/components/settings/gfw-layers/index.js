@@ -46,7 +46,7 @@ class GFWLayers extends PureComponent<Props, State> {
     return {
       topBar: {
         title: {
-          text: i18n.t('importLayer.gfw.title')
+          text: i18n.t('importGFWLayer.title')
         }
       }
     };
@@ -107,18 +107,18 @@ class GFWLayers extends PureComponent<Props, State> {
     if (this.state.searchFocussed) {
       if (this.state.searchTerm) {
         if (this.props.layers.length) {
-          headerString = i18n.t('importLayer.gfw.results', {
+          headerString = i18n.t('importGFWLayer.results', {
             count: this.props.layers.length,
             searchTerm: this.state.searchTerm
           });
         } else {
-          headerString = i18n.t('importLayer.gfw.noResults', { searchTerm: this.state.searchTerm });
+          headerString = i18n.t('importGFWLayer.noResults', { searchTerm: this.state.searchTerm });
         }
       } else {
-        headerString = i18n.t('importLayer.gfw.searchHint');
+        headerString = i18n.t('importGFWLayer.searchHint');
       }
     } else if (this.props.totalLayers !== null) {
-      headerString = i18n.t('importLayer.gfw.allLayers', { count: this.props.totalLayers });
+      headerString = i18n.t('importGFWLayer.allLayers', { count: this.props.totalLayers });
     }
 
     if (!headerString) {
@@ -150,7 +150,7 @@ class GFWLayers extends PureComponent<Props, State> {
               autoCorrect={false}
               value={this.state.searchTerm}
               underlineColorAndroid="transparent"
-              placeholder={i18n.t('importLayer.gfw.searchPlaceholder')}
+              placeholder={i18n.t('importGFWLayer.searchPlaceholder')}
               ref={ref => {
                 this.textInput = ref;
               }}

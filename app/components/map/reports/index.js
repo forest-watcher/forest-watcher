@@ -11,16 +11,16 @@ import type { FormattedReport, FormattedReports } from 'containers/reports';
 import { REPORTS } from 'config/constants';
 import { featureCollection, point } from '@turf/helpers';
 
-type ReportLayerSettings = {
-  layerIsActive: false,
-  myReportsActive: true,
-  importedReportsActive: true
+export type ReportLayerSettings = {
+  layerIsActive: boolean,
+  myReportsActive: boolean,
+  importedReportsActive: boolean
 };
 
 type Props = {
   featureId: string,
-  myReports: FormattedReports,
-  importedReports: FormattedReports,
+  myReports: Array<FormattedReport>,
+  importedReports: Array<FormattedReport>,
   reportLayerSettings: ReportLayerSettings,
   onShapeSourcePressed?: () => void
 };
@@ -43,10 +43,20 @@ export default class Reports extends Component<Props> {
       imported: report.imported,
       featureId: report.title
     };
-    const position = report.userPosition
-      .split(',')
-      .reverse()
-      .map(a => Number(a));
+    let position;
+    const clickedPosition = JSON.parse(report.clickedPosition);
+    if (clickedPosition?.length) {
+      const lastClickedPosition = clickedPosition[clickedPosition.length - 1];
+      if (lastClickedPosition.lon && lastClickedPosition.lat) {
+        position = [lastClickedPosition.lon, lastClickedPosition.lat];
+      }
+    }
+    if (!position) {
+      position = report.userPosition
+        .split(',')
+        .reverse()
+        .map(a => Number(a));
+    }
     return point(position, properties);
   };
 

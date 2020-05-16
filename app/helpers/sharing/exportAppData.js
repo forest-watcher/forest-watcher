@@ -8,10 +8,11 @@ import type { State } from 'types/store.types';
 import type { Basemap, BasemapsState } from 'types/basemaps.types';
 import type { ContextualLayer, LayersState } from 'types/layers.types';
 import type { Route, RouteState } from 'types/routes.types';
-import type { BBox2d, Feature, Polygon } from '@turf/helpers';
-import bboxPolygon from '@turf/bbox-polygon';
+
+import _ from 'lodash';
 
 import { GFW_BASEMAPS } from 'config/constants';
+import { queryAlertsSync } from 'helpers/alert-store/queryAlerts';
 
 /**
  * Version number of the bundles created using the functions in this file
@@ -27,16 +28,12 @@ export const APP_DATA_FORMAT_VERSION: number = 1;
  * @param appState
  */
 export default function exportAppData(appState: State, request: ExportBundleRequest): SharingBundle {
+  const alerts = exportAlerts(appState.alerts, request.areaIds);
   const areas = exportAreas(appState.areas, request.areaIds);
   const basemaps = exportBasemaps(appState.basemaps, request.basemapIds);
   const layers = exportLayers(appState.layers, request.layerIds);
   const reports = exportReports(appState.reports, request.reportIds);
   const routes = exportRoutes(appState.routes, request.routeIds);
-
-  // Also include any alerts that intersect the areas
-  const areaBBoxes: Array<BBox2d> = areas.map(area => area.geostore?.bbox).filter(Boolean);
-  const areaRegions = areaBBoxes.map(areaBBox => bboxPolygon(areaBBox));
-  const alerts = exportAlerts(appState.alerts, areaRegions);
 
   return {
     version: APP_DATA_FORMAT_VERSION,
@@ -44,18 +41,22 @@ export default function exportAppData(appState: State, request: ExportBundleRequ
     areas: areas,
     basemaps: basemaps,
     layers: layers,
-    manifest: { basemaps: {}, layers: {} },
+    manifest: { layerFiles: [] },
     reports: reports,
     routes: routes
   };
 }
 
 /**
- * Extracts any alerts from state intersecting the specified geographic regions
+ * Extracts any alerts relating to the specified areas
  */
-function exportAlerts(alertsState: AlertsState, regions: Array<Feature<Polygon>>): Array<Alert> {
-  // TODO: Filter by region in a forthcoming PR
-  return [];
+function exportAlerts(alertsState: AlertsState, areaIds: Array<string>): Array<Alert> {
+  const resultsForEachArea: Array<Array<Alert>> = areaIds.map(areaId =>
+    queryAlertsSync({
+      areaId: areaId
+    })
+  );
+  return _.flatten(resultsForEachArea);
 }
 
 /**

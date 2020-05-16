@@ -1,5 +1,6 @@
 // @flow
-
+import type { AppAction } from 'types/app.types';
+import type { Thunk } from 'types/store.types';
 import React, { PureComponent } from 'react';
 import { TouchableHighlight, View, Alert, Image, Text } from 'react-native';
 
@@ -20,7 +21,7 @@ const downloadedIcon = require('assets/downloaded.png');
 
 type Props = {
   areaId: string,
-  downloadAreaById: string => void,
+  downloadAreaById: string => Thunk<void>,
   cacheStatus: {
     requested: boolean,
     progress: number,
@@ -28,12 +29,12 @@ type Props = {
     completed: boolean
   },
   disabled: boolean,
-  resetCacheStatus: string => void,
+  resetCacheStatus: string => Thunk<void>,
   isOfflineMode: boolean,
   showTooltip: boolean,
-  refreshAreaCacheById: string => void,
+  refreshAreaCacheById: string => Thunk<void>,
   pendingCache: number,
-  showNotConnectedNotification: () => void
+  showNotConnectedNotification: () => Thunk<void>
 };
 type State = {
   checkingConnectivity: boolean,

@@ -1,5 +1,6 @@
 // @flow
 
+import type { Report, Template } from 'types/reports.types';
 import React, { PureComponent } from 'react';
 import { NativeModules, Platform, View, Text, ScrollView } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -16,10 +17,9 @@ import { readableNameForReportName } from 'helpers/reports';
 
 import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
-import type { Template } from 'types/reports.types';
 import displayExportReportDialog from 'helpers/sharing/displayExportReportDialog';
 
-import exportLayerManifest from 'helpers/sharing/exportLayerManifest';
+import exportFileManifest from 'helpers/sharing/exportFileManifest';
 import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
 import { getShareButtonText } from 'helpers/sharing/utils';
@@ -93,26 +93,14 @@ class Reports extends PureComponent<Props, State> {
 
   fetchExportSize = async (reportIds: Array<string>) => {
     const currentFetchId = generateUniqueID();
-    const completedReports = this.props.reports.complete || [];
-    const mergedReports = completedReports.concat(this.props.reports.uploaded);
+    const mergedReports: Array<Report> = [...this.props.reports.complete, ...this.props.reports.uploaded];
     this.fetchId = currentFetchId;
     this.setState({
       bundleSize: undefined
     });
-    const manifest = await exportLayerManifest(
-      {
-        areaIds: [],
-        basemapIds: [],
-        layerIds: [],
-        reportIds,
-        routeIds: []
-      },
-      [],
-      [],
-      mergedReports.filter(report => {
-        return reportIds.includes(report.title);
-      })
-    );
+    const manifest = await exportFileManifest({
+      reports: mergedReports.filter(report => reportIds.includes(report.title))
+    });
     const fileSize = manifestBundleSize(manifest);
     if (this.fetchId === currentFetchId) {
       this.setState({
@@ -126,22 +114,22 @@ class Reports extends PureComponent<Props, State> {
    * Will swap the state for the specified row, to show in the UI if it has been selected or not.
    */
   onReportSelectedForExport = (title: string) => {
-    this.setState(state => {
-      if (state.selectedForExport.includes(title)) {
-        const selectedForExport = [...state.selectedForExport].filter(id => title !== id);
-        this.fetchExportSize(selectedForExport);
-        return {
-          selectedForExport
-        };
-      } else {
-        const selected = [...state.selectedForExport];
-        selected.push(title);
-        this.fetchExportSize(selected);
-        return {
-          selectedForExport: selected
-        };
+    this.setState(
+      state => {
+        if (state.selectedForExport.includes(title)) {
+          return {
+            selectedForExport: [...state.selectedForExport].filter(id => title !== id)
+          };
+        } else {
+          return {
+            selectedForExport: [...state.selectedForExport, title]
+          };
+        }
+      },
+      () => {
+        this.fetchExportSize(this.state.selectedForExport);
       }
-    });
+    );
   };
 
   /**

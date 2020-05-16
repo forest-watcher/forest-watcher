@@ -11,13 +11,6 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.main,
     justifyContent: 'space-around'
   },
-  center: {
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  label: {
-    ...Theme.sectionHeaderText
-  },
   list: {
     flex: 1
   },
@@ -25,20 +18,13 @@ export default StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 30
   },
-  listHeader: {
-    flex: 1,
-    marginLeft: Theme.margin.left,
-    marginRight: 18,
-    paddingBottom: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between'
+  heading: {
+    ...Theme.sectionHeaderText,
+    marginTop: 24,
+    marginBottom: 16
   },
-  listTitle: {
-    fontSize: 17,
-    fontWeight: '400',
-    fontFamily: Theme.font,
-    color: Theme.fontColors.light
+  rowContainer: {
+    marginBottom: 17
   },
   rowContent: {
     flex: 1,

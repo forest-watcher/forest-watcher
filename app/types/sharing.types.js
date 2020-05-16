@@ -7,6 +7,7 @@ import type { Basemap } from 'types/basemaps.types';
 import type { ContextualLayer } from 'types/layers.types';
 
 import type { Feature, Polygon } from '@turf/helpers';
+import type { LayerType } from 'helpers/layer-store/layerFilePaths';
 
 /**
  * Type representing a request to create a SharingBundle using a subset of the user's local data
@@ -53,15 +54,31 @@ export type ImportBundleResult = {|
 |};
 
 export type LayerFile = {|
-  /**
-   * All URIs are relative to the root storage path of their layer store
-   */
-  uri: string,
+  path: string,
+
+  type: LayerType,
 
   /**
-   * Size in bytes of the file
+   * Unique identifier for the layer
    */
-  filesize: string,
+  layerId: string,
+
+  /**
+   * The smallest quadtree tile enclosing the region represented by this LayerFile
+   */
+  tileXYZ: [number, number, number],
+
+  /**
+   * Custom contextual layers will have an array of associated files e.g. gpx, xml, geojson
+   *
+   * For tile-based layers this will be null.
+   */
+  subFiles?: ?Array<string>,
+
+  /**
+   * Size in bytes of this LayerFile and its subfiles
+   */
+  size: number,
 
   /**
    * If the file represents a geographic extent, then this holds the boundaries of that extent
@@ -69,16 +86,11 @@ export type LayerFile = {|
   polygon?: ?Feature<Polygon>
 |};
 
-export type LayerFilesById = {
-  [id: string]: Array<LayerFile>
-};
-
 /**
  * Manifest of files relating to basemaps and contextual layers
  */
-export type LayerManifest = {|
-  basemaps: LayerFilesById,
-  layers: LayerFilesById
+export type SharingBundleManifest = {|
+  layerFiles: Array<LayerFile>
 |};
 
 /**
@@ -91,7 +103,7 @@ export type SharingBundle = {|
   areas: Array<Area>,
   basemaps: Array<Basemap>,
   layers: Array<ContextualLayer>,
-  manifest: LayerManifest,
+  manifest: SharingBundleManifest,
   reports: Array<Report>,
   routes: Array<Route>
 |};

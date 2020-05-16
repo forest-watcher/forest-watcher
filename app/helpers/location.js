@@ -1,7 +1,8 @@
 // @flow
-
-import type { Location, ServiceStatus } from '@mauron85/react-native-background-geolocation';
-import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
+import BackgroundGeolocation, {
+  type Location,
+  type ServiceStatus
+} from '@mauron85/react-native-background-geolocation';
 
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
 import type { LocationPoint, Route } from 'types/routes.types';

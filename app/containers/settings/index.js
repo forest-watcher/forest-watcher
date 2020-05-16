@@ -1,5 +1,5 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -8,6 +8,10 @@ import { logout } from 'redux-modules/user';
 import { setOfflineMode } from 'redux-modules/app';
 
 import Settings from 'components/settings';
+
+type OwnProps = {|
+  +componentId: string
+|};
 
 function mapStateToProps(state: State) {
   return {
@@ -19,7 +23,7 @@ function mapStateToProps(state: State) {
   };
 }
 
-const mapDispatchToProps = (dispatch: *) =>
+const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       logout,
@@ -28,7 +32,8 @@ const mapDispatchToProps = (dispatch: *) =>
     dispatch
   );
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(Settings);

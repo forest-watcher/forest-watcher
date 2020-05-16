@@ -1,5 +1,5 @@
 // @flow
-
+import type { LayerSettingsAction } from 'types/layerSettings.types';
 import React, { PureComponent } from 'react';
 import { View, ScrollView } from 'react-native';
 import styles from './styles';
@@ -9,6 +9,7 @@ import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
+import debounceUI from 'helpers/debounceUI';
 
 type ReportsLayerSettingsType = {
   layerIsActive: boolean,
@@ -17,10 +18,11 @@ type ReportsLayerSettingsType = {
 };
 
 type Props = {
+  componentId: string,
   featureId: string,
   reportsLayerSettings: ReportsLayerSettingsType,
-  toggleMyReportsLayer: string => void,
-  toggleImportedReportsLayer: string => void
+  toggleMyReportsLayer: string => LayerSettingsAction,
+  toggleImportedReportsLayer: string => LayerSettingsAction
 };
 
 class ReportLayerSettings extends PureComponent<Props> {
@@ -61,6 +63,14 @@ class ReportLayerSettings extends PureComponent<Props> {
     }
   };
 
+  onPressManageReports = debounceUI(() => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.Reports'
+      }
+    });
+  });
+
   render() {
     return (
       <View style={styles.container}>
@@ -92,7 +102,12 @@ class ReportLayerSettings extends PureComponent<Props> {
           />
         </ScrollView>
         <BottomTray requiresSafeAreaView>
-          <ActionButton onPress={() => {}} text={i18n.t('map.layerSettings.manageReports')} transparent noIcon />
+          <ActionButton
+            onPress={this.onPressManageReports}
+            text={i18n.t('map.layerSettings.manageReports')}
+            transparent
+            noIcon
+          />
         </BottomTray>
       </View>
     );
