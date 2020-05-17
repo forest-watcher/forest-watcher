@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Gzip
 import UIKit
 
 // Based on https://gist.github.com/namannik/3b7c8b69c2d0768d0c2b48d2ed5ff71c.
@@ -96,7 +97,13 @@ import UIKit
         return GCDWebServerResponse(statusCode: 404)
     }
     
-    // TODO: See if vector data is gzipped - as if so we need to unzip it here.
+    if tileData.isGzipped {
+      guard let unzippedTile = try? tileData.gunzipped() else {
+        return GCDWebServerResponse(statusCode: 404)
+      }
+      
+      return GCDWebServerDataResponse(data: unzippedTile, contentType: "")
+    }
     
     return GCDWebServerDataResponse(data: tileData, contentType: "")
   }
