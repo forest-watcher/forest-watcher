@@ -1062,7 +1062,7 @@ class MapComponent extends Component<Props, State> {
               tileSize={256}
               tms={true}
               tileUrlTemplates={[
-                'http://localhost:54321/gfwmbtiles/b7fd0441-8cea-4fc2-bea9-be59da4eeb7f.mbtiles?z={z}&x={x}&y={y}'
+                'http://localhost:54321/gfwmbtiles/ab469a56-ba7e-49e1-86f1-e6771d0c4d0f.mbtiles?{z}&{x}&{y}'
               ]}
             >
               {/* TODO: How do we apply styling / rendering properties to vector files?! */}
