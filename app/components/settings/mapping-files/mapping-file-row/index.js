@@ -1,5 +1,5 @@
 // @flow
-
+import type { ViewStyle } from 'types/reactElementStyles.types';
 import React, { Component } from 'react';
 
 import {
@@ -20,16 +20,13 @@ const downloadIcon = require('assets/downloadGrey.png');
 const checkboxOff = require('assets/checkbox_off.png');
 const checkboxOn = require('assets/checkbox_on.png');
 
-type ViewProps = React.ElementProps<typeof View>;
-type ViewStyleProp = $PropertyType<ViewProps, 'style'>;
-
 type Props = {
   image?: ?string | ?number,
   onDownloadPress?: () => void,
   onPress?: ?() => void,
   onInfoPress?: () => void,
   selected?: ?boolean,
-  style?: ?ViewStyleProp,
+  style?: ?ViewStyle,
   subtitle?: ?string,
   title: string
 };
@@ -52,7 +49,7 @@ export default class MappingFileRow extends Component<Props> {
     );
   };
 
-  renderIcon = (icon, onPress) => {
+  renderIcon = (icon, onPress: ?() => void) => {
     const Touchable = Platform.select({
       android: TouchableNativeFeedback,
       ios: TouchableHighlight

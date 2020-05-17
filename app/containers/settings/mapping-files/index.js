@@ -21,7 +21,8 @@ type OwnProps = {|
 function mapStateToProps(state: State, ownProps: OwnProps) {
   const baseFiles: Array<ContextualLayer | Basemap> =
     ownProps.mappingFileType === 'contextualLayers' ? state.layers.data || [] : GFW_BASEMAPS;
-  const importedFiles: Array<File> = ownProps.mappingFileType === 'contextualLayers' ? state.layers.imported : [];
+  const importedFiles: Array<File> =
+    ownProps.mappingFileType === 'contextualLayers' ? state.layers.imported : state.basemaps.importedBasemaps;
 
   return {
     baseFiles,

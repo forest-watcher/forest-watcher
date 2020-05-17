@@ -24,7 +24,7 @@ export default StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    paddingVertical: 14,
+    paddingVertical: isSmallScreen ? 12 : 16,
     flexGrow: 1,
     alignItems: 'stretch',
     marginLeft: isSmallScreen ? 12 : 16
@@ -34,7 +34,9 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
     fontSize: isSmallScreen ? 10 : 12,
-    fontWeight: '400'
+    lineHeight: 16,
+    fontWeight: '400',
+    paddingRight: 31
   },
   iconContainer: {
     padding: 6
