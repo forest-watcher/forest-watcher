@@ -1065,6 +1065,7 @@ class MapComponent extends Component<Props, State> {
                 'http://localhost:54321/gfwmbtiles/a12a1e41-06d1-40e3-9141-6a8a536d8213?z={z}&x={x}&y={y}'
               ]}
             >
+              {/* TODO: How do we apply styling / rendering properties to vector files?! */}
               <MapboxGL.RasterLayer id="basemapTileLayer" />
             </MapboxGL.RasterSource>
           }

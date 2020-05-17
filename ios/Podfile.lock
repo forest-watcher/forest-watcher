@@ -103,6 +103,7 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.6.0):
     - GoogleUtilities/Logger
+  - GzipSwift (5.1.1)
   - lottie-ios (3.1.6)
   - lottie-react-native (3.3.2):
     - lottie-ios (~> 3.1.3)
@@ -416,6 +417,7 @@ DEPENDENCIES:
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - GCDWebServer (~> 3.0)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - GzipSwift (= 5.1.1)
   - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
@@ -492,6 +494,8 @@ SPEC REPOS:
     - PromisesObjC
     - Sentry
     - SSZipArchive
+  trunk:
+    - GzipSwift
 
 EXTERNAL SOURCES:
   "@mauron85_react-native-background-geolocation":
@@ -625,6 +629,7 @@ SPEC CHECKSUMS:
   GoogleDataTransport: f6f8eba931df03ebd2232ff4645aa85f8f47b5ab
   GoogleDataTransportCCTSupport: 0f39025e8cf51f168711bd3fb773938d7e62ddb5
   GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
+  GzipSwift: 893f3e48e597a1a4f62fafcb6514220fcf8287fa
   lottie-ios: 85ce835dd8c53e02509f20729fc7d6a4e6645a0a
   lottie-react-native: 2a1a82bb326ae51331a5520de0cf706733c6db69
   Mapbox-iOS-SDK: 02590a60fe300810c55432219a0caaa1338fbafb
@@ -679,6 +684,6 @@ SPEC CHECKSUMS:
   SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 6e0ed0feb31edd7ff8d3abaaaaa886e12f18c26e
+PODFILE CHECKSUM: 2ffec9658865997c18989c19d4686bcf4f5b5960
 
 COCOAPODS: 1.8.4

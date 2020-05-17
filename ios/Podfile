@@ -51,6 +51,7 @@ target 'ForestWatcher' do
   pod 'react-native-mapbox-gl', :path => '../node_modules/@react-native-mapbox-gl/maps'
 
   pod "GCDWebServer", "~> 3.0"
+  pod 'GzipSwift', "5.1.1"
 
   # magic post-install script that'll fix up some broken dependencies.
   post_install do |installer|

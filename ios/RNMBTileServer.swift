@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Gzip
 import UIKit
 
 // Based on https://gist.github.com/namannik/3b7c8b69c2d0768d0c2b48d2ed5ff71c.
@@ -85,18 +86,33 @@ import UIKit
         return GCDWebServerResponse(statusCode: 404)
     }
     
-    guard let query = request.query,
-    let xString = query["x"],
-    let yString = query["y"],
-    let zString = query["z"],
-    let x = Int(xString),
-    let y = Int(yString),
-    let z = Int(zString),
+    // To determine if this is a valid tile request, we must:
+    // - Get anything after '?'
+    // - See if there's an entry - if so, attempt to split that entry by '&'
+    // - If there's 3 values, we have valid coordinates!
+    let splitUrl = request.url.absoluteString.split(separator: "?")
+    guard splitUrl.count == 2,
+      let coords = splitUrl.last?.split(separator: "&"),
+      coords.count == 3 else {
+      return GCDWebServerResponse(statusCode: 404)
+    }
+    
+    // NOTE: These coord indexes are correct, z goes first.
+    guard let x = Int(coords[1]),
+      let y = Int(coords[2]),
+      let z = Int(coords[0]),
       let tileData = source.getTile(x: x, y: y, z: z) else {
         return GCDWebServerResponse(statusCode: 404)
     }
     
-    // TODO: See if vector data is gzipped - as if so we need to unzip it here.
+    // If this is a vector tile, it must be unzipped first.
+    if tileData.isGzipped {
+      guard let unzippedTile = try? tileData.gunzipped() else {
+        return GCDWebServerResponse(statusCode: 404)
+      }
+      
+      return GCDWebServerDataResponse(data: unzippedTile, contentType: "")
+    }
     
     return GCDWebServerDataResponse(data: tileData, contentType: "")
   }
