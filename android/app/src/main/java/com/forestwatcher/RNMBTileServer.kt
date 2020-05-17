@@ -119,7 +119,7 @@ object RNMBTileServer: Runnable {
     private fun loadContent(source: RNMBTileSource?, route: String): ByteArray? {
         val tileParams = route.substringAfter("?").split("&")
         // TODO: This is quite nasty - what would be the most kotlin-y way to do this?
-        val (z, x, y) = tileParams.map { it.replace(" HTTP/1", "").replace("x=", "").replace("y=", "").replace("z=", "").toInt() }
+        val (z, x, y) = tileParams.map { it.replace(" HTTP/1", "").toInt() }
 
         try {
             val output = ByteArrayOutputStream()
