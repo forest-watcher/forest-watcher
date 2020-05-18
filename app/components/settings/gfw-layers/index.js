@@ -9,8 +9,6 @@ import Row from 'components/common/row';
 
 import type { GFWContextualLayer } from 'types/layers.types';
 
-export const ACCEPTED_FILE_TYPES = ['json', 'geojson', 'topojson', 'gpx', 'zip', 'kmz', 'kml'];
-
 type Props = {
   componentId: string,
   fetchLayers: (page: number) => void,
