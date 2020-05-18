@@ -1,4 +1,4 @@
-import Theme, { isSmallScreen } from 'config/theme';
+import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
@@ -34,5 +34,25 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
     fontSize: 12
+  },
+  searchContainer: {
+    ...Theme.tableRow,
+    marginTop: 12,
+    paddingHorizontal: 24,
+    marginBottom: 0
+  },
+  topContainer: {
+    paddingBottom: 9
+  },
+  topContainerScrolled: {
+    borderBottomWidth: 1,
+    borderBottomColor: Theme.colors.veryLightPinkTwo
+  },
+  searchField: {
+    flex: 1,
+    fontFamily: Theme.font,
+    fontSize: 17,
+    fontWeight: '400',
+    color: Theme.fontColors.secondary
   }
 });

@@ -25,8 +25,8 @@ function mapStateToProps(state: State) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
-    fetchLayers: async (page: number) => {
-      await dispatch(getGFWLayers(page));
+    fetchLayers: async (page: number, searchTerm: ?string) => {
+      await dispatch(getGFWLayers(page, searchTerm));
     }
   };
 }

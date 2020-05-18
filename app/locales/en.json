@@ -355,7 +355,12 @@
     "importLayer": {
         "gfw": {
             "title": "Add GFW Layers",
-            "allLayers": "All GFW Layers (%{count})"
+            "allLayers": "All GFW Layers (%{count})",
+            "noResults": "No results for ‘%{searchTerm}'",
+            "results": "%{count} Result for '%{searchTerm}’",
+            "results_plural": "%{count} Results for ‘%{searchTerm}’",
+            "searchHint": "Search GFW layers by typing the layer name",
+            "searchPlaceholder": "Search for a Layer"
         }
     },
     "layers": {
