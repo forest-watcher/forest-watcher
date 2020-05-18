@@ -25,6 +25,7 @@ type Props = {
   importError: ?Error,
   importingLayer: ?string,
   mappingFileType: MappingFileType,
+  onImported: () => void,
   popToComponentId?: ?string
 };
 
@@ -81,6 +82,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
               name: null
             },
             mappingFileType: this.props.mappingFileType,
+            onImported: this.props.onImported,
             popToComponentId: this.props.popToComponentId
           }
         }
@@ -194,7 +196,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
           </Row>
           <View style={styles.faqContainer}>
             <Text style={styles.actionText} onPress={this.onFaqPress}>
-              {i18n.t(this.i18nKeyFor('faqLink'))}
+              {i18n.t(this.i18nKeyFor('faq'))}
             </Text>
           </View>
         </ScrollView>

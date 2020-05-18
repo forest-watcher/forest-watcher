@@ -62,7 +62,7 @@
             "addGFW": "",
             "custom": "Custom Basemap",
             "supportedFileTypesInclude": "Supported file types include:",
-            "customFAQs": "Custom Basemap FAQs",
+            "faq": "Custom Basemap FAQs",
             "fileTypeNotSupported": "File Type Not Supported",
             "fileTypeNotSupportedDesc": "is not a supported file type for basemaps.",
             "chooseAnother": "Choose Another"
@@ -151,7 +151,7 @@
             "addGFW": "Add Global Forest Watch Layer",
             "custom": "Custom Contextual Layer",
             "supportedFileTypesInclude": "Supported file types include:",
-            "customFAQs": "Custom Layer FAQs",
+            "faq": "Custom Layer FAQs",
             "fileTypeNotSupported": "File Type Not Supported",
             "fileTypeNotSupportedDesc": "is not a supported file type for contextual layers.",
             "chooseAnother": "Choose Another"

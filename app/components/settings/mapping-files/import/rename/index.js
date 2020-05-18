@@ -25,6 +25,7 @@ type Props = {
   importError: ?Error,
   importingLayer: ?string,
   mappingFileType: MappingFileType,
+  onImported: () => void,
   popToComponentId?: ?string
 };
 
@@ -76,6 +77,7 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
       }
 
       await this.props.importContextualLayer(this.state.file);
+      this.props.onImported();
       if (this.props.popToComponentId) {
         Navigation.popTo(this.props.popToComponentId);
       } else {
