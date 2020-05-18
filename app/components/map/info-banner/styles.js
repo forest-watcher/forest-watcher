@@ -6,6 +6,8 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     borderRadius: 6,
+    borderColor: Theme.colors.veryLightPink,
+    borderWidth: 2,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',

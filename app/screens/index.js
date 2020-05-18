@@ -38,6 +38,7 @@ import AlertLayerSettings from 'containers/settings/layer-settings/alerts';
 import RoutesLayerSettings from 'containers/settings/layer-settings/routes';
 import ContextualLayersLayerSettings from 'containers/settings/layer-settings/contextual-layers';
 import BasemapLayerSettings from 'containers/settings/layer-settings/basemap';
+import GFWContextualLayers from 'containers/settings/gfw-layers';
 import ImportMappingFileError from 'components/settings/mapping-files/import/error';
 
 /**
@@ -102,6 +103,7 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.ReportsLayerSettings', ReportLayerSettings, Provider, store);
   registerComponent('ForestWatcher.ContextualLayersLayerSettings', ContextualLayersLayerSettings, Provider, store);
   registerComponent('ForestWatcher.BasemapLayerSettings', BasemapLayerSettings, Provider, store);
+  registerComponent('ForestWatcher.GFWLayers', GFWContextualLayers, Provider, store);
 }
 
 export default registerScreens;
