@@ -142,6 +142,8 @@ class ImportMappingFileType extends PureComponent<Props, State> {
     }
   };
 
+  onFaqPress = debounceUI(() => {});
+
   renderFileTypeComponent = (fileType: string) => {
     return (
       <View style={styles.fileTypeContainer}>
@@ -175,7 +177,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
           ) : null}
           <Row
             action={customContextualLayerAction}
-            style={{ flex: 1, alignSelf: 'stretch'}}
+            style={{ flex: 1, alignSelf: 'stretch' }}
             rowStyle={styles.rowWithDescription}
           >
             <View style={styles.titleContainer}>
@@ -190,6 +192,11 @@ class ImportMappingFileType extends PureComponent<Props, State> {
               </View>
             </View>
           </Row>
+          <View style={styles.faqContainer}>
+            <Text style={styles.actionText} onPress={this.onFaqPress}>
+              {i18n.t(this.i18nKeyFor('faqLink'))}
+            </Text>
+          </View>
         </ScrollView>
       </View>
     );

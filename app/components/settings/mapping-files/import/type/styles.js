@@ -2,6 +2,15 @@ import Theme, { isSmallScreen } from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+  actionText: {
+    ...Theme.text,
+    fontSize: 12,
+    textAlign: 'center',
+    textDecorationLine: 'underline'
+  },
+  faqContainer: {
+    marginVertical: 16
+  },
   title: {
     flex: 1,
     fontFamily: Theme.font,
