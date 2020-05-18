@@ -155,7 +155,6 @@ class GFWLayers extends PureComponent<Props, State> {
         <View style={[styles.topContainer, this.state.scrolled ? styles.topContainerScrolled : {}]}>
           <View style={styles.searchContainer}>
             <TextInput
-              autofocus={false}
               autoCapitalize="none"
               autoCorrect={false}
               value={this.state.searchTerm}
@@ -169,8 +168,8 @@ class GFWLayers extends PureComponent<Props, State> {
               onChangeText={this.onSearchTermChange}
               onFocus={() => this.setState({ searchFocussed: true })}
             />
-            {!this.state.searchFocussed && <Image source={searchImage} />}
-            {this.state.searchFocussed && this.state.searchTerm && (
+            {!this.state.searchFocussed && !loadingForTheFirstTime && <Image source={searchImage} />}
+            {this.state.searchFocussed && !!this.state.searchTerm && (
               <TouchableOpacity onPress={this.onClearSearch}>
                 <Image source={clearImage} />
               </TouchableOpacity>
