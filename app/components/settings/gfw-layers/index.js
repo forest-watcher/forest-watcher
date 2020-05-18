@@ -1,6 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { Image, Platform, TouchableOpacity, Text, TextInput, View, FlatList } from 'react-native';
+import { Image, TouchableOpacity, Text, TextInput, View, FlatList } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import KeyboardSpacer from 'react-native-keyboard-spacer';
@@ -46,7 +46,7 @@ class GFWLayers extends PureComponent<Props, State> {
     return {
       topBar: {
         title: {
-          text: i18n.t('importGFWLayer.title')
+          text: i18n.t('importLayer.gfw.title')
         }
       }
     };
@@ -55,6 +55,7 @@ class GFWLayers extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      scrolled: false,
       searchFocussed: false,
       searchTerm: null
     };
@@ -78,7 +79,7 @@ class GFWLayers extends PureComponent<Props, State> {
     this.setState({
       searchTerm: text
     });
-    this.handleSearchDebounced();
+    this.handleSearchDebounced?.();
   };
 
   paginate = () => {
@@ -107,18 +108,18 @@ class GFWLayers extends PureComponent<Props, State> {
     if (this.state.searchFocussed) {
       if (this.state.searchTerm) {
         if (this.props.layers.length) {
-          headerString = i18n.t('importGFWLayer.results', {
+          headerString = i18n.t('importLayer.gfw.results', {
             count: this.props.layers.length,
             searchTerm: this.state.searchTerm
           });
         } else {
-          headerString = i18n.t('importGFWLayer.noResults', { searchTerm: this.state.searchTerm });
+          headerString = i18n.t('importLayer.gfw.noResults', { searchTerm: this.state.searchTerm });
         }
       } else {
-        headerString = i18n.t('importGFWLayer.searchHint');
+        headerString = i18n.t('importLayer.gfw.searchHint');
       }
     } else if (this.props.totalLayers !== null) {
-      headerString = i18n.t('importGFWLayer.allLayers', { count: this.props.totalLayers });
+      headerString = i18n.t('importLayer.gfw.allLayers', { count: this.props.totalLayers });
     }
 
     if (!headerString) {
@@ -131,7 +132,7 @@ class GFWLayers extends PureComponent<Props, State> {
     );
   };
 
-  renderLayer = ({ item, index }) => {
+  renderLayer = ({ item, index }: { item: GFWContextualLayer } ) => {
     return (
       <Row style={styles.row}>
         <Text style={styles.rowLabel}>{item.attributes.name}</Text>
@@ -150,7 +151,7 @@ class GFWLayers extends PureComponent<Props, State> {
               autoCorrect={false}
               value={this.state.searchTerm}
               underlineColorAndroid="transparent"
-              placeholder={i18n.t('importGFWLayer.searchPlaceholder')}
+              placeholder={i18n.t('importLayer.gfw.searchPlaceholder')}
               ref={ref => {
                 this.textInput = ref;
               }}

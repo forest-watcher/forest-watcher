@@ -37,7 +37,7 @@ export default StyleSheet.create({
   },
   searchContainer: {
     ...Theme.tableRow,
-    marginTop: 8,
+    marginTop: 12,
     paddingHorizontal: 24,
     marginBottom: 0
   },
