@@ -157,7 +157,7 @@ export default class AlertDataset extends PureComponent<Props, State> {
 
   _getAlertProperties = (alert: Alert, selectedNeighbours: Array<Alert>): AlertProperties => {
     const { name, recencyTimestamp, iconPrefix } = this.datasets[alert.slug];
-    const reported = this.props.reportedAlerts.includes(`${alert.long}${alert.lat}`);
+    const reported = this.props.reportedAlerts.some(pos => pos.lat === alert.lat && pos.long === alert.long);
     const isRecent = alert.date > recencyTimestamp;
     const selected = this._isAlertSelected(alert);
     const alertInClusterSelected = selectedNeighbours.includes(alert);

@@ -652,11 +652,6 @@ class MapComponent extends Component<Props, State> {
     this.createReport(this.state.selectedAlerts);
   });
 
-  reportArea = debounceUI(() => {
-    this.dismissInfoBanner();
-    this.createReport([...this.state.selectedAlerts]);
-  });
-
   createReport = (selectedAlerts: Array<Alert>) => {
     this.props.setCanDisplayAlerts(false);
     const { area } = this.props;
@@ -691,6 +686,7 @@ class MapComponent extends Component<Props, State> {
     this.props.createReport({
       area,
       reportName,
+      selectedAlerts,
       userPosition: userLatLng || REPORTS.noGpsPosition,
       clickedPosition: JSON.stringify(latLng)
     });

@@ -35,7 +35,7 @@ export type AlertsState = {
       [areaId: string]: string
     }
   },
-  reported: Array<string>,
+  reported: [{ lat: number, lon: number }],
   canDisplayAlerts: boolean,
   syncError: boolean,
   queue: Array<string>

@@ -7,11 +7,12 @@ import Config from 'react-native-config';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
-import { UPLOAD_REPORT_REQUEST } from 'redux-modules/reports';
+import { CREATE_REPORT } from 'redux-modules/reports';
 import { RETRY_SYNC } from 'redux-modules/app';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import storeAlertsFromCsv from 'helpers/alert-store/storeAlertsFromCsv';
 import deleteAlerts from 'helpers/alert-store/deleteAlerts';
+import type { Report } from 'types/reports.types';
 
 const SET_CAN_DISPLAY_ALERTS = 'alerts/SET_CAN_DISPLAY_ALERTS';
 export const SET_ACTIVE_ALERTS = 'alerts/SET_ACTIVE_ALERTS';
@@ -40,13 +41,19 @@ export default function reducer(state: AlertsState = initialState, action: Alert
     }
     case SET_CAN_DISPLAY_ALERTS:
       return { ...state, canDisplayAlerts: action.payload };
-    case UPLOAD_REPORT_REQUEST: {
-      const { alerts } = action.payload;
+    case CREATE_REPORT: {
+      const reportObj = action.payload;
+      const reportId = Object.keys(reportObj)?.[0];
+      if (!(reportId && reportObj?.[reportId])) {
+        return state;
+      }
+      const report: Report = reportObj?.[reportId];
+      const { selectedAlerts } = report;
       let reported = [...state.reported];
 
-      if (alerts && alerts.length) {
-        alerts.forEach(alert => {
-          reported = [...reported, `${alert.lon}${alert.lat}`];
+      if (selectedAlerts?.length) {
+        selectedAlerts.forEach(alert => {
+          reported = [...reported, alert];
         }, this);
       }
       return { ...state, reported };
