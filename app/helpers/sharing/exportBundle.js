@@ -15,7 +15,7 @@ import { storeLayerFiles } from 'helpers/layer-store/storeLayerFiles';
 /**
  * Extension of the final bundle
  */
-export const BUNDLE_FILE_EXTENSION: string = '.gfw.bundle';
+export const BUNDLE_FILE_EXTENSION: string = '.gfwbundle';
 
 /**
  * Directory on the device where the bundle will be prepared
