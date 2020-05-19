@@ -17,13 +17,12 @@ sealed class RNMBTileSourceError : Error() {
 // Defines a MBTileSource object, which is used by the tileserver to query for given tile indexes.
 class RNMBTileSource(var id: String, var filePath: String) {
 
-    // TODO: Is this the best structure for this type of object?
     companion object {
         /// Defines the raster formats the app is supporting
-        val validRasterFormats = listOf("jpg", "png")
+        val VALID_RASTER_FORMATS = listOf("jpg", "png")
 
         /// Defines the vector formats the app is supporting
-        val validVectorFormats = listOf("pbf", "mvt")
+        val VALID_VECTOR_FORMATS = listOf("pbf", "mvt")
     }
 
     // Defines metadata for this source object.
@@ -51,8 +50,8 @@ class RNMBTileSource(var id: String, var filePath: String) {
             format = getMetadata("format")
             val tms = true
             isVector = when (format) {
-                in validVectorFormats -> true
-                in validRasterFormats -> false
+                in VALID_VECTOR_FORMATS -> true
+                in VALID_RASTER_FORMATS -> false
                 else -> throw RNMBTileSourceError.UnsupportedFormatError()
             }
             val tileSize = 256
