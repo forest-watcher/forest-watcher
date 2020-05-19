@@ -38,7 +38,6 @@ export type Area = {
   createdAt: string,
   image: string,
   datasets: Array<Dataset>,
-  dataset?: Dataset,
   use: Object,
   iso: Object,
   reportTemplate: Template,

@@ -2,7 +2,7 @@
 import React, { Component, type Node } from 'react';
 
 import type { Alert, AlertsAction } from 'types/alerts.types';
-import type { Area, AreasAction } from 'types/areas.types';
+import type { AreasAction, Dataset } from 'types/areas.types';
 import type { Basemap } from 'types/basemaps.types';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
 import type { Location, LocationPoint, Route } from 'types/routes.types';
@@ -116,7 +116,12 @@ type Props = {
   setCanDisplayAlerts: boolean => AlertsAction,
   reportedAlerts: Array<string>,
   canDisplayAlerts: boolean,
-  area: ?Area,
+  area: ?{
+    dataset: ?Dataset,
+    id: string,
+    name: string,
+    templateId: string
+  },
   setActiveAlerts: () => AlertsAction,
   contextualLayer: ?ContextualLayer,
   coordinatesFormat: CoordinatesFormat,
@@ -626,7 +631,7 @@ class MapComponent extends Component<Props, State> {
     this.createReport([...this.state.selectedAlerts]);
   });
 
-  createReport = (selectedAlerts: Array<Alert>) => {
+  createReport = (selectedAlerts: Array<{ lat: number, long: number }>) => {
     const { area } = this.props;
     const { userLocation, customReporting, mapCenterCoords } = this.state;
 

@@ -63,7 +63,12 @@ export type BasicReport = {
   reportName: string,
   userPosition: string, // "x,x"
   clickedPosition: string, // JSON representation of an array of objects with lat and lon props
-  area: Area
+  area: {
+    dataset: ?Dataset,
+    id: string,
+    name: string,
+    templateId: string
+  }
 };
 
 export type ReportArea = {
