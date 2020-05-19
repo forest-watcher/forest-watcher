@@ -144,7 +144,9 @@ class AlertLayerSettings extends PureComponent<Props> {
                 largerLeftPadding
               />
               <View style={styles.selectRowContainer}>
-                <Text style={styles.smallLabel}>{i18n.t(`map.layerSettings.alertSettings.timeFrame`)}</Text>
+                <Text style={[styles.smallLabel, !gladActive ? styles.inactiveHeading : {}]}>
+                  {i18n.t(`map.layerSettings.alertSettings.timeFrame`)}
+                </Text>
                 {gladActive && <Text style={styles.bodyText}>{gladShowingDescription}</Text>}
               </View>
               <Dropdown
@@ -176,7 +178,9 @@ class AlertLayerSettings extends PureComponent<Props> {
                 largerLeftPadding
               />
               <View style={styles.selectRowContainer}>
-                <Text style={styles.smallLabel}>{i18n.t(`map.layerSettings.alertSettings.timeFrame`)}</Text>
+                <Text style={[styles.smallLabel, !viirsActive ? styles.inactiveHeading : {}]}>
+                  {i18n.t(`map.layerSettings.alertSettings.timeFrame`)}
+                </Text>
                 {viirsActive && <Text style={styles.bodyText}>{viirsShowingDescription}</Text>}
               </View>
               <Dropdown

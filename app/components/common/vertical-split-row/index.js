@@ -154,7 +154,7 @@ export default class VerticalSplitRow extends Component<Props> {
                 style={styles.settingsButton}
               />
             )}
-            {this.props.legend?.length !== 0 && (
+            {this.props.legend?.length && (
               <View style={styles.legendContainer}>
                 {this.props.legend?.map(item => {
                   return (
