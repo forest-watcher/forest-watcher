@@ -11,6 +11,7 @@ class RNMBTileMetadata(var minZoomLevel: Int, var maxZoomLevel: Int, var isVecto
 // Defines various errors that may occur whilst working against this source.
 sealed class RNMBTileSourceError : Error() {
     class CouldNotReadFileError : RNMBTileSourceError()
+    class TileNotFoundError : RNMBTileSourceError()
     class UnsupportedFormatError : RNMBTileSourceError()
 }
 
@@ -66,12 +67,14 @@ class RNMBTileSource(var id: String, var filePath: String) {
     }
 
     // Given coordinates, queries the database and returns a tile if one exists.
-    fun getTile(z: Int, x: Int, y: Int): ByteArray? {
+    fun getTile(z: Int, x: Int, y: Int): ByteArray {
+        // TODO: This is what Android Studio recommended the formatting as - is this normal?!
         return database.select("tiles")
                 .whereArgs("(zoom_level = {z}) and (tile_column = {x}) and (tile_row = {y})",
                         "z" to z, "x" to x, "y" to y)
                 .parseList(TilesParser)
                 .run { if (!isEmpty()) get(0) else null }
+                ?: throw RNMBTileSourceError.TileNotFoundError()
     }
 
     // Given a metadata property, queries the database and returns it, if it exists.

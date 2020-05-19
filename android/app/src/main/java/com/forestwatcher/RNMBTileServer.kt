@@ -1,5 +1,6 @@
 package com.forestwatcher
 
+import android.net.Uri
 import android.util.Log
 import java.io.BufferedReader
 import java.io.ByteArrayOutputStream
@@ -8,6 +9,10 @@ import java.io.PrintStream
 import java.lang.Exception
 import java.net.ServerSocket
 import java.net.Socket
+
+sealed class RNMBTileServerError : Error() {
+    class InvalidQueryParameters : RNMBTileServerError()
+}
 
 // Defines an interface for running a tile server locally.
 object RNMBTileServer: Runnable {
@@ -64,17 +69,17 @@ object RNMBTileServer: Runnable {
     @Throws
     private fun handle(socket: Socket) {
         var reader: BufferedReader? = null
-        var output: PrintStream? = null
-
-        try {
+        reader.use {
+            var output: PrintStream? = null
             var route: String? = null
+
             reader = socket.getInputStream().reader().buffered()
 
             // Read HTTP headers and parse out the route.
             do {
-                val line = reader.readLine() ?: ""
+                val line = reader?.readLine() ?: ""
                 if (line.startsWith("GET")) {
-                    route = line.substringAfter("GET /").substringBefore(".")
+                    route = line.substringAfter("GET /").substringBefore(" ")
                     break
                 }
             } while (!line.isEmpty())
@@ -85,6 +90,8 @@ object RNMBTileServer: Runnable {
                 return
             }
 
+            val routeUrl = Uri.parse(route)
+
             // Output stream that we send the response to
             output = PrintStream(socket.getOutputStream())
 
@@ -94,7 +101,7 @@ object RNMBTileServer: Runnable {
                 return
             }
 
-            val bytes = loadContent(source, route) ?: run {
+            val bytes = loadContent(source, routeUrl) ?: run {
                 writeServerError(output)
                 return
             }
@@ -102,34 +109,36 @@ object RNMBTileServer: Runnable {
             // Send out the content.
             output.apply {
                 println("HTTP/1.0 200 OK")
-                println("Content-Type: " + detectMimeType(source!!.format))
+                println("Content-Type: " + detectMimeType(source?.format))
                 println("Content-Length: " + bytes.size)
-                if (source!!.isVector) println("Content-Encoding: gzip")
+                if (source?.isVector == true) println("Content-Encoding: gzip")
                 println()
                 write(bytes)
                 flush()
             }
-        } finally {
-            if (null != output) output.close()
-            reader?.close()
         }
+
+        // TODO: Do we need to close the output?
+        // if (null != output) output.close()
     }
 
     @Throws
-    private fun loadContent(source: RNMBTileSource?, route: String): ByteArray? {
-        val tileParams = route.substringAfter("?").split("&")
-        // TODO: This is quite nasty - what would be the most kotlin-y way to do this?
-        val (z, x, y) = tileParams.map { it.replace(" HTTP/1", "").toInt() }
+    private fun loadContent(source: RNMBTileSource?, route: Uri): ByteArray {
+        val z = route.getQueryParameter("z")?.toInt() ?: throw RNMBTileServerError.InvalidQueryParameters()
+        val x = route.getQueryParameter("x")?.toInt() ?: throw RNMBTileServerError.InvalidQueryParameters()
+        val y = route.getQueryParameter("y")?.toInt() ?: throw RNMBTileServerError.InvalidQueryParameters()
 
         try {
             val output = ByteArrayOutputStream()
-            val content = source?.getTile(z, x, y) ?: return null
+            val content = source?.getTile(z, x, y)
             output.write(content)
             output.flush()
             return output.toByteArray()
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
-            return null
+            throw e
+        } catch (e: Error) {
+            throw e
         }
     }
 
@@ -138,7 +147,7 @@ object RNMBTileServer: Runnable {
         output.flush()
     }
 
-    private fun detectMimeType(format: String?): String? = when (format) {
+    private fun detectMimeType(format: String?): String = when (format) {
         "jpg" -> "image/jpeg"
         "png" -> "image/png"
         "mvt" -> "application/x-protobuf"
