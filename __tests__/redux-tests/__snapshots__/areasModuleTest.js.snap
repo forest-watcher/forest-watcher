@@ -15,12 +15,6 @@ Object {
 exports[`Redux Areas Module Redux Snapshot Thunk Actions deleteArea with area 1`] = `
 Array [
   Object {
-    "payload": Object {
-      "areaId": "areaIDMock1",
-    },
-    "type": "routes/DELETE_ROUTE",
-  },
-  Object {
     "meta": Object {
       "offline": Object {
         "commit": Object {
