@@ -173,7 +173,9 @@ class ImportMappingFileType extends PureComponent<Props, State> {
                 {i18n.t(this.i18nKeyFor('addGFW'))}
               </Text>
               {!this.props.isConnected && (
-                <Text style={[styles.description, { paddingTop: 10 }]}>{i18n.t(this.i18nKeyFor('offlineWarning'))}</Text>
+                <Text style={[styles.description, { paddingTop: 10 }]}>
+                  {i18n.t(this.i18nKeyFor('offlineWarning'))}
+                </Text>
               )}
             </Row>
           ) : null}
