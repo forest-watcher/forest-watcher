@@ -50,7 +50,7 @@ function reconcileRoutes(activeRoute: ?Route, previousRoute: ?Route): ?Route {
 }
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
-  const area = getSelectedArea(state.areas.data, state.areas.selectedAreaId);
+  const area: ?Area = getSelectedArea(state.areas.data, state.areas.selectedAreaId);
   let areaCoordinates: ?Array<Coordinates> = null;
   let dataset = null;
   let areaProps = null;

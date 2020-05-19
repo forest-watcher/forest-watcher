@@ -375,7 +375,7 @@ function getCoordinateText(
 }
 
 // [1, 2] -> {latitude: 2, longitude: 1}
-export function coordsArrayToObject(coord: ?Array<number>) {
+export function coordsArrayToObject(coord: [number, number]) {
   return { latitude: coord?.[1], longitude: coord?.[0] };
 }
 // {latitude: 2, longitude: 1} -> [1, 2]
