@@ -1,3 +1,5 @@
+import Theme from 'config/theme';
+
 export const mapboxStyles = {
   reportIcon: {
     iconRotationAlignment: 'map',
@@ -8,15 +10,13 @@ export const mapboxStyles = {
   },
   clusteredPoints: {
     circlePitchAlignment: 'map',
-    circleRadius: 20, // this should be half the cluster radius in the styles
-    circleOpacity: 0.85,
-    circleStrokeWidth: 2,
-    circleStrokeColor: 'white'
+    circleRadius: 20
   },
   clusterCount: {
+    textColor: Theme.colors.white,
     textField: '{point_count}',
     textAllowOverlap: true,
-    textSize: 15,
+    textSize: 12,
     textPitchAlignment: 'map'
   }
 };
