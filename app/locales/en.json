@@ -152,6 +152,7 @@
         "import": {
             "uniqueNameError": "You have already given a layer this name, please choose a different name or delete the existing layer.",
             "error": "Failed to import layer, please make sure you are selecting the correct file type and the contents of the file matches the specification then try again.",
+            "offlineWarning": "Only available online",
             "save": "Import Layer",
             "title": "Layer Name",
             "choose": "Choose contextual layer type",
