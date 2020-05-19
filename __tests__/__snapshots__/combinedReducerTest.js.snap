@@ -33,7 +33,9 @@ Object {
     "syncing": false,
   },
   "basemaps": Object {
+    "importError": null,
     "importedBasemaps": Array [],
+    "importing": false,
   },
   "countries": Object {
     "data": Array [
@@ -1877,6 +1879,14 @@ Object {
     "migrated": true,
     "oldData": Object {},
   },
+  "gfwLayers": Object {
+    "data": Array [],
+    "fullyLoaded": false,
+    "loadedPage": null,
+    "paginating": false,
+    "syncing": false,
+    "total": null,
+  },
   "layerSettings": Object {},
   "layers": Object {
     "activeLayer": null,
@@ -1885,7 +1895,7 @@ Object {
     "data": Array [],
     "importError": null,
     "imported": Array [],
-    "importingLayer": null,
+    "importingLayer": false,
     "layersProgress": Object {},
     "pendingCache": Object {},
     "syncDate": Any<Number>,
@@ -1961,7 +1971,9 @@ Object {
     "syncing": false,
   },
   "basemaps": Object {
+    "importError": null,
     "importedBasemaps": Array [],
+    "importing": false,
   },
   "countries": Object {
     "data": Array [
@@ -3805,6 +3817,14 @@ Object {
     "migrated": true,
     "oldData": Object {},
   },
+  "gfwLayers": Object {
+    "data": Array [],
+    "fullyLoaded": false,
+    "loadedPage": null,
+    "paginating": false,
+    "syncing": false,
+    "total": null,
+  },
   "layerSettings": Object {},
   "layers": Object {
     "activeLayer": null,
@@ -3813,7 +3833,7 @@ Object {
     "data": Array [],
     "importError": null,
     "imported": Array [],
-    "importingLayer": null,
+    "importingLayer": false,
     "layersProgress": Object {},
     "pendingCache": Object {},
     "syncDate": Any<Number>,

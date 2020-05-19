@@ -31,6 +31,36 @@ export type LayersState = {
   importingLayer: boolean
 };
 
+export type GFWContextualLayer = {
+  id: string,
+  type: string,
+  attributes: {
+    slug: string,
+    userId: string,
+    application: Array<string>,
+    name: string,
+    default: boolean,
+    dataset: string,
+    env: string,
+    provider: string,
+    iso: Array<string>,
+    description: ?string,
+    layerConfig: *,
+    legendConfig: *,
+    applicationConfig: *,
+    staticImageConfig: ?*
+  }
+};
+
+export type GFWLayersState = {
+  data: Array<GFWContextualLayer>,
+  fullyLoaded: boolean,
+  syncing: boolean,
+  loadedPage: ?number,
+  paginating: boolean,
+  total: ?number
+};
+
 export type LayersProgress = {
   [string]: { layerId: number }
 };
@@ -53,6 +83,9 @@ export type LayersPendingCache = {
 };
 
 export type LayersAction =
+  | GetGFWLayersRequest
+  | GetGFWLayersCommit
+  | GetGFWLayersRollback
   | GetLayersRequest
   | GetLayersCommit
   | GetLayersRollback
@@ -70,6 +103,33 @@ export type LayersAction =
   | ImportLayerClear
   | ImportLayerRollback
   | SaveAreaCommit;
+
+type GetGFWLayersRequest = {
+  type: 'layers/GET_GFW_LAYERS_REQUEST',
+  meta: OfflineMeta
+};
+type GetGFWLayersCommit = {
+  type: 'layers/GET_GFW_LAYERS_COMMIT',
+  payload: {
+    data: Array<*>,
+    links: {
+      first: string,
+      last: string,
+      self: string,
+      next: string,
+      prev: string
+    },
+    meta: {
+      'total-pages': number,
+      'total-items': number,
+      size: number
+    }
+  },
+  meta: { page: number }
+};
+type GetGFWLayersRollback = {
+  type: 'layers/GET_GFW_LAYERS_ROLLBACK'
+};
 
 type GetLayersRequest = {
   type: 'layers/GET_LAYERS_REQUEST',

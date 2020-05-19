@@ -43,6 +43,50 @@
         <category android:name="android.intent.category.LAUNCHER" />
         <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
       </intent-filter>
+      <!-- For below filters, see https://stackoverflow.com/questions/1733195/android-intent-filter-for-a-particular-file-extension -->
+      <intent-filter
+        android:label="@string/APP_NAME"
+        android:icon="@mipmap/ic_launcher"
+        android:priority="50"
+      >
+        <action android:name="android.intent.action.ATTACH_DATA" />
+        <action android:name="android.intent.action.SEND" />
+        <action android:name="android.intent.action.SEND_MULTIPLE" />
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <data android:mimeType="@string/SHARING_BUNDLE_MIME_TYPE" />
+        <data android:mimeType="application/zip" />
+        <data android:mimeType="application/x-zip" />
+      </intent-filter>
+      <intent-filter
+        android:label="@string/APP_NAME"
+        android:icon="@mipmap/ic_launcher"
+        android:priority="50"
+      >
+        <action android:name="android.intent.action.ATTACH_DATA" />
+        <action android:name="android.intent.action.SEND" />
+        <action android:name="android.intent.action.SEND_MULTIPLE" />
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <data android:scheme="content" android:host="*" android:pathPattern="..*\\.gfw\\.bundle" />
+        <data android:scheme="file" android:host="*" android:pathPattern="..*\\.gfw\\.bundle" />
+      </intent-filter>
+      <intent-filter
+        android:label="@string/APP_NAME"
+        android:icon="@mipmap/ic_launcher"
+        android:priority="50"
+      >
+        <action android:name="android.intent.action.ATTACH_DATA" />
+        <action android:name="android.intent.action.SEND" />
+        <action android:name="android.intent.action.SEND_MULTIPLE" />
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <data android:scheme="content" android:host="*" android:mimeType="*/*" android:pathPattern="..*\\.gfw\\.bundle" />
+        <data android:scheme="file" android:host="*" android:mimeType="*/*" android:pathPattern="..*\\.gfw\\.bundle" />
+      </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
 

@@ -9,6 +9,7 @@ import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import InputText from 'components/common/text-input';
 import i18n from 'i18next';
+import type { Basemap, BasemapsAction } from 'types/basemaps.types';
 import type { MappingFileType } from 'types/common.types';
 import type { File } from 'types/file.types';
 import type { ContextualLayer, LayersAction } from 'types/layers.types';
@@ -17,13 +18,13 @@ import type { Thunk } from 'types/store.types';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 type Props = {
-  clearImportContextualLayerState: () => LayersAction,
+  clearState: () => BasemapsAction | LayersAction,
   componentId: string,
-  existingLayers: Array<ContextualLayer>,
+  existing: Array<Basemap | ContextualLayer>,
   file: File,
-  importContextualLayer: (layerFile: File) => Thunk<Promise<void>>,
+  import: (file: File) => Thunk<Promise<void>>,
   importError: ?Error,
-  importingLayer: ?string,
+  importing: boolean,
   mappingFileType: MappingFileType,
   onImported: () => void,
   popToComponentId?: ?string
@@ -47,7 +48,7 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.props.clearImportContextualLayerState();
+    this.props.clearState();
     Navigation.events().bindComponent(this);
     this.state = {
       file: this.props.file,
@@ -71,13 +72,10 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
   onImportPressed = async () => {
     try {
       Keyboard.dismiss();
-      if (this.props.mappingFileType === 'basemaps') {
-        console.warn('3SC', 'Importing basemaps is not yet redux-complete!');
-        return;
-      }
 
-      await this.props.importContextualLayer(this.state.file);
-      this.props.onImported();
+      await this.props.import(this.state.file);
+        this.props.onImported();
+
       if (this.props.popToComponentId) {
         Navigation.popTo(this.props.popToComponentId);
       } else {
@@ -96,12 +94,12 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
       };
     }
 
-    const matchingFile = this.props.existingLayers.find(layer => {
+    const matchingFile = this.props.existing.find(mappingFile => {
       // We also make sure we're not conflicting with ourself here...
       // Because the file is added before the screen disappears if we don't make
       // sure the "matches" id is different to the currently adding files id
       // then the duplicate name message is shown as the screen is dismissing on iOS
-      return layer.name === this.state.file.name && layer.id !== this.state.file.id;
+      return mappingFile.name === this.state.file.name && mappingFile.id !== this.state.file.id;
     });
 
     const nameAlreadyTaken = !!matchingFile;
@@ -145,7 +143,7 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
           <ActionButton
             onPress={nameValidity.valid ? this.onImportPressed : null}
             text={i18n.t(this.i18nKeyFor('save'))}
-            disabled={!nameValidity.valid || !!this.props.importingLayer}
+            disabled={!nameValidity.valid || this.props.importing}
             short
             noIcon
           />

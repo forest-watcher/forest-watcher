@@ -1,6 +1,5 @@
 // @flow
 import type { MappingFileType } from 'types/common.types';
-import type { Thunk } from 'types/store.types';
 import React, { PureComponent } from 'react';
 import { Text, ScrollView, View, Image } from 'react-native';
 import { Navigation } from 'react-native-navigation';
@@ -19,19 +18,12 @@ const fileIcon = require('assets/fileIcon.png');
 
 type Props = {
   componentId: string,
-  existingLayers: Array<File>,
-  file: File,
-  importContextualLayer: (file: File) => Thunk<Promise<void>>,
-  importError: ?Error,
-  importingLayer: ?string,
   mappingFileType: MappingFileType,
   onImported: () => void,
   popToComponentId?: ?string
 };
 
-type State = {
-  file: File
-};
+type State = {};
 
 class ImportMappingFileType extends PureComponent<Props, State> {
   static options(passProps: { mappingFileType: MappingFileType }) {
@@ -47,9 +39,6 @@ class ImportMappingFileType extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     Navigation.events().bindComponent(this);
-    this.state = {
-      file: this.props.file
-    };
   }
 
   acceptedFileTypes = (mappingFileType: MappingFileType = this.props.mappingFileType): Array<string> => {
@@ -96,6 +85,14 @@ class ImportMappingFileType extends PureComponent<Props, State> {
     }
   });
 
+  importGFWLayer = debounceUI(() => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.GFWLayers'
+      }
+    });
+  });
+
   verifyImportedFile = (file: File) => {
     const fileExtension = file.name
       ?.split('.')
@@ -135,17 +132,6 @@ class ImportMappingFileType extends PureComponent<Props, State> {
     });
   };
 
-  onImportPressed = async () => {
-    try {
-      await this.props.importContextualLayer(this.state.file);
-      Navigation.pop(this.props.componentId);
-    } catch (err) {
-      console.warn(err);
-    }
-  };
-
-  onFaqPress = debounceUI(() => {});
-
   renderFileTypeComponent = (fileType: string) => {
     return (
       <View style={styles.fileTypeContainer}>
@@ -160,7 +146,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
   render() {
     const gfwLayerAction = {
       icon: nextIcon,
-      callback: () => {}
+      callback: this.importGFWLayer
     };
     const customContextualLayerAction = {
       icon: null,

@@ -38,6 +38,12 @@
         "noAlerts": "No alerts for this area"
     },
     "basemaps": {
+        "names": {
+            "default": "Default",
+            "dark": "Dark",
+            "satellite": "Satellite",
+            "landsat": "Landsat"
+        },
         "empty": {
             "action": "App FAQs",
             "body": "Tap the '+' icon to set up a custom basemap",
@@ -344,6 +350,17 @@
             "title": "FAQs",
             "questionCountPlural": "%{count} Questions",
             "questionCountSingular": "1 Question"
+        }
+    },
+    "importLayer": {
+        "gfw": {
+            "title": "Add GFW Layers",
+            "allLayers": "All GFW Layers (%{count})",
+            "noResults": "No results for ‘%{searchTerm}'",
+            "results": "%{count} Result for '%{searchTerm}’",
+            "results_plural": "%{count} Results for ‘%{searchTerm}’",
+            "searchHint": "Search GFW layers by typing the layer name",
+            "searchPlaceholder": "Search for a Layer"
         }
     },
     "layers": {

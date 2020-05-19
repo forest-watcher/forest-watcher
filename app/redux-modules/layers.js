@@ -51,7 +51,7 @@ const initialState = {
   pendingCache: {}, // key value with layer => areaId to cache
   importError: null,
   imported: [],
-  importingLayer: null // file path for layer which is being imported
+  importingLayer: false // whether a layer is currently being imported.
 };
 
 export default function reducer(state: LayersState = initialState, action: LayersAction) {
