@@ -1,7 +1,7 @@
 // @flow
 import type { Area } from 'types/areas.types';
 import type { Alert } from 'types/alerts.types';
-import type { Report } from 'types/reports.types';
+import type { Report, Template } from 'types/reports.types';
 import type { Route } from 'types/routes.types';
 import type { Basemap } from 'types/basemaps.types';
 import type { ContextualLayer } from 'types/layers.types';
@@ -105,7 +105,8 @@ export type SharingBundle = {|
   layers: Array<ContextualLayer>,
   manifest: SharingBundleManifest,
   reports: Array<Report>,
-  routes: Array<Route>
+  routes: Array<Route>,
+  templates: { [string]: Template }
 |};
 
 export type UnpackedSharingBundle = {|

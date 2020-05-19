@@ -9,20 +9,8 @@ import Theme from 'config/theme';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import Dropdown from 'components/common/dropdown';
 import type { Area } from 'types/areas.types';
-import type { LayerSettingsAction } from 'types/layerSettings.types';
+import type { AlertLayerSettingsType, LayerSettingsAction } from 'types/layerSettings.types';
 import { DATASETS } from 'config/constants';
-
-type AlertLayerSettingsType = {
-  layerIsActive: boolean,
-  glad: {
-    active: boolean,
-    timeFrame: number
-  },
-  viirs: {
-    active: boolean,
-    timeFrame: number
-  }
-};
 
 type Props = {
   featureId: string,

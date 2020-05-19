@@ -9,7 +9,6 @@ import intersect from '@turf/intersect';
 import { type LayerType, pathForLayer, pathForLayerType, tileForFileName } from 'helpers/layer-store/layerFilePaths';
 import tilebelt from '@mapbox/tilebelt';
 
-// $FlowFixMe
 const RNFS = require('react-native-fs');
 
 /**

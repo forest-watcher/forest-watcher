@@ -3,6 +3,7 @@
 import React, { PureComponent } from 'react';
 import { View, Text, ScrollView, Platform } from 'react-native';
 
+import _ from 'lodash';
 import moment from 'moment';
 import i18n from 'i18next';
 import debounceUI from 'helpers/debounceUI';
@@ -26,7 +27,6 @@ import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
 import { getShareButtonText } from 'helpers/sharing/utils';
 
-const nextIcon = require('assets/next.png');
 const emptyIcon = require('assets/routesEmpty.png');
 const routeMapBackground = require('assets/routeMapBackground.png');
 
@@ -206,15 +206,7 @@ export default class Routes extends PureComponent<Props, State> {
    */
   sortedRoutes(routes: Array<Route>) {
     const sorted = [...routes];
-    sorted.sort((a, b) => {
-      if (a.date > b.date) {
-        return -1;
-      }
-      if (a.date < b.date) {
-        return +1;
-      }
-      return 0;
-    });
+    sorted.sort((a, b) => b.startDate - a.startDate);
     return sorted;
   }
 
@@ -230,11 +222,10 @@ export default class Routes extends PureComponent<Props, State> {
    * renderItems - Returns an array of rows, based on the route data provided.
    *
    * @param  {Array} data <Route>  An array of routes.
-   * @param  {any} image                The action image.
    * @param  {void} onPress             The action callback.
    * @return {Array}                    An array of route rows.
    */
-  renderItems(data: Array<Route>, image: any, onPress: string => void) {
+  renderItems(data: Array<Route>, onPress: Route => void): any {
     return this.sortedRoutes(data).map((item, index) => {
       const routeDistance = getDistanceOfPolyline(item.locations);
       const dateText = moment(item.endDate).format('ll');
@@ -265,7 +256,7 @@ export default class Routes extends PureComponent<Props, State> {
     });
   }
 
-  renderSection(title: string, ...options: [Array<Route>, any, (string) => void]) {
+  renderSection(title: string, ...options: [Array<Route>, (Route) => void]) {
     return (
       <View style={styles.listContainer}>
         <View style={styles.listHeader}>
@@ -300,6 +291,8 @@ export default class Routes extends PureComponent<Props, State> {
       );
     }
 
+    const [importedRoutes, myRoutes] = _.partition(routes, route => route.isImported);
+
     return (
       <ScrollView
         style={styles.container}
@@ -308,12 +301,18 @@ export default class Routes extends PureComponent<Props, State> {
         showsHorizontalScrollIndicator={false}
       >
         <View style={styles.container}>
-          {routes &&
-            routes.length > 0 &&
+          {myRoutes &&
+            myRoutes.length > 0 &&
             this.renderSection(
               i18n.t('routes.myRoutes'),
-              routes,
-              nextIcon,
+              myRoutes,
+              inExportMode ? this.onRouteSelectedForExport : this.onClickRoute
+            )}
+          {importedRoutes &&
+            importedRoutes.length > 0 &&
+            this.renderSection(
+              i18n.t('routes.importedRoutes'),
+              importedRoutes,
               inExportMode ? this.onRouteSelectedForExport : this.onClickRoute
             )}
         </View>

@@ -15,8 +15,7 @@ type OwnProps = {|
 function mapStateToProps(state: State, ownProps: OwnProps) {
   return {
     featureId: ownProps.featureId,
-    myRoutes: state.routes.previousRoutes,
-    importedRoutes: state.routes.importedRoutes,
+    routes: state.routes.previousRoutes,
     routesLayerSettings: state.layerSettings?.[ownProps.featureId]?.routes || DEFAULT_LAYER_SETTINGS.routes
   };
 }
