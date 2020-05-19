@@ -61,6 +61,7 @@ class RNMBTileSource(var id: String, var filePath: String) {
             metadata = RNMBTileMetadata(minZoomLevel = minZoomLevel, maxZoomLevel = maxZoomLevel, isVector = isVector, tms = tms, tileSize = tileSize, attribution = attribution, layersJson = layersJson)
         } catch (error: RNMBTileSourceError) {
             print(error.localizedMessage)
+            throw error
         }
     }
 
