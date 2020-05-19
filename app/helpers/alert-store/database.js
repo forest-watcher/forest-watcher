@@ -7,6 +7,12 @@ import Realm from 'realm';
 
 const SCHEMA_VERSION = 1;
 
+type Schema = {|
+  +name: string,
+  +primaryKey: string,
+  +properties: { [string]: string | { type: string, indexed: boolean } }
+|};
+
 const AlertSchema = {
   name: 'Alert',
   primaryKey: 'id',
@@ -33,12 +39,12 @@ export function generateAlertId(alert: Alert): string {
   return `${alert.areaId}_${alert.slug}_${alert.long}_${alert.lat}_${alert.date}`;
 }
 
-export function initDb(schema: any = [AlertSchema]) {
+export function initDb(schema: Schema = [AlertSchema]) {
   return new Realm({ schema, schemaVersion: SCHEMA_VERSION, migration: migrate });
 }
 
 function migrate(oldRealm, newRealm) {
-  if (oldRealm.schemaVersion === newRealm.schemaVersion) {
+  if (!oldRealm || oldRealm.schemaVersion === newRealm.schemaVersion) {
     return;
   }
 
