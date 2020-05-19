@@ -206,7 +206,7 @@ class MappingFiles extends Component<Props, State> {
                 style={styles.rowContent}
                 image={file.image ?? icons[mappingFileType].placeholder}
                 title={i18n.t(file.name)}
-                subtitle={'128 mb'}
+                subtitle={'- mb'}
                 selected={inShareMode ? this.state.selectedForExport.includes(file.id) : null}
               />
             </View>
@@ -218,6 +218,8 @@ class MappingFiles extends Component<Props, State> {
 
   renderImportedFiles = () => {
     const { importedFiles, mappingFileType } = this.props;
+    const { inShareMode } = this.state;
+
     if (importedFiles.length === 0) {
       if (mappingFileType === 'basemaps') {
         return (
@@ -234,17 +236,22 @@ class MappingFiles extends Component<Props, State> {
     return (
       <View>
         <Text style={styles.heading}>{i18n.t(this.i18nKeyFor('imported'))}</Text>
-        {importedFiles.map((file, index) => {
+        {importedFiles.map(file => {
           return (
-            <ActionsRow
-              onPress={this.shareLayer.bind(this, file)}
-              style={styles.rowContent}
-              imageSrc={icons[mappingFileType].placeholder}
-              key={index}
-            >
-              <Text style={styles.rowLabel}>{file.name}</Text>
-              {file.size != null && <Text style={styles.rowLabel}>{formatBytes(file.size)}</Text>}
-            </ActionsRow>
+            <View key={file.id} style={styles.rowContainer}>
+              <MappingFileRow
+                onPress={() => {
+                  if (inShareMode) {
+                    this.onFileSelectedForExport(file.id);
+                  }
+                }}
+                style={styles.rowContent}
+                image={file.image ?? icons[mappingFileType].placeholder}
+                title={i18n.t(file.name)}
+                subtitle={'- mb'}
+                selected={inShareMode ? this.state.selectedForExport.includes(file.id) : null}
+              />
+            </View>
           );
         })}
       </View>

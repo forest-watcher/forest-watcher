@@ -46,7 +46,7 @@ export default async function importLayerFile(layerFile: File): Promise<LayerFil
       await RNFS.mkdir(baseDirectory);
       await RNFS.copyFile(file.uri, path);
 
-      return { path: path, id: file.id, size: size, name: file.name ?? '' };
+      return { isImported: true, path: path, id: file.id, size: size, name: file.name ?? '' };
     }
     case 'json':
     case 'topojson':
