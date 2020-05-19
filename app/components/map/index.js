@@ -1,9 +1,19 @@
 // @flow
 import React, { Component } from 'react';
 
+import type { Alert, AlertsAction } from 'types/alerts.types';
+import type { AreasAction } from 'types/areas.types';
+import type { Basemap } from 'types/basemaps.types';
+import type { Coordinates } from 'types/common.types';
+import type { Location, Route } from 'types/routes.types';
+import type { Thunk } from 'types/store.types';
+import type { BasicReport } from 'types/reports.types';
+import type { ContextualLayer } from 'types/layers.types';
+import type { LayerSettings } from 'types/layerSettings.types';
+
 import {
   Animated,
-  Alert,
+  Alert as RNAlert,
   AppState,
   BackHandler,
   Dimensions,
@@ -62,16 +72,7 @@ import {
   isValidLatLngArray
 } from 'helpers/location';
 import RouteMarkers from 'components/map/route';
-import type { AlertsAction } from 'types/alerts.types';
-import type { AreasAction } from 'types/areas.types';
-import type { Basemap } from 'types/basemaps.types';
-import type { Coordinates } from 'types/common.types';
-import type { Location, Route } from 'types/routes.types';
-import type { Thunk } from 'types/store.types';
-import type { BasicReport } from 'types/reports.types';
 import InfoBanner from 'components/map/info-banner';
-import type { ContextualLayer } from 'types/layers.types';
-import type { LayerSettings } from 'types/layerSettings.types';
 import Alerts from 'components/map/alerts';
 import { formatInfoBannerDate } from 'helpers/date';
 import Reports from 'containers/map/reports';
@@ -477,7 +478,7 @@ class MapComponent extends Component<Props, State> {
 
       emitter.on(GFWOnErrorEvent, this.onLocationUpdateError);
     } catch (err) {
-      Alert.alert(
+      RNAlert.alert(
         i18n.t('routes.insufficientPermissionsDialogTitle'),
         i18n.t('routes.insufficientPermissionsDialogMessage'),
         [
@@ -550,7 +551,7 @@ class MapComponent extends Component<Props, State> {
   });
 
   onStopAndDeleteRoute = debounceUI(() => {
-    Alert.alert(i18n.t('routes.confirmDeleteTitle'), i18n.t('routes.confirmDeleteMessage'), [
+    RNAlert.alert(i18n.t('routes.confirmDeleteTitle'), i18n.t('routes.confirmDeleteMessage'), [
       {
         text: i18n.t('commonText.confirm'),
         onPress: () => {
