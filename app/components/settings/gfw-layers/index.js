@@ -148,7 +148,7 @@ class GFWLayers extends PureComponent<Props, State> {
     );
   };
 
-  renderLayer = ({ item, index }: { item: GFWContextualLayer } ) => {
+  renderLayer = ({ item, index }: { item: GFWContextualLayer }) => {
     return (
       <Row style={styles.row}>
         <Text style={styles.rowLabel}>{item.attributes.name}</Text>
