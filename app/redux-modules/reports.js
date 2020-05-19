@@ -90,7 +90,8 @@ export default function reducer(state: ReportsState = initialState, action: Repo
       return { ...state, templates };
     }
     case CREATE_REPORT: {
-      const list = { ...state.list, ...action.payload };
+      const { report } = action.payload;
+      const list = { ...state.list, [report.reportName]: report };
       return { ...state, list };
     }
     case DELETE_REPORT: {
@@ -181,12 +182,12 @@ export function createReport(report: BasicReport): ReportsAction {
   return {
     type: CREATE_REPORT,
     payload: {
-      [reportName]: {
+      selectedAlerts,
+      report: {
         area,
         reportName,
         userPosition,
         clickedPosition,
-        selectedAlerts,
         index: 0,
         answers: [],
         date: new Date().toISOString(),

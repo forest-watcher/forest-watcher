@@ -2,7 +2,6 @@
 import type { Area, Dataset, GetAreasCommit } from 'types/areas.types';
 import type { LogoutRequest } from 'types/user.types';
 import type { OfflineMeta } from 'types/offline.types';
-import { Alert } from 'react-native';
 
 export type Metadata = { id: string, label: string, value: any };
 
@@ -55,7 +54,6 @@ export type Report = {
   index: number,
   status: 'draft' | 'complete' | 'uploaded',
   date: string,
-  selectedAlerts?: ?[{ lat: number, lon: number }],
   answers: Array<Answer>
 };
 
@@ -63,7 +61,6 @@ export type BasicReport = {
   reportName: string,
   userPosition: [number, number],
   clickedPosition: [{ lat: number, lon: number }],
-  selectedAlerts: [{ lat: number, lon: number }],
   area: Area
 };
 
@@ -94,7 +91,8 @@ export type GetDefaultTemplateRollback = { type: 'report/GET_DEFAULT_TEMPLATE_RO
 export type CreateReport = {
   type: 'report/CREATE_REPORT',
   payload: {
-    [string]: Report
+    selectedAlerts: [{ lat: number, lon: number }],
+    report: Report
   }
 };
 export type DeleteReport = { type: 'report/DELETE_REPORT', payload: { reportName: string } };
