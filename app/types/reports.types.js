@@ -91,7 +91,7 @@ export type GetDefaultTemplateRollback = { type: 'report/GET_DEFAULT_TEMPLATE_RO
 export type CreateReport = {
   type: 'report/CREATE_REPORT',
   payload: {
-    selectedAlerts: [{ lat: number, lon: number }],
+    selectedAlerts: [{ lat: number, long: number }],
     report: Report
   }
 };
