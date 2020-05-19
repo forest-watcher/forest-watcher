@@ -21,6 +21,10 @@ import type { GFWContextualLayer } from 'types/layers.types';
 
 type Props = {
   componentId: string,
+  error: ?{
+    type: string,
+    response: *
+  },
   fetchLayers: (page: number, searchTerm: ?string) => Promise<*>,
   fullyLoaded: boolean,
   loadedPage: ?number,
@@ -130,12 +134,16 @@ class GFWLayers extends PureComponent<Props, State> {
       headerString = i18n.t('importLayer.gfw.allLayers', { count: this.props.totalLayers });
     }
 
+    if (this.props.error) {
+      headerString = i18n.t('importLayer.gfw.error');
+    }
+
     if (!headerString) {
       return null;
     }
     return (
       <View style={styles.listHeader}>
-        <Text style={styles.listTitle}>{headerString}</Text>
+        <Text style={[styles.listTitle, this.props.error ? styles.errorTitle : {}]}>{headerString}</Text>
       </View>
     );
   };

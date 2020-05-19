@@ -14,6 +14,7 @@ function mapStateToProps(state: State) {
   const isLoading = state.gfwLayers.syncing;
   const isPaginating = state.gfwLayers.paginating;
   return {
+    error: state.gfwLayers.error,
     layers: state.gfwLayers.data,
     loadedPage: state.gfwLayers.loadedPage,
     isInitialLoad: isLoading && !isPaginating,

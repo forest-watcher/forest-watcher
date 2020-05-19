@@ -58,7 +58,11 @@ export type GFWLayersState = {
   syncing: boolean,
   loadedPage: ?number,
   paginating: boolean,
-  total: ?number
+  total: ?number,
+  error: ?{
+    type: string,
+    response: *
+  }
 };
 
 export type LayersProgress = {
