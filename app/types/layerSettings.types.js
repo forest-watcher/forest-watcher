@@ -16,6 +16,26 @@
  *   ...
  * }
  */
+
+export type AlertLayerSettingsType = {
+  layerIsActive: boolean,
+  initialised: boolean,
+  glad: {
+    active: boolean,
+    timeFrame: number
+  },
+  viirs: {
+    active: boolean,
+    timeFrame: number
+  }
+};
+
+export type RoutesLayerSettingsType = {
+  showAll: boolean,
+  layerIsActive: boolean,
+  activeRouteIds: Array<string>
+};
+
 export type LayerSettingsState = { [featureId: string]: LayerSettings };
 export type LayerSettings = {
   reports: {
@@ -26,23 +46,8 @@ export type LayerSettings = {
   basemap: {
     activeBasemapId: string
   },
-  routes: {
-    showAll: boolean,
-    layerIsActive: boolean,
-    activeRouteIds: Array<string>
-  },
-  alerts: {
-    layerIsActive: boolean,
-    initialised: boolean,
-    glad: {
-      active: boolean,
-      timeFrame: number
-    },
-    viirs: {
-      active: boolean,
-      timeFrame: number
-    }
-  },
+  routes: RoutesLayerSettingsType,
+  alerts: AlertLayerSettingsType,
   contextualLayers: {
     layerIsActive: boolean,
     activeContextualLayerIds: Array<string>
@@ -176,7 +181,6 @@ export type ToggleRouteSelected = {
   type: 'layerSettings/TOGGLE_ROUTE_SELECTED',
   payload: {
     featureId: string,
-    routeId: string,
-    allRouteIds: Array<string>
+    routeId: string
   }
 };

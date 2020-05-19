@@ -1,6 +1,7 @@
 package com.forestwatcher;
 
 import android.content.Context;
+import cl.json.ShareApplication;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -15,7 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainApplication extends NavigationApplication {
+public class MainApplication extends NavigationApplication implements ShareApplication {
 
   private final ReactNativeHost mReactNativeHost = new NavigationReactNativeHost(this)
   {
@@ -81,5 +82,10 @@ public class MainApplication extends NavigationApplication {
         e.printStackTrace();
       }
     }
+  }
+
+  @Override
+  public String getFileProviderAuthority() {
+    return BuildConfig.APPLICATION_ID + ".provider";
   }
 }

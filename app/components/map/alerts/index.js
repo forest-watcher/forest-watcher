@@ -4,19 +4,8 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import AlertDataset from 'components/map/alerts/dataset';
+import type { AlertLayerSettingsType } from 'types/layerSettings.types';
 import type { Alert } from 'types/common.types';
-
-type AlertLayerSettingsType = {
-  layerIsActive: boolean,
-  glad: {
-    active: boolean,
-    timeFrame: number
-  },
-  viirs: {
-    active: boolean,
-    timeFrame: number
-  }
-};
 
 type Props = {|
   +alertLayerSettings: AlertLayerSettingsType,

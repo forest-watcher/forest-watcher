@@ -1910,7 +1910,6 @@ Object {
   },
   "routes": Object {
     "activeRoute": undefined,
-    "importedRoutes": Array [],
     "previousRoutes": Array [],
   },
   "setup": Object {
@@ -3848,7 +3847,6 @@ Object {
   },
   "routes": Object {
     "activeRoute": undefined,
-    "importedRoutes": Array [],
     "previousRoutes": Array [],
   },
   "setup": Object {

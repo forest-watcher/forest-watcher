@@ -66,7 +66,11 @@ class MappingFiles extends Component<Props, State> {
     };
   }
 
+  scrollView: ?ScrollView;
+
   shareSheet: ?ShareSheet;
+
+  scrollToBottomOnAppear: boolean = false;
 
   constructor(props: Props) {
     super(props);
@@ -87,6 +91,13 @@ class MappingFiles extends Component<Props, State> {
     tracker.trackScreenView(this.props.mappingFileType === 'contextualLayers' ? 'Layers' : 'Basemaps');
   }
 
+  componentDidAppear() {
+    if (this.scrollToBottomOnAppear) {
+      this.scrollView?.scrollToEnd?.({ animated: true });
+    }
+    this.scrollToBottomOnAppear = false;
+  }
+
   navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {
     if (buttonId === ImportButtonKey) {
       this.onPressImportFile();
@@ -99,11 +110,17 @@ class MappingFiles extends Component<Props, State> {
         name: 'ForestWatcher.ImportMappingFileType',
         passProps: {
           mappingFileType: this.props.mappingFileType,
+          onImported: this.onImported,
           popToComponentId: this.props.componentId
         }
       }
     });
   });
+
+  onImported = () => {
+    // Have to do this on appear otherwise won't have re-rendered with latest layer!
+    this.scrollToBottomOnAppear = true;
+  };
 
   /**
    * Handles the file row being selected while in export mode.
@@ -251,6 +268,9 @@ class MappingFiles extends Component<Props, State> {
   renderFilesList = () => {
     return (
       <ScrollView
+        ref={ref => {
+          this.scrollView = ref;
+        }}
         style={styles.list}
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}

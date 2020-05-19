@@ -23,6 +23,7 @@
             },
             "successful": "Exporting areas succeeded!"
         },
+        "importedAreas": "Imported Areas",
         "myAreas": "My Areas",
         "share": "Share Areas",
         "tooltip": {
@@ -68,7 +69,7 @@
             "addGFW": "",
             "custom": "Custom Basemap",
             "supportedFileTypesInclude": "Supported file types include:",
-            "customFAQs": "Custom Basemap FAQs",
+            "faq": "Custom Basemap FAQs",
             "fileTypeNotSupported": "File Type Not Supported",
             "fileTypeNotSupportedDesc": "is not a supported file type for basemaps.",
             "chooseAnother": "Choose Another"
@@ -157,7 +158,7 @@
             "addGFW": "Add Global Forest Watch Layer",
             "custom": "Custom Contextual Layer",
             "supportedFileTypesInclude": "Supported file types include:",
-            "customFAQs": "Custom Layer FAQs",
+            "faq": "Custom Layer FAQs",
             "fileTypeNotSupported": "File Type Not Supported",
             "fileTypeNotSupportedDesc": "is not a supported file type for contextual layers.",
             "chooseAnother": "Choose Another"
@@ -504,6 +505,7 @@
         },
         "glad": "Deforestation Report",
         "here": "Report here",
+        "imported": "Imported",
         "input": "Please, answer the question",
         "inputRadio": "Choose one option to continue",
         "inputSelect": "Choose at least one option to continue",
@@ -549,6 +551,7 @@
             "noneSelected": "No routes selected",
             "routeSizeAction": "Export Routes (%{bundleSize})"
         },
+        "importedRoutes": "Imported Routes",
         "insufficientPermissionsDialogTitle": "Unable to track route",
         "insufficientPermissionsDialogMessage": "We need background location permissions to be able to track your route.",
         "insufficientPermissionsDialogOpenAppSettings": "Check permissions",

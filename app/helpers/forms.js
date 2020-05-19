@@ -50,12 +50,13 @@ export const parseQuestion = (step: { question: Question, template: Template }, 
   return parsedQuestion;
 };
 
-export const getTemplate = (reports: ReportsState, formName: string): Template => {
-  const list = reports.list[formName];
-  const status = templateId => reports.templates[templateId] && reports.templates[templateId].status;
+export const getTemplate = (report: Report, templates: { +[string]: Template }): Template => {
+  const status = templateId => templates[templateId] && templates[templateId].status;
   const templateId =
-    list && list.area.templateId && status(list.area.templateId) !== 'unpublished' ? list.area.templateId : 'default';
-  return Object.assign({}, reports.templates[templateId]);
+    report && report.area.templateId && status(report.area.templateId) !== 'unpublished'
+      ? report.area.templateId
+      : 'default';
+  return Object.assign({}, templates[templateId]);
 };
 
 export const getNextStep = (step: {

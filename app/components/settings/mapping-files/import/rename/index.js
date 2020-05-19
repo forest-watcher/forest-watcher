@@ -26,6 +26,7 @@ type Props = {
   importError: ?Error,
   importing: boolean,
   mappingFileType: MappingFileType,
+  onImported: () => void,
   popToComponentId?: ?string
 };
 
@@ -73,6 +74,7 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
       Keyboard.dismiss();
 
       await this.props.import(this.state.file);
+        this.props.onImported();
 
       if (this.props.popToComponentId) {
         Navigation.popTo(this.props.popToComponentId);
@@ -140,7 +142,7 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
         <BottomTray requiresSafeAreaView={!this.state.keyboardVisible}>
           <ActionButton
             onPress={nameValidity.valid ? this.onImportPressed : null}
-            text={i18n.t(this.i18nKeyFor('save')).toUpperCase()}
+            text={i18n.t(this.i18nKeyFor('save'))}
             disabled={!nameValidity.valid || this.props.importing}
             short
             noIcon
