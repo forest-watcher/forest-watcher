@@ -1,6 +1,8 @@
 // @flow
 
 import type { Report, Template } from 'types/reports.types';
+import type { GroupedReports } from 'containers/reports';
+
 import React, { PureComponent } from 'react';
 import { NativeModules, Platform, View, Text, ScrollView } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -32,19 +34,10 @@ const nextIcon = require('assets/next.png');
 const checkboxOff = require('assets/checkbox_off.png');
 const checkboxOn = require('assets/checkbox_on.png');
 
-type ReportItem = {
-  +title: string,
-  +date: string
-};
-
 type Props = {|
   +componentId: string,
   +exportReportsAsBundle: (ids: Array<string>) => Promise<void>,
-  +reports: {|
-    +draft: Array<ReportItem>,
-    +uploaded: Array<ReportItem>,
-    +complete: Array<ReportItem>
-  |},
+  +reports: GroupedReports,
   +templates: {
     +[string]: Template
   },
@@ -93,13 +86,18 @@ class Reports extends PureComponent<Props, State> {
 
   fetchExportSize = async (reportIds: Array<string>) => {
     const currentFetchId = generateUniqueID();
-    const mergedReports: Array<Report> = [...this.props.reports.complete, ...this.props.reports.uploaded];
+    const mergedReports: Array<Report> = [
+      ...this.props.reports.complete,
+      ...this.props.reports.uploaded,
+      ...this.props.reports.imported
+    ];
     this.fetchId = currentFetchId;
     this.setState({
       bundleSize: undefined
     });
     const manifest = await exportFileManifest({
-      reports: mergedReports.filter(report => reportIds.includes(report.title))
+      reports: mergedReports.filter(report => reportIds.includes(report.reportName)),
+      templates: this.props.templates
     });
     const fileSize = manifestBundleSize(manifest);
     if (this.fetchId === currentFetchId) {
@@ -256,11 +254,15 @@ class Reports extends PureComponent<Props, State> {
 
   exportReportsAsCsv = async (selectedReports: Array<string>) => {
     // Merge the completed and uploaded reports that are available together, so we can find any selected reports to export them.
-    const mergedReports = [...(this.props.reports.complete ?? []), ...(this.props.reports.uploaded ?? [])];
+    const mergedReports = [
+      ...this.props.reports.complete,
+      ...this.props.reports.uploaded,
+      ...this.props.reports.imported
+    ];
 
-    const reportsToExport = selectedReports.map(key => {
-      return mergedReports.find(report => report.title === key);
-    });
+    const reportsToExport: Array<Report> = selectedReports
+      .map(key => mergedReports.find(report => report.reportName === key))
+      .filter(Boolean);
 
     await exportReports(
       reportsToExport,
@@ -283,9 +285,12 @@ class Reports extends PureComponent<Props, State> {
 
   setAllSelected = (selected: boolean) => {
     // Merge together the completed and uploaded reports.
-    const completedReports = this.props.reports.complete || [];
-    const mergedReports = completedReports.concat(this.props.reports.uploaded);
-    const selectedForExport = selected ? mergedReports.map(report => report.title) : [];
+    const mergedReports = [
+      ...this.props.reports.complete,
+      ...this.props.reports.uploaded,
+      ...this.props.reports.imported
+    ];
+    const selectedForExport = selected ? mergedReports.map(report => report.reportName) : [];
     this.fetchExportSize(selectedForExport);
     this.setState({
       selectedForExport
@@ -304,13 +309,13 @@ class Reports extends PureComponent<Props, State> {
   /**
    * renderReports - Returns an array of rows, based on the report data provided.
    *
-   * @param  {Array} data <ReportItem>  An array of reports.
+   * @param  {Array} data <Report>  An array of reports.
    * @param  {any} image                The action image.
    * @param  {void} onPress             The action callback.
    * @return {Array}                    An array of report rows.
    */
-  renderReports(data: Array<ReportItem>, image: any, onPress: string => void) {
-    return data.map((item: ReportItem, index: number) => {
+  renderReports(data: Array<Report>, image: any, onPress: string => void): any {
+    return data.map((item: Report, index: number) => {
       let positionParsed = '';
       if (item.position) {
         const latLng = item.position.split(',');
@@ -323,7 +328,7 @@ class Reports extends PureComponent<Props, State> {
       const position = 'center';
 
       // Here, if we're currently in export mode, override the icon to show either the checkbox on or off image.
-      if (this.state.inShareMode && this.state.selectedForExport.includes(item.title)) {
+      if (this.state.inShareMode && this.state.selectedForExport.includes(item.reportName)) {
         icon = checkboxOn;
       } else if (this.state.inShareMode) {
         icon = checkboxOff;
@@ -335,12 +340,12 @@ class Reports extends PureComponent<Props, State> {
       const action = {
         icon,
         callback: () => {
-          onPress(item.title);
+          onPress(item.reportName);
         },
         position
       };
       return (
-        <Row key={index + item.title} action={action}>
+        <Row key={index + item.reportName} action={action}>
           <View style={styles.listItem}>
             <Text style={styles.itemTitle}>{title}</Text>
             {item.area?.name && <Text style={styles.itemText}>{item.area.name}</Text>}
@@ -353,7 +358,7 @@ class Reports extends PureComponent<Props, State> {
     });
   }
 
-  renderSection(title: string, ...options: [Array<ReportItem>, any, (string) => void]) {
+  renderSection(title: string, ...options: [Array<Report>, any, (string) => void]) {
     return (
       <View style={styles.listContainer}>
         <Text style={styles.listTitle}>{title}</Text>
@@ -362,16 +367,20 @@ class Reports extends PureComponent<Props, State> {
     );
   }
 
-  getCompleted(completed: Array<ReportItem>, icon: any, callback: string => void) {
+  getCompleted(completed: Array<Report>, icon: any, callback: string => void) {
     return this.renderSection(i18n.t('report.completed'), completed, icon, callback);
   }
 
-  getUploaded(uploaded: Array<ReportItem>, icon: any, callback: string => void) {
+  getUploaded(uploaded: Array<Report>, icon: any, callback: string => void) {
     return this.renderSection(i18n.t('report.uploaded'), uploaded, icon, callback);
   }
 
-  getDrafts(drafts: Array<ReportItem>, icon: any, callback: string => void) {
+  getDrafts(drafts: Array<Report>, icon: any, callback: string => void) {
     return this.renderSection(i18n.t('report.drafts'), drafts, icon, callback);
+  }
+
+  getImported(imported: Array<Report>, icon: any, callback: string => void) {
+    return this.renderSection(i18n.t('report.imported'), imported, icon, callback);
   }
 
   /**
@@ -381,8 +390,8 @@ class Reports extends PureComponent<Props, State> {
    * @return {ScrollView}         A ScrollView element with all content rendered to it.
    */
   renderReportsScrollView(inExportMode: boolean) {
-    const { complete, draft, uploaded } = this.props.reports;
-    const hasReports = !!complete.length || !!draft.length || !!uploaded.length;
+    const { complete, draft, uploaded, imported } = this.props.reports;
+    const hasReports = !!complete.length || !!draft.length || !!uploaded.length || !!imported.length;
 
     if (!hasReports) {
       return (
@@ -413,6 +422,9 @@ class Reports extends PureComponent<Props, State> {
           {uploaded &&
             uploaded.length > 0 &&
             this.getUploaded(uploaded, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickNext)}
+          {imported &&
+            imported.length > 0 &&
+            this.getImported(imported, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickNext)}
         </View>
       </ScrollView>
     );
@@ -422,8 +434,8 @@ class Reports extends PureComponent<Props, State> {
     // Determine if we're in export mode, and how many reports have been selected to export.
     const totalToExport = this.state.selectedForExport.length;
 
-    const { complete, uploaded } = this.props.reports;
-    const totalReports = complete.length + uploaded.length;
+    const { complete, uploaded, imported } = this.props.reports;
+    const totalReports = complete.length + uploaded.length + imported.length;
     const sharingType = i18n.t('sharing.type.reports');
 
     return (

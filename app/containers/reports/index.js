@@ -1,6 +1,7 @@
 // @flow
 import type { Area } from 'types/areas.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
+import type { Report, ReportsList } from 'types/reports.types';
 
 import { connect } from 'react-redux';
 import { getNextStep } from 'helpers/forms';
@@ -9,47 +10,33 @@ import { showExportReportsSuccessfulNotification } from 'redux-modules/app';
 import Reports from 'components/reports';
 import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
 import shareBundle from 'helpers/sharing/shareBundle';
-import type { Report, ReportsList } from 'types/reports.types';
 
-export type FormattedReport = Report & {
-  title: string,
-  imported: boolean
+export type GroupedReports = {
+  draft: Array<Report>,
+  complete: Array<Report>,
+  uploaded: Array<Report>,
+  imported: Array<Report>
 };
 
-export type FormattedReports = {
-  draft: Array<FormattedReport>,
-  complete: Array<FormattedReport>,
-  uploaded: Array<FormattedReport>
-};
-
-export function getReports(reports: ReportsList, areas: Array<Area>, userId: string): FormattedReports {
+export function getReports(reports: ReportsList, areas: Array<Area>, userId: string): GroupedReports {
   const data = {
     draft: [],
     complete: [],
-    uploaded: []
+    uploaded: [],
+    imported: []
   };
   Object.keys(reports).forEach(key => {
     const report = reports[key];
-    if (data[report.status]) {
-      data[report.status].push({
-        ...report,
-        imported: isImported(report.area?.id, areas, userId),
-        title: key
-      });
+    if (report.isImported) {
+      data.imported.push(report);
+    } else if (data[report.status]) {
+      data[report.status].push(report);
     }
   });
   return sortReports(data);
 }
 
-function isImported(reportAreaId: string, areas: Array<Area>, userId: string) {
-  if (!reportAreaId) {
-    return true;
-  }
-  const reportArea = areas.find(area => area.id === reportAreaId);
-  return !(reportArea?.userId === userId);
-}
-
-function sortReports(reports: FormattedReports) {
+function sortReports(reports: GroupedReports) {
   const sorted = {};
   Object.keys(reports).forEach(status => {
     sorted[status] = reports[status].sort((a, b) => b.date - a.date); // todo: are report dates strings or numbers?

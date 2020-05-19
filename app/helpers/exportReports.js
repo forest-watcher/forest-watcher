@@ -37,7 +37,7 @@ export const ExportMethod = {
  */
 export default async function exportReports(
   reports: Array<Report>,
-  templates: { [string]: Template },
+  templates: { +[string]: Template },
   lang: string,
   dir: string = RNFetchBlob.fs.dirs.DocumentDir,
   method: number = ExportMethod.CSV
