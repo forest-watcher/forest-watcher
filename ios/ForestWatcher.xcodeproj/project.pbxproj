@@ -26,10 +26,7 @@
 		9859C0E0221DB02B003429E7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9859C0A5221DB02B003429E7 /* CoreLocation.framework */; };
 		989413A8224E6D29008CAE32 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 989413A7224E6D29008CAE32 /* GoogleService-Info.plist */; };
 		98B1DF6821932067002426DC /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC1FA19BF67424591686AF2 /* libz.tbd */; };
-		98BB85F6246D818B00342FF0 /* RNMBTileServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BB85F5246D818B00342FF0 /* RNMBTileServer.swift */; };
-		98BB85FC246D819B00342FF0 /* RNMBTileSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BB85FB246D819B00342FF0 /* RNMBTileSource.swift */; };
 		98CF896321B5811B00500B2F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98CF896521B5811B00500B2F /* InfoPlist.strings */; };
-		98ED1BB1246C5DB500C38BBC /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98ED1BAC246C5DB500C38BBC /* SQLite.framework */; };
 		B12581D32406D01B00137B30 /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12581D22406D01B00137B30 /* Dummy.swift */; };
 		B1E4BA0223E2DCEB00A7BC85 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B1E4BA0123E2DCEB00A7BC85 /* Config.xcconfig */; };
 /* End PBXBuildFile section */
@@ -117,8 +114,6 @@
 		989413A7224E6D29008CAE32 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		98A5EE2521AC2AC00079AF2A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		98A5EE8521AC2DBF0079AF2A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		98BB85F5246D818B00342FF0 /* RNMBTileServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNMBTileServer.swift; sourceTree = "<group>"; };
-		98BB85FB246D819B00342FF0 /* RNMBTileSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNMBTileSource.swift; sourceTree = "<group>"; };
 		98CF895D21B5800500500B2F /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		98CF895E21B5801F00500B2F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		98CF895F21B5802E00500B2F /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -128,7 +123,6 @@
 		98CF896721B5811E00500B2F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		98CF896821B5811F00500B2F /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		98CF896921B5811F00500B2F /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		98ED1BAC246C5DB500C38BBC /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
 		B12581D12406D01A00137B30 /* ForestWatcher-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ForestWatcher-Bridging-Header.h"; sourceTree = "<group>"; };
 		B12581D22406D01B00137B30 /* Dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dummy.swift; sourceTree = "<group>"; };
 		B1E4BA0123E2DCEB00A7BC85 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -150,7 +144,6 @@
 				124989C1D3AC4F4EB5473E00 /* SafariServices.framework in Frameworks */,
 				5178971FFF8F46658E8D3678 /* SystemConfiguration.framework in Frameworks */,
 				307BBD714FA74881854E01D9 /* AddressBook.framework in Frameworks */,
-				98ED1BB1246C5DB500C38BBC /* SQLite.framework in Frameworks */,
 				39B88051DA58D94B6EF37FB8 /* libPods-ForestWatcher.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -173,8 +166,6 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				98CF896521B5811B00500B2F /* InfoPlist.strings */,
 				B12581D12406D01A00137B30 /* ForestWatcher-Bridging-Header.h */,
-				98BB85F5246D818B00342FF0 /* RNMBTileServer.swift */,
-				98BB85FB246D819B00342FF0 /* RNMBTileSource.swift */,
 			);
 			name = ForestWatcher;
 			sourceTree = "<group>";
@@ -194,7 +185,6 @@
 		45A6AD05F54FD09326DA9BF6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				98ED1BAC246C5DB500C38BBC /* SQLite.framework */,
 				9859C0A5221DB02B003429E7 /* CoreLocation.framework */,
 				98A5EE8521AC2DBF0079AF2A /* UIKit.framework */,
 				98A5EE2521AC2AC00079AF2A /* MapKit.framework */,
@@ -268,7 +258,6 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ForestWatcher" */;
 			buildPhases = (
 				545C73DF8ED53C595077D845 /* [CP] Check Pods Manifest.lock */,
-				98ED1BB2246C5DDA00C38BBC /* Carthage */,
 				B195147C23FED17200AEE693 /* Generate Tmp XCConfig */,
 				B1E4BA1523E2E1D500A7BC85 /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
@@ -499,26 +488,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ForestWatcher/Pods-ForestWatcher-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		98ED1BB2246C5DDA00C38BBC /* Carthage */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/SQLite.framework",
-			);
-			name = Carthage;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SQLite.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/usr/local/bin/carthage copy-frameworks\n";
-		};
 		ACBAAC00B3FD465CA6F51300 /* Upload Debug Symbols to Sentry */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -590,8 +559,6 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				B12581D32406D01B00137B30 /* Dummy.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				98BB85F6246D818B00342FF0 /* RNMBTileServer.swift in Sources */,
-				98BB85FC246D819B00342FF0 /* RNMBTileSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
