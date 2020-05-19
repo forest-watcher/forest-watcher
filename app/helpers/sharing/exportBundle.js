@@ -3,7 +3,6 @@ import type { State } from 'types/store.types';
 import type { ExportBundleRequest, SharingBundle, UnpackedSharingBundle } from 'types/sharing.types';
 
 import _ from 'lodash';
-// $FlowFixMe
 import RNFS from 'react-native-fs';
 import { zip } from 'react-native-zip-archive';
 
@@ -11,16 +10,12 @@ import deleteStagedBundle from 'helpers/sharing/deleteStagedBundle';
 import exportAppData, { exportBasemaps, exportLayers } from 'helpers/sharing/exportAppData';
 import exportFileManifest, { sanitiseLayerFilesForBundle } from 'helpers/sharing/exportFileManifest';
 import { storeLayerFiles } from 'helpers/layer-store/storeLayerFiles';
+import createTemporaryStagingDirectory from 'helpers/sharing/createTemporaryStagingDirectory';
 
 /**
  * Extension of the final bundle
  */
 export const BUNDLE_FILE_EXTENSION: string = '.gfw.bundle';
-
-/**
- * Directory on the device where the bundle will be prepared
- */
-export const BUNDLE_DEFAULT_STAGING_DIR: string = RNFS.TemporaryDirectoryPath;
 
 /**
  * The name of the data file held in the root of a bundle archive
@@ -75,8 +70,7 @@ export async function packageBundle(bundle: UnpackedSharingBundle): Promise<stri
  * @param request - The request defining which data should be exported
  */
 export async function stageBundle(bundle: SharingBundle): Promise<UnpackedSharingBundle> {
-  const outputPath = `${BUNDLE_DEFAULT_STAGING_DIR}/bundle-${Date.now().toString()}`;
-  await RNFS.mkdir(outputPath);
+  const outputPath = await createTemporaryStagingDirectory();
 
   // Stage manifest files and then clean the manifest for the bundle
   await storeLayerFiles(bundle.manifest.layerFiles, outputPath);
