@@ -1,7 +1,6 @@
 // @flow
 import type { Basemap } from 'types/basemaps.types';
 import type { MappingFileType } from 'types/common.types';
-import type { File } from 'types/file.types';
 import type { ContextualLayer } from 'types/layers.types';
 
 import React, { Component } from 'react';
@@ -11,7 +10,6 @@ import i18n from 'i18next';
 
 import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
-import ActionsRow from 'components/common/actions-row';
 import Theme from 'config/theme';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
@@ -206,7 +204,7 @@ class MappingFiles extends Component<Props, State> {
                 style={styles.rowContent}
                 image={file.image ?? icons[mappingFileType].placeholder}
                 title={i18n.t(file.name)}
-                subtitle={'- mb'}
+                subtitle={formatBytes(file.size ?? 0)}
                 selected={inShareMode ? this.state.selectedForExport.includes(file.id) : null}
               />
             </View>
@@ -248,7 +246,7 @@ class MappingFiles extends Component<Props, State> {
                 style={styles.rowContent}
                 image={file.image ?? icons[mappingFileType].placeholder}
                 title={i18n.t(file.name)}
-                subtitle={'- mb'}
+                subtitle={formatBytes(file.size ?? 0)}
                 selected={inShareMode ? this.state.selectedForExport.includes(file.id) : null}
               />
             </View>
