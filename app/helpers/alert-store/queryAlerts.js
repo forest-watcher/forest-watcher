@@ -1,5 +1,6 @@
 // @flow
 import type { Alert } from 'types/alerts.types';
+import _ from 'lodash';
 import moment from 'moment';
 import { initDb } from 'helpers/alert-store/database';
 
@@ -25,7 +26,7 @@ export type AlertsQuery = {|
  */
 export default function queryAlerts(query: AlertsQuery): Array<Alert> {
   const alertsQuery = queryAlertsLazy(query);
-  const alerts = Array.from(alertsQuery);
+  const alerts = Array.from(alertsQuery, item => _.omit(item, 'id')); // Don't bother loading id into memory
   return alerts;
 }
 
