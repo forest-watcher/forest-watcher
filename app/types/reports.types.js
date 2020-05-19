@@ -43,7 +43,8 @@ export type Template = {
   createdAt: string,
   public: boolean,
   status: 'unpublished' | 'published',
-  id: string
+  id: string,
+  isImported?: true
 };
 
 export type Report = {
@@ -54,7 +55,8 @@ export type Report = {
   index: number,
   status: 'draft' | 'complete' | 'uploaded',
   date: string,
-  answers: Array<Answer>
+  answers: Array<Answer>,
+  isImported?: true
 };
 
 export type BasicReport = {
@@ -95,6 +97,8 @@ export type CreateReport = {
   }
 };
 export type DeleteReport = { type: 'report/DELETE_REPORT', payload: { reportName: string } };
+export type ImportReport = { type: 'report/IMPORT_REPORT', payload: Report };
+export type ImportTemplate = { type: 'report/IMPORT_TEMPLATE', payload: Template };
 export type UpdateReport = { type: 'report/UPDATE_REPORT', payload: { name: string, data: Report } };
 export type SetReportAnswer = {
   type: 'report/SET_REPORT_ANSWER',
@@ -142,4 +146,6 @@ export type ReportsAction =
   | UploadReportCommit
   | UploadReportRollback
   | SetReportAnswer
+  | ImportReport
+  | ImportTemplate
   | LogoutRequest;

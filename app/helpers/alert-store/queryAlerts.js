@@ -1,5 +1,6 @@
 // @flow
 import type { Alert } from 'types/alerts.types';
+import _ from 'lodash';
 import moment from 'moment';
 import { initDb } from 'helpers/alert-store/database';
 
@@ -18,23 +19,21 @@ export type AlertsQuery = {|
 |};
 
 /**
- * Asynchronously performs the specified alerts query
+ * Synchronously performs the specified alerts query
+ *
+ * If you are tempted to turn this into an asynchronous method, don't bother - all Realm calls are blocking :/
+ * [1] https://github.com/realm/realm-js/issues/1518
  */
-export default function queryAlerts(query: AlertsQuery): Promise<Array<Alert>> {
-  return new Promise((resolve, reject) => {
-    try {
-      const alerts = queryAlertsSync(query);
-      resolve(alerts);
-    } catch (err) {
-      reject(err);
-    }
-  });
+export default function queryAlerts(query: AlertsQuery): Array<Alert> {
+  const alertsQuery = queryAlertsLazy(query);
+  const alerts = Array.from(alertsQuery, item => _.omit(item, 'id')); // Don't bother loading id into memory
+  return alerts;
 }
 
 /**
  * Synchronous method of the above, because Realm works synchronously
  */
-export function queryAlertsSync(query: AlertsQuery): Array<Alert> {
+export function queryAlertsLazy(query: AlertsQuery) {
   const { areaId, dataset, timeAgo, distinctLocations } = query;
   const db = initDb();
 
@@ -69,7 +68,5 @@ export function queryAlertsSync(query: AlertsQuery): Array<Alert> {
   }
 
   const queryString = queryParts.join(' ');
-  const alertsQuery = db.objects('Alert').filtered(queryString);
-  const alerts = Array.from(alertsQuery);
-  return alerts;
+  return db.objects('Alert').filtered(queryString);
 }

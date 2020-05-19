@@ -25,7 +25,7 @@ type OwnProps = {|
 function mapStateToProps(state: State, ownProps: OwnProps) {
   const { reportName, readOnly } = ownProps;
   const { reports, app } = state;
-  const template = getTemplate(reports, reportName);
+  const template = getTemplate(reports.list[reportName], reports.templates);
   const templateLang: string = template.languages.includes(app.language) ? app.language : template.defaultLanguage;
   const report = reports.list[reportName];
   const answers = report && report.answers;

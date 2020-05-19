@@ -1,20 +1,20 @@
 // @flow
 import type { Location, RouteState, RouteAction, Route, RouteDeletionCriteria } from 'types/routes.types';
-import { deleteAllLocations } from '../helpers/location';
 import type { Dispatch, GetState, Thunk } from 'types/store.types';
+import { deleteAllLocations } from 'helpers/location';
 
 // Actions
 const DISCARD_ACTIVE_ROUTE = 'routes/DISCARD_ACTIVE_ROUTE';
 const DELETE_ROUTE = 'routes/DELETE_ROUTE';
 const FINISH_AND_SAVE_ROUTE = 'routes/FINISH_AND_SAVE_ROUTE';
+export const IMPORT_ROUTE = 'routes/IMPORT_ROUTE';
 const UPDATE_ACTIVE_ROUTE = 'routes/UPDATE_ACTIVE_ROUTE';
 const UPDATE_SAVED_ROUTE = 'routes/UPDATE_SAVED_ROUTE';
 
 // Reducer
 const initialState: RouteState = {
   activeRoute: undefined,
-  previousRoutes: [],
-  importedRoutes: []
+  previousRoutes: []
 };
 
 export default function reducer(state: RouteState = initialState, action: RouteAction) {
@@ -28,7 +28,7 @@ export default function reducer(state: RouteState = initialState, action: RouteA
       return {
         ...state,
         activeRoute: {
-          ...state.activeRoute,
+          ...(state.activeRoute ?? {}),
           ...action.payload
         }
       };
@@ -44,6 +44,22 @@ export default function reducer(state: RouteState = initialState, action: RouteA
             : route
         )
       };
+    case IMPORT_ROUTE: {
+      const routeToImport = action.payload;
+      if (routeToImport) {
+        // Ignore the saved route if it already exists - this could happen when importing an area for example
+        const possiblyPreexistingRoute = state.previousRoutes.find(route => route.id === routeToImport.id);
+        if (!possiblyPreexistingRoute) {
+          return {
+            ...state,
+            previousRoutes: [...state.previousRoutes, routeToImport]
+          };
+        } else {
+          console.warn('3SC', `Ignore already existing route with ID ${routeToImport.id}`);
+        }
+      }
+      return state;
+    }
     case FINISH_AND_SAVE_ROUTE:
       return {
         ...state,
@@ -120,15 +136,13 @@ export function finishAndSaveRoute(): RouteAction {
 export function getRoutesById(routeIds: Array<string>): Thunk<Array<Route>> {
   return (dispatch: Dispatch, getState: GetState) => {
     const state = getState();
-    return [...state.routes.previousRoutes, ...state.routes.importedRoutes].filter(route =>
-      routeIds.includes(route.id)
-    );
+    return state.routes.previousRoutes.filter(route => routeIds.includes(route.id));
   };
 }
 
 export function getAllRouteIds(): Thunk<Array<string>> {
   return (dispatch: Dispatch, getState: GetState) => {
     const state = getState();
-    return [...state.routes.previousRoutes, ...state.routes.importedRoutes].map(item => item.id);
+    return state.routes.previousRoutes.map(item => item.id);
   };
 }
