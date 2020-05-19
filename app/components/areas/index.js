@@ -5,10 +5,11 @@ import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigatio
 
 import type { Area } from 'types/areas.types';
 
-import AreaList from 'containers/common/area-list';
+import AreaList from 'components/common/area-list';
 import debounceUI from 'helpers/debounceUI';
 
 import i18n from 'i18next';
+import _ from 'lodash';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
@@ -239,6 +240,8 @@ class Areas extends Component<Props, State> {
     const totalToExport = this.state.selectedForExport.length;
     const totalAreas = areas.length;
 
+    const [areasImported, areasOwned] = _.partition(areas, area => area.isImported);
+
     const hasAreas = areas && areas.length > 0;
     const sharingType = i18n.t('sharing.type.areas');
 
@@ -292,30 +295,8 @@ class Areas extends Component<Props, State> {
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
             >
-              {areas && areas.length ? (
-                <View>
-                  <Text style={styles.label}>{i18n.t('areas.myAreas')}</Text>
-                  <AreaList
-                    downloadCalloutVisible={!this.props.areaDownloadTooltipSeen}
-                    onAreaDownloadPress={(areaId, name) => {
-                      this.props.setAreaDownloadTooltipSeen(true);
-                    }}
-                    onAreaPress={(areaId, name) => {
-                      if (this.state.inShareMode) {
-                        this.onAreaSelectedForExport(areaId);
-                      } else {
-                        this.onAreaPress(areaId, name);
-                      }
-                    }}
-                    onAreaSettingsPress={(areaId, name) => {
-                      this.onAreaSettingsPress(areaId, name);
-                    }}
-                    selectionState={this.state.selectedForExport}
-                    sharing={this.state.inShareMode}
-                    showCache={true}
-                  />
-                </View>
-              ) : null}
+              {this.renderAreaList(areasOwned, i18n.t('areas.myAreas'))}
+              {this.renderAreaList(areasImported, i18n.t('areas.importedAreas'))}
             </ScrollView>
           ) : (
             <View style={styles.containerEmpty}>
@@ -332,6 +313,38 @@ class Areas extends Component<Props, State> {
       </View>
     );
   }
+
+  renderAreaList = (areas: Array<Area>, title: string) => {
+    if (areas.length === 0) {
+      return null;
+    }
+
+    return (
+      <>
+        <Text style={styles.label}>{title}</Text>
+        <AreaList
+          areas={areas}
+          downloadCalloutVisible={!this.props.areaDownloadTooltipSeen}
+          onAreaDownloadPress={(areaId, name) => {
+            this.props.setAreaDownloadTooltipSeen(true);
+          }}
+          onAreaPress={(areaId, name) => {
+            if (this.state.inShareMode) {
+              this.onAreaSelectedForExport(areaId);
+            } else {
+              this.onAreaPress(areaId, name);
+            }
+          }}
+          onAreaSettingsPress={(areaId, name) => {
+            this.onAreaSettingsPress(areaId, name);
+          }}
+          selectionState={this.state.selectedForExport}
+          sharing={this.state.inShareMode}
+          showCache={true}
+        />
+      </>
+    );
+  };
 }
 
 export default Areas;

@@ -60,7 +60,6 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     case GET_AREAS_REQUEST:
       return { ...state, synced: false, syncing: true };
     case GET_AREAS_COMMIT: {
-      const data = action.payload;
       const syncData = {
         syncDate: Date.now(),
         synced: true,
@@ -68,7 +67,8 @@ export default function reducer(state: AreasState = initialState, action: AreasA
         syncError: false,
         refreshing: false
       };
-      return { ...state, data, ...syncData };
+      const importedAreas = state.data.filter(area => area.isImported);
+      return { ...state, data: [...action.payload, ...importedAreas], ...syncData };
     }
     case GET_AREAS_ROLLBACK: {
       return { ...state, syncing: false, syncError: true };
@@ -94,9 +94,15 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     }
     case SAVE_AREA_COMMIT: {
       let data = state.data;
-      const area = action.payload;
-      if (area) {
-        data = [...data, area];
+      const areaToSave = action.payload;
+      if (areaToSave) {
+        // Ignore the saved area if it already exists - this could happen when importing an area for example
+        const possiblyPreexistingArea = state.data.find(area => area.id === areaToSave.id);
+        if (!possiblyPreexistingArea) {
+          data = [...data, areaToSave];
+        } else {
+          console.warn('3SC', `Ignore already existing area with ID ${areaToSave.id}`);
+        }
       }
       return { ...state, data, synced: true, syncing: false, refreshing: false };
     }
@@ -154,6 +160,8 @@ export default function reducer(state: AreasState = initialState, action: AreasA
       return initialState;
     }
     default:
+      // eslint-disable-next-line babel/no-unused-expressions
+      (action.type: empty);
       return state;
   }
 }
@@ -174,6 +182,20 @@ export function getAreas(): AreasAction {
 
 export function updateArea(area: Area) {
   return (dispatch: Dispatch, state: GetState) => {
+    // For imported areas, we don't need to do a network request
+    // Use the same Redux actions to only apply the change locally
+    if (area.isImported) {
+      dispatch({
+        type: UPDATE_AREA_REQUEST,
+        payload: area
+      });
+      dispatch({
+        type: UPDATE_AREA_COMMIT,
+        payload: area
+      });
+      return;
+    }
+
     const url = `${Config.API_URL}/area/${area.id}`;
     const originalArea = getAreaById(state().areas.data, area.id);
     const headers = { 'content-type': 'multipart/form-data' };
@@ -244,27 +266,6 @@ export function saveArea(params: { datasets: Array<Dataset>, snapshot: string, a
   };
 }
 
-export function updateDate(areaId: string, datasetSlug: string, date: { startDate: number }) {
-  return (dispatch: Dispatch, state: GetState) => {
-    const area = getAreaById(state().areas.data, areaId);
-    const dateKeys = Object.keys(date) || [];
-    if (area) {
-      area.datasets = area.datasets.map((d: Dataset) => {
-        const newDataset = { ...d };
-        if (d.slug === datasetSlug) {
-          dateKeys.forEach(dKey => {
-            if (d[dKey]) {
-              newDataset[dKey] = date[dKey];
-            }
-          });
-        }
-        return newDataset;
-      });
-      dispatch(updateArea(area));
-    }
-  };
-}
-
 export function deleteArea(areaId: ?string) {
   return (dispatch: Dispatch, state: GetState) => {
     const area = getAreaById(state().areas.data, areaId);
@@ -275,6 +276,21 @@ export function deleteArea(areaId: ?string) {
           areaId: area.id
         })
       );
+
+      // For imported areas, we don't need to do a network request
+      // Use the same Redux actions to only apply the change locally
+      if (area.isImported) {
+        dispatch({
+          type: DELETE_AREA_REQUEST,
+          payload: area
+        });
+        dispatch({
+          type: DELETE_AREA_COMMIT,
+          meta: { area }
+        });
+        return;
+      }
+
       const url = `${Config.API_URL}/area/${area.id}`;
       dispatch({
         type: DELETE_AREA_REQUEST,
