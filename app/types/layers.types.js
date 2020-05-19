@@ -58,7 +58,11 @@ export type GFWLayersState = {
   syncing: boolean,
   loadedPage: ?number,
   paginating: boolean,
-  total: ?number
+  total: ?number,
+  error: ?{
+    type: string,
+    response: *
+  }
 };
 
 export type LayersProgress = {
@@ -128,7 +132,11 @@ type GetGFWLayersCommit = {
   meta: { page: number }
 };
 type GetGFWLayersRollback = {
-  type: 'layers/GET_GFW_LAYERS_ROLLBACK'
+  type: 'layers/GET_GFW_LAYERS_ROLLBACK',
+  payload: {
+    type: string,
+    response: *
+  }
 };
 
 type GetLayersRequest = {
