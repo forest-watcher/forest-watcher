@@ -33,14 +33,27 @@ export async function storeGeoJson(layerId: string, geojson: GeoJSONObject, name
   const path = `${rootPath}/${tileDir}`;
   const fileName = `${name}.geojson`;
   await writeJSONToDisk(cleanedGeoJson, fileName, path);
-  return {
-    path: path,
-    type: 'contextual_layer',
-    layerId: layerId,
-    tileXYZ: tileXYZ,
-    subFiles: [fileName],
-    size: 0
-  };
+  try {
+    const { size } = await RNFS.readDir(path);
+    const sizeNumber = parseInt(size);
+    return {
+      path: path,
+      type: 'contextual_layer',
+      layerId: layerId,
+      tileXYZ: tileXYZ,
+      subFiles: [fileName],
+      size: isNaN(sizeNumber) ? 0 : sizeNumber
+    };
+  } catch {
+    return {
+      path: path,
+      type: 'contextual_layer',
+      layerId: layerId,
+      tileXYZ: tileXYZ,
+      subFiles: [fileName],
+      size: 0
+    };
+  }
 }
 
 export async function storeLayerFiles(files: Array<LayerFile>, dir: string = layerRootDir()) {
