@@ -1050,11 +1050,21 @@ class MapComponent extends Component<Props, State> {
           onPress={this.dismissInfoBanner}
           compassViewMargins={{ x: 5, y: 50 }}
         >
-          {basemap.tileUrl && (
-            <MapboxGL.RasterSource id="basemapTiles" url={basemap.tileUrl}>
+          {
+            <MapboxGL.RasterSource
+              id="basemapTiles"
+              minZoomLevel={0}
+              maxZoomLevel={5}
+              tileSize={256}
+              tms={true}
+              tileUrlTemplates={[
+                'http://localhost:54321/gfwmbtiles/ab469a56-ba7e-49e1-86f1-e6771d0c4d0f.mbtiles?{z}&{x}&{y}'
+              ]}
+            >
+              {/* TODO: How do we apply styling / rendering properties to vector files?! */}
               <MapboxGL.RasterLayer id="basemapTileLayer" />
             </MapboxGL.RasterSource>
-          )}
+          }
           {renderMapCamera}
           {this.renderAreaOutline()}
           {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
