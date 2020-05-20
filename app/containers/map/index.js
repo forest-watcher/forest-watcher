@@ -117,8 +117,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
       }
       tracker.trackReportFlowStartedEvent(numAlertsInReport);
     },
-    getActiveBasemap: () => {
-      return dispatch(getActiveBasemap());
+    getActiveBasemap: (featureId: ?string) => {
+      return dispatch(getActiveBasemap(featureId));
     },
     getImportedContextualLayersById: layerIds => {
       return dispatch(getImportedContextualLayersById(layerIds));

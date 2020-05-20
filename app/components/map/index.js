@@ -128,7 +128,7 @@ type Props = {
   isTracking: boolean,
   onStartTrackingRoute: (location: Location, areaId: string) => void,
   onCancelTrackingRoute: () => void,
-  getActiveBasemap: string => Basemap, // TODO: This shouldn't be a function
+  getActiveBasemap: (?string) => Basemap, // TODO: This shouldn't be a function
   getRoutesById: (routeIds: Array<string>) => Array<Route> // TODO: This shouldn't be a function
 };
 
