@@ -1881,6 +1881,7 @@ Object {
   },
   "gfwLayers": Object {
     "data": Array [],
+    "error": null,
     "fullyLoaded": false,
     "loadedPage": null,
     "paginating": false,
@@ -1910,7 +1911,6 @@ Object {
   },
   "routes": Object {
     "activeRoute": undefined,
-    "importedRoutes": Array [],
     "previousRoutes": Array [],
   },
   "setup": Object {
@@ -3819,6 +3819,7 @@ Object {
   },
   "gfwLayers": Object {
     "data": Array [],
+    "error": null,
     "fullyLoaded": false,
     "loadedPage": null,
     "paginating": false,
@@ -3848,7 +3849,6 @@ Object {
   },
   "routes": Object {
     "activeRoute": undefined,
-    "importedRoutes": Array [],
     "previousRoutes": Array [],
   },
   "setup": Object {

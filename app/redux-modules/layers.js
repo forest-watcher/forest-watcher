@@ -18,7 +18,7 @@ import tracker from 'helpers/googleAnalytics';
 import { storeTilesFromUrl } from 'helpers/layer-store/storeLayerFiles';
 import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
-import importLayerFile from 'helpers/layer-store/import/importLayerFile';
+import { importLayerFile } from 'helpers/layer-store/import/importLayerFile';
 import type { LayerFile } from 'types/sharing.types';
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';

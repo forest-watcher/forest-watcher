@@ -2,7 +2,6 @@
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import Dashboard from 'components/dashboard';
 import {
   updateApp,
@@ -10,10 +9,10 @@ import {
   showNotConnectedNotification,
   setWelcomeScreenSeen
 } from 'redux-modules/app';
-import { createReport } from 'redux-modules/reports';
 import { setAreasRefreshing, setSelectedAreaId } from 'redux-modules/areas';
 import { isOutdated } from 'helpers/date';
 import { shouldBeConnected } from 'helpers/app';
+import importBundle from 'helpers/sharing/importBundle';
 
 type OwnProps = {|
   +componentId: string
@@ -37,18 +36,29 @@ function mapStateToProps(state: State) {
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
-  return bindActionCreators(
-    {
-      updateApp,
-      createReport,
-      setAreasRefreshing,
-      setSelectedAreaId,
-      showNotConnectedNotification,
-      setPristine: setPristineCacheTooltip,
-      setWelcomeScreenSeen
+  return {
+    importBundle: uri => {
+      importBundle(uri, dispatch);
     },
-    dispatch
-  );
+    setAreasRefreshing: (refreshing: boolean) => {
+      dispatch(setAreasRefreshing(refreshing));
+    },
+    setPristine: (pristine: boolean) => {
+      dispatch(setPristineCacheTooltip(pristine));
+    },
+    setSelectedAreaId: (areaId: string) => {
+      dispatch(setSelectedAreaId(areaId));
+    },
+    setWelcomeScreenSeen: (seen: boolean) => {
+      dispatch(setWelcomeScreenSeen(seen));
+    },
+    showNotConnectedNotification: () => {
+      dispatch(showNotConnectedNotification());
+    },
+    updateApp: () => {
+      dispatch(updateApp());
+    }
+  };
 }
 
 type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;

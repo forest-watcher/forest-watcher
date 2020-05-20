@@ -14,6 +14,7 @@ const GET_GFW_LAYERS_ROLLBACK = 'layers/GET_GFW_LAYERS_ROLLBACK';
 // Reducer
 const initialState = {
   data: [],
+  error: null,
   loadedPage: null,
   total: null,
   fullyLoaded: false,
@@ -26,15 +27,18 @@ export default function reducer(state: GFWLayersState = initialState, action: La
     case PERSIST_REHYDRATE: {
       return {
         ...state,
+        error: null,
+        fullyLoaded: false,
         loadedPage: null,
-        synced: false,
         syncing: false,
-        total: null
+        total: null,
+        paginating: false
       };
     }
     case GET_GFW_LAYERS_REQUEST: {
       return {
         ...state,
+        error: null,
         paginating: action.meta.offline.commit.meta.page !== 0,
         syncing: true,
         fullyLoaded: false
@@ -53,12 +57,13 @@ export default function reducer(state: GFWLayersState = initialState, action: La
         fullyLoaded: action.payload.meta['total-pages'] === action.meta.page + 1,
         paginating: false,
         syncing: false,
+        error: null,
         loadedPage: action.meta.page,
         total: action.payload.meta['total-items']
       };
     }
     case GET_GFW_LAYERS_ROLLBACK: {
-      return { ...state, syncing: false, paginating: false };
+      return { ...state, syncing: false, paginating: false, error: action.payload };
     }
     case LOGOUT_REQUEST: {
       return initialState;
