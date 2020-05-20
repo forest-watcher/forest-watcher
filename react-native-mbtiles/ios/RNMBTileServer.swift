@@ -110,4 +110,9 @@ import UIKit
     
     return GCDWebServerDataResponse(data: tileData, contentType: "")
   }
+
+  deinit {
+    server?.stop()
+    server?.removeAllHandlers()
+  }
 }

@@ -11,7 +11,7 @@ RCT_EXPORT_METHOD(prepare:(nonnull NSString *)basemapId basemapPath:(nonnull NSS
 
   if (!metadata) {
     // TODO: Return a proper error here
-    callback(@[true, [NSNull null]]);
+    callback(@[@true, [NSNull null]]);
     return;
   }
   
