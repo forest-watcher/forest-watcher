@@ -34,7 +34,11 @@ export async function storeGeoJson(layerId: string, geojson: GeoJSONObject, name
   const fileName = `${name}.geojson`;
   await writeJSONToDisk(cleanedGeoJson, fileName, path);
   try {
-    const { size } = await RNFS.readDir(path);
+    const result = await RNFS.readDir(path);
+    let size = '0';
+    if (result.length) {
+      size = result[0].size;
+    }
     const sizeNumber = parseInt(size);
     return {
       path: path,
