@@ -1,12 +1,12 @@
 // @flow
 import React, { Component, type Node } from 'react';
 
-import type { Alert, AlertsAction } from 'types/alerts.types';
-import type { AreasAction, Dataset } from 'types/areas.types';
+import type { AlertsAction } from 'types/alerts.types';
+import type { AreasAction } from 'types/areas.types';
 import type { Basemap } from 'types/basemaps.types';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
 import type { Location, LocationPoint, Route } from 'types/routes.types';
-import type { BasicReport } from 'types/reports.types';
+import type { BasicReport, ReportArea } from 'types/reports.types';
 import type { ContextualLayer } from 'types/layers.types';
 import type { LayerSettings } from 'types/layerSettings.types';
 
@@ -116,12 +116,7 @@ type Props = {
   setCanDisplayAlerts: boolean => AlertsAction,
   reportedAlerts: Array<string>,
   canDisplayAlerts: boolean,
-  area: ?{
-    dataset: ?Dataset,
-    id: string,
-    name: string,
-    templateId: string
-  },
+  area: ?ReportArea,
   setActiveAlerts: () => AlertsAction,
   contextualLayer: ?ContextualLayer,
   coordinatesFormat: CoordinatesFormat,

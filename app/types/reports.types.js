@@ -1,5 +1,5 @@
 // @flow
-import type { Area, Dataset, GetAreasCommit } from 'types/areas.types';
+import type { Dataset, GetAreasCommit } from 'types/areas.types';
 import type { LogoutRequest } from 'types/user.types';
 import type { OfflineMeta } from 'types/offline.types';
 
@@ -63,18 +63,14 @@ export type BasicReport = {
   reportName: string,
   userPosition: string, // "x,x"
   clickedPosition: string, // JSON representation of an array of objects with lat and lon props
-  area: {
-    dataset: ?Dataset,
-    id: string,
-    name: string,
-    templateId: string
-  }
+  area: ReportArea
 };
 
 export type ReportArea = {
   id: string,
   name: string,
   datasets: Array<Dataset>,
+  dataset?: Dataset,
   templateId: string
 };
 
