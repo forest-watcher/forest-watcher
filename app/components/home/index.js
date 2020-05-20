@@ -94,8 +94,8 @@ class Home extends Component<Props> {
           {
             component: {
               name: 'ForestWatcher.Sync',
-              passProps: {
-                goBackDisabled: true
+              options: {
+                modalPresentationStyle: 'overCurrentContext'
               }
             }
           }
