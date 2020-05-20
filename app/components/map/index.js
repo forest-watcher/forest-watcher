@@ -1096,7 +1096,6 @@ class MapComponent extends Component<Props, State> {
           onPress={this.dismissInfoBanner}
           compassViewMargins={{ x: 5, y: 50 }}
         >
-          {/* TODO: Add vector support in next PR with styles from contextual layers? */}
           {this.state.basemapMetadata && (
             <MBTilesSource
               basemapId={basemap.id}
