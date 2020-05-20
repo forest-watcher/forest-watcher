@@ -20,7 +20,7 @@ import { feature, lineString, point } from '@turf/helpers';
 type Props = {
   isTracking: boolean,
   userLocation: ?LocationPoint,
-  route: Route,
+  route: ?Route,
   selected?: ?boolean, // if route has been tapped on - emphasise ui
   onShapeSourcePressed?: () => void
 };
@@ -127,7 +127,7 @@ export default class RouteMarkers extends PureComponent<Props, State> {
 
   // It seems mapbox is ridiculously picky with unique key/id names, when displaying multiple routes on the map
   key = (keyName: string) => {
-    return keyName + (this.props.route?.id || 'route_in_progress' + this.props.route?.startDate);
+    return keyName + (this.props.route?.id || 'route_in_progress' + (this.props.route?.startDate ?? ''));
   };
 
   // Draw line from user location to destination
@@ -162,7 +162,7 @@ export default class RouteMarkers extends PureComponent<Props, State> {
 
   getRouteProperties = () => {
     let properties = {};
-    if (this.props.route?.id) {
+    if (this.props.route) {
       // This will be false before the route has been saved
       const { name, endDate, id } = this.props.route;
       properties = { name, date: endDate, type: 'route', featureId: id };

@@ -716,7 +716,7 @@ class MapComponent extends Component<Props, State> {
     });
   };
 
-  isRouteSelected = (routeId: string) => {
+  isRouteSelected = (routeId: ?string) => {
     return this.state.infoBannerShowing && this.state.infoBannerProps.featureId === routeId;
   };
 
@@ -1055,15 +1055,13 @@ class MapComponent extends Component<Props, State> {
             onShapeSourcePressed={this.onShapeSourcePressed}
           />
           <Reports featureId={featureId} onShapeSourcePressed={this.onShapeSourcePressed} />
-          {route && (
-            <RouteMarkers
-              isTracking={this.isRouteTracking()}
-              userLocation={userLocation}
-              route={route}
-              selected={this.isRouteSelected(route?.id)}
-              onShapeSourcePressed={this.onShapeSourcePressed}
-            />
-          )}
+          <RouteMarkers
+            isTracking={this.isRouteTracking()}
+            userLocation={userLocation}
+            route={route}
+            selected={this.isRouteSelected(route?.id)}
+            onShapeSourcePressed={this.onShapeSourcePressed}
+          />
           {this.renderUserLocation()}
         </MapboxGL.MapView>
         {renderCustomReportingMarker}
