@@ -17,14 +17,13 @@ export default StyleSheet.create({
   },
   label: {
     ...Theme.sectionHeaderText,
-    marginTop: isSmallScreen ? 12 : 28,
     marginBottom: 8
   },
   list: {
     flex: 1
   },
   listContent: {
-    paddingTop: 10,
+    paddingTop: isSmallScreen ? 22 : 38,
     paddingBottom: 30
   }
 });

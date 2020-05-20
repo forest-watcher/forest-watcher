@@ -70,8 +70,8 @@
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.BROWSABLE" />
         <category android:name="android.intent.category.DEFAULT" />
-        <data android:scheme="content" android:host="*" android:pathPattern="..*\\.gfw\\.bundle" />
-        <data android:scheme="file" android:host="*" android:pathPattern="..*\\.gfw\\.bundle" />
+        <data android:scheme="content" android:host="*" android:pathPattern="..*\\.gfwbundle" />
+        <data android:scheme="file" android:host="*" android:pathPattern="..*\\.gfwbundle" />
       </intent-filter>
       <intent-filter
         android:label="@string/APP_NAME"
@@ -84,8 +84,8 @@
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.BROWSABLE" />
         <category android:name="android.intent.category.DEFAULT" />
-        <data android:scheme="content" android:host="*" android:mimeType="*/*" android:pathPattern="..*\\.gfw\\.bundle" />
-        <data android:scheme="file" android:host="*" android:mimeType="*/*" android:pathPattern="..*\\.gfw\\.bundle" />
+        <data android:scheme="content" android:host="*" android:mimeType="*/*" android:pathPattern="..*\\.gfwbundle" />
+        <data android:scheme="file" android:host="*" android:mimeType="*/*" android:pathPattern="..*\\.gfwbundle" />
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
@@ -113,6 +113,17 @@
         <data android:scheme="@string/LOGIN_FACEBOOK_PROTOCOL_SCHEME" />
       </intent-filter>
     </activity>
+
+
+    <provider
+      android:name="androidx.core.content.FileProvider"
+      android:authorities="${applicationId}.provider"
+      android:grantUriPermissions="true"
+      android:exported="false">
+      <meta-data
+          android:name="android.support.FILE_PROVIDER_PATHS"
+          android:resource="@xml/filepaths" />
+    </provider>
   </application>
 
 </manifest>

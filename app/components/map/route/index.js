@@ -293,7 +293,7 @@ export default class RouteMarkers extends PureComponent<Props, State> {
     let routeLocations = this.reconcileRouteLocations(this.state.currentRouteLocations, this.props.route?.locations);
     routeLocations = removeDuplicateLocations(routeLocations);
     const userLocation = this.reconcileUserLocation(this.props.userLocation, routeLocations);
-    if (!routeLocations) {
+    if (!routeLocations || !this.props.route?.startDate) {
       return null;
     }
     return (

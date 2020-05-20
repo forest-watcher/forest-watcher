@@ -15,12 +15,6 @@ Object {
 exports[`Redux Areas Module Redux Snapshot Thunk Actions deleteArea with area 1`] = `
 Array [
   Object {
-    "payload": Object {
-      "areaId": "areaIDMock1",
-    },
-    "type": "routes/DELETE_ROUTE",
-  },
-  Object {
     "meta": Object {
       "offline": Object {
         "commit": Object {
@@ -160,99 +154,6 @@ Array [
         "datasetMock": "mockData",
       },
       "id": "IDMock",
-      "name": "nameMock",
-    },
-    "type": "areas/UPDATE_AREA_REQUEST",
-  },
-]
-`;
-
-exports[`Redux Areas Module Redux Snapshot Thunk Actions updateDate with area 1`] = `
-Array [
-  Object {
-    "meta": Object {
-      "offline": Object {
-        "commit": Object {
-          "type": "areas/UPDATE_AREA_COMMIT",
-        },
-        "effect": Object {
-          "body": FormDataMock {
-            "append": [MockFunction] {
-              "calls": Array [
-                Array [
-                  "name",
-                  "nameMock",
-                ],
-                Array [
-                  "datasets",
-                  "[{\\"slug\\":\\"datasetSlugMock1\\",\\"name\\":\\"nameMock\\",\\"startDate\\":1234567890},{\\"slug\\":\\"datasetSlugMock2\\",\\"name\\":\\"nameMock\\",\\"startDate\\":7890},{\\"slug\\":\\"datasetSlugMock3\\",\\"name\\":\\"nameMock\\",\\"startDate\\":67890}]",
-                ],
-              ],
-              "results": Array [
-                Object {
-                  "type": "return",
-                  "value": undefined,
-                },
-                Object {
-                  "type": "return",
-                  "value": undefined,
-                },
-              ],
-            },
-          },
-          "headers": Object {
-            "content-type": "multipart/form-data",
-          },
-          "method": "PATCH",
-          "url": "<API_URL_MOCK>/area/areaIDMock",
-        },
-        "rollback": Object {
-          "meta": Object {
-            "application": "applicationMock",
-            "datasets": Array [
-              Object {
-                "name": "nameMock",
-                "slug": "datasetSlugMock1",
-                "startDate": 890,
-              },
-              Object {
-                "name": "nameMock",
-                "slug": "datasetSlugMock2",
-                "startDate": 7890,
-              },
-              Object {
-                "name": "nameMock",
-                "slug": "datasetSlugMock3",
-                "startDate": 67890,
-              },
-            ],
-            "id": "areaIDMock",
-            "name": "nameMock",
-          },
-          "type": "areas/UPDATE_AREA_ROLLBACK",
-        },
-      },
-    },
-    "payload": Object {
-      "application": "applicationMock",
-      "datasets": Array [
-        Object {
-          "name": "nameMock",
-          "slug": "datasetSlugMock1",
-          "startDate": 1234567890,
-        },
-        Object {
-          "name": "nameMock",
-          "slug": "datasetSlugMock2",
-          "startDate": 7890,
-        },
-        Object {
-          "name": "nameMock",
-          "slug": "datasetSlugMock3",
-          "startDate": 67890,
-        },
-      ],
-      "id": "areaIDMock",
       "name": "nameMock",
     },
     "type": "areas/UPDATE_AREA_REQUEST",

@@ -10,7 +10,6 @@ import { unzip } from 'react-native-zip-archive';
 import { listRecursive, readBinaryFile } from 'helpers/fileManagement';
 import shapefile from 'shpjs';
 import { feature, featureCollection } from '@turf/helpers';
-import RNFetchBlob from 'rn-fetch-blob';
 
 const DOMParser = require('xmldom').DOMParser;
 const RNFS = require('react-native-fs');
@@ -18,23 +17,8 @@ const RNFS = require('react-native-fs');
 /**
  * TODO: Split each file format in this switch statement out into separate functions
  */
-export default async function importLayerFile(layerFile: File): Promise<LayerFile> {
-  // We have to decode the file URI because iOS file manager doesn't like encoded uris!
-  const file = {
-    ...layerFile,
-    uri: Platform.OS === 'android' ? layerFile.uri : decodeURI(layerFile.uri)
-  };
-
-  const fileName = Platform.select({
-    android: file.fileName,
-    ios: file.uri.substring(file.uri.lastIndexOf('/') + 1)
-  });
-
-  // Set these up as constants
-  const fileExtension = fileName
-    .split('.')
-    .pop()
-    .toLowerCase();
+export async function importLayerFile(layerFile: File): Promise<LayerFile> {
+  const { file, fileName, fileExtension } = getFormattedFile(layerFile);
 
   switch (fileExtension) {
     case 'mbtiles': {
@@ -46,7 +30,7 @@ export default async function importLayerFile(layerFile: File): Promise<LayerFil
       await RNFS.mkdir(baseDirectory);
       await RNFS.copyFile(file.uri, path);
 
-      return { path: path, id: file.id, size: size, name: file.name ?? '' };
+      return { isImported: true, path: path, id: file.id, size: size, name: file.name ?? '' };
     }
     case 'json':
     case 'topojson':
@@ -122,6 +106,27 @@ export default async function importLayerFile(layerFile: File): Promise<LayerFil
       //todo: Add support for other file types! These need converting to geojson before saving.
       throw new Error(`Could not process file with extension: ${fileExtension}`);
   }
+}
+
+function getFormattedFile(layerFile: File) {
+  // We have to decode the file URI because iOS file manager doesn't like encoded uris!
+  const file = {
+    ...layerFile,
+    uri: Platform.OS === 'android' ? layerFile.uri : decodeURI(layerFile.uri)
+  };
+
+  const fileName = Platform.select({
+    android: file.fileName,
+    ios: file.uri.substring(file.uri.lastIndexOf('/') + 1)
+  });
+
+  // Set these up as constants
+  const fileExtension = fileName
+    .split('.')
+    .pop()
+    .toLowerCase();
+
+  return { file, fileName, fileExtension };
 }
 
 /**

@@ -37,7 +37,7 @@ function Row(props) {
         )}
         {props.action && (
           <Image
-            style={[Theme.icon, props.action.position === 'top' ? styles.topIcon : {}]}
+            style={[Theme.icon, props.action.position === 'top' ? styles.topIcon : {}, props.iconStyle]}
             source={props.action.icon}
           />
         )}
@@ -48,6 +48,7 @@ function Row(props) {
 
 Row.propTypes = {
   children: PropTypes.node,
+  iconStyle: PropTypes.any,
   value: PropTypes.bool,
   onValueChange: PropTypes.func,
   action: PropTypes.shape({

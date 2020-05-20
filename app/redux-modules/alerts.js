@@ -7,7 +7,7 @@ import Config from 'react-native-config';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
-import { UPLOAD_REPORT_REQUEST } from 'redux-modules/reports';
+import { CREATE_REPORT } from 'redux-modules/reports';
 import { RETRY_SYNC } from 'redux-modules/app';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import storeAlertsFromCsv from 'helpers/alert-store/storeAlertsFromCsv';
@@ -40,13 +40,13 @@ export default function reducer(state: AlertsState = initialState, action: Alert
     }
     case SET_CAN_DISPLAY_ALERTS:
       return { ...state, canDisplayAlerts: action.payload };
-    case UPLOAD_REPORT_REQUEST: {
-      const { alerts } = action.payload;
+    case CREATE_REPORT: {
+      const { selectedAlerts } = action.payload;
       let reported = [...state.reported];
 
-      if (alerts && alerts.length) {
-        alerts.forEach(alert => {
-          reported = [...reported, `${alert.lon}${alert.lat}`];
+      if (selectedAlerts?.length) {
+        selectedAlerts.forEach(alert => {
+          reported = [...reported, `${alert.long}${alert.lat}`];
         }, this);
       }
       return { ...state, reported };

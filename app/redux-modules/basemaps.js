@@ -6,7 +6,7 @@ import type { Dispatch, GetState, State, Thunk } from 'types/store.types';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
-import importLayerFile from 'helpers/layer-store/import/importLayerFile';
+import { importLayerFile } from 'helpers/layer-store/import/importLayerFile';
 
 // Actions
 const IMPORT_BASEMAP_REQUEST = 'basemaps/IMPORT_BASEMAP_REQUEST';
