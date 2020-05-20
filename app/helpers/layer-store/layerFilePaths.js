@@ -64,6 +64,15 @@ export function tileForFileName(fileName: string): [number, number, number] {
 }
 
 /**
+ * Given a basemap file reference, determines the directory the file will sit in.
+ *
+ * @param {File} file the basemap file reference
+ */
+export function directoryForMBTilesFile(file: File): string {
+  return pathForLayerFile({ ...file, type: 'basemap', layerId: file.id, tileXYZ: [0, 0, 0] });
+}
+
+/**
  * Given a basemap file reference, determines the path for it.
  *
  * This is because, on iOS, the IDs that iOS uses to determine the device / application directories
@@ -72,7 +81,7 @@ export function tileForFileName(fileName: string): [number, number, number] {
  * @param {File} file the basemap file reference
  */
 export function pathForMBTilesFile(file: File): string {
-  const baseDirectory = `${pathForLayerFile({ ...file, type: 'basemap', layerId: file.id, tileXYZ: [0, 0, 0] })}`;
+  const baseDirectory = directoryForMBTilesFile(file);
 
   return `${baseDirectory}/${file.id}.mbtiles`;
 }
