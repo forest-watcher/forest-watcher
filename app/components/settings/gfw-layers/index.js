@@ -117,7 +117,7 @@ class GFWLayers extends PureComponent<Props, State> {
   renderHeader = () => {
     let headerString: ?string = null;
 
-    if (this.state.searchFocussed) {
+    if (this.state.searchFocussed || this.state.searchTerm) {
       if (this.state.searchTerm) {
         if (this.props.layers.length) {
           headerString = i18n.t('importLayer.gfw.results', {
