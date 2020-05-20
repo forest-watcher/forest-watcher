@@ -1,4 +1,7 @@
 // @flow
+import type { GroupedReports } from 'containers/reports';
+import type { Report } from 'types/reports.types';
+
 import React, { Component } from 'react';
 
 import { View } from 'react-native';
@@ -7,7 +10,6 @@ import { mapboxStyles } from './styles';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import i18n from 'i18next';
 import moment from 'moment';
-import type { FormattedReport, FormattedReports } from 'containers/reports';
 import { REPORTS } from 'config/constants';
 import { featureCollection, point } from '@turf/helpers';
 
@@ -19,8 +21,8 @@ export type ReportLayerSettings = {
 
 type Props = {
   featureId: string,
-  myReports: Array<FormattedReport>,
-  importedReports: Array<FormattedReport>,
+  myReports: Array<Report>,
+  importedReports: Array<Report>,
   reportLayerSettings: ReportLayerSettings,
   onShapeSourcePressed?: () => void
 };
@@ -34,23 +36,33 @@ export default class Reports extends Component<Props> {
     return iconName;
   };
 
-  reportToFeature = (report: FormattedReport) => {
+  reportToFeature = (report: Report) => {
     const properties = {
-      icon: this.getReportIcon(report.imported, false),
+      icon: this.getReportIcon(!!report.isImported, false),
       date: moment(report.date),
       type: 'report',
       name: i18n.t('map.layerSettings.report'),
-      imported: report.imported,
-      featureId: report.title
+      imported: report.isImported,
+      featureId: report.reportName
     };
-    const position = report.userPosition
-      .split(',')
-      .reverse()
-      .map(a => Number(a));
+    let position;
+    const clickedPosition = JSON.parse(report.clickedPosition);
+    if (clickedPosition?.length) {
+      const lastClickedPosition = clickedPosition[clickedPosition.length - 1];
+      if (lastClickedPosition.lon && lastClickedPosition.lat) {
+        position = [lastClickedPosition.lon, lastClickedPosition.lat];
+      }
+    }
+    if (!position) {
+      position = report.userPosition
+        .split(',')
+        .reverse()
+        .map(a => Number(a));
+    }
     return point(position, properties);
   };
 
-  renderReports = (reports: Array<FormattedReport>, imported: boolean) => {
+  renderReports = (reports: Array<Report>, imported: boolean) => {
     if (!reports) {
       return null;
     }

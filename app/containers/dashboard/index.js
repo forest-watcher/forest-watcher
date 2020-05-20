@@ -9,11 +9,9 @@ import {
   showNotConnectedNotification,
   setWelcomeScreenSeen
 } from 'redux-modules/app';
-import { createReport } from 'redux-modules/reports';
 import { setAreasRefreshing, setSelectedAreaId } from 'redux-modules/areas';
 import { isOutdated } from 'helpers/date';
 import { shouldBeConnected } from 'helpers/app';
-import type { BasicReport } from 'types/reports.types';
 import importBundle from 'helpers/sharing/importBundle';
 
 type OwnProps = {|
@@ -39,9 +37,6 @@ function mapStateToProps(state: State) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
-    createReport: (report: BasicReport) => {
-      dispatch(createReport(report));
-    },
     importBundle: uri => {
       importBundle(uri, dispatch);
     },

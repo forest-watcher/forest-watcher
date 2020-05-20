@@ -71,7 +71,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
   const { cache } = state.layers;
   const contextualLayer = getContextualLayer(state.layers);
   const route = reconcileRoutes(state.routes.activeRoute, ownProps.previousRoute);
-  const allRouteIds = [...state.routes.previousRoutes, ...state.routes.importedRoutes]?.map?.(item => item.id) ?? [];
+  const allRouteIds = state.routes.previousRoutes.map(item => item.id);
   const featureId = route?.id || area?.id || '';
   const layerSettings = state.layerSettings?.[featureId] || DEFAULT_LAYER_SETTINGS;
 
@@ -108,9 +108,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
     createReport: (report: BasicReport) => {
       dispatch(createReport(report));
       let numAlertsInReport = 0;
-      if (report.latLng) {
-        // TODO: latLng is not in this report object. What is this for?!
-        const parsedAlerts = JSON.parse(report.latLng);
+      if (report.clickedPosition) {
+        const parsedAlerts = JSON.parse(report.clickedPosition);
         numAlertsInReport = parsedAlerts.length;
       }
       tracker.trackReportFlowStartedEvent(numAlertsInReport);

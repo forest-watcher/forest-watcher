@@ -11,6 +11,7 @@ import { GET_ALERTS_COMMIT } from 'redux-modules/alerts';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 import { deleteRoutes } from './routes';
+import deleteAlerts from 'helpers/alert-store/deleteAlerts';
 
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
 export const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
@@ -147,6 +148,11 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     case DELETE_AREA_COMMIT: {
       const { id } = action.meta.area || {};
       const selectedAreaId = id === state.selectedAreaId ? '' : state.selectedAreaId;
+      if (id) {
+        deleteAlerts({
+          areaId: id
+        });
+      }
       return { ...state, synced: true, syncing: false, selectedAreaId };
     }
     case DELETE_AREA_ROLLBACK: {
@@ -271,12 +277,6 @@ export function deleteArea(areaId: ?string) {
     const area = getAreaById(state().areas.data, areaId);
 
     if (area) {
-      dispatch(
-        deleteRoutes({
-          areaId: area.id
-        })
-      );
-
       // For imported areas, we don't need to do a network request
       // Use the same Redux actions to only apply the change locally
       if (area.isImported) {

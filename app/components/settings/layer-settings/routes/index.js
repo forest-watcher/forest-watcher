@@ -1,38 +1,34 @@
 // @flow
 
+import type { Route } from 'types/routes.types';
+import type { LayerSettingsAction, RoutesLayerSettingsType } from 'types/layerSettings.types';
+
 import React, { PureComponent } from 'react';
 import { Image, View, ScrollView, Text, Dimensions } from 'react-native';
 import styles from './styles';
 import i18n from 'i18next';
+import _ from 'lodash';
 import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
-import type { Route } from 'types/routes.types';
-import type { LayerSettingActions } from 'types/layerSettings.types';
 import ActionsRow from 'components/common/actions-row';
 import RoutePreviewImage from 'components/routes/preview-image';
 import moment from 'moment';
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
+import debounceUI from 'helpers/debounceUI';
 
 const screenDimensions = Dimensions.get('screen');
 
 const checkboxOff = require('assets/checkbox_off.png');
 const checkboxOn = require('assets/checkbox_on.png');
 
-type RoutesLayerSettingsType = {
-  showAll: boolean,
-  layerIsActive: boolean,
-  activeRouteIds: Array<string>
-};
-
 type Props = {
   componentId: string,
   featureId: string,
-  myRoutes: Array<Route>,
-  importedRoutes: Array<Route>,
+  routes: Array<Route>,
   routesLayerSettings: RoutesLayerSettingsType,
   toggleRouteSelected: (string, string) => void,
-  deselectAllRoutes: string => LayerSettingActions
+  deselectAllRoutes: string => LayerSettingsAction
 };
 
 class RoutesLayerSettings extends PureComponent<Props> {
@@ -72,13 +68,13 @@ class RoutesLayerSettings extends PureComponent<Props> {
     this.props.deselectAllRoutes(this.props.featureId);
   };
 
-  onPressManageRoutes = () => {
+  onPressManageRoutes = debounceUI(() => {
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.Routes'
       }
     });
-  };
+  });
 
   renderRoutes = (routes: Array<Route>, headingLocalisation: string) => {
     return (
@@ -120,7 +116,7 @@ class RoutesLayerSettings extends PureComponent<Props> {
   };
 
   render() {
-    const { myRoutes, importedRoutes } = this.props;
+    const [importedRoutes, myRoutes] = _.partition(this.props.routes, route => route.isImported);
     return (
       <View style={styles.container}>
         <ScrollView

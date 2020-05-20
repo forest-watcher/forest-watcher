@@ -8,7 +8,7 @@ import styles from './styles';
 type Props = {
   actionTitle: string,
   body: string,
-  icon: *,
+  icon: number,
   onActionPress: () => void,
   title: string
 };

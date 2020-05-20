@@ -47,6 +47,9 @@ export default class Dropdown extends Component<Props> {
   };
 
   onShowActionSheet = () => {
+    if (this.props.inactive) {
+      return;
+    }
     this.actionSheet?.setModalVisible();
   };
 
@@ -65,7 +68,7 @@ export default class Dropdown extends Component<Props> {
         })?.label ?? selectedValue;
     const rowStyle = [styles.dropdownRow, this.props.inactive ? styles.inactiveDropdownRow : {}];
     return (
-      <Row action={!this.props.inactive && this.showActionSheetAction} rowStyle={rowStyle}>
+      <Row opacity={this.props.inactive ? 0.2 : 0.5} action={this.showActionSheetAction} rowStyle={rowStyle}>
         {label && !this.props.hideLabel && <Text style={styles.label}>{label}</Text>}
         <Text style={styles.label}>{selectedLabel.charAt(0).toUpperCase() + selectedLabel.substring(1)}</Text>
         <ActionSheet

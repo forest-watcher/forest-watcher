@@ -2,7 +2,7 @@
 
 import type { Alert, AlertsState } from 'types/alerts.types';
 import type { Area, AreasState } from 'types/areas.types';
-import type { Report, ReportsState } from 'types/reports.types';
+import type { Report, ReportsState, Template } from 'types/reports.types';
 import type { ExportBundleRequest, SharingBundle } from 'types/sharing.types';
 import type { State } from 'types/store.types';
 import type { Basemap, BasemapsState } from 'types/basemaps.types';
@@ -13,6 +13,7 @@ import _ from 'lodash';
 
 import { GFW_BASEMAPS } from 'config/constants';
 import queryAlerts from 'helpers/alert-store/queryAlerts';
+import { getTemplate } from 'helpers/forms';
 
 /**
  * Version number of the bundles created using the functions in this file
@@ -32,7 +33,7 @@ export default function exportAppData(appState: State, request: ExportBundleRequ
   const areas = exportAreas(appState.areas, request.areaIds);
   const basemaps = exportBasemaps(appState.basemaps, request.basemapIds);
   const layers = exportLayers(appState.layers, request.layerIds);
-  const reports = exportReports(appState.reports, request.reportIds);
+  const [reports, templates] = exportReports(appState.reports, request.reportIds);
   const routes = exportRoutes(appState.routes, request.routeIds);
 
   return {
@@ -41,9 +42,10 @@ export default function exportAppData(appState: State, request: ExportBundleRequ
     areas: areas,
     basemaps: basemaps,
     layers: layers,
-    manifest: { layerFiles: [] },
+    manifest: { layerFiles: [], reportFiles: [] },
     reports: reports,
-    routes: routes
+    routes: routes,
+    templates: templates
   };
 }
 
@@ -85,14 +87,36 @@ export function exportLayers(layersState: LayersState, layerIds: Array<string>):
 /**
  * Extracts any reports from state with IDs matching those in reportIds
  */
-function exportReports(reportsState: ReportsState, reportIds: Array<string>): Array<Report> {
-  return reportIds.map(reportId => reportsState.list[reportId]).filter(Boolean);
+function exportReports(reportsState: ReportsState, reportIds: Array<string>): [Array<Report>, { [string]: Template }] {
+  const templatesToExport = {};
+  const reports = reportIds
+    .map(reportId => reportsState.list[reportId])
+    .filter(Boolean)
+    .map(report => {
+      const template = getTemplate(report, reportsState.templates);
+
+      if (!template) {
+        return null;
+      }
+
+      templatesToExport[template.id] = template;
+
+      return {
+        ...report,
+        area: {
+          ...(report.area ?? {}),
+          templateId: template.id
+        }
+      };
+    })
+    .filter(Boolean);
+
+  return [reports, templatesToExport];
 }
 
 /**
  * Extracts any routes from state with IDs matching those in routeIds
  */
 function exportRoutes(routesState: RouteState, routeIds: Array<string>): Array<Route> {
-  const allRoutes = [routesState.activeRoute, ...routesState.previousRoutes, ...routesState.importedRoutes];
-  return allRoutes.filter(route => route && routeIds.includes(route.id)).filter(Boolean);
+  return routesState.previousRoutes.filter(route => routeIds.includes(route.id + '')).filter(Boolean);
 }

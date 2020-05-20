@@ -3,9 +3,9 @@ import { Navigation } from 'react-native-navigation';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import Areas from 'containers/areas';
-import ContextualLayers from 'containers/settings/contextual-layers';
-import ImportLayerRename from 'containers/settings/contextual-layers/import-layer-rename';
-import ImportLayerType from 'components/settings/contextual-layers/import-layer-type';
+import MappingFiles from 'containers/settings/mapping-files';
+import ImportMappingFileRename from 'containers/settings/mapping-files/import/rename';
+import ImportMappingFileType from 'containers/settings/mapping-files/import/type';
 import Home from 'containers/home';
 import Login from 'containers/login';
 import SetupBoundaries from 'containers/setup/boundaries';
@@ -38,7 +38,8 @@ import AlertLayerSettings from 'containers/settings/layer-settings/alerts';
 import RoutesLayerSettings from 'containers/settings/layer-settings/routes';
 import ContextualLayersLayerSettings from 'containers/settings/layer-settings/contextual-layers';
 import BasemapLayerSettings from 'containers/settings/layer-settings/basemap';
-import ImportLayerError from 'components/settings/contextual-layers/import-layer-error';
+import GFWContextualLayers from 'containers/settings/gfw-layers';
+import ImportMappingFileError from 'components/settings/mapping-files/import/error';
 
 /**
  * Registers a component with React Native Navigation
@@ -66,10 +67,11 @@ function registerComponent(name, Screen, Provider, store, wrapInSafeAreaProvider
 
 export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.Areas', Areas, Provider, store);
-  registerComponent('ForestWatcher.ContextualLayers', ContextualLayers, Provider, store);
+  registerComponent('ForestWatcher.MappingFiles', MappingFiles, Provider, store);
   registerComponent('ForestWatcher.Home', Home, Provider, store);
-  registerComponent('ForestWatcher.ImportLayerRename', ImportLayerRename, Provider, store);
-  registerComponent('ForestWatcher.ImportLayerType', ImportLayerType, Provider, store);
+  registerComponent('ForestWatcher.ImportMappingFileRename', ImportMappingFileRename, Provider, store);
+  registerComponent('ForestWatcher.ImportMappingFileType', ImportMappingFileType, Provider, store);
+  registerComponent('ForestWatcher.ImportMappingFileError', ImportMappingFileError, Provider, store);
   registerComponent('ForestWatcher.Login', Login, Provider, store);
   registerComponent('ForestWatcher.SetupBoundaries', SetupBoundaries, Provider, store);
   registerComponent('ForestWatcher.SetupCountry', SetupCountry, Provider, store);
@@ -101,7 +103,7 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.ReportsLayerSettings', ReportLayerSettings, Provider, store);
   registerComponent('ForestWatcher.ContextualLayersLayerSettings', ContextualLayersLayerSettings, Provider, store);
   registerComponent('ForestWatcher.BasemapLayerSettings', BasemapLayerSettings, Provider, store);
-  registerComponent('ForestWatcher.ImportLayerError', ImportLayerError, Provider, store);
+  registerComponent('ForestWatcher.GFWLayers', GFWContextualLayers, Provider, store);
 }
 
 export default registerScreens;
