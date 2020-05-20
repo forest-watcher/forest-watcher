@@ -1,4 +1,6 @@
 // @flow
+import type { MBTileBasemapMetadata } from 'types/basemaps.types';
+
 import React, { Component } from 'react';
 
 import {
@@ -35,6 +37,7 @@ import styles, { mapboxStyles } from './styles';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
 import MapboxGL, { type Position } from '@react-native-mapbox-gl/maps';
+import ReactNativeMBTiles from 'react-native-mbtiles';
 
 import { toFileUri } from 'helpers/fileURI';
 
@@ -61,6 +64,7 @@ import {
   isValidLatLng,
   isValidLatLngArray
 } from 'helpers/location';
+import { pathForMBTilesFile } from 'helpers/layer-store/layerFilePaths';
 import RouteMarkers from 'components/map/route';
 import type { AlertsAction } from 'types/alerts.types';
 import type { AreasAction } from 'types/areas.types';
@@ -141,6 +145,7 @@ type Props = {
 };
 
 type State = {
+  basemapMetadata: ?MBTileBasemapMetadata,
   bottomSafeAreaInset: number,
   userLocation: ?Position,
   heading: ?number,
@@ -171,6 +176,8 @@ type State = {
 };
 
 class MapComponent extends Component<Props, State> {
+  static offlinePortNumber = 49333;
+
   margin = Platform.OS === 'ios' ? 50 : 100;
 
   static options(passProps: {}) {
@@ -230,6 +237,7 @@ class MapComponent extends Component<Props, State> {
     Navigation.events().bindComponent(this);
 
     this.state = {
+      basemapMetadata: null,
       bottomSafeAreaInset: 0,
       userLocation: null,
       heading: null,
@@ -286,6 +294,13 @@ class MapComponent extends Component<Props, State> {
 
     this.geoLocate();
 
+    const basemap = this.props.getActiveBasemap(this.getFeatureId());
+
+    if (basemap?.path) {
+      // TODO: Do we need to also check for `isImported` here?
+      this.prepareOfflineBasemapForUse(basemap);
+    }
+
     this.staleLocationTimer = setInterval(() => {
       this.setState(state => {
         if (
@@ -308,6 +323,23 @@ class MapComponent extends Component<Props, State> {
 
     this.showMapWalkthrough();
   }
+
+  prepareOfflineBasemapForUse = (basemap: Basemap) => {
+    const basemapPath = pathForMBTilesFile(basemap);
+    ReactNativeMBTiles.prepare(basemap.id, basemapPath, (error, metadata) => {
+      if (!metadata) {
+        console.warn('3SC', 'No metadata for the selected basemap');
+
+        return;
+      }
+
+      this.setState({
+        basemapMetadata: metadata
+      });
+
+      ReactNativeMBTiles.startServer(MapComponent.offlinePortNumber);
+    });
+  };
 
   // called on startup to set initial camera position
   getMapCameraBounds = () => {
@@ -386,6 +418,8 @@ class MapComponent extends Component<Props, State> {
     emitter.off(GFWOnHeadingEvent, this.updateHeading);
     emitter.off(GFWOnErrorEvent, this.onLocationUpdateError);
     stopTrackingHeading();
+
+    ReactNativeMBTiles.stopServer();
 
     this.props.setSelectedAreaId('');
   }
@@ -1054,19 +1088,24 @@ class MapComponent extends Component<Props, State> {
           onPress={this.dismissInfoBanner}
           compassViewMargins={{ x: 5, y: 50 }}
         >
-          {
+          {/* TODO: Add vector support in next PR with styles from contextual layers? */}
+          {this.state.basemapMetadata && (
             <MapboxGL.RasterSource
               id="basemapTiles"
-              minZoomLevel={0}
-              maxZoomLevel={5}
-              tileSize={256}
-              tms={true}
-              tileUrlTemplates={['http://localhost:54321/gfwmbtiles/a12a1e41-06d1-40e3-9141-6a8a536d8213?{z}&{x}&{y}']}
+              minZoomLevel={this.state.basemapMetadata.minZoomLevel}
+              maxZoomLevel={this.state.basemapMetadata.maxZoomLevel}
+              tileSize={this.state.basemapMetadata.tileSize}
+              tms={this.state.basemapMetadata.tms}
+              tileUrlTemplates={[
+                `http://localhost:${
+                  MapComponent.offlinePortNumber
+                }/gfwmbtiles/ab469a56-ba7e-49e1-86f1-e6771d0c4d0f?z={z}&x={x}&y={y}`
+              ]}
             >
               {/* TODO: How do we apply styling / rendering properties to vector files?! */}
               <MapboxGL.RasterLayer id="basemapTileLayer" />
             </MapboxGL.RasterSource>
-          }
+          )}
           {renderMapCamera}
           {this.renderAreaOutline()}
           {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
