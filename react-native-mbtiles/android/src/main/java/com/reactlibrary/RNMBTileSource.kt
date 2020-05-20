@@ -79,7 +79,7 @@ class RNMBTileSource(var id: String, var filePath: String) {
 
     // Given a metadata property, queries the database and returns it, if it exists.
     private fun getMetadata(property: String): String? {
-        return database.select("metadata").whereSimple("name = ?", property).parseSingle(MetadataParser).second
+        return database.select("metadata").whereSimple("name = ?", property).parseOpt(MetadataParser)?.second
     }
 }
 
