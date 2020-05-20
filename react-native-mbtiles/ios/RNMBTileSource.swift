@@ -19,16 +19,16 @@ import UIKit
   let attribution: String?
   let layersJson: String?
   
-  @objc public var dictionaryValue: [String: Any] {
+  @objc public var dictionaryValue: [String: NSObject] {
     get {
       return [
-        "minZoomLevel": minZoomLevel,
-        "maxZoomLevel": maxZoomLevel,
-        "isVector": isVector,
-        "tms": tms,
-        "tileSize": tileSize,
-        "attribution": attribution,
-        "layersJson": layersJson
+        "minZoomLevel": NSNumber(value: minZoomLevel),
+        "maxZoomLevel": NSNumber(value: maxZoomLevel),
+        "isVector": NSNumber(value: isVector),
+        "tms": NSNumber(value: tms),
+        "tileSize": NSNumber(value: tileSize),
+        "attribution": attribution as NSString? ?? NSNull(),
+        "layersJson": layersJson as NSString? ?? NSNull()
       ]
     }
   }

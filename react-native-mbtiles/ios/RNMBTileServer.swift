@@ -74,6 +74,10 @@ import UIKit
       }
       return
     }
+
+    guard server?.isRunning == true else {
+      return
+    }
     
     server?.stop()
     server?.removeAllHandlers()
