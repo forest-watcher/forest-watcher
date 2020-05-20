@@ -81,6 +81,7 @@ import { formatInfoBannerDate } from 'helpers/date';
 import Reports from 'containers/map/reports';
 import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
 import { lineString } from '@turf/helpers';
+import MBTilesSource from './mbtiles';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -296,8 +297,7 @@ class MapComponent extends Component<Props, State> {
 
     const basemap = this.props.getActiveBasemap(this.getFeatureId());
 
-    if (basemap?.path) {
-      // TODO: Do we need to also check for `isImported` here?
+    if (basemap?.isImported) {
       this.prepareOfflineBasemapForUse(basemap);
     }
 
@@ -325,19 +325,31 @@ class MapComponent extends Component<Props, State> {
   }
 
   prepareOfflineBasemapForUse = (basemap: Basemap) => {
+    this.setState({ basemapMetadata: null });
+
     const basemapPath = pathForMBTilesFile(basemap);
     ReactNativeMBTiles.prepare(basemap.id, basemapPath, (error, metadata) => {
-      if (!metadata) {
+      /*if (!metadata) {
         console.warn('3SC', 'No metadata for the selected basemap');
 
         return;
-      }
+      }*/
+
+      ReactNativeMBTiles.stopServer();
+      ReactNativeMBTiles.startServer(MapComponent.offlinePortNumber);
 
       this.setState({
-        basemapMetadata: metadata
+        basemapMetadata: {
+          minZoomLevel: 0,
+          maxZoomLevel: 5,
+          isVector: false,
+          tms: true,
+          tileSize: 256,
+          attribution: '',
+          layersJson: ''
+        }
+        //metadata
       });
-
-      ReactNativeMBTiles.startServer(MapComponent.offlinePortNumber);
     });
   };
 
@@ -1086,21 +1098,11 @@ class MapComponent extends Component<Props, State> {
         >
           {/* TODO: Add vector support in next PR with styles from contextual layers? */}
           {this.state.basemapMetadata && (
-            <MapboxGL.RasterSource
-              id="basemapTiles"
-              minZoomLevel={this.state.basemapMetadata.minZoomLevel}
-              maxZoomLevel={this.state.basemapMetadata.maxZoomLevel}
-              tileSize={this.state.basemapMetadata.tileSize}
-              tms={this.state.basemapMetadata.tms}
-              tileUrlTemplates={[
-                `http://localhost:${
-                  MapComponent.offlinePortNumber
-                }/gfwmbtiles/ab469a56-ba7e-49e1-86f1-e6771d0c4d0f?z={z}&x={x}&y={y}`
-              ]}
-            >
-              {/* TODO: How do we apply styling / rendering properties to vector files?! */}
-              <MapboxGL.RasterLayer id="basemapTileLayer" />
-            </MapboxGL.RasterSource>
+            <MBTilesSource
+              basemapId={basemap.id}
+              metadata={this.state.basemapMetadata}
+              port={MapComponent.offlinePortNumber}
+            />
           )}
           {renderMapCamera}
           {this.renderAreaOutline()}
