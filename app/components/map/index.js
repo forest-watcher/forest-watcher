@@ -473,7 +473,7 @@ class MapComponent extends Component<Props, State> {
       this.updateRouteDestination();
       this.props.onStartTrackingRoute(coordsArrayToObject(this.state.routeDestination), this.props.area.id);
 
-      this.onSelectionCancelPress();
+      this.setState({ customReporting: false });
 
       emitter.on(GFWOnErrorEvent, this.onLocationUpdateError);
     } catch (err) {
@@ -652,11 +652,6 @@ class MapComponent extends Component<Props, State> {
     this.createReport(this.state.selectedAlerts);
   });
 
-  reportArea = debounceUI(() => {
-    this.dismissInfoBanner();
-    this.createReport([...this.state.selectedAlerts]);
-  });
-
   createReport = (selectedAlerts: Array<Alert>) => {
     this.props.setCanDisplayAlerts(false);
     const { area } = this.props;
@@ -691,6 +686,7 @@ class MapComponent extends Component<Props, State> {
     this.props.createReport({
       area,
       reportName,
+      selectedAlerts,
       userPosition: userLatLng || REPORTS.noGpsPosition,
       clickedPosition: JSON.stringify(latLng)
     });

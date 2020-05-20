@@ -18,7 +18,9 @@ const fileIcon = require('assets/fileIcon.png');
 
 type Props = {
   componentId: string,
+  isConnected: boolean,
   mappingFileType: MappingFileType,
+  onImported: () => void,
   popToComponentId?: ?string
 };
 
@@ -70,6 +72,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
               name: null
             },
             mappingFileType: this.props.mappingFileType,
+            onImported: this.props.onImported,
             popToComponentId: this.props.popToComponentId
           }
         }
@@ -84,6 +87,9 @@ class ImportMappingFileType extends PureComponent<Props, State> {
   });
 
   importGFWLayer = debounceUI(() => {
+    if (!this.props.isConnected) {
+      return;
+    }
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.GFWLayers'
@@ -155,10 +161,22 @@ class ImportMappingFileType extends PureComponent<Props, State> {
 
     return (
       <View style={styles.container}>
-        <ScrollView scrollEnabled={false} style={styles.contentContainer}>
+        <ScrollView alwaysBounceVertical={false} style={styles.contentContainer}>
           {mappingFileType === 'contextualLayers' ? (
-            <Row action={gfwLayerAction} rowStyle={styles.row}>
-              <Text style={styles.title}>{i18n.t(this.i18nKeyFor('addGFW'))}</Text>
+            <Row
+              action={gfwLayerAction}
+              opacity={!this.props.isConnected ? 1.0 : 0.5}
+              rowStyle={styles.row}
+              iconStyle={!this.props.isConnected ? { opacity: 0.6 } : {}}
+            >
+              <Text style={[styles.title, !this.props.isConnected ? { opacity: 0.6 } : {}]}>
+                {i18n.t(this.i18nKeyFor('addGFW'))}
+              </Text>
+              {!this.props.isConnected && (
+                <Text style={[styles.description, { paddingTop: 10 }]}>
+                  {i18n.t(this.i18nKeyFor('offlineWarning'))}
+                </Text>
+              )}
             </Row>
           ) : null}
           <Row
@@ -168,8 +186,9 @@ class ImportMappingFileType extends PureComponent<Props, State> {
           >
             <View style={styles.titleContainer}>
               <Text style={styles.title}>{i18n.t(this.i18nKeyFor('custom'))}</Text>
-              <Image style={Theme.icon} source={nextIcon} />
+              <Image style={[Theme.icon, { marginRight: 0 }]} source={nextIcon} />
             </View>
+            <View style={styles.verticalSeparator} />
             <View>
               <Text style={styles.description}>{i18n.t(this.i18nKeyFor('supportedFileTypesInclude'))}</Text>
               <View style={styles.acceptedFileTypes}>
@@ -177,6 +196,11 @@ class ImportMappingFileType extends PureComponent<Props, State> {
               </View>
             </View>
           </Row>
+          <View style={styles.faqContainer}>
+            <Text style={styles.actionText} onPress={this.onFaqPress}>
+              {i18n.t(this.i18nKeyFor('faq'))}
+            </Text>
+          </View>
         </ScrollView>
       </View>
     );

@@ -39,15 +39,18 @@ export default StyleSheet.create({
     height: undefined // Required to make `require()` image scale
   },
   legendContainer: {
+    alignItems: 'center',
     flexDirection: 'row',
-    alignItems: 'center'
+    marginBottom: 16
   },
   legendColor: {
     width: 14,
     height: 14,
-    marginTop: 10,
-    marginBottom: 10,
     marginRight: 6
+  },
+  legendEntry: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   legendTitle: {
     fontFamily: Theme.font,

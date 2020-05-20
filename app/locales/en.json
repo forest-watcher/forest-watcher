@@ -23,6 +23,7 @@
             },
             "successful": "Exporting areas succeeded!"
         },
+        "importedAreas": "Imported Areas",
         "myAreas": "My Areas",
         "share": "Share Areas",
         "tooltip": {
@@ -68,7 +69,7 @@
             "addGFW": "",
             "custom": "Custom Basemap",
             "supportedFileTypesInclude": "Supported file types include:",
-            "customFAQs": "Custom Basemap FAQs",
+            "faq": "Custom Basemap FAQs",
             "fileTypeNotSupported": "File Type Not Supported",
             "fileTypeNotSupportedDesc": "is not a supported file type for basemaps.",
             "chooseAnother": "Choose Another"
@@ -151,13 +152,14 @@
         "import": {
             "uniqueNameError": "You have already given a layer this name, please choose a different name or delete the existing layer.",
             "error": "Failed to import layer, please make sure you are selecting the correct file type and the contents of the file matches the specification then try again.",
+            "offlineWarning": "Only available online",
             "save": "Import Layer",
             "title": "Layer Name",
             "choose": "Choose contextual layer type",
             "addGFW": "Add Global Forest Watch Layer",
             "custom": "Custom Contextual Layer",
             "supportedFileTypesInclude": "Supported file types include:",
-            "customFAQs": "Custom Layer FAQs",
+            "faq": "Custom Layer FAQs",
             "fileTypeNotSupported": "File Type Not Supported",
             "fileTypeNotSupportedDesc": "is not a supported file type for contextual layers.",
             "chooseAnother": "Choose Another"
@@ -354,6 +356,7 @@
     },
     "importLayer": {
         "gfw": {
+            "error": "GFW Layers can't be loaded right now – check your internet connection and try again.",
             "title": "Add GFW Layers",
             "allLayers": "All GFW Layers (%{count})",
             "noResults": "No results for ‘%{searchTerm}'",
@@ -504,6 +507,7 @@
         },
         "glad": "Deforestation Report",
         "here": "Report here",
+        "imported": "Imported",
         "input": "Please, answer the question",
         "inputRadio": "Choose one option to continue",
         "inputSelect": "Choose at least one option to continue",
@@ -549,6 +553,7 @@
             "noneSelected": "No routes selected",
             "routeSizeAction": "Export Routes (%{bundleSize})"
         },
+        "importedRoutes": "Imported Routes",
         "insufficientPermissionsDialogTitle": "Unable to track route",
         "insufficientPermissionsDialogMessage": "We need background location permissions to be able to track your route.",
         "insufficientPermissionsDialogOpenAppSettings": "Check permissions",

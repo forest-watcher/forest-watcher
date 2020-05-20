@@ -6,12 +6,10 @@ import areasReducer, {
   deleteArea,
   getAreas,
   saveArea,
-  setAreaDatasetStatus,
   setAreasRefreshing,
   setSelectedAreaId,
   syncAreas,
-  updateArea,
-  updateDate
+  updateArea
 } from 'redux-modules/areas';
 
 describe('Redux Areas Module', () => {
@@ -92,23 +90,6 @@ describe('Redux Areas Module', () => {
         datasets: { datasetMock: 'mockData' }
       };
       store.dispatch(updateArea(mockArea));
-      expect(store.getActions()).toMatchSnapshot();
-    });
-
-    it('updateDate with area', () => {
-      const mockDatasets = [
-        { slug: 'datasetSlugMock1', name: 'nameMock', startDate: 890 },
-        { slug: 'datasetSlugMock2', name: 'nameMock', startDate: 7890 },
-        { slug: 'datasetSlugMock3', name: 'nameMock', startDate: 67890 }
-      ];
-      const mockArea = {
-        name: 'nameMock',
-        id: 'areaIDMock',
-        application: 'applicationMock', // used to test that all fields are included in payload
-        datasets: mockDatasets
-      };
-      store = configuredStore({ ...initialStoreState, areas: { data: [mockArea] } });
-      store.dispatch(updateDate('areaIDMock', 'datasetSlugMock1', { startDate: 1234567890 }));
       expect(store.getActions()).toMatchSnapshot();
     });
 

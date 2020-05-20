@@ -1,6 +1,6 @@
 // @flow
 import type { State } from 'types/store.types';
-import type { AlertDatasetConfig } from 'types/common.types';
+import type { AlertDatasetConfig } from 'types/alerts.types';
 
 import { put, takeEvery, select, all, fork } from 'redux-saga/effects';
 import { getAreaAlerts } from 'redux-modules/alerts';
