@@ -5,7 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Areas from 'containers/areas';
 import MappingFiles from 'containers/settings/mapping-files';
 import ImportMappingFileRename from 'containers/settings/mapping-files/import/rename';
-import ImportMappingFileType from 'components/settings/mapping-files/import/type';
+import ImportMappingFileType from 'containers/settings/mapping-files/import/type';
 import Home from 'containers/home';
 import Login from 'containers/login';
 import SetupBoundaries from 'containers/setup/boundaries';
