@@ -34,13 +34,6 @@ export default StyleSheet.create({
     color: Theme.colors.turtleGreen,
     backgroundColor: Theme.background.main
   },
-  rowContent: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingRight: 0
-  },
   rowLabel: {
     flexShrink: 1,
     fontFamily: Theme.font,
