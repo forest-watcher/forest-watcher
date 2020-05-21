@@ -201,7 +201,6 @@ class MappingFiles extends Component<Props, State> {
                   }
                 }}
                 onDownloadPress={() => {}}
-                style={styles.rowContent}
                 image={file.image ?? icons[mappingFileType].placeholder}
                 title={i18n.t(file.name)}
                 subtitle={formatBytes(file.size ?? 0)}
@@ -243,7 +242,6 @@ class MappingFiles extends Component<Props, State> {
                     this.onFileSelectedForExport(file.id);
                   }
                 }}
-                style={styles.rowContent}
                 image={file.image ?? icons[mappingFileType].placeholder}
                 title={i18n.t(file.name)}
                 subtitle={formatBytes(file.size ?? 0)}
