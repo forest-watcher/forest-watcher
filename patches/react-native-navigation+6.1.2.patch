@@ -1,0 +1,122 @@
+diff --git a/node_modules/react-native-navigation/.DS_Store b/node_modules/react-native-navigation/.DS_Store
+new file mode 100644
+index 0000000..a3c9fc3
+Binary files /dev/null and b/node_modules/react-native-navigation/.DS_Store differ
+diff --git a/node_modules/react-native-navigation/lib/.DS_Store b/node_modules/react-native-navigation/lib/.DS_Store
+new file mode 100644
+index 0000000..fb4e4d4
+Binary files /dev/null and b/node_modules/react-native-navigation/lib/.DS_Store differ
+diff --git a/node_modules/react-native-navigation/lib/ios/.DS_Store b/node_modules/react-native-navigation/lib/ios/.DS_Store
+new file mode 100644
+index 0000000..6b88b9e
+Binary files /dev/null and b/node_modules/react-native-navigation/lib/ios/.DS_Store differ
+diff --git a/node_modules/react-native-navigation/lib/ios/ModalDismissTransitionDelegate.m b/node_modules/react-native-navigation/lib/ios/ModalDismissTransitionDelegate.m
+index cda5092..c07fef9 100644
+--- a/node_modules/react-native-navigation/lib/ios/ModalDismissTransitionDelegate.m
++++ b/node_modules/react-native-navigation/lib/ios/ModalDismissTransitionDelegate.m
+@@ -13,12 +13,12 @@ - (NSArray *)createTransitionsFromVC:(UIViewController *)fromVC toVC:(UIViewCont
+ }
+ 
+ - (void)prepareTransitionContext:(id<UIViewControllerContextTransitioning>)transitionContext {
+-    UIViewController* toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+-    UIViewController* fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
++    UIView* toView = [transitionContext viewForKey:UITransitionContextToViewKey];
++    UIView* fromView = [transitionContext viewForKey:UITransitionContextFromViewKey];
+     
+-    fromVC.view.alpha = 0;
+-    [transitionContext.containerView addSubview:toVC.view];
+-    [transitionContext.containerView addSubview:fromVC.view];
++    fromView.alpha = 0;
++    [transitionContext.containerView addSubview:toView];
++    [transitionContext.containerView addSubview:fromView];
+ }
+ 
+ @end
+diff --git a/node_modules/react-native-navigation/lib/ios/ModalTransitionDelegate.m b/node_modules/react-native-navigation/lib/ios/ModalTransitionDelegate.m
+index 97e0ac3..b78127b 100644
+--- a/node_modules/react-native-navigation/lib/ios/ModalTransitionDelegate.m
++++ b/node_modules/react-native-navigation/lib/ios/ModalTransitionDelegate.m
+@@ -15,9 +15,9 @@ - (NSArray *)createTransitionsFromVC:(UIViewController *)fromVC toVC:(UIViewCont
+ }
+ 
+ - (void)prepareTransitionContext:(id<UIViewControllerContextTransitioning>)transitionContext {
+-    UIViewController* toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+-    toVC.view.alpha = 0;
+-    [transitionContext.containerView addSubview:toVC.view];
++    UIView* toView = [transitionContext viewForKey:UITransitionContextToViewKey];
++    toView.alpha = 0;
++    [transitionContext.containerView addSubview:toView];
+ }
+ 
+ - (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+diff --git a/node_modules/react-native-navigation/lib/ios/RNNAnimationsTransitionDelegate.m b/node_modules/react-native-navigation/lib/ios/RNNAnimationsTransitionDelegate.m
+index d1504e6..462cc83 100644
+--- a/node_modules/react-native-navigation/lib/ios/RNNAnimationsTransitionDelegate.m
++++ b/node_modules/react-native-navigation/lib/ios/RNNAnimationsTransitionDelegate.m
+@@ -22,8 +22,8 @@ - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)
+ }
+ 
+ - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
+-	UIViewController* toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+-	UIViewController* fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
++	UIView* toView = [transitionContext viewForKey:UITransitionContextToViewKey];
++	UIView* fromView = [transitionContext viewForKey:UITransitionContextFromViewKey];
+ 	
+ 	[CATransaction begin];
+ 	[CATransaction setCompletionBlock:^{
+@@ -31,12 +31,12 @@ - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionCo
+ 	}];
+ 	
+ 	if (_isDismiss) {
+-		[[transitionContext containerView] addSubview:toViewController.view];
+-		[[transitionContext containerView] addSubview:fromViewController.view];
+-		[self animateElement:self.transitionOptions view:fromViewController.view elementName:@"content"];
++		[[transitionContext containerView] addSubview:toView];
++		[[transitionContext containerView] addSubview:fromView];
++		[self animateElement:self.transitionOptions view:fromView elementName:@"content"];
+ 	} else {
+-		[[transitionContext containerView] addSubview:toViewController.view];
+-		[self animateElement:self.transitionOptions view:toViewController.view elementName:@"content"];
++		[[transitionContext containerView] addSubview:toView];
++		[self animateElement:self.transitionOptions view:toView elementName:@"content"];
+ 	}
+ 	
+ 	[CATransaction commit];
+diff --git a/node_modules/react-native-navigation/lib/ios/RNNPushAnimation.m b/node_modules/react-native-navigation/lib/ios/RNNPushAnimation.m
+index bc12fa2..2fe014a 100644
+--- a/node_modules/react-native-navigation/lib/ios/RNNPushAnimation.m
++++ b/node_modules/react-native-navigation/lib/ios/RNNPushAnimation.m
+@@ -13,11 +13,12 @@ - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)
+ }
+ 
+ - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
+-	UIViewController* fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+-	UIViewController* toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
++    UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
++	UIView* fromView = [transitionContext viewForKey:UITransitionContextFromViewKey];
++	UIView* toView = [transitionContext viewForKey:UITransitionContextToViewKey];
+ 	
+-	[[transitionContext containerView] addSubview:fromViewController.view];
+-	[[transitionContext containerView] addSubview:toViewController.view];
++	[[transitionContext containerView] addSubview:fromView];
++	[[transitionContext containerView] addSubview:toView];
+ 	
+ 	[CATransaction begin];
+ 	[CATransaction setCompletionBlock:^{
+diff --git a/node_modules/react-native-navigation/lib/ios/TransitionDelegate.m b/node_modules/react-native-navigation/lib/ios/TransitionDelegate.m
+index a16083e..f88d451 100644
+--- a/node_modules/react-native-navigation/lib/ios/TransitionDelegate.m
++++ b/node_modules/react-native-navigation/lib/ios/TransitionDelegate.m
+@@ -26,9 +26,9 @@ - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionCo
+ }
+ 
+ - (void)prepareTransitionContext:(id<UIViewControllerContextTransitioning>)transitionContext {
+-    UIViewController* toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+-    toVC.view.alpha = 0;
+-    [transitionContext.containerView addSubview:toVC.view];
++    UIView* toView = [transitionContext viewForKey:UITransitionContextToViewKey];
++    toView.alpha = 0;
++    [transitionContext.containerView addSubview:toView];
+ }
+ 
+ - (void)performAnimationOnce {

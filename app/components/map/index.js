@@ -331,6 +331,22 @@ class MapComponent extends Component<Props, State> {
               component: {
                 name: 'ForestWatcher.MapWalkthrough',
                 options: {
+                  animations: {
+                    dismissModal: {
+                      alpha: {
+                        from: 1,
+                        to: 0,
+                        duration: 300
+                      }
+                    },
+                    showModal: {
+                      alpha: {
+                        from: 0,
+                        to: 1,
+                        duration: 300
+                      }
+                    }
+                  },
                   layout: {
                     backgroundColor: 'transparent',
                     componentBackgroundColor: 'rgba(0,0,0,0.74)'
