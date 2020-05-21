@@ -1,6 +1,7 @@
 // @flow
 import type { Dispatch } from 'types/store.types';
 import type { ImportBundleResult, UnpackedSharingBundle } from 'types/sharing.types';
+import { Platform } from 'react-native';
 
 import RNFS from 'react-native-fs';
 import { unzip } from 'react-native-zip-archive';
@@ -53,8 +54,22 @@ export function importStagedBundle(bundle: UnpackedSharingBundle, dispatch: Disp
  * @param uri - The file to import
  */
 export async function unpackBundle(uri: string): Promise<UnpackedSharingBundle> {
+  // We have to decode the file URI because iOS file manager doesn't like encoded uris!
+  const fixedUri = Platform.OS === 'android' ? uri : decodeURI(uri);
+  const fileName = fixedUri.substring(fixedUri.lastIndexOf('/') + 1);
   const stagingDir = await createTemporaryStagingDirectory();
-  await unzip(uri, stagingDir);
+  const tempZipPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '.zip');
+
+  await RNFS.copyFile(fixedUri, tempZipPath);
+  await unzip(tempZipPath, stagingDir);
+
+  // We have to remove this otherwise will get an error if the user tries to import same file twice.
+  // Also we should probably just clear it up anyways as it takes disk space!
+  try {
+    await RNFS.unlink(tempZipPath);
+  } catch {
+    console.warn('Failed to remove zip at tempZipPath');
+  }
 
   const bundleDataUri = `${stagingDir}/${BUNDLE_DATA_FILE_NAME}`;
   const fileContents = await RNFS.readFile(bundleDataUri);
