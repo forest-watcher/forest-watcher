@@ -38,6 +38,9 @@ export default StyleSheet.create({
     fontWeight: '400',
     paddingRight: 31
   },
+  subtitleContainer: {
+    justifyContent: 'flex-end'
+  },
   iconContainer: {
     padding: 6
   },
