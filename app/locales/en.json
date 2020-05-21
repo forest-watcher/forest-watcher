@@ -380,6 +380,7 @@
     },
     "login": {
         "connectionRequired": "You need an internet connection",
+        "emailTitle": "Login with Email",
         "facebookTitle": "Facebook",
         "failed": "There was an error during login/logout",
         "googleTitle": "Google",

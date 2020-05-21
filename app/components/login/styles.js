@@ -14,21 +14,13 @@ export default StyleSheet.create({
     justifyContent: 'center',
     flexGrow: 1
   },
-  buttons: {
-    marginTop: 70
-  },
   buttonsLabel: {
     fontFamily: Theme.font,
-    color: Theme.fontColors.light,
-    fontSize: 17,
+    color: Theme.fontColors.secondary,
+    fontSize: 16,
     fontWeight: '400',
     marginBottom: 24,
-    textAlign: 'center',
-    ...Platform.select({
-      android: {
-        marginBottom: 8
-      }
-    })
+    textAlign: 'center'
   },
   button: {
     height: 56,
@@ -51,6 +43,13 @@ export default StyleSheet.create({
   iconArrow: {
     width: 10,
     height: 18
+  },
+  buttonEmail: {
+    backgroundColor: Theme.colors.turtleGreen
+  },
+  iconEmail: {
+    width: 23,
+    height: 21
   },
   buttonFacebook: {
     backgroundColor: Theme.socialNetworks.facebook
@@ -78,10 +77,10 @@ export default StyleSheet.create({
     height: 48
   },
   buttonText: {
+    letterSpacing: 0.8,
     fontFamily: Theme.font,
     color: Theme.fontColors.white,
-    fontSize: 17,
-    fontWeight: '400',
+    fontSize: 16,
     marginLeft: 18
   },
   buttonTextCountry: {
@@ -154,11 +153,9 @@ export default StyleSheet.create({
     marginBottom: 8
   },
   loaderContainer: {
-    flex: 1,
     backgroundColor: 'transparent',
     left: 0,
     right: 0,
-    top: 272,
     bottom: 0,
     position: 'absolute',
     zIndex: 5

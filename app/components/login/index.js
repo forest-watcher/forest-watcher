@@ -21,7 +21,7 @@ const WebViewSafeAreaView = withSafeArea(View, 'padding', 'top');
 
 import { launchAppRoot } from 'main';
 import moment from 'moment';
-const parseUrl = require('url-parse');
+import parseUrl from 'url-parse';
 
 import 'moment/locale/es';
 import 'moment/locale/fr';
@@ -29,9 +29,11 @@ import 'moment/locale/pt';
 import 'moment/locale/id';
 
 import styles from './styles';
+import { Navigation } from "react-native-navigation";
 
 const headerImage = require('assets/login_bg.jpg');
 const logoIcon = require('assets/logo_dark.png');
+const emailIcon = require('assets/facebook_white.png');
 const facebookIcon = require('assets/facebook_white.png');
 const twitterIcon = require('assets/twitter_white.png');
 const googleIcon = require('assets/google_white.png');
@@ -41,6 +43,7 @@ const nextIcon = require('assets/next_white.png');
 moment.locale(getLanguage());
 
 type Props = {
+  componentId: string,
   loading: boolean,
   loggedIn: boolean,
   logSuccess: boolean,
@@ -130,16 +133,29 @@ class Login extends PureComponent<Props, State> {
       parsedUrl.pathname === Config.API_AUTH_CALLBACK_PATH &&
       parsedUrl.query?.token
     ) {
-      this.props.setLoginAuth({
-        token: parsedUrl.query.token,
-        socialNetwork: this.state.socialNetwork,
-        loggedIn: true
-      });
+      if (this.state.socialNetwork) {
+        this.props.setLoginAuth({
+          token: parsedUrl.query.token,
+          socialNetwork: this.state.socialNetwork,
+          loggedIn: true
+        });
+      } else {
+        console.warn('3SC login error: no social network property');
+      }
     }
   };
 
   onPress = debounceUI((socialNetwork: string) => {
     this.setState({ socialNetwork });
+
+    if (socialNetwork === 'email') {
+      Navigation.push(this.props.componentId, {
+        component: {
+          name: 'ForestWatcher.LoginEmail'
+        }
+      });
+      return;
+    }
 
     const provider = {
       google: this.props.googleLogin,
@@ -231,54 +247,67 @@ class Login extends PureComponent<Props, State> {
           <Image source={logoIcon} />
         </ImageBackground>
         <View style={styles.bottomContainer}>
-          <View style={styles.buttons}>
-            <Text style={styles.buttonsLabel}>{i18n.t('login.introductionText')}</Text>
-            <TouchableHighlight
-              style={[styles.button, styles.buttonFacebook]}
-              onPress={() => this.onPress('facebook')}
-              activeOpacity={0.8}
-              underlayColor={Theme.socialNetworks.facebook}
-              disabled={this.props.loading}
-            >
-              <View style={styles.buttonContent}>
-                <View style={styles.buttonTitleContainer}>
-                  <Image resizeMode={'contain'} style={styles.iconFacebook} source={facebookIcon} />
-                  <Text style={styles.buttonText}>{i18n.t('login.facebookTitle')}</Text>
-                </View>
-                <Image style={styles.iconArrow} source={nextIcon} />
+          <Text style={styles.buttonsLabel}>{i18n.t('login.introductionText')}</Text>
+          <TouchableHighlight
+            style={[styles.button, styles.buttonEmail]}
+            onPress={() => this.onPress('email')}
+            activeOpacity={0.8}
+            underlayColor={Theme.colors.turtleGreen}
+            disabled={this.props.loading}
+          >
+            <View style={styles.buttonContent}>
+              <View style={styles.buttonTitleContainer}>
+                <Image resizeMode={'contain'} style={styles.iconEmail} source={emailIcon} />
+                <Text style={styles.buttonText}>{i18n.t('login.emailTitle')}</Text>
               </View>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={[styles.button, styles.buttonTwitter]}
-              onPress={() => this.onPress('twitter')}
-              activeOpacity={0.8}
-              underlayColor={Theme.socialNetworks.twitter}
-              disabled={this.props.loading}
-            >
-              <View style={styles.buttonContent}>
-                <View style={styles.buttonTitleContainer}>
-                  <Image resizeMode={'contain'} style={styles.iconTwitter} source={twitterIcon} />
-                  <Text style={styles.buttonText}>{i18n.t('login.twitterTitle')}</Text>
-                </View>
-                <Image style={styles.iconArrow} source={nextIcon} />
+              <Image style={styles.iconArrow} source={nextIcon} />
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={[styles.button, styles.buttonFacebook]}
+            onPress={() => this.onPress('facebook')}
+            activeOpacity={0.8}
+            underlayColor={Theme.socialNetworks.facebook}
+            disabled={this.props.loading}
+          >
+            <View style={styles.buttonContent}>
+              <View style={styles.buttonTitleContainer}>
+                <Image resizeMode={'contain'} style={styles.iconFacebook} source={facebookIcon} />
+                <Text style={styles.buttonText}>{i18n.t('login.facebookTitle')}</Text>
               </View>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={[styles.button, styles.buttonGoogle]}
-              onPress={() => this.onPress('google')}
-              activeOpacity={0.8}
-              underlayColor={Theme.socialNetworks.google}
-              disabled={this.props.loading}
-            >
-              <View style={styles.buttonContent}>
-                <View style={styles.buttonTitleContainer}>
-                  <Image resizeMode={'contain'} style={styles.iconGoogle} source={googleIcon} />
-                  <Text style={styles.buttonText}>{i18n.t('login.googleTitle')}</Text>
-                </View>
-                <Image style={styles.iconArrow} source={nextIcon} />
+              <Image style={styles.iconArrow} source={nextIcon} />
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={[styles.button, styles.buttonTwitter]}
+            onPress={() => this.onPress('twitter')}
+            activeOpacity={0.8}
+            underlayColor={Theme.socialNetworks.twitter}
+            disabled={this.props.loading}
+          >
+            <View style={styles.buttonContent}>
+              <View style={styles.buttonTitleContainer}>
+                <Image resizeMode={'contain'} style={styles.iconTwitter} source={twitterIcon} />
+                <Text style={styles.buttonText}>{i18n.t('login.twitterTitle')}</Text>
               </View>
-            </TouchableHighlight>
-          </View>
+              <Image style={styles.iconArrow} source={nextIcon} />
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={[styles.button, styles.buttonGoogle]}
+            onPress={() => this.onPress('google')}
+            activeOpacity={0.8}
+            underlayColor={Theme.socialNetworks.google}
+            disabled={this.props.loading}
+          >
+            <View style={styles.buttonContent}>
+              <View style={styles.buttonTitleContainer}>
+                <Image resizeMode={'contain'} style={styles.iconGoogle} source={googleIcon} />
+                <Text style={styles.buttonText}>{i18n.t('login.googleTitle')}</Text>
+              </View>
+              <Image style={styles.iconArrow} source={nextIcon} />
+            </View>
+          </TouchableHighlight>
         </View>
         <Text style={styles.versionText}>{this.state.versionName}</Text>
       </View>

@@ -1,0 +1,30 @@
+import Theme from 'config/theme';
+import { StyleSheet } from 'react-native';
+
+export default StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Theme.background.main
+  },
+  input: {
+    backgroundColor: Theme.colors.white,
+    ...Theme.text,
+    flex: 1,
+    paddingVertical: 20,
+    paddingHorizontal: 24
+  },
+  title: {
+    ...Theme.text,
+    fontSize: 16,
+    marginLeft: Theme.margin.left,
+    marginRight: Theme.margin.right,
+    marginTop: 24,
+    marginBottom: 12,
+    fontFamily: Theme.font
+  },
+  actionButton: {
+    paddingVertical: 66,
+    marginVertical: 16,
+    marginHorizontal: 32
+  }
+});
