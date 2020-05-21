@@ -56,19 +56,24 @@ export function importStagedBundle(bundle: UnpackedSharingBundle, dispatch: Disp
 export async function unpackBundle(uri: string): Promise<UnpackedSharingBundle> {
   // We have to decode the file URI because iOS file manager doesn't like encoded uris!
   const fixedUri = Platform.OS === 'android' ? uri : decodeURI(uri);
-  const fileName = fixedUri.substring(fixedUri.lastIndexOf('/') + 1);
   const stagingDir = await createTemporaryStagingDirectory();
-  const tempZipPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '.zip');
 
-  await RNFS.copyFile(fixedUri, tempZipPath);
-  await unzip(tempZipPath, stagingDir);
+  if (Platform.OS === 'ios') {
+    const fileName = fixedUri.substring(fixedUri.lastIndexOf('/') + 1);
+    const tempZipPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '.zip');
 
-  // We have to remove this otherwise will get an error if the user tries to import same file twice.
-  // Also we should probably just clear it up anyways as it takes disk space!
-  try {
-    await RNFS.unlink(tempZipPath);
-  } catch {
-    console.warn('Failed to remove zip at tempZipPath');
+    await RNFS.copyFile(fixedUri, tempZipPath);
+    await unzip(tempZipPath, stagingDir);
+
+    // We have to remove this otherwise will get an error if the user tries to import same file twice.
+    // Also we should probably just clear it up anyways as it takes disk space!
+    try {
+      await RNFS.unlink(tempZipPath);
+    } catch {
+      console.warn('Failed to remove zip at tempZipPath');
+    }
+  } else {
+    await unzip(fixedUri, stagingDir);
   }
 
   const bundleDataUri = `${stagingDir}/${BUNDLE_DATA_FILE_NAME}`;
