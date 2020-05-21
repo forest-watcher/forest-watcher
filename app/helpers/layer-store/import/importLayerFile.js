@@ -4,7 +4,7 @@ import type { File } from 'types/file.types';
 import type { LayerFile } from 'types/sharing.types';
 import { Platform } from 'react-native';
 import togeojson from 'helpers/toGeoJSON';
-import { directoryForMBTilesFile, pathForMBTilesFile } from 'helpers/layer-store/layerFilePaths';
+import { directoryForMBTilesFile } from 'helpers/layer-store/layerFilePaths';
 import { storeGeoJson } from 'helpers/layer-store/storeLayerFiles';
 import { unzip } from 'react-native-zip-archive';
 import { listRecursive, readBinaryFile } from 'helpers/fileManagement';
@@ -22,7 +22,7 @@ export async function importLayerFile(layerFile: File): Promise<LayerFile> {
 
   switch (fileExtension) {
     case 'mbtiles': {
-      const size = 0; // TODO: This need to be added across both platforms.
+      const size = isNaN(file.size) ? 0 : file.size;
 
       const baseDirectory = directoryForMBTilesFile(file);
       const path = `${baseDirectory}/${file.id}.mbtiles`;
@@ -30,7 +30,7 @@ export async function importLayerFile(layerFile: File): Promise<LayerFile> {
       await RNFS.mkdir(baseDirectory);
       await RNFS.copyFile(file.uri, path);
 
-      return { isImported: true, path: path, id: file.id, size: size, name: file.name ?? '' };
+      return { isImported: true, path: path, id: file.id, size, name: file.name ?? '' };
     }
     case 'json':
     case 'topojson':
