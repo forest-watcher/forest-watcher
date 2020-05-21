@@ -197,6 +197,8 @@ export const DEFAULT_BASEMAP = GFW_BASEMAPS[0];
 export const ACCEPTED_FILE_TYPES_CONTEXTUAL_LAYERS = ['json', 'geojson', 'topojson', 'gpx', 'zip', 'kmz', 'kml'];
 export const ACCEPTED_FILE_TYPES_BASEMAPS = ['mbtiles'];
 
+export const GFW_SIGN_UP_LINK = 'https://www.globalforestwatch.org/my-gfw';
+
 export default {
   areas: AREAS,
   basemaps: GFW_BASEMAPS,

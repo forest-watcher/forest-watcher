@@ -11,21 +11,20 @@ export default StyleSheet.create({
     paddingVertical: 26
   },
   bottomContainer: {
-    justifyContent: 'center',
-    flexGrow: 1
+    justifyContent: 'space-evenly',
+    flex: 1
   },
   buttonsLabel: {
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
     fontSize: 16,
     fontWeight: '400',
-    marginBottom: 24,
     textAlign: 'center'
   },
   button: {
     height: 56,
     marginHorizontal: 24,
-    marginBottom: 16,
+    marginTop: 16,
     borderRadius: 32,
     justifyContent: 'center',
     overflow: 'hidden',
@@ -163,5 +162,11 @@ export default StyleSheet.create({
   loader: {
     alignItems: 'center',
     justifyContent: 'flex-start'
+  },
+  linkStyle: {
+    ...Theme.text,
+    fontSize: 16,
+    textAlign: 'center',
+    textDecorationLine: 'underline'
   }
 });
