@@ -17,6 +17,8 @@ import { GeoJSONObject } from '@turf/helpers';
 import { writeJSONToDisk } from 'helpers/fileManagement';
 import { cleanGeoJSON } from 'helpers/map';
 
+const RNFS = require('react-native-fs');
+
 /**
  * Store the specified geojson object into the layer store.
  *
