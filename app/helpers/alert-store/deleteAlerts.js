@@ -13,7 +13,10 @@ export default function deleteAlerts(query?: AlertsQuery = Object.freeze({})) {
   const realm = initDb();
 
   if (!query || Object.keys(query).length === 0) {
-    realm.deleteAll();
+    realm.write(() => {
+      realm.deleteAll();
+    });
+
     return;
   }
 

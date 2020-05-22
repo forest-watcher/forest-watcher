@@ -1,6 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { Image, TouchableOpacity, Text, TextInput, View, FlatList } from 'react-native';
+import { Image, TouchableOpacity, TouchableWithoutFeedback, Text, TextInput, View, FlatList } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import ProgressBar from 'react-native-progress/Bar';
@@ -79,6 +79,10 @@ class GFWLayers extends PureComponent<Props, State> {
     this.setState({ hasLoaded: true });
   };
 
+  focusTextInput = () => {
+    this.textInput?.focus?.();
+  }
+
   onClearSearch = () => {
     this.setState({
       searchTerm: null
@@ -117,7 +121,7 @@ class GFWLayers extends PureComponent<Props, State> {
   renderHeader = () => {
     let headerString: ?string = null;
 
-    if (this.state.searchFocussed) {
+    if (this.state.searchFocussed || this.state.searchTerm) {
       if (this.state.searchTerm) {
         if (this.props.layers.length) {
           headerString = i18n.t('importLayer.gfw.results', {
@@ -161,39 +165,41 @@ class GFWLayers extends PureComponent<Props, State> {
     return (
       <View style={styles.container}>
         <View style={[styles.topContainer, this.state.scrolled ? styles.topContainerScrolled : {}]}>
-          <View style={styles.searchContainer}>
-            <TextInput
-              autoCapitalize="none"
-              autoCorrect={false}
-              value={this.state.searchTerm}
-              underlineColorAndroid="transparent"
-              placeholder={i18n.t('importLayer.gfw.searchPlaceholder')}
-              ref={ref => {
-                this.textInput = ref;
-              }}
-              style={[styles.searchField, loadingForTheFirstTime ? { opacity: 0 } : {}]}
-              onBlur={() => this.setState({ searchFocussed: false })}
-              onChangeText={this.onSearchTermChange}
-              onFocus={() => this.setState({ searchFocussed: true })}
-            />
-            {!this.state.searchFocussed && !loadingForTheFirstTime && <Image source={searchImage} />}
-            {this.state.searchFocussed && !!this.state.searchTerm && (
-              <TouchableOpacity onPress={this.onClearSearch}>
-                <Image source={clearImage} />
-              </TouchableOpacity>
-            )}
-            {this.props.isInitialLoad && (
-              <ProgressBar
-                indeterminate={true}
-                width={Theme.screen.width}
-                height={4}
-                color={Theme.colors.turtleGreen}
-                borderRadius={0}
-                borderColor="transparent"
-                style={styles.loadingIndicator}
+          <TouchableWithoutFeedback onPress={this.focusTextInput}>
+            <View style={styles.searchContainer}>
+              <TextInput
+                autoCapitalize="none"
+                autoCorrect={false}
+                value={this.state.searchTerm}
+                underlineColorAndroid="transparent"
+                placeholder={i18n.t('importLayer.gfw.searchPlaceholder')}
+                ref={ref => {
+                  this.textInput = ref;
+                }}
+                style={[styles.searchField, loadingForTheFirstTime ? { opacity: 0 } : {}]}
+                onBlur={() => this.setState({ searchFocussed: false })}
+                onChangeText={this.onSearchTermChange}
+                onFocus={() => this.setState({ searchFocussed: true })}
               />
-            )}
-          </View>
+              {!this.state.searchFocussed && !loadingForTheFirstTime && <Image source={searchImage} />}
+              {this.state.searchFocussed && !!this.state.searchTerm && (
+                <TouchableOpacity onPress={this.onClearSearch}>
+                  <Image source={clearImage} />
+                </TouchableOpacity>
+              )}
+              {this.props.isInitialLoad && (
+                <ProgressBar
+                  indeterminate={true}
+                  width={Theme.screen.width}
+                  height={4}
+                  color={Theme.colors.turtleGreen}
+                  borderRadius={0}
+                  borderColor="transparent"
+                  style={styles.loadingIndicator}
+                />
+              )}
+            </View>
+          </TouchableWithoutFeedback>
         </View>
         <FlatList
           style={{ width: '100%' }}

@@ -365,8 +365,9 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
         enabled: true,
         id: layerFile.id,
         isPublic: false,
-        name: layerFile.name,
-        url: `${importedFile.path}/${importedFile.subFiles[0]}`
+        name: layerFile.name || '',
+        url: `${importedFile.path}/${importedFile.subFiles[0]}`,
+        size: importedFile.size
       };
       dispatch({
         type: IMPORT_LAYER_COMMIT,

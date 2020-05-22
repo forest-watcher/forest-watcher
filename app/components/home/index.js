@@ -61,6 +61,7 @@ class Home extends Component<Props> {
         } else {
           Navigation.setStackRoot(componentId, {
             component: {
+              id: 'ForestWatcher.Dashboard',
               name: 'ForestWatcher.Dashboard'
             }
           });
@@ -94,8 +95,8 @@ class Home extends Component<Props> {
           {
             component: {
               name: 'ForestWatcher.Sync',
-              passProps: {
-                goBackDisabled: true
+              options: {
+                modalPresentationStyle: 'overCurrentContext'
               }
             }
           }
