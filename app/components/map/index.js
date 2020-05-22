@@ -23,7 +23,7 @@ import {
 } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 
-import { LOCATION_TRACKING, REPORTS, MAPS } from 'config/constants';
+import { REPORTS, MAPS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import toUpper from 'lodash/toUpper';
 import kebabCase from 'lodash/kebabCase';
@@ -55,7 +55,6 @@ import {
   GFWOnLocationEvent,
   GFWOnHeadingEvent,
   GFWOnErrorEvent,
-  GFWErrorLocationStale,
   showAppSettings,
   showLocationSettings,
   startTrackingLocation,
@@ -83,14 +82,6 @@ const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_EXITING = 1;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_STOPPING = 2;
 
 const DISMISSED_INFO_BANNER_POSTIION = 200 + initialWindowSafeAreaInsets.bottom;
-
-/**
- * Elapsed time in milliseconds after which we should consider the most recent location "stale", presumably because we
- * were unable to obtain a GPS fix
- *
- * @type {number}
- */
-const STALE_LOCATION_THRESHOLD = LOCATION_TRACKING.interval * 3;
 
 const backButtonImage = require('assets/back.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
@@ -205,8 +196,6 @@ class MapComponent extends Component<Props, State> {
   isStartingGeolocation = false;
   isGeolocationPausedInBackground = false;
 
-  staleLocationTimer = null;
-
   mapCamera: ?MapboxGL.Camera = null;
   map: ?MapboxGL.MapView = null;
 
@@ -256,22 +245,6 @@ class MapComponent extends Component<Props, State> {
     emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
 
     this.geoLocate();
-
-    this.staleLocationTimer = setInterval(() => {
-      this.setState(state => {
-        const previousLocation = state.userLocation;
-        if (
-          state.locationError === null &&
-          previousLocation &&
-          Date.now() - previousLocation.timestamp > STALE_LOCATION_THRESHOLD
-        ) {
-          return {
-            locationError: GFWErrorLocationStale
-          };
-        }
-        return {};
-      });
-    }, 1000);
 
     const { setCanDisplayAlerts, canDisplayAlerts } = this.props;
     if (!canDisplayAlerts) {
@@ -338,8 +311,6 @@ class MapComponent extends Component<Props, State> {
     if (!this.isRouteTracking()) {
       stopTrackingLocation();
     }
-
-    clearInterval(this.staleLocationTimer);
 
     // Do remove the emitter listeners here, as we don't want this screen to receive anything while it's non-existent!
     emitter.off(GFWOnLocationEvent, this.updateLocationFromGeolocation);
