@@ -35,7 +35,6 @@ import styles, { mapboxStyles } from './styles';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
 import MapboxGL, { type Position } from '@react-native-mapbox-gl/maps';
-import ReactNativeMBTiles, { type MBTileBasemapMetadata } from 'react-native-mbtiles';
 
 import { toFileUri } from 'helpers/fileURI';
 
@@ -62,7 +61,7 @@ import {
   isValidLatLng,
   isValidLatLngArray
 } from 'helpers/location';
-import { pathForMBTilesFile } from 'helpers/layer-store/layerFilePaths';
+
 import RouteMarkers from 'components/map/route';
 import type { AlertsAction } from 'types/alerts.types';
 import type { AreasAction } from 'types/areas.types';
@@ -144,7 +143,6 @@ type Props = {
 };
 
 type State = {
-  basemapMetadata: ?MBTileBasemapMetadata,
   bottomSafeAreaInset: number,
   userLocation: ?Position,
   heading: ?number,
@@ -236,7 +234,6 @@ class MapComponent extends Component<Props, State> {
     Navigation.events().bindComponent(this);
 
     this.state = {
-      basemapMetadata: null,
       bottomSafeAreaInset: 0,
       userLocation: null,
       heading: null,
@@ -293,12 +290,6 @@ class MapComponent extends Component<Props, State> {
 
     this.geoLocate();
 
-    const basemap = this.props.getActiveBasemap(this.getFeatureId());
-
-    if (basemap?.isImported) {
-      this.prepareOfflineBasemapForUse(basemap);
-    }
-
     this.staleLocationTimer = setInterval(() => {
       this.setState(state => {
         if (
@@ -321,35 +312,6 @@ class MapComponent extends Component<Props, State> {
 
     this.showMapWalkthrough();
   }
-
-  prepareOfflineBasemapForUse = (basemap: Basemap) => {
-    this.setState({ basemapMetadata: null });
-
-    const basemapPath = pathForMBTilesFile(basemap);
-    ReactNativeMBTiles.prepare(basemap.id, basemapPath, (error, metadata) => {
-      /*if (!metadata) {
-        console.warn('3SC', 'No metadata for the selected basemap');
-
-        return;
-      }*/
-
-      ReactNativeMBTiles.stopServer();
-      ReactNativeMBTiles.startServer(MapComponent.offlinePortNumber);
-
-      this.setState({
-        basemapMetadata: {
-          minZoomLevel: 0,
-          maxZoomLevel: 5,
-          isVector: false,
-          tms: true,
-          tileSize: 256,
-          attribution: '',
-          layersJson: ''
-        }
-        //metadata
-      });
-    });
-  };
 
   // called on startup to set initial camera position
   getMapCameraBounds = () => {
@@ -428,8 +390,6 @@ class MapComponent extends Component<Props, State> {
     emitter.off(GFWOnHeadingEvent, this.updateHeading);
     emitter.off(GFWOnErrorEvent, this.onLocationUpdateError);
     stopTrackingHeading();
-
-    ReactNativeMBTiles.stopServer();
 
     this.props.setSelectedAreaId('');
   }
@@ -1040,7 +1000,6 @@ class MapComponent extends Component<Props, State> {
     const { isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap, layerSettings } = this.props;
 
     const basemap = getActiveBasemap(this.getFeatureId());
-
     const coordinateAndDistanceText = customReporting
       ? getCoordinateAndDistanceText(mapCenterCoords, userLocation, route, coordinatesFormat, this.isRouteTracking())
       : '';
@@ -1094,13 +1053,7 @@ class MapComponent extends Component<Props, State> {
           onPress={this.dismissInfoBanner}
           compassViewMargins={{ x: 5, y: 50 }}
         >
-          {this.state.basemapMetadata && (
-            <MBTilesSource
-              basemapId={basemap.id}
-              metadata={this.state.basemapMetadata}
-              port={MapComponent.offlinePortNumber}
-            />
-          )}
+          <MBTilesSource basemap={basemap} port={MapComponent.offlinePortNumber} />
           {renderMapCamera}
           {this.renderAreaOutline()}
           {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
