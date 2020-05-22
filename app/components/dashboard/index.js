@@ -134,6 +134,22 @@ class Dashboard extends PureComponent<Props> {
         component: {
           name: 'ForestWatcher.Welcome',
           options: {
+            animations: {
+              dismissModal: {
+                alpha: {
+                  from: 1,
+                  to: 0,
+                  duration: 300
+                }
+              },
+              showModal: {
+                alpha: {
+                  from: 0,
+                  to: 1,
+                  duration: 300
+                }
+              }
+            },
             layout: { componentBackgroundColor: 'rgba(0,0,0,0.8)' },
             modalPresentationStyle: 'overCurrentContext'
           }
