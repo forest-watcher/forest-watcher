@@ -938,6 +938,7 @@ class MapComponent extends Component<Props, State> {
 
   onShapeSourcePressed = e => {
     // show info banner with feature details
+    console.log("Event features", e?.features);
     const { date, name, type, featureId, cluster, lat, long } = e?.nativeEvent?.payload?.properties;
     if (cluster) {
       this.onClusterPress(e?.nativeEvent?.payload?.geometry?.coordinates);
@@ -983,6 +984,11 @@ class MapComponent extends Component<Props, State> {
         friction: 8
       }).start();
     }
+  };
+
+  onMapPress = () => {
+    this.dismissInfoBanner();
+    this.setState({ selectedAlerts: [] });
   };
 
   render() {
@@ -1047,7 +1053,7 @@ class MapComponent extends Component<Props, State> {
           style={styles.mapView}
           styleURL={basemap.styleURL}
           onRegionDidChange={this.onRegionDidChange}
-          onPress={this.dismissInfoBanner}
+          onPress={this.onMapPress}
           compassViewMargins={{ x: 5, y: 50 }}
         >
           {basemap.tileUrl && (
