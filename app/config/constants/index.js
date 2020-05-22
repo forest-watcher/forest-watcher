@@ -198,7 +198,7 @@ export const ACCEPTED_FILE_TYPES_CONTEXTUAL_LAYERS = ['json', 'geojson', 'topojs
 export const ACCEPTED_FILE_TYPES_BASEMAPS = ['mbtiles'];
 
 export const GFW_SIGN_UP_LINK = 'https://www.globalforestwatch.org/my-gfw';
-export const GFW_FORGOT_PASSWORD_LINK = 'https://production-api.globalforestwatch.org/auth/reset-password';
+export const GFW_FORGOT_PASSWORD_LINK = `${Config.API_AUTH}/auth/reset-password`;
 
 export default {
   areas: AREAS,

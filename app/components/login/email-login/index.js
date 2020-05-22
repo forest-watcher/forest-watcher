@@ -47,7 +47,6 @@ export default class EmailLogin extends Component<Props, State> {
       showPassword: false
     };
   }
-  // todo keyboard type -> add to imported layer rename screen
 
   onEmailChange = (email: string) => {
     this.setState({ email });
