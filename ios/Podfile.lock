@@ -496,15 +496,14 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleDataTransportCCTSupport
     - GoogleUtilities
+    - GzipSwift
     - Mapbox-iOS-SDK
     - MapboxMobileEvents
     - nanopb
     - PromisesObjC
     - Sentry
-    - SSZipArchive
-  trunk:
-    - GzipSwift
     - SQLite.swift
+    - SSZipArchive
 
 EXTERNAL SOURCES:
   "@mauron85_react-native-background-geolocation":

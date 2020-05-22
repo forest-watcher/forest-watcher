@@ -1,6 +1,4 @@
 // @flow
-import type { MBTileBasemapMetadata } from 'types/basemaps.types';
-
 import React, { Component } from 'react';
 
 import {
@@ -37,7 +35,7 @@ import styles, { mapboxStyles } from './styles';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
 import MapboxGL, { type Position } from '@react-native-mapbox-gl/maps';
-import ReactNativeMBTiles from 'react-native-mbtiles';
+import ReactNativeMBTiles, { type MBTileBasemapMetadata } from 'react-native-mbtiles';
 
 import { toFileUri } from 'helpers/fileURI';
 

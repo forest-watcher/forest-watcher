@@ -21,16 +21,6 @@ export type BasemapsState = {
   importing: boolean
 };
 
-export type MBTileBasemapMetadata = {
-  minZoomLevel: number,
-  maxZoomLevel: number,
-  isVector: boolean,
-  tms: boolean,
-  tileSize: number,
-  attribution: string,
-  layersJson: string
-};
-
 export type BasemapsAction = ImportBasemapRequest | ImportBasemapCommit | ImportBasemapClear | ImportBasemapRollback;
 
 export type ImportBasemapRequest = { type: 'basemaps/IMPORT_BASEMAP_REQUEST' };
