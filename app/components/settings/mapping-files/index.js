@@ -296,6 +296,8 @@ class MappingFiles extends Component<Props, State> {
       <View style={styles.container}>
         <ShareSheet
           componentId={this.props.componentId}
+          editButtonDisabledTitle={i18n.t(this.i18nKeyFor('edit'))}
+          editButtonEnabledTitle={i18n.t(this.i18nKeyFor('edit'))}
           shareButtonDisabledTitle={i18n.t(this.i18nKeyFor('share'))}
           enabled={mappingFileType === 'contextualLayers' || totalToExport > 0}
           onShare={() => {
@@ -319,6 +321,7 @@ class MappingFiles extends Component<Props, State> {
                 : i18n.t(this.i18nKeyFor('export.manyAction'), { count: totalToExport })
               : i18n.t(this.i18nKeyFor('export.noneSelected'))
           }
+          showEditButton
         >
           {hasFiles ? this.renderFilesList() : this.renderEmptyState()}
         </ShareSheet>
