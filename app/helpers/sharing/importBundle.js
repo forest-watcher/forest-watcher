@@ -20,11 +20,9 @@ import importFileManifest from 'helpers/sharing/importFileManifest';
  * @param dispatch - Redux dispatch function used to emit actions to add data to the app
  */
 export default async function importBundle(uri: string, dispatch: Dispatch): Promise<void> {
-  console.warn('3SC', 'Importing bundle...', uri);
   const unpackedBundle = await unpackBundle(uri);
   await importStagedBundle(unpackedBundle, dispatch);
   deleteStagedBundle(unpackedBundle);
-  console.warn('3SC', 'Successfully unpacked bundle');
 }
 
 function checkBundleCompatibility(version: number) {
@@ -44,7 +42,6 @@ function checkBundleCompatibility(version: number) {
  * @param dispatch - Redux dispatch function used to emit actions to add data to the app
  */
 export async function importStagedBundle(bundle: UnpackedSharingBundle, dispatch: Dispatch) {
-  console.log("3SC", "import staged bundle", bundle);
   checkBundleCompatibility(bundle.data.version);
   importAppData(bundle.data, dispatch);
   await importFileManifest(bundle);

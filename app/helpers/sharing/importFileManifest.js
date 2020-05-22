@@ -8,6 +8,5 @@ export default async function importFileManifest(bundle: UnpackedSharingBundle) 
     ...layerFile,
     path: `${bundle.path}${layerFile.path}`
   }));
-  console.log('3SC', 'Unpacked laeyr files', unpackedLayerFiles);
   await storeLayerFiles(unpackedLayerFiles);
 }

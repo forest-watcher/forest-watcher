@@ -71,7 +71,6 @@ export async function storeLayerFiles(files: Array<LayerFile>, dir: string = lay
         await RNFetchBlob.fs.cp(subFileSourceUri, subFileDestinationUri); // copy sequentially
       }
     }
-    console.log('3SC', 'Import attachment', file);
   }
 }
 
