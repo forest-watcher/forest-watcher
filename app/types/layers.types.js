@@ -13,6 +13,7 @@ export type ContextualLayer = {
     type: string
   },
   url: string,
+  isImported?: true,
   size?: ?number
 };
 
