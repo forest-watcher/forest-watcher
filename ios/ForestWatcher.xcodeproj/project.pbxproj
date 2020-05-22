@@ -31,6 +31,7 @@
 		98CF896321B5811B00500B2F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98CF896521B5811B00500B2F /* InfoPlist.strings */; };
 		98ED1BB1246C5DB500C38BBC /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98ED1BAC246C5DB500C38BBC /* SQLite.framework */; };
 		B12581D32406D01B00137B30 /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12581D22406D01B00137B30 /* Dummy.swift */; };
+		B17B84DD24758B9E00D8F381 /* SecurityScopedResourcesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17B84DC24758B9E00D8F381 /* SecurityScopedResourcesManager.swift */; };
 		B1E4BA0223E2DCEB00A7BC85 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B1E4BA0123E2DCEB00A7BC85 /* Config.xcconfig */; };
 /* End PBXBuildFile section */
 
@@ -131,6 +132,7 @@
 		98ED1BAC246C5DB500C38BBC /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
 		B12581D12406D01A00137B30 /* ForestWatcher-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ForestWatcher-Bridging-Header.h"; sourceTree = "<group>"; };
 		B12581D22406D01B00137B30 /* Dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dummy.swift; sourceTree = "<group>"; };
+		B17B84DC24758B9E00D8F381 /* SecurityScopedResourcesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityScopedResourcesManager.swift; sourceTree = "<group>"; };
 		B1E4BA0123E2DCEB00A7BC85 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		DAE567D09F6983E55C4F5406 /* libPods-ForestWatcher.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ForestWatcher.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFD632EF65604568B651A931 /* AddressBook.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -166,6 +168,7 @@
 				562101E31E1ABE00000A266F /* ForestWatcher.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
+				B17B84DC24758B9E00D8F381 /* SecurityScopedResourcesManager.swift */,
 				B12581D22406D01B00137B30 /* Dummy.swift */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
@@ -578,6 +581,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				B12581D32406D01B00137B30 /* Dummy.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				B17B84DD24758B9E00D8F381 /* SecurityScopedResourcesManager.swift in Sources */,
 				98BB85F6246D818B00342FF0 /* RNMBTileServer.swift in Sources */,
 				98BB85FC246D819B00342FF0 /* RNMBTileSource.swift in Sources */,
 			);
