@@ -6,6 +6,9 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.main,
     flex: 1
   },
+  inactiveHeading: {
+    opacity: 0.6
+  },
   heading: {
     ...Theme.sectionHeaderText,
     marginLeft: 24,

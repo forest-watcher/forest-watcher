@@ -74,7 +74,7 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
       Keyboard.dismiss();
 
       await this.props.import(this.state.file);
-        this.props.onImported();
+      this.props.onImported();
 
       if (this.props.popToComponentId) {
         Navigation.popTo(this.props.popToComponentId);

@@ -93,7 +93,8 @@ export type GetDefaultTemplateRollback = { type: 'report/GET_DEFAULT_TEMPLATE_RO
 export type CreateReport = {
   type: 'report/CREATE_REPORT',
   payload: {
-    [string]: Report
+    selectedAlerts: [{ lat: number, long: number }],
+    report: Report
   }
 };
 export type DeleteReport = { type: 'report/DELETE_REPORT', payload: { reportName: string } };
