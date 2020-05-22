@@ -11,7 +11,8 @@ import { withSafeArea } from 'react-native-safe-area';
 import ActionButton from 'components/common/action-button';
 import Hyperlink from 'react-native-hyperlink';
 import { GFW_FORGOT_PASSWORD_LINK } from 'config/constants';
-const eyeIcon = require('assets/close.png');
+
+const eyeIcon = require('assets/eyeIcon.png');
 
 const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
 

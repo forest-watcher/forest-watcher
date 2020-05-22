@@ -18,7 +18,8 @@ export default StyleSheet.create({
     flex: 1
   },
   buttonsLabel: {
-    marginTop: 16,
+    marginTop: 28,
+    marginBottom: 8,
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
     fontSize: 16,
@@ -51,8 +52,8 @@ export default StyleSheet.create({
     backgroundColor: Theme.colors.turtleGreen
   },
   iconEmail: {
-    width: 23,
-    height: 21
+    width: 28,
+    height: 28
   },
   buttonFacebook: {
     backgroundColor: Theme.socialNetworks.facebook
@@ -169,7 +170,8 @@ export default StyleSheet.create({
   linkStyle: {
     ...Theme.text,
     fontSize: 16,
-    marginVertical: 32,
+    marginTop: 36,
+    marginBottom: 24,
     textAlign: 'center',
     textDecorationLine: 'underline'
   }

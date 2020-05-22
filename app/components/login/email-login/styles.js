@@ -23,7 +23,6 @@ export default StyleSheet.create({
     fontFamily: Theme.font
   },
   actionButton: {
-
     marginVertical: 28,
     marginHorizontal: 32
   },

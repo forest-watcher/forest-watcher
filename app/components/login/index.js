@@ -3,7 +3,16 @@
 import type { Thunk } from 'types/store.types';
 import type { UserAction } from 'types/user.types';
 import React, { PureComponent } from 'react';
-import { Alert, View, Text, TouchableHighlight, Image, ImageBackground, ActivityIndicator, ScrollView } from 'react-native';
+import {
+  Alert,
+  View,
+  Text,
+  TouchableHighlight,
+  Image,
+  ImageBackground,
+  ActivityIndicator,
+  ScrollView
+} from 'react-native';
 import { WebView } from 'react-native-webview';
 
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
@@ -35,7 +44,7 @@ import { GFW_SIGN_UP_LINK } from 'config/constants';
 
 const headerImage = require('assets/login_bg.jpg');
 const logoIcon = require('assets/logo_dark.png');
-const emailIcon = require('assets/facebook_white.png');
+const emailIcon = require('assets/emailIcon.png');
 const facebookIcon = require('assets/facebook_white.png');
 const twitterIcon = require('assets/twitter_white.png');
 const googleIcon = require('assets/google_white.png');
