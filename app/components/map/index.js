@@ -35,6 +35,7 @@ import styles, { mapboxStyles } from './styles';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
 import MapboxGL, { type Position } from '@react-native-mapbox-gl/maps';
+import { MBTilesSource } from 'react-native-mbtiles';
 
 import { toFileUri } from 'helpers/fileURI';
 
@@ -78,7 +79,6 @@ import { formatInfoBannerDate } from 'helpers/date';
 import Reports from 'containers/map/reports';
 import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
 import { lineString } from '@turf/helpers';
-import MBTilesSource from './mbtiles';
 
 const emitter = require('tiny-emitter/instance');
 

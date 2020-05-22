@@ -1,5 +1,4 @@
 // @flow
-import type { Basemap } from 'types/basemaps.types';
 import ReactNativeMBTiles, { type MBTileBasemapMetadata } from 'react-native-mbtiles';
 import React, { PureComponent } from 'react';
 import { AppState } from 'react-native';
@@ -7,7 +6,20 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 
 import { pathForMBTilesFile } from 'helpers/layer-store/layerFilePaths';
 
-import { mapboxStyles } from '../styles';
+type Basemap = {
+  isImported: boolean,
+  // The unique identifier for this basemap.
+  id: string,
+  styleURL?: string,
+  // The given name of the basemap.
+  name: string,
+  image?: number,
+  tileUrl?: ?string,
+  // Where the file is saved within the app's documents directory.
+  path?: string,
+  // The size of this basemap on disk.
+  size?: number
+};
 
 type Props = {
   basemap: ?Basemap,
