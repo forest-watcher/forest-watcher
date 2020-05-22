@@ -1057,9 +1057,7 @@ class MapComponent extends Component<Props, State> {
               maxZoomLevel={5}
               tileSize={256}
               tms={true}
-              tileUrlTemplates={[
-                'http://localhost:54321/gfwmbtiles/ab469a56-ba7e-49e1-86f1-e6771d0c4d0f.mbtiles?{z}&{x}&{y}'
-              ]}
+              tileUrlTemplates={['http://localhost:54321/gfwmbtiles/a12a1e41-06d1-40e3-9141-6a8a536d8213?{z}&{x}&{y}']}
             >
               {/* TODO: How do we apply styling / rendering properties to vector files?! */}
               <MapboxGL.RasterLayer id="basemapTileLayer" />

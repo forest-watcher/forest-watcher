@@ -97,20 +97,19 @@ export async function importLayerFile(layerFile: File): Promise<LayerFile> {
   }
 }
 
-export async function importBasemapFile(layerFile: File): Promise<Basemap> {
-  const { file, fileExtension } = getFormattedFile(layerFile);
+export async function importBasemapFile(basemapFile: File): Promise<Basemap> {
+  const { file, fileExtension } = getFormattedFile(basemapFile);
 
   switch (fileExtension) {
     case 'mbtiles': {
-      const size = 0; // TODO: This need to be added across both platforms.
-
+      const size = isNaN(basemapFile.size) ? 0 : basemapFile.size;
       const baseDirectory = `${pathForLayerFile({ ...file, type: 'basemap', layerId: file.id, tileXYZ: [0, 0, 0] })}`;
       const path = `${baseDirectory}/${file.id}.mbtiles`;
 
       await RNFS.mkdir(baseDirectory);
       await RNFS.copyFile(file.uri, path);
 
-      return { isImported: true, path: path, id: file.id, size: size, name: file.name ?? '' };
+      return { isImported: true, path: path, id: file.id, size, name: file.name ?? '' };
     }
     default:
       throw new Error(`Could not process basemap file with extension: ${fileExtension}`);
