@@ -100,6 +100,7 @@ export default class EmailLogin extends Component<Props, State> {
               multiline={false}
               style={styles.input}
               autoCapitalize="none"
+              secureTextEntry={!this.state.showPassword}
               value={this.state.password}
               onChangeText={this.onPasswordChange}
               selectionColor={Theme.colors.turtleGreen}
