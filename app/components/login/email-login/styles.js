@@ -23,8 +23,23 @@ export default StyleSheet.create({
     fontFamily: Theme.font
   },
   actionButton: {
-    paddingVertical: 66,
-    marginVertical: 16,
+
+    marginVertical: 28,
     marginHorizontal: 32
+  },
+  linkStyle: {
+    ...Theme.text,
+    fontSize: 16,
+    textAlign: 'center',
+    textDecorationLine: 'underline'
+  },
+  passwordIcon: {
+    margin: 24,
+    resizeMode: 'contain'
+  },
+  passwordInputContainer: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    alignItems: 'center'
   }
 });

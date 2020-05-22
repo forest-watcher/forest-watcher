@@ -29,8 +29,8 @@ import 'moment/locale/pt';
 import 'moment/locale/id';
 
 import styles from './styles';
-import { Navigation } from "react-native-navigation";
-import Hyperlink from "react-native-hyperlink";
+import { Navigation } from 'react-native-navigation';
+import Hyperlink from 'react-native-hyperlink';
 import { GFW_SIGN_UP_LINK } from 'config/constants';
 
 const headerImage = require('assets/login_bg.jpg');
@@ -69,7 +69,7 @@ type State = {
 };
 
 class Login extends PureComponent<Props, State> {
-  static options(passProps: {}) {
+  static options() {
     return {
       topBar: {
         drawBehind: true,
@@ -312,7 +312,7 @@ class Login extends PureComponent<Props, State> {
               </View>
             </TouchableHighlight>
           </View>
-          <Hyperlink linkDefault linkText={'Sign Up'}>
+          <Hyperlink linkDefault linkText={i18n.t('login.signUp')}>
             <Text style={styles.linkStyle} selectable>
               {GFW_SIGN_UP_LINK}
             </Text>

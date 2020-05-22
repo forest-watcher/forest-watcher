@@ -386,7 +386,17 @@
         "googleTitle": "Google",
         "introductionText": "Sign in with a MyGFW account",
         "twitterTitle": "Twitter",
-        "unable": "Unable to login"
+        "signUp": "Sign Up",
+        "unable": "Unable to login",
+        "emailLogin": {
+            "loginWithEmail": "Login With Email",
+            "emailAddress": "Email Address",
+            "enterYourEmail": "Enter Your Email",
+            "password": "Password",
+            "enterYourPassword": "Enter Your Password",
+            "login": "Login",
+            "forgotYourPassword": "Forgot Your Password?",
+        }
     },
     "map": {
         "alerts": "Alerts",
