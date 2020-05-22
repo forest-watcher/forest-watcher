@@ -30,7 +30,6 @@ export const GFWOnErrorEvent = 'gfw_onerror_event';
 // These error codes can be found in an enum in /node_modules/@mauron85/react-native-background-geolocation/ios/common/BackgroundGeolocation/MAURProviderDelegate.h
 export const GFWErrorPermission = 1000;
 export const GFWErrorLocation = 1003;
-export const GFWErrorLocationStale = 10000; // This is our own custom error
 
 /**
  * Cache the most recent received location so that we can instantly send a fix to new subscribers
