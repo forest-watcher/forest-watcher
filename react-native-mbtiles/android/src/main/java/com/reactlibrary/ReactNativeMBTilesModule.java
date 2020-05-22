@@ -33,7 +33,7 @@ public class ReactNativeMBTilesModule extends ReactContextBaseJavaModule {
                 callback.invoke(true, null);
             }
 
-            callback.invoke(null, metadata);
+            callback.invoke(null, metadata.mappedMetadata());
         } catch (Error e) {
             callback.invoke(true, null);
         }

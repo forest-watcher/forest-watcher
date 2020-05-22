@@ -6,7 +6,21 @@ import org.jetbrains.anko.db.select
 
 // Defines metadata for this source object.
 // TODO: Pass this up to the JS layer.
-class RNMBTileMetadata(var minZoomLevel: Int, var maxZoomLevel: Int, var isVector: Boolean, var tms: Boolean, var tileSize: Int, var attribution: String?, var layersJson: String?) { }
+class RNMBTileMetadata(var minZoomLevel: Int, var maxZoomLevel: Int, var isVector: Boolean, var tms: Boolean, var tileSize: Int, var attribution: String?, var layersJson: String?) {
+
+    fun mappedMetadata(): Map<String, Any?> {
+        return mapOf<String, Any>(
+                "minZoomLevel" to minZoomLevel,
+                "maxZoomLevel" to maxZoomLevel,
+                "isVector" to isVector,
+                "tms" to tms,
+                "tileSize" to tileSize,
+                "attribution" to (attribution as Any),
+                "layersJson" to (layersJson as Any)
+        )
+    }
+
+}
 
 // Defines various errors that may occur whilst working against this source.
 sealed class RNMBTileSourceError : Error() {
