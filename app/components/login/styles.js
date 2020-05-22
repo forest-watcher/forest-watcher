@@ -10,11 +10,15 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 26
   },
+  scrollView: {
+    flex: 1
+  },
   bottomContainer: {
     justifyContent: 'space-evenly',
     flex: 1
   },
   buttonsLabel: {
+    marginTop: 16,
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
     fontSize: 16,
@@ -148,8 +152,7 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     color: Theme.fontColors.light,
     fontSize: 14,
-    textAlign: 'center',
-    marginBottom: 8
+    textAlign: 'center'
   },
   loaderContainer: {
     backgroundColor: 'transparent',
@@ -166,6 +169,7 @@ export default StyleSheet.create({
   linkStyle: {
     ...Theme.text,
     fontSize: 16,
+    marginVertical: 32,
     textAlign: 'center',
     textDecorationLine: 'underline'
   }
