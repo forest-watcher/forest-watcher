@@ -1,15 +1,3 @@
-diff --git a/node_modules/react-native-navigation/.DS_Store b/node_modules/react-native-navigation/.DS_Store
-new file mode 100644
-index 0000000..a3c9fc3
-Binary files /dev/null and b/node_modules/react-native-navigation/.DS_Store differ
-diff --git a/node_modules/react-native-navigation/lib/.DS_Store b/node_modules/react-native-navigation/lib/.DS_Store
-new file mode 100644
-index 0000000..fb4e4d4
-Binary files /dev/null and b/node_modules/react-native-navigation/lib/.DS_Store differ
-diff --git a/node_modules/react-native-navigation/lib/ios/.DS_Store b/node_modules/react-native-navigation/lib/ios/.DS_Store
-new file mode 100644
-index 0000000..6b88b9e
-Binary files /dev/null and b/node_modules/react-native-navigation/lib/ios/.DS_Store differ
 diff --git a/node_modules/react-native-navigation/lib/ios/ModalDismissTransitionDelegate.m b/node_modules/react-native-navigation/lib/ios/ModalDismissTransitionDelegate.m
 index cda5092..c07fef9 100644
 --- a/node_modules/react-native-navigation/lib/ios/ModalDismissTransitionDelegate.m
