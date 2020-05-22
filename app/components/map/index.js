@@ -131,7 +131,6 @@ type State = {
   customReporting: boolean,
   dragging: boolean,
   layoutHasForceRefreshed: boolean,
-  routeDestination: ?[number, number],
   routeTrackingDialogState: number,
   locationError: null | number,
   mapCameraBounds: any,
@@ -215,7 +214,6 @@ class MapComponent extends Component<Props, State> {
       locationError: null,
       mapCameraBounds: this.getMapCameraBounds(),
       mapCenterCoords: null,
-      routeDestination: null,
       animatedPosition: new Animated.Value(DISMISSED_INFO_BANNER_POSTIION),
       infoBannerShowing: false,
       infoBannerProps: {
@@ -399,7 +397,7 @@ class MapComponent extends Component<Props, State> {
    */
   onStartTrackingPressed = debounceUI(async () => {
     const area = this.props.area;
-    const routeDestination = this.state.routeDestination;
+    const routeDestination = this.getRouteDestination();
 
     if (!area || !routeDestination) {
       return;
@@ -408,7 +406,6 @@ class MapComponent extends Component<Props, State> {
     this.dismissInfoBanner();
     try {
       await this.geoLocate(true);
-      this.updateRouteDestination();
       this.props.onStartTrackingRoute(coordsArrayToObject(routeDestination), area.id);
 
       this.onSelectionCancelPress();
@@ -443,20 +440,15 @@ class MapComponent extends Component<Props, State> {
     // This doesn't immediately stop tracking - it will give the user the choice of saving and deleting and only stop
     // tracking once they have finalised one of those actions
     this.showBottomDialog(false);
-    this.setState({ routeDestination: null });
   });
 
   // Used when starting a new route
-  updateRouteDestination = () => {
-    let routeDestination;
+  getRouteDestination = (): ?[number, number] => {
     if (this.state.selectedAlerts?.length) {
       const lastSelectedAlert = this.state.selectedAlerts[this.state.selectedAlerts.length - 1];
-      routeDestination = [lastSelectedAlert.long, lastSelectedAlert.lat];
+      return [lastSelectedAlert.long, lastSelectedAlert.lat];
     }
-    if (!routeDestination) {
-      routeDestination = this.state.mapCenterCoords;
-    }
-    this.setState({ routeDestination });
+    return this.state.mapCenterCoords;
   };
 
   openSaveRouteScreen = debounceUI(() => {
@@ -747,15 +739,15 @@ class MapComponent extends Component<Props, State> {
 
   // Draw line from user location to destination
   renderDestinationLine = () => {
-    const { routeDestination, userLocation, customReporting } = this.state;
-    if (!customReporting || !routeDestination || !userLocation) {
+    const { mapCenterCoords, userLocation, customReporting } = this.state;
+    if (!customReporting || !mapCenterCoords || !userLocation) {
       return null;
     }
-    const bothValidLocations = isValidLatLngArray(routeDestination) && isValidLatLng(userLocation);
+    const bothValidLocations = isValidLatLngArray(mapCenterCoords) && isValidLatLng(userLocation);
 
     let line = null;
     if (bothValidLocations) {
-      line = lineString([coordsObjectToArray(userLocation), routeDestination]);
+      line = lineString([coordsObjectToArray(userLocation), mapCenterCoords]);
     }
     return (
       <MapboxGL.ShapeSource id="destLine" shape={line}>
