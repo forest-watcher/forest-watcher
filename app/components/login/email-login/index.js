@@ -36,6 +36,8 @@ export default class EmailLogin extends Component<Props, State> {
     };
   }
 
+  passwordTextInput: ?TextInput;
+
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -82,11 +84,18 @@ export default class EmailLogin extends Component<Props, State> {
             selectionColor={Theme.colors.turtleGreen}
             placeholder={i18n.t('login.emailLogin.enterYourEmail')}
             placeholderTextColor={Theme.fontColors.secondary}
-
+            returnKeyType={'next'}
+            onSubmitEditing={() => {
+              this.passwordTextInput?.focus?.();
+            }}
+            blurOnSubmit={false}
           />
           <Text style={styles.title}>{i18n.t('login.emailLogin.password')}</Text>
           <View style={styles.passwordInputContainer}>
             <TextInput
+              ref={ref => {
+                this.passwordTextInput = ref;
+              }}
               autoCorrect={false}
               multiline={false}
               style={styles.input}
@@ -96,6 +105,8 @@ export default class EmailLogin extends Component<Props, State> {
               selectionColor={Theme.colors.turtleGreen}
               placeholder={i18n.t('login.emailLogin.enterYourPassword')}
               placeholderTextColor={Theme.fontColors.secondary}
+              returnKeyType={'done'}
+              onSubmitEditing={this.onLoginPressed}
             />
             <TouchableHighlight activeOpacity={0.5} underlayColor="transparent" onPress={this.onShowPasswordPressed}>
               <Image style={styles.passwordIcon} source={eyeIcon} />
