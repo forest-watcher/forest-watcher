@@ -17,12 +17,19 @@ const infoIcon = require('assets/info.png');
 const downloadIcon = require('assets/downloadGrey.png');
 const checkboxOff = require('assets/checkbox_off.png');
 const checkboxOn = require('assets/checkbox_on.png');
+const deleteIcon = require('assets/settingsDelete.png');
+const renameIcon = require('assets/settingsEdit.png');
 
 type Props = {
+  deletable: boolean,
   image?: ?string | ?number,
+  inEditMode: boolean,
+  onDeletePress: () => void,
   onDownloadPress?: () => void,
   onPress?: ?() => void,
   onInfoPress?: () => void,
+  onRenamePress: () => {},
+  renamable: boolean,
   selected?: ?boolean,
   style?: ?ViewStyle,
   subtitle?: ?string,
@@ -31,6 +38,14 @@ type Props = {
 
 export default class MappingFileRow extends Component<Props> {
   renderIcons = () => {
+    if (this.props.inEditMode) {
+      return (
+        <React.Fragment>
+          {this.props.renamable && this.renderIcon(renameIcon, this.props.onRenamePress)}
+          {this.props.deletable && this.renderIcon(deleteIcon, this.props.onDeletePress)}
+        </React.Fragment>
+      );
+    }
     if (this.props.selected === false) {
       return this.renderIcon(checkboxOff, this.props.onPress);
     } else if (this.props.selected === true) {
@@ -52,6 +67,7 @@ export default class MappingFileRow extends Component<Props> {
       android: TouchableNativeFeedback,
       ios: TouchableHighlight
     });
+
     return (
       <Touchable
         onPress={onPress}
