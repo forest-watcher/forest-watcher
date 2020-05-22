@@ -43,6 +43,7 @@ type Props = {|
 
 type State = {|
   +bundleSize: number | typeof undefined,
+  +creatingArchive: boolean,
   +selectedForExport: Array<string>,
   +inShareMode: boolean
 |};
@@ -70,6 +71,7 @@ export default class Routes extends PureComponent<Props, State> {
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
     this.state = {
       bundleSize: undefined,
+      creatingArchive: false,
       inShareMode: false,
       selectedForExport: []
     };
@@ -174,9 +176,14 @@ export default class Routes extends PureComponent<Props, State> {
    *
    * @param  {Object} selectedRoutes A mapping of route identifiers to a boolean dictating whether they've been selected for export.
    */
-  onExportRoutesTapped = debounceUI(selectedRoutes => {
-    // TODO: Loading screen while the async function below executed
-    this.props.exportRoutes(selectedRoutes);
+  onExportRoutesTapped = debounceUI(async selectedRoutes => {
+    this.setState({
+      creatingArchive: true
+    });
+    await this.props.exportRoutes(selectedRoutes);
+    this.setState({
+      creatingArchive: false
+    });
     this.shareSheet?.setSharing?.(false);
     this.setSharing(false);
   });
@@ -332,6 +339,7 @@ export default class Routes extends PureComponent<Props, State> {
         <ShareSheet
           componentId={this.props.componentId}
           enabled={totalToExport > 0}
+          isSharing={this.state.creatingArchive}
           onShare={() => {
             this.onExportRoutesTapped(this.state.selectedForExport);
           }}
@@ -346,6 +354,7 @@ export default class Routes extends PureComponent<Props, State> {
               ? i18n.t('routes.export.manyRoutes', { count: totalRoutes })
               : i18n.t('routes.export.oneRoute', { count: 1 })
           }
+          shareButtonInProgressTitle={i18n.t('sharing.inProgress', { type: sharingType })}
           shareButtonDisabledTitle={i18n.t('sharing.title', { type: sharingType })}
           shareButtonEnabledTitle={getShareButtonText(sharingType, totalToExport, this.state.bundleSize)}
         >
