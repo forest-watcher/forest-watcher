@@ -26,7 +26,7 @@ import moment from 'moment';
 import CircleButton from 'components/common/circle-button';
 import BottomDialog from 'components/map/bottom-dialog';
 import LocationErrorBanner from 'components/map/locationErrorBanner';
-import { formatCoordsByFormat, getPolygonBoundingBox } from 'helpers/map';
+import { formatCoordsByFormat, getPolygonBoundingBox, closestFeature } from 'helpers/map';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import Theme from 'config/theme';
@@ -936,12 +936,23 @@ class MapComponent extends Component<Props, State> {
     }
   };
 
+  onAlertPressed = e => {
+    let feature = closestFeature(e.features, e.coordinates);
+    if (!feature) {
+      return;
+    }
+    this.onFeaturePressed(feature);
+  };
+
   onShapeSourcePressed = e => {
+    this.onFeaturePressed(e?.nativeEvent);
+  };
+
+  onFeaturePressed = feature => {
     // show info banner with feature details
-    console.log("Event features", e?.features);
-    const { date, name, type, featureId, cluster, lat, long } = e?.nativeEvent?.payload?.properties;
+    const { date, name, type, featureId, cluster, lat, long } = feature?.properties;
     if (cluster) {
-      this.onClusterPress(e?.nativeEvent?.payload?.geometry?.coordinates);
+      this.onClusterPress(feature.geometry?.coordinates);
       return;
     }
     if (date && name) {
@@ -1073,7 +1084,7 @@ class MapComponent extends Component<Props, State> {
             areaId={this.props.area?.id}
             reportedAlerts={this.props.reportedAlerts}
             selectedAlerts={this.state.selectedAlerts}
-            onShapeSourcePressed={this.onShapeSourcePressed}
+            onShapeSourcePressed={this.onAlertPressed}
           />
           <Reports featureId={this.getFeatureId()} onShapeSourcePressed={this.onShapeSourcePressed} />
           <RouteMarkers
