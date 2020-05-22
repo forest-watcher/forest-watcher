@@ -10,6 +10,13 @@ export default StyleSheet.create({
     paddingTop: 12,
     flex: 1
   },
+  errorTitle: {
+    color: Theme.colors.coral
+  },
+  loadingIndicator: {
+    position: 'absolute',
+    bottom: 0
+  },
   listHeader: {
     flex: 1,
     marginLeft: Theme.margin.left,

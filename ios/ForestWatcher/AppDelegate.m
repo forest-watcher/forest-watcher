@@ -17,6 +17,7 @@
 #import "ReactNativeConfig.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <React/RCTLinkingManager.h>
+#import "ForestWatcher-Swift.h"
 
 @implementation AppDelegate
 
@@ -57,6 +58,10 @@
   // Add any custom logic here.
   if ([self.authorizationFlowManagerDelegate resumeExternalUserAgentFlowWithURL:url]) {
     return YES;
+  }
+  
+  if ([[url absoluteString] hasSuffix:@".gfwbundle"]) {
+    [[FWSecurityScopedResourcesManager sharedManager] startAccessingSecurityScopedResourceAt:url];
   }
   
   return handled || [RCTLinkingManager application:app openURL:url options:options];

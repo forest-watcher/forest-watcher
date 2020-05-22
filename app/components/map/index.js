@@ -408,7 +408,7 @@ class MapComponent extends Component<Props, State> {
       await this.geoLocate(true);
       this.props.onStartTrackingRoute(coordsArrayToObject(routeDestination), area.id);
 
-      this.onSelectionCancelPress();
+      this.setState({ customReporting: false });
 
       emitter.on(GFWOnErrorEvent, this.onLocationUpdateError);
     } catch (err) {
@@ -635,6 +635,7 @@ class MapComponent extends Component<Props, State> {
     this.props.createReport({
       area,
       reportName,
+      selectedAlerts,
       userPosition: userLatLng || REPORTS.noGpsPosition,
       clickedPosition: JSON.stringify(latLng)
     });

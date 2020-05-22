@@ -63,7 +63,8 @@ export type BasicReport = {
   reportName: string,
   userPosition: string, // "x,x"
   clickedPosition: string, // JSON representation of an array of objects with lat and lon props
-  area: ReportArea
+  area: ReportArea,
+  selectedAlerts: Array<{ lat: number, long: number }>
 };
 
 export type ReportArea = {
@@ -94,7 +95,8 @@ export type GetDefaultTemplateRollback = { type: 'report/GET_DEFAULT_TEMPLATE_RO
 export type CreateReport = {
   type: 'report/CREATE_REPORT',
   payload: {
-    [string]: Report
+    selectedAlerts: Array<{ lat: number, long: number }>,
+    report: Report
   }
 };
 export type DeleteReport = { type: 'report/DELETE_REPORT', payload: { reportName: string } };

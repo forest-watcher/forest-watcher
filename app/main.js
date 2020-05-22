@@ -162,6 +162,7 @@ export function launchAppRoot(screen) {
             children: [
               {
                 component: {
+                  id: 'ForestWatcher.Dashboard',
                   name: screen
                 }
               }

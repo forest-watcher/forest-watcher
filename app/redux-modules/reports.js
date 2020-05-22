@@ -1,6 +1,7 @@
 // @flow
 import type { Dispatch, GetState } from 'types/store.types';
 import type { BasicReport, ReportsState, ReportsAction, Report, Answer } from 'types/reports.types';
+import omit from 'lodash/omit';
 
 import _ from 'lodash';
 import Config from 'react-native-config';
@@ -14,12 +15,12 @@ import { GET_AREAS_COMMIT } from 'redux-modules/areas';
 const GET_DEFAULT_TEMPLATE_REQUEST = 'report/GET_DEFAULT_TEMPLATE_REQUEST';
 const GET_DEFAULT_TEMPLATE_COMMIT = 'report/GET_DEFAULT_TEMPLATE_COMMIT';
 const GET_DEFAULT_TEMPLATE_ROLLBACK = 'report/GET_DEFAULT_TEMPLATE_ROLLBACK';
-const CREATE_REPORT = 'report/CREATE_REPORT';
+export const CREATE_REPORT = 'report/CREATE_REPORT';
 const UPDATE_REPORT = 'report/UPDATE_REPORT';
 const DELETE_REPORT = 'report/DELETE_REPORT';
+const UPLOAD_REPORT_REQUEST = 'report/UPLOAD_REPORT_REQUEST';
 export const IMPORT_REPORT = 'report/IMPORT_REPORT';
 export const IMPORT_TEMPLATE = 'report/IMPORT_TEMPLATE';
-export const UPLOAD_REPORT_REQUEST = 'report/UPLOAD_REPORT_REQUEST';
 export const UPLOAD_REPORT_COMMIT = 'report/UPLOAD_REPORT_COMMIT';
 export const UPLOAD_REPORT_ROLLBACK = 'report/UPLOAD_REPORT_ROLLBACK';
 const SET_REPORT_ANSWER = 'report/SET_REPORT_ANSWER';
@@ -109,7 +110,8 @@ export default function reducer(state: ReportsState = initialState, action: Repo
       };
     }
     case CREATE_REPORT: {
-      const list = { ...state.list, ...action.payload };
+      const { report } = action.payload;
+      const list = { ...state.list, [report.reportName]: report };
       return { ...state, list };
     }
     case DELETE_REPORT: {
@@ -207,11 +209,12 @@ export function getDefaultReport(): ReportsAction {
 }
 
 export function createReport(report: BasicReport): ReportsAction {
-  const { reportName, userPosition, clickedPosition, area } = report;
+  const { reportName, userPosition, clickedPosition, area, selectedAlerts } = report;
   return {
     type: CREATE_REPORT,
     payload: {
-      [reportName]: {
+      selectedAlerts,
+      report: {
         area,
         reportName,
         userPosition,

@@ -1,13 +1,16 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { Image, TouchableOpacity, Text, TextInput, View, FlatList } from 'react-native';
+import { Image, TouchableOpacity, TouchableWithoutFeedback, Text, TextInput, View, FlatList } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
+import ProgressBar from 'react-native-progress/Bar';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 import styles from './styles';
 import i18n from 'i18next';
 import Row from 'components/common/row';
+
+import Theme from 'config/theme';
 
 import { debounce } from 'lodash';
 
@@ -18,7 +21,11 @@ import type { GFWContextualLayer } from 'types/layers.types';
 
 type Props = {
   componentId: string,
-  fetchLayers: (page: number, searchTerm: ?string) => void,
+  error: ?{
+    type: string,
+    response: *
+  },
+  fetchLayers: (page: number, searchTerm: ?string) => Promise<*>,
   fullyLoaded: boolean,
   loadedPage: ?number,
   isInitialLoad: boolean,
@@ -28,6 +35,7 @@ type Props = {
 };
 
 type State = {
+  hasLoaded: boolean,
   scrolled: boolean,
   searchFocussed: boolean,
   searchTerm: ?string
@@ -55,14 +63,24 @@ class GFWLayers extends PureComponent<Props, State> {
     this.state = {
       scrolled: false,
       searchFocussed: false,
-      searchTerm: null
+      searchTerm: null,
+      hasLoaded: false
     };
-    props.fetchLayers(0);
+    this.fetchLayers(0);
     Navigation.events().bindComponent(this);
 
     this.handleSearchDebounced = debounce(function() {
       this.props.fetchLayers(0, this.state.searchTerm);
     }, 400);
+  }
+
+  fetchLayers = async function(page: number, searchTerm: ?string) {
+    await this.props.fetchLayers(page, searchTerm);
+    this.setState({ hasLoaded: true });
+  };
+
+  focusTextInput = () => {
+    this.textInput?.focus?.();
   }
 
   onClearSearch = () => {
@@ -103,7 +121,7 @@ class GFWLayers extends PureComponent<Props, State> {
   renderHeader = () => {
     let headerString: ?string = null;
 
-    if (this.state.searchFocussed) {
+    if (this.state.searchFocussed || this.state.searchTerm) {
       if (this.state.searchTerm) {
         if (this.props.layers.length) {
           headerString = i18n.t('importLayer.gfw.results', {
@@ -120,17 +138,21 @@ class GFWLayers extends PureComponent<Props, State> {
       headerString = i18n.t('importLayer.gfw.allLayers', { count: this.props.totalLayers });
     }
 
+    if (this.props.error) {
+      headerString = i18n.t('importLayer.gfw.error');
+    }
+
     if (!headerString) {
       return null;
     }
     return (
       <View style={styles.listHeader}>
-        <Text style={styles.listTitle}>{headerString}</Text>
+        <Text style={[styles.listTitle, this.props.error ? styles.errorTitle : {}]}>{headerString}</Text>
       </View>
     );
   };
 
-  renderLayer = ({ item, index }: { item: GFWContextualLayer } ) => {
+  renderLayer = ({ item, index }: { item: GFWContextualLayer }) => {
     return (
       <Row style={styles.row}>
         <Text style={styles.rowLabel}>{item.attributes.name}</Text>
@@ -139,32 +161,45 @@ class GFWLayers extends PureComponent<Props, State> {
   };
 
   render() {
+    const loadingForTheFirstTime = this.props.isInitialLoad && !this.state.hasLoaded;
     return (
       <View style={styles.container}>
         <View style={[styles.topContainer, this.state.scrolled ? styles.topContainerScrolled : {}]}>
-          <View style={styles.searchContainer}>
-            <TextInput
-              autofocus={false}
-              autoCapitalize="none"
-              autoCorrect={false}
-              value={this.state.searchTerm}
-              underlineColorAndroid="transparent"
-              placeholder={i18n.t('importLayer.gfw.searchPlaceholder')}
-              ref={ref => {
-                this.textInput = ref;
-              }}
-              style={styles.searchField}
-              onBlur={() => this.setState({ searchFocussed: false })}
-              onChangeText={this.onSearchTermChange}
-              onFocus={() => this.setState({ searchFocussed: true })}
-            />
-            {!this.state.searchFocussed && <Image source={searchImage} />}
-            {this.state.searchFocussed && this.state.searchTerm && (
-              <TouchableOpacity onPress={this.onClearSearch}>
-                <Image source={clearImage} />
-              </TouchableOpacity>
-            )}
-          </View>
+          <TouchableWithoutFeedback onPress={this.focusTextInput}>
+            <View style={styles.searchContainer}>
+              <TextInput
+                autoCapitalize="none"
+                autoCorrect={false}
+                value={this.state.searchTerm}
+                underlineColorAndroid="transparent"
+                placeholder={i18n.t('importLayer.gfw.searchPlaceholder')}
+                ref={ref => {
+                  this.textInput = ref;
+                }}
+                style={[styles.searchField, loadingForTheFirstTime ? { opacity: 0 } : {}]}
+                onBlur={() => this.setState({ searchFocussed: false })}
+                onChangeText={this.onSearchTermChange}
+                onFocus={() => this.setState({ searchFocussed: true })}
+              />
+              {!this.state.searchFocussed && !loadingForTheFirstTime && <Image source={searchImage} />}
+              {this.state.searchFocussed && !!this.state.searchTerm && (
+                <TouchableOpacity onPress={this.onClearSearch}>
+                  <Image source={clearImage} />
+                </TouchableOpacity>
+              )}
+              {this.props.isInitialLoad && (
+                <ProgressBar
+                  indeterminate={true}
+                  width={Theme.screen.width}
+                  height={4}
+                  color={Theme.colors.turtleGreen}
+                  borderRadius={0}
+                  borderColor="transparent"
+                  style={styles.loadingIndicator}
+                />
+              )}
+            </View>
+          </TouchableWithoutFeedback>
         </View>
         <FlatList
           style={{ width: '100%' }}

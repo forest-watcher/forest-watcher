@@ -15,7 +15,7 @@ import createTemporaryStagingDirectory from 'helpers/sharing/createTemporaryStag
 /**
  * Extension of the final bundle
  */
-export const BUNDLE_FILE_EXTENSION: string = '.gfw.bundle';
+export const BUNDLE_FILE_EXTENSION: string = '.gfwbundle';
 
 /**
  * The name of the data file held in the root of a bundle archive
