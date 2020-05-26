@@ -1,6 +1,6 @@
 // @flow
 import type { Dispatch } from 'types/store.types';
-import type { ImportBundleResult, UnpackedSharingBundle } from 'types/sharing.types';
+import type { UnpackedSharingBundle } from 'types/sharing.types';
 import { Platform } from 'react-native';
 
 import RNFS from 'react-native-fs';
@@ -12,6 +12,7 @@ import deleteStagedBundle from 'helpers/sharing/deleteStagedBundle';
 import { BUNDLE_DATA_FILE_NAME } from 'helpers/sharing/exportBundle';
 import { APP_DATA_FORMAT_VERSION } from 'helpers/sharing/exportAppData';
 import importAppData from 'helpers/sharing/importAppData';
+import importFileManifest from 'helpers/sharing/importFileManifest';
 
 /**
  * Imports a FW sharing bundle into the app
@@ -20,11 +21,9 @@ import importAppData from 'helpers/sharing/importAppData';
  * @param dispatch - Redux dispatch function used to emit actions to add data to the app
  */
 export default async function importBundle(uri: string, dispatch: Dispatch): Promise<void> {
-  console.warn('3SC', 'Importing bundle...', uri);
   const unpackedBundle = await unpackBundle(uri);
-  importStagedBundle(unpackedBundle, dispatch);
+  await importStagedBundle(unpackedBundle, dispatch);
   deleteStagedBundle(unpackedBundle);
-  console.warn('3SC', 'Successfully unpacked bundle');
 }
 
 function checkBundleCompatibility(version: number) {
@@ -43,9 +42,10 @@ function checkBundleCompatibility(version: number) {
  * @param bundle - The bundle - already unpacked - whose data should be imported
  * @param dispatch - Redux dispatch function used to emit actions to add data to the app
  */
-export function importStagedBundle(bundle: UnpackedSharingBundle, dispatch: Dispatch) {
+export async function importStagedBundle(bundle: UnpackedSharingBundle, dispatch: Dispatch) {
   checkBundleCompatibility(bundle.data.version);
   importAppData(bundle.data, dispatch);
+  await importFileManifest(bundle);
 }
 
 /**

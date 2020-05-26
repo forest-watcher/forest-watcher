@@ -69,16 +69,22 @@ async function exportLayerFiles(bundle: {
   const bboxes = [...areaBBoxes, ...routeBBoxes];
   const regions = bboxes.map(areaBBox => bboxPolygon(areaBBox));
   const region = featureCollection(regions);
-  const implicitlyRequestedBasemaps = await queryLayerFiles('basemap', {
-    whitelist: [],
-    blacklist: basemapIds,
-    region: region
-  });
-  const implicitlyRequestedLayers = await queryLayerFiles('contextual_layer', {
-    whitelist: [],
-    blacklist: layerIds,
-    region: region
-  });
+  const implicitlyRequestedBasemaps =
+    regions.length > 0
+      ? await queryLayerFiles('basemap', {
+          whitelist: [],
+          blacklist: basemapIds,
+          region: region
+        })
+      : [];
+  const implicitlyRequestedLayers =
+    regions.length > 0
+      ? await queryLayerFiles('contextual_layer', {
+          whitelist: [],
+          blacklist: layerIds,
+          region: region
+        })
+      : [];
 
   return [
     ...explicitlyRequestedBasemaps,
