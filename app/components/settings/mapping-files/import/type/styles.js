@@ -2,6 +2,15 @@ import Theme, { isSmallScreen } from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+  actionText: {
+    ...Theme.text,
+    fontSize: 12,
+    textAlign: 'center',
+    textDecorationLine: 'underline'
+  },
+  faqContainer: {
+    marginVertical: 16
+  },
   title: {
     flex: 1,
     fontFamily: Theme.font,
@@ -11,7 +20,6 @@ export default StyleSheet.create({
   },
   description: {
     flex: 1,
-    marginTop: 40,
     paddingTop: 16,
     paddingBottom: 8,
     ...Theme.tableRowText,
@@ -42,11 +50,14 @@ export default StyleSheet.create({
   rowWithDescription: {
     paddingLeft: isSmallScreen ? 20 : 24,
     paddingTop: isSmallScreen ? 20 : 40,
-    paddingBottom: isSmallScreen ? 20 : 24
+    paddingBottom: isSmallScreen ? 20 : 24,
+    paddingRight: 0
   },
   titleContainer: {
+    alignItems: 'center',
+    flexGrow: 1,
     flexDirection: 'row',
-    paddingRight: isSmallScreen ? 20 : 24
+    paddingBottom: 40
   },
   container: {
     backgroundColor: Theme.background.main,
@@ -55,5 +66,10 @@ export default StyleSheet.create({
   contentContainer: {
     paddingTop: 12,
     flex: 1
+  },
+  verticalSeparator: {
+    backgroundColor: Theme.colors.veryLightPink,
+    height: 1,
+    marginRight: -30
   }
 });

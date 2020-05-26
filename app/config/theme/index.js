@@ -14,6 +14,7 @@ export const colors = {
   black: '#000000',
   veryLightPinkTwo: '#dcdcdc',
   carnation: '#f15656',
+  coral: '#f74848',
   glad: '#ff6699',
   viirs: '#ED4602',
   recent: '#e9bd15',
@@ -54,6 +55,7 @@ const config = {
     recent: colors.recent,
     lightBlue: colors.lightBlue,
     blue: colors.blue,
+    coral: colors.coral,
     report: colors.turtleGreen,
     importedReport: colors.cyan,
     viirsReported: colors.purple

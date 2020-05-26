@@ -1,6 +1,7 @@
 // @flow
 import type { Dispatch } from 'types/store.types';
 import type { ImportBundleResult, UnpackedSharingBundle } from 'types/sharing.types';
+import { Platform } from 'react-native';
 
 import RNFS from 'react-native-fs';
 import { unzip } from 'react-native-zip-archive';
@@ -15,7 +16,7 @@ import importAppData from 'helpers/sharing/importAppData';
 /**
  * Imports a FW sharing bundle into the app
  *
- * @param file - The file to import
+ * @param uri - The file to import
  * @param dispatch - Redux dispatch function used to emit actions to add data to the app
  */
 export default async function importBundle(uri: string, dispatch: Dispatch): Promise<void> {
@@ -50,11 +51,30 @@ export function importStagedBundle(bundle: UnpackedSharingBundle, dispatch: Disp
 /**
  * Reads a FW sharing bundle, and extracts its contents into a directory where they can be imported
  *
- * @param file - The file to import
+ * @param uri - The file to import
  */
 export async function unpackBundle(uri: string): Promise<UnpackedSharingBundle> {
+  // We have to decode the file URI because iOS file manager doesn't like encoded uris!
+  const fixedUri = Platform.OS === 'android' ? uri : decodeURI(uri);
   const stagingDir = await createTemporaryStagingDirectory();
-  await unzip(uri, stagingDir);
+
+  if (Platform.OS === 'ios') {
+    const fileName = fixedUri.substring(fixedUri.lastIndexOf('/') + 1);
+    const tempZipPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '.zip');
+
+    await RNFS.copyFile(fixedUri, tempZipPath);
+    await unzip(tempZipPath, stagingDir);
+
+    // We have to remove this otherwise will get an error if the user tries to import same file twice.
+    // Also we should probably just clear it up anyways as it takes disk space!
+    try {
+      await RNFS.unlink(tempZipPath);
+    } catch {
+      console.warn('Failed to remove zip at tempZipPath');
+    }
+  } else {
+    await unzip(fixedUri, stagingDir);
+  }
 
   const bundleDataUri = `${stagingDir}/${BUNDLE_DATA_FILE_NAME}`;
   const fileContents = await RNFS.readFile(bundleDataUri);

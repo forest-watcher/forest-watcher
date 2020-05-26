@@ -25,7 +25,7 @@ type Props = {
 };
 
 type State = {
-  currentRouteLocations: ?Array<LocationPoint>
+  currentRouteLocations: Array<LocationPoint>
 };
 
 export default class RouteMarkers extends PureComponent<Props, State> {
@@ -83,10 +83,10 @@ export default class RouteMarkers extends PureComponent<Props, State> {
    * @param  {array<Location>} previousRouteLocations Locations for a previous route, if the user is viewing a saved route.
    */
   reconcileRouteLocations = (
-    currentRouteLocations: ?Array<LocationPoint>,
+    currentRouteLocations: Array<LocationPoint>,
     previousRouteLocations: ?Array<LocationPoint>
   ) => {
-    if (currentRouteLocations && currentRouteLocations?.length > 0) {
+    if (currentRouteLocations.length > 0) {
       return currentRouteLocations;
     } else if (previousRouteLocations && previousRouteLocations?.length > 0) {
       return previousRouteLocations;
@@ -126,11 +126,11 @@ export default class RouteMarkers extends PureComponent<Props, State> {
 
   // It seems mapbox is ridiculously picky with unique key/id names, when displaying multiple routes on the map
   key = (keyName: string) => {
-    return keyName + (this.props.route?.id || 'route_in_progress');
+    return keyName + (this.props.route?.id || 'route_in_progress' + this.props.route?.startDate);
   };
 
   // Draw line from user location to destination
-  renderDestinationLine = (destination, userLocation) => {
+  renderDestinationLine = (destination: ?LocationPoint, userLocation: ?LocationPoint) => {
     if (!destination || !userLocation) {
       return null;
     }
@@ -293,7 +293,7 @@ export default class RouteMarkers extends PureComponent<Props, State> {
     let routeLocations = this.reconcileRouteLocations(this.state.currentRouteLocations, this.props.route?.locations);
     routeLocations = removeDuplicateLocations(routeLocations);
     const userLocation = this.reconcileUserLocation(this.props.userLocation, routeLocations);
-    if (!routeLocations) {
+    if (!routeLocations || !this.props.route?.startDate) {
       return null;
     }
     return (

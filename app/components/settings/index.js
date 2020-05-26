@@ -21,7 +21,7 @@ import styles from './styles';
 const layersIcon = require('assets/contextualLayers.png');
 const nextIcon = require('assets/next.png');
 const shareIcon = require('assets/share.png');
-const baseMapsIcon = require('assets/basemap.png');
+const basemapsIcon = require('assets/basemap.png');
 
 type Props = {
   user: any,
@@ -117,12 +117,24 @@ export default class Settings extends Component<Props, State> {
   onPressContextualLayers = debounceUI(() => {
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'ForestWatcher.ContextualLayers'
+        name: 'ForestWatcher.MappingFiles',
+        passProps: {
+          mappingFileType: 'contextualLayers'
+        }
       }
     });
   });
 
-  onPressBasemaps() {}
+  onPressBasemaps = debounceUI(() => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.MappingFiles',
+        passProps: {
+          mappingFileType: 'basemaps'
+        }
+      }
+    });
+  });
 
   onPressShare() {}
 
@@ -209,8 +221,8 @@ export default class Settings extends Component<Props, State> {
             </Row>
           </View>
           <Row action={this.basemapsAction} rowStyle={styles.noMarginsRow} style={styles.row}>
-            <Image style={styles.rowIcon} source={baseMapsIcon} />
-            <Text style={styles.rowLabel}>{i18n.t('settings.baseMaps')}</Text>
+            <Image style={styles.rowIcon} source={basemapsIcon} />
+            <Text style={styles.rowLabel}>{i18n.t('settings.basemaps')}</Text>
           </Row>
           <Row action={this.contextualLayersAction} rowStyle={styles.noMarginsRow} style={styles.row}>
             <Image style={styles.rowIcon} source={layersIcon} />

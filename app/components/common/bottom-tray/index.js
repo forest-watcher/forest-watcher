@@ -17,8 +17,8 @@ class BottomTray extends Component<Props> {
     const ViewComponent = this.props.requiresSafeAreaView ? SafeAreaView : View;
 
     return (
-      <View style={[styles.container, this.props.style]}>
-        <ViewComponent>{this.props.children}</ViewComponent>
+      <View style={styles.container}>
+        <ViewComponent style={this.props.style}>{this.props.children}</ViewComponent>
       </View>
     );
   }

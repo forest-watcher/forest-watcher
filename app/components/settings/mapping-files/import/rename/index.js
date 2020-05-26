@@ -9,6 +9,8 @@ import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import InputText from 'components/common/text-input';
 import i18n from 'i18next';
+import type { Basemap, BasemapsAction } from 'types/basemaps.types';
+import type { MappingFileType } from 'types/common.types';
 import type { File } from 'types/file.types';
 import type { ContextualLayer, LayersAction } from 'types/layers.types';
 import type { Thunk } from 'types/store.types';
@@ -16,13 +18,15 @@ import type { Thunk } from 'types/store.types';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 type Props = {
-  clearImportContextualLayerState: () => LayersAction,
+  clearState: () => BasemapsAction | LayersAction,
   componentId: string,
-  existingLayers: Array<ContextualLayer>,
+  existing: Array<Basemap | ContextualLayer>,
   file: File,
-  importContextualLayer: (layerFile: File) => Thunk<Promise<void>>,
+  import: (file: File) => Thunk<Promise<void>>,
   importError: ?Error,
-  importingLayer: ?string,
+  importing: boolean,
+  mappingFileType: MappingFileType,
+  onImported: () => void,
   popToComponentId?: ?string
 };
 
@@ -31,12 +35,12 @@ type State = {
   keyboardVisible: boolean
 };
 
-class ImportLayerRename extends PureComponent<Props, State> {
-  static options(passProps: {}) {
+class ImportMappingFileRename extends PureComponent<Props, State> {
+  static options(passProps: { mappingFileType: MappingFileType }) {
     return {
       topBar: {
         title: {
-          text: i18n.t('importLayer.title')
+          text: i18n.t(`${passProps.mappingFileType}.import.title`)
         }
       }
     };
@@ -44,12 +48,16 @@ class ImportLayerRename extends PureComponent<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.props.clearImportContextualLayerState();
+    this.props.clearState();
     Navigation.events().bindComponent(this);
     this.state = {
       file: this.props.file,
       keyboardVisible: false
     };
+  }
+
+  i18nKeyFor(key: string): string {
+    return `${this.props.mappingFileType}.import.${key}`;
   }
 
   onFileNameChange = (newName: string) => {
@@ -64,7 +72,10 @@ class ImportLayerRename extends PureComponent<Props, State> {
   onImportPressed = async () => {
     try {
       Keyboard.dismiss();
-      await this.props.importContextualLayer(this.state.file);
+
+      await this.props.import(this.state.file);
+      this.props.onImported();
+
       if (this.props.popToComponentId) {
         Navigation.popTo(this.props.popToComponentId);
       } else {
@@ -83,12 +94,12 @@ class ImportLayerRename extends PureComponent<Props, State> {
       };
     }
 
-    const matchingFile = this.props.existingLayers.find(layer => {
+    const matchingFile = this.props.existing.find(mappingFile => {
       // We also make sure we're not conflicting with ourself here...
       // Because the file is added before the screen disappears if we don't make
       // sure the "matches" id is different to the currently adding files id
       // then the duplicate name message is shown as the screen is dismissing on iOS
-      return layer.name === this.state.file.name && layer.id !== this.state.file.id;
+      return mappingFile.name === this.state.file.name && mappingFile.id !== this.state.file.id;
     });
 
     const nameAlreadyTaken = !!matchingFile;
@@ -119,20 +130,20 @@ class ImportLayerRename extends PureComponent<Props, State> {
           />
           {nameValidity.alreadyTaken && (
             <View style={styles.errorContainer}>
-              <Text style={[styles.listTitle, styles.error]}>{i18n.t('importLayer.uniqueNameError')}</Text>
+              <Text style={[styles.listTitle, styles.error]}>{i18n.t(this.i18nKeyFor('uniqueNameError'))}</Text>
             </View>
           )}
           {!!this.props.importError && (
             <View style={styles.errorContainer}>
-              <Text style={[styles.listTitle, styles.error]}>{i18n.t('importLayer.error')}</Text>
+              <Text style={[styles.listTitle, styles.error]}>{i18n.t(this.i18nKeyFor('error'))}</Text>
             </View>
           )}
         </ScrollView>
         <BottomTray requiresSafeAreaView={!this.state.keyboardVisible}>
           <ActionButton
             onPress={nameValidity.valid ? this.onImportPressed : null}
-            text={i18n.t('importLayer.save').toUpperCase()}
-            disabled={!nameValidity.valid || !!this.props.importingLayer}
+            text={i18n.t(this.i18nKeyFor('save'))}
+            disabled={!nameValidity.valid || this.props.importing}
             short
             noIcon
           />
@@ -151,4 +162,4 @@ class ImportLayerRename extends PureComponent<Props, State> {
   }
 }
 
-export default ImportLayerRename;
+export default ImportMappingFileRename;

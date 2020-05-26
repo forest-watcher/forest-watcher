@@ -18,7 +18,7 @@ import tracker from 'helpers/googleAnalytics';
 import { storeTilesFromUrl } from 'helpers/layer-store/storeLayerFiles';
 import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
-import importLayerFile from 'helpers/layer-store/import/importLayerFile';
+import { importLayerFile } from 'helpers/layer-store/import/importLayerFile';
 import type { LayerFile } from 'types/sharing.types';
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
@@ -51,7 +51,7 @@ const initialState = {
   pendingCache: {}, // key value with layer => areaId to cache
   importError: null,
   imported: [],
-  importingLayer: null // file path for layer which is being imported
+  importingLayer: false // whether a layer is currently being imported.
 };
 
 export default function reducer(state: LayersState = initialState, action: LayersAction) {
@@ -360,8 +360,9 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
         enabled: true,
         id: layerFile.id,
         isPublic: false,
-        name: layerFile.name,
-        url: `${importedFile.path}/${importedFile.subFiles[0]}`
+        name: layerFile.name || '',
+        url: `${importedFile.path}/${importedFile.subFiles[0]}`,
+        size: importedFile.size
       };
       dispatch({
         type: IMPORT_LAYER_COMMIT,

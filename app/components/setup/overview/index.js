@@ -35,7 +35,7 @@ class SetupOverview extends Component {
     tracker.trackScreenView('Overview Set Up');
   }
 
-  onNextPress = debounceUI(() => {
+  onNextPress = debounceUI(async () => {
     const params = {
       area: {
         name: this.state.name,
@@ -46,9 +46,16 @@ class SetupOverview extends Component {
     tracker.trackAreaCreationFlowEndedEvent();
     this.props.setSetupArea(params);
     this.props.saveArea(params);
-    Navigation.setStackRoot(this.props.componentId, {
+    await Navigation.setStackRoot(this.props.componentId, {
       component: {
+        id: 'ForestWatcher.Dashboard',
         name: 'ForestWatcher.Dashboard'
+      }
+    });
+
+    Navigation.push('ForestWatcher.Dashboard', {
+      component: {
+        name: 'ForestWatcher.Areas'
       }
     });
   });

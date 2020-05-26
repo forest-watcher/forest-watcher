@@ -16,6 +16,8 @@
 #import <ReactNativeNavigation/ReactNativeNavigation.h>
 #import "ReactNativeConfig.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <React/RCTLinkingManager.h>
+#import "ForestWatcher-Swift.h"
 
 @implementation AppDelegate
 
@@ -58,7 +60,11 @@
     return YES;
   }
   
-  return handled;
+  if ([[url absoluteString] hasSuffix:@".gfwbundle"]) {
+    [[FWSecurityScopedResourcesManager sharedManager] startAccessingSecurityScopedResourceAt:url];
+  }
+  
+  return handled || [RCTLinkingManager application:app openURL:url options:options];
 }
 
 #if RCT_DEV

@@ -6,6 +6,7 @@ import type { RetrySync } from 'types/app.types';
 import type { UploadReportRequest } from 'types/reports.types';
 
 export type Alert = {
+  id?: string,
   areaId: string,
   slug: string,
   long: number,
