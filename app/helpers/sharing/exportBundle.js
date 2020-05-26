@@ -1,6 +1,6 @@
 // @flow
 import type { State } from 'types/store.types';
-import type { ExportBundleRequest, SharingBundle, UnpackedSharingBundle } from 'types/sharing.types';
+import type { ExportBundleRequest, ReportFile, SharingBundle, UnpackedSharingBundle } from 'types/sharing.types';
 
 import _ from 'lodash';
 import RNFS from 'react-native-fs';
@@ -9,7 +9,10 @@ import RNFetchBlob from 'rn-fetch-blob';
 
 import deleteStagedBundle from 'helpers/sharing/deleteStagedBundle';
 import exportAppData, { exportBasemaps, exportLayers } from 'helpers/sharing/exportAppData';
-import exportFileManifest, { sanitiseLayerFilesForBundle } from 'helpers/sharing/exportFileManifest';
+import exportFileManifest, {
+  sanitiseLayerFilesForBundle,
+  sanitiseReportFilesForBundle
+} from 'helpers/sharing/exportFileManifest';
 import { storeLayerFiles } from 'helpers/layer-store/storeLayerFiles';
 import createTemporaryStagingDirectory from 'helpers/sharing/createTemporaryStagingDirectory';
 import { toFileUri } from 'helpers/fileURI';
@@ -74,29 +77,17 @@ export async function packageBundle(bundle: UnpackedSharingBundle): Promise<stri
 export async function stageBundle(bundle: SharingBundle): Promise<UnpackedSharingBundle> {
   const outputPath = await createTemporaryStagingDirectory();
 
-  // Stage layer files
+  // Stage files contained in the manifest
   await storeLayerFiles(bundle.manifest.layerFiles, outputPath);
-
-  // Stage report files
-  // eslint-disable-next-line no-unused-vars
-  for (const file of bundle.manifest.reportFiles) {
-    try {
-      const sourceUri = file.uri;
-      const destinationDir = `${outputPath}/report/${file.reportName}/${file.answerIndex}`;
-      const destinationUri = `${destinationDir}/attachment.jpg`;
-      await RNFetchBlob.fs.mkdir(destinationDir);
-      await RNFetchBlob.fs.cp(sourceUri, destinationUri);
-    } catch (err) {
-      console.warn('3SC', `Failed to stage report attachment (${file.reportName}, ${file.answerIndex})`, err);
-    }
-  }
+  await storeReportFiles(bundle.manifest.reportFiles, outputPath);
 
   // Write the bundle data file
   const sanitisedBundle = {
     ...bundle,
     manifest: {
       ...bundle.manifest,
-      layerFiles: sanitiseLayerFilesForBundle(bundle.manifest.layerFiles)
+      layerFiles: sanitiseLayerFilesForBundle(bundle.manifest.layerFiles),
+      reportFiles: sanitiseReportFilesForBundle(bundle.manifest.reportFiles)
     }
   };
   const outputFile = `${outputPath}/${BUNDLE_DATA_FILE_NAME}`;
@@ -107,4 +98,19 @@ export async function stageBundle(bundle: SharingBundle): Promise<UnpackedSharin
     path: outputPath,
     data: bundle
   };
+}
+
+async function storeReportFiles(files: Array<ReportFile>, outputPath: string) {
+  // eslint-disable-next-line no-unused-vars
+  for (const file of files) {
+    try {
+      const sourceUri = file.uri;
+      const destinationDir = `${outputPath}/report/${file.reportName}/${file.answerIndex}`;
+      const destinationUri = `${destinationDir}/attachment.jpg`;
+      await RNFetchBlob.fs.mkdir(destinationDir);
+      await RNFetchBlob.fs.cp(sourceUri, destinationUri);
+    } catch (err) {
+      console.warn('3SC', `Failed to stage report attachment (${file.reportName}, ${file.answerIndex})`, err);
+    }
+  }
 }

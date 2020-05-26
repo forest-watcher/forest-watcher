@@ -88,6 +88,11 @@ async function exportLayerFiles(bundle: {
   ];
 }
 
+/**
+ * Assemble a manifest of external files relating to the specified reports.
+ *
+ * Specifically, this will check each report for attachments and return the locations of those attachments.
+ */
 async function exportReportFiles(
   reports: Array<Report>,
   templates: { +[string]: Template }
@@ -133,5 +138,16 @@ export function sanitiseLayerFilesForBundle(files: Array<LayerFile>): Array<Laye
     ...file,
     path: pathWithoutRoot(file.path),
     polygon: null
+  }));
+}
+
+/**
+ * Create a sanitised manifest that removes the path roots and polygons from each file. This sanitised manifest is suitable
+ * for inclusion in an actual bundle, because its size is minimized and it makes no references to the origin device.
+ */
+export function sanitiseReportFilesForBundle(files: Array<ReportFile>): Array<ReportFile> {
+  return files.map(file => ({
+    ...file,
+    uri: ''
   }));
 }
