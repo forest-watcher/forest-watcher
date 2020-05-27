@@ -67,7 +67,7 @@ export async function listRecursive(
 }
 
 /**
- * Modified the path so it is relative to the root storage for layers
+ * Modifies the path so it is relative to the specified root directory
  */
 export function pathWithoutRoot(path: string, rootDir: string): string {
   return path.replace(rootDir, '');
