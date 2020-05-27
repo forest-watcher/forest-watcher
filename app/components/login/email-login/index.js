@@ -31,6 +31,9 @@ export default class EmailLogin extends Component<Props, State> {
       topBar: {
         title: {
           text: i18n.t('login.emailLogin.loginWithEmail')
+        },
+        background: {
+          color: Theme.colors.veryLightPink
         }
       }
     };

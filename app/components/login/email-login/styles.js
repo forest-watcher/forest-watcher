@@ -24,7 +24,7 @@ export default StyleSheet.create({
   },
   actionButton: {
     marginVertical: 28,
-    marginHorizontal: 32
+    marginHorizontal: 24
   },
   linkStyle: {
     ...Theme.text,
