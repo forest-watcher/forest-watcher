@@ -8,6 +8,7 @@ import type { ContextualLayer } from 'types/layers.types';
 
 import type { Feature, Polygon } from '@turf/helpers';
 import type { LayerType } from 'helpers/layer-store/layerFilePaths';
+import type { ReportAttachmentType } from 'helpers/report-store/reportFilePaths';
 
 /**
  * Type representing a request to create a SharingBundle using a subset of the user's local data
@@ -87,9 +88,10 @@ export type LayerFile = {|
 |};
 
 export type ReportFile = {|
-  uri: string,
+  path: string,
   reportName: string,
-  answerIndex: number,
+  questionName: string,
+  type: ReportAttachmentType,
   size: number
 |};
 

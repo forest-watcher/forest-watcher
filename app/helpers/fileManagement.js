@@ -18,6 +18,30 @@ if (typeof atob === 'undefined') {
 }
 
 /**
+ * Helper function that copies a file existing at sourceUri to destinationUri
+ *
+ * This helper function will create any missing directories in the destination path, and will overwrite any existing file
+ */
+export async function copyFile(sourceUri: string, destinationUri: string) {
+  const destinationPath = destinationUri
+    .split('/')
+    .slice(0, -1)
+    .join('/');
+
+  const dirExists = await RNFetchBlob.fs.exists(destinationPath);
+  if (!dirExists) {
+    await RNFetchBlob.fs.mkdir(destinationPath);
+  }
+
+  const fileExists = await RNFetchBlob.fs.exists(destinationUri);
+  console.log('3SC', 'delete destination', sourceUri, destinationUri, fileExists);
+  if (fileExists) {
+    await RNFetchBlob.fs.unlink(destinationUri);
+  }
+  await RNFetchBlob.fs.cp(sourceUri, destinationUri);
+}
+
+/**
  * List all the files under the specified directory and its subdirectories
  */
 export async function listRecursive(
@@ -41,6 +65,13 @@ export async function listRecursive(
   }
 
   return files;
+}
+
+/**
+ * Modified the path so it is relative to the root storage for layers
+ */
+export function pathWithoutRoot(path: string, rootDir: string): string {
+  return path.replace(rootDir, '');
 }
 
 /**

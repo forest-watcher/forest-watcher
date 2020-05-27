@@ -1,6 +1,6 @@
 // @flow
 
-import type { AnsweredQuestion, Metadata, Question, Report, ReportsState, Template, Answer } from 'types/reports.types';
+import type { AnsweredQuestion, Metadata, Question, Report, Template, Answer } from 'types/reports.types';
 
 import moment from 'moment';
 

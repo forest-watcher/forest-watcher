@@ -7,14 +7,14 @@ import type { ContextualLayer } from 'types/layers.types';
 import type { Report, Template } from 'types/reports.types';
 import type { Route } from 'types/routes.types';
 
-import RNFS from 'react-native-fs';
-
 import bboxPolygon from '@turf/bbox-polygon';
 import { type BBox2d, featureCollection } from '@turf/helpers';
 import queryLayerFiles from 'helpers/layer-store/queryLayerFiles';
 import { bbox as routeBbox } from 'helpers/routes';
-import { pathWithoutRoot } from 'helpers/layer-store/layerFilePaths';
-import { getTemplate, mapFormToQuestions } from 'helpers/forms';
+import { pathWithoutRoot } from 'helpers/fileManagement';
+import { layerRootDir } from 'helpers/layer-store/layerFilePaths';
+import { reportRootDir } from 'helpers/report-store/reportFilePaths';
+import queryReportFiles from 'helpers/report-store/queryReportFiles';
 
 /**
  * Constructs a layer manifest, comprising all layer files for layers that were either explicitly requested in the
@@ -108,28 +108,10 @@ async function exportReportFiles(
   // Loop through all reports looking for blob questions - copy the URI and a reference to the question into an object
   // eslint-disable-next-line no-unused-vars
   for (const report of reports) {
-    const template = getTemplate(report, templates);
-
-    if (template) {
-      const questions = mapFormToQuestions(template, null);
-
-      let answerIdx = 0;
-      // eslint-disable-next-line no-unused-vars
-      for (const answer of report.answers) {
-        const question = questions[answer.questionName];
-        if (question && question.type === 'blob' && answer.value) {
-          const uri = answer.value;
-          const fileInfo = await RNFS.stat(uri);
-          reportFiles.push({
-            uri,
-            reportName: report.reportName,
-            answerIndex: answerIdx,
-            size: parseInt(fileInfo.size)
-          });
-        }
-        ++answerIdx;
-      }
-    }
+    const queriedFiles = await queryReportFiles({
+      reportName: report.reportName
+    });
+    reportFiles.push(...queriedFiles);
   }
 
   return reportFiles;
@@ -142,7 +124,7 @@ async function exportReportFiles(
 export function sanitiseLayerFilesForBundle(files: Array<LayerFile>): Array<LayerFile> {
   return files.map(file => ({
     ...file,
-    path: pathWithoutRoot(file.path),
+    path: pathWithoutRoot(file.path, layerRootDir()),
     polygon: null
   }));
 }
@@ -154,6 +136,6 @@ export function sanitiseLayerFilesForBundle(files: Array<LayerFile>): Array<Laye
 export function sanitiseReportFilesForBundle(files: Array<ReportFile>): Array<ReportFile> {
   return files.map(file => ({
     ...file,
-    uri: ''
+    path: pathWithoutRoot(file.path, reportRootDir())
   }));
 }

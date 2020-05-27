@@ -93,6 +93,9 @@ function exportReports(reportsState: ReportsState, reportIds: Array<string>): [A
     .map(reportId => reportsState.list[reportId])
     .filter(Boolean)
     .map(report => {
+      // Modify the report so the actual ID of the template is included in its data, rather than simply the string "default"
+      // to avoid any ambiguity about what template is needed.
+
       const template = getTemplate(report, reportsState.templates);
 
       if (!template) {

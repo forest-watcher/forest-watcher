@@ -14,7 +14,7 @@ import {
 import tilebelt from '@mapbox/tilebelt';
 import turfBbox from '@turf/bbox';
 import { GeoJSONObject } from '@turf/helpers';
-import { writeJSONToDisk } from 'helpers/fileManagement';
+import { copyFile, writeJSONToDisk } from 'helpers/fileManagement';
 import { cleanGeoJSON } from 'helpers/map';
 
 const RNFS = require('react-native-fs');
@@ -64,27 +64,13 @@ export async function storeLayerFiles(files: Array<LayerFile>, dir: string = lay
 
     const subFiles = file.subFiles;
     if (!subFiles) {
-      const destinationPath = destinationUri
-        .split('/')
-        .slice(0, -1)
-        .join('/');
-
-      const dirExists = await RNFetchBlob.fs.exists(destinationPath);
-      if (!dirExists) {
-        await RNFetchBlob.fs.mkdir(destinationPath);
-      }
-      await RNFetchBlob.fs.cp(file.path, destinationUri); // copy sequentially
+      await copyFile(file.path, destinationUri); // copy each file sequentially
     } else {
-      const dirExists = await RNFetchBlob.fs.exists(destinationUri);
-      if (!dirExists) {
-        await RNFetchBlob.fs.mkdir(destinationUri);
-      }
-
       // eslint-disable-next-line no-unused-vars
       for (const subFile of subFiles) {
         const subFileSourceUri = `${file.path}/${subFile}`;
         const subFileDestinationUri = `${destinationUri}/${subFile}`;
-        await RNFetchBlob.fs.cp(subFileSourceUri, subFileDestinationUri); // copy sequentially
+        await copyFile(subFileSourceUri, subFileDestinationUri); // copy each file sequentially
       }
     }
   }
