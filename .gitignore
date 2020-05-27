@@ -61,9 +61,6 @@ android/app/libs
 #
 Pods/
 
-# Carthage
-Carthage/
-
 ios/.gems
 ios/ForestWatcher.ipa
 ios/ForestWatcher.app.dSYM.zip

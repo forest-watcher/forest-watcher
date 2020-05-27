@@ -50,7 +50,8 @@ target 'ForestWatcher' do
   # react-native-mapbox-gl dependency.
   pod 'react-native-mapbox-gl', :path => '../node_modules/@react-native-mapbox-gl/maps'
 
-  pod 'react-native-mbtiles', :path => '../node_modules/react-native-mbtiles/'
+  # react-native-mbtiles dependency.
+  # This is required, as otherwise the swift pod will not be able to work correctly.
   pod "GCDWebServer", "~> 3.0", :modular_headers => true
 
   # magic post-install script that'll fix up some broken dependencies.

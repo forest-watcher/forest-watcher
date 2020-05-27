@@ -1,4 +1,4 @@
-package com.forestwatcher
+package com.reactlibrary
 
 import android.database.sqlite.SQLiteDatabase
 import com.facebook.react.bridge.WritableNativeMap

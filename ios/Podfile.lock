@@ -447,7 +447,7 @@ DEPENDENCIES:
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - "react-native-mapbox-gl (from `../node_modules/@react-native-mapbox-gl/maps`)"
-  - react-native-mbtiles (from `../node_modules/react-native-mbtiles/`)
+  - react-native-mbtiles (from `../react-native-mbtiles`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-safe-area (from `../node_modules/react-native-safe-area`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -559,7 +559,7 @@ EXTERNAL SOURCES:
   react-native-mapbox-gl:
     :path: "../node_modules/@react-native-mapbox-gl/maps"
   react-native-mbtiles:
-    :path: "../node_modules/react-native-mbtiles/"
+    :path: "../react-native-mbtiles"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-safe-area:
@@ -696,6 +696,6 @@ SPEC CHECKSUMS:
   SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 446c0aebd7f987e38577315ae7666f0649395087
+PODFILE CHECKSUM: bfaaa122ce2b2e7ff1fb12e418d0427d4ba65cc8
 
 COCOAPODS: 1.9.1

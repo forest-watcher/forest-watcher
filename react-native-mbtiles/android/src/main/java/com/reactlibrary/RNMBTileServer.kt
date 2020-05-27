@@ -1,4 +1,4 @@
-package com.forestwatcher
+package com.reactlibrary
 
 import android.net.Uri
 import android.util.Log

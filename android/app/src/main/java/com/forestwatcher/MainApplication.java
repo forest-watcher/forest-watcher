@@ -2,7 +2,6 @@ package com.forestwatcher;
 
 import android.content.Context;
 import cl.json.ShareApplication;
-import android.util.Log;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactNativeHost;
