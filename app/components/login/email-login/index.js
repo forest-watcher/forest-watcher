@@ -23,7 +23,8 @@ type State = {
 };
 
 type Props = {
-  componentId: string
+  componentId: string,
+  emailLogin: (email: string, password: string) => void
 };
 
 export default class EmailLogin extends Component<Props, State> {
@@ -56,7 +57,16 @@ export default class EmailLogin extends Component<Props, State> {
     this.setState({ password });
   };
 
-  onLoginPressed = debounceUI(() => {});
+  enableLoginButton = () => {
+    return this.state.email && this.state.password;
+  };
+
+  onLoginPressed = debounceUI(() => {
+    if (!this.enableLoginButton()) {
+      return;
+    }
+    this.props.emailLogin(this.state.email, this.state.password);
+  });
 
   onShowPasswordPressed = () => {
     this.setState(prevState => ({
@@ -116,6 +126,7 @@ export default class EmailLogin extends Component<Props, State> {
           <ActionButton
             short
             left
+            disabled={!this.enableLoginButton()}
             style={styles.actionButton}
             onPress={this.onLoginPressed}
             text={i18n.t('login.emailLogin.login')}
