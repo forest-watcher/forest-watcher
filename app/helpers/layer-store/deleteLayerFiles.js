@@ -1,18 +1,15 @@
 // @flow
-import { layerRootDir } from 'helpers/layer-store/layerFilePaths';
-import queryLayerFiles from 'helpers/layer-store/queryLayerFiles';
+import type { LayerType } from 'types/sharing.types';
+import { layerRootDir, pathForLayer } from 'helpers/layer-store/layerFilePaths';
 
-// $FlowFixMe
 const RNFS = require('react-native-fs');
 
-export async function deleteLayerFile(fileId: string, type: string) {
-  const files = await queryLayerFiles(type, {
-    whitelist: [fileId],
-    blacklist: []
-  });
-
-  if (files && files.length > 0) {
-    await RNFS.unlink(files[0].path);
+export async function deleteLayerFile(fileId: string, type: LayerType) {
+  try {
+    const path = pathForLayer(type, fileId);
+    await RNFS.unlink(path);
+  } catch (error) {
+    console.warn(error);
   }
 }
 

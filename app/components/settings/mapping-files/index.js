@@ -12,7 +12,7 @@ import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
 import Theme from 'config/theme';
 import debounceUI from 'helpers/debounceUI';
-import showDeleteConfirmationPrompt from 'helpers/layer-store/modals/delete';
+import showDeleteConfirmationPrompt from 'helpers/showDeleteModal';
 import tracker from 'helpers/googleAnalytics';
 import { formatBytes } from 'helpers/data';
 
