@@ -34,7 +34,6 @@ export async function copyFile(sourceUri: string, destinationUri: string) {
   }
 
   const fileExists = await RNFetchBlob.fs.exists(destinationUri);
-  console.log('3SC', 'delete destination', sourceUri, destinationUri, fileExists);
   if (fileExists) {
     await RNFetchBlob.fs.unlink(destinationUri);
   }

@@ -98,7 +98,6 @@ class ImageBlobInput extends Component<Props, State> {
       'image/jpeg'
     );
     const imagePathCacheBusted = this.state.cachebuster ? `${imagePath}#${this.state.cachebuster}` : null;
-    console.log('3SC', 'report attachment', imagePath);
     return (
       <View style={styles.container}>
         <View style={styles.preview}>
