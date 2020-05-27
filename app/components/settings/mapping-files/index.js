@@ -40,6 +40,7 @@ type Props = {|
 
 type State = {|
   +selectedForExport: Array<string>,
+  +inEditMode: boolean,
   +inShareMode: boolean
 |};
 
@@ -77,6 +78,7 @@ class MappingFiles extends Component<Props, State> {
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
     this.state = {
       selectedForExport: [],
+      inEditMode: false,
       inShareMode: false
     };
   }
@@ -175,6 +177,20 @@ class MappingFiles extends Component<Props, State> {
     }
   };
 
+  setEditing = (editing: boolean) => {
+    this.setState({
+      inEditMode: editing
+    });
+
+    if (!editing) {
+      Navigation.mergeOptions(this.props.componentId, {
+        topBar: {
+          rightButtons: [ImportButtonRNNElement]
+        }
+      });
+    }
+  };
+
   shareLayer = (file: ContextualLayer) => {
     Share.share({
       message: 'Sharing file',
@@ -184,10 +200,12 @@ class MappingFiles extends Component<Props, State> {
 
   renderGFWFiles = () => {
     const { baseFiles, mappingFileType } = this.props;
-    const { inShareMode } = this.state;
+    const { inEditMode, inShareMode } = this.state;
+
     if (baseFiles.length === 0) {
       return null;
     }
+
     return (
       <View>
         <Text style={styles.heading}>{i18n.t(this.i18nKeyFor('gfw'))}</Text>
@@ -195,13 +213,18 @@ class MappingFiles extends Component<Props, State> {
           return (
             <View key={file.id} style={styles.rowContainer}>
               <MappingFileRow
+                deletable={!!file.size && file.size > 0}
+                inEditMode={inEditMode}
+                onDeletePress={() => {}}
                 onPress={() => {
                   if (inShareMode) {
                     this.onFileSelectedForExport(file.id);
                   }
                 }}
                 onDownloadPress={() => {}}
+                onRenamePress={() => {}}
                 image={file.image ?? icons[mappingFileType].placeholder}
+                renamable={false}
                 title={i18n.t(file.name)}
                 subtitle={formatBytes(file.size ?? 0)}
                 selected={inShareMode ? this.state.selectedForExport.includes(file.id) : null}
@@ -215,7 +238,7 @@ class MappingFiles extends Component<Props, State> {
 
   renderImportedFiles = () => {
     const { importedFiles, mappingFileType } = this.props;
-    const { inShareMode } = this.state;
+    const { inEditMode, inShareMode } = this.state;
 
     if (importedFiles.length === 0) {
       if (mappingFileType === 'basemaps') {
@@ -237,12 +260,17 @@ class MappingFiles extends Component<Props, State> {
           return (
             <View key={file.id} style={styles.rowContainer}>
               <MappingFileRow
+                deletable={true}
+                inEditMode={inEditMode}
+                onDeletePress={() => {}}
                 onPress={() => {
                   if (inShareMode) {
                     this.onFileSelectedForExport(file.id);
                   }
                 }}
+                onRenamePress={() => {}}
                 image={file.image ?? icons[mappingFileType].placeholder}
+                renamable={true}
                 title={i18n.t(file.name)}
                 subtitle={formatBytes(file.size ?? 0)}
                 selected={inShareMode ? this.state.selectedForExport.includes(file.id) : null}
@@ -296,8 +324,11 @@ class MappingFiles extends Component<Props, State> {
       <View style={styles.container}>
         <ShareSheet
           componentId={this.props.componentId}
+          editButtonDisabledTitle={i18n.t(this.i18nKeyFor('edit'))}
+          editButtonEnabledTitle={i18n.t(this.i18nKeyFor('edit'))}
           shareButtonDisabledTitle={i18n.t(this.i18nKeyFor('share'))}
           enabled={mappingFileType === 'contextualLayers' || totalToExport > 0}
+          onEditingToggled={this.setEditing}
           onShare={() => {
             this.onExportFilesTapped(this.state.selectedForExport);
           }}
@@ -319,6 +350,7 @@ class MappingFiles extends Component<Props, State> {
                 : i18n.t(this.i18nKeyFor('export.manyAction'), { count: totalToExport })
               : i18n.t(this.i18nKeyFor('export.noneSelected'))
           }
+          showEditButton
         >
           {hasFiles ? this.renderFilesList() : this.renderEmptyState()}
         </ShareSheet>
