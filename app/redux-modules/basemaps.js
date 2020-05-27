@@ -7,7 +7,7 @@ import type { Dispatch, GetState, State, Thunk } from 'types/store.types';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
-import { importBasemapFile } from 'helpers/layer-store/import/importLayerFile';
+import { importLayerFile } from 'helpers/layer-store/import/importLayerFile';
 
 // Actions
 const IMPORT_BASEMAP_REQUEST = 'basemaps/IMPORT_BASEMAP_REQUEST';
@@ -70,7 +70,7 @@ export function importBasemap(basemapFile: File): Thunk<Promise<void>> {
     dispatch({ type: IMPORT_BASEMAP_REQUEST });
 
     try {
-      const importedFile: LayerFile = await importBasemapFile(basemapFile);
+      const importedFile: LayerFile = await importLayerFile(basemapFile);
       const basemap: Basemap = {
         isImported: true,
         id: importedFile.layerId,

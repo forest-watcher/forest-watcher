@@ -4,7 +4,7 @@ import type { File } from 'types/file.types';
 import type { LayerFile } from 'types/sharing.types';
 import { Platform } from 'react-native';
 import togeojson from 'helpers/toGeoJSON';
-import { pathForLayerFile } from 'helpers/layer-store/layerFilePaths';
+import { directoryForMBTilesFile } from 'helpers/layer-store/layerFilePaths';
 import { storeGeoJson } from 'helpers/layer-store/storeLayerFiles';
 import { unzip } from 'react-native-zip-archive';
 import { listRecursive, readBinaryFile } from 'helpers/fileManagement';
@@ -21,6 +21,17 @@ export async function importLayerFile(layerFile: File): Promise<LayerFile> {
   const { file, fileName, fileExtension } = getFormattedFile(layerFile);
 
   switch (fileExtension) {
+    case 'mbtiles': {
+      const size = isNaN(file.size) ? 0 : file.size;
+
+      const baseDirectory = directoryForMBTilesFile(file);
+      const path = `${baseDirectory}/${file.id}.mbtiles`;
+
+      await RNFS.mkdir(baseDirectory);
+      await RNFS.copyFile(file.uri, path);
+
+      return { path: path, type: 'basemap', layerId: file.id, tileXYZ: [0, 0, 0], size };
+    }
     case 'json':
     case 'topojson':
     case 'geojson': {
@@ -94,25 +105,6 @@ export async function importLayerFile(layerFile: File): Promise<LayerFile> {
     default:
       //todo: Add support for other file types! These need converting to geojson before saving.
       throw new Error(`Could not process file with extension: ${fileExtension}`);
-  }
-}
-
-export async function importBasemapFile(basemapFile: File): Promise<LayerFile> {
-  const { file, fileExtension } = getFormattedFile(basemapFile);
-
-  switch (fileExtension) {
-    case 'mbtiles': {
-      const size = isNaN(basemapFile.size) ? 0 : basemapFile.size;
-      const baseDirectory = `${pathForLayerFile({ ...file, type: 'basemap', layerId: file.id, tileXYZ: [0, 0, 0] })}`;
-      const path = `${baseDirectory}/${file.id}.mbtiles`;
-
-      await RNFS.mkdir(baseDirectory);
-      await RNFS.copyFile(file.uri, path);
-
-      return { path: path, type: 'basemap', layerId: file.id, tileXYZ: [0, 0, 0], size };
-    }
-    default:
-      throw new Error(`Could not process basemap file with extension: ${fileExtension}`);
   }
 }
 
