@@ -18,6 +18,7 @@ import { formatBytes } from 'helpers/data';
 
 import styles from './styles';
 import MappingFileRow from 'components/settings/mapping-files/mapping-file-row';
+import showRenameModal from 'helpers/showRenameModal';
 
 const plusIcon = require('assets/add.png');
 const icons = {
@@ -213,6 +214,21 @@ class MappingFiles extends Component<Props, State> {
     );
   };
 
+  confirmLayerRenaming = (file: Basemap | ContextualLayer) => {
+    showRenameModal(
+      i18n.t(this.i18nKeyFor('rename.title')),
+      i18n.t(this.i18nKeyFor('rename.message')),
+      file.name,
+      i18n.t('commonText.cancel'),
+      i18n.t('commonText.confirm'),
+      newName => {
+        if (newName.length > 0) {
+          console.warn(newName);
+        }
+      }
+    );
+  };
+
   renderGFWFiles = () => {
     const { baseFiles, mappingFileType } = this.props;
     const { inEditMode, inShareMode } = this.state;
@@ -240,7 +256,6 @@ class MappingFiles extends Component<Props, State> {
                   }
                 }}
                 onDownloadPress={() => {}}
-                onRenamePress={() => {}}
                 image={file.image ?? icons[mappingFileType].placeholder}
                 renamable={false}
                 title={i18n.t(file.name)}
@@ -288,7 +303,10 @@ class MappingFiles extends Component<Props, State> {
                     this.onFileSelectedForExport(file.id);
                   }
                 }}
-                onRenamePress={() => {}}
+                onRenamePress={() => {
+                  // TODO: Ensure this handles GFW layer / basemap renaming correctly.
+                  this.confirmLayerRenaming(file);
+                }}
                 image={file.image ?? icons[mappingFileType].placeholder}
                 renamable={true}
                 title={i18n.t(file.name)}

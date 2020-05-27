@@ -80,6 +80,10 @@
             "chooseAnother": "Choose Another"
         },
         "imported": "Custom Basemaps",
+        "rename": {
+            "title": "Enter a new name",
+            "message": "The name must contain at least a character"
+        },
         "title": "Manage Basemaps",
         "share": "Share"
     },
@@ -176,6 +180,10 @@
         },
         "gfw": "GFW Layers",
         "imported": "Custom Layers",
+        "rename": {
+            "title": "Enter a new name",
+            "message": "The name must contain at least a character"
+        },
         "title": "Manage Contextual Layers",
         "share": "Share"
     },
