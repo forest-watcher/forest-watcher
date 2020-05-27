@@ -106,6 +106,7 @@ export type LayersAction =
   | ImportLayerCommit
   | ImportLayerClear
   | ImportLayerRollback
+  | DeleteLayer
   | SaveAreaCommit;
 
 type GetGFWLayersRequest = {
@@ -182,3 +183,4 @@ type ImportLayerRequest = { type: 'layers/IMPORT_LAYER_REQUEST' };
 type ImportLayerCommit = { type: 'layers/IMPORT_LAYER_COMMIT', payload: ContextualLayer };
 type ImportLayerClear = { type: 'layers/IMPORT_LAYER_CLEAR' };
 type ImportLayerRollback = { type: 'layers/IMPORT_LAYER_ROLLBACK', payload: ?Error };
+type DeleteLayer = { type: 'layers/DELETE_LAYER', payload: string };

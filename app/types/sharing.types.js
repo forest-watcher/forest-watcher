@@ -7,7 +7,8 @@ import type { Basemap } from 'types/basemaps.types';
 import type { ContextualLayer } from 'types/layers.types';
 
 import type { Feature, Polygon } from '@turf/helpers';
-import type { LayerType } from 'helpers/layer-store/layerFilePaths';
+
+export type LayerType = 'basemap' | 'contextual_layer';
 
 /**
  * Type representing a request to create a SharingBundle using a subset of the user's local data
