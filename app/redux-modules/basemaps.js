@@ -70,7 +70,7 @@ export function importBasemap(basemapFile: File): Thunk<Promise<void>> {
     dispatch({ type: IMPORT_BASEMAP_REQUEST });
 
     try {
-      const importedFile: LayerFile = await importBasemapFile(basemapFile);
+      const importedFile: LayerFile = await importLayerFile(basemapFile);
       const basemap: Basemap = {
         isImported: true,
         id: importedFile.layerId,

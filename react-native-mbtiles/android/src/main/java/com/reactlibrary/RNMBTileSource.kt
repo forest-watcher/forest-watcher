@@ -25,7 +25,7 @@ data class RNMBTileMetadata(
             nativeMap.putInt("maxZoomLevel", maxZoomLevel)
             nativeMap.putBoolean("isVector", isVector)
             nativeMap.putBoolean("tms", tms)
-            nativeMap.putInt("tileSize", tileSize);
+            nativeMap.putInt("tileSize", tileSize)
             nativeMap.putString("attribution", attribution)
             nativeMap.putString("layersJson", layersJson)
 
