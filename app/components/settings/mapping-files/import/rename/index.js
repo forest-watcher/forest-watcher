@@ -10,7 +10,7 @@ import BottomTray from 'components/common/bottom-tray';
 import InputText from 'components/common/text-input';
 import i18n from 'i18next';
 import type { Basemap, BasemapsAction } from 'types/basemaps.types';
-import type { MappingFileType } from 'types/common.types';
+import type { LayerType } from 'types/sharing.types';
 import type { File } from 'types/file.types';
 import type { ContextualLayer, LayersAction } from 'types/layers.types';
 import type { Thunk } from 'types/store.types';
@@ -25,7 +25,7 @@ type Props = {
   import: (file: File) => Thunk<Promise<void>>,
   importError: ?Error,
   importing: boolean,
-  mappingFileType: MappingFileType,
+  mappingFileType: LayerType,
   onImported: () => void,
   popToComponentId?: ?string
 };
@@ -36,11 +36,11 @@ type State = {
 };
 
 class ImportMappingFileRename extends PureComponent<Props, State> {
-  static options(passProps: { mappingFileType: MappingFileType }) {
+  static options(passProps: { mappingFileType: LayerType }) {
     return {
       topBar: {
         title: {
-          text: i18n.t(`${passProps.mappingFileType}.import.title`)
+          text: i18n.t(`${passProps.mappingFileType === 'basemap' ? 'basemaps' : 'contextualLayers'}.import.title`)
         }
       }
     };
@@ -57,7 +57,8 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
   }
 
   i18nKeyFor(key: string): string {
-    return `${this.props.mappingFileType}.import.${key}`;
+    const base = this.props.mappingFileType === 'basemap' ? 'basemaps' : 'contextualLayers';
+    return `${base}.import.${key}`;
   }
 
   onFileNameChange = (newName: string) => {

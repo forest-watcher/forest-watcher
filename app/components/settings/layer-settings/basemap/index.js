@@ -39,7 +39,7 @@ class BasemapLayerSettings extends PureComponent<Props> {
       component: {
         name: 'ForestWatcher.MappingFiles',
         passProps: {
-          mappingFileType: 'basemaps'
+          mappingFileType: 'basemap'
         }
       }
     });

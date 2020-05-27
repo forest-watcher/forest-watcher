@@ -2,9 +2,7 @@
 
 import CONSTANTS from 'config/constants';
 import RNFetchBlob from 'rn-fetch-blob';
-import type { LayerFile } from 'types/sharing.types';
-
-export type LayerType = 'basemap' | 'contextual_layer';
+import type { LayerFile, LayerType } from 'types/sharing.types';
 
 /**
  * Delimiter used to separate x, y, and z from a tile filename, e.g. 4x13x7.png

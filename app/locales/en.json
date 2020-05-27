@@ -39,6 +39,10 @@
         "noAlerts": "No alerts for this area"
     },
     "basemaps": {
+        "delete": {
+            "title": "Delete this basemap?",
+            "message": "This action is irreversible, do you wish to continue?"
+        },
         "names": {
             "default": "Default",
             "dark": "Dark",
@@ -136,6 +140,10 @@
         "description": "Questions or feedback? Email mailto:forestwatcher@wri.org"
     },
     "contextualLayers": {
+        "delete": {
+            "title": "Delete this layer?",
+            "message": "This action is irreversible, do you wish to continue?"
+        },
         "edit": "Edit",
         "empty": {
             "action": "App FAQs",

@@ -97,7 +97,7 @@ export async function importLayerFile(layerFile: File): Promise<LayerFile> {
   }
 }
 
-export async function importBasemapFile(basemapFile: File): Promise<Basemap> {
+export async function importBasemapFile(basemapFile: File): Promise<LayerFile> {
   const { file, fileExtension } = getFormattedFile(basemapFile);
 
   switch (fileExtension) {
@@ -109,7 +109,7 @@ export async function importBasemapFile(basemapFile: File): Promise<Basemap> {
       await RNFS.mkdir(baseDirectory);
       await RNFS.copyFile(file.uri, path);
 
-      return { isImported: true, path: path, id: file.id, size, name: file.name ?? '' };
+      return { path: path, type: 'basemap', layerId: file.id, tileXYZ: [0, 0, 0], size };
     }
     default:
       throw new Error(`Could not process basemap file with extension: ${fileExtension}`);
