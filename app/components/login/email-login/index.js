@@ -21,7 +21,8 @@ type State = {
 
 type Props = {
   componentId: string,
-  emailLogin: (email: string, password: string) => void
+  emailLogin: (email: string, password: string) => void,
+  loginError: ?string
 };
 
 export default class EmailLogin extends Component<Props, State> {
@@ -119,6 +120,9 @@ export default class EmailLogin extends Component<Props, State> {
             <TouchableHighlight activeOpacity={0.5} underlayColor="transparent" onPress={this.onShowPasswordPressed}>
               <Image style={styles.passwordIcon} source={eyeIcon} />
             </TouchableHighlight>
+          </View>
+          <View style={styles.errorContainer}>
+            <Text style={[styles.error, this.props.loginError ? {} : styles.hideError]}>{this.props.loginError}</Text>
           </View>
           <ActionButton
             short

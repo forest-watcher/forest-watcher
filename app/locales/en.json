@@ -395,7 +395,8 @@
             "password": "Password",
             "enterYourPassword": "Enter Your Password",
             "login": "Login",
-            "forgotYourPassword": "Forgot Your Password?"
+            "forgotYourPassword": "Forgot Your Password?",
+            "loginError": "Error during login"
         }
     },
     "map": {

@@ -11,7 +11,9 @@ type OwnProps = {|
 |};
 
 function mapStateToProps(state: State) {
-  return {};
+  return {
+    loginError: state.user.emailLoginError
+  };
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) =>

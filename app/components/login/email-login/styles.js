@@ -40,5 +40,21 @@ export default StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: 'white',
     alignItems: 'center'
+  },
+  error: {
+    fontSize: 17,
+    fontWeight: '400',
+    fontFamily: Theme.font,
+    color: Theme.colors.carnation,
+    paddingTop: 24
+  },
+  hideError: {
+    height: 0,
+    paddingTop: 0
+  },
+  errorContainer: {
+    marginLeft: Theme.margin.left,
+    marginRight: Theme.margin.right,
+    alignItems: 'flex-start'
   }
 });

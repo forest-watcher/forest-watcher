@@ -11,7 +11,8 @@ export type UserState = {
   logSuccess: boolean,
   synced: boolean,
   syncing: boolean,
-  loading: boolean
+  loading: boolean,
+  emailLoginError: ?string
 };
 
 export type UserAction =
@@ -21,6 +22,8 @@ export type UserAction =
   | SetLoginAuth
   | SetLoginStatus
   | SetLoginLoading
+  | SetEmailLoginError
+  | ClearEmailLoginError
   | PersistRehydrate
   | LogoutRequest;
 
@@ -48,4 +51,11 @@ export type LogoutRequest = {
 export type SetLoginLoading = {
   type: 'user/SET_LOGIN_LOADING',
   payload: boolean
+};
+export type SetEmailLoginError = {
+  type: 'user/SET_EMAIL_LOGIN_ERROR',
+  payload: string
+};
+export type ClearEmailLoginError = {
+  type: 'user/CLEAR_EMAIL_LOGIN_ERROR'
 };

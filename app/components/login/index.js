@@ -65,7 +65,8 @@ type Props = {
     token: string,
     socialNetwork: string,
     loggedIn: boolean
-  }) => UserAction
+  }) => UserAction,
+  clearEmailLoginError: () => Thunk<void>
 };
 
 type State = {
@@ -121,6 +122,8 @@ class Login extends PureComponent<Props, State> {
         topSafeAreaInset: result.safeAreaInsets.top
       }));
     });
+
+    this.props.clearEmailLoginError();
   }
 
   componentDidUpdate(prevProps: Props) {
