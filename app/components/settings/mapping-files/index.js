@@ -12,6 +12,7 @@ import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
 import Theme from 'config/theme';
 import debounceUI from 'helpers/debounceUI';
+import showDeleteConfirmationPrompt from 'helpers/layer-store/modals/delete';
 import tracker from 'helpers/googleAnalytics';
 import { formatBytes } from 'helpers/data';
 
@@ -33,6 +34,7 @@ const icons = {
 type Props = {|
   +baseFiles: Array<Basemap | ContextualLayer>,
   +componentId: string,
+  +deleteLayer: (id: string, type: LayerType) => void,
   +exportLayers: (ids: Array<string>) => Promise<void>,
   +importedFiles: Array<ContextualLayer>,
   +mappingFileType: LayerType
@@ -199,6 +201,18 @@ class MappingFiles extends Component<Props, State> {
     });
   };
 
+  confirmLayerDeletion = (file: Basemap | ContextualLayer) => {
+    showDeleteConfirmationPrompt(
+      i18n.t(this.i18nKeyFor('delete.title')),
+      i18n.t(this.i18nKeyFor('delete.message')),
+      i18n.t('commonText.cancel'),
+      i18n.t('commonText.continue'),
+      () => {
+        this.props.deleteLayer(file.id, this.props.mappingFileType);
+      }
+    );
+  };
+
   renderGFWFiles = () => {
     const { baseFiles, mappingFileType } = this.props;
     const { inEditMode, inShareMode } = this.state;
@@ -216,7 +230,10 @@ class MappingFiles extends Component<Props, State> {
               <MappingFileRow
                 deletable={!!file.size && file.size > 0}
                 inEditMode={inEditMode}
-                onDeletePress={() => {}}
+                onDeletePress={() => {
+                  // TODO: Ensure this handles GFW layer / basemap deletion correctly.
+                  this.confirmLayerDeletion(file);
+                }}
                 onPress={() => {
                   if (inShareMode) {
                     this.onFileSelectedForExport(file.id);
@@ -263,7 +280,9 @@ class MappingFiles extends Component<Props, State> {
               <MappingFileRow
                 deletable={true}
                 inEditMode={inEditMode}
-                onDeletePress={() => {}}
+                onDeletePress={() => {
+                  this.confirmLayerDeletion(file);
+                }}
                 onPress={() => {
                   if (inShareMode) {
                     this.onFileSelectedForExport(file.id);
