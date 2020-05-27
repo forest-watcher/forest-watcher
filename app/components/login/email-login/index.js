@@ -7,14 +7,11 @@ import debounceUI from 'helpers/debounceUI';
 import i18n from 'i18next';
 import Theme from 'config/theme';
 import styles from './styles';
-import { withSafeArea } from 'react-native-safe-area';
 import ActionButton from 'components/common/action-button';
 import Hyperlink from 'react-native-hyperlink';
 import { GFW_FORGOT_PASSWORD_LINK } from 'config/constants';
 
 const eyeIcon = require('assets/eyeIcon.png');
-
-const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
 
 type State = {
   email: string,
@@ -66,7 +63,7 @@ export default class EmailLogin extends Component<Props, State> {
 
   render() {
     return (
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <ScrollView
           style={styles.container}
           showsVerticalScrollIndicator={false}
@@ -126,7 +123,7 @@ export default class EmailLogin extends Component<Props, State> {
             </Text>
           </Hyperlink>
         </ScrollView>
-      </SafeAreaView>
+      </View>
     );
   }
 }
