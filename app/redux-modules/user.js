@@ -184,6 +184,40 @@ export function facebookLogin() {
   };
 }
 
+export function emailLogin(email: string, password: string) {
+  return async (dispatch: Dispatch) => {
+    try {
+      dispatch({ type: SET_LOGIN_LOADING, payload: true });
+      const url = `${Config.API_AUTH}/auth/login`;
+      const fetchConfig = {
+        headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+        body: JSON.stringify({ email, password })
+      };
+      const response = await fetch(url, fetchConfig);
+      dispatch({ type: SET_LOGIN_LOADING, payload: false });
+      if (!(response?.ok && response?.status === 200)) {
+        console.warn('3SC', 'Error logging in using email');
+        dispatch({ type: SET_LOGIN_LOADING, payload: false });
+        return;
+      }
+      const responseJson = await response.json();
+      dispatch({
+        type: SET_LOGIN_AUTH,
+        payload: {
+          loggedIn: true,
+          socialNetwork: 'email',
+          token: responseJson.data.token
+        }
+      });
+    } catch (e) {
+      console.error(e);
+      dispatch({ type: SET_LOGIN_STATUS, payload: false });
+      dispatch({ type: SET_LOGIN_LOADING, payload: false });
+    }
+  };
+}
+
 export function setLoginAuth(details: { token: string, loggedIn: boolean, socialNetwork: string }): UserAction {
   const { token, loggedIn, socialNetwork } = details;
   return {

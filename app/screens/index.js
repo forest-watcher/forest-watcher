@@ -40,7 +40,7 @@ import ContextualLayersLayerSettings from 'containers/settings/layer-settings/co
 import BasemapLayerSettings from 'containers/settings/layer-settings/basemap';
 import GFWContextualLayers from 'containers/settings/gfw-layers';
 import ImportMappingFileError from 'components/settings/mapping-files/import/error';
-import EmailLogin from 'components/login/email-login';
+import EmailLogin from 'containers/login/email-login';
 
 /**
  * Registers a component with React Native Navigation
