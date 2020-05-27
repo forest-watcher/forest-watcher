@@ -6,7 +6,6 @@ export default StyleSheet.create({
     backgroundColor: Theme.colors.white,
     borderTopColor: Theme.colors.veryLightPinkTwo,
     borderTopWidth: 1,
-
     shadowColor: Theme.colors.greyishBrown,
     shadowOpacity: 0.1,
     shadowRadius: 4,
