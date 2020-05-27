@@ -1,25 +1,27 @@
 package com.forestwatcher
 
 import android.database.sqlite.SQLiteDatabase
+import com.facebook.react.bridge.WritableNativeMap
 import org.jetbrains.anko.db.MapRowParser
 import org.jetbrains.anko.db.select
 
 // Defines metadata for this source object.
 // TODO: Pass this up to the JS layer.
-class RNMBTileMetadata(var minZoomLevel: Int, var maxZoomLevel: Int, var isVector: Boolean, var tms: Boolean, var tileSize: Int, var attribution: String?, var layersJson: String?) {
+data class RNMBTileMetadata(var minZoomLevel: Int, var maxZoomLevel: Int, var isVector: Boolean, var tms: Boolean, var tileSize: Int, var attribution: String?, var layersJson: String?) {
 
-    fun mappedMetadata(): Map<String, Any?> {
-        return mapOf<String, Any>(
-                "minZoomLevel" to minZoomLevel,
-                "maxZoomLevel" to maxZoomLevel,
-                "isVector" to isVector,
-                "tms" to tms,
-                "tileSize" to tileSize,
-                "attribution" to (attribution as Any),
-                "layersJson" to (layersJson as Any)
-        )
-    }
+    val mappedMetadata: WritableNativeMap
+        get() {
+            var nativeMap: WritableNativeMap = WritableNativeMap()
+            nativeMap.putInt("minZoomLevel", minZoomLevel)
+            nativeMap.putInt("maxZoomLevel", maxZoomLevel)
+            nativeMap.putBoolean("isVector", isVector)
+            nativeMap.putBoolean("tms", tms)
+            nativeMap.putInt("tileSize", tileSize);
+            nativeMap.putString("attribution", attribution);
+            nativeMap.putString("layersJson", layersJson)
 
+            return nativeMap
+        }
 }
 
 // Defines various errors that may occur whilst working against this source.
@@ -82,7 +84,6 @@ class RNMBTileSource(var id: String, var filePath: String) {
 
     // Given coordinates, queries the database and returns a tile if one exists.
     fun getTile(z: Int, x: Int, y: Int): ByteArray {
-        // TODO: This is what Android Studio recommended the formatting as - is this normal?!
         return database.select("tiles")
                 .whereArgs("(zoom_level = {z}) and (tile_column = {x}) and (tile_row = {y})",
                         "z" to z, "x" to x, "y" to y)

@@ -9,16 +9,13 @@ import com.forestwatcher.RNMBTileServer;
 
 public class ReactNativeMBTilesModule extends ReactContextBaseJavaModule {
 
-    private final ReactApplicationContext reactContext;
-
     public ReactNativeMBTilesModule(ReactApplicationContext reactContext) {
         super(reactContext);
-        this.reactContext = reactContext;
     }
 
     @Override
     public String getName() {
-        return "ReactNativeMbtiles";
+        return "ReactNativeMBTiles";
     }
 
     @ReactMethod
@@ -29,11 +26,10 @@ public class ReactNativeMBTilesModule extends ReactContextBaseJavaModule {
             RNMBTileMetadata metadata = RNMBTileServer.INSTANCE.prepare(basemapId, actualPath);
 
             if (null == metadata) {
-                // TODO: Change this to invoke with a proper error?
                 callback.invoke(true, null);
             }
 
-            callback.invoke(null, metadata.mappedMetadata());
+            callback.invoke(null, metadata.getMappedMetadata());
         } catch (Error e) {
             callback.invoke(true, null);
         }

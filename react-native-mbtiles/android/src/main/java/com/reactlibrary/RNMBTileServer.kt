@@ -68,16 +68,12 @@ object RNMBTileServer: Runnable {
 
     @Throws
     private fun handle(socket: Socket) {
-        var reader: BufferedReader? = null
-        reader.use {
-            var output: PrintStream? = null
+        socket.getInputStream().reader().buffered().use { reader ->
             var route: String? = null
-
-            reader = socket.getInputStream().reader().buffered()
 
             // Read HTTP headers and parse out the route.
             do {
-                val line = reader?.readLine() ?: ""
+                val line = reader.readLine() ?: ""
                 if (line.startsWith("GET")) {
                     route = line.substringAfter("GET /").substringBefore(" ")
                     break
@@ -93,33 +89,30 @@ object RNMBTileServer: Runnable {
             val routeUrl = Uri.parse(route)
 
             // Output stream that we send the response to
-            output = PrintStream(socket.getOutputStream())
+            PrintStream(socket.getOutputStream()).use { stream ->
+                // Prepare the content to send.
+                if (null == route || null == source) {
+                    writeServerError(stream)
+                    return
+                }
 
-            // Prepare the content to send.
-            if (null == route || null == source) {
-                writeServerError(output)
-                return
-            }
+                val bytes = loadContent(source, routeUrl) ?: run {
+                    writeServerError(stream)
+                    return
+                }
 
-            val bytes = loadContent(source, routeUrl) ?: run {
-                writeServerError(output)
-                return
-            }
-
-            // Send out the content.
-            output.apply {
-                println("HTTP/1.0 200 OK")
-                println("Content-Type: " + detectMimeType(source?.format))
-                println("Content-Length: " + bytes.size)
-                if (source?.isVector == true) println("Content-Encoding: gzip")
-                println()
-                write(bytes)
-                flush()
+                // Send out the content.
+                stream.apply {
+                    println("HTTP/1.0 200 OK")
+                    println("Content-Type: " + detectMimeType(source?.format))
+                    println("Content-Length: " + bytes.size)
+                    if (source?.isVector == true) println("Content-Encoding: gzip")
+                    println()
+                    write(bytes)
+                    flush()
+                }
             }
         }
-
-        // TODO: Do we need to close the output?
-        // if (null != output) output.close()
     }
 
     @Throws
@@ -128,18 +121,12 @@ object RNMBTileServer: Runnable {
         val x = route.getQueryParameter("x")?.toInt() ?: throw RNMBTileServerError.InvalidQueryParameters()
         val y = route.getQueryParameter("y")?.toInt() ?: throw RNMBTileServerError.InvalidQueryParameters()
 
-        try {
-            val output = ByteArrayOutputStream()
-            val content = source?.getTile(z, x, y)
-            output.write(content)
-            output.flush()
-            return output.toByteArray()
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-            throw e
-        } catch (e: Error) {
-            throw e
-        }
+        val output = ByteArrayOutputStream()
+        val content = source?.getTile(z, x, y)
+        output.write(content)
+        output.flush()
+
+        return output.toByteArray()
     }
 
     private fun writeServerError(output: PrintStream) {
