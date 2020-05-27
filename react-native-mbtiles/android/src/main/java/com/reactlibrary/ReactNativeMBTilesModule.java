@@ -27,6 +27,7 @@ public class ReactNativeMBTilesModule extends ReactContextBaseJavaModule {
 
             if (null == metadata) {
                 callback.invoke(true, null);
+                return;
             }
 
             callback.invoke(null, metadata.getMappedMetadata());
