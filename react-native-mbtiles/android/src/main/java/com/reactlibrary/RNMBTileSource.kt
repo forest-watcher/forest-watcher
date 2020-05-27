@@ -7,7 +7,16 @@ import org.jetbrains.anko.db.select
 
 // Defines metadata for this source object.
 // TODO: Pass this up to the JS layer.
-data class RNMBTileMetadata(var minZoomLevel: Int, var maxZoomLevel: Int, var isVector: Boolean, var tms: Boolean, var tileSize: Int, var attribution: String?, var layersJson: String?) {
+data class RNMBTileMetadata(
+    var minZoomLevel: Int,
+    var maxZoomLevel: Int,
+    var isVector: Boolean,
+    var tms: Boolean,
+    var tileSize: Int,
+    var attribution: String?,
+    var layersJson: String?
+)
+{
 
     val mappedMetadata: WritableNativeMap
         get() {
@@ -17,7 +26,7 @@ data class RNMBTileMetadata(var minZoomLevel: Int, var maxZoomLevel: Int, var is
             nativeMap.putBoolean("isVector", isVector)
             nativeMap.putBoolean("tms", tms)
             nativeMap.putInt("tileSize", tileSize);
-            nativeMap.putString("attribution", attribution);
+            nativeMap.putString("attribution", attribution)
             nativeMap.putString("layersJson", layersJson)
 
             return nativeMap

@@ -1,9 +1,9 @@
 package com.reactlibrary;
 
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.Callback;
 import com.forestwatcher.RNMBTileMetadata;
 import com.forestwatcher.RNMBTileServer;
 

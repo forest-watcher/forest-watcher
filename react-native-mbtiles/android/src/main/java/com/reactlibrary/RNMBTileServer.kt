@@ -2,9 +2,7 @@ package com.forestwatcher
 
 import android.net.Uri
 import android.util.Log
-import java.io.BufferedReader
 import java.io.ByteArrayOutputStream
-import java.io.FileNotFoundException
 import java.io.PrintStream
 import java.lang.Exception
 import java.net.ServerSocket
@@ -96,10 +94,7 @@ object RNMBTileServer: Runnable {
                     return
                 }
 
-                val bytes = loadContent(source, routeUrl) ?: run {
-                    writeServerError(stream)
-                    return
-                }
+                val bytes = loadContent(source, routeUrl)
 
                 // Send out the content.
                 stream.apply {
