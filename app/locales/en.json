@@ -45,6 +45,7 @@
             "satellite": "Satellite",
             "landsat": "Landsat"
         },
+        "edit": "Edit",
         "empty": {
             "action": "App FAQs",
             "body": "Tap the '+' icon to set up a custom basemap",
@@ -135,6 +136,7 @@
         "description": "Questions or feedback? Email mailto:forestwatcher@wri.org"
     },
     "contextualLayers": {
+        "edit": "Edit",
         "empty": {
             "action": "App FAQs",
             "body": "Contextual layers you add will appear here",

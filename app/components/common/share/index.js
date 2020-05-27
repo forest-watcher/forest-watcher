@@ -17,6 +17,11 @@ type Props = {
   componentId?: string,
   enabled: boolean,
   disabled?: ?boolean,
+  editButtonDisabledTitle?: string,
+  editButtonEnabledTitle?: string,
+  editEnabled?: boolean,
+  onEdit?: () => void,
+  onEditingToggled?: (editing: boolean) => void,
   onShare: () => void,
   onSharingToggled?: (sharing: boolean) => void,
   onToggleAllSelected?: (all: boolean) => void,
@@ -24,10 +29,12 @@ type Props = {
   shareButtonDisabledTitle: string,
   shareButtonEnabledTitle: string,
   shareEnabled?: boolean,
+  showEditButton?: boolean,
   selected: number
 };
 
 type State = {|
+  editing: boolean,
   sharing: boolean
 |};
 
@@ -37,10 +44,18 @@ export default class ShareSelector extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      editing: false,
       sharing: false
     };
     Navigation.events().bindComponent(this);
   }
+
+  setEditing = (editing: boolean) => {
+    this.setDoneButtonVisible(editing);
+    this.setState({
+      editing
+    });
+  };
 
   setSharing = (sharing: boolean) => {
     this.setDoneButtonVisible(sharing);
@@ -51,11 +66,19 @@ export default class ShareSelector extends Component<Props, State> {
 
   navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {
     if (buttonId === KEY_EXPORT_DONE) {
+      this.setEditing(false);
       this.setSharing(false);
       // Call this separately so we don't end up with recursion if someone calls `setSharing` by referencing this component
       this.props.onSharingToggled?.(false);
+      this.props.onEditingToggled?.(false);
     }
   }
+
+  onClickEdit = () => {
+    this.setEditing(true);
+    // Call this separately so we don't end up with recursion if someone calls `setEditing` by referencing this component
+    this.props.onEditingToggled?.(true);
+  };
 
   onClickShare = () => {
     this.setSharing(true);
@@ -88,7 +111,8 @@ export default class ShareSelector extends Component<Props, State> {
   };
 
   render() {
-    const { sharing } = this.state;
+    const { editing, sharing } = this.state;
+    const { showEditButton } = this.props;
 
     return (
       <View
@@ -106,15 +130,32 @@ export default class ShareSelector extends Component<Props, State> {
           </Row>
         )}
         {this.props.children}
-        <BottomTray requiresSafeAreaView={true}>
-          <ActionButton
-            disabled={this.props.disabled || (!this.props.enabled && sharing)}
-            noIcon
-            onPress={this.props.disabled ? null : sharing ? this.props.onShare : this.onClickShare}
-            secondary={!sharing}
-            text={sharing ? this.props.shareButtonEnabledTitle : this.props.shareButtonDisabledTitle}
-          />
-        </BottomTray>
+        {!editing && (
+          <BottomTray
+            requiresSafeAreaView={true}
+            style={{ flexDirection: 'row', alignSelf: 'stretch', alignItems: 'stretch' }}
+          >
+            {showEditButton && !sharing && (
+              <ActionButton
+                disabled={this.props.disabled || (!this.props.enabled && editing)}
+                noIcon
+                onPress={this.props.disabled ? null : editing ? this.props.onEdit : this.onClickEdit}
+                secondary={!editing}
+                text={editing ? this.props.editButtonEnabledTitle : this.props.editButtonDisabledTitle}
+              />
+            )}
+            {showEditButton && !editing && !sharing && <View style={{ width: 15 }} />}
+            {!editing && (
+              <ActionButton
+                disabled={this.props.disabled || (!this.props.enabled && sharing)}
+                noIcon
+                onPress={this.props.disabled ? null : sharing ? this.props.onShare : this.onClickShare}
+                secondary={!sharing}
+                text={sharing ? this.props.shareButtonEnabledTitle : this.props.shareButtonDisabledTitle}
+              />
+            )}
+          </BottomTray>
+        )}
       </View>
     );
   }
