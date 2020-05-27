@@ -1,6 +1,7 @@
 // @flow
 import type { Basemap, BasemapsAction, BasemapsState } from 'types/basemaps.types';
 import type { File } from 'types/file.types';
+import type { LayerFile } from 'types/sharing.types';
 import type { Dispatch, GetState, State, Thunk } from 'types/store.types';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
@@ -13,6 +14,7 @@ const IMPORT_BASEMAP_REQUEST = 'basemaps/IMPORT_BASEMAP_REQUEST';
 const IMPORT_BASEMAP_COMMIT = 'basemaps/IMPORT_BASEMAP_COMMIT';
 const IMPORT_BASEMAP_CLEAR = 'basemaps/IMPORT_BASEMAP_CLEAR';
 const IMPORT_BASEMAP_ROLLBACK = 'basemaps/IMPORT_BASEMAP_ROLLBACK';
+const DELETE_BASEMAP = 'basemaps/DELETE_BASEMAP';
 
 // Reducer
 const initialState = {
@@ -46,6 +48,10 @@ export default function reducer(state: BasemapsState = initialState, action: Bas
     case IMPORT_BASEMAP_ROLLBACK: {
       return { ...state, importing: false, importError: action.payload };
     }
+    case DELETE_BASEMAP: {
+      const basemaps = state.importedBasemaps.filter(basemap => basemap.id !== action.payload);
+      return { ...state, importedBasemaps: basemaps };
+    }
     case LOGOUT_REQUEST:
       return initialState;
     default:
@@ -64,16 +70,30 @@ export function importBasemap(basemapFile: File): Thunk<Promise<void>> {
     dispatch({ type: IMPORT_BASEMAP_REQUEST });
 
     try {
-      const importedFile: Basemap = await importLayerFile(basemapFile);
+      const importedFile: LayerFile = await importBasemapFile(basemapFile);
+      const basemap: Basemap = {
+        isImported: true,
+        id: importedFile.layerId,
+        name: basemapFile.name,
+        path: importedFile.path,
+        size: importedFile.size
+      };
 
       dispatch({
         type: IMPORT_BASEMAP_COMMIT,
-        payload: importedFile
+        payload: basemap
       });
     } catch (error) {
       dispatch({ type: IMPORT_BASEMAP_ROLLBACK, payload: error });
       throw error;
     }
+  };
+}
+
+export function deleteBasemap(id: string): BasemapsAction {
+  return {
+    type: DELETE_BASEMAP,
+    payload: id
   };
 }
 

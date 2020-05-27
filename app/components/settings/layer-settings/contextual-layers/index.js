@@ -74,7 +74,7 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
       component: {
         name: 'ForestWatcher.MappingFiles',
         passProps: {
-          mappingFileType: 'contextualLayers'
+          mappingFileType: 'contextual_layer'
         }
       }
     });

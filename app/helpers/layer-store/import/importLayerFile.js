@@ -30,7 +30,7 @@ export async function importLayerFile(layerFile: File): Promise<LayerFile> {
       await RNFS.mkdir(baseDirectory);
       await RNFS.copyFile(file.uri, path);
 
-      return { isImported: true, path: path, id: file.id, size, name: file.name ?? '' };
+      return { path: path, type: 'basemap', layerId: file.id, tileXYZ: [0, 0, 0], size };
     }
     case 'json':
     case 'topojson':

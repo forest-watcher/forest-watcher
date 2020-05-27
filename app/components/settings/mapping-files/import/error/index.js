@@ -1,5 +1,5 @@
 // @flow
-import type { MappingFileType } from 'types/common.types';
+import type { LayerType } from 'types/sharing.types';
 import React, { Component } from 'react';
 import { View, Text, Image } from 'react-native';
 import { Navigation } from 'react-native-navigation';
@@ -15,7 +15,7 @@ const fileIcon = require('assets/fileIcon.png');
 type Props = {
   componentId: string,
   fileName: string,
-  mappingFileType: MappingFileType,
+  mappingFileType: LayerType,
   onRetry: () => {}
 };
 
@@ -30,11 +30,12 @@ export default class ImportMappingFileError extends Component<Props> {
   }
 
   i18nKeyFor(key: string): string {
-    return `${this.props.mappingFileType}.import.${key}`;
+    const base = this.props.mappingFileType === 'basemap' ? 'basemaps' : 'contextualLayers';
+    return `${base}.import.${key}`;
   }
 
-  acceptedFileTypes = (mappingFileType: MappingFileType = this.props.mappingFileType): Array<string> => {
-    return mappingFileType === 'contextualLayers'
+  acceptedFileTypes = (mappingFileType: LayerType = this.props.mappingFileType): Array<string> => {
+    return mappingFileType === 'contextual_layer'
       ? ACCEPTED_FILE_TYPES_CONTEXTUAL_LAYERS
       : ACCEPTED_FILE_TYPES_BASEMAPS;
   };
