@@ -10,7 +10,7 @@ import Foundation
 import SQLite
 import UIKit
 
-public struct RNMBTileMetadata {
+@objc public class RNMBTileMetadata: NSObject {
   let minZoomLevel: Int
   let maxZoomLevel: Int
   let isVector: Bool
@@ -18,6 +18,30 @@ public struct RNMBTileMetadata {
   let tileSize: Int
   let attribution: String?
   let layersJson: String?
+  
+  @objc public var dictionaryValue: [String: NSObject] {
+    get {
+      return [
+        "minZoomLevel": NSNumber(value: minZoomLevel),
+        "maxZoomLevel": NSNumber(value: maxZoomLevel),
+        "isVector": NSNumber(value: isVector),
+        "tms": NSNumber(value: tms),
+        "tileSize": NSNumber(value: tileSize),
+        "attribution": attribution as NSString? ?? NSNull(),
+        "layersJson": layersJson as NSString? ?? NSNull()
+      ]
+    }
+  }
+  
+  init(minZoomLevel: Int, maxZoomLevel: Int, isVector: Bool, tms: Bool, tileSize: Int, attribution: String?, layersJson: String?) {
+    self.minZoomLevel = minZoomLevel
+    self.maxZoomLevel = maxZoomLevel
+    self.isVector = isVector
+    self.tms = tms
+    self.tileSize = tileSize
+    self.attribution = attribution
+    self.layersJson = layersJson
+  }
 }
 
 // MARK: MbtilesSource

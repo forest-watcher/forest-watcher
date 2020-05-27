@@ -13,6 +13,7 @@ import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
+import com.reactlibrary.ReactNativeMBTilesPackage;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -36,7 +37,8 @@ public class MainApplication extends NavigationApplication implements ShareAppli
       packages.addAll(Arrays.<ReactPackage>asList(
           new BackgroundGeolocationPackage(),
           new SafeAreaContextPackage(),
-          new IntentsPackage()
+          new IntentsPackage(),
+          new ReactNativeMBTilesPackage()
       ));
       return packages;
     }
@@ -58,25 +60,6 @@ public class MainApplication extends NavigationApplication implements ShareAppli
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
-
-    // Note: Eventually, this will sit within the JS layer - on entering the map screen / selecting a new imported basemap we will prepare the selected basemap.
-    // We'll then start up the server on a given port, and then close the server on leaving the map screen / the app going into background.
-    // But until we have a module, we have this instead 👀
-    // To test this, you'll need to:
-    //  - Import a basemap (specifically with raster tiles for now!).
-    //  - Intercept the basemaps's unique identifier.
-    //  - Change the identifier and path below.
-    //  - Change the identifier in the map screen URL.
-    String path = "/data/user/0/com.forestwatcher/files/tiles/basemap/a12a1e41-06d1-40e3-9141-6a8a536d8213/0x0x0/a12a1e41-06d1-40e3-9141-6a8a536d8213.mbtiles";
-    String sourceId = "a12a1e41-06d1-40e3-9141-6a8a536d8213";
-    try {
-      RNMBTileServer.INSTANCE.prepare(sourceId, path);
-      RNMBTileServer.INSTANCE.startServer(54321);
-
-    } catch (RNMBTileSourceError e) {
-      Log.e("3SC", "onCreate: Error starting the map server");
-    }
-
   }
 
   /**

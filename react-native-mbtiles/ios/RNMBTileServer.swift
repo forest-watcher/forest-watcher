@@ -16,7 +16,7 @@ import UIKit
 @objc public class RNMBTileServer: NSObject {
   
   /// Defines a singleton instance, that the soon-to-be-added objc bridge will interact with.
-  @objc static let shared = RNMBTileServer()
+  @objc public static let shared = RNMBTileServer()
   
   /// The currently active tile source. This must be set otherwise requests will fail.
   private var source: RNMBTileSource?
@@ -28,18 +28,20 @@ import UIKit
   /// - Parameters:
   ///   - basemapId: The basemap's unique identifier. This is used to determine if the requested tiles are for the active source.
   ///   - basemapPath: The basemap's path on disk. This is used to open a database connection to the given file.
-  @objc func prepare(basemapId: String, basemapPath: String) {
+  @objc public func prepare(basemapId: String, basemapPath: String) -> RNMBTileMetadata? {
     do {
       source = try RNMBTileSource(id: basemapId, filePath: basemapPath)
+      return source?.metadata
     } catch {
       // TODO: Pass this error to JS
+      return nil
     }
   }
   
   /// Starts the server at the given port number.
   /// - Parameter port: The chosen port number.
   /// TODO: Move the port number into a constant, that JS can also see.
-  @objc func startServer(port: UInt) {
+  @objc public func startServer(port: UInt) {
     guard Thread.isMainThread else {
       DispatchQueue.main.sync { [weak self] in
         self?.startServer(port: port)
@@ -65,11 +67,15 @@ import UIKit
   
   /// Stops the active server.
   /// It is recommended to stop the server when it is no longer required in app, or when the app enters background.
-  @objc func stopServer() {
+  @objc public func stopServer() {
     guard Thread.isMainThread else {
       DispatchQueue.main.sync { [weak self] in
         self?.stopServer()
       }
+      return
+    }
+
+    guard server?.isRunning == true else {
       return
     }
     
@@ -86,21 +92,13 @@ import UIKit
         return GCDWebServerResponse(statusCode: 404)
     }
     
-    // To determine if this is a valid tile request, we must:
-    // - Get anything after '?'
-    // - See if there's an entry - if so, attempt to split that entry by '&'
-    // - If there's 3 values, we have valid coordinates!
-    let splitUrl = request.url.absoluteString.split(separator: "?")
-    guard splitUrl.count == 2,
-      let coords = splitUrl.last?.split(separator: "&"),
-      coords.count == 3 else {
-      return GCDWebServerResponse(statusCode: 404)
-    }
-    
-    // NOTE: These coord indexes are correct, z goes first.
-    guard let x = Int(coords[1]),
-      let y = Int(coords[2]),
-      let z = Int(coords[0]),
+    guard let query = request.query,
+      let xString = query["x"],
+      let yString = query["y"],
+      let zString = query["z"],
+      let x = Int(xString),
+      let y = Int(yString),
+      let z = Int(zString),
       let tileData = source.getTile(x: x, y: y, z: z) else {
         return GCDWebServerResponse(statusCode: 404)
     }
@@ -115,5 +113,10 @@ import UIKit
     }
     
     return GCDWebServerDataResponse(data: tileData, contentType: "")
+  }
+
+  deinit {
+    server?.stop()
+    server?.removeAllHandlers()
   }
 }

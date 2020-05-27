@@ -1,6 +1,8 @@
 apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
 apply plugin: "com.browserstack.gradle"
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 browserStackConfig {
     username = "sidedcube1"
@@ -229,8 +231,7 @@ dependencies {
     // react-native-svg - No need to add package to MainApplication.java : https://github.com/oblador/react-native-vector-icons/issues/387
     implementation project(':react-native-svg')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "org.jetbrains.anko:anko-sqlite:0.10.8"
+    implementation project(':react-native-mbtiles')
 }
 
 // Run this once to be able to run the application with BUCK
@@ -240,6 +241,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
     into 'libs'
 }
 
-apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle")
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'; applyNativeModulesAppBuildGradle(project)
+apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

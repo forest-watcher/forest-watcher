@@ -1,13 +1,16 @@
 package com.forestwatcher
 
+import android.net.Uri
 import android.util.Log
-import java.io.BufferedReader
 import java.io.ByteArrayOutputStream
-import java.io.FileNotFoundException
 import java.io.PrintStream
 import java.lang.Exception
 import java.net.ServerSocket
 import java.net.Socket
+
+sealed class RNMBTileServerError : Error() {
+    class InvalidQueryParameters : RNMBTileServerError()
+}
 
 // Defines an interface for running a tile server locally.
 object RNMBTileServer: Runnable {
@@ -63,18 +66,14 @@ object RNMBTileServer: Runnable {
 
     @Throws
     private fun handle(socket: Socket) {
-        var reader: BufferedReader? = null
-        var output: PrintStream? = null
-
-        try {
+        socket.getInputStream().reader().buffered().use { reader ->
             var route: String? = null
-            reader = socket.getInputStream().reader().buffered()
 
             // Read HTTP headers and parse out the route.
             do {
                 val line = reader.readLine() ?: ""
                 if (line.startsWith("GET")) {
-                    route = line.substringAfter("GET /").substringBefore(".")
+                    route = line.substringAfter("GET /").substringBefore(" ")
                     break
                 }
             } while (!line.isEmpty())
@@ -85,52 +84,44 @@ object RNMBTileServer: Runnable {
                 return
             }
 
+            val routeUrl = Uri.parse(route)
+
             // Output stream that we send the response to
-            output = PrintStream(socket.getOutputStream())
+            PrintStream(socket.getOutputStream()).use { stream ->
+                // Prepare the content to send.
+                if (null == route || null == source) {
+                    writeServerError(stream)
+                    return
+                }
 
-            // Prepare the content to send.
-            if (null == route || null == source) {
-                writeServerError(output)
-                return
-            }
+                val bytes = loadContent(source, routeUrl)
 
-            val bytes = loadContent(source, route) ?: run {
-                writeServerError(output)
-                return
+                // Send out the content.
+                stream.apply {
+                    println("HTTP/1.0 200 OK")
+                    println("Content-Type: " + detectMimeType(source?.format))
+                    println("Content-Length: " + bytes.size)
+                    if (source?.isVector == true) println("Content-Encoding: gzip")
+                    println()
+                    write(bytes)
+                    flush()
+                }
             }
-
-            // Send out the content.
-            output.apply {
-                println("HTTP/1.0 200 OK")
-                println("Content-Type: " + detectMimeType(source!!.format))
-                println("Content-Length: " + bytes.size)
-                if (source!!.isVector) println("Content-Encoding: gzip")
-                println()
-                write(bytes)
-                flush()
-            }
-        } finally {
-            if (null != output) output.close()
-            reader?.close()
         }
     }
 
     @Throws
-    private fun loadContent(source: RNMBTileSource?, route: String): ByteArray? {
-        val tileParams = route.substringAfter("?").split("&")
-        // TODO: This is quite nasty - what would be the most kotlin-y way to do this?
-        val (z, x, y) = tileParams.map { it.replace(" HTTP/1", "").toInt() }
+    private fun loadContent(source: RNMBTileSource?, route: Uri): ByteArray {
+        val z = route.getQueryParameter("z")?.toInt() ?: throw RNMBTileServerError.InvalidQueryParameters()
+        val x = route.getQueryParameter("x")?.toInt() ?: throw RNMBTileServerError.InvalidQueryParameters()
+        val y = route.getQueryParameter("y")?.toInt() ?: throw RNMBTileServerError.InvalidQueryParameters()
 
-        try {
-            val output = ByteArrayOutputStream()
-            val content = source?.getTile(z, x, y) ?: return null
-            output.write(content)
-            output.flush()
-            return output.toByteArray()
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-            return null
-        }
+        val output = ByteArrayOutputStream()
+        val content = source?.getTile(z, x, y)
+        output.write(content)
+        output.flush()
+
+        return output.toByteArray()
     }
 
     private fun writeServerError(output: PrintStream) {
@@ -138,7 +129,7 @@ object RNMBTileServer: Runnable {
         output.flush()
     }
 
-    private fun detectMimeType(format: String?): String? = when (format) {
+    private fun detectMimeType(format: String?): String = when (format) {
         "jpg" -> "image/jpeg"
         "png" -> "image/png"
         "mvt" -> "application/x-protobuf"
