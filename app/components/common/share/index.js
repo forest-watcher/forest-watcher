@@ -4,6 +4,7 @@ import React, { Component, type ElementConfig } from 'react';
 
 import i18n from 'i18next';
 import { Text, TouchableOpacity, View } from 'react-native';
+
 import styles from './styles';
 
 import ActionButton from 'components/common/action-button';
@@ -20,6 +21,7 @@ type Props = {
   editButtonDisabledTitle?: string,
   editButtonEnabledTitle?: string,
   editEnabled?: boolean,
+  isSharing?: boolean,
   onEdit?: () => void,
   onEditingToggled?: (editing: boolean) => void,
   onShare: () => void,
@@ -28,6 +30,7 @@ type Props = {
   selectAllCountText: string,
   shareButtonDisabledTitle: string,
   shareButtonEnabledTitle: string,
+  shareButtonInProgressTitle: string,
   shareEnabled?: boolean,
   showEditButton?: boolean,
   selected: number
@@ -112,7 +115,7 @@ export default class ShareSelector extends Component<Props, State> {
 
   render() {
     const { editing, sharing } = this.state;
-    const { showEditButton } = this.props;
+    const { isSharing, showEditButton } = this.props;
 
     return (
       <View
@@ -132,12 +135,13 @@ export default class ShareSelector extends Component<Props, State> {
         {this.props.children}
         {!editing && (
           <BottomTray
+            showProgressBar={isSharing}
             requiresSafeAreaView={true}
             style={{ flexDirection: 'row', alignSelf: 'stretch', alignItems: 'stretch' }}
           >
             {showEditButton && !sharing && (
               <ActionButton
-                disabled={this.props.disabled || (!this.props.enabled && editing)}
+                disabled={this.props.disabled || isSharing || (!this.props.enabled && editing)}
                 noIcon
                 onPress={this.props.disabled ? null : editing ? this.props.onEdit : this.onClickEdit}
                 secondary={!editing}
@@ -147,11 +151,17 @@ export default class ShareSelector extends Component<Props, State> {
             {showEditButton && !editing && !sharing && <View style={{ width: 15 }} />}
             {!editing && (
               <ActionButton
-                disabled={this.props.disabled || (!this.props.enabled && sharing)}
+                disabled={this.props.disabled || isSharing || (!this.props.enabled && sharing)}
                 noIcon
                 onPress={this.props.disabled ? null : sharing ? this.props.onShare : this.onClickShare}
                 secondary={!sharing}
-                text={sharing ? this.props.shareButtonEnabledTitle : this.props.shareButtonDisabledTitle}
+                text={
+                  isSharing
+                    ? this.props.shareButtonInProgressTitle
+                    : sharing
+                    ? this.props.shareButtonEnabledTitle
+                    : this.props.shareButtonDisabledTitle
+                }
               />
             )}
           </BottomTray>

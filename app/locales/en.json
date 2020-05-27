@@ -641,6 +641,7 @@
         "placeholder": "Enter a name"
     },
     "sharing": {
+        "inProgress": "Sharing %{type}...",
         "title": "Share %{type}",
         "noneSelected": "No %{type} Selected",
         "one": "Share %{type} (%{bundleSize})",
