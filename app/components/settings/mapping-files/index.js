@@ -1,6 +1,6 @@
 // @flow
 import type { Basemap } from 'types/basemaps.types';
-import type { MappingFileType } from 'types/common.types';
+import type { LayerType } from 'types/sharing.types';
 import type { ContextualLayer } from 'types/layers.types';
 
 import React, { Component } from 'react';
@@ -20,11 +20,11 @@ import MappingFileRow from 'components/settings/mapping-files/mapping-file-row';
 
 const plusIcon = require('assets/add.png');
 const icons = {
-  basemaps: {
+  basemap: {
     empty: require('assets/basemapEmpty.png'),
     placeholder: require('assets/basemap_placeholder.png')
   },
-  contextualLayers: {
+  contextual_layer: {
     empty: require('assets/layersEmpty.png'),
     placeholder: require('assets/layerPlaceholder.png')
   }
@@ -35,7 +35,7 @@ type Props = {|
   +componentId: string,
   +exportLayers: (ids: Array<string>) => Promise<void>,
   +importedFiles: Array<ContextualLayer>,
-  +mappingFileType: MappingFileType
+  +mappingFileType: LayerType
 |};
 
 type State = {|
@@ -51,14 +51,14 @@ const ImportButtonRNNElement = {
 };
 
 class MappingFiles extends Component<Props, State> {
-  static options(passProps: { mappingFileType: MappingFileType }) {
+  static options(passProps: { mappingFileType: LayerType }) {
     return {
       topBar: {
         background: {
           color: Theme.colors.veryLightPink
         },
         title: {
-          text: i18n.t(`${passProps.mappingFileType}.title`)
+          text: i18n.t(`${passProps.mappingFileType === 'basemap' ? 'basemaps' : 'contextualLayers'}.title`)
         },
         rightButtons: [ImportButtonRNNElement]
       }
@@ -84,11 +84,12 @@ class MappingFiles extends Component<Props, State> {
   }
 
   i18nKeyFor(key: string): string {
-    return `${this.props.mappingFileType}.${key}`;
+    const base = this.props.mappingFileType === 'basemap' ? 'basemaps' : 'contextualLayers';
+    return `${base}.${key}`;
   }
 
   componentDidMount() {
-    tracker.trackScreenView(this.props.mappingFileType === 'contextualLayers' ? 'Layers' : 'Basemaps');
+    tracker.trackScreenView(this.props.mappingFileType === 'contextual_layer' ? 'Layers' : 'Basemaps');
   }
 
   componentDidAppear() {
@@ -241,7 +242,7 @@ class MappingFiles extends Component<Props, State> {
     const { inEditMode, inShareMode } = this.state;
 
     if (importedFiles.length === 0) {
-      if (mappingFileType === 'basemaps') {
+      if (mappingFileType === 'basemap') {
         return (
           <View>
             <Text style={styles.heading}>{i18n.t(this.i18nKeyFor('imported'))}</Text>
@@ -327,7 +328,7 @@ class MappingFiles extends Component<Props, State> {
           editButtonDisabledTitle={i18n.t(this.i18nKeyFor('edit'))}
           editButtonEnabledTitle={i18n.t(this.i18nKeyFor('edit'))}
           shareButtonDisabledTitle={i18n.t(this.i18nKeyFor('share'))}
-          enabled={mappingFileType === 'contextualLayers' || totalToExport > 0}
+          enabled={mappingFileType === 'contextual_layer' || totalToExport > 0}
           onEditingToggled={this.setEditing}
           onShare={() => {
             this.onExportFilesTapped(this.state.selectedForExport);

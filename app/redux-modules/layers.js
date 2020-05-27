@@ -3,7 +3,7 @@ import type { ContextualLayer, LayersState, LayersAction, LayersCacheStatus, Lay
 import type { Dispatch, GetState, State, Thunk } from 'types/store.types';
 import type { Area } from 'types/areas.types';
 import type { File } from 'types/file.types';
-import type { LayerType } from 'helpers/layer-store/layerFilePaths';
+import type { LayerType } from 'types/sharing.types';
 
 import Config from 'react-native-config';
 import omit from 'lodash/omit';
