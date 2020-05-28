@@ -69,7 +69,7 @@ export default function reducer(state: UserState = initialState, action: UserAct
       return { ...state, emailLoginError: error };
     }
     case CLEAR_EMAIL_LOGIN_ERROR: {
-      return { ...state, emailLoginError: null };
+      return { ...state, emailLoginError: null, loading: false };
     }
     case LOGOUT_REQUEST:
       return {
@@ -237,9 +237,7 @@ export function emailLogin(email: string, password: string) {
 }
 
 export function clearEmailLoginError() {
-  return (dispatch: Dispatch) => {
-    dispatch({ type: CLEAR_EMAIL_LOGIN_ERROR });
-  };
+  return { type: CLEAR_EMAIL_LOGIN_ERROR };
 }
 
 export function setLoginAuth(details: { token: string, loggedIn: boolean, socialNetwork: string }): UserAction {

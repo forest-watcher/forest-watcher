@@ -60,7 +60,7 @@ export default class EmailLogin extends Component<Props, State> {
     };
   }
 
-  componentWillUnmount() {
+  componentDidMount() {
     this.props.clearEmailLoginError();
   }
 
