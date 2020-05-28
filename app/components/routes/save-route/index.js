@@ -18,12 +18,12 @@ const screenDimensions = Dimensions.get('screen');
 type Props = {
   componentId: string,
   route: ?Route,
-  updateActiveRoute: (Route, string) => void,
+  updateActiveRoute: ($Shape<Route>, string) => void,
   finishAndSaveRoute: () => void
 };
 
 type State = {
-  route: Route
+  route: $Shape<Route>
 };
 
 class SaveRoute extends PureComponent<Props, State> {
@@ -45,13 +45,10 @@ class SaveRoute extends PureComponent<Props, State> {
     this.state = {
       route: {
         id: generateUniqueID(),
-        areaId: '',
-        startDate: date,
         endDate: date,
         name: '',
         difficulty: 'easy',
-        locations: [],
-        language: ''
+        locations: []
       }
     };
   }

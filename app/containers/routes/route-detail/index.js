@@ -36,7 +36,7 @@ function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
         })
       );
     },
-    updateRoute: (updatedFields: Route) => {
+    updateRoute: (updatedFields: $Shape<Route>) => {
       dispatch(
         updateSavedRoute({
           ...updatedFields,

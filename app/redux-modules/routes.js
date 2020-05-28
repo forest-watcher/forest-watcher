@@ -104,7 +104,7 @@ export function setRouteDestination(destination: Location, areaId: string): Rout
   };
 }
 
-export function updateActiveRoute(route: Route): RouteAction {
+export function updateActiveRoute(route: $Shape<Route>): RouteAction {
   return {
     type: UPDATE_ACTIVE_ROUTE,
     payload: {
@@ -113,7 +113,7 @@ export function updateActiveRoute(route: Route): RouteAction {
   };
 }
 
-export function updateSavedRoute(route: Route): RouteAction {
+export function updateSavedRoute(route: $Shape<Route>): RouteAction {
   return {
     type: UPDATE_SAVED_ROUTE,
     payload: {

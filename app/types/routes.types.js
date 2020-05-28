@@ -47,9 +47,9 @@ export type RouteAction =
 
 type UpdateActiveRoute = {
   type: 'routes/UPDATE_ACTIVE_ROUTE',
-  payload: { areaId: string, destination: Location, startDate: number }
+  payload: $Shape<Route>
 };
-type UpdateSavedRoute = { type: 'routes/UPDATE_SAVED_ROUTE', payload: Route };
+type UpdateSavedRoute = { type: 'routes/UPDATE_SAVED_ROUTE', payload: $Shape<Route> };
 type FinishAndSaveRoute = { type: 'routes/FINISH_AND_SAVE_ROUTE' };
 type DeleteRouteAction = { type: 'routes/DELETE_ROUTE', payload: RouteDeletionCriteria };
 type DiscardActiveRoute = { type: 'routes/DISCARD_ACTIVE_ROUTE' };
