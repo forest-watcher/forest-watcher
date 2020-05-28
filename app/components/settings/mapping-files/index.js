@@ -38,7 +38,8 @@ type Props = {|
   +deleteLayer: (id: string, type: LayerType) => void,
   +exportLayers: (ids: Array<string>) => Promise<void>,
   +importedFiles: Array<ContextualLayer>,
-  +mappingFileType: LayerType
+  +mappingFileType: LayerType,
+  +renameLayer: (id: string, type: LayerType, newName: string) => void
 |};
 
 type State = {|
@@ -222,9 +223,11 @@ class MappingFiles extends Component<Props, State> {
       i18n.t('commonText.cancel'),
       i18n.t('commonText.confirm'),
       newName => {
-        if (newName.length > 0) {
-          console.warn(newName);
+        if (newName.length === 0) {
+          return;
         }
+
+        this.props.renameLayer(file.id, this.props.mappingFileType, newName);
       }
     );
   };
