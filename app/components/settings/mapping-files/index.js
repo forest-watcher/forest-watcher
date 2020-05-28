@@ -10,6 +10,7 @@ import i18n from 'i18next';
 
 import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
+import Constants from 'config/constants';
 import Theme from 'config/theme';
 import debounceUI from 'helpers/debounceUI';
 import showDeleteConfirmationPrompt from 'helpers/showDeleteModal';
@@ -18,6 +19,7 @@ import { formatBytes } from 'helpers/data';
 
 import styles from './styles';
 import MappingFileRow from 'components/settings/mapping-files/mapping-file-row';
+import showRenameModal from 'helpers/showRenameModal';
 
 const plusIcon = require('assets/add.png');
 const icons = {
@@ -34,10 +36,11 @@ const icons = {
 type Props = {|
   +baseFiles: Array<Basemap | ContextualLayer>,
   +componentId: string,
-  +deleteLayer: (id: string, type: LayerType) => void,
+  +deleteMappingFile: (id: string, type: LayerType) => void,
   +exportLayers: (ids: Array<string>) => Promise<void>,
   +importedFiles: Array<ContextualLayer>,
-  +mappingFileType: LayerType
+  +mappingFileType: LayerType,
+  +renameMappingFile: (id: string, type: LayerType, newName: string) => void
 |};
 
 type State = {|
@@ -201,14 +204,32 @@ class MappingFiles extends Component<Props, State> {
     });
   };
 
-  confirmLayerDeletion = (file: Basemap | ContextualLayer) => {
+  confirmMappingFileDeletion = (file: Basemap | ContextualLayer) => {
     showDeleteConfirmationPrompt(
       i18n.t(this.i18nKeyFor('delete.title')),
       i18n.t(this.i18nKeyFor('delete.message')),
       i18n.t('commonText.cancel'),
       i18n.t('commonText.continue'),
       () => {
-        this.props.deleteLayer(file.id, this.props.mappingFileType);
+        this.props.deleteMappingFile(file.id, this.props.mappingFileType);
+      }
+    );
+  };
+
+  confirmMappingFileRenaming = (file: Basemap | ContextualLayer) => {
+    showRenameModal(
+      i18n.t(this.i18nKeyFor('rename.title')),
+      i18n.t(this.i18nKeyFor('rename.message')),
+      file.name,
+      i18n.t('commonText.cancel'),
+      i18n.t('commonText.confirm'),
+      Constants.layerMaxNameLength,
+      newName => {
+        if (newName.length === 0 || newName.length > Constants.layerMaxNameLength) {
+          return;
+        }
+
+        this.props.renameMappingFile(file.id, this.props.mappingFileType, newName);
       }
     );
   };
@@ -232,7 +253,7 @@ class MappingFiles extends Component<Props, State> {
                 inEditMode={inEditMode}
                 onDeletePress={() => {
                   // TODO: Ensure this handles GFW layer / basemap deletion correctly.
-                  this.confirmLayerDeletion(file);
+                  this.confirmMappingFileDeletion(file);
                 }}
                 onPress={() => {
                   if (inShareMode) {
@@ -240,7 +261,6 @@ class MappingFiles extends Component<Props, State> {
                   }
                 }}
                 onDownloadPress={() => {}}
-                onRenamePress={() => {}}
                 image={file.image ?? icons[mappingFileType].placeholder}
                 renamable={false}
                 title={i18n.t(file.name)}
@@ -281,14 +301,17 @@ class MappingFiles extends Component<Props, State> {
                 deletable={true}
                 inEditMode={inEditMode}
                 onDeletePress={() => {
-                  this.confirmLayerDeletion(file);
+                  this.confirmMappingFileDeletion(file);
                 }}
                 onPress={() => {
                   if (inShareMode) {
                     this.onFileSelectedForExport(file.id);
                   }
                 }}
-                onRenamePress={() => {}}
+                onRenamePress={() => {
+                  // TODO: Ensure this handles GFW layer / basemap renaming correctly.
+                  this.confirmMappingFileRenaming(file);
+                }}
                 image={file.image ?? icons[mappingFileType].placeholder}
                 renamable={true}
                 title={i18n.t(file.name)}

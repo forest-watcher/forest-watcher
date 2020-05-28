@@ -107,6 +107,7 @@ export type LayersAction =
   | ImportLayerCommit
   | ImportLayerClear
   | ImportLayerRollback
+  | RenameLayer
   | DeleteLayer
   | SaveAreaCommit;
 
@@ -184,4 +185,5 @@ type ImportLayerRequest = { type: 'layers/IMPORT_LAYER_REQUEST' };
 type ImportLayerCommit = { type: 'layers/IMPORT_LAYER_COMMIT', payload: ContextualLayer };
 type ImportLayerClear = { type: 'layers/IMPORT_LAYER_CLEAR' };
 type ImportLayerRollback = { type: 'layers/IMPORT_LAYER_ROLLBACK', payload: ?Error };
+type RenameLayer = { type: 'layers/RENAME_LAYER', payload: { id: string, name: string } };
 type DeleteLayer = { type: 'layers/DELETE_LAYER', payload: string };
