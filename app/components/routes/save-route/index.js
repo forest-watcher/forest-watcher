@@ -11,6 +11,7 @@ import { getValidLocations, stopTrackingLocation } from 'helpers/location';
 import i18n from 'i18next';
 import RoutePreviewImage from '../preview-image';
 import type { Route, RouteDifficulty } from 'types/routes.types';
+import generateUniqueID from 'helpers/uniqueId';
 
 const screenDimensions = Dimensions.get('screen');
 
@@ -43,7 +44,7 @@ class SaveRoute extends PureComponent<Props, State> {
     const date = Date.now();
     this.state = {
       route: {
-        id: date, // TODO: Should this be string or number?
+        id: generateUniqueID(),
         areaId: '',
         startDate: date,
         endDate: date,
