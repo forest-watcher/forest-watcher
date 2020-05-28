@@ -50,16 +50,16 @@ export default function reducer(state: BasemapsState = initialState, action: Bas
       return { ...state, importing: false, importError: action.payload };
     }
     case RENAME_BASEMAP: {
-      let basemaps = state.importedBasemaps;
-      const basemap = basemaps.filter(basemap => basemap.id === action.payload.id)?.[0];
+      let basemaps = [...state.importedBasemaps];
+      const targetBasemap = basemaps.filter(basemap => basemap.id === action.payload.id)?.[0];
 
-      if (!basemap) {
+      if (!targetBasemap) {
         return state;
       }
 
-      basemap.name = action.payload.name;
-      basemaps = basemaps.filter(basemap => basemap.id !== action.payload.id);
-      basemaps.push(basemap);
+      targetBasemap.name = action.payload.name;
+
+      basemaps = basemaps.map(basemap => (basemap.id === action.payload.id ? targetBasemap : basemap));
 
       return { ...state, importedBasemaps: basemaps };
     }

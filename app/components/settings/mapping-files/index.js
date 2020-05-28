@@ -35,11 +35,11 @@ const icons = {
 type Props = {|
   +baseFiles: Array<Basemap | ContextualLayer>,
   +componentId: string,
-  +deleteLayer: (id: string, type: LayerType) => void,
+  +deleteMappingFile: (id: string, type: LayerType) => void,
   +exportLayers: (ids: Array<string>) => Promise<void>,
   +importedFiles: Array<ContextualLayer>,
   +mappingFileType: LayerType,
-  +renameLayer: (id: string, type: LayerType, newName: string) => void
+  +renameMappingFile: (id: string, type: LayerType, newName: string) => void
 |};
 
 type State = {|
@@ -203,19 +203,19 @@ class MappingFiles extends Component<Props, State> {
     });
   };
 
-  confirmLayerDeletion = (file: Basemap | ContextualLayer) => {
+  confirmMappingFileDeletion = (file: Basemap | ContextualLayer) => {
     showDeleteConfirmationPrompt(
       i18n.t(this.i18nKeyFor('delete.title')),
       i18n.t(this.i18nKeyFor('delete.message')),
       i18n.t('commonText.cancel'),
       i18n.t('commonText.continue'),
       () => {
-        this.props.deleteLayer(file.id, this.props.mappingFileType);
+        this.props.deleteMappingFile(file.id, this.props.mappingFileType);
       }
     );
   };
 
-  confirmLayerRenaming = (file: Basemap | ContextualLayer) => {
+  confirmMappingFileRenaming = (file: Basemap | ContextualLayer) => {
     showRenameModal(
       i18n.t(this.i18nKeyFor('rename.title')),
       i18n.t(this.i18nKeyFor('rename.message')),
@@ -227,7 +227,7 @@ class MappingFiles extends Component<Props, State> {
           return;
         }
 
-        this.props.renameLayer(file.id, this.props.mappingFileType, newName);
+        this.props.renameMappingFile(file.id, this.props.mappingFileType, newName);
       }
     );
   };
@@ -251,7 +251,7 @@ class MappingFiles extends Component<Props, State> {
                 inEditMode={inEditMode}
                 onDeletePress={() => {
                   // TODO: Ensure this handles GFW layer / basemap deletion correctly.
-                  this.confirmLayerDeletion(file);
+                  this.confirmMappingFileDeletion(file);
                 }}
                 onPress={() => {
                   if (inShareMode) {
@@ -299,7 +299,7 @@ class MappingFiles extends Component<Props, State> {
                 deletable={true}
                 inEditMode={inEditMode}
                 onDeletePress={() => {
-                  this.confirmLayerDeletion(file);
+                  this.confirmMappingFileDeletion(file);
                 }}
                 onPress={() => {
                   if (inShareMode) {
@@ -308,7 +308,7 @@ class MappingFiles extends Component<Props, State> {
                 }}
                 onRenamePress={() => {
                   // TODO: Ensure this handles GFW layer / basemap renaming correctly.
-                  this.confirmLayerRenaming(file);
+                  this.confirmMappingFileRenaming(file);
                 }}
                 image={file.image ?? icons[mappingFileType].placeholder}
                 renamable={true}

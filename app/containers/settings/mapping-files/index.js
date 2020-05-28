@@ -37,7 +37,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
-    deleteLayer: async (id: string, type: LayerType) => {
+    deleteMappingFile: async (id: string, type: LayerType) => {
       await deleteLayerFile(id, type);
 
       if (type === 'basemap') {
@@ -54,9 +54,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
       );
       await shareBundle(outputPath);
     },
-    renameLayer: async (id: string, type: LayerType, newName: string) => {
-      console.warn(newName);
-
+    renameMappingFile: async (id: string, type: LayerType, newName: string) => {
       if (type === 'basemap') {
         await dispatch(renameBasemap(id, newName));
       } else {
