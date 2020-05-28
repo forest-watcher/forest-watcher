@@ -102,7 +102,7 @@ export function setRouteDestination(destination: Location, areaId: string): Rout
     endDate: null,
     id: generateUniqueID(),
     locations: [],
-    name: 'Active', // will be named on saving
+    name: '', // will be named on saving
     startDate: Date.now()
   };
   return {
