@@ -19,16 +19,19 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainApplication extends NavigationApplication implements ShareApplication {
-
-    private final ReactNativeHost mReactNativeHost = new NavigationReactNativeHost(this) {
+public class MainApplication extends NavigationApplication implements ShareApplication
+{
+    private final ReactNativeHost mReactNativeHost = new NavigationReactNativeHost(this)
+    {
         @Override
-        public boolean getUseDeveloperSupport() {
+        public boolean getUseDeveloperSupport()
+        {
             return BuildConfig.DEBUG;
         }
 
         @Override
-        protected List<ReactPackage> getPackages() {
+        protected List<ReactPackage> getPackages()
+        {
             @SuppressWarnings("UnnecessaryLocalVariable")
             List<ReactPackage> packages = new PackageList(this).getPackages();
             // Packages that cannot be autolinked yet can be added manually here, for
@@ -43,18 +46,21 @@ public class MainApplication extends NavigationApplication implements ShareAppli
         }
 
         @Override
-        protected String getJSMainModuleName() {
+        protected String getJSMainModuleName()
+        {
             return "index";
         }
     };
 
     @Override
-    public ReactNativeHost getReactNativeHost() {
+    public ReactNativeHost getReactNativeHost()
+    {
         return mReactNativeHost;
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate()
+    {
         super.onCreate();
         SoLoader.init(this, /* native exopackage */ false);
         initializeFlipper(this); // Remove this line if you don't want Flipper enabled
@@ -65,9 +71,12 @@ public class MainApplication extends NavigationApplication implements ShareAppli
      *
      * @param context
      */
-    private static void initializeFlipper(Context context) {
-        if (BuildConfig.DEBUG) {
-            try {
+    private static void initializeFlipper(Context context)
+    {
+        if (BuildConfig.DEBUG)
+        {
+            try
+            {
                 /*
                  * We use reflection here to pick up the class that initializes Flipper, since
                  * Flipper library is not available in release mode
@@ -87,7 +96,8 @@ public class MainApplication extends NavigationApplication implements ShareAppli
     }
 
     @Override
-    public String getFileProviderAuthority() {
+    public String getFileProviderAuthority()
+    {
         return BuildConfig.APPLICATION_ID + ".provider";
     }
 }
