@@ -253,7 +253,7 @@ export default class Routes extends PureComponent<Props, State> {
           title={item.name}
           subtitle={subtitle}
           disableSettingsButton={this.state.inShareMode}
-          selected={this.state.inShareMode ? this.state.selectedForExport.includes(combinedId) : null}
+          selected={this.state.inShareMode ? this.state.selectedForExport.includes(item.id) : null}
           largerLeftPadding
           largeImage
         />
