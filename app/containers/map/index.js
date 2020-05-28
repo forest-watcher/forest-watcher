@@ -1,4 +1,5 @@
 // @flow
+import type { Area } from 'types/areas.types';
 import type { Coordinates } from 'types/common.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 import type { Location, Route } from 'types/routes.types';
@@ -50,7 +51,7 @@ function reconcileRoutes(activeRoute: ?Route, previousRoute: ?Route): ?Route {
 }
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
-  const area = getSelectedArea(state.areas.data, state.areas.selectedAreaId);
+  const area: ?Area = getSelectedArea(state.areas.data, state.areas.selectedAreaId);
   let areaCoordinates: ?Array<Coordinates> = null;
   let dataset = null;
   let areaProps = null;
@@ -89,7 +90,10 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
     canDisplayAlerts: state.alerts.canDisplayAlerts,
     reportedAlerts: state.alerts.reported,
     basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',
-    ctxLayerLocalTilePath: area && cache[state.layers.activeLayer] ? cache[state.layers.activeLayer][area.id] : '',
+    ctxLayerLocalTilePath:
+      area && state.layers.activeLayer && cache[state.layers.activeLayer]
+        ? cache[state.layers.activeLayer][area.id]
+        : '',
     mapWalkthroughSeen: state.app.mapWalkthroughSeen
   };
 }
@@ -98,7 +102,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
   return {
     ...bindActionCreators(
       {
-        getActiveBasemap,
         setActiveAlerts,
         setCanDisplayAlerts,
         setSelectedAreaId
@@ -113,6 +116,9 @@ function mapDispatchToProps(dispatch: Dispatch) {
         numAlertsInReport = parsedAlerts.length;
       }
       tracker.trackReportFlowStartedEvent(numAlertsInReport);
+    },
+    getActiveBasemap: (featureId: ?string) => {
+      return dispatch(getActiveBasemap(featureId));
     },
     getImportedContextualLayersById: layerIds => {
       return dispatch(getImportedContextualLayersById(layerIds));
