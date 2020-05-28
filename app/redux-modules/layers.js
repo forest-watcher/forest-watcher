@@ -3,7 +3,7 @@ import type { ContextualLayer, LayersState, LayersAction, LayersCacheStatus, Lay
 import type { Dispatch, GetState, State, Thunk } from 'types/store.types';
 import type { Area } from 'types/areas.types';
 import type { File } from 'types/file.types';
-import type { LayerType } from 'types/sharing.types';
+import type { LayerFile, LayerType } from 'types/sharing.types';
 
 import Config from 'react-native-config';
 import omit from 'lodash/omit';
@@ -19,7 +19,6 @@ import { storeTilesFromUrl } from 'helpers/layer-store/storeLayerFiles';
 import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
 import { importLayerFile } from 'helpers/layer-store/import/importLayerFile';
-import type { LayerFile } from 'types/sharing.types';
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
 const GET_LAYERS_COMMIT = 'layers/GET_LAYERS_COMMIT';
@@ -37,6 +36,7 @@ const IMPORT_LAYER_REQUEST = 'layers/IMPORT_LAYER_REQUEST';
 const IMPORT_LAYER_COMMIT = 'layers/IMPORT_LAYER_COMMIT';
 const IMPORT_LAYER_CLEAR = 'layers/IMPORT_LAYER_CLEAR';
 const IMPORT_LAYER_ROLLBACK = 'layers/IMPORT_LAYER_ROLLBACK';
+const RENAME_LAYER = 'layers/RENAME_LAYER';
 const DELETE_LAYER = 'layers/DELETE_LAYER';
 
 // Reducer
@@ -265,6 +265,20 @@ export default function reducer(state: LayersState = initialState, action: Layer
     case IMPORT_LAYER_ROLLBACK: {
       return { ...state, importingLayer: false, importError: action.payload };
     }
+    case RENAME_LAYER: {
+      let layers = state.imported;
+      const layer = layers.filter(layer => layer.id === action.payload.id)?.[0];
+
+      if (!layer) {
+        return state;
+      }
+
+      layer.name = action.payload.name;
+      layers = layers.filter(layer => layer.id !== action.payload.id);
+      layers.push(layer);
+
+      return { ...state, imported: layers };
+    }
     case DELETE_LAYER: {
       const layers = state.imported.filter(layer => layer.id !== action.payload);
       return { ...state, imported: layers };
@@ -275,6 +289,16 @@ export default function reducer(state: LayersState = initialState, action: Layer
     default:
       return state;
   }
+}
+
+export function renameLayer(id: string, name: string): LayersAction {
+  return {
+    type: RENAME_LAYER,
+    payload: {
+      id,
+      name
+    }
+  };
 }
 
 export function deleteLayer(id: string): LayersAction {

@@ -14,7 +14,7 @@ import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
 import shareBundle from 'helpers/sharing/shareBundle';
 
 import { deleteBasemap, renameBasemap } from 'redux-modules/basemaps';
-import { deleteLayer } from 'redux-modules/layers';
+import { deleteLayer, renameLayer } from 'redux-modules/layers';
 
 import { GFW_BASEMAPS } from 'config/constants';
 
@@ -60,7 +60,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
       if (type === 'basemap') {
         await dispatch(renameBasemap(id, newName));
       } else {
-        // TODO: rename layer
+        await dispatch(renameLayer(id, newName));
       }
     }
   };
