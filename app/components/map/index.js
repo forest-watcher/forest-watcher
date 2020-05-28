@@ -379,8 +379,17 @@ class MapComponent extends Component<Props, State> {
     // See documentation for this variable declaration for explanation
     this.isStartingGeolocation = Platform.OS === 'android';
 
+    // We have to determine what permission level to request.
+    // On iOS 12 and below, and Android, we should base this on whether we need background permission.
+    // However, on iOS 13, we should request always as we can't re-request later after requesting 'when in use'.
+    const defaultPermissionLevel = trackWhenInBackground ? GFWLocationAuthorizedAlways : GFWLocationAuthorizedInUse;
+    const requestedPermission =
+      Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 13
+        ? GFWLocationAuthorizedAlways
+        : defaultPermissionLevel;
+
     try {
-      await startTrackingLocation(trackWhenInBackground ? GFWLocationAuthorizedAlways : GFWLocationAuthorizedInUse);
+      await startTrackingLocation(requestedPermission);
     } catch (err) {
       console.warn('3SC', 'Could not start tracking location...', err);
       this.onLocationUpdateError(err);
