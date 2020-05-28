@@ -1,5 +1,5 @@
 // @flow
-import type { Area, Dataset, GetAreasCommit } from 'types/areas.types';
+import type { Dataset, GetAreasCommit } from 'types/areas.types';
 import type { LogoutRequest } from 'types/user.types';
 import type { OfflineMeta } from 'types/offline.types';
 
@@ -61,15 +61,17 @@ export type Report = {
 
 export type BasicReport = {
   reportName: string,
-  userPosition: [number, number],
-  clickedPosition: [{ lat: number, lon: number }],
-  area: Area
+  userPosition: string, // "x,x"
+  clickedPosition: string, // JSON representation of an array of objects with lat and lon props
+  area: ReportArea,
+  selectedAlerts: Array<{ lat: number, long: number }>
 };
 
 export type ReportArea = {
   id: string,
   name: string,
   datasets: Array<Dataset>,
+  dataset?: Dataset,
   templateId: string
 };
 
@@ -93,7 +95,7 @@ export type GetDefaultTemplateRollback = { type: 'report/GET_DEFAULT_TEMPLATE_RO
 export type CreateReport = {
   type: 'report/CREATE_REPORT',
   payload: {
-    selectedAlerts: [{ lat: number, long: number }],
+    selectedAlerts: Array<{ lat: number, long: number }>,
     report: Report
   }
 };
