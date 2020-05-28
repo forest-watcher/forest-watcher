@@ -33,8 +33,12 @@ public class MainApplication extends NavigationApplication implements ShareAppli
             List<ReactPackage> packages = new PackageList(this).getPackages();
             // Packages that cannot be autolinked yet can be added manually here, for
             // example:
-            packages.addAll(Arrays.<ReactPackage>asList(new BackgroundGeolocationPackage(), new SafeAreaContextPackage(),
-                    new IntentsPackage(), new ReactNativeMBTilesPackage()));
+            packages.addAll(Arrays.<ReactPackage>asList(
+                    new BackgroundGeolocationPackage(),
+                    new SafeAreaContextPackage(),
+                    new IntentsPackage(),
+                    new ReactNativeMBTilesPackage())
+            );
             return packages;
         }
 
