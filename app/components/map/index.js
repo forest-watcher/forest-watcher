@@ -35,6 +35,7 @@ import styles, { mapboxStyles } from './styles';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import SafeArea, { withSafeArea } from 'react-native-safe-area';
 import MapboxGL, { type Position } from '@react-native-mapbox-gl/maps';
+import { MBTilesSource } from 'react-native-mbtiles';
 
 import { toFileUri } from 'helpers/fileURI';
 
@@ -61,6 +62,7 @@ import {
   isValidLatLng,
   isValidLatLngArray
 } from 'helpers/location';
+
 import RouteMarkers from 'components/map/route';
 import type { AlertsAction } from 'types/alerts.types';
 import type { AreasAction } from 'types/areas.types';
@@ -171,6 +173,8 @@ type State = {
 };
 
 class MapComponent extends Component<Props, State> {
+  static offlinePortNumber = 49333;
+
   margin = Platform.OS === 'ios' ? 50 : 100;
 
   static options(passProps: {}) {
@@ -996,7 +1000,6 @@ class MapComponent extends Component<Props, State> {
     const { isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap, layerSettings } = this.props;
 
     const basemap = getActiveBasemap(this.getFeatureId());
-
     const coordinateAndDistanceText = customReporting
       ? getCoordinateAndDistanceText(mapCenterCoords, userLocation, route, coordinatesFormat, this.isRouteTracking())
       : '';
@@ -1050,11 +1053,7 @@ class MapComponent extends Component<Props, State> {
           onPress={this.dismissInfoBanner}
           compassViewMargins={{ x: 5, y: 50 }}
         >
-          {basemap.tileUrl && (
-            <MapboxGL.RasterSource id="basemapTiles" url={basemap.tileUrl}>
-              <MapboxGL.RasterLayer id="basemapTileLayer" />
-            </MapboxGL.RasterSource>
-          )}
+          <MBTilesSource basemap={basemap} port={MapComponent.offlinePortNumber} />
           {renderMapCamera}
           {this.renderAreaOutline()}
           {layerSettings.routes.layerIsActive && this.renderAllRoutes()}

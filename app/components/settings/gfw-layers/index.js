@@ -81,7 +81,7 @@ class GFWLayers extends PureComponent<Props, State> {
 
   focusTextInput = () => {
     this.textInput?.focus?.();
-  }
+  };
 
   onClearSearch = () => {
     this.setState({

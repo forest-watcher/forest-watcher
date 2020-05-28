@@ -40,6 +40,7 @@ type Props = {|
 
 type State = {|
   +bundleSize: number | typeof undefined,
+  +creatingArchive: boolean,
   +selectedForExport: Array<string>,
   +inShareMode: boolean
 |};
@@ -73,6 +74,7 @@ class Areas extends Component<Props, State> {
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
     this.state = {
       bundleSize: undefined,
+      creatingArchive: false,
       selectedForExport: [],
       inShareMode: false
     };
@@ -141,9 +143,14 @@ class Areas extends Component<Props, State> {
    *
    * @param  {Array} selectedAreas An array of area identifiers that have been selected for export.
    */
-  onExportAreasTapped = debounceUI(selectedAreas => {
-    // TODO: Loading screen while the async function below executed
-    this.props.exportAreas(selectedAreas);
+  onExportAreasTapped = debounceUI(async selectedAreas => {
+    this.setState({
+      creatingArchive: true
+    });
+    await this.props.exportAreas(selectedAreas);
+    this.setState({
+      creatingArchive: false
+    });
     if (this.shareSheet) {
       this.shareSheet.setSharing(false);
     }
@@ -257,6 +264,7 @@ class Areas extends Component<Props, State> {
       >
         <ShareSheet
           disabled={!this.props.areaDownloadTooltipSeen}
+          isSharing={this.state.creatingArchive}
           componentId={this.props.componentId}
           onStartShouldSetResponder={event => {
             // If the user taps ANYWHERE set the area download tooltip as seen
@@ -279,6 +287,7 @@ class Areas extends Component<Props, State> {
               ? i18n.t('areas.export.manyAreas', { count: totalAreas })
               : i18n.t('areas.export.oneArea', { count: 1 })
           }
+          shareButtonInProgressTitle={i18n.t('sharing.inProgress', { type: sharingType })}
           shareButtonDisabledTitle={i18n.t('sharing.title', { type: sharingType })}
           shareButtonEnabledTitle={getShareButtonText(sharingType, totalToExport, this.state.bundleSize)}
         >
