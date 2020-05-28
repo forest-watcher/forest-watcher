@@ -54,7 +54,7 @@ export type SetLoginLoading = {
 };
 export type SetEmailLoginError = {
   type: 'user/SET_EMAIL_LOGIN_ERROR',
-  payload: string
+  payload: ?string
 };
 export type ClearEmailLoginError = {
   type: 'user/CLEAR_EMAIL_LOGIN_ERROR'

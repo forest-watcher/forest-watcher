@@ -25,8 +25,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
       logout,
       googleLogin,
       facebookLogin,
-      setLoginAuth,
-      clearEmailLoginError
+      setLoginAuth
     },
     dispatch
   );

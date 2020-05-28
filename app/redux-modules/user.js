@@ -207,12 +207,10 @@ export function emailLogin(email: string, password: string) {
         body: JSON.stringify({ email, password })
       };
       const response = await fetch(url, fetchConfig);
-      dispatch({ type: SET_LOGIN_LOADING, payload: false });
       if (!(response?.ok && response?.status === 200)) {
-        dispatch({ type: SET_LOGIN_LOADING, payload: false });
         const responseJson = await response.json();
         const errorMessage = responseJson?.errors?.[0]?.detail ?? i18n.t('login.emailLogin.loginError');
-        console.warn('3SC', 'Error logging in using email: ', errorMessage);
+        console.warn('3SC', 'API Error logging in using email: ', errorMessage);
         dispatch({
           type: SET_EMAIL_LOGIN_ERROR,
           payload: errorMessage
@@ -228,9 +226,11 @@ export function emailLogin(email: string, password: string) {
           token: responseJson.data.token
         }
       });
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.warn('3SC', 'Error trying to log in using email: ', error);
       dispatch({ type: SET_LOGIN_STATUS, payload: false });
+      dispatch({ type: SET_EMAIL_LOGIN_ERROR, payload: error.toString() });
+    } finally {
       dispatch({ type: SET_LOGIN_LOADING, payload: false });
     }
   };

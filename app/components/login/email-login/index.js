@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, Image, ScrollView, Text, TextInput, TouchableHighlight } from 'react-native';
+import { View, Image, ScrollView, Text, TextInput, TouchableHighlight, ActivityIndicator } from 'react-native';
 import debounceUI from 'helpers/debounceUI';
 
 import i18n from 'i18next';
@@ -22,7 +22,9 @@ type State = {
 type Props = {
   componentId: string,
   emailLogin: (email: string, password: string) => void,
-  loginError: ?string
+  loginError: ?string,
+  clearEmailLoginError: () => Thunk<void>,
+  loading: boolean
 };
 
 export default class EmailLogin extends Component<Props, State> {
@@ -39,6 +41,14 @@ export default class EmailLogin extends Component<Props, State> {
     };
   }
 
+  static renderLoading() {
+    return (
+      <View style={[styles.loaderContainer, styles.loader]}>
+        <ActivityIndicator color={Theme.colors.turtleGreen} style={{ height: 80 }} size="large" />
+      </View>
+    );
+  }
+
   passwordTextInput: ?TextInput;
 
   constructor(props: Props) {
@@ -48,6 +58,10 @@ export default class EmailLogin extends Component<Props, State> {
       password: '',
       showPassword: false
     };
+  }
+
+  componentWillUnmount() {
+    this.props.clearEmailLoginError();
   }
 
   onEmailChange = (email: string) => {
@@ -84,6 +98,7 @@ export default class EmailLogin extends Component<Props, State> {
           showsHorizontalScrollIndicator={false}
           keyboardShouldPersistTaps={'always'}
         >
+          {this.props.loading && EmailLogin.renderLoading()}
           <Text style={styles.title}>{i18n.t('login.emailLogin.emailAddress')}</Text>
           <TextInput
             autoCorrect={false}
@@ -130,7 +145,7 @@ export default class EmailLogin extends Component<Props, State> {
           <ActionButton
             short
             left
-            disabled={!this.enableLoginButton()}
+            disabled={!this.enableLoginButton() || this.props.loading}
             style={styles.actionButton}
             onPress={this.onLoginPressed}
             text={i18n.t('login.emailLogin.login')}

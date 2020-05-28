@@ -3,7 +3,7 @@ import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { emailLogin } from 'redux-modules/user';
+import { clearEmailLoginError, emailLogin, setLoginAuth } from 'redux-modules/user';
 import EmailLogin from 'components/login/email-login';
 
 type OwnProps = {|
@@ -12,14 +12,16 @@ type OwnProps = {|
 
 function mapStateToProps(state: State) {
   return {
-    loginError: state.user.emailLoginError
+    loginError: state.user.emailLoginError,
+    loading: state.user.loading
   };
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      emailLogin
+      emailLogin,
+      clearEmailLoginError
     },
     dispatch
   );
