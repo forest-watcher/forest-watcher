@@ -1,16 +1,10 @@
 // @flow
 
-import type { LayerFile } from 'types/sharing.types';
+import type { LayerFile, LayerType } from 'types/sharing.types';
 import Config from 'react-native-config';
 import RNFetchBlob from 'rn-fetch-blob';
 import { unzip } from 'react-native-zip-archive';
-import {
-  fileNameForTile,
-  layerRootDir,
-  type LayerType,
-  pathForLayer,
-  pathForLayerFile
-} from 'helpers/layer-store/layerFilePaths';
+import { fileNameForTile, layerRootDir, pathForLayer, pathForLayerFile } from 'helpers/layer-store/layerFilePaths';
 import tilebelt from '@mapbox/tilebelt';
 import turfBbox from '@turf/bbox';
 import { GeoJSONObject } from '@turf/helpers';
