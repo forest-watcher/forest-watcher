@@ -10,6 +10,7 @@ import i18n from 'i18next';
 
 import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
+import Constants from 'config/constants';
 import Theme from 'config/theme';
 import debounceUI from 'helpers/debounceUI';
 import showDeleteConfirmationPrompt from 'helpers/showDeleteModal';
@@ -222,8 +223,9 @@ class MappingFiles extends Component<Props, State> {
       file.name,
       i18n.t('commonText.cancel'),
       i18n.t('commonText.confirm'),
+      Constants.layerMaxNameLength,
       newName => {
-        if (newName.length === 0) {
+        if (newName.length === 0 || newName.length > Constants.layerMaxNameLength) {
           return;
         }
 

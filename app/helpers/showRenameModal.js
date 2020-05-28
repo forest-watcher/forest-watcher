@@ -8,6 +8,7 @@ export default async (
   currentFileName: string,
   cancelTitle: string,
   confirmTitle: string,
+  maxLength: number,
   onConfirmPressed: string => void
 ) => {
   if (Platform.OS === 'ios') {
@@ -33,7 +34,7 @@ export default async (
       defaultValue: currentFileName,
       allowEmptyInput: false,
       minLength: 1,
-      maxLength: 64
+      maxLength: maxLength
     });
 
     if (result?.text) {
