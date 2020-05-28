@@ -281,7 +281,9 @@ export default function reducer(state: LayersState = initialState, action: Layer
     }
     case DELETE_LAYER: {
       const layers = state.imported.filter(layer => layer.id !== action.payload);
-      return { ...state, imported: layers };
+      const activeLayer = state.activeLayer.id === action.payload ? null : state.activeLayer;
+
+      return { ...state, imported: layers, activeLayer: activeLayer };
     }
     case LOGOUT_REQUEST:
       deleteLayerFiles().then(console.info('Folder removed successfully'));
