@@ -259,7 +259,7 @@ class MapComponent extends Component<Props, State> {
   // called on startup to set initial camera position
   getMapCameraBounds = () => {
     const { route, areaCoordinates } = this.props;
-    const bounds = getPolygonBoundingBox(route ? route.locations : areaCoordinates);
+    const bounds = getPolygonBoundingBox(route && route.locations.length > 0 ? route.locations : areaCoordinates);
     return { ...bounds, ...MAPS.smallPadding };
   };
 
