@@ -26,9 +26,6 @@
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
   
-  // Google Maps API Key
-  NSString *apiUrl = [ReactNativeConfig envFor:@"GOOGLE_MAPS_API_KEY"];
-  
   // Firebase Config
   [FIRApp configure];
   

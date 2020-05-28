@@ -21,9 +21,15 @@ export type BasemapsState = {
   importing: boolean
 };
 
-export type BasemapsAction = ImportBasemapRequest | ImportBasemapCommit | ImportBasemapClear | ImportBasemapRollback;
+export type BasemapsAction =
+  | ImportBasemapRequest
+  | ImportBasemapCommit
+  | ImportBasemapClear
+  | ImportBasemapRollback
+  | DeleteBasemap;
 
 export type ImportBasemapRequest = { type: 'basemaps/IMPORT_BASEMAP_REQUEST' };
 export type ImportBasemapCommit = { type: 'basemaps/IMPORT_BASEMAP_COMMIT', payload: Basemap };
 export type ImportBasemapClear = { type: 'basemaps/IMPORT_BASEMAP_CLEAR' };
 export type ImportBasemapRollback = { type: 'basemaps/IMPORT_BASEMAP_ROLLBACK', payload: ?Error };
+export type DeleteBasemap = { type: 'basemaps/DELETE_BASEMAP', payload: string };

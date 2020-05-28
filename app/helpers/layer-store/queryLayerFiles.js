@@ -1,12 +1,12 @@
 // @flow
 
-import type { LayerFile } from 'types/sharing.types';
+import type { LayerFile, LayerType } from 'types/sharing.types';
 import type { FeatureCollection, Polygon } from '@turf/helpers';
 
 import _ from 'lodash';
 import intersect from '@turf/intersect';
 
-import { type LayerType, pathForLayer, pathForLayerType, tileForFileName } from 'helpers/layer-store/layerFilePaths';
+import { pathForLayer, pathForLayerType, tileForFileName } from 'helpers/layer-store/layerFilePaths';
 import tilebelt from '@mapbox/tilebelt';
 
 const RNFS = require('react-native-fs');

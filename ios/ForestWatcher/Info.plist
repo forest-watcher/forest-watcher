@@ -180,6 +180,8 @@
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
+				<key>NSIncludesSubdomains</key>
+				<false/>
 			</dict>
 		</dict>
 	</dict>
@@ -364,5 +366,7 @@
 			</dict>
 		</dict>
 	</array>
+	<key>NSAllowsLocationNetworking</key>
+	<true/>
 </dict>
 </plist>
