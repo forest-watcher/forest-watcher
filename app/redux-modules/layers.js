@@ -33,8 +33,8 @@ const SET_CACHE_STATUS = 'layers/SET_CACHE_STATUS';
 export const INVALIDATE_CACHE = 'layers/INVALIDATE_CACHE';
 const UPDATE_PROGRESS = 'layers/UPDATE_PROGRESS';
 
-const IMPORT_LAYER_REQUEST = 'layers/IMPORT_LAYER_REQUEST';
-const IMPORT_LAYER_COMMIT = 'layers/IMPORT_LAYER_COMMIT';
+export const IMPORT_LAYER_REQUEST = 'layers/IMPORT_LAYER_REQUEST';
+export const IMPORT_LAYER_COMMIT = 'layers/IMPORT_LAYER_COMMIT';
 const IMPORT_LAYER_CLEAR = 'layers/IMPORT_LAYER_CLEAR';
 const IMPORT_LAYER_ROLLBACK = 'layers/IMPORT_LAYER_ROLLBACK';
 const DELETE_LAYER = 'layers/DELETE_LAYER';
@@ -255,9 +255,14 @@ export default function reducer(state: LayersState = initialState, action: Layer
       return { ...state, importingLayer: null, importError: null };
     }
     case IMPORT_LAYER_COMMIT: {
-      const importedLayers = [...state.imported];
-      importedLayers.push(action.payload);
-      return { ...state, importingLayer: false, importError: null, imported: importedLayers };
+      const layerToSave = action.payload;
+      // Ignore the saved layer if it already exists - this could happen when importing a layer for example
+      const possiblyPreexistingLayer = state.imported.find(layer => layer.id === layerToSave.id);
+      if (possiblyPreexistingLayer) {
+        console.warn('3SC', `Ignore already existing layer with ID ${layerToSave.id}`);
+        return state;
+      }
+      return { ...state, importingLayer: false, importError: null, imported: [...state.imported, layerToSave] };
     }
     case IMPORT_LAYER_REQUEST: {
       return { ...state, importingLayer: true, importError: null };
