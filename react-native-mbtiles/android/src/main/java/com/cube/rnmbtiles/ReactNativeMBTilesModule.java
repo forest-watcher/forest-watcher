@@ -17,11 +17,21 @@ public class ReactNativeMBTilesModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void getMetadata(String basemapId, String basemapPath, Callback callback) {
+        RNMBTileSource source = new RNMBTileSource(basemapId, basemapPath);
+
+        if (null == source) {
+            callback.invoke(true, null);
+            return;
+        }
+
+        callback.invoke(null, source.getMappedMetadata());
+    }
+
+    @ReactMethod
     public void prepare(String basemapId, String basemapPath, Callback callback) {
         try {
-            String actualPath = null != basemapPath ? basemapPath : "/data/user/0/com.forestwatcher/files/tiles/basemap/a12a1e41-06d1-40e3-9141-6a8a536d8213/0x0x0/a12a1e41-06d1-40e3-9141-6a8a536d8213.mbtiles";
-            
-            RNMBTileMetadata metadata = RNMBTileServer.INSTANCE.prepare(basemapId, actualPath);
+            RNMBTileMetadata metadata = RNMBTileServer.INSTANCE.prepare(basemapId, basemapPath);
 
             if (null == metadata) {
                 callback.invoke(true, null);
