@@ -17,7 +17,7 @@ const initialState: RouteState = {
   previousRoutes: []
 };
 
-export default function reducer(state: RouteState = initialState, action: RouteAction) {
+export default function reducer(state: RouteState = initialState, action: RouteAction): RouteState {
   switch (action.type) {
     case DISCARD_ACTIVE_ROUTE:
       return {
