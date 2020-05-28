@@ -1,4 +1,4 @@
-package com.threesidedcube;
+package com.cube.rnmbtiles;
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;

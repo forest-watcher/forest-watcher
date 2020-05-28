@@ -1,4 +1,4 @@
-package com.threesidedcube
+package com.cube.rnmbtiles
 
 import android.net.Uri
 import android.util.Log

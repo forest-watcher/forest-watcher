@@ -1,4 +1,4 @@
-package com.threesidedcube;
+package com.cube.rnmbtiles;
 
 import java.util.Arrays;
 import java.util.Collections;
