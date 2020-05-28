@@ -12,7 +12,7 @@ import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
-import com.reactlibrary.ReactNativeMBTilesPackage;
+import com.threesidedcube.ReactNativeMBTilesPackage;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -20,31 +20,25 @@ import java.util.List;
 
 public class MainApplication extends NavigationApplication implements ShareApplication {
 
-  private final ReactNativeHost mReactNativeHost = new NavigationReactNativeHost(this)
-  {
+  private final ReactNativeHost mReactNativeHost = new NavigationReactNativeHost(this) {
     @Override
-    public boolean getUseDeveloperSupport()
-    {
+    public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
     }
 
     @Override
-    protected List<ReactPackage> getPackages()
-    {
-      @SuppressWarnings("UnnecessaryLocalVariable") List<ReactPackage> packages = new PackageList(this).getPackages();
-      // Packages that cannot be autolinked yet can be added manually here, for example:
-      packages.addAll(Arrays.<ReactPackage>asList(
-          new BackgroundGeolocationPackage(),
-          new SafeAreaContextPackage(),
-          new IntentsPackage(),
-          new ReactNativeMBTilesPackage()
-      ));
+    protected List<ReactPackage> getPackages() {
+      @SuppressWarnings("UnnecessaryLocalVariable")
+      List<ReactPackage> packages = new PackageList(this).getPackages();
+      // Packages that cannot be autolinked yet can be added manually here, for
+      // example:
+      packages.addAll(Arrays.<ReactPackage>asList(new BackgroundGeolocationPackage(), new SafeAreaContextPackage(),
+          new IntentsPackage(), new ReactNativeMBTilesPackage()));
       return packages;
     }
 
     @Override
-    protected String getJSMainModuleName()
-    {
+    protected String getJSMainModuleName() {
       return "index";
     }
   };
@@ -70,9 +64,9 @@ public class MainApplication extends NavigationApplication implements ShareAppli
     if (BuildConfig.DEBUG) {
       try {
         /*
-         We use reflection here to pick up the class that initializes Flipper,
-        since Flipper library is not available in release mode
-        */
+         * We use reflection here to pick up the class that initializes Flipper, since
+         * Flipper library is not available in release mode
+         */
         Class<?> aClass = Class.forName("com.facebook.flipper.ReactNativeFlipper");
         aClass.getMethod("initializeFlipper", Context.class).invoke(null, context);
       } catch (ClassNotFoundException e) {

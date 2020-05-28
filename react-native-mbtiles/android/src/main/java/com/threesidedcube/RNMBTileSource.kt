@@ -1,4 +1,4 @@
-package com.reactlibrary
+package com.threesidedcube
 
 import android.database.sqlite.SQLiteDatabase
 import com.facebook.react.bridge.WritableNativeMap

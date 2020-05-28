@@ -1,4 +1,4 @@
-package com.reactlibrary
+package com.threesidedcube
 
 import android.net.Uri
 import android.util.Log
