@@ -9,5 +9,5 @@ export default async function shareBundle(path: string): Promise<void> {
     url: `file://${path}`,
     type: Config.SHARING_BUNDLE_MIME_TYPE,
     showAppsToView: true
-  });
+  }).catch(err => {}); // Ensures that the promise is resolved
 }

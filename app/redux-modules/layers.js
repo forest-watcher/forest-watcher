@@ -3,7 +3,7 @@ import type { ContextualLayer, LayersState, LayersAction, LayersCacheStatus, Lay
 import type { Dispatch, GetState, State, Thunk } from 'types/store.types';
 import type { Area } from 'types/areas.types';
 import type { File } from 'types/file.types';
-import type { LayerType } from 'helpers/layer-store/layerFilePaths';
+import type { LayerType } from 'types/sharing.types';
 
 import Config from 'react-native-config';
 import omit from 'lodash/omit';
@@ -37,6 +37,7 @@ const IMPORT_LAYER_REQUEST = 'layers/IMPORT_LAYER_REQUEST';
 const IMPORT_LAYER_COMMIT = 'layers/IMPORT_LAYER_COMMIT';
 const IMPORT_LAYER_CLEAR = 'layers/IMPORT_LAYER_CLEAR';
 const IMPORT_LAYER_ROLLBACK = 'layers/IMPORT_LAYER_ROLLBACK';
+const DELETE_LAYER = 'layers/DELETE_LAYER';
 
 // Reducer
 const initialState = {
@@ -264,12 +265,23 @@ export default function reducer(state: LayersState = initialState, action: Layer
     case IMPORT_LAYER_ROLLBACK: {
       return { ...state, importingLayer: false, importError: action.payload };
     }
+    case DELETE_LAYER: {
+      const layers = state.imported.filter(layer => layer.id !== action.payload);
+      return { ...state, imported: layers };
+    }
     case LOGOUT_REQUEST:
       deleteLayerFiles().then(console.info('Folder removed successfully'));
       return initialState;
     default:
       return state;
   }
+}
+
+export function deleteLayer(id: string): LayersAction {
+  return {
+    type: DELETE_LAYER,
+    payload: id
+  };
 }
 
 export function getUserLayers() {

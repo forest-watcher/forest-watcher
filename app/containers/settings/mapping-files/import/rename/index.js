@@ -1,5 +1,5 @@
 // @flow
-import type { MappingFileType } from 'types/common.types';
+import type { LayerType } from 'types/sharing.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 import type { File } from 'types/file.types';
 
@@ -13,14 +13,14 @@ import ImportMappingFileRename from 'components/settings/mapping-files/import/re
 
 type OwnProps = {|
   +componentId: string,
-  mappingFileType: MappingFileType,
+  mappingFileType: LayerType,
   file: File
 |};
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
-  const imported = ownProps.mappingFileType === 'basemaps' ? state.basemaps.importedBasemaps : state.layers.imported;
-  const error = ownProps.mappingFileType === 'basemaps' ? state.basemaps.importError : state.layers.importError;
-  const importing = ownProps.mappingFileType === 'basemaps' ? state.basemaps.importing : state.layers.importingLayer;
+  const imported = ownProps.mappingFileType === 'basemap' ? state.basemaps.importedBasemaps : state.layers.imported;
+  const error = ownProps.mappingFileType === 'basemap' ? state.basemaps.importError : state.layers.importError;
+  const importing = ownProps.mappingFileType === 'basemap' ? state.basemaps.importing : state.layers.importingLayer;
 
   return {
     existing: imported,
@@ -32,8 +32,8 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) =>
   bindActionCreators(
     {
-      clearState: ownProps.mappingFileType === 'basemaps' ? clearImportBasemapState : clearImportContextualLayerState,
-      import: ownProps.mappingFileType === 'basemaps' ? importBasemap : importContextualLayer
+      clearState: ownProps.mappingFileType === 'basemap' ? clearImportBasemapState : clearImportContextualLayerState,
+      import: ownProps.mappingFileType === 'basemap' ? importBasemap : importContextualLayer
     },
     dispatch
   );

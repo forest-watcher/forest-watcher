@@ -2,6 +2,7 @@ package com.forestwatcher;
 
 import android.content.Context;
 import cl.json.ShareApplication;
+
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -11,6 +12,7 @@ import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
+import com.reactlibrary.ReactNativeMBTilesPackage;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -34,7 +36,8 @@ public class MainApplication extends NavigationApplication implements ShareAppli
       packages.addAll(Arrays.<ReactPackage>asList(
           new BackgroundGeolocationPackage(),
           new SafeAreaContextPackage(),
-          new IntentsPackage()
+          new IntentsPackage(),
+          new ReactNativeMBTilesPackage()
       ));
       return packages;
     }

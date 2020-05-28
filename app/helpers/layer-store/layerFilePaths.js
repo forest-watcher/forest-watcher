@@ -2,9 +2,7 @@
 
 import CONSTANTS from 'config/constants';
 import RNFetchBlob from 'rn-fetch-blob';
-import type { LayerFile } from 'types/sharing.types';
-
-export type LayerType = 'basemap' | 'contextual_layer';
+import type { LayerFile, LayerType } from 'types/sharing.types';
 
 /**
  * Delimiter used to separate x, y, and z from a tile filename, e.g. 4x13x7.png
@@ -61,4 +59,27 @@ export function tileForFileName(fileName: string): [number, number, number] {
   const tileZXY = nameParts.slice(0, 3).map(part => parseInt(part)); // tiles are stored in ZXY order
   const tileXYZ = [tileZXY[1], tileZXY[2], tileZXY[0]];
   return tileXYZ;
+}
+
+/**
+ * Given a basemap file reference, determines the directory the file will sit in.
+ *
+ * @param {File} file the basemap file reference
+ */
+export function directoryForMBTilesFile(file: File): string {
+  return pathForLayerFile({ ...file, type: 'basemap', layerId: file.id, tileXYZ: [0, 0, 0] });
+}
+
+/**
+ * Given a basemap file reference, determines the path for it.
+ *
+ * This is because, on iOS, the IDs that iOS uses to determine the device / application directories
+ * can change (at least, on the simulator!) so we do not want to use the static path.
+ *
+ * @param {File} file the basemap file reference
+ */
+export function pathForMBTilesFile(file: File): string {
+  const baseDirectory = directoryForMBTilesFile(file);
+
+  return `${baseDirectory}/${file.id}.mbtiles`;
 }
