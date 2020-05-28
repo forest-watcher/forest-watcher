@@ -11,10 +11,9 @@ export type Route = {
   areaId: string,
   name: string,
   startDate: number,
-  endDate: number,
+  endDate: ?number,
   difficulty: RouteDifficulty,
-  destination?: Location,
-  language: string,
+  destination: Location,
   locations: Array<LocationPoint>,
   isImported?: true
 };

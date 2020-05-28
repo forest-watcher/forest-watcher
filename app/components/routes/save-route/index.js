@@ -1,5 +1,6 @@
 // @flow
 
+import type { Route, RouteDifficulty } from 'types/routes.types';
 import React, { PureComponent } from 'react';
 import { Dimensions, Text, ScrollView, Picker } from 'react-native';
 import { Navigation } from 'react-native-navigation';
@@ -10,8 +11,6 @@ import InputText from 'components/common/text-input';
 import { getValidLocations, stopTrackingLocation } from 'helpers/location';
 import i18n from 'i18next';
 import RoutePreviewImage from '../preview-image';
-import type { Route, RouteDifficulty } from 'types/routes.types';
-import generateUniqueID from 'helpers/uniqueId';
 
 const screenDimensions = Dimensions.get('screen');
 
@@ -41,14 +40,11 @@ class SaveRoute extends PureComponent<Props, State> {
     super(props);
     Navigation.events().bindComponent(this);
 
-    const date = Date.now();
     this.state = {
       route: {
-        id: generateUniqueID(),
-        endDate: date,
-        name: '',
-        difficulty: 'easy',
-        locations: []
+        difficulty: props.route?.difficulty ?? 'easy',
+        endDate: Date.now(),
+        name: props.route?.name ?? ''
       }
     };
   }
@@ -87,7 +83,7 @@ class SaveRoute extends PureComponent<Props, State> {
   };
 
   onSaveRoutePressed = () => {
-    if (!this.state.route) {
+    if (!this.props.route) {
       return;
     }
 

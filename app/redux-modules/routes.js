@@ -2,6 +2,7 @@
 import type { Location, RouteState, RouteAction, Route, RouteDeletionCriteria } from 'types/routes.types';
 import type { Dispatch, GetState, Thunk } from 'types/store.types';
 import { deleteAllLocations } from 'helpers/location';
+import generateUniqueID from 'helpers/uniqueId';
 
 // Actions
 const DISCARD_ACTIVE_ROUTE = 'routes/DISCARD_ACTIVE_ROUTE';
@@ -94,13 +95,19 @@ export function deleteRoutes(criteria: RouteDeletionCriteria): RouteAction {
 
 export function setRouteDestination(destination: Location, areaId: string): RouteAction {
   deleteAllLocations();
+  const initialRoute: Route = {
+    areaId: areaId,
+    destination: destination,
+    difficulty: 'easy',
+    endDate: null,
+    id: generateUniqueID(),
+    locations: [],
+    name: 'Active', // will be named on saving
+    startDate: Date.now()
+  };
   return {
     type: UPDATE_ACTIVE_ROUTE,
-    payload: {
-      areaId: areaId,
-      destination: destination,
-      startDate: Date.now()
-    }
+    payload: initialRoute
   };
 }
 
