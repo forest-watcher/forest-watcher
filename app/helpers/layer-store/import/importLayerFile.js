@@ -14,6 +14,18 @@ import { feature, featureCollection } from '@turf/helpers';
 const DOMParser = require('xmldom').DOMParser;
 const RNFS = require('react-native-fs');
 
+export async function temporarilyImportBasemapFile(layerFile: File): Promise<LayerFile> {
+  const { file, fileName, fileExtension } = getFormattedFile(layerFile);
+  const tempPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '');
+
+  try {
+    await RNFS.copyFile(file.uri, tempPath);
+    return { path: tempPath, type: 'basemap', layerId: file.id, tileXYZ: [0, 0, 0], size: 0 };
+  } finally {
+    // TODO
+  }
+}
+
 /**
  * TODO: Split each file format in this switch statement out into separate functions
  */
@@ -108,7 +120,7 @@ export async function importLayerFile(layerFile: File): Promise<LayerFile> {
   }
 }
 
-function getFormattedFile(layerFile: File) {
+export function getFormattedFile(layerFile: File) {
   // We have to decode the file URI because iOS file manager doesn't like encoded uris!
   const file = {
     ...layerFile,

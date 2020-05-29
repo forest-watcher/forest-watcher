@@ -3,6 +3,7 @@ import type { LayerType } from 'types/sharing.types';
 import React, { PureComponent } from 'react';
 import { Text, ScrollView, View, Image } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import { getMBTilesMetadata } from 'react-native-mbtiles';
 
 import styles from './styles';
 import i18n from 'i18next';
@@ -13,6 +14,7 @@ import Theme from 'config/theme';
 import debounceUI from 'helpers/debounceUI';
 import DocumentPicker from 'react-native-document-picker';
 import generatedUniqueId from 'helpers/uniqueId';
+import { getFormattedFile, temporarilyImportBasemapFile } from 'helpers/layer-store/import/importLayerFile';
 const nextIcon = require('assets/next.png');
 const fileIcon = require('assets/fileIcon.png');
 
@@ -58,7 +60,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles, 'public.item']
       });
-      const validFile = this.verifyImportedFile(res);
+      const validFile = await this.verifyImportedFile(res);
       if (!validFile) {
         return;
       }
@@ -98,15 +100,38 @@ class ImportMappingFileType extends PureComponent<Props, State> {
     });
   });
 
-  verifyImportedFile = (file: File) => {
+  verifyImportedFile = async (file: File) => {
     const fileExtension = file.name
       ?.split('.')
       ?.pop()
       ?.toLowerCase();
+
+    // First, ensure that this file is one of the supported file types.
     if (!this.acceptedFileTypes().includes(fileExtension)) {
       this.showErrorModal(file.name);
       return false;
     }
+
+    if (this.props.mappingFileType === 'basemap') {
+      // This is a basemap import, so we must ensure the file doesn't contain vector tiles.
+      // First, we complete a temporary import so we can read from the file.
+      const tempBasemapFile = await temporarilyImportBasemapFile({ ...file, fileName: '/temp' });
+
+      const metadata = await getMBTilesMetadata(tempBasemapFile.path);
+
+      if (!metadata) {
+        // This mbtiles file has no metadata - so we'll reject it.
+        this.showErrorModal(file.name);
+        return false;
+      }
+
+      if (metadata.isVector) {
+        // This mbtiles file contains vector tiles - we do not support them.
+        this.showErrorModal(file.name);
+        return false;
+      }
+    }
+
     return true;
   };
 

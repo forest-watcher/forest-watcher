@@ -18,14 +18,18 @@ public class ReactNativeMBTilesModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getMetadata(String basemapId, String basemapPath, Callback callback) {
-        RNMBTileSource source = new RNMBTileSource(basemapId, basemapPath);
+        try {
+            RNMBTileSource source = new RNMBTileSource(basemapId, basemapPath);
 
-        if (null == source) {
+            if (null == source) {
+                callback.invoke(true, null);
+                return;
+            }
+
+            callback.invoke(null, source.getMappedMetadata());
+        } catch (Error e) {
             callback.invoke(true, null);
-            return;
         }
-
-        callback.invoke(null, source.getMappedMetadata());
     }
 
     @ReactMethod
