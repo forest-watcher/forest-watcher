@@ -4,14 +4,14 @@ import type { Thunk } from 'types/store.types';
 import type { UserAction } from 'types/user.types';
 import React, { PureComponent } from 'react';
 import {
+  ActivityIndicator,
   Alert,
-  View,
-  Text,
-  TouchableHighlight,
   Image,
   ImageBackground,
-  ActivityIndicator,
-  ScrollView
+  ScrollView,
+  Text,
+  TouchableHighlight,
+  View
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 

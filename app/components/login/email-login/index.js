@@ -1,7 +1,8 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, Image, ScrollView, Text, TextInput, TouchableHighlight, ActivityIndicator } from 'react-native';
+import { View, Image, Text, TextInput, TouchableHighlight, ActivityIndicator } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import debounceUI from 'helpers/debounceUI';
 
 import i18n from 'i18next';
@@ -92,7 +93,7 @@ export default class EmailLogin extends Component<Props, State> {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView
+        <KeyboardAwareScrollView
           style={styles.container}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
@@ -155,7 +156,7 @@ export default class EmailLogin extends Component<Props, State> {
               {GFW_FORGOT_PASSWORD_LINK}
             </Text>
           </Hyperlink>
-        </ScrollView>
+        </KeyboardAwareScrollView>
       </View>
     );
   }
