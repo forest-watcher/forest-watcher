@@ -13,18 +13,23 @@ import {
 } from 'react-native';
 import styles from './styles';
 
-import Theme from 'config/theme';
-
 const infoIcon = require('assets/info.png');
 const downloadIcon = require('assets/downloadGrey.png');
 const checkboxOff = require('assets/checkbox_off.png');
 const checkboxOn = require('assets/checkbox_on.png');
+const deleteIcon = require('assets/settingsDelete.png');
+const renameIcon = require('assets/settingsEdit.png');
 
 type Props = {
+  deletable: boolean,
   image?: ?string | ?number,
+  inEditMode: boolean,
+  onDeletePress: () => void,
   onDownloadPress?: () => void,
   onPress?: ?() => void,
   onInfoPress?: () => void,
+  onRenamePress?: () => void,
+  renamable: boolean,
   selected?: ?boolean,
   style?: ?ViewStyle,
   subtitle?: ?string,
@@ -33,6 +38,14 @@ type Props = {
 
 export default class MappingFileRow extends Component<Props> {
   renderIcons = () => {
+    if (this.props.inEditMode) {
+      return (
+        <React.Fragment>
+          {this.props.renamable && this.renderIcon(renameIcon, this.props.onRenamePress)}
+          {this.props.deletable && this.renderIcon(deleteIcon, this.props.onDeletePress)}
+        </React.Fragment>
+      );
+    }
     if (this.props.selected === false) {
       return this.renderIcon(checkboxOff, this.props.onPress);
     } else if (this.props.selected === true) {
@@ -54,6 +67,7 @@ export default class MappingFileRow extends Component<Props> {
       android: TouchableNativeFeedback,
       ios: TouchableHighlight
     });
+
     return (
       <Touchable
         onPress={onPress}
@@ -77,31 +91,22 @@ export default class MappingFileRow extends Component<Props> {
 
   render() {
     return (
-      <TouchableHighlight
-        activeOpacity={0.5}
-        underlayColor="transparent"
-        onPress={this.props.onPress}
-        style={this.props.style}
-      >
-        <View style={styles.item}>
-          <View style={styles.imageContainer}>
-            {this.props.image && (
-              <ImageBackground resizeMode={'cover'} style={styles.image} source={this.props.image} />
-            )}
-          </View>
-          <View style={styles.contentContainer}>
-            <Text numberOfLines={2} style={styles.title}>
-              {this.props.title}
-            </Text>
-            {!!this.props.subtitle && (
-              <View style={{ justifyContent: 'flex-end' }}>
-                <Text style={styles.title}>{this.props.subtitle}</Text>
-              </View>
-            )}
-          </View>
-          <View style={styles.iconsContainer}>{this.renderIcons()}</View>
+      <View style={styles.item}>
+        <View style={styles.imageContainer}>
+          {this.props.image && <ImageBackground resizeMode={'cover'} style={styles.image} source={this.props.image} />}
         </View>
-      </TouchableHighlight>
+        <View style={styles.contentContainer}>
+          <Text numberOfLines={2} style={styles.title}>
+            {this.props.title}
+          </Text>
+          {!!this.props.subtitle && (
+            <View style={styles.subtitleContainer}>
+              <Text style={styles.title}>{this.props.subtitle}</Text>
+            </View>
+          )}
+        </View>
+        <View style={styles.iconsContainer}>{this.renderIcons()}</View>
+      </View>
     );
   }
 }

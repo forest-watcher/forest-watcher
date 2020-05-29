@@ -197,6 +197,8 @@ export const DEFAULT_BASEMAP = GFW_BASEMAPS[0];
 export const ACCEPTED_FILE_TYPES_CONTEXTUAL_LAYERS = ['json', 'geojson', 'topojson', 'gpx', 'zip', 'kmz', 'kml'];
 export const ACCEPTED_FILE_TYPES_BASEMAPS = ['mbtiles'];
 
+export const LAYER_MAX_NAME_LENGTH = 40;
+
 export const GFW_SIGN_UP_LINK = 'https://www.globalforestwatch.org/my-gfw';
 export const GFW_FORGOT_PASSWORD_LINK = `${Config.API_AUTH}/auth/reset-password`;
 
@@ -212,5 +214,6 @@ export default {
   status: STATUS,
   reach: REACH,
   datasets: DATASETS,
-  actionsSavedToReport: ACTIONS_SAVED_TO_REPORT
+  actionsSavedToReport: ACTIONS_SAVED_TO_REPORT,
+  layerMaxNameLength: LAYER_MAX_NAME_LENGTH
 };

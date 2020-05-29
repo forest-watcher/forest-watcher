@@ -30,7 +30,6 @@ export const GFWOnErrorEvent = 'gfw_onerror_event';
 // These error codes can be found in an enum in /node_modules/@mauron85/react-native-background-geolocation/ios/common/BackgroundGeolocation/MAURProviderDelegate.h
 export const GFWErrorPermission = 1000;
 export const GFWErrorLocation = 1003;
-export const GFWErrorLocationStale = 10000; // This is our own custom error
 
 /**
  * Cache the most recent received location so that we can instantly send a fix to new subscribers
@@ -341,9 +340,9 @@ export function stopTrackingHeading() {
  * getCoordinateAndDistanceText - Returns the location and distance text.
  */
 export function getCoordinateAndDistanceText(
-  destinationCoordinates: Array<number>,
+  destinationCoordinates: ?[number, number],
   lastPosition: ?Coordinates,
-  route: Route,
+  route: ?Route,
   coordinatesFormat: CoordinatesFormat,
   isRouteTracking: boolean
 ) {
@@ -375,7 +374,7 @@ function getCoordinateText(
 }
 
 // [1, 2] -> {latitude: 2, longitude: 1}
-export function coordsArrayToObject(coord: ?Array<number>) {
+export function coordsArrayToObject(coord: [number, number]) {
   return { latitude: coord?.[1], longitude: coord?.[0] };
 }
 // {latitude: 2, longitude: 1} -> [1, 2]
@@ -384,12 +383,12 @@ export function coordsObjectToArray(coord: ?Coordinates) {
 }
 
 // returns true for valid lat lng values: { latitude: -1.00, longitude: 50.00 }
-export function isValidLatLng(location: { latitude: string, longitude: string }) {
+export function isValidLatLng(location: { latitude: string, longitude: string } | Coordinate) {
   return !isNaN(Number.parseFloat(location.latitude)) && !isNaN(Number.parseFloat(location.longitude));
 }
 
 // returns true for valid lat lng array: [50.00, -1.00]
-export function isValidLatLngArray(location: Array<string>) {
+export function isValidLatLngArray(location: [string, string] | [number, number]) {
   return !isNaN(Number.parseFloat(location[1])) && !isNaN(Number.parseFloat(location[0]));
 }
 

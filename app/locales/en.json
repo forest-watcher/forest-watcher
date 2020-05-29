@@ -39,12 +39,17 @@
         "noAlerts": "No alerts for this area"
     },
     "basemaps": {
+        "delete": {
+            "title": "Delete this basemap?",
+            "message": "This action is irreversible, do you wish to continue?"
+        },
         "names": {
             "default": "Default",
             "dark": "Dark",
             "satellite": "Satellite",
             "landsat": "Landsat"
         },
+        "edit": "Edit",
         "empty": {
             "action": "App FAQs",
             "body": "Tap the '+' icon to set up a custom basemap",
@@ -75,6 +80,10 @@
             "chooseAnother": "Choose Another"
         },
         "imported": "Custom Basemaps",
+        "rename": {
+            "title": "Rename Basemap",
+            "message": "Enter your new name"
+        },
         "title": "Manage Basemaps",
         "share": "Share"
     },
@@ -135,6 +144,11 @@
         "description": "Questions or feedback? Email mailto:forestwatcher@wri.org"
     },
     "contextualLayers": {
+        "delete": {
+            "title": "Delete this layer?",
+            "message": "This action is irreversible, do you wish to continue?"
+        },
+        "edit": "Edit",
         "empty": {
             "action": "App FAQs",
             "body": "Contextual layers you add will appear here",
@@ -166,6 +180,10 @@
         },
         "gfw": "GFW Layers",
         "imported": "Custom Layers",
+        "rename": {
+            "title": "Rename Contextual Layer",
+            "message": "Enter your new name"
+        },
         "title": "Manage Contextual Layers",
         "share": "Share"
     },
@@ -651,6 +669,7 @@
         "placeholder": "Enter a name"
     },
     "sharing": {
+        "inProgress": "Sharing %{type}...",
         "title": "Share %{type}",
         "noneSelected": "No %{type} Selected",
         "one": "Share %{type} (%{bundleSize})",

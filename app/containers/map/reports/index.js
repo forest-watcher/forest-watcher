@@ -9,8 +9,8 @@ import Reports, { type ReportLayerSettings } from 'components/map/reports';
 import { getReports } from 'containers/reports';
 
 type OwnProps = {|
-  +componentId: string,
-  featureId: string
+  +featureId: string,
+  +onShapeSourcePressed: () => void
 |};
 
 function mapStateToProps(state: State, ownProps: OwnProps) {

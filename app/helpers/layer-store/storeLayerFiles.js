@@ -1,16 +1,10 @@
 // @flow
 
-import type { LayerFile } from 'types/sharing.types';
+import type { LayerFile, LayerType } from 'types/sharing.types';
 import Config from 'react-native-config';
 import RNFetchBlob from 'rn-fetch-blob';
 import { unzip } from 'react-native-zip-archive';
-import {
-  fileNameForTile,
-  layerRootDir,
-  type LayerType,
-  pathForLayer,
-  pathForLayerFile
-} from 'helpers/layer-store/layerFilePaths';
+import { fileNameForTile, layerRootDir, pathForLayer, pathForLayerFile } from 'helpers/layer-store/layerFilePaths';
 import tilebelt from '@mapbox/tilebelt';
 import turfBbox from '@turf/bbox';
 import { GeoJSONObject } from '@turf/helpers';
@@ -68,16 +62,23 @@ export async function storeLayerFiles(files: Array<LayerFile>, dir: string = lay
         .split('/')
         .slice(0, -1)
         .join('/');
-      await RNFS.mkdir(destinationPath);
-      await RNFS.copyFile(file.path, destinationUri); // copy sequentially
+
+      const dirExists = await RNFetchBlob.fs.exists(destinationPath);
+      if (!dirExists) {
+        await RNFetchBlob.fs.mkdir(destinationPath);
+      }
+      await RNFetchBlob.fs.cp(file.path, destinationUri); // copy sequentially
     } else {
-      await RNFS.mkdir(destinationUri);
+      const dirExists = await RNFetchBlob.fs.exists(destinationUri);
+      if (!dirExists) {
+        await RNFetchBlob.fs.mkdir(destinationUri);
+      }
 
       // eslint-disable-next-line no-unused-vars
       for (const subFile of subFiles) {
         const subFileSourceUri = `${file.path}/${subFile}`;
         const subFileDestinationUri = `${destinationUri}/${subFile}`;
-        await RNFS.copyFile(subFileSourceUri, subFileDestinationUri); // copy sequentially
+        await RNFetchBlob.fs.cp(subFileSourceUri, subFileDestinationUri); // copy sequentially
       }
     }
   }
