@@ -14,6 +14,7 @@ const IMPORT_BASEMAP_REQUEST = 'basemaps/IMPORT_BASEMAP_REQUEST';
 const IMPORT_BASEMAP_COMMIT = 'basemaps/IMPORT_BASEMAP_COMMIT';
 const IMPORT_BASEMAP_CLEAR = 'basemaps/IMPORT_BASEMAP_CLEAR';
 const IMPORT_BASEMAP_ROLLBACK = 'basemaps/IMPORT_BASEMAP_ROLLBACK';
+const RENAME_BASEMAP = 'basemaps/RENAME_BASEMAP';
 const DELETE_BASEMAP = 'basemaps/DELETE_BASEMAP';
 
 // Reducer
@@ -47,6 +48,20 @@ export default function reducer(state: BasemapsState = initialState, action: Bas
     }
     case IMPORT_BASEMAP_ROLLBACK: {
       return { ...state, importing: false, importError: action.payload };
+    }
+    case RENAME_BASEMAP: {
+      let basemaps = [...state.importedBasemaps];
+      const targetBasemap = basemaps.filter(basemap => basemap.id === action.payload.id)?.[0];
+
+      if (!targetBasemap) {
+        return state;
+      }
+
+      targetBasemap.name = action.payload.name;
+
+      basemaps = basemaps.map(basemap => (basemap.id === action.payload.id ? targetBasemap : basemap));
+
+      return { ...state, importedBasemaps: basemaps };
     }
     case DELETE_BASEMAP: {
       const basemaps = state.importedBasemaps.filter(basemap => basemap.id !== action.payload);
@@ -86,6 +101,16 @@ export function importBasemap(basemapFile: File): Thunk<Promise<void>> {
     } catch (error) {
       dispatch({ type: IMPORT_BASEMAP_ROLLBACK, payload: error });
       throw error;
+    }
+  };
+}
+
+export function renameBasemap(id: string, name: string): BasemapsAction {
+  return {
+    type: RENAME_BASEMAP,
+    payload: {
+      id,
+      name
     }
   };
 }
