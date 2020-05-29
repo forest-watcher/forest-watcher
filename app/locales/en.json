@@ -398,12 +398,24 @@
     },
     "login": {
         "connectionRequired": "You need an internet connection",
+        "emailTitle": "Login with Email",
         "facebookTitle": "Facebook",
         "failed": "There was an error during login/logout",
         "googleTitle": "Google",
         "introductionText": "Sign in with a MyGFW account",
         "twitterTitle": "Twitter",
-        "unable": "Unable to login"
+        "signUp": "Sign Up",
+        "unable": "Unable to login",
+        "emailLogin": {
+            "loginWithEmail": "Login With Email",
+            "emailAddress": "Email Address",
+            "enterYourEmail": "Enter Your Email",
+            "password": "Password",
+            "enterYourPassword": "Enter Your Password",
+            "login": "Login",
+            "forgotYourPassword": "Forgot Your Password?",
+            "loginError": "Error during login"
+        }
     },
     "map": {
         "alerts": "Alerts",
