@@ -199,6 +199,9 @@ export const ACCEPTED_FILE_TYPES_BASEMAPS = ['mbtiles'];
 
 export const LAYER_MAX_NAME_LENGTH = 40;
 
+export const GFW_SIGN_UP_LINK = 'https://www.globalforestwatch.org/my-gfw';
+export const GFW_FORGOT_PASSWORD_LINK = `${Config.API_AUTH}/auth/reset-password`;
+
 export default {
   areas: AREAS,
   basemaps: GFW_BASEMAPS,
