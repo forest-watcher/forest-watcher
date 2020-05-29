@@ -138,21 +138,21 @@ class Login extends PureComponent<Props, State> {
   };
 
   onLoadEnd = () => {
+    if (!this.state.socialNetwork) {
+      console.warn('3SC login error: no social network property');
+      return;
+    }
     const parsedUrl = parseUrl(this.state.webViewCurrentUrl, true);
     if (
       parsedUrl.origin === Config.API_AUTH &&
       parsedUrl.pathname === Config.API_AUTH_CALLBACK_PATH &&
       parsedUrl.query?.token
     ) {
-      if (this.state.socialNetwork) {
-        this.props.setLoginAuth({
-          token: parsedUrl.query.token,
-          socialNetwork: this.state.socialNetwork,
-          loggedIn: true
-        });
-      } else {
-        console.warn('3SC login error: no social network property');
-      }
+      this.props.setLoginAuth({
+        token: parsedUrl.query.token,
+        socialNetwork: this.state.socialNetwork,
+        loggedIn: true
+      });
     }
   };
 
