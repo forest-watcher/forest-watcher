@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
+    paddingBottom: 12,
     backgroundColor: Theme.background.main
   },
   input: {
