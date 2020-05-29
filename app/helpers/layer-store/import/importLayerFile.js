@@ -26,6 +26,10 @@ export async function temporarilyImportBasemapFile(layerFile: File): Promise<Lay
   }
 }
 
+export async function deleteTemporaryBasemap(filePath: string) {
+  RNFS.unlink(filePath);
+}
+
 /**
  * TODO: Split each file format in this switch statement out into separate functions
  */

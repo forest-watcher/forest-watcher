@@ -14,7 +14,11 @@ import Theme from 'config/theme';
 import debounceUI from 'helpers/debounceUI';
 import DocumentPicker from 'react-native-document-picker';
 import generatedUniqueId from 'helpers/uniqueId';
-import { getFormattedFile, temporarilyImportBasemapFile } from 'helpers/layer-store/import/importLayerFile';
+import {
+  getFormattedFile,
+  temporarilyImportBasemapFile,
+  deleteTemporaryBasemap
+} from 'helpers/layer-store/import/importLayerFile';
 const nextIcon = require('assets/next.png');
 const fileIcon = require('assets/fileIcon.png');
 
@@ -118,6 +122,8 @@ class ImportMappingFileType extends PureComponent<Props, State> {
       const tempBasemapFile = await temporarilyImportBasemapFile({ ...file, fileName: '/temp' });
 
       const metadata = await getMBTilesMetadata(tempBasemapFile.path);
+
+      deleteTemporaryBasemap(tempBasemapFile.path);
 
       if (!metadata) {
         // This mbtiles file has no metadata - so we'll reject it.
