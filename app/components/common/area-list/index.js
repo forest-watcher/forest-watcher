@@ -5,10 +5,8 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 
 import VerticalSplitRow from 'components/common/vertical-split-row';
-import AreaCache from 'containers/common/area-list/area-cache';
+import DataCacher from 'containers/common/download';
 import styles from './styles';
-
-import i18n from 'i18next';
 
 type Props = {
   areas: Array<Area>,
@@ -30,8 +28,7 @@ export default class AreaList extends Component<Props> {
       onAreaDownloadPress,
       onAreaPress,
       onAreaSettingsPress,
-      showCache,
-      pristine
+      showCache
     } = this.props;
     if (!areas) {
       return null;
@@ -58,10 +55,11 @@ export default class AreaList extends Component<Props> {
               largeImage
             />
             {showCache && (
-              <AreaCache
-                areaId={area.id}
-                disabled={this.props.sharing}
-                showTooltip={index === 0 && downloadCalloutVisible}
+              <DataCacher
+                dataType={'area'}
+                id={area.id}
+                disabled={this.props.sharing ?? false}
+                showTooltip={index === 0 && (downloadCalloutVisible ?? false)}
               />
             )}
           </View>

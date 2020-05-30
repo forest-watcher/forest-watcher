@@ -1,4 +1,5 @@
 // @flow
+import type { DownloadDataType } from 'types/sharing.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 import type { LayersPendingCache } from 'types/layers.types';
 
@@ -6,11 +7,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { downloadAreaById, resetCacheStatus, refreshAreaCacheById } from 'redux-modules/layers';
 import { showNotConnectedNotification } from 'redux-modules/app';
-import AreaCache from 'components/common/area-list/area-cache';
+import DataCacher from 'components/common/download';
 
 type OwnProps = {|
-  +componentId: string,
-  +areaId: string,
+  +dataType: DownloadDataType,
+  +disabled: boolean,
+  +id: string,
   +showTooltip: boolean
 |};
 
@@ -21,21 +23,25 @@ const getAreaPendingCache = (areaId: string, pendingCache: LayersPendingCache) =
     .reduce((acc, next) => acc + next, 0);
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
-  const { areaId } = ownProps;
-  const cacheStatus = state.layers.cacheStatus[areaId];
+  const { id } = ownProps;
+  // TODO: Update route state with cache status
+  const cacheStatus =
+    ownProps.dataType === 'area'
+      ? state.layers.cacheStatus[id]
+      : { requested: false, progress: 0, error: false, completed: false };
   return {
     cacheStatus,
     isOfflineMode: state.app.offlineMode,
-    pendingCache: getAreaPendingCache(areaId, state.layers.pendingCache)
+    pendingCache: ownProps.dataType === 'area' ? getAreaPendingCache(id, state.layers.pendingCache) : 0
   };
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) =>
   bindActionCreators(
     {
-      downloadAreaById,
+      downloadById: ownProps.dataType === 'area' ? downloadAreaById : () => {},
       resetCacheStatus,
-      refreshAreaCacheById,
+      refreshCacheById: ownProps.dataType === 'area' ? refreshAreaCacheById : () => {},
       showNotConnectedNotification
     },
     dispatch
@@ -45,4 +51,4 @@ type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDi
 export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
-)(AreaCache);
+)(DataCacher);

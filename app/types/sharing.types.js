@@ -8,6 +8,7 @@ import type { ContextualLayer } from 'types/layers.types';
 
 import type { Feature, Polygon } from '@turf/helpers';
 
+export type DownloadDataType = 'area' | 'route';
 export type LayerType = 'basemap' | 'contextual_layer';
 
 /**
