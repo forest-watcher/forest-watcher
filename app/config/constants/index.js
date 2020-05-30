@@ -73,6 +73,7 @@ export const FILES = {
   images: {
     alerts: 'images/alerts'
   },
+  maxSize: 10485760,
   tiles: 'tiles'
 };
 

@@ -75,6 +75,8 @@
             "custom": "Custom Basemap",
             "supportedFileTypesInclude": "Supported file types include:",
             "faq": "Custom Basemap FAQs",
+            "fileSizeTooLarge": "File Too Large",
+            "fileSizeTooLargeDesc": "Please try with a file smaller than 10MB",
             "fileTypeNotSupported": "File Type Not Supported",
             "fileTypeNotSupportedDesc": "is not a supported file type for basemaps.",
             "chooseAnother": "Choose Another"
@@ -174,6 +176,8 @@
             "custom": "Custom Contextual Layer",
             "supportedFileTypesInclude": "Supported file types include:",
             "faq": "Custom Layer FAQs",
+            "fileSizeTooLarge": "File Too Large",
+            "fileSizeTooLargeDesc": "Please try with a file smaller than 10MB",
             "fileTypeNotSupported": "File Type Not Supported",
             "fileTypeNotSupportedDesc": "is not a supported file type for contextual layers.",
             "chooseAnother": "Choose Another"
