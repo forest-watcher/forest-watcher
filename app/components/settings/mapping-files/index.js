@@ -241,6 +241,7 @@ class MappingFiles extends Component<Props, State> {
     if (baseFiles.length === 0) {
       return null;
     }
+    const onInfoPress = mappingFileType === 'basemap' ? undefined : () => {};
 
     return (
       <View>
@@ -261,6 +262,7 @@ class MappingFiles extends Component<Props, State> {
                   }
                 }}
                 onDownloadPress={() => {}}
+                onInfoPress={onInfoPress}
                 image={file.image ?? icons[mappingFileType].placeholder}
                 renamable={false}
                 title={i18n.t(file.name)}
