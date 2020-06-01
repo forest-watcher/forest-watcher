@@ -7,6 +7,7 @@ import { authorize, revoke } from 'react-native-app-auth';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import Config from 'react-native-config';
 import oAuth from 'config/oAuth';
+import i18n from 'i18next';
 
 const CookieManager = require('@react-native-community/cookies');
 
@@ -18,6 +19,8 @@ const SET_LOGIN_AUTH = 'user/SET_LOGIN_AUTH';
 const SET_LOGIN_STATUS = 'user/SET_LOGIN_STATUS';
 export const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
 const SET_LOGIN_LOADING = 'user/SET_LOGIN_LOADING';
+const SET_EMAIL_LOGIN_ERROR = 'user/SET_EMAIL_LOGIN_ERROR';
+const CLEAR_EMAIL_LOGIN_ERROR = 'user/CLEAR_EMAIL_LOGIN_ERROR';
 
 // Reducer
 const initialState = {
@@ -29,7 +32,8 @@ const initialState = {
   logSuccess: true,
   synced: false,
   syncing: false,
-  loading: false
+  loading: false,
+  emailLoginError: null
 };
 
 export default function reducer(state: UserState = initialState, action: UserAction): UserState {
@@ -50,7 +54,7 @@ export default function reducer(state: UserState = initialState, action: UserAct
     }
     case SET_LOGIN_AUTH: {
       const { socialNetwork, loggedIn, token, oAuthToken } = action.payload;
-      return { ...state, socialNetwork, loggedIn, token, oAuthToken };
+      return { ...state, socialNetwork, loggedIn, token, oAuthToken, emailLoginError: null };
     }
     case SET_LOGIN_STATUS: {
       const logSuccess = action.payload;
@@ -59,6 +63,13 @@ export default function reducer(state: UserState = initialState, action: UserAct
     case SET_LOGIN_LOADING: {
       const loading = action.payload;
       return { ...state, loading };
+    }
+    case SET_EMAIL_LOGIN_ERROR: {
+      const error = action.payload;
+      return { ...state, emailLoginError: error };
+    }
+    case CLEAR_EMAIL_LOGIN_ERROR: {
+      return { ...state, emailLoginError: null, loading: false };
     }
     case LOGOUT_REQUEST:
       return {
@@ -182,6 +193,51 @@ export function facebookLogin() {
       dispatch({ type: SET_LOGIN_LOADING, payload: false });
     }
   };
+}
+
+export function emailLogin(email: string, password: string) {
+  return async (dispatch: Dispatch) => {
+    try {
+      dispatch({ type: SET_LOGIN_LOADING, payload: true });
+      dispatch({ type: CLEAR_EMAIL_LOGIN_ERROR });
+      const url = `${Config.API_AUTH}/auth/login`;
+      const fetchConfig = {
+        headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+        body: JSON.stringify({ email, password })
+      };
+      const response = await fetch(url, fetchConfig);
+      if (!(response?.ok && response?.status === 200)) {
+        const responseJson = await response.json();
+        const errorMessage = responseJson?.errors?.[0]?.detail ?? i18n.t('login.emailLogin.loginError');
+        console.warn('3SC', 'API Error logging in using email: ', errorMessage);
+        dispatch({
+          type: SET_EMAIL_LOGIN_ERROR,
+          payload: errorMessage
+        });
+        return;
+      }
+      const responseJson = await response.json();
+      dispatch({
+        type: SET_LOGIN_AUTH,
+        payload: {
+          loggedIn: true,
+          socialNetwork: 'email',
+          token: responseJson.data.token
+        }
+      });
+    } catch (error) {
+      console.warn('3SC', 'Error trying to log in using email: ', error);
+      dispatch({ type: SET_LOGIN_STATUS, payload: false });
+      dispatch({ type: SET_EMAIL_LOGIN_ERROR, payload: error.toString() });
+    } finally {
+      dispatch({ type: SET_LOGIN_LOADING, payload: false });
+    }
+  };
+}
+
+export function clearEmailLoginError() {
+  return { type: CLEAR_EMAIL_LOGIN_ERROR };
 }
 
 export function setLoginAuth(details: { token: string, loggedIn: boolean, socialNetwork: string }): UserAction {

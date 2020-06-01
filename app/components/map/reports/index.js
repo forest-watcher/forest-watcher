@@ -20,7 +20,6 @@ export type ReportLayerSettings = {
 };
 
 type Props = {
-  featureId: string,
   myReports: Array<Report>,
   importedReports: Array<Report>,
   reportLayerSettings: ReportLayerSettings,

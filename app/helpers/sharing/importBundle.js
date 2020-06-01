@@ -1,6 +1,7 @@
 // @flow
 import type { Dispatch } from 'types/store.types';
-import type { ImportBundleResult, UnpackedSharingBundle } from 'types/sharing.types';
+import type { UnpackedSharingBundle } from 'types/sharing.types';
+import { Platform } from 'react-native';
 
 import RNFS from 'react-native-fs';
 import { unzip } from 'react-native-zip-archive';
@@ -11,6 +12,7 @@ import deleteStagedBundle from 'helpers/sharing/deleteStagedBundle';
 import { BUNDLE_DATA_FILE_NAME } from 'helpers/sharing/exportBundle';
 import { APP_DATA_FORMAT_VERSION } from 'helpers/sharing/exportAppData';
 import importAppData from 'helpers/sharing/importAppData';
+import importFileManifest from 'helpers/sharing/importFileManifest';
 
 /**
  * Imports a FW sharing bundle into the app
@@ -19,11 +21,9 @@ import importAppData from 'helpers/sharing/importAppData';
  * @param dispatch - Redux dispatch function used to emit actions to add data to the app
  */
 export default async function importBundle(uri: string, dispatch: Dispatch): Promise<void> {
-  console.warn('3SC', 'Importing bundle...', uri);
   const unpackedBundle = await unpackBundle(uri);
-  importStagedBundle(unpackedBundle, dispatch);
+  await importStagedBundle(unpackedBundle, dispatch);
   deleteStagedBundle(unpackedBundle);
-  console.warn('3SC', 'Successfully unpacked bundle');
 }
 
 function checkBundleCompatibility(version: number) {
@@ -42,9 +42,10 @@ function checkBundleCompatibility(version: number) {
  * @param bundle - The bundle - already unpacked - whose data should be imported
  * @param dispatch - Redux dispatch function used to emit actions to add data to the app
  */
-export function importStagedBundle(bundle: UnpackedSharingBundle, dispatch: Dispatch) {
+export async function importStagedBundle(bundle: UnpackedSharingBundle, dispatch: Dispatch) {
   checkBundleCompatibility(bundle.data.version);
   importAppData(bundle.data, dispatch);
+  await importFileManifest(bundle);
 }
 
 /**
@@ -53,8 +54,27 @@ export function importStagedBundle(bundle: UnpackedSharingBundle, dispatch: Disp
  * @param uri - The file to import
  */
 export async function unpackBundle(uri: string): Promise<UnpackedSharingBundle> {
+  // We have to decode the file URI because iOS file manager doesn't like encoded uris!
+  const fixedUri = Platform.OS === 'android' ? uri : decodeURI(uri);
   const stagingDir = await createTemporaryStagingDirectory();
-  await unzip(uri, stagingDir);
+
+  if (Platform.OS === 'ios') {
+    const fileName = fixedUri.substring(fixedUri.lastIndexOf('/') + 1);
+    const tempZipPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '.zip');
+
+    await RNFS.copyFile(fixedUri, tempZipPath);
+    await unzip(tempZipPath, stagingDir);
+
+    // We have to remove this otherwise will get an error if the user tries to import same file twice.
+    // Also we should probably just clear it up anyways as it takes disk space!
+    try {
+      await RNFS.unlink(tempZipPath);
+    } catch {
+      console.warn('Failed to remove zip at tempZipPath');
+    }
+  } else {
+    await unzip(fixedUri, stagingDir);
+  }
 
   const bundleDataUri = `${stagingDir}/${BUNDLE_DATA_FILE_NAME}`;
   const fileContents = await RNFS.readFile(bundleDataUri);

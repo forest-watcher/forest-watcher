@@ -10,30 +10,26 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 26
   },
-  bottomContainer: {
-    justifyContent: 'center',
-    flexGrow: 1
+  scrollView: {
+    flex: 1
   },
-  buttons: {
-    marginTop: 70
+  bottomContainer: {
+    justifyContent: 'space-evenly',
+    flex: 1
   },
   buttonsLabel: {
+    marginTop: 28,
+    marginBottom: 8,
     fontFamily: Theme.font,
-    color: Theme.fontColors.light,
-    fontSize: 17,
+    color: Theme.fontColors.secondary,
+    fontSize: 16,
     fontWeight: '400',
-    marginBottom: 24,
-    textAlign: 'center',
-    ...Platform.select({
-      android: {
-        marginBottom: 8
-      }
-    })
+    textAlign: 'center'
   },
   button: {
     height: 56,
     marginHorizontal: 24,
-    marginBottom: 16,
+    marginTop: 16,
     borderRadius: 32,
     justifyContent: 'center',
     overflow: 'hidden',
@@ -51,6 +47,13 @@ export default StyleSheet.create({
   iconArrow: {
     width: 10,
     height: 18
+  },
+  buttonEmail: {
+    backgroundColor: Theme.colors.turtleGreen
+  },
+  iconEmail: {
+    width: 28,
+    height: 28
   },
   buttonFacebook: {
     backgroundColor: Theme.socialNetworks.facebook
@@ -78,10 +81,10 @@ export default StyleSheet.create({
     height: 48
   },
   buttonText: {
+    letterSpacing: 0.8,
     fontFamily: Theme.font,
     color: Theme.fontColors.white,
-    fontSize: 17,
-    fontWeight: '400',
+    fontSize: 16,
     marginLeft: 18
   },
   buttonTextCountry: {
@@ -150,15 +153,12 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     color: Theme.fontColors.light,
     fontSize: 14,
-    textAlign: 'center',
-    marginBottom: 8
+    textAlign: 'center'
   },
   loaderContainer: {
-    flex: 1,
     backgroundColor: 'transparent',
     left: 0,
     right: 0,
-    top: 272,
     bottom: 0,
     position: 'absolute',
     zIndex: 5
@@ -166,5 +166,13 @@ export default StyleSheet.create({
   loader: {
     alignItems: 'center',
     justifyContent: 'flex-start'
+  },
+  linkStyle: {
+    ...Theme.text,
+    fontSize: 16,
+    marginTop: 36,
+    marginBottom: 24,
+    textAlign: 'center',
+    textDecorationLine: 'underline'
   }
 });

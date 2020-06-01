@@ -2,12 +2,13 @@
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { isUnsafeLogout } from 'helpers/app';
 import { logout } from 'redux-modules/user';
 import { setOfflineMode } from 'redux-modules/app';
 
 import Settings from 'components/settings';
+import { exportWholeAppBundleFromRedux } from 'helpers/sharing/exportBundleFromRedux';
+import shareBundle from 'helpers/sharing/shareBundle';
 
 type OwnProps = {|
   +componentId: string
@@ -23,14 +24,21 @@ function mapStateToProps(state: State) {
   };
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators(
-    {
-      logout,
-      setOfflineMode
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    logout: (socialNetworkFallback: ?string) => {
+      dispatch(logout(socialNetworkFallback));
     },
-    dispatch
-  );
+    setOfflineMode: (offlineMode: boolean) => {
+      dispatch(setOfflineMode(offlineMode));
+    },
+    shareAppData: async (): Promise<string> => {
+      const outputPath = await dispatch(exportWholeAppBundleFromRedux());
+      await shareBundle(outputPath);
+      return outputPath;
+    }
+  };
+};
 
 type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
 export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(

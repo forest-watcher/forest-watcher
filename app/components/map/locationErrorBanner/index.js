@@ -9,10 +9,10 @@ import styles from './styles';
 
 const locationErrorIcon = require('assets/gpsOff.png');
 
-import { GFWErrorPermission, GFWErrorLocation, GFWErrorLocationStale } from 'helpers/location';
+import { GFWErrorPermission, GFWErrorLocation } from 'helpers/location';
 
 type Props = {
-  locationError: GFWErrorLocation | GFWErrorPermission,
+  locationError: number,
   style: ViewStyle
 };
 
@@ -27,10 +27,6 @@ export default class LocationErrorBanner extends Component<Props> {
       }
       case GFWErrorPermission: {
         message = null;
-        break;
-      }
-      case GFWErrorLocationStale: {
-        message = i18n.t('alerts.noGPS');
         break;
       }
     }

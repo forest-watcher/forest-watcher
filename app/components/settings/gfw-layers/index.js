@@ -1,6 +1,15 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { Image, TouchableOpacity, TouchableWithoutFeedback, Text, TextInput, View, FlatList } from 'react-native';
+import {
+  Image,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Text,
+  TextInput,
+  View,
+  FlatList,
+  Platform
+} from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import ProgressBar from 'react-native-progress/Bar';
@@ -152,7 +161,7 @@ class GFWLayers extends PureComponent<Props, State> {
     );
   };
 
-  renderLayer = ({ item, index }: { item: GFWContextualLayer }) => {
+  renderLayer = ({ item }: { item: GFWContextualLayer }) => {
     return (
       <Row style={styles.row}>
         <Text style={styles.rowLabel}>{item.attributes.name}</Text>
@@ -203,7 +212,7 @@ class GFWLayers extends PureComponent<Props, State> {
         </View>
         <FlatList
           style={{ width: '100%' }}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={item => item.id}
           data={!this.state.searchFocussed || this.state.searchTerm ? this.props.layers : []}
           keyboardShouldPersistTaps="handled"
           renderItem={this.renderLayer}
@@ -212,7 +221,7 @@ class GFWLayers extends PureComponent<Props, State> {
           onEndReachedThreshold={0.5}
           onScroll={this.onScroll}
         />
-        <KeyboardSpacer />
+        {Platform.OS === 'ios' ? <KeyboardSpacer /> : null}
       </View>
     );
   }

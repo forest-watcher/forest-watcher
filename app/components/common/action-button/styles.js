@@ -3,6 +3,7 @@ import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
   container: {
+    flexGrow: 1,
     borderRadius: 32,
     borderWidth: 1,
     borderColor: Theme.background.secondary,
