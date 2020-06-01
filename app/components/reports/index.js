@@ -48,6 +48,7 @@ type Props = {|
 
 type State = {|
   +bundleSize: number | typeof undefined,
+  +creatingArchive: boolean,
   +selectedForExport: Array<string>,
   +inShareMode: boolean
 |};
@@ -75,6 +76,7 @@ class Reports extends PureComponent<Props, State> {
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
     this.state = {
       bundleSize: undefined,
+      creatingArchive: false,
       inShareMode: false,
       selectedForExport: []
     };
@@ -226,6 +228,9 @@ class Reports extends PureComponent<Props, State> {
    */
   onExportReportsTapped = debounceUI(async selectedReports => {
     const buttonHandler = async idx => {
+      this.setState({
+        creatingArchive: true
+      });
       switch (idx) {
         case 0: {
           await this.props.exportReportsAsBundle(selectedReports);
@@ -241,6 +246,7 @@ class Reports extends PureComponent<Props, State> {
       this.props.showExportReportsSuccessfulNotification();
       this.shareSheet?.setSharing?.(false);
       this.setState({
+        creatingArchive: false,
         selectedForExport: [],
         inShareMode: false
       });
@@ -444,6 +450,7 @@ class Reports extends PureComponent<Props, State> {
         <ShareSheet
           componentId={this.props.componentId}
           enabled={totalToExport > 0}
+          isSharing={this.state.creatingArchive}
           onShare={() => {
             this.onExportReportsTapped(this.state.selectedForExport);
           }}
@@ -458,6 +465,7 @@ class Reports extends PureComponent<Props, State> {
               ? i18n.t('report.export.manyReports', { count: totalReports })
               : i18n.t('report.export.oneReport', { count: 1 })
           }
+          shareButtonInProgressTitle={i18n.t('sharing.inProgress', { type: sharingType })}
           shareButtonDisabledTitle={i18n.t('sharing.title', { type: sharingType })}
           shareButtonEnabledTitle={getShareButtonText(sharingType, totalToExport, this.state.bundleSize)}
         >

@@ -120,7 +120,7 @@ export default class Settings extends Component<Props, State> {
       component: {
         name: 'ForestWatcher.MappingFiles',
         passProps: {
-          mappingFileType: 'contextualLayers'
+          mappingFileType: 'contextual_layer'
         }
       }
     });
@@ -131,7 +131,7 @@ export default class Settings extends Component<Props, State> {
       component: {
         name: 'ForestWatcher.MappingFiles',
         passProps: {
-          mappingFileType: 'basemaps'
+          mappingFileType: 'basemap'
         }
       }
     });

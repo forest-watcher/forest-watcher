@@ -1,5 +1,7 @@
 // @flow
 
+import type { Location, LocationPoint, Route } from 'types/routes.types';
+
 import React, { PureComponent } from 'react';
 const emitter = require('tiny-emitter/instance');
 
@@ -13,13 +15,12 @@ import {
 } from 'helpers/location';
 import throttle from 'lodash/throttle';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import type { LocationPoint, Route } from 'types/routes.types';
 import { feature, lineString, point } from '@turf/helpers';
 
 type Props = {
   isTracking: boolean,
-  userLocation: Location, // TODO: Is this the right type?
-  route: Route,
+  userLocation: ?LocationPoint,
+  route: ?Route,
   selected?: ?boolean, // if route has been tapped on - emphasise ui
   onShapeSourcePressed?: () => void
 };
@@ -114,7 +115,7 @@ export default class RouteMarkers extends PureComponent<Props, State> {
    * @param userLocation    - The last position update, passed into this object as a prop.
    * @param routeLocations  - The locations provided for this route.
    */
-  reconcileUserLocation = (userLocation: ?Location, routeLocations: ?Array<Location>) => {
+  reconcileUserLocation = (userLocation: ?LocationPoint, routeLocations: ?Array<LocationPoint>) => {
     if (userLocation) {
       return userLocation;
     } else if (routeLocations && routeLocations.length > 0) {
@@ -126,11 +127,11 @@ export default class RouteMarkers extends PureComponent<Props, State> {
 
   // It seems mapbox is ridiculously picky with unique key/id names, when displaying multiple routes on the map
   key = (keyName: string) => {
-    return keyName + (this.props.route?.id || 'route_in_progress' + this.props.route?.startDate);
+    return keyName + (this.props.route?.id || 'route_in_progress' + (this.props.route?.startDate ?? ''));
   };
 
   // Draw line from user location to destination
-  renderDestinationLine = (destination: ?LocationPoint, userLocation: ?LocationPoint) => {
+  renderDestinationLine = (destination: ?Location, userLocation: ?LocationPoint) => {
     if (!destination || !userLocation) {
       return null;
     }
@@ -161,7 +162,7 @@ export default class RouteMarkers extends PureComponent<Props, State> {
 
   getRouteProperties = () => {
     let properties = {};
-    if (this.props.route?.id) {
+    if (this.props.route) {
       // This will be false before the route has been saved
       const { name, endDate, id } = this.props.route;
       properties = { name, date: endDate, type: 'route', featureId: id };
@@ -169,8 +170,8 @@ export default class RouteMarkers extends PureComponent<Props, State> {
     return properties;
   };
 
-  renderRoutePath = routeLocations => {
-    const coords = routeLocations?.map(coord => coordsObjectToArray(coord));
+  renderRoutePath = (routeLocations: Array<LocationPoint>) => {
+    const coords = routeLocations.map(coord => coordsObjectToArray(coord));
     if (!coords || coords.length < 2) {
       return null;
     }

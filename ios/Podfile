@@ -1,4 +1,4 @@
-platform :ios, '9.0'
+platform :ios, '10.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
 target 'ForestWatcher' do
@@ -49,6 +49,10 @@ target 'ForestWatcher' do
 
   # react-native-mapbox-gl dependency.
   pod 'react-native-mapbox-gl', :path => '../node_modules/@react-native-mapbox-gl/maps'
+
+  # react-native-mbtiles dependency.
+  # This is required, as otherwise the swift pod will not be able to work correctly.
+  pod "GCDWebServer", "~> 3.0", :modular_headers => true
 
   # magic post-install script that'll fix up some broken dependencies.
   post_install do |installer|

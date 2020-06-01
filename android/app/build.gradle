@@ -1,6 +1,8 @@
 apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
 apply plugin: "com.browserstack.gradle"
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 browserStackConfig {
     username = "sidedcube1"
@@ -228,6 +230,8 @@ dependencies {
     implementation project(':react-native-safe-area-context')
     // react-native-svg - No need to add package to MainApplication.java : https://github.com/oblador/react-native-vector-icons/issues/387
     implementation project(':react-native-svg')
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation project(':react-native-mbtiles')
 }
 
 // Run this once to be able to run the application with BUCK

@@ -35,7 +35,7 @@ function ActionButton(props) {
     styles.button,
     props.light ? styles.buttonLight : '',
     props.short ? styles.short : '',
-    props.disabled || props.delete || props.noIcon ? styles.buttonNoIcon : ''
+    !props.left && (props.disabled || props.delete || props.noIcon) ? styles.buttonNoIcon : ''
   ];
 
   const textStyles = [

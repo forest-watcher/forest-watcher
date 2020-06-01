@@ -1,12 +1,20 @@
 // @flow
-import React, { Component } from 'react';
+import React, { Component, type Node } from 'react';
+
+import type { AlertsAction } from 'types/alerts.types';
+import type { AreasAction } from 'types/areas.types';
+import type { Basemap } from 'types/basemaps.types';
+import type { Coordinates, CoordinatesFormat } from 'types/common.types';
+import type { Location, LocationPoint, Route } from 'types/routes.types';
+import type { BasicReport, ReportArea } from 'types/reports.types';
+import type { ContextualLayer } from 'types/layers.types';
+import type { LayerSettings } from 'types/layerSettings.types';
 
 import {
   Animated,
-  Alert,
+  Alert as RNAlert,
   AppState,
   BackHandler,
-  Dimensions,
   Image,
   LayoutAnimation,
   Platform,
@@ -15,9 +23,8 @@ import {
 } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 
-import { LOCATION_TRACKING, REPORTS, MAPS } from 'config/constants';
+import { REPORTS, MAPS } from 'config/constants';
 import throttle from 'lodash/throttle';
-import isEqual from 'lodash/isEqual';
 import toUpper from 'lodash/toUpper';
 import kebabCase from 'lodash/kebabCase';
 import deburr from 'lodash/deburr';
@@ -33,8 +40,9 @@ import Theme from 'config/theme';
 import i18n from 'i18next';
 import styles, { mapboxStyles } from './styles';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
-import SafeArea, { withSafeArea } from 'react-native-safe-area';
-import MapboxGL, { type Position } from '@react-native-mapbox-gl/maps';
+import { withSafeArea } from 'react-native-safe-area';
+import MapboxGL from '@react-native-mapbox-gl/maps';
+import { MBTilesSource } from 'react-native-mbtiles';
 
 import { toFileUri } from 'helpers/fileURI';
 
@@ -48,7 +56,6 @@ import {
   GFWOnLocationEvent,
   GFWOnHeadingEvent,
   GFWOnErrorEvent,
-  GFWErrorLocationStale,
   showAppSettings,
   showLocationSettings,
   startTrackingLocation,
@@ -61,17 +68,9 @@ import {
   isValidLatLng,
   isValidLatLngArray
 } from 'helpers/location';
+
 import RouteMarkers from 'components/map/route';
-import type { AlertsAction } from 'types/alerts.types';
-import type { AreasAction } from 'types/areas.types';
-import type { Basemap } from 'types/basemaps.types';
-import type { Coordinates } from 'types/common.types';
-import type { Location, Route } from 'types/routes.types';
-import type { Thunk } from 'types/store.types';
-import type { BasicReport } from 'types/reports.types';
 import InfoBanner from 'components/map/info-banner';
-import type { ContextualLayer } from 'types/layers.types';
-import type { LayerSettings } from 'types/layerSettings.types';
 import Alerts from 'components/map/alerts';
 import { formatInfoBannerDate } from 'helpers/date';
 import Reports from 'containers/map/reports';
@@ -80,25 +79,11 @@ import { lineString } from '@turf/helpers';
 
 const emitter = require('tiny-emitter/instance');
 
-const { width, height } = Dimensions.get('window');
-
-const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 5;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN = 0;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_EXITING = 1;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_STOPPING = 2;
 
 const DISMISSED_INFO_BANNER_POSTIION = 200 + initialWindowSafeAreaInsets.bottom;
-
-/**
- * Elapsed time in milliseconds after which we should consider the most recent location "stale", presumably because we
- * were unable to obtain a GPS fix
- *
- * @type {number}
- */
-const STALE_LOCATION_THRESHOLD = LOCATION_TRACKING.interval * 3;
 
 const backButtonImage = require('assets/back.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
@@ -124,10 +109,11 @@ type Props = {
   setCanDisplayAlerts: boolean => AlertsAction,
   reportedAlerts: Array<string>,
   canDisplayAlerts: boolean,
-  area: Object,
+  featureId: ?string,
+  area: ?ReportArea,
   setActiveAlerts: () => AlertsAction,
   contextualLayer: ?ContextualLayer,
-  coordinatesFormat: string,
+  coordinatesFormat: CoordinatesFormat,
   mapWalkthroughSeen: boolean,
   setSelectedAreaId: string => AreasAction,
   route: ?Route,
@@ -136,30 +122,22 @@ type Props = {
   isTracking: boolean,
   onStartTrackingRoute: (location: Location, areaId: string) => void,
   onCancelTrackingRoute: () => void,
-  getActiveBasemap: string => Thunk<Basemap>, // TODO: This shouldn't be a function
+  getActiveBasemap: (?string) => Basemap, // TODO: This shouldn't be a function
   getRoutesById: (routeIds: Array<string>) => Array<Route> // TODO: This shouldn't be a function
 };
 
 type State = {
-  bottomSafeAreaInset: number,
-  userLocation: ?Position,
+  userLocation: ?LocationPoint,
   heading: ?number,
-  region: {
-    latitude: ?number,
-    longitude: ?number,
-    latitudeDelta: number,
-    longitudeDelta: number
-  },
-  selectedAlerts: Array<Alert>,
-  neighbours: Array<Alert>,
-  mapZoom: number,
+  hasHeadingReadingFromCompass: boolean,
+  selectedAlerts: Array<{ lat: number, long: number }>,
   customReporting: boolean,
   dragging: boolean,
   layoutHasForceRefreshed: boolean,
   routeTrackingDialogState: number,
-  locationError: ?number,
+  locationError: null | number,
   mapCameraBounds: any,
-  mapCenterCoords: ?Position,
+  mapCenterCoords: ?[number, number],
   animatedPosition: any,
   infoBannerShowing: boolean,
   infoBannerProps: {
@@ -171,6 +149,8 @@ type State = {
 };
 
 class MapComponent extends Component<Props, State> {
+  static offlinePortNumber = 49333;
+
   margin = Platform.OS === 'ios' ? 50 : 100;
 
   static options(passProps: {}) {
@@ -220,8 +200,6 @@ class MapComponent extends Component<Props, State> {
   isStartingGeolocation = false;
   isGeolocationPausedInBackground = false;
 
-  staleLocationTimer = null;
-
   mapCamera: ?MapboxGL.Camera = null;
   map: ?MapboxGL.MapView = null;
 
@@ -230,18 +208,10 @@ class MapComponent extends Component<Props, State> {
     Navigation.events().bindComponent(this);
 
     this.state = {
-      bottomSafeAreaInset: 0,
       userLocation: null,
       heading: null,
       hasHeadingReadingFromCompass: false,
-      region: {
-        latitude: undefined, // These are undefined, as when the map is ready it'll move the map to focus on the area.
-        longitude: undefined,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA
-      },
       selectedAlerts: [],
-      mapZoom: 2,
       customReporting: false,
       dragging: false,
       layoutHasForceRefreshed: false,
@@ -249,7 +219,6 @@ class MapComponent extends Component<Props, State> {
       locationError: null,
       mapCameraBounds: this.getMapCameraBounds(),
       mapCenterCoords: null,
-      routeDestination: null,
       animatedPosition: new Animated.Value(DISMISSED_INFO_BANNER_POSTIION),
       infoBannerShowing: false,
       infoBannerProps: {
@@ -259,12 +228,6 @@ class MapComponent extends Component<Props, State> {
         featureId: ''
       }
     };
-
-    SafeArea.getSafeAreaInsetsForRootView().then(result => {
-      return this.setState({
-        bottomSafeAreaInset: result.safeAreaInsets.bottom
-      });
-    });
   }
 
   navigationButtonPressed({ buttonId }: { buttonId: NavigationButtonPressedEvent }) {
@@ -286,21 +249,6 @@ class MapComponent extends Component<Props, State> {
 
     this.geoLocate();
 
-    this.staleLocationTimer = setInterval(() => {
-      this.setState(state => {
-        if (
-          !state.locationError &&
-          state.location &&
-          Date.now() - state.location.timestamp > STALE_LOCATION_THRESHOLD
-        ) {
-          return {
-            locationError: GFWErrorLocationStale
-          };
-        }
-        return {};
-      });
-    }, 1000);
-
     const { setCanDisplayAlerts, canDisplayAlerts } = this.props;
     if (!canDisplayAlerts) {
       setCanDisplayAlerts(true);
@@ -312,7 +260,7 @@ class MapComponent extends Component<Props, State> {
   // called on startup to set initial camera position
   getMapCameraBounds = () => {
     const { route, areaCoordinates } = this.props;
-    const bounds = getPolygonBoundingBox(route?.locations?.length ? route.locations : areaCoordinates);
+    const bounds = getPolygonBoundingBox(route && route.locations.length > 0 ? route.locations : areaCoordinates);
     return { ...bounds, ...MAPS.smallPadding };
   };
 
@@ -347,19 +295,7 @@ class MapComponent extends Component<Props, State> {
   };
 
   componentDidUpdate(prevProps: Props, prevState: State) {
-    const { area, setActiveAlerts } = this.props;
-    if (area && area.dataset) {
-      const differentArea = area.id !== prevProps.area.id;
-      const datasetChanged = !isEqual(area.dataset, prevProps.area.dataset);
-      if (differentArea || datasetChanged) {
-        setActiveAlerts();
-        if (differentArea) {
-          this.updateSelectedArea();
-        }
-      }
-    }
-
-    if (prevState.userLocation !== this.state.userLocation) {
+    if (prevState.userLocation !== this.state.userLocation && this.state.userLocation) {
       Navigation.mergeOptions(this.props.componentId, {
         topBar: {
           title: {
@@ -378,8 +314,6 @@ class MapComponent extends Component<Props, State> {
     if (!this.isRouteTracking()) {
       stopTrackingLocation();
     }
-
-    clearInterval(this.staleLocationTimer);
 
     // Do remove the emitter listeners here, as we don't want this screen to receive anything while it's non-existent!
     emitter.off(GFWOnLocationEvent, this.updateLocationFromGeolocation);
@@ -446,8 +380,17 @@ class MapComponent extends Component<Props, State> {
     // See documentation for this variable declaration for explanation
     this.isStartingGeolocation = Platform.OS === 'android';
 
+    // We have to determine what permission level to request.
+    // On iOS 12 and below, and Android, we should base this on whether we need background permission.
+    // However, on iOS 13, we should request always as we can't re-request later after requesting 'when in use'.
+    const defaultPermissionLevel = trackWhenInBackground ? GFWLocationAuthorizedAlways : GFWLocationAuthorizedInUse;
+    const requestedPermission =
+      Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 13
+        ? GFWLocationAuthorizedAlways
+        : defaultPermissionLevel;
+
     try {
-      await startTrackingLocation(trackWhenInBackground ? GFWLocationAuthorizedAlways : GFWLocationAuthorizedInUse);
+      await startTrackingLocation(requestedPermission);
     } catch (err) {
       console.warn('3SC', 'Could not start tracking location...', err);
       this.onLocationUpdateError(err);
@@ -467,17 +410,23 @@ class MapComponent extends Component<Props, State> {
    * If the user has not given 'always' location permissions, an alert is shown.
    */
   onStartTrackingPressed = debounceUI(async () => {
+    const area = this.props.area;
+    const routeDestination = this.getRouteDestination();
+
+    if (!area || !routeDestination) {
+      return;
+    }
+
     this.dismissInfoBanner();
     try {
       await this.geoLocate(true);
-      this.updateRouteDestination();
-      this.props.onStartTrackingRoute(coordsArrayToObject(this.state.routeDestination), this.props.area.id);
+      this.props.onStartTrackingRoute(coordsArrayToObject(routeDestination), area.id);
 
       this.setState({ customReporting: false });
 
       emitter.on(GFWOnErrorEvent, this.onLocationUpdateError);
     } catch (err) {
-      Alert.alert(
+      RNAlert.alert(
         i18n.t('routes.insufficientPermissionsDialogTitle'),
         i18n.t('routes.insufficientPermissionsDialogMessage'),
         [
@@ -505,20 +454,15 @@ class MapComponent extends Component<Props, State> {
     // This doesn't immediately stop tracking - it will give the user the choice of saving and deleting and only stop
     // tracking once they have finalised one of those actions
     this.showBottomDialog(false);
-    this.setState({ routeDestination: null });
   });
 
   // Used when starting a new route
-  updateRouteDestination = () => {
-    let routeDestination;
+  getRouteDestination = (): ?[number, number] => {
     if (this.state.selectedAlerts?.length) {
       const lastSelectedAlert = this.state.selectedAlerts[this.state.selectedAlerts.length - 1];
-      routeDestination = [lastSelectedAlert.long, lastSelectedAlert.lat];
+      return [lastSelectedAlert.long, lastSelectedAlert.lat];
     }
-    if (!routeDestination) {
-      routeDestination = this.state.mapCenterCoords;
-    }
-    this.setState({ routeDestination });
+    return this.state.mapCenterCoords;
   };
 
   openSaveRouteScreen = debounceUI(() => {
@@ -531,8 +475,10 @@ class MapComponent extends Component<Props, State> {
   });
 
   onRegionDidChange = async () => {
-    const mapCenterCoords = await this.map?.getCenter();
-    this.setState({ mapCenterCoords, dragging: false });
+    if (this.map) {
+      const mapCenterCoords = await this.map.getCenter();
+      this.setState({ mapCenterCoords, dragging: false });
+    }
   };
 
   showBottomDialog = debounceUI((isExiting = false) => {
@@ -550,7 +496,7 @@ class MapComponent extends Component<Props, State> {
   });
 
   onStopAndDeleteRoute = debounceUI(() => {
-    Alert.alert(i18n.t('routes.confirmDeleteTitle'), i18n.t('routes.confirmDeleteMessage'), [
+    RNAlert.alert(i18n.t('routes.confirmDeleteTitle'), i18n.t('routes.confirmDeleteMessage'), [
       {
         text: i18n.t('commonText.confirm'),
         onPress: () => {
@@ -576,7 +522,7 @@ class MapComponent extends Component<Props, State> {
   /**
    * updateLocationFromGeolocation - Handles any location updates that arrive while the user is on this screen.
    */
-  updateLocationFromGeolocation = throttle((location: Position) => {
+  updateLocationFromGeolocation = throttle((location: LocationPoint) => {
     this.setState({
       userLocation: location,
       locationError: null
@@ -609,10 +555,6 @@ class MapComponent extends Component<Props, State> {
     });
   });
 
-  getFeatureId = () => {
-    return this.props.route?.id || this.props.area.id;
-  };
-
   onSettingsPress = debounceUI(() => {
     this.dismissInfoBanner();
     // If route has been opened, that is the current layer settings feature ID,
@@ -626,7 +568,7 @@ class MapComponent extends Component<Props, State> {
               // https://github.com/wix/react-native-navigation/issues/3635
               // Pass componentId so drawer can push screens
               componentId: this.props.componentId,
-              featureId: this.getFeatureId()
+              featureId: this.props.featureId
             }
           }
         }
@@ -638,8 +580,8 @@ class MapComponent extends Component<Props, State> {
   zoomToUserLocation = debounceUI(() => {
     this.dismissInfoBanner();
     const { userLocation } = this.state;
-    if (userLocation) {
-      this.mapCamera?.setCamera({
+    if (userLocation && this.mapCamera) {
+      this.mapCamera.setCamera({
         centerCoordinate: [userLocation.longitude, userLocation.latitude],
         zoomLevel: 16,
         animationDuration: 2000
@@ -652,12 +594,29 @@ class MapComponent extends Component<Props, State> {
     this.createReport(this.state.selectedAlerts);
   });
 
-  createReport = (selectedAlerts: Array<Alert>) => {
-    this.props.setCanDisplayAlerts(false);
+  reportArea = debounceUI(() => {
+    this.dismissInfoBanner();
+    this.createReport([...this.state.selectedAlerts]);
+  });
+
+  createReport = (selectedAlerts: Array<{ lat: number, long: number }>) => {
     const { area } = this.props;
     const { userLocation, customReporting, mapCenterCoords } = this.state;
+
+    if (!area) {
+      // TODO: How to handle null area?
+      console.warn('3SC', 'Cannot create a report without an area');
+      return;
+    }
+
+    this.props.setCanDisplayAlerts(false);
     let latLng = [];
     if (customReporting) {
+      if (!mapCenterCoords) {
+        console.warn('3SC', 'Cannot create a custom report without map center coords');
+        return;
+      }
+
       latLng = [
         {
           lat: mapCenterCoords[1],
@@ -705,19 +664,12 @@ class MapComponent extends Component<Props, State> {
     });
   };
 
-  updateSelectedArea = () => {
-    this.setState({
-      mapCameraBounds: this.getMapCameraBounds(),
-      selectedAlerts: []
-    });
-  };
-
   // Renders all active routes in layer settings
-  renderAllRoutes = () => {
+  renderAllRoutes = (): Node => {
     const { activeRouteIds, showAll } = this.props.layerSettings.routes;
     let routeIds = showAll ? this.props.allRouteIds : activeRouteIds;
     // this is already being rendered as it is the selected feature
-    routeIds = routeIds.filter(routeId => routeId !== this.getFeatureId());
+    routeIds = routeIds.filter(routeId => routeId !== this.props.featureId);
     const routes: Array<Route> = this.props.getRoutesById(routeIds);
     return routes.map((route: Route) => {
       return (
@@ -733,7 +685,7 @@ class MapComponent extends Component<Props, State> {
     });
   };
 
-  isRouteSelected = (routeId: string) => {
+  isRouteSelected = (routeId: ?string) => {
     return this.state.infoBannerShowing && this.state.infoBannerProps.featureId === routeId;
   };
 
@@ -798,15 +750,15 @@ class MapComponent extends Component<Props, State> {
 
   // Draw line from user location to destination
   renderDestinationLine = () => {
-    const { routeDestination, userLocation, customReporting } = this.state;
-    if (!customReporting || !routeDestination || !userLocation) {
+    const { mapCenterCoords, userLocation, customReporting } = this.state;
+    if (!customReporting || !mapCenterCoords || !userLocation) {
       return null;
     }
-    const bothValidLocations = isValidLatLngArray(routeDestination) && isValidLatLng(userLocation);
+    const bothValidLocations = isValidLatLngArray(mapCenterCoords) && isValidLatLng(userLocation);
 
     let line = null;
     if (bothValidLocations) {
-      line = lineString([coordsObjectToArray(userLocation), routeDestination]);
+      line = lineString([coordsObjectToArray(userLocation), mapCenterCoords]);
     }
     return (
       <MapboxGL.ShapeSource id="destLine" shape={line}>
@@ -817,7 +769,7 @@ class MapComponent extends Component<Props, State> {
 
   // Draw area polygon
   renderAreaOutline = () => {
-    const coords = this.props.areaCoordinates?.map(coord => coordsObjectToArray(coord));
+    const coords = (this.props.areaCoordinates ?? []).map(coord => coordsObjectToArray(coord));
     if (!coords || coords.length < 2) {
       return null;
     }
@@ -920,25 +872,28 @@ class MapComponent extends Component<Props, State> {
       toValue: DISMISSED_INFO_BANNER_POSTIION,
       velocity: 3,
       tension: 2,
-      friction: 8
+      friction: 8,
+      useNativeDriver: false
     }).start();
   };
 
-  onClusterPress = async coords => {
+  onClusterPress = async (coords: [number, number]) => {
     this.dismissInfoBanner();
-    const zoom = await this.map?.getZoom();
-    if (coords && zoom) {
-      this.mapCamera?.setCamera({
-        centerCoordinate: coords,
-        zoomLevel: zoom + 3,
-        animationDuration: 2000
-      });
+    if (coords && this.map) {
+      const zoom = await this.map.getZoom();
+      if (this.mapCamera) {
+        this.mapCamera.setCamera({
+          centerCoordinate: coords,
+          zoomLevel: zoom + 3,
+          animationDuration: 2000
+        });
+      }
     }
   };
 
-  onShapeSourcePressed = e => {
+  onShapeSourcePressed = (e: any) => {
     // show info banner with feature details
-    const { date, name, type, featureId, cluster, lat, long } = e?.nativeEvent?.payload?.properties;
+    const { date, name, type, featureId, cluster, lat, long } = e?.nativeEvent?.payload?.properties ?? {};
     if (cluster) {
       this.onClusterPress(e?.nativeEvent?.payload?.geometry?.coordinates);
       return;
@@ -949,15 +904,13 @@ class MapComponent extends Component<Props, State> {
         // need to pass these as strings as they are rounded in onShapeSourcePressed method.
         selectedAlert = { lat: Number(lat), long: Number(long) };
       }
-      this.setState(prevState => {
+      this.setState((prevState: State) => {
         const isAlert = alert => alert.lat === selectedAlert.lat && alert.long === selectedAlert.long;
         let selectedAlerts = prevState.selectedAlerts;
         if (selectedAlert) {
           if (selectedAlerts.find(isAlert)) {
             // Deselect alert(s) at exact same location as alert that user pressed on
-            selectedAlerts = selectedAlerts.filter(
-              alert => !(alert.lat === selectedAlert.lat && alert.long === selectedAlert.long)
-            );
+            selectedAlerts = selectedAlerts.filter(alert => !isAlert(alert));
           } else {
             // Add user pressed alert to selected alerts
             selectedAlerts = [...selectedAlerts, selectedAlert];
@@ -980,23 +933,29 @@ class MapComponent extends Component<Props, State> {
         toValue: 0,
         velocity: 3,
         tension: 2,
-        friction: 8
+        friction: 8,
+        useNativeDriver: false
       }).start();
     }
   };
 
   render() {
-    if (!this.props.area?.id) {
-      // This is so that react native fast refresh doesnt crash the app.
-      Navigation.pop(this.props.componentId);
+    const { customReporting, userLocation, mapCenterCoords } = this.state;
+    const {
+      isConnected,
+      isOfflineMode,
+      route,
+      coordinatesFormat,
+      getActiveBasemap,
+      layerSettings,
+      featureId
+    } = this.props;
+
+    if (!featureId) {
       return null;
     }
 
-    const { customReporting, userLocation, mapCenterCoords } = this.state;
-    const { isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap, layerSettings } = this.props;
-
-    const basemap = getActiveBasemap(this.getFeatureId());
-
+    const basemap = getActiveBasemap(featureId);
     const coordinateAndDistanceText = customReporting
       ? getCoordinateAndDistanceText(mapCenterCoords, userLocation, route, coordinatesFormat, this.isRouteTracking())
       : '';
@@ -1028,7 +987,7 @@ class MapComponent extends Component<Props, State> {
       : styles.container;
 
     return (
-      <View style={containerStyle} onMoveShouldSetResponder={this.onMoveShouldSetResponder}>
+      <View style={containerStyle}>
         <View pointerEvents="none" style={styles.header}>
           <Image style={styles.headerBg} source={backgroundImage} />
           <SafeAreaView>
@@ -1050,11 +1009,7 @@ class MapComponent extends Component<Props, State> {
           onPress={this.dismissInfoBanner}
           compassViewMargins={{ x: 5, y: 50 }}
         >
-          {basemap.tileUrl && (
-            <MapboxGL.RasterSource id="basemapTiles" url={basemap.tileUrl}>
-              <MapboxGL.RasterLayer id="basemapTileLayer" />
-            </MapboxGL.RasterSource>
-          )}
+          <MBTilesSource basemap={basemap} port={MapComponent.offlinePortNumber} />
           {renderMapCamera}
           {this.renderAreaOutline()}
           {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
@@ -1069,7 +1024,7 @@ class MapComponent extends Component<Props, State> {
             selectedAlerts={this.state.selectedAlerts}
             onShapeSourcePressed={this.onShapeSourcePressed}
           />
-          <Reports featureId={this.getFeatureId()} onShapeSourcePressed={this.onShapeSourcePressed} />
+          <Reports featureId={featureId} onShapeSourcePressed={this.onShapeSourcePressed} />
           <RouteMarkers
             isTracking={this.isRouteTracking()}
             userLocation={userLocation}
