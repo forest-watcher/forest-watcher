@@ -4,6 +4,7 @@ import type { AlertDatasetConfig } from 'types/alerts.types';
 import Config from 'react-native-config';
 import i18n from 'i18next';
 import Theme from 'config/theme';
+import MapboxGL from '@react-native-mapbox-gl/maps';
 
 import type { Basemap } from 'types/basemaps.types';
 
@@ -73,6 +74,7 @@ export const FILES = {
   images: {
     alerts: 'images/alerts'
   },
+  reports: 'reports',
   tiles: 'tiles'
 };
 
@@ -158,6 +160,14 @@ export const ACTIONS_SAVED_TO_REPORT = 5;
 
 // Constants
 export const GFW_BASEMAPS: Array<Basemap> = [
+  {
+    isImported: false,
+    id: MapboxGL.StyleURL.Satellite,
+    styleURL: MapboxGL.StyleURL.Satellite,
+    name: 'mapboxSatellite',
+    image: require('assets/basemap_mapbox_satellite.png'),
+    tileUrl: null
+  },
   {
     isImported: false,
     id: 'mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true',

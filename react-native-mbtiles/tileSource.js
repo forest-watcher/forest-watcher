@@ -1,7 +1,7 @@
 // @flow
 import ReactNativeMBTiles, { type MBTileBasemapMetadata } from 'react-native-mbtiles';
 import React, { PureComponent } from 'react';
-import { AppState } from 'react-native';
+import { AppState, Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
 import { pathForMBTilesFile } from 'helpers/layer-store/layerFilePaths';
@@ -90,6 +90,10 @@ export default class MBTilesSource extends PureComponent<Props, State> {
       ReactNativeMBTiles.stopServer();
       ReactNativeMBTiles.startServer(port);
 
+      if (Platform.OS === 'android') {
+        MapboxGL.setConnected(true);
+      }
+
       this.setState({
         metadata
       });
@@ -111,16 +115,8 @@ export default class MBTilesSource extends PureComponent<Props, State> {
     }
 
     if (metadata.isVector) {
-      return (
-        <MapboxGL.VectorSource
-          id={'basemap' + basemap.id}
-          minZoomLevel={metadata.minZoomLevel}
-          maxZoomLevel={metadata.maxZoomLevel}
-          tileSize={metadata.tileSize}
-          tms={metadata.tms}
-          tileUrlTemplates={[`http://localhost:${port}/gfwmbtiles/${basemap.id}?z={z}&x={x}&y={y}`]}
-        />
-      );
+      // Not supported!
+      return null;
     } else {
       return (
         <MapboxGL.RasterSource

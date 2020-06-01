@@ -114,13 +114,13 @@ export default class Routes extends PureComponent<Props, State> {
   onRouteSelectedForExport = (route: Route) => {
     this.setState(
       state => {
-        if (state.selectedForExport.includes(route.areaId + route.id)) {
+        if (state.selectedForExport.includes(route.id)) {
           return {
-            selectedForExport: [...state.selectedForExport].filter(id => route.areaId + route.id !== id)
+            selectedForExport: [...state.selectedForExport].filter(id => route.id !== id)
           };
         } else {
           return {
-            selectedForExport: [...state.selectedForExport, route.areaId + route.id]
+            selectedForExport: [...state.selectedForExport, route.id]
           };
         }
       },
@@ -190,7 +190,7 @@ export default class Routes extends PureComponent<Props, State> {
   });
 
   setAllSelected = (selected: boolean) => {
-    const selectedForExport = selected ? this.props.routes.map(route => route.areaId + route.id) : [];
+    const selectedForExport = selected ? this.props.routes.map(route => route.id) : [];
     this.fetchExportSize(selectedForExport);
     this.setState({
       selectedForExport
@@ -240,13 +240,11 @@ export default class Routes extends PureComponent<Props, State> {
       const distanceText = formatDistance(routeDistance, 1, false);
       const subtitle = dateText + ', ' + distanceText;
 
-      const combinedId = item.areaId + item.id;
-
       return (
         <View key={`${item.id}-list`} style={styles.rowContainer}>
           <VerticalSplitRow
             backgroundImageResizeMode={Platform.OS === 'ios' ? 'repeat' : 'cover'}
-            key={combinedId}
+              key={item.id}
             onSettingsPress={this.onClickRouteSettings.bind(this, item)}
             onPress={() => {
               onPress(item);
@@ -256,7 +254,7 @@ export default class Routes extends PureComponent<Props, State> {
             title={item.name}
             subtitle={subtitle}
             disableSettingsButton={this.state.inShareMode}
-            selected={this.state.inShareMode ? this.state.selectedForExport.includes(combinedId) : null}
+            selected={this.state.inShareMode ? this.state.selectedForExport.includes(item.id) : null}
             largerLeftPadding
             largeImage
           />

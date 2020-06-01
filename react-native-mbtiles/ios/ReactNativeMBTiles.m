@@ -5,6 +5,18 @@
 
 RCT_EXPORT_MODULE()
 
+RCT_EXPORT_METHOD(getMetadata:(nonnull NSString *)basemapId basemapPath:(nonnull NSString *)basemapPath callback:(RCTResponseSenderBlock)callback)
+{
+  RNMBTileSource *source = [[RNMBTileSource alloc] initWithId:basemapPath filePath:basemapPath error:nil];
+  
+  if (!source) {
+    callback(@[@true, [NSNull null]]);
+    return;
+  }
+  
+  callback(@[[NSNull null], source.metadata.dictionaryValue]);
+}
+
 RCT_EXPORT_METHOD(prepare:(nonnull NSString *)basemapId basemapPath:(nonnull NSString *)basemapPath callback:(RCTResponseSenderBlock)callback)
 {
   RNMBTileMetadata *metadata = [[RNMBTileServer shared] prepareWithBasemapId:basemapId basemapPath:basemapPath];

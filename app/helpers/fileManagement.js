@@ -1,4 +1,5 @@
 // @flow
+import { Platform } from 'react-native';
 
 import RNFetchBlob from 'rn-fetch-blob';
 const RNFS = require('react-native-fs');
@@ -15,6 +16,31 @@ if (typeof atob === 'undefined') {
   global.atob = function(b64Encoded) {
     return new Buffer(b64Encoded, 'base64').toString();
   };
+}
+
+/**
+ * Helper function that copies a file existing at sourceUri to destinationUri
+ *
+ * This helper function will create any missing directories in the destination path, and will overwrite any existing file
+ *
+ * On Android this function will work with both content:// and file:// URIs
+ */
+export async function copyFileWithReplacement(sourceUri: string, destinationUri: string) {
+  const destinationPath = destinationUri
+    .split('/')
+    .slice(0, -1)
+    .join('/');
+
+  const dirExists = await RNFS.exists(destinationPath);
+  if (!dirExists) {
+    await RNFS.mkdir(destinationPath);
+  }
+
+  const fileExists = await RNFS.exists(destinationUri);
+  if (fileExists) {
+    await RNFS.unlink(destinationUri);
+  }
+  await RNFS.copyFile(sourceUri, destinationUri);
 }
 
 /**
@@ -41,6 +67,13 @@ export async function listRecursive(
   }
 
   return files;
+}
+
+/**
+ * Modifies the path so it is relative to the specified root directory
+ */
+export function pathWithoutRoot(path: string, rootDir: string): string {
+  return path.replace(rootDir, '');
 }
 
 /**
