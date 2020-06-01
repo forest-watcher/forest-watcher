@@ -19,6 +19,8 @@ import type { AlertsIndex } from 'components/map/alerts/dataset';
 import geokdbush from 'geokdbush';
 import geoViewport from '@mapbox/geo-viewport';
 
+import type { Feature } from '@turf/helpers';
+
 const { width, height } = Dimensions.get('window');
 
 // Use example
@@ -251,8 +253,12 @@ export function getPolygonBoundingBox(polygon) {
 /**
  * Returns the closest feature to a given lat/lng touch position based
  * on the distance from the center of the individual features.
+ * @param features [Feature] the features to return the closes value to
+ * @param coordinate {latitude: number, longitude: number} The point to return the nearest feature to
+ *
+ * @returns Feature
  */
-export function closestFeature(features: Array<*>, coordinate: { longitude: number, latitude: number }) {
+export function closestFeature(features: Array<Feature>, coordinate: { longitude: number, latitude: number }) {
   const coordinatePoint = point([coordinate.longitude, coordinate.latitude]);
   const geometryFeatures = _.filter(features, feature => {
     return !!feature.geometry;

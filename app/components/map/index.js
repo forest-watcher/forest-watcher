@@ -937,7 +937,7 @@ class MapComponent extends Component<Props, State> {
   };
 
   onAlertPressed = e => {
-    let feature = closestFeature(e.features, e.coordinates);
+    const feature = closestFeature(e.features, e.coordinates);
     if (!feature) {
       return;
     }
