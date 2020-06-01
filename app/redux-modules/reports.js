@@ -187,7 +187,7 @@ export default function reducer(state: ReportsState = initialState, action: Repo
       return { ...state, list, synced: true, syncing: false };
     }
     case LOGOUT_REQUEST: {
-      deleteReportFiles().then(console.info('Folder removed successfully'));
+      deleteReportFiles().then(() => console.info('Folder removed successfully'));
       return initialState;
     }
     default: {

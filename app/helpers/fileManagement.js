@@ -32,7 +32,7 @@ export async function copyFileWithReplacement(sourceUri: string, destinationUri:
   let source = sourceUri;
   // Damn it React-Native... RNFetchBlob does not like files starting
   // with file:// on iOS!
-  if (Platform.OS === 'ios' && sourceUri.startsWith("file://")) {
+  if (Platform.OS === 'ios' && sourceUri.startsWith('file://')) {
     source = sourceUri.slice(7);
   }
 
