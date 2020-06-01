@@ -4,6 +4,7 @@ import type { AlertDatasetConfig } from 'types/alerts.types';
 import Config from 'react-native-config';
 import i18n from 'i18next';
 import Theme from 'config/theme';
+import MapboxGL from '@react-native-mapbox-gl/maps';
 
 import type { Basemap } from 'types/basemaps.types';
 
@@ -73,6 +74,7 @@ export const FILES = {
   images: {
     alerts: 'images/alerts'
   },
+  reports: 'reports',
   tiles: 'tiles'
 };
 
@@ -160,6 +162,14 @@ export const ACTIONS_SAVED_TO_REPORT = 5;
 export const GFW_BASEMAPS: Array<Basemap> = [
   {
     isImported: false,
+    id: MapboxGL.StyleURL.Satellite,
+    styleURL: MapboxGL.StyleURL.Satellite,
+    name: 'mapboxSatellite',
+    image: require('assets/basemap_mapbox_satellite.png'),
+    tileUrl: null
+  },
+  {
+    isImported: false,
     id: 'mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true',
     styleURL: 'mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true',
     name: 'default',
@@ -197,6 +207,11 @@ export const DEFAULT_BASEMAP = GFW_BASEMAPS[0];
 export const ACCEPTED_FILE_TYPES_CONTEXTUAL_LAYERS = ['json', 'geojson', 'topojson', 'gpx', 'zip', 'kmz', 'kml'];
 export const ACCEPTED_FILE_TYPES_BASEMAPS = ['mbtiles'];
 
+export const LAYER_MAX_NAME_LENGTH = 40;
+
+export const GFW_SIGN_UP_LINK = 'https://www.globalforestwatch.org/my-gfw';
+export const GFW_FORGOT_PASSWORD_LINK = `${Config.API_AUTH}/auth/reset-password`;
+
 export default {
   areas: AREAS,
   basemaps: GFW_BASEMAPS,
@@ -209,5 +224,6 @@ export default {
   status: STATUS,
   reach: REACH,
   datasets: DATASETS,
-  actionsSavedToReport: ACTIONS_SAVED_TO_REPORT
+  actionsSavedToReport: ACTIONS_SAVED_TO_REPORT,
+  layerMaxNameLength: LAYER_MAX_NAME_LENGTH
 };

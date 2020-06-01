@@ -20,7 +20,7 @@ function mapStateToProps(state: State) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
-    updateActiveRoute: (route: Route, areaId: string) => {
+    updateActiveRoute: (route: $Shape<Route>, areaId: string) => {
       dispatch(updateActiveRoute(route));
       dispatch(copyLayerSettings(areaId, route.id));
     },

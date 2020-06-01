@@ -27,10 +27,11 @@ type Props = {
   user: any,
   loggedIn: boolean, // eslint-disable-line
   componentId: string,
-  logout: (?string) => Thunk<void>,
+  logout: (?string) => void,
   isUnsafeLogout: boolean,
-  setOfflineMode: boolean => AppAction,
-  offlineMode: boolean
+  setOfflineMode: boolean => void,
+  offlineMode: boolean,
+  shareAppData: () => Promise<string>
 };
 
 type State = {
@@ -136,7 +137,10 @@ export default class Settings extends Component<Props, State> {
     });
   });
 
-  onPressShare() {}
+  onPressShare = async () => {
+    // TODO: Progress
+    await this.props.shareAppData();
+  };
 
   componentDidMount() {
     tracker.trackScreenView('Settings');

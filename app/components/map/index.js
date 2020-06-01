@@ -109,6 +109,7 @@ type Props = {
   setCanDisplayAlerts: boolean => AlertsAction,
   reportedAlerts: Array<string>,
   canDisplayAlerts: boolean,
+  featureId: ?string,
   area: ?ReportArea,
   setActiveAlerts: () => AlertsAction,
   contextualLayer: ?ContextualLayer,
@@ -259,7 +260,7 @@ class MapComponent extends Component<Props, State> {
   // called on startup to set initial camera position
   getMapCameraBounds = () => {
     const { route, areaCoordinates } = this.props;
-    const bounds = getPolygonBoundingBox(route ? route.locations : areaCoordinates);
+    const bounds = getPolygonBoundingBox(route && route.locations.length > 0 ? route.locations : areaCoordinates);
     return { ...bounds, ...MAPS.smallPadding };
   };
 
@@ -278,6 +279,7 @@ class MapComponent extends Component<Props, State> {
               component: {
                 name: 'ForestWatcher.MapWalkthrough',
                 options: {
+                  animations: Theme.navigationAnimations.fadeModal,
                   layout: {
                     backgroundColor: 'transparent',
                     componentBackgroundColor: 'rgba(0,0,0,0.74)'
@@ -379,8 +381,17 @@ class MapComponent extends Component<Props, State> {
     // See documentation for this variable declaration for explanation
     this.isStartingGeolocation = Platform.OS === 'android';
 
+    // We have to determine what permission level to request.
+    // On iOS 12 and below, and Android, we should base this on whether we need background permission.
+    // However, on iOS 13, we should request always as we can't re-request later after requesting 'when in use'.
+    const defaultPermissionLevel = trackWhenInBackground ? GFWLocationAuthorizedAlways : GFWLocationAuthorizedInUse;
+    const requestedPermission =
+      Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 13
+        ? GFWLocationAuthorizedAlways
+        : defaultPermissionLevel;
+
     try {
-      await startTrackingLocation(trackWhenInBackground ? GFWLocationAuthorizedAlways : GFWLocationAuthorizedInUse);
+      await startTrackingLocation(requestedPermission);
     } catch (err) {
       console.warn('3SC', 'Could not start tracking location...', err);
       this.onLocationUpdateError(err);
@@ -545,10 +556,6 @@ class MapComponent extends Component<Props, State> {
     });
   });
 
-  getFeatureId = (): ?string => {
-    return this.props.route?.id || this.props.area?.id;
-  };
-
   onSettingsPress = debounceUI(() => {
     this.dismissInfoBanner();
     // If route has been opened, that is the current layer settings feature ID,
@@ -562,7 +569,7 @@ class MapComponent extends Component<Props, State> {
               // https://github.com/wix/react-native-navigation/issues/3635
               // Pass componentId so drawer can push screens
               componentId: this.props.componentId,
-              featureId: this.getFeatureId()
+              featureId: this.props.featureId
             }
           }
         }
@@ -663,7 +670,7 @@ class MapComponent extends Component<Props, State> {
     const { activeRouteIds, showAll } = this.props.layerSettings.routes;
     let routeIds = showAll ? this.props.allRouteIds : activeRouteIds;
     // this is already being rendered as it is the selected feature
-    routeIds = routeIds.filter(routeId => routeId !== this.getFeatureId());
+    routeIds = routeIds.filter(routeId => routeId !== this.props.featureId);
     const routes: Array<Route> = this.props.getRoutesById(routeIds);
     return routes.map((route: Route) => {
       return (
@@ -934,14 +941,20 @@ class MapComponent extends Component<Props, State> {
   };
 
   render() {
-    const featureId = this.getFeatureId();
+    const { customReporting, userLocation, mapCenterCoords } = this.state;
+    const {
+      isConnected,
+      isOfflineMode,
+      route,
+      coordinatesFormat,
+      getActiveBasemap,
+      layerSettings,
+      featureId
+    } = this.props;
 
     if (!featureId) {
       return null;
     }
-
-    const { customReporting, userLocation, mapCenterCoords } = this.state;
-    const { isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap, layerSettings } = this.props;
 
     const basemap = getActiveBasemap(featureId);
     const coordinateAndDistanceText = customReporting

@@ -74,6 +74,18 @@ type Props = {
 };
 
 export default class Welcome extends Component<Props> {
+
+  static options(passProps: {}) {
+    return {
+      topBar: {
+        drawBehind: true,
+        background: {
+          color: 'transparent'
+        }
+      }
+    };
+  }
+
   onContinue = () => {
     Navigation.dismissModal(this.props.componentId);
   };

@@ -15,6 +15,8 @@ import type { File } from 'types/file.types';
 import type { ContextualLayer, LayersAction } from 'types/layers.types';
 import type { Thunk } from 'types/store.types';
 
+import Constants from 'config/constants';
+
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 type Props = {
@@ -106,7 +108,10 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
     const nameAlreadyTaken = !!matchingFile;
 
     return {
-      valid: !nameAlreadyTaken && this.state.file.name.length > 0 && this.state.file.name.length <= 40,
+      valid:
+        !nameAlreadyTaken &&
+        this.state.file.name.length > 0 &&
+        this.state.file.name.length <= Constants.layerMaxNameLength,
       alreadyTaken: nameAlreadyTaken
     };
   };

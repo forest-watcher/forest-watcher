@@ -28,7 +28,7 @@ type Props = {
   onDownloadPress?: () => void,
   onPress?: ?() => void,
   onInfoPress?: () => void,
-  onRenamePress: () => void,
+  onRenamePress?: () => void,
   renamable: boolean,
   selected?: ?boolean,
   style?: ?ViewStyle,

@@ -3,6 +3,7 @@ import type { LayerType } from 'types/sharing.types';
 import React, { PureComponent } from 'react';
 import { Text, ScrollView, View, Image } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import { getMBTilesMetadata } from 'react-native-mbtiles';
 
 import styles from './styles';
 import i18n from 'i18next';
@@ -13,6 +14,9 @@ import Theme from 'config/theme';
 import debounceUI from 'helpers/debounceUI';
 import DocumentPicker from 'react-native-document-picker';
 import generatedUniqueId from 'helpers/uniqueId';
+import { copyFileWithReplacement } from 'helpers/fileManagement';
+const RNFS = require('react-native-fs');
+
 const nextIcon = require('assets/next.png');
 const fileIcon = require('assets/fileIcon.png');
 
@@ -58,7 +62,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles, 'public.item']
       });
-      const validFile = this.verifyImportedFile(res);
+      const validFile = await this.verifyImportedFile(res);
       if (!validFile) {
         return;
       }
@@ -98,15 +102,39 @@ class ImportMappingFileType extends PureComponent<Props, State> {
     });
   });
 
-  verifyImportedFile = (file: File) => {
+  verifyImportedFile = async (file: File) => {
     const fileExtension = file.name
       ?.split('.')
       ?.pop()
       ?.toLowerCase();
+
+    // First, ensure that this file is one of the supported file types.
     if (!this.acceptedFileTypes().includes(fileExtension)) {
       this.showErrorModal(file.name);
       return false;
     }
+
+    if (this.props.mappingFileType === 'basemap') {
+      // On Android, the MBTiles lib is unable to read metadata from arbitrary URIs.... so we copy the file locally
+      // so that we can give it a file: URI
+      const tempUri = `${RNFS.TemporaryDirectoryPath}/${Date.now()}.mbtiles`;
+
+      try {
+        await copyFileWithReplacement(file.uri, tempUri);
+        const metadata = await getMBTilesMetadata(tempUri);
+        if (!metadata || metadata.isVector) {
+          // This mbtiles file contains vector tiles - we do not support them.
+          this.showErrorModal(file.name);
+          return false;
+        }
+      } catch (err) {
+        console.error(err);
+        throw err;
+      } finally {
+        await RNFS.unlink(tempUri);
+      }
+    }
+
     return true;
   };
 
@@ -123,6 +151,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
                 onRetry: this.importMappingFile
               },
               options: {
+                animations: Theme.navigationAnimations.fadeModal,
                 layout: {
                   backgroundColor: 'transparent',
                   componentBackgroundColor: 'rgba(0,0,0,0.8)'
@@ -198,7 +227,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
             </View>
           </Row>
           <View style={styles.faqContainer}>
-            <Text style={styles.actionText} onPress={this.onFaqPress}>
+            <Text style={styles.actionText}>
               {i18n.t(this.i18nKeyFor('faq'))}
             </Text>
           </View>

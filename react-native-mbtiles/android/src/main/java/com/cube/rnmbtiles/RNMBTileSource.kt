@@ -91,6 +91,10 @@ class RNMBTileSource(var id: String, var filePath: String) {
         }
     }
 
+    fun getMappedMetadata(): WritableNativeMap? {
+        return metadata?.mappedMetadata
+    }
+
     // Given coordinates, queries the database and returns a tile if one exists.
     fun getTile(z: Int, x: Int, y: Int): ByteArray {
         return database.select("tiles")
