@@ -42,13 +42,6 @@ export function pathForLayerType(type: LayerType, dir: string = layerRootDir()):
 }
 
 /**
- * Modified the path so it is relative to the root storage for layers
- */
-export function pathWithoutRoot(path: string): string {
-  return path.replace(layerRootDir(), '');
-}
-
-/**
  * Given a filename representing a quadtree tile (i.e. {z}x{x}x{y}), extracts the GeoJson polygon associated with that
  * tile
  */

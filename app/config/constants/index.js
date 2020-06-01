@@ -74,6 +74,7 @@ export const FILES = {
   images: {
     alerts: 'images/alerts'
   },
+  reports: 'reports',
   tiles: 'tiles'
 };
 
