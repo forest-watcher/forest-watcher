@@ -42,7 +42,7 @@ export default function exportAppData(appState: State, request: ExportBundleRequ
     areas: areas,
     basemaps: basemaps,
     layers: layers,
-    manifest: { layerFiles: [], reportFiles: [] },
+    manifest: { layerFiles: [] },
     reports: reports,
     routes: routes,
     templates: templates
@@ -81,7 +81,7 @@ export function exportBasemaps(basemapsState: BasemapsState, basemapIds: Array<s
  * Extracts any layer info from state for layers matching the specified IDs, OR intersecting any of the given regions
  */
 export function exportLayers(layersState: LayersState, layerIds: Array<string>): Array<ContextualLayer> {
-  return layersState.data.filter(layer => layerIds.includes(layer.id));
+  return [...layersState.data, ...layersState.imported].filter(layer => layerIds.includes(layer.id));
 }
 
 /**
@@ -93,6 +93,9 @@ function exportReports(reportsState: ReportsState, reportIds: Array<string>): [A
     .map(reportId => reportsState.list[reportId])
     .filter(Boolean)
     .map(report => {
+      // Modify the report so the actual ID of the template is included in its data, rather than simply the string "default"
+      // to avoid any ambiguity about what template is needed.
+
       const template = getTemplate(report, reportsState.templates);
 
       if (!template) {
@@ -118,5 +121,5 @@ function exportReports(reportsState: ReportsState, reportIds: Array<string>): [A
  * Extracts any routes from state with IDs matching those in routeIds
  */
 function exportRoutes(routesState: RouteState, routeIds: Array<string>): Array<Route> {
-  return routesState.previousRoutes.filter(route => routeIds.includes(route.id + '')).filter(Boolean);
+  return routesState.previousRoutes.filter(route => routeIds.includes(route.id)).filter(Boolean);
 }

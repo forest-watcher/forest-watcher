@@ -20,3 +20,21 @@ export default function exportBundleFromRedux(request: $Shape<ExportBundleReques
     });
   };
 }
+
+/**
+ * Creates a thunk which when dispatched will create an export bundle containing as much as possible from the app
+ */
+export function exportWholeAppBundleFromRedux(): Thunk<Promise<string>> {
+  return async (dispatch: Dispatch, getState: GetState): Promise<string> => {
+    const state = getState();
+    return await exportBundle(state, {
+      areaIds: state.areas.data.map(area => area.id),
+      basemapIds: [], // TODO
+      layerIds: state.layers.imported.map(layer => layer.id),
+      reportIds: Object.keys(state.reports.list)
+        .map(reportName => state.reports.list[reportName])
+        .map(report => report.reportName),
+      routeIds: state.routes.previousRoutes.map(route => route.id)
+    });
+  };
+}

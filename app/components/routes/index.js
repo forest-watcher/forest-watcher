@@ -43,6 +43,7 @@ type Props = {|
 
 type State = {|
   +bundleSize: number | typeof undefined,
+  +creatingArchive: boolean,
   +selectedForExport: Array<string>,
   +inShareMode: boolean
 |};
@@ -70,6 +71,7 @@ export default class Routes extends PureComponent<Props, State> {
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
     this.state = {
       bundleSize: undefined,
+      creatingArchive: false,
       inShareMode: false,
       selectedForExport: []
     };
@@ -111,13 +113,13 @@ export default class Routes extends PureComponent<Props, State> {
   onRouteSelectedForExport = (route: Route) => {
     this.setState(
       state => {
-        if (state.selectedForExport.includes(route.areaId + route.id)) {
+        if (state.selectedForExport.includes(route.id)) {
           return {
-            selectedForExport: [...state.selectedForExport].filter(id => route.areaId + route.id !== id)
+            selectedForExport: [...state.selectedForExport].filter(id => route.id !== id)
           };
         } else {
           return {
-            selectedForExport: [...state.selectedForExport, route.areaId + route.id]
+            selectedForExport: [...state.selectedForExport, route.id]
           };
         }
       },
@@ -174,15 +176,20 @@ export default class Routes extends PureComponent<Props, State> {
    *
    * @param  {Object} selectedRoutes A mapping of route identifiers to a boolean dictating whether they've been selected for export.
    */
-  onExportRoutesTapped = debounceUI(selectedRoutes => {
-    // TODO: Loading screen while the async function below executed
-    this.props.exportRoutes(selectedRoutes);
+  onExportRoutesTapped = debounceUI(async selectedRoutes => {
+    this.setState({
+      creatingArchive: true
+    });
+    await this.props.exportRoutes(selectedRoutes);
+    this.setState({
+      creatingArchive: false
+    });
     this.shareSheet?.setSharing?.(false);
     this.setSharing(false);
   });
 
   setAllSelected = (selected: boolean) => {
-    const selectedForExport = selected ? this.props.routes.map(route => route.areaId + route.id) : [];
+    const selectedForExport = selected ? this.props.routes.map(route => route.id) : [];
     this.fetchExportSize(selectedForExport);
     this.setState({
       selectedForExport
@@ -232,12 +239,10 @@ export default class Routes extends PureComponent<Props, State> {
       const distanceText = formatDistance(routeDistance, 1, false);
       const subtitle = dateText + ', ' + distanceText;
 
-      const combinedId = item.areaId + item.id;
-
       return (
         <VerticalSplitRow
           backgroundImageResizeMode={Platform.OS === 'ios' ? 'repeat' : 'cover'}
-          key={combinedId}
+          key={item.id}
           onSettingsPress={this.onClickRouteSettings.bind(this, item)}
           onPress={() => {
             onPress(item);
@@ -248,7 +253,7 @@ export default class Routes extends PureComponent<Props, State> {
           title={item.name}
           subtitle={subtitle}
           disableSettingsButton={this.state.inShareMode}
-          selected={this.state.inShareMode ? this.state.selectedForExport.includes(combinedId) : null}
+          selected={this.state.inShareMode ? this.state.selectedForExport.includes(item.id) : null}
           largerLeftPadding
           largeImage
         />
@@ -332,6 +337,7 @@ export default class Routes extends PureComponent<Props, State> {
         <ShareSheet
           componentId={this.props.componentId}
           enabled={totalToExport > 0}
+          isSharing={this.state.creatingArchive}
           onShare={() => {
             this.onExportRoutesTapped(this.state.selectedForExport);
           }}
@@ -346,6 +352,7 @@ export default class Routes extends PureComponent<Props, State> {
               ? i18n.t('routes.export.manyRoutes', { count: totalRoutes })
               : i18n.t('routes.export.oneRoute', { count: 1 })
           }
+          shareButtonInProgressTitle={i18n.t('sharing.inProgress', { type: sharingType })}
           shareButtonDisabledTitle={i18n.t('sharing.title', { type: sharingType })}
           shareButtonEnabledTitle={getShareButtonText(sharingType, totalToExport, this.state.bundleSize)}
         >

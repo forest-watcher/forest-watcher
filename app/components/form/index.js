@@ -127,10 +127,10 @@ class Form extends Component<Props> {
   }
 
   render() {
-    const { question, answer, questionAnswered, text } = this.props;
+    const { question, answer, reportName, questionAnswered, text } = this.props;
     return (
       <View style={styles.container}>
-        {question && <FormField question={question} answer={answer} onChange={this.onChange} />}
+        {question && <FormField reportName={reportName} question={question} answer={answer} onChange={this.onChange} />}
         {this.getNext(question, questionAnswered, text)}
       </View>
     );

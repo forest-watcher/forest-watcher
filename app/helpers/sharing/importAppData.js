@@ -10,6 +10,7 @@ import type { ContextualLayer } from 'types/layers.types';
 import type { Basemap } from 'types/basemaps.types';
 import storeAlerts from 'helpers/alert-store/storeAlerts';
 import { SAVE_AREA_COMMIT } from 'redux-modules/areas';
+import { IMPORT_LAYER_REQUEST, IMPORT_LAYER_COMMIT } from 'redux-modules/layers';
 import { IMPORT_ROUTE } from 'redux-modules/routes';
 import { IMPORT_REPORT, IMPORT_TEMPLATE } from 'redux-modules/reports';
 
@@ -42,8 +43,19 @@ function importBasemaps(areas: Array<Basemap>, dispatch: Dispatch) {
   // TODO
 }
 
-function importLayers(areas: Array<ContextualLayer>, dispatch: Dispatch) {
-  // TODO
+function importLayers(layers: Array<ContextualLayer>, dispatch: Dispatch) {
+  layers.forEach(layer => {
+    dispatch({
+      type: IMPORT_LAYER_REQUEST
+    });
+    dispatch({
+      type: IMPORT_LAYER_COMMIT,
+      payload: {
+        ...layer,
+        isImported: true
+      }
+    });
+  });
 }
 
 function importReports(reports: Array<Report>, dispatch: Dispatch) {

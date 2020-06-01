@@ -1,15 +1,18 @@
 // @flow
 import type { Dispatch, GetState } from 'types/store.types';
 import type { BasicReport, ReportsState, ReportsAction, Report, Answer } from 'types/reports.types';
-import omit from 'lodash/omit';
 
 import _ from 'lodash';
 import Config from 'react-native-config';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import CONSTANTS from 'config/constants';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
-import { getTemplate } from 'helpers/forms';
+import { getTemplate, mapFormToAnsweredQuestions } from 'helpers/forms';
 import { GET_AREAS_COMMIT } from 'redux-modules/areas';
+import queryReportFiles from 'helpers/report-store/queryReportFiles';
+import deleteReportFiles from 'helpers/report-store/deleteReportFiles';
+import { toFileUri } from 'helpers/fileURI';
+import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
 // Actions
 const GET_DEFAULT_TEMPLATE_REQUEST = 'report/GET_DEFAULT_TEMPLATE_REQUEST';
@@ -184,6 +187,7 @@ export default function reducer(state: ReportsState = initialState, action: Repo
       return { ...state, list, synced: true, syncing: false };
     }
     case LOGOUT_REQUEST: {
+      deleteReportFiles().then(() => console.info('Folder removed successfully'));
       return initialState;
     }
     default: {
@@ -240,6 +244,9 @@ export function setReportAnswer(reportName: string, answer: Answer, updateOnly: 
 }
 
 export function deleteReport(reportName: string): ReportsAction {
+  deleteReportFiles({
+    reportName
+  });
   return {
     type: DELETE_REPORT,
     payload: { reportName }
@@ -254,7 +261,7 @@ export function saveReport(name: string, data: Report): ReportsAction {
 }
 
 export function uploadReport(reportName: string) {
-  return (dispatch: Dispatch, getState: GetState) => {
+  return async (dispatch: Dispatch, getState: GetState) => {
     const { user = {}, reports, app } = getState();
     const userName = (user.data && user.data.fullName) || '';
     const organization = (user.data && user.data.organization) || '';
@@ -279,26 +286,25 @@ export function uploadReport(reportName: string) {
     form.append('clickedPosition', report && report.clickedPosition);
     form.append('userPosition', report && report.userPosition);
 
-    report.answers.forEach(answer => {
-      const appendAnswer = ({ value, questionName }) => {
-        // TODO: improve this
-        if (typeof value === 'string' && value.indexOf('jpg') >= 0) {
-          const image = {
-            uri: value,
+    const answeredQuestions = mapFormToAnsweredQuestions(report.answers, template, null);
+    // eslint-disable-next-line no-unused-vars
+    for (const { question, answer } of answeredQuestions) {
+      if (question.type === 'blob') {
+        const reportFiles = await queryReportFiles({
+          reportName: reportName,
+          questionName: question.name
+        });
+        reportFiles.forEach(reportFile =>
+          form.append(question.name, {
+            uri: toFileUri(reportFile.path),
             type: 'image/jpg',
-            name: `${reportName}-image-${questionName}.jpg`
-          };
-          // $FlowFixMe
-          form.append(questionName, image);
-        } else {
-          form.append(questionName, value.toString());
-        }
-      };
-      appendAnswer(answer);
-      if (answer.child) {
-        appendAnswer(answer.child);
+            name: `${reportName}-image-${question.name}.jpg`
+          })
+        );
+      } else {
+        form.append(question.name, answer.value.toString());
       }
-    });
+    }
 
     const requestPayload = {
       name: reportName,

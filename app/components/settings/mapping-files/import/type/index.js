@@ -1,5 +1,5 @@
 // @flow
-import type { MappingFileType } from 'types/common.types';
+import type { LayerType } from 'types/sharing.types';
 import React, { PureComponent } from 'react';
 import { Text, ScrollView, View, Image } from 'react-native';
 import { Navigation } from 'react-native-navigation';
@@ -19,7 +19,7 @@ const fileIcon = require('assets/fileIcon.png');
 type Props = {
   componentId: string,
   isConnected: boolean,
-  mappingFileType: MappingFileType,
+  mappingFileType: LayerType,
   onImported: () => void,
   popToComponentId?: ?string
 };
@@ -27,11 +27,11 @@ type Props = {
 type State = {};
 
 class ImportMappingFileType extends PureComponent<Props, State> {
-  static options(passProps: { mappingFileType: MappingFileType }) {
+  static options(passProps: { mappingFileType: LayerType }) {
     return {
       topBar: {
         title: {
-          text: i18n.t(`${passProps.mappingFileType}.import.choose`)
+          text: i18n.t(`${passProps.mappingFileType === 'basemap' ? 'basemaps' : 'contextualLayers'}.import.choose`)
         }
       }
     };
@@ -42,14 +42,15 @@ class ImportMappingFileType extends PureComponent<Props, State> {
     Navigation.events().bindComponent(this);
   }
 
-  acceptedFileTypes = (mappingFileType: MappingFileType = this.props.mappingFileType): Array<string> => {
-    return mappingFileType === 'contextualLayers'
+  acceptedFileTypes = (mappingFileType: LayerType = this.props.mappingFileType): Array<string> => {
+    return mappingFileType === 'contextual_layer'
       ? ACCEPTED_FILE_TYPES_CONTEXTUAL_LAYERS
       : ACCEPTED_FILE_TYPES_BASEMAPS;
   };
 
   i18nKeyFor(key: string): string {
-    return `${this.props.mappingFileType}.import.${key}`;
+    const base = this.props.mappingFileType === 'basemap' ? 'basemaps' : 'contextualLayers';
+    return `${base}.import.${key}`;
   }
 
   importMappingFile = debounceUI(async () => {
@@ -163,7 +164,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
     return (
       <View style={styles.container}>
         <ScrollView alwaysBounceVertical={false} style={styles.contentContainer}>
-          {mappingFileType === 'contextualLayers' ? (
+          {mappingFileType === 'contextual_layer' ? (
             <Row
               action={gfwLayerAction}
               opacity={!this.props.isConnected ? 1.0 : 0.5}

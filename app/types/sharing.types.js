@@ -7,7 +7,9 @@ import type { Basemap } from 'types/basemaps.types';
 import type { ContextualLayer } from 'types/layers.types';
 
 import type { Feature, Polygon } from '@turf/helpers';
-import type { LayerType } from 'helpers/layer-store/layerFilePaths';
+import type { ReportAttachmentType } from 'helpers/report-store/reportFilePaths';
+
+export type LayerType = 'basemap' | 'contextual_layer';
 
 /**
  * Type representing a request to create a SharingBundle using a subset of the user's local data
@@ -86,11 +88,20 @@ export type LayerFile = {|
   polygon?: ?Feature<Polygon>
 |};
 
+export type ReportFile = {|
+  path: string,
+  reportName: string,
+  questionName: string,
+  type: ReportAttachmentType,
+  size: number
+|};
+
 /**
  * Manifest of files relating to basemaps and contextual layers
  */
 export type SharingBundleManifest = {|
-  layerFiles: Array<LayerFile>
+  layerFiles: Array<LayerFile>,
+  reportFiles: Array<ReportFile>
 |};
 
 /**
