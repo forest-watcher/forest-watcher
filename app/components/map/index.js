@@ -109,6 +109,7 @@ type Props = {
   setCanDisplayAlerts: boolean => AlertsAction,
   reportedAlerts: Array<string>,
   canDisplayAlerts: boolean,
+  featureId: ?string,
   area: ?ReportArea,
   setActiveAlerts: () => AlertsAction,
   contextualLayer: ?ContextualLayer,
@@ -259,7 +260,7 @@ class MapComponent extends Component<Props, State> {
   // called on startup to set initial camera position
   getMapCameraBounds = () => {
     const { route, areaCoordinates } = this.props;
-    const bounds = getPolygonBoundingBox(route ? route.locations : areaCoordinates);
+    const bounds = getPolygonBoundingBox(route && route.locations.length > 0 ? route.locations : areaCoordinates);
     return { ...bounds, ...MAPS.smallPadding };
   };
 
@@ -554,10 +555,6 @@ class MapComponent extends Component<Props, State> {
     });
   });
 
-  getFeatureId = (): ?string => {
-    return this.props.route?.id || this.props.area?.id;
-  };
-
   onSettingsPress = debounceUI(() => {
     this.dismissInfoBanner();
     // If route has been opened, that is the current layer settings feature ID,
@@ -571,7 +568,7 @@ class MapComponent extends Component<Props, State> {
               // https://github.com/wix/react-native-navigation/issues/3635
               // Pass componentId so drawer can push screens
               componentId: this.props.componentId,
-              featureId: this.getFeatureId()
+              featureId: this.props.featureId
             }
           }
         }
@@ -672,7 +669,7 @@ class MapComponent extends Component<Props, State> {
     const { activeRouteIds, showAll } = this.props.layerSettings.routes;
     let routeIds = showAll ? this.props.allRouteIds : activeRouteIds;
     // this is already being rendered as it is the selected feature
-    routeIds = routeIds.filter(routeId => routeId !== this.getFeatureId());
+    routeIds = routeIds.filter(routeId => routeId !== this.props.featureId);
     const routes: Array<Route> = this.props.getRoutesById(routeIds);
     return routes.map((route: Route) => {
       return (
@@ -943,14 +940,20 @@ class MapComponent extends Component<Props, State> {
   };
 
   render() {
-    const featureId = this.getFeatureId();
+    const { customReporting, userLocation, mapCenterCoords } = this.state;
+    const {
+      isConnected,
+      isOfflineMode,
+      route,
+      coordinatesFormat,
+      getActiveBasemap,
+      layerSettings,
+      featureId
+    } = this.props;
 
     if (!featureId) {
       return null;
     }
-
-    const { customReporting, userLocation, mapCenterCoords } = this.state;
-    const { isConnected, isOfflineMode, route, coordinatesFormat, getActiveBasemap, layerSettings } = this.props;
 
     const basemap = getActiveBasemap(featureId);
     const coordinateAndDistanceText = customReporting
