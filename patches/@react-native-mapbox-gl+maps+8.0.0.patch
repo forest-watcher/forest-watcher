@@ -1,0 +1,23 @@
+diff --git a/node_modules/@react-native-mapbox-gl/maps/ios/RCTMGL/RCTMGLLocationManager.m b/node_modules/@react-native-mapbox-gl/maps/ios/RCTMGL/RCTMGLLocationManager.m
+index cc38935..280802b 100644
+--- a/node_modules/@react-native-mapbox-gl/maps/ios/RCTMGL/RCTMGLLocationManager.m
++++ b/node_modules/@react-native-mapbox-gl/maps/ios/RCTMGL/RCTMGLLocationManager.m
+@@ -51,7 +51,17 @@ - (void)start:(CLLocationDistance)minDisplacement
+     }
+     
+     dispatch_async(dispatch_get_main_queue(), ^{
+-        [locationManager requestWhenInUseAuthorization];
++        if (@available(iOS 13, *)) {
++          // When on iOS 13 or above, we request always as otherwise the permission
++          // given will not allow background tracking, and we cannot explicitly request
++          // the elevated permission later on.
++          [locationManager requestAlwaysAuthorization];
++        } else {
++          // On iOS 12 and below, we can request when in use first. We'll then request
++          // always authorization when required later on.
++          [locationManager requestWhenInUseAuthorization];
++        }
++        
+         [locationManager startUpdatingLocation];
+         [locationManager startUpdatingHeading];
+         [locationManager setDistanceFilter:(minDisplacement)];
