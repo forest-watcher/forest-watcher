@@ -279,6 +279,7 @@ class MapComponent extends Component<Props, State> {
               component: {
                 name: 'ForestWatcher.MapWalkthrough',
                 options: {
+                  animations: Theme.navigationAnimations.fadeModal,
                   layout: {
                     backgroundColor: 'transparent',
                     componentBackgroundColor: 'rgba(0,0,0,0.74)'
