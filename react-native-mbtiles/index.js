@@ -11,6 +11,9 @@ const getMBTilesMetadata = async (path: string): Promise<MBTileBasemapMetadata> 
     // We use the path here as a temporary ID - this source will be thrown away so it isn't important.
     ReactNativeMBTiles.getMetadata(path, path, (error, metadata) => {
       if (error || !metadata) {
+        reject(error);
+        return;
+      } else if (!metadata) {
         reject(new Error('3SC MBTile Import - There was an error'));
         return;
       }
