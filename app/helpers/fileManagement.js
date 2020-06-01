@@ -1,4 +1,5 @@
 // @flow
+import { Platform } from 'react-native';
 
 import RNFetchBlob from 'rn-fetch-blob';
 const RNFS = require('react-native-fs');
@@ -28,6 +29,13 @@ export async function copyFile(sourceUri: string, destinationUri: string) {
     .slice(0, -1)
     .join('/');
 
+  let source = sourceUri;
+  // Damn it React-Native... RNFetchBlob does not like files starting
+  // with file:// on iOS!
+  if (Platform.OS === 'ios' && sourceUri.startsWith("file://")) {
+    source = sourceUri.slice(7);
+  }
+
   const dirExists = await RNFetchBlob.fs.exists(destinationPath);
   if (!dirExists) {
     await RNFetchBlob.fs.mkdir(destinationPath);
@@ -37,7 +45,7 @@ export async function copyFile(sourceUri: string, destinationUri: string) {
   if (fileExists) {
     await RNFetchBlob.fs.unlink(destinationUri);
   }
-  await RNFetchBlob.fs.cp(sourceUri, destinationUri);
+  await RNFetchBlob.fs.cp(source, destinationUri);
 }
 
 /**
