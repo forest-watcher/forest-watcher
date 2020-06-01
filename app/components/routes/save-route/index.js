@@ -18,7 +18,7 @@ type Props = {
   componentId: string,
   route: ?Route,
   updateActiveRoute: ($Shape<Route>, string) => void,
-  finishAndSaveRoute: () => void
+  finishAndSaveRoute: ($Shape<Route>, string) => void
 };
 
 type State = {
@@ -89,7 +89,7 @@ class SaveRoute extends PureComponent<Props, State> {
 
     stopTrackingLocation();
     this.props.updateActiveRoute(this.state.route, this.props.route.areaId);
-    this.props.finishAndSaveRoute();
+    this.props.finishAndSaveRoute(this.state.route, this.props.route.areaId);
     Navigation.pop(this.props.componentId);
   };
 

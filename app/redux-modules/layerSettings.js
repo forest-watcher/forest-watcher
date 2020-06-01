@@ -24,6 +24,7 @@ const SET_VIIRS_ALERTS_TIME_FRAME = 'layerSettings/SET_VIIRS_ALERTS_TIME_FRAME';
 const COPY_LAYER_SETTINGS = 'layerSettings/COPY_LAYER_SETTINGS';
 
 const SELECT_ACTIVE_BASEMAP = 'layerSettings/SELECT_ACTIVE_BASEMAP';
+const SHOW_SAVED_ROUTE = 'layerSettings/SHOW_SAVED_ROUTE';
 
 const SET_CONTEXTUAL_LAYER_SHOWING = 'layerSettings/SET_CONTEXTUAL_LAYER_SHOWING';
 const CLEAR_ENABLED_CONTEXTUAL_LAYERS = 'layerSettings/CLEAR_ENABLED_CONTEXTUAL_LAYERS';
@@ -242,6 +243,18 @@ export default function reducer(
           ...state[featureId],
           basemap: {
             activeBasemapId: action.payload.basemapId
+          }
+        }
+      };
+    }
+    case SHOW_SAVED_ROUTE: {
+      return {
+        ...state,
+        [featureId]: {
+          ...state[featureId],
+          routes: {
+            layerIsActive: true,
+            activeRouteIds: [...state[featureId].routes.activeRouteIds, action.payload.routeId]
           }
         }
       };
@@ -483,6 +496,16 @@ export function selectActiveBasemap(featureId: string, basemapId: string): Layer
     payload: {
       featureId,
       basemapId
+    }
+  };
+}
+
+export function showSavedRoute(featureId: string, routeId: string): LayerSettingsAction {
+  return {
+    type: SHOW_SAVED_ROUTE,
+    payload: {
+      featureId,
+      routeId
     }
   };
 }
