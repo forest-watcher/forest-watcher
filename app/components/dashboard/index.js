@@ -11,6 +11,7 @@ import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import i18n from 'i18next';
 import styles from './styles';
+import Theme from 'config/theme';
 
 const settingsIcon = require('assets/settings.png');
 const nextIcon = require('assets/next.png');
@@ -131,28 +132,23 @@ class Dashboard extends PureComponent<Props> {
     if (!hasSeenWelcomeScreen) {
       this.props.setWelcomeScreenSeen(true);
       Navigation.showModal({
-        component: {
-          name: 'ForestWatcher.Welcome',
-          options: {
-            animations: {
-              dismissModal: {
-                alpha: {
-                  from: 1,
-                  to: 0,
-                  duration: 300
-                }
-              },
-              showModal: {
-                alpha: {
-                  from: 0,
-                  to: 1,
-                  duration: 300
+        stack: {
+          children: [
+            {
+              component: {
+                name: 'ForestWatcher.Welcome',
+                options: {
+                  animations: Theme.navigationAnimations.fadeModal,
+                  layout: {
+                    backgroundColor: 'transparent',
+                    componentBackgroundColor: 'rgba(0,0,0,0.74)'
+                  },
+                  screenBackgroundColor: 'rgba(0,0,0,0.74)',
+                  modalPresentationStyle: 'overCurrentContext'
                 }
               }
-            },
-            layout: { componentBackgroundColor: 'rgba(0,0,0,0.8)' },
-            modalPresentationStyle: 'overCurrentContext'
-          }
+            }
+          ]
         }
       });
     }
