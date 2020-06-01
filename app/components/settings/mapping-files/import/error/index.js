@@ -24,7 +24,10 @@ export default class ImportMappingFileError extends Component<Props> {
     return {
       topBar: {
         drawBehind: true,
-        visible: false
+        visible: false,
+        background: {
+          color: 'transparent'
+        }
       }
     };
   }
