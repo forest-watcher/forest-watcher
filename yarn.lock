@@ -1404,7 +1404,7 @@
     "@turf/line-intersect" "6.x"
     "@turf/meta" "6.x"
 
-"@turf/point-to-line-distance@^6.0.0":
+"@turf/point-to-line-distance@6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@turf/point-to-line-distance/-/point-to-line-distance-6.0.0.tgz#e2f59177273a5f2a9e7fa8d2c054bae7da815ccf"
   integrity sha512-2UuZFtn8MRfrqBHSqkrH/jm5q/VedyL7a4YC50Nd5FqXs5TgmAB7ms2igSbCkyaOtRypGhMl9fun3Hg5PIVRMQ==
