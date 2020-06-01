@@ -104,7 +104,8 @@ export default class ImportMappingFileError extends Component<Props> {
   };
 
   render() {
-    return <SafeAreaView style={styles.container}>
+    return (
+      <SafeAreaView style={styles.container}>
         <View style={styles.contentContainer}>
           <Text style={styles.titleText}>{this.getTitle()}</Text>
           <Text style={styles.fileName}>
@@ -114,19 +115,25 @@ export default class ImportMappingFileError extends Component<Props> {
             {this.props.error === 'fileSize' && ` (${formatBytes(this.props.file.size)})`}
           </Text>
           <Text style={styles.description}>{this.getDescription()}</Text>
-          {this.props.error === 'fileFormat' && <React.Fragment>
-              <Text style={styles.fileTypesDescription}>
-                {i18n.t(this.i18nKeyFor('supportedFileTypesInclude'))}
-              </Text>
+          {this.props.error === 'fileFormat' && (
+            <React.Fragment>
+              <Text style={styles.fileTypesDescription}>{i18n.t(this.i18nKeyFor('supportedFileTypesInclude'))}</Text>
               <View style={styles.acceptedFileTypes}>
                 {this.acceptedFileTypes().map(fileType => this.renderFileTypeComponent(fileType))}
               </View>
-            </React.Fragment>}
-          <ActionButton onPress={this.onPressChooseAnother} secondary noIcon text={i18n.t('contextualLayers.import.chooseAnother')} />
+            </React.Fragment>
+          )}
+          <ActionButton
+            onPress={this.onPressChooseAnother}
+            secondary
+            noIcon
+            text={i18n.t('contextualLayers.import.chooseAnother')}
+          />
           <Text style={styles.actionText} onPress={this.onPressCancel}>
             {i18n.t('commonText.cancel')}
           </Text>
         </View>
-      </SafeAreaView>;
+      </SafeAreaView>
+    );
   }
 }
