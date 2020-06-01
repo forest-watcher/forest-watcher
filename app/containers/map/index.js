@@ -73,7 +73,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
   const contextualLayer = getContextualLayer(state.layers);
   const route = reconcileRoutes(state.routes.activeRoute, ownProps.previousRoute);
   const allRouteIds = state.routes.previousRoutes.map(item => item.id);
-  const featureId = route?.id || area?.id || '';
+  const featureId = area?.id || route?.id || '';
   const layerSettings = state.layerSettings?.[featureId] || DEFAULT_LAYER_SETTINGS;
 
   return {
@@ -84,6 +84,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
     allRouteIds,
     area: areaProps,
     layerSettings,
+    featureId,
     isConnected: shouldBeConnected(state),
     isOfflineMode: state.app.offlineMode,
     coordinatesFormat: state.app.coordinatesFormat,

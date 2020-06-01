@@ -47,6 +47,7 @@
             "default": "Default",
             "dark": "Dark",
             "satellite": "Satellite",
+            "mapboxSatellite": "Mapbox Satellite",
             "landsat": "Landsat"
         },
         "edit": "Edit",

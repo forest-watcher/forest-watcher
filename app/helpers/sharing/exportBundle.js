@@ -8,8 +8,12 @@ import { zip } from 'react-native-zip-archive';
 
 import deleteStagedBundle from 'helpers/sharing/deleteStagedBundle';
 import exportAppData, { exportBasemaps, exportLayers } from 'helpers/sharing/exportAppData';
-import exportFileManifest, { sanitiseLayerFilesForBundle } from 'helpers/sharing/exportFileManifest';
+import exportFileManifest, {
+  sanitiseLayerFilesForBundle,
+  sanitiseReportFilesForBundle
+} from 'helpers/sharing/exportFileManifest';
 import { storeLayerFiles } from 'helpers/layer-store/storeLayerFiles';
+import { storeReportFiles } from 'helpers/report-store/storeReportFiles';
 import createTemporaryStagingDirectory from 'helpers/sharing/createTemporaryStagingDirectory';
 
 /**
@@ -72,15 +76,17 @@ export async function packageBundle(bundle: UnpackedSharingBundle): Promise<stri
 export async function stageBundle(bundle: SharingBundle): Promise<UnpackedSharingBundle> {
   const outputPath = await createTemporaryStagingDirectory();
 
-  // Stage manifest files and then clean the manifest for the bundle
+  // Stage files contained in the manifest
   await storeLayerFiles(bundle.manifest.layerFiles, outputPath);
+  await storeReportFiles(bundle.manifest.reportFiles, outputPath);
 
   // Write the bundle data file
   const sanitisedBundle = {
     ...bundle,
     manifest: {
       ...bundle.manifest,
-      layerFiles: sanitiseLayerFilesForBundle(bundle.manifest.layerFiles)
+      layerFiles: sanitiseLayerFilesForBundle(bundle.manifest.layerFiles),
+      reportFiles: sanitiseReportFilesForBundle(bundle.manifest.reportFiles)
     }
   };
   const outputFile = `${outputPath}/${BUNDLE_DATA_FILE_NAME}`;
