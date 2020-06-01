@@ -109,7 +109,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
       this.showErrorModal(file, 'fileFormat');
       return false;
     }
-    if (this.props.mappingFileType === 'contextualLayers' && file.size > FILES.maxFileSizeForLayerImport) {
+    if (this.props.mappingFileType === 'contextual_layers' && file.size > FILES.maxFileSizeForLayerImport) {
       this.showErrorModal(file, 'fileSize');
       return false;
     }
