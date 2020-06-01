@@ -23,7 +23,7 @@ if (typeof atob === 'undefined') {
  *
  * This helper function will create any missing directories in the destination path, and will overwrite any existing file
  */
-export async function copyFile(sourceUri: string, destinationUri: string) {
+export async function copyFileWithReplacement(sourceUri: string, destinationUri: string) {
   const destinationPath = destinationUri
     .split('/')
     .slice(0, -1)

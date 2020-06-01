@@ -14,7 +14,7 @@ import {
 import tilebelt from '@mapbox/tilebelt';
 import turfBbox from '@turf/bbox';
 import { GeoJSONObject } from '@turf/helpers';
-import { copyFile, writeJSONToDisk } from 'helpers/fileManagement';
+import { copyFileWithReplacement, writeJSONToDisk } from 'helpers/fileManagement';
 import { cleanGeoJSON } from 'helpers/map';
 
 const RNFS = require('react-native-fs');
@@ -64,13 +64,13 @@ export async function storeLayerFiles(files: Array<LayerFile>, dir: string = lay
 
     const subFiles = file.subFiles;
     if (!subFiles) {
-      await copyFile(file.path, destinationUri); // copy each file sequentially
+      await copyFileWithReplacement(file.path, destinationUri); // copy each file sequentially
     } else {
       // eslint-disable-next-line no-unused-vars
       for (const subFile of subFiles) {
         const subFileSourceUri = `${file.path}/${subFile}`;
         const subFileDestinationUri = `${destinationUri}/${subFile}`;
-        await copyFile(subFileSourceUri, subFileDestinationUri); // copy each file sequentially
+        await copyFileWithReplacement(subFileSourceUri, subFileDestinationUri); // copy each file sequentially
       }
     }
   }
