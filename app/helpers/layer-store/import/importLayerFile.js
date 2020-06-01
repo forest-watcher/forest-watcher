@@ -1,5 +1,4 @@
 // @flow
-import type { Basemap } from 'types/basemaps.types';
 import type { File } from 'types/file.types';
 import type { LayerFile } from 'types/sharing.types';
 import { Platform } from 'react-native';
@@ -13,22 +12,6 @@ import { feature, featureCollection } from '@turf/helpers';
 
 const DOMParser = require('xmldom').DOMParser;
 const RNFS = require('react-native-fs');
-
-export async function temporarilyImportBasemapFile(layerFile: File): Promise<LayerFile> {
-  const { file, fileName, fileExtension } = getFormattedFile(layerFile);
-  const tempPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '');
-
-  try {
-    await RNFS.copyFile(file.uri, tempPath);
-    return { path: tempPath, type: 'basemap', layerId: file.id, tileXYZ: [0, 0, 0], size: 0 };
-  } finally {
-    // TODO
-  }
-}
-
-export async function deleteTemporaryBasemap(filePath: string) {
-  RNFS.unlink(filePath);
-}
 
 /**
  * TODO: Split each file format in this switch statement out into separate functions

@@ -14,11 +14,9 @@ import Theme from 'config/theme';
 import debounceUI from 'helpers/debounceUI';
 import DocumentPicker from 'react-native-document-picker';
 import generatedUniqueId from 'helpers/uniqueId';
-import {
-  getFormattedFile,
-  temporarilyImportBasemapFile,
-  deleteTemporaryBasemap
-} from 'helpers/layer-store/import/importLayerFile';
+import { copyFileWithReplacement } from 'helpers/fileManagement';
+const RNFS = require('react-native-fs');
+
 const nextIcon = require('assets/next.png');
 const fileIcon = require('assets/fileIcon.png');
 
@@ -117,24 +115,23 @@ class ImportMappingFileType extends PureComponent<Props, State> {
     }
 
     if (this.props.mappingFileType === 'basemap') {
-      // This is a basemap import, so we must ensure the file doesn't contain vector tiles.
-      // First, we complete a temporary import so we can read from the file.
-      const tempBasemapFile = await temporarilyImportBasemapFile({ ...file, fileName: '/temp' });
+      // On Android, the MBTiles lib is unable to read metadata from arbitrary URIs.... so we copy the file locally
+      // so that we can give it a file: URI
+      const tempUri = `${RNFS.TemporaryDirectoryPath}/${Date.now()}.mbtiles`;
 
-      const metadata = await getMBTilesMetadata(tempBasemapFile.path);
-
-      deleteTemporaryBasemap(tempBasemapFile.path);
-
-      if (!metadata) {
-        // This mbtiles file has no metadata - so we'll reject it.
-        this.showErrorModal(file.name);
-        return false;
-      }
-
-      if (metadata.isVector) {
-        // This mbtiles file contains vector tiles - we do not support them.
-        this.showErrorModal(file.name);
-        return false;
+      try {
+        await copyFileWithReplacement(file.uri, tempUri);
+        const metadata = await getMBTilesMetadata(tempUri);
+        if (!metadata || metadata.isVector) {
+          // This mbtiles file contains vector tiles - we do not support them.
+          this.showErrorModal(file.name);
+          return false;
+        }
+      } catch (err) {
+        console.error(err);
+        throw err;
+      } finally {
+        await RNFS.unlink(tempUri);
       }
     }
 
@@ -229,7 +226,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
             </View>
           </Row>
           <View style={styles.faqContainer}>
-            <Text style={styles.actionText} onPress={this.onFaqPress}>
+            <Text style={styles.actionText}>
               {i18n.t(this.i18nKeyFor('faq'))}
             </Text>
           </View>
