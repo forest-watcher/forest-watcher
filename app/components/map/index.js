@@ -945,10 +945,13 @@ class MapComponent extends Component<Props, State> {
   };
 
   onShapeSourcePressed = e => {
-    this.onFeaturePressed(e?.nativeEvent);
+    this.onFeaturePressed(e?.nativeEvent?.payload);
   };
 
   onFeaturePressed = feature => {
+    if (!feature) {
+      return;
+    }
     // show info banner with feature details
     const { date, name, type, featureId, cluster, lat, long } = feature?.properties;
     if (cluster) {
