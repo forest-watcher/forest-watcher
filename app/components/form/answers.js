@@ -13,6 +13,8 @@ import tracker, { REPORT_OUTCOME_CANCELLED, REPORT_OUTCOME_COMPLETED } from 'hel
 import withDraft from './withDraft';
 import styles from './styles';
 import displayExportReportDialog from 'helpers/sharing/displayExportReportDialog';
+import { pathForReportQuestionAttachment } from 'helpers/report-store/reportFilePaths';
+import { toFileUri } from 'helpers/fileURI';
 
 const deleteIcon = require('assets/delete_red.png');
 const exportIcon = require('assets/upload.png');
@@ -181,7 +183,7 @@ class Answers extends PureComponent<Props> {
       .filter(({ question }) => question.type === 'blob')
       .map((image, index) => ({
         id: image.question.Id,
-        uri: image.answer.value[index],
+        uri: toFileUri(pathForReportQuestionAttachment(this.props.reportName, image.question.name, 'image/jpeg')),
         name: image.question.name,
         order: image.question.order,
         required: image.question.required

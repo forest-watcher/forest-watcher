@@ -25,7 +25,7 @@ type Props = {
   componentId: string,
   coordinatesFormat: CoordinatesFormat,
   deleteRoute: () => void,
-  updateRoute: Route => void,
+  updateRoute: ($Shape<Route>) => void,
   setSelectedAreaId: string => AreasAction,
   route: ?Route
 };
