@@ -260,9 +260,7 @@ export function getPolygonBoundingBox(polygon) {
  */
 export function closestFeature(features: Array<Feature>, coordinate: { longitude: number, latitude: number }) {
   const coordinatePoint = point([coordinate.longitude, coordinate.latitude]);
-  const geometryFeatures = features.filter((feature: Feature) => {
-    return !!feature.geometry;
-  });
+  const geometryFeatures = features.filter((feature: Feature) => !!feature.geometry);
   return _.minBy(geometryFeatures, feature => {
     const geometry = feature.geometry;
     switch (geometry.type) {
