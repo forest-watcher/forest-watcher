@@ -22,7 +22,6 @@ type Props = {
   componentId: string,
   setAreasRefreshing: boolean => void,
   hasSeenWelcomeScreen: boolean,
-  importBundle: string => void,
   isConnected: boolean,
   needsUpdate: boolean,
   appSyncing: boolean,
@@ -106,13 +105,13 @@ class Dashboard extends PureComponent<Props> {
 
     Linking.addEventListener('url', link => {
       if (link && link.url) {
-        this.props.importBundle(link.url);
+        this.launchImportBundleModal(link.url);
       }
     });
 
     const deepLink: ?string = await Linking.getInitialURL();
     if (deepLink) {
-      this.props.importBundle(deepLink);
+        this.launchImportBundleModal(deepLink);
     }
 
     // This is called both here and componentDidAppear because componentDidAppear isn't called when setting
@@ -194,6 +193,23 @@ class Dashboard extends PureComponent<Props> {
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.Settings'
+      }
+    });
+  });
+
+  launchImportBundleModal = debounceUI((bundlePath: string) => {
+    Navigation.showModal({
+      stack: {
+        children: [
+          {
+            component: {
+              name: 'ForestWatcher.ImportBundleStart',
+              passProps: {
+                bundlePath
+              }
+            }
+          }
+        ]
       }
     });
   });
