@@ -10,12 +10,16 @@ import type { Coordinates, CoordinatesFormat } from 'types/common.types';
 import type { LayersState, ContextualLayer } from 'types/layers.types';
 import { isValidLatLng } from 'helpers/location';
 import { isEmpty, removeNulls } from 'helpers/utils';
-import { GeoJSONObject } from '@turf/helpers';
+import { GeoJSONObject, point, lineString } from '@turf/helpers';
+import distanceBetweenCoordinates from '@turf/distance';
+import pointToLineDistance from '@turf/point-to-line-distance';
 import _ from 'lodash';
 import type { Alert } from 'types/alerts.types';
 import type { AlertsIndex } from 'components/map/alerts/dataset';
 import geokdbush from 'geokdbush';
 import geoViewport from '@mapbox/geo-viewport';
+
+import type { Feature } from '@turf/helpers';
 
 const { width, height } = Dimensions.get('window');
 
@@ -244,4 +248,34 @@ export function getPolygonBoundingBox(polygon) {
     ne: [_.maxBy(polygon, x => x.longitude).longitude, _.maxBy(polygon, x => x.latitude).latitude],
     sw: [_.minBy(polygon, x => x.longitude).longitude, _.minBy(polygon, x => x.latitude).latitude]
   };
+}
+
+/**
+ * Returns the closest feature to a given lat/lng touch position based
+ * on the distance from the center of the individual features.
+ * @param features [Feature] the features to return the closes value to
+ * @param coordinate {latitude: number, longitude: number} The point to return the nearest feature to
+ *
+ * @returns Feature
+ */
+export function closestFeature(features: Array<Feature>, coordinate: { longitude: number, latitude: number }) {
+  const coordinatePoint = point([coordinate.longitude, coordinate.latitude]);
+  const geometryFeatures = features.filter((feature: Feature) => !!feature.geometry);
+  return _.minBy(geometryFeatures, feature => {
+    const geometry = feature.geometry;
+    switch (geometry.type) {
+      case 'Point': {
+        const geometryPoint = point(geometry.coordinates);
+        return distanceBetweenCoordinates(coordinatePoint, geometryPoint);
+      }
+      case 'LineString': {
+        const geometryLineString = lineString(geometry.coordinates);
+        return pointToLineDistance(coordinatePoint, geometryLineString);
+      }
+      default: {
+        console.warn(`Unexpected geometry type: ${geometry.type} sent to closestFeature helper`);
+      }
+    }
+    return undefined;
+  });
 }
