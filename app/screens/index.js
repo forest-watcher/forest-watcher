@@ -41,6 +41,7 @@ import BasemapLayerSettings from 'containers/settings/layer-settings/basemap';
 import GFWContextualLayers from 'containers/settings/gfw-layers';
 import ImportMappingFileError from 'components/settings/mapping-files/import/error';
 import EmailLogin from 'containers/login/email-login';
+import ImportSharingBundleStart from 'components/sharing-bundle/import/start';
 
 /**
  * Registers a component with React Native Navigation
@@ -106,6 +107,7 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.ContextualLayersLayerSettings', ContextualLayersLayerSettings, Provider, store);
   registerComponent('ForestWatcher.BasemapLayerSettings', BasemapLayerSettings, Provider, store);
   registerComponent('ForestWatcher.GFWLayers', GFWContextualLayers, Provider, store);
+  registerComponent('ForestWatcher.ImportBundleStart', ImportSharingBundleStart, Provider, store);
 }
 
 export default registerScreens;
