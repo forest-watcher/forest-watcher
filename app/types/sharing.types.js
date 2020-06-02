@@ -94,13 +94,6 @@ export type ImportBundleRequest = {|
   routes: boolean
 |};
 
-/**
- * Type representing the result of importing a sharing bundle
- */
-export type ImportBundleResult = {|
-  // TODO
-|};
-
 export type LayerFile = {|
   path: string,
 

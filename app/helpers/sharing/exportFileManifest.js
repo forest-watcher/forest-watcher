@@ -62,10 +62,7 @@ async function exportLayerFiles(bundle: {
 
   // Next, for any basemap / layer that HASN'T been explicitly requested, but that intersects an explicitly requested
   // route or area, request the files that lie within the intersection
-  const region = bboxForFWData({
-    areas: bundle.areas ?? [],
-    routes: bundle.routes ?? []
-  });
+  const region = bboxForFWData(bundle.areas ?? [], bundle.routes ?? []);
   const implicitlyRequestedBasemaps =
     region.features.length > 0
       ? await queryLayerFiles('basemap', {

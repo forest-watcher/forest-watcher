@@ -39,7 +39,7 @@ async function importLayerFiles(bundle: UnpackedSharingBundle, request: ImportBu
       {
         blacklist: [],
         region: request.customContextualLayers.files === 'intersecting' ? region : null,
-        whitelist: bundle.data.layers.map(layer => layer.id)
+        whitelist: bundle.data.layers.map(layer => layer.id) // TODO: Filter out GFW layers
       },
       bundle.path
     );
@@ -51,7 +51,7 @@ async function importLayerFiles(bundle: UnpackedSharingBundle, request: ImportBu
       {
         blacklist: [],
         region: request.gfwContextualLayers.files === 'intersecting' ? region : null,
-        whitelist: bundle.data.layers.map(layer => layer.id)
+        whitelist: bundle.data.layers.map(layer => layer.id) // TODO: filter out user layers
       },
       bundle.path
     );
