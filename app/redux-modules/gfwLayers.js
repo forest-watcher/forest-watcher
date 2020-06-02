@@ -1,6 +1,6 @@
 // @flow
 import type { GFWLayersState, LayersAction } from 'types/layers.types';
-import type { Dispatch, GetState, State } from 'types/store.types';
+import type { Dispatch, GetState } from 'types/store.types';
 
 import Config from 'react-native-config';
 

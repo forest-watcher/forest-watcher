@@ -2,7 +2,7 @@
 
 import type { Alert } from 'types/alerts.types';
 import type { Area } from 'types/areas.types';
-import type { SharingBundle } from 'types/sharing.types';
+import type { ImportBundleRequest, SharingBundle } from 'types/sharing.types';
 import type { Dispatch } from 'types/store.types';
 import type { Route } from 'types/routes.types';
 import type { Report, Template } from 'types/reports.types';
