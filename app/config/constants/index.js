@@ -74,6 +74,7 @@ export const FILES = {
   images: {
     alerts: 'images/alerts'
   },
+  maxFileSizeForLayerImport: 10485760,
   reports: 'reports',
   tiles: 'tiles'
 };
