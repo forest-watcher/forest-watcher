@@ -1,6 +1,6 @@
 // @flow
 import type { Dispatch } from 'types/store.types';
-import type { UnpackedSharingBundle } from 'types/sharing.types';
+import type { ImportBundleResult, UnpackedSharingBundle } from 'types/sharing.types';
 import { Platform } from 'react-native';
 
 import RNFS from 'react-native-fs';
@@ -42,9 +42,13 @@ function checkBundleCompatibility(version: number) {
  * @param bundle - The bundle - already unpacked - whose data should be imported
  * @param dispatch - Redux dispatch function used to emit actions to add data to the app
  */
-export async function importStagedBundle(bundle: UnpackedSharingBundle, dispatch: Dispatch) {
+export async function importStagedBundle(
+  bundle: UnpackedSharingBundle,
+  request: ImportBundleResult,
+  dispatch: Dispatch
+) {
   checkBundleCompatibility(bundle.data.version);
-  importAppData(bundle.data, dispatch);
+  importAppData(bundle.data, request, dispatch);
   await importFileManifest(bundle);
 }
 

@@ -6,7 +6,7 @@ import type { FeatureCollection, Polygon } from '@turf/helpers';
 import _ from 'lodash';
 import intersect from '@turf/intersect';
 
-import { pathForLayer, pathForLayerType, tileForFileName } from 'helpers/layer-store/layerFilePaths';
+import { layerRootDir, pathForLayer, pathForLayerType, tileForFileName } from 'helpers/layer-store/layerFilePaths';
 import tilebelt from '@mapbox/tilebelt';
 
 const RNFS = require('react-native-fs');
@@ -24,12 +24,13 @@ export default async function queryLayerFiles(
     whitelist: Array<string>,
     blacklist: Array<string>,
     region?: ?FeatureCollection<Polygon>
-  |}
+  |},
+  dir: string = layerRootDir()
 ): Promise<Array<LayerFile>> {
-  const actualWhitelist = query.whitelist.length > 0 ? query.whitelist : await listLayerIds(type);
+  const actualWhitelist = query.whitelist.length > 0 ? query.whitelist : await listLayerIds(type, dir);
   const idsToConsider = actualWhitelist.filter(id => !query.blacklist.includes(id));
   const listLayerFilePromises = idsToConsider.map(id =>
-    query.region ? listLayerFilesForRegion(type, id, query.region) : listLayerFiles(type, id)
+    query.region ? listLayerFilesForRegion(type, id, query.region, dir) : listLayerFiles(type, id, dir)
   );
   const layerFiles = await Promise.all(listLayerFilePromises);
   return _.flatten(layerFiles);
@@ -41,8 +42,8 @@ export default async function queryLayerFiles(
  * For custom layers, only the enclosing tile directory is returned. For tile-based layers, the tile files themselves
  * are returned.
  */
-async function listLayerFiles(type: LayerType, id: string): Promise<Array<LayerFile>> {
-  const path = pathForLayer(type, id);
+async function listLayerFiles(type: LayerType, id: string, dir: string): Promise<Array<LayerFile>> {
+  const path = pathForLayer(type, id, dir);
   // Check exists, otherwise the readDir throws on iOS
   const exists = await RNFS.exists(path);
   if (!exists) {
@@ -82,9 +83,10 @@ async function listLayerFiles(type: LayerType, id: string): Promise<Array<LayerF
 async function listLayerFilesForRegion(
   type: LayerType,
   id: string,
-  region: FeatureCollection<Polygon>
+  region: FeatureCollection<Polygon>,
+  dir: string
 ): Promise<Array<LayerFile>> {
-  const layerFiles = await listLayerFiles(type, id);
+  const layerFiles = await listLayerFiles(type, id, dir);
 
   if (region.features.length === 0) {
     return layerFiles;
@@ -98,8 +100,8 @@ async function listLayerFilesForRegion(
 /**
  * Lists the IDs of all the layers stored on disk of a certain type
  */
-async function listLayerIds(type: LayerType): Promise<Array<string>> {
-  const path = pathForLayerType(type);
+async function listLayerIds(type: LayerType, dir: string): Promise<Array<string>> {
+  const path = pathForLayerType(type, dir);
   // Check exists, otherwise the readDir throws on iOS
   const exists = await RNFS.exists(path);
   if (!exists) {

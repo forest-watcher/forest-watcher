@@ -14,16 +14,33 @@ import { IMPORT_LAYER_REQUEST, IMPORT_LAYER_COMMIT } from 'redux-modules/layers'
 import { IMPORT_ROUTE } from 'redux-modules/routes';
 import { IMPORT_REPORT, IMPORT_TEMPLATE } from 'redux-modules/reports';
 
-export default function importAppData(bundle: SharingBundle, dispatch: Dispatch) {
-  importAlerts(bundle.alerts);
-  importAreas(bundle.areas, dispatch);
-  importBasemaps(bundle.basemaps, dispatch);
-  importLayers(bundle.layers, dispatch);
-  importRoutes(bundle.routes, dispatch);
+export default function importAppData(bundle: SharingBundle, request: ImportBundleRequest, dispatch: Dispatch) {
+  if (request.areas) {
+    importAlerts(bundle.alerts);
+    importAreas(bundle.areas, dispatch);
+  }
 
-  // Import templates before reports just in case, as the latter is dependent on the former
-  importTemplates(Object.keys(bundle.templates).map(key => bundle.templates[key]), dispatch);
-  importReports(bundle.reports, dispatch);
+  if (request.routes) {
+    importRoutes(bundle.routes, dispatch);
+  }
+
+  if (request.reports) {
+    // Import templates before reports just in case, as the latter is dependent on the former
+    importTemplates(Object.keys(bundle.templates).map(key => bundle.templates[key]), dispatch);
+    importReports(bundle.reports, dispatch);
+  }
+
+  if (request.customBasemaps.metadata) {
+    importBasemaps(bundle.basemaps, dispatch);
+  }
+
+  if (request.customContextualLayers.metadata) {
+    importLayers(bundle.layers, dispatch);
+  }
+
+  if (request.gfwContextualLayers.metadata) {
+    // TODO
+  }
 }
 
 function importAlerts(alerts: Array<Alert>) {
@@ -39,7 +56,7 @@ function importAreas(areas: Array<Area>, dispatch: Dispatch) {
   });
 }
 
-function importBasemaps(areas: Array<Basemap>, dispatch: Dispatch) {
+async function importBasemaps(basemaps: Array<Basemap>, dispatch: Dispatch) {
   // TODO
 }
 

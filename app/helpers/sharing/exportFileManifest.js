@@ -7,10 +7,8 @@ import type { ContextualLayer } from 'types/layers.types';
 import type { Report, Template } from 'types/reports.types';
 import type { Route } from 'types/routes.types';
 
-import bboxPolygon from '@turf/bbox-polygon';
-import { type BBox2d, featureCollection } from '@turf/helpers';
 import queryLayerFiles from 'helpers/layer-store/queryLayerFiles';
-import { bbox as routeBbox } from 'helpers/routes';
+import bboxForFWData from 'helpers/bbox';
 import { pathWithoutRoot } from 'helpers/fileManagement';
 import { layerRootDir } from 'helpers/layer-store/layerFilePaths';
 import { reportRootDir } from 'helpers/report-store/reportFilePaths';
@@ -64,13 +62,12 @@ async function exportLayerFiles(bundle: {
 
   // Next, for any basemap / layer that HASN'T been explicitly requested, but that intersects an explicitly requested
   // route or area, request the files that lie within the intersection
-  const areaBBoxes: Array<BBox2d> = (bundle.areas ?? []).map(area => area.geostore?.bbox).filter(Boolean);
-  const routeBBoxes: Array<BBox2d> = (bundle.routes ?? []).map(route => routeBbox(route));
-  const bboxes = [...areaBBoxes, ...routeBBoxes];
-  const regions = bboxes.map(areaBBox => bboxPolygon(areaBBox));
-  const region = featureCollection(regions);
+  const region = bboxForFWData({
+    areas: bundle.areas ?? [],
+    routes: bundle.routes ?? []
+  });
   const implicitlyRequestedBasemaps =
-    regions.length > 0
+    region.features.length > 0
       ? await queryLayerFiles('basemap', {
           whitelist: [],
           blacklist: basemapIds,
@@ -78,7 +75,7 @@ async function exportLayerFiles(bundle: {
         })
       : [];
   const implicitlyRequestedLayers =
-    regions.length > 0
+    region.features.length > 0
       ? await queryLayerFiles('contextual_layer', {
           whitelist: [],
           blacklist: layerIds,
