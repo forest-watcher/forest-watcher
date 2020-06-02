@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, Image, Text, TextInput, TouchableHighlight, ActivityIndicator } from 'react-native';
+import { View, Image, Text, TextInput, TouchableHighlight, ActivityIndicator, Keyboard } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import debounceUI from 'helpers/debounceUI';
 
@@ -11,7 +11,9 @@ import styles from './styles';
 import ActionButton from 'components/common/action-button';
 import Hyperlink from 'react-native-hyperlink';
 import { GFW_FORGOT_PASSWORD_LINK } from 'config/constants';
+import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 
+const backIcon = require('assets/backButton.png');
 const eyeIcon = require('assets/eyeIcon.png');
 
 type State = {
@@ -37,6 +39,10 @@ export default class EmailLogin extends Component<Props, State> {
         },
         background: {
           color: Theme.colors.veryLightPink
+        },
+        backButton: {
+          icon: backIcon,
+          id: 'backButton'
         }
       }
     };
@@ -54,6 +60,8 @@ export default class EmailLogin extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
+    Navigation.events().bindComponent(this);
+
     this.state = {
       email: '',
       password: '',
@@ -63,6 +71,16 @@ export default class EmailLogin extends Component<Props, State> {
 
   componentDidMount() {
     this.props.clearEmailLoginError();
+  }
+
+  navigationButtonPressed({ buttonId }: { buttonId: NavigationButtonPressedEvent }) {
+    if (buttonId === 'backButton') {
+      Keyboard.dismiss();
+      setTimeout(() => {
+        // wait for keyboard to dismiss, otherwise causes weird bounce animation on next screen
+        Navigation.pop(this.props.componentId);
+      }, 100);
+    }
   }
 
   onEmailChange = (email: string) => {
@@ -78,6 +96,7 @@ export default class EmailLogin extends Component<Props, State> {
   };
 
   onLoginPressed = debounceUI(() => {
+    Keyboard.dismiss();
     if (!this.enableLoginButton()) {
       return;
     }
