@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, Image, Text, TextInput, TouchableHighlight, ActivityIndicator, Keyboard } from 'react-native';
+import { View, Image, Text, TextInput, TouchableHighlight, ActivityIndicator, Keyboard, Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import debounceUI from 'helpers/debounceUI';
 
@@ -40,10 +40,7 @@ export default class EmailLogin extends Component<Props, State> {
         background: {
           color: Theme.colors.veryLightPink
         },
-        backButton: {
-          icon: backIcon,
-          id: 'backButton'
-        }
+        backButton: Platform.OS === 'ios' ? undefined : { icon: backIcon, id: 'backButton' }
       }
     };
   }
