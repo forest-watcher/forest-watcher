@@ -52,11 +52,11 @@ export default class MappingFileRow extends Component<Props> {
       return this.renderIcon(checkboxOn, this.props.onPress);
     }
     if (!this.props.onDownloadPress) {
-      return this.renderIcon(infoIcon, this.props.onPress);
+      return this.props.onInfoPress ? this.renderIcon(infoIcon, this.props.onInfoPress) : null;
     }
     return (
       <React.Fragment>
-        {this.renderIcon(infoIcon, this.props.onPress)}
+        {this.props.onInfoPress && this.renderIcon(infoIcon, this.props.onPress)}
         {this.renderIcon(downloadIcon, this.props.onPress)}
       </React.Fragment>
     );
