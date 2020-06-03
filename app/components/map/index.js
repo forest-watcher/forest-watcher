@@ -9,6 +9,7 @@ import type { Location, LocationPoint, Route } from 'types/routes.types';
 import type { BasicReport, ReportArea } from 'types/reports.types';
 import type { ContextualLayer } from 'types/layers.types';
 import type { LayerSettings } from 'types/layerSettings.types';
+import type { Feature } from '@turf/helpers';
 
 import {
   Animated,
@@ -33,7 +34,7 @@ import moment from 'moment';
 import CircleButton from 'components/common/circle-button';
 import BottomDialog from 'components/map/bottom-dialog';
 import LocationErrorBanner from 'components/map/locationErrorBanner';
-import { formatCoordsByFormat, getPolygonBoundingBox } from 'helpers/map';
+import { formatCoordsByFormat, getPolygonBoundingBox, closestFeature } from 'helpers/map';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import Theme from 'config/theme';
@@ -892,11 +893,28 @@ class MapComponent extends Component<Props, State> {
     }
   };
 
+  onAlertPressed = (e: any) => {
+    const feature = closestFeature(e.features, e.coordinates);
+    if (!feature) {
+      return;
+    }
+    this.onFeaturePressed(feature);
+  };
+
   onShapeSourcePressed = (e: any) => {
+    const feature = e.nativeEvent?.payload;
+    if (!feature) {
+      return;
+    }
+    this.onFeaturePressed(feature);
+  };
+
+  onFeaturePressed = (feature: Feature) => {
     // show info banner with feature details
-    const { date, name, type, featureId, cluster, lat, long } = e?.nativeEvent?.payload?.properties ?? {};
+    const { date, name, type, featureId, cluster, lat, long } = feature.properties;
+
     if (cluster) {
-      this.onClusterPress(e?.nativeEvent?.payload?.geometry?.coordinates);
+      this.onClusterPress(feature.geometry?.coordinates);
       return;
     }
     if (date && name) {
@@ -938,6 +956,11 @@ class MapComponent extends Component<Props, State> {
         useNativeDriver: false
       }).start();
     }
+  };
+
+  onMapPress = () => {
+    this.dismissInfoBanner();
+    this.setState({ selectedAlerts: [] });
   };
 
   render() {
@@ -1007,7 +1030,7 @@ class MapComponent extends Component<Props, State> {
           style={styles.mapView}
           styleURL={basemap.styleURL}
           onRegionDidChange={this.onRegionDidChange}
-          onPress={this.dismissInfoBanner}
+          onPress={this.onMapPress}
           compassViewMargins={{ x: 5, y: 50 }}
         >
           <MBTilesSource basemap={basemap} port={MapComponent.offlinePortNumber} />
@@ -1023,7 +1046,7 @@ class MapComponent extends Component<Props, State> {
             areaId={this.props.area?.id}
             reportedAlerts={this.props.reportedAlerts}
             selectedAlerts={this.state.selectedAlerts}
-            onShapeSourcePressed={this.onShapeSourcePressed}
+            onShapeSourcePressed={this.onAlertPressed}
           />
           <Reports featureId={featureId} onShapeSourcePressed={this.onShapeSourcePressed} />
           <RouteMarkers

@@ -9,7 +9,7 @@ import styles from './styles';
 import i18n from 'i18next';
 import type { File } from 'types/file.types';
 import Row from 'components/common/row';
-import { ACCEPTED_FILE_TYPES_BASEMAPS, ACCEPTED_FILE_TYPES_CONTEXTUAL_LAYERS } from 'config/constants';
+import { ACCEPTED_FILE_TYPES_BASEMAPS, ACCEPTED_FILE_TYPES_CONTEXTUAL_LAYERS, FILES } from 'config/constants';
 import Theme from 'config/theme';
 import debounceUI from 'helpers/debounceUI';
 import DocumentPicker from 'react-native-document-picker';
@@ -19,6 +19,8 @@ const RNFS = require('react-native-fs');
 
 const nextIcon = require('assets/next.png');
 const fileIcon = require('assets/fileIcon.png');
+
+import type { ImportError } from '../error';
 
 type Props = {
   componentId: string,
@@ -110,7 +112,11 @@ class ImportMappingFileType extends PureComponent<Props, State> {
 
     // First, ensure that this file is one of the supported file types.
     if (!this.acceptedFileTypes().includes(fileExtension)) {
-      this.showErrorModal(file.name);
+      this.showErrorModal(file, 'fileFormat');
+      return false;
+    }
+    if (this.props.mappingFileType === 'contextual_layers' && file.size > FILES.maxFileSizeForLayerImport) {
+      this.showErrorModal(file, 'fileSize');
       return false;
     }
 
@@ -138,7 +144,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
     return true;
   };
 
-  showErrorModal = (fileName: string) => {
+  showErrorModal = (file: File, error: ImportError) => {
     Navigation.showModal({
       stack: {
         children: [
@@ -146,7 +152,8 @@ class ImportMappingFileType extends PureComponent<Props, State> {
             component: {
               name: 'ForestWatcher.ImportMappingFileError',
               passProps: {
-                fileName,
+                error,
+                file,
                 mappingFileType: this.props.mappingFileType,
                 onRetry: this.importMappingFile
               },

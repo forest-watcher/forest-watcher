@@ -40,7 +40,7 @@ const RENAME_LAYER = 'layers/RENAME_LAYER';
 const DELETE_LAYER = 'layers/DELETE_LAYER';
 
 // Reducer
-const initialState = {
+const initialState: LayersState = {
   data: [],
   synced: false,
   syncing: false,
@@ -286,7 +286,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
     }
     case DELETE_LAYER: {
       const layers = state.imported.filter(layer => layer.id !== action.payload);
-      const activeLayer = state.activeLayer.id === action.payload ? null : state.activeLayer;
+      const activeLayer = state.activeLayer === action.payload ? null : state.activeLayer;
 
       return { ...state, imported: layers, activeLayer: activeLayer };
     }

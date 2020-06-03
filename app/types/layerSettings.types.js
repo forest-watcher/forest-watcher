@@ -71,6 +71,7 @@ export type LayerSettingsAction =
   | CopyLayerSettings
   | DeselectAllRoutes
   | ToggleRouteSelected
+  | ShowSavedRoute
   | SelectActiveBasemap;
 
 export type ClearEnabledContextualLayers = {
@@ -179,6 +180,14 @@ export type DeselectAllRoutes = {
 };
 export type ToggleRouteSelected = {
   type: 'layerSettings/TOGGLE_ROUTE_SELECTED',
+  payload: {
+    featureId: string,
+    routeId: string
+  }
+};
+
+export type ShowSavedRoute = {
+  type: 'layerSettings/SHOW_SAVED_ROUTE',
   payload: {
     featureId: string,
     routeId: string
