@@ -127,7 +127,7 @@ export default class MBTilesSource extends PureComponent<Props, State> {
           tms={metadata.tms}
           tileUrlTemplates={[`http://localhost:${port}/gfwmbtiles/${basemap.id}?z={z}&x={x}&y={y}`]}
         >
-          <MapboxGL.RasterLayer id="basemapTileLayer" />
+          <MapboxGL.RasterLayer belowLayerID={'areaOutlineLayer'} id="basemapTileLayer" />
         </MapboxGL.RasterSource>
       );
     }
