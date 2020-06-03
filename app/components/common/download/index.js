@@ -33,7 +33,7 @@ type Props = {
   resetCacheStatus: string => Thunk<void>,
   isOfflineMode: boolean,
   showTooltip: boolean,
-  refreshCacheById: string => Thunk<void>,
+  refreshCacheById: (id: string, type: DownloadDataType) => Thunk<void>,
   pendingCache: number,
   showNotConnectedNotification: () => Thunk<void>
 };
@@ -117,10 +117,10 @@ class DataCacher extends PureComponent<Props, State> {
   };
 
   onRefresh = () => {
-    const { id, refreshCacheById } = this.props;
+    const { dataType, id, refreshCacheById } = this.props;
     this.setState({ canRefresh: false });
     this.resetCacheStatus();
-    refreshCacheById(id);
+    refreshCacheById(id, dataType);
   };
 
   onOfflinePress = () => this.props.showNotConnectedNotification();

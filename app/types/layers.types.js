@@ -2,6 +2,7 @@
 
 import type { OfflineMeta } from 'types/offline.types';
 import type { DeleteAreaCommit, SaveAreaCommit, Area } from 'types/areas.types';
+import type { Route } from 'types/routes.types';
 
 export type ContextualLayer = {
   createdAt?: ?string,
@@ -156,25 +157,25 @@ type SetActiveContextualLayer = { type: 'layers/SET_ACTIVE_LAYER', payload: ?str
 type UpdateProgress = {
   type: 'layers/UPDATE_PROGRESS',
   payload: {
-    areaId: string,
+    id: string,
     layerId: string,
     progress: number
   }
 };
 type CacheLayerRequest = {
   type: 'layers/CACHE_LAYER_REQUEST',
-  payload: { area: Area, layer: ContextualLayer }
+  payload: { data: Area | Route, layer: ContextualLayer }
 };
 type CacheLayerCommit = {
   type: 'layers/CACHE_LAYER_COMMIT',
   payload: string,
-  meta: { area: Area, layer: ContextualLayer }
+  meta: { data: Area | Route, layer: ContextualLayer }
 };
 type CacheLayerRollback = {
   type: 'layers/CACHE_LAYER_ROLLBACK',
-  meta: { layer: ContextualLayer, area: Area }
+  meta: { data: Area | Route, layer: ContextualLayer }
 };
-type DownloadArea = { type: 'layers/DOWNLOAD_AREA', payload: Area };
+type DownloadArea = { type: 'layers/DOWNLOAD_DATA', payload: string };
 type InvalidateCache = { type: 'layers/INVALIDATE_CACHE', payload: string };
 type SetCacheStatus = {
   type: 'layers/SET_CACHE_STATUS',

@@ -17,13 +17,13 @@ Object {
 }
 `;
 
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaBasemap 1`] = `Array []`;
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaBasemap with area 1`] = `Array []`;
 
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaBasemap 2`] = `
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaBasemap with area 2`] = `
 Array [
   Object {
     "payload": Object {
-      "area": Object {
+      "data": Object {
         "application": "applicationMock",
         "geostore": Object {
           "id": "geostoreIDMock",
@@ -41,13 +41,35 @@ Array [
 ]
 `;
 
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaLayer 1`] = `Array []`;
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaBasemap with route 1`] = `Array []`;
 
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaLayer 2`] = `
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaBasemap with route 2`] = `
 Array [
   Object {
     "payload": Object {
-      "area": Object {
+      "data": Object {
+        "areaId": "areaIDMock",
+        "geostoreId": "geostoreIDMock",
+        "id": "routeIDMock",
+        "name": "routeNameMock",
+      },
+      "layer": Object {
+        "id": "basemap",
+        "url": "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      },
+    },
+    "type": "layers/CACHE_LAYER_REQUEST",
+  },
+]
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaLayer with area 1`] = `Array []`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaLayer with area 2`] = `
+Array [
+  Object {
+    "payload": Object {
+      "data": Object {
         "application": "applicationMock",
         "geostore": Object {
           "id": "geostoreIDMock",
@@ -66,13 +88,36 @@ Array [
 ]
 `;
 
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheLayers 1`] = `Array []`;
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaLayer with route 1`] = `Array []`;
 
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheLayers 2`] = `
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaLayer with route 2`] = `
 Array [
   Object {
     "payload": Object {
-      "area": Object {
+      "data": Object {
+        "areaId": "areaIDMock",
+        "geostoreId": "geostoreIDMock",
+        "id": "routeIDMock",
+        "name": "routeNameMock",
+      },
+      "layer": Object {
+        "id": "layerIDMock",
+        "name": "nameMock",
+        "url": "urlMock",
+      },
+    },
+    "type": "layers/CACHE_LAYER_REQUEST",
+  },
+]
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheLayers with area 1`] = `Array []`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheLayers with area 2`] = `
+Array [
+  Object {
+    "payload": Object {
+      "data": Object {
         "application": "applicationMock",
         "geostore": Object {
           "id": "geostoreIDMock",
@@ -90,25 +135,22 @@ Array [
   },
 ]
 `;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheLayers with route 1`] = `Array []`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheLayers with route 2`] = `Array []`;
 
 exports[`Redux Layers Module Redux Snapshot Thunk Actions downloadAreaById 1`] = `Array []`;
 
 exports[`Redux Layers Module Redux Snapshot Thunk Actions downloadAreaById 2`] = `
 Array [
   Object {
-    "payload": Object {
-      "application": "applicationMock",
-      "geostore": Object {
-        "id": "geostoreIDMock",
-      },
-      "id": "areaIDMock",
-      "name": "nameMock",
-    },
-    "type": "layers/DOWNLOAD_AREA",
+    "payload": "areaIDMock",
+    "type": "layers/DOWNLOAD_DATA",
   },
   Object {
     "payload": Object {
-      "area": Object {
+      "data": Object {
         "application": "applicationMock",
         "geostore": Object {
           "id": "geostoreIDMock",
@@ -126,6 +168,10 @@ Array [
   },
 ]
 `;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions downloadRouteById 1`] = `Array []`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions downloadRouteById 2`] = `Array []`;
 
 exports[`Redux Layers Module Redux Snapshot Thunk Actions getUserLayers 1`] = `
 Array [
@@ -151,7 +197,7 @@ Array [
 ]
 `;
 
-exports[`Redux Layers Module Redux Snapshot Thunk Actions refreshAreaCacheById 1`] = `
+exports[`Redux Layers Module Redux Snapshot Thunk Actions refreshCacheById for area 1`] = `
 Array [
   Object {
     "payload": "areaIDMock",
@@ -160,26 +206,19 @@ Array [
 ]
 `;
 
-exports[`Redux Layers Module Redux Snapshot Thunk Actions refreshAreaCacheById 2`] = `
+exports[`Redux Layers Module Redux Snapshot Thunk Actions refreshCacheById for area 2`] = `
 Array [
   Object {
     "payload": "areaIDMock",
     "type": "layers/INVALIDATE_CACHE",
   },
   Object {
-    "payload": Object {
-      "application": "applicationMock",
-      "geostore": Object {
-        "id": "geostoreIDMock",
-      },
-      "id": "areaIDMock",
-      "name": "nameMock",
-    },
-    "type": "layers/DOWNLOAD_AREA",
+    "payload": "areaIDMock",
+    "type": "layers/DOWNLOAD_DATA",
   },
   Object {
     "payload": Object {
-      "area": Object {
+      "data": Object {
         "application": "applicationMock",
         "geostore": Object {
           "id": "geostoreIDMock",
@@ -197,6 +236,32 @@ Array [
   },
   Object {
     "payload": "areaIDMock1",
+    "type": "layers/INVALIDATE_CACHE",
+  },
+]
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions refreshCacheById for route 1`] = `
+Array [
+  Object {
+    "payload": "routeIDMock",
+    "type": "layers/INVALIDATE_CACHE",
+  },
+]
+`;
+
+exports[`Redux Layers Module Redux Snapshot Thunk Actions refreshCacheById for route 2`] = `
+Array [
+  Object {
+    "payload": "routeIDMock",
+    "type": "layers/INVALIDATE_CACHE",
+  },
+  Object {
+    "payload": "routeIDMock",
+    "type": "layers/DOWNLOAD_DATA",
+  },
+  Object {
+    "payload": "routeIDMock1",
     "type": "layers/INVALIDATE_CACHE",
   },
 ]
@@ -272,15 +337,8 @@ Object {
 exports[`Redux Layers Module Redux Snapshot Thunk Actions resetCacheStatus full test 3`] = `
 Array [
   Object {
-    "payload": Object {
-      "application": "applicationMock",
-      "geostore": Object {
-        "id": "geostoreIDMock",
-      },
-      "id": "areaIDMock",
-      "name": "nameMock",
-    },
-    "type": "layers/DOWNLOAD_AREA",
+    "payload": "areaIDMock",
+    "type": "layers/DOWNLOAD_DATA",
   },
 ]
 `;
