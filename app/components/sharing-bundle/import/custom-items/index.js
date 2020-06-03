@@ -1,7 +1,7 @@
 // @flow
 import type { ImportBundleRequest, UnpackedSharingBundle } from 'types/sharing.types';
 import React, { PureComponent } from 'react';
-import { Image, Text, ScrollView, View, Platform } from 'react-native';
+import { Image, Text, ScrollView, View } from 'react-native';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 
 import Theme from 'config/theme';
@@ -9,8 +9,6 @@ import i18n from 'i18next';
 import styles from './styles';
 import Row from 'components/common/row';
 import { IMPORT_ENTIRE_BUNDLE_REQUEST } from 'helpers/sharing/importBundle';
-import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
-import { formatBytes } from 'helpers/data';
 import BottomTray from 'components/common/bottom-tray';
 import ActionButton from 'components/common/action-button';
 
