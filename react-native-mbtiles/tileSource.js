@@ -23,6 +23,7 @@ type Basemap = {
 
 type Props = {
   basemap: ?Basemap,
+  belowLayerID: string,
   port: number
 };
 
@@ -107,7 +108,7 @@ export default class MBTilesSource extends PureComponent<Props, State> {
   }
 
   render() {
-    const { basemap, port } = this.props;
+    const { basemap, port, belowLayerID } = this.props;
     const metadata = this.state.metadata;
 
     if (!basemap || !metadata || !basemap?.isImported) {
@@ -127,7 +128,7 @@ export default class MBTilesSource extends PureComponent<Props, State> {
           tms={metadata.tms}
           tileUrlTemplates={[`http://localhost:${port}/gfwmbtiles/${basemap.id}?z={z}&x={x}&y={y}`]}
         >
-          <MapboxGL.RasterLayer id="basemapTileLayer" />
+          <MapboxGL.RasterLayer belowLayerID={belowLayerID} id="basemapTileLayer" />
         </MapboxGL.RasterSource>
       );
     }

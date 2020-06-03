@@ -72,6 +72,7 @@ export type LayerSettingsAction =
   | DeselectAllRoutes
   | ToggleRouteSelected
   | ShowSavedRoute
+  | UnselectDeletedBasemap
   | SelectActiveBasemap;
 
 export type ClearEnabledContextualLayers = {
@@ -184,6 +185,11 @@ export type ToggleRouteSelected = {
     featureId: string,
     routeId: string
   }
+};
+
+export type UnselectDeletedBasemap = {
+  type: 'layerSettings/UNSELECT_DELETED_BASEMAP',
+  payload: string
 };
 
 export type ShowSavedRoute = {

@@ -80,6 +80,9 @@
             "fileSizeTooLargeDesc": "Please try with a file smaller than 10MB",
             "fileTypeNotSupported": "File Type Not Supported",
             "fileTypeNotSupportedDesc": "is not a supported file type for basemaps.",
+            "vectorTilesNotSupported": "File Contains Vector Tiles",
+            "fileContainsVectorTiles": "contains vector elements and is not supported.",
+            "cannotContainVectorTiles": "* files may contain raster elements only",
             "chooseAnother": "Choose Another"
         },
         "imported": "Custom Basemaps",

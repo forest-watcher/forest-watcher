@@ -14,7 +14,7 @@ const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
 
 const fileIcon = require('assets/fileIcon.png');
 
-export type ImportError = 'fileSize' | 'fileFormat';
+export type ImportError = 'fileSize' | 'fileFormat' | 'vectorTiles';
 
 type Props = {
   componentId: string,
@@ -48,12 +48,14 @@ export default class ImportMappingFileError extends Component<Props> {
       : ACCEPTED_FILE_TYPES_BASEMAPS;
   };
 
-  renderFileTypeComponent = (fileType: string) => {
+  renderFileTypeComponent = (fileType: string, error: ImportError) => {
+    const text = error === 'vectorTiles' && fileType === 'mbtiles' ? `mbtiles*` : fileType;
+
     return (
       <View style={styles.fileTypeContainer}>
         <Image source={fileIcon} />
-        <Text style={styles.fileTypeText} key={fileType}>
-          .{fileType}
+        <Text style={styles.fileTypeText} key={text}>
+          .{text}
         </Text>
       </View>
     );
@@ -70,6 +72,9 @@ export default class ImportMappingFileError extends Component<Props> {
         break;
       case 'fileSize':
         descriptionKey = 'fileSizeTooLargeDesc';
+        break;
+      case 'vectorTiles':
+        descriptionKey = 'fileContainsVectorTiles';
         break;
       default:
         descriptionKey = 'fileTypeNotSupportedDesc';
@@ -90,6 +95,9 @@ export default class ImportMappingFileError extends Component<Props> {
       case 'fileSize':
         titleKey = 'fileSizeTooLarge';
         break;
+      case 'vectorTiles':
+        titleKey = 'vectorTilesNotSupported';
+        break;
       default:
         titleKey = 'fileTypeNotSupported';
         break;
@@ -107,23 +115,27 @@ export default class ImportMappingFileError extends Component<Props> {
   };
 
   render() {
+    const { error, file } = this.props;
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.contentContainer}>
           <Text style={styles.titleText}>{this.getTitle()}</Text>
           <Text style={styles.fileName}>
             {"'"}
-            {this.props.file.name}
+            {file.name}
             {"'"}
-            {this.props.error === 'fileSize' && ` (${formatBytes(this.props.file.size)})`}
+            {error === 'fileSize' && ` (${formatBytes(file.size)})`}
           </Text>
           <Text style={styles.description}>{this.getDescription()}</Text>
-          {this.props.error === 'fileFormat' && (
+          {error !== 'fileSize' && (
             <React.Fragment>
               <Text style={styles.fileTypesDescription}>{i18n.t(this.i18nKeyFor('supportedFileTypesInclude'))}</Text>
               <View style={styles.acceptedFileTypes}>
-                {this.acceptedFileTypes().map(fileType => this.renderFileTypeComponent(fileType))}
+                {this.acceptedFileTypes().map(fileType => this.renderFileTypeComponent(fileType, error))}
               </View>
+              {error === 'vectorTiles' && (
+                <Text style={styles.fileTypesDescription}>{i18n.t(this.i18nKeyFor('cannotContainVectorTiles'))}</Text>
+              )}
             </React.Fragment>
           )}
           <ActionButton

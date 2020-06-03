@@ -121,16 +121,22 @@ class ImportMappingFileType extends PureComponent<Props, State> {
     }
 
     if (this.props.mappingFileType === 'basemap') {
-      // On Android, the MBTiles lib is unable to read metadata from arbitrary URIs.... so we copy the file locally
+      // On Android, the MBTiles lib is unable to read metadata from arbitrary URIs... so we copy the file locally
       // so that we can give it a file: URI
       const tempUri = `${RNFS.TemporaryDirectoryPath}/${Date.now()}.mbtiles`;
 
       try {
         await copyFileWithReplacement(file.uri, tempUri);
         const metadata = await getMBTilesMetadata(tempUri);
-        if (!metadata || metadata.isVector) {
+        if (!metadata) {
+          // There's no metadata - an error has occurred. Maybe the file is broken?
+          this.showErrorModal(file, 'fileFormat');
+          return false;
+        }
+
+        if (metadata.isVector) {
           // This mbtiles file contains vector tiles - we do not support them.
-          this.showErrorModal(file.name);
+          this.showErrorModal(file, 'vectorTiles');
           return false;
         }
       } catch (err) {
@@ -234,9 +240,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
             </View>
           </Row>
           <View style={styles.faqContainer}>
-            <Text style={styles.actionText}>
-              {i18n.t(this.i18nKeyFor('faq'))}
-            </Text>
+            <Text style={styles.actionText}>{i18n.t(this.i18nKeyFor('faq'))}</Text>
           </View>
         </ScrollView>
       </View>
