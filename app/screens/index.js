@@ -42,6 +42,7 @@ import GFWContextualLayers from 'containers/settings/gfw-layers';
 import ImportMappingFileError from 'components/settings/mapping-files/import/error';
 import EmailLogin from 'containers/login/email-login';
 import ImportSharingBundleStart from 'components/sharing-bundle/import/start';
+import ImportSharingBundleCustomItems from 'components/sharing-bundle/import/custom-items';
 import ImportSharingBundleConfirm from 'containers/sharing-bundle/import/confirm';
 
 /**
@@ -109,6 +110,7 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.BasemapLayerSettings', BasemapLayerSettings, Provider, store);
   registerComponent('ForestWatcher.GFWLayers', GFWContextualLayers, Provider, store);
   registerComponent('ForestWatcher.ImportBundleStart', ImportSharingBundleStart, Provider, store);
+  registerComponent('ForestWatcher.ImportBundleCustomItems', ImportSharingBundleCustomItems, Provider, store);
   registerComponent('ForestWatcher.ImportBundleConfirm', ImportSharingBundleConfirm, Provider, store);
 }
 
