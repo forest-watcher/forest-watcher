@@ -69,7 +69,7 @@ export default class ImportSharingBundleStartScreen extends PureComponent<Props,
   };
 
   _importAllData = () => {
-    Navigation.setStackRoot(this.props.componentId, {
+    Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.ImportBundleConfirm',
         passProps: {

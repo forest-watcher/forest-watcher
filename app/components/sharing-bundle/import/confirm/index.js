@@ -49,7 +49,7 @@ export default class ImportSharingBundleConfirmScreen extends PureComponent<Prop
     Navigation.events().bindComponent(this);
 
     this.state = {
-      importError: null,
+      importError: 'Your device does not have enough space to import this bundle. Please remove items from the device or select fewer import options and try again. ',
       isImporting: false
     };
   }

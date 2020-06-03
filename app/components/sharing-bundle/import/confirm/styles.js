@@ -24,11 +24,11 @@ export default StyleSheet.create({
   error: {
     flex: 1,
     fontFamily: Theme.font,
-    color: Theme.fontColors.secondary,
+    color: Theme.colors.coral,
     fontSize: 12,
     fontWeight: '400',
     lineHeight: 16,
-    padding: 24
+    padding: 20
   },
   row: {
     paddingHorizontal: isSmallScreen ? 20 : 24,
