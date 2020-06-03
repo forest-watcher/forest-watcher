@@ -1033,7 +1033,7 @@ class MapComponent extends Component<Props, State> {
           onPress={this.onMapPress}
           compassViewMargins={{ x: 5, y: 50 }}
         >
-          <MBTilesSource basemap={basemap} port={MapComponent.offlinePortNumber} />
+          <MBTilesSource basemap={basemap} belowLayerID={'areaOutlineLayer'} port={MapComponent.offlinePortNumber} />
           {renderMapCamera}
           {this.renderAreaOutline()}
           {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
