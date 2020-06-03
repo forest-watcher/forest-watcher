@@ -9,6 +9,9 @@ export type RouteDifficulty = 'easy' | 'medium' | 'hard';
 export type Route = {
   id: string,
   areaId: string,
+  // The geostore ID is used to download route tiles for offline use.
+  // It can be null - however if it is when the route cannot be downloaded!
+  geostoreId: ?string,
   name: string,
   startDate: number,
   endDate: ?number,
@@ -49,7 +52,7 @@ type UpdateActiveRoute = {
   payload: $Shape<Route>
 };
 type UpdateSavedRoute = { type: 'routes/UPDATE_SAVED_ROUTE', payload: $Shape<Route> };
-type FinishAndSaveRoute = { type: 'routes/FINISH_AND_SAVE_ROUTE' };
+type FinishAndSaveRoute = { type: 'routes/FINISH_AND_SAVE_ROUTE', payload: { geostoreId: ?string } };
 type DeleteRouteAction = { type: 'routes/DELETE_ROUTE', payload: RouteDeletionCriteria };
 type DiscardActiveRoute = { type: 'routes/DISCARD_ACTIVE_ROUTE' };
 type ImportRoute = { type: 'routes/IMPORT_ROUTE', payload: Route };
