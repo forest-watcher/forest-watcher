@@ -374,6 +374,10 @@
         }
     },
     "importBundle": {
+        "confirm": {
+            "buttonTitle": "Import Data Bundle",
+            "title": "Confirm Import"
+        },
         "start": {
             "customImport": "Custom Import",
             "customImportDescription": "Select specific items to import",

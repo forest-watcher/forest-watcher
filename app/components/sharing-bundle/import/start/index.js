@@ -1,5 +1,5 @@
 // @flow
-import type { UnpackedSharingBundle } from 'types/sharing.types';
+import type { ImportBundleRequest, UnpackedSharingBundle } from 'types/sharing.types';
 import React, { PureComponent } from 'react';
 import { ActivityIndicator, Text, ScrollView, View } from 'react-native';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
@@ -15,7 +15,8 @@ import { formatBytes } from 'helpers/data';
 const nextIcon = require('assets/next.png');
 
 type Props = {
-  bundlePath: string
+  bundlePath: string,
+  componentId: string
 };
 
 type State = {
@@ -67,7 +68,34 @@ export default class ImportSharingBundleStartScreen extends PureComponent<Props,
     });
   };
 
-  _importAllData = () => {};
+  _importAllData = () => {
+    Navigation.setStackRoot(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.ImportBundleConfirm',
+        passProps: {
+          bundle: this.state.bundle,
+          importRequest: ({
+            areas: true,
+            customBasemaps: {
+              metadata: true,
+              files: 'all'
+            },
+            customContextualLayers: {
+              metadata: true,
+              files: 'all'
+            },
+            gfwContextualLayers: {
+              metadata: true,
+              files: 'all'
+            },
+            reports: true,
+            routes: true
+          }: ImportBundleRequest),
+          stepNumber: null
+        }
+      }
+    });
+  };
 
   _startCustomImportFlow = () => {
     // TODO
