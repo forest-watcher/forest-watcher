@@ -7,7 +7,7 @@ import type { LayerFile, LayerType } from 'types/sharing.types';
 
 import Config from 'react-native-config';
 import omit from 'lodash/omit';
-import CONSTANTS from 'config/constants';
+import CONSTANTS, { GFW_BASEMAPS } from 'config/constants';
 import { getActionsTodoCount } from 'helpers/sync';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
@@ -19,6 +19,7 @@ import { storeTilesFromUrl } from 'helpers/layer-store/storeLayerFiles';
 import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
 import { importLayerFile } from 'helpers/layer-store/import/importLayerFile';
+import MapboxGL from '@react-native-mapbox-gl/maps';
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
 const GET_LAYERS_COMMIT = 'layers/GET_LAYERS_COMMIT';
@@ -102,14 +103,26 @@ export default function reducer(state: LayersState = initialState, action: Layer
       return { ...state, syncing: false };
     }
     case DOWNLOAD_AREA: {
-      const area = action.payload;
+      const { area, basemaps } = action.payload;
       const { data, cache } = state;
       let pendingCache = { ...state.pendingCache };
       let cacheStatus = { ...state.cacheStatus };
 
-      const layers = getLayersWithBasemap(data);
+      // add contextual layers to pendingCache
+      data.forEach(layer => {
+        if (!cache[layer.id] || (cache[layer.id] && !cache[layer.id][area.id])) {
+          pendingCache = {
+            ...pendingCache,
+            [layer.id]: {
+              ...pendingCache[layer.id],
+              [area.id]: false
+            }
+          };
+        }
+      });
 
-      layers.forEach(layer => {
+      // add basemaps to pendingCache
+      basemaps.forEach(layer => {
         if (!cache[layer.id] || (cache[layer.id] && !cache[layer.id][area.id])) {
           pendingCache = {
             ...pendingCache,
@@ -166,7 +179,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
           [layerId]: progress
         }
       };
-      const layerCount = getLayersWithBasemap(state.data).length;
+      const layerCount = getDownloadableLayerCount(state.data);
       const cacheStatus = updateAreaProgress(areaId, state.cacheStatus, layersProgress, layerCount);
 
       return { ...state, cacheStatus, layersProgress };
@@ -217,7 +230,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
           [layer.id]: 1
         }
       };
-      const layerCount = getLayersWithBasemap(state.data).length;
+      const layerCount = getDownloadableLayerCount(state.data);
       const updatedCacheStatus = updateAreaProgress(area.id, state.cacheStatus, layersProgress, layerCount);
       const cacheStatus = updateCacheAreaStatus(updatedCacheStatus, area);
 
@@ -432,36 +445,40 @@ function getLayerById(layers, layerId): ?ContextualLayer {
   return layer ? { ...layer } : null;
 }
 
-export function cacheAreaBasemap(areaId: string) {
-  return (dispatch: Dispatch, state: GetState) => {
-    const areas = state().areas.data;
-    const area = getAreaById(areas, areaId);
-    const layer: ContextualLayer = {
-      id: 'basemap',
-      url: CONSTANTS.maps.basemap
+export function cacheAreaBasemap(areaId: string, basemapId: string) {
+  return async (dispatch: Dispatch, state: GetState) => {
+    const areaBbox = state().areas.data.find(area => area.id === areaId)?.geostore?.bbox;
+    if (!areaBbox) {
+      return;
+    }
+    const areaBounds = [[areaBbox[0], areaBbox[1]], [areaBbox[2], areaBbox[3]]];
+    const progressListener = (offlineRegion, status) => {
+      if (!status.percentage) {
+        return;
+      }
+      dispatch({
+        type: UPDATE_PROGRESS,
+        payload: { areaId: areaId, progress: status.percentage / 100, layerId: basemapId }
+      });
     };
-    if (area) {
-      const downloadConfig = {
-        area,
-        layerId: layer.id,
-        layerUrl: layer.url
-      };
+    const errorListener = (offlineRegion, err) => console.error('3SC download basemap error: ', err);
+    const downloadPackOptions = {
+      name: `${areaId}|${basemapId}`,
+      styleURL: basemapId,
+      minZoom: CONSTANTS.maps.cacheZoom[0].start,
+      maxZoom: CONSTANTS.maps.cacheZoom[0].end,
+      bounds: areaBounds
+    };
 
-      downloadAllLayers('basemap', downloadConfig, dispatch)
-        .then(payload =>
-          dispatch({
-            payload,
-            meta: { area, layer },
-            type: CACHE_LAYER_COMMIT
-          })
-        )
-        .catch(() =>
-          dispatch({
-            meta: { area, layer },
-            type: CACHE_LAYER_ROLLBACK
-          })
-        );
-      dispatch({ type: CACHE_LAYER_REQUEST, payload: { area, layer } });
+    try {
+      await MapboxGL.offlineManager.createPack(downloadPackOptions, progressListener, errorListener);
+    } catch (error) {
+      if (error?.message?.startsWith('Offline pack with name')) {
+        // offline pack with with this id already exists. Can ignore or delete and redownload pack.
+        console.warn('3SC', error);
+      } else {
+        console.error('3SC basemap download error: ', error);
+      }
     }
   };
 }
@@ -508,10 +525,15 @@ export function syncLayers() {
 export function downloadAreaById(areaId: string) {
   return (dispatch: Dispatch, state: GetState) => {
     const area = getAreaById(state().areas.data, areaId);
+    // we can't download basemaps with tile urls
+    const basemaps = GFW_BASEMAPS.filter(basemap => !basemap.tileUrl);
     if (area) {
       dispatch({
         type: DOWNLOAD_AREA,
-        payload: area
+        payload: {
+          area,
+          basemaps
+        }
       });
       dispatch(cacheLayers());
     }
@@ -539,12 +561,10 @@ export function cacheLayers() {
             }
           });
         };
-        switch (layer) {
-          case 'basemap':
-            syncLayersData(id => dispatch(cacheAreaBasemap(id)));
-            break;
-          default:
-            syncLayersData(id => dispatch(cacheAreaLayer(id, layer)));
+        if (layer.startsWith('mapbox://')) {
+          syncLayersData(id => dispatch(cacheAreaBasemap(id, layer)));
+        } else {
+          syncLayersData(id => dispatch(cacheAreaLayer(id, layer)));
         }
       });
     }
@@ -597,8 +617,9 @@ export function getImportedContextualLayersById(layerIds: Array<string>) {
   };
 }
 
-function getLayersWithBasemap(layers) {
-  return [{ id: 'basemap' }, ...layers];
+// Return the amount of contextual layers and basemaps that can be downloaded
+function getDownloadableLayerCount(layers) {
+  return [...layers, ...GFW_BASEMAPS.filter(basemap => !basemap.tileUrl)].length;
 }
 
 function updateAreaProgress(

@@ -2,6 +2,7 @@
 
 import type { OfflineMeta } from 'types/offline.types';
 import type { DeleteAreaCommit, SaveAreaCommit, Area } from 'types/areas.types';
+import type { Basemap } from 'types/basemaps.types';
 
 export type ContextualLayer = {
   createdAt?: ?string,
@@ -174,7 +175,7 @@ type CacheLayerRollback = {
   type: 'layers/CACHE_LAYER_ROLLBACK',
   meta: { layer: ContextualLayer, area: Area }
 };
-type DownloadArea = { type: 'layers/DOWNLOAD_AREA', payload: Area };
+type DownloadArea = { type: 'layers/DOWNLOAD_AREA', payload: { area: Area, basemaps: Array<Basemap> } };
 type InvalidateCache = { type: 'layers/INVALIDATE_CACHE', payload: string };
 type SetCacheStatus = {
   type: 'layers/SET_CACHE_STATUS',
