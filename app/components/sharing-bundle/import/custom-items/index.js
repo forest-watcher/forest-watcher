@@ -109,7 +109,7 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
         {this.renderContent()}
         <BottomTray
           requiresSafeAreaView={true}
-          style={{ flexDirection: 'row', alignSelf: 'stretch', alignItems: 'stretch' }}
+          style={styles.bottomTray}
         >
           <ActionButton noIcon onPress={this._onNextPress} secondary={false} text={i18n.t('commonText.next')} />
         </BottomTray>

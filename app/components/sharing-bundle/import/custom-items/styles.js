@@ -1,7 +1,12 @@
-import Theme, { isSmallScreen } from 'config/theme';
-import { Platform, StyleSheet } from 'react-native';
+import Theme from 'config/theme';
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+  bottomTray: {
+    flexDirection: 'row',
+    alignSelf: 'stretch',
+    alignItems: 'stretch'
+  },
   container: {
     backgroundColor: Theme.background.main,
     flex: 1
