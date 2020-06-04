@@ -52,12 +52,13 @@ export default function CustomLayerScopeDropdown(props: Props): Node {
   };
 
   const allLayerFiles = filterRelevantLayerFiles(bundle, allFilesRequest);
+  const selectedLayerFiles = filterRelevantLayerFiles(bundle, selectedFilesRequest);
+  const areAllLayerFilesSelected = allLayerFiles.length === selectedLayerFiles.length;
 
-  if (allLayerFiles.length === 0) {
+  if (allLayerFiles.length === 0 || selectedLayerFiles.length === 0 || areAllLayerFilesSelected) {
     return null;
   }
 
-  const selectedLayerFiles = filterRelevantLayerFiles(bundle, selectedFilesRequest);
   const allLayerFilesSize = manifestBundleSize({
     layerFiles: allLayerFiles,
     reportFiles: []
@@ -73,9 +74,7 @@ export default function CustomLayerScopeDropdown(props: Props): Node {
     selectedLayerFilesSize
   )}`;
 
-  const areAllLayerFilesSelected = allLayerFiles.length === selectedLayerFiles.length;
-  const areSelectedFilesAvailable = selectedLayerFiles.length > 0;
-  const isEnabled = request[layerType].metadata && !areAllLayerFilesSelected && areSelectedFilesAvailable;
+  const isEnabled = request[layerType].metadata;
 
   return (
     <Dropdown
