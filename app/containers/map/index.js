@@ -124,8 +124,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
     getImportedContextualLayersById: layerIds => {
       return dispatch(getImportedContextualLayersById(layerIds));
     },
-    onStartTrackingRoute: (location: Location, area: Area) => {
-      dispatch(setRouteDestination(location, area));
+    onStartTrackingRoute: (location: Location, areaId: string) => {
+      dispatch(setRouteDestination(location, areaId));
     },
     onCancelTrackingRoute: () => {
       dispatch(discardActiveRoute());

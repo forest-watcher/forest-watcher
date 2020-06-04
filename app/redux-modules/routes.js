@@ -104,22 +104,27 @@ export function deleteRoutes(criteria: RouteDeletionCriteria): RouteAction {
   };
 }
 
-export function setRouteDestination(destination: Location, area: Area): RouteAction {
-  deleteAllLocations();
-  const initialRoute: Route = {
-    areaId: area.id,
-    destination: destination,
-    difficulty: 'easy',
-    endDate: null,
-    geostoreId: area.geostore?.id,
-    id: generateUniqueID(),
-    locations: [],
-    name: '', // will be named on saving
-    startDate: Date.now()
-  };
-  return {
-    type: UPDATE_ACTIVE_ROUTE,
-    payload: initialRoute
+export function setRouteDestination(destination: Location, areaId: string): Thunk<RouteAction> {
+  return (dispatch: Dispatch, getState: GetState) => {
+    deleteAllLocations();
+
+    const geostoreId = getState().areas.data.find(area => area.id === areaId)?.geostore?.id;
+
+    const initialRoute: Route = {
+      areaId: areaId,
+      destination: destination,
+      difficulty: 'easy',
+      endDate: null,
+      geostoreId: geostoreId,
+      id: generateUniqueID(),
+      locations: [],
+      name: '', // will be named on saving
+      startDate: Date.now()
+    };
+    dispatch({
+      type: UPDATE_ACTIVE_ROUTE,
+      payload: initialRoute
+    });
   };
 }
 

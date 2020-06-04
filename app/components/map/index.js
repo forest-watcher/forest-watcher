@@ -121,7 +121,7 @@ type Props = {
   allRouteIds: Array<string>,
   layerSettings: LayerSettings,
   isTracking: boolean,
-  onStartTrackingRoute: (location: Location, area: Area) => void,
+  onStartTrackingRoute: (location: Location, areaId: string) => void,
   onCancelTrackingRoute: () => void,
   getActiveBasemap: (?string) => Basemap, // TODO: This shouldn't be a function
   getRoutesById: (routeIds: Array<string>) => Array<Route> // TODO: This shouldn't be a function
@@ -422,7 +422,7 @@ class MapComponent extends Component<Props, State> {
     this.dismissInfoBanner();
     try {
       await this.geoLocate(true);
-      this.props.onStartTrackingRoute(coordsArrayToObject(routeDestination), area);
+      this.props.onStartTrackingRoute(coordsArrayToObject(routeDestination), area.id);
 
       this.setState({ customReporting: false });
 
