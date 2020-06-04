@@ -244,7 +244,7 @@ export default class Routes extends PureComponent<Props, State> {
         <View key={`${item.id}-list`} style={styles.rowContainer}>
           <VerticalSplitRow
             backgroundImageResizeMode={Platform.OS === 'ios' ? 'repeat' : 'cover'}
-              key={item.id}
+            key={item.id}
             onSettingsPress={this.onClickRouteSettings.bind(this, item)}
             onPress={() => {
               onPress(item);
@@ -258,14 +258,7 @@ export default class Routes extends PureComponent<Props, State> {
             largerLeftPadding
             largeImage
           />
-          {true && (
-            <DataCacher
-              dataType={'route'}
-              id={item.id}
-              disabled={this.state.inShareMode ?? false}
-              showTooltip={false}
-            />
-          )}
+          <DataCacher dataType={'route'} id={item.id} disabled={this.state.inShareMode} showTooltip={false} />
         </View>
       );
     });
