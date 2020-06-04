@@ -45,7 +45,7 @@ export function calculateImportBundleSize(bundle: SharingBundle, request: Import
   });
 
   const filteredBundle: SharingBundle = {
-    alerts: request.areas ? bundle.alerts : [],
+    alerts: [],
     areas: request.areas ? bundle.areas : [],
     basemaps: request.customBasemaps.metadata ? bundle.basemaps : [],
     layers: request.customContextualLayers.metadata || request.gfwContextualLayers.metadata ? bundle.layers : [],
