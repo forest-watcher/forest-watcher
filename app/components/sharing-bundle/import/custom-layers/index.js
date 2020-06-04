@@ -7,28 +7,24 @@ import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigatio
 import Theme from 'config/theme';
 import i18n from 'i18next';
 import styles from './styles';
-import { IMPORT_ENTIRE_BUNDLE_REQUEST } from 'helpers/sharing/importBundle';
 import BottomTray from 'components/common/bottom-tray';
 import ActionButton from 'components/common/action-button';
 import CustomImportItem from 'components/sharing-bundle/import/custom-import-item';
 
-const areasIcon = require('assets/areas.png');
-const areasIconInactive = require('assets/areaNotActive.png');
-const reportsIcon = require('assets/reports.png');
-const reportsIconInactive = require('assets/reportNotActive.png');
-const routesIcon = require('assets/routes.png');
-const routesIconInactive = require('assets/routeNotActive.png');
+const layersIcon = require('assets/contextualLayers.png');
+const layersIconInactive = require('assets/contextualLayerNotActive.png');
 
 type Props = {
   bundle: UnpackedSharingBundle,
-  componentId: string
+  componentId: string,
+  initialImportRequest: ImportBundleRequest
 };
 
 type State = {
   importRequest: ImportBundleRequest
 };
 
-export default class ImportSharingBundleCustomItemsScreen extends PureComponent<Props, State> {
+export default class ImportSharingBundleCustomLayersScreen extends PureComponent<Props, State> {
   static options(passProps: {}) {
     return {
       topBar: {
@@ -41,7 +37,7 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
           }
         ],
         title: {
-          text: i18n.t('importBundle.customItems.title')
+          text: i18n.t('importBundle.customLayers.title')
         }
       }
     };
@@ -52,7 +48,7 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
     Navigation.events().bindComponent(this);
 
     this.state = {
-      importRequest: IMPORT_ENTIRE_BUNDLE_REQUEST
+      importRequest: props.initialImportRequest
     };
   }
 
@@ -62,29 +58,26 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
     }
   }
 
-  _toggleAreas = () => {
+  _toggleCustomLayers = () => {
     this.setState(prevState => ({
       importRequest: {
         ...prevState.importRequest,
-        areas: !prevState.importRequest.areas
+        customContextualLayers: {
+          ...prevState.importRequest.customContextualLayers,
+          metadata: !prevState.importRequest.customContextualLayers.metadata
+        }
       }
     }));
   };
 
-  _toggleReports = () => {
+  _toggleGfwLayers = () => {
     this.setState(prevState => ({
       importRequest: {
         ...prevState.importRequest,
-        reports: !prevState.importRequest.reports
-      }
-    }));
-  };
-
-  _toggleRoutes = () => {
-    this.setState(prevState => ({
-      importRequest: {
-        ...prevState.importRequest,
-        routes: !prevState.importRequest.routes
+        gfwContextualLayers: {
+          ...prevState.importRequest.gfwContextualLayers,
+          metadata: !prevState.importRequest.gfwContextualLayers.metadata
+        }
       }
     }));
   };
@@ -92,7 +85,7 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
   _onNextPress = () => {
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'ForestWatcher.ImportBundleCustomLayers',
+        name: 'ForestWatcher.ImportBundleCustomBasemaps',
         passProps: {
           bundle: this.props.bundle,
           initialImportRequest: this.state.importRequest,
@@ -118,40 +111,37 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
 
   renderContent = () => {
     const bundleData = this.props.bundle.data;
-    const areaNames = bundleData.areas.map(item => item.name).sort((a, b) => a.localeCompare(b));
-    const reportNames = bundleData.reports.map(item => item.reportName).sort((a, b) => a.localeCompare(b));
-    const routeNames = bundleData.routes.map(item => item.name).sort((a, b) => a.localeCompare(b));
+    const customLayerNames = bundleData.layers
+      .filter(layer => true) // TODO: Awaiting GFW layer work
+      .map(item => item.name)
+      .filter(Boolean)
+      .sort((a, b) => a.localeCompare(b));
+    const gfwLayerNames = bundleData.layers
+      .filter(layer => false) // TODO: Awaiting GFW layer work
+      .map(item => item.name)
+      .filter(Boolean)
+      .sort((a, b) => a.localeCompare(b));
     return (
       <ScrollView alwaysBounceVertical={false} style={styles.contentContainer}>
         <CustomImportItem
-          titlePlural={i18n.t('sharing.type.areas')}
-          titleSingular={i18n.t('sharing.type.area')}
-          icon={areasIcon}
-          iconInactive={areasIconInactive}
-          isSelected={this.state.importRequest.areas}
-          callback={this._toggleAreas}
-          items={areaNames}
+          titlePlural={i18n.t('sharing.type.customLayers')}
+          titleSingular={i18n.t('sharing.type.customLayer')}
+          icon={layersIcon}
+          iconInactive={layersIconInactive}
+          isSelected={this.state.importRequest.customContextualLayers.metadata}
+          callback={this._toggleCustomLayers}
+          items={customLayerNames}
           showItemNames={true}
         />
         <CustomImportItem
-          titlePlural={i18n.t('sharing.type.routes')}
-          titleSingular={i18n.t('sharing.type.route')}
-          icon={routesIcon}
-          iconInactive={routesIconInactive}
-          isSelected={this.state.importRequest.routes}
-          callback={this._toggleRoutes}
-          items={routeNames}
+          titlePlural={i18n.t('sharing.type.gfwLayers')}
+          titleSingular={i18n.t('sharing.type.gfwLayer')}
+          icon={layersIcon}
+          iconInactive={layersIconInactive}
+          isSelected={this.state.importRequest.gfwContextualLayers.metadata}
+          callback={this._toggleGfwLayers}
+          items={gfwLayerNames}
           showItemNames={true}
-        />
-        <CustomImportItem
-          titlePlural={i18n.t('sharing.type.reports')}
-          titleSingular={i18n.t('sharing.type.report')}
-          icon={reportsIcon}
-          iconInactive={reportsIconInactive}
-          isSelected={this.state.importRequest.reports}
-          callback={this._toggleReports}
-          items={reportNames}
-          showItemNames={false}
         />
       </ScrollView>
     );

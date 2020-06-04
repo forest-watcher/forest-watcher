@@ -43,6 +43,8 @@ import ImportMappingFileError from 'components/settings/mapping-files/import/err
 import EmailLogin from 'containers/login/email-login';
 import ImportSharingBundleStart from 'components/sharing-bundle/import/start';
 import ImportSharingBundleCustomItems from 'components/sharing-bundle/import/custom-items';
+import ImportSharingBundleCustomLayers from 'components/sharing-bundle/import/custom-layers';
+import ImportSharingBundleCustomBasemaps from 'components/sharing-bundle/import/custom-basemaps';
 import ImportSharingBundleConfirm from 'containers/sharing-bundle/import/confirm';
 
 /**
@@ -111,6 +113,8 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.GFWLayers', GFWContextualLayers, Provider, store);
   registerComponent('ForestWatcher.ImportBundleStart', ImportSharingBundleStart, Provider, store);
   registerComponent('ForestWatcher.ImportBundleCustomItems', ImportSharingBundleCustomItems, Provider, store);
+  registerComponent('ForestWatcher.ImportBundleCustomLayers', ImportSharingBundleCustomLayers, Provider, store);
+  registerComponent('ForestWatcher.ImportBundleCustomBasemaps', ImportSharingBundleCustomBasemaps, Provider, store);
   registerComponent('ForestWatcher.ImportBundleConfirm', ImportSharingBundleConfirm, Provider, store);
 }
 
