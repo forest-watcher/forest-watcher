@@ -5,11 +5,10 @@ import { View, Text } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import styles from './styles';
 
-import { withSafeArea } from 'react-native-safe-area';
+import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
 
 import i18n from 'i18next';
 
-const SafeAreaView = withSafeArea(View, 'padding', 'top');
 const Timer = require('react-native-timer');
 
 type Props = {
@@ -46,11 +45,11 @@ class ToastNotification extends PureComponent<Props> {
   render() {
     const { type, text } = this.props;
     return (
-      <SafeAreaView style={[styles.view, styles[type]]}>
+      <View style={[styles.view, styles[type], { paddingTop: initialWindowSafeAreaInsets.top }]}>
         <View style={styles.internalView}>
           <Text style={[styles.text, styles[`${type}Text`]]}>{text}</Text>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 }
