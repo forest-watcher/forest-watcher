@@ -380,6 +380,18 @@
             "questionCountSingular": "1 Question"
         }
     },
+    "importBundle": {
+        "confirm": {
+            "buttonTitle": "Import Data Bundle",
+            "title": "Confirm Import"
+        },
+        "start": {
+            "customImport": "Custom Import",
+            "customImportDescription": "Select specific items to import",
+            "importAll": "Import All Data",
+            "title": "Import App Bundle"
+        }
+    },
     "importLayer": {
         "gfw": {
             "error": "GFW Layers can't be loaded right now – check your internet connection and try again.",
