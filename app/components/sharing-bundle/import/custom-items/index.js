@@ -36,8 +36,7 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
           {
             id: 'cancel',
             text: i18n.t('commonText.cancel'),
-            color: Theme.colors.turtleGreen,
-            fontFamily: Theme.font
+            ...styles.topBarTextButton
           }
         ],
         title: {
