@@ -1,4 +1,5 @@
 // @flow
+import type { Area } from 'types/areas.types';
 import type { Location, RouteState, RouteAction, Route, RouteDeletionCriteria } from 'types/routes.types';
 import type { Dispatch, GetState, Thunk } from 'types/store.types';
 import { deleteAllLocations } from 'helpers/location';
@@ -74,13 +75,7 @@ export default function reducer(state: RouteState = initialState, action: RouteA
     case FINISH_AND_SAVE_ROUTE:
       return {
         ...state,
-        previousRoutes: [
-          ...state.previousRoutes,
-          {
-            ...state.activeRoute,
-            geostoreId: action.payload.geostoreId
-          }
-        ],
+        previousRoutes: [...state.previousRoutes, ...state.activeRoute],
         activeRoute: undefined
       };
     case DELETE_ROUTE:
@@ -109,13 +104,14 @@ export function deleteRoutes(criteria: RouteDeletionCriteria): RouteAction {
   };
 }
 
-export function setRouteDestination(destination: Location, areaId: string): RouteAction {
+export function setRouteDestination(destination: Location, area: Area): RouteAction {
   deleteAllLocations();
   const initialRoute: Route = {
-    areaId: areaId,
+    areaId: area.id,
     destination: destination,
     difficulty: 'easy',
     endDate: null,
+    geostoreId: area.geostore?.id,
     id: generateUniqueID(),
     locations: [],
     name: '', // will be named on saving
@@ -151,23 +147,8 @@ export function discardActiveRoute(): RouteAction {
 }
 
 export function finishAndSaveRoute(): Thunk<RouteAction> {
-  return (dispatch: Dispatch, getState: GetState) => {
-    // First, let's get the area ID for the active route.
-    // This is because we need to find the area to retrieve the corresponding geostoreId.
-    const areaId = getState().routes.activeRoute?.areaId;
-
-    // Now, find the area for the given route. If it doesn't exist, we won't save the geostoreID however
-    // the route will not be downloadable.
-    const area = areaId ? getState().areas.data?.filter(area => area.id === areaId)?.[0] : null;
-
-    const geostoreId = area?.geostore?.id;
-
-    dispatch({
-      type: FINISH_AND_SAVE_ROUTE,
-      payload: {
-        geostoreId: geostoreId
-      }
-    });
+  return {
+    type: FINISH_AND_SAVE_ROUTE
   };
 }
 

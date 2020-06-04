@@ -52,7 +52,7 @@ type UpdateActiveRoute = {
   payload: $Shape<Route>
 };
 type UpdateSavedRoute = { type: 'routes/UPDATE_SAVED_ROUTE', payload: $Shape<Route> };
-type FinishAndSaveRoute = { type: 'routes/FINISH_AND_SAVE_ROUTE', payload: { geostoreId: ?string } };
+type FinishAndSaveRoute = { type: 'routes/FINISH_AND_SAVE_ROUTE' };
 type DeleteRouteAction = { type: 'routes/DELETE_ROUTE', payload: RouteDeletionCriteria };
 type DiscardActiveRoute = { type: 'routes/DISCARD_ACTIVE_ROUTE' };
 type ImportRoute = { type: 'routes/IMPORT_ROUTE', payload: Route };
