@@ -40,5 +40,11 @@ export default StyleSheet.create({
     color: Theme.fontColors.secondary,
     fontSize: 16,
     fontWeight: '400'
+  },
+  topBarTextButton: {
+    fontSize: 16,
+    fontFamily: Theme.font,
+    color: Theme.colors.turtleGreen,
+    backgroundColor: Theme.background.main
   }
 });
