@@ -420,27 +420,31 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
   };
 }
 
-function getAreaById(areas, areaId): ?Area {
+function getAreaById(areas: Array<Area>, areaId: string): ?Area {
   const area = areas.find(areaData => areaData.id === areaId);
   return area ? { ...area } : null;
 }
 
-function getLayerById(layers, layerId): ?ContextualLayer {
+function getLayerById(layers: ?Array<ContextualLayer>, layerId): ?ContextualLayer {
   if (!layers) {
     return null;
   }
+
   const layer = layers.find(layerData => layerData.id === layerId);
   return layer ? { ...layer } : null;
 }
 
-export function cacheAreaBasemap(dataType: DownloadDataType, id: string) {
-  return (dispatch: Dispatch, state: GetState) => {
-    const areas = state().areas.data;
+function getRouteById(routes: Array<Route>, routeId: string): ?Route {
+  const route = routes.find(route => route.id === routeId);
+  return route ? { ...route } : null;
+}
 
-    const data =
-      dataType === 'area'
-        ? getAreaById(areas, id)
-        : state().routes.previousRoutes.filter(route => route.id === id)?.[0];
+export function cacheAreaBasemap(dataType: DownloadDataType, id: string) {
+  return (dispatch: Dispatch, getState: GetState) => {
+    const state = getState();
+    const areas = state.areas.data;
+
+    const data = dataType === 'area' ? getAreaById(areas, id) : getRouteById(state.routes.previousRoutes, id);
 
     const layer: ContextualLayer = {
       id: 'basemap',
@@ -473,13 +477,11 @@ export function cacheAreaBasemap(dataType: DownloadDataType, id: string) {
 }
 
 export function cacheAreaLayer(dataType: DownloadDataType, id: string, layerId: string) {
-  return (dispatch: Dispatch, state: GetState) => {
-    const areas = state().areas.data;
-    const data =
-      dataType === 'area'
-        ? getAreaById(areas, id)
-        : state().routes.previousRoutes.filter(route => route.id === id)?.[0];
-    const layer = getLayerById(state().layers.data, layerId);
+  return (dispatch: Dispatch, getState: GetState) => {
+    const state = getState();
+    const areas = state.areas.data;
+    const data = dataType === 'area' ? getAreaById(areas, id) : getRouteById(state.routes.previousRoutes, id);
+    const layer = getLayerById(state.layers.data, layerId);
     if (data && layer) {
       const downloadConfig = {
         data,

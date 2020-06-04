@@ -167,7 +167,6 @@ class DataCacher extends PureComponent<Props, State> {
     const cacheAreaAction = this.getCacheAreaAction();
     const cacheButtonIcon = this.getCacheAreaIcon();
 
-    // TODO: Should routes include a callout?
     const cacheButton = (
       <Callout
         body={i18n.t('areas.tooltip.body')}
