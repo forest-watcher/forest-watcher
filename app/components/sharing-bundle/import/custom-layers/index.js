@@ -1,5 +1,5 @@
 // @flow
-import type { ImportBundleRequest, UnpackedSharingBundle } from 'types/sharing.types';
+import type { ImportBundleRequest, LayerFileImportStrategy, UnpackedSharingBundle } from 'types/sharing.types';
 import React, { PureComponent } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
@@ -10,6 +10,7 @@ import styles from './styles';
 import BottomTray from 'components/common/bottom-tray';
 import ActionButton from 'components/common/action-button';
 import CustomImportItem from 'components/sharing-bundle/import/custom-import-item';
+import CustomLayerScopeDropdown from 'components/sharing-bundle/import/custom-layer-scope-dropdown';
 
 const layersIcon = require('assets/contextualLayers.png');
 const layersIconInactive = require('assets/contextualLayerNotActive.png');
@@ -57,6 +58,30 @@ export default class ImportSharingBundleCustomLayersScreen extends PureComponent
       Navigation.dismissAllModals();
     }
   }
+
+  _modifyCustomLayerFileStrategy = (strategy: LayerFileImportStrategy) => {
+    this.setState(prevState => ({
+      importRequest: {
+        ...prevState.importRequest,
+        customContextualLayers: {
+          ...prevState.importRequest.customContextualLayers,
+          files: strategy
+        }
+      }
+    }));
+  };
+
+  _modifyGfwLayerFileStrategy = (strategy: LayerFileImportStrategy) => {
+    this.setState(prevState => ({
+      importRequest: {
+        ...prevState.importRequest,
+        gfwContextualLayers: {
+          ...prevState.importRequest.gfwContextualLayers,
+          files: strategy
+        }
+      }
+    }));
+  };
 
   _toggleCustomLayers = () => {
     this.setState(prevState => ({
@@ -133,6 +158,13 @@ export default class ImportSharingBundleCustomLayersScreen extends PureComponent
           items={customLayerNames}
           showItemNames={true}
         />
+        <CustomLayerScopeDropdown
+          bundle={this.props.bundle.data}
+          layerType={'customContextualLayers'}
+          onValueChange={this._modifyCustomLayerFileStrategy}
+          request={this.state.importRequest}
+          selectedValue={this.state.importRequest.customContextualLayers.files}
+        />
         <CustomImportItem
           titlePlural={i18n.t('sharing.type.gfwLayers')}
           titleSingular={i18n.t('sharing.type.gfwLayer')}
@@ -142,6 +174,13 @@ export default class ImportSharingBundleCustomLayersScreen extends PureComponent
           callback={this._toggleGfwLayers}
           items={gfwLayerNames}
           showItemNames={true}
+        />
+        <CustomLayerScopeDropdown
+          bundle={this.props.bundle.data}
+          layerType={'gfwContextualLayers'}
+          onValueChange={this._modifyGfwLayerFileStrategy}
+          request={this.state.importRequest}
+          selectedValue={this.state.importRequest.gfwContextualLayers.files}
         />
       </ScrollView>
     );

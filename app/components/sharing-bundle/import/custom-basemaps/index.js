@@ -1,5 +1,5 @@
 // @flow
-import type { ImportBundleRequest, UnpackedSharingBundle } from 'types/sharing.types';
+import type { ImportBundleRequest, LayerFileImportStrategy, UnpackedSharingBundle } from 'types/sharing.types';
 import React, { PureComponent } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
@@ -10,6 +10,7 @@ import styles from './styles';
 import BottomTray from 'components/common/bottom-tray';
 import ActionButton from 'components/common/action-button';
 import CustomImportItem from 'components/sharing-bundle/import/custom-import-item';
+import CustomLayerScopeDropdown from 'components/sharing-bundle/import/custom-layer-scope-dropdown';
 
 const basemapsIcon = require('assets/basemap.png');
 const basemapsIconInactive = require('assets/basemapNotActive.png');
@@ -57,6 +58,18 @@ export default class ImportSharingBundleCustomBasemapsScreen extends PureCompone
       Navigation.dismissAllModals();
     }
   }
+
+  _modifyCustomBasemapFileStrategy = (strategy: LayerFileImportStrategy) => {
+    this.setState(prevState => ({
+      importRequest: {
+        ...prevState.importRequest,
+        customBasemaps: {
+          ...prevState.importRequest.customBasemaps,
+          files: strategy
+        }
+      }
+    }));
+  };
 
   _toggleCustomBasemaps = () => {
     this.setState(prevState => ({
@@ -111,6 +124,13 @@ export default class ImportSharingBundleCustomBasemapsScreen extends PureCompone
           callback={this._toggleCustomBasemaps}
           items={basemapNames}
           showItemNames={true}
+        />
+        <CustomLayerScopeDropdown
+          bundle={this.props.bundle.data}
+          layerType={'customBasemaps'}
+          onValueChange={this._modifyCustomBasemapFileStrategy}
+          request={this.state.importRequest}
+          selectedValue={this.state.importRequest.customBasemaps.files}
         />
       </ScrollView>
     );

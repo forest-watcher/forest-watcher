@@ -65,7 +65,7 @@ export function calculateImportBundleSize(bundle: SharingBundle, request: Import
 /**
  * Returns a rough approximation of the export file size for a given export layer manifest
  */
-function manifestBundleSize(manifest: SharingBundleManifest): number {
+export function manifestBundleSize(manifest: SharingBundleManifest): number {
   let size = 0;
   manifest.layerFiles.forEach((file: LayerFile) => {
     if (!isNaN(file.size)) {
