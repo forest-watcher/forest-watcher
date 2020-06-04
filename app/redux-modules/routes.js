@@ -6,7 +6,6 @@ import { deleteAllLocations } from 'helpers/location';
 import generateUniqueID from 'helpers/uniqueId';
 
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
-import { v1 } from 'uuid';
 
 // Actions
 const DISCARD_ACTIVE_ROUTE = 'routes/DISCARD_ACTIVE_ROUTE';
@@ -35,8 +34,8 @@ const initialState: RouteState = {
  * @param {() => string} getUniqueID - unless testing, use the default param provided to get unique uuids
  */
 export const migrateV1RoutesToV2RoutesStructure = (
-  routeState: RouteState,
-  areas: Array<Area>,
+  routeState: ?RouteState,
+  areas: ?Array<Area>,
   getUniqueID: () => string = generateUniqueID
 ): RouteState => {
   if (!routeState || !Array.isArray(routeState.previousRoutes)) {
@@ -86,7 +85,7 @@ export default function reducer(state: RouteState = initialState, action: RouteA
     case PERSIST_REHYDRATE: {
       const { areas, routes } = action.payload;
 
-      const migratedState = migrateV1RoutesToV2RoutesStructure(routes, areas?.data);
+      const migratedState = migrateV1RoutesToV2RoutesStructure(routes, areas?.data ?? []);
 
       return {
         ...state,
