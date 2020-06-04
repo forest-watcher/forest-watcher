@@ -75,7 +75,7 @@ export default function reducer(state: RouteState = initialState, action: RouteA
     case FINISH_AND_SAVE_ROUTE:
       return {
         ...state,
-        previousRoutes: [...state.previousRoutes, ...state.activeRoute],
+        previousRoutes: [...state.previousRoutes, state.activeRoute],
         activeRoute: undefined
       };
     case DELETE_ROUTE:
