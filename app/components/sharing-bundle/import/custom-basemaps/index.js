@@ -130,7 +130,6 @@ export default class ImportSharingBundleCustomBasemapsScreen extends PureCompone
           layerType={'customBasemaps'}
           onValueChange={this._modifyCustomBasemapFileStrategy}
           request={this.state.importRequest}
-          selectedValue={this.state.importRequest.customBasemaps.files}
         />
       </ScrollView>
     );

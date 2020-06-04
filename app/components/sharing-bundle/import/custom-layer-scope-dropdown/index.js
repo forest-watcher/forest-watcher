@@ -1,6 +1,7 @@
 // @flow
 import type { ImportBundleRequest, LayerFileImportStrategy, SharingBundle } from 'types/sharing.types';
 import React, { type Node } from 'react';
+import i18n from 'i18next';
 
 import Dropdown from 'components/common/dropdown';
 import { formatBytes } from 'helpers/data';
@@ -13,12 +14,13 @@ type Props = {
   bundle: SharingBundle,
   layerType: 'customBasemaps' | 'customContextualLayers' | 'gfwContextualLayers',
   onValueChange: LayerFileImportStrategy => any,
-  request: ImportBundleRequest,
-  selectedValue: LayerFileImportStrategy
+  request: ImportBundleRequest
 };
 
 export default function CustomLayerScopeDropdown(props: Props): Node {
-  const { bundle, layerType, onValueChange, request, selectedValue } = props;
+  const { bundle, layerType, onValueChange, request } = props;
+
+  const selectedValue = request[layerType].files;
 
   // Set all other layer types to unrequested, apart from the one we are interested in, so that we can see
   // the layer files needed just for this type
@@ -50,6 +52,11 @@ export default function CustomLayerScopeDropdown(props: Props): Node {
   };
 
   const allLayerFiles = filterRelevantLayerFiles(bundle, allFilesRequest);
+
+  if (allLayerFiles.length === 0) {
+    return null;
+  }
+
   const selectedLayerFiles = filterRelevantLayerFiles(bundle, selectedFilesRequest);
   const allLayerFilesSize = manifestBundleSize({
     layerFiles: allLayerFiles,
@@ -59,16 +66,22 @@ export default function CustomLayerScopeDropdown(props: Props): Node {
     layerFiles: selectedLayerFiles,
     reportFiles: []
   });
-  const allLayerFilesLabel = `Import All - ${formatBytes(allLayerFilesSize)}`;
-  const selectedLayerFilesLabel = `Import Selected - ${formatBytes(selectedLayerFilesSize)}`;
+  const allLayerFilesLabel = `${i18n.t('importBundle.customLayers.fileImportOptionAll')} - ${formatBytes(
+    allLayerFilesSize
+  )}`;
+  const selectedLayerFilesLabel = `${i18n.t('importBundle.customLayers.fileImportOptionSelected')} - ${formatBytes(
+    selectedLayerFilesSize
+  )}`;
 
   const areAllLayerFilesSelected = allLayerFiles.length === selectedLayerFiles.length;
+  const areSelectedFilesAvailable = selectedLayerFiles.length > 0;
+  const isEnabled = request[layerType].metadata && !areAllLayerFilesSelected && areSelectedFilesAvailable;
 
   return (
     <Dropdown
-      label={'Import Option'}
+      label={i18n.t('importBundle.customLayers.fileImportOptionTitle')}
       labelStyle={styles.label}
-      description={'Select the data you would like to import'}
+      description={i18n.t('importBundle.customLayers.fileImportOptionDescription')}
       options={[
         {
           label: allLayerFilesLabel,
@@ -84,7 +97,7 @@ export default function CustomLayerScopeDropdown(props: Props): Node {
       selectedValue={selectedValue}
       onValueChange={value => onValueChange(value === 'all' ? value : 'intersecting')}
       hideLabel={true}
-      inactive={areAllLayerFilesSelected}
+      inactive={!isEnabled}
     />
   );
 }

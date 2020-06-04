@@ -163,7 +163,6 @@ export default class ImportSharingBundleCustomLayersScreen extends PureComponent
           layerType={'customContextualLayers'}
           onValueChange={this._modifyCustomLayerFileStrategy}
           request={this.state.importRequest}
-          selectedValue={this.state.importRequest.customContextualLayers.files}
         />
         <CustomImportItem
           titlePlural={i18n.t('sharing.type.gfwLayers')}
@@ -180,7 +179,6 @@ export default class ImportSharingBundleCustomLayersScreen extends PureComponent
           layerType={'gfwContextualLayers'}
           onValueChange={this._modifyGfwLayerFileStrategy}
           request={this.state.importRequest}
-          selectedValue={this.state.importRequest.gfwContextualLayers.files}
         />
       </ScrollView>
     );

@@ -385,6 +385,10 @@
             "title": "Select Items To Import"
         },
         "customLayers": {
+            "fileImportOptionAll": "Import All",
+            "fileImportOptionDescription": "Select the data you would like to import",
+            "fileImportOptionSelected": "Import For Selected Items Only",
+            "fileImportOptionTitle": "Import Option",
             "title": "Select Contextual Layer Data"
         },
         "start": {
