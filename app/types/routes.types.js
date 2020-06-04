@@ -1,7 +1,8 @@
 // @flow
 export type RouteState = {
   activeRoute: ?Route,
-  previousRoutes: Array<Route>
+  previousRoutes: Array<Route>,
+  routeStructureVersion?: string
 };
 
 export type RouteDifficulty = 'easy' | 'medium' | 'hard';
