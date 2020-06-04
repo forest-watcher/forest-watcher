@@ -1,6 +1,6 @@
 // @flow
 import type { Dispatch } from 'types/store.types';
-import type { UnpackedSharingBundle } from 'types/sharing.types';
+import type { ImportBundleRequest, UnpackedSharingBundle } from 'types/sharing.types';
 import { Platform } from 'react-native';
 
 import RNFS from 'react-native-fs';
@@ -22,7 +22,25 @@ import importFileManifest from 'helpers/sharing/importFileManifest';
  */
 export default async function importBundle(uri: string, dispatch: Dispatch): Promise<void> {
   const unpackedBundle = await unpackBundle(uri);
-  await importStagedBundle(unpackedBundle, dispatch);
+
+  const importRequest: ImportBundleRequest = {
+    areas: true,
+    customBasemaps: {
+      metadata: true,
+      files: 'all'
+    },
+    customContextualLayers: {
+      metadata: true,
+      files: 'all'
+    },
+    gfwContextualLayers: {
+      metadata: true,
+      files: 'all'
+    },
+    reports: true,
+    routes: true
+  };
+  await importStagedBundle(unpackedBundle, importRequest, dispatch);
   deleteStagedBundle(unpackedBundle);
 }
 
@@ -42,10 +60,14 @@ function checkBundleCompatibility(version: number) {
  * @param bundle - The bundle - already unpacked - whose data should be imported
  * @param dispatch - Redux dispatch function used to emit actions to add data to the app
  */
-export async function importStagedBundle(bundle: UnpackedSharingBundle, dispatch: Dispatch) {
+export async function importStagedBundle(
+  bundle: UnpackedSharingBundle,
+  request: ImportBundleRequest,
+  dispatch: Dispatch
+) {
   checkBundleCompatibility(bundle.data.version);
-  importAppData(bundle.data, dispatch);
-  await importFileManifest(bundle);
+  importAppData(bundle.data, request, dispatch);
+  await importFileManifest(bundle, request);
 }
 
 /**

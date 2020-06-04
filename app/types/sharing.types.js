@@ -50,10 +50,49 @@ export type ExportBundleRequest = {|
 |};
 
 /**
- * Type representing the result of importing a sharing bundle
+ * Whether to import:
+ * - all layer files (plus metadata) in the bundle
+ * - only layer files (plus metadata) intersecting areas and routes that were imported
+ * - no layers at all
  */
-export type ImportBundleResult = {|
-  // TODO
+export type LayerImportStrategy = {
+  metadata: boolean,
+  files: 'all' | 'intersecting' // only relevent if metadata = true
+};
+
+/**
+ * Type representing a request to import a subset of a SharingBundle
+ */
+export type ImportBundleRequest = {|
+  /**
+   * Flag indicating whether or not to import all the areas in the bundle
+   */
+  areas: boolean,
+
+  /**
+   * Strategy to use when importing basemap files
+   */
+  customBasemaps: LayerImportStrategy,
+
+  /**
+   * Strategy to use when importing custom contextual layers
+   */
+  customContextualLayers: LayerImportStrategy,
+
+  /**
+   * Strategy to use when importing GFW contextual layers
+   */
+  gfwContextualLayers: LayerImportStrategy,
+
+  /**
+   * Flag indicating whether or not to import all the reports in the bundle
+   */
+  reports: boolean,
+
+  /**
+   * Flag indicating whether or not to import all the routes in the bundle
+   */
+  routes: boolean
 |};
 
 export type LayerFile = {|
