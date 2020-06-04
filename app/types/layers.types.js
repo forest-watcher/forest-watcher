@@ -3,18 +3,31 @@
 import type { OfflineMeta } from 'types/offline.types';
 import type { DeleteAreaCommit, SaveAreaCommit, Area } from 'types/areas.types';
 
+export type VectorMapLayer = {
+  filter?: ?*,
+  paint: *,
+  'source-layer': string,
+  type: 'background' | 'fill' | 'line' | 'symbol' | 'raster' | 'circle' | 'fill-extrusion' | 'heatmap' | 'hillshade'
+};
+
 export type ContextualLayer = {
   createdAt?: ?string,
+  description?: ?string,
   enabled?: ?boolean,
   id: string,
   isPublic?: ?boolean,
+  maxZoom?: ?number,
+  minZoom?: ?number,
   name?: string,
   owner?: ?{
     type: string
   },
   url: string,
   isImported?: true,
-  size?: ?number
+  isGFW?: ?boolean,
+  size?: ?number,
+  tileFormat?: ?('vector' | 'raster'),
+  vectorMapLayers?: ?Array<VectorMapLayer>
 };
 
 export type LayersState = {
@@ -30,40 +43,6 @@ export type LayersState = {
   importError: ?Error,
   imported: Array<ContextualLayer>,
   importingLayer: boolean
-};
-
-export type GFWContextualLayer = {
-  id: string,
-  type: string,
-  attributes: {
-    slug: string,
-    userId: string,
-    application: Array<string>,
-    name: string,
-    default: boolean,
-    dataset: string,
-    env: string,
-    provider: string,
-    iso: Array<string>,
-    description: ?string,
-    layerConfig: *,
-    legendConfig: *,
-    applicationConfig: *,
-    staticImageConfig: ?*
-  }
-};
-
-export type GFWLayersState = {
-  data: Array<GFWContextualLayer>,
-  fullyLoaded: boolean,
-  syncing: boolean,
-  loadedPage: ?number,
-  paginating: boolean,
-  total: ?number,
-  error: ?{
-    type: string,
-    response: *
-  }
 };
 
 export type LayersProgress = {

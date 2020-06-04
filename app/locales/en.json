@@ -382,27 +382,31 @@
     },
     "importLayer": {
         "gfw": {
-            "error": "GFW Layers can't be loaded right now – check your internet connection and try again.",
             "title": "Add GFW Layers",
-            "allLayers": "All GFW Layers (%{count})",
-            "noResults": "No results for ‘%{searchTerm}'",
-            "results": "%{count} Result for '%{searchTerm}’",
-            "results_plural": "%{count} Results for ‘%{searchTerm}’",
-            "searchHint": "Search GFW layers by typing the layer name",
-            "searchPlaceholder": "Search for a Layer"
+            "allLayers": "All GFW Layers (%{count})"
         }
     },
     "layers": {
+        "biodiversityIntactness": "Biodiversity intactness - 2016",
+        "biodiversitySignificance": "Biodiversity significance - 2016",
+        "indonesiaForestArea": "Indonesia forest area",
+        "landmarks": "Indigenous and Community Lands",
+        "logging": "Managed Forest Concessions",
         "managedForests": "Managed Forest",
         "mining": "Mining",
+        "miningConcessions": "Mining concessions",
         "oilPalm": "Oil palm",
+        "oilPalmConcessions": "Oil palm concessions",
         "protectedAreas": "Protected Areas",
+        "rspo": "RSPO oil palm concessions - 2017",
         "treeCoverLoss2014": "Tree Cover Loss (2014)",
         "treeCoverLoss2015": "Tree Cover Loss (2015)",
         "treeCoverLoss2016": "Tree Cover Loss (2016)",
         "treeCoverLoss2017": "Tree Cover Loss (2017)",
         "treeCoverLoss2018": "Tree Cover Loss (2018)",
-        "woodFiber": "Wood fiber"
+        "wdpa": "Protected Areas (Vector Tiles)",
+        "woodFiber": "Wood fiber",
+        "woodFiberConcessions": "Wood fiber concessions by type - 2019"
     },
     "login": {
         "connectionRequired": "You need an internet connection",
