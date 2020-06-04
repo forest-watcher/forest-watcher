@@ -35,9 +35,6 @@ export default StyleSheet.create({
     width: 48,
     height: 48
   },
-  rowIconDisabled: {
-    tintColor: "black"
-  },
   rowTextWrapper: {
     paddingHorizontal: 20,
     flex: 1
