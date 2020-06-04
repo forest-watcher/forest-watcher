@@ -123,10 +123,7 @@ export default class ImportSharingBundleCustomLayersScreen extends PureComponent
     return (
       <View style={styles.container}>
         {this.renderContent()}
-        <BottomTray
-          requiresSafeAreaView={true}
-          style={{ flexDirection: 'row', alignSelf: 'stretch', alignItems: 'stretch' }}
-        >
+        <BottomTray requiresSafeAreaView={true} style={styles.bottomTray}>
           <ActionButton noIcon onPress={this._onNextPress} secondary={false} text={i18n.t('commonText.next')} />
         </BottomTray>
       </View>
