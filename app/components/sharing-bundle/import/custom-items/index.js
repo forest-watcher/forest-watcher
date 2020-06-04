@@ -43,7 +43,7 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
           }
         ],
         title: {
-          text: i18n.t('importBundle.start.title')
+          text: i18n.t('importBundle.customItems.title')
         }
       }
     };
@@ -126,7 +126,8 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
     return (
       <ScrollView alwaysBounceVertical={false} style={styles.contentContainer}>
         {this.renderRow(
-          'Areas',
+          i18n.t('sharing.type.areas'),
+          i18n.t('sharing.type.area'),
           areasIcon,
           areasIconInactive,
           this.state.importRequest.areas,
@@ -134,7 +135,8 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
           areaNames
         )}
         {this.renderRow(
-          'Routes',
+          i18n.t('sharing.type.routes'),
+          i18n.t('sharing.type.route'),
           routesIcon,
           routesIconInactive,
           this.state.importRequest.routes,
@@ -142,7 +144,8 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
           routeNames
         )}
         {this.renderRow(
-          'Reports',
+          i18n.t('sharing.type.reports'),
+          i18n.t('sharing.type.report'),
           reportsIcon,
           reportsIconInactive,
           this.state.importRequest.reports,
@@ -155,7 +158,8 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
   };
 
   renderRow = (
-    title: string,
+    titlePlural: string,
+    titleSingular: string,
     icon: any,
     iconInactive: any,
     isSelected: boolean,
@@ -165,7 +169,7 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
   ) => {
     const hasItems = items.length > 0;
 
-    let description = `${items.length} ${title}`;
+    let description = `${items.length} ${items.length === 1 ? titleSingular : titlePlural}`;
 
     if (hasItems && showItemNames) {
       description += `: ${items.join(', ')}`;
@@ -184,7 +188,7 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
       >
         <Image style={styles.rowIcon} resizeMode={'contain'} source={hasItems ? icon : iconInactive} />
         <View style={styles.rowTextWrapper}>
-          <Text style={styles.rowTitle}>{title}</Text>
+          <Text style={styles.rowTitle}>{titlePlural}</Text>
           <Text style={styles.rowDescription}>{description}</Text>
         </View>
       </Row>
