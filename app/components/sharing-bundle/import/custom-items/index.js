@@ -13,8 +13,11 @@ import BottomTray from 'components/common/bottom-tray';
 import ActionButton from 'components/common/action-button';
 
 const areasIcon = require('assets/areas.png');
+const areasIconInactive = require('assets/areaNotActive.png');
 const reportsIcon = require('assets/reports.png');
+const reportsIconInactive = require('assets/reportNotActive.png');
 const routesIcon = require('assets/routes.png');
+const routesIconInactive = require('assets/routeNotActive.png');
 const checkboxOff = require('assets/checkbox_off.png');
 const checkboxOn = require('assets/checkbox_on.png');
 
@@ -40,7 +43,7 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
           }
         ],
         title: {
-          text: i18n.t('importBundle.start.title')
+          text: i18n.t('importBundle.customItems.title')
         }
       }
     };
@@ -109,12 +112,7 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
           requiresSafeAreaView={true}
           style={{ flexDirection: 'row', alignSelf: 'stretch', alignItems: 'stretch' }}
         >
-          <ActionButton
-            noIcon
-            onPress={this._onNextPress}
-            secondary={false}
-            text={i18n.t('commonText.next')}
-          />
+          <ActionButton noIcon onPress={this._onNextPress} secondary={false} text={i18n.t('commonText.next')} />
         </BottomTray>
       </View>
     );
@@ -127,11 +125,29 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
     const routeNames = bundleData.routes.map(item => item.name).sort((a, b) => a.localeCompare(b));
     return (
       <ScrollView alwaysBounceVertical={false} style={styles.contentContainer}>
-        {this.renderRow('Areas', areasIcon, this.state.importRequest.areas, this._toggleAreas, areaNames)}
-        {this.renderRow('Routes', routesIcon, this.state.importRequest.routes, this._toggleRoutes, routeNames)}
         {this.renderRow(
-          'Reports',
+          i18n.t('sharing.type.areas'),
+          i18n.t('sharing.type.area'),
+          areasIcon,
+          areasIconInactive,
+          this.state.importRequest.areas,
+          this._toggleAreas,
+          areaNames
+        )}
+        {this.renderRow(
+          i18n.t('sharing.type.routes'),
+          i18n.t('sharing.type.route'),
+          routesIcon,
+          routesIconInactive,
+          this.state.importRequest.routes,
+          this._toggleRoutes,
+          routeNames
+        )}
+        {this.renderRow(
+          i18n.t('sharing.type.reports'),
+          i18n.t('sharing.type.report'),
           reportsIcon,
+          reportsIconInactive,
           this.state.importRequest.reports,
           this._toggleReports,
           reportNames,
@@ -142,8 +158,10 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
   };
 
   renderRow = (
-    title: string,
+    titlePlural: string,
+    titleSingular: string,
     icon: any,
+    iconInactive: any,
     isSelected: boolean,
     callback: () => any,
     items: Array<string>,
@@ -151,7 +169,7 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
   ) => {
     const hasItems = items.length > 0;
 
-    let description = `${items.length} ${title}`;
+    let description = `${items.length} ${items.length === 1 ? titleSingular : titlePlural}`;
 
     if (hasItems && showItemNames) {
       description += `: ${items.join(', ')}`;
@@ -168,9 +186,9 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
           callback: hasItems ? callback : null
         }}
       >
-        <Image style={[styles.rowIcon, hasItems ? {} : styles.rowIconDisabled]} resizeMode={'contain'} source={icon} />
+        <Image style={styles.rowIcon} resizeMode={'contain'} source={hasItems ? icon : iconInactive} />
         <View style={styles.rowTextWrapper}>
-          <Text style={styles.rowTitle}>{title}</Text>
+          <Text style={styles.rowTitle}>{titlePlural}</Text>
           <Text style={styles.rowDescription}>{description}</Text>
         </View>
       </Row>
