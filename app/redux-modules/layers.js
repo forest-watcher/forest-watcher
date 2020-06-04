@@ -209,32 +209,34 @@ export default function reducer(state: LayersState = initialState, action: Layer
       return { ...state, pendingCache };
     }
     case CACHE_LAYER_COMMIT: {
-      const { area, layer } = action.meta;
-      let path = action.payload;
-      path = path && path.length > 0 ? path[0] : path;
+      const { areaId, layerId, path } = action.payload;
       const pendingCache = {
         ...state.pendingCache,
-        [layer.id]: omit(state.pendingCache[layer.id], [area.id])
-      };
-      const cache = {
-        ...state.cache,
-        [layer.id]: {
-          ...state.cache[layer.id],
-          [area.id]: path
-        }
+        [layerId]: omit(state.pendingCache[layerId], [areaId])
       };
       const layersProgress = {
         ...state.layersProgress,
-        [area.id]: {
-          ...state.layersProgress[area.id],
-          [layer.id]: 1
+        [areaId]: {
+          ...state.layersProgress[areaId],
+          [layerId]: 1
         }
       };
       const layerCount = getDownloadableLayerCount(state.data);
-      const updatedCacheStatus = updateAreaProgress(area.id, state.cacheStatus, layersProgress, layerCount);
-      const cacheStatus = updateCacheAreaStatus(updatedCacheStatus, area);
+      const updatedCacheStatus = updateAreaProgress(areaId, state.cacheStatus, layersProgress, layerCount);
+      const cacheStatus = updateCacheAreaStatus(updatedCacheStatus, areaId);
 
-      return { ...state, cache, cacheStatus, pendingCache, layersProgress };
+      if (!path) {
+        return { ...state, cacheStatus, pendingCache, layersProgress };
+      }
+      const resolvedPath = path && path.length > 0 ? path[0] : path;
+      const cache = {
+        ...state.cache,
+        [layerId]: {
+          ...state.cache[layerId],
+          [areaId]: resolvedPath
+        }
+      };
+      return { ...state, cacheStatus, pendingCache, layersProgress, cache };
     }
     case CACHE_LAYER_ROLLBACK: {
       const { area, layer } = action.meta;
@@ -460,6 +462,9 @@ export function cacheAreaBasemap(areaId: string, basemapId: string) {
         type: UPDATE_PROGRESS,
         payload: { areaId: areaId, progress: status.percentage / 100, layerId: basemapId }
       });
+      if (status.percentage === 100) {
+        dispatch({ type: CACHE_LAYER_COMMIT, payload: { areaId, layerId: basemapId } });
+      }
     };
     const errorListener = (offlineRegion, err) => console.error('3SC download basemap error: ', err);
     const downloadPackOptions = {
@@ -495,10 +500,9 @@ export function cacheAreaLayer(areaId: string, layerId: string) {
         layerUrl: layer.url
       };
       downloadAllLayers('contextual_layer', downloadConfig, dispatch)
-        .then(payload =>
+        .then(path =>
           dispatch({
-            payload,
-            meta: { area, layer },
+            payload: { path, areaId: area.id, layerId: layer.id },
             type: CACHE_LAYER_COMMIT
           })
         )
@@ -575,16 +579,16 @@ function getCacheStatusFromAreas(cacheStatus: LayersCacheStatus = {}, areas = []
   return areas.reduce((acc, next) => updateCacheAreaStatus(acc, next), cacheStatus);
 }
 
-function updateCacheAreaStatus(cacheStatus: LayersCacheStatus, area: { id: string }) {
-  const progress = cacheStatus[area.id] ? cacheStatus[area.id].progress : 0;
-  const error = cacheStatus[area.id] ? cacheStatus[area.id].error : false;
+function updateCacheAreaStatus(cacheStatus: LayersCacheStatus, areaId: string) {
+  const progress = cacheStatus[areaId] ? cacheStatus[areaId].progress : 0;
+  const error = cacheStatus[areaId] ? cacheStatus[areaId].error : false;
   return {
     ...cacheStatus,
-    [area.id]: {
+    [areaId]: {
       error,
       progress,
       completed: progress === 1,
-      requested: cacheStatus[area.id] ? cacheStatus[area.id].requested : false
+      requested: cacheStatus[areaId] ? cacheStatus[areaId].requested : false
     }
   };
 }

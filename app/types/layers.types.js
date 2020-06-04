@@ -168,8 +168,7 @@ type CacheLayerRequest = {
 };
 type CacheLayerCommit = {
   type: 'layers/CACHE_LAYER_COMMIT',
-  payload: string,
-  meta: { area: Area, layer: ContextualLayer }
+  payload: { areaId: string, layerId: string, path: string }
 };
 type CacheLayerRollback = {
   type: 'layers/CACHE_LAYER_ROLLBACK',
