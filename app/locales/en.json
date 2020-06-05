@@ -293,6 +293,10 @@
                     }
                 ]
             },
+            "customLayers": {
+                "title": "Custom Layers",
+                "questions": []
+            },
             "features": {
                 "title": "Features and Functionality",
                 "questions": [
