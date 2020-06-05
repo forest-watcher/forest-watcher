@@ -12,7 +12,6 @@ import {
 import { setAreasRefreshing, setSelectedAreaId } from 'redux-modules/areas';
 import { isOutdated } from 'helpers/date';
 import { shouldBeConnected } from 'helpers/app';
-import importBundle from 'helpers/sharing/importBundle';
 
 type OwnProps = {|
   +componentId: string
@@ -37,9 +36,6 @@ function mapStateToProps(state: State) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
-    importBundle: uri => {
-      importBundle(uri, dispatch);
-    },
     setAreasRefreshing: (refreshing: boolean) => {
       dispatch(setAreasRefreshing(refreshing));
     },

@@ -1,5 +1,5 @@
 // @flow
-import type { Dispatch, GetState, Action, Thunk, DispatchThunk } from 'types/store.types';
+import type { Dispatch, GetState, Action, Thunk } from 'types/store.types';
 import type { AppState, AppAction, CoordinatesValue } from 'types/app.types';
 
 // $FlowFixMe
