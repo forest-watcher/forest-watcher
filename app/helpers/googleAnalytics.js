@@ -1,5 +1,4 @@
-import firebase from '@react-native-firebase/app';
-import '@react-native-firebase/analytics';
+import analytics from '@react-native-firebase/analytics';
 
 // Hardcoded event names
 const PREDEFINED_EVENT_LEVEL_START = 'level_start';
@@ -24,46 +23,46 @@ export const REPORT_OUTCOME_COMPLETED = 'completed';
 
 export default {
   trackAreaCreationFlowStartedEvent: () => {
-    firebase.analytics().logEvent(PREDEFINED_EVENT_LEVEL_START, {
+    analytics().logEvent(PREDEFINED_EVENT_LEVEL_START, {
       [PREDEFINED_PARAM_LEVEL_NAME]: AREA_CREATION_FLOW_LEVEL_NAME
     });
   },
   trackAreaCreationFlowEndedEvent: () => {
-    firebase.analytics().logEvent(PREDEFINED_EVENT_LEVEL_END, {
+    analytics().logEvent(PREDEFINED_EVENT_LEVEL_END, {
       [PREDEFINED_PARAM_LEVEL_NAME]: AREA_CREATION_FLOW_LEVEL_NAME
     });
   },
   trackAreaDownloadStartedEvent: () => {
-    firebase.analytics().logEvent(PREDEFINED_EVENT_LEVEL_START, {
+    analytics().logEvent(PREDEFINED_EVENT_LEVEL_START, {
       [PREDEFINED_PARAM_LEVEL_NAME]: AREA_DOWNLOAD_LEVEL_NAME
     });
   },
   trackAreaDownloadEndedEvent: isSuccess => {
-    firebase.analytics().logEvent(PREDEFINED_EVENT_LEVEL_END, {
+    analytics().logEvent(PREDEFINED_EVENT_LEVEL_END, {
       [PREDEFINED_PARAM_LEVEL_NAME]: AREA_DOWNLOAD_LEVEL_NAME,
       [PREDEFINED_PARAM_SUCCESS]: isSuccess
     });
   },
   trackLayerToggledEvent: (layerName, isEnabled) => {
-    firebase.analytics().logEvent(EVENT_LAYER_TOGGLED, {
+    analytics().logEvent(EVENT_LAYER_TOGGLED, {
       [PARAM_LAYER_NAME]: layerName,
       [PARAM_LAYER_ENABLED]: isEnabled ? 1 : 0
     });
   },
   trackReportFlowStartedEvent: numAlertsInReport => {
-    firebase.analytics().logEvent(PREDEFINED_EVENT_LEVEL_START, {
+    analytics().logEvent(PREDEFINED_EVENT_LEVEL_START, {
       [PREDEFINED_PARAM_LEVEL_NAME]: REPORT_FLOW_LEVEL_NAME,
       [PARAM_REPORT_NUM_ALERTS]: numAlertsInReport
     });
   },
   trackReportFlowEndedEvent: reportOutcome => {
-    firebase.analytics().logEvent(PREDEFINED_EVENT_LEVEL_END, {
+    analytics().logEvent(PREDEFINED_EVENT_LEVEL_END, {
       [PREDEFINED_PARAM_LEVEL_NAME]: REPORT_FLOW_LEVEL_NAME,
       [PREDEFINED_PARAM_SUCCESS]: reportOutcome !== REPORT_OUTCOME_CANCELLED,
       [PARAM_REPORT_OUTCOME]: reportOutcome
     });
   },
   trackScreenView: screenName => {
-    firebase.analytics().setCurrentScreen(screenName, screenName);
+    analytics().setCurrentScreen(screenName, screenName);
   }
 };
