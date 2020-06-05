@@ -453,7 +453,7 @@ export function cacheAreaBasemap(areaId: string, basemapId: string) {
     if (!areaBbox) {
       return;
     }
-    const areaBounds = [[areaBbox[0], areaBbox[1]], [areaBbox[2], areaBbox[3]]];
+    const areaBounds = [[areaBbox[2], areaBbox[3]], [areaBbox[0], areaBbox[1]]];
     const progressListener = (offlineRegion, status) => {
       if (!status.percentage) {
         return;
@@ -473,7 +473,7 @@ export function cacheAreaBasemap(areaId: string, basemapId: string) {
     const downloadPackOptions = {
       name: `${areaId}|${basemapId}`,
       styleURL: basemapId,
-      minZoom: CONSTANTS.maps.cacheZoom[0].start,
+      minZoom: 1,
       maxZoom: CONSTANTS.maps.cacheZoom[0].end,
       bounds: areaBounds
     };
