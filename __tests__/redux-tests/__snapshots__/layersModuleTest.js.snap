@@ -27,19 +27,8 @@ exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaLayer 2`] = `
 Array [
   Object {
     "payload": Object {
-      "area": Object {
-        "application": "applicationMock",
-        "geostore": Object {
-          "id": "geostoreIDMock",
-        },
-        "id": "areaIDMock",
-        "name": "nameMock",
-      },
-      "layer": Object {
-        "id": "layerIDMock",
-        "name": "nameMock",
-        "url": "urlMock",
-      },
+      "areaId": "areaIDMock",
+      "layerId": "layerIDMock",
     },
     "type": "layers/CACHE_LAYER_REQUEST",
   },
@@ -52,19 +41,8 @@ exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheLayers 2`] = `
 Array [
   Object {
     "payload": Object {
-      "area": Object {
-        "application": "applicationMock",
-        "geostore": Object {
-          "id": "geostoreIDMock",
-        },
-        "id": "areaIDMock",
-        "name": "nameMock",
-      },
-      "layer": Object {
-        "id": "layerIDMock",
-        "name": "nameMock",
-        "url": "urlMock",
-      },
+      "areaId": "areaIDMock",
+      "layerId": "layerIDMock",
     },
     "type": "layers/CACHE_LAYER_REQUEST",
   },
@@ -122,19 +100,8 @@ Array [
   },
   Object {
     "payload": Object {
-      "area": Object {
-        "application": "applicationMock",
-        "geostore": Object {
-          "id": "geostoreIDMock",
-        },
-        "id": "areaIDMock",
-        "name": "nameMock",
-      },
-      "layer": Object {
-        "id": "layerIDMock",
-        "name": "nameMock",
-        "url": "urlMock",
-      },
+      "areaId": "areaIDMock",
+      "layerId": "layerIDMock",
     },
     "type": "layers/CACHE_LAYER_REQUEST",
   },
@@ -227,19 +194,8 @@ Array [
   },
   Object {
     "payload": Object {
-      "area": Object {
-        "application": "applicationMock",
-        "geostore": Object {
-          "id": "geostoreIDMock",
-        },
-        "id": "areaIDMock",
-        "name": "nameMock",
-      },
-      "layer": Object {
-        "id": "layerIDMock",
-        "name": "nameMock",
-        "url": "urlMock",
-      },
+      "areaId": "areaIDMock",
+      "layerId": "layerIDMock",
     },
     "type": "layers/CACHE_LAYER_REQUEST",
   },
