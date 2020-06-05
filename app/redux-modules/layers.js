@@ -198,12 +198,12 @@ export default function reducer(state: LayersState = initialState, action: Layer
     case SET_ACTIVE_LAYER:
       return { ...state, activeLayer: action.payload };
     case CACHE_LAYER_REQUEST: {
-      const { area, layer } = action.payload;
+      const { areaId, layerId } = action.payload;
       const pendingCache = {
         ...state.pendingCache,
-        [layer.id]: {
-          ...state.pendingCache[layer.id],
-          [area.id]: true
+        [layerId]: {
+          ...state.pendingCache[layerId],
+          [areaId]: true
         }
       };
       return { ...state, pendingCache };
@@ -239,20 +239,20 @@ export default function reducer(state: LayersState = initialState, action: Layer
       return { ...state, cacheStatus, pendingCache, layersProgress, cache };
     }
     case CACHE_LAYER_ROLLBACK: {
-      const { area, layer } = action.meta;
+      const { areaId, layerId } = action.payload;
       const { cacheStatus } = state;
-      const updatedCacheStatus = updateCacheAreaStatus(cacheStatus, area);
-      const areaCacheStatus = { ...updatedCacheStatus[area.id], requested: false, error: true };
-      const newCacheStatus = { ...updatedCacheStatus, [area.id]: { ...areaCacheStatus } };
+      const updatedCacheStatus = updateCacheAreaStatus(cacheStatus, areaId);
+      const areaCacheStatus = { ...updatedCacheStatus[areaId], requested: false, error: true };
+      const newCacheStatus = { ...updatedCacheStatus, [areaId]: { ...areaCacheStatus } };
       const pendingCache = {
         ...state.pendingCache,
-        [layer.id]: omit(state.pendingCache[layer.id], [area.id])
+        [layerId]: omit(state.pendingCache[layerId], [areaId])
       };
       const layersProgress = {
         ...state.layersProgress,
-        [area.id]: {
-          ...state.layersProgress[area.id],
-          [layer.id]: 0
+        [areaId]: {
+          ...state.layersProgress[areaId],
+          [layerId]: 0
         }
       };
       return { ...state, pendingCache, cacheStatus: newCacheStatus, layersProgress };
@@ -263,7 +263,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
     case SAVE_AREA_COMMIT: {
       const { cacheStatus } = state;
       const area = action.payload;
-      const newCacheStatus = updateCacheAreaStatus(cacheStatus, area);
+      const newCacheStatus = updateCacheAreaStatus(cacheStatus, area.id);
       return { ...state, cacheStatus: newCacheStatus };
     }
     case IMPORT_LAYER_CLEAR: {
@@ -466,7 +466,10 @@ export function cacheAreaBasemap(areaId: string, basemapId: string) {
         dispatch({ type: CACHE_LAYER_COMMIT, payload: { areaId, layerId: basemapId } });
       }
     };
-    const errorListener = (offlineRegion, err) => console.error('3SC download basemap error: ', err);
+    const errorListener = (offlineRegion, err) => {
+      dispatch({ type: CACHE_LAYER_ROLLBACK, payload: { areaId, layerId: basemapId } });
+      console.error('3SC download basemap error: ', err);
+    };
     const downloadPackOptions = {
       name: `${areaId}|${basemapId}`,
       styleURL: basemapId,
@@ -476,6 +479,7 @@ export function cacheAreaBasemap(areaId: string, basemapId: string) {
     };
 
     try {
+      dispatch({ type: CACHE_LAYER_REQUEST, payload: { areaId, layerId: basemapId } });
       await MapboxGL.offlineManager.createPack(downloadPackOptions, progressListener, errorListener);
     } catch (error) {
       if (error?.message?.startsWith('Offline pack with name')) {
@@ -500,19 +504,9 @@ export function cacheAreaLayer(areaId: string, layerId: string) {
         layerUrl: layer.url
       };
       downloadAllLayers('contextual_layer', downloadConfig, dispatch)
-        .then(path =>
-          dispatch({
-            payload: { path, areaId: area.id, layerId: layer.id },
-            type: CACHE_LAYER_COMMIT
-          })
-        )
-        .catch(() => {
-          dispatch({
-            meta: { area, layer },
-            type: CACHE_LAYER_ROLLBACK
-          });
-        });
-      dispatch({ type: CACHE_LAYER_REQUEST, payload: { area, layer } });
+        .then(path => dispatch({ type: CACHE_LAYER_COMMIT, payload: { path, areaId, layerId } }))
+        .catch(() => dispatch({ type: CACHE_LAYER_ROLLBACK, payload: { areaId, layerId } }));
+      dispatch({ type: CACHE_LAYER_REQUEST, payload: { areaId, layerId } });
     }
   };
 }
@@ -576,7 +570,7 @@ export function cacheLayers() {
 }
 
 function getCacheStatusFromAreas(cacheStatus: LayersCacheStatus = {}, areas = []) {
-  return areas.reduce((acc, next) => updateCacheAreaStatus(acc, next), cacheStatus);
+  return areas.reduce((acc, next) => updateCacheAreaStatus(acc, next.id), cacheStatus);
 }
 
 function updateCacheAreaStatus(cacheStatus: LayersCacheStatus, areaId: string) {

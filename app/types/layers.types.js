@@ -164,15 +164,15 @@ type UpdateProgress = {
 };
 type CacheLayerRequest = {
   type: 'layers/CACHE_LAYER_REQUEST',
-  payload: { area: Area, layer: ContextualLayer }
+  payload: { areaId: string, layerId: string }
 };
 type CacheLayerCommit = {
   type: 'layers/CACHE_LAYER_COMMIT',
-  payload: { areaId: string, layerId: string, path: string }
+  payload: { areaId: string, layerId: string, path?: string }
 };
 type CacheLayerRollback = {
   type: 'layers/CACHE_LAYER_ROLLBACK',
-  meta: { layer: ContextualLayer, area: Area }
+  payload: { areaId: string, layerId: string }
 };
 type DownloadArea = { type: 'layers/DOWNLOAD_AREA', payload: { area: Area, basemaps: Array<Basemap> } };
 type InvalidateCache = { type: 'layers/INVALIDATE_CACHE', payload: string };
