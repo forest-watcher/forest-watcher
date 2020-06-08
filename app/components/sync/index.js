@@ -6,6 +6,7 @@ import i18n from 'i18next';
 import LottieView from 'lottie-react-native';
 import ActionButton from 'components/common/action-button';
 import styles from './styles';
+import MapboxGL from '@react-native-mapbox-gl/maps';
 
 const rangerAnimation = require('assets/animations/ranger.json');
 const loadedAnimation = require('assets/animations/check.json');
@@ -107,6 +108,22 @@ class Sync extends Component<Props> {
     return (
       <View style={[styles.mainContainer, styles.center]}>
         <StatusBar networkActivityIndicatorVisible />
+        {/*
+         * The Mapbox native Android SDK crashes if the following steps are performed:
+         * (i) Install fresh version of app and log into an account with an area
+         * (ii) If running in dev mode, disable Live Reload / Fast Reload (see https://github.com/nitaliano/react-native-mapbox-gl/issues/1016#issuecomment-362048325)
+         * (iii) Download the area offline (which uses Mapbox.OfflineManager)
+         * (iv) Once finished, enable airplane mode, and open the area map. Crash!
+         *
+         * However, if the Mapbox map is viewed at any point before step (iv), then the crash does not occur.
+         * The crash occurs in native Android code so it is not clear exactly why it occurs, but we can avoid the issue
+         * by displaying an invisible dummy "MapView" here on the sync screen. Placing it here ensures that the map
+         * has laoded at least once, and so works around the crash described above.
+         *
+         * This is disgusting but funnily enough we had to do something almost identical for Google Maps in v1. See Git
+         * history for details.
+         */}
+        <MapboxGL.MapView style={styles.map} />
         <LottieView
           style={styles.animation}
           loop={!syncFinished}
