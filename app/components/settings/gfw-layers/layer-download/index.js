@@ -65,7 +65,7 @@ class LayerDownload extends PureComponent<Props, State> {
           alwaysBounceVertical={false}
         >
           <Text style={styles.heading}>{this.props.layer.name}</Text>
-          {!!this.props.layer.description ? (
+          {this.props.layer.description ? (
             <Row
               action={{
                 icon: infoIcon,
