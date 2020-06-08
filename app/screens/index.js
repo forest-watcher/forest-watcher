@@ -44,6 +44,7 @@ import ImportMappingFileError from 'components/settings/mapping-files/import/err
 import EmailLogin from 'containers/login/email-login';
 import ImportSharingBundleStart from 'components/sharing-bundle/import/start';
 import ImportSharingBundleConfirm from 'containers/sharing-bundle/import/confirm';
+import Information from 'components/common/information';
 
 /**
  * Registers a component with React Native Navigation
@@ -112,6 +113,7 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.GFWLayerDownload', GFWContextualLayerDownload, Provider, store);
   registerComponent('ForestWatcher.ImportBundleStart', ImportSharingBundleStart, Provider, store);
   registerComponent('ForestWatcher.ImportBundleConfirm', ImportSharingBundleConfirm, Provider, store);
+  registerComponent('ForestWatcher.Information', Information, Provider, store);
 }
 
 export default registerScreens;
