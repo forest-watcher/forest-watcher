@@ -43,10 +43,7 @@ export default class AreaList extends Component<Props> {
     return (
       <View>
         {areas.map((area, index) => (
-          <View
-            key={`${area.id}-area-list`}
-            style={getRowContainerStyle(index)}
-          >
+          <View key={`${area.id}-area-list`} style={getRowContainerStyle(index)}>
             <VerticalSplitRow
               downloadVisible={false}
               onDownloadPress={() => onAreaDownloadPress?.(area.id, area.name)}
