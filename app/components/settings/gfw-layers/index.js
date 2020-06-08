@@ -1,31 +1,18 @@
 // @flow
 import React, { PureComponent } from 'react';
-import {
-  Image,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Text,
-  TextInput,
-  View,
-  FlatList,
-  Platform
-} from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-
-import ProgressBar from 'react-native-progress/Bar';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 import styles from './styles';
 import i18n from 'i18next';
 import Row from 'components/common/row';
 
-import Theme from 'config/theme';
 import { GFW_CONTEXTUAL_LAYERS } from 'config/constants';
 
-const clearImage = require('assets/clear.png');
-const searchImage = require('assets/search.png');
-
 import type { ContextualLayer } from 'types/layers.types';
+
+import debounceUI from 'helpers/debounceUI';
+const nextIcon = require('assets/next.png');
 
 type Props = {
   componentId: string,
@@ -50,6 +37,17 @@ class GFWLayers extends PureComponent<Props, State> {
     Navigation.events().bindComponent(this);
   }
 
+  onPressLayer = debounceUI((layer: ContextualLayer) => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.GFWLayerDownload',
+        passProps: {
+          layer
+        }
+      }
+    });
+  });
+
   renderHeader = () => {
     return (
       <View style={styles.listHeader}>
@@ -60,9 +58,15 @@ class GFWLayers extends PureComponent<Props, State> {
     );
   };
 
-  renderLayer = ({ item }: { item: GFWContextualLayer }) => {
+  renderLayer = ({ item }: { item: ContextualLayer }) => {
     return (
-      <Row style={styles.row}>
+      <Row
+        action={{
+          callback: this.onPressLayer.bind(this, item),
+          icon: nextIcon
+        }}
+        style={styles.row}
+      >
         <Text style={styles.rowLabel}>{item.name}</Text>
       </Row>
     );
