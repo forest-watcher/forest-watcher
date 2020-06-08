@@ -118,7 +118,7 @@ class Sync extends Component<Props> {
          * However, if the Mapbox map is viewed at any point before step (iv), then the crash does not occur.
          * The crash occurs in native Android code so it is not clear exactly why it occurs, but we can avoid the issue
          * by displaying an invisible dummy "MapView" here on the sync screen. Placing it here ensures that the map
-         * has laoded at least once, and so works around the crash described above.
+         * has loaded at least once, and so works around the crash described above.
          *
          * This is disgusting but funnily enough we had to do something almost identical for Google Maps in v1. See Git
          * history for details.
