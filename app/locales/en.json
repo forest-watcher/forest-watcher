@@ -391,6 +391,7 @@
             "fileImportOptionTitle": "Import Option",
             "title": "Select Contextual Layer Data"
         },
+        "progress": "Step %{current} of %{total}",
         "start": {
             "customImport": "Custom Import",
             "customImportDescription": "Select specific items to import",

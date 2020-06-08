@@ -1,10 +1,11 @@
 // @flow
-import type { ImportBundleRequest, UnpackedSharingBundle } from 'types/sharing.types';
+import type { ImportBundleRequest } from 'types/sharing.types';
+import type { SharingBundleCustomImportFlowState } from 'components/sharing-bundle/import/createCustomImportFlow';
+
 import React, { PureComponent } from 'react';
 import { Text, ScrollView, View } from 'react-native';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 
-import Theme from 'config/theme';
 import i18n from 'i18next';
 import styles from './styles';
 import Row from 'components/common/row';
@@ -14,10 +15,9 @@ import BottomTray from 'components/common/bottom-tray';
 import ActionButton from 'components/common/action-button';
 
 type Props = {
-  bundle: UnpackedSharingBundle,
+  formState: SharingBundleCustomImportFlowState,
   importBundle: () => Promise<void>,
-  importRequest: ImportBundleRequest,
-  stepNumber: ?number
+  importRequest: ImportBundleRequest
 };
 
 type State = {
@@ -48,7 +48,8 @@ export default class ImportSharingBundleConfirmScreen extends PureComponent<Prop
     Navigation.events().bindComponent(this);
 
     this.state = {
-      importError: 'Your device does not have enough space to import this bundle. Please remove items from the device or select fewer import options and try again. ',
+      importError:
+        'Your device does not have enough space to import this bundle. Please remove items from the device or select fewer import options and try again. ',
       isImporting: false
     };
   }
@@ -78,16 +79,20 @@ export default class ImportSharingBundleConfirmScreen extends PureComponent<Prop
   };
 
   render() {
-    const bundleSizeBytes = calculateImportBundleSize(this.props.bundle.data, this.props.importRequest);
+    const bundleSizeBytes = calculateImportBundleSize(this.props.formState.bundle.data, this.props.importRequest);
     const bundleSizeText = formatBytes(bundleSizeBytes);
     return (
       <View style={styles.container}>
         {this.renderContent(bundleSizeText)}
-        <BottomTray
-          showProgressBar={this.state.isImporting}
-          requiresSafeAreaView={true}
-          style={{ flexDirection: 'row', alignSelf: 'stretch', alignItems: 'stretch' }}
-        >
+        <BottomTray showProgressBar={this.state.isImporting} requiresSafeAreaView={true} style={styles.bottomTray}>
+          {this.props.formState.numSteps > 1 && (
+            <Text style={styles.progressText}>
+              {i18n.t('importBundle.progress', {
+                current: this.props.formState.currentStep,
+                total: this.props.formState.numSteps
+              })}
+            </Text>
+          )}
           <ActionButton
             disabled={this.state.isImporting}
             noIcon
