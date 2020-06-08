@@ -35,6 +35,7 @@ type Props = {|
   +setAreaDownloadTooltipSeen: (seen: boolean) => void,
   +setSelectedAreaId: (id: string) => void,
   +showNotConnectedNotification: () => void,
+  +scrollToBottom?: boolean,
   +offlineMode: boolean
 |};
 
@@ -78,6 +79,8 @@ class Areas extends Component<Props, State> {
       selectedForExport: [],
       inShareMode: false
     };
+
+    this.scrollView = null;
   }
 
   componentDidMount() {
@@ -293,6 +296,14 @@ class Areas extends Component<Props, State> {
         >
           {hasAreas ? (
             <ScrollView
+              ref={ref => {
+                this.scrollView = ref;
+              }}
+              onContentSizeChange={() => {
+                if (this.props.scrollToBottom) {
+                  this.scrollView.scrollToEnd();
+                }
+              }}
               onStartShouldSetResponder={event => {
                 // If the user taps ANYWHERE set the area download tooltip as seen
                 event.persist();
