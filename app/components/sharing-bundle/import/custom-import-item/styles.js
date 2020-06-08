@@ -18,7 +18,6 @@ export default StyleSheet.create({
     flex: 1,
     lineHeight: 16,
     paddingTop: 8,
-    paddingBottom: 8,
     ...Theme.tableRowText,
     color: Theme.fontColors.secondary,
     fontSize: 12
