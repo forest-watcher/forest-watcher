@@ -35,7 +35,6 @@ export default class Information extends PureComponent<Props> {
   };
 
   shouldSetResponder = () => {
-    console.log("Should set responder");
     this.dismiss();
     return true;
   };
