@@ -85,8 +85,8 @@ class LayerDownload extends PureComponent<Props, State> {
               position: 'top'
             }}
           >
-            <Text style={styles.rowTitleLabel}>{i18n.t('importLayer.gfw.offlineTitle')}</Text>
-            <Text style={styles.rowSubtitleLabel}>{i18n.t('importLayer.gfw.offlineSubtitle')}</Text>
+            <Text style={styles.rowTitleLabel}>{i18n.t('importLayer.gfw.downloadTitle')}</Text>
+            <Text style={styles.rowSubtitleLabel}>{i18n.t('importLayer.gfw.downloadSubtitle')}</Text>
           </Row>
           <Row
             action={{

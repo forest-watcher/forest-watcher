@@ -400,10 +400,10 @@
         "gfw": {
             "add": "Add Layer",
             "description": "View Description",
-            "offlineTitle": "Online Access Only",
-            "offlineSubtitle": "Layer data will only be available when online",
-            "onlineTitle": "Download",
-            "onlineSubtitle": "Layer data will be downloaded for offline use",
+            "onlineTitle": "Online Access Only",
+            "onlineSubtitle": "Layer data will only be available when online",
+            "downloadTitle": "Download",
+            "downloadSubtitle": "Layer data will be downloaded for offline use",
             "title": "Add GFW Layers",
             "allLayers": "All GFW Layers (%{count})"
         }
