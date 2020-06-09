@@ -28,12 +28,11 @@ export default function createCustomImportFlow(bundle: UnpackedSharingBundle): S
   const hasRoutes = bundle.data.routes.length > 0;
 
   // Next, work out which screens we should show
-  const hasLayers = hasContextualLayers || hasBasemaps;
   const hasAnyRegionItems = hasAreas || hasRoutes;
   const numItemTypes = (hasAreas ? 1 : 0) + (hasReports ? 1 : 0) + (hasRoutes ? 1 : 0);
   const hasAtLeastTwoItemTypes = numItemTypes >= 2;
-  const showItemSelect = (hasAnyRegionItems && hasLayers) || hasAtLeastTwoItemTypes;
-  const showLayerSelect = hasLayers;
+  const showItemSelect = hasAnyRegionItems || hasAtLeastTwoItemTypes;
+  const showLayerSelect = hasContextualLayers;
   const showBasemapSelect = (showItemSelect || showLayerSelect) && hasBasemaps;
 
   const customFlowScreenLayouts: Array<LayoutComponent> = [];

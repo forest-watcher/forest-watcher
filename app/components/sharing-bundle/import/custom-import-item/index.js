@@ -14,7 +14,7 @@ type Props = {
   icon: any,
   iconInactive: any,
   isSelected: boolean,
-  callback: () => any,
+  callback: ?() => any,
   items: Array<string>,
   showItemNames: boolean
 };
