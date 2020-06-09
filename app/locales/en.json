@@ -389,6 +389,9 @@
             "buttonTitle": "Import Data Bundle",
             "title": "Confirm Import"
         },
+        "customItems": {
+            "title": "Select Items To Import"
+        },
         "start": {
             "customImport": "Custom Import",
             "customImportDescription": "Select specific items to import",
@@ -703,9 +706,12 @@
         "one": "Share %{type} (%{bundleSize})",
         "multiple": "Share %{type} (%{bundleSize})",
         "type": {
+            "area": "Area",
             "areas": "Areas",
-            "routes": "Routes",
-            "reports": "Reports"
+            "report": "Report",
+            "reports": "Reports",
+            "route": "Route",
+            "routes": "Routes"
         }
     },
     "sync": {
