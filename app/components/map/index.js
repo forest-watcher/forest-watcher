@@ -123,7 +123,7 @@ type Props = {
   isTracking: boolean,
   onStartTrackingRoute: (location: Location, areaId: string) => void,
   onCancelTrackingRoute: () => void,
-  getActiveBasemap: (?string) => Basemap, // TODO: This shouldn't be a function
+  basemap: Basemap,
   getRoutesById: (routeIds: Array<string>) => Array<Route> // TODO: This shouldn't be a function
 };
 
@@ -965,21 +965,12 @@ class MapComponent extends Component<Props, State> {
 
   render() {
     const { customReporting, userLocation, mapCenterCoords } = this.state;
-    const {
-      isConnected,
-      isOfflineMode,
-      route,
-      coordinatesFormat,
-      getActiveBasemap,
-      layerSettings,
-      featureId
-    } = this.props;
+    const { isConnected, isOfflineMode, route, coordinatesFormat, basemap, layerSettings, featureId } = this.props;
 
     if (!featureId) {
       return null;
     }
 
-    const basemap = getActiveBasemap(featureId);
     const coordinateAndDistanceText = customReporting
       ? getCoordinateAndDistanceText(mapCenterCoords, userLocation, route, coordinatesFormat, this.isRouteTracking())
       : '';
