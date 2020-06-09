@@ -447,6 +447,7 @@
         "twitterTitle": "Twitter",
         "signUp": "Sign Up",
         "unable": "Unable to login",
+        "mustBeOnline": "You must be online to login",
         "emailLogin": {
             "loginWithEmail": "Login With Email",
             "emailAddress": "Email Address",
