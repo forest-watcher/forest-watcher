@@ -389,8 +389,18 @@
             "buttonTitle": "Import Data Bundle",
             "title": "Confirm Import"
         },
+        "customBasemaps": {
+            "title": "Select Basemap Data"
+        },
         "customItems": {
             "title": "Select Items To Import"
+        },
+        "customLayers": {
+            "fileImportOptionAll": "Import All",
+            "fileImportOptionDescription": "Select the data you would like to import",
+            "fileImportOptionSelected": "Import For Selected Items Only",
+            "fileImportOptionTitle": "Import Option",
+            "title": "Select Contextual Layer Data"
         },
         "start": {
             "customImport": "Custom Import",
@@ -708,6 +718,12 @@
         "type": {
             "area": "Area",
             "areas": "Areas",
+            "customBasemap": "Custom Basemap",
+            "customBasemaps": "Custom Basemaps",
+            "customLayer": "Custom Contextual Layer",
+            "customLayers": "Custom Contextual Layers",
+            "gfwLayer": "Global Forest Watch Contextual Layer",
+            "gfwLayers": "Global Forest Watch Contextual Layers",
             "report": "Report",
             "reports": "Reports",
             "route": "Route",

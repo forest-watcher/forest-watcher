@@ -14,6 +14,7 @@ type OwnProps = {||};
 function mapStateToProps(state: State) {
   return {
     description: i18n.t('settings.coordinatesDescription'),
+    hideLabel: true,
     label: i18n.t('settings.coordinatesFormat'),
     selectedValue: state.app.coordinatesFormat,
     options: Object.values(COORDINATES_FORMATS)

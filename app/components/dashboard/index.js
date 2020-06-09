@@ -216,6 +216,9 @@ class Dashboard extends PureComponent<Props> {
           {
             component: {
               name: 'ForestWatcher.ImportBundleStart',
+              options: {
+                modalPresentationStyle: 'overCurrentContext'
+              },
               passProps: {
                 bundlePath
               }
