@@ -503,6 +503,7 @@
             "importedRoutes": "Imported Routes",
             "manageRoutes": "Manage Routes",
             "showing": "Showing: %{description}",
+            "onlyAvailableOnline": "Only Available Online",
             "alertSettings": {
                 "deforestation": "Deforestation",
                 "glad": "GLAD",

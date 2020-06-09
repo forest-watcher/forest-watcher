@@ -33,6 +33,7 @@ type Legend = {
 };
 
 type Props = {
+  disabled?: boolean,
   disableSettingsButton?: ?string | ?boolean,
   disableStyleSettingsButton?: boolean,
   downloadCalloutBody?: ?boolean,
@@ -62,6 +63,7 @@ type Props = {
 
 export default class VerticalSplitRow extends Component<Props> {
   renderIcon = (selected: ?boolean, useRadioIcon: ?boolean, onIconPress: ?() => void) => {
+    const iconStyle = [styles.disclosureIndicator, this.props.disabled ? { opacity: 0.6 } : {}];
     let icon = nextIcon;
     if (selected === false) {
       icon = checkboxOff;
@@ -70,7 +72,7 @@ export default class VerticalSplitRow extends Component<Props> {
     }
 
     if (!onIconPress) {
-      return <Image style={styles.disclosureIndicator} source={icon} />;
+      return <Image style={iconStyle} source={icon} />;
     }
     const Touchable = Platform.select({
       android: TouchableNativeFeedback,
@@ -89,7 +91,7 @@ export default class VerticalSplitRow extends Component<Props> {
         })}
         activeOpacity={0.8}
       >
-        <Image style={styles.disclosureIndicator} source={icon} />
+        <Image style={icon} source={icon} />
       </Touchable>
     );
   };
@@ -100,7 +102,7 @@ export default class VerticalSplitRow extends Component<Props> {
         activeOpacity={0.5}
         disabled={!this.props.onPress && !this.props.onIconPress}
         underlayColor="transparent"
-        onPress={this.props.onPress}
+        onPress={!this.props.disabled && this.props.onPress}
         style={this.props.style}
       >
         <View style={styles.item}>
@@ -109,7 +111,7 @@ export default class VerticalSplitRow extends Component<Props> {
               {this.props.imageSrc !== null ? (
                 <ImageBackground
                   resizeMode={this.props.backgroundImageResizeMode || 'cover'}
-                  style={styles.image}
+                  style={[styles.image, this.props.disabled ? { opacity: 0.6 } : {}]}
                   source={typeof this.props.imageSrc === 'string' ? { uri: this.props.imageSrc } : this.props.imageSrc}
                 >
                   {this.props.renderImageChildren && this.props.renderImageChildren()}
@@ -138,7 +140,7 @@ export default class VerticalSplitRow extends Component<Props> {
               ]}
             >
               <View style={styles.titleContainer}>
-                <Text numberOfLines={2} style={styles.title}>
+                <Text numberOfLines={2} style={[styles.title, this.props.disabled ? { opacity: 0.6 } : {}]}>
                   {this.props.title}
                 </Text>
                 {this.renderIcon(this.props.selected, this.props.useRadioIcon, this.props.onIconPress)}

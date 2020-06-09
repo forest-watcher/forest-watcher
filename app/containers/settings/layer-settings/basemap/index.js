@@ -15,6 +15,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
   return {
     featureId: ownProps.featureId,
     basemaps: state.basemaps,
+    offlineMode: state.app.offlineMode,
     activeBasemapId:
       state.layerSettings?.[ownProps.featureId]?.basemap.activeBasemapId ||
       DEFAULT_LAYER_SETTINGS.basemap.activeBasemapId
