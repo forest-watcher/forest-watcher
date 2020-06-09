@@ -9,7 +9,7 @@ import i18n from 'i18next';
 import styles from './styles';
 import Row from 'components/common/row';
 import { IMPORT_ENTIRE_BUNDLE_REQUEST, unpackBundle } from 'helpers/sharing/importBundle';
-import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
+import {  calculateImportBundleSize } from 'helpers/sharing/calculateBundleSize';
 import { formatBytes } from 'helpers/data';
 
 const nextIcon = require('assets/next.png');
@@ -103,7 +103,7 @@ export default class ImportSharingBundleStartScreen extends PureComponent<Props,
     }
 
     const bundleName = this.props.bundlePath; // TODO: Discussing with James a useful way of naming a bundle
-    const bundleSizeBytes = manifestBundleSize(bundle.data.manifest);
+    const bundleSizeBytes = calculateImportBundleSize(bundle.data, IMPORT_ENTIRE_BUNDLE_REQUEST);
 
     return (
       <ScrollView alwaysBounceVertical={false} style={styles.contentContainer}>

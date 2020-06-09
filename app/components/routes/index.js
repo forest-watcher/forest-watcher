@@ -23,7 +23,7 @@ import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
 import Theme, { isSmallScreen } from 'config/theme';
 
 import exportFileManifest from 'helpers/sharing/exportFileManifest';
-import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
+import calculateBundleSize from 'helpers/sharing/calculateBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
 import { getShareButtonText } from 'helpers/sharing/utils';
 
@@ -87,10 +87,9 @@ export default class Routes extends PureComponent<Props, State> {
     this.setState({
       bundleSize: undefined
     });
-    const manifest = await exportFileManifest({
+    const fileSize = await calculateBundleSize({
       routes: this.props.routes.filter(route => routeIds.includes(route.id))
     });
-    const fileSize = manifestBundleSize(manifest);
     if (this.fetchId === currentFetchId) {
       this.setState({
         bundleSize: fileSize
