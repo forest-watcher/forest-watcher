@@ -11,16 +11,14 @@ import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
 import shareBundle from 'helpers/sharing/shareBundle';
 
 type OwnProps = {|
-  +componentId: string,
-  +scrollToBottom?: boolean
+  +componentId: string
 |};
 
 function mapStateToProps(state: State, props: OwnProps) {
   return {
     areaDownloadTooltipSeen: state.app.areaDownloadTooltipSeen,
     areas: state.areas.data,
-    offlineMode: state.app.offlineMode,
-    scrollToBottom: props.scrollToBottom
+    offlineMode: state.app.offlineMode
   };
 }
 

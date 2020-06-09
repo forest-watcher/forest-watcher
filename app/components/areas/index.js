@@ -77,7 +77,8 @@ class Areas extends Component<Props, State> {
       bundleSize: undefined,
       creatingArchive: false,
       selectedForExport: [],
-      inShareMode: false
+      inShareMode: false,
+      shouldScrollToBottom: props.scrollToBottom
     };
 
     this.scrollView = null;
@@ -300,8 +301,10 @@ class Areas extends Component<Props, State> {
                 this.scrollView = ref;
               }}
               onContentSizeChange={() => {
-                if (this.props.scrollToBottom) {
+                // GFW-579: Scroll to bottom of scrollview once, after new area added.
+                if (this.state.shouldScrollToBottom) {
                   this.scrollView.scrollToEnd();
+                  this.setState({ shouldScrollToBottom: false });
                 }
               }}
               onStartShouldSetResponder={event => {
