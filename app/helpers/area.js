@@ -17,16 +17,3 @@ export function activeDataset(area: Area): ?Dataset {
   const enabledDataset = area.datasets.find(Boolean);
   return enabledDataset;
 }
-
-export function showNoGeostoreIDPrompt() {
-  Alert.alert(
-    i18n.t('routes.downloading.noGeostoreIDError.title'),
-    i18n.t('routes.downloading.noGeostoreIDError.message'),
-    [
-      {
-        text: i18n.t('commonText.cancel'),
-        style: 'cancel'
-      }
-    ]
-  );
-}

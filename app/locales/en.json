@@ -610,12 +610,6 @@
             "hard": "Hard"
         },
         "distance": "Distance",
-        "downloading": {
-            "noGeostoreIDError": {
-                "title": "Some content may not download for this route",
-                "message": "To ensure all content can be downloaded, please add a new area around this route’s path and try again."
-            }
-        },
         "duration": "Time Taken",
         "empty": {
             "action": "App FAQs",

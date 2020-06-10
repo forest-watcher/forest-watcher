@@ -601,7 +601,6 @@ export function cacheLayers(dataType: DownloadDataType, dataId: string, hasGeost
   return (dispatch: Dispatch, state: GetState) => {
     const { pendingCache } = state().layers;
     if (getActionsTodoCount(pendingCache) > 0) {
-      let hasShownNoGeostoreIDPrompt = false;
       Object.keys(pendingCache).forEach(layer => {
         const syncingLayersData = pendingCache[layer];
         const canDispatch = id => typeof syncingLayersData[id] !== 'undefined' && syncingLayersData[id] === false;
@@ -616,11 +615,6 @@ export function cacheLayers(dataType: DownloadDataType, dataId: string, hasGeost
           syncLayersData(id => dispatch(cacheAreaBasemap(dataType, id, layer)));
         } else {
           if (dataType === 'route' && !hasGeostoreId) {
-            if (!hasShownNoGeostoreIDPrompt) {
-              hasShownNoGeostoreIDPrompt = true;
-              showNoGeostoreIDPrompt();
-            }
-
             // Here, we resolve the layer with an empty path.
             // This means that the progress bar will complete, just without requiring all of the files to be present.
             syncLayersData(id => dispatch({ type: CACHE_LAYER_COMMIT, payload: { path: '', dataId, layerId: layer } }));
