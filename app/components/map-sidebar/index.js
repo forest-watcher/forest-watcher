@@ -11,14 +11,13 @@ import debounceUI from 'helpers/debounceUI';
 import { Navigation } from 'react-native-navigation';
 import { withSafeArea } from 'react-native-safe-area';
 import type { Basemap } from 'types/basemaps.types';
-import type { Thunk } from 'types/store.types';
 const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
 
 type Props = {
   componentId: string,
   allLayerSettings: { [featureId: string]: LayerSettings },
   defaultLayerSettings: LayerSettings,
-  getActiveBasemap: (?string) => Thunk<Basemap>,
+  getActiveBasemap: (featureId: string) => Basemap,
   toggleAlertsLayer: string => LayerSettingsAction,
   toggleRoutesLayer: string => LayerSettingsAction,
   toggleReportsLayer: string => LayerSettingsAction,
