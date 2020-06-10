@@ -5,7 +5,7 @@ type LoginMethod = 'email' | 'facebook' | 'twitter' | 'google';
 type MenuButtonType = 'areas' | 'reports' | 'routes' | 'settings';
 type DownloadableContentType = 'basemap' | 'layer';
 type ImportableContentType = 'area' | 'basemap' | 'bundle' | 'layer' | 'report' | 'route';
-type SharableContentType = 'area' | 'bundle' | 'reports' | 'routes';
+type SharableContentType = 'area' | 'bundle' | 'report' | 'route' | 'layer';
 type AlertType = 'glad' | 'viirs' | 'none' | 'glad_viirs';
 type ImportableLayerCategories = 'all' | 'own' | 'imported' | 'none';
 type RoutingAction = 'started' | 'saved' | 'disregardedFromMap' | 'disregardedOnLaunch';
@@ -111,6 +111,9 @@ export const trackDownloadedContent = (contentType: DownloadableContentType, dur
 /// EXPORT
 
 export const trackSharedContent = (contentType: SharableContentType) => {
+  console.warn(`trackSharedContent - ${contentType}`);
+  return;
+  // eslint-disable-next-line no-unreachable
   analytics().logShare({
     content_type: contentType
   });

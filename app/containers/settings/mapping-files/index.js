@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 
 import MappingFiles from 'components/settings/mapping-files';
 
+import { trackSharedContent } from 'helpers/analytics';
 import { deleteLayerFile } from 'helpers/layer-store/deleteLayerFiles';
 import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
 import shareBundle from 'helpers/sharing/shareBundle';
@@ -54,6 +55,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
           layerIds: ids
         })
       );
+      trackSharedContent('layer');
       await shareBundle(outputPath);
     },
     renameMappingFile: async (id: string, type: LayerType, newName: string) => {
