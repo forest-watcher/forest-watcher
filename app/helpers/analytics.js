@@ -121,7 +121,10 @@ export const trackSharedContent = (contentType: SharableContentType) => {
 
 /// MAP LAYERS
 
-export const trackRoutesToggled = (routeTypes: ImportableLayerCategories, routesTotal: number, enabled: boolean) => {
+export const trackRoutesToggled = (routeTypes: 'all' | 'some' | 'none', routesTotal: number, enabled: boolean) => {
+  console.warn(`trackRoutesToggled - ${routeTypes} ${routesTotal} ${enabled}`);
+  return;
+  // eslint-disable-next-line no-unreachable
   analytics().logEvent('routes_toggled', {
     layer_name: routeTypes,
     value: routesTotal,
@@ -149,6 +152,9 @@ export const trackAlertTypeToggled = (alertType: AlertType, timeFrame: number, e
 };
 
 export const trackReportsToggled = (reportType: ImportableLayerCategories, enabled: boolean) => {
+  console.warn(`trackReportsToggled - ${reportType} ${enabled}`);
+  return;
+  // eslint-disable-next-line no-unreachable
   analytics().logEvent('reports_toggled', {
     layer_name: reportType,
     layer_enabled: enabled ? 1 : 0
