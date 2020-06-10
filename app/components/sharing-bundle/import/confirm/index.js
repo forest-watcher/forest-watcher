@@ -14,6 +14,7 @@ import { formatBytes } from 'helpers/data';
 import BottomTray from 'components/common/bottom-tray';
 import ActionButton from 'components/common/action-button';
 import CustomImportItem from 'components/sharing-bundle/import/custom-import-item';
+import summariseBundleContents from 'helpers/sharing/summariseBundleContents';
 
 const basemapsIcon = require('assets/basemap.png');
 const basemapsIconInactive = require('assets/basemapNotActive.png');
@@ -115,11 +116,15 @@ export default class ImportSharingBundleConfirmScreen extends PureComponent<Prop
 
   renderContent = (bundleSize: string): any => {
     const bundleName = 'Bundle name'; // TODO: Discussing with James a useful way of naming a bundle
+    const bundleContents = summariseBundleContents(this.props.formState.bundle.data, this.props.importRequest).join(
+      ', '
+    );
     return (
       <ScrollView alwaysBounceVertical={false} style={styles.contentContainer}>
         <Text style={styles.bundleName} numberOfLines={1} ellipsizeMode={'middle'}>
           {bundleName}
         </Text>
+        <Text style={styles.bundleContents}>{`${i18n.t('importBundle.importingPrefix')} ${bundleContents}`}</Text>
         {this.renderImportType(bundleSize)}
         {this.state.importError && <Text style={styles.error}>{this.state.importError}</Text>}
       </ScrollView>
