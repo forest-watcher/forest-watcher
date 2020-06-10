@@ -30,6 +30,9 @@ export const trackLogin = (method: ?LoginMethod) => {
 };
 
 export const trackMenuButtonPress = (menuButton: MenuButtonType) => {
+  console.warn(`trackMenuButtonPress - ${menuButton}`);
+  return;
+
   analytics().logEvent('menu_button_tap', {
     screen_name: menuButton
   });
