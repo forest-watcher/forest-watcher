@@ -317,7 +317,7 @@ class Areas extends Component<Props, State> {
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
             >
-              {this.renderAreaList(areasOwned, i18n.t('areas.myAreas'))}
+              {this.renderAreaList(areasOwned, i18n.t('areas.myAreas'), true)}
               {this.renderAreaList(areasImported, i18n.t('areas.importedAreas'))}
             </ScrollView>
           ) : (
@@ -336,7 +336,7 @@ class Areas extends Component<Props, State> {
     );
   }
 
-  renderAreaList = (areas: Array<Area>, title: string) => {
+  renderAreaList = (areas: Array<Area>, title: string, allowsDownloadTooltip: boolean = false) => {
     if (areas.length === 0) {
       return null;
     }
@@ -346,7 +346,7 @@ class Areas extends Component<Props, State> {
         <Text style={styles.label}>{title}</Text>
         <AreaList
           areas={areas}
-          downloadCalloutVisible={!this.props.areaDownloadTooltipSeen}
+          downloadCalloutVisible={allowsDownloadTooltip && !this.props.areaDownloadTooltipSeen}
           onAreaDownloadPress={(areaId, name) => {
             this.props.setAreaDownloadTooltipSeen(true);
           }}
