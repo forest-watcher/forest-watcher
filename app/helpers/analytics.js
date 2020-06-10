@@ -32,7 +32,7 @@ export const trackLogin = (method: ?LoginMethod) => {
 export const trackMenuButtonPress = (menuButton: MenuButtonType) => {
   console.warn(`trackMenuButtonPress - ${menuButton}`);
   return;
-
+  // eslint-disable-next-line no-unreachable
   analytics().logEvent('menu_button_tap', {
     screen_name: menuButton
   });
