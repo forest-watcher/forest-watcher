@@ -4,12 +4,11 @@ import Theme from 'config/theme';
 
 /**
   Presents the information screen modally with default animation
-  @param {string} componentId - The component ID to present the modal from
   @param {Object} passProps - The props to pass into the information screen
   @param {string} passProps.title - The title to display on the screen
   @param {string} passProps.body - The body to display in the screen
  */
-export function presentInformationModal(componentId: string, passProps: { title: string, body: string }) {
+export function presentInformationModal(passProps: { title: string, body: string }) {
   Navigation.showModal({
     stack: {
       children: [
