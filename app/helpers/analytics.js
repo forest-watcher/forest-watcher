@@ -15,9 +15,12 @@ type ReportingSource = 'singleAlert' | 'alertGroup' | 'custom' | 'customWhileRou
 
 /// MISC
 
-export const trackLogin = (method: LoginMethod) => {
+export const trackLogin = (method: ?LoginMethod) => {
+  console.warn(`trackLogin - ${method}`);
+  return;
+
   analytics().logLogin({
-    method: method
+    method: method ?? 'unknown'
   });
 };
 
