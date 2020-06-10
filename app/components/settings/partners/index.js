@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { View, ScrollView, Text, Linking } from 'react-native';
-import tracker from 'helpers/googleAnalytics';
+import { trackScreenView } from 'helpers/analytics';
 
 import i18n from 'i18next';
 import List from 'components/common/list';
@@ -63,7 +63,7 @@ class Partners extends Component {
   }
 
   componentDidMount() {
-    tracker.trackScreenView('Partners');
+    trackScreenView('Partners');
   }
 
   handleLink = url => {

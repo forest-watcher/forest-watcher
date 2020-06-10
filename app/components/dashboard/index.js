@@ -8,7 +8,7 @@ import { Navigation } from 'react-native-navigation';
 
 import Row from 'components/common/row';
 import debounceUI from 'helpers/debounceUI';
-import tracker from 'helpers/googleAnalytics';
+import { trackScreenView } from 'helpers/analytics';
 import i18n from 'i18next';
 import styles from './styles';
 import Theme from 'config/theme';
@@ -89,7 +89,7 @@ class Dashboard extends PureComponent<Props> {
   }
 
   async componentDidMount() {
-    tracker.trackScreenView('Home - Dashboard');
+    trackScreenView('Home - Dashboard');
     this.checkNeedsUpdate();
     if (this.props.refreshing && !this.props.appSyncing) {
       this.props.setAreasRefreshing(false);
@@ -112,7 +112,7 @@ class Dashboard extends PureComponent<Props> {
 
     const deepLink: ?string = await Linking.getInitialURL();
     if (deepLink) {
-        this.launchImportBundleModal(deepLink);
+      this.launchImportBundleModal(deepLink);
     }
 
     // This is called both here and componentDidAppear because componentDidAppear isn't called when setting

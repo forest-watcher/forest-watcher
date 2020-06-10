@@ -9,6 +9,7 @@ import ActionButton from 'components/common/action-button';
 import Callout from 'components/common/callout';
 import Theme from 'config/theme';
 import i18n from 'i18next';
+import { trackScreenView } from 'helpers/analytics';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
@@ -47,7 +48,7 @@ class SetupCountry extends Component {
 
   componentDidMount() {
     tracker.trackAreaCreationFlowStartedEvent();
-    tracker.trackScreenView('Set Up - Select Country');
+    trackScreenView('Set Up - Select Country');
   }
 
   navigationButtonPressed({ buttonId }) {

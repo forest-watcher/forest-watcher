@@ -31,6 +31,9 @@ export const trackMenuButtonPress = (menuButton: MenuButtonType) => {
 };
 
 export const trackScreenView = (screenName: string) => {
+  console.warn(`trackScreenView - ${screenName}`);
+  return;
+
   analytics().setCurrentScreen(screenName, screenName);
 };
 

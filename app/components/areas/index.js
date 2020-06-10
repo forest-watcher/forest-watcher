@@ -10,7 +10,7 @@ import debounceUI from 'helpers/debounceUI';
 
 import i18n from 'i18next';
 import _ from 'lodash';
-import tracker from 'helpers/googleAnalytics';
+import { trackScreenView } from 'helpers/analytics';
 import styles from './styles';
 
 import EmptyState from 'components/common/empty-state';
@@ -81,7 +81,7 @@ class Areas extends Component<Props, State> {
   }
 
   componentDidMount() {
-    tracker.trackScreenView('Areas');
+    trackScreenView('Areas');
   }
 
   navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {

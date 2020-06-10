@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import Hyperlink from 'react-native-hyperlink';
 import { View, Text } from 'react-native';
-import tracker from 'helpers/googleAnalytics';
+import { trackScreenView } from 'helpers/analytics';
 
 import i18n from 'i18next';
 import Theme from 'config/theme';
@@ -20,7 +20,7 @@ class ContactUs extends Component<{}> {
     };
   }
   componentDidMount() {
-    tracker.trackScreenView('ContactUs');
+    trackScreenView('ContactUs');
   }
 
   render() {

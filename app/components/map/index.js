@@ -36,7 +36,7 @@ import BottomDialog from 'components/map/bottom-dialog';
 import LocationErrorBanner from 'components/map/locationErrorBanner';
 import { formatCoordsByFormat, getPolygonBoundingBox, closestFeature } from 'helpers/map';
 import debounceUI from 'helpers/debounceUI';
-import tracker from 'helpers/googleAnalytics';
+import { trackScreenView } from 'helpers/analytics';
 import Theme from 'config/theme';
 import i18n from 'i18next';
 import styles, { mapboxStyles } from './styles';
@@ -243,7 +243,7 @@ class MapComponent extends Component<Props, State> {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     AppState.addEventListener('change', this.handleAppStateChange);
 
-    tracker.trackScreenView('Map');
+    trackScreenView('Map');
 
     emitter.on(GFWOnHeadingEvent, this.updateHeading);
     emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);

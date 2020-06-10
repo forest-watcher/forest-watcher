@@ -8,7 +8,7 @@ import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
 import i18n from 'i18next';
 import debounceUI from 'helpers/debounceUI';
-import tracker from 'helpers/googleAnalytics';
+import { trackScreenView } from 'helpers/analytics';
 import styles from './styles';
 
 const editImage = require('assets/edit.png');
@@ -32,7 +32,7 @@ class SetupOverview extends Component {
   }
 
   componentDidMount() {
-    tracker.trackScreenView('Overview Set Up');
+    trackScreenView('Overview Set Up');
   }
 
   onNextPress = debounceUI(async () => {

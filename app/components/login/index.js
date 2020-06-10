@@ -111,7 +111,7 @@ class Login extends PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    tracker.trackScreenView('Login');
+    trackScreenView('Login');
 
     // Determine the current insets. This is so, for the page indictator view,
     // we can add additional padding to ensure the white background is extended

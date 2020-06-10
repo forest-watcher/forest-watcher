@@ -61,8 +61,5 @@ export default {
       [PREDEFINED_PARAM_SUCCESS]: reportOutcome !== REPORT_OUTCOME_CANCELLED,
       [PARAM_REPORT_OUTCOME]: reportOutcome
     });
-  },
-  trackScreenView: screenName => {
-    analytics().setCurrentScreen(screenName, screenName);
   }
 };

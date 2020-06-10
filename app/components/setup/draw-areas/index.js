@@ -9,7 +9,7 @@ import { lineString, point, polygon } from '@turf/helpers';
 import ActionButton from 'components/common/action-button';
 import Theme from 'config/theme';
 import i18n from 'i18next';
-import tracker from 'helpers/googleAnalytics';
+import { trackScreenView } from 'helpers/analytics';
 import styles, { mapboxStyles } from './styles';
 import { coordsArrayToObject } from 'helpers/location';
 import MapboxGL from '@react-native-mapbox-gl/maps';
@@ -37,7 +37,7 @@ class DrawAreas extends Component {
   }
 
   componentDidMount() {
-    tracker.trackScreenView('Draw Areas');
+    trackScreenView('Draw Areas');
   }
 
   onRegionDidChange = async () => {
