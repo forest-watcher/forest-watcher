@@ -154,7 +154,7 @@ export default class ShareSelector extends Component<Props, State> {
                 disabled={this.props.disabled || isSharing || (!this.props.enabled && sharing)}
                 noIcon
                 onPress={this.props.disabled ? null : sharing ? this.props.onShare : this.onClickShare}
-                secondary={!sharing}
+                secondary={!sharing && !this.props.disabled}
                 text={
                   isSharing
                     ? this.props.shareButtonInProgressTitle

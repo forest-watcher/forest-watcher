@@ -10,7 +10,7 @@ index d965c54..9985d5a 100644
 +    implementation "net.lingala.zip4j:zip4j:2.5.2"
  }
 diff --git a/node_modules/react-native-zip-archive/android/src/main/java/com/rnziparchive/RNZipArchiveModule.java b/node_modules/react-native-zip-archive/android/src/main/java/com/rnziparchive/RNZipArchiveModule.java
-index 9571199..90db829 100644
+index 9571199..af65512 100644
 --- a/node_modules/react-native-zip-archive/android/src/main/java/com/rnziparchive/RNZipArchiveModule.java
 +++ b/node_modules/react-native-zip-archive/android/src/main/java/com/rnziparchive/RNZipArchiveModule.java
 @@ -1,9 +1,9 @@
@@ -84,7 +84,7 @@ index 9571199..90db829 100644
 +    InputStream inputStream = null;
 +    try {
 +      Uri uri = Uri.parse(zipFilePath);
-+      switch (uri.getScheme())
++      switch (uri.getScheme() == null ? "file" : uri.getScheme())
 +      {
 +        case "file": {
 +          inputStream = new FileInputStream(zipFilePath);

@@ -1,5 +1,4 @@
 // @flow
-import type { Basemap } from 'types/basemaps.types';
 import type { File } from 'types/file.types';
 import type { LayerFile } from 'types/sharing.types';
 import { Platform } from 'react-native';
@@ -108,7 +107,7 @@ export async function importLayerFile(layerFile: File): Promise<LayerFile> {
   }
 }
 
-function getFormattedFile(layerFile: File) {
+export function getFormattedFile(layerFile: File) {
   // We have to decode the file URI because iOS file manager doesn't like encoded uris!
   const file = {
     ...layerFile,
