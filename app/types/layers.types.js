@@ -2,7 +2,7 @@
 
 import type { OfflineMeta } from 'types/offline.types';
 import type { DeleteAreaCommit, SaveAreaCommit, Area } from 'types/areas.types';
-import type { Route } from 'types/routes.types';
+import type { Basemap } from 'types/basemaps.types';
 
 export type VectorMapLayer = {
   filter?: ?*,
@@ -76,7 +76,7 @@ export type LayersAction =
   | CacheLayerRequest
   | CacheLayerCommit
   | CacheLayerRollback
-  | DownloadArea
+  | DownloadData
   | InvalidateCache
   | SetCacheStatus
   | DeleteAreaCommit
@@ -109,18 +109,17 @@ type UpdateProgress = {
 };
 type CacheLayerRequest = {
   type: 'layers/CACHE_LAYER_REQUEST',
-  payload: { data: Area | Route, layer: ContextualLayer }
+  payload: { dataId: string, layerId: string }
 };
 type CacheLayerCommit = {
   type: 'layers/CACHE_LAYER_COMMIT',
-  payload: string,
-  meta: { data: Area | Route, layer: ContextualLayer }
+  payload: { dataId: string, layerId: string, path?: string }
 };
 type CacheLayerRollback = {
   type: 'layers/CACHE_LAYER_ROLLBACK',
-  meta: { data: Area | Route, layer: ContextualLayer }
+  payload: { dataId: string, layerId: string }
 };
-type DownloadArea = { type: 'layers/DOWNLOAD_DATA', payload: string };
+type DownloadData = { type: 'layers/DOWNLOAD_DATA', payload: { dataId: string, basemaps: Array<Basemap> } };
 type InvalidateCache = { type: 'layers/INVALIDATE_CACHE', payload: string };
 type SetCacheStatus = {
   type: 'layers/SET_CACHE_STATUS',
