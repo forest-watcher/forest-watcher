@@ -1,6 +1,7 @@
 import { Platform, UIManager, StatusBar } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import App from './app/main';
+import { disableAnalytics } from 'helpers/analytics';
 
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
@@ -10,8 +11,10 @@ if (Platform.OS === 'android') {
 }
 
 if (Platform.OS === 'ios') {
-	StatusBar.setBarStyle('dark-content');
+  StatusBar.setBarStyle('dark-content');
 }
+
+disableAnalytics(__DEV__);
 
 const app = new App();
 

@@ -15,6 +15,10 @@ type ReportingSource = 'singleAlert' | 'alertGroup' | 'custom' | 'customWhileRou
 
 /// MISC
 
+export const disableAnalytics = (disabled: boolean) => {
+  analytics().setAnalyticsCollectionEnabled(!disabled);
+};
+
 export const trackLogin = (method: ?LoginMethod) => {
   console.warn(`trackLogin - ${method}`);
   return;
