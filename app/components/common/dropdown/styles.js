@@ -44,7 +44,8 @@ export default StyleSheet.create({
   },
   optionRowContainer: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    flex: 1
   },
   pickerHeader: {
     alignItems: 'center',

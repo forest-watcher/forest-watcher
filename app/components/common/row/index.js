@@ -24,6 +24,7 @@ function Row(props) {
       })}
       underlayColor="transparent"
       onPress={onPress}
+      disabled={!onPress}
     >
       <View style={[styles.row, props.rowStyle]}>
         <View style={props.style}>{props.children}</View>

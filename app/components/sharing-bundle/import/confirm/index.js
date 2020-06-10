@@ -8,7 +8,7 @@ import Theme from 'config/theme';
 import i18n from 'i18next';
 import styles from './styles';
 import Row from 'components/common/row';
-import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
+import { calculateImportBundleSize } from 'helpers/sharing/calculateBundleSize';
 import { formatBytes } from 'helpers/data';
 import BottomTray from 'components/common/bottom-tray';
 import ActionButton from 'components/common/action-button';
@@ -48,7 +48,8 @@ export default class ImportSharingBundleConfirmScreen extends PureComponent<Prop
     Navigation.events().bindComponent(this);
 
     this.state = {
-      importError: 'Your device does not have enough space to import this bundle. Please remove items from the device or select fewer import options and try again. ',
+      importError:
+        'Your device does not have enough space to import this bundle. Please remove items from the device or select fewer import options and try again. ',
       isImporting: false
     };
   }
@@ -78,7 +79,7 @@ export default class ImportSharingBundleConfirmScreen extends PureComponent<Prop
   };
 
   render() {
-    const bundleSizeBytes = manifestBundleSize(this.props.bundle.data.manifest);
+    const bundleSizeBytes = calculateImportBundleSize(this.props.bundle.data, this.props.importRequest);
     const bundleSizeText = formatBytes(bundleSizeBytes);
     return (
       <View style={styles.container}>
@@ -102,7 +103,6 @@ export default class ImportSharingBundleConfirmScreen extends PureComponent<Prop
 
   renderContent = (bundleSize: string): any => {
     const bundleName = 'Bundle name'; // TODO: Discussing with James a useful way of naming a bundle
-
     return (
       <ScrollView alwaysBounceVertical={false} style={styles.contentContainer}>
         <Text style={styles.bundleName} numberOfLines={1} ellipsizeMode={'middle'}>

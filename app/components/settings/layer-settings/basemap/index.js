@@ -75,7 +75,7 @@ class BasemapLayerSettings extends PureComponent<Props> {
             );
           })}
           {this.props.basemaps.importedBasemaps.length > 0 && (
-            <Text style={styles.heading}>{i18n.t('map.layerSettings.importedBasemaps')}</Text>
+            <Text style={styles.heading}>{i18n.t('map.layerSettings.customBasemaps')}</Text>
           )}
           {this.props.basemaps.importedBasemaps.map(basemap => {
             return (
@@ -87,7 +87,7 @@ class BasemapLayerSettings extends PureComponent<Props> {
                 }}
                 title={basemap.name}
                 selected={this.props.activeBasemapId === basemap.id}
-                hideImage
+                imageSrc={basemapPlaceholder}
                 useRadioIcon
               />
             );

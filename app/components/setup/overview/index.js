@@ -55,7 +55,10 @@ class SetupOverview extends Component {
 
     Navigation.push('ForestWatcher.Dashboard', {
       component: {
-        name: 'ForestWatcher.Areas'
+        name: 'ForestWatcher.Areas',
+        passProps: {
+          scrollToBottom: true
+        }
       }
     });
   });
