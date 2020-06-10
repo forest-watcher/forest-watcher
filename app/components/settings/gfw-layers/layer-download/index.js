@@ -12,13 +12,17 @@ import styles from './styles';
 import debounceUI from 'helpers/debounceUI';
 import { presentInformationModal } from 'screens/common';
 
+import { Navigation } from 'react-native-navigation';
+
 const infoIcon = require('assets/info.png');
 const checkboxOnIcon = require('assets/radio_button.png');
 const checkboxOffIcon = require('assets/checkbox_off.png');
 
 type Props = {
+  addLayer: (layer: ContextualLayer) => void,
   componentId: string,
-  layer: ContextualLayer
+  layer: ContextualLayer,
+  popToComponentId: string
 };
 
 type State = {
@@ -33,10 +37,17 @@ class LayerDownload extends PureComponent<Props, State> {
     };
   }
 
-  onPressAdd = () => {};
+  onPressAdd = () => {
+    this.props.addLayer(this.props.layer);
+    if (this.props.popToComponentId) {
+      Navigation.popTo(this.props.popToComponentId);
+    } else {
+      Navigation.pop(this.props.componentId);
+    }
+  };
 
   onPressViewDescription = debounceUI(() => {
-    presentInformationModal(this.props.componentId, {
+    presentInformationModal({
       title: this.props.layer.name,
       body: this.props.layer.description
     });

@@ -99,7 +99,10 @@ class ImportMappingFileType extends PureComponent<Props, State> {
     }
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'ForestWatcher.GFWLayers'
+        name: 'ForestWatcher.GFWLayers',
+        passProps: {
+          popToComponentId: this.props.popToComponentId
+        }
       }
     });
   });
