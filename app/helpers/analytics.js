@@ -50,12 +50,16 @@ export const trackScreenView = (screenName: string) => {
 export const trackAreaCreationFlowStarted = () => {
   console.warn(`trackAreaCreationFlowStarted`);
   return;
+  // eslint-disable-next-line no-unreachable
   analytics().logLevelStart({
     level_name: 'area_create'
   });
 };
 
 export const trackAreaCreationFlowEnded = (areaSize: number) => {
+  console.warn(`trackAreaCreationFlowEnded`);
+  return;
+  // eslint-disable-next-line no-unreachable
   analytics().logLevelEnd({
     level_name: 'area_create',
     value: areaSize // TODO: Check with Sophia to see if we can infer `user creates area bigger than previous limit` from this param.
