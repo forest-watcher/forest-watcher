@@ -19,6 +19,7 @@ export const trackLogin = (method: ?LoginMethod) => {
   console.warn(`trackLogin - ${method}`);
   return;
 
+  // eslint-disable-next-line no-unreachable
   analytics().logLogin({
     method: method ?? 'unknown'
   });
@@ -33,7 +34,7 @@ export const trackMenuButtonPress = (menuButton: MenuButtonType) => {
 export const trackScreenView = (screenName: string) => {
   console.warn(`trackScreenView - ${screenName}`);
   return;
-
+  // eslint-disable-next-line no-unreachable
   analytics().setCurrentScreen(screenName, screenName);
 };
 

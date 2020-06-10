@@ -9,6 +9,7 @@ import ActionButton from 'components/common/action-button';
 import i18n from 'i18next';
 import debounceUI from 'helpers/debounceUI';
 import { trackScreenView } from 'helpers/analytics';
+import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 
 const editImage = require('assets/edit.png');
