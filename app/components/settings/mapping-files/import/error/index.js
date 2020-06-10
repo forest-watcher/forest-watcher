@@ -8,13 +8,18 @@ import styles from './styles';
 import ActionButton from 'components/common/action-button';
 import { withSafeArea } from 'react-native-safe-area';
 import { ACCEPTED_FILE_TYPES_CONTEXTUAL_LAYERS, ACCEPTED_FILE_TYPES_BASEMAPS } from 'config/constants';
+import type { File } from 'types/file.types';
+import { formatBytes } from 'helpers/data';
 const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
 
 const fileIcon = require('assets/fileIcon.png');
 
+export type ImportError = 'fileSize' | 'fileFormat' | 'vectorTiles';
+
 type Props = {
   componentId: string,
-  fileName: string,
+  error: ImportError,
+  file: File,
   mappingFileType: LayerType,
   onRetry: () => {}
 };
@@ -24,7 +29,10 @@ export default class ImportMappingFileError extends Component<Props> {
     return {
       topBar: {
         drawBehind: true,
-        visible: false
+        visible: false,
+        background: {
+          color: 'transparent'
+        }
       }
     };
   }
@@ -40,16 +48,62 @@ export default class ImportMappingFileError extends Component<Props> {
       : ACCEPTED_FILE_TYPES_BASEMAPS;
   };
 
-  renderFileTypeComponent = (fileType: string) => {
+  renderFileTypeComponent = (fileType: string, error: ImportError) => {
+    const text = error === 'vectorTiles' && fileType === 'mbtiles' ? `mbtiles*` : fileType;
+
     return (
       <View style={styles.fileTypeContainer}>
         <Image source={fileIcon} />
-        <Text style={styles.fileTypeText} key={fileType}>
-          .{fileType}
+        <Text style={styles.fileTypeText} key={text}>
+          .{text}
         </Text>
       </View>
     );
   };
+
+  /**
+    Returns the title to display based on the error type 
+  */
+  getDescription() {
+    let descriptionKey;
+    switch (this.props.error) {
+      case 'fileFormat':
+        descriptionKey = 'fileTypeNotSupportedDesc';
+        break;
+      case 'fileSize':
+        descriptionKey = 'fileSizeTooLargeDesc';
+        break;
+      case 'vectorTiles':
+        descriptionKey = 'fileContainsVectorTiles';
+        break;
+      default:
+        descriptionKey = 'fileTypeNotSupportedDesc';
+        break;
+    }
+    return i18n.t(this.i18nKeyFor(descriptionKey));
+  }
+
+  /**
+    Returns the title to display based on the error type 
+  */
+  getTitle() {
+    let titleKey;
+    switch (this.props.error) {
+      case 'fileFormat':
+        titleKey = 'fileTypeNotSupported';
+        break;
+      case 'fileSize':
+        titleKey = 'fileSizeTooLarge';
+        break;
+      case 'vectorTiles':
+        titleKey = 'vectorTilesNotSupported';
+        break;
+      default:
+        titleKey = 'fileTypeNotSupported';
+        break;
+    }
+    return i18n.t(this.i18nKeyFor(titleKey));
+  }
 
   onPressChooseAnother = async () => {
     await Navigation.dismissModal(this.props.componentId);
@@ -61,20 +115,29 @@ export default class ImportMappingFileError extends Component<Props> {
   };
 
   render() {
+    const { error, file } = this.props;
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.contentContainer}>
-          <Text style={styles.titleText}>{i18n.t(this.i18nKeyFor('fileTypeNotSupported'))}</Text>
+          <Text style={styles.titleText}>{this.getTitle()}</Text>
           <Text style={styles.fileName}>
             {"'"}
-            {this.props.fileName}
+            {file.name}
             {"'"}
+            {error === 'fileSize' && ` (${formatBytes(file.size)})`}
           </Text>
-          <Text style={styles.description}>{i18n.t(this.i18nKeyFor('fileTypeNotSupportedDesc'))}</Text>
-          <Text style={styles.fileTypesDescription}>{i18n.t(this.i18nKeyFor('supportedFileTypesInclude'))}</Text>
-          <View style={styles.acceptedFileTypes}>
-            {this.acceptedFileTypes().map(fileType => this.renderFileTypeComponent(fileType))}
-          </View>
+          <Text style={styles.description}>{this.getDescription()}</Text>
+          {error !== 'fileSize' && (
+            <React.Fragment>
+              <Text style={styles.fileTypesDescription}>{i18n.t(this.i18nKeyFor('supportedFileTypesInclude'))}</Text>
+              <View style={styles.acceptedFileTypes}>
+                {this.acceptedFileTypes().map(fileType => this.renderFileTypeComponent(fileType, error))}
+              </View>
+              {error === 'vectorTiles' && (
+                <Text style={styles.fileTypesDescription}>{i18n.t(this.i18nKeyFor('cannotContainVectorTiles'))}</Text>
+              )}
+            </React.Fragment>
+          )}
           <ActionButton
             onPress={this.onPressChooseAnother}
             secondary

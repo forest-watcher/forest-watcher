@@ -1,8 +1,6 @@
 // @flow
-import type { AppAction } from 'types/app.types';
-import type { Thunk } from 'types/store.types';
 import React, { Component } from 'react';
-import { View, Text, TouchableHighlight, ScrollView, Image, Alert } from 'react-native';
+import { ActivityIndicator, View, Text, TouchableHighlight, ScrollView, Image, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import Hyperlink from 'react-native-hyperlink';
 
@@ -35,6 +33,7 @@ type Props = {
 };
 
 type State = {
+  isExportInProgress: boolean,
   versionName: string
 };
 
@@ -111,6 +110,7 @@ export default class Settings extends Component<Props, State> {
     };
 
     this.state = {
+      isExportInProgress: false,
       versionName: getVersionName()
     };
   }
@@ -138,8 +138,16 @@ export default class Settings extends Component<Props, State> {
   });
 
   onPressShare = async () => {
-    // TODO: Progress
-    await this.props.shareAppData();
+    try {
+      this.setState({
+        isExportInProgress: true
+      });
+      await this.props.shareAppData();
+    } finally {
+      this.setState({
+        isExportInProgress: false
+      });
+    }
   };
 
   componentDidMount() {
@@ -232,9 +240,14 @@ export default class Settings extends Component<Props, State> {
             <Image style={styles.rowIcon} source={layersIcon} />
             <Text style={styles.rowLabel}>{i18n.t('settings.contextualLayers')}</Text>
           </Row>
-          <Row action={this.shareAction} rowStyle={styles.noMarginsRow} style={styles.row}>
+          <Row
+            action={this.state.isExportInProgress ? null : this.shareAction}
+            rowStyle={styles.noMarginsRow}
+            style={styles.row}
+          >
             <Image style={styles.rowIcon} source={shareIcon} />
             <Text style={styles.rowLabel}>{i18n.t('settings.shareData')}</Text>
+            {this.state.isExportInProgress && <ActivityIndicator color={Theme.colors.turtleGreen} size={'large'} />}
           </Row>
           <View style={styles.aboutSection}>
             <Text style={styles.label}>{i18n.t('settings.aboutApp')}</Text>
