@@ -10,6 +10,7 @@ import type { BBox2d } from '@turf/helpers';
 import Config from 'react-native-config';
 import omit from 'lodash/omit';
 import CONSTANTS, { GFW_BASEMAPS } from 'config/constants';
+import { showNoGeostoreIDPrompt } from 'helpers/area';
 import { bboxForRoute } from 'helpers/bbox';
 import { getActionsTodoCount } from 'helpers/sync';
 
@@ -556,7 +557,7 @@ export function downloadAreaById(areaId: string) {
           basemaps
         }
       });
-      dispatch(cacheLayers('area'));
+      dispatch(cacheLayers('area', area.id));
     }
   };
 }
@@ -565,7 +566,7 @@ export function downloadRouteById(routeId: string) {
   return (dispatch: Dispatch, state: GetState) => {
     const route: ?Route = state().routes.previousRoutes?.find(route => route.id === routeId);
 
-    if (!route || !route.geostoreId) {
+    if (!route) {
       console.warn('3SC - Cannot download route as either it does not exist, or the geostore ID is missing.');
       return;
     }
@@ -580,7 +581,7 @@ export function downloadRouteById(routeId: string) {
         basemaps
       }
     });
-    dispatch(cacheLayers('route'));
+    dispatch(cacheLayers('route', route.id, !!route.geostoreId));
   };
 }
 
@@ -596,10 +597,11 @@ export function refreshCacheById(id: string, type: DownloadDataType) {
   };
 }
 
-export function cacheLayers(dataType: DownloadDataType) {
+export function cacheLayers(dataType: DownloadDataType, dataId: string, hasGeostoreId: boolean = true) {
   return (dispatch: Dispatch, state: GetState) => {
     const { pendingCache } = state().layers;
     if (getActionsTodoCount(pendingCache) > 0) {
+      let hasShownNoGeostoreIDPrompt = false;
       Object.keys(pendingCache).forEach(layer => {
         const syncingLayersData = pendingCache[layer];
         const canDispatch = id => typeof syncingLayersData[id] !== 'undefined' && syncingLayersData[id] === false;
@@ -613,6 +615,18 @@ export function cacheLayers(dataType: DownloadDataType) {
         if (layer.startsWith('mapbox://')) {
           syncLayersData(id => dispatch(cacheAreaBasemap(dataType, id, layer)));
         } else {
+          if (dataType === 'route' && !hasGeostoreId) {
+            if (!hasShownNoGeostoreIDPrompt) {
+              hasShownNoGeostoreIDPrompt = true;
+              showNoGeostoreIDPrompt();
+            }
+
+            // Here, we resolve the layer with an empty path.
+            // This means that the progress bar will complete, just without requiring all of the files to be present.
+            syncLayersData(id => dispatch({ type: CACHE_LAYER_COMMIT, payload: { path: '', dataId, layerId: layer } }));
+
+            return;
+          }
           syncLayersData(id => dispatch(cacheAreaLayer(dataType, id, layer)));
         }
       });
