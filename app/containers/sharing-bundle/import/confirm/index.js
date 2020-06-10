@@ -26,16 +26,8 @@ function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
       const bundle = ownProps.formState.bundle;
       await importStagedBundle(bundle, ownProps.importRequest, dispatch);
 
-      let summary = "";
-
-      try {
-        const summaryParts = summariseBundleContents(bundle.data, ownProps.importRequest);
-        summary = summaryParts.join(", ");
-      } catch (err) {
-        // ignore
-        Sentry.logException(err);
-      }
-
+      const summaryParts = summariseBundleContents(bundle.data, ownProps.importRequest);
+      const summary = summaryParts.join(', ');
       dispatch({
         type: SHARING_BUNDLE_IMPORTED,
         payload: {
