@@ -9,6 +9,7 @@ import { unzip } from 'react-native-zip-archive';
 import { listRecursive, readBinaryFile } from 'helpers/fileManagement';
 import shapefile from 'shpjs';
 import { feature, featureCollection } from '@turf/helpers';
+import { trackImportedContent } from 'helpers/analytics';
 
 const DOMParser = require('xmldom').DOMParser;
 const RNFS = require('react-native-fs');
@@ -29,6 +30,8 @@ export async function importLayerFile(layerFile: File): Promise<LayerFile> {
       await RNFS.mkdir(baseDirectory);
       await RNFS.copyFile(file.uri, path);
 
+      trackImportedContent('basemap', fileExtension, true, size);
+
       return { path: path, type: 'basemap', layerId: file.id, tileXYZ: [0, 0, 0], size };
     }
     case 'json':
@@ -42,12 +45,20 @@ export async function importLayerFile(layerFile: File): Promise<LayerFile> {
         geojson = togeojson.topojson(geojson);
       }
 
-      return await storeGeoJson(file.id, geojson);
+      const importedFile = await storeGeoJson(file.id, geojson);
+
+      trackImportedContent('layer', fileExtension, true, importedFile.size);
+
+      return importedFile;
     }
     case 'kml':
     case 'gpx': {
       const geoJSON = await convertToGeoJSON(file.uri, fileExtension);
-      return await storeGeoJson(file.id, geoJSON);
+      const importedFile = await storeGeoJson(file.id, geoJSON);
+
+      trackImportedContent('layer', fileExtension, true, importedFile.size);
+
+      return importedFile;
     }
     case 'kmz': {
       const tempZipPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '.zip');
@@ -59,10 +70,16 @@ export async function importLayerFile(layerFile: File): Promise<LayerFile> {
         const files = await listRecursive(location);
         const mainFile = files.find(file => file.endsWith('.kml'));
         if (!mainFile) {
+          trackImportedContent('layer', fileExtension, false);
           throw new Error('Invalid KMZ bundle, missing a root .kml file');
         }
         const geoJSON = await convertToGeoJSON(mainFile, 'kml');
-        return await storeGeoJson(file.id, geoJSON);
+
+        const importedFile = await storeGeoJson(file.id, geoJSON);
+
+        trackImportedContent('layer', fileExtension, true, importedFile.size);
+
+        return importedFile;
       } finally {
         RNFS.unlink(tempZipPath);
         RNFS.unlink(tempPath);
@@ -85,6 +102,7 @@ export async function importLayerFile(layerFile: File): Promise<LayerFile> {
         const shapeFilePath = shapeFileContents.find(path => path.endsWith('.shp'));
 
         if (!shapeFilePath) {
+          trackImportedContent('layer', fileExtension, false);
           throw new Error('Zip file does not contain a file with extension .shp');
         }
         const shapeFileData = await readBinaryFile(shapeFilePath);
@@ -95,7 +113,12 @@ export async function importLayerFile(layerFile: File): Promise<LayerFile> {
         const polygons = await shapefile.parseShp(shapeFileData, projectionFileData);
         const features = featureCollection(polygons.map(polygon => feature(polygon)));
         await RNFS.unlink(unzippedPath);
-        return await storeGeoJson(file.id, features);
+
+        const importedFile = await storeGeoJson(file.id, features);
+
+        trackImportedContent('layer', fileExtension, true, importedFile.size);
+
+        return importedFile;
       } finally {
         RNFS.unlink(tempZipPath.replace(/\.[^/.]+$/, ''));
         RNFS.unlink(tempZipPath);

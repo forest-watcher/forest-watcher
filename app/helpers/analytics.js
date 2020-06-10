@@ -88,8 +88,11 @@ export const trackImportedContent = (
   contentType: ImportableContentType,
   fileType: string,
   success: boolean,
-  fileSize: number
+  fileSize?: ?number
 ) => {
+  console.warn(`trackImportedContent - ${contentType} ${fileType} ${success} ${fileSize}`);
+  return;
+  // eslint-disable-next-line no-unreachable
   analytics().logEvent('imported_content', {
     content_type: contentType,
     file_type: fileType,

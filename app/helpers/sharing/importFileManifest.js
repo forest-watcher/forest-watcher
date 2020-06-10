@@ -1,6 +1,7 @@
 // @flow
 
 import type { ImportBundleRequest, ReportFile, UnpackedSharingBundle } from 'types/sharing.types';
+import { trackImportedContent } from 'helpers/analytics';
 import { storeLayerFiles } from 'helpers/layer-store/storeLayerFiles';
 import { storeReportFiles } from 'helpers/report-store/storeReportFiles';
 import queryLayerFiles from 'helpers/layer-store/queryLayerFiles';
@@ -9,6 +10,8 @@ import bboxesForFWData from 'helpers/bbox';
 export default async function importFileManifest(bundle: UnpackedSharingBundle, request: ImportBundleRequest) {
   await importLayerFiles(bundle, request);
   await importReportFiles(bundle.data.manifest.reportFiles, bundle.path);
+
+  trackImportedContent('bundle', 'gfwbundle', true);
 }
 
 /**
