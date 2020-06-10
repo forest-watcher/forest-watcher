@@ -20,6 +20,7 @@ import { formatBytes } from 'helpers/data';
 import styles from './styles';
 import MappingFileRow from 'components/settings/mapping-files/mapping-file-row';
 import showRenameModal from 'helpers/showRenameModal';
+import { presentInformationModal } from 'screens/common';
 
 const plusIcon = require('assets/add.png');
 const icons = {
@@ -234,6 +235,13 @@ class MappingFiles extends Component<Props, State> {
     );
   };
 
+  onInfoPress = debounceUI((file: Basemap | ContextualLayer) => {
+    presentInformationModal({
+      title: file.name,
+      body: file.description
+    });
+  });
+
   renderGFWFiles = () => {
     const { baseFiles, mappingFileType } = this.props;
     const { inEditMode, inShareMode } = this.state;
@@ -241,8 +249,6 @@ class MappingFiles extends Component<Props, State> {
     if (baseFiles.length === 0) {
       return null;
     }
-    const onInfoPress = mappingFileType === 'basemap' ? undefined : () => {};
-
     return (
       <View>
         <Text style={styles.heading}>{i18n.t(this.i18nKeyFor('gfw'))}</Text>
@@ -262,7 +268,7 @@ class MappingFiles extends Component<Props, State> {
                   }
                 }}
                 onDownloadPress={() => {}}
-                onInfoPress={onInfoPress}
+                onInfoPress={file.description ? this.onInfoPress.bind(this, file) : undefined}
                 image={file.image ?? icons[mappingFileType].placeholder}
                 renamable={false}
                 title={i18n.t(file.name)}

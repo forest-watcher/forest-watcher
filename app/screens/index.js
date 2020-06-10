@@ -39,7 +39,7 @@ import RoutesLayerSettings from 'containers/settings/layer-settings/routes';
 import ContextualLayersLayerSettings from 'containers/settings/layer-settings/contextual-layers';
 import BasemapLayerSettings from 'containers/settings/layer-settings/basemap';
 import GFWContextualLayers from 'components/settings/gfw-layers';
-import GFWContextualLayerDownload from 'components/settings/gfw-layers/layer-download';
+import GFWContextualLayerDownload from 'containers/settings/gfw-layers/layer-download';
 import ImportMappingFileError from 'components/settings/mapping-files/import/error';
 import EmailLogin from 'containers/login/email-login';
 import ImportSharingBundleStart from 'components/sharing-bundle/import/start';
