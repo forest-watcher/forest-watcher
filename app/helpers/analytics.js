@@ -135,8 +135,8 @@ export const trackRoutesToggled = (routeTypes: 'all' | 'some' | 'none', routesTo
 export const trackLayersToggled = (layerName: ?string, enabled: boolean) => {
   console.warn(`trackLayersToggled - ${layerName} ${enabled}`);
   return;
-  // eslint-disable-next-line no-unreachable
 
+  // eslint-disable-next-line no-unreachable
   analytics().logEvent('layer_toggled', {
     layer_name: layerName ?? 'unknown',
     layer_enabled: enabled ? 1 : 0
