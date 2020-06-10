@@ -35,6 +35,7 @@ type Props = {|
   +setAreaDownloadTooltipSeen: (seen: boolean) => void,
   +setSelectedAreaId: (id: string) => void,
   +showNotConnectedNotification: () => void,
+  +scrollToBottom?: boolean,
   +offlineMode: boolean
 |};
 
@@ -76,8 +77,11 @@ class Areas extends Component<Props, State> {
       bundleSize: undefined,
       creatingArchive: false,
       selectedForExport: [],
-      inShareMode: false
+      inShareMode: false,
+      shouldScrollToBottom: props.scrollToBottom
     };
+
+    this.scrollView = null;
   }
 
   componentDidMount() {
@@ -292,6 +296,16 @@ class Areas extends Component<Props, State> {
         >
           {hasAreas ? (
             <ScrollView
+              ref={ref => {
+                this.scrollView = ref;
+              }}
+              onContentSizeChange={() => {
+                // GFW-579: Scroll to bottom of scrollview once, after new area added.
+                if (this.state.shouldScrollToBottom) {
+                  this.scrollView.scrollToEnd();
+                  this.setState({ shouldScrollToBottom: false });
+                }
+              }}
               onStartShouldSetResponder={event => {
                 // If the user taps ANYWHERE set the area download tooltip as seen
                 event.persist();
