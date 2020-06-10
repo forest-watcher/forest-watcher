@@ -43,7 +43,7 @@ export default function exportAppData(appState: State, request: ExportBundleRequ
     areas: areas,
     basemaps: basemaps,
     layers: layers,
-    manifest: { layerFiles: [] },
+    manifest: { layerFiles: [], reportFiles: [] },
     reports: reports,
     routes: routes,
     templates: templates
