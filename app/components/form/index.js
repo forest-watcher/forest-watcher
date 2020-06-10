@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import i18n from 'i18next';
 import { Platform, View } from 'react-native';
 import debounceUI from 'helpers/debounceUI';
-import tracker from 'helpers/googleAnalytics';
+import { trackScreenView } from 'helpers/analytics';
 import styles from 'components/form/styles';
 import ActionButton from 'components/common/action-button';
 import FormField from 'components/common/form-inputs';
@@ -49,7 +49,7 @@ class Form extends Component<Props> {
   }
 
   componentDidMount() {
-    tracker.trackScreenView('Reporting - Form Step');
+    trackScreenView('Reporting - Form Step');
   }
 
   /**

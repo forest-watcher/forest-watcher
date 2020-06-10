@@ -4,7 +4,7 @@ import { Image, View, Text, ScrollView } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import i18n from 'i18next';
-import tracker from 'helpers/googleAnalytics';
+import { trackScreenView } from 'helpers/analytics';
 import styles from './styles';
 
 import Theme from 'config/theme';
@@ -70,7 +70,7 @@ export default class FaqCategories extends Component<Props> {
   }
 
   componentDidMount() {
-    tracker.trackScreenView('FAQ');
+    trackScreenView('FAQ');
   }
 
   onCategoryPress = (category: FAQCategory) => {

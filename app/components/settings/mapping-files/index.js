@@ -14,7 +14,7 @@ import Constants from 'config/constants';
 import Theme from 'config/theme';
 import debounceUI from 'helpers/debounceUI';
 import showDeleteConfirmationPrompt from 'helpers/showDeleteModal';
-import tracker from 'helpers/googleAnalytics';
+import { trackScreenView } from 'helpers/analytics';
 import { formatBytes } from 'helpers/data';
 
 import styles from './styles';
@@ -94,7 +94,7 @@ class MappingFiles extends Component<Props, State> {
   }
 
   componentDidMount() {
-    tracker.trackScreenView(this.props.mappingFileType === 'contextual_layer' ? 'Layers' : 'Basemaps');
+    trackScreenView(this.props.mappingFileType === 'contextual_layer' ? 'Layers' : 'Basemaps');
   }
 
   componentDidAppear() {
