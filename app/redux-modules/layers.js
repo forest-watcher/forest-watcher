@@ -40,6 +40,8 @@ const IMPORT_LAYER_ROLLBACK = 'layers/IMPORT_LAYER_ROLLBACK';
 const RENAME_LAYER = 'layers/RENAME_LAYER';
 const DELETE_LAYER = 'layers/DELETE_LAYER';
 
+const MAPBOX_DOWNLOAD_COMPLETED_STATE = 2;
+
 // Reducer
 const initialState: LayersState = {
   data: [],
@@ -449,6 +451,13 @@ function getLayerById(layers, layerId): ?ContextualLayer {
 
 export function cacheAreaBasemap(areaId: string, basemapId: string) {
   return async (dispatch: Dispatch, state: GetState) => {
+    const packName = `${areaId}|${basemapId}`;
+    const pack = await MapboxGL.offlineManager.getPack(packName);
+    if (pack) {
+      // offline pack with with this id already exists. Can ignore or delete and redownload pack.
+      console.warn('3SC', 'Error: offline pack with with this id already exists');
+      return;
+    }
     const areaBbox = state().areas.data.find(area => area.id === areaId)?.geostore?.bbox;
     if (!areaBbox) {
       return;
@@ -462,7 +471,7 @@ export function cacheAreaBasemap(areaId: string, basemapId: string) {
         type: UPDATE_PROGRESS,
         payload: { areaId: areaId, progress: status.percentage / 100, layerId: basemapId }
       });
-      if (status.percentage === 100) {
+      if (status.state === MAPBOX_DOWNLOAD_COMPLETED_STATE) {
         dispatch({ type: CACHE_LAYER_COMMIT, payload: { areaId, layerId: basemapId } });
       }
     };
@@ -471,7 +480,7 @@ export function cacheAreaBasemap(areaId: string, basemapId: string) {
       console.error('3SC download basemap error: ', err);
     };
     const downloadPackOptions = {
-      name: `${areaId}|${basemapId}`,
+      name: packName,
       styleURL: basemapId,
       minZoom: 1,
       maxZoom: CONSTANTS.maps.cacheZoom[0].end,
@@ -482,12 +491,8 @@ export function cacheAreaBasemap(areaId: string, basemapId: string) {
       dispatch({ type: CACHE_LAYER_REQUEST, payload: { areaId, layerId: basemapId } });
       await MapboxGL.offlineManager.createPack(downloadPackOptions, progressListener, errorListener);
     } catch (error) {
-      if (error?.message?.startsWith('Offline pack with name')) {
-        // offline pack with with this id already exists. Can ignore or delete and redownload pack.
-        console.warn('3SC', error);
-      } else {
-        console.error('3SC basemap download error: ', error);
-      }
+      console.error('3SC basemap download error: ', error);
+      dispatch({ type: CACHE_LAYER_ROLLBACK, payload: { areaId, layerId: basemapId } });
     }
   };
 }
