@@ -1,5 +1,5 @@
 // @flow
-import type { ImportBundleRequest, UnpackedSharingBundle } from 'types/sharing.types';
+import type { UnpackedSharingBundle } from 'types/sharing.types';
 import React, { PureComponent } from 'react';
 import { ActivityIndicator, Text, ScrollView, View } from 'react-native';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
@@ -8,8 +8,8 @@ import Theme from 'config/theme';
 import i18n from 'i18next';
 import styles from './styles';
 import Row from 'components/common/row';
-import { unpackBundle } from 'helpers/sharing/importBundle';
-import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
+import { IMPORT_ENTIRE_BUNDLE_REQUEST, unpackBundle } from 'helpers/sharing/importBundle';
+import {  calculateImportBundleSize } from 'helpers/sharing/calculateBundleSize';
 import { formatBytes } from 'helpers/data';
 
 const nextIcon = require('assets/next.png');
@@ -73,23 +73,7 @@ export default class ImportSharingBundleStartScreen extends PureComponent<Props,
         name: 'ForestWatcher.ImportBundleConfirm',
         passProps: {
           bundle: this.state.bundle,
-          importRequest: ({
-            areas: true,
-            customBasemaps: {
-              metadata: true,
-              files: 'all'
-            },
-            customContextualLayers: {
-              metadata: true,
-              files: 'all'
-            },
-            gfwContextualLayers: {
-              metadata: true,
-              files: 'all'
-            },
-            reports: true,
-            routes: true
-          }: ImportBundleRequest),
+          importRequest: IMPORT_ENTIRE_BUNDLE_REQUEST,
           stepNumber: null
         }
       }
@@ -97,7 +81,14 @@ export default class ImportSharingBundleStartScreen extends PureComponent<Props,
   };
 
   _startCustomImportFlow = () => {
-    // TODO
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.ImportBundleCustomItems',
+        passProps: {
+          bundle: this.state.bundle
+        }
+      }
+    });
   };
 
   render() {
@@ -112,7 +103,7 @@ export default class ImportSharingBundleStartScreen extends PureComponent<Props,
     }
 
     const bundleName = this.props.bundlePath; // TODO: Discussing with James a useful way of naming a bundle
-    const bundleSizeBytes = manifestBundleSize(bundle.data.manifest);
+    const bundleSizeBytes = calculateImportBundleSize(bundle.data, IMPORT_ENTIRE_BUNDLE_REQUEST);
 
     return (
       <ScrollView alwaysBounceVertical={false} style={styles.contentContainer}>

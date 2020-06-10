@@ -293,6 +293,10 @@
                     }
                 ]
             },
+            "customLayers": {
+                "title": "Custom Layers",
+                "questions": []
+            },
             "features": {
                 "title": "Features and Functionality",
                 "questions": [
@@ -384,6 +388,19 @@
         "confirm": {
             "buttonTitle": "Import Data Bundle",
             "title": "Confirm Import"
+        },
+        "customBasemaps": {
+            "title": "Select Basemap Data"
+        },
+        "customItems": {
+            "title": "Select Items To Import"
+        },
+        "customLayers": {
+            "fileImportOptionAll": "Import All",
+            "fileImportOptionDescription": "Select the data you would like to import",
+            "fileImportOptionSelected": "Import For Selected Items Only",
+            "fileImportOptionTitle": "Import Option",
+            "title": "Select Contextual Layer Data"
         },
         "start": {
             "customImport": "Custom Import",
@@ -481,7 +498,7 @@
             "manageBasemaps": "Manage Basemaps",
             "basemaps": "Basemaps",
             "gfwBasemaps": "GFW Basemaps",
-            "importedBasemaps": "Imported Basemaps",
+            "customBasemaps": "Custom Basemaps",
             "myRoutes": "My Routes",
             "importedRoutes": "Imported Routes",
             "manageRoutes": "Manage Routes",
@@ -699,9 +716,18 @@
         "one": "Share %{type} (%{bundleSize})",
         "multiple": "Share %{type} (%{bundleSize})",
         "type": {
+            "area": "Area",
             "areas": "Areas",
-            "routes": "Routes",
-            "reports": "Reports"
+            "customBasemap": "Custom Basemap",
+            "customBasemaps": "Custom Basemaps",
+            "customLayer": "Custom Contextual Layer",
+            "customLayers": "Custom Contextual Layers",
+            "gfwLayer": "Global Forest Watch Contextual Layer",
+            "gfwLayers": "Global Forest Watch Contextual Layers",
+            "report": "Report",
+            "reports": "Reports",
+            "route": "Route",
+            "routes": "Routes"
         }
     },
     "sync": {

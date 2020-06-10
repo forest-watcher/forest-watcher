@@ -33,14 +33,17 @@ export default class AreaList extends Component<Props> {
     if (!areas) {
       return null;
     }
+    const getRowContainerStyle = index =>
+      index === 0 && downloadCalloutVisible
+        ? styles.calloutFirstRowContainer
+        : index === 1 && downloadCalloutVisible
+        ? styles.calloutSecondRowContainer
+        : styles.rowContainer;
 
     return (
-      <View style={styles.container}>
+      <View>
         {areas.map((area, index) => (
-          <View
-            key={`${area.id}-area-list`}
-            style={[styles.rowContainer, index === 0 && downloadCalloutVisible ? { zIndex: 10000 } : { zIndex: index }]}
-          >
+          <View key={`${area.id}-area-list`} style={getRowContainerStyle(index)}>
             <VerticalSplitRow
               downloadVisible={false}
               onDownloadPress={() => onAreaDownloadPress?.(area.id, area.name)}

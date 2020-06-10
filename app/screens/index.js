@@ -39,10 +39,15 @@ import RoutesLayerSettings from 'containers/settings/layer-settings/routes';
 import ContextualLayersLayerSettings from 'containers/settings/layer-settings/contextual-layers';
 import BasemapLayerSettings from 'containers/settings/layer-settings/basemap';
 import GFWContextualLayers from 'components/settings/gfw-layers';
+import GFWContextualLayerDownload from 'components/settings/gfw-layers/layer-download';
 import ImportMappingFileError from 'components/settings/mapping-files/import/error';
 import EmailLogin from 'containers/login/email-login';
 import ImportSharingBundleStart from 'components/sharing-bundle/import/start';
+import ImportSharingBundleCustomItems from 'components/sharing-bundle/import/custom-items';
+import ImportSharingBundleCustomLayers from 'components/sharing-bundle/import/custom-layers';
+import ImportSharingBundleCustomBasemaps from 'components/sharing-bundle/import/custom-basemaps';
 import ImportSharingBundleConfirm from 'containers/sharing-bundle/import/confirm';
+import Information from 'components/common/information';
 
 /**
  * Registers a component with React Native Navigation
@@ -108,8 +113,13 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.ContextualLayersLayerSettings', ContextualLayersLayerSettings, Provider, store);
   registerComponent('ForestWatcher.BasemapLayerSettings', BasemapLayerSettings, Provider, store);
   registerComponent('ForestWatcher.GFWLayers', GFWContextualLayers, Provider, store);
+  registerComponent('ForestWatcher.GFWLayerDownload', GFWContextualLayerDownload, Provider, store);
   registerComponent('ForestWatcher.ImportBundleStart', ImportSharingBundleStart, Provider, store);
+  registerComponent('ForestWatcher.ImportBundleCustomItems', ImportSharingBundleCustomItems, Provider, store);
+  registerComponent('ForestWatcher.ImportBundleCustomLayers', ImportSharingBundleCustomLayers, Provider, store);
+  registerComponent('ForestWatcher.ImportBundleCustomBasemaps', ImportSharingBundleCustomBasemaps, Provider, store);
   registerComponent('ForestWatcher.ImportBundleConfirm', ImportSharingBundleConfirm, Provider, store);
+  registerComponent('ForestWatcher.Information', Information, Provider, store);
 }
 
 export default registerScreens;

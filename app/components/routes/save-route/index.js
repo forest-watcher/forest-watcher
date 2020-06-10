@@ -18,7 +18,7 @@ type Props = {
   componentId: string,
   route: ?Route,
   updateActiveRoute: ($Shape<Route>, string) => void,
-  finishAndSaveRoute: ($Shape<Route>, string) => void
+  finishAndSaveRoute: (routeId: string, string) => void
 };
 
 type State = {
@@ -42,6 +42,7 @@ class SaveRoute extends PureComponent<Props, State> {
 
     this.state = {
       route: {
+        ...props.route,
         difficulty: props.route?.difficulty ?? 'easy',
         endDate: Date.now(),
         name: props.route?.name ?? ''
@@ -82,19 +83,19 @@ class SaveRoute extends PureComponent<Props, State> {
     }));
   };
 
-  onSaveRoutePressed = () => {
-    if (!this.props.route) {
+  onSaveRoutePressed = async () => {
+    if (!this.state.route) {
       return;
     }
 
     stopTrackingLocation();
-    this.props.updateActiveRoute(this.state.route, this.props.route.areaId);
-    this.props.finishAndSaveRoute(this.state.route, this.props.route.areaId);
+    await this.props.updateActiveRoute(this.state.route, this.state.route.areaId);
+    await this.props.finishAndSaveRoute(this.state.route.id, this.state.route.areaId);
     Navigation.pop(this.props.componentId);
   };
 
   render() {
-    if (!this.props.route) {
+    if (!this.state.route) {
       return null;
     }
 
@@ -105,7 +106,6 @@ class SaveRoute extends PureComponent<Props, State> {
           width={screenDimensions.width}
           style={styles.headerImage}
           route={{
-            ...this.props.route,
             ...this.state.route
           }}
         />

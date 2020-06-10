@@ -22,7 +22,7 @@ import ShareSheet from 'components/common/share';
 import displayExportReportDialog from 'helpers/sharing/displayExportReportDialog';
 
 import exportFileManifest from 'helpers/sharing/exportFileManifest';
-import manifestBundleSize from 'helpers/sharing/manifestBundleSize';
+import calculateBundleSize from 'helpers/sharing/calculateBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
 import { getShareButtonText } from 'helpers/sharing/utils';
 
@@ -97,11 +97,10 @@ class Reports extends PureComponent<Props, State> {
     this.setState({
       bundleSize: undefined
     });
-    const manifest = await exportFileManifest({
+    const fileSize = await calculateBundleSize({
       reports: mergedReports.filter(report => reportIds.includes(report.reportName)),
       templates: this.props.templates
     });
-    const fileSize = manifestBundleSize(manifest);
     if (this.fetchId === currentFetchId) {
       this.setState({
         bundleSize: fileSize

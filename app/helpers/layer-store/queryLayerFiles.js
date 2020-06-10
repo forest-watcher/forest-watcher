@@ -37,6 +37,16 @@ export default async function queryLayerFiles(
 }
 
 /**
+ * Returns whether or not the specified layer file partially intersects any of the polygons in the feature collection.
+ *
+ * If the feature collection is empty then this will return false.
+ */
+export function isLayerFileIntersectingRegion(layerFile: LayerFile, region: FeatureCollection<Polygon>): boolean {
+  const layerPolygon = layerFile.polygon ?? tilebelt.tileToGeoJSON(layerFile.tileXYZ);
+  return region.features.some(feature => !!intersect(layerPolygon, feature));
+}
+
+/**
  * Lists all the layer files stored on disk for a particular layer ID.
  *
  * For custom layers, only the enclosing tile directory is returned. For tile-based layers, the tile files themselves
@@ -92,9 +102,7 @@ async function listLayerFilesForRegion(
     return layerFiles;
   }
 
-  return layerFiles.filter(layerFile =>
-    region.features.some(feature => layerFile.polygon && !!intersect(layerFile.polygon, feature))
-  );
+  return layerFiles.filter(layerFile => isLayerFileIntersectingRegion(layerFile, region));
 }
 
 /**

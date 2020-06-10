@@ -1,70 +1,68 @@
 // @flow
 
-import type { ImportBundleRequest, ReportFile, UnpackedSharingBundle } from 'types/sharing.types';
+import type {
+  ImportBundleRequest,
+  LayerFile,
+  LayerImportStrategy,
+  ReportFile,
+  SharingBundle,
+  UnpackedSharingBundle
+} from 'types/sharing.types';
 import { storeLayerFiles } from 'helpers/layer-store/storeLayerFiles';
 import { storeReportFiles } from 'helpers/report-store/storeReportFiles';
-import queryLayerFiles from 'helpers/layer-store/queryLayerFiles';
+import { isLayerFileIntersectingRegion } from 'helpers/layer-store/queryLayerFiles';
 import bboxesForFWData from 'helpers/bbox';
+import { isCustomBasemap, isCustomContextualLayer, isGfwContextualLayer } from 'helpers/layer-store/layerFiles';
 
 export default async function importFileManifest(bundle: UnpackedSharingBundle, request: ImportBundleRequest) {
   await importLayerFiles(bundle, request);
-  await importReportFiles(bundle.data.manifest.reportFiles, bundle.path);
+  await importReportFiles(bundle, request);
+}
+
+/**
+ * Returns a subset of the layer files contained in a bundle that are relevant to the specified import request
+ */
+export function filterRelevantLayerFiles(bundle: SharingBundle, request: ImportBundleRequest): Array<LayerFile> {
+  const allLayerFiles = bundle.manifest.layerFiles;
+  const region = bboxesForFWData(request.areas ? bundle.areas : [], request.routes ? bundle.routes : []);
+
+  // Inner helper fn to avoid duplicate logic
+  const relevantFilesFn = (importStrategy: LayerImportStrategy, predicate: LayerFile => boolean): Array<LayerFile> => {
+    return importStrategy.metadata
+      ? allLayerFiles
+          .filter(predicate)
+          .filter(layerFile => importStrategy.files === 'all' || isLayerFileIntersectingRegion(layerFile, region))
+      : [];
+  };
+
+  const relevantBasemapFiles = relevantFilesFn(request.customBasemaps, isCustomBasemap);
+  const relevantCustomLayerFiles = relevantFilesFn(request.customContextualLayers, isCustomContextualLayer);
+  const relevantGfwLayerFiles = relevantFilesFn(request.gfwContextualLayers, isGfwContextualLayer);
+
+  return [...relevantBasemapFiles, ...relevantCustomLayerFiles, ...relevantGfwLayerFiles];
+}
+
+export function filterRelevantReportFiles(bundle: SharingBundle, request: ImportBundleRequest): Array<ReportFile> {
+  return request.reports ? bundle.manifest.reportFiles : [];
 }
 
 /**
  * Imports layer files contained in the unpacked bundle that are relevent to the specified import request
  */
 async function importLayerFiles(bundle: UnpackedSharingBundle, request: ImportBundleRequest) {
-  const region = bboxesForFWData(request.areas ? bundle.data.areas : [], request.routes ? bundle.data.routes : []);
-
-  let relevantBasemapFiles = [];
-  let relevantCustomLayerFiles = [];
-  let relevantGfwLayerFiles = [];
-
-  if (request.customBasemaps.metadata) {
-    relevantBasemapFiles = await queryLayerFiles(
-      'basemap',
-      {
-        blacklist: [],
-        region: request.customBasemaps.files === 'intersecting' ? region : null,
-        whitelist: bundle.data.basemaps.map(basemap => basemap.id)
-      },
-      bundle.path
-    );
-  }
-
-  if (request.customContextualLayers.metadata) {
-    relevantCustomLayerFiles = await queryLayerFiles(
-      'contextual_layer',
-      {
-        blacklist: [],
-        region: request.customContextualLayers.files === 'intersecting' ? region : null,
-        whitelist: bundle.data.layers.map(layer => layer.id) // TODO: Filter out GFW layers
-      },
-      bundle.path
-    );
-  }
-
-  if (request.gfwContextualLayers.metadata) {
-    relevantGfwLayerFiles = await queryLayerFiles(
-      'contextual_layer',
-      {
-        blacklist: [],
-        region: request.gfwContextualLayers.files === 'intersecting' ? region : null,
-        whitelist: bundle.data.layers.map(layer => layer.id) // TODO: filter out user layers
-      },
-      bundle.path
-    );
-  }
-
-  const allRelevantLayerFiles = [...relevantBasemapFiles, ...relevantCustomLayerFiles, ...relevantGfwLayerFiles];
-  await storeLayerFiles(allRelevantLayerFiles);
+  const relevantLayerFiles = filterRelevantLayerFiles(bundle.data, request);
+  const unpackedReportFiles = relevantLayerFiles.map(reportFile => ({
+    ...reportFile,
+    path: `${bundle.path}${reportFile.path}`
+  }));
+  await storeLayerFiles(unpackedReportFiles);
 }
 
-async function importReportFiles(reportFiles: Array<ReportFile>, importPath: string) {
-  const unpackedReportFiles = reportFiles.map(reportFile => ({
+async function importReportFiles(bundle: UnpackedSharingBundle, request: ImportBundleRequest) {
+  const relevantReportFiles = filterRelevantReportFiles(bundle.data, request);
+  const unpackedReportFiles = relevantReportFiles.map(reportFile => ({
     ...reportFile,
-    path: `${importPath}${reportFile.path}`
+    path: `${bundle.path}${reportFile.path}`
   }));
   await storeReportFiles(unpackedReportFiles);
 }

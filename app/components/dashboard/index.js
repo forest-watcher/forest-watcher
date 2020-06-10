@@ -112,7 +112,7 @@ class Dashboard extends PureComponent<Props> {
 
     const deepLink: ?string = await Linking.getInitialURL();
     if (deepLink) {
-        this.launchImportBundleModal(deepLink);
+      this.launchImportBundleModal(deepLink);
     }
 
     // This is called both here and componentDidAppear because componentDidAppear isn't called when setting
@@ -216,6 +216,9 @@ class Dashboard extends PureComponent<Props> {
           {
             component: {
               name: 'ForestWatcher.ImportBundleStart',
+              options: {
+                modalPresentationStyle: 'overCurrentContext'
+              },
               passProps: {
                 bundlePath
               }

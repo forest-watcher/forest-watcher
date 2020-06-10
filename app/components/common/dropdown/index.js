@@ -1,5 +1,7 @@
 // @flow
 import type { AppAction } from 'types/app.types';
+import type { TextStyle } from 'types/reactElementStyles.types';
+
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Platform } from 'react-native';
 
@@ -13,11 +15,12 @@ import i18n from 'i18next';
 
 const nextIcon = require('assets/next.png');
 
-type Option = { labelKey: string, value: string };
+type Option = { label?: string, labelKey: string, value: string };
 
 type Props = {
   description: ?string,
   label: string,
+  labelStyle?: TextStyle,
   selectedValue: string,
   onValueChange: string => AppAction,
   options: Array<Option>,
@@ -54,23 +57,21 @@ export default class Dropdown extends Component<Props> {
   };
 
   render() {
-    const { description, label, selectedValue, options } = this.props;
+    const { description, labelStyle = {}, label, selectedValue, options } = this.props;
+
+    const optionsWithLabel = options.map(option => ({
+      ...option,
+      label: option.label ?? i18n.t(option.labelKey)
+    }));
     const selectedLabel =
-      options
-        .map((option: Option) => {
-          return {
-            ...option,
-            label: i18n.t(option.labelKey)
-          };
-        })
-        .find((option: Option) => {
-          return option.value === selectedValue;
-        })?.label ?? selectedValue;
+      optionsWithLabel.find((option: Option) => option.value === selectedValue)?.label ?? selectedValue;
     const rowStyle = [styles.dropdownRow, this.props.inactive ? styles.inactiveDropdownRow : {}];
     return (
       <Row opacity={this.props.inactive ? 0.2 : 0.5} action={this.showActionSheetAction} rowStyle={rowStyle}>
-        {label && !this.props.hideLabel && <Text style={styles.label}>{label}</Text>}
-        <Text style={styles.label}>{selectedLabel.charAt(0).toUpperCase() + selectedLabel.substring(1)}</Text>
+        {label && !this.props.hideLabel && <Text style={[styles.label, labelStyle]}>{label}</Text>}
+        <Text style={[styles.label, labelStyle]}>
+          {selectedLabel.charAt(0).toUpperCase() + selectedLabel.substring(1)}
+        </Text>
         <ActionSheet
           ref={ref => {
             this.actionSheet = ref;
@@ -85,7 +86,7 @@ export default class Dropdown extends Component<Props> {
               return (
                 <View style={dropdownContainerStyle}>
                   <View style={styles.pickerHeader}>
-                    <View>
+                    <View style={{ flex: 1 }}>
                       <Text style={styles.label}>{label}</Text>
                       {description && <Text style={styles.smallLabel}>{description}</Text>}
                     </View>
@@ -94,7 +95,7 @@ export default class Dropdown extends Component<Props> {
                     </TouchableOpacity>
                   </View>
                   <View>
-                    {options.map((option, i) => (
+                    {optionsWithLabel.map((option, i) => (
                       <Row
                         action={{
                           callback: this.onSelectedOption.bind(this, option.value)
@@ -106,7 +107,7 @@ export default class Dropdown extends Component<Props> {
                         <View style={[styles.switch, option.value === selectedValue ? styles.switchOn : ' ']}>
                           {option.value === selectedValue && <View style={styles.switchInterior} />}
                         </View>
-                        <Text style={styles.smallLabel}>{i18n.t(option.labelKey)}</Text>
+                        <Text style={styles.smallLabel}>{option.label ?? ''}</Text>
                       </Row>
                     ))}
                   </View>

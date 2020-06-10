@@ -248,17 +248,23 @@ export default function reducer(
         [featureId]: {
           ...state[featureId],
           basemap: {
+            ...state[featureId].basemap,
             activeBasemapId: action.payload.basemapId
           }
         }
       };
     }
     case SHOW_SAVED_ROUTE: {
+      if (!action.payload.routeId) {
+        return state;
+      }
+
       return {
         ...state,
         [featureId]: {
           ...state[featureId],
           routes: {
+            ...state[featureId].routes,
             layerIsActive: true,
             activeRouteIds: [...state[featureId].routes.activeRouteIds, action.payload.routeId]
           }

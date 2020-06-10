@@ -55,9 +55,10 @@ export type ExportBundleRequest = {|
  * - only layer files (plus metadata) intersecting areas and routes that were imported
  * - no layers at all
  */
+export type LayerFileImportStrategy = 'all' | 'intersecting';
 export type LayerImportStrategy = {
   metadata: boolean,
-  files: 'all' | 'intersecting' // only relevent if metadata = true
+  files: LayerFileImportStrategy // only relevent if metadata = true
 };
 
 /**
