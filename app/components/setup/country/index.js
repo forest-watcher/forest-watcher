@@ -168,7 +168,7 @@ SetupCountry.propTypes = {
   countries: PropTypes.any,
   setAreaCountryTooltipSeen: PropTypes.func.isRequired,
   setSetupCountry: PropTypes.func.isRequired,
-  setAreasRefreshing: PropTypes.func.isRequired,
+  setWelcomeScreenSeen: PropTypes.func.isRequired,
   hasSeenWelcomeScreen: PropTypes.bool.isRequired,
   componentId: PropTypes.string.isRequired
 };
