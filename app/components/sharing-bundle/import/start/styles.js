@@ -36,6 +36,18 @@ export default StyleSheet.create({
     ...Theme.tableRowText,
     fontSize: 12
   },
+  error: {
+    alignSelf: 'stretch',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    flex: 1,
+    fontFamily: Theme.font,
+    color: Theme.colors.coral,
+    fontSize: 12,
+    fontWeight: '400',
+    lineHeight: 16,
+    padding: 20
+  },
   row: {
     paddingHorizontal: isSmallScreen ? 20 : 24,
     paddingVertical: isSmallScreen ? 20 : 40

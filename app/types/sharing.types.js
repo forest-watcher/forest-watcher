@@ -150,6 +150,7 @@ export type SharingBundleManifest = {|
  */
 export type SharingBundle = {|
   version: number,
+  timestamp: number,
   alerts: Array<Alert>,
   areas: Array<Area>,
   basemaps: Array<Basemap>,
