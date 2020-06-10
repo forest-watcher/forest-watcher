@@ -158,11 +158,6 @@ class Login extends PureComponent<Props, State> {
   };
 
   onPress = debounceUI((socialNetwork: string) => {
-    if (!this.props.isConnected) {
-      Alert.alert(i18n.t('commonText.error'), i18n.t('login.mustBeOnline'), [{ text: 'OK' }]);
-      return;
-    }
-
     this.setState({ socialNetwork });
 
     if (socialNetwork === 'email') {
@@ -171,6 +166,11 @@ class Login extends PureComponent<Props, State> {
           name: 'ForestWatcher.LoginEmail'
         }
       });
+      return;
+    }
+
+    if (!this.props.isConnected) {
+      Alert.alert(i18n.t('commonText.error'), i18n.t('login.mustBeOnline'), [{ text: 'OK' }]);
       return;
     }
 
