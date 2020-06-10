@@ -91,7 +91,7 @@ export default class VerticalSplitRow extends Component<Props> {
         })}
         activeOpacity={0.8}
       >
-        <Image style={icon} source={icon} />
+        <Image style={iconStyle} source={icon} />
       </Touchable>
     );
   };
