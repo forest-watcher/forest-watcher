@@ -10,7 +10,6 @@ import type { BBox2d } from '@turf/helpers';
 import Config from 'react-native-config';
 import omit from 'lodash/omit';
 import CONSTANTS, { GFW_BASEMAPS } from 'config/constants';
-import { showNoGeostoreIDPrompt } from 'helpers/area';
 import { bboxForRoute } from 'helpers/bbox';
 import { getActionsTodoCount } from 'helpers/sync';
 
