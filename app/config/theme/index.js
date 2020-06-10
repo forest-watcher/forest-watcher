@@ -119,6 +119,24 @@ const config = {
     },
     shadowOpacity: 0.1
   },
+  navigationAnimations: {
+    fadeModal: {
+      dismissModal: {
+        alpha: {
+          from: 1,
+          to: 0,
+          duration: 300
+        }
+      },
+      showModal: {
+        alpha: {
+          from: 0,
+          to: 1,
+          duration: 300
+        }
+      }
+    }
+  },
   navigator: {
     styles: {
       layout: {

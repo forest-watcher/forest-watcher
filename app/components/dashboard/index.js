@@ -11,6 +11,7 @@ import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import i18n from 'i18next';
 import styles from './styles';
+import Theme from 'config/theme';
 
 const settingsIcon = require('assets/settings.png');
 const nextIcon = require('assets/next.png');
@@ -111,7 +112,7 @@ class Dashboard extends PureComponent<Props> {
 
     const deepLink: ?string = await Linking.getInitialURL();
     if (deepLink) {
-        this.launchImportBundleModal(deepLink);
+      this.launchImportBundleModal(deepLink);
     }
 
     // This is called both here and componentDidAppear because componentDidAppear isn't called when setting
@@ -130,12 +131,23 @@ class Dashboard extends PureComponent<Props> {
     if (!hasSeenWelcomeScreen) {
       this.props.setWelcomeScreenSeen(true);
       Navigation.showModal({
-        component: {
-          name: 'ForestWatcher.Welcome',
-          options: {
-            layout: { componentBackgroundColor: 'rgba(0,0,0,0.8)' },
-            modalPresentationStyle: 'overCurrentContext'
-          }
+        stack: {
+          children: [
+            {
+              component: {
+                name: 'ForestWatcher.Welcome',
+                options: {
+                  animations: Theme.navigationAnimations.fadeModal,
+                  layout: {
+                    backgroundColor: 'transparent',
+                    componentBackgroundColor: 'rgba(0,0,0,0.74)'
+                  },
+                  screenBackgroundColor: 'rgba(0,0,0,0.74)',
+                  modalPresentationStyle: 'overCurrentContext'
+                }
+              }
+            }
+          ]
         }
       });
     }
@@ -204,6 +216,9 @@ class Dashboard extends PureComponent<Props> {
           {
             component: {
               name: 'ForestWatcher.ImportBundleStart',
+              options: {
+                modalPresentationStyle: 'overCurrentContext'
+              },
               passProps: {
                 bundlePath
               }

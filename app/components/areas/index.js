@@ -35,6 +35,7 @@ type Props = {|
   +setAreaDownloadTooltipSeen: (seen: boolean) => void,
   +setSelectedAreaId: (id: string) => void,
   +showNotConnectedNotification: () => void,
+  +scrollToBottom?: boolean,
   +offlineMode: boolean
 |};
 
@@ -76,8 +77,11 @@ class Areas extends Component<Props, State> {
       bundleSize: undefined,
       creatingArchive: false,
       selectedForExport: [],
-      inShareMode: false
+      inShareMode: false,
+      shouldScrollToBottom: props.scrollToBottom
     };
+
+    this.scrollView = null;
   }
 
   componentDidMount() {
@@ -292,6 +296,16 @@ class Areas extends Component<Props, State> {
         >
           {hasAreas ? (
             <ScrollView
+              ref={ref => {
+                this.scrollView = ref;
+              }}
+              onContentSizeChange={() => {
+                // GFW-579: Scroll to bottom of scrollview once, after new area added.
+                if (this.state.shouldScrollToBottom) {
+                  this.scrollView.scrollToEnd();
+                  this.setState({ shouldScrollToBottom: false });
+                }
+              }}
               onStartShouldSetResponder={event => {
                 // If the user taps ANYWHERE set the area download tooltip as seen
                 event.persist();
@@ -303,7 +317,7 @@ class Areas extends Component<Props, State> {
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
             >
-              {this.renderAreaList(areasOwned, i18n.t('areas.myAreas'))}
+              {this.renderAreaList(areasOwned, i18n.t('areas.myAreas'), true)}
               {this.renderAreaList(areasImported, i18n.t('areas.importedAreas'))}
             </ScrollView>
           ) : (
@@ -322,7 +336,7 @@ class Areas extends Component<Props, State> {
     );
   }
 
-  renderAreaList = (areas: Array<Area>, title: string) => {
+  renderAreaList = (areas: Array<Area>, title: string, allowsDownloadTooltip: boolean = false) => {
     if (areas.length === 0) {
       return null;
     }
@@ -332,7 +346,7 @@ class Areas extends Component<Props, State> {
         <Text style={styles.label}>{title}</Text>
         <AreaList
           areas={areas}
-          downloadCalloutVisible={!this.props.areaDownloadTooltipSeen}
+          downloadCalloutVisible={allowsDownloadTooltip && !this.props.areaDownloadTooltipSeen}
           onAreaDownloadPress={(areaId, name) => {
             this.props.setAreaDownloadTooltipSeen(true);
           }}

@@ -22,6 +22,8 @@ if (typeof atob === 'undefined') {
  * Helper function that copies a file existing at sourceUri to destinationUri
  *
  * This helper function will create any missing directories in the destination path, and will overwrite any existing file
+ *
+ * On Android this function will work with both content:// and file:// URIs
  */
 export async function copyFileWithReplacement(sourceUri: string, destinationUri: string) {
   const destinationPath = destinationUri
@@ -29,23 +31,16 @@ export async function copyFileWithReplacement(sourceUri: string, destinationUri:
     .slice(0, -1)
     .join('/');
 
-  let source = sourceUri;
-  // Damn it React-Native... RNFetchBlob does not like files starting
-  // with file:// on iOS!
-  if (Platform.OS === 'ios' && sourceUri.startsWith('file://')) {
-    source = sourceUri.slice(7);
-  }
-
-  const dirExists = await RNFetchBlob.fs.exists(destinationPath);
+  const dirExists = await RNFS.exists(destinationPath);
   if (!dirExists) {
-    await RNFetchBlob.fs.mkdir(destinationPath);
+    await RNFS.mkdir(destinationPath);
   }
 
-  const fileExists = await RNFetchBlob.fs.exists(destinationUri);
+  const fileExists = await RNFS.exists(destinationUri);
   if (fileExists) {
-    await RNFetchBlob.fs.unlink(destinationUri);
+    await RNFS.unlink(destinationUri);
   }
-  await RNFetchBlob.fs.cp(source, destinationUri);
+  await RNFS.copyFile(sourceUri, destinationUri);
 }
 
 /**

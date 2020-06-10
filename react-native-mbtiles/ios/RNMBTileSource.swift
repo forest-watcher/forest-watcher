@@ -66,7 +66,7 @@ enum MBTilesSourceError: Error {
   /// The basemap's unique identifier. When filtering requests, we use this to ensure the request is for this basemap.
   var id: String
   var filePath: String
-  var metadata: RNMBTileMetadata?
+  @objc public var metadata: RNMBTileMetadata?
   
   private var database: Connection?
   
@@ -75,7 +75,7 @@ enum MBTilesSourceError: Error {
   ///   - id: The basemap's unique identifier.
   ///   - filePath: The basemap's filepath on disk.
   /// - Throws: An error if the provided inputs do not result in a valid database connection, or if the provided basemap is invalid.
-  public init(id: String, filePath: String) throws {
+  @objc public init(id: String, filePath: String) throws {
     self.id = id
     self.filePath = filePath
     

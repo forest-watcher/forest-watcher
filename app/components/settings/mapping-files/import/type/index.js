@@ -1,20 +1,26 @@
 // @flow
 import type { LayerType } from 'types/sharing.types';
 import React, { PureComponent } from 'react';
-import { Text, ScrollView, View, Image } from 'react-native';
+import { Text, ScrollView, View, Image, TouchableOpacity } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import { getMBTilesMetadata } from 'react-native-mbtiles';
 
 import styles from './styles';
 import i18n from 'i18next';
 import type { File } from 'types/file.types';
 import Row from 'components/common/row';
-import { ACCEPTED_FILE_TYPES_BASEMAPS, ACCEPTED_FILE_TYPES_CONTEXTUAL_LAYERS } from 'config/constants';
+import { ACCEPTED_FILE_TYPES_BASEMAPS, ACCEPTED_FILE_TYPES_CONTEXTUAL_LAYERS, FILES } from 'config/constants';
 import Theme from 'config/theme';
 import debounceUI from 'helpers/debounceUI';
 import DocumentPicker from 'react-native-document-picker';
 import generatedUniqueId from 'helpers/uniqueId';
+import { copyFileWithReplacement } from 'helpers/fileManagement';
+const RNFS = require('react-native-fs');
+
 const nextIcon = require('assets/next.png');
 const fileIcon = require('assets/fileIcon.png');
+
+import type { ImportError } from '../error';
 
 type Props = {
   componentId: string,
@@ -58,7 +64,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles, 'public.item']
       });
-      const validFile = this.verifyImportedFile(res);
+      const validFile = await this.verifyImportedFile(res);
       if (!validFile) {
         return;
       }
@@ -98,19 +104,67 @@ class ImportMappingFileType extends PureComponent<Props, State> {
     });
   });
 
-  verifyImportedFile = (file: File) => {
+  onFAQPress = debounceUI(() => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.FaqCategory',
+        passProps: {
+          category: {
+            title: i18n.t('faq.categories.customLayers.title'),
+            questions: i18n.t('faq.categories.customLayers.questions', { returnObjects: true })
+          }
+        }
+      }
+    });
+  });
+
+  verifyImportedFile = async (file: File) => {
     const fileExtension = file.name
       ?.split('.')
       ?.pop()
       ?.toLowerCase();
+
+    // First, ensure that this file is one of the supported file types.
     if (!this.acceptedFileTypes().includes(fileExtension)) {
-      this.showErrorModal(file.name);
+      this.showErrorModal(file, 'fileFormat');
       return false;
     }
+    if (this.props.mappingFileType === 'contextual_layer' && file.size > FILES.maxFileSizeForLayerImport) {
+      this.showErrorModal(file, 'fileSize');
+      return false;
+    }
+
+    if (this.props.mappingFileType === 'basemap') {
+      // On Android, the MBTiles lib is unable to read metadata from arbitrary URIs... so we copy the file locally
+      // so that we can give it a file: URI
+      const tempUri = `${RNFS.TemporaryDirectoryPath}/${Date.now()}.mbtiles`;
+
+      try {
+        await copyFileWithReplacement(file.uri, tempUri);
+        const metadata = await getMBTilesMetadata(tempUri);
+        if (!metadata) {
+          // There's no metadata - an error has occurred. Maybe the file is broken?
+          this.showErrorModal(file, 'fileFormat');
+          return false;
+        }
+
+        if (metadata.isVector) {
+          // This mbtiles file contains vector tiles - we do not support them.
+          this.showErrorModal(file, 'vectorTiles');
+          return false;
+        }
+      } catch (err) {
+        console.error(err);
+        throw err;
+      } finally {
+        await RNFS.unlink(tempUri);
+      }
+    }
+
     return true;
   };
 
-  showErrorModal = (fileName: string) => {
+  showErrorModal = (file: File, error: ImportError) => {
     Navigation.showModal({
       stack: {
         children: [
@@ -118,11 +172,13 @@ class ImportMappingFileType extends PureComponent<Props, State> {
             component: {
               name: 'ForestWatcher.ImportMappingFileError',
               passProps: {
-                fileName,
+                error,
+                file,
                 mappingFileType: this.props.mappingFileType,
                 onRetry: this.importMappingFile
               },
               options: {
+                animations: Theme.navigationAnimations.fadeModal,
                 layout: {
                   backgroundColor: 'transparent',
                   componentBackgroundColor: 'rgba(0,0,0,0.8)'
@@ -197,11 +253,13 @@ class ImportMappingFileType extends PureComponent<Props, State> {
               </View>
             </View>
           </Row>
-          <View style={styles.faqContainer}>
-            <Text style={styles.actionText} onPress={this.onFaqPress}>
-              {i18n.t(this.i18nKeyFor('faq'))}
-            </Text>
-          </View>
+          {mappingFileType === 'contextual_layer' ? (
+            <View style={styles.faqContainer}>
+              <TouchableOpacity onPress={this.onFAQPress}>
+                <Text style={styles.actionText}>{i18n.t(this.i18nKeyFor('faq'))}</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
         </ScrollView>
       </View>
     );

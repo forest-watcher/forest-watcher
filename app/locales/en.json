@@ -76,8 +76,13 @@
             "custom": "Custom Basemap",
             "supportedFileTypesInclude": "Supported file types include:",
             "faq": "Custom Basemap FAQs",
+            "fileSizeTooLarge": "File Too Large",
+            "fileSizeTooLargeDesc": "Please try with a file smaller than 10MB",
             "fileTypeNotSupported": "File Type Not Supported",
             "fileTypeNotSupportedDesc": "is not a supported file type for basemaps.",
+            "vectorTilesNotSupported": "File Contains Vector Tiles",
+            "fileContainsVectorTiles": "contains vector elements and is not supported.",
+            "cannotContainVectorTiles": "* files may contain raster elements only",
             "chooseAnother": "Choose Another"
         },
         "imported": "Custom Basemaps",
@@ -175,6 +180,8 @@
             "custom": "Custom Contextual Layer",
             "supportedFileTypesInclude": "Supported file types include:",
             "faq": "Custom Layer FAQs",
+            "fileSizeTooLarge": "File Too Large",
+            "fileSizeTooLargeDesc": "Please try with a file smaller than 10MB",
             "fileTypeNotSupported": "File Type Not Supported",
             "fileTypeNotSupportedDesc": "is not a supported file type for contextual layers.",
             "chooseAnother": "Choose Another"
@@ -285,6 +292,10 @@
                         "title": "Can I add my own data layers into Forest Watcher? "
                     }
                 ]
+            },
+            "customLayers": {
+                "title": "Custom Layers",
+                "questions": []
             },
             "features": {
                 "title": "Features and Functionality",
@@ -401,27 +412,31 @@
     },
     "importLayer": {
         "gfw": {
-            "error": "GFW Layers can't be loaded right now – check your internet connection and try again.",
             "title": "Add GFW Layers",
-            "allLayers": "All GFW Layers (%{count})",
-            "noResults": "No results for ‘%{searchTerm}'",
-            "results": "%{count} Result for '%{searchTerm}’",
-            "results_plural": "%{count} Results for ‘%{searchTerm}’",
-            "searchHint": "Search GFW layers by typing the layer name",
-            "searchPlaceholder": "Search for a Layer"
+            "allLayers": "All GFW Layers (%{count})"
         }
     },
     "layers": {
+        "biodiversityIntactness": "Biodiversity intactness - 2016",
+        "biodiversitySignificance": "Biodiversity significance - 2016",
+        "indonesiaForestArea": "Indonesia forest area",
+        "landmarks": "Indigenous and Community Lands",
+        "logging": "Managed Forest Concessions",
         "managedForests": "Managed Forest",
         "mining": "Mining",
+        "miningConcessions": "Mining concessions",
         "oilPalm": "Oil palm",
+        "oilPalmConcessions": "Oil palm concessions",
         "protectedAreas": "Protected Areas",
+        "rspo": "RSPO oil palm concessions - 2017",
         "treeCoverLoss2014": "Tree Cover Loss (2014)",
         "treeCoverLoss2015": "Tree Cover Loss (2015)",
         "treeCoverLoss2016": "Tree Cover Loss (2016)",
         "treeCoverLoss2017": "Tree Cover Loss (2017)",
         "treeCoverLoss2018": "Tree Cover Loss (2018)",
-        "woodFiber": "Wood fiber"
+        "wdpa": "Protected Areas (Vector Tiles)",
+        "woodFiber": "Wood fiber",
+        "woodFiberConcessions": "Wood fiber concessions by type - 2019"
     },
     "login": {
         "connectionRequired": "You need an internet connection",
@@ -433,6 +448,7 @@
         "twitterTitle": "Twitter",
         "signUp": "Sign Up",
         "unable": "Unable to login",
+        "mustBeOnline": "You must be online to login",
         "emailLogin": {
             "loginWithEmail": "Login With Email",
             "emailAddress": "Email Address",
@@ -484,7 +500,7 @@
             "manageBasemaps": "Manage Basemaps",
             "basemaps": "Basemaps",
             "gfwBasemaps": "GFW Basemaps",
-            "importedBasemaps": "Imported Basemaps",
+            "customBasemaps": "Custom Basemaps",
             "myRoutes": "My Routes",
             "importedRoutes": "Imported Routes",
             "manageRoutes": "Manage Routes",

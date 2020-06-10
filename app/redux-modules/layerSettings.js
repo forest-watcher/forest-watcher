@@ -24,6 +24,8 @@ const SET_VIIRS_ALERTS_TIME_FRAME = 'layerSettings/SET_VIIRS_ALERTS_TIME_FRAME';
 const COPY_LAYER_SETTINGS = 'layerSettings/COPY_LAYER_SETTINGS';
 
 const SELECT_ACTIVE_BASEMAP = 'layerSettings/SELECT_ACTIVE_BASEMAP';
+const SHOW_SAVED_ROUTE = 'layerSettings/SHOW_SAVED_ROUTE';
+const UNSELECT_DELETED_BASEMAP = 'layerSettings/UNSELECT_DELETED_BASEMAP';
 
 const SET_CONTEXTUAL_LAYER_SHOWING = 'layerSettings/SET_CONTEXTUAL_LAYER_SHOWING';
 const CLEAR_ENABLED_CONTEXTUAL_LAYERS = 'layerSettings/CLEAR_ENABLED_CONTEXTUAL_LAYERS';
@@ -72,14 +74,19 @@ export default function reducer(
   action: LayerSettingsAction
 ): LayerSettingsState {
   const featureId: string = action.payload?.featureId;
-  if (!featureId) {
-    // All actions require the featureId, this will be the ID of the area or route we want to change the layer settings for.
-    return state;
-  }
-  if (!state[featureId]) {
-    // if this feature had no custom layer settings, we duplicate the default,
-    // and then apply the changes of the action
-    state = { ...state, [featureId]: DEFAULT_LAYER_SETTINGS };
+  if (action.type !== UNSELECT_DELETED_BASEMAP) {
+    // If we're not unselecting a deleted basemap, we need a featureID.
+    // However, if we're unselecting, then we don't care for featureIDs as we'll be going through all of them.
+    if (!featureId) {
+      // All actions require the featureId, this will be the ID of the area or route we want to change the layer settings for.
+      return state;
+    }
+
+    if (!state[featureId]) {
+      // if this feature had no custom layer settings, we duplicate the default,
+      // and then apply the changes of the action
+      state = { ...state, [featureId]: DEFAULT_LAYER_SETTINGS };
+    }
   }
 
   switch (action.type) {
@@ -241,10 +248,42 @@ export default function reducer(
         [featureId]: {
           ...state[featureId],
           basemap: {
+            ...state[featureId].basemap,
             activeBasemapId: action.payload.basemapId
           }
         }
       };
+    }
+    case SHOW_SAVED_ROUTE: {
+      if (!action.payload.routeId) {
+        return state;
+      }
+
+      return {
+        ...state,
+        [featureId]: {
+          ...state[featureId],
+          routes: {
+            ...state[featureId].routes,
+            layerIsActive: true,
+            activeRouteIds: [...state[featureId].routes.activeRouteIds, action.payload.routeId]
+          }
+        }
+      };
+    }
+    case UNSELECT_DELETED_BASEMAP: {
+      const updatedState = { ...state };
+
+      Object.keys(state).forEach(featureKey => {
+        const feature = state[featureKey];
+        if (feature.basemap?.activeBasemapId !== action.payload) {
+          return;
+        }
+
+        updatedState[featureKey].basemap.activeBasemapId = DEFAULT_BASEMAP.id;
+      });
+
+      return updatedState;
     }
     case COPY_LAYER_SETTINGS: {
       return {
@@ -484,6 +523,23 @@ export function selectActiveBasemap(featureId: string, basemapId: string): Layer
       featureId,
       basemapId
     }
+  };
+}
+
+export function showSavedRoute(featureId: string, routeId: string): LayerSettingsAction {
+  return {
+    type: SHOW_SAVED_ROUTE,
+    payload: {
+      featureId,
+      routeId
+    }
+  };
+}
+
+export function unselectDeletedBasemap(basemapId: string): LayerSettingsAction {
+  return {
+    type: UNSELECT_DELETED_BASEMAP,
+    payload: basemapId
   };
 }
 
