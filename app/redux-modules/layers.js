@@ -14,7 +14,7 @@ import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
-import tracker from 'helpers/googleAnalytics';
+import { trackLayersToggled } from 'helpers/analytics';
 import { storeTilesFromUrl } from 'helpers/layer-store/storeLayerFiles';
 import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
@@ -342,16 +342,16 @@ export function setActiveContextualLayer(layerId: string, value: boolean) {
     );
     if (!value) {
       if (currentActiveLayer) {
-        tracker.trackLayerToggledEvent(currentActiveLayer.name, false);
+        trackLayersToggled(currentActiveLayer.name, false);
       }
     } else if (layerId !== currentActiveLayerId) {
       if (currentActiveLayer) {
-        tracker.trackLayerToggledEvent(currentActiveLayer.name, false);
+        trackLayersToggled(currentActiveLayer.name, false);
       }
       activeLayer = layerId;
       const nextActiveLayer: ?ContextualLayer = state.layers.data?.find(layerData => layerData.id === layerId);
       if (nextActiveLayer) {
-        tracker.trackLayerToggledEvent(nextActiveLayer.name, true);
+        trackLayersToggled(currentActiveLayer.name, true);
       }
     }
     return dispatch({ type: SET_ACTIVE_LAYER, payload: activeLayer });
