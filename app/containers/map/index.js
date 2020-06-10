@@ -85,6 +85,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
     area: areaProps,
     layerSettings,
     featureId,
+    basemap: getActiveBasemap(featureId, state),
     isConnected: shouldBeConnected(state),
     isOfflineMode: state.app.offlineMode,
     coordinatesFormat: state.app.coordinatesFormat,
@@ -117,9 +118,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
         numAlertsInReport = parsedAlerts.length;
       }
       tracker.trackReportFlowStartedEvent(numAlertsInReport);
-    },
-    getActiveBasemap: (featureId: ?string) => {
-      return dispatch(getActiveBasemap(featureId));
     },
     getImportedContextualLayersById: layerIds => {
       return dispatch(getImportedContextualLayersById(layerIds));

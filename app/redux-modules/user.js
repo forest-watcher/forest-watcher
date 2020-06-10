@@ -136,9 +136,10 @@ export function googleLogin() {
       }
     } catch (e) {
       // very brittle approach but only way to know currently
-      const userDismissedLoginIOS = e.message.indexOf('error -3') !== -1;
-      const userDismissedLoginAndroid = e.message.indexOf('Failed to authenticate') !== -1;
-      const userDismissedLogin = userDismissedLoginAndroid || userDismissedLoginIOS;
+      const userDismissedLogin =
+        e.message.contains('error -3') ||
+        e.message.contains('Failed to authenticate') ||
+        e.message.contains('User cancelled flow');
       if (!userDismissedLogin) {
         console.error(e);
       }
