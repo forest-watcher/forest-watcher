@@ -351,7 +351,7 @@ export function setActiveContextualLayer(layerId: string, value: boolean) {
       activeLayer = layerId;
       const nextActiveLayer: ?ContextualLayer = state.layers.data?.find(layerData => layerData.id === layerId);
       if (nextActiveLayer) {
-        trackLayersToggled(currentActiveLayer.name, true);
+        trackLayersToggled(nextActiveLayer.name, true);
       }
     }
     return dispatch({ type: SET_ACTIVE_LAYER, payload: activeLayer });
