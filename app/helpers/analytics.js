@@ -56,13 +56,16 @@ export const trackAreaCreationFlowStarted = () => {
   });
 };
 
+// areaSize is square meters, so we must divide by 1000000 to get square km.
+// we also round it 3dp so firebase is fine with it
 export const trackAreaCreationFlowEnded = (areaSize: number) => {
-  console.warn(`trackAreaCreationFlowEnded`);
+  const kmSquaredValue = parseFloat((areaSize / 1000000).toFixed(3));
+  console.warn(`trackAreaCreationFlowEnded - ${kmSquaredValue}`);
   return;
   // eslint-disable-next-line no-unreachable
   analytics().logLevelEnd({
     level_name: 'area_create',
-    value: areaSize // TODO: Check with Sophia to see if we can infer `user creates area bigger than previous limit` from this param.
+    value: kmSquaredValue
   });
 };
 
