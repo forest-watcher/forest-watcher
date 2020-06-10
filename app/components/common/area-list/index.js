@@ -8,8 +8,6 @@ import VerticalSplitRow from 'components/common/vertical-split-row';
 import AreaCache from 'containers/common/area-list/area-cache';
 import styles from './styles';
 
-import i18n from 'i18next';
-
 type Props = {
   areas: Array<Area>,
   downloadCalloutVisible?: ?boolean,
@@ -30,20 +28,22 @@ export default class AreaList extends Component<Props> {
       onAreaDownloadPress,
       onAreaPress,
       onAreaSettingsPress,
-      showCache,
-      pristine
+      showCache
     } = this.props;
     if (!areas) {
       return null;
     }
+    const getRowContainerStyle = index =>
+      index === 0 && downloadCalloutVisible
+        ? styles.calloutFirstRowContainer
+        : index === 1 && downloadCalloutVisible
+        ? styles.calloutSecondRowContainer
+        : styles.rowContainer;
 
     return (
-      <View style={styles.container}>
+      <View>
         {areas.map((area, index) => (
-          <View
-            key={`${area.id}-area-list`}
-            style={[styles.rowContainer, index === 0 && downloadCalloutVisible ? { zIndex: 10000 } : { zIndex: index }]}
-          >
+          <View key={`${area.id}-area-list`} style={getRowContainerStyle(index)}>
             <VerticalSplitRow
               downloadVisible={false}
               onDownloadPress={() => onAreaDownloadPress?.(area.id, area.name)}

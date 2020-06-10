@@ -1,7 +1,7 @@
 // @flow
 import type { LayerType } from 'types/sharing.types';
 import React, { PureComponent } from 'react';
-import { Text, ScrollView, View, Image } from 'react-native';
+import { Text, ScrollView, View, Image, TouchableOpacity } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { getMBTilesMetadata } from 'react-native-mbtiles';
 
@@ -101,7 +101,24 @@ class ImportMappingFileType extends PureComponent<Props, State> {
     }
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'ForestWatcher.GFWLayers'
+        name: 'ForestWatcher.GFWLayers',
+        passProps: {
+          popToComponentId: this.props.popToComponentId
+        }
+      }
+    });
+  });
+
+  onFAQPress = debounceUI(() => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.FaqCategory',
+        passProps: {
+          category: {
+            title: i18n.t('faq.categories.customLayers.title'),
+            questions: i18n.t('faq.categories.customLayers.questions', { returnObjects: true })
+          }
+        }
       }
     });
   });
@@ -117,7 +134,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
       this.showErrorModal(file, 'fileFormat');
       return false;
     }
-    if (this.props.mappingFileType === 'contextual_layers' && file.size > FILES.maxFileSizeForLayerImport) {
+    if (this.props.mappingFileType === 'contextual_layer' && file.size > FILES.maxFileSizeForLayerImport) {
       this.showErrorModal(file, 'fileSize');
       return false;
     }
@@ -241,9 +258,13 @@ class ImportMappingFileType extends PureComponent<Props, State> {
               </View>
             </View>
           </Row>
-          <View style={styles.faqContainer}>
-            <Text style={styles.actionText}>{i18n.t(this.i18nKeyFor('faq'))}</Text>
-          </View>
+          {mappingFileType === 'contextual_layer' ? (
+            <View style={styles.faqContainer}>
+              <TouchableOpacity onPress={this.onFAQPress}>
+                <Text style={styles.actionText}>{i18n.t(this.i18nKeyFor('faq'))}</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
         </ScrollView>
       </View>
     );

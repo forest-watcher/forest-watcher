@@ -26,10 +26,16 @@ type OwnProps = {|
 |};
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
-  const baseFiles: Array<ContextualLayer | Basemap> =
+  let baseFiles: Array<ContextualLayer | Basemap> =
     ownProps.mappingFileType === 'contextual_layer' ? state.layers.data || [] : GFW_BASEMAPS;
+  if (ownProps.mappingFileType === 'contextual_layer') {
+    const importedGFWLayers = state.layers.imported.filter(layer => layer.isGFW);
+    baseFiles = baseFiles.concat(importedGFWLayers);
+  }
   const importedFiles: Array<File> =
-    ownProps.mappingFileType === 'contextual_layer' ? state.layers.imported : state.basemaps.importedBasemaps;
+    ownProps.mappingFileType === 'contextual_layer'
+      ? state.layers.imported.filter(layer => !layer.isGFW)
+      : state.basemaps.importedBasemaps;
 
   return {
     baseFiles,

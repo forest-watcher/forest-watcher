@@ -1,5 +1,12 @@
 // @flow
-import type { ContextualLayer, LayersState, LayersAction, LayersCacheStatus, LayersProgress } from 'types/layers.types';
+import type {
+  ContextualLayer,
+  ImportLayerCommit,
+  LayersState,
+  LayersAction,
+  LayersCacheStatus,
+  LayersProgress
+} from 'types/layers.types';
 import type { Dispatch, GetState, State, Thunk } from 'types/store.types';
 import type { Area } from 'types/areas.types';
 import type { File } from 'types/file.types';
@@ -417,6 +424,10 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
       throw err;
     }
   };
+}
+
+export function importGFWContextualLayer(layer: ContextualLayer): ImportLayerCommit {
+  return { type: IMPORT_LAYER_COMMIT, payload: layer };
 }
 
 function getAreaById(areas, areaId): ?Area {

@@ -12,7 +12,7 @@ import styles from './styles';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import DrawAreas from 'containers/setup/draw-areas';
 
-const layersIcon = require('assets/layers.png');
+const mapSettingsIcon = require('assets/map_settings.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
 
 type Props = {
@@ -38,8 +38,8 @@ class SetupBoundaries extends Component<Props> {
         drawBehind: true,
         rightButtons: [
           {
-            id: 'contextual_layers',
-            icon: layersIcon
+            id: 'settings',
+            icon: mapSettingsIcon
           }
         ],
         title: {
@@ -56,7 +56,7 @@ class SetupBoundaries extends Component<Props> {
   }
 
   navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {
-    if (buttonId === 'contextual_layers') {
+    if (buttonId === 'settings') {
       Navigation.mergeOptions(this.props.componentId, {
         sideMenu: {
           right: {

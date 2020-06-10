@@ -14,6 +14,7 @@ import styles, { mapboxStyles } from './styles';
 import { coordsArrayToObject } from 'helpers/location';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { getPolygonBoundingBox } from 'helpers/map';
+import { showMapWalkthrough } from 'screens/common';
 
 const geojsonArea = require('@mapbox/geojson-area');
 
@@ -38,7 +39,14 @@ class DrawAreas extends Component {
 
   componentDidMount() {
     trackScreenView('Draw Areas');
+    this.showMapWalkthroughIfNecessary();
   }
+
+  showMapWalkthroughIfNecessary = () => {
+    if (!this.props.mapWalkthroughSeen) {
+      showMapWalkthrough();
+    }
+  };
 
   onRegionDidChange = async () => {
     if (this.state.nextPress) {
@@ -285,6 +293,7 @@ class DrawAreas extends Component {
 }
 
 DrawAreas.propTypes = {
+  mapWalkthroughSeen: PropTypes.bool.isRequired,
   basemap: PropTypes.object.isRequired,
   coordinates: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
   country: PropTypes.shape({

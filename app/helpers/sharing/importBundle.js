@@ -14,6 +14,24 @@ import { APP_DATA_FORMAT_VERSION } from 'helpers/sharing/exportAppData';
 import importAppData from 'helpers/sharing/importAppData';
 import importFileManifest from 'helpers/sharing/importFileManifest';
 
+export const IMPORT_ENTIRE_BUNDLE_REQUEST: ImportBundleRequest = Object.freeze({
+  areas: true,
+  customBasemaps: {
+    metadata: true,
+    files: 'all'
+  },
+  customContextualLayers: {
+    metadata: true,
+    files: 'all'
+  },
+  gfwContextualLayers: {
+    metadata: true,
+    files: 'all'
+  },
+  reports: true,
+  routes: true
+});
+
 /**
  * Imports a FW sharing bundle into the app
  *
@@ -22,25 +40,7 @@ import importFileManifest from 'helpers/sharing/importFileManifest';
  */
 export default async function importBundle(uri: string, dispatch: Dispatch): Promise<void> {
   const unpackedBundle = await unpackBundle(uri);
-
-  const importRequest: ImportBundleRequest = {
-    areas: true,
-    customBasemaps: {
-      metadata: true,
-      files: 'all'
-    },
-    customContextualLayers: {
-      metadata: true,
-      files: 'all'
-    },
-    gfwContextualLayers: {
-      metadata: true,
-      files: 'all'
-    },
-    reports: true,
-    routes: true
-  };
-  await importStagedBundle(unpackedBundle, importRequest, dispatch);
+  await importStagedBundle(unpackedBundle, IMPORT_ENTIRE_BUNDLE_REQUEST, dispatch);
   deleteStagedBundle(unpackedBundle);
 }
 

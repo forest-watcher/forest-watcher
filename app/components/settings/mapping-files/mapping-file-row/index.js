@@ -56,7 +56,7 @@ export default class MappingFileRow extends Component<Props> {
     }
     return (
       <React.Fragment>
-        {this.props.onInfoPress && this.renderIcon(infoIcon, this.props.onPress)}
+        {this.props.onInfoPress && this.renderIcon(infoIcon, this.props.onInfoPress)}
         {this.renderIcon(downloadIcon, this.props.onPress)}
       </React.Fragment>
     );
