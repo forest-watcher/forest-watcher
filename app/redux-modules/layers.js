@@ -567,7 +567,7 @@ export function downloadRouteById(routeId: string) {
     const route: ?Route = state().routes.previousRoutes?.find(route => route.id === routeId);
 
     if (!route) {
-      console.warn('3SC - Cannot download route as either it does not exist, or the geostore ID is missing.');
+      console.warn('3SC - Cannot download route as it does not exist.');
       return;
     }
 
