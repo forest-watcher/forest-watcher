@@ -48,6 +48,8 @@ export const trackScreenView = (screenName: string) => {
 /// AREA
 
 export const trackAreaCreationFlowStarted = () => {
+  console.warn(`trackAreaCreationFlowStarted`);
+  return;
   analytics().logLevelStart({
     level_name: 'area_create'
   });
