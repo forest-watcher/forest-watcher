@@ -77,6 +77,7 @@ import { formatInfoBannerDate } from 'helpers/date';
 import Reports from 'containers/map/reports';
 import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
 import { lineString } from '@turf/helpers';
+import { showMapWalkthrough } from 'screens/common';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -255,7 +256,7 @@ class MapComponent extends Component<Props, State> {
       setCanDisplayAlerts(true);
     }
 
-    this.showMapWalkthrough();
+    this.showMapWalkthroughIfNecessary();
   }
 
   // called on startup to set initial camera position
@@ -271,28 +272,9 @@ class MapComponent extends Component<Props, State> {
     });
   };
 
-  showMapWalkthrough = () => {
+  showMapWalkthroughIfNecessary = () => {
     if (!this.props.mapWalkthroughSeen) {
-      Navigation.showModal({
-        stack: {
-          children: [
-            {
-              component: {
-                name: 'ForestWatcher.MapWalkthrough',
-                options: {
-                  animations: Theme.navigationAnimations.fadeModal,
-                  layout: {
-                    backgroundColor: 'transparent',
-                    componentBackgroundColor: 'rgba(0,0,0,0.74)'
-                  },
-                  screenBackgroundColor: 'rgba(0,0,0,0.74)',
-                  modalPresentationStyle: 'overCurrentContext'
-                }
-              }
-            }
-          ]
-        }
-      });
+      showMapWalkthrough();
     }
   };
 

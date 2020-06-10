@@ -32,3 +32,49 @@ export function presentInformationModal(componentId: string, passProps: { title:
     }
   });
 }
+
+export function showWelcomeScreen() {
+  Navigation.showModal({
+    stack: {
+      children: [
+        {
+          component: {
+            name: 'ForestWatcher.Welcome',
+            options: {
+              animations: Theme.navigationAnimations.fadeModal,
+              layout: {
+                backgroundColor: 'transparent',
+                componentBackgroundColor: 'rgba(0,0,0,0.74)'
+              },
+              screenBackgroundColor: 'rgba(0,0,0,0.74)',
+              modalPresentationStyle: 'overCurrentContext'
+            }
+          }
+        }
+      ]
+    }
+  });
+}
+
+export function showMapWalkthrough() {
+  Navigation.showModal({
+    stack: {
+      children: [
+        {
+          component: {
+            name: 'ForestWatcher.MapWalkthrough',
+            options: {
+              animations: Theme.navigationAnimations.fadeModal,
+              layout: {
+                backgroundColor: 'transparent',
+                componentBackgroundColor: 'rgba(0,0,0,0.74)'
+              },
+              screenBackgroundColor: 'rgba(0,0,0,0.74)',
+              modalPresentationStyle: 'overCurrentContext'
+            }
+          }
+        }
+      ]
+    }
+  });
+}

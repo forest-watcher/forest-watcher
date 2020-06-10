@@ -13,6 +13,7 @@ import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 import { launchAppRoot } from 'main';
+import { showWelcomeScreen } from 'screens/common';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'bottom');
 const backIcon = require('assets/previous.png');
@@ -48,6 +49,14 @@ class SetupCountry extends Component {
   componentDidMount() {
     tracker.trackAreaCreationFlowStartedEvent();
     tracker.trackScreenView('Set Up - Select Country');
+
+    this.showWelcomeScreenIfNecessary();
+  }
+
+  componentDidAppear() {
+    // This is called both here and componentDidAppear because componentDidAppear isn't called when setting
+    // the app root using RNN
+    this.showWelcomeScreenIfNecessary();
   }
 
   navigationButtonPressed({ buttonId }) {
@@ -56,6 +65,13 @@ class SetupCountry extends Component {
       launchAppRoot('ForestWatcher.Home');
     }
   }
+
+  showWelcomeScreenIfNecessary = debounceUI(() => {
+    if (!this.props.hasSeenWelcomeScreen) {
+      this.props.setWelcomeScreenSeen(true);
+      showWelcomeScreen();
+    }
+  });
 
   renderLoading() {
     return (
@@ -152,6 +168,8 @@ SetupCountry.propTypes = {
   countries: PropTypes.any,
   setAreaCountryTooltipSeen: PropTypes.func.isRequired,
   setSetupCountry: PropTypes.func.isRequired,
+  setAreasRefreshing: PropTypes.func.isRequired,
+  hasSeenWelcomeScreen: PropTypes.bool.isRequired,
   componentId: PropTypes.string.isRequired
 };
 

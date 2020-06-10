@@ -12,7 +12,8 @@ type OwnProps = {|
 function mapStateToProps(state: State) {
   const basemap = getActiveBasemap('newAreaFeatureId');
   return {
-    basemap
+    basemap,
+    mapWalkthroughSeen: state.app.mapWalkthroughSeen
   };
 }
 
