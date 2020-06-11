@@ -6,7 +6,7 @@ import type { Dispatch, GetState, State } from 'types/store.types';
 import type { Area } from 'types/areas.types';
 import { DATASETS } from 'config/constants';
 
-import { trackReportsToggled, trackRoutesToggled } from 'helpers/analytics';
+import { trackReportsToggled, trackRoutesToggled, trackAlertTypeToggled } from 'helpers/analytics';
 
 // Actions
 const TOGGLE_ALERTS_LAYER = 'layerSettings/TOGGLE_ALERTS_LAYER';
@@ -93,13 +93,16 @@ export default function reducer(
 
   switch (action.type) {
     case TOGGLE_ALERTS_LAYER: {
+      const newState = !state[featureId].alerts.layerIsActive;
+      alertLayerToggleUpdated(newState, state[featureId].alerts.glad.active, state[featureId].alerts.viirs.active);
+
       return {
         ...state,
         [featureId]: {
           ...state[featureId],
           alerts: {
             ...state[featureId].alerts,
-            layerIsActive: !state[featureId].alerts.layerIsActive
+            layerIsActive: newState
           }
         }
       };
@@ -194,6 +197,8 @@ export default function reducer(
       };
     }
     case TOGGLE_GLAD_ALERTS: {
+      const newState = !state[featureId].alerts.glad.active;
+      alertLayerToggleUpdated(state[featureId].alerts.layerIsActive, newState, state[featureId].alerts.viirs.active);
       return {
         ...state,
         [featureId]: {
@@ -202,13 +207,15 @@ export default function reducer(
             ...state[featureId].alerts,
             glad: {
               ...state[featureId].alerts.glad,
-              active: !state[featureId].alerts.glad.active
+              active: newState
             }
           }
         }
       };
     }
     case TOGGLE_VIIRS_ALERTS: {
+      const newState = !state[featureId].alerts.viirs.active;
+      alertLayerToggleUpdated(state[featureId].alerts.layerIsActive, state[featureId].alerts.glad.active, newState);
       return {
         ...state,
         [featureId]: {
@@ -217,7 +224,7 @@ export default function reducer(
             ...state[featureId].alerts,
             viirs: {
               ...state[featureId].alerts.viirs,
-              active: !state[featureId].alerts.viirs.active
+              active: newState
             }
           }
         }
@@ -384,6 +391,18 @@ export default function reducer(
     }
     default:
       return state;
+  }
+}
+
+function alertLayerToggleUpdated(mainToggleState, gladEnabled, viirsEnabled) {
+  if (gladEnabled && viirsEnabled) {
+    trackAlertTypeToggled('glad_viirs', mainToggleState);
+  } else if (gladEnabled && !viirsEnabled) {
+    trackAlertTypeToggled('glad', mainToggleState);
+  } else if (!gladEnabled && viirsEnabled) {
+    trackAlertTypeToggled('viirs', mainToggleState);
+  } else {
+    trackAlertTypeToggled('none', mainToggleState);
   }
 }
 

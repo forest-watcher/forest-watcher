@@ -143,10 +143,13 @@ export const trackLayersToggled = (layerName: ?string, enabled: boolean) => {
   });
 };
 
-export const trackAlertTypeToggled = (alertType: AlertType, timeFrame: number, enabled: boolean) => {
+export const trackAlertTypeToggled = (alertType: AlertType, enabled: boolean) => {
+  console.warn(`trackAlertTypeToggled - ${alertType} ${enabled}`);
+  return;
+
+  // eslint-disable-next-line no-unreachable
   analytics().logEvent('alert_type_toggled', {
     layer_name: alertType,
-    time_frame: timeFrame,
     layer_enabled: enabled ? 1 : 0
   });
 };
