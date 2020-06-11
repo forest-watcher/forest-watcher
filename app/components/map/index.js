@@ -78,6 +78,7 @@ import Reports from 'containers/map/reports';
 import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
 import { lineString } from '@turf/helpers';
 import { showMapWalkthrough } from 'screens/common';
+import { pathForMBTilesFile } from 'helpers/layer-store/layerFilePaths';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -1006,7 +1007,12 @@ class MapComponent extends Component<Props, State> {
           onPress={this.onMapPress}
           compassViewMargins={{ x: 5, y: 50 }}
         >
-          <MBTilesSource basemap={basemap} belowLayerID={'areaOutlineLayer'} port={MapComponent.offlinePortNumber} />
+          <MBTilesSource
+            basemapId={basemap.id}
+            basemapPath={basemap.isCustom ? pathForMBTilesFile(basemap) : null}
+            belowLayerID={'areaOutlineLayer'}
+            port={MapComponent.offlinePortNumber}
+          />
           {renderMapCamera}
           {this.renderAreaOutline()}
           {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
