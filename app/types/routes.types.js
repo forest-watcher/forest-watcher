@@ -1,7 +1,8 @@
 // @flow
 export type RouteState = {
   activeRoute: ?Route,
-  previousRoutes: Array<Route>
+  previousRoutes: Array<Route>,
+  routeStructureVersion?: string
 };
 
 export type RouteDifficulty = 'easy' | 'medium' | 'hard';
@@ -9,6 +10,9 @@ export type RouteDifficulty = 'easy' | 'medium' | 'hard';
 export type Route = {
   id: string,
   areaId: string,
+  // The geostore ID is used to download route tiles for offline use.
+  // It can be null - however if it is when the route cannot be downloaded!
+  geostoreId: ?string,
   name: string,
   startDate: number,
   endDate: ?number,

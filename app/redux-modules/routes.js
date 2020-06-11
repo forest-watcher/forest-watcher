@@ -1,8 +1,11 @@
 // @flow
+import type { Area } from 'types/areas.types';
 import type { Location, RouteState, RouteAction, Route, RouteDeletionCriteria } from 'types/routes.types';
 import type { Dispatch, GetState, Thunk } from 'types/store.types';
 import { deleteAllLocations } from 'helpers/location';
 import generateUniqueID from 'helpers/uniqueId';
+
+import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 // Actions
 const DISCARD_ACTIVE_ROUTE = 'routes/DISCARD_ACTIVE_ROUTE';
@@ -15,11 +18,80 @@ const UPDATE_SAVED_ROUTE = 'routes/UPDATE_SAVED_ROUTE';
 // Reducer
 const initialState: RouteState = {
   activeRoute: undefined,
-  previousRoutes: []
+  previousRoutes: [],
+  routeStructureVersion: 'v2'
+};
+
+/**
+ * migrateV1RoutesToV2RoutesStructure - given the existing route state & the available areas,
+ * attempts to reconcile routes against areas to find the relevant geostoreIds, so the routes
+ * are downloadable later on. This will also migrate any of the old route IDs to use a UUID.
+ *
+ * If the route state doesn't exist / is invalid, the initialState will be returned.
+ * If the route state has already been migrated, the existing state will be returned.
+ * @param {RouteState} routeState
+ * @param {Array<Area>} areas
+ * @param {() => string} getUniqueID - unless testing, use the default param provided to get unique uuids
+ */
+export const migrateV1RoutesToV2RoutesStructure = (
+  routeState: ?RouteState,
+  areas: ?Array<Area>,
+  getUniqueID: () => string = generateUniqueID
+): RouteState => {
+  if (!routeState || !Array.isArray(routeState.previousRoutes)) {
+    return initialState;
+  }
+
+  if (routeState.routeStructureVersion === 'v2') {
+    // This migration is already complete, so just return the existing state
+    return routeState;
+  }
+
+  let previousRoutes = [...routeState.previousRoutes];
+
+  const reconcileRouteDetails = route => {
+    if (!route || !route.areaId) {
+      return route;
+    }
+
+    // Attempt to get the geostore ID for the route, using the user's current areas.
+
+    // If the area cannot be found for the given route, we will set the geostoreId to null,
+    // but ensure we update the ID to a unique identifier.
+    const geostoreIdForRoute = areas?.find(area => area.id === route.areaId)?.geostore?.id;
+
+    return {
+      ...route,
+      id: getUniqueID(),
+      geostoreId: geostoreIdForRoute
+    };
+  };
+
+  previousRoutes = previousRoutes.map(reconcileRouteDetails);
+
+  const activeRoute = reconcileRouteDetails(routeState.activeRoute);
+
+  // Return the new route structure - this has now been migrated!
+  return {
+    ...routeState,
+    activeRoute: activeRoute,
+    previousRoutes: previousRoutes,
+    routeStructureVersion: 'v2'
+  };
 };
 
 export default function reducer(state: RouteState = initialState, action: RouteAction): RouteState {
   switch (action.type) {
+    case PERSIST_REHYDRATE: {
+      const { areas, routes } = action.payload;
+
+      const migratedState = migrateV1RoutesToV2RoutesStructure(routes, areas?.data ?? []);
+
+      return {
+        ...state,
+        ...migratedState
+      };
+    }
     case DISCARD_ACTIVE_ROUTE:
       return {
         ...state,
@@ -93,21 +165,27 @@ export function deleteRoutes(criteria: RouteDeletionCriteria): RouteAction {
   };
 }
 
-export function setRouteDestination(destination: Location, areaId: string): RouteAction {
-  deleteAllLocations();
-  const initialRoute: Route = {
-    areaId: areaId,
-    destination: destination,
-    difficulty: 'easy',
-    endDate: null,
-    id: generateUniqueID(),
-    locations: [],
-    name: '', // will be named on saving
-    startDate: Date.now()
-  };
-  return {
-    type: UPDATE_ACTIVE_ROUTE,
-    payload: initialRoute
+export function setRouteDestination(destination: Location, areaId: string): Thunk<RouteAction> {
+  return (dispatch: Dispatch, getState: GetState) => {
+    deleteAllLocations();
+
+    const geostoreId = getState().areas.data.find(area => area.id === areaId)?.geostore?.id;
+
+    const initialRoute: Route = {
+      areaId: areaId,
+      destination: destination,
+      difficulty: 'easy',
+      endDate: null,
+      geostoreId: geostoreId,
+      id: generateUniqueID(),
+      locations: [],
+      name: '', // will be named on saving
+      startDate: Date.now()
+    };
+    dispatch({
+      type: UPDATE_ACTIVE_ROUTE,
+      payload: initialRoute
+    });
   };
 }
 
@@ -134,7 +212,7 @@ export function discardActiveRoute(): RouteAction {
   };
 }
 
-export function finishAndSaveRoute(): RouteAction {
+export function finishAndSaveRoute(): Thunk<RouteAction> {
   return {
     type: FINISH_AND_SAVE_ROUTE
   };

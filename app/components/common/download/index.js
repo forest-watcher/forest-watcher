@@ -1,8 +1,8 @@
 // @flow
-import type { AppAction } from 'types/app.types';
+import type { DownloadDataType } from 'types/sharing.types';
 import type { Thunk } from 'types/store.types';
 import React, { PureComponent } from 'react';
-import { TouchableHighlight, View, Alert, Image, Text } from 'react-native';
+import { TouchableHighlight, View, Alert, Image } from 'react-native';
 
 import Config from 'react-native-config';
 import checkConnectivity from 'helpers/networking';
@@ -20,8 +20,9 @@ const refreshIcon = require('assets/refresh.png');
 const downloadedIcon = require('assets/downloaded.png');
 
 type Props = {
-  areaId: string,
-  downloadAreaById: string => Thunk<void>,
+  dataType: DownloadDataType,
+  id: string,
+  downloadById: string => Thunk<void>,
   cacheStatus: {
     requested: boolean,
     progress: number,
@@ -32,17 +33,18 @@ type Props = {
   resetCacheStatus: string => Thunk<void>,
   isOfflineMode: boolean,
   showTooltip: boolean,
-  refreshAreaCacheById: string => Thunk<void>,
+  refreshCacheById: (id: string, type: DownloadDataType) => Thunk<void>,
   pendingCache: number,
   showNotConnectedNotification: () => Thunk<void>
 };
+
 type State = {
   checkingConnectivity: boolean,
   indeterminate: boolean,
   canRefresh: boolean
 };
 
-class AreaCache extends PureComponent<Props, State> {
+class DataCacher extends PureComponent<Props, State> {
   static defaultProps = {
     cacheStatus: {
       progress: 0,
@@ -75,11 +77,11 @@ class AreaCache extends PureComponent<Props, State> {
       ]);
     }
 
-    if (prevProps.cacheStatus.progress === 0 && this.props.cacheStatus.progress > 0) {
+    if (prevProps.cacheStatus.progress === 0 && this.props.cacheStatus.progress > 0 && this.props.dataType === 'area') {
       tracker.trackAreaDownloadStartedEvent();
     }
 
-    if (this.props.pendingCache === 0 && prevProps.pendingCache > 0) {
+    if (this.props.pendingCache === 0 && prevProps.pendingCache > 0 && this.props.dataType === 'area') {
       tracker.trackAreaDownloadEndedEvent(!this.props.cacheStatus.error);
     }
   }
@@ -100,8 +102,8 @@ class AreaCache extends PureComponent<Props, State> {
         return;
       }
 
-      const { areaId, downloadAreaById } = this.props;
-      downloadAreaById(areaId);
+      const { id, downloadById } = this.props;
+      downloadById(id);
       return;
     });
   };
@@ -115,10 +117,10 @@ class AreaCache extends PureComponent<Props, State> {
   };
 
   onRefresh = () => {
-    const { areaId, refreshAreaCacheById } = this.props;
+    const { dataType, id, refreshCacheById } = this.props;
     this.setState({ canRefresh: false });
     this.resetCacheStatus();
-    refreshAreaCacheById(areaId);
+    refreshCacheById(id, dataType);
   };
 
   onOfflinePress = () => this.props.showNotConnectedNotification();
@@ -155,8 +157,8 @@ class AreaCache extends PureComponent<Props, State> {
   };
 
   resetCacheStatus = () => {
-    const { areaId, resetCacheStatus } = this.props;
-    resetCacheStatus(areaId);
+    const { id, resetCacheStatus } = this.props;
+    resetCacheStatus(id);
   };
 
   render() {
@@ -205,4 +207,4 @@ class AreaCache extends PureComponent<Props, State> {
   }
 }
 
-export default AreaCache;
+export default DataCacher;

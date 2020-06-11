@@ -76,7 +76,7 @@ export type LayersAction =
   | CacheLayerRequest
   | CacheLayerCommit
   | CacheLayerRollback
-  | DownloadArea
+  | DownloadData
   | InvalidateCache
   | SetCacheStatus
   | DeleteAreaCommit
@@ -102,24 +102,24 @@ type SetActiveContextualLayer = { type: 'layers/SET_ACTIVE_LAYER', payload: ?str
 type UpdateProgress = {
   type: 'layers/UPDATE_PROGRESS',
   payload: {
-    areaId: string,
+    id: string,
     layerId: string,
     progress: number
   }
 };
 type CacheLayerRequest = {
   type: 'layers/CACHE_LAYER_REQUEST',
-  payload: { areaId: string, layerId: string }
+  payload: { dataId: string, layerId: string }
 };
 type CacheLayerCommit = {
   type: 'layers/CACHE_LAYER_COMMIT',
-  payload: { areaId: string, layerId: string, path?: string }
+  payload: { dataId: string, layerId: string, path?: string }
 };
 type CacheLayerRollback = {
   type: 'layers/CACHE_LAYER_ROLLBACK',
-  payload: { areaId: string, layerId: string }
+  payload: { dataId: string, layerId: string }
 };
-type DownloadArea = { type: 'layers/DOWNLOAD_AREA', payload: { area: Area, basemaps: Array<Basemap> } };
+type DownloadData = { type: 'layers/DOWNLOAD_DATA', payload: { dataId: string, basemaps: Array<Basemap> } };
 type InvalidateCache = { type: 'layers/INVALIDATE_CACHE', payload: string };
 type SetCacheStatus = {
   type: 'layers/SET_CACHE_STATUS',
