@@ -419,6 +419,7 @@
         "gfw": {
             "add": "Add Layer",
             "description": "View Description",
+            "downloading": "Downloading Layer...",
             "onlineTitle": "Online Access Only",
             "onlineSubtitle": "Layer data will only be available when online",
             "downloadTitle": "Download",
