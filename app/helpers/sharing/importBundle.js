@@ -47,10 +47,10 @@ export default async function importBundle(uri: string, dispatch: Dispatch): Pro
 
 export function checkBundleCompatibility(version: number) {
   if (version > APP_DATA_FORMAT_VERSION) {
-    throw new FWError({ message: i18n.t("importBundle.incompatibleBundle") });
+    throw new FWError({ message: i18n.t('importBundle.incompatibleBundle') });
   } else if (version < APP_DATA_FORMAT_VERSION) {
     if (version === 1) {
-      throw new FWError({ message: i18n.t("importBundle.incompatibleBundle") });
+      throw new FWError({ message: i18n.t('importBundle.incompatibleBundle') });
     }
     // For past versions we can either (i) migrate or (ii) fail
     // Handle those decisions for each past version here

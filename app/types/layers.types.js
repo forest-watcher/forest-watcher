@@ -17,7 +17,7 @@ export type ContextualLayerMetadata = {
   minZoom?: ?number,
   tileFormat?: ?('vector' | 'raster'),
   vectorMapLayers?: ?Array<VectorMapLayer>
-}
+};
 
 export type ContextualLayer = {
   createdAt?: ?string,
