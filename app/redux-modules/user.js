@@ -137,9 +137,9 @@ export function googleLogin() {
     } catch (e) {
       // very brittle approach but only way to know currently
       const userDismissedLogin =
-        e.message.contains('error -3') ||
-        e.message.contains('Failed to authenticate') ||
-        e.message.contains('User cancelled flow');
+        e.message.includes('error -3') ||
+        e.message.includes('Failed to authenticate') ||
+        e.message.includes('User cancelled flow');
       if (!userDismissedLogin) {
         console.error(e);
       }
