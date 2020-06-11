@@ -493,11 +493,18 @@ export function cacheAreaBasemap(dataType: DownloadDataType, dataId: string, bas
       const route = state.routes.previousRoutes.find(route => route.id === dataId);
 
       if (route) {
-        bbox = bboxForRoute(route);
+        try {
+          bbox = bboxForRoute(route);
+        } catch {
+          console.warn('3SC - Could not generate BBox for route - does it have two or more points?');
+          dispatch({ type: CACHE_LAYER_COMMIT, payload: { dataId, layerId: basemapId } });
+          return;
+        }
       }
     }
 
     if (!bbox) {
+      dispatch({ type: CACHE_LAYER_COMMIT, payload: { dataId, layerId: basemapId } });
       return;
     }
 
