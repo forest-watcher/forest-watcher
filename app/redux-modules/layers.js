@@ -454,8 +454,13 @@ export function cacheAreaBasemap(areaId: string, basemapId: string) {
     const packName = `${areaId}|${basemapId}`;
     const pack = await MapboxGL.offlineManager.getPack(packName);
     if (pack) {
-      // offline pack with with this id already exists. Can ignore or delete and redownload pack.
-      console.warn('3SC', 'Error: offline pack with with this id already exists');
+      // offline pack with with this id already exists.
+      console.info('3SC', 'Error: offline pack with with this id already exists');
+      dispatch({
+        type: UPDATE_PROGRESS,
+        payload: { areaId: areaId, progress: 1, layerId: basemapId }
+      });
+      dispatch({ type: CACHE_LAYER_COMMIT, payload: { areaId, layerId: basemapId } });
       return;
     }
     const areaBbox = state().areas.data.find(area => area.id === areaId)?.geostore?.bbox;
