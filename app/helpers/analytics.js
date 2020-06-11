@@ -69,16 +69,29 @@ export const trackAreaCreationFlowEnded = (areaSize: number) => {
   });
 };
 
-export const trackAreaDownloadFlowStarted = () => {
+const areaDownloadTimers: { [id: string]: number } = {};
+
+export const trackAreaDownloadFlowStarted = (areaId: string) => {
+  areaDownloadTimers[areaId] = Date.now();
+  console.warn(`trackAreaDownloadFlowStarted - ${areaId}`);
+  return;
+
+  // eslint-disable-next-line no-unreachable
   analytics().logLevelStart({
     level_name: 'area_download'
   });
 };
 
-export const trackAreaDownloadFlowEnded = (duration: number) => {
+export const trackAreaDownloadFlowEnded = (areaId: string, success: boolean) => {
+  const duration = areaDownloadTimers[areaId] ? Math.ceil((Date.now() - areaDownloadTimers[areaId]) / 1000) : 0;
+  delete areaDownloadTimers[areaId];
+  console.warn(`trackAreaDownloadFlowEnded - ${areaId} ${duration} ${success}`);
+  return;
+  // eslint-disable-next-line no-unreachable
   analytics().logLevelEnd({
     level_name: 'area_download',
-    time_taken: duration
+    time_taken: duration,
+    success: success ? 1 : 0
   });
 };
 
@@ -194,7 +207,7 @@ export const trackRouteDetailsUpdated = (
   });
 };
 
-const routeDownloadTimers: { [string]: number } = {};
+const routeDownloadTimers: { [id: string]: number } = {};
 
 export const trackRouteDownloadFlowStarted = (routeId: string) => {
   routeDownloadTimers[routeId] = Date.now();
