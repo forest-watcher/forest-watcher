@@ -21,7 +21,7 @@ export type Basemap = {
   /**
    * Flag indicating whether or not this basemap was imported from a sharing bundle
    */
-  isImported?: true
+  isImported?: boolean
 };
 
 export type BasemapsState = {
