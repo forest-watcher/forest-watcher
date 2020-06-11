@@ -2,7 +2,7 @@
 import type { LayerSettingsState, LayerSettingsAction } from 'types/layerSettings.types';
 import { DEFAULT_BASEMAP, GFW_BASEMAPS } from 'config/constants';
 import remove from 'lodash/remove';
-import type { Dispatch, GetState } from 'types/store.types';
+import type { Dispatch, GetState, State } from 'types/store.types';
 import type { Area } from 'types/areas.types';
 import { DATASETS } from 'config/constants';
 
@@ -554,21 +554,18 @@ export function copyLayerSettings(copyFromFeatureId: string, copyToFeatureId: st
   };
 }
 
-export function getActiveBasemap(featureId: ?string) {
-  return (dispatch: Dispatch, getState: GetState) => {
-    if (!featureId) {
-      return DEFAULT_BASEMAP;
-    }
+export function getActiveBasemap(featureId: ?string, state: State) {
+  if (!featureId) {
+    return DEFAULT_BASEMAP;
+  }
 
-    const state = getState();
-    const activeBasemapId = state.layerSettings?.[featureId]?.basemap?.activeBasemapId;
-    if (!activeBasemapId) {
-      return DEFAULT_BASEMAP;
-    }
-    const allBasemaps = [...GFW_BASEMAPS, ...state.basemaps.importedBasemaps];
-    const basemap = allBasemaps.find(item => item.id === activeBasemapId);
-    return basemap ?? DEFAULT_BASEMAP;
-  };
+  const activeBasemapId = state.layerSettings?.[featureId]?.basemap?.activeBasemapId;
+  if (!activeBasemapId) {
+    return DEFAULT_BASEMAP;
+  }
+  const allBasemaps = [...GFW_BASEMAPS, ...state.basemaps.importedBasemaps];
+  const basemap = allBasemaps.find(item => item.id === activeBasemapId);
+  return basemap ?? DEFAULT_BASEMAP;
 }
 
 // This should be called whenever opening a feature (area / route) on the map screen.

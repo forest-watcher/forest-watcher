@@ -7,13 +7,12 @@ import styles from './styles';
 
 import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
 
-import i18n from 'i18next';
-
 const Timer = require('react-native-timer');
 
 type Props = {
   type: string,
   text: string,
+  description?: ?string,
   autoDismissTimerMillis: number,
   componentId: string
 };
@@ -43,11 +42,12 @@ class ToastNotification extends PureComponent<Props> {
   }
 
   render() {
-    const { type, text } = this.props;
+    const { type, text, description } = this.props;
     return (
       <View style={[styles.view, styles[type], { paddingTop: initialWindowSafeAreaInsets.top }]}>
         <View style={styles.internalView}>
           <Text style={[styles.text, styles[`${type}Text`]]}>{text}</Text>
+          {description && <Text style={[styles.description, styles[`${type}Text`]]}>{description}</Text>}
         </View>
       </View>
     );
@@ -62,11 +62,12 @@ export const Types: { disable: string, error: string, success: string } = {
 
 export function showNotification(notification: {
   type?: string,
-  textKey: string,
+  text: string,
+  description: ?string,
   clearPrevious?: boolean,
   time?: number
 }) {
-  const { type, textKey, clearPrevious = true, time = 2 } = notification;
+  const { type, text, description, clearPrevious = true, time = 2 } = notification;
   if (clearPrevious) {
     //Navigation.dismissInAppNotification();
   }
@@ -75,7 +76,8 @@ export function showNotification(notification: {
       name: 'ForestWatcher.ToastNotification',
       passProps: {
         type,
-        text: i18n.t(textKey),
+        text,
+        description,
         autoDismissTimerMillis: time * 1000
       },
       options: {

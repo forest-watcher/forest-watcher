@@ -77,6 +77,7 @@ import { formatInfoBannerDate } from 'helpers/date';
 import Reports from 'containers/map/reports';
 import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
 import { lineString } from '@turf/helpers';
+import { showMapWalkthrough } from 'screens/common';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -123,7 +124,7 @@ type Props = {
   isTracking: boolean,
   onStartTrackingRoute: (location: Location, areaId: string) => void,
   onCancelTrackingRoute: () => void,
-  getActiveBasemap: (?string) => Basemap, // TODO: This shouldn't be a function
+  basemap: Basemap,
   getRoutesById: (routeIds: Array<string>) => Array<Route> // TODO: This shouldn't be a function
 };
 
@@ -255,7 +256,7 @@ class MapComponent extends Component<Props, State> {
       setCanDisplayAlerts(true);
     }
 
-    this.showMapWalkthrough();
+    this.showMapWalkthroughIfNecessary();
   }
 
   // called on startup to set initial camera position
@@ -271,28 +272,9 @@ class MapComponent extends Component<Props, State> {
     });
   };
 
-  showMapWalkthrough = () => {
+  showMapWalkthroughIfNecessary = () => {
     if (!this.props.mapWalkthroughSeen) {
-      Navigation.showModal({
-        stack: {
-          children: [
-            {
-              component: {
-                name: 'ForestWatcher.MapWalkthrough',
-                options: {
-                  animations: Theme.navigationAnimations.fadeModal,
-                  layout: {
-                    backgroundColor: 'transparent',
-                    componentBackgroundColor: 'rgba(0,0,0,0.74)'
-                  },
-                  screenBackgroundColor: 'rgba(0,0,0,0.74)',
-                  modalPresentationStyle: 'overCurrentContext'
-                }
-              }
-            }
-          ]
-        }
-      });
+      showMapWalkthrough();
     }
   };
 
@@ -965,21 +947,12 @@ class MapComponent extends Component<Props, State> {
 
   render() {
     const { customReporting, userLocation, mapCenterCoords } = this.state;
-    const {
-      isConnected,
-      isOfflineMode,
-      route,
-      coordinatesFormat,
-      getActiveBasemap,
-      layerSettings,
-      featureId
-    } = this.props;
+    const { isConnected, isOfflineMode, route, coordinatesFormat, basemap, layerSettings, featureId } = this.props;
 
     if (!featureId) {
       return null;
     }
 
-    const basemap = getActiveBasemap(featureId);
     const coordinateAndDistanceText = customReporting
       ? getCoordinateAndDistanceText(mapCenterCoords, userLocation, route, coordinatesFormat, this.isRouteTracking())
       : '';

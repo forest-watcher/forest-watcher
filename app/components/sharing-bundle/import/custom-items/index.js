@@ -1,13 +1,13 @@
 // @flow
-import type { ImportBundleRequest, UnpackedSharingBundle } from 'types/sharing.types';
+import type { ImportBundleRequest } from 'types/sharing.types';
+import type { SharingBundleCustomImportFlowState } from 'components/sharing-bundle/import/createCustomImportFlow';
+
 import React, { PureComponent } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 
-import Theme from 'config/theme';
 import i18n from 'i18next';
-import styles from './styles';
-import { IMPORT_ENTIRE_BUNDLE_REQUEST } from 'helpers/sharing/importBundle';
+import styles from '../styles';
 import BottomTray from 'components/common/bottom-tray';
 import ActionButton from 'components/common/action-button';
 import CustomImportItem from 'components/sharing-bundle/import/custom-import-item';
@@ -20,8 +20,9 @@ const routesIcon = require('assets/routes.png');
 const routesIconInactive = require('assets/routeNotActive.png');
 
 type Props = {
-  bundle: UnpackedSharingBundle,
-  componentId: string
+  componentId: string,
+  formState: SharingBundleCustomImportFlowState,
+  importRequest: ImportBundleRequest
 };
 
 type State = {
@@ -51,7 +52,7 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
     Navigation.events().bindComponent(this);
 
     this.state = {
-      importRequest: IMPORT_ENTIRE_BUNDLE_REQUEST
+      importRequest: props.importRequest
     };
   }
 
@@ -89,16 +90,7 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
   };
 
   _onNextPress = () => {
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: 'ForestWatcher.ImportBundleCustomLayers',
-        passProps: {
-          bundle: this.props.bundle,
-          initialImportRequest: this.state.importRequest,
-          stepNumber: null
-        }
-      }
-    });
+    this.props.formState.pushNextStep(this.props.componentId, this.state.importRequest);
   };
 
   render() {
@@ -106,6 +98,12 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
       <View style={styles.container}>
         {this.renderContent()}
         <BottomTray requiresSafeAreaView={true} style={styles.bottomTray}>
+          <Text style={styles.progressText}>
+            {i18n.t('importBundle.progress', {
+              current: this.props.formState.currentStep,
+              total: this.props.formState.numSteps
+            })}
+          </Text>
           <ActionButton noIcon onPress={this._onNextPress} secondary={false} text={i18n.t('commonText.next')} />
         </BottomTray>
       </View>
@@ -113,7 +111,7 @@ export default class ImportSharingBundleCustomItemsScreen extends PureComponent<
   }
 
   renderContent = () => {
-    const bundleData = this.props.bundle.data;
+    const bundleData = this.props.formState.bundle.data;
     const areaNames = bundleData.areas.map(item => item.name).sort((a, b) => a.localeCompare(b));
     const reportNames = bundleData.reports.map(item => item.reportName).sort((a, b) => a.localeCompare(b));
     const routeNames = bundleData.routes.map(item => item.name).sort((a, b) => a.localeCompare(b));

@@ -3,8 +3,9 @@ import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setLoginAuth, googleLogin, facebookLogin, logout, clearEmailLoginError } from 'redux-modules/user';
+import { setLoginAuth, googleLogin, facebookLogin, logout } from 'redux-modules/user';
 import Login from 'components/login';
+import { shouldBeConnected } from 'helpers/app';
 
 type OwnProps = {|
   +componentId: string
@@ -12,6 +13,7 @@ type OwnProps = {|
 
 function mapStateToProps(state: State) {
   return {
+    isConnected: shouldBeConnected(state),
     loggedIn: state.user.loggedIn,
     logSuccess: state.user.logSuccess,
     loading: state.user.loading,

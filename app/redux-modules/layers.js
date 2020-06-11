@@ -1,5 +1,12 @@
 // @flow
-import type { ContextualLayer, LayersState, LayersAction, LayersCacheStatus, LayersProgress } from 'types/layers.types';
+import type {
+  ContextualLayer,
+  ImportLayerCommit,
+  LayersState,
+  LayersAction,
+  LayersCacheStatus,
+  LayersProgress
+} from 'types/layers.types';
 import type { Dispatch, GetState, State, Thunk } from 'types/store.types';
 import type { Area } from 'types/areas.types';
 import type { File } from 'types/file.types';
@@ -42,6 +49,8 @@ const IMPORT_LAYER_CLEAR = 'layers/IMPORT_LAYER_CLEAR';
 const IMPORT_LAYER_ROLLBACK = 'layers/IMPORT_LAYER_ROLLBACK';
 const RENAME_LAYER = 'layers/RENAME_LAYER';
 const DELETE_LAYER = 'layers/DELETE_LAYER';
+
+const MAPBOX_DOWNLOAD_COMPLETED_STATE = 2;
 
 // Reducer
 const initialState: LayersState = {
@@ -437,6 +446,10 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
   };
 }
 
+export function importGFWContextualLayer(layer: ContextualLayer): ImportLayerCommit {
+  return { type: IMPORT_LAYER_COMMIT, payload: layer };
+}
+
 function getAreaById(areas: Array<Area>, areaId: string): ?Area {
   const area = areas.find(areaData => areaData.id === areaId);
   return area ? { ...area } : null;
@@ -458,6 +471,19 @@ function getRouteById(routes: Array<Route>, routeId: string): ?Route {
 
 export function cacheAreaBasemap(dataType: DownloadDataType, dataId: string, basemapId: string) {
   return async (dispatch: Dispatch, getState: GetState) => {
+    const packName = `${dataId}|${basemapId}`;
+    const pack = await MapboxGL.offlineManager.getPack(packName);
+    if (pack) {
+      // offline pack with with this id already exists.
+      console.info('3SC', 'Error: offline pack with with this id already exists');
+      dispatch({
+        type: UPDATE_PROGRESS,
+        payload: { id: dataId, progress: 1, layerId: basemapId }
+      });
+      dispatch({ type: CACHE_LAYER_COMMIT, payload: { dataId, layerId: basemapId } });
+      return;
+    }
+
     const state = getState();
     let bbox: ?BBox2d = null;
 
@@ -484,7 +510,7 @@ export function cacheAreaBasemap(dataType: DownloadDataType, dataId: string, bas
         type: UPDATE_PROGRESS,
         payload: { id: dataId, progress: status.percentage / 100, layerId: basemapId }
       });
-      if (status.percentage === 100) {
+      if (status.state === MAPBOX_DOWNLOAD_COMPLETED_STATE) {
         dispatch({ type: CACHE_LAYER_COMMIT, payload: { dataId, layerId: basemapId } });
       }
     };
@@ -493,7 +519,7 @@ export function cacheAreaBasemap(dataType: DownloadDataType, dataId: string, bas
       console.error('3SC download basemap error: ', err);
     };
     const downloadPackOptions = {
-      name: `${dataId}|${basemapId}`,
+      name: packName,
       styleURL: basemapId,
       minZoom: 1,
       maxZoom: CONSTANTS.maps.cacheZoom[0].end,
@@ -504,12 +530,8 @@ export function cacheAreaBasemap(dataType: DownloadDataType, dataId: string, bas
       dispatch({ type: CACHE_LAYER_REQUEST, payload: { dataId, layerId: basemapId } });
       await MapboxGL.offlineManager.createPack(downloadPackOptions, progressListener, errorListener);
     } catch (error) {
-      if (error?.message?.startsWith('Offline pack with name')) {
-        // offline pack with with this id already exists. Can ignore or delete and redownload pack.
-        console.warn('3SC', error);
-      } else {
-        console.error('3SC basemap download error: ', error);
-      }
+      console.error('3SC basemap download error: ', error);
+      dispatch({ type: CACHE_LAYER_ROLLBACK, payload: { dataId, layerId: basemapId } });
     }
   };
 }

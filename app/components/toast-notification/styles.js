@@ -15,6 +15,7 @@ export default StyleSheet.create({
     shadowOpacity: 0.4
   },
   internalView: {
+    flexDirection: 'column',
     ...Platform.select({
       android: {
         paddingTop: 16
@@ -29,6 +30,13 @@ export default StyleSheet.create({
     color: Theme.fontColors.secondary,
     fontSize: 17,
     fontWeight: '400'
+  },
+  description: {
+    fontFamily: Theme.font,
+    color: Theme.fontColors.secondary,
+    fontSize: 12,
+    fontWeight: '400',
+    paddingTop: 4
   },
   success: {
     backgroundColor: Theme.background.secondary
