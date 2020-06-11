@@ -38,11 +38,12 @@ export default function exportAppData(appState: State, request: ExportBundleRequ
 
   return {
     version: APP_DATA_FORMAT_VERSION,
+    timestamp: Date.now(),
     alerts: alerts,
     areas: areas,
     basemaps: basemaps,
     layers: layers,
-    manifest: { layerFiles: [] },
+    manifest: { layerFiles: [], reportFiles: [] },
     reports: reports,
     routes: routes,
     templates: templates

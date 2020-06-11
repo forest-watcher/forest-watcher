@@ -15,6 +15,7 @@ import BottomTray from 'components/common/bottom-tray';
 import ActionButton from 'components/common/action-button';
 import CustomImportItem from 'components/sharing-bundle/import/custom-import-item';
 import summariseBundleContents from 'helpers/sharing/summariseBundleContents';
+import generateBundleName from 'helpers/sharing/generateBundleName';
 
 const basemapsIcon = require('assets/basemap.png');
 const basemapsIconInactive = require('assets/basemapNotActive.png');
@@ -28,7 +29,7 @@ type Props = {
 };
 
 type State = {
-  importError: ?string,
+  importError: ?Error,
   isImporting: boolean
 };
 
@@ -55,8 +56,7 @@ export default class ImportSharingBundleConfirmScreen extends PureComponent<Prop
     Navigation.events().bindComponent(this);
 
     this.state = {
-      importError:
-        'Your device does not have enough space to import this bundle. Please remove items from the device or select fewer import options and try again. ',
+      importError: null,
       isImporting: false
     };
   }
@@ -115,18 +115,17 @@ export default class ImportSharingBundleConfirmScreen extends PureComponent<Prop
   }
 
   renderContent = (bundleSize: string): any => {
-    const bundleName = 'Bundle name'; // TODO: Discussing with James a useful way of naming a bundle
-    const bundleContents = summariseBundleContents(this.props.formState.bundle.data, this.props.importRequest).join(
-      ', '
-    );
+    const bundle = this.props.formState.bundle.data;
+    const bundleName = generateBundleName(bundle);
+    const bundleContents = summariseBundleContents(bundle, this.props.importRequest).join(', ');
     return (
       <ScrollView alwaysBounceVertical={false} style={styles.contentContainer}>
-        <Text style={styles.bundleName} numberOfLines={1} ellipsizeMode={'middle'}>
-          {bundleName}
-        </Text>
+        <Text style={styles.bundleName}>{bundleName}</Text>
         <Text style={styles.bundleContents}>{`${i18n.t('importBundle.importingPrefix')} ${bundleContents}`}</Text>
         {this.renderImportType(bundleSize)}
-        {this.state.importError && <Text style={styles.error}>{this.state.importError}</Text>}
+        {this.state.importError && (
+          <Text style={styles.error}>{this.state.importError.message || this.state.importError}</Text>
+        )}
       </ScrollView>
     );
   };
