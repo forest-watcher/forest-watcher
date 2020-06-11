@@ -1,16 +1,17 @@
 // @flow
 import type { LayerSettingsState, LayerSettingsAction } from 'types/layerSettings.types';
-import { DEFAULT_BASEMAP, GFW_BASEMAPS } from 'config/constants';
+import { DATASETS, DEFAULT_BASEMAP, GFW_BASEMAPS } from 'config/constants';
 import remove from 'lodash/remove';
 import type { Dispatch, GetState, State } from 'types/store.types';
 import type { Area } from 'types/areas.types';
-import { DATASETS } from 'config/constants';
 
 // Actions
 const TOGGLE_ALERTS_LAYER = 'layerSettings/TOGGLE_ALERTS_LAYER';
 const TOGGLE_ROUTES_LAYER = 'layerSettings/TOGGLE_ROUTES_LAYER';
 const TOGGLE_REPORTS_LAYER = 'layerSettings/TOGGLE_REPORTS_LAYER';
 const TOGGLE_CONTEXTUAL_LAYERS_LAYER = 'layerSettings/TOGGLE_CONTEXTUAL_LAYERS_LAYER';
+
+const ENABLE_ROUTES_LAYER = 'layerSettings/ENABLE_ROUTES_LAYER';
 
 const TOGGLE_MY_REPORTS_LAYER = 'layerSettings/TOGGLE_MY_REPORTS_LAYER';
 const TOGGLE_IMPORTED_REPORTS_LAYER = 'layerSettings/TOGGLE_IMPORTED_REPORTS_LAYER';
@@ -110,6 +111,19 @@ export default function reducer(
           routes: {
             ...state[featureId].routes,
             layerIsActive: !state[featureId].routes.layerIsActive
+          }
+        }
+      };
+    }
+    case ENABLE_ROUTES_LAYER: {
+      return {
+        ...state,
+        [featureId]: {
+          ...state[featureId],
+          routes: {
+            ...state[featureId].routes,
+            showAll: false,
+            layerIsActive: true
           }
         }
       };
@@ -416,6 +430,15 @@ export function toggleRouteSelected(featureId: string, routeId: string, allRoute
 export function toggleAlertsLayer(featureId: string): LayerSettingsAction {
   return {
     type: TOGGLE_ALERTS_LAYER,
+    payload: {
+      featureId
+    }
+  };
+}
+
+export function enableRoutesLayer(featureId: string): LayerSettingsAction {
+  return {
+    type: ENABLE_ROUTES_LAYER,
     payload: {
       featureId
     }
