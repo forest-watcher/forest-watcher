@@ -1,7 +1,6 @@
 // @flow
 
 export type Basemap = {
-  isImported: boolean,
   // The unique identifier for this basemap.
   id: string,
   styleURL?: string,
@@ -12,7 +11,17 @@ export type Basemap = {
   // Where the file is saved within the app's documents directory.
   path?: string,
   // The size of this basemap on disk.
-  size?: number
+  size?: number,
+
+  /**
+   * Flag indicating whether or not this basemap is a custom one added by the user
+   */
+  isCustom: boolean,
+
+  /**
+   * Flag indicating whether or not this basemap was imported from a sharing bundle
+   */
+  isImported?: boolean
 };
 
 export type BasemapsState = {

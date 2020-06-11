@@ -207,7 +207,7 @@ class MapSidebar extends PureComponent<Props, State> {
       return '';
     }
     const basemap: Basemap = this.props.getActiveBasemap(this.state.featureId);
-    const basemapName = basemap.isImported ? basemap.name : i18n.t(`basemaps.names.` + basemap.name);
+    const basemapName = basemap.isCustom ? basemap.name : i18n.t(`basemaps.names.` + basemap.name);
     return i18n.t('map.layerSettings.basemapSettings.showingBasemap', { basemap: basemapName });
   };
 
