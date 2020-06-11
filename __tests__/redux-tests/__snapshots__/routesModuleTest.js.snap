@@ -1,0 +1,413 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure returns existing state when provided route state already using v2 structure 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": "testGeostoreId1",
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+  ],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure returns fresh state when provided invalid params 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure returns fresh state when provided no params 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure returns fresh state when provided null params 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure returns fresh state when provided undefined params 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure returns updated state when provided route state with no routes 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with active route returns updated state when provided area with matching ID 1`] = `
+Object {
+  "activeRoute": Object {
+    "areaId": "testAreaId1",
+    "geostoreId": "testGeostoreId1",
+    "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+    "startDate": 1234567890,
+  },
+  "previousRoutes": Array [],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with active route returns updated state when provided area with non-matching ID 1`] = `
+Object {
+  "activeRoute": Object {
+    "areaId": "testAreaId1",
+    "geostoreId": undefined,
+    "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+    "startDate": 1234567890,
+  },
+  "previousRoutes": Array [],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with active route returns updated state when provided areas where one area matches 1`] = `
+Object {
+  "activeRoute": Object {
+    "areaId": "testAreaId1",
+    "geostoreId": "testGeostoreId1",
+    "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+    "startDate": 1234567890,
+  },
+  "previousRoutes": Array [],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with active route returns updated state when provided areas with non-matching ID 1`] = `
+Object {
+  "activeRoute": Object {
+    "areaId": "testAreaId1",
+    "geostoreId": undefined,
+    "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+    "startDate": 1234567890,
+  },
+  "previousRoutes": Array [],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with active route returns updated state when provided empty areas 1`] = `
+Object {
+  "activeRoute": Object {
+    "areaId": "testAreaId1",
+    "geostoreId": undefined,
+    "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+    "startDate": 1234567890,
+  },
+  "previousRoutes": Array [],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with active route returns updated state when provided null areas 1`] = `
+Object {
+  "activeRoute": Object {
+    "areaId": "testAreaId1",
+    "geostoreId": undefined,
+    "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+    "startDate": 1234567890,
+  },
+  "previousRoutes": Array [],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with one route returns updated state when provided area with matching ID 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": "testGeostoreId1",
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+  ],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with one route returns updated state when provided area with non-matching ID 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": undefined,
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+  ],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with one route returns updated state when provided areas where one area matches 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": "testGeostoreId1",
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+  ],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with one route returns updated state when provided areas with non-matching ID 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": undefined,
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+  ],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with one route returns updated state when provided empty areas 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": undefined,
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+  ],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with one route returns updated state when provided null areas 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": undefined,
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+  ],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with two routes returns updated state when provided area with matching ID 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": "testGeostoreId1",
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": "testGeostoreId1",
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+  ],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with two routes returns updated state when provided area with non-matching ID 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": undefined,
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": undefined,
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+  ],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with two routes returns updated state when provided areas where one area matches 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": "testGeostoreId1",
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": "testGeostoreId1",
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+  ],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with two routes returns updated state when provided areas with non-matching ID 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": undefined,
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": undefined,
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+  ],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with two routes returns updated state when provided empty areas 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": undefined,
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": undefined,
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+  ],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with two routes returns updated state when provided null areas 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": undefined,
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": undefined,
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+  ],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with two routes returns updated state when provided routes for different areas & both match 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": "testGeostoreId1",
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+    Object {
+      "areaId": "testAreaId2",
+      "geostoreId": "testGeostoreId2",
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+  ],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with two routes returns updated state when provided routes for different areas & neither match 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": undefined,
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+    Object {
+      "areaId": "testAreaId2",
+      "geostoreId": undefined,
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+  ],
+  "routeStructureVersion": "v2",
+}
+`;
+
+exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with two routes returns updated state when provided routes for different areas & only one matches 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": "testGeostoreId1",
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+    Object {
+      "areaId": "testAreaId2",
+      "geostoreId": undefined,
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+  ],
+  "routeStructureVersion": "v2",
+}
+`;

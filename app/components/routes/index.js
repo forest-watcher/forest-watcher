@@ -18,6 +18,7 @@ import type { Route } from 'types/routes.types';
 
 import ShareSheet from 'components/common/share';
 import VerticalSplitRow from 'components/common/vertical-split-row';
+import DataCacher from 'containers/common/download';
 
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
 import Theme, { isSmallScreen } from 'config/theme';
@@ -239,23 +240,25 @@ export default class Routes extends PureComponent<Props, State> {
       const subtitle = dateText + ', ' + distanceText;
 
       return (
-        <VerticalSplitRow
-          backgroundImageResizeMode={Platform.OS === 'ios' ? 'repeat' : 'cover'}
-          key={item.id}
-          onSettingsPress={this.onClickRouteSettings.bind(this, item)}
-          onPress={() => {
-            onPress(item);
-          }}
-          style={styles.row}
-          renderImageChildren={this.renderRoutePath.bind(this, item)}
-          imageSrc={routeMapBackground}
-          title={item.name}
-          subtitle={subtitle}
-          disableSettingsButton={this.state.inShareMode}
-          selected={this.state.inShareMode ? this.state.selectedForExport.includes(item.id) : null}
-          largerLeftPadding
-          largeImage
-        />
+        <View key={`${item.id}-list`} style={styles.rowContainer}>
+          <VerticalSplitRow
+            backgroundImageResizeMode={Platform.OS === 'ios' ? 'repeat' : 'cover'}
+            key={item.id}
+            onSettingsPress={this.onClickRouteSettings.bind(this, item)}
+            onPress={() => {
+              onPress(item);
+            }}
+            renderImageChildren={this.renderRoutePath.bind(this, item)}
+            imageSrc={routeMapBackground}
+            title={item.name}
+            subtitle={subtitle}
+            disableSettingsButton={this.state.inShareMode}
+            selected={this.state.inShareMode ? this.state.selectedForExport.includes(item.id) : null}
+            largerLeftPadding
+            largeImage
+          />
+          <DataCacher dataType={'route'} id={item.id} disabled={this.state.inShareMode} showTooltip={false} />
+        </View>
       );
     });
   }

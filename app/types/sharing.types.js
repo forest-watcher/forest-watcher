@@ -9,6 +9,7 @@ import type { ContextualLayer } from 'types/layers.types';
 import type { Feature, Polygon } from '@turf/helpers';
 import type { ReportAttachmentType } from 'helpers/report-store/reportFilePaths';
 
+export type DownloadDataType = 'area' | 'route';
 export type LayerType = 'basemap' | 'contextual_layer';
 
 /**
@@ -150,6 +151,7 @@ export type SharingBundleManifest = {|
  */
 export type SharingBundle = {|
   version: number,
+  timestamp: number,
   alerts: Array<Alert>,
   areas: Array<Area>,
   basemaps: Array<Basemap>,
