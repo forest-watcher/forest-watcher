@@ -194,6 +194,32 @@ export const trackRouteDetailsUpdated = (
   });
 };
 
+const routeDownloadTimers: { [string]: number } = {};
+
+export const trackRouteDownloadFlowStarted = (routeId: string) => {
+  routeDownloadTimers[routeId] = Date.now();
+  console.warn(`trackRouteDownloadFlowStarted - ${routeId}`);
+  return;
+
+  // eslint-disable-next-line no-unreachable
+  analytics().logLevelStart({
+    level_name: 'route_download'
+  });
+};
+
+export const trackRouteDownloadFlowEnded = (routeId: string, success: boolean) => {
+  const duration = routeDownloadTimers[routeId] ? Math.ceil((Date.now() - routeDownloadTimers[routeId]) / 1000) : 0;
+  delete routeDownloadTimers[routeId];
+  console.warn(`trackRouteDownloadFlowEnded - ${routeId} ${duration} ${success}`);
+  return;
+  // eslint-disable-next-line no-unreachable
+  analytics().logLevelEnd({
+    level_name: 'route_download',
+    time_taken: duration,
+    success: success ? 1 : 0
+  });
+};
+
 /// REPORTING
 
 let startReportingTimestamp: ?number = null;
@@ -211,7 +237,7 @@ export const trackReportingStarted = (totalAlerts: number, source: ReportingSour
 };
 
 export const trackReportingConcluded = (reportOutcome: ReportingOutcome, screenName: string) => {
-  const timeTaken = startReportingTimestamp != null ? (Date.now() - startReportingTimestamp) / 1000 : 0;
+  const timeTaken = startReportingTimestamp != null ? Math.ceil((Date.now() - startReportingTimestamp) / 1000) : 0;
   console.warn(`trackReportingConcluded - ${reportOutcome} ${screenName} ${timeTaken}`);
   startReportingTimestamp = null;
   return;
