@@ -13,6 +13,7 @@ import { discardActiveRoute, getRoutesById, setRouteDestination } from 'redux-mo
 import { setCanDisplayAlerts, setActiveAlerts } from 'redux-modules/alerts';
 import { getImportedContextualLayersById } from 'redux-modules/layers';
 import tracker from 'helpers/googleAnalytics';
+import { trackRouteFlowEvent } from 'helpers/analytics';
 import { getContextualLayer } from 'helpers/map';
 import { shouldBeConnected } from 'helpers/app';
 import { getSelectedArea, activeDataset } from 'helpers/area';
@@ -123,9 +124,11 @@ function mapDispatchToProps(dispatch: Dispatch) {
       return dispatch(getImportedContextualLayersById(layerIds));
     },
     onStartTrackingRoute: (location: Location, areaId: string) => {
+      trackRouteFlowEvent('started');
       dispatch(setRouteDestination(location, areaId));
     },
     onCancelTrackingRoute: () => {
+      trackRouteFlowEvent('disregardedFromMap');
       dispatch(discardActiveRoute());
     },
     getRoutesById: (routeIds: Array<string>) => {

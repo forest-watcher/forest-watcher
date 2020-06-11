@@ -167,6 +167,9 @@ export const trackReportsToggled = (reportType: ImportableLayerCategories, enabl
 /// ROUTES
 
 export const trackRouteFlowEvent = (routingAction: RoutingAction) => {
+  console.warn(`trackRouteFlowEvent - ${routingAction}`);
+  return;
+  // eslint-disable-next-line no-unreachable
   analytics().logEvent('route_action', {
     action: routingAction
   });
@@ -174,15 +177,20 @@ export const trackRouteFlowEvent = (routingAction: RoutingAction) => {
 
 export const trackRouteDetailsUpdated = (
   difficulty: RouteDifficulty,
-  timeTaken: number,
+  timeTaken: number, // provided in ms
   date: string,
-  length: number
+  length: number //provided in m
 ) => {
+  const durationInSeconds = parseInt(timeTaken / 1000);
+  const distanceInKm = parseFloat((length / 1000).toFixed(3));
+  console.warn(`trackRouteDetailsUpdated - ${difficulty} ${durationInSeconds} ${date} ${distanceInKm}`);
+  return;
+  // eslint-disable-next-line no-unreachable
   analytics().logEvent('route_details_updated', {
     difficulty: difficulty,
-    time_taken: timeTaken,
+    time_taken: durationInSeconds,
     date: date,
-    value: length
+    value: distanceInKm
   });
 };
 
