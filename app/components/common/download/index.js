@@ -19,7 +19,6 @@ import {
   trackAreaDownloadFlowEnded,
   trackAreaDownloadFlowStarted
 } from 'helpers/analytics';
-import tracker from 'helpers/googleAnalytics';
 
 const downloadIcon = require('assets/download.png');
 const refreshIcon = require('assets/refresh.png');
