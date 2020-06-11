@@ -116,6 +116,7 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
           const selected = contextualLayersLayerSettings.activeContextualLayerIds.includes(layerFile.id);
           return (
             <ActionsRow
+              rowStyle={{ rightPadding: 0 }}
               style={styles.rowContent}
               imageSrc={layerPlaceholder}
               onPress={this.setContextualLayerShowing.bind(this, layerFile.id, !selected)}

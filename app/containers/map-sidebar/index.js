@@ -20,14 +20,14 @@ type OwnProps = {|
 function mapStateToProps(state: State) {
   return {
     allLayerSettings: state.layerSettings,
-    defaultLayerSettings: DEFAULT_LAYER_SETTINGS
+    defaultLayerSettings: DEFAULT_LAYER_SETTINGS,
+    getActiveBasemap: featureId => getActiveBasemap(featureId, state)
   };
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      getActiveBasemap,
       toggleAlertsLayer,
       toggleRoutesLayer,
       toggleReportsLayer,
