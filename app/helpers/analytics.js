@@ -11,7 +11,7 @@ type ImportableLayerCategories = 'all' | 'own' | 'imported' | 'none';
 type RoutingAction = 'started' | 'saved' | 'disregardedFromMap' | 'disregardedOnLaunch';
 type RouteDifficulty = 'easy' | 'medium' | 'hard';
 type ReportingOutcome = 'cancelled' | 'saved' | 'completed' | 'deleted';
-type ReportingSource = 'singleAlert' | 'alertGroup' | 'custom' | 'customWhileRouting' | 'currentLocation';
+export type ReportingSource = 'singleAlert' | 'alertGroup' | 'custom' | 'customWhileRouting' | 'currentLocation';
 
 /// MISC
 
@@ -196,25 +196,31 @@ export const trackRouteDetailsUpdated = (
 
 /// REPORTING
 
-export const trackReportingStarted = (totalAlerts: number) => {
+let startReportingTimestamp: ?number = null;
+
+export const trackReportingStarted = (totalAlerts: number, source: ReportingSource) => {
+  console.warn(`trackReportingStarted - ${totalAlerts} ${source}`);
+  startReportingTimestamp = Date.now();
+  return;
+  // eslint-disable-next-line no-unreachable
   analytics().logLevelStart({
     level_name: 'report',
-    value: totalAlerts // this is different from original event
+    value: totalAlerts, // this is different from original event
+    source: source
   });
 };
 
-export const trackReportingConcluded = (
-  reportOutcome: ReportingOutcome,
-  timeTaken: Number,
-  screenName: String,
-  source: ReportingSource
-) => {
+export const trackReportingConcluded = (reportOutcome: ReportingOutcome, screenName: string) => {
+  const timeTaken = startReportingTimestamp != null ? (Date.now() - startReportingTimestamp) / 1000 : 0;
+  console.warn(`trackReportingConcluded - ${reportOutcome} ${screenName} ${timeTaken}`);
+  startReportingTimestamp = null;
+  return;
+  // eslint-disable-next-line no-unreachable
   analytics().logLevelEnd({
     level_name: 'report',
     success: reportOutcome === 'completed' || reportOutcome === 'saved',
     report_outcome: reportOutcome,
     time_taken: timeTaken,
-    screen_name: screenName,
-    source: source
+    screen_name: screenName
   });
 };

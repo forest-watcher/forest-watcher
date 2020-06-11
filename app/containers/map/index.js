@@ -12,8 +12,7 @@ import { createReport } from 'redux-modules/reports';
 import { discardActiveRoute, getRoutesById, setRouteDestination } from 'redux-modules/routes';
 import { setCanDisplayAlerts, setActiveAlerts } from 'redux-modules/alerts';
 import { getImportedContextualLayersById } from 'redux-modules/layers';
-import tracker from 'helpers/googleAnalytics';
-import { trackRouteFlowEvent } from 'helpers/analytics';
+import { trackRouteFlowEvent, trackReportingStarted, type ReportingSource } from 'helpers/analytics';
 import { getContextualLayer } from 'helpers/map';
 import { shouldBeConnected } from 'helpers/app';
 import { getSelectedArea, activeDataset } from 'helpers/area';
@@ -111,14 +110,14 @@ function mapDispatchToProps(dispatch: Dispatch) {
       },
       dispatch
     ),
-    createReport: (report: BasicReport) => {
+    createReport: (report: BasicReport, source: ReportingSource) => {
       dispatch(createReport(report));
       let numAlertsInReport = 0;
       if (report.clickedPosition) {
         const parsedAlerts = JSON.parse(report.clickedPosition);
         numAlertsInReport = parsedAlerts.length;
       }
-      tracker.trackReportFlowStartedEvent(numAlertsInReport);
+      trackReportingStarted(numAlertsInReport, source);
     },
     getImportedContextualLayersById: layerIds => {
       return dispatch(getImportedContextualLayersById(layerIds));

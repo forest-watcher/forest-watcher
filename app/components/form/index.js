@@ -12,6 +12,7 @@ import FormField from 'components/common/form-inputs';
 import NextButton from 'components/form/next-button';
 import withDraft from 'components/form/withDraft';
 import { Navigation } from 'react-native-navigation';
+import { trackReportingConcluded } from 'helpers/analytics';
 
 type Props = {
   question: Question,
@@ -60,6 +61,7 @@ class Form extends Component<Props> {
   navigationButtonPressed({ buttonId }) {
     if (buttonId === 'backButton') {
       if (this.props.nextQuestionIndex !== null || !this.props.editMode) {
+        trackReportingConcluded('cancelled', 'answers');
         Navigation.dismissModal(this.props.componentId);
       } else {
         Navigation.popToRoot(this.props.componentId);
