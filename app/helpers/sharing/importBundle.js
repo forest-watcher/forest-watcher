@@ -3,6 +3,7 @@ import type { Dispatch } from 'types/store.types';
 import type { ImportBundleRequest, UnpackedSharingBundle } from 'types/sharing.types';
 import { Platform } from 'react-native';
 
+import i18n from 'i18next';
 import RNFS from 'react-native-fs';
 import { unzip } from 'react-native-zip-archive';
 
@@ -46,8 +47,11 @@ export default async function importBundle(uri: string, dispatch: Dispatch): Pro
 
 export function checkBundleCompatibility(version: number) {
   if (version > APP_DATA_FORMAT_VERSION) {
-    throw new FWError({ message: 'Cannot read incompatible bundle version' });
+    throw new FWError({ message: i18n.t("importBundle.incompatibleBundle") });
   } else if (version < APP_DATA_FORMAT_VERSION) {
+    if (version === 1) {
+      throw new FWError({ message: i18n.t("importBundle.incompatibleBundle") });
+    }
     // For past versions we can either (i) migrate or (ii) fail
     // Handle those decisions for each past version here
     console.warn('3SC', 'Processing bundle created using an old format. We should explicitly handle this.');
