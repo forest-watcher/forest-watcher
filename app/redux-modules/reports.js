@@ -12,7 +12,6 @@ import { GET_AREAS_COMMIT } from 'redux-modules/areas';
 import queryReportFiles from 'helpers/report-store/queryReportFiles';
 import deleteReportFiles from 'helpers/report-store/deleteReportFiles';
 import { toFileUri } from 'helpers/fileURI';
-import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
 // Actions
 const GET_DEFAULT_TEMPLATE_REQUEST = 'report/GET_DEFAULT_TEMPLATE_REQUEST';
