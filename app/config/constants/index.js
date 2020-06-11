@@ -504,23 +504,172 @@ export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerMetadata
   'e37f881b-ed2e-485b-b194-6a6829aaff2e': {
     tileFormat: 'vector',
     vectorMapLayers: [
-      {
-        type: 'fill',
-        'source-layer': 'wdpa_protected_areas_201909',
-        paint: {
-          'fill-color': '#5ca2d1',
-          'fill-opacity': 1
-        }
-      },
-      {
-        type: 'line',
-        'source-layer': 'wdpa_protected_areas_201909',
-        paint: {
-          'line-color': '#000000',
-          'line-opacity': 0.1
-        }
-      }
-    ]
+                        {
+                            "paint": {
+                                "fill-opacity": 0.7
+                            },
+                            "source-layer": "wdpa_protected_areas_201909",
+                            "type": "fill"
+                        },
+                        {
+                            "paint": {
+                                "line-opacity": 0,
+                                "line-width": 0
+                            },
+                            "source-layer": "wdpa_protected_areas_201909",
+                            "type": "line"
+                        },
+                        {
+                            "filter": [
+                                "all",
+                                [
+                                    "==",
+                                    "iucn_cat",
+                                    "II"
+                                ]
+                            ],
+                            "paint": {
+                                "fill-color": "#0f3b82"
+                            },
+                            "source-layer": "wdpa_protected_areas_201909",
+                            "type": "fill"
+                        },
+                        {
+                            "filter": [
+                                "all",
+                                [
+                                    "==",
+                                    "iucn_cat",
+                                    "III"
+                                ]
+                            ],
+                            "paint": {
+                                "fill-color": "#c9ddff"
+                            },
+                            "source-layer": "wdpa_protected_areas_201909",
+                            "type": "fill"
+                        },
+                        {
+                            "filter": [
+                                "all",
+                                [
+                                    "==",
+                                    "iucn_cat",
+                                    "IV"
+                                ]
+                            ],
+                            "paint": {
+                                "fill-color": "#b9b2a1"
+                            },
+                            "source-layer": "wdpa_protected_areas_201909",
+                            "type": "fill"
+                        },
+                        {
+                            "filter": [
+                                "all",
+                                [
+                                    "==",
+                                    "iucn_cat",
+                                    "Ia"
+                                ]
+                            ],
+                            "paint": {
+                                "fill-color": "#5ca2d1"
+                            },
+                            "source-layer": "wdpa_protected_areas_201909",
+                            "type": "fill"
+                        },
+                        {
+                            "filter": [
+                                "all",
+                                [
+                                    "==",
+                                    "iucn_cat",
+                                    "Ib"
+                                ]
+                            ],
+                            "paint": {
+                                "fill-color": "#3e7bb6"
+                            },
+                            "source-layer": "wdpa_protected_areas_201909",
+                            "type": "fill"
+                        },
+                        {
+                            "filter": [
+                                "all",
+                                [
+                                    "==",
+                                    "iucn_cat",
+                                    "Not Applicable"
+                                ]
+                            ],
+                            "paint": {
+                                "fill-color": "#eed54c"
+                            },
+                            "source-layer": "wdpa_protected_areas_201909",
+                            "type": "fill"
+                        },
+                        {
+                            "filter": [
+                                "all",
+                                [
+                                    "==",
+                                    "iucn_cat",
+                                    "Not Assigned"
+                                ]
+                            ],
+                            "paint": {
+                                "fill-color": "#e7ab36"
+                            },
+                            "source-layer": "wdpa_protected_areas_201909",
+                            "type": "fill"
+                        },
+                        {
+                            "filter": [
+                                "all",
+                                [
+                                    "==",
+                                    "iucn_cat",
+                                    "Not Reported"
+                                ]
+                            ],
+                            "paint": {
+                                "fill-color": "#fa894b"
+                            },
+                            "source-layer": "wdpa_protected_areas_201909",
+                            "type": "fill"
+                        },
+                        {
+                            "filter": [
+                                "all",
+                                [
+                                    "==",
+                                    "iucn_cat",
+                                    "V"
+                                ]
+                            ],
+                            "paint": {
+                                "fill-color": "#ae847e"
+                            },
+                            "source-layer": "wdpa_protected_areas_201909",
+                            "type": "fill"
+                        },
+                        {
+                            "filter": [
+                                "all",
+                                [
+                                    "==",
+                                    "iucn_cat",
+                                    "VI"
+                                ]
+                            ],
+                            "paint": {
+                                "fill-color": "#daa89b"
+                            },
+                            "source-layer": "wdpa_protected_areas_201909",
+                            "type": "fill"
+                        }
+                    ]
   },
   '5ce140d9-260b-4e42-8b15-bd62193a5955': {
     tileFormat: 'vector',
