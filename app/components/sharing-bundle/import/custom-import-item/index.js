@@ -14,7 +14,7 @@ type Props = {
   icon: any,
   iconInactive: any,
   isSelected: boolean,
-  callback: () => any,
+  callback: ?() => any,
   items: Array<string>,
   showItemNames: boolean
 };
@@ -35,11 +35,15 @@ export default function CustomImportItem(props: Props): Node {
       style={styles.rowContent}
       rowStyle={styles.row}
       iconStyle={styles.rowCheckbox}
-      action={{
-        position: 'top',
-        icon: hasItems && isSelected ? checkboxOn : checkboxOff,
-        callback: hasItems ? callback : null
-      }}
+      action={
+        callback
+          ? {
+              position: 'top',
+              icon: hasItems && isSelected ? checkboxOn : checkboxOff,
+              callback: hasItems ? callback : null
+            }
+          : null
+      }
     >
       <Image style={styles.rowIcon} resizeMode={'contain'} source={hasItems ? icon : iconInactive} />
       <View style={styles.rowTextWrapper}>

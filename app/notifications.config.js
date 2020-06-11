@@ -1,5 +1,6 @@
 // @flow
 import type { State } from 'types/store.types';
+import type { SharingBundleImported } from 'types/app.types';
 
 import { UPLOAD_REPORT_COMMIT, UPLOAD_REPORT_ROLLBACK } from 'redux-modules/reports';
 import { SAVE_AREA_ROLLBACK } from 'redux-modules/areas';
@@ -8,9 +9,11 @@ import {
   SHOW_CONNECTION_REQUIRED,
   UPDATE_APP,
   SHOW_OFFLINE_MODE_IS_ON,
-  EXPORT_REPORTS_SUCCESSFUL
+  EXPORT_REPORTS_SUCCESSFUL,
+  SHARING_BUNDLE_IMPORTED
 } from 'redux-modules/app';
 import { Types } from 'components/toast-notification';
+import i18n from 'i18next';
 
 export default {
   [UPLOAD_REPORT_COMMIT]: {
@@ -45,5 +48,12 @@ export default {
   [EXPORT_REPORTS_SUCCESSFUL]: {
     type: Types.success,
     textKey: 'report.export.successful'
+  },
+  [SHARING_BUNDLE_IMPORTED]: {
+    type: Types.success,
+    textKey: 'importBundle.success',
+    time: 5,
+    descriptionFn: (action: SharingBundleImported) =>
+      `${action.payload.summary} ${i18n.t('importBundle.successContentsSuffix')}`
   }
 };

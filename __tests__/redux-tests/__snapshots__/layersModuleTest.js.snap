@@ -19,27 +19,7 @@ Object {
 
 exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaBasemap 1`] = `Array []`;
 
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaBasemap 2`] = `
-Array [
-  Object {
-    "payload": Object {
-      "area": Object {
-        "application": "applicationMock",
-        "geostore": Object {
-          "id": "geostoreIDMock",
-        },
-        "id": "areaIDMock",
-        "name": "nameMock",
-      },
-      "layer": Object {
-        "id": "basemap",
-        "url": "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      },
-    },
-    "type": "layers/CACHE_LAYER_REQUEST",
-  },
-]
-`;
+exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaBasemap 2`] = `Array []`;
 
 exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaLayer 1`] = `Array []`;
 
@@ -47,19 +27,8 @@ exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaLayer 2`] = `
 Array [
   Object {
     "payload": Object {
-      "area": Object {
-        "application": "applicationMock",
-        "geostore": Object {
-          "id": "geostoreIDMock",
-        },
-        "id": "areaIDMock",
-        "name": "nameMock",
-      },
-      "layer": Object {
-        "id": "layerIDMock",
-        "name": "nameMock",
-        "url": "urlMock",
-      },
+      "areaId": "areaIDMock",
+      "layerId": "layerIDMock",
     },
     "type": "layers/CACHE_LAYER_REQUEST",
   },
@@ -72,19 +41,8 @@ exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheLayers 2`] = `
 Array [
   Object {
     "payload": Object {
-      "area": Object {
-        "application": "applicationMock",
-        "geostore": Object {
-          "id": "geostoreIDMock",
-        },
-        "id": "areaIDMock",
-        "name": "nameMock",
-      },
-      "layer": Object {
-        "id": "layerIDMock",
-        "name": "nameMock",
-        "url": "urlMock",
-      },
+      "areaId": "areaIDMock",
+      "layerId": "layerIDMock",
     },
     "type": "layers/CACHE_LAYER_REQUEST",
   },
@@ -97,17 +55,6 @@ exports[`Redux Layers Module Redux Snapshot Thunk Actions downloadAreaById 2`] =
 Array [
   Object {
     "payload": Object {
-      "application": "applicationMock",
-      "geostore": Object {
-        "id": "geostoreIDMock",
-      },
-      "id": "areaIDMock",
-      "name": "nameMock",
-    },
-    "type": "layers/DOWNLOAD_AREA",
-  },
-  Object {
-    "payload": Object {
       "area": Object {
         "application": "applicationMock",
         "geostore": Object {
@@ -116,11 +63,45 @@ Array [
         "id": "areaIDMock",
         "name": "nameMock",
       },
-      "layer": Object {
-        "id": "layerIDMock",
-        "name": "nameMock",
-        "url": "urlMock",
-      },
+      "basemaps": Array [
+        Object {
+          "id": "mapbox://styles/mapbox/satellite-v9",
+          "image": Object {
+            "testUri": "../../../app/assets/basemap_mapbox_satellite.png",
+          },
+          "isImported": false,
+          "name": "mapboxSatellite",
+          "styleURL": "mapbox://styles/mapbox/satellite-v9",
+          "tileUrl": null,
+        },
+        Object {
+          "id": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
+          "image": Object {
+            "testUri": "../../../app/assets/basemap_default.png",
+          },
+          "isImported": false,
+          "name": "default",
+          "styleURL": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
+          "tileUrl": null,
+        },
+        Object {
+          "id": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
+          "image": Object {
+            "testUri": "../../../app/assets/basemap_dark.png",
+          },
+          "isImported": false,
+          "name": "dark",
+          "styleURL": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
+          "tileUrl": null,
+        },
+      ],
+    },
+    "type": "layers/DOWNLOAD_AREA",
+  },
+  Object {
+    "payload": Object {
+      "areaId": "areaIDMock",
+      "layerId": "layerIDMock",
     },
     "type": "layers/CACHE_LAYER_REQUEST",
   },
@@ -168,17 +149,6 @@ Array [
   },
   Object {
     "payload": Object {
-      "application": "applicationMock",
-      "geostore": Object {
-        "id": "geostoreIDMock",
-      },
-      "id": "areaIDMock",
-      "name": "nameMock",
-    },
-    "type": "layers/DOWNLOAD_AREA",
-  },
-  Object {
-    "payload": Object {
       "area": Object {
         "application": "applicationMock",
         "geostore": Object {
@@ -187,11 +157,45 @@ Array [
         "id": "areaIDMock",
         "name": "nameMock",
       },
-      "layer": Object {
-        "id": "layerIDMock",
-        "name": "nameMock",
-        "url": "urlMock",
-      },
+      "basemaps": Array [
+        Object {
+          "id": "mapbox://styles/mapbox/satellite-v9",
+          "image": Object {
+            "testUri": "../../../app/assets/basemap_mapbox_satellite.png",
+          },
+          "isImported": false,
+          "name": "mapboxSatellite",
+          "styleURL": "mapbox://styles/mapbox/satellite-v9",
+          "tileUrl": null,
+        },
+        Object {
+          "id": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
+          "image": Object {
+            "testUri": "../../../app/assets/basemap_default.png",
+          },
+          "isImported": false,
+          "name": "default",
+          "styleURL": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
+          "tileUrl": null,
+        },
+        Object {
+          "id": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
+          "image": Object {
+            "testUri": "../../../app/assets/basemap_dark.png",
+          },
+          "isImported": false,
+          "name": "dark",
+          "styleURL": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
+          "tileUrl": null,
+        },
+      ],
+    },
+    "type": "layers/DOWNLOAD_AREA",
+  },
+  Object {
+    "payload": Object {
+      "areaId": "areaIDMock",
+      "layerId": "layerIDMock",
     },
     "type": "layers/CACHE_LAYER_REQUEST",
   },
@@ -273,12 +277,46 @@ exports[`Redux Layers Module Redux Snapshot Thunk Actions resetCacheStatus full 
 Array [
   Object {
     "payload": Object {
-      "application": "applicationMock",
-      "geostore": Object {
-        "id": "geostoreIDMock",
+      "area": Object {
+        "application": "applicationMock",
+        "geostore": Object {
+          "id": "geostoreIDMock",
+        },
+        "id": "areaIDMock",
+        "name": "nameMock",
       },
-      "id": "areaIDMock",
-      "name": "nameMock",
+      "basemaps": Array [
+        Object {
+          "id": "mapbox://styles/mapbox/satellite-v9",
+          "image": Object {
+            "testUri": "../../../app/assets/basemap_mapbox_satellite.png",
+          },
+          "isImported": false,
+          "name": "mapboxSatellite",
+          "styleURL": "mapbox://styles/mapbox/satellite-v9",
+          "tileUrl": null,
+        },
+        Object {
+          "id": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
+          "image": Object {
+            "testUri": "../../../app/assets/basemap_default.png",
+          },
+          "isImported": false,
+          "name": "default",
+          "styleURL": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
+          "tileUrl": null,
+        },
+        Object {
+          "id": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
+          "image": Object {
+            "testUri": "../../../app/assets/basemap_dark.png",
+          },
+          "isImported": false,
+          "name": "dark",
+          "styleURL": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
+          "tileUrl": null,
+        },
+      ],
     },
     "type": "layers/DOWNLOAD_AREA",
   },
@@ -303,7 +341,13 @@ Object {
   "importingLayer": false,
   "layersProgress": Object {},
   "pendingCache": Object {
-    "basemap": Object {
+    "mapbox://styles/mapbox/satellite-v9": Object {
+      "areaIDMock": false,
+    },
+    "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true": Object {
+      "areaIDMock": false,
+    },
+    "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true": Object {
       "areaIDMock": false,
     },
   },
@@ -359,7 +403,13 @@ Object {
   "importingLayer": false,
   "layersProgress": Object {},
   "pendingCache": Object {
-    "basemap": Object {
+    "mapbox://styles/mapbox/satellite-v9": Object {
+      "areaIDMock": false,
+    },
+    "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true": Object {
+      "areaIDMock": false,
+    },
+    "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true": Object {
       "areaIDMock": false,
     },
   },

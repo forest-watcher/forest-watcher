@@ -13,7 +13,7 @@ import { storeLayerFiles } from 'helpers/layer-store/storeLayerFiles';
 import { storeReportFiles } from 'helpers/report-store/storeReportFiles';
 import { isLayerFileIntersectingRegion } from 'helpers/layer-store/queryLayerFiles';
 import bboxesForFWData from 'helpers/bbox';
-import { isCustomBasemap, isCustomContextualLayer, isGfwContextualLayer } from 'helpers/layer-store/layerFiles';
+import { isCustomBasemapFile, isCustomContextualLayerFile, isGfwContextualLayerFile } from 'helpers/layerTypes';
 
 export default async function importFileManifest(bundle: UnpackedSharingBundle, request: ImportBundleRequest) {
   await importLayerFiles(bundle, request);
@@ -37,9 +37,9 @@ export function filterRelevantLayerFiles(bundle: SharingBundle, request: ImportB
       : [];
   };
 
-  const relevantBasemapFiles = relevantFilesFn(request.customBasemaps, isCustomBasemap);
-  const relevantCustomLayerFiles = relevantFilesFn(request.customContextualLayers, isCustomContextualLayer);
-  const relevantGfwLayerFiles = relevantFilesFn(request.gfwContextualLayers, isGfwContextualLayer);
+  const relevantBasemapFiles = relevantFilesFn(request.customBasemaps, isCustomBasemapFile);
+  const relevantCustomLayerFiles = relevantFilesFn(request.customContextualLayers, isCustomContextualLayerFile);
+  const relevantGfwLayerFiles = relevantFilesFn(request.gfwContextualLayers, isGfwContextualLayerFile);
 
   return [...relevantBasemapFiles, ...relevantCustomLayerFiles, ...relevantGfwLayerFiles];
 }

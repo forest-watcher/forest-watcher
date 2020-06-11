@@ -2,13 +2,24 @@ import Theme, { isSmallScreen } from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+  bundleContents: {
+    flex: 1,
+    fontFamily: Theme.font,
+    color: Theme.fontColors.secondary,
+    fontSize: 12,
+    paddingBottom: 24,
+    paddingHorizontal: 24,
+    paddingTop: 12
+  },
   bundleName: {
     flex: 1,
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
     fontSize: 16,
     fontWeight: '400',
-    padding: 24
+    paddingBottom: 12,
+    paddingHorizontal: 24,
+    paddingTop: 24
   },
   container: {
     backgroundColor: Theme.background.main,
