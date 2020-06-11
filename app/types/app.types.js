@@ -35,6 +35,7 @@ export type AppAction =
   | ShowOfflineModeIsOn
   | LogoutRequest
   | ShowExportReportsSuccessfulNotification
+  | SharingBundleImported
   | UpdateApp;
 
 export type SetOfflineMode = { type: 'app/SET_OFFLINE_MODE', payload: boolean };
@@ -52,3 +53,9 @@ export type ShowConnectionRequired = { type: 'app/SHOW_CONNECTION_REQUIRED' };
 export type ShowOfflineModeIsOn = { type: 'app/SHOW_OFFLINE_MODE_IS_ON' };
 export type ShowExportReportsSuccessfulNotification = { type: 'app/EXPORT_REPORTS_SUCCESSFUL' };
 export type UpdateApp = { type: 'app/UPDATE_APP' };
+export type SharingBundleImported = {|
+  type: 'app/SHARING_BUNDLE_IMPORT_SUCCESSFUL',
+  payload: {
+    summary: string
+  }
+|};

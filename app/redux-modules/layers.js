@@ -14,7 +14,7 @@ import type { LayerFile, LayerType } from 'types/sharing.types';
 
 import Config from 'react-native-config';
 import omit from 'lodash/omit';
-import CONSTANTS from 'config/constants';
+import CONSTANTS, { GFW_BASEMAPS } from 'config/constants';
 import { getActionsTodoCount } from 'helpers/sync';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
@@ -26,6 +26,7 @@ import { storeTilesFromUrl } from 'helpers/layer-store/storeLayerFiles';
 import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
 import { importLayerFile } from 'helpers/layer-store/import/importLayerFile';
+import MapboxGL from '@react-native-mapbox-gl/maps';
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
 const GET_LAYERS_COMMIT = 'layers/GET_LAYERS_COMMIT';
@@ -45,6 +46,8 @@ const IMPORT_LAYER_CLEAR = 'layers/IMPORT_LAYER_CLEAR';
 const IMPORT_LAYER_ROLLBACK = 'layers/IMPORT_LAYER_ROLLBACK';
 const RENAME_LAYER = 'layers/RENAME_LAYER';
 const DELETE_LAYER = 'layers/DELETE_LAYER';
+
+const MAPBOX_DOWNLOAD_COMPLETED_STATE = 2;
 
 // Reducer
 const initialState: LayersState = {
@@ -109,14 +112,26 @@ export default function reducer(state: LayersState = initialState, action: Layer
       return { ...state, syncing: false };
     }
     case DOWNLOAD_AREA: {
-      const area = action.payload;
+      const { area, basemaps } = action.payload;
       const { data, cache } = state;
       let pendingCache = { ...state.pendingCache };
       let cacheStatus = { ...state.cacheStatus };
 
-      const layers = getLayersWithBasemap(data);
+      // add contextual layers to pendingCache
+      data.forEach(layer => {
+        if (!cache[layer.id] || (cache[layer.id] && !cache[layer.id][area.id])) {
+          pendingCache = {
+            ...pendingCache,
+            [layer.id]: {
+              ...pendingCache[layer.id],
+              [area.id]: false
+            }
+          };
+        }
+      });
 
-      layers.forEach(layer => {
+      // add basemaps to pendingCache
+      basemaps.forEach(layer => {
         if (!cache[layer.id] || (cache[layer.id] && !cache[layer.id][area.id])) {
           pendingCache = {
             ...pendingCache,
@@ -173,7 +188,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
           [layerId]: progress
         }
       };
-      const layerCount = getLayersWithBasemap(state.data).length;
+      const layerCount = getDownloadableLayerCount(state.data);
       const cacheStatus = updateAreaProgress(areaId, state.cacheStatus, layersProgress, layerCount);
 
       return { ...state, cacheStatus, layersProgress };
@@ -192,59 +207,61 @@ export default function reducer(state: LayersState = initialState, action: Layer
     case SET_ACTIVE_LAYER:
       return { ...state, activeLayer: action.payload };
     case CACHE_LAYER_REQUEST: {
-      const { area, layer } = action.payload;
+      const { areaId, layerId } = action.payload;
       const pendingCache = {
         ...state.pendingCache,
-        [layer.id]: {
-          ...state.pendingCache[layer.id],
-          [area.id]: true
+        [layerId]: {
+          ...state.pendingCache[layerId],
+          [areaId]: true
         }
       };
       return { ...state, pendingCache };
     }
     case CACHE_LAYER_COMMIT: {
-      const { area, layer } = action.meta;
-      let path = action.payload;
-      path = path && path.length > 0 ? path[0] : path;
+      const { areaId, layerId, path } = action.payload;
       const pendingCache = {
         ...state.pendingCache,
-        [layer.id]: omit(state.pendingCache[layer.id], [area.id])
+        [layerId]: omit(state.pendingCache[layerId], [areaId])
       };
+      const layersProgress = {
+        ...state.layersProgress,
+        [areaId]: {
+          ...state.layersProgress[areaId],
+          [layerId]: 1
+        }
+      };
+      const layerCount = getDownloadableLayerCount(state.data);
+      const updatedCacheStatus = updateAreaProgress(areaId, state.cacheStatus, layersProgress, layerCount);
+      const cacheStatus = updateCacheAreaStatus(updatedCacheStatus, areaId);
+
+      if (!path) {
+        return { ...state, cacheStatus, pendingCache, layersProgress };
+      }
+      const resolvedPath = path && path.length > 0 ? path[0] : path;
       const cache = {
         ...state.cache,
-        [layer.id]: {
-          ...state.cache[layer.id],
-          [area.id]: path
+        [layerId]: {
+          ...state.cache[layerId],
+          [areaId]: resolvedPath
         }
       };
-      const layersProgress = {
-        ...state.layersProgress,
-        [area.id]: {
-          ...state.layersProgress[area.id],
-          [layer.id]: 1
-        }
-      };
-      const layerCount = getLayersWithBasemap(state.data).length;
-      const updatedCacheStatus = updateAreaProgress(area.id, state.cacheStatus, layersProgress, layerCount);
-      const cacheStatus = updateCacheAreaStatus(updatedCacheStatus, area);
-
-      return { ...state, cache, cacheStatus, pendingCache, layersProgress };
+      return { ...state, cacheStatus, pendingCache, layersProgress, cache };
     }
     case CACHE_LAYER_ROLLBACK: {
-      const { area, layer } = action.meta;
+      const { areaId, layerId } = action.payload;
       const { cacheStatus } = state;
-      const updatedCacheStatus = updateCacheAreaStatus(cacheStatus, area);
-      const areaCacheStatus = { ...updatedCacheStatus[area.id], requested: false, error: true };
-      const newCacheStatus = { ...updatedCacheStatus, [area.id]: { ...areaCacheStatus } };
+      const updatedCacheStatus = updateCacheAreaStatus(cacheStatus, areaId);
+      const areaCacheStatus = { ...updatedCacheStatus[areaId], requested: false, error: true };
+      const newCacheStatus = { ...updatedCacheStatus, [areaId]: { ...areaCacheStatus } };
       const pendingCache = {
         ...state.pendingCache,
-        [layer.id]: omit(state.pendingCache[layer.id], [area.id])
+        [layerId]: omit(state.pendingCache[layerId], [areaId])
       };
       const layersProgress = {
         ...state.layersProgress,
-        [area.id]: {
-          ...state.layersProgress[area.id],
-          [layer.id]: 0
+        [areaId]: {
+          ...state.layersProgress[areaId],
+          [layerId]: 0
         }
       };
       return { ...state, pendingCache, cacheStatus: newCacheStatus, layersProgress };
@@ -255,7 +272,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
     case SAVE_AREA_COMMIT: {
       const { cacheStatus } = state;
       const area = action.payload;
-      const newCacheStatus = updateCacheAreaStatus(cacheStatus, area);
+      const newCacheStatus = updateCacheAreaStatus(cacheStatus, area.id);
       return { ...state, cacheStatus: newCacheStatus };
     }
     case IMPORT_LAYER_CLEAR: {
@@ -443,36 +460,55 @@ function getLayerById(layers, layerId): ?ContextualLayer {
   return layer ? { ...layer } : null;
 }
 
-export function cacheAreaBasemap(areaId: string) {
-  return (dispatch: Dispatch, state: GetState) => {
-    const areas = state().areas.data;
-    const area = getAreaById(areas, areaId);
-    const layer: ContextualLayer = {
-      id: 'basemap',
-      url: CONSTANTS.maps.basemap
+export function cacheAreaBasemap(areaId: string, basemapId: string) {
+  return async (dispatch: Dispatch, state: GetState) => {
+    const packName = `${areaId}|${basemapId}`;
+    const pack = await MapboxGL.offlineManager.getPack(packName);
+    if (pack) {
+      // offline pack with with this id already exists.
+      console.info('3SC', 'Error: offline pack with with this id already exists');
+      dispatch({
+        type: UPDATE_PROGRESS,
+        payload: { areaId: areaId, progress: 1, layerId: basemapId }
+      });
+      dispatch({ type: CACHE_LAYER_COMMIT, payload: { areaId, layerId: basemapId } });
+      return;
+    }
+    const areaBbox = state().areas.data.find(area => area.id === areaId)?.geostore?.bbox;
+    if (!areaBbox) {
+      return;
+    }
+    const areaBounds = [[areaBbox[2], areaBbox[3]], [areaBbox[0], areaBbox[1]]];
+    const progressListener = (offlineRegion, status) => {
+      if (!status.percentage) {
+        return;
+      }
+      dispatch({
+        type: UPDATE_PROGRESS,
+        payload: { areaId: areaId, progress: status.percentage / 100, layerId: basemapId }
+      });
+      if (status.state === MAPBOX_DOWNLOAD_COMPLETED_STATE) {
+        dispatch({ type: CACHE_LAYER_COMMIT, payload: { areaId, layerId: basemapId } });
+      }
     };
-    if (area) {
-      const downloadConfig = {
-        area,
-        layerId: layer.id,
-        layerUrl: layer.url
-      };
+    const errorListener = (offlineRegion, err) => {
+      dispatch({ type: CACHE_LAYER_ROLLBACK, payload: { areaId, layerId: basemapId } });
+      console.error('3SC download basemap error: ', err);
+    };
+    const downloadPackOptions = {
+      name: packName,
+      styleURL: basemapId,
+      minZoom: 1,
+      maxZoom: CONSTANTS.maps.cacheZoom[0].end,
+      bounds: areaBounds
+    };
 
-      downloadAllLayers('basemap', downloadConfig, dispatch)
-        .then(payload =>
-          dispatch({
-            payload,
-            meta: { area, layer },
-            type: CACHE_LAYER_COMMIT
-          })
-        )
-        .catch(() =>
-          dispatch({
-            meta: { area, layer },
-            type: CACHE_LAYER_ROLLBACK
-          })
-        );
-      dispatch({ type: CACHE_LAYER_REQUEST, payload: { area, layer } });
+    try {
+      dispatch({ type: CACHE_LAYER_REQUEST, payload: { areaId, layerId: basemapId } });
+      await MapboxGL.offlineManager.createPack(downloadPackOptions, progressListener, errorListener);
+    } catch (error) {
+      console.error('3SC basemap download error: ', error);
+      dispatch({ type: CACHE_LAYER_ROLLBACK, payload: { areaId, layerId: basemapId } });
     }
   };
 }
@@ -489,20 +525,9 @@ export function cacheAreaLayer(areaId: string, layerId: string) {
         layerUrl: layer.url
       };
       downloadAllLayers('contextual_layer', downloadConfig, dispatch)
-        .then(payload =>
-          dispatch({
-            payload,
-            meta: { area, layer },
-            type: CACHE_LAYER_COMMIT
-          })
-        )
-        .catch(() => {
-          dispatch({
-            meta: { area, layer },
-            type: CACHE_LAYER_ROLLBACK
-          });
-        });
-      dispatch({ type: CACHE_LAYER_REQUEST, payload: { area, layer } });
+        .then(path => dispatch({ type: CACHE_LAYER_COMMIT, payload: { path, areaId, layerId } }))
+        .catch(() => dispatch({ type: CACHE_LAYER_ROLLBACK, payload: { areaId, layerId } }));
+      dispatch({ type: CACHE_LAYER_REQUEST, payload: { areaId, layerId } });
     }
   };
 }
@@ -519,10 +544,15 @@ export function syncLayers() {
 export function downloadAreaById(areaId: string) {
   return (dispatch: Dispatch, state: GetState) => {
     const area = getAreaById(state().areas.data, areaId);
+    // we can't download basemaps with tile urls
+    const basemaps = GFW_BASEMAPS.filter(basemap => !basemap.tileUrl);
     if (area) {
       dispatch({
         type: DOWNLOAD_AREA,
-        payload: area
+        payload: {
+          area,
+          basemaps
+        }
       });
       dispatch(cacheLayers());
     }
@@ -550,12 +580,10 @@ export function cacheLayers() {
             }
           });
         };
-        switch (layer) {
-          case 'basemap':
-            syncLayersData(id => dispatch(cacheAreaBasemap(id)));
-            break;
-          default:
-            syncLayersData(id => dispatch(cacheAreaLayer(id, layer)));
+        if (layer.startsWith('mapbox://')) {
+          syncLayersData(id => dispatch(cacheAreaBasemap(id, layer)));
+        } else {
+          syncLayersData(id => dispatch(cacheAreaLayer(id, layer)));
         }
       });
     }
@@ -563,19 +591,19 @@ export function cacheLayers() {
 }
 
 function getCacheStatusFromAreas(cacheStatus: LayersCacheStatus = {}, areas = []) {
-  return areas.reduce((acc, next) => updateCacheAreaStatus(acc, next), cacheStatus);
+  return areas.reduce((acc, next) => updateCacheAreaStatus(acc, next.id), cacheStatus);
 }
 
-function updateCacheAreaStatus(cacheStatus: LayersCacheStatus, area: { id: string }) {
-  const progress = cacheStatus[area.id] ? cacheStatus[area.id].progress : 0;
-  const error = cacheStatus[area.id] ? cacheStatus[area.id].error : false;
+function updateCacheAreaStatus(cacheStatus: LayersCacheStatus, areaId: string) {
+  const progress = cacheStatus[areaId] ? cacheStatus[areaId].progress : 0;
+  const error = cacheStatus[areaId] ? cacheStatus[areaId].error : false;
   return {
     ...cacheStatus,
-    [area.id]: {
+    [areaId]: {
       error,
       progress,
       completed: progress === 1,
-      requested: cacheStatus[area.id] ? cacheStatus[area.id].requested : false
+      requested: cacheStatus[areaId] ? cacheStatus[areaId].requested : false
     }
   };
 }
@@ -608,8 +636,9 @@ export function getImportedContextualLayersById(layerIds: Array<string>) {
   };
 }
 
-function getLayersWithBasemap(layers) {
-  return [{ id: 'basemap' }, ...layers];
+// Return the amount of contextual layers and basemaps that can be downloaded
+function getDownloadableLayerCount(layers) {
+  return [...layers, ...GFW_BASEMAPS.filter(basemap => !basemap.tileUrl)].length;
 }
 
 function updateAreaProgress(

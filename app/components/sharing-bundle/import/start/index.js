@@ -1,5 +1,6 @@
 // @flow
 import type { UnpackedSharingBundle } from 'types/sharing.types';
+
 import React, { PureComponent } from 'react';
 import { ActivityIndicator, Text, ScrollView, View } from 'react-native';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
@@ -9,8 +10,12 @@ import i18n from 'i18next';
 import styles from './styles';
 import Row from 'components/common/row';
 import { IMPORT_ENTIRE_BUNDLE_REQUEST, unpackBundle } from 'helpers/sharing/importBundle';
-import {  calculateImportBundleSize } from 'helpers/sharing/calculateBundleSize';
+import { calculateImportBundleSize } from 'helpers/sharing/calculateBundleSize';
 import { formatBytes } from 'helpers/data';
+import createCustomImportFlow, {
+  type SharingBundleCustomImportFlowState
+} from 'components/sharing-bundle/import/createCustomImportFlow';
+import summariseBundleContents from 'helpers/sharing/summariseBundleContents';
 
 const nextIcon = require('assets/next.png');
 
@@ -20,7 +25,8 @@ type Props = {
 };
 
 type State = {
-  bundle: ?UnpackedSharingBundle
+  bundle: ?UnpackedSharingBundle,
+  customForm: ?SharingBundleCustomImportFlowState
 };
 
 export default class ImportSharingBundleStartScreen extends PureComponent<Props, State> {
@@ -46,7 +52,8 @@ export default class ImportSharingBundleStartScreen extends PureComponent<Props,
     Navigation.events().bindComponent(this);
 
     this.state = {
-      bundle: null
+      bundle: null,
+      customForm: null
     };
   }
 
@@ -62,33 +69,43 @@ export default class ImportSharingBundleStartScreen extends PureComponent<Props,
 
   _unpackBundle = async () => {
     const unpackedBundle = await unpackBundle(this.props.bundlePath);
-    this.setState({
-      bundle: unpackedBundle
+
+    const customImportFlow = createCustomImportFlow(unpackedBundle);
+
+    await this.setState({
+      bundle: unpackedBundle,
+      customForm: customImportFlow
     });
+
+    // If the import flow only consists of the confirm screen then just go straight there
+    if (customImportFlow.numSteps === 1) {
+      // Go directly to confirm screen
+      this._importAllData(true);
+    }
   };
 
-  _importAllData = () => {
-    Navigation.push(this.props.componentId, {
+  _importAllData = (setRoot = false) => {
+    const component = {
       component: {
         name: 'ForestWatcher.ImportBundleConfirm',
         passProps: {
-          bundle: this.state.bundle,
-          importRequest: IMPORT_ENTIRE_BUNDLE_REQUEST,
-          stepNumber: null
+          formState: { ...this.state.customForm, numSteps: 1, currentStep: 1 },
+          importRequest: IMPORT_ENTIRE_BUNDLE_REQUEST
         }
       }
-    });
+    };
+
+    if (setRoot) {
+      Navigation.setStackRoot(this.props.componentId, component);
+    } else {
+      Navigation.push(this.props.componentId, component);
+    }
   };
 
   _startCustomImportFlow = () => {
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: 'ForestWatcher.ImportBundleCustomItems',
-        passProps: {
-          bundle: this.state.bundle
-        }
-      }
-    });
+    if (this.state.customForm) {
+      this.state.customForm.pushNextStep(this.props.componentId, IMPORT_ENTIRE_BUNDLE_REQUEST);
+    }
   };
 
   render() {
@@ -103,6 +120,7 @@ export default class ImportSharingBundleStartScreen extends PureComponent<Props,
     }
 
     const bundleName = this.props.bundlePath; // TODO: Discussing with James a useful way of naming a bundle
+    const bundleContents = summariseBundleContents(bundle.data, IMPORT_ENTIRE_BUNDLE_REQUEST).join(', ');
     const bundleSizeBytes = calculateImportBundleSize(bundle.data, IMPORT_ENTIRE_BUNDLE_REQUEST);
 
     return (
@@ -110,26 +128,31 @@ export default class ImportSharingBundleStartScreen extends PureComponent<Props,
         <Text style={styles.bundleName} numberOfLines={1} ellipsizeMode={'middle'}>
           {bundleName}
         </Text>
+        <Text style={styles.bundleContents}>
+          {`${i18n.t('importBundle.containingPrefix')} ${bundleContents}`}
+        </Text>
         <Row
           action={{
             icon: nextIcon,
-            callback: this._importAllData
+            callback: () => this._importAllData()
           }}
           rowStyle={styles.row}
         >
           <Text style={styles.title}>{i18n.t('importBundle.start.importAll')}</Text>
           <Text style={styles.description}>{formatBytes(bundleSizeBytes)}</Text>
         </Row>
-        <Row
-          action={{
-            icon: nextIcon,
-            callback: this._startCustomImportFlow
-          }}
-          rowStyle={styles.row}
-        >
-          <Text style={styles.title}>{i18n.t('importBundle.start.customImport')}</Text>
-          <Text style={styles.description}>{i18n.t('importBundle.start.customImportDescription')}</Text>
-        </Row>
+        {this.state.customForm && (
+          <Row
+            action={{
+              icon: nextIcon,
+              callback: this._startCustomImportFlow
+            }}
+            rowStyle={styles.row}
+          >
+            <Text style={styles.title}>{i18n.t('importBundle.start.customImport')}</Text>
+            <Text style={styles.description}>{i18n.t('importBundle.start.customImportDescription')}</Text>
+          </Row>
+        )}
       </ScrollView>
     );
   };

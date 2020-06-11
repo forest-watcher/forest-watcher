@@ -1,24 +1,26 @@
 // @flow
-import type { ImportBundleRequest, LayerFileImportStrategy, UnpackedSharingBundle } from 'types/sharing.types';
+import type { ImportBundleRequest, LayerFileImportStrategy } from 'types/sharing.types';
+import type { SharingBundleCustomImportFlowState } from 'components/sharing-bundle/import/createCustomImportFlow';
+
 import React, { PureComponent } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 
-import Theme from 'config/theme';
 import i18n from 'i18next';
-import styles from './styles';
+import styles from '../styles';
 import BottomTray from 'components/common/bottom-tray';
 import ActionButton from 'components/common/action-button';
 import CustomImportItem from 'components/sharing-bundle/import/custom-import-item';
 import CustomLayerScopeDropdown from 'components/sharing-bundle/import/custom-layer-scope-dropdown';
+import { isCustomContextualLayer, isGfwContextualLayer } from 'helpers/layerTypes';
 
 const layersIcon = require('assets/contextualLayers.png');
 const layersIconInactive = require('assets/contextualLayerNotActive.png');
 
 type Props = {
-  bundle: UnpackedSharingBundle,
   componentId: string,
-  initialImportRequest: ImportBundleRequest
+  formState: SharingBundleCustomImportFlowState,
+  importRequest: ImportBundleRequest
 };
 
 type State = {
@@ -48,7 +50,7 @@ export default class ImportSharingBundleCustomLayersScreen extends PureComponent
     Navigation.events().bindComponent(this);
 
     this.state = {
-      importRequest: props.initialImportRequest
+      importRequest: props.importRequest
     };
   }
 
@@ -107,16 +109,7 @@ export default class ImportSharingBundleCustomLayersScreen extends PureComponent
   };
 
   _onNextPress = () => {
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: 'ForestWatcher.ImportBundleCustomBasemaps',
-        passProps: {
-          bundle: this.props.bundle,
-          initialImportRequest: this.state.importRequest,
-          stepNumber: null
-        }
-      }
-    });
+    this.props.formState.pushNextStep(this.props.componentId, this.state.importRequest);
   };
 
   render() {
@@ -124,6 +117,12 @@ export default class ImportSharingBundleCustomLayersScreen extends PureComponent
       <View style={styles.container}>
         {this.renderContent()}
         <BottomTray requiresSafeAreaView={true} style={styles.bottomTray}>
+          <Text style={styles.progressText}>
+            {i18n.t('importBundle.progress', {
+              current: this.props.formState.currentStep,
+              total: this.props.formState.numSteps
+            })}
+          </Text>
           <ActionButton noIcon onPress={this._onNextPress} secondary={false} text={i18n.t('commonText.next')} />
         </BottomTray>
       </View>
@@ -131,14 +130,14 @@ export default class ImportSharingBundleCustomLayersScreen extends PureComponent
   }
 
   renderContent = () => {
-    const bundleData = this.props.bundle.data;
+    const bundleData = this.props.formState.bundle.data;
     const customLayerNames = bundleData.layers
-      .filter(layer => true) // TODO: Awaiting GFW layer work
+      .filter(isCustomContextualLayer)
       .map(item => item.name)
       .filter(Boolean)
       .sort((a, b) => a.localeCompare(b));
     const gfwLayerNames = bundleData.layers
-      .filter(layer => false) // TODO: Awaiting GFW layer work
+      .filter(isGfwContextualLayer)
       .map(item => item.name)
       .filter(Boolean)
       .sort((a, b) => a.localeCompare(b));
@@ -155,7 +154,7 @@ export default class ImportSharingBundleCustomLayersScreen extends PureComponent
           showItemNames={true}
         />
         <CustomLayerScopeDropdown
-          bundle={this.props.bundle.data}
+          bundle={bundleData}
           layerType={'customContextualLayers'}
           onValueChange={this._modifyCustomLayerFileStrategy}
           request={this.state.importRequest}
@@ -171,7 +170,7 @@ export default class ImportSharingBundleCustomLayersScreen extends PureComponent
           showItemNames={true}
         />
         <CustomLayerScopeDropdown
-          bundle={this.props.bundle.data}
+          bundle={bundleData}
           layerType={'gfwContextualLayers'}
           onValueChange={this._modifyGfwLayerFileStrategy}
           request={this.state.importRequest}
