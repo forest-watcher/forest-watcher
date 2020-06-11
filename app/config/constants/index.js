@@ -163,7 +163,7 @@ export const ACTIONS_SAVED_TO_REPORT = 5;
 // Constants
 export const GFW_BASEMAPS: Array<Basemap> = [
   {
-    isImported: false,
+    isCustom: false,
     id: MapboxGL.StyleURL.Satellite,
     styleURL: MapboxGL.StyleURL.Satellite,
     name: 'mapboxSatellite',
@@ -171,7 +171,7 @@ export const GFW_BASEMAPS: Array<Basemap> = [
     tileUrl: null
   },
   {
-    isImported: false,
+    isCustom: false,
     id: 'mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true',
     styleURL: 'mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true',
     name: 'default',
@@ -179,7 +179,7 @@ export const GFW_BASEMAPS: Array<Basemap> = [
     tileUrl: null
   },
   {
-    isImported: false,
+    isCustom: false,
     id: 'mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true',
     styleURL: 'mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true',
     name: 'dark',
@@ -187,7 +187,7 @@ export const GFW_BASEMAPS: Array<Basemap> = [
     tileUrl: null
   },
   {
-    isImported: false,
+    isCustom: false,
     id: 'mapbox://styles/resourcewatch/cjww89e5j08o91cmjsbrd47qt?fresh=true',
     styleURL: 'mapbox://styles/resourcewatch/cjww89e5j08o91cmjsbrd47qt?fresh=true',
     name: 'satellite',
@@ -195,7 +195,7 @@ export const GFW_BASEMAPS: Array<Basemap> = [
     tileUrl: 'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}'
   },
   {
-    isImported: false,
+    isCustom: false,
     id: 'mapbox://styles/resourcewatch/cjww8drml27wc1cn3mk2872h9?fresh=true',
     styleURL: 'mapbox://styles/resourcewatch/cjww8drml27wc1cn3mk2872h9?fresh=true',
     name: 'landsat',

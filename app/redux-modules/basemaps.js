@@ -10,8 +10,8 @@ import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import { importLayerFile } from 'helpers/layer-store/import/importLayerFile';
 
 // Actions
-const IMPORT_BASEMAP_REQUEST = 'basemaps/IMPORT_BASEMAP_REQUEST';
-const IMPORT_BASEMAP_COMMIT = 'basemaps/IMPORT_BASEMAP_COMMIT';
+export const IMPORT_BASEMAP_REQUEST = 'basemaps/IMPORT_BASEMAP_REQUEST';
+export const IMPORT_BASEMAP_COMMIT = 'basemaps/IMPORT_BASEMAP_COMMIT';
 const IMPORT_BASEMAP_CLEAR = 'basemaps/IMPORT_BASEMAP_CLEAR';
 const IMPORT_BASEMAP_ROLLBACK = 'basemaps/IMPORT_BASEMAP_ROLLBACK';
 const RENAME_BASEMAP = 'basemaps/RENAME_BASEMAP';
@@ -87,7 +87,7 @@ export function importBasemap(basemapFile: File): Thunk<Promise<void>> {
     try {
       const importedFile: LayerFile = await importLayerFile(basemapFile);
       const basemap: Basemap = {
-        isImported: true,
+        isCustom: true,
         id: importedFile.layerId,
         name: basemapFile.name,
         path: importedFile.path,
