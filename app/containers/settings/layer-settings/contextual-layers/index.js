@@ -10,18 +10,26 @@ import {
   setContextualLayerShowing
 } from 'redux-modules/layerSettings';
 
+import type { File } from 'types/file.types';
+import type { ContextualLayer } from 'types/layers.types';
+
 type OwnProps = {|
   +componentId: string,
   featureId: string
 |};
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
+  let baseFiles: Array<ContextualLayer> = state.layers.data || [];
+  const importedGFWLayers = state.layers.imported.filter(layer => layer.isGFW);
+  baseFiles = baseFiles.concat(importedGFWLayers);
+  const importedFiles: Array<File> = state.layers.imported.filter(layer => !layer.isGFW);
+
   return {
-    baseApiLayers: state.layers.data || [],
+    baseApiLayers: baseFiles,
     featureId: ownProps.featureId,
     contextualLayersLayerSettings:
       state.layerSettings?.[ownProps.featureId]?.contextualLayers || DEFAULT_LAYER_SETTINGS.contextualLayers,
-    importedContextualLayers: state.layers.imported
+    importedContextualLayers: importedFiles
   };
 }
 

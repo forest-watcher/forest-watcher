@@ -417,6 +417,12 @@
     },
     "importLayer": {
         "gfw": {
+            "add": "Add Layer",
+            "description": "View Description",
+            "onlineTitle": "Online Access Only",
+            "onlineSubtitle": "Layer data will only be available when online",
+            "downloadTitle": "Download",
+            "downloadSubtitle": "Layer data will be downloaded for offline use",
             "title": "Add GFW Layers",
             "allLayers": "All GFW Layers (%{count})"
         }
