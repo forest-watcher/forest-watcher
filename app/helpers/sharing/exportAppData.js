@@ -20,7 +20,7 @@ import { getTemplate } from 'helpers/forms';
  *
  * Should be incremented whenever the format changes
  */
-export const APP_DATA_FORMAT_VERSION: number = 1;
+export const APP_DATA_FORMAT_VERSION: number = 2;
 
 /**
  * Export selected items from Redux state
