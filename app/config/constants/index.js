@@ -7,7 +7,7 @@ import Theme from 'config/theme';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
 import type { Basemap } from 'types/basemaps.types';
-import type { ContextualLayer } from 'types/layers.types';
+import type { ContextualLayer, ContextualLayerRenderSpec } from 'types/layers.types';
 
 export const AREAS = {
   maxSize: 20000000000 // square meters
@@ -188,7 +188,7 @@ export const GFW_BASEMAPS: Array<Basemap> = [
 
 // A map from a contextual layer's ID to metadata provided to allow it to be rendered in MapBox
 // this allows us to update styling e.t.c. without the user having to delete and re-add GFW contextual layers!
-export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerMetadata } = {
+export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerRenderSpec } = {
   'bd2798d1-c771-4bff-84d9-c4d69d3b3121': {
     maxZoom: 12,
     minZoom: 3,

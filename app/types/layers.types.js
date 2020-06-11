@@ -11,7 +11,7 @@ export type VectorMapLayer = {
   type: 'background' | 'fill' | 'line' | 'symbol' | 'raster' | 'circle' | 'fill-extrusion' | 'heatmap' | 'hillshade'
 };
 
-export type ContextualLayerMetadata = {
+export type ContextualLayerRenderSpec = {
   isShareable: boolean,
   maxZoom?: ?number,
   minZoom?: ?number,
