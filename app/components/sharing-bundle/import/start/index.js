@@ -9,13 +9,14 @@ import Theme from 'config/theme';
 import i18n from 'i18next';
 import styles from './styles';
 import Row from 'components/common/row';
-import { IMPORT_ENTIRE_BUNDLE_REQUEST, unpackBundle } from 'helpers/sharing/importBundle';
+import { checkBundleCompatibility, IMPORT_ENTIRE_BUNDLE_REQUEST, unpackBundle } from 'helpers/sharing/importBundle';
 import { calculateImportBundleSize } from 'helpers/sharing/calculateBundleSize';
 import { formatBytes } from 'helpers/data';
 import createCustomImportFlow, {
   type SharingBundleCustomImportFlowState
 } from 'components/sharing-bundle/import/createCustomImportFlow';
 import summariseBundleContents from 'helpers/sharing/summariseBundleContents';
+import generateBundleName from 'helpers/sharing/generateBundleName';
 
 const nextIcon = require('assets/next.png');
 
@@ -26,7 +27,8 @@ type Props = {
 
 type State = {
   bundle: ?UnpackedSharingBundle,
-  customForm: ?SharingBundleCustomImportFlowState
+  customForm: ?SharingBundleCustomImportFlowState,
+  error: ?Error
 };
 
 export default class ImportSharingBundleStartScreen extends PureComponent<Props, State> {
@@ -53,7 +55,8 @@ export default class ImportSharingBundleStartScreen extends PureComponent<Props,
 
     this.state = {
       bundle: null,
-      customForm: null
+      customForm: null,
+      error: null
     };
   }
 
@@ -68,19 +71,27 @@ export default class ImportSharingBundleStartScreen extends PureComponent<Props,
   }
 
   _unpackBundle = async () => {
-    const unpackedBundle = await unpackBundle(this.props.bundlePath);
+    try {
+      const unpackedBundle = await unpackBundle(this.props.bundlePath);
+      checkBundleCompatibility(unpackedBundle.data.version);
 
-    const customImportFlow = createCustomImportFlow(unpackedBundle);
+      const customImportFlow = createCustomImportFlow(unpackedBundle);
 
-    await this.setState({
-      bundle: unpackedBundle,
-      customForm: customImportFlow
-    });
+      await this.setState({
+        bundle: unpackedBundle,
+        customForm: customImportFlow
+      });
 
-    // If the import flow only consists of the confirm screen then just go straight there
-    if (customImportFlow.numSteps === 1) {
-      // Go directly to confirm screen
-      this._importAllData(true);
+      // If the import flow only consists of the confirm screen then just go straight there
+      if (customImportFlow.numSteps === 1) {
+        // Go directly to confirm screen
+        this._importAllData(true);
+      }
+    } catch (err) {
+      this.setState({
+        error: err
+      });
+      return;
     }
   };
 
@@ -116,21 +127,20 @@ export default class ImportSharingBundleStartScreen extends PureComponent<Props,
     const { bundle } = this.state;
 
     if (!bundle) {
+      if (this.state.error) {
+        return <Text style={styles.error}>{this.state.error.message || this.state.error}</Text>;
+      }
       return <ActivityIndicator style={{ flex: 1 }} size={'large'} color={Theme.colors.turtleGreen} />;
     }
 
-    const bundleName = this.props.bundlePath; // TODO: Discussing with James a useful way of naming a bundle
+    const bundleName = generateBundleName(bundle.data);
     const bundleContents = summariseBundleContents(bundle.data, IMPORT_ENTIRE_BUNDLE_REQUEST).join(', ');
     const bundleSizeBytes = calculateImportBundleSize(bundle.data, IMPORT_ENTIRE_BUNDLE_REQUEST);
 
     return (
       <ScrollView alwaysBounceVertical={false} style={styles.contentContainer}>
-        <Text style={styles.bundleName} numberOfLines={1} ellipsizeMode={'middle'}>
-          {bundleName}
-        </Text>
-        <Text style={styles.bundleContents}>
-          {`${i18n.t('importBundle.containingPrefix')} ${bundleContents}`}
-        </Text>
+        <Text style={styles.bundleName}>{bundleName}</Text>
+        <Text style={styles.bundleContents}>{`${i18n.t('importBundle.containingPrefix')} ${bundleContents}`}</Text>
         <Row
           action={{
             icon: nextIcon,

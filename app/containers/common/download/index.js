@@ -1,41 +1,43 @@
 // @flow
+import type { DownloadDataType } from 'types/sharing.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 import type { LayersPendingCache } from 'types/layers.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { downloadAreaById, resetCacheStatus, refreshAreaCacheById } from 'redux-modules/layers';
+import { downloadAreaById, resetCacheStatus, refreshCacheById, downloadRouteById } from 'redux-modules/layers';
 import { showNotConnectedNotification } from 'redux-modules/app';
-import AreaCache from 'components/common/area-list/area-cache';
+import DataCacher from 'components/common/download';
 
 type OwnProps = {|
-  +componentId: string,
-  +areaId: string,
+  +dataType: DownloadDataType,
+  +disabled: boolean,
+  +id: string,
   +showTooltip: boolean
 |};
 
-const getAreaPendingCache = (areaId: string, pendingCache: LayersPendingCache) =>
+const getPendingCache = (id: string, pendingCache: LayersPendingCache) =>
   Object.values(pendingCache)
     // $FlowFixMe
-    .map(areas => (typeof areas[areaId] !== 'undefined' ? 1 : 0))
+    .map(caches => (typeof caches[id] !== 'undefined' ? 1 : 0))
     .reduce((acc, next) => acc + next, 0);
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
-  const { areaId } = ownProps;
-  const cacheStatus = state.layers.cacheStatus[areaId];
+  const { id } = ownProps;
+
   return {
-    cacheStatus,
+    cacheStatus: state.layers.cacheStatus[id],
     isOfflineMode: state.app.offlineMode,
-    pendingCache: getAreaPendingCache(areaId, state.layers.pendingCache)
+    pendingCache: getPendingCache(id, state.layers.pendingCache)
   };
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) =>
   bindActionCreators(
     {
-      downloadAreaById,
+      downloadById: ownProps.dataType === 'area' ? downloadAreaById : downloadRouteById,
       resetCacheStatus,
-      refreshAreaCacheById,
+      refreshCacheById,
       showNotConnectedNotification
     },
     dispatch
@@ -45,4 +47,4 @@ type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDi
 export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
-)(AreaCache);
+)(DataCacher);

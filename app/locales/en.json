@@ -404,6 +404,7 @@
             "title": "Select Contextual Layer Data"
         },
         "importingPrefix": "Importing:",
+        "incompatibleBundle": "Sorry, this sharing bundle was created with a different version of Forest Watcher, and cannot be imported.",
         "progress": "Step %{current} of %{total}",
         "start": {
             "customImport": "Custom Import",
@@ -515,6 +516,7 @@
             "importedRoutes": "Imported Routes",
             "manageRoutes": "Manage Routes",
             "showing": "Showing: %{description}",
+            "onlyAvailableOnline": "Only Available Online",
             "alertSettings": {
                 "deforestation": "Deforestation",
                 "glad": "GLAD",

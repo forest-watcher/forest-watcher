@@ -8,7 +8,7 @@ import layerReducer, {
   cacheLayers,
   downloadAreaById,
   getUserLayers,
-  refreshAreaCacheById,
+  refreshCacheById,
   resetCacheStatus,
   setActiveContextualLayer,
   syncLayers
@@ -21,6 +21,13 @@ describe('Redux Layers Module', () => {
     id: 'areaIDMock',
     application: 'applicationMock', // used to test that all fields are included in payload
     geostore: { id: 'geostoreIDMock' }
+  };
+
+  const mockRoute = {
+    id: 'routeIDMock',
+    areaId: 'areaIDMock',
+    geostoreId: 'geostoreIDMock',
+    name: 'routeNameMock'
   };
 
   const mockLayer = {
@@ -66,6 +73,10 @@ describe('Redux Layers Module', () => {
           ...initialStoreState.layers,
           data: [mockLayer],
           pendingCache: mockPendingCache
+        },
+        routes: {
+          ...initialStoreState.routes,
+          previousRoutes: [mockRoute]
         }
       };
       configuredStore = configureStore([thunk]);
@@ -101,35 +112,67 @@ describe('Redux Layers Module', () => {
       return returnState;
     }
 
-    it('cacheAreaLayer', () => {
-      store.dispatch(cacheAreaLayer('areaIDMock', 'layerIDMock'));
+    it('cacheAreaLayer with area', () => {
+      store.dispatch(cacheAreaLayer('area', 'areaIDMock', 'layerIDMock'));
       expect(store.getActions()).toMatchSnapshot();
 
       store = configuredStore(populatedStoreState);
 
-      store.dispatch(cacheAreaLayer('areaIDMock', 'layerIDMock'));
-      store.dispatch(cacheAreaLayer('areaIDMock1', 'layerIDMock1'));
+      store.dispatch(cacheAreaLayer('area', 'areaIDMock', 'layerIDMock'));
+      store.dispatch(cacheAreaLayer('area', 'areaIDMock1', 'layerIDMock1'));
       expect(store.getActions()).toMatchSnapshot();
     });
 
-    it('cacheAreaBasemap', () => {
-      store.dispatch(cacheAreaBasemap('areaIDMock'));
+    it('cacheAreaLayer with route', () => {
+      store.dispatch(cacheAreaLayer('route', 'routeIDMock', 'layerIDMock'));
       expect(store.getActions()).toMatchSnapshot();
 
       store = configuredStore(populatedStoreState);
 
-      store.dispatch(cacheAreaBasemap('areaIDMock'));
-      store.dispatch(cacheAreaBasemap('areaIDMock1'));
+      store.dispatch(cacheAreaLayer('route', 'routeIDMock', 'layerIDMock'));
+      store.dispatch(cacheAreaLayer('route', 'routeIDMock1', 'layerIDMock1'));
       expect(store.getActions()).toMatchSnapshot();
     });
 
-    it('cacheLayers', () => {
-      store.dispatch(cacheLayers());
+    it('cacheAreaBasemap with area', () => {
+      store.dispatch(cacheAreaBasemap('area', 'areaIDMock'));
       expect(store.getActions()).toMatchSnapshot();
 
       store = configuredStore(populatedStoreState);
 
-      store.dispatch(cacheLayers());
+      store.dispatch(cacheAreaBasemap('area', 'areaIDMock'));
+      store.dispatch(cacheAreaBasemap('area', 'areaIDMock1'));
+      expect(store.getActions()).toMatchSnapshot();
+    });
+
+    it('cacheAreaBasemap with route', () => {
+      store.dispatch(cacheAreaBasemap('route', 'routeIDMock'));
+      expect(store.getActions()).toMatchSnapshot();
+
+      store = configuredStore(populatedStoreState);
+
+      store.dispatch(cacheAreaBasemap('route', 'routeIDMock'));
+      store.dispatch(cacheAreaBasemap('route', 'routeIDMock1'));
+      expect(store.getActions()).toMatchSnapshot();
+    });
+
+    it('cacheLayers with area', () => {
+      store.dispatch(cacheLayers('area'));
+      expect(store.getActions()).toMatchSnapshot();
+
+      store = configuredStore(populatedStoreState);
+
+      store.dispatch(cacheLayers('area'));
+      expect(store.getActions()).toMatchSnapshot();
+    });
+
+    it('cacheLayers with route', () => {
+      store.dispatch(cacheLayers('route'));
+      expect(store.getActions()).toMatchSnapshot();
+
+      store = configuredStore(populatedStoreState);
+
+      store.dispatch(cacheLayers('route'));
       expect(store.getActions()).toMatchSnapshot();
     });
 
@@ -144,19 +187,41 @@ describe('Redux Layers Module', () => {
       expect(store.getActions()).toMatchSnapshot();
     });
 
+    it('downloadRouteById', () => {
+      store.dispatch(downloadAreaById('routeIDMock'));
+      expect(store.getActions()).toMatchSnapshot();
+
+      store = configuredStore(populatedStoreState);
+
+      store.dispatch(downloadAreaById('routeIDMock'));
+      store.dispatch(downloadAreaById('routeIDMock1'));
+      expect(store.getActions()).toMatchSnapshot();
+    });
+
     it('getUserLayers', () => {
       store.dispatch(getUserLayers());
       expect(store.getActions()).toMatchSnapshot();
     });
 
-    it('refreshAreaCacheById', () => {
-      store.dispatch(refreshAreaCacheById('areaIDMock'));
+    it('refreshCacheById for area', () => {
+      store.dispatch(refreshCacheById('areaIDMock', 'area'));
       expect(store.getActions()).toMatchSnapshot();
 
       store = configuredStore(populatedStoreState);
 
-      store.dispatch(refreshAreaCacheById('areaIDMock'));
-      store.dispatch(refreshAreaCacheById('areaIDMock1'));
+      store.dispatch(refreshCacheById('areaIDMock', 'area'));
+      store.dispatch(refreshCacheById('areaIDMock1', 'area'));
+      expect(store.getActions()).toMatchSnapshot();
+    });
+
+    it('refreshCacheById for route', () => {
+      store.dispatch(refreshCacheById('routeIDMock', 'route'));
+      expect(store.getActions()).toMatchSnapshot();
+
+      store = configuredStore(populatedStoreState);
+
+      store.dispatch(refreshCacheById('routeIDMock', 'route'));
+      store.dispatch(refreshCacheById('routeIDMock1', 'route'));
       expect(store.getActions()).toMatchSnapshot();
     });
 
@@ -189,7 +254,7 @@ describe('Redux Layers Module', () => {
 
     it('setActiveContextualLayer full test', () => {
       const propertyMatcher = { syncDate: expect.any(Number) };
-      let newState = { layers: layerReducer(undefined, { type: 'NONE' })};
+      let newState = { layers: layerReducer(undefined, { type: 'NONE' }) };
       newState = mockDispatchAction(newState, setActiveContextualLayer('layerMock', false), propertyMatcher);
       newState = mockDispatchAction(newState, setActiveContextualLayer('layerMock', true), propertyMatcher);
       mockDispatchAction(newState, setActiveContextualLayer('layerMock', true), propertyMatcher);

@@ -80,7 +80,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  row: {
+  rowContainer: {
     marginBottom: 25
   }
 });
