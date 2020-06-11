@@ -15,8 +15,8 @@ export default StyleSheet.create({
     flex: 1,
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
-    fontSize: 16,
-    fontWeight: '400',
+    fontSize: 12,
+    fontWeight: 'bold',
     paddingBottom: 12,
     paddingHorizontal: 24,
     paddingTop: 24
