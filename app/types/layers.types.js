@@ -11,14 +11,20 @@ export type VectorMapLayer = {
   type: 'background' | 'fill' | 'line' | 'symbol' | 'raster' | 'circle' | 'fill-extrusion' | 'heatmap' | 'hillshade'
 };
 
+export type ContextualLayerMetadata = {
+  isShareable: boolean,
+  maxZoom?: ?number,
+  minZoom?: ?number,
+  tileFormat?: ?('vector' | 'raster'),
+  vectorMapLayers?: ?Array<VectorMapLayer>
+}
+
 export type ContextualLayer = {
   createdAt?: ?string,
   description?: ?string,
   enabled?: ?boolean,
   id: string,
   isPublic?: ?boolean,
-  maxZoom?: ?number,
-  minZoom?: ?number,
   name?: string,
   owner?: ?{
     type: string
@@ -26,9 +32,7 @@ export type ContextualLayer = {
   url: string,
   isImported?: true,
   isGFW?: ?boolean,
-  size?: ?number,
-  tileFormat?: ?('vector' | 'raster'),
-  vectorMapLayers?: ?Array<VectorMapLayer>
+  size?: ?number
 };
 
 export type LayersState = {

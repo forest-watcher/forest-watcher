@@ -256,7 +256,7 @@ class MappingFiles extends Component<Props, State> {
           return (
             <View key={file.id} style={styles.rowContainer}>
               <MappingFileRow
-                deletable={!!file.size && file.size > 0}
+                deletable={(!!file.size && file.size > 0) || file.isGFW}
                 inEditMode={inEditMode}
                 onDeletePress={() => {
                   // TODO: Ensure this handles GFW layer / basemap deletion correctly.
