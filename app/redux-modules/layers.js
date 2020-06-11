@@ -556,7 +556,7 @@ export function downloadAreaById(areaId: string) {
           basemaps
         }
       });
-      dispatch(cacheLayers('area'));
+      dispatch(cacheLayers('area', area.id));
     }
   };
 }
@@ -565,8 +565,8 @@ export function downloadRouteById(routeId: string) {
   return (dispatch: Dispatch, state: GetState) => {
     const route: ?Route = state().routes.previousRoutes?.find(route => route.id === routeId);
 
-    if (!route || !route.geostoreId) {
-      console.warn('3SC - Cannot download route as either it does not exist, or the geostore ID is missing.');
+    if (!route) {
+      console.warn('3SC - Cannot download route as it does not exist.');
       return;
     }
 
@@ -580,7 +580,7 @@ export function downloadRouteById(routeId: string) {
         basemaps
       }
     });
-    dispatch(cacheLayers('route'));
+    dispatch(cacheLayers('route', route.id, !!route.geostoreId));
   };
 }
 
@@ -596,7 +596,7 @@ export function refreshCacheById(id: string, type: DownloadDataType) {
   };
 }
 
-export function cacheLayers(dataType: DownloadDataType) {
+export function cacheLayers(dataType: DownloadDataType, dataId: string, hasGeostoreId: boolean = true) {
   return (dispatch: Dispatch, state: GetState) => {
     const { pendingCache } = state().layers;
     if (getActionsTodoCount(pendingCache) > 0) {
@@ -613,6 +613,13 @@ export function cacheLayers(dataType: DownloadDataType) {
         if (layer.startsWith('mapbox://')) {
           syncLayersData(id => dispatch(cacheAreaBasemap(dataType, id, layer)));
         } else {
+          if (dataType === 'route' && !hasGeostoreId) {
+            // Here, we resolve the layer with an empty path.
+            // This means that the progress bar will complete, just without requiring all of the files to be present.
+            syncLayersData(id => dispatch({ type: CACHE_LAYER_COMMIT, payload: { path: '', dataId, layerId: layer } }));
+
+            return;
+          }
           syncLayersData(id => dispatch(cacheAreaLayer(dataType, id, layer)));
         }
       });
