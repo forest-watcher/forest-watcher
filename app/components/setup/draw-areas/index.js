@@ -285,7 +285,6 @@ class DrawAreas extends Component {
 }
 
 DrawAreas.propTypes = {
-  mapWalkthroughSeen: PropTypes.bool.isRequired,
   basemap: PropTypes.object.isRequired,
   coordinates: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
   country: PropTypes.shape({
