@@ -389,6 +389,7 @@
             "buttonTitle": "Import Data Bundle",
             "title": "Confirm Import"
         },
+        "containingPrefix": "Containing:",
         "customBasemaps": {
             "title": "Select Basemap Data"
         },
@@ -402,15 +403,25 @@
             "fileImportOptionTitle": "Import Option",
             "title": "Select Contextual Layer Data"
         },
+        "importingPrefix": "Importing:",
+        "progress": "Step %{current} of %{total}",
         "start": {
             "customImport": "Custom Import",
             "customImportDescription": "Select specific items to import",
             "importAll": "Import All Data",
             "title": "Import App Bundle"
-        }
+        },
+        "success": "Data Bundle imported",
+        "successContentsSuffix": "now available"
     },
     "importLayer": {
         "gfw": {
+            "add": "Add Layer",
+            "description": "View Description",
+            "onlineTitle": "Online Access Only",
+            "onlineSubtitle": "Layer data will only be available when online",
+            "downloadTitle": "Download",
+            "downloadSubtitle": "Layer data will be downloaded for offline use",
             "title": "Add GFW Layers",
             "allLayers": "All GFW Layers (%{count})"
         }
@@ -447,6 +458,7 @@
         "twitterTitle": "Twitter",
         "signUp": "Sign Up",
         "unable": "Unable to login",
+        "mustBeOnline": "You must be online to login",
         "emailLogin": {
             "loginWithEmail": "Login With Email",
             "emailAddress": "Email Address",
@@ -719,6 +731,8 @@
         "type": {
             "area": "Area",
             "areas": "Areas",
+            "alert": "Alert",
+            "alerts": "Alerts",
             "customBasemap": "Custom Basemap",
             "customBasemaps": "Custom Basemaps",
             "customLayer": "Custom Contextual Layer",

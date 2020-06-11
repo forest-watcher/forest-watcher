@@ -16,7 +16,8 @@ const nextIcon = require('assets/next.png');
 
 type Props = {
   componentId: string,
-  layers: Array<ContextualLayer>
+  layers: Array<ContextualLayer>,
+  popToComponentId: string
 };
 
 type State = {};
@@ -42,7 +43,8 @@ class GFWLayers extends PureComponent<Props, State> {
       component: {
         name: 'ForestWatcher.GFWLayerDownload',
         passProps: {
-          layer
+          layer,
+          popToComponentId: this.props.popToComponentId
         }
       }
     });

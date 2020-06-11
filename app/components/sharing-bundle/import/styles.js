@@ -3,9 +3,9 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   bottomTray: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignSelf: 'stretch',
-    alignItems: 'stretch'
+    alignItems: 'center'
   },
   container: {
     backgroundColor: Theme.background.main,
@@ -14,6 +14,12 @@ export default StyleSheet.create({
   contentContainer: {
     paddingTop: 56,
     flex: 1
+  },
+  progressText: {
+    color: Theme.fontColors.secondary,
+    fontSize: 12,
+    fontFamily: Theme.font,
+    marginBottom: 16
   },
   topBarTextButton: {
     fontSize: 16,

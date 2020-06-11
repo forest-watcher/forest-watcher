@@ -25,10 +25,16 @@ type OwnProps = {|
 |};
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
-  const baseFiles: Array<ContextualLayer | Basemap> =
+  let baseFiles: Array<ContextualLayer | Basemap> =
     ownProps.mappingFileType === 'contextual_layer' ? state.layers.data || [] : GFW_BASEMAPS;
+  if (ownProps.mappingFileType === 'contextual_layer') {
+    const importedGFWLayers = state.layers.imported.filter(layer => layer.isGFW);
+    baseFiles = baseFiles.concat(importedGFWLayers);
+  }
   const importedFiles: Array<File> =
-    ownProps.mappingFileType === 'contextual_layer' ? state.layers.imported : state.basemaps.importedBasemaps;
+    ownProps.mappingFileType === 'contextual_layer'
+      ? state.layers.imported.filter(layer => !layer.isGFW)
+      : state.basemaps.importedBasemaps;
 
   return {
     baseFiles,
@@ -36,7 +42,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch) {
+function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
   return {
     deleteMappingFile: async (id: string, type: LayerType) => {
       await deleteLayerFile(id, type);
@@ -50,9 +56,15 @@ function mapDispatchToProps(dispatch: Dispatch) {
     },
     exportLayers: async (ids: Array<string>) => {
       const outputPath = await dispatch(
-        exportBundleFromRedux({
-          layerIds: ids
-        })
+        exportBundleFromRedux(
+          ownProps.mappingFileType === 'basemap'
+            ? {
+                basemapIds: ids
+              }
+            : {
+                layerIds: ids
+              }
+        )
       );
       await shareBundle(outputPath);
     },

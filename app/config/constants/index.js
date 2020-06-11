@@ -21,12 +21,7 @@ export const STORAGE = {
   }
 };
 
-const devBasemap = 'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png';
-const prodBasemap = `https://api.mapbox.com/styles/v1/forestwatcher/cj512vh3m0yth2rn62y69uoek/tiles/256/{z}/{x}/{y}?access_token=${
-  Config.MAPBOX_TOKEN
-}`;
 export const MAPS = {
-  basemap: __DEV__ ? devBasemap : prodBasemap,
   smallPadding: {
     paddingLeft: 20,
     paddingRight: 20,
@@ -125,18 +120,6 @@ export const DATASETS: { [slug: string]: AlertDatasetConfig } = {
   }
 };
 
-export const LAYERSi18n = {
-  oilPalm: i18n.t('layers.oilPalm'),
-  managedForests: i18n.t('layers.managedForests'),
-  protectedAreas: i18n.t('layers.protectedAreas'),
-  woodFiber: i18n.t('layers.woodFiber'),
-  mining: i18n.t('layers.mining'),
-  treeCoverLoss2014: i18n.t('layers.treeCoverLoss2014'),
-  treeCoverLoss2015: i18n.t('layers.treeCoverLoss2015'),
-  treeCoverLoss2016: i18n.t('layers.treeCoverLoss2016'),
-  treeCoverLoss2017: i18n.t('layers.treeCoverLoss2017')
-};
-
 export const GLAD_RECENT_RANGE = {
   range: 7,
   measure: 'days'
@@ -157,7 +140,6 @@ export const COORDINATES_FORMATS = {
   }
 };
 
-export const REDUCERS_SAVED_TO_REPORT = ['app', 'areas', 'layers'];
 export const ACTIONS_SAVED_TO_REPORT = 5;
 
 // Constants
