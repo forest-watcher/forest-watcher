@@ -247,7 +247,7 @@ export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerMetadata
         type: 'line'
       },
       {
-        filter: ['all', ['==', ['get', 'fungsikawa'], 1001]],
+        filter: ['in', ['get', 'fungsikawa'], ['literal', [1001]]],
         paint: {
           'fill-color': '#00FF7B',
           'fill-opacity': 0.9
@@ -256,7 +256,7 @@ export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerMetadata
         type: 'fill'
       },
       {
-        filter: ['all', ['==', ['get', 'fungsikawa'], 1001]],
+        filter: ['in', ['get', 'fungsikawa'], ['literal', [1001]]],
         paint: {
           'line-color': '#00FF7B',
           'line-opacity': 0.2,
@@ -266,7 +266,7 @@ export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerMetadata
         type: 'line'
       },
       {
-        filter: ['all', ['==', ['get', 'fungsikawa'], 1003]],
+        filter: ['all', ['in', ['get', 'fungsikawa'], ['literal', [1003]]]],
         paint: {
           'fill-color': '#FFFEAA',
           'fill-opacity': 0.9
@@ -275,7 +275,7 @@ export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerMetadata
         type: 'fill'
       },
       {
-        filter: ['all', ['==', ['get', 'fungsikawa'], 1003]],
+        filter: ['all', ['in', ['get', 'fungsikawa'], ['literal', [1003]]]],
         paint: {
           'line-color': '#FFFEAA',
           'line-opacity': 0.2,
@@ -285,7 +285,7 @@ export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerMetadata
         type: 'line'
       },
       {
-        filter: ['all', ['==', ['get', 'fungsikawa'], 1004]],
+        filter: ['all', ['in', ['get', 'fungsikawa'], ['literal', [1004]]]],
         paint: {
           'fill-color': '#C4FBAF',
           'fill-opacity': 0.9
@@ -294,7 +294,7 @@ export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerMetadata
         type: 'fill'
       },
       {
-        filter: ['all', ['==', ['get', 'fungsikawa'], 1004]],
+        filter: ['all', ['in', ['get', 'fungsikawa'], ['literal', [1004]]]],
         paint: {
           'line-color': '#C4FBAF',
           'line-opacity': 0.2,
@@ -304,7 +304,7 @@ export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerMetadata
         type: 'line'
       },
       {
-        filter: ['all', ['==', ['get', 'fungsikawa'], 1005]],
+        filter: ['all', ['in', ['get', 'fungsikawa'], ['literal', [1005]]]],
         paint: {
           'fill-color': '#FEA189',
           'fill-opacity': 0.9
@@ -313,7 +313,7 @@ export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerMetadata
         type: 'fill'
       },
       {
-        filter: ['all', ['==', ['get', 'fungsikawa'], 1005]],
+        filter: ['all', ['in', ['get', 'fungsikawa'], ['literal', [1005]]]],
         paint: {
           'line-color': '#FEA189',
           'line-opacity': 0.2,
@@ -323,7 +323,7 @@ export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerMetadata
         type: 'line'
       },
       {
-        filter: ['all', ['==', ['get', 'fungsikawa'], 1007]],
+        filter: ['all', ['in', ['get', 'fungsikawa'], ['literal', [1007]]]],
         paint: {
           'fill-color': '#D8D8D8',
           'fill-opacity': 0.9
@@ -332,7 +332,7 @@ export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerMetadata
         type: 'fill'
       },
       {
-        filter: ['all', ['==', ['get', 'fungsikawa'], 1007]],
+        filter: ['all', ['in', ['get', 'fungsikawa'], ['literal', [1007]]]],
         paint: {
           'line-color': '#D8D8D8',
           'line-opacity': 0.2,
