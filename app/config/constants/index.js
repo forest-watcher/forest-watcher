@@ -7,7 +7,7 @@ import Theme from 'config/theme';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
 import type { Basemap } from 'types/basemaps.types';
-import type { ContextualLayer } from 'types/layers.types';
+import type { ContextualLayer, ContextualLayerRenderSpec } from 'types/layers.types';
 
 export const AREAS = {
   maxSize: 20000000000 // square meters
@@ -186,38 +186,27 @@ export const GFW_BASEMAPS: Array<Basemap> = [
   }
 ];
 
-// These are hard-coded versions of data hosted in the layers API, you can use the `id` parameter to fetch
-// the full data for each (If you suspect something is wrong/missing) using: https://api.resourcewatch.org/v1/layer/{id}
-export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
-  {
-    id: 'bd2798d1-c771-4bff-84d9-c4d69d3b3121',
-    name: 'biodiversityIntactness',
-    isGFW: true,
-    minZoom: 3,
+// A map from a contextual layer's ID to metadata provided to allow it to be rendered in MapBox
+// this allows us to update styling e.t.c. without the user having to delete and re-add GFW contextual layers!
+export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerRenderSpec } = {
+  'bd2798d1-c771-4bff-84d9-c4d69d3b3121': {
     maxZoom: 12,
-    tileFormat: 'raster',
-    url: 'https://api.resourcewatch.org/v1/layer/bd2798d1-c771-4bff-84d9-c4d69d3b3121/tile/gee/{z}/{x}/{y}'
-  },
-  {
-    id: 'c1c306a3-31b6-409a-acf0-2a8f09e28363',
-    name: 'biodiversitySignificance',
-    isGFW: true,
     minZoom: 3,
-    maxZoom: 12,
-    tileFormat: 'raster',
-    url: 'https://api.resourcewatch.org/v1/layer/c1c306a3-31b6-409a-acf0-2a8f09e28363/tile/gee/{z}/{x}/{y}'
+    tileFormat: 'raster'
   },
-  {
-    id: 'f84af037-4e4f-41cf-a053-94a606071232',
-    description: 'Indicates the Indonesian government’s designation of legal forest area.',
-    name: 'indonesiaForestArea',
-    isGFW: true,
+  'c1c306a3-31b6-409a-acf0-2a8f09e28363': {
+    maxZoom: 12,
+    minZoom: 3,
+    tileFormat: 'raster'
+  },
+  'f84af037-4e4f-41cf-a053-94a606071232': {
     tileFormat: 'vector',
-    url:
-      'https://cartocdn-gusc-a.global.ssl.fastly.net/wri-01/api/v1/map/875b5073c8d5640411d39d04a6c03e59:1529255267242/{z}/{x}/{y}.mvt',
     vectorMapLayers: [
       {
-        filter: ['all', ['in', 'fungsikawa', 1, 1002, 10021, 10022, 10023, 10024, 10025, 10026, 100201]],
+        filter: [
+          'all',
+          ['in', ['get', 'fungsikawa'], ['literal', [1, 1002, 10021, 10022, 10023, 10024, 10025, 10026, 100201]]]
+        ],
         paint: {
           'fill-color': '#C489FD',
           'fill-opacity': 0.9
@@ -226,7 +215,10 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
         type: 'fill'
       },
       {
-        filter: ['all', ['in', 'fungsikawa', 1, 1002, 10021, 10022, 10023, 10024, 10025, 10026, 100201]],
+        filter: [
+          'all',
+          ['in', ['get', 'fungsikawa'], ['literal', [1, 1002, 10021, 10022, 10023, 10024, 10025, 10026, 100201]]]
+        ],
         paint: {
           'line-color': '#FFF',
           'line-opacity': 0.2,
@@ -236,7 +228,7 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
         type: 'line'
       },
       {
-        filter: ['all', ['in', 'fungsikawa', 100202, 100251, 100241, 100221, 100211]],
+        filter: ['all', ['in', ['get', 'fungsikawa'], ['literal', [100202, 100251, 100241, 100221, 100211]]]],
         paint: {
           'fill-color': 'transparent',
           'fill-opacity': 0.3
@@ -245,7 +237,7 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
         type: 'fill'
       },
       {
-        filter: ['all', ['in', 'fungsikawa', 100202, 100251, 100241, 100221, 100211]],
+        filter: ['all', ['in', ['get', 'fungsikawa'], ['literal', [100202, 100251, 100241, 100221, 100211]]]],
         paint: {
           'line-color': '#FF00FF',
           'line-opacity': 0.9,
@@ -255,7 +247,7 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
         type: 'line'
       },
       {
-        filter: ['all', ['==', 'fungsikawa', 1001]],
+        filter: ['in', ['get', 'fungsikawa'], ['literal', [1001]]],
         paint: {
           'fill-color': '#00FF7B',
           'fill-opacity': 0.9
@@ -264,7 +256,7 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
         type: 'fill'
       },
       {
-        filter: ['all', ['==', 'fungsikawa', 1001]],
+        filter: ['in', ['get', 'fungsikawa'], ['literal', [1001]]],
         paint: {
           'line-color': '#00FF7B',
           'line-opacity': 0.2,
@@ -274,7 +266,7 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
         type: 'line'
       },
       {
-        filter: ['all', ['==', 'fungsikawa', 1003]],
+        filter: ['all', ['in', ['get', 'fungsikawa'], ['literal', [1003]]]],
         paint: {
           'fill-color': '#FFFEAA',
           'fill-opacity': 0.9
@@ -283,7 +275,7 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
         type: 'fill'
       },
       {
-        filter: ['all', ['==', 'fungsikawa', 1003]],
+        filter: ['all', ['in', ['get', 'fungsikawa'], ['literal', [1003]]]],
         paint: {
           'line-color': '#FFFEAA',
           'line-opacity': 0.2,
@@ -293,7 +285,7 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
         type: 'line'
       },
       {
-        filter: ['all', ['==', 'fungsikawa', 1004]],
+        filter: ['all', ['in', ['get', 'fungsikawa'], ['literal', [1004]]]],
         paint: {
           'fill-color': '#C4FBAF',
           'fill-opacity': 0.9
@@ -302,7 +294,7 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
         type: 'fill'
       },
       {
-        filter: ['all', ['==', 'fungsikawa', 1004]],
+        filter: ['all', ['in', ['get', 'fungsikawa'], ['literal', [1004]]]],
         paint: {
           'line-color': '#C4FBAF',
           'line-opacity': 0.2,
@@ -312,7 +304,7 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
         type: 'line'
       },
       {
-        filter: ['all', ['==', 'fungsikawa', 1005]],
+        filter: ['all', ['in', ['get', 'fungsikawa'], ['literal', [1005]]]],
         paint: {
           'fill-color': '#FEA189',
           'fill-opacity': 0.9
@@ -321,7 +313,7 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
         type: 'fill'
       },
       {
-        filter: ['all', ['==', 'fungsikawa', 1005]],
+        filter: ['all', ['in', ['get', 'fungsikawa'], ['literal', [1005]]]],
         paint: {
           'line-color': '#FEA189',
           'line-opacity': 0.2,
@@ -331,7 +323,7 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
         type: 'line'
       },
       {
-        filter: ['all', ['==', 'fungsikawa', 1007]],
+        filter: ['all', ['in', ['get', 'fungsikawa'], ['literal', [1007]]]],
         paint: {
           'fill-color': '#D8D8D8',
           'fill-opacity': 0.9
@@ -340,7 +332,7 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
         type: 'fill'
       },
       {
-        filter: ['all', ['==', 'fungsikawa', 1007]],
+        filter: ['all', ['in', ['get', 'fungsikawa'], ['literal', [1007]]]],
         paint: {
           'line-color': '#D8D8D8',
           'line-opacity': 0.2,
@@ -351,15 +343,9 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
       }
     ]
   },
-  {
-    id: 'caa9b9b7-5dec-4ad6-adbf-d7c2965c9371',
-    description:
-      'Boundaries of areas over which indigenous peoples or local communities enjoy rights to the land and certain resources. Only select countries are included, and dates of data displayed vary by country.',
+  'caa9b9b7-5dec-4ad6-adbf-d7c2965c9371': {
     maxZoom: 9,
-    name: 'landmarks',
-    isGFW: true,
     tileFormat: 'vector',
-    url: 'https://tiles.globalforestwatch.org/landmark_land_rights/v20191111/default/{z}/{x}/{y}.pbf',
     vectorMapLayers: [
       {
         filter: ['==', 'type', 'Indicative Areas'],
@@ -453,16 +439,9 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
       }
     ]
   },
-  {
-    id: '51aad76b-e884-44e0-82a4-d3b2f87a052d',
-    description:
-      'Boundaries of forested areas allocated by governments to companies for harvesting timber and other wood products.',
+  '51aad76b-e884-44e0-82a4-d3b2f87a052d': {
     maxZoom: 18,
-    name: 'logging',
-    isGFW: true,
     tileFormat: 'vector',
-    url:
-      'https://cartocdn-gusc-a.global.ssl.fastly.net/wri-01/api/v1/map/aa3157cf3a5b0acc1f78b48899fb7a02:1548761157303/{z}/{x}/{y}.mvt',
     vectorMapLayers: [
       {
         paint: {
@@ -471,8 +450,7 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
           'line-opacity': 0.5
         },
         'source-layer': 'layer0',
-        type: 'line',
-        filter: ['all']
+        type: 'line'
       },
       {
         paint: {
@@ -480,20 +458,14 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
           'fill-color': '#8da0cb'
         },
         'source-layer': 'layer0',
-        type: 'fill',
-        filter: ['all']
+        type: 'fill'
       }
     ]
   },
-  {
-    id: 'fcd10026-e892-4fb8-8d79-8d76e3b94005',
-    description: 'Mining Areas',
-    name: 'miningConcessions',
-    isGFW: true,
+  'fcd10026-e892-4fb8-8d79-8d76e3b94005': {
     maxZoom: 19,
     minZoom: 2,
     tileFormat: 'vector',
-    url: 'mapbox://resourcewatch.3259d78x',
     vectorMapLayers: [
       {
         paint: {
@@ -514,15 +486,10 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
       }
     ]
   },
-  {
-    id: '0911abc4-d861-4d7a-84d6-0fa07b51d7d8',
-    description: 'Oil palm areas',
-    name: 'oilPalmConcessions',
-    isGFW: true,
+  '0911abc4-d861-4d7a-84d6-0fa07b51d7d8': {
     maxZoom: 19,
     minZoom: 2,
     tileFormat: 'vector',
-    url: '',
     vectorMapLayers: [
       {
         paint: {
@@ -534,44 +501,111 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
       }
     ]
   },
-  {
-    id: 'e37f881b-ed2e-485b-b194-6a6829aaff2e',
-    description: 'Legally protected areas by IUCN category. Updated monthly.',
-    name: 'wdpa',
-    isGFW: true,
+  'e37f881b-ed2e-485b-b194-6a6829aaff2e': {
     tileFormat: 'vector',
-    url: 'https://tiles.globalforestwatch.org/wdpa_protected_areas/v201909/mvt/{z}/{x}/{y}',
     vectorMapLayers: [
       {
-        type: 'fill',
-        'source-layer': 'wdpa_protected_areas_201909',
         paint: {
-          'fill-color': '#5ca2d1',
-          'fill-opacity': 1
-        }
+          'fill-opacity': 0.7
+        },
+        'source-layer': 'wdpa_protected_areas_201909',
+        type: 'fill'
       },
       {
-        type: 'line',
-        'source-layer': 'wdpa_protected_areas_201909',
         paint: {
-          'line-color': '#000000',
-          'line-opacity': 0.1
-        }
+          'line-opacity': 0,
+          'line-width': 0
+        },
+        'source-layer': 'wdpa_protected_areas_201909',
+        type: 'line'
+      },
+      {
+        filter: ['all', ['==', 'iucn_cat', 'II']],
+        paint: {
+          'fill-color': '#0f3b82'
+        },
+        'source-layer': 'wdpa_protected_areas_201909',
+        type: 'fill'
+      },
+      {
+        filter: ['all', ['==', 'iucn_cat', 'III']],
+        paint: {
+          'fill-color': '#c9ddff'
+        },
+        'source-layer': 'wdpa_protected_areas_201909',
+        type: 'fill'
+      },
+      {
+        filter: ['all', ['==', 'iucn_cat', 'IV']],
+        paint: {
+          'fill-color': '#b9b2a1'
+        },
+        'source-layer': 'wdpa_protected_areas_201909',
+        type: 'fill'
+      },
+      {
+        filter: ['all', ['==', 'iucn_cat', 'Ia']],
+        paint: {
+          'fill-color': '#5ca2d1'
+        },
+        'source-layer': 'wdpa_protected_areas_201909',
+        type: 'fill'
+      },
+      {
+        filter: ['all', ['==', 'iucn_cat', 'Ib']],
+        paint: {
+          'fill-color': '#3e7bb6'
+        },
+        'source-layer': 'wdpa_protected_areas_201909',
+        type: 'fill'
+      },
+      {
+        filter: ['all', ['==', 'iucn_cat', 'Not Applicable']],
+        paint: {
+          'fill-color': '#eed54c'
+        },
+        'source-layer': 'wdpa_protected_areas_201909',
+        type: 'fill'
+      },
+      {
+        filter: ['all', ['==', 'iucn_cat', 'Not Assigned']],
+        paint: {
+          'fill-color': '#e7ab36'
+        },
+        'source-layer': 'wdpa_protected_areas_201909',
+        type: 'fill'
+      },
+      {
+        filter: ['all', ['==', 'iucn_cat', 'Not Reported']],
+        paint: {
+          'fill-color': '#fa894b'
+        },
+        'source-layer': 'wdpa_protected_areas_201909',
+        type: 'fill'
+      },
+      {
+        filter: ['all', ['==', 'iucn_cat', 'V']],
+        paint: {
+          'fill-color': '#ae847e'
+        },
+        'source-layer': 'wdpa_protected_areas_201909',
+        type: 'fill'
+      },
+      {
+        filter: ['all', ['==', 'iucn_cat', 'VI']],
+        paint: {
+          'fill-color': '#daa89b'
+        },
+        'source-layer': 'wdpa_protected_areas_201909',
+        type: 'fill'
       }
     ]
   },
-  {
-    id: '5ce140d9-260b-4e42-8b15-bd62193a5955',
-    description:
-      'This data layer displays the concession boundaries of Roundtable on Sustainable Palm Oil (RSPO) member companies through December 2017, including both certified and non-certified concessions, as well as concessions where the certification status is unknown. The concession boundaries were provided to the RSPO by member companies.',
-    name: 'rspo',
-    isGFW: true,
+  '5ce140d9-260b-4e42-8b15-bd62193a5955': {
     tileFormat: 'vector',
-    url:
-      'https://cartocdn-gusc-a.global.ssl.fastly.net/wri-01/api/v1/map/4cec6a801dc76cb77fbf5123efd7581f:1529255245810/{z}/{x}/{y}.mvt',
     vectorMapLayers: [
       {
-        filter: ['all', ['==', 'rspo_cert', 'True']],
+        filter: ['all', ['==', ['get', 'rspo_cert'], 'True']],
         paint: {
           'fill-color': '#ffa146',
           'fill-opacity': 0.7
@@ -580,7 +614,7 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
         type: 'fill'
       },
       {
-        filter: ['all', ['==', 'rspo_cert', 'True']],
+        filter: ['all', ['==', ['get', 'rspo_cert'], 'True']],
         paint: {
           'line-color': '#ffa146',
           'line-opacity': 1,
@@ -590,7 +624,7 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
         type: 'line'
       },
       {
-        filter: ['all', ['==', 'rspo_cert', 'False']],
+        filter: ['all', ['==', ['get', 'rspo_cert'], 'False']],
         paint: {
           'fill-color': '#ff6361',
           'fill-opacity': 0.7
@@ -599,7 +633,7 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
         type: 'fill'
       },
       {
-        filter: ['all', ['==', 'rspo_cert', 'False']],
+        filter: ['all', ['==', ['get', 'rspo_cert'], 'False']],
         paint: {
           'line-color': '#ff6361',
           'line-opacity': 1,
@@ -609,7 +643,7 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
         type: 'line'
       },
       {
-        filter: ['all', ['==', 'rspo_cert', 'Unknown']],
+        filter: ['all', ['==', ['get', 'rspo_cert'], 'Unknown']],
         paint: {
           'fill-color': '#bc5090',
           'fill-opacity': 0.7
@@ -618,7 +652,7 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
         type: 'fill'
       },
       {
-        filter: ['all', ['==', 'rspo_cert', 'Unknown']],
+        filter: ['all', ['==', ['get', 'rspo_cert'], 'Unknown']],
         paint: {
           'line-color': '#bc5090',
           'line-opacity': 1,
@@ -629,14 +663,8 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
       }
     ]
   },
-  {
-    id: '82229960-13c2-4810-84e7-bdd4812d4578',
-    description: 'Wood fiber plantation areas',
-    name: 'woodFiberConcessions',
-    isGFW: true,
+  '82229960-13c2-4810-84e7-bdd4812d4578': {
     tileFormat: 'vector',
-    url:
-      'https://cartocdn-gusc-a.global.ssl.fastly.net/wri-01/api/v1/map/875b5073c8d5640411d39d04a6c03e59:1529255267242/{z}/{x}/{y}.mvt',
     vectorMapLayers: [
       {
         filter: ['all', ['==', 'source_typ', 'government']],
@@ -657,6 +685,88 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
         type: 'fill'
       }
     ]
+  }
+};
+
+// These are hard-coded versions of data hosted in the layers API, you can use the `id` parameter to fetch
+// the full data for each (If you suspect something is wrong/missing) using: https://api.resourcewatch.org/v1/layer/{id}
+export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
+  {
+    id: 'bd2798d1-c771-4bff-84d9-c4d69d3b3121',
+    name: 'biodiversityIntactness',
+    isGFW: true,
+    url: 'https://api.resourcewatch.org/v1/layer/bd2798d1-c771-4bff-84d9-c4d69d3b3121/tile/gee/{z}/{x}/{y}'
+  },
+  {
+    id: 'c1c306a3-31b6-409a-acf0-2a8f09e28363',
+    name: 'biodiversitySignificance',
+    isGFW: true,
+    url: 'https://api.resourcewatch.org/v1/layer/c1c306a3-31b6-409a-acf0-2a8f09e28363/tile/gee/{z}/{x}/{y}'
+  },
+  /*{
+    id: 'f84af037-4e4f-41cf-a053-94a606071232',
+    description: 'Indicates the Indonesian government’s designation of legal forest area.',
+    name: 'indonesiaForestArea',
+    isGFW: true,
+    url:
+      'https://cartocdn-gusc-a.global.ssl.fastly.net/wri-01/api/v1/map/875b5073c8d5640411d39d04a6c03e59:1529255267242/{z}/{x}/{y}.mvt'
+  },*/
+  {
+    id: 'caa9b9b7-5dec-4ad6-adbf-d7c2965c9371',
+    description:
+      'Boundaries of areas over which indigenous peoples or local communities enjoy rights to the land and certain resources. Only select countries are included, and dates of data displayed vary by country.',
+    name: 'landmarks',
+    isGFW: true,
+    url: 'https://tiles.globalforestwatch.org/landmark_land_rights/v20191111/default/{z}/{x}/{y}.pbf'
+  },
+  {
+    id: '51aad76b-e884-44e0-82a4-d3b2f87a052d',
+    description:
+      'Boundaries of forested areas allocated by governments to companies for harvesting timber and other wood products.',
+    name: 'logging',
+    isGFW: true,
+    url:
+      'https://cartocdn-gusc-a.global.ssl.fastly.net/wri-01/api/v1/map/aa3157cf3a5b0acc1f78b48899fb7a02:1548761157303/{z}/{x}/{y}.mvt'
+  },
+  {
+    id: 'fcd10026-e892-4fb8-8d79-8d76e3b94005',
+    description: 'Mining Areas',
+    name: 'miningConcessions',
+    isGFW: true,
+    tileFormat: 'vector',
+    url: 'mapbox://resourcewatch.3259d78x'
+  },
+  /*{
+    id: '0911abc4-d861-4d7a-84d6-0fa07b51d7d8',
+    description: 'Oil palm areas',
+    name: 'oilPalmConcessions',
+    isGFW: true,
+    url: ''
+  },*/
+  {
+    id: 'e37f881b-ed2e-485b-b194-6a6829aaff2e',
+    description: 'Legally protected areas by IUCN category. Updated monthly.',
+    name: 'wdpa',
+    isGFW: true,
+    tileFormat: 'vector',
+    url: 'https://tiles.globalforestwatch.org/wdpa_protected_areas/v201909/mvt/{z}/{x}/{y}'
+  },
+  /*{
+    id: '5ce140d9-260b-4e42-8b15-bd62193a5955',
+    description:
+      'This data layer displays the concession boundaries of Roundtable on Sustainable Palm Oil (RSPO) member companies through December 2017, including both certified and non-certified concessions, as well as concessions where the certification status is unknown. The concession boundaries were provided to the RSPO by member companies.',
+    name: 'rspo',
+    isGFW: true,
+    url:
+      'https://cartocdn-gusc-a.global.ssl.fastly.net/wri-01/api/v1/map/4cec6a801dc76cb77fbf5123efd7581f:1529255245810/{z}/{x}/{y}.mvt'
+  },*/
+  {
+    id: '82229960-13c2-4810-84e7-bdd4812d4578',
+    description: 'Wood fiber plantation areas',
+    name: 'woodFiberConcessions',
+    isGFW: true,
+    url:
+      'https://cartocdn-gusc-a.global.ssl.fastly.net/wri-01/api/v1/map/1805b7c9ae919f705548dfb470679f8a:1569405047170/{z}/{x}/{y}.mvt'
   }
 ];
 
