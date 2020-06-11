@@ -32,7 +32,6 @@ class GFWVectorLayer extends Component<Props, State> {
   };
 
   render() {
-
     let MapboxComponent;
     switch (this.props.layer.type) {
       case 'fill':
@@ -44,8 +43,6 @@ class GFWVectorLayer extends Component<Props, State> {
       default:
         return null;
     }
-
-    console.log("Rendering vector layer", this.props.id, this.props.sourceID);
 
     return MapboxComponent ? (
       <MapboxComponent

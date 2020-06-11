@@ -690,7 +690,8 @@ class MapComponent extends Component<Props, State> {
             id={sourceID}
             maxZoomLevel={layerMetadata.maxZoom}
             minZoomLevel={layerMetadata.minZoom}
-            tileUrlTemplates={[layer.url]}
+            url={layer.url.startsWith('mapbox://') ? layer.url : null}
+            tileUrlTemplates={layer.url.startsWith('mapbox://') ? null : [layer.url]}
           >
             {layerMetadata.vectorMapLayers.map((vectorLayer, index) => {
               return (
