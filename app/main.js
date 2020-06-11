@@ -89,7 +89,7 @@ export default class App {
       });
 
       if (!shouldResume) {
-        trackRouteFlowEvent('disregardedOnLaunch');
+        trackRouteFlowEvent('discardedOnLaunch');
         this.store.dispatch(discardActiveRoute());
         return;
       }

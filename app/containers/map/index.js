@@ -127,7 +127,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
       dispatch(setRouteDestination(location, areaId));
     },
     onCancelTrackingRoute: () => {
-      trackRouteFlowEvent('disregardedFromMap');
+      trackRouteFlowEvent('discardedFromMap');
       dispatch(discardActiveRoute());
     },
     getRoutesById: (routeIds: Array<string>) => {
