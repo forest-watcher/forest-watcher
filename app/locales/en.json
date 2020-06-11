@@ -389,6 +389,7 @@
             "buttonTitle": "Import Data Bundle",
             "title": "Confirm Import"
         },
+        "containingPrefix": "Containing:",
         "customBasemaps": {
             "title": "Select Basemap Data"
         },
@@ -402,13 +403,16 @@
             "fileImportOptionTitle": "Import Option",
             "title": "Select Contextual Layer Data"
         },
+        "importingPrefix": "Importing:",
         "progress": "Step %{current} of %{total}",
         "start": {
             "customImport": "Custom Import",
             "customImportDescription": "Select specific items to import",
             "importAll": "Import All Data",
             "title": "Import App Bundle"
-        }
+        },
+        "success": "Data Bundle imported",
+        "successContentsSuffix": "now available"
     },
     "importLayer": {
         "gfw": {
@@ -726,6 +730,8 @@
         "type": {
             "area": "Area",
             "areas": "Areas",
+            "alert": "Alert",
+            "alerts": "Alerts",
             "customBasemap": "Custom Basemap",
             "customBasemaps": "Custom Basemaps",
             "customLayer": "Custom Contextual Layer",

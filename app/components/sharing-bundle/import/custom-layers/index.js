@@ -12,6 +12,7 @@ import BottomTray from 'components/common/bottom-tray';
 import ActionButton from 'components/common/action-button';
 import CustomImportItem from 'components/sharing-bundle/import/custom-import-item';
 import CustomLayerScopeDropdown from 'components/sharing-bundle/import/custom-layer-scope-dropdown';
+import { isCustomContextualLayer, isGfwContextualLayer } from 'helpers/layerTypes';
 
 const layersIcon = require('assets/contextualLayers.png');
 const layersIconInactive = require('assets/contextualLayerNotActive.png');
@@ -131,12 +132,12 @@ export default class ImportSharingBundleCustomLayersScreen extends PureComponent
   renderContent = () => {
     const bundleData = this.props.formState.bundle.data;
     const customLayerNames = bundleData.layers
-      .filter(layer => true) // TODO: Awaiting GFW layer work
+      .filter(isCustomContextualLayer)
       .map(item => item.name)
       .filter(Boolean)
       .sort((a, b) => a.localeCompare(b));
     const gfwLayerNames = bundleData.layers
-      .filter(layer => false) // TODO: Awaiting GFW layer work
+      .filter(isGfwContextualLayer)
       .map(item => item.name)
       .filter(Boolean)
       .sort((a, b) => a.localeCompare(b));

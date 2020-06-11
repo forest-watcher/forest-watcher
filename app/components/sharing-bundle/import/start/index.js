@@ -15,6 +15,7 @@ import { formatBytes } from 'helpers/data';
 import createCustomImportFlow, {
   type SharingBundleCustomImportFlowState
 } from 'components/sharing-bundle/import/createCustomImportFlow';
+import summariseBundleContents from 'helpers/sharing/summariseBundleContents';
 
 const nextIcon = require('assets/next.png');
 
@@ -119,12 +120,16 @@ export default class ImportSharingBundleStartScreen extends PureComponent<Props,
     }
 
     const bundleName = this.props.bundlePath; // TODO: Discussing with James a useful way of naming a bundle
+    const bundleContents = summariseBundleContents(bundle.data, IMPORT_ENTIRE_BUNDLE_REQUEST).join(', ');
     const bundleSizeBytes = calculateImportBundleSize(bundle.data, IMPORT_ENTIRE_BUNDLE_REQUEST);
 
     return (
       <ScrollView alwaysBounceVertical={false} style={styles.contentContainer}>
         <Text style={styles.bundleName} numberOfLines={1} ellipsizeMode={'middle'}>
           {bundleName}
+        </Text>
+        <Text style={styles.bundleContents}>
+          {`${i18n.t('importBundle.containingPrefix')} ${bundleContents}`}
         </Text>
         <Row
           action={{
