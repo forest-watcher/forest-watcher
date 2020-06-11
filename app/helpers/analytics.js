@@ -114,10 +114,23 @@ export const trackImportedContent = (
   });
 };
 
-export const trackDownloadedContent = (contentType: DownloadableContentType, duration: number) => {
+const contentDownloadTimers: { [id: string]: number } = {};
+
+export const trackContentDownloadStarted = (id: string) => {
+  contentDownloadTimers[id] = Date.now();
+  console.warn(`trackContentDownloadStarted - ${id}`);
+};
+
+export const trackDownloadedContent = (contentType: DownloadableContentType, id: string, success: boolean) => {
+  const duration = contentDownloadTimers[id] ? Math.ceil((Date.now() - contentDownloadTimers[id]) / 1000) : 0;
+  delete contentDownloadTimers[id];
+  console.warn(`trackDownloadedContent - ${contentType} ${id} ${duration} ${success}`);
+  return;
+  // eslint-disable-next-line no-unreachable
   analytics().logEvent('downloaded_content', {
     content_type: contentType,
-    time_taken: duration
+    time_taken: duration,
+    success: success ? 1 : 0
   });
 };
 

@@ -24,7 +24,7 @@ import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
-import { trackLayersToggled } from 'helpers/analytics';
+import { trackLayersToggled, trackDownloadedContent, trackContentDownloadStarted } from 'helpers/analytics';
 import { storeTilesFromUrl } from 'helpers/layer-store/storeLayerFiles';
 import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
@@ -509,6 +509,8 @@ export function cacheAreaBasemap(dataType: DownloadDataType, dataId: string, bas
     }
 
     const areaBounds = [[bbox[2], bbox[3]], [bbox[0], bbox[1]]];
+
+    trackContentDownloadStarted(packName);
     const progressListener = (offlineRegion, status) => {
       if (!status.percentage) {
         return;
@@ -519,10 +521,12 @@ export function cacheAreaBasemap(dataType: DownloadDataType, dataId: string, bas
       });
       if (status.state === MAPBOX_DOWNLOAD_COMPLETED_STATE) {
         dispatch({ type: CACHE_LAYER_COMMIT, payload: { dataId, layerId: basemapId } });
+        trackDownloadedContent('basemap', packName, true);
       }
     };
     const errorListener = (offlineRegion, err) => {
       dispatch({ type: CACHE_LAYER_ROLLBACK, payload: { dataId, layerId: basemapId } });
+      trackDownloadedContent('basemap', packName, false);
       console.error('3SC download basemap error: ', err);
     };
     const downloadPackOptions = {
@@ -555,9 +559,18 @@ export function cacheAreaLayer(dataType: DownloadDataType, dataId: string, layer
         layerId: layer.id,
         layerUrl: layer.url
       };
+      const layerKey = `${dataId}|${layerId}`;
+      trackContentDownloadStarted(layerKey);
       downloadAllLayers('contextual_layer', downloadConfig, dispatch)
-        .then(path => dispatch({ type: CACHE_LAYER_COMMIT, payload: { path, dataId, layerId } }))
-        .catch(() => dispatch({ type: CACHE_LAYER_ROLLBACK, payload: { dataId, layerId } }));
+        .then(path => {
+          dispatch({ type: CACHE_LAYER_COMMIT, payload: { path, dataId, layerId } });
+          trackDownloadedContent('layer', layerKey, true);
+          return;
+        })
+        .catch(() => {
+          dispatch({ type: CACHE_LAYER_ROLLBACK, payload: { dataId, layerId } });
+          trackDownloadedContent('layer', layerKey, false);
+        });
       dispatch({ type: CACHE_LAYER_REQUEST, payload: { dataId, layerId } });
     }
   };
