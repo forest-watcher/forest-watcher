@@ -35,11 +35,11 @@ const icons = {
 };
 
 type Props = {|
-  +baseFiles: Array<Basemap | ContextualLayer>,
+  +baseFiles: Array<ContextualLayer> | Array<Basemap>,
   +componentId: string,
   +deleteMappingFile: (id: string, type: LayerType) => void,
   +exportLayers: (ids: Array<string>) => Promise<void>,
-  +importedFiles: Array<ContextualLayer>,
+  +importedFiles: Array<ContextualLayer> | Array<Basemap>,
   +mappingFileType: LayerType,
   +renameMappingFile: (id: string, type: LayerType, newName: string) => void
 |};
@@ -162,8 +162,19 @@ class MappingFiles extends Component<Props, State> {
   });
 
   setAllSelected = (selected: boolean) => {
+    if (!selected) {
+      this.setState({
+        selectedForExport: []
+      });
+      return;
+    }
+
+    const selectedForExport: Array<string> = [
+      ...this.props.importedFiles.map((layer: { id: string }) => layer.id),
+      ...(this.props.mappingFileType === 'basemap' ? [] : this.props.baseFiles.map(layer => layer.id))
+    ];
     this.setState({
-      selectedForExport: selected ? this.props.baseFiles.map(layer => layer.id) : []
+      selectedForExport: selectedForExport
     });
   };
 
@@ -249,6 +260,12 @@ class MappingFiles extends Component<Props, State> {
     if (baseFiles.length === 0) {
       return null;
     }
+
+    // It is against Mapbox ToS to share their tiles
+    if (mappingFileType === 'basemap' && this.state.inShareMode) {
+      return null;
+    }
+
     return (
       <View>
         <Text style={styles.heading}>{i18n.t(this.i18nKeyFor('gfw'))}</Text>
@@ -368,7 +385,11 @@ class MappingFiles extends Component<Props, State> {
     const { baseFiles, importedFiles, mappingFileType } = this.props;
     // Determine if we're in export mode, and how many layers have been selected to export.
     const totalToExport = this.state.selectedForExport.length;
+    const shareableFiles = importedFiles.length + (mappingFileType === 'basemap' ? 0 : baseFiles.length);
+    const editableFiles = shareableFiles;
     const totalFiles = importedFiles.length + baseFiles.length;
+    const hasEditableFiles = editableFiles > 0;
+    const hasShareableFiles = shareableFiles > 0;
     const hasFiles = totalFiles > 0;
 
     return (
@@ -390,8 +411,8 @@ class MappingFiles extends Component<Props, State> {
           }}
           selected={totalToExport}
           selectAllCountText={
-            totalFiles > 1
-              ? i18n.t(this.i18nKeyFor('export.many'), { count: totalFiles })
+            shareableFiles > 1
+              ? i18n.t(this.i18nKeyFor('export.many'), { count: shareableFiles })
               : i18n.t(this.i18nKeyFor('export.one'), { count: 1 })
           }
           shareButtonEnabledTitle={
@@ -401,7 +422,8 @@ class MappingFiles extends Component<Props, State> {
                 : i18n.t(this.i18nKeyFor('export.manyAction'), { count: totalToExport })
               : i18n.t(this.i18nKeyFor('export.noneSelected'))
           }
-          showEditButton
+          showEditButton={hasEditableFiles}
+          disabled={!hasShareableFiles}
         >
           {hasFiles ? this.renderFilesList() : this.renderEmptyState()}
         </ShareSheet>
