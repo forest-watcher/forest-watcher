@@ -26,19 +26,32 @@ type Props = {
 };
 
 type State = {
-  download: boolean
+  download: boolean,
+  downloading: boolean
 };
 
 class LayerDownload extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      download: true
+      download: true,
+      downloading: false
     };
   }
 
   onPressAdd = () => {
     this.props.addLayer(this.props.layer);
+
+    if (this.state.download) {
+      this.setState({
+        downloading: true
+      });
+      //TODO: Await download before popping
+      this.setState({
+        downloading: false
+      });
+    }
+
     if (this.props.popToComponentId) {
       Navigation.popTo(this.props.popToComponentId);
     } else {
@@ -70,7 +83,7 @@ class LayerDownload extends PureComponent<Props, State> {
       <View style={styles.container}>
         <ScrollView
           style={styles.list}
-          contentContainerStyle={styles.listContent}
+          contentContainerStyle={[styles.listContent, this.state.downloading ? { opacity: 0.5 } : {}]}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           alwaysBounceVertical={false}
@@ -80,7 +93,7 @@ class LayerDownload extends PureComponent<Props, State> {
             <Row
               action={{
                 icon: infoIcon,
-                callback: this.onPressViewDescription
+                callback: !this.state.downloading ? this.onPressViewDescription : null
               }}
               iconStyle={styles.rowIcon}
               style={styles.row}
@@ -92,7 +105,7 @@ class LayerDownload extends PureComponent<Props, State> {
           <Row
             action={{
               icon: this.state.download ? checkboxOnIcon : checkboxOffIcon,
-              callback: this.onPressDownload,
+              callback: !this.state.downloading ? this.onPressDownload : null,
               position: 'top'
             }}
           >
@@ -102,7 +115,7 @@ class LayerDownload extends PureComponent<Props, State> {
           <Row
             action={{
               icon: !this.state.download ? checkboxOnIcon : checkboxOffIcon,
-              callback: this.onPressOfflineOnly,
+              callback: !this.state.downloading ? this.onPressOfflineOnly : null,
               position: 'top'
             }}
           >
@@ -110,8 +123,12 @@ class LayerDownload extends PureComponent<Props, State> {
             <Text style={styles.rowSubtitleLabel}>{i18n.t('importLayer.gfw.onlineSubtitle')}</Text>
           </Row>
         </ScrollView>
-        <BottomTray requiresSafeAreaView>
-          <ActionButton onPress={this.onPressAdd} text={i18n.t('importLayer.gfw.add')} noIcon />
+        <BottomTray showProgressBar={this.state.downloading} requiresSafeAreaView>
+          <ActionButton
+            onPress={this.state.downloading ? null : this.onPressAdd}
+            text={this.state.downloading ? i18n.t('importLayer.gfw.downloading') : i18n.t('importLayer.gfw.add')}
+            noIcon
+          />
         </BottomTray>
       </View>
     );
