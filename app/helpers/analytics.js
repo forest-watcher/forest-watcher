@@ -99,10 +99,15 @@ export const trackAreaDownloadFlowEnded = (areaId: string, success: boolean) => 
 
 export const trackImportedContent = (
   contentType: ImportableContentType,
-  fileType: string,
+  fileName: string,
   success: boolean,
   fileSize?: ?number
 ) => {
+  const fileType = fileName
+    .split('.')
+    .pop()
+    .toLowerCase();
+
   console.warn(`trackImportedContent - ${contentType} ${fileType} ${success} ${fileSize}`);
   return;
   // eslint-disable-next-line no-unreachable

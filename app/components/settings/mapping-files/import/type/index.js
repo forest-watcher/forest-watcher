@@ -66,7 +66,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
       });
       const validFile = await this.verifyImportedFile(res);
       if (!validFile) {
-        trackImportedContent(this.props.mappingFileType === 'basemap' ? 'basemap' : 'layer', res.type, false);
+        trackImportedContent(this.props.mappingFileType === 'basemap' ? 'basemap' : 'layer', res.name, false);
         return;
       }
       Navigation.push(this.props.componentId, {

@@ -24,7 +24,12 @@ import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
-import { trackLayersToggled, trackDownloadedContent, trackContentDownloadStarted } from 'helpers/analytics';
+import {
+  trackLayersToggled,
+  trackDownloadedContent,
+  trackContentDownloadStarted,
+  trackImportedContent
+} from 'helpers/analytics';
 import { storeTilesFromUrl } from 'helpers/layer-store/storeLayerFiles';
 import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
@@ -434,6 +439,7 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
         url: `${importedFile.path}/${importedFile.subFiles[0]}`,
         size: importedFile.size
       };
+      trackImportedContent('layer', layerFile.fileName, true, importedFile.size);
       dispatch({
         type: IMPORT_LAYER_COMMIT,
         payload: layerData
@@ -441,6 +447,7 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
     } catch (err) {
       // Fire and forget!
       dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
+      trackImportedContent('layer', layerFile.fileName, false, layerFile.size);
       throw err;
     }
   };

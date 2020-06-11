@@ -8,7 +8,6 @@ import type {
   SharingBundle,
   UnpackedSharingBundle
 } from 'types/sharing.types';
-import { trackImportedContent } from 'helpers/analytics';
 import { storeLayerFiles } from 'helpers/layer-store/storeLayerFiles';
 import { storeReportFiles } from 'helpers/report-store/storeReportFiles';
 import { isLayerFileIntersectingRegion } from 'helpers/layer-store/queryLayerFiles';
@@ -18,7 +17,6 @@ import { isCustomBasemapFile, isCustomContextualLayerFile, isGfwContextualLayerF
 export default async function importFileManifest(bundle: UnpackedSharingBundle, request: ImportBundleRequest) {
   await importLayerFiles(bundle, request);
   await importReportFiles(bundle, request);
-  trackImportedContent('bundle', 'gfwbundle', true);
 }
 
 /**
